@@ -24,7 +24,13 @@ import {
   Scissors,
   Stethoscope,
   Bug,
-  Thermometer
+  Thermometer,
+  Scale,
+  Clock,
+  Home,
+  Flame,
+  HeartHandshake,
+  Bandage
 } from "lucide-react";
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
@@ -60,7 +66,16 @@ const rpnSystems = [
       { id: "lung-auscultation", name: "Lung Sounds and Auscultation", status: "Available" },
       { id: "oxygen-therapy-basics", name: "Oxygen Therapy and Delivery", status: "Available" },
       { id: "inhaled-spacers", name: "Inhaled Spacers", status: "Available" },
-      { id: "abg-basics", name: "ABG Interpretation Basics", status: "Available" }
+      { id: "abg-basics", name: "ABG Interpretation Basics", status: "Available" },
+      { id: "copd-basics-rpn", name: "COPD Basics", status: "Available" },
+      { id: "asthma-basics-rpn", name: "Asthma Basics", status: "Available" },
+      { id: "pneumonia-basics-rpn", name: "Pneumonia Basics", status: "Available" },
+      { id: "tb-basics-rpn", name: "Tuberculosis Basics", status: "Available" },
+      { id: "tracheostomy-basics-rpn", name: "Tracheostomy Basics", status: "Available" },
+      { id: "chest-physiotherapy-rpn", name: "Chest Physiotherapy", status: "Available" },
+      { id: "suctioning-rpn", name: "Suctioning Techniques", status: "Available" },
+      { id: "incentive-spirometry-rpn", name: "Incentive Spirometry", status: "Available" },
+      { id: "peak-flow-monitoring-rpn", name: "Peak Flow Monitoring", status: "Available" }
     ]
   },
   {
@@ -95,7 +110,14 @@ const rpnSystems = [
       { id: "enteral-feeding", name: "Enteral Feeding and Tube Care", status: "Available" },
       { id: "feeding-tube-verification", name: "Feeding Tube Placement Verification", status: "Available" },
       { id: "tube-feeding-admin", name: "Administering Tube Feedings", status: "Available" },
-      { id: "feeding-tube-irrigation", name: "Feeding Tube Irrigation", status: "Available" }
+      { id: "feeding-tube-irrigation", name: "Feeding Tube Irrigation", status: "Available" },
+      { id: "gerd-basics-rpn", name: "GERD (Gastroesophageal Reflux)", status: "Available" },
+      { id: "peptic-ulcer-basics-rpn", name: "Peptic Ulcer Basics", status: "Available" },
+      { id: "constipation-management-rpn", name: "Constipation Management", status: "Available" },
+      { id: "diarrhea-management-rpn", name: "Diarrhea Management", status: "Available" },
+      { id: "hepatitis-basics-rpn", name: "Hepatitis Basics", status: "Available" },
+      { id: "stoma-care-rpn", name: "Stoma Care and Ostomy Management", status: "Available" },
+      { id: "rectal-medication-rpn", name: "Rectal Medication Administration", status: "Available" }
     ]
   },
   {
@@ -107,7 +129,14 @@ const rpnSystems = [
     diseases: [
       { id: "catheterization", name: "Urinary Catheterization", status: "Available" },
       { id: "cauti-prevention", name: "CAUTI Prevention", status: "Available" },
-      { id: "urine-output-monitoring", name: "Urine Output Monitoring", status: "Available" }
+      { id: "urine-output-monitoring", name: "Urine Output Monitoring", status: "Available" },
+      { id: "uti-basics-rpn", name: "UTI Basics", status: "Available" },
+      { id: "kidney-stone-basics-rpn", name: "Kidney Stone Basics", status: "Available" },
+      { id: "fluid-balance-monitoring-rpn", name: "Fluid Balance Monitoring", status: "Available" },
+      { id: "peritoneal-dialysis-basics-rpn", name: "Peritoneal Dialysis Basics", status: "Available" },
+      { id: "hemodialysis-basics-rpn", name: "Hemodialysis Basics", status: "Available" },
+      { id: "bph-basics-rpn", name: "Benign Prostatic Hyperplasia (BPH)", status: "Available" },
+      { id: "incontinence-management-rpn", name: "Incontinence Management", status: "Available" }
     ]
   },
   {
@@ -222,7 +251,13 @@ const rpnSystems = [
       { id: "prenatal-basics", name: "Prenatal Care Essentials", status: "Available" },
       { id: "labor-stages", name: "Stages of Labor and Delivery", status: "Available" },
       { id: "postpartum-basics", name: "Postpartum Assessment and Care", status: "Available" },
-      { id: "breastfeeding-basics", name: "Breastfeeding and Lactation", status: "Available" }
+      { id: "breastfeeding-basics", name: "Breastfeeding and Lactation", status: "Available" },
+      { id: "antepartum-complications-rpn", name: "Antepartum Complications Basics", status: "Available" },
+      { id: "fetal-monitoring-basics-rpn", name: "Fetal Monitoring Basics", status: "Available" },
+      { id: "gestational-diabetes-rpn", name: "Gestational Diabetes Basics", status: "Available" },
+      { id: "pregnancy-nutrition-rpn", name: "Pregnancy Nutrition", status: "Available" },
+      { id: "cesarean-section-care-rpn", name: "Cesarean Section Care", status: "Available" },
+      { id: "episiotomy-care-rpn", name: "Episiotomy Care", status: "Available" }
     ]
   },
   {
@@ -235,7 +270,13 @@ const rpnSystems = [
       { id: "newborn-assessment", name: "Newborn Assessment and APGAR", status: "Available" },
       { id: "neonatal-thermoreg", name: "Thermoregulation in Neonates", status: "Available" },
       { id: "neonatal-feeding", name: "Neonatal Feeding and Weight", status: "Available" },
-      { id: "neonatal-jaundice-basics", name: "Neonatal Jaundice Basics", status: "Available" }
+      { id: "neonatal-jaundice-basics", name: "Neonatal Jaundice Basics", status: "Available" },
+      { id: "circumcision-care-rpn", name: "Circumcision Care", status: "Available" },
+      { id: "cord-care-rpn", name: "Umbilical Cord Care", status: "Available" },
+      { id: "neonatal-screening-rpn", name: "Neonatal Screening Tests", status: "Available" },
+      { id: "neonatal-reflexes-rpn", name: "Neonatal Reflexes", status: "Available" },
+      { id: "neonatal-vital-signs-rpn", name: "Neonatal Vital Signs", status: "Available" },
+      { id: "car-seat-safety-rpn", name: "Car Seat Safety", status: "Available" }
     ]
   },
   {
@@ -264,7 +305,14 @@ const rpnSystems = [
       { id: "tinea-corporis", name: "Tinea Corporis (Ringworm)", status: "Available" },
       { id: "oral-candidiasis", name: "Oral Candidiasis (Thrush)", status: "Available" },
       { id: "cdiff-basics", name: "C. Difficile Infection", status: "Available" },
-      { id: "pertussis-basics", name: "Pertussis (Whooping Cough)", status: "Available" }
+      { id: "pertussis-basics", name: "Pertussis (Whooping Cough)", status: "Available" },
+      { id: "mrsa-rpn", name: "MRSA (Methicillin-Resistant Staph)", status: "Available" },
+      { id: "vre-rpn", name: "VRE (Vancomycin-Resistant Enterococcus)", status: "Available" },
+      { id: "hepatitis-bc-rpn", name: "Hepatitis B and C", status: "Available" },
+      { id: "hiv-basics-rpn", name: "HIV Basics", status: "Available" },
+      { id: "influenza-rpn", name: "Influenza", status: "Available" },
+      { id: "covid-basics-rpn", name: "COVID-19 Basics", status: "Available" },
+      { id: "wound-infection-signs-rpn", name: "Wound Infection Signs", status: "Available" }
     ]
   },
   {
@@ -279,7 +327,15 @@ const rpnSystems = [
       { id: "vac-dressing", name: "VAC Dressing (Wound Vacuum)", status: "Available" },
       { id: "wound-irrigation", name: "Wound Irrigation", status: "Available" },
       { id: "cleansing-enemas", name: "Cleansing Enemas", status: "Available" },
-      { id: "meds-to-infants", name: "Administering Meds to Infants", status: "Available" }
+      { id: "meds-to-infants", name: "Administering Meds to Infants", status: "Available" },
+      { id: "blood-glucose-monitoring-rpn", name: "Blood Glucose Monitoring", status: "Available" },
+      { id: "specimen-collection-rpn", name: "Specimen Collection", status: "Available" },
+      { id: "oxygen-therapy-setup-rpn", name: "Oxygen Therapy Setup", status: "Available" },
+      { id: "suctioning-technique-rpn", name: "Suctioning Technique", status: "Available" },
+      { id: "tracheostomy-care-rpn", name: "Tracheostomy Care", status: "Available" },
+      { id: "chest-tube-basics-rpn", name: "Chest Tube Basics", status: "Available" },
+      { id: "drain-management-rpn", name: "Drain Management", status: "Available" },
+      { id: "pre-post-op-care-rpn", name: "Pre- and Post-Operative Care", status: "Available" }
     ]
   },
   {
@@ -384,6 +440,130 @@ const rpnSystems = [
       { id: "visual-acuity-rpn", name: "Visual Acuity Screening", status: "Available" },
       { id: "hearing-screening-rpn", name: "Hearing Assessment (Whisper, Weber, Rinne)", status: "Available" },
       { id: "documentation-assessment", name: "Assessment Documentation (SBAR, DAR)", status: "Available" }
+    ]
+  },
+  {
+    id: "fluid-electrolytes-rpn",
+    title: "Fluid & Electrolytes",
+    icon: Beaker,
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "sodium-imbalance-rpn", name: "Sodium Imbalances (Hypo/Hypernatremia)", status: "Available" },
+      { id: "potassium-imbalance-rpn", name: "Potassium Imbalances (Hypo/Hyperkalemia)", status: "Available" },
+      { id: "calcium-imbalance-rpn", name: "Calcium Imbalances (Hypo/Hypercalcemia)", status: "Available" },
+      { id: "magnesium-imbalance-rpn", name: "Magnesium Imbalances", status: "Available" },
+      { id: "dehydration-rpn", name: "Dehydration Assessment and Management", status: "Available" },
+      { id: "overhydration-rpn", name: "Fluid Overload (Overhydration)", status: "Available" },
+      { id: "iv-fluid-types-rpn", name: "IV Fluid Types (Isotonic, Hypertonic, Hypotonic)", status: "Available" },
+      { id: "iv-therapy-basics-rpn", name: "IV Therapy Basics and Monitoring", status: "Available" },
+      { id: "acid-base-balance-rpn", name: "Acid-Base Balance Overview", status: "Available" }
+    ]
+  },
+  {
+    id: "safety-ethics-rpn",
+    title: "Safety & Ethics",
+    icon: Scale,
+    color: "text-slate-600",
+    bgColor: "bg-slate-50",
+    diseases: [
+      { id: "informed-consent-rpn", name: "Informed Consent", status: "Available" },
+      { id: "advance-directives-rpn", name: "Advance Directives", status: "Available" },
+      { id: "hipaa-phipa-rpn", name: "HIPAA and PHIPA Privacy Laws", status: "Available" },
+      { id: "restraint-use-rpn", name: "Restraint Use and Alternatives", status: "Available" },
+      { id: "medication-errors-rpn", name: "Medication Errors and Prevention", status: "Available" },
+      { id: "incident-reporting-rpn", name: "Incident Reporting", status: "Available" },
+      { id: "patient-rights-rpn", name: "Patient Rights and Advocacy", status: "Available" },
+      { id: "scope-of-practice-rpn", name: "Scope of Practice (RPN/LVN)", status: "Available" },
+      { id: "delegation-rpn", name: "Delegation and Assignment", status: "Available" },
+      { id: "mandatory-reporting-rpn", name: "Mandatory Reporting Obligations", status: "Available" },
+      { id: "cultural-competence-rpn", name: "Cultural Competence in Nursing", status: "Available" }
+    ]
+  },
+  {
+    id: "gerontology-rpn",
+    title: "Gerontology",
+    icon: Clock,
+    color: "text-stone-600",
+    bgColor: "bg-stone-50",
+    diseases: [
+      { id: "aging-changes-rpn", name: "Normal Aging Changes", status: "Available" },
+      { id: "polypharmacy-rpn", name: "Polypharmacy in the Elderly", status: "Available" },
+      { id: "fall-risk-elderly-rpn", name: "Fall Risk in the Elderly", status: "Available" },
+      { id: "delirium-elderly-rpn", name: "Delirium in the Elderly", status: "Available" },
+      { id: "elder-abuse-rpn", name: "Elder Abuse Recognition and Reporting", status: "Available" },
+      { id: "sensory-changes-rpn", name: "Sensory Changes in Aging", status: "Available" },
+      { id: "mobility-decline-rpn", name: "Mobility Decline and Prevention", status: "Available" },
+      { id: "eol-basics-rpn", name: "End-of-Life Basics", status: "Available" },
+      { id: "dementia-care-rpn", name: "Dementia Care Strategies", status: "Available" },
+      { id: "nutrition-elderly-rpn", name: "Nutrition in the Elderly", status: "Available" }
+    ]
+  },
+  {
+    id: "wound-care-rpn",
+    title: "Wound Care & Skin",
+    icon: Bandage,
+    color: "text-orange-600",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "wound-healing-phases-rpn", name: "Wound Healing Phases", status: "Available" },
+      { id: "wound-measurement-rpn", name: "Wound Measurement and Documentation", status: "Available" },
+      { id: "npwt-basics-rpn", name: "Negative Pressure Wound Therapy Basics", status: "Available" },
+      { id: "skin-tears-rpn", name: "Skin Tears Prevention and Management", status: "Available" },
+      { id: "masd-rpn", name: "Moisture-Associated Skin Damage", status: "Available" },
+      { id: "surgical-wound-care-rpn", name: "Surgical Wound Care", status: "Available" },
+      { id: "burn-wound-basics-rpn", name: "Burn Wound Basics", status: "Available" },
+      { id: "dressing-types-rpn", name: "Wound Dressing Types and Selection", status: "Available" }
+    ]
+  },
+  {
+    id: "pain-management-rpn",
+    title: "Pain Management",
+    icon: Flame,
+    color: "text-red-600",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "pain-pathways-rpn", name: "Pain Pathways and Physiology", status: "Available" },
+      { id: "acute-vs-chronic-pain-rpn", name: "Acute vs Chronic Pain", status: "Available" },
+      { id: "non-pharm-pain-rpn", name: "Non-Pharmacological Pain Interventions", status: "Available" },
+      { id: "pca-pumps-rpn", name: "PCA Pumps (Patient-Controlled Analgesia)", status: "Available" },
+      { id: "epidural-analgesia-rpn", name: "Epidural Analgesia Basics", status: "Available" },
+      { id: "pediatric-pain-rpn", name: "Pediatric Pain Assessment and Management", status: "Available" },
+      { id: "neonatal-pain-rpn", name: "Neonatal Pain Recognition", status: "Available" },
+      { id: "opioid-safety-rpn", name: "Opioid Safety and Monitoring", status: "Available" }
+    ]
+  },
+  {
+    id: "palliative-eol-rpn",
+    title: "Palliative & End of Life",
+    icon: HeartHandshake,
+    color: "text-purple-600",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "palliative-symptom-mgmt-rpn", name: "Symptom Management in Palliative Care", status: "Available" },
+      { id: "death-dying-stages-rpn", name: "Death and Dying Stages", status: "Available" },
+      { id: "grief-and-loss-rpn", name: "Grief and Loss", status: "Available" },
+      { id: "comfort-measures-rpn", name: "Comfort Measures", status: "Available" },
+      { id: "hospice-vs-palliative-rpn", name: "Hospice vs Palliative Care", status: "Available" },
+      { id: "dnr-directives-rpn", name: "DNR and Advance Directives", status: "Available" },
+      { id: "family-support-eol-rpn", name: "Family Support at End of Life", status: "Available" },
+      { id: "postmortem-care-rpn", name: "Postmortem Care", status: "Available" }
+    ]
+  },
+  {
+    id: "community-health-rpn",
+    title: "Community Health",
+    icon: Home,
+    color: "text-teal-600",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "home-care-nursing-rpn", name: "Home Care Nursing", status: "Available" },
+      { id: "public-health-concepts-rpn", name: "Public Health Concepts", status: "Available" },
+      { id: "communicable-disease-reporting-rpn", name: "Communicable Disease Reporting", status: "Available" },
+      { id: "health-promotion-rpn", name: "Health Promotion and Education", status: "Available" },
+      { id: "screening-programs-rpn", name: "Screening Programs", status: "Available" },
+      { id: "community-resources-rpn", name: "Community Resources and Referrals", status: "Available" },
+      { id: "discharge-planning-rpn", name: "Discharge Planning", status: "Available" }
     ]
   }
 ];
@@ -793,7 +973,15 @@ const npSystems = [
       { id: "aaa-rupture-np", name: "AAA: Pathogenesis & Management", status: "Available" },
       { id: "mi-management-np", name: "STEMI: Molecular & Pharmacology", status: "Available" },
       { id: "hf-advanced-np", name: "Heart Failure: Neurohormonal Blockade", status: "Available" },
-      { id: "shock-syndromes-np", name: "Shock: Hemodynamic Monitoring", status: "Available" }
+      { id: "shock-syndromes-np", name: "Shock: Hemodynamic Monitoring", status: "Available" },
+      { id: "afib-management-np", name: "Atrial Fibrillation: Rate vs Rhythm Control", status: "Available" },
+      { id: "hypertensive-emergency-np", name: "Hypertensive Emergency: End-Organ Damage", status: "Available" },
+      { id: "acs-management-np", name: "Acute Coronary Syndrome: Risk Stratification", status: "Available" },
+      { id: "cardiac-arrest-acls-np", name: "Cardiac Arrest: ACLS Algorithms", status: "Available" },
+      { id: "hfpef-np", name: "Heart Failure with Preserved EF", status: "Available" },
+      { id: "valvular-disease-np", name: "Valvular Disease: Stenosis & Regurgitation", status: "Available" },
+      { id: "pvd-advanced-np", name: "Peripheral Vascular Disease: Advanced Mgmt", status: "Available" },
+      { id: "vte-prophylaxis-np", name: "Venous Thromboembolism Prophylaxis", status: "Available" }
     ]
   },
   {
@@ -805,7 +993,14 @@ const npSystems = [
     diseases: [
       { id: "copd-exacerbation-np", name: "COPD: Cellular Mechanisms", status: "Available" },
       { id: "asthma-emergency-np", name: "Status Asthmaticus: Advanced Mgmt", status: "Available" },
-      { id: "pe-recognition-np", name: "PE: Wells Criteria & Thrombolysis", status: "Available" }
+      { id: "pe-recognition-np", name: "PE: Wells Criteria & Thrombolysis", status: "Available" },
+      { id: "ards-management-np", name: "ARDS: Berlin Criteria & Lung Protective Ventilation", status: "Available" },
+      { id: "pneumonia-management-np", name: "Pneumonia: CAP vs HAP Management", status: "Available" },
+      { id: "tb-management-np", name: "Tuberculosis: RIPE Therapy & MDR-TB", status: "Available" },
+      { id: "pleural-effusion-np", name: "Pleural Effusion: Exudative vs Transudative", status: "Available" },
+      { id: "pulmonary-hypertension-np", name: "Pulmonary Hypertension: WHO Classification", status: "Available" },
+      { id: "lung-cancer-staging-np", name: "Lung Cancer: TNM Staging & Treatment", status: "Available" },
+      { id: "respiratory-failure-np", name: "Respiratory Failure: Type I vs Type II", status: "Available" }
     ]
   },
   {
@@ -817,19 +1012,33 @@ const npSystems = [
     diseases: [
       { id: "increased-icp-np", name: "ICP: Cerebral Perfusion Pressure", status: "Available" },
       { id: "stroke-advanced-np", name: "Stroke: Penumbra & Reperfusion", status: "Available" },
-      { id: "seizure-safety-np", name: "Status Epilepticus: Refractory Mgmt", status: "Available" }
+      { id: "seizure-safety-np", name: "Status Epilepticus: Refractory Mgmt", status: "Available" },
+      { id: "tbi-management-np", name: "TBI: Classification & Neuroprotection", status: "Available" },
+      { id: "sah-management-np", name: "Subarachnoid Hemorrhage: Hunt-Hess & Vasospasm", status: "Available" },
+      { id: "sci-management-np", name: "Spinal Cord Injury: ASIA Classification", status: "Available" },
+      { id: "multiple-sclerosis-np", name: "Multiple Sclerosis: DMT & Relapse Management", status: "Available" },
+      { id: "als-management-np", name: "ALS: Disease Progression & Supportive Care", status: "Available" },
+      { id: "parkinsons-advanced-np", name: "Parkinson's: Dopaminergic Pharmacology", status: "Available" },
+      { id: "dementia-management-np", name: "Dementia: Differential & Cholinesterase Inhibitors", status: "Available" },
+      { id: "headache-management-np", name: "Headache: Primary vs Secondary Differential", status: "Available" }
     ]
   },
   {
     id: "endocrine-np",
     title: "Endocrine & Metabolic",
-    icon: Users,
+    icon: Thermometer,
     color: "text-rose-700",
     bgColor: "bg-rose-50",
     diseases: [
       { id: "dka-hhns-np", name: "DKA/HHS: Anion Gap & Osmolality", status: "Available" },
       { id: "siadh-di-np", name: "Sodium Disorders: Osmoregulation", status: "Available" },
-      { id: "thyroid-storm-np", name: "Thyroid Storm: Receptor Blockade", status: "Available" }
+      { id: "thyroid-storm-np", name: "Thyroid Storm: Receptor Blockade", status: "Available" },
+      { id: "adrenal-crisis-np", name: "Adrenal Crisis: Acute Management & Steroid Replacement", status: "Available" },
+      { id: "cushing-syndrome-np", name: "Cushing Syndrome: Diagnosis & Etiology", status: "Available" },
+      { id: "hyperaldosteronism-np", name: "Hyperaldosteronism: Conn Syndrome & Screening", status: "Available" },
+      { id: "pheochromocytoma-np", name: "Pheochromocytoma: Catecholamine Crisis", status: "Available" },
+      { id: "hypercalcemia-malignancy-np", name: "Hypercalcemia of Malignancy: PTHrP & Bisphosphonates", status: "Available" },
+      { id: "hyponatremia-correction-np", name: "Hyponatremia: Osmotic Demyelination Prevention", status: "Available" }
     ]
   },
   {
@@ -840,7 +1049,12 @@ const npSystems = [
     bgColor: "bg-cyan-50",
     diseases: [
       { id: "aki-management-np", name: "AKI: RIFLE Criteria & Dialysis", status: "Available" },
-      { id: "electrolyte-safety-np", name: "Advanced Electrolyte Correction", status: "Available" }
+      { id: "electrolyte-safety-np", name: "Advanced Electrolyte Correction", status: "Available" },
+      { id: "ckd-staging-np", name: "CKD: KDIGO Staging & Progression Management", status: "Available" },
+      { id: "nephrotic-syndrome-np", name: "Nephrotic Syndrome: Proteinuria & Complications", status: "Available" },
+      { id: "renal-replacement-np", name: "Renal Replacement Therapy: HD vs CRRT vs PD", status: "Available" },
+      { id: "contrast-nephropathy-np", name: "Contrast Nephropathy: Prevention Strategies", status: "Available" },
+      { id: "hyperkalemia-emergency-np", name: "Hyperkalemia Emergency: ECG Changes & Treatment", status: "Available" }
     ]
   },
   {
@@ -931,6 +1145,185 @@ const npSystems = [
       { id: "compartment-np", name: "Compartment Syndrome: Fasciotomy", status: "Available" },
       { id: "fat-embolism-np", name: "Fat Embolism Syndrome", status: "Available" },
       { id: "spinal-cord-injury-np", name: "Spinal Cord Injury: Autonomic Dysreflexia", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-hepatology-np",
+    title: "GI & Hepatology",
+    icon: Droplets,
+    color: "text-amber-700",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "cirrhosis-management-np", name: "Cirrhosis: Child-Pugh & MELD Scoring", status: "Available" },
+      { id: "hepatic-encephalopathy-np", name: "Hepatic Encephalopathy: Ammonia & Lactulose", status: "Available" },
+      { id: "gi-bleed-management-np", name: "GI Bleed: Upper vs Lower & Resuscitation", status: "Available" },
+      { id: "ibd-advanced-np", name: "IBD: Crohn's vs UC Advanced Management", status: "Available" },
+      { id: "acute-abdomen-np", name: "Acute Abdomen: Differential Diagnosis", status: "Available" },
+      { id: "pancreatitis-advanced-np", name: "Pancreatitis: Ranson Criteria & Necrotizing", status: "Available" },
+      { id: "cholangitis-np", name: "Cholangitis: Charcot & Reynolds Pentad", status: "Available" },
+      { id: "hepatorenal-syndrome-np", name: "Hepatorenal Syndrome: Pathophysiology & Terlipressin", status: "Available" },
+      { id: "portal-hypertension-np", name: "Portal Hypertension: Varices & Beta-Blockers", status: "Available" },
+      { id: "tips-procedure-np", name: "TIPS Procedure: Indications & Complications", status: "Available" }
+    ]
+  },
+  {
+    id: "dermatology-np",
+    title: "Dermatology",
+    icon: Eye,
+    color: "text-pink-700",
+    bgColor: "bg-pink-50",
+    diseases: [
+      { id: "melanoma-staging-np", name: "Melanoma: Breslow Depth & Staging", status: "Available" },
+      { id: "psoriasis-advanced-np", name: "Psoriasis: Biologics & Systemic Therapy", status: "Available" },
+      { id: "drug-eruptions-np", name: "Drug Eruptions: Morbilliform & Fixed Drug", status: "Available" },
+      { id: "sjs-np", name: "Stevens-Johnson Syndrome: SCORTEN & Management", status: "Available" },
+      { id: "wound-healing-molecular-np", name: "Wound Healing: Molecular & Growth Factors", status: "Available" },
+      { id: "necrotizing-fasciitis-np", name: "Necrotizing Fasciitis: LRINEC Score & Surgical Mgmt", status: "Available" },
+      { id: "ten-np", name: "Toxic Epidermal Necrolysis: ICU Management", status: "Available" }
+    ]
+  },
+  {
+    id: "psychiatry-np",
+    title: "Psychiatry & Mental Health",
+    icon: Brain,
+    color: "text-violet-700",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "psychopharmacology-advanced-np", name: "Psychopharmacology: Receptor Binding & Selection", status: "Available" },
+      { id: "mood-stabilizers-moa-np", name: "Mood Stabilizers: MOA & Monitoring", status: "Available" },
+      { id: "antipsychotic-profiles-np", name: "Antipsychotic Receptor Profiles: Typical vs Atypical", status: "Available" },
+      { id: "benzodiazepine-pharmacology-np", name: "Benzodiazepine Pharmacology: GABA & Dependence", status: "Available" },
+      { id: "serotonin-syndrome-advanced-np", name: "Serotonin Syndrome: Hunter Criteria & Management", status: "Available" },
+      { id: "nms-advanced-np", name: "Neuroleptic Malignant Syndrome: Dantrolene Protocol", status: "Available" },
+      { id: "ect-np", name: "ECT: Indications, Mechanism & Monitoring", status: "Available" },
+      { id: "sud-advanced-np", name: "Substance Use Disorders: Advanced Pharmacotherapy", status: "Available" },
+      { id: "oud-mat-np", name: "Opioid Use Disorder: MAT & Buprenorphine Prescribing", status: "Available" }
+    ]
+  },
+  {
+    id: "womens-health-np",
+    title: "Women's Health & Gynecology",
+    icon: Users,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "pcos-management-np", name: "PCOS: Diagnosis & Metabolic Management", status: "Available" },
+      { id: "endometriosis-np", name: "Endometriosis: Staging & Hormonal Therapy", status: "Available" },
+      { id: "ovarian-torsion-np", name: "Ovarian Torsion: Diagnosis & Surgical Emergency", status: "Available" },
+      { id: "ectopic-pregnancy-np", name: "Ectopic Pregnancy: Methotrexate vs Surgical", status: "Available" },
+      { id: "cervical-cancer-screening-np", name: "Cervical Cancer Screening: Guidelines & Colposcopy", status: "Available" },
+      { id: "hrt-prescribing-np", name: "HRT Prescribing: Risks, Benefits & Monitoring", status: "Available" },
+      { id: "aub-np", name: "Abnormal Uterine Bleeding: PALM-COEIN Classification", status: "Available" },
+      { id: "pid-np", name: "Pelvic Inflammatory Disease: Empiric Treatment", status: "Available" }
+    ]
+  },
+  {
+    id: "family-medicine-np",
+    title: "Family Medicine Primary Care",
+    icon: Stethoscope,
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "htn-guidelines-np", name: "Hypertension: JNC/ACC-AHA Guidelines & Stepped Therapy", status: "Available" },
+      { id: "dm2-management-np", name: "Diabetes Type 2: ADA Guidelines & SGLT2/GLP-1", status: "Available" },
+      { id: "lipid-management-np", name: "Lipid Management: Statin Intensity & Risk Calculators", status: "Available" },
+      { id: "obesity-medicine-np", name: "Obesity Medicine: Pharmacotherapy & Metabolic Surgery", status: "Available" },
+      { id: "chronic-pain-mgmt-np", name: "Chronic Pain Management: Multimodal Approach", status: "Available" },
+      { id: "headache-differential-np", name: "Headache Differential: Red Flags & Triptans", status: "Available" },
+      { id: "low-back-pain-np", name: "Low Back Pain: Evidence-Based Evaluation", status: "Available" },
+      { id: "gerd-management-np", name: "GERD Management: PPI Stewardship & Complications", status: "Available" },
+      { id: "asthma-outpatient-np", name: "Asthma Management: Stepwise Outpatient Therapy", status: "Available" },
+      { id: "copd-outpatient-np", name: "COPD Management: GOLD Guidelines & Inhalers", status: "Available" },
+      { id: "uti-management-np", name: "UTI Management: Uncomplicated vs Complicated", status: "Available" },
+      { id: "sinusitis-management-np", name: "Sinusitis: Bacterial vs Viral & Antibiotic Criteria", status: "Available" },
+      { id: "otitis-media-management-np", name: "Otitis Media: Watchful Waiting vs Antibiotics", status: "Available" }
+    ]
+  },
+  {
+    id: "palliative-ethics-np",
+    title: "Palliative & Ethics",
+    icon: HeartHandshake,
+    color: "text-slate-700",
+    bgColor: "bg-slate-50",
+    diseases: [
+      { id: "advance-care-planning-np", name: "Advance Care Planning: Goals of Care Conversations", status: "Available" },
+      { id: "ethics-np-practice-np", name: "Ethics in NP Practice: Autonomy & Beneficence", status: "Available" },
+      { id: "informed-consent-advanced-np", name: "Informed Consent: Capacity & Shared Decision-Making", status: "Available" },
+      { id: "eol-pharmacology-np", name: "End-of-Life Pharmacology: Symptom Management", status: "Available" },
+      { id: "palliative-sedation-np", name: "Palliative Sedation: Indications & Protocols", status: "Available" },
+      { id: "prognostication-np", name: "Prognostication: Tools & Communication", status: "Available" },
+      { id: "hospice-eligibility-np", name: "Hospice Eligibility: LCD Criteria & Referral", status: "Available" },
+      { id: "pain-crisis-management-np", name: "Pain Crisis Management: Rapid Titration", status: "Available" }
+    ]
+  },
+  {
+    id: "infectious-disease-np",
+    title: "Infectious Disease",
+    icon: Bug,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "antibiotic-resistance-np", name: "Antibiotic Resistance: ESBL, CRE & Stewardship", status: "Available" },
+      { id: "empiric-antibiotic-np", name: "Empiric Antibiotic Selection: Site-Based Algorithms", status: "Available" },
+      { id: "hiv-art-np", name: "HIV Management: ART Regimens & Resistance Testing", status: "Available" },
+      { id: "tb-management-advanced-np", name: "TB Management: LTBI, Active TB & DOT", status: "Available" },
+      { id: "septic-arthritis-np", name: "Septic Arthritis: Joint Aspiration & Treatment", status: "Available" },
+      { id: "osteomyelitis-np", name: "Osteomyelitis: Acute vs Chronic Management", status: "Available" },
+      { id: "meningitis-management-np", name: "Meningitis: Empiric Coverage & Dexamethasone", status: "Available" },
+      { id: "lyme-disease-np", name: "Lyme Disease: Staging & Doxycycline Protocols", status: "Available" },
+      { id: "sti-management-np", name: "STI Management: Syndromic & Expedited Partner Therapy", status: "Available" }
+    ]
+  },
+  {
+    id: "trauma-emergency-np",
+    title: "Trauma & Emergency",
+    icon: Activity,
+    color: "text-red-600",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "trauma-atls-np", name: "Trauma Assessment: ATLS Primary & Secondary Survey", status: "Available" },
+      { id: "massive-transfusion-np", name: "Massive Transfusion Protocol: 1:1:1 Ratio", status: "Available" },
+      { id: "damage-control-resus-np", name: "Damage Control Resuscitation: Permissive Hypotension", status: "Available" },
+      { id: "burn-resuscitation-np", name: "Burn Resuscitation: Parkland Formula & Fluid Mgmt", status: "Available" },
+      { id: "crush-injury-np", name: "Crush Injury: Rhabdomyolysis & Hyperkalemia", status: "Available" },
+      { id: "blast-injury-np", name: "Blast Injury: Primary, Secondary & Tertiary", status: "Available" },
+      { id: "hypothermia-management-np", name: "Hypothermia Management: Rewarming Strategies", status: "Available" },
+      { id: "drowning-management-np", name: "Drowning Management: Pulmonary & Neurological Care", status: "Available" },
+      { id: "acetaminophen-od-np", name: "Acetaminophen Overdose: NAC Protocol & Rumack-Matthew", status: "Available" },
+      { id: "aspirin-od-np", name: "Aspirin Overdose: Alkalinization & Dialysis", status: "Available" },
+      { id: "opioid-od-np", name: "Opioid Overdose: Naloxone Dosing & Monitoring", status: "Available" }
+    ]
+  },
+  {
+    id: "geriatric-medicine-np",
+    title: "Geriatric Medicine",
+    icon: Users,
+    color: "text-stone-700",
+    bgColor: "bg-stone-50",
+    diseases: [
+      { id: "polypharmacy-deprescribing-np", name: "Polypharmacy: Deprescribing Frameworks", status: "Available" },
+      { id: "beers-criteria-np", name: "Beers Criteria: Potentially Inappropriate Medications", status: "Available" },
+      { id: "delirium-dementia-advanced-np", name: "Delirium vs Dementia: Advanced Differentiation", status: "Available" },
+      { id: "falls-prevention-np", name: "Falls Prevention: Evidence-Based Interventions", status: "Available" },
+      { id: "pressure-injury-prevention-np", name: "Pressure Injury Prevention: Braden & Bundles", status: "Available" },
+      { id: "urinary-incontinence-np", name: "Urinary Incontinence: Types & Management", status: "Available" },
+      { id: "osteoporosis-advanced-np", name: "Osteoporosis: FRAX, Bisphosphonates & Denosumab", status: "Available" }
+    ]
+  },
+  {
+    id: "pain-management-np",
+    title: "Pain Management",
+    icon: Pill,
+    color: "text-orange-600",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "multimodal-analgesia-np", name: "Multimodal Analgesia: Synergistic Combinations", status: "Available" },
+      { id: "regional-anesthesia-np", name: "Regional Anesthesia: Nerve Blocks & Epidural", status: "Available" },
+      { id: "ketamine-infusion-np", name: "Ketamine Infusion: Sub-Anesthetic Protocols", status: "Available" },
+      { id: "pca-management-np", name: "PCA Management: Programming & Safety", status: "Available" },
+      { id: "neuropathic-pain-np", name: "Neuropathic Pain: Gabapentinoids & TCAs", status: "Available" },
+      { id: "chronic-pain-assessment-np", name: "Chronic Pain Assessment: Functional & Psychosocial", status: "Available" },
+      { id: "opioid-tapering-np", name: "Opioid Tapering: CDC Guidelines & Strategies", status: "Available" }
     ]
   },
   {
