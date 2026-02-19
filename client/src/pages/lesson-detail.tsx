@@ -44,96 +44,37 @@ const contentMap: Record<string, LessonContent> = {
       right: ["Check for Peripheral Edema", "Assess Lung Sounds (Crackles)", "Monitor I&O", "Assess for Orthostatic Hypotension"]
     },
     medications: [
-      { name: "Furosemide (Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption in Loop of Henle", sideEffects: "Hypokalemia, Ototoxicity", contra: "Anuria", pearl: "K-wasting! Watch for leg cramps and weak pulses." },
-      { name: "Spironolactone", type: "K-Sparing Diuretic", action: "Blocks Aldosterone", sideEffects: "Hyperkalemia", contra: "Renal Failure", pearl: "Avoid salt substitutes (they contain K+)." },
-      { name: "Lisinopril", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Dry Cough, Angioedema, Hyperkalemia", contra: "Pregnancy", pearl: "Report facial swelling immediately!" },
-      { name: "Metoprolol", type: "Beta Blocker", action: "Decreases sympathetic workload", sideEffects: "Bradycardia, Bronchospasm", contra: "Asthma/COPD", pearl: "Hold if HR < 60. Masks hypoglycemia!" },
-      { name: "Digoxin", type: "Inotrope", action: "Increases squeeze, slows rate", sideEffects: "Bradycardia, Visual halos", contra: "Hypokalemia (increases toxicity risk)", pearl: "Apical pulse for 1 full minute." }
+      { name: "Diuretics (Furosemide/Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption in Loop of Henle", sideEffects: "Hypotension, Electrolyte loss (K+, Na+, Mg+), Ototoxicity", contra: "Anuria, severe electrolyte depletion", pearl: "K-wasting! Watch for leg cramps and weak pulses. Potassium risks are extremely high yield for REX-PN." },
+      { name: "ACE Inhibitors (Lisinopril)", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Hypotension, Hyperkalemia, Persistent Dry Cough", contra: "Pregnancy, history of angioedema", pearl: "Report facial swelling or a persistent dry cough immediately! Monitor for Hyperkalemia." },
+      { name: "Beta Blockers (Metoprolol)", type: "Beta Blocker", action: "Decreases sympathetic workload (HR/BP)", sideEffects: "Bradycardia, Fatigue, Bronchospasm", contra: "Asthma/COPD (due to bronchospasm risk), Heart Block", pearl: "Hold if HR < 60. Masks hypoglycemia! HR reduction expectations must be monitored closely." },
+      { name: "Antihypertensives (General)", type: "Vasodilators/CCBs", action: "Relax vascular smooth muscle to lower BP", sideEffects: "Hypotension, Dizziness, Perfusion effects", contra: "Severe Hypotension", pearl: "Safety priority: Fall risk! Patients should change positions slowly to prevent orthostatic hypotension." },
+      { name: "Digoxin", type: "Inotrope", action: "Increases squeeze, slows rate", sideEffects: "Bradycardia, Visual halos, Nausea", contra: "Hypokalemia (increases toxicity risk)", pearl: "Apical pulse for 1 full minute. Toxicity presents as N/V and vision changes." }
     ],
-    pearls: ["Always check BP/HR before administration", "Potassium balance is the #1 safety priority", "Move from lying to sitting slowly (Orthostatic risk)"],
+    pearls: ["Always check BP/HR before administration", "Potassium balance is the #1 safety priority", "Move from lying to sitting slowly (Orthostatic/Fall risk)"],
     quiz: [
-      { question: "Which medication masks the signs of hypoglycemia?", options: ["Lisinopril", "Metoprolol", "Furosemide", "Digoxin"], correct: 1, rationale: "Beta blockers block the sympathetic response (tachycardia) to low blood sugar." }
-    ]
-  },
-  "endocrine-pharma": {
-    title: "Endocrine Pharmacology (Insulin & Oral Meds)",
-    cellular: {
-      title: "Glucose Transportation",
-      content: "Endocrine pharmacology focuses on restoring the cellular ability to transport glucose. Insulin acts as the 'key' to open the cellular door. Oral meds either make the pancreas work harder, make cells more sensitive, or prevent the liver from dumping sugar."
-    },
-    signs: {
-      left: ["Rapid-Acting: Onset 15m, Peak 1h", "Short-Acting: Onset 30m, Peak 2-4h", "Intermediate: Onset 2h, Peak 4-12h", "Long-Acting: No Peak, 24h Duration"],
-      right: ["Hypoglycemia: Shakiness, Sweating", "Hyperglycemia: Thirst, Polyuria", "HbA1c: 3-month average", "Lactic Acidosis (Metformin)"]
-    },
-    medications: [
-      { name: "Lispro (Humalog)", type: "Rapid-Acting", action: "Quick glucose transport", sideEffects: "Hypoglycemia", contra: "None", pearl: "Food MUST be present at the bedside!" },
-      { name: "Regular (Humulin R)", type: "Short-Acting", action: "Peak 2-4 hours", sideEffects: "Hypoglycemia", contra: "None", pearl: "The only insulin given IV." },
-      { name: "Glargine (Lantus)", type: "Long-Acting", action: "Baseline coverage", sideEffects: "Hypoglycemia", contra: "None", pearl: "Never mix with other insulins!" },
-      { name: "Metformin", type: "Biguanide", action: "Decreases liver glucose output", sideEffects: "GI Upset, Lactic Acidosis", contra: "Renal impairment", pearl: "Hold 48h before/after IV contrast!" }
-    ],
-    pearls: ["Peak time = Highest risk for hypoglycemia", "Clear before Cloudy (Regular before NPH)", "Rotate sites to prevent Lipodystrophy"],
-    quiz: [
-      { question: "When is the patient at highest risk for hypoglycemia?", options: ["At onset", "At peak", "At duration", "Always"], correct: 1, rationale: "The peak is when the medication is at its strongest concentration." }
-    ]
-  },
-  "neuro-pharma": {
-    title: "Neurological Pharmacology",
-    cellular: {
-      title: "Clot Destruction & Protection",
-      content: "Neuro pharmacology focuses on restoring perfusion through fibrinolysis (clot busting) or preventing further aggregation (anti-platelets). Safety is paramount because these drugs carry a high risk of intracranial hemorrhage."
-    },
-    signs: {
-      left: ["Assess for Bleeding (Gums, Stool)", "Monitor Neurological Status (GCS)", "Monitor Blood Pressure strictly", "Assess for headache/nausea"],
-      right: ["Fibrinolytic Window (3-4.5h)", "Anti-platelet therapy", "Plaque stabilization (Statins)", "Vasospasm prevention"]
-    },
-    medications: [
-      { name: "Alteplase (tPA)", type: "Thrombolytic", action: "Dissolves fibrin clots", sideEffects: "Major Bleeding", contra: "Recent surgery, active bleed", pearl: "Give within 3-4.5 hours of Last Known Well." },
-      { name: "Clopidogrel (Plavix)", type: "Anti-platelet", action: "Prevents platelet stickiness", sideEffects: "Bleeding", contra: "Active GI bleed", pearl: "Stop 5-7 days before any surgery." },
-      { name: "Phenytoin (Dilantin)", type: "Anticonvulsant", action: "Stabilizes neuronal membranes", sideEffects: "Gingival Hyperplasia", contra: "Heart Block", pearl: "Therapeutic level: 10-20 mcg/mL." }
-    ],
-    pearls: ["Bleeding is the #1 adverse effect", "Frequent Neuro-checks are the priority intervention", "Monitor BP to prevent hemorrhagic conversion"],
-    quiz: [
-      { question: "Priority assessment for a patient on tPA?", options: ["Urine output", "Level of Consciousness", "Bowel sounds", "Skin turgor"], correct: 1, rationale: "A change in LOC could indicate an intracranial bleed, the most serious complication." }
-    ]
-  },
-  "respiratory-pharma": {
-    title: "Respiratory Pharmacology",
-    cellular: {
-      title: "Bronchodilation & Inflammation",
-      content: "Respiratory meds work by either stimulating Beta-2 receptors to relax airway smooth muscle (Bronchodilators) or by decreasing the cellular inflammatory response (Steroids)."
-    },
-    signs: {
-      left: ["Assess Breath Sounds", "Monitor O2 Saturation", "Assess Respiratory Rate", "Monitor for Tachycardia"],
-      right: ["Rescue (Albuterol)", "Maintenance (Salmeterol)", "Oral Thrush (Steroids)", "Theophylline Toxicity"]
-    },
-    medications: [
-      { name: "Albuterol", type: "SABA (Rescue)", action: "Rapid bronchodilation", sideEffects: "Tachycardia, Tremors", contra: "Severe Tachycardia", pearl: "First drug used in an acute asthma attack!" },
-      { name: "Salmeterol", type: "LABA (Maintenance)", action: "Long-term airway control", sideEffects: "Headache", contra: "Acute attack", pearl: "Never use for an acute rescue!" },
-      { name: "Fluticasone", type: "Inhaled Steroid", action: "Reduces inflammation", sideEffects: "Oral Candidiasis (Thrush)", contra: "Fungal infection", pearl: "Rinse mouth after every use!" }
-    ],
-    pearls: ["B before C (Bronchodilator before Corticosteroid)", "Wait 1-5 mins between puffs", "Rescue inhalers should be with the patient at all times"],
-    quiz: [
-      { question: "Order of administration for Albuterol and Fluticasone?", options: ["Fluticasone then Albuterol", "Albuterol then Fluticasone", "At the same time", "Does not matter"], correct: 1, rationale: "Albuterol opens the airway so the steroid can travel deeper into the lungs." }
+      { question: "A patient on Furosemide reports leg cramps. What is the priority nursing action?", options: ["Administer pain meds", "Assess Potassium level", "Increase fluid intake", "Encourage walking"], correct: 1, rationale: "Leg cramps are a classic sign of hypokalemia, a common side effect of loop diuretics." },
+      { question: "Which medication requires the nurse to notify the provider if a dry cough develops?", options: ["Lisinopril", "Metoprolol", "Furosemide", "Digoxin"], correct: 0, rationale: "ACE inhibitors like Lisinopril commonly cause a persistent dry cough due to bradykinin buildup." }
     ]
   },
   "vascular-pharma": {
     title: "Vascular Pharmacology (Anticoagulation)",
     cellular: {
       title: "Clot Prevention",
-      content: "Vascular pharmacology focuses on interfering with the coagulation cascade to prevent the formation or growth of thrombi. These do NOT dissolve existing clots—they only prevent new ones from forming."
+      content: "Vascular pharmacology focuses on interfering with the coagulation cascade to prevent the formation or growth of thrombi. These do NOT dissolve existing clots—they only prevent new ones from forming. Safety teaching and monitoring are the most tested areas."
     },
     signs: {
       left: ["Monitor aPTT (Heparin)", "Monitor INR (Warfarin)", "Monitor Platelets (HIT risk)", "Assess for Hematuria"],
       right: ["Bleeding Precautions", "Vitamin K intake consistency", "Protamine Sulfate (Antidote)", "Vitamin K (Antidote)"]
     },
     medications: [
-      { name: "Heparin", type: "Anticoagulant", action: "Inactivates thrombin", sideEffects: "Bleeding, Thrombocytopenia (HIT)", contra: "Active bleed", pearl: "Antidote: Protamine Sulfate. Monitor aPTT." },
-      { name: "Warfarin", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding", contra: "Pregnancy", pearl: "Antidote: Vitamin K. Monitor INR (2.0-3.0)." },
-      { name: "Enoxaparin (Lovenox)", type: "LMWH", action: "Predictable anticoagulation", sideEffects: "Bleeding", contra: "HIT history", pearl: "Do not expel the air bubble in the pre-filled syringe!" }
+      { name: "Heparin", type: "Anticoagulant", action: "Inactivates thrombin", sideEffects: "Bleeding risk, Thrombocytopenia (HIT)", contra: "Active bleed", pearl: "Antidote: Protamine Sulfate. Monitor aPTT logic (1.5-2.5x normal). Fast onset." },
+      { name: "Warfarin (Coumadin)", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding risk", contra: "Pregnancy", pearl: "Antidote: Vitamin K. Monitor INR (2.0-3.0). Safety teaching: Consistent green leafy veg intake is vital." },
+      { name: "Enoxaparin (Lovenox)", type: "LMWH", action: "Predictable anticoagulation", sideEffects: "Bleeding, Bruising at site", contra: "HIT history", pearl: "Safety teaching: Do not expel the air bubble in the pre-filled syringe! Inject in abdomen." }
     ],
-    pearls: ["Electric razors and soft toothbrushes only", "No NSAIDs or Aspirin while on anticoagulants", "Consistency is key for Vitamin K (green leafy veg)"],
+    pearls: ["Electric razors and soft toothbrushes (Bleeding precautions)", "No NSAIDs or Aspirin while on anticoagulants", "Consistency is key for Vitamin K intake", "Safety teaching: Report any bruising or dark stools"],
     quiz: [
-      { question: "What is the antidote for Heparin?", options: ["Vitamin K", "Protamine Sulfate", "Calcium Gluconate", "Flumazenil"], correct: 1, rationale: "Protamine Sulfate reverses the effects of Heparin." }
+      { question: "What is the priority teaching for a patient starting Warfarin?", options: ["Avoid all green vegetables", "Consistency in Vitamin K intake", "Take Aspirin for pain", "Stop taking it if you bruise"], correct: 1, rationale: "Consistency in Vitamin K intake is vital to maintain a stable INR." },
+      { question: "Which lab is monitored for a patient on a continuous Heparin drip?", options: ["INR", "aPTT", "PT", "HbA1c"], correct: 1, rationale: "aPTT is the standard monitoring logic for unfractionated heparin therapy." }
     ]
   },
   "heart-failure": {
@@ -283,12 +224,7 @@ export default function LessonDetail() {
   };
 
   const isPharma = id?.includes("pharma");
-  const PharmaIcon = id === "cardio-pharma" ? Heart : 
-                   id === "endocrine-pharma" ? Droplets :
-                   id === "neuro-pharma" ? Brain :
-                   id === "respiratory-pharma" ? Wind :
-                   Activity;
-
+  
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <Navigation />
