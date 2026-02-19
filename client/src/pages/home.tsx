@@ -24,7 +24,7 @@ export default function Home() {
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
             <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl animate-pulse duration-[10s]" />
             <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/30 blur-3xl animate-pulse duration-[15s]" />
-            <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent/20 blur-3xl animate-pulse duration-[20s]" />
+            <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent-foreground/10 blur-3xl animate-pulse duration-[20s]" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,7 +36,7 @@ export default function Home() {
               
               <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-[1.1]">
                 Master Nursing with <br />
-                <span className="bg-gradient-to-r from-primary to-blush-400 bg-clip-text text-transparent">Confidence</span>
+                <span className="bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">Confidence</span>
               </h1>
               
               <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -152,7 +152,7 @@ export default function Home() {
           </div>
           
           {/* Decorative background elements */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl -z-10 opacity-60" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-accent-foreground/10 rounded-full blur-3xl -z-10 opacity-60" />
         </section>
       </main>
 
@@ -160,7 +160,7 @@ export default function Home() {
       <footer className="bg-white border-t border-primary/10 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">N</span>
             </div>
             <span className="font-semibold text-gray-900">NurseNest</span>

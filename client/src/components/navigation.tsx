@@ -41,8 +41,10 @@ export function Navigation() {
   const [region, setRegion] = useState<"US" | "CA">("CA");
   const { toast } = useToast();
   const { setTheme, theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
@@ -77,7 +79,7 @@ export function Navigation() {
             className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
           >
             <div className="flex items-center gap-2">
-              <item.icon className={cn("w-4 h-4", item.color)} />
+              <item.icon className={cn("w-4 h-4", theme === 'lavender' || !mounted ? item.color : "text-primary/70")} />
               <span>{item.label}</span>
             </div>
             {isPaid && <Lock className="w-3 h-3 text-gray-400" />}
@@ -89,7 +91,7 @@ export function Navigation() {
           className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
         >
           <div className="flex items-center gap-2">
-            <BarChart className="w-4 h-4 text-blush-400" />
+            <BarChart className="w-4 h-4 text-primary/60" />
             <span>Reports</span>
           </div>
           {isPaid && <Lock className="w-3 h-3 text-gray-400" />}
@@ -128,10 +130,10 @@ export function Navigation() {
       <SheetContent side="left" className="w-72 bg-white p-6">
         <SheetHeader className="mb-8">
           <SheetTitle className="text-left flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-blush-300 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
               <Heart className="w-5 h-5 text-white fill-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-blush-400 bg-clip-text text-transparent">NurseNest</span>
+            <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">NurseNest</span>
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-4">
@@ -145,7 +147,7 @@ export function Navigation() {
             ))}
           </div>
           <div className="h-[1px] bg-gray-100 my-2" />
-          <Button variant="ghost" className="w-full justify-start text-mint-500 hover:text-mint-600 hover:bg-mint-50 gap-2">
+          <Button variant="ghost" className="w-full justify-start text-primary/80 hover:text-primary hover:bg-primary/5 gap-2">
             <Dna className="w-4 h-4" />
             A&P (Free)
           </Button>
@@ -177,10 +179,10 @@ export function Navigation() {
             <MobileNav />
             <Link href="/">
               <div className="flex items-center gap-3 cursor-pointer group">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-blush-300 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent-foreground rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
                   <Heart className="w-6 h-6 text-white fill-white" />
                 </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-primary to-blush-400 bg-clip-text text-transparent tracking-tight">
+                <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent tracking-tight">
                   NurseNest
                 </span>
               </div>
@@ -191,7 +193,7 @@ export function Navigation() {
                 <NavDropdown key={d} label={d} items={learningItems} isPaid />
               ))}
               <div className="h-4 w-[1px] bg-primary/20 mx-2" />
-              <Button variant="ghost" className="text-sm font-medium text-mint-500 hover:text-mint-600 hover:bg-mint-50 gap-2">
+              <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-primary/5 gap-2">
                 <Dna className="w-4 h-4" />
                 A&P
               </Button>

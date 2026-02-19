@@ -5,37 +5,31 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Theme Variables - Defined on :root so they are globally available */
+/* Theme Variables */
 :root {
   --font-sans: "DM Sans", "system-ui", "sans-serif";
   --radius: 0.625rem;
 
-  /* Default (Lavender) Values */
+  /* Default (Lavender) */
   --theme-primary: #9d82dd;
   --theme-primary-foreground: #ffffff;
   --theme-secondary: #f3efff;
   --theme-secondary-foreground: #9d82dd;
   --theme-accent: #faf8ff;
-  --theme-accent-foreground: #9d82dd;
+  --theme-accent-foreground: #f4909f; /* Blush 400 */
   --theme-border: #e9e2ff;
   --theme-ring: #d4c7f7;
   
-  /* Static Assets/Utility Colors */
   --color-warmwhite: #fdfcfa;
   --color-softgray: #6b7280;
-  --color-lavender-400: #b8a4eb;
-  --color-blush-400: #f4909f;
-  --color-powder-400: #7bbde6;
-  --color-mint-400: #5ed3ae;
 }
 
-/* Theme Overrides applied by next-themes class on html/body */
 .mint {
   --theme-primary: #5ed3ae;
   --theme-secondary: #e0f8f0;
   --theme-secondary-foreground: #5ed3ae;
   --theme-accent: #f3fcf9;
-  --theme-accent-foreground: #5ed3ae;
+  --theme-accent-foreground: #94e4cb;
   --theme-border: #c2f0e1;
   --theme-ring: #94e4cb;
 }
@@ -45,7 +39,7 @@
   --theme-secondary: #fdeef0;
   --theme-secondary-foreground: #f4909f;
   --theme-accent: #fef7f8;
-  --theme-accent-foreground: #f4909f;
+  --theme-accent-foreground: #f9b8c2;
   --theme-border: #fcd9de;
   --theme-ring: #f9b8c2;
 }
@@ -55,7 +49,7 @@
   --theme-secondary: #f1f5f9;
   --theme-secondary-foreground: #475569;
   --theme-accent: #f8fafc;
-  --theme-accent-foreground: #334155;
+  --theme-accent-foreground: #94a3b8;
   --theme-border: #e2e8f0;
   --theme-ring: #94a3b8;
 }
@@ -65,7 +59,7 @@
   --theme-secondary: #f1f5f9;
   --theme-secondary-foreground: #0f172a;
   --theme-accent: #f8fafc;
-  --theme-accent-foreground: #020617;
+  --theme-accent-foreground: #475569;
   --theme-border: #cbd5e1;
   --theme-ring: #64748b;
 }
@@ -75,7 +69,7 @@
   --theme-secondary: #f0f9ff;
   --theme-secondary-foreground: #0369a1;
   --theme-accent: #e0f2fe;
-  --theme-accent-foreground: #075985;
+  --theme-accent-foreground: #7dd3fc;
   --theme-border: #bae6fd;
   --theme-ring: #7dd3fc;
 }
@@ -85,7 +79,7 @@
   --theme-secondary: #ecfdf5;
   --theme-secondary-foreground: #047857;
   --theme-accent: #d1fae5;
-  --theme-accent-foreground: #065f46;
+  --theme-accent-foreground: #6ee7b7;
   --theme-border: #a7f3d0;
   --theme-ring: #6ee7b7;
 }
@@ -100,7 +94,6 @@
   --color-background: var(--color-warmwhite);
   --color-foreground: var(--color-softgray);
 
-  /* Map Theme Variables to Tailwind Utilities */
   --color-primary: var(--theme-primary);
   --color-primary-foreground: var(--theme-primary-foreground);
   --color-secondary: var(--theme-secondary);
@@ -114,11 +107,6 @@
   --color-card-foreground: var(--color-softgray);
   --color-popover: #ffffff;
   --color-popover-foreground: var(--color-softgray);
-  
-  --color-lavender-400: var(--color-lavender-400);
-  --color-blush-400: var(--color-blush-400);
-  --color-powder-400: var(--color-powder-400);
-  --color-mint-400: var(--color-mint-400);
 }
 
 @layer base {
