@@ -19,7 +19,8 @@ import {
   Eye,
   Beaker,
   Zap,
-  ShieldAlert
+  ShieldAlert,
+  Scissors
 } from "lucide-react";
 
 const rpnSystems = [
@@ -98,6 +99,19 @@ const rpnSystems = [
       { id: "neonatal-thermoreg", name: "Thermoregulation in Neonates", status: "Available" },
       { id: "neonatal-feeding", name: "Neonatal Feeding and Weight", status: "Available" },
       { id: "neonatal-jaundice-basics", name: "Neonatal Jaundice Basics", status: "Available" }
+    ]
+  },
+  {
+    id: "procedures-rpn",
+    title: "Nursing Procedures",
+    icon: Scissors,
+    color: "text-teal-500",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "vitals-assessment", name: "Vital Signs and Physical Assessment", status: "Available" },
+      { id: "wound-care-basics", name: "Wound Care and Dressing Changes", status: "Available" },
+      { id: "catheterization", name: "Urinary Catheterization", status: "Available" },
+      { id: "ngtube-care", name: "NG Tube Insertion and Care", status: "Available" }
     ]
   }
 ];
@@ -242,6 +256,19 @@ const rnSystems = [
     ]
   },
   {
+    id: "procedures-rn",
+    title: "Clinical Procedures",
+    icon: Scissors,
+    color: "text-teal-600",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "iv-therapy", name: "IV Therapy and Venipuncture", status: "Available" },
+      { id: "blood-transfusion", name: "Blood Transfusion Administration", status: "Available" },
+      { id: "chest-tube-mgmt", name: "Chest Tube Management", status: "Available" },
+      { id: "trach-care", name: "Tracheostomy Care and Suctioning", status: "Available" }
+    ]
+  },
+  {
     id: "psych-crisis",
     title: "Psychiatry & Crisis",
     icon: Zap,
@@ -376,6 +403,19 @@ const npSystems = [
       { id: "neonatal-hie-np", name: "HIE: Therapeutic Hypothermia", status: "Available" },
       { id: "persistent-pulm-htn-np", name: "PPHN: Nitric Oxide Pathway", status: "Available" },
       { id: "neonatal-abstinence-np", name: "NAS: Opioid Withdrawal Scoring", status: "Available" }
+    ]
+  },
+  {
+    id: "procedures-advanced",
+    title: "Advanced Procedures",
+    icon: Scissors,
+    color: "text-teal-700",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "central-line-np", name: "Central Line Insertion & Bundle", status: "Available" },
+      { id: "lumbar-puncture-np", name: "Lumbar Puncture & CSF Analysis", status: "Available" },
+      { id: "abg-sampling-np", name: "ABG Sampling & Interpretation", status: "Available" },
+      { id: "mechanical-vent-np", name: "Mechanical Ventilation Management", status: "Available" }
     ]
   }
 ];
