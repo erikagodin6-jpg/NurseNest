@@ -295,7 +295,9 @@ const npSystems = [
     bgColor: "bg-orange-50",
     diseases: [
       { id: "sepsis-mastery-np", name: "Sepsis: Cytokine Storm & SOFA", status: "Available" },
-      { id: "dic-management-np", name: "DIC: Coagulation Cascade", status: "Available" }
+      { id: "dic-management-np", name: "DIC: Coagulation Cascade", status: "Available" },
+      { id: "transfusion-reactions-np", name: "Transfusion Reactions: Hemolytic vs Febrile", status: "Available" },
+      { id: "tumor-lysis-np", name: "Tumor Lysis Syndrome: Uric Acid Crisis", status: "Available" }
     ]
   }
 ];

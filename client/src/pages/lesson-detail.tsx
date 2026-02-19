@@ -591,19 +591,72 @@ const contentMap: Record<string, LessonContent> = {
     pearls: ["Indications for Dialysis (AEIOU): Acidosis, Electrolytes (K+), Intoxication, Overload, Uremia", "FeNa < 1% = Pre-renal; FeNa > 2% = ATN", "Avoid nephrotoxins (NSAIDs, ACEi, Contrast)"],
     quiz: [{ question: "Which finding is an absolute indication for emergent dialysis?", options: ["Creatinine of 4.0", "BUN of 80", "Refractory Hyperkalemia", "Oliguria"], correct: 2, rationale: "Refractory hyperkalemia that doesn't respond to medical management is lethal and requires immediate dialysis." }]
   },
-  "preeclampsia": {
-    title: "Preeclampsia & Mag Safety",
-    cellular: { title: "Endothelial Dysfunction", content: "Pregnancy-induced hypertension characterized by systemic vasospasm and endothelial damage, leading to decreased organ perfusion." },
+  "tumor-lysis-np": {
+    title: "Tumor Lysis Syndrome: Uric Acid Crisis",
+    cellular: { 
+      title: "Massive Cellular Destruction", 
+      content: "Oncologic emergency where cancer treatment destroys a large number of cells rapidly, releasing intracellular potassium, phosphate, and nucleic acids into circulation. Nucleic acids are metabolized to uric acid, which precipitates in renal tubules, causing acute kidney injury (AKI)." 
+    },
     signs: {
-      left: ["BP > 140/90", "Proteinuria", "Edema (Face/Hands)", "Headache"],
-      right: ["Eclampsia (Seizures)", "HELLP Syndrome", "RUQ Pain (Liver)", "Visual Changes"]
+      left: ["Hyperkalemia (Arrhythmias)", "Hyperphosphatemia", "Hypocalcemia (Tetany/Seizures)", "Hyperuricemia"],
+      right: ["Oliguria / Anuria", "Flank Pain", "Lethargy", "EKG Changes (Peaked T)"]
     },
     medications: [
-      { name: "Magnesium Sulfate", type: "Anticonvulsant", action: "Prevents seizures", sideEffects: "Flushing/Nausea", contra: "Myasthenia Gravis", pearl: "Antidote: Calcium Gluconate." },
-      { name: "Hydralazine", type: "Antihypertensive", action: "Rapid BP reduction", sideEffects: "Tachycardia", contra: "CAD", pearl: "Used for acute hypertensive crisis." }
+      { name: "Rasburicase", type: "Recombinant Urate Oxidase", action: "Converts uric acid to allantoin", sideEffects: "Anaphylaxis", contra: "G6PD Deficiency", pearl: "Rapidly lowers uric acid (more effective than Allopurinol)." },
+      { name: "Allopurinol", type: "Xanthine Oxidase Inhibitor", action: "Prevents uric acid formation", sideEffects: "Rash (SJS)", contra: "Hypersensitivity", pearl: "Used for prophylaxis, not acute treatment." }
     ],
-    pearls: ["Check Deep Tendon Reflexes (DTRs) hourly on Mag", "Mag Toxicity: DTRs disappear first, then RR drops", "Quiet, dark room to prevent seizures"],
-    quiz: [{ question: "First sign of Magnesium Sulfate toxicity?", options: ["Respiratory arrest", "Loss of deep tendon reflexes", "Hypotension", "Visual blurring"], correct: 1, rationale: "Loss of DTRs is an early and critical indicator that Mag levels are too high." }]
+    pearls: ["Aggressive hydration (3L/m2/day) is the cornerstone of prevention", "Keep urine pH > 7.0 (alkalinization controversy)", "Monitor Calcium x Phosphate product > 60 (Risk of calcification)"],
+    quiz: [{ question: "A patient with TLS has a uric acid level of 10 mg/dL. Which medication is best for rapid correction?", options: ["Allopurinol", "Rasburicase", "Furosemide", "Kayexalate"], correct: 1, rationale: "Rasburicase actively breaks down existing uric acid, whereas Allopurinol only prevents the formation of new uric acid." }]
+  },
+  "transfusion-reactions-np": {
+    title: "Transfusion Reactions: Hemolytic vs Febrile",
+    cellular: { 
+      title: "Antibody-Mediated Hypersensitivity", 
+      content: "Acute Hemolytic: ABO incompatibility leads to IgM antibodies attacking donor RBCs, causing complement activation, massive hemolysis, and inflammatory cytokine release (Shock/DIC). \nFebrile Non-Hemolytic: Cytokines released from donor leukocytes accumulate during storage." 
+    },
+    signs: {
+      left: ["Hemolytic: Flank/Back Pain", "Dark Red Urine (Hemoglobinuria)", "Hypotension + Tachycardia", "Positive Direct Coombs"],
+      right: ["Febrile: Fever + Chills (within 4h)", "Malaise", "No hemolysis/red urine", "Anaphylactic: Wheezing, Hives, Shock"]
+    },
+    medications: [
+      { name: "Epinephrine", type: "Alpha/Beta Agonist", action: "Vasoconstriction/Bronchodilation", sideEffects: "Tachycardia", contra: "None in anaphylaxis", pearl: "First line for Anaphylactic reaction." },
+      { name: "Acetaminophen", type: "Antipyretic", action: "Lowers set point", sideEffects: "Hepatotoxicity", contra: "Liver failure", pearl: "Pre-medication for Febrile Non-Hemolytic reactions." }
+    ],
+    pearls: ["STOP the transfusion immediately for any reaction", "Hemolytic reaction causes AKI via hemoglobin precipitation in tubules", "Anaphylactic reaction is due to IgA deficiency (anti-IgA antibodies)"],
+    quiz: [{ question: "A patient receiving blood complains of sudden severe back pain and has dark urine. What is the reaction?", options: ["Febrile Non-Hemolytic", "Acute Hemolytic", "Anaphylactic", "TRALI"], correct: 1, rationale: "Flank/back pain and hemoglobinuria (dark urine) are classic signs of acute hemolysis (kidney damage from lysed RBCs)." }]
+  },
+  "fetal-monitoring-advanced": {
+    title: "Fetal Monitoring: Late & Variable Decels",
+    cellular: { 
+      title: "Uteroplacental Insufficiency", 
+      content: "Late Decelerations: Placental insufficiency causes fetal hypoxia after the contraction peak. Reflex vasoconstriction preserves blood flow to vital organs but indicates acidosis if persistent. \nVariable Decelerations: Umbilical cord compression obstructs blood flow, causing rapid drops in FHR." 
+    },
+    signs: {
+      left: ["Late: Decel starts after contraction peak", "Variable: Abrupt 'V' or 'W' shape", "Loss of Variability (Hypoxia)", "Fetal Tachycardia (Infection/Hypoxia)"],
+      right: ["Interventions: Turn to Left Lateral", "Stop Pitocin (Oxytocin)", "IV Fluid Bolus", "O2 via non-rebreather"]
+    },
+    medications: [
+      { name: "Terbutaline", type: "Tocolytic", action: "Relaxes uterus", sideEffects: "Tachycardia", contra: "HR > 120", pearl: "Used for uterine tachysystole causing distress." },
+      { name: "Magnesium Sulfate", type: "Neuroprotection", action: "Vasodilation/CNS depression", sideEffects: "Respiratory depression", contra: "Myasthenia Gravis", pearl: "Neuroprotection for preterm delivery < 32 weeks." }
+    ],
+    pearls: ["VEAL CHOP: Variable-Cord, Early-Head, Accel-Ok, Late-Placenta", "Amnioinfusion can relieve variable decels (cord compression)", "Acidemia: Umbilical artery pH < 7.20 indicates fetal compromise"],
+    quiz: [{ question: "Priority action for repetitive Late Decelerations?", options: ["Increase Oxytocin", "Reposition to lateral side", "Perform amnioinfusion", "Document as normal"], correct: 1, rationale: "Late decelerations indicate placental insufficiency. Lateral positioning improves uterine blood flow by relieving caval compression." }]
+  },
+  "wound-vac-np": {
+    title: "Negative Pressure Wound Therapy",
+    cellular: { 
+      title: "Microstrain & Angiogenesis", 
+      content: "NPWT applies sub-atmospheric pressure to the wound bed. This removes exudate/infectious material, reduces edema, and creates 'microstrain' on cells which stimulates mitosis, angiogenesis (new blood vessels), and granulation tissue formation." 
+    },
+    signs: {
+      left: ["Beefy Red Granulation (Good)", "Reduced Edema", "Decreased Wound Dimensions", "Intact Seal"],
+      right: ["Air Leak (Machine Alarm)", "Bleeding (Anticoagulants)", "Maceration of Peri-wound", "Necrotic Tissue (Contraindication)"]
+    },
+    medications: [
+      { name: "Becaplermin", type: "PDGF Gel", action: "Stimulates cell migration", sideEffects: "Malignancy warning", contra: "Neoplasm at site", pearl: "Recombinant Platelet-Derived Growth Factor for diabetic ulcers." }
+    ],
+    pearls: ["Foam must be cut to fit exactly (don't overlap intact skin)", "Maintain airtight seal (use drape)", "Stop if frank bleeding occurs"],
+    quiz: [{ question: "How does Negative Pressure Wound Therapy primarily promote healing?", options: ["Drying out the wound", "Removing healthy tissue", "Stimulating angiogenesis and reducing edema", "Applying antibiotics"], correct: 2, rationale: "The suction removes interstitial fluid (edema) allowing blood flow, and the mechanical stress stimulates new blood vessel growth." }]
   },
   "lithium-toxicity": {
     title: "Lithium & Mood Stabilizers",

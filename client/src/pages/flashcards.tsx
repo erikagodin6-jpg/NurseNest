@@ -423,7 +423,71 @@ const allCards: Flashcard[] = [
     options: ["Start Oxytocin", "Place client in Knee-Chest position", "Encourage pushing", "Give fluids"],
     correctIndex: 1,
     answer: "This is Umbilical Cord Prolapse. Knee-chest or Trendelenburg position relieves pressure on the cord. Keep hand in vagina to lift head off cord until C-section.",
+  {
+    id: "q-transfusion-1",
+    type: "question",
+    question: "A client receiving a blood transfusion develops flank pain and dark red urine. What is the likely cause?",
+    options: ["Febrile Non-Hemolytic Reaction", "Acute Hemolytic Reaction", "Anaphylaxis", "Fluid Overload"],
+    correctIndex: 1,
+    answer: "Acute Hemolytic Reaction. ABO incompatibility causes massive hemolysis. Released hemoglobin damages kidneys (dark urine/flank pain).",
+    category: "Hematology"
+  },
+  {
+    id: "q-ob-3",
+    type: "question",
+    question: "Which intervention is maximizing fetal oxygenation during pushing with variable decelerations?",
+    options: ["Pushing in lithotomy position", "Open glottis pushing (slow exhalation)", "Holding breath for 10 seconds", "Pushing with every contraction"],
+    correctIndex: 1,
+    answer: "Open glottis pushing promotes maternal cardiac output and placental perfusion. Closed glottis (Valsalva) reduces oxygenation.",
     category: "Maternal"
+  },
+  {
+    id: "t-wound-1",
+    type: "term",
+    question: "Negative Pressure Wound Therapy (NPWT)",
+    answer: "Promotes healing by removing exudate/infectious material and stimulating angiogenesis via mechanical strain. Must maintain an airtight seal.",
+    category: "Skin"
+  },
+  {
+    id: "t-peds-3",
+    type: "term",
+    question: "Pavlik Harness",
+    answer: "Used for Hip Dysplasia. Maintains hips in flexion and abduction. Worn 24/7. Assess skin under straps. No powders/lotions.",
+    category: "Pediatrics"
+  },
+  {
+    id: "t-resp-1",
+    type: "term",
+    question: "Rhonchi",
+    answer: "Low-pitched, snoring breath sounds caused by thick mucus in large airways. Often clears with coughing. Seen in bronchitis.",
+    category: "Respiratory"
+  },
+  {
+    id: "q-pharm-4",
+    type: "question",
+    question: "A client taking Oxybutynin reports dry mouth and constipation. What is the nurse's best response?",
+    options: ["Stop the medication immediately", "These are expected anticholinergic side effects", "Go to the ER", "Double the dose"],
+    correctIndex: 1,
+    answer: "Oxybutynin is an anticholinergic. Common side effects include drying secretions (dry mouth, constipation, urinary retention). Increase fluids/fiber.",
+    category: "Pharmacology"
+  },
+  {
+    id: "q-onc-1",
+    type: "question",
+    question: "Tumor Lysis Syndrome releases intracellular components into the blood. Which electrolyte imbalance is expected?",
+    options: ["Hypokalemia", "Hypercalcemia", "Hyperuricemia & Hyperkalemia", "Hypophosphatemia"],
+    correctIndex: 2,
+    answer: "Cell destruction releases Potassium (Hyperkalemia), Phosphate (Hyperphosphatemia), and Nucleic Acids (Hyperuricemia).",
+    category: "Oncology"
+  },
+  {
+    id: "q-neuro-4",
+    type: "question",
+    question: "Which anticonvulsant is preferred for brain tumor patients due to minimal drug interactions?",
+    options: ["Phenytoin", "Carbamazepine", "Levetiracetam", "Valproic Acid"],
+    correctIndex: 2,
+    answer: "Levetiracetam (Keppra) has a favorable side effect profile and few drug-drug interactions compared to older anticonvulsants.",
+    category: "Pharmacology"
   }
 ];
 
