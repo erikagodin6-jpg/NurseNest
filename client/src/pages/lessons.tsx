@@ -226,6 +226,80 @@ const rnSystems = [
   }
 ];
 
+const npSystems = [
+  {
+    id: "cardiovascular-advanced",
+    title: "Advanced Cardiology",
+    icon: Heart,
+    color: "text-red-700",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "aaa-rupture-np", name: "AAA: Pathogenesis & Management", status: "Available" },
+      { id: "mi-management-np", name: "STEMI: Molecular & Pharmacology", status: "Available" },
+      { id: "hf-advanced-np", name: "Heart Failure: Neurohormonal Blockade", status: "Available" },
+      { id: "shock-syndromes-np", name: "Shock: Hemodynamic Monitoring", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory-advanced",
+    title: "Advanced Pulmonology",
+    icon: Wind,
+    color: "text-blue-700",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "copd-exacerbation-np", name: "COPD: Cellular Mechanisms", status: "Available" },
+      { id: "asthma-emergency-np", name: "Status Asthmaticus: Advanced Mgmt", status: "Available" },
+      { id: "pe-recognition-np", name: "PE: Wells Criteria & Thrombolysis", status: "Available" }
+    ]
+  },
+  {
+    id: "neuro-advanced",
+    title: "Advanced Neurology",
+    icon: Brain,
+    color: "text-purple-700",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "increased-icp-np", name: "ICP: Cerebral Perfusion Pressure", status: "Available" },
+      { id: "stroke-advanced-np", name: "Stroke: Penumbra & Reperfusion", status: "Available" },
+      { id: "seizure-safety-np", name: "Status Epilepticus: Refractory Mgmt", status: "Available" }
+    ]
+  },
+  {
+    id: "endo-metabolic-advanced",
+    title: "Endocrine & Metabolic",
+    icon: Users,
+    color: "text-rose-700",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "dka-hhns-np", name: "DKA/HHS: Anion Gap & Osmolality", status: "Available" },
+      { id: "siadh-di-np", name: "Sodium Disorders: Osmoregulation", status: "Available" },
+      { id: "thyroid-storm-np", name: "Thyroid Storm: Receptor Blockade", status: "Available" }
+    ]
+  },
+  {
+    id: "renal-advanced",
+    title: "Advanced Nephrology",
+    icon: Droplets,
+    color: "text-cyan-700",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "aki-management-np", name: "AKI: RIFLE Criteria & Dialysis", status: "Available" },
+      { id: "electrolyte-safety-np", name: "Advanced Electrolyte Correction", status: "Available" }
+    ]
+  },
+  {
+    id: "hematology-advanced",
+    title: "Advanced Hematology",
+    icon: ShieldAlert,
+    color: "text-orange-700",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "sepsis-mastery-np", name: "Sepsis: Cytokine Storm & SOFA", status: "Available" },
+      { id: "dic-management-np", name: "DIC: Coagulation Cascade", status: "Available" }
+    ]
+  }
+];
+
 export default function Lessons() {
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("rn");
@@ -240,10 +314,11 @@ export default function Lessons() {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Pathophysiology Mastery</h1>
             <p className="text-lg text-gray-600">Advanced clinical recognition and safety logic for nursing students.</p>
           </div>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-[400px]">
-            <TabsList className="grid w-full grid-cols-2 bg-gray-100 rounded-full p-1">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-[600px]">
+            <TabsList className="grid w-full grid-cols-3 bg-gray-100 rounded-full p-1">
               <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm">RPN / LVN</TabsTrigger>
               <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm">RN (NCLEX)</TabsTrigger>
+              <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold">NP (Advanced)</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -259,6 +334,13 @@ export default function Lessons() {
           <TabsContent value="rn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {rnSystems.map((system) => (
+                <LessonSystemCard key={system.id} system={system} onSelect={(id) => setLocation(`/lessons/${id}`)} />
+              ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="np" className="mt-0">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+              {npSystems.map((system) => (
                 <LessonSystemCard key={system.id} system={system} onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>

@@ -437,6 +437,160 @@ const contentMap: Record<string, LessonContent> = {
     pearls: ["SIADH: Fluid restriction is the priority", "DI: Fluid replacement is the priority", "Monitor sodium levels every 4-6 hours"],
     quiz: [{ question: "Specific gravity of 1.002 is expected in which condition?", options: ["SIADH", "Diabetes Insipidus", "Dehydration", "Heart Failure"], correct: 1, rationale: "DI results in massive amounts of very dilute urine with a low specific gravity (<1.005)." }]
   },
+  // NP / Advanced Practice Content
+  "mi-management-np": {
+    title: "STEMI: Molecular & Pharmacology",
+    cellular: { 
+      title: "Plaque Rupture & Cascade", 
+      content: "Atherosclerotic plaque rupture exposes the subendothelium to blood, activating the coagulation cascade. Platelets adhere via von Willebrand factor, activating GP IIb/IIIa receptors. Thrombus formation occludes the coronary artery, leading to anaerobic metabolism, ATP depletion, and cellular acidosis. Without reperfusion, necrosis begins in the subendocardium and extends transmurally." 
+    },
+    signs: {
+      left: ["Levine's Sign (Clenched fist)", "Diaphoresis (Sympathetic surge)", "S3/S4 Gallop (Compliance issue)", "New Murmur (Papillary dysfunction)"],
+      right: ["Cardiogenic Shock (CI < 2.2)", "Ventricular Fibrillation", "Complete Heart Block (RCA)", "Free Wall Rupture (Day 3-7)"]
+    },
+    medications: [
+      { name: "Dual Antiplatelet Therapy (DAPT)", type: "P2Y12 Inhibitor + Aspirin", action: "Inhibits platelet aggregation", sideEffects: "Bleeding", contra: "Active bleed", pearl: "Ticagrelor/Prasugrel preferred over Clopidogrel in acute coronary syndrome." },
+      { name: "Tenecteplase (TNK)", type: "Fibrinolytic", action: "Converts plasminogen to plasmin", sideEffects: "ICH", contra: "History of hemorrhagic stroke", pearl: "Single weight-based bolus. Only if PCI > 120 mins away." }
+    ],
+    pearls: ["Door-to-Balloon time < 90 mins", "Door-to-Needle time < 30 mins (if no PCI)", "Beta-blockers reduce remodeling and arrhythmias (start within 24h)"],
+    quiz: [{ question: "Which finding is an absolute contraindication to Fibrinolytic therapy in STEMI?", options: ["BP 170/90", "History of hemorrhagic stroke", "Current Aspirin use", "Age > 75"], correct: 1, rationale: "History of hemorrhagic stroke is an absolute contraindication due to the high risk of catastrophic intracranial hemorrhage." }]
+  },
+  "shock-syndromes-np": {
+    title: "Shock: Hemodynamic Monitoring",
+    cellular: { 
+      title: "Oxygen Delivery (DO2) vs Consumption (VO2)", 
+      content: "Shock is a state where DO2 fails to meet VO2, leading to cellular hypoxia and lactate production. \n\nCardiogenic: Low CO, High SVR, High PCWP. \nSeptic: High CO (early), Low SVR, Low/Normal PCWP. \nHypovolemic: Low CO, High SVR, Low PCWP." 
+    },
+    signs: {
+      left: ["Lactate > 2 mmol/L", "ScvO2 < 70%", "Narrow Pulse Pressure (Cardiogenic)", "Widened Pulse Pressure (Septic)"],
+      right: ["Multi-Organ Dysfunction (MODS)", "Refractory Hypotension", "DIC (Disseminated Intravascular Coagulation)", "Acute Tubular Necrosis"]
+    },
+    medications: [
+      { name: "Norepinephrine", type: "Alpha-1 Agonist", action: "Vasoconstriction (SVR)", sideEffects: "Ischemia", contra: "Hypovolemia", pearl: "First-line pressor for Sepsis. Titrate to MAP > 65." },
+      { name: "Dobutamine", type: "Beta-1 Agonist", action: "Inotropy (Contractility)", sideEffects: "Tachyarrhythmias", contra: "HOCM", pearl: "Used in Cardiogenic shock (Pump failure) with adequate BP." }
+    ],
+    pearls: ["Passive Leg Raise (PLR) is the best predictor of fluid responsiveness", "Avoid fluid overload in Cardiogenic shock (worsens pulmonary edema)", "Target MAP of 65 mmHg for end-organ perfusion"],
+    quiz: [{ question: "In a patient with Septic Shock, what is the expected hemodynamic profile?", options: ["Low CO, High SVR", "High CO, Low SVR", "Low CO, Low SVR", "High CO, High SVR"], correct: 1, rationale: "Distributive shock (Sepsis) presents with vasodilation (Low SVR) and a compensatory increase in Cardiac Output (High CO) in the early phase." }]
+  },
+  "sepsis-mastery-np": {
+    title: "Sepsis: Cytokine Storm & SOFA",
+    cellular: { 
+      title: "Dysregulated Host Response", 
+      content: "Pathogen recognition receptors (TLRs) trigger NF-kB pathway, releasing pro-inflammatory cytokines (TNF-alpha, IL-1, IL-6). This causes widespread endothelial injury, capillary leak, and microvascular thrombosis (DIC). Mitochondrial dysfunction leads to dysoxia despite adequate oxygen delivery." 
+    },
+    signs: {
+      left: ["qSOFA: RR >22, Altered Mental Status, SBP <100", "Lactate > 2", "Hyperglycemia (Stress)", "Oliguria"],
+      right: ["Vasopressor dependence", "Mottling (Knee score)", "Platelets < 100k", "Creatinine > 2.0"]
+    },
+    medications: [
+      { name: "Vasopressin", type: "V1 Agonist", action: "Splanchnic vasoconstriction", sideEffects: "Gut ischemia", contra: "Active CAD", pearl: "Second-line pressor. Sparing effect on Norepinephrine dose." },
+      { name: "Hydrocortisone", type: "Corticosteroid", action: "Anti-inflammatory / Mineralocorticoid", sideEffects: "Hyperglycemia", contra: "Systemic fungal infection", pearl: "Used in refractory septic shock (200mg/day)." }
+    ],
+    pearls: ["Start broad-spectrum antibiotics within 1 hour (Surviving Sepsis)", "30mL/kg crystalloid bolus for hypotension/lactate > 4", "Reassess volume status frequently (dynamic measures preferred)"],
+    quiz: [{ question: "Which mechanism explains the microvascular thrombosis seen in severe sepsis?", options: ["Platelet destruction", "Suppression of Fibrinolysis (PAI-1)", "Vitamin K deficiency", "Excessive Heparin"], correct: 1, rationale: "Sepsis increases Plasminogen Activator Inhibitor-1 (PAI-1), suppressing fibrinolysis while coagulation is activated, leading to disseminated clots." }]
+  },
+  "siadh-di-np": {
+    title: "Sodium Disorders: Osmoregulation",
+    cellular: { 
+      title: "Arginine Vasopressin (AVP) Pathophysiology", 
+      content: "SIADH: Ectopic or inappropriate AVP release leads to insertion of Aquaporin-2 channels in the collecting duct, causing pure water retention (Euvolemic Hyponatremia). \nDI: Lack of AVP (Central) or renal resistance (Nephrogenic) prevents water reabsorption, leading to massive dilute urine output." 
+    },
+    signs: {
+      left: ["SIADH: Serum Osm < 275", "Urine Osm > 100", "Urine Na > 40", "Euvolemia"],
+      right: ["DI: Serum Osm > 295", "Urine Osm < 300", "Hypernatremia", "Polyuria (>3L/day)"]
+    },
+    medications: [
+      { name: "3% Hypertonic Saline", type: "Hypertonic Crystalloid", action: "Rapidly raises Serum Na", sideEffects: "Osmotic Demyelination", contra: "Chronic hyponatremia (rapid correction)", pearl: "Max correction 8-10 mEq/L in 24h." },
+      { name: "Desmopressin", type: "AVP Analogue", action: "V2 receptor agonist", sideEffects: "Hyponatremia", contra: "SIADH", pearl: "Dose titrated to urine output/thirst in Central DI." }
+    ],
+    pearls: ["Osmotic Demyelination Syndrome (ODS) is the risk of correcting chronic hyponatremia too fast", "Check Serum Osmolality to confirm hypotonicity first", "Vaptans (Tolvaptan) block V2 receptors in SIADH"],
+    quiz: [{ question: "A patient with SIADH is corrected too rapidly with 3% saline. What is the dreaded complication?", options: ["Cerebral Edema", "Osmotic Demyelination Syndrome", "Pulmonary Embolism", "Renal Failure"], correct: 1, rationale: "Rapid correction causes water to rush out of brain cells, stripping the myelin sheath (Central Pontine Myelinolysis)." }]
+  },
+  "aaa-rupture-np": {
+    title: "AAA: Pathogenesis & Management",
+    cellular: { 
+      title: "Matrix Metalloproteinases (MMPs)", 
+      content: "Inflammation leads to upregulation of MMPs which degrade elastin and collagen in the aortic media. This structural weakening, combined with LaPlace's Law (Wall Tension = Pressure x Radius), creates a cycle of dilation. Rupture occurs when wall stress exceeds tensile strength." 
+    },
+    signs: {
+      left: ["Pulsatile mass", "Grey Turner's Sign (Flank ecchymosis)", "Cullen's Sign (Periumbilical)", "Femoral bruit"],
+      right: ["Hypotension + Back Pain = Rupture", "Loss of distal pulses", "Mottling", "Profound Acidosis"]
+    },
+    medications: [
+      { name: "Esmolol", type: "Beta-1 Blocker", action: "Lowers HR/BP (Shear stress)", sideEffects: "Bradycardia", contra: "Acute Decompensated HF", pearl: "Titratable infusion. Goal SBP < 120." },
+      { name: "Tranexamic Acid (TXA)", type: "Antifibrinolytic", action: "Stabilizes clot", sideEffects: "Seizures (high dose)", contra: "Active intravascular clotting", pearl: "Consider in massive transfusion protocols." }
+    ],
+    pearls: ["Permissive hypotension (SBP 70-90) until control is achieved to prevent clot blowout", "Endovascular Aneurysm Repair (EVAR) vs Open", "Control pain/anxiety to reduce sympathetic surge"],
+    quiz: [{ question: "According to LaPlace's Law, as the aneurysm radius increases, what happens to wall tension?", options: ["Decreases", "Increases", "Stays the same", "Becomes zero"], correct: 1, rationale: "Wall Tension = Pressure × Radius. A larger radius increases tension, increasing rupture risk." }]
+  },
+  "dka-hhns-np": {
+    title: "DKA/HHS: Anion Gap & Osmolality",
+    cellular: { 
+      title: "Insulin Deficiency & Counter-Regulatory Hormones", 
+      content: "DKA: Absolute insulin deficiency leads to lipolysis. Free fatty acids are oxidized to ketone bodies (beta-hydroxybutyrate), causing metabolic acidosis. \nHHS: Relative insulin deficiency prevents ketosis but severe hyperglycemia causes massive osmotic diuresis and hyperosmolar state." 
+    },
+    signs: {
+      left: ["DKA: Kussmaul Respirations", "Fruity Breath", "Anion Gap > 12", "pH < 7.3"],
+      right: ["HHS: Glucose > 600", "Serum Osm > 320", "Profound Dehydration", "Altered Mental Status"]
+    },
+    medications: [
+      { name: "Regular Insulin", type: "Short-acting", action: "Drives Glucose/K+ into cells", sideEffects: "Hypoglycemia/Hypokalemia", contra: "K+ < 3.3", pearl: "Wait until K+ > 3.3 to start insulin." },
+      { name: "Potassium Chloride", type: "Electrolyte", action: "Repletion", sideEffects: "Arrhythmias", contra: "Hyperkalemia", pearl: "Insulin causes rapid intracellular K+ shift." }
+    ],
+    pearls: ["Close the Anion Gap, don't just fix the glucose", "Add Dextrose to fluids when Glucose < 200 to prevent hypoglycemia while clearing ketones", "Cerebral edema risk in children if Osm drops too fast"],
+    quiz: [{ question: "Why must potassium be > 3.3 before starting insulin in DKA?", options: ["Insulin is ineffective otherwise", "Insulin drives K+ into cells, risking lethal arrhythmias", "K+ prevents hypoglycemia", "It increases pH"], correct: 1, rationale: "Insulin shifts K+ intracellularly. Starting it in a hypokalemic patient can cause fatal cardiac arrest." }]
+  },
+  "increased-icp-np": {
+    title: "ICP: Cerebral Perfusion Pressure",
+    cellular: { 
+      title: "Autoregulation Failure", 
+      content: "Cerebral Blood Flow (CBF) is autoregulated. When ICP rises, MAP must rise to maintain CPP (CPP = MAP - ICP). If ICP exceeds MAP, perfusion stops. Brain herniation (Uncal, Tonsillar) causes mechanical compression of the brainstem." 
+    },
+    signs: {
+      left: ["Headache", "Vomiting", "Papilledema", "CN VI Palsy"],
+      right: ["Cushing's Reflex (HTN, Brady, Irregular RR)", "Fixed/Dilated Pupil (Uncal)", "Decerebrate Posturing", "Apnea"]
+    },
+    medications: [
+      { name: "Hypertonic Saline (3% or 23.4%)", type: "Osmotic Agent", action: "Pulls water from brain", sideEffects: "Hypernatremia", contra: "Fluid overload", pearl: "Preferred over Mannitol in hypotensive patients." },
+      { name: "Propofol", type: "Sedative", action: "Reduces CMRO2", sideEffects: "Hypotension", contra: "Egg allergy", pearl: "Metabolic suppression reduces blood flow demand." }
+    ],
+    pearls: ["Target CPP > 60 mmHg", "Hyperventilation (CO2 30-35) is a temporary bridge (vasoconstriction reduces ICP but risks ischemia)", "Keep HOB 30 degrees, head midline"],
+    quiz: [{ question: "How does hyperventilation lower ICP?", options: ["Increases oxygen delivery", "Causes cerebral vasoconstriction", "Increases venous return", "Lowers blood pressure"], correct: 1, rationale: "Hypocapnia (low CO2) causes cerebral vasoconstriction, reducing cerebral blood volume and ICP temporarily." }]
+  },
+  "copd-exacerbation-np": {
+    title: "COPD: Cellular Mechanisms",
+    cellular: { 
+      title: "Protease-Antiprotease Imbalance", 
+      content: "Cigarette smoke activates neutrophils/macrophages, releasing proteases (elastase) that destroy alveolar walls (Emphysema). Chronic Bronchitis involves goblet cell hyperplasia and mucus plugging. V/Q mismatch leads to hypoxemia and hypercapnia." 
+    },
+    signs: {
+      left: ["Accessory muscle use", "Pursed-lip breathing", "Prolonged expiration", "Wheezing"],
+      right: ["Pulsus Paradoxus", "Asterixis (CO2 narcosis)", "Central Cyanosis", "Cor Pulmonale (RHF)"]
+    },
+    medications: [
+      { name: "BiPAP", type: "NIV Support", action: "Decreases work of breathing", sideEffects: "Aspiration", contra: "Coma/Vomiting", pearl: "First-line for hypercapnic respiratory failure." },
+      { name: "Azithromycin", type: "Macrolide", action: "Anti-inflammatory/Antibiotic", sideEffects: "QT prolongation", contra: "Arrhythmias", pearl: "Used for anti-inflammatory properties in exacerbations." }
+    ],
+    pearls: ["Permissive Hypercapnia: Tolerate high CO2 if pH > 7.25", "Avoid intubation if possible (difficult to wean)", "Target SpO2 88-92% to maintain hypoxic drive"],
+    quiz: [{ question: "What is the primary indication for BiPAP in COPD exacerbation?", options: ["Hypoxemia", "Respiratory Acidosis (pH < 7.35)", "Comfort", "Pneumonia"], correct: 1, rationale: "BiPAP improves ventilation, helps blow off CO2, and reverses respiratory acidosis." }]
+  },
+  "aki-management-np": {
+    title: "AKI: RIFLE Criteria & Dialysis",
+    cellular: { 
+      title: "Tubular Necrosis & GFR", 
+      content: "Ischemia or toxins cause sloughing of tubular epithelial cells, obstructing tubules (muddy brown casts). Afferent arteriolar constriction (Pre-renal) reduces GFR. Post-renal obstruction increases Bowman's capsule pressure, halting filtration." 
+    },
+    signs: {
+      left: ["Oliguria", "Azotemia (High BUN)", "Edema", "Acidosis"],
+      right: ["Uremic Pericarditis (Friction rub)", "Encephalopathy", "Hyperkalemia > 6.5", "Pulmonary Edema"]
+    },
+    medications: [
+      { name: "Calcium Gluconate", type: "Membrane Stabilizer", action: "Protects myocardium", sideEffects: "Hypercalcemia", contra: "Digoxin toxicity (caution)", pearl: "First line for hyperkalemic EKG changes." },
+      { name: "Furosemide (Stress Test)", type: "Loop Diuretic", action: "Assess tubular function", sideEffects: "Ototoxicity", contra: "Anuria", pearl: "If no response to high dose, stop (don't flog the kidneys)." }
+    ],
+    pearls: ["Indications for Dialysis (AEIOU): Acidosis, Electrolytes (K+), Intoxication, Overload, Uremia", "FeNa < 1% = Pre-renal; FeNa > 2% = ATN", "Avoid nephrotoxins (NSAIDs, ACEi, Contrast)"],
+    quiz: [{ question: "Which finding is an absolute indication for emergent dialysis?", options: ["Creatinine of 4.0", "BUN of 80", "Refractory Hyperkalemia", "Oliguria"], correct: 2, rationale: "Refractory hyperkalemia that doesn't respond to medical management is lethal and requires immediate dialysis." }]
+  },
   "preeclampsia": {
     title: "Preeclampsia & Mag Safety",
     cellular: { title: "Endothelial Dysfunction", content: "Pregnancy-induced hypertension characterized by systemic vasospasm and endothelial damage, leading to decreased organ perfusion." },
