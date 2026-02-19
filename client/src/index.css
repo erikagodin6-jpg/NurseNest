@@ -5,22 +5,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Base Variables */
+/* Theme Variables - Defined on :root so they are globally available */
 :root {
   --font-sans: "DM Sans", "system-ui", "sans-serif";
   --radius: 0.625rem;
 
-  /* Default Theme (Lavender) */
-  --color-primary: #9d82dd;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #f3efff;
-  --color-secondary-foreground: #9d82dd;
-  --color-accent: #faf8ff;
-  --color-accent-foreground: #9d82dd;
-  --color-border: #e9e2ff;
-  --color-ring: #d4c7f7;
+  /* Default (Lavender) Values */
+  --theme-primary: #9d82dd;
+  --theme-primary-foreground: #ffffff;
+  --theme-secondary: #f3efff;
+  --theme-secondary-foreground: #9d82dd;
+  --theme-accent: #faf8ff;
+  --theme-accent-foreground: #9d82dd;
+  --theme-border: #e9e2ff;
+  --theme-ring: #d4c7f7;
   
-  /* Static Colors */
+  /* Static Assets/Utility Colors */
   --color-warmwhite: #fdfcfa;
   --color-softgray: #6b7280;
   --color-lavender-400: #b8a4eb;
@@ -29,65 +29,65 @@
   --color-mint-400: #5ed3ae;
 }
 
-/* Theme Overrides */
+/* Theme Overrides applied by next-themes class on html/body */
 .mint {
-  --color-primary: #5ed3ae;
-  --color-secondary: #e0f8f0;
-  --color-secondary-foreground: #5ed3ae;
-  --color-accent: #f3fcf9;
-  --color-accent-foreground: #5ed3ae;
-  --color-border: #c2f0e1;
-  --color-ring: #94e4cb;
+  --theme-primary: #5ed3ae;
+  --theme-secondary: #e0f8f0;
+  --theme-secondary-foreground: #5ed3ae;
+  --theme-accent: #f3fcf9;
+  --theme-accent-foreground: #5ed3ae;
+  --theme-border: #c2f0e1;
+  --theme-ring: #94e4cb;
 }
 
 .blush {
-  --color-primary: #f4909f;
-  --color-secondary: #fdeef0;
-  --color-secondary-foreground: #f4909f;
-  --color-accent: #fef7f8;
-  --color-accent-foreground: #f4909f;
-  --color-border: #fcd9de;
-  --color-ring: #f9b8c2;
+  --theme-primary: #f4909f;
+  --theme-secondary: #fdeef0;
+  --theme-secondary-foreground: #f4909f;
+  --theme-accent: #fef7f8;
+  --theme-accent-foreground: #f4909f;
+  --theme-border: #fcd9de;
+  --theme-ring: #f9b8c2;
 }
 
 .slate {
-  --color-primary: #64748b;
-  --color-secondary: #f1f5f9;
-  --color-secondary-foreground: #475569;
-  --color-accent: #f8fafc;
-  --color-accent-foreground: #334155;
-  --color-border: #e2e8f0;
-  --color-ring: #94a3b8;
+  --theme-primary: #64748b;
+  --theme-secondary: #f1f5f9;
+  --theme-secondary-foreground: #475569;
+  --theme-accent: #f8fafc;
+  --theme-accent-foreground: #334155;
+  --theme-border: #e2e8f0;
+  --theme-ring: #94a3b8;
 }
 
 .midnight {
-  --color-primary: #1e293b;
-  --color-secondary: #f1f5f9;
-  --color-secondary-foreground: #0f172a;
-  --color-accent: #f8fafc;
-  --color-accent-foreground: #020617;
-  --color-border: #cbd5e1;
-  --color-ring: #64748b;
+  --theme-primary: #1e293b;
+  --theme-secondary: #f1f5f9;
+  --theme-secondary-foreground: #0f172a;
+  --theme-accent: #f8fafc;
+  --theme-accent-foreground: #020617;
+  --theme-border: #cbd5e1;
+  --theme-ring: #64748b;
 }
 
 .ocean {
-  --color-primary: #0ea5e9;
-  --color-secondary: #f0f9ff;
-  --color-secondary-foreground: #0369a1;
-  --color-accent: #e0f2fe;
-  --color-accent-foreground: #075985;
-  --color-border: #bae6fd;
-  --color-ring: #7dd3fc;
+  --theme-primary: #0ea5e9;
+  --theme-secondary: #f0f9ff;
+  --theme-secondary-foreground: #0369a1;
+  --theme-accent: #e0f2fe;
+  --theme-accent-foreground: #075985;
+  --theme-border: #bae6fd;
+  --theme-ring: #7dd3fc;
 }
 
 .forest {
-  --color-primary: #10b981;
-  --color-secondary: #ecfdf5;
-  --color-secondary-foreground: #047857;
-  --color-accent: #d1fae5;
-  --color-accent-foreground: #065f46;
-  --color-border: #a7f3d0;
-  --color-ring: #6ee7b7;
+  --theme-primary: #10b981;
+  --theme-secondary: #ecfdf5;
+  --theme-secondary-foreground: #047857;
+  --theme-accent: #d1fae5;
+  --theme-accent-foreground: #065f46;
+  --theme-border: #a7f3d0;
+  --theme-ring: #6ee7b7;
 }
 
 @theme inline {
@@ -100,14 +100,15 @@
   --color-background: var(--color-warmwhite);
   --color-foreground: var(--color-softgray);
 
-  --color-primary: var(--color-primary);
-  --color-primary-foreground: var(--color-primary-foreground);
-  --color-secondary: var(--color-secondary);
-  --color-secondary-foreground: var(--color-secondary-foreground);
-  --color-accent: var(--color-accent);
-  --color-accent-foreground: var(--color-accent-foreground);
-  --color-border: var(--color-border);
-  --color-ring: var(--color-ring);
+  /* Map Theme Variables to Tailwind Utilities */
+  --color-primary: var(--theme-primary);
+  --color-primary-foreground: var(--theme-primary-foreground);
+  --color-secondary: var(--theme-secondary);
+  --color-secondary-foreground: var(--theme-secondary-foreground);
+  --color-accent: var(--theme-accent);
+  --color-accent-foreground: var(--theme-accent-foreground);
+  --color-border: var(--theme-border);
+  --color-ring: var(--theme-ring);
 
   --color-card: #ffffff;
   --color-card-foreground: var(--color-softgray);
