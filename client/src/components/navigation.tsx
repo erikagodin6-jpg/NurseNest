@@ -42,6 +42,7 @@ export function Navigation() {
   const { toast } = useToast();
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     setMounted(true);
@@ -52,10 +53,14 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handlePaidContent = (label: string) => {
+  const handlePaidContent = (label: string, itemLabel?: string) => {
+    if (itemLabel === "Lessons") {
+      setLocation("/lessons");
+      return;
+    }
     toast({
       title: "Subscription Required",
-      description: `Access to ${label} materials requires an active subscription.`,
+      description: `Access to ${label} ${itemLabel || ""} materials requires an active subscription.`,
       variant: "default",
     });
   };
@@ -75,26 +80,26 @@ export function Navigation() {
         {items.map((item, idx) => (
           <DropdownMenuItem 
             key={idx} 
-            onClick={() => isPaid ? handlePaidContent(label) : null}
+            onClick={() => handlePaidContent(label, item.label)}
             className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
           >
             <div className="flex items-center gap-2">
               <item.icon className={cn("w-4 h-4", theme === 'lavender' || !mounted ? item.color : "text-primary/70")} />
               <span>{item.label}</span>
             </div>
-            {isPaid && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && item.label !== "Lessons" && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator className="bg-primary/10" />
         <DropdownMenuItem 
-          onClick={() => isPaid ? handlePaidContent("Reports") : null}
+          onClick={() => handlePaidContent("Reports")}
           className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
         >
           <div className="flex items-center gap-2">
             <BarChart className="w-4 h-4 text-primary/60" />
             <span>Reports</span>
           </div>
-          {isPaid && <Lock className="w-3 h-3 text-gray-400" />}
+          <Lock className="w-3 h-3 text-gray-400" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -147,7 +152,7 @@ export function Navigation() {
             ))}
           </div>
           <div className="h-[1px] bg-gray-100 my-2" />
-          <Button variant="ghost" className="w-full justify-start text-primary/80 hover:text-primary hover:bg-primary/5 gap-2">
+          <Button variant="ghost" className="w-full justify-start text-primary/80 hover:text-primary hover:bg-primary/5 gap-2" onClick={() => setLocation("/lessons")}>
             <Dna className="w-4 h-4" />
             A&P (Free)
           </Button>
@@ -193,7 +198,7 @@ export function Navigation() {
                 <NavDropdown key={d} label={d} items={learningItems} isPaid />
               ))}
               <div className="h-4 w-[1px] bg-primary/20 mx-2" />
-              <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-primary/5 gap-2">
+              <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-primary/5 gap-2" onClick={() => setLocation("/lessons")}>
                 <Dna className="w-4 h-4" />
                 A&P
               </Button>
