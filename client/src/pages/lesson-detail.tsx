@@ -1046,6 +1046,184 @@ const contentMap: Record<string, LessonContent> = {
     ],
     pearls: ["Eat-Sleep-Console (ESC) model is replacing Finnegan scoring at many centers — focuses on function rather than individual symptoms", "Rooming-in with mother significantly improves outcomes and reduces pharmacotherapy need", "Breastfeeding is encouraged if mother is in a stable medication-assisted treatment program"],
     quiz: [{ question: "What is the key difference between the Eat-Sleep-Console (ESC) model and the Finnegan scoring system?", options: ["ESC uses more medications than Finnegan", "ESC focuses on functional assessment (eating, sleeping, consolability) rather than individual symptom scoring", "Finnegan is newer and more evidence-based", "ESC requires longer hospital stays"], correct: 1, rationale: "The ESC model shifts focus from scoring individual withdrawal symptoms (Finnegan) to assessing functional outcomes — can the infant eat adequately, sleep undisturbed, and be consoled within 10 minutes? This approach reduces pharmacotherapy use and hospital length of stay." }]
+  },
+  "vitals-assessment": {
+    title: "Vital Signs and Physical Assessment",
+    cellular: { title: "Physiological Baselines", content: "Vital signs reflect the body's basic physiological functions. Temperature, pulse, respirations, blood pressure, and oxygen saturation provide a window into cardiovascular, respiratory, and neurological status. Changes from baseline are more clinically significant than isolated readings." },
+    signs: {
+      left: ["Temperature (oral 36.5-37.5°C, rectal is most accurate, temporal for screening)", "Pulse (radial most common, apical for cardiac meds, 60-100 adult normal)"],
+      right: ["Respirations (12-20 adult, count for full 30sec, note depth/pattern)", "BP (auscultatory gap awareness, cuff size matters - too small reads high)", "SpO2 (>95% normal, <90% critical)"]
+    },
+    medications: [{ name: "Acetaminophen", type: "Antipyretic", action: "Reduces fever", sideEffects: "Hepatotoxicity", contra: "Liver disease", pearl: "Max 4g/day in adults. Fever is the body's immune response." }],
+    pearls: ["Always compare to baseline", "Orthostatic vitals (lying/sitting/standing)", "Pain is the 5th vital sign", "Document and report trends"],
+    quiz: [{ question: "A blood pressure cuff that is too small will read:", options: ["Falsely low", "Falsely high", "Accurately", "No reading at all"], correct: 1, rationale: "A cuff that is too small compresses the artery incompletely, requiring more pressure to occlude it, resulting in a falsely high reading." }]
+  },
+  "wound-care-basics": {
+    title: "Wound Care and Dressing Changes",
+    cellular: { title: "Wound Healing Phases", content: "Wound healing occurs in 4 phases: Hemostasis (platelet plug), Inflammation (WBCs migrate), Proliferation (granulation tissue, new vessels), and Remodeling (scar maturation over months). Healing by primary intention (surgical closure), secondary intention (open wound fills in), or tertiary intention (delayed closure)." },
+    signs: {
+      left: ["Primary intention (approximated edges, minimal scarring)", "Secondary intention (granulation tissue, larger scar)", "Infection signs (redness, warmth, purulent drainage)"],
+      right: ["Wound measurement (length x width x depth)", "Wound bed colors (red=granulation=good, yellow=slough, black=eschar=necrotic)", "Drainage types (serous, sanguineous, serosanguineous, purulent)"]
+    },
+    medications: [
+      { name: "Normal Saline", type: "Irrigation Solution", action: "Gentle cleansing of wound bed", sideEffects: "None significant", contra: "None", pearl: "Use at body temperature for comfort and to avoid vasoconstriction." },
+      { name: "Silver Sulfadiazine", type: "Topical Antimicrobial", action: "Prevents infection in burn wounds", sideEffects: "Skin discoloration, leukopenia", contra: "Sulfa allergy", pearl: "Apply with sterile gloves in a thin layer to burn wounds." },
+      { name: "Hydrocolloid Dressing", type: "Moisture-Retentive Dressing", action: "Promotes moist healing environment", sideEffects: "Maceration if left too long", contra: "Infected wounds", pearl: "Best for Stage 2 pressure injuries and partial-thickness wounds." }
+    ],
+    pearls: ["Clean to dirty technique", "Irrigate with normal saline at body temperature", "Document size/color/drainage/odor", "Adequate nutrition (protein/Vitamin C) essential for healing"],
+    quiz: [{ question: "What color wound bed indicates healthy granulation tissue?", options: ["Yellow", "Black", "Red/beefy red", "White"], correct: 2, rationale: "Red or beefy red tissue indicates healthy granulation with good blood supply and active healing." }]
+  },
+  "catheterization": {
+    title: "Urinary Catheterization",
+    cellular: { title: "Catheter-Associated Infection Risk", content: "Catheterization provides drainage when normal voiding is impaired. Indwelling (Foley) catheters carry CAUTI risk - the #1 healthcare-associated infection. Biofilm formation on catheter surfaces begins within 24 hours. Strict sterile technique during insertion and closed system maintenance are essential to prevent infection." },
+    signs: {
+      left: ["Indications (urinary retention, accurate I&O, surgical, immobilization)", "Insertion steps (sterile field, cleanse meatus, advance until urine flows, inflate balloon)"],
+      right: ["CAUTI signs (cloudy/foul urine, fever, suprapubic pain, new confusion in elderly)", "Prevention (remove ASAP, hand hygiene, keep bag below bladder, maintain closed system)"]
+    },
+    medications: [
+      { name: "Lidocaine Gel", type: "Local Anesthetic", action: "Reduces discomfort during catheter insertion", sideEffects: "Local irritation", contra: "Lidocaine allergy", pearl: "Apply to urethra before insertion for patient comfort." },
+      { name: "Phenazopyridine", type: "Bladder Analgesic", action: "Relieves urinary tract discomfort", sideEffects: "Orange-red urine discoloration", contra: "Renal insufficiency", pearl: "Warn patients that urine will turn orange - this is expected, not blood." },
+      { name: "Trimethoprim-Sulfamethoxazole", type: "Antibiotic", action: "Treats urinary tract infections including CAUTI", sideEffects: "Rash, GI upset, photosensitivity", contra: "Sulfa allergy", pearl: "First-line for uncomplicated UTI. Ensure adequate hydration." }
+    ],
+    pearls: ["Always attempt least invasive method first (bladder scan)", "Secure catheter to prevent traction injury", "Monitor output (>30mL/hr adult)", "Daily assessment for continued need"],
+    quiz: [{ question: "The urinary drainage bag must always be kept:", options: ["At the level of the bladder", "Above the level of the bladder", "Below the level of the bladder", "On the bed next to the patient"], correct: 2, rationale: "The bag must remain below the level of the bladder to prevent backflow of urine and reduce CAUTI risk." }]
+  },
+  "ngtube-care": {
+    title: "NG Tube Insertion and Care",
+    cellular: { title: "Nasogastric Access", content: "Nasogastric tubes serve two purposes: decompression (removing gas/fluid from stomach) and enteral feeding. Proper placement verification is critical to prevent aspiration. The tube passes through the nasopharynx, down the esophagus, and into the stomach. Misplacement into the lungs is the most dangerous complication." },
+    signs: {
+      left: ["Measurement (NEX - Nose to Ear to Xiphoid)", "Insertion technique (head flexed forward, sip water to swallow)", "Placement verification (pH <5.5 of aspirate, x-ray is gold standard)"],
+      right: ["Complications (aspiration, sinusitis, epistaxis, electrolyte imbalance from suctioning)", "Decompression care (low intermittent suction, monitor output color/amount)", "Feeding care (check residuals, elevate HOB 30-45 degrees)"]
+    },
+    medications: [
+      { name: "Metoclopramide", type: "Prokinetic", action: "Promotes gastric motility and emptying", sideEffects: "Tardive dyskinesia, drowsiness", contra: "GI obstruction", pearl: "Give 30 minutes before feedings to enhance gastric emptying." },
+      { name: "Omeprazole", type: "Proton Pump Inhibitor", action: "Reduces gastric acid for stress ulcer prophylaxis", sideEffects: "Headache, diarrhea, B12 deficiency (long-term)", contra: "None significant", pearl: "Dissolve in bicarbonate solution for NG tube administration." },
+      { name: "Ondansetron", type: "Anti-emetic", action: "Blocks serotonin receptors to prevent nausea/vomiting", sideEffects: "Headache, constipation, QT prolongation", contra: "QT prolongation", pearl: "Can be given IV or ODT; does not cause sedation like other anti-emetics." }
+    ],
+    pearls: ["NEVER use auscultation alone to verify placement", "Flush with 30mL water every 4 hours and before/after meds", "Do not mix medications together through tube", "Hold feedings if residual >250-500mL per facility policy"],
+    quiz: [{ question: "What is the gold standard for NG tube placement verification?", options: ["Auscultation of air bolus", "pH testing of aspirate", "Chest/abdominal x-ray", "Observing for coughing"], correct: 2, rationale: "Chest or abdominal x-ray is the gold standard for verifying NG tube placement. Auscultation alone is unreliable and should never be the sole method." }]
+  },
+  "iv-therapy": {
+    title: "IV Therapy and Venipuncture",
+    cellular: { title: "Vascular Access Principles", content: "Intravenous therapy delivers fluids, medications, and blood products directly into the vascular system. Peripheral IV catheters access superficial veins (cephalic, basilic, median cubital). Osmolarity determines vein compatibility: isotonic (250-375 mOsm), hypertonic (>375 mOsm requires central access for prolonged use), hypotonic (<250 mOsm)." },
+    signs: {
+      left: ["Site selection (distal to proximal, non-dominant hand, avoid areas of flexion/injury)", "Gauge selection (18-20G for blood/surgery, 22-24G for meds/elderly)", "Insertion technique (tourniquet, palpate, anchor, 15-30 degree angle)"],
+      right: ["Infiltration (cool/pale/swollen, stop infusion)", "Phlebitis (red/warm/tender cord, remove IV)", "Extravasation (vesicant leakage - antidote needed)", "Air embolism (dyspnea/chest pain, left Trendelenburg)"]
+    },
+    medications: [
+      { name: "Heparin Flush", type: "Anticoagulant", action: "Maintains patency of intermittent IV locks", sideEffects: "Bleeding, HIT", contra: "Active bleeding, HIT history", pearl: "Use lowest effective concentration. Saline-only flushes are replacing heparin locks in many facilities." },
+      { name: "Normal Saline Flush", type: "Isotonic Solution", action: "Flushes IV line before and after medication administration", sideEffects: "None significant", contra: "None", pearl: "Use turbulent (push-pause) flushing technique to clear the line effectively." },
+      { name: "Phytonadione (Vitamin K)", type: "Fat-Soluble Vitamin", action: "Reverses warfarin anticoagulation", sideEffects: "Anaphylaxis (IV route)", contra: "None absolute", pearl: "IV route carries risk of anaphylaxis - give slowly. IM/SubQ preferred when possible." }
+    ],
+    pearls: ["Change peripheral IV every 72-96 hours per policy", "Always check the 5 Rights before administration", "Calculate drip rates (gtt/min = volume x drop factor / time)", "Never piggyback incompatible medications"],
+    quiz: [{ question: "A client shows signs of IV infiltration. What is the priority action?", options: ["Apply a warm compress", "Increase the flow rate", "Stop the infusion and remove the IV", "Elevate the extremity only"], correct: 2, rationale: "The priority is to stop the infusion immediately and remove the IV catheter to prevent further tissue damage from fluid leaking into surrounding tissue." }]
+  },
+  "blood-transfusion": {
+    title: "Blood Transfusion Administration",
+    cellular: { title: "Transfusion Immunology", content: "Blood products replace oxygen-carrying capacity (pRBCs), clotting factors (FFP), or platelets. Transfusion reactions range from mild febrile to fatal hemolytic. ABO incompatibility triggers complement-mediated hemolysis destroying donor RBCs. Type and crossmatch ensures compatibility. Two-nurse verification at bedside is mandatory." },
+    signs: {
+      left: ["Pre-transfusion (consent, type & crossmatch, baseline vitals)", "Two-nurse verification with patient ID and blood bank band", "Large-bore IV access (18-20G preferred)"],
+      right: ["Acute Hemolytic (fever/chills/flank pain/dark urine, STOP immediately)", "Febrile Non-Hemolytic (fever/chills, most common reaction)", "Allergic (urticaria/itching, mild=antihistamine)", "Anaphylactic (bronchospasm/hypotension)", "TACO (fluid overload)", "TRALI (acute respiratory distress within 6 hours)"]
+    },
+    medications: [
+      { name: "Diphenhydramine", type: "Antihistamine", action: "Pre-medication for clients with allergic transfusion history", sideEffects: "Drowsiness, dry mouth", contra: "Narrow-angle glaucoma", pearl: "Give 30 minutes before transfusion for patients with prior allergic reactions." },
+      { name: "Epinephrine", type: "Sympathomimetic", action: "Emergency treatment for anaphylactic transfusion reaction", sideEffects: "Tachycardia, hypertension", contra: "None in anaphylaxis", pearl: "Always have at bedside during transfusions. IM injection preferred for anaphylaxis." },
+      { name: "Normal Saline (0.9%)", type: "Isotonic Solution", action: "Only compatible IV fluid with blood products", sideEffects: "Fluid overload", contra: "None", pearl: "NEVER use LR or D5W with blood - LR causes clotting (calcium), D5W causes hemolysis." },
+      { name: "Furosemide", type: "Loop Diuretic", action: "Treats fluid overload from TACO", sideEffects: "Hypokalemia, dehydration", contra: "Anuria", pearl: "May be ordered prophylactically for patients at risk of fluid overload (HF, renal disease)." }
+    ],
+    pearls: ["Stay with client for first 15 minutes", "Vitals at baseline/15min/30min/end", "Use 0.9% NS only (never LR or D5W)", "Infuse within 4 hours", "Use blood tubing with 170-micron filter"],
+    quiz: [{ question: "During a transfusion, the client develops flank pain and dark urine. What is the first action?", options: ["Slow the infusion rate", "Administer diphenhydramine", "STOP the transfusion immediately", "Obtain a urine sample"], correct: 2, rationale: "Flank pain and dark urine indicate an acute hemolytic transfusion reaction. The first priority is to STOP the transfusion immediately to prevent further hemolysis." }]
+  },
+  "chest-tube-mgmt": {
+    title: "Chest Tube Management",
+    cellular: { title: "Pleural Space Dynamics", content: "Chest tubes drain air (pneumothorax) or fluid (hemothorax/pleural effusion) from the pleural space, restoring negative intrapleural pressure needed for lung expansion. The drainage system has three chambers: collection, water seal (prevents air re-entry), and suction control. Tidaling in the water seal chamber indicates proper function." },
+    signs: {
+      left: ["Indications (pneumothorax, hemothorax, pleural effusion, post-thoracic surgery)", "Water seal chamber (tidaling normal, continuous bubbling = air leak)", "Collection chamber (measure output hourly, >100mL/hr report)"],
+      right: ["Tension pneumothorax (tracheal deviation, absent breath sounds, JVD)", "Accidental dislodgement (cover with sterile occlusive dressing taped on 3 sides)", "Dependent loops (impairs drainage)", "Clamping (generally contraindicated - risk of tension pneumo)"]
+    },
+    medications: [
+      { name: "Alteplase", type: "Intrapleural Fibrinolytic", action: "Breaks down fibrin in loculated pleural effusions", sideEffects: "Bleeding, chest pain", contra: "Active bleeding", pearl: "Instilled into pleural space via chest tube and clamped for a dwell time before drainage." },
+      { name: "Lidocaine", type: "Local Anesthetic", action: "Pain management at chest tube insertion site", sideEffects: "Numbness, allergic reaction", contra: "Lidocaine allergy", pearl: "Adequate local anesthesia improves patient cooperation during insertion." },
+      { name: "Ketorolac", type: "NSAID Analgesic", action: "Systemic pain management for chest tube discomfort", sideEffects: "GI bleeding, renal impairment", contra: "Renal failure, active bleeding", pearl: "Limit use to 5 days. Effective for pleuritic chest pain without respiratory depression." }
+    ],
+    pearls: ["Keep drainage system below chest level", "Never clamp without an order", "Encourage deep breathing and coughing", "Milk tubing only if ordered (prevents clots)", "Have petroleum gauze at bedside for emergencies"],
+    quiz: [{ question: "Continuous bubbling in the water seal chamber indicates:", options: ["Normal functioning", "An air leak", "The tube is clamped", "Fluid overload"], correct: 1, rationale: "Continuous bubbling in the water seal chamber indicates an air leak in the system or from the patient's lung. Tidaling (fluctuation with breathing) is normal, but continuous bubbling requires investigation." }]
+  },
+  "trach-care": {
+    title: "Tracheostomy Care and Suctioning",
+    cellular: { title: "Bypassed Upper Airway", content: "A tracheostomy bypasses the upper airway, eliminating the nose and mouth's natural warming, humidifying, and filtering functions. This increases infection risk and secretion production. The cuff, when inflated, seals the airway for mechanical ventilation but can cause tracheal necrosis if pressure exceeds capillary perfusion pressure (>25 cmH2O)." },
+    signs: {
+      left: ["Routine care (clean inner cannula every 8h, change ties when soiled, clean stoma with NS and half-strength H2O2)", "Suctioning technique (hyperoxygenate before, insert without suction, apply suction on withdrawal, max 10-15 seconds)"],
+      right: ["Accidental decannulation (stay calm, use obturator to reinsert, if <7 days old the stoma closes rapidly)", "Mucus plug (inability to ventilate, suction or change inner cannula)", "Tracheoinnominate fistula (massive bleed, apply digital pressure, hyperinflate cuff)"]
+    },
+    medications: [
+      { name: "Acetylcysteine (Mucomyst)", type: "Mucolytic", action: "Breaks down thick mucus secretions", sideEffects: "Bronchospasm, nausea", contra: "Asthma (may worsen bronchospasm)", pearl: "Can be nebulized to thin secretions. Have suction ready as it increases secretion volume." },
+      { name: "Normal Saline", type: "Isotonic Solution", action: "Humidification of inspired air", sideEffects: "None significant", contra: "None", pearl: "Used for humidification only - instillation directly into the trach is NO longer recommended practice." },
+      { name: "Dexamethasone", type: "Corticosteroid", action: "Reduces peristomal inflammation and airway edema", sideEffects: "Hyperglycemia, immunosuppression", contra: "Active infection (relative)", pearl: "May be used around decannulation to reduce airway swelling." }
+    ],
+    pearls: ["Keep spare trach and obturator at bedside ALWAYS", "Suction only as needed (not on a schedule)", "Cuff pressure <25 cmH2O", "Communication alternatives (speaking valve, writing board)", "Never cut gauze to place around trach (fraying risk)"],
+    quiz: [{ question: "What is the maximum duration for a tracheal suctioning pass?", options: ["30 seconds", "20 seconds", "10-15 seconds", "5 seconds"], correct: 2, rationale: "Each suctioning pass should not exceed 10-15 seconds to prevent hypoxia. Hyperoxygenate before suctioning and allow recovery between passes." }]
+  },
+  "central-line-np": {
+    title: "Central Line Insertion & Bundle",
+    cellular: { title: "Central Venous Access", content: "Central venous catheters (CVCs) access large veins (internal jugular, subclavian, femoral) for hemodynamic monitoring, vasopressors, TPN, and medications with high osmolarity (>900 mOsm). The Seldinger technique uses a guide wire to direct catheter placement. CLABSI (Central Line-Associated Bloodstream Infection) occurs when microorganisms colonize the catheter hub or migrate along the external surface, seeding the bloodstream. Evidence-based bundles reduce CLABSI rates by >70%." },
+    signs: {
+      left: ["Insertion landmarks (IJ - triangle of neck, Subclavian - infraclavicular, Femoral - below inguinal ligament)", "Seldinger technique steps (needle access, guidewire, dilator, catheter, suture, confirm with CXR)"],
+      right: ["CLABSI Bundle - Hand hygiene", "Full barrier precautions (cap/mask/gown/sterile gloves/drape)", "Chlorhexidine skin prep", "Optimal site selection (subclavian preferred for lowest infection rate)", "Daily assessment for necessity"]
+    },
+    medications: [
+      { name: "Chlorhexidine", type: "Antiseptic", action: "2% skin antisepsis - superior to povidone-iodine", sideEffects: "Skin irritation, rare anaphylaxis", contra: "Known allergy", pearl: "Allow to dry completely for maximum bactericidal effect." },
+      { name: "Heparin", type: "Anticoagulant", action: "Lumen lock solution to maintain catheter patency", sideEffects: "Bleeding, HIT", contra: "Active bleeding, HIT history", pearl: "Flush and lock per protocol to prevent catheter occlusion." },
+      { name: "Alteplase (Cathflo)", type: "Thrombolytic", action: "Restores patency in occluded catheters", sideEffects: "Bleeding", contra: "Active internal bleeding", pearl: "Instill into occluded lumen, dwell 30-120 min, then aspirate." }
+    ],
+    pearls: ["Subclavian has lowest CLABSI but highest pneumothorax risk", "Confirm tip position at cavoatrial junction on CXR", "Change dressings every 7 days (transparent) or 2 days (gauze)", "Use antimicrobial-impregnated catheters for high-risk patients"],
+    quiz: [{ question: "Which central line site has the lowest CLABSI rate?", options: ["Internal jugular", "Subclavian", "Femoral", "PICC line"], correct: 1, rationale: "The subclavian site has the lowest CLABSI rate due to lower bacterial colonization, though it carries the highest risk of pneumothorax." }]
+  },
+  "lumbar-puncture-np": {
+    title: "Lumbar Puncture & CSF Analysis",
+    cellular: { title: "Subarachnoid Access", content: "Lumbar puncture accesses the subarachnoid space at L3-L4 or L4-L5 (below the conus medullaris at L1-L2 to avoid spinal cord injury). CSF is produced by choroid plexus at ~500mL/day with ~150mL circulating at any time. Opening pressure measured by manometer (normal 10-20 cmH2O). CSF analysis differentiates bacterial (neutrophilic, low glucose, high protein) from viral (lymphocytic, normal glucose) meningitis, SAH, and malignancy." },
+    signs: {
+      left: ["Positioning (lateral decubitus with knees to chest, or seated bent forward)", "Normal CSF values (clear/colorless, glucose 50-80, protein 15-45, WBC <5, opening pressure 10-20 cmH2O)"],
+      right: ["Bacterial meningitis (turbid, high WBC/PMNs, low glucose <40, high protein >200)", "Viral meningitis (clear, lymphocytes, normal glucose)", "SAH (xanthochromia, RBCs that don't clear in tube 4)", "Malignancy (cytology positive, elevated protein)"]
+    },
+    medications: [
+      { name: "EMLA Cream", type: "Topical Anesthetic", action: "Numbs skin at puncture site", sideEffects: "Local skin reaction", contra: "Methemoglobinemia risk in infants", pearl: "Apply 60 minutes before procedure for maximum effect." },
+      { name: "Lidocaine", type: "Local Anesthetic", action: "Local infiltration at insertion site", sideEffects: "Numbness, allergic reaction", contra: "Lidocaine allergy", pearl: "Buffering with sodium bicarbonate reduces injection pain." },
+      { name: "Caffeine Sodium Benzoate", type: "CNS Stimulant", action: "Treats post-LP headache by cerebral vasoconstriction", sideEffects: "Insomnia, tachycardia", contra: "Cardiac arrhythmias", pearl: "IV or PO caffeine is first-line for post-dural puncture headache." },
+      { name: "Epidural Blood Patch", type: "Autologous Blood", action: "Definitive treatment for persistent post-dural puncture headache", sideEffects: "Back pain, infection risk", contra: "Sepsis, coagulopathy", pearl: "Effective in >90% of cases by sealing the dural tear." }
+    ],
+    pearls: ["Absolute contraindication: increased ICP with mass lesion (CT first!)", "Post-procedure: lie flat 4-6 hours, increase fluids, monitor for headache/neuro changes", "Traumatic tap vs SAH: RBCs decrease from tube 1 to 4 in traumatic tap"],
+    quiz: [{ question: "CSF glucose < 40 with elevated PMNs suggests?", options: ["Viral meningitis", "Bacterial meningitis", "Subarachnoid hemorrhage", "Multiple sclerosis"], correct: 1, rationale: "Bacterial meningitis presents with low CSF glucose (<40 mg/dL), elevated protein, and a neutrophilic (PMN) predominance. Bacteria consume glucose, lowering CSF levels." }]
+  },
+  "abg-sampling-np": {
+    title: "ABG Sampling & Interpretation",
+    cellular: { title: "Acid-Base Physiology", content: "Arterial blood gas analysis measures acid-base status and oxygenation. pH is maintained by the bicarbonate buffer system (H2CO3/HCO3-), regulated by lungs (CO2) and kidneys (HCO3-). Henderson-Hasselbalch equation: pH = 6.1 + log(HCO3/0.03 x PaCO2). Respiratory compensation is rapid (minutes), metabolic compensation is slow (hours-days). The anion gap [Na - (Cl + HCO3)] helps identify the cause of metabolic acidosis (normal 8-12)." },
+    signs: {
+      left: ["Normal values (pH 7.35-7.45, PaCO2 35-45, HCO3 22-26, PaO2 80-100, SaO2 >95%)", "Modified Allen's test (confirms ulnar collateral circulation before radial artery puncture)"],
+      right: ["Interpretation framework - ROME (Respiratory Opposite, Metabolic Equal)", "Compensation (full vs partial)", "Anion gap metabolic acidosis (MUDPILES: Methanol, Uremia, DKA, Propylene glycol, INH/Iron, Lactic acidosis, Ethylene glycol, Salicylates)"]
+    },
+    medications: [
+      { name: "Sodium Bicarbonate", type: "Alkalinizing Agent", action: "Buffer for severe metabolic acidosis (pH <7.1)", sideEffects: "Metabolic alkalosis, hypernatremia", contra: "Metabolic/respiratory alkalosis", pearl: "Use cautiously - can worsen intracellular acidosis. Reserved for pH <7.1." },
+      { name: "Acetazolamide", type: "Carbonic Anhydrase Inhibitor", action: "Treats metabolic alkalosis by promoting bicarbonate excretion", sideEffects: "Metabolic acidosis, paresthesias", contra: "Severe renal/hepatic disease", pearl: "Also used for altitude sickness and glaucoma." },
+      { name: "THAM (Tromethamine)", type: "Buffer Agent", action: "Alternative buffer for severe acidosis without sodium load", sideEffects: "Hypoglycemia, respiratory depression", contra: "Anuria, uremia", pearl: "Does not generate CO2 like bicarb - useful when ventilation is limited." }
+    ],
+    pearls: ["Apply pressure for 5 minutes post-puncture (10 min if on anticoagulants)", "Sample on ice and analyze within 30 minutes", "Compensatory changes never overcorrect", "Always correlate ABG with clinical picture"],
+    quiz: [{ question: "pH 7.28, PaCO2 55, HCO3 24 - interpretation?", options: ["Metabolic acidosis", "Uncompensated respiratory acidosis", "Compensated respiratory alkalosis", "Mixed disorder"], correct: 1, rationale: "pH is acidotic (7.28), PaCO2 is elevated (55 - respiratory cause), and HCO3 is normal (24 - no metabolic compensation yet). This is uncompensated respiratory acidosis." }]
+  },
+  "mechanical-vent-np": {
+    title: "Mechanical Ventilation Management",
+    cellular: { title: "Positive Pressure Ventilation", content: "Mechanical ventilation supports or replaces spontaneous breathing. Positive pressure ventilation reverses normal thoracic pressure dynamics (negative pressure breathing). Key modes: AC (Assist-Control - set rate + patient-triggered, full support), SIMV (Synchronized IMV - set rate + spontaneous breaths at patient's own tidal volume), PSV (Pressure Support - augments spontaneous breaths only). Lung-protective ventilation limits volutrauma (Vt 6-8 mL/kg ideal body weight) and barotrauma (Pplat <30 cmH2O)." },
+    signs: {
+      left: ["Initial settings (FiO2 100% then wean to <60%, Vt 6-8 mL/kg IBW, RR 12-16, PEEP 5 cmH2O baseline)", "Modes (AC for full support, SIMV for weaning, PSV for spontaneous breathing trials)"],
+      right: ["VILI (Ventilator-Induced Lung Injury from overdistension)", "Auto-PEEP (air trapping in COPD/asthma)", "VAP (Ventilator-Associated Pneumonia - HOB 30-45, oral care, daily sedation vacation)", "Pneumothorax (barotrauma)"]
+    },
+    medications: [
+      { name: "Propofol", type: "Sedative-Hypnotic", action: "Sedation for intubated patients", sideEffects: "Hypotension, hypertriglyceridemia", contra: "Egg/soy allergy", pearl: "Monitor for PRIS (Propofol-Related Infusion Syndrome) with prolonged use - check triglycerides and CK." },
+      { name: "Cisatracurium", type: "Neuromuscular Blocker", action: "Paralysis for severe ARDS to improve ventilator synchrony", sideEffects: "Prolonged paralysis, ICU-acquired weakness", contra: "None absolute", pearl: "Train-of-four monitoring required. Patient MUST be sedated first - paralysis without sedation is inhumane." },
+      { name: "Fentanyl", type: "Opioid Analgesic", action: "Analgesia-first approach per PADIS guidelines", sideEffects: "Respiratory depression, chest wall rigidity", contra: "MAO inhibitor use", pearl: "Preferred in hemodynamically unstable patients due to minimal histamine release." }
+    ],
+    pearls: ["ARDSNet protocol (low Vt 6mL/kg, titrate PEEP/FiO2 table)", "Daily spontaneous breathing trial (SBT) assessment for extubation readiness", "RASS sedation scale (-5 to +4) target -2 to 0 for most patients", "Rapid shallow breathing index (f/Vt <105 predicts successful extubation)"],
+    quiz: [{ question: "Lung-protective tidal volume target in ARDS?", options: ["10-12 mL/kg actual body weight", "6 mL/kg ideal body weight", "8-10 mL/kg ideal body weight", "4 mL/kg actual body weight"], correct: 1, rationale: "The ARDSNet protocol recommends low tidal volume ventilation at 6 mL/kg ideal body weight (not actual) to prevent ventilator-induced lung injury (VILI) from overdistension." }]
   }
 };
 
