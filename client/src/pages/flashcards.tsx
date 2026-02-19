@@ -1,31 +1,94 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft, RefreshCw } from "lucide-react";
+import { ChevronRight, ChevronLeft, RefreshCw, CheckCircle2, XCircle, ShieldAlert } from "lucide-react";
+import { cn } from "@/lib/utils";
+import heartImg from "@/assets/images/heart-flashcard.png";
+import pedsImg from "@/assets/images/peds-flashcard.png";
+import oncologyImg from "@/assets/images/oncology-flashcard.png";
 
 type Flashcard = {
   question: string;
-  answer: string;
+  options: string[];
+  correctIndex: number;
+  rationale: string;
   category: string;
+  image?: string;
 };
 
 const flashcards: Flashcard[] = [
-  { question: "What is the priority post-op for AAA repair?", answer: "Monitor distal peripheral pulses and ensure renal perfusion (Urine output > 30mL/hr).", category: "RN Cardiovascular" },
-  { question: "Target 'door-to-PCI' time for STEMI?", answer: "90 minutes from first medical contact.", category: "RN Cardiovascular" },
-  { question: "Clinical triad for AAA rupture?", answer: "Intense back/flank pain, pulsatile abdominal mass, and hypovolemic shock (low BP, high HR).", category: "RN Cardiovascular" },
-  { question: "Difference between Systolic and Diastolic HF?", answer: "Systolic (Reduced EF) has thin, weak walls; Diastolic (Preserved EF) has thick, stiff walls.", category: "RN Cardiovascular" },
-  { question: "What is a 'Strawberry Tongue' a sign of?", answer: "Kawasaki Disease (acute phase vasculitis).", category: "RN Pediatrics" },
-  { question: "Wait time for live vaccines after IVIG?", answer: "Postpone live vaccines (MMR, Varicella) for 11 months post-treatment.", category: "RN Pediatrics" },
-  { question: "Is Cerebral Palsy progressive?", answer: "No, it is a nonprogressive (static) brain injury, though physical symptoms change as the child grows.", category: "RN Pediatrics" },
-  { question: "ANC level for severe neutropenic precautions?", answer: "ANC < 500 (or < 0.5 x 10^9/L in Canada).", category: "RN Oncology" },
-  { question: "Dietary restrictions for Neutropenic Precautions?", answer: "Avoid raw fruits/vegetables, uncooked foods, and fresh flowers.", category: "RN Oncology" },
-  { question: "Priority for a client with sudden severe back pain post-AAA repair?", answer: "Assess for graft leakage (increasing girth, shock signs).", category: "RN Cardiovascular" }
+  { 
+    question: "What is the priority assessment for a client post-op following an Abdominal Aortic Aneurysm (AAA) repair?", 
+    options: [
+      "Assessing for bowel sounds in all four quadrants",
+      "Monitoring distal peripheral pulses and hourly urine output",
+      "Encouraging early ambulation within 2 hours",
+      "Measuring abdominal girth once every 24 hours"
+    ],
+    correctIndex: 1,
+    rationale: "Priority is ensuring the graft is patent and renal perfusion is maintained. Urine output must be >30mL/hr, and distal pulses ensure blood flow past the graft.",
+    category: "RN Cardiovascular",
+    image: heartImg
+  },
+  { 
+    question: "A child with Kawasaki Disease is receiving IVIG. Which teaching is most important regarding live vaccines?", 
+    options: [
+      "Get live vaccines immediately after discharge",
+      "Live vaccines should be avoided for 11 months",
+      "Only inactivated vaccines are prohibited",
+      "Live vaccines can be given after 2 weeks"
+    ],
+    correctIndex: 1,
+    rationale: "IVIG contains high concentrations of antibodies that can interfere with the immune response to live vaccines like MMR and Varicella. Delay for 11 months.",
+    category: "RN Pediatrics",
+    image: pedsImg
+  },
+  { 
+    question: "A client with Acute Lymphoblastic Leukemia (ALL) has an Absolute Neutrophil Count (ANC) of 350. Which action is the priority?", 
+    options: [
+      "Provide a diet rich in raw fruits and vegetables",
+      "Administer a rectal suppository for constipation",
+      "Implement strict neutropenic precautions",
+      "Encourage the client to visit the hospital cafeteria"
+    ],
+    correctIndex: 2,
+    rationale: "An ANC < 500 represents severe neutropenia. Strict precautions (no raw foods, no fresh flowers, limited visitors) are vital to prevent life-threatening infection.",
+    category: "RN Oncology",
+    image: oncologyImg
+  },
+  { 
+    question: "What is the target 'door-to-PCI' time for a client presenting with a STEMI?", 
+    options: [
+      "30 minutes",
+      "60 minutes",
+      "90 minutes",
+      "120 minutes"
+    ],
+    correctIndex: 2,
+    rationale: "Clinical standards dictate a 90-minute target from first medical contact to percutaneous coronary intervention (PCI) to minimize myocardial damage.",
+    category: "RN Cardiovascular",
+    image: heartImg
+  },
+  { 
+    question: "Which finding in a child suggests the 'acute phase' of Kawasaki Disease?", 
+    options: [
+      "Peeling of the skin on hands and feet",
+      "High fever unresponsive to antibiotics",
+      "Resolution of all clinical symptoms",
+      "Decreased irritability and improved appetite"
+    ],
+    correctIndex: 1,
+    rationale: "The acute phase is characterized by sudden high fever, irritability, strawberry tongue, and inflamed nodes. Peeling occurs in the subacute phase.",
+    category: "RN Pediatrics",
+    image: pedsImg
+  }
 ];
 
 export default function Flashcards() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [showRationale, setShowRationale] = useState(false);
   const [region, setRegion] = useState<"US" | "CA">("CA");
 
   useEffect(() => {
@@ -35,62 +98,186 @@ export default function Flashcards() {
   const currentCard = flashcards[currentIndex];
 
   const handleNext = () => {
-    setIsFlipped(false);
+    setSelectedOption(null);
+    setShowRationale(false);
     setCurrentIndex((prev) => (prev + 1) % flashcards.length);
   };
 
   const handlePrev = () => {
-    setIsFlipped(false);
+    setSelectedOption(null);
+    setShowRationale(false);
     setCurrentIndex((prev) => (prev - 1 + flashcards.length) % flashcards.length);
   };
 
+  const handleOptionClick = (index: number) => {
+    if (showRationale) return;
+    setSelectedOption(index);
+    setShowRationale(true);
+  };
+
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans select-none print:hidden">
       <Navigation />
       
-      <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1 flex flex-col">
-        <div className="mb-12 text-center">
+      <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1 flex flex-col items-center">
+        <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Mastery Flashcards</h1>
-          <p className="text-gray-600">Quick clinical recall for RN and RPN students ({region === "CA" ? "Canadian Data" : "US Data"}).</p>
+          <p className="text-gray-600">Multiple choice clinical reasoning ({region === "CA" ? "Canadian Data" : "US Data"}).</p>
+          <div className="mt-2 flex items-center justify-center gap-2 text-xs text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
+            <ShieldAlert className="w-3 h-3" />
+            Security enabled: Screen capture restricted
+          </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center gap-12">
-          <div 
-            className="w-full max-w-2xl h-80 relative cursor-pointer group"
-            onClick={() => setIsFlipped(!isFlipped)}
-          >
-            <div className={`w-full h-full transition-all duration-500 [transform-style:preserve-3d] ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}>
-              {/* Front */}
-              <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-primary/20 flex flex-col items-center justify-center p-12 shadow-xl rounded-3xl">
-                <span className="absolute top-6 left-6 text-xs font-bold text-primary uppercase tracking-widest">{currentCard.category}</span>
-                <h2 className="text-2xl font-bold text-gray-900 text-center">{currentCard.question}</h2>
-                <div className="absolute bottom-6 flex items-center gap-2 text-gray-400 text-sm font-medium">
-                  <RefreshCw className="w-4 h-4" />
-                  Tap to flip
-                </div>
-              </Card>
-
-              {/* Back */}
-              <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-primary text-white flex flex-col items-center justify-center p-12 shadow-xl rounded-3xl">
-                <h2 className="text-xl font-medium text-center leading-relaxed">{currentCard.answer}</h2>
-                <span className="absolute bottom-6 text-white/60 text-sm">Clinical Reasoning</span>
-              </Card>
-            </div>
+        <div className="w-full grid lg:grid-cols-5 gap-8 flex-1 items-start">
+          {/* Progress & Info */}
+          <div className="lg:col-span-1 space-y-4">
+             <Card className="border-none shadow-sm bg-white p-4">
+               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Progress</p>
+               <p className="text-2xl font-bold text-primary">{currentIndex + 1} <span className="text-gray-300 text-lg">/ {flashcards.length}</span></p>
+               <div className="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
+                 <div 
+                   className="bg-primary h-full transition-all duration-500" 
+                   style={{ width: `${((currentIndex + 1) / flashcards.length) * 100}%` }}
+                 />
+               </div>
+             </Card>
+             <Card className="border-none shadow-sm bg-indigo-50 p-4 border border-indigo-100">
+               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Category</p>
+               <p className="text-sm font-bold text-indigo-900">{currentCard.category}</p>
+             </Card>
           </div>
 
-          <div className="flex items-center gap-8">
-            <Button variant="outline" size="lg" onClick={handlePrev} className="rounded-full h-14 w-14 p-0">
-              <ChevronLeft className="w-6 h-6" />
-            </Button>
-            <div className="text-gray-500 font-bold">
-              {currentIndex + 1} / {flashcards.length}
-            </div>
-            <Button variant="outline" size="lg" onClick={handleNext} className="rounded-full h-14 w-14 p-0">
-              <ChevronRight className="w-6 h-6" />
-            </Button>
+          {/* Flashcard Content */}
+          <div className="lg:col-span-4 space-y-6">
+            <Card className="border-none shadow-xl bg-white overflow-hidden rounded-3xl min-h-[500px] flex flex-col">
+              <div className="grid md:grid-cols-2 flex-1">
+                {/* Visual Side */}
+                <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100 relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-5 pointer-events-none">
+                    <div className="absolute top-0 left-0 w-32 h-32 bg-primary rounded-full blur-3xl" />
+                    <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent-foreground rounded-full blur-3xl" />
+                  </div>
+                  {currentCard.image ? (
+                    <img 
+                      src={currentCard.image} 
+                      alt="Clinical Visualization" 
+                      className="w-64 h-64 object-contain rounded-2xl shadow-sm hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-64 h-64 bg-gray-200 rounded-2xl flex items-center justify-center">
+                       <Microscope className="w-12 h-12 text-gray-400" />
+                    </div>
+                  )}
+                  <p className="mt-6 text-xs text-gray-400 font-medium text-center uppercase tracking-widest italic">
+                    Clinical Pattern Recognition
+                  </p>
+                </div>
+
+                {/* Interaction Side */}
+                <div className="p-8 md:p-12 flex flex-col">
+                  <h2 className="text-xl font-bold text-gray-900 mb-8 leading-snug">
+                    {currentCard.question}
+                  </h2>
+
+                  <div className="space-y-3 flex-1">
+                    {currentCard.options.map((option, idx) => {
+                      const isSelected = selectedOption === idx;
+                      const isCorrect = idx === currentCard.correctIndex;
+                      
+                      let variantClasses = "border-gray-100 hover:border-primary/30 hover:bg-primary/5 text-gray-700";
+                      if (showRationale) {
+                        if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900";
+                        else if (isSelected) variantClasses = "border-rose-500 bg-rose-50 text-rose-900";
+                        else variantClasses = "border-gray-50 bg-gray-50/50 text-gray-400 opacity-50";
+                      }
+
+                      return (
+                        <button
+                          key={idx}
+                          disabled={showRationale}
+                          onClick={() => handleOptionClick(idx)}
+                          className={cn(
+                            "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-start gap-3 text-sm font-medium relative group",
+                            variantClasses
+                          )}
+                        >
+                          <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-bold">
+                            {String.fromCharCode(65 + idx)}
+                          </span>
+                          {option}
+                          {showRationale && isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 ml-auto" />}
+                          {showRationale && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-rose-500 shrink-0 ml-auto" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {showRationale && (
+                    <div className="mt-8 p-6 bg-primary/5 border border-primary/10 rounded-2xl animate-in fade-in slide-in-from-bottom-2 duration-500">
+                      <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2 flex items-center gap-2">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Clinical Rationale
+                      </p>
+                      <p className="text-sm text-gray-700 leading-relaxed font-medium">
+                        {currentCard.rationale}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Footer Controls */}
+              <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                <Button variant="ghost" size="sm" onClick={handlePrev} className="text-gray-400 hover:text-gray-900 gap-2">
+                  <ChevronLeft className="w-4 h-4" />
+                  Previous
+                </Button>
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                  Nursing Excellence Series
+                </div>
+                <Button variant="ghost" size="sm" onClick={handleNext} className="text-primary hover:text-primary gap-2">
+                  Next Card
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </Card>
           </div>
         </div>
       </main>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          body { display: none !important; }
+        }
+        .backface-hidden {
+          backface-visibility: hidden;
+        }
+      `}} />
     </div>
   );
+}
+
+function Microscope(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 18h8" />
+      <path d="M3 22h18" />
+      <path d="M14 22a7 7 0 1 0 0-14h-1" />
+      <path d="M9 14h2" />
+      <path d="M9 12a2 2 0 1 1-2-2V6h6v8h2" />
+      <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" />
+    </svg>
+  )
 }
