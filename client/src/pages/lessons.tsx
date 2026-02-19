@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,10 +28,10 @@ const systems = [
     color: "text-pink-500",
     bgColor: "bg-pink-50",
     diseases: [
-      { id: "peds-neuro", name: "⭐ Pediatric Neuro & Seizures", status: "Available" },
-      { id: "peds-cardiac-basics", name: "⭐ Pediatric Cardiac Principles", status: "Available" },
-      { id: "epiglottitis", name: "🚨 Epiglottitis Emergency", status: "Available" },
-      { id: "peds-heent", name: "Otitis Media & Conjunctivitis", status: "Available" }
+      { id: "peds-neuro", name: "Pediatric Neuro and Seizures", status: "Available" },
+      { id: "peds-cardiac-basics", name: "Pediatric Cardiac Principles", status: "Available" },
+      { id: "epiglottitis", name: "Epiglottitis Emergency", status: "Available" },
+      { id: "peds-heent", name: "Otitis Media and Conjunctivitis", status: "Available" }
     ]
   },
   {
@@ -41,49 +41,49 @@ const systems = [
     color: "text-purple-500",
     bgColor: "bg-purple-50",
     diseases: [
-      { id: "neuro-basics", name: "⭐ Early vs Late Deterioration", status: "Available" },
-      { id: "stroke", name: "Stroke (FAST & Time)", status: "Available" },
+      { id: "neuro-basics", name: "Early vs Late Deterioration", status: "Available" },
+      { id: "stroke", name: "Stroke FAST and Time", status: "Available" },
       { id: "delirium-dementia", name: "Delirium vs Dementia", status: "Available" },
-      { id: "parkinsons", name: "Parkinson's & Mobility", status: "Available" }
+      { id: "parkinsons", name: "Parkinson's and Mobility", status: "Available" }
     ]
   },
   {
     id: "heent-skin",
-    title: "HEENT & Skin",
+    title: "HEENT and Skin",
     icon: Eye,
     color: "text-emerald-500",
     bgColor: "bg-emerald-50",
     diseases: [
-      { id: "heent-emergencies", name: "🚨 HEENT Emergencies", status: "Available" },
-      { id: "vision-hearing", name: "Vision & Hearing Safety", status: "Available" },
-      { id: "skin-integrity", name: "Pressure Injuries & Cellulitis", status: "Available" },
-      { id: "epistaxis", name: "Epistaxis (Nosebleeds)", status: "Available" }
+      { id: "heent-emergencies", name: "HEENT Emergencies", status: "Available" },
+      { id: "vision-hearing", name: "Vision and Hearing Safety", status: "Available" },
+      { id: "skin-integrity", name: "Pressure Injuries and Cellulitis", status: "Available" },
+      { id: "epistaxis", name: "Epistaxis Nosebleeds", status: "Available" }
     ]
   },
   {
     id: "meds-labs",
-    title: "Pharmacology & Labs",
+    title: "Pharmacology and Labs",
     icon: Beaker,
     color: "text-amber-500",
     bgColor: "bg-amber-50",
     diseases: [
-      { id: "abg-mastery", name: "⭐ ABG Analysis Made Easy", status: "Available" },
+      { id: "abg-mastery", name: "ABG Analysis Made Easy", status: "Available" },
       { id: "high-yield-labs", name: "Critical Lab Results", status: "Available" },
-      { id: "supplement-safety", name: "🌿 Supplement Interactions", status: "Available" },
-      { id: "medication-safety", name: "💊 Core Med Safety", status: "Available" }
+      { id: "supplement-safety", name: "Supplement Interactions", status: "Available" },
+      { id: "medication-safety", name: "Core Med Safety", status: "Available" }
     ]
   },
   {
     id: "gi-gu-msk",
-    title: "GI, GU & MSK",
+    title: "GI, GU and MSK",
     icon: Activity,
     color: "text-blue-500",
     bgColor: "bg-blue-50",
     diseases: [
-      { id: "gi-emergencies", name: "GI Bleeding & N/V", status: "Available" },
-      { id: "gu-infections", name: "UTI & Renal Safety", status: "Available" },
-      { id: "msk-safety", name: "Fractures & Neurovascular", status: "Available" },
-      { id: "sepsis", name: "🚨 Sepsis Recognition", status: "Available" }
+      { id: "gi-emergencies", name: "GI Bleeding and N/V", status: "Available" },
+      { id: "gu-infections", name: "UTI and Renal Safety", status: "Available" },
+      { id: "msk-safety", name: "Fractures and Neurovascular", status: "Available" },
+      { id: "sepsis", name: "Sepsis Recognition", status: "Available" }
     ]
   },
   {
@@ -93,9 +93,9 @@ const systems = [
     color: "text-indigo-500",
     bgColor: "bg-indigo-50",
     diseases: [
-      { id: "heart-failure", name: "Heart Failure (All Ages)", status: "Available" },
-      { id: "hypertension", name: "Hypertension (All Ages)", status: "Available" },
-      { id: "respiratory-lifespan", name: "Hypoxia Across Ages", status: "Available" }
+      { id: "heart-failure", name: "Heart Failure All Ages", status: "Available" },
+      { id: "hypertension", name: "Hypertension All Ages", status: "Available" },
+      { id: "diabetes-lifespan", name: "Diabetes Across Ages", status: "Available" }
     ]
   }
 ];
@@ -120,12 +120,11 @@ export default function Lessons() {
                 <div className={cn("p-3 rounded-xl bg-white shadow-sm", system.color)}>
                   <system.icon className="w-6 h-6" />
                 </div>
-                <CardTitle className="text-xl font-bold">{system.title}</CardTitle>
+                <CardTitle className="text-xl font-bold text-gray-900">{system.title}</CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="space-y-3">
                   {system.diseases.map((disease) => {
-                    const isHighYield = disease.name.includes("💊") || disease.name.includes("⭐") || disease.name.includes("🚨") || disease.name.includes("🌿");
                     return (
                       <div 
                         key={disease.id}
@@ -134,21 +133,12 @@ export default function Lessons() {
                           "flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer group",
                           disease.status === "Available" 
                             ? "border-primary/20 bg-primary/5 hover:bg-primary/10" 
-                            : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed",
-                          isHighYield ? "border-primary/30 bg-primary/10 shadow-sm" : ""
+                            : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          {disease.name.includes("💊") ? (
-                            <Pill className="w-5 h-5 text-primary" />
-                          ) : (disease.name.includes("⭐") || disease.name.includes("🚨")) ? (
-                            <AlertCircle className={cn("w-5 h-5", disease.name.includes("🚨") ? "text-red-500" : "text-primary")} />
-                          ) : disease.name.includes("🌿") ? (
-                            <Leaf className="w-5 h-5 text-emerald-600" />
-                          ) : (
-                            <BookOpen className={cn("w-5 h-5", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
-                          )}
-                          <span className={cn("font-medium", isHighYield ? "text-primary-foreground font-bold" : "text-gray-900")}>
+                          <BookOpen className={cn("w-5 h-5", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
+                          <span className="font-medium text-gray-900">
                             {disease.name}
                           </span>
                         </div>

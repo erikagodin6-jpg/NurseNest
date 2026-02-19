@@ -38,11 +38,19 @@ import { useTheme } from "next-themes";
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
-  const [region, setRegion] = useState<"US" | "CA">("CA");
+  const [region, setRegionState] = useState<"US" | "CA">(() => {
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+  });
   const { toast } = useToast();
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [, setLocation] = useLocation();
+
+  const setRegion = (newRegion: "US" | "CA") => {
+    setRegionState(newRegion);
+    localStorage.setItem("nursenest-region", newRegion);
+    window.dispatchEvent(new Event("regionChange"));
+  };
 
   useEffect(() => {
     setMounted(true);
