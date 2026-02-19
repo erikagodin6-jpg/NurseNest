@@ -13,38 +13,37 @@ import {
   Activity,
   Pill,
   AlertCircle,
-  Baby
+  Baby,
+  Users
 } from "lucide-react";
 
 const systems = [
   {
     id: "pediatrics",
-    title: "Pediatric Respiratory",
+    title: "Pediatric Mastery",
     icon: Baby,
     color: "text-pink-500",
     bgColor: "bg-pink-50",
     diseases: [
+      { id: "peds-cardiac-basics", name: "⭐ Pediatric Cardiac Principles", status: "Available" },
+      { id: "peds-chf", name: "Pediatric Heart Failure", status: "Available" },
+      { id: "congenital-defects", name: "Congenital Heart Defects", status: "Available" },
       { id: "peds-hypoxia", name: "⭐ Pediatric Hypoxia & WOB", status: "Available" },
       { id: "bronchiolitis", name: "Bronchiolitis (RSV)", status: "Available" },
       { id: "croup", name: "Croup (Barking Cough)", status: "Available" },
-      { id: "epiglottitis", name: "🚨 Epiglottitis Emergency", status: "Available" },
-      { id: "fba", name: "Foreign Body Aspiration", status: "Available" }
+      { id: "epiglottitis", name: "🚨 Epiglottitis Emergency", status: "Available" }
     ]
   },
   {
-    id: "respiratory",
-    title: "Adult Respiratory",
-    icon: Wind,
-    color: "text-blue-500",
-    bgColor: "bg-blue-50",
+    id: "lifespan",
+    title: "Across the Lifespan",
+    icon: Users,
+    color: "text-indigo-500",
+    bgColor: "bg-indigo-50",
     diseases: [
-      { id: "respiratory-basics", name: "⭐ Hypoxia & Breath Sounds", status: "Available" },
-      { id: "respiratory-pharma", name: "💊 Respiratory Pharmacology", status: "Available" },
-      { id: "copd", name: "COPD (High Yield)", status: "Available" },
-      { id: "asthma", name: "Asthma", status: "Available" },
-      { id: "pneumonia", name: "Pneumonia", status: "Available" },
-      { id: "pe", name: "Pulmonary Embolism (PE)", status: "Available" },
-      { id: "atelectasis", name: "Atelectasis", status: "Available" }
+      { id: "heart-failure", name: "Heart Failure (Adult vs Peds)", status: "Available" },
+      { id: "hypertension", name: "Hypertension (All Ages)", status: "Available" },
+      { id: "diabetes-lifespan", name: "Diabetes Across Ages", status: "Available" }
     ]
   },
   {
@@ -55,38 +54,23 @@ const systems = [
     bgColor: "bg-red-50",
     diseases: [
       { id: "cardio-pharma", name: "💊 Cardiovascular Pharmacology", status: "Available" },
-      { id: "heart-failure", name: "Heart Failure", status: "Available" },
-      { id: "hypertension", name: "Hypertension", status: "Available" },
       { id: "mi", name: "Myocardial Infarction (MI)", status: "Available" },
       { id: "afib", name: "Atrial Fibrillation", status: "Available" },
-      { id: "shock", name: "Shock States (Hypovolemic/Septic)", status: "Available" },
-      { id: "angina", name: "Angina (Stable/Unstable)", status: "Available" }
+      { id: "shock", name: "Shock States (Hypovolemic/Septic)", status: "Available" }
     ]
   },
   {
-    id: "endocrine",
-    title: "Endocrine System",
-    icon: Droplets,
-    color: "text-orange-500",
-    bgColor: "bg-orange-50",
+    id: "respiratory",
+    title: "Respiratory System",
+    icon: Wind,
+    color: "text-blue-500",
+    bgColor: "bg-blue-50",
     diseases: [
-      { id: "endocrine-pharma", name: "💊 Endocrine Pharmacology", status: "Available" },
-      { id: "diabetes-t1", name: "Diabetes Type 1", status: "Available" },
-      { id: "diabetes-t2", name: "Diabetes Type 2", status: "Available" },
-      { id: "dka", name: "DKA (Ketoacidosis)", status: "Available" },
-      { id: "hhs", name: "HHS (Hyperglycemic State)", status: "Available" }
-    ]
-  },
-  {
-    id: "neurological",
-    title: "Neurological System",
-    icon: Brain,
-    color: "text-purple-500",
-    bgColor: "bg-purple-50",
-    diseases: [
-      { id: "neuro-pharma", name: "💊 Neurological Pharmacology", status: "Available" },
-      { id: "stroke", name: "Ischemic Stroke", status: "Available" },
-      { id: "tia", name: "TIA (Mini-Stroke)", status: "Available" }
+      { id: "respiratory-pharma", name: "💊 Respiratory Pharmacology", status: "Available" },
+      { id: "respiratory-basics", name: "⭐ Hypoxia & Breath Sounds", status: "Available" },
+      { id: "copd", name: "COPD (High Yield)", status: "Available" },
+      { id: "asthma", name: "Asthma", status: "Available" },
+      { id: "pneumonia", name: "Pneumonia", status: "Available" }
     ]
   }
 ];
@@ -100,8 +84,8 @@ export default function Lessons() {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">RPN Lessons: Pathophysiology</h1>
-          <p className="text-lg text-gray-600">Master core nursing concepts arranged by body systems for REX-PN success.</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">REX-PN Pathophysiology</h1>
+          <p className="text-lg text-gray-600">Master core nursing concepts across all ages for exam success.</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">

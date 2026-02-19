@@ -20,7 +20,9 @@ import {
   Droplets,
   Brain,
   Wind,
-  Zap
+  Zap,
+  Baby,
+  Users
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -30,171 +32,119 @@ type LessonContent = {
   signs: { left: string[]; right: string[] };
   medications: { name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[];
   pearls: string[];
+  lifespan?: { title: string; content: string };
   quiz: { question: string; options: string[]; correct: number; rationale: string }[];
 };
 
 const contentMap: Record<string, LessonContent> = {
-  "respiratory-basics": {
-    title: "Hypoxia & Breath Sounds Masterclass",
+  "peds-cardiac-basics": {
+    title: "Pediatric Cardiac Foundations",
     cellular: {
-      title: "Early vs Late Hypoxia Recognition",
-      content: "REX-PN strongly tests early recognition. Waiting for cyanosis is a critical exam error. \n\nEarly Hypoxia: Restlessness, Anxiety, Tachycardia, Tachypnea. \n\nLate Hypoxia: Cyanosis, Bradycardia, Decreased LOC (Confusion), Respiratory failure signs."
+      title: "Pediatric vs Adult Compensation",
+      content: "Children maintain blood pressure until the very end. Tachycardia is the most sensitive early indicator of deterioration. \n\nEarly Signs: Tachycardia, Poor feeding, Irritability, Cool extremities. \n\nLate Signs: Hypotension, Bradycardia (EXTREMELY OMINOUS)."
     },
     signs: {
-      left: ["Restlessness & Anxiety (Early)", "Tachycardia & Tachypnea (Early)", "Nasal Flaring & Retractions", "Accessory Muscle Use"],
-      right: ["Cyanosis (Late/Danger)", "Bradycardia (Late/Danger)", "Decreased LOC (Late/Danger)", "Acidosis (Hypoventilation)"]
+      left: ["Tachycardia (Early Sign)", "Poor Feeding", "Diaphoresis with Feeds", "Irritability/Lethargy"],
+      right: ["🚨 Bradycardia (Emergency!)", "🚨 Hypotension (Late Sign)", "Delayed Cap Refill", "Weak Pulses"]
     },
     medications: [
-      { name: "Oxygen Therapy", type: "Medication", action: "Restores cellular oxygenation", sideEffects: "Dryness, fire hazard", contra: "Untitrated COPD", pearl: "Oxygen is a medication! It requires an order and clinical response monitoring." }
+      { name: "Digoxin", type: "Cardiac Med", action: "Increases contractility", sideEffects: "Bradycardia, Toxicity", contra: "Low HR", pearl: "Extremely narrow therapeutic window in children. Monitor for toxicity (N/V)." }
     ],
     pearls: [
-      "🚨 Waiting for cyanosis = exam error",
-      "Sound Meaning: Crackles = Fluid; Wheeze = Narrowing; Absent = Emergency",
-      "Work of Breathing: Inability to speak full sentences is a high-priority finding",
-      "Acid-Base: Hypoventilation leads to Respiratory Acidosis (CO2 retention)"
+      "Poor perfusion ≠ always hypotension in children",
+      "Monitor effort and feeding intolerance as primary clues",
+      "Bradycardia in a child often = imminent cardiac arrest"
     ],
     quiz: [
-      { question: "Which is an EARLY sign of hypoxia?", options: ["Cyanosis", "Bradycardia", "Restlessness", "Decreased LOC"], correct: 2, rationale: "Restlessness and anxiety are the first signs of cellular oxygen deprivation." },
-      { question: "Hypoventilation (shallow breathing) leads to which acid-base state?", options: ["Respiratory Alkalosis", "Respiratory Acidosis", "Metabolic Acidosis", "Normal state"], correct: 1, rationale: "Hypoventilation causes CO2 retention, which leads to acidosis." }
+      { question: "What is the most sensitive early sign of heart failure in an infant?", options: ["Hypotension", "Cyanosis", "Feeding intolerance/sweating", "Bradycardia"], correct: 2, rationale: "Infants often show cardiac distress through feeding difficulties and diaphoresis during feeding." }
     ]
   },
-  "respiratory-pharma": {
-    title: "Respiratory Pharmacology Masterclass",
+  "peds-chf": {
+    title: "Pediatric Congestive Heart Failure",
     cellular: {
-      title: "Bronchodilation & Delivery Safety",
-      content: "Respiratory meds work by stimulating Beta-2 receptors (Bronchodilators) or decreasing inflammation (Steroids). Oxygen delivery devices are categorized by flow: Nasal Cannula (Low-flow) vs. Mask Systems (Higher concentration)."
+      title: "High Metabolic Demand",
+      content: "In children, CHF occurs when the heart cannot meet the metabolic demands of growth. This leads to systemic and pulmonary congestion. At the cellular level, the failure to provide oxygenated blood results in 'Failure to Thrive'—the body prioritizing survival over growth."
     },
     signs: {
-      left: ["Assess Breath Sounds", "Monitor O2 Saturation", "Assess Work of Breathing", "Monitor for Tachycardia"],
-      right: ["Nasal Cannula (Low support)", "Simple Mask (Mid support)", "Non-Rebreather (High support)", "Oral Thrush (Steroids)"]
+      left: ["Tachypnea", "Poor Weight Gain", "Hepatomegaly", "Feeding Intolerance"],
+      right: ["⭐ Sweating with feeds", "⭐ Periorbital Edema", "Irritability", "Tachycardia"]
     },
     medications: [
-      { name: "Albuterol (Rescue)", type: "SABA", action: "Rapid airway opening", sideEffects: "Tachycardia, Tremors", contra: "Severe cardiac disease", pearl: "The FIRST drug used in an acute attack. Always carry it." },
-      { name: "Fluticasone (Maintenance)", type: "Inhaled Steroid", action: "Reduces chronic inflammation", sideEffects: "Oral Thrush", contra: "Fungal infection", pearl: "Rinse mouth after EVERY use to prevent candidiasis." },
-      { name: "Salmeterol", type: "LABA", action: "Long-term control", sideEffects: "Headache", contra: "Acute rescue", pearl: "NEVER use for a sudden attack. Maintenance only." }
+      { name: "Furosemide", type: "Diuretic", action: "Fluid removal", sideEffects: "Electrolyte loss", contra: "Dehydration", pearl: "Monitor hydration status and electrolytes (K+) closely." }
     ],
     pearls: [
-      "B before C: Bronchodilator opens the door, Corticosteroid walks through",
-      "Wait 1-5 mins between puffs of the same or different inhalers",
-      "Safety: No smoking or open flames near oxygen therapy"
+      "Feeding intolerance is the classic 'Activity Intolerance' for infants",
+      "Weights are the best indicator of fluid status",
+      "Position semi-upright to ease breathing"
     ],
     quiz: [
-      { question: "Order of administration for Albuterol and a Steroid inhaler?", options: ["Steroid then Albuterol", "Albuterol then Steroid", "Together", "Order doesn't matter"], correct: 1, rationale: "Albuterol (Bronchodilator) opens the airway first to allow the steroid to reach deeper tissues." }
+      { question: "Classic REX-PN clue for pediatric heart failure?", options: ["Chest pain", "Leg cramps", "Sweating while feeding", "High blood pressure"], correct: 2, rationale: "Sweating with feeds is a hallmark sign of pediatric cardiac distress." }
     ]
   },
-  "copd": {
-    title: "COPD (Chronic Obstructive Pulmonary Disease)",
+  "congenital-defects": {
+    title: "Congenital Heart Defects (CHD)",
     cellular: {
-      title: "CO2 Retention & Hypoxic Drive",
-      content: "Chronic inflammation leads to alveolar destruction (emphysema) and airway narrowing (bronchitis). At the cellular level, these patients live in a state of chronic CO2 retention. Their primary drive to breathe shifts from high CO2 to low O2 (Hypoxic Drive)."
+      title: "Acyanotic vs Cyanotic Shunting",
+      content: "Acyanotic (Left-to-Right Shunt): Increased pulmonary blood flow (e.g., VSD, ASD, PDA). Leads to CHF risk. \n\nCyanotic (Right-to-Left Shunt): Decreased pulmonary blood flow (e.g., Tetralogy of Fallot). Leads to Hypoxia/Cyanosis."
     },
     signs: {
-      left: ["Barrel Chest", "Clubbing of fingers", "Productive Cough", "Exertional Dyspnea"],
-      right: ["🚨 Drowsiness (CO2 Narcosis)", "🚨 Confusion", "🚨 Worsening Dyspnea", "SpO2 88-92% (Normal for them)"]
+      left: ["⭐ Acyanotic: CHF Signs, Murmur", "Increased pulmonary congestion", "Frequent infections"],
+      right: ["⭐ Cyanotic: Hypoxia, Cyanosis", "🚨 Tet Spells (Knee-chest position)", "Clubbing", "Polycythemia"]
     },
     medications: [
-      { name: "Albuterol", type: "Bronchodilator", action: "Rescue airway opening", sideEffects: "Tachycardia", contra: "None in emergency", pearl: "Used for acute symptom relief." },
-      { name: "Fluticasone", type: "Corticosteroid", action: "Reduces chronic inflammation", sideEffects: "Thrush", contra: "Acute attack", pearl: "Rinse mouth after use!" }
+      { name: "Indomethacin", type: "NSAID", action: "Closes PDA", sideEffects: "Renal risk", contra: "Active bleed", pearl: "Used to close a Patent Ductus Arteriosus (PDA)." }
     ],
     pearls: [
-      "SpO2 88-92% is often the target range",
-      "Pursed-lip breathing helps expel CO2",
-      "Increasing drowsiness = CO2 retention/narcosis"
+      "Cyanotic defects = Right-to-Left shunt",
+      "Acyanotic defects = Left-to-Right shunt",
+      "Prioritize symptoms and safety over memorizing anatomy"
     ],
     quiz: [
-      { question: "Target SpO2 range for a chronic COPD patient?", options: ["95-100%", "92-96%", "88-92%", "80-85%"], correct: 2, rationale: "COPD patients often require a lower target range to maintain their hypoxic drive to breathe." }
+      { question: "Position for an infant in a 'Tet Spell'?", options: ["Flat on back", "Semi-Fowlers", "Knee-Chest position", "Prone"], correct: 2, rationale: "The knee-chest position increases systemic resistance and improves oxygenation during a cyanotic spell." }
     ]
   },
-  "asthma": {
-    title: "Asthma",
+  "heart-failure": {
+    title: "Heart Failure (HF) - Across the Lifespan",
     cellular: {
-      title: "Bronchoconstriction & Inflammation",
-      content: "Reversible airway narrowing caused by smooth muscle contraction and mucus production. At the cellular level, an allergen triggers mast cells to release histamine, leading to rapid inflammation and limited airflow."
+      title: "The Failure of Cellular Output",
+      content: "At any age, HF is the inability of the heart to pump enough blood to meet cellular needs. In adults, it's often chronic (RAAS activation). In infants, it presents as growth failure and feeding distress."
     },
     signs: {
-      left: ["Wheezing on expiration", "Chest Tightness", "Dyspnea", "Cough"],
-      right: ["🚨 Silent Chest (No air movement)", "🚨 Tachypnea", "🚨 Accessory muscle use", "Inability to speak sentences"]
+      left: ["Adult: Dyspnea, Crackles", "Adult: Peripheral Edema, JVD", "Adult: Orthopnea"],
+      right: ["Pediatric: Feeding Sweating", "Pediatric: Poor weight gain", "Pediatric: Hepatomegaly"]
     },
     medications: [
-      { name: "Albuterol (Ventolin)", type: "SABA (Rescue)", action: "Rapid bronchodilation", sideEffects: "Tremors, Tachycardia", contra: "None in acute distress", pearl: "The 'Rescue' inhaler. Carry at all times." },
-      { name: "Ipratropium", type: "Anticholinergic", action: "Reduces mucus/bronchospasm", sideEffects: "Dry mouth", contra: "Soy/Peanut allergy (some forms)", pearl: "Often used with Albuterol (DuoNeb)." }
+      { name: "Digoxin", type: "Inotrope", action: "Increases contractility", sideEffects: "Bradycardia", contra: "Low HR", pearl: "Adult: Hold if HR < 60. Child: Hold if HR < 90-110 (age dependent)." }
     ],
-    pearls: [
-      "Avoid triggers (dust, pollen, smoke)",
-      "Use peak flow meter to monitor",
-      "Always use Bronchodilator BEFORE Steroid"
-    ],
+    lifespan: {
+      title: "Lifespan Considerations",
+      content: "Adults present with classic symptoms like JVD and peripheral edema. Infants present with systemic signs like sweating during feeds and failure to thrive. The nursing goal remains the same: reduce demand and improve output."
+    },
+    pearls: ["Daily weights are the priority across all ages", "Fluid restriction is common in both", "Safety: Digoxin toxicity risk is universal"],
     quiz: [
-      { question: "Which finding requires IMMEDIATE intervention in asthma?", options: ["Loud wheezing", "Productive cough", "Silent chest", "SpO2 94%"], correct: 2, rationale: "Silent chest means no air is moving at all—a true emergency." }
-    ]
-  },
-  "pneumonia": {
-    title: "Pneumonia",
-    cellular: {
-      title: "Alveolar Consolidation",
-      content: "Infection causes the alveoli to fill with fluid, white blood cells, and debris (consolidation). This prevents gas exchange at the cellular level, leading to hypoxia and ventilation-perfusion mismatch."
-    },
-    signs: {
-      left: ["Fever & Chills", "Productive Cough (Yellow/Green)", "Crackles or Diminished sounds", "Chest pain (Pleuritic)"],
-      right: ["Hypoxia", "Tachypnea", "Confusion (especially in elderly)", "Fatigue"]
-    },
-    medications: [
-      { name: "Ceftriaxone", type: "Antibiotic", action: "Kills bacteria", sideEffects: "Diarrhea", contra: "Penicillin allergy (cross-reactivity)", pearl: "Obtain sputum culture BEFORE starting antibiotics." },
-      { name: "Guaifenesin", type: "Expectorant", action: "Thins mucus", sideEffects: "GI upset", contra: "None", pearl: "Encourage high fluid intake to help thin secretions." }
-    ],
-    pearls: [
-      "Encourage incentive spirometry (10x/hour while awake)",
-      "Hydration is key to thinning mucus",
-      "Position 'Good lung down' if unilateral"
-    ],
-    quiz: [
-      { question: "Priority action before starting pneumonia antibiotics?", options: ["Chest X-ray", "Sputum Culture", "Oxygen therapy", "Fluid bolus"], correct: 1, rationale: "Cultures must be obtained before antibiotics to ensure accurate results." }
-    ]
-  },
-  "atelectasis": {
-    title: "Atelectasis",
-    cellular: {
-      title: "Alveolar Collapse",
-      content: "The collapse of small air sacs (alveoli) due to shallow breathing, mucus plugs, or external pressure. Common in post-operative patients due to pain and immobility. At the cellular level, gas exchange stops in the collapsed areas."
-    },
-    signs: {
-      left: ["Diminished breath sounds", "Dyspnea", "Shallow respirations", "Low-grade fever (post-op)"],
-      right: ["Crackles (as they re-open)", "Tachypnea", "Anxiety", "Hypoxia (if severe)"]
-    },
-    medications: [
-      { name: "Pain Medication", type: "Analgesic", action: "Reduces pain to allow deep breaths", sideEffects: "Respiratory depression", contra: "Low RR", pearl: "Pre-medicate before incentive spirometry if needed." }
-    ],
-    pearls: [
-      "Prevention: Turn, Cough, Deep Breathe (TCDB)",
-      "Ambulation is the best prevention",
-      "Incentive Spirometry: 10 times per hour"
-    ],
-    quiz: [
-      { question: "Which patient is at highest risk for atelectasis?", options: ["Active teenager", "Post-op abdominal surgery", "Patient walking in hall", "Patient eating lunch"], correct: 1, rationale: "Post-op patients often breathe shallowly due to pain, leading to alveolar collapse." }
+      { question: "Common finding in BOTH adult and pediatric heart failure?", options: ["Orthopnea", "Tachycardia", "Clubbing", "Hypotension"], correct: 1, rationale: "Tachycardia is a universal compensatory mechanism for low cardiac output across all ages." }
     ]
   },
   "peds-hypoxia": {
     title: "Pediatric Hypoxia & Work of Breathing",
     cellular: {
       title: "Pediatric Oxygenation Failure",
-      content: "Children decompensate faster than adults. They maintain blood pressure until the very end, leading to sudden collapse. Recognition of subtle early signs is the key to REX-PN success. \n\nEarly Signs: Tachycardia (very sensitive), Tachypnea, Restlessness/Irritability, Nasal Flaring, Retractions. \n\nLate Signs: Bradycardia (VERY OMINOUS), Cyanosis, Lethargy, Decreased LOC."
+      content: "Children decompensate faster than adults. Recognition of early signs is the key. \n\nEarly Signs: Tachycardia, Tachypnea, Restlessness, Nasal Flaring, Retractions. \n\nLate Signs: Bradycardia (OMINOUS), Cyanosis, Lethargy."
     },
     signs: {
-      left: ["Tachycardia (Early Sign)", "Restlessness/Irritability", "Nasal Flaring", "Intercostal/Subcostal Retractions"],
-      right: ["🚨 Bradycardia (Emergency!)", "🚨 Grunting/Head Bobbing", "Cyanosis (Late Sign)", "Decreased LOC/Lethargy"]
+      left: ["Tachycardia & Tachypnea", "Restlessness/Irritability", "Nasal Flaring", "Retractions"],
+      right: ["🚨 Bradycardia (Danger!)", "🚨 Grunting/Head Bobbing", "Cyanosis", "Decreased LOC"]
     },
     medications: [
-      { name: "Oxygen Therapy", type: "Supportive", action: "Restores O2 levels", sideEffects: "Dryness", contra: "None in acute distress", pearl: "Monitor effort, not just numbers. Children look 'okay' until they don't." }
+      { name: "Oxygen Therapy", type: "Supportive", action: "Restores O2", sideEffects: "Dryness", contra: "None", pearl: "Monitor effort, not just numbers. Children look 'okay' until they don't." }
     ],
     pearls: [
       "🚨 Bradycardia in a hypoxic child = code blue emergency",
       "Work of Breathing is MORE important than SpO2 alone",
-      "Retractions indicate significant respiratory distress",
-      "Nasal flaring is a classic pediatric compensation mechanism"
+      "Visible retractions = significant distress"
     ],
     quiz: [
-      { question: "What is the most sensitive early sign of hypoxia in a child?", options: ["Cyanosis", "Bradycardia", "Tachycardia", "Decreased LOC"], correct: 2, rationale: "Tachycardia is a very sensitive early indicator of pediatric respiratory distress." },
-      { question: "What does bradycardia indicate in a hypoxic child?", options: ["Recovery", "Sleepiness", "Imminent arrest", "Normal finding"], correct: 2, rationale: "Bradycardia is a very ominous late sign of hypoxia in children, indicating imminent respiratory/cardiac arrest." }
+      { question: "Most sensitive early sign of hypoxia in a child?", options: ["Cyanosis", "Bradycardia", "Tachycardia", "Decreased LOC"], correct: 2, rationale: "Tachycardia is the first sensitive sign of distress in peds." }
     ]
   },
   "bronchiolitis": {
@@ -230,8 +180,8 @@ const contentMap: Record<string, LessonContent> = {
       right: ["🚨 Stridor at Rest", "🚨 Increasing distress", "Agitation", "Tachypnea"]
     },
     medications: [
-      { name: "Dexamethasone", type: "Steroid", action: "Reduces airway swelling", sideEffects: "Irritability", contra: "Viral infection (use with caution)", pearl: "Single dose is often effective." },
-      { name: "Epinephrine (Nebulized)", type: "Vasoconstrictor", action: "Rapid reduction of swelling", sideEffects: "Tachycardia", contra: "None in emergency", pearl: "Watch for rebound swelling after 2 hours." }
+      { name: "Dexamethasone", type: "Steroid", action: "Reduces airway swelling", sideEffects: "Irritability", contra: "Viral infection", pearl: "Single dose is often effective." },
+      { name: "Epinephrine (Nebulized)", type: "Vasoconstrictor", action: "Rapid reduction of swelling", sideEffects: "Tachycardia", contra: "None", pearl: "Watch for rebound swelling after 2 hours." }
     ],
     pearls: [
       "Cold night air or steam can help relieve symptoms",
@@ -262,92 +212,6 @@ const contentMap: Record<string, LessonContent> = {
     ],
     quiz: [
       { question: "What is a hallmark sign of Epiglottitis?", options: ["Barking cough", "Drooling & Tripod positioning", "Wheezing", "Coughing"], correct: 1, rationale: "The 4 Ds (Drooling, Dysphagia, Dysphonia, Distress) and tripod positioning are classic for epiglottitis." }
-    ]
-  },
-  "fba": {
-    title: "Foreign Body Aspiration (FBA)",
-    cellular: {
-      title: "Mechanical Obstruction",
-      content: "Sudden inhalation of an object into the airway. Most commonly lodge in the right mainstem bronchus. Leads to sudden respiratory distress and localized lung collapse or infection."
-    },
-    signs: {
-      left: ["🚨 Sudden onset distress", "🚨 Choking/Gagging", "🚨 Asymmetric breath sounds", "Wheezing (localized)"],
-      right: ["Coughing", "Cyanosis (if severe)", "Anxiety", "Stridor (if upper airway)"]
-    },
-    medications: [
-      { name: "None", type: "Mechanical Issue", action: "Requires removal", sideEffects: "N/A", contra: "N/A", pearl: "Airway is the absolute priority. Bronchoscopy may be needed for removal." }
-    ],
-    pearls: [
-      "Sudden onset in a previously healthy child is the classic history",
-      "Asymmetric breath sounds = object is blocking one side",
-      "Perform BLS maneuvers (back blows/chest thrusts) if fully obstructed"
-    ],
-    quiz: [
-      { question: "Hallmark sign of Foreign Body Aspiration?", options: ["Gradual onset fever", "Barking cough", "Sudden onset distress & asymmetry", "Drooling"], correct: 2, rationale: "Sudden onset of distress in a healthy child, especially with asymmetric breath sounds, is classic for FBA." }
-    ]
-  },
-  "pe": {
-    title: "Pulmonary Embolism (PE)",
-    cellular: {
-      title: "Ventilation-Perfusion (V/Q) Mismatch",
-      content: "A clot blocks blood flow to a section of the lung. While air can still enter (ventilation), blood cannot reach the area (perfusion). This V/Q mismatch means gas exchange cannot occur at the cellular interface of the alveoli, causing rapid hypoxia."
-    },
-    signs: {
-      left: ["Sudden Onset Dyspnea", "Sharp Chest Pain", "Tachycardia", "Apprehension"],
-      right: ["Cough", "Hemoptysis", "Tachypnea", "Low O2 Saturation"]
-    },
-    medications: [
-      { name: "Heparin", type: "Anticoagulant", action: "Prevents clot growth", sideEffects: "Bleeding, HIT", contra: "Active bleed", pearl: "Monitor aPTT levels (Normal: 30-40s; Goal: 1.5-2.5x normal)." },
-      { name: "Enoxaparin (Lovenox)", type: "LMWH", action: "Anticoagulation", sideEffects: "Bleeding", contra: "Renal failure (adjust dose)", pearl: "Inject in love handles, do not rub injection site!" },
-      { name: "Warfarin (Coumadin)", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding", contra: "Pregnancy", pearl: "Monitor INR (Goal 2.0-3.0). Antidote: Vitamin K." }
-    ],
-    pearls: ["SUDDEN dyspnea is the red flag", "DVT prevention is PE prevention", "Elevate HOB immediately"],
-    quiz: [
-      { question: "What is the most common classic symptom of PE?", options: ["Fever", "Sudden shortness of breath", "Productive cough", "Bradycardia"], correct: 1, rationale: "Sudden onset dyspnea is the most common presenting symptom of PE." }
-    ]
-  },
-  "cardio-pharma": {
-    title: "Cardiovascular Pharmacology Masterclass",
-    cellular: {
-      title: "Cardiac Drug Mechanisms",
-      content: "Cardiovascular drugs primarily target the autonomic nervous system, the RAAS system, and cellular ion channels (Na, K, Ca). For the REX-PN, you must understand how these drugs change the 'Squeeze' (Inotropy), the 'Rate' (Chronotropy), and the 'Fluid Status' (Diuresis)."
-    },
-    signs: {
-      left: ["Assess Heart Rate (Apical)", "Assess Blood Pressure", "Monitor Potassium (K+)", "Monitor Digoxin Levels"],
-      right: ["Check for Peripheral Edema", "Assess Lung Sounds (Crackles)", "Monitor I&O", "Assess for Orthostatic Hypotension"]
-    },
-    medications: [
-      { name: "Diuretics (Furosemide/Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption in Loop of Henle", sideEffects: "Hypotension, Electrolyte loss (K+, Na+, Mg+), Ototoxicity", contra: "Anuria, severe electrolyte depletion", pearl: "K-wasting! Watch for leg cramps and weak pulses. Potassium risks are extremely high yield for REX-PN." },
-      { name: "ACE Inhibitors (Lisinopril)", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Hypotension, Hyperkalemia, Persistent Dry Cough", contra: "Pregnancy, history of angioedema", pearl: "Report facial swelling or a persistent dry cough immediately! Monitor for Hyperkalemia." },
-      { name: "Beta Blockers (Metoprolol)", type: "Beta Blocker", action: "Decreases sympathetic workload (HR/BP)", sideEffects: "Bradycardia, Fatigue, Bronchospasm", contra: "Asthma/COPD (due to bronchospasm risk), Heart Block", pearl: "Hold if HR < 60. Masks hypoglycemia! HR reduction expectations must be monitored closely." },
-      { name: "Antihypertensives (General)", type: "Vasodilators/CCBs", action: "Relax vascular smooth muscle to lower BP", sideEffects: "Hypotension, Dizziness, Perfusion effects", contra: "Severe Hypotension", pearl: "Safety priority: Fall risk! Patients should change positions slowly to prevent orthostatic hypotension." },
-      { name: "Digoxin", type: "Inotrope", action: "Increases squeeze, slows rate", sideEffects: "Bradycardia, Visual halos, Nausea", contra: "Hypokalemia (increases toxicity risk)", pearl: "Apical pulse for 1 full minute. Toxicity presents as N/V and vision changes." }
-    ],
-    pearls: ["Always check BP/HR before administration", "Potassium balance is the #1 safety priority", "Move from lying to sitting slowly (Orthostatic/Fall risk)"],
-    quiz: [
-      { question: "A patient on Furosemide reports leg cramps. What is the priority nursing action?", options: ["Administer pain meds", "Assess Potassium level", "Increase fluid intake", "Encourage walking"], correct: 1, rationale: "Leg cramps are a classic sign of hypokalemia, a common side effect of loop diuretics." },
-      { question: "Which medication requires the nurse to notify the provider if a dry cough develops?", options: ["Lisinopril", "Metoprolol", "Furosemide", "Digoxin"], correct: 0, rationale: "ACE inhibitors like Lisinopril commonly cause a persistent dry cough due to bradykinin buildup." }
-    ]
-  },
-  "vascular-pharma": {
-    title: "Vascular Pharmacology (Anticoagulation)",
-    cellular: {
-      title: "Clot Prevention",
-      content: "Vascular pharmacology focuses on interfering with the coagulation cascade to prevent the formation or growth of thrombi. These do NOT dissolve existing clots—they only prevent new ones from forming. Safety teaching and monitoring are the most tested areas."
-    },
-    signs: {
-      left: ["Monitor aPTT (Heparin)", "Monitor INR (Warfarin)", "Monitor Platelets (HIT risk)", "Assess for Hematuria"],
-      right: ["Bleeding Precautions", "Vitamin K intake consistency", "Protamine Sulfate (Antidote)", "Vitamin K (Antidote)"]
-    },
-    medications: [
-      { name: "Heparin", type: "Anticoagulant", action: "Inactivates thrombin", sideEffects: "Bleeding risk, Thrombocytopenia (HIT)", contra: "Active bleed", pearl: "Antidote: Protamine Sulfate. Monitor aPTT logic (1.5-2.5x normal). Fast onset." },
-      { name: "Warfarin (Coumadin)", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding risk", contra: "Pregnancy", pearl: "Antidote: Vitamin K. Monitor INR (2.0-3.0). Safety teaching: Consistent green leafy veg intake is vital." },
-      { name: "Enoxaparin (Lovenox)", type: "LMWH", action: "Predictable anticoagulation", sideEffects: "Bleeding, Bruising at site", contra: "HIT history", pearl: "Safety teaching: Do not expel the air bubble in the pre-filled syringe! Inject in abdomen." }
-    ],
-    pearls: ["Electric razors and soft toothbrushes (Bleeding precautions)", "No NSAIDs or Aspirin while on anticoagulants", "Consistency is key for Vitamin K intake", "Safety teaching: Report any bruising or dark stools"],
-    quiz: [
-      { question: "What is the priority teaching for a patient starting Warfarin?", options: ["Avoid all green vegetables", "Consistency in Vitamin K intake", "Take Aspirin for pain", "Stop taking it if you bruise"], correct: 1, rationale: "Consistency in Vitamin K intake is vital to maintain a stable INR." },
-      { question: "Which lab is monitored for a patient on a continuous Heparin drip?", options: ["INR", "aPTT", "PT", "HbA1c"], correct: 1, rationale: "aPTT is the standard monitoring logic for unfractionated heparin therapy." }
     ]
   }
 };
@@ -384,7 +248,7 @@ export default function LessonDetail() {
   };
 
   const isPharma = id?.includes("pharma");
-  const isBasics = id?.includes("basics");
+  const isPeds = id?.includes("peds") || id === "congenital-defects" || id === "bronchiolitis" || id === "croup" || id === "epiglottitis";
   
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
@@ -394,7 +258,7 @@ export default function LessonDetail() {
         <Link href="/lessons">
           <Button variant="ghost" className="mb-8 group">
             <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Systems
+            Back to Overview
           </Button>
         </Link>
 
@@ -402,9 +266,9 @@ export default function LessonDetail() {
           {/* Header */}
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-               {(isPharma || isBasics) && (
-                 <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
-                    {isPharma ? <Pill className="w-6 h-6" /> : <Zap className="w-6 h-6" />}
+               {isPeds && (
+                 <div className="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-500">
+                    <Baby className="w-6 h-6" />
                  </div>
                )}
                <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
@@ -432,7 +296,7 @@ export default function LessonDetail() {
           {/* Intro Section */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-              {isBasics ? <Zap className="text-primary w-8 h-8" /> : isPharma ? <Pill className="text-primary w-8 h-8" /> : <Microscope className="text-primary w-8 h-8" />}
+              {isPeds ? <Baby className="text-pink-500 w-8 h-8" /> : <Microscope className="text-primary w-8 h-8" />}
               <h2>{lessonContent.cellular.title}</h2>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700 whitespace-pre-wrap">
@@ -440,13 +304,26 @@ export default function LessonDetail() {
             </div>
           </section>
 
+          {/* Lifespan Section if exists */}
+          {lessonContent.lifespan && (
+            <section className="space-y-6">
+              <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                <Users className="text-indigo-500 w-8 h-8" />
+                <h2>{lessonContent.lifespan.title}</h2>
+              </div>
+              <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900 italic">
+                {lessonContent.lifespan.content}
+              </div>
+            </section>
+          )}
+
           {/* Assessment/Findings Section */}
           <section className="grid md:grid-cols-2 gap-8">
             <Card className="border-none shadow-md bg-white">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-blue-500 w-6 h-6" />
-                  <h3>{isPharma || isBasics ? "High-Yield Findings" : "Primary Assessment"}</h3>
+                  <h3>Assessment Patterns</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.left.map((s, i) => (
@@ -462,7 +339,7 @@ export default function LessonDetail() {
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-orange-500 w-6 h-6" />
-                  <h3>{isPharma || isBasics ? "Clinical Alert Signs" : "Secondary/Related"}</h3>
+                  <h3>Clinical Alert Signs</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.right.map((s, i) => (
@@ -476,20 +353,17 @@ export default function LessonDetail() {
             </Card>
           </section>
 
-          {/* Med Cards Section */}
+          {/* Medications Section */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Pill className="text-primary w-8 h-8" />
-              <h2>{isPharma ? "Medication Flashcards" : "Pharmacology & Interventions"}</h2>
+              <h2>Pharmacology & Safety</h2>
             </div>
             <div className="space-y-4">
               {lessonContent.medications.map((med, i) => (
                 <Card key={i} className="border-none shadow-sm bg-white overflow-hidden">
-                  <div className="bg-primary/5 px-6 py-3 border-b border-primary/10 flex justify-between items-center">
-                    <div>
-                      <span className="font-bold text-primary">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
-                    </div>
-                    {(isPharma || isBasics) && <Stethoscope className="w-4 h-4 text-primary/40" />}
+                  <div className="bg-primary/5 px-6 py-3 border-b border-primary/10">
+                    <span className="font-bold text-primary">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
                   </div>
                   <CardContent className="p-6 grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -516,11 +390,11 @@ export default function LessonDetail() {
           <section className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
             <div className="flex items-center gap-3 text-2xl font-bold">
               <FileText className="text-primary w-8 h-8" />
-              <h2>REX-PN High-Yield Summary</h2>
+              <h2>REX-PN Mastery Summary</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Principles</h4>
+                <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Nursing Priorities</h4>
                 <ul className="space-y-2 text-gray-300">
                   {lessonContent.pearls.map((p, i) => (
                     <li key={i} className="flex gap-2">
@@ -531,9 +405,9 @@ export default function LessonDetail() {
                 </ul>
               </div>
               <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-                <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Alert</h4>
+                <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Danger Zone</h4>
                 <p className="text-sm text-gray-400 leading-relaxed italic">
-                  Always recognize instability early. Mental status changes (confusion, restlessness) are often the earliest indicator of respiratory failure. Do not wait for cyanosis!
+                  Always prioritize based on age-specific patterns. Infants decompensate through feeding distress; adults through exertional dyspnea. Bradycardia in a child is never "stable"—it is an emergency.
                 </p>
               </div>
             </div>
@@ -547,7 +421,7 @@ export default function LessonDetail() {
                   <Stethoscope className="w-10 h-10 text-primary" />
                 </div>
                 <h2 className="text-3xl font-bold">Knowledge Check</h2>
-                <p className="text-gray-600 max-w-md mx-auto">Ready to test your mastery? Complete these questions to finish the module.</p>
+                <p className="text-gray-600 max-w-md mx-auto">Ready to test your understanding? Complete these questions to finish the module.</p>
                 <Button size="lg" onClick={() => setQuizStarted(true)} className="rounded-full px-12 bg-primary hover:brightness-110 h-14 text-lg text-white">
                   Start Quiz
                 </Button>
@@ -557,7 +431,7 @@ export default function LessonDetail() {
                 <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
                   <Trophy className="w-12 h-12 text-emerald-500" />
                 </div>
-                <h2 className="text-3xl font-bold">Module Mastered!</h2>
+                <h2 className="text-3xl font-bold">Lesson Mastered!</h2>
                 <p className="text-xl text-gray-600">You scored {score} out of {lessonContent.quiz.length}</p>
                 <div className="pt-4">
                   <Link href="/lessons">
