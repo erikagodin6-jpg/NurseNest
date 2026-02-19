@@ -271,6 +271,38 @@ const allCards: Flashcard[] = [
     correctIndex: 1,
     answer: "COPD patients often have a 'hypoxic drive.' Keeping sats at 88-92% prevents suppression of their respiratory urge.",
     category: "Respiratory"
+  },
+  {
+    id: "q-lithium-1",
+    type: "question",
+    question: "A client on Lithium therapy reports blurred vision and tremors. What is the priority nursing action?",
+    options: ["Administer the next dose", "Give a glass of water", "Hold the dose and notify the provider", "Encourage exercise"],
+    correctIndex: 2,
+    answer: "Blurred vision, tremors, and ataxia are signs of lithium toxicity. The dose must be held immediately and levels checked.",
+    category: "Pharmacology"
+  },
+  {
+    id: "t-endo-1",
+    type: "term",
+    question: "Diabetes Insipidus (DI)",
+    answer: "Caused by ADH deficiency. Characterized by polydipsia and large amounts of dilute urine (low specific gravity). Risk: Dehydration.",
+    category: "Endocrine"
+  },
+  {
+    id: "q-ob-1",
+    type: "question",
+    question: "A client at 32 weeks gestation has painless, bright red vaginal bleeding. What is suspected?",
+    options: ["Placental Abruption", "Placenta Previa", "Normal Labor", "Ectopic Pregnancy"],
+    correctIndex: 1,
+    answer: "Painless, bright red bleeding in the third trimester is a classic sign of Placenta Previa. Painful bleeding suggests abruption.",
+    category: "Maternal"
+  },
+  {
+    id: "t-psych-1",
+    type: "term",
+    question: "Serotonin Syndrome",
+    answer: "Caused by excess serotonin. Symptoms: Agitation, fever, tachycardia, and hyperreflexia. Often occurs with SSRI/MAOI combinations.",
+    category: "Psychiatry"
   }
 ];
 

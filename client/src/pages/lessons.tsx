@@ -176,6 +176,29 @@ const rnSystems = [
       { id: "anticoagulant-safety", name: "Anticoagulation Mastery", status: "Available" },
       { id: "herbals-safety", name: "Herbal & Supplement Safety", status: "Available" }
     ]
+  },
+  {
+    id: "endocrine-maternal",
+    title: "Endocrine & Maternal",
+    icon: Users,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "siadh-di", name: "SIADH vs Diabetes Insipidus", status: "Available" },
+      { id: "dka-hhns", name: "DKA & Hyperglycemic States", status: "Available" },
+      { id: "preeclampsia", name: "Preeclampsia & Mag Safety", status: "Available" }
+    ]
+  },
+  {
+    id: "psych-crisis",
+    title: "Psychiatry & Crisis",
+    icon: Zap,
+    color: "text-yellow-600",
+    bgColor: "bg-yellow-50",
+    diseases: [
+      { id: "lithium-toxicity", name: "Lithium & Mood Stabilizers", status: "Available" },
+      { id: "nms-serotonin", name: "NMS & Serotonin Syndrome", status: "Available" }
+    ]
   }
 ];
 

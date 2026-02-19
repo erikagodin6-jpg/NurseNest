@@ -422,6 +422,45 @@ const contentMap: Record<string, LessonContent> = {
     medications: [{ name: "Hydrocolloid", type: "Dressing", action: "Moist wound healing", sideEffects: "Periwound maceration", contra: "Infected wounds", pearl: "Good for Stage 2 injuries." }],
     pearls: ["Turn every 2 hours", "Nutrition: High protein and Vitamin C", "Use pressure-redistribution surfaces"],
     quiz: [{ question: "Priority for a Stage 3 pressure injury?", options: ["Daily massage", "High-protein diet and repositioning", "Keeping the wound dry", "Applying a tight bandage"], correct: 1, rationale: "Protein is essential for tissue repair, and repositioning prevents further ischemia." }]
+  },
+  "siadh-di": {
+    title: "SIADH vs Diabetes Insipidus",
+    cellular: { title: "ADH Imbalance", content: "SIADH (Too much ADH) leads to water retention and dilutional hyponatremia. DI (Too little ADH) leads to massive water loss and hypernatremia." },
+    signs: {
+      left: ["SIADH: Low Urine Output", "High Urine Specific Gravity", "Weight Gain", "Hyponatremia"],
+      right: ["DI: Massive Polyuria", "Low Urine Specific Gravity", "Extreme Thirst", "Dehydration"]
+    },
+    medications: [
+      { name: "Desmopressin (DDAVP)", type: "Synthetic ADH", action: "Replaces missing ADH in DI", sideEffects: "Water intoxication", contra: "Renal failure", pearl: "Goal is decreased urine output." },
+      { name: "Tolvaptan", type: "Vasopressin Antagonist", action: "Blocks ADH in SIADH", sideEffects: "Thirst/Dry mouth", contra: "Liver disease", pearl: "Increases serum sodium." }
+    ],
+    pearls: ["SIADH: Fluid restriction is the priority", "DI: Fluid replacement is the priority", "Monitor sodium levels every 4-6 hours"],
+    quiz: [{ question: "Specific gravity of 1.002 is expected in which condition?", options: ["SIADH", "Diabetes Insipidus", "Dehydration", "Heart Failure"], correct: 1, rationale: "DI results in massive amounts of very dilute urine with a low specific gravity (<1.005)." }]
+  },
+  "preeclampsia": {
+    title: "Preeclampsia & Mag Safety",
+    cellular: { title: "Endothelial Dysfunction", content: "Pregnancy-induced hypertension characterized by systemic vasospasm and endothelial damage, leading to decreased organ perfusion." },
+    signs: {
+      left: ["BP > 140/90", "Proteinuria", "Edema (Face/Hands)", "Headache"],
+      right: ["Eclampsia (Seizures)", "HELLP Syndrome", "RUQ Pain (Liver)", "Visual Changes"]
+    },
+    medications: [
+      { name: "Magnesium Sulfate", type: "Anticonvulsant", action: "Prevents seizures", sideEffects: "Flushing/Nausea", contra: "Myasthenia Gravis", pearl: "Antidote: Calcium Gluconate." },
+      { name: "Hydralazine", type: "Antihypertensive", action: "Rapid BP reduction", sideEffects: "Tachycardia", contra: "CAD", pearl: "Used for acute hypertensive crisis." }
+    ],
+    pearls: ["Check Deep Tendon Reflexes (DTRs) hourly on Mag", "Mag Toxicity: DTRs disappear first, then RR drops", "Quiet, dark room to prevent seizures"],
+    quiz: [{ question: "First sign of Magnesium Sulfate toxicity?", options: ["Respiratory arrest", "Loss of deep tendon reflexes", "Hypotension", "Visual blurring"], correct: 1, rationale: "Loss of DTRs is an early and critical indicator that Mag levels are too high." }]
+  },
+  "lithium-toxicity": {
+    title: "Lithium & Mood Stabilizers",
+    cellular: { title: "Ion Competition", content: "Lithium is a salt that competes with Sodium in the kidneys. Dehydration or low sodium intake causes the kidneys to reabsorb lithium, leading to toxicity." },
+    signs: {
+      left: ["Therapeutic range: 0.6 - 1.2 mEq/L", "Mild tremor", "Nausea", "Thirst"],
+      right: ["Toxicity (>1.5): Confusion", "Ataxia", "Coarse tremors", "Blurred vision"]
+    },
+    medications: [{ name: "Lithium Carbonate", type: "Mood Stabilizer", action: "Alters neurotransmitters", sideEffects: "Polyuria/Weight gain", contra: "Renal failure", pearl: "Maintain consistent sodium intake." }],
+    pearls: ["Avoid NSAIDs - they increase lithium levels", "Ensure 2-3L fluid intake daily", "Monitor renal function and thyroid"],
+    quiz: [{ question: "A patient on lithium has diarrhea and blurred vision. Action?", options: ["Give the next dose", "Increase salt intake", "Hold dose and call provider", "Nothing, these are normal"], correct: 2, rationale: "Diarrhea and blurred vision are signs of toxicity; the drug must be stopped immediately." }]
   }
 };
 
