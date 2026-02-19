@@ -20,7 +20,10 @@ import {
   Beaker,
   Zap,
   ShieldAlert,
-  Scissors
+  Scissors,
+  Stethoscope,
+  Bug,
+  Thermometer
 } from "lucide-react";
 
 const rpnSystems = [
@@ -112,6 +115,58 @@ const rpnSystems = [
       { id: "wound-care-basics", name: "Wound Care and Dressing Changes", status: "Available" },
       { id: "catheterization", name: "Urinary Catheterization", status: "Available" },
       { id: "ngtube-care", name: "NG Tube Insertion and Care", status: "Available" }
+    ]
+  },
+  {
+    id: "infections-rpn",
+    title: "Common Infections",
+    icon: Bug,
+    color: "text-amber-500",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "tinea-corporis", name: "Tinea Corporis (Ringworm)", status: "Available" },
+      { id: "oral-candidiasis", name: "Oral Candidiasis (Thrush)", status: "Available" },
+      { id: "cdiff-basics", name: "C. Difficile Infection", status: "Available" },
+      { id: "pertussis-basics", name: "Pertussis (Whooping Cough)", status: "Available" }
+    ]
+  },
+  {
+    id: "chronic-rpn",
+    title: "Chronic Conditions",
+    icon: Thermometer,
+    color: "text-orange-500",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "hypothyroidism-basics", name: "Hypothyroidism", status: "Available" },
+      { id: "osteoporosis-basics", name: "Osteoporosis", status: "Available" },
+      { id: "atopic-dermatitis", name: "Atopic Dermatitis (Eczema)", status: "Available" },
+      { id: "ibs-basics", name: "Irritable Bowel Syndrome", status: "Available" }
+    ]
+  },
+  {
+    id: "mental-health-rpn",
+    title: "Mental Health Basics",
+    icon: Brain,
+    color: "text-violet-500",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "adhd-basics", name: "ADHD", status: "Available" },
+      { id: "separation-anxiety", name: "Separation Anxiety", status: "Available" },
+      { id: "lead-poisoning", name: "Lead Poisoning", status: "Available" },
+      { id: "scoliosis-basics", name: "Scoliosis", status: "Available" }
+    ]
+  },
+  {
+    id: "med-skills-rpn",
+    title: "Medication Skills",
+    icon: Pill,
+    color: "text-cyan-500",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "inhaled-spacers", name: "Inhaled Spacers", status: "Available" },
+      { id: "meds-to-infants", name: "Administering Meds to Infants", status: "Available" },
+      { id: "cleansing-enemas", name: "Cleansing Enemas", status: "Available" },
+      { id: "wound-irrigation", name: "Wound Irrigation", status: "Available" }
     ]
   }
 ];
@@ -301,6 +356,182 @@ const rnSystems = [
       { id: "acute-abdomen", name: "Appendicitis & Cholecystitis", status: "Available" },
       { id: "pyloric-intussusception", name: "Pyloric Stenosis & Intussusception", status: "Available" },
       { id: "liver-cirrhosis", name: "Cirrhosis & Esophageal Varices", status: "Available" }
+    ]
+  },
+  {
+    id: "cardiovascular-rn-2",
+    title: "Cardiovascular II",
+    icon: Heart,
+    color: "text-red-600",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "infective-endocarditis", name: "Infective Endocarditis", status: "Available" },
+      { id: "peripheral-artery-disease", name: "Peripheral Artery Disease", status: "Available" },
+      { id: "aortic-dissection", name: "Aortic Dissection", status: "Available" },
+      { id: "polycythemia", name: "Polycythemia Vera", status: "Available" },
+      { id: "carotid-endarterectomy", name: "Carotid Endarterectomy", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory-rn-2",
+    title: "Respiratory II",
+    icon: Wind,
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "ards-management", name: "ARDS", status: "Available" },
+      { id: "active-tb", name: "Active Tuberculosis", status: "Available" },
+      { id: "osa-management", name: "Obstructive Sleep Apnea", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-surgical-rn",
+    title: "GI & Surgical",
+    icon: Droplets,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "peptic-ulcer", name: "Peptic Ulcer Disease", status: "Available" },
+      { id: "ulcerative-colitis", name: "Ulcerative Colitis", status: "Available" },
+      { id: "cholecystectomy", name: "Cholecystectomy", status: "Available" },
+      { id: "ercp-egd", name: "ERCP & EGD Procedures", status: "Available" },
+      { id: "dumping-syndrome", name: "Dumping Syndrome", status: "Available" }
+    ]
+  },
+  {
+    id: "renal-metabolic-rn",
+    title: "Renal & Metabolic",
+    icon: Droplets,
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "ckd-management", name: "Chronic Kidney Disease", status: "Available" },
+      { id: "rhabdomyolysis", name: "Rhabdomyolysis", status: "Available" },
+      { id: "av-fistula", name: "Arteriovenous Fistula & Dialysis", status: "Available" },
+      { id: "dialysis-steal", name: "Dialysis Access Steal Syndrome", status: "Available" }
+    ]
+  },
+  {
+    id: "endocrine-rn-2",
+    title: "Endocrine & Emergency",
+    icon: Thermometer,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "adrenal-insufficiency", name: "Primary Adrenal Insufficiency", status: "Available" },
+      { id: "thyroidectomy", name: "Thyroidectomy", status: "Available" },
+      { id: "malignant-hyperthermia", name: "Malignant Hyperthermia", status: "Available" },
+      { id: "anaphylaxis", name: "Anaphylaxis", status: "Available" }
+    ]
+  },
+  {
+    id: "pharmacology-rn-2",
+    title: "Pharmacology II",
+    icon: Pill,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-50",
+    diseases: [
+      { id: "factor-xa-inhibitors", name: "Factor Xa Inhibitors", status: "Available" },
+      { id: "thiazide-diuretics", name: "Thiazide Diuretics", status: "Available" },
+      { id: "statins-safety", name: "Statins", status: "Available" },
+      { id: "allopurinol-safety", name: "Allopurinol", status: "Available" },
+      { id: "methotrexate-safety", name: "Methotrexate", status: "Available" }
+    ]
+  },
+  {
+    id: "msk-ortho-rn",
+    title: "MSK & Orthopedics",
+    icon: Activity,
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-50",
+    diseases: [
+      { id: "knee-arthroplasty", name: "Knee Arthroplasty", status: "Available" },
+      { id: "osteomyelitis", name: "Osteomyelitis", status: "Available" },
+      { id: "rheumatoid-arthritis", name: "Rheumatoid Arthritis", status: "Available" },
+      { id: "osteoporosis-rn", name: "Osteoporosis (Advanced)", status: "Available" }
+    ]
+  },
+  {
+    id: "psych-rn-2",
+    title: "Psychiatric II",
+    icon: Brain,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "major-depression", name: "Major Depressive Disorder", status: "Available" },
+      { id: "alcohol-withdrawal", name: "Alcohol Withdrawal", status: "Available" },
+      { id: "borderline-pd", name: "Borderline Personality Disorder", status: "Available" },
+      { id: "tardive-dyskinesia", name: "Tardive Dyskinesia", status: "Available" },
+      { id: "bulimia-nervosa", name: "Bulimia Nervosa", status: "Available" }
+    ]
+  },
+  {
+    id: "maternal-rn-2",
+    title: "Maternal Health II",
+    icon: Baby,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "hyperemesis-gravidarum", name: "Hyperemesis Gravidarum", status: "Available" },
+      { id: "cervical-cerclage", name: "Cervical Cerclage", status: "Available" },
+      { id: "preterm-labor", name: "Preterm Labor", status: "Available" },
+      { id: "shoulder-dystocia", name: "Shoulder Dystocia", status: "Available" },
+      { id: "vacuum-assisted-birth", name: "Vacuum Assisted Vaginal Birth", status: "Available" },
+      { id: "ruptured-ectopic", name: "Ruptured Ectopic Pregnancy", status: "Available" },
+      { id: "postpartum-endometritis", name: "Postpartum Endometritis", status: "Available" },
+      { id: "uterine-inversion", name: "Uterine Inversion", status: "Available" }
+    ]
+  },
+  {
+    id: "infectious-disease-rn",
+    title: "Infectious Disease",
+    icon: Bug,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "hiv-management", name: "HIV", status: "Available" },
+      { id: "mrsa-management", name: "MRSA", status: "Available" },
+      { id: "hepatitis-management", name: "Hepatitis", status: "Available" },
+      { id: "cervical-cancer", name: "Cervical Cancer", status: "Available" },
+      { id: "trichomoniasis", name: "Trichomoniasis", status: "Available" },
+      { id: "zika-virus", name: "Zika Virus", status: "Available" }
+    ]
+  },
+  {
+    id: "neuro-special-rn",
+    title: "Neurological II",
+    icon: Brain,
+    color: "text-purple-600",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "subdural-hematoma", name: "Subdural Hematoma", status: "Available" },
+      { id: "meniere-disease", name: "Meniere Disease", status: "Available" },
+      { id: "duchenne-md", name: "Duchenne Muscular Dystrophy", status: "Available" },
+      { id: "spina-bifida", name: "Spina Bifida (Myelomeningocele)", status: "Available" }
+    ]
+  },
+  {
+    id: "procedures-rn-2",
+    title: "Procedures II",
+    icon: Scissors,
+    color: "text-teal-600",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "thoracentesis", name: "Thoracentesis", status: "Available" },
+      { id: "prostate-cancer", name: "Prostate Cancer", status: "Available" },
+      { id: "tonsillectomy", name: "Tonsillectomy", status: "Available" },
+      { id: "mastitis", name: "Mastitis", status: "Available" }
+    ]
+  },
+  {
+    id: "peds-special-rn",
+    title: "Special Pediatrics",
+    icon: Baby,
+    color: "text-pink-600",
+    bgColor: "bg-pink-50",
+    diseases: [
+      { id: "retinoblastoma", name: "Retinoblastoma", status: "Available" },
+      { id: "dmd-peds", name: "Duchenne Muscular Dystrophy", status: "Available" }
     ]
   }
 ];

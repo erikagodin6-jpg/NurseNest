@@ -1224,6 +1224,540 @@ const contentMap: Record<string, LessonContent> = {
     ],
     pearls: ["ARDSNet protocol (low Vt 6mL/kg, titrate PEEP/FiO2 table)", "Daily spontaneous breathing trial (SBT) assessment for extubation readiness", "RASS sedation scale (-5 to +4) target -2 to 0 for most patients", "Rapid shallow breathing index (f/Vt <105 predicts successful extubation)"],
     quiz: [{ question: "Lung-protective tidal volume target in ARDS?", options: ["10-12 mL/kg actual body weight", "6 mL/kg ideal body weight", "8-10 mL/kg ideal body weight", "4 mL/kg actual body weight"], correct: 1, rationale: "The ARDSNet protocol recommends low tidal volume ventilation at 6 mL/kg ideal body weight (not actual) to prevent ventilator-induced lung injury (VILI) from overdistension." }]
+  },
+  "tinea-corporis": {
+    title: "Tinea Corporis (Ringworm)",
+    cellular: { title: "Dermatophyte Infection", content: "Superficial dermatophyte fungal infection. Dermatophytes digest keratin in skin. Spread by direct contact or fomites." },
+    signs: {
+      left: ["Ring-shaped lesion", "Raised erythematous border", "Central clearing"],
+      right: ["Pruritus", "Scaling", "May spread to other body areas"]
+    },
+    medications: [
+      { name: "Clotrimazole", type: "Topical Antifungal", action: "Disrupts fungal cell membrane", sideEffects: "Local irritation", contra: "Hypersensitivity", pearl: "Apply to affected area and 1 inch beyond border twice daily." },
+      { name: "Terbinafine", type: "Oral Antifungal", action: "Inhibits squalene epoxidase in fungal cells", sideEffects: "GI upset, headache", contra: "Liver disease", pearl: "Used for extensive or resistant cases." }
+    ],
+    pearls: ["Keep area clean and dry", "Do not share personal items (towels, combs, clothing)", "Complete full course of treatment even if symptoms resolve", "Wash clothing and linens in hot water"],
+    quiz: [{ question: "What is the characteristic appearance of tinea corporis?", options: ["Flat, non-raised purple patches", "Ring-shaped lesion with raised border and central clearing", "Diffuse uniform redness without pattern", "Fluid-filled blisters in a linear pattern"], correct: 1, rationale: "Tinea corporis (ringworm) presents as a ring-shaped lesion with a raised, erythematous border and central clearing, giving it the classic 'ring' appearance." }]
+  },
+  "oral-candidiasis": {
+    title: "Oral Candidiasis (Thrush)",
+    cellular: { title: "Opportunistic Fungal Overgrowth", content: "Candida albicans overgrowth, opportunistic. Common in immunocompromised, infants, and inhaled corticosteroid users." },
+    signs: {
+      left: ["White patches on tongue/buccal mucosa", "Patches can be scraped off", "Red base underneath patches"],
+      right: ["Difficulty swallowing", "Cottony feeling in mouth", "Altered taste"]
+    },
+    medications: [
+      { name: "Nystatin", type: "Antifungal Suspension", action: "Binds to fungal cell membrane sterols", sideEffects: "GI upset, nausea", contra: "Hypersensitivity", pearl: "Swish and swallow - hold in mouth as long as possible before swallowing." },
+      { name: "Fluconazole", type: "Systemic Antifungal", action: "Inhibits fungal cytochrome P450", sideEffects: "Hepatotoxicity, GI upset", contra: "Pregnancy", pearl: "Used for systemic or refractory cases." }
+    ],
+    pearls: ["Rinse mouth after inhaled corticosteroids to prevent thrush", "Sterilize pacifiers and bottle nipples for infants", "Assess immune status if recurrent", "Good oral hygiene is essential"],
+    quiz: [{ question: "What is the most important teaching for a patient using inhaled corticosteroids?", options: ["Take the medication with food", "Rinse mouth after each use", "Only use once daily", "Avoid drinking water after use"], correct: 1, rationale: "Rinsing the mouth after inhaled corticosteroid use removes residual medication from the oropharynx, preventing Candida overgrowth (thrush)." }]
+  },
+  "cdiff-basics": {
+    title: "C. Difficile Infection",
+    cellular: { title: "Toxin-Mediated Colitis", content: "Clostridioides difficile produces toxins A and B causing colitis. Overgrowth after antibiotic use disrupts normal flora. Spore-forming organism." },
+    signs: {
+      left: ["Watery diarrhea (>3 stools/day)", "Foul-smelling stool", "Abdominal cramping"],
+      right: ["Fever", "Leukocytosis", "Dehydration risk"]
+    },
+    medications: [
+      { name: "Oral Vancomycin", type: "Antibiotic", action: "First-line treatment for C. diff colitis", sideEffects: "Nausea, abdominal pain", contra: "Hypersensitivity", pearl: "Oral route only for C. diff (IV vancomycin does not reach the colon)." },
+      { name: "Fidaxomicin", type: "Macrocyclic Antibiotic", action: "Narrow-spectrum, targets C. diff", sideEffects: "Nausea, GI upset", contra: "Hypersensitivity", pearl: "Lower recurrence rate than vancomycin." },
+      { name: "Metronidazole", type: "Antibiotic", action: "Alternative for non-severe cases", sideEffects: "Metallic taste, nausea", contra: "Alcohol use (disulfiram reaction)", pearl: "No longer first-line but still used as alternative." }
+    ],
+    pearls: ["Contact precautions with SOAP AND WATER - alcohol gel does NOT kill spores", "Private room required", "Bleach-based cleaning solutions required", "Do not use antidiarrheals - they trap toxins in the colon"],
+    quiz: [{ question: "What is the correct hand hygiene for C. difficile?", options: ["Alcohol-based hand sanitizer", "Soap and water handwashing", "Hand sanitizer followed by gloves", "Antibacterial wipes only"], correct: 1, rationale: "C. difficile forms spores that are NOT killed by alcohol-based sanitizers. Soap and water with friction is required to physically remove spores from hands." }]
+  },
+  "pertussis-basics": {
+    title: "Pertussis (Whooping Cough)",
+    cellular: { title: "Respiratory Cilia Damage", content: "Bordetella pertussis toxin damages respiratory cilia. Three stages: catarrhal (most contagious, URI symptoms), paroxysmal (severe coughing fits with inspiratory whoop), convalescent (gradual recovery)." },
+    signs: {
+      left: ["Paroxysmal cough", "Inspiratory whoop", "Post-tussive vomiting"],
+      right: ["Cyanosis in infants", "Apnea (infants may not whoop)", "Exhaustion between paroxysms"]
+    },
+    medications: [
+      { name: "Azithromycin", type: "Macrolide Antibiotic", action: "Treatment and post-exposure prophylaxis", sideEffects: "GI upset, diarrhea", contra: "Hepatic dysfunction", pearl: "Most effective if started during catarrhal stage." },
+      { name: "DTaP Vaccine", type: "Vaccine", action: "Prevention - primary series in childhood", sideEffects: "Injection site reactions, fever", contra: "Encephalopathy within 7 days of prior dose", pearl: "Tdap booster recommended in pregnancy at 27-36 weeks gestation." }
+    ],
+    pearls: ["Droplet precautions required", "Infants may not produce the classic whoop but present with apnea", "Tdap booster in pregnancy (27-36 weeks) protects newborn", "Most contagious during catarrhal stage"],
+    quiz: [{ question: "What type of isolation precautions are required for pertussis?", options: ["Airborne precautions with N95", "Contact precautions only", "Droplet precautions", "Standard precautions only"], correct: 2, rationale: "Pertussis is transmitted via respiratory droplets, requiring droplet precautions (surgical mask within 3 feet, private room)." }]
+  },
+  "hypothyroidism-basics": {
+    title: "Hypothyroidism",
+    cellular: { title: "Insufficient Thyroid Hormone", content: "Thyroid gland produces insufficient T3/T4. Decreased metabolic rate affecting every organ system. Most common cause: Hashimoto's thyroiditis (autoimmune)." },
+    signs: {
+      left: ["Fatigue", "Weight gain", "Cold intolerance", "Constipation"],
+      right: ["Dry skin", "Bradycardia", "Goiter", "Mental sluggishness"]
+    },
+    medications: [
+      { name: "Levothyroxine", type: "Thyroid Hormone Replacement", action: "Replaces deficient T4", sideEffects: "Signs of hyperthyroidism if overdosed (tachycardia, tremor, weight loss)", contra: "Untreated adrenal insufficiency", pearl: "Take on empty stomach, 30-60 minutes before breakfast. Consistent timing daily." }
+    ],
+    pearls: ["Monitor TSH levels regularly", "Takes 4-6 weeks for dose adjustments to show full effect", "Lifelong treatment required", "Teach signs of hyperthyroidism (overreplacement): tachycardia, tremor, weight loss, heat intolerance"],
+    quiz: [{ question: "When should a patient take Levothyroxine?", options: ["With breakfast", "At bedtime with a snack", "On empty stomach, 30-60 min before breakfast", "Immediately after eating"], correct: 2, rationale: "Levothyroxine should be taken on an empty stomach, 30-60 minutes before breakfast, because food (especially calcium and iron) interferes with absorption." }]
+  },
+  "osteoporosis-basics": {
+    title: "Osteoporosis",
+    cellular: { title: "Bone Density Loss", content: "Imbalance between osteoblast bone formation and osteoclast bone resorption. Peak bone mass by age 30, then gradual loss. Estrogen decline accelerates loss in menopause." },
+    signs: {
+      left: ["Often silent until fracture", "Loss of height", "Kyphosis (dowager's hump)"],
+      right: ["DEXA scan T-score < -2.5", "Fragility fractures (hip, wrist, vertebral)", "Back pain from compression fractures"]
+    },
+    medications: [
+      { name: "Alendronate", type: "Bisphosphonate", action: "Inhibits osteoclast activity", sideEffects: "Esophageal irritation, jaw osteonecrosis (rare)", contra: "Esophageal disorders, inability to sit upright", pearl: "Take upright with full glass of water, remain upright 30 minutes. Take on empty stomach." },
+      { name: "Calcium + Vitamin D", type: "Supplement", action: "Supports bone mineralization", sideEffects: "Constipation, kidney stones (excess calcium)", contra: "Hypercalcemia", pearl: "Calcium 1200mg/day + Vitamin D 800-1000 IU/day for postmenopausal women." }
+    ],
+    pearls: ["Weight-bearing exercise strengthens bones", "Fall prevention is critical", "DEXA screening recommended for women >65", "Avoid bending and twisting movements"],
+    quiz: [{ question: "How should a patient take Alendronate?", options: ["With food and then lie down", "Crushed and mixed with juice", "Upright with full glass of water, remain upright 30 min", "At bedtime with milk"], correct: 2, rationale: "Alendronate must be taken upright with a full glass of water, and the patient must remain upright for at least 30 minutes to prevent esophageal erosion." }]
+  },
+  "atopic-dermatitis": {
+    title: "Atopic Dermatitis (Eczema)",
+    cellular: { title: "Impaired Skin Barrier", content: "Chronic inflammatory skin condition. Impaired skin barrier (filaggrin deficiency) allows allergen penetration. IgE-mediated hypersensitivity. Part of atopic triad (asthma, allergic rhinitis, eczema)." },
+    signs: {
+      left: ["Intense pruritus", "Erythematous patches", "Dry/scaly skin"],
+      right: ["Lichenification from chronic scratching", "Flexural distribution (older children/adults)", "Facial distribution in infants"]
+    },
+    medications: [
+      { name: "Emollients", type: "Moisturizer", action: "Restores skin barrier", sideEffects: "None significant", contra: "None", pearl: "First-line treatment - apply immediately after bathing to lock in moisture." },
+      { name: "Hydrocortisone", type: "Topical Corticosteroid", action: "Reduces inflammation", sideEffects: "Skin thinning with prolonged use", contra: "Active skin infections", pearl: "Use lowest potency for shortest duration. Apply before emollient." },
+      { name: "Diphenhydramine", type: "Antihistamine", action: "Reduces pruritus", sideEffects: "Drowsiness", contra: "Narrow-angle glaucoma", pearl: "Sedating effect can help with nighttime itching." }
+    ],
+    pearls: ["Avoid triggers: harsh soaps, wool, extreme temperatures", "Short lukewarm baths (not hot)", "Cotton clothing preferred", "Keep nails short to prevent excoriation"],
+    quiz: [{ question: "What is the first-line treatment for atopic dermatitis?", options: ["Oral antibiotics", "Topical corticosteroids", "Emollients (moisturizers)", "Antihistamines"], correct: 2, rationale: "Emollients are the foundation of eczema treatment. They restore the impaired skin barrier and should be applied liberally and frequently, especially immediately after bathing." }]
+  },
+  "ibs-basics": {
+    title: "Irritable Bowel Syndrome",
+    cellular: { title: "Functional GI Disorder", content: "Functional GI disorder with altered gut motility and visceral hypersensitivity. Brain-gut axis dysfunction. No structural abnormalities found on testing. Diagnosed by Rome IV criteria." },
+    signs: {
+      left: ["Abdominal pain related to defecation", "Change in stool frequency/form", "Bloating"],
+      right: ["Symptoms for >6 months", "IBS-C (constipation predominant)", "IBS-D (diarrhea predominant)", "IBS-M (mixed)"]
+    },
+    medications: [
+      { name: "Psyllium", type: "Fiber Supplement", action: "Bulking agent normalizes stool", sideEffects: "Bloating, gas initially", contra: "Bowel obstruction", pearl: "Take with plenty of water. Increase fiber gradually." },
+      { name: "Dicyclomine", type: "Antispasmodic", action: "Reduces intestinal smooth muscle spasms", sideEffects: "Dry mouth, dizziness", contra: "GI obstruction, glaucoma", pearl: "Take 30 minutes before meals for best effect." },
+      { name: "Loperamide", type: "Antidiarrheal", action: "Slows intestinal motility for IBS-D", sideEffects: "Constipation, abdominal cramps", contra: "Bloody diarrhea, C. diff", pearl: "Use as needed for diarrhea-predominant IBS only." }
+    ],
+    pearls: ["Food diary to identify triggers", "Stress management is key component", "FODMAP diet may help reduce symptoms", "IBS does NOT cause weight loss or bleeding - these are red flags for other diagnoses"],
+    quiz: [{ question: "Which symptom would suggest a diagnosis OTHER than IBS?", options: ["Bloating after meals", "Abdominal pain relieved by defecation", "Unintentional weight loss and rectal bleeding", "Alternating constipation and diarrhea"], correct: 2, rationale: "Weight loss and rectal bleeding are red flag symptoms that suggest organic disease (IBD, cancer) rather than IBS. IBS is a functional disorder that does not cause these findings." }]
+  },
+  "adhd-basics": {
+    title: "ADHD",
+    cellular: { title: "Neurodevelopmental Dysregulation", content: "Neurodevelopmental disorder. Dysregulation of dopamine and norepinephrine in prefrontal cortex. Three presentations: predominantly inattentive, predominantly hyperactive-impulsive, combined. Symptoms must be present before age 12 in 2+ settings." },
+    signs: {
+      left: ["Difficulty sustaining attention", "Fidgeting", "Difficulty waiting turn"],
+      right: ["Excessive talking", "Disorganization", "Losing things frequently"]
+    },
+    medications: [
+      { name: "Methylphenidate", type: "CNS Stimulant", action: "Increases dopamine and norepinephrine in prefrontal cortex", sideEffects: "Appetite suppression, insomnia, growth suppression", contra: "Severe anxiety, tics, glaucoma", pearl: "First-line pharmacological treatment. Take in the morning to avoid insomnia." },
+      { name: "Amphetamine Salts", type: "CNS Stimulant", action: "Increases dopamine and norepinephrine release", sideEffects: "Appetite suppression, tachycardia, insomnia", contra: "Cardiovascular disease, MAOIs", pearl: "Alternative stimulant option. Monitor cardiovascular status." },
+      { name: "Atomoxetine", type: "Non-Stimulant (SNRI)", action: "Selective norepinephrine reuptake inhibitor", sideEffects: "GI upset, mood changes", contra: "MAOIs, narrow-angle glaucoma", pearl: "Non-stimulant alternative - no abuse potential. Takes 4-6 weeks for full effect." }
+    ],
+    pearls: ["Monitor growth (height and weight) - stimulants may suppress appetite and growth", "Take stimulants in the morning to minimize insomnia", "Drug holidays during school breaks may be considered", "Behavioral therapy should accompany medication"],
+    quiz: [{ question: "What is the priority monitoring for a child on stimulant medication?", options: ["Liver function tests", "Growth parameters (height and weight)", "Blood glucose levels", "Kidney function"], correct: 1, rationale: "Stimulant medications can suppress appetite and growth. Regular monitoring of height and weight is essential to ensure the child is growing appropriately." }]
+  },
+  "separation-anxiety": {
+    title: "Separation Anxiety",
+    cellular: { title: "Developmental vs Pathological", content: "Normal developmental stage peaking 10-18 months. Pathological when excessive/persistent beyond age, causing significant distress/impairment. Related to attachment theory - child fears loss of caregiver." },
+    signs: {
+      left: ["Excessive distress when separated", "Worry about harm to caregiver", "Refusal to go to school/sleep alone"],
+      right: ["Nightmares about separation", "Somatic complaints (stomachache/headache)", "Clinginess"]
+    },
+    medications: [
+      { name: "CBT", type: "Psychotherapy", action: "First-line treatment - cognitive behavioral therapy", sideEffects: "Initial anxiety increase during exposure", contra: "None", pearl: "Most effective treatment. Gradual exposure to feared separations." },
+      { name: "Fluoxetine", type: "SSRI", action: "Reduces anxiety symptoms for severe cases", sideEffects: "GI upset, headache, suicidal ideation (black box warning in youth)", contra: "MAOIs", pearl: "Reserved for severe cases not responding to CBT alone. Monitor closely for suicidality in children/adolescents." }
+    ],
+    pearls: ["Establish consistent routines", "Practice brief separations and gradually increase", "Avoid prolonged goodbyes", "Validate feelings without reinforcing avoidance", "Normal vs pathological depends on age and severity"],
+    quiz: [{ question: "At what age is separation anxiety considered developmentally normal?", options: ["Birth to 3 months", "10-18 months", "3-5 years", "School age (6-12 years)"], correct: 1, rationale: "Separation anxiety is a normal developmental stage that peaks at 10-18 months when the child has developed object permanence and attachment but lacks the cognitive ability to understand the caregiver will return." }]
+  },
+  "lead-poisoning": {
+    title: "Lead Poisoning",
+    cellular: { title: "Heavy Metal Toxicity", content: "Lead interferes with heme synthesis (inhibits ALA dehydratase and ferrochelatase), disrupts calcium signaling in neurons, causes oxidative damage. Children absorb more lead than adults and are more vulnerable due to developing brain." },
+    signs: {
+      left: ["Developmental delays", "Irritability", "Abdominal pain (lead colic)"],
+      right: ["Constipation", "Lead lines on gums (Burton lines)", "Wrist/foot drop", "Encephalopathy (severe)"]
+    },
+    medications: [
+      { name: "Succimer (DMSA)", type: "Oral Chelating Agent", action: "Binds lead for renal excretion", sideEffects: "GI upset, rash, elevated liver enzymes", contra: "Allergy to succimer", pearl: "Oral chelation for moderate blood lead levels. Adequate hydration essential." },
+      { name: "CaEDTA", type: "IV Chelating Agent", action: "Chelates lead for severe cases/encephalopathy", sideEffects: "Nephrotoxicity, electrolyte imbalances", contra: "Renal failure", pearl: "Used for severe poisoning or encephalopathy. Monitor renal function and I&O closely." }
+    ],
+    pearls: ["Screen at ages 1 and 2", "Most common source: old paint in pre-1978 housing", "Blood lead level >5 mcg/dL requires investigation", "Hand washing before eating reduces ingestion", "Wet mopping removes lead dust (dry sweeping spreads it)"],
+    quiz: [{ question: "What is the most common source of lead exposure in children?", options: ["Contaminated water", "Lead-based paint in older homes (pre-1978)", "Soil contamination", "Imported toys"], correct: 1, rationale: "The most common source of lead exposure in children is lead-based paint in homes built before 1978. Children ingest paint chips or inhale dust from deteriorating paint." }]
+  },
+  "scoliosis-basics": {
+    title: "Scoliosis",
+    cellular: { title: "Spinal Curvature", content: "Lateral curvature of the spine >10 degrees. Most common: adolescent idiopathic scoliosis (AIS), typically detected age 10-15 during growth spurts. More common in females. Adams forward bend test is screening method." },
+    signs: {
+      left: ["Asymmetric shoulders/hips", "Rib hump on forward bending"],
+      right: ["Uneven waistline", "One scapula more prominent"]
+    },
+    medications: [
+      { name: "NSAIDs", type: "Pain Management", action: "Anti-inflammatory for associated pain", sideEffects: "GI upset, renal effects", contra: "Renal impairment, GI bleeding", pearl: "No medications treat the curve itself. Pain management only as needed." },
+      { name: "Boston Brace", type: "Orthotic Device", action: "Prevents curve progression for curves 25-45 degrees", sideEffects: "Skin irritation, body image concerns", contra: "Skeletal maturity (brace no longer effective)", pearl: "Wear 18-23 hours/day for effectiveness. Compliance is critical." }
+    ],
+    pearls: ["School screening programs for early detection", "Monitor closely during growth spurts", "Brace compliance is key to preventing surgery", "Post-surgical care: log-roll only, monitor neurological status"],
+    quiz: [{ question: "When is bracing indicated for scoliosis?", options: ["Curves less than 10 degrees", "Curves 25-45 degrees in growing adolescents", "All curves regardless of degree", "Only after skeletal maturity"], correct: 1, rationale: "Bracing is indicated for curves between 25-45 degrees in skeletally immature (still growing) adolescents to prevent further curve progression. Smaller curves are monitored, and larger curves may need surgery." }]
+  },
+  "inhaled-spacers": {
+    title: "Inhaled Spacers",
+    cellular: { title: "Medication Delivery Optimization", content: "Spacers are holding chambers that slow the velocity of aerosolized medication from MDIs, allowing more drug to reach the lungs instead of depositing in the oropharynx. Reduces systemic absorption and side effects (thrush from corticosteroids, tachycardia from bronchodilators)." },
+    signs: {
+      left: ["Shake MDI", "Attach to spacer", "Exhale fully before use"],
+      right: ["Press canister and inhale slowly 3-5 seconds", "Hold breath 10 seconds", "Wait 1 minute between puffs"]
+    },
+    medications: [
+      { name: "Albuterol", type: "Short-Acting Beta-2 Agonist (Bronchodilator)", action: "Relaxes bronchial smooth muscle", sideEffects: "Tachycardia, tremor, nervousness", contra: "Hypersensitivity", pearl: "Use FIRST - opens airways so corticosteroid can reach deeper lung tissue." },
+      { name: "Fluticasone", type: "Inhaled Corticosteroid", action: "Reduces airway inflammation", sideEffects: "Oral thrush, hoarseness", contra: "Active fungal infections", pearl: "Use SECOND after bronchodilator. Always rinse mouth after use to prevent thrush." }
+    ],
+    pearls: ["Use spacer with all MDIs for optimal delivery", "Clean spacer weekly with warm soapy water and air dry", "Children and elderly benefit most from spacers", "Spacer eliminates need for perfect hand-breath coordination"],
+    quiz: [{ question: "When using both a bronchodilator and corticosteroid inhaler, which should be used first?", options: ["Corticosteroid first, then bronchodilator", "Bronchodilator first, then corticosteroid", "Either order is acceptable", "Mix them together in the spacer"], correct: 1, rationale: "The bronchodilator (e.g., Albuterol) should be used first to open the airways, allowing the corticosteroid (e.g., Fluticasone) to penetrate deeper into the lungs for maximum anti-inflammatory effect." }]
+  },
+  "meds-to-infants": {
+    title: "Administering Medications to Infants",
+    cellular: { title: "Pediatric Pharmacokinetics", content: "Infants have immature liver/kidney function affecting drug metabolism and excretion. Body composition (higher water content, lower fat) affects drug distribution. Dosing is always weight-based (mg/kg). Oral route preferred when possible." },
+    signs: {
+      left: ["Use calibrated oral syringe (never household spoon)", "Direct toward inner cheek in small amounts"],
+      right: ["Hold infant semi-upright", "Allow time to swallow between pushes"]
+    },
+    medications: [
+      { name: "Acetaminophen", type: "Analgesic/Antipyretic", action: "Pain and fever relief", sideEffects: "Hepatotoxicity in overdose", contra: "Liver disease", pearl: "Weight-based dosing. No aspirin in children <19 due to Reye syndrome risk." },
+      { name: "Amoxicillin", type: "Antibiotic", action: "Most common pediatric antibiotic", sideEffects: "Diarrhea, rash", contra: "Penicillin allergy", pearl: "Shake suspension well. Refrigerate after reconstitution. Complete full course." }
+    ],
+    pearls: ["Always verify weight-based dose calculation (double-check with another nurse)", "Never mix medication in bottle - infant may not finish and won't get full dose", "IM injections in vastus lateralis for infants", "Always check for allergies with parents/caregivers"],
+    quiz: [{ question: "Why should household spoons never be used for infant medication?", options: ["They are too large for infant mouths", "They are not calibrated and lead to inaccurate dosing", "Infants prefer syringes", "Spoons are harder to clean"], correct: 1, rationale: "Household spoons vary significantly in size and are not calibrated, leading to inaccurate dosing. Calibrated oral syringes ensure precise measurement of weight-based doses, which is critical in infants." }]
+  },
+  "cleansing-enemas": {
+    title: "Cleansing Enemas",
+    cellular: { title: "Bowel Evacuation Procedure", content: "Enemas introduce fluid into the rectum/colon to stimulate peristalsis and evacuate fecal matter. Types: tap water (hypotonic - risk of fluid/electrolyte imbalance), normal saline (isotonic - safest), soap suds (irritant), fleet (hypertonic phosphate)." },
+    signs: {
+      left: ["Left Sims position (left lateral, right knee flexed)", "Insert tubing 3-4 inches in adults"],
+      right: ["Solution temperature: 105°F (40.5°C)", "Hang bag 12-18 inches above anus"]
+    },
+    medications: [
+      { name: "Sodium Phosphate (Fleet)", type: "Hypertonic Enema", action: "Pulls water into colon by osmotic action", sideEffects: "Electrolyte imbalances (hyperphosphatemia)", contra: "Renal failure, children <2 years", pearl: "Pre-packaged and ready to use. Results in 5-10 minutes." },
+      { name: "Mineral Oil", type: "Retention Enema", action: "Lubricates and softens hardened stool", sideEffects: "Anal leakage", contra: "Aspiration risk patients", pearl: "Retain for 30-60 minutes for effectiveness. Position on right side after administration." }
+    ],
+    pearls: ["Contraindicated in recent rectal surgery or low platelet count", "Stop if client reports severe cramping", "Never force the tube - risk of perforation", "Document results: amount, color, consistency"],
+    quiz: [{ question: "What is the correct patient positioning for enema administration?", options: ["Right lateral (Sims) position", "Left lateral (Sims) position", "Supine position", "Prone position"], correct: 1, rationale: "Left Sims position (left lateral with right knee flexed) allows the solution to flow by gravity along the natural anatomical curve of the sigmoid colon and descending colon." }]
+  },
+  "wound-irrigation": {
+    title: "Wound Irrigation",
+    cellular: { title: "Mechanical Wound Cleansing", content: "Wound irrigation mechanically removes debris, bacteria, and necrotic tissue from wound bed. The goal is to deliver enough pressure to cleanse without damaging healthy granulation tissue. Optimal pressure: 8-15 psi (achieved with 35mL syringe and 19-gauge needle/angiocatheter)." },
+    signs: {
+      left: ["Contaminated wounds", "Wounds with visible debris"],
+      right: ["Chronic wounds with biofilm", "Irrigate from clean to dirty, top to bottom"]
+    },
+    medications: [
+      { name: "Normal Saline", type: "Standard Irrigant", action: "Isotonic solution for wound cleansing", sideEffects: "None significant", contra: "None", pearl: "Standard irrigant of choice. Use warm (body temperature) for patient comfort and to promote healing." },
+      { name: "Wound Cleansers", type: "pH-Balanced Cleanser", action: "Surfactant-based wound cleansing", sideEffects: "Minimal irritation", contra: "Deep wounds with exposed structures", pearl: "Avoid hydrogen peroxide and Dakin's solution on granulating tissue - they are cytotoxic to new tissue." }
+    ],
+    pearls: ["Use warm (body temperature) solution", "Wear PPE including splash guard/gown", "Document wound appearance before and after irrigation", "Pulsatile lavage for deep wounds"],
+    quiz: [{ question: "What is the optimal pressure for wound irrigation?", options: ["1-3 psi (very gentle)", "8-15 psi (35mL syringe with 19-gauge needle)", "20-30 psi (high pressure)", "Pressure does not matter"], correct: 1, rationale: "Optimal wound irrigation pressure is 8-15 psi, achieved with a 35mL syringe and 19-gauge needle or angiocatheter. This pressure is sufficient to remove debris and bacteria without damaging healthy granulation tissue." }]
+  },
+  "infective-endocarditis": {
+    title: "Infective Endocarditis",
+    cellular: { title: "Valve Infection & Vegetation", content: "Microbial infection of heart valves/endocardium. Vegetation (platelet-fibrin-microbe mass) forms on damaged valves. Most common organisms: Strep viridans (native valves), Staph aureus (IV drug users, prosthetic valves). Duke criteria used for diagnosis." },
+    signs: {
+      left: ["Fever", "New/Changing Heart Murmur", "Janeway Lesions (painless palms/soles)", "Osler Nodes (painful fingertips)"],
+      right: ["Splinter Hemorrhages (nails)", "Roth Spots (retina)", "Splenomegaly", "Embolic Events (stroke, PE)"]
+    },
+    medications: [
+      { name: "Vancomycin + Gentamicin", type: "Empiric Antibiotic", action: "Broad-spectrum coverage for endocarditis", sideEffects: "Nephrotoxicity, ototoxicity", contra: "Renal failure (dose adjust)", pearl: "Empiric therapy until culture results available. 4-6 weeks IV antibiotics required." },
+      { name: "Nafcillin", type: "Antistaphylococcal Penicillin", action: "Targets MSSA endocarditis", sideEffects: "Interstitial nephritis, hepatotoxicity", contra: "Penicillin allergy", pearl: "Used for methicillin-sensitive Staph aureus. Switch from empiric therapy once sensitivities known." }
+    ],
+    pearls: ["Blood cultures x3 from different sites before starting antibiotics", "PICC line placement for long-term outpatient IV therapy", "Dental prophylaxis required for patients with prosthetic valves", "Monitor for embolic complications (stroke, splenic infarct, renal infarct)"],
+    quiz: [{ question: "Which finding is classic for infective endocarditis and differentiates it from other endocardial conditions?", options: ["Chest pain with inspiration", "Janeway lesions and Osler nodes", "Pericardial friction rub", "Electrical alternans on ECG"], correct: 1, rationale: "Janeway lesions (painless erythematous lesions on palms/soles) and Osler nodes (painful nodules on fingertips) are classic peripheral manifestations of infective endocarditis caused by septic emboli and immune complex deposition." }]
+  },
+  "peripheral-artery-disease": {
+    title: "Peripheral Artery Disease (PAD)",
+    cellular: { title: "Atherosclerotic Narrowing", content: "Atherosclerotic narrowing of peripheral arteries reduces blood flow to extremities. Progression: intermittent claudication → rest pain → critical limb ischemia → tissue loss. Ankle-Brachial Index (ABI) < 0.9 is diagnostic." },
+    signs: {
+      left: ["Intermittent Claudication (calf pain with walking, relieved by rest)", "Pallor on Elevation", "Dependent Rubor", "Hair Loss on Affected Leg"],
+      right: ["Thick Toenails", "Cool Extremities", "Absent/Diminished Pedal Pulses", "Non-healing Wounds on Toes/Feet"]
+    },
+    medications: [
+      { name: "Cilostazol", type: "PDE3 Inhibitor", action: "Vasodilation and antiplatelet effect, improves walking distance", sideEffects: "Headache, diarrhea, palpitations", contra: "Heart failure (any severity)", pearl: "Most effective medication for improving claudication symptoms. Takes 2-4 weeks for full effect." },
+      { name: "Aspirin + Statin", type: "Antiplatelet/Lipid-lowering", action: "Reduces cardiovascular events and atherosclerotic progression", sideEffects: "GI bleeding (aspirin), myalgia (statin)", contra: "Active bleeding", pearl: "Foundation of PAD medical management to reduce MI/stroke risk." }
+    ],
+    pearls: ["Supervised walking program is the most important non-surgical intervention", "Buerger's exercises improve collateral circulation", "Position legs in DEPENDENT position (NOT elevated like venous disease)", "Smoking cessation is critical - single most modifiable risk factor"],
+    quiz: [{ question: "What is the key difference between arterial and venous insufficiency?", options: ["Arterial causes brown discoloration, venous causes pallor", "Arterial pain improves with elevation, venous pain worsens", "Arterial: pallor on elevation, absent pulses; Venous: edema, brown discoloration", "There is no clinical difference"], correct: 2, rationale: "PAD presents with pallor on elevation, dependent rubor, absent pulses, and claudication. Venous insufficiency presents with edema, brown hemosiderin staining, and stasis dermatitis. PAD legs are positioned DOWN; venous legs are ELEVATED." }]
+  },
+  "aortic-dissection": {
+    title: "Aortic Dissection",
+    cellular: { title: "Aortic Intimal Tear", content: "Tear in aortic intima allows blood to enter between layers of the aortic wall, creating a false lumen. Stanford Type A (ascending aorta - surgical emergency) vs Type B (descending aorta - medical management). Major risk factors: uncontrolled HTN, Marfan syndrome, bicuspid aortic valve." },
+    signs: {
+      left: ["Sudden Tearing/Ripping Chest Pain Radiating to Back", "Unequal BP in Arms (>20mmHg difference)", "Widened Mediastinum on CXR", "Aortic Regurgitation Murmur"],
+      right: ["Hypertension (most common)", "Pulse Deficits", "Neurological Deficits (if carotid involved)", "Malperfusion Syndrome (renal, mesenteric)"]
+    },
+    medications: [
+      { name: "Esmolol", type: "IV Beta Blocker", action: "Reduces heart rate and aortic shear stress", sideEffects: "Bradycardia, hypotension", contra: "Severe bradycardia, heart block", pearl: "FIRST medication given - must reduce HR before reducing BP to prevent reflex tachycardia." },
+      { name: "Nitroprusside", type: "IV Vasodilator", action: "Reduces afterload and aortic wall stress", sideEffects: "Cyanide toxicity (prolonged use)", contra: "Use ONLY after beta blocker initiated", pearl: "Given AFTER beta blocker to avoid reflex tachycardia which increases aortic shear stress." }
+    ],
+    pearls: ["Control HR before BP (target HR <60 bpm)", "Type A (ascending) = emergency surgery", "BP must be checked in BOTH arms - unequal pressures are diagnostic", "Morphine for pain management (also reduces sympathetic drive)"],
+    quiz: [{ question: "Why must a beta blocker be given BEFORE a vasodilator in aortic dissection?", options: ["Beta blockers are stronger medications", "Vasodilators cause reflex tachycardia which increases aortic shear stress", "Beta blockers reduce pain better", "Vasodilators are contraindicated alone"], correct: 1, rationale: "Vasodilators cause reflex tachycardia through baroreceptor activation. Increased heart rate increases the rate of aortic pressure change (dP/dt), which increases shear stress on the aortic wall and can propagate the dissection. Beta blockers must be given first to block this reflex." }]
+  },
+  "polycythemia": {
+    title: "Polycythemia Vera",
+    cellular: { title: "Myeloproliferative Neoplasm", content: "Polycythemia vera is a myeloproliferative neoplasm with JAK2 mutation (V617F) causing overproduction of RBCs, WBCs, and platelets. Increased blood viscosity leads to thrombosis risk. Secondary polycythemia results from chronic hypoxia (COPD, high altitude) with appropriately elevated EPO." },
+    signs: {
+      left: ["Plethoric Facies (ruddy complexion)", "Headache & Dizziness", "Pruritus After Bathing (aquagenic)", "Splenomegaly"],
+      right: ["Hypertension", "Erythromelalgia (burning hands/feet)", "Visual Disturbances", "Thrombotic Events (DVT, stroke)"]
+    },
+    medications: [
+      { name: "Phlebotomy", type: "Mainstay Treatment", action: "Removes excess RBCs to reduce viscosity", sideEffects: "Iron deficiency (expected)", contra: "Hemodynamic instability", pearl: "Target hematocrit <45%. First-line treatment for all patients." },
+      { name: "Hydroxyurea", type: "Cytoreductive Agent", action: "Suppresses bone marrow production of blood cells", sideEffects: "Myelosuppression, oral ulcers", contra: "Severe leukopenia", pearl: "Added for high-risk patients (age >60, prior thrombosis). Low-dose Aspirin also given to reduce thrombotic risk." }
+    ],
+    pearls: ["Increase oral fluid intake to reduce blood viscosity", "Avoid iron supplements (would fuel further RBC production)", "Risk of transformation to myelofibrosis or AML over time", "Distinguish primary (low EPO) from secondary (high EPO) polycythemia"],
+    quiz: [{ question: "What is the first-line treatment for polycythemia vera?", options: ["Chemotherapy", "Phlebotomy to target Hct <45%", "Blood transfusion", "Iron supplementation"], correct: 1, rationale: "Phlebotomy (therapeutic blood removal) is the first-line treatment for all patients with polycythemia vera. The goal is to maintain hematocrit below 45% to reduce blood viscosity and thrombotic risk." }]
+  },
+  "carotid-endarterectomy": {
+    title: "Carotid Endarterectomy Post-Op Care",
+    cellular: { title: "Carotid Plaque Removal", content: "Surgical removal of atherosclerotic plaque from the carotid artery to restore blood flow and reduce stroke risk. Indicated for symptomatic stenosis >70% or asymptomatic stenosis >80%. Patch angioplasty or primary closure techniques used." },
+    signs: {
+      left: ["Monitor Neuro Status q1h (NIHSS)", "CN VII Injury (facial droop)", "CN X Injury (hoarseness, dysphagia)", "CN XII Injury (tongue deviation)"],
+      right: ["Neck Hematoma (airway emergency)", "Hypotension or Hypertension", "Headache/Seizures (hyperperfusion syndrome)", "Signs of Stroke (new deficits)"]
+    },
+    medications: [
+      { name: "Aspirin + Clopidogrel", type: "Dual Antiplatelet", action: "Prevents thrombosis at surgical site", sideEffects: "Bleeding risk", contra: "Active hemorrhage", pearl: "Dual antiplatelet therapy reduces perioperative stroke risk." },
+      { name: "Labetalol", type: "Alpha/Beta Blocker", action: "Post-op BP control", sideEffects: "Bradycardia, bronchospasm", contra: "Asthma, heart block", pearl: "Keep BP within 20% of baseline. Too low = thrombosis, too high = hemorrhage or hyperperfusion." }
+    ],
+    pearls: ["Keep BP within 20% of baseline (too low = thrombosis, too high = hemorrhage)", "Monitor for hyperperfusion syndrome (headache, seizures, focal deficits)", "Keep emergency airway equipment at bedside (hematoma can compress trachea)", "Assess cranial nerves frequently - injury may be temporary or permanent"],
+    quiz: [{ question: "What is the priority assessment after carotid endarterectomy?", options: ["Pain level assessment", "Neurological status and airway patency", "Wound appearance", "Urinary output"], correct: 1, rationale: "The priority assessments are neurological status (stroke detection) and airway patency (neck hematoma can rapidly compress the trachea). Neuro checks should be performed hourly and any new deficits reported immediately." }]
+  },
+  "ards-management": {
+    title: "ARDS Management",
+    cellular: { title: "Diffuse Alveolar Damage", content: "Acute Respiratory Distress Syndrome involves diffuse alveolar damage from inflammatory mediators. Increased alveolar-capillary permeability causes non-cardiogenic pulmonary edema. Bilateral infiltrates on CXR. Severity by PaO2/FiO2 ratio: <300 (mild), <200 (moderate), <100 (severe)." },
+    signs: {
+      left: ["Acute Onset Dyspnea", "Refractory Hypoxemia (not responding to O2)", "Bilateral Infiltrates on CXR ('white-out')", "Decreased Lung Compliance"],
+      right: ["Tachypnea", "Accessory Muscle Use", "Cyanosis", "Respiratory Failure Requiring Intubation"]
+    },
+    medications: [
+      { name: "Cisatracurium", type: "Neuromuscular Blocking Agent", action: "Eliminates patient-ventilator dyssynchrony in severe ARDS", sideEffects: "Prolonged paralysis, ICU-acquired weakness", contra: "Mild ARDS", pearl: "Used for severe ARDS (P/F <150) in first 48 hours. Patient must be deeply sedated first." },
+      { name: "Dexamethasone", type: "Corticosteroid", action: "Reduces inflammatory response in select cases", sideEffects: "Hyperglycemia, immunosuppression", contra: "Active fungal infection", pearl: "May improve outcomes in moderate-severe ARDS. Prone positioning (16+ hrs/day) is a key non-pharmacologic intervention." }
+    ],
+    pearls: ["Lung-protective ventilation: Tidal volume 6mL/kg IDEAL body weight, Plateau pressure <30 cmH2O", "Prone positioning improves V/Q matching and reduces mortality", "Conservative fluid strategy (keep patient dry)", "Address the underlying cause (sepsis, aspiration, pneumonia)"],
+    quiz: [{ question: "What is the target tidal volume for mechanical ventilation in ARDS?", options: ["10-12 mL/kg actual body weight", "6 mL/kg ideal body weight", "8-10 mL/kg ideal body weight", "As high as needed to normalize CO2"], correct: 1, rationale: "Lung-protective ventilation uses low tidal volumes of 6 mL/kg ideal (not actual) body weight to prevent ventilator-induced lung injury (VILI). Higher volumes cause overdistension and worsen alveolar damage." }]
+  },
+  "active-tb": {
+    title: "Active Tuberculosis (TB)",
+    cellular: { title: "Acid-Fast Bacillus Infection", content: "Mycobacterium tuberculosis is an acid-fast bacillus transmitted via airborne droplets. Infects alveolar macrophages and forms caseating granulomas. Primary infection is often latent (90-95%). Reactivation occurs in immunocompromised states (HIV, malnutrition, immunosuppressive therapy)." },
+    signs: {
+      left: ["Chronic Productive Cough >3 Weeks", "Hemoptysis", "Night Sweats", "Unintentional Weight Loss"],
+      right: ["Low-Grade Fever", "Cavitary Lesions on CXR (upper lobes)", "Positive Sputum AFB Smear", "Fatigue and Malaise"]
+    },
+    medications: [
+      { name: "RIPE Therapy", type: "Combination Antitubercular", action: "Rifampin, Isoniazid, Pyrazinamide, Ethambutol for initial 2 months", sideEffects: "Hepatotoxicity (RIP), optic neuritis (E)", contra: "Severe liver disease", pearl: "Initial intensive phase (2 months RIPE), then continuation phase (4 months RI). Total 6 months minimum." },
+      { name: "Pyridoxine (Vitamin B6)", type: "Vitamin Supplement", action: "Prevents INH-induced peripheral neuropathy", sideEffects: "None at therapeutic doses", contra: "None significant", pearl: "Always co-prescribe with Isoniazid. INH depletes B6 causing numbness/tingling in extremities." }
+    ],
+    pearls: ["Airborne precautions: N95 respirator for staff, negative pressure room for patient", "3 consecutive negative sputum AFB cultures needed to discontinue airborne isolation", "Rifampin turns body fluids orange/red (tears, urine, sweat) - warn patient", "Monitor hepatic function regularly (LFTs) - hepatotoxicity is major risk"],
+    quiz: [{ question: "Why is Vitamin B6 (Pyridoxine) given with Isoniazid?", options: ["To enhance antibiotic effectiveness", "To prevent INH-induced peripheral neuropathy", "To reduce hepatotoxicity", "To improve drug absorption"], correct: 1, rationale: "Isoniazid interferes with pyridoxine (B6) metabolism, leading to peripheral neuropathy (numbness, tingling in hands/feet). Co-administration of B6 prevents this neurotoxic side effect." }]
+  },
+  "osa-management": {
+    title: "Obstructive Sleep Apnea (OSA)",
+    cellular: { title: "Upper Airway Collapse", content: "Repetitive upper airway collapse during sleep causes intermittent hypoxia and sleep fragmentation. Increased sympathetic nervous system activity leads to HTN, cardiac arrhythmias, and metabolic syndrome. Apnea-Hypopnea Index (AHI) >5 events/hour is diagnostic." },
+    signs: {
+      left: ["Loud Snoring", "Witnessed Apneic Episodes", "Excessive Daytime Sleepiness (Epworth Scale)", "Morning Headache"],
+      right: ["Nocturia", "Obesity (BMI >30)", "Large Neck Circumference (>17in men, >16in women)", "Cognitive Impairment/Mood Changes"]
+    },
+    medications: [
+      { name: "CPAP", type: "Positive Airway Pressure", action: "Pneumatic splint keeps airway open during sleep", sideEffects: "Nasal dryness, mask discomfort, claustrophobia", contra: "Inability to maintain mask seal", pearl: "First-line treatment for moderate-severe OSA. Compliance is the biggest challenge - proper mask fitting essential." },
+      { name: "Modafinil", type: "Wakefulness-Promoting Agent", action: "Reduces residual daytime sleepiness despite CPAP use", sideEffects: "Headache, nausea, insomnia", contra: "Cardiac arrhythmias", pearl: "Adjunct therapy only - does NOT treat the underlying apnea. Used when CPAP alone doesn't resolve daytime sleepiness." }
+    ],
+    pearls: ["Weight loss can be curative in obese patients", "Polysomnography (sleep study) is the gold standard for diagnosis", "CPAP compliance is the key challenge - educate on proper use", "Lateral sleeping position reduces airway collapse", "Avoid alcohol and sedatives before bed (relax airway muscles)"],
+    quiz: [{ question: "What is the gold standard treatment for moderate-severe OSA?", options: ["Surgery (UPPP)", "Weight loss alone", "CPAP (Continuous Positive Airway Pressure)", "Oral appliance therapy"], correct: 2, rationale: "CPAP is the gold standard first-line treatment for moderate-severe OSA. It acts as a pneumatic splint to keep the upper airway open during sleep, preventing apneic episodes and improving oxygenation." }]
+  },
+  "peptic-ulcer": {
+    title: "Peptic Ulcer Disease",
+    cellular: { title: "Mucosal Breakdown", content: "Break in gastric or duodenal mucosa extending through the muscularis mucosae. Main causes: H. pylori infection (disrupts mucosal defense) and NSAIDs (inhibit protective prostaglandin production). Gastric ulcers cause pain WITH eating. Duodenal ulcers cause pain 2-3 hours AFTER eating, relieved by food." },
+    signs: {
+      left: ["Epigastric Pain (burning/gnawing)", "Nausea and Bloating", "Gastric: Pain Worsens WITH Eating", "Duodenal: Pain 2-3h After Eating, Relieved by Food"],
+      right: ["Hemorrhage (melena, hematemesis)", "Perforation (sudden severe pain, rigid abdomen)", "Gastric Outlet Obstruction (vomiting)", "Coffee-Ground Emesis (upper GI bleed)"]
+    },
+    medications: [
+      { name: "Omeprazole", type: "Proton Pump Inhibitor", action: "Suppresses gastric acid secretion by blocking H+/K+ ATPase", sideEffects: "C. diff risk, hypomagnesemia, bone fractures (long-term)", contra: "Known hypersensitivity", pearl: "First-line acid suppression. Take 30 minutes before meals for maximum effectiveness." },
+      { name: "Triple Therapy", type: "H. pylori Eradication", action: "PPI + Amoxicillin + Clarithromycin for 14 days", sideEffects: "GI upset, metallic taste", contra: "Macrolide allergy", pearl: "Must complete full course. Sucralfate (mucosal protectant) can be added - give on empty stomach, separate from other meds by 2 hours." }
+    ],
+    pearls: ["EGD (endoscopy) for definitive diagnosis and biopsy", "Discontinue NSAIDs immediately", "H. pylori testing: urea breath test or stool antigen", "Coffee-ground emesis = upper GI bleeding (report immediately)", "NPO if perforation suspected - prepare for surgical consultation"],
+    quiz: [{ question: "How does the pain pattern differ between gastric and duodenal ulcers?", options: ["No difference in pain patterns", "Gastric: pain with eating; Duodenal: pain 2-3h after eating, relieved by food", "Gastric: right-sided pain; Duodenal: left-sided pain", "Both cause pain only at night"], correct: 1, rationale: "Gastric ulcers cause pain WITH eating because food stimulates acid production that irritates the ulcer. Duodenal ulcers cause pain 2-3 hours after eating when acid enters the duodenum, and food RELIEVES pain by buffering the acid." }]
+  },
+  "ulcerative-colitis": {
+    title: "Ulcerative Colitis",
+    cellular: { title: "Chronic Colonic Inflammation", content: "Chronic inflammatory bowel disease affecting ONLY the colon and rectum. Inflammation is continuous (not skip lesions) starting at the rectum and extending proximally. Involves mucosa and submucosa only (unlike Crohn's which is transmural). Significant risk of toxic megacolon and colorectal cancer." },
+    signs: {
+      left: ["Bloody Diarrhea (10-20x/day)", "Urgency and Tenesmus", "LLQ Cramping", "Weight Loss"],
+      right: ["Extraintestinal: Arthritis, Uveitis", "Erythema Nodosum", "Primary Sclerosing Cholangitis", "Toxic Megacolon (distension, fever, tachycardia)"]
+    },
+    medications: [
+      { name: "Mesalamine (5-ASA)", type: "Aminosalicylate", action: "Topical anti-inflammatory for colonic mucosa", sideEffects: "Headache, nausea, nephrotoxicity (rare)", contra: "Salicylate allergy", pearl: "First-line for mild-moderate UC. Available as oral, enema, or suppository for targeted delivery." },
+      { name: "Infliximab", type: "Anti-TNF Biologic", action: "Blocks TNF-alpha to reduce severe inflammation", sideEffects: "Infection risk, infusion reactions, reactivation TB", contra: "Active infection, heart failure", pearl: "Reserved for moderate-severe UC refractory to conventional therapy. Screen for latent TB before starting. Prednisone used for acute flares, Azathioprine for maintenance." }
+    ],
+    pearls: ["Low-fiber diet during active flares to reduce bowel stimulation", "Colonoscopy surveillance for cancer starting 8 years after diagnosis", "Total colectomy is CURATIVE (unlike Crohn's)", "Monitor for toxic megacolon: avoid opioids and anticholinergics (decrease motility)"],
+    quiz: [{ question: "What is the key difference between Ulcerative Colitis and Crohn's disease?", options: ["UC affects the entire GI tract, Crohn's only affects the colon", "UC is continuous mucosal inflammation of colon only; Crohn's is transmural skip lesions anywhere in GI tract", "UC causes fistulas; Crohn's does not", "There is no clinical difference"], correct: 1, rationale: "UC affects only the colon/rectum with continuous mucosal/submucosal inflammation. Crohn's can affect ANY part of the GI tract (mouth to anus) with transmural (full-thickness) inflammation in skip lesions. UC is curable with colectomy; Crohn's is not." }]
+  },
+  "cholecystectomy": {
+    title: "Cholecystectomy Care",
+    cellular: { title: "Gallbladder Removal", content: "Surgical removal of the gallbladder, most commonly for symptomatic cholelithiasis (gallstones) or acute cholecystitis. Laparoscopic approach is standard (4 small incisions). Bile duct injury is the most feared surgical complication. Post-cholecystectomy, bile flows directly from liver to duodenum." },
+    signs: {
+      left: ["Pre-op: RUQ Pain (especially after fatty meals)", "Positive Murphy's Sign", "Nausea/Vomiting", "Jaundice (if CBD obstruction)"],
+      right: ["Post-op: Bile Leak (pain, fever, jaundice)", "Shoulder Pain (referred from CO2 insufflation)", "T-tube Drainage (if placed)", "Clay-Colored Stools (bile duct obstruction)"]
+    },
+    medications: [
+      { name: "Ketorolac", type: "NSAID Analgesic", action: "Post-operative pain management", sideEffects: "GI bleeding, renal impairment", contra: "Renal insufficiency, active GI bleed", pearl: "Preferred over opioids for post-cholecystectomy pain. Limit use to 5 days maximum." },
+      { name: "Ondansetron", type: "5-HT3 Antagonist", action: "Prevents post-operative nausea/vomiting", sideEffects: "Headache, constipation, QT prolongation", contra: "Severe hepatic impairment", pearl: "Common post-anesthesia. Ursodiol may be prescribed if residual CBD stones present." }
+    ],
+    pearls: ["Low-fat diet initially as body adjusts to continuous bile flow", "Report clay-colored stools immediately (indicates bile duct obstruction)", "T-tube care: keep below gallbladder level, measure and document drainage", "Clamp T-tube before meals as ordered to aid fat digestion"],
+    quiz: [{ question: "What does a positive Murphy's sign indicate?", options: ["Appendicitis", "Acute cholecystitis (gallbladder inflammation)", "Pancreatitis", "Hepatitis"], correct: 1, rationale: "Murphy's sign is elicited by palpating the RUQ while the patient inhales deeply. Inspiratory arrest (patient stops breathing in due to pain) when the inflamed gallbladder descends and contacts the examiner's hand is a positive Murphy's sign, indicating acute cholecystitis." }]
+  },
+  "ercp-egd": {
+    title: "ERCP & EGD Procedures",
+    cellular: { title: "Endoscopic GI Procedures", content: "EGD (Esophagogastroduodenoscopy) visualizes the upper GI tract for diagnosis and treatment. ERCP (Endoscopic Retrograde Cholangiopancreatography) accesses biliary and pancreatic ducts for stone removal and stenting. Both require conscious sedation and careful post-procedure monitoring." },
+    signs: {
+      left: ["EGD Indications: Dysphagia, GERD, GI Bleeding, Biopsy", "ERCP Indications: CBD Stones, Strictures, Cholangitis", "Sedation Assessment (level of consciousness)", "Vital Sign Monitoring"],
+      right: ["Perforation Signs (pain, fever, subcutaneous emphysema)", "Post-ERCP Pancreatitis (epigastric pain radiating to back)", "Hemorrhage (hematemesis, melena)", "Aspiration Risk"]
+    },
+    medications: [
+      { name: "Midazolam + Fentanyl", type: "Conscious Sedation", action: "Anxiolysis and analgesia for procedure tolerance", sideEffects: "Respiratory depression, hypotension", contra: "Severe respiratory compromise", pearl: "Monitor respiratory status closely. Flumazenil reverses midazolam; Naloxone reverses fentanyl." },
+      { name: "Glucagon", type: "Smooth Muscle Relaxant", action: "Relaxes GI smooth muscle during endoscopic procedures", sideEffects: "Nausea, hyperglycemia", contra: "Pheochromocytoma", pearl: "Simethicone may be used to reduce gas and improve visualization during the procedure." }
+    ],
+    pearls: ["NPO for 6-8 hours before procedure", "Check gag reflex BEFORE allowing oral intake post-EGD", "Monitor for pancreatitis after ERCP (check amylase/lipase)", "ERCP carries 5-10% risk of post-procedure pancreatitis"],
+    quiz: [{ question: "What is the priority assessment after EGD before allowing the patient to eat or drink?", options: ["Check for abdominal distension", "Verify return of gag reflex", "Assess pain level", "Check blood glucose"], correct: 1, rationale: "The gag reflex must return before allowing oral intake after EGD. The throat is anesthetized during the procedure, and absent gag reflex increases aspiration risk. Typically returns within 1-2 hours." }]
+  },
+  "dumping-syndrome": {
+    title: "Dumping Syndrome",
+    cellular: { title: "Rapid Gastric Emptying", content: "Rapid gastric emptying after gastric surgery (gastrectomy, gastric bypass, Billroth procedures). Hyperosmolar chyme enters the small intestine causing fluid shifts from plasma into bowel lumen. Early dumping (15-30 min after eating): GI and vasomotor symptoms from fluid shifts. Late dumping (1-3 hours): reactive hypoglycemia from rapid glucose absorption triggering excess insulin." },
+    signs: {
+      left: ["Early (15-30 min): Nausea, Cramping, Diarrhea", "Diaphoresis & Tachycardia", "Dizziness & Flushing", "Abdominal Bloating"],
+      right: ["Late (1-3 hrs): Hypoglycemia", "Shakiness & Confusion", "Weakness & Fatigue", "Hunger and Diaphoresis"]
+    },
+    medications: [
+      { name: "Octreotide", type: "Somatostatin Analog", action: "Slows gastric emptying and reduces insulin release", sideEffects: "Gallstones, steatorrhea, injection site pain", contra: "Hypersensitivity", pearl: "Used for refractory dumping syndrome not controlled by dietary modifications. Given as subcutaneous injection." },
+      { name: "Acarbose", type: "Alpha-Glucosidase Inhibitor", action: "Slows carbohydrate absorption to prevent late dumping hypoglycemia", sideEffects: "Flatulence, diarrhea, abdominal pain", contra: "Inflammatory bowel disease", pearl: "Specifically targets late dumping by preventing rapid glucose absorption and subsequent reactive hypoglycemia." }
+    ],
+    pearls: ["Small frequent meals (6 per day) instead of 3 large meals", "Avoid simple sugars and fluids WITH meals (increases osmotic load)", "Lie down for 30 minutes after eating to slow gastric transit", "High protein, high fat, LOW carbohydrate diet", "Separate liquids from solids by at least 30 minutes"],
+    quiz: [{ question: "Why should patients with dumping syndrome avoid drinking fluids with meals?", options: ["Fluids dilute digestive enzymes", "Fluids increase the osmotic load entering the small intestine, worsening symptoms", "Fluids cause acid reflux", "Fluids reduce nutrient absorption"], correct: 1, rationale: "Drinking fluids with meals increases the volume and osmolality of contents entering the small intestine rapidly, worsening the fluid shift from plasma to bowel lumen that causes dumping syndrome symptoms. Separating liquids from solids by 30 minutes reduces this effect." }]
+  },
+  "ckd-management": {
+    title: "Chronic Kidney Disease (CKD) Management",
+    cellular: { title: "Progressive Nephron Loss", content: "Progressive loss of nephron function over months to years. GFR staging: Stage 1 (>90, damage present), Stage 2 (60-89), Stage 3 (30-59), Stage 4 (15-29), Stage 5 (<15, ESRD requiring dialysis/transplant). Most common causes: Diabetes mellitus and Hypertension. Consequences: uremia, electrolyte imbalances, anemia (decreased EPO production), renal osteodystrophy (decreased Vitamin D activation)." },
+    signs: {
+      left: ["Fatigue & Weakness", "Peripheral Edema", "Hypertension", "Uremic Frost (late finding)"],
+      right: ["Pruritus", "Anemia (pallor)", "Hyperkalemia", "Metabolic Acidosis, Oliguria (late), Asterixis"]
+    },
+    medications: [
+      { name: "ACE Inhibitors (Lisinopril)", type: "Renoprotective Antihypertensive", action: "Reduces intraglomerular pressure, slows CKD progression", sideEffects: "Hyperkalemia, dry cough, angioedema", contra: "Bilateral renal artery stenosis, pregnancy", pearl: "First-line for CKD with proteinuria. Monitor potassium and creatinine closely after initiation." },
+      { name: "Sevelamer", type: "Phosphate Binder", action: "Binds dietary phosphate in GI tract to prevent hyperphosphatemia", sideEffects: "GI upset, constipation", contra: "Bowel obstruction", pearl: "Must be taken WITH meals to bind phosphorus in food. Erythropoietin given for renal anemia. Calcitriol (active Vit D) and Sodium bicarbonate (for acidosis) also part of management." }
+    ],
+    pearls: ["Renal diet: low potassium, low phosphorus, low sodium, protein restriction varies by stage", "Avoid NSAIDs (reduce renal blood flow) and contrast dye (nephrotoxic)", "Aggressive diabetes and HTN management slows progression", "Monitor GFR trend over time - rate of decline guides treatment decisions"],
+    quiz: [{ question: "What are the two most common causes of CKD?", options: ["Glomerulonephritis and polycystic kidney disease", "Diabetes mellitus and Hypertension", "UTIs and kidney stones", "Lupus and amyloidosis"], correct: 1, rationale: "Diabetes mellitus (diabetic nephropathy) and hypertension (hypertensive nephrosclerosis) account for approximately 70% of all CKD cases. Aggressive management of blood glucose and blood pressure is essential to slow CKD progression." }]
+  },
+  "rhabdomyolysis": {
+    title: "Rhabdomyolysis",
+    cellular: { title: "Skeletal Muscle Breakdown", content: "Skeletal muscle breakdown releases intracellular contents (myoglobin, CK, potassium, phosphate) into the bloodstream. Myoglobin precipitates in renal tubules, especially in acidic urine, causing acute tubular necrosis (ATN) and AKI. Common causes: crush injury, prolonged immobilization, statins, extreme exercise, seizures, heat stroke, compartment syndrome." },
+    signs: {
+      left: ["Muscle Pain & Weakness", "Dark Brown/Tea-Colored Urine (myoglobinuria)", "Elevated CK (>5x normal, often >10,000)", "Swelling of Affected Muscle Groups"],
+      right: ["Hyperkalemia (cardiac risk)", "Hyperphosphatemia", "Hypocalcemia (calcium deposits in damaged muscle)", "Elevated Creatinine (AKI)"]
+    },
+    medications: [
+      { name: "Aggressive IV Normal Saline", type: "Volume Resuscitation", action: "Dilutes myoglobin, maintains renal perfusion, promotes diuresis", sideEffects: "Fluid overload, pulmonary edema", contra: "Oliguric renal failure (adjust rate)", pearl: "Target urine output 200-300 mL/hr. May require up to 1.5 L/hr initially. THE most critical intervention." },
+      { name: "Sodium Bicarbonate", type: "Urinary Alkalinizer", action: "Alkalinizes urine to prevent myoglobin precipitation in renal tubules", sideEffects: "Metabolic alkalosis, hypokalemia", contra: "Severe alkalosis", pearl: "Target urine pH >6.5. Calcium gluconate given ONLY for symptomatic hyperkalemia (ECG changes). Mannitol may be used as osmotic diuretic." }
+    ],
+    pearls: ["CK peaks at 24-72 hours after injury", "Monitor for compartment syndrome (5 P's: Pain, Pallor, Pulselessness, Paresthesia, Paralysis)", "Aggressive fluid resuscitation is the KEY intervention", "Monitor potassium closely - hyperkalemia can cause fatal arrhythmias", "Avoid calcium supplementation unless symptomatic hyperkalemia (calcium may deposit in damaged muscle)"],
+    quiz: [{ question: "Why is aggressive IV fluid resuscitation the priority treatment in rhabdomyolysis?", options: ["To replace blood loss", "To dilute myoglobin in the blood and flush it through kidneys before it causes tubular damage", "To correct dehydration from vomiting", "To reduce muscle pain"], correct: 1, rationale: "Aggressive IV NS dilutes circulating myoglobin and maintains high urine output to flush myoglobin through the renal tubules before it can precipitate and cause acute tubular necrosis. This is the single most important intervention to prevent AKI." }]
+  },
+  "av-fistula": {
+    title: "AV Fistula Care",
+    cellular: { title: "Hemodialysis Vascular Access", content: "Surgically created connection between artery and vein (usually radial artery to cephalic vein - radiocephalic fistula) for hemodialysis access. Takes 2-3 months to mature (arterialization of vein). Preferred permanent access due to lowest infection and thrombosis rates compared to grafts or catheters." },
+    signs: {
+      left: ["Thrill Present (palpable buzzing vibration - GOOD)", "Bruit Present (auscultated whooshing sound - GOOD)", "Adequate Blood Flow for Dialysis", "Mature Fistula (visible, palpable arterialized vein)"],
+      right: ["Absent Thrill/Bruit = Thrombosis/Stenosis", "Steal Syndrome (hand pain, pallor, coolness)", "Aneurysm Formation", "Signs of Infection (redness, warmth, drainage)"]
+    },
+    medications: [
+      { name: "Heparin", type: "Anticoagulant", action: "Prevents clotting in dialysis circuit during treatment", sideEffects: "Bleeding, HIT", contra: "Active hemorrhage", pearl: "Used during each dialysis session. Monitor for signs of bleeding post-dialysis." },
+      { name: "Alteplase", type: "Thrombolytic", action: "Dissolves clots in thrombosed AV fistula", sideEffects: "Hemorrhage", contra: "Recent surgery, active bleeding", pearl: "Used for acute fistula thrombosis to restore patency. May also require surgical thrombectomy." }
+    ],
+    pearls: ["NO blood pressure, IV starts, or blood draws from the fistula arm", "Assess thrill (palpate) and bruit (auscultate) every shift", "Elevate arm after surgical creation to reduce swelling", "Report ABSENCE of thrill immediately - indicates clotting", "Avoid tight clothing, watches, or jewelry on fistula arm"],
+    quiz: [{ question: "What finding indicates the AV fistula is functioning properly?", options: ["Absence of pulses distal to the fistula", "Presence of a palpable thrill and audible bruit", "Cool temperature of the fistula arm", "Edema around the fistula site"], correct: 1, rationale: "A palpable thrill (buzzing vibration felt on palpation) and audible bruit (whooshing sound heard with stethoscope) indicate adequate blood flow through the AV fistula. Absence of these findings suggests thrombosis or stenosis and must be reported immediately." }]
+  },
+  "dialysis-steal": {
+    title: "Dialysis Steal Syndrome",
+    cellular: { title: "Vascular Steal Phenomenon", content: "The AV fistula diverts arterial blood away from the hand and fingers, 'stealing' blood flow from the distal extremity. Low-resistance pathway through the fistula preferentially shunts blood away from high-resistance distal vascular bed. Can progress to tissue necrosis if severe. More common in diabetic patients and those with peripheral vascular disease." },
+    signs: {
+      left: ["Pain in Hand/Fingers During and After Dialysis", "Coolness of Affected Hand", "Pallor of Fingers", "Numbness and Tingling"],
+      right: ["Weakness of Hand Grip", "Poor Capillary Refill (<3 seconds)", "Absent/Diminished Radial Pulse Distal to Fistula", "Tissue Loss/Ulceration (severe cases)"]
+    },
+    medications: [
+      { name: "No Pharmacological Treatment", type: "Surgical Management", action: "Requires surgical revision - banding, DRIL procedure, or ligation if severe", sideEffects: "N/A", contra: "N/A", pearl: "Medical management is supportive only. Definitive treatment is surgical revision of the fistula to restore distal perfusion." }
+    ],
+    pearls: ["Assess distal perfusion frequently: capillary refill, pulse, sensation, temperature", "Compare findings between both hands for baseline", "Report progressive symptoms immediately to provider", "May require access revision or relocation to different site", "Keep the affected extremity warm to promote circulation"],
+    quiz: [{ question: "What is the most important nursing assessment for a patient with dialysis access?", options: ["Measuring blood pressure in the fistula arm", "Assessing distal perfusion (pulses, capillary refill, sensation) and thrill/bruit", "Checking blood glucose levels", "Monitoring urine output"], correct: 1, rationale: "The most important assessments are checking for thrill and bruit (fistula patency) and assessing distal perfusion (pulses, capillary refill, temperature, sensation) to detect steal syndrome or thrombosis early. Never take BP in the fistula arm." }]
+  },
+  "adrenal-insufficiency": {
+    title: "Adrenal Insufficiency (Addison's Disease)",
+    cellular: { title: "Adrenal Gland Failure", content: "Primary adrenal insufficiency (Addison's disease) results from destruction of the adrenal cortex (autoimmune most common cause). Produces inadequate cortisol and aldosterone. Cortisol deficiency causes hypoglycemia, fatigue, and inability to mount a stress response. Aldosterone deficiency causes sodium wasting, hyperkalemia, hypovolemia, and hypotension. ACTH is elevated due to loss of negative feedback." },
+    signs: {
+      left: ["Hyperpigmentation (ACTH stimulates melanocytes)", "Fatigue & Weakness", "Weight Loss", "Hypotension (especially orthostatic)"],
+      right: ["Salt Craving", "Hypoglycemia", "Hyperkalemia & Hyponatremia", "Nausea, Vomiting, Abdominal Pain"]
+    },
+    medications: [
+      { name: "Hydrocortisone", type: "Glucocorticoid Replacement", action: "Replaces deficient cortisol for metabolic and stress response", sideEffects: "Cushing's if over-replaced, hyperglycemia", contra: "Systemic fungal infections", pearl: "Stress dosing: DOUBLE or TRIPLE dose during illness, injury, or surgery. Addisonian crisis = IV hydrocortisone 100mg STAT + NS bolus." },
+      { name: "Fludrocortisone", type: "Mineralocorticoid Replacement", action: "Replaces deficient aldosterone for sodium/water retention", sideEffects: "Hypertension, edema, hypokalemia", contra: "Heart failure", pearl: "Addresses sodium wasting and hyperkalemia. Monitor BP and electrolytes regularly." }
+    ],
+    pearls: ["Addisonian crisis is LIFE-THREATENING: N/V, severe hypotension, shock - treat with IV hydrocortisone STAT and aggressive NS bolus", "Patient should wear medical alert bracelet at all times", "DOUBLE dose of hydrocortisone during minor illness, TRIPLE for major stress/surgery", "NEVER stop corticosteroids abruptly - must taper to prevent crisis"],
+    quiz: [{ question: "What typically triggers an Addisonian (adrenal) crisis?", options: ["Eating too much sodium", "Physiologic stress (infection, surgery, trauma) in a patient with inadequate cortisol replacement", "Taking too much hydrocortisone", "Excessive exercise"], correct: 1, rationale: "Addisonian crisis is triggered when the body faces physiologic stress (infection, surgery, trauma, illness) but cannot produce adequate cortisol to mount a stress response. Patients must increase (stress dose) their hydrocortisone during illness to prevent crisis." }]
+  },
+  "thyroidectomy": {
+    title: "Thyroidectomy Post-Op Care",
+    cellular: { title: "Thyroid Gland Removal", content: "Surgical removal of thyroid gland for thyroid cancer, Graves' disease (refractory to medical therapy), or large goiter causing compressive symptoms. Key surgical risks: damage to recurrent laryngeal nerve (hoarseness/voice changes), inadvertent removal/damage of parathyroid glands (hypocalcemia), and hemorrhage/hematoma causing airway compromise." },
+    signs: {
+      left: ["Hoarseness/Voice Changes (recurrent laryngeal nerve injury)", "Trousseau Sign (carpopedal spasm with BP cuff)", "Chvostek Sign (facial twitching when tapping)", "Dysphagia"],
+      right: ["Neck Swelling/Hematoma (AIRWAY EMERGENCY)", "Stridor or Respiratory Distress", "Tingling/Numbness (perioral, fingers - hypocalcemia)", "Laryngospasm"]
+    },
+    medications: [
+      { name: "Levothyroxine", type: "Thyroid Hormone Replacement", action: "Lifelong replacement of T4 after total thyroidectomy", sideEffects: "Tachycardia, weight loss (if over-replaced)", contra: "Untreated adrenal insufficiency", pearl: "Take on empty stomach, 30-60 min before breakfast. Monitor TSH levels regularly to adjust dosing." },
+      { name: "Calcium Gluconate IV", type: "Emergency Calcium Replacement", action: "Treats symptomatic hypocalcemia from parathyroid damage", sideEffects: "Bradycardia if given too fast", contra: "Digoxin use (use with extreme caution)", pearl: "Keep at bedside post-thyroidectomy. Oral Calcium + Vitamin D prescribed if parathyroids damaged. Tracheostomy set also kept at bedside." }
+    ],
+    pearls: ["Support neck when repositioning (avoid hyperextension of surgical site)", "Semi-Fowler's position to reduce edema and promote drainage", "Check POSTERIOR dressing - blood pools behind the neck", "Calcium gluconate AND tracheostomy set at bedside", "Assess voice quality every 1-2 hours (hoarseness may indicate nerve damage)", "Report ANY breathing difficulty, stridor, or neck swelling IMMEDIATELY"],
+    quiz: [{ question: "What is the priority assessment in the first 24 hours after thyroidectomy?", options: ["Thyroid hormone levels", "Airway patency and signs of hemorrhage/hematoma", "Wound cosmetic appearance", "Bowel sounds"], correct: 1, rationale: "The priority is monitoring airway patency because a neck hematoma can rapidly compress the trachea causing airway obstruction. Assess for neck swelling, stridor, and respiratory distress. Also monitor for hypocalcemia (parathyroid damage) with Trousseau and Chvostek signs." }]
+  },
+  "malignant-hyperthermia": {
+    title: "Malignant Hyperthermia",
+    cellular: { title: "Pharmacogenetic Emergency", content: "Life-threatening pharmacogenetic reaction triggered by volatile anesthetics (halothane, sevoflurane, desflurane) or succinylcholine. Genetic defect in ryanodine receptor (RYR1 gene) on skeletal muscle sarcoplasmic reticulum causes uncontrolled calcium release, leading to sustained muscle contraction, hypermetabolism, rapidly rising temperature (>104°F/40°C), rhabdomyolysis, metabolic acidosis, hyperkalemia, and death if untreated." },
+    signs: {
+      left: ["Unexplained Tachycardia (earliest sign)", "Rising End-Tidal CO2 (EtCO2)", "Masseter Muscle Rigidity (jaw - first muscle sign)", "Rapidly Rising Temperature"],
+      right: ["Generalized Muscle Rigidity", "Dark Urine (myoglobinuria)", "Metabolic Acidosis", "Hyperkalemia, DIC (late signs)"]
+    },
+    medications: [
+      { name: "Dantrolene Sodium", type: "Skeletal Muscle Relaxant", action: "ONLY specific treatment - blocks calcium release from sarcoplasmic reticulum", sideEffects: "Muscle weakness, hepatotoxicity", contra: "None in emergency (life-saving)", pearl: "Dose: 2.5 mg/kg IV, repeat as needed. Must be available WHEREVER anesthesia is administered. Requires reconstitution - assign dedicated person." },
+      { name: "Iced Normal Saline", type: "Cooling Measure", action: "Reduces core body temperature", sideEffects: "Hypothermia if over-cooled", contra: "None in emergency", pearl: "Also apply ice packs to axilla, groin, and neck. Sodium bicarbonate for acidosis. Insulin + glucose for hyperkalemia. Target temperature <38.5°C." }
+    ],
+    pearls: ["STOP triggering anesthetic agent IMMEDIATELY and hyperventilate with 100% O2", "Call for help - this requires multiple providers simultaneously", "Dantrolene MUST be stocked wherever general anesthesia is administered", "Genetic testing available: caffeine-halothane contracture test", "FAMILY HISTORY is critical - autosomal dominant inheritance", "Cool patient aggressively: iced IV fluids, ice packs to axilla/groin/neck"],
+    quiz: [{ question: "What is the first-line medication for malignant hyperthermia?", options: ["Acetaminophen for fever", "Dantrolene sodium IV", "Epinephrine", "Succinylcholine"], correct: 1, rationale: "Dantrolene sodium is the ONLY specific treatment for malignant hyperthermia. It works by blocking the abnormal calcium release from the sarcoplasmic reticulum that drives the hypermetabolic crisis. It must be given immediately at 2.5 mg/kg IV and repeated as needed." }]
+  },
+  "anaphylaxis": {
+    title: "Anaphylaxis Management",
+    cellular: { title: "Severe Type I Hypersensitivity", content: "Severe IgE-mediated Type I hypersensitivity reaction. Prior sensitization produces IgE antibodies that bind to mast cells and basophils. Re-exposure triggers massive degranulation releasing histamine, leukotrienes, and prostaglandins. This causes bronchospasm, systemic vasodilation, increased vascular permeability, and cardiovascular collapse within minutes." },
+    signs: {
+      left: ["Urticaria (hives) & Angioedema", "Respiratory Distress (wheezing, stridor, dyspnea)", "Hypotension & Tachycardia", "Flushing and Warmth"],
+      right: ["GI Symptoms (nausea, vomiting, diarrhea)", "Anxiety & Sense of Impending Doom", "Loss of Consciousness", "Cardiac Arrest (if untreated)"]
+    },
+    medications: [
+      { name: "Epinephrine IM", type: "Alpha/Beta Agonist", action: "Reverses bronchospasm, vasoconstriction, reduces vascular permeability", sideEffects: "Tachycardia, hypertension, tremor", contra: "NONE in anaphylaxis (life-saving)", pearl: "FIRST and MOST IMPORTANT drug. Give IM in vastus lateralis (lateral thigh). Can repeat every 5-15 minutes. Do NOT delay for other medications." },
+      { name: "Diphenhydramine + Ranitidine", type: "H1 + H2 Blockers", action: "Blocks histamine receptors to reduce allergic response", sideEffects: "Drowsiness (H1), headache (H2)", contra: "Not a substitute for epinephrine", pearl: "Adjunct therapy AFTER epinephrine. Albuterol nebulizer for persistent bronchospasm. IV fluids (1-2L NS bolus) for hypotension." }
+    ],
+    pearls: ["ABCs first - secure airway, support breathing and circulation", "Epinephrine is the ONLY first-line treatment - do NOT delay for antihistamines", "Biphasic reaction possible: monitor patient for 4-6 hours after initial resolution", "EpiPen teaching: remove safety cap, press firmly into outer thigh, hold 10 seconds", "Identify and strictly avoid triggers going forward", "Patient should wear medical alert bracelet and carry EpiPen at all times"],
+    quiz: [{ question: "What is the correct route and site for epinephrine administration in anaphylaxis?", options: ["IV push into antecubital vein", "Subcutaneous in the abdomen", "IM in the vastus lateralis (lateral thigh)", "Sublingual under the tongue"], correct: 2, rationale: "Epinephrine is given intramuscularly (IM) in the vastus lateralis (outer thigh) for anaphylaxis. The thigh has excellent blood supply for rapid absorption. IM is preferred over subcutaneous (faster absorption) and IV (reserved for refractory cases in monitored settings)." }]
+  },
+  "factor-xa-inhibitors": {
+    title: "Factor Xa Inhibitors (DOACs)",
+    cellular: { title: "Direct Oral Anticoagulants", content: "Direct oral anticoagulants (DOACs) selectively inhibit Factor Xa in the coagulation cascade, preventing conversion of prothrombin to thrombin and subsequent fibrin clot formation. Unlike warfarin, they have predictable pharmacokinetics requiring no routine INR monitoring. Examples: Rivaroxaban (Xarelto), Apixaban (Eliquis), Edoxaban (Savaysa)." },
+    signs: {
+      left: ["Bleeding: Gingival, Epistaxis, Ecchymosis", "Hematuria", "Melena or GI Bleeding", "No Routine Lab Monitoring Needed"],
+      right: ["Rivaroxaban: MUST Take With Food (absorption)", "Shorter Half-Life Than Warfarin", "Renal Clearance (dose adjust for kidney function)", "No Dietary Restrictions (unlike Warfarin/Vit K)"]
+    },
+    medications: [
+      { name: "Andexanet Alfa (Andexxa)", type: "Specific Reversal Agent", action: "Recombinant modified Factor Xa that binds and sequesters Factor Xa inhibitors", sideEffects: "Thrombotic events, infusion reactions", contra: "None in life-threatening bleeding", pearl: "Specific reversal agent for Apixaban and Rivaroxaban. Very expensive. Used for life-threatening or uncontrolled bleeding." },
+      { name: "Prothrombin Complex Concentrate (PCC)", type: "Alternative Reversal", action: "Provides clotting factors to overcome anticoagulant effect", sideEffects: "Thromboembolism risk", contra: "DIC, HIT", pearl: "Alternative reversal when Andexanet alfa unavailable. Contains Factors II, VII, IX, X. More widely available than Andexanet alfa." }
+    ],
+    pearls: ["No dietary restrictions needed (unlike warfarin which requires consistent Vitamin K intake)", "Renal dose adjustment required, especially with declining GFR - monitor kidney function", "Shorter half-life than warfarin means missed doses lead to rapid loss of anticoagulant protection", "Avoid concurrent use with strong CYP3A4 inhibitors (ketoconazole, ritonavir)", "Assess for bleeding clinically - do NOT monitor with PT/INR (not reliable for DOACs)"],
+    quiz: [{ question: "What is the key advantage of Factor Xa inhibitors over Warfarin?", options: ["They are cheaper", "No routine lab monitoring (INR) needed and no dietary restrictions", "They work faster in emergencies", "They have no bleeding risk"], correct: 1, rationale: "Factor Xa inhibitors have predictable pharmacokinetics that eliminate the need for routine INR monitoring and have no dietary restrictions (no Vitamin K concerns). Warfarin requires frequent INR checks, dose adjustments, and consistent Vitamin K intake, creating significant patient burden." }]
   }
 };
 

@@ -1,0 +1,3023 @@
+Circulatory Overload
+- Often caused by rapid infusion of blood products
+o Assessment:
+ Cough, dyspnea
+
+ Orthopnea, SOB, crackles, distended neck veins and bounding pulses
+ High BP, high heart rate
+ Do not stop infusion, slow the rate
+ Place in high fowler, keep feet in a dependent position
+ May need oxygen and diuretic, furosemide
+
+Dehydration
+- Causes:
+o Fluid loss from GI tract (vomiting, diarrhea)
+o Decreased oral intake
+o Sensible losses (skin or respiratory tract with hyperventilation)
+o Burns/trauma
+o Can rapidly progress to hypovolemic shock
+o Infants and younger children have a higher percentage of body water 
+dehydration occurs more quickly
+
+- Types
+o Serum sodium level determines the type of dehydration
+ Isotonic: losing equal amount of water and electrolytes
+ Greatest threat to life with shock
+ Primary form of dehydration in children
+ Hypotonic:
+ Losing more electrolytes than fluids (marathon runner)
+ Sodium osmolality will be low
+ Hypertonic:
+ Water loss exceeds electrolyte loss
+ Diuretic use/misuse
+ Patient will have hypernatremia
+
+- Features:
+o Based on degree of dehydration
+o Mild: 3-5% of weight loss – increased thirst, decreased intake, increased losses
+ Minimal abnormalities on exam
+o Moderate (6-9%)
+ Decreased skin turgor, dry mucous membranes
+ Sunken eyes/fontanelles
+ Body compensates with tachycardia decreased urine output
+o Severe: (&gt;10% loss)
+ Emergency
+ Heading to hypovolemic shock
+ Listless, lethargic, unresponsive
+ Weak pulse, hypotension, tachypnea
+ Decreased cap refill &gt;2 seconds
+
+ Skin tenting oliguria/anuria
+
+- Nursing:
+o Check cap refill, skin turgor, mucous membranes, fontanelles
+o Daily weights
+o Rehydration therapy
+ Mild to moderate: oral rehydration solution
+ Severe: IV fluids
+o Advance diet as tolerated strict intake and output
+o Monitoring serum electrolytes and replacing as lost
+o Monitor urine output
+Clean Catch Urine Specimen
+- Urinalysis and cns
+- Evaluate for UTI
+- Only 30-60ml is required
+- Females:
+o Perform hand hygiene and open the container, do not touch the inside
+o Spread the labia using the index finger and thumb of non dominant hand,
+cleanse vulva in front to back motion
+o Initiate the urine stream (do not catch this)
+o Pass container into urine stream
+o Remove before flow ends
+o Replace cap and do not touch inner lid
+o Repeat hand hygiene
+- Males
+o Hand hygiene and open, do not touch inside
+o If uncircumcised, retract foreskin, cleanse urinary meatus
+o Intiate the urine stream
+o Pass container into the stream and remove before flow ends
+o Replace sterile cap
+o Repeat hand hygiene
+- Toddlers/Infants
+o Urine collection bag
+o Nonsterile
+o Cleanse the perineum and the tip of the penis
+o CNS – sterile intermittent catheterization
+- Nursing:
+o After collection – label per policy
+o Do not put the label on the lid
+o Send specimen to laboratory immediately
+o Document the collection of the specimen
+o Report findings to HCP
+
+Hypercalcemia
+
+- Calcium helps regulate nerve and muscle function
+- High levels of calcium in the blood (&gt;10.5mg/dl or 2.62 mmol/L)
+- Calcium is absorbed within GI tract and stored in bones and is eliminated by the kidneys
+- Any change in the process affects levels
+o Causes:
+ Increased calcium absorption
+ Excessive intake of calcium and vitamin D
+ Decreased calcium excretion
+ Thiazide diuretics
+ Increased bone resorption of calcium
+ Parathyroid is responsible for increasing serum calcium levels
+expulsion and it also affects kidneys and tells it to reabsorb
+ Calcitonin regulates calcium levels – opposite of parathyroid –
+helps to decrease levels of calcium
+
+ Hyperparathyroidism
+ Malignancy (bone cancer)
+ Hemoconcentration from dehydration
+
+- Features:
+o Symptomatic when calcium is over 3
+o Acts like a diuretic and sedative
+o Symptoms:
+ Polyuria  dehydration  polydipsia
+o Calcium helps regulate nerve and muscle function
+o Decreased neuromuscular excitability – muscle weakness  paralysis  decreased
+reflexes
+o Decreased intestinal paralysis  constipation
+o Cardiac dysrhythmias
+o Severe and rapid hypercalcemia  lethargy, confusion, stupor, coma
+o Monitor calcium and report over 2.62
+o Treat underlying cause
+o Increase oral fluid intake
+o Administer normal saline, bisphosphonates and calcitonin
+o Discontinue calcium containing medications and thiazide diuretics
+o Continuous cardiac monitoring
+o Monitor LOC
+
+Hyperkalemia
+- High serum potassium over 5
+- Major intracellular ion and maintains intracellular fluid volume
+o Causes:
+ Creates action potential on the cell membrane
+ Large intake of potassium (oral or IV)
+ Reduced renal excretion of potassium in AKI or CKD, spironolactone, ACE
+inhibitors
+
+ Metabolic acidosis (DKA)
+ Insulin deficiency/hyperglycemia
+ Muscle injury (rhabdomyolysis)
+ Tumor lysis syndromes
+ Pseudohyperkalemia – during the process of storing blood the RBC may
+rupture and can lead to excessive levels of potassium inside of the
+sample so maintaining proper techniques is important
+
+- Features:
+o Baseline ECG – tall peaked T waves and absence of p waves
+o Cardiac conduction problems – heart block
+o Ascending muscle weakness  paralysis
+o Lethal cardiac dysrhythmias
+ V- fib, asystole
+ Widened qrs complex
+ St segment depression
+o If untreated or severe – leads to widened qrs and then asystole
+o Monitor serum electrolytes all throughout treatment
+o Continuous cardiac monitoring
+o Interventions to promote excretion
+o Potassium binders (patiromir, sodium polystyrene sulfonate (kayexalate))
+o Dialysis for severe renal impairment
+o Medications to drive potassium from blood into cells
+ Insulin drives potassium into cells (regular insulin and iv dextrose)
+ Be careful with this as it can cause hypoglycemia
+ Betaadrenergic agonists (albuterol)  not as effective
+o ECG changes  medications to stabilize myocardial cell membranes such as IV
+calcium gluconate
+o Encourage patient to avoid foods with high potassium
+ Fast  fish, avocado, spinach and strawberries, tomato
+ Bunny can carry many oranges  bananas cantaloupe, carrots,
+mushrooms, oranges
+ Roast potatoes, pork, beef: raisins, potatoes pork, beef
+
+Hypermagnesemia
+- Normal range is 1.5-2.5 mEq/L
+- Second most abundant ICF electrolyte
+- Usual role: muscle contraction at neuromuscular junction using acetylcholine
+- Inverse relationship with calcium
+- Works with potassium (if potassium goes up, so does magnesium)
+- Excess intake – not dietary – magnesium containing antacids
+- IV mag sulfate for preeclampsia
+- Impaired excretion  kidney disease
+- Findings:
+o Magnesium toxicity
+ Mild: nausea, flushing, headache, diminished DTR
+
+ Moderate: hypocalcemia, somnolence, absent DTR, hypotension,
+bradycardia
+ Severe: flaccid quadriplegia, respiratory failure, cardiac arrest
+
+- Nursing:
+o Address underlying cause
+o Monitor serum magnesium
+o Avoiding more intake
+ Magnesium rich-foods: spinach, broccoli, avocados, potatoes, whole
+grains
+ Magnesium containing meds
+o Reverse, remove magnesium
+ Isotonic fluids
+ IV calcium gluconate
+o Dialysis
+o Cardiac monitor
+ Heart blocks
+
+Hypernatremia
+- Major extracellular cation outside of body cells
+- Cell membrane function and action potential
+- Controls fluid movement
+- Sodium over 145
+- Pulls water from brain into cerebral veins  veins enlarge and rupture
+- Causes:
+o Too much salt or losing too much water
+o Excess sodium intake
+o Hypertonic nacl, IV sodium bicarb
+o Near drowning in salt water
+o Decreased sodium excretion  hyperaldosteronism, kidney disease
+o Inadequate water intake
+ Unconscious or cognitively impaired
+ Prolonged fasting, NPO status
+ Excess water loss  diarrhea, vomiting, sweating, hyperventilating
+ Diabetes insipidus
+
+- Features:
+o Too much salt, not enough water
+o Neurologic: early: lethargy, weakness, irritability
+ Late: Twitching, seizures, coma
+ Signs of dehydration: dry mucous membranes, increased thirst,
+decreased urination, increased heart rate
+
+- Nursing:
+o Monitor serum sodium levels and report over 145
+o Increase oral fluid intake and decrease dietary sodium intake
+o Isotonic or hypotonic iv fluids (0.45 NACL)
+
+o Monitor response to treatment
+o Decrease sodium level slowly  rapidly decrease in sodium levels  cerebral
+edema and permanent neurologic complications
+o Seizure precautions
+o Monitor intake and output
+
+Hyperphosphatemia
+- Normal range 2.7-4.5
+- Located in ICF
+- Metabolizes calcium (inverse relationship)
+- Muscle contraction
+- RBC function  holds cell membranes together
+- Increased cellular release from tumor lysis syndrome
+- Rhabdomyolysis
+- Decreased renal excretion
+- Increased renal reabsorption
+- Hypoparathyroidism (decreased pth)
+- Features:
+o Binds to calcium and lowers it so if its high, hypocalcemia
+o Numbness and tinging
+o Muscle cramps, tetany (medical emergency)
+o Laryngospasm  stridor (emergency)
+o Chvosteks sign, trousseau sign
+- Nursing:
+o Treat underlying cause
+o Monitor serum levels
+o Hypocalcemia  correct this as well (calcium gluconate IV)
+o Monitor IV site
+o Give phosphate binders
+ Calcium carbonate  always dissolved, never chew
+ Take with 8 oz of water  with meals or right after
+ Can cause constipation  hypoactive bowel sounds
+
+Hypocalcemia
+- Calcium less than 2.25
+- Pth: secreted by parathyroid gland and leads to increased serum calcium levels
+- Calcitonin: decreased serum calcium
+- Causes: parathyroidectomy, thyroidectomy, radical neck surgery, vitamin d deficiency,
+intestinal malabsorption (celiac), phosphate binding calcium (CKD, tumor lysis
+syndrome)
+- Features:
+o Acts like a sedative normally  nerves and muscles are irritable when levels are
+low
+o Peripheral neuromuscular excitability (tetany)  Chvostek and trousseau
+
+ Chvostek: tap facial nerve, spasm of facial muscles = positive response
+ Trousseau: venous stasis for three minutes, carpal spasm = positive
+response
+
+o Parasthesia (tingling of lips and fingers)
+o Hyperreflexia (3+) normal is 2+
+o Muscle cramps
+o Seizures
+o Cardiac dysrhythmias
+o Severe  respiratory depression, laryngeal stridor (both life threatening)
+- Nursing:
+o Notify HCP
+o IV calcium gluconate or chloride
+o Seizure precautions
+o ECG
+o Continuous cardiac monitoring
+o Respiratory status
+o Monitor for adventitious breath sounds
+o Encourage calcium rich foods
+ Don’t let fish and tofu spoil
+ D: dairy
+ L: leafy greens
+ F: fish
+ A: almonds
+ T: tofu
+ S: soy products
+
+Hypokalemia
+- Features:
+o Potassium less than 3.5
+o Cardiac dysrhythmias: VT/VF = we will see changes first, like PACs, PVCs
+o Muscle fatigue/cramps  flaccid paralysis
+o Altered smooth muscle  decreased bowel sounds, nausea and vomiting
+o Constipation  ileus
+- Causes:
+o Increased losses
+o GI: diarrhea, vomiting, NG suction, diuretics, polyuria, hyperaldosteronism
+o Insulin administration
+o Albuterol
+o Alkalosis
+o Direct relationship with H+ ions (if we lose hydrogen we lose potassium0
+- Nursing:
+o Monitor levels
+o Cardiac monitor
+o Decrease potassium excretion
+
+o Avoid potassium wasting diuretics
+o Correct hypomagnesemia
+o Minimize GI loss (antiemetics, antidiarrheals)
+o Administer potassium chloride – only give orally or IV piggyback, never push
+o Do not exceed 10 mmol/hr
+o Encourage potassium rich diet
+ Fast bunny can carry many oranges and roast potatoes pork and beef
+ Fish
+ Avocado
+ Spinach
+ Strawberries
+ Tomato
+ Bananas
+ Cantaloupe
+ Carrots
+ Mushroom
+ Oranges
+ Raisins
+ Potatoes
+ Pork
+ Beef
+Hypomagnesemia
+- If you have hypomagnesemia, you also have hypocalcemia
+- Normal range 0.75-1.25
+- Causes:
+o Inadequate intake
+o Malnutrition
+o Alcohol use
+o Proton pump inhibitors
+o Chronic laxatives
+o Vomiting or diarrhea
+o Malabsorption (IBS)
+o Renal losses
+ Diuretics
+o Antibiotics (amphotericin)
+o Aminoglycosides
+o Insulin
+- Features:
+o Identical to hypocalcemia
+o Positive trousseau and Chvostek signs
+o Muscle spasms
+o Muscle cramps
+o Hyperreflexia
+o Seizures
+
+o Cardiac dysrhythmias
+- Nursing:
+o Address underlying cause
+o Magnesium supplements (oral or IV)
+o Cardiac monitor
+o Increase intake of mg foods – green vegetables, potatoes, whole grains
+o Restore calcium
+o Address gi and renal loss
+ Treat nausea, vomiting, diarrhea
+ Adjust diuretics
+
+Hyponatremia
+- Causes:
+o Excess sodium loss
+o Diarrhea
+o Vomiting
+o Ng suction
+o Renal losses
+o Diuretics
+o Adrenal insufficiency
+o Burns
+o Excess water gain
+o Hypotonic iv fluids
+o Siadh
+o Heart failure
+o Cirrhosis
+o Polydipsia
+- Features:
+o Primarily neurologic
+o Cerebral edema
+o Headache
+o Nausea and vomiting
+o Lethargy  confusion  seizures  coma
+- Nursing:
+o Monitor levels
+o Seizure precautions
+o Treatment depends on cause
+ Excess sodium loss or low sodium
+ Replace sodium with normal saline
+o Fluid restrictions
+o Loop diuretics
+o Monitor response to treatment
+o Do not decrease too fast because it can cause osmotic demyelination syndrome
+= permanent nerve cell damage in brain
+
+o Monitor hourly input and output
+
+Enema Administration
+- Promote intestinal peristalsis  evacuates feces from colon
+- Indications:
+o Endoscopic procedures (colonoscopy)
+o Relief for constipation
+- 2 types:
+o Cleansing – used to clean the bowel out
+ Tap water: water intoxication and hyponatremia
+ Soap suds: stimulate peristalsis by creating irritation/inflammation
+ Normal saline – isotonic solution – less fluid absorption
+ Hypertonic, small volume: prepackaged with rectal tip, contains sodium
+phosphate – easier to tolerate, helps ease passage of stool. Monitor for
+hyperphosphatemia
+ To administer: inspect for distension,auscultate bowel sounds.
+ Place in sims position left lateral with right knee flexed
+ Place waterproof pad under bum
+ Hang enema no more than 12 inches above the rectum to prevent
+cramping
+ Lubricate the tube and insert 3-4 inches (7.5-10 cm) into the
+rectum, pointing the tip toward the umbilicus
+ Open roller clamp slowly
+ Monitor for cramping or discomfort  temporarily stop for 15-30
+seconds, encourage deep breathing and relax, resume at a slower
+rate
+ Retain solution for as long as needed
+
+o Barium
+ Contrast medium  visualize the colon using fluoroscopic x-ray
+ Before: laxatives until colon is clear, clear liquid diet the day before, NPO
+for 8 hours, cramping and urge to defecate are expected
+ After: fluids and laxatives to expel barium, observe stool for contrast
+medium, stool may be white for up to 72 hours
+
+Foreign Body Aspiration
+o Causes obstruction
+o Commonly caused by small and round objects
+o Hot dogs, candy, peanuts, popcorn, grapes
+o Burst latex balloons, plastic beads, batteries, and coins
+o Batteries may cause esophageal or tracheal corrosion
+o Most common in children 1-3
+o Medical emergency
+o Nasal foreign body: unilateral purulent drainage that does not improve
+o Features:
+
+ Initially: universal choking sign – hands clutching neck, gagging, coughing,
+retractions, inability to talk, sweating, tachycardia
+ Later: cyanosis  unconsciousness
+o Laryngotracheal obstruction:
+ Stridor and hoarseness
+o Bronchial obstruction:
+ Paroxysmal cough, wheezing, asymmetrical breath sounds
+ Other lung will be clear
+
+- Nursing:
+o Heimlich under age of 1
+o Position baby face down with head lower than body and support the baby’s head
+with forearm against thigh, provide 5 back thrusts and turn baby up if still
+choking and give five chest thrusts on sternum with 2-3 fingers, repeat until
+needed or perform cpr if baby becomes unconscious
+o Adult: stand or kneel behind person and wrap arms around, place fist against
+abdomen above navel and give a quick upward thrust into the abdomen, repeat
+until necessary.
+o Never do a blind finger sweep (if you don’t see it)
+o If you see the object, take it out
+o Endoscopy and bronchoscopy may be needed to remove
+o Monitor for at least an hour afterwards for laryngeal edema
+o Prevention: keep small objects out of reach, educate about avoiding small round
+foods and cut longitudinally
+
+-
+Incentive Spirometer
+- Deep inhalations expand the lungs
+- Inflates the alveoli
+- Uses:
+o Atelectasis
+o Prolonged bedrest
+o Prevention of respiratory complications following abdominal surgery and spinal
+cord injury
+o Use 5-10 times every hour
+- Nursing:
+o Give analgesics
+o Position in high fowler or sitting position
+o Cough while using
+o Set the goal marker
+o Piston moves when patient inhales
+- Teaching:
+o exhale
+o Place mouthpiece in the mouth
+o Inhale slowly to raise the piston to the goal marker
+
+o Hold breath for 3 seconds
+o Slowly exhale
+o Cough at the end of the session
+o Document
+Metered Dose Inhaler
+- Allows for measured dose administration of inhaled medications
+- Short acting beta agonists - albuterol
+- Long acting beta agonists – salmeterol
+- Inhaled corticosteroids -fluticasone
+- Shake canister for 3-5 seconds
+- Tilt head back slightly and exhale slowly for 3-5 seconds
+- Hold canister about 1.5 inches in front of open mouth
+- Compress canister while inhaling slowly for 3-5 seconds
+- Hold breath for 10 seconds
+- Wait 1-2 mins before taking a second puff
+- First puff dilates the bronchioles and allows easy passage of the second puff
+- Can add a spacer if patient has a hard time coordinating
+- Dry powder inhalers:
+o Remove mouthpiece cover, do not shake
+o Prepare medication inside inhaler
+o Exhale
+o Seal lips around mouthpiece
+o Hold breath for 5-10 seconds
+o Wait 20-30 seconds between puffs and 2-5 mins between medications
+
+Negative Pressure Wound Therapy
+- uses an active suction that removes drainage and infectious organisms, increases
+circulation and helps to bring the edges of the wound together
+- only for wounds with healthy granulation tissue
+- surgically debride necrotic tissue prior to initiating therapy
+- requires routine sterile dressing therapy
+- administer analgesics prophylactically
+- apply a skin protectant to the intact skin around the wound to help maintain an airtight
+seal
+- sterile foam dressing should be cut to the shape and placed in the wound bed
+- cover with occlusive film dressing that extends 1-2 inches past wound bed
+- attach vacuum tubing and then connect it to the closed unit
+- observe compression of the foam dressing
+Preparing a Sterile Field
+- gather all supplies prior to procedure
+- clear area
+- close door
+
+- check sterile packaging integrity and expiration date
+- position client
+- select work surface above waist level
+- open the outer layer of the sterile package and place the package on the work surface
+- grasp the outer surface of the outermost tab of the sterile package
+- open the tab away from the body
+- select the next available tab and pull it to the side
+- to add an item to the sterile field open the package and drop item onto the surface
+- open package and drop it onto the sterile field
+- one inch perimeter border on sterile field that is unsterile
+- don sterile gloves
+- use nondominant hand to grasp the cuff of the dominant hands glove and only touch
+the inside of the glove
+- put on gloves
+Removal of sutures and staples
+- remainsi n place until the wound has closed
+- nurse may remove
+- staple removal:
+o check site, cleanse with prescribed solution
+o remove every other staple to make sure the sides of the skin are not starting to
+pull apart
+o remove remaining staples if skin remains closed
+o document number removed
+- suture removal
+o lift and pull suture off skin, cut closest to skin (you do not want to pull bacteria
+through a healing wound)
+o pull nonexposed material through tissue
+o document the wound
+
+Seizure Precautions
+- suction equipment
+- supplemental oxygen, bag valve mask, endotracheal intubation supplies
+- padded side rails
+- loosened clothing
+- bed in lowest position
+- low stimulus environment
+- during a seizure:
+o stay with the client
+o note the start time of seizure
+o remove or loosen restrictive clothing especially around neck or waste
+o easre the client to the floor in an upright position
+o position to side lying to prevent aspiration
+o protect head from injury
+
+o place a pillow under the head or put the clients head on your lap
+o administer oxygen as needed
+o do not put anything in the clients mouth or give any foods or liquids during the
+seizure or in the postictal stage
+o document the occurrence and the duration
+
+Submersion Injury
+- occurs when a client is underwater and unable to breath for a long time
+- initial period of panic – loss of normal breathing pattern  holding breath, air hunger,
+struggling to stay above water
+- children from ages 1-4 have the highest rates of submersion injury
+- life threatening complications –
+- leading cause of accidental death in children
+- risk:
+o children less than 5
+o minimal supervision around water
+o inability to swim or overestimation of swimming abilities
+o risk-taking behaviour
+o substance abuse
+o developmental or behavioural disorders
+o seizure disorders
+- Features:
+o Length of submersion dictates severity of impairment
+o More than five minutes the prognosis Is poor
+o Onset up to 24 hours after incident
+o Fatal event  due to respiratory and cardiac impairment
+o Nonfatal event
+ Mild impairment: breathing, paroxysmal coughing, fully alert
+ Moderate: difficulty breathing and or disoriented but conscious
+ Severe: not breathing or unconscious
+o Hypoxia  hypoxic-ischemic brain injury
+o May initially be cognitively intact but then suffer from hypoxia due to edema
+o Cardiac arrest
+o Apnea
+o Hypothermia: organ failure – weak thready pulse, cold water  ventricular
+dysrhythmia/PEA
+o Aspiration  ARDS
+ Reflex inspiratory efforts
+ Coughing when water contacts lower respiratory tract
+
+- Nursing:
+o Obtaining length of submersion is critical
+o First interventions:
+ Focus on ABCs
+
+ Rescue and immediately resuscitate  administer rescue breaths first,
+then compressions  remove wet clothing
+ Emergency dept interventions:
+ Priority  airway management
+ Monitor for signs of respiratory distress
+ Administer oxygen
+ Prepare for intubation and mechanical ventilation
+ Monitor neurological status
+ Initial and frequent neurological checks
+ If gcs is less than 8 = medical emergency = intubate and ventilate
+
+o Hypothermia:
+ Monitor body temperature  slowly increase
+ Passive rewarming  remove wet clothing and apply warm
+blankets and dry clothing
+ Active external rewarming
+ Heating devices
+ Warm water immersion
+ Severe cases: active internal rewarming
+ Warm IV fluids
+ Warmed humidified oxygen
+
+- Anticipatory guidance
+o Properly fence swimming pools
+o Supervise children closely around or near water
+o Wear a properly fitted floatation device
+o Teach children how to swim
+o Avoid substance abuse while swimming or boating
+o Children can drown in shallow water, even buckets and bathtubs
+
+Cleft Lip and Palate
+- Incomplete fusion of the palatine bones during fetal development = uncoordinated suck
+and swallow efforts
+- Increased risk for aspiration
+- Features:
+o Poor suction
+o Uncoordinated suck and swallow
+o Complications:
+ Aspiration pneumonia
+ Risk for ear infections and hearing loss
+ Speech or language difficulties
+ Dental problems
+
+- Nursing:
+o Encourage bonding
+o Cannot breastfeed successfully
+o Feed in upright position
+
+o Burp after each ounce of formula
+o Require a cross cut nipple
+o Position the nipple toward the back or side of the newborns mouth
+- Management:
+o Surgical repair
+o 6-12 months after birth
+o Postop care:
+ Elbow restraints
+ Observe for excessive swallowing = fresh bleed
+ Do not offer straws, pacifiers, rigid eating utensils
+ Diet: soft foods and modified liquids
+
+Trisomy 21
+- Extra copy of 21 st chromosome
+- Genetic disorder
+- Most common cause of intellectual disability
+- Diagnosed during pregnancy via amniocentesis, ultrasound, blood test, chorionic villus
+sampling
+- Physical assessment: (bluesss child)
+o Brushfield spots (white specks on iris)
+o Low set small ears
+o Upslanting palpebral fissures
+o Epicanthal folds
+o Short neck with excess skin
+o Single palmar transverse crease
+o Sandal toe deformity (larger space after big toe)
+- Congenital heart defects
+- Hearing and vision impairment
+- Intellectual disability
+- Lung problems or language problems
+- Developmental delay
+- Decreased muscle tone
+- Nursing:
+o Swaddle infant
+o Monitor respiratory function and sounds
+o Suction nose with bulb syringe before feedings
+o Rest periods during feeding  prone to respiratory issues
+o Check ability to eat solid food
+o Ensuring the client is doing activities according to their developmental age
+o Increase fiber and fluids
+o Monitor height and weight for trends
+o Family support
+o Physical therapy, speech and language therapy, occupational therapy
+o Routine vision and hearing testing
+
+Ectopic Pregnancy
+- Happens usually in the fallopian tubes
+- Egg grows outside the uterus, usually happens due to fallopian tube damage or PID
+- Features:
+o Unilateral lower abdominal pain
+o Abnormal vaginal bleeding or spotting
+o Delayed menstrual period
+o Positive pregnancy test
+- Ruptured ectopic pregnancy:
+o Unilateral abdominal pain
+o Hypotension (dizziness, tachycardia)
+o Referred shoulder pain
+o Blood pools inside the belly = hemoperitoneum = referred shoulder pain
+o If bleeding is severe enough they will develop hypovolemia
+ Medical emergency
+
+- Treat:
+o Methotrexate
+ Chemo drug that stops division of rapidly dividing cells
+ Urine is toxic up to 72 hours after administration
+ Avoid analgesics stronger than acetaminophen to not mask other
+abdominal pain
+o Surgery may be required
+o Rupture is a medical emergency
+
+Fetal Alcohol Syndrome
+- Can cause brain damage and growth problems
+- Permanent physical, developmental, and cognitive abnormalities
+- Leading cause
+- Features:
+o Alcohol withdrawal at birth
+o Jitteriness/irritability, increased tone and reflexes
+o Abnormal facial features
+o Microcephaly
+o Small eyes
+o Flat midface
+o Smooth philtrum
+o Thin upper lip
+o Weak suck reflex and difficulty feeding
+o Sensitive to sound as an infant
+o Hyperactive and inattentive
+o Poor social skills
+o Learning disabilities
+o Hearing impairment
+
+o Fine and gross motor delays
+o Poor handwriting and coordination
+- Nursing:
+o Daily weights
+o Intake and output
+o Monitor for hypoglycemia
+o Seizure precautions
+o Measure head circumference
+o Check suck and swallow reflex
+o Decrease environmental stimuli
+o Small frequent feeds
+- Teaching:
+o No amount of alcohol is safe during pregnancy
+o Early speech therapy
+o Breastfeeding is not contraindicated if alcohol intake has been discontinued
+
+Hirschsprung Disease
+- Bowel cannot pass stool
+- Absence of specialized nerve cells in distal large intestine
+- Impaired peristalsis
+- Inability of the interior sphincter to relax
+- Prevention of stool passage
+- Increased risk for life threatening bowel perforation or enterocolitis
+- Features:
+o Abdominal distension
+o Feeding intolerance
+o Bilious vomiting
+o Failure to pass meconium
+o Ribbon like stools
+o Poor weight gain or growth failure
+o Delayed meconium passage (over 48 hours)
+o Diagnose by barium enema or rectal biopsy
+- Nursing:
+o Surgical is the only way
+o Check abdo girth
+o Prepare for surgery (removal of aganglionic portion of the bowel)
+o Maintain NPO
+o Administer IV fluids
+o Older children may require bowel cleanout prior to the procedure (enema)
+o Postoperative:
+ Assess for infection (pus, erythema)
+ If a colostomy was performed, provide teaching for skin and stoma care
+ Assess the stoma if a colostomy was performed should be moist and red
+in colour
+
+Hyperbilirubinemia
+- Bilirubin is a by-product of rbc destruction  mainly excreted in stool
+- Excessive level of bilirubin in the bloodstream
+- Immature livers for babies
+- Jaundice
+- Resolves within two weeks
+- Highly toxic to neurons  risk for permanent brain damage
+- Physiologic (developmental/newborn)
+o Onset after 24 hours after birth
+o Immature hepatic function and increased rbc lysis  increased bilirubin
+o Prolonged onset in premature infants
+- Pathologic
+o Onset first 24 hours of life
+o Blood antigen incompatibility  hemolysis
+ When baby is rh positive and mom is rh negative  triggers an immune
+response, mom attacks baby = hemolytic anemia = tested via coombs test
+ Risks: positive coombs test, excessive red blood cell breakdown,
+hemolytic disease, gestational age 35-36 weeks, genetic predisposition,
+cephalohematoma or significant bruising from delivery (bruises are
+broken capillaries = hemolysis)
+
+o Polycythemia
+o Excessive bruising
+- Breastfeeding
+o Onset 3-4 days of life
+o Decreased oral intake/decreased milk supply = less stooling
+- Features
+o Jaundice  develops from head to toe, resolves from toe to head
+o Hepatosplenomegaly
+o Edema in lower extremities
+o Decreased oral intake
+o Decreased stooling
+- Complications:
+o Bilirubin encephalopathy
+ Bilirubin toxicity
+ Lethargy, decreased activity
+ Irritability, high pitched shrill cry = neurological issues
+ Poor feeding
+ Hypotonia – more floppy, loose
+ Temperature instability
+ Can lead to seizures and a coma
+ Intervene asap due to damaged neurons
+ Temporary and reversible
+ Kernicterus: permanent
+
+ Bilirubin induced neurological dysfunction
+ Brain cell necrosis causing chronic, permanent brain damage
+ Lethargy
+ Poor feeding
+ Hypotonia
+ Apnea (20 seconds, hypoxia)
+ Absent startle reflex (moro)
+ High pitched, shrill cry
+
+- Nursing:
+o Phototherapy
+o Put on sunglasses
+o Decrease risk of retinal damage
+o Fluorescent blue lights regulate temperature, do not add blankets
+o Do not clothe baby
+o Frequent temperature checks
+o Frequent turning and skin assessments
+o Avoid lotions = risk of skin breakdown
+o Increased frequency of feedings
+o Avoid supplements (glucose water)
+o Monitor stooling pattern
+o Daily weights
+o Regular bilirubin levels
+o Encourage skin to skin whenever theyre feeding to facilitate bonding
+
+Hyperemesis Gravidarum
+- Severe, persistent nausea and vomiting
+- Exact cause unknown
+o Pregnancy related increases in hormone levels may contribute
+- Features:
+o Weight loss &gt; 5% of prepregancy weight
+o Dehydration
+ Dry mucous membranes
+ Poor skin turgor
+ Hypotension
+ Tachycardia
+ Increased urine specific gravity
+ Increased hematocrit (highly concentrated blood)
+ Electrolyte imbalance
+ Hypokalemia
+ Metabolic alkalosis
+ Ketonuria
+
+- Nursing
+o Alleviate vomiting
+o Fluid replacement
+
+o Correct imbalances
+o Iv fluids, antiemetics, thiamine
+o Check NPO for gut rest  slowly advance once asymptomatic
+o Small frequent meals every 2-3 hours, avoid an empty stomach
+o Avoid greasy foods
+o Avoid strong odors
+o Sit upright after meals
+o Drink fluids in between meals
+o Ginger containing beverages
+o High carbohydrate foods like crackers
+o Cold foods, rather than hot
+
+Hypertension in Pregnancy
+- Types:
+o Chronic hypertension
+ Elevated BP present before pregnancy
+ Over 140
+ Persistent after postpartum period
+ Can lead to superimposed preeclampsia
+o Gestational hypertension
+ High BP caused by pregnancy
+ New onset at over 20 weeks gestation
+ No other signs of end organ damage
+ Resolves with delivery of the baby
+ Features:
+o BP over 140 or 90 diastolic
+o 2 separate measurements at least 4-6 hours apart
+ Complications:
+o Disease progression to preeclampsia
+
+o Preeclampsia
+o HELLP syndrome
+ Blood pressure is so severe that most organ systems fail
+ Low platelets and elevated liver function tests
+ Restricted fetal growth
+ Placental insufficiency or abruption
+ Maternal stroke, pulmonary edema, baby’s death
+
+- Nursing:
+o Monitor BP and weight
+o Teach client to monitor BP at home
+o Report symptoms
+o Report vision changes
+o Review kick counts and report decreased movement
+o Anticipate induction of labor
+o Test for proteinuria
+
+o Monitor intake and output
+
+Hypospadias
+- Congenital defect
+- Failure of urethral folds to fuse in utero
+- Abnormal urethral opening
+- Usually develops on the underside of the penis
+- Features:
+o Urethral opening between the glans and the perineum on the underside of the
+penis
+o If left untreated can cause toilet training problems, frequent urinary tract
+infections
+o Inability to achieve erections
+- Nursing:
+o Delay circumcision
+o Prepare child for surgery age 6-12 months
+o Temporary catheter is used to empty bladder
+o Postop meds:
+ Abx
+ Analgesics
+ Antispasmodics or anticholinergic meds (oxybutynin)
+
+- Teaching:
+o Urinary diversion for 5-10 days
+o No tub baths during this time
+o Give sponge baths
+o Avoid straddle toys and strenuous activity
+o Offer fluids frequently
+
+Infant Botulism
+- Type of food poisoning of clostridium botulinum spores
+- Colonize in immature GI tract that inhibits release of acetylcholine = muscle paralysis
+- Features:
+o Paralysis occurs symmetrically and from the top down
+o Hypotonia and decreased head control
+o Ptosis
+o Absent gag reflex
+o Poor feeding
+o Poor swallowing
+o Constipation due to lack of peristalsis
+- Nursing:
+o Recognize symptoms early to avoid respiratory failure
+o Accessory muscle usage in infants or younger babies
+o Nasal flaring
+o Tripod position
+
+o IV botulism immune globulin (BIG IV)
+ Reduces severity and duration of symptoms
+o Supportive care
+ Mechanical ventilation
+ Enteral tube feedings
+o Prevention: avoid honey before age 12 months
+
+Newborn Circumcision
+- Methods:
+o Clamp – deadens nerves and cuts
+o Plastibell – falls off in a week due to cut off blood supply
+- Clinical significance
+o Reduction of STI including HIV, prevention of STI
+- Typically performed for healthy newborns during first week
+- Contraindications:
+o Preterm infants – do not meet weight requirement
+o Sick newborn – can increase likelihood of complications
+o Hypospadias, epispadias
+- Complications:
+o Hemorrhage
+o Difficulty voiding (edema)
+- Nursing:
+o Prior to procedure
+ Education and consent – check that it has been done and is completed
+ Circumcision is a choice
+o Apply topical numbing cream if prescribed
+o During procedure:
+ Comfort/pain management
+ Swaddle upper body with warm blanket
+ Nonnutritive sucking
+ Oral sucrose (brain can only process sugar or pain but not both at the
+same time)
+ Sterile technique
+o Postprocedure
+ Apply loose fitting diapers
+ Apply petroleum jelly with each diaper change
+ Not indicated for plastibell method
+ Monitor for infection – bleeding, edema, purulent discharge
+ Active bleeding – apply gentle pressure with sterile gauze
+ A few spots of blood on diaper is okay
+ If bleeding does not stop – notify provider
+ Monitor urinary output
+ Do not use soap or alcohol based wipes
+
+ Do not remove plastibell device early
+ Yellow exudate is normal – do not be concerned and do not remove
+forcefully
+ Green discharge = infection
+
+Postpartum Depression
+- Perinatal mood disorder due to hormonal shifts following birth
+- Symptoms occur within 4-6 weeks after birth
+- Angry outburst
+- Sleep disturbances
+- Spontaneous episodes of sobbing
+- Intense and persistent irritability and sadness
+- Ruminations of guilt and an inadequacy as a parent
+- Appetite changes and food cravings, leading to weight gain
+- Lack of interest in the newborn
+- Thoughts of harming the newborn
+- Contributing factors:
+o History of depression
+o Unintended pregnancy
+o Lack of support
+o Relationship conflict
+o Adverse pregnancy outcomes or traumatic birth
+o Sleep deprivation
+- Nursing:
+o Screen for postpartum depression
+ Edinburgh postnatal depression screen
+ Assess for thoughts of suicide and infanticide
+ Observe interactions
+ Involve family in developing a plan
+ Antidepressants (SSRI)
+ Psychotherapy
+ Postpartum support group
+
+Postpartum Hemorrhage
+- Significant bleeding after delivery
+- Obstetrical emergency
+- Total blood loss over a litre of blood
+- Common causes: 4 Ts
+o Tone
+o Trauma
+o Tissue
+o Thrombin
+- Risks:
+- Most common cause is atony
+
+o Inadequate contraction of the uterus  relaxed uterus distended with blood
+o Most likely to occur with someone with uterine fatigue (prolonged labor or
+infection)
+o Uterine overdistension
+o Polyhydramnios
+o Grand multiparity
+o Hx of postpartum hemorrhage
+- Features:
+o Heavy vaginal bleeding
+o Saturating more than one pad an hour
+o Passage of large clots
+o Hypovolemia
+o Tachycardia
+o Hypotension
+o Dizziness
+- Nursing:
+o Vital signs
+o Assist client to void
+o Fundal massage
+o Medications:
+ Uterotonics:
+ Oxytocin
+ Misoprostol
+ Methylergonovine
+ Carboprost
+ Fluid resuscitation
+ Blood transfusion
+
+Postpartum Psychosis
+- Rare but is the most severe form of perinatal mood disorders
+- Medical emergency
+- Risk for suicide and infanticide
+- Triggers:
+o Rapid hormonal shifts following childbirth
+o Decrease in estrogen and progesterone
+o Sleep deprivation
+o Typically manifests within 2 weeks postpartum
+- Features:
+o Depressive symptoms
+o Withdrawal from others, tearfulness
+o Accompanied by acute mania, abnormally increased energy levels, severe
+insomnia, agitation, disorganized behaviour
+o Psychotic symptoms:
+ Paranoid delusions, hallucinations (often related to the infant)
+
+- Risks:
+
+o Obstetric complications
+o Personal or family history of mental illness such as bipolar or postpartum
+psychosis
+o Discontinuing psychiatric medications before pregnancy
+- Nursing:
+o Inpatient hospitalization
+o Pharmacological interventions
+o Mood stabilizers (lithium or valproic acid)
+o Antipsychotics (olanzapine)
+o Benzos (alprazolam for severe insomnia)
+o Assess for delusions, hallucinations, risk for suicide or infanticide
+
+Gestational Diabetes
+- Pregestational – normal type one or type 2 diabetes
+- Gestational
+o Physiologic changes of pregnancy cause impaired blood glucose regulations 
+pancreas cannot compensate  gestational diabetes mellitus
+o Screening around 24-48 weeks gestation when pregnancy related hyperglycemia
+peaks
+o Screening: one hour glucose challenge test
+o No fasting prior to test
+o Between 24-28 weeks gestation ingest sugar and then check blood glucose one
+hour after
+o NPO for one hour after ingesting
+o Diagnosis:
+ 3 hour glucose test:
+ Required if 1 hour is elevated
+ Fasting required prior to test
+ Abnormal when 2 or more of the 4 levels are elevated
+o Risks:
+ Obesity
+ Excessive weight gain during pregnancy
+ Family history of diabetes
+ Previous large for gestational age newborn
+ Polycystic ovarian syndrome
+o Complications:
+ Pregestational: Congenital heart and neural tube defects
+ Gestational: maternal development of type 2 DM
+ Fetal macrosomia  shoulder dystocia
+ Polyhydramnios
+ Preeclampsia
+ Stillbirth
+ Newborns tend to have hypoglycemia – babys pancreas continues to
+make lots of insulin due to being used to high glucose environment
+
+o Nursing:
+
+ Modify diet – carbs in moderation
+ Daily exercise
+ Monitor blood glucose
+ Signs and symptoms of hypoglycemia and hyperglycemia
+ Hypoglycemia:
+o Altered mental status, shakiness, diaphoresis, clammy
+skin, tachycardia, hunger, weakness, fatigue
+
+ Insulin
+ Monitor
+ Daily fetal kick counts and report decreased movement
+ Blood pressure
+ Vaginal or urinary infections
+
+Agoraphobia
+- Diagnostic criteria
+o Intense fear and anxiety about being in situations or spaces without immediate
+help
+o Causes: adverse childhood experiences, stressful life events, genetics
+o Features:
+ Fear and anxiety present in over 2 situations for six or more months
+ Fear of public transportation
+ Open spaces
+ Crowds or standing in line
+ Might not be able to leave home
+ Causes severe distress or impairment
+ Irritability, sweating, tremors, muscle tension, tachycardia, heart
+palpitations
+
+o Nursing:
+ Psychotherapy, CBT
+ Relaxation training
+ Deep breathing
+ Guided imagery
+ Gradual exposure to promote desensitization
+ Pharmacotherapy:
+ SSRI
+ Benzodiazepines
+ Beta blockers
+ Identify basis of anxiety
+ Never force contact
+ Do not leave client during periods of severe anxiety
+
+Alcohol Withdrawal Syndrome
+- CNS depressant
+- Symptoms start 6-24 hours after last drink
+
+- Wide range of symptoms
+- Mild withdrawal symptoms
+- Alcohol hallucinations
+- Withdrawal seizures
+- Delirium tremens (life threatening)
+- Mild withdrawal: autonomic hyperactivity, anxiety, irritability, tremors, diaphoresis,
+headache, nausea or vomiting
+- Moderate to severe: alcohol hallucinosis, auditory hallucinations, tactile sensations,
+visual disturbances – may have no other features – normal vital signs or just a slight
+increase
+- Features:
+o Lowers seizure threshold
+- Delirium tremens:
+o Severe alcohol withdrawal
+o Extreme autonomic hyperactivity
+o Fever
+o Severe hypertension
+o Drenching sweats
+o Rapid onset altered mental status
+- Nursing:
+o Benzodiazepines
+o Lorazepam (PO or IV)
+o Diazepam or chlordiazepoxide
+o Replace vitamins: thiamine, folic acid
+o Fluid and electrolyte replacement
+o Normal saline
+o Magnesium, potassium, phosphorus
+o Monitor cardiac rate and rhythm
+o Evaluate clients behaviour and severity of withdrawal
+ Standard assessment tool (CIWA)
+o Calm, quiet environment with minimal lighting
+o Long term recovery: naltrexone, identify relapse triggers, activities for stress
+relief
+o Set goals for personal growth
+o Express accountability for maladaptive drinking
+o
+Anorexia Nervosa
+- Hormonal effects on brain, appetite and stress
+- Cooccurring mental illnesses
+- Ideal body type portrayed in the media
+- Restrictive eating disorder
+- Fasting, dieting, excessive exercise
+- May include purging
+- Most commonly seen in adolescents and young adults
+
+- Can lead to life threatening complications due to electrolyte imbalances and
+arrhythmias
+- Features:
+o Confusion, fainting
+o Dry skin, lanugo, hair loss
+o Decreased libido, amenorrhea
+o Low BMI &lt; 18.5
+o Fatigue
+o Cold intolerance
+o Hypothermia – body is trying to conserve energy
+o Hypotension
+o Bradycardia
+o Emaciation
+o Constipation
+o Muscle wasting, osteoporosis, stress fracture (decrease in calcium)
+- Mental health features:
+o Low self esteem and body dysmorphia
+o Unusual or ritualistic behaviours around food
+o Preoccupation with food activities
+o Need for control
+o Counting calories
+o Manipulative behaviours
+o Social withdrawal
+o May move food around the plate instead of eating
+- Indications for hospitalization
+o &lt;70% of expected weight or BMI &lt;15kg/m2
+o Reintroduce nutrition slowly because of the risk of refeeding syndrome
+o Hemodynamic instability
+o Refusal to eat
+o Suicidal ideation
+o Psychosis
+- Nursing:
+o Assist with nutritional rehab
+o Assess for thoughts of suicide or self-harm
+o Monitor for ECG changes
+o Correct electrolyte imbalances
+o IV fluids to increase blood pressure and perfusion
+o Enteral feeding or parenteral nutrition
+o CBT
+o Reinforce parental monitoring during meals for adolescents
+o Monitor for changes in weight and caloric intake
+
+Antisocial Personality Disorder
+- Does not follow rules and regulations or social norms
+
+- Feel that it doesn’t pertain to them
+- Cluster b disorder
+- Disregard rules, irresponsible behaviour, hostile, aggressive, volatile, do not take
+responsibility
+- age of 18 or older
+- high rates of comorbid conditions like substance use or ADHD
+- features:
+o violate rights of others, social norms, laws
+o impulsive, irritable, aggressive
+o hate authority
+o consistently irresponsible, lies, deceitful
+o lack of remorse
+- nursing:
+o treat comorbid conditions
+o CBT
+o Antipsychotics plus or minus mood stabilizers
+o Monitor for suicide or self harm
+o Set firm limits, reinforce rules and acceptable behaviour
+o Respond consistently to client’s behaviour
+
+ADHD
+- Deficiency in dopamine and norepinephrine
+- Inattention, distractability, hyperactivity
+- Symptoms at least six months
+- Are present in at least 2 environments
+- Genetic predisposition
+- Present before age 12
+- Not better explained by substance use, mental disorder, medical condition
+- Cause significant distress or impairment
+- Features:
+o Inattention &gt;6 symptoms
+o Difficulty maintaining focus
+o Does not listen or follow instructions
+o Forgetful, loses things
+o Disorganized
+o Hyperactive, impulsive
+o Interrupts others, disrupts
+o Talks excessively
+o Fidgeting
+o Restlessness
+- Nursing:
+o Psychotherapy, behavioural therapy (positive reinforcement)
+o Pharmacotherapy:
+ Stimulants:
+
+ Methylphenidate, amphetamines
+ SNRI
+ Atomoxetine
+
+o May need lifelong treatment, does not self-resolve
+o Highly structured environment
+o Consistent home and classroom environment
+o Minimize distractions (turn off tv)
+o Environmental and physical safety measures
+o Regular and frequent breaks in activity
+o Medication teaching
+ Appetite suppression and weight loss
+ Take with or after meals rather than before
+ Nutritious snacks in the evening frequent small meals with healthy on the
+go snacks
+ Administer medication early in the day
+o
+
+Avoidant Personality Disorder
+- Cluster c
+- Stem from an intense fear of criticism and rejection
+- Present in a variety of environments
+- Causes impairment or distress
+- Similar to social anxiety disorder
+- Negative self-evaluation in comparison to others, feelings of personal inadequacy, fear
+rejection and criticism, limited intimate relationships, need a lot of reassurance and
+unconditional acceptance, avoids interpersonal contact
+- Low self-esteem
+- Feelings of inferiority
+- Reluctant to try new activities because of fear of rejection of new people
+- Can lead to depression, anxiety, anger because they cannot form relationships
+- SSRI, SNRI
+- Increase levels of serotonin and norepinephrine in the brain
+- Beta-adrenergic blockers can also help
+- Behavioural therapies – CBT – helps identify what causes anxiety and how to handle it
+- Social skills training
+Schizophrenia
+- Complex psychiatric disorder where the person is unable to react with reality normally
+- Genetics and environment play a major role
+- Chronic condition caused by imbalances in the neurotransmitter dopamine
+- Positive symptoms = dopamine excess
+- Negative = dopamine deficit
+- Features:
+o Positive symptoms:
+
+ Hallucinations – based on senses, false sensory perception in the absence
+of stimuli, auditory, hearing voices or noises, visual = seeing things or
+people, tactile – feeling bodily sensations, olfactory – smelling odors
+ Monitor cues, ask about content of hallucination
+ Decrease stimuli or assist the client to another area
+ Provide distraction – music with headphones
+ Explain verbally what is real and what is unreal, do not joke or
+judge
+ Engage through structures, small activities
+ Check for suicidal or homicidal ideation due to command
+hallucinations
+
+ Delusions- based on beliefs and ideas
+ Provide care with active listening and empathy
+ Do not argue or try to convince that the delusions are false
+ Shift conversation on reality based topics rather than the delusion
+ Canned or prepackaged foods
+ Open medication in front of the client
+ Check mouth and palms after medication administration
+ Positive reinforcement
+ Disorganized thought/incoherent speech – derailment, made up words,
+diverges from the main topic, word salad: jumbling with no meaning,
+echolalia: repeats what they say over and over
+ Disorganized or agitated behaviour – catatonia (immobile, peculiar
+postures, unresponsive
+
+o Negative
+ Apathy
+ Lack of motivation
+ Poor hygiene and self care deficits
+ Asociality = withdrawal
+ Depression
+ Affective flattening – emotional flattening/monotone speech
+ Anhedonia – inability to experience pleasure
+ Alogia: lack of speech
+
+- Treatments:
+o Antipsychotics – help with positive symptoms
+ First generation (haloperidol)
+ Side effects
+ Second generation (atypical)
+ Apriprazole, olanzapine, quetiapine, risperidone
+o Side effects: usually weight gain
+
+o Long acting – improves adherence
+- Nursing:
+o General:
+ Build client trust
+
+ Be honest and consistent in interactions
+ Frequent and short interaction times
+ Sit calmly in the clients room if needed
+ Avoid touching the client without informing
+ Maintain a balanced neutral approach (not overly warm)
+ Explain procedures step by step
+ Initiate activities on a one on one basis  then small groups
+o Negative symptoms:
+ Social skills training
+ Measure client readiness to engage with others
+ Praise progress towards increased interaction
+ Assist with ADLs
+ Catatonia: fluid and nutrition is priority
+
+Obsessive Compulsive Disorder
+- Deficiency of serotonin in the brain
+- Dx:
+o Significant distress and impairment, compulsions are so distressing to patient
+they cannot carry out activities of daily living
+o Time consuming over an hour a day
+o Not better explained by substance abuse or other condition
+- Features:
+o Obsessions: persistent and intrusive thoughts, impulses, or images
+o Attempts to suppress or ignore obsessive thoughts
+o Compulsions: ritualistic, repetitive behaviours performed to decrease
+stress/anxiety
+ Repeated hand washing  skin breakdown
+o Patients are aware that it is irrational but their stress and anxiety get so high
+they need to do the thing
+
+- Nursing:
+o CBT
+ Anxiety triggers for ritualistic behaviours  relaxation/redirection
+techniques (deep breathing)
+ Allow them time to do the rituals then slowly decrease the time
+ Initially allow time for and then begin to limit rituals
+ Positive reinforcement for non ritualistic behaviour
+ Predictable, structured schedule
+ SSRI
+ Tricyclic antidepressants
+
+Social Anxiety Disorder
+- Intense persistent fear of being embarrassed or judged by others in a social situation
+o Large groups
+o Public speaking
+
+o Meeting, ordering food in a restaurant
+o Eating or drinking in front of others
+o Out of proportion for the perceived threat
+o Begins late childhood or early adolescence
+o Stems from abuse, bullying, or another event and not caused by other disorders
+- Features:
+o Intense fear or anxiety
+o Difficulty decision making and communicating
+o Inability to focus or perform
+o Physical symptoms:
+ Sweating
+ Dyspnea
+ Hyperventilation
+ Stomachache
+ Nausea and vomiting
+ Tachycardia
+ Palpitations
+
+- Tx:
+o Psychotherapy
+o CBT
+o Relaxation techniques
+o Visualizing pleasant situations
+o Systematic desensitization
+o Discussing fear
+o Gradual introduction to the fear
+o Meds: benzodiazepines, SSRI, beta blockers
+
+Serotonin Syndrome
+- Excess serotonergic activity in the brain
+- Does not occur naturally and is a result of taking meds or supplements
+- Causes:
+o Antidepressants initiation or dose increase
+ SSRI
+ SNRI
+ MAOI
+ Important to know there are many different drug interactions which can
+increase likelihood for serotonin syndrome
+ St Johns wort, tramadol, and ondansetron
+ Cocaine, amphetamines
+
+- Symptoms:
+o Onset within 2-72 hours
+o Autonomic hyperactivity
+o High fever, diarrhea, HTN, tachycardia, sweating
+o Neuromuscular excitability
+
+ Tremors, clonus, hyperreflexia, shivering
+ Mental status changes
+ Agitation, restlessness, confusion, hallucinations
+o Can lead to life-threatening complications such as CV shock, seizures, death
+ Foot is moved into a dorsiflexion movement and then starts to shake
+
+- Nursing:
+o Discontinue medications and other meds that will interfere
+o Give benzodiazepines
+o Make sure oxygen is over 94%
+o Continuous cardiac monitoring
+o IV fluids to prevent rhabdomyolysis due to increased muscle contractility
+o Clonus causes increased body temp so have ice packs and a cooling blanket
+available
+o Place pt on seizure precautions and monitor for seizures
+
+Bipolar Disorder
+- Bipolar 1:
+o Manic phases up to several days replaced by depression phases
+- Bipolar 2:
+o Hypomanic and then followed by depression
+- Recurring and remitting episodes
+- Pathogenesis is unknown but there may be a biological and psychological factor
+- Manic phase:
+o DIG FAST: elevated, irritable or expansive mood plus the following:
+ Distractibility (cannot maintain focus)
+ Impulsivity or indiscretion
+ Grandiosity
+ Flight of ideas/racing thoughts
+ Activity increase
+ Sleep deficit, decreased need for sleep
+ Talkativeness/pressured speech (may not realize how much they are
+talking)
+
+o Psychotic symptoms, delusions and hallucinations and marked functional
+impairment
+- Hypomanic phase:
+o Similar to manic but less severe
+o Don’t need to be hospitalized as no functional impairment
+- Depressive phase
+o Daily sadness, difficulty concentration
+o Eating problems
+o Feeling worthless, hopeless or guilty
+o Loss of pleasure in activities once enjoyed
+o Difficulty sleeping
+- Management:
+
+o Mood stabilizers
+ Lithium, valproic acid (take a few weeks to be effective)
+o Second generation antipsychotic
+ Risperidone, lurasidone, olanzapine, quetiapine
+
+- Nursing
+o Manic phase:
+ Safety and physiological needs (maslow – lower tiers)
+ High protein high calorie finger foods
+ Supplements for weight loss, malnutrition
+ Daily weights
+ Set limits on manipulative behaviour
+ Positive reinforcement for appropriate behaviour
+ Low stimulus environment to promote rest
+ Assist with personal hygiene – promote normal clothing
+ Check for psychotic symptoms – present reality without arguing –
+comfort and acknowledge, monitor for suicidal ideation, remove all
+hazardous items, assist in identifying feelings of frustration and
+aggression, encourage client to talk instead of acting out
+ Teach client and family the cyclic nature of the symptoms
+ Supportive services – crisis hotline, support groups, individual therapy
+
+Bulimia Nervosa
+- Overeating followed by vomiting, excessive exercise, laxatives, fasting
+- Episodes are triggered by negative emotions
+- Can affect men and women
+- Features:
+o Normal to elevated BMI
+o Swollen salivary glands
+o Enamel erosions
+o Esophageal inflammations
+o Russel sign – left knucle has demarcation – self inducing vomiting
+o Gastric reflux, dehydration, hypokalemia, metabolic alkalosis
+o Arrhythmias
+o Hand calluses
+- Nursing:
+o Monitor for electrolyte imbalances
+o Monitor the client during and after meals
+o Structured meal schedule
+o Monitor for an hour after eating
+o Encourage the client to eat with others
+o Assess for self harm or suicide
+o Encourage diary or journal usage
+
+Intimate Partner Violence
+- Can be physical, emotional, verbal, sexual, financial
+
+- Cuts across all social groups
+- Risks:
+o Perpetrator:
+ Controlling behaviour, blaming the survivor, has unrealistic expectations,
+violence outside the home, substance use, hx of injuring a partner, access
+to firearms, poor impulse control
+
+o Survivor
+ Attempts to leave relationship
+ Seeks outside help
+ Pregnancy
+ Becomes more independent
+ Lack of support systems
+o Concerning signs:
+ Physical manifestations
+ Behavioural symptoms in survivor
+ Frequent visits to ER
+ Inconsistent explanation of injuries
+ STI
+ Overly attentive or intrusive partner
+
+- Cycle of Violence
+o Tension building:
+ Withdrawing affection, irritable, minor abuses occur
+ Abused tries to placate abuser, takes blame
+o Acute battering phase:
+ Abuser exhibits violent behaviour, survivor may seek help or hide abuse
+o Honeymoon
+ Abuser feels remorse and asks for forgiveness, gives affection, abused
+client accepts and stays
+
+- Nursing:
+o Interview the client without the perpetrator present
+o Establish trust, build therapeutic alliance
+o Use open ended questions
+o Direct client focused questions
+o Develop a safety plan
+o Provide resources
+o Identify support systems
+o Document findings on a body map
+o Assess for thoughts of self harm
+o Assess client readiness to end relationship
+
+Borderline Personality Disorder
+- Cluster B (dramatic, emotional, erratic)
+- Neurosis and psychosis
+- Can also have bipolar, anxiety, depression
+
+- Intense impulsivity – unstable relationships and poor self image
+- Emotional dysregulation: mood swings
+- Unstable relationships
+- Poor self image
+- Lack a clear sense of self and have self image distortion that causes significant distress
+- Starts in early adulthood
+- Features:
+o Poor self image
+o Intense fear of abandonment
+o Splitting – coping mechanism to view others as wonderful or horrible, cant
+understand that both good and bad exist
+o Mood instability
+o Inappropriate anger
+o Transient paranoia or distrust
+o Others are out to get them
+o Impulsivity
+o Suicidality, self harm
+- Tx:
+o Psychotherapy
+ Dialectical behavioural therapy to help with suicide and self harm
+ Cognitive behavioural therapy to change perception of themselves and
+others
+o Pharmacotherapy:
+ Atypical antipsychotics  decrease anger
+ Apripiprazole, quetiapine
+ Mood stabilizers
+ Lithium, lamotrigine
+ SSRI
+ Sertraline, escitalopram
+
+- Nursing:
+o Therapeutic relationships
+o Clients may show flattery or splitting to gain control or power so it is important
+to set limits with nonthreatening and firm tone
+o Client may try bargaining – respond with already referring to what has been
+established
+o Consistency across all staff members in enforcing limits
+o Appropriate boundaries
+o Reinforce rules and expectations
+o Explain consequences for unacceptable behaviour and should be aimed towards
+something the client values
+o Monitor for self-harm behaviours
+o Encourage them to seek a staff member if they want to self harm
+o Remain neutral in cleaning or dressing the wound
+o Encourage them to write down what they felt when they were doing it
+
+Child Abuse and Neglect
+- Risk:
+o Caregiver background
+o Single parents or young parents
+o Hx psychiatric disorders, substance abuse disorders
+o Lack of social support
+o Unsafe or unstable home environment
+o Child history of disabilities
+o Unplanned or unwanted pregnancies
+- Features:
+o History of injury
+o Vague or changing details
+o Injury inconsistent with childs developmental age
+o Sibling blamed for injuries
+o Caregiver behavior
+ Argumentative, violent, defensive
+ Lack of emotional interaction with child
+ Inappropriate response to childs injury
+ Delay in seeking medical care
+o Linear immersion burns
+o Long bone fractures
+o Spiral fractures – outside twisting force
+o Retinal hemorrhage or funduscopic examination
+o Intraoral injuries
+o Injury to genitalia, hands, back, ears
+o Apprehension, fear of caregiver
+o Extreme withdrawal or aggressiveness
+o Shaken baby syndrome:
+ Infants or newborns – intracranial trauma – cerebral edema and death
+ No external evidence of trauma except where child was held
+ Symptoms: lethargic, listless, vomiting, not eating, child is inconsolable,
+bulging fontanels, large head circumference
+ Retinal hemorrhage
+o Sexual abuse: difficulty sitting or walking, torn, stained or bloody underclothing,
+pain, swelling, itching or unusual odor in genital area, bruising, bleeding,
+lacerations, in oral genital or anal area, positive STI or young pregnancy
+o Neglect: poor hygiene, persistent hunger, malnutrition (poor weight gain), thin
+extremities, lack of subcutaneous fat, evidence of poor health care, frequent
+absences from school, reports of lack of supervision
+
+- Clinical interview
+o Speak with child in private using a direct, honest approach, be honest about
+reporting requirements, let them know how you’re going to keep them safe and
+not get them in trouble, ask open ended questions, avoid leading questions,
+allow child to disclose info at their own pace
+
+o Avoid making assumptions or communicating anger, shock, or disapproval,
+monitor childs affect while retelling events – concerning if child is not emotional
+or disturbed or happy.
+
+- Nursing:
+o Report suspected findings to local authorities
+o Sexual assault nurse performs assessment, document verbatim statements,
+document findings on body map, identify last time of abuse for forensic
+evaluation
+o Provide emotional support for children
+
+Conduct Disorder
+- Persistent pattern of aggressive behavior (&gt;6 months) during childhood/adolescence
+that willingly violates rules, norms, rights of others
+- Causes: structural, functional, chemical changes in the brain
+o Genetics
+o Adverse child experiences
+- Features:
+o Behaviour disorder – behavioural defiance
+o Theft, shoplifting
+o Behaviour builds
+o Property damage, arson, graffiti
+o Progresses into harm against people or animals
+o Bullying, fights, weapons, sexual coercion. Behaviour is seen at home and at
+school
+o More serious violation of rules
+o Lack of trust with others, lack of emotional capacity to bond with others
+o Low self esteem, easily frustrated, anger outbursts, lack of empathy
+- Complications:
+o Craving excitement and lack of disregard for consequences can lead to
+o Juvenile delinquency/legal implications, recreational drug or alcohol use,
+suspension and expulsion
+o Without therapy can develop antisocial personality disorder
+- Management:
+o Improve behaviour at home  caregiver management techniques, redirect
+inappropriate behaviour, positive reinforcement
+o Help them build up bond and relationships, love and cared for so they can
+develop self esteem
+o CBT
+o Social skills training
+- Nursing:
+o Promote safety
+o Check for substance use, suicidal or homicidal ideation
+o Firm limits, boundaries, structure, expectations
+o Structures routine
+
+o Behavioural goals
+o Positive reinforcement
+o
+Elder Mistreatment
+- Hidden problem
+- Usually involves family members, sometimes staff
+- Patients or witnesses minimize or deny due to fear of retaliation
+- Unwilling to pursue legal action
+- Risks:
+o Abuser:
+ Dependent for housing and financial support, hx of violence,
+unemployed, substance use or mental illness,
+
+o clients risk
+ inability to perform ADL
+ neurologic (dementia)
+ psychiatric (depression)
+ lack of support
+ alcohol disorder
+
+- Nursing
+o Atypical abrasions, lacerations, contusions, fractures
+o Poorly explained injuries
+o Sexual: genital injuries, STI
+o Neglect: dehydration, malnutrition, poor personal hygiene, pressure injuries,
+deteriorating health
+o Financial: failure to take or purchase medications, multiple missed appt
+o Screen for suicide and depression, ask if they feel safe, social service referral
+o Report to appropriate authorities
+o Take photographs and document specific findings (wounds and bruises)
+o Document statements by client or accompanying individual
+o Prevent financial abuse
+ Encourage client to appoint a trusted individual to oversee financial
+decisions
+
+Opioid Withdrawal
+- Opioids are stopped, the loss of their inhibitory effect leads to a sudden increase in
+norepinephrine release
+- Sudden release of norepinephrine that causes fight or flight reaction
+- Depressant effect of the opioid wanes  sympathetic nervous system activity increases 
+withdrawal
+- Symptoms start 4-12 hours after last use and peak within 24-48 hours
+- Craving is apparent
+- Symptoms:
+o Diaphoresis
+o Yawning, sneezing
+
+o Restlessness
+o Agitation
+o Muscle cramps
+o Tremor
+o Diarrhea, vomiting, abdominal cramps
+o Tachycardia, hypertension
+o Runny nose, teary eyes,
+o Shiver, goosebumps
+o Mydriasis (pupil dilation)
+o HTN
+o Insomnia
+- Medication assisted treatment: slowly tapers down opioid
+o Methadone
+o Buprenorphine – verify client is not taking other opioids because they will
+experience withdrawal symptoms
+o Helps them avoid using dirty needles, local infection, endocarditis, sepsis
+o Adjunctive medications:
+ Loperamide, promethazine
+o Watch fluid intake – risk for dehydration
+o Evaluate client behaviour and severity of withdrawal
+ COWS scale
+o Monitor for suicidal ideation
+o Long term sobriety: support groups, residential treatment programs, family
+therapy
+Panic Disorder
+- Dx:
+o Panic attacks
+o Followed by: persistent worry about when the next attack happens
+o Avoid situations that may trigger another panic attack
+o Can last 5-30 mins
+o May or may not be in response to a stressor
+o Some may have one, some may have repeated panic attacks
+o May be related to an imbalance of neurotransmitters or overactive amygdala
+o Heart palpitations, chest pain, SOB
+o Trembling, fear of dying
+o Nursing:
+ CBT
+ SSRI – first line of treatment
+ Sertraline, fluoxetine, escitalopram
+ Benzo:
+ Lorazepam, alprazolam
+ Given only until SSRI start to work
+
+o During a panic attack:
+ Stay with client
+
+ Reassure they are safe, decrease stimuli
+ Speak in short simple sentences
+ Controlled breathing exercises
+o After:
+ Identify triggers
+ Reassure
+ Teach positive self talk
+
+PTSD
+- Exposure to traumatic event
+- Symptoms can present up to several years after the event
+- Body keeps releasing stress hormones
+- Features:
+o Reliving the event constantly, intrusive thoughts, flashbacks, nightmares
+o Avoidance
+o Avoid social interactions
+o Amnesia about the complete event
+o State of hyper arousal
+o Sleep disturbances
+o Outbursts of anger
+o Difficulty concentrating
+o Exaggerated startle response
+o Negative condition and mood
+o Patient feels damaged, detached from others, self-isolate
+o Negative emotions – fear, guilt, shame, hopelessness
+- Complications:
+o Depression
+o Anxiety
+o Substance use
+o Somatic symptoms – headaches or migraines
+o Job issues
+o Difficulty with intimate relationships
+o Trauma focused psychotherapy
+ Exposure and desensitization
+ Coping skills
+ Encourage to speak about the event
+o Drugs:
+ SSRI
+ Establish trust
+o Nursing: silence and listening, establish trust, verbalize, don’t rush, teach coping
+strategies, breathing, guided imagery, journaling, exercise, music therapy
+o Address maladaptive coping
+o Build relationships
+
+Postmortem Care
+- Can be delayed in accordance with government agency policiies like when its unnatural,
+traumatic, criminal activity
+- Families may have cultural or religious beliefs
+- Nursing:
+o Contact family members immediately after death
+o Verify whether autopsy has been requested
+o Check organ or tissue donor status
+o Standard precautions unless they have an infection
+o Ask families if they want to be present or participate
+o Provide privacy and time with the deceased client
+o Leave body identification tags on body for transport to morgue or funeral home
+o Wash and straighten body
+o Clean linens and a pad under the perineum
+o Place a pillow under head and put dentures in
+o Close mouth and eyes
+o Remove equipment and soiled linens
+o Keep surgical incisions intact
+o Give all belongings to the family or transfer with the body
+o Place in a body bag
+
+Tracheostomy
+- Surgical opening in the trachea for insertion of tracheostomy tube
+- Indications:
+o Unstable airway (swelling or edema – angioedema), prolonged need for
+mechanical ventilation
+
+- Complicatioons:
+o Aspiration
+o Infection
+o Bleeding
+o Obstruction
+o Dysphagia
+o Tracheal stenosis/necrosis
+- Features
+o Inner and outer cannula
+o Inner is good because it can be removed to be cleaned
+o Obturator: used to guide it into the throat then comes out
+o Cuffed or cuffless – inflated ensures air enters lungs with mechanical/manual
+ventilation
+o Deflated cuff – swallowing is easier, air can move over vocal cords – speech is
+possible
+- Nursing:
+o Communication board
+o Manage:
+
+ Anxiety
+ Secretions
+ Oxygenation/humidification
+ Support communication
+ Tube patency
+ Cuff
+ Skin integrity
+ Nutrition – need an ng tube or a g tube, or iv feeds
+ Monitor respiratory status
+
+- Teaching:
+o Always keep a spare trach tube and one that’s a size smaller
+o Maintain airway patency – suctioning, clean inner cannula
+o Avoid water in the stoma (shower)
+o Maintain humidification to thin secretions  prevent mucus plugs
+o Speak by briefly covering tube or using specialized cap if appropriate
+- Dislodgement:
+o Emergency: call for help
+o Newly placed: cannot replace because the track isn’t healed, putting a new one
+in can cause a fistula or other issues
+o Put client in semi fowler
+o Cover stoma with occlusive dressing
+o Ventilate with BVM over nose and mouth
+o Notify HCP
+o Mature: more than 7 days after insertion, replace with curved hemostat, insert
+new tube with an obturator
+o Secure with new ties
+
+Laryngectomy:
+- Cannot ventilate over nose and mouth – larynx is removed
+- Ventilate over neck
+Trach Care
+- Inner cannula
+- Clean 2-3 times per day
+- Soak in saline, scrub out, dry, put back in and twist to lock
+- Disposable = toss out and replace if disposable
+- Trach tapes/Velcro straps – prevents accidental dislodgement, especially when coughing
+o Apply minimal pressure to flange
+o Ensure two fingers can fit between skin on neck and tie
+
+Cardiogenic Shock
+- Inability of heart muscle to properly contract and pump blood
+- Decreased CO and impaired tissue perfusion = activation of sympathetic nervous system
+- Causes: damage to heart muscle
+
+o MI
+o Decompensated heart failure
+o Cardiomyopathies
+o Valvular heart disease
+o Arrhythmias
+o Trauma to the heart
+- Features:
+o Impaired perfusion
+o Hypotension
+o Clammy skin
+o Weak pulse
+o Tachycardia
+o Pallor, delayed cap refill
+o Decreased urine output
+o Impaired cerebral perfusion  changes in LOC, anxiety, agitation
+o Pulmonary congestion – blood is backed up in the lungs
+ Dyspnea, orthopnea, tachypnea, hypoxia, crackles
+ Jugular vein distension, peripheral edema
+
+- Dx:
+o ECG
+o CXR
+o Echo
+o BNP
+o CK-MB, troponin
+- Complications
+o Multi organ failure
+o MI
+o Cardiac death
+- Nursing:
+o Increase o2 delivery and decrease demand
+o Elevate HOB
+o Supplemental o2
+o Monitor intake and output
+o Cardiac monitoring
+o Treat dysrhythmias
+o Vasopressors
+o Prepare for intubation and mechanical ventilation
+o Prepare for possible surgery (PCI), valve surgery
+
+Disaster Triage
+- Clients sorted rapidly from highest to lowest priority
+- Color coded
+- Best use of limited resources  helps the greatest number of people
+- Emergent: red
+
+o Life-threatening with high probability of survival if interventions are received
+ Shock, compromised airway, unstable wounds, chest trauma
+o Urgent (yellow)
+ Serious injuries requiring treatment within 30 mins to 2 hours
+ Open fractures with pulses felt distally
+ Large wounds that are not actively bleeding
+
+o Nonurgent (green)
+ Can wait at least 2 hours
+ Infections, minor burns and lacerations, closed fractures
+o Expectant
+ Extensive injuries with poor prognosis, regardless of treatment
+ Pulselessness
+ Apnea
+ Severe neuro trauma
+ Full thickness burns more than 72 percent
+
+- Nursing:
+o Transfer stable clients to lower acuity units
+o Discharge stable clients
+o Prioritize and triage clients
+o Supplemental oxygen and potential emergency intubation for clients with
+inhalation injuries
+o Remove residual hazardous materials that could potentiate injuries like chemical
+agents, bioterrorism
+o Remove clothing and jewelry
+o Place client in showering station outside of hospital before they enter
+o
+Neurogenic Shock
+- Distributive vasodilatory shock
+- Redistribution of intravascular fluids due to loss of sympathetic tone = hypovolemia
+- Massive vasodilation and blood pools in periphery
+- Hypovolemia, decreased venous return
+- Causes:
+o Spinal cord injuries
+o Severe brain injuries
+o Spinal anesthesia
+o Opioids
+- Manifestations (parasympathetic)
+o Massive vasodilation
+o Hypotension
+o Warm dry skin initially, warmth then dissipates and client becomes hypothermic
+o Bradycardia
+o Altered mental status
+o Weakness or paralysis below level of injury
+
+o Loss of bladder and bowel control
+- Nursing:
+o Stop shock
+o Stabilize spinal cord – cervical collar
+o Treat hypotension and bradycardia
+ Elevate legs, IV fluid bolus, vasopressors (norepi)
+ Atropine
+ Supplemental o2
+o Maintain core body temp with warming blankets
+o Cardiac monitors – arrhythmias
+o Monitor LOC with GCS
+
+Obstructive Shock
+- Physical obstruction to blood flow in around and out from the heart
+- Decrease in CO and a decrease in perfusion
+- Causes:
+o Cardiac tamponade
+ Distant muffled heart sounds
+o Pulmonary embolism
+ Chest pain, sob
+o Tension pneumothorax
+- Features:
+o Hypotension
+o Tachycardia
+o Rapid, shallow breathing, tachypnea
+o Impaired perfusion
+o Weak pulse
+o Cool, clammy skin
+o Delayed cap refil
+o Cyanosis
+o Impaired cerebral perfusion – aloc
+- Complications
+o Organ failure
+o Arrhythmias
+o Cardiac arrest
+- Nursing:
+o Dx: cxr, echo
+o Treat cause
+ Cardiac tamponade: pericardiocentesis
+ Tension pneumothorax  needle decompression and chest tube
+ Pulmonary embolism: embolectomy
+o Cardiac monitoring
+o Supplemental O2
+o Potential intubation
+
+o Fluid resuscitation
+o Intake and output
+
+Burn Injuries
+- Chemical – caused by caustic substances
+- Electrical – caused by strong electrical currents
+- Thermal
+- Features:
+o 1 st : superficial burn, do not extend past the epidermis, blanchable, painful
+o 2 nd : partial thickness, extends into the dermis, painful blisters, edema, weeping
+(cap permeability)
+o 3 rd : full thickness: extends past the dermis into the subcutaneous tissue, severe
+edema, eschar, pain is reduced due to nerve damage
+o 4 th degree: full thickness and muscle and bone, severe edema, eschar, pain may
+be absent due to nerve damage
+
+- Complications:
+o Inhalation injury caused by inhalation of smoke, hot air, or aerosolized toxins
+o Laryngeal (can irreversibly affect airway) and pulmonary edema (impaired gas
+exchange)
+ Singed nasal hair
+ Soot tinged sputum
+ Burns on face and neck
+ Oropharyngeal edema or blisters
+ Altered mental status
+o Carbon monoxide poisoning – can give falsely high spo2 readings
+ Administer 100% oxygen and prepare for intubation via nonrebreather
+o Systemic inflammation can lead to respiratory failure
+o Hypovolemic shock – cellular damage and increased capillary permeability 
+massive fluid and electrolyte loss  third spacing  hypovolemia  burn shock
+o Organ hypoperfusion
+o Decreased perfusion to kidneys = AKI
+o Compartment syndrome – skin becomes nonelastic, circumferential eschar 
+decreased perfusion to extremities
+ Respiratory complications if it happens to chest – skin becomes tight so
+lungs cannot expand
+
+o Infection, sepsis
+o Stress induced hyperglycemia
+o Malnutrition
+o Mobility issues (contractures)
+- Determine TBSA by rule of nines
+- Nursing:
+o High fowler position for inhalation injury  if not intubated
+o Remove clothing and jewelry around burn area especially with chemical burns
+o If adhered to the wound bed, do not remove it
+
+o Flush with cool water to stop additional burning, not COLD water
+o IV fluid resuscitation is very important
+o Indwelling catheter to monitor output (genital burns  place quickly)
+o Obtain an ECG due to potential hyperkalemia
+o Pain management  IV opioids
+o Minimize heat loss (warm environment, warm blankets)
+o Tetanus immunization
+o High protein, high carb diet
+o Emotional support
+- Invasive procedures
+o Debridement
+o Surgical excision or graft
+o Escharotomy if compartment syndrome develops
+o Wound care – gentle cleansing, topical agents (antimicrobial creams, collagen),
+dressing  premedicate
+o Monitor skin grafts and donor sites
+- Teaching:
+o Rehabilitation
+o Physical therapy
+o Splints or compression garments
+o Wound care as prescribed
+o Antihistamines to alleviate the itching associated with healing
+o Moisturizers and sunscreen should be applied liberally
+o Psychological needs and mental health resources
+
+Breast Cancer
+- Malignancy of the breast
+- Risk:
+o Female
+o Certain genetic alterations (BRCA1 and BRCA2 mutations)
+o Family hx breast cancer
+o Increasing age of 50 or older
+o Obesity
+o Increased exposure to estrogen in the body, prolonged menopausal hormone
+therapy
+o Early menarche, late menopause
+o First full term pregnancy occurring at age greater than 35
+o Smoking, alcohol use
+- Features:
+o Most often occurs in upper outer quadrant of the breast
+o Unilateral
+o Palpable mass is usually firm, asymmetrical, nonmobile, nontender
+o May have discharge at the nipple – clear or bloody
+o Presence of inflammation
+
+o Enlarged lymph nodes
+o Erythema, peau d’orange, edema
+o Retracted nipple
+o May first be suspected to be mastitis
+- Nursing:
+o Thorough assessment of the breast
+o Check for asymmetry, lumps, discharge
+o Teach: modifiable risk factors
+o Screening guidelines
+o Reportable breast changes
+o Prepare for mastectomy, reconstruction, radiation
+o Meds:
+ Chemo, hormone therapy, estrogen receptor blockers, monoclonal
+antibodies
+
+o Emotional support and resources
+o Prepare for imagine, biopsy, axillary lymph node dissection
+
+Mastectomy
+- Removal of all or part of the breast tissue
+- Procedure performed depends on extent of cancer and may include
+o Lumpectomy: tumor removal and small amount of surrounding normal tissue
+o Partial mastectomy: partial removal
+o Total or simple mastectomy: removal of whole breast, nipple, areola
+o Modified radical: removal of whole breast, all of the lymph nodes
+- Nursing:
+o Assess pain
+o Prevent lymphedema
+ Elevate arm on the affected side
+ Encourage supine sleep or sleeping on unaffected side
+ No BP, injections, and venipuncture on affected side
+ Put a sign above door or use a wristband
+ Report unilateral increase in arm size, heaviness, numbness =
+lymphedema
+o Wound and drain care
+ JP
+o frequently use incentive spirometer
+o ROM exercises
+o Emotional support, encourage verbilization of feelings
+
+Diaper Candidiasis
+- Erythematous, itchy, maculopapular rash in the perineal area with satellite lesions
+- Topical fungicide to affected diaper areas
+- Clean and dry diaper area; change diapers as soon as they become soiled, check skin
+folds frequently (inguinal folds)
+- Skin protectant ointment
+
+- Avoid prolonged contact, wet or damp clothing
+Cataracts
+- Clouding of the lenses, impaired visual acuity
+- Can be unilateral or bilateral
+- Mainly age related
+- Risks:
+o Trauma, smoking, alcohol, DM
+o Radiation, UV light
+o Corticosteroid use
+- Features:
+o Painless, progressive decline in vision
+o Problems with night driving, reading road signs
+o Glare, halo vision
+o Opacified lens
+o Loss of red reflex
+- Dx:
+o Ophthalmoscopy, slit-lamp microscopy
+- Treatment
+o Surgery
+o Outpatient procedure
+o Eyedrops dilate the pupil
+o Cataract is removed and an artificial intraocular lens is placed
+o Surgery is performed on one eye at a time, other eye is done a few months later
+- Surgical complications:
+o Hyphema: blood in eye
+o Intraocular infection
+o Retinal detachment
+o Lens malposition/dislocation
+- Nursing:
+o Postop:
+ Notify if vision acuity worsens
+ First couple of hours after surgery, vision might be blurry but gets better
+every day
+ Notify if improvement does not happen or suddenly gets worse = retinal
+detachment
+ Elevate HOB 30-45 to decrease pressure
+ Avoid activities that increase pressure (straining)
+ Monitor for infection
+ Wear eye patch, especially at bedtime to protect the eye
+ Observe that the patient can put in eye drops correctly
+ Rheumatoid arthritis may need abx drops
+ Expected findings: might feel like there is sand in the eyes for 6-8 weeks,
+photophobia for months, might need sunglasses
+
+Celiac disease
+- Autoimmune disorder
+- Gluten causes immune mediated small intestine inflammation and chronic
+malabsorption
+- Ingestion of gluten leads to an autoimmune response
+- Gluten comes into contact with the wall and the epithelial wall is affected which leads to
+smaller surface area
+- Cannot process gluten
+- Manifestations:
+o Malabsorption – abdominal discomfort, diarrhea, flatulence, bloating
+o Steatorrhea
+o Malnutrition – younger = delayed growth, failure to thrive
+ Older: iron deficiency anemia, vitamin deficiency, A, D, E, B12
+
+- Management:
+o Diet: gluten free diet
+o BROW: barley, rye, oats, wheat (avoid)
+o Diet high in calories and proteins
+o Read food labels carefully
+o Take supplements, iron (ferrous sulfate), vitamins
+
+Chlamydia
+- STI
+- Chlamydia trachomatis
+- Oral sex, anal, sharing sex toys, mom to baby
+- Risk:
+o Age less than 25, multiple partners
+o History of STI
+- Also screen for gonorrhea – high rates of coinfection
+- Features:
+o Most are asymptomatic
+o Urethritis
+o Painful or burning urination
+o Cervicitis – red inflamed cervix
+ Spotting or postcoital bleeding
+o Men may have mild discharge – watery or mucoid, scant
+ Gonorrhea has copious or purulent discharge
+o Unilateral scrotal swelling
+- Complications:
+o PID
+o Infertility, ectopic pregnancy
+o Pregnancy complications: preterm birth, passage of chlamydia to infant through
+eye infection
+o Postpartum endometritis
+- Dx:
+
+o Nucleic acid amplification tets or urine sample or vaginal/cervical sample
+o NAT
+o Usually concurrent test for gonorrhea
+- Tx:
+o Doxycycline
+o Pregnant clients get azithromycin – take a urine pregnancy test
+o Report to public health officials (gonorrhea as well)
+o Test for other STI (HIV, syphilis)
+- Teaching:
+o Avoid intercourse for 7 days after abx
+o Barrier contraception
+o Minimize sexual partners
+o Routine STI screening 3-12 months
+
+Chronic Kidney Disease
+- Excretory function: produce urine
+- Hormonal: erythropoietin
+- Blood pressure control
+- Irreversible, slow progressive disease  decreased glomerular filtration
+- 5 stages: higher the number, the worse the function, based on GFR
+- 1-3 kidneys functioning (assess, monitor, prevention)
+- 4-5: kidneys severely impaired (dialysis, transplant)
+- Causes:
+o DM, hypertension (most common)
+ Constant state of sugar in the blood, eradicates cells and tissues over
+time, damages renal arteries, causes scarring
+
+o Autoimmune disease
+o Polycystic kidney disease
+- Features:
+o Volume overload – peripheral edema, rales, pulmonary edema, pleural effusions
+o Increased BP – HTN
+o Accumulation of urea and waste – lethargy, pruritis, sleep changes, peripheral
+neuropathy – toxins overflow from the blood vessels eventually and go into the
+interstitial space = dryness = itchy = open wounds
+o Alterations of electrolytes and acid-base buffer system
+ High potassium and phosphorus
+ Low serum calcium
+ Acidotic environment (metabolic acidosis)
+o Loss of other kidney functions
+ Anemia, hgb drops, lethargy, fatigue
+ Loss of vitamin d and calcium (vit d is activated through kidney)
+ Long term bone disease
+
+- Treatment:
+o ACE inhibitors, angiotensin 2 receptor blockers (renin angiotensin system)
+
+o Erythropoietin injections, iron
+o Diuretics (stages 1-3)  need the kidneys to still function  daily weights, input
+output
+o Calcium and vit D
+o Tx hyperkalemia: Oral intestinal potassium binders (kayexalate (can cause
+diarrhea))  sodium zirconium, patiromer
+o Tx: hyperphosphatemia: Oral phosphate binders- calcium acetate/carbonate
+o Tx metabolic acidosis: sodium bicarb
+o Diet:
+ Low potassium, phosphate (berries, nuts, peanut butter, green leafy
+vegetables)
+ Low sodium and fluid restriction
+ Modest protein restriction (chicken, plant based protein (legumes) fish,
+avoid red meat)
+
+- Nursing
+o Correct fluid and electrolyte imbalance
+o Strict intake and output
+o Daily weights
+o Monitor electrolytes, especially potassium
+o Administer diuretics for stages 1-3
+o Assess lung, heart sounds, vital signs
+o Monitor for systemic complications as disease progresses
+o In stages 4-5 – prepare for dialysis (HD or PD), EOL discussion
+
+Cirrhosis
+- End stage liver disease
+- Takes repeated injury to develop cirrhosis
+- Irreversible scarring due to repeated inflammation, leads to fibrosis
+- Decreased bilirubin metabolism
+- Decreased synthetic functionality = decreased protein synthesis
+o PTT, albumin, estrogen cannot be metabolised
+o Altered blood flow = portal vein hypertension (receives blood from esophagus,
+stomach, intestines, spleen = blood pools back to organs)
+
+- Risks:
+o Alcohol, chronic viral hep B or C
+o Non alcoholic fatty liver disease – obese clients
+- Features:
+o Esophageal varices, splenomegaly, ascites, caput medusae, anorectal varices
+o Spider angiomata, gynecomastia (estrogen buildup)
+o Loss of sexual hair, testicular atrophy, palmar erythema
+o Jaundice, darkened urine, pale stool
+o Ecchymosis, edema
+o Bruising
+o Fluid buildup = albumin deficiency
+
+- Complications:
+o Hepatic encephalopathy = buildup of ammonia, can lead to cerebral edema and
+hypertension
+o Ascites – pressure on lungs, atelectasis, pneumonia
+o Spontaneous bacterial peritonitis
+o GI bleeding, liver cancers
+- Features:
+o Anticipated labs:
+ Increased:
+ Bilirubin, PT, PTT, ALT, AST, serum ammonia
+ Decreased:
+ Albumin, platelets, WBC, possibly hgb
+
+- Nursing:
+o Elevate HOB to minimize dyspnea
+o Give diuretics – spironolactone or lasix
+o Manage ascites
+ Paracentesis, daily weight, abdo girth
+ Implement sodium and fluid restrictions
+o Signs of bleeding
+o Monitor for hepatic encephalopathy – asterixis (tremor), confusion, altered
+mental status
+o Do not give sedatives
+o Avoid hepatotoxins: alcohol, acetaminophen
+o Vaccination against hepatitis a
+o Skin care (calamine) for jaundice
+
+Paracentesis
+- Treat hypotension after paracentesis with a colloid solution (25% albumin IV)
+- Check BP during and after procedure
+- Prevent hypertension
+
+DVT:
+Usually affects legs
+- Diminished or blocked blood flow causes inflammation and edema at the site of
+blockage
+- Predisposed by Virchow triad – altered blood flow (stasis), endothelial damage,
+hypercoagulable state = thrombosis
+- Risks:
+o Age 65 and older
+o Immobility
+o Obesity
+o Oral contraceptives
+o Pregnancy
+ C-section
+
+o Surgery
+o Fractures
+o Malignancy
+- Features:
+o Unilateral edema, pain, warmth, decreased sensation, swelling
+- Dx: d-dimer, venous doppler ultrasound
+- Nursing:
+o Prevention: change positions, walk frequently
+o Perform leg exercises
+o Avoid crossing legs or put a pillow behind the knees
+o Wear compression stockings or moon boots
+o Anticoagulants
+o Observe for evidence of bleeding
+o Fall risk
+o Neuro assessments, cap refill, pulse strength, might have to measure
+circumference of calf
+o Monitor for PE – resp distress, decreased perfusion, SOB, pleuritic chest pain,
+sudden onset mental status changes
+o If DVT, do not walk – can cause pulmonary embolism – start anticoagulation then
+ambulate
+o Will be prescribed long term anticoagulation
+o Encourage fluid intake
+
+DM type 1
+- Chronic endocrine disorder
+- Absolute deficiency in insulin production due to destruction of pancreatic beta cells
+- Insulin required
+- Typically seen in children and young adults
+- Features:
+o Thin
+o Hyperglycemia
+o Polyuria, polydipsia, polyphagia
+o Weight loss
+o Ketoacidosis (can be initial presentation)
+o Breathing fast, deep
+o Blurred vision, nocturnal enuresis
+o Vaginal candidiasis
+- Management:
+o Consistent meal and snack with portions and compositions
+o Frequent glucose monitoring
+o Keep diary of glucose levels
+o Lifelong insulin administration – requirements change with age – younger needs
+more insulin
+o Rotate insulin sites
+
+o Avoid inflammation, cellulitis, infection
+o Carry glucose tablets at all times
+o Wear medical alert bracelet
+o Monitor for hypoglycemia and dka
+o Extra food prior to exercise, 10-15 grams of carbs for every 30-45 mins
+o Monitor bg levels before, during, after exercise
+o Ha1c every three months
+o Do not withhold insulin during illness, infection, stress = higher metabolic need
+o Store insulin in dry space but can be refrigerated after opening
+o Test urine for ketones
+- Hypoglycemia
+o Blood glucose under 3.9
+o Tx: oral glucose
+o IM glucagon if unconscious
+o Medical emergency
+
+DM Type 2
+- Not making enough insulin or the insulin isn’t working properly
+- Pancreas is still making some insulin
+- Insulin resistance- insulin receptors aren’t working, not enough of them, combination of
+both
+- Insulin cannot take glucose into cells = hyperglycemia
+- Liver releases too much or not enough glucose
+- Adipose tissue releases cytokines that cause inflammation and leads to DM
+- Risks:
+o Nonmodifiable: age above 45, family history, history of gestational diabetes
+o Modifiable: obesity, inactivity, hyperlipidemia
+o Cigarette smoking
+- Manifestations:
+o Gradual onset, asymptomatic hyperglycemia
+o Polyuria, polyphagia, polydipsia
+o Blurry vision
+- Dx:
+o Hgba1c above or equal to 6.5
+o Fasting glucose above or equal to 7 mmol/L
+ Nothing to eat or drink for 8 hours
+o Random glucose above 11.1
+o Oral glucose tolerance test for pregnant clients
+- Complications:
+o Hyperlipidemia, hypertension
+o Macrovascular: atherosclerosis, CAD, stroke, TIA, peripheral artery disease
+o Microvascular: peripheral neuropathy, sensory neuropathies, retinopathy,
+nephropathy
+o Delayed wound healing
+
+o Recurrent infections = bacteria loves sugar
+o Hyperosmolar hyperglycemia
+- Nursing:
+o How to use a glucometer
+o Teach moderate activity, diet low in fat, high in fiber
+o Weight loss
+o Avoid alcohol (hypoglycemia risk)
+o Oral antidiabetic medications or insulin therapy
+o Treat hyperlipidemia – statins
+o Monitor for hyperglycemia, HHS
+o Proper foot care, inspect foot, report infection immediately, no open sandals, no
+overlapping toes, protective shows, wash with lukewarm water daily
+o Avoid heating pads
+o Sick day management – they tend not to take insulin but they can become
+hyperglycemic, continue as directed, monitor blood glucose frequently
+o Routine eye exams
+o Stress reduction techniques
+o Prevent infections
+
+HHS:
+- Life threatening
+- Dehydration, really concentrated blood
+- Water is pulled out of cells = dehydration
+- Gradual onset
+- Blood glucose above 33.3
+- Caused by underlying infection, illness, medication
+- Polyuria
+- Neurologic manifestations – lethargy, altered loc, coma
+- Blurry vision
+- IV fluids, IV insulin, electrolyte replacement
+Endocarditis
+- Inflammation and infection of the inner layer of the heart, causes valve dysfunction
+- Microemboli can travel to end capillaries
+- Large emboli can travel to other organs and block blood flow = stroke, necrosis, limb
+loss
+- Risks:
+o Recent dental procedure (tooth extraction)
+o Prosthetic heart valves
+o Congenital heart defects
+o IV recreational drug use
+- Features:
+o Flu like symptoms – fever, malaise, myalgia, arthralgia
+o New or worsening cardiac murmur
+
+o Janeway lesions – nontender lesions on the skin
+o Splinter hemorrhages – lines on skin
+o Osler nodes: on hands and feet
+- Complications
+o Valve problems
+o Conduction abnormalities – dizziness, syncope
+o Neurologic: stroke, weakness, speech problems
+o Renal: abdominal pain, hematuria, glomerulonephritis, AKI
+o MSK: vertebral osteomyelitis  back pain, septic arthritis  joint swelling, pain,
+redness
+o Peripheral vascular occlusion  numbness, tingling and cyanosis in extremities
+o Pulmonary infarction  common with right sided endocarditis, pleuritic chest
+pain, dyspnea, hemoptysis
+o
+o Dx:
+ Elevated WBC, positive blood cultures, elevated erythrocyte
+sedimentation count
+ Echo
+ ECG
+o Nursing
+ Blood for culture and sensitivity
+ IV abx long term – abx don’t penetrate well to the heart
+ Cvad – PICC (4-6 weeks)
+ Monitor for signs of embolisms and heart failure
+ Check temperature
+ Teach client to check temperature and use Tylenol if needed
+ Monitor IV catheter site for signs of infection
+ Ensure appropriate dental hygiene
+ Prophylactic antibiotics prior to dental work
+
+Hemodialysis
+- Mimics function of kidneys
+- Removes waste and water
+- Corrects electrolyte imbalances
+- Restores acid base balance
+- Requires:
+o Access to the clints circulation
+o Semipermeable membrane
+o Dialysis solution
+o Highly purified water
+- Access:
+o Three ways:
+ Central venous double lumen catheter (temp)
+ Arteriovenous fistula
+
+ Arteriovenous graft – clients own system is not intact or fragile – uses
+synthetic graft
+
+- Procedure
+o Access the clients circulation
+o Administer heparin to the client through the line to prevent or reduce the risk of
+clots
+o Flows through membrane in one direction
+o Dialysis solution flows in opposite direction
+o Wastes are removed and electrolytes are corrected via diffusion
+o Ultrafiltration removes excess water from the blood
+o Blood returns to the client
+- Nursing:
+o Administer anticoagulants
+o Monitor for bleeding
+o Assess VS frequently predialysis and every 15 mins and at the end
+o Hypotension may occur due to excess fluid removal
+o Withhold antihypertensives prior to hemodialysis
+o Obtain blood pressure on the arm opposite to the arm accessed
+o Provide nutrition since they can eat before and during, especially if diabetic
+- Complications:
+o Air embolism – dyspnea and tachypnea, chest pain, anxiety, changes in
+consciousness, hypotension, reduced o2 sat
+ Immediately clamp tubing, place in Trendelenburg on left side,
+administer high flow o2, notify HCP, medical emergency
+
+o Disequilibrium syndrome – sudden change in composition of the ECF, solutes are
+removed from the blood too fast, more common in new client
+ Cerebral edema, n+v, restlessness, agitation, confusion, seizures, death
+ Slow or stop dialysis, notify HCP, reduce environmental stimuli,
+prepare to administer hypertonic saline or mannitol, prepare to
+dialyze for shorter periods at reduced flow rates
+
+o Infection/sepsis
+o Cardiac arrhythmias (electrolyte imbalance)
+o Catheter clotting
+
+Clozapine
+- Atypical antipsychotic medication to treat schizophrenia that doesn’t respond to other
+treatment
+- Associated with a risk for agranulocytosis (dangerously low WBC)
+- WBC must have WBC and ANC in normal limits before starting clozapine and must be
+continuously monitored
+Crutch Paralysis
+
+- Reversible condition caused by excessive and prolonged pressure on the radial nerve at
+the axilla, due to crutches that are too long or leaning on top of the crutches when
+ambulating. Manifestations = weakness, numbness, tingling of the arm, wrist, hand
+- Teach client to support body weight on the hands and arms, not the axillae, make sure
+there is a 1-2 inch space between the axilla and the crutch pad.
+Sjogren Syndrome
+- Chronic autoimmune disorder where moisture producing exocrine glands of the body
+are attacked by the white blood cells. Most commonly affected glandsa re the salivary
+and lacrimal glands, leading to dry eyes, dry mouth.
+- Can lead to corneal ulcerations, dental caries, oral thrush.
+- Can also have dry skin and rashes, chronic dry cough, vaginal dryness and painful
+intercourse.
+- Treatment: otc drops, prescription drops, wearing goggles, sugarless
+gum/candy/artificial saliva, regular dental appts, lubricants for vaginal dryness. Use
+humidifiers. Sip water.
+- Take lukewarm showers with mild soap, avoid decongestants.
+- Avoid coffee, alcohol, nicotine, acidic drinks.
+Toxic Epidermal Necrolysis
+- Severe form of Stevens Johnson syndrome – an immune mediated acute skin reaction
+triggered by certain medications (lamotrigine, rifampin). Initial manifestations are
+nonspecific and flu like (fever, fatigue), followed by a burn like rash and blistered lesions
+that often involve the mucous membranes. Care is similar to that of a burn patient.
+- Nursing:
+o Apply sterile, moist dressings to areas of open skin due to shedding on the face,
+trunk, palms
+o Ensuring the causative medication is discontinued to prevent further progression
+of symptoms
+o Providing cotton blankets and maintaining a warm room temperature to prevent
+hypothermia
+o Administer lubricating eye drops or ointment to relieve dryness and prevent
+corneal abrasion and keratoconjunctivitis
+
+Surgical Site Infections
+- Develop within days to weeks of a surgical procedure and are caused by introduction of
+microorganisms to the open wound, most commonly from skin flora or contamination
+of the surgical site. Clients with DM with a history of smoking have an increased risk of
+SSI due to delayed wound healing from altered tissue perfusion and collagen synthesis
+- Clinical manifestations:
+o Fever, purulent discharge, induration, erythema.
+o Paresthesia at the wound edges, dusky subq tissue, intense pain = necrotizing SSI
+- Nursing:
+o Administer broad spectrum abx
+
+o Obtain a prescription for additional insulin if diabetic
+o Prepare the client for urgent surgical debridement
+o No abdominal binder
+
+Beta Blockers
+- Reduce cardiac workload, decrease myocardial oxygen demand by decreasing blood
+pressure and decreasing HR
+ACE inhibitors
+- Alter the RAAS, preventing release of aldosterone
+- Promote vasodilation and decrease BP
+- Decrease ventricular remodeling
+Loop Diuretics
+- Increase urine output and fluid excretion
+- Decrease BP and reduce pulmonary edema, increase o2 saturation, and decrease
+cardiac preload
+Autonomic Dysreflexia
+- Acute unregulated sympathetic nervous system response to noxious stimuli (bladder
+distension, fecal impaction, constrictive clothing) that causes severe lifethreatening
+hypertension.
+- Blood pressure remains high
+- Manifestations:
+o HTN, bradycardia, severe headache, profuse diaphoresis, nausea.
+o Can lead to stroke, seizures, and MI.
+o First elevate the head of the bed 45 degrees or higher to reduce BP
+o Then Assess for noxious stimuli
+
+IV insertion
+- Ideal placement is a straight vein on the nondominant arm
+- Veins located on the dorsal surface of the forearm (cephalic vein) are least prone to
+complications
+Post-Liver Biopsy Care
+- Client should lie on the right side for a minimum of 2 hours (to apply pressure and splint
+the puncture site) and then supine for an additional 12-14 hours
+Malabsorption Symptoms
+- Muscle wasting, edema
+- Weight loss
+- Anemia (iron, folate, b12)
+- Bone pain, muscle weakness, tetany (calcium, vit D)
+- Hyperkeratosis, night blindness (vitamin A)
+- Petechia, easy bruising (vitamin K)
+
+Gluten Free food
+- Dairy (milk, cheese)
+- Fats and oils (avocado, butter)
+- Grains (brown rice)
+- Protein (black beans, meats, poultry)
+- Fruits and vegetables (bananas, bell peppers, potato)
+- Not gluten free: soy sauce, bread
+Broca Aphasia
+- Nonfluent aphasia resulting from damage to the frontal lobe. Clients can comprehend
+speech but demonstrate speech difficulties. Speech pattern often consists of short,
+limited phrases that make sense but display great effort and frequent omission of
+smaller words
+- Can become frustrated easily
+- Are aware of impediment
+Wernicke Aphasia
+- Unaware of speech impairment
+- Damage to temporal portion of the brain
+- Long, meaningless speech pattern
+Bell Palsy
+- Damage to facial nerve VII
+- Manifestations = facial asymmetry, droop, inability to close the eyelid, impaired
+chewing, intense facial pain worsened by cold
+- Chew on unaffected side to prevent choking
+- Use a warm moist compress for pain relief (not cold)
+- Self-limiting – resolves in 3-6 months
+
+Osteomalacia
+- Reversible bone disorder that occurs when the body is unable to use calcium and
+phosphorus for bone calcification due to a vitamin D deficiency. Management focuses
+on increasing dietary intake of vitamin D, calcium (leafy green vegetables, dairy),
+phosphorus (organ meats, nuts, fish, poultry, whole grains)
+- Encourage moderate physical activity
+- Use assistive devices to prevent injury
+External Fixator
+- Used to stabilize broken bones, metal pins are placed through the tissue into the bone
+and connect to the frame outside the skin
+- Monitor for signs of neurovascular compromise and pin site infection which can lead to
+osteomyelitis
+- Nursing:
+
+o Assess pin sites for new, increased, purulent drainage and check for erythema,
+warmth, pain, breakdown
+o Assess for compartment syndrome
+o Perform pin site care with a sterile cleaning solution (chlorhexidine, sterile
+normal saline), gauze
+o Monitoring pins and device for loosening and report to hcp
+o Promote early mobilization, may begin walking with PT the day after surgery
+
+Hepatitis A
+- Standard precautions
+- Spread by fecal-oral route, contaminated food and water
+- Symptoms: nausea, vomiting, anorexia, fever, RUQ pain
+- Dark urine after a few days, pale stools
+- Jaundice, pruritis
+- Elevated LFTs
+Transferring a client
+- Make sure client is wearing nonskid shoes
+- Make sure the bed and chair brakes are locked
+- Use a transfer belt
+- Transfer the client toward the stronger side. If the client is weak on the left, ask the
+client to pivot on the right.
+Mitral Valve Prolapse
+- May have palpitations, dizziness, lightheadedness
+- Chest pain can occur but it has unknown etiology
+- Chest pain does not respond to antianginal treatments like nitrates
+- Beta blockers may be prescribed for palpitations and chest pain
+- Additional teaching:
+o Adopt healthy eating habits
+o Avoid caffeine
+o Check medications for stimulants
+o Reduce stress and avoid alcohol use
+
+Thyroid Storm
+- Acute thyrotoxicosis
+- Complication of hyperthyroidism that occurs when the thyroid gland releases large
+amounts of thyroid hormones in response to stress
+- Thyroid storm is characterized by severe hypermetabolic symptoms including altered
+mentation, agitation, confusion, tachycardia, hyperthermia, cardiac dysthythmias.
+- Without treatment, can lead to seizures and coma
+Viral Rhinitis
+- Highly infectious, mild upper respiratory infection most commonly caused by rhinovirus
+- Self-limited and typically resolves within 1-2 weeks
+
+- Risk factors: stress, allergies, spending time in crowds during winter months
+- Symptoms:
+o Cough, sore throat
+o Headache
+o Nasal congestion, runny nose, sneezing
+o Low-grade fever
+o Malaise
+Ventricular Fibrillation
+- Unorganized ventricular activity, nonperfusing rhythm, causes cardiac arrest
+- Often results from degeneration of ventricular tachycardia
+- Irregular, chaotic
+- Waveforms of varying shape and amplitude
+- Absence of organized QRS
+- IMMEDIATELY check the pulse, start CPR, and prepare for defib
+Hyperthyroidism
+- Leads to increased metabolic rate
+- Adhere to high calorie diet (4000-5000 calories a day)
+- Consumption of approximately 6 full meals and snacks a day. These should be packed
+with protein, carbs, and vitamins and minerals
+- Avoid high-fiber foods as they may increase GI symptoms
+- Avoid stimulants (caffeine, coffee, tea, soft drinks)
+- Avoid spicy foods
+Premature Ventricular Contractions
+- Early contractions of the ventricles that originate from an ectopic focus and result in a
+wide distorted QRS complex
+- Usually harmless if occasional and can occur as a result of stimulants (caffeine, nicotine),
+digoxin, hyperkalemia, hypokalemia, and stress
+- Can lead to life threatening dysrhythmias like v-tach and v-fib. Assess physiological
+response, including apical and radial pulse
+Peritonsillar abscess
+- Results from tonsillitis or pharyngitis
+- Features: fever, muffled voice, trismus (inability to open the mouth), pooling of saliva,
+and deviation of the uvula to one side
+- Can lead to life threatening airway obstruction
+- Immediately assess and monitor for signs of airway obstruction
+Acute Prostatitis
+- Inflammation of the prostate that is usually caused by a bacterial infection
+- Symptoms: fever, rectogenital pain, burning, urinary hesitancy, and or urinary urgency
+
+- Management includes antimicrobial (ciprofloxacin) and anti inflammatory medications.
+Tamsulosin, alfuzosin, help relax the bladder and prostate. Suprapubic catheterization
+may be necessary for urinary retention in severe cases of acute prostatitis
+- Urethral catheterization is contraindicated due to the risk of additional pain and urethral
+inflammation
+- Teaching:
+o Take stool softeners as prescribed to reduce straining
+o Take sitz baths to help relieve symptoms
+o Ejaculation may reduce discomfort
+o Ensure adequate hydration
+
+Clopidogrel (Plavix)
+= antiplatelet, should be discontinued 5-7 days before surgery to decrease risk of bleeding
+Succinylcholine
+- Paralytic
+- Can cause malignant hyperthermia
+- Causes excessive calcium release leading to muscle contraction
+- To reverse, administer IV dantrolene

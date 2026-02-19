@@ -1,0 +1,599 @@
+Myasthenia gravis (graves disease)
+- Autoimmune disorder
+- Impaired nerve impulse conduction and progressive muscle weakness
+- Features:
+o Fluctuating muscle weakness
+ Ocular: ptosis, diplopia
+
+ Bulbar: dysphagia, dysarthria
+ Respiratory: dyspnea (diaphragm and chest muscles)
+ Neck and limb weakness
+ Generalized fatigue
+ Weakness is worse with exertion later in the day
+o Exacerbation:
+ Stress
+ Infection
+ Temperature changes
+ Fluoroquinolones, aminoglycosides, magnesium sulfate
+ Associated with the presence of a tumor on the thymus
+o Diagnose: serum acetylcholine receptor antibodies, EMG
+- Nursing:
+o Administer pyridostigmine
+o Monitor for respiratory crisis (myasthenic crisis = life threatening)
+o Dietary recommendations to conserve energy/prevent aspiration
+o Prepare semisolid foods
+o Monitor for gurgling, coughing during meals
+o Take medication before the meal
+o Encourage relaxation and stress reduction techniques
+o Do ADLS early in the day before they are fatigued
+o Vaccinations
+- Crisis:
+o Severe oropharyngeal and respiratory muscle weakness
+o Can lead to resp failure
+o Intubation may be required
+o Place client in semi fowlers
+o Administer corticosteroids
+o Prepare for IV immunoglobulin
+o Prepare for plasmapheresis or IV immunoglobulin
+
+Osteoporosis
+- Rate of bone resorption is faster than bone formation = porous bones
+- Weak bones
+- Risk for fractures especially wrist, hip, vertebral column
+- Risk:
+o Advanced age = women over 60
+o Postmenopausal status
+o Low estrogen (women)
+o Men = low testosterone
+o Low body weight, thin
+o Smoking
+o Excessive alcohol intake
+o Sedentary lifestyle
+
+o Secondary osteoporosis = vitamin d deficiency, malabsorption
+o Glucocorticoid use
+- Dx: no symptoms unless fracture is present
+o Loss of bone mass (DEXA scan)
+o Low impact trauma  fracture
+o Vertebral compression fracture:
+ Spontaneous with no trauma
+ Sudden back pain
+ Can be multiple fractures
+
+- Complications:
+o Multiple fractures can lead to kyphosis
+o (hunchback)
+o Loss of height and worsening back pain
+- Nursing:
+o Medications: vitamin D, calcium carbonate supplements, bisphosphonates
+o Diet rich in calcium and vitamin d, milk, fish, tofu, almonds
+o Adequate sun exposure
+o Smoking cessation
+o Limit alcohol
+o Weight bearing exercises like walking every day
+o Fall prevention
+
+Pleural Effusion
+- Excess fluid in pleural space
+- Not a disease but an indication of disease
+- Occurs secondary to:
+o Heart failure
+o Nephrotic syndrome
+o Pneumonia
+o Malignancy
+- Features
+o Dyspnea, cough
+o Sharp, non-radiating chest pain  increases during inspiration
+o Decreased breath sounds and movement of the chest on the affected side
+o Dullness to percussion
+o Tachycardia
+o Diagnosed via CXR, diagnostic thoracentesis to test fluid for malignant cells or
+microorganisms
+- Complication:
+o Empyema – pus collection
+o The longer we have the PE the higher the chance of empyema developing
+ Fever, chills, toxic appearance
+ Weight loss
+ Decreased appetite
+
+ Leukocytosis
+
+- Nursing
+o Elevate HOB
+o Therapeutic pleural drainage via thoracentesis
+ Pt lays over the bed table
+ Chest x ray after procedure
+ Monitor breath sounds
+ Encourage coughing and deep breathing
+
+Traction
+- Used to realign long bones following complete fracture
+- Applies bidirectional pulling force to align and immobilize the fractured bones
+- One side weights and the other side body weight or weights
+- Two main types: skin, skeletal
+- Skin/buck
+o Pulling force is applied directly to the skin by using boots, splints, tape
+o Temporary measure. Usually the first type applied
+o Can only be used 48-72 hours before surgery or the use of long term skeletal
+fraction
+o Can only use small weights to prevent nerve and tissue damage (5-10 lbs) or (2-3
+with infants)
+o Complications:
+ Skin breakdown
+ Detachment of traction device
+ Monitor skin frequently
+
+- Weights:
+o Pulling force realigns bone and prevents shortening of limbs
+o Weight continuously suspended in the air, hanging freely off the edge of the bed
+because they need gravity
+o Supine position with foot of bed elevated 15 degrees
+o Limb should remain straight and in a neutral position
+- Skeletal traction
+o Traction is applied directly to the bone
+o Can be used up to 4 months
+o Larger weight can be sued 5-45 lbs or 2.3-20.4 kg
+o Screws, wires, and or pins are surgically inserted directly into the fractured bone
+o Pins are exposed and attached to a pulley system with free hanging weights
+o Patient must be supine and perpendicular to the ends of the bed
+o Affected extremity in proper body alignment
+o HOB is flat or semi fowler but not higher than that
+o Trapeze for upper body movement or for repositioning
+o Free-hanging weights
+- Halo external fixation device: static traction
+o Stabilizes a cervical or high thoracic fracture
+o Cannot have damage to ligaments or spinal cord
+
+o Halo ring is applied around head and attached to vest when spine Is stable
+o Keep the correct sized wrench available at all times because it needs to be
+removed for CPR
+o Keep vest clean and dry
+o Clean pin site daily
+- Complications:
+o Improperly maintained skeletal traction can cause bones to become misaligned
+o Muscle spasms
+o Skeletal traction can lead to infection at pin site  osteomyelitis  make sure to
+clean pins daily
+o Skin breakdown
+o Prolonged immobilization
+ Atelectasis
+ Constipation
+ DVT
+o Nursing:
+ Check pins frequently to watch for infection
+ If it becomes infected increases risk for osteomyelitis or sepsis
+ Check pulses and cap refill frequently
+ Prevent immobility related complications
+ Incentive spirometer
+ High fiber diet, stool softeners, fluids
+ Anticoagulants
+ Monitor skin and reposition frequently
+ Promote urination with bedpan, urinal, intermittent catheterization
+
+Transfusion Associated Circulatory Overload
+- Life threatening blood transfusion reaction caused by rapid rate or from a client
+receiving a large amount of blood product over a certain period of time
+- Circulatory cannot handle the volume
+- Can happen during or 6-12 hours after transfusion
+- Risk:
+o Younger than 3, greater than 60
+o Preexisting cardiac or kidney impairments
+- Features:
+o Pulmonary edema  respiratory distress
+ Dyspnea, tachypnea, hypoxemia, crackles
+o Jugular venous distension
+o Peripheral edema
+o Tachycardia
+o Bounding pulses
+o Hypertension
+- Tx:
+o Stop transfusion immediately
+
+o Position in high fowler
+o Supplemental oxygen
+o Diuretics
+o Notify blood bank to test the blood
+o Daily weights
+o Intake output
+Hip Dysplasia (peds)
+- Range of hip abnormalities as the hip joint is not securely joined
+- Presents in infancy or at birth, on a spectrum
+- Risk
+o Large infant
+o Breech position
+o Family history of DDH
+o Tight lower extremity swaddling
+ Hips should be bent up and out when swaddled
+o Positioning devices or car seats
+- Features:
+o Spectrum
+o Asymmetrical gluteal or thigh folds
+o Limited ROM- wont be able to have hip abduction
+o Shortening of femur
+o If not diagnosed early on, there are signs that they may notice later on
+ Positive Trendelenburg sign
+ Child stands on affected leg and picks up unaffected legs while
+being unable to bear weight while staying central
+ Trunk moves asymmetrically
+
+- Pavlik harness (0-6 months)
+o Most common treatment
+o Hips are abducted and flexed
+o Keep on 24 hours a day for 3-5 months
+o Take off when bathing but put right back on after
+o Avoid skin breakdown – check regularly
+o Avoid lotions or creams
+o Padding under the straps to avoid friction on skin
+o Massage skin under straps to stimulate blood flow
+o Wear shirt and socks under harness
+- After 6 months of age = possible surgery
+o Followed by spica cast
+o Regular cast on affected joint
+ Keep cast dry and intact
+ Encourage not sticking anything in cast
+ Proper skin hygiene
+ Sponge baths
+
+ Check for skin breakdown
+ No lotions or creams
+ Proper technique for diaper changes – limited range of motion
+
+Molluscum Contagiosum
+- Caused by pox virus
+- Affects anyone
+- Firm, skin coloured dome shaped papules
+- Direct contact – skin to skin, sexual contact
+- Contaminated objects, towels, surfaces
+- Common in warm climates and daycares, schools
+- Features:
+o Asymptomatic
+o Dome shaped with central umbilication
+o Firm flesh coloured popular lesions
+o Diameter 1-5 mm
+o Can appear anywhere on the skin except for palms and soles
+- Nursing:
+o Self-limiting = goes away on its own
+o Resolves in few months in immunocompetent individuals (takes months to
+years)
+o No treatment
+o There are chemical removing agents tretinoin or cantharidin, cryotherapy, but
+this is cosmetic only
+o Treatment can be painful
+o Can return to school or daycare immediately.
+
+Tinea
+- Superficial fungal infection
+- Highly contagious
+- Transmission via direct contact or via surface objects
+- Features:
+o Tinea corporis (ringworm)
+ Scaly, pruritic patch
+ Circular or oval, known as ringworm
+o Tinea capitis
+ On scalp
+ Round scaly patches on the scalp, red and itchy, alopecia
+ Needs oral antifungal
+o Tinea pedis (athlete’s foot)
+ Scaly red itchy rash typically between the toes or on the sole of the foot
+o Tinea unguium
+ Thick, brittle, nail with yellow discoloration
+ Needs oral antifungal
+
+o Tinea cruris (jock itch)
+ Red itchy scaly patches in groin, most common in athletes
+
+- Nursing:
+o Topical antifungal (miconazole)
+o May need oral antifungal if the topical one doesn’t work
+o Keep skin clean and dry
+o Avoid sharing personal items
+o Clip nails short
+o Change socks and underwear every day
+o Wear shoes with good circulation
+
+Varicella
+- Caused by varicella zoster virus
+- Causes two forms of illness
+- Transmitted via direct contact and aerosol droplets
+o 1-2 days before rash appears
+o Contagious until all lesions have crusted
+- Lesion stages: maculopapular (small red pimples), vesicular (blister), pustular (pus),
+crusting (no longer contagious)
+- Prevention: vaccine
+- Infection reactivation: herpes zoster
+o Latency and travels to anterior root and can be reactivated with aging or
+immunosuppression
+o Shows up as shingles and is very painful – affects the nerves
+- Features:
+o Prodrome: mild cold
+ Low grade fever, fatigue, cough, anorexia
+o Followed by: pruritic, maculopapular rash on face, trunk, extremities
+o Crops of lesions in different stages
+- Nursing:
+o Prevent secondary infections from scratching
+o Soothing lotions (calamine)
+o Keep fingernails short
+o Mittens during sleep
+o Avoid overheating
+o Wear loose fitting clothing
+o Bathe in cool oatmeal baths
+o Hand hygiene
+- Management
+o Hospital setting
+ Airborne, droplet, and contact precautions
+ Immunocompromised child may need an antiviral such as acyclovir
+
+ At risk for life threatening complications so implement acyclovir
+quickly
+
+ Supportive care like acetaminophen and gravol
+ Isolate child until all lesions have crusted over
+
+Head Lice
+- Highly contagious via direct or indirect contact
+- Features:
+o Pruritis
+o Excoriation on the scalp
+o Trouble sleeping
+o Light coloured specks on the hair
+o Nits may be seen in the hair and on the nape of the neck
+- Tx:
+o Apply medicated shampoo
+o Leave on for 10 minutes and wash hair in the sink and use warm instead of hot
+water
+o Use a comb to remove the nits
+o Repeat shampoo 7-10 days after treatment to kill newly hatched lice
+o Soak all brushes, combs, and hair accessories in hot water for ten minutes
+o Screen all household members for lice
+o Vacuum carpets, mattresses, and upholstered furniture
+o Wash bedding in hot water and dry on the hottest setting
+o Throw all nonwashable items in a plastic bag for at least two weeks to kill the
+nits
+o Do not need to miss school
+
+Impetigo
+- Highly contagious bacterial skin infection in children
+- Spread directly or indirectly
+- Enter cuts in skin and cause infection
+- Features:
+o Nonbullous form
+ Papules  pustules  rapidly break into golden coloured thick adherent
+crusts
+o Bullous impetigo
+ Fluid filled blisters or bullae rupture and have a brown thin crust
+
+- Nursing:
+o Contact precautions
+o Mupirocin (abx ointment)
+o Cephalexin orally
+o Limit the spread of infection (hand hygiene, clean lesions appropriately)
+
+o Remove the crusting after soaking lesions, then pat dry
+o Wash hands before and after applying medication
+o Cover draining lesions
+o Wash and dry linens separately on high heat
+o Keep fingernails short
+o Avoid group activities for 24-48 hours after starting antibiotics to allow time for
+the antibacterial to work
+o Monitor for complications
+ Poststreptococcal glomerulonephritis
+ Hematuria, hypertension, edema
+ Rheumatic fever
+ Arthritis, carditis, chorea (unintentional jerking movements of the
+extremities)
+ Subcutaneous nodules
+ Erythema marginatum
+
+o
+
+Hemolytic Uremic Syndrome
+- Patho: caused by e coli
+- Life threatening condition
+- Most commonly seen in children less than 5
+- After diarrheal illness results in triad of:
+o Hemolytic anemia
+o Thrombocytopenia
+o Acute kidney injury
+- Features:
+o Hemolytic anemia: tired, irritable, pallor
+o Thrombocytopenia: decreased platelets = petechiae, purpura (larger bleeds),
+bruising
+o AKI: decreased urine output, edema, hypertension (cannot filter blood so fluid
+overload)
+- Nursing:
+o Decrease the spread by implementing contact precautions
+o Provide fluids to maintain fluid or electrolyte balance
+o Monitor for worsening AKI  anuria = red flag, communicate to HCP
+ Strict intake and output
+ Treat hypertension with antihypertensives
+ Prepare for dialysis
+o Administer blood products for anemia and thrombocytopenia
+o Inform caregivers that most children resolve in 2-3 weeks
+
+Hydrocephalus
+- Buildup of CSF in brain
+- Overproduction or impaired drainage
+- Accumulation = dilated ventricles = compression = increased ICP
+
+- Can progress to brain damage or death if left untreated
+- Features:
+o Infant:
+ Bulging fontanel
+ Prominent scalp veins
+ Sunset eyes (late sign  cannot look upwards, has a continuous
+downward gaze)
+ High pitched shrill cry
+ Poor feeding or vomiting
+ Developmental delays
+ Increased head circumference
+ Wide spaced suture lines
+o Older children/adults:
+ Signs of increased ICP
+ Headache, vomiting, drowsiness
+ Vision problems
+ Ataxia (poor muscle coordination)
+ Cushing’s triad: hypertension, bradycardia, hypoventilation
+
+- Dx:
+o Infant: ultrasound (fontanel)
+o Older children and adults: MRI or CT
+- Management:
+o Surgical intervention
+o Preop:
+ Seizure precaution
+ Daily head circumference managements
+ Intake and output
+ Reposition head frequently to decrease pressure injuries
+o Surgery:
+ Temporaru external ventricular drainage device
+ Drains excess CSF int a drainage bag
+ Ventriculoperitoneal shunt
+ Inserted into ventricle and drains into peritoneum which
+reabsorbs fluid into the bloodstream
+o After surgery:
+ Maintain flat or supine position for 24 hours then
+lay on nonoperative side to decrease pressure on
+VP shunt to prevent CSF overdrainage, ventricular
+collapse, and sudden drop in ICP.
+ Monitor for shunt malfunction  increase in head
+circumference and ICP (same as before shunt)
+ Monitor for infection  fever
+ Monitor for abdominal tenderness  can lead to
+peritonitis
+
+ Test surgical site drainage for glucose (halo sign) 
+immediately intervene, no glucose = normal
+(serosang)
+o Discharge:
+ Shunt will require revision surgeries
+ Child should be active (swimming)
+ Avoid contact sports (boxing)
+ Enroll in early childhood development programs
+o Monitor for shunt malfunction (teaching)
+ Fever, poor feeding, irritability
+ Redness at surgical site
+ Abdominal tenderness
+ Teach them to report to HCP
+
+Pinworms
+- Most common parasitic worm infection of intestines and rectum
+- Transmitted to hands and under fingernails during scratching and then spread to
+common objects which are swallowed or inhaled and hatch in the intestine
+- Worms come out at night and lay eggs outside the rectum
+- Causes extreme itching
+- Common in daycare and classroom settings
+- Features:
+o Extreme perianal itching at night  excoriations
+o Disturbed sleep
+o Irritability
+o Restlessness
+o Nocturnal enuresis
+- Management:
+o Tape test – apply tape to rectum before they go to bed and take off in morning,
+put in glass jar and see if eggs hatch
+o Antihelmintic medications if the kid is over 2
+ Pyrantel pamoate and albendazole
+ All members of the household should be treated
+o Take initial dose and repeat in 2 weeks to complete eradication
+- Teaching:
+o Prevent reinfection
+o Short fingernails, avoid nail biting
+o Wash hands thoroughly after using the toilet and before eating
+o Shower rather than bathe every morning
+o One piece sleeping outfits to reduce scratching
+o Wash linens, clothes, toys, blankets in hot water
+o Eggs can live up to 2 weeks on surfaces
+
+Conjunctivitis
+- Inflammation
+
+- If newborns have it it needs to be reported immediately, can lead to blindness
+- Children have three major causes:
+o Allergies, viral infection, bacterial infection
+- Features:
+o Inflamed conjunctiva
+o Sandy sensation in eye
+o Swollen lid
+o Purulent drainage ie bacterial
+o Serous drainage (viral)
+o Intense itching in both eyes (allergic)
+- Treatment
+o Treat the underlying cause
+ Bacterial  administer antibiotics
+ Viral  cold compress, saline eye drops
+ Allergic  allergen avoidance and antihistamines
+o Remove the accumulation of secretions
+ Wipe from the inner canthus downward and outward away from the
+other eye
+ Separate linens, towels, washcloths
+ Refrain from rubbing the eye
+ Apply mittens
+ Good handwashing
+ Length of infection
+ Bacterial  up to 24 hours after initiation of antibiotics
+ Viral  until symptoms resolve (3-7 days)
+
+Metabolic Acidosis vs Alkalosis
+- Metabolic acidosis = kidneys are too acidic, too much acid or loss of base
+- Metabolic alkalosis = too much base or loss of acid
+- Metabolic acidosis
+o Increase in acid from:
+ Poor perfusion, carbon monoxide poisoning
+ Keto acids in DKA
+ Exogenous ingestion (aspirin, ethylene glycol)
+ Impaired renal excretion (kidney disease)
+o Losing base
+ Diarrhea
+o Features:
+ Signs of hyperkalemia (potassium and acid love each other)
+ ECG monitoring
+ Tall tented T waves
+ Kussmaul respirations (fast deep breathing) to get rid of acid
+ Diarrhea
+o Nursing:
+ Monitor labs (lactic acid)
+
+ Replace fluids and electrolytes
+ Medications
+ Antidiarrheals
+ Sodium bicarb
+
+- Metabolic alkalosis
+o Large amounts of GI loss
+ Vomiting, NG tube suctioning
+ Losing hydrochloric acid
+ Chronic OTC antacids
+ Medication like diuretics, thiazides, excess hydrogen loss
+o Features:
+ No real symptoms, just unwell
+ Symptoms are due to underlying causes
+ Low resps to make acid
+o Nursing:
+ Replace fluids and electrolytes
+ Avoid diuretics to hold onto hydrogen
+ Antiemetics
+ Avoid suctioning to keep acid in the gut
+
+Administering Eye Drops
+- Place client in supine position with chin lifted
+- Place cotton ball or tissue below eyelid and press downward to expose conjunctival sac
+- Have client look up
+- Hold medication in dominant hand and rest side of hand on forehead
+- Administer prescribed drops
+- If ointment, apply from inner lower eyelid to outer and then close eyes and rub eyelid
+with a cotton ball
+- Nursing:
+o Observe eyes prior to administering medications
+o If administering ointment and drops do drops first, wait five mins, then ointment
+
+Blood Transfusions
+- Replace lost blood or cellular components
+- Increase RBCs or hemoglobin
+- Types:
+o PRBC – symptomatic anemia, raise hgb and hematocrit
+o FFP: DIC
+o Frozen RBC: autologous transfusions
+o Platelets: thrombocytopenia
+o Albumin: expands blood volume – shelf stable, lasts for 5 years, does not need to
+follow blood tubing
+o Clotting factors: cryoprecipitate if client is lacking clotting factors
