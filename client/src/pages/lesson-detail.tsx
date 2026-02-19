@@ -10,6 +10,7 @@ import {
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 
 type LessonContent = {
   title: string;
@@ -2676,10 +2677,19 @@ export default function LessonDetail() {
                )}
                <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">REX-PN Focus</span>
-              <span className="text-gray-500 text-sm">Clinical Excellence</span>
-            </div>
+            {(() => {
+              const diff = getDifficulty(id || "");
+              const config = difficultyConfig[diff];
+              return (
+                <div className="flex items-center gap-4 flex-wrap">
+                  <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">REX-PN Focus</span>
+                  <span data-testid="lesson-difficulty-badge" className={`px-3 py-1 rounded-full text-sm font-bold ${config.bg} ${config.color}`}>
+                    Difficulty: {config.label}
+                  </span>
+                  <span className="text-gray-500 text-sm">Clinical Excellence</span>
+                </div>
+              );
+            })()}
           </div>
 
           <Card className="bg-primary/5 border-none">

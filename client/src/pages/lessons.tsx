@@ -27,6 +27,8 @@ import {
   Thermometer
 } from "lucide-react";
 
+import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
+
 const rpnSystems = [
   {
     id: "cardiovascular-rpn",
@@ -1035,21 +1037,21 @@ export default function Lessons() {
           <TabsContent value="rpn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {rpnSystems.map((system) => (
-                <LessonSystemCard key={system.id} system={system} onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {rnSystems.map((system) => (
-                <LessonSystemCard key={system.id} system={system} onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {npSystems.map((system) => (
-                <LessonSystemCard key={system.id} system={system} onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
           </TabsContent>
@@ -1059,7 +1061,16 @@ export default function Lessons() {
   );
 }
 
-function LessonSystemCard({ system, onSelect }: { system: any, onSelect: (id: string) => void }) {
+function DifficultyBadge({ level }: { level: DifficultyLevel }) {
+  const config = difficultyConfig[level];
+  return (
+    <span data-testid={`badge-difficulty-${level}`} className={cn("text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap", config.color, config.bg)}>
+      {config.label}
+    </span>
+  );
+}
+
+function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (id: string) => void, tier: string }) {
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
       <CardHeader className={cn("flex flex-row items-center gap-4 pb-2", system.bgColor)}>
@@ -1070,30 +1081,37 @@ function LessonSystemCard({ system, onSelect }: { system: any, onSelect: (id: st
       </CardHeader>
       <CardContent className="pt-6">
         <div className="space-y-3">
-          {system.diseases.map((disease: any) => (
-            <div 
-              key={disease.id}
-              onClick={() => disease.status === "Available" && onSelect(disease.id)}
-              className={cn(
-                "flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer group",
-                disease.status === "Available" 
-                  ? "border-primary/20 bg-primary/5 hover:bg-primary/10" 
-                  : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
-              )}
-            >
-              <div className="flex items-center gap-3">
-                <BookOpen className={cn("w-5 h-5", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
-                <span className="font-medium text-gray-900">
-                  {disease.name}
-                </span>
+          {system.diseases.map((disease: any) => {
+            const difficulty = getDifficulty(disease.id, tier);
+            return (
+              <div 
+                key={disease.id}
+                data-testid={`lesson-card-${disease.id}`}
+                onClick={() => disease.status === "Available" && onSelect(disease.id)}
+                className={cn(
+                  "flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer group",
+                  disease.status === "Available" 
+                    ? "border-primary/20 bg-primary/5 hover:bg-primary/10" 
+                    : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
+                )}
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <BookOpen className={cn("w-5 h-5 shrink-0", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
+                  <span className="font-medium text-gray-900 truncate">
+                    {disease.name}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0 ml-2">
+                  <DifficultyBadge level={difficulty} />
+                  {disease.status === "Available" ? (
+                    <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                  ) : (
+                    <Lock className="w-4 h-4 text-gray-400" />
+                  )}
+                </div>
               </div>
-              {disease.status === "Available" ? (
-                <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
-              ) : (
-                <Lock className="w-4 h-4 text-gray-400" />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
     </Card>
