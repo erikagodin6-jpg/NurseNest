@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
+import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -1071,6 +1072,23 @@ export default function Flashcards() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans select-none print:hidden">
+      <SEO
+        title="Nursing Flashcards - Interactive Quiz & Study Cards"
+        description="Master nursing pathophysiology with interactive flashcards covering cardiovascular, respiratory, neurological, pharmacology, and more. Practice NCLEX-style questions with instant feedback and progress tracking."
+        keywords="nursing flashcards, NCLEX flashcards, nursing quiz, pathophysiology study cards, nursing exam practice, clinical nursing questions, pharmacology flashcards"
+        canonicalPath="/flashcards"
+        ogType="website"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "LearningResource",
+          "name": "NurseNest Nursing Flashcards",
+          "description": "Interactive nursing flashcards with quiz-style questions for NCLEX and clinical exam preparation.",
+          "url": "https://nursenest.replit.app/flashcards",
+          "learningResourceType": "Flashcard",
+          "educationalLevel": "College",
+          "about": { "@type": "Thing", "name": "Nursing Education" }
+        }}
+      />
       <Navigation />
       
       <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1 flex flex-col items-center">

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
+import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -37,6 +38,20 @@ export default function Reports() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+      <SEO
+        title="Performance Analytics - Track Your Nursing Study Progress"
+        description="Monitor your nursing study performance with detailed analytics. Track mastery scores, study time, question completion rates, and identify areas for improvement across all body systems."
+        keywords="nursing study analytics, NCLEX progress tracker, nursing performance metrics, study progress dashboard, nursing exam preparation tracking"
+        canonicalPath="/reports"
+        ogType="website"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "NurseNest Performance Analytics",
+          "description": "Track nursing study progress with mastery scores, study time analytics, and performance insights.",
+          "url": "https://nursenest.replit.app/reports"
+        }}
+      />
       <Navigation />
       
       <main className="max-w-6xl mx-auto px-4 py-12 w-full">

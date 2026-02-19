@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link, useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
+import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -2031,6 +2032,23 @@ export default function LessonDetail() {
   
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+      <SEO
+        title={`${lessonContent?.title || "Lesson"} - NurseNest Pathophysiology`}
+        description={`Deep-dive into ${lessonContent?.title || "nursing pathophysiology"}: cellular mechanisms, clinical signs, medications, safety pearls, and NCLEX-style quiz questions.`}
+        keywords={`${lessonContent?.title || "nursing"} pathophysiology, ${lessonContent?.title || "nursing"} NCLEX, clinical nursing, nursing medications, nursing quiz`}
+        canonicalPath={`/lessons/${id}`}
+        ogType="article"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "LearningResource",
+          "name": lessonContent?.title || "Nursing Lesson",
+          "description": `Comprehensive nursing pathophysiology lesson on ${lessonContent?.title || "clinical topics"} including cellular mechanisms, medications, and clinical pearls.`,
+          "url": `https://nursenest.replit.app/lessons/${id}`,
+          "learningResourceType": "Lesson",
+          "educationalLevel": "College",
+          "about": { "@type": "Thing", "name": lessonContent?.title || "Nursing" }
+        }}
+      />
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">

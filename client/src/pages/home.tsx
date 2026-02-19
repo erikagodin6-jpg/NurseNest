@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
@@ -15,6 +16,24 @@ import {
 export default function Home() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
+      <SEO
+        title="NurseNest - Master Nursing Pathophysiology | RPN, RN & NP Study Platform"
+        description="The most complete nursing education platform for RPN/LVN, RN/NCLEX, and NP students. Interactive pathophysiology lessons, pharmacology flashcards, and clinical skills training across 100+ nursing topics."
+        keywords="nursing education, NCLEX prep, RPN study, RN exam, NP training, pathophysiology, pharmacology, nursing flashcards, clinical skills, REX-PN, nursing student, medical-surgical nursing"
+        canonicalPath="/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "NurseNest",
+          "url": "https://nursenest.replit.app",
+          "description": "Premier nursing education platform with interactive pathophysiology lessons and adaptive flashcards for RPN, RN, and NP students.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://nursenest.replit.app/lessons?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }}
+      />
       <Navigation />
       
       <main className="flex-grow">
