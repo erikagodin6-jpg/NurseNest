@@ -15,6 +15,7 @@ import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 type LessonContent = {
   title: string;
   cellular: { title: string; content: string };
+  riskFactors?: string[];
   signs: { left: string[]; right: string[] };
   medications: { name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[];
   pearls: string[];
@@ -27,6 +28,7 @@ const contentMap: Record<string, LessonContent> = {
   "neuro-basics": {
     title: "Neuro Deterioration: Early vs Late",
     cellular: { title: "Cellular Sensitivity", content: "Brain sensitivity to hypoxia, hypotension, and glucose. \n\nEarly: Restlessness, Confusion. \n\nLate: Decreased LOC, Posturing." },
+    riskFactors: ["Age > 65 years", "History of falls", "Hypertension", "Diabetes mellitus", "Anticoagulant therapy", "Substance abuse", "Previous neurological conditions"],
     signs: {
       left: ["Restlessness", "Confusion", "Headache", "Subtle LOC Change"],
       right: ["Decreased LOC", "Posturing", "Pupillary Changes", "Respiratory Failure"]
@@ -39,6 +41,7 @@ const contentMap: Record<string, LessonContent> = {
   "stroke": {
     title: "Stroke: FAST Recognition",
     cellular: { title: "Ischemic vs Hemorrhagic", content: "Clot vs Bleed. Both result in rapid neuron death." },
+    riskFactors: ["Hypertension (most significant modifiable risk factor)", "Atrial fibrillation", "Diabetes mellitus", "Smoking", "Hyperlipidemia", "Obesity", "Physical inactivity", "Family history of stroke", "Previous TIA", "Sickle cell disease"],
     signs: {
       left: ["Face Drooping", "Arm Weakness", "Speech Difficulty", "Visual Loss"],
       right: ["Worst Headache Ever", "Sudden Confusion", "Decreased LOC", "Nausea/Vomiting"]
@@ -52,6 +55,7 @@ const contentMap: Record<string, LessonContent> = {
   "aaa-rupture": {
     title: "Abdominal Aortic Aneurysm (AAA)",
     cellular: { title: "Vessel Wall Integrity", content: "Chronic high pressure (HTN) and smoking damage the aortic endothelium, causing the arterial wall to weaken and dilate. If the wall reaches its breaking point, it ruptures, leading to rapid exsanguination into the abdominal cavity." },
+    riskFactors: ["Age > 65 years", "Male sex (6:1 male-to-female ratio)", "Smoking history (strongest modifiable risk factor)", "Hypertension", "Family history of AAA", "Atherosclerosis", "Connective tissue disorders (Marfan, Ehlers-Danlos)", "COPD"],
     signs: {
       left: ["Pulsatile Abdominal Mass", "Abdominal Bruit", "Back/Flank Pain (Stable)", "Incidental Imaging Finding"],
       right: ["Sudden, Ripping Back Pain", "Hypovolemic Shock (Low BP, High HR)", "Ecchymosis (Groin/Scrotum)", "Decreased Hematocrit/Hemoglobin"]
@@ -63,6 +67,7 @@ const contentMap: Record<string, LessonContent> = {
   "mi-management": {
     title: "Myocardial Infarction Management",
     cellular: { title: "Coronary Occlusion", content: "A ruptured atherosclerotic plaque triggers a thrombotic cascade that completely blocks blood flow to the myocardium. Ischemia leads to irreversible cell death within 20-40 minutes if reperfusion isn't achieved." },
+    riskFactors: ["Smoking", "Hypertension", "Hyperlipidemia (elevated LDL)", "Diabetes mellitus", "Family history of premature CAD", "Obesity/metabolic syndrome", "Sedentary lifestyle", "Age (men > 45, women > 55)", "Cocaine use"],
     signs: {
       left: ["Heavy/Crushing Chest Pain", "Pain radiating to jaw or left arm", "Diaphoresis & Nausea", "Feeling of Impending Doom"],
       right: ["ST-Elevation (STEMI)", "New S3 Heart Sound (HF)", "Crackles in Lungs", "Ominous Bradycardia/Heart Block"]
@@ -77,6 +82,7 @@ const contentMap: Record<string, LessonContent> = {
   "hf-advanced": {
     title: "Advanced Heart Failure",
     cellular: { title: "Remodeling & Failure", content: "Chronic overload leads to ventricular remodeling. Reduced Ejection Fraction (Systolic) involves thin, weak walls, while Preserved EF (Diastolic) involves thick, stiff walls that cannot fill properly." },
+    riskFactors: ["Coronary artery disease (most common cause)", "Hypertension", "Valvular heart disease", "Diabetes mellitus", "Obesity", "Sleep apnea", "Alcohol abuse (alcoholic cardiomyopathy)", "Viral myocarditis", "Chemotherapy (doxorubicin cardiotoxicity)", "Family history of cardiomyopathy"],
     signs: {
       left: ["Lungs: Crackles & Frothy Sputum", "Dyspnea & Orthopnea", "Paroxysmal Nocturnal Dyspnea"],
       right: ["Systemic: JVD & Edema", "Hepatomegaly & Ascites", "Weight Gain (>3lb in 2 days)"]
@@ -91,6 +97,7 @@ const contentMap: Record<string, LessonContent> = {
   "kawasaki-critical": {
     title: "Kawasaki Disease: Vasculitis",
     cellular: { title: "Arterial Inflammation", content: "A systemic vasculitis affecting small/medium arteries. The major danger is coronary artery damage, where inflammation leads to dilation and potential aneurysm formation." },
+    riskFactors: ["Age < 5 years (peak incidence 18-24 months)", "Male sex (1.5:1)", "Asian descent (especially Japanese/Korean)", "Winter/spring seasonality", "Sibling history of Kawasaki disease"],
     signs: {
       left: ["Fever > 5 days (Unresponsive)", "Strawberry Tongue", "Conjunctival Redness", "Swollen Palms/Soles"],
       right: ["Coronary Artery Aneurysm", "Peeling Skin (Late sign)", "Irritability", "Recurring Fever"]
@@ -105,6 +112,7 @@ const contentMap: Record<string, LessonContent> = {
   "cp-management": {
     title: "Cerebral Palsy & Spasticity",
     cellular: { title: "Static Brain Insult", content: "Damage to the motor cortex during development (premature, hypoxia, or infection) results in permanent, nonprogressive disturbances in movement and posture." },
+    riskFactors: ["Premature birth", "Low birth weight", "Multiple gestation", "Perinatal asphyxia", "Intrauterine infection", "Maternal thyroid disease", "Rh incompatibility", "Neonatal seizures"],
     signs: {
       left: ["Hypertonia/Spasticity", "Rigid Muscle Tone", "Delayed Motor Milestones", "Scissoring Gait"],
       right: ["Dysphagia/Swallowing Risks", "Seizures", "Contractures", "Chronic Constipation"]
@@ -116,6 +124,7 @@ const contentMap: Record<string, LessonContent> = {
   "all-leukemia": {
     title: "Acute Lymphoblastic Leukemia (ALL)",
     cellular: { title: "Blast Overcrowding", content: "Malignant lymphoblasts rapidly multiply in the bone marrow. This overcrowding suppresses normal hematopoiesis, leading to severe anemia, bleeding (low platelets), and infection risk (nonfunctional WBCs)." },
+    riskFactors: ["Age 2-5 years (peak incidence)", "Down syndrome (20x increased risk)", "Radiation exposure", "Prior chemotherapy", "Genetic syndromes (Li-Fraumeni, neurofibromatosis)", "Sibling with leukemia"],
     signs: {
       left: ["Bone Pain & Fractures", "Fatigue & Pallor", "Weight Loss", "Hepatosplenomegaly"],
       right: ["Fever & Severe Neutropenia", "Petechiae & Bleeding", "ANC < 500", "Leukemic Meningitis (CNS)"]
@@ -127,6 +136,7 @@ const contentMap: Record<string, LessonContent> = {
   "aml-leukemia": {
     title: "Acute Myelogenous Leukemia (AML)",
     cellular: { title: "Myeloid Proliferation", content: "Rapid growth of myeloid blasts in the marrow. Like ALL, it causes bone marrow failure and pancytopenia, but affects the myeloid lineage (monocytes, granulocytes, RBCs, platelets)." },
+    riskFactors: ["Age > 60 years", "Prior chemotherapy/radiation", "Myelodysplastic syndrome", "Benzene exposure", "Down syndrome", "Smoking", "Genetic disorders (Fanconi anemia, Bloom syndrome)"],
     signs: {
       left: ["Infection & Fever", "Bleeding Gums", "Fatigue", "Bone Pain"],
       right: ["Severe Neutropenia", "Mucositis", "Weight Loss", "Hypercellular Marrow"]
@@ -138,6 +148,7 @@ const contentMap: Record<string, LessonContent> = {
   "shock-syndromes": {
     title: "Shock States (RN Mastery)",
     cellular: { title: "Tissue Hypoperfusion", content: "Shock is a life-threatening syndrome of inadequate tissue perfusion. Hypovolemic (low volume), Cardiogenic (pump failure), Septic (vasodilation/infection), and Anaphylactic (allergic vasodilation)." },
+    riskFactors: ["Trauma/hemorrhage (hypovolemic)", "Myocardial infarction (cardiogenic)", "Severe infection/sepsis (distributive)", "Spinal cord injury (neurogenic)", "Anaphylaxis (distributive)", "Burns > 20% TBSA", "Immunosuppression"],
     signs: {
       left: ["Tachycardia (Early)", "Narrowing Pulse Pressure", "Cool, Clammy Skin (Hypovolemic)", "Increased RR"],
       right: ["Hypotension (Late)", "Anuria / Low Urine Output", "Altered LOC / Confusion", "Signs of End-Organ Failure"]
@@ -152,6 +163,7 @@ const contentMap: Record<string, LessonContent> = {
   "copd-exacerbation": {
     title: "COPD: Airway & Oxygenation",
     cellular: { title: "Air Trapping", content: "Chronic inflammation and alveolar destruction lead to air trapping and impaired gas exchange. Excessive mucus production and bronchospasm cause frequent exacerbations." },
+    riskFactors: ["Smoking (primary cause, >80% of cases)", "Alpha-1 antitrypsin deficiency", "Occupational dust/chemical exposure", "Indoor air pollution (biomass fuel)", "Chronic asthma", "Age > 40 years", "Recurrent respiratory infections", "Low socioeconomic status"],
     signs: {
       left: ["Barrel Chest", "Productive Cough", "Pursed-Lip Breathing", "Clubbing"],
       right: ["Respiratory Acidosis", "Hypoxemic Drive Failure", "Confusion/CO2 Narcosis", "Silent Chest (Emergency)"]
@@ -166,6 +178,7 @@ const contentMap: Record<string, LessonContent> = {
   "increased-icp": {
     title: "Increased ICP & TBI",
     cellular: { title: "Monro-Kellie Doctrine", content: "The skull is a rigid vault. An increase in one component (brain, blood, CSF) must be compensated by a decrease in another, or ICP rises rapidly." },
+    riskFactors: ["Traumatic brain injury", "Brain tumor", "Hydrocephalus", "Meningitis/encephalitis", "Intracranial hemorrhage", "Cerebral edema", "Status epilepticus", "Hepatic encephalopathy"],
     signs: {
       left: ["Headache", "Nausea/Vomiting", "Altered LOC (Early)", "Pupillary sluggishness"],
       right: ["Cushing's Triad (HTN, Bradycardia, Irregular RR)", "Fixed/Dilated Pupils", "Decorticate/Decerebrate Posturing", "Projectile Vomiting"]
@@ -177,6 +190,7 @@ const contentMap: Record<string, LessonContent> = {
   "herbals-safety": {
     title: "Herbal & Supplement Safety",
     cellular: { title: "Phytotherapy Safety", content: "Herbals can have potent physiological effects and significant interactions with conventional medications, especially anticoagulants and CNS depressants." },
+    riskFactors: ["Polypharmacy", "Elderly patients", "Liver or kidney disease", "Anticoagulant therapy", "Surgical patients", "Pregnancy", "Self-medication without provider knowledge", "Cultural practices promoting herbal use"],
     signs: {
       left: ["St. John's Wort: Serotonin Syndrome risk", "Ginkgo/Garlic: Bleeding risk", "Ginseng: Hypoglycemia risk"],
       right: ["Kava: Hepatotoxicity", "Valerian: Excessive sedation", "Licorice root: Hypokalemia/HTN"]
@@ -191,6 +205,7 @@ const contentMap: Record<string, LessonContent> = {
   "sepsis-mastery": {
     title: "Sepsis & SIRS Recognition",
     cellular: { title: "Systemic Inflammatory Response", content: "Sepsis is a dysregulated host response to infection. It progress from SIRS to Sepsis, Severe Sepsis, and finally Septic Shock (refractory hypotension)." },
+    riskFactors: ["Age > 65 or neonates", "Immunosuppression (chemotherapy, steroids, HIV)", "Chronic diseases (diabetes, COPD, CKD)", "Invasive devices (central lines, urinary catheters)", "Recent surgery or hospitalization", "Malnutrition", "Skin breakdown or wounds", "IV drug use"],
     signs: {
       left: ["Temp > 38C or < 36C", "HR > 90", "RR > 20", "WBC > 12k or < 4k"],
       right: ["Lactic Acid > 2 mmol/L", "MAP < 65 mmHg", "Altered Mental Status", "Mottled Skin"]
@@ -205,6 +220,7 @@ const contentMap: Record<string, LessonContent> = {
   "aki-management": {
     title: "Acute Kidney Injury (AKI)",
     cellular: { title: "Nephron Insult", content: "AKI is a sudden decrease in renal function. Pre-renal (perfusion), Intra-renal (damage), and Post-renal (obstruction). Prone to fluid overload and electrolyte shifts." },
+    riskFactors: ["Hypovolemia/dehydration", "Nephrotoxic medications (NSAIDs, aminoglycosides, contrast dye)", "Diabetes mellitus", "Heart failure", "Sepsis", "Urinary tract obstruction", "Age > 65 years", "Chronic kidney disease", "Rhabdomyolysis"],
     signs: {
       left: ["Oliguria (< 400mL/day)", "Increased BUN/Creatinine", "Fluid Retention/Edema"],
       right: ["Hyperkalemia (Peak T waves)", "Metabolic Acidosis", "Encephalopathy", "Crackles in lungs"]
@@ -219,6 +235,7 @@ const contentMap: Record<string, LessonContent> = {
   "gi-bleed": {
     title: "GI Bleeding & Obstruction",
     cellular: { title: "Gastrointestinal Crisis", content: "Upper GI bleed (esophageal/gastric) vs Lower GI bleed. Bowel obstruction can be mechanical or functional (ileus), leading to fluid shifts and perforation." },
+    riskFactors: ["NSAID use", "H. pylori infection", "Alcohol abuse", "Anticoagulant/antiplatelet therapy", "Liver cirrhosis (varices)", "History of peptic ulcer disease", "Stress (critical illness)", "Coagulopathy"],
     signs: {
       left: ["Melena (Dark, tarry stools)", "Hematemesis (Coffee-ground)", "Abdominal Distension", "Hyperactive Bowel Sounds (Early)"],
       right: ["Board-like, Rigid Abdomen", "Hypotension/Tachycardia", "Absent Bowel Sounds (Late)", "Rebound Tenderness"]
@@ -233,6 +250,7 @@ const contentMap: Record<string, LessonContent> = {
   "asthma-emergency": {
     title: "Asthma & Status Asthmaticus",
     cellular: { title: "Airway Hyperreactivity", content: "Chronic inflammatory disorder. During an attack, bronchoconstriction and airway edema severely limit airflow. Status Asthmaticus is an unresponsive medical emergency." },
+    riskFactors: ["Family history of asthma/atopy", "Allergies (eczema, allergic rhinitis)", "Respiratory infections in early childhood", "Environmental tobacco smoke exposure", "Air pollution", "Obesity", "Occupational irritants", "Exercise in cold/dry air"],
     signs: {
       left: ["Expiratory Wheezing", "Chest Tightness", "Accessory Muscle Use", "Tachypnea"],
       right: ["Silent Chest", "Paradoxical Breathing", "Inability to speak in sentences", "Respiratory Acidosis"]
@@ -247,6 +265,7 @@ const contentMap: Record<string, LessonContent> = {
   "congenital-heart": {
     title: "Congenital Heart Defects",
     cellular: { title: "Structural Anomalies", content: "Heart defects present at birth. Classified into Acyanotic (Left-to-Right shunt, increased lung flow) and Cyanotic (Right-to-Left shunt, decreased systemic oxygenation)." },
+    riskFactors: ["Maternal rubella infection", "Maternal diabetes", "Genetic syndromes (Down, Turner, DiGeorge)", "Family history of CHD", "Maternal alcohol/drug use", "Maternal phenylketonuria", "Advanced maternal age"],
     signs: {
       left: ["Acyanotic: Murmur, HF signs", "Tachypnea", "Poor feeding", "Weight gain (fluid)"],
       right: ["Cyanotic: Tetrology of Fallot", "Cyanosis (Blue-ish skin)", "Clubbing", "Squatting (Tet spells)"]
@@ -258,6 +277,7 @@ const contentMap: Record<string, LessonContent> = {
   "burn-management": {
     title: "Burn Injury & Resuscitation",
     cellular: { title: "Capillary Leak Syndrome", content: "Thermal or chemical injury triggers a massive systemic inflammatory response, leading to increased capillary permeability, massive fluid shifts (edema), and hypovolemic shock." },
+    riskFactors: ["Young children (scalds)", "Elderly (impaired mobility/sensation)", "Occupational exposure", "Smoking while on oxygen", "Substance abuse", "Psychiatric illness", "Inadequate fire safety measures", "Flammable clothing"],
     signs: {
       left: ["Superficial (1st Degree): Redness", "Partial (2nd Degree): Blisters", "Full (3rd Degree): Charred/White"],
       right: ["Inhalation Injury: Singed nasal hairs", "Wheezing/Hoarseness", "Hypovolemic Shock", "Hyperkalemia (Initial)"]
@@ -269,6 +289,7 @@ const contentMap: Record<string, LessonContent> = {
   "compartment-syndrome": {
     title: "Compartment Syndrome",
     cellular: { title: "Intracompartmental Pressure Crisis & Ischemic Cascade", content: "Compartment syndrome is a limb-threatening emergency caused by increased pressure within a closed fascial compartment. The extremities are divided into distinct compartments by tough, inelastic fascia — the leg has four (anterior, lateral, superficial posterior, deep posterior), the forearm has three (volar, dorsal, mobile wad). When pressure within a compartment rises — from internal swelling (fracture bleeding, reperfusion edema, crush injury) or external compression (tight cast, circumferential burn eschar, prolonged limb compression during unconsciousness) — the fascia cannot expand to accommodate it.\n\nThe critical threshold occurs when intracompartmental pressure (ICP) exceeds capillary perfusion pressure. Normal ICP is 0-8 mmHg. When ICP rises above 30 mmHg (or within 30 mmHg of the patient's diastolic blood pressure — the delta pressure concept), capillary blood flow is obstructed. Arterioles in the compartment collapse, and venous outflow is blocked first (venous pressure is lower than arterial), further worsening edema in a vicious cycle.\n\nAt the cellular level, skeletal muscle cells (myocytes) and peripheral nerve axons are exquisitely sensitive to ischemia. Within 2 hours of ischemia, reversible cellular injury begins — ATP depletion causes the Na+/K+ ATPase pump to fail, leading to intracellular sodium and water accumulation (cellular edema), which further raises compartmental pressure. Calcium floods into cells through damaged membranes, activating destructive proteases and phospholipases. After 4-6 hours of sustained ischemia, irreversible necrosis of muscle (rhabdomyolysis) and nerve begins. The dying myocytes release myoglobin, potassium, phosphate, and creatine kinase (CK) into the bloodstream. Myoglobin precipitates in renal tubules (especially in acidic urine), causing acute kidney injury — a potentially fatal secondary complication.\n\nIf untreated beyond 6-8 hours, the compartment undergoes Volkmann's ischemic contracture — muscle is replaced by fibrotic scar tissue that permanently shortens, resulting in a clawed, non-functional limb. Peripheral nerves within the compartment suffer Wallerian degeneration, causing permanent motor and sensory deficits.\n\nThe most common causes are tibial shaft fractures (40% of cases), forearm fractures (especially in children), crush injuries, vascular injuries with reperfusion, burns (circumferential), snake bites, IV infiltration, and prolonged surgical positioning. Abdominal compartment syndrome is a separate entity involving intra-abdominal pressure >20 mmHg with organ dysfunction." },
+    riskFactors: ["Fractures (tibial most common)", "Tight casts or dressings", "Crush injuries", "Prolonged limb compression", "Burns (circumferential)", "Anticoagulant therapy", "Reperfusion after vascular injury", "Snake bite"],
     signs: {
       left: ["Pain out of proportion to injury (earliest, most reliable sign — pain is severe and unrelieved by opioids)", "Pain with passive stretch of muscles in the compartment (stretching ischemic muscle fibers triggers intense pain — e.g., passive toe dorsiflexion for anterior leg compartment)", "Tense, wooden-feeling compartment on palpation (hard, non-compressible swelling)", "Paresthesia (tingling, burning — early nerve ischemia; peroneal nerve affected first in anterior compartment)"],
       right: ["Paralysis/weakness of muscles in compartment (motor nerve death — LATE sign, may be irreversible)", "Pallor (skin may appear pale or dusky over the compartment)", "Pulselessness (arterial compromise — this is an EXTREMELY LATE sign; distal pulses are often PRESERVED because arterial pressure exceeds compartment pressure until very late; DO NOT rely on pulses to rule out compartment syndrome)", "Poikilothermia (cool extremity — late sign of vascular compromise)", "Labs: Elevated CK/CPK (>5x normal indicates significant rhabdomyolysis), elevated serum myoglobin, hyperkalemia (released from dying cells), elevated creatinine (myoglobin-induced AKI), metabolic acidosis, dark tea-colored urine (myoglobinuria)"]
@@ -288,6 +309,7 @@ const contentMap: Record<string, LessonContent> = {
   "dysrhythmias": {
     title: "Lethal Dysrhythmias",
     cellular: { title: "Electrical Instability", content: "Disruption in the heart's electrical conduction system. VT/VF lead to zero cardiac output. Atrial Fibrillation increases the risk of mural thrombi and embolic stroke." },
+    riskFactors: ["Electrolyte imbalances (K+, Mg2+, Ca2+)", "Myocardial ischemia/infarction", "Heart failure", "Drug toxicity (digoxin, antiarrhythmics)", "Caffeine/stimulant use", "Sleep apnea", "Thyroid disorders", "Valvular heart disease"],
     signs: {
       left: ["A-Fib: Irregularly irregular pulse", "Palpitations", "Dizziness", "Shortness of breath"],
       right: ["VT/VF: Pulselessness", "Apnea", "Loss of consciousness", "Bradycardia < 40"]
@@ -302,6 +324,7 @@ const contentMap: Record<string, LessonContent> = {
   "pe-recognition": {
     title: "Pulmonary Embolism (PE)",
     cellular: { title: "V/Q Mismatch", content: "A blockage in the pulmonary artery, usually from a DVT. This creates a 'dead space' where ventilation occurs but no perfusion (gas exchange) happens, leading to acute hypoxemia." },
+    riskFactors: ["Recent surgery (especially orthopedic)", "Prolonged immobility", "DVT history", "Cancer", "Oral contraceptives/HRT", "Pregnancy/postpartum", "Obesity", "Long-distance travel", "Factor V Leiden", "Smoking"],
     signs: {
       left: ["Sudden Dyspnea", "Pleuritic Chest Pain", "Tachypnea", "Tachycardia"],
       right: ["Hemoptysis", "Hypotension (Obstructive Shock)", "Right Heart Strain (JVD)", "Feeling of Impending Doom"]
@@ -316,6 +339,7 @@ const contentMap: Record<string, LessonContent> = {
   "electrolyte-safety": {
     title: "Electrolyte Imbalances",
     cellular: { title: "Ionic Homeostasis", content: "Electrolytes (K, Na, Ca, Mg) are critical for nerve conduction, muscle contraction, and fluid balance. Imbalances lead to lethal cardiac and neurological complications." },
+    riskFactors: ["Renal failure", "Diuretic therapy", "Chronic vomiting/diarrhea", "Burns", "Malnutrition", "Endocrine disorders", "Excessive IV fluid administration", "Eating disorders"],
     signs: {
       left: ["Hyponatremia: Seizures/Confusion", "Hypokalemia: U-waves/Cramps", "Hypocalcemia: Trousseau/Chvostek"],
       right: ["Hyperkalemia: Peaked T-waves", "Hypernatremia: Thirst/Dry mucus", "Hypercalcemia: Stones/Moans/Groans"]
@@ -330,6 +354,7 @@ const contentMap: Record<string, LessonContent> = {
   "cardiac-meds": {
     title: "Vasoactive & Cardiac Meds",
     cellular: { title: "Hemodynamic Support", content: "Inotropes (contractility), Vasopressors (SVR), and Antiarrhythmics are used to stabilize hemodynamics in critical care. Each class has narrow therapeutic windows and specific monitoring requirements." },
+    riskFactors: ["Polypharmacy", "Renal impairment", "Hepatic impairment", "Elderly patients", "Electrolyte imbalances", "Non-adherence to medication regimen", "Drug-drug interactions", "Narrow therapeutic index medications"],
     signs: {
       left: ["Beta Blockers: Low HR/BP", "ACE Inhibitors: Cough/Angioedema", "Nitrates: Headache/Hypotension"],
       right: ["Digoxin Toxicity: Yellow halos/Nausea", "Amiodarone: Blue-gray skin", "Epinephrine: Palpitations"]
@@ -344,6 +369,7 @@ const contentMap: Record<string, LessonContent> = {
   "anticoagulant-safety": {
     title: "Anticoagulation Mastery",
     cellular: { title: "Hemostasis Control", content: "Anticoagulants prevent thrombus formation by interrupting the coagulation cascade. They do not dissolve existing clots but prevent them from growing larger." },
+    riskFactors: ["Renal impairment", "Hepatic disease", "Active bleeding history", "Recent surgery", "Falls risk", "Concomitant antiplatelet therapy", "Advanced age", "Thrombocytopenia", "Non-adherence"],
     signs: {
       left: ["Ecchymosis/Bruising", "Hematuria", "Epistaxis (Nosebleed)", "Gingival bleeding"],
       right: ["Hemorrhagic Stroke signs", "Melena", "Hypotension (Internal bleed)", "HIT (Thrombocytopenia)"]
@@ -358,6 +384,7 @@ const contentMap: Record<string, LessonContent> = {
   "insulin-safety": {
     title: "Insulin & Diabetic Safety",
     cellular: { title: "Glucose Metabolism", content: "Insulin facilitates glucose entry into cells. Over-administration or inadequate intake leads to hypoglycemia (neuroglycopenia), a medical emergency." },
+    riskFactors: ["Renal impairment (delayed insulin clearance)", "Irregular meal patterns", "Exercise without carb adjustment", "Alcohol use", "Sick days", "Multiple insulin types", "Elderly patients", "Cognitive impairment"],
     signs: {
       left: ["Hypoglycemia: Shakiness", "Sweating/Diaphoresis", "Confusion", "Hunger"],
       right: ["DKA: Kussmaul respirations", "Fruity breath", "Severe Dehydration", "Altered LOC"]
@@ -372,6 +399,7 @@ const contentMap: Record<string, LessonContent> = {
   "peds-respiratory": {
     title: "Pediatric Respiratory: RSV & Croup",
     cellular: { title: "Airway Narrowing", content: "Infant airways are much smaller and more prone to obstruction from inflammation and mucus. RSV (Bronchiolitis) affects the lower airways, while Croup (Laryngotracheobronchitis) affects the upper airway." },
+    riskFactors: ["Age < 2 years", "Premature birth", "Exposure to tobacco smoke", "Daycare attendance", "Lack of breastfeeding", "Immunodeficiency", "Congenital heart disease", "Crowded living conditions"],
     signs: {
       left: ["RSV: Wheezing/Crackles", "Copious Secretions", "Nasal Flaring", "Retractions"],
       right: ["Croup: Barking Cough", "Inspiratory Stridor", "Steeple Sign on X-ray", "Agitation"]
@@ -386,6 +414,7 @@ const contentMap: Record<string, LessonContent> = {
   "epiglottitis-peds": {
     title: "Epiglottitis: Airway Emergency",
     cellular: { title: "Supraglottic Inflammation", content: "A life-threatening bacterial infection (often H. influenzae type b) causing sudden, massive swelling of the epiglottis, which can completely occlude the airway within minutes." },
+    riskFactors: ["Age 2-6 years (H. influenzae type B)", "Unvaccinated against Hib", "Immunocompromised state", "Thermal injury to airway", "Foreign body ingestion"],
     signs: {
       left: ["High Fever", "The 4 Ds: Drooling, Dysphagia, Dysphonia, Distress", "Inspiratory Stridor", "Tripod Position"],
       right: ["Absent Cough", "Agitation", "Cyanosis", "Total Airway Obstruction"]
@@ -397,6 +426,7 @@ const contentMap: Record<string, LessonContent> = {
   "stroke-advanced": {
     title: "Stroke & TIA Management",
     cellular: { title: "Ischemic vs Hemorrhagic", content: "Ischemic stroke (85%) involves a clot; Hemorrhagic (15%) involves a vessel rupture. TIA is a 'warning stroke' where symptoms resolve within 24 hours but signal high risk for a major stroke." },
+    riskFactors: ["Atrial fibrillation (highest risk for embolic stroke)", "Carotid artery stenosis > 70%", "Hypertension", "Previous stroke or TIA", "Diabetes mellitus", "Hypercoagulable states", "Patent foramen ovale", "Illicit drug use (cocaine, amphetamines)"],
     signs: {
       left: ["FAST: Face, Arm, Speech, Time", "Sudden numbness/weakness", "Visual disturbances", "Aphasia"],
       right: ["Worst headache of life (Hemorrhagic)", "Decreased LOC", "Seizures", "Nausea/Vomiting"]
@@ -411,6 +441,7 @@ const contentMap: Record<string, LessonContent> = {
   "seizure-safety": {
     title: "Seizure Precautions & Safety",
     cellular: { title: "Abnormal Electrical Discharge", content: "A sudden, uncontrolled electrical disturbance in the brain. Status Epilepticus is a seizure lasting > 5 mins or repeated seizures without recovery—a medical emergency." },
+    riskFactors: ["Epilepsy diagnosis", "Medication non-compliance", "Sleep deprivation", "Alcohol withdrawal", "Drug intoxication/withdrawal", "Metabolic disturbances (hypoglycemia, hyponatremia)", "Brain tumor", "Febrile illness (pediatric)"],
     signs: {
       left: ["Aura (Warning sign)", "Tonic-Clonic movements", "Post-ictal confusion", "Absence (staring)"],
       right: ["Status Epilepticus", "Cyanosis", "Aspiration", "Head Trauma"]
@@ -425,6 +456,7 @@ const contentMap: Record<string, LessonContent> = {
   "pressure-injury": {
     title: "Advanced Wound Care",
     cellular: { title: "Tissue Ischemia", content: "Localized damage to the skin and underlying soft tissue usually over a bony prominence. Caused by intense or prolonged pressure in combination with shear." },
+    riskFactors: ["Immobility", "Malnutrition (low albumin)", "Incontinence (moisture)", "Age > 70 years", "Sensory impairment (diabetes, spinal cord injury)", "Vascular disease", "Friction and shear forces", "Low body weight"],
     signs: {
       left: ["Stage 1: Non-blanchable redness", "Stage 2: Partial thickness/Blister", "Stage 3: Full thickness (Fat visible)"],
       right: ["Stage 4: Muscle/Bone visible", "Unstageable: Eschar/Slough", "Deep Tissue Injury: Purple/Maroon"]
@@ -436,6 +468,7 @@ const contentMap: Record<string, LessonContent> = {
   "siadh-di": {
     title: "SIADH vs Diabetes Insipidus",
     cellular: { title: "ADH Imbalance", content: "SIADH (Too much ADH) leads to water retention and dilutional hyponatremia. DI (Too little ADH) leads to massive water loss and hypernatremia." },
+    riskFactors: ["SIADH: CNS disorders, lung cancer (SCLC), medications (SSRIs, carbamazepine), post-surgical state", "DI: Head trauma, pituitary surgery, brain tumors, lithium therapy", "Meningitis/encephalitis", "Genetic predisposition (nephrogenic DI)"],
     signs: {
       left: ["SIADH: Low Urine Output", "High Urine Specific Gravity", "Weight Gain", "Hyponatremia"],
       right: ["DI: Massive Polyuria", "Low Urine Specific Gravity", "Extreme Thirst", "Dehydration"]
@@ -454,6 +487,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Plaque Rupture & Cascade", 
       content: "Atherosclerotic plaque rupture exposes the subendothelium to blood, activating the coagulation cascade. Platelets adhere via von Willebrand factor, activating GP IIb/IIIa receptors. Thrombus formation occludes the coronary artery, leading to anaerobic metabolism, ATP depletion, and cellular acidosis. Without reperfusion, necrosis begins in the subendocardium and extends transmurally." 
     },
+    riskFactors: ["Uncontrolled hypertension", "Hyperlipidemia with LDL > 160", "Diabetes mellitus with HbA1c > 7%", "Smoking (dose-dependent risk)", "Family history of premature CAD (male < 55, female < 65)", "Metabolic syndrome", "Chronic kidney disease", "Cocaine/methamphetamine use", "Autoimmune vasculitis"],
     signs: {
       left: ["Levine's Sign (Clenched fist)", "Diaphoresis (Sympathetic surge)", "S3/S4 Gallop (Compliance issue)", "New Murmur (Papillary dysfunction)"],
       right: ["Cardiogenic Shock (CI < 2.2)", "Ventricular Fibrillation", "Complete Heart Block (RCA)", "Free Wall Rupture (Day 3-7)"]
@@ -471,6 +505,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Oxygen Delivery (DO2) vs Consumption (VO2)", 
       content: "Shock is a state where DO2 fails to meet VO2, leading to cellular hypoxia and lactate production. \n\nCardiogenic: Low CO, High SVR, High PCWP. \nSeptic: High CO (early), Low SVR, Low/Normal PCWP. \nHypovolemic: Low CO, High SVR, Low PCWP." 
     },
+    riskFactors: ["Major trauma", "Massive hemorrhage", "Acute MI with large territory", "Sepsis with delayed treatment", "Severe anaphylaxis", "High spinal cord injury (above T6)", "Massive pulmonary embolism", "Cardiac tamponade"],
     signs: {
       left: ["Lactate > 2 mmol/L", "ScvO2 < 70%", "Narrow Pulse Pressure (Cardiogenic)", "Widened Pulse Pressure (Septic)"],
       right: ["Multi-Organ Dysfunction (MODS)", "Refractory Hypotension", "DIC (Disseminated Intravascular Coagulation)", "Acute Tubular Necrosis"]
@@ -488,6 +523,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Dysregulated Host Response", 
       content: "Pathogen recognition receptors (TLRs) trigger NF-kB pathway, releasing pro-inflammatory cytokines (TNF-alpha, IL-1, IL-6). This causes widespread endothelial injury, capillary leak, and microvascular thrombosis (DIC). Mitochondrial dysfunction leads to dysoxia despite adequate oxygen delivery." 
     },
+    riskFactors: ["ICU admission", "Central venous catheters", "Mechanical ventilation", "Neutropenia (ANC < 500)", "Immunosuppressive therapy", "Uncontrolled diabetes", "Chronic liver disease", "Splenectomy", "Broad-spectrum antibiotic exposure (C. diff risk)"],
     signs: {
       left: ["qSOFA: RR >22, Altered Mental Status, SBP <100", "Lactate > 2", "Hyperglycemia (Stress)", "Oliguria"],
       right: ["Vasopressor dependence", "Mottling (Knee score)", "Platelets < 100k", "Creatinine > 2.0"]
@@ -505,6 +541,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Arginine Vasopressin (AVP) Pathophysiology", 
       content: "SIADH: Ectopic or inappropriate AVP release leads to insertion of Aquaporin-2 channels in the collecting duct, causing pure water retention (Euvolemic Hyponatremia). \nDI: Lack of AVP (Central) or renal resistance (Nephrogenic) prevents water reabsorption, leading to massive dilute urine output." 
     },
+    riskFactors: ["Small cell lung cancer (SIADH — ectopic ADH)", "Traumatic brain injury (central DI)", "Pituitary surgery (transient or permanent DI)", "CNS infections (meningitis, encephalitis)", "Medications: SSRIs, carbamazepine, cyclophosphamide (SIADH)", "Lithium therapy (nephrogenic DI)", "Guillain-Barré syndrome", "Positive pressure ventilation"],
     signs: {
       left: ["SIADH: Serum Osm < 275", "Urine Osm > 100", "Urine Na > 40", "Euvolemia"],
       right: ["DI: Serum Osm > 295", "Urine Osm < 300", "Hypernatremia", "Polyuria (>3L/day)"]
@@ -522,6 +559,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Matrix Metalloproteinases (MMPs)", 
       content: "Inflammation leads to upregulation of MMPs which degrade elastin and collagen in the aortic media. This structural weakening, combined with LaPlace's Law (Wall Tension = Pressure x Radius), creates a cycle of dilation. Rupture occurs when wall stress exceeds tensile strength." 
     },
+    riskFactors: ["Age > 65 with smoking history", "Male sex", "First-degree relative with AAA", "Peripheral vascular disease", "Hypertension", "Hyperlipidemia", "COPD", "Connective tissue disorders"],
     signs: {
       left: ["Pulsatile mass", "Grey Turner's Sign (Flank ecchymosis)", "Cullen's Sign (Periumbilical)", "Femoral bruit"],
       right: ["Hypotension + Back Pain = Rupture", "Loss of distal pulses", "Mottling", "Profound Acidosis"]
@@ -539,6 +577,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Insulin Deficiency & Counter-Regulatory Hormones", 
       content: "DKA: Absolute insulin deficiency leads to lipolysis. Free fatty acids are oxidized to ketone bodies (beta-hydroxybutyrate), causing metabolic acidosis. \nHHS: Relative insulin deficiency prevents ketosis but severe hyperglycemia causes massive osmotic diuresis and hyperosmolar state." 
     },
+    riskFactors: ["Type 1 diabetes (DKA primary)", "Type 2 diabetes (HHS primary)", "Infection (most common precipitant)", "Medication non-adherence", "New-onset diabetes", "Corticosteroid use", "Myocardial infarction", "Pancreatitis", "Substance abuse", "Eating disorders"],
     signs: {
       left: ["DKA: Kussmaul Respirations", "Fruity Breath", "Anion Gap > 12", "pH < 7.3"],
       right: ["HHS: Glucose > 600", "Serum Osm > 320", "Profound Dehydration", "Altered Mental Status"]
@@ -556,6 +595,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Autoregulation Failure", 
       content: "Cerebral Blood Flow (CBF) is autoregulated. When ICP rises, MAP must rise to maintain CPP (CPP = MAP - ICP). If ICP exceeds MAP, perfusion stops. Brain herniation (Uncal, Tonsillar) causes mechanical compression of the brainstem." 
     },
+    riskFactors: ["Traumatic brain injury (GCS ≤ 8)", "Intracerebral hemorrhage", "Large territory ischemic stroke", "Brain tumor with mass effect", "Meningitis/encephalitis", "Status epilepticus", "Hepatic encephalopathy (grade III-IV)", "Post-craniotomy"],
     signs: {
       left: ["Headache", "Vomiting", "Papilledema", "CN VI Palsy"],
       right: ["Cushing's Reflex (HTN, Brady, Irregular RR)", "Fixed/Dilated Pupil (Uncal)", "Decerebrate Posturing", "Apnea"]
@@ -573,6 +613,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Protease-Antiprotease Imbalance", 
       content: "Cigarette smoke activates neutrophils/macrophages, releasing proteases (elastase) that destroy alveolar walls (Emphysema). Chronic Bronchitis involves goblet cell hyperplasia and mucus plugging. V/Q mismatch leads to hypoxemia and hypercapnia." 
     },
+    riskFactors: ["Smoking history > 20 pack-years", "Previous exacerbation requiring hospitalization", "FEV1 < 50% predicted", "Frequent exacerbations (≥ 2/year)", "Cor pulmonale", "Long-term oxygen therapy dependence", "Concurrent cardiac disease", "Alpha-1 antitrypsin deficiency"],
     signs: {
       left: ["Accessory muscle use", "Pursed-lip breathing", "Prolonged expiration", "Wheezing"],
       right: ["Pulsus Paradoxus", "Asterixis (CO2 narcosis)", "Central Cyanosis", "Cor Pulmonale (RHF)"]
@@ -590,6 +631,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Tubular Necrosis & GFR", 
       content: "Ischemia or toxins cause sloughing of tubular epithelial cells, obstructing tubules (muddy brown casts). Afferent arteriolar constriction (Pre-renal) reduces GFR. Post-renal obstruction increases Bowman's capsule pressure, halting filtration." 
     },
+    riskFactors: ["Sepsis (most common cause of AKI in ICU)", "Major surgery (especially cardiac)", "Contrast dye administration", "Nephrotoxic drugs (vancomycin, aminoglycosides, amphotericin B)", "Rhabdomyolysis", "Cardiorenal syndrome", "Hepatorenal syndrome", "Tumor lysis syndrome", "Abdominal compartment syndrome"],
     signs: {
       left: ["Oliguria", "Azotemia (High BUN)", "Edema", "Acidosis"],
       right: ["Uremic Pericarditis (Friction rub)", "Encephalopathy", "Hyperkalemia > 6.5", "Pulmonary Edema"]
@@ -607,6 +649,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Massive Cellular Destruction", 
       content: "Oncologic emergency where cancer treatment destroys a large number of cells rapidly, releasing intracellular potassium, phosphate, and nucleic acids into circulation. Nucleic acids are metabolized to uric acid, which precipitates in renal tubules, causing acute kidney injury (AKI)." 
     },
+    riskFactors: ["High tumor burden (bulky disease)", "Rapidly proliferating malignancies (Burkitt lymphoma, ALL)", "Elevated pre-treatment LDH and uric acid", "Pre-existing renal impairment", "Dehydration", "Chemotherapy initiation (24-72 hours post)", "High white cell count (> 50,000)"],
     signs: {
       left: ["Hyperkalemia (Arrhythmias)", "Hyperphosphatemia", "Hypocalcemia (Tetany/Seizures)", "Hyperuricemia"],
       right: ["Oliguria / Anuria", "Flank Pain", "Lethargy", "EKG Changes (Peaked T)"]
@@ -624,6 +667,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Antibody-Mediated Hypersensitivity", 
       content: "Acute Hemolytic: ABO incompatibility leads to IgM antibodies attacking donor RBCs, causing complement activation, massive hemolysis, and inflammatory cytokine release (Shock/DIC). \nFebrile Non-Hemolytic: Cytokines released from donor leukocytes accumulate during storage." 
     },
+    riskFactors: ["Previous transfusion reaction history", "Multiple prior transfusions", "IgA deficiency (anaphylaxis risk)", "Alloimmunization", "Immunocompromised state", "Emergency transfusion without full crossmatch", "Chronic transfusion dependence"],
     signs: {
       left: ["Hemolytic: Flank/Back Pain", "Dark Red Urine (Hemoglobinuria)", "Hypotension + Tachycardia", "Positive Direct Coombs"],
       right: ["Febrile: Fever + Chills (within 4h)", "Malaise", "No hemolysis/red urine", "Anaphylactic: Wheezing, Hives, Shock"]
@@ -641,6 +685,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Uteroplacental Insufficiency", 
       content: "Late Decelerations: Placental insufficiency causes fetal hypoxia after the contraction peak. Reflex vasoconstriction preserves blood flow to vital organs but indicates acidosis if persistent. \nVariable Decelerations: Umbilical cord compression obstructs blood flow, causing rapid drops in FHR." 
     },
+    riskFactors: ["High-risk pregnancy (preeclampsia, diabetes)", "Post-term pregnancy (> 42 weeks)", "Intrauterine growth restriction", "Oligohydramnios", "Previous cesarean section", "Maternal obesity", "Multiple gestation", "Meconium-stained amniotic fluid"],
     signs: {
       left: ["Late: Decel starts after contraction peak", "Variable: Abrupt 'V' or 'W' shape", "Loss of Variability (Hypoxia)", "Fetal Tachycardia (Infection/Hypoxia)"],
       right: ["Interventions: Turn to Left Lateral", "Stop Pitocin (Oxytocin)", "IV Fluid Bolus", "O2 via non-rebreather"]
@@ -658,6 +703,7 @@ const contentMap: Record<string, LessonContent> = {
       title: "Microstrain & Angiogenesis", 
       content: "NPWT applies sub-atmospheric pressure to the wound bed. This removes exudate/infectious material, reduces edema, and creates 'microstrain' on cells which stimulates mitosis, angiogenesis (new blood vessels), and granulation tissue formation." 
     },
+    riskFactors: ["Chronic wounds (diabetic ulcers, venous stasis)", "Post-surgical wound dehiscence", "Traumatic wounds with tissue loss", "Pressure injuries stage III-IV", "Malnutrition (albumin < 3.0)", "Peripheral vascular disease", "Immunosuppression", "Obesity"],
     signs: {
       left: ["Beefy Red Granulation (Good)", "Reduced Edema", "Decreased Wound Dimensions", "Intact Seal"],
       right: ["Air Leak (Machine Alarm)", "Bleeding (Anticoagulants)", "Maceration of Peri-wound", "Necrotic Tissue (Contraindication)"]
@@ -671,6 +717,7 @@ const contentMap: Record<string, LessonContent> = {
   "lithium-toxicity": {
     title: "Lithium & Mood Stabilizers",
     cellular: { title: "Ion Competition", content: "Lithium is a salt that competes with Sodium in the kidneys. Dehydration or low sodium intake causes the kidneys to reabsorb lithium, leading to toxicity." },
+    riskFactors: ["Dehydration", "Renal impairment", "Sodium-depleting diuretics (thiazides, loop)", "NSAID use", "ACE inhibitor/ARB use", "Low-sodium diet", "Elderly patients", "Fever/infection (dehydration risk)"],
     signs: {
       left: ["Therapeutic range: 0.6 - 1.2 mEq/L", "Mild tremor", "Nausea", "Thirst"],
       right: ["Toxicity (>1.5): Confusion", "Ataxia", "Coarse tremors", "Blurred vision"]
@@ -682,6 +729,7 @@ const contentMap: Record<string, LessonContent> = {
   "sickle-cell": {
     title: "Sickle Cell Crisis",
     cellular: { title: "Hemoglobin S Polymerization", content: "Under stress (hypoxia, dehydration, acidosis), HgbS changes shape into rigid sickled cells. These clump together, occluding small vessels (vaso-occlusion) causing ischemia and severe pain." },
+    riskFactors: ["Homozygous HbSS genotype", "African American descent", "Dehydration", "Hypoxia", "Cold exposure", "High altitude", "Infection", "Stress", "Pregnancy"],
     signs: {
       left: ["Severe Pain (Joints/Bones)", "Fatigue/Anemia", "Jaundice (Hemolysis)", "Priapism"],
       right: ["Acute Chest Syndrome (Fever/CP)", "Splenic Sequestration (Shock)", "Stroke symptoms", "Dactylitis (Hand-Foot Swelling)"]
@@ -696,6 +744,7 @@ const contentMap: Record<string, LessonContent> = {
   "acute-abdomen": {
     title: "Appendicitis & Cholecystitis",
     cellular: { title: "Obstruction & Inflammation", content: "Appendicitis: Obstruction of the appendix lumen (fecalith) leads to infection/perforation. Cholecystitis: Gallstone obstructs cystic duct, causing gallbladder inflammation." },
+    riskFactors: ["Previous abdominal surgery (adhesions)", "Gallstone history", "Alcohol abuse (pancreatitis)", "NSAID use (perforation)", "Diverticular disease", "Immunosuppression (masked symptoms)", "Anticoagulation therapy", "Age > 65 years"],
     signs: {
       left: ["Appy: RLQ Pain (McBurney's)", "Chole: RUQ Pain -> Shoulder", "Fever/Nausea", "Rebound Tenderness"],
       right: ["Sudden relief of pain (Perforation)", "Board-like Abdomen (Peritonitis)", "Tachycardia/Hypotension (Septic Shock)", "Murphy's Sign (Chole)"]
@@ -710,6 +759,7 @@ const contentMap: Record<string, LessonContent> = {
   "pyloric-intussusception": {
     title: "Pyloric Stenosis & Intussusception",
     cellular: { title: "Mechanical Obstruction", content: "Pyloric: Hypertrophy of pyloric sphincter blocks gastric emptying. Intussusception: Bowel telescopes into itself, cutting off blood supply." },
+    riskFactors: ["Pyloric stenosis: male sex (4:1), firstborn, family history", "Age 2-8 weeks (pyloric stenosis)", "Intussusception: age 6 months-3 years", "Viral illness preceding intussusception", "Meckel diverticulum", "Intestinal polyps"],
     signs: {
       left: ["Pyloric: Projectile Vomiting", "Olive-shaped mass", "Intuss: Colicky Pain", "Sausage-shaped mass"],
       right: ["Intuss: Currant Jelly Stool", "Dehydration (Sunken fontanelle)", "Metabolic Alkalosis (Pyloric)", "Shock symptoms"]
@@ -721,6 +771,7 @@ const contentMap: Record<string, LessonContent> = {
   "prenatal-basics": {
     title: "Prenatal Care Essentials",
     cellular: { title: "Embryonic & Fetal Development", content: "Prenatal care ensures optimal maternal and fetal outcomes through scheduled assessments. Visit schedule: Monthly until 28 weeks, biweekly 28-36 weeks, weekly 36 weeks until delivery. Key assessments include GTPAL (Gravida, Term, Preterm, Abortions, Living), fundal height (should equal gestational age in cm at 20-36 weeks), and fetal heart tones (normal 110-160 bpm). Folic acid (400-800 mcg daily) prevents neural tube defects and should begin before conception." },
+    riskFactors: ["Advanced maternal age (> 35)", "Chronic hypertension", "Pre-existing diabetes", "Obesity", "Substance use", "History of preterm birth", "Multiple gestation", "Inadequate prenatal care"],
     signs: {
       left: ["Vaginal Bleeding (any trimester)", "Severe Persistent Headache", "Epigastric Pain (liver distention)", "Visual Changes (blurring, scotomata)"],
       right: ["Decreased Fetal Movement (<10 kicks/2hrs)", "Sudden Severe Edema (face/hands)", "Rupture of Membranes before 37 weeks", "Fever >100.4°F / Signs of Infection"]
@@ -735,6 +786,7 @@ const contentMap: Record<string, LessonContent> = {
   "labor-stages": {
     title: "Stages of Labor",
     cellular: { title: "Cervical Changes & Uterine Contractions", content: "Labor progresses through four stages driven by coordinated uterine contractions. Stage 1: Cervical effacement and dilation (0-10cm) with three phases — Latent (0-6cm, mild contractions q5-30min), Active (6-8cm, moderate contractions q3-5min), and Transition (8-10cm, strong contractions q2-3min lasting 60-90sec). Stage 2: Complete dilation to delivery of the infant. Stage 3: Delivery of the placenta (5-30 minutes). Stage 4: Recovery period (first 1-2 hours postpartum) with close monitoring for hemorrhage." },
+    riskFactors: ["Premature rupture of membranes", "Oxytocin induction/augmentation", "Multiple gestation", "Polyhydramnios", "Uterine anomalies", "Previous cesarean section", "Maternal exhaustion", "Fetal malpresentation"],
     signs: {
       left: ["Latent: Mild contractions, talkative", "Active: Increased pain, focused breathing", "Transition: Intense pressure, nausea, irritability", "Stage 2: Urge to push, crowning"],
       right: ["Stage 3: Gush of blood, cord lengthening", "Stage 4: Fundal firmness check q15min", "Abnormal: Late decelerations on FHR", "Abnormal: Meconium-stained amniotic fluid"]
@@ -749,6 +801,7 @@ const contentMap: Record<string, LessonContent> = {
   "postpartum-basics": {
     title: "Postpartum Assessment",
     cellular: { title: "Uterine Involution & Recovery", content: "After delivery, the uterus undergoes involution — returning to its pre-pregnant state over approximately 6 weeks. The fundus should be firm, midline, and at or below the umbilicus immediately postpartum, descending approximately 1 cm (one fingerbreadth) per day. The BUBBLE-HE mnemonic guides systematic postpartum assessment: Breasts (engorgement, nipple integrity), Uterus (fundal height, firmness), Bladder (distention, voiding), Bowel (function, hemorrhoids), Lochia (type, amount, odor), Episiotomy/incision (REEDA: Redness, Edema, Ecchymosis, Discharge, Approximation), Homan sign (calf tenderness for DVT), and Emotions (bonding, mood changes, postpartum depression screening)." },
+    riskFactors: ["Cesarean delivery", "Prolonged labor", "Operative vaginal delivery", "Postpartum hemorrhage history", "Infection risk factors", "Inadequate social support", "History of depression/anxiety", "Breastfeeding difficulties"],
     signs: {
       left: ["Boggy Uterus (atony)", "Lochia Rubra (days 1-3, dark red)", "Lochia Serosa (days 4-10, pink/brown)", "Lochia Alba (day 10+, yellowish-white)"],
       right: ["Fundus above umbilicus or deviated", "Foul-smelling lochia (infection)", "Heavy bleeding soaking pad in <1 hour", "Positive Homan sign (DVT risk)"]
@@ -763,6 +816,7 @@ const contentMap: Record<string, LessonContent> = {
   "breastfeeding-basics": {
     title: "Breastfeeding and Lactation",
     cellular: { title: "Lactation Physiology", content: "Prolactin stimulates milk production, while oxytocin triggers the let-down reflex (milk ejection). Colostrum is produced in the first 2-5 days — it is rich in immunoglobulins (IgA), protein, and provides passive immunity. Transitional milk appears days 5-14, followed by mature milk. Proper latch requires the infant's mouth to cover the entire areola (not just the nipple), with lips flanged outward, audible swallowing, and rhythmic suck-swallow-breathe pattern. Engorgement occurs when milk supply exceeds demand, causing breast swelling and pain." },
+    riskFactors: ["Premature infant", "Maternal breast surgery history", "Flat/inverted nipples", "Maternal medications", "Maternal stress/fatigue", "Inadequate lactation support", "Infant tongue-tie (ankyloglossia)", "Maternal substance use"],
     signs: {
       left: ["Proper Latch: wide mouth, flanged lips", "Audible swallowing during feeds", "Softened breasts after feeding", "Infant content between feedings"],
       right: ["6-8 wet diapers/day by day 4", "3-4 yellow seedy stools/day (breastfed)", "Steady weight gain after initial loss", "Urate crystals (brick dust) normal first 2 days"]
@@ -774,6 +828,7 @@ const contentMap: Record<string, LessonContent> = {
   "newborn-assessment": {
     title: "Newborn Assessment and APGAR",
     cellular: { title: "Transition to Extrauterine Life", content: "At birth, the newborn undergoes critical physiological transitions: lungs inflate and begin gas exchange, fetal circulatory shunts close (ductus arteriosus, foramen ovale), and thermoregulation becomes self-dependent. The APGAR score is assessed at 1 and 5 minutes: Appearance (skin color), Pulse (heart rate), Grimace (reflex irritability), Activity (muscle tone), and Respirations (respiratory effort). Each parameter scored 0-2, total 0-10. Score of 7-10 is normal, 4-6 requires intervention, <4 requires resuscitation." },
+    riskFactors: ["Premature birth", "Low birth weight (< 2500g)", "Maternal diabetes", "Meconium-stained fluid", "Prolonged labor", "Maternal infection", "Congenital anomalies", "Birth trauma"],
     signs: {
       left: ["Normal HR: 120-160 bpm", "Normal RR: 30-60 breaths/min", "Normal Temp: 97.7-99.5°F (36.5-37.5°C)", "Normal Weight: 2500-4000g (5.5-8.8 lbs)"],
       right: ["Moro Reflex: startle response, arms extend", "Rooting Reflex: turns toward stimulus on cheek", "Sucking Reflex: sucks when palate stimulated", "Babinski Reflex: toes fan out (normal in newborns)"]
@@ -788,6 +843,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-thermoreg": {
     title: "Thermoregulation in Neonates",
     cellular: { title: "Brown Fat Metabolism", content: "Neonates are highly vulnerable to cold stress due to their large body surface area relative to mass, thin skin, and limited subcutaneous fat. They cannot shiver; instead, they rely on non-shivering thermogenesis via brown fat (brown adipose tissue) located between the scapulae, around the kidneys, and along the great vessels. Brown fat metabolism generates heat through uncoupled oxidative phosphorylation but rapidly depletes oxygen and glucose reserves. Cold stress triggers a cascade: increased oxygen consumption, hypoglycemia, metabolic acidosis, and potentially pulmonary vasoconstriction with respiratory distress." },
+    riskFactors: ["Premature birth (large body surface area to mass ratio)", "Low birth weight", "Small for gestational age", "Wet skin after delivery", "Cold delivery room", "Delayed skin-to-skin contact", "Hypothyroidism", "Sepsis"],
     signs: {
       left: ["Cool skin to touch (especially extremities)", "Mottled or pale skin color", "Lethargy and poor feeding", "Weak cry and decreased activity"],
       right: ["Hypoglycemia (jitteriness, tremors)", "Tachypnea (increased O2 demand)", "Metabolic Acidosis", "Peripheral vasoconstriction (acrocyanosis)"]
@@ -799,6 +855,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-feeding": {
     title: "Neonatal Feeding",
     cellular: { title: "Nutritional Requirements", content: "Neonates require approximately 100-120 kcal/kg/day for adequate growth. Breastmilk is the gold standard, providing optimal nutrition, immunoglobulins, and promoting GI maturation. Formula (iron-fortified, 20 kcal/oz) is an appropriate alternative. Newborns lose 5-7% of birth weight in the first week (up to 10% for breastfed infants) and should regain birth weight by 10-14 days. Feeding cues progress from early (rooting, lip smacking, hand-to-mouth) to late (crying — a late hunger cue). Adequate intake is assessed by monitoring output: 6-8 wet diapers and 3-4 stools per day by day 4-5 of life." },
+    riskFactors: ["Prematurity (< 34 weeks)", "Cleft lip/palate", "Neurological impairment", "Congenital heart disease", "Respiratory distress", "Maternal medication exposure", "Neonatal abstinence syndrome", "Tongue-tie"],
     signs: {
       left: ["Early Feeding Cues: rooting, lip smacking", "Hand-to-mouth movements", "Sucking on fingers/fists", "Quiet alert state"],
       right: ["Inadequate Intake: <6 wet diapers/day", "Weight loss >10% of birth weight", "Persistent jaundice", "Lethargy and poor suck"]
@@ -810,6 +867,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-jaundice-basics": {
     title: "Neonatal Jaundice",
     cellular: { title: "Bilirubin Metabolism", content: "Jaundice results from elevated unconjugated (indirect) bilirubin in the blood. Newborns are predisposed due to high RBC volume with shorter lifespan (70-90 days vs 120 days), immature liver conjugation enzymes (glucuronyl transferase), and increased enterohepatic circulation. Physiological jaundice appears after 24 hours of life and peaks at days 3-5, resolving by 1-2 weeks. Pathological jaundice appears within the first 24 hours and rises rapidly — causes include ABO/Rh incompatibility, sepsis, and excessive hemolysis. Bilirubin follows a cephalocaudal progression: face first, then trunk, then extremities as levels rise." },
+    riskFactors: ["ABO/Rh incompatibility", "Prematurity", "Bruising from delivery", "Breastfeeding difficulties (dehydration)", "Asian/Native American descent", "Sibling with significant jaundice", "Polycythemia", "Glucose-6-phosphate dehydrogenase (G6PD) deficiency"],
     signs: {
       left: ["Yellowing of skin (cephalocaudal)", "Scleral icterus (yellow eyes)", "Dark amber urine", "Lethargy and poor feeding"],
       right: ["Bilirubin >12 mg/dL (physiological concern)", "Jaundice within 24 hours (PATHOLOGICAL)", "High-pitched cry (kernicterus risk)", "Opisthotonus (severe kernicterus)"]
@@ -821,6 +879,7 @@ const contentMap: Record<string, LessonContent> = {
   "placenta-previa-abruption": {
     title: "Placenta Previa vs Abruption",
     cellular: { title: "Placental Pathology", content: "Placenta Previa occurs when the placenta abnormally implants over the cervical os (marginal, partial, or complete), obstructing the birth canal and causing painless hemorrhage as the cervix dilates. Placental Abruption is the premature separation of a normally implanted placenta from the uterine wall, causing retroplacental hemorrhage. The bleeding may be revealed (visible) or concealed (trapped behind the placenta), making abruption particularly dangerous as blood loss can be underestimated. Abruption triggers a cascade of coagulopathy and can lead to DIC." },
+    riskFactors: ["Placenta previa: previous C-section, multiple gestation, advanced maternal age, smoking, prior previa", "Abruption: hypertension (most common cause), cocaine use, trauma, short umbilical cord, rapid decompression of uterus"],
     signs: {
       left: ["Painless bright red vaginal bleeding", "Soft, non-tender, relaxed uterus", "Normal FHR initially", "Bleeding occurs in 3rd trimester", "Diagnosed by ultrasound"],
       right: ["Painful dark red vaginal bleeding", "Rigid, board-like abdomen", "Fetal distress with late decelerations", "DIC risk with coagulopathy", "Concealed hemorrhage possible"]
@@ -836,6 +895,7 @@ const contentMap: Record<string, LessonContent> = {
   "postpartum-hemorrhage": {
     title: "Postpartum Hemorrhage",
     cellular: { title: "Hemorrhage Pathophysiology", content: "Postpartum hemorrhage (PPH) is defined as blood loss >500mL after vaginal delivery or >1000mL after cesarean section. The 4 T's framework identifies the causes: Tone (uterine atony accounts for 80% of PPH — the uterus fails to contract and compress spiral arteries at the placental site), Tissue (retained placental fragments prevent uterine contraction), Trauma (lacerations of the cervix, vagina, or perineum), and Thrombin (coagulopathy disorders such as DIC, von Willebrand disease). The uterus receives 500-700mL/min of blood flow at term, making rapid intervention critical." },
+    riskFactors: ["Uterine atony (most common cause)", "Prolonged labor", "Overdistended uterus (macrosomia, polyhydramnios, multiples)", "Chorioamnionitis", "Grand multiparity", "Retained placental fragments", "Coagulation disorders", "Magnesium sulfate use"],
     signs: {
       left: ["Boggy, soft uterus on palpation", "Fundus above expected level", "Steady trickle or gush of blood", "Blood loss >500mL vaginal delivery"],
       right: ["Tachycardia (early compensatory sign)", "Hypotension (late sign — already significant loss)", "Altered mental status", "Cool, clammy skin with pallor"]
@@ -852,6 +912,7 @@ const contentMap: Record<string, LessonContent> = {
   "gestational-diabetes": {
     title: "Gestational Diabetes Management",
     cellular: { title: "Insulin Resistance Mechanism", content: "During pregnancy, placental hormones (human placental lactogen/hPL, cortisol, progesterone, and growth hormone) create progressive insulin resistance to ensure adequate glucose delivery to the fetus. In gestational diabetes (GDM), maternal pancreatic beta cells cannot compensate with sufficient insulin production, leading to maternal hyperglycemia. Per the Pedersen hypothesis, maternal hyperglycemia crosses the placenta, stimulating fetal hyperinsulinemia, which drives excessive fetal growth (macrosomia), increased oxygen consumption, and potential fetal hypoxia. After delivery, the neonate loses the maternal glucose supply but continues producing excess insulin, causing neonatal hypoglycemia." },
+    riskFactors: ["BMI > 30", "Age > 25 years", "Family history of type 2 diabetes", "Previous GDM", "Previous macrosomic infant", "Polycystic ovary syndrome", "Hispanic/African American/Asian descent", "History of unexplained stillbirth"],
     signs: {
       left: ["Fetal macrosomia (>4000g)", "Polyhydramnios (excess amniotic fluid)", "Recurrent urinary tract infections", "Polyuria and polydipsia"],
       right: ["Shoulder dystocia risk during delivery", "Neonatal hypoglycemia after birth", "Neonatal hyperbilirubinemia", "Increased risk of preeclampsia"]
@@ -867,6 +928,7 @@ const contentMap: Record<string, LessonContent> = {
   "fetal-monitoring-rn": {
     title: "Fetal Heart Rate Monitoring",
     cellular: { title: "Autonomic Regulation", content: "The fetal heart rate (FHR) is regulated by the autonomic nervous system. The sympathetic nervous system increases heart rate, while the parasympathetic (vagus nerve) decreases it. Normal baseline is 110-160 bpm. Variability reflects intact CNS function: absent (no fluctuation — ominous), minimal (<5 bpm), moderate (6-25 bpm — reassuring, indicates intact neurological pathway), and marked (>25 bpm). Accelerations (≥15 bpm above baseline for ≥15 seconds) are reassuring and indicate fetal well-being. Decelerations are classified as Early (head compression, mirrors contractions), Late (uteroplacental insufficiency, begins after contraction peak), and Variable (cord compression, abrupt onset/offset with varying shape)." },
+    riskFactors: ["Post-term pregnancy", "Intrauterine growth restriction", "Preeclampsia/gestational hypertension", "Gestational diabetes", "Decreased fetal movement", "Oligohydramnios", "Maternal chronic disease", "Multiple gestation"],
     signs: {
       left: ["Category I (Normal): baseline 110-160, moderate variability, no late/variable decels", "Accelerations present (reactive NST)", "Early decelerations (benign — head compression)", "Moderate variability (most reassuring sign)"],
       right: ["Category II (Indeterminate): minimal variability, recurrent variable decels", "Category III (Abnormal): absent variability with recurrent late decels", "Sinusoidal pattern (severe fetal anemia)", "Prolonged deceleration >2 minutes"]
@@ -881,6 +943,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-respiratory-distress": {
     title: "Neonatal Respiratory Distress Syndrome",
     cellular: { title: "Surfactant Deficiency", content: "Respiratory Distress Syndrome (RDS) results from insufficient pulmonary surfactant in premature lungs. Surfactant, produced by Type II pneumocytes (which do not mature until approximately 35 weeks gestation), reduces alveolar surface tension to prevent collapse during expiration. Without adequate surfactant, alveoli collapse with each breath (atelectasis), leading to decreased lung compliance, ventilation-perfusion (V/Q) mismatch, hypoxemia, and increased work of breathing. The resulting hypoxia and acidosis further damage the alveolar epithelium, creating a cycle of worsening respiratory failure. Hyaline membranes form from protein-rich exudate lining the alveoli." },
+    riskFactors: ["Prematurity (< 37 weeks)", "Cesarean delivery without labor", "Maternal diabetes", "Perinatal asphyxia", "Meconium aspiration", "Chorioamnionitis", "Male sex", "Genetic surfactant deficiency"],
     signs: {
       left: ["Nasal flaring", "Expiratory grunting (auto-PEEP attempt)", "Intercostal and subcostal retractions", "Tachypnea (respiratory rate >60/min)"],
       right: ["Central cyanosis", "Suprasternal retractions (severe)", "Silverman-Anderson score for severity", "Ground-glass appearance on chest X-ray"]
@@ -896,6 +959,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-sepsis": {
     title: "Neonatal Sepsis Recognition",
     cellular: { title: "Immature Immune Response", content: "Neonates have an immature immune system characterized by decreased neutrophil storage pools (limited ability to mount a sustained response), poor opsonization (decreased complement activity), low immunoglobulin levels (primarily relying on maternal IgG transferred in the third trimester — premature infants have even less), and immature T-cell function. Early-onset sepsis (<72 hours) results from vertical transmission during labor/delivery (Group B Streptococcus, E. coli are most common). Late-onset sepsis (>72 hours) is typically nosocomial, acquired from the hospital environment (Coagulase-negative Staph, Klebsiella, Candida), especially in infants with central lines or prolonged NICU stays." },
+    riskFactors: ["Premature rupture of membranes (> 18 hours)", "Maternal GBS colonization", "Prematurity", "Low birth weight", "Chorioamnionitis", "Maternal fever during labor", "Invasive procedures", "Prolonged NICU stay"],
     signs: {
       left: ["Temperature instability (hypothermia MORE common than fever)", "Poor feeding and weak suck", "Lethargy and decreased activity", "Apnea and bradycardia episodes"],
       right: ["Glucose instability (hypo- or hyperglycemia)", "Mottled or pale skin color", "Abdominal distension", "\"Just not looking right\" — subtle behavioral changes"]
@@ -910,6 +974,7 @@ const contentMap: Record<string, LessonContent> = {
   "hyperbilirubinemia": {
     title: "Hyperbilirubinemia & Phototherapy",
     cellular: { title: "Bilirubin Metabolism", content: "Bilirubin is produced from the breakdown of heme in red blood cells. Unconjugated (indirect) bilirubin is lipid-soluble and can cross the blood-brain barrier (BBB), depositing in the basal ganglia and brainstem nuclei to cause kernicterus (bilirubin encephalopathy) — a devastating, irreversible neurological injury. The liver conjugates bilirubin (making it water-soluble) for excretion in bile and stool. Neonates are vulnerable because of: immature hepatic conjugation enzymes (glucuronyl transferase), increased RBC turnover (shorter RBC lifespan of 70-90 days vs 120 days in adults), and increased enterohepatic circulation (gut bacteria that break down bilirubin are not yet established)." },
+    riskFactors: ["Prematurity", "ABO/Rh incompatibility", "G6PD deficiency", "Breastfeeding failure (dehydration)", "Cephalohematoma/bruising", "East Asian descent", "Polycythemia", "Delayed meconium passage"],
     signs: {
       left: ["Jaundice progressing cephalocaudal (face → trunk → extremities)", "Scleral icterus (yellow discoloration of eyes)", "Dark amber urine", "Poor feeding and sleepiness"],
       right: ["High-pitched cry (early kernicterus)", "Hypotonia progressing to hypertonia", "Opisthotonus (arched back — severe kernicterus)", "Seizures and hearing loss (late kernicterus)"]
@@ -925,6 +990,7 @@ const contentMap: Record<string, LessonContent> = {
   "nec-necrotizing": {
     title: "Necrotizing Enterocolitis (NEC)",
     cellular: { title: "Intestinal Necrosis Pathology", content: "Necrotizing enterocolitis (NEC) is the most common GI emergency in premature neonates. It results from intestinal ischemia leading to mucosal necrosis and subsequent bacterial invasion of the bowel wall. The pathogenesis involves three key factors: an immature intestinal barrier (decreased mucus production, tight junction immaturity, and reduced IgA), abnormal bacterial colonization of the gut, and ischemia-reperfusion injury. Formula feeding significantly increases NEC risk compared to breast milk, which provides IgA, lactoferrin, oligosaccharides, and growth factors that protect the immature gut. Gas-producing bacteria invade the necrotic bowel wall, creating pneumatosis intestinalis (air in the intestinal wall) — the pathognomonic radiographic finding." },
+    riskFactors: ["Prematurity (primary risk factor)", "Formula feeding (vs breast milk)", "Birth weight < 1500g", "Perinatal asphyxia", "Umbilical artery catheterization", "Patent ductus arteriosus", "Polycythemia", "Blood transfusion"],
     signs: {
       left: ["Abdominal distension and tenderness", "Bilious (green) emesis", "Bloody or guaiac-positive stools", "Feeding intolerance with increased residuals"],
       right: ["Pneumatosis intestinalis on abdominal X-ray", "Portal venous gas (ominous sign)", "Pneumoperitoneum (perforation — surgical emergency)", "Systemic signs: apnea, lethargy, temperature instability"]
@@ -940,6 +1006,7 @@ const contentMap: Record<string, LessonContent> = {
   "hellp-syndrome-np": {
     title: "HELLP Syndrome: Hepatic Cascade",
     cellular: { title: "Hepatic Microangiopathy", content: "HELLP (Hemolysis, Elevated Liver enzymes, Low Platelets) represents severe end of preeclampsia spectrum. Endothelial dysfunction triggers platelet activation and fibrin deposition in hepatic sinusoids. Microangiopathic hemolytic anemia (MAHA) destroys RBCs as they traverse damaged vasculature. Hepatocyte necrosis from ischemia can progress to subcapsular hematoma and hepatic rupture." },
+    riskFactors: ["Preeclampsia/eclampsia", "Previous HELLP syndrome", "Multiparity", "Age > 25 years", "White ethnicity", "History of hypertensive disorders", "Autoimmune conditions (antiphospholipid syndrome)"],
     signs: {
       left: ["Epigastric/RUQ pain", "Nausea/Vomiting", "LDH > 600", "AST > 70"],
       right: ["Schistocytes on smear", "Platelets < 100k", "Haptoglobin < 25", "Subcapsular hepatic hematoma"]
@@ -955,6 +1022,7 @@ const contentMap: Record<string, LessonContent> = {
   "amniotic-fluid-embolism-np": {
     title: "Amniotic Fluid Embolism: DIC Pathway",
     cellular: { title: "Anaphylactoid Cascade", content: "Amniotic fluid containing fetal cells, vernix, and meconium enters maternal circulation through endocervical veins or placental site. This triggers massive complement activation and anaphylactoid response. Phase 1: Acute pulmonary vasospasm causing right heart failure and cardiogenic shock. Phase 2: Consumptive coagulopathy (DIC) from tissue factor release. Mortality approaches 60-80%." },
+    riskFactors: ["Rapid/tumultuous labor", "Cesarean section", "Advanced maternal age", "Multiparity", "Placental abruption", "Eclampsia", "Cervical lacerations", "Amniotomy"],
     signs: {
       left: ["Sudden dyspnea/hypoxia", "Cardiovascular collapse", "Seizures", "Altered consciousness"],
       right: ["DIC (oozing from IV sites)", "Massive hemorrhage", "Pulmonary edema", "Cardiac arrest"]
@@ -970,6 +1038,7 @@ const contentMap: Record<string, LessonContent> = {
   "eclampsia-np": {
     title: "Eclampsia: Endothelial Dysfunction",
     cellular: { title: "Trophoblast & Vascular Remodeling", content: "Abnormal trophoblast invasion of spiral arteries leads to incomplete remodeling and placental ischemia. Ischemic placenta releases anti-angiogenic factors (sFlt-1, sEng) that bind and neutralize VEGF and PlGF, causing systemic endothelial dysfunction. This leads to vasospasm, increased permeability, and end-organ damage. Cerebral vasospasm and posterior reversible encephalopathy syndrome (PRES) underlie seizures." },
+    riskFactors: ["Nulliparity", "History of preeclampsia", "Multiple gestation", "Chronic hypertension", "Renal disease", "Autoimmune disorders", "Obesity", "Extremes of maternal age (< 20 or > 40)", "Family history of preeclampsia"],
     signs: {
       left: ["Severe HTN (>160/110)", "Proteinuria > 300mg/24h", "Headache unresponsive to analgesics", "Visual changes (scotomata)"],
       right: ["Tonic-clonic seizures", "PRES on MRI", "Pulmonary edema", "HELLP progression"]
@@ -985,6 +1054,7 @@ const contentMap: Record<string, LessonContent> = {
   "obstetric-hemorrhage-np": {
     title: "Obstetric Hemorrhage: Massive Transfusion",
     cellular: { title: "Hemostatic Failure in Pregnancy", content: "Obstetric hemorrhage involves unique physiological challenges: pregnancy increases blood volume by 40-50% (hypervolemic state), dilutional anemia masks true blood loss. Uterine blood flow at term is 500-700 mL/min, making atony catastrophic. Massive Transfusion Protocol (MTP) targets 1:1:1 ratio of pRBC:FFP:Platelets. Fibrinogen is the first coagulation factor depleted (critical threshold <200 mg/dL)." },
+    riskFactors: ["Uterine atony", "Placenta accreta spectrum", "Coagulopathy (DIC)", "Uterine inversion", "Prior uterine surgery", "Prolonged oxytocin use", "Grand multiparity", "Chorioamnionitis"],
     signs: {
       left: ["EBL > 1000mL", "Heart rate > 110 (late sign in pregnancy)", "Lactate > 4", "Fibrinogen < 200"],
       right: ["Shock Index > 0.9 (HR/SBP)", "Base deficit > -6", "Need for >4 units pRBC", "DIC (PT/PTT prolonged)"]
@@ -1000,6 +1070,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-rds-np": {
     title: "RDS: Surfactant Physiology",
     cellular: { title: "Surfactant & Alveolar Mechanics", content: "Pulmonary surfactant is a complex mixture of phospholipids (90%, primarily DPPC - dipalmitoylphosphatidylcholine) and surfactant proteins (SP-A, SP-B, SP-C, SP-D). Type II pneumocytes begin producing surfactant at 24-28 weeks but adequate amounts not present until 34-36 weeks. Surfactant reduces alveolar surface tension according to LaPlace's Law (P = 2T/r), preventing atelectasis. Without it, high opening pressures are needed, causing barotrauma and oxygen toxicity leading to BPD." },
+    riskFactors: ["Prematurity (inverse relationship with gestational age)", "Maternal diabetes (delayed surfactant maturation)", "Cesarean without labor", "Perinatal asphyxia", "Male sex", "White race", "Second-born twin", "Family history of RDS"],
     signs: {
       left: ["Ground-glass appearance on CXR", "Air bronchograms", "Increased FiO2 requirement", "a/A ratio < 0.22"],
       right: ["Pulmonary interstitial emphysema", "Pneumothorax (air leak)", "BPD (chronic lung disease)", "Retinopathy of Prematurity (ROP)"]
@@ -1015,6 +1086,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-hie-np": {
     title: "HIE: Therapeutic Hypothermia",
     cellular: { title: "Two-Phase Injury & Neuroprotection", content: "Hypoxic-Ischemic Encephalopathy occurs in two phases. Primary injury: ATP depletion leads to failure of Na/K ATPase, intracellular calcium influx, and excitotoxic glutamate release. Latent period (6-hour therapeutic window): partial energy recovery. Secondary injury: mitochondrial failure, ROS production, inflammation (IL-1beta, TNF-alpha), and apoptosis via caspase activation. Therapeutic hypothermia (33.5C for 72 hours) reduces metabolic rate by 5% per degree, decreases excitotoxicity, and inhibits apoptotic pathways." },
+    riskFactors: ["Placental abruption", "Uterine rupture", "Cord prolapse", "Maternal cardiac arrest", "Severe maternal hypotension", "Shoulder dystocia", "Failed instrumental delivery", "Prolonged second stage of labor"],
     signs: {
       left: ["Sarnat Stage I (hyperalert, normal EEG)", "Sarnat Stage II (lethargic, seizures, suppressed EEG)", "Sarnat Stage III (comatose, burst suppression)"],
       right: ["Multi-organ dysfunction (renal, hepatic, cardiac)", "Seizures within 6-12 hours", "Amplitude-integrated EEG changes", "MRI changes (basal ganglia/thalami or watershed)"]
@@ -1030,6 +1102,7 @@ const contentMap: Record<string, LessonContent> = {
   "persistent-pulm-htn-np": {
     title: "PPHN: Nitric Oxide Pathway",
     cellular: { title: "Pulmonary Vascular Transition Failure", content: "Persistent Pulmonary Hypertension of the Newborn occurs when pulmonary vascular resistance (PVR) fails to decrease after birth, maintaining fetal circulation pattern with right-to-left shunting through PDA and foramen ovale. Normally, increased PaO2 and decreased PaCO2 stimulate endothelial nitric oxide synthase (eNOS) to produce NO, which activates guanylate cyclase to produce cGMP, causing smooth muscle relaxation. In PPHN, this pathway is impaired. Phosphodiesterase-5 (PDE5) degrades cGMP." },
+    riskFactors: ["Meconium aspiration syndrome", "Congenital diaphragmatic hernia", "Perinatal asphyxia", "Neonatal sepsis/pneumonia", "Maternal SSRI use (third trimester)", "Congenital heart disease", "Pulmonary hypoplasia"],
     signs: {
       left: ["Labile hypoxemia", "Pre-post ductal SpO2 differential >10%", "Right-to-left shunt on echo", "Poor response to supplemental O2"],
       right: ["Severe hypoxemia with minimal lung disease", "Tricuspid regurgitation on echo", "Septal bowing (RV pressure overload)", "Metabolic acidosis"]
@@ -1045,6 +1118,7 @@ const contentMap: Record<string, LessonContent> = {
   "neonatal-abstinence-np": {
     title: "NAS: Opioid Withdrawal Scoring",
     cellular: { title: "Noradrenergic Upregulation", content: "Neonatal Abstinence Syndrome results from in utero opioid exposure causing upregulation of cAMP and noradrenergic pathways. After birth, removal of the opioid agonist leads to unopposed noradrenergic activity causing CNS excitability, autonomic dysfunction, and GI disturbance. Onset depends on the half-life of the maternal opioid (heroin: 24-48h, methadone: 48-72h, buprenorphine: 36-60h). The Finnegan Neonatal Abstinence Scoring System or Eat-Sleep-Console (ESC) model guides treatment." },
+    riskFactors: ["Maternal opioid use (heroin, methadone, buprenorphine)", "Maternal SSRI/SNRI use", "Maternal benzodiazepine use", "Polysubstance exposure", "Shorter-acting opioid exposure (heroin > methadone)", "Maternal smoking", "Prematurity"],
     signs: {
       left: ["High-pitched cry", "Tremors/jitteriness", "Increased muscle tone", "Poor feeding/excessive sucking"],
       right: ["Seizures (rare but severe)", "Excoriation (face/knees)", "Diarrhea/vomiting", "Fever/sweating/sneezing"]
@@ -1060,6 +1134,7 @@ const contentMap: Record<string, LessonContent> = {
   "vitals-assessment": {
     title: "Vital Signs and Physical Assessment",
     cellular: { title: "Physiological Baselines", content: "Vital signs reflect the body's basic physiological functions. Temperature, pulse, respirations, blood pressure, and oxygen saturation provide a window into cardiovascular, respiratory, and neurological status. Changes from baseline are more clinically significant than isolated readings." },
+    riskFactors: ["Critically ill patients", "Post-surgical status", "Hemodynamic instability", "New medication administration", "Pain", "Anxiety", "Environmental temperature extremes"],
     signs: {
       left: ["Temperature (oral 36.5-37.5°C, rectal is most accurate, temporal for screening)", "Pulse (radial most common, apical for cardiac meds, 60-100 adult normal)"],
       right: ["Respirations (12-20 adult, count for full 30sec, note depth/pattern)", "BP (auscultatory gap awareness, cuff size matters - too small reads high)", "SpO2 (>95% normal, <90% critical)"]
@@ -1071,6 +1146,7 @@ const contentMap: Record<string, LessonContent> = {
   "wound-care-basics": {
     title: "Wound Care and Dressing Changes",
     cellular: { title: "Wound Healing Phases", content: "Wound healing occurs in 4 phases: Hemostasis (platelet plug), Inflammation (WBCs migrate), Proliferation (granulation tissue, new vessels), and Remodeling (scar maturation over months). Healing by primary intention (surgical closure), secondary intention (open wound fills in), or tertiary intention (delayed closure)." },
+    riskFactors: ["Diabetes mellitus", "Peripheral vascular disease", "Malnutrition", "Immunosuppression", "Obesity", "Immobility", "Smoking", "Corticosteroid use", "Radiation therapy"],
     signs: {
       left: ["Primary intention (approximated edges, minimal scarring)", "Secondary intention (granulation tissue, larger scar)", "Infection signs (redness, warmth, purulent drainage)"],
       right: ["Wound measurement (length x width x depth)", "Wound bed colors (red=granulation=good, yellow=slough, black=eschar=necrotic)", "Drainage types (serous, sanguineous, serosanguineous, purulent)"]
@@ -1086,6 +1162,7 @@ const contentMap: Record<string, LessonContent> = {
   "catheterization": {
     title: "Urinary Catheterization",
     cellular: { title: "Catheter-Associated Infection Risk", content: "Catheterization provides drainage when normal voiding is impaired. Indwelling (Foley) catheters carry CAUTI risk - the #1 healthcare-associated infection. Biofilm formation on catheter surfaces begins within 24 hours. Strict sterile technique during insertion and closed system maintenance are essential to prevent infection." },
+    riskFactors: ["Prolonged catheterization (> 48 hours)", "Female sex (shorter urethra)", "Diabetes mellitus", "Immunosuppression", "Urinary retention", "Improper catheter care", "Elderly patients", "Neurogenic bladder"],
     signs: {
       left: ["Indications (urinary retention, accurate I&O, surgical, immobilization)", "Insertion steps (sterile field, cleanse meatus, advance until urine flows, inflate balloon)"],
       right: ["CAUTI signs (cloudy/foul urine, fever, suprapubic pain, new confusion in elderly)", "Prevention (remove ASAP, hand hygiene, keep bag below bladder, maintain closed system)"]
@@ -1101,6 +1178,7 @@ const contentMap: Record<string, LessonContent> = {
   "ngtube-care": {
     title: "NG Tube Insertion and Care",
     cellular: { title: "Nasogastric Access", content: "Nasogastric tubes serve two purposes: decompression (removing gas/fluid from stomach) and enteral feeding. Proper placement verification is critical to prevent aspiration. The tube passes through the nasopharynx, down the esophagus, and into the stomach. Misplacement into the lungs is the most dangerous complication." },
+    riskFactors: ["Altered level of consciousness", "Dysphagia", "GI obstruction", "Post-GI surgery", "Facial/nasal trauma", "Coagulopathy (insertion risk)", "Esophageal varices (contraindication)", "Recent gastric surgery"],
     signs: {
       left: ["Measurement (NEX - Nose to Ear to Xiphoid)", "Insertion technique (head flexed forward, sip water to swallow)", "Placement verification (pH <5.5 of aspirate, x-ray is gold standard)"],
       right: ["Complications (aspiration, sinusitis, epistaxis, electrolyte imbalance from suctioning)", "Decompression care (low intermittent suction, monitor output color/amount)", "Feeding care (check residuals, elevate HOB 30-45 degrees)"]
@@ -1116,6 +1194,7 @@ const contentMap: Record<string, LessonContent> = {
   "iv-therapy": {
     title: "IV Therapy and Venipuncture",
     cellular: { title: "Vascular Access Principles", content: "Intravenous therapy delivers fluids, medications, and blood products directly into the vascular system. Peripheral IV catheters access superficial veins (cephalic, basilic, median cubital). Osmolarity determines vein compatibility: isotonic (250-375 mOsm), hypertonic (>375 mOsm requires central access for prolonged use), hypotonic (<250 mOsm)." },
+    riskFactors: ["Prolonged peripheral IV (> 72-96 hours)", "Immunocompromised state", "Hypertonic solutions", "Vesicant medications", "Poor venous access", "Elderly fragile veins", "Repeated IV attempts", "Non-sterile technique"],
     signs: {
       left: ["Site selection (distal to proximal, non-dominant hand, avoid areas of flexion/injury)", "Gauge selection (18-20G for blood/surgery, 22-24G for meds/elderly)", "Insertion technique (tourniquet, palpate, anchor, 15-30 degree angle)"],
       right: ["Infiltration (cool/pale/swollen, stop infusion)", "Phlebitis (red/warm/tender cord, remove IV)", "Extravasation (vesicant leakage - antidote needed)", "Air embolism (dyspnea/chest pain, left Trendelenburg)"]
@@ -1131,6 +1210,7 @@ const contentMap: Record<string, LessonContent> = {
   "blood-transfusion": {
     title: "Blood Transfusion Administration",
     cellular: { title: "Transfusion Immunology", content: "Blood products replace oxygen-carrying capacity (pRBCs), clotting factors (FFP), or platelets. Transfusion reactions range from mild febrile to fatal hemolytic. ABO incompatibility triggers complement-mediated hemolysis destroying donor RBCs. Type and crossmatch ensures compatibility. Two-nurse verification at bedside is mandatory." },
+    riskFactors: ["Previous transfusion reactions", "Multiple transfusions", "IgA deficiency", "Autoimmune hemolytic anemia", "Heart failure (fluid overload risk)", "Renal failure", "Emergency transfusion without crossmatch"],
     signs: {
       left: ["Pre-transfusion (consent, type & crossmatch, baseline vitals)", "Two-nurse verification with patient ID and blood bank band", "Large-bore IV access (18-20G preferred)"],
       right: ["Acute Hemolytic (fever/chills/flank pain/dark urine, STOP immediately)", "Febrile Non-Hemolytic (fever/chills, most common reaction)", "Allergic (urticaria/itching, mild=antihistamine)", "Anaphylactic (bronchospasm/hypotension)", "TACO (fluid overload)", "TRALI (acute respiratory distress within 6 hours)"]
@@ -1147,6 +1227,7 @@ const contentMap: Record<string, LessonContent> = {
   "chest-tube-mgmt": {
     title: "Chest Tube Management",
     cellular: { title: "Pleural Space Dynamics", content: "Chest tubes drain air (pneumothorax) or fluid (hemothorax/pleural effusion) from the pleural space, restoring negative intrapleural pressure needed for lung expansion. The drainage system has three chambers: collection, water seal (prevents air re-entry), and suction control. Tidaling in the water seal chamber indicates proper function." },
+    riskFactors: ["Pneumothorax", "Hemothorax", "Pleural effusion", "Post-thoracic surgery", "Mechanical ventilation", "Trauma", "Central line placement complication", "Coagulopathy (bleeding risk)"],
     signs: {
       left: ["Indications (pneumothorax, hemothorax, pleural effusion, post-thoracic surgery)", "Water seal chamber (tidaling normal, continuous bubbling = air leak)", "Collection chamber (measure output hourly, >100mL/hr report)"],
       right: ["Tension pneumothorax (tracheal deviation, absent breath sounds, JVD)", "Accidental dislodgement (cover with sterile occlusive dressing taped on 3 sides)", "Dependent loops (impairs drainage)", "Clamping (generally contraindicated - risk of tension pneumo)"]
@@ -1162,6 +1243,7 @@ const contentMap: Record<string, LessonContent> = {
   "trach-care": {
     title: "Tracheostomy Care and Suctioning",
     cellular: { title: "Bypassed Upper Airway", content: "A tracheostomy bypasses the upper airway, eliminating the nose and mouth's natural warming, humidifying, and filtering functions. This increases infection risk and secretion production. The cuff, when inflated, seals the airway for mechanical ventilation but can cause tracheal necrosis if pressure exceeds capillary perfusion pressure (>25 cmH2O)." },
+    riskFactors: ["Prolonged mechanical ventilation (> 14 days)", "Upper airway obstruction", "Neuromuscular disease", "Head/neck cancer", "Cervical spine injury", "Obesity (difficult anatomy)", "Coagulopathy", "Previous neck surgery/radiation"],
     signs: {
       left: ["Routine care (clean inner cannula every 8h, change ties when soiled, clean stoma with NS and half-strength H2O2)", "Suctioning technique (hyperoxygenate before, insert without suction, apply suction on withdrawal, max 10-15 seconds)"],
       right: ["Accidental decannulation (stay calm, use obturator to reinsert, if <7 days old the stoma closes rapidly)", "Mucus plug (inability to ventilate, suction or change inner cannula)", "Tracheoinnominate fistula (massive bleed, apply digital pressure, hyperinflate cuff)"]
@@ -1177,6 +1259,7 @@ const contentMap: Record<string, LessonContent> = {
   "central-line-np": {
     title: "Central Line Insertion & Bundle",
     cellular: { title: "Central Venous Access", content: "Central venous catheters (CVCs) access large veins (internal jugular, subclavian, femoral) for hemodynamic monitoring, vasopressors, TPN, and medications with high osmolarity (>900 mOsm). The Seldinger technique uses a guide wire to direct catheter placement. CLABSI (Central Line-Associated Bloodstream Infection) occurs when microorganisms colonize the catheter hub or migrate along the external surface, seeding the bloodstream. Evidence-based bundles reduce CLABSI rates by >70%." },
+    riskFactors: ["ICU admission", "Prolonged IV therapy (> 7 days)", "Need for vasoactive medications", "Total parenteral nutrition", "Hemodialysis access", "Coagulopathy (insertion risk)", "Obesity (anatomic landmarks)", "Previous central line infections"],
     signs: {
       left: ["Insertion landmarks (IJ - triangle of neck, Subclavian - infraclavicular, Femoral - below inguinal ligament)", "Seldinger technique steps (needle access, guidewire, dilator, catheter, suture, confirm with CXR)"],
       right: ["CLABSI Bundle - Hand hygiene", "Full barrier precautions (cap/mask/gown/sterile gloves/drape)", "Chlorhexidine skin prep", "Optimal site selection (subclavian preferred for lowest infection rate)", "Daily assessment for necessity"]
@@ -1192,6 +1275,7 @@ const contentMap: Record<string, LessonContent> = {
   "lumbar-puncture-np": {
     title: "Lumbar Puncture & CSF Analysis",
     cellular: { title: "Subarachnoid Access", content: "Lumbar puncture accesses the subarachnoid space at L3-L4 or L4-L5 (below the conus medullaris at L1-L2 to avoid spinal cord injury). CSF is produced by choroid plexus at ~500mL/day with ~150mL circulating at any time. Opening pressure measured by manometer (normal 10-20 cmH2O). CSF analysis differentiates bacterial (neutrophilic, low glucose, high protein) from viral (lymphocytic, normal glucose) meningitis, SAH, and malignancy." },
+    riskFactors: ["Increased intracranial pressure (herniation risk)", "Coagulopathy/thrombocytopenia", "Local infection at puncture site", "Spinal deformity", "Obesity", "Anticoagulant therapy", "Previous lumbar surgery"],
     signs: {
       left: ["Positioning (lateral decubitus with knees to chest, or seated bent forward)", "Normal CSF values (clear/colorless, glucose 50-80, protein 15-45, WBC <5, opening pressure 10-20 cmH2O)"],
       right: ["Bacterial meningitis (turbid, high WBC/PMNs, low glucose <40, high protein >200)", "Viral meningitis (clear, lymphocytes, normal glucose)", "SAH (xanthochromia, RBCs that don't clear in tube 4)", "Malignancy (cytology positive, elevated protein)"]
@@ -1208,6 +1292,7 @@ const contentMap: Record<string, LessonContent> = {
   "abg-sampling-np": {
     title: "ABG Sampling & Interpretation",
     cellular: { title: "Acid-Base Physiology", content: "Arterial blood gas analysis measures acid-base status and oxygenation. pH is maintained by the bicarbonate buffer system (H2CO3/HCO3-), regulated by lungs (CO2) and kidneys (HCO3-). Henderson-Hasselbalch equation: pH = 6.1 + log(HCO3/0.03 x PaCO2). Respiratory compensation is rapid (minutes), metabolic compensation is slow (hours-days). The anion gap [Na - (Cl + HCO3)] helps identify the cause of metabolic acidosis (normal 8-12)." },
+    riskFactors: ["Negative Allen test (inadequate collateral circulation)", "Coagulopathy", "Arterial insufficiency", "Local infection", "Severe peripheral vascular disease", "Anticoagulant therapy"],
     signs: {
       left: ["Normal values (pH 7.35-7.45, PaCO2 35-45, HCO3 22-26, PaO2 80-100, SaO2 >95%)", "Modified Allen's test (confirms ulnar collateral circulation before radial artery puncture)"],
       right: ["Interpretation framework - ROME (Respiratory Opposite, Metabolic Equal)", "Compensation (full vs partial)", "Anion gap metabolic acidosis (MUDPILES: Methanol, Uremia, DKA, Propylene glycol, INH/Iron, Lactic acidosis, Ethylene glycol, Salicylates)"]
@@ -1223,6 +1308,7 @@ const contentMap: Record<string, LessonContent> = {
   "mechanical-vent-np": {
     title: "Mechanical Ventilation Management",
     cellular: { title: "Positive Pressure Ventilation", content: "Mechanical ventilation supports or replaces spontaneous breathing. Positive pressure ventilation reverses normal thoracic pressure dynamics (negative pressure breathing). Key modes: AC (Assist-Control - set rate + patient-triggered, full support), SIMV (Synchronized IMV - set rate + spontaneous breaths at patient's own tidal volume), PSV (Pressure Support - augments spontaneous breaths only). Lung-protective ventilation limits volutrauma (Vt 6-8 mL/kg ideal body weight) and barotrauma (Pplat <30 cmH2O)." },
+    riskFactors: ["Respiratory failure (PaO2 < 60 or PaCO2 > 50)", "Acute respiratory distress syndrome", "Neuromuscular disease", "Severe pneumonia", "Post-cardiac arrest", "Major surgery", "Traumatic brain injury", "Drug overdose with respiratory depression"],
     signs: {
       left: ["Initial settings (FiO2 100% then wean to <60%, Vt 6-8 mL/kg IBW, RR 12-16, PEEP 5 cmH2O baseline)", "Modes (AC for full support, SIMV for weaning, PSV for spontaneous breathing trials)"],
       right: ["VILI (Ventilator-Induced Lung Injury from overdistension)", "Auto-PEEP (air trapping in COPD/asthma)", "VAP (Ventilator-Associated Pneumonia - HOB 30-45, oral care, daily sedation vacation)", "Pneumothorax (barotrauma)"]
@@ -2714,6 +2800,27 @@ export default function LessonDetail() {
               {lessonContent.cellular.content}
             </div>
           </section>
+
+          {lessonContent.riskFactors && lessonContent.riskFactors.length > 0 && (
+            <section className="space-y-6">
+              <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                <ShieldAlert className="text-rose-500 w-8 h-8" />
+                <h2>Risk Factors</h2>
+              </div>
+              <Card className="border-none shadow-sm bg-rose-50/60">
+                <CardContent className="p-8">
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {lessonContent.riskFactors.map((rf, i) => (
+                      <div key={i} className="flex items-start gap-2 text-gray-700">
+                        <div className="w-2 h-2 rounded-full bg-rose-400 mt-2 shrink-0" />
+                        <span>{rf}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </section>
+          )}
 
           {regionalLabs && (
             <section className="space-y-6">
