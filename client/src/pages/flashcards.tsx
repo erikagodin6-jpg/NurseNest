@@ -648,6 +648,125 @@ const allCards: Flashcard[] = [
     correctIndex: 1,
     answer: "This presentation is consistent with Hypoxic-Ischemic Encephalopathy (HIE). With seizures within the 6-hour window, initiate therapeutic hypothermia immediately to reduce secondary brain injury.",
     category: "Neonatal"
+  },
+  {
+    id: "proc-1",
+    type: "term",
+    question: "Sterile Technique",
+    answer: "Maintaining a sterile field to prevent surgical site infections. Key rules: sterile touches sterile only, 1-inch border is contaminated, keep hands above waist, face the sterile field at all times.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-2",
+    type: "question",
+    question: "A nurse is inserting a Foley catheter. The catheter touches the client's thigh. Next action?",
+    options: ["Continue insertion", "Wipe the catheter with alcohol", "Discard and get a new sterile catheter", "Apply more lubricant"],
+    correctIndex: 2,
+    answer: "The catheter is now contaminated. Discard it and obtain a new sterile kit. Urinary catheterization requires strict sterile technique.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-3",
+    type: "term",
+    question: "Modified Allen's Test",
+    answer: "Tests collateral circulation via ulnar artery before radial artery puncture for ABG. Compress both arteries, release ulnar, hand should pink up within 5-15 seconds.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-4",
+    type: "question",
+    question: "During blood transfusion, a client develops fever, chills, and flank pain within 15 minutes. Priority action?",
+    options: ["Slow the infusion rate", "Administer Diphenhydramine", "STOP the transfusion immediately", "Increase IV fluids"],
+    correctIndex: 2,
+    answer: "This is an Acute Hemolytic Transfusion Reaction. STOP the transfusion immediately, maintain IV access with NS, notify provider, and send blood bag to lab.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-5",
+    type: "term",
+    question: "Chest Tube Tidaling",
+    answer: "Normal fluctuation of water level in the water seal chamber that rises with inspiration and falls with expiration (spontaneous breathing). Absence of tidaling may indicate lung re-expansion or tube obstruction.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-6",
+    type: "question",
+    question: "A chest tube is accidentally pulled out. Immediate action?",
+    options: ["Reinsert the tube", "Apply petroleum gauze dressing taped on 3 sides", "Apply dry sterile gauze taped on all 4 sides", "Clamp the remaining tubing"],
+    correctIndex: 1,
+    answer: "Petroleum gauze taped on 3 sides creates a flutter-valve effect: allows air out during exhalation but prevents air entry during inhalation.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-7",
+    type: "term",
+    question: "CLABSI Bundle",
+    answer: "Evidence-based central line infection prevention: Hand hygiene, Full barrier precautions, Chlorhexidine skin prep, Optimal catheter site selection, Daily line necessity review. Reduces infections by >70%.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-8",
+    type: "question",
+    question: "Before administering a medication through an NG tube, the nurse aspirates contents with pH of 3. This indicates?",
+    options: ["Intestinal placement", "Gastric placement", "Respiratory placement", "Esophageal placement"],
+    correctIndex: 1,
+    answer: "Gastric pH is typically 1-5. Intestinal pH is 6-7. Respiratory pH is >7. A pH of 3 confirms gastric placement.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-9",
+    type: "term",
+    question: "Suction Technique",
+    answer: "Hyperoxygenate before suctioning. Insert catheter without suction applied. Apply intermittent suction on withdrawal using rotating motion. Maximum 10-15 seconds per pass. Allow recovery breaths between passes.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-10",
+    type: "question",
+    question: "A client's IV site is cool, pale, and swollen with no blood return. Assessment?",
+    options: ["Phlebitis", "Infiltration", "Extravasation", "Thrombosis"],
+    correctIndex: 1,
+    answer: "Infiltration is non-vesicant fluid leaking into surrounding tissue. Cool, pale, swollen site is the hallmark. Discontinue IV and apply warm compress (cold for vesicant extravasation).",
+    category: "Procedures"
+  },
+  {
+    id: "proc-11",
+    type: "term",
+    question: "Ventilator Modes",
+    answer: "AC (Assist-Control): delivers set Vt with every breath. SIMV: set rate with spontaneous breaths at patient's own Vt. PSV: augments spontaneous breaths only. Used for weaning.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-12",
+    type: "question",
+    question: "A mechanically ventilated patient has high-pressure alarm. Most likely cause?",
+    options: ["Disconnected tubing", "Cuff leak", "Mucus plug or biting on tube", "Low tidal volume"],
+    correctIndex: 2,
+    answer: "High-pressure alarm = obstruction or resistance. Common causes: mucus plug, biting, kinking, bronchospasm, pneumothorax. Low-pressure alarm = disconnection or leak.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-13",
+    type: "term",
+    question: "IV Gauge Selection",
+    answer: "14-16G: trauma/rapid fluid resuscitation. 18G: blood transfusion/surgery. 20G: most infusions. 22-24G: elderly/pediatric/fragile veins. Larger gauge number = smaller catheter.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-14",
+    type: "question",
+    question: "During tracheostomy care, what should always be kept at the bedside?",
+    options: ["Extra gauze only", "Spare tracheostomy tube and obturator", "Suction equipment only", "Oxygen tank"],
+    correctIndex: 1,
+    answer: "A spare tracheostomy tube (same size AND one size smaller) plus the obturator must be at bedside at all times in case of accidental decannulation.",
+    category: "Procedures"
+  },
+  {
+    id: "proc-15",
+    type: "term",
+    question: "CSF Analysis",
+    answer: "Normal: clear, colorless, glucose 50-80, protein 15-45, WBC <5. Bacterial meningitis: turbid, low glucose, high protein, PMNs. Viral: clear, normal glucose, lymphocytes. SAH: xanthochromia.",
+    category: "Procedures"
   }
 ];
 
