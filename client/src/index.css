@@ -98,6 +98,46 @@
   --color-ring: var(--color-blush-300);
 }
 
+:root[class~="slate"] {
+  --color-primary: #64748b;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #475569;
+  --color-accent: #f8fafc;
+  --color-accent-foreground: #334155;
+  --color-border: #e2e8f0;
+  --color-ring: #94a3b8;
+}
+
+:root[class~="midnight"] {
+  --color-primary: #1e293b;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #0f172a;
+  --color-accent: #f8fafc;
+  --color-accent-foreground: #020617;
+  --color-border: #cbd5e1;
+  --color-ring: #64748b;
+}
+
+:root[class~="ocean"] {
+  --color-primary: #0ea5e9;
+  --color-secondary: #f0f9ff;
+  --color-secondary-foreground: #0369a1;
+  --color-accent: #e0f2fe;
+  --color-accent-foreground: #075985;
+  --color-border: #bae6fd;
+  --color-ring: #7dd3fc;
+}
+
+:root[class~="forest"] {
+  --color-primary: #10b981;
+  --color-secondary: #ecfdf5;
+  --color-secondary-foreground: #047857;
+  --color-accent: #d1fae5;
+  --color-accent-foreground: #065f46;
+  --color-border: #a7f3d0;
+  --color-ring: #6ee7b7;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

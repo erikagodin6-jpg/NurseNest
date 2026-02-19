@@ -108,6 +108,16 @@ export function Navigation() {
 
   const designations = region === "CA" ? ["RPN", "RN", "NP"] : ["LVN", "RN", "NP"];
 
+  const themes = [
+    { name: "lavender", color: "#9d82dd", label: "Lavender" },
+    { name: "mint", color: "#5ed3ae", label: "Mint" },
+    { name: "blush", color: "#f4909f", label: "Blush" },
+    { name: "slate", color: "#64748b", label: "Slate" },
+    { name: "midnight", color: "#1e293b", label: "Midnight" },
+    { name: "ocean", color: "#0ea5e9", label: "Ocean" },
+    { name: "forest", color: "#10b981", label: "Forest" },
+  ];
+
   const MobileNav = () => (
     <Sheet>
       <SheetTrigger asChild>
@@ -222,16 +232,23 @@ export function Navigation() {
                   <Palette className="w-5 h-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-32">
-                <DropdownMenuItem onClick={() => setTheme("lavender")} className="cursor-pointer gap-2">
-                  <div className="w-4 h-4 rounded-full bg-lavender-500" /> Lavender
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("mint")} className="cursor-pointer gap-2">
-                  <div className="w-4 h-4 rounded-full bg-mint-400" /> Mint
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("blush")} className="cursor-pointer gap-2">
-                  <div className="w-4 h-4 rounded-full bg-blush-400" /> Blush
-                </DropdownMenuItem>
+              <DropdownMenuContent align="end" className="w-40 p-2">
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Choose Theme</p>
+                <div className="grid grid-cols-1 gap-1">
+                  {themes.map((t) => (
+                    <DropdownMenuItem 
+                      key={t.name}
+                      onClick={() => setTheme(t.name)} 
+                      className={cn(
+                        "cursor-pointer gap-2 transition-colors",
+                        theme === t.name ? "bg-primary/10 text-primary" : ""
+                      )}
+                    >
+                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                      <span className="text-xs font-medium">{t.label}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
 
