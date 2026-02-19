@@ -66,6 +66,10 @@ export function Navigation() {
       setLocation("/lessons");
       return;
     }
+    if (itemLabel === "Flashcards") {
+      setLocation("/flashcards");
+      return;
+    }
     toast({
       title: "Subscription Required",
       description: `Access to ${label} ${itemLabel || ""} materials requires an active subscription.`,
@@ -95,7 +99,7 @@ export function Navigation() {
               <item.icon className={cn("w-4 h-4", theme === 'lavender' || !mounted ? item.color : "text-primary/70")} />
               <span>{item.label}</span>
             </div>
-            {isPaid && item.label !== "Lessons" && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Flashcards"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator className="bg-primary/10" />

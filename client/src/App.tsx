@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Lessons from "@/pages/lessons";
 import LessonDetail from "@/pages/lesson-detail";
+import Flashcards from "@/pages/flashcards";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/lessons" component={Lessons} />
       <Route path="/lessons/:id" component={LessonDetail} />
+      <Route path="/flashcards" component={Flashcards} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -33,7 +35,6 @@ function App() {
   );
 }
 
-// Fixed import of queryClient to client in the provider
 const client = queryClient;
 
 export default App;
