@@ -9,12 +9,13 @@ import {
   BarChart, 
   ChevronDown,
   Heart,
-  Globe,
   Palette,
   Lock,
   HelpCircle,
   Tag,
-  Dna
+  Dna,
+  Menu,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -25,12 +26,21 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useToast } from "@/hooks/use-toast";
+import { useTheme } from "next-themes";
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [region, setRegion] = useState<"US" | "CA">("CA");
   const { toast } = useToast();
+  const { setTheme, theme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,18 +63,18 @@ export function Navigation() {
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="text-sm font-medium text-softgray hover:text-lavender-500 hover:bg-transparent flex items-center gap-2 group data-[state=open]:text-lavender-500"
+          className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-2 group data-[state=open]:text-primary"
         >
           {label}
           <ChevronDown className="w-4 h-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-48 p-2 bg-white rounded-lg shadow-lg border-lavender-200 animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2">
+      <DropdownMenuContent align="start" className="w-48 p-2 bg-white rounded-lg shadow-lg border-primary/20 animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2">
         {items.map((item, idx) => (
           <DropdownMenuItem 
             key={idx} 
             onClick={() => isPaid ? handlePaidContent(label) : null}
-            className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-lavender-600 hover:bg-lavender-50 focus:bg-lavender-50 focus:text-lavender-600 rounded-md py-2 px-3"
+            className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
           >
             <div className="flex items-center gap-2">
               <item.icon className={cn("w-4 h-4", item.color)} />
@@ -73,10 +83,10 @@ export function Navigation() {
             {isPaid && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
-        <DropdownMenuSeparator className="bg-lavender-100" />
+        <DropdownMenuSeparator className="bg-primary/10" />
         <DropdownMenuItem 
           onClick={() => isPaid ? handlePaidContent("Reports") : null}
-          className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-lavender-600 hover:bg-lavender-50 focus:bg-lavender-50 focus:text-lavender-600 rounded-md py-2 px-3"
+          className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
         >
           <div className="flex items-center gap-2">
             <BarChart className="w-4 h-4 text-blush-400" />
@@ -98,56 +108,101 @@ export function Navigation() {
 
   const designations = region === "CA" ? ["RPN", "RN", "NP"] : ["LVN", "RN", "NP"];
 
+  const MobileNav = () => (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="md:hidden text-softgray">
+          <Menu className="w-6 h-6" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="left" className="w-72 bg-white p-6">
+        <SheetHeader className="mb-8">
+          <SheetTitle className="text-left flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-primary to-blush-300 rounded-lg flex items-center justify-center">
+              <Heart className="w-5 h-5 text-white fill-white" />
+            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-primary to-blush-400 bg-clip-text text-transparent">NurseNest</span>
+          </SheetTitle>
+        </SheetHeader>
+        <div className="flex flex-col gap-4">
+          <div className="space-y-1">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Designations</p>
+            {designations.map((d) => (
+              <Button key={d} variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => handlePaidContent(d)}>
+                {d}
+                <Lock className="w-3 h-3 text-gray-400" />
+              </Button>
+            ))}
+          </div>
+          <div className="h-[1px] bg-gray-100 my-2" />
+          <Button variant="ghost" className="w-full justify-start text-mint-500 hover:text-mint-600 hover:bg-mint-50 gap-2">
+            <Dna className="w-4 h-4" />
+            A&P (Free)
+          </Button>
+          <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2">
+            <Tag className="w-4 h-4" />
+            Pricing
+          </Button>
+          <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2">
+            <HelpCircle className="w-4 h-4" />
+            FAQ
+          </Button>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+
   return (
     <nav 
       className={cn(
         "sticky top-0 z-50 transition-all duration-300 border-b",
         scrolled 
-          ? "bg-white/90 backdrop-blur-lg border-lavender-100 shadow-sm" 
+          ? "bg-white/90 backdrop-blur-lg border-primary/10 shadow-sm" 
           : "bg-white/80 backdrop-blur-lg border-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 lg:gap-8">
+            <MobileNav />
             <Link href="/">
               <div className="flex items-center gap-3 cursor-pointer group">
-                <div className="w-10 h-10 bg-gradient-to-br from-lavender-300 to-blush-300 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-blush-300 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
                   <Heart className="w-6 h-6 text-white fill-white" />
                 </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-lavender-500 to-blush-400 bg-clip-text text-transparent tracking-tight">
+                <span className="text-xl font-bold bg-gradient-to-r from-primary to-blush-400 bg-clip-text text-transparent tracking-tight">
                   NurseNest
                 </span>
               </div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-1">
               {designations.map((d) => (
                 <NavDropdown key={d} label={d} items={learningItems} isPaid />
               ))}
-              <div className="h-4 w-[1px] bg-lavender-100 mx-2" />
+              <div className="h-4 w-[1px] bg-primary/20 mx-2" />
               <Button variant="ghost" className="text-sm font-medium text-mint-500 hover:text-mint-600 hover:bg-mint-50 gap-2">
                 <Dna className="w-4 h-4" />
                 A&P
               </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-lavender-500 gap-2">
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-2">
                 <Tag className="w-4 h-4" />
                 Pricing
               </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-lavender-500 gap-2">
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-2">
                 <HelpCircle className="w-4 h-4" />
                 FAQ
               </Button>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center bg-lavender-50 rounded-full p-1 border border-lavender-100 mr-2">
+          <div className="flex items-center gap-2 lg:gap-3">
+            <div className="flex items-center bg-primary/5 rounded-full p-1 border border-primary/10 mr-1">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("US")}
-                className={cn("h-7 px-3 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-lavender-600" : "text-gray-400 hover:text-gray-600")}
+                className={cn("h-7 px-2 lg:px-3 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
               >
                 US
               </Button>
@@ -155,7 +210,7 @@ export function Navigation() {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("CA")}
-                className={cn("h-7 px-3 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-lavender-600" : "text-gray-400 hover:text-gray-600")}
+                className={cn("h-7 px-2 lg:px-3 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
               >
                 CA
               </Button>
@@ -163,27 +218,27 @@ export function Navigation() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-softgray hover:text-lavender-500 rounded-full">
+                <Button variant="ghost" size="icon" className="text-softgray hover:text-primary rounded-full">
                   <Palette className="w-5 h-5" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-32">
-                <DropdownMenuItem className="cursor-pointer gap-2">
+                <DropdownMenuItem onClick={() => setTheme("lavender")} className="cursor-pointer gap-2">
                   <div className="w-4 h-4 rounded-full bg-lavender-500" /> Lavender
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer gap-2">
+                <DropdownMenuItem onClick={() => setTheme("mint")} className="cursor-pointer gap-2">
                   <div className="w-4 h-4 rounded-full bg-mint-400" /> Mint
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer gap-2">
+                <DropdownMenuItem onClick={() => setTheme("blush")} className="cursor-pointer gap-2">
                   <div className="w-4 h-4 rounded-full bg-blush-400" /> Blush
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-lavender-500 font-medium">
+            <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium">
               Log in
             </Button>
-            <Button className="bg-lavender-500 hover:bg-lavender-600 text-white rounded-full px-6 shadow-md shadow-lavender-200 transition-all hover:shadow-lg hover:shadow-lavender-300 hover:-translate-y-0.5">
+            <Button className="bg-primary hover:brightness-110 text-white rounded-full px-4 lg:px-6 shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5">
               Get Started
             </Button>
           </div>
