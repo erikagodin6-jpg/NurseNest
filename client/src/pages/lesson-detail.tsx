@@ -707,6 +707,345 @@ const contentMap: Record<string, LessonContent> = {
     medications: [{ name: "IV Fluids", type: "Isotonic", action: "Rehydration", sideEffects: "Fluid overload", contra: "None", pearl: "Correct electrolyte imbalances before surgery." }],
     pearls: ["Pyloric: Vomiting is non-bilious", "Intussusception: Air enema is diagnostic and often curative", "Monitor for passage of normal stool"],
     quiz: [{ question: "Classic sign of Intussusception?", options: ["Projectile vomiting", "Currant jelly stools", "Olive mass", "Steatorrhea"], correct: 1, rationale: "Stools mixed with blood and mucus (currant jelly) are characteristic of intussusception." }]
+  },
+  "prenatal-basics": {
+    title: "Prenatal Care Essentials",
+    cellular: { title: "Embryonic & Fetal Development", content: "Prenatal care ensures optimal maternal and fetal outcomes through scheduled assessments. Visit schedule: Monthly until 28 weeks, biweekly 28-36 weeks, weekly 36 weeks until delivery. Key assessments include GTPAL (Gravida, Term, Preterm, Abortions, Living), fundal height (should equal gestational age in cm at 20-36 weeks), and fetal heart tones (normal 110-160 bpm). Folic acid (400-800 mcg daily) prevents neural tube defects and should begin before conception." },
+    signs: {
+      left: ["Vaginal Bleeding (any trimester)", "Severe Persistent Headache", "Epigastric Pain (liver distention)", "Visual Changes (blurring, scotomata)"],
+      right: ["Decreased Fetal Movement (<10 kicks/2hrs)", "Sudden Severe Edema (face/hands)", "Rupture of Membranes before 37 weeks", "Fever >100.4°F / Signs of Infection"]
+    },
+    medications: [
+      { name: "Prenatal Vitamins with Folic Acid", type: "Supplement", action: "Prevents neural tube defects and supports fetal development", sideEffects: "Nausea, constipation", contra: "None significant", pearl: "Begin folic acid ideally 3 months before conception; iron component best absorbed on empty stomach with vitamin C." },
+      { name: "Rho(D) Immune Globulin (RhoGAM)", type: "Immunoglobulin", action: "Prevents Rh sensitization in Rh-negative mothers", sideEffects: "Injection site soreness", contra: "Rh-positive mother", pearl: "Given at 28 weeks and within 72 hours postpartum if newborn is Rh-positive." }
+    ],
+    pearls: ["GTPAL: Gravida = total pregnancies; Para = deliveries past 20 weeks (T-P-A-L)", "Nagele's Rule: LMP first day minus 3 months plus 7 days = EDD", "Fundal height at umbilicus = approximately 20 weeks gestation"],
+    quiz: [{ question: "A pregnant client at 32 weeks reports sudden blurred vision and a severe headache. Priority action?", options: ["Schedule next prenatal visit", "Check blood pressure immediately", "Recommend rest and fluids", "Advise taking acetaminophen"], correct: 1, rationale: "Severe headache with visual changes are warning signs of preeclampsia; blood pressure assessment is the immediate priority." }]
+  },
+  "labor-stages": {
+    title: "Stages of Labor",
+    cellular: { title: "Cervical Changes & Uterine Contractions", content: "Labor progresses through four stages driven by coordinated uterine contractions. Stage 1: Cervical effacement and dilation (0-10cm) with three phases — Latent (0-6cm, mild contractions q5-30min), Active (6-8cm, moderate contractions q3-5min), and Transition (8-10cm, strong contractions q2-3min lasting 60-90sec). Stage 2: Complete dilation to delivery of the infant. Stage 3: Delivery of the placenta (5-30 minutes). Stage 4: Recovery period (first 1-2 hours postpartum) with close monitoring for hemorrhage." },
+    signs: {
+      left: ["Latent: Mild contractions, talkative", "Active: Increased pain, focused breathing", "Transition: Intense pressure, nausea, irritability", "Stage 2: Urge to push, crowning"],
+      right: ["Stage 3: Gush of blood, cord lengthening", "Stage 4: Fundal firmness check q15min", "Abnormal: Late decelerations on FHR", "Abnormal: Meconium-stained amniotic fluid"]
+    },
+    medications: [
+      { name: "Oxytocin (Pitocin)", type: "Uterotonic", action: "Stimulates uterine contractions for induction/augmentation", sideEffects: "Uterine tachysystole, water intoxication", contra: "CPD, placenta previa, prior classical C-section", pearl: "Always titrate to achieve contractions q2-3 min lasting 60-90 sec; have terbutaline available to stop hyperstimulation." },
+      { name: "Fentanyl/Epidural", type: "Analgesic/Anesthetic", action: "Pain management during labor", sideEffects: "Hypotension, urinary retention, respiratory depression (opioids)", contra: "Coagulopathy (epidural), active hemorrhage", pearl: "Pre-hydrate with 500-1000mL NS before epidural placement to prevent hypotension." }
+    ],
+    pearls: ["Transition phase is the shortest but most intense; provide continuous support", "Monitor FHR continuously during active labor and Stage 2", "Stage 4 hemorrhage risk highest: assess fundal tone and lochia q15min x1hr"],
+    quiz: [{ question: "During which phase of Stage 1 is the client most likely to feel nauseous, shaky, and irritable?", options: ["Latent phase", "Active phase", "Transition phase", "Pushing phase"], correct: 2, rationale: "Transition (8-10cm) is the most intense phase with strong, frequent contractions causing nausea, trembling, and irritability." }]
+  },
+  "postpartum-basics": {
+    title: "Postpartum Assessment",
+    cellular: { title: "Uterine Involution & Recovery", content: "After delivery, the uterus undergoes involution — returning to its pre-pregnant state over approximately 6 weeks. The fundus should be firm, midline, and at or below the umbilicus immediately postpartum, descending approximately 1 cm (one fingerbreadth) per day. The BUBBLE-HE mnemonic guides systematic postpartum assessment: Breasts (engorgement, nipple integrity), Uterus (fundal height, firmness), Bladder (distention, voiding), Bowel (function, hemorrhoids), Lochia (type, amount, odor), Episiotomy/incision (REEDA: Redness, Edema, Ecchymosis, Discharge, Approximation), Homan sign (calf tenderness for DVT), and Emotions (bonding, mood changes, postpartum depression screening)." },
+    signs: {
+      left: ["Boggy Uterus (atony)", "Lochia Rubra (days 1-3, dark red)", "Lochia Serosa (days 4-10, pink/brown)", "Lochia Alba (day 10+, yellowish-white)"],
+      right: ["Fundus above umbilicus or deviated", "Foul-smelling lochia (infection)", "Heavy bleeding soaking pad in <1 hour", "Positive Homan sign (DVT risk)"]
+    },
+    medications: [
+      { name: "Methylergonovine (Methergine)", type: "Ergot Alkaloid", action: "Sustained uterine contraction to control postpartum hemorrhage", sideEffects: "Hypertension, nausea, cramping", contra: "Hypertension or preeclampsia", pearl: "Check BP before administration; contraindicated if BP elevated. Given IM or PO, never IV push." },
+      { name: "Oxytocin (Pitocin)", type: "Uterotonic", action: "Stimulates uterine contractions postpartum to prevent hemorrhage", sideEffects: "Water intoxication, cramping", contra: "None significant postpartum", pearl: "First-line drug for postpartum hemorrhage; often added to IV after placenta delivery." }
+    ],
+    pearls: ["A boggy uterus is the #1 cause of postpartum hemorrhage — massage the fundus firmly", "Bladder distention displaces the uterus and prevents contraction", "Lochia should never contain large clots (>golf ball size) or have a foul odor"],
+    quiz: [{ question: "A postpartum client has a boggy uterus displaced to the right. Priority nursing action?", options: ["Administer Methergine", "Have the client void and then reassess", "Call the provider immediately", "Apply ice to the abdomen"], correct: 1, rationale: "A full bladder displaces the uterus and prevents contraction. Have the client void first, then reassess fundal firmness." }]
+  },
+  "breastfeeding-basics": {
+    title: "Breastfeeding and Lactation",
+    cellular: { title: "Lactation Physiology", content: "Prolactin stimulates milk production, while oxytocin triggers the let-down reflex (milk ejection). Colostrum is produced in the first 2-5 days — it is rich in immunoglobulins (IgA), protein, and provides passive immunity. Transitional milk appears days 5-14, followed by mature milk. Proper latch requires the infant's mouth to cover the entire areola (not just the nipple), with lips flanged outward, audible swallowing, and rhythmic suck-swallow-breathe pattern. Engorgement occurs when milk supply exceeds demand, causing breast swelling and pain." },
+    signs: {
+      left: ["Proper Latch: wide mouth, flanged lips", "Audible swallowing during feeds", "Softened breasts after feeding", "Infant content between feedings"],
+      right: ["6-8 wet diapers/day by day 4", "3-4 yellow seedy stools/day (breastfed)", "Steady weight gain after initial loss", "Urate crystals (brick dust) normal first 2 days"]
+    },
+    medications: [{ name: "Lanolin Cream", type: "Topical Emollient", action: "Protects and heals cracked nipples", sideEffects: "Rare allergic reaction (wool allergy)", contra: "Lanolin/wool allergy", pearl: "Does not need to be removed before breastfeeding; apply after each feed to moist nipples." }],
+    pearls: ["Feed on demand, typically every 2-3 hours (8-12 times per day) in the newborn period", "Contraindications to breastfeeding: HIV (in developed countries), active herpes on breast, certain medications, active substance abuse", "Cabbage leaves and cold compresses help relieve engorgement; warm compresses before feeding aid let-down"],
+    quiz: [{ question: "A breastfeeding mother asks how to know if her baby is getting enough milk. Best indicator?", options: ["Baby sleeps through the night", "6-8 wet diapers per day by day 4-5", "Mother feels full breasts at all times", "Baby feeds for exactly 10 minutes per side"], correct: 1, rationale: "Adequate output (6-8 wet diapers/day) is the most reliable indicator of sufficient intake in breastfed infants." }]
+  },
+  "newborn-assessment": {
+    title: "Newborn Assessment and APGAR",
+    cellular: { title: "Transition to Extrauterine Life", content: "At birth, the newborn undergoes critical physiological transitions: lungs inflate and begin gas exchange, fetal circulatory shunts close (ductus arteriosus, foramen ovale), and thermoregulation becomes self-dependent. The APGAR score is assessed at 1 and 5 minutes: Appearance (skin color), Pulse (heart rate), Grimace (reflex irritability), Activity (muscle tone), and Respirations (respiratory effort). Each parameter scored 0-2, total 0-10. Score of 7-10 is normal, 4-6 requires intervention, <4 requires resuscitation." },
+    signs: {
+      left: ["Normal HR: 120-160 bpm", "Normal RR: 30-60 breaths/min", "Normal Temp: 97.7-99.5°F (36.5-37.5°C)", "Normal Weight: 2500-4000g (5.5-8.8 lbs)"],
+      right: ["Moro Reflex: startle response, arms extend", "Rooting Reflex: turns toward stimulus on cheek", "Sucking Reflex: sucks when palate stimulated", "Babinski Reflex: toes fan out (normal in newborns)"]
+    },
+    medications: [
+      { name: "Erythromycin Eye Ointment", type: "Antibiotic Prophylaxis", action: "Prevents ophthalmia neonatorum (gonorrheal/chlamydial conjunctivitis)", sideEffects: "Temporary blurred vision", contra: "None", pearl: "Applied within 1 hour of birth to both eyes; do not rinse. Legally required in most states." },
+      { name: "Vitamin K (Phytonadione)", type: "Fat-Soluble Vitamin", action: "Prevents hemorrhagic disease of the newborn", sideEffects: "Injection site bruising", contra: "None", pearl: "Given IM in the vastus lateralis within 1 hour of birth; newborns lack intestinal flora to produce Vitamin K." }
+    ],
+    pearls: ["Palmar grasp reflex: infant grips finger placed in palm — disappears by 3-4 months", "Acrocyanosis (blue hands/feet) is normal in first 24-48 hours; central cyanosis is NOT normal", "Head circumference (33-35cm) should be measured and compared to chest circumference (30.5-33cm)"],
+    quiz: [{ question: "A newborn at 1 minute has a HR of 90, weak cry, some flexion, blue extremities, and grimaces with stimulation. APGAR score?", options: ["4", "5", "6", "7"], correct: 2, rationale: "HR 90 (1), weak cry (1), some flexion (1), acrocyanosis (1), grimace (1) = 5. Reassess at 5 minutes." }]
+  },
+  "neonatal-thermoreg": {
+    title: "Thermoregulation in Neonates",
+    cellular: { title: "Brown Fat Metabolism", content: "Neonates are highly vulnerable to cold stress due to their large body surface area relative to mass, thin skin, and limited subcutaneous fat. They cannot shiver; instead, they rely on non-shivering thermogenesis via brown fat (brown adipose tissue) located between the scapulae, around the kidneys, and along the great vessels. Brown fat metabolism generates heat through uncoupled oxidative phosphorylation but rapidly depletes oxygen and glucose reserves. Cold stress triggers a cascade: increased oxygen consumption, hypoglycemia, metabolic acidosis, and potentially pulmonary vasoconstriction with respiratory distress." },
+    signs: {
+      left: ["Cool skin to touch (especially extremities)", "Mottled or pale skin color", "Lethargy and poor feeding", "Weak cry and decreased activity"],
+      right: ["Hypoglycemia (jitteriness, tremors)", "Tachypnea (increased O2 demand)", "Metabolic Acidosis", "Peripheral vasoconstriction (acrocyanosis)"]
+    },
+    medications: [{ name: "Dextrose 10% IV", type: "Glucose Solution", action: "Corrects hypoglycemia secondary to cold stress", sideEffects: "Hyperglycemia if over-infused, vein irritation", contra: "None in emergency", pearl: "Monitor blood glucose every 30-60 minutes during rewarming; cold stress rapidly depletes glycogen stores." }],
+    pearls: ["Neutral thermal environment (NTE): ambient temperature where the neonate expends the least energy to maintain normal body temp", "Skin-to-skin contact (kangaroo care) is the most effective warming intervention for stable newborns", "Dry the newborn immediately after birth and place a cap on the head — the head is the largest heat-loss surface"],
+    quiz: [{ question: "A newborn's temperature is 96.5°F. What physiological response does the nurse expect?", options: ["Shivering to generate heat", "Increased brown fat metabolism", "Decreased oxygen consumption", "Peripheral vasodilation"], correct: 1, rationale: "Neonates cannot shiver; they rely on non-shivering thermogenesis through brown fat metabolism to generate heat, which increases oxygen and glucose consumption." }]
+  },
+  "neonatal-feeding": {
+    title: "Neonatal Feeding",
+    cellular: { title: "Nutritional Requirements", content: "Neonates require approximately 100-120 kcal/kg/day for adequate growth. Breastmilk is the gold standard, providing optimal nutrition, immunoglobulins, and promoting GI maturation. Formula (iron-fortified, 20 kcal/oz) is an appropriate alternative. Newborns lose 5-7% of birth weight in the first week (up to 10% for breastfed infants) and should regain birth weight by 10-14 days. Feeding cues progress from early (rooting, lip smacking, hand-to-mouth) to late (crying — a late hunger cue). Adequate intake is assessed by monitoring output: 6-8 wet diapers and 3-4 stools per day by day 4-5 of life." },
+    signs: {
+      left: ["Early Feeding Cues: rooting, lip smacking", "Hand-to-mouth movements", "Sucking on fingers/fists", "Quiet alert state"],
+      right: ["Inadequate Intake: <6 wet diapers/day", "Weight loss >10% of birth weight", "Persistent jaundice", "Lethargy and poor suck"]
+    },
+    medications: [{ name: "Iron-Fortified Formula", type: "Nutritional Supplement", action: "Provides complete nutrition when breastfeeding is not possible", sideEffects: "Constipation, green stools", contra: "Cow milk protein allergy (use hydrolyzed)", pearl: "Always mix formula exactly as directed; concentrate formula causes dehydration and electrolyte imbalances." }],
+    pearls: ["Feed on demand, not on a rigid schedule — typically every 2-3 hours for breastfed, every 3-4 hours for formula-fed", "Burp infant after every 1-2 oz (formula) or when switching breasts to prevent regurgitation", "Weight gain of approximately 15-30g (0.5-1 oz) per day is expected after initial loss"],
+    quiz: [{ question: "A 5-day-old breastfed infant has lost 8% of birth weight. The mother is concerned. Nurse's best response?", options: ["This is abnormal, supplement with formula immediately", "Weight loss up to 10% can be normal for breastfed infants; let's assess feeding technique", "Stop breastfeeding and switch to formula", "This infant needs IV fluids"], correct: 1, rationale: "Breastfed infants may lose up to 10% of birth weight in the first week. Assessing latch and feeding frequency is the priority before supplementing." }]
+  },
+  "neonatal-jaundice-basics": {
+    title: "Neonatal Jaundice",
+    cellular: { title: "Bilirubin Metabolism", content: "Jaundice results from elevated unconjugated (indirect) bilirubin in the blood. Newborns are predisposed due to high RBC volume with shorter lifespan (70-90 days vs 120 days), immature liver conjugation enzymes (glucuronyl transferase), and increased enterohepatic circulation. Physiological jaundice appears after 24 hours of life and peaks at days 3-5, resolving by 1-2 weeks. Pathological jaundice appears within the first 24 hours and rises rapidly — causes include ABO/Rh incompatibility, sepsis, and excessive hemolysis. Bilirubin follows a cephalocaudal progression: face first, then trunk, then extremities as levels rise." },
+    signs: {
+      left: ["Yellowing of skin (cephalocaudal)", "Scleral icterus (yellow eyes)", "Dark amber urine", "Lethargy and poor feeding"],
+      right: ["Bilirubin >12 mg/dL (physiological concern)", "Jaundice within 24 hours (PATHOLOGICAL)", "High-pitched cry (kernicterus risk)", "Opisthotonus (severe kernicterus)"]
+    },
+    medications: [{ name: "Phototherapy (Bili Lights)", type: "Light Therapy", action: "Converts unconjugated bilirubin into water-soluble form for excretion via urine and stool", sideEffects: "Dehydration, loose green stools, skin rash, retinal damage if eyes unprotected", contra: "Conjugated (direct) hyperbilirubinemia", pearl: "Maximize skin exposure; remove all clothing except diaper. Protect eyes with opaque shields. Monitor temperature and hydration closely. Encourage frequent feedings to promote bilirubin excretion through stool." }],
+    pearls: ["Jaundice in the first 24 hours is ALWAYS pathological — notify provider immediately", "Risk factors: ABO incompatibility, Rh incompatibility, breastfeeding jaundice (insufficient intake), prematurity, bruising from birth trauma", "Press on the skin over a bony prominence (forehead, sternum) and observe the underlying color for blanch jaundice assessment"],
+    quiz: [{ question: "A newborn develops visible jaundice at 18 hours of age. What type of jaundice does the nurse suspect?", options: ["Physiological jaundice", "Breastmilk jaundice", "Pathological jaundice", "Normal newborn finding"], correct: 2, rationale: "Jaundice appearing within the first 24 hours of life is always pathological and requires immediate investigation for causes such as ABO/Rh incompatibility or hemolysis." }]
+  },
+  "placenta-previa-abruption": {
+    title: "Placenta Previa vs Abruption",
+    cellular: { title: "Placental Pathology", content: "Placenta Previa occurs when the placenta abnormally implants over the cervical os (marginal, partial, or complete), obstructing the birth canal and causing painless hemorrhage as the cervix dilates. Placental Abruption is the premature separation of a normally implanted placenta from the uterine wall, causing retroplacental hemorrhage. The bleeding may be revealed (visible) or concealed (trapped behind the placenta), making abruption particularly dangerous as blood loss can be underestimated. Abruption triggers a cascade of coagulopathy and can lead to DIC." },
+    signs: {
+      left: ["Painless bright red vaginal bleeding", "Soft, non-tender, relaxed uterus", "Normal FHR initially", "Bleeding occurs in 3rd trimester", "Diagnosed by ultrasound"],
+      right: ["Painful dark red vaginal bleeding", "Rigid, board-like abdomen", "Fetal distress with late decelerations", "DIC risk with coagulopathy", "Concealed hemorrhage possible"]
+    },
+    medications: [
+      { name: "Terbutaline", type: "Tocolytic (Beta-2 Agonist)", action: "Relaxes uterine smooth muscle to stop contractions", sideEffects: "Tachycardia, tremors, hyperglycemia", contra: "Severe hemorrhage", pearl: "Used to buy time for betamethasone to work if preterm." },
+      { name: "Betamethasone", type: "Corticosteroid", action: "Accelerates fetal lung maturity by stimulating surfactant production", sideEffects: "Maternal hyperglycemia", contra: "Chorioamnionitis", pearl: "Give IM x2 doses 24 hours apart; optimal effect at 48 hours." },
+      { name: "RhoGAM", type: "Rh Immunoglobulin", action: "Prevents Rh sensitization in Rh-negative mothers exposed to Rh-positive fetal blood", sideEffects: "Injection site pain", contra: "Rh-positive mother", pearl: "Administer within 72 hours of any bleeding event in Rh-negative mothers." }
+    ],
+    pearls: ["NEVER perform a vaginal exam with suspected Placenta Previa — may trigger massive hemorrhage", "Abruption is a surgical emergency if severe — prepare for emergent C-section", "Monitor for Couvelaire uterus (blood infiltrates myometrium, uterus appears purple/bruised)", "Abruption risk factors: HTN, cocaine use, abdominal trauma, prior abruption"],
+    quiz: [{ question: "A pregnant client at 34 weeks presents with painless, bright red vaginal bleeding and a soft uterus. Which condition does the nurse suspect?", options: ["Placental abruption", "Placenta previa", "Uterine rupture", "Ectopic pregnancy"], correct: 1, rationale: "Painless, bright red bleeding with a soft, non-tender uterus is the classic presentation of placenta previa. Abruption presents with painful, dark bleeding and a rigid abdomen." }]
+  },
+  "postpartum-hemorrhage": {
+    title: "Postpartum Hemorrhage",
+    cellular: { title: "Hemorrhage Pathophysiology", content: "Postpartum hemorrhage (PPH) is defined as blood loss >500mL after vaginal delivery or >1000mL after cesarean section. The 4 T's framework identifies the causes: Tone (uterine atony accounts for 80% of PPH — the uterus fails to contract and compress spiral arteries at the placental site), Tissue (retained placental fragments prevent uterine contraction), Trauma (lacerations of the cervix, vagina, or perineum), and Thrombin (coagulopathy disorders such as DIC, von Willebrand disease). The uterus receives 500-700mL/min of blood flow at term, making rapid intervention critical." },
+    signs: {
+      left: ["Boggy, soft uterus on palpation", "Fundus above expected level", "Steady trickle or gush of blood", "Blood loss >500mL vaginal delivery"],
+      right: ["Tachycardia (early compensatory sign)", "Hypotension (late sign — already significant loss)", "Altered mental status", "Cool, clammy skin with pallor"]
+    },
+    medications: [
+      { name: "Oxytocin (Pitocin)", type: "Uterotonic", action: "Stimulates uterine contraction to compress bleeding vessels", sideEffects: "Water intoxication with prolonged use", contra: "None absolute for PPH", pearl: "First-line uterotonic; given IV infusion or IM." },
+      { name: "Methylergonovine (Methergine)", type: "Ergot Alkaloid", action: "Sustained uterine contraction", sideEffects: "Severe hypertension, nausea", contra: "Hypertension or preeclampsia", pearl: "AVOID in hypertensive patients — can cause stroke or seizure." },
+      { name: "Carboprost (Hemabate)", type: "Prostaglandin F2-alpha", action: "Powerful uterine contraction", sideEffects: "Bronchospasm, diarrhea, fever", contra: "Asthma", pearl: "AVOID in asthmatic patients — causes severe bronchospasm." },
+      { name: "Misoprostol (Cytotec)", type: "Prostaglandin E1", action: "Uterine contraction via multiple routes (PO, SL, PR)", sideEffects: "Fever, diarrhea", contra: "Few contraindications", pearl: "Can be given rectally when IV access is unavailable — useful in emergencies." }
+    ],
+    pearls: ["Fundal massage is the FIRST intervention for uterine atony — firm, circular massage on the fundus", "Quantitative blood loss (QBL) measurement is more accurate than visual estimation", "Early activation of massive transfusion protocol (1:1:1 ratio of PRBCs:FFP:Platelets)", "Two large-bore IVs and type & crossmatch should be done proactively for high-risk patients"],
+    quiz: [{ question: "A nurse finds a boggy uterus 1 hour after vaginal delivery with increasing vaginal bleeding. What is the priority intervention?", options: ["Administer Methergine IM", "Perform bimanual uterine massage", "Start oxytocin IV infusion", "Prepare for surgical intervention"], correct: 1, rationale: "Fundal massage is the first-line intervention for uterine atony. It mechanically stimulates the uterus to contract and compress bleeding vessels. Medications are second-line if massage is ineffective." }]
+  },
+  "gestational-diabetes": {
+    title: "Gestational Diabetes Management",
+    cellular: { title: "Insulin Resistance Mechanism", content: "During pregnancy, placental hormones (human placental lactogen/hPL, cortisol, progesterone, and growth hormone) create progressive insulin resistance to ensure adequate glucose delivery to the fetus. In gestational diabetes (GDM), maternal pancreatic beta cells cannot compensate with sufficient insulin production, leading to maternal hyperglycemia. Per the Pedersen hypothesis, maternal hyperglycemia crosses the placenta, stimulating fetal hyperinsulinemia, which drives excessive fetal growth (macrosomia), increased oxygen consumption, and potential fetal hypoxia. After delivery, the neonate loses the maternal glucose supply but continues producing excess insulin, causing neonatal hypoglycemia." },
+    signs: {
+      left: ["Fetal macrosomia (>4000g)", "Polyhydramnios (excess amniotic fluid)", "Recurrent urinary tract infections", "Polyuria and polydipsia"],
+      right: ["Shoulder dystocia risk during delivery", "Neonatal hypoglycemia after birth", "Neonatal hyperbilirubinemia", "Increased risk of preeclampsia"]
+    },
+    medications: [
+      { name: "Insulin", type: "Hormone Replacement", action: "Directly lowers blood glucose; does not cross the placenta", sideEffects: "Hypoglycemia, injection site reactions", contra: "Hypoglycemia", pearl: "Preferred pharmacologic treatment — does not cross the placenta and is safest for the fetus." },
+      { name: "Glyburide", type: "Sulfonylurea", action: "Stimulates pancreatic insulin secretion", sideEffects: "Hypoglycemia, neonatal hypoglycemia", contra: "Severe renal impairment", pearl: "Oral alternative to insulin; may cross placenta in small amounts." },
+      { name: "Metformin", type: "Biguanide", action: "Decreases hepatic glucose production and increases insulin sensitivity", sideEffects: "GI upset, lactic acidosis (rare)", contra: "Renal insufficiency", pearl: "Crosses the placenta; long-term fetal effects still being studied." }
+    ],
+    pearls: ["Screen ALL pregnant women at 24-28 weeks with 1-hour glucose challenge test (50g glucose, threshold ≥130-140 mg/dL)", "If 1-hour screen is positive, confirm with 3-hour GTT (100g glucose)", "Postpartum: recheck glucose at 6-12 weeks — 50% of GDM patients develop Type 2 DM within 10 years", "Diet and exercise are FIRST-LINE treatment; pharmacotherapy added if glucose targets not met"],
+    quiz: [{ question: "When should universal screening for gestational diabetes be performed?", options: ["First prenatal visit", "12-16 weeks gestation", "24-28 weeks gestation", "36 weeks gestation"], correct: 2, rationale: "Universal screening for GDM is recommended at 24-28 weeks gestation when insulin resistance from placental hormones peaks. Earlier screening is done only for high-risk patients." }]
+  },
+  "fetal-monitoring-rn": {
+    title: "Fetal Heart Rate Monitoring",
+    cellular: { title: "Autonomic Regulation", content: "The fetal heart rate (FHR) is regulated by the autonomic nervous system. The sympathetic nervous system increases heart rate, while the parasympathetic (vagus nerve) decreases it. Normal baseline is 110-160 bpm. Variability reflects intact CNS function: absent (no fluctuation — ominous), minimal (<5 bpm), moderate (6-25 bpm — reassuring, indicates intact neurological pathway), and marked (>25 bpm). Accelerations (≥15 bpm above baseline for ≥15 seconds) are reassuring and indicate fetal well-being. Decelerations are classified as Early (head compression, mirrors contractions), Late (uteroplacental insufficiency, begins after contraction peak), and Variable (cord compression, abrupt onset/offset with varying shape)." },
+    signs: {
+      left: ["Category I (Normal): baseline 110-160, moderate variability, no late/variable decels", "Accelerations present (reactive NST)", "Early decelerations (benign — head compression)", "Moderate variability (most reassuring sign)"],
+      right: ["Category II (Indeterminate): minimal variability, recurrent variable decels", "Category III (Abnormal): absent variability with recurrent late decels", "Sinusoidal pattern (severe fetal anemia)", "Prolonged deceleration >2 minutes"]
+    },
+    medications: [
+      { name: "Terbutaline", type: "Tocolytic (Beta-2 Agonist)", action: "Intrauterine resuscitation — relaxes uterus to improve placental perfusion", sideEffects: "Maternal tachycardia, tremors", contra: "Maternal cardiac disease", pearl: "Used as a rescue tocolytic for acute fetal distress to buy time for delivery preparation." },
+      { name: "Oxytocin (Pitocin)", type: "Uterotonic", action: "Stimulates uterine contractions for labor induction/augmentation", sideEffects: "Tachysystole, uterine rupture", contra: "Non-reassuring FHR, placenta previa", pearl: "DISCONTINUE immediately for late decelerations or tachysystole — the uterus needs to relax." }
+    ],
+    pearls: ["Late decelerations = uteroplacental insufficiency → turn off Pitocin, position left lateral, O2, IV fluid bolus", "Variable decelerations = cord compression → reposition mother (knee-chest, Trendelenburg), amnioinfusion may help", "Moderate variability is the SINGLE MOST reassuring sign of fetal well-being", "Category III tracing requires immediate intervention — prepare for emergent delivery"],
+    quiz: [{ question: "The fetal monitor shows repetitive decelerations that begin after the peak of each contraction and return to baseline after the contraction ends. What type are these?", options: ["Early decelerations", "Late decelerations", "Variable decelerations", "Prolonged decelerations"], correct: 1, rationale: "Late decelerations begin after the contraction peak and persist after the contraction ends. They indicate uteroplacental insufficiency and require immediate nursing intervention: left lateral position, stop oxytocin, IV fluids, and oxygen." }]
+  },
+  "neonatal-respiratory-distress": {
+    title: "Neonatal Respiratory Distress Syndrome",
+    cellular: { title: "Surfactant Deficiency", content: "Respiratory Distress Syndrome (RDS) results from insufficient pulmonary surfactant in premature lungs. Surfactant, produced by Type II pneumocytes (which do not mature until approximately 35 weeks gestation), reduces alveolar surface tension to prevent collapse during expiration. Without adequate surfactant, alveoli collapse with each breath (atelectasis), leading to decreased lung compliance, ventilation-perfusion (V/Q) mismatch, hypoxemia, and increased work of breathing. The resulting hypoxia and acidosis further damage the alveolar epithelium, creating a cycle of worsening respiratory failure. Hyaline membranes form from protein-rich exudate lining the alveoli." },
+    signs: {
+      left: ["Nasal flaring", "Expiratory grunting (auto-PEEP attempt)", "Intercostal and subcostal retractions", "Tachypnea (respiratory rate >60/min)"],
+      right: ["Central cyanosis", "Suprasternal retractions (severe)", "Silverman-Anderson score for severity", "Ground-glass appearance on chest X-ray"]
+    },
+    medications: [
+      { name: "Beractant (Survanta)", type: "Exogenous Surfactant", action: "Replaces deficient surfactant to reduce alveolar surface tension and prevent collapse", sideEffects: "Transient bradycardia, oxygen desaturation during administration", contra: "None absolute in life-threatening RDS", pearl: "Administered via endotracheal tube; infant is repositioned after each aliquot to distribute surfactant evenly." },
+      { name: "Caffeine Citrate", type: "Methylxanthine", action: "Stimulates respiratory center to prevent apnea of prematurity", sideEffects: "Tachycardia, irritability, feeding intolerance", contra: "Cardiac arrhythmias", pearl: "Given as daily maintenance after loading dose; monitor heart rate and for signs of toxicity." },
+      { name: "Dexamethasone (Prenatal)", type: "Corticosteroid", action: "Given to the mother before preterm delivery to accelerate fetal lung maturity", sideEffects: "Maternal hyperglycemia, immunosuppression", contra: "Active systemic infection", pearl: "Most effective when given 24-48 hours before delivery; indicated for 24-34 weeks gestation." }
+    ],
+    pearls: ["Position prone or side-lying to optimize ventilation and oxygenation", "Minimal stimulation and clustered care to reduce oxygen consumption", "Monitor ABGs and pulse oximetry — target SpO2 88-95% in preterm infants to avoid retinopathy of prematurity", "Prenatal betamethasone to the mother is the BEST prevention if preterm delivery is anticipated"],
+    quiz: [{ question: "When is exogenous surfactant therapy most effective for preventing RDS?", options: ["Within 30 minutes of birth (prophylactic)", "At 24 hours of age", "Only after respiratory failure develops", "At 1 week of age"], correct: 0, rationale: "Prophylactic surfactant given within the first 30 minutes of birth to high-risk premature infants is most effective at preventing severe RDS. Early administration prevents the cycle of atelectasis and alveolar damage." }]
+  },
+  "neonatal-sepsis": {
+    title: "Neonatal Sepsis Recognition",
+    cellular: { title: "Immature Immune Response", content: "Neonates have an immature immune system characterized by decreased neutrophil storage pools (limited ability to mount a sustained response), poor opsonization (decreased complement activity), low immunoglobulin levels (primarily relying on maternal IgG transferred in the third trimester — premature infants have even less), and immature T-cell function. Early-onset sepsis (<72 hours) results from vertical transmission during labor/delivery (Group B Streptococcus, E. coli are most common). Late-onset sepsis (>72 hours) is typically nosocomial, acquired from the hospital environment (Coagulase-negative Staph, Klebsiella, Candida), especially in infants with central lines or prolonged NICU stays." },
+    signs: {
+      left: ["Temperature instability (hypothermia MORE common than fever)", "Poor feeding and weak suck", "Lethargy and decreased activity", "Apnea and bradycardia episodes"],
+      right: ["Glucose instability (hypo- or hyperglycemia)", "Mottled or pale skin color", "Abdominal distension", "\"Just not looking right\" — subtle behavioral changes"]
+    },
+    medications: [
+      { name: "Ampicillin + Gentamicin", type: "Empiric Antibiotic Combination", action: "Broad-spectrum coverage for early-onset sepsis (GBS and E. coli)", sideEffects: "Gentamicin: nephrotoxicity, ototoxicity", contra: "Known allergy", pearl: "Monitor gentamicin trough levels to prevent toxicity; assess renal function and hearing." },
+      { name: "Vancomycin + Cefotaxime", type: "Empiric Antibiotic Combination", action: "Coverage for late-onset nosocomial organisms (CoNS, gram-negatives)", sideEffects: "Vancomycin: Red Man Syndrome (infuse slowly), nephrotoxicity", contra: "Known allergy", pearl: "Vancomycin covers MRSA and CoNS; cefotaxime preferred over ceftriaxone in neonates (less bilirubin displacement)." }
+    ],
+    pearls: ["ALWAYS obtain blood culture BEFORE starting antibiotics — but do NOT delay treatment waiting for results", "GBS prophylaxis (intrapartum penicillin to GBS-positive mothers) has dramatically reduced early-onset sepsis", "Hypothermia is a more common sign of neonatal sepsis than fever — do not dismiss low temperatures", "CBC with differential: look for leukopenia, bandemia (left shift), and thrombocytopenia as sepsis markers"],
+    quiz: [{ question: "A 2-day-old neonate develops temperature instability, poor feeding, and apnea. Which type of sepsis is most likely?", options: ["Late-onset sepsis", "Early-onset sepsis", "Fungal sepsis", "Viral sepsis"], correct: 1, rationale: "Onset within the first 72 hours of life indicates early-onset sepsis, most commonly caused by GBS or E. coli acquired during labor and delivery via vertical transmission." }]
+  },
+  "hyperbilirubinemia": {
+    title: "Hyperbilirubinemia & Phototherapy",
+    cellular: { title: "Bilirubin Metabolism", content: "Bilirubin is produced from the breakdown of heme in red blood cells. Unconjugated (indirect) bilirubin is lipid-soluble and can cross the blood-brain barrier (BBB), depositing in the basal ganglia and brainstem nuclei to cause kernicterus (bilirubin encephalopathy) — a devastating, irreversible neurological injury. The liver conjugates bilirubin (making it water-soluble) for excretion in bile and stool. Neonates are vulnerable because of: immature hepatic conjugation enzymes (glucuronyl transferase), increased RBC turnover (shorter RBC lifespan of 70-90 days vs 120 days in adults), and increased enterohepatic circulation (gut bacteria that break down bilirubin are not yet established)." },
+    signs: {
+      left: ["Jaundice progressing cephalocaudal (face → trunk → extremities)", "Scleral icterus (yellow discoloration of eyes)", "Dark amber urine", "Poor feeding and sleepiness"],
+      right: ["High-pitched cry (early kernicterus)", "Hypotonia progressing to hypertonia", "Opisthotonus (arched back — severe kernicterus)", "Seizures and hearing loss (late kernicterus)"]
+    },
+    medications: [
+      { name: "Phototherapy", type: "Light Therapy", action: "Blue-green light isomerizes unconjugated bilirubin in the skin into water-soluble forms (lumirubin) that can be excreted without liver conjugation", sideEffects: "Dehydration, loose green stools, skin rash, retinal damage", contra: "Conjugated hyperbilirubinemia (bronze baby)", pearl: "Maximize skin exposure (diaper only), protect eyes with opaque shields, monitor temperature and I&O." },
+      { name: "IVIG (Intravenous Immunoglobulin)", type: "Immunoglobulin", action: "Reduces hemolysis in isoimmune hemolytic disease (ABO/Rh incompatibility) by blocking antibody receptors", sideEffects: "Fluid overload, allergic reaction", contra: "IgA deficiency", pearl: "Used when bilirubin continues to rise despite intensive phototherapy in immune-mediated hemolysis." },
+      { name: "Phenobarbital", type: "Barbiturate / Enzyme Inducer", action: "Induces hepatic glucuronyl transferase to increase bilirubin conjugation", sideEffects: "Sedation, respiratory depression", contra: "Acute intermittent porphyria", pearl: "Rarely used in current practice; phototherapy and IVIG are preferred. May be considered in specific metabolic conditions." }
+    ],
+    pearls: ["ALWAYS protect eyes during phototherapy with opaque eye shields — check positioning frequently", "Monitor for bronze baby syndrome (grayish-brown skin discoloration) which occurs with conjugated hyperbilirubinemia under phototherapy", "Increase feeding frequency (every 2-3 hours) to promote bilirubin excretion through stool", "Jaundice within the first 24 hours is ALWAYS pathological — never dismiss as physiological"],
+    quiz: [{ question: "What is the primary goal of phototherapy in treating neonatal hyperbilirubinemia?", options: ["Increase liver enzyme production", "Convert unconjugated bilirubin to a water-soluble form for excretion", "Prevent infection", "Stimulate RBC production"], correct: 1, rationale: "Phototherapy works by isomerizing unconjugated (lipid-soluble) bilirubin into lumirubin, a water-soluble isomer that can be excreted in urine and bile without requiring hepatic conjugation, thereby preventing kernicterus." }]
+  },
+  "nec-necrotizing": {
+    title: "Necrotizing Enterocolitis (NEC)",
+    cellular: { title: "Intestinal Necrosis Pathology", content: "Necrotizing enterocolitis (NEC) is the most common GI emergency in premature neonates. It results from intestinal ischemia leading to mucosal necrosis and subsequent bacterial invasion of the bowel wall. The pathogenesis involves three key factors: an immature intestinal barrier (decreased mucus production, tight junction immaturity, and reduced IgA), abnormal bacterial colonization of the gut, and ischemia-reperfusion injury. Formula feeding significantly increases NEC risk compared to breast milk, which provides IgA, lactoferrin, oligosaccharides, and growth factors that protect the immature gut. Gas-producing bacteria invade the necrotic bowel wall, creating pneumatosis intestinalis (air in the intestinal wall) — the pathognomonic radiographic finding." },
+    signs: {
+      left: ["Abdominal distension and tenderness", "Bilious (green) emesis", "Bloody or guaiac-positive stools", "Feeding intolerance with increased residuals"],
+      right: ["Pneumatosis intestinalis on abdominal X-ray", "Portal venous gas (ominous sign)", "Pneumoperitoneum (perforation — surgical emergency)", "Systemic signs: apnea, lethargy, temperature instability"]
+    },
+    medications: [
+      { name: "NPO + OG Decompression", type: "Bowel Rest", action: "Complete bowel rest to halt intestinal workload and prevent further mucosal injury; OG tube decompresses distended bowel", sideEffects: "Requires TPN for nutrition", contra: "None — essential intervention", pearl: "NPO duration depends on Bell staging: Stage I (3 days), Stage II (7-14 days), Stage III (14+ days)." },
+      { name: "Ampicillin + Gentamicin + Metronidazole", type: "Triple Antibiotic Therapy", action: "Broad-spectrum coverage: Ampicillin (gram-positive), Gentamicin (gram-negative), Metronidazole (anaerobes)", sideEffects: "Nephrotoxicity (Gentamicin), GI upset (Metronidazole)", contra: "Known allergies", pearl: "Triple therapy covers the polymicrobial organisms involved in NEC; duration based on severity and clinical response." },
+      { name: "TPN (Total Parenteral Nutrition)", type: "IV Nutrition", action: "Provides complete nutrition (amino acids, dextrose, lipids, vitamins, minerals) while the bowel is resting", sideEffects: "Central line infection, cholestasis, hyperglycemia", contra: "Functional GI tract (when feeds can resume)", pearl: "Monitor liver function — TPN-associated cholestasis increases with prolonged use. Transition to enteral feeds (preferably breast milk) as soon as clinically safe." }
+    ],
+    pearls: ["Breast milk is the single most PROTECTIVE factor against NEC — encourage maternal breast milk for all preterm infants", "Bell Staging: Stage I (suspected — nonspecific signs), Stage II (definite — pneumatosis), Stage III (advanced — perforation, shock)", "Surgical consult is required for pneumoperitoneum (free air) indicating bowel perforation", "Serial abdominal X-rays and girth measurements are essential for monitoring progression"],
+    quiz: [{ question: "Which factor is most protective against the development of NEC in premature infants?", options: ["Formula feeding", "Breast milk feeding", "Early antibiotic prophylaxis", "Delayed cord clamping"], correct: 1, rationale: "Breast milk contains IgA, lactoferrin, growth factors, and oligosaccharides that protect the immature gut mucosa, promote healthy bacterial colonization, and significantly reduce NEC incidence compared to formula feeding." }]
+  },
+  "hellp-syndrome-np": {
+    title: "HELLP Syndrome: Hepatic Cascade",
+    cellular: { title: "Hepatic Microangiopathy", content: "HELLP (Hemolysis, Elevated Liver enzymes, Low Platelets) represents severe end of preeclampsia spectrum. Endothelial dysfunction triggers platelet activation and fibrin deposition in hepatic sinusoids. Microangiopathic hemolytic anemia (MAHA) destroys RBCs as they traverse damaged vasculature. Hepatocyte necrosis from ischemia can progress to subcapsular hematoma and hepatic rupture." },
+    signs: {
+      left: ["Epigastric/RUQ pain", "Nausea/Vomiting", "LDH > 600", "AST > 70"],
+      right: ["Schistocytes on smear", "Platelets < 100k", "Haptoglobin < 25", "Subcapsular hepatic hematoma"]
+    },
+    medications: [
+      { name: "Magnesium Sulfate", type: "Anticonvulsant", action: "Seizure prophylaxis, CNS depressant", sideEffects: "Respiratory depression, hypotension", contra: "Myasthenia gravis", pearl: "Monitor DTRs, respiratory rate, and urine output continuously." },
+      { name: "Dexamethasone", type: "Corticosteroid", action: "May improve platelet count temporarily (controversial)", sideEffects: "Hyperglycemia, immunosuppression", contra: "Active infection", pearl: "Mississippi classification uses platelet nadir for severity grading." },
+      { name: "Labetalol", type: "Alpha/Beta Blocker", action: "BP control in severe features", sideEffects: "Bradycardia, bronchospasm", contra: "Asthma, heart block", pearl: "Target SBP < 160 and DBP < 110 to prevent stroke." }
+    ],
+    pearls: ["Delivery is the definitive treatment regardless of gestational age", "Mississippi classification grades severity by platelet nadir", "Monitor for DIC and hepatic rupture — life-threatening complications"],
+    quiz: [{ question: "What lab finding differentiates HELLP from TTP?", options: ["Elevated fibrinogen", "Elevated liver enzymes with low platelets in setting of pregnancy", "Normal LDH with thrombocytosis", "Isolated anemia without hemolysis"], correct: 1, rationale: "HELLP is distinguished from TTP by the combination of elevated liver enzymes (hepatic involvement) with thrombocytopenia specifically in the context of pregnancy, whereas TTP typically shows normal liver enzymes." }]
+  },
+  "amniotic-fluid-embolism-np": {
+    title: "Amniotic Fluid Embolism: DIC Pathway",
+    cellular: { title: "Anaphylactoid Cascade", content: "Amniotic fluid containing fetal cells, vernix, and meconium enters maternal circulation through endocervical veins or placental site. This triggers massive complement activation and anaphylactoid response. Phase 1: Acute pulmonary vasospasm causing right heart failure and cardiogenic shock. Phase 2: Consumptive coagulopathy (DIC) from tissue factor release. Mortality approaches 60-80%." },
+    signs: {
+      left: ["Sudden dyspnea/hypoxia", "Cardiovascular collapse", "Seizures", "Altered consciousness"],
+      right: ["DIC (oozing from IV sites)", "Massive hemorrhage", "Pulmonary edema", "Cardiac arrest"]
+    },
+    medications: [
+      { name: "Epinephrine", type: "Vasopressor/Inotrope", action: "Cardiac arrest protocol — restores cardiac output", sideEffects: "Tachycardia, hypertension", contra: "None in cardiac arrest", pearl: "Follow ACLS protocol with left uterine displacement for pregnant patients." },
+      { name: "Cryoprecipitate", type: "Blood Product", action: "Fibrinogen replacement for DIC", sideEffects: "Transfusion reaction, volume overload", contra: "None in life-threatening DIC", pearl: "Target fibrinogen > 200 mg/dL; each unit raises fibrinogen ~5-10 mg/dL." },
+      { name: "A-OK Protocol", type: "Investigational", action: "Atropine for bradycardia, Ondansetron (investigational), Ketorolac (investigational)", sideEffects: "Varies by component", contra: "Active bleeding (Ketorolac)", pearl: "Emerging protocol — not yet standard of care but gaining attention in case reports." }
+    ],
+    pearls: ["Diagnosis of exclusion — no definitive diagnostic test exists", "Immediate ACLS with left uterine displacement is critical", "Perimortem cesarean delivery within 4-5 minutes if cardiac arrest occurs"],
+    quiz: [{ question: "What is the primary mechanism in Phase 1 of amniotic fluid embolism?", options: ["Consumptive coagulopathy", "Acute pulmonary vasospasm causing right heart failure", "Massive hemorrhage from uterine atony", "Anaphylaxis from fetal antigens"], correct: 1, rationale: "Phase 1 of AFE involves acute pulmonary vasospasm triggered by amniotic fluid entering the maternal circulation, leading to right heart failure and cardiogenic shock before DIC develops in Phase 2." }]
+  },
+  "eclampsia-np": {
+    title: "Eclampsia: Endothelial Dysfunction",
+    cellular: { title: "Trophoblast & Vascular Remodeling", content: "Abnormal trophoblast invasion of spiral arteries leads to incomplete remodeling and placental ischemia. Ischemic placenta releases anti-angiogenic factors (sFlt-1, sEng) that bind and neutralize VEGF and PlGF, causing systemic endothelial dysfunction. This leads to vasospasm, increased permeability, and end-organ damage. Cerebral vasospasm and posterior reversible encephalopathy syndrome (PRES) underlie seizures." },
+    signs: {
+      left: ["Severe HTN (>160/110)", "Proteinuria > 300mg/24h", "Headache unresponsive to analgesics", "Visual changes (scotomata)"],
+      right: ["Tonic-clonic seizures", "PRES on MRI", "Pulmonary edema", "HELLP progression"]
+    },
+    medications: [
+      { name: "Magnesium Sulfate", type: "Anticonvulsant", action: "Blocks NMDA receptors, causes vasodilation", sideEffects: "Loss of DTRs (8-12 mEq/L), respiratory arrest (15-17 mEq/L)", contra: "Myasthenia gravis, renal failure", pearl: "Therapeutic level 4-7 mEq/L. Cardiac arrest at >25 mEq/L. Antidote: Calcium Gluconate." },
+      { name: "Hydralazine", type: "Vasodilator", action: "Direct arteriolar vasodilation for acute HTN", sideEffects: "Reflex tachycardia, headache", contra: "Coronary artery disease", pearl: "Give 5-10mg IV push; onset 10-20 minutes." },
+      { name: "Nifedipine", type: "Calcium Channel Blocker", action: "Acute HTN management", sideEffects: "Headache, flushing, tachycardia", contra: "Use with caution alongside MgSO4", pearl: "Oral immediate-release 10mg; avoid sublingual route." }
+    ],
+    pearls: ["Mag toxicity antidote is Calcium Gluconate 1g IV", "sFlt-1/PlGF ratio is emerging as a predictive biomarker for preeclampsia", "Seizure prophylaxis with MgSO4 continues 24-48 hours postpartum"],
+    quiz: [{ question: "At what serum magnesium level does respiratory arrest occur?", options: ["4-7 mEq/L", "8-12 mEq/L", "15-17 mEq/L", ">25 mEq/L"], correct: 2, rationale: "Respiratory arrest occurs at magnesium levels of 15-17 mEq/L. Therapeutic range is 4-7 mEq/L, loss of DTRs at 8-12, and cardiac arrest at >25 mEq/L." }]
+  },
+  "obstetric-hemorrhage-np": {
+    title: "Obstetric Hemorrhage: Massive Transfusion",
+    cellular: { title: "Hemostatic Failure in Pregnancy", content: "Obstetric hemorrhage involves unique physiological challenges: pregnancy increases blood volume by 40-50% (hypervolemic state), dilutional anemia masks true blood loss. Uterine blood flow at term is 500-700 mL/min, making atony catastrophic. Massive Transfusion Protocol (MTP) targets 1:1:1 ratio of pRBC:FFP:Platelets. Fibrinogen is the first coagulation factor depleted (critical threshold <200 mg/dL)." },
+    signs: {
+      left: ["EBL > 1000mL", "Heart rate > 110 (late sign in pregnancy)", "Lactate > 4", "Fibrinogen < 200"],
+      right: ["Shock Index > 0.9 (HR/SBP)", "Base deficit > -6", "Need for >4 units pRBC", "DIC (PT/PTT prolonged)"]
+    },
+    medications: [
+      { name: "Tranexamic Acid (TXA)", type: "Antifibrinolytic", action: "Inhibits plasminogen activation to stabilize clots", sideEffects: "Nausea, diarrhea, thromboembolic events", contra: "Active thromboembolic disease", pearl: "Give within 3 hours of hemorrhage onset per WOMAN trial — 1g IV over 10 minutes." },
+      { name: "Fibrinogen Concentrate", type: "Coagulation Factor", action: "Directly replaces fibrinogen to restore clot formation", sideEffects: "Thromboembolic risk", contra: "Known hypersensitivity", pearl: "Target fibrinogen > 200 mg/dL; faster than cryoprecipitate with no thaw time required." },
+      { name: "Factor VIIa (Recombinant)", type: "Coagulation Factor", action: "Activates extrinsic pathway — last resort for refractory hemorrhage", sideEffects: "Thrombosis risk", contra: "Relative — weigh risk vs benefit", pearl: "Reserved for life-threatening hemorrhage unresponsive to conventional therapy." }
+    ],
+    pearls: ["Shock Index (HR/SBP) is more sensitive than vital signs alone in pregnancy", "Bakri balloon provides uterine tamponade for atony", "B-Lynch compression suture is a surgical option before hysterectomy", "Peripartum hysterectomy is definitive for life-threatening hemorrhage"],
+    quiz: [{ question: "Why are traditional vital signs unreliable in obstetric hemorrhage?", options: ["Pregnancy causes chronic hypertension", "Pregnancy increases blood volume by 40-50%, masking hemorrhage signs", "Vital signs are always accurate in pregnancy", "Pregnancy reduces heart rate baseline"], correct: 1, rationale: "The 40-50% increase in blood volume during pregnancy creates a hypervolemic state, allowing significant blood loss before traditional vital sign changes appear. Shock Index (HR/SBP > 0.9) is a more sensitive early indicator." }]
+  },
+  "neonatal-rds-np": {
+    title: "RDS: Surfactant Physiology",
+    cellular: { title: "Surfactant & Alveolar Mechanics", content: "Pulmonary surfactant is a complex mixture of phospholipids (90%, primarily DPPC - dipalmitoylphosphatidylcholine) and surfactant proteins (SP-A, SP-B, SP-C, SP-D). Type II pneumocytes begin producing surfactant at 24-28 weeks but adequate amounts not present until 34-36 weeks. Surfactant reduces alveolar surface tension according to LaPlace's Law (P = 2T/r), preventing atelectasis. Without it, high opening pressures are needed, causing barotrauma and oxygen toxicity leading to BPD." },
+    signs: {
+      left: ["Ground-glass appearance on CXR", "Air bronchograms", "Increased FiO2 requirement", "a/A ratio < 0.22"],
+      right: ["Pulmonary interstitial emphysema", "Pneumothorax (air leak)", "BPD (chronic lung disease)", "Retinopathy of Prematurity (ROP)"]
+    },
+    medications: [
+      { name: "Poractant alfa (Curosurf)", type: "Exogenous Surfactant", action: "Porcine-derived surfactant with higher phospholipid concentration — replaces deficient surfactant", sideEffects: "Transient bradycardia, oxygen desaturation during administration", contra: "None absolute", pearl: "200mg/kg initial dose; can repeat 100mg/kg doses. Higher initial dose than other surfactants." },
+      { name: "Calfactant (Infasurf)", type: "Exogenous Surfactant", action: "Bovine-derived natural surfactant replacement", sideEffects: "Airway obstruction, desaturation", contra: "None absolute", pearl: "Contains SP-B which is critical for surfactant function." },
+      { name: "Caffeine Citrate", type: "Methylxanthine", action: "Stimulates respiratory drive, reduces apnea of prematurity, improves BPD outcomes", sideEffects: "Tachycardia, feeding intolerance, jitteriness", contra: "Seizure disorder", pearl: "Loading dose 20mg/kg, maintenance 5-10mg/kg/day. CAP trial showed reduced BPD." }
+    ],
+    pearls: ["INSURE technique: Intubate-Surfactant-Extubate to minimize ventilator exposure", "LISA/MIST (Less Invasive Surfactant Administration) avoids intubation entirely", "Target SpO2 90-95% to reduce ROP risk while avoiding hypoxia"],
+    quiz: [{ question: "What is the primary phospholipid component of pulmonary surfactant?", options: ["Sphingomyelin", "Dipalmitoylphosphatidylcholine (DPPC)", "Phosphatidylglycerol", "Lecithin"], correct: 1, rationale: "DPPC (dipalmitoylphosphatidylcholine) comprises the majority of surfactant phospholipids (~90% of surfactant is phospholipid, with DPPC being the primary component) and is responsible for reducing alveolar surface tension." }]
+  },
+  "neonatal-hie-np": {
+    title: "HIE: Therapeutic Hypothermia",
+    cellular: { title: "Two-Phase Injury & Neuroprotection", content: "Hypoxic-Ischemic Encephalopathy occurs in two phases. Primary injury: ATP depletion leads to failure of Na/K ATPase, intracellular calcium influx, and excitotoxic glutamate release. Latent period (6-hour therapeutic window): partial energy recovery. Secondary injury: mitochondrial failure, ROS production, inflammation (IL-1beta, TNF-alpha), and apoptosis via caspase activation. Therapeutic hypothermia (33.5C for 72 hours) reduces metabolic rate by 5% per degree, decreases excitotoxicity, and inhibits apoptotic pathways." },
+    signs: {
+      left: ["Sarnat Stage I (hyperalert, normal EEG)", "Sarnat Stage II (lethargic, seizures, suppressed EEG)", "Sarnat Stage III (comatose, burst suppression)"],
+      right: ["Multi-organ dysfunction (renal, hepatic, cardiac)", "Seizures within 6-12 hours", "Amplitude-integrated EEG changes", "MRI changes (basal ganglia/thalami or watershed)"]
+    },
+    medications: [
+      { name: "Phenobarbital", type: "Barbiturate Anticonvulsant", action: "First-line treatment for neonatal seizures — enhances GABA inhibition", sideEffects: "Respiratory depression, sedation, hypotension", contra: "Severe respiratory depression", pearl: "Loading dose 20mg/kg IV; may give additional 5-10mg/kg boluses up to 40mg/kg total." },
+      { name: "Levetiracetam", type: "Anticonvulsant", action: "Emerging second-line — binds synaptic vesicle protein SV2A", sideEffects: "Sedation, irritability", contra: "Hypersensitivity", pearl: "Gaining favor due to fewer side effects than phenobarbital; evidence still accumulating in neonates." },
+      { name: "Morphine/Fentanyl", type: "Opioid Analgesic", action: "Comfort and pain management during therapeutic cooling", sideEffects: "Respiratory depression, hypotension, ileus", contra: "Hemodynamic instability", pearl: "Shivering during cooling increases metabolic demand and must be controlled." }
+    ],
+    pearls: ["Cooling must begin within 6 hours of birth for neuroprotective benefit", "TOBY, CoolCap, and NICHD trials established evidence for therapeutic hypothermia", "Rewarming must be gradual at 0.5°C per hour to prevent rebound seizures"],
+    quiz: [{ question: "What is the therapeutic window for initiating hypothermia in HIE?", options: ["Within 1 hour", "Within 6 hours", "Within 12 hours", "Within 24 hours"], correct: 1, rationale: "Therapeutic hypothermia must be initiated within 6 hours of birth during the latent period between primary and secondary injury to achieve neuroprotective benefits." }]
+  },
+  "persistent-pulm-htn-np": {
+    title: "PPHN: Nitric Oxide Pathway",
+    cellular: { title: "Pulmonary Vascular Transition Failure", content: "Persistent Pulmonary Hypertension of the Newborn occurs when pulmonary vascular resistance (PVR) fails to decrease after birth, maintaining fetal circulation pattern with right-to-left shunting through PDA and foramen ovale. Normally, increased PaO2 and decreased PaCO2 stimulate endothelial nitric oxide synthase (eNOS) to produce NO, which activates guanylate cyclase to produce cGMP, causing smooth muscle relaxation. In PPHN, this pathway is impaired. Phosphodiesterase-5 (PDE5) degrades cGMP." },
+    signs: {
+      left: ["Labile hypoxemia", "Pre-post ductal SpO2 differential >10%", "Right-to-left shunt on echo", "Poor response to supplemental O2"],
+      right: ["Severe hypoxemia with minimal lung disease", "Tricuspid regurgitation on echo", "Septal bowing (RV pressure overload)", "Metabolic acidosis"]
+    },
+    medications: [
+      { name: "Inhaled Nitric Oxide (iNO)", type: "Selective Pulmonary Vasodilator", action: "Activates guanylate cyclase to increase cGMP, causing pulmonary smooth muscle relaxation", sideEffects: "Methemoglobinemia, rebound pulmonary HTN on withdrawal", contra: "Dependent on R-to-L shunt for systemic perfusion", pearl: "Start at 20ppm; wean gradually to prevent rebound. Monitor methemoglobin levels." },
+      { name: "Sildenafil", type: "PDE5 Inhibitor", action: "Prevents cGMP degradation, prolonging vasodilatory effect", sideEffects: "Systemic hypotension, priapism", contra: "Concurrent nitrate use", pearl: "Oral alternative when iNO unavailable; also used for weaning off iNO." },
+      { name: "Milrinone", type: "PDE3 Inhibitor", action: "Increases cAMP — provides inotropy and vasodilation", sideEffects: "Hypotension, thrombocytopenia", contra: "Severe aortic stenosis", pearl: "Improves both cardiac output and reduces PVR — dual benefit in PPHN." }
+    ],
+    pearls: ["Avoid cold stress and acidosis — both significantly worsen pulmonary vascular resistance", "Use gentle ventilation strategy with permissive hypercapnia to avoid lung injury", "ECMO is indicated for refractory cases with Oxygenation Index (OI) > 40"],
+    quiz: [{ question: "How does inhaled nitric oxide (iNO) reduce pulmonary vascular resistance?", options: ["Blocks calcium channels in smooth muscle", "Activates guanylate cyclase to increase cGMP causing smooth muscle relaxation", "Inhibits phosphodiesterase-5 directly", "Stimulates beta-2 receptors in the lungs"], correct: 1, rationale: "iNO activates soluble guanylate cyclase in pulmonary vascular smooth muscle, increasing cGMP production which leads to smooth muscle relaxation and selective pulmonary vasodilation without systemic effects." }]
+  },
+  "neonatal-abstinence-np": {
+    title: "NAS: Opioid Withdrawal Scoring",
+    cellular: { title: "Noradrenergic Upregulation", content: "Neonatal Abstinence Syndrome results from in utero opioid exposure causing upregulation of cAMP and noradrenergic pathways. After birth, removal of the opioid agonist leads to unopposed noradrenergic activity causing CNS excitability, autonomic dysfunction, and GI disturbance. Onset depends on the half-life of the maternal opioid (heroin: 24-48h, methadone: 48-72h, buprenorphine: 36-60h). The Finnegan Neonatal Abstinence Scoring System or Eat-Sleep-Console (ESC) model guides treatment." },
+    signs: {
+      left: ["High-pitched cry", "Tremors/jitteriness", "Increased muscle tone", "Poor feeding/excessive sucking"],
+      right: ["Seizures (rare but severe)", "Excoriation (face/knees)", "Diarrhea/vomiting", "Fever/sweating/sneezing"]
+    },
+    medications: [
+      { name: "Morphine Sulfate", type: "Opioid Agonist", action: "First-line pharmacotherapy — replaces opioid to control withdrawal symptoms with gradual taper", sideEffects: "Respiratory depression, sedation, constipation", contra: "Respiratory depression", pearl: "Weight-based dosing with slow gradual taper over days to weeks based on scoring." },
+      { name: "Clonidine", type: "Alpha-2 Agonist", action: "Adjunctive — reduces central noradrenergic hyperactivity", sideEffects: "Hypotension, bradycardia, rebound HTN on withdrawal", contra: "Hemodynamic instability", pearl: "Reduces morphine requirement and length of treatment when used as adjunct." },
+      { name: "Phenobarbital", type: "Barbiturate", action: "Adjunctive for polysubstance exposure (especially benzodiazepines)", sideEffects: "Respiratory depression, sedation, poor feeding", contra: "Severe respiratory compromise", pearl: "Preferred when maternal exposure includes benzodiazepines or alcohol in addition to opioids." }
+    ],
+    pearls: ["Eat-Sleep-Console (ESC) model is replacing Finnegan scoring at many centers — focuses on function rather than individual symptoms", "Rooming-in with mother significantly improves outcomes and reduces pharmacotherapy need", "Breastfeeding is encouraged if mother is in a stable medication-assisted treatment program"],
+    quiz: [{ question: "What is the key difference between the Eat-Sleep-Console (ESC) model and the Finnegan scoring system?", options: ["ESC uses more medications than Finnegan", "ESC focuses on functional assessment (eating, sleeping, consolability) rather than individual symptom scoring", "Finnegan is newer and more evidence-based", "ESC requires longer hospital stays"], correct: 1, rationale: "The ESC model shifts focus from scoring individual withdrawal symptoms (Finnegan) to assessing functional outcomes — can the infant eat adequately, sleep undisturbed, and be consoled within 10 minutes? This approach reduces pharmacotherapy use and hospital length of stay." }]
   }
 };
 
