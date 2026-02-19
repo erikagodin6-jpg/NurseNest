@@ -5,24 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { 
-  ArrowLeft, 
-  Microscope, 
-  AlertCircle, 
-  Stethoscope, 
-  Pill, 
-  Lightbulb, 
-  FileText,
-  CheckCircle2,
-  XCircle,
-  Trophy,
-  Activity,
-  Heart,
-  Droplets,
-  Brain,
-  Wind,
-  Zap,
-  Baby,
-  Users
+  ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
+  CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -37,182 +21,199 @@ type LessonContent = {
 };
 
 const contentMap: Record<string, LessonContent> = {
-  "peds-cardiac-basics": {
-    title: "Pediatric Cardiac Foundations",
-    cellular: {
-      title: "Pediatric vs Adult Compensation",
-      content: "Children maintain blood pressure until the very end. Tachycardia is the most sensitive early indicator of deterioration. \n\nEarly Signs: Tachycardia, Poor feeding, Irritability, Cool extremities. \n\nLate Signs: Hypotension, Bradycardia (EXTREMELY OMINOUS)."
-    },
+  "neuro-basics": {
+    title: "Neuro Deterioration: Early vs Late",
+    cellular: { title: "Cellular Sensitivity", content: "Brain sensitivity to hypoxia, hypotension, and glucose. \n\nEarly: Restlessness, Confusion. \n\nLate: Decreased LOC, Posturing." },
     signs: {
-      left: ["Tachycardia (Early Sign)", "Poor Feeding", "Diaphoresis with Feeds", "Irritability/Lethargy"],
-      right: ["🚨 Bradycardia (Emergency!)", "🚨 Hypotension (Late Sign)", "Delayed Cap Refill", "Weak Pulses"]
+      left: ["Restlessness", "Confusion", "Headache", "Subtle LOC Change"],
+      right: ["🚨 Decreased LOC", "🚨 Posturing", "🚨 Pupillary Changes", "🚨 Respiratory Failure"]
     },
-    medications: [
-      { name: "Digoxin", type: "Cardiac Med", action: "Increases contractility", sideEffects: "Bradycardia, Toxicity", contra: "Low HR", pearl: "Extremely narrow therapeutic window in children. Monitor for toxicity (N/V)." }
-    ],
-    pearls: [
-      "Poor perfusion ≠ always hypotension in children",
-      "Monitor effort and feeding intolerance as primary clues",
-      "Bradycardia in a child often = imminent cardiac arrest"
-    ],
-    quiz: [
-      { question: "What is the most sensitive early sign of heart failure in an infant?", options: ["Hypotension", "Cyanosis", "Feeding intolerance/sweating", "Bradycardia"], correct: 2, rationale: "Infants often show cardiac distress through feeding difficulties and diaphoresis during feeding." }
-    ]
+    medications: [{ name: "Mannitol", type: "Osmotic", action: "Reduces ICP", sideEffects: "Dehydration", contra: "Anuria", pearl: "Monitor ICP." }],
+    pearls: ["Sudden LOC change = priority", "Find the cause (UTI, Hypoxia, Glucose)"],
+    lifespan: { title: "Across the Lifespan", content: "Infants: High-pitched cry/bulging fontanelle. Elderly: Acute confusion (Delirium) as first sign." },
+    quiz: [{ question: "Early sign?", options: ["Posturing", "Restlessness", "Cyanosis", "Bradycardia"], correct: 1, rationale: "Restlessness is often first." }]
   },
-  "peds-chf": {
-    title: "Pediatric Congestive Heart Failure",
-    cellular: {
-      title: "High Metabolic Demand",
-      content: "In children, CHF occurs when the heart cannot meet the metabolic demands of growth. This leads to systemic and pulmonary congestion. At the cellular level, the failure to provide oxygenated blood results in 'Failure to Thrive'—the body prioritizing survival over growth."
-    },
+  "stroke": {
+    title: "Stroke: FAST Recognition",
+    cellular: { title: "Ischemic vs Hemorrhagic", content: "Clot vs Bleed. Both result in rapid neuron death." },
     signs: {
-      left: ["Tachypnea", "Poor Weight Gain", "Hepatomegaly", "Feeding Intolerance"],
-      right: ["⭐ Sweating with feeds", "⭐ Periorbital Edema", "Irritability", "Tachycardia"]
+      left: ["Face Drooping", "Arm Weakness", "Speech Difficulty", "Visual Loss"],
+      right: ["🚨 Worst Headache Ever", "🚨 Sudden Confusion", "🚨 Decreased LOC", "🚨 Nausea/Vomiting"]
     },
-    medications: [
-      { name: "Furosemide", type: "Diuretic", action: "Fluid removal", sideEffects: "Electrolyte loss", contra: "Dehydration", pearl: "Monitor hydration status and electrolytes (K+) closely." }
-    ],
-    pearls: [
-      "Feeding intolerance is the classic 'Activity Intolerance' for infants",
-      "Weights are the best indicator of fluid status",
-      "Position semi-upright to ease breathing"
-    ],
-    quiz: [
-      { question: "Classic REX-PN clue for pediatric heart failure?", options: ["Chest pain", "Leg cramps", "Sweating while feeding", "High blood pressure"], correct: 2, rationale: "Sweating with feeds is a hallmark sign of pediatric cardiac distress." }
-    ]
+    medications: [{ name: "tPA", type: "Thrombolytic", action: "Dissolves clots", sideEffects: "Bleeding", contra: "Hemorrhage", pearl: "Give within 3-4.5 hours." }],
+    pearls: ["NPO until swallow screen", "CT Scan (non-contrast) first"],
+    lifespan: { title: "Across the Lifespan", content: "Common in elderly; in younger adults, often vascular abnormalities." },
+    quiz: [{ question: "Priority action?", options: ["Aspirin", "NPO status", "Walk", "Food"], correct: 1, rationale: "Prevent aspiration." }]
   },
-  "congenital-defects": {
-    title: "Congenital Heart Defects (CHD)",
-    cellular: {
-      title: "Acyanotic vs Cyanotic Shunting",
-      content: "Acyanotic (Left-to-Right Shunt): Increased pulmonary blood flow (e.g., VSD, ASD, PDA). Leads to CHF risk. \n\nCyanotic (Right-to-Left Shunt): Decreased pulmonary blood flow (e.g., Tetralogy of Fallot). Leads to Hypoxia/Cyanosis."
-    },
+  "peds-neuro": {
+    title: "Pediatric Neuro & Seizures",
+    cellular: { title: "Developing Brain", content: "Fontanelles compensate slightly. Seizures can be febrile." },
     signs: {
-      left: ["⭐ Acyanotic: CHF Signs, Murmur", "Increased pulmonary congestion", "Frequent infections"],
-      right: ["⭐ Cyanotic: Hypoxia, Cyanosis", "🚨 Tet Spells (Knee-chest position)", "Clubbing", "Polycythemia"]
+      left: ["Bulging Fontanelle", "High-pitched cry", "Irritability", "Febrile Seizure"],
+      right: ["🚨 Neck Stiffness", "🚨 Photophobia", "🚨 Ominous Bradycardia", "🚨 Projectile Vomiting"]
     },
-    medications: [
-      { name: "Indomethacin", type: "NSAID", action: "Closes PDA", sideEffects: "Renal risk", contra: "Active bleed", pearl: "Used to close a Patent Ductus Arteriosus (PDA)." }
-    ],
-    pearls: [
-      "Cyanotic defects = Right-to-Left shunt",
-      "Acyanotic defects = Left-to-Right shunt",
-      "Prioritize symptoms and safety over memorizing anatomy"
-    ],
-    quiz: [
-      { question: "Position for an infant in a 'Tet Spell'?", options: ["Flat on back", "Semi-Fowlers", "Knee-Chest position", "Prone"], correct: 2, rationale: "The knee-chest position increases systemic resistance and improves oxygenation during a cyanotic spell." }
-    ]
+    medications: [{ name: "Diazepam", type: "Benzo", action: "Stops seizure", sideEffects: "Sedation", contra: "Resp depression", pearl: "Safety first." }],
+    pearls: ["Don't restrain during seizure", "Isolation for suspected Meningitis"],
+    quiz: [{ question: "Meningitis sign?", options: ["Hunger", "Neck stiffness", "Leg pain", "Diarrhea"], correct: 1, rationale: "Neck stiffness is classic." }]
+  },
+  "heent-emergencies": {
+    title: "HEENT Emergencies",
+    cellular: { title: "Airway Integrity", content: "Obstruction and pressure changes are primary concerns." },
+    signs: {
+      left: ["Stridor", "Drooling", "Tripod Position", "Sudden vision loss"],
+      right: ["🚨 Airway Closure", "🚨 Retinal Detachment (Flashes)", "🚨 Epiglottitis", "🚨 Foreign Body"]
+    },
+    medications: [{ name: "Epinephrine (Neb)", type: "Vasoconstrictor", action: "Reduces swelling", sideEffects: "Tachycardia", contra: "None", pearl: "Watch for rebound." }],
+    pearls: ["No throat exam in Epiglottitis", "Retinal Detachment: No pressure"],
+    quiz: [{ question: "Sign of Epiglottitis?", options: ["Barking cough", "Drooling", "Wheezing", "Cough"], correct: 1, rationale: "Drooling indicates swelling." }]
+  },
+  "vision-hearing": {
+    title: "Vision & Hearing Safety",
+    cellular: { title: "Functional Impact", content: "Loss of input leads to safety risks." },
+    signs: {
+      left: ["Cloudy Vision (Cataracts)", "Central Loss (Macular)", "Ear Pain (Otitis)", "Red Eye (Conjunctivitis)"],
+      right: ["🚨 Fall Risk", "🚨 Miscommunication", "🚨 Infection Spread", "🚨 Medication Errors"]
+    },
+    medications: [{ name: "Antibiotic Drops", type: "Anti-infective", action: "Kills bacteria", sideEffects: "Local irritation", contra: "Allergy", pearl: "Don't touch tip." }],
+    pearls: ["Infection control for Conjunctivitis", "Communication strategies for hearing loss"],
+    lifespan: { title: "Across the Lifespan", content: "Children: Otitis Media. Seniors: Cataracts/Glaucoma lead to falls." },
+    quiz: [{ question: "Conjunctivitis priority?", options: ["Dark room", "Infection control", "Exercise", "Reading"], correct: 1, rationale: "Highly contagious." }]
+  },
+  "peds-heent": {
+    title: "Pediatric HEENT Mastery",
+    cellular: { title: "Developing Structures", content: "Shorter eustachian tubes, increasing infection risk." },
+    signs: {
+      left: ["Ear Pulling (Otitis)", "White plaques (Thrush)", "Barking cough (Croup)", "Fever"],
+      right: ["🚨 Stridor at rest", "🚨 Drooling (Epiglottitis)", "🚨 Hearing loss", "🚨 Dehydration"]
+    },
+    medications: [{ name: "Nystatin", type: "Antifungal", action: "Treats thrush", sideEffects: "GI upset", contra: "Allergy", pearl: "Swish and swallow." }],
+    pearls: ["Infection control for Conjunctivitis", "Croup: Cold night air/steam"],
+    quiz: [{ question: "Sign of Otitis Media in infant?", options: ["Cough", "Ear pulling/irritability", "Hunger", "Rash"], correct: 1, rationale: "Irritability and pulling are classic." }]
+  },
+  "gi-emergencies": {
+    title: "GI Emergencies & Perfusion",
+    cellular: { title: "Fluid & Blood Loss", content: "GI issues lead to electrolyte shifts and shock." },
+    signs: {
+      left: ["Nausea/Vomiting", "Diarrhea", "Abdominal Pain", "Constipation"],
+      right: ["🚨 Hematemesis", "🚨 Melena", "🚨 Hypokalemia", "🚨 Dehydration"]
+    },
+    medications: [{ name: "Pantoprazole", type: "PPI", action: "Reduces acid", sideEffects: "C. diff risk", contra: "None", pearl: "Prevents/treats GI bleeds." }],
+    pearls: ["NPO if bleeding", "Monitor K+ in V/D"],
+    lifespan: { title: "Across the Lifespan", content: "Infants: Dehydration is rapid. Elderly: Chronic constipation and GI bleed risks." },
+    quiz: [{ question: "Concern with severe vomiting?", options: ["Hyperkalemia", "Hypokalemia", "Headache", "Rash"], correct: 1, rationale: "Potassium lost." }]
+  },
+  "gu-infections": {
+    title: "GU: UTI & Renal Safety",
+    cellular: { title: "Bacterial Colonization", content: "Infection can ascend and enter blood." },
+    signs: {
+      left: ["Dysuria", "Frequency", "Urgency", "Cloudy Urine"],
+      right: ["🚨 Confusion (Elderly)", "🚨 Flank Pain", "🚨 Bladder Distension", "🚨 Oliguria"]
+    },
+    medications: [{ name: "Nitrofurantoin", type: "Antibiotic", action: "GU infection", sideEffects: "Brown urine", contra: "Renal failure", pearl: "Take with food." }],
+    pearls: ["Confusion in elderly = Check UTI", "Creatinine reflects renal function"],
+    quiz: [{ question: "First sign of UTI in 80yo?", options: ["Fever", "Confusion", "Back pain", "Rash"], correct: 1, rationale: "Acute confusion is classic." }]
+  },
+  "msk-safety": {
+    title: "MSK: Fractures & Safety",
+    cellular: { title: "Neurovascular Integrity", content: "Injury can compromise flow and nerve function." },
+    signs: {
+      left: ["Pain & Swelling", "Deformity", "Immobility", "Bruising"],
+      right: ["🚨 Paresthesia", "🚨 Pallor", "🚨 Pulselessness", "🚨 Unrelieved Pain"]
+    },
+    medications: [{ name: "Morphine", type: "Opioid", action: "Pain relief", sideEffects: "Resp depression", contra: "Low RR", pearl: "Monitor respirations." }],
+    pearls: ["Neurovascular checks: 6 P's", "Compartment Syndrome = Emergency"],
+    quiz: [{ question: "Compartment Syndrome sign?", options: ["Mild pain", "Itching", "Unrelieved severe pain", "Hunger"], correct: 2, rationale: "Pain out of proportion." }]
+  },
+  "sepsis": {
+    title: "Sepsis Recognition",
+    cellular: { title: "Systemic Inflammation", content: "Body-wide response leading to organ failure." },
+    signs: {
+      left: ["Tachycardia", "Fever", "Tachypnea", "WBC > 12"],
+      right: ["🚨 Hypotension", "🚨 Altered LOC", "🚨 Oliguria", "🚨 Mottled Skin"]
+    },
+    medications: [{ name: "Ceftriaxone", type: "Antibiotic", action: "Broad spectrum", sideEffects: "GI upset", contra: "Allergy", pearl: "Start within 1 hour." }],
+    pearls: ["Hypotension is a LATE sign", "Fluids and Antibiotics priority"],
+    quiz: [{ question: "Early sign of sepsis?", options: ["Hypotension", "Tachycardia", "Death", "Rash"], correct: 1, rationale: "Tachycardia is compensatory." }]
+  },
+  "abg-mastery": {
+    title: "ABG Analysis Masterclass",
+    cellular: { title: "pH Homeostasis", content: "Lungs control CO2 (Acid); Kidneys control HCO3 (Base)." },
+    signs: {
+      left: ["Acidosis: pH < 7.35", "Alkalosis: pH > 7.45", "Normal: 7.35-7.45"],
+      right: ["🚨 Resp Acidosis (Hypoventilation)", "🚨 Met Acidosis (DKA)", "🚨 Resp Alkalosis (Anxiety)"]
+    },
+    medications: [{ name: "Oxygen", type: "Gas", action: "Restores O2", sideEffects: "O2 toxicity", contra: "COPD Over-oxygenation", pearl: "Oxygen is a med." }],
+    pearls: ["ROME: Resp Opposite, Met Equal"],
+    quiz: [{ question: "CO2 50 indicates?", options: ["Alkalosis", "Acidosis", "Normal", "Base"], correct: 1, rationale: "High CO2 is acidic." }]
+  },
+  "supplement-safety": {
+    title: "🌿 Supplement Safety",
+    cellular: { title: "Drug-Herb Interactions", content: "Natural products have potent effects." },
+    signs: {
+      left: ["Ginkgo/Garlic: Bleeding", "Ginseng: Hypoglycemia", "SJW: Reduces drug effect"],
+      right: ["🚨 Serotonin Syndrome", "🚨 Additive Sedation", "🚨 Kava: Liver damage"]
+    },
+    medications: [{ name: "SSRI", type: "Antidepressant", action: "Serotonin increase", sideEffects: "Nausea", contra: "St. John's Wort", pearl: "Avoid SJW." }],
+    pearls: ["Ask about supplements", "Natural ≠ Safe"],
+    quiz: [{ question: "Supplement with many interactions?", options: ["Vitamin D", "St. John's Wort", "Calcium", "Zinc"], correct: 1, rationale: "SJW inducer." }]
+  },
+  "high-yield-labs": {
+    title: "Critical Lab Mastery",
+    cellular: { title: "Homeostasis", content: "Potassium (3.5-5.0), Sodium (135-145), Glucose (4-7)." },
+    signs: {
+      left: ["Hypokalemia: Arrhythmia", "Hyponatremia: Confusion", "Hypoglycemia: Sweating"],
+      right: ["🚨 Hyperkalemia: Peaked T", "🚨 Hypernatremia: Neuro", "🚨 High Creatinine"]
+    },
+    medications: [{ name: "Kayexalate", type: "K+ binder", action: "Removes K+", sideEffects: "Constipation", contra: "Bowel obstruction", pearl: "Treats hyperkalemia." }],
+    pearls: ["Potassium = HEART", "Sodium = BRAIN"],
+    quiz: [{ question: "Potassium 6.2 concerns?", options: ["Seizures", "Diarrhea", "Cardiac Arrhythmias", "Headache"], correct: 2, rationale: "Heart safety first." }]
   },
   "heart-failure": {
-    title: "Heart Failure (HF) - Across the Lifespan",
-    cellular: {
-      title: "The Failure of Cellular Output",
-      content: "At any age, HF is the inability of the heart to pump enough blood to meet cellular needs. In adults, it's often chronic (RAAS activation). In infants, it presents as growth failure and feeding distress."
-    },
+    title: "Heart Failure (All Ages)",
+    cellular: { title: "Pump Failure", content: "Heart cannot meet metabolic demands." },
     signs: {
-      left: ["Adult: Dyspnea, Crackles", "Adult: Peripheral Edema, JVD", "Adult: Orthopnea"],
-      right: ["Pediatric: Feeding Sweating", "Pediatric: Poor weight gain", "Pediatric: Hepatomegaly"]
+      left: ["Adult: Dyspnea, Crackles", "Adult: Edema, JVD", "Adult: Fatigue"],
+      right: ["🚨 Infant: Sweating with feeds", "🚨 Infant: Poor weight gain", "🚨 Infant: Tachypnea"]
     },
-    medications: [
-      { name: "Digoxin", type: "Inotrope", action: "Increases contractility", sideEffects: "Bradycardia", contra: "Low HR", pearl: "Adult: Hold if HR < 60. Child: Hold if HR < 90-110 (age dependent)." }
-    ],
-    lifespan: {
-      title: "Lifespan Considerations",
-      content: "Adults present with classic symptoms like JVD and peripheral edema. Infants present with systemic signs like sweating during feeds and failure to thrive. The nursing goal remains the same: reduce demand and improve output."
-    },
-    pearls: ["Daily weights are the priority across all ages", "Fluid restriction is common in both", "Safety: Digoxin toxicity risk is universal"],
-    quiz: [
-      { question: "Common finding in BOTH adult and pediatric heart failure?", options: ["Orthopnea", "Tachycardia", "Clubbing", "Hypotension"], correct: 1, rationale: "Tachycardia is a universal compensatory mechanism for low cardiac output across all ages." }
-    ]
+    medications: [{ name: "Furosemide", type: "Diuretic", action: "Removes fluid", sideEffects: "Hypokalemia", contra: "Low BP", pearl: "Monitor weights." }],
+    pearls: ["Daily weights priority", "Restrict sodium"],
+    lifespan: { title: "Across the Lifespan", content: "Adults present with exertional dyspnea; Infants present with feeding distress and growth failure." },
+    quiz: [{ question: "Early sign of HF in infant?", options: ["JVD", "Sweating with feeds", "Leg edema", "Cough"], correct: 1, rationale: "Classic pediatric presentation." }]
   },
-  "peds-hypoxia": {
-    title: "Pediatric Hypoxia & Work of Breathing",
-    cellular: {
-      title: "Pediatric Oxygenation Failure",
-      content: "Children decompensate faster than adults. Recognition of early signs is the key. \n\nEarly Signs: Tachycardia, Tachypnea, Restlessness, Nasal Flaring, Retractions. \n\nLate Signs: Bradycardia (OMINOUS), Cyanosis, Lethargy."
-    },
+  "hypertension": {
+    title: "Hypertension (All Ages)",
+    cellular: { title: "Vascular Pressure", content: "Chronic high pressure damages endothelium." },
     signs: {
-      left: ["Tachycardia & Tachypnea", "Restlessness/Irritability", "Nasal Flaring", "Retractions"],
-      right: ["🚨 Bradycardia (Danger!)", "🚨 Grunting/Head Bobbing", "Cyanosis", "Decreased LOC"]
+      left: ["Adult: Headache", "Adult: Blurred vision", "Adult: Asymptomatic"],
+      right: ["🚨 Child: Irritability", "🚨 Child: Seizures", "🚨 Organ Damage"]
     },
-    medications: [
-      { name: "Oxygen Therapy", type: "Supportive", action: "Restores O2", sideEffects: "Dryness", contra: "None", pearl: "Monitor effort, not just numbers. Children look 'okay' until they don't." }
-    ],
-    pearls: [
-      "🚨 Bradycardia in a hypoxic child = code blue emergency",
-      "Work of Breathing is MORE important than SpO2 alone",
-      "Visible retractions = significant distress"
-    ],
-    quiz: [
-      { question: "Most sensitive early sign of hypoxia in a child?", options: ["Cyanosis", "Bradycardia", "Tachycardia", "Decreased LOC"], correct: 2, rationale: "Tachycardia is the first sensitive sign of distress in peds." }
-    ]
+    medications: [{ name: "Lisinopril", type: "ACEI", action: "Lowers BP", sideEffects: "Dry cough", contra: "Pregnancy", pearl: "Monitor Potassium." }],
+    pearls: ["DASH Diet", "Silence Killer"],
+    lifespan: { title: "Across the Lifespan", content: "Secondary causes (renal) are more common in children; primary (lifestyle) in adults." },
+    quiz: [{ question: "ACE Inhibitor side effect?", options: ["Hunger", "Dry cough", "Sleepiness", "Rash"], correct: 1, rationale: "Bradykinin buildup." }]
   },
-  "bronchiolitis": {
-    title: "Bronchiolitis (RSV)",
-    cellular: {
-      title: "Viral Airway Obstruction",
-      content: "Commonly caused by RSV. Viral infection leads to inflammation and heavy mucus production in the smallest airways (bronchioles). This causes narrowing and obstruction, making breathing difficult for infants."
-    },
+  "diabetes-lifespan": {
+    title: "Diabetes Across Ages",
+    cellular: { title: "Glucose Transport", content: "Lack of insulin (T1) or resistance (T2)." },
     signs: {
-      left: ["Tachypnea", "Wheezing/Crackles", "Retractions", "Nasal Flaring"],
-      right: ["Feeding Difficulty", "🚨 Apnea Episodes", "Dehydration", "Irritability"]
+      left: ["Polyuria (Urine)", "Polydipsia (Thirst)", "Polyphagia (Hunger)", "Weight loss"],
+      right: ["🚨 Hypoglycemia (Sweating)", "🚨 DKA (Fruity breath)", "🚨 Neuropathy"]
     },
-    medications: [
-      { name: "Fluids (IV/PO)", type: "Supportive", action: "Maintains hydration", sideEffects: "Fluid overload", contra: "None", pearl: "Priority is hydration and airway maintenance. Antibiotics are NOT routine." }
-    ],
-    pearls: [
-      "Commonly viral (RSV); antibiotics don't work",
-      "Infants/Premature babies are at highest risk",
-      "Assess work of breathing and feeding ability"
-    ],
-    quiz: [
-      { question: "What is the priority for an infant with bronchiolitis?", options: ["Antibiotics", "Hydration & Airway", "Chest PT", "Steroids"], correct: 1, rationale: "Supportive care focused on hydration and monitoring work of breathing is the priority." }
-    ]
+    medications: [{ name: "Insulin", type: "Hormone", action: "Transports glucose", sideEffects: "Hypoglycemia", contra: "Low BG", pearl: "Rotation of sites." }],
+    pearls: ["Foot care is vital", "Hypoglycemia is immediate danger"],
+    lifespan: { title: "Across the Lifespan", content: "Type 1 is classic in peds; Type 2 rising in peds due to lifestyle; both highly prevalent in aging adults." },
+    quiz: [{ question: "Immediate danger in diabetes?", options: ["Hyperglycemia", "Hypoglycemia", "Foot callus", "Hunger"], correct: 1, rationale: "Low BG kills fast." }]
   },
-  "croup": {
-    title: "Croup (Laryngotracheobronchitis)",
-    cellular: {
-      title: "Upper Airway Narrowing",
-      content: "Inflammation of the upper airway (larynx/trachea) leads to subglottic swelling and narrowing. This creates the classic 'barking' cough and inspiratory stridor as air is forced through a tight space."
-    },
+  "parkinsons": {
+    title: "Parkinson's & Mobility",
+    cellular: { title: "Dopamine Deficiency", content: "Loss of dopamine in substantia nigra leads to motor deficits." },
     signs: {
-      left: ["Barking Cough (Seal-like)", "Inspiratory Stridor", "Hoarseness", "Worse at night"],
-      right: ["🚨 Stridor at Rest", "🚨 Increasing distress", "Agitation", "Tachypnea"]
+      left: ["Tremor (at rest)", "Rigidity", "Bradykinesia (Slow)", "Shuffle gait"],
+      right: ["🚨 Dysphagia (Swallow risk)", "🚨 Fall risk", "🚨 Freezing of gait"]
     },
-    medications: [
-      { name: "Dexamethasone", type: "Steroid", action: "Reduces airway swelling", sideEffects: "Irritability", contra: "Viral infection", pearl: "Single dose is often effective." },
-      { name: "Epinephrine (Nebulized)", type: "Vasoconstrictor", action: "Rapid reduction of swelling", sideEffects: "Tachycardia", contra: "None", pearl: "Watch for rebound swelling after 2 hours." }
-    ],
-    pearls: [
-      "Cold night air or steam can help relieve symptoms",
-      "Agitation worsens the obstruction—keep the child calm!",
-      "Stridor at rest is a red flag for severe narrowing"
-    ],
-    quiz: [
-      { question: "Classic finding of Croup?", options: ["Drooling", "Barking cough", "Sudden onset choking", "Absent breath sounds"], correct: 1, rationale: "A barky, seal-like cough is the hallmark sign of Croup." }
-    ]
-  },
-  "epiglottitis": {
-    title: "Epiglottitis (Airway Emergency)",
-    cellular: {
-      title: "Supraglottic Inflammation",
-      content: "Severe, life-threatening inflammation of the epiglottis. The airway can become completely obstructed in minutes. This is a medical emergency that requires immediate recognition."
-    },
-    signs: {
-      left: ["🚨 Drooling", "🚨 Tripod Positioning", "🚨 Dysphagia (Difficulty swallowing)", "🚨 Toxic Appearance"],
-      right: ["High Fever", "Muffled Voice", "Inspiratory Stridor", "Severe Anxiety"]
-    },
-    medications: [
-      { name: "Antibiotics (IV)", type: "Antibacterial", action: "Treats underlying infection", sideEffects: "Diarrhea", contra: "Allergy", pearl: "Airway MUST be secured before any other treatment." }
-    ],
-    pearls: [
-      "🚨 DO NOT examine the throat aggressively (can trigger total closure)",
-      "Keep child in whatever position is most comfortable (usually tripod)",
-      "Emergency intubation equipment must be available"
-    ],
-    quiz: [
-      { question: "What is a hallmark sign of Epiglottitis?", options: ["Barking cough", "Drooling & Tripod positioning", "Wheezing", "Coughing"], correct: 1, rationale: "The 4 Ds (Drooling, Dysphagia, Dysphonia, Distress) and tripod positioning are classic for epiglottitis." }
-    ]
+    medications: [{ name: "Levodopa", type: "Dopamine precursor", action: "Restores motor function", sideEffects: "Dyskinesia", contra: "MAOIs", pearl: "Take at same time every day." }],
+    pearls: ["Swallow assessment", "Safety/Mobility aids"],
+    quiz: [{ question: "Priority safety concern?", options: ["Tremor", "Aspiration/Falls", "Rigidity", "Slow speech"], correct: 1, rationale: "Life-threatening risks." }]
   }
 };
 
@@ -225,7 +226,7 @@ export default function LessonDetail() {
   const { toast } = useToast();
 
   const lessonContent = useMemo(() => {
-    return contentMap[id as string] || contentMap["heart-failure"];
+    return contentMap[id as string] || contentMap["neuro-basics"];
   }, [id]);
 
   const handleAnswer = (index: number) => {
@@ -247,8 +248,8 @@ export default function LessonDetail() {
     }
   };
 
-  const isPharma = id?.includes("pharma");
-  const isPeds = id?.includes("peds") || id === "congenital-defects" || id === "bronchiolitis" || id === "croup" || id === "epiglottitis";
+  const isPeds = id?.includes("peds") || id === "epiglottitis" || id === "bronchiolitis" || id === "croup";
+  const isMeds = id?.includes("safety") || id?.includes("labs") || id?.includes("abg");
   
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
@@ -263,7 +264,6 @@ export default function LessonDetail() {
         </Link>
 
         <div className="space-y-12">
-          {/* Header */}
           <div className="space-y-4">
             <div className="flex items-center gap-4">
                {isPeds && (
@@ -271,20 +271,24 @@ export default function LessonDetail() {
                     <Baby className="w-6 h-6" />
                  </div>
                )}
+               {isMeds && (
+                 <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-500">
+                    <Beaker className="w-6 h-6" />
+                 </div>
+               )}
                <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
             </div>
             <div className="flex items-center gap-4">
-              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">REX-PN Core</span>
-              <span className="text-gray-500 text-sm">Estimated time: 30 mins</span>
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">REX-PN Focus</span>
+              <span className="text-gray-500 text-sm">Clinical Excellence</span>
             </div>
           </div>
 
-          {/* Progress Tracker */}
           <Card className="bg-primary/5 border-none">
             <CardContent className="p-6 flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-sm font-bold text-primary uppercase tracking-wider">Your Progress</p>
-                <p className="text-gray-600">Complete the quiz at the end to track your mastery.</p>
+                <p className="text-sm font-bold text-primary uppercase tracking-wider">Learning Progress</p>
+                <p className="text-gray-600">Complete the module to track mastery.</p>
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold text-primary">{quizComplete ? "100%" : "25%"}</p>
@@ -293,10 +297,9 @@ export default function LessonDetail() {
             </CardContent>
           </Card>
 
-          {/* Intro Section */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-              {isPeds ? <Baby className="text-pink-500 w-8 h-8" /> : <Microscope className="text-primary w-8 h-8" />}
+              <Microscope className="text-primary w-8 h-8" />
               <h2>{lessonContent.cellular.title}</h2>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700 whitespace-pre-wrap">
@@ -304,12 +307,11 @@ export default function LessonDetail() {
             </div>
           </section>
 
-          {/* Lifespan Section if exists */}
           {lessonContent.lifespan && (
             <section className="space-y-6">
               <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                 <Users className="text-indigo-500 w-8 h-8" />
-                <h2>{lessonContent.lifespan.title}</h2>
+                <h2>Across the Lifespan</h2>
               </div>
               <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900 italic">
                 {lessonContent.lifespan.content}
@@ -317,13 +319,12 @@ export default function LessonDetail() {
             </section>
           )}
 
-          {/* Assessment/Findings Section */}
           <section className="grid md:grid-cols-2 gap-8">
             <Card className="border-none shadow-md bg-white">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-blue-500 w-6 h-6" />
-                  <h3>Assessment Patterns</h3>
+                  <h3>Clinical Findings</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.left.map((s, i) => (
@@ -339,7 +340,7 @@ export default function LessonDetail() {
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-orange-500 w-6 h-6" />
-                  <h3>Clinical Alert Signs</h3>
+                  <h3>Danger Signs</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.right.map((s, i) => (
@@ -353,7 +354,6 @@ export default function LessonDetail() {
             </Card>
           </section>
 
-          {/* Medications Section */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Pill className="text-primary w-8 h-8" />
@@ -386,15 +386,14 @@ export default function LessonDetail() {
             </div>
           </section>
 
-          {/* Quick Fact Sheet */}
           <section className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
             <div className="flex items-center gap-3 text-2xl font-bold">
               <FileText className="text-primary w-8 h-8" />
-              <h2>REX-PN Mastery Summary</h2>
+              <h2>REX-PN Mastery</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Nursing Priorities</h4>
+                <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Principles</h4>
                 <ul className="space-y-2 text-gray-300">
                   {lessonContent.pearls.map((p, i) => (
                     <li key={i} className="flex gap-2">
@@ -407,23 +406,21 @@ export default function LessonDetail() {
               <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                 <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Danger Zone</h4>
                 <p className="text-sm text-gray-400 leading-relaxed italic">
-                  Always prioritize based on age-specific patterns. Infants decompensate through feeding distress; adults through exertional dyspnea. Bradycardia in a child is never "stable"—it is an emergency.
+                  Clinical reasoning over memorization. If something changes suddenly, it's your priority.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* Quiz Section */}
           <section className="py-12 border-t border-gray-100">
             {!quizStarted ? (
               <div className="text-center space-y-6">
                 <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                   <Stethoscope className="w-10 h-10 text-primary" />
                 </div>
-                <h2 className="text-3xl font-bold">Knowledge Check</h2>
-                <p className="text-gray-600 max-w-md mx-auto">Ready to test your understanding? Complete these questions to finish the module.</p>
+                <h2 className="text-3xl font-bold">Case Study Challenge</h2>
                 <Button size="lg" onClick={() => setQuizStarted(true)} className="rounded-full px-12 bg-primary hover:brightness-110 h-14 text-lg text-white">
-                  Start Quiz
+                  Start Mastery Quiz
                 </Button>
               </div>
             ) : quizComplete ? (
@@ -431,8 +428,8 @@ export default function LessonDetail() {
                 <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
                   <Trophy className="w-12 h-12 text-emerald-500" />
                 </div>
-                <h2 className="text-3xl font-bold">Lesson Mastered!</h2>
-                <p className="text-xl text-gray-600">You scored {score} out of {lessonContent.quiz.length}</p>
+                <h2 className="text-3xl font-bold">Module Mastered!</h2>
+                <p className="text-xl text-gray-600">Scored {score} / {lessonContent.quiz.length}</p>
                 <div className="pt-4">
                   <Link href="/lessons">
                     <Button variant="outline" className="rounded-full px-8">Return to Overview</Button>
@@ -442,15 +439,13 @@ export default function LessonDetail() {
             ) : (
               <div className="max-w-2xl mx-auto space-y-8">
                 <div className="space-y-2">
-                  <p className="text-sm font-bold text-primary uppercase tracking-wider">Question {currentQuestion + 1} of {lessonContent.quiz.length}</p>
+                  <p className="text-sm font-bold text-primary uppercase tracking-wider">Question {currentQuestion + 1}</p>
                   <h3 className="text-2xl font-bold text-gray-900">{lessonContent.quiz[currentQuestion].question}</h3>
                 </div>
                 <div className="grid gap-4">
                   {lessonContent.quiz[currentQuestion].options.map((option, i) => (
                     <Button 
-                      key={i} 
-                      variant="outline" 
-                      onClick={() => handleAnswer(i)}
+                      key={i} variant="outline" onClick={() => handleAnswer(i)}
                       className="justify-start h-auto py-4 px-6 text-left hover:bg-primary/5 hover:border-primary/40 rounded-xl"
                     >
                       {option}
@@ -466,6 +461,6 @@ export default function LessonDetail() {
   );
 }
 
-function cn(...classes: string[]) {
+function cn(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }

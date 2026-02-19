@@ -1,0 +1,186 @@
+SKIN DISORDERS (High Yield)
+Focus → integrity, infection, inflammation, safety.
+✅ Dermatitis / Eczema
+Recognition:
+• Pruritus
+• Dry / inflamed skin
+• Chronic pattern
+Management themes:
+• Moisturizers
+• Topical corticosteroids
+Medication risks:
+🚨 Steroid overuse → skin thinning
+✅ Pressure Injuries (VERY HIGH YIELD)
+Core exam domain.
+Must know:
+• Staging logic (conceptual)
+• Prevention priorities
+• Risk factors
+✅ Cellulitis (CRITICAL)
+Recognition:
+🚨 Redness + warmth + swelling + pain
+Danger concept:
+Infection spread risk
+Treatment:
+• Antibiotics
+✅ Fungal Infections (Common)
+Examples:
+• Tinea
+• Candidiasis
+✅ Burns (Very Classic)
+Exam themes:
+• Fluid loss
+• Infection risk
+• Pain management
+🍽️ GI DISORDERS (Major Exam Domain)
+✅ Nausea / Vomiting (EXTREMELY TESTABLE)
+Mechanism implications:
+🚨 Fluid loss
+🚨 Electrolyte imbalance (especially potassium)
+Complications:
+• Hypokalemia
+• Dehydration
+✅ Diarrhea
+Exam focus:
+• Dehydration risk
+• Infection vs medication causes
+✅ Constipation (Very High Frequency)
+Causes:
+• Opioids
+• Immobility
+✅ GI Bleeding (CRITICAL)
+Recognition:
+🚨 Hematemesis
+🚨 Melena
+🚨 Hematochezia
+Priority → perfusion & stability
+✅ Liver Dysfunction (Conceptual)
+Know:
+• Medication metabolism implications
+• Bleeding risk patterns
+🚻 GU DISORDERS (High Yield)
+✅ Urinary Tract Infection (EXTREMELY COMMON)
+Recognition:
+• Dysuria
+• Frequency
+• Confusion in elderly (important!)
+✅ Urinary Retention
+Causes:
+• Medications
+• Obstruction
+Complications:
+🚨 Bladder distension
+🚨 Infection risk
+✅ Incontinence
+Exam themes:
+• Skin breakdown
+• Infection prevention
+✅ Acute Kidney Injury (Conceptual)
+Focus:
+• Fluid balance
+• Electrolytes
+• Medication safety
+🦴 MSK DISORDERS (High Yield)
+✅ Fractures (VERY COMMON)
+Priorities:
+🚨 Neurovascular checks
+🚨 Compartment syndrome recognition
+Red flags:
+• Severe pain unrelieved
+• Pallor / paresthesia
+✅ Osteoporosis
+Exam themes:
+• Fracture prevention
+• Fall risk
+✅ Arthritis
+• Pain management
+• Mobility preservation
+✅ Mobility Impairment (Very Testable)
+Complications:
+• DVT
+• Pressure injuries
+• Constipation
+🦠 INFECTIONS (Cross-System CRITICAL DOMAIN)
+✅ Sepsis (VERY HIGH YIELD)
+Recognition:
+🚨 Tachycardia
+🚨 Hypotension
+🚨 Altered LOC
+✅ Respiratory Infections
+• Pneumonia
+• TB (precautions logic)
+✅ Skin Infections
+• Cellulitis
+• Wound infection
+✅ GU Infections
+• UTI
+💊 MEDICATIONS & SIDE EFFECTS (EXTREMELY IMPORTANT)
+REX-PN heavily tests medication safety, not drug trivia.
+✅ Opioids
+Side effects:
+🚨 Respiratory depression
+🚨 Constipation
+🚨 Sedation
+✅ NSAIDs
+Risks:
+🚨 GI bleeding
+🚨 Renal injury
+✅ Diuretics
+Risks:
+🚨 Hypotension
+🚨 Electrolyte loss
+✅ Antibiotics
+Risks:
+• GI upset
+• C. difficile risk
+✅ Anticoagulants (VERY HIGH YIELD)
+Risks:
+🚨 Bleeding
+✅ Antihypertensives
+Risks:
+🚨 Orthostatic hypotension
+🚨 Falls
+🌿 HOLISTIC / NATURAL PRODUCTS / SUPPLEMENTS (SMART & TESTABLE)
+This is excellent for NurseNest differentiation and clinically realistic.
+Exams increasingly include safety considerations.
+✅ Critical Global Principle
+Natural ≠ safe
+Supplements can cause serious interactions
+✅ Common High-Risk Supplements
+⭐ St. John’s Wort (VERY IMPORTANT)
+Interactions:
+🚨 Reduces effectiveness of many drugs
+🚨 Serotonin syndrome risk with SSRIs
+⭐ Ginkgo Biloba
+Risks:
+🚨 Increased bleeding risk
+🚨 Dangerous with anticoagulants
+⭐ Garlic Supplements
+Risks:
+🚨 Bleeding risk
+⭐ Ginseng
+Risks:
+• BP effects
+• Hypoglycemia potential
+⭐ Valerian Root
+Risks:
+🚨 CNS depression
+🚨 Additive sedation with meds
+⭐ Kava
+Risks:
+🚨 Hepatotoxicity
+✅ Electrolyte / Cardiac Interaction Themes
+Many supplements alter:
+• Potassium
+• BP
+• Coagulation
+Which creates exam-style safety questions.
+🚨 High-Yield Nursing Safety Themes Across Systems
+Students pass by recognizing:
+✅ Adverse effects
+✅ Drug-drug interactions
+✅ Drug-supplement interactions
+✅ Early deterioration
+✅ Hydration & perfusion issues
+✅ Bleeding risks
+✅ Respiratory risks
