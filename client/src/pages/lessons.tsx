@@ -11,10 +11,28 @@ import {
   BookOpen,
   Lock,
   Activity,
-  Pill
+  Pill,
+  AlertCircle
 } from "lucide-react";
 
 const systems = [
+  {
+    id: "respiratory",
+    title: "Respiratory System",
+    icon: Wind,
+    color: "text-blue-500",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "respiratory-basics", name: "⭐ Hypoxia & Breath Sounds", status: "Available" },
+      { id: "respiratory-pharma", name: "💊 Respiratory Pharmacology", status: "Available" },
+      { id: "copd", name: "COPD (High Yield)", status: "Available" },
+      { id: "asthma", name: "Asthma", status: "Available" },
+      { id: "pneumonia", name: "Pneumonia", status: "Available" },
+      { id: "pe", name: "Pulmonary Embolism (PE)", status: "Available" },
+      { id: "atelectasis", name: "Atelectasis", status: "Available" },
+      { id: "pulmonary-edema", name: "Pulmonary Edema", status: "Available" }
+    ]
+  },
   {
     id: "cardiovascular",
     title: "Cardiovascular System",
@@ -28,7 +46,8 @@ const systems = [
       { id: "mi", name: "Myocardial Infarction (MI)", status: "Available" },
       { id: "afib", name: "Atrial Fibrillation", status: "Available" },
       { id: "shock", name: "Shock States (Hypovolemic/Septic)", status: "Available" },
-      { id: "angina", name: "Angina (Stable/Unstable)", status: "Available" }
+      { id: "angina", name: "Angina (Stable/Unstable)", status: "Available" },
+      { id: "reduced-co", name: "Reduced Cardiac Output", status: "Available" }
     ]
   },
   {
@@ -55,20 +74,6 @@ const systems = [
       { id: "neuro-pharma", name: "💊 Neurological Pharmacology", status: "Available" },
       { id: "stroke", name: "Ischemic Stroke", status: "Available" },
       { id: "tia", name: "TIA (Mini-Stroke)", status: "Available" }
-    ]
-  },
-  {
-    id: "respiratory",
-    title: "Respiratory System",
-    icon: Wind,
-    color: "text-blue-500",
-    bgColor: "bg-blue-50",
-    diseases: [
-      { id: "respiratory-pharma", name: "💊 Respiratory Pharmacology", status: "Available" },
-      { id: "pulmonary-edema", name: "Pulmonary Edema", status: "Available" },
-      { id: "pe", name: "Pulmonary Embolism (PE)", status: "Available" },
-      { id: "copd", name: "COPD", status: "Available" },
-      { id: "asthma", name: "Asthma", status: "Available" }
     ]
   },
   {
@@ -119,16 +124,18 @@ export default function Lessons() {
                         disease.status === "Available" 
                           ? "border-primary/20 bg-primary/5 hover:bg-primary/10" 
                           : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed",
-                        disease.name.includes("💊") && "border-primary/30 bg-primary/10 shadow-sm"
+                        (disease.name.includes("💊") || disease.name.includes("⭐")) && "border-primary/30 bg-primary/10 shadow-sm"
                       )}
                     >
                       <div className="flex items-center gap-3">
                         {disease.name.includes("💊") ? (
                           <Pill className="w-5 h-5 text-primary" />
+                        ) : disease.name.includes("⭐") ? (
+                          <AlertCircle className="w-5 h-5 text-primary" />
                         ) : (
                           <BookOpen className={cn("w-5 h-5", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
                         )}
-                        <span className={cn("font-medium", disease.name.includes("💊") ? "text-primary-foreground font-bold" : "text-gray-900")}>
+                        <span className={cn("font-medium", (disease.name.includes("💊") || disease.name.includes("⭐")) ? "text-primary-foreground font-bold" : "text-gray-900")}>
                           {disease.name}
                         </span>
                       </div>
