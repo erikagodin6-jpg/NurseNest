@@ -15,7 +15,11 @@ import {
   CheckCircle2,
   XCircle,
   Trophy,
-  Activity
+  Activity,
+  Heart,
+  Droplets,
+  Brain,
+  Wind
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -29,6 +33,109 @@ type LessonContent = {
 };
 
 const contentMap: Record<string, LessonContent> = {
+  "cardio-pharma": {
+    title: "Cardiovascular Pharmacology Masterclass",
+    cellular: {
+      title: "Cardiac Drug Mechanisms",
+      content: "Cardiovascular drugs primarily target the autonomic nervous system, the RAAS system, and cellular ion channels (Na, K, Ca). For the REX-PN, you must understand how these drugs change the 'Squeeze' (Inotropy), the 'Rate' (Chronotropy), and the 'Fluid Status' (Diuresis)."
+    },
+    signs: {
+      left: ["Assess Heart Rate (Apical)", "Assess Blood Pressure", "Monitor Potassium (K+)", "Monitor Digoxin Levels"],
+      right: ["Check for Peripheral Edema", "Assess Lung Sounds (Crackles)", "Monitor I&O", "Assess for Orthostatic Hypotension"]
+    },
+    medications: [
+      { name: "Furosemide (Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption in Loop of Henle", sideEffects: "Hypokalemia, Ototoxicity", contra: "Anuria", pearl: "K-wasting! Watch for leg cramps and weak pulses." },
+      { name: "Spironolactone", type: "K-Sparing Diuretic", action: "Blocks Aldosterone", sideEffects: "Hyperkalemia", contra: "Renal Failure", pearl: "Avoid salt substitutes (they contain K+)." },
+      { name: "Lisinopril", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Dry Cough, Angioedema, Hyperkalemia", contra: "Pregnancy", pearl: "Report facial swelling immediately!" },
+      { name: "Metoprolol", type: "Beta Blocker", action: "Decreases sympathetic workload", sideEffects: "Bradycardia, Bronchospasm", contra: "Asthma/COPD", pearl: "Hold if HR < 60. Masks hypoglycemia!" },
+      { name: "Digoxin", type: "Inotrope", action: "Increases squeeze, slows rate", sideEffects: "Bradycardia, Visual halos", contra: "Hypokalemia (increases toxicity risk)", pearl: "Apical pulse for 1 full minute." }
+    ],
+    pearls: ["Always check BP/HR before administration", "Potassium balance is the #1 safety priority", "Move from lying to sitting slowly (Orthostatic risk)"],
+    quiz: [
+      { question: "Which medication masks the signs of hypoglycemia?", options: ["Lisinopril", "Metoprolol", "Furosemide", "Digoxin"], correct: 1, rationale: "Beta blockers block the sympathetic response (tachycardia) to low blood sugar." }
+    ]
+  },
+  "endocrine-pharma": {
+    title: "Endocrine Pharmacology (Insulin & Oral Meds)",
+    cellular: {
+      title: "Glucose Transportation",
+      content: "Endocrine pharmacology focuses on restoring the cellular ability to transport glucose. Insulin acts as the 'key' to open the cellular door. Oral meds either make the pancreas work harder, make cells more sensitive, or prevent the liver from dumping sugar."
+    },
+    signs: {
+      left: ["Rapid-Acting: Onset 15m, Peak 1h", "Short-Acting: Onset 30m, Peak 2-4h", "Intermediate: Onset 2h, Peak 4-12h", "Long-Acting: No Peak, 24h Duration"],
+      right: ["Hypoglycemia: Shakiness, Sweating", "Hyperglycemia: Thirst, Polyuria", "HbA1c: 3-month average", "Lactic Acidosis (Metformin)"]
+    },
+    medications: [
+      { name: "Lispro (Humalog)", type: "Rapid-Acting", action: "Quick glucose transport", sideEffects: "Hypoglycemia", contra: "None", pearl: "Food MUST be present at the bedside!" },
+      { name: "Regular (Humulin R)", type: "Short-Acting", action: "Peak 2-4 hours", sideEffects: "Hypoglycemia", contra: "None", pearl: "The only insulin given IV." },
+      { name: "Glargine (Lantus)", type: "Long-Acting", action: "Baseline coverage", sideEffects: "Hypoglycemia", contra: "None", pearl: "Never mix with other insulins!" },
+      { name: "Metformin", type: "Biguanide", action: "Decreases liver glucose output", sideEffects: "GI Upset, Lactic Acidosis", contra: "Renal impairment", pearl: "Hold 48h before/after IV contrast!" }
+    ],
+    pearls: ["Peak time = Highest risk for hypoglycemia", "Clear before Cloudy (Regular before NPH)", "Rotate sites to prevent Lipodystrophy"],
+    quiz: [
+      { question: "When is the patient at highest risk for hypoglycemia?", options: ["At onset", "At peak", "At duration", "Always"], correct: 1, rationale: "The peak is when the medication is at its strongest concentration." }
+    ]
+  },
+  "neuro-pharma": {
+    title: "Neurological Pharmacology",
+    cellular: {
+      title: "Clot Destruction & Protection",
+      content: "Neuro pharmacology focuses on restoring perfusion through fibrinolysis (clot busting) or preventing further aggregation (anti-platelets). Safety is paramount because these drugs carry a high risk of intracranial hemorrhage."
+    },
+    signs: {
+      left: ["Assess for Bleeding (Gums, Stool)", "Monitor Neurological Status (GCS)", "Monitor Blood Pressure strictly", "Assess for headache/nausea"],
+      right: ["Fibrinolytic Window (3-4.5h)", "Anti-platelet therapy", "Plaque stabilization (Statins)", "Vasospasm prevention"]
+    },
+    medications: [
+      { name: "Alteplase (tPA)", type: "Thrombolytic", action: "Dissolves fibrin clots", sideEffects: "Major Bleeding", contra: "Recent surgery, active bleed", pearl: "Give within 3-4.5 hours of Last Known Well." },
+      { name: "Clopidogrel (Plavix)", type: "Anti-platelet", action: "Prevents platelet stickiness", sideEffects: "Bleeding", contra: "Active GI bleed", pearl: "Stop 5-7 days before any surgery." },
+      { name: "Phenytoin (Dilantin)", type: "Anticonvulsant", action: "Stabilizes neuronal membranes", sideEffects: "Gingival Hyperplasia", contra: "Heart Block", pearl: "Therapeutic level: 10-20 mcg/mL." }
+    ],
+    pearls: ["Bleeding is the #1 adverse effect", "Frequent Neuro-checks are the priority intervention", "Monitor BP to prevent hemorrhagic conversion"],
+    quiz: [
+      { question: "Priority assessment for a patient on tPA?", options: ["Urine output", "Level of Consciousness", "Bowel sounds", "Skin turgor"], correct: 1, rationale: "A change in LOC could indicate an intracranial bleed, the most serious complication." }
+    ]
+  },
+  "respiratory-pharma": {
+    title: "Respiratory Pharmacology",
+    cellular: {
+      title: "Bronchodilation & Inflammation",
+      content: "Respiratory meds work by either stimulating Beta-2 receptors to relax airway smooth muscle (Bronchodilators) or by decreasing the cellular inflammatory response (Steroids)."
+    },
+    signs: {
+      left: ["Assess Breath Sounds", "Monitor O2 Saturation", "Assess Respiratory Rate", "Monitor for Tachycardia"],
+      right: ["Rescue (Albuterol)", "Maintenance (Salmeterol)", "Oral Thrush (Steroids)", "Theophylline Toxicity"]
+    },
+    medications: [
+      { name: "Albuterol", type: "SABA (Rescue)", action: "Rapid bronchodilation", sideEffects: "Tachycardia, Tremors", contra: "Severe Tachycardia", pearl: "First drug used in an acute asthma attack!" },
+      { name: "Salmeterol", type: "LABA (Maintenance)", action: "Long-term airway control", sideEffects: "Headache", contra: "Acute attack", pearl: "Never use for an acute rescue!" },
+      { name: "Fluticasone", type: "Inhaled Steroid", action: "Reduces inflammation", sideEffects: "Oral Candidiasis (Thrush)", contra: "Fungal infection", pearl: "Rinse mouth after every use!" }
+    ],
+    pearls: ["B before C (Bronchodilator before Corticosteroid)", "Wait 1-5 mins between puffs", "Rescue inhalers should be with the patient at all times"],
+    quiz: [
+      { question: "Order of administration for Albuterol and Fluticasone?", options: ["Fluticasone then Albuterol", "Albuterol then Fluticasone", "At the same time", "Does not matter"], correct: 1, rationale: "Albuterol opens the airway so the steroid can travel deeper into the lungs." }
+    ]
+  },
+  "vascular-pharma": {
+    title: "Vascular Pharmacology (Anticoagulation)",
+    cellular: {
+      title: "Clot Prevention",
+      content: "Vascular pharmacology focuses on interfering with the coagulation cascade to prevent the formation or growth of thrombi. These do NOT dissolve existing clots—they only prevent new ones from forming."
+    },
+    signs: {
+      left: ["Monitor aPTT (Heparin)", "Monitor INR (Warfarin)", "Monitor Platelets (HIT risk)", "Assess for Hematuria"],
+      right: ["Bleeding Precautions", "Vitamin K intake consistency", "Protamine Sulfate (Antidote)", "Vitamin K (Antidote)"]
+    },
+    medications: [
+      { name: "Heparin", type: "Anticoagulant", action: "Inactivates thrombin", sideEffects: "Bleeding, Thrombocytopenia (HIT)", contra: "Active bleed", pearl: "Antidote: Protamine Sulfate. Monitor aPTT." },
+      { name: "Warfarin", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding", contra: "Pregnancy", pearl: "Antidote: Vitamin K. Monitor INR (2.0-3.0)." },
+      { name: "Enoxaparin (Lovenox)", type: "LMWH", action: "Predictable anticoagulation", sideEffects: "Bleeding", contra: "HIT history", pearl: "Do not expel the air bubble in the pre-filled syringe!" }
+    ],
+    pearls: ["Electric razors and soft toothbrushes only", "No NSAIDs or Aspirin while on anticoagulants", "Consistency is key for Vitamin K (green leafy veg)"],
+    quiz: [
+      { question: "What is the antidote for Heparin?", options: ["Vitamin K", "Protamine Sulfate", "Calcium Gluconate", "Flumazenil"], correct: 1, rationale: "Protamine Sulfate reverses the effects of Heparin." }
+    ]
+  },
   "heart-failure": {
     title: "Heart Failure (HF)",
     cellular: {
@@ -40,9 +147,7 @@ const contentMap: Record<string, LessonContent> = {
       right: ["JVD (Jugular Vein Distension)", "Peripheral Edema", "Ascites", "Hepatomegaly"]
     },
     medications: [
-      { name: "Furosemide (Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption", sideEffects: "Hypokalemia, Ototoxicity", contra: "Anuria", pearl: "Check Potassium levels first!" },
-      { name: "Digoxin (Lanoxin)", type: "Cardiac Glycoside", action: "Positive inotrope, Negative chronotrope", sideEffects: "Bradycardia, Yellow halos", contra: "Pulse < 60 bpm", pearl: "Always check apical pulse for 60 seconds." },
-      { name: "Metoprolol (Lopressor)", type: "Beta Blocker", action: "Decreases sympathetic stimulation", sideEffects: "Bradycardia, Fatigue", contra: "Asthma, Heart Block", pearl: "Masks signs of hypoglycemia!" }
+      { name: "Furosemide (Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption", sideEffects: "Hypokalemia, Ototoxicity", contra: "Anuria", pearl: "Check Potassium levels first!" }
     ],
     pearls: ["Daily weights (>2lb/day = bad)", "Sodium <2g/day", "Position in High-Fowler's"],
     quiz: [
@@ -60,9 +165,8 @@ const contentMap: Record<string, LessonContent> = {
       right: ["Often Asymptomatic", "Chest Pain", "Dizziness", "Fatigue"]
     },
     medications: [
-      { name: "Hydrochlorothiazide", type: "Thiazide Diuretic", action: "Distal tubule Na excretion", sideEffects: "Hypokalemia, Hyperglycemia", contra: "Sulfonamide allergy", pearl: "Take in the morning to avoid nocturia." },
-      { name: "Lisinopril", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Dry Cough, Hyperkalemia, Angioedema", contra: "Pregnancy", pearl: "Notify provider if a persistent dry cough develops." },
-      { name: "Amlodipine (Norvasc)", type: "Calcium Channel Blocker", action: "Relaxes vascular smooth muscle", sideEffects: "Peripheral Edema, Gingival Hyperplasia", contra: "Severe Hypotension", pearl: "Avoid grapefruit juice!" }
+      { name: "Hydrochlorothiazide", type: "Thiazide Diuretic", action: "Distal tubule Na excretion", sideEffects: "Hypokalemia", contra: "Sulfonamide allergy", pearl: "Take in the morning to avoid nocturia." },
+      { name: "Lisinopril", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Dry Cough, Hyperkalemia", contra: "Pregnancy", pearl: "Watch for Angioedema (swelling)." }
     ],
     pearls: ["DASH Diet (Low sodium, high K/Mg/Ca)", "Lifestyle is 1st line", "The 'Silent Killer'"],
     quiz: [
@@ -80,112 +184,12 @@ const contentMap: Record<string, LessonContent> = {
       right: ["Shortness of breath", "Fatigue", "Heartburn sensation", "Weakness"]
     },
     medications: [
-      { name: "Nitroglycerin", type: "Vasodilator", action: "Decreases preload/afterload", sideEffects: "Headache, Hypotension", contra: "Erectile Dysfunction meds (Sildenafil)", pearl: "Max 3 doses, 5 mins apart. Call EMS if pain persists after 1st dose." },
-      { name: "Aspirin", type: "Anti-platelet", action: "Prevents further clotting", sideEffects: "GI Bleeding, Tinnitus", contra: "Active Bleeding", pearl: "Chew for faster absorption during acute event." },
-      { name: "Atorvastatin (Lipitor)", type: "Statin", action: "Lowers LDL cholesterol", sideEffects: "Rhabdomyolysis (Muscle pain)", contra: "Liver Disease", pearl: "Report any unexplained muscle pain immediately." }
+      { name: "Nitroglycerin", type: "Vasodilator", action: "Decreases preload/afterload", sideEffects: "Headache, Hypotension", contra: "Erectile Dysfunction meds", pearl: "Max 3 doses, 5 mins apart." },
+      { name: "Aspirin", type: "Anti-platelet", action: "Prevents further clotting", sideEffects: "Bleeding", contra: "GI Bleed", pearl: "Chew for faster absorption during MI." }
     ],
     pearls: ["MONA: Morphine, Oxygen, Nitroglycerin, Aspirin", "Time is Muscle", "Troponin is the gold standard lab"],
     quiz: [
       { question: "What is the primary action of Nitroglycerin?", options: ["Dissolve Clots", "Vasodilation", "Increase Heart Rate", "Stop Bleeding"], correct: 1, rationale: "It dilates veins and arteries to reduce heart workload." }
-    ]
-  },
-  "afib": {
-    title: "Atrial Fibrillation (AFib)",
-    cellular: {
-      title: "Electrical Chaos & Stasis",
-      content: "AFib occurs when multiple ectopic foci in the atria fire rapidly and chaotically. This prevents organized atrial contraction ('atrial kick'). At the cellular level, the blood becomes stagnant in the atrial appendages, leading to high risk of thrombus (clot) formation."
-    },
-    signs: {
-      left: ["Palpitations", "Irregular Pulse (Irregularly Irregular)", "Fatigue", "Dizziness"],
-      right: ["Shortness of breath", "Chest Discomfort", "Exercise Intolerance", "Syncope"]
-    },
-    medications: [
-      { name: "Diltiazem (Cardizem)", type: "Calcium Channel Blocker", action: "Slows ventricular rate", sideEffects: "Bradycardia, Hypotension", contra: "Heart Block", pearl: "Priority is rate control." },
-      { name: "Warfarin (Coumadin)", type: "Anticoagulant", action: "Prevents clot formation", sideEffects: "Bleeding", contra: "Recent surgery", pearl: "Consistent Vitamin K intake is essential." },
-      { name: "Apixaban (Eliquis)", type: "DOAC", action: "Factor Xa inhibitor", sideEffects: "Bleeding", contra: "Active major bleed", pearl: "No routine INR monitoring required." }
-    ],
-    pearls: ["Risk of Stroke is the biggest concern", "Rate control vs Rhythm control", "Assess for irregular apical pulse"],
-    quiz: [
-      { question: "What is the primary concern with AFib?", options: ["Heart Attack", "Stroke", "Diabetes", "Kidney Failure"], correct: 1, rationale: "Blood stasis in the atria leads to clots that can travel to the brain." }
-    ]
-  },
-  "shock": {
-    title: "Shock States",
-    cellular: {
-      title: "Global Hypoperfusion",
-      content: "Shock is the ultimate failure of the cardiovascular system to provide oxygen at the cellular level. Whether from low volume (hypovolemic) or systemic vasodilation (septic), the result is anaerobic metabolism, cellular edema, and eventually Multiple Organ Dysfunction Syndrome (MODS)."
-    },
-    signs: {
-      left: ["Hypotension (SBP < 90)", "Tachycardia", "Tachypnea", "Altered Mental Status"],
-      right: ["Cool/Clammy Skin", "Decreased Urine Output (<30mL/hr)", "Weak Pulses", "Delayed Cap Refill"]
-    },
-    medications: [
-      { name: "Norepinephrine (Levophed)", type: "Vasopressor", action: "Increases SVR and BP", sideEffects: "Extravasation necrosis", contra: "Hypovolemia (unfilled tank)", pearl: "Must fill the 'tank' with fluids first!" },
-      { name: "Dopamine", type: "Inotrope/Vasopressor", action: "Dose-dependent BP/HR support", sideEffects: "Dysrhythmias", contra: "Pheochromocytoma", pearl: "Monitor infusion site for extravasation." },
-      { name: "Lactated Ringers", type: "Isotonic Fluid", action: "Volume replacement", sideEffects: "Fluid overload", contra: "Liver failure", pearl: "Standard for initial resuscitation." }
-    ],
-    pearls: ["Recognition of 'Early/Compensated' vs 'Progressive' shock", "Urine output is the best indicator of organ perfusion", "Septic Shock: Early antibiotics are vital"],
-    quiz: [
-      { question: "First priority in Hypovolemic Shock?", options: ["Vasopressors", "Fluid Resuscitation", "Antibiotics", "Oxygen"], correct: 1, rationale: "You must replace the volume before using drugs to squeeze the vessels." }
-    ]
-  },
-  "angina": {
-    title: "Angina Pectoris",
-    cellular: {
-      title: "Supply vs Demand Mismatch",
-      content: "Angina occurs when myocardial oxygen demand exceeds the supply. This usually happens due to fixed atherosclerotic plaques. Cells become ischemic but not yet necrotic. Rest or nitroglycerin restores the balance by reducing demand or increasing supply."
-    },
-    signs: {
-      left: ["Chest Pain (Pressure/Squeezing)", "Stable: Triggered by exertion, relieved by rest", "Unstable: New onset or occurs at rest", "Radiating pain to left arm"],
-      right: ["Shortness of breath", "Nausea", "Fatigue", "Sweating"]
-    },
-    medications: [
-      { name: "Nitroglycerin (Nitrostat)", type: "Nitrate", action: "Vasodilation", sideEffects: "Headache, Flushing", contra: "Hypotension", pearl: "Keep in dark, original glass bottle." },
-      { name: "Metoprolol", type: "Beta Blocker", action: "Decreases heart O2 demand", sideEffects: "Bradycardia", contra: "Heart Block", pearl: "Used for long-term management." }
-    ],
-    pearls: ["Unstable Angina = Medical Emergency", "Stable Angina follows a predictable pattern", "Teach patient to stop activity when pain occurs"],
-    quiz: [
-      { question: "Difference between Stable and Unstable Angina?", options: ["Pain intensity", "Relief by rest", "Age of patient", "Location of pain"], correct: 1, rationale: "Stable angina is relieved by rest; unstable occurs at rest or is unpredictable." }
-    ]
-  },
-  "pulmonary-edema": {
-    title: "Pulmonary Edema",
-    cellular: {
-      title: "Alveolar Capillary Leak",
-      content: "Pulmonary edema occurs when the pressure in the pulmonary capillaries becomes so high that fluid is forced out of the cellular walls and into the alveoli. This barrier prevents oxygen from crossing into the bloodstream, leading to acute hypoxia."
-    },
-    signs: {
-      left: ["Extreme Dyspnea", "Frothy Pink-Tinged Sputum", "Anxiety/Apprehension", "Gasping for breath"],
-      right: ["Tachycardia", "Cyanosis", "Cold/Clammy Skin", "Crackles at lung bases"]
-    },
-    medications: [
-      { name: "Furosemide (Lasix)", type: "Diuretic", action: "Rapid fluid removal", sideEffects: "Hypotension, Ototoxicity", contra: "Anuria", pearl: "Administer IV push slowly (20mg/min) to avoid ototoxicity." },
-      { name: "Morphine Sulfate", type: "Opioid/Vasodilator", action: "Reduces preload/anxiety", sideEffects: "Respiratory Depression", contra: "Head injury", pearl: "Helps with air hunger and reduces venous return." },
-      { name: "Oxygen", type: "Gas", action: "Improves alveolar exchange", sideEffects: "Dryness", contra: "None in acute distress", pearl: "Non-rebreather or CPAP may be required." }
-    ],
-    pearls: ["High-Fowler's position IMMEDIATELY", "Monitor ABGs", "Keep emergency equipment at bedside"],
-    quiz: [
-      { question: "What is the classic sputum finding in Pulmonary Edema?", options: ["Yellow thick sputum", "Greenish phlegm", "Frothy pink-tinged", "Rust colored"], correct: 2, rationale: "Frothy pink sputum is the classic sign of acute pulmonary edema." }
-    ]
-  },
-  "pe": {
-    title: "Pulmonary Embolism (PE)",
-    cellular: {
-      title: "Ventilation-Perfusion (V/Q) Mismatch",
-      content: "A clot blocks blood flow to a section of the lung. While air can still enter (ventilation), blood cannot reach the area (perfusion). This V/Q mismatch means gas exchange cannot occur at the cellular interface of the alveoli, causing rapid hypoxia."
-    },
-    signs: {
-      left: ["Sudden Onset Dyspnea", "Sharp Chest Pain", "Tachycardia", "Apprehension"],
-      right: ["Cough", "Hemoptysis", "Tachypnea", "Low O2 Saturation"]
-    },
-    medications: [
-      { name: "Heparin", type: "Anticoagulant", action: "Prevents clot growth", sideEffects: "Bleeding, HIT", contra: "Active bleed", pearl: "Monitor aPTT levels (Normal: 30-40s; Goal: 1.5-2.5x normal)." },
-      { name: "Enoxaparin (Lovenox)", type: "LMWH", action: "Anticoagulation", sideEffects: "Bleeding", contra: "Renal failure (adjust dose)", pearl: "Inject in love handles, do not rub injection site!" },
-      { name: "Warfarin (Coumadin)", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding", contra: "Pregnancy", pearl: "Monitor INR (Goal 2.0-3.0). Antidote: Vitamin K." }
-    ],
-    pearls: ["SUDDEN dyspnea is the red flag", "DVT prevention is PE prevention", "Elevate HOB immediately"],
-    quiz: [
-      { question: "What is the most common classic symptom of PE?", options: ["Fever", "Sudden shortness of breath", "Productive cough", "Bradycardia"], correct: 1, rationale: "Sudden onset dyspnea is the most common presenting symptom of PE." }
     ]
   },
   "diabetes-t1": {
@@ -199,33 +203,12 @@ const contentMap: Record<string, LessonContent> = {
       right: ["Fatigue", "Blurred Vision", "Irritability", "Weakness"]
     },
     medications: [
-      { name: "Insulin Lispro (Humalog)", type: "Rapid-acting", action: "Onset 15m, Peak 1h, Duration 3h", sideEffects: "Hypoglycemia", contra: "None", pearl: "Must have food ready within 15 mins!" },
-      { name: "Insulin Regular (Humulin R)", type: "Short-acting", action: "Onset 30m, Peak 2-4h, Duration 5-7h", sideEffects: "Hypoglycemia", contra: "None", pearl: "Only insulin given IV." },
-      { name: "Insulin NPH", type: "Intermediate-acting", action: "Onset 2h, Peak 4-12h, Duration 16h", sideEffects: "Hypoglycemia", contra: "None", pearl: "Cloudy insulin, roll to mix." }
+      { name: "Insulin Lispro (Humalog)", type: "Rapid-acting", action: "Transport glucose into cells", sideEffects: "Hypoglycemia", contra: "None", pearl: "Must have food ready within 15 mins!" },
+      { name: "Insulin Glargine (Lantus)", type: "Long-acting", action: "Steady glucose control", sideEffects: "Hypoglycemia", contra: "None", pearl: "Never mix with other insulins!" }
     ],
     pearls: ["Rotation of sites prevents lipodystrophy", "Hypoglycemia is <4.0 mmol/L", "Always requires insulin"],
     quiz: [
       { question: "Onset time for Rapid-Acting insulin?", options: ["5-15 mins", "30-60 mins", "2-4 hours", "Never"], correct: 0, rationale: "Rapid-acting insulin starts working very quickly." }
-    ]
-  },
-  "diabetes-t2": {
-    title: "Diabetes Type 2",
-    cellular: {
-      title: "Insulin Resistance",
-      content: "In Type 2, the cells become resistant to the action of insulin. The pancreas initially overproduces insulin to compensate, but eventually, the beta cells become 'tired' and production drops. At the cellular level, the insulin receptor site is blocked or unresponsive."
-    },
-    signs: {
-      left: ["Often Asymptomatic for years", "Slow healing wounds", "Recurring infections", "Fatigue"],
-      right: ["Blurred Vision", "Paresthesia (Numbness)", "Dark skin patches (Acanthosis nigricans)", "Weight gain"]
-    },
-    medications: [
-      { name: "Metformin (Glucophage)", type: "Biguanide", action: "Decreases liver glucose production", sideEffects: "GI Upset, Lactic Acidosis", contra: "Renal failure", pearl: "Hold 48h before and after IV contrast!" },
-      { name: "Glyburide", type: "Sulfonylurea", action: "Stimulates pancreas to release insulin", sideEffects: "Hypoglycemia", contra: "Type 1 Diabetes", pearl: "Watch for severe hypoglycemia." },
-      { name: "Sitagliptin (Januvia)", type: "DPP-4 Inhibitor", action: "Enhances incretin hormones", sideEffects: "Pancreatitis", contra: "Renal impairment", pearl: "Low risk of hypoglycemia." }
-    ],
-    pearls: ["Lifestyle modification is first-line", "Foot care is vital", "Monitor HgbA1c (Goal < 7.0%)"],
-    quiz: [
-      { question: "Priority teaching for Metformin?", options: ["Take with food", "Hold for IV contrast", "Take at bedtime", "Only for Type 1"], correct: 1, rationale: "Metformin + IV contrast increases risk of lactic acidosis and renal failure." }
     ]
   },
   "dka": {
@@ -239,32 +222,12 @@ const contentMap: Record<string, LessonContent> = {
       right: ["Nausea/Vomiting", "Abdominal Pain", "Altered Mental Status", "Dehydration"]
     },
     medications: [
-      { name: "Regular Insulin", type: "Short-acting", action: "Lower BG & switch off fat breakdown", sideEffects: "Hypoglycemia, Hypokalemia", contra: "Hypoglycemia", pearl: "Monitor Potassium carefully as it drops with insulin." },
-      { name: "0.9% Normal Saline", type: "Isotonic Fluid", action: "Rehydration", sideEffects: "Fluid overload", contra: "HF", pearl: "Priority is rehydration (1-2 liters/hr initially)." },
-      { name: "Potassium Chloride", type: "Electrolyte", action: "Replace K+ lost in urine", sideEffects: "Hyperkalemia", contra: "Renal failure", pearl: "Never give IV push! Must be diluted." }
+      { name: "Regular Insulin", type: "Short-acting", action: "Lower BG & switch off fat breakdown", sideEffects: "Hypokalemia", contra: "Hypoglycemia", pearl: "Only insulin given IV bolus/drip." },
+      { name: "0.9% Normal Saline", type: "Isotonic Fluid", action: "Rehydration", sideEffects: "Fluid overload", contra: "HF", pearl: "Priority is rehydration 1st!" }
     ],
     pearls: ["Priority: Hydration, then Insulin, then K+ replacement", "Watch Potassium like a hawk!", "Hourly BG monitoring"],
     quiz: [
       { question: "Priority intervention for DKA?", options: ["Insulin", "Normal Saline", "Potassium", "Food"], correct: 1, rationale: "Rehydration is the first priority to stabilize BP and perfusion." }
-    ]
-  },
-  "hhs": {
-    title: "Hyperglycemic Hyperosmolar State (HHS)",
-    cellular: {
-      title: "Severe Hyperosmolarity",
-      content: "Unlike DKA, HHS patients have enough insulin to prevent ketone formation but not enough to control blood glucose. BG levels can exceed 33 mmol/L. At the cellular level, the extreme high sugar pulls water out of the cells, causing profound intracellular dehydration."
-    },
-    signs: {
-      left: ["Blood Glucose > 33.3 mmol/L", "Severe Dehydration", "Altered Consciousness", "Negative Ketones"],
-      right: ["Polyuria", "Tachycardia", "Hypotension", "Dry Mucous Membranes"]
-    },
-    medications: [
-      { name: "0.45% Normal Saline", type: "Hypotonic Fluid", action: "Intracellular rehydration", sideEffects: "Cerebral edema", contra: "Hypotension (use NS first)", pearl: "Used after initial volume is restored with NS." },
-      { name: "Regular Insulin", type: "Short-acting", action: "Lower BG slowly", sideEffects: "Hypoglycemia", contra: "None", pearl: "BG should be lowered gradually to avoid cerebral edema." }
-    ],
-    pearls: ["Rehydration is the TOP priority", "Seen most in Type 2 Diabetes", "Monitor for neurological changes during treatment"],
-    quiz: [
-      { question: "Difference between DKA and HHS?", options: ["BG levels", "Presence of Ketones", "Patient age", "Fluid used"], correct: 1, rationale: "HHS has little to no ketones; DKA has high ketones and acidosis." }
     ]
   },
   "stroke": {
@@ -278,108 +241,12 @@ const contentMap: Record<string, LessonContent> = {
       right: ["Unilateral Neglect", "Impulsive Behavior", "Spatial-Perceptual deficits", "Headache"]
     },
     medications: [
-      { name: "tPA (Alteplase)", type: "Thrombolytic", action: "Dissolves the clot", sideEffects: "Severe Bleeding", contra: "Recent surgery (<14 days), bleeding risk", pearl: "Give within 3-4.5 hours of Last Known Well." },
-      { name: "Aspirin", type: "Anti-platelet", action: "Prevents future clots", sideEffects: "GI Bleed", contra: "Active Bleeding", pearl: "Started 24-48h AFTER tPA or immediately if no tPA." },
-      { name: "Nimodipine", type: "CCB (Neuro specific)", action: "Prevents vasospasm", sideEffects: "Hypotension", contra: "Hypersensitivity", pearl: "Commonly used in hemorrhagic stroke (subarachnoid)." }
+      { name: "tPA (Alteplase)", type: "Thrombolytic", action: "Dissolves the clot", sideEffects: "Severe Bleeding", contra: "Recent surgery, bleeding risk", pearl: "Give within 3-4.5 hours of Last Known Well." },
+      { name: "Clopidogrel (Plavix)", type: "Anti-platelet", action: "Prevents future clots", sideEffects: "Bleeding", contra: "Active bleeding", pearl: "Stop 5-7 days before surgery." }
     ],
     pearls: ["TIME is BRAIN", "CT Scan (non-contrast) 1st to rule out hemorrhage", "Keep HOB at 30 degrees"],
     quiz: [
       { question: "First thing to do for suspected stroke?", options: ["Give Aspirin", "CT Scan", "Start tPA", "Draw Labs"], correct: 1, rationale: "Must rule out a bleed before giving any blood thinners." }
-    ]
-  },
-  "tia": {
-    title: "TIA (Transient Ischemic Attack)",
-    cellular: {
-      title: "Temporary Ischemia",
-      content: "A TIA is a 'warning stroke.' A clot temporarily blocks blood flow, but the body's natural fibrinolytic system dissolves it before permanent cellular death (infarction) occurs. However, it signals that the cellular environment is high-risk for a major stroke."
-    },
-    signs: {
-      left: ["Sudden temporary weakness", "Numbness", "Loss of vision", "Slurred speech"],
-      right: ["Symptoms resolve within 24 hours (usually <1 hour)", "No permanent damage on imaging", "Dizziness", "Confusion"]
-    },
-    medications: [
-      { name: "Clopidogrel (Plavix)", type: "Anti-platelet", action: "Prevents platelet aggregation", sideEffects: "Bleeding, Thrombocytopenia", contra: "Active bleed", pearl: "Stop 5-7 days before surgery." },
-      { name: "Atorvastatin", type: "Statin", action: "Plaque stabilization", sideEffects: "Muscle pain", contra: "Liver disease", pearl: "Reduces risk of future stroke." }
-    ],
-    pearls: ["Treat as a medical emergency even if symptoms resolve", "High risk of stroke within 90 days", "Lifestyle changes are critical"],
-    quiz: [
-      { question: "What defines a TIA?", options: ["Permanent brain damage", "Symptoms lasting >24h", "Temporary symptoms <24h", "Only happens in children"], correct: 2, rationale: "TIA symptoms are temporary and usually resolve within an hour." }
-    ]
-  },
-  "dvt": {
-    title: "Deep Vein Thrombosis (DVT)",
-    cellular: {
-      title: "Virchow's Triad",
-      content: "DVT formation relies on three cellular conditions: 1. Stasis (slow blood flow), 2. Endothelial injury (vessel wall damage), and 3. Hypercoagulability (thick blood). At the cellular level, platelets and fibrin trap red blood cells, forming a growing thrombus."
-    },
-    signs: {
-      left: ["Unilateral Calf Swelling", "Warmth", "Redness (Erythema)", "Tenderness/Pain"],
-      right: ["Positive D-dimer lab", "Positive Doppler Ultrasound", "Fever", "Fatigue"]
-    },
-    medications: [
-      { name: "Enoxaparin (Lovenox)", type: "Anticoagulant", action: "Prevents clot extension", sideEffects: "Bleeding", contra: "HIT history", pearl: "Antidote: Protamine Sulfate." },
-      { name: "Warfarin", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding", contra: "Pregnancy", pearl: "Overlap with Heparin until INR is 2.0-3.0." }
-    ],
-    pearls: ["Do NOT massage the area (risk of PE)", "Bed rest initially, then ambulation as tolerated", "Compression stockings for prevention"],
-    quiz: [
-      { question: "Biggest risk factor for DVT?", options: ["Immobility", "High sugar", "Exercise", "Drinking water"], correct: 0, rationale: "Immobility leads to venous stasis, a key part of Virchow's Triad." }
-    ]
-  },
-  "pvd": {
-    title: "Peripheral Vascular Disease (PVD)",
-    cellular: {
-      title: "Arterial vs Venous Pathophysiology",
-      content: "Arterial PVD is a perfusion failure (cells can't get O2). Venous PVD is a congestion failure (cells can't get rid of waste). At the cellular level, arterial disease leads to ischemia and dry gangrene, while venous disease leads to edema and wet, weeping ulcers."
-    },
-    signs: {
-      left: ["Arterial: Intermittent Claudication (pain with walking), Cool skin, Weak pulses", "Arterial: Punch-out ulcers (toes/heels)"],
-      right: ["Venous: Edema, Brownish skin (hemosiderin), Dull ache", "Venous: Irregular ulcers (ankles)"]
-    },
-    medications: [
-      { name: "Pentoxifylline (Trental)", type: "Hemorheologic", action: "Makes RBCs more flexible", sideEffects: "GI Upset", contra: "Cerebral hemorrhage", pearl: "Helps blood flow through narrowed arteries." },
-      { name: "Cilostazol (Pletal)", type: "Vasodilator/Antiplatelet", action: "Improves walking distance", sideEffects: "Headache, Palpitations", contra: "Heart Failure", pearl: "Contraindicated in HF!" }
-    ],
-    pearls: ["Arterial: Legs down (Dangle) to help perfusion", "Venous: Legs up (Elevate) to help return", "Check pulses frequently"],
-    quiz: [
-      { question: "Intermittent Claudication is a sign of?", options: ["Venous PVD", "Arterial PVD", "Heart Failure", "Shock"], correct: 1, rationale: "Muscle pain with activity that stops at rest is classic for arterial disease." }
-    ]
-  },
-  "reduced-co": {
-    title: "Reduced Cardiac Output",
-    cellular: {
-      title: "Perfusion Failure",
-      content: "Cardiac Output = Stroke Volume x Heart Rate. At the cellular level, reduced output means cells aren't getting the glucose and oxygen they need for ATP production. Cells shift to anaerobic metabolism, leading to lactic acid buildup and eventual cellular death."
-    },
-    signs: {
-      left: ["Fatigue", "Confusion", "Decreased Urine Output", "Weak Peripheral Pulses"],
-      right: ["Cool Extremities", "Hypotension", "Tachycardia", "Delayed Capillary Refill"]
-    },
-    medications: [
-      { name: "Dobutamine", type: "Inotrope", action: "Increases contractility without high HR", sideEffects: "Tachycardia, PVCs", contra: "IHSS", pearl: "Monitor for chest pain during infusion." },
-      { name: "Milrinone", type: "Inodilator", action: "Increases contractility & dilates vessels", sideEffects: "Hypotension, Thrombocytopenia", contra: "Severe valvular disease", pearl: "Used in end-stage heart failure." }
-    ],
-    pearls: ["Assess Level of Consciousness (LOC)", "Monitor kidney function (Urine <30mL/hr)", "Cluster care to reduce O2 demand"],
-    quiz: [
-      { question: "Reduced cardiac output leads to which cellular state?", options: ["Aerobic respiration", "Lactic Acidosis", "Hyper-oxygenation", "Alkalosis"], correct: 1, rationale: "Poor perfusion forces cells into anaerobic metabolism, creating lactic acid." }
-    ]
-  },
-  "fluid-overload": {
-    title: "Fluid Overload (Hypervolemia)",
-    cellular: {
-      title: "Osmotic Pressure Failure",
-      content: "When too much fluid enters the extracellular space, the osmotic pressure gradient fails. Cells cannot maintain their normal volume, and fluid shifts into the interstitial space. This leads to cellular swelling and edema in tissues and organs."
-    },
-    signs: {
-      left: ["Bounding Pulse", "Increased Blood Pressure", "Weight Gain", "Distended Neck Veins"],
-      right: ["Dyspnea", "Crackles", "Edema", "Reduced Hematocrit"]
-    },
-    medications: [
-      { name: "Furosemide", type: "Loop Diuretic", action: "Increases urine output", sideEffects: "Hypokalemia", contra: "Anuria", pearl: "Monitor weight daily at same time with same clothes." },
-      { name: "Spironolactone", type: "K-Sparing Diuretic", action: "Blocks aldosterone", sideEffects: "Hyperkalemia, Gynecomastia", contra: "Hyperkalemia", pearl: "Avoid salt substitutes (which contain K+)." }
-    ],
-    pearls: ["Monitor I&O strictly", "Daily weights are key", "Skin care for edematous areas"],
-    quiz: [
-      { question: "What is the most sensitive indicator of fluid status?", options: ["Skin turgor", "I&O charting", "Daily weights", "Blood pressure"], correct: 2, rationale: "Daily weights are the most sensitive indicator of fluid gain or loss." }
     ]
   }
 };
@@ -415,6 +282,13 @@ export default function LessonDetail() {
     }
   };
 
+  const isPharma = id?.includes("pharma");
+  const PharmaIcon = id === "cardio-pharma" ? Heart : 
+                   id === "endocrine-pharma" ? Droplets :
+                   id === "neuro-pharma" ? Brain :
+                   id === "respiratory-pharma" ? Wind :
+                   Activity;
+
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <Navigation />
@@ -430,10 +304,17 @@ export default function LessonDetail() {
         <div className="space-y-12">
           {/* Header */}
           <div className="space-y-4">
-            <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
+            <div className="flex items-center gap-4">
+               {isPharma && (
+                 <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+                    <Pill className="w-6 h-6" />
+                 </div>
+               )}
+               <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
+            </div>
             <div className="flex items-center gap-4">
               <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">REX-PN Core</span>
-              <span className="text-gray-500 text-sm">Estimated time: 25 mins</span>
+              <span className="text-gray-500 text-sm">Estimated time: 30 mins</span>
             </div>
           </div>
 
@@ -445,16 +326,16 @@ export default function LessonDetail() {
                 <p className="text-gray-600">Complete the quiz at the end to track your mastery.</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-primary">{quizComplete ? "100%" : "45%"}</p>
-                <Progress value={quizComplete ? 100 : 45} className="w-32 h-2" />
+                <p className="text-2xl font-bold text-primary">{quizComplete ? "100%" : "25%"}</p>
+                <Progress value={quizComplete ? 100 : 25} className="w-32 h-2" />
               </div>
             </CardContent>
           </Card>
 
-          {/* Cellular Foundation */}
+          {/* Intro Section */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-              <Microscope className="text-primary w-8 h-8" />
+              {isPharma ? <Pill className="text-primary w-8 h-8" /> : <Microscope className="text-primary w-8 h-8" />}
               <h2>{lessonContent.cellular.title}</h2>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700 whitespace-pre-wrap">
@@ -462,13 +343,13 @@ export default function LessonDetail() {
             </div>
           </section>
 
-          {/* Signs & Symptoms */}
+          {/* Assessment/Findings Section */}
           <section className="grid md:grid-cols-2 gap-8">
             <Card className="border-none shadow-md bg-white">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-blue-500 w-6 h-6" />
-                  <h3>Primary Assessment</h3>
+                  <h3>{isPharma ? "Nursing Assessments" : "Primary Assessment"}</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.left.map((s, i) => (
@@ -484,7 +365,7 @@ export default function LessonDetail() {
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-orange-500 w-6 h-6" />
-                  <h3>Secondary/Related</h3>
+                  <h3>{isPharma ? "Patient Safety & Monitoring" : "Secondary/Related"}</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.right.map((s, i) => (
@@ -498,17 +379,20 @@ export default function LessonDetail() {
             </Card>
           </section>
 
-          {/* Medications */}
+          {/* Med Cards Section */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Pill className="text-primary w-8 h-8" />
-              <h2>Pharmacology & Interventions</h2>
+              <h2>{isPharma ? "Medication Flashcards" : "Pharmacology & Interventions"}</h2>
             </div>
             <div className="space-y-4">
               {lessonContent.medications.map((med, i) => (
                 <Card key={i} className="border-none shadow-sm bg-white overflow-hidden">
-                  <div className="bg-primary/5 px-6 py-3 border-b border-primary/10">
-                    <span className="font-bold text-primary">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
+                  <div className="bg-primary/5 px-6 py-3 border-b border-primary/10 flex justify-between items-center">
+                    <div>
+                      <span className="font-bold text-primary">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
+                    </div>
+                    {isPharma && <Stethoscope className="w-4 h-4 text-primary/40" />}
                   </div>
                   <CardContent className="p-6 grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -535,11 +419,11 @@ export default function LessonDetail() {
           <section className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
             <div className="flex items-center gap-3 text-2xl font-bold">
               <FileText className="text-primary w-8 h-8" />
-              <h2>Quick Study Fact Sheet</h2>
+              <h2>{isPharma ? "Pharmacology Rapid-Fire Facts" : "Quick Study Fact Sheet"}</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Nursing Priorities</h4>
+                <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Key Principles</h4>
                 <ul className="space-y-2 text-gray-300">
                   {lessonContent.pearls.map((p, i) => (
                     <li key={i} className="flex gap-2">
@@ -550,9 +434,11 @@ export default function LessonDetail() {
                 </ul>
               </div>
               <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-                <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Watch List</h4>
+                <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Alert</h4>
                 <p className="text-sm text-gray-400 leading-relaxed italic">
-                  Always prioritize based on ABCs. For neurological events, time is the critical factor. For endocrine, monitor for acute changes in mental status.
+                  {isPharma 
+                    ? "The REX-PN loves medication safety. Always prioritize the assessment (e.g., checking heart rate before a beta blocker) over the administration itself."
+                    : "Always prioritize based on ABCs. For neurological events, time is the critical factor. For endocrine, monitor for acute changes in mental status."}
                 </p>
               </div>
             </div>
@@ -565,8 +451,8 @@ export default function LessonDetail() {
                 <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                   <Stethoscope className="w-10 h-10 text-primary" />
                 </div>
-                <h2 className="text-3xl font-bold">Knowledge Check</h2>
-                <p className="text-gray-600 max-w-md mx-auto">Ready to test your understanding? Complete these questions to update your progress report.</p>
+                <h2 className="text-3xl font-bold">Pharmacology Knowledge Check</h2>
+                <p className="text-gray-600 max-w-md mx-auto">Ready to test your drug knowledge? Complete these questions to master your pharmacology domain.</p>
                 <Button size="lg" onClick={() => setQuizStarted(true)} className="rounded-full px-12 bg-primary hover:brightness-110 h-14 text-lg text-white">
                   Start Quiz
                 </Button>
@@ -576,7 +462,7 @@ export default function LessonDetail() {
                 <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
                   <Trophy className="w-12 h-12 text-emerald-500" />
                 </div>
-                <h2 className="text-3xl font-bold">Lesson Mastered!</h2>
+                <h2 className="text-3xl font-bold">Pharma Mastered!</h2>
                 <p className="text-xl text-gray-600">You scored {score} out of {lessonContent.quiz.length}</p>
                 <div className="pt-4">
                   <Link href="/lessons">
