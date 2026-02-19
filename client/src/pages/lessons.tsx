@@ -43,7 +43,8 @@ const rpnSystems = [
       { id: "conduction-system", name: "Conduction System and Dysrhythmias", status: "Available" },
       { id: "cardiac-monitoring", name: "Continuous Cardiac Monitoring", status: "Available" },
       { id: "pad-claudication", name: "Peripheral Artery Disease and Claudication", status: "Available" },
-      { id: "cardioversion-defib", name: "Cardioversion and Defibrillation", status: "Available" }
+      { id: "cardioversion-defib", name: "Cardioversion and Defibrillation", status: "Available" },
+      { id: "pacemaker-care", name: "Pacemaker Basics and Care", status: "Available" }
     ]
   },
   {
@@ -179,6 +180,7 @@ const rpnSystems = [
       { id: "osteoporosis-basics", name: "Osteoporosis", status: "Available" },
       { id: "scoliosis-basics", name: "Scoliosis", status: "Available" },
       { id: "hip-dysplasia", name: "Developmental Hip Dysplasia", status: "Available" },
+      { id: "fracture-sprain-care", name: "Fractures, Sprains, and Strains", status: "Available" },
       { id: "fracture-types", name: "Fracture Types and Healing", status: "Available" },
       { id: "cast-care", name: "Cast Care and Traction", status: "Available" },
       { id: "rom-exercises", name: "Range of Motion Exercises", status: "Available" },
@@ -272,6 +274,7 @@ const rpnSystems = [
     diseases: [
       { id: "vitals-assessment", name: "Vital Signs and Physical Assessment", status: "Available" },
       { id: "wound-care-basics", name: "Wound Care and Dressing Changes", status: "Available" },
+      { id: "vac-dressing", name: "VAC Dressing (Wound Vacuum)", status: "Available" },
       { id: "wound-irrigation", name: "Wound Irrigation", status: "Available" },
       { id: "cleansing-enemas", name: "Cleansing Enemas", status: "Available" },
       { id: "meds-to-infants", name: "Administering Meds to Infants", status: "Available" }
@@ -402,7 +405,8 @@ const rnSystems = [
       { id: "polycythemia", name: "Polycythemia Vera", status: "Available" },
       { id: "carotid-endarterectomy", name: "Carotid Endarterectomy", status: "Available" },
       { id: "dvt-management", name: "Deep Vein Thrombosis", status: "Available" },
-      { id: "cardiogenic-shock", name: "Cardiogenic Shock", status: "Available" }
+      { id: "cardiogenic-shock", name: "Cardiogenic Shock", status: "Available" },
+      { id: "pacemaker-care", name: "Pacemakers: Types and Nursing Care", status: "Available" }
     ]
   },
   {
@@ -435,7 +439,8 @@ const rnSystems = [
       { id: "duchenne-md", name: "Duchenne Muscular Dystrophy", status: "Available" },
       { id: "spina-bifida", name: "Spina Bifida (Myelomeningocele)", status: "Available" },
       { id: "myasthenia-gravis", name: "Myasthenia Gravis", status: "Available" },
-      { id: "guillain-barre", name: "Guillain-Barre Syndrome", status: "Available" }
+      { id: "guillain-barre", name: "Guillain-Barre Syndrome", status: "Available" },
+      { id: "neuritis-neuropathy", name: "Neuritis & Peripheral Neuropathy", status: "Available" }
     ]
   },
   {
@@ -470,6 +475,7 @@ const rnSystems = [
       { id: "rhabdomyolysis", name: "Rhabdomyolysis", status: "Available" },
       { id: "av-fistula", name: "Arteriovenous Fistula & Dialysis", status: "Available" },
       { id: "dialysis-steal", name: "Dialysis Access Steal Syndrome", status: "Available" },
+      { id: "hemodialysis-care", name: "Hemodialysis: Principles and Nursing Care", status: "Available" },
       { id: "bph-management", name: "Benign Prostatic Hyperplasia", status: "Available" }
     ]
   },
@@ -518,6 +524,8 @@ const rnSystems = [
       { id: "compartment-syndrome", name: "Compartment Syndrome", status: "Available" },
       { id: "burn-management", name: "Burn Injury & Resuscitation", status: "Available" },
       { id: "pressure-injury", name: "Advanced Wound Care", status: "Available" },
+      { id: "vac-dressing", name: "VAC Dressing (Negative Pressure Wound Therapy)", status: "Available" },
+      { id: "fracture-sprain-care", name: "Fractures, Sprains, and Strains", status: "Available" },
       { id: "knee-arthroplasty", name: "Knee Arthroplasty", status: "Available" },
       { id: "osteomyelitis", name: "Osteomyelitis", status: "Available" },
       { id: "rheumatoid-arthritis", name: "Rheumatoid Arthritis", status: "Available" },
@@ -549,7 +557,7 @@ const rnSystems = [
       { id: "postpartum-endometritis", name: "Postpartum Endometritis", status: "Available" },
       { id: "uterine-inversion", name: "Uterine Inversion", status: "Available" },
       { id: "mastitis", name: "Mastitis", status: "Available" },
-      { id: "postpartum-depression", name: "Postpartum Depression", status: "Available" },
+      { id: "postpartum-depression-care", name: "Postpartum Depression", status: "Available" },
       { id: "postpartum-psychosis", name: "Postpartum Psychosis", status: "Available" }
     ]
   },
@@ -649,7 +657,7 @@ const rnSystems = [
       { id: "chest-tube-mgmt", name: "Chest Tube Management", status: "Available" },
       { id: "trach-care", name: "Tracheostomy Care and Suctioning", status: "Available" },
       { id: "thoracentesis", name: "Thoracentesis", status: "Available" },
-      { id: "hemodialysis", name: "Hemodialysis", status: "Available" },
+      { id: "hemodialysis-care", name: "Hemodialysis: Procedure and Complications", status: "Available" },
       { id: "postmortem-care", name: "Postmortem Care", status: "Available" },
       { id: "burn-care-advanced", name: "Burn Injury Care", status: "Available" }
     ]
