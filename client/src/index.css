@@ -5,26 +5,27 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Theme Variables */
+/* Base System */
 :root {
   --font-sans: "DM Sans", "system-ui", "sans-serif";
   --radius: 0.625rem;
+  --color-warmwhite: #fdfcfa;
+  --color-softgray: #6b7280;
+}
 
-  /* Default (Lavender) */
+/* Theme Definitions - Using [data-theme] for maximum stability with next-themes */
+:root, [data-theme="lavender"] {
   --theme-primary: #9d82dd;
   --theme-primary-foreground: #ffffff;
   --theme-secondary: #f3efff;
   --theme-secondary-foreground: #9d82dd;
   --theme-accent: #faf8ff;
-  --theme-accent-foreground: #f4909f; /* Blush 400 */
+  --theme-accent-foreground: #f4909f;
   --theme-border: #e9e2ff;
   --theme-ring: #d4c7f7;
-  
-  --color-warmwhite: #fdfcfa;
-  --color-softgray: #6b7280;
 }
 
-.mint {
+[data-theme="mint"] {
   --theme-primary: #5ed3ae;
   --theme-secondary: #e0f8f0;
   --theme-secondary-foreground: #5ed3ae;
@@ -34,7 +35,7 @@
   --theme-ring: #94e4cb;
 }
 
-.blush {
+[data-theme="blush"] {
   --theme-primary: #f4909f;
   --theme-secondary: #fdeef0;
   --theme-secondary-foreground: #f4909f;
@@ -44,7 +45,7 @@
   --theme-ring: #f9b8c2;
 }
 
-.slate {
+[data-theme="slate"] {
   --theme-primary: #64748b;
   --theme-secondary: #f1f5f9;
   --theme-secondary-foreground: #475569;
@@ -54,7 +55,7 @@
   --theme-ring: #94a3b8;
 }
 
-.midnight {
+[data-theme="midnight"] {
   --theme-primary: #1e293b;
   --theme-secondary: #f1f5f9;
   --theme-secondary-foreground: #0f172a;
@@ -64,7 +65,7 @@
   --theme-ring: #64748b;
 }
 
-.ocean {
+[data-theme="ocean"] {
   --theme-primary: #0ea5e9;
   --theme-secondary: #f0f9ff;
   --theme-secondary-foreground: #0369a1;
@@ -74,7 +75,7 @@
   --theme-ring: #7dd3fc;
 }
 
-.forest {
+[data-theme="forest"] {
   --theme-primary: #10b981;
   --theme-secondary: #ecfdf5;
   --theme-secondary-foreground: #047857;
