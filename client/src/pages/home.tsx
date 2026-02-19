@@ -14,7 +14,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <Navigation />
       
       <main className="flex-grow">
@@ -22,21 +22,21 @@ export default function Home() {
         <section className="relative overflow-hidden py-20 lg:py-32">
           {/* Background decorations */}
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-lavender-100/50 blur-3xl" />
-            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-mint-50/60 blur-3xl" />
-            <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-blush-50/40 blur-3xl" />
+            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl animate-pulse duration-[10s]" />
+            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/30 blur-3xl animate-pulse duration-[15s]" />
+            <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent/20 blur-3xl animate-pulse duration-[20s]" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-lavender-100 shadow-sm mb-4">
-                <span className="flex h-2 w-2 rounded-full bg-mint-400 animate-pulse"></span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-4">
+                <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                 <span className="text-sm font-medium text-gray-600">New NCLEX Prep Materials Available</span>
               </div>
               
               <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-[1.1]">
                 Master Nursing with <br />
-                <span className="bg-gradient-to-r from-lavender-500 to-blush-400 bg-clip-text text-transparent">Confidence</span>
+                <span className="bg-gradient-to-r from-primary to-blush-400 bg-clip-text text-transparent">Confidence</span>
               </h1>
               
               <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -44,27 +44,27 @@ export default function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-lavender-500 hover:bg-lavender-600 shadow-lg shadow-lavender-200 hover:shadow-xl hover:shadow-lavender-300 transition-all hover:-translate-y-1 text-white">
+                <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 text-white">
                   Start Learning Free
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-                <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-2 border-lavender-100 hover:bg-lavender-50 hover:border-lavender-200 text-gray-700 bg-white/50">
-                  <PlayCircle className="mr-2 w-5 h-5 text-lavender-500" />
+                <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50">
+                  <PlayCircle className="mr-2 w-5 h-5 text-primary" />
                   View Demo
                 </Button>
               </div>
 
               <div className="pt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500">
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-lavender-100/50 backdrop-blur-sm">
-                  <Shield className="w-5 h-5 text-mint-400" />
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-primary/10 backdrop-blur-sm">
+                  <Shield className="w-5 h-5 text-primary/70" />
                   <span>NCLEX Approved</span>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-lavender-100/50 backdrop-blur-sm">
-                  <Users className="w-5 h-5 text-powder-400" />
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-primary/10 backdrop-blur-sm">
+                  <Users className="w-5 h-5 text-primary/70" />
                   <span>50k+ Students</span>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-lavender-100/50 backdrop-blur-sm">
-                  <Star className="w-5 h-5 text-blush-400 fill-blush-400" />
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-primary/10 backdrop-blur-sm">
+                  <Star className="w-5 h-5 text-primary/70 fill-primary/70" />
                   <span>4.9/5 Rating</span>
                 </div>
               </div>
@@ -80,22 +80,22 @@ export default function Home() {
                 {
                   title: "Interactive Lessons",
                   desc: "Learn complex concepts through bite-sized, engaging lessons designed for retention.",
-                  color: "bg-lavender-50",
-                  iconColor: "text-lavender-500",
+                  color: "bg-primary/5",
+                  iconColor: "text-primary",
                   delay: "0"
                 },
                 {
                   title: "Realistic Simulations",
                   desc: "Practice clinical decision making in a safe environment with our advanced patient simulators.",
-                  color: "bg-mint-50",
-                  iconColor: "text-mint-500",
+                  color: "bg-secondary/20",
+                  iconColor: "text-secondary-foreground",
                   delay: "100"
                 },
                 {
                   title: "Smart Flashcards",
                   desc: "Master terminology and pharmacology with spaced repetition algorithms that adapt to you.",
-                  color: "bg-blush-50",
-                  iconColor: "text-blush-500",
+                  color: "bg-accent/30",
+                  iconColor: "text-accent-foreground",
                   delay: "200"
                 }
               ].map((feature, i) => (
@@ -116,7 +116,7 @@ export default function Home() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-20 bg-lavender-50/50 border-y border-lavender-100">
+        <section className="py-20 bg-primary/5 border-y border-primary/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {[
@@ -126,7 +126,7 @@ export default function Home() {
                 { label: "Study Hours", value: "1M+", icon: Clock },
               ].map((stat, i) => (
                 <div key={i} className="space-y-2">
-                  <div className="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-lavender-500 mb-4">
+                  <div className="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-primary mb-4">
                     <stat.icon className="w-6 h-6" />
                   </div>
                   <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
@@ -145,22 +145,22 @@ export default function Home() {
               Join thousands of nursing students who are mastering their exams and clinical skills with NurseNest.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-lavender-500 hover:bg-lavender-600 shadow-lg shadow-lavender-200 text-white">
+              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-all hover:-translate-y-1">
                 Get Started for Free
               </Button>
             </div>
           </div>
           
           {/* Decorative background elements */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-lavender-100 to-blush-100 rounded-full blur-3xl -z-10 opacity-60" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl -z-10 opacity-60" />
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-lavender-100 py-12">
+      <footer className="bg-white border-t border-primary/10 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-lavender-300 to-blush-300 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">N</span>
             </div>
             <span className="font-semibold text-gray-900">NurseNest</span>
