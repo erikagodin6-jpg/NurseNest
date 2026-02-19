@@ -73,6 +73,32 @@ const rpnSystems = [
       { id: "hypertension", name: "Hypertension All Ages", status: "Available" },
       { id: "diabetes-lifespan", name: "Diabetes Across Ages", status: "Available" }
     ]
+  },
+  {
+    id: "maternity-rpn",
+    title: "Maternity Fundamentals",
+    icon: Baby,
+    color: "text-rose-500",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "prenatal-basics", name: "Prenatal Care Essentials", status: "Available" },
+      { id: "labor-stages", name: "Stages of Labor and Delivery", status: "Available" },
+      { id: "postpartum-basics", name: "Postpartum Assessment and Care", status: "Available" },
+      { id: "breastfeeding-basics", name: "Breastfeeding and Lactation", status: "Available" }
+    ]
+  },
+  {
+    id: "neonatal-rpn",
+    title: "Neonatal Fundamentals",
+    icon: Baby,
+    color: "text-sky-500",
+    bgColor: "bg-sky-50",
+    diseases: [
+      { id: "newborn-assessment", name: "Newborn Assessment and APGAR", status: "Available" },
+      { id: "neonatal-thermoreg", name: "Thermoregulation in Neonates", status: "Available" },
+      { id: "neonatal-feeding", name: "Neonatal Feeding and Weight", status: "Available" },
+      { id: "neonatal-jaundice-basics", name: "Neonatal Jaundice Basics", status: "Available" }
+    ]
   }
 ];
 
@@ -190,6 +216,32 @@ const rnSystems = [
     ]
   },
   {
+    id: "maternity-rn",
+    title: "Maternity Critical Care",
+    icon: Baby,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "placenta-previa-abruption", name: "Placenta Previa vs Abruption", status: "Available" },
+      { id: "postpartum-hemorrhage", name: "Postpartum Hemorrhage", status: "Available" },
+      { id: "gestational-diabetes", name: "Gestational Diabetes Management", status: "Available" },
+      { id: "fetal-monitoring-rn", name: "Fetal Heart Rate Monitoring", status: "Available" }
+    ]
+  },
+  {
+    id: "neonatal-rn",
+    title: "Neonatal Critical Care",
+    icon: Baby,
+    color: "text-sky-600",
+    bgColor: "bg-sky-50",
+    diseases: [
+      { id: "neonatal-respiratory-distress", name: "Neonatal Respiratory Distress", status: "Available" },
+      { id: "neonatal-sepsis", name: "Neonatal Sepsis Recognition", status: "Available" },
+      { id: "hyperbilirubinemia", name: "Hyperbilirubinemia & Phototherapy", status: "Available" },
+      { id: "nec-necrotizing", name: "Necrotizing Enterocolitis (NEC)", status: "Available" }
+    ]
+  },
+  {
     id: "psych-crisis",
     title: "Psychiatry & Crisis",
     icon: Zap,
@@ -298,6 +350,32 @@ const npSystems = [
       { id: "dic-management-np", name: "DIC: Coagulation Cascade", status: "Available" },
       { id: "transfusion-reactions-np", name: "Transfusion Reactions: Hemolytic vs Febrile", status: "Available" },
       { id: "tumor-lysis-np", name: "Tumor Lysis Syndrome: Uric Acid Crisis", status: "Available" }
+    ]
+  },
+  {
+    id: "maternity-advanced",
+    title: "Advanced Obstetrics",
+    icon: Baby,
+    color: "text-rose-700",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "hellp-syndrome-np", name: "HELLP Syndrome: Hepatic Cascade", status: "Available" },
+      { id: "amniotic-fluid-embolism-np", name: "Amniotic Fluid Embolism: DIC Pathway", status: "Available" },
+      { id: "eclampsia-np", name: "Eclampsia: Endothelial Dysfunction", status: "Available" },
+      { id: "obstetric-hemorrhage-np", name: "Obstetric Hemorrhage: Massive Transfusion", status: "Available" }
+    ]
+  },
+  {
+    id: "neonatal-advanced",
+    title: "Advanced Neonatology",
+    icon: Baby,
+    color: "text-sky-700",
+    bgColor: "bg-sky-50",
+    diseases: [
+      { id: "neonatal-rds-np", name: "RDS: Surfactant Physiology", status: "Available" },
+      { id: "neonatal-hie-np", name: "HIE: Therapeutic Hypothermia", status: "Available" },
+      { id: "persistent-pulm-htn-np", name: "PPHN: Nitric Oxide Pathway", status: "Available" },
+      { id: "neonatal-abstinence-np", name: "NAS: Opioid Withdrawal Scoring", status: "Available" }
     ]
   }
 ];
