@@ -490,6 +490,164 @@ const allCards: Flashcard[] = [
     correctIndex: 2,
     answer: "Levetiracetam (Keppra) has a favorable side effect profile and few drug-drug interactions compared to older anticonvulsants.",
     category: "Pharmacology"
+  },
+  {
+    id: "mat-1",
+    type: "term",
+    question: "GTPAL",
+    answer: "Gravida (total pregnancies), Term (births at 37+ weeks), Preterm (births before 37 weeks), Abortions (spontaneous or elective losses before 20 weeks), Living (children currently alive). A systematic method for assessing obstetric history.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-2",
+    type: "term",
+    question: "Nagele's Rule",
+    answer: "Subtract 3 months from the first day of the last menstrual period (LMP), then add 7 days to estimate the expected date of delivery (EDD).",
+    category: "Maternal"
+  },
+  {
+    id: "mat-3",
+    type: "question",
+    question: "A client at 32 weeks reports painless bright red vaginal bleeding. What is the priority action?",
+    options: ["Perform a vaginal exam", "Prepare for emergency C-section", "Do NOT perform vaginal exam, notify provider", "Start Oxytocin"],
+    correctIndex: 2,
+    answer: "Painless bright red bleeding in the third trimester is the hallmark of Placenta Previa. NEVER perform a vaginal or digital exam as it can cause catastrophic hemorrhage. Notify the provider immediately.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-4",
+    type: "term",
+    question: "HELLP Syndrome",
+    answer: "Hemolysis, Elevated Liver enzymes, Low Platelets. A severe, life-threatening form of preeclampsia requiring immediate delivery regardless of gestational age.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-5",
+    type: "question",
+    question: "A client receiving magnesium sulfate for preeclampsia shows signs of toxicity. Which finding requires immediate intervention?",
+    options: ["DTRs 2+", "Respiratory rate of 10", "Urine output 40mL/hr", "Flushing"],
+    correctIndex: 1,
+    answer: "A respiratory rate below 12 breaths/min indicates magnesium sulfate toxicity. Hold the magnesium infusion and administer the antidote, Calcium Gluconate, immediately.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-6",
+    type: "term",
+    question: "Postpartum Hemorrhage 4 T's",
+    answer: "Tone (uterine atony — most common cause), Tissue (retained placental fragments), Trauma (lacerations or hematomas), Thrombin (coagulopathy/DIC). A framework for identifying the cause of postpartum hemorrhage.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-7",
+    type: "question",
+    question: "A postpartum client has a boggy uterus and heavy vaginal bleeding. What is the first action?",
+    options: ["Start an IV", "Administer Methergine", "Perform fundal massage", "Call the surgeon"],
+    correctIndex: 2,
+    answer: "Fundal massage is the FIRST nursing intervention for uterine atony. It stimulates the uterus to contract and control bleeding before pharmacological or surgical interventions.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-8",
+    type: "term",
+    question: "BUBBLE-HE Assessment",
+    answer: "Breasts, Uterus, Bladder, Bowel, Lochia, Episiotomy/Laceration, Homan sign (DVT screening), Emotions. A systematic head-to-toe postpartum assessment framework.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-9",
+    type: "question",
+    question: "A laboring client has late decelerations on the fetal monitor. What is the priority intervention?",
+    options: ["Increase Oxytocin", "Position client on left side and administer O2", "Prepare for vaginal delivery", "Encourage pushing"],
+    correctIndex: 1,
+    answer: "Late decelerations indicate uteroplacental insufficiency. Turn the client to the left lateral position to improve placental perfusion, administer oxygen, and STOP Oxytocin if infusing.",
+    category: "Maternal"
+  },
+  {
+    id: "mat-10",
+    type: "term",
+    question: "Amniotic Fluid Embolism",
+    answer: "A catastrophic obstetric emergency where amniotic fluid enters the maternal circulation, causing an anaphylactoid reaction, cardiovascular collapse, and disseminated intravascular coagulation (DIC). Mortality rate is 60-80%.",
+    category: "Maternal"
+  },
+  {
+    id: "neo-1",
+    type: "term",
+    question: "APGAR Score",
+    answer: "Appearance (color), Pulse (heart rate), Grimace (reflex irritability), Activity (muscle tone), Respirations (breathing effort). Assessed at 1 and 5 minutes after birth. Score 7-10 is normal, 4-6 indicates moderate distress, 0-3 indicates severe distress.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-2",
+    type: "question",
+    question: "A newborn has a temperature of 36.0°C (96.8°F). What is the priority action?",
+    options: ["Administer warm IV fluids", "Place under radiant warmer and skin-to-skin", "Start antibiotics", "Draw blood glucose"],
+    correctIndex: 1,
+    answer: "Cold stress in neonates leads to hypoglycemia, metabolic acidosis, and increased oxygen consumption. Rewarm immediately with a radiant warmer and skin-to-skin contact.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-3",
+    type: "term",
+    question: "Kernicterus",
+    answer: "Bilirubin encephalopathy caused by unconjugated (indirect) bilirubin crossing the blood-brain barrier. Causes permanent neurological damage including cerebral palsy and hearing loss. Prevention: phototherapy and exchange transfusion.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-4",
+    type: "question",
+    question: "During phototherapy for jaundice, which nursing intervention is essential?",
+    options: ["Cover the eyes with eye shields", "Limit oral feedings", "Keep all clothing on", "Decrease ambient temperature"],
+    correctIndex: 0,
+    answer: "Eye shields are essential to prevent retinal damage from the phototherapy lights. Maximize skin exposure (remove clothing) and increase feedings to promote bilirubin excretion.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-5",
+    type: "term",
+    question: "Surfactant Deficiency",
+    answer: "The primary cause of Respiratory Distress Syndrome (RDS) in premature neonates. Type II pneumocytes begin producing surfactant at 24 weeks gestation, with adequate amounts by 34-36 weeks. Surfactant reduces alveolar surface tension to prevent collapse.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-6",
+    type: "question",
+    question: "A premature neonate shows nasal flaring, grunting, and intercostal retractions. What is the expected treatment?",
+    options: ["Inhaled bronchodilators", "Exogenous surfactant administration", "Oral antibiotics", "Fluid restriction"],
+    correctIndex: 1,
+    answer: "These are classic signs of Respiratory Distress Syndrome (RDS) from surfactant deficiency. Treatment is exogenous surfactant replacement via endotracheal tube.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-7",
+    type: "term",
+    question: "Necrotizing Enterocolitis (NEC)",
+    answer: "Intestinal necrosis occurring primarily in premature neonates. Pneumatosis intestinalis (air in the bowel wall) on abdominal x-ray is pathognomonic. Breast milk is protective and reduces incidence.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-8",
+    type: "question",
+    question: "A neonate in the NICU develops abdominal distension, bilious emesis, and bloody stools. What is the suspected diagnosis?",
+    options: ["Pyloric stenosis", "NEC", "Hirschsprung disease", "GERD"],
+    correctIndex: 1,
+    answer: "This is the classic triad of Necrotizing Enterocolitis (NEC). Immediate management: make NPO, insert OG tube for decompression, and start IV antibiotics.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-9",
+    type: "term",
+    question: "Therapeutic Hypothermia",
+    answer: "Targeted cooling to 33.5°C for 72 hours for Hypoxic-Ischemic Encephalopathy (HIE). Must begin within 6 hours of birth. Reduces secondary brain injury by decreasing metabolic rate and excitotoxicity.",
+    category: "Neonatal"
+  },
+  {
+    id: "neo-10",
+    type: "question",
+    question: "A term newborn born after prolonged labor has poor tone, weak cry, and seizures at 4 hours of life. What is the next step?",
+    options: ["Administer glucose", "Initiate therapeutic hypothermia", "Start phototherapy", "Observe and reassess"],
+    correctIndex: 1,
+    answer: "This presentation is consistent with Hypoxic-Ischemic Encephalopathy (HIE). With seizures within the 6-hour window, initiate therapeutic hypothermia immediately to reduce secondary brain injury.",
+    category: "Neonatal"
   }
 ];
 
