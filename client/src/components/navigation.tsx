@@ -70,6 +70,10 @@ export function Navigation() {
       setLocation("/flashcards");
       return;
     }
+    if (itemLabel === "Reports") {
+      setLocation("/reports");
+      return;
+    }
     toast({
       title: "Subscription Required",
       description: `Access to ${label} ${itemLabel || ""} materials requires an active subscription.`,
@@ -99,19 +103,18 @@ export function Navigation() {
               <item.icon className={cn("w-4 h-4", theme === 'lavender' || !mounted ? item.color : "text-primary/70")} />
               <span>{item.label}</span>
             </div>
-            {isPaid && !["Lessons", "Flashcards"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Flashcards", "Reports"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator className="bg-primary/10" />
         <DropdownMenuItem 
-          onClick={() => handlePaidContent("Reports")}
+          onClick={() => handlePaidContent("Reports", "Reports")}
           className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
         >
           <div className="flex items-center gap-2">
             <BarChart className="w-4 h-4 text-primary/60" />
             <span>Reports</span>
           </div>
-          <Lock className="w-3 h-3 text-gray-400" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -168,6 +171,10 @@ export function Navigation() {
             <Dna className="w-4 h-4" />
             A&P (Free)
           </Button>
+          <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2" onClick={() => setLocation("/reports")}>
+            <BarChart className="w-4 h-4" />
+            Reports
+          </Button>
           <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2">
             <Tag className="w-4 h-4" />
             Pricing
@@ -213,6 +220,10 @@ export function Navigation() {
               <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-primary/5 gap-2" onClick={() => setLocation("/lessons")}>
                 <Dna className="w-4 h-4" />
                 A&P
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-2" onClick={() => setLocation("/reports")}>
+                <BarChart className="w-4 h-4" />
+                Reports
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-2">
                 <Tag className="w-4 h-4" />

@@ -1,24 +1,48 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft, RefreshCw, CheckCircle2, XCircle, ShieldAlert } from "lucide-react";
+import { 
+  ChevronRight, 
+  ChevronLeft, 
+  RefreshCw, 
+  CheckCircle2, 
+  XCircle, 
+  ShieldAlert, 
+  Bookmark, 
+  BookmarkCheck,
+  LayoutGrid,
+  ClipboardCheck,
+  Settings2,
+  BookOpen,
+  ArrowLeft,
+  Trophy,
+  History,
+  Trash2
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
 
+type CardType = "question" | "term";
+
 type Flashcard = {
+  id: string;
+  type: CardType;
   question: string;
-  options: string[];
-  correctIndex: number;
-  rationale: string;
+  options?: string[]; // Only for questions
+  correctIndex?: number; // Only for questions
+  answer: string; // For terms (definition) or rationale (for questions)
   category: string;
   image?: string;
 };
 
-const flashcards: Flashcard[] = [
+const allCards: Flashcard[] = [
+  // Questions (from previous turns)
   { 
+    id: "q1",
+    type: "question",
     question: "What is the priority assessment for a client post-op following an Abdominal Aortic Aneurysm (AAA) repair?", 
     options: [
       "Assessing for bowel sounds in all four quadrants",
@@ -27,11 +51,13 @@ const flashcards: Flashcard[] = [
       "Measuring abdominal girth once every 24 hours"
     ],
     correctIndex: 1,
-    rationale: "Priority is ensuring the graft is patent and renal perfusion is maintained. Urine output must be >30mL/hr, and distal pulses ensure blood flow past the graft.",
-    category: "RN Cardiovascular",
+    answer: "Priority is ensuring the graft is patent and renal perfusion is maintained. Urine output must be >30mL/hr, and distal pulses ensure blood flow past the graft.",
+    category: "Cardiovascular",
     image: heartImg
   },
   { 
+    id: "q2",
+    type: "question",
     question: "A child with Kawasaki Disease is receiving IVIG. Which teaching is most important regarding live vaccines?", 
     options: [
       "Get live vaccines immediately after discharge",
@@ -40,11 +66,13 @@ const flashcards: Flashcard[] = [
       "Live vaccines can be given after 2 weeks"
     ],
     correctIndex: 1,
-    rationale: "IVIG contains high concentrations of antibodies that can interfere with the immune response to live vaccines like MMR and Varicella. Delay for 11 months.",
-    category: "RN Pediatrics",
+    answer: "IVIG contains high concentrations of antibodies that can interfere with the immune response to live vaccines like MMR and Varicella. Delay for 11 months.",
+    category: "Pediatrics",
     image: pedsImg
   },
   { 
+    id: "q3",
+    type: "question",
     question: "A client with Acute Lymphoblastic Leukemia (ALL) has an Absolute Neutrophil Count (ANC) of 350. Which action is the priority?", 
     options: [
       "Provide a diet rich in raw fruits and vegetables",
@@ -53,67 +81,342 @@ const flashcards: Flashcard[] = [
       "Encourage the client to visit the hospital cafeteria"
     ],
     correctIndex: 2,
-    rationale: "An ANC < 500 represents severe neutropenia. Strict precautions (no raw foods, no fresh flowers, limited visitors) are vital to prevent life-threatening infection.",
-    category: "RN Oncology",
+    answer: "An ANC < 500 represents severe neutropenia. Strict precautions (no raw foods, no fresh flowers, limited visitors) are vital to prevent life-threatening infection.",
+    category: "Oncology",
     image: oncologyImg
   },
-  { 
-    question: "What is the target 'door-to-PCI' time for a client presenting with a STEMI?", 
-    options: [
-      "30 minutes",
-      "60 minutes",
-      "90 minutes",
-      "120 minutes"
-    ],
-    correctIndex: 2,
-    rationale: "Clinical standards dictate a 90-minute target from first medical contact to percutaneous coronary intervention (PCI) to minimize myocardial damage.",
-    category: "RN Cardiovascular",
+  // Terms
+  {
+    id: "t1",
+    type: "term",
+    question: "Pulsatile Abdominal Mass",
+    answer: "A key clinical finding in Abdominal Aortic Aneurysm (AAA), indicating the aorta is dilated and transmitting the heart's pulsations through the abdominal wall.",
+    category: "Cardiovascular",
     image: heartImg
   },
-  { 
-    question: "Which finding in a child suggests the 'acute phase' of Kawasaki Disease?", 
-    options: [
-      "Peeling of the skin on hands and feet",
-      "High fever unresponsive to antibiotics",
-      "Resolution of all clinical symptoms",
-      "Decreased irritability and improved appetite"
-    ],
-    correctIndex: 1,
-    rationale: "The acute phase is characterized by sudden high fever, irritability, strawberry tongue, and inflamed nodes. Peeling occurs in the subacute phase.",
-    category: "RN Pediatrics",
+  {
+    id: "t2",
+    type: "term",
+    question: "Strawberry Tongue",
+    answer: "A characteristic finding in Kawasaki Disease (acute phase) where the tongue appears red and bumpy due to inflamed papillae.",
+    category: "Pediatrics",
     image: pedsImg
+  },
+  {
+    id: "t3",
+    type: "term",
+    question: "Pancytopenia",
+    answer: "A simultaneous reduction in RBCs, WBCs, and platelets, commonly seen in leukemia due to bone marrow overcrowding by malignant blasts.",
+    category: "Oncology",
+    image: oncologyImg
+  },
+  {
+    id: "t4",
+    type: "term",
+    question: "tPA Window",
+    answer: "The critical 3 to 4.5 hour timeframe from the 'last known well' time for administering thrombolytic therapy in ischemic stroke.",
+    category: "Neurological"
   }
 ];
 
 export default function Flashcards() {
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks">("setup");
+  const [selectedType, setSelectedType] = useState<CardType | "all">("all");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [bookmarks, setBookmarks] = useState<string[]>(() => {
+    return JSON.parse(localStorage.getItem("nursenest-bookmarks") || "[]");
+  });
+  const [sessionResults, setSessionResults] = useState<{ id: string; correct: boolean }[]>([]);
   const [region, setRegion] = useState<"US" | "CA">("CA");
 
   useEffect(() => {
     setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
   }, []);
 
-  const currentCard = flashcards[currentIndex];
+  const categories = useMemo(() => Array.from(new Set(allCards.map(c => c.category))), []);
 
-  const handleNext = () => {
-    setSelectedOption(null);
-    setShowRationale(false);
-    setCurrentIndex((prev) => (prev + 1) % flashcards.length);
+  const sessionCards = useMemo(() => {
+    let filtered = allCards;
+    if (selectedType !== "all") {
+      filtered = filtered.filter(c => c.type === selectedType);
+    }
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter(c => selectedCategories.includes(c.category));
+    }
+    return filtered;
+  }, [selectedType, selectedCategories]);
+
+  const bookmarkedCards = useMemo(() => {
+    return allCards.filter(c => bookmarks.includes(c.id));
+  }, [bookmarks]);
+
+  const toggleBookmark = (id: string) => {
+    const newBookmarks = bookmarks.includes(id) 
+      ? bookmarks.filter(b => b !== id) 
+      : [...bookmarks, id];
+    setBookmarks(newBookmarks);
+    localStorage.setItem("nursenest-bookmarks", JSON.stringify(newBookmarks));
   };
 
-  const handlePrev = () => {
-    setSelectedOption(null);
-    setShowRationale(false);
-    setCurrentIndex((prev) => (prev - 1 + flashcards.length) % flashcards.length);
+  const startSession = () => {
+    if (sessionCards.length === 0) return;
+    setCurrentIndex(0);
+    setSessionResults([]);
+    setView("study");
+  };
+
+  const handleNext = () => {
+    if (currentIndex < sessionCards.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      setSelectedOption(null);
+      setShowRationale(false);
+      setIsFlipped(false);
+    } else {
+      setView("report");
+    }
   };
 
   const handleOptionClick = (index: number) => {
     if (showRationale) return;
+    const isCorrect = index === sessionCards[currentIndex].correctIndex;
+    setSessionResults(prev => [...prev, { id: sessionCards[currentIndex].id, correct: isCorrect }]);
     setSelectedOption(index);
     setShowRationale(true);
   };
+
+  const currentCard = sessionCards[currentIndex];
+
+  if (view === "setup") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Flashcard Study Suite</h1>
+            <p className="text-gray-600">Configure your clinical mastery session.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="border-none shadow-xl bg-white p-8 rounded-3xl">
+              <CardHeader className="px-0 pt-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <Settings2 className="w-5 h-5 text-primary" />
+                  <CardTitle className="text-xl">Configuration</CardTitle>
+                </div>
+              </CardHeader>
+              <div className="space-y-6">
+                <div>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">Card Type</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(["all", "term", "question"] as const).map(t => (
+                      <Button 
+                        key={t}
+                        variant={selectedType === t ? "default" : "outline"}
+                        onClick={() => setSelectedType(t)}
+                        className="rounded-xl capitalize"
+                      >
+                        {t === "all" ? "Mixed" : `${t}s`}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">Topics</label>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.map(cat => (
+                      <Button 
+                        key={cat}
+                        variant={selectedCategories.includes(cat) ? "secondary" : "outline"}
+                        onClick={() => {
+                          setSelectedCategories(prev => 
+                            prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+                          );
+                        }}
+                        className={cn(
+                          "rounded-full text-xs font-medium px-4",
+                          selectedCategories.includes(cat) ? "bg-primary/10 text-primary border-primary/20" : ""
+                        )}
+                      >
+                        {cat}
+                      </Button>
+                    ))}
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => setSelectedCategories([])}
+                      className="text-[10px] text-gray-400 hover:text-gray-600"
+                    >
+                      Clear All
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <Button 
+                    className="w-full h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/20"
+                    onClick={startSession}
+                    disabled={sessionCards.length === 0}
+                  >
+                    Start Session ({sessionCards.length} Cards)
+                  </Button>
+                </div>
+              </div>
+            </Card>
+
+            <div className="space-y-6">
+              <Card 
+                className="border-none shadow-lg bg-indigo-900 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                onClick={() => setView("bookmarks")}
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
+                    <Bookmark className="w-6 h-6 text-indigo-300" />
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Saved Mastery</h3>
+                <p className="text-indigo-200/80 text-sm leading-relaxed">
+                  Review the {bookmarks.length} difficult cards you've flagged for extra focus.
+                </p>
+              </Card>
+
+              <Card className="border-none shadow-md bg-white p-6 rounded-3xl">
+                <div className="flex items-center gap-3 mb-4">
+                  <History className="w-5 h-5 text-amber-500" />
+                  <h4 className="font-bold text-gray-900">Study Tips</h4>
+                </div>
+                <ul className="space-y-3 text-sm text-gray-600">
+                  <li className="flex gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>Focus on 'Why' - Rationales are more important than correct answers.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>Mixed mode simulates exam environments better.</span>
+                  </li>
+                </ul>
+              </Card>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (view === "bookmarks") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
+          <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")}>
+            <ArrowLeft className="w-4 h-4" />
+            Back to Configuration
+          </Button>
+
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Saved Mastery Folder</h1>
+              <p className="text-gray-600">Reviewing your tagged difficult cards.</p>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-rose-500 hover:text-rose-600 border-rose-100 bg-rose-50"
+              onClick={() => {
+                if(confirm("Clear all bookmarks?")) {
+                  setBookmarks([]);
+                  localStorage.removeItem("nursenest-bookmarks");
+                }
+              }}
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear Folder
+            </Button>
+          </div>
+
+          {bookmarkedCards.length === 0 ? (
+            <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-100">
+              <Bookmark className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+              <p className="text-gray-400 font-medium">No bookmarks saved yet.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {bookmarkedCards.map(card => (
+                <Card key={card.id} className="border-none shadow-sm hover:shadow-md transition-all bg-white p-6 rounded-2xl flex flex-col">
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest px-2 py-0.5 bg-primary/5 rounded-full">
+                      {card.type}
+                    </span>
+                    <Button variant="ghost" size="icon" onClick={() => toggleBookmark(card.id)} className="text-indigo-500">
+                      <BookmarkCheck className="w-5 h-5 fill-current" />
+                    </Button>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-3 flex-1">{card.question}</h4>
+                  <div className="text-xs text-gray-400 mb-4">{card.category}</div>
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    className="w-full rounded-xl"
+                    onClick={() => {
+                      setSelectedCategories([card.category]);
+                      setSelectedType(card.type);
+                      startSession();
+                    }}
+                  >
+                    Study This Card
+                  </Button>
+                </Card>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
+    );
+  }
+
+  if (view === "report") {
+    const correctCount = sessionResults.filter(r => r.correct).length;
+    const totalCount = sessionCards.filter(c => c.type === "question").length;
+    const score = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 100;
+
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-2xl mx-auto px-4 py-24 w-full text-center">
+          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+            <Trophy className="w-12 h-12 text-primary" />
+          </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Session Complete!</h1>
+          <p className="text-gray-600 mb-12">Here is how you performed today.</p>
+
+          <div className="grid grid-cols-2 gap-4 mb-12">
+            <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Accuracy</p>
+              <p className="text-4xl font-black text-primary">{score}%</p>
+            </Card>
+            <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Total Cards</p>
+              <p className="text-4xl font-black text-gray-900">{sessionCards.length}</p>
+            </Card>
+          </div>
+
+          <div className="space-y-4">
+            <Button className="w-full h-14 rounded-2xl text-lg font-bold" onClick={() => setView("setup")}>
+              New Session
+            </Button>
+            <Button variant="outline" className="w-full h-14 rounded-2xl text-lg font-bold" onClick={() => setView("bookmarks")}>
+              Review Bookmarks
+            </Button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans select-none print:hidden">
@@ -121,163 +424,150 @@ export default function Flashcards() {
       
       <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1 flex flex-col items-center">
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Mastery Flashcards</h1>
-          <p className="text-gray-600">Multiple choice clinical reasoning ({region === "CA" ? "Canadian Data" : "US Data"}).</p>
-          <div className="mt-2 flex items-center justify-center gap-2 text-xs text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
-            <ShieldAlert className="w-3 h-3" />
-            Security enabled: Screen capture restricted
+          <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Active Session</h1>
+          <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center gap-2 text-xs text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
+              <ShieldAlert className="w-3 h-3" />
+              Capture Restricted
+            </div>
+            <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+              {currentCard.type} Mode
+            </div>
           </div>
         </div>
 
         <div className="w-full grid lg:grid-cols-5 gap-8 flex-1 items-start">
-          {/* Progress & Info */}
           <div className="lg:col-span-1 space-y-4">
              <Card className="border-none shadow-sm bg-white p-4">
-               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Progress</p>
-               <p className="text-2xl font-bold text-primary">{currentIndex + 1} <span className="text-gray-300 text-lg">/ {flashcards.length}</span></p>
+               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Session Progress</p>
+               <p className="text-2xl font-bold text-primary">{currentIndex + 1} <span className="text-gray-300 text-lg">/ {sessionCards.length}</span></p>
                <div className="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
                  <div 
                    className="bg-primary h-full transition-all duration-500" 
-                   style={{ width: `${((currentIndex + 1) / flashcards.length) * 100}%` }}
+                   style={{ width: `${((currentIndex + 1) / sessionCards.length) * 100}%` }}
                  />
                </div>
              </Card>
              <Card className="border-none shadow-sm bg-indigo-50 p-4 border border-indigo-100">
-               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Category</p>
+               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Topic</p>
                <p className="text-sm font-bold text-indigo-900">{currentCard.category}</p>
              </Card>
+             <Button 
+                variant="outline" 
+                className={cn(
+                  "w-full rounded-xl gap-2 h-12 transition-all",
+                  bookmarks.includes(currentCard.id) ? "bg-indigo-50 text-indigo-600 border-indigo-200" : ""
+                )}
+                onClick={() => toggleBookmark(currentCard.id)}
+              >
+                {bookmarks.includes(currentCard.id) ? (
+                  <><BookmarkCheck className="w-4 h-4 fill-current" /> Saved for Review</>
+                ) : (
+                  <><Bookmark className="w-4 h-4" /> Save for Difficult Review</>
+                )}
+              </Button>
           </div>
 
-          {/* Flashcard Content */}
           <div className="lg:col-span-4 space-y-6">
-            <Card className="border-none shadow-xl bg-white overflow-hidden rounded-3xl min-h-[500px] flex flex-col">
-              <div className="grid md:grid-cols-2 flex-1">
-                {/* Visual Side */}
-                <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100 relative overflow-hidden">
-                  <div className="absolute inset-0 opacity-5 pointer-events-none">
-                    <div className="absolute top-0 left-0 w-32 h-32 bg-primary rounded-full blur-3xl" />
-                    <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent-foreground rounded-full blur-3xl" />
-                  </div>
-                  {currentCard.image ? (
-                    <img 
-                      src={currentCard.image} 
-                      alt="Clinical Visualization" 
-                      className="w-64 h-64 object-contain rounded-2xl shadow-sm hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-64 h-64 bg-gray-200 rounded-2xl flex items-center justify-center">
-                       <Microscope className="w-12 h-12 text-gray-400" />
-                    </div>
-                  )}
-                  <p className="mt-6 text-xs text-gray-400 font-medium text-center uppercase tracking-widest italic">
-                    Clinical Pattern Recognition
-                  </p>
-                </div>
-
-                {/* Interaction Side */}
-                <div className="p-8 md:p-12 flex flex-col">
-                  <h2 className="text-xl font-bold text-gray-900 mb-8 leading-snug">
-                    {currentCard.question}
-                  </h2>
-
-                  <div className="space-y-3 flex-1">
-                    {currentCard.options.map((option, idx) => {
-                      const isSelected = selectedOption === idx;
-                      const isCorrect = idx === currentCard.correctIndex;
-                      
-                      let variantClasses = "border-gray-100 hover:border-primary/30 hover:bg-primary/5 text-gray-700";
-                      if (showRationale) {
-                        if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900";
-                        else if (isSelected) variantClasses = "border-rose-500 bg-rose-50 text-rose-900";
-                        else variantClasses = "border-gray-50 bg-gray-50/50 text-gray-400 opacity-50";
-                      }
-
-                      return (
-                        <button
-                          key={idx}
-                          disabled={showRationale}
-                          onClick={() => handleOptionClick(idx)}
-                          className={cn(
-                            "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-start gap-3 text-sm font-medium relative group",
-                            variantClasses
-                          )}
-                        >
-                          <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-bold">
-                            {String.fromCharCode(65 + idx)}
-                          </span>
-                          {option}
-                          {showRationale && isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 ml-auto" />}
-                          {showRationale && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-rose-500 shrink-0 ml-auto" />}
-                        </button>
-                      );
-                    })}
+            {currentCard.type === "question" ? (
+              <Card className="border-none shadow-xl bg-white overflow-hidden rounded-3xl min-h-[500px] flex flex-col animate-in slide-in-from-right-4 duration-300">
+                <div className="grid md:grid-cols-2 flex-1">
+                  <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100 relative overflow-hidden">
+                    {currentCard.image ? (
+                      <img 
+                        src={currentCard.image} 
+                        alt="Clinical" 
+                        className="w-64 h-64 object-contain rounded-2xl shadow-sm hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-64 h-64 bg-gray-200 rounded-2xl flex items-center justify-center">
+                         <BookOpen className="w-12 h-12 text-gray-400" />
+                      </div>
+                    )}
                   </div>
 
-                  {showRationale && (
-                    <div className="mt-8 p-6 bg-primary/5 border border-primary/10 rounded-2xl animate-in fade-in slide-in-from-bottom-2 duration-500">
-                      <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2 flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3" />
-                        Clinical Rationale
-                      </p>
-                      <p className="text-sm text-gray-700 leading-relaxed font-medium">
-                        {currentCard.rationale}
-                      </p>
+                  <div className="p-8 md:p-12 flex flex-col">
+                    <h2 className="text-xl font-bold text-gray-900 mb-8 leading-snug">{currentCard.question}</h2>
+                    <div className="space-y-3 flex-1">
+                      {currentCard.options?.map((option, idx) => {
+                        const isSelected = selectedOption === idx;
+                        const isCorrect = idx === currentCard.correctIndex;
+                        let variantClasses = "border-gray-100 hover:border-primary/30 hover:bg-primary/5 text-gray-700";
+                        if (showRationale) {
+                          if (isCorrect) variantClasses = "border-emerald-500 bg-emerald-50 text-emerald-900";
+                          else if (isSelected) variantClasses = "border-rose-500 bg-rose-50 text-rose-900";
+                          else variantClasses = "border-gray-50 bg-gray-50/50 text-gray-400 opacity-50";
+                        }
+                        return (
+                          <button
+                            key={idx}
+                            disabled={showRationale}
+                            onClick={() => handleOptionClick(idx)}
+                            className={cn("w-full text-left p-4 rounded-xl border-2 transition-all flex items-start gap-3 text-sm font-medium", variantClasses)}
+                          >
+                            <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-bold">
+                              {String.fromCharCode(65 + idx)}
+                            </span>
+                            {option}
+                          </button>
+                        );
+                      })}
                     </div>
-                  )}
+                    {showRationale && (
+                      <div className="mt-8 p-6 bg-primary/5 border border-primary/10 rounded-2xl animate-in fade-in slide-in-from-bottom-2 duration-500">
+                        <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">Rationale</p>
+                        <p className="text-sm text-gray-700 leading-relaxed font-medium">{currentCard.answer}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                  <Button variant="ghost" onClick={() => setView("setup")} className="text-gray-400">Exit Session</Button>
+                  <Button variant="ghost" onClick={handleNext} className="text-primary gap-2">Next Card <ChevronRight className="w-4 h-4" /></Button>
+                </div>
+              </Card>
+            ) : (
+              <div 
+                className="w-full h-[500px] relative cursor-pointer group perspective-1000"
+                onClick={() => setIsFlipped(!isFlipped)}
+              >
+                <div className={cn(
+                  "w-full h-full transition-all duration-700 [transform-style:preserve-3d]",
+                  isFlipped ? "[transform:rotateY(180deg)]" : ""
+                )}>
+                  {/* Front: Term */}
+                  <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-12 text-center overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-2 bg-primary/20" />
+                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest mb-8">Clinical Terminology</span>
+                    <h2 className="text-4xl font-black text-gray-900 leading-tight">{currentCard.question}</h2>
+                    <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">
+                      <RefreshCw className="w-4 h-4" />
+                      Tap to define
+                    </div>
+                  </Card>
+
+                  {/* Back: Definition */}
+                  <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-primary text-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-12 text-center">
+                    <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">Clinical Definition</h3>
+                    <p className="text-2xl font-medium leading-relaxed max-w-lg">{currentCard.answer}</p>
+                    <div className="mt-12 pt-8 border-t border-white/10 w-full flex justify-center gap-8">
+                       <Button variant="ghost" className="text-white hover:bg-white/10" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
+                         Got it <ChevronRight className="w-4 h-4 ml-2" />
+                       </Button>
+                    </div>
+                  </Card>
                 </div>
               </div>
-              
-              {/* Footer Controls */}
-              <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                <Button variant="ghost" size="sm" onClick={handlePrev} className="text-gray-400 hover:text-gray-900 gap-2">
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </Button>
-                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                  Nursing Excellence Series
-                </div>
-                <Button variant="ghost" size="sm" onClick={handleNext} className="text-primary hover:text-primary gap-2">
-                  Next Card
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              </div>
-            </Card>
+            )}
           </div>
         </div>
       </main>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        @media print {
-          body { display: none !important; }
-        }
-        .backface-hidden {
-          backface-visibility: hidden;
-        }
+        @media print { body { display: none !important; } }
+        .backface-hidden { backface-visibility: hidden; }
+        .perspective-1000 { perspective: 1000px; }
       `}} />
     </div>
   );
-}
-
-function Microscope(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 18h8" />
-      <path d="M3 22h18" />
-      <path d="M14 22a7 7 0 1 0 0-14h-1" />
-      <path d="M9 14h2" />
-      <path d="M9 12a2 2 0 1 1-2-2V6h6v8h2" />
-      <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" />
-    </svg>
-  )
 }
