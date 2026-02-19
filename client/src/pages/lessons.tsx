@@ -12,13 +12,28 @@ import {
   Lock,
   Activity,
   Pill,
-  AlertCircle
+  AlertCircle,
+  Baby
 } from "lucide-react";
 
 const systems = [
   {
+    id: "pediatrics",
+    title: "Pediatric Respiratory",
+    icon: Baby,
+    color: "text-pink-500",
+    bgColor: "bg-pink-50",
+    diseases: [
+      { id: "peds-hypoxia", name: "⭐ Pediatric Hypoxia & WOB", status: "Available" },
+      { id: "bronchiolitis", name: "Bronchiolitis (RSV)", status: "Available" },
+      { id: "croup", name: "Croup (Barking Cough)", status: "Available" },
+      { id: "epiglottitis", name: "🚨 Epiglottitis Emergency", status: "Available" },
+      { id: "fba", name: "Foreign Body Aspiration", status: "Available" }
+    ]
+  },
+  {
     id: "respiratory",
-    title: "Respiratory System",
+    title: "Adult Respiratory",
     icon: Wind,
     color: "text-blue-500",
     bgColor: "bg-blue-50",
@@ -29,8 +44,7 @@ const systems = [
       { id: "asthma", name: "Asthma", status: "Available" },
       { id: "pneumonia", name: "Pneumonia", status: "Available" },
       { id: "pe", name: "Pulmonary Embolism (PE)", status: "Available" },
-      { id: "atelectasis", name: "Atelectasis", status: "Available" },
-      { id: "pulmonary-edema", name: "Pulmonary Edema", status: "Available" }
+      { id: "atelectasis", name: "Atelectasis", status: "Available" }
     ]
   },
   {
@@ -46,8 +60,7 @@ const systems = [
       { id: "mi", name: "Myocardial Infarction (MI)", status: "Available" },
       { id: "afib", name: "Atrial Fibrillation", status: "Available" },
       { id: "shock", name: "Shock States (Hypovolemic/Septic)", status: "Available" },
-      { id: "angina", name: "Angina (Stable/Unstable)", status: "Available" },
-      { id: "reduced-co", name: "Reduced Cardiac Output", status: "Available" }
+      { id: "angina", name: "Angina (Stable/Unstable)", status: "Available" }
     ]
   },
   {
@@ -74,19 +87,6 @@ const systems = [
       { id: "neuro-pharma", name: "💊 Neurological Pharmacology", status: "Available" },
       { id: "stroke", name: "Ischemic Stroke", status: "Available" },
       { id: "tia", name: "TIA (Mini-Stroke)", status: "Available" }
-    ]
-  },
-  {
-    id: "vascular",
-    title: "Vascular & Perfusion",
-    icon: Activity,
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-50",
-    diseases: [
-      { id: "vascular-pharma", name: "💊 Vascular Pharmacology", status: "Available" },
-      { id: "dvt", name: "Deep Vein Thrombosis (DVT)", status: "Available" },
-      { id: "pvd", name: "Peripheral Vascular Disease", status: "Available" },
-      { id: "fluid-overload", name: "Fluid Overload (General)", status: "Available" }
     ]
   }
 ];
@@ -124,18 +124,18 @@ export default function Lessons() {
                         disease.status === "Available" 
                           ? "border-primary/20 bg-primary/5 hover:bg-primary/10" 
                           : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed",
-                        (disease.name.includes("💊") || disease.name.includes("⭐")) && "border-primary/30 bg-primary/10 shadow-sm"
+                        (disease.name.includes("💊") || disease.name.includes("⭐") || disease.name.includes("🚨")) && "border-primary/30 bg-primary/10 shadow-sm"
                       )}
                     >
                       <div className="flex items-center gap-3">
                         {disease.name.includes("💊") ? (
                           <Pill className="w-5 h-5 text-primary" />
-                        ) : disease.name.includes("⭐") ? (
-                          <AlertCircle className="w-5 h-5 text-primary" />
+                        ) : (disease.name.includes("⭐") || disease.name.includes("🚨")) ? (
+                          <AlertCircle className={cn("w-5 h-5", disease.name.includes("🚨") ? "text-red-500" : "text-primary")} />
                         ) : (
                           <BookOpen className={cn("w-5 h-5", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
                         )}
-                        <span className={cn("font-medium", (disease.name.includes("💊") || disease.name.includes("⭐")) ? "text-primary-foreground font-bold" : "text-gray-900")}>
+                        <span className={cn("font-medium", (disease.name.includes("💊") || disease.name.includes("⭐") || disease.name.includes("🚨")) ? "text-primary-foreground font-bold" : "text-gray-900")}>
                           {disease.name}
                         </span>
                       </div>

@@ -173,6 +173,119 @@ const contentMap: Record<string, LessonContent> = {
       { question: "Which patient is at highest risk for atelectasis?", options: ["Active teenager", "Post-op abdominal surgery", "Patient walking in hall", "Patient eating lunch"], correct: 1, rationale: "Post-op patients often breathe shallowly due to pain, leading to alveolar collapse." }
     ]
   },
+  "peds-hypoxia": {
+    title: "Pediatric Hypoxia & Work of Breathing",
+    cellular: {
+      title: "Pediatric Oxygenation Failure",
+      content: "Children decompensate faster than adults. They maintain blood pressure until the very end, leading to sudden collapse. Recognition of subtle early signs is the key to REX-PN success. \n\nEarly Signs: Tachycardia (very sensitive), Tachypnea, Restlessness/Irritability, Nasal Flaring, Retractions. \n\nLate Signs: Bradycardia (VERY OMINOUS), Cyanosis, Lethargy, Decreased LOC."
+    },
+    signs: {
+      left: ["Tachycardia (Early Sign)", "Restlessness/Irritability", "Nasal Flaring", "Intercostal/Subcostal Retractions"],
+      right: ["🚨 Bradycardia (Emergency!)", "🚨 Grunting/Head Bobbing", "Cyanosis (Late Sign)", "Decreased LOC/Lethargy"]
+    },
+    medications: [
+      { name: "Oxygen Therapy", type: "Supportive", action: "Restores O2 levels", sideEffects: "Dryness", contra: "None in acute distress", pearl: "Monitor effort, not just numbers. Children look 'okay' until they don't." }
+    ],
+    pearls: [
+      "🚨 Bradycardia in a hypoxic child = code blue emergency",
+      "Work of Breathing is MORE important than SpO2 alone",
+      "Retractions indicate significant respiratory distress",
+      "Nasal flaring is a classic pediatric compensation mechanism"
+    ],
+    quiz: [
+      { question: "What is the most sensitive early sign of hypoxia in a child?", options: ["Cyanosis", "Bradycardia", "Tachycardia", "Decreased LOC"], correct: 2, rationale: "Tachycardia is a very sensitive early indicator of pediatric respiratory distress." },
+      { question: "What does bradycardia indicate in a hypoxic child?", options: ["Recovery", "Sleepiness", "Imminent arrest", "Normal finding"], correct: 2, rationale: "Bradycardia is a very ominous late sign of hypoxia in children, indicating imminent respiratory/cardiac arrest." }
+    ]
+  },
+  "bronchiolitis": {
+    title: "Bronchiolitis (RSV)",
+    cellular: {
+      title: "Viral Airway Obstruction",
+      content: "Commonly caused by RSV. Viral infection leads to inflammation and heavy mucus production in the smallest airways (bronchioles). This causes narrowing and obstruction, making breathing difficult for infants."
+    },
+    signs: {
+      left: ["Tachypnea", "Wheezing/Crackles", "Retractions", "Nasal Flaring"],
+      right: ["Feeding Difficulty", "🚨 Apnea Episodes", "Dehydration", "Irritability"]
+    },
+    medications: [
+      { name: "Fluids (IV/PO)", type: "Supportive", action: "Maintains hydration", sideEffects: "Fluid overload", contra: "None", pearl: "Priority is hydration and airway maintenance. Antibiotics are NOT routine." }
+    ],
+    pearls: [
+      "Commonly viral (RSV); antibiotics don't work",
+      "Infants/Premature babies are at highest risk",
+      "Assess work of breathing and feeding ability"
+    ],
+    quiz: [
+      { question: "What is the priority for an infant with bronchiolitis?", options: ["Antibiotics", "Hydration & Airway", "Chest PT", "Steroids"], correct: 1, rationale: "Supportive care focused on hydration and monitoring work of breathing is the priority." }
+    ]
+  },
+  "croup": {
+    title: "Croup (Laryngotracheobronchitis)",
+    cellular: {
+      title: "Upper Airway Narrowing",
+      content: "Inflammation of the upper airway (larynx/trachea) leads to subglottic swelling and narrowing. This creates the classic 'barking' cough and inspiratory stridor as air is forced through a tight space."
+    },
+    signs: {
+      left: ["Barking Cough (Seal-like)", "Inspiratory Stridor", "Hoarseness", "Worse at night"],
+      right: ["🚨 Stridor at Rest", "🚨 Increasing distress", "Agitation", "Tachypnea"]
+    },
+    medications: [
+      { name: "Dexamethasone", type: "Steroid", action: "Reduces airway swelling", sideEffects: "Irritability", contra: "Viral infection (use with caution)", pearl: "Single dose is often effective." },
+      { name: "Epinephrine (Nebulized)", type: "Vasoconstrictor", action: "Rapid reduction of swelling", sideEffects: "Tachycardia", contra: "None in emergency", pearl: "Watch for rebound swelling after 2 hours." }
+    ],
+    pearls: [
+      "Cold night air or steam can help relieve symptoms",
+      "Agitation worsens the obstruction—keep the child calm!",
+      "Stridor at rest is a red flag for severe narrowing"
+    ],
+    quiz: [
+      { question: "Classic finding of Croup?", options: ["Drooling", "Barking cough", "Sudden onset choking", "Absent breath sounds"], correct: 1, rationale: "A barky, seal-like cough is the hallmark sign of Croup." }
+    ]
+  },
+  "epiglottitis": {
+    title: "Epiglottitis (Airway Emergency)",
+    cellular: {
+      title: "Supraglottic Inflammation",
+      content: "Severe, life-threatening inflammation of the epiglottis. The airway can become completely obstructed in minutes. This is a medical emergency that requires immediate recognition."
+    },
+    signs: {
+      left: ["🚨 Drooling", "🚨 Tripod Positioning", "🚨 Dysphagia (Difficulty swallowing)", "🚨 Toxic Appearance"],
+      right: ["High Fever", "Muffled Voice", "Inspiratory Stridor", "Severe Anxiety"]
+    },
+    medications: [
+      { name: "Antibiotics (IV)", type: "Antibacterial", action: "Treats underlying infection", sideEffects: "Diarrhea", contra: "Allergy", pearl: "Airway MUST be secured before any other treatment." }
+    ],
+    pearls: [
+      "🚨 DO NOT examine the throat aggressively (can trigger total closure)",
+      "Keep child in whatever position is most comfortable (usually tripod)",
+      "Emergency intubation equipment must be available"
+    ],
+    quiz: [
+      { question: "What is a hallmark sign of Epiglottitis?", options: ["Barking cough", "Drooling & Tripod positioning", "Wheezing", "Coughing"], correct: 1, rationale: "The 4 Ds (Drooling, Dysphagia, Dysphonia, Distress) and tripod positioning are classic for epiglottitis." }
+    ]
+  },
+  "fba": {
+    title: "Foreign Body Aspiration (FBA)",
+    cellular: {
+      title: "Mechanical Obstruction",
+      content: "Sudden inhalation of an object into the airway. Most commonly lodge in the right mainstem bronchus. Leads to sudden respiratory distress and localized lung collapse or infection."
+    },
+    signs: {
+      left: ["🚨 Sudden onset distress", "🚨 Choking/Gagging", "🚨 Asymmetric breath sounds", "Wheezing (localized)"],
+      right: ["Coughing", "Cyanosis (if severe)", "Anxiety", "Stridor (if upper airway)"]
+    },
+    medications: [
+      { name: "None", type: "Mechanical Issue", action: "Requires removal", sideEffects: "N/A", contra: "N/A", pearl: "Airway is the absolute priority. Bronchoscopy may be needed for removal." }
+    ],
+    pearls: [
+      "Sudden onset in a previously healthy child is the classic history",
+      "Asymmetric breath sounds = object is blocking one side",
+      "Perform BLS maneuvers (back blows/chest thrusts) if fully obstructed"
+    ],
+    quiz: [
+      { question: "Hallmark sign of Foreign Body Aspiration?", options: ["Gradual onset fever", "Barking cough", "Sudden onset distress & asymmetry", "Drooling"], correct: 2, rationale: "Sudden onset of distress in a healthy child, especially with asymmetric breath sounds, is classic for FBA." }
+    ]
+  },
   "pe": {
     title: "Pulmonary Embolism (PE)",
     cellular: {
