@@ -423,6 +423,8 @@ const allCards: Flashcard[] = [
     options: ["Start Oxytocin", "Place client in Knee-Chest position", "Encourage pushing", "Give fluids"],
     correctIndex: 1,
     answer: "This is Umbilical Cord Prolapse. Knee-chest or Trendelenburg position relieves pressure on the cord. Keep hand in vagina to lift head off cord until C-section.",
+    category: "Maternal"
+  },
   {
     id: "q-transfusion-1",
     type: "question",
