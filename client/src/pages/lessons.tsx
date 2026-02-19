@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   Heart, 
   Wind, 
   Brain, 
   Droplets, 
-  Stethoscope, 
   ChevronRight,
   BookOpen,
-  CheckCircle2,
   Lock
 } from "lucide-react";
 
@@ -23,27 +20,10 @@ const systems = [
     color: "text-red-500",
     bgColor: "bg-red-50",
     diseases: [
-      { id: "heart-failure", name: "Heart Failure", status: "Available" }
-    ]
-  },
-  {
-    id: "respiratory",
-    title: "Respiratory System",
-    icon: Wind,
-    color: "text-blue-500",
-    bgColor: "bg-blue-50",
-    diseases: [
-      { id: "copd", name: "COPD", status: "Locked" }
-    ]
-  },
-  {
-    id: "neurological",
-    title: "Neurological System",
-    icon: Brain,
-    color: "text-purple-500",
-    bgColor: "bg-purple-50",
-    diseases: [
-      { id: "stroke", name: "Ischemic Stroke", status: "Locked" }
+      { id: "heart-failure", name: "Heart Failure", status: "Available" },
+      { id: "hypertension", name: "Hypertension", status: "Available" },
+      { id: "mi", name: "Myocardial Infarction (MI)", status: "Available" },
+      { id: "afib", name: "Atrial Fibrillation", status: "Available" }
     ]
   },
   {
@@ -53,7 +33,32 @@ const systems = [
     color: "text-orange-500",
     bgColor: "bg-orange-50",
     diseases: [
-      { id: "diabetes", name: "Diabetes Mellitus", status: "Locked" }
+      { id: "diabetes-t1", name: "Diabetes Type 1", status: "Available" },
+      { id: "diabetes-t2", name: "Diabetes Type 2", status: "Available" },
+      { id: "dka", name: "DKA (Ketoacidosis)", status: "Available" },
+      { id: "hhs", name: "HHS (Hyperglycemic State)", status: "Available" }
+    ]
+  },
+  {
+    id: "neurological",
+    title: "Neurological System",
+    icon: Brain,
+    color: "text-purple-500",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "stroke", name: "Ischemic Stroke", status: "Available" },
+      { id: "tia", name: "TIA (Mini-Stroke)", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory",
+    title: "Respiratory System",
+    icon: Wind,
+    color: "text-blue-500",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "copd", name: "COPD", status: "Locked" },
+      { id: "asthma", name: "Asthma", status: "Locked" }
     ]
   }
 ];

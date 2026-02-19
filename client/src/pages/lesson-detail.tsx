@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "wouter";
+import { useState, useMemo } from "react";
+import { Link, useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,69 +13,148 @@ import {
   Lightbulb, 
   FileText,
   CheckCircle2,
-  XCircle
+  XCircle,
+  Trophy
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const lessonContent = {
-  title: "Heart Failure (HF)",
-  cellular: {
-    title: "The Cellular Foundation",
-    content: `At the RPN level for REX-PN, you must understand that Heart Failure isn't just a 'tired heart'—it's a failure of cellular compensation. 
-    
-    1. Myocardial Stretching (Frank-Starling Mechanism): Initially, the muscle fibers stretch to increase contractility. However, like an overstretched rubber band, they eventually lose elasticity.
-    2. RAAS Activation: Decreased renal perfusion triggers the Renin-Angiotensin-Aldosterone System. This causes sodium/water retention at the cellular level in the kidneys, increasing workload (preload).
-    3. Hypertrophy: Cardiac myocytes increase in size to handle stress, but they require more oxygen than the coronary arteries can provide, leading to cellular hypoxia and further damage.`
-  },
-  signs: {
-    left: ["Dyspnea", "Crackles (Pulmonary Edema)", "Orthopnea", "Frothy Pink Sputum"],
-    right: ["JVD (Jugular Vein Distension)", "Peripheral Edema", "Ascites", "Hepatomegaly"]
-  },
-  medications: [
-    { 
-      name: "Furosemide (Lasix)", 
-      type: "Loop Diuretic",
-      action: "Inhibits Na/Cl reabsorption in Loop of Henle",
-      sideEffects: "Hypokalemia, Ototoxicity (if given too fast)",
-      contra: "Anuria, severe electrolyte depletion",
-      pearl: "Always check Potassium levels before administering!"
+type LessonContent = {
+  title: string;
+  cellular: { title: string; content: string };
+  signs: { left: string[]; right: string[] };
+  medications: { name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[];
+  pearls: string[];
+  quiz: { question: string; options: string[]; correct: number; rationale: string }[];
+};
+
+const contentMap: Record<string, LessonContent> = {
+  "heart-failure": {
+    title: "Heart Failure (HF)",
+    cellular: {
+      title: "Cellular Overstretch & Compensation",
+      content: "At the RPN level, Heart Failure is a failure of cellular compensation. The Frank-Starling mechanism initially stretches myocardial fibers to increase contractility, but eventually loses elasticity. RAAS activation triggers sodium and water retention at the cellular level in the kidneys, increasing preload and hydrostatic pressure."
     },
-    {
-      name: "Enalapril (Vasotec)",
-      type: "ACE Inhibitor",
-      action: "Blocks Angiotensin I to II conversion",
-      sideEffects: "Dry Cough, Angioedema, Hyperkalemia",
-      contra: "Pregnancy, history of angioedema",
-      pearl: "Watch for that first-dose hypotension!"
-    }
-  ],
-  pearls: [
-    "Daily weights are the gold standard (Report >2-3 lbs/day or 5 lbs/week).",
-    "Sodium restriction is critical (<2g/day).",
-    "Positioning: High-Fowler's to ease breathing."
-  ],
-  quiz: [
-    {
-      question: "Which assessment finding is most indicative of Left-Sided Heart Failure?",
-      options: ["Peripheral Edema", "Jugular Vein Distension", "Crackles in Lungs", "Ascites"],
-      correct: 2,
-      rationale: "Left-sided failure backs up into the lungs, causing pulmonary symptoms like crackles."
+    signs: {
+      left: ["Dyspnea & Orthopnea", "Crackles (Pulmonary Edema)", "Paroxysmal nocturnal dyspnea", "Frothy Pink Sputum"],
+      right: ["JVD (Jugular Vein Distension)", "Peripheral Edema", "Ascites", "Hepatomegaly (Liver enlargement)"]
     },
-    {
-      question: "An RPN is preparing to give Furosemide. Which lab value is most concerning?",
-      options: ["Sodium 138 mEq/L", "Potassium 3.1 mEq/L", "Creatinine 1.1 mg/dL", "Glucose 110 mg/dL"],
-      correct: 1,
-      rationale: "Furosemide is a potassium-wasting diuretic. A level of 3.1 is already low (Hypokalemia)."
-    }
-  ]
+    medications: [
+      { name: "Furosemide (Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption", sideEffects: "Hypokalemia, Ototoxicity", contra: "Anuria", pearl: "Check Potassium levels first!" },
+      { name: "Digoxin (Lanoxin)", type: "Inotrope", action: "Increases contractility, slows rate", sideEffects: "Bradycardia, Vision halos", contra: "Pulse < 60 bpm", pearl: "Auscultate apical pulse for 1 min." }
+    ],
+    pearls: ["Daily weights (>2lb/day = bad)", "Sodium <2g/day", "Position in High-Fowler's"],
+    quiz: [
+      { question: "Which finding indicates Right-Sided HF?", options: ["Crackles", "Dyspnea", "Peripheral Edema", "Orthopnea"], correct: 2, rationale: "Right failure backs up into systemic circulation." }
+    ]
+  },
+  "hypertension": {
+    title: "Hypertension (HTN)",
+    cellular: {
+      title: "Vasoconstriction & Resistance",
+      content: "Hypertension occurs when cellular damage to the endothelium leads to chronic vasoconstriction. The heart must pump against increased Systemic Vascular Resistance (SVR). Over time, this leads to LVH (Left Ventricular Hypertrophy) where cells thicken but lose efficiency."
+    },
+    signs: {
+      left: ["Headache (Morning)", "Blurred Vision", "Tinnitus", "Epistaxis (Nosebleeds)"],
+      right: ["Often Asymptomatic", "Chest Pain", "Dizziness", "Fatigue"]
+    },
+    medications: [
+      { name: "Hydrochlorothiazide", type: "Thiazide Diuretic", action: "Distal tubule Na excretion", sideEffects: "Hypokalemia", contra: "Sulfonamide allergy", pearl: "Take in the morning to avoid nocturia." },
+      { name: "Lisinopril", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Dry Cough, Hyperkalemia", contra: "Pregnancy", pearl: "Watch for Angioedema (swelling)." }
+    ],
+    pearls: ["DASH Diet (Low sodium, high K/Mg/Ca)", "Lifestyle is 1st line", "The 'Silent Killer'"],
+    quiz: [
+      { question: "Common side effect of ACE Inhibitors?", options: ["Headache", "Dry Cough", "Diarrhea", "Fever"], correct: 1, rationale: "Bradykinin buildup causes a chronic dry cough." }
+    ]
+  },
+  "mi": {
+    title: "Myocardial Infarction (MI)",
+    cellular: {
+      title: "Ischemia to Necrosis",
+      content: "When oxygen supply is cut off, cardiac cells switch to anaerobic metabolism, producing lactic acid. This causes pain. If O2 isn't restored within 20-40 mins, irreversible cellular necrosis begins. Necrotic cells release enzymes like Troponin into the blood."
+    },
+    signs: {
+      left: ["Crushing Chest Pain", "Pain radiating to jaw/arm", "Diaphoresis (Sweating)", "Nausea/Vomiting"],
+      right: ["Shortness of breath", "Fatigue", "Heartburn sensation", "Weakness"]
+    },
+    medications: [
+      { name: "Nitroglycerin", type: "Vasodilator", action: "Decreases preload/afterload", sideEffects: "Headache, Hypotension", contra: "Erectile Dysfunction meds", pearl: "Max 3 doses, 5 mins apart." },
+      { name: "Aspirin", type: "Anti-platelet", action: "Prevents further clotting", sideEffects: "Bleeding", contra: "GI Bleed", pearl: "Chew for faster absorption during MI." }
+    ],
+    pearls: ["MONA: Morphine, Oxygen, Nitroglycerin, Aspirin", "Time is Muscle", "Troponin is the gold standard lab"],
+    quiz: [
+      { question: "What is the primary action of Nitroglycerin?", options: ["Dissolve Clots", "Vasodilation", "Increase Heart Rate", "Stop Bleeding"], correct: 1, rationale: "It dilates veins and arteries to reduce heart workload." }
+    ]
+  },
+  "diabetes-t1": {
+    title: "Diabetes Type 1",
+    cellular: {
+      title: "Autoimmune Beta-Cell Destruction",
+      content: "T-cells attack and destroy the insulin-producing beta cells in the Islets of Langerhans. Without insulin, glucose cannot enter the cells to produce energy. Cells starve while blood sugar remains high."
+    },
+    signs: {
+      left: ["Polyuria (Increased urine)", "Polydipsia (Thirst)", "Polyphagia (Hunger)", "Weight Loss"],
+      right: ["Fatigue", "Blurred Vision", "Irritability", "Weakness"]
+    },
+    medications: [
+      { name: "Insulin Lispro (Humalog)", type: "Rapid-acting", action: "Transport glucose into cells", sideEffects: "Hypoglycemia", contra: "None", pearl: "Must have food ready within 15 mins!" },
+      { name: "Insulin Glargine (Lantus)", type: "Long-acting", action: "Steady glucose control", sideEffects: "Hypoglycemia", contra: "None", pearl: "Never mix with other insulins!" }
+    ],
+    pearls: ["Rotation of sites prevents lipodystrophy", "Hypoglycemia is <4.0 mmol/L", "Always requires insulin"],
+    quiz: [
+      { question: "Onset time for Rapid-Acting insulin?", options: ["5-15 mins", "30-60 mins", "2-4 hours", "Never"], correct: 0, rationale: "Rapid-acting insulin starts working very quickly." }
+    ]
+  },
+  "dka": {
+    title: "Diabetic Ketoacidosis (DKA)",
+    cellular: {
+      title: "Ketone Production & Acidosis",
+      content: "When cells can't get glucose, the body breaks down fat for energy. This produces ketones (acidic). At the cellular level, the blood becomes acidic, and high sugar causes osmotic diuresis, leading to severe cellular dehydration and potassium shifts."
+    },
+    signs: {
+      left: ["Kussmaul Respirations (Rapid/Deep)", "Fruity Breath", "Blood Glucose >16.7", "Ketones in Urine"],
+      right: ["Nausea/Vomiting", "Abdominal Pain", "Altered Mental Status", "Dehydration"]
+    },
+    medications: [
+      { name: "Regular Insulin", type: "Short-acting", action: "Lower BG & switch off fat breakdown", sideEffects: "Hypokalemia", contra: "Hypoglycemia", pearl: "Only insulin given IV bolus/drip." },
+      { name: "0.9% Normal Saline", type: "Isotonic Fluid", action: "Rehydration", sideEffects: "Fluid overload", contra: "HF", pearl: "Priority is rehydration 1st!" }
+    ],
+    pearls: ["Priority: Hydration, then Insulin, then K+ replacement", "Watch Potassium like a hawk!", "Hourly BG monitoring"],
+    quiz: [
+      { question: "Priority intervention for DKA?", options: ["Insulin", "Normal Saline", "Potassium", "Food"], correct: 1, rationale: "Rehydration is the first priority to stabilize BP and perfusion." }
+    ]
+  },
+  "stroke": {
+    title: "Ischemic Stroke",
+    cellular: {
+      title: "The Ischemic Penumbra",
+      content: "A clot blocks blood flow. The core area dies quickly. The surrounding area (penumbra) is at risk but salvageable if blood flow is restored quickly. Cellular pumps fail, causing neurons to swell and die."
+    },
+    signs: {
+      left: ["Facial Drooping", "Arm Weakness", "Speech Difficulty (BEFAST)", "Sudden Vision Loss"],
+      right: ["Unilateral Neglect", "Impulsive Behavior", "Spatial-Perceptual deficits", "Headache"]
+    },
+    medications: [
+      { name: "tPA (Alteplase)", type: "Thrombolytic", action: "Dissolves the clot", sideEffects: "Severe Bleeding", contra: "Recent surgery, bleeding risk", pearl: "Give within 3-4.5 hours of Last Known Well." },
+      { name: "Clopidogrel (Plavix)", type: "Anti-platelet", action: "Prevents future clots", sideEffects: "Bleeding", contra: "Active bleeding", pearl: "Stop 5-7 days before surgery." }
+    ],
+    pearls: ["TIME is BRAIN", "CT Scan (non-contrast) 1st to rule out hemorrhage", "Keep HOB at 30 degrees"],
+    quiz: [
+      { question: "First thing to do for suspected stroke?", options: ["Give Aspirin", "CT Scan", "Start tPA", "Draw Labs"], correct: 1, rationale: "Must rule out a bleed before giving any blood thinners." }
+    ]
+  }
 };
 
 export default function LessonDetail() {
+  const { id } = useParams();
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [quizComplete, setQuizComplete] = useState(false);
   const { toast } = useToast();
+
+  const lessonContent = useMemo(() => {
+    return contentMap[id as string] || contentMap["heart-failure"];
+  }, [id]);
 
   const handleAnswer = (index: number) => {
     if (index === lessonContent.quiz[currentQuestion].correct) {
@@ -118,7 +197,7 @@ export default function LessonDetail() {
             </div>
           </div>
 
-          {/* Progress Tracker Mockup */}
+          {/* Progress Tracker */}
           <Card className="bg-primary/5 border-none">
             <CardContent className="p-6 flex items-center justify-between">
               <div className="space-y-1">
@@ -132,7 +211,7 @@ export default function LessonDetail() {
             </CardContent>
           </Card>
 
-          {/* Lesson Sections */}
+          {/* Cellular Foundation */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Microscope className="text-primary w-8 h-8" />
@@ -143,12 +222,13 @@ export default function LessonDetail() {
             </div>
           </section>
 
+          {/* Signs & Symptoms */}
           <section className="grid md:grid-cols-2 gap-8">
             <Card className="border-none shadow-md bg-white">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-blue-500 w-6 h-6" />
-                  <h3>Left-Sided (Pulmonary)</h3>
+                  <h3>Primary Assessment</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.left.map((s, i) => (
@@ -164,7 +244,7 @@ export default function LessonDetail() {
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                   <AlertCircle className="text-orange-500 w-6 h-6" />
-                  <h3>Right-Sided (Systemic)</h3>
+                  <h3>Secondary/Related</h3>
                 </div>
                 <ul className="space-y-2">
                   {lessonContent.signs.right.map((s, i) => (
@@ -178,10 +258,11 @@ export default function LessonDetail() {
             </Card>
           </section>
 
+          {/* Medications */}
           <section className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Pill className="text-primary w-8 h-8" />
-              <h2>Pharmacology & Nursing Interventions</h2>
+              <h2>Pharmacology & Interventions</h2>
             </div>
             <div className="space-y-4">
               {lessonContent.medications.map((med, i) => (
@@ -222,7 +303,7 @@ export default function LessonDetail() {
                 <ul className="space-y-2 text-gray-300">
                   {lessonContent.pearls.map((p, i) => (
                     <li key={i} className="flex gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-mint-400 shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                       {p}
                     </li>
                   ))}
@@ -231,7 +312,7 @@ export default function LessonDetail() {
               <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                 <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Watch List</h4>
                 <p className="text-sm text-gray-400 leading-relaxed italic">
-                  "REX-PN often tests on prioritization. If the patient has frothy pink sputum, they are the priority (ABC - Airway/Breathing). If they have peripheral edema, it is expected but not immediate."
+                  Always prioritize based on ABCs. For neurological events, time is the critical factor. For endocrine, monitor for acute changes in mental status.
                 </p>
               </div>
             </div>
@@ -245,15 +326,15 @@ export default function LessonDetail() {
                   <Stethoscope className="w-10 h-10 text-primary" />
                 </div>
                 <h2 className="text-3xl font-bold">Knowledge Check</h2>
-                <p className="text-gray-600 max-w-md mx-auto">Ready to test your understanding of Heart Failure? Complete these questions to update your progress report.</p>
+                <p className="text-gray-600 max-w-md mx-auto">Ready to test your understanding? Complete these questions to update your progress report.</p>
                 <Button size="lg" onClick={() => setQuizStarted(true)} className="rounded-full px-12 bg-primary hover:brightness-110 h-14 text-lg text-white">
                   Start Quiz
                 </Button>
               </div>
             ) : quizComplete ? (
               <Card className="border-none shadow-xl bg-white text-center p-12 space-y-6">
-                <div className="w-24 h-24 bg-mint-50 rounded-full flex items-center justify-center mx-auto">
-                  <Trophy className="w-12 h-12 text-mint-500" />
+                <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
+                  <Trophy className="w-12 h-12 text-emerald-500" />
                 </div>
                 <h2 className="text-3xl font-bold">Lesson Mastered!</h2>
                 <p className="text-xl text-gray-600">You scored {score} out of {lessonContent.quiz.length}</p>
@@ -290,4 +371,6 @@ export default function LessonDetail() {
   );
 }
 
-import { Trophy } from "lucide-react";
+function cn(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
