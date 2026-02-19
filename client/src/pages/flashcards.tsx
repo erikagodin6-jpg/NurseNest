@@ -116,6 +116,161 @@ const allCards: Flashcard[] = [
     question: "tPA Window",
     answer: "The critical 3 to 4.5 hour timeframe from the 'last known well' time for administering thrombolytic therapy in ischemic stroke.",
     category: "Neurological"
+  },
+  {
+    id: "q-shock-1",
+    type: "question",
+    question: "A client with a ruptured AAA presents with BP 80/40, HR 128, and pale/clammy skin. Which type of shock is occurring?",
+    options: ["Septic Shock", "Cardiogenic Shock", "Hypovolemic Shock", "Neurogenic Shock"],
+    correctIndex: 2,
+    answer: "Hypovolemic shock occurs due to rapid blood loss (exsanguination) from the ruptured aneurysm. Treatment requires immediate fluid bolus and blood products.",
+    category: "Cardiovascular"
+  },
+  {
+    id: "q-resp-1",
+    type: "question",
+    question: "Which finding is the most critical to report in a client with an acute asthma exacerbation?",
+    options: ["Expiratory wheezing", "Productive cough", "Silent chest (absence of wheezing)", "Use of accessory muscles"],
+    correctIndex: 2,
+    answer: "A 'silent chest' indicates that air movement is so restricted that wheezing has stopped, signaling imminent respiratory failure.",
+    category: "Respiratory"
+  },
+  {
+    id: "t-neuro-1",
+    type: "term",
+    question: "Cushing's Triad",
+    answer: "A late sign of increased ICP characterized by widening pulse pressure (HTN), bradycardia, and irregular respirations.",
+    category: "Neurological"
+  },
+  {
+    id: "q-gi-1",
+    type: "question",
+    question: "A client with a suspected small bowel obstruction has a board-like, rigid abdomen. What does this suggest?",
+    options: ["Normal digestion", "Peritonitis/Perforation", "Constipation", "GERD"],
+    correctIndex: 1,
+    answer: "A rigid, board-like abdomen is a classic sign of peritonitis, often following a bowel perforation—a surgical emergency.",
+    category: "GI"
+  },
+  {
+    id: "q-meds-1",
+    type: "question",
+    question: "A client is taking Ginkgo Biloba and Warfarin. What is the primary safety concern?",
+    options: ["Increased risk of blood clots", "Increased risk of bleeding", "Severe hypertension", "Liver failure"],
+    correctIndex: 1,
+    answer: "Ginkgo Biloba has antiplatelet effects and can significantly increase the risk of bleeding when combined with anticoagulants like Warfarin.",
+    category: "Pharmacology"
+  },
+  {
+    id: "t-peds-1",
+    type: "term",
+    question: "Epiglottitis (The 4 Ds)",
+    answer: "Drooling, Dysphagia, Dysphonia, and Distressed inspiratory stridor. A pediatric airway emergency.",
+    category: "Pediatrics"
+  },
+  {
+    id: "q-pe-1",
+    type: "question",
+    question: "A post-op client suddenly develops pleuritic chest pain and shortness of breath. What is the priority?",
+    options: ["Check temperature", "Apply oxygen and place in High-Fowler's", "Give an aspirin", "Encourage walking"],
+    correctIndex: 1,
+    answer: "These are classic signs of a Pulmonary Embolism. Immediate oxygenation and positioning are the priority nursing actions.",
+    category: "Respiratory"
+  },
+  {
+    id: "t-shock-1",
+    type: "term",
+    question: "MAP (Mean Arterial Pressure)",
+    answer: "The average pressure in the arteries during one cardiac cycle. Must be > 65 mmHg to ensure adequate end-organ perfusion.",
+    category: "Cardiovascular"
+  },
+  {
+    id: "q-k-1",
+    type: "question",
+    question: "A client's potassium level is 6.8 mEq/L. Which medication is the priority to protect the heart?",
+    options: ["Furosemide", "Sodium Polystyrene", "Calcium Gluconate", "Insulin/Dextrose"],
+    correctIndex: 2,
+    answer: "Calcium Gluconate does not lower potassium, but it stabilizes the cardiac membrane to prevent lethal dysrhythmias until the potassium can be shifted or removed.",
+    category: "Pharmacology"
+  },
+  {
+    id: "t-skin-1",
+    type: "term",
+    question: "Rule of Nines",
+    answer: "A standardized tool used to quickly estimate the Total Body Surface Area (TBSA) burned in adults to guide fluid resuscitation.",
+    category: "Skin"
+  },
+  {
+    id: "q-angina-1",
+    type: "question",
+    question: "A client reports chest pain that occurs with exertion and is relieved by rest and nitroglycerin. What is this?",
+    options: ["Unstable Angina", "Stable Angina", "Myocardial Infarction", "Prinzmetal Angina"],
+    correctIndex: 1,
+    answer: "Stable angina is predictable and occurs with exertion, relieved by rest or nitrates. Unstable angina is a medical emergency as it occurs at rest or increases in frequency/severity.",
+    category: "Cardiovascular"
+  },
+  {
+    id: "t-sepsis-1",
+    type: "term",
+    question: "SIRS Criteria",
+    answer: "Systemic Inflammatory Response Syndrome: Defined by 2+ of: Temp >38C or <36C, HR >90, RR >20, or WBC >12k or <4k.",
+    category: "Infection"
+  },
+  {
+    id: "q-gu-1",
+    type: "question",
+    question: "Which electrolyte imbalance is a priority concern in a client with chronic kidney disease?",
+    options: ["Hyponatremia", "Hypocalcemia", "Hyperkalemia", "Hypomagnesemia"],
+    correctIndex: 2,
+    answer: "Hyperkalemia is the most life-threatening electrolyte imbalance in renal failure due to the risk of lethal cardiac arrhythmias.",
+    category: "GU / Renal"
+  },
+  {
+    id: "t-ms-1",
+    type: "term",
+    question: "Osteoporosis Safety",
+    answer: "Focus on fall prevention, weight-bearing exercise (walking), and adequate Calcium/Vitamin D intake.",
+    category: "Musculoskeletal"
+  },
+  {
+    id: "q-meds-2",
+    type: "question",
+    question: "A client is prescribed St. John's Wort. Which medication would cause a major interaction?",
+    options: ["Vitamin C", "Digoxin", "Acetaminophen", "Loperamide"],
+    correctIndex: 1,
+    answer: "St. John's Wort significantly decreases the effectiveness of many critical drugs, including Digoxin, Warfarin, and oral contraceptives.",
+    category: "Pharmacology"
+  },
+  {
+    id: "t-peds-2",
+    type: "term",
+    question: "Tetralogy of Fallot (Tet Spell)",
+    answer: "Acute cyanotic episode. Priority action: Place the infant in a knee-chest position to increase systemic vascular resistance.",
+    category: "Pediatrics"
+  },
+  {
+    id: "q-insulin-1",
+    type: "question",
+    question: "A client is shaky, sweaty, and confused after receiving insulin. What is the priority?",
+    options: ["Give more insulin", "Check blood glucose and give 15g carbs", "Encourage a nap", "Wait for the next meal"],
+    correctIndex: 1,
+    answer: "These are signs of hypoglycemia. The 'Rule of 15' (check glucose, give 15g simple carbs) is the standard treatment.",
+    category: "Pharmacology"
+  },
+  {
+    id: "t-gi-1",
+    type: "term",
+    question: "Melena vs Hematochezia",
+    answer: "Melena is black, tarry stool (Upper GI bleed). Hematochezia is bright red blood per rectum (Lower GI bleed).",
+    category: "GI"
+  },
+  {
+    id: "q-copd-1",
+    type: "question",
+    question: "What is the target oxygen saturation for a client with chronic COPD?",
+    options: ["95-100%", "88-92%", "92-96%", "Over 94%"],
+    correctIndex: 1,
+    answer: "COPD patients often have a 'hypoxic drive.' Keeping sats at 88-92% prevents suppression of their respiratory urge.",
+    category: "Respiratory"
   }
 ];
 

@@ -87,7 +87,32 @@ const rnSystems = [
       { id: "aaa-rupture", name: "Abdominal Aortic Aneurysm", status: "Available" },
       { id: "mi-management", name: "Myocardial Infarction Mastery", status: "Available" },
       { id: "hf-advanced", name: "Advanced Heart Failure", status: "Available" },
-      { id: "kawasaki-critical", name: "Kawasaki Disease Vasculitis", status: "Available" }
+      { id: "shock-syndromes", name: "Shock States (Septic/Cardio)", status: "Available" },
+      { id: "dysrhythmias", name: "Lethal Dysrhythmias", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory-critical",
+    title: "Critical Respiratory",
+    icon: Wind,
+    color: "text-blue-500",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "copd-exacerbation", name: "COPD and Airway", status: "Available" },
+      { id: "asthma-emergency", name: "Asthma & Status Asthmaticus", status: "Available" },
+      { id: "pe-recognition", name: "Pulmonary Embolism", status: "Available" }
+    ]
+  },
+  {
+    id: "neurological-rn",
+    title: "Advanced Neurological",
+    icon: Brain,
+    color: "text-purple-600",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "increased-icp", name: "Increased ICP and TBI", status: "Available" },
+      { id: "stroke-advanced", name: "Stroke & TIA Management", status: "Available" },
+      { id: "seizure-safety", name: "Seizure Precautions", status: "Available" }
     ]
   },
   {
@@ -97,8 +122,34 @@ const rnSystems = [
     color: "text-blue-600",
     bgColor: "bg-blue-50",
     diseases: [
-      { id: "cp-management", name: "Cerebral Palsy and Spasticity", status: "Available" },
-      { id: "peds-oncology", name: "Pediatric Oncology Basics", status: "Available" }
+      { id: "peds-respiratory", name: "Bronchiolitis & Croup", status: "Available" },
+      { id: "epiglottitis-peds", name: "Epiglottitis Emergency", status: "Available" },
+      { id: "congenital-heart", name: "Congenital Heart Defects", status: "Available" },
+      { id: "cp-management", name: "Cerebral Palsy and Spasticity", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-gu-critical",
+    title: "GI and Renal Critical",
+    icon: Droplets,
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "gi-bleed", name: "GI Bleeding & Obstruction", status: "Available" },
+      { id: "aki-management", name: "Acute Kidney Injury", status: "Available" },
+      { id: "electrolyte-safety", name: "Electrolyte Imbalances", status: "Available" }
+    ]
+  },
+  {
+    id: "ms-skin-safety",
+    title: "MSK & Skin Integrity",
+    icon: Activity,
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-50",
+    diseases: [
+      { id: "compartment-syndrome", name: "Compartment Syndrome", status: "Available" },
+      { id: "burn-management", name: "Burn Injury & Resuscitation", status: "Available" },
+      { id: "pressure-injury", name: "Advanced Wound Care", status: "Available" }
     ]
   },
   {
@@ -109,7 +160,21 @@ const rnSystems = [
     bgColor: "bg-orange-50",
     diseases: [
       { id: "all-leukemia", name: "Acute Lymphoblastic Leukemia", status: "Available" },
-      { id: "aml-leukemia", name: "Acute Myelogenous Leukemia", status: "Available" }
+      { id: "aml-leukemia", name: "Acute Myelogenous Leukemia", status: "Available" },
+      { id: "sepsis-mastery", name: "Sepsis & SIRS Recognition", status: "Available" }
+    ]
+  },
+  {
+    id: "pharmacology-safety",
+    title: "RN Pharmacology",
+    icon: Pill,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-50",
+    diseases: [
+      { id: "cardiac-meds", name: "Vasoactive & Cardiac Meds", status: "Available" },
+      { id: "insulin-safety", name: "Insulin & Diabetic Safety", status: "Available" },
+      { id: "anticoagulant-safety", name: "Anticoagulation Mastery", status: "Available" },
+      { id: "herbals-safety", name: "Herbal & Supplement Safety", status: "Available" }
     ]
   }
 ];

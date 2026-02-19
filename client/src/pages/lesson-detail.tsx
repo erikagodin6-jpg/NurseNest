@@ -132,6 +132,296 @@ const contentMap: Record<string, LessonContent> = {
     medications: [{ name: "Daunorubicin", type: "Antineoplastic", action: "Intercalates DNA", sideEffects: "Cardiotoxicity", contra: "Severe HF", pearl: "Monitor heart function (Echo) closely." }],
     pearls: ["Hand hygiene is the #1 priority", "Disinfect all equipment before client contact", "Irradiate blood products to prevent graft-vs-host"],
     quiz: [{ question: "Priority for a client with AML undergoing chemo?", options: ["Watching for hair loss", "Infection prevention / Hand hygiene", "Encouraging a high-fiber diet", "Daily walks in the hall"], correct: 1, rationale: "Infection is the leading cause of death in leukemia patients." }]
+  },
+  "shock-syndromes": {
+    title: "Shock States (RN Mastery)",
+    cellular: { title: "Tissue Hypoperfusion", content: "Shock is a life-threatening syndrome of inadequate tissue perfusion. Hypovolemic (low volume), Cardiogenic (pump failure), Septic (vasodilation/infection), and Anaphylactic (allergic vasodilation)." },
+    signs: {
+      left: ["Tachycardia (Early)", "Narrowing Pulse Pressure", "Cool, Clammy Skin (Hypovolemic)", "Increased RR"],
+      right: ["Hypotension (Late)", "Anuria / Low Urine Output", "Altered LOC / Confusion", "Signs of End-Organ Failure"]
+    },
+    medications: [
+      { name: "Norepinephrine", type: "Vasopressor", action: "Increases SVR/MAP", sideEffects: "Peripheral ischemia", contra: "Hypovolemia (uncorrected)", pearl: "Must have adequate fluid resuscitation first." },
+      { name: "Dopamine", type: "Inotrope", action: "Increases contractility", sideEffects: "Tachycardia", contra: "Pheochromocytoma", pearl: "Renal dose is now controversial; focus on BP." }
+    ],
+    pearls: ["Septic Shock: Start antibiotics within 1 hour", "Hypovolemic Shock: Fluid bolus is the priority", "Cardiogenic Shock: Morphine/Nitros to reduce heart workload"],
+    quiz: [{ question: "Priority for Septic Shock?", options: ["Antibiotics within 1 hour", "Daily weights", "Physical therapy", "Skin lotion"], correct: 0, rationale: "Early antibiotic administration is the single most important factor in sepsis survival." }]
+  },
+  "copd-exacerbation": {
+    title: "COPD: Airway & Oxygenation",
+    cellular: { title: "Air Trapping", content: "Chronic inflammation and alveolar destruction lead to air trapping and impaired gas exchange. Excessive mucus production and bronchospasm cause frequent exacerbations." },
+    signs: {
+      left: ["Barrel Chest", "Productive Cough", "Pursed-Lip Breathing", "Clubbing"],
+      right: ["Respiratory Acidosis", "Hypoxemic Drive Failure", "Confusion/CO2 Narcosis", "Silent Chest (Emergency)"]
+    },
+    medications: [
+      { name: "Albuterol", type: "SABA", action: "Bronchodilation", sideEffects: "Tachycardia/Tremors", contra: "Tachyarrhythmias", pearl: "Rescue inhaler only." },
+      { name: "Ipratropium", type: "Anticholinergic", action: "Blocks bronchoconstriction", sideEffects: "Dry mouth", contra: "Glaucoma", pearl: "Often combined with albuterol (DuoNeb)." }
+    ],
+    pearls: ["Keep O2 sats between 88-92% for chronic retainers", "Avoid high-flow oxygen which can suppress respiratory drive", "Position: High-Fowler's or Tripod"],
+    quiz: [{ question: "Target O2 saturation for a COPD patient?", options: ["98-100%", "88-92%", "94-96%", "Over 95%"], correct: 1, rationale: "COPD patients often rely on a hypoxic drive; over-oxygenation can suppress their urge to breathe." }]
+  },
+  "increased-icp": {
+    title: "Increased ICP & TBI",
+    cellular: { title: "Monro-Kellie Doctrine", content: "The skull is a rigid vault. An increase in one component (brain, blood, CSF) must be compensated by a decrease in another, or ICP rises rapidly." },
+    signs: {
+      left: ["Headache", "Nausea/Vomiting", "Altered LOC (Early)", "Pupillary sluggishness"],
+      right: ["Cushing's Triad (HTN, Bradycardia, Irregular RR)", "Fixed/Dilated Pupils", "Decorticate/Decerebrate Posturing", "Projectile Vomiting"]
+    },
+    medications: [{ name: "Mannitol", type: "Osmotic Diuretic", action: "Pulls fluid from brain cells", sideEffects: "Dehydration", contra: "Renal failure", pearl: "Must use a filter needle." }],
+    pearls: ["Avoid coughing, straining, or extreme hip flexion", "Keep HOB at 30 degrees (Neutral head position)", "GCS < 8 = Intubate"],
+    quiz: [{ question: "Which is a component of Cushing's Triad?", options: ["Tachycardia", "Hypotension", "Widening pulse pressure", "Fever"], correct: 2, rationale: "Cushing's triad consists of widening pulse pressure (systolic HTN), bradycardia, and irregular respirations." }]
+  },
+  "herbals-safety": {
+    title: "Herbal & Supplement Safety",
+    cellular: { title: "Phytotherapy Safety", content: "Herbals can have potent physiological effects and significant interactions with conventional medications, especially anticoagulants and CNS depressants." },
+    signs: {
+      left: ["St. John's Wort: Serotonin Syndrome risk", "Ginkgo/Garlic: Bleeding risk", "Ginseng: Hypoglycemia risk"],
+      right: ["Kava: Hepatotoxicity", "Valerian: Excessive sedation", "Licorice root: Hypokalemia/HTN"]
+    },
+    medications: [
+      { name: "Ginkgo Biloba", type: "Herbal", action: "Memory enhancement (unproven)", sideEffects: "Bleeding", contra: "Warfarin/Heparin", pearl: "Stop 2 weeks before surgery." },
+      { name: "St. John's Wort", type: "Herbal", action: "Antidepressant", sideEffects: "Photosensitivity", contra: "SSRIs/MAOIs", pearl: "Reduces effectiveness of many drugs (e.g., Digoxin, Warfarin)." }
+    ],
+    pearls: ["Always ask about herbals in the pre-op assessment", "G's (Ginkgo, Garlic, Ginger, Ginseng) = Bleeding risk", "Herbals are not regulated like pharmaceuticals"],
+    quiz: [{ question: "A patient on Warfarin takes Ginkgo Biloba. What is the risk?", options: ["Blood clots", "Bleeding", "Hypertension", "Drowsiness"], correct: 1, rationale: "Ginkgo has antiplatelet properties and increases bleeding risk with anticoagulants." }]
+  },
+  "sepsis-mastery": {
+    title: "Sepsis & SIRS Recognition",
+    cellular: { title: "Systemic Inflammatory Response", content: "Sepsis is a dysregulated host response to infection. It progress from SIRS to Sepsis, Severe Sepsis, and finally Septic Shock (refractory hypotension)." },
+    signs: {
+      left: ["Temp > 38C or < 36C", "HR > 90", "RR > 20", "WBC > 12k or < 4k"],
+      right: ["Lactic Acid > 2 mmol/L", "MAP < 65 mmHg", "Altered Mental Status", "Mottled Skin"]
+    },
+    medications: [
+      { name: "Ceftriaxone", type: "Antibiotic", action: "Cell wall synthesis inhibitor", sideEffects: "Diarrhea/Rash", contra: "Penicillin allergy", pearl: "Start within 1 hour of recognition." },
+      { name: "Normal Saline", type: "Isotonic Crystalloid", action: "Volume expansion", sideEffects: "Fluid overload", contra: "HF/Renal failure", pearl: "30mL/kg bolus is standard." }
+    ],
+    pearls: ["Lactate level is a key marker of tissue hypoxia", "Blood cultures BEFORE antibiotics", "Source control is vital"],
+    quiz: [{ question: "First action for suspected sepsis after oxygen?", options: ["Administer antibiotics", "Obtain blood cultures", "Check temperature", "Call family"], correct: 1, rationale: "Blood cultures must be obtained before antibiotics to ensure accurate identification of the pathogen." }]
+  },
+  "aki-management": {
+    title: "Acute Kidney Injury (AKI)",
+    cellular: { title: "Nephron Insult", content: "AKI is a sudden decrease in renal function. Pre-renal (perfusion), Intra-renal (damage), and Post-renal (obstruction). Prone to fluid overload and electrolyte shifts." },
+    signs: {
+      left: ["Oliguria (< 400mL/day)", "Increased BUN/Creatinine", "Fluid Retention/Edema"],
+      right: ["Hyperkalemia (Peak T waves)", "Metabolic Acidosis", "Encephalopathy", "Crackles in lungs"]
+    },
+    medications: [
+      { name: "Sodium Polystyrene", type: "K-binder", action: "Exchanges Na for K in gut", sideEffects: "Constipation/Necrosis", contra: "Bowel obstruction", pearl: "Monitor for bowel sounds first." },
+      { name: "Epoetin Alfa", type: "Growth Factor", action: "Stimulates RBC production", sideEffects: "HTN/Clots", contra: "Uncontrolled HTN", pearl: "Often needed in chronic renal failure." }
+    ],
+    pearls: ["Monitor K+ levels religiously - lethal dysrhythmias", "Avoid nephrotoxic drugs (NSAIDs, Contrast)", "Daily weights are mandatory"],
+    quiz: [{ question: "Priority for a client with AKI and K+ of 6.5?", options: ["Cardiac monitoring", "Giving a snack", "Checking skin turgor", "Encouraging fluids"], correct: 0, rationale: "Hyperkalemia is lethal; continuous cardiac monitoring for dysrhythmias is the immediate priority." }]
+  },
+  "gi-bleed": {
+    title: "GI Bleeding & Obstruction",
+    cellular: { title: "Gastrointestinal Crisis", content: "Upper GI bleed (esophageal/gastric) vs Lower GI bleed. Bowel obstruction can be mechanical or functional (ileus), leading to fluid shifts and perforation." },
+    signs: {
+      left: ["Melena (Dark, tarry stools)", "Hematemesis (Coffee-ground)", "Abdominal Distension", "Hyperactive Bowel Sounds (Early)"],
+      right: ["Board-like, Rigid Abdomen", "Hypotension/Tachycardia", "Absent Bowel Sounds (Late)", "Rebound Tenderness"]
+    },
+    medications: [
+      { name: "Pantoprazole", type: "PPI", action: "Inhibits gastric acid", sideEffects: "C. diff risk", contra: "Hypersensitivity", pearl: "Given IV bolus/drip in active bleeds." },
+      { name: "Octreotide", type: "Somatostatin Analog", action: "Reduces splanchnic blood flow", sideEffects: "Nausea/Gallstones", contra: "Diabetes (affects insulin)", pearl: "Standard for esophageal varices." }
+    ],
+    pearls: ["NPO is mandatory for suspected obstruction", "NG tube for decompression", "Monitor for signs of peritonitis"],
+    quiz: [{ question: "A client with an obstruction has a rigid, tender abdomen. What is the fear?", options: ["Normal recovery", "Perforation / Peritonitis", "Simple gas", "Hunger"], correct: 1, rationale: "A rigid, board-like abdomen is a classic sign of peritoneal irritation from perforation." }]
+  },
+  "asthma-emergency": {
+    title: "Asthma & Status Asthmaticus",
+    cellular: { title: "Airway Hyperreactivity", content: "Chronic inflammatory disorder. During an attack, bronchoconstriction and airway edema severely limit airflow. Status Asthmaticus is an unresponsive medical emergency." },
+    signs: {
+      left: ["Expiratory Wheezing", "Chest Tightness", "Accessory Muscle Use", "Tachypnea"],
+      right: ["Silent Chest", "Paradoxical Breathing", "Inability to speak in sentences", "Respiratory Acidosis"]
+    },
+    medications: [
+      { name: "Albuterol", type: "SABA", action: "Rapid Bronchodilation", sideEffects: "Tachycardia", contra: "Tachyarrhythmias", pearl: "First drug given in an attack." },
+      { name: "Methylprednisolone", type: "Corticosteroid", action: "Reduces airway inflammation", sideEffects: "Hyperglycemia", contra: "Active systemic infection", pearl: "Takes hours to work; not for rescue." }
+    ],
+    pearls: ["Silent chest = imminent respiratory arrest", "Peak Flow Meter helps track control", "Avoid beta-blockers in asthma patients"],
+    quiz: [{ question: "Most critical finding in asthma attack?", options: ["Loud wheezing", "Silent chest", "Productive cough", "HR of 100"], correct: 1, rationale: "A silent chest means NO air is moving, signaling immediate respiratory failure." }]
+  },
+  "congenital-heart": {
+    title: "Congenital Heart Defects",
+    cellular: { title: "Structural Anomalies", content: "Heart defects present at birth. Classified into Acyanotic (Left-to-Right shunt, increased lung flow) and Cyanotic (Right-to-Left shunt, decreased systemic oxygenation)." },
+    signs: {
+      left: ["Acyanotic: Murmur, HF signs", "Tachypnea", "Poor feeding", "Weight gain (fluid)"],
+      right: ["Cyanotic: Tetrology of Fallot", "Cyanosis (Blue-ish skin)", "Clubbing", "Squatting (Tet spells)"]
+    },
+    medications: [{ name: "Indomethacin", type: "NSAID", action: "Closes Patent Ductus Arteriosus", sideEffects: "Renal injury", contra: "Active bleeding", pearl: "Given to premature infants to close PDA." }],
+    pearls: ["Cyanotic defects require immediate surgical or prostaglandin intervention", "Polycythemia is a compensatory response to chronic hypoxia", "Monitor for congestive heart failure in acyanotic defects"],
+    quiz: [{ question: "Which is a characteristic of cyanotic heart defects?", options: ["Pink skin", "Increased lung blood flow", "Right-to-Left shunting", "Normal oxygen levels"], correct: 2, rationale: "Cyanotic defects involve shunting of deoxygenated blood from the right side of the heart to the left, bypassing the lungs." }]
+  },
+  "burn-management": {
+    title: "Burn Injury & Resuscitation",
+    cellular: { title: "Capillary Leak Syndrome", content: "Thermal or chemical injury triggers a massive systemic inflammatory response, leading to increased capillary permeability, massive fluid shifts (edema), and hypovolemic shock." },
+    signs: {
+      left: ["Superficial (1st Degree): Redness", "Partial (2nd Degree): Blisters", "Full (3rd Degree): Charred/White"],
+      right: ["Inhalation Injury: Singed nasal hairs", "Wheezing/Hoarseness", "Hypovolemic Shock", "Hyperkalemia (Initial)"]
+    },
+    medications: [{ name: "Lactated Ringer's", type: "Crystalloid", action: "Volume replacement", sideEffects: "Fluid overload", contra: "None in emergency", pearl: "Standard for burn resuscitation (Parkland Formula)." }],
+    pearls: ["Airway is the #1 priority (check for soot/singed hairs)", "First 24 hours focus on fluid resuscitation", "High risk for infection and hypothermia"],
+    quiz: [{ question: "First priority in a patient with facial burns?", options: ["Fluid bolus", "Pain meds", "Airway assessment", "Wound cleaning"], correct: 2, rationale: "Facial burns carry a high risk for inhalation injury and airway edema, making airway assessment the absolute priority." }]
+  },
+  "compartment-syndrome": {
+    title: "Compartment Syndrome",
+    cellular: { title: "Tissue Pressure Crisis", content: "Increased pressure within a muscular compartment (often after fracture or tight cast) compromises circulation and causes tissue/nerve death within hours." },
+    signs: {
+      left: ["Pain out of proportion to injury", "Pain with passive stretch", "Pressure/Tightness"],
+      right: ["The 6 Ps: Pain, Paresthesia, Pallor, Paralysis, Pulselessness, Poikilothermia"]
+    },
+    medications: [{ name: "Morphine", type: "Opioid", action: "Pain management", sideEffects: "Resp depression", contra: "Hypotension", pearl: "If pain is unresponsive to morphine, suspect compartment syndrome." }],
+    pearls: ["Keep extremity at heart level (NOT elevated)", "Notify surgeon immediately for fasciotomy", "Paresthesia is an early sign; pulselessness is LATE"],
+    quiz: [{ question: "What should you do if you suspect compartment syndrome?", options: ["Elevate the leg high", "Apply a warm pack", "Notify the surgeon immediately", "Wait and reassess in 2 hours"], correct: 2, rationale: "Compartment syndrome is a surgical emergency requiring immediate fasciotomy to save the limb." }]
+  },
+  "dysrhythmias": {
+    title: "Lethal Dysrhythmias",
+    cellular: { title: "Electrical Instability", content: "Disruption in the heart's electrical conduction system. VT/VF lead to zero cardiac output. Atrial Fibrillation increases the risk of mural thrombi and embolic stroke." },
+    signs: {
+      left: ["A-Fib: Irregularly irregular pulse", "Palpitations", "Dizziness", "Shortness of breath"],
+      right: ["VT/VF: Pulselessness", "Apnea", "Loss of consciousness", "Bradycardia < 40"]
+    },
+    medications: [
+      { name: "Amiodarone", type: "Antiarrhythmic", action: "Prolongs action potential", sideEffects: "Pulmonary toxicity", contra: "Heart block", pearl: "First-line for VT/VF." },
+      { name: "Adenosine", type: "Antiarrhythmic", action: "Restarts AV node", sideEffects: "Brief asystole", contra: "Asthma", pearl: "Give RAPID IV push followed by flush." }
+    ],
+    pearls: ["A-Fib: Priority is rate control and anticoagulation", "VFib = Defib (Immediate)", "Check a pulse for at least 5 but no more than 10 seconds"],
+    quiz: [{ question: "Priority action for Ventricular Fibrillation?", options: ["Amiodarone", "Defibrillation", "CPR only", "Epinephrine"], correct: 1, rationale: "Defibrillation is the only treatment that can terminate VFib and restore a perfusing rhythm." }]
+  },
+  "pe-recognition": {
+    title: "Pulmonary Embolism (PE)",
+    cellular: { title: "V/Q Mismatch", content: "A blockage in the pulmonary artery, usually from a DVT. This creates a 'dead space' where ventilation occurs but no perfusion (gas exchange) happens, leading to acute hypoxemia." },
+    signs: {
+      left: ["Sudden Dyspnea", "Pleuritic Chest Pain", "Tachypnea", "Tachycardia"],
+      right: ["Hemoptysis", "Hypotension (Obstructive Shock)", "Right Heart Strain (JVD)", "Feeling of Impending Doom"]
+    },
+    medications: [
+      { name: "Heparin", type: "Anticoagulant", action: "Prevents clot growth", sideEffects: "Bleeding/HIT", contra: "Active bleed", pearl: "Monitor aPTT closely." },
+      { name: "Alteplase", type: "Thrombolytic", action: "Dissolves existing PE", sideEffects: "Hemorrhage", contra: "Recent surgery", pearl: "Used only in hemodynamically unstable PE." }
+    ],
+    pearls: ["DVT prophylaxis (Enoxaparin/SCDs) is the best prevention", "Position: High-Fowler's immediately", "CT Angiography is the gold standard for diagnosis"],
+    quiz: [{ question: "Most common origin of a Pulmonary Embolism?", options: ["Heart", "Deep Vein Thrombosis (DVT)", "Brain", "Lungs"], correct: 1, rationale: "Most PEs originate from dislodged clots in the deep veins of the lower extremities (DVT)." }]
+  },
+  "electrolyte-safety": {
+    title: "Electrolyte Imbalances",
+    cellular: { title: "Ionic Homeostasis", content: "Electrolytes (K, Na, Ca, Mg) are critical for nerve conduction, muscle contraction, and fluid balance. Imbalances lead to lethal cardiac and neurological complications." },
+    signs: {
+      left: ["Hyponatremia: Seizures/Confusion", "Hypokalemia: U-waves/Cramps", "Hypocalcemia: Trousseau/Chvostek"],
+      right: ["Hyperkalemia: Peaked T-waves", "Hypernatremia: Thirst/Dry mucus", "Hypercalcemia: Stones/Moans/Groans"]
+    },
+    medications: [
+      { name: "Calcium Gluconate", type: "Mineral", action: "Stabilizes cardiac membrane", sideEffects: "Bradycardia", contra: "Digoxin toxicity", pearl: "First drug for lethal hyperkalemia." },
+      { name: "Magnesium Sulfate", type: "Mineral", action: "CNS Depressant", sideEffects: "Loss of DTRs", contra: "Renal failure", pearl: "Standard for Torsades de Pointes." }
+    ],
+    pearls: ["NEVER give Potassium IV Push (Lethal)", "Monitor for cardiac changes with K+ shifts", "Fluid follows Sodium"],
+    quiz: [{ question: "Early sign of hyperkalemia on ECG?", options: ["U-waves", "ST depression", "Peaked T-waves", "Flat P-waves"], correct: 2, rationale: "Tall, peaked T-waves are the earliest indicator of hyperkalemia on an ECG." }]
+  },
+  "cardiac-meds": {
+    title: "Vasoactive & Cardiac Meds",
+    cellular: { title: "Hemodynamic Support", content: "Inotropes (contractility), Vasopressors (SVR), and Antiarrhythmics are used to stabilize hemodynamics in critical care. Each class has narrow therapeutic windows and specific monitoring requirements." },
+    signs: {
+      left: ["Beta Blockers: Low HR/BP", "ACE Inhibitors: Cough/Angioedema", "Nitrates: Headache/Hypotension"],
+      right: ["Digoxin Toxicity: Yellow halos/Nausea", "Amiodarone: Blue-gray skin", "Epinephrine: Palpitations"]
+    },
+    medications: [
+      { name: "Digoxin", type: "Cardiac Glycoside", action: "Increases contractility", sideEffects: "Nausea/Bradycardia", contra: "Hypokalemia", pearl: "Check apical pulse for 1 min (hold if < 60)." },
+      { name: "Amlodipine", type: "CCB", action: "Vasodilation", sideEffects: "Peripheral edema", contra: "Severe HF", pearl: "Monitor for ankle swelling." }
+    ],
+    pearls: ["Hold Beta Blockers if HR < 50 or SBP < 100", "ACE inhibitors can cause life-threatening angioedema", "Potassium levels affect Digoxin toxicity"],
+    quiz: [{ question: "Priority assessment before giving Digoxin?", options: ["Temperature", "Apical pulse for 60 seconds", "Weight", "Respiratory rate"], correct: 1, rationale: "Digoxin can slow the heart rate too much; an apical pulse of <60 requires the dose to be held." }]
+  },
+  "anticoagulant-safety": {
+    title: "Anticoagulation Mastery",
+    cellular: { title: "Hemostasis Control", content: "Anticoagulants prevent thrombus formation by interrupting the coagulation cascade. They do not dissolve existing clots but prevent them from growing larger." },
+    signs: {
+      left: ["Ecchymosis/Bruising", "Hematuria", "Epistaxis (Nosebleed)", "Gingival bleeding"],
+      right: ["Hemorrhagic Stroke signs", "Melena", "Hypotension (Internal bleed)", "HIT (Thrombocytopenia)"]
+    },
+    medications: [
+      { name: "Warfarin", type: "Vitamin K Antagonist", action: "Inhibits clotting factors", sideEffects: "Bleeding", contra: "Pregnancy", pearl: "Antidote: Vitamin K. Monitor PT/INR." },
+      { name: "Enoxaparin", type: "LMWH", action: "Antithrombin activator", sideEffects: "Injection site bruising", contra: "Active bleeding", pearl: "Don't expel the air bubble in the syringe." }
+    ],
+    pearls: ["Monitor PTT for Heparin, PT/INR for Warfarin", "Avoid Vitamin K-rich foods (kale/spinach) on Warfarin", "Report black tarry stools immediately"],
+    quiz: [{ question: "Antidote for Warfarin toxicity?", options: ["Protamine Sulfate", "Vitamin K", "Naloxone", "Glucagon"], correct: 1, rationale: "Vitamin K is the reversal agent for Warfarin; Protamine is for Heparin." }]
+  },
+  "insulin-safety": {
+    title: "Insulin & Diabetic Safety",
+    cellular: { title: "Glucose Metabolism", content: "Insulin facilitates glucose entry into cells. Over-administration or inadequate intake leads to hypoglycemia (neuroglycopenia), a medical emergency." },
+    signs: {
+      left: ["Hypoglycemia: Shakiness", "Sweating/Diaphoresis", "Confusion", "Hunger"],
+      right: ["DKA: Kussmaul respirations", "Fruity breath", "Severe Dehydration", "Altered LOC"]
+    },
+    medications: [
+      { name: "Lispro", type: "Rapid-acting", action: "Bolus insulin", sideEffects: "Hypoglycemia", contra: "Hypoglycemia", pearl: "Give within 15 mins of food." },
+      { name: "Glargine", type: "Long-acting", action: "Basal coverage", sideEffects: "Hypoglycemia", contra: "Hypoglycemia", pearl: "Cannot be mixed with other insulins." }
+    ],
+    pearls: ["Check blood glucose before administration", "Rule of 15 for hypoglycemia", "Rotate injection sites"],
+    quiz: [{ question: "When to give rapid-acting insulin?", options: ["30 mins before food", "Within 15 mins of eating", "Only at bedtime", "After exercise"], correct: 1, rationale: "Rapid-acting insulin has a quick onset; food must be available immediately to prevent hypoglycemia." }]
+  },
+  "peds-respiratory": {
+    title: "Pediatric Respiratory: RSV & Croup",
+    cellular: { title: "Airway Narrowing", content: "Infant airways are much smaller and more prone to obstruction from inflammation and mucus. RSV (Bronchiolitis) affects the lower airways, while Croup (Laryngotracheobronchitis) affects the upper airway." },
+    signs: {
+      left: ["RSV: Wheezing/Crackles", "Copious Secretions", "Nasal Flaring", "Retractions"],
+      right: ["Croup: Barking Cough", "Inspiratory Stridor", "Steeple Sign on X-ray", "Agitation"]
+    },
+    medications: [
+      { name: "Ribavirin", type: "Antiviral", action: "Inhibits viral replication", sideEffects: "Blurred vision", contra: "Pregnancy (teratogenic)", pearl: "Used only in severe RSV cases." },
+      { name: "Dexamethasone", type: "Corticosteroid", action: "Reduces upper airway edema", sideEffects: "Hyperglycemia", contra: "Active infection", pearl: "Standard for moderate-to-severe croup." }
+    ],
+    pearls: ["RSV: Suctioning before feeding is the priority", "Croup: Cool mist or cold air can help relieve symptoms", "Monitor for dehydration due to poor feeding"],
+    quiz: [{ question: "Priority nursing intervention for a baby with RSV?", options: ["Deep suctioning", "Bulb suctioning of nares", "Starting an IV", "Chest physiotherapy"], correct: 1, rationale: "Babies are nose-breathers; clearing the nares with a bulb syringe before feeding is the priority to ensure oxygenation and nutrition." }]
+  },
+  "epiglottitis-peds": {
+    title: "Epiglottitis: Airway Emergency",
+    cellular: { title: "Supraglottic Inflammation", content: "A life-threatening bacterial infection (often H. influenzae type b) causing sudden, massive swelling of the epiglottis, which can completely occlude the airway within minutes." },
+    signs: {
+      left: ["High Fever", "The 4 Ds: Drooling, Dysphagia, Dysphonia, Distress", "Inspiratory Stridor", "Tripod Position"],
+      right: ["Absent Cough", "Agitation", "Cyanosis", "Total Airway Obstruction"]
+    },
+    medications: [{ name: "Ceftriaxone", type: "Antibiotic", action: "Treats underlying infection", sideEffects: "Rash", contra: "Penicillin allergy", pearl: "Given only AFTER airway is secured." }],
+    pearls: ["NEVER examine the throat with a tongue depressor (triggers laryngospasm)", "Keep the child calm (avoid crying)", "Prepare for emergency intubation/tracheostomy"],
+    quiz: [{ question: "A child with suspected epiglottitis is drooling and in tripod position. First action?", options: ["Examine the throat", "Obtain a throat culture", "Prepare for emergency intubation", "Start an IV"], correct: 2, rationale: "Epiglottitis is a total airway emergency; preparing for an emergency airway (intubation/trach) is the immediate priority. Never examine the throat as it can cause total closure." }]
+  },
+  "stroke-advanced": {
+    title: "Stroke & TIA Management",
+    cellular: { title: "Ischemic vs Hemorrhagic", content: "Ischemic stroke (85%) involves a clot; Hemorrhagic (15%) involves a vessel rupture. TIA is a 'warning stroke' where symptoms resolve within 24 hours but signal high risk for a major stroke." },
+    signs: {
+      left: ["FAST: Face, Arm, Speech, Time", "Sudden numbness/weakness", "Visual disturbances", "Aphasia"],
+      right: ["Worst headache of life (Hemorrhagic)", "Decreased LOC", "Seizures", "Nausea/Vomiting"]
+    },
+    medications: [
+      { name: "Alteplase (tPA)", type: "Thrombolytic", action: "Dissolves ischemic clots", sideEffects: "Hemorrhage", contra: "Recent surgery/bleed", pearl: "Must be given within 3-4.5 hours of Last Known Well." },
+      { name: "Labetalol", type: "Beta Blocker", action: "Controlled BP reduction", sideEffects: "Bradycardia", contra: "Asthma", pearl: "Keep SBP < 185 for tPA candidates." }
+    ],
+    pearls: ["CT scan (non-contrast) is the priority to rule out bleed", "NPO until swallow screen is passed", "Monitor for increased ICP post-stroke"],
+    quiz: [{ question: "Priority action for a client with sudden right-sided weakness?", options: ["Give Aspirin", "Perform a non-contrast CT scan", "Start a 4L/min O2", "Assess for pain"], correct: 1, rationale: "A CT scan is the absolute priority to differentiate between ischemic and hemorrhagic stroke before any treatment (like tPA or Aspirin) can begin." }]
+  },
+  "seizure-safety": {
+    title: "Seizure Precautions & Safety",
+    cellular: { title: "Abnormal Electrical Discharge", content: "A sudden, uncontrolled electrical disturbance in the brain. Status Epilepticus is a seizure lasting > 5 mins or repeated seizures without recovery—a medical emergency." },
+    signs: {
+      left: ["Aura (Warning sign)", "Tonic-Clonic movements", "Post-ictal confusion", "Absence (staring)"],
+      right: ["Status Epilepticus", "Cyanosis", "Aspiration", "Head Trauma"]
+    },
+    medications: [
+      { name: "Lorazepam", type: "Benzodiazepine", action: "Terminates active seizure", sideEffects: "Sedation/Resp depression", contra: "Glaucoma", pearl: "First-line for Status Epilepticus." },
+      { name: "Phenytoin", type: "Anticonvulsant", action: "Long-term control", sideEffects: "Gingival hyperplasia", contra: "Pregnancy", pearl: "Monitor therapeutic levels (10-20 mcg/mL)." }
+    ],
+    pearls: ["Nothing in the mouth during a seizure", "Turn client to the side to prevent aspiration", "Time the seizure and note the characteristics"],
+    quiz: [{ question: "A client is having a tonic-clonic seizure. Priority action?", options: ["Insert a padded tongue blade", "Restrain the limbs", "Turn client to the side", "Administer oral meds"], correct: 2, rationale: "Airway and safety are the priority; turning the client to the side prevents aspiration of saliva or emesis." }]
+  },
+  "pressure-injury": {
+    title: "Advanced Wound Care",
+    cellular: { title: "Tissue Ischemia", content: "Localized damage to the skin and underlying soft tissue usually over a bony prominence. Caused by intense or prolonged pressure in combination with shear." },
+    signs: {
+      left: ["Stage 1: Non-blanchable redness", "Stage 2: Partial thickness/Blister", "Stage 3: Full thickness (Fat visible)"],
+      right: ["Stage 4: Muscle/Bone visible", "Unstageable: Eschar/Slough", "Deep Tissue Injury: Purple/Maroon"]
+    },
+    medications: [{ name: "Hydrocolloid", type: "Dressing", action: "Moist wound healing", sideEffects: "Periwound maceration", contra: "Infected wounds", pearl: "Good for Stage 2 injuries." }],
+    pearls: ["Turn every 2 hours", "Nutrition: High protein and Vitamin C", "Use pressure-redistribution surfaces"],
+    quiz: [{ question: "Priority for a Stage 3 pressure injury?", options: ["Daily massage", "High-protein diet and repositioning", "Keeping the wound dry", "Applying a tight bandage"], correct: 1, rationale: "Protein is essential for tissue repair, and repositioning prevents further ischemia." }]
   }
 };
 
