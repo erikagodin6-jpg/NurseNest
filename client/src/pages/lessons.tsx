@@ -194,6 +194,30 @@ const rpnSystems = [
       { id: "hip-dysplasia", name: "Developmental Hip Dysplasia", status: "Available" },
       { id: "foreign-body-aspiration", name: "Foreign Body Aspiration", status: "Available" }
     ]
+  },
+  {
+    id: "foundations-rpn",
+    title: "Infection Control Foundations",
+    icon: ShieldAlert,
+    color: "text-green-500",
+    bgColor: "bg-green-50",
+    diseases: [
+      { id: "hand-hygiene", name: "Hand Hygiene and Handwashing", status: "Available" },
+      { id: "ppe-basics", name: "PPE: Donning and Doffing", status: "Available" },
+      { id: "isolation-precautions-rpn", name: "Isolation Precautions Overview", status: "Available" },
+      { id: "sterile-technique", name: "Sterile Technique and Asepsis", status: "Available" }
+    ]
+  },
+  {
+    id: "nutrition-rpn",
+    title: "Nutrition and Feeding",
+    icon: Stethoscope,
+    color: "text-amber-500",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "enteral-feeding", name: "Enteral Feeding and Tube Care", status: "Available" },
+      { id: "iron-deficiency-anemia", name: "Iron Deficiency Anemia", status: "Available" }
+    ]
   }
 ];
 
@@ -680,6 +704,44 @@ const rnSystems = [
       { id: "hemodialysis", name: "Hemodialysis", status: "Available" },
       { id: "postmortem-care", name: "Postmortem Care", status: "Available" },
       { id: "burn-care-advanced", name: "Burn Injury Care", status: "Available" }
+    ]
+  },
+  {
+    id: "foundations-rn",
+    title: "Infection Control & Safety",
+    icon: ShieldAlert,
+    color: "text-green-600",
+    bgColor: "bg-green-50",
+    diseases: [
+      { id: "airborne-precautions", name: "Airborne Precautions", status: "Available" },
+      { id: "droplet-precautions", name: "Droplet Precautions", status: "Available" },
+      { id: "contact-precautions", name: "Contact Precautions", status: "Available" },
+      { id: "transmission-based-precautions", name: "Transmission-Based Precautions", status: "Available" }
+    ]
+  },
+  {
+    id: "medsurg-rn-4",
+    title: "Medical-Surgical IV",
+    icon: Stethoscope,
+    color: "text-teal-600",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "bph-management", name: "Benign Prostatic Hyperplasia", status: "Available" },
+      { id: "cushing-syndrome", name: "Cushing Syndrome", status: "Available" },
+      { id: "gout-management", name: "Gout", status: "Available" },
+      { id: "guillain-barre", name: "Guillain-Barre Syndrome", status: "Available" },
+      { id: "basal-cell-carcinoma", name: "Basal Cell Carcinoma", status: "Available" }
+    ]
+  },
+  {
+    id: "pharmacology-rn-3",
+    title: "Pharmacology III",
+    icon: Pill,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-50",
+    diseases: [
+      { id: "methadone-safety", name: "Methadone", status: "Available" },
+      { id: "ccb-safety", name: "Calcium Channel Blockers", status: "Available" }
     ]
   }
 ];
