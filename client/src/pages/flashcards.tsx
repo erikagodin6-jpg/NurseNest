@@ -303,6 +303,127 @@ const allCards: Flashcard[] = [
     question: "Serotonin Syndrome",
     answer: "Caused by excess serotonin. Symptoms: Agitation, fever, tachycardia, and hyperreflexia. Often occurs with SSRI/MAOI combinations.",
     category: "Psychiatry"
+  },
+  {
+    id: "q-anemia-1",
+    type: "question",
+    question: "A child with Sickle Cell Disease presents with severe pain and fever. What is the priority intervention?",
+    options: ["Administer antibiotics", "Start IV fluids", "Apply ice packs to joints", "Encourage ambulation"],
+    correctIndex: 1,
+    answer: "Hydration is critical in a Sickle Cell crisis to reduce blood viscosity and stop the sickling process. Ice packs are contraindicated as they cause vasoconstriction.",
+    category: "Hematology"
+  },
+  {
+    id: "t-anemia-1",
+    type: "term",
+    question: "Iron Deficiency Anemia Education",
+    answer: "Take iron supplements with Vitamin C (orange juice) to increase absorption. Use a straw to prevent teeth staining. Stools will turn black/tarry (normal).",
+    category: "Hematology"
+  },
+  {
+    id: "q-gi-2",
+    type: "question",
+    question: "A 6-week-old infant has projectile vomiting after feeding and an 'olive-shaped' mass in the epigastrium. What is suspected?",
+    options: ["GERD", "Pyloric Stenosis", "Intussusception", "Hirschsprung Disease"],
+    correctIndex: 1,
+    answer: "Projectile non-bilious vomiting and an olive-shaped mass are classic signs of Hypertrophic Pyloric Stenosis.",
+    category: "GI"
+  },
+  {
+    id: "t-gi-2",
+    type: "term",
+    question: "Intussusception",
+    answer: "Telescoping of the bowel. Classic signs: Sudden severe abdominal pain (knees to chest), 'sausage-shaped' abdominal mass, and 'currant jelly' stools.",
+    category: "GI"
+  },
+  {
+    id: "q-endo-2",
+    type: "question",
+    question: "A client with Addison's Disease arrives with BP 70/40 and confusion. Which electrolyte imbalance is expected?",
+    options: ["Hypernatremia", "Hypokalemia", "Hyperkalemia", "Hyperglycemia"],
+    correctIndex: 2,
+    answer: "Addison's (Adrenal Insufficiency) leads to a lack of aldosterone, causing sodium/water loss (hypotension) and potassium retention (hyperkalemia).",
+    category: "Endocrine"
+  },
+  {
+    id: "t-endo-3",
+    type: "term",
+    question: "Cushing's Syndrome",
+    answer: "Caused by excess cortisol. Signs: Moon face, Buffalo hump, Truncal obesity, Hypertension, Hyperglycemia, and Hypokalemia.",
+    category: "Endocrine"
+  },
+  {
+    id: "q-neuro-3",
+    type: "question",
+    question: "A child has a history of febrile seizures. What is the most important teaching for the parents?",
+    options: ["Give prophylactic phenytoin daily", "Give aspirin for fever", "Manage fever with acetaminophen/ibuprofen", "Call 911 for every fever"],
+    correctIndex: 2,
+    answer: "Febrile seizures are benign and triggered by the rapid rise in temperature. Fever management is the key prevention. Aspirin is contraindicated (Reye's syndrome).",
+    category: "Neurological"
+  },
+  {
+    id: "t-pharm-2",
+    type: "term",
+    question: "Phenytoin (Dilantin)",
+    answer: "Anticonvulsant. Therapeutic range: 10-20 mcg/mL. Side effects: Gingival hyperplasia (need dental care). Toxicity: Ataxia, nystagmus, slurred speech.",
+    category: "Pharmacology"
+  },
+  {
+    id: "q-infection-1",
+    type: "question",
+    question: "Which isolation precaution is required for a client with Bacterial Meningitis?",
+    options: ["Contact", "Airborne", "Droplet", "Standard"],
+    correctIndex: 2,
+    answer: "Bacterial Meningitis (Neisseria meningitidis) requires Droplet precautions. Antibiotics must be started immediately after cultures.",
+    category: "Infection"
+  },
+  {
+    id: "t-cardiac-1",
+    type: "term",
+    question: "Rheumatic Fever",
+    answer: "Inflammatory disease following untreated Strep throat (Group A Beta-hemolytic Streptococcus). Can cause carditis and permanent heart valve damage.",
+    category: "Cardiovascular"
+  },
+  {
+    id: "q-pharm-3",
+    type: "question",
+    question: "A client taking an NSAID (Ibuprofen) reports black tarry stools. What is the concern?",
+    options: ["Iron toxicity", "GI Bleeding", "Normal side effect", "Liver failure"],
+    correctIndex: 1,
+    answer: "NSAIDs inhibit prostaglandins that protect the stomach lining, leading to gastric ulcers and GI bleeding (melena).",
+    category: "Pharmacology"
+  },
+  {
+    id: "t-gi-3",
+    type: "term",
+    question: "Cholecystitis",
+    answer: "Inflammation of the gallbladder. Signs: RUQ pain radiating to right shoulder/scapula, Murphy's sign (pain on inspiration with palpation), triggered by fatty meals.",
+    category: "GI"
+  },
+  {
+    id: "q-resp-3",
+    type: "question",
+    question: "A child with Cystic Fibrosis is prescribed Pancrelipase. When should it be administered?",
+    options: ["Before bed", "With every meal and snack", "Once daily in the morning", "Only with fatty foods"],
+    correctIndex: 1,
+    answer: "Pancreatic enzymes must be taken with every meal and snack to aid in digestion and absorption of nutrients.",
+    category: "Respiratory"
+  },
+  {
+    id: "t-neuro-2",
+    type: "term",
+    question: "Autonomic Dysreflexia",
+    answer: "Life-threatening emergency in spinal cord injury (T6 or higher). Triggered by noxious stimuli (full bladder/constipation). Signs: Severe HTN, headache, bradycardia.",
+    category: "Neurological"
+  },
+  {
+    id: "q-ob-2",
+    type: "question",
+    question: "A client in labor has a sudden drop in fetal heart rate that does not return to baseline. On exam, the cord is palpable. Priority?",
+    options: ["Start Oxytocin", "Place client in Knee-Chest position", "Encourage pushing", "Give fluids"],
+    correctIndex: 1,
+    answer: "This is Umbilical Cord Prolapse. Knee-chest or Trendelenburg position relieves pressure on the cord. Keep hand in vagina to lift head off cord until C-section.",
+    category: "Maternal"
   }
 ];
 

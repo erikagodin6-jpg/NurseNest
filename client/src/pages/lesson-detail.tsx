@@ -461,6 +461,45 @@ const contentMap: Record<string, LessonContent> = {
     medications: [{ name: "Lithium Carbonate", type: "Mood Stabilizer", action: "Alters neurotransmitters", sideEffects: "Polyuria/Weight gain", contra: "Renal failure", pearl: "Maintain consistent sodium intake." }],
     pearls: ["Avoid NSAIDs - they increase lithium levels", "Ensure 2-3L fluid intake daily", "Monitor renal function and thyroid"],
     quiz: [{ question: "A patient on lithium has diarrhea and blurred vision. Action?", options: ["Give the next dose", "Increase salt intake", "Hold dose and call provider", "Nothing, these are normal"], correct: 2, rationale: "Diarrhea and blurred vision are signs of toxicity; the drug must be stopped immediately." }]
+  },
+  "sickle-cell": {
+    title: "Sickle Cell Crisis",
+    cellular: { title: "Hemoglobin S Polymerization", content: "Under stress (hypoxia, dehydration, acidosis), HgbS changes shape into rigid sickled cells. These clump together, occluding small vessels (vaso-occlusion) causing ischemia and severe pain." },
+    signs: {
+      left: ["Severe Pain (Joints/Bones)", "Fatigue/Anemia", "Jaundice (Hemolysis)", "Priapism"],
+      right: ["Acute Chest Syndrome (Fever/CP)", "Splenic Sequestration (Shock)", "Stroke symptoms", "Dactylitis (Hand-Foot Swelling)"]
+    },
+    medications: [
+      { name: "Hydroxyurea", type: "Antineoplastic", action: "Increases Fetal Hemoglobin (HgbF)", sideEffects: "Bone marrow suppression", contra: "Pregnancy", pearl: "Reduces frequency of crises." },
+      { name: "Morphine/Hydromorphone", type: "Opioid", action: "Severe pain control", sideEffects: "Resp Depression", contra: "None in crisis", pearl: "PCA pump often used." }
+    ],
+    pearls: ["Hydration is the #1 priority to reduce viscosity", "Oxygen only if hypoxic (<92%)", "Avoid cold compresses - causes vasoconstriction"],
+    quiz: [{ question: "Priority intervention for Sickle Cell Crisis?", options: ["Apply ice to joints", "Administer IV fluids", "Genetic counseling", "Start antibiotics"], correct: 1, rationale: "IV fluids dilute the blood, helping to unclump the sickled cells and restore perfusion." }]
+  },
+  "acute-abdomen": {
+    title: "Appendicitis & Cholecystitis",
+    cellular: { title: "Obstruction & Inflammation", content: "Appendicitis: Obstruction of the appendix lumen (fecalith) leads to infection/perforation. Cholecystitis: Gallstone obstructs cystic duct, causing gallbladder inflammation." },
+    signs: {
+      left: ["Appy: RLQ Pain (McBurney's)", "Chole: RUQ Pain -> Shoulder", "Fever/Nausea", "Rebound Tenderness"],
+      right: ["Sudden relief of pain (Perforation)", "Board-like Abdomen (Peritonitis)", "Tachycardia/Hypotension (Septic Shock)", "Murphy's Sign (Chole)"]
+    },
+    medications: [
+      { name: "Ceftriaxone/Metronidazole", type: "Antibiotics", action: "Treats intra-abdominal infection", sideEffects: "GI upset", contra: "Allergy", pearl: "Pre-op prophylaxis." },
+      { name: "Ketorolac", type: "NSAID", action: "Pain relief", sideEffects: "Bleeding risk", contra: "Renal failure", pearl: "Use with caution pre-op." }
+    ],
+    pearls: ["NPO immediately for surgery", "No heat pads for Appendicitis (risk of rupture)", "Semi-Fowler's position aids drainage if perforated"],
+    quiz: [{ question: "A child with appendicitis suddenly reports the pain is gone. Priority?", options: ["Cancel surgery", "Notify provider immediately", "Give food", "Discharge home"], correct: 1, rationale: "Sudden relief of pain is a hallmark sign of rupture, which leads to peritonitis." }]
+  },
+  "pyloric-intussusception": {
+    title: "Pyloric Stenosis & Intussusception",
+    cellular: { title: "Mechanical Obstruction", content: "Pyloric: Hypertrophy of pyloric sphincter blocks gastric emptying. Intussusception: Bowel telescopes into itself, cutting off blood supply." },
+    signs: {
+      left: ["Pyloric: Projectile Vomiting", "Olive-shaped mass", "Intuss: Colicky Pain", "Sausage-shaped mass"],
+      right: ["Intuss: Currant Jelly Stool", "Dehydration (Sunken fontanelle)", "Metabolic Alkalosis (Pyloric)", "Shock symptoms"]
+    },
+    medications: [{ name: "IV Fluids", type: "Isotonic", action: "Rehydration", sideEffects: "Fluid overload", contra: "None", pearl: "Correct electrolyte imbalances before surgery." }],
+    pearls: ["Pyloric: Vomiting is non-bilious", "Intussusception: Air enema is diagnostic and often curative", "Monitor for passage of normal stool"],
+    quiz: [{ question: "Classic sign of Intussusception?", options: ["Projectile vomiting", "Currant jelly stools", "Olive mass", "Steatorrhea"], correct: 1, rationale: "Stools mixed with blood and mucus (currant jelly) are characteristic of intussusception." }]
   }
 };
 

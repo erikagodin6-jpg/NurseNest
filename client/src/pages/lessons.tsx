@@ -199,6 +199,30 @@ const rnSystems = [
       { id: "lithium-toxicity", name: "Lithium & Mood Stabilizers", status: "Available" },
       { id: "nms-serotonin", name: "NMS & Serotonin Syndrome", status: "Available" }
     ]
+  },
+  {
+    id: "hematology-anemia",
+    title: "Hematology & Immunology",
+    icon: ShieldAlert,
+    color: "text-red-700",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "sickle-cell", name: "Sickle Cell Crisis", status: "Available" },
+      { id: "anemia-types", name: "Iron, Aplastic & Pernicious Anemia", status: "Available" },
+      { id: "sle-autoimmune", name: "SLE (Lupus) & Autoimmune", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-complications",
+    title: "GI Complications",
+    icon: Droplets,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "acute-abdomen", name: "Appendicitis & Cholecystitis", status: "Available" },
+      { id: "pyloric-intussusception", name: "Pyloric Stenosis & Intussusception", status: "Available" },
+      { id: "liver-cirrhosis", name: "Cirrhosis & Esophageal Varices", status: "Available" }
+    ]
   }
 ];
 
