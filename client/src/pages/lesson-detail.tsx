@@ -14,7 +14,8 @@ import {
   FileText,
   CheckCircle2,
   XCircle,
-  Trophy
+  Trophy,
+  Activity
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -36,114 +37,93 @@ const contentMap: Record<string, LessonContent> = {
     },
     signs: {
       left: ["Dyspnea & Orthopnea", "Crackles (Pulmonary Edema)", "Paroxysmal nocturnal dyspnea", "Frothy Pink Sputum"],
-      right: ["JVD (Jugular Vein Distension)", "Peripheral Edema", "Ascites", "Hepatomegaly (Liver enlargement)"]
+      right: ["JVD (Jugular Vein Distension)", "Peripheral Edema", "Ascites", "Hepatomegaly"]
     },
     medications: [
-      { name: "Furosemide (Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption", sideEffects: "Hypokalemia, Ototoxicity", contra: "Anuria", pearl: "Check Potassium levels first!" },
-      { name: "Digoxin (Lanoxin)", type: "Inotrope", action: "Increases contractility, slows rate", sideEffects: "Bradycardia, Vision halos", contra: "Pulse < 60 bpm", pearl: "Auscultate apical pulse for 1 min." }
+      { name: "Furosemide (Lasix)", type: "Loop Diuretic", action: "Inhibits Na/Cl reabsorption", sideEffects: "Hypokalemia, Ototoxicity", contra: "Anuria", pearl: "Check Potassium levels first!" }
     ],
     pearls: ["Daily weights (>2lb/day = bad)", "Sodium <2g/day", "Position in High-Fowler's"],
     quiz: [
       { question: "Which finding indicates Right-Sided HF?", options: ["Crackles", "Dyspnea", "Peripheral Edema", "Orthopnea"], correct: 2, rationale: "Right failure backs up into systemic circulation." }
     ]
   },
-  "hypertension": {
-    title: "Hypertension (HTN)",
+  "pulmonary-edema": {
+    title: "Pulmonary Edema",
     cellular: {
-      title: "Vasoconstriction & Resistance",
-      content: "Hypertension occurs when cellular damage to the endothelium leads to chronic vasoconstriction. The heart must pump against increased Systemic Vascular Resistance (SVR). Over time, this leads to LVH (Left Ventricular Hypertrophy) where cells thicken but lose efficiency."
+      title: "Alveolar Capillary Leak",
+      content: "Pulmonary edema occurs when the pressure in the pulmonary capillaries becomes so high that fluid is forced out of the cellular walls and into the alveoli (the air sacs). This creates a barrier at the cellular level that prevents oxygen from crossing into the bloodstream, leading to acute hypoxia."
     },
     signs: {
-      left: ["Headache (Morning)", "Blurred Vision", "Tinnitus", "Epistaxis (Nosebleeds)"],
-      right: ["Often Asymptomatic", "Chest Pain", "Dizziness", "Fatigue"]
+      left: ["Extreme Dyspnea", "Frothy Pink-Tinged Sputum", "Anxiety/Apprehension", "Gasping for breath"],
+      right: ["Tachycardia", "Cyanosis", "Cold/Clammy Skin", "Crackles at lung bases"]
     },
     medications: [
-      { name: "Hydrochlorothiazide", type: "Thiazide Diuretic", action: "Distal tubule Na excretion", sideEffects: "Hypokalemia", contra: "Sulfonamide allergy", pearl: "Take in the morning to avoid nocturia." },
-      { name: "Lisinopril", type: "ACE Inhibitor", action: "Prevents Angiotensin II formation", sideEffects: "Dry Cough, Hyperkalemia", contra: "Pregnancy", pearl: "Watch for Angioedema (swelling)." }
+      { name: "Furosemide (Lasix)", type: "Diuretic", action: "Rapid fluid removal", sideEffects: "Hypotension", contra: "Hypovolemia", pearl: "Administer IV push slowly to avoid ear damage." },
+      { name: "Oxygen", type: "Gas", action: "Improves alveolar exchange", sideEffects: "Dryness", contra: "None in acute distress", pearl: "Priority 1: Maintain airway and O2 saturation." }
     ],
-    pearls: ["DASH Diet (Low sodium, high K/Mg/Ca)", "Lifestyle is 1st line", "The 'Silent Killer'"],
+    pearls: ["High-Fowler's position IMMEDIATELY", "Monitor ABGs", "Keep emergency equipment at bedside"],
     quiz: [
-      { question: "Common side effect of ACE Inhibitors?", options: ["Headache", "Dry Cough", "Diarrhea", "Fever"], correct: 1, rationale: "Bradykinin buildup causes a chronic dry cough." }
+      { question: "What is the classic sputum finding in Pulmonary Edema?", options: ["Yellow thick sputum", "Greenish phlegm", "Frothy pink-tinged", "Rust colored"], correct: 2, rationale: "Frothy pink sputum is the classic sign of acute pulmonary edema." }
     ]
   },
-  "mi": {
-    title: "Myocardial Infarction (MI)",
+  "fluid-overload": {
+    title: "Fluid Overload (Hypervolemia)",
     cellular: {
-      title: "Ischemia to Necrosis",
-      content: "When oxygen supply is cut off, cardiac cells switch to anaerobic metabolism, producing lactic acid. This causes pain. If O2 isn't restored within 20-40 mins, irreversible cellular necrosis begins. Necrotic cells release enzymes like Troponin into the blood."
+      title: "Osmotic Pressure Failure",
+      content: "When too much fluid enters the extracellular space, the osmotic pressure gradient fails. Cells cannot maintain their normal volume, and fluid shifts into the interstitial space. This leads to cellular swelling and edema in tissues and organs."
     },
     signs: {
-      left: ["Crushing Chest Pain", "Pain radiating to jaw/arm", "Diaphoresis (Sweating)", "Nausea/Vomiting"],
-      right: ["Shortness of breath", "Fatigue", "Heartburn sensation", "Weakness"]
+      left: ["Bounding Pulse", "Increased Blood Pressure", "Weight Gain", "Distended Neck Veins"],
+      right: ["Dyspnea", "Crackles", "Edema", "Reduced Hematocrit"]
     },
     medications: [
-      { name: "Nitroglycerin", type: "Vasodilator", action: "Decreases preload/afterload", sideEffects: "Headache, Hypotension", contra: "Erectile Dysfunction meds", pearl: "Max 3 doses, 5 mins apart." },
-      { name: "Aspirin", type: "Anti-platelet", action: "Prevents further clotting", sideEffects: "Bleeding", contra: "GI Bleed", pearl: "Chew for faster absorption during MI." }
+      { name: "Diuretics", type: "General", action: "Promote fluid excretion", sideEffects: "Electrolyte imbalance", contra: "Renal failure (some)", pearl: "Restrict sodium intake to prevent retention." }
     ],
-    pearls: ["MONA: Morphine, Oxygen, Nitroglycerin, Aspirin", "Time is Muscle", "Troponin is the gold standard lab"],
+    pearls: ["Monitor I&O strictly", "Daily weights are key", "Skin care for edematous areas"],
     quiz: [
-      { question: "What is the primary action of Nitroglycerin?", options: ["Dissolve Clots", "Vasodilation", "Increase Heart Rate", "Stop Bleeding"], correct: 1, rationale: "It dilates veins and arteries to reduce heart workload." }
+      { question: "What is the most sensitive indicator of fluid status?", options: ["Skin turgor", "I&O charting", "Daily weights", "Blood pressure"], correct: 2, rationale: "Daily weights are the most sensitive indicator of fluid gain or loss." }
     ]
   },
-  "diabetes-t1": {
-    title: "Diabetes Type 1",
+  "reduced-co": {
+    title: "Reduced Cardiac Output",
     cellular: {
-      title: "Autoimmune Beta-Cell Destruction",
-      content: "T-cells attack and destroy the insulin-producing beta cells in the Islets of Langerhans. Without insulin, glucose cannot enter the cells to produce energy. Cells starve while blood sugar remains high."
+      title: "Perfusion Failure",
+      content: "Cardiac Output = Stroke Volume x Heart Rate. At the cellular level, reduced output means cells aren't getting the glucose and oxygen they need for ATP production. Cells shift to anaerobic metabolism, leading to lactic acid buildup and eventual cellular death."
     },
     signs: {
-      left: ["Polyuria (Increased urine)", "Polydipsia (Thirst)", "Polyphagia (Hunger)", "Weight Loss"],
-      right: ["Fatigue", "Blurred Vision", "Irritability", "Weakness"]
+      left: ["Fatigue", "Confusion", "Decreased Urine Output", "Weak Peripheral Pulses"],
+      right: ["Cool Extremities", "Hypotension", "Tachycardia", "Delayed Capillary Refill"]
     },
     medications: [
-      { name: "Insulin Lispro (Humalog)", type: "Rapid-acting", action: "Transport glucose into cells", sideEffects: "Hypoglycemia", contra: "None", pearl: "Must have food ready within 15 mins!" },
-      { name: "Insulin Glargine (Lantus)", type: "Long-acting", action: "Steady glucose control", sideEffects: "Hypoglycemia", contra: "None", pearl: "Never mix with other insulins!" }
+      { name: "Inotropes", type: "Cardiac Support", action: "Increase contractility", sideEffects: "Dysrhythmias", contra: "Certain heart blocks", pearl: "Monitor ECG continuously." }
     ],
-    pearls: ["Rotation of sites prevents lipodystrophy", "Hypoglycemia is <4.0 mmol/L", "Always requires insulin"],
+    pearls: ["Assess Level of Consciousness (LOC)", "Monitor kidney function (Urine <30mL/hr)", "Cluster care to reduce O2 demand"],
     quiz: [
-      { question: "Onset time for Rapid-Acting insulin?", options: ["5-15 mins", "30-60 mins", "2-4 hours", "Never"], correct: 0, rationale: "Rapid-acting insulin starts working very quickly." }
+      { question: "Reduced cardiac output leads to which cellular state?", options: ["Aerobic respiration", "Lactic Acidosis", "Hyper-oxygenation", "Alkalosis"], correct: 1, rationale: "Poor perfusion forces cells into anaerobic metabolism, creating lactic acid." }
     ]
   },
-  "dka": {
-    title: "Diabetic Ketoacidosis (DKA)",
+  "pe": {
+    title: "Pulmonary Embolism (PE)",
     cellular: {
-      title: "Ketone Production & Acidosis",
-      content: "When cells can't get glucose, the body breaks down fat for energy. This produces ketones (acidic). At the cellular level, the blood becomes acidic, and high sugar causes osmotic diuresis, leading to severe cellular dehydration and potassium shifts."
+      title: "Ventilation-Perfusion (V/Q) Mismatch",
+      content: "A clot blocks blood flow to a section of the lung. While air can still enter (ventilation), blood cannot reach the area (perfusion). This V/Q mismatch means gas exchange cannot occur at the cellular interface of the alveoli, causing rapid hypoxia."
     },
     signs: {
-      left: ["Kussmaul Respirations (Rapid/Deep)", "Fruity Breath", "Blood Glucose >16.7", "Ketones in Urine"],
-      right: ["Nausea/Vomiting", "Abdominal Pain", "Altered Mental Status", "Dehydration"]
+      left: ["Sudden Onset Dyspnea", "Sharp Chest Pain", "Tachycardia", "Apprehension"],
+      right: ["Cough", "Hemoptysis", "Tachypnea", "Low O2 Saturation"]
     },
     medications: [
-      { name: "Regular Insulin", type: "Short-acting", action: "Lower BG & switch off fat breakdown", sideEffects: "Hypokalemia", contra: "Hypoglycemia", pearl: "Only insulin given IV bolus/drip." },
-      { name: "0.9% Normal Saline", type: "Isotonic Fluid", action: "Rehydration", sideEffects: "Fluid overload", contra: "HF", pearl: "Priority is rehydration 1st!" }
+      { name: "Heparin", type: "Anticoagulant", action: "Prevents clot growth", sideEffects: "Bleeding", contra: "Active bleed", pearl: "Monitor aPTT levels." },
+      { name: "Warfarin (Coumadin)", type: "Anticoagulant", action: "Vitamin K antagonist", sideEffects: "Bleeding", contra: "Pregnancy", pearl: "Monitor INR (Goal 2.0-3.0)." }
     ],
-    pearls: ["Priority: Hydration, then Insulin, then K+ replacement", "Watch Potassium like a hawk!", "Hourly BG monitoring"],
+    pearls: ["SUDDEN dyspnea is the red flag", "DVT prevention is PE prevention", "Elevate HOB immediately"],
     quiz: [
-      { question: "Priority intervention for DKA?", options: ["Insulin", "Normal Saline", "Potassium", "Food"], correct: 1, rationale: "Rehydration is the first priority to stabilize BP and perfusion." }
-    ]
-  },
-  "stroke": {
-    title: "Ischemic Stroke",
-    cellular: {
-      title: "The Ischemic Penumbra",
-      content: "A clot blocks blood flow. The core area dies quickly. The surrounding area (penumbra) is at risk but salvageable if blood flow is restored quickly. Cellular pumps fail, causing neurons to swell and die."
-    },
-    signs: {
-      left: ["Facial Drooping", "Arm Weakness", "Speech Difficulty (BEFAST)", "Sudden Vision Loss"],
-      right: ["Unilateral Neglect", "Impulsive Behavior", "Spatial-Perceptual deficits", "Headache"]
-    },
-    medications: [
-      { name: "tPA (Alteplase)", type: "Thrombolytic", action: "Dissolves the clot", sideEffects: "Severe Bleeding", contra: "Recent surgery, bleeding risk", pearl: "Give within 3-4.5 hours of Last Known Well." },
-      { name: "Clopidogrel (Plavix)", type: "Anti-platelet", action: "Prevents future clots", sideEffects: "Bleeding", contra: "Active bleeding", pearl: "Stop 5-7 days before surgery." }
-    ],
-    pearls: ["TIME is BRAIN", "CT Scan (non-contrast) 1st to rule out hemorrhage", "Keep HOB at 30 degrees"],
-    quiz: [
-      { question: "First thing to do for suspected stroke?", options: ["Give Aspirin", "CT Scan", "Start tPA", "Draw Labs"], correct: 1, rationale: "Must rule out a bleed before giving any blood thinners." }
+      { question: "What is the most common classic symptom of PE?", options: ["Fever", "Sudden shortness of breath", "Productive cough", "Bradycardia"], correct: 1, rationale: "Sudden onset dyspnea is the most common presenting symptom of PE." }
     ]
   }
 };
 
+// ... Rest of the component logic remains the same
 export default function LessonDetail() {
   const { id } = useParams();
   const [quizStarted, setQuizStarted] = useState(false);

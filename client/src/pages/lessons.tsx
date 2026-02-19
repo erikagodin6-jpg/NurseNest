@@ -9,7 +9,9 @@ import {
   Droplets, 
   ChevronRight,
   BookOpen,
-  Lock
+  Lock,
+  Activity,
+  AlertTriangle
 } from "lucide-react";
 
 const systems = [
@@ -23,7 +25,35 @@ const systems = [
       { id: "heart-failure", name: "Heart Failure", status: "Available" },
       { id: "hypertension", name: "Hypertension", status: "Available" },
       { id: "mi", name: "Myocardial Infarction (MI)", status: "Available" },
-      { id: "afib", name: "Atrial Fibrillation", status: "Available" }
+      { id: "afib", name: "Atrial Fibrillation", status: "Available" },
+      { id: "shock", name: "Shock States (Hypovolemic/Septic)", status: "Available" },
+      { id: "angina", name: "Angina (Stable/Unstable)", status: "Available" },
+      { id: "reduced-co", name: "Reduced Cardiac Output", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory",
+    title: "Respiratory System",
+    icon: Wind,
+    color: "text-blue-500",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "pulmonary-edema", name: "Pulmonary Edema", status: "Available" },
+      { id: "pe", name: "Pulmonary Embolism (PE)", status: "Available" },
+      { id: "copd", name: "COPD", status: "Available" },
+      { id: "asthma", name: "Asthma", status: "Available" }
+    ]
+  },
+  {
+    id: "vascular",
+    title: "Vascular & Perfusion",
+    icon: Activity,
+    color: "text-emerald-500",
+    bgColor: "bg-emerald-50",
+    diseases: [
+      { id: "dvt", name: "Deep Vein Thrombosis (DVT)", status: "Available" },
+      { id: "pvd", name: "Peripheral Vascular Disease", status: "Available" },
+      { id: "fluid-overload", name: "Fluid Overload (General)", status: "Available" }
     ]
   },
   {
@@ -37,28 +67,6 @@ const systems = [
       { id: "diabetes-t2", name: "Diabetes Type 2", status: "Available" },
       { id: "dka", name: "DKA (Ketoacidosis)", status: "Available" },
       { id: "hhs", name: "HHS (Hyperglycemic State)", status: "Available" }
-    ]
-  },
-  {
-    id: "neurological",
-    title: "Neurological System",
-    icon: Brain,
-    color: "text-purple-500",
-    bgColor: "bg-purple-50",
-    diseases: [
-      { id: "stroke", name: "Ischemic Stroke", status: "Available" },
-      { id: "tia", name: "TIA (Mini-Stroke)", status: "Available" }
-    ]
-  },
-  {
-    id: "respiratory",
-    title: "Respiratory System",
-    icon: Wind,
-    color: "text-blue-500",
-    bgColor: "bg-blue-50",
-    diseases: [
-      { id: "copd", name: "COPD", status: "Locked" },
-      { id: "asthma", name: "Asthma", status: "Locked" }
     ]
   }
 ];
