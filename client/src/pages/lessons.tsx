@@ -168,6 +168,32 @@ const rpnSystems = [
       { id: "cleansing-enemas", name: "Cleansing Enemas", status: "Available" },
       { id: "wound-irrigation", name: "Wound Irrigation", status: "Available" }
     ]
+  },
+  {
+    id: "peds-infections-rpn",
+    title: "Pediatric Infections",
+    icon: Bug,
+    color: "text-lime-500",
+    bgColor: "bg-lime-50",
+    diseases: [
+      { id: "varicella", name: "Varicella (Chickenpox)", status: "Available" },
+      { id: "impetigo", name: "Impetigo", status: "Available" },
+      { id: "head-lice", name: "Head Lice (Pediculosis)", status: "Available" },
+      { id: "pinworms", name: "Pinworms (Enterobiasis)", status: "Available" }
+    ]
+  },
+  {
+    id: "peds-conditions-rpn",
+    title: "Pediatric Conditions",
+    icon: Baby,
+    color: "text-fuchsia-500",
+    bgColor: "bg-fuchsia-50",
+    diseases: [
+      { id: "dehydration-peds", name: "Pediatric Dehydration", status: "Available" },
+      { id: "diaper-candidiasis", name: "Diaper Candidiasis", status: "Available" },
+      { id: "hip-dysplasia", name: "Developmental Hip Dysplasia", status: "Available" },
+      { id: "foreign-body-aspiration", name: "Foreign Body Aspiration", status: "Available" }
+    ]
   }
 ];
 
@@ -532,6 +558,128 @@ const rnSystems = [
     diseases: [
       { id: "retinoblastoma", name: "Retinoblastoma", status: "Available" },
       { id: "dmd-peds", name: "Duchenne Muscular Dystrophy", status: "Available" }
+    ]
+  },
+  {
+    id: "peds-special-rn-2",
+    title: "Pediatric Specialties II",
+    icon: Baby,
+    color: "text-pink-600",
+    bgColor: "bg-pink-50",
+    diseases: [
+      { id: "cleft-lip-palate", name: "Cleft Lip and Palate", status: "Available" },
+      { id: "hirschsprung-disease", name: "Hirschsprung Disease", status: "Available" },
+      { id: "infant-botulism", name: "Infant Botulism", status: "Available" },
+      { id: "hydrocephalus", name: "Hydrocephalus", status: "Available" },
+      { id: "trisomy-21", name: "Down Syndrome (Trisomy 21)", status: "Available" },
+      { id: "fetal-alcohol-syndrome", name: "Fetal Alcohol Spectrum Disorder", status: "Available" }
+    ]
+  },
+  {
+    id: "shock-advanced-rn",
+    title: "Shock States II",
+    icon: Zap,
+    color: "text-red-700",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "cardiogenic-shock", name: "Cardiogenic Shock", status: "Available" },
+      { id: "neurogenic-shock", name: "Neurogenic Shock", status: "Available" },
+      { id: "obstructive-shock", name: "Obstructive Shock", status: "Available" }
+    ]
+  },
+  {
+    id: "psych-rn-3",
+    title: "Psychiatric III",
+    icon: Brain,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "schizophrenia", name: "Schizophrenia", status: "Available" },
+      { id: "bipolar-disorder", name: "Bipolar Disorder", status: "Available" },
+      { id: "ocd", name: "Obsessive Compulsive Disorder", status: "Available" },
+      { id: "ptsd", name: "PTSD", status: "Available" },
+      { id: "panic-disorder", name: "Panic Disorder", status: "Available" },
+      { id: "anorexia-nervosa", name: "Anorexia Nervosa", status: "Available" }
+    ]
+  },
+  {
+    id: "psych-rn-4",
+    title: "Psychiatric IV",
+    icon: Brain,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "social-anxiety", name: "Social Anxiety Disorder", status: "Available" },
+      { id: "agoraphobia", name: "Agoraphobia", status: "Available" },
+      { id: "opioid-withdrawal", name: "Opioid Withdrawal", status: "Available" },
+      { id: "serotonin-syndrome", name: "Serotonin Syndrome", status: "Available" },
+      { id: "antisocial-pd", name: "Antisocial Personality Disorder", status: "Available" },
+      { id: "conduct-disorder", name: "Conduct Disorder", status: "Available" }
+    ]
+  },
+  {
+    id: "perinatal-mental-rn",
+    title: "Perinatal Mental Health",
+    icon: Baby,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "postpartum-depression", name: "Postpartum Depression", status: "Available" },
+      { id: "postpartum-psychosis", name: "Postpartum Psychosis", status: "Available" },
+      { id: "newborn-circumcision", name: "Newborn Circumcision", status: "Available" }
+    ]
+  },
+  {
+    id: "medsurg-rn-2",
+    title: "Medical-Surgical II",
+    icon: Stethoscope,
+    color: "text-teal-600",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "dvt-management", name: "Deep Vein Thrombosis", status: "Available" },
+      { id: "dm-type1", name: "Diabetes Mellitus Type 1", status: "Available" },
+      { id: "dm-type2", name: "Diabetes Mellitus Type 2", status: "Available" },
+      { id: "breast-cancer", name: "Breast Cancer & Mastectomy", status: "Available" },
+      { id: "celiac-disease", name: "Celiac Disease", status: "Available" }
+    ]
+  },
+  {
+    id: "medsurg-rn-3",
+    title: "Medical-Surgical III",
+    icon: Stethoscope,
+    color: "text-teal-600",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "cataracts", name: "Cataracts", status: "Available" },
+      { id: "sjogren-syndrome", name: "Sjogren Syndrome", status: "Available" },
+      { id: "toxic-epidermal", name: "Toxic Epidermal Necrolysis", status: "Available" },
+      { id: "myasthenia-gravis", name: "Myasthenia Gravis", status: "Available" },
+      { id: "chlamydia", name: "Chlamydia", status: "Available" }
+    ]
+  },
+  {
+    id: "safety-forensic-rn",
+    title: "Safety & Forensic Nursing",
+    icon: ShieldAlert,
+    color: "text-red-600",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "child-abuse", name: "Child Abuse & Neglect", status: "Available" },
+      { id: "elder-mistreatment", name: "Elder Mistreatment", status: "Available" },
+      { id: "intimate-partner-violence", name: "Intimate Partner Violence", status: "Available" },
+      { id: "disaster-triage", name: "Disaster Triage", status: "Available" }
+    ]
+  },
+  {
+    id: "procedures-rn-3",
+    title: "Procedures III",
+    icon: Scissors,
+    color: "text-teal-600",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "hemodialysis", name: "Hemodialysis", status: "Available" },
+      { id: "postmortem-care", name: "Postmortem Care", status: "Available" },
+      { id: "burn-care-advanced", name: "Burn Injury Care", status: "Available" }
     ]
   }
 ];
