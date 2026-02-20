@@ -118,3 +118,19 @@
     @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
   }
 }
+
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+@media print {
+  .select-none { 
+    -webkit-user-select: text !important; 
+    user-select: text !important; 
+  }
+  .no-print { display: none !important; }
+}

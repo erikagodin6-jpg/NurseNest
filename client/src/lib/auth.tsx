@@ -1,0 +1,109 @@
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+
+type User = {
+  id: string;
+  username: string;
+  tier: string;
+  subscriptionStatus: string;
+  email?: string;
+  region?: string;
+};
+
+type AuthContextType = {
+  user: User | null;
+  login: (username: string, password: string) => Promise<void>;
+  register: (username: string, password: string, email?: string) => Promise<void>;
+  logout: () => void;
+  refreshUser: () => Promise<void>;
+  isLoading: boolean;
+  hasAccess: (requiredTier: string) => boolean;
+};
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("nursenest-user");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setUser(parsed);
+        refreshUserData(parsed.id);
+      } catch {
+        localStorage.removeItem("nursenest-user");
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  async function refreshUserData(userId: string) {
+    try {
+      const res = await fetch(`/api/user/${userId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+        localStorage.setItem("nursenest-user", JSON.stringify(data));
+      }
+    } catch {}
+  }
+
+  async function login(username: string, password: string) {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Login failed");
+    }
+    const data = await res.json();
+    setUser(data);
+    localStorage.setItem("nursenest-user", JSON.stringify(data));
+  }
+
+  async function register(username: string, password: string, email?: string) {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password, email }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Registration failed");
+    }
+    const data = await res.json();
+    setUser(data);
+    localStorage.setItem("nursenest-user", JSON.stringify(data));
+  }
+
+  function logout() {
+    setUser(null);
+    localStorage.removeItem("nursenest-user");
+  }
+
+  async function refreshUser() {
+    if (user) await refreshUserData(user.id);
+  }
+
+  function hasAccess(requiredTier: string): boolean {
+    if (!user) return false;
+    if (user.subscriptionStatus !== "active") return false;
+    return user.tier === requiredTier;
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, logout, refreshUser, isLoading, hasAccess }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  return ctx;
+}

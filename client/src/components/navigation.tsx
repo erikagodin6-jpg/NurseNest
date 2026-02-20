@@ -18,6 +18,7 @@ import {
   X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -45,6 +46,7 @@ export function Navigation() {
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [, setLocation] = useLocation();
+  const { user, logout } = useAuth();
 
   const setRegion = (newRegion: "US" | "CA") => {
     setRegionState(newRegion);
@@ -282,12 +284,25 @@ export function Navigation() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium">
-              Log in
-            </Button>
-            <Button className="bg-primary hover:brightness-110 text-white rounded-full px-4 lg:px-6 shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5">
-              Get Started
-            </Button>
+            {user ? (
+              <>
+                <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium" onClick={() => setLocation("/profile")} data-testid="button-profile">
+                  {user.username}
+                </Button>
+                <Button variant="outline" className="rounded-full px-4" onClick={() => { logout(); setLocation("/"); }} data-testid="button-logout-nav">
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium" onClick={() => setLocation("/login")} data-testid="button-login-nav">
+                  Log in
+                </Button>
+                <Button className="bg-primary hover:brightness-110 text-white rounded-full px-4 lg:px-6 shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5" onClick={() => setLocation("/login")} data-testid="button-get-started">
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>

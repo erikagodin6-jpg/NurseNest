@@ -1,0 +1,73 @@
+import { useEffect, useState } from "react";
+import { useLocation } from "wouter";
+import { Navigation } from "@/components/navigation";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth";
+import { CheckCircle2, Loader2 } from "lucide-react";
+
+export default function SubscriptionSuccess() {
+  const [, navigate] = useLocation();
+  const { user, refreshUser } = useAuth();
+  const [verifying, setVerifying] = useState(true);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    const tier = params.get("tier");
+
+    if (sessionId && user) {
+      fetch("/api/stripe/verify-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId, userId: user.id, tier }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setSuccess(data.success);
+          if (data.success) refreshUser();
+        })
+        .finally(() => setVerifying(false));
+    } else {
+      setVerifying(false);
+    }
+  }, [user]);
+
+  return (
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+      <Navigation />
+      <main className="flex-1 flex items-center justify-center px-4 py-12">
+        <Card className="w-full max-w-md border-none shadow-xl">
+          <CardContent className="p-8 text-center space-y-6">
+            {verifying ? (
+              <>
+                <Loader2 className="w-16 h-16 text-primary mx-auto animate-spin" />
+                <h2 className="text-2xl font-bold">Verifying your subscription...</h2>
+              </>
+            ) : success ? (
+              <>
+                <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+                </div>
+                <h2 className="text-2xl font-bold">Subscription Activated!</h2>
+                <p className="text-gray-600">You now have full access to your tier's content.</p>
+                <Button onClick={() => navigate("/lessons")} className="rounded-full px-8" data-testid="button-go-to-lessons">
+                  Start Learning
+                </Button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-2xl font-bold">Something went wrong</h2>
+                <p className="text-gray-600">We couldn't verify your subscription. Please try again or contact support.</p>
+                <Button onClick={() => navigate("/lessons")} variant="outline" data-testid="button-back-to-lessons">
+                  Back to Lessons
+                </Button>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}

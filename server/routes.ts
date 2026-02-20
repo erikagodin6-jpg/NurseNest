@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema } from "@shared/schema";
+import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -13,7 +14,7 @@ export async function registerRoutes(
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
       const user = await storage.createUser(data);
-      res.json({ id: user.id, username: user.username });
+      res.json({ id: user.id, username: user.username, tier: user.tier, subscriptionStatus: user.subscriptionStatus });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
@@ -24,9 +25,144 @@ export async function registerRoutes(
       const { username, password } = req.body;
       const user = await storage.getUserByUsername(username);
       if (!user || user.password !== password) return res.status(401).json({ error: "Invalid credentials" });
-      res.json({ id: user.id, username: user.username });
+      res.json({ id: user.id, username: user.username, tier: user.tier, subscriptionStatus: user.subscriptionStatus, email: user.email, region: user.region });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/user/:userId", async (req, res) => {
+    try {
+      const user = await storage.getUser(req.params.userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+      res.json({ id: user.id, username: user.username, tier: user.tier, subscriptionStatus: user.subscriptionStatus, email: user.email, region: user.region });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/stripe/publishable-key", async (_req, res) => {
+    try {
+      const key = await getStripePublishableKey();
+      res.json({ publishableKey: key });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/stripe/create-checkout", async (req, res) => {
+    try {
+      const { userId, tier } = req.body;
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      const stripe = await getUncachableStripeClient();
+
+      let customerId = user.stripeCustomerId;
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.email || undefined,
+          metadata: { userId: user.id, username: user.username },
+        });
+        await storage.updateUserStripeInfo(user.id, { stripeCustomerId: customer.id });
+        customerId = customer.id;
+      }
+
+      const priceMap: Record<string, number> = {
+        rpn: 2999,
+        rn: 3999,
+        np: 4999,
+      };
+
+      const tierNames: Record<string, string> = {
+        rpn: "NurseNest RPN/LVN",
+        rn: "NurseNest RN/NCLEX",
+        np: "NurseNest NP Advanced",
+      };
+
+      const amount = priceMap[tier];
+      if (!amount) return res.status(400).json({ error: "Invalid tier" });
+
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: tierNames[tier],
+              description: `Monthly subscription to ${tierNames[tier]} content`,
+            },
+            unit_amount: amount,
+            recurring: { interval: 'month' },
+          },
+          quantity: 1,
+        }],
+        mode: 'subscription',
+        success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
+        cancel_url: `${baseUrl}/lessons`,
+        metadata: { userId: user.id, tier },
+      });
+
+      res.json({ url: session.url });
+    } catch (e: any) {
+      console.error("Checkout error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/stripe/verify-session", async (req, res) => {
+    try {
+      const { sessionId, userId, tier } = req.body;
+      const stripe = await getUncachableStripeClient();
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+      if (session.payment_status === "paid") {
+        await storage.updateUserStripeInfo(userId, {
+          stripeSubscriptionId: session.subscription as string,
+          subscriptionStatus: "active",
+          tier,
+        });
+        res.json({ success: true, tier });
+      } else {
+        res.json({ success: false });
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/stripe/portal", async (req, res) => {
+    try {
+      const { userId } = req.body;
+      const user = await storage.getUser(userId);
+      if (!user?.stripeCustomerId) return res.status(400).json({ error: "No subscription found" });
+
+      const stripe = await getUncachableStripeClient();
+      const portalSession = await stripe.billingPortal.sessions.create({
+        customer: user.stripeCustomerId,
+        return_url: `${req.protocol}://${req.get('host')}/lessons`,
+      });
+
+      res.json({ url: portalSession.url });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/subscription/:userId", async (req, res) => {
+    try {
+      const user = await storage.getUser(req.params.userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+      res.json({
+        tier: user.tier || "free",
+        subscriptionStatus: user.subscriptionStatus || "inactive",
+        hasAccess: user.subscriptionStatus === "active",
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 
