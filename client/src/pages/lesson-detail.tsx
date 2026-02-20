@@ -17,6 +17,7 @@ import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { contentMap } from "@/data/lessons";
 import { useAuth } from "@/lib/auth";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
+import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem } from "@/lib/seo-utils";
 
 function getLessonTier(lessonId: string): string {
   if (lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
@@ -384,23 +385,35 @@ export default function LessonDetail() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 select-none" onContextMenu={(e) => e.preventDefault()}>
       <SEO
-        title={`${lessonContent?.title || "Lesson"} - NurseNest Pathophysiology`}
-        description={`Deep-dive into ${lessonContent?.title || "nursing pathophysiology"}: cellular mechanisms, clinical signs, medications, safety pearls, and quiz questions.`}
-        keywords={`${lessonContent?.title || "nursing"} pathophysiology, NCLEX, clinical nursing`}
+        title={`${lessonContent?.title || "Lesson"} - Nursing Pathophysiology`}
+        description={generateLessonSeoDescription(id || "", lessonContent)}
+        keywords={generateLessonKeywords(id || "", lessonContent)}
         canonicalPath={`/lessons/${id}`}
         ogType="article"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "LearningResource",
-          "name": lessonContent?.title || "Nursing Lesson",
-          "description": `Comprehensive nursing pathophysiology lesson on ${lessonContent?.title || "clinical topics"}`,
-          "learningResourceType": "Lesson",
-          "educationalLevel": "College",
-        }}
+        structuredData={buildLessonStructuredData(id || "", lessonContent)}
+        additionalStructuredData={[
+          buildBreadcrumbStructuredData([
+            { name: "Home", url: "https://nursenest.replit.app/" },
+            { name: "Lessons", url: "https://nursenest.replit.app/lessons" },
+            { name: getLessonBodySystem(id || ""), url: "https://nursenest.replit.app/lessons" },
+            { name: lessonContent.title, url: `https://nursenest.replit.app/lessons/${id}` },
+          ]),
+        ]}
       />
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500" data-testid="nav-breadcrumb">
+          <ol className="flex items-center gap-1 flex-wrap">
+            <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
+            <li className="text-gray-300">/</li>
+            <li><Link href="/lessons" className="hover:text-primary transition-colors">Lessons</Link></li>
+            <li className="text-gray-300">/</li>
+            <li className="text-gray-400">{getLessonBodySystem(id || "")}</li>
+            <li className="text-gray-300">/</li>
+            <li className="text-gray-900 font-medium">{lessonContent.title}</li>
+          </ol>
+        </nav>
         <div className="flex items-center justify-between mb-8">
           <Link href="/lessons">
             <Button variant="ghost" className="group">

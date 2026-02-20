@@ -7,9 +7,10 @@ interface SEOProps {
   canonicalPath?: string;
   ogType?: string;
   structuredData?: Record<string, any>;
+  additionalStructuredData?: Record<string, any>[];
 }
 
-export function SEO({ title, description, keywords, canonicalPath, ogType = "website", structuredData }: SEOProps) {
+export function SEO({ title, description, keywords, canonicalPath, ogType = "website", structuredData, additionalStructuredData }: SEOProps) {
   useEffect(() => {
     const fullTitle = title.includes("NurseNest") ? title : `${title} | NurseNest`;
     document.title = fullTitle;
@@ -47,6 +48,8 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       link.href = url;
     }
 
+    const scriptIds: string[] = [];
+
     if (structuredData) {
       let script = document.getElementById("structured-data") as HTMLScriptElement;
       if (!script) {
@@ -56,13 +59,33 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         document.head.appendChild(script);
       }
       script.textContent = JSON.stringify(structuredData);
+      scriptIds.push("structured-data");
+    }
+
+    if (additionalStructuredData) {
+      additionalStructuredData.forEach((data, i) => {
+        const id = `structured-data-${i}`;
+        let script = document.getElementById(id) as HTMLScriptElement;
+        if (!script) {
+          script = document.createElement("script");
+          script.id = id;
+          script.type = "application/ld+json";
+          document.head.appendChild(script);
+        }
+        script.textContent = JSON.stringify(data);
+        scriptIds.push(id);
+      });
     }
 
     return () => {
-      const script = document.getElementById("structured-data");
-      if (script) script.remove();
+      const mainScript = document.getElementById("structured-data");
+      if (mainScript) mainScript.remove();
+      scriptIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+      });
     };
-  }, [title, description, keywords, canonicalPath, ogType, structuredData]);
+  }, [title, description, keywords, canonicalPath, ogType, structuredData, additionalStructuredData]);
 
   return null;
 }

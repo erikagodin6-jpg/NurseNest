@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
@@ -1699,15 +1700,16 @@ export default function Lessons() {
         keywords="nursing pathophysiology lessons, body system nursing, cardiovascular nursing, respiratory nursing, neurological nursing, NCLEX study guide, nursing exam prep, clinical nursing education"
         canonicalPath="/lessons"
         ogType="website"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "name": "Nursing Pathophysiology Lessons",
-          "description": "Interactive nursing lessons organized by body system covering cardiovascular, respiratory, neurological, GI, endocrine, maternity, neonatal, and more.",
-          "url": "https://nursenest.replit.app/lessons",
-          "isPartOf": { "@type": "WebSite", "name": "NurseNest" },
-          "about": { "@type": "Thing", "name": "Nursing Pathophysiology" }
-        }}
+        structuredData={buildCatalogStructuredData(
+          rpnSystems.flatMap((s) => s.diseases.map((d) => ({ id: d.id, name: d.name })))
+            .concat(rnSystems.flatMap((s) => s.diseases.map((d) => ({ id: d.id, name: d.name }))))
+        )}
+        additionalStructuredData={[
+          buildBreadcrumbStructuredData([
+            { name: "Home", url: "https://nursenest.replit.app/" },
+            { name: "Lessons", url: "https://nursenest.replit.app/lessons" },
+          ]),
+        ]}
       />
       <Navigation />
       

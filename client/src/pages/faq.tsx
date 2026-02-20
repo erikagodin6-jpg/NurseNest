@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { SEO } from "@/components/seo";
 import { useLocation } from "wouter";
 import {
   Accordion,
@@ -6,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/seo-utils";
 
 const faqData = [
   {
@@ -182,8 +184,23 @@ const faqData = [
 export default function FAQPage() {
   const [, setLocation] = useLocation();
 
+  const allFaqs = faqData.flatMap((s) => s.questions.map((q) => ({ question: q.question, answer: q.answer })));
+
   return (
     <div className="min-h-screen bg-warmwhite">
+      <SEO
+        title="Frequently Asked Questions - NurseNest Nursing Education"
+        description="Find answers about NurseNest nursing education platform: subscriptions, content depth, NCLEX preparation, privacy, and clinical learning resources for RPN, RN, and NP students."
+        keywords="NurseNest FAQ, nursing education questions, NCLEX prep FAQ, nursing student help, subscription questions"
+        canonicalPath="/faq"
+        structuredData={buildFaqStructuredData(allFaqs)}
+        additionalStructuredData={[
+          buildBreadcrumbStructuredData([
+            { name: "Home", url: "https://nursenest.replit.app/" },
+            { name: "FAQ", url: "https://nursenest.replit.app/faq" },
+          ]),
+        ]}
+      />
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
