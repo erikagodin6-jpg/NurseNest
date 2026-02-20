@@ -1,6 +1,6 @@
 import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, users, notes, testResults, userProgress, contentItems, featureUsage } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and, desc, sql } from "drizzle-orm";
+import { eq, and, desc, sql, lte, ne, ilike } from "drizzle-orm";
 import pg from "pg";
 
 export interface IStorage {
@@ -25,6 +25,17 @@ export interface IStorage {
   getSubscription(subscriptionId: string): Promise<any>;
   getFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage | undefined>;
   incrementFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage>;
+  getAllContentItems(): Promise<ContentItem[]>;
+  getContentItem(id: string): Promise<ContentItem | undefined>;
+  getContentItemBySlug(slug: string): Promise<ContentItem | undefined>;
+  getPublishedContent(type?: string, category?: string): Promise<ContentItem[]>;
+  getScheduledContentDue(): Promise<ContentItem[]>;
+  publishScheduledContent(): Promise<number>;
+  checkDuplicateSlug(slug: string, excludeId?: string): Promise<boolean>;
+  checkKeywordOverlap(primaryKeyword: string, excludeId?: string): Promise<ContentItem[]>;
+  createContentItem(item: InsertContentItem): Promise<ContentItem>;
+  updateContentItem(id: string, updates: Partial<InsertContentItem>): Promise<ContentItem>;
+  deleteContentItem(id: string): Promise<void>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -190,8 +201,45 @@ export class DatabaseStorage implements IStorage {
     return item;
   }
 
-  async getPublishedContent(): Promise<ContentItem[]> {
-    return db.select().from(contentItems).where(eq(contentItems.status, "published")).orderBy(desc(contentItems.publishedAt));
+  async getPublishedContent(type?: string, category?: string): Promise<ContentItem[]> {
+    const conditions = [eq(contentItems.status, "published")];
+    if (type) conditions.push(eq(contentItems.type, type));
+    if (category) conditions.push(eq(contentItems.category, category));
+    return db.select().from(contentItems).where(and(...conditions)).orderBy(desc(contentItems.publishedAt));
+  }
+
+  async getScheduledContentDue(): Promise<ContentItem[]> {
+    return db.select().from(contentItems)
+      .where(and(
+        eq(contentItems.status, "scheduled"),
+        lte(contentItems.scheduledAt, new Date())
+      ));
+  }
+
+  async publishScheduledContent(): Promise<number> {
+    const due = await this.getScheduledContentDue();
+    let published = 0;
+    for (const item of due) {
+      if (item.clinicalSafetyReview && !item.autoPublish) continue;
+      await db.update(contentItems)
+        .set({ status: "published", publishedAt: new Date(), updatedAt: new Date() })
+        .where(eq(contentItems.id, item.id));
+      published++;
+    }
+    return published;
+  }
+
+  async checkDuplicateSlug(slug: string, excludeId?: string): Promise<boolean> {
+    const conditions = [eq(contentItems.slug, slug)];
+    if (excludeId) conditions.push(ne(contentItems.id, excludeId));
+    const [existing] = await db.select().from(contentItems).where(and(...conditions));
+    return !!existing;
+  }
+
+  async checkKeywordOverlap(primaryKeyword: string, excludeId?: string): Promise<ContentItem[]> {
+    const conditions = [ilike(contentItems.primaryKeyword, `%${primaryKeyword}%`)];
+    if (excludeId) conditions.push(ne(contentItems.id, excludeId));
+    return db.select().from(contentItems).where(and(...conditions));
   }
 
   async createContentItem(item: InsertContentItem): Promise<ContentItem> {

@@ -1,0 +1,86 @@
+You are a senior full-stack engineer working inside my NurseNest codebase (Next.js App Router + TypeScript + Tailwind).
+
+Implement the following product changes with production-quality code, minimal regressions, and clean architecture.
+
+FEATURES TO IMPLEMENT:
+
+1) MORE COLOR THEMES (global)
+Add multiple additional themes beyond the current one(s):
+- clinical-light (default)
+- dark-clinical (high-contrast but not harsh)
+- pastel-blush (pink-forward pastel)
+- pastel-lavender (lavender-forward pastel)
+- pastel-mint (mint-forward pastel)
+- neutral-sand (warm neutral)
+- neutral-slate (cool neutral)
+- dark-academia (deep neutrals, elegant)
+
+Requirements:
+- Theme tokens via CSS variables (HSL/RGB ok) in a single themes.css (or existing file)
+- Theme persists across sessions (localStorage) and syncs to <html data-theme="...">
+- Provide a ThemePicker UI component accessible from the header and user settings
+- Ensure accessible contrast (WCAG-aware) for text/controls
+
+2) UNLOCK OSCE + CLINICAL LAB SIMULATORS (routing + nav + access)
+Currently OSCE and clinical lab simulators are gated/locked. Change to unlock them for users who have access.
+
+Access rules:
+- If user is logged in and has an active subscription to ANY tier OR has an “all_access” plan, OSCE + Clinical Lab are accessible
+- If user is not logged in, show a preview page with a CTA to sign up
+- If user is logged in but not subscribed, show an upgrade paywall page
+
+Implement:
+- New routes:
+  - /simulators/osce
+  - /simulators/clinical-lab
+- Simulator directory pages listing available stations
+- If stations already exist, render them; otherwise stub “coming soon” cards
+- Add navigation items in header for Simulators (with OSCE + Clinical Lab)
+
+3) TIER LOCKING / NAV ISOLATION (very important)
+When a user is browsing the RPN tier:
+- They must NOT be able to access RN or NP pages by URL or via UI.
+- If they click RN/NP links or manually enter URL, redirect them back to the RPN equivalent page (or to an upgrade page if appropriate).
+
+Rules:
+- Logged out users: allow browsing overview pages but if they choose a tier (RPN/RN/NP) lock them to that tier for the session until they switch explicitly.
+- Logged in users: tier access is based on their subscription plan:
+   - plan_rpn -> RPN content only
+   - plan_rn -> RN content only
+   - plan_np -> NP content only
+   - all_access -> can switch freely
+- Tier selection is stored in session/localStorage, but server-side enforcement must exist (do not rely only on client-side checks).
+
+Implementation requirements:
+- Define a single source of truth for tier access (e.g., lib/access.ts).
+- Add middleware or server-side route guards (Next.js middleware.ts OR server actions checks) to protect:
+  - /rpn/**
+  - /rn/**
+  - /np/**
+  - /lessons?tier=...
+  - any tier-specific content routes
+- On unauthorized tier access:
+  - if logged in: redirect to allowed tier home or upgrade page
+  - if logged out: redirect to the last selected tier home
+- Update the header menu so only allowed tiers appear, and switching tiers is explicit.
+
+4) QUALITY REQUIREMENTS
+- Do not break existing pages
+- Keep UI consistent with NurseNest style (rounded, clean, minimal)
+- Ensure mobile navigation works
+- Add basic tests or at least a manual QA checklist at the end
+
+DELIVERABLES:
+- Identify which files you will create/modify (paths)
+- Provide copy/paste-ready code for:
+  - themes CSS tokens file
+  - ThemePicker component
+  - tier access helper (lib/access.ts)
+  - middleware.ts (or alternative guard)
+  - nav updates
+  - simulator routes/pages with access gating
+- Provide a QA checklist and how to verify tier locking and theme persistence
+
+IMPORTANT:
+- Ask me for current file paths ONLY if absolutely required. Otherwise, inspect typical Next.js structure and implement cleanly.
+- Do not hand-wave. Produce working code.

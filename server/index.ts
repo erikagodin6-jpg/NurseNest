@@ -5,6 +5,7 @@ import { createServer } from "http";
 import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
+import { storage } from "./storage";
 
 const app = express();
 const httpServer = createServer(app);
@@ -138,4 +139,15 @@ app.use((req, res, next) => {
   httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
     log(`serving on port ${port}`);
   });
+
+  setInterval(async () => {
+    try {
+      const count = await storage.publishScheduledContent();
+      if (count > 0) {
+        log(`Scheduler: auto-published ${count} content item(s)`);
+      }
+    } catch (err: any) {
+      console.error("Scheduler error:", err.message);
+    }
+  }, 60_000);
 })();

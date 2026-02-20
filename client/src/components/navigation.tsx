@@ -253,6 +253,12 @@ export function Navigation() {
               FAQ
             </Button>
           </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
+              <BookOpen className="w-4 h-4" />
+              Blog
+            </Button>
+          </SheetClose>
 
           <div className="h-[1px] bg-gray-100 my-2" />
 
@@ -374,6 +380,10 @@ export function Navigation() {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/faq")}>
                     <HelpCircle className="w-4 h-4" />
                     FAQ
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/blog")}>
+                    <BookOpen className="w-4 h-4" />
+                    Blog
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

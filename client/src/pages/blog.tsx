@@ -1,0 +1,261 @@
+import { useState } from "react";
+import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { Navigation } from "@/components/navigation";
+import { SEO } from "@/components/seo";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  BookOpen,
+  Search,
+  Calendar,
+  ArrowRight,
+  Clock,
+  Tag,
+} from "lucide-react";
+
+const CATEGORY_LABELS: Record<string, string> = {
+  "clinical-reasoning": "Clinical Reasoning",
+  "pharmacology": "Pharmacology",
+  "lab-interpretation": "Lab Interpretation",
+  "exam-prep": "Exam Prep",
+  "patient-safety": "Patient Safety",
+  "pathophysiology": "Pathophysiology",
+  "assessment-skills": "Assessment Skills",
+  "medication-safety": "Medication Safety",
+  "nursing-fundamentals": "Nursing Fundamentals",
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  "clinical-reasoning": "bg-blue-50 text-blue-700 border-blue-200",
+  "pharmacology": "bg-purple-50 text-purple-700 border-purple-200",
+  "lab-interpretation": "bg-amber-50 text-amber-700 border-amber-200",
+  "exam-prep": "bg-green-50 text-green-700 border-green-200",
+  "patient-safety": "bg-red-50 text-red-700 border-red-200",
+  "pathophysiology": "bg-indigo-50 text-indigo-700 border-indigo-200",
+  "assessment-skills": "bg-teal-50 text-teal-700 border-teal-200",
+  "medication-safety": "bg-rose-50 text-rose-700 border-rose-200",
+  "nursing-fundamentals": "bg-slate-50 text-slate-700 border-slate-200",
+};
+
+function estimateReadTime(content: any[]): number {
+  if (!content || !Array.isArray(content)) return 5;
+  const totalWords = content.reduce((acc, block) => {
+    return acc + (block.content || "").split(/\s+/).length;
+  }, 0);
+  return Math.max(3, Math.ceil(totalWords / 200));
+}
+
+function formatDate(d: string | null) {
+  if (!d) return "";
+  return new Date(d).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export default function BlogPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const { data: articles = [], isLoading } = useQuery({
+    queryKey: ["/api/content", "blog"],
+    queryFn: async () => {
+      const res = await fetch("/api/content?type=article");
+      if (!res.ok) throw new Error("Failed to load articles");
+      const data = await res.json();
+      const blogPosts = await fetch("/api/content?type=blog-post");
+      if (blogPosts.ok) {
+        const blogData = await blogPosts.json();
+        return [...data, ...blogData].sort((a: any, b: any) =>
+          new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime()
+        );
+      }
+      return data;
+    },
+  });
+
+  const categories: string[] = Array.from(new Set(articles.map((a: any) => a.category).filter(Boolean))) as string[];
+
+  const filteredArticles = articles.filter((article: any) => {
+    const matchesSearch = !searchQuery ||
+      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (article.summary || "").toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !selectedCategory || article.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "NurseNest Clinical Education Blog",
+    "description": "Evidence-based nursing education articles covering clinical reasoning, pharmacology, lab interpretation, and exam preparation for RPN and RN students.",
+    "url": "https://nursenest.com/blog",
+    "publisher": {
+      "@type": "Organization",
+      "name": "NurseNest"
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+      <SEO
+        title="Nursing Education Blog | Clinical Reasoning & Exam Prep | NurseNest"
+        description="Evidence-based nursing articles on clinical reasoning, pharmacology, lab values, and NCLEX/REX-PN exam preparation. Written for RPN and RN students."
+        canonicalPath="/blog"
+      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <Navigation />
+
+      <main className="flex-grow" data-testid="section-blog">
+        <section className="bg-gradient-to-b from-primary/5 to-transparent py-16">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <BookOpen className="w-6 h-6 text-primary" />
+              <span className="text-sm font-semibold text-primary uppercase tracking-wider">NurseNest Blog</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" data-testid="text-blog-heading">
+              Clinical Education Articles
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              Evidence-based nursing education covering clinical reasoning, pathophysiology, pharmacology, and exam preparation for RPN and RN students.
+            </p>
+
+            <div className="relative max-w-lg mx-auto">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search articles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-12 h-12 text-base rounded-xl border-primary/20 bg-white shadow-sm"
+                data-testid="input-search-blog"
+              />
+            </div>
+          </div>
+        </section>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {categories.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-8" data-testid="section-blog-categories">
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  !selectedCategory
+                    ? "bg-primary text-white"
+                    : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                }`}
+                data-testid="filter-category-all"
+              >
+                All Articles
+              </button>
+              {categories.map((cat: string) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    selectedCategory === cat
+                      ? "bg-primary text-white"
+                      : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                  }`}
+                  data-testid={`filter-category-${cat}`}
+                >
+                  {CATEGORY_LABELS[cat] || cat}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+            </div>
+          ) : filteredArticles.length === 0 ? (
+            <div className="text-center py-20">
+              <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <h2 className="text-xl font-semibold text-gray-600 mb-2">
+                {searchQuery || selectedCategory ? "No articles match your search" : "No articles published yet"}
+              </h2>
+              <p className="text-gray-400">
+                {searchQuery || selectedCategory ? "Try adjusting your search or category filter." : "Check back soon for clinical education content."}
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {filteredArticles.map((article: any) => (
+                <Link key={article.id} href={`/learn/${article.slug}`}>
+                  <Card
+                    className="border border-primary/10 hover:shadow-lg hover:border-primary/20 transition-all cursor-pointer group overflow-hidden"
+                    data-testid={`card-article-${article.slug}`}
+                  >
+                    <CardContent className="p-6 sm:p-8">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                        <div className="flex-grow min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 mb-3">
+                            {article.category && (
+                              <Badge
+                                variant="outline"
+                                className={`text-xs ${CATEGORY_COLORS[article.category] || "bg-gray-50 text-gray-600"}`}
+                              >
+                                {CATEGORY_LABELS[article.category] || article.category}
+                              </Badge>
+                            )}
+                            {article.tier && article.tier !== "free" && (
+                              <Badge variant="secondary" className="text-xs">
+                                {article.tier.toUpperCase()}
+                              </Badge>
+                            )}
+                          </div>
+
+                          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2" data-testid={`text-article-title-${article.slug}`}>
+                            {article.title}
+                          </h2>
+
+                          {article.summary && (
+                            <p className="text-gray-600 mb-4 line-clamp-2">{article.summary}</p>
+                          )}
+
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                            {article.publishedAt && (
+                              <span className="flex items-center gap-1.5">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {formatDate(article.publishedAt)}
+                              </span>
+                            )}
+                            <span className="flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5" />
+                              {estimateReadTime(article.content)} min read
+                            </span>
+                            {article.tags && article.tags.length > 0 && (
+                              <span className="flex items-center gap-1.5">
+                                <Tag className="w-3.5 h-3.5" />
+                                {article.tags.slice(0, 3).join(", ")}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="hidden sm:flex items-center text-primary/50 group-hover:text-primary transition-colors">
+                          <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+
+      <footer className="bg-gray-50 border-t border-gray-200 py-8">
+        <div className="max-w-5xl mx-auto px-4 text-center text-sm text-gray-500">
+          <p>NurseNest is not affiliated with NCLEX, NCSBN, CNO, or any regulatory body.</p>
+          <p className="mt-1">Content is for educational purposes only and does not replace clinical judgment.</p>
+        </div>
+      </footer>
+    </div>
+  );
+}

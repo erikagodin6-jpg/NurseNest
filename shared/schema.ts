@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, timestamp, jsonb, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -78,6 +78,7 @@ export const contentItems = pgTable("content_items", {
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
   type: text("type").notNull().default("lesson"),
+  category: text("category"),
   bodySystem: text("body_system"),
   tier: text("tier").default("free"),
   status: text("status").default("draft"),
@@ -87,6 +88,11 @@ export const contentItems = pgTable("content_items", {
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
   seoKeywords: text("seo_keywords").array().default(sql`'{}'::text[]`),
+  primaryKeyword: text("primary_keyword"),
+  secondaryKeywords: text("secondary_keywords").array().default(sql`'{}'::text[]`),
+  scheduledAt: timestamp("scheduled_at"),
+  clinicalSafetyReview: boolean("clinical_safety_review").default(false),
+  autoPublish: boolean("auto_publish").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   publishedAt: timestamp("published_at"),

@@ -437,6 +437,10 @@ export async function registerRoutes(
       { loc: "/disclaimer", priority: "0.3", changefreq: "yearly" },
       { loc: "/med-math", priority: "0.8", changefreq: "weekly" },
       { loc: "/lab-values", priority: "0.8", changefreq: "weekly" },
+      { loc: "/blog", priority: "0.8", changefreq: "daily" },
+      { loc: "/clinical-clarity", priority: "0.7", changefreq: "weekly" },
+      { loc: "/case-simulations", priority: "0.7", changefreq: "weekly" },
+      { loc: "/medication-mastery", priority: "0.7", changefreq: "weekly" },
     ];
 
     const lessonIds = [
@@ -466,6 +470,13 @@ export async function registerRoutes(
       urls.push(`  <url><loc>${base}/lessons/${id}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>`);
     });
 
+    try {
+      const publishedContent = await storage.getPublishedContent();
+      publishedContent.forEach((item) => {
+        urls.push(`  <url><loc>${base}/learn/${item.slug}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`);
+      });
+    } catch {}
+
     res.type("application/xml").send(
       `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>`
     );
@@ -473,16 +484,30 @@ export async function registerRoutes(
 
   app.get("/api/content", async (req, res) => {
     try {
-      const { status, username, password } = req.query;
+      const { status, username, password, type, category } = req.query;
       if (status === "all" && username && password) {
         const adminUser = await storage.getUserByUsername(username as string);
         if (adminUser && adminUser.password === password && adminUser.tier === "admin") {
-          const items = await (storage as DatabaseStorage).getAllContentItems();
+          const items = await storage.getAllContentItems();
           return res.json(items);
         }
       }
-      const items = await (storage as DatabaseStorage).getPublishedContent();
+      const items = await storage.getPublishedContent(
+        type as string | undefined,
+        category as string | undefined
+      );
       res.json(items);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/content/check-duplicate", async (req, res) => {
+    try {
+      const { slug, primaryKeyword, excludeId } = req.body;
+      const slugExists = slug ? await storage.checkDuplicateSlug(slug, excludeId) : false;
+      const keywordOverlap = primaryKeyword ? await storage.checkKeywordOverlap(primaryKeyword, excludeId) : [];
+      res.json({ slugExists, keywordOverlap: keywordOverlap.map(i => ({ id: i.id, title: i.title, primaryKeyword: i.primaryKeyword })) });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -490,7 +515,7 @@ export async function registerRoutes(
 
   app.get("/api/content/:id", async (req, res) => {
     try {
-      const item = await (storage as DatabaseStorage).getContentItem(req.params.id);
+      const item = await storage.getContentItem(req.params.id);
       if (!item) return res.status(404).json({ error: "Content not found" });
       if (item.status !== "published") {
         const { username, password } = req.query;
@@ -508,7 +533,7 @@ export async function registerRoutes(
 
   app.get("/api/content/slug/:slug", async (req, res) => {
     try {
-      const item = await (storage as DatabaseStorage).getContentItemBySlug(req.params.slug);
+      const item = await storage.getContentItemBySlug(req.params.slug);
       if (!item) return res.status(404).json({ error: "Content not found" });
       if (item.status !== "published") {
         return res.status(404).json({ error: "Content not found" });
@@ -528,7 +553,7 @@ export async function registerRoutes(
         return res.status(403).json({ error: "Admin access required" });
       }
       const parsed = insertContentItemSchema.parse(contentData);
-      const item = await (storage as DatabaseStorage).createContentItem(parsed);
+      const item = await storage.createContentItem(parsed);
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -543,7 +568,7 @@ export async function registerRoutes(
       if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
         return res.status(403).json({ error: "Admin access required" });
       }
-      const item = await (storage as DatabaseStorage).updateContentItem(req.params.id, contentData);
+      const item = await storage.updateContentItem(req.params.id, contentData);
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -558,7 +583,7 @@ export async function registerRoutes(
       if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
         return res.status(403).json({ error: "Admin access required" });
       }
-      await (storage as DatabaseStorage).deleteContentItem(req.params.id);
+      await storage.deleteContentItem(req.params.id);
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });

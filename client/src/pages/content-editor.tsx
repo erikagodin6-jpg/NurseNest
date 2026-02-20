@@ -42,6 +42,7 @@ type ContentItem = {
   title: string;
   slug: string;
   type: string;
+  category: string | null;
   bodySystem: string | null;
   tier: string | null;
   status: string | null;
@@ -51,13 +52,29 @@ type ContentItem = {
   seoTitle: string | null;
   seoDescription: string | null;
   seoKeywords: string[] | null;
+  primaryKeyword: string | null;
+  secondaryKeywords: string[] | null;
+  scheduledAt: string | null;
+  clinicalSafetyReview: boolean | null;
+  autoPublish: boolean | null;
   createdAt: string;
   updatedAt: string;
   publishedAt: string | null;
   authorId: string | null;
 };
 
-const CONTENT_TYPES = ["lesson", "article", "guide", "flashcard-set"];
+const CONTENT_TYPES = ["lesson", "article", "guide", "flashcard-set", "blog-post"];
+const CATEGORIES = [
+  "clinical-reasoning",
+  "pharmacology",
+  "lab-interpretation",
+  "exam-prep",
+  "patient-safety",
+  "pathophysiology",
+  "assessment-skills",
+  "medication-safety",
+  "nursing-fundamentals",
+];
 const BODY_SYSTEMS = [
   "cardiovascular",
   "respiratory",
@@ -72,7 +89,7 @@ const BODY_SYSTEMS = [
   "reproductive",
 ];
 const TIERS = ["free", "rpn", "rn", "np"];
-const STATUSES = ["draft", "review", "published"];
+const STATUSES = ["draft", "review", "scheduled", "published"];
 const BLOCK_TYPES = [
   "heading",
   "paragraph",
@@ -86,6 +103,7 @@ const BLOCK_TYPES = [
 const statusColors: Record<string, string> = {
   draft: "bg-gray-100 text-gray-700",
   review: "bg-amber-100 text-amber-700",
+  scheduled: "bg-blue-100 text-blue-700",
   published: "bg-green-100 text-green-700",
 };
 
@@ -149,6 +167,12 @@ export default function ContentEditorPage() {
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDescription, setSeoDescription] = useState("");
   const [seoKeywords, setSeoKeywords] = useState("");
+  const [primaryKeyword, setPrimaryKeyword] = useState("");
+  const [secondaryKeywords, setSecondaryKeywords] = useState("");
+  const [category, setCategory] = useState("");
+  const [scheduledAt, setScheduledAt] = useState("");
+  const [clinicalSafetyReview, setClinicalSafetyReview] = useState(false);
+  const [autoPublish, setAutoPublish] = useState(false);
   const [showSeo, setShowSeo] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -179,6 +203,7 @@ export default function ContentEditorPage() {
     setTitle("");
     setSlug("");
     setType("lesson");
+    setCategory("");
     setBodySystem("");
     setTier("free");
     setStatus("draft");
@@ -189,6 +214,11 @@ export default function ContentEditorPage() {
     setSeoTitle("");
     setSeoDescription("");
     setSeoKeywords("");
+    setPrimaryKeyword("");
+    setSecondaryKeywords("");
+    setScheduledAt("");
+    setClinicalSafetyReview(false);
+    setAutoPublish(false);
     setShowSeo(false);
     setShowPreview(false);
     setDeleteConfirm(false);
@@ -204,6 +234,7 @@ export default function ContentEditorPage() {
     setTitle(item.title);
     setSlug(item.slug);
     setType(item.type);
+    setCategory(item.category || "");
     setBodySystem(item.bodySystem || "");
     setTier(item.tier || "free");
     setStatus(item.status || "draft");
@@ -214,6 +245,11 @@ export default function ContentEditorPage() {
     setSeoTitle(item.seoTitle || "");
     setSeoDescription(item.seoDescription || "");
     setSeoKeywords((item.seoKeywords || []).join(", "));
+    setPrimaryKeyword(item.primaryKeyword || "");
+    setSecondaryKeywords((item.secondaryKeywords || []).join(", "));
+    setScheduledAt(item.scheduledAt ? new Date(item.scheduledAt).toISOString().slice(0, 16) : "");
+    setClinicalSafetyReview(item.clinicalSafetyReview || false);
+    setAutoPublish(item.autoPublish || false);
     setShowSeo(false);
     setShowPreview(false);
     setDeleteConfirm(false);
@@ -311,6 +347,7 @@ export default function ContentEditorPage() {
       title: title.trim(),
       slug: slug.trim(),
       type,
+      category: category || null,
       bodySystem: bodySystem || null,
       tier,
       status,
@@ -323,6 +360,14 @@ export default function ContentEditorPage() {
         .split(",")
         .map((k) => k.trim())
         .filter(Boolean),
+      primaryKeyword: primaryKeyword || null,
+      secondaryKeywords: secondaryKeywords
+        .split(",")
+        .map((k) => k.trim())
+        .filter(Boolean),
+      scheduledAt: scheduledAt ? new Date(scheduledAt).toISOString() : null,
+      clinicalSafetyReview,
+      autoPublish,
     };
 
     try {
@@ -530,7 +575,7 @@ export default function ContentEditorPage() {
                   />
                 </div>
                 <div className="flex gap-1 bg-white rounded-lg border border-primary/10 p-1">
-                  {["all", "draft", "review", "published"].map((s) => (
+                  {["all", "draft", "review", "scheduled", "published"].map((s) => (
                     <button
                       key={s}
                       onClick={() => setStatusFilter(s)}
@@ -730,6 +775,27 @@ export default function ContentEditorPage() {
                             </SelectContent>
                           </Select>
                         </div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-gray-600 mb-1 block">
+                          Category
+                        </label>
+                        <Select
+                          value={category || "none"}
+                          onValueChange={(v) => setCategory(v === "none" ? "" : v)}
+                        >
+                          <SelectTrigger data-testid="select-category">
+                            <SelectValue placeholder="Select..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="none">None</SelectItem>
+                            {CATEGORIES.map((c) => (
+                              <SelectItem key={c} value={c}>
+                                {c.replace(/-/g, " ").replace(/\b\w/g, (ch) => ch.toUpperCase())}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-600 mb-1 block">
@@ -1135,6 +1201,72 @@ export default function ContentEditorPage() {
                             ))}
                           </SelectContent>
                         </Select>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-600 mb-1 block">
+                          Primary Keyword
+                        </label>
+                        <Input
+                          value={primaryKeyword}
+                          onChange={(e) => setPrimaryKeyword(e.target.value)}
+                          placeholder="e.g. sepsis nursing assessment"
+                          data-testid="input-primary-keyword"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-600 mb-1 block">
+                          Secondary Keywords
+                        </label>
+                        <Input
+                          value={secondaryKeywords}
+                          onChange={(e) => setSecondaryKeywords(e.target.value)}
+                          placeholder="keyword1, keyword2..."
+                          data-testid="input-secondary-keywords"
+                        />
+                      </div>
+
+                      {(status === "scheduled" || type === "blog-post" || type === "article") && (
+                        <div>
+                          <label className="text-sm font-medium text-gray-600 mb-1 block">
+                            Scheduled Publish Date
+                          </label>
+                          <Input
+                            type="datetime-local"
+                            value={scheduledAt}
+                            onChange={(e) => setScheduledAt(e.target.value)}
+                            data-testid="input-scheduled-at"
+                          />
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-3 pt-1">
+                        <input
+                          type="checkbox"
+                          id="safety-review"
+                          checked={clinicalSafetyReview}
+                          onChange={(e) => setClinicalSafetyReview(e.target.checked)}
+                          className="w-4 h-4 rounded border-gray-300"
+                          data-testid="checkbox-safety-review"
+                        />
+                        <label htmlFor="safety-review" className="text-sm text-gray-600">
+                          Requires clinical safety review
+                        </label>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          id="auto-publish"
+                          checked={autoPublish}
+                          onChange={(e) => setAutoPublish(e.target.checked)}
+                          className="w-4 h-4 rounded border-gray-300"
+                          data-testid="checkbox-auto-publish"
+                        />
+                        <label htmlFor="auto-publish" className="text-sm text-gray-600">
+                          Auto-publish when scheduled
+                        </label>
                       </div>
 
                       <div className="flex flex-col gap-2 pt-2">

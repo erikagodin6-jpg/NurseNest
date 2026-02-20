@@ -26,6 +26,7 @@ import ContentEditorPage from "@/pages/content-editor";
 import MedMathPage from "@/pages/med-math";
 import LabValuesPage from "@/pages/lab-values";
 import ContentPage from "@/pages/content-page";
+import BlogPage from "@/pages/blog";
 import ClinicalClarityIndex from "@/pages/clinical-clarity";
 import ClinicalClarityDetail from "@/pages/clinical-clarity-detail";
 import CaseSimulationPage from "@/pages/case-simulation";
@@ -45,6 +46,7 @@ function Router() {
       <Route path="/medication-mastery" component={MedicationMasteryPage} />
       <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
       <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
+      <Route path="/blog" component={BlogPage} />
       <Route path="/learn/:slug" component={ContentPage} />
       <Route path="/anatomy" component={AnatomyPage} />
       <Route path="/lessons" component={Lessons} />
