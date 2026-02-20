@@ -16,6 +16,9 @@ type LessonContent = {
   title: string;
   cellular: { title: string; content: string };
   riskFactors?: string[];
+  diagnostics?: string[];
+  management?: string[];
+  nursingActions?: string[];
   signs: { left: string[]; right: string[] };
   medications: { name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[];
   pearls: string[];
