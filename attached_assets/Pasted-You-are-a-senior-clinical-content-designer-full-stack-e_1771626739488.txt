@@ -1,0 +1,115 @@
+You are a senior clinical content designer + full-stack engineer building downloadable “Algorithm Packs” for NurseNest.
+
+GOAL:
+On unit-specific pages (e.g., PICU, ICU, ER, Med-Surg), add high-value downloadable clinical algorithms (PDF + PNG) that match NurseNest’s pastel/clean rounded aesthetic, and include companion educational content (rationale, meds, safety notes) WITHOUT presenting this as hospital policy or official protocols.
+
+CRITICAL SAFETY / LEGAL DISCLAIMER (must appear on every algorithm page and on every download):
+“This content is for education and study support only. Always follow your hospital/agency policies, provider orders, and local guidelines. Not a substitute for clinical judgment, certification courses, or institutional protocols.”
+
+SCOPE:
+Create a dedicated “Algorithms” section within each unit page:
+- /careers/picu/algorithms
+- /careers/icu/algorithms
+- /careers/er/algorithms
+- /careers/med-surg/algorithms
+(Adjust routes to match existing site structure.)
+
+WHAT TO BUILD:
+
+1) UNIT ALGORITHM LIBRARY UI
+For each unit page, add:
+- A grid/list of algorithm cards (title, tags, acuity, last updated)
+- Filters: respiratory, neuro, cardiac, sepsis/shock, sedation/pain, procedures
+- A detail page per algorithm with:
+  - Visual algorithm (on-page)
+  - Download buttons: “Download PDF” and “Download PNG”
+  - Rationale section (“Why these steps”)
+  - Medication section (“Common meds used + key safety checks”)
+  - Monitoring section (what to reassess and when)
+  - Escalation triggers (red flags)
+  - Pediatric vs adult notes where relevant
+  - “Common mistakes” and “Exam/real-world pearls”
+  - References section (APA-style; region-aware if CA vs US)
+
+2) DOWNLOADABLE ASSET GENERATION (PDF + PNG)
+- Generate a clean vector-style algorithm layout (flowchart/decision tree) matching NurseNest UI:
+  - pastel palette, rounded nodes, minimal icons
+  - readable when printed
+- Provide an automated build step:
+  - Given an algorithm definition (JSON), render:
+    - PDF (high quality)
+    - PNG (shareable)
+- Store generated assets behind auth if premium, or public if free lead magnet.
+- Add watermark option:
+  - “NurseNest — Educational Use Only”
+  - Optional user-specific watermark for premium downloads.
+
+3) ALGORITHM CONTENT MODEL (JSON-FIRST)
+Define an Algorithm schema supporting:
+- id, slug, title, unit (picu/icu/etc), category/tags, acuity, region (CA/US/both)
+- decision nodes/steps (structured graph)
+- key rationale bullets (expanded text)
+- meds list:
+  - generic name
+  - typical indication and monitoring
+  - major contraindications/precautions
+  - common side effects
+  - dosage note field OPTIONAL (only if safe and clearly marked as “varies by protocol”)
+- reassessment checklist
+- escalation triggers
+- versioning + last_updated
+- references (citations)
+
+IMPORTANT: Do not present exact dosing as definitive unless clearly framed as “varies by institutional protocol.” Prefer ranges only when commonly standardized and always include a protocol caveat.
+
+4) INITIAL PICU/ICU ALGORITHM SETS (MVP)
+Create initial algorithms (titles + structure + companion content) such as:
+PICU:
+- Acute Asthma Escalation (education-focused)
+- Seizure / Status Epilepticus First Actions
+- Pediatric Respiratory Distress Escalation
+- Pediatric Shock Recognition & First Actions
+- Anaphylaxis Recognition & First Actions
+- DKA Recognition & Immediate Priorities (peds)
+ICU (adult-focused):
+- Sepsis Recognition & First Hour Priorities
+- Hypotension Workup (shock types) and first actions
+- Acute Respiratory Failure Escalation (oxygen → advanced supports conceptually)
+- Sedation/Analgesia Monitoring Safety (RASS, pain, delirium)
+- Electrolyte emergency recognition (hyperK, severe hypoNa) “what to do first”
+- Seizure management (adult)
+
+For each algorithm:
+- Provide the flow, rationale, meds commonly used (classes + safety checks), and red flags.
+
+5) REGION AWARENESS (CA vs US)
+- If site region = Canada: default to Canadian units and terminology (mmol/L etc.)
+- If site region = US: show US conventions where relevant.
+- References should align regionally where possible.
+
+6) IMPLEMENTATION DELIVERABLES (CODE)
+Provide copy/paste-ready code with file paths for:
+- Algorithm data model + TypeScript types
+- Algorithm JSON examples
+- Algorithm renderer component (flowchart layout)
+- PDF/PNG generation pipeline (server-side)
+- Routes/pages for unit algorithm libraries and detail pages
+- Download endpoints (protected if premium)
+- Global disclaimer component used everywhere
+- SEO: Article/HowTo schema where appropriate + canonical tags
+
+7) QUALITY REQUIREMENTS
+- Must be readable on mobile and printable
+- Must not claim to be institutional policy
+- Must include “Educational Use Only” and “Follow your hospital policy” disclaimer
+- Must match NurseNest aesthetic and branding
+- Must not break existing career/unit pages
+
+OUTPUT:
+- Start with architecture overview
+- Then schema and sample data
+- Then file-by-file code
+- Then QA checklist
+
+IMPORTANT:
+Avoid copying any proprietary algorithm charts. Create original educational decision aids that teach reasoning and safe priorities.
