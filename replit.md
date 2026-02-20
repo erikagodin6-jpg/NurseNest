@@ -23,7 +23,7 @@ Preferred communication style: Simple, everyday language.
 - **Routing**: Wouter for client-side routing
 - **UI Components**: shadcn/ui with Radix UI primitives
 - **Styling**: Tailwind CSS v4, CSS custom properties for theming
-- **Theming**: `next-themes` supporting lavender (default), mint, blush, slate, midnight, ocean, forest
+- **Theming**: `next-themes` supporting 20 themes: lavender (default), mint, blush, slate, midnight, ocean, forest, pastel-lavender, pastel-mint, pastel-blush, clinical-light, dark-clinical, neutral-sand, neutral-slate, dark-academia, rose-gold, coral, indigo, teal, berry. Non-pastel themes are fully monotone.
 - **Font**: DM Sans from Google Fonts
 - **Content Gating**: `ContentGate` component for free/preview/premium content visibility.
 - **Engagement**: Interactive components like `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, `KnowledgeCheck`.
@@ -44,6 +44,7 @@ Preferred communication style: Simple, everyday language.
     - **Clinical Case Simulation Platform**: Branching decision cases with vitals, labs, and debriefing.
     - **Medication Mastery Engine**: Mechanism-first drug explorer with receptor/pathway effects.
 - **Admin Features**: Dashboard (`/admin`) for user analytics, subscriptions, activity, and content popularity.
+- **Admin Preview Mode**: Admin users can preview the platform as free/rpn/rn/np users via dropdown in navigation.
 - **SEO**: Comprehensive SEO implementation including sitemap.xml, robots.txt, and structured data.
 
 ### Pages Overview
@@ -60,6 +61,9 @@ Preferred communication style: Simple, everyday language.
 
 ### Content Architecture
 - Lesson content is organized as TypeScript modules in `client/src/data/lessons/` by body system, covering over 32 diverse modules.
+- Lessons page has 4 tabs: RPN/LVN, RN, NP, Pharmacology. Fundamentals and Delegation content merged into each tier tab.
+- Pharmacology lessons collected from all tiers into a separate tab with tier sub-sections.
+- Flashcard system supports bookmarking (flagged for review) and mastery tracking via localStorage.
 - Type definitions in `client/src/data/lessons/types.ts` support pre/post-test questions.
 
 ## External Dependencies
