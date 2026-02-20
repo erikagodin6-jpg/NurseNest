@@ -20,11 +20,13 @@ import AnatomyPage from "@/pages/anatomy";
 import TermsPage from "@/pages/terms";
 import PrivacyPage from "@/pages/privacy";
 import DisclaimerPage from "@/pages/disclaimer";
+import StartFreePage from "@/pages/start-free";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/start-free" component={StartFreePage} />
       <Route path="/anatomy" component={AnatomyPage} />
       <Route path="/lessons" component={Lessons} />
       <Route path="/lessons/:id" component={LessonDetail} />

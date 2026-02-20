@@ -2,6 +2,7 @@ import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useLocation } from "wouter";
 import { 
   ArrowRight, 
   Star, 
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
+  const [, setLocation] = useLocation();
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
@@ -63,13 +65,13 @@ export default function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 text-white">
+                <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 text-white" onClick={() => setLocation("/start-free")}>
                   Start Learning Free
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-                <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50">
+                <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50" onClick={() => setLocation("/start-free")}>
                   <PlayCircle className="mr-2 w-5 h-5 text-primary" />
-                  View Demo
+                  See What's Inside
                 </Button>
               </div>
 
@@ -164,7 +166,7 @@ export default function Home() {
               Join thousands of nursing students who are mastering their exams and clinical skills with NurseNest.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-all hover:-translate-y-1">
+              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-all hover:-translate-y-1" onClick={() => setLocation("/start-free")}>
                 Get Started for Free
               </Button>
             </div>
@@ -177,15 +179,26 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-white border-t border-primary/10 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">N</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">N</span>
+              </div>
+              <span className="font-semibold text-gray-900">NurseNest</span>
             </div>
-            <span className="font-semibold text-gray-900">NurseNest</span>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+              <a href="/terms" className="hover:text-primary transition-colors">Terms of Use</a>
+              <a href="/privacy" className="hover:text-primary transition-colors">Privacy</a>
+              <a href="/disclaimer" className="hover:text-primary transition-colors">Disclaimer</a>
+              <a href="/faq" className="hover:text-primary transition-colors">FAQ</a>
+            </div>
+            <div className="text-sm text-gray-500">
+              &copy; {new Date().getFullYear()} NurseNest. All Rights Reserved.
+            </div>
           </div>
-          <div className="text-sm text-gray-500">
-            © 2024 NurseNest Inc. All rights reserved.
+          <div className="mt-6 text-center text-xs text-gray-400">
+            NurseNest is an independent educational platform. Not affiliated with NCLEX, NCSBN, CNO, or any regulatory body.
           </div>
         </div>
       </footer>
