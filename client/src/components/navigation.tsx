@@ -181,41 +181,23 @@ export function Navigation() {
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-1">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Designations</p>
-          {designations.map((d) => (
-            <SheetClose key={d} asChild>
-              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 h-9" onClick={() => handlePaidContent(d)}>
-                {d}
-                <Lock className="w-3 h-3 text-gray-400" />
-              </Button>
-            </SheetClose>
-          ))}
-
-          <div className="h-[1px] bg-gray-100 my-2" />
-
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Learning</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Free Learning</p>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pre-nursing")}>
+              <BookOpen className="w-4 h-4" />
+              Pre-Nursing Foundations
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/anatomy")}>
+              <Dna className="w-4 h-4" />
+              Anatomy & Physiology
+            </Button>
+          </SheetClose>
           <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lessons")}>
               <BookOpen className="w-4 h-4" />
               Lessons
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/flashcards")}>
-              <Layers className="w-4 h-4" />
-              Flashcards
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/med-math")}>
-              <Calculator className="w-4 h-4" />
-              Med Math Lab
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lab-values")}>
-              <FlaskConical className="w-4 h-4" />
-              Lab Interpretation
             </Button>
           </SheetClose>
           <SheetClose asChild>
@@ -225,27 +207,49 @@ export function Navigation() {
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/case-simulations")}>
-              <Stethoscope className="w-4 h-4" />
-              Case Simulations
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
+              <BookOpen className="w-4 h-4" />
+              Blog
+            </Button>
+          </SheetClose>
+
+          <div className="h-[1px] bg-gray-100 my-2" />
+
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Premium Tools</p>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/flashcards")}>
+              <Layers className="w-4 h-4" />
+              Flashcards
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/medication-mastery")}>
-              <Pill className="w-4 h-4" />
-              Medication Mastery
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/med-math")}>
+              <span className="flex items-center gap-2"><Calculator className="w-4 h-4" /> Med Math Lab</span>
+              <Lock className="w-3 h-3 text-gray-300" />
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/osce")}>
-              <Stethoscope className="w-4 h-4" />
-              OSCE Simulator
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lab-values")}>
+              <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Lab Interpretation</span>
+              <Lock className="w-3 h-3 text-gray-300" />
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-lab")}>
-              <FlaskConical className="w-4 h-4" />
-              Clinical Lab Simulator
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/case-simulations")}>
+              <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> Case Simulations</span>
+              <Lock className="w-3 h-3 text-gray-300" />
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/medication-mastery")}>
+              <span className="flex items-center gap-2"><Pill className="w-4 h-4" /> Medication Mastery</span>
+              <Lock className="w-3 h-3 text-gray-300" />
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-skills")}>
+              <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> Clinical Skills Simulator</span>
+              <Lock className="w-3 h-3 text-gray-300" />
             </Button>
           </SheetClose>
           {user && (
@@ -261,12 +265,6 @@ export function Navigation() {
 
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Resources</p>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-primary/80 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/anatomy")}>
-              <Dna className="w-4 h-4" />
-              A&P (Free)
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pricing")}>
               <Tag className="w-4 h-4" />
               Pricing
@@ -276,12 +274,6 @@ export function Navigation() {
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/faq")}>
               <HelpCircle className="w-4 h-4" />
               FAQ
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
-              <BookOpen className="w-4 h-4" />
-              Blog
             </Button>
           </SheetClose>
 
@@ -430,10 +422,36 @@ export function Navigation() {
                 <NavDropdown key={d} label={d} items={learningItems} isPaid />
               ))}
               <div className="h-4 w-[1px] bg-primary/20 mx-1 lg:mx-2" />
-              <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-primary/5 gap-1.5 px-2 lg:px-3" onClick={() => setLocation("/anatomy")}>
-                <Dna className="w-4 h-4" />
-                A&P
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-3 group data-[state=open]:text-primary">
+                    Free
+                    <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-52 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pre-nursing")}>
+                    <BookOpen className="w-4 h-4 text-primary/70" />
+                    Pre-Nursing Foundations
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/anatomy")}>
+                    <Dna className="w-4 h-4 text-primary/70" />
+                    Anatomy & Physiology
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/clinical-clarity")}>
+                    <Lightbulb className="w-4 h-4 text-primary/70" />
+                    Clinical Clarity
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/lessons")}>
+                    <BookOpen className="w-4 h-4 text-primary/70" />
+                    Browse Lessons
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/blog")}>
+                    <FileText className="w-4 h-4 text-primary/70" />
+                    Blog
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               {user && (
                 <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-2 lg:px-3" onClick={() => setLocation("/reports")}>
                   <BarChart className="w-4 h-4" />
@@ -447,7 +465,8 @@ export function Navigation() {
                     <span className="hidden lg:inline">More</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48 p-2">
+                <DropdownMenuContent align="start" className="w-52 p-2">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Premium Tools</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/med-math")}>
                     <Calculator className="w-4 h-4" />
                     Med Math Lab
@@ -455,10 +474,6 @@ export function Navigation() {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/lab-values")}>
                     <FlaskConical className="w-4 h-4" />
                     Lab Interpretation
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/clinical-clarity")}>
-                    <Lightbulb className="w-4 h-4" />
-                    Clinical Clarity
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/case-simulations")}>
                     <Stethoscope className="w-4 h-4" />
@@ -468,13 +483,9 @@ export function Navigation() {
                     <Pill className="w-4 h-4" />
                     Medication Mastery
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/osce")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/clinical-skills")}>
                     <Stethoscope className="w-4 h-4" />
-                    OSCE Simulator
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/clinical-lab")}>
-                    <FlaskConical className="w-4 h-4" />
-                    Clinical Lab Simulator
+                    Clinical Skills Simulator
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pricing")}>
@@ -484,10 +495,6 @@ export function Navigation() {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/faq")}>
                     <HelpCircle className="w-4 h-4" />
                     FAQ
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/blog")}>
-                    <BookOpen className="w-4 h-4" />
-                    Blog
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

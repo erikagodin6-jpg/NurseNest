@@ -1,0 +1,114 @@
+You are a senior full-stack engineer + subscription billing architect working in my NurseNest codebase (Next.js App Router + TypeScript + Tailwind). Payments are handled via Stripe (or implement Stripe if not already).
+
+GOAL:
+Implement a robust promotion code / coupon system for subscriptions.
+
+REQUIREMENTS:
+
+1) CHECKOUT UX: PROMO CODE ENTRY
+- On the checkout page, include a clear “Have a promo code?” input (collapsible link + field).
+- Validate promo codes server-side only (never trust client).
+- Show immediate feedback:
+  - valid code → show discount amount and updated total
+  - invalid/expired code → show error message
+- Support both:
+  - % off (e.g., 20% off)
+  - fixed amount off (e.g., $10 off)
+- Support plan-specific promo codes:
+  - RPN only, RN only, NP only, All-access only
+  - monthly vs 3-month vs annual restrictions
+- Support region restrictions (CA vs US) if needed
+- Prevent stacking multiple codes.
+
+2) SUBSCRIPTION PLANS + BEST PROMO STRUCTURE
+- Implement 2 primary promo types:
+  A) Annual “Commitment Discount” (best for revenue stability)
+  B) 3-month “Starter Discount” (lower friction trial)
+- Recommend best default promo strategy:
+  - Primary: annual discount
+  - Secondary: 3-month starter discount (optional)
+- Provide suggested discount values and constraints (e.g., 15–30% annual, smaller 3-month) based on subscription conversion psychology, avoiding excessive discounting.
+
+3) ADMIN DASHBOARD: PROMO CODE MANAGEMENT
+Create an admin-only page to manage promo codes:
+- View all active promo codes
+- View expired/disabled promo codes
+- Create a new promo code
+- Disable/enable promo code
+- Set restrictions:
+  - plan/tier eligibility (RPN/RN/NP/all_access)
+  - duration eligibility (monthly/3-month/annual)
+  - start date / end date
+  - max redemptions total
+  - max redemptions per user
+  - minimum checkout value (optional)
+  - region (CA/US)
+- Analytics for each code:
+  - redemptions count
+  - revenue impact estimate (optional)
+  - conversions attributed to code
+
+Admin security:
+- Admin routes must be protected server-side (role-based guard).
+- Do not expose admin APIs publicly.
+
+4) DATA MODEL
+Create a PromoCode model (DB or file-based, depending on current architecture) including:
+- code (string, unique, uppercase normalization)
+- type (percent | fixed)
+- value
+- active (boolean)
+- starts_at / ends_at
+- max_redemptions_total
+- max_redemptions_per_user
+- eligible_plans (array)
+- eligible_billing_cycles (array: monthly | quarterly | annual)
+- eligible_regions (array: CA | US)
+- created_by, created_at
+- redemption_count
+
+5) STRIPE INTEGRATION (PREFERRED)
+If Stripe is used:
+- Use Stripe Coupons/Promotion Codes if possible, but still enforce your own restrictions server-side.
+- Store Stripe coupon/promo IDs linked to your internal PromoCode record.
+- On checkout session creation, apply the validated Stripe discount.
+
+If Stripe is not implemented yet:
+- Implement Stripe checkout for subscriptions first, then add promo codes.
+
+6) BACKEND / API
+Implement endpoints:
+- POST /api/promo/validate  (code, plan, billing_cycle, region) -> returns discount details or error
+- POST /api/checkout/create  (plan, billing_cycle, region, promoCode?) -> creates Stripe checkout session
+- Admin endpoints for CRUD promo codes (protected)
+
+7) UI INTEGRATION POINTS
+Add promo support in:
+- Pricing page CTAs (optional “Apply promo” deep link)
+- Checkout page (input + applied discount summary)
+- Post-checkout confirmation page (show “promo applied” if used)
+
+8) QA CHECKLIST
+Provide a testing checklist:
+- Valid code applies discount and updates totals
+- Invalid/expired code shows correct error
+- Plan-restricted code blocked properly
+- Region-restricted code blocked properly
+- Max redemption limits enforced
+- Admin can create/disable codes
+- Non-admin cannot access admin promo pages
+- Stripe sessions include discounts correctly
+
+DELIVERABLES:
+- File paths edited/created
+- Copy/paste-ready code for:
+  - PromoCode model/schema
+  - Validation logic
+  - Checkout integration
+  - Admin promo code UI
+  - Route guards
+  - Stripe configuration updates
+- Recommended “best” promo code strategy + default code naming conventions:
+  - Example annual: NURSENESTYEAR20
+  - Example 3-month: START3MO10
+Include reasoning briefly (revenue stability, churn reduction).
