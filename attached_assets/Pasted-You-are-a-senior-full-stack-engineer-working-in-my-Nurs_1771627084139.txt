@@ -1,0 +1,90 @@
+You are a senior full-stack engineer working in my NurseNest codebase (Next.js App Router + TypeScript + Tailwind).
+
+PROBLEM:
+The UI currently places premium features (Lab Interpretation, Case Simulations, Medication Mastery, OSCE Simulator, Clinical Lab Simulator) under the FREE section. I need these features to be organized under the PAID tier sections (RPN / RN / NP), with correct gating and navigation.
+
+IMPORTANT CLARIFICATION:
+“OSCE Simulator” and “Clinical Lab Simulator” are the SAME feature. Consolidate into ONE name and ONE route. Use a single label everywhere: “OSCE & Clinical Lab Simulator” (or “Clinical Skills Simulator” — choose one and apply consistently).
+
+GOALS:
+1) Reorganize navigation, landing page feature blocks, and dashboard sections so premium items appear ONLY inside the paid tier sections.
+2) Enforce access control correctly (server-side, not just UI hiding).
+3) Ensure tier-lock: RPN users cannot access RN/NP premium areas, etc.
+4) Ensure FREE area contains only free features (e.g., sample lessons, limited demos).
+
+REQUIREMENTS:
+
+A) INFORMATION ARCHITECTURE / NAV
+- Header and dashboard should have clear sections:
+  - Free (public): Overview, limited sample lessons, limited sample flashcards (optional), demo preview
+  - Paid tiers: RPN, RN, NP (each contains its own premium tools)
+- Under each tier (RPN/RN/NP), include:
+  - Lessons
+  - Flashcards
+  - Practice Exams (QBank / CAT)
+  - Lab Interpretation (premium)
+  - Medication Mastery (premium)
+  - Case Simulations (premium)
+  - OSCE & Clinical Lab Simulator (premium, unified)
+
+B) UNIFY OSCE + CLINICAL LAB SIMULATOR
+- Remove any duplicate routes/components that treat them as separate.
+- Pick ONE canonical route:
+  - /simulators/clinical-skills   (recommended)
+  OR /simulators/osce
+- All old links should 301/redirect to the canonical route.
+- Update labels in UI, cards, and marketing copy to match the unified name.
+
+C) ACCESS CONTROL / GATING (SERVER-SIDE)
+Implement robust gating:
+- Free users can see only free pages.
+- Logged-in with plan_rpn: access only RPN premium pages + the unified simulator if included in their plan.
+- plan_rn: RN premium only.
+- plan_np: NP premium only.
+- all_access: can switch freely.
+
+Enforce with:
+- middleware.ts route protection OR server-side checks in page loaders
+- Do NOT rely on client-only guards.
+
+D) FEATURE FLAGS / PLAN ENTITLEMENTS
+Create a single entitlement map (source of truth), e.g. lib/entitlements.ts:
+- Define which features are included for each plan:
+  - plan_rpn includes: lessons, flashcards, exams, lab_interpretation, medication_mastery, case_simulations, clinical_skills_simulator
+  - plan_rn includes same (or more)
+  - plan_np includes same (or more)
+  - free includes: demo_lesson(s), demo_flashcards (optional), view pricing
+
+Use this map to:
+- Render nav items conditionally
+- Protect routes
+- Show upgrade paywalls when not entitled
+
+E) UI FIXES
+- Update landing page “feature” tiles so premium features are labeled as part of paid tiers (e.g., “Included in RPN/RN/NP Plans”).
+- Update tier pages to show:
+  - What’s included
+  - Locked state for non-subscribed users
+- Remove premium features from the “Free” card grid/section entirely.
+
+F) DELIVERABLES
+Provide:
+1) A list of files to modify (paths)
+2) Copy/paste-ready code changes for:
+   - lib/entitlements.ts
+   - navigation/header component
+   - any landing page feature grid component
+   - middleware.ts (or route guards)
+   - simulator route consolidation + redirects
+   - paywall component behavior
+3) QA checklist to verify:
+   - Premium features no longer appear under Free
+   - Each tier page shows correct premium tools
+   - Unauthorized access redirects or shows upgrade paywall
+   - OSCE + Clinical Lab are unified everywhere
+   - Old simulator URLs redirect to the canonical one
+
+IMPORTANT:
+- Do not break existing routes; use redirects where necessary.
+- Keep UI consistent with NurseNest aesthetic.
+- Ensure mobile nav remains clean and usable.

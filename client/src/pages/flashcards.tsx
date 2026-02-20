@@ -950,7 +950,7 @@ const allCards: Flashcard[] = [
 ];
 
 export default function Flashcards() {
-  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks">("setup");
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -960,6 +960,10 @@ export default function Flashcards() {
   const [bookmarks, setBookmarks] = useState<string[]>(() => {
     return JSON.parse(localStorage.getItem("nursenest-bookmarks") || "[]");
   });
+  const [mastered, setMastered] = useState<string[]>(() => {
+    return JSON.parse(localStorage.getItem("nursenest-mastered") || "[]");
+  });
+  const [includeMastered, setIncludeMastered] = useState(false);
   const [sessionResults, setSessionResults] = useState<{ id: string; correct: boolean }[]>([]);
   const [region, setRegion] = useState<"US" | "CA">("CA");
 
@@ -971,6 +975,9 @@ export default function Flashcards() {
 
   const sessionCards = useMemo(() => {
     let filtered = allCards;
+    if (!includeMastered) {
+      filtered = filtered.filter(c => !mastered.includes(c.id));
+    }
     if (selectedType !== "all") {
       filtered = filtered.filter(c => c.type === selectedType);
     }
@@ -978,11 +985,15 @@ export default function Flashcards() {
       filtered = filtered.filter(c => selectedCategories.includes(c.category));
     }
     return filtered;
-  }, [selectedType, selectedCategories]);
+  }, [selectedType, selectedCategories, mastered, includeMastered]);
 
   const bookmarkedCards = useMemo(() => {
     return allCards.filter(c => bookmarks.includes(c.id));
   }, [bookmarks]);
+
+  const masteredCards = useMemo(() => {
+    return allCards.filter(c => mastered.includes(c.id));
+  }, [mastered]);
 
   const toggleBookmark = (id: string) => {
     const newBookmarks = bookmarks.includes(id) 
@@ -990,6 +1001,14 @@ export default function Flashcards() {
       : [...bookmarks, id];
     setBookmarks(newBookmarks);
     localStorage.setItem("nursenest-bookmarks", JSON.stringify(newBookmarks));
+  };
+
+  const toggleMastered = (id: string) => {
+    const newMastered = mastered.includes(id)
+      ? mastered.filter(m => m !== id)
+      : [...mastered, id];
+    setMastered(newMastered);
+    localStorage.setItem("nursenest-mastered", JSON.stringify(newMastered));
   };
 
   const startSession = () => {
@@ -1086,6 +1105,21 @@ export default function Flashcards() {
                   </div>
                 </div>
 
+                {mastered.length > 0 && (
+                  <div>
+                    <label className="flex items-center gap-3 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={includeMastered}
+                        onChange={(e) => setIncludeMastered(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                        data-testid="checkbox-include-mastered"
+                      />
+                      <span className="text-sm text-gray-600">Include mastered cards ({mastered.length})</span>
+                    </label>
+                  </div>
+                )}
+
                 <div className="pt-4">
                   <Button 
                     className="w-full h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/20"
@@ -1112,6 +1146,23 @@ export default function Flashcards() {
                 <h3 className="text-2xl font-bold mb-2">Flagged for Review</h3>
                 <p className="text-indigo-200/80 text-sm leading-relaxed">
                   {bookmarks.length > 0 ? `${bookmarks.length} cards marked for focused review. These are the concepts you found most challenging.` : "Flag difficult cards during your session to build a targeted review deck."}
+                </p>
+              </Card>
+
+              <Card 
+                className="border-none shadow-lg bg-emerald-900 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                onClick={() => setView("mastered")}
+                data-testid="card-mastered"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
+                    <Trophy className="w-6 h-6 text-emerald-300" />
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Mastered Cards</h3>
+                <p className="text-emerald-200/80 text-sm leading-relaxed">
+                  {mastered.length > 0 ? `${mastered.length} cards you've confidently learned. They won't appear in regular study sessions.` : "Mark cards as mastered during your session to track your progress."}
                 </p>
               </Card>
 
@@ -1201,6 +1252,80 @@ export default function Flashcards() {
                       setSelectedType(card.type);
                       startSession();
                     }}
+                  >
+                    Study This Card
+                  </Button>
+                </Card>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
+    );
+  }
+
+  if (view === "mastered") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
+          <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-mastered">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Configuration
+          </Button>
+
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Mastered Cards</h1>
+              <p className="text-gray-600">Cards you've confidently learned. They won't appear in regular study sessions.</p>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-rose-500 hover:text-rose-600 border-rose-100 bg-rose-50"
+              data-testid="button-clear-mastered"
+              onClick={() => {
+                if(confirm("Clear all mastered cards?")) {
+                  setMastered([]);
+                  localStorage.removeItem("nursenest-mastered");
+                }
+              }}
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear All
+            </Button>
+          </div>
+
+          {masteredCards.length === 0 ? (
+            <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-100">
+              <Trophy className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+              <p className="text-gray-400 font-medium">No mastered cards yet.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {masteredCards.map(card => (
+                <Card key={card.id} className="border-none shadow-sm hover:shadow-md transition-all bg-white p-6 rounded-2xl flex flex-col" data-testid={`card-mastered-${card.id}`}>
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest px-2 py-0.5 bg-emerald-50 rounded-full">
+                      {card.type}
+                    </span>
+                    <Button variant="ghost" size="icon" onClick={() => toggleMastered(card.id)} className="text-emerald-500" data-testid={`button-unmaster-${card.id}`}>
+                      <CheckCircle2 className="w-5 h-5 fill-current" />
+                    </Button>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-3 flex-1">{card.question}</h4>
+                  <div className="text-xs text-gray-400 mb-4">{card.category}</div>
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    className="w-full rounded-xl"
+                    onClick={() => {
+                      setSelectedCategories([card.category]);
+                      setSelectedType(card.type);
+                      setIncludeMastered(true);
+                      startSession();
+                    }}
+                    data-testid={`button-study-mastered-${card.id}`}
                   >
                     Study This Card
                   </Button>
@@ -1310,11 +1435,27 @@ export default function Flashcards() {
                   bookmarks.includes(currentCard.id) ? "bg-indigo-50 text-indigo-600 border-indigo-200" : ""
                 )}
                 onClick={() => toggleBookmark(currentCard.id)}
+                data-testid="button-bookmark"
               >
                 {bookmarks.includes(currentCard.id) ? (
                   <><BookmarkCheck className="w-4 h-4 fill-current" /> Saved for Review</>
                 ) : (
                   <><Bookmark className="w-4 h-4" /> Save for Difficult Review</>
+                )}
+              </Button>
+              <Button 
+                variant="outline" 
+                className={cn(
+                  "w-full rounded-xl gap-2 h-12 transition-all",
+                  mastered.includes(currentCard.id) ? "bg-emerald-50 text-emerald-600 border-emerald-200" : ""
+                )}
+                onClick={() => toggleMastered(currentCard.id)}
+                data-testid="button-mastered"
+              >
+                {mastered.includes(currentCard.id) ? (
+                  <><CheckCircle2 className="w-4 h-4 fill-current" /> Mastered</>
+                ) : (
+                  <><Trophy className="w-4 h-4" /> Mark as Mastered</>
                 )}
               </Button>
           </div>

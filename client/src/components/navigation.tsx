@@ -55,7 +55,7 @@ export function Navigation() {
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [, setLocation] = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
 
   const setRegion = (newRegion: "US" | "CA") => {
     setRegionState(newRegion);
@@ -92,7 +92,7 @@ export function Navigation() {
     });
   };
 
-  const NavDropdown = ({ label, items, isPaid = false }: { label: string, items: { icon: any, label: string, color: string }[], isPaid?: boolean }) => (
+  const NavDropdown = ({ label, items, isPaid = false }: { label: string, items: { icon: any, label: string }[], isPaid?: boolean }) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
@@ -111,7 +111,7 @@ export function Navigation() {
             className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
           >
             <div className="flex items-center gap-2">
-              <item.icon className={cn("w-4 h-4", theme === 'lavender' || !mounted ? item.color : "text-primary/70")} />
+              <item.icon className="w-4 h-4 text-primary/70" />
               <span>{item.label}</span>
             </div>
             {isPaid && !["Lessons", "Flashcards", "Reports"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
@@ -132,11 +132,11 @@ export function Navigation() {
   );
 
   const learningItems = [
-    { icon: BookOpen, label: "Lessons", color: "text-lavender-400" },
-    { icon: Layers, label: "Flashcards", color: "text-blush-400" },
-    { icon: Activity, label: "Clinical Skill Lab", color: "text-powder-400" },
-    { icon: Stethoscope, label: "Simulators", color: "text-mint-400" },
-    { icon: FileText, label: "Exams", color: "text-lavender-400" },
+    { icon: BookOpen, label: "Lessons" },
+    { icon: Layers, label: "Flashcards" },
+    { icon: Activity, label: "Clinical Skill Lab" },
+    { icon: Stethoscope, label: "Simulators" },
+    { icon: FileText, label: "Exams" },
   ];
 
   const designations = region === "CA" ? ["RPN", "RN", "NP"] : ["LVN", "RN", "NP"];
@@ -157,6 +157,11 @@ export function Navigation() {
     { name: "neutral-slate", color: "#708090", label: "Cool Slate" },
     { name: "dark-clinical", color: "#06b6d4", label: "Dark Clinical" },
     { name: "dark-academia", color: "#8b7355", label: "Dark Academia" },
+    { name: "rose-gold", color: "#b76e79", label: "Rose Gold" },
+    { name: "coral", color: "#ff6b6b", label: "Coral" },
+    { name: "indigo", color: "#6366f1", label: "Indigo" },
+    { name: "teal", color: "#14b8a6", label: "Teal" },
+    { name: "berry", color: "#a855f7", label: "Berry" },
   ];
 
   const MobileNav = () => (
@@ -282,6 +287,47 @@ export function Navigation() {
 
           <div className="h-[1px] bg-gray-100 my-2" />
 
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Region & Theme</p>
+          <div className="flex items-center gap-2 px-3 mb-2">
+            <div className="flex items-center bg-primary/5 rounded-full p-0.5 border border-primary/10">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setRegion("US")}
+                className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+                data-testid="button-region-us-mobile"
+              >
+                US
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setRegion("CA")}
+                className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+                data-testid="button-region-ca-mobile"
+              >
+                CA
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2 px-3 mb-1">
+            {themes.map((t) => (
+              <button
+                key={t.name}
+                onClick={() => setTheme(t.name)}
+                title={t.label}
+                data-testid={`button-theme-${t.name}-mobile`}
+                className={cn(
+                  "w-6 h-6 rounded-full border-2 transition-all hover:scale-110",
+                  theme === t.name ? "border-primary ring-2 ring-primary/30 scale-110" : "border-gray-200"
+                )}
+                style={{ backgroundColor: t.color }}
+              />
+            ))}
+          </div>
+
+          <div className="h-[1px] bg-gray-100 my-2" />
+
           {user ? (
             <>
               <SheetClose asChild>
@@ -291,12 +337,42 @@ export function Navigation() {
                 </Button>
               </SheetClose>
               {user.tier === "admin" && (
-                <SheetClose asChild>
-                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin")} data-testid="button-admin-mobile">
-                    <Shield className="w-4 h-4" />
-                    Admin Dashboard
-                  </Button>
-                </SheetClose>
+                <>
+                  <SheetClose asChild>
+                    <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin")} data-testid="button-admin-mobile">
+                      <Shield className="w-4 h-4" />
+                      Admin Dashboard
+                    </Button>
+                  </SheetClose>
+                </>
+              )}
+              {isAdmin && (
+                <>
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 mt-2 px-3">Preview Mode</p>
+                  <div className="flex flex-wrap gap-1 px-3 mb-1">
+                    {[
+                      { key: null, label: "Admin" },
+                      { key: "free", label: "Free" },
+                      { key: "rpn", label: "RPN/LVN" },
+                      { key: "rn", label: "RN" },
+                      { key: "np", label: "NP" },
+                    ].map((opt) => (
+                      <Button
+                        key={opt.key || "admin"}
+                        variant={previewTier === opt.key || (!previewTier && !opt.key) ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setPreviewTier(opt.key)}
+                        className={cn(
+                          "h-7 px-2 text-[10px] rounded-full",
+                          (previewTier === opt.key || (!previewTier && !opt.key)) ? "bg-primary text-white" : "text-gray-500"
+                        )}
+                        data-testid={`button-preview-${opt.key || "admin"}-mobile`}
+                      >
+                        {opt.label}
+                      </Button>
+                    ))}
+                  </div>
+                </>
               )}
               <SheetClose asChild>
                 <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => { logout(); setLocation("/"); }}>
@@ -519,11 +595,38 @@ export function Navigation() {
 
             {user ? (
               <>
-                {user.tier === "admin" && (
-                  <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/admin")} data-testid="button-admin-nav">
-                    <Shield className="w-4 h-4 mr-1" />
-                    Admin
-                  </Button>
+                {isAdmin && (
+                  <>
+                    <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/admin")} data-testid="button-admin-nav">
+                      <Shield className="w-4 h-4 mr-1" />
+                      Admin
+                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant={previewTier ? "default" : "ghost"} size="sm" className={cn("hidden sm:inline-flex text-xs px-2 rounded-full", previewTier ? "bg-primary text-white" : "text-softgray hover:text-primary")} data-testid="button-preview-mode">
+                          {previewTier ? `Viewing as: ${previewTier.toUpperCase()}` : "Preview"}
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-40 p-2">
+                        <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">View as user tier</p>
+                        {[
+                          { key: null, label: "Admin (Full)" },
+                          { key: "free", label: "Free User" },
+                          { key: "rpn", label: "RPN/LVN" },
+                          { key: "rn", label: "RN" },
+                          { key: "np", label: "NP" },
+                        ].map((opt) => (
+                          <DropdownMenuItem
+                            key={opt.key || "admin"}
+                            onClick={() => setPreviewTier(opt.key)}
+                            className={cn("cursor-pointer text-xs", (previewTier === opt.key || (!previewTier && !opt.key)) ? "bg-primary/10 text-primary" : "")}
+                          >
+                            {opt.label}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </>
                 )}
                 <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/profile")} data-testid="button-profile">
                   {user.username}

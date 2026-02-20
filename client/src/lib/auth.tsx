@@ -17,6 +17,10 @@ type AuthContextType = {
   refreshUser: () => Promise<void>;
   isLoading: boolean;
   hasAccess: (requiredTier: string) => boolean;
+  previewTier: string | null;
+  setPreviewTier: (tier: string | null) => void;
+  effectiveTier: string;
+  isAdmin: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -24,6 +28,18 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [previewTier, setPreviewTierState] = useState<string | null>(() => {
+    return localStorage.getItem("nursenest-preview-tier");
+  });
+
+  function setPreviewTier(tier: string | null) {
+    setPreviewTierState(tier);
+    if (tier) {
+      localStorage.setItem("nursenest-preview-tier", tier);
+    } else {
+      localStorage.removeItem("nursenest-preview-tier");
+    }
+  }
 
   useEffect(() => {
     const stored = localStorage.getItem("nursenest-user");
@@ -83,6 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   function logout() {
     setUser(null);
+    setPreviewTier(null);
     localStorage.removeItem("nursenest-user");
     localStorage.removeItem("nursenest-credentials");
   }
@@ -91,14 +108,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (user) await refreshUserData(user.id);
   }
 
+  const isAdmin = user?.tier === "admin";
+  const effectiveTier = isAdmin && previewTier ? previewTier : (user?.tier || "free");
+
   function hasAccess(requiredTier: string): boolean {
     if (!user) return false;
-    if (user.subscriptionStatus !== "active") return false;
-    return user.tier === requiredTier;
+    if (isAdmin && !previewTier) return true;
+    const tier = effectiveTier;
+    const hierarchy: Record<string, number> = { free: 0, rpn: 1, rn: 2, np: 3, admin: 4 };
+    const userLevel = hierarchy[tier] ?? 0;
+    const requiredLevel = hierarchy[requiredTier] ?? 0;
+    return userLevel >= requiredLevel;
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, refreshUser, isLoading, hasAccess }}>
+    <AuthContext.Provider value={{ user, login, register, logout, refreshUser, isLoading, hasAccess, previewTier, setPreviewTier, effectiveTier, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

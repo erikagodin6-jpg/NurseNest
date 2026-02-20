@@ -1726,7 +1726,16 @@ const npSystems = [
 
 export default function Lessons() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState("fundamentals");
+  const [activeTab, setActiveTab] = useState("rpn");
+
+  const pharmacologySystems = [
+    ...rpnSystems.filter(s => s.id.includes("pharmacology")),
+    ...rnSystems.filter(s => s.id.includes("pharmacology")),
+    ...npSystems.filter(s => s.id.includes("pharmacology")),
+  ];
+  const rpnNonPharm = rpnSystems.filter(s => !s.id.includes("pharmacology"));
+  const rnNonPharm = rnSystems.filter(s => !s.id.includes("pharmacology"));
+  const npNonPharm = npSystems.filter(s => !s.id.includes("pharmacology"));
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
@@ -1756,50 +1765,63 @@ export default function Lessons() {
             <p className="text-lg text-gray-600">Advanced clinical recognition and safety logic for nursing students.</p>
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-[700px]">
-            <TabsList className="grid w-full grid-cols-5 bg-gray-100 rounded-full p-1">
-              <TabsTrigger value="fundamentals" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-teal-700 font-semibold text-xs sm:text-sm">Fundamentals</TabsTrigger>
-              <TabsTrigger value="delegation" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-amber-700 font-semibold text-xs sm:text-sm">Delegation</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4 bg-gray-100 rounded-full p-1">
               <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RPN / LVN</TabsTrigger>
               <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RN</TabsTrigger>
               <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm">NP</TabsTrigger>
+              <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">Pharmacology</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsContent value="fundamentals" className="mt-0">
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {fundamentalsSystems.map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="delegation" className="mt-0">
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {delegationSystems.map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
-              ))}
-            </div>
-          </TabsContent>
           <TabsContent value="rpn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {rpnSystems.map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...rpnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {rnSystems.map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...rnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {npSystems.map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...npNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="pharmacology" className="mt-0">
+            <div className="space-y-10">
+              <div>
+                <h2 className="text-lg font-bold text-gray-700 mb-4">RPN / LVN Pharmacology</h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                  {rpnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
+                    <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-700 mb-4">RN Pharmacology</h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                  {rnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
+                    <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-700 mb-4">NP Pharmacology</h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                  {npSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
+                    <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                  ))}
+                </div>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

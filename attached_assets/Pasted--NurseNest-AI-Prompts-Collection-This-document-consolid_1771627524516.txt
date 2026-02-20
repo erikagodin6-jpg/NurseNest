@@ -1,0 +1,357 @@
+# NurseNest AI Prompts Collection
+
+This document consolidates strategic, technical, educational, simulation, SEO, and platform architecture prompts for building and scaling NurseNest.
+
+---
+
+## Regional / Exam Architecture
+
+### Region‑Aware Exam Structure
+
+```
+You are a senior Next.js architect and learning platform engineer.
+
+Implement region-aware exam architecture in NurseNest.
+
+CONTEXT:
+NurseNest serves BOTH United States and Canadian nursing users.
+
+Requirements:
+
+1) REGION-SPECIFIC EXAM STRUCTURE
+
+If site context = United States:
+- Display US exam frameworks
+- Include NCLEX-RN, NCLEX-PN, and US NP population-focused exams
+- Use US clinical conventions and terminology
+
+If site context = Canada:
+- Display Canadian exam frameworks
+- Include REX-PN, NCLEX-RN (Canada), and Canadian NP exams (CNPE streams)
+- Use Canadian lab units and conventions
+
+2) CONTENT ISOLATION
+- Exams, lessons, and question banks must render conditionally by region
+- Avoid duplication of pages
+- Region context must drive terminology, lab units, and exam labeling
+
+3) IMPLEMENTATION
+Provide:
+- Region detection strategy
+- Exam configuration model
+- Conditional rendering logic
+- Safe routing structure
+```
+
+---
+
+## Exam Blueprint & Curriculum System
+
+### Generate Exam Blueprints
+
+```
+Act as a nursing exam blueprint architect and curriculum designer.
+
+Generate structured topic blueprints for:
+
+UNITED STATES:
+- NCLEX-RN
+- NCLEX-PN
+- Family Nurse Practitioner (FNP)
+- Adult-Gerontology NP (Primary Care)
+- Adult-Gerontology NP (Acute Care)
+- Psychiatric Mental Health NP
+
+CANADA:
+- REX-PN
+- NCLEX-RN (Canada context)
+- Canadian Nurse Practitioner Examination (CNPE streams)
+
+For EACH exam, provide:
+- Major domains/categories tested
+- Subtopics within each domain
+- Cognitive difficulty emphasis
+- Clinical reasoning themes
+- High-risk failure areas
+- Suggested lesson modules
+```
+
+### Generate Lessons From Blueprint
+
+```
+You are a clinical nursing educator designing NurseNest lessons.
+
+Using the exam blueprint, generate a complete lesson framework.
+
+For each domain/subdomain provide:
+- Lesson titles
+- Difficulty progression
+- Learning objective
+- Why this topic matters
+- Common learner mistakes
+- Clinical reasoning emphasis
+```
+
+---
+
+## CAT / Adaptive Exam Engine
+
+### CAT Engine Design
+
+```
+You are a senior assessment systems engineer and adaptive testing architect.
+
+Design a Computerized Adaptive Testing (CAT) exam engine for NurseNest.
+
+Requirements:
+- Question metadata model
+- Adaptive difficulty logic
+- Domain proficiency tracking
+- Termination rules
+- Analytics model
+- Original logic (no proprietary claims)
+```
+
+### Generate CAT-Compatible Questions
+
+```
+Act as a nursing exam item writer and adaptive testing designer.
+
+Generate a large pool of CAT-compatible nursing exam questions.
+
+For each question provide:
+- Domain
+- Difficulty
+- Cognitive level
+- Question stem
+- Options
+- Correct answer
+- Detailed rationale
+- Distractor analysis
+```
+
+---
+
+## Pharmacology vs Pathophysiology Separation
+
+### Separate Tracks + Key Terms System
+
+```
+You are a senior full-stack engineer + nursing curriculum architect.
+
+Restructure NurseNest lessons into separate tracks:
+- Pathophysiology
+- Pharmacology
+
+Implement:
+- Track selector UI
+- Track-aware routing
+- Progression tiers
+- Key Terms box with definitions
+- Structured term schema
+- Optional glossary system
+- Maintain tier-lock rules
+```
+
+---
+
+## Simulation & Clinical Training Systems
+
+### ACLS / PALS / BLS Simulation Ecosystem
+
+```
+You are a senior learning-platform architect and clinical simulation designer.
+
+Expand NurseNest with simulations, exams, pretests, and flashcards for:
+- BLS
+- ACLS
+- PALS
+
+Include:
+- Scenario engine
+- Patient state model
+- Decision nodes
+- Adaptive difficulty
+- Domain tracking
+- Educational disclaimers
+```
+
+### Generate Clinical Simulations
+
+```
+Act as a clinical simulation designer.
+
+Generate realistic clinical training scenarios emphasizing:
+- Dynamic patient states
+- Decision-making
+- Safety priorities
+- Common learner errors
+- Clinical consequences
+```
+
+---
+
+## Algorithms / Cognitive Aids System
+
+### Generate Original Educational Algorithms
+
+```
+Act as a clinical education designer and visual information architect.
+
+Create an original educational algorithm for NurseNest.
+
+Constraints:
+- Do NOT copy proprietary charts
+- Pastel, clean, rounded UI aesthetic
+- Cognitive clarity focus
+- Printable + downloadable
+```
+
+### Unit‑Specific Algorithm Packs (PICU / ICU)
+
+```
+You are a clinical content designer + engineer.
+
+Create downloadable algorithm packs for unit pages (PICU, ICU, etc.).
+
+Include mandatory disclaimer:
+Always follow hospital policies and provider orders.
+
+For each algorithm provide:
+- Visual flow
+- Rationale
+- Common medications (non-prescriptive framing)
+- Monitoring priorities
+- Escalation triggers
+- Common mistakes
+```
+
+---
+
+## Free Section Experience Upgrade
+
+### Transform Free Content Into Premium Feel
+
+```
+You are a learning experience designer + UI architect.
+
+Redesign NurseNest FREE section to feel visually premium.
+
+Replace text walls with:
+- Visual diagrams
+- Micro‑lessons
+- Interactive components
+- Labeling exercises
+- Mini‑games
+```
+
+### Generate Anatomically Accurate Visuals
+
+```
+Act as a medical illustrator.
+
+Generate anatomically correct visuals for nursing learners.
+
+Style:
+- Minimalist
+- Pastel palette
+- Clean clinical design
+- Suitable for interactive labeling
+```
+
+### Interactive Anatomy Games
+
+```
+Act as an educational game designer.
+
+Create interactive anatomy games:
+- Click-to-label
+- Drag-and-drop
+- Matching
+- Sequence logic
+```
+
+### Pre‑Nursing Foundations Section
+
+```
+Act as a curriculum strategist.
+
+Create Pre‑Nursing Foundations modules including:
+- Basic cell biology
+- Physiology fundamentals
+- Terminology
+- Intro pharmacology
+- Intro pathophysiology
+
+Design for beginners and SEO leverage.
+```
+
+---
+
+## Analytics / Tracking System
+
+### Privacy‑Aware Analytics Implementation
+
+```
+You are a senior engineer adding analytics to NurseNest.
+
+Implement privacy-aware analytics tracking:
+- Visitors
+- Pageviews
+- Events
+- Funnels
+
+Constraints:
+- No PII
+- No answer capture
+- Minimal performance impact
+```
+
+---
+
+## Navigation / Premium Gating Fixes
+
+### Move Premium Features Into Paid Tiers
+
+```
+You are a senior full-stack engineer.
+
+Reorganize NurseNest navigation and gating so premium tools appear only under paid tiers.
+
+Unify:
+OSCE Simulator + Clinical Lab Simulator → single feature
+```
+
+---
+
+## SEO / Growth Strategy
+
+### SEO & Content Authority Strategy
+
+```
+Act as an SEO strategist for a nursing education platform.
+
+Design SEO architecture emphasizing:
+- Canadian vs US differentiation
+- Exam intent searches
+- Clinical reasoning topics
+- Evergreen traffic assets
+```
+
+---
+
+## DNS / Domain Configuration
+
+### Canonical Domain + www Handling
+
+```
+Act as a DNS and deployment engineer.
+
+Configure domain so both www and non‑www resolve correctly with a 301 redirect to canonical.
+
+Provide DNS records + redirect logic.
+```
+
+---
+
+# End of Prompt Collection
