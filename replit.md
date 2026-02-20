@@ -47,6 +47,10 @@ Preferred communication style: Simple, everyday language.
 - `/admin` - Admin dashboard (admin-only) with user analytics, subscriptions, activity tracking
 - `/content-editor` - Content Engine admin editor (admin-only) for creating structured content with block editor, tagging, SEO fields, preview
 - `/learn/:slug` - Dynamic SEO-optimized content pages rendered from Content Engine items with structured data
+- `/clinical-clarity` - Clinical Clarity index page with search, category/system filtering, difficulty badges, topic cards (15 "Why does X happen?" topics)
+- `/clinical-clarity/:slug` - Clinical Clarity detail pages with mechanism chains, misconception corrections, clinical relevance, pause-and-think prompts, related lesson links, full SEO (FAQPage, Article, BreadcrumbList)
+- `/case-simulations` - Clinical Case Simulation Platform with branching decision engine, progressive disclosure of vitals/labs, consequence explanations, debriefing (3 seed cases: sepsis, MI, DKA)
+- `/medication-mastery` - Medication Mastery Engine: mechanism-first drug explorer with receptor/pathway effects, side effect reasoning, drug interactions, nursing considerations (8 seed medications)
 - `/faq` - Frequently asked questions with legally-safe content
 - `/terms` - Terms of Use (comprehensive legal page)
 - `/privacy` - Privacy Policy
@@ -107,7 +111,22 @@ Preferred communication style: Simple, everyday language.
 - **Dates**: `date-fns`
 - **Payments**: Stripe SDK, @paypal/paypal-server-sdk
 
+### Interactive Learning Data Modules
+- `client/src/data/clinical-confusions.ts` - 15 Clinical Clarity topics with mechanism chains, misconceptions, clinical relevance
+- `client/src/data/clinical-cases.ts` - 3 clinical case simulations with branching decisions, vitals, labs, debriefing
+- `client/src/data/medications.ts` - 8 medication profiles with receptor-level MOA, side effect mechanisms, interactions
+
+### Reusable Components
+- `client/src/components/content-gate.tsx` - ContentGate (free/preview/premium visibility), InternalLinkCard, CrossLinkBanner for content gating and cross-linking
+- `client/src/components/engagement.tsx` - PauseAndThink, ProgressiveDisclosure, CuriosityHook, KnowledgeCheck interactive engagement components
+
 ## Recent Changes
+- Built Clinical Clarity system: 15 "Why does X happen?" topics with mechanism chains, misconceptions, clinical relevance, full SEO
+- Built Clinical Case Simulation Platform: 3 branching decision cases (sepsis, MI, DKA) with vitals, labs, consequence explanations, debriefing
+- Built Medication Mastery Engine: 8 medications with receptor-level MOA, side effect reasoning, drug interactions, nursing considerations
+- Built Content Visibility Engine: ContentGate, InternalLinkCard, CrossLinkBanner components for content gating and cross-linking
+- Built engagement mechanics: PauseAndThink, ProgressiveDisclosure, CuriosityHook, KnowledgeCheck reusable components
+- Added Clinical Clarity, Case Simulations, and Medication Mastery to desktop/mobile navigation
 - Built Med Math & Clinical Calculations Lab with 5 categories (50 problem templates), stepwise solutions, safety alerts
 - Built Abnormal Lab Interpretation Engine with 12 clinical scenarios across 6 categories, cluster-based presentation, mechanism explanations
 - Added PayPal payment integration alongside Stripe (server SDK, API routes, pricing page UI)

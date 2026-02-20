@@ -440,7 +440,7 @@ export default function StartFreePage() {
             <div className="grid sm:grid-cols-3 gap-6 mb-10">
               {[
                 { tier: "RPN / LVN Preparation", focus: "Built for learners developing foundational clinical reasoning and scope-appropriate monitoring, reporting, and intervention skills", price: "From $29.99/mo" },
-                { tier: "RN / NCLEX Preparation", focus: "Built for learners preparing for high-stakes clinical judgment examinations and real-world decision-making demands", price: "From $39.99/mo" },
+                { tier: "RN Exam Preparation", focus: "Built for learners preparing for high-stakes clinical judgment examinations and real-world decision-making demands", price: "From $39.99/mo" },
                 { tier: "NP Advanced Practice", focus: "Designed for clinicians operating at diagnostic, prescriptive, and differential-reasoning levels", price: "From $49.99/mo" },
               ].map((plan, i) => (
                 <Card

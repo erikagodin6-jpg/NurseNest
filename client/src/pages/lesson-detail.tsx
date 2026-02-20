@@ -28,7 +28,7 @@ function getLessonTier(lessonId: string): string {
 
 const tierPricing: Record<string, { name: string; priceCAD: string; priceUSD: string }> = {
   rpn: { name: "RPN/LVN", priceCAD: "$29.99 CAD/mo", priceUSD: "$21.99 USD/mo" },
-  rn: { name: "RN/NCLEX", priceCAD: "$39.99 CAD/mo", priceUSD: "$29.99 USD/mo" },
+  rn: { name: "RN", priceCAD: "$39.99 CAD/mo", priceUSD: "$29.99 USD/mo" },
   np: { name: "NP Advanced", priceCAD: "$49.99 CAD/mo", priceUSD: "$36.99 USD/mo" },
 };
 
@@ -485,7 +485,7 @@ export default function LessonDetail() {
               return (
                 <div className="flex items-center gap-4 flex-wrap">
                   <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">
-                    {lessonTier === "np" ? "NP Focus" : lessonTier === "rn" ? "NCLEX Focus" : "REX-PN Focus"}
+                    {lessonTier === "np" ? "NP Focus" : lessonTier === "rn" ? "RN Focus" : "RPN Focus"}
                   </span>
                   <span data-testid="lesson-difficulty-badge" className={`px-3 py-1 rounded-full text-sm font-bold ${config.bg} ${config.color}`}>
                     Difficulty: {config.label}

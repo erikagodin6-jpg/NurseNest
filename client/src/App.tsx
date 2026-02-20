@@ -26,6 +26,10 @@ import ContentEditorPage from "@/pages/content-editor";
 import MedMathPage from "@/pages/med-math";
 import LabValuesPage from "@/pages/lab-values";
 import ContentPage from "@/pages/content-page";
+import ClinicalClarityIndex from "@/pages/clinical-clarity";
+import ClinicalClarityDetail from "@/pages/clinical-clarity-detail";
+import CaseSimulationPage from "@/pages/case-simulation";
+import MedicationMasteryPage from "@/pages/medication-mastery";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 
 function Router() {
@@ -37,6 +41,10 @@ function Router() {
       <Route path="/lab-values" component={LabValuesPage} />
       <Route path="/admin" component={AdminPage} />
       <Route path="/content-editor" component={ContentEditorPage} />
+      <Route path="/case-simulations" component={CaseSimulationPage} />
+      <Route path="/medication-mastery" component={MedicationMasteryPage} />
+      <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
+      <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
       <Route path="/learn/:slug" component={ContentPage} />
       <Route path="/anatomy" component={AnatomyPage} />
       <Route path="/lessons" component={Lessons} />

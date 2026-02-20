@@ -1,0 +1,971 @@
+MASTER PROMPT — NurseNest Mock Exam Engine (Legally Safe + High Fidelity)
+Act as a senior psychometric exam designer, nurse educator, and clinical reasoning specialist building a mock examination engine for a professional nursing education platform called NurseNest.
+Audience: Nursing learners preparing for high-stakes licensing examinations (practical nurse, registered nurse, advanced practice).
+Critical constraints:
+• Generate entirely original questions
+• Do NOT reproduce, paraphrase, or imitate known exam items
+• Do NOT claim equivalence to any real licensing exam
+• Do NOT copy proprietary structures or scoring systems
+• The goal is to simulate cognitive experience, not replicate protected exams
+Design objectives:
+Create a mock exam system that mimics the psychological and cognitive experience of licensing exams while remaining fully independent and original.
+ 
+EXAM EXPERIENCE REQUIREMENTS
+The mock exams should resemble real licensing experiences in:
+• Question difficulty progression
+• Clinical reasoning emphasis
+• Prioritization logic
+• Safety-critical decision making
+• Scenario-based structure
+• Timing pressure
+• Mixed cognitive load
+But must remain clearly original.
+ 
+QUESTION DESIGN RULES
+Questions must:
+• Be clinically realistic and scenario-driven
+• Test reasoning, not trivia recall
+• Include plausible distractors reflecting common cognitive errors
+• Vary difficulty (easy → moderate → difficult → high-judgment)
+• Avoid obvious keyword-triggered answers
+• Emphasize prioritization, risk recognition, and mechanism logic
+Allowed styles:
+• Single best answer
+• Clinical prioritization
+• SATA-style multi-select
+• Clinical judgment / unfolding logic
+• Mechanism interpretation
+• Lab / assessment integration
+Do NOT mimic proprietary phrasing patterns.
+ 
+DIFFICULTY ADAPTATION LOGIC (CRITICAL)
+The system must:
+• Adjust exam emphasis based on user weakness patterns
+• Increase question density in poorly performing systems
+• Preserve randomness to prevent predictability
+• Avoid making adaptation obvious to users
+Example logic:
+If learner struggles with cardiovascular → subtly increase hemodynamic, perfusion, and pharmacology-cardiac items.
+ 
+TIMING SIMULATION
+Simulate realistic exam pressure:
+• Configurable exam lengths (short / standard / intensive)
+• Time constraints creating moderate cognitive stress
+• Do NOT claim official timing equivalence
+ 
+SCORING & PERFORMANCE MODEL
+Instead of claiming “same passing criteria,” use:
+• Competency-style performance bands
+• Safety & reasoning thresholds
+• Domain strength indicators
+• Weakness mapping
+Avoid claims implying regulatory equivalence.
+Safe phrasing example:
+“Performance reflects NurseNest competency benchmarks designed to model clinical reasoning demands.”
+ 
+RATIONALE & FEEDBACK ENGINE
+After exam completion:
+Provide deep explanations including:
+• Why correct answers are correct
+• Mechanistic reasoning
+• Why distractors fail
+• Cognitive traps involved
+• Clinical safety implications
+Avoid simplistic rationales.
+ 
+ANXIETY-REDUCTION DESIGN GOALS
+Mock exams should psychologically:
+• Reduce fear of unpredictability
+• Normalize exam-style thinking
+• Build confidence through exposure
+• Reinforce reasoning frameworks
+ 
+MONETIZATION MODEL
+Design exams as standalone purchasable products:
+• Allow non-subscribers to purchase mock exams
+• Preserve perceived premium value
+• Avoid framing as “cheap alternative”
+• Position as high-value assessment experience
+ 
+OUTPUT REQUIREMENTS
+Provide:
+1.	Exam engine logic
+2.	Question generation rules
+3.	Difficulty adaptation model
+4.	Feedback architecture
+5.	UX behavior principles
+6.	Safely worded scoring framework
+Do not reference real exam ownership or claim equivalence.
+ 
+WHY THIS PROMPT WORKS (Critical Insight)
+Most people accidentally prompt AI into legal danger territory by saying:
+❌ “Make exams identical to NCLEX”
+❌ “Use same passing criteria”
+This is risky and unnecessary.
+What you actually want is:
+✔ Cognitive fidelity
+✔ Psychological realism
+✔ Clinical reasoning similarity
+✔ Original IP-safe content
+Licensing exams test thinking patterns, not fixed templates.
+You can mirror cognition without copying structure.
+ 
+PRICING STRATEGY PROMPT (Very Important for Revenue Positioning)
+When asking AI to design pricing:
+Act as a behavioral pricing strategist for a premium nursing education platform.
+Design pricing for standalone mock exams that:
+• Feels high-value and serious (not cheap)
+• Reduces purchase hesitation
+• Avoids undercutting subscription tiers
+• Encourages bundle upgrades
+• Positions product as anxiety-reducing assessment experience
+Avoid discount language. Frame around cognitive training and exam readiness psychology.
+ 
+Extremely Important Business Reality
+Mock exams are one of the highest-margin products in exam prep markets because:
+✔ High perceived value
+✔ Low marginal cost
+✔ Strong anxiety-driven demand
+✔ Non-subscription friendly
+Very smart addition to NurseNest.
+MASTER PROMPT — NurseNest Mock Exam Engine (Legally Safe + High Fidelity)
+Act as a senior psychometric exam designer, nurse educator, and clinical reasoning specialist building a mock examination engine for a professional nursing education platform called NurseNest.
+Audience: Nursing learners preparing for high-stakes licensing examinations (practical nurse, registered nurse, advanced practice).
+Critical constraints:
+• Generate entirely original questions
+• Do NOT reproduce, paraphrase, or imitate known exam items
+• Do NOT claim equivalence to any real licensing exam
+• Do NOT copy proprietary structures or scoring systems
+• The goal is to simulate cognitive experience, not replicate protected exams
+Design objectives:
+Create a mock exam system that mimics the psychological and cognitive experience of licensing exams while remaining fully independent and original.
+ 
+EXAM EXPERIENCE REQUIREMENTS
+The mock exams should resemble real licensing experiences in:
+• Question difficulty progression
+• Clinical reasoning emphasis
+• Prioritization logic
+• Safety-critical decision making
+• Scenario-based structure
+• Timing pressure
+• Mixed cognitive load
+But must remain clearly original.
+ 
+QUESTION DESIGN RULES
+Questions must:
+• Be clinically realistic and scenario-driven
+• Test reasoning, not trivia recall
+• Include plausible distractors reflecting common cognitive errors
+• Vary difficulty (easy → moderate → difficult → high-judgment)
+• Avoid obvious keyword-triggered answers
+• Emphasize prioritization, risk recognition, and mechanism logic
+Allowed styles:
+• Single best answer
+• Clinical prioritization
+• SATA-style multi-select
+• Clinical judgment / unfolding logic
+• Mechanism interpretation
+• Lab / assessment integration
+Do NOT mimic proprietary phrasing patterns.
+ 
+DIFFICULTY ADAPTATION LOGIC (CRITICAL)
+The system must:
+• Adjust exam emphasis based on user weakness patterns
+• Increase question density in poorly performing systems
+• Preserve randomness to prevent predictability
+• Avoid making adaptation obvious to users
+Example logic:
+If learner struggles with cardiovascular → subtly increase hemodynamic, perfusion, and pharmacology-cardiac items.
+ 
+TIMING SIMULATION
+Simulate realistic exam pressure:
+• Configurable exam lengths (short / standard / intensive)
+• Time constraints creating moderate cognitive stress
+• Do NOT claim official timing equivalence
+ 
+SCORING & PERFORMANCE MODEL
+Instead of claiming “same passing criteria,” use:
+• Competency-style performance bands
+• Safety & reasoning thresholds
+• Domain strength indicators
+• Weakness mapping
+Avoid claims implying regulatory equivalence.
+Safe phrasing example:
+“Performance reflects NurseNest competency benchmarks designed to model clinical reasoning demands.”
+ 
+RATIONALE & FEEDBACK ENGINE
+After exam completion:
+Provide deep explanations including:
+• Why correct answers are correct
+• Mechanistic reasoning
+• Why distractors fail
+• Cognitive traps involved
+• Clinical safety implications
+Avoid simplistic rationales.
+ 
+ANXIETY-REDUCTION DESIGN GOALS
+Mock exams should psychologically:
+• Reduce fear of unpredictability
+• Normalize exam-style thinking
+• Build confidence through exposure
+• Reinforce reasoning frameworks
+ 
+MONETIZATION MODEL
+Design exams as standalone purchasable products:
+• Allow non-subscribers to purchase mock exams
+• Preserve perceived premium value
+• Avoid framing as “cheap alternative”
+• Position as high-value assessment experience
+ 
+OUTPUT REQUIREMENTS
+Provide:
+1.	Exam engine logic
+2.	Question generation rules
+3.	Difficulty adaptation model
+4.	Feedback architecture
+5.	UX behavior principles
+6.	Safely worded scoring framework
+Do not reference real exam ownership or claim equivalence.
+ 
+WHY THIS PROMPT WORKS (Critical Insight)
+Most people accidentally prompt AI into legal danger territory by saying:
+❌ “Make exams identical to NCLEX”
+❌ “Use same passing criteria”
+This is risky and unnecessary.
+What you actually want is:
+✔ Cognitive fidelity
+✔ Psychological realism
+✔ Clinical reasoning similarity
+✔ Original IP-safe content
+Licensing exams test thinking patterns, not fixed templates.
+You can mirror cognition without copying structure.
+ 
+PRICING STRATEGY PROMPT (Very Important for Revenue Positioning)
+When asking AI to design pricing:
+Act as a behavioral pricing strategist for a premium nursing education platform.
+Design pricing for standalone mock exams that:
+• Feels high-value and serious (not cheap)
+• Reduces purchase hesitation
+• Avoids undercutting subscription tiers
+• Encourages bundle upgrades
+• Positions product as anxiety-reducing assessment experience
+Avoid discount language. Frame around cognitive training and exam readiness psychology.
+ 
+Extremely Important Business Reality
+Mock exams are one of the highest-margin products in exam prep markets because:
+✔ High perceived value
+✔ Low marginal cost
+✔ Strong anxiety-driven demand
+✔ Non-subscription friendly
+Very smart addition to NurseNest.
+Prompt: NurseNest Mock Exam Post-Exam Report Engine
+Act as a senior psychometrician, nursing educator, and product analytics designer building the post-exam performance report for a professional nursing education platform called NurseNest.
+The platform delivers independently developed mock exams that simulate the cognitive and psychological experience of licensing exams while using original content. Do not reference or claim equivalence to any official exam scoring algorithm.
+Primary Objective
+Design a post-exam report that:
+•	Reduces learner anxiety through clear explanations of performance
+•	Produces actionable study priorities
+•	Identifies patterns of weakness and strength
+•	Quantifies readiness using NurseNest competency bands
+•	Drives learning plan recommendations and (optionally) product upsells without being salesy
+Inputs Available
+Assume the system has these data available:
+•	Total exam time allowed and time used
+•	Per-question timestamps (start time, end time, revisits)
+•	Question metadata: system/topic tags, difficulty rating, question type, cognitive skill tested
+•	User responses: selected answers, correctness, confidence rating (if collected), changed answers
+•	Item statistics: percent correct across users, discrimination proxy, average time per item
+•	Exam blueprint weights (topic distribution targets)
+•	User historical performance across systems/topics
+ 
+Report Requirements (Must Include These Sections)
+1) Exam Summary (High-level)
+Include:
+•	Exam type (NurseNest mock exam label)
+•	Date/time
+•	Total questions completed
+•	Total time used vs allowed
+•	Overall performance band (NurseNest Readiness Level) with brief explanation
+•	“Next step recommendation” in one sentence
+2) Time & Pacing Analytics (Critical)
+Provide:
+•	Average time per question
+•	Time distribution (fast, typical, slow)
+•	Longest time spent on a single question
+•	Questions with multiple revisits
+•	Pacing consistency score (stable vs erratic pacing)
+•	“Time risk flags” such as:
+o	too slow overall
+o	too fast (possible guessing)
+o	time spikes on specific systems/topics
+•	Recommend a pacing target and strategy
+3) Difficulty Performance Profile
+Provide:
+•	Performance by difficulty level (easy / medium / hard / high-judgment)
+•	“Hardest questions” list and why they were hard (topic, skill, trap type, time)
+•	“Easiest questions” list and why they were easy (mastery signal)
+•	Identify if the user is missing easy questions (high-risk indicator)
+4) Domain & System Breakdown (Core Value)
+Provide:
+•	Performance by body system (cardio, resp, neuro, renal, etc.)
+•	Performance by topic clusters (e.g., perfusion, gas exchange, acid–base)
+•	Performance vs blueprint targets (if the exam is weighted)
+•	Strengths: top 3 domains with clear evidence (accuracy + time efficiency)
+•	Weaknesses: top 3 domains with clear evidence (accuracy + time cost + error patterns)
+5) Clinical Reasoning / Cognitive Skill Breakdown
+Tag each question with a cognitive skill and report:
+•	Prioritization & safety
+•	Assessment interpretation
+•	Pathophysiology mechanism reasoning
+•	Pharmacology reasoning
+•	Communication/escalation judgement
+•	Delegation/scope reasoning (where relevant)
+Then:
+•	Show user performance per skill category
+•	Identify which skill failures are most dangerous for exam readiness
+6) Error Pattern Analysis (Psychometrics-Style)
+Generate insights such as:
+•	Common trap patterns the user fell for (e.g., treating symptoms not cause, unsafe first action, missing red flags)
+•	“Changed answer analysis” (how often changes helped vs hurt)
+•	Overthinking marker: high time + wrong
+•	Guessing marker: very low time + wrong
+•	Misread marker: fast wrong on easy items
+•	“Knowledge gap vs reasoning gap” classification for missed questions
+7) Readiness Level + Confidence Calibration
+Provide:
+•	NurseNest Readiness Level (e.g., Not Ready / Developing / Borderline / Likely Ready / Strongly Ready)
+•	Confidence calibration if confidence data exists:
+o	Overconfident errors vs underconfident correct answers
+If confidence not collected, infer cautiously using timing + difficulty signals.
+8) Personalized Study Plan (Actionable Next Steps)
+Generate a plan with:
+•	Top 3 priority systems/topics to focus on
+•	Specific learning activities recommended:
+o	lessons to review
+o	targeted question sets
+o	spaced repetition schedule
+o	short daily drills
+•	Suggested next mock exam timing (not a guarantee; guidance only)
+•	“If you have 3 days / 7 days / 14 days” options
+9) Progress Tracking & Comparisons (If history exists)
+Show:
+•	Trend vs previous exams
+•	Areas improving
+•	Areas regressing
+•	Consistency changes (pacing + accuracy)
+•	Suggested goal for next attempt
+10) Exportable Report Output
+The report must be:
+•	Viewable in-app
+•	Exportable to PDF
+•	Easy to print
+Include a compact “one page summary” view.
+ 
+UI/UX Requirements
+•	Calm, high-trust, clinical aesthetic
+•	Use clear headings and short explanatory blocks
+•	Avoid shaming language
+•	Provide “what this means” tooltips for key metrics
+•	Present critical insights first, details later
+•	Allow filtering by system/topic and reviewing missed questions
+ 
+Data Model & Implementation Requirements
+Provide:
+1.	Data schema for storing exam attempts, question responses, and analytics results
+2.	Pseudocode for calculating:
+o	pacing metrics
+o	hardest/easiest questions (user-specific + population stats)
+o	readiness band assignment
+o	domain weakness ranking
+3.	Component plan for front-end:
+o	summary cards
+o	charts
+o	tables
+o	drill-down question review
+4.	Clearly separate:
+o	analytics computation (server-side)
+o	report rendering (client-side)
+ 
+Safety & Legal Constraints
+•	Do not claim equivalence to any official exam scoring or passing thresholds.
+•	Use NurseNest competency bands that model clinical reasoning demands.
+•	Avoid “guarantee” language.
+OUTPUT: Provide the full report design, schema, and implementation blueprint.
+ 
+What else you should include (high-value additions)
+These are the extras that make your report feel “premium” and materially improve retention and conversions:
+1) “Safety Risk Index”
+Flags if the user consistently misses:
+•	ABC priorities
+•	unstable patient vs stable patient
+•	time-critical deterioration cues
+This is huge for nursing exams and real-world relevance.
+2) “Time ROI Map”
+Shows where time spent did not translate into points (slow + wrong), which is one of the biggest anxiety drivers.
+3) “Two Scores: Knowledge vs Judgment”
+Separate:
+•	content mastery (facts/mechanisms)
+•	clinical judgment (prioritization/safety)
+Students love this because it explains why they’re struggling.
+4) “Readiness Confidence Interval” (Safe wording)
+Don’t claim prediction; instead:
+•	“Current performance is most consistent with: Developing / Borderline / Likely Ready”
+This feels sophisticated without promising outcomes.
+5) “Adaptive Next Exam Blueprint”
+Auto-builds their next exam blueprint based on weaknesses while keeping it non-obvious.
+ 
+Optional small prompt upgrade (if you want it more conversion-oriented)
+Add this single line at the end:
+“Include subtle upgrade triggers by recommending relevant NurseNest premium modules or add-ons only after giving full educational value, and keep the tone supportive and non-salesy.”
+Pricing principles to protect revenue
+•	Single mock exams should feel “serious” (not impulse-cheap), otherwise they cannibalize monthly subs.
+•	Bundles should be the best deal, not the single exam.
+•	The post-exam report is your differentiator → price it as part of the exam value (or as an add-on), but don’t give it away if you’re selling exams à la carte.
+ 
+Recommended pricing (consumer, standalone)
+Option A (simplest, strongest): report included in every purchase
+This is easiest to message and highest perceived value.
+Canada (CAD)
+•	1 Mock Exam (standard length): $14.99–$19.99
+•	3-Pack: $39.99–$49.99
+•	5-Pack: $59.99–$74.99
+•	10-Pack: $99.99–$129.99
+US (USD)
+•	1 Mock Exam: $11.99–$15.99
+•	3-Pack: $31.99–$39.99
+•	5-Pack: $47.99–$59.99
+•	10-Pack: $79.99–$99.99
+Why this works: you’re still clearly cheaper than premium giants, but not so cheap that people skip your subscription.
+ 
+Option B (more monetizable): exam + report add-on
+This can increase total revenue per user, but adds checkout friction.
+Canada (CAD)
+•	Mock Exam base: $9.99–$12.99
+•	“Clinical Analytics Report” add-on: $4.99–$7.99
+US (USD)
+•	Mock Exam base: $7.99–$9.99
+•	Report add-on: $3.99–$5.99
+Rule: if you do add-on pricing, make sure Report + Exam ≈ Option A single-exam price so you don’t cheapen the product.
+ 
+Add “Quick Exams” (high volume, low effort)
+Great for traffic and conversions.
+Mini mock (20–30 questions)
+•	CAD $4.99–$6.99
+•	USD $3.99–$5.99
+Include a smaller report: pacing + domain breakdown + 3 priorities.
+ 
+Add “High-stakes” premium exams (price anchor)
+These justify higher perceived value and reduce price sensitivity.
+Intensive Mock Exam + Deep Report + Personalized Study Plan
+•	CAD $24.99–$34.99
+•	USD $19.99–$27.99
+Use this as your “serious prep” offering.
+ 
+Subscription protection (so mock exams don’t cannibalize)
+Do at least one of these:
+1.	Limit standalone purchases to X attempts/month per user (soft cap), OR
+2.	Subscribers get unlimited exams or more exams + deeper analytics, OR
+3.	Standalone exams don’t include premium features like:
+•	adaptive blueprinting across multiple exams
+•	progress trends across attempts
+•	“readiness band over time”
+•	advanced weakness prediction
+This keeps subscription clearly superior.
+ 
+A simple, clean recommendation for NurseNest right now
+Given your current monthly prices (CAD $29.99/$39.99/$49.99 tiers), I’d do:
+Standalone
+•	Mini Mock: $5.99 CAD / $4.99 USD
+•	Standard Mock (with full report included): $16.99 CAD / $13.99 USD
+•	5-Pack: $69.99 CAD / $54.99 USD
+•	Intensive Mock: $29.99 CAD / $23.99 USD
+Rationale: a student who buys 2–3 standard mocks is now staring at the logic: “I should just subscribe.”
+ 
+Replit implementation note (Stripe)
+On Replit, the easiest setup is:
+•	Each product as a Stripe Product + Price:
+o	mock_mini_single
+o	mock_standard_single
+o	mock_standard_5pack
+o	mock_intensive_single
+•	After Stripe webhook confirms payment:
+o	grant exam_credits += N
+o	store purchase in purchases table
+o	allow exam launch only when credits > 0
+If you tell me whether you’re using Replit DB, Postgres, or Supabase, I’ll give you a copy-paste prompt to generate the schema + webhook flow.
+ 
+Copy-paste AI prompt to decide final pricing (use this in your AI builder)
+Act as a pricing strategist for a nursing education platform (NurseNest).
+Given monthly subscription tiers of CAD $29.99/$39.99/$49.99 and a standalone mock exam product, propose standalone pricing that:
+•	feels premium but affordable
+•	does not undercut subscriptions
+•	encourages bundles
+•	supports mini exams and intensive exams
+Output CAD and USD pricing, plus a 3-sentence justification and anti-cannibalization rules.
+•	Recommended NurseNest Cram Pack Structure
+•	Instead of selling “question packs,” frame it psychologically:
+•	Clinical Cram Pack – Short-Term Intensive Access
+•	This sounds premium and exam-oriented rather than cheap.
+•	 
+•	Access Logic (Revenue-Safe Design)
+•	Best-performing structure:
+•	7-Day Access Window
+Includes:
+•	• Limited but meaningful question volume
+• Access to selected lessons / systems
+• Full rationales (important)
+• Performance report (critical differentiator)
+•	Excludes:
+•	• Full platform access
+• Advanced analytics
+• All systems
+• Premium engines / simulations
+•	Purpose → sample depth, trigger upgrade desire
+•	 
+•	Pricing That Protects Subscriptions
+•	You must keep the math aligned so users think:
+•	“Two cram packs = I should just subscribe.”
+•	Canada (CAD)
+7-Day Clinical Cram Pack → $19.99 – $24.99
+•	US (USD)
+7-Day Clinical Cram Pack → $15.99 – $19.99
+•	This pricing:
+•	✔ Feels reasonable during panic
+✔ Avoids “too cheap” trap
+✔ Encourages subscription upgrade
+✔ Protects long-term LTV
+•	 
+•	Why 7 Days Works Better Than 1 or 3
+•	1-Day → feels stressful, low perceived value
+3-Day → decent but limited psychology
+7-Day → aligns with real study cycles
+•	Students commonly cram for:
+•	• Upcoming exams
+• Clinical rotations
+• Final prep weeks
+• Licensing pressure
+•	 
+•	High-Conversion Naming Variations
+•	Avoid discount-sounding labels.
+•	Strong options:
+•	• Clinical Cram Pack
+• Rapid Review Access
+• Intensive Study Pass
+• Exam Boost Pack
+• Short-Term Prep Access
+•	Weak options:
+•	❌ Cheap trial
+❌ Budget pass
+❌ Mini subscription
+•	Language shapes perceived value.
+•	 
+•	Critical Subscription Protection Mechanism
+•	Very important.
+•	Add upgrade incentive:
+•	Upgrade Credit Mechanic
+•	Example:
+•	“Upgrade to a monthly subscription within 48 hours and your cram pack fee is fully credited.”
+•	This dramatically increases conversions.
+•	Users rationalize:
+•	“No risk — I can apply it.”
+•	 
+•	Feature Limitation Strategy (Prevents Abuse)
+•	Your cram pack should NOT unlock:
+•	• Unlimited exams
+• Full lesson library
+• Long-term analytics
+• Premium simulators
+• Deep weakness tracking
+•	Subscription must remain obviously superior.
+•	 
+•	Ideal Relationship Between Products
+•	Psychological ladder:
+•	Free Content → Cram Pack → Subscription → Higher Tier
+•	NOT:
+•	Free Content → Subscription only
+•	Cram packs catch hesitant and anxious buyers.
+•	 
+•	Recommended Pricing Model for NurseNest Ecosystem
+•	If subscriptions are:
+•	RPN → $29.99 CAD
+RN → $39.99 CAD
+NP → $49.99 CAD
+•	Then:
+•	Mini Mock Exam → $5.99 CAD
+Standard Mock Exam → $16.99 CAD
+Clinical Cram Pack (7-Day) → $22.99 CAD (sweet spot)
+•	This anchors pricing cleanly.
+•	 
+•	Replit / Stripe Implementation Logic (Simple)
+•	Treat cram pack as temporary entitlement, not credits.
+•	After Stripe webhook success:
+•	• Add access_expiry = now + 7 days
+• Flag access_type = cram_pack
+• Limit accessible modules dynamically
+•	This is cleaner than exam counters.
+•	 
+•	Copy-Paste AI Prompt to Build This Correctly
+•	Use this in Replit AI / Cursor:
+•	Build a subscription-safe “Clinical Cram Pack” product for NurseNest.
+•	Requirements:
+•	• Time-limited access (7 days)
+• Separate permissions from full subscription users
+• Allow access to limited question sets and selected lessons only
+• Include exam performance report
+• Exclude premium analytics and full library access
+• Add upgrade credit mechanic (cram pack cost credited if upgrading within defined window)
+• Prevent repeated abuse patterns
+•	Design this as a scalable entitlement system, not hardcoded logic.
+•	 
+•	Why This Will Work Exceptionally Well for NurseNest
+•	Nursing students are:
+•	✔ Deadline-driven
+✔ Anxiety-sensitive
+✔ Risk-averse
+✔ Price-aware but value-sensitive
+•	Cram packs convert these users without weakening subscriptions.
+•	NurseNest Clinical Cram Pack – Build Prompt (Replit AI Optimized)
+•	Act as a senior SaaS product architect and full-stack engineer.
+•	Design and implement a subscription-safe Clinical Cram Pack product for a professional nursing education platform called NurseNest.
+•	This is NOT a discount product and must NOT undermine subscription revenue.
+•	 
+•	PRIMARY BUSINESS OBJECTIVE
+•	Create a short-term paid access product that:
+•	• Captures hesitant or panic-driven users
+• Generates revenue without cannibalizing subscriptions
+• Encourages upgrades into monthly plans
+•	 
+•	PRODUCT DEFINITION
+•	Product Name: Clinical Cram Pack
+•	Core Behavior:
+•	• Time-limited access lasting exactly 7 days from purchase
+• Grants restricted platform permissions
+• Clearly inferior to full subscription access
+•	 
+•	ACCESS CONTROL REQUIREMENTS (CRITICAL)
+•	Implement an entitlement-based access system.
+•	Do NOT hardcode page locks.
+•	Users must receive:
+•	access_type = cram_pack
+access_expiry = timestamp
+•	Permissions must dynamically control:
+•	✔ Accessible lessons/modules
+✔ Question bank scope
+✔ Exam availability
+✔ Analytics visibility
+•	 
+•	CRAM PACK ACCESS RULES
+•	Cram Pack users MAY access:
+•	• Limited question sets
+• Selected lessons or systems
+• Rationales and explanations
+• Basic performance feedback
+•	Cram Pack users MUST NOT access:
+•	• Full lesson library
+• Advanced analytics dashboards
+• Premium simulation engines
+• Unlimited exams
+• Downloadable resources
+•	 
+•	SUBSCRIPTION PROTECTION LOGIC (NON-NEGOTIABLE)
+•	The system must prevent cram packs from becoming a substitute subscription.
+•	Enforce:
+•	• Restricted content scope
+• No stacking for permanent access
+• Clear upgrade advantage
+•	 
+•	UPGRADE CONVERSION MECHANISM (VERY IMPORTANT)
+•	Implement an Upgrade Credit Mechanic:
+•	If a cram pack user upgrades to a monthly subscription within a defined window (example: 48 hours):
+•	• Credit the cram pack payment toward the subscription cost
+•	System behavior:
+•	• Detect recent cram pack purchase
+• Adjust subscription price dynamically OR issue credit
+•	 
+•	PRICING LOGIC
+•	Design for psychological positioning, not discounting.
+•	Cram Pack pricing must:
+•	• Feel reasonable for short-term intensive study
+• Discourage repeated replacement of subscriptions
+•	Example guidance:
+•	• Roughly 35–45% of monthly subscription price
+•	 
+•	DATABASE / STATE REQUIREMENTS
+•	Design scalable structures for:
+•	• User entitlements
+• Access expiry tracking
+• Product types
+• Upgrade eligibility
+•	Avoid brittle logic.
+•	 
+•	USER EXPERIENCE REQUIREMENTS
+•	Cram Pack must feel:
+•	✔ Premium
+✔ Urgent
+✔ Exam-oriented
+✔ High-value
+•	Avoid language suggesting:
+•	❌ Cheap trial
+❌ Budget access
+❌ Discount product
+•	 
+•	INTERFACE BEHAVIOR
+•	Include:
+•	• Purchase confirmation state
+• Visible access countdown or expiry indicator
+• Upgrade prompts near expiry
+• Clear distinction from subscription users
+•	 
+•	PAYMENT INTEGRATION
+•	Assume Stripe integration.
+•	Implement:
+•	• Successful payment → entitlement activation
+• Expiry enforcement logic
+• Upgrade credit detection
+•	 
+•	ENGINEERING CONSTRAINTS
+•	• Design for maintainability and scalability
+• Separate business logic from UI
+• Avoid hardcoded feature locks
+• Use role/entitlement middleware patterns
+•	 
+•	OUTPUT REQUIREMENTS
+•	Provide:
+•	• Data model / schema design
+• Access control logic
+• Upgrade credit logic
+• UI state logic
+• Clean architectural structure
+•	Do NOT produce placeholder pseudocode.
+•	Design this as a production-ready feature system suitable for a growing SaaS education platform.
+•	 
+•	 
+•	Why This Prompt Works Exceptionally Well
+•	This prompt prevents the most common AI failure modes:
+•	✔ Building a “cheap trial clone”
+✔ Accidentally unlocking full access
+✔ Hardcoding brittle logic
+✔ Damaging subscription incentives
+•	It also forces proper SaaS architecture thinking, which Replit AI normally does not default to.
+1) Mock UI flows for Cram Pack
+Flow A: Pricing / Plans page (entry point)
+Goal: make Cram Pack feel premium + time-bound, and make subscription feel like the “serious” option.
+Components
+•	Plan cards: RPN / RN / NP monthly tiers
+•	Secondary card: “Clinical Cram Pack (7-Day Intensive Access)”
+•	Each card has:
+o	“Best for…” 1 sentence
+o	“Includes…” 3–5 bullets (no feature dumping)
+o	CTA button
+Copy patterns that convert
+•	Subscription CTA: “Start monthly access”
+•	Cram Pack CTA: “Start 7-day intensive access”
+•	Microcopy under Cram Pack CTA:
+o	“Built for short-term studying. Limited scope by design.”
+Flow B: Checkout → Success screen
+Success screen must do 3 things
+1.	Confirm access
+2.	Set expectations (limited scope)
+3.	Offer upgrade credit hook (without sounding salesy)
+Success screen content
+•	“You have 7-day Intensive Access”
+•	Countdown: “Expires in 6 days 23 hours”
+•	Primary button: “Start Cram Mode”
+•	Secondary: “See what monthly unlocks”
+•	Upgrade credit callout:
+o	“Upgrade within 48 hours and your Cram Pack fee is credited toward your first month.”
+Flow C: In-product “Cram Dashboard”
+What they see immediately
+•	“Today’s focus” panel:
+o	weakest systems (limited analytics)
+o	suggested sequence: “Review → Practice → Mock”
+•	Progress strip: questions completed / remaining
+•	“Mock Exam” card: 1–2 attempts included (or 1 standard attempt)
+•	“Your Report” card (basic report)
+Flow D: Locked feature states (critical)
+When Cram Pack user hits premium-only areas:
+•	Don’t show a paywall wall of text.
+•	Show a preview with blur + 3 bullets explaining what they’d gain.
+Example:
+“Advanced Analytics (Subscription)”
+•	“Trend tracking across attempts”
+•	“Adaptive blueprinting by weakness”
+•	“Readiness estimation over time”
+CTA: “Upgrade monthly (credit applies if eligible)”
+Flow E: Expiry sequence
+•	72 hours remaining: subtle banner in dashboard
+•	24 hours remaining: stronger banner + “keep progress” framing
+•	Expired: “Your access ended” + “Resume where you left off” CTA
+ 
+2) Upgrade psychology timing (what triggers, when, and why)
+Timing rules that work (without being spammy)
+Trigger 1: Immediately after purchase
+•	Show the credit window once (48 hours).
+•	This is when motivation is highest and buyer’s remorse risk is present.
+Trigger 2: After first meaningful win
+•	After they complete:
+o	first mini exam OR
+o	30 questions OR
+o	finish 1 system review
+•	Message: “You’re building momentum. Monthly unlocks full analytics + unlimited practice.”
+Trigger 3: When they hit a locked item
+•	This is the highest-intent moment.
+•	Keep it short; show preview; remind credit if within window.
+Trigger 4: 24 hours before expiry
+•	Message: “Keep your streak + keep your analytics.”
+What NOT to do
+•	Don’t push upgrade on every page.
+•	Don’t threaten. Use “continuity” and “progress protection.”
+Best-performing “reason to upgrade” frames
+•	Continuity: “Keep your progress and access”
+•	Depth: “Unlock full rationales/analytics/simulations”
+•	Confidence: “Track readiness over time, not just one exam”
+•	Efficiency: “Stop guessing what to study next”
+ 
+3) Stripe safety patterns (chargeback + double-grant protection)
+Non-negotiable Stripe rules
+1.	Grant access only via webhook, not client-side success page.
+2.	Verify webhook signature.
+3.	Make processing idempotent (never grant twice for the same event).
+Recommended Stripe flow (Replit-friendly)
+•	Use Stripe Checkout for one-time products (Cram Pack, exam packs).
+•	Use Stripe Subscriptions for monthly tiers.
+•	Webhooks:
+o	checkout.session.completed (for one-time purchases)
+o	invoice.payment_succeeded (for subscriptions)
+o	customer.subscription.updated / deleted
+Idempotency pattern
+Create a table stripe_events:
+•	event_id (unique)
+•	processed_at
+•	type
+Webhook logic:
+•	If event_id already exists → return 200 OK (do nothing)
+•	Else → process → insert event_id → commit
+Entitlement record pattern (single source of truth)
+entitlements table:
+•	user_id
+•	access_type (none | cram_pack | subscriber_rpn | subscriber_rn | subscriber_np)
+•	access_expiry (nullable; for cram)
+•	subscription_status (active/canceled/past_due)
+•	created_at, updated_at
+For exam credits:
+exam_credits table:
+•	user_id
+•	product (mini/mock/intensive)
+•	credits_remaining
+Refund/chargeback handling (must exist)
+•	If Stripe signals refund or dispute:
+o	revoke cram pack entitlement (or set expiry to now)
+o	freeze exam credits added by that purchase
+This reduces disputes and abuse.
+ 
+4) Entitlement middleware examples (architecture you want)
+Permission model (clean and scalable)
+Create a capabilities map based on entitlement:
+Capabilities
+•	can_view_system(system_id)
+•	can_access_module(module_key) (analytics, sims, etc.)
+•	max_mock_exams_per_window
+•	can_download_assets
+•	report_depth (basic | full)
+Entitlement types
+•	FREE
+•	CRAM_7D
+•	SUB_RPN
+•	SUB_RN
+•	SUB_NP
+Example mapping
+•	FREE: system pages + free A&P only, no mocks
+•	CRAM_7D: selected systems + limited mocks + basic report
+•	SUB_RN: full systems + full report + advanced analytics
+•	SUB_NP: all + NP-specific DDx/prescribing modules
+Middleware behavior
+Every protected route calls:
+•	getUserEntitlement(userId)
+•	compute capabilities
+•	allow/deny with a consistent UI response:
+o	401 if not logged in
+o	403 with “locked preview” payload if locked
+“Locked preview” payload standard
+When blocked, return:
+•	title
+•	previewBullets[]
+•	ctaText
+•	upgradeEligible: true/false
+•	creditWindowEndsAt if eligible
+This lets UI render the same lock modal everywhere.
+ 
+Copy-paste prompts for Replit AI to build all of this
+Prompt 1 — Build entitlement system + database schema + middleware
+Act as a senior full-stack engineer. Implement a scalable entitlement system for NurseNest in Replit.
+Requirements:
+•	Entitlement types: FREE, CRAM_7D, SUB_RPN, SUB_RN, SUB_NP
+•	Store entitlements in a database table with user_id, access_type, access_expiry, subscription_status, timestamps
+•	Implement capability mapping functions (can_view_system, can_access_module, report_depth, max_mock_exams)
+•	Add server middleware/guards that enforce access on routes and APIs
+•	When blocked, return a standardized "locked preview" payload (title, previewBullets, ctaText, upgradeEligible, creditWindowEndsAt)
+•	Keep business logic separate from UI components
+•	Provide production-ready code and file structure
+Assumptions:
+•	Use Stripe for payments
+•	Replit environment, Node/Next.js style app
+•	Use whichever DB the project already uses (if not, recommend Postgres)
+Do not hardcode feature locks per page. Use entitlements + capabilities only.
+Prompt 2 — Implement Cram Pack product UI flows + expiry banners + lock modals
+Act as a conversion-focused UX engineer. Build the Cram Pack UX flows:
+Pages/Components:
+•	Pricing page card for Clinical Cram Pack (7-day)
+•	Checkout success screen (no access granting here; only display status)
+•	Cram Dashboard: Today’s Focus, questions progress, mock exam access, basic report
+•	Locked feature modal with preview content and upgrade CTA
+•	Expiry warning banners at 72h and 24h, plus expired state screen
+Constraints:
+•	Premium clinical aesthetic, calm and professional
+•	Avoid feature dumping; show controlled previews
+•	Use a single reusable lock modal component fed by the standardized locked preview payload
+Prompt 3 — Stripe Checkout + Webhooks + Idempotency + entitlement granting
+Act as a senior payments engineer. Implement Stripe Checkout for:
+•	One-time product: Clinical Cram Pack (7-day access)
+•	Exam packs (credits)
+•	Monthly subscriptions (RPN/RN/NP tiers)
+Non-negotiable:
+•	Grant entitlements ONLY from Stripe webhooks
+•	Verify webhook signature
+•	Idempotent processing using a stripe_events table keyed by event_id
+•	On checkout.session.completed for cram pack:
+o	set access_type=CRAM_7D and access_expiry=now+7 days
+o	store purchase record
+•	On invoice.payment_succeeded for subscription:
+o	set access_type=SUB_* and subscription_status=active
+•	Handle subscription canceled/past_due events
+•	Handle refund/dispute events by revoking access and credits tied to the purchase
+Return production code plus instructions to set webhook env vars in Replit.
+Prompt 4 — Upgrade credit mechanic (48-hour window) without abuse
+Implement an “Upgrade Credit” mechanic:
+•	If a user purchased CRAM_7D within the last 48 hours and upgrades to a monthly subscription:
+o	apply credit equal to cram purchase amount to first subscription invoice OR
+o	store a credit token and apply via Stripe (preferred)
+Rules:
+•	Credit applies only once
+•	Credit is not cash-refundable
+•	Credit expires after 48 hours
+•	Must be enforceable server-side (cannot be spoofed client-side)
+Include:
+•	DB fields to track credit eligibility and redemption
+•	UI message showing credit window end time
+•	Tests or at least clear checks preventing repeated redemption
+Prompt 5 — Reports: basic vs full post-exam analytics
+Build post-exam reporting with two depths:
+•	Basic (free/cram): time per question, domain breakdown, weak areas, next steps
+•	Full (subscriber): hardest/easiest questions, pacing curve, confidence index, trend over attempts, readiness band, adaptive study plan
+Requirements:
+•	Store per-question response times and correctness
+•	Generate a structured JSON report object
+•	Render a report page using that object
+•	Ensure exam data cannot be scraped easily (rate limit, authenticated endpoints)
+ 
+One key decision (so your AI builds the right thing)
+When you paste prompts into Replit AI, include this one-line constraint at the top every time:
+“Subscriptions are the primary revenue engine. Cram Pack must be valuable but intentionally limited so it never replaces a subscription.”
+It keeps the agent from making “all-access for cheap” mistakes.

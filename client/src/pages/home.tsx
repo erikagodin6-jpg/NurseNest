@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,14 @@ import {
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const [region, setRegion] = useState<"US" | "CA">(() => {
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+  });
+  useEffect(() => {
+    const handler = () => setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
+    window.addEventListener("regionChange", handler);
+    return () => window.removeEventListener("regionChange", handler);
+  }, []);
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
@@ -52,7 +61,7 @@ export default function Home() {
             <div className="text-center max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-4">
                 <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
-                <span className="text-sm font-medium text-gray-600">New NCLEX Prep Materials Available</span>
+                <span className="text-sm font-medium text-gray-600">New Exam Prep Materials Available</span>
               </div>
               
               <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-[1.1]">
@@ -61,7 +70,7 @@ export default function Home() {
               </h1>
               
               <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                The most complete learning platform for future nurses. Interactive lessons, realistic simulations, and personalized study plans for RPN, RN, and NP students.
+                The most complete learning platform for future nurses. Interactive lessons, realistic simulations, and personalized study plans for {region === "CA" ? "RPN" : "LVN"}, RN, and NP students.
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -78,7 +87,7 @@ export default function Home() {
               <div className="pt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500">
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-primary/10 backdrop-blur-sm">
                   <Shield className="w-5 h-5 text-primary/70" />
-                  <span>NCLEX Approved</span>
+                  <span>Evidence-Informed Content</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/60 rounded-full border border-primary/10 backdrop-blur-sm">
                   <Users className="w-5 h-5 text-primary/70" />

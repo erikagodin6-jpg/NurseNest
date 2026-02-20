@@ -62,7 +62,7 @@ type AdminData = {
 const tierLabels: Record<string, string> = {
   free: "Free",
   rpn: "RPN/LVN",
-  rn: "RN/NCLEX",
+  rn: "RN",
   np: "NP Advanced",
   admin: "Admin",
 };

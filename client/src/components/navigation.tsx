@@ -21,7 +21,9 @@ import {
   User,
   Shield,
   Calculator,
-  FlaskConical
+  FlaskConical,
+  Lightbulb,
+  Pill
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -204,11 +206,31 @@ export function Navigation() {
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/reports")}>
-              <BarChart className="w-4 h-4" />
-              Reports
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/clinical-clarity")}>
+              <Lightbulb className="w-4 h-4" />
+              Clinical Clarity
             </Button>
           </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/case-simulations")}>
+              <Stethoscope className="w-4 h-4" />
+              Case Simulations
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/medication-mastery")}>
+              <Pill className="w-4 h-4" />
+              Medication Mastery
+            </Button>
+          </SheetClose>
+          {user && (
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/reports")}>
+                <BarChart className="w-4 h-4" />
+                Reports
+              </Button>
+            </SheetClose>
+          )}
 
           <div className="h-[1px] bg-gray-100 my-2" />
 
@@ -310,10 +332,12 @@ export function Navigation() {
                 <Dna className="w-4 h-4" />
                 A&P
               </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-2 lg:px-3" onClick={() => setLocation("/reports")}>
-                <BarChart className="w-4 h-4" />
-                Reports
-              </Button>
+              {user && (
+                <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-2 lg:px-3" onClick={() => setLocation("/reports")}>
+                  <BarChart className="w-4 h-4" />
+                  Reports
+                </Button>
+              )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary px-2 lg:px-3 gap-1">
@@ -329,6 +353,18 @@ export function Navigation() {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/lab-values")}>
                     <FlaskConical className="w-4 h-4" />
                     Lab Interpretation
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/clinical-clarity")}>
+                    <Lightbulb className="w-4 h-4" />
+                    Clinical Clarity
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/case-simulations")}>
+                    <Stethoscope className="w-4 h-4" />
+                    Case Simulations
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/medication-mastery")}>
+                    <Pill className="w-4 h-4" />
+                    Medication Mastery
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pricing")}>

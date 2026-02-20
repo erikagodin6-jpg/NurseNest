@@ -1722,7 +1722,7 @@ export default function Lessons() {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-[600px]">
             <TabsList className="grid w-full grid-cols-3 bg-gray-100 rounded-full p-1">
               <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm">RPN / LVN</TabsTrigger>
-              <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm">RN (NCLEX)</TabsTrigger>
+              <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm">RN</TabsTrigger>
               <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold">NP (Advanced)</TabsTrigger>
             </TabsList>
           </Tabs>

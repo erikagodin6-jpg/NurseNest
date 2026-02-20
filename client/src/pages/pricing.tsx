@@ -55,8 +55,8 @@ const tiers = [
   },
   {
     id: "rn",
-    nameCA: "RN/NCLEX",
-    nameUS: "RN/NCLEX",
+    nameCA: "RN",
+    nameUS: "RN",
     prices: {
       monthly: { CAD: 39.99, USD: 29.99 },
       "3-month": { CAD: 99.99, USD: 74.99 },
@@ -65,7 +65,7 @@ const tiers = [
     },
     features: [
       "All RN-level clinical content",
-      "NCLEX-style question bank",
+      "Clinical reasoning question bank",
       "Advanced pharmacology",
       "Clinical decision-making modules",
       "Timed practice exams",
