@@ -24,6 +24,13 @@ import { pediatricInfectionsLessons } from "./pediatric-infections";
 import { poisoningLessons } from "./poisoning";
 import { eyeEarLessons } from "./eye-ear";
 import { giAdvancedLessons } from "./gi-advanced";
+import { nutritionLessons } from "./nutrition";
+import { painManagementLessons } from "./pain-management";
+import { labFundamentalsLessons } from "./lab-fundamentals";
+import { bioterrorismLessons } from "./bioterrorism";
+import { maternityComplicationsLessons } from "./maternity-complications";
+import { postpartumNeonatalLessons } from "./postpartum-neonatal";
+import { vaccinesLessons } from "./vaccines";
 
 export type { LessonContent } from "./types";
 
@@ -53,4 +60,11 @@ export const contentMap: Record<string, LessonContent> = {
   ...poisoningLessons,
   ...eyeEarLessons,
   ...giAdvancedLessons,
+  ...nutritionLessons,
+  ...painManagementLessons,
+  ...labFundamentalsLessons,
+  ...bioterrorismLessons,
+  ...maternityComplicationsLessons,
+  ...postpartumNeonatalLessons,
+  ...vaccinesLessons,
 };

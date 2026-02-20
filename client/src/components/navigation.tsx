@@ -134,7 +134,7 @@ export function Navigation() {
   const learningItems = [
     { icon: BookOpen, label: "Lessons", color: "text-lavender-400" },
     { icon: Layers, label: "Flashcards", color: "text-blush-400" },
-    { icon: Activity, label: "OSCE", color: "text-powder-400" },
+    { icon: Activity, label: "Clinical Skill Lab", color: "text-powder-400" },
     { icon: Stethoscope, label: "Simulators", color: "text-mint-400" },
     { icon: FileText, label: "Exams", color: "text-lavender-400" },
   ];

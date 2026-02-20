@@ -1,0 +1,74 @@
+You are an elite SEO strategist and conversion-focused growth architect.
+
+Audit and optimize my website (NurseNest), a nursing education and exam-prep platform targeting RPN, RN (NCLEX), and NP users in Canada and the United States.
+
+PRIMARY OBJECTIVES:
+1) Maximize organic search visibility
+2) Improve ranking potential for high-intent keywords
+3) Increase click-through rate from search results
+4) Improve conversion of visitors into users/subscribers
+5) Maintain clinical credibility and professional tone
+
+SITE CONTEXT:
+- Platform: Nursing education, question bank, clinical simulations, OSCE-style tools
+- Audience: Nursing students + early-career nurses
+- Regions: Canada + US
+- Tone: Premium, professional, clinically authoritative
+- Avoid hype or legally risky claims
+
+TASKS:
+
+A) TECHNICAL SEO
+Evaluate and fix:
+- Title tags (keyword targeting + CTR optimization)
+- Meta descriptions
+- Header hierarchy (H1/H2/H3 structure)
+- URL structure and slugs
+- Internal linking strategy
+- Page speed risks
+- Mobile friendliness considerations
+- Indexability issues
+- Sitemap / robots.txt guidance
+
+B) KEYWORD STRATEGY
+Identify:
+- High-intent search terms for nursing students
+- Long-tail opportunities with low competition
+- Content gaps
+- Semantic keyword clusters
+
+Focus on:
+- NCLEX preparation
+- REX-PN / RPN exam prep
+- Nursing question banks
+- Nursing pharmacology
+- Clinical reasoning
+- OSCE / clinical skills
+- New graduate nurse training
+
+C) CONTENT SEO
+Recommend:
+- Pages that should exist but are missing
+- SEO-optimized page concepts
+- Blog/article strategy
+- Authority-building content
+- Trust signals (E-E-A-T)
+
+D) CONVERSION & MARKETING
+Improve:
+- Hero messaging
+- CTA wording
+- Trust signals
+- Lead capture strategy
+- Value framing
+- Differentiation psychology
+
+E) DELIVERABLE FORMAT
+Return:
+1) Critical issues (highest impact first)
+2) Exact rewritten examples (titles/meta/headlines)
+3) Keyword targets
+4) Structural recommendations
+5) Marketing psychology improvements
+
+Avoid generic SEO advice. Tailor specifically for a nursing education platform.

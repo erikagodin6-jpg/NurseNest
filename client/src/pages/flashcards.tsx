@@ -848,8 +848,8 @@ export default function Flashcards() {
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Flashcard Study Suite</h1>
-            <p className="text-gray-600">Configure your clinical mastery session.</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight" data-testid="text-flashcard-heading">Clinical Review & Exam Practice</h1>
+            <p className="text-gray-600" data-testid="text-flashcard-subheading">Build your session. Select topics and question formats to target your weakest areas.</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -931,25 +931,29 @@ export default function Flashcards() {
                   </div>
                   <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Saved Mastery</h3>
+                <h3 className="text-2xl font-bold mb-2">Flagged for Review</h3>
                 <p className="text-indigo-200/80 text-sm leading-relaxed">
-                  Review the {bookmarks.length} difficult cards you've flagged for extra focus.
+                  {bookmarks.length > 0 ? `${bookmarks.length} cards marked for focused review. These are the concepts you found most challenging.` : "Flag difficult cards during your session to build a targeted review deck."}
                 </p>
               </Card>
 
               <Card className="border-none shadow-md bg-white p-6 rounded-3xl">
                 <div className="flex items-center gap-3 mb-4">
                   <History className="w-5 h-5 text-amber-500" />
-                  <h4 className="font-bold text-gray-900">Study Tips</h4>
+                  <h4 className="font-bold text-gray-900">Exam Strategy</h4>
                 </div>
                 <ul className="space-y-3 text-sm text-gray-600">
                   <li className="flex gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Focus on 'Why' - Rationales are more important than correct answers.</span>
+                    <span>Read every rationale. Understanding the reasoning matters more than getting the answer right.</span>
                   </li>
                   <li className="flex gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Mixed mode simulates exam environments better.</span>
+                    <span>Mixed mode mirrors the unpredictability of real licensing exams.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>Flag cards you struggle with. Return to them until the reasoning clicks.</span>
                   </li>
                 </ul>
               </Card>
@@ -972,7 +976,7 @@ export default function Flashcards() {
 
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Saved Mastery Folder</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Flagged for Review</h1>
               <p className="text-gray-600">Reviewing your tagged difficult cards.</p>
             </div>
             <Button 

@@ -121,6 +121,14 @@ Preferred communication style: Simple, everyday language.
 - `client/src/components/engagement.tsx` - PauseAndThink, ProgressiveDisclosure, CuriosityHook, KnowledgeCheck interactive engagement components
 
 ## Recent Changes
+- Major landing page overhaul: SEO-optimized hero with NCLEX/REX-PN keywords, "What You Can Study" section (9 topic cards), "Why NurseNest" comparison section, email capture section, high-converting CTAs with risk reversal language
+- Updated all SEO meta tags (title, description, OG, Twitter) to target NCLEX/REX-PN exam prep keywords
+- Renamed "OSCE" to "Clinical Skill Lab" across navigation and UI (US/CA friendly terminology)
+- Enhanced FAQ with new "Exam Preparation" category: NCLEX vs REX-PN differences, NGN question styles, question realism, school usage, comparison to question banks
+- Improved flashcard page: renamed to "Clinical Review & Exam Practice", updated microcopy for premium feel, renamed "Saved Mastery" to "Flagged for Review", added third study tip
+- Added 7 new lesson module files: nutrition (7 lessons), pain management, lab fundamentals (5 lessons), bioterrorism (2 lessons), maternity complications (11 lessons), postpartum/neonatal (5 lessons), vaccines (2 lessons)
+- Registered all new lesson modules in index.ts (~32+ total lesson content files)
+- NCLEX disclaimer strengthened in footer: explicitly states not affiliated with NCLEX, NCSBN, CNO, or any regulatory body
 - Added daily usage limits (10 questions/day free) for Lab Interpretation and Med Math with paywall + add-on subscriptions ($9.99/mo each or $14.99/mo bundle)
 - feature_usage table tracks per-user per-feature daily question counts; full subscribers and admins get unlimited access
 - Built Clinical Clarity system: 15 "Why does X happen?" topics with mechanism chains, misconceptions, clinical relevance, full SEO

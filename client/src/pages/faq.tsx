@@ -99,6 +99,47 @@ const faqData = [
     ],
   },
   {
+    category: "Exam Preparation",
+    questions: [
+      {
+        id: "exam-1",
+        question: "Can I use NurseNest to prepare for the NCLEX or REX-PN?",
+        answer:
+          "Yes. NurseNest is designed to support learners preparing for nursing licensure examinations including the NCLEX-RN, NCLEX-PN, and REX-PN. Content is structured around clinical reasoning, prioritization, and safety logic — the cognitive patterns these exams test. NurseNest is an independent educational resource and is not affiliated with NCSBN or any regulatory body.",
+      },
+      {
+        id: "exam-2",
+        question: "What is the difference between NCLEX and REX-PN?",
+        answer:
+          "NCLEX (National Council Licensure Examination) is the licensing exam used in the United States and some Canadian jurisdictions. REX-PN (Regulatory Exam for Practical Nurses) is the entry-to-practice exam for practical nurses in Canadian provinces that have adopted it. Both exams test clinical reasoning and safe nursing practice, but differ in format and jurisdiction. NurseNest supports preparation for both.",
+      },
+      {
+        id: "exam-3",
+        question: "Does NurseNest cover Next Generation NCLEX (NGN) question styles?",
+        answer:
+          "NurseNest's clinical case simulations, branching decision scenarios, and clinical judgment exercises are designed to build the reasoning skills tested by modern exam formats, including the clinical judgment measurement model. Our question bank includes extended scenarios that require analysis across multiple data points, consistent with contemporary examination approaches.",
+      },
+      {
+        id: "exam-4",
+        question: "Are NurseNest questions realistic compared to actual exam questions?",
+        answer:
+          "NurseNest questions are independently authored by nursing educators and structured to reflect the cognitive complexity, clinical reasoning depth, and safety-focused thinking patterns tested on licensure exams. They are original educational content — not reproductions of actual exam items — and are designed to develop the same clinical judgment skills that exams assess.",
+      },
+      {
+        id: "exam-5",
+        question: "Can I use NurseNest while still in nursing school?",
+        answer:
+          "Absolutely. Many students use NurseNest alongside their nursing courses to deepen their understanding of pathophysiology, pharmacology, and clinical reasoning. The platform is structured from foundational concepts through advanced clinical analysis, making it useful from first semester through exam preparation.",
+      },
+      {
+        id: "exam-6",
+        question: "How is NurseNest different from a traditional question bank?",
+        answer:
+          "Traditional question banks focus on repetition and answer memorization. NurseNest combines detailed pathophysiology lessons, mechanism-based rationales, interactive case simulations, clinical skill labs, and performance analytics into an integrated learning system. The goal is to teach you how to think through clinical problems, not just recall answers.",
+      },
+    ],
+  },
+  {
     category: "Content & Educational Design",
     questions: [
       {
