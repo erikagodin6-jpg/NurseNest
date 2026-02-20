@@ -1,0 +1,1651 @@
+Design a dual-mode question engine for a nursing exam-prep platform.
+
+Modes required:
+
+STUDY MODE:
+- Immediate answer feedback
+- Deep teaching-style rationales
+- Explain why correct answer works
+- Explain why wrong answers fail
+- Link related concepts (pathophysiology, safety, pharmacology)
+- Allow untimed use
+
+EXAM MODE:
+- No hints or rationales during test
+- Strict exam-style interface
+- Timed environment
+- Lock answers once submitted
+- Show results only at completion
+
+Output requirements:
+
+- Functional behavior specification
+- UI/UX interaction logic
+- Cognitive psychology reasoning for why this improves exam performance
+- Abuse prevention considerations
+- Data tracking differences between modes
+
+Do not provide marketing language. Think like a product architect.
+Define a rationale-generation framework for NCLEX/REX-PN style questions that maximizes learning efficiency.
+
+Rationales must:
+
+- Teach underlying pathophysiology
+- Explain clinical reasoning, not just facts
+- Explain why correct answer is correct
+- Explain why each distractor is wrong
+- Highlight safety and prioritization logic
+- Address common student misconceptions
+- Reinforce pattern recognition
+
+Provide:
+
+- Structured rationale template
+- Cognitive learning justification
+- Examples using a sample nursing question
+- Common rationale mistakes to avoid
+- How rationales should differ by difficulty level
+
+Assume this will power a premium paid platform.
+Design a visual learning system for a nursing education platform.
+
+Visuals must prioritize cognitive encoding, not decoration.
+
+Include visual frameworks for:
+
+- Shock types
+- Acid-base disorders
+- Cardiac conduction abnormalities
+- Ventilation/perfusion mismatch
+- Pediatric vs adult differences
+
+Provide:
+
+- Types of visuals (diagram, flow logic, mechanism map, red-flag visual)
+- What each visual must communicate
+- Memory retention rationale
+- Mistakes that reduce educational value
+- Guidelines for minimalist clinical design
+
+Do not generate images. Focus on instructional design logic.
+Design a pharmacology mastery engine for a nursing exam-prep platform.
+
+System must teach:
+
+- Mechanism-first understanding
+- Side-effect pattern recognition
+- Contraindication logic
+- Drug class clustering
+- Clinical decision implications
+
+Avoid rote memorization models.
+
+Provide:
+
+- Knowledge architecture
+- Learning flows
+- Example drug class breakdown
+- How to test true understanding
+- Features that increase subscription retention
+
+Think like a cognitive learning designer.
+Design a prioritization and delegation training module for nursing students.
+
+Must train:
+
+- What to do first
+- Who to see first
+- What can be delegated
+- Safety vs urgency conflicts
+- Recognition of unstable patients
+
+Provide:
+
+- Scenario structures
+- Question archetypes
+- Common traps to include
+- Rationale strategy
+- Why this type of training is exam-relevant
+
+Do not generate actual questions yet.
+Design pediatric-focused exam traps and reasoning challenges for a nursing Qbank.
+
+Include:
+
+- Age-dependent vital signs
+- Developmental differences
+- Pediatric medication risks
+- Subtle deterioration patterns
+- Common student errors
+
+Provide:
+
+- Trap categories
+- Scenario examples
+- Why adult logic fails in pediatrics
+- High-yield pediatric misconceptions
+- Integration into question system
+
+Assume exam-prep context. Design an error classification system for a nursing exam-prep platform.
+
+Errors must be categorized into:
+
+- Knowledge gap
+- Misread question
+- Safety oversight
+- Prioritization failure
+- Overthinking
+
+Provide:
+
+- Detection logic
+- Data tracking model
+- Feedback mechanisms to user
+- How this improves learning efficiency
+- Psychological impact on retention
+
+Avoid gamification language.
+Design a rapid-review microlearning system for nursing students and working nurses.
+
+Include examples like:
+
+- 5-minute drills
+- Rapid pharmacology refreshers
+- Shift-prep quizzes
+
+Provide:
+
+- Session design logic
+- Content selection rules
+- Cognitive load management
+- Retention benefits
+- Monetization implications
+Design memory-optimized study aids for a nursing education platform.
+
+Avoid generic flashcards.
+
+Incorporate:
+
+- Pattern clusters
+- Visual triggers
+- High-yield traps
+- Concept comparison sets
+
+Provide:
+
+- Structural models
+- Why this improves recall
+- Examples
+- Pitfalls to avoid
+Design psychologically intelligent feedback systems for exam-prep users.
+
+Must include:
+
+- Exam readiness indicators
+- Confidence metrics
+- Probabilistic progress framing
+- Avoid guarantee language
+
+Provide:
+
+- Behavioral design logic
+- Safe wording strategies
+- Psychological justification
+- Retention effects
+Define differentiators for a premium nursing exam-prep platform competing with major Qbanks.
+
+Focus on:
+
+- Clinical intuition training
+- Realistic scenario logic
+- Safety-focused reasoning
+- Cognitive-friendly UI
+- Avoid superficial features
+
+Provide strategic analysis only.
+Rank potential platform features by revenue impact vs development effort for a nursing exam-prep startup.
+
+Identify:
+
+- High monetization features
+- Low ROI distractions
+- Retention drivers
+- Fastest path to revenue
+
+Assume subscription model.
+Explain mechanisms that increase subscription retention for an exam-prep education platform.
+
+Focus on:
+
+- Personalization
+- Progress dependency
+- Continuous challenge
+- Cognitive engagement loops
+
+Avoid generic business advice.
+
+Design a freemium monetization structure for a nursing exam-prep platform.
+
+Constraints:
+
+FREE TIER should:
+- Maximize trust and perceived teaching quality
+- Support SEO and organic discovery
+- Provide meaningful value without eliminating upgrade pressure
+- Avoid giving away core revenue drivers
+
+PAID TIER should:
+- Maximize perceived exam advantage
+- Increase subscription retention
+- Increase switching costs
+- Lock high-cognitive-value features
+
+Platform features include:
+- Lessons and study content
+- Question bank
+- Rationales
+- Exam mode
+- Clinical case simulations
+- Adaptive weakness engine
+- Drug mastery system
+- Prioritization and delegation drills
+- Pediatric-specific content
+- Visual learning assets
+- Performance analytics
+
+Provide:
+
+- What should be free vs paid
+- Psychological reasoning behind gating decisions
+- Conversion logic
+- Retention implications
+- Mistakes to avoid
+
+Avoid generic business advice. Think like an exam-prep monetization expert.
+
+Create a feature-gating strategy for a subscription-based nursing education platform.
+
+Objectives:
+
+- Encourage upgrades without frustrating users
+- Preserve high-value premium features
+- Prevent free-tier abuse
+- Maximize long-term retention
+
+Include gating logic for:
+
+- Questions per day
+- Rationales depth
+- Exam mode access
+- Simulations
+- Analytics
+- Drug mastery tools
+- Pediatric modules
+
+Provide:
+
+- Behavioral economics reasoning
+- User psychology considerations
+- Recommended limits and thresholds
+- Upgrade trigger mechanisms
+Design a pricing strategy for a nursing exam-prep platform with RPN, RN, and NP tiers.
+
+Goals:
+
+- Compete psychologically with premium incumbents (e.g., UWorld)
+- Avoid looking cheap or low-quality
+- Maximize subscription conversions
+- Support perceived exam advantage
+
+Consider:
+
+- Monthly vs multi-month pricing
+- Tier differentiation logic
+- Anchoring effects
+- Discount strategy risks
+- Subscription retention effects
+
+Provide strategic analysis only.
+Design a mobile app strategy for a nursing exam-prep platform.
+
+Objectives:
+
+- Maximize daily engagement
+- Complement (not duplicate) web experience
+- Increase subscription retention
+- Support microlearning behavior
+
+Include:
+
+- Which features belong in mobile vs web
+- User behavior differences on mobile
+- Session length optimization
+- Notification strategy (without being spammy)
+- Offline usage considerations
+- Monetization implications
+
+Avoid UI mockups. Focus on product strategy and behavioral design.
+Define high-value features for a nursing exam-prep mobile app.
+
+App priorities:
+
+- Rapid usage sessions
+- Exam-style practice
+- Cognitive load minimization
+- High-frequency engagement
+
+Platform capabilities include:
+
+- Question bank
+- Rationales
+- Exam mode
+- Drug mastery
+- Prioritization drills
+- Performance tracking
+- Visual learning assets
+
+Provide:
+
+- Feature hierarchy
+- Interaction logic
+- Retention impact
+- Differentiation opportunities
+Recommend a technical approach for building a nursing education mobile app.
+
+Compare:
+
+- Progressive Web App (PWA)
+- React Native
+- Flutter
+- Native iOS/Android
+
+Constraints:
+
+- Solo founder / small budget
+- Subscription platform
+- Heavy question interaction
+- Future scalability
+- Performance requirements
+
+Provide tradeoff analysis, risks, and recommendation.
+Act as a senior mobile product engineer.
+
+Design the architecture for a nursing exam-prep mobile app with:
+
+Core Requirements:
+
+- Question bank engine
+- Study Mode vs Exam Mode
+- Deep rationale display
+- Progress tracking
+- Adaptive question behavior
+- Clean, minimal cognitive UI
+- Low visual noise
+- Fast interactions
+
+Technical Preferences:
+
+- Modern stack
+- Scalable structure
+- Maintainable by solo developer
+- Compatible with subscription backend
+
+Provide:
+
+- Recommended stack
+- Component structure
+- Navigation model
+- Data flow logic
+- Key screens
+- Pitfalls to avoid
+
+Do not generate marketing text.
+Design a microlearning system optimized for mobile usage in an exam-prep platform.
+
+Include:
+
+- Ideal session length
+- Cognitive fatigue considerations
+- Question batching logic
+- Notification triggers
+- Retention psychology
+- Habit formation mechanics
+Explain how a mobile app can increase subscription retention for an exam-prep platform.
+
+Focus on:
+
+- Behavioral loops
+- Progress dependency
+- Personalization effects
+- Daily engagement psychology
+- Avoiding burnout
+
+Provide product strategy, not marketing.
+
+Translate an existing nursing education website design into a mobile app design system.
+
+Design objectives:
+
+- Preserve clinical credibility
+- Apply modern pastel aesthetics without looking childish
+- Maintain a calm, low-stress visual tone
+- Optimize for prolonged study sessions
+- Minimize cognitive overload
+
+Visual style requirements:
+
+- Clinical, clean, minimal
+- Soft modern pastel palette (not bright or playful)
+- Rounded corners, soft surfaces
+- High readability for dense educational content
+- Avoid decorative clutter
+
+Provide:
+
+- Mobile design language definition
+- Color system logic (primary, background, accents, alerts)
+- Typography strategy
+- Spacing philosophy
+- Component styling principles
+- Mistakes that reduce clinical credibility
+
+Assume this is for a premium nursing exam-prep platform.
+Avoid generic UI advice.
+
+Define high-value features for a nursing exam-prep mobile app.
+
+App priorities:
+
+- Rapid usage sessions
+- Exam-style practice
+- Cognitive load minimization
+- High-frequency engagement
+
+Platform capabilities include:
+
+- Question bank
+- Rationales
+- Exam mode
+- Drug mastery
+- Prioritization drills
+- Performance tracking
+- Visual learning assets
+
+Provide:
+
+- Feature hierarchy
+- Interaction logic
+- Retention impact
+- Differentiation opportunities
+Recommend a technical approach for building a nursing education mobile app.
+
+Compare:
+
+- Progressive Web App (PWA)
+- React Native
+- Flutter
+- Native iOS/Android
+
+Constraints:
+
+- Solo founder / small budget
+- Subscription platform
+- Heavy question interaction
+- Future scalability
+- Performance requirements
+
+Provide tradeoff analysis, risks, and recommendation.
+Act as a senior mobile product engineer.
+
+Design the architecture for a nursing exam-prep mobile app with:
+
+Core Requirements:
+
+- Question bank engine
+- Study Mode vs Exam Mode
+- Deep rationale display
+- Progress tracking
+- Adaptive question behavior
+- Clean, minimal cognitive UI
+- Low visual noise
+- Fast interactions
+
+Technical Preferences:
+
+- Modern stack
+- Scalable structure
+- Maintainable by solo developer
+- Compatible with subscription backend
+
+Provide:
+
+- Recommended stack
+- Component structure
+- Navigation model
+- Data flow logic
+- Key screens
+- Pitfalls to avoid
+
+Do not generate marketing text.
+Design a microlearning system optimized for mobile usage in an exam-prep platform.
+
+Include:
+
+- Ideal session length
+- Cognitive fatigue considerations
+- Question batching logic
+- Notification triggers
+- Retention psychology
+- Habit formation mechanics
+Explain how a mobile app can increase subscription retention for an exam-prep platform.
+
+Focus on:
+
+- Behavioral loops
+- Progress dependency
+- Personalization effects
+- Daily engagement psychology
+- Avoiding burnout
+
+Provide product strategy, not marketing.
+Translate an existing nursing education website design into a mobile app design system.
+
+Design objectives:
+
+- Preserve clinical credibility
+- Apply modern pastel aesthetics without looking childish
+- Maintain a calm, low-stress visual tone
+- Optimize for prolonged study sessions
+- Minimize cognitive overload
+
+Visual style requirements:
+
+- Clinical, clean, minimal
+- Soft modern pastel palette (not bright or playful)
+- Rounded corners, soft surfaces
+- High readability for dense educational content
+- Avoid decorative clutter
+
+Provide:
+
+- Mobile design language definition
+- Color system logic (primary, background, accents, alerts)
+- Typography strategy
+- Spacing philosophy
+- Component styling principles
+- Mistakes that reduce clinical credibility
+
+Assume this is for a premium nursing exam-prep platform.
+Avoid generic UI advice.
+Design a cognitively optimized mobile UI for a nursing exam-prep app.
+
+Constraints:
+
+- Users answer large volumes of questions
+- Sessions may be long (30–90 minutes)
+- Stress reduction is important
+- Speed and clarity are more important than visual flair
+
+Interface must feel:
+
+- Clinical
+- Calm
+- Modern
+- Focused
+- Low-noise
+
+Provide:
+
+- Screen layout philosophy
+- Interaction design rules
+- Visual hierarchy logic
+- Fatigue-reduction strategies
+- Error-prevention considerations
+- Elements that should be visually de-emphasized
+
+Avoid trendy mobile UI patterns that harm usability.
+Design an ideal mobile question-answering screen for a nursing exam-prep platform.
+
+Requirements:
+
+- Extremely fast scanning
+- Minimal cognitive friction
+- Optimized for clinical reasoning
+- Comfortable for repeated use
+- Supports both Study Mode and Exam Mode
+
+Include:
+
+- Layout structure
+- Visual emphasis strategy
+- Answer selection behavior
+- Typography & spacing logic
+Define UI and behavioral differences between Study Mode and Exam Mode for a nursing exam-prep mobile app.
+
+Study Mode must feel:
+
+- Supportive
+- Educational
+- Low pressure
+
+Exam Mode must feel:
+
+- Strict
+- Neutral
+- Distraction-free
+- Serious
+
+Provide:
+
+- Visual differences
+- Interaction differences
+- Color behavior changes
+- Feedback timing differences
+- Psychological reasoning behind design choices
+Create a modern pastel color palette suitable for a clinical nursing education app.
+
+Constraints:
+
+- Must look professional
+- Must reduce visual fatigue
+- Must preserve readability
+- Must avoid playful / childish appearance
+- Must support long study sessions
+
+Provide:
+
+- Background colors
+- Surface colors
+- Primary accent
+- Success / warning / danger tones
+- Text contrast strategy
+- Color psychology reasoning
+Define component styling rules for a clinical-modern pastel nursing education mobile app.
+
+Include:
+
+- Cards
+- Buttons
+- Answer choices
+- Rationales
+- Alerts
+- Progress indicators
+
+Design must feel:
+
+- Soft
+- Clinical
+- Calm
+- Premium
+
+Provide principles, not code.
+Design a navigation model for a nursing exam-prep mobile app.
+
+User behaviors:
+
+- Rapid question sessions
+- Topic-focused study
+- Exam simulations
+- Progress review
+- Drug lookup / mastery
+
+Provide:
+
+- Primary navigation structure
+- Tab logic vs stack logic
+- Screen grouping strategy
+- Cognitive load considerations
+- Common navigation mistakes
+Define subtle microinteractions for a clinical-modern pastel exam-prep app.
+
+Goals:
+
+- Increase perceived quality
+- Reinforce user actions
+- Avoid distraction
+- Maintain clinical seriousness
+
+Include:
+
+- Answer selection feedback
+- Correct/incorrect transitions
+- Loading states
+- Progress updates
+- Mode switching behavior
+
+- Color usage rules
+- Timer integration (for Exam Mode)
+- Common UI mistakes in Qbank apps
+
+Assume clinical + modern pastel aesthetic.
+Do not generate images.
+
+Create a clinically accurate educational medical graphic.
+
+Requirements:
+
+- Anatomically and physiologically correct
+- Suitable for nursing students (not physicians)
+- Prioritize conceptual clarity over artistic drama
+- Visually minimal, clean, and cognitively easy to process
+- No decorative or cartoon elements
+- No exaggerated anatomy
+- No misleading simplifications
+
+Visual style:
+
+- Clinical, modern, soft pastel aesthetic
+- Clean white or soft pastel background
+- Soft color accents, not saturated colors
+- Minimalist medical illustration style
+- High readability on a website
+- Designed for learning, not marketing
+
+Educational objective:
+
+- Help students understand mechanisms and relationships
+- Reinforce exam-relevant reasoning
+- Avoid unnecessary detail that increases cognitive load
+
+Graphic topic:
+
+[INSERT TOPIC]
+
+Before generating, internally prioritize medical correctness and educational usefulness.
+Create a clinically accurate pathophysiology mechanism diagram.
+
+Constraints:
+
+- Focus on causal relationships, not decorative anatomy
+- Show directional processes (cause → effect)
+- Simplify without distorting physiology
+- Suitable for nursing exam preparation
+- Avoid medical-school level complexity
+
+Visual style:
+
+- Clinical modern design
+- Soft pastel palette
+- Minimalist, clean layout
+- No visual clutter
+- Website-friendly proportions
+
+Topic:
+
+[Shock type / Acid-base disorder / etc.]
+
+Emphasize conceptual correctness and learning efficiency.
+Create a clinical decision-flow visual for nursing students.
+
+Requirements:
+
+- Reflect real clinical reasoning
+- Prioritization-focused
+- Safety-oriented
+- Exam-relevant logic
+- No oversimplified or unsafe steps
+
+Visual style:
+
+- Minimalist clinical interface aesthetic
+- Modern pastel color system
+- Clean typography space
+- No decorative graphics
+
+Scenario:
+
+[INSERT CLINICAL SCENARIO]
+
+Goal: Help learners understand decision hierarchy.
+Create a clinically accurate drug mechanism illustration.
+
+Constraints:
+
+- Mechanism must be pharmacologically correct
+- No fictional receptor behavior
+- No decorative molecules
+- Focus on functional understanding
+- Suitable for nursing students
+
+Visual style:
+
+- Clean medical illustration
+- Modern pastel aesthetic
+- Minimalist design
+- Concept-focused
+
+Drug or class:
+
+[INSERT DRUG]
+
+Goal: Visually explain mechanism of action and clinical effects.
+Create a clinical red-flag recognition graphic for nursing students.
+
+Requirements:
+
+- Medically accurate signs
+- No exaggerated symptoms
+- No dramatic or fear-based visuals
+- Educational rather than artistic
+
+Visual style:
+
+- Clinical modern pastel design
+- Clean, minimal composition
+- Website-friendly
+- Designed for rapid comprehension
+
+Condition:
+
+[INSERT CONDITION]
+
+Goal: Reinforce recognition of dangerous patterns.
+Create a clinically accurate pediatric vs adult comparison graphic.
+
+Requirements:
+
+- Reflect real physiological differences
+- No cartoon anatomy
+- No exaggerated proportions
+- Exam-relevant distinctions only
+
+Visual style:
+
+- Clinical minimalist design
+- Soft modern pastel palette
+- Clean layout
+- No decorative elements
+
+Comparison topic:
+
+[INSERT TOPIC]
+
+Goal: Improve memory retention and reduce confusion.
+Avoid common medical illustration errors such as incorrect anatomy, unrealistic organ proportions, fictional physiology, or visually appealing but clinically inaccurate simplifications.
+Create a clinically accurate educational graphic for a nursing education platform.
+
+Purpose:
+- Support Anatomy & Physiology / Pathophysiology learning
+- Improve conceptual understanding and memory retention
+- Suitable for nursing students preparing for licensing exams
+- Avoid physician-level complexity
+
+Accuracy Requirements:
+- Anatomically correct structures
+- Physiologically correct relationships
+- No fictional anatomy or distortions
+- No oversimplified inaccuracies
+
+Visual Style:
+- Clinical, clean, minimalist
+- Modern soft pastel aesthetic
+- Calm, low-stress design
+- White or soft pastel background
+- Soft color accents, not saturated colors
+- No cartoon or decorative elements
+- No dramatic medical illustration effects
+
+Instructional Design Goals:
+- Emphasize mechanisms and relationships
+- Reduce cognitive overload
+- Highlight exam-relevant concepts
+- Prioritize clarity over visual complexity
+
+Graphic Topic:
+[INSERT TOPIC]
+
+Avoid common AI medical illustration errors such as incorrect anatomy, unrealistic proportions, misleading physiology, or visually appealing but clinically inaccurate simplifications.
+Create a pathophysiology mechanism diagram for nursing students.
+
+Requirements:
+- Show cause → physiological disturbance → clinical effects
+- Emphasize directional relationships
+- Focus on functional understanding
+- Avoid unnecessary anatomical detail
+
+Visual Style:
+- Clinical minimalist design
+- Modern pastel palette
+- Clean layout with low visual noise
+- Designed for website learning
+
+Topic:
+[INSERT CONDITION OR PROCESS]
+
+Ensure physiological accuracy and exam-relevant clarity.
+Create a simplified functional anatomy graphic for nursing education.
+
+Constraints:
+- Anatomically correct
+- Emphasize relationships and roles
+- Remove nonessential detail
+- Not an atlas-style illustration
+
+Visual Style:
+- Clean clinical diagram
+- Soft modern pastel tones
+- Minimalist educational design
+
+System or Structure:
+[INSERT ORGAN / SYSTEM]
+
+Goal: Help learners build accurate mental models.
+Create a comparison graphic for nursing students.
+
+Requirements:
+- Highlight key differences only
+- Focus on exam-relevant distinctions
+- Avoid excessive detail
+- Maintain clinical accuracy
+
+Visual Style:
+- Minimalist clinical layout
+- Soft pastel color coding
+- Clean and readable
+
+Comparison Topic:
+[INSERT TOPIC]
+
+Goal: Reduce common student confusion.
+Create a physiology process flow diagram for nursing education.
+
+Requirements:
+- Show stepwise functional processes
+- Maintain physiological correctness
+- Avoid excessive micro-detail
+- Emphasize cause-and-effect
+
+Visual Style:
+- Clinical modern aesthetic
+- Soft pastel color system
+- Clean website-friendly layout
+
+Process:
+[INSERT PROCESS]
+
+Goal: Improve conceptual clarity and retention.
+Create a clinical correlation graphic for nursing students.
+
+Requirements:
+- Connect physiological disturbance to signs/symptoms
+- No exaggerated pathology
+- No dramatic visuals
+- Educational, not artistic
+
+Visual Style:
+- Clinical minimalist design
+- Soft pastel accents
+- Clean and calm presentation
+
+Condition:
+[INSERT CONDITION]
+
+Goal: Reinforce exam-relevant reasoning.
+
+Create a beginner-friendly nursing research and statistics lesson for a nursing education platform.
+
+Audience:
+- Nursing students with no strong math or research background
+- Focus on clarity, intuition, and practical understanding
+- Avoid academic or textbook-style explanations
+
+Instructional Objectives:
+- Reduce fear and confusion around research/statistics
+- Teach conceptual understanding, not formulas
+- Prioritize interpretation over calculation
+- Focus on exam-relevant and clinically relevant reasoning
+
+Style Requirements:
+- Plain English
+- No heavy mathematical language
+- No equations unless absolutely necessary
+- Use intuitive explanations and analogies
+- Avoid academic jargon where possible
+
+Content Priorities:
+- What the concept means
+- Why it matters in nursing
+- How students typically misunderstand it
+- How to interpret it in exam questions or papers
+
+Topic:
+[INSERT TOPIC]
+
+Avoid lecture-style writing. Think like an educator helping anxious students.
+Explain a nursing research design for nursing students.
+
+Requirements:
+- Focus on intuitive understanding
+- Explain purpose and logic of the design
+- Compare with other common designs
+- Highlight typical student confusion
+- Explain how exams test this concept
+- Avoid statistical formulas
+
+Design to explain:
+[INSERT DESIGN]
+
+Tone: clear, confidence-building, non-academic.
+Explain a statistics concept for nursing students who dislike math.
+
+Constraints:
+- No equations
+- No technical statistical derivations
+- Use intuitive logic and clinical relevance
+- Focus on interpretation
+
+Concept:
+[INSERT CONCEPT]
+
+Include:
+- What it actually means
+- Common misconceptions
+- How to interpret in research papers
+- How exam questions typically frame it
+Create a nursing research interpretation exercise.
+
+Requirements:
+- Present a simplified study scenario
+- Include realistic findings or results
+- Ask learner to interpret meaning
+- Focus on reasoning, not math
+- Highlight common student errors
+
+Goal: Train intuitive understanding of research conclusions.
+Explain research bias and study weaknesses for nursing students.
+
+Requirements:
+- Use simple clinical examples
+- Explain why bias distorts conclusions
+- Focus on practical recognition
+- Avoid theoretical language
+
+Include:
+- Types of bias
+- How exams test this
+- Common student mistakes
+Create an evidence-based practice crash course lesson for nursing students.
+
+Focus on:
+- Why EBP matters in real nursing
+- Levels of evidence
+- How to evaluate strength of studies
+- Avoid academic tone
+
+Goal: Build confidence in reading and using research.
+Create a compare-and-contrast explanation for nursing students.
+
+Requirements:
+- Highlight key differences only
+- Focus on exam-relevant distinctions
+- Use plain English
+
+Comparison:
+[INSERT TOPICS]
+
+Avoid excessive detail.
+Design a visual learning graphic for a nursing research/statistics concept.
+
+Requirements:
+- Prioritize conceptual clarity
+- Avoid mathematical visuals
+- Clinical-modern design style
+- Minimalist educational layout
+
+Concept:
+[INSERT CONCEPT]
+
+Goal: Help students intuitively understand the idea.
+Do not generate the image — define what it should show.
+Explain a nursing research/statistics concept specifically for licensing exam preparation.
+
+Include:
+- How exams typically test this idea
+- Common traps
+- Typical student errors
+- Recognition strategies
+
+Concept:
+[INSERT CONCEPT]
+
+Avoid academic lecture tone.
+Explain a nursing research/statistics concept in a way that reduces student anxiety and confusion.
+
+Requirements:
+- Assume learner finds statistics intimidating
+- Use reassuring but professional tone
+- Avoid math-heavy explanations
+- Focus on intuitive understanding
+
+Concept:
+[INSERT CONCEPT]
+Act as a senior product architect and educational platform designer.
+
+Design and structure a nursing education website that supports:
+
+- REX-PN (Canada)
+- NCLEX-RN (USA/Canada)
+- Nurse Practitioner exams
+- US nursing exam variants
+
+Platform objectives:
+
+- Serious clinical credibility
+- Modern clinical design with soft pastel aesthetic
+- Optimized for exam preparation and nursing school success
+- Built for subscription monetization
+- High SEO performance
+- Heavy interactive learning components
+- Clinically accurate educational graphics
+
+Core content categories:
+
+- Pathophysiology
+- Anatomy & Physiology
+- Pharmacology
+- Clinical skills & procedures
+- Prioritization & delegation
+- Lab values & diagnostics
+- Fluid & electrolyte balance
+- Safety & risk reduction
+- Maternal & newborn
+- Pediatrics
+- Mental health
+- Geriatrics
+- Ethics & professional practice
+- Research & statistics
+
+Provide:
+
+1. Information architecture
+2. Navigation structure
+3. Page hierarchy
+4. Exam-specific segmentation logic
+5. Content grouping strategy
+6. User flow considerations
+7. Cognitive load management principles
+
+Avoid generic web design advice. Think like an exam-prep platform strategist.
+Design a content segmentation model for a nursing education platform supporting multiple exams.
+
+Exams include:
+
+- REX-PN
+- NCLEX-RN
+- Nurse Practitioner exams
+- US nursing variants
+
+Objectives:
+
+- Prevent duplication of content
+- Maintain exam relevance
+- Reuse core knowledge efficiently
+- Allow targeted study pathways
+
+Provide:
+
+- Structural logic
+- Tagging / classification system
+- How topics map across exams
+- How UI should present exam-specific relevance
+- Mistakes to avoid in multi-exam platforms
+Act as an SEO strategist for a nursing education platform.
+
+Create an SEO architecture for a site covering:
+
+- Pathophysiology
+- Pharmacology
+- Clinical skills
+- Lab interpretation
+- Exam prep
+
+Objectives:
+
+- Rank for nursing student searches
+- Capture exam-prep traffic
+- Avoid keyword cannibalization
+- Build topical authority
+
+Provide:
+
+- Page structure model
+- Internal linking strategy
+- Topic clustering logic
+- High-value keyword patterns
+- Content silo strategy
+- Common SEO mistakes in education platforms
+
+Avoid generic SEO advice.
+Design interactive learning components for a nursing exam-prep platform.
+
+Platform requirements:
+
+- High engagement
+- Exam-style cognition
+- Learning efficiency
+- Subscription retention
+
+Interactive elements may include:
+
+- Question engines
+- Clinical simulations
+- Decision trees
+- Adaptive quizzes
+- Case unfolding logic
+- Rapid drills
+
+Provide:
+
+- Types of interactive modules
+- Cognitive learning justification
+- Difficulty progression logic
+- UI behavior principles
+- Retention psychology effects
+Design a visual graphics system for a nursing education website.
+
+Constraints:
+
+- Clinically accurate
+- Anatomically correct where applicable
+- Modern clinical pastel aesthetic
+- Minimalist educational design
+- Optimized for comprehension & memory retention
+- No decorative or cartoon visuals
+
+Graphic categories required:
+
+- Pathophysiology mechanisms
+- Functional anatomy diagrams
+- Clinical decision flows
+- Drug mechanisms
+- Compare-and-contrast visuals
+- Clinical red flags
+
+Provide:
+
+- Visual design rules
+- Consistency framework
+- Color usage logic
+- Cognitive load considerations
+- Common medical illustration errors to avoid
+Design a question bank system for a nursing exam-prep platform.
+
+Exams supported:
+
+- REX-PN
+- NCLEX-RN
+- Nurse Practitioner exams
+- US nursing variants
+
+Requirements:
+
+- Exam-style reasoning
+- Clinical judgment focus
+- Safety-heavy logic
+- Pattern-recognition traps
+- Difficulty calibration
+
+Provide:
+
+- Question archetypes
+- Cognitive skill categories tested
+- Distractor engineering principles
+- Study Mode vs Exam Mode logic
+- Rationale design philosophy
+Design a pharmacology mastery system for a nursing education platform.
+
+Objectives:
+
+- Reduce memorization burden
+- Teach mechanism-first thinking
+- Reinforce safety patterns
+- Improve exam performance
+
+Provide:
+
+- Knowledge organization model
+- Drug-class clustering logic
+- Side-effect pattern teaching strategy
+- Interactive learning formats
+- Retention mechanisms
+Design clinical case simulations for a nursing exam-prep platform.
+
+Requirements:
+
+- Realistic patient logic
+- Progressive information release
+- Prioritization challenges
+- Safety conflicts
+- Consequence-driven decisions
+
+Provide:
+
+- Simulation structures
+- Cognitive objectives
+- Difficulty scaling
+- Educational value justification
+- Integration into subscription model
+Define a content reuse and modularization strategy for a multi-exam nursing education platform.
+
+Goals:
+
+- Avoid redundant lesson creation
+- Preserve exam-specific relevance
+- Maintain SEO strength
+- Scale efficiently
+
+Provide structural model and rules.
+Act as a conversion strategist for an exam-prep subscription platform.
+
+Design conversion mechanisms for:
+
+- Free users
+- Trial users
+- Paid subscribers
+
+Focus on:
+
+- Upgrade triggers
+- Perceived exam advantage
+- Retention psychology
+- Reducing cancellation likelihood
+Design a cohesive web + mobile ecosystem for a nursing exam-prep platform.
+
+Objectives:
+
+- Increase engagement
+- Avoid feature redundancy
+- Support microlearning
+- Increase retention
+
+Provide feature allocation strategy.
+You are the Replit AI coding assistant for an existing NurseNest web app.
+
+Non-negotiable requirements:
+- Use Next.js App Router (app/ directory) with TypeScript.
+- Tailwind CSS is installed and used for all styling.
+- Keep the design clinical, clean, minimalist, with modern pastel accents (no childish/cartoony UI).
+- Implement content as modular data (JSON/MDX) and render via templates.
+- Build features incrementally: schema -> routing -> templates -> SEO -> interactive engines -> admin/content workflows.
+- Do not break existing routes/pages. If unsure, create new routes under /learn and /exams.
+- Add unit-safe utilities; avoid overengineering.
+- No copyrighted exam company assets or lookalike UI; create original NurseNest UI.
+
+First: inspect the repo structure and summarize key folders, routing, and existing content system. Then propose a step-by-step implementation plan.
+Design and implement a content taxonomy system for multiple exam tracks:
+
+Tracks:
+- REX-PN
+- NCLEX-RN
+- NP (Canada + US variants; keep generalized)
+- US nursing variants (general category for future mapping)
+
+Content categories:
+- Pathophysiology
+- A&P
+- Pharmacology
+- Clinical skills & procedures
+- Prioritization & delegation
+- Labs & diagnostics
+- Fluids & electrolytes
+- Safety & infection control
+- Maternal/newborn
+- Pediatrics
+- Mental health
+- Geriatrics
+- Ethics/professional practice
+- Research & statistics
+
+Implementation requirements:
+- Create TypeScript types for ContentItem, Track, Category, Tags, Difficulty, Audience level.
+- Create a tag mapping file that maps topics to one or more tracks.
+- Provide example content items for at least 2 categories (Patho, A&P) and 2 tracks (REX-PN, NCLEX-RN).
+- Ensure the data model supports SEO fields (title, description, canonical slug, keywords, faq).
+- Output code changes: types, data files, and a small helper function to filter content by track/category.
+
+Keep it simple and scalable.
+Implement an SEO system for NurseNest.
+
+Requirements:
+- Add generateMetadata() to lesson pages using content metadata (title, description, keywords).
+- Implement JSON-LD structured data for:
+  - Article (lessons)
+  - FAQPage (when FAQs exist)
+  - BreadcrumbList (track/category/lesson)
+- Create programmatic breadcrumbs on lesson pages.
+- Create a /sitemap.xml route that lists:
+  - /lessons
+  - /lessons/[track]
+  - /lessons/[track]/[category]
+  - /lessons/[track]/[category]/[slug]
+- Ensure canonical URLs are set.
+- Add internal linking blocks:
+  - Related lessons (same category + track)
+  - “Next suggested lesson” (progression order)
+
+Use Next.js App Router conventions. Provide the code edits required.
+Create a reusable LessonPage template component for NurseNest with clinical-modern pastel styling.
+
+Must include:
+- Title, summary, learning objectives
+- Sections with collapsible headings (reduce cognitive overload)
+- “Key takeaways” box
+- “Common exam traps” box
+- “Related concepts” links (internal)
+- Optional: Quick quiz (3-5 questions) at bottom
+
+UI requirements:
+- Calm pastel accents, white/soft background, rounded corners
+- High readability typography
+- No emojis, no checkmarks, no numbered separators
+- Mobile-first layout
+
+Implement:
+- /lessons index
+- /lessons/[track]
+- /lessons/[track]/[category]
+- /lessons/[track]/[category]/[slug]
+
+Use the taxonomy system from earlier prompts.
+Implement a question engine with Study Mode and Exam Mode.
+
+Study Mode:
+- Immediate feedback after answer
+- Show deep rationale including:
+  - why correct answer is correct
+  - why each distractor is wrong
+  - pathophysiology + safety + prioritization links
+- Allow switching to related concept lessons
+
+Exam Mode:
+- Timed
+- No feedback during test
+- Lock answers once submitted
+- Results and rationales only after completion
+- Minimal distractions, strict interface
+
+Implementation:
+- Create data model for questions (track, category, topic tags, difficulty, stem, options, correct, rationales, references).
+- Build pages:
+  - /qbank (filters)
+  - /qbank/study
+  - /qbank/exam
+- Add minimal analytics (local storage ok for now): accuracy by category and error type.
+- Keep UI original and not a clone of NCLEX commercial platforms.
+
+Provide the full code changes.
+Add an error pattern system and a lightweight insights dashboard.
+
+Error types:
+- Knowledge gap
+- Misread question
+- Safety oversight
+- Prioritization failure
+- Overthinking
+
+Requirements:
+- In Study Mode, after a wrong answer, prompt the user to select what went wrong (optional).
+- Store attempts locally (or in a simple DB if already present).
+- Create /progress page showing:
+  - accuracy by category and track
+  - most frequent error patterns
+  - recommended next lessons based on weakness
+
+Keep it simple, privacy-safe, and fast.
+Create a graphics system for lessons.
+
+Requirements:
+- Add a reusable <LessonFigure /> component that supports:
+  - image src
+  - caption
+  - alt text (SEO + accessibility)
+  - figure number auto-label
+  - optional “callout labels” list (text)
+- Add a /graphics page explaining NurseNest’s visual style rules:
+  - clinical-minimal, modern pastel
+  - accuracy-first
+  - low clutter
+  - consistent iconography and colors
+- Update lesson templates to support inserting figures at key section points.
+- Create placeholders for key topics:
+  - shock types mechanism diagram
+  - acid-base overview
+  - cardiac conduction flow
+  - V/Q mismatch
+  - pediatric vs adult differences
+Use placeholder images for now but wire the system so swapping in real assets is trivial.
+Implement paywall gating that preserves SEO.
+
+Rules:
+- Lessons remain indexable with full free content for selected sections.
+- Premium sections should be:
+  - visible headings and summaries
+  - blurred/locked body with upgrade CTA
+- Qbank:
+  - Free users get limited daily questions
+  - Premium gets unlimited + Exam Mode + deep rationales + analytics
+
+Implement:
+- A simple feature flag system (FREE vs PREMIUM) using session state (mock auth ok for now).
+- Components:
+  - <PaywallBlock />
+  - <UpgradeCTA />
+- Ensure metadata, headings, and summaries remain accessible for SEO.
+- Keep UI clinical/pastel and professional.
+Create guided Study Paths per track:
+
+- REX-PN Path
+- NCLEX-RN Path
+- NP Path
+- US Nursing Path (general)
+
+Requirements:
+- Each path is a curated sequence of lesson slugs + associated qbank sets
+- Show progress through path
+- Provide recommended weekly schedules
+- Add /paths and /paths/[track] pages
+- Include clear internal links to lessons and practice
+
+Implement using the existing taxonomy + content system.
+Implement a Crash Course system.
+
+Requirements:
+- Crash course is a structured module with:
+  - overview
+  - 5–10 short lessons
+  - practice drills
+  - final checkpoint quiz
+- Build pages:
+  - /courses
+  - /courses/[slug]
+  - /courses/[slug]/[unit]
+- Add one starter course:
+  - "Statistics for Nurses (Without the Math)"
+Include SEO metadata and internal links to related lessons.
+
+Use the same clinical modern pastel design system.
+Inspect my current Replit NurseNest project and implement the foundation for a scalable learning platform:
+
+- Create TypeScript content taxonomy (tracks, categories, tags)
+- Build /lessons browsing routes and lesson template pages
+- Add SEO metadata generator and breadcrumb JSON-LD for lessons
+- Keep clinical + modern pastel design (minimalist)
+
+Do this in small commits/steps and explain what files you changed.
+Start by summarizing current project structure and confirming Next.js App Router is used.
+Implement a best-effort content protection system for my NurseNest Next.js app (Replit).
+
+Important constraints:
+- It is not possible to fully prevent or reliably detect OS-level screenshots in a browser. Implement deterrence + enforceable account suspension instead.
+- Do NOT break accessibility completely; apply protections only to premium content blocks and question rationales.
+
+Requirements (client-side deterrence):
+- Disable text selection and copying inside premium content containers only (not the whole site).
+- Intercept copy/cut/contextmenu events inside premium containers.
+- Block printing of premium pages using @media print (show a “Printing disabled” page).
+- Add a visible but subtle user-specific watermark overlay on premium pages (e.g., “NurseNest • userId/email • timestamp”).
+- On first and second violation, show a modal popup warning:
+  “Copying/recording/screenshotting content is prohibited. Further violations may result in suspension. Strike X of 3.”
+- On third violation, show a modal stating access is suspended and instruct to contact support for restoration.
+
+Requirements (server-side enforcement):
+- Create a Strike model/table (or use existing DB) to store strikes per user and event type with timestamps and page route.
+- Expose an authenticated API route to record strikes.
+- After 3 strikes within a rolling window (e.g., 30 days), set user.status = "suspended".
+- Add middleware/route guard: suspended users are blocked from premium content and Qbank, even if they have paid access, and are redirected to a /suspended page with support contact instructions.
+
+Provide:
+- File changes
+- Components (PremiumContent wrapper + WarningModal)
+- Middleware/guards
+- API route(s)
+- DB schema changes
+- A short explanation of what is enforceable vs deterrence-only
+Create a <ProtectedContent> wrapper component for premium lesson sections and rationales.
+
+Behavior:
+- Applies CSS to prevent selection inside the container only.
+- Listens for copy/cut/contextmenu/dragstart events inside the container; prevents default and triggers a strike event.
+- Adds watermark overlay (current user identifier + timestamp + page slug).
+- Calls POST /api/strikes with {eventType, route, contentId} when a violation occurs.
+- Shows a warning modal. The modal text changes depending on strike count (1,2 warn; 3 suspended).
+
+Constraints:
+- Do not apply protections to free lesson text (SEO-friendly).
+- Keep UI clinical + modern pastel, calm, non-aggressive tone.
+- Ensure the wrapper doesn’t break mobile scrolling or screen readers.
+
+Return code changes needed and example usage in a lesson page and in a rationale block.
+Implement the suspension flow.
+
+Requirements:
+- Add /suspended route with clear messaging:
+  “Your account access has been suspended due to repeated violations of content protection rules (3 strikes).”
+  “If you believe this is an error, contact support at support@nursenest.com with your email and approximate time of the event.”
+- When user.status = suspended:
+  - block all premium routes, qbank routes, and downloads
+  - allow access to free lessons and the suspended page
+- Make sure this works even if user has an active paid subscription.
+
+Also:
+- Create an admin-only mechanism (simple for now) to reset strikes and unsuspend a user.
+
+Return code changes.
+Update the warning modal copy and the suspended page copy to align with my Terms of Use:
+
+- The warning should say copying/recording/screenshotting is prohibited and may lead to suspension.
+- Avoid threats; keep professional tone.
+- Include the strike count (X of 3).
+- On suspension, instruct user to contact support for review/restoration.
+
+Also add a small link “View Terms” in the modal that routes to /terms.
+Improve the strike recording logic to reduce false positives.
+
+Requirements:
+- Debounce strikes (e.g., no more than 1 strike per 10 seconds).
+- Only count unique violations (e.g., repeated copy events from the same action should not count multiple times).
+- Store event type and route for audit.
+- Use a rolling window (e.g., 30 days). After 30 days, strikes expire.
+- Provide a config file for thresholds and time windows.
+
+Return implementation details and code changes.
