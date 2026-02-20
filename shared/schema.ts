@@ -108,6 +108,36 @@ export const insertContentItemSchema = createInsertSchema(contentItems).omit({
 export type ContentItem = typeof contentItems.$inferSelect;
 export type InsertContentItem = z.infer<typeof insertContentItemSchema>;
 
+export const userFlashcards = pgTable("user_flashcards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  question: text("question").notNull(),
+  answer: text("answer").notNull(),
+  category: text("category").default("My Cards"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertUserFlashcardSchema = createInsertSchema(userFlashcards).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type UserFlashcard = typeof userFlashcards.$inferSelect;
+export type InsertUserFlashcard = z.infer<typeof insertUserFlashcardSchema>;
+
+export const blogConfig = pgTable("blog_config", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  citationStyle: text("citation_style").default("apa7"),
+  postsPerDay: integer("posts_per_day").default(2),
+  dayCount: integer("day_count").default(0),
+  totalPostsGenerated: integer("total_posts_generated").default(0),
+  isActive: boolean("is_active").default(false),
+  lastPostAt: timestamp("last_post_at"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type BlogConfig = typeof blogConfig.$inferSelect;
+
 export const featureUsage = pgTable("feature_usage", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull(),

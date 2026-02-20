@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
+import { useAuth } from "@/lib/auth";
 
 const fundamentalsSystems = [
   {
@@ -1726,13 +1727,16 @@ const npSystems = [
 
 export default function Lessons() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState("rpn");
+  const { user } = useAuth();
+  const userTier = user?.tier || "free";
+  const isAdmin = userTier === "admin";
+  const previewTier = isAdmin ? (localStorage.getItem("nursenest-admin-preview") || null) : null;
+  const effectiveTier = previewTier || userTier;
+  const showAllTabs = effectiveTier === "free" || effectiveTier === "admin" || !user;
 
-  const pharmacologySystems = [
-    ...rpnSystems.filter(s => s.id.includes("pharmacology")),
-    ...rnSystems.filter(s => s.id.includes("pharmacology")),
-    ...npSystems.filter(s => s.id.includes("pharmacology")),
-  ];
+  const defaultTab = showAllTabs ? "rpn" : effectiveTier;
+  const [activeTab, setActiveTab] = useState(defaultTab);
+
   const rpnNonPharm = rpnSystems.filter(s => !s.id.includes("pharmacology"));
   const rnNonPharm = rnSystems.filter(s => !s.id.includes("pharmacology"));
   const npNonPharm = npSystems.filter(s => !s.id.includes("pharmacology"));
@@ -1764,12 +1768,23 @@ export default function Lessons() {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Pathophysiology Mastery</h1>
             <p className="text-lg text-gray-600">Advanced clinical recognition and safety logic for nursing students.</p>
           </div>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-[700px]">
-            <TabsList className="grid w-full grid-cols-4 bg-gray-100 rounded-full p-1">
-              <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RPN / LVN</TabsTrigger>
-              <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RN</TabsTrigger>
-              <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm">NP</TabsTrigger>
-              <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">Pharmacology</TabsTrigger>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
+            <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
+              {showAllTabs ? (
+                <>
+                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RPN / LVN</TabsTrigger>
+                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RN</TabsTrigger>
+                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm">NP</TabsTrigger>
+                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">Pharmacology</TabsTrigger>
+                </>
+              ) : (
+                <>
+                  <TabsTrigger value={effectiveTier} className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">
+                    {effectiveTier === "rpn" ? "RPN / LVN" : effectiveTier === "rn" ? "RN" : "NP"} Lessons
+                  </TabsTrigger>
+                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">Pharmacology</TabsTrigger>
+                </>
+              )}
             </TabsList>
           </Tabs>
         </div>
@@ -1798,30 +1813,36 @@ export default function Lessons() {
           </TabsContent>
           <TabsContent value="pharmacology" className="mt-0">
             <div className="space-y-10">
-              <div>
-                <h2 className="text-lg font-bold text-gray-700 mb-4">RPN / LVN Pharmacology</h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-                  {rpnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
-                    <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
-                  ))}
+              {(showAllTabs || effectiveTier === "rpn") && (
+                <div>
+                  <h2 className="text-lg font-bold text-gray-700 mb-4">RPN / LVN Pharmacology</h2>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    {rpnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
+                      <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-gray-700 mb-4">RN Pharmacology</h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-                  {rnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
-                    <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
-                  ))}
+              )}
+              {(showAllTabs || effectiveTier === "rn") && (
+                <div>
+                  <h2 className="text-lg font-bold text-gray-700 mb-4">RN Pharmacology</h2>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    {rnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
+                      <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-gray-700 mb-4">NP Pharmacology</h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-                  {npSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
-                    <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
-                  ))}
+              )}
+              {(showAllTabs || effectiveTier === "np") && (
+                <div>
+                  <h2 className="text-lg font-bold text-gray-700 mb-4">NP Pharmacology</h2>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    {npSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
+                      <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </TabsContent>
         </Tabs>

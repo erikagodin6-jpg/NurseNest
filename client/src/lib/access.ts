@@ -1,11 +1,3 @@
-const TIER_HIERARCHY: Record<string, number> = {
-  free: 0,
-  rpn: 1,
-  rn: 2,
-  np: 3,
-  admin: 4,
-};
-
 const TIER_LABELS: Record<string, string> = {
   free: "Free",
   rpn: "RPN/LVN",
@@ -17,9 +9,8 @@ const TIER_LABELS: Record<string, string> = {
 export function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
   if (!targetTier || targetTier === "free") return true;
   if (!userTier || userTier === "free") return false;
-  const userLevel = TIER_HIERARCHY[userTier] ?? 0;
-  const targetLevel = TIER_HIERARCHY[targetTier] ?? 0;
-  return userLevel >= targetLevel;
+  if (userTier === "admin") return true;
+  return userTier === targetTier;
 }
 
 export function getTierLabel(tier: string): string {
@@ -28,8 +19,12 @@ export function getTierLabel(tier: string): string {
 
 export function getAccessibleTiers(userTier: string | null | undefined): string[] {
   if (!userTier || userTier === "free") return ["free"];
-  const userLevel = TIER_HIERARCHY[userTier] ?? 0;
-  return Object.entries(TIER_HIERARCHY)
-    .filter(([, level]) => level <= userLevel)
-    .map(([key]) => key);
+  if (userTier === "admin") return ["free", "rpn", "rn", "np", "admin"];
+  return ["free", userTier];
+}
+
+export function getUserTierOnly(userTier: string | null | undefined): string | null {
+  if (!userTier || userTier === "free") return null;
+  if (userTier === "admin") return null;
+  return userTier;
 }

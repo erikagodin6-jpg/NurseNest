@@ -1,0 +1,203 @@
+
+Create a landing page section titled “What You Can Study” for NurseNest.
+
+Requirements:
+- Written for SEO (nursing students + exam prep searches)
+- Include high-yield nursing topics students search for
+- Tone: authoritative, clear, professional
+- Avoid fluff, avoid emojis
+- Focus on NCLEX / REX-PN relevant domains
+
+Include topics like:
+- Medical-Surgical Nursing
+- Pharmacology
+- Pediatrics
+- Maternal & Newborn
+- Mental Health
+- Critical Care Concepts
+- Lab Values & ABGs
+- Clinical Prioritization
+- Pathophysiology
+
+Write this as polished website copy, not bullet spam.
+Audit my landing page for legally risky or low-credibility claims.
+
+Tasks:
+- Replace problematic phrases like “NCLEX approved”
+- Preserve strong marketing impact
+- Use safer, accurate alternatives
+- Maintain persuasive tone
+
+Context:
+NurseNest is an independent nursing education platform, not affiliated with NCLEX or regulatory bodies.
+
+Provide improved wording only.
+
+Generate high-converting CTA button text for a nursing exam prep platform.
+
+Constraints:
+- Audience: anxious nursing students preparing for NCLEX / REX-PN
+- Avoid generic phrases like “Learn More”
+- Emphasize action + exam relevance
+- Tone: confident, reassuring, credible
+
+Return 10 CTA variations suitable for hero sections and pricing sections.
+
+Create an FAQ section for NurseNest optimized for SEO.
+
+Goals:
+- Target real student search queries
+- Improve trust and conversions
+- Address exam relevance (NCLEX / REX-PN)
+- Professional tone, concise but informative
+
+Include questions about:
+- NCLEX vs REX-PN usage
+- Question style and realism
+- Next Generation NCLEX cases
+- Use during nursing school
+- Differences vs traditional study methods
+- Subscription concerns
+
+Format as clean website FAQ content.
+
+Write a landing page section explaining why students should choose NurseNest over generic question banks.
+
+Requirements:
+- No competitor names
+- Emphasize cognitive learning advantages
+- Focus on rationales, clinical reasoning, simulations, interface clarity
+- Tone: confident, intelligent, not aggressive
+- Avoid exaggerated claims
+
+Make this persuasive and credible.
+
+Generate SEO-optimized title tag and meta description for NurseNest.
+
+Context:
+- Nursing exam prep platform
+- Audience: NCLEX, REX-PN, RPN, RN, NP students
+- Geographic relevance: Canada + US
+- Focus: question bank, simulations, flashcards
+
+Provide multiple variations prioritizing click-through rate and rankings.
+
+Create a high-conversion email capture section for NurseNest.
+
+Goals:
+- Capture nursing students preparing for exams
+- Offer compelling lead magnet (free questions / study resources)
+- Reduce friction and skepticism
+- Tone: trustworthy, professional, reassuring
+
+Avoid spammy language. Write polished website copy.
+Audit my lesson catalog for redundancy, overlap, and structural inefficiencies.
+
+Tasks:
+- Identify duplicate or conceptually overlapping lessons
+- Recommend merges or renaming for clarity
+- Preserve SEO value while improving academic credibility
+- Prefer umbrella topics over fragmented micro-lessons
+- Focus on nursing exam prep logic (RPN / NCLEX-style relevance)
+
+Return:
+- List of lessons to merge
+- Improved naming conventions
+- Cleaner taxonomy structure
+Identify critical missing topics for an RPN / NCLEX-style nursing prep platform.
+
+Context:
+- Focus on high-frequency exam concepts
+- Prioritize safety, clinical deterioration, and pharmacology traps
+- Avoid rare diseases unless exam-relevant
+- Align with NCLEX / REX-PN cognitive patterns
+
+Ensure inclusion of:
+- Shock types and recognition
+- Hypoglycemia vs DKA vs HHS
+- Seizure types and nursing priorities
+- Chest pain differentials
+- Fluid resuscitation logic
+- Electrolyte emergency patterns
+- Common medication classes tested on exams
+
+Return only missing topics with suggested lesson titles.
+Create a new lesson category titled "Clinical Scenarios & Prioritization".
+
+Goals:
+- Mimic NCLEX-style thinking
+- Focus on safety, delegation, and first-action logic
+- Increase perceived exam relevance
+- Avoid textbook-style theory
+
+Generate lesson titles covering:
+- Who do you see first scenarios
+- Delegation and assignment traps
+- Unexpected findings vs expected findings
+- Acute deterioration recognition
+- Medication safety prioritization
+- Pediatric vs adult prioritization differences
+- Post-operative complications recognition
+
+Return only lesson titles.
+Evaluate my lesson catalog for low exam-yield topics.
+
+Tasks:
+- Identify topics unlikely to appear on RPN / NCLEX-style exams
+- Preserve clinically important but deprioritize niche dermatology or rare conditions
+- Recommend higher-value replacements
+
+Prioritize:
+- Safety
+- Acute care
+- Pharmacology
+- Clinical deterioration
+- High-frequency nursing scenarios
+
+Return:
+- Lessons to deprioritize or remove
+- Suggested replacements
+Rewrite my lesson titles for a nursing education platform.
+
+Goals:
+- Improve SEO relevance
+- Increase academic credibility
+- Sound like premium exam-prep content
+- Avoid vague or casual phrasing
+
+Rules:
+- Prefer clinically explicit terminology
+- Include exam-relevant keywords where natural
+- Maintain clarity and authority
+
+Provide improved lesson titles only.
+Generate new high-value lesson categories for a nursing exam prep platform.
+
+Objectives:
+- Increase subscription appeal
+- Align with student anxiety and exam fears
+- Reinforce clinical reasoning and safety
+
+Include categories such as:
+- Pharmacology by Drug Class
+- Lab Values & Critical Diagnostics
+- Emergency & Rapid Response
+- Medication Safety & Errors
+- Case Studies
+- High-Risk Conditions
+- Common NCLEX Traps
+
+Return categories with example lesson titles.
+Rewrite how my lesson library is presented on the page.
+
+Goals:
+- Emphasize clinical mastery and exam readiness
+- Avoid overwhelming users
+- Increase perceived intelligence and structure
+- Highlight progression from beginner → advanced reasoning
+
+Tone:
+- Professional
+- Premium
+- Clinically authoritative
+- Confidence-building

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, users, notes, testResults, userProgress, contentItems, featureUsage } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike } from "drizzle-orm";
 import pg from "pg";
@@ -36,6 +36,12 @@ export interface IStorage {
   createContentItem(item: InsertContentItem): Promise<ContentItem>;
   updateContentItem(id: string, updates: Partial<InsertContentItem>): Promise<ContentItem>;
   deleteContentItem(id: string): Promise<void>;
+  getUserFlashcards(userId: string): Promise<UserFlashcard[]>;
+  createUserFlashcard(card: InsertUserFlashcard): Promise<UserFlashcard>;
+  updateUserFlashcard(id: string, userId: string, updates: Partial<InsertUserFlashcard>): Promise<UserFlashcard>;
+  deleteUserFlashcard(id: string, userId: string): Promise<void>;
+  getBlogConfig(): Promise<BlogConfig | undefined>;
+  upsertBlogConfig(config: Partial<BlogConfig>): Promise<BlogConfig>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -274,6 +280,45 @@ export class DatabaseStorage implements IStorage {
       RETURNING *
     `);
     return result.rows[0] as FeatureUsage;
+  }
+
+  async getUserFlashcards(userId: string): Promise<UserFlashcard[]> {
+    return db.select().from(userFlashcards).where(eq(userFlashcards.userId, userId)).orderBy(desc(userFlashcards.createdAt));
+  }
+
+  async createUserFlashcard(card: InsertUserFlashcard): Promise<UserFlashcard> {
+    const [created] = await db.insert(userFlashcards).values(card).returning();
+    return created;
+  }
+
+  async updateUserFlashcard(id: string, userId: string, updates: Partial<InsertUserFlashcard>): Promise<UserFlashcard> {
+    const [updated] = await db.update(userFlashcards)
+      .set(updates)
+      .where(and(eq(userFlashcards.id, id), eq(userFlashcards.userId, userId)))
+      .returning();
+    return updated;
+  }
+
+  async deleteUserFlashcard(id: string, userId: string): Promise<void> {
+    await db.delete(userFlashcards).where(and(eq(userFlashcards.id, id), eq(userFlashcards.userId, userId)));
+  }
+
+  async getBlogConfig(): Promise<BlogConfig | undefined> {
+    const [config] = await db.select().from(blogConfig);
+    return config;
+  }
+
+  async upsertBlogConfig(config: Partial<BlogConfig>): Promise<BlogConfig> {
+    const existing = await this.getBlogConfig();
+    if (existing) {
+      const [updated] = await db.update(blogConfig)
+        .set({ ...config, updatedAt: new Date() })
+        .where(eq(blogConfig.id, existing.id))
+        .returning();
+      return updated;
+    }
+    const [created] = await db.insert(blogConfig).values(config as any).returning();
+    return created;
   }
 }
 

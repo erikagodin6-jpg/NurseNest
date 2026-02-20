@@ -3,9 +3,11 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
-import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2 } from "lucide-react";
+import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers } from "lucide-react";
 import { contentMap } from "@/data/lessons";
 
 export default function ProfilePage() {
@@ -14,6 +16,16 @@ export default function ProfilePage() {
   const { toast } = useToast();
   const [notes, setNotes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [flashcards, setFlashcards] = useState<any[]>([]);
+  const [flashcardsLoading, setFlashcardsLoading] = useState(true);
+  const [showCreateCard, setShowCreateCard] = useState(false);
+  const [editingCard, setEditingCard] = useState<any>(null);
+  const [newQuestion, setNewQuestion] = useState("");
+  const [newAnswer, setNewAnswer] = useState("");
+  const [newCategory, setNewCategory] = useState("My Cards");
+  const [studyMode, setStudyMode] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -25,7 +37,57 @@ export default function ProfilePage() {
       .then(setNotes)
       .catch(() => {})
       .finally(() => setLoading(false));
+    fetch(`/api/user-flashcards/${user.id}`)
+      .then((r) => r.json())
+      .then(setFlashcards)
+      .catch(() => {})
+      .finally(() => setFlashcardsLoading(false));
   }, [user]);
+
+  async function handleCreateFlashcard() {
+    if (!user || !newQuestion.trim() || !newAnswer.trim()) return;
+    const res = await fetch("/api/user-flashcards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: user.id, question: newQuestion, answer: newAnswer, category: newCategory }),
+    });
+    if (res.ok) {
+      const card = await res.json();
+      setFlashcards([card, ...flashcards]);
+      setNewQuestion(""); setNewAnswer(""); setNewCategory("My Cards"); setShowCreateCard(false);
+      toast({ title: "Flashcard created" });
+    }
+  }
+
+  async function handleUpdateFlashcard() {
+    if (!user || !editingCard) return;
+    const res = await fetch(`/api/user-flashcards/${editingCard.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: user.id, question: newQuestion, answer: newAnswer, category: newCategory }),
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      setFlashcards(flashcards.map(c => c.id === updated.id ? updated : c));
+      setEditingCard(null); setNewQuestion(""); setNewAnswer(""); setNewCategory("My Cards");
+      toast({ title: "Flashcard updated" });
+    }
+  }
+
+  async function handleDeleteFlashcard(id: string) {
+    if (!user) return;
+    await fetch(`/api/user-flashcards/${id}?userId=${user.id}`, { method: "DELETE" });
+    setFlashcards(flashcards.filter(c => c.id !== id));
+    toast({ title: "Flashcard deleted" });
+  }
+
+  function startEdit(card: any) {
+    setEditingCard(card);
+    setNewQuestion(card.question);
+    setNewAnswer(card.answer);
+    setNewCategory(card.category || "My Cards");
+    setShowCreateCard(true);
+  }
 
   function handlePrint(note: any) {
     const lesson = contentMap[note.lessonId];
@@ -110,6 +172,106 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         </div>
+
+        <Card className="border-none shadow-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Layers className="w-5 h-5 text-indigo-500" /> My Flashcards
+              <span className="text-sm font-normal text-gray-400 ml-2">{flashcards.length} cards</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {studyMode && flashcards.length > 0 ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">{currentIndex + 1} / {flashcards.length}</span>
+                  <Button variant="outline" size="sm" onClick={() => { setStudyMode(false); setCurrentIndex(0); setFlipped(false); }} data-testid="button-exit-study">
+                    <X className="w-4 h-4 mr-1" /> Exit Study
+                  </Button>
+                </div>
+                <div
+                  className="min-h-[200px] border-2 rounded-2xl p-8 flex items-center justify-center cursor-pointer transition-all hover:shadow-md bg-gradient-to-br from-white to-gray-50"
+                  onClick={() => setFlipped(!flipped)}
+                  data-testid="flashcard-study-card"
+                >
+                  <div className="text-center">
+                    <p className="text-xs text-gray-400 mb-2">{flipped ? "ANSWER" : "QUESTION"}</p>
+                    <p className="text-lg font-medium">{flipped ? flashcards[currentIndex]?.answer : flashcards[currentIndex]?.question}</p>
+                    {!flipped && <p className="text-xs text-gray-400 mt-4">Tap to reveal answer</p>}
+                  </div>
+                </div>
+                <div className="flex justify-center gap-4">
+                  <Button variant="outline" size="sm" onClick={() => { setCurrentIndex(Math.max(0, currentIndex - 1)); setFlipped(false); }} disabled={currentIndex === 0} data-testid="button-prev-card">
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => { setFlipped(false); }} data-testid="button-flip-card">
+                    <RotateCcw className="w-4 h-4" />
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => { setCurrentIndex(Math.min(flashcards.length - 1, currentIndex + 1)); setFlipped(false); }} disabled={currentIndex === flashcards.length - 1} data-testid="button-next-card">
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="flex gap-2">
+                  <Button size="sm" onClick={() => { setShowCreateCard(!showCreateCard); setEditingCard(null); setNewQuestion(""); setNewAnswer(""); setNewCategory("My Cards"); }} data-testid="button-create-flashcard">
+                    <Plus className="w-4 h-4 mr-1" /> New Card
+                  </Button>
+                  {flashcards.length > 0 && (
+                    <Button variant="outline" size="sm" onClick={() => { setStudyMode(true); setCurrentIndex(0); setFlipped(false); }} data-testid="button-study-flashcards">
+                      <BookOpen className="w-4 h-4 mr-1" /> Study ({flashcards.length})
+                    </Button>
+                  )}
+                </div>
+
+                {showCreateCard && (
+                  <div className="border rounded-xl p-4 space-y-3 bg-gray-50">
+                    <Input placeholder="Question" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} data-testid="input-flashcard-question" />
+                    <Textarea placeholder="Answer" value={newAnswer} onChange={e => setNewAnswer(e.target.value)} rows={3} data-testid="input-flashcard-answer" />
+                    <Input placeholder="Category (optional)" value={newCategory} onChange={e => setNewCategory(e.target.value)} data-testid="input-flashcard-category" />
+                    <div className="flex gap-2">
+                      <Button size="sm" onClick={editingCard ? handleUpdateFlashcard : handleCreateFlashcard} disabled={!newQuestion.trim() || !newAnswer.trim()} data-testid="button-save-flashcard">
+                        {editingCard ? "Update" : "Save"}
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => { setShowCreateCard(false); setEditingCard(null); }} data-testid="button-cancel-flashcard">
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {flashcardsLoading ? (
+                  <p className="text-gray-500">Loading flashcards...</p>
+                ) : flashcards.length === 0 && !showCreateCard ? (
+                  <p className="text-gray-500">No flashcards yet. Create your own study cards to review anytime.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {flashcards.map(card => (
+                      <div key={card.id} className="border rounded-xl p-4 space-y-1" data-testid={`flashcard-item-${card.id}`}>
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-900">{card.question}</p>
+                            <p className="text-sm text-gray-600 mt-1">{card.answer}</p>
+                            {card.category && <p className="text-xs text-gray-400 mt-1">{card.category}</p>}
+                          </div>
+                          <div className="flex gap-1 ml-2 flex-shrink-0">
+                            <Button variant="ghost" size="sm" onClick={() => startEdit(card)} data-testid={`button-edit-flashcard-${card.id}`}>
+                              <Pencil className="w-3 h-3" />
+                            </Button>
+                            <Button variant="ghost" size="sm" onClick={() => handleDeleteFlashcard(card.id)} data-testid={`button-delete-flashcard-${card.id}`}>
+                              <Trash2 className="w-3 h-3 text-red-400" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         <Card className="border-none shadow-sm">
           <CardHeader>

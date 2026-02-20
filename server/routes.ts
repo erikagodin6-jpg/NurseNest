@@ -5,20 +5,11 @@ import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, ins
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 
-const TIER_HIERARCHY: Record<string, number> = {
-  free: 0,
-  rpn: 1,
-  rn: 2,
-  np: 3,
-  admin: 4,
-};
-
 function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
   if (!targetTier || targetTier === "free") return true;
   if (!userTier || userTier === "free") return false;
-  const userLevel = TIER_HIERARCHY[userTier] ?? 0;
-  const targetLevel = TIER_HIERARCHY[targetTier] ?? 0;
-  return userLevel >= targetLevel;
+  if (userTier === "admin") return true;
+  return userTier === targetTier;
 }
 
 async function extractUserTier(req: Request): Promise<string | null> {
@@ -232,6 +223,52 @@ export async function registerRoutes(
   app.delete("/api/notes/:userId/:lessonId", async (req, res) => {
     try {
       await storage.deleteNote(req.params.userId, req.params.lessonId);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/user-flashcards/:userId", async (req, res) => {
+    try {
+      const cards = await storage.getUserFlashcards(req.params.userId);
+      res.json(cards);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/user-flashcards", async (req, res) => {
+    try {
+      const { userId, question, answer, category } = req.body;
+      if (!userId || !question || !answer) return res.status(400).json({ error: "Missing required fields" });
+      const card = await storage.createUserFlashcard({ userId, question, answer, category: category || "My Cards" });
+      res.json(card);
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/user-flashcards/:id", async (req, res) => {
+    try {
+      const { userId, question, answer, category } = req.body;
+      if (!userId) return res.status(400).json({ error: "Missing userId" });
+      const updates: any = {};
+      if (question !== undefined) updates.question = question;
+      if (answer !== undefined) updates.answer = answer;
+      if (category !== undefined) updates.category = category;
+      const card = await storage.updateUserFlashcard(req.params.id, userId, updates);
+      res.json(card);
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/user-flashcards/:id", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) return res.status(400).json({ error: "Missing userId" });
+      await storage.deleteUserFlashcard(req.params.id, userId);
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
