@@ -17,6 +17,9 @@ import SubscriptionSuccess from "@/pages/subscription-success";
 import PricingPage from "@/pages/pricing";
 import FAQPage from "@/pages/faq";
 import AnatomyPage from "@/pages/anatomy";
+import TermsPage from "@/pages/terms";
+import PrivacyPage from "@/pages/privacy";
+import DisclaimerPage from "@/pages/disclaimer";
 
 function Router() {
   return (
@@ -32,6 +35,9 @@ function Router() {
       <Route path="/subscription/success" component={SubscriptionSuccess} />
       <Route path="/pricing" component={PricingPage} />
       <Route path="/faq" component={FAQPage} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/disclaimer" component={DisclaimerPage} />
       <Route component={NotFound} />
     </Switch>
   );

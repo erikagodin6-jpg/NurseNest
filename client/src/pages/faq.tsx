@@ -15,107 +15,165 @@ const faqData = [
         id: "general-1",
         question: "What is NurseNest?",
         answer:
-          "A comprehensive nursing education platform for RPN/LVN, RN, and NP students with interactive lessons, flashcards, and exam preparation tools.",
+          "NurseNest is a clinical learning platform designed to strengthen nursing knowledge, clinical reasoning, and exam preparedness. Unlike traditional study resources that emphasize memorization, NurseNest focuses on mechanisms, physiological logic, and decision-making frameworks used in real clinical environments and licensing examinations.",
       },
       {
         id: "general-2",
         question: "Who is NurseNest for?",
         answer:
-          "Nursing students at all levels preparing for REX-PN, NCLEX, and NP certification exams, as well as practicing nurses seeking continuing education.",
+          "NurseNest is designed for nursing students, exam candidates, and practicing nurses seeking deeper conceptual understanding. Content is structured to support learners across RPN, RN, and NP levels, with emphasis on clinical thinking rather than isolated fact recall.",
       },
       {
         id: "general-3",
-        question: "Is the content evidence-based?",
+        question: "Is NurseNest a replacement for nursing school or clinical training?",
         answer:
-          "Yes, all content is developed by experienced nursing educators and follows current clinical practice guidelines from organizations like the ANA, CNA, and specialty nursing bodies.",
+          "No. NurseNest is a supplementary educational resource intended to support formal education and professional development. It does not replace accredited nursing programs, clinical placements, institutional instruction, or regulatory training requirements.",
+      },
+      {
+        id: "general-4",
+        question: "Is the content evidence-informed?",
+        answer:
+          "Yes. Educational material is developed using widely accepted physiological principles, established clinical frameworks, and contemporary practice standards. NurseNest is an educational platform, not a clinical authority, and learners should always follow institutional policies, regulatory standards, and employer-specific protocols.",
+      },
+      {
+        id: "general-5",
+        question: "Does NurseNest provide medical or clinical advice?",
+        answer:
+          "No. All content is provided for educational purposes only. NurseNest does not offer medical diagnoses, treatment recommendations, or patient-specific guidance. Clinical decisions must always be based on professional judgment, institutional policies, and licensed provider direction.",
       },
     ],
   },
   {
-    category: "Subscription & Pricing",
+    category: "Subscription & Access",
     questions: [
       {
         id: "pricing-1",
-        question: "How much does it cost?",
+        question: "How much does NurseNest cost?",
         answer:
-          "Plans start at $29.99/month for RPN/LVN, $39.99/month for RN/NCLEX, and $49.99/month for NP Advanced.",
+          "Pricing varies by access tier and duration. Options include monthly, 3-month, 6-month, and yearly plans, as well as limited trial passes. Current subscription options are listed on our pricing page.",
       },
       {
         id: "pricing-2",
-        question: "Can I switch between tiers?",
+        question: "What does a subscription include?",
         answer:
-          "Yes, you can upgrade or downgrade your subscription at any time through your profile.",
+          "Subscriptions provide access to premium learning tools, including advanced pathophysiology lessons, clinical reasoning modules, exam-style questions, flashcards, note-taking, and progress tracking depending on the selected tier.",
       },
       {
         id: "pricing-3",
-        question: "Is there a free trial?",
+        question: "Can I switch between subscription tiers?",
         answer:
-          "We offer free Anatomy & Physiology content. Subscribe to unlock full clinical content.",
+          "Yes. Users may upgrade or modify their subscription based on platform availability and billing cycle rules.",
       },
       {
         id: "pricing-4",
-        question: "What payment methods are accepted?",
+        question: "Is there a free trial?",
         answer:
-          "We accept all major credit cards through Stripe, and PayPal.",
+          "NurseNest offers free Anatomy & Physiology content and may offer limited-access passes at certain times. Availability and terms may change without notice.",
       },
       {
         id: "pricing-5",
-        question: "Can I cancel anytime?",
+        question: "Can I cancel my subscription?",
         answer:
-          "Yes, cancel anytime with no penalty. You'll retain access until the end of your billing period.",
+          "Yes. Subscriptions may be cancelled at any time. Access remains active until the end of the billing period. NurseNest does not provide partial-period refunds unless required by applicable consumer protection laws.",
+      },
+      {
+        id: "pricing-6",
+        question: "Are payments refundable?",
+        answer:
+          "Due to the digital nature of the platform, subscription fees are generally non-refundable once access is granted. First-time subscribers are covered by a 30-day money-back guarantee. Exceptions may apply where legally required.",
+      },
+      {
+        id: "pricing-7",
+        question: "What payment methods are accepted?",
+        answer:
+          "Payments are processed securely through Stripe. Accepted payment methods include major credit and debit cards.",
+      },
+      {
+        id: "pricing-8",
+        question: "Do subscriptions auto-renew?",
+        answer:
+          "Yes. All subscriptions auto-renew at the end of each billing period. You will receive a reminder email before renewal so you can cancel if you wish. You can manage your subscription from your profile at any time.",
       },
     ],
   },
   {
-    category: "Content & Features",
+    category: "Content & Educational Design",
     questions: [
       {
         id: "content-1",
-        question: "What content is included?",
+        question: "What makes NurseNest different from other study platforms?",
         answer:
-          "Pathophysiology lessons, pharmacology, clinical skills, flashcards, question banks, progress tracking, and note-taking tools.",
+          "NurseNest emphasizes mechanistic understanding, physiological reasoning, and clinical cognition. Rather than presenting isolated facts, lessons explain why clinical findings occur, how compensatory mechanisms operate, and how exam questions test decision-making under uncertainty.",
       },
       {
         id: "content-2",
-        question:
-          "Is the content different for Canadian and American students?",
+        question: "Is content tailored for Canadian and American learners?",
         answer:
-          "Yes! Toggle between US and Canadian guidelines, lab values, and scope-of-practice standards.",
+          "Yes. Use the region toggle to switch between Canadian and US guidelines, lab values, terminology, and scope-of-practice standards. Core physiological principles remain consistent across regions.",
       },
       {
         id: "content-3",
-        question: "Can I take notes during lessons?",
+        question: "Are NurseNest questions identical to NCLEX or licensing exams?",
         answer:
-          "Yes, each lesson has a built-in note-taking panel that auto-saves. You can view and print all notes from your profile.",
+          "No. NurseNest creates original educational content designed to develop clinical reasoning and exam preparedness. It is not affiliated with, endorsed by, or representative of any specific examination body.",
       },
       {
         id: "content-4",
-        question: "Are there practice exams?",
+        question: "Are rationales included?",
         answer:
-          "Yes, each lesson includes quiz questions with detailed rationales, and we offer timed practice exams.",
+          "Yes. Every quiz question includes detailed rationales that explain the correct answer and why incorrect options are wrong, emphasizing clinical reasoning over memorization.",
+      },
+      {
+        id: "content-5",
+        question: "Can I take notes during lessons?",
+        answer:
+          "Yes. Each lesson includes a built-in note-taking panel that auto-saves your work. You can view and print all your notes from your profile.",
+      },
+      {
+        id: "content-6",
+        question: "Are there pre-tests and post-tests?",
+        answer:
+          "Yes. Each lesson includes a 25-question pre-test to assess baseline knowledge and a 25-question post-test to measure improvement after studying. Scores are tracked on your performance dashboard.",
       },
     ],
   },
   {
-    category: "Technical",
+    category: "Technical & Platform",
     questions: [
       {
         id: "technical-1",
-        question: "Can I use NurseNest on my phone?",
+        question: "Can NurseNest be used on mobile devices?",
         answer:
-          "Yes, NurseNest is fully responsive and works on all devices including phones, tablets, and computers.",
+          "Yes. The platform is fully responsive and works on phones, tablets, and computers with modern browsers.",
       },
       {
         id: "technical-2",
-        question: "Can I download content?",
+        question: "Can I download or redistribute content?",
         answer:
-          "Content is accessible online. Notes can be printed from your profile.",
+          "No. NurseNest content is protected intellectual property. Downloading, copying, sharing, or redistributing materials without authorization is prohibited and may result in account termination.",
       },
       {
         id: "technical-3",
         question: "Is my data secure?",
         answer:
-          "Absolutely. We use industry-standard encryption and secure payment processing through Stripe.",
+          "Yes. NurseNest uses industry-standard security practices and secure payment processing through Stripe. Users are responsible for maintaining their own account credentials.",
+      },
+    ],
+  },
+  {
+    category: "Educational & Professional Boundaries",
+    questions: [
+      {
+        id: "boundaries-1",
+        question: "Does NurseNest guarantee exam success or clinical outcomes?",
+        answer:
+          "No educational resource can guarantee examination results or clinical performance. NurseNest supports learning and reasoning development, but outcomes depend on many individual factors.",
+      },
+      {
+        id: "boundaries-2",
+        question: "How should NurseNest be used alongside formal education?",
+        answer:
+          "NurseNest is intended to complement, not replace, accredited education, clinical mentorship, institutional policy, and regulatory standards.",
       },
     ],
   },
@@ -183,6 +241,39 @@ export default function FAQPage() {
             </div>
           </div>
         ))}
+
+        <div className="mt-12 pt-8 border-t border-primary/10 text-center text-sm text-softgray" data-testid="faq-footer-links">
+          <p>
+            For more information, please review our{" "}
+            <a
+              href="/terms"
+              onClick={(e) => { e.preventDefault(); setLocation("/terms"); }}
+              className="text-primary hover:underline font-medium"
+              data-testid="link-terms"
+            >
+              Terms of Use
+            </a>
+            ,{" "}
+            <a
+              href="/privacy"
+              onClick={(e) => { e.preventDefault(); setLocation("/privacy"); }}
+              className="text-primary hover:underline font-medium"
+              data-testid="link-privacy"
+            >
+              Privacy Policy
+            </a>
+            , and{" "}
+            <a
+              href="/disclaimer"
+              onClick={(e) => { e.preventDefault(); setLocation("/disclaimer"); }}
+              className="text-primary hover:underline font-medium"
+              data-testid="link-disclaimer"
+            >
+              Disclaimer
+            </a>
+            .
+          </p>
+        </div>
       </div>
     </div>
   );
