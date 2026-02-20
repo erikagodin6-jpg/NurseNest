@@ -132,7 +132,7 @@ You must respond with valid JSON in this exact format:
       }
     ],
     response_format: { type: "json_object" },
-    max_tokens: 4096,
+    max_completion_tokens: 4096,
   });
 
   const parsed = JSON.parse(response.choices[0]?.message?.content || "{}");

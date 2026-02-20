@@ -31,7 +31,8 @@ import {
   Home,
   Flame,
   HeartHandshake,
-  Bandage
+  Bandage,
+  Target
 } from "lucide-react";
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
@@ -73,6 +74,28 @@ const delegationSystems = [
   }
 ];
 
+const clinicalScenariosSystems = [
+  {
+    id: "clinical-scenarios",
+    title: "Clinical Scenarios & Prioritization",
+    icon: Target,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "who-see-first-adult", name: "Who Do You See First: Adult Medical-Surgical", status: "Available" },
+      { id: "who-see-first-pediatric", name: "Who Do You See First: Pediatric Scenarios", status: "Available" },
+      { id: "delegation-traps-exam", name: "Delegation Traps: Common Exam Pitfalls", status: "Available" },
+      { id: "unexpected-vs-expected", name: "Unexpected vs Expected Findings: Clinical Red Flags", status: "Available" },
+      { id: "acute-deterioration-recognition", name: "Acute Deterioration Recognition & Rapid Response", status: "Available" },
+      { id: "medication-safety-prioritization", name: "Medication Safety: Prioritization & Error Prevention", status: "Available" },
+      { id: "postop-complication-recognition", name: "Post-Operative Complication Recognition", status: "Available" },
+      { id: "pediatric-vs-adult-priorities", name: "Pediatric vs Adult Prioritization Differences", status: "Available" },
+      { id: "first-action-logic", name: "First Action Logic: What to Do Before Calling the Provider", status: "Available" },
+      { id: "assignment-making-scenarios", name: "Assignment Making: Matching Patient Acuity to Staff", status: "Available" }
+    ]
+  }
+];
+
 const rpnSystems = [
   {
     id: "cardiovascular-rpn",
@@ -98,7 +121,9 @@ const rpnSystems = [
       { id: "endocarditis-basics-rpn", name: "Endocarditis Basics", status: "Available" },
       { id: "rheumatic-fever-rpn", name: "Rheumatic Fever", status: "Available" },
       { id: "kawasaki-disease-rpn", name: "Kawasaki Disease Basics", status: "Available" },
-      { id: "cardiomyopathy-basics-rpn", name: "Cardiomyopathy Basics", status: "Available" }
+      { id: "cardiomyopathy-basics-rpn", name: "Cardiomyopathy Basics", status: "Available" },
+      { id: "shock-types-recognition-rpn", name: "Shock Types: Hypovolemic, Cardiogenic, Septic, Anaphylactic", status: "Available" },
+      { id: "chest-pain-differential-rpn", name: "Chest Pain Differentials: Cardiac vs Non-Cardiac", status: "Available" }
     ]
   },
   {
@@ -158,7 +183,8 @@ const rpnSystems = [
       { id: "narcolepsy-rpn", name: "Narcolepsy", status: "Available" },
       { id: "hydrocephalus-basics-rpn", name: "Hydrocephalus Basics", status: "Available" },
       { id: "spinal-stenosis-rpn", name: "Spinal Stenosis", status: "Available" },
-      { id: "peripheral-neuropathy-basics-rpn", name: "Peripheral Neuropathy Basics", status: "Available" }
+      { id: "peripheral-neuropathy-basics-rpn", name: "Peripheral Neuropathy Basics", status: "Available" },
+      { id: "seizure-types-priorities-rpn", name: "Seizure Types & Nursing Priorities", status: "Available" }
     ]
   },
   {
@@ -242,7 +268,8 @@ const rpnSystems = [
       { id: "hyperparathyroidism-rpn", name: "Hyperparathyroidism", status: "Available" },
       { id: "hypoparathyroidism-rpn", name: "Hypoparathyroidism", status: "Available" },
       { id: "acromegaly-basics-rpn", name: "Acromegaly Basics", status: "Available" },
-      { id: "graves-disease-rpn", name: "Graves' Disease", status: "Available" }
+      { id: "graves-disease-rpn", name: "Graves' Disease", status: "Available" },
+      { id: "hypoglycemia-vs-dka-rpn", name: "Hypoglycemia vs DKA vs HHS: Recognition & Response", status: "Available" }
     ]
   },
   {
@@ -617,7 +644,9 @@ const rpnSystems = [
       { id: "overhydration-rpn", name: "Fluid Overload (Overhydration)", status: "Available" },
       { id: "iv-fluid-types-rpn", name: "IV Fluid Types (Isotonic, Hypertonic, Hypotonic)", status: "Available" },
       { id: "iv-therapy-basics-rpn", name: "IV Therapy Basics and Monitoring", status: "Available" },
-      { id: "acid-base-balance-rpn", name: "Acid-Base Balance Overview", status: "Available" }
+      { id: "acid-base-balance-rpn", name: "Acid-Base Balance Overview", status: "Available" },
+      { id: "electrolyte-emergency-patterns-rpn", name: "Electrolyte Emergency Patterns: Recognition & Intervention", status: "Available" },
+      { id: "fluid-resuscitation-logic-rpn", name: "Fluid Resuscitation: Principles & Monitoring", status: "Available" }
     ]
   },
   {
@@ -1744,8 +1773,8 @@ export default function Lessons() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Nursing Lessons - Pathophysiology Mastery by Body System"
-        description="Browse 100+ interactive nursing pathophysiology lessons organized by body system. Cover cardiovascular, respiratory, neurological, GI, endocrine, maternity, neonatal, and more for RPN, RN, and NP students."
+        title="Clinical Lesson Library - Nursing Pathophysiology & Exam Prep by Body System"
+        description="Explore 150+ structured nursing lessons organized by body system. Medical-surgical, pharmacology, maternal-newborn, mental health, critical care, and clinical prioritization content for RPN, RN, and NP students preparing for NCLEX and REX-PN."
         keywords="nursing pathophysiology lessons, body system nursing, cardiovascular nursing, respiratory nursing, neurological nursing, NCLEX study guide, nursing exam prep, clinical nursing education"
         canonicalPath="/lessons"
         ogType="website"
@@ -1765,8 +1794,8 @@ export default function Lessons() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Pathophysiology Mastery</h1>
-            <p className="text-lg text-gray-600">Advanced clinical recognition and safety logic for nursing students.</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Clinical Lesson Library</h1>
+            <p className="text-lg text-gray-600">Structured from foundational concepts to advanced clinical reasoning. Every lesson connects pathophysiology to the decision-making patterns tested on nursing licensure examinations.</p>
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
             <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
@@ -1792,21 +1821,21 @@ export default function Lessons() {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="rpn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...fundamentalsSystems, ...delegationSystems, ...rpnNonPharm].map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...rpnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...fundamentalsSystems, ...delegationSystems, ...rnNonPharm].map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...rnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...fundamentalsSystems, ...delegationSystems, ...npNonPharm].map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...npNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>

@@ -56,16 +56,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
-        title="NurseNest - NCLEX & REX-PN Exam Prep | Nursing Question Bank, Simulations & Flashcards"
-        description={`Prepare for ${examLabel} with NurseNest. Practice 10,000+ nursing exam questions, clinical case simulations, pharmacology flashcards, and pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. Start free - no credit card required.`}
-        keywords="NCLEX prep, REX-PN exam preparation, nursing question bank, nursing exam prep, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam"
+        title="NurseNest - Nursing Exam Prep | NCLEX & REX-PN Question Bank, Clinical Simulations & Flashcards"
+        description={`Prepare for nursing licensure examinations with NurseNest. Access 10,000+ practice questions designed to mirror the cognitive patterns tested on ${examLabel} and ${altExam}, clinical case simulations, pharmacology flashcards, and pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. Start free - no credit card required.`}
+        keywords="nursing exam prep, NCLEX practice questions, REX-PN exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test"
         canonicalPath="/"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "NurseNest",
           "url": "https://nursenest.replit.app",
-          "description": "Comprehensive nursing exam preparation platform with 10,000+ practice questions, clinical case simulations, and pathophysiology lessons for NCLEX and REX-PN candidates.",
+          "description": "Comprehensive nursing exam preparation platform with 10,000+ practice questions, clinical case simulations, and pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations.",
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://nursenest.replit.app/lessons?q={search_term_string}",
@@ -92,14 +92,14 @@ export default function Home() {
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
-                {examLabel} & Nursing Exam Prep{" "}
+                Nursing Exam Prep{" "}
                 <span className="bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
                   That Teaches You to Think Like a Clinician
                 </span>
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-hero-subheading">
-                A question bank, clinical case simulations, pharmacology flashcards, and pathophysiology lessons designed around how {examLabel} and {altExam} actually test clinical judgment. Built for {rpnLabel}, RN, and NP students preparing for licensure exams, clinical placements, and the transition from student to practicing nurse.
+                A question bank, clinical case simulations, pharmacology flashcards, and pathophysiology lessons designed to mirror the cognitive patterns tested on nursing licensure examinations. Built for {rpnLabel}, RN, and NP students preparing for {examLabel}, {altExam}, clinical placements, and the transition from student to practicing nurse.
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
@@ -109,7 +109,7 @@ export default function Home() {
                   onClick={() => setLocation("/start-free")}
                   data-testid="button-hero-start-free"
                 >
-                  Start Practicing Free
+                  Start Your Exam Prep Free
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
                 <Button 
@@ -120,7 +120,7 @@ export default function Home() {
                   data-testid="button-hero-browse"
                 >
                   <BookOpen className="mr-2 w-5 h-5 text-primary" />
-                  Browse 150+ Lessons
+                  Explore the Full Lesson Library
                 </Button>
               </div>
 
@@ -173,7 +173,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Pre-Nursing Foundations</h3>
                   <p className="text-sm text-gray-600 mb-3">Interactive modules on cell biology, physiology principles, medical terminology, pharmacology basics, and pathophysiology logic.</p>
-                  <span className="text-xs text-primary font-medium">5 interactive modules →</span>
+                  <span className="text-xs text-primary font-medium">5 interactive modules</span>
                 </CardContent>
               </Card>
 
@@ -184,7 +184,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Interactive Anatomy & Physiology</h3>
                   <p className="text-sm text-gray-600 mb-3">Click-to-label diagrams of cardiovascular, respiratory, neurological, renal, and endocrine systems with immediate feedback.</p>
-                  <span className="text-xs text-primary font-medium">Click-to-label exercises →</span>
+                  <span className="text-xs text-primary font-medium">Click-to-label exercises</span>
                 </CardContent>
               </Card>
 
@@ -195,7 +195,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Clinical Clarity</h3>
                   <p className="text-sm text-gray-600 mb-3">Clear, evidence-based answers to "Why does X happen?" questions that students commonly get wrong on exams.</p>
-                  <span className="text-xs text-primary font-medium">Explore topics →</span>
+                  <span className="text-xs text-primary font-medium">Explore topics</span>
                 </CardContent>
               </Card>
             </div>
@@ -215,7 +215,7 @@ export default function Home() {
             <div className="text-center max-w-3xl mx-auto mb-6">
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-study-heading">What You Can Study on NurseNest</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Every topic is built around the clinical reasoning patterns tested on {examLabel}, {altExam}, and nursing licensure examinations. No filler content. No outdated material. Every lesson connects pathophysiology to the decision-making frameworks examiners use to write questions.
+                Every topic is built around the clinical reasoning patterns tested on nursing licensure examinations. No filler content. No outdated material. Every lesson connects pathophysiology to the decision-making frameworks that examiners use to write questions.
               </p>
             </div>
 
@@ -225,15 +225,15 @@ export default function Home() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: HeartPulse, title: "Medical-Surgical Nursing", desc: "Cardiovascular, respiratory, neurological, GI, renal, and endocrine pathophysiology with clinical prioritization. Includes shock recognition, acute deterioration patterns, and post-operative complication management.", color: "bg-red-50 text-red-600" },
-                { icon: Pill, title: "Pharmacology & Medication Safety", desc: "Drug classes organized by mechanism of action. Side effect profiles, contraindications, high-alert medications, and the dosage calculation errors that licensing exams test most frequently.", color: "bg-blue-50 text-blue-600" },
-                { icon: Baby, title: "Maternal, Newborn & Pediatric Nursing", desc: "Pregnancy complications, labor and delivery, postpartum assessment, neonatal danger signs, pediatric conditions across developmental stages, and immunization safety protocols.", color: "bg-pink-50 text-pink-600" },
-                { icon: Brain, title: "Mental Health Nursing", desc: "Psychiatric conditions, therapeutic communication techniques, crisis intervention, psychopharmacology, safety-based nursing responses, and the cognitive traps exams use in psychiatric scenarios.", color: "bg-purple-50 text-purple-600" },
-                { icon: FlaskConical, title: "Lab Values & Critical Diagnostics", desc: "Abnormal lab interpretation, ABG analysis, electrolyte emergencies, critical value recognition, and cluster-based clinical reasoning. Understand what labs mean for nursing action, not just memorize ranges.", color: "bg-emerald-50 text-emerald-600" },
-                { icon: Activity, title: "Critical Care & Rapid Response", desc: "Shock types and recognition, respiratory failure patterns, neurological deterioration, fluid resuscitation logic, sepsis identification, DKA vs HHS, and rapid response triggers.", color: "bg-orange-50 text-orange-600" },
-                { icon: Target, title: "Clinical Prioritization & Delegation", desc: "Who-do-you-see-first scenarios, delegation traps, acute vs expected findings, assignment decisions, and the safety-based decision frameworks that underpin every prioritization question.", color: "bg-indigo-50 text-indigo-600" },
-                { icon: Stethoscope, title: "Clinical Case Simulations", desc: "Branching patient scenarios for sepsis, MI, DKA, stroke, and more. Practice the clinical judgment process with consequence-based decision pathways before you face it on exam day.", color: "bg-teal-50 text-teal-600" },
-                { icon: GraduationCap, title: "Pathophysiology & Clinical Reasoning", desc: "Cellular and molecular-level mechanisms explained in clinical context. Understand why a condition produces specific signs so you can reason through unfamiliar exam questions.", color: "bg-amber-50 text-amber-600" },
+                { icon: HeartPulse, title: "Medical-Surgical Nursing", desc: "Master cardiovascular, respiratory, neurological, gastrointestinal, renal, and endocrine pathophysiology through lessons designed to align with exam content domains. Each module connects disease mechanisms to the clinical prioritization and acute deterioration patterns that licensing examinations assess most heavily.", color: "bg-red-50 text-red-600" },
+                { icon: Pill, title: "Pharmacology & Medication Safety", desc: "Study drug classes organized by mechanism of action, with emphasis on side effect profiles, contraindications, and high-alert medications. Content is designed to mirror the cognitive patterns tested on nursing licensure examinations, including dosage calculation errors and medication safety scenarios that appear frequently.", color: "bg-blue-50 text-blue-600" },
+                { icon: Baby, title: "Maternal, Newborn & Pediatric Nursing", desc: "Comprehensive coverage of pregnancy complications, labor and delivery assessment, postpartum care, neonatal danger signs, and pediatric conditions across developmental stages. Lessons emphasize the critical thinking required to differentiate normal from abnormal findings in obstetric and pediatric clinical scenarios.", color: "bg-pink-50 text-pink-600" },
+                { icon: Brain, title: "Mental Health Nursing", desc: "Explore psychiatric conditions, therapeutic communication techniques, crisis intervention protocols, and psychopharmacology through a clinical reasoning lens. Content addresses the cognitive traps that examinations use in psychiatric scenarios, helping you recognize safety-based nursing responses under pressure.", color: "bg-purple-50 text-purple-600" },
+                { icon: FlaskConical, title: "Lab Values & Critical Diagnostics", desc: "Go beyond memorizing normal ranges. Learn to interpret abnormal lab clusters, analyze arterial blood gases, recognize electrolyte emergencies, and connect diagnostic findings to immediate nursing actions. Each lesson builds the cluster-based reasoning that exam questions demand.", color: "bg-emerald-50 text-emerald-600" },
+                { icon: Activity, title: "Critical Care & Emergency Response", desc: "Develop rapid assessment skills for shock recognition, respiratory failure patterns, neurological deterioration, sepsis identification, and metabolic emergencies like DKA and HHS. Lessons are structured around the clinical judgment process used in acute care settings and tested on licensing examinations.", color: "bg-orange-50 text-orange-600" },
+                { icon: Target, title: "Clinical Prioritization & Delegation", desc: "Practice who-do-you-see-first scenarios, delegation decision-making, and the safety-based frameworks that underpin every prioritization question on nursing examinations. Learn to distinguish acute findings from expected findings and apply assignment logic confidently under timed conditions.", color: "bg-indigo-50 text-indigo-600" },
+                { icon: Stethoscope, title: "Clinical Case Simulations", desc: "Work through branching patient scenarios for conditions like sepsis, myocardial infarction, diabetic ketoacidosis, and stroke. Each simulation follows a consequence-based decision pathway, allowing you to practice the clinical judgment process in a risk-free environment before exam day.", color: "bg-teal-50 text-teal-600" },
+                { icon: GraduationCap, title: "Pathophysiology & Clinical Reasoning", desc: "Understand disease processes at the cellular and molecular level, explained in clinical context. When you know why a condition produces specific signs and symptoms, you can reason through unfamiliar exam questions instead of relying on memorization alone.", color: "bg-amber-50 text-amber-600" },
               ].map((topic, i) => (
                 <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" onClick={() => setLocation("/lessons")} data-testid={`card-topic-${i}`}>
                   <CardContent className="p-6">
@@ -314,7 +314,7 @@ export default function Home() {
         <section className="py-24 bg-white" data-testid="section-why-nursenest">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-why-heading">Why Students Choose NurseNest Over Generic Question Banks</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-why-heading">Why Students Choose NurseNest</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 Most study tools hand you a question and an answer key. NurseNest teaches you how to reason through clinical problems the way licensing exams expect you to, so unfamiliar questions stop being intimidating.
               </p>
@@ -325,32 +325,32 @@ export default function Home() {
                 {
                   icon: Lightbulb,
                   title: "Rationale-First Design",
-                  desc: "Every question, lesson, and simulation explains the clinical reasoning behind the correct answer. You learn why an option is right and why the others are wrong, building the judgment pattern examiners test."
+                  desc: "Every question, lesson, and simulation explains the clinical reasoning behind the correct answer. You learn why an option is right and why the others are wrong, building the judgment patterns that examiners assess on licensing examinations."
                 },
                 {
                   icon: Brain,
                   title: "Clinical Judgment Architecture",
-                  desc: "Content is organized around the cognitive patterns tested on Next Generation NCLEX and REX-PN: recognizing cues, analyzing hypotheses, prioritizing actions, and evaluating outcomes."
+                  desc: "Content is organized around the cognitive patterns tested on nursing licensure examinations: recognizing cues, analyzing hypotheses, prioritizing actions, and evaluating outcomes. This mirrors the clinical judgment framework that modern exams are designed to measure."
                 },
                 {
                   icon: Layers,
                   title: "Structured Progression",
-                  desc: "Start with foundational pathophysiology and build toward complex case analysis. Each lesson connects to related topics so concepts reinforce each other instead of existing in isolation."
+                  desc: "Start with foundational pathophysiology and build toward complex case analysis. Each lesson connects to related topics so concepts reinforce each other instead of existing in isolation, taking you from beginner to advanced systematically."
                 },
                 {
                   icon: Stethoscope,
                   title: "Interactive Case Simulations",
-                  desc: "Work through branching patient scenarios where your decisions determine outcomes. Practice clinical reasoning in a risk-free environment before your exam or your first shift."
+                  desc: "Work through branching patient scenarios where your decisions determine outcomes. Practice clinical reasoning in a risk-free environment before your exam or your first shift, with detailed feedback on every decision point."
                 },
                 {
                   icon: BarChart3,
                   title: "Performance Analytics",
-                  desc: "Track your proficiency by body system, identify weak areas with precision, and focus your study time where it matters most based on pre-test and post-test comparison data."
+                  desc: "Track your proficiency by body system, identify weak areas with precision, and focus your study time where it matters most. Pre-test and post-test comparison data shows exactly how your clinical reasoning is improving over time."
                 },
                 {
                   icon: Zap,
                   title: "Exam-Relevant, Zero Filler",
-                  desc: "Every lesson covers high-yield concepts that appear on NCLEX and REX-PN. No obscure topics, no outdated protocols, no wasted study sessions. Study what will actually be tested."
+                  desc: "Every lesson covers high-yield concepts that align with the content domains tested on nursing licensure examinations. No obscure topics, no outdated protocols, no wasted study sessions. Study what will actually be assessed."
                 },
               ].map((feature, i) => (
                 <div key={i} className="bg-gray-50/80 rounded-2xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100" data-testid={`card-feature-${i}`}>
@@ -379,16 +379,16 @@ export default function Home() {
                   Is NurseNest affiliated with NCLEX, NCSBN, or any licensing body?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  No. NurseNest is an independent educational platform. It is not affiliated with, endorsed by, or connected to NCLEX, NCSBN, CNO, or any nursing regulatory body. All content is developed independently by nursing professionals for educational purposes.
+                  No. NurseNest is an independent educational platform. It is not affiliated with, endorsed by, or connected to NCLEX, NCSBN, CNO, or any nursing regulatory body. All content is developed independently by nursing professionals and is designed to align with the content domains and cognitive patterns assessed on nursing licensure examinations.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-2" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Are the practice questions similar to what appears on {examLabel}?
+                  Are the practice questions similar to what appears on nursing licensure exams?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  NurseNest questions are designed to mirror the clinical reasoning and cognitive patterns tested on nursing licensure examinations, including Next Generation NCLEX-style case studies and REX-PN clinical judgment scenarios. They are not actual exam questions, but they target the same thinking skills and content domains that examiners assess.
+                  NurseNest questions are designed to mirror the clinical reasoning and cognitive patterns tested on nursing licensure examinations. They are not actual exam questions, but they target the same thinking skills, content domains, and clinical judgment frameworks that examiners use to assess readiness for practice. This includes Next Generation-style case studies and clinical judgment scenarios.
                 </AccordionContent>
               </AccordionItem>
 
@@ -397,7 +397,7 @@ export default function Home() {
                   Can I use NurseNest while still in nursing school?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Absolutely. Many students use NurseNest alongside their coursework to reinforce pathophysiology, pharmacology, and clinical reasoning. The structured progression from foundational concepts to advanced case analysis aligns well with how nursing programs build knowledge over semesters.
+                  Absolutely. Many nursing students use NurseNest alongside their coursework to reinforce pathophysiology, pharmacology, and clinical reasoning skills. The structured progression from foundational concepts to advanced case analysis is designed to complement how nursing programs build knowledge across semesters, making it valuable from your first year through graduation.
                 </AccordionContent>
               </AccordionItem>
 
@@ -406,7 +406,7 @@ export default function Home() {
                   How is NurseNest different from a traditional question bank?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Traditional question banks give you a question, four options, and the correct answer. NurseNest provides deep rationales explaining why the correct answer is right and why each distractor is wrong, connects questions to pathophysiology lessons, includes interactive case simulations, and tracks your performance across body systems to target your weak areas. It is designed to build clinical reasoning, not just test recall.
+                  Traditional question banks give you a question, four options, and the correct answer. NurseNest provides deep rationales explaining why the correct answer is right and why each distractor is wrong. It connects questions to pathophysiology lessons, includes interactive case simulations with branching outcomes, and tracks your performance across body systems to target your weak areas. The goal is to build clinical reasoning, not just test recall.
                 </AccordionContent>
               </AccordionItem>
 
@@ -415,7 +415,7 @@ export default function Home() {
                   Does NurseNest cover both Canadian and US nursing content?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Yes. NurseNest supports both REX-PN (Canada) and NCLEX (US) exam preparation. The platform adjusts regional content including lab value units, pricing currency, and scope-of-practice language based on your region selection. Core pathophysiology and clinical reasoning content is applicable across both jurisdictions.
+                  Yes. NurseNest supports exam preparation for both Canadian (REX-PN) and US (NCLEX) nursing licensure examinations. The platform adjusts regional content including lab value units, pricing currency, and scope-of-practice language based on your region selection. Core pathophysiology and clinical reasoning content is applicable across both jurisdictions, ensuring comprehensive preparation regardless of where you plan to practice.
                 </AccordionContent>
               </AccordionItem>
 
@@ -424,7 +424,7 @@ export default function Home() {
                   What does the free plan include?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  The free plan includes Pre-Nursing Foundations modules, interactive anatomy and physiology diagrams, Clinical Clarity explanations, access to the lesson library for browsing, and limited practice questions. No credit card is required to start. Premium plans unlock the full question bank, clinical simulations, flashcard decks, med math tools, and performance analytics.
+                  The free plan includes Pre-Nursing Foundations modules, interactive anatomy and physiology diagrams, Clinical Clarity explanations, access to the lesson library for browsing, and limited practice questions. No credit card is required to start. Premium plans unlock the full question bank, clinical case simulations, flashcard decks, med math tools, and performance analytics.
                 </AccordionContent>
               </AccordionItem>
 
@@ -434,6 +434,33 @@ export default function Home() {
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
                   Yes. All subscriptions can be cancelled at any time through your profile page. You retain access to premium features until the end of your current billing period. There are no cancellation fees or long-term commitments.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="faq-8" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  Does NurseNest include Next Generation NCLEX-style questions?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  Yes. NurseNest includes question formats designed to mirror the cognitive patterns tested on Next Generation nursing licensure examinations, including case studies with multiple response points, drag-and-drop prioritization, highlight-the-evidence items, and clinical judgment scenarios that require you to recognize cues, analyze information, and evaluate outcomes. These formats are integrated throughout the question bank and clinical simulations.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="faq-9" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  How many practice questions are available on NurseNest?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  NurseNest offers over 10,000 practice questions spanning all major nursing content areas including medical-surgical, pharmacology, maternal-newborn, pediatrics, mental health, critical care, and clinical prioritization. New questions are added regularly to ensure comprehensive coverage of the content domains assessed on nursing licensure examinations. Each question includes a detailed rationale explaining the clinical reasoning behind the correct answer.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="faq-10" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  Is the content reviewed by nursing professionals?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  Yes. All NurseNest content is developed and reviewed by nursing professionals with clinical and educational expertise. Lessons, practice questions, and case simulations are created to reflect current evidence-based practice guidelines and are designed to align with the content domains assessed on nursing licensure examinations. Content is regularly updated to maintain clinical accuracy and relevance.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -454,9 +481,9 @@ export default function Home() {
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-6">
                 <Mail className="w-7 h-7 text-primary" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-email-heading">Free Clinical Reasoning Questions in Your Inbox</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-email-heading">Free Clinical Reasoning Questions Delivered Weekly</h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Receive weekly {examLabel}-style practice questions with detailed rationales, pharmacology review cards, and exam strategy breakdowns. Written by nursing educators. Useful from day one. Unsubscribe anytime.
+                Receive weekly practice questions with detailed rationales, pharmacology review cards, and exam strategy breakdowns. Written by nursing educators. Useful from day one. Unsubscribe anytime.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                 <input 
@@ -469,7 +496,7 @@ export default function Home() {
                   Send Me Practice Questions
                 </Button>
               </div>
-              <p className="text-xs text-gray-400 mt-4">No spam. No sales pitches. Just clinically useful study material delivered weekly.</p>
+              <p className="text-xs text-gray-400 mt-4">No spam. No sales pitches. Just clinically useful study material.</p>
             </div>
           </div>
         </section>
@@ -478,10 +505,10 @@ export default function Home() {
         <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-primary/5" data-testid="section-final-cta">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6" data-testid="text-cta-heading">
-              Stop Memorizing Answers. Start Understanding Why.
+              Stop Memorizing. Start Reasoning.
             </h2>
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              {examLabel} and nursing licensure exams test clinical reasoning, not recall. NurseNest teaches you to think through problems the way real clinicians do, whether you are preparing for your exam, starting your first clinical placement, or transitioning to a new unit.
+              Nursing licensure examinations test clinical reasoning, not recall. NurseNest teaches you to think through problems the way real clinicians do, whether you are preparing for your exam, starting your first clinical placement, or transitioning to a new unit.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button 
@@ -490,7 +517,7 @@ export default function Home() {
                 onClick={() => setLocation("/start-free")}
                 data-testid="button-cta-start"
               >
-                Start Practicing Free
+                Start Your Exam Prep Free
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               <Button 
