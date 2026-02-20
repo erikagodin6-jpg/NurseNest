@@ -1,0 +1,141 @@
+I. Critical Legal Protections (Highest Priority)
+These are non-negotiable for a healthcare-adjacent platform.
+1. Terms of Service (Absolutely Essential)
+This is your primary legal shield.
+It must explicitly define:
+• Educational purpose only
+• No medical / clinical advice
+• No guarantees of outcomes
+• Payment & refund rules
+• Subscription billing mechanics
+• Intellectual property ownership
+• Account termination rights
+• Limitation of liability
+• Governing law (important for Canada)
+Without this, disputes become dangerous.
+2. Educational / Medical Disclaimer (Separate Page + Footer)
+You already hinted at this in FAQ, but it must exist as a formal standalone disclaimer.
+Key statements:
+• Content is for educational purposes only
+• Not medical advice
+• Not a substitute for licensed clinical judgment
+• Users must follow institutional policies
+• No provider–patient relationship created
+Place links:
+✔ Footer
+✔ Signup / payment screen
+✔ Possibly lesson pages
+3. Privacy Policy (Legally Required in Many Regions)
+Especially important since you use Stripe.
+Must state:
+• What data is collected
+• How it is used
+• Third-party processors (Stripe, analytics, etc.)
+• Cookies / tracking
+• Data retention principles
+Even if minimal data is stored, you still need this.
+4. Refund & Billing Policy (Chargeback Prevention Tool)
+Never rely on vague language.
+Define:
+• Digital product nature
+• When refunds apply / do not apply
+• Cancellation mechanics
+• Billing cycles
+• Trial rules
+Chargebacks destroy subscription businesses.
+Clear rules reduce them dramatically.
+II. Protections Specific to Nursing / Clinical Content
+Very important for NurseNest.
+5. “No Clinical Advice” Boundary Reinforcement
+Include wording across site:
+• NurseNest does not provide medical advice
+• Clinical decisions must rely on licensed providers & policies
+• Scenarios are educational simulations
+Avoid language implying:
+❌ “Do this in practice”
+❌ “Correct treatment is…”
+Safer phrasing:
+✔ “Educational considerations”
+✔ “Typical clinical responses may include…”
+6. No Exam Body Affiliation Statement (Extremely Important)
+Protects you from legal headaches.
+Explicitly state:
+• Not affiliated with NCLEX / NCSBN / regulatory bodies
+• Questions are original
+• Platform is independent
+Many education startups get into trouble here.
+7. Scope of Practice Sensitivity
+Since you address RPN / RN / NP:
+Avoid definitive legal claims about scope.
+Safer phrasing:
+✔ “Role considerations may vary by jurisdiction”
+✔ “Always follow regulatory guidance”
+III. User Safety & Ethical Protections
+Rarely discussed but important.
+8. Clinical Responsibility Reminder
+Especially near simulations / case studies:
+• Educational tool only
+• Real patient care requires professional judgment
+• Follow employer & regulatory standards
+Protects both you and learners.
+9. Psychological Expectation Management
+Prevent unrealistic beliefs:
+• No guarantees of exam success
+• Platform supports learning, not certification
+Reduces refund disputes and complaints.
+IV. Intellectual Property Protection (Very Important)
+Frequently ignored by creators.
+10. Content Usage Restrictions
+Inside Terms:
+Prohibit:
+• Downloading / scraping
+• Redistribution
+• Sharing accounts
+• Commercial reuse
+Without this, piracy becomes rampant.
+11. Copyright Notice
+Footer example:
+© NurseNest. All rights reserved.
+Signals ownership and professionalism.
+V. Financial Risk Protections (Critical for Subscriptions)
+12. Subscription Clarity (Legally Safer Billing)
+On pricing page & checkout:
+Clearly state:
+• Recurring billing
+• Billing interval
+• Cancellation rules
+Ambiguity → chargebacks.
+13. Avoid Dangerous Claims
+Do NOT say:
+❌ “Pass your exam guaranteed”
+❌ “Clinically proven”
+Use:
+✔ “Designed to support…”
+✔ “Built to strengthen…”
+VI. Trust & Credibility Protections (Indirect but Powerful)
+Higher trust = fewer disputes.
+14. Professional Positioning
+Avoid gimmicky language or visuals implying entertainment.
+Healthcare education benefits from:
+✔ Calm authority
+✔ Precision
+✔ Clinical tone
+Trust reduces legal and financial friction.
+Minimal Protection Stack for NurseNest (If Prioritizing)
+If you implement nothing else immediately, secure:
+Terms of Service
+Privacy Policy
+Educational / Medical Disclaimer
+Refund & Billing Policy
+No Exam Affiliation Statement
+Copyright Notice
+This covers most real-world risks.
+Important Perspective
+Protection is not paranoia — it is infrastructure.
+Well-written policies:
+✔ Reduce disputes
+✔ Reduce refunds
+✔ Reduce chargebacks
+✔ Increase perceived legitimacy
+✔ Increase conversions
+Ironically, safer platforms often sell better.

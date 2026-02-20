@@ -1,0 +1,61 @@
+Frequently Asked Questions
+Find answers about NurseNest, our educational philosophy, subscriptions, and platform features.
+General
+What is NurseNest?
+NurseNest is a clinical learning platform designed to strengthen nursing knowledge, clinical reasoning, and exam preparedness. Unlike traditional study resources that emphasize memorization, NurseNest focuses on mechanisms, physiological logic, and decision-making frameworks used in real clinical environments and licensing examinations.
+Who is NurseNest for?
+NurseNest is designed for nursing students, exam candidates, and practicing nurses seeking deeper conceptual understanding. Content is structured to support learners across RPN, RN, and NP levels, with emphasis on clinical thinking rather than isolated fact recall.
+Is NurseNest a replacement for nursing school or clinical training?
+No. NurseNest is a supplementary educational resource intended to support formal education and professional development. It does not replace accredited nursing programs, clinical placements, institutional instruction, or regulatory training requirements.
+Is the content evidence-informed?
+Yes. Educational material is developed using widely accepted physiological principles, established clinical frameworks, and contemporary practice standards. NurseNest is an educational platform, not a clinical authority, and learners should always follow institutional policies, regulatory standards, and employer-specific protocols.
+Does NurseNest provide medical or clinical advice?
+No. All content is provided for educational purposes only. NurseNest does not offer medical diagnoses, treatment recommendations, or patient-specific guidance. Clinical decisions must always be based on professional judgment, institutional policies, and licensed provider direction.
+(This single entry provides major liability protection.)
+Subscription & Access
+How much does NurseNest cost?
+Pricing varies by access tier and feature set. Current subscription options and inclusions are listed on the pricing page.
+What does a subscription include?
+Subscriptions provide access to premium learning tools, which may include advanced lessons, clinical reasoning modules, exam-style questions, simulations, and other educational resources depending on the selected tier.
+Can I switch between subscription tiers?
+Yes. Users may upgrade or modify their subscription based on platform availability and billing cycle rules.
+Is there a free trial?
+NurseNest may offer limited-access previews or short-duration passes at certain times. Availability and terms may change without notice.
+(Important wording to avoid future disputes.)
+Can I cancel my subscription?
+Yes. Subscriptions may be cancelled at any time. Access remains active until the end of the billing period. NurseNest does not provide partial-period refunds unless required by applicable consumer protection laws.
+(Critical for preventing refund abuse.)
+Are payments refundable?
+Due to the digital nature of the platform, subscription fees are generally non-refundable once access is granted. Exceptions may apply where legally required.
+What payment methods are accepted?
+Payments are processed securely through Stripe. Accepted payment methods may include major credit and debit cards depending on region.
+Content & Educational Design
+What makes NurseNest different from other study platforms?
+NurseNest emphasizes mechanistic understanding, physiological reasoning, and clinical cognition. Rather than presenting isolated facts, lessons explain why clinical findings occur, how compensatory mechanisms operate, and how exam questions test decision-making under uncertainty.
+(Value reinforcement without sounding promotional.)
+Is content tailored for Canadian and American learners?
+Core physiological principles remain consistent across regions. Exam-style content and terminology may vary to reflect differences between regulatory frameworks and licensing examinations.
+Are NurseNest questions identical to NCLEX or licensing exams?
+No. NurseNest creates original educational content designed to develop clinical reasoning and exam preparedness. It is not affiliated with, endorsed by, or representative of any specific examination body.
+(Very important legal protection.)
+Are rationales included?
+Yes. Educational explanations accompany learning materials to promote deeper conceptual understanding and reasoning development.
+Can I take notes during lessons?
+Yes. NurseNest is designed to support active learning and knowledge integration.
+Technical & Platform Use
+Can NurseNest be used on mobile devices?
+Yes. The platform is designed for modern browsers and responsive viewing across devices.
+Can I download or redistribute content?
+No. NurseNest content is protected intellectual property. Downloading, copying, sharing, or redistributing materials without authorization is prohibited.
+(Major protection many platforms forget.)
+Is my data secure?
+Yes. NurseNest uses industry-standard security practices and secure payment processing through Stripe. However, no digital system can guarantee absolute security, and users are responsible for maintaining their own account credentials.
+(Legally safer phrasing than “Absolutely.”)
+What should I do if I experience technical issues?
+Users should verify browser compatibility, clear cache, and contact support if problems persist.
+Educational & Professional Boundaries
+Does NurseNest guarantee exam success or clinical outcomes?
+No educational resource can guarantee examination results or clinical performance. NurseNest supports learning and reasoning development, but outcomes depend on many individual factors.
+(This protects you from unrealistic claims.)
+How should NurseNest be used alongside formal education?
+NurseNest is intended to complement, not replace, accredited education, clinical mentorship, institutional policy, and regulatory standards.

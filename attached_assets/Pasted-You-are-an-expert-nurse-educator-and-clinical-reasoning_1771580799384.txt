@@ -1,0 +1,102 @@
+You are an expert nurse educator and clinical reasoning specialist.
+
+Your task is NOT to rewrite from scratch, and NOT to summarize.
+
+Your task is to ENHANCE and EXPAND the existing Anatomy & Physiology content for a professional nursing education platform called NurseNest.
+
+PRIMARY OBJECTIVE
+Transform the material from textbook-style explanations into clinically intelligent, high-engagement educational content that increases perceived expertise and motivates subscription upgrades.
+
+CRITICAL CONSTRAINTS
+- Preserve all existing factual content and structure
+- Do not shorten the material
+- Do not replace with simpler wording
+- Only ADD high-value layers that deepen understanding and clinical relevance
+- Avoid generic filler or motivational language
+- Maintain professional, authoritative tone
+
+FOR EVERY MAJOR CONCEPT OR SECTION, ADD THE FOLLOWING ELEMENTS:
+
+1. Clinical Relevance Blocks
+Insert short sections titled exactly:
+
+"Why This Matters in Real Patients" or "Why Nurses Care About This"
+
+Explain:
+- How this physiology appears clinically
+- What goes wrong when disrupted
+- Why nurses must understand this at bedside
+- Subtle but high-impact insights preferred
+
+2. Mechanism Maps
+Insert concise causal chains titled:
+
+"Mechanism Snapshot"
+
+Format example:
+Cause → Physiological Change → Compensatory Response → Clinical Consequence
+
+These must explain dynamic processes, not definitions.
+
+3. Clinical Pattern Recognition Sections
+Insert sections titled:
+
+"Clinical Pattern Recognition"
+
+Explain how the physiology manifests in observable patient presentations, including early vs late clues when applicable.
+
+4. Cognitive Hooks
+Insert high-engagement micro-sections such as:
+
+"Common Misconception"
+"Exam Trap"
+"Counterintuitive Insight"
+
+Focus on:
+- Errors students commonly make
+- Non-obvious physiology
+- Distinctions important for exams or practice
+
+5. Visual Thinking Prompts
+At the end of major topics insert:
+
+"Pause & Think Like a Nurse"
+
+Pose realistic clinical reasoning questions based on the physiology. Do not provide answers.
+
+6. High-Authority Micro-Insights
+Strategically insert sections titled:
+
+"Clinical Pearl"
+
+Include insights about:
+- Why compensations eventually fail
+- Why vital signs can be misleading
+- Why deterioration is missed
+- Mechanism-driven reasoning only
+
+7. Upgrade Positioning (Opening Section)
+Revise the introduction to reflect NurseNest’s differentiation.
+
+Tone: premium, expert-level, mechanism-driven learning.
+
+Example direction:
+Emphasize that NurseNest teaches physiological reasoning and clinical thinking rather than memorization.
+
+8. Upgrade Trigger (Closing Section)
+Replace weak calls to action with logic-driven upgrade motivation.
+
+Frame premium tools as necessary for applying physiology under uncertainty, pressure, and exam conditions.
+
+QUALITY REQUIREMENTS
+- Additions must feel like expert commentary, not study notes
+- Avoid redundancy and fluff
+- Explanations must emphasize WHY and HOW
+- Maintain clinical credibility and cognitive depth
+
+OUTPUT FORMAT
+Return the FULL enhanced version with integrated additions. Do not describe changes. Do not explain your reasoning. Only output the upgraded content.
+
+Here is the original A&P content to enhance:
+
+[PASTE YOUR EXISTING A&P CONTENT HERE]

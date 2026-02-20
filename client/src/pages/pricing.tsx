@@ -5,16 +5,43 @@ import { useAuth } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Shield, HelpCircle, Star } from "lucide-react";
+import { Check, Shield, HelpCircle, Star, Clock, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+type Duration = "monthly" | "3-month" | "6-month" | "yearly";
+
+const durations: { key: Duration; label: string }[] = [
+  { key: "monthly", label: "Monthly" },
+  { key: "3-month", label: "3-Month" },
+  { key: "6-month", label: "6-Month" },
+  { key: "yearly", label: "Yearly" },
+];
+
+const savingsPercent: Record<Duration, number> = {
+  monthly: 0,
+  "3-month": 17,
+  "6-month": 25,
+  yearly: 33,
+};
+
+const periodLabel: Record<Duration, string> = {
+  monthly: "/mo",
+  "3-month": "/3 mo",
+  "6-month": "/6 mo",
+  yearly: "/yr",
+};
 
 const tiers = [
   {
     id: "rpn",
     nameCA: "RPN",
     nameUS: "LVN",
-    priceUSD: 21.99,
-    priceCAD: 29.99,
+    prices: {
+      monthly: { CAD: 29.99, USD: 21.99 },
+      "3-month": { CAD: 74.99, USD: 54.99 },
+      "6-month": { CAD: 134.99, USD: 99.99 },
+      yearly: { CAD: 239.99, USD: 179.99 },
+    },
     features: [
       "All RPN/LVN pathophysiology lessons",
       "Flashcards by body system",
@@ -29,8 +56,12 @@ const tiers = [
     id: "rn",
     nameCA: "RN/NCLEX",
     nameUS: "RN/NCLEX",
-    priceUSD: 29.99,
-    priceCAD: 39.99,
+    prices: {
+      monthly: { CAD: 39.99, USD: 29.99 },
+      "3-month": { CAD: 99.99, USD: 74.99 },
+      "6-month": { CAD: 179.99, USD: 134.99 },
+      yearly: { CAD: 319.99, USD: 239.99 },
+    },
     features: [
       "All RN-level clinical content",
       "NCLEX-style question bank",
@@ -45,8 +76,12 @@ const tiers = [
     id: "np",
     nameCA: "NP Advanced",
     nameUS: "NP Advanced",
-    priceUSD: 36.99,
-    priceCAD: 49.99,
+    prices: {
+      monthly: { CAD: 49.99, USD: 36.99 },
+      "3-month": { CAD: 124.99, USD: 94.99 },
+      "6-month": { CAD: 224.99, USD: 169.99 },
+      yearly: { CAD: 399.99, USD: 299.99 },
+    },
     features: [
       "Advanced practice content",
       "Molecular-level pathophysiology",
@@ -59,6 +94,33 @@ const tiers = [
   },
 ];
 
+const trialPasses = [
+  {
+    id: "1-day",
+    name: "1-Day Pass",
+    priceCAD: 4.99,
+    priceUSD: 3.99,
+    features: [
+      { text: "Access to 3 lessons of your choice", included: true },
+      { text: "Flashcards", included: false },
+      { text: "Note-taking", included: false },
+    ],
+    limit: "Single use only",
+  },
+  {
+    id: "3-day",
+    name: "3-Day Pass",
+    priceCAD: 9.99,
+    priceUSD: 7.99,
+    features: [
+      { text: "Access to 10 lessons", included: true },
+      { text: "Flashcards included", included: true },
+      { text: "Note-taking", included: false },
+    ],
+    limit: "Single use only",
+  },
+];
+
 export default function PricingPage() {
   const [, navigate] = useLocation();
   const { user } = useAuth();
@@ -66,6 +128,7 @@ export default function PricingPage() {
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
   });
+  const [duration, setDuration] = useState<Duration>("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
 
   useEffect(() => {
@@ -88,7 +151,7 @@ export default function PricingPage() {
       const res = await fetch("/api/stripe/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id, tier: tierId }),
+        body: JSON.stringify({ userId: user.id, tier: tierId, duration }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -109,12 +172,45 @@ export default function PricingPage() {
     }
   }
 
+  async function handleTrialPurchase(passId: string) {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    setLoadingTier(passId);
+    try {
+      const res = await fetch("/api/stripe/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, tier: passId, duration: "one-time" }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to create checkout session");
+      }
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err: any) {
+      toast({
+        title: "Checkout Error",
+        description: err.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingTier(null);
+    }
+  }
+
+  const savings = savingsPercent[duration];
+
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <Navigation />
       <main className="flex-1 px-4 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <h1 className="text-3xl sm:text-4xl font-bold mb-3" data-testid="text-pricing-title">
               Choose Your Learning Path
             </h1>
@@ -124,10 +220,42 @@ export default function PricingPage() {
             </p>
           </div>
 
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex bg-white rounded-full p-1 shadow-sm border border-gray-200" data-testid="toggle-duration">
+              {durations.map((d) => (
+                <button
+                  key={d.key}
+                  onClick={() => setDuration(d.key)}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                    duration === d.key
+                      ? "bg-primary text-white shadow-md"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                  data-testid={`button-duration-${d.key}`}
+                >
+                  {d.label}
+                  {savingsPercent[d.key] > 0 && duration === d.key && (
+                    <span className="absolute -top-2 -right-1 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                      -{savingsPercent[d.key]}%
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {savings > 0 && (
+            <div className="text-center mb-8">
+              <Badge className="bg-green-100 text-green-700 border-green-200 px-4 py-1.5 text-sm font-semibold" data-testid="badge-savings">
+                Save {savings}% with {durations.find((d) => d.key === duration)?.label} billing
+              </Badge>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
             {tiers.map((tier) => {
               const name = isCAD ? tier.nameCA : tier.nameUS;
-              const price = isCAD ? tier.priceCAD : tier.priceUSD;
+              const price = isCAD ? tier.prices[duration].CAD : tier.prices[duration].USD;
               const currency = isCAD ? "CAD" : "USD";
 
               return (
@@ -148,6 +276,13 @@ export default function PricingPage() {
                       </Badge>
                     </div>
                   )}
+                  {savings > 0 && (
+                    <div className="absolute -top-3 right-4">
+                      <Badge className="bg-green-500 text-white px-3 py-1 text-xs font-semibold shadow-md" data-testid={`badge-save-${tier.id}`}>
+                        Save {savings}%
+                      </Badge>
+                    </div>
+                  )}
                   <CardHeader className="text-center pb-2 pt-8">
                     <CardTitle className="text-xl font-bold" data-testid={`text-tier-name-${tier.id}`}>
                       {name}
@@ -157,9 +292,14 @@ export default function PricingPage() {
                         ${price.toFixed(2)}
                       </span>
                       <span className="text-gray-400 text-sm ml-1" data-testid={`text-tier-currency-${tier.id}`}>
-                        {currency}/mo
+                        {currency}{periodLabel[duration]}
                       </span>
                     </div>
+                    {duration !== "monthly" && (
+                      <p className="text-xs text-gray-400 mt-1" data-testid={`text-tier-equiv-${tier.id}`}>
+                        ≈ ${(price / (duration === "3-month" ? 3 : duration === "6-month" ? 6 : 12)).toFixed(2)} {currency}/mo
+                      </p>
+                    )}
                   </CardHeader>
                   <CardContent className="pt-2">
                     <ul className="space-y-3 mb-8">
@@ -186,6 +326,85 @@ export default function PricingPage() {
                 </Card>
               );
             })}
+          </div>
+
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-trial-title">
+                Trial Passes
+              </h2>
+              <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-trial-subtitle">
+                Not ready to commit? Try a limited pass to explore the platform.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+              {trialPasses.map((pass) => {
+                const price = isCAD ? pass.priceCAD : pass.priceUSD;
+                const currency = isCAD ? "CAD" : "USD";
+
+                return (
+                  <Card
+                    key={pass.id}
+                    className="relative border-none shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                    data-testid={`card-trial-${pass.id}`}
+                  >
+                    <div className="absolute -top-3 left-4 flex gap-2">
+                      <Badge className="bg-amber-100 text-amber-700 border-amber-200 px-3 py-1 text-xs font-semibold" data-testid={`badge-onetime-${pass.id}`}>
+                        <Clock className="w-3 h-3 mr-1" />
+                        One-Time
+                      </Badge>
+                      <Badge className="bg-gray-100 text-gray-600 border-gray-200 px-3 py-1 text-xs font-semibold" data-testid={`badge-limited-${pass.id}`}>
+                        Limited Access
+                      </Badge>
+                    </div>
+                    <CardHeader className="text-center pb-2 pt-8">
+                      <CardTitle className="text-lg font-bold" data-testid={`text-trial-name-${pass.id}`}>
+                        {pass.name}
+                      </CardTitle>
+                      <div className="mt-3 mb-1">
+                        <span className="text-3xl font-bold text-primary" data-testid={`text-trial-price-${pass.id}`}>
+                          ${price.toFixed(2)}
+                        </span>
+                        <span className="text-gray-400 text-sm ml-1" data-testid={`text-trial-currency-${pass.id}`}>
+                          {currency}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-400" data-testid={`text-trial-limit-${pass.id}`}>
+                        {pass.limit}
+                      </p>
+                    </CardHeader>
+                    <CardContent className="pt-2">
+                      <ul className="space-y-2 mb-6">
+                        {pass.features.map((feature, idx) => (
+                          <li
+                            key={idx}
+                            className={`flex items-start gap-3 text-sm ${
+                              feature.included ? "text-gray-600" : "text-gray-400"
+                            }`}
+                            data-testid={`text-trial-feature-${pass.id}-${idx}`}
+                          >
+                            {feature.included ? (
+                              <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                            ) : (
+                              <X className="w-4 h-4 text-gray-300 mt-0.5 flex-shrink-0" />
+                            )}
+                            <span className={feature.included ? "" : "line-through"}>{feature.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Button
+                        className="w-full rounded-full font-semibold bg-amber-500 hover:bg-amber-600 text-white transition-all"
+                        onClick={() => handleTrialPurchase(pass.id)}
+                        disabled={loadingTier === pass.id}
+                        data-testid={`button-trial-${pass.id}`}
+                      >
+                        {loadingTier === pass.id ? "Processing..." : "Get Pass"}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
 
           <div className="flex flex-col items-center gap-6 text-center">

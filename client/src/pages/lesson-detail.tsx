@@ -30,17 +30,15 @@ const tierPricing: Record<string, { name: string; priceCAD: string; priceUSD: st
   np: { name: "NP Advanced", priceCAD: "$49.99 CAD/mo", priceUSD: "$36.99 USD/mo" },
 };
 
-function generateQuestions(quiz: QuizQuestion[], seed: number): QuizQuestion[] {
-  const shuffled = [...quiz];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.abs((seed * (i + 1) * 2654435761) % (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+function getTestQuestions(lesson: LessonContent, testType: "pretest" | "posttest"): QuizQuestion[] {
+  if (testType === "pretest" && lesson.preTest && lesson.preTest.length >= 25) {
+    return lesson.preTest;
   }
-  const result: QuizQuestion[] = [];
-  while (result.length < 10) {
-    result.push(...shuffled);
+  if (testType === "posttest" && lesson.postTest && lesson.postTest.length >= 25) {
+    return lesson.postTest;
   }
-  return result.slice(0, 10);
+  const source = testType === "pretest" ? (lesson.preTest || lesson.quiz) : (lesson.postTest || lesson.quiz);
+  return source;
 }
 
 function QuizSection({
@@ -309,13 +307,11 @@ export default function LessonDetail() {
   };
 
   const preTestQuestions = useMemo(() => {
-    if (lessonContent.preTest && lessonContent.preTest.length >= 10) return lessonContent.preTest;
-    return generateQuestions(lessonContent.quiz, 1);
+    return getTestQuestions(lessonContent, "pretest");
   }, [lessonContent]);
 
   const postTestQuestions = useMemo(() => {
-    if (lessonContent.postTest && lessonContent.postTest.length >= 10) return lessonContent.postTest;
-    return generateQuestions(lessonContent.quiz, 2);
+    return getTestQuestions(lessonContent, "posttest");
   }, [lessonContent]);
 
   async function handleSubscribe() {
