@@ -1,9 +1,37 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { storage, DatabaseStorage } from "./storage";
 import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema, insertContentItemSchema } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
+
+const TIER_HIERARCHY: Record<string, number> = {
+  free: 0,
+  rpn: 1,
+  rn: 2,
+  np: 3,
+  admin: 4,
+};
+
+function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
+  if (!targetTier || targetTier === "free") return true;
+  if (!userTier || userTier === "free") return false;
+  const userLevel = TIER_HIERARCHY[userTier] ?? 0;
+  const targetLevel = TIER_HIERARCHY[targetTier] ?? 0;
+  return userLevel >= targetLevel;
+}
+
+async function extractUserTier(req: Request): Promise<string | null> {
+  const username = req.query.username as string | undefined;
+  const password = req.query.password as string | undefined;
+  if (username && password) {
+    const user = await storage.getUserByUsername(username);
+    if (user && user.password === password) {
+      return user.tier || "free";
+    }
+  }
+  return null;
+}
 
 export async function registerRoutes(
   httpServer: Server,
@@ -525,6 +553,12 @@ export async function registerRoutes(
           return res.status(404).json({ error: "Content not found" });
         }
       }
+      if (item.tier && item.tier !== "free") {
+        const userTier = await extractUserTier(req);
+        if (!canAccessTier(userTier, item.tier)) {
+          return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
+        }
+      }
       res.json(item);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -537,6 +571,12 @@ export async function registerRoutes(
       if (!item) return res.status(404).json({ error: "Content not found" });
       if (item.status !== "published") {
         return res.status(404).json({ error: "Content not found" });
+      }
+      if (item.tier && item.tier !== "free") {
+        const userTier = await extractUserTier(req);
+        if (!canAccessTier(userTier, item.tier)) {
+          return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
+        }
       }
       res.json(item);
     } catch (e: any) {

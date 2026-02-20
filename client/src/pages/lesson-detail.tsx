@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { contentMap } from "@/data/lessons";
 import { useAuth } from "@/lib/auth";
+import { canAccessTier } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem } from "@/lib/seo-utils";
 import { trackMilestone } from "@/components/upgrade-prompt";
@@ -249,7 +250,7 @@ export default function LessonDetail() {
   const [showNotes, setShowNotes] = useState(false);
   const [noteContent, setNoteContent] = useState("");
   const [noteSaving, setNoteSaving] = useState(false);
-  const saveTimeoutRef = useRef<NodeJS.Timeout>();
+  const saveTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
   });
@@ -269,7 +270,7 @@ export default function LessonDetail() {
   }, [id]);
 
   const lessonTier = getLessonTier(id || "");
-  const userHasAccess = user && (user.tier === "admin" || hasAccess(lessonTier));
+  const userHasAccess = canAccessTier(user?.tier, lessonTier);
 
   useEffect(() => {
     trackMilestone("lesson_view");

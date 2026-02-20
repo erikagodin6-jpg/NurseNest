@@ -36,6 +36,42 @@ import {
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
 
+const fundamentalsSystems = [
+  {
+    id: "fundamentals-core",
+    title: "Nursing Fundamentals",
+    icon: BookOpen,
+    color: "text-teal-700",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "nursing-process-adpie", name: "Nursing Process (ADPIE) & Clinical Reasoning", status: "Available" },
+      { id: "vital-signs-red-flags", name: "Vital Signs: Red Flags & Rapid Response Triggers", status: "Available" },
+      { id: "medication-administration-safety", name: "Medication Administration: Rights & Safety Checks", status: "Available" },
+      { id: "infection-prevention-ppe", name: "Infection Prevention & PPE Standards", status: "Available" },
+      { id: "documentation-sbar-dar", name: "Clinical Documentation: SBAR, DAR & Legal Safety", status: "Available" },
+      { id: "fluid-balance-assessment", name: "Fluid Balance: I&O, Dehydration & Overload", status: "Available" }
+    ]
+  }
+];
+
+const delegationSystems = [
+  {
+    id: "delegation-core",
+    title: "Delegation & Prioritization",
+    icon: ShieldAlert,
+    color: "text-amber-700",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "abcs-life-threats", name: "ABCs & Immediate Life Threat Prioritization", status: "Available" },
+      { id: "unstable-vs-stable", name: "Unstable vs Stable: Prioritization Framework", status: "Available" },
+      { id: "who-to-see-first", name: "Who to See First: Clinical Decision Framework", status: "Available" },
+      { id: "delegation-rules-scope", name: "Delegation Rules & Scope of Practice", status: "Available" },
+      { id: "sbar-escalation", name: "SBAR Escalation: When & How to Escalate", status: "Available" },
+      { id: "post-op-prioritization", name: "Post-Op Complications: Prioritization", status: "Available" }
+    ]
+  }
+];
+
 const rpnSystems = [
   {
     id: "cardiovascular-rpn",
@@ -1690,7 +1726,7 @@ const npSystems = [
 
 export default function Lessons() {
   const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState("rn");
+  const [activeTab, setActiveTab] = useState("fundamentals");
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
@@ -1719,16 +1755,32 @@ export default function Lessons() {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Pathophysiology Mastery</h1>
             <p className="text-lg text-gray-600">Advanced clinical recognition and safety logic for nursing students.</p>
           </div>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-[600px]">
-            <TabsList className="grid w-full grid-cols-3 bg-gray-100 rounded-full p-1">
-              <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm">RPN / LVN</TabsTrigger>
-              <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm">RN</TabsTrigger>
-              <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold">NP (Advanced)</TabsTrigger>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-[700px]">
+            <TabsList className="grid w-full grid-cols-5 bg-gray-100 rounded-full p-1">
+              <TabsTrigger value="fundamentals" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-teal-700 font-semibold text-xs sm:text-sm">Fundamentals</TabsTrigger>
+              <TabsTrigger value="delegation" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-amber-700 font-semibold text-xs sm:text-sm">Delegation</TabsTrigger>
+              <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RPN / LVN</TabsTrigger>
+              <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RN</TabsTrigger>
+              <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm">NP</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsContent value="fundamentals" className="mt-0">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+              {fundamentalsSystems.map((system) => (
+                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+              ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="delegation" className="mt-0">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+              {delegationSystems.map((system) => (
+                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+              ))}
+            </div>
+          </TabsContent>
           <TabsContent value="rpn" className="mt-0">
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {rpnSystems.map((system) => (

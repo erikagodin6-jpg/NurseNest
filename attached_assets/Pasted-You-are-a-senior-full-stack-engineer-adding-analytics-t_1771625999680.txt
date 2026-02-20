@@ -1,0 +1,98 @@
+You are a senior full-stack engineer adding analytics to my NurseNest platform (Next.js App Router + TypeScript + Tailwind).
+
+DECISION:
+Choose the best analytics approach for a brand-new subscription education platform with limited budget and a Canada + US audience. Priorities are:
+- Fast to implement
+- Privacy-aware (minimal compliance friction)
+- Reliable visitor/page tracking + event tracking
+- Low maintenance
+- Works well for SEO/marketing attribution (UTMs, referrers)
+- Does NOT require invasive tracking or session replay
+
+Pick ONE:
+A) Plausible Analytics (recommended if available)
+B) Umami Analytics (if I want self-hosting / cheaper)
+If neither is feasible, use PostHog Cloud as a fallback.
+
+GOAL METRICS I NEED:
+- Unique visitors, sessions, pageviews
+- Top pages and entry pages
+- Referrers and UTM campaigns (TikTok/Instagram)
+- Key conversion events and funnels:
+  - landing_view → click_get_started → signup_completed → subscription_started/purchased
+  - lesson_opened → quiz_start → quiz_complete
+  - osce_opened / clinical_lab_opened
+- Engagement by segment:
+  - region (CA vs US)
+  - tier (RPN/RN/NP)
+  - track (pathophysiology vs pharmacology)
+  - topic/category
+
+PRIVACY REQUIREMENTS (STRICT):
+- Do NOT collect or store PII (no emails, names, full IPs, free-text answers)
+- Do NOT record quiz answers
+- Do NOT use session replay
+- Prefer cookieless tracking; if cookies are required, implement consent banner and load analytics only after consent
+
+IMPLEMENTATION REQUIREMENTS:
+
+1) Add analytics client utility
+Create `lib/analytics.ts` with:
+- `trackPageview(url: string, props?: Record<string, any>)`
+- `trackEvent(name: string, props?: Record<string, any>)`
+It should be a no-op if analytics is disabled or user opted out.
+
+2) Pageview tracking (Next.js App Router)
+- Track a pageview on route change using `usePathname()` + `useSearchParams()`
+- Capture UTM params and referrer
+- Attach region context (CA/US) to every event/pageview
+
+3) Event tracking
+Add event calls to key UI actions:
+- click_get_started
+- click_view_demo
+- click_pricing
+- select_region (ca/us)
+- select_tier (rpn/rn/np)
+- lesson_opened (lessonId, tier, track, category/topic)
+- flashcards_start_session (topics, tier, track)
+- quiz_start / quiz_complete (quizId, tier, track, scoreBucket only; no answers)
+- osce_opened / osce_station_started / osce_station_completed
+- clinical_lab_opened
+- signup_started / signup_completed
+- checkout_started / subscription_purchased (no payment details)
+
+4) Funnels + dashboard guidance
+- Ensure the chosen tool can build funnels from events above.
+- Provide recommended dashboards: acquisition, activation, retention, revenue-intent.
+
+5) Opt-out / Consent handling
+- If using Plausible in cookieless mode, add a simple “Analytics opt-out” toggle in Settings and persist it.
+- If cookies are used, implement a consent banner:
+  - Accept analytics / Reject analytics
+  - Persist choice
+  - Do not load analytics until accepted
+
+6) Env vars and deployment
+- Store site ID / domain in env vars
+- Document exact env vars needed
+- Provide instructions to confirm events are received (using devtools + provider dashboard)
+
+DELIVERABLES:
+- Which tool you chose and why (short, practical)
+- Code with file paths (copy/paste-ready):
+  - lib/analytics.ts
+  - components/AnalyticsProvider.tsx (or similar)
+  - app/layout.tsx integration
+  - event hooks added to key buttons/components
+  - settings opt-out toggle (and consent banner if needed)
+- QA checklist:
+  - pageviews fire on navigation
+  - UTM/referrer captured
+  - events fire for key actions
+  - region/tier/track props attached
+  - opt-out stops tracking
+
+IMPORTANT:
+No pseudocode. Implement end-to-end and do not break existing pages.
+Integrate with existing header/nav and lesson/quiz pages rather than rewriting them.

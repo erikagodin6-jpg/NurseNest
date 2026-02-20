@@ -31,6 +31,7 @@ import ClinicalClarityIndex from "@/pages/clinical-clarity";
 import ClinicalClarityDetail from "@/pages/clinical-clarity-detail";
 import CaseSimulationPage from "@/pages/case-simulation";
 import MedicationMasteryPage from "@/pages/medication-mastery";
+import SimulatorsPage from "@/pages/simulators";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 
 function Router() {
@@ -43,6 +44,8 @@ function Router() {
       <Route path="/admin" component={AdminPage} />
       <Route path="/content-editor" component={ContentEditorPage} />
       <Route path="/case-simulations" component={CaseSimulationPage} />
+      <Route path="/simulators/osce" component={SimulatorsPage} />
+      <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
       <Route path="/medication-mastery" component={MedicationMasteryPage} />
       <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
       <Route path="/clinical-clarity" component={ClinicalClarityIndex} />

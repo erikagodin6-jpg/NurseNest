@@ -149,6 +149,14 @@ export function Navigation() {
     { name: "midnight", color: "#1e293b", label: "Midnight" },
     { name: "ocean", color: "#0ea5e9", label: "Ocean" },
     { name: "forest", color: "#10b981", label: "Forest" },
+    { name: "clinical-light", color: "#3b82f6", label: "Clinical" },
+    { name: "pastel-blush", color: "#ec8899", label: "Pastel Blush" },
+    { name: "pastel-lavender", color: "#a78bda", label: "Pastel Lavender" },
+    { name: "pastel-mint", color: "#4fd1a5", label: "Pastel Mint" },
+    { name: "neutral-sand", color: "#a08060", label: "Sand" },
+    { name: "neutral-slate", color: "#708090", label: "Cool Slate" },
+    { name: "dark-clinical", color: "#06b6d4", label: "Dark Clinical" },
+    { name: "dark-academia", color: "#8b7355", label: "Dark Academia" },
   ];
 
   const MobileNav = () => (
@@ -221,6 +229,18 @@ export function Navigation() {
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/medication-mastery")}>
               <Pill className="w-4 h-4" />
               Medication Mastery
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/osce")}>
+              <Stethoscope className="w-4 h-4" />
+              OSCE Simulator
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-lab")}>
+              <FlaskConical className="w-4 h-4" />
+              Clinical Lab Simulator
             </Button>
           </SheetClose>
           {user && (
@@ -372,6 +392,14 @@ export function Navigation() {
                     <Pill className="w-4 h-4" />
                     Medication Mastery
                   </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/osce")}>
+                    <Stethoscope className="w-4 h-4" />
+                    OSCE Simulator
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/clinical-lab")}>
+                    <FlaskConical className="w-4 h-4" />
+                    Clinical Lab Simulator
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pricing")}>
                     <Tag className="w-4 h-4" />
@@ -417,10 +445,61 @@ export function Navigation() {
                     <Palette className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-40 p-2">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Choose Theme</p>
+                <DropdownMenuContent align="end" className="w-44 p-2 max-h-80 overflow-y-auto">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Classic</p>
                   <div className="grid grid-cols-1 gap-1">
-                    {themes.map((t) => (
+                    {themes.slice(0, 7).map((t) => (
+                      <DropdownMenuItem 
+                        key={t.name}
+                        onClick={() => setTheme(t.name)} 
+                        className={cn(
+                          "cursor-pointer gap-2 transition-colors",
+                          theme === t.name ? "bg-primary/10 text-primary" : ""
+                        )}
+                      >
+                        <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                        <span className="text-xs font-medium">{t.label}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                  <DropdownMenuSeparator className="my-1.5" />
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Pastel & Clinical</p>
+                  <div className="grid grid-cols-1 gap-1">
+                    {themes.slice(7, 11).map((t) => (
+                      <DropdownMenuItem 
+                        key={t.name}
+                        onClick={() => setTheme(t.name)} 
+                        className={cn(
+                          "cursor-pointer gap-2 transition-colors",
+                          theme === t.name ? "bg-primary/10 text-primary" : ""
+                        )}
+                      >
+                        <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                        <span className="text-xs font-medium">{t.label}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                  <DropdownMenuSeparator className="my-1.5" />
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Neutral</p>
+                  <div className="grid grid-cols-1 gap-1">
+                    {themes.slice(11, 13).map((t) => (
+                      <DropdownMenuItem 
+                        key={t.name}
+                        onClick={() => setTheme(t.name)} 
+                        className={cn(
+                          "cursor-pointer gap-2 transition-colors",
+                          theme === t.name ? "bg-primary/10 text-primary" : ""
+                        )}
+                      >
+                        <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                        <span className="text-xs font-medium">{t.label}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                  <DropdownMenuSeparator className="my-1.5" />
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Dark</p>
+                  <div className="grid grid-cols-1 gap-1">
+                    {themes.slice(13).map((t) => (
                       <DropdownMenuItem 
                         key={t.name}
                         onClick={() => setTheme(t.name)} 

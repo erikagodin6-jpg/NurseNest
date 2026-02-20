@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EducationalIntegrity } from "@/components/educational-integrity";
+import { CiteThisPage } from "@/components/cite-this-page";
 import {
   ArrowLeft,
   Lightbulb,
@@ -403,6 +404,13 @@ export default function ContentPage() {
               </div>
             </section>
           )}
+
+          <div className="mt-8 flex justify-start" data-testid="section-cite-this-page">
+            <CiteThisPage
+              title={contentItem!.title}
+              publishedDate={contentItem!.publishedAt as unknown as string}
+            />
+          </div>
 
           {relatedItems && relatedItems.length > 0 && (
             <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-related-content">

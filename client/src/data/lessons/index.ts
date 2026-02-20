@@ -31,6 +31,8 @@ import { bioterrorismLessons } from "./bioterrorism";
 import { maternityComplicationsLessons } from "./maternity-complications";
 import { postpartumNeonatalLessons } from "./postpartum-neonatal";
 import { vaccinesLessons } from "./vaccines";
+import { fundamentalsLessons } from "./fundamentals";
+import { delegationLessons } from "./delegation";
 
 export type { LessonContent } from "./types";
 
@@ -67,4 +69,6 @@ export const contentMap: Record<string, LessonContent> = {
   ...maternityComplicationsLessons,
   ...postpartumNeonatalLessons,
   ...vaccinesLessons,
+  ...fundamentalsLessons,
+  ...delegationLessons,
 };

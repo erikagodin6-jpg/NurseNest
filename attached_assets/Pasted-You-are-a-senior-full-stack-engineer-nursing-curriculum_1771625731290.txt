@@ -1,0 +1,90 @@
+You are a senior full-stack engineer + nursing curriculum architect working inside my NurseNest codebase (Next.js App Router + TypeScript + Tailwind).
+
+GOAL:
+Restructure content so Pharmacology and Pathophysiology are clearly separated, with their own lesson “tracks” (tiers/sections), and add a “Key Terms” box on lesson pages that shows definitions of terms introduced in the lesson.
+
+FEATURES TO IMPLEMENT:
+
+1) SEPARATE TRACKS: PATHOPHYSIOLOGY vs PHARMACOLOGY
+Create two top-level lesson tracks that exist across RPN, RN, NP:
+- Track A: Pathophysiology
+- Track B: Pharmacology
+
+Requirements:
+- On Lessons Overview, add a track selector (tabs or segmented control): Pathophysiology | Pharmacology | (Optional: Mixed/All)
+- Track selection must filter the lesson listing and categories.
+- Track selection must also affect Flashcards (if flashcards exist): allow filtering by track.
+- Ensure track is stored in the lesson data model as `track: "pathophysiology" | "pharmacology"`.
+
+Data model:
+- If lessons are stored in a DB (Prisma), add a `track` field + migration.
+- If lessons are stored in JSON, update schema and migrate/seed existing content.
+
+Routing:
+- Add track-specific routes, e.g.:
+  - /rpn/lessons/pathophysiology
+  - /rpn/lessons/pharmacology
+  - /rn/lessons/pathophysiology
+  - /np/lessons/pharmacology
+- Respect existing tier-lock logic: users in RPN cannot access RN/NP routes.
+
+2) “LESSON TIERS” WITHIN EACH TRACK (Beginner → Advanced)
+Inside each track, implement a progression tier system:
+- Beginner
+- Intermediate
+- Advanced
+
+Requirements:
+- Every lesson has: `progression_tier` (beginner/intermediate/advanced) in addition to difficulty.
+- Lessons page includes filter chips for progression tier.
+- Provide default recommended path: show a “Start Here” section for Beginner.
+
+3) KEY TERMS BOX WITH DEFINITIONS (on every lesson page)
+Add a “Key Terms” box near the top (or right-side on desktop) that lists terms and definitions relevant to that lesson.
+
+Requirements:
+- Terms are structured data, not hardcoded text.
+- Support:
+  - term
+  - definition
+  - optional pronunciation
+  - optional “also known as”
+- Render as a clean UI component:
+  - collapsible on mobile
+  - sticky on desktop optional
+  - copy button (optional)
+
+Authoring:
+- In Admin editor (or lesson JSON), allow author to add/edit key terms.
+- If term appears in the lesson body, optionally auto-link to the key term definition tooltip (nice-to-have).
+
+4) OPTIONAL NICE-TO-HAVES (only if easy)
+- In-lesson term tooltips: hover/click on highlighted terms reveals definition.
+- Global glossary page:
+  - /glossary (filterable by track, tier, and topic)
+  - This can be a strong SEO asset.
+
+5) DELIVERABLES
+Provide implementation-ready code and file paths for:
+- Data model updates (Prisma schema + migration OR JSON schema changes)
+- Lesson type definitions (TypeScript)
+- Track selector UI component
+- Lesson listing filters update
+- Lesson page KeyTermsBox component
+- Example lesson seed data including key terms for both tracks
+- Any updates needed for flashcard topic filtering
+
+6) QUALITY / SAFETY
+- Must not break existing lesson pages
+- Must be mobile-friendly and fast
+- Track filtering should be consistent across navigation and deep links
+- Ensure no cross-tier access (RPN vs RN vs NP)
+
+OUTPUT REQUIREMENTS:
+- Explain the architecture briefly
+- Then provide code in copy/paste blocks with paths
+- Include a QA checklist to verify:
+  - track filtering works
+  - tier-lock still works
+  - key terms box renders and accepts data
+  - lesson routes are correct

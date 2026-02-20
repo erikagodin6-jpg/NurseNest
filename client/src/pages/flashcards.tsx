@@ -768,6 +768,184 @@ const allCards: Flashcard[] = [
     question: "CSF Analysis",
     answer: "Normal: clear, colorless, glucose 50-80, protein 15-45, WBC <5. Bacterial meningitis: turbid, low glucose, high protein, PMNs. Viral: clear, normal glucose, lymphocytes. SAH: xanthochromia.",
     category: "Procedures"
+  },
+  {
+    id: "fund-1",
+    type: "question",
+    question: "Which phase of the nursing process involves formulating measurable, patient-centered goals?",
+    options: ["Assessment", "Diagnosis", "Planning", "Implementation"],
+    correctIndex: 2,
+    answer: "Planning is the third phase of the nursing process (ADPIE) where the nurse develops SMART goals (Specific, Measurable, Achievable, Relevant, Time-bound) and selects evidence-based interventions.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-2",
+    type: "question",
+    question: "Which vital sign is the MOST sensitive early predictor of clinical deterioration?",
+    options: ["Blood pressure", "Temperature", "Respiratory rate", "Heart rate"],
+    correctIndex: 2,
+    answer: "Respiratory rate is consistently the most sensitive and earliest predictor of clinical deterioration, often increasing hours before other vital signs change. Tachypnea (RR > 24) warrants immediate assessment.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-3",
+    type: "term",
+    question: "High-Alert Medications (A PINCH)",
+    answer: "A PINCH: Anticoagulants, Potassium (IV), Insulin, Narcotics/opioids, Chemotherapy, Heparin. These medications require independent double-check by two qualified nurses before administration due to heightened risk of significant patient harm.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-4",
+    type: "question",
+    question: "A patient with C. difficile requires which hand hygiene method?",
+    options: ["Alcohol-based hand rub", "Soap and water with friction", "Hand sanitizer gel", "Any method is acceptable"],
+    correctIndex: 1,
+    answer: "C. difficile forms spores that are resistant to alcohol. Only soap and water with physical friction can remove the spores from hands. This is the ONE major exception to using alcohol-based hand rub.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-5",
+    type: "term",
+    question: "SBAR Communication Framework",
+    answer: "Situation: identify yourself, patient, concern. Background: relevant history and current treatment. Assessment: your clinical judgment of the problem. Recommendation: what you think needs to happen. Always include a specific recommendation rather than just reporting data.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-6",
+    type: "question",
+    question: "What is the MOST accurate method for assessing fluid balance?",
+    options: ["Intake and output records", "Daily weights", "Skin turgor assessment", "Blood pressure monitoring"],
+    correctIndex: 1,
+    answer: "Daily weights are the most accurate indicator. 1 kg weight change = approximately 1 liter of fluid. Weigh at the same time, same scale, same clothing daily. I&O is important but prone to recording errors.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-7",
+    type: "term",
+    question: "Third-Spacing",
+    answer: "Pathological shift of fluid from intravascular space into non-functional interstitial/transcellular compartments. Creates a clinical paradox: patient appears edematous but is intravascularly depleted (hypotensive, tachycardic). Common in burns, pancreatitis, sepsis, liver failure.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-8",
+    type: "question",
+    question: "Which type of precaution requires a fit-tested N95 respirator?",
+    options: ["Standard precautions", "Contact precautions", "Droplet precautions", "Airborne precautions"],
+    correctIndex: 3,
+    answer: "Airborne precautions (TB, measles, varicella) require N95 respirator, negative pressure room, and closed door. Airborne particles are small enough to remain suspended and travel long distances. A surgical mask is inadequate.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-9",
+    type: "term",
+    question: "Rights of Medication Administration",
+    answer: "Expanded rights: Right Patient (2 identifiers), Right Drug (3 label checks), Right Dose (verify calculations), Right Route (PO/IV/IM/SubQ), Right Time (within window), Right Documentation (chart after giving), Right Reason, Right Response.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-10",
+    type: "question",
+    question: "A nurse discovers she forgot to document a medication given 2 hours ago. The correct action is:",
+    options: ["Add documentation to the earlier time slot", "Make a late entry with current date/time referencing actual event time", "Do not document since it is too late", "Ask another nurse to document it"],
+    correctIndex: 1,
+    answer: "A late entry should be made using the current date and time, clearly labeled as 'Late Entry,' and referencing the actual date and time the event occurred. Never backdate entries or pre-chart medications.",
+    category: "Fundamentals"
+  },
+  {
+    id: "fund-11",
+    type: "term",
+    question: "PPE Doffing Sequence",
+    answer: "Correct removal order: Gloves (most contaminated) → Hand hygiene → Gown → Eye protection → Mask → Hand hygiene. Doffing is the highest-risk moment for self-contamination. Remove gloves FIRST, perform hand hygiene between each step.",
+    category: "Fundamentals"
+  },
+  {
+    id: "del-1",
+    type: "question",
+    question: "A patient has active external bleeding AND is making snoring respirations. What is the priority?",
+    options: ["Apply pressure to the bleeding site", "Open the airway", "Start an IV for fluid resuscitation", "Assess blood pressure"],
+    correctIndex: 1,
+    answer: "Airway ALWAYS comes before circulation in ABC prioritization. The snoring sounds indicate a partially obstructed airway. Without a patent airway, all other interventions are futile.",
+    category: "Delegation"
+  },
+  {
+    id: "del-2",
+    type: "term",
+    question: "Maslow's Hierarchy in Nursing Prioritization",
+    answer: "Applied to clinical nursing: Physiological needs (ABCs, oxygen, perfusion) → Safety needs (fall prevention, infection control) → Love/Belonging (family support) → Esteem (independence, dignity) → Self-actualization (health education, discharge planning). Always address lower levels first.",
+    category: "Delegation"
+  },
+  {
+    id: "del-3",
+    type: "question",
+    question: "Which patient should the nurse see FIRST?",
+    options: ["Patient with chronic back pain requesting medication", "Post-op patient with expected moderate incision pain", "Patient with new-onset stridor after eating shellfish", "Patient requesting discharge paperwork"],
+    correctIndex: 2,
+    answer: "Stridor after shellfish suggests anaphylaxis with airway compromise. Airway (A in ABCs) always takes priority over circulation, pain, or administrative tasks. This is a life-threatening emergency.",
+    category: "Delegation"
+  },
+  {
+    id: "del-4",
+    type: "term",
+    question: "Stable vs Unstable Patient",
+    answer: "STABLE: Expected findings, predictable course, vital signs within baseline. UNSTABLE: New-onset symptoms, worsening trends despite treatment, vital signs deviating dangerously, altered LOC. The key word is 'NEW' — new findings = unstable = priority.",
+    category: "Delegation"
+  },
+  {
+    id: "del-5",
+    type: "question",
+    question: "Which task can be SAFELY delegated to a UAP (unlicensed assistive personnel)?",
+    options: ["Performing an initial patient assessment", "Administering oral medications", "Measuring vital signs on a stable patient", "Evaluating medication effectiveness"],
+    correctIndex: 2,
+    answer: "UAPs can measure vital signs on stable patients, perform ADLs, measure I&O, and collect specimens. They CANNOT assess, evaluate, administer medications, or provide initial education — these require clinical nursing judgment.",
+    category: "Delegation"
+  },
+  {
+    id: "del-6",
+    type: "term",
+    question: "Five Rights of Delegation",
+    answer: "Right Task (within delegate's scope), Right Circumstance (patient is stable/predictable), Right Person (appropriate training and licensure), Right Direction (clear instructions with reporting parameters), Right Supervision (follow-up and evaluation). The RN retains ACCOUNTABILITY.",
+    category: "Delegation"
+  },
+  {
+    id: "del-7",
+    type: "question",
+    question: "A nurse calls a physician about a deteriorating patient. The physician says 'just continue monitoring.' The nurse remains concerned. The next step is:",
+    options: ["Follow the order and continue monitoring", "Escalate through the chain of command", "Document and wait until next shift", "Call the patient's family"],
+    correctIndex: 1,
+    answer: "When the initial provider response does not address the nurse's clinical concern, the nurse is legally and ethically obligated to escalate through the chain of command (charge nurse → supervisor → medical director).",
+    category: "Delegation"
+  },
+  {
+    id: "del-8",
+    type: "term",
+    question: "Post-Op Fever Mnemonic: Wind, Water, Wound, Walking, Wonder Drugs",
+    answer: "Wind (atelectasis, days 1-2), Water (UTI, days 3-5), Wound (infection, days 5-7), Walking (DVT/PE, days 5-7), Wonder drugs (drug fever, anytime). This temporal framework guides assessment of post-operative fever causes.",
+    category: "Delegation"
+  },
+  {
+    id: "del-9",
+    type: "question",
+    question: "What is the MOST common post-operative complication?",
+    options: ["Hemorrhage", "Pulmonary embolism", "Atelectasis", "Wound infection"],
+    correctIndex: 2,
+    answer: "Atelectasis occurs in up to 90% of surgical patients due to shallow breathing, pain-limited inspiratory effort, and immobility. Prevention: incentive spirometry every 1-2 hours while awake and early ambulation.",
+    category: "Delegation"
+  },
+  {
+    id: "del-10",
+    type: "question",
+    question: "Post-op bowel is protruding through the abdominal incision. Immediate action:",
+    options: ["Push the bowel back in and apply sterile dressing", "Cover with sterile saline-moistened gauze, position supine with knees bent, call surgeon STAT", "Apply dry gauze and send to OR", "Apply abdominal binder tightly"],
+    correctIndex: 1,
+    answer: "Evisceration: NEVER push organs back in. Cover with sterile saline-moistened gauze to prevent desiccation, position supine with knees bent to reduce tension, keep NPO, and notify surgeon immediately.",
+    category: "Delegation"
+  },
+  {
+    id: "del-11",
+    type: "term",
+    question: "Chain of Command Escalation",
+    answer: "Bedside Nurse → Charge Nurse → Nursing Supervisor → Medical Director → Chief of Staff. Nurses are legally obligated to escalate when patient safety is at risk and the initial provider response is inadequate. Using the chain of command is a professional obligation, not insubordination.",
+    category: "Delegation"
   }
 ];
 
