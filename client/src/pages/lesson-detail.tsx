@@ -6,16 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { 
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
-  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown
+  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { contentMap } from "@/data/lessons";
 import { useAuth } from "@/lib/auth";
-import type { LessonContent } from "@/data/lessons/types";
+import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 
 function getLessonTier(lessonId: string): string {
   if (lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
@@ -23,23 +24,231 @@ function getLessonTier(lessonId: string): string {
   return "rpn";
 }
 
-const tierPricing: Record<string, { name: string; price: string }> = {
-  rpn: { name: "RPN/LVN", price: "$29.99/mo" },
-  rn: { name: "RN/NCLEX", price: "$39.99/mo" },
-  np: { name: "NP Advanced", price: "$49.99/mo" },
+const tierPricing: Record<string, { name: string; priceCAD: string; priceUSD: string }> = {
+  rpn: { name: "RPN/LVN", priceCAD: "$29.99 CAD/mo", priceUSD: "$21.99 USD/mo" },
+  rn: { name: "RN/NCLEX", priceCAD: "$39.99 CAD/mo", priceUSD: "$29.99 USD/mo" },
+  np: { name: "NP Advanced", priceCAD: "$49.99 CAD/mo", priceUSD: "$36.99 USD/mo" },
 };
+
+function generateQuestions(quiz: QuizQuestion[], seed: number): QuizQuestion[] {
+  const shuffled = [...quiz];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.abs((seed * (i + 1) * 2654435761) % (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  const result: QuizQuestion[] = [];
+  while (result.length < 10) {
+    result.push(...shuffled);
+  }
+  return result.slice(0, 10);
+}
+
+function QuizSection({
+  questions,
+  lessonId,
+  testType,
+  onComplete,
+}: {
+  questions: QuizQuestion[];
+  lessonId: string;
+  testType: "pretest" | "posttest";
+  onComplete: (score: number, total: number) => void;
+}) {
+  const [started, setStarted] = useState(false);
+  const [currentQ, setCurrentQ] = useState(0);
+  const [score, setScore] = useState(0);
+  const [complete, setComplete] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const { user } = useAuth();
+
+  const preTestScore = useMemo(() => {
+    const stored = localStorage.getItem(`nursenest-pretest-${lessonId}`);
+    return stored ? JSON.parse(stored) : null;
+  }, [lessonId, complete]);
+
+  const handleAnswer = (index: number) => {
+    if (selectedAnswer !== null) return;
+    setSelectedAnswer(index);
+    setShowFeedback(true);
+    const isCorrect = index === questions[currentQ].correct;
+    if (isCorrect) setScore((s) => s + 1);
+
+    setTimeout(() => {
+      setShowFeedback(false);
+      setSelectedAnswer(null);
+      if (currentQ + 1 < questions.length) {
+        setCurrentQ((q) => q + 1);
+      } else {
+        const finalScore = score + (isCorrect ? 1 : 0);
+        setComplete(true);
+        localStorage.setItem(
+          `nursenest-${testType}-${lessonId}`,
+          JSON.stringify({ score: finalScore, total: questions.length, percentage: Math.round((finalScore / questions.length) * 100) })
+        );
+        onComplete(finalScore, questions.length);
+
+        if (user) {
+          fetch("/api/test-results", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: user.id,
+              lessonId,
+              testType,
+              score: finalScore,
+              totalQuestions: questions.length,
+            }),
+          }).catch(() => {});
+        }
+      }
+    }, 2000);
+  };
+
+  if (!started) {
+    return (
+      <div className="text-center space-y-6 py-12">
+        <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+          {testType === "pretest" ? <BarChart3 className="w-10 h-10 text-primary" /> : <TrendingUp className="w-10 h-10 text-primary" />}
+        </div>
+        <h2 className="text-3xl font-bold" data-testid={`text-${testType}-title`}>
+          {testType === "pretest" ? "Pre-Test: Baseline Assessment" : "Post-Test: Knowledge Check"}
+        </h2>
+        <p className="text-gray-600 max-w-md mx-auto">
+          {testType === "pretest"
+            ? "Take this test before studying the lesson to assess your baseline knowledge. Your score will be compared with your post-test results."
+            : "Now that you've studied the lesson, test your knowledge. Your score will be compared with your pre-test to measure improvement."}
+        </p>
+        <p className="text-sm text-gray-400">{questions.length} questions</p>
+        <Button
+          size="lg"
+          onClick={() => setStarted(true)}
+          className="rounded-full px-12 bg-primary hover:brightness-110 h-14 text-lg text-white"
+          data-testid={`button-start-${testType}`}
+        >
+          {testType === "pretest" ? "Start Pre-Test" : "Start Post-Test"}
+        </Button>
+      </div>
+    );
+  }
+
+  if (complete) {
+    const percentage = Math.round((score / questions.length) * 100);
+    return (
+      <Card className="border-none shadow-xl bg-white text-center p-12 space-y-6">
+        <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
+          <Trophy className="w-12 h-12 text-emerald-500" />
+        </div>
+        <h2 className="text-3xl font-bold" data-testid={`text-${testType}-result`}>
+          {testType === "pretest" ? "Pre-Test Complete!" : "Post-Test Complete!"}
+        </h2>
+        <p className="text-xl text-gray-600" data-testid={`text-${testType}-score`}>
+          Scored {score} / {questions.length} ({percentage}%)
+        </p>
+        <Progress value={percentage} className="w-64 h-3 mx-auto" />
+
+        {testType === "posttest" && preTestScore && (
+          <div className="mt-6 p-6 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl border border-emerald-100 max-w-md mx-auto space-y-3" data-testid="section-score-comparison">
+            <h3 className="font-bold text-gray-900 flex items-center gap-2 justify-center">
+              <TrendingUp className="w-5 h-5 text-emerald-600" /> Score Comparison
+            </h3>
+            <div className="flex items-center justify-center gap-3 text-lg">
+              <span className="font-semibold text-blue-700">Pre-Test: {preTestScore.percentage}%</span>
+              <span className="text-gray-400">→</span>
+              <span className="font-semibold text-emerald-700">Post-Test: {percentage}%</span>
+            </div>
+            {percentage - preTestScore.percentage > 0 ? (
+              <p className="text-emerald-600 font-bold text-lg" data-testid="text-improvement">
+                +{percentage - preTestScore.percentage}% improvement! 🎉
+              </p>
+            ) : percentage - preTestScore.percentage === 0 ? (
+              <p className="text-gray-600 font-medium">Same score — review the lesson and try again!</p>
+            ) : (
+              <p className="text-orange-600 font-medium">
+                {percentage - preTestScore.percentage}% — Don't worry, revisit the material and try again!
+              </p>
+            )}
+          </div>
+        )}
+
+        {testType === "pretest" && (
+          <p className="text-gray-500 text-sm">Now proceed to the Lesson Content tab to study the material!</p>
+        )}
+      </Card>
+    );
+  }
+
+  const progressPercent = ((currentQ + 1) / questions.length) * 100;
+  return (
+    <div className="max-w-2xl mx-auto space-y-8 py-4">
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-bold text-primary uppercase tracking-wider" data-testid={`text-${testType}-progress`}>
+            Question {currentQ + 1} of {questions.length}
+          </p>
+          <span className="text-sm text-gray-400">{Math.round(progressPercent)}%</span>
+        </div>
+        <Progress value={progressPercent} className="h-2" />
+      </div>
+      <h3 className="text-2xl font-bold text-gray-900" data-testid={`text-${testType}-question`}>
+        {questions[currentQ].question}
+      </h3>
+      <div className="grid gap-4">
+        {questions[currentQ].options.map((option, i) => {
+          const isCorrect = i === questions[currentQ].correct;
+          const isSelected = selectedAnswer === i;
+          let cardStyle = "hover:bg-primary/5 hover:border-primary/40 hover:shadow-md cursor-pointer";
+          if (selectedAnswer !== null) {
+            if (isCorrect) cardStyle = "bg-emerald-50 border-emerald-400 text-emerald-900";
+            else if (isSelected) cardStyle = "bg-red-50 border-red-400 text-red-900";
+            else cardStyle = "opacity-60";
+          }
+          return (
+            <Card
+              key={i}
+              className={`border shadow-sm transition-all ${cardStyle}`}
+              onClick={() => selectedAnswer === null && handleAnswer(i)}
+              data-testid={`card-${testType}-option-${i}`}
+            >
+              <CardContent className="p-4 flex items-start gap-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-bold ${
+                  selectedAnswer !== null && isCorrect ? "bg-emerald-500 text-white" :
+                  isSelected && !isCorrect ? "bg-red-500 text-white" :
+                  "bg-gray-100 text-gray-600"
+                }`}>
+                  {selectedAnswer !== null && isCorrect ? <CheckCircle2 className="w-5 h-5" /> :
+                   isSelected && !isCorrect ? <XCircle className="w-5 h-5" /> :
+                   String.fromCharCode(65 + i)}
+                </div>
+                <span className="pt-1">{option}</span>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+      {showFeedback && (
+        <div className={`p-4 rounded-xl border ${
+          selectedAnswer === questions[currentQ].correct
+            ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+            : "bg-red-50 border-red-200 text-red-800"
+        }`} data-testid={`text-${testType}-rationale`}>
+          <p className="font-bold mb-1">{selectedAnswer === questions[currentQ].correct ? "✓ Correct!" : "✗ Incorrect"}</p>
+          <p className="text-sm">{questions[currentQ].rationale}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function LessonDetail() {
   const { id } = useParams();
   const [, navigate] = useLocation();
-  const [quizStarted, setQuizStarted] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
-  const [quizComplete, setQuizComplete] = useState(false);
+  const [activeTab, setActiveTab] = useState("pretest");
+  const [preTestDone, setPreTestDone] = useState(false);
+  const [postTestDone, setPostTestDone] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [noteContent, setNoteContent] = useState("");
   const [noteSaving, setNoteSaving] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout>();
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
@@ -99,50 +308,15 @@ export default function LessonDetail() {
     }, 2000);
   };
 
-  const handleAnswer = (index: number) => {
-    setSelectedAnswer(index);
-    const isCorrect = index === lessonContent.quiz[currentQuestion].correct;
-    if (isCorrect) setScore(score + 1);
-    
-    toast({ 
-      title: isCorrect ? "Correct!" : "Incorrect",
-      description: lessonContent.quiz[currentQuestion].rationale,
-      variant: isCorrect ? "default" : "destructive"
-    });
+  const preTestQuestions = useMemo(() => {
+    if (lessonContent.preTest && lessonContent.preTest.length >= 10) return lessonContent.preTest;
+    return generateQuestions(lessonContent.quiz, 1);
+  }, [lessonContent]);
 
-    setTimeout(() => {
-      setSelectedAnswer(null);
-      if (currentQuestion + 1 < lessonContent.quiz.length) {
-        setCurrentQuestion(currentQuestion + 1);
-      } else {
-        setQuizComplete(true);
-        if (user) {
-          fetch("/api/test-results", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId: user.id,
-              lessonId: id,
-              testType: "quiz",
-              score: score + (isCorrect ? 1 : 0),
-              totalQuestions: lessonContent.quiz.length,
-            }),
-          }).catch(() => {});
-
-          fetch("/api/progress", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId: user.id,
-              lessonId: id,
-              completed: "true",
-              postTestScore: Math.round(((score + (isCorrect ? 1 : 0)) / lessonContent.quiz.length) * 100),
-            }),
-          }).catch(() => {});
-        }
-      }
-    }, 1500);
-  };
+  const postTestQuestions = useMemo(() => {
+    if (lessonContent.postTest && lessonContent.postTest.length >= 10) return lessonContent.postTest;
+    return generateQuestions(lessonContent.quiz, 2);
+  }, [lessonContent]);
 
   async function handleSubscribe() {
     if (!user) {
@@ -194,7 +368,7 @@ export default function LessonDetail() {
                 <Crown className="w-6 h-6 text-amber-500" />
                 <span className="text-xl font-bold">{tp.name} Tier</span>
               </div>
-              <p className="text-3xl font-bold text-primary">{tp.price}</p>
+              <p className="text-3xl font-bold text-primary">{region === "CA" ? tp.priceCAD : tp.priceUSD}</p>
               <ul className="text-sm text-gray-600 space-y-2 text-left">
                 <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> Full access to all {tp.name} lessons</li>
                 <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> Flashcards and question bank</li>
@@ -275,7 +449,7 @@ export default function LessonDetail() {
           </Card>
         )}
 
-        <div className="space-y-12">
+        <div className="space-y-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
                {isPeds && (
@@ -313,271 +487,273 @@ export default function LessonDetail() {
             <CardContent className="p-6 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-sm font-bold text-primary uppercase tracking-wider">Learning Progress</p>
-                <p className="text-gray-600">Complete the module to track mastery.</p>
+                <p className="text-gray-600">Complete pre-test, study, then take the post-test.</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-primary">{quizComplete ? "100%" : "25%"}</p>
-                <Progress value={quizComplete ? 100 : 25} className="w-32 h-2" />
+                <p className="text-2xl font-bold text-primary">{postTestDone ? "100%" : preTestDone ? "50%" : "0%"}</p>
+                <Progress value={postTestDone ? 100 : preTestDone ? 50 : 0} className="w-32 h-2" />
               </div>
             </CardContent>
           </Card>
 
-          <section className="space-y-6">
-            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-              <Microscope className="text-primary w-8 h-8" />
-              <h2>{lessonContent.cellular.title}</h2>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700 whitespace-pre-wrap">
-              {lessonContent.cellular.content}
-            </div>
-          </section>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full" data-testid="tabs-lesson">
+            <TabsList className="grid w-full grid-cols-3 h-12">
+              <TabsTrigger value="pretest" className="gap-2 text-sm" data-testid="tab-pretest">
+                <BarChart3 className="w-4 h-4" />
+                Pre-Test
+              </TabsTrigger>
+              <TabsTrigger value="content" className="gap-2 text-sm" data-testid="tab-content">
+                <BookOpen className="w-4 h-4" />
+                Lesson Content
+              </TabsTrigger>
+              <TabsTrigger value="posttest" className="gap-2 text-sm" data-testid="tab-posttest">
+                <TrendingUp className="w-4 h-4" />
+                Post-Test
+              </TabsTrigger>
+            </TabsList>
 
-          {lessonContent.riskFactors && lessonContent.riskFactors.length > 0 && (
-            <section data-testid="section-risk-factors" className="space-y-6">
-              <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                <ShieldAlert className="text-rose-500 w-8 h-8" />
-                <h2>Risk Factors</h2>
-              </div>
-              <Card className="border-none shadow-sm bg-rose-50/60">
-                <CardContent className="p-8">
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {lessonContent.riskFactors.map((rf, i) => (
-                      <div key={i} className="flex items-start gap-2 text-gray-700">
-                        <div className="w-2 h-2 rounded-full bg-rose-400 mt-2 shrink-0" />
-                        <span>{rf}</span>
-                      </div>
-                    ))}
+            <TabsContent value="pretest" className="mt-6">
+              <QuizSection
+                questions={preTestQuestions}
+                lessonId={id || ""}
+                testType="pretest"
+                onComplete={() => setPreTestDone(true)}
+              />
+            </TabsContent>
+
+            <TabsContent value="content" className="mt-6">
+              <div className="space-y-12">
+                <section className="space-y-6">
+                  <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                    <Microscope className="text-primary w-8 h-8" />
+                    <h2>{lessonContent.cellular.title}</h2>
                   </div>
-                </CardContent>
-              </Card>
-            </section>
-          )}
-
-          {lessonContent.diagnostics && lessonContent.diagnostics.length > 0 && (
-            <section data-testid="section-diagnostics" className="space-y-6">
-              <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                <Search className="text-cyan-600 w-8 h-8" />
-                <h2>Diagnostics</h2>
-              </div>
-              <Card className="border-none shadow-sm bg-cyan-50/60">
-                <CardContent className="p-8">
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {lessonContent.diagnostics.map((d, i) => (
-                      <div key={i} className="flex items-start gap-2 text-gray-700">
-                        <div className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0" />
-                        <span>{d}</span>
-                      </div>
-                    ))}
+                  <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700 whitespace-pre-wrap">
+                    {lessonContent.cellular.content}
                   </div>
-                </CardContent>
-              </Card>
-            </section>
-          )}
+                </section>
 
-          {lessonContent.management && lessonContent.management.length > 0 && (
-            <section data-testid="section-management" className="space-y-6">
-              <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                <ClipboardList className="text-emerald-600 w-8 h-8" />
-                <h2>Management</h2>
-              </div>
-              <Card className="border-none shadow-sm bg-emerald-50/60">
-                <CardContent className="p-8">
-                  <ul className="space-y-3">
-                    {lessonContent.management.map((m, i) => (
-                      <li key={i} className="flex items-start gap-3 text-gray-700">
-                        <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
-                          <span className="text-emerald-700 text-xs font-bold">{i + 1}</span>
+                {lessonContent.riskFactors && lessonContent.riskFactors.length > 0 && (
+                  <section data-testid="section-risk-factors" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <ShieldAlert className="text-rose-500 w-8 h-8" />
+                      <h2>Risk Factors</h2>
+                    </div>
+                    <Card className="border-none shadow-sm bg-rose-50/60">
+                      <CardContent className="p-8">
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {lessonContent.riskFactors.map((rf, i) => (
+                            <div key={i} className="flex items-start gap-2 text-gray-700">
+                              <div className="w-2 h-2 rounded-full bg-rose-400 mt-2 shrink-0" />
+                              <span>{rf}</span>
+                            </div>
+                          ))}
                         </div>
-                        <span>{m}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </section>
-          )}
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
 
-          {lessonContent.nursingActions && lessonContent.nursingActions.length > 0 && (
-            <section data-testid="section-nursing-actions" className="space-y-6">
-              <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                <HeartPulse className="text-violet-600 w-8 h-8" />
-                <h2>Nursing Actions</h2>
-              </div>
-              <Card className="border-none shadow-sm bg-violet-50/60">
-                <CardContent className="p-8">
-                  <ul className="space-y-3">
-                    {lessonContent.nursingActions.map((na, i) => (
-                      <li key={i} className="flex items-start gap-3 text-gray-700">
-                        <HeartPulse className="w-4 h-4 text-violet-500 mt-1 shrink-0" />
-                        <span>{na}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </section>
-          )}
-
-          {lessonContent.lifespan && (
-            <section className="space-y-6">
-              <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                <Users className="text-indigo-500 w-8 h-8" />
-                <h2>Across the Lifespan</h2>
-              </div>
-              <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900 italic">
-                {lessonContent.lifespan.content}
-              </div>
-            </section>
-          )}
-
-          <section className="space-y-6">
-            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-              <AlertCircle className="text-orange-500 w-8 h-8" />
-              <h2>Clinical Signs and Danger Signs</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="border-none shadow-md bg-white">
-                <CardContent className="p-8 space-y-4">
-                  <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                    <AlertCircle className="text-blue-500 w-6 h-6" />
-                    <h3>Clinical Findings</h3>
-                  </div>
-                  <ul className="space-y-2">
-                    {lessonContent.signs.left.map((s, i) => (
-                      <li key={i} className="flex items-center gap-2 text-gray-600">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                        {s}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-              <Card className="border-none shadow-md bg-white border-l-4 border-l-orange-400">
-                <CardContent className="p-8 space-y-4">
-                  <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                    <AlertCircle className="text-orange-500 w-6 h-6" />
-                    <h3>Danger Signs</h3>
-                  </div>
-                  <ul className="space-y-2">
-                    {lessonContent.signs.right.map((s, i) => (
-                      <li key={i} className="flex items-center gap-2 text-gray-600">
-                        <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                        {s}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
-          <section className="space-y-6">
-            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-              <Pill className="text-primary w-8 h-8" />
-              <h2>Pharmacology and Safety</h2>
-            </div>
-            <div className="space-y-4">
-              {lessonContent.medications.map((med, i) => (
-                <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
-                  <div className="bg-primary/5 px-6 py-3 border-b border-primary/10">
-                    <span className="font-bold text-gray-900">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
-                  </div>
-                  <CardContent className="p-6 grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
-                      <p className="text-gray-700">{med.action}</p>
-                      <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
-                      <p className="text-gray-700">{med.sideEffects}</p>
+                {lessonContent.diagnostics && lessonContent.diagnostics.length > 0 && (
+                  <section data-testid="section-diagnostics" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <Search className="text-cyan-600 w-8 h-8" />
+                      <h2>Diagnostics</h2>
                     </div>
-                    <div className="space-y-2">
-                      <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
-                      <p className="text-gray-700">{med.contra}</p>
-                      <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2">
-                        <Lightbulb className="w-5 h-5 text-yellow-600 shrink-0" />
-                        <p className="text-sm text-yellow-800 font-medium">Pearl: {med.pearl}</p>
-                      </div>
+                    <Card className="border-none shadow-sm bg-cyan-50/60">
+                      <CardContent className="p-8">
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {lessonContent.diagnostics.map((d, i) => (
+                            <div key={i} className="flex items-start gap-2 text-gray-700">
+                              <div className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0" />
+                              <span>{d}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
+
+                {lessonContent.management && lessonContent.management.length > 0 && (
+                  <section data-testid="section-management" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <ClipboardList className="text-emerald-600 w-8 h-8" />
+                      <h2>Management</h2>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
+                    <Card className="border-none shadow-sm bg-emerald-50/60">
+                      <CardContent className="p-8">
+                        <ul className="space-y-3">
+                          {lessonContent.management.map((m, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
+                                <span className="text-emerald-700 text-xs font-bold">{i + 1}</span>
+                              </div>
+                              <span>{m}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
 
-          <section className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
-            <div className="flex items-center gap-3 text-2xl font-bold">
-              <FileText className="text-primary w-8 h-8" />
-              <h2>Clinical Mastery</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Principles</h4>
-                <ul className="space-y-2 text-gray-300">
-                  {lessonContent.pearls.map((p, i) => (
-                    <li key={i} className="flex gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-                <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Danger Zone</h4>
-                <p className="text-sm text-gray-400 leading-relaxed italic">
-                  Clinical reasoning over memorization. If something changes suddenly, it is your priority.
-                </p>
-              </div>
-            </div>
-          </section>
+                {lessonContent.nursingActions && lessonContent.nursingActions.length > 0 && (
+                  <section data-testid="section-nursing-actions" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <HeartPulse className="text-violet-600 w-8 h-8" />
+                      <h2>Nursing Actions</h2>
+                    </div>
+                    <Card className="border-none shadow-sm bg-violet-50/60">
+                      <CardContent className="p-8">
+                        <ul className="space-y-3">
+                          {lessonContent.nursingActions.map((na, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <HeartPulse className="w-4 h-4 text-violet-500 mt-1 shrink-0" />
+                              <span>{na}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
 
-          <section className="py-12 border-t border-gray-100">
-            {!quizStarted ? (
-              <div className="text-center space-y-6">
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Stethoscope className="w-10 h-10 text-primary" />
-                </div>
-                <h2 className="text-3xl font-bold">Case Study Challenge</h2>
-                <Button size="lg" onClick={() => setQuizStarted(true)} className="rounded-full px-12 bg-primary hover:brightness-110 h-14 text-lg text-white" data-testid="button-start-quiz">
-                  Start Mastery Quiz
-                </Button>
+                {lessonContent.lifespan && (
+                  <section className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <Users className="text-indigo-500 w-8 h-8" />
+                      <h2>Across the Lifespan</h2>
+                    </div>
+                    <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900 italic">
+                      {lessonContent.lifespan.content}
+                    </div>
+                  </section>
+                )}
+
+                <section className="space-y-6">
+                  <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                    <AlertCircle className="text-orange-500 w-8 h-8" />
+                    <h2>Clinical Signs and Danger Signs</h2>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <Card className="border-none shadow-md bg-white">
+                      <CardContent className="p-8 space-y-4">
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                          <AlertCircle className="text-blue-500 w-6 h-6" />
+                          <h3>Clinical Findings</h3>
+                        </div>
+                        <ul className="space-y-2">
+                          {lessonContent.signs.left.map((s, i) => (
+                            <li key={i} className="flex items-center gap-2 text-gray-600">
+                              <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-none shadow-md bg-white border-l-4 border-l-orange-400">
+                      <CardContent className="p-8 space-y-4">
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                          <AlertCircle className="text-orange-500 w-6 h-6" />
+                          <h3>Danger Signs</h3>
+                        </div>
+                        <ul className="space-y-2">
+                          {lessonContent.signs.right.map((s, i) => (
+                            <li key={i} className="flex items-center gap-2 text-gray-600">
+                              <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </section>
+
+                <section className="space-y-6">
+                  <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                    <Pill className="text-primary w-8 h-8" />
+                    <h2>Pharmacology and Safety</h2>
+                  </div>
+                  <div className="space-y-4">
+                    {lessonContent.medications.map((med, i) => (
+                      <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
+                        <div className="bg-primary/5 px-6 py-3 border-b border-primary/10">
+                          <span className="font-bold text-gray-900">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
+                        </div>
+                        <CardContent className="p-6 grid md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
+                            <p className="text-gray-700">{med.action}</p>
+                            <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
+                            <p className="text-gray-700">{med.sideEffects}</p>
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
+                            <p className="text-gray-700">{med.contra}</p>
+                            <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2">
+                              <Lightbulb className="w-5 h-5 text-yellow-600 shrink-0" />
+                              <p className="text-sm text-yellow-800 font-medium">Pearl: {med.pearl}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
+                  <div className="flex items-center gap-3 text-2xl font-bold">
+                    <FileText className="text-primary w-8 h-8" />
+                    <h2>Clinical Mastery</h2>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Principles</h4>
+                      <ul className="space-y-2 text-gray-300">
+                        {lessonContent.pearls.map((p, i) => (
+                          <li key={i} className="flex gap-2">
+                            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                            {p}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Danger Zone</h4>
+                      <p className="text-sm text-gray-400 leading-relaxed italic">
+                        Clinical reasoning over memorization. If something changes suddenly, it is your priority.
+                      </p>
+                    </div>
+                  </div>
+                </section>
               </div>
-            ) : quizComplete ? (
-              <Card className="border-none shadow-xl bg-white text-center p-12 space-y-6">
-                <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
-                  <Trophy className="w-12 h-12 text-emerald-500" />
-                </div>
-                <h2 className="text-3xl font-bold">Module Mastered!</h2>
-                <p className="text-xl text-gray-600">Scored {score} / {lessonContent.quiz.length}</p>
-                <div className="pt-4">
-                  <Link href="/lessons">
-                    <Button variant="outline" className="rounded-full px-8" data-testid="button-return-to-lessons">Return to Overview</Button>
-                  </Link>
-                </div>
-              </Card>
-            ) : (
-              <div className="max-w-2xl mx-auto space-y-8">
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-primary uppercase tracking-wider">Question {currentQuestion + 1} of {lessonContent.quiz.length}</p>
-                  <h3 className="text-2xl font-bold text-gray-900">{lessonContent.quiz[currentQuestion].question}</h3>
-                </div>
-                <div className="grid gap-4">
-                  {lessonContent.quiz[currentQuestion].options.map((option, i) => (
-                    <Button 
-                      key={i} variant="outline" onClick={() => selectedAnswer === null && handleAnswer(i)}
-                      disabled={selectedAnswer !== null}
-                      className={`justify-start h-auto py-4 px-6 text-left rounded-xl transition-colors ${
-                        selectedAnswer !== null && i === lessonContent.quiz[currentQuestion].correct ? "bg-emerald-50 border-emerald-400 text-emerald-900" :
-                        selectedAnswer === i && i !== lessonContent.quiz[currentQuestion].correct ? "bg-red-50 border-red-400 text-red-900" :
-                        "hover:bg-primary/5 hover:border-primary/40"
-                      }`}
-                      data-testid={`button-quiz-option-${i}`}
-                    >
-                      {option}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </section>
+            </TabsContent>
+
+            <TabsContent value="posttest" className="mt-6">
+              <QuizSection
+                questions={postTestQuestions}
+                lessonId={id || ""}
+                testType="posttest"
+                onComplete={() => {
+                  setPostTestDone(true);
+                  if (user) {
+                    fetch("/api/progress", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        userId: user.id,
+                        lessonId: id,
+                        completed: "true",
+                      }),
+                    }).catch(() => {});
+                  }
+                }}
+              />
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
 
