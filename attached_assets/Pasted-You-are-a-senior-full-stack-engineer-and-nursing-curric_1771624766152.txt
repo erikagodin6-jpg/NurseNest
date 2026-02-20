@@ -1,0 +1,112 @@
+You are a senior full-stack engineer and nursing curriculum designer working in my NurseNest codebase (Next.js App Router + TypeScript + Tailwind).
+
+TASK:
+Add two new global content categories across BOTH Lessons and Flashcards:
+1) Fundamentals
+2) Delegation & Prioritization
+
+GOALS:
+- These sections must appear for RPN, RN, and NP tiers (with tier-appropriate content)
+- They must be usable in navigation, lesson listing filters, and flashcard topic filters
+- They must integrate into existing data models, routing, and UI without breaking current pages
+- They must improve exam readiness and real-world clinical reasoning
+
+REQUIREMENTS:
+
+A) INFORMATION ARCHITECTURE / NAV
+- Add “Fundamentals” and “Delegation & Prioritization” to:
+  - Lessons overview page
+  - Tier menus (RPN/RN/NP)
+  - Flashcard topics selector
+- Ensure these sections display only within the currently selected tier (respect existing tier-lock logic)
+
+B) DATA MODEL UPDATES
+Update the content schema(s) to support:
+- category: “Fundamentals” and “Delegation & Prioritization”
+- subcategory/module grouping (optional)
+- tags for common patterns: safety, ABCs, unstable vs stable, who-to-see-first, assignment/delegation, scope, isolation, meds, deterioration
+
+If content is file-based JSON now, update the JSON schema. If DB-based (Prisma), update tables/migrations.
+
+C) CONTENT POPULATION (MVP SEED)
+Create an initial set of lesson titles + flashcard sets for each tier:
+
+FUNDAMENTALS (examples to include)
+- Nursing process (ADPIE) and clinical reasoning
+- Head-to-toe assessment overview
+- Vital signs interpretation and red flags
+- Infection prevention & PPE
+- Standard precautions vs transmission-based precautions
+- Patient safety / fall prevention
+- Pain assessment and reassessment
+- Medication administration fundamentals (rights, safety checks)
+- Documentation basics (SBAR, DAR) and legal safety
+- Fluid balance basics (I&O, dehydration, overload)
+- Oxygen basics and respiratory assessment foundations
+- Wound care basics and skin integrity
+- Communication fundamentals (therapeutic communication)
+
+DELEGATION & PRIORITIZATION (examples to include)
+- ABCs and immediate life threats
+- Unstable vs stable prioritization
+- Who to see first frameworks
+- New onset vs expected findings
+- Post-op complications prioritization
+- Delegation rules by tier:
+  - RPN vs RN vs NP scope framing
+- Assigning tasks to UAP/PSW (where applicable) and safe delegation
+- SBAR escalation scenarios
+- Time management on med-surg
+- Triage basics (RN focus)
+- Pediatric prioritization differences
+- Maternal/newborn red flags prioritization
+- Medication safety prioritization (high-alert meds)
+
+For each lesson, generate:
+- title
+- tier
+- category
+- difficulty
+- short description
+- suggested tags
+
+For flashcards, generate:
+- a set name
+- topic/category
+- tier
+- card type compatibility (terms/questions/mixed)
+- number of starter cards to seed (e.g., 30–50)
+- tags
+
+D) UI / FILTERING
+- Add filter chips or dropdown options for the new categories
+- Ensure sorting and search includes these categories
+- Update any counts (e.g., “Start Session (X cards)”) to include new categories
+
+E) ROUTING
+- Ensure URLs exist for these sections, e.g.:
+  - /rpn/lessons/fundamentals
+  - /rpn/lessons/delegation-prioritization
+  - similarly for /rn and /np
+- If lessons use slugs, generate slugs consistently
+
+F) QA / ACCEPTANCE CRITERIA
+Provide a manual QA checklist:
+- Category visible in lessons + flashcards
+- Filtering works
+- Tier lock prevents cross-tier access
+- Flashcard session count updates correctly
+- Navigation works on mobile
+
+DELIVERABLES:
+- List of files to edit/create (with paths)
+- Copy/paste-ready code changes for:
+  - schema updates (Prisma or JSON)
+  - seed data for the new categories
+  - UI updates (menus, filters, flashcard topics)
+  - routes/pages for the new categories
+  - any helper updates (constants/enums)
+
+IMPORTANT:
+Do not hand-wave. Implement end-to-end changes that compile and run.
+If you detect the current code uses a different structure (e.g., categories are hardcoded arrays), adapt accordingly but keep the architecture clean and scalable.
