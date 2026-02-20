@@ -22,6 +22,8 @@ import { oncologyLessons } from "./oncology";
 import { obMedicationsLessons } from "./ob-medications";
 import { pediatricInfectionsLessons } from "./pediatric-infections";
 import { poisoningLessons } from "./poisoning";
+import { eyeEarLessons } from "./eye-ear";
+import { giAdvancedLessons } from "./gi-advanced";
 
 export type { LessonContent } from "./types";
 
@@ -49,4 +51,6 @@ export const contentMap: Record<string, LessonContent> = {
   ...obMedicationsLessons,
   ...pediatricInfectionsLessons,
   ...poisoningLessons,
+  ...eyeEarLessons,
+  ...giAdvancedLessons,
 };

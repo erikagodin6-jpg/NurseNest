@@ -60,7 +60,7 @@ export default function LessonDetail() {
   }, [id]);
 
   const lessonTier = getLessonTier(id || "");
-  const userHasAccess = user && hasAccess(lessonTier);
+  const userHasAccess = user && (user.tier === "admin" || hasAccess(lessonTier));
 
   useEffect(() => {
     if (user && id) {

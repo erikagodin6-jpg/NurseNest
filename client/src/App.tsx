@@ -14,11 +14,15 @@ import Reports from "@/pages/reports";
 import LoginPage from "@/pages/login";
 import ProfilePage from "@/pages/profile";
 import SubscriptionSuccess from "@/pages/subscription-success";
+import PricingPage from "@/pages/pricing";
+import FAQPage from "@/pages/faq";
+import AnatomyPage from "@/pages/anatomy";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/anatomy" component={AnatomyPage} />
       <Route path="/lessons" component={Lessons} />
       <Route path="/lessons/:id" component={LessonDetail} />
       <Route path="/flashcards" component={Flashcards} />
@@ -26,6 +30,8 @@ function Router() {
       <Route path="/login" component={LoginPage} />
       <Route path="/profile" component={ProfilePage} />
       <Route path="/subscription/success" component={SubscriptionSuccess} />
+      <Route path="/pricing" component={PricingPage} />
+      <Route path="/faq" component={FAQPage} />
       <Route component={NotFound} />
     </Switch>
   );
