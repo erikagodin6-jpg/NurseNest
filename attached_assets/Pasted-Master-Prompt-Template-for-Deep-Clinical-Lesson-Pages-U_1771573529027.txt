@@ -1,0 +1,65 @@
+Master Prompt Template for Deep Clinical Lesson Pages
+Use wording similar to this (you can copy/paste and swap the disease):
+PROMPT START
+Create an advanced, clinically rigorous nursing lesson page on [DISEASE / CONDITION].
+This is not a basic overview. The content must be written at a professional nursing education level suitable for RPN, RN, and NP learners. Assume the reader is preparing for licensing exams and clinical practice.
+Use the following mandatory structure and depth requirements:
+1. Introduction to the Disease
+Provide a conceptual and clinical framing of the condition. Define the disorder, core mechanisms, clinical significance, and typical patient presentations. Avoid superficial definitions.
+2. Pathophysiology (Deep Dive)
+Provide a mechanistic explanation at the cellular and physiological level.
+Include where applicable:
+• Cellular injury mechanisms
+• Inflammatory cascades
+• Neurohormonal pathways
+• Hemodynamic changes
+• Molecular mediators (cytokines, hormones, receptors, etc.)
+• Compensatory mechanisms
+• Progression of dysfunction
+Explain how and why the disease evolves, not just what happens.
+3. Signs and Symptoms WITH Mechanisms
+For every major clinical manifestation, explain the underlying physiological cause.
+Example expectation:
+Not: “Patient develops tachycardia.”
+But: “Tachycardia occurs due to [specific compensatory pathway / receptor response / pressure change].”
+Link symptoms directly to pathophysiology.
+4. Associated Laboratory & Diagnostic Findings
+List and explain expected abnormalities.
+Include:
+• Direction of lab changes
+• Why the abnormality occurs
+• Clinical interpretation
+• Pitfalls / misleading values
+Avoid generic lab lists. Tie values specifically to the disease process.
+5. Nursing Interventions
+Provide detailed, practice-relevant actions.
+Include:
+• Assessment priorities
+• Monitoring parameters
+• Rationale for each intervention
+• Safety considerations
+• Pharmacologic implications (if relevant)
+Focus on clinical decision logic, not task lists.
+6. Priorities & Emergencies
+Describe deterioration patterns, red flags, and immediate actions.
+Include:
+• Early warning signs
+• Life-threatening complications
+• Time-sensitive responses
+• Escalation logic
+Frame this like real clinical judgment.
+7. Clinical Pearls & Commonly Missed Points
+Include high-value insights learners often misunderstand.
+Examples:
+• Frequently tested concepts
+• Common clinical errors
+• Counterintuitive findings
+• Exam traps
+• Subtle assessment clues
+Writing Constraints
+• No shallow summaries
+• No generic textbook phrasing
+• No excessive bullet simplification
+• Explanations must emphasize mechanisms and causation
+• Write like a high-quality nursing reference, not study notes
+Tone: Clear, authoritative, educational, clinically precise.
