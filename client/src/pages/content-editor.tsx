@@ -63,7 +63,66 @@ type ContentItem = {
   authorId: string | null;
 };
 
-const CONTENT_TYPES = ["lesson", "article", "guide", "flashcard-set", "blog-post"];
+const CONTENT_TYPES = ["lesson", "article", "guide", "flashcard-set", "blog-post", "exam", "clinical-case"];
+
+const CMS_TEMPLATES: Record<string, { blocks: ContentBlock[]; category: string; tags: string[] }> = {
+  lesson: {
+    blocks: [
+      { type: "heading", content: "Learning Objectives" },
+      { type: "paragraph", content: "After completing this lesson, you will be able to:" },
+      { type: "list", content: "Objective 1\nObjective 2\nObjective 3" },
+      { type: "heading", content: "Pathophysiology" },
+      { type: "paragraph", content: "Describe the cellular and molecular mechanisms..." },
+      { type: "heading", content: "Clinical Presentation" },
+      { type: "paragraph", content: "Key signs and symptoms include..." },
+      { type: "heading", content: "Abnormal Findings" },
+      { type: "paragraph", content: "Abnormal lab values and diagnostic findings..." },
+      { type: "heading", content: "Nursing Interventions" },
+      { type: "paragraph", content: "Priority nursing actions..." },
+      { type: "callout", content: "Clinical Pearl: Important safety consideration..." },
+      { type: "heading", content: "Scope of Practice" },
+      { type: "paragraph", content: "RPN: Monitor and report...\nRN: Protocol-based interventions...\nNP: Order and prescribe..." },
+    ],
+    category: "pathophysiology",
+    tags: ["lesson", "pathophysiology", "clinical-reasoning"],
+  },
+  "flashcard-set": {
+    blocks: [
+      { type: "flashcard", content: "Q: What is the mechanism of action?\nA: Describe the mechanism..." },
+      { type: "flashcard", content: "Q: What are the key nursing considerations?\nA: List the considerations..." },
+      { type: "flashcard", content: "Q: What are the contraindications?\nA: List contraindications..." },
+      { type: "flashcard", content: "Q: What patient education is needed?\nA: Describe education points..." },
+      { type: "flashcard", content: "Q: What are the expected lab values?\nA: Describe abnormal findings..." },
+    ],
+    category: "exam-prep",
+    tags: ["flashcards", "study-aid", "review"],
+  },
+  exam: {
+    blocks: [
+      { type: "question", content: "Q: A patient presents with...\nA) Option A\nB) Option B\nC) Option C\nD) Option D\nCorrect: B\nRationale: Explain why B is correct..." },
+      { type: "question", content: "Q: The nurse should prioritize...\nA) Option A\nB) Option B\nC) Option C\nD) Option D\nCorrect: A\nRationale: Explain why A is correct..." },
+      { type: "question", content: "Q: Which assessment finding...\nA) Option A\nB) Option B\nC) Option C\nD) Option D\nCorrect: C\nRationale: Explain why C is correct..." },
+    ],
+    category: "exam-prep",
+    tags: ["exam", "practice-questions", "NCLEX-prep"],
+  },
+  "clinical-case": {
+    blocks: [
+      { type: "heading", content: "Patient Presentation" },
+      { type: "paragraph", content: "Age, sex, chief complaint, relevant history..." },
+      { type: "heading", content: "Initial Assessment" },
+      { type: "paragraph", content: "Vital signs, physical findings..." },
+      { type: "heading", content: "Diagnostic Results" },
+      { type: "paragraph", content: "Lab values, imaging findings..." },
+      { type: "heading", content: "Clinical Decision Point" },
+      { type: "paragraph", content: "What would you do next? Options..." },
+      { type: "heading", content: "Outcome & Debrief" },
+      { type: "paragraph", content: "Correct action and rationale..." },
+    ],
+    category: "clinical-reasoning",
+    tags: ["case-study", "clinical-judgment", "simulation"],
+  },
+};
 const CATEGORIES = [
   "clinical-reasoning",
   "pharmacology",
@@ -98,6 +157,9 @@ const BLOCK_TYPES = [
   "medication",
   "warning",
   "quiz-question",
+  "callout",
+  "flashcard",
+  "question",
 ];
 
 const statusColors: Record<string, string> = {
@@ -226,6 +288,18 @@ export default function ContentEditorPage() {
 
   function openNew() {
     resetEditor();
+    setView("editor");
+  }
+
+  function openNewWithTemplate(templateType: string) {
+    resetEditor();
+    const template = CMS_TEMPLATES[templateType];
+    if (template) {
+      setType(templateType);
+      setBlocks(template.blocks);
+      setCategory(template.category);
+      setTags(template.tags);
+    }
     setView("editor");
   }
 
@@ -552,14 +626,20 @@ export default function ContentEditorPage() {
                     Create and manage learning content
                   </p>
                 </div>
-                <Button
-                  onClick={openNew}
-                  className="gap-2"
-                  data-testid="button-new-content"
-                >
-                  <Plus className="w-4 h-4" />
-                  New Content
-                </Button>
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    onClick={openNew}
+                    className="gap-2"
+                    data-testid="button-new-content"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Blank
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("lesson")} data-testid="button-template-lesson">Lesson</Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("flashcard-set")} data-testid="button-template-flashcard">Flashcards</Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("exam")} data-testid="button-template-exam">Exam</Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("clinical-case")} data-testid="button-template-case">Case Study</Button>
+                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6">

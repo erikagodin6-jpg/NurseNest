@@ -4,6 +4,7 @@ import { storage, DatabaseStorage } from "./storage";
 import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema, insertContentItemSchema } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
+import { generateBlogPost, runBlogScheduler } from "./blog-automation";
 
 function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
   if (!targetTier || targetTier === "free") return true;
@@ -707,6 +708,83 @@ export async function registerRoutes(
       }
       const usage = await storage.incrementFeatureUsage(userId, feature, today);
       res.json({ count: usage.count, limit: 10, hasUnlimited: false });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/blog/config", async (req, res) => {
+    try {
+      const config = await storage.getBlogConfig();
+      res.json(config || { isActive: false, citationStyle: "apa7", postsPerDay: 2, dayCount: 0, totalPostsGenerated: 0 });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/blog/config", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const user = await storage.getUserByUsername(username);
+      if (!user || user.password !== password || user.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const { citationStyle, postsPerDay, isActive } = req.body;
+      const updates: any = {};
+      if (citationStyle !== undefined) updates.citationStyle = citationStyle;
+      if (postsPerDay !== undefined) updates.postsPerDay = postsPerDay;
+      if (isActive !== undefined) updates.isActive = isActive;
+      const config = await storage.upsertBlogConfig(updates);
+      res.json(config);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/blog/generate", async (req, res) => {
+    try {
+      const { username, password, topic, citationStyle } = req.body;
+      const user = await storage.getUserByUsername(username);
+      if (!user || user.password !== password || user.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const post = await generateBlogPost(topic, citationStyle || "apa7");
+
+      const isDup = await storage.checkDuplicateSlug(post.slug);
+      const finalSlug = isDup ? `${post.slug}-${Date.now()}` : post.slug;
+
+      const created = await storage.createContentItem({
+        title: post.title,
+        slug: finalSlug,
+        type: "blog",
+        category: "nursing-education",
+        tier: "free",
+        status: "published",
+        tags: post.tags,
+        summary: post.summary,
+        content: post.content,
+        seoTitle: post.seoTitle,
+        seoDescription: post.seoDescription,
+        seoKeywords: post.seoKeywords,
+        primaryKeyword: post.primaryKeyword,
+        publishedAt: new Date(),
+        autoPublish: true,
+      });
+      res.json(created);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/blog/run-scheduler", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const user = await storage.getUserByUsername(username);
+      if (!user || user.password !== password || user.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const result = await runBlogScheduler();
+      res.json(result);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

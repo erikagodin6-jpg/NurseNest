@@ -41,21 +41,12 @@ const FEATURE_TIERS: Record<Feature, Tier> = {
   content_editor: "admin",
 };
 
-const TIER_LEVEL: Record<Tier, number> = {
-  free: 0,
-  rpn: 1,
-  rn: 2,
-  np: 3,
-  admin: 4,
-};
-
 export function canAccessFeature(userTier: string | null | undefined, feature: Feature): boolean {
   const requiredTier = FEATURE_TIERS[feature];
   if (!requiredTier || requiredTier === "free") return true;
   if (!userTier || userTier === "free") return false;
-  const userLevel = TIER_LEVEL[userTier as Tier] ?? 0;
-  const requiredLevel = TIER_LEVEL[requiredTier] ?? 0;
-  return userLevel >= requiredLevel;
+  if (userTier === "admin") return true;
+  return userTier === requiredTier;
 }
 
 export function getRequiredTier(feature: Feature): Tier {

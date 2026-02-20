@@ -43,8 +43,12 @@ Preferred communication style: Simple, everyday language.
     - **Clinical Clarity**: Explanations for "Why does X happen?" topics.
     - **Clinical Case Simulation Platform**: Branching decision cases with vitals, labs, and debriefing.
     - **Medication Mastery Engine**: Mechanism-first drug explorer with receptor/pathway effects.
-- **Admin Features**: Dashboard (`/admin`) for user analytics, subscriptions, activity, and content popularity.
+- **Admin Features**: Dashboard (`/admin`) for user analytics, subscriptions, activity, content popularity, and blog automation controls.
 - **Admin Preview Mode**: Admin users can preview the platform as free/rpn/rn/np users via dropdown in navigation.
+- **Blog Automation**: OpenAI-powered blog post generation with APA7/MLA citation support, auto-scheduler (2x/day for 120 days, then 1x/day for 100 days), admin controls in dashboard.
+- **Custom Flashcards**: Users can create, edit, delete, and study their own flashcards stored in PostgreSQL (`user_flashcards` table). Accessible from profile page with flip-card study mode.
+- **Tier Isolation**: Access is EXCLUSIVE not hierarchical. RPN users see only RPN content, RN sees only RN, NP sees only NP. Admin sees all. Free/unauthenticated users see all tabs.
+- **CMS Templates**: Content editor supports quick-create templates for lessons, flashcard decks, exam questions, and clinical case studies.
 - **SEO**: Comprehensive SEO implementation including sitemap.xml, robots.txt, and structured data.
 
 ### Pages Overview
@@ -56,7 +60,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL.
-- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`.
+- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`, `user_flashcards`, `blog_config`, `feature_usage`.
 - **Validation**: Zod schemas generated from Drizzle.
 
 ### Content Architecture

@@ -202,7 +202,42 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
       );
 
     case "quiz-question":
+    case "question":
       return <QuizQuestionBlock content={block.content} />;
+
+    case "callout":
+      return (
+        <Card className="my-6 border-none shadow-lg bg-blue-50/80" data-testid="card-callout">
+          <CardContent className="p-6">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+                <BookOpen className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-blue-700 uppercase tracking-wider mb-1">Key Point</p>
+                <p className="text-gray-800 leading-relaxed">{block.content}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      );
+
+    case "flashcard":
+      return (
+        <Card className="my-6 border-none shadow-lg bg-indigo-50/80" data-testid="card-flashcard">
+          <CardContent className="p-6">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0">
+                <BookOpen className="w-5 h-5 text-indigo-600" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-indigo-700 uppercase tracking-wider mb-1">Flashcard</p>
+                <p className="text-gray-800 leading-relaxed whitespace-pre-line">{block.content}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      );
 
     default:
       return (

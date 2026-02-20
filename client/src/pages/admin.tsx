@@ -110,7 +110,10 @@ export default function AdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  const [activeTab, setActiveTab] = useState<"overview" | "users" | "activity" | "content">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "users" | "activity" | "content" | "blog">("overview");
+  const [blogConfig, setBlogConfig] = useState<any>(null);
+  const [blogGenerating, setBlogGenerating] = useState(false);
+  const [blogTopic, setBlogTopic] = useState("");
 
   const isAdmin = user?.tier === "admin";
 
@@ -143,6 +146,64 @@ export default function AdminPage() {
       setError(e.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetch("/api/blog/config").then(r => r.json()).then(setBlogConfig).catch(() => {});
+  }, []);
+
+  async function handleBlogConfigUpdate(updates: any) {
+    const stored = localStorage.getItem("nursenest-credentials");
+    if (!stored) return;
+    const { username, password } = JSON.parse(stored);
+    const res = await fetch("/api/blog/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password, ...updates }),
+    });
+    if (res.ok) setBlogConfig(await res.json());
+  }
+
+  async function handleGenerateBlogPost() {
+    const stored = localStorage.getItem("nursenest-credentials");
+    if (!stored) return;
+    const { username, password } = JSON.parse(stored);
+    setBlogGenerating(true);
+    try {
+      const res = await fetch("/api/blog/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, topic: blogTopic || undefined, citationStyle: blogConfig?.citationStyle || "apa7" }),
+      });
+      if (res.ok) {
+        setBlogTopic("");
+        alert("Blog post generated and published!");
+      }
+    } catch (e) {
+      alert("Failed to generate blog post");
+    } finally {
+      setBlogGenerating(false);
+    }
+  }
+
+  async function handleRunScheduler() {
+    const stored = localStorage.getItem("nursenest-credentials");
+    if (!stored) return;
+    const { username, password } = JSON.parse(stored);
+    setBlogGenerating(true);
+    try {
+      const res = await fetch("/api/blog/run-scheduler", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const result = await res.json();
+      alert(result.message);
+    } catch (e) {
+      alert("Scheduler failed");
+    } finally {
+      setBlogGenerating(false);
     }
   }
 
@@ -263,7 +324,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content", "blog"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -278,6 +339,7 @@ export default function AdminPage() {
                     {tab === "users" && `Users (${data.overview.totalUsers})`}
                     {tab === "activity" && "Recent Activity"}
                     {tab === "content" && "Content Analytics"}
+                    {tab === "blog" && "Blog Automation"}
                   </button>
                 ))}
               </div>
@@ -563,6 +625,80 @@ export default function AdminPage() {
                           })}
                         </div>
                       )}
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {/* Blog Automation Tab */}
+              {activeTab === "blog" && (
+                <div className="space-y-6">
+                  <Card className="border border-primary/10" data-testid="card-blog-config">
+                    <CardHeader>
+                      <CardTitle className="text-sm font-semibold text-gray-700">Blog Automation Settings</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-xs text-gray-500 block mb-1">Status</label>
+                          <Button
+                            size="sm"
+                            variant={blogConfig?.isActive ? "default" : "outline"}
+                            onClick={() => handleBlogConfigUpdate({ isActive: !blogConfig?.isActive })}
+                            data-testid="button-toggle-blog-automation"
+                          >
+                            {blogConfig?.isActive ? "Active" : "Inactive"}
+                          </Button>
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 block mb-1">Citation Style</label>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant={blogConfig?.citationStyle === "apa7" ? "default" : "outline"} onClick={() => handleBlogConfigUpdate({ citationStyle: "apa7" })} data-testid="button-apa7">APA 7</Button>
+                            <Button size="sm" variant={blogConfig?.citationStyle === "mla" ? "default" : "outline"} onClick={() => handleBlogConfigUpdate({ citationStyle: "mla" })} data-testid="button-mla">MLA</Button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-4 text-sm">
+                        <div>
+                          <span className="text-gray-500">Day Count:</span>{" "}
+                          <strong>{blogConfig?.dayCount || 0}</strong>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Total Posts:</span>{" "}
+                          <strong>{blogConfig?.totalPostsGenerated || 0}</strong>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Posts/Day:</span>{" "}
+                          <strong>{(blogConfig?.dayCount || 0) < 120 ? (blogConfig?.postsPerDay || 2) : 1}</strong>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-400">
+                        Schedule: 2x/day for 120 days, then 1x/day for 100 days (220 total days)
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-primary/10" data-testid="card-blog-generate">
+                    <CardHeader>
+                      <CardTitle className="text-sm font-semibold text-gray-700">Generate Blog Post</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <input
+                        type="text"
+                        placeholder="Topic (optional - random if blank)"
+                        value={blogTopic}
+                        onChange={(e) => setBlogTopic(e.target.value)}
+                        className="w-full border rounded-lg px-3 py-2 text-sm"
+                        data-testid="input-blog-topic"
+                      />
+                      <div className="flex gap-2">
+                        <Button size="sm" onClick={handleGenerateBlogPost} disabled={blogGenerating} data-testid="button-generate-blog">
+                          {blogGenerating ? "Generating..." : "Generate & Publish"}
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={handleRunScheduler} disabled={blogGenerating} data-testid="button-run-scheduler">
+                          {blogGenerating ? "Running..." : "Run Scheduler"}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
