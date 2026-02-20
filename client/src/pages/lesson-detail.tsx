@@ -440,29 +440,32 @@ export default function LessonDetail() {
         </div>
 
         {showNotes && (
-          <Card className="mb-8 border-none shadow-lg bg-yellow-50/80">
-            <CardContent className="p-6 space-y-3">
-              <div className="flex items-center justify-between">
-                <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                  <StickyNote className="w-5 h-5 text-yellow-600" /> Lesson Notes
-                </h3>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400">{noteSaving ? "Saving..." : "Auto-saved"}</span>
-                  <Button variant="ghost" size="sm" onClick={saveNote} data-testid="button-save-note">
-                    <Save className="w-4 h-4" />
-                  </Button>
-                </div>
+          <div className="fixed bottom-4 right-4 z-40 w-80 max-h-[60vh] shadow-2xl rounded-2xl border border-yellow-200 bg-yellow-50/95 backdrop-blur-lg overflow-hidden flex flex-col" data-testid="panel-sticky-notes">
+            <div className="flex items-center justify-between p-4 pb-2 border-b border-yellow-200/60">
+              <h3 className="font-bold text-gray-900 flex items-center gap-2 text-sm">
+                <StickyNote className="w-4 h-4 text-yellow-600" /> Lesson Notes
+              </h3>
+              <div className="flex items-center gap-1">
+                <span className="text-[10px] text-gray-400">{noteSaving ? "Saving..." : "Saved"}</span>
+                <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={saveNote} data-testid="button-save-note">
+                  <Save className="w-3.5 h-3.5" />
+                </Button>
+                <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setShowNotes(false)} data-testid="button-close-notes">
+                  <XCircle className="w-3.5 h-3.5 text-gray-400" />
+                </Button>
               </div>
+            </div>
+            <div className="p-4 pt-3 flex-1 overflow-y-auto">
               <Textarea
                 value={noteContent}
                 onChange={(e) => handleNoteChange(e.target.value)}
-                placeholder="Type your study notes here... They auto-save as you type and you can view them in your profile."
-                className="min-h-[150px] bg-white border-yellow-200 focus:border-yellow-400 print:block"
+                placeholder="Type your study notes here... They auto-save as you type."
+                className="min-h-[180px] bg-white border-yellow-200 focus:border-yellow-400 text-sm resize-y"
                 data-testid="textarea-notes"
               />
-              <p className="text-xs text-gray-400">Notes are auto-saved. You can view and print all your notes from your profile page.</p>
-            </CardContent>
-          </Card>
+              <p className="text-[10px] text-gray-400 mt-2">Auto-saved. View all notes from your profile.</p>
+            </div>
+          </div>
         )}
 
         <div className="space-y-8">
