@@ -18,7 +18,8 @@ import {
   MoreHorizontal,
   LogIn,
   LogOut,
-  User
+  User,
+  Shield
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -227,6 +228,14 @@ export function Navigation() {
                   {user.username}
                 </Button>
               </SheetClose>
+              {user.tier === "admin" && (
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin")} data-testid="button-admin-mobile">
+                    <Shield className="w-4 h-4" />
+                    Admin Dashboard
+                  </Button>
+                </SheetClose>
+              )}
               <SheetClose asChild>
                 <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => { logout(); setLocation("/"); }}>
                   <LogOut className="w-4 h-4" />
@@ -362,6 +371,12 @@ export function Navigation() {
 
             {user ? (
               <>
+                {user.tier === "admin" && (
+                  <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/admin")} data-testid="button-admin-nav">
+                    <Shield className="w-4 h-4 mr-1" />
+                    Admin
+                  </Button>
+                )}
                 <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/profile")} data-testid="button-profile">
                   {user.username}
                 </Button>

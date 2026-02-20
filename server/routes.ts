@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import { storage, DatabaseStorage } from "./storage";
 import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 
@@ -248,6 +248,122 @@ export async function registerRoutes(
       res.json(progress);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/analytics", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      if (!username || !password) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+      const adminUser = await storage.getUserByUsername(username);
+      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const dbStorage = storage as DatabaseStorage;
+      const [allUsers, allResults, allProgress, allNotes] = await Promise.all([
+        dbStorage.getAllUsers(),
+        dbStorage.getAllTestResults(),
+        dbStorage.getAllProgress(),
+        dbStorage.getAllNotes(),
+      ]);
+
+      const tierCounts: Record<string, number> = {};
+      const regionCounts: Record<string, number> = {};
+      const statusCounts: Record<string, number> = {};
+      allUsers.forEach((u: any) => {
+        tierCounts[u.tier || "free"] = (tierCounts[u.tier || "free"] || 0) + 1;
+        regionCounts[u.region || "US"] = (regionCounts[u.region || "US"] || 0) + 1;
+        statusCounts[u.subscriptionStatus || "inactive"] = (statusCounts[u.subscriptionStatus || "inactive"] || 0) + 1;
+      });
+
+      const now = new Date();
+      const last7Days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const last30Days = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+      const recentTests7 = allResults.filter((r: any) => new Date(r.completedAt) > last7Days);
+      const recentTests30 = allResults.filter((r: any) => new Date(r.completedAt) > last30Days);
+      const recentProgress7 = allProgress.filter((p: any) => new Date(p.lastAccessed) > last7Days);
+      const recentProgress30 = allProgress.filter((p: any) => new Date(p.lastAccessed) > last30Days);
+
+      const activeUsers7 = new Set([
+        ...recentTests7.map((r: any) => r.userId),
+        ...recentProgress7.map((p: any) => p.userId),
+      ]).size;
+
+      const activeUsers30 = new Set([
+        ...recentTests30.map((r: any) => r.userId),
+        ...recentProgress30.map((p: any) => p.userId),
+      ]).size;
+
+      const lessonPopularity: Record<string, number> = {};
+      allProgress.forEach((p: any) => {
+        lessonPopularity[p.lessonId] = (lessonPopularity[p.lessonId] || 0) + 1;
+      });
+      const topLessons = Object.entries(lessonPopularity)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 15)
+        .map(([lessonId, count]) => ({ lessonId, accessCount: count }));
+
+      const avgScore = allResults.length > 0
+        ? Math.round(allResults.reduce((sum: number, r: any) => sum + (r.score / r.totalQuestions) * 100, 0) / allResults.length)
+        : 0;
+
+      const userList = allUsers.map((u: any) => ({
+        id: u.id,
+        username: u.username,
+        email: u.email,
+        tier: u.tier || "free",
+        subscriptionStatus: u.subscriptionStatus || "inactive",
+        region: u.region || "US",
+        testsCompleted: allResults.filter((r: any) => r.userId === u.id).length,
+        lessonsAccessed: allProgress.filter((p: any) => p.userId === u.id).length,
+        notesCreated: allNotes.filter((n: any) => n.userId === u.id).length,
+        lastActivity: (() => {
+          const userTests = allResults.filter((r: any) => r.userId === u.id);
+          const userProg = allProgress.filter((p: any) => p.userId === u.id);
+          const dates = [
+            ...userTests.map((r: any) => new Date(r.completedAt)),
+            ...userProg.map((p: any) => new Date(p.lastAccessed)),
+          ];
+          return dates.length > 0 ? new Date(Math.max(...dates.map(d => d.getTime()))) : null;
+        })(),
+      }));
+
+      const recentActivity = allResults.slice(0, 20).map((r: any) => {
+        const user = allUsers.find((u: any) => u.id === r.userId);
+        return {
+          username: user?.username || "Unknown",
+          lessonId: r.lessonId,
+          testType: r.testType,
+          score: r.score,
+          totalQuestions: r.totalQuestions,
+          date: r.completedAt,
+        };
+      });
+
+      res.json({
+        overview: {
+          totalUsers: allUsers.length,
+          activeUsers7Day: activeUsers7,
+          activeUsers30Day: activeUsers30,
+          totalTests: allResults.length,
+          totalLessonsAccessed: allProgress.length,
+          totalNotes: allNotes.length,
+          averageTestScore: avgScore,
+        },
+        tiers: tierCounts,
+        regions: regionCounts,
+        subscriptionStatus: statusCounts,
+        topLessons,
+        users: userList,
+        recentActivity,
+      });
+    } catch (e: any) {
+      console.error("Admin analytics error:", e);
+      res.status(500).json({ error: e.message });
     }
   });
 

@@ -4,11 +4,19 @@
 
 NurseNest is a nursing education platform targeting RPN/LVN, RN, and NP students. It provides interactive lessons organized by body system (cardiovascular, respiratory, neurological, etc.), flashcards with quiz-style questions, and performance analytics/reports. The platform supports both US and Canadian nursing standards with a region toggle. Content covers clinical pathophysiology, medication safety, NCLEX/REX-PN exam preparation, and condition recognition patterns.
 
-The app is a full-stack TypeScript monorepo with a React frontend, Express backend, and PostgreSQL database using Drizzle ORM. Currently, most content (lessons, flashcards) is hardcoded in the frontend components rather than stored in the database. The storage layer has a basic in-memory implementation with a `MemStorage` class that can be swapped for a database-backed implementation.
+The app is a full-stack TypeScript monorepo with a React frontend, Express backend, and PostgreSQL database using Drizzle ORM. Content (lessons, flashcards) is organized as TypeScript data modules in `client/src/data/lessons/`. The storage layer uses `DatabaseStorage` backed by PostgreSQL via Drizzle.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+- Admin account: user "erikanim" has tier="admin" with full content access bypass
+- Copyright must show current year dynamically (uses `new Date().getFullYear()`)
+- NO normal lab values on lesson pages - only abnormal clinical findings
+- Content depth: Multi-paragraph cellular/molecular pathophysiology, detailed drug MOA at receptor level
+- Scope enforcement: RPN "monitor/report/administer as ordered," RN protocol-based, NP "order/prescribe"
+- Regional content: CA shows CAD prices/Canadian labs, US shows USD/US values
+- NCLEX disclaimer: NurseNest is NOT affiliated with NCLEX, NCSBN, CNO, or any regulatory body
+- Copy protection: content cannot be easily copied/screenshotted
 
 ## System Architecture
 
@@ -18,63 +26,86 @@ Preferred communication style: Simple, everyday language.
 - **State Management**: TanStack React Query for server state, React useState for local state
 - **UI Components**: shadcn/ui (new-york style) with Radix UI primitives
 - **Styling**: Tailwind CSS v4 with `@tailwindcss/vite` plugin, CSS custom properties for theming
-- **Theming**: `next-themes` library with `data-theme` attribute. Supports 4 themes: lavender (default), mint, blush, slate. Theme colors defined as CSS variables in `client/src/index.css`
+- **Theming**: `next-themes` library with `data-theme` attribute. Supports themes: lavender (default), mint, blush, slate, midnight, ocean, forest
 - **Font**: DM Sans from Google Fonts
 - **Build Tool**: Vite with React plugin
 - **Path Aliases**: `@/` → `client/src/`, `@shared/` → `shared/`, `@assets/` → `attached_assets/`
 
 ### Pages
-- `/` - Home (marketing/landing page)
+- `/` - Home (marketing/landing page with CTAs linking to /start-free)
+- `/start-free` - Conversion-focused landing page with content previews, pain points, value propositions
+- `/anatomy` - Free Anatomy & Physiology content (10 body systems)
 - `/lessons` - Lesson catalog organized by body system with tabs for RPN and RN tracks
-- `/lessons/:id` - Individual lesson detail with pathophysiology content, medications, clinical pearls, and quizzes
-- `/flashcards` - Interactive flashcard system with question and term card types, bookmarking, and scoring
-- `/reports` - Performance analytics dashboard (currently static/mock data)
+- `/lessons/:id` - Individual lesson detail with pathophysiology, medications, clinical pearls, pre/post tests
+- `/flashcards` - Interactive flashcard system with question and term card types, bookmarking, scoring
+- `/reports` - Performance analytics dashboard (proficiency by body system, study recommendations)
+- `/pricing` - Subscription plans with CAD/USD toggle, monthly/3-month/6-month/yearly options, trial passes
+- `/login` - Authentication page (login/register)
+- `/profile` - User profile with subscription management
+- `/admin` - Admin dashboard (admin-only) with user analytics, subscriptions, activity tracking
+- `/faq` - Frequently asked questions with legally-safe content
+- `/terms` - Terms of Use (comprehensive legal page)
+- `/privacy` - Privacy Policy
+- `/disclaimer` - Educational Disclaimer
+- `/subscription/success` - Post-checkout success page
 
 ### Backend Architecture
 - **Framework**: Express 5 on Node.js with TypeScript (tsx for dev, esbuild for production)
 - **API Pattern**: RESTful API with `/api` prefix (routes defined in `server/routes.ts`)
 - **Server Entry**: `server/index.ts` creates HTTP server, registers routes, sets up Vite dev middleware or serves static files
-- **Development**: Vite dev server runs as Express middleware with HMR via WebSocket at `/vite-hmr`
-- **Production Build**: Client built with Vite to `dist/public/`, server bundled with esbuild to `dist/index.cjs`
-- **Static Serving**: In production, Express serves `dist/public/` with SPA fallback to `index.html`
+- **Admin API**: POST `/api/admin/analytics` requires username/password authentication and admin tier verification
+- **Stripe Integration**: Checkout sessions, billing portal, subscription management via `server/stripeClient.ts`
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL dialect
 - **Schema Location**: `shared/schema.ts` - shared between client and server
-- **Current Schema**: Only a `users` table with id (UUID), username, password
-- **Migration Tool**: Drizzle Kit with `db:push` command for schema pushing
-- **Storage Interface**: `server/storage.ts` defines `IStorage` interface with `MemStorage` in-memory implementation. This is designed to be replaced with a `DatabaseStorage` implementation using Drizzle
+- **Tables**: `users` (with tier/subscription/stripe fields), `notes`, `test_results`, `user_progress`
+- **Storage Interface**: `server/storage.ts` with `DatabaseStorage` implementation using Drizzle
+- **Admin Methods**: `getAllUsers()` (excludes passwords), `getAllTestResults()`, `getAllProgress()`, `getAllNotes()`
 - **Validation**: Zod schemas generated from Drizzle schema via `drizzle-zod`
 
 ### Content Architecture
-- Lesson content and flashcard data are currently hardcoded as TypeScript objects in the page components (`lesson-detail.tsx`, `flashcards.tsx`)
-- Content covers nursing topics: cardiovascular, respiratory, neurological, pediatric, GI, skin disorders, ABG analysis, and more
-- The `attached_assets/` directory contains reference text files with detailed nursing content that should be incorporated into the platform
+- Lesson content organized in `client/src/data/lessons/` as TypeScript modules per body system
+- 25+ lesson module files covering: cardiovascular, respiratory, neurological, GI, renal, endocrine, hematology, pediatrics, neonatal, maternity, procedures, pharmacology, skin infections, assessment, infection control, advanced NP, emergency, mental health, orthopedic, oncology, OB medications, pediatric infections, poisoning, eye/ear, GI advanced
+- Type definitions in `client/src/data/lessons/types.ts` with support for preTest/postTest question arrays
+- Content follows Master Prompt Template standards with cellular/molecular depth
+
+### Subscription System
+- **Tiers**: Free, RPN/LVN ($29.99 CAD/mo), RN/NCLEX ($39.99 CAD/mo), NP Advanced ($49.99 CAD/mo), Admin
+- **Duration options**: Monthly, 3-month (10% savings), 6-month (15% savings), Yearly (20% savings)
+- **Trial passes**: 1-day ($4.99 CAD), 3-day ($9.99 CAD) - single use, limited access
+- **Region pricing**: CAD for CA region, USD for US region
+- **Stripe**: Checkout sessions for payment, billing portal for management
+- **Admin bypass**: tier="admin" gets full content access
+
+### Authentication
+- Simple username/password auth stored in PostgreSQL
+- Session stored in localStorage (`nursenest-user`, `nursenest-credentials`)
+- Admin authentication via POST with credential verification server-side
 
 ### Build System
 - **Dev**: `npm run dev` runs tsx to start Express with Vite middleware
 - **Build**: `npm run build` runs `script/build.ts` which builds client with Vite and server with esbuild
 - **Production**: `npm start` runs the bundled `dist/index.cjs`
-- **Server bundling**: Dependencies in the allowlist are bundled into the server output to reduce cold start syscalls; others are external
 
 ## External Dependencies
 
 ### Database
 - **PostgreSQL** via `DATABASE_URL` environment variable
 - **Drizzle ORM** for query building and schema management
-- **connect-pg-simple** for session storage (available but not yet wired up)
+- **Stripe schema**: `stripe.products`, `stripe.prices`, `stripe.subscriptions` tables
 
 ### Key npm Dependencies
-- **UI**: Full shadcn/ui component library with Radix UI primitives, Lucide icons, `class-variance-authority`, `embla-carousel-react`, `recharts`, `react-day-picker`, `vaul` (drawer), `cmdk` (command palette), `react-resizable-panels`
+- **UI**: Full shadcn/ui component library with Radix UI primitives, Lucide icons
 - **Forms**: `react-hook-form` with `@hookform/resolvers` and Zod validation
 - **Dates**: `date-fns`
-- **Replit-specific**: `@replit/vite-plugin-runtime-error-modal`, `@replit/vite-plugin-cartographer` (dev only), `@replit/vite-plugin-dev-banner` (dev only)
-- **Build allowlist hints at planned integrations**: `@google/generative-ai`, `openai`, `stripe`, `passport`, `passport-local`, `jsonwebtoken`, `express-session`, `nodemailer`, `multer`, `xlsx` — these are listed in the build script but may not yet be implemented
+- **Payments**: Stripe SDK
 
-### Planned/Partial Integrations (from build allowlist)
-- **AI**: Google Generative AI and OpenAI SDKs (for potential AI-powered study features)
-- **Payments**: Stripe
-- **Auth**: Passport.js with local strategy, JWT, express-session
-- **Email**: Nodemailer
-- **File Upload**: Multer
-- **Spreadsheets**: xlsx library
+## Recent Changes
+- Added admin dashboard at /admin with user analytics, subscription distribution, activity tracking, content popularity
+- Created Start for Free landing page with conversion-focused copy, pain points, value propositions, content previews
+- Added Terms of Use, Privacy Policy, Educational Disclaimer pages
+- Updated FAQ with legally-safe content and stronger NCLEX/exam body disclaimers
+- Applied copy enhancements: "Why Mechanisms Matter" section, cognitive tension bridge, identity-driven tier framing
+- Updated footers across pages with legal links and dynamic copyright year
+- Added admin link in navigation (desktop + mobile) visible only to admin users

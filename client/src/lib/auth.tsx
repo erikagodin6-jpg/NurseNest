@@ -63,6 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await res.json();
     setUser(data);
     localStorage.setItem("nursenest-user", JSON.stringify(data));
+    localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
   }
 
   async function register(username: string, password: string, email?: string) {
@@ -83,6 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   function logout() {
     setUser(null);
     localStorage.removeItem("nursenest-user");
+    localStorage.removeItem("nursenest-credentials");
   }
 
   async function refreshUser() {

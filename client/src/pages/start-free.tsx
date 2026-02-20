@@ -35,7 +35,7 @@ const previewTopics = [
     icon: Heart,
     color: "text-red-500",
     bg: "bg-red-50",
-    snippet: "Understand how decreased cardiac output triggers the renin-angiotensin-aldosterone cascade, why the myocardium remodels under chronic pressure overload, and how compensatory mechanisms eventually become pathological.",
+    snippet: "Understand how compensatory mechanisms initially stabilize hemodynamics yet progressively increase myocardial workload, often masking deterioration until late stages. Trace the RAAS cascade, ventricular remodeling, and why treatment targets specific neurohormonal pathways.",
     lessonCount: 15,
     sampleLesson: "Heart Failure",
   },
@@ -236,12 +236,12 @@ export default function StartFreePage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { label: "Mechanistic Understanding", desc: "Know why conditions develop, not just what they look like" },
-                { label: "Pattern Recognition", desc: "See the connections between related pathologies and presentations" },
-                { label: "Clinical Decision Logic", desc: "Develop the prioritization instinct that exam questions test" },
+                { label: "Mechanistic Understanding", desc: "Build causal models of disease progression rather than memorizing isolated clinical facts" },
+                { label: "Pattern Recognition", desc: "See the connections between related pathologies and presentations across body systems" },
+                { label: "Clinical Decision Logic", desc: "Develop the prioritization instinct and escalation reasoning that exam questions test" },
                 { label: "Compensatory Reasoning", desc: "Understand how the body adapts — and when adaptation becomes failure" },
-                { label: "Pharmacological Clarity", desc: "Connect drug mechanisms to disease processes at the receptor level" },
-                { label: "Exam Cognition", desc: "Think the way licensing examinations require you to think" },
+                { label: "Pharmacological Clarity", desc: "Connect drug mechanisms to disease processes at the receptor level with purpose" },
+                { label: "Exam-Aligned Reasoning", desc: "Train the decision logic and prioritization patterns licensing examinations implicitly assess" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -403,8 +403,30 @@ export default function StartFreePage() {
           </div>
         </section>
 
+        {/* Why Mechanisms Matter */}
+        <section className="py-16 bg-white/50 border-y border-primary/10" data-testid="section-why-mechanisms">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Mechanisms Matter</h3>
+            <p className="text-gray-600 leading-relaxed">
+              In clinical environments and licensing examinations, correct decisions rarely depend on 
+              recalling isolated facts. They depend on understanding <em>why</em> physiological systems respond 
+              the way they do under stress, injury, and compensation. Many learners spend months memorizing 
+              details without ever developing the reasoning structures exams actually reward.
+            </p>
+          </div>
+        </section>
+
+        {/* Cognitive Tension Bridge */}
+        <section className="py-12" data-testid="section-cognitive-bridge">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p className="text-lg text-gray-500 italic leading-relaxed">
+              Understanding physiology builds knowledge. Applying it under uncertainty requires trained reasoning.
+            </p>
+          </div>
+        </section>
+
         {/* Premium Upgrade Psychology */}
-        <section className="py-20" data-testid="section-upgrade-psychology">
+        <section className="py-20 bg-primary/[0.02]" data-testid="section-upgrade-psychology">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               When You're Ready for More
@@ -417,9 +439,9 @@ export default function StartFreePage() {
 
             <div className="grid sm:grid-cols-3 gap-6 mb-10">
               {[
-                { tier: "RPN / LVN", focus: "Foundational clinical reasoning and scope-appropriate interventions", price: "From $29.99/mo" },
-                { tier: "RN / NCLEX", focus: "Advanced pathophysiology, protocol-based decision making, and comprehensive exam prep", price: "From $39.99/mo" },
-                { tier: "NP Advanced", focus: "Prescriptive authority content, differential diagnosis, and graduate-level reasoning", price: "From $49.99/mo" },
+                { tier: "RPN / LVN Preparation", focus: "Built for learners developing foundational clinical reasoning and scope-appropriate monitoring, reporting, and intervention skills", price: "From $29.99/mo" },
+                { tier: "RN / NCLEX Preparation", focus: "Built for learners preparing for high-stakes clinical judgment examinations and real-world decision-making demands", price: "From $39.99/mo" },
+                { tier: "NP Advanced Practice", focus: "Designed for clinicians operating at diagnostic, prescriptive, and differential-reasoning levels", price: "From $49.99/mo" },
               ].map((plan, i) => (
                 <Card
                   key={i}
@@ -465,8 +487,8 @@ export default function StartFreePage() {
                 },
                 {
                   icon: Target,
-                  title: "Exam-Aligned Thinking",
-                  desc: "Reasoning frameworks that mirror how licensing examinations test clinical judgment",
+                  title: "Exam-Aligned Reasoning Frameworks",
+                  desc: "Cognitive models reflecting the decision patterns commonly required in licensing examinations",
                 },
               ].map((item, i) => (
                 <div key={i} className="space-y-3" data-testid={`trust-signal-${i}`}>
@@ -477,6 +499,15 @@ export default function StartFreePage() {
                   <p className="text-sm text-gray-500">{item.desc}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-10 bg-white rounded-xl border border-primary/10 p-6 max-w-2xl mx-auto">
+              <h4 className="font-semibold text-gray-900 mb-2 text-sm">Educational Integrity & Professional Boundaries</h4>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                NurseNest provides independently developed educational content grounded in established physiological 
+                principles and widely accepted clinical reasoning frameworks. NurseNest is not affiliated with or endorsed 
+                by any licensing or regulatory body. All material is intended solely for educational use.
+              </p>
             </div>
           </div>
         </section>

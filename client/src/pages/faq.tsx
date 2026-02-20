@@ -113,9 +113,9 @@ const faqData = [
       },
       {
         id: "content-3",
-        question: "Are NurseNest questions identical to NCLEX or licensing exams?",
+        question: "Are NurseNest questions identical to NCLEX or licensing examinations?",
         answer:
-          "No. NurseNest creates original educational content designed to develop clinical reasoning and exam preparedness. It is not affiliated with, endorsed by, or representative of any specific examination body.",
+          "No. NurseNest provides independently developed, original educational content intended solely for learning and exam preparation purposes. NurseNest is not affiliated with, endorsed by, sponsored by, or representative of NCLEX, NCSBN, or any regulatory or examination authority. NurseNest questions are original educational materials designed to support knowledge development and clinical reasoning. They do not reproduce, replicate, or represent actual licensing examination content and should not be interpreted as predictive of examination outcomes.",
       },
       {
         id: "content-4",

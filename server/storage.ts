@@ -156,6 +156,23 @@ export class DatabaseStorage implements IStorage {
     const result = await db.execute(sql`SELECT * FROM stripe.subscriptions WHERE id = ${subscriptionId}`);
     return result.rows[0] || null;
   }
+
+  async getAllUsers(): Promise<Omit<User, 'password'>[]> {
+    const rows = await db.select().from(users);
+    return rows.map(({ password, ...rest }) => rest);
+  }
+
+  async getAllTestResults(): Promise<TestResult[]> {
+    return db.select().from(testResults).orderBy(desc(testResults.completedAt));
+  }
+
+  async getAllProgress(): Promise<UserProgress[]> {
+    return db.select().from(userProgress).orderBy(desc(userProgress.lastAccessed));
+  }
+
+  async getAllNotes(): Promise<Note[]> {
+    return db.select().from(notes).orderBy(desc(notes.updatedAt));
+  }
 }
 
 export const storage = new DatabaseStorage();
