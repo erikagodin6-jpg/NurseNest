@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, users, notes, testResults, userProgress } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, users, notes, testResults, userProgress, contentItems } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql } from "drizzle-orm";
 import pg from "pg";
@@ -172,6 +172,41 @@ export class DatabaseStorage implements IStorage {
 
   async getAllNotes(): Promise<Note[]> {
     return db.select().from(notes).orderBy(desc(notes.updatedAt));
+  }
+
+  async getAllContentItems(): Promise<ContentItem[]> {
+    return db.select().from(contentItems).orderBy(desc(contentItems.updatedAt));
+  }
+
+  async getContentItem(id: string): Promise<ContentItem | undefined> {
+    const [item] = await db.select().from(contentItems).where(eq(contentItems.id, id));
+    return item;
+  }
+
+  async getContentItemBySlug(slug: string): Promise<ContentItem | undefined> {
+    const [item] = await db.select().from(contentItems).where(eq(contentItems.slug, slug));
+    return item;
+  }
+
+  async getPublishedContent(): Promise<ContentItem[]> {
+    return db.select().from(contentItems).where(eq(contentItems.status, "published")).orderBy(desc(contentItems.publishedAt));
+  }
+
+  async createContentItem(item: InsertContentItem): Promise<ContentItem> {
+    const [created] = await db.insert(contentItems).values(item).returning();
+    return created;
+  }
+
+  async updateContentItem(id: string, updates: Partial<InsertContentItem>): Promise<ContentItem> {
+    const [updated] = await db.update(contentItems)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(contentItems.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteContentItem(id: string): Promise<void> {
+    await db.delete(contentItems).where(eq(contentItems.id, id));
   }
 }
 

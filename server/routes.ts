@@ -1,8 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage, DatabaseStorage } from "./storage";
-import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema } from "@shared/schema";
+import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema, insertContentItemSchema } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
+import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -408,6 +409,170 @@ export async function registerRoutes(
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
+  });
+
+  app.get("/robots.txt", (_req, res) => {
+    res.type("text/plain").send(
+      `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nSitemap: https://nursenest.replit.app/sitemap.xml`
+    );
+  });
+
+  app.get("/sitemap.xml", async (_req, res) => {
+    const staticPages = [
+      { loc: "/", priority: "1.0", changefreq: "weekly" },
+      { loc: "/lessons", priority: "0.9", changefreq: "weekly" },
+      { loc: "/flashcards", priority: "0.8", changefreq: "weekly" },
+      { loc: "/pricing", priority: "0.8", changefreq: "monthly" },
+      { loc: "/start-free", priority: "0.8", changefreq: "monthly" },
+      { loc: "/anatomy", priority: "0.7", changefreq: "monthly" },
+      { loc: "/faq", priority: "0.6", changefreq: "monthly" },
+      { loc: "/terms", priority: "0.3", changefreq: "yearly" },
+      { loc: "/privacy", priority: "0.3", changefreq: "yearly" },
+      { loc: "/disclaimer", priority: "0.3", changefreq: "yearly" },
+      { loc: "/med-math", priority: "0.8", changefreq: "weekly" },
+      { loc: "/lab-values", priority: "0.8", changefreq: "weekly" },
+    ];
+
+    const lessonIds = [
+      "heart-failure","hypertension","aaa-rupture","mi-management","hf-advanced","shock-syndromes","dysrhythmias",
+      "copd-exacerbation","asthma-emergency","pe-recognition","ards-management",
+      "neuro-basics","stroke","stroke-advanced","increased-icp","seizure-safety",
+      "gi-bleed","acute-abdomen","liver-cirrhosis",
+      "aki-management","electrolyte-safety","ckd-management",
+      "siadh-di","dka-hhns","adrenal-insufficiency",
+      "iron-deficiency-anemia","dic-basics","sickle-cell","all-leukemia",
+      "epiglottitis","dehydration-peds","congenital-heart",
+      "preeclampsia","postpartum-hemorrhage","gestational-diabetes",
+      "neonatal-respiratory-distress","neonatal-sepsis","hyperbilirubinemia",
+      "lithium-toxicity","nms-serotonin","major-depression",
+      "compartment-syndrome","burn-management",
+      "sepsis-mastery","anemia-types",
+      "delirium-dementia","parkinsons",
+      "respiratory-assessment","abdominal-assessment",
+      "cardiac-assessment-ecg","cranial-nerve-assessment",
+    ];
+
+    const base = "https://nursenest.replit.app";
+    const urls = staticPages.map(
+      (p) => `  <url><loc>${base}${p.loc}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`
+    );
+    lessonIds.forEach((id) => {
+      urls.push(`  <url><loc>${base}/lessons/${id}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>`);
+    });
+
+    res.type("application/xml").send(
+      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>`
+    );
+  });
+
+  app.get("/api/content", async (req, res) => {
+    try {
+      const { status, username, password } = req.query;
+      if (status === "all" && username && password) {
+        const adminUser = await storage.getUserByUsername(username as string);
+        if (adminUser && adminUser.password === password && adminUser.tier === "admin") {
+          const items = await (storage as DatabaseStorage).getAllContentItems();
+          return res.json(items);
+        }
+      }
+      const items = await (storage as DatabaseStorage).getPublishedContent();
+      res.json(items);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/content/:id", async (req, res) => {
+    try {
+      const item = await (storage as DatabaseStorage).getContentItem(req.params.id);
+      if (!item) return res.status(404).json({ error: "Content not found" });
+      if (item.status !== "published") {
+        const { username, password } = req.query;
+        if (!username || !password) return res.status(404).json({ error: "Content not found" });
+        const adminUser = await storage.getUserByUsername(username as string);
+        if (!adminUser || adminUser.password !== (password as string) || adminUser.tier !== "admin") {
+          return res.status(404).json({ error: "Content not found" });
+        }
+      }
+      res.json(item);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/content/slug/:slug", async (req, res) => {
+    try {
+      const item = await (storage as DatabaseStorage).getContentItemBySlug(req.params.slug);
+      if (!item) return res.status(404).json({ error: "Content not found" });
+      if (item.status !== "published") {
+        return res.status(404).json({ error: "Content not found" });
+      }
+      res.json(item);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/content", async (req, res) => {
+    try {
+      const { username, password, ...contentData } = req.body;
+      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
+      const adminUser = await storage.getUserByUsername(username);
+      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const parsed = insertContentItemSchema.parse(contentData);
+      const item = await (storage as DatabaseStorage).createContentItem(parsed);
+      res.json(item);
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/content/:id", async (req, res) => {
+    try {
+      const { username, password, ...contentData } = req.body;
+      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
+      const adminUser = await storage.getUserByUsername(username);
+      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const item = await (storage as DatabaseStorage).updateContentItem(req.params.id, contentData);
+      res.json(item);
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/content/:id", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
+      const adminUser = await storage.getUserByUsername(username);
+      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      await (storage as DatabaseStorage).deleteContentItem(req.params.id);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/paypal/status", (req, res) => {
+    res.json({ configured: isPaypalConfigured() });
+  });
+
+  app.get("/paypal/setup", async (req, res) => {
+    await loadPaypalDefault(req, res);
+  });
+
+  app.post("/paypal/order", async (req, res) => {
+    await createPaypalOrder(req, res);
+  });
+
+  app.post("/paypal/order/:orderID/capture", async (req, res) => {
+    await capturePaypalOrder(req, res);
   });
 
   return httpServer;

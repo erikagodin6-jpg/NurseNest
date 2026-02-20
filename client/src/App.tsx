@@ -22,13 +22,22 @@ import PrivacyPage from "@/pages/privacy";
 import DisclaimerPage from "@/pages/disclaimer";
 import StartFreePage from "@/pages/start-free";
 import AdminPage from "@/pages/admin";
+import ContentEditorPage from "@/pages/content-editor";
+import MedMathPage from "@/pages/med-math";
+import LabValuesPage from "@/pages/lab-values";
+import ContentPage from "@/pages/content-page";
+import { UpgradePrompt } from "@/components/upgrade-prompt";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/start-free" component={StartFreePage} />
+      <Route path="/med-math" component={MedMathPage} />
+      <Route path="/lab-values" component={LabValuesPage} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/content-editor" component={ContentEditorPage} />
+      <Route path="/learn/:slug" component={ContentPage} />
       <Route path="/anatomy" component={AnatomyPage} />
       <Route path="/lessons" component={Lessons} />
       <Route path="/lessons/:id" component={LessonDetail} />
@@ -49,19 +58,18 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={client}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="data-theme" defaultTheme="lavender" enableSystem={false}>
         <AuthProvider>
           <TooltipProvider>
             <Toaster />
             <Router />
+            <UpgradePrompt />
           </TooltipProvider>
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
 }
-
-const client = queryClient;
 
 export default App;

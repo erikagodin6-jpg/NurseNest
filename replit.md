@@ -38,11 +38,15 @@ Preferred communication style: Simple, everyday language.
 - `/lessons` - Lesson catalog organized by body system with tabs for RPN and RN tracks
 - `/lessons/:id` - Individual lesson detail with pathophysiology, medications, clinical pearls, pre/post tests
 - `/flashcards` - Interactive flashcard system with question and term card types, bookmarking, scoring
+- `/med-math` - Med Math & Clinical Calculations Lab (dosage, IV flow rate, weight-based, infusion, pediatric calculations with unlimited randomized problems and stepwise solutions)
+- `/lab-values` - Abnormal Lab Interpretation Engine (12 clinical scenarios across 6 categories with cluster-based lab presentation, mechanism explanations, quiz challenges)
 - `/reports` - Performance analytics dashboard (proficiency by body system, study recommendations)
-- `/pricing` - Subscription plans with CAD/USD toggle, monthly/3-month/6-month/yearly options, trial passes
+- `/pricing` - Subscription plans with CAD/USD toggle, monthly/3-month/6-month/yearly options, trial passes, Stripe + PayPal payment options
 - `/login` - Authentication page (login/register)
 - `/profile` - User profile with subscription management
 - `/admin` - Admin dashboard (admin-only) with user analytics, subscriptions, activity tracking
+- `/content-editor` - Content Engine admin editor (admin-only) for creating structured content with block editor, tagging, SEO fields, preview
+- `/learn/:slug` - Dynamic SEO-optimized content pages rendered from Content Engine items with structured data
 - `/faq` - Frequently asked questions with legally-safe content
 - `/terms` - Terms of Use (comprehensive legal page)
 - `/privacy` - Privacy Policy
@@ -55,11 +59,13 @@ Preferred communication style: Simple, everyday language.
 - **Server Entry**: `server/index.ts` creates HTTP server, registers routes, sets up Vite dev middleware or serves static files
 - **Admin API**: POST `/api/admin/analytics` requires username/password authentication and admin tier verification
 - **Stripe Integration**: Checkout sessions, billing portal, subscription management via `server/stripeClient.ts`
+- **PayPal Integration**: PayPal Web SDK via `server/paypal.ts`, optional payment method alongside Stripe (requires PAYPAL_CLIENT_ID/PAYPAL_CLIENT_SECRET)
+- **Content Engine API**: CRUD endpoints for content items (`/api/content`), admin-authenticated writes, public reads limited to published content
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL dialect
 - **Schema Location**: `shared/schema.ts` - shared between client and server
-- **Tables**: `users` (with tier/subscription/stripe fields), `notes`, `test_results`, `user_progress`
+- **Tables**: `users` (with tier/subscription/stripe fields), `notes`, `test_results`, `user_progress`, `content_items` (Content Engine)
 - **Storage Interface**: `server/storage.ts` with `DatabaseStorage` implementation using Drizzle
 - **Admin Methods**: `getAllUsers()` (excludes passwords), `getAllTestResults()`, `getAllProgress()`, `getAllNotes()`
 - **Validation**: Zod schemas generated from Drizzle schema via `drizzle-zod`
@@ -99,13 +105,20 @@ Preferred communication style: Simple, everyday language.
 - **UI**: Full shadcn/ui component library with Radix UI primitives, Lucide icons
 - **Forms**: `react-hook-form` with `@hookform/resolvers` and Zod validation
 - **Dates**: `date-fns`
-- **Payments**: Stripe SDK
+- **Payments**: Stripe SDK, @paypal/paypal-server-sdk
 
 ## Recent Changes
+- Built Med Math & Clinical Calculations Lab with 5 categories (50 problem templates), stepwise solutions, safety alerts
+- Built Abnormal Lab Interpretation Engine with 12 clinical scenarios across 6 categories, cluster-based presentation, mechanism explanations
+- Added PayPal payment integration alongside Stripe (server SDK, API routes, pricing page UI)
+- Implemented milestone-based upgrade prompts with cognitive-progression framing (tracks lesson views, test scores, study streaks)
+- Built Content Engine: schema, CRUD API, admin editor at /content-editor with block editor, tagging, SEO, preview
+- Built SEO page generator at /learn/:slug with structured data, breadcrumbs, related content
+- Added Med Math and Lab Interpretation links to desktop/mobile navigation
+- Content API endpoints secured: public reads limited to published content, draft/review content requires admin auth
 - Added admin dashboard at /admin with user analytics, subscription distribution, activity tracking, content popularity
 - Created Start for Free landing page with conversion-focused copy, pain points, value propositions, content previews
 - Added Terms of Use, Privacy Policy, Educational Disclaimer pages
-- Updated FAQ with legally-safe content and stronger NCLEX/exam body disclaimers
-- Applied copy enhancements: "Why Mechanisms Matter" section, cognitive tension bridge, identity-driven tier framing
-- Updated footers across pages with legal links and dynamic copyright year
+- Implemented comprehensive SEO: sitemap.xml, robots.txt, structured data (LearningResource, FAQPage, CollectionPage, BreadcrumbList)
+- Added Educational Integrity statement component across platform
 - Added admin link in navigation (desktop + mobile) visible only to admin users

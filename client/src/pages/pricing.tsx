@@ -5,8 +5,9 @@ import { useAuth } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Shield, HelpCircle, Star, Clock, X } from "lucide-react";
+import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import PayPalButton from "@/components/PayPalButton";
 
 type Duration = "monthly" | "3-month" | "6-month" | "yearly";
 
@@ -130,6 +131,15 @@ export default function PricingPage() {
   });
   const [duration, setDuration] = useState<Duration>("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
+  const [paypalAvailable, setPaypalAvailable] = useState(false);
+  const [paypalTier, setPaypalTier] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/paypal/status")
+      .then((r) => r.json())
+      .then((d) => setPaypalAvailable(d.configured))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const handleRegionChange = () => {
@@ -320,8 +330,49 @@ export default function PricingPage() {
                       disabled={loadingTier === tier.id}
                       data-testid={`button-subscribe-${tier.id}`}
                     >
-                      {loadingTier === tier.id ? "Processing..." : "Subscribe Now"}
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      {loadingTier === tier.id ? "Processing..." : "Pay with Card"}
                     </Button>
+                    {paypalAvailable && (
+                      <div className="mt-2">
+                        {paypalTier === tier.id ? (
+                          <div className="border rounded-xl p-3 border-[#0070ba]/20 bg-[#0070ba]/5">
+                            <p className="text-xs text-gray-500 mb-2 text-center">Complete payment with PayPal</p>
+                            <PayPalButton
+                              amount={price.toFixed(2)}
+                              currency={isCAD ? "CAD" : "USD"}
+                              intent="CAPTURE"
+                              onSuccess={(data) => {
+                                setPaypalTier(null);
+                                toast({ title: "Payment Successful", description: "Your subscription is being activated." });
+                                navigate("/subscription/success");
+                              }}
+                              onError={() => {
+                                toast({ title: "Payment Error", description: "PayPal payment failed. Please try again.", variant: "destructive" });
+                              }}
+                            />
+                            <Button variant="ghost" size="sm" className="w-full mt-1 text-xs text-gray-400" onClick={() => setPaypalTier(null)} data-testid={`button-paypal-cancel-${tier.id}`}>
+                              Cancel
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            className="w-full rounded-full font-semibold border-[#0070ba]/30 text-[#003087] hover:bg-[#0070ba]/5"
+                            onClick={() => {
+                              if (!user) { navigate("/login"); return; }
+                              setPaypalTier(tier.id);
+                            }}
+                            data-testid={`button-paypal-${tier.id}`}
+                          >
+                            <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.77.77 0 0 1 .757-.65h6.803c2.252 0 3.856.476 4.765 1.414.418.43.69.92.828 1.474.145.58.147 1.27.003 2.105l-.01.06v.532l.418.236c.356.188.637.404.847.644.314.358.516.802.6 1.326.088.54.06 1.18-.083 1.901-.166.84-.437 1.572-.804 2.17-.34.555-.769 1.01-1.277 1.352-.483.326-1.05.573-1.685.733-.612.155-1.31.234-2.073.234H13.39a.95.95 0 0 0-.938.8l-.038.22-.672 4.26-.03.16a.95.95 0 0 1-.938.8H7.076z"/>
+                            </svg>
+                            Pay with PayPal
+                          </Button>
+                        )}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               );

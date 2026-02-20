@@ -19,7 +19,9 @@ import {
   LogIn,
   LogOut,
   User,
-  Shield
+  Shield,
+  Calculator,
+  FlaskConical
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -190,6 +192,18 @@ export function Navigation() {
             </Button>
           </SheetClose>
           <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/med-math")}>
+              <Calculator className="w-4 h-4" />
+              Med Math Lab
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lab-values")}>
+              <FlaskConical className="w-4 h-4" />
+              Lab Interpretation
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/reports")}>
               <BarChart className="w-4 h-4" />
               Reports
@@ -307,7 +321,16 @@ export function Navigation() {
                     <span className="hidden lg:inline">More</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-40 p-2">
+                <DropdownMenuContent align="start" className="w-48 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/med-math")}>
+                    <Calculator className="w-4 h-4" />
+                    Med Math Lab
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/lab-values")}>
+                    <FlaskConical className="w-4 h-4" />
+                    Lab Interpretation
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pricing")}>
                     <Tag className="w-4 h-4" />
                     Pricing

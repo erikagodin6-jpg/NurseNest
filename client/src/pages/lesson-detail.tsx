@@ -18,6 +18,7 @@ import { contentMap } from "@/data/lessons";
 import { useAuth } from "@/lib/auth";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem } from "@/lib/seo-utils";
+import { trackMilestone } from "@/components/upgrade-prompt";
 
 function getLessonTier(lessonId: string): string {
   if (lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
@@ -269,6 +270,11 @@ export default function LessonDetail() {
 
   const lessonTier = getLessonTier(id || "");
   const userHasAccess = user && (user.tier === "admin" || hasAccess(lessonTier));
+
+  useEffect(() => {
+    trackMilestone("lesson_view");
+    trackMilestone("session_start");
+  }, [id]);
 
   useEffect(() => {
     if (user && id) {
@@ -526,7 +532,10 @@ export default function LessonDetail() {
                 questions={preTestQuestions}
                 lessonId={id || ""}
                 testType="pretest"
-                onComplete={() => setPreTestDone(true)}
+                onComplete={(score, total) => {
+                  setPreTestDone(true);
+                  trackMilestone("test_complete", { score: Math.round((score / total) * 100) });
+                }}
               />
             </TabsContent>
 
@@ -746,8 +755,9 @@ export default function LessonDetail() {
                 questions={postTestQuestions}
                 lessonId={id || ""}
                 testType="posttest"
-                onComplete={() => {
+                onComplete={(score, total) => {
                   setPostTestDone(true);
+                  trackMilestone("test_complete", { score: Math.round((score / total) * 100) });
                   if (user) {
                     fetch("/api/progress", {
                       method: "POST",
@@ -765,6 +775,12 @@ export default function LessonDetail() {
           </Tabs>
         </div>
       </main>
+
+      <footer className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="border-t border-gray-100 pt-4 text-xs text-gray-400 leading-relaxed text-center">
+          NurseNest provides independently developed educational content grounded in established physiological principles and widely accepted clinical reasoning frameworks. Not affiliated with or endorsed by any licensing or regulatory authority. All material is intended solely for educational use.
+        </div>
+      </footer>
 
       <style>{`
         @media print {
