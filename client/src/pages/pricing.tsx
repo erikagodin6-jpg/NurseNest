@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard } from "lucide-react";
+import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard, Calculator, Beaker, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import PayPalButton from "@/components/PayPalButton";
 
@@ -451,6 +451,123 @@ export default function PricingPage() {
                       >
                         {loadingTier === pass.id ? "Processing..." : "Get Pass"}
                       </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-addon-title">
+                Practice Tool Add-Ons
+              </h2>
+              <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-addon-subtitle">
+                Get unlimited access to our interactive practice tools. Free users get 10 questions per day — upgrade for unlimited practice.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {[
+                {
+                  id: "lab-values",
+                  name: "Lab Interpretation",
+                  icon: Beaker,
+                  priceCAD: 9.99,
+                  priceUSD: 7.99,
+                  features: [
+                    "Unlimited daily lab interpretation scenarios",
+                    "All 6 clinical categories",
+                    "Mechanism explanations & clinical danger alerts",
+                    "Quiz challenges with detailed rationales",
+                  ],
+                },
+                {
+                  id: "med-math",
+                  name: "Med Math",
+                  icon: Calculator,
+                  priceCAD: 9.99,
+                  priceUSD: 7.99,
+                  features: [
+                    "Unlimited daily calculation problems",
+                    "All 5 calculation categories",
+                    "Step-by-step solutions",
+                    "Safety alerts for unusual dosages",
+                  ],
+                },
+                {
+                  id: "practice-tools",
+                  name: "All Practice Tools",
+                  icon: Zap,
+                  priceCAD: 14.99,
+                  priceUSD: 11.99,
+                  features: [
+                    "Unlimited Lab Interpretation",
+                    "Unlimited Med Math",
+                    "Best value — save over buying separately",
+                    "Priority access to new practice tools",
+                  ],
+                  popular: true,
+                },
+              ].map((addon) => {
+                const price = isCAD ? addon.priceCAD : addon.priceUSD;
+                const currency = isCAD ? "CAD" : "USD";
+                const Icon = addon.icon;
+                const isPopular = "popular" in addon && addon.popular;
+
+                return (
+                  <Card
+                    key={addon.id}
+                    className={`relative border-none shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
+                      isPopular ? "ring-2 ring-primary shadow-primary/10" : ""
+                    }`}
+                    data-testid={`card-addon-${addon.id}`}
+                  >
+                    {isPopular && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                        <Badge className="bg-primary text-white px-4 py-1 text-xs font-semibold shadow-md">
+                          <Star className="w-3 h-3 mr-1 fill-white" />
+                          Best Value
+                        </Badge>
+                      </div>
+                    )}
+                    <CardHeader className="text-center pb-2 pt-8">
+                      <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                        <Icon className="w-6 h-6 text-primary" />
+                      </div>
+                      <CardTitle className="text-lg font-bold" data-testid={`text-addon-name-${addon.id}`}>
+                        {addon.name}
+                      </CardTitle>
+                      <div className="mt-3 mb-1">
+                        <span className="text-3xl font-bold text-primary" data-testid={`text-addon-price-${addon.id}`}>
+                          ${price.toFixed(2)}
+                        </span>
+                        <span className="text-gray-400 text-sm ml-1">
+                          {currency}/mo
+                        </span>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-2">
+                      <ul className="space-y-2 mb-6">
+                        {addon.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-start gap-3 text-sm text-gray-600" data-testid={`text-addon-feature-${addon.id}-${idx}`}>
+                            <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Button
+                        className="w-full rounded-full font-semibold bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all"
+                        onClick={() => handleSubscribe(addon.id)}
+                        disabled={loadingTier === addon.id}
+                        data-testid={`button-addon-${addon.id}`}
+                      >
+                        <CreditCard className="w-4 h-4 mr-2" />
+                        {loadingTier === addon.id ? "Processing..." : "Subscribe"}
+                      </Button>
+                      <p className="text-xs text-center text-gray-400 mt-2">
+                        Included free with any full subscription
+                      </p>
                     </CardContent>
                   </Card>
                 );

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, users, notes, testResults, userProgress, contentItems } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, users, notes, testResults, userProgress, contentItems, featureUsage } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql } from "drizzle-orm";
 import pg from "pg";
@@ -23,6 +23,8 @@ export interface IStorage {
   getPrice(priceId: string): Promise<any>;
   getPricesForProduct(productId: string): Promise<any[]>;
   getSubscription(subscriptionId: string): Promise<any>;
+  getFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage | undefined>;
+  incrementFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -207,6 +209,23 @@ export class DatabaseStorage implements IStorage {
 
   async deleteContentItem(id: string): Promise<void> {
     await db.delete(contentItems).where(eq(contentItems.id, id));
+  }
+  async getFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage | undefined> {
+    const [row] = await db.select().from(featureUsage).where(
+      and(eq(featureUsage.userId, userId), eq(featureUsage.feature, feature), eq(featureUsage.usageDate, date))
+    );
+    return row;
+  }
+
+  async incrementFeatureUsage(userId: string, feature: string, date: string): Promise<FeatureUsage> {
+    const result = await db.execute(sql`
+      INSERT INTO feature_usage (id, user_id, feature, usage_date, count)
+      VALUES (gen_random_uuid(), ${userId}, ${feature}, ${date}, 1)
+      ON CONFLICT (user_id, feature, usage_date) DO UPDATE
+      SET count = feature_usage.count + 1
+      RETURNING *
+    `);
+    return result.rows[0] as FeatureUsage;
   }
 }
 

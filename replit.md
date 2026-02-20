@@ -121,6 +121,8 @@ Preferred communication style: Simple, everyday language.
 - `client/src/components/engagement.tsx` - PauseAndThink, ProgressiveDisclosure, CuriosityHook, KnowledgeCheck interactive engagement components
 
 ## Recent Changes
+- Added daily usage limits (10 questions/day free) for Lab Interpretation and Med Math with paywall + add-on subscriptions ($9.99/mo each or $14.99/mo bundle)
+- feature_usage table tracks per-user per-feature daily question counts; full subscribers and admins get unlimited access
 - Built Clinical Clarity system: 15 "Why does X happen?" topics with mechanism chains, misconceptions, clinical relevance, full SEO
 - Built Clinical Case Simulation Platform: 3 branching decision cases (sepsis, MI, DKA) with vitals, labs, consequence explanations, debriefing
 - Built Medication Mastery Engine: 8 medications with receptor-level MOA, side effect reasoning, drug interactions, nursing considerations

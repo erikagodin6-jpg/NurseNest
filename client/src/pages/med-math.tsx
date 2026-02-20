@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useFeatureUsage } from "@/hooks/use-feature-usage";
+import { UsageLimitBanner, UsageLimitPaywall } from "@/components/usage-limit-gate";
 import {
   Calculator,
   Droplets,
@@ -1034,7 +1036,7 @@ const categoryConfig: Record<Category, { label: string; icon: typeof Calculator;
   pediatric: { label: "Pediatric", icon: Baby, color: "text-pink-600", bgColor: "bg-pink-50" },
 };
 
-function ProblemCard({ category }: { category: Category }) {
+function ProblemCard({ category, onQuestionAnswered }: { category: Category; onQuestionAnswered?: () => Promise<void> }) {
   const [seed, setSeed] = useState(() => Date.now());
   const [userAnswer, setUserAnswer] = useState("");
   const [checked, setChecked] = useState(false);
@@ -1044,15 +1046,16 @@ function ProblemCard({ category }: { category: Category }) {
   const problem = useMemo(() => generateProblem(category, seed), [category, seed]);
   const config = categoryConfig[category];
 
-  const handleCheck = useCallback(() => {
+  const handleCheck = useCallback(async () => {
     if (!userAnswer.trim()) return;
     const parsed = parseFloat(userAnswer);
     if (isNaN(parsed)) return;
+    if (onQuestionAnswered) await onQuestionAnswered();
     const correct = Math.abs(parsed - problem.answer) <= 0.1;
     setIsCorrect(correct);
     setChecked(true);
     setScore((s) => ({ correct: s.correct + (correct ? 1 : 0), total: s.total + 1 }));
-  }, [userAnswer, problem.answer]);
+  }, [userAnswer, problem.answer, onQuestionAnswered]);
 
   const handleNext = useCallback(() => {
     setSeed(Date.now() + Math.floor(Math.random() * 100000));
@@ -1204,6 +1207,11 @@ function ProblemCard({ category }: { category: Category }) {
 
 export default function MedMathPage() {
   const [activeTab, setActiveTab] = useState<Category>("dosage");
+  const usage = useFeatureUsage("med-math");
+
+  const handleQuestionAnswered = useCallback(async () => {
+    await usage.recordUsage();
+  }, [usage.recordUsage]);
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 select-none" onContextMenu={(e) => e.preventDefault()}>
@@ -1228,6 +1236,13 @@ export default function MedMathPage() {
           </div>
         </div>
 
+        {!usage.hasUnlimited && !usage.isLoading && (
+          <UsageLimitBanner feature="med-math" count={usage.count} limit={usage.limit} remaining={usage.remaining} />
+        )}
+
+        {usage.isLocked ? (
+          <UsageLimitPaywall feature="med-math" />
+        ) : (
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as Category)} className="w-full" data-testid="tabs-med-math">
           <TabsList className="grid w-full grid-cols-5 h-12 mb-8">
             <TabsTrigger value="dosage" className="gap-1 text-xs sm:text-sm" data-testid="tab-dosage">
@@ -1258,21 +1273,22 @@ export default function MedMathPage() {
           </TabsList>
 
           <TabsContent value="dosage">
-            <ProblemCard category="dosage" />
+            <ProblemCard category="dosage" onQuestionAnswered={handleQuestionAnswered} />
           </TabsContent>
           <TabsContent value="iv-flow">
-            <ProblemCard category="iv-flow" />
+            <ProblemCard category="iv-flow" onQuestionAnswered={handleQuestionAnswered} />
           </TabsContent>
           <TabsContent value="weight-based">
-            <ProblemCard category="weight-based" />
+            <ProblemCard category="weight-based" onQuestionAnswered={handleQuestionAnswered} />
           </TabsContent>
           <TabsContent value="infusion">
-            <ProblemCard category="infusion" />
+            <ProblemCard category="infusion" onQuestionAnswered={handleQuestionAnswered} />
           </TabsContent>
           <TabsContent value="pediatric">
-            <ProblemCard category="pediatric" />
+            <ProblemCard category="pediatric" onQuestionAnswered={handleQuestionAnswered} />
           </TabsContent>
         </Tabs>
+        )}
 
         <div className="mt-16 border-t border-gray-200 pt-6">
           <div className="flex items-start gap-2 text-xs text-gray-400 max-w-3xl mx-auto">

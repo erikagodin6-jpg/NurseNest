@@ -101,3 +101,13 @@ export const insertContentItemSchema = createInsertSchema(contentItems).omit({
 
 export type ContentItem = typeof contentItems.$inferSelect;
 export type InsertContentItem = z.infer<typeof insertContentItemSchema>;
+
+export const featureUsage = pgTable("feature_usage", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  feature: text("feature").notNull(),
+  usageDate: text("usage_date").notNull(),
+  count: integer("count").notNull().default(0),
+});
+
+export type FeatureUsage = typeof featureUsage.$inferSelect;

@@ -73,12 +73,18 @@ export async function registerRoutes(
         rpn: 2999,
         rn: 3999,
         np: 4999,
+        "lab-values": 999,
+        "med-math": 999,
+        "practice-tools": 1499,
       };
 
       const tierNames: Record<string, string> = {
         rpn: "NurseNest RPN/LVN",
         rn: "NurseNest RN/NCLEX",
         np: "NurseNest NP Advanced",
+        "lab-values": "NurseNest Lab Interpretation Unlimited",
+        "med-math": "NurseNest Med Math Unlimited",
+        "practice-tools": "NurseNest All Practice Tools",
       };
 
       const amount = priceMap[tier];
@@ -554,6 +560,51 @@ export async function registerRoutes(
       }
       await (storage as DatabaseStorage).deleteContentItem(req.params.id);
       res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  const validFeatures = ["lab-values", "med-math"];
+
+  app.get("/api/feature-usage/:userId/:feature", async (req, res) => {
+    try {
+      const { userId, feature } = req.params;
+      if (!validFeatures.includes(feature)) return res.status(400).json({ error: "Invalid feature" });
+      const today = new Date().toISOString().slice(0, 10);
+      const usage = await storage.getFeatureUsage(userId, feature, today);
+      const user = await storage.getUser(userId);
+      const hasUnlimited = user?.tier === "admin" ||
+        (user?.subscriptionStatus === "active" && (
+          user?.tier === "lab-values" && feature === "lab-values" ||
+          user?.tier === "med-math" && feature === "med-math" ||
+          user?.tier === "practice-tools" ||
+          ["rpn", "rn", "np"].includes(user?.tier || "")
+        ));
+      res.json({ count: usage?.count || 0, limit: 10, hasUnlimited });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/feature-usage/:userId/:feature/increment", async (req, res) => {
+    try {
+      const { userId, feature } = req.params;
+      if (!validFeatures.includes(feature)) return res.status(400).json({ error: "Invalid feature" });
+      const today = new Date().toISOString().slice(0, 10);
+      const user = await storage.getUser(userId);
+      const hasUnlimited = user?.tier === "admin" ||
+        (user?.subscriptionStatus === "active" && (
+          user?.tier === "lab-values" && feature === "lab-values" ||
+          user?.tier === "med-math" && feature === "med-math" ||
+          user?.tier === "practice-tools" ||
+          ["rpn", "rn", "np"].includes(user?.tier || "")
+        ));
+      if (hasUnlimited) {
+        return res.json({ count: 0, limit: 10, hasUnlimited: true });
+      }
+      const usage = await storage.incrementFeatureUsage(userId, feature, today);
+      res.json({ count: usage.count, limit: 10, hasUnlimited: false });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

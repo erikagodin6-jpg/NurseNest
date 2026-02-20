@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EducationalIntegrity } from "@/components/educational-integrity";
+import { useFeatureUsage } from "@/hooks/use-feature-usage";
+import { UsageLimitBanner, UsageLimitPaywall } from "@/components/usage-limit-gate";
 import {
   Activity,
   AlertTriangle,
@@ -429,6 +431,7 @@ export default function LabValuesPage() {
   const [showInterpretation, setShowInterpretation] = useState<Record<string, boolean>>({});
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number | null>>({});
   const [score, setScore] = useState({ correct: 0, total: 0 });
+  const usage = useFeatureUsage("lab-values");
 
   const categoryScenarios = useMemo(() => {
     const grouped: Record<string, ClinicalScenario[]> = {};
@@ -453,8 +456,10 @@ export default function LabValuesPage() {
     setShowInterpretation((prev) => ({ ...prev, [scenarioKey]: !prev[scenarioKey] }));
   };
 
-  const handleQuizAnswer = (idx: number) => {
+  const handleQuizAnswer = async (idx: number) => {
     if (selectedAnswer !== null) return;
+    if (usage.isLocked) return;
+    await usage.recordUsage();
     setQuizAnswers((prev) => ({ ...prev, [scenarioKey]: idx }));
     const isCorrect = scenario.quiz.options[idx].correct;
     setScore((prev) => ({
@@ -464,6 +469,7 @@ export default function LabValuesPage() {
   };
 
   const handleNextScenario = () => {
+    if (usage.isLocked) return;
     setScenarioIndex((prev) => ({
       ...prev,
       [activeCategory]: ((prev[activeCategory] || 0) + 1) % currentScenarios.length,
@@ -525,6 +531,13 @@ export default function LabValuesPage() {
           </Button>
         </div>
 
+        {!usage.hasUnlimited && !usage.isLoading && (
+          <UsageLimitBanner feature="lab-values" count={usage.count} limit={usage.limit} remaining={usage.remaining} />
+        )}
+
+        {usage.isLocked ? (
+          <UsageLimitPaywall feature="lab-values" />
+        ) : (
         <Tabs value={activeCategory} onValueChange={(v) => setActiveCategory(v)} className="w-full" data-testid="tabs-categories">
           <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 h-auto gap-1 bg-transparent p-0 mb-8">
             {Object.entries(categoryConfig).map(([key, config]) => {
@@ -744,6 +757,7 @@ export default function LabValuesPage() {
             </TabsContent>
           ))}
         </Tabs>
+        )}
 
         <div className="mt-16">
           <EducationalIntegrity variant="footer" />
