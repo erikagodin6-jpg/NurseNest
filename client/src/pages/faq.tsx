@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { useLocation } from "wouter";
 import {
   Accordion,
@@ -229,7 +230,7 @@ export default function FAQPage() {
   const allFaqs = faqData.flatMap((s) => s.questions.map((q) => ({ question: q.question, answer: q.answer })));
 
   return (
-    <div className="min-h-screen bg-warmwhite">
+    <div className="min-h-screen bg-warmwhite flex flex-col">
       <SEO
         title="Frequently Asked Questions - NurseNest Nursing Education"
         description="Find answers about NurseNest nursing education platform: subscriptions, content depth, NCLEX preparation, privacy, and clinical learning resources for RPN, RN, and NP students."
@@ -335,6 +336,7 @@ export default function FAQPage() {
         </div>
       </div>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

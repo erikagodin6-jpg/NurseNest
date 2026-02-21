@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -258,13 +259,8 @@ export default function BlogPage() {
         </div>
       </main>
 
-      <footer className="bg-gray-50 border-t border-gray-200 py-8">
-        <div className="max-w-5xl mx-auto px-4 text-center text-sm text-gray-500">
-          <p>NurseNest is not affiliated with NCLEX, NCSBN, CNO, or any regulatory body.</p>
-          <p className="mt-1">Content is for educational purposes only and does not replace clinical judgment.</p>
-        </div>
-      </footer>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -513,31 +514,7 @@ export default function StartFreePage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-primary/10 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">N</span>
-              </div>
-              <span className="font-semibold text-gray-900">NurseNest</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-              <a href="/terms" className="hover:text-primary transition-colors">Terms of Use</a>
-              <a href="/privacy" className="hover:text-primary transition-colors">Privacy</a>
-              <a href="/disclaimer" className="hover:text-primary transition-colors">Disclaimer</a>
-              <a href="/faq" className="hover:text-primary transition-colors">FAQ</a>
-            </div>
-            <div className="text-sm text-gray-500">
-              &copy; {new Date().getFullYear()} NurseNest. All Rights Reserved.
-            </div>
-          </div>
-          <div className="mt-6 text-center text-xs text-gray-400">
-            NurseNest is an independent educational platform. Not affiliated with NCLEX, NCSBN, CNO, or any regulatory body.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

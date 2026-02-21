@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -223,6 +224,7 @@ export default function PreNursingPage() {
           {activeModule === "pathophysiology" && <PathophysiologyModule />}
         </main>
         <AdminEditButton />
+        <Footer />
       </div>
     );
   }
@@ -296,6 +298,7 @@ export default function PreNursingPage() {
         </section>
       </main>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

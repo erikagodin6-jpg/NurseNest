@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Link } from "wouter";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import {
   Heart,
@@ -179,7 +180,7 @@ export default function AnatomyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-warmwhite" data-testid="page-anatomy">
+    <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="page-anatomy">
       <Navigation />
 
       <section className="relative overflow-hidden py-16 md:py-24" data-testid="section-hero-anatomy">
@@ -269,6 +270,7 @@ export default function AnatomyPage() {
         </div>
       </section>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

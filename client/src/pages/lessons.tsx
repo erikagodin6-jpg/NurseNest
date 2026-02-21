@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -1793,10 +1794,10 @@ export default function Lessons() {
       <Navigation />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
+        <div className="mb-12 flex flex-col items-center gap-6">
+          <div className="text-center w-full">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Clinical Lesson Library</h1>
-            <p className="text-lg text-gray-600">Structured from foundational concepts to advanced clinical reasoning. Every lesson connects pathophysiology to the decision-making patterns tested on nursing licensure examinations.</p>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Structured from foundational concepts to advanced clinical reasoning. Every lesson connects pathophysiology to the decision-making patterns tested on nursing licensure examinations.</p>
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
             <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
@@ -1878,6 +1879,7 @@ export default function Lessons() {
         </Tabs>
       </main>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -117,6 +118,7 @@ export default function LoginPage() {
           </CardContent>
         </Card>
       </main>
+      <Footer />
     </div>
   );
 }

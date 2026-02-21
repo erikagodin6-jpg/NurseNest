@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -593,6 +594,7 @@ export default function PricingPage() {
         </div>
       </main>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

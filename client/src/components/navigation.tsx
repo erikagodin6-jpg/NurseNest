@@ -23,7 +23,10 @@ import {
   Calculator,
   FlaskConical,
   Lightbulb,
-  Pill
+  Pill,
+  StickyNote,
+  Calendar,
+  UserCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -130,19 +133,9 @@ export function Navigation() {
               <item.icon className="w-4 h-4 text-primary/70" />
               <span>{item.label}</span>
             </div>
-            {isPaid && !["Lessons", "Flashcards", "Reports", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Flashcards", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
-        <DropdownMenuSeparator className="bg-primary/10" />
-        <DropdownMenuItem 
-          onClick={() => handlePaidContent("Reports", "Reports")}
-          className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
-        >
-          <div className="flex items-center gap-2">
-            <BarChart className="w-4 h-4 text-primary/60" />
-            <span>Reports</span>
-          </div>
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -474,12 +467,10 @@ export function Navigation() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              {user && (
-                <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-2 lg:px-3" onClick={() => setLocation("/reports")}>
-                  <BarChart className="w-4 h-4" />
-                  Reports
-                </Button>
-              )}
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-2 lg:px-3" onClick={() => setLocation("/blog")}>
+                <FileText className="w-4 h-4" />
+                Blog
+              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary px-2 lg:px-3 gap-1">
@@ -661,12 +652,7 @@ export function Navigation() {
                     </DropdownMenu>
                   </>
                 )}
-                <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/profile")} data-testid="button-profile">
-                  {user.username}
-                </Button>
-                <Button variant="outline" className="rounded-full px-3 text-xs sm:text-sm sm:px-4" onClick={() => { logout(); setLocation("/"); }} data-testid="button-logout-nav">
-                  Sign Out
-                </Button>
+                <UserProfileDropdown user={user} logout={logout} setLocation={setLocation} />
               </>
             ) : (
               <>

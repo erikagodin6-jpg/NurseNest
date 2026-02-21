@@ -1,5 +1,6 @@
 import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
+import { sql } from "drizzle-orm";
 import { storage, DatabaseStorage } from "./storage";
 import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema, insertContentItemSchema } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
@@ -183,10 +184,36 @@ export async function registerRoutes(
     try {
       const user = await storage.getUser(req.params.userId);
       if (!user) return res.status(404).json({ error: "User not found" });
+
+      let daysRemaining: number | null = null;
+      let currentPeriodEnd: string | null = null;
+
+      if (user.stripeSubscriptionId) {
+        try {
+          const { db: pgPool } = await import("./db");
+          const result = await pgPool.execute(
+            sql`SELECT current_period_end, status FROM stripe.subscriptions WHERE id = ${user.stripeSubscriptionId} LIMIT 1`
+          );
+          if (result.rows && result.rows.length > 0) {
+            const sub = result.rows[0] as any;
+            if (sub.current_period_end) {
+              const endDate = new Date(sub.current_period_end * 1000);
+              currentPeriodEnd = endDate.toISOString();
+              const now = new Date();
+              daysRemaining = Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+            }
+          }
+        } catch (stripeErr) {
+          // Stripe data not available, continue without it
+        }
+      }
+
       res.json({
         tier: user.tier || "free",
         subscriptionStatus: user.subscriptionStatus || "inactive",
         hasAccess: user.subscriptionStatus === "active",
+        daysRemaining,
+        currentPeriodEnd,
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });

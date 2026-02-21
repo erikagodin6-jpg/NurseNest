@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1301,6 +1302,7 @@ export default function MedMathPage() {
         </div>
       </main>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

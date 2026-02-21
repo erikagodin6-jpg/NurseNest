@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -514,6 +515,7 @@ export default function ContentPage() {
           </div>
         </div>
       </article>
+      <Footer />
     </div>
   );
 }

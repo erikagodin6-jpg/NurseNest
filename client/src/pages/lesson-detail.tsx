@@ -3,6 +3,7 @@ import { Link, useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -820,18 +821,13 @@ export default function LessonDetail() {
         </div>
       </main>
 
-      <footer className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="border-t border-gray-100 pt-4 text-xs text-gray-400 leading-relaxed text-center">
-          NurseNest provides independently developed educational content grounded in established physiological principles and widely accepted clinical reasoning frameworks. Not affiliated with or endorsed by any licensing or regulatory authority. All material is intended solely for educational use.
-        </div>
-      </footer>
-
       <style>{`
         @media print {
           .select-none { user-select: text !important; -webkit-user-select: text !important; }
         }
       `}</style>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

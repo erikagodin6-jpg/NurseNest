@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
@@ -68,6 +69,7 @@ export default function SubscriptionSuccess() {
           </CardContent>
         </Card>
       </main>
+      <Footer />
     </div>
   );
 }

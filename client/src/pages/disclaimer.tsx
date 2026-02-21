@@ -1,9 +1,10 @@
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { Link } from "wouter";
 
 export default function DisclaimerPage() {
   return (
-    <div className="min-h-screen bg-warmwhite" data-testid="disclaimer-page">
+    <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="disclaimer-page">
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
@@ -93,6 +94,7 @@ export default function DisclaimerPage() {
 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

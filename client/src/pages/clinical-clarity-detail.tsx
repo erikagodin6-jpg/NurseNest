@@ -3,6 +3,7 @@ import { Link, useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -346,7 +347,7 @@ export default function ClinicalClarityDetail() {
 
         <EducationalIntegrity variant="banner" className="mt-8" />
 
-        <footer className="mt-12 border-t border-gray-100 pt-8">
+        <div className="mt-12 border-t border-gray-100 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <Link href="/clinical-clarity">
               <Button variant="outline" className="rounded-full gap-2 text-sm" data-testid="button-all-topics">
@@ -361,12 +362,10 @@ export default function ClinicalClarityDetail() {
               </Button>
             </Link>
           </div>
-          <div className="mt-8 text-center text-xs text-gray-400">
-            &copy; {new Date().getFullYear()} NurseNest. All Rights Reserved.
-          </div>
-        </footer>
+        </div>
       </main>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

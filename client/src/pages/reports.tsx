@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -493,6 +494,7 @@ export default function Reports() {
         )}
       </main>
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }

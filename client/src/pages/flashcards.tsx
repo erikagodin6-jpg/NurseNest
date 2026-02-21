@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -1207,6 +1208,7 @@ export default function Flashcards() {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -1278,6 +1280,7 @@ export default function Flashcards() {
             </div>
           )}
         </main>
+        <Footer />
       </div>
     );
   }
@@ -1352,6 +1355,7 @@ export default function Flashcards() {
             </div>
           )}
         </main>
+        <Footer />
       </div>
     );
   }
@@ -1391,6 +1395,7 @@ export default function Flashcards() {
             </Button>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -1579,6 +1584,7 @@ export default function Flashcards() {
         .perspective-1000 { perspective: 1000px; }
       `}} />
       <AdminEditButton />
+      <Footer />
     </div>
   );
 }
