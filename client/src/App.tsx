@@ -38,7 +38,14 @@ import MockExamsPage from "@/pages/mock-exams";
 import MockExamSession from "@/pages/mock-exam-session";
 import MockExamReport from "@/pages/mock-exam-report";
 import ContactPage from "@/pages/contact";
+import FeedbackPage from "@/pages/feedback";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
+import { usePageTracker } from "@/hooks/use-page-tracker";
+
+function PageTracker() {
+  usePageTracker();
+  return null;
+}
 
 function Router() {
   return (
@@ -77,6 +84,7 @@ function Router() {
       <Route path="/disclaimer" component={DisclaimerPage} />
       <Route path="/refund-policy" component={RefundPolicyPage} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/feedback" component={FeedbackPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -89,6 +97,7 @@ function App() {
         <AuthProvider>
           <TooltipProvider>
             <Toaster />
+            <PageTracker />
             <Router />
             <UpgradePrompt />
           </TooltipProvider>

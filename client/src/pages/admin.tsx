@@ -22,6 +22,17 @@ import {
   Shield,
   RefreshCw,
   Layers,
+  Eye,
+  MousePointer,
+  Monitor,
+  Smartphone,
+  Tablet,
+  ExternalLink,
+  MessageSquare,
+  ThumbsUp,
+  Lightbulb,
+  Bug,
+  ArrowUpDown,
 } from "lucide-react";
 
 type AdminData = {
@@ -111,10 +122,15 @@ export default function AdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  const [activeTab, setActiveTab] = useState<"overview" | "users" | "activity" | "content" | "blog">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "users" | "activity" | "content" | "blog" | "analytics" | "feedback">("overview");
   const [blogConfig, setBlogConfig] = useState<any>(null);
   const [blogGenerating, setBlogGenerating] = useState(false);
   const [blogTopic, setBlogTopic] = useState("");
+  const [siteAnalytics, setSiteAnalytics] = useState<any>(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [analyticsDays, setAnalyticsDays] = useState(30);
+  const [feedbackList, setFeedbackList] = useState<any[]>([]);
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
 
   const isAdmin = user?.tier === "admin";
 
@@ -153,6 +169,45 @@ export default function AdminPage() {
   useEffect(() => {
     fetch("/api/blog/config").then(r => r.json()).then(setBlogConfig).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (activeTab === "analytics" && !siteAnalytics && !analyticsLoading) {
+      fetchSiteAnalytics();
+    }
+    if (activeTab === "feedback" && feedbackList.length === 0 && !feedbackLoading) {
+      fetchFeedback();
+    }
+  }, [activeTab]);
+
+  async function fetchSiteAnalytics() {
+    setAnalyticsLoading(true);
+    try {
+      const res = await fetch(`/api/admin/site-analytics?days=${analyticsDays}`);
+      if (res.ok) setSiteAnalytics(await res.json());
+    } catch {} finally { setAnalyticsLoading(false); }
+  }
+
+  async function fetchFeedback() {
+    setFeedbackLoading(true);
+    try {
+      const res = await fetch("/api/feedback");
+      if (res.ok) setFeedbackList(await res.json());
+    } catch {} finally { setFeedbackLoading(false); }
+  }
+
+  async function updateFeedbackItem(id: string, updates: any) {
+    try {
+      const res = await fetch(`/api/feedback/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setFeedbackList(prev => prev.map(f => (f.id === id ? updated : f)));
+      }
+    } catch {}
+  }
 
   async function handleBlogConfigUpdate(updates: any) {
     const stored = localStorage.getItem("nursenest-credentials");
@@ -343,7 +398,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content", "blog"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content", "blog", "analytics", "feedback"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -359,6 +414,8 @@ export default function AdminPage() {
                     {tab === "activity" && "Recent Activity"}
                     {tab === "content" && "Content Analytics"}
                     {tab === "blog" && "Blog Automation"}
+                    {tab === "analytics" && "Site Analytics"}
+                    {tab === "feedback" && "Feedback"}
                   </button>
                 ))}
               </div>
@@ -756,6 +813,327 @@ export default function AdminPage() {
                       </div>
                     </CardContent>
                   </Card>
+                </div>
+              )}
+
+              {/* Site Analytics Tab */}
+              {activeTab === "analytics" && (
+                <div className="space-y-6" data-testid="section-site-analytics">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-semibold text-gray-900">Site Analytics</h2>
+                    <div className="flex items-center gap-2">
+                      {[7, 14, 30, 90].map(d => (
+                        <Button
+                          key={d}
+                          size="sm"
+                          variant={analyticsDays === d ? "default" : "outline"}
+                          onClick={() => { setAnalyticsDays(d); setSiteAnalytics(null); setTimeout(fetchSiteAnalytics, 100); }}
+                          data-testid={`button-analytics-days-${d}`}
+                        >
+                          {d}d
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {analyticsLoading ? (
+                    <div className="flex items-center justify-center py-20">
+                      <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                    </div>
+                  ) : siteAnalytics ? (
+                    <>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {[
+                          { label: "Total Page Views", value: siteAnalytics.totalViews.toLocaleString(), icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
+                          { label: "Unique Sessions", value: siteAnalytics.uniqueSessions.toLocaleString(), icon: Users, color: "text-green-600", bg: "bg-green-50" },
+                          { label: "Avg Session Duration", value: `${Math.floor(siteAnalytics.avgDuration / 60)}m ${siteAnalytics.avgDuration % 60}s`, icon: Clock, color: "text-purple-600", bg: "bg-purple-50" },
+                          { label: "Conversion Rate", value: `${siteAnalytics.conversionRate}%`, icon: TrendingUp, color: "text-amber-600", bg: "bg-amber-50" },
+                          { label: "Pricing Views", value: siteAnalytics.pricingViews.toLocaleString(), icon: CreditCard, color: "text-cyan-600", bg: "bg-cyan-50" },
+                          { label: "Checkout Intents", value: siteAnalytics.checkoutIntents.toLocaleString(), icon: MousePointer, color: "text-pink-600", bg: "bg-pink-50" },
+                        ].map((kpi, i) => (
+                          <Card key={i} className="border border-primary/10" data-testid={`card-analytics-kpi-${i}`}>
+                            <CardContent className="p-4">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 ${kpi.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                                  <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
+                                </div>
+                                <div>
+                                  <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
+                                  <div className="text-xs text-gray-500">{kpi.label}</div>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+
+                      {siteAnalytics.dailyViews.length > 0 && (
+                        <Card className="border border-primary/10" data-testid="card-daily-views">
+                          <CardHeader>
+                            <CardTitle className="text-sm font-semibold text-gray-700">Daily Page Views</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex items-end gap-1 h-40">
+                              {siteAnalytics.dailyViews.map((d: any, i: number) => {
+                                const max = Math.max(...siteAnalytics.dailyViews.map((v: any) => v.views), 1);
+                                const height = (d.views / max) * 100;
+                                return (
+                                  <div key={i} className="flex-1 flex flex-col items-center gap-1" title={`${d.date}: ${d.views} views`}>
+                                    <span className="text-xs text-gray-400">{d.views}</span>
+                                    <div
+                                      className="w-full bg-primary/70 rounded-t-sm min-h-[2px]"
+                                      style={{ height: `${height}%` }}
+                                    />
+                                    {i % Math.ceil(siteAnalytics.dailyViews.length / 7) === 0 && (
+                                      <span className="text-xs text-gray-400 mt-1">{d.date.slice(5)}</span>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <Card className="border border-primary/10" data-testid="card-top-pages">
+                          <CardHeader>
+                            <CardTitle className="text-sm font-semibold text-gray-700">Top Pages</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              {siteAnalytics.topPages.map((p: any, i: number) => (
+                                <div key={i} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
+                                  <span className="text-sm text-gray-700 truncate max-w-[200px]">{p.page}</span>
+                                  <span className="text-sm font-semibold text-gray-900">{p.views}</span>
+                                </div>
+                              ))}
+                              {siteAnalytics.topPages.length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card className="border border-primary/10" data-testid="card-referrers">
+                          <CardHeader>
+                            <CardTitle className="text-sm font-semibold text-gray-700">Top Referrers</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              {siteAnalytics.topReferrers.map((r: any, i: number) => (
+                                <div key={i} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
+                                  <div className="flex items-center gap-2">
+                                    <ExternalLink className="w-3 h-3 text-gray-400" />
+                                    <span className="text-sm text-gray-700">{r.referrer}</span>
+                                  </div>
+                                  <span className="text-sm font-semibold text-gray-900">{r.views}</span>
+                                </div>
+                              ))}
+                              {siteAnalytics.topReferrers.length === 0 && <p className="text-sm text-gray-400">No external referrers yet</p>}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      <div className="grid md:grid-cols-3 gap-6">
+                        <Card className="border border-primary/10" data-testid="card-devices">
+                          <CardHeader>
+                            <CardTitle className="text-sm font-semibold text-gray-700">Devices</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-3">
+                              {Object.entries(siteAnalytics.devices || {}).map(([device, count]: [string, any]) => {
+                                const total = Object.values(siteAnalytics.devices as Record<string, number>).reduce((a: number, b: number) => a + b, 0);
+                                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                                const DeviceIcon = device === "mobile" ? Smartphone : device === "tablet" ? Tablet : Monitor;
+                                return (
+                                  <div key={device} className="flex items-center gap-3">
+                                    <DeviceIcon className="w-4 h-4 text-gray-400" />
+                                    <div className="flex-1">
+                                      <div className="flex justify-between text-sm mb-1">
+                                        <span className="capitalize text-gray-700">{device}</span>
+                                        <span className="text-gray-500">{pct}%</span>
+                                      </div>
+                                      <div className="h-2 bg-gray-100 rounded-full">
+                                        <div className="h-2 bg-primary/60 rounded-full" style={{ width: `${pct}%` }} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                              {Object.keys(siteAnalytics.devices || {}).length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card className="border border-primary/10" data-testid="card-browsers">
+                          <CardHeader>
+                            <CardTitle className="text-sm font-semibold text-gray-700">Browsers</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              {Object.entries(siteAnalytics.browsers || {}).sort((a: any, b: any) => b[1] - a[1]).map(([browser, count]: [string, any]) => (
+                                <div key={browser} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0">
+                                  <span className="text-sm text-gray-700">{browser}</span>
+                                  <span className="text-sm font-semibold text-gray-900">{count}</span>
+                                </div>
+                              ))}
+                              {Object.keys(siteAnalytics.browsers || {}).length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card className="border border-primary/10" data-testid="card-os">
+                          <CardHeader>
+                            <CardTitle className="text-sm font-semibold text-gray-700">Operating Systems</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              {Object.entries(siteAnalytics.operatingSystems || {}).sort((a: any, b: any) => b[1] - a[1]).map(([os, count]: [string, any]) => (
+                                <div key={os} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0">
+                                  <span className="text-sm text-gray-700">{os}</span>
+                                  <span className="text-sm font-semibold text-gray-900">{count}</span>
+                                </div>
+                              ))}
+                              {Object.keys(siteAnalytics.operatingSystems || {}).length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {Object.keys(siteAnalytics.utmSources || {}).length > 0 && (
+                        <Card className="border border-primary/10" data-testid="card-utm">
+                          <CardHeader>
+                            <CardTitle className="text-sm font-semibold text-gray-700">UTM Sources</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              {Object.entries(siteAnalytics.utmSources).sort((a: any, b: any) => b[1] - a[1]).map(([source, count]: [string, any]) => (
+                                <div key={source} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0">
+                                  <span className="text-sm text-gray-700">{source}</span>
+                                  <span className="text-sm font-semibold text-gray-900">{count}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </>
+                  ) : (
+                    <p className="text-center text-gray-400 py-10">No analytics data available yet.</p>
+                  )}
+                </div>
+              )}
+
+              {/* Feedback Tab */}
+              {activeTab === "feedback" && (
+                <div className="space-y-6" data-testid="section-feedback">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-semibold text-gray-900">Feedback & Feature Requests</h2>
+                    <Button size="sm" variant="outline" onClick={fetchFeedback} disabled={feedbackLoading} className="gap-2" data-testid="button-refresh-feedback">
+                      <RefreshCw className={`w-4 h-4 ${feedbackLoading ? "animate-spin" : ""}`} />
+                      Refresh
+                    </Button>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[
+                      { label: "Total", value: feedbackList.length, icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
+                      { label: "Feature Requests", value: feedbackList.filter(f => f.type === "feature_request").length, icon: Lightbulb, color: "text-amber-600", bg: "bg-amber-50" },
+                      { label: "Bug Reports", value: feedbackList.filter(f => f.type === "bug_report").length, icon: Bug, color: "text-red-600", bg: "bg-red-50" },
+                      { label: "Open", value: feedbackList.filter(f => f.status === "new" || f.status === "in_progress").length, icon: Activity, color: "text-green-600", bg: "bg-green-50" },
+                    ].map((kpi, i) => (
+                      <Card key={i} className="border border-primary/10">
+                        <CardContent className="p-4">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 ${kpi.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                              <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
+                            </div>
+                            <div>
+                              <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
+                              <div className="text-xs text-gray-500">{kpi.label}</div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+
+                  {feedbackLoading ? (
+                    <div className="flex items-center justify-center py-10">
+                      <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                    </div>
+                  ) : feedbackList.length === 0 ? (
+                    <Card className="border border-primary/10">
+                      <CardContent className="p-8 text-center text-gray-400">
+                        <MessageSquare className="w-10 h-10 mx-auto mb-3 opacity-40" />
+                        <p className="text-sm">No feedback received yet.</p>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="space-y-3">
+                      {feedbackList.map(item => (
+                        <Card key={item.id} className="border border-primary/10" data-testid={`card-admin-feedback-${item.id}`}>
+                          <CardContent className="p-4">
+                            <div className="flex items-start gap-4">
+                              <div className="flex flex-col items-center gap-0.5 min-w-[40px]">
+                                <ThumbsUp className="w-4 h-4 text-gray-400" />
+                                <span className="text-xs font-bold text-gray-600">{item.upvotes || 0}</span>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap mb-1">
+                                  <h3 className="font-semibold text-gray-900 text-sm">{item.title}</h3>
+                                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                                    item.type === "bug_report" ? "bg-red-100 text-red-700" :
+                                    item.type === "feature_request" ? "bg-amber-100 text-amber-700" :
+                                    item.type === "question" ? "bg-blue-100 text-blue-700" :
+                                    "bg-gray-100 text-gray-600"
+                                  }`}>
+                                    {(item.type || "feedback").replace(/_/g, " ")}
+                                  </span>
+                                  {item.category && item.category !== "general" && (
+                                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 capitalize">
+                                      {item.category.replace(/-/g, " ")}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-xs text-gray-500 mb-2">{item.description}</p>
+                                <div className="flex items-center gap-3 text-xs text-gray-400 mb-3">
+                                  <span>{item.username || "Anonymous"}</span>
+                                  {item.email && <span>{item.email}</span>}
+                                  <span>{new Date(item.createdAt).toLocaleDateString()}</span>
+                                </div>
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <select
+                                    value={item.status || "new"}
+                                    onChange={e => updateFeedbackItem(item.id, { status: e.target.value })}
+                                    className="text-xs border rounded-md px-2 py-1 bg-white"
+                                    data-testid={`select-feedback-status-${item.id}`}
+                                  >
+                                    <option value="new">New</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="planned">Planned</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="declined">Declined</option>
+                                  </select>
+                                  <select
+                                    value={item.priority || "medium"}
+                                    onChange={e => updateFeedbackItem(item.id, { priority: e.target.value })}
+                                    className="text-xs border rounded-md px-2 py-1 bg-white"
+                                    data-testid={`select-feedback-priority-${item.id}`}
+                                  >
+                                    <option value="low">Low Priority</option>
+                                    <option value="medium">Medium Priority</option>
+                                    <option value="high">High Priority</option>
+                                    <option value="critical">Critical</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </>

@@ -93,3 +93,10 @@ Preferred communication style: Simple, everyday language.
 ### Reusable Components
 - `client/src/components/content-gate.tsx`: For content visibility and cross-linking.
 - `client/src/components/engagement.tsx`: Interactive learning elements.
+
+### Site Analytics & Feedback System
+- **Page View Tracker**: `client/src/hooks/use-page-tracker.ts` - auto-tracks page views, session ID, duration, device/browser/OS, referrer, UTM params, pricing views, checkout intents. Uses `navigator.sendBeacon` for reliable duration tracking on page unload.
+- **Analytics API**: `GET /api/admin/site-analytics?days=30` returns comprehensive metrics (total views, unique sessions, avg duration, top pages/referrers, device/browser/OS breakdowns, UTM sources, daily views, conversion rate).
+- **Feedback System**: User-facing page at `/feedback` for submitting feedback, feature requests, bug reports, and questions with category tagging and upvoting. Admin manages feedback via Feedback tab in admin dashboard with status/priority controls.
+- **Admin Dashboard Tabs**: "Site Analytics" and "Feedback" tabs added to `/admin` for reviewing site traffic data and managing user feedback.
+- **Database Tables**: `page_views` and `user_feedback` in `shared/schema.ts`.
