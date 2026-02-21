@@ -23,6 +23,7 @@ import { canAccessTier } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem } from "@/lib/seo-utils";
 import { trackMilestone } from "@/components/upgrade-prompt";
+import { getLessonImage } from "@/lib/system-images";
 
 function EditableText({ value, onChange, multiline = false, className = "" }: { value: string; onChange: (v: string) => void; multiline?: boolean; className?: string }) {
   if (multiline) {
@@ -604,6 +605,15 @@ export default function LessonDetail() {
           </div>
         )}
 
+        {(() => {
+          const lessonImg = getLessonImage(id || "");
+          return lessonImg ? (
+            <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-6 shadow-md">
+              <img src={lessonImg} alt={lessonContent.title} className="w-full h-full object-cover" loading="lazy" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/30 to-transparent" />
+            </div>
+          ) : null;
+        })()}
         <div className="space-y-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">

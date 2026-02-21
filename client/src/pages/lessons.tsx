@@ -39,6 +39,7 @@ import {
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
 import { useAuth } from "@/lib/auth";
+import { getSystemImage } from "@/lib/system-images";
 
 const fundamentalsSystems = [
   {
@@ -1894,9 +1895,21 @@ function DifficultyBadge({ level }: { level: DifficultyLevel }) {
 }
 
 function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (id: string) => void, tier: string }) {
+  const systemImg = getSystemImage(system.id);
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
-      <CardHeader className={cn("flex flex-row items-center gap-4 pb-2", system.bgColor)}>
+      {systemImg && (
+        <div className={cn("relative h-36 overflow-hidden", system.bgColor)}>
+          <img
+            src={systemImg}
+            alt={system.title}
+            className="w-full h-full object-cover opacity-80"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent" />
+        </div>
+      )}
+      <CardHeader className={cn("flex flex-row items-center gap-4 pb-2", !systemImg && system.bgColor)}>
         <div className={cn("p-3 rounded-xl bg-white shadow-sm", system.color)}>
           <system.icon className="w-6 h-6" />
         </div>
