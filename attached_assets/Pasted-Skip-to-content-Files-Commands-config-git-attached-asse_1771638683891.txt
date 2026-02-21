@@ -1,0 +1,300 @@
+Skip to content
+Files
+Commands
+
+.config
+.git
+attached_assets
+client
+script
+server
+shared
+.gitignore
+components.json
+drizzle.config.ts
+postcss.config.js
+replit.md
+tsconfig.json
+vite-plugin-meta-images.ts
+vite.config.ts
+Packager files
+.upm
+node_modules
+package-lock.json
+package.json
+Config files
+.replit
+
+
+npm run dev
+3m
+ • 
+4 minutes ago
+
+Production
+Status
+Erika published about 1 hour ago
+Visibility
+Public
+Domain
+https://nursenest.replit.app
+https://www.nursenest.ca
+https://nursenest.ca
+(failed)
+Type
+Autoscale
+(4 vCPU / 8 GiB RAM / 3 Max)
+See all usage
+Database
+Production database connected
+Your production database is ready! Your app can now save and manage live user data securely.
+16b8d557
+ER
+erikagodin6
+Erika
+published about 3 hours ago
+ed316174
+ER
+erikagodin6
+Erika
+published about 3 hours ago
+cf2ef2c2
+ER
+erikagodin6
+Erika
+failed to publish about 4 hours ago
+41026fd7
+ER
+erikagodin6
+Erika
+failed to publish about 5 hours ago
+3b547416
+ER
+erikagodin6
+Erika
+published about 18 hours ago
+3b547416
+ER
+erikagodin6
+Erika
+published about 18 hours ago
+d3d7ae86
+ER
+erikagodin6
+Erika
+published 1 day ago
+Commit
+Update lesson content to include pre-tests, post-tests, and images
+Enhance lesson content structure with QuizQuestion type, add preTest and postTest fields to LessonContent, and introduce an image field. Update tierPricing to include both CAD and USD prices. Implement a generateQuestions utility and a QuizSection component for interactive quizzes.
+ER
+erikagodin6
+erikagodin6
+committed
+16 hours ago
+1 parent 
+Showing 6 changed files.
+
+
+
+Pasted-1-Clinical-Case-Simulation-Platform-Extremely-Strong-Co_1771578215106.txt
+attached_assets
+Added
+Pasted-MASTER-SYSTEM-INSTRUCTION-Use-for-ALL-prompts-Include-t_1771578417577.txt
+attached_assets
+Added
+Pasted-Prompt-1-Master-Lesson-Generator-Deep-Patho-No-Cole-s-N_1771578550302.txt
+attached_assets
+Added
+opengraph.jpg
+client/public
+Modified
+types.ts
+client/src/data/lessons
+Modified
+lesson-detail.tsx
+client/src/pages
+Modified
+Saved progress at the end of the loop
+The blog post now has all em dashes removed, in-text APA7 citations throughout, and a proper References section with 10 scholarly sources at the bottom. Future blog posts will also generate this way. Does the blog post page look right to you?
+on the canadian page please emphasize that this is canadian content with canadian lab values because we are the first people to do this
+I added prominent Canadian content banners on the home page, pricing page, and lab values page. When your region is set to CA, each page now highlights that NurseNest is the first nursing exam prep platform with Canadian lab values, Canadian scope-of-practice language, and REX-PN alignment. Does this look good to you?
+When i go to the lessons page and click on any of the links, and then click on the edit page, it still brings me to a separate page. I want to stay on the same page and be able to edit the text on the page that I am currently on, not be redirected to a separate edit page.
+I've added inline editing to your lesson pages. Admin users now see an "Edit Inline" button that lets them edit all content sections directly on the page (pathophysiology, risk factors, diagnostics, management, nursing actions, lifespan, clinical findings, medications, and exam pearls). Changes are saved to the database and override the static content. Would you like any changes to how the editing works?
+
+Scroll to latest
+
+Make, test, iterate…
+Code Fixer - Replit
+Attached file
+Pasted-Prompts-Act-as-a-senior-product-architect-learning-scie_1771638197686.txt
+Prompts
+
+
+Act as a senior product architect, learning science specialist, and clinical education platform designer.
+
+Project: NurseNest – a professional nursing education platform.
+
+Platform Principles:
+- Mechanism-driven learning
+- Clinical reasoning focused
+- High-authority professional tone
+- Modern, minimal, cognitively clean UI
+- No gamified fluff or childish design
+- Designed for subscription monetization
+
+Technical Requirements:
+- Scalable, modular architecture
+- Separation of logic, UI, and content
+- Extensible systems, not static pages
+
+
+Design and implement a Clinical Case Simulation Platform.
+
+Core Concept:
+Interactive unfolding patient scenarios where users make decisions and observe realistic physiological and clinical consequences.
+
+Functional Requirements:
+- Cases evolve dynamically based on decisions
+- Progressive disclosure of data (vitals, labs, imaging)
+- Include subtle deterioration patterns
+- Include competing priorities and ambiguity
+- Branching logic engine
+
+Educational Requirements:
+- Mechanism-based reasoning
+- Clinical judgment emphasis
+- Post-decision rationale engine
+- Explain WHY outcomes occur physiologically
+
+UX Requirements:
+- Clean, high-trust clinical interface
+- No cartoonish visuals
+- Smooth decision flow
+- Designed for deep engagement
+
+Important:
+Design as a reusable simulation engine with configurable case templates.
+
+
+
+
+
+
+Create a mechanism-focused micro-lesson for nursing students.
+
+Topic: [INSERT TOPIC]
+
+Constraints:
+- Do NOT define the condition first
+- Start with a surprising or non-obvious clinical truth
+- Explain the cellular or physiological mechanism
+- Include cause → effect reasoning chain
+- Include clinical implications nurses observe
+
+Style:
+Dense, high-value, intellectually satisfying, non-textbook tone.
+
+
+
+Generate a short-form script explaining a cognitive trap or reasoning mistake nursing students make on licensing exams.
+
+Requirements:
+- Identify a specific thinking error (not content gap)
+- Explain WHY students fall into it psychologically
+- Provide corrective reasoning logic
+- Tone: analytical, insider knowledge, high-authority
+- Avoid generic test-taking advice
+
+
+
+Act as an SEO strategist specializing in healthcare education.
+
+Write an article targeting this search query:
+
+"[INSERT GOOGLE-STYLE QUESTION]"
+
+Requirements:
+- Directly answer the query early
+- Prioritize mechanistic explanations
+- Avoid generic textbook summaries
+- Include clinically relevant reasoning
+- Include sections addressing common misconceptions
+- Optimize for search intent satisfaction, not keyword stuffing
+- Tone: expert educator, not blog writer
+
+Take this core idea:
+
+"[INSERT TOPIC OR CONCEPT]"
+
+Generate:
+- 3 short-form video hooks
+- 2 video scripts
+- 1 SEO article concept
+- 3 social media post ideas
+- 2 clinical reasoning questions
+
+Constraints:
+Maintain NurseNest voice:
+mechanism-driven, curiosity-inducing, clinically intelligent.
+Generate 15 high-curiosity hooks for nursing students.
+
+Topic: [INSERT TOPIC]
+
+Constraints:
+- Hooks must trigger confusion, surprise, or contradiction
+- Avoid clickbait exaggeration
+- Avoid generic phrasing
+- Sound like revealing hidden clinical insight
+Act as a senior product engineer, growth strategist, and UX architect.
+
+Project Context:
+We are building features for a professional nursing education platform called NurseNest.
+
+Core Philosophy:
+- Mechanism-driven learning
+- Clinical reasoning focused
+- Premium, high-authority tone
+- No gimmicks, no childish UI
+- Modern, minimal, cognitively clean interface
+
+Technical Expectations:
+- Scalable architecture
+- Component-based design
+- Clean UI/logic separation
+- Designed for subscription platform growth
+
+Design and implement a Content Engine system for NurseNest.
+
+Objectives:
+- Allow structured creation of educational content
+- Support articles, micro-lessons, and short-form scripts
+- Store content modularly (title, hook, body, tags, difficulty, topic)
+- Designed for SEO + social media reuse
+
+Functional Requirements:
+- Database/content schema for lessons & media
+- Admin/editor interface for adding content
+- Tagging system (systems, topics, exam relevance)
+- Support for preview vs premium visibility
+- Clean minimal UI
+
+Important:
+Design this as a scalable system, not static pages.
+Separate content logic, rendering, and UI components.
+
+Build an SEO-optimized educational page generator for NurseNest.
+
+Functionality:
+- Programmatically generate pages from content modules
+- Optimized metadata (title tags, descriptions)
+- Proper semantic HTML structure
+- Internal linking support
+- Schema-friendly structure
+
+Content Behavior:
+- Pages should read like expert clinical explanations
+- Avoid generic SEO tone
+- Optimize for search intent satisfaction and dwell time
+
+Output:
+Design reusable templates for physiology concepts, clinical explanations, ...
