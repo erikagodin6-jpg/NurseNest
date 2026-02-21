@@ -1,12 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { CiteThisPage } from "@/components/cite-this-page";
 import {
@@ -23,6 +32,14 @@ import {
   List,
   User,
   Pencil,
+  X,
+  Save,
+  Plus,
+  Trash2,
+  ChevronUp,
+  ChevronDown,
+  GripVertical,
+  Loader2,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
@@ -261,6 +278,312 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
   }
 }
 
+const BLOCK_TYPES = [
+  "heading", "paragraph", "list", "clinical-pearl", "medication",
+  "warning", "quiz-question", "callout", "flashcard",
+];
+
+const TIER_OPTIONS = ["free", "rpn", "rn", "np"];
+
+type EditableBlock = {
+  type: string;
+  editText: string;
+  originalShape: "content" | "text" | "items";
+};
+
+function blockToEditable(block: any): EditableBlock {
+  if (block.items && Array.isArray(block.items)) {
+    return { type: block.type, editText: block.items.join("\n"), originalShape: "items" };
+  }
+  if (block.text !== undefined) {
+    return { type: block.type, editText: block.text, originalShape: "text" };
+  }
+  return { type: block.type, editText: block.content || "", originalShape: "content" };
+}
+
+function editableToBlock(eb: EditableBlock): any {
+  if (eb.type === "list" || eb.originalShape === "items") {
+    return { type: eb.type, items: eb.editText.split("\n").filter((l: string) => l.trim()), content: eb.editText };
+  }
+  if (eb.originalShape === "text") {
+    return { type: eb.type, text: eb.editText, content: eb.editText };
+  }
+  return { type: eb.type, content: eb.editText };
+}
+
+function InlineEditorPanel({
+  contentItem,
+  onClose,
+  onSaved,
+}: {
+  contentItem: ContentItem;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const rawBlocks = (contentItem.content as any[]) || [];
+  const [title, setTitle] = useState(contentItem.title);
+  const [summary, setSummary] = useState(contentItem.summary || "");
+  const [tier, setTier] = useState(contentItem.tier || "free");
+  const [status, setStatus] = useState(contentItem.status || "draft");
+  const [tagsStr, setTagsStr] = useState((contentItem.tags || []).join(", "));
+  const [blocks, setBlocks] = useState<EditableBlock[]>(
+    rawBlocks.map(blockToEditable)
+  );
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const getCredentials = () => {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (stored) return JSON.parse(stored);
+    } catch {}
+    return null;
+  };
+
+  const handleSave = async () => {
+    const creds = getCredentials();
+    if (!creds) {
+      setError("Admin credentials not found. Please log out and log in again.");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    setSuccess(false);
+    try {
+      const outputBlocks = blocks.map(editableToBlock);
+      const res = await fetch(`/api/content/${contentItem.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          title,
+          summary: summary || null,
+          tier,
+          status,
+          tags: tagsStr.split(",").map((t: string) => t.trim()).filter(Boolean),
+          content: outputBlocks,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to save");
+      }
+      setSuccess(true);
+      setTimeout(() => {
+        onSaved();
+      }, 800);
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const updateBlock = (index: number, field: "type" | "editText", value: string) => {
+    const updated = [...blocks];
+    updated[index] = { ...updated[index], [field]: value };
+    if (field === "type" && value === "list") {
+      updated[index].originalShape = "items";
+    }
+    setBlocks(updated);
+  };
+
+  const addBlock = (afterIndex: number) => {
+    const updated = [...blocks];
+    updated.splice(afterIndex + 1, 0, { type: "paragraph", editText: "", originalShape: "content" });
+    setBlocks(updated);
+  };
+
+  const removeBlock = (index: number) => {
+    setBlocks(blocks.filter((_, i) => i !== index));
+  };
+
+  const moveBlock = (index: number, direction: "up" | "down") => {
+    const updated = [...blocks];
+    const target = direction === "up" ? index - 1 : index + 1;
+    if (target < 0 || target >= updated.length) return;
+    [updated[index], updated[target]] = [updated[target], updated[index]];
+    setBlocks(updated);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex" data-testid="inline-editor-panel">
+      <div className="absolute inset-0 bg-black/30" onClick={onClose} />
+      <div className="relative ml-auto w-full max-w-lg bg-white shadow-2xl flex flex-col h-full overflow-hidden animate-in slide-in-from-right duration-300">
+        <div className="flex items-center justify-between p-4 border-b bg-gray-50">
+          <h2 className="text-lg font-bold text-gray-900">Edit Page</h2>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={handleSave}
+              disabled={saving}
+              size="sm"
+              className="gap-2"
+              data-testid="button-inline-save"
+            >
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              Save
+            </Button>
+            <Button variant="ghost" size="sm" onClick={onClose} data-testid="button-inline-close">
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {error && (
+          <div className="mx-4 mt-3 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="mx-4 mt-3 p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 text-sm">
+            Saved successfully. Refreshing...
+          </div>
+        )}
+
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Title</label>
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              data-testid="input-inline-title"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Summary</label>
+            <Textarea
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              rows={2}
+              data-testid="input-inline-summary"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tier</label>
+              <Select value={tier} onValueChange={setTier}>
+                <SelectTrigger data-testid="select-inline-tier">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {TIER_OPTIONS.map((t) => (
+                    <SelectItem key={t} value={t}>{t.toUpperCase()}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Status</label>
+              <Select value={status} onValueChange={setStatus}>
+                <SelectTrigger data-testid="select-inline-status">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                  <SelectItem value="archived">Archived</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tags (comma separated)</label>
+            <Input
+              value={tagsStr}
+              onChange={(e) => setTagsStr(e.target.value)}
+              placeholder="nursing, pathophysiology, clinical"
+              data-testid="input-inline-tags"
+            />
+          </div>
+
+          <div className="pt-2 border-t">
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Content Blocks</label>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1 text-xs"
+                onClick={() => addBlock(blocks.length - 1)}
+                data-testid="button-inline-add-block"
+              >
+                <Plus className="w-3 h-3" /> Add Block
+              </Button>
+            </div>
+
+            <div className="space-y-3">
+              {blocks.map((block, index) => (
+                <div key={index} className="border rounded-lg p-3 bg-gray-50/50 space-y-2" data-testid={`block-editor-${index}`}>
+                  <div className="flex items-center gap-2">
+                    <GripVertical className="w-4 h-4 text-gray-300 shrink-0" />
+                    <Select value={block.type} onValueChange={(v) => updateBlock(index, "type", v)}>
+                      <SelectTrigger className="h-8 text-xs w-36">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {BLOCK_TYPES.map((t) => (
+                          <SelectItem key={t} value={t}>{t}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <div className="flex items-center gap-0.5 ml-auto">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0"
+                        onClick={() => moveBlock(index, "up")}
+                        disabled={index === 0}
+                      >
+                        <ChevronUp className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0"
+                        onClick={() => moveBlock(index, "down")}
+                        disabled={index === blocks.length - 1}
+                      >
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 text-red-400 hover:text-red-600"
+                        onClick={() => removeBlock(index)}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                  <Textarea
+                    value={block.editText}
+                    onChange={(e) => updateBlock(index, "editText", e.target.value)}
+                    rows={block.type === "paragraph" || block.type === "list" ? 4 : 2}
+                    className="text-sm"
+                    placeholder={block.type === "list" ? "One item per line" : `Enter ${block.type} content...`}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 text-xs text-gray-400 gap-1"
+                    onClick={() => addBlock(index)}
+                  >
+                    <Plus className="w-3 h-3" /> Insert below
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return "";
   const d = new Date(dateStr);
@@ -270,6 +593,8 @@ function formatDate(dateStr: string | null | undefined): string {
 export default function ContentPage() {
   const { slug } = useParams<{ slug: string }>();
   const { user, isAdmin } = useAuth();
+  const queryClient = useQueryClient();
+  const [showEditor, setShowEditor] = useState(false);
 
   const { data: contentItem, isLoading, error } = useQuery<ContentItem>({
     queryKey: ["content-slug", slug],
@@ -448,12 +773,16 @@ export default function ContentPage() {
               publishedDate={contentItem!.publishedAt as unknown as string}
             />
             {isAdmin && (
-              <Link href={`/content-editor?edit=${contentItem!.id}`}>
-                <Button variant="outline" size="sm" className="gap-2 rounded-full" data-testid="button-admin-edit">
-                  <Pencil className="w-4 h-4" />
-                  Edit Page
-                </Button>
-              </Link>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-full"
+                onClick={() => setShowEditor(true)}
+                data-testid="button-admin-edit"
+              >
+                <Pencil className="w-4 h-4" />
+                Edit Page
+              </Button>
             )}
           </div>
 
@@ -516,6 +845,17 @@ export default function ContentPage() {
         </div>
       </article>
       <Footer />
+
+      {showEditor && contentItem && (
+        <InlineEditorPanel
+          contentItem={contentItem}
+          onClose={() => setShowEditor(false)}
+          onSaved={() => {
+            setShowEditor(false);
+            queryClient.invalidateQueries({ queryKey: ["content-slug", slug] });
+          }}
+        />
+      )}
     </div>
   );
 }
