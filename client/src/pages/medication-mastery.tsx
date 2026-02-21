@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { EducationalIntegrity } from "@/components/educational-integrity";
+import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,8 @@ import {
   Zap,
   Target,
   Info,
+  Lock,
+  Sparkles,
 } from "lucide-react";
 import { medications, moaCategories, medBodySystems, type Medication } from "@/data/medications";
 
@@ -222,11 +225,15 @@ function MedCard({ med, isExpanded, onToggle }: { med: Medication; isExpanded: b
   );
 }
 
+const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
+
 export default function MedicationMasteryPage() {
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMOA, setSelectedMOA] = useState<string | null>(null);
   const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
   const [expandedMed, setExpandedMed] = useState<string | null>(null);
+  const hasPaidAccess = user && paidTiers.includes(user.tier);
 
   const filteredMeds = useMemo(() => {
     return medications.filter((m) => {
@@ -244,8 +251,50 @@ export default function MedicationMasteryPage() {
     });
   }, [searchQuery, selectedMOA, selectedSystem]);
 
+  if (!hasPaidAccess) {
+    return (
+      <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`}>
+        <SEO
+          title="Medication Mastery - Mechanism-First Drug Explorer | NurseNest"
+          description="Understand medications through their mechanisms of action. Each drug entry explains WHY side effects occur at the receptor level."
+          keywords="medication mechanism of action, pharmacology nursing, drug side effects explained"
+          canonicalPath="/medication-mastery"
+          ogType="website"
+        />
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+          <div className="text-center py-16">
+            <div className="max-w-lg mx-auto">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                <Lock className="w-10 h-10 text-primary/60" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">Medication Mastery</h1>
+              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
+                The mechanism-first drug explorer is available exclusively for RPN, RN, and NP subscribers. Understand medications through their receptor pathways and predict clinical effects from first principles.
+              </p>
+              <Link href="/pricing">
+                <Button className="rounded-full px-8 h-12 gap-2 bg-primary text-white hover:brightness-110 shadow-lg" data-testid="button-upgrade-med-mastery">
+                  <Sparkles className="w-4 h-4" />
+                  View Subscription Plans
+                </Button>
+              </Link>
+              {!user && (
+                <p className="text-xs text-gray-400 mt-4">
+                  Already subscribed? <Link href="/login" className="text-primary hover:underline">Sign in</Link> to access.
+                </p>
+              )}
+            </div>
+          </div>
+        </main>
+        <AdminEditButton />
+        <Footer />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+    <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
         title="Medication Mastery - Mechanism-First Drug Explorer | NurseNest"
         description="Understand medications through their mechanisms of action. Each drug entry explains WHY side effects occur at the receptor level, helping you predict drug effects instead of memorizing lists."

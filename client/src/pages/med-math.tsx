@@ -1234,7 +1234,7 @@ export default function MedMathPage() {
               <Calculator className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900" data-testid="text-page-title">Med Math & Clinical Calculations Lab</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900" data-testid="text-page-title">Med Math & Clinical Calculations Lab</h1>
               <p className="text-gray-500 mt-1">Interactive practice with unlimited randomized problems and step-by-step solutions</p>
             </div>
           </div>

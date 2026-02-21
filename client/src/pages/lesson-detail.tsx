@@ -627,7 +627,7 @@ export default function LessonDetail() {
                     <Beaker className="w-6 h-6" />
                  </div>
                )}
-               <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
+               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
                {user?.tier === "admin" && !isEditing && (
                  <Button
                    variant="outline"

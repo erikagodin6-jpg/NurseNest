@@ -124,14 +124,14 @@ export default function MockExamsPage() {
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
             <GraduationCap className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="text-5xl font-bold" data-testid="text-mock-exam-title">Mock Exam Engine</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold" data-testid="text-mock-exam-title">Mock Exam Engine</h1>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Simulate real nursing exam conditions. Timed, randomized questions with detailed post-exam analysis and performance tracking.
           </p>
         </div>
 
         {completedExams.length > 0 && (
-          <div className="grid grid-cols-3 gap-4 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
             <Card className="border-none shadow-sm">
               <CardContent className="p-6 text-center">
                 <Trophy className="w-6 h-6 text-amber-500 mx-auto mb-2" />

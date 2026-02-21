@@ -28,7 +28,12 @@ import {
   ArrowDown,
   AlertCircle,
   Zap,
+  Lock,
+  Sparkles,
 } from "lucide-react";
+import { Link } from "wouter";
+
+const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 type LabStatus = "critical-high" | "critical-low" | "high" | "low" | "normal";
 
@@ -430,6 +435,7 @@ function statusLabel(status: LabStatus): string {
 
 export default function LabValuesPage() {
   const { user } = useAuth();
+  const hasPaidAccess = user && paidTiers.includes(user.tier);
   const [activeCategory, setActiveCategory] = useState("cardiac");
   const [scenarioIndex, setScenarioIndex] = useState<Record<string, number>>({});
   const [showInterpretation, setShowInterpretation] = useState<Record<string, boolean>>({});
@@ -444,6 +450,46 @@ export default function LabValuesPage() {
     return () => window.removeEventListener("regionChange", handler);
   }, []);
   const usage = useFeatureUsage("lab-values");
+
+  if (!hasPaidAccess) {
+    return (
+      <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`}>
+        <SEO
+          title="Abnormal Lab Value Interpretation - Clinical Pattern Recognition"
+          description="Master abnormal lab value interpretation through clinical pattern recognition."
+          canonicalPath="/lab-values"
+        />
+        <Navigation />
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+          <div className="text-center py-16">
+            <div className="max-w-lg mx-auto">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                <Lock className="w-10 h-10 text-primary/60" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">Lab Value Interpretation Engine</h1>
+              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
+                The abnormal lab interpretation engine with clinical pattern recognition is available exclusively for RPN, RN, and NP subscribers. Master lab clusters across cardiac, renal, hepatic, and metabolic scenarios.
+              </p>
+              <Link href="/pricing">
+                <Button className="rounded-full px-8 h-12 gap-2 bg-primary text-white hover:brightness-110 shadow-lg" data-testid="button-upgrade-lab-values">
+                  <Sparkles className="w-4 h-4" />
+                  View Subscription Plans
+                </Button>
+              </Link>
+              {!user && (
+                <p className="text-xs text-gray-400 mt-4">
+                  Already subscribed? <Link href="/login" className="text-primary hover:underline">Sign in</Link> to access.
+                </p>
+              )}
+            </div>
+          </div>
+        </main>
+        <AdminEditButton />
+        <Footer />
+      </div>
+    );
+  }
 
   const categoryScenarios = useMemo(() => {
     const grouped: Record<string, ClinicalScenario[]> = {};

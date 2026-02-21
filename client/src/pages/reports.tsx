@@ -297,7 +297,7 @@ export default function Reports() {
 
       <main className="max-w-6xl mx-auto px-4 py-12 w-full">
         <div className="mb-10">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2" data-testid="text-page-title">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2" data-testid="text-page-title">
             Performance Analytics
           </h1>
           <p className="text-gray-500" data-testid="text-page-subtitle">

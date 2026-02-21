@@ -256,15 +256,15 @@ export default function MockExamSession() {
         <div className="fixed inset-0 z-40 bg-black/50 flex items-center justify-center" onClick={() => setShowNav(false)}>
           <Card className="border-none shadow-2xl max-w-lg w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <CardContent className="p-6 space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <h3 className="font-bold text-lg">Question Navigator</h3>
-                <div className="flex gap-3 text-xs text-gray-400">
+                <div className="flex flex-wrap gap-3 text-xs text-gray-400">
                   <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-emerald-500" /> Answered</span>
                   <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-amber-500" /> Flagged</span>
                   <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-gray-200" /> Unanswered</span>
                 </div>
               </div>
-              <div className="grid grid-cols-10 gap-2">
+              <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2">
                 {questions.map((q, i) => {
                   const isAnswered = answers[q.id] !== undefined;
                   const isFlagged = flagged.includes(q.id);

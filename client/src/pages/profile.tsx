@@ -133,7 +133,7 @@ export default function ProfilePage() {
       <Navigation />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-bold">My Profile</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold">My Profile</h1>
           <Button variant="outline" onClick={() => { logout(); navigate("/"); }} data-testid="button-logout">
             <LogOut className="w-4 h-4 mr-2" /> Sign Out
           </Button>

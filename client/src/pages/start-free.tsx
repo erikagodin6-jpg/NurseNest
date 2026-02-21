@@ -152,7 +152,7 @@ export default function StartFreePage() {
               <span className="text-sm font-medium text-gray-600">Free Access Available</span>
             </div>
 
-            <h1 className="text-4xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="hero-headline">
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="hero-headline">
               Clinical Nursing Education{" "}
               <span className="bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
                 Built for How You Actually Think
