@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useFeatureUsage } from "@/hooks/use-feature-usage";
+import { useAuth } from "@/lib/auth";
 import { UsageLimitBanner, UsageLimitPaywall } from "@/components/usage-limit-gate";
 import {
   Calculator,
@@ -1208,6 +1209,7 @@ function ProblemCard({ category, onQuestionAnswered }: { category: Category; onQ
 }
 
 export default function MedMathPage() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<Category>("dosage");
   const usage = useFeatureUsage("med-math");
 
@@ -1216,7 +1218,7 @@ export default function MedMathPage() {
   }, [usage.recordUsage]);
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 select-none" onContextMenu={(e) => e.preventDefault()}>
+    <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
         title="Med Math & Clinical Calculations Lab"
         description="Master medication math with interactive practice problems. Dosage calculations, IV flow rates, weight-based dosing, infusion rates, and pediatric dosing scenarios with step-by-step solutions."

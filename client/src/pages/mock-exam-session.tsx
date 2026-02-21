@@ -193,7 +193,7 @@ export default function MockExamSession() {
   const progressPercent = (answeredCount / questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900 select-none" onContextMenu={(e) => e.preventDefault()}>
+    <div className={`min-h-screen bg-gray-50 font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">

@@ -66,17 +66,21 @@ export default function BlogPage() {
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ["/api/content", "blog"],
     queryFn: async () => {
-      const res = await fetch("/api/content?type=article");
-      if (!res.ok) throw new Error("Failed to load articles");
-      const data = await res.json();
-      const blogPosts = await fetch("/api/content?type=blog-post");
-      if (blogPosts.ok) {
-        const blogData = await blogPosts.json();
-        return [...data, ...blogData].sort((a: any, b: any) =>
-          new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime()
-        );
+      const types = ["article", "blog-post", "blog"];
+      const results: any[] = [];
+      for (const t of types) {
+        try {
+          const res = await fetch(`/api/content?type=${t}`);
+          if (res.ok) {
+            const data = await res.json();
+            results.push(...data);
+          }
+        } catch {}
       }
-      return data;
+      const uniqueById = Array.from(new Map(results.map((r: any) => [r.id, r])).values());
+      return uniqueById.sort((a: any, b: any) =>
+        new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime()
+      );
     },
   });
 

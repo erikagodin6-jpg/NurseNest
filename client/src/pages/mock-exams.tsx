@@ -6,7 +6,8 @@ import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
-import { getExamQuestions, getPoolStats } from "@/lib/question-pool";
+import { getExamQuestions, getPoolStats, getAvailableBodySystems } from "@/lib/question-pool";
+import { Badge } from "@/components/ui/badge";
 import {
   GraduationCap, Clock, FileText, BarChart3, ChevronRight,
   Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert
@@ -53,10 +54,22 @@ export default function MockExamsPage() {
   const allowedTiers = getAllowedTiers(effectiveTier, isAdmin);
   const [selectedTier, setSelectedTier] = useState(allowedTiers[0] || "rpn");
   const [selectedLength, setSelectedLength] = useState(75);
+  const [selectedSystems, setSelectedSystems] = useState<string[]>([]);
   const [starting, setStarting] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
 
+  const availableSystems = getAvailableBodySystems(selectedTier);
   const stats = getPoolStats(selectedTier);
+
+  const filteredStats = selectedSystems.length > 0
+    ? { total: selectedSystems.reduce((sum, sys) => sum + (stats.systems[sys] || 0), 0), systems: Object.fromEntries(Object.entries(stats.systems).filter(([sys]) => selectedSystems.includes(sys))) }
+    : stats;
+
+  const toggleSystem = (sys: string) => {
+    setSelectedSystems((prev) =>
+      prev.includes(sys) ? prev.filter((s) => s !== sys) : [...prev, sys]
+    );
+  };
 
   useEffect(() => {
     if (user) {
@@ -74,7 +87,7 @@ export default function MockExamsPage() {
     }
     setStarting(true);
     try {
-      const questions = getExamQuestions(selectedTier, selectedLength);
+      const questions = getExamQuestions(selectedTier, selectedLength, selectedSystems.length > 0 ? selectedSystems : undefined);
       const res = await fetch("/api/mock-exams/start", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
@@ -203,17 +216,50 @@ export default function MockExamsPage() {
             </div>
 
             <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Focus Areas (Optional)</p>
+                {selectedSystems.length > 0 && (
+                  <button onClick={() => setSelectedSystems([])} className="text-xs text-primary hover:underline" data-testid="button-clear-systems">Clear All</button>
+                )}
+              </div>
+              <p className="text-xs text-gray-400">Select specific body systems to focus on, or leave all unselected for a comprehensive exam.</p>
+              <div className="flex flex-wrap gap-2">
+                {availableSystems.map((sys) => {
+                  const isSelected = selectedSystems.includes(sys);
+                  const count = stats.systems[sys] || 0;
+                  return (
+                    <button
+                      key={sys}
+                      onClick={() => toggleSystem(sys)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                        isSelected
+                          ? "bg-primary text-white border-primary shadow-sm"
+                          : "bg-white text-gray-600 border-gray-200 hover:border-primary/40"
+                      }`}
+                      data-testid={`button-system-${sys.replace(/\s+/g, "-").toLowerCase()}`}
+                    >
+                      {sys} <span className="opacity-70">({count})</span>
+                    </button>
+                  );
+                })}
+              </div>
+              {selectedSystems.length > 0 && (
+                <p className="text-xs text-primary font-medium">{filteredStats.total} questions available from {selectedSystems.length} selected system{selectedSystems.length > 1 ? "s" : ""}</p>
+              )}
+            </div>
+
+            <div className="space-y-3">
               <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Exam Length</p>
               <div className="grid grid-cols-2 gap-2">
                 {examLengths.map((el) => (
                   <button
                     key={el.count}
                     onClick={() => setSelectedLength(el.count)}
-                    disabled={stats.total < el.count}
+                    disabled={filteredStats.total < el.count}
                     className={`p-4 rounded-xl border-2 text-left transition-all ${
                       selectedLength === el.count
                         ? "border-primary bg-primary/5 shadow-md"
-                        : stats.total < el.count
+                        : filteredStats.total < el.count
                         ? "border-gray-100 opacity-50 cursor-not-allowed"
                         : "border-gray-200 hover:border-gray-300"
                     }`}

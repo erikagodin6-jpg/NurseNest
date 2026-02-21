@@ -37,6 +37,7 @@ import PreNursingPage from "@/pages/pre-nursing";
 import MockExamsPage from "@/pages/mock-exams";
 import MockExamSession from "@/pages/mock-exam-session";
 import MockExamReport from "@/pages/mock-exam-report";
+import ContactPage from "@/pages/contact";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 
 function Router() {
@@ -75,6 +76,7 @@ function Router() {
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/disclaimer" component={DisclaimerPage} />
       <Route path="/refund-policy" component={RefundPolicyPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route component={NotFound} />
     </Switch>
   );

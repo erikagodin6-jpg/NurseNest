@@ -306,7 +306,10 @@ export default function LessonDetail() {
   }, []);
 
   const baseLesson = useMemo(() => {
-    return contentMap[id as string] || contentMap["neuro-basics"];
+    if (id && contentMap[id]) return contentMap[id];
+    const keys = Object.keys(contentMap);
+    if (keys.length > 0) return contentMap[keys[0]];
+    return null;
   }, [id]);
 
   const [overrides, setOverrides] = useState<Partial<LessonContent> | null>(null);
@@ -325,9 +328,29 @@ export default function LessonDetail() {
   }, [id]);
 
   const lessonContent = useMemo(() => {
+    if (!baseLesson) return null;
     if (!overrides) return baseLesson;
     return { ...baseLesson, ...overrides } as LessonContent;
   }, [baseLesson, overrides]);
+
+  if (!baseLesson || !lessonContent) {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+        <Navigation />
+        <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+          <Link href="/lessons">
+            <Button variant="ghost" className="mb-4 group">
+              <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Back to Lessons
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold text-gray-900">Lesson Not Found</h1>
+          <p className="text-gray-600">The lesson you are looking for does not exist or has been moved.</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const startEditing = () => {
     const data = JSON.parse(JSON.stringify(lessonContent));
@@ -503,7 +526,7 @@ export default function LessonDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 select-none" onContextMenu={(e) => e.preventDefault()}>
+    <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
         title={`${lessonContent?.title || "Lesson"} - Clinical Nursing Lesson | NurseNest`}
         description={generateLessonSeoDescription(id || "", lessonContent)}

@@ -19,9 +19,43 @@ import {
   ChevronUp,
   BookOpen,
   Sparkles,
+  Microscope,
+  RefreshCw,
 } from "lucide-react";
 
 const bodySystems = [
+  {
+    id: "cell-structure",
+    name: "Cell Structure & Function",
+    icon: Microscope,
+    color: "text-emerald-500",
+    borderColor: "border-emerald-200",
+    bgAccent: "bg-emerald-50",
+    description: "The fundamental unit of life: organelles, membranes, and cellular processes",
+    content: [
+      "The cell is the basic structural and functional unit of all living organisms. Human cells are eukaryotic, meaning they contain a true nucleus enclosed by a nuclear membrane (nuclear envelope). The cell is bounded by the plasma membrane (cell membrane), a phospholipid bilayer with embedded proteins that regulates the passage of substances in and out of the cell. The hydrophilic (water-loving) phosphate heads face outward toward the aqueous environment, while the hydrophobic (water-fearing) lipid tails face inward. Integral proteins span the entire membrane and may serve as channels, carriers, receptors, or enzymes. Peripheral proteins attach to the membrane surface and assist with signaling and structural support. Cholesterol molecules embedded in the bilayer help maintain membrane fluidity across temperature changes.",
+      "The nucleus is the control center of the cell, containing the cell's genetic material (DNA) organized into 46 chromosomes (23 pairs). The nuclear envelope has nuclear pores that regulate the transport of mRNA and ribosomal subunits between the nucleus and cytoplasm. The nucleolus, found within the nucleus, is the site of ribosomal RNA (rRNA) synthesis. DNA replication occurs during the S (synthesis) phase of the cell cycle, producing identical copies of chromosomes before cell division. Transcription (DNA to mRNA) occurs in the nucleus, while translation (mRNA to protein) occurs at ribosomes in the cytoplasm.",
+      "Key organelles include: the mitochondria (the 'powerhouse of the cell'), which generate adenosine triphosphate (ATP) through aerobic cellular respiration via the Krebs cycle and oxidative phosphorylation; the rough endoplasmic reticulum (RER), studded with ribosomes, which synthesizes and modifies proteins; the smooth endoplasmic reticulum (SER), which synthesizes lipids, steroids, and detoxifies drugs; the Golgi apparatus, which modifies, packages, and sorts proteins and lipids for transport or secretion; lysosomes, which contain digestive enzymes (hydrolases) that break down cellular waste, bacteria, and damaged organelles (autophagy); and peroxisomes, which detoxify harmful substances including hydrogen peroxide and fatty acids.",
+      "The cytoskeleton provides structural support and facilitates cell movement. It consists of three types of filaments: microfilaments (actin filaments, involved in cell shape and muscle contraction), intermediate filaments (provide tensile strength and resist mechanical stress), and microtubules (composed of tubulin, form the mitotic spindle during cell division and provide tracks for intracellular transport). Centrioles, composed of microtubule triplets, play a critical role in organizing the mitotic spindle during cell division. The cell cycle consists of interphase (G1, S, G2 phases for growth and DNA replication) and the mitotic phase (M phase), which includes mitosis (nuclear division into two identical daughter cells) and cytokinesis (cytoplasmic division). Meiosis, occurring only in reproductive cells, produces four genetically unique haploid gametes through two rounds of division.",
+      "Cells transport substances through passive and active mechanisms. Passive transport requires no energy: diffusion (movement from high to low concentration), osmosis (water movement across a semipermeable membrane toward higher solute concentration), and facilitated diffusion (using channel or carrier proteins). Active transport uses ATP to move substances against their concentration gradient via pumps such as the sodium-potassium ATPase pump (Na+/K+ pump), which moves 3 Na+ out and 2 K+ into the cell, maintaining the resting membrane potential essential for nerve impulse conduction. Endocytosis (phagocytosis, pinocytosis, receptor-mediated) brings large molecules into the cell, while exocytosis releases substances (e.g., neurotransmitters, hormones) from the cell.",
+    ],
+  },
+  {
+    id: "feedback-loops",
+    name: "Homeostasis & Feedback Loops",
+    icon: RefreshCw,
+    color: "text-indigo-500",
+    borderColor: "border-indigo-200",
+    bgAccent: "bg-indigo-50",
+    description: "Negative and positive feedback mechanisms that maintain internal balance",
+    content: [
+      "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. This dynamic equilibrium is essential for cellular function and survival. Homeostatic regulation requires three components: a receptor (sensor) that detects changes in the internal or external environment, a control center (integrator, usually the brain or endocrine gland) that processes the information and determines the appropriate response, and an effector (muscle or gland) that carries out the response to restore balance. Most homeostatic mechanisms operate through feedback loops, predominantly negative feedback, which is the primary mechanism for maintaining physiological stability.",
+      "Negative feedback loops work to reverse or oppose a change, bringing a variable back toward its set point. This is the most common type of feedback in the human body. Thermoregulation is a classic example: when core body temperature rises above the set point (~37 degrees Celsius/98.6 degrees Fahrenheit), thermoreceptors in the skin and hypothalamus detect the change. The hypothalamus (control center) activates cooling mechanisms: vasodilation of cutaneous blood vessels increases heat loss through radiation, and sweat glands (effectors) produce sweat, which evaporates and cools the skin. When temperature drops below the set point, the hypothalamus triggers vasoconstriction, shivering (involuntary muscle contractions that generate heat), and piloerection (goosebumps). This negative feedback ensures temperature oscillates narrowly around the set point.",
+      "Blood glucose regulation is another critical negative feedback loop. After eating, blood glucose levels rise. The beta cells of the pancreatic islets of Langerhans detect this increase and secrete insulin, which promotes glucose uptake by cells (especially skeletal muscle and adipose tissue), stimulates glycogenesis (glucose to glycogen storage in the liver), and inhibits gluconeogenesis (glucose production). These actions lower blood glucose back toward the set point (70-100 mg/dL fasting). Conversely, when blood glucose drops (e.g., between meals or during exercise), alpha cells of the pancreas secrete glucagon, which promotes glycogenolysis (glycogen breakdown) and gluconeogenesis in the liver, raising blood glucose. This glucose-insulin-glucagon interplay prevents both hyperglycemia and hypoglycemia.",
+      "Blood pressure regulation involves the baroreceptor reflex, a negative feedback mechanism. Baroreceptors in the carotid sinus and aortic arch detect changes in arterial pressure. When blood pressure rises, these receptors send increased signals to the cardiovascular center in the medulla oblongata, which decreases sympathetic nervous system activity and increases parasympathetic (vagal) activity. This results in decreased heart rate, decreased force of contraction, and vasodilation, lowering blood pressure. When blood pressure drops, the opposite occurs: increased sympathetic output causes vasoconstriction, increased heart rate, and increased contractility. The renin-angiotensin-aldosterone system (RAAS) provides longer-term blood pressure regulation through sodium and water retention.",
+      "Positive feedback loops amplify a change rather than reversing it, driving the system further from its starting point. These are less common and are typically self-limiting, ending when the stimulus is removed. Childbirth (parturition) is the most cited example: as the fetus descends into the birth canal, pressure on the cervix triggers stretch receptors that signal the hypothalamus. The hypothalamus stimulates the posterior pituitary to release oxytocin, which stimulates stronger uterine contractions, pushing the fetus further down, increasing cervical stretch, and triggering even more oxytocin release. This escalating cycle continues until the baby is delivered, removing the stimulus. Blood clotting (hemostatic cascade) is another positive feedback example: when a vessel is damaged, platelets adhere to the exposed collagen and release chemicals that attract more platelets, amplifying the platelet plug formation. Clotting factors activate each other in a cascade, rapidly generating a fibrin mesh to seal the wound. Lactation also involves positive feedback: infant suckling stimulates prolactin and oxytocin release, which promotes more milk production and the let-down reflex, maintaining the cycle as long as breastfeeding continues.",
+    ],
+  },
   {
     id: "cardiovascular",
     name: "Cardiovascular System",
@@ -199,7 +233,7 @@ export default function AnatomyPage() {
             </p>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
               <BookOpen className="w-4 h-4" />
-              <span>10 body systems · Real educational content · Exam-ready review</span>
+              <span>12 topics · Cell biology to organ systems · Exam-ready review</span>
             </div>
           </div>
         </div>

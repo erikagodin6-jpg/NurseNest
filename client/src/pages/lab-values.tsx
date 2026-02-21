@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { useFeatureUsage } from "@/hooks/use-feature-usage";
+import { useAuth } from "@/lib/auth";
 import { UsageLimitBanner, UsageLimitPaywall } from "@/components/usage-limit-gate";
 import {
   Activity,
@@ -428,6 +429,7 @@ function statusLabel(status: LabStatus): string {
 }
 
 export default function LabValuesPage() {
+  const { user } = useAuth();
   const [activeCategory, setActiveCategory] = useState("cardiac");
   const [scenarioIndex, setScenarioIndex] = useState<Record<string, number>>({});
   const [showInterpretation, setShowInterpretation] = useState<Record<string, boolean>>({});
@@ -497,7 +499,7 @@ export default function LabValuesPage() {
   const CatIcon = catConfig.icon;
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 select-none" onContextMenu={(e) => e.preventDefault()}>
+    <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
         title="Abnormal Lab Value Interpretation - Clinical Pattern Recognition"
         description="Master abnormal lab value interpretation through clinical pattern recognition. Learn why lab values shift together in clusters: cardiac, renal, hepatic, hematologic, endocrine, and metabolic scenarios for nursing students preparing for NCLEX and clinical practice."

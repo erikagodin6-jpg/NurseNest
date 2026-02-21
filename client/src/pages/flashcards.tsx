@@ -1401,7 +1401,7 @@ export default function Flashcards() {
   }
 
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans select-none print:hidden">
+    <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""} print:hidden`}>
       <SEO
         title="Nursing Flashcards - Interactive Quiz & Study Cards"
         description="Master nursing pathophysiology with interactive flashcards covering cardiovascular, respiratory, neurological, pharmacology, and more. Practice NCLEX-style questions with instant feedback and progress tracking."

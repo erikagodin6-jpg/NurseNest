@@ -18,6 +18,7 @@ export function Footer() {
             <Link href="/disclaimer" className="hover:text-primary transition-colors">Disclaimer</Link>
             <Link href="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
             <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
+            <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
             <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
           </div>
           <div className="text-sm text-gray-500">

@@ -57,15 +57,19 @@ export function buildQuestionPool(): PooledQuestion[] {
   return pool;
 }
 
-export function getExamQuestions(tier: string, count: number): PooledQuestion[] {
+export function getExamQuestions(tier: string, count: number, bodySystems?: string[]): PooledQuestion[] {
   const pool = buildQuestionPool();
 
-  const tierQuestions = tier === "all"
+  let filtered = tier === "all"
     ? pool
     : pool.filter((q) => q.tier === tier);
 
+  if (bodySystems && bodySystems.length > 0) {
+    filtered = filtered.filter((q) => bodySystems.includes(q.bodySystem));
+  }
+
   const systemGroups: Record<string, PooledQuestion[]> = {};
-  for (const q of tierQuestions) {
+  for (const q of filtered) {
     if (!systemGroups[q.bodySystem]) systemGroups[q.bodySystem] = [];
     systemGroups[q.bodySystem].push(q);
   }

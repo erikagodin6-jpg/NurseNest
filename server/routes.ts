@@ -534,6 +534,10 @@ export async function registerRoutes(
       { loc: "/clinical-clarity", priority: "0.7", changefreq: "weekly" },
       { loc: "/case-simulations", priority: "0.7", changefreq: "weekly" },
       { loc: "/medication-mastery", priority: "0.7", changefreq: "weekly" },
+      { loc: "/mock-exams", priority: "0.8", changefreq: "weekly" },
+      { loc: "/contact", priority: "0.5", changefreq: "monthly" },
+      { loc: "/refund-policy", priority: "0.3", changefreq: "yearly" },
+      { loc: "/pre-nursing", priority: "0.7", changefreq: "monthly" },
     ];
 
     const lessonIds = [
