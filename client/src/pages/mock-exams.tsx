@@ -9,7 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { getExamQuestions, getPoolStats } from "@/lib/question-pool";
 import {
   GraduationCap, Clock, FileText, BarChart3, ChevronRight,
-  Brain, Target, Trophy, ArrowRight, History
+  Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert
 } from "lucide-react";
 
 function getAuthHeaders(): Record<string, string> {
@@ -36,10 +36,22 @@ const tierOptions = [
   { value: "np", label: "NP Advanced", desc: "Nurse Practitioner" },
 ];
 
+function getAllowedTiers(userTier: string | undefined, isAdmin: boolean): string[] {
+  if (isAdmin) return ["rpn", "rn", "np"];
+  if (!userTier || userTier === "free") return [];
+  const tierMap: Record<string, string[]> = {
+    rpn: ["rpn"],
+    rn: ["rn"],
+    np: ["np"],
+  };
+  return tierMap[userTier] || [];
+}
+
 export default function MockExamsPage() {
-  const { user } = useAuth();
+  const { user, effectiveTier, isAdmin } = useAuth();
   const [, navigate] = useLocation();
-  const [selectedTier, setSelectedTier] = useState("rpn");
+  const allowedTiers = getAllowedTiers(effectiveTier, isAdmin);
+  const [selectedTier, setSelectedTier] = useState(allowedTiers[0] || "rpn");
   const [selectedLength, setSelectedLength] = useState(75);
   const [starting, setStarting] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
@@ -138,25 +150,56 @@ export default function MockExamsPage() {
             </h2>
 
             <div className="space-y-3">
-              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Select Focus Area</p>
+              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Your Exam Focus</p>
               <div className="grid gap-2">
-                {tierOptions.map((t) => (
-                  <button
-                    key={t.value}
-                    onClick={() => setSelectedTier(t.value)}
-                    className={`p-4 rounded-xl border-2 text-left transition-all ${
-                      selectedTier === t.value
-                        ? "border-primary bg-primary/5 shadow-md"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                    data-testid={`button-tier-${t.value}`}
-                  >
-                    <span className="font-bold text-gray-900">{t.label}</span>
-                    <span className="text-sm text-gray-500 ml-2">{t.desc}</span>
-                    <span className="text-xs text-gray-400 block mt-1">{stats.total} questions available</span>
-                  </button>
-                ))}
+                {tierOptions.map((t) => {
+                  const isAllowed = allowedTiers.includes(t.value);
+                  const tierStats = getPoolStats(t.value);
+                  return (
+                    <button
+                      key={t.value}
+                      onClick={() => isAllowed && setSelectedTier(t.value)}
+                      disabled={!isAllowed}
+                      className={`p-4 rounded-xl border-2 text-left transition-all relative ${
+                        !isAllowed
+                          ? "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
+                          : selectedTier === t.value
+                          ? "border-primary bg-primary/5 shadow-md"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                      data-testid={`button-tier-${t.value}`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="font-bold text-gray-900">{t.label}</span>
+                          <span className="text-sm text-gray-500 ml-2">{t.desc}</span>
+                          <span className="text-xs text-gray-400 block mt-1">{tierStats.total} questions available</span>
+                        </div>
+                        {!isAllowed && <Lock className="w-4 h-4 text-gray-400" />}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
+              {!user && (
+                <p className="text-sm text-gray-500 text-center py-2">
+                  <Link href="/login" className="text-primary font-medium hover:underline">Sign in</Link> with an active subscription to access mock exams.
+                </p>
+              )}
+              {user && allowedTiers.length === 0 && (
+                <Card className="border-none shadow-sm bg-amber-50 border-l-4 border-l-amber-400">
+                  <CardContent className="p-4 flex items-start gap-3">
+                    <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">Subscription Required</p>
+                      <p className="text-xs text-gray-600 mt-1">Mock exams are available exclusively for paid subscribers. Each tier provides exam content matched to your program.</p>
+                      <Link href="/pricing">
+                        <Button size="sm" className="mt-2 rounded-full" data-testid="button-upgrade-exams">View Plans</Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             <div className="space-y-3">
@@ -188,18 +231,12 @@ export default function MockExamsPage() {
               size="lg"
               className="w-full h-14 text-lg rounded-full gap-2"
               onClick={startExam}
-              disabled={starting || !user}
+              disabled={starting || !user || allowedTiers.length === 0 || !allowedTiers.includes(selectedTier)}
               data-testid="button-start-exam"
             >
-              {starting ? "Preparing Exam..." : user ? "Start Mock Exam" : "Sign In to Start"}
+              {starting ? "Preparing Exam..." : !user ? "Sign In to Start" : allowedTiers.length === 0 ? "Subscription Required" : "Start Mock Exam"}
               <ArrowRight className="w-5 h-5" />
             </Button>
-
-            {!user && (
-              <p className="text-center text-sm text-gray-400">
-                <Link href="/login" className="text-primary hover:underline">Sign in</Link> to save your exam results and track progress.
-              </p>
-            )}
           </div>
 
           <div className="space-y-6">

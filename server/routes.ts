@@ -878,6 +878,9 @@ export async function registerRoutes(
       if (!tier || !totalQuestions || !questions || !Array.isArray(questions)) {
         return res.status(400).json({ error: "Missing required fields" });
       }
+      if (authUser.tier !== "admin" && authUser.tier !== tier) {
+        return res.status(403).json({ error: "You can only access exams matching your subscription tier" });
+      }
       const result = await pool.query(
         `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status) VALUES ($1, $2, $3, $4, 'in_progress') RETURNING id`,
         [String(authUser.id), tier, totalQuestions, JSON.stringify(questions)]

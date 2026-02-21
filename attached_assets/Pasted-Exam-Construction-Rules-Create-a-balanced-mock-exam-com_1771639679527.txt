@@ -1,0 +1,75 @@
+Exam Construction Rules
+Create a balanced mock exam composed of realistic NCLEX item types, including:
+• Multiple-choice (single best answer)
+• Multiple-response (select all that apply / SATA)
+• Ordered response (sequencing / prioritization)
+• Fill-in-the-blank (numeric calculation items)
+• NGN-style items (very important), such as:
+– Extended multiple-response
+– Matrix/grid items
+– Cloze/dropdown items
+– Highlighting items
+– Bow-tie questions
+– Case study clusters
+Distribute formats similarly to modern NCLEX exams.
+Clinical Judgment Framework (Critical Constraint)
+All questions must align with clinical judgment logic, including elements such as:
+✔ Recognizing cues
+✔ Analyzing cues
+✔ Prioritizing hypotheses
+✔ Generating solutions
+✔ Taking action
+✔ Evaluating outcomes
+Questions must test decision-making, not memorization.
+Question Design Requirements
+Each question must:
+• Be scenario-based and patient-centered
+• Reflect realistic nursing practice situations
+• Require interpretation or prioritization
+• Emphasize safety and risk recognition
+• Avoid simple definition or recall-only stems
+Use common licensure-style phrasing, such as:
+• “Which client requires immediate assessment?”
+• “What is the nurse’s priority action?”
+• “Which findings are concerning?”
+• “Which intervention is most appropriate?”
+Distractor Engineering Rules (Extremely Important)
+Incorrect answer choices must be plausible and clinically realistic, representing common nursing errors:
+• Incorrect prioritization
+• Unsafe interventions
+• Delayed response to deterioration
+• Misinterpretation of assessment data
+• Partially correct but lower priority actions
+Avoid obviously incorrect or absurd options.
+Answer & Rationale Requirements
+For EVERY question provide:
+• Correct answer(s) clearly identified
+• Detailed rationale explaining clinical reasoning
+• Explanation of why incorrect options are wrong
+• Focus on decision-making and safety logic
+Rationales must teach NCLEX-style thinking patterns.
+Case Study Cluster Rules
+Include NGN-style case sets where multiple questions are based on evolving patient scenarios. Require analysis of trends, clinical changes, and priority decisions.
+Tone & Fidelity Constraints
+Questions must feel like real licensure exam items:
+• Safety-focused
+• Priority-driven
+• Clinically authentic
+• Clear and unambiguous
+• No trick wording or riddles
+• No academic or textbook-style trivia
+Localization Context
+Use clinically neutral terminology appropriate for Canadian RN practice while maintaining NCLEX logic. Use metric units where relevant.
+Output Quantity
+Generate a mock exam containing [INSERT NUMBER] questions.
+✅ Why This Prompt Produces High-Quality Mock Exams
+This structure prevents AI from generating:
+❌ Nursing school quiz questions
+❌ Recall-based trivia
+❌ Unrealistic distractors
+❌ Weak rationales
+And pushes toward:
+✔ Clinical judgment modeling
+✔ NCLEX cognition fidelity
+✔ Realistic exam difficulty
+✔ Monetizable question-bank quality
