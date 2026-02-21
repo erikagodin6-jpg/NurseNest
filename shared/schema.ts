@@ -180,3 +180,56 @@ export const lessonOverrides = pgTable("lesson_overrides", {
 });
 
 export type LessonOverride = typeof lessonOverrides.$inferSelect;
+
+export const pageViews = pgTable("page_views", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id").notNull(),
+  userId: varchar("user_id"),
+  page: text("page").notNull(),
+  referrer: text("referrer"),
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
+  deviceType: text("device_type"),
+  browser: text("browser"),
+  os: text("os"),
+  country: text("country"),
+  duration: integer("duration").default(0),
+  isCheckoutIntent: boolean("is_checkout_intent").default(false),
+  isPricingView: boolean("is_pricing_view").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPageViewSchema = createInsertSchema(pageViews).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type PageView = typeof pageViews.$inferSelect;
+export type InsertPageView = z.infer<typeof insertPageViewSchema>;
+
+export const userFeedback = pgTable("user_feedback", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  username: text("username"),
+  email: text("email"),
+  type: text("type").notNull().default("feedback"),
+  category: text("category").default("general"),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  status: text("status").default("new"),
+  priority: text("priority").default("medium"),
+  adminNotes: text("admin_notes"),
+  upvotes: integer("upvotes").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertUserFeedbackSchema = createInsertSchema(userFeedback).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type UserFeedback = typeof userFeedback.$inferSelect;
+export type InsertUserFeedback = z.infer<typeof insertUserFeedbackSchema>;
