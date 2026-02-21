@@ -60,8 +60,8 @@ function EditableList({ items, onChange, placeholder = "Enter item..." }: { item
 }
 
 function getLessonTier(lessonId: string): string {
-  if (lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
-  if (lessonId.includes("-rn") || lessonId.includes("nclex-")) return "rn";
+  if (lessonId.startsWith("np-") || lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
+  if (lessonId.startsWith("rn-") || lessonId.includes("-rn") || lessonId.includes("nclex-")) return "rn";
   return "rpn";
 }
 
@@ -82,6 +82,210 @@ function getTestQuestions(lesson: LessonContent, testType: "pretest" | "posttest
   return source;
 }
 
+type AnswerRecord = { questionIndex: number; selected: number; correct: number; isCorrect: boolean };
+
+function ScoreRing({ percentage, size = 120 }: { percentage: number; size?: number }) {
+  const radius = (size - 12) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percentage / 100) * circumference;
+  const color = percentage >= 75 ? "#10b981" : percentage >= 50 ? "#f59e0b" : "#ef4444";
+  return (
+    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={radius} stroke="#e5e7eb" strokeWidth="8" fill="none" />
+        <circle cx={size / 2} cy={size / 2} r={radius} stroke={color} strokeWidth="8" fill="none" strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round" className="transition-all duration-1000" />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-2xl font-bold" style={{ color }}>{percentage}%</span>
+        <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Score</span>
+      </div>
+    </div>
+  );
+}
+
+function QuizReport({
+  questions,
+  answers,
+  score,
+  testType,
+  lessonId,
+  preTestScore,
+  onRetake,
+}: {
+  questions: QuizQuestion[];
+  answers: AnswerRecord[];
+  score: number;
+  testType: "pretest" | "posttest";
+  lessonId: string;
+  preTestScore: { percentage: number; score: number; total: number } | null;
+  onRetake: () => void;
+}) {
+  const [showReview, setShowReview] = useState(false);
+  const derivedScore = answers.filter((a) => a.isCorrect).length;
+  const percentage = Math.round((derivedScore / questions.length) * 100);
+  const passed = percentage >= 75;
+  const missed = answers.filter((a) => !a.isCorrect);
+
+  return (
+    <div className="space-y-8" data-testid={`section-${testType}-report`}>
+      <div className="text-center space-y-4">
+        <ScoreRing percentage={percentage} size={140} />
+        <h2 className="text-2xl sm:text-3xl font-bold" data-testid={`text-${testType}-result`}>
+          {testType === "pretest" ? "Pre-Test Complete" : "Post-Test Complete"}
+        </h2>
+        <p className="text-lg text-gray-600" data-testid={`text-${testType}-score`}>
+          {derivedScore} of {questions.length} correct
+        </p>
+        {passed ? (
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-sm font-bold border border-emerald-200">
+            <CheckCircle2 className="w-4 h-4" /> Passed (75% threshold)
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-amber-50 text-amber-700 text-sm font-bold border border-amber-200">
+            <AlertCircle className="w-4 h-4" /> Below 75% - Review recommended
+          </span>
+        )}
+      </div>
+
+      {testType === "posttest" && preTestScore && (
+        <Card className="border-none shadow-lg bg-gradient-to-r from-blue-50 to-emerald-50" data-testid="section-score-comparison">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="font-bold text-gray-900 flex items-center gap-2 justify-center text-lg">
+              <TrendingUp className="w-5 h-5 text-emerald-600" /> Learning Progress
+            </h3>
+            <div className="flex items-center justify-center gap-6">
+              <div className="text-center">
+                <p className="text-sm text-gray-500 mb-1">Pre-Test</p>
+                <p className="text-3xl font-bold text-blue-600">{preTestScore.percentage}%</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-gray-300 text-2xl">→</span>
+              </div>
+              <div className="text-center">
+                <p className="text-sm text-gray-500 mb-1">Post-Test</p>
+                <p className="text-3xl font-bold text-emerald-600">{percentage}%</p>
+              </div>
+            </div>
+            {percentage - preTestScore.percentage > 0 ? (
+              <p className="text-center text-emerald-600 font-bold text-lg" data-testid="text-improvement">
+                +{percentage - preTestScore.percentage}% improvement
+              </p>
+            ) : percentage === preTestScore.percentage ? (
+              <p className="text-center text-gray-600 font-medium">Same score - consider reviewing the lesson material again</p>
+            ) : (
+              <p className="text-center text-orange-600 font-medium">Keep studying - revisit the areas you missed below</p>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="grid grid-cols-3 gap-4">
+        <Card className="border-none shadow-sm bg-emerald-50">
+          <CardContent className="p-4 text-center">
+            <p className="text-2xl font-bold text-emerald-600">{answers.filter((a) => a.isCorrect).length}</p>
+            <p className="text-xs text-emerald-600 font-medium mt-1">Correct</p>
+          </CardContent>
+        </Card>
+        <Card className="border-none shadow-sm bg-red-50">
+          <CardContent className="p-4 text-center">
+            <p className="text-2xl font-bold text-red-500">{missed.length}</p>
+            <p className="text-xs text-red-500 font-medium mt-1">Missed</p>
+          </CardContent>
+        </Card>
+        <Card className="border-none shadow-sm bg-blue-50">
+          <CardContent className="p-4 text-center">
+            <p className="text-2xl font-bold text-blue-600">{questions.length}</p>
+            <p className="text-xs text-blue-600 font-medium mt-1">Total</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {missed.length > 0 && (
+        <Card className="border-none shadow-sm bg-amber-50/60">
+          <CardContent className="p-6 space-y-3">
+            <h3 className="font-bold text-gray-900 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-amber-500" /> Areas to Review
+            </h3>
+            <p className="text-sm text-gray-600">
+              You missed {missed.length} question{missed.length > 1 ? "s" : ""}. Focus on understanding the rationale for each missed question below.
+            </p>
+            {testType === "pretest" && (
+              <p className="text-sm text-primary font-medium">
+                Proceed to the Clinical Content tab to study these topics before taking the Post-Test.
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="space-y-3">
+        <Button
+          variant="outline"
+          onClick={() => setShowReview(!showReview)}
+          className="w-full gap-2 h-12"
+          data-testid={`button-toggle-${testType}-review`}
+        >
+          <FileText className="w-4 h-4" />
+          {showReview ? "Hide Question Review" : `Review All ${questions.length} Questions`}
+        </Button>
+
+        {showReview && (
+          <div className="space-y-4 mt-4" data-testid={`section-${testType}-question-review`}>
+            {questions.map((q, idx) => {
+              const answer = answers.find((a) => a.questionIndex === idx);
+              const wasCorrect = answer?.isCorrect ?? false;
+              return (
+                <Card key={idx} className={`border shadow-sm ${wasCorrect ? "border-l-4 border-l-emerald-400" : "border-l-4 border-l-red-400"}`}>
+                  <CardContent className="p-5 space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${wasCorrect ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}>
+                        {idx + 1}
+                      </div>
+                      <p className="font-medium text-gray-900 text-sm leading-relaxed">{q.question}</p>
+                    </div>
+                    <div className="ml-10 space-y-1.5">
+                      {q.options.map((opt, oi) => {
+                        const isCorrectOpt = oi === q.correct;
+                        const wasSelected = answer?.selected === oi;
+                        let optClass = "text-gray-500 text-sm";
+                        if (isCorrectOpt) optClass = "text-emerald-700 font-medium text-sm";
+                        else if (wasSelected && !isCorrectOpt) optClass = "text-red-600 line-through text-sm";
+                        return (
+                          <div key={oi} className={`flex items-center gap-2 ${optClass}`}>
+                            {isCorrectOpt ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> :
+                             wasSelected ? <XCircle className="w-3.5 h-3.5 text-red-400 shrink-0" /> :
+                             <div className="w-3.5 h-3.5 rounded-full border border-gray-300 shrink-0" />}
+                            <span>{opt}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {!wasCorrect && (
+                      <div className="ml-10 mt-2 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                        <p className="text-xs font-bold text-amber-700 mb-1">Why this matters:</p>
+                        <p className="text-xs text-amber-800 leading-relaxed">{q.rationale}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <div className="flex gap-3 justify-center pt-4">
+        <Button variant="outline" onClick={onRetake} className="gap-2" data-testid={`button-retake-${testType}`}>
+          <Activity className="w-4 h-4" /> Retake {testType === "pretest" ? "Pre-Test" : "Post-Test"}
+        </Button>
+        {testType === "pretest" && (
+          <p className="text-sm text-gray-500 self-center">or continue to Clinical Content →</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function QuizSection({
   questions,
   lessonId,
@@ -99,6 +303,7 @@ function QuizSection({
   const [complete, setComplete] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [answerLog, setAnswerLog] = useState<AnswerRecord[]>([]);
   const { user } = useAuth();
 
   const preTestScore = useMemo(() => {
@@ -106,12 +311,23 @@ function QuizSection({
     return stored ? JSON.parse(stored) : null;
   }, [lessonId, complete]);
 
+  const resetQuiz = () => {
+    setStarted(false);
+    setCurrentQ(0);
+    setScore(0);
+    setComplete(false);
+    setSelectedAnswer(null);
+    setShowFeedback(false);
+    setAnswerLog([]);
+  };
+
   const handleAnswer = (index: number) => {
     if (selectedAnswer !== null) return;
     setSelectedAnswer(index);
     setShowFeedback(true);
     const isCorrect = index === questions[currentQ].correct;
     if (isCorrect) setScore((s) => s + 1);
+    setAnswerLog((prev) => [...prev, { questionIndex: currentQ, selected: index, correct: questions[currentQ].correct, isCorrect }]);
 
     setTimeout(() => {
       setShowFeedback(false);
@@ -172,48 +388,16 @@ function QuizSection({
   }
 
   if (complete) {
-    const percentage = Math.round((score / questions.length) * 100);
     return (
-      <Card className="border-none shadow-xl bg-white text-center p-12 space-y-6">
-        <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
-          <Trophy className="w-12 h-12 text-emerald-500" />
-        </div>
-        <h2 className="text-3xl font-bold" data-testid={`text-${testType}-result`}>
-          {testType === "pretest" ? "Pre-Test Complete!" : "Post-Test Complete!"}
-        </h2>
-        <p className="text-xl text-gray-600" data-testid={`text-${testType}-score`}>
-          Scored {score} / {questions.length} ({percentage}%)
-        </p>
-        <Progress value={percentage} className="w-64 h-3 mx-auto" />
-
-        {testType === "posttest" && preTestScore && (
-          <div className="mt-6 p-6 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl border border-emerald-100 max-w-md mx-auto space-y-3" data-testid="section-score-comparison">
-            <h3 className="font-bold text-gray-900 flex items-center gap-2 justify-center">
-              <TrendingUp className="w-5 h-5 text-emerald-600" /> Score Comparison
-            </h3>
-            <div className="flex items-center justify-center gap-3 text-lg">
-              <span className="font-semibold text-blue-700">Pre-Test: {preTestScore.percentage}%</span>
-              <span className="text-gray-400">→</span>
-              <span className="font-semibold text-emerald-700">Post-Test: {percentage}%</span>
-            </div>
-            {percentage - preTestScore.percentage > 0 ? (
-              <p className="text-emerald-600 font-bold text-lg" data-testid="text-improvement">
-                +{percentage - preTestScore.percentage}% improvement
-              </p>
-            ) : percentage - preTestScore.percentage === 0 ? (
-              <p className="text-gray-600 font-medium">Same score: review the lesson and try again!</p>
-            ) : (
-              <p className="text-orange-600 font-medium">
-                {percentage - preTestScore.percentage}%: Don't worry, revisit the material and try again!
-              </p>
-            )}
-          </div>
-        )}
-
-        {testType === "pretest" && (
-          <p className="text-gray-500 text-sm">Now proceed to the Lesson Content tab to study the material!</p>
-        )}
-      </Card>
+      <QuizReport
+        questions={questions}
+        answers={answerLog}
+        score={score}
+        testType={testType}
+        lessonId={lessonId}
+        preTestScore={preTestScore}
+        onRetake={resetQuiz}
+      />
     );
   }
 
@@ -271,7 +455,7 @@ function QuizSection({
             ? "bg-emerald-50 border-emerald-200 text-emerald-800"
             : "bg-red-50 border-red-200 text-red-800"
         }`} data-testid={`text-${testType}-rationale`}>
-          <p className="font-bold mb-1">{selectedAnswer === questions[currentQ].correct ? "✓ Correct!" : "✗ Incorrect"}</p>
+          <p className="font-bold mb-1">{selectedAnswer === questions[currentQ].correct ? "Correct!" : "Incorrect"}</p>
           <p className="text-sm">{questions[currentQ].rationale}</p>
         </div>
       )}
@@ -577,30 +761,38 @@ export default function LessonDetail() {
         </div>
 
         {showNotes && (
-          <div className="fixed bottom-4 right-4 z-40 w-80 max-h-[60vh] shadow-2xl rounded-2xl border border-yellow-200 bg-yellow-50/95 backdrop-blur-lg overflow-hidden flex flex-col" data-testid="panel-sticky-notes">
+          <div className="fixed bottom-4 right-4 z-40 w-80 sm:w-96 max-h-[70vh] shadow-2xl rounded-2xl border border-yellow-200 bg-yellow-50/95 backdrop-blur-lg overflow-hidden flex flex-col" data-testid="panel-sticky-notes">
             <div className="flex items-center justify-between p-4 pb-2 border-b border-yellow-200/60">
               <h3 className="font-bold text-gray-900 flex items-center gap-2 text-sm">
-                <StickyNote className="w-4 h-4 text-yellow-600" /> Lesson Notes
+                <StickyNote className="w-4 h-4 text-yellow-600" /> Study Notes
               </h3>
-              <div className="flex items-center gap-1">
-                <span className="text-[10px] text-gray-400">{noteSaving ? "Saving..." : "Saved"}</span>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-medium ${noteSaving ? "text-amber-500" : "text-emerald-500"}`}>
+                  {noteSaving ? "Saving..." : "Saved"}
+                </span>
                 <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={saveNote} data-testid="button-save-note">
                   <Save className="w-3.5 h-3.5" />
                 </Button>
                 <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setShowNotes(false)} data-testid="button-close-notes">
-                  <XCircle className="w-3.5 h-3.5 text-gray-400" />
+                  <X className="w-3.5 h-3.5 text-gray-400" />
                 </Button>
               </div>
             </div>
-            <div className="p-4 pt-3 flex-1 overflow-y-auto">
+            <div className="px-3 py-2 border-b border-yellow-100 bg-yellow-50/50">
+              <p className="text-[10px] text-yellow-700 font-medium">{lessonContent.title}</p>
+            </div>
+            <div className="p-3 flex-1 overflow-y-auto">
               <Textarea
                 value={noteContent}
                 onChange={(e) => handleNoteChange(e.target.value)}
-                placeholder="Type your study notes here... They auto-save as you type."
-                className="min-h-[180px] bg-white border-yellow-200 focus:border-yellow-400 text-sm resize-y"
+                placeholder={"Write your study notes here...\n\nTips:\n- Key findings to remember\n- Nursing priorities\n- Medications and side effects\n- Questions for further review"}
+                className="min-h-[220px] bg-white border-yellow-200 focus:border-yellow-400 text-sm resize-y leading-relaxed"
                 data-testid="textarea-notes"
               />
-              <p className="text-[10px] text-gray-400 mt-2">Auto-saved. View all notes from your profile.</p>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-[10px] text-gray-400">Auto-saves as you type</p>
+                <p className="text-[10px] text-gray-400">{noteContent.length > 0 ? `${noteContent.length} chars` : ""}</p>
+              </div>
             </div>
           </div>
         )}
