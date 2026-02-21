@@ -48,6 +48,64 @@ import {
 } from "@/components/ui/sheet";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
+import { useQuery } from "@tanstack/react-query";
+
+function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
+  const { data: subData } = useQuery({
+    queryKey: ["/api/subscription", user.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/subscription/${user.id}`);
+      if (!res.ok) return null;
+      return res.json();
+    },
+    enabled: !!user.id,
+    staleTime: 60000,
+  });
+
+  const tierLabel = user.tier === "admin" ? "Admin" : user.tier === "rpn" ? "RPN/LVN" : user.tier === "rn" ? "RN" : user.tier === "np" ? "NP" : "Free";
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2 gap-1.5" data-testid="button-user-dropdown">
+          <UserCircle className="w-4 h-4" />
+          {user.username}
+          <ChevronDown className="w-3 h-3" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56 p-2">
+        <div className="px-3 py-2 mb-1">
+          <p className="text-sm font-semibold text-gray-900">{user.username}</p>
+          <p className="text-xs text-gray-500">{tierLabel} Account</p>
+          {subData?.daysRemaining !== null && subData?.daysRemaining !== undefined && user.tier !== "free" && user.tier !== "admin" && (
+            <div className="flex items-center gap-1.5 mt-1.5 text-xs text-primary">
+              <Calendar className="w-3 h-3" />
+              <span>{subData.daysRemaining} days remaining</span>
+            </div>
+          )}
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/profile")} data-testid="menu-user-profile">
+          <User className="w-4 h-4" />
+          My Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/reports")} data-testid="menu-user-reports">
+          <BarChart className="w-4 h-4" />
+          Reports & Analytics
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/profile#notes")} data-testid="menu-user-notes">
+          <StickyNote className="w-4 h-4" />
+          My Notes
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-red-500" onClick={() => { logout(); setLocation("/"); }} data-testid="menu-user-logout">
+          <LogOut className="w-4 h-4" />
+          Sign Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -261,14 +319,6 @@ export function Navigation() {
               <Stethoscope className="w-4 h-4" /> Clinical Skills Simulator
             </Button>
           </SheetClose>
-          {user && (
-            <SheetClose asChild>
-              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/reports")}>
-                <BarChart className="w-4 h-4" />
-                Reports
-              </Button>
-            </SheetClose>
-          )}
 
           <div className="h-[1px] bg-gray-100 my-2" />
 
