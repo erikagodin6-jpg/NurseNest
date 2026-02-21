@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -433,6 +433,14 @@ export default function LabValuesPage() {
   const [showInterpretation, setShowInterpretation] = useState<Record<string, boolean>>({});
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number | null>>({});
   const [score, setScore] = useState({ correct: 0, total: 0 });
+  const [region, setRegion] = useState<"US" | "CA">(() => {
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+  });
+  useEffect(() => {
+    const handler = () => setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
+    window.addEventListener("regionChange", handler);
+    return () => window.removeEventListener("regionChange", handler);
+  }, []);
   const usage = useFeatureUsage("lab-values");
 
   const categoryScenarios = useMemo(() => {
@@ -511,6 +519,17 @@ export default function LabValuesPage() {
               <p className="text-gray-500 mt-1">Pattern recognition through clinical clusters</p>
             </div>
           </div>
+          {region === "CA" && (
+            <div className="rounded-xl bg-gradient-to-r from-red-50 to-white border border-red-200/60 px-5 py-4 flex items-start gap-3" data-testid="banner-canadian-labs">
+              <span className="text-2xl shrink-0 mt-0.5" role="img" aria-label="maple leaf">🍁</span>
+              <div>
+                <p className="font-bold text-gray-900 text-sm">Canadian Lab Reference Ranges</p>
+                <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">
+                  All lab values, reference ranges, and clinical scenarios on this page use Canadian laboratory standards. NurseNest is the first nursing exam prep platform to provide Canadian-specific lab reference ranges for clinical education. Built to prepare you for Canadian clinical placements and the REX-PN.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between mb-6">

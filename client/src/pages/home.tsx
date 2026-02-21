@@ -149,6 +149,23 @@ export default function Home() {
                   <span>Canada & US Coverage</span>
                 </div>
               </div>
+
+              {region === "CA" && (
+                <div className="mt-6 max-w-2xl mx-auto" data-testid="banner-canadian-content">
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-50 via-white to-red-50 border border-red-200/60 shadow-md px-6 py-5">
+                    <div className="absolute top-0 left-0 w-1.5 h-full bg-red-500 rounded-l-2xl" />
+                    <div className="flex items-start gap-4 pl-2">
+                      <span className="text-3xl shrink-0 mt-0.5" role="img" aria-label="Canadian flag">🍁</span>
+                      <div>
+                        <p className="font-bold text-gray-900 text-base">Built for Canadian Nursing Students</p>
+                        <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+                          NurseNest is the first nursing exam prep platform to deliver Canadian lab values, Canadian scope-of-practice language, and content aligned with Canadian nursing regulatory standards. All lab reference ranges, clinical scenarios, and scope guidance reflect what Canadian nurses actually encounter in practice and on the REX-PN.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
