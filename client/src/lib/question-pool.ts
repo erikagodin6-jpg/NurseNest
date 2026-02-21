@@ -15,8 +15,8 @@ export interface PooledQuestion {
 }
 
 function getLessonTier(lessonId: string): string {
-  if (lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
-  if (lessonId.includes("-rn") || lessonId.includes("nclex-")) return "rn";
+  if (lessonId.includes("-np") || lessonId.startsWith("np-") || lessonId.includes("advanced-")) return "np";
+  if (lessonId.includes("-rn") || lessonId.startsWith("rn-") || lessonId.includes("nclex-")) return "rn";
   return "rpn";
 }
 

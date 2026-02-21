@@ -33,7 +33,7 @@ export function generateLessonKeywords(lessonId: string, lesson: LessonContent):
 
 export function getLessonBodySystem(lessonId: string): string {
   const systemKeywords: Record<string, string[]> = {
-    "Cardiovascular": ["heart", "cardiac", "mi-", "hf-", "aaa", "dvt", "pad-", "cardioversion", "pacemaker", "shock", "dysrhythmia", "endocarditis", "aortic", "carotid", "cardiomyopathy", "raynauds", "buergers", "venous-insufficiency", "varicose", "rheumatic", "kawasaki", "polycythemia", "cardiogenic"],
+    "Cardiovascular": ["cardiovascular", "heart", "cardiac", "mi-", "hf-", "aaa", "dvt", "pad-", "cardioversion", "pacemaker", "shock", "dysrhythmia", "endocarditis", "aortic", "carotid", "cardiomyopathy", "raynauds", "buergers", "venous-insufficiency", "varicose", "rheumatic", "kawasaki", "polycythemia", "cardiogenic"],
     "Respiratory": ["respiratory", "lung", "copd", "asthma", "pneumonia", "tb-", "trach", "chest-physio", "suction", "spirometry", "peak-flow", "cystic-fibrosis", "pleurisy", "fibrosis", "bronchi", "rsv", "pertussis", "hemoptysis", "pe-recognition", "ards", "osa"],
     "Neurological": ["neuro", "stroke", "delirium", "parkinson", "concussion", "cranial", "icp", "cerebral", "brain", "ms-", "als-", "myasthenia", "trigeminal", "bells-palsy", "carpal", "restless", "narcolepsy", "hydrocephalus", "spinal", "neuropathy", "guillain", "seizure", "subdural", "duchenne", "spina-bifida"],
     "Gastrointestinal": ["gi-", "abdominal", "ibs", "ngtube", "enteral", "feeding-tube", "gerd", "peptic", "constipation", "diarrhea", "hepatitis", "stoma", "rectal", "crohns", "colitis", "diverticulitis", "hiatal", "dysphagia", "hemorrhoid", "anal-fissure", "cdiff", "malabsorption", "liver", "appendicitis", "cholecyst", "pyloric", "intussusception", "celiac", "dumping", "ercp"],
@@ -41,11 +41,11 @@ export function getLessonBodySystem(lessonId: string): string {
     "Endocrine": ["hormonal", "thyroid", "diabetes", "pancreatic", "adrenal", "pituitary", "negative-feedback", "addisons", "cushings", "siadh", "diabetes-insipidus", "parathyroid", "acromegaly", "graves", "dka", "hhns", "dm-type"],
     "Hematology": ["iron-deficiency", "dic-", "coagulation", "blood-product", "hemophilia", "thrombocytopenia", "von-willebrand", "thalassemia", "aplastic-anemia", "blood-typing", "polycythemia", "lymphoma", "sickle-cell", "anemia"],
     "Pediatrics": ["peds", "epiglottitis", "dehydration-peds", "foreign-body", "varicella", "impetigo", "head-lice", "pinworm", "diaper", "lead-poisoning", "adhd", "separation-anxiety", "pyloric-stenosis", "hirschsprung", "phenylketonuria", "galactosemia", "biliary-atresia", "wilms", "neuroblastoma", "osteogenesis", "marfan", "turner", "klinefelter", "hemolytic-uremic", "reye", "retinoblastoma", "cleft", "botulism", "trisomy", "fetal-alcohol", "tonsillectomy", "cp-management", "congenital-heart", "bronchiolitis", "croup"],
-    "Maternity": ["prenatal", "labor", "postpartum", "breastfeeding", "antepartum", "fetal-monitoring", "gestational", "pregnancy", "cesarean", "episiotomy", "ectopic", "placenta", "hellp", "hyperemesis", "rh-incompatibility", "umbilical-cord-prolapse", "amniotic", "mastitis", "preeclampsia", "cervical-cerclage", "preterm", "shoulder-dystocia", "vacuum-assisted", "endometritis", "uterine-inversion", "ob-"],
+    "Maternity": ["maternity", "maternal", "prenatal", "labor", "postpartum", "breastfeeding", "antepartum", "fetal-monitoring", "gestational", "pregnancy", "cesarean", "episiotomy", "ectopic", "placenta", "hellp", "hyperemesis", "rh-incompatibility", "umbilical-cord-prolapse", "amniotic", "mastitis", "preeclampsia", "cervical-cerclage", "preterm", "shoulder-dystocia", "vacuum-assisted", "endometritis", "uterine-inversion", "ob-"],
     "Neonatal": ["newborn", "neonatal", "thermoreg", "jaundice", "circumcision", "cord-care", "neonatal-screening", "neonatal-reflex", "car-seat", "meconium", "necrotizing", "retinopathy-of-prematurity", "bronchopulmonary", "neonatal-abstinence", "congenital-hypothyroidism", "apgar", "hyperbilirubinemia", "phototherapy"],
-    "Mental Health": ["depression", "anxiety", "stress", "adaptation", "therapeutic-communication", "crisis", "substance-abuse", "lithium", "nms-serotonin", "bipolar", "schizophrenia", "eating-disorder", "ptsd", "ocd", "panic", "borderline", "antisocial", "suicidal"],
-    "Pharmacology": ["safety", "labs", "pharmacology", "medication-admin", "drug-interaction"],
-    "Emergency": ["emergency", "triage", "acls", "bls", "anaphylaxis", "poisoning", "overdose", "status-epilepticus", "malignant-hyperthermia", "autonomic-dysreflexia"],
+    "Mental Health": ["mental-health", "depression", "anxiety", "stress", "adaptation", "therapeutic-communication", "crisis", "substance-abuse", "lithium", "nms-serotonin", "bipolar", "schizophrenia", "eating-disorder", "ptsd", "ocd", "panic", "borderline", "antisocial", "suicidal"],
+    "Pharmacology": ["prescribing", "safety", "labs", "pharmacology", "medication-admin", "drug-interaction"],
+    "Emergency": ["emergency", "critical-care", "triage", "acls", "bls", "anaphylaxis", "poisoning", "overdose", "status-epilepticus", "malignant-hyperthermia", "autonomic-dysreflexia"],
   };
 
   for (const [system, keywords] of Object.entries(systemKeywords)) {
@@ -55,8 +55,8 @@ export function getLessonBodySystem(lessonId: string): string {
 }
 
 export function getLessonTierLabel(lessonId: string): string {
-  if (lessonId.includes("-np") || lessonId.includes("advanced-")) return "Nurse Practitioner";
-  if (lessonId.includes("-rn") || lessonId.includes("nclex-")) return "Registered Nurse (NCLEX)";
+  if (lessonId.includes("-np") || lessonId.startsWith("np-") || lessonId.includes("advanced-")) return "Nurse Practitioner";
+  if (lessonId.includes("-rn") || lessonId.startsWith("rn-") || lessonId.includes("nclex-")) return "Registered Nurse (NCLEX)";
   return "Practical Nurse (RPN/LVN)";
 }
 
