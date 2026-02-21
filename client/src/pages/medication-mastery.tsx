@@ -141,7 +141,7 @@ function MedCard({ med, isExpanded, onToggle }: { med: Medication; isExpanded: b
             <section>
               <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                 <AlertTriangle className="w-3.5 h-3.5" />
-                Side Effects — Why They Happen
+                Side Effects: Why They Happen
               </h4>
               <div className="space-y-2">
                 {med.sideEffects.map((se, i) => {
@@ -272,7 +272,7 @@ export default function MedicationMasteryPage() {
           </div>
           <p className="text-lg text-gray-600 max-w-3xl leading-relaxed mt-4">
             Every side effect has a reason. Every drug interaction has a mechanism. Stop memorizing 
-            disconnected facts — understand drugs through their receptor pathways and predict 
+            disconnected facts: understand drugs through their receptor pathways and predict 
             clinical effects from first principles.
           </p>
         </div>

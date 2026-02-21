@@ -165,10 +165,10 @@ function QuizSection({
                 +{percentage - preTestScore.percentage}% improvement
               </p>
             ) : percentage - preTestScore.percentage === 0 ? (
-              <p className="text-gray-600 font-medium">Same score — review the lesson and try again!</p>
+              <p className="text-gray-600 font-medium">Same score: review the lesson and try again!</p>
             ) : (
               <p className="text-orange-600 font-medium">
-                {percentage - preTestScore.percentage}% — Don't worry, revisit the material and try again!
+                {percentage - preTestScore.percentage}%: Don't worry, revisit the material and try again!
               </p>
             )}
           </div>

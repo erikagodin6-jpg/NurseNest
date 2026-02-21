@@ -322,7 +322,7 @@ export default function Reports() {
               </div>
               <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Avg Score</span>
             </div>
-            <p className="text-3xl font-black text-gray-900" data-testid="stat-avg-score">{hasData ? `${overallAverage}%` : "—"}</p>
+            <p className="text-3xl font-black text-gray-900" data-testid="stat-avg-score">{hasData ? `${overallAverage}%` : "-"}</p>
           </Card>
           <Card className="border-none shadow-md bg-white rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-2">
@@ -332,7 +332,7 @@ export default function Reports() {
               <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Best System</span>
             </div>
             <p className="text-xl font-black text-gray-900 truncate" data-testid="stat-best-system">
-              {bestSystem ? bestSystem.name : "—"}
+              {bestSystem ? bestSystem.name : "-"}
             </p>
             {bestSystem && <p className="text-sm text-emerald-500 font-semibold">{bestSystem.averageScore}%</p>}
           </Card>
@@ -344,7 +344,7 @@ export default function Reports() {
               <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Weakest System</span>
             </div>
             <p className="text-xl font-black text-gray-900 truncate" data-testid="stat-weakest-system">
-              {weakestSystem ? weakestSystem.name : "—"}
+              {weakestSystem ? weakestSystem.name : "-"}
             </p>
             {weakestSystem && <p className="text-sm text-amber-500 font-semibold">{weakestSystem.averageScore}%</p>}
           </Card>

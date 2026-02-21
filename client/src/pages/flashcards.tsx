@@ -154,7 +154,7 @@ const allCards: Flashcard[] = [
     question: "A client with a suspected small bowel obstruction has a board-like, rigid abdomen. What does this suggest?",
     options: ["Normal digestion", "Peritonitis/Perforation", "Constipation", "GERD"],
     correctIndex: 1,
-    answer: "A rigid, board-like abdomen is a classic sign of peritonitis, often following a bowel perforation—a surgical emergency.",
+    answer: "A rigid, board-like abdomen is a classic sign of peritonitis, often following a bowel perforation; a surgical emergency.",
     category: "GI"
   },
   {
@@ -540,7 +540,7 @@ const allCards: Flashcard[] = [
     id: "mat-6",
     type: "term",
     question: "Postpartum Hemorrhage 4 T's",
-    answer: "Tone (uterine atony — most common cause), Tissue (retained placental fragments), Trauma (lacerations or hematomas), Thrombin (coagulopathy/DIC). A framework for identifying the cause of postpartum hemorrhage.",
+    answer: "Tone (uterine atony: most common cause), Tissue (retained placental fragments), Trauma (lacerations or hematomas), Thrombin (coagulopathy/DIC). A framework for identifying the cause of postpartum hemorrhage.",
     category: "Maternal"
   },
   {
@@ -892,7 +892,7 @@ const allCards: Flashcard[] = [
     id: "del-4",
     type: "term",
     question: "Stable vs Unstable Patient",
-    answer: "STABLE: Expected findings, predictable course, vital signs within baseline. UNSTABLE: New-onset symptoms, worsening trends despite treatment, vital signs deviating dangerously, altered LOC. The key word is 'NEW' — new findings = unstable = priority.",
+    answer: "STABLE: Expected findings, predictable course, vital signs within baseline. UNSTABLE: New-onset symptoms, worsening trends despite treatment, vital signs deviating dangerously, altered LOC. The key word is 'NEW': new findings = unstable = priority.",
     category: "Delegation"
   },
   {
@@ -901,7 +901,7 @@ const allCards: Flashcard[] = [
     question: "Which task can be SAFELY delegated to a UAP (unlicensed assistive personnel)?",
     options: ["Performing an initial patient assessment", "Administering oral medications", "Measuring vital signs on a stable patient", "Evaluating medication effectiveness"],
     correctIndex: 2,
-    answer: "UAPs can measure vital signs on stable patients, perform ADLs, measure I&O, and collect specimens. They CANNOT assess, evaluate, administer medications, or provide initial education — these require clinical nursing judgment.",
+    answer: "UAPs can measure vital signs on stable patients, perform ADLs, measure I&O, and collect specimens. They CANNOT assess, evaluate, administer medications, or provide initial education: these require clinical nursing judgment.",
     category: "Delegation"
   },
   {

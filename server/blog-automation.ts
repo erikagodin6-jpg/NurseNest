@@ -161,6 +161,17 @@ Requirements:
 
   const parsed = JSON.parse(response.choices[0]?.message?.content || "{}");
 
+  if (parsed.content && Array.isArray(parsed.content)) {
+    parsed.content = parsed.content.map((block: any) => {
+      if (block.text) block.text = block.text.replace(/\u2014/g, "; ").replace(/\u2013/g, "-").replace(/—/g, "; ").replace(/–/g, "-");
+      if (block.content) block.content = block.content.replace(/\u2014/g, "; ").replace(/\u2013/g, "-").replace(/—/g, "; ").replace(/–/g, "-");
+      if (block.items && Array.isArray(block.items)) {
+        block.items = block.items.map((item: string) => item.replace(/\u2014/g, "; ").replace(/\u2013/g, "-").replace(/—/g, "; ").replace(/–/g, "-"));
+      }
+      return block;
+    });
+  }
+
   const formattedCitations = parsed.citations
     ? formatCitations(parsed.citations, citationStyle)
     : "";

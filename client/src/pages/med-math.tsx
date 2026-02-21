@@ -404,7 +404,7 @@ function generateIVFlowProblem(seed: number): Problem {
         statement: `Order: ${volume} mL ${fluid} over ${hours} hours using microdrip tubing (60 gtt/mL). Patient: ${patient}. Calculate the drip rate.`,
         answer,
         unit: "gtt/min",
-        formula: "(Volume × 60) ÷ (Hours × 60) — with microdrip, gtt/min = mL/hr",
+        formula: "(Volume × 60) ÷ (Hours × 60): with microdrip, gtt/min = mL/hr",
         steps: [
           `Volume: ${volume} mL over ${hours} hours`,
           `mL/hr: ${volume} ÷ ${hours} = ${parseFloat((volume / hours).toFixed(2))} mL/hr`,
@@ -559,7 +559,7 @@ function generateWeightBasedProblem(seed: number): Problem {
         steps: [
           `Maximum safe dose: ${weightKg} × ${maxDosePerKg} = ${maxSafe} mg`,
           `Ordered dose: ${orderedMg} mg`,
-          isSafe ? `✓ ${orderedMg} mg ≤ ${maxSafe} mg — dose is safe` : `✗ ${orderedMg} mg > ${maxSafe} mg — EXCEEDS safe dose`,
+          isSafe ? `✓ ${orderedMg} mg ≤ ${maxSafe} mg: dose is safe` : `✗ ${orderedMg} mg > ${maxSafe} mg: EXCEEDS safe dose`,
         ],
         safetyNote: !isSafe ? `⚠️ DANGER: The ordered dose of ${orderedMg} mg exceeds the maximum safe dose of ${maxSafe} mg. Do NOT administer. Notify the prescriber immediately.` : undefined,
       };
@@ -1165,7 +1165,7 @@ function ProblemCard({ category, onQuestionAnswered }: { category: Category; onQ
                     <XCircle className="w-5 h-5 text-red-600" />
                   )}
                   <span className={`font-bold ${isCorrect ? "text-emerald-800" : "text-red-800"}`} data-testid={`text-result-${category}`}>
-                    {isCorrect ? "Correct!" : `Incorrect — Answer: ${problem.answer} ${problem.unit}`}
+                    {isCorrect ? "Correct!" : `Incorrect: Answer: ${problem.answer} ${problem.unit}`}
                   </span>
                 </div>
               </div>

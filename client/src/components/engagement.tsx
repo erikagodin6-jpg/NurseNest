@@ -245,7 +245,7 @@ export function KnowledgeCheck({ question, options, className }: KnowledgeCheckP
         </div>
         {showResult && (
           <div className={`mt-3 text-xs font-semibold ${isCorrect ? "text-emerald-600" : "text-amber-600"}`}>
-            {isCorrect ? "Correct! You understand the mechanism." : "Not quite — review the mechanism explanation above."}
+            {isCorrect ? "Correct! You understand the mechanism." : "Not quite: review the mechanism explanation above."}
           </div>
         )}
       </CardContent>

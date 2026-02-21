@@ -4,9 +4,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "bariatric-surgery": {
     title: "Bariatric Surgery",
     cellular: {
-      title: "Bariatric Surgery – Types, Nutritional Management & Dumping Syndrome",
+      title: "Bariatric Surgery - Types, Nutritional Management & Dumping Syndrome",
       content:
-        "Bariatric surgery encompasses several procedures designed to promote significant weight loss in clients with morbid obesity (BMI ≥ 40, or ≥ 35 with comorbidities). The three primary surgical approaches are Roux-en-Y gastric bypass (RYGB), sleeve gastrectomy, and adjustable gastric banding. RYGB creates a small gastric pouch (approximately 30 mL) and bypasses a portion of the jejunum, resulting in both restrictive and malabsorptive mechanisms. Sleeve gastrectomy removes approximately 80% of the stomach along the greater curvature, creating a tubular 'sleeve' that restricts volume without bypassing intestinal segments. Adjustable gastric banding places an inflatable silicone band around the upper stomach to create a small proximal pouch with an adjustable stoma.\n\nAt the cellular level, these procedures alter gut hormone signaling. RYGB and sleeve gastrectomy increase glucagon-like peptide-1 (GLP-1) and peptide YY (PYY), which enhance insulin secretion and promote satiety. Ghrelin, a hunger hormone produced primarily in the gastric fundus, decreases substantially after sleeve gastrectomy because the fundus is removed. These hormonal changes contribute to improved glycemic control, often resolving type 2 diabetes even before significant weight loss occurs. The rearranged anatomy in RYGB also increases bile acid circulation, which activates farnesoid X receptors in the ileum and further modulates glucose metabolism.\n\nDumping syndrome is a major complication following RYGB, occurring when hyperosmolar chyme rapidly enters the jejunum. Early dumping (within 15–30 minutes of eating) results from fluid shifts into the intestinal lumen, causing abdominal cramping, nausea, diarrhea, diaphoresis, and tachycardia. Late dumping (1–3 hours postprandially) results from reactive hypoglycemia as excessive insulin is released in response to rapid glucose absorption. Nutritional deficiencies are common after malabsorptive procedures—iron, calcium, vitamin B12, folate, and fat-soluble vitamins (A, D, E, K) require lifelong supplementation. Clients must adhere to small, frequent, high-protein meals and avoid simple carbohydrates and liquids with meals."
+        "Bariatric surgery encompasses several procedures designed to promote significant weight loss in clients with morbid obesity (BMI ≥ 40, or ≥ 35 with comorbidities). The three primary surgical approaches are Roux-en-Y gastric bypass (RYGB), sleeve gastrectomy, and adjustable gastric banding. RYGB creates a small gastric pouch (approximately 30 mL) and bypasses a portion of the jejunum, resulting in both restrictive and malabsorptive mechanisms. Sleeve gastrectomy removes approximately 80% of the stomach along the greater curvature, creating a tubular 'sleeve' that restricts volume without bypassing intestinal segments. Adjustable gastric banding places an inflatable silicone band around the upper stomach to create a small proximal pouch with an adjustable stoma.\n\nAt the cellular level, these procedures alter gut hormone signaling. RYGB and sleeve gastrectomy increase glucagon-like peptide-1 (GLP-1) and peptide YY (PYY), which enhance insulin secretion and promote satiety. Ghrelin, a hunger hormone produced primarily in the gastric fundus, decreases substantially after sleeve gastrectomy because the fundus is removed. These hormonal changes contribute to improved glycemic control, often resolving type 2 diabetes even before significant weight loss occurs. The rearranged anatomy in RYGB also increases bile acid circulation, which activates farnesoid X receptors in the ileum and further modulates glucose metabolism.\n\nDumping syndrome is a major complication following RYGB, occurring when hyperosmolar chyme rapidly enters the jejunum. Early dumping (within 15-30 minutes of eating) results from fluid shifts into the intestinal lumen, causing abdominal cramping, nausea, diarrhea, diaphoresis, and tachycardia. Late dumping (1-3 hours postprandially) results from reactive hypoglycemia as excessive insulin is released in response to rapid glucose absorption. Nutritional deficiencies are common after malabsorptive procedures; iron, calcium, vitamin B12, folate, and fat-soluble vitamins (A, D, E, K) require lifelong supplementation. Clients must adhere to small, frequent, high-protein meals and avoid simple carbohydrates and liquids with meals."
     },
     riskFactors: [
       "BMI ≥ 40 or BMI ≥ 35 with obesity-related comorbidities",
@@ -25,10 +25,10 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Nutritional labs: iron, ferritin, B12, folate, vitamin D, calcium, albumin"
     ],
     management: [
-      "Preoperative: weight loss of 5–10% to reduce liver size and surgical risk",
-      "Postoperative diet progression: clear liquids → full liquids → pureed → soft → regular over 6–8 weeks",
+      "Preoperative: weight loss of 5-10% to reduce liver size and surgical risk",
+      "Postoperative diet progression: clear liquids → full liquids → pureed → soft → regular over 6-8 weeks",
       "Lifelong vitamin and mineral supplementation (multivitamin, calcium citrate, B12, iron, vitamin D)",
-      "High-protein diet (60–80 g/day minimum) with small, frequent meals",
+      "High-protein diet (60-80 g/day minimum) with small, frequent meals",
       "Avoid simple sugars, carbonated beverages, and drinking fluids with meals to prevent dumping syndrome",
       "Regular follow-up with bariatric team at 1, 3, 6, and 12 months, then annually"
     ],
@@ -42,8 +42,8 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     ],
     signs: {
       left: [
-        "Early dumping: nausea, cramping, diarrhea within 15–30 min of eating",
-        "Late dumping: diaphoresis, tremors, confusion 1–3 hours after eating",
+        "Early dumping: nausea, cramping, diarrhea within 15-30 min of eating",
+        "Late dumping: diaphoresis, tremors, confusion 1-3 hours after eating",
         "Anastomotic leak: tachycardia > 120, fever, severe abdominal pain",
         "Nutritional deficiency: paresthesias, weakness, glossitis"
       ],
@@ -73,11 +73,11 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "Tachycardia is the earliest sign of anastomotic leak—report heart rate > 120 immediately",
-      "Dumping syndrome is managed through diet modification, not medication—teach clients to avoid concentrated sweets",
+      "Tachycardia is the earliest sign of anastomotic leak; report heart rate > 120 immediately",
+      "Dumping syndrome is managed through diet modification, not medication; teach clients to avoid concentrated sweets",
       "Clients must separate liquids from solids by at least 30 minutes to prevent dumping",
-      "Weight regain is common 2–5 years postoperatively; ongoing behavioral support is essential",
-      "RYGB alters drug absorption—report to provider when new medications are ordered"
+      "Weight regain is common 2-5 years postoperatively; ongoing behavioral support is essential",
+      "RYGB alters drug absorption; report to provider when new medications are ordered"
     ],
     quiz: [
       {
@@ -97,9 +97,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "cholecystitis": {
     title: "Cholecystitis",
     cellular: {
-      title: "Cholecystitis – Gallstone Pathophysiology, Murphy's Sign & Management",
+      title: "Cholecystitis - Gallstone Pathophysiology, Murphy's Sign & Management",
       content:
-        "Cholecystitis is inflammation of the gallbladder, most commonly caused by obstruction of the cystic duct by gallstones (cholelithiasis). Gallstones form when bile becomes supersaturated with cholesterol or bilirubin, leading to crystal nucleation and stone growth. Cholesterol stones account for approximately 80% of cases and are associated with the 'Five Fs': Female, Forty, Fat, Fertile, and Fair. Pigment stones (calcium bilirubinate) are associated with chronic hemolysis and cirrhosis. When a stone lodges in the cystic duct, bile stasis occurs, causing increased intraluminal pressure, mucosal ischemia, and inflammatory cascade activation.\n\nAt the cellular level, the obstructed gallbladder releases phospholipase A, which converts lecithin in bile to lysolecithin—a potent cytotoxic agent that damages the mucosal epithelium. Prostaglandin release triggers further inflammation, edema, and impaired venous and lymphatic drainage. If left untreated, the gallbladder wall becomes ischemic, leading to gangrenous cholecystitis and potential perforation. Secondary bacterial infection (Escherichia coli, Klebsiella, Enterococcus) can occur in approximately 50% of acute cases. Acalculous cholecystitis (without stones) occurs in critically ill or immunocompromised clients due to bile stasis, ischemia, or opportunistic infection.\n\nMurphy's sign is a key physical examination finding: the examiner palpates the right upper quadrant while the client inspires deeply; a positive sign occurs when the inflamed gallbladder descends and contacts the examining hand, causing the client to abruptly halt inspiration due to pain. Complications include choledocholithiasis (stone in the common bile duct), cholangitis (infection of the bile duct system presenting with Charcot's triad: fever, jaundice, RUQ pain), and gallstone pancreatitis. Surgical management (laparoscopic cholecystectomy) is the gold standard treatment, while medical management with ursodeoxycholic acid may be used for non-surgical candidates."
+        "Cholecystitis is inflammation of the gallbladder, most commonly caused by obstruction of the cystic duct by gallstones (cholelithiasis). Gallstones form when bile becomes supersaturated with cholesterol or bilirubin, leading to crystal nucleation and stone growth. Cholesterol stones account for approximately 80% of cases and are associated with the 'Five Fs': Female, Forty, Fat, Fertile, and Fair. Pigment stones (calcium bilirubinate) are associated with chronic hemolysis and cirrhosis. When a stone lodges in the cystic duct, bile stasis occurs, causing increased intraluminal pressure, mucosal ischemia, and inflammatory cascade activation.\n\nAt the cellular level, the obstructed gallbladder releases phospholipase A, which converts lecithin in bile to lysolecithin; a potent cytotoxic agent that damages the mucosal epithelium. Prostaglandin release triggers further inflammation, edema, and impaired venous and lymphatic drainage. If left untreated, the gallbladder wall becomes ischemic, leading to gangrenous cholecystitis and potential perforation. Secondary bacterial infection (Escherichia coli, Klebsiella, Enterococcus) can occur in approximately 50% of acute cases. Acalculous cholecystitis (without stones) occurs in critically ill or immunocompromised clients due to bile stasis, ischemia, or opportunistic infection.\n\nMurphy's sign is a key physical examination finding: the examiner palpates the right upper quadrant while the client inspires deeply; a positive sign occurs when the inflamed gallbladder descends and contacts the examining hand, causing the client to abruptly halt inspiration due to pain. Complications include choledocholithiasis (stone in the common bile duct), cholangitis (infection of the bile duct system presenting with Charcot's triad: fever, jaundice, RUQ pain), and gallstone pancreatitis. Surgical management (laparoscopic cholecystectomy) is the gold standard treatment, while medical management with ursodeoxycholic acid may be used for non-surgical candidates."
     },
     riskFactors: [
       "Female sex (estrogen increases cholesterol secretion into bile)",
@@ -121,14 +121,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     management: [
       "NPO status to rest the gallbladder and reduce stimulation",
       "IV fluid resuscitation and electrolyte correction",
-      "Laparoscopic cholecystectomy within 24–72 hours of presentation (gold standard)",
+      "Laparoscopic cholecystectomy within 24-72 hours of presentation (gold standard)",
       "IV antibiotics for complicated cholecystitis (piperacillin-tazobactam or ceftriaxone + metronidazole)",
       "Percutaneous cholecystostomy tube for critically ill or non-surgical candidates",
       "Low-fat diet education for post-cholecystectomy discharge"
     ],
     nursingActions: [
       "Monitor and report signs of biliary obstruction: clay-colored stools, dark amber urine, jaundice",
-      "Administer analgesics as ordered (ketorolac or meperidine preferred; avoid morphine—may cause sphincter of Oddi spasm)",
+      "Administer analgesics as ordered (ketorolac or meperidine preferred; avoid morphine; may cause sphincter of Oddi spasm)",
       "Monitor T-tube drainage if placed: record amount, color, consistency; report drainage > 500 mL/day",
       "Position client in semi-Fowler's or right side-lying to facilitate bile drainage",
       "Report signs of peritonitis: rigid abdomen, rebound tenderness, guarding, fever"
@@ -154,7 +154,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Reduces cholesterol secretion and promotes gradual dissolution of cholesterol gallstones",
         sideEffects: "Diarrhea, nausea, abdominal pain, headache",
         contra: "Calcified stones, bile duct obstruction, chronic liver disease",
-        pearl: "Used only for small cholesterol stones in non-surgical candidates; takes 6–24 months for dissolution"
+        pearl: "Used only for small cholesterol stones in non-surgical candidates; takes 6-24 months for dissolution"
       },
       {
         name: "Ketorolac (Toradol)",
@@ -166,10 +166,10 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "Avoid morphine in cholecystitis—it may cause sphincter of Oddi spasm and worsen pain",
+      "Avoid morphine in cholecystitis; it may cause sphincter of Oddi spasm and worsen pain",
       "Murphy's sign differentiates cholecystitis from other RUQ pathology",
       "Post-cholecystectomy clients may experience transient diarrhea due to continuous bile flow into the duodenum",
-      "Charcot's triad (fever, jaundice, RUQ pain) indicates ascending cholangitis—a medical emergency"
+      "Charcot's triad (fever, jaundice, RUQ pain) indicates ascending cholangitis; a medical emergency"
     ],
     quiz: [
       {
@@ -189,9 +189,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "cirrhosis": {
     title: "Cirrhosis",
     cellular: {
-      title: "Cirrhosis – Hepatocyte Destruction, Fibrosis & Portal Hypertension",
+      title: "Cirrhosis - Hepatocyte Destruction, Fibrosis & Portal Hypertension",
       content:
-        "Cirrhosis represents the end stage of chronic liver disease, characterized by irreversible replacement of normal hepatic parenchyma with fibrotic scar tissue and regenerative nodules. The most common causes include chronic alcohol use disorder, chronic hepatitis B and C infection, and non-alcoholic steatohepatitis (NASH). At the cellular level, persistent hepatocyte injury activates hepatic stellate cells, which transform from quiescent vitamin A–storing cells into myofibroblast-like cells that deposit excessive extracellular matrix proteins, primarily type I and III collagen, within the space of Disse.\n\nThis progressive fibrosis disrupts the hepatic sinusoidal architecture, increasing intrahepatic vascular resistance and leading to portal hypertension. As functional hepatocyte mass declines, the liver loses its ability to synthesize albumin, clotting factors (II, VII, IX, X), and bile; conjugate and excrete bilirubin; metabolize ammonia to urea via the urea cycle; and detoxify drugs and hormones. Hypoalbuminemia reduces plasma oncotic pressure, contributing to ascites and peripheral edema. Impaired clotting factor synthesis leads to coagulopathy, and failure to metabolize estrogen results in gynecomastia, spider angiomata, and palmar erythema in male clients.\n\nThe Child-Pugh classification system assesses cirrhosis severity using five parameters: serum albumin, serum bilirubin, INR/prothrombin time, ascites severity, and hepatic encephalopathy grade. Class A (5–6 points) indicates well-compensated disease, Class B (7–9 points) indicates significant functional compromise, and Class C (10–15 points) indicates decompensated cirrhosis with poor prognosis. The Model for End-Stage Liver Disease (MELD) score uses serum creatinine, bilirubin, and INR to predict 90-day mortality and prioritize liver transplant allocation."
+        "Cirrhosis represents the end stage of chronic liver disease, characterized by irreversible replacement of normal hepatic parenchyma with fibrotic scar tissue and regenerative nodules. The most common causes include chronic alcohol use disorder, chronic hepatitis B and C infection, and non-alcoholic steatohepatitis (NASH). At the cellular level, persistent hepatocyte injury activates hepatic stellate cells, which transform from quiescent vitamin A-storing cells into myofibroblast-like cells that deposit excessive extracellular matrix proteins, primarily type I and III collagen, within the space of Disse.\n\nThis progressive fibrosis disrupts the hepatic sinusoidal architecture, increasing intrahepatic vascular resistance and leading to portal hypertension. As functional hepatocyte mass declines, the liver loses its ability to synthesize albumin, clotting factors (II, VII, IX, X), and bile; conjugate and excrete bilirubin; metabolize ammonia to urea via the urea cycle; and detoxify drugs and hormones. Hypoalbuminemia reduces plasma oncotic pressure, contributing to ascites and peripheral edema. Impaired clotting factor synthesis leads to coagulopathy, and failure to metabolize estrogen results in gynecomastia, spider angiomata, and palmar erythema in male clients.\n\nThe Child-Pugh classification system assesses cirrhosis severity using five parameters: serum albumin, serum bilirubin, INR/prothrombin time, ascites severity, and hepatic encephalopathy grade. Class A (5-6 points) indicates well-compensated disease, Class B (7-9 points) indicates significant functional compromise, and Class C (10-15 points) indicates decompensated cirrhosis with poor prognosis. The Model for End-Stage Liver Disease (MELD) score uses serum creatinine, bilirubin, and INR to predict 90-day mortality and prioritize liver transplant allocation."
     },
     riskFactors: [
       "Chronic alcohol use disorder (most common cause in Western countries)",
@@ -223,7 +223,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Monitor and report signs of hepatic encephalopathy: confusion, asterixis, fetor hepaticus",
       "Measure abdominal girth daily at the same level to track ascites progression",
       "Monitor for bleeding: check stool for occult blood, assess gums, monitor platelet count and INR",
-      "Administer lactulose as ordered; titrate to 2–3 soft stools per day",
+      "Administer lactulose as ordered; titrate to 2-3 soft stools per day",
       "Weigh client daily and monitor strict intake and output",
       "Implement fall precautions for clients with encephalopathy or coagulopathy"
     ],
@@ -235,7 +235,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         "Palmar erythema and gynecomastia (impaired estrogen metabolism)"
       ],
       right: [
-        "Asterixis (flapping tremor)—indicates hepatic encephalopathy",
+        "Asterixis (flapping tremor); indicates hepatic encephalopathy",
         "Caput medusae (dilated periumbilical veins)",
         "Fetor hepaticus (musty, sweet breath odor)",
         "Splenomegaly with thrombocytopenia"
@@ -256,14 +256,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Metabolized by colonic bacteria to lactic acid, which lowers colonic pH, converting ammonia (NH3) to ammonium (NH4+) which cannot be reabsorbed; also acts as osmotic laxative to increase fecal ammonia excretion",
         sideEffects: "Diarrhea, abdominal bloating, flatulence, electrolyte imbalances",
         contra: "Galactosemia, bowel obstruction",
-        pearl: "Titrate dose to achieve 2–3 soft stools per day; excessive diarrhea can cause dehydration and worsen encephalopathy"
+        pearl: "Titrate dose to achieve 2-3 soft stools per day; excessive diarrhea can cause dehydration and worsen encephalopathy"
       }
     ],
     pearls: [
       "AST:ALT ratio > 2:1 suggests alcoholic liver disease",
       "Spironolactone and furosemide are given in a 100:40 mg ratio for ascites management",
       "Asterixis (liver flap) is a hallmark finding of hepatic encephalopathy",
-      "Restrict dietary protein only during acute encephalopathy episodes—chronic restriction leads to muscle wasting",
+      "Restrict dietary protein only during acute encephalopathy episodes; chronic restriction leads to muscle wasting",
       "Thrombocytopenia in cirrhosis results from splenic sequestration, not bone marrow failure"
     ],
     quiz: [
@@ -284,9 +284,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "portal-hypertension": {
     title: "Portal Hypertension",
     cellular: {
-      title: "Portal Hypertension – Increased Portal Venous Pressure, Varices & Ascites",
+      title: "Portal Hypertension - Increased Portal Venous Pressure, Varices & Ascites",
       content:
-        "Portal hypertension is defined as a hepatic venous pressure gradient (HVPG) exceeding 5 mmHg, with clinically significant portal hypertension occurring at ≥ 10 mmHg. The portal venous system drains blood from the GI tract, spleen, pancreas, and gallbladder to the liver via the portal vein. In cirrhosis, progressive fibrosis and regenerative nodules compress hepatic sinusoids and increase intrahepatic vascular resistance. Simultaneously, splanchnic vasodilation mediated by excessive nitric oxide (NO) production increases portal venous inflow, creating a hyperdynamic circulatory state.\n\nAt the cellular level, activated hepatic stellate cells contract around sinusoids (functioning as hepatic pericytes), further increasing resistance. The imbalance between vasoconstrictors (endothelin-1, thromboxane A2) and vasodilators (nitric oxide) within the liver contributes to the pathology. The increased portal pressure opens portosystemic collateral pathways—these collaterals decompress the portal system but are fragile, thin-walled vessels that can rupture. Major collateral sites include esophageal varices, gastric varices, rectal hemorrhoids, and caput medusae (periumbilical veins).\n\nThe hyperdynamic circulation triggers activation of the renin-angiotensin-aldosterone system (RAAS) and sympathetic nervous system, leading to sodium and water retention that exacerbates ascites and edema. Splenomegaly results from venous congestion, causing hypersplenism with sequestration and destruction of platelets, white blood cells, and red blood cells. When HVPG exceeds 12 mmHg, the risk of variceal hemorrhage increases dramatically—this is a life-threatening emergency with mortality rates of 15–20% per bleeding episode."
+        "Portal hypertension is defined as a hepatic venous pressure gradient (HVPG) exceeding 5 mmHg, with clinically significant portal hypertension occurring at ≥ 10 mmHg. The portal venous system drains blood from the GI tract, spleen, pancreas, and gallbladder to the liver via the portal vein. In cirrhosis, progressive fibrosis and regenerative nodules compress hepatic sinusoids and increase intrahepatic vascular resistance. Simultaneously, splanchnic vasodilation mediated by excessive nitric oxide (NO) production increases portal venous inflow, creating a hyperdynamic circulatory state.\n\nAt the cellular level, activated hepatic stellate cells contract around sinusoids (functioning as hepatic pericytes), further increasing resistance. The imbalance between vasoconstrictors (endothelin-1, thromboxane A2) and vasodilators (nitric oxide) within the liver contributes to the pathology. The increased portal pressure opens portosystemic collateral pathways; these collaterals decompress the portal system but are fragile, thin-walled vessels that can rupture. Major collateral sites include esophageal varices, gastric varices, rectal hemorrhoids, and caput medusae (periumbilical veins).\n\nThe hyperdynamic circulation triggers activation of the renin-angiotensin-aldosterone system (RAAS) and sympathetic nervous system, leading to sodium and water retention that exacerbates ascites and edema. Splenomegaly results from venous congestion, causing hypersplenism with sequestration and destruction of platelets, white blood cells, and red blood cells. When HVPG exceeds 12 mmHg, the risk of variceal hemorrhage increases dramatically; this is a life-threatening emergency with mortality rates of 15-20% per bleeding episode."
     },
     riskFactors: [
       "Cirrhosis (most common cause in developed countries)",
@@ -342,7 +342,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Blocks β1 and β2 adrenergic receptors, reducing cardiac output (β1) and causing splanchnic vasoconstriction (β2 blockade), thereby decreasing portal venous inflow and pressure",
         sideEffects: "Bradycardia, hypotension, fatigue, bronchospasm, masked hypoglycemia",
         contra: "Severe bradycardia, heart block, decompensated heart failure, asthma/severe COPD",
-        pearl: "Titrate to resting heart rate of 55–60 bpm; do not use in acute variceal bleeding—start after hemorrhage is controlled"
+        pearl: "Titrate to resting heart rate of 55-60 bpm; do not use in acute variceal bleeding; start after hemorrhage is controlled"
       },
       {
         name: "Octreotide (Sandostatin)",
@@ -350,13 +350,13 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Inhibits release of vasodilatory hormones (glucagon), causing splanchnic vasoconstriction and reducing portal blood flow and pressure",
         sideEffects: "Hyperglycemia, bradycardia, abdominal pain, gallstone formation with long-term use",
         contra: "Hypersensitivity to octreotide",
-        pearl: "First-line pharmacologic agent for acute variceal bleeding; administer as IV bolus followed by continuous infusion for 3–5 days"
+        pearl: "First-line pharmacologic agent for acute variceal bleeding; administer as IV bolus followed by continuous infusion for 3-5 days"
       }
     ],
     pearls: [
       "HVPG ≥ 10 mmHg defines clinically significant portal hypertension; ≥ 12 mmHg increases variceal bleeding risk",
-      "Non-selective beta-blockers reduce portal pressure by 20–25% and are first-line for variceal prophylaxis",
-      "TIPS is reserved for refractory cases—it can worsen hepatic encephalopathy by shunting portal blood past the liver",
+      "Non-selective beta-blockers reduce portal pressure by 20-25% and are first-line for variceal prophylaxis",
+      "TIPS is reserved for refractory cases; it can worsen hepatic encephalopathy by shunting portal blood past the liver",
       "All clients with cirrhosis should undergo screening endoscopy for varices at diagnosis"
     ],
     quiz: [
@@ -377,9 +377,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "ascites": {
     title: "Ascites",
     cellular: {
-      title: "Ascites – Fluid Accumulation, Paracentesis & Albumin/Diuretic Management",
+      title: "Ascites - Fluid Accumulation, Paracentesis & Albumin/Diuretic Management",
       content:
-        "Ascites is the pathological accumulation of serous fluid within the peritoneal cavity, most commonly resulting from portal hypertension secondary to cirrhosis (accounting for approximately 85% of cases). The pathophysiology involves a complex interplay of hemodynamic and neurohumoral mechanisms. Portal hypertension increases hydrostatic pressure in the splanchnic capillary bed, driving fluid transudation into the peritoneal space. Simultaneously, hepatic dysfunction leads to decreased albumin synthesis, reducing plasma oncotic pressure and further favoring fluid extravasation.\n\nAt the cellular level, splanchnic vasodilation (mediated by excessive nitric oxide and other vasodilators) causes effective arterial underfilling, activating the RAAS, sympathetic nervous system, and non-osmotic release of antidiuretic hormone (ADH/vasopressin). These compensatory mechanisms promote avid renal sodium and water retention, perpetuating the cycle of fluid accumulation. The serum-ascites albumin gradient (SAAG) is the key diagnostic tool: SAAG ≥ 1.1 g/dL indicates portal hypertension as the cause (transudate), while SAAG < 1.1 g/dL suggests other etiologies such as peritoneal carcinomatosis, tuberculosis, or nephrotic syndrome (exudate).\n\nLarge-volume paracentesis (LVP) is performed for tense ascites causing respiratory compromise or significant discomfort. When more than 5 liters are removed, IV albumin (6–8 g per liter removed) must be administered to prevent post-paracentesis circulatory dysfunction (PPCD)—a syndrome characterized by rapid reaccumulation of ascites, renal impairment, and hyponatremia. Spontaneous bacterial peritonitis (SBP) is a life-threatening complication occurring in 10–30% of hospitalized clients with ascites, diagnosed by ascitic fluid absolute neutrophil count ≥ 250 cells/mm³."
+        "Ascites is the pathological accumulation of serous fluid within the peritoneal cavity, most commonly resulting from portal hypertension secondary to cirrhosis (accounting for approximately 85% of cases). The pathophysiology involves a complex interplay of hemodynamic and neurohumoral mechanisms. Portal hypertension increases hydrostatic pressure in the splanchnic capillary bed, driving fluid transudation into the peritoneal space. Simultaneously, hepatic dysfunction leads to decreased albumin synthesis, reducing plasma oncotic pressure and further favoring fluid extravasation.\n\nAt the cellular level, splanchnic vasodilation (mediated by excessive nitric oxide and other vasodilators) causes effective arterial underfilling, activating the RAAS, sympathetic nervous system, and non-osmotic release of antidiuretic hormone (ADH/vasopressin). These compensatory mechanisms promote avid renal sodium and water retention, perpetuating the cycle of fluid accumulation. The serum-ascites albumin gradient (SAAG) is the key diagnostic tool: SAAG ≥ 1.1 g/dL indicates portal hypertension as the cause (transudate), while SAAG < 1.1 g/dL suggests other etiologies such as peritoneal carcinomatosis, tuberculosis, or nephrotic syndrome (exudate).\n\nLarge-volume paracentesis (LVP) is performed for tense ascites causing respiratory compromise or significant discomfort. When more than 5 liters are removed, IV albumin (6-8 g per liter removed) must be administered to prevent post-paracentesis circulatory dysfunction (PPCD); a syndrome characterized by rapid reaccumulation of ascites, renal impairment, and hyponatremia. Spontaneous bacterial peritonitis (SBP) is a life-threatening complication occurring in 10-30% of hospitalized clients with ascites, diagnosed by ascitic fluid absolute neutrophil count ≥ 250 cells/mm³."
     },
     riskFactors: [
       "Cirrhosis with portal hypertension (most common cause)",
@@ -400,11 +400,11 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     ],
     management: [
       "Sodium restriction: < 2 g/day (88 mmol/day)",
-      "Diuretic therapy: spironolactone 100 mg + furosemide 40 mg daily (100:40 ratio), titrate every 3–5 days",
-      "Large-volume paracentesis with IV albumin replacement (6–8 g/L removed if > 5 L drained)",
+      "Diuretic therapy: spironolactone 100 mg + furosemide 40 mg daily (100:40 ratio), titrate every 3-5 days",
+      "Large-volume paracentesis with IV albumin replacement (6-8 g/L removed if > 5 L drained)",
       "TIPS placement for diuretic-refractory ascites",
       "Antibiotic prophylaxis for SBP prevention (norfloxacin or trimethoprim-sulfamethoxazole)",
-      "Fluid restriction (1–1.5 L/day) only if serum sodium < 125 mEq/L"
+      "Fluid restriction (1-1.5 L/day) only if serum sodium < 125 mEq/L"
     ],
     nursingActions: [
       "Measure abdominal girth daily at the level of the umbilicus, at the same time each day",
@@ -443,26 +443,26 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Increases plasma oncotic pressure, drawing fluid from the interstitial and peritoneal spaces back into the intravascular compartment; prevents post-paracentesis circulatory dysfunction",
         sideEffects: "Fluid overload, pulmonary edema, allergic reactions, hypertension",
         contra: "Severe anemia, heart failure (use with caution)",
-        pearl: "Administer 6–8 g per liter of ascites removed during large-volume paracentesis exceeding 5 L"
+        pearl: "Administer 6-8 g per liter of ascites removed during large-volume paracentesis exceeding 5 L"
       }
     ],
     pearls: [
-      "SAAG ≥ 1.1 g/dL = portal hypertension–related ascites (95% accuracy)",
+      "SAAG ≥ 1.1 g/dL = portal hypertension-related ascites (95% accuracy)",
       "Always perform diagnostic paracentesis on new-onset ascites and in any hospitalized client with ascites to rule out SBP",
-      "Weight loss goal: 0.5 kg/day without edema, 1 kg/day with edema—faster diuresis risks hepatorenal syndrome",
-      "Post-paracentesis albumin (6–8 g/L) is only required when > 5 L is removed"
+      "Weight loss goal: 0.5 kg/day without edema, 1 kg/day with edema; faster diuresis risks hepatorenal syndrome",
+      "Post-paracentesis albumin (6-8 g/L) is only required when > 5 L is removed"
     ],
     quiz: [
       {
         question: "During a large-volume paracentesis, 7 liters of ascitic fluid are removed. What should the nurse administer as ordered to prevent post-paracentesis circulatory dysfunction?",
         options: [
           "Normal saline 500 mL IV bolus",
-          "IV albumin 6–8 g per liter removed",
+          "IV albumin 6-8 g per liter removed",
           "Furosemide 80 mg IV push",
           "Packed red blood cells 1 unit"
         ],
         correct: 1,
-        rationale: "When more than 5 liters of ascitic fluid are removed, IV albumin (6–8 g per liter drained) must be administered to maintain intravascular volume and prevent post-paracentesis circulatory dysfunction, which can lead to renal failure and rapid ascites reaccumulation."
+        rationale: "When more than 5 liters of ascitic fluid are removed, IV albumin (6-8 g per liter drained) must be administered to maintain intravascular volume and prevent post-paracentesis circulatory dysfunction, which can lead to renal failure and rapid ascites reaccumulation."
       }
     ]
   },
@@ -470,9 +470,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "esophageal-varices": {
     title: "Esophageal Varices",
     cellular: {
-      title: "Esophageal Varices – Variceal Bleeding, Balloon Tamponade & Banding",
+      title: "Esophageal Varices - Variceal Bleeding, Balloon Tamponade & Banding",
       content:
-        "Esophageal varices are dilated, tortuous submucosal veins in the lower esophagus that develop as portosystemic collaterals when portal pressure exceeds 10 mmHg. As portal hypertension increases, blood is diverted from the high-pressure portal system through the left gastric (coronary) vein into the esophageal venous plexus, which drains into the azygos system and systemic circulation. These collateral vessels are thin-walled, lack the structural support of normal veins, and progressively dilate under increasing pressure.\n\nAt the cellular level, the variceal wall consists of a single layer of endothelium with minimal smooth muscle and connective tissue support. As wall tension increases (according to Laplace's law: tension = pressure × radius / wall thickness), the risk of rupture escalates. Varices are most likely to bleed when they are large (> 5 mm), when portal pressure exceeds 12 mmHg, and when red wale marks (longitudinal red streaks indicating areas of extreme wall thinning) are present on endoscopy. Variceal hemorrhage is a medical emergency with 15–20% mortality per bleeding episode.\n\nAcute management involves hemodynamic resuscitation, pharmacologic therapy with vasoconstrictors (octreotide or terlipressin), and emergent upper endoscopy with variceal ligation (banding). Balloon tamponade (Sengstaken-Blakemore or Minnesota tube) is a temporizing bridge to definitive therapy when endoscopy is not immediately available or fails to control bleeding. The esophageal balloon is inflated to apply direct pressure against the bleeding varices, while the gastric balloon anchors the device. Balloon tamponade carries significant risks including esophageal rupture, aspiration, and pressure necrosis, and should not remain inflated for more than 24 hours."
+        "Esophageal varices are dilated, tortuous submucosal veins in the lower esophagus that develop as portosystemic collaterals when portal pressure exceeds 10 mmHg. As portal hypertension increases, blood is diverted from the high-pressure portal system through the left gastric (coronary) vein into the esophageal venous plexus, which drains into the azygos system and systemic circulation. These collateral vessels are thin-walled, lack the structural support of normal veins, and progressively dilate under increasing pressure.\n\nAt the cellular level, the variceal wall consists of a single layer of endothelium with minimal smooth muscle and connective tissue support. As wall tension increases (according to Laplace's law: tension = pressure × radius / wall thickness), the risk of rupture escalates. Varices are most likely to bleed when they are large (> 5 mm), when portal pressure exceeds 12 mmHg, and when red wale marks (longitudinal red streaks indicating areas of extreme wall thinning) are present on endoscopy. Variceal hemorrhage is a medical emergency with 15-20% mortality per bleeding episode.\n\nAcute management involves hemodynamic resuscitation, pharmacologic therapy with vasoconstrictors (octreotide or terlipressin), and emergent upper endoscopy with variceal ligation (banding). Balloon tamponade (Sengstaken-Blakemore or Minnesota tube) is a temporizing bridge to definitive therapy when endoscopy is not immediately available or fails to control bleeding. The esophageal balloon is inflated to apply direct pressure against the bleeding varices, while the gastric balloon anchors the device. Balloon tamponade carries significant risks including esophageal rupture, aspiration, and pressure necrosis, and should not remain inflated for more than 24 hours."
     },
     riskFactors: [
       "Cirrhosis with portal hypertension (HVPG ≥ 10 mmHg)",
@@ -480,28 +480,28 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Child-Pugh class B or C (decompensated cirrhosis)",
       "Active alcohol use in clients with alcoholic cirrhosis",
       "Thrombocytopenia (< 100,000/mm³) as marker of severe portal hypertension",
-      "History of prior variceal bleeding (60–70% rebleeding risk within 1 year)"
+      "History of prior variceal bleeding (60-70% rebleeding risk within 1 year)"
     ],
     diagnostics: [
       "Upper GI endoscopy (EGD): gold standard for diagnosis, grading, and treatment",
       "Variceal grading: small (< 5 mm), medium, large (> 5 mm) with/without red wale marks",
       "CBC: hemoglobin/hematocrit (degree of blood loss), thrombocytopenia",
       "Coagulation studies: PT/INR (prolonged due to liver dysfunction)",
-      "Type and crossmatch: prepare at least 2–4 units PRBCs",
+      "Type and crossmatch: prepare at least 2-4 units PRBCs",
       "BUN/creatinine ratio elevated from upper GI blood digestion"
     ],
     management: [
-      "Hemodynamic resuscitation: crystalloid fluids and PRBCs (target Hgb 7–8 g/dL—avoid over-transfusion)",
-      "Octreotide IV bolus (50 mcg) followed by continuous infusion (50 mcg/hr) for 3–5 days",
+      "Hemodynamic resuscitation: crystalloid fluids and PRBCs (target Hgb 7-8 g/dL; avoid over-transfusion)",
+      "Octreotide IV bolus (50 mcg) followed by continuous infusion (50 mcg/hr) for 3-5 days",
       "Emergent EGD with endoscopic variceal ligation (banding) within 12 hours",
       "Balloon tamponade (Sengstaken-Blakemore tube) as bridge if endoscopy unavailable",
       "Antibiotic prophylaxis (ceftriaxone 1 g IV daily × 7 days) to prevent SBP",
       "TIPS for recurrent or refractory variceal bleeding"
     ],
     nursingActions: [
-      "Maintain patent airway—keep intubation equipment at bedside; elevate HOB 30–45 degrees",
+      "Maintain patent airway; keep intubation equipment at bedside; elevate HOB 30-45 degrees",
       "Monitor hemodynamic status: vital signs every 15 minutes during active bleeding",
-      "Maintain large-bore IV access (two 16–18 gauge lines); administer blood products as ordered",
+      "Maintain large-bore IV access (two 16-18 gauge lines); administer blood products as ordered",
       "If balloon tamponade in place: keep scissors at bedside to cut tube if respiratory distress occurs",
       "Monitor for rebleeding: ongoing hematemesis, melena, tachycardia, decreasing hemoglobin",
       "Report any change in level of consciousness (may indicate hepatic encephalopathy from blood in GI tract)"
@@ -527,7 +527,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Causes splanchnic vasoconstriction, reducing portal blood flow and portal pressure; inhibits release of vasodilatory peptides",
         sideEffects: "Hyperglycemia, bradycardia, nausea, abdominal cramping",
         contra: "Hypersensitivity to octreotide",
-        pearl: "Administer 50 mcg IV bolus, then 50 mcg/hr infusion for 3–5 days; always used in conjunction with endoscopic therapy"
+        pearl: "Administer 50 mcg IV bolus, then 50 mcg/hr infusion for 3-5 days; always used in conjunction with endoscopic therapy"
       },
       {
         name: "Ceftriaxone",
@@ -535,13 +535,13 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Inhibits bacterial cell wall synthesis; used as prophylaxis against spontaneous bacterial peritonitis during variceal bleeding episodes",
         sideEffects: "Diarrhea, rash, biliary sludge, Clostridioides difficile infection",
         contra: "Cephalosporin allergy; do not co-administer with calcium-containing IV solutions in neonates",
-        pearl: "Prophylactic antibiotics during variceal bleeding reduce mortality by 20%—administer 1 g IV daily for 7 days as ordered"
+        pearl: "Prophylactic antibiotics during variceal bleeding reduce mortality by 20%; administer 1 g IV daily for 7 days as ordered"
       }
     ],
     pearls: [
-      "Keep scissors at the bedside with balloon tamponade—if the tube migrates, cut and remove immediately to prevent airway obstruction",
-      "Target hemoglobin 7–8 g/dL during resuscitation; over-transfusion increases portal pressure and rebleeding risk",
-      "Blood in the GI tract is a protein load that increases ammonia production—monitor for hepatic encephalopathy",
+      "Keep scissors at the bedside with balloon tamponade; if the tube migrates, cut and remove immediately to prevent airway obstruction",
+      "Target hemoglobin 7-8 g/dL during resuscitation; over-transfusion increases portal pressure and rebleeding risk",
+      "Blood in the GI tract is a protein load that increases ammonia production; monitor for hepatic encephalopathy",
       "All clients surviving variceal bleeding should be started on secondary prophylaxis (beta-blocker + banding)"
     ],
     quiz: [
@@ -562,9 +562,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "hepatitis": {
     title: "Hepatitis",
     cellular: {
-      title: "Hepatitis – Types A–E, Transmission, Serology & Disease Progression",
+      title: "Hepatitis - Types A-E, Transmission, Serology & Disease Progression",
       content:
-        "Hepatitis refers to inflammation of the liver, most commonly caused by hepatotropic viruses (A, B, C, D, E). Each virus has distinct transmission routes, clinical courses, and chronicity potential. Hepatitis A (HAV) and Hepatitis E (HEV) are transmitted via the fecal-oral route through contaminated food or water. Hepatitis B (HBV), C (HCV), and D (HDV) are transmitted through blood and body fluids, including sexual contact, percutaneous exposure, and vertical (mother-to-child) transmission. HDV is a defective RNA virus that requires HBV co-infection to replicate.\n\nAt the cellular level, hepatitis viruses do not directly destroy hepatocytes—rather, liver damage results from the host immune response. Cytotoxic T lymphocytes (CD8+) recognize viral antigens presented on hepatocyte surfaces via MHC class I molecules and initiate apoptosis. In HBV, a robust immune response clears the virus but causes significant hepatocyte destruction (acute hepatitis), while a weak immune response allows viral persistence (chronic hepatitis). HCV evades immune clearance through high mutation rates in its hypervariable region, leading to chronic infection in 75–85% of cases. Chronic HBV and HCV cause ongoing necroinflammation, progressive fibrosis, cirrhosis, and hepatocellular carcinoma.\n\nKey serologic markers include: HBsAg (active HBV infection), anti-HBs (immunity from vaccination or resolved infection), HBeAg (high viral replication and infectivity), anti-HBc IgM (acute infection), and anti-HBc IgG (past or chronic infection). For HCV, anti-HCV antibody indicates exposure (past or present), while HCV RNA PCR confirms active viremia. The prodromal phase of acute hepatitis is characterized by malaise, anorexia, nausea, and RUQ discomfort, followed by the icteric phase (jaundice, dark urine, clay-colored stools) and recovery phase."
+        "Hepatitis refers to inflammation of the liver, most commonly caused by hepatotropic viruses (A, B, C, D, E). Each virus has distinct transmission routes, clinical courses, and chronicity potential. Hepatitis A (HAV) and Hepatitis E (HEV) are transmitted via the fecal-oral route through contaminated food or water. Hepatitis B (HBV), C (HCV), and D (HDV) are transmitted through blood and body fluids, including sexual contact, percutaneous exposure, and vertical (mother-to-child) transmission. HDV is a defective RNA virus that requires HBV co-infection to replicate.\n\nAt the cellular level, hepatitis viruses do not directly destroy hepatocytes; rather, liver damage results from the host immune response. Cytotoxic T lymphocytes (CD8+) recognize viral antigens presented on hepatocyte surfaces via MHC class I molecules and initiate apoptosis. In HBV, a robust immune response clears the virus but causes significant hepatocyte destruction (acute hepatitis), while a weak immune response allows viral persistence (chronic hepatitis). HCV evades immune clearance through high mutation rates in its hypervariable region, leading to chronic infection in 75-85% of cases. Chronic HBV and HCV cause ongoing necroinflammation, progressive fibrosis, cirrhosis, and hepatocellular carcinoma.\n\nKey serologic markers include: HBsAg (active HBV infection), anti-HBs (immunity from vaccination or resolved infection), HBeAg (high viral replication and infectivity), anti-HBc IgM (acute infection), and anti-HBc IgG (past or chronic infection). For HCV, anti-HCV antibody indicates exposure (past or present), while HCV RNA PCR confirms active viremia. The prodromal phase of acute hepatitis is characterized by malaise, anorexia, nausea, and RUQ discomfort, followed by the icteric phase (jaundice, dark urine, clay-colored stools) and recovery phase."
     },
     riskFactors: [
       "HAV/HEV: travel to endemic areas, contaminated food/water, poor sanitation",
@@ -586,7 +586,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     management: [
       "HAV: supportive care (rest, hydration, avoid hepatotoxic substances); self-limiting",
       "HBV acute: supportive; chronic: antiviral therapy (tenofovir or entecavir)",
-      "HCV: direct-acting antiviral (DAA) therapy (sofosbuvir-based regimens)—95%+ cure rate",
+      "HCV: direct-acting antiviral (DAA) therapy (sofosbuvir-based regimens); 95%+ cure rate",
       "Avoid alcohol and hepatotoxic medications (acetaminophen at reduced doses)",
       "Vaccination: HAV (2-dose series), HBV (3-dose series at 0, 1, 6 months)",
       "Post-exposure prophylaxis: HBIG + HBV vaccine for needle-stick or perinatal exposure"
@@ -620,7 +620,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Inhibits HBV DNA polymerase by competing with deoxyadenosine triphosphate for incorporation into viral DNA, causing chain termination",
         sideEffects: "Nephrotoxicity, Fanconi syndrome, decreased bone mineral density, lactic acidosis",
         contra: "Severe renal impairment (dose adjustment required), concurrent nephrotoxic agents",
-        pearl: "First-line for chronic HBV; monitor renal function and phosphorus levels; do not discontinue abruptly—may cause severe hepatitis flare"
+        pearl: "First-line for chronic HBV; monitor renal function and phosphorus levels; do not discontinue abruptly; may cause severe hepatitis flare"
       },
       {
         name: "Sofosbuvir/Ledipasvir (Harvoni)",
@@ -628,14 +628,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Sofosbuvir inhibits HCV NS5B RNA-dependent RNA polymerase; ledipasvir inhibits NS5A protein essential for viral replication and assembly",
         sideEffects: "Fatigue, headache, nausea, insomnia",
         contra: "Concurrent use with amiodarone (risk of symptomatic bradycardia); not for HBV co-infection without HBV treatment",
-        pearl: "Achieves > 95% sustained virologic response (SVR/cure) in 8–12 weeks; screen for HBV before starting—DAA therapy can cause HBV reactivation"
+        pearl: "Achieves > 95% sustained virologic response (SVR/cure) in 8-12 weeks; screen for HBV before starting; DAA therapy can cause HBV reactivation"
       }
     ],
     pearls: [
       "HBsAg positive = current HBV infection; anti-HBs positive = immunity (vaccine or resolved infection)",
-      "HCV is the most common blood-borne infection in the US—screen all adults born 1945–1965",
+      "HCV is the most common blood-borne infection in the US; screen all adults born 1945-1965",
       "HAV and HEV do not cause chronic hepatitis; HBV, HCV, and HDV can become chronic",
-      "DAA therapy for HCV can cause HBV reactivation—always screen for HBV before starting treatment",
+      "DAA therapy for HCV can cause HBV reactivation; always screen for HBV before starting treatment",
       "Fulminant hepatic failure is more common with HBV (especially HBV-HDV co-infection) than HCV"
     ],
     quiz: [
@@ -656,9 +656,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "pancreatitis": {
     title: "Pancreatitis",
     cellular: {
-      title: "Pancreatitis – Acute vs. Chronic, Autodigestion & Ranson Criteria",
+      title: "Pancreatitis - Acute vs. Chronic, Autodigestion & Ranson Criteria",
       content:
-        "Pancreatitis is inflammation of the pancreas resulting from premature activation of pancreatic enzymes within the gland, leading to autodigestion of pancreatic tissue. The two most common causes are gallstones (40%) and chronic alcohol use (40%). In gallstone pancreatitis, a stone lodges at the ampulla of Vater, obstructing the pancreatic duct and causing back-pressure that triggers premature trypsinogen-to-trypsin conversion. In alcoholic pancreatitis, alcohol and its metabolites (acetaldehyde) directly damage acinar cells, increase ductal protein secretion, and form protein plugs that obstruct small pancreatic ducts.\n\nAt the cellular level, the key event is inappropriate intracellular activation of trypsinogen to trypsin within acinar cells. Normally, pancreatic enzymes are synthesized as inactive zymogens and stored in zymogen granules separated from lysosomal enzymes. Injury disrupts this compartmentalization, allowing lysosomal hydrolases (cathepsin B) to activate trypsinogen. Active trypsin then activates other zymogens—phospholipase A2, elastase, and lipase—creating a cascade of tissue destruction. Phospholipase A2 damages cell membranes, elastase destroys blood vessel walls causing hemorrhage, and lipase digests peripancreatic fat (fat necrosis). Inflammatory mediators (TNF-α, IL-1, IL-6) are released, potentially leading to systemic inflammatory response syndrome (SIRS), organ failure, and death.\n\nRanson criteria predict severity at admission (age > 55, WBC > 16,000, glucose > 200, AST > 250, LDH > 350) and at 48 hours (hematocrit drop > 10%, BUN rise > 5, calcium < 8, PaO2 < 60, base deficit > 4, fluid sequestration > 6 L). A score ≥ 3 indicates severe pancreatitis with 15% mortality; ≥ 6 indicates 40% mortality. Grey Turner sign (flank ecchymosis) and Cullen sign (periumbilical ecchymosis) indicate retroperitoneal hemorrhage and severe necrotizing pancreatitis."
+        "Pancreatitis is inflammation of the pancreas resulting from premature activation of pancreatic enzymes within the gland, leading to autodigestion of pancreatic tissue. The two most common causes are gallstones (40%) and chronic alcohol use (40%). In gallstone pancreatitis, a stone lodges at the ampulla of Vater, obstructing the pancreatic duct and causing back-pressure that triggers premature trypsinogen-to-trypsin conversion. In alcoholic pancreatitis, alcohol and its metabolites (acetaldehyde) directly damage acinar cells, increase ductal protein secretion, and form protein plugs that obstruct small pancreatic ducts.\n\nAt the cellular level, the key event is inappropriate intracellular activation of trypsinogen to trypsin within acinar cells. Normally, pancreatic enzymes are synthesized as inactive zymogens and stored in zymogen granules separated from lysosomal enzymes. Injury disrupts this compartmentalization, allowing lysosomal hydrolases (cathepsin B) to activate trypsinogen. Active trypsin then activates other zymogens; phospholipase A2, elastase, and lipase; creating a cascade of tissue destruction. Phospholipase A2 damages cell membranes, elastase destroys blood vessel walls causing hemorrhage, and lipase digests peripancreatic fat (fat necrosis). Inflammatory mediators (TNF-α, IL-1, IL-6) are released, potentially leading to systemic inflammatory response syndrome (SIRS), organ failure, and death.\n\nRanson criteria predict severity at admission (age > 55, WBC > 16,000, glucose > 200, AST > 250, LDH > 350) and at 48 hours (hematocrit drop > 10%, BUN rise > 5, calcium < 8, PaO2 < 60, base deficit > 4, fluid sequestration > 6 L). A score ≥ 3 indicates severe pancreatitis with 15% mortality; ≥ 6 indicates 40% mortality. Grey Turner sign (flank ecchymosis) and Cullen sign (periumbilical ecchymosis) indicate retroperitoneal hemorrhage and severe necrotizing pancreatitis."
     },
     riskFactors: [
       "Gallstones (most common cause overall)",
@@ -679,16 +679,16 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Abdominal ultrasound to evaluate for gallstones as etiology"
     ],
     management: [
-      "Aggressive IV fluid resuscitation: lactated Ringer's at 250–500 mL/hr initially",
-      "Pain management: IV hydromorphone or fentanyl (avoid morphine—sphincter of Oddi spasm controversy)",
-      "NPO initially; early enteral nutrition via nasojejunal tube within 24–48 hours (superior to TPN)",
+      "Aggressive IV fluid resuscitation: lactated Ringer's at 250-500 mL/hr initially",
+      "Pain management: IV hydromorphone or fentanyl (avoid morphine; sphincter of Oddi spasm controversy)",
+      "NPO initially; early enteral nutrition via nasojejunal tube within 24-48 hours (superior to TPN)",
       "ERCP with sphincterotomy for gallstone pancreatitis with biliary obstruction",
       "Cholecystectomy during same admission for gallstone pancreatitis (once inflammation resolves)",
-      "Antibiotics only for infected pancreatic necrosis—not routine prophylaxis"
+      "Antibiotics only for infected pancreatic necrosis; not routine prophylaxis"
     ],
     nursingActions: [
       "Position client on left side with knees flexed to reduce pain",
-      "Monitor and report Cullen sign (periumbilical ecchymosis) or Grey Turner sign (flank ecchymosis)—indicates hemorrhagic pancreatitis",
+      "Monitor and report Cullen sign (periumbilical ecchymosis) or Grey Turner sign (flank ecchymosis); indicates hemorrhagic pancreatitis",
       "Maintain strict NPO; provide oral hygiene every 2 hours",
       "Monitor serum calcium levels: hypocalcemia can cause tetany, seizures (positive Chvostek/Trousseau signs)",
       "Administer analgesics as ordered and assess pain using validated scale",
@@ -723,14 +723,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Provides exogenous lipase, amylase, and protease to compensate for pancreatic exocrine insufficiency, improving fat and nutrient digestion",
         sideEffects: "Nausea, cramping, diarrhea, hyperuricosuria at high doses",
         contra: "Acute pancreatitis (not used during acute phase), pork allergy",
-        pearl: "Used in chronic pancreatitis with steatorrhea; administer with meals and snacks—not on an empty stomach"
+        pearl: "Used in chronic pancreatitis with steatorrhea; administer with meals and snacks; not on an empty stomach"
       }
     ],
     pearls: [
-      "Lipase is more specific than amylase for pancreatitis—amylase can be elevated in many non-pancreatic conditions",
-      "Grey Turner sign and Cullen sign indicate hemorrhagic pancreatitis—a severe, life-threatening presentation",
+      "Lipase is more specific than amylase for pancreatitis; amylase can be elevated in many non-pancreatic conditions",
+      "Grey Turner sign and Cullen sign indicate hemorrhagic pancreatitis; a severe, life-threatening presentation",
       "Hypocalcemia occurs because calcium binds to fatty acids in areas of fat necrosis (saponification)",
-      "Early enteral nutrition is preferred over TPN—maintains gut barrier integrity and reduces infectious complications",
+      "Early enteral nutrition is preferred over TPN; maintains gut barrier integrity and reduces infectious complications",
       "Ranson score ≥ 3 at 48 hours = severe pancreatitis with significantly increased mortality"
     ],
     quiz: [
@@ -751,9 +751,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "ibs": {
     title: "Irritable Bowel Syndrome (IBS)",
     cellular: {
-      title: "IBS – Visceral Hypersensitivity, Gut-Brain Axis & FODMAP Diet",
+      title: "IBS - Visceral Hypersensitivity, Gut-Brain Axis & FODMAP Diet",
       content:
-        "Irritable bowel syndrome (IBS) is a chronic functional gastrointestinal disorder characterized by recurrent abdominal pain associated with changes in bowel habits, in the absence of structural or biochemical abnormalities. IBS affects approximately 10–15% of the global population and is classified into four subtypes: IBS with constipation (IBS-C), IBS with diarrhea (IBS-D), mixed IBS (IBS-M), and unsubtyped IBS (IBS-U). Diagnosis is based on the Rome IV criteria: recurrent abdominal pain at least 1 day per week in the last 3 months, associated with ≥ 2 of the following: related to defecation, associated with a change in stool frequency, or associated with a change in stool form.\n\nAt the cellular and neurophysiological level, IBS involves visceral hypersensitivity—an exaggerated sensory response to normal physiological stimuli such as intestinal distension. This results from peripheral sensitization of visceral afferent neurons (upregulation of ion channels like TRPV1) and central sensitization in the spinal cord and brain. The gut-brain axis, involving bidirectional communication between the enteric nervous system and the central nervous system via vagal and spinal pathways, is dysregulated. Serotonin (5-HT) plays a crucial role: 95% of the body's serotonin is produced in enterochromaffin cells of the GI tract, and alterations in serotonin signaling affect motility, secretion, and visceral sensation.\n\nThe low-FODMAP diet (Fermentable Oligosaccharides, Disaccharides, Monosaccharides, and Polyols) has strong evidence for symptom reduction in 50–80% of IBS clients. FODMAPs are short-chain carbohydrates that are poorly absorbed in the small intestine, leading to increased water content in the bowel (osmotic effect) and rapid fermentation by colonic bacteria producing hydrogen, methane, and carbon dioxide gas. This distension triggers pain in the hypersensitive viscera. Stress, anxiety, and depression frequently coexist with IBS and amplify symptoms through the gut-brain axis—psychological interventions including cognitive behavioral therapy (CBT) have demonstrated significant benefit."
+        "Irritable bowel syndrome (IBS) is a chronic functional gastrointestinal disorder characterized by recurrent abdominal pain associated with changes in bowel habits, in the absence of structural or biochemical abnormalities. IBS affects approximately 10-15% of the global population and is classified into four subtypes: IBS with constipation (IBS-C), IBS with diarrhea (IBS-D), mixed IBS (IBS-M), and unsubtyped IBS (IBS-U). Diagnosis is based on the Rome IV criteria: recurrent abdominal pain at least 1 day per week in the last 3 months, associated with ≥ 2 of the following: related to defecation, associated with a change in stool frequency, or associated with a change in stool form.\n\nAt the cellular and neurophysiological level, IBS involves visceral hypersensitivity; an exaggerated sensory response to normal physiological stimuli such as intestinal distension. This results from peripheral sensitization of visceral afferent neurons (upregulation of ion channels like TRPV1) and central sensitization in the spinal cord and brain. The gut-brain axis, involving bidirectional communication between the enteric nervous system and the central nervous system via vagal and spinal pathways, is dysregulated. Serotonin (5-HT) plays a crucial role: 95% of the body's serotonin is produced in enterochromaffin cells of the GI tract, and alterations in serotonin signaling affect motility, secretion, and visceral sensation.\n\nThe low-FODMAP diet (Fermentable Oligosaccharides, Disaccharides, Monosaccharides, and Polyols) has strong evidence for symptom reduction in 50-80% of IBS clients. FODMAPs are short-chain carbohydrates that are poorly absorbed in the small intestine, leading to increased water content in the bowel (osmotic effect) and rapid fermentation by colonic bacteria producing hydrogen, methane, and carbon dioxide gas. This distension triggers pain in the hypersensitive viscera. Stress, anxiety, and depression frequently coexist with IBS and amplify symptoms through the gut-brain axis; psychological interventions including cognitive behavioral therapy (CBT) have demonstrated significant benefit."
     },
     riskFactors: [
       "Female sex (2:1 female-to-male ratio)",
@@ -773,7 +773,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Colonoscopy only if alarm features present: age > 50, rectal bleeding, weight loss, anemia, family history of colon cancer"
     ],
     management: [
-      "Low-FODMAP diet: elimination phase (2–6 weeks) followed by systematic reintroduction",
+      "Low-FODMAP diet: elimination phase (2-6 weeks) followed by systematic reintroduction",
       "IBS-C: fiber supplementation (psyllium), osmotic laxatives (PEG 3350), linaclotide or lubiprostone",
       "IBS-D: loperamide for symptom control, rifaximin (antibiotic), alosetron (severe cases only)",
       "Antispasmodics (dicyclomine or hyoscyamine) for cramping pain",
@@ -786,7 +786,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Administer antispasmodics as ordered 30 minutes before meals",
       "Assess and report psychological symptoms: anxiety, depression, impact on quality of life",
       "Monitor stool pattern using the Bristol Stool Form Scale",
-      "Reinforce that IBS does not increase colorectal cancer risk—provide reassurance"
+      "Reinforce that IBS does not increase colorectal cancer risk; provide reassurance"
     ],
     signs: {
       left: [
@@ -821,7 +821,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "IBS is a diagnosis of exclusion—alarm features (weight loss, rectal bleeding, nocturnal symptoms, anemia) warrant further workup",
+      "IBS is a diagnosis of exclusion; alarm features (weight loss, rectal bleeding, nocturnal symptoms, anemia) warrant further workup",
       "Low-FODMAP diet should be guided by a dietitian and is not meant to be a permanent restriction",
       "Nocturnal symptoms suggest organic disease (IBD, cancer), not IBS",
       "Fecal calprotectin is a useful non-invasive marker to differentiate IBS from inflammatory bowel disease"
@@ -844,14 +844,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "ulcerative-colitis": {
     title: "Ulcerative Colitis",
     cellular: {
-      title: "Ulcerative Colitis – Mucosal Inflammation, Toxic Megacolon & Cancer Risk",
+      title: "Ulcerative Colitis - Mucosal Inflammation, Toxic Megacolon & Cancer Risk",
       content:
-        "Ulcerative colitis (UC) is a chronic inflammatory bowel disease (IBD) characterized by diffuse, continuous mucosal and submucosal inflammation that begins in the rectum and extends proximally in a contiguous pattern through the colon. Unlike Crohn's disease, UC does not involve the small intestine (except for 'backwash ileitis' in pancolitis) and does not produce transmural inflammation, skip lesions, or granulomas. The disease follows a relapsing-remitting course with periods of active inflammation (flares) and clinical remission.\n\nAt the cellular level, the inflammatory process involves a dysregulated mucosal immune response, likely triggered by environmental factors in genetically susceptible individuals. T-helper 2 (Th2) cells predominate in UC, producing cytokines (IL-5, IL-13) that activate natural killer T cells and promote an atypical inflammatory response. Neutrophils infiltrate the colonic crypts, forming crypt abscesses—a hallmark histological finding. The mucosa develops friability, contact bleeding, erythema, and pseudopolyps (islands of regenerating mucosa amid areas of ulceration). The epithelial barrier becomes disrupted, increasing permeability and allowing bacterial translocation.\n\nToxic megacolon is the most dangerous acute complication, defined as colonic dilatation > 6 cm with signs of systemic toxicity (fever, tachycardia, leukocytosis, anemia). It can progress to perforation, peritonitis, and septic shock. Clients with UC have an increased risk of colorectal cancer proportional to disease duration and extent—risk increases significantly after 8–10 years of disease, especially in pancolitis. Surveillance colonoscopy with random biopsies every 1–2 years is recommended beginning 8 years after diagnosis."
+        "Ulcerative colitis (UC) is a chronic inflammatory bowel disease (IBD) characterized by diffuse, continuous mucosal and submucosal inflammation that begins in the rectum and extends proximally in a contiguous pattern through the colon. Unlike Crohn's disease, UC does not involve the small intestine (except for 'backwash ileitis' in pancolitis) and does not produce transmural inflammation, skip lesions, or granulomas. The disease follows a relapsing-remitting course with periods of active inflammation (flares) and clinical remission.\n\nAt the cellular level, the inflammatory process involves a dysregulated mucosal immune response, likely triggered by environmental factors in genetically susceptible individuals. T-helper 2 (Th2) cells predominate in UC, producing cytokines (IL-5, IL-13) that activate natural killer T cells and promote an atypical inflammatory response. Neutrophils infiltrate the colonic crypts, forming crypt abscesses; a hallmark histological finding. The mucosa develops friability, contact bleeding, erythema, and pseudopolyps (islands of regenerating mucosa amid areas of ulceration). The epithelial barrier becomes disrupted, increasing permeability and allowing bacterial translocation.\n\nToxic megacolon is the most dangerous acute complication, defined as colonic dilatation > 6 cm with signs of systemic toxicity (fever, tachycardia, leukocytosis, anemia). It can progress to perforation, peritonitis, and septic shock. Clients with UC have an increased risk of colorectal cancer proportional to disease duration and extent; risk increases significantly after 8-10 years of disease, especially in pancolitis. Surveillance colonoscopy with random biopsies every 1-2 years is recommended beginning 8 years after diagnosis."
     },
     riskFactors: [
       "Family history of inflammatory bowel disease",
       "Ashkenazi Jewish descent",
-      "Age 15–30 years (peak onset) or 50–70 years (second peak)",
+      "Age 15-30 years (peak onset) or 50-70 years (second peak)",
       "Non-smoking status (paradoxically, smoking appears protective in UC)",
       "NSAID use (may trigger flares)",
       "History of appendectomy (may be protective)",
@@ -860,19 +860,19 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     ],
     diagnostics: [
       "Colonoscopy with biopsy: continuous mucosal inflammation from rectum proximally, crypt abscesses, pseudopolyps",
-      "Stool studies: fecal calprotectin and lactoferrin (elevated—markers of intestinal inflammation)",
+      "Stool studies: fecal calprotectin and lactoferrin (elevated; markers of intestinal inflammation)",
       "CBC: anemia (iron deficiency from chronic blood loss), leukocytosis, thrombocytosis",
       "ESR and CRP: elevated during active disease",
-      "pANCA (perinuclear anti-neutrophil cytoplasmic antibodies): positive in 60–70% of UC (not Crohn's)",
+      "pANCA (perinuclear anti-neutrophil cytoplasmic antibodies): positive in 60-70% of UC (not Crohn's)",
       "Abdominal X-ray: rule out toxic megacolon (colonic dilatation > 6 cm)"
     ],
     management: [
       "5-aminosalicylates (mesalamine): first-line for mild-moderate disease (oral and rectal formulations)",
-      "Corticosteroids (prednisone, budesonide): for acute flares—not maintenance therapy",
+      "Corticosteroids (prednisone, budesonide): for acute flares; not maintenance therapy",
       "Immunomodulators (azathioprine, 6-mercaptopurine): steroid-sparing maintenance agents",
       "Biologic therapy (infliximab, adalimumab, vedolizumab): moderate-severe disease refractory to conventional therapy",
       "Total proctocolectomy with ileal pouch-anal anastomosis (IPAA): curative surgery for refractory disease or dysplasia",
-      "Surveillance colonoscopy every 1–2 years beginning 8 years after diagnosis"
+      "Surveillance colonoscopy every 1-2 years beginning 8 years after diagnosis"
     ],
     nursingActions: [
       "Monitor stool frequency, character, and presence of blood; report > 6 bloody stools/day",
@@ -903,7 +903,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Topically inhibits prostaglandin and leukotriene synthesis in the colonic mucosa by blocking cyclooxygenase and lipoxygenase pathways, reducing mucosal inflammation",
         sideEffects: "Headache, nausea, abdominal pain, diarrhea, rarely nephrotoxicity or pancreatitis",
         contra: "Salicylate or aspirin hypersensitivity, severe renal or hepatic impairment",
-        pearl: "First-line for mild-moderate UC; available as oral and rectal (enema/suppository) formulations—rectal preparations are particularly effective for distal disease"
+        pearl: "First-line for mild-moderate UC; available as oral and rectal (enema/suppository) formulations; rectal preparations are particularly effective for distal disease"
       },
       {
         name: "Infliximab (Remicade)",
@@ -915,9 +915,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "UC involves continuous inflammation starting at the rectum—skip lesions suggest Crohn's disease",
+      "UC involves continuous inflammation starting at the rectum; skip lesions suggest Crohn's disease",
       "Toxic megacolon is a surgical emergency: stop anticholinergics and opioids, which can precipitate dilation",
-      "Colorectal cancer risk increases after 8–10 years of disease—surveillance colonoscopy is essential",
+      "Colorectal cancer risk increases after 8-10 years of disease; surveillance colonoscopy is essential",
       "pANCA is associated with UC; ASCA is associated with Crohn's disease"
     ],
     quiz: [
@@ -930,7 +930,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
           "Peritonitis from perforation"
         ],
         correct: 1,
-        rationale: "Fever, tachycardia, abdominal distension, and absent bowel sounds in a client with UC are classic signs of toxic megacolon—a life-threatening complication requiring immediate medical attention. Report findings to the provider stat."
+        rationale: "Fever, tachycardia, abdominal distension, and absent bowel sounds in a client with UC are classic signs of toxic megacolon; a life-threatening complication requiring immediate medical attention. Report findings to the provider stat."
       }
     ]
   },
@@ -938,24 +938,24 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "crohns-disease": {
     title: "Crohn's Disease",
     cellular: {
-      title: "Crohn's Disease – Transmural Inflammation, Skip Lesions & Fistulae",
+      title: "Crohn's Disease - Transmural Inflammation, Skip Lesions & Fistulae",
       content:
-        "Crohn's disease is a chronic inflammatory bowel disease characterized by transmural (full-thickness) inflammation that can affect any segment of the GI tract from mouth to anus, though the terminal ileum and proximal colon are most commonly involved. Unlike ulcerative colitis, Crohn's disease produces discontinuous 'skip lesions' with segments of normal bowel interspersed between inflamed areas. The transmural nature of inflammation leads to complications unique to Crohn's: strictures, fistulae (abnormal connections between bowel loops, bladder, vagina, or skin), and abscesses.\n\nAt the cellular level, Crohn's disease is driven primarily by a Th1/Th17 immune response. Dendritic cells and macrophages in the intestinal mucosa produce excessive IL-12 and IL-23, which activate Th1 cells (producing IFN-γ and TNF-α) and Th17 cells (producing IL-17). Non-caseating granulomas—clusters of activated macrophages (epithelioid cells) surrounded by lymphocytes—are a hallmark histological finding present in approximately 30% of biopsy specimens. The mucosal surface develops a characteristic 'cobblestone' appearance due to deep longitudinal and transverse ulcers separated by areas of edematous mucosa.\n\nTerminal ileum involvement causes malabsorption of bile salts (leading to fat malabsorption, steatorrhea, and fat-soluble vitamin deficiencies) and vitamin B12 (leading to megaloblastic anemia). Transmural inflammation and fibrosis can narrow the bowel lumen, creating strictures that cause obstructive symptoms. Fistulae develop when transmural inflammation creates sinus tracts—enterocutaneous (bowel to skin), enterovesical (bowel to bladder), enterovaginal, and enteroenteric fistulae each present with characteristic symptoms. Perianal disease (fissures, fistulae, abscesses) is present in up to 50% of clients."
+        "Crohn's disease is a chronic inflammatory bowel disease characterized by transmural (full-thickness) inflammation that can affect any segment of the GI tract from mouth to anus, though the terminal ileum and proximal colon are most commonly involved. Unlike ulcerative colitis, Crohn's disease produces discontinuous 'skip lesions' with segments of normal bowel interspersed between inflamed areas. The transmural nature of inflammation leads to complications unique to Crohn's: strictures, fistulae (abnormal connections between bowel loops, bladder, vagina, or skin), and abscesses.\n\nAt the cellular level, Crohn's disease is driven primarily by a Th1/Th17 immune response. Dendritic cells and macrophages in the intestinal mucosa produce excessive IL-12 and IL-23, which activate Th1 cells (producing IFN-γ and TNF-α) and Th17 cells (producing IL-17). Non-caseating granulomas; clusters of activated macrophages (epithelioid cells) surrounded by lymphocytes; are a hallmark histological finding present in approximately 30% of biopsy specimens. The mucosal surface develops a characteristic 'cobblestone' appearance due to deep longitudinal and transverse ulcers separated by areas of edematous mucosa.\n\nTerminal ileum involvement causes malabsorption of bile salts (leading to fat malabsorption, steatorrhea, and fat-soluble vitamin deficiencies) and vitamin B12 (leading to megaloblastic anemia). Transmural inflammation and fibrosis can narrow the bowel lumen, creating strictures that cause obstructive symptoms. Fistulae develop when transmural inflammation creates sinus tracts; enterocutaneous (bowel to skin), enterovesical (bowel to bladder), enterovaginal, and enteroenteric fistulae each present with characteristic symptoms. Perianal disease (fissures, fistulae, abscesses) is present in up to 50% of clients."
     },
     riskFactors: [
-      "Family history of IBD (first-degree relatives have 5–20× increased risk)",
+      "Family history of IBD (first-degree relatives have 5-20× increased risk)",
       "Ashkenazi Jewish descent",
-      "Smoking (doubles the risk of Crohn's and worsens disease course—opposite of UC)",
-      "Age 15–30 years at peak onset",
+      "Smoking (doubles the risk of Crohn's and worsens disease course; opposite of UC)",
+      "Age 15-30 years at peak onset",
       "NOD2/CARD15 gene mutations",
       "Western diet high in processed foods and refined sugars",
       "NSAID use (may trigger flares)",
-      "History of appendectomy (may increase risk—opposite of UC)"
+      "History of appendectomy (may increase risk; opposite of UC)"
     ],
     diagnostics: [
       "Colonoscopy with ileoscopy and biopsy: skip lesions, cobblestoning, aphthous ulcers, non-caseating granulomas",
       "CT enterography or MR enterography: bowel wall thickening, strictures, fistulae, abscesses",
-      "ASCA (anti-Saccharomyces cerevisiae antibodies): positive in 60–70% of Crohn's (not UC)",
+      "ASCA (anti-Saccharomyces cerevisiae antibodies): positive in 60-70% of Crohn's (not UC)",
       "Fecal calprotectin: elevated (correlates with degree of intestinal inflammation)",
       "CBC: anemia (B12 deficiency or chronic disease), leukocytosis",
       "CRP and ESR: elevated during active disease; albumin decreased"
@@ -972,7 +972,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Monitor for signs of bowel obstruction: colicky pain, vomiting, abdominal distension, absent bowel sounds",
       "Assess perianal area for fistulae, fissures, and abscesses; provide wound care as ordered",
       "Monitor nutritional status and weight; administer supplements (B12, iron, folate) as ordered",
-      "Educate client on smoking cessation resources—smoking worsens Crohn's disease",
+      "Educate client on smoking cessation resources; smoking worsens Crohn's disease",
       "Administer immunosuppressants as ordered; monitor for infection signs",
       "Report signs of fistula formation: passage of stool from vagina, pneumaturia (air in urine), drainage from skin"
     ],
@@ -1009,10 +1009,10 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "Smoking worsens Crohn's but paradoxically appears protective in UC—always counsel Crohn's clients on cessation",
-      "Terminal ileum involvement causes B12 and bile salt malabsorption—assess for megaloblastic anemia and steatorrhea",
+      "Smoking worsens Crohn's but paradoxically appears protective in UC; always counsel Crohn's clients on cessation",
+      "Terminal ileum involvement causes B12 and bile salt malabsorption; assess for megaloblastic anemia and steatorrhea",
       "Non-caseating granulomas on biopsy are characteristic of Crohn's but not required for diagnosis",
-      "Crohn's is NOT cured by surgery—post-surgical recurrence at anastomotic sites is common",
+      "Crohn's is NOT cured by surgery; post-surgical recurrence at anastomotic sites is common",
       "ASCA positive + pANCA negative favors Crohn's; pANCA positive + ASCA negative favors UC"
     ],
     quiz: [
@@ -1033,7 +1033,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "diverticulitis": {
     title: "Diverticulitis",
     cellular: {
-      title: "Diverticulitis – Diverticular Perforation, Abscess & Hinchey Classification",
+      title: "Diverticulitis - Diverticular Perforation, Abscess & Hinchey Classification",
       content:
         "Diverticulitis occurs when one or more diverticula (outpouchings of the colonic mucosa and submucosa through the muscular wall) become inflamed or infected. Diverticula form at points of weakness in the colonic wall where the vasa recta (nutrient arteries) penetrate the circular muscle layer. Low dietary fiber leads to decreased stool bulk, increased intraluminal pressure during colonic segmentation, and progressive herniation of mucosa through these weak points. The sigmoid colon is most commonly affected due to its narrower diameter and highest intraluminal pressures (according to Laplace's law).\n\nAt the cellular level, diverticulitis begins when a fecalith (hardened stool) obstructs the neck of a diverticulum, leading to mucosal erosion, bacterial overgrowth, and micro- or macro-perforation. Localized infection triggers an inflammatory cascade with neutrophil infiltration, cytokine release, and pericolic abscess formation. In uncomplicated diverticulitis, the inflammation is contained by adjacent mesentery, omentum, and pericolonic fat, forming a localized phlegmon. In complicated diverticulitis, the inflammation extends to cause abscess formation, free perforation with purulent or fecal peritonitis, fistula formation (colovesical or colovaginal), or stricture with obstruction.\n\nThe Hinchey classification system grades the severity of complicated diverticulitis: Stage I = confined pericolic abscess, Stage II = distant abscess (pelvic, retroperitoneal), Stage III = purulent peritonitis from ruptured abscess, Stage IV = fecal peritonitis from free perforation. Hinchey I and II may be managed with antibiotics and percutaneous drainage, while III and IV typically require emergent surgery (Hartmann procedure: sigmoid resection with end colostomy)."
     },
@@ -1047,17 +1047,17 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Immunosuppression (increases risk of complicated diverticulitis)"
     ],
     diagnostics: [
-      "CT abdomen/pelvis with IV contrast: gold standard—shows colonic wall thickening, pericolic fat stranding, abscess, free air",
+      "CT abdomen/pelvis with IV contrast: gold standard; shows colonic wall thickening, pericolic fat stranding, abscess, free air",
       "CBC: leukocytosis with left shift",
       "CRP: elevated (correlates with severity)",
       "Urinalysis: pyuria or pneumaturia may suggest colovesical fistula",
-      "Colonoscopy: performed 6–8 weeks AFTER acute episode resolves (never during acute diverticulitis—risk of perforation)"
+      "Colonoscopy: performed 6-8 weeks AFTER acute episode resolves (never during acute diverticulitis; risk of perforation)"
     ],
     management: [
       "Uncomplicated: clear liquid diet progressing to low-residue diet; oral antibiotics (ciprofloxacin + metronidazole or amoxicillin-clavulanate)",
       "Complicated (abscess > 3 cm): CT-guided percutaneous drainage + IV antibiotics",
-      "Hinchey III/IV: emergent surgery—Hartmann procedure (sigmoid resection with end colostomy)",
-      "High-fiber diet (25–35 g/day) after acute episode resolves to prevent recurrence",
+      "Hinchey III/IV: emergent surgery; Hartmann procedure (sigmoid resection with end colostomy)",
+      "High-fiber diet (25-35 g/day) after acute episode resolves to prevent recurrence",
       "Elective sigmoid colectomy after 2 or more uncomplicated episodes or 1 complicated episode"
     ],
     nursingActions: [
@@ -1070,7 +1070,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     ],
     signs: {
       left: [
-        "Left lower quadrant pain (sigmoid colon involvement)—'left-sided appendicitis'",
+        "Left lower quadrant pain (sigmoid colon involvement); 'left-sided appendicitis'",
         "Low-grade fever and localized peritoneal signs",
         "Change in bowel habits: constipation or diarrhea",
         "Nausea, vomiting, and anorexia"
@@ -1089,7 +1089,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Disrupts bacterial DNA synthesis by forming toxic free radical intermediates in anaerobic organisms; provides anaerobic coverage essential for intra-abdominal infections",
         sideEffects: "Metallic taste, nausea, peripheral neuropathy, disulfiram-like reaction with alcohol",
         contra: "First trimester pregnancy, concurrent alcohol use, concurrent disulfiram",
-        pearl: "Educate client to avoid ALL alcohol during treatment and for 48 hours after—causes severe nausea, vomiting, flushing (disulfiram reaction)"
+        pearl: "Educate client to avoid ALL alcohol during treatment and for 48 hours after; causes severe nausea, vomiting, flushing (disulfiram reaction)"
       },
       {
         name: "Ciprofloxacin (Cipro)",
@@ -1097,14 +1097,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Inhibits bacterial DNA gyrase and topoisomerase IV, preventing DNA replication; provides gram-negative coverage for enteric organisms",
         sideEffects: "Tendon rupture (especially Achilles), QT prolongation, photosensitivity, C. difficile risk, peripheral neuropathy",
         contra: "Myasthenia gravis, concurrent tizanidine use, children/adolescents (tendon damage), history of fluoroquinolone-associated tendinopathy",
-        pearl: "Black box warning for tendon rupture—report tendon pain immediately and discontinue; avoid concurrent dairy/antacids (chelation reduces absorption)"
+        pearl: "Black box warning for tendon rupture; report tendon pain immediately and discontinue; avoid concurrent dairy/antacids (chelation reduces absorption)"
       }
     ],
     pearls: [
-      "Never perform colonoscopy during acute diverticulitis—wait 6–8 weeks to rule out colorectal cancer",
-      "Left lower quadrant pain is classic—right-sided diverticulitis occurs more in Asian populations",
+      "Never perform colonoscopy during acute diverticulitis; wait 6-8 weeks to rule out colorectal cancer",
+      "Left lower quadrant pain is classic; right-sided diverticulitis occurs more in Asian populations",
       "Metronidazole + ciprofloxacin covers both aerobic and anaerobic organisms in diverticulitis",
-      "Nuts, seeds, and popcorn do NOT cause diverticulitis—this is a debunked myth"
+      "Nuts, seeds, and popcorn do NOT cause diverticulitis; this is a debunked myth"
     ],
     quiz: [
       {
@@ -1124,9 +1124,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "hemorrhoids": {
     title: "Hemorrhoids",
     cellular: {
-      title: "Hemorrhoids – Internal vs. External, Rubber Band Ligation",
+      title: "Hemorrhoids - Internal vs. External, Rubber Band Ligation",
       content:
-        "Hemorrhoids are dilated, engorged vascular cushions in the anal canal. The anal canal contains three primary hemorrhoidal cushions located at the left lateral, right anterior, and right posterior positions. These cushions are composed of arteriovenous communications, smooth muscle fibers (Treitz muscle), and connective tissue. They serve a normal physiological function, contributing to anal continence by providing a mucosal seal. Hemorrhoidal disease occurs when these cushions become pathologically enlarged, displaced, or symptomatic due to increased venous pressure, straining, or weakened supporting connective tissue.\n\nInternal hemorrhoids arise above the dentate (pectinate) line from the superior hemorrhoidal venous plexus and are covered by columnar epithelium. Because the area above the dentate line is innervated by visceral afferents, internal hemorrhoids are typically painless and present with bright red rectal bleeding (hematochezia) during or after defecation. They are graded: Grade I (bleeding without prolapse), Grade II (prolapse with spontaneous reduction), Grade III (prolapse requiring manual reduction), Grade IV (irreducible prolapse). External hemorrhoids arise below the dentate line from the inferior hemorrhoidal plexus and are covered by squamous epithelium with somatic innervation—they are therefore painful, especially when thrombosed.\n\nThrombosed external hemorrhoids present as acute, severe perianal pain with a visible bluish-purple, firm, tender mass. If presenting within 48–72 hours of onset, excisional thrombectomy provides rapid relief. Conservative management includes sitz baths, topical analgesics, fiber supplementation, and stool softeners. Rubber band ligation is the most effective office-based procedure for Grade I–III internal hemorrhoids: a small band is placed around the base of the hemorrhoid above the dentate line (where there is no somatic sensation), causing ischemic necrosis and sloughing within 5–7 days."
+        "Hemorrhoids are dilated, engorged vascular cushions in the anal canal. The anal canal contains three primary hemorrhoidal cushions located at the left lateral, right anterior, and right posterior positions. These cushions are composed of arteriovenous communications, smooth muscle fibers (Treitz muscle), and connective tissue. They serve a normal physiological function, contributing to anal continence by providing a mucosal seal. Hemorrhoidal disease occurs when these cushions become pathologically enlarged, displaced, or symptomatic due to increased venous pressure, straining, or weakened supporting connective tissue.\n\nInternal hemorrhoids arise above the dentate (pectinate) line from the superior hemorrhoidal venous plexus and are covered by columnar epithelium. Because the area above the dentate line is innervated by visceral afferents, internal hemorrhoids are typically painless and present with bright red rectal bleeding (hematochezia) during or after defecation. They are graded: Grade I (bleeding without prolapse), Grade II (prolapse with spontaneous reduction), Grade III (prolapse requiring manual reduction), Grade IV (irreducible prolapse). External hemorrhoids arise below the dentate line from the inferior hemorrhoidal plexus and are covered by squamous epithelium with somatic innervation; they are therefore painful, especially when thrombosed.\n\nThrombosed external hemorrhoids present as acute, severe perianal pain with a visible bluish-purple, firm, tender mass. If presenting within 48-72 hours of onset, excisional thrombectomy provides rapid relief. Conservative management includes sitz baths, topical analgesics, fiber supplementation, and stool softeners. Rubber band ligation is the most effective office-based procedure for Grade I-III internal hemorrhoids: a small band is placed around the base of the hemorrhoid above the dentate line (where there is no somatic sensation), causing ischemic necrosis and sloughing within 5-7 days."
     },
     riskFactors: [
       "Chronic constipation and prolonged straining during defecation",
@@ -1145,16 +1145,16 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "CBC: to assess for anemia from chronic blood loss"
     ],
     management: [
-      "Conservative: high-fiber diet (25–35 g/day), adequate hydration (8–10 glasses/day), stool softeners",
-      "Sitz baths: warm water 3–4 times daily for 15–20 minutes to reduce edema and spasm",
-      "Rubber band ligation for Grade I–III internal hemorrhoids (office procedure)",
-      "Thrombosed external hemorrhoid: excisional thrombectomy if within 48–72 hours of onset",
-      "Hemorrhoidectomy (surgical excision) for Grade III–IV refractory to conservative/banding therapy",
+      "Conservative: high-fiber diet (25-35 g/day), adequate hydration (8-10 glasses/day), stool softeners",
+      "Sitz baths: warm water 3-4 times daily for 15-20 minutes to reduce edema and spasm",
+      "Rubber band ligation for Grade I-III internal hemorrhoids (office procedure)",
+      "Thrombosed external hemorrhoid: excisional thrombectomy if within 48-72 hours of onset",
+      "Hemorrhoidectomy (surgical excision) for Grade III-IV refractory to conservative/banding therapy",
       "Avoid prolonged sitting on toilet, straining, and heavy lifting"
     ],
     nursingActions: [
       "Educate on high-fiber diet and adequate fluid intake to prevent constipation",
-      "Instruct on proper sitz bath technique: warm (not hot) water, 15–20 minutes, 3–4 times daily",
+      "Instruct on proper sitz bath technique: warm (not hot) water, 15-20 minutes, 3-4 times daily",
       "Administer stool softeners and topical preparations as ordered",
       "Post-hemorrhoidectomy: monitor for urinary retention (common complication due to pain and reflex spasm)",
       "Encourage client to avoid straining; respond promptly to the urge to defecate",
@@ -1164,7 +1164,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       left: [
         "Painless bright red rectal bleeding during defecation (internal hemorrhoids)",
         "Perianal pruritus, irritation, and mucoid discharge",
-        "Prolapsed tissue visible during straining (Grade II–IV)",
+        "Prolapsed tissue visible during straining (Grade II-IV)",
         "Severe acute perianal pain (thrombosed external hemorrhoid)"
       ],
       right: [
@@ -1181,7 +1181,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Acts as a detergent in the intestinal lumen, lowering surface tension and allowing water and fat penetration into the stool mass, producing softer stools",
         sideEffects: "Mild cramping, diarrhea, throat irritation (liquid forms)",
         contra: "Intestinal obstruction, concurrent mineral oil use (increases mineral oil absorption)",
-        pearl: "Encourage adequate fluid intake (8–10 glasses/day) for best effect; ineffective without adequate hydration"
+        pearl: "Encourage adequate fluid intake (8-10 glasses/day) for best effect; ineffective without adequate hydration"
       },
       {
         name: "Hydrocortisone/Pramoxine rectal cream",
@@ -1194,8 +1194,8 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     ],
     pearls: [
       "Internal hemorrhoids are painless because they are above the dentate line (visceral innervation); external hemorrhoids are painful (somatic innervation)",
-      "Rubber band ligation must be placed ABOVE the dentate line to avoid pain—placement below causes severe pain",
-      "Urinary retention is the most common complication after hemorrhoidectomy—monitor voiding",
+      "Rubber band ligation must be placed ABOVE the dentate line to avoid pain; placement below causes severe pain",
+      "Urinary retention is the most common complication after hemorrhoidectomy; monitor voiding",
       "All rectal bleeding warrants investigation for colorectal cancer, especially in clients > 45 years"
     ],
     quiz: [
@@ -1208,7 +1208,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
           "Sitz baths and stool softeners only"
         ],
         correct: 1,
-        rationale: "A thrombosed external hemorrhoid presenting within 48–72 hours of symptom onset is best treated with excisional thrombectomy for rapid pain relief. Beyond 72 hours, conservative management (sitz baths, analgesics, stool softeners) is appropriate as the clot begins to resolve."
+        rationale: "A thrombosed external hemorrhoid presenting within 48-72 hours of symptom onset is best treated with excisional thrombectomy for rapid pain relief. Beyond 72 hours, conservative management (sitz baths, analgesics, stool softeners) is appropriate as the clot begins to resolve."
       }
     ]
   },
@@ -1216,9 +1216,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "antacids": {
     title: "Antacids",
     cellular: {
-      title: "Antacids – Aluminum/Magnesium Hydroxide & Calcium Carbonate",
+      title: "Antacids - Aluminum/Magnesium Hydroxide & Calcium Carbonate",
       content:
-        "Antacids are basic compounds that directly neutralize hydrochloric acid (HCl) in the gastric lumen, raising intragastric pH and providing rapid symptomatic relief of heartburn and dyspepsia. They do not reduce acid production—they neutralize acid that has already been secreted. The three main categories are aluminum-based (aluminum hydroxide), magnesium-based (magnesium hydroxide), and calcium-based (calcium carbonate) antacids. Each has a characteristic neutralization capacity and unique side effect profile that nurses must understand to manage client care effectively.\n\nAt the chemical level, antacids undergo neutralization reactions: Al(OH)₃ + 3HCl → AlCl₃ + 3H₂O; Mg(OH)₂ + 2HCl → MgCl₂ + 2H₂O; CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂. The released CO₂ from calcium carbonate can cause belching and gastric distension. Aluminum hydroxide has a slower onset but longer duration and causes constipation by forming insoluble aluminum salts that decrease intestinal motility. Magnesium hydroxide has a rapid onset and causes diarrhea through osmotic water retention in the intestinal lumen. Many commercial preparations combine aluminum and magnesium to counterbalance their opposing GI effects.\n\nAntacids significantly affect the absorption of many oral medications by altering gastric pH, binding drugs, or forming insoluble complexes. They reduce absorption of fluoroquinolones, tetracyclines, iron preparations, digoxin, and ketoconazole (requires acidic pH for absorption). Therefore, other oral medications should be administered at least 1–2 hours before or after antacids. Calcium carbonate carries the additional risk of acid rebound—where the calcium ion stimulates gastrin release and secondary acid hypersecretion—and milk-alkali syndrome (hypercalcemia, metabolic alkalosis, renal insufficiency) with chronic excessive use."
+        "Antacids are basic compounds that directly neutralize hydrochloric acid (HCl) in the gastric lumen, raising intragastric pH and providing rapid symptomatic relief of heartburn and dyspepsia. They do not reduce acid production; they neutralize acid that has already been secreted. The three main categories are aluminum-based (aluminum hydroxide), magnesium-based (magnesium hydroxide), and calcium-based (calcium carbonate) antacids. Each has a characteristic neutralization capacity and unique side effect profile that nurses must understand to manage client care effectively.\n\nAt the chemical level, antacids undergo neutralization reactions: Al(OH)₃ + 3HCl → AlCl₃ + 3H₂O; Mg(OH)₂ + 2HCl → MgCl₂ + 2H₂O; CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂. The released CO₂ from calcium carbonate can cause belching and gastric distension. Aluminum hydroxide has a slower onset but longer duration and causes constipation by forming insoluble aluminum salts that decrease intestinal motility. Magnesium hydroxide has a rapid onset and causes diarrhea through osmotic water retention in the intestinal lumen. Many commercial preparations combine aluminum and magnesium to counterbalance their opposing GI effects.\n\nAntacids significantly affect the absorption of many oral medications by altering gastric pH, binding drugs, or forming insoluble complexes. They reduce absorption of fluoroquinolones, tetracyclines, iron preparations, digoxin, and ketoconazole (requires acidic pH for absorption). Therefore, other oral medications should be administered at least 1-2 hours before or after antacids. Calcium carbonate carries the additional risk of acid rebound; where the calcium ion stimulates gastrin release and secondary acid hypersecretion; and milk-alkali syndrome (hypercalcemia, metabolic alkalosis, renal insufficiency) with chronic excessive use."
     },
     riskFactors: [
       "Overuse or chronic self-medication without provider guidance",
@@ -1235,25 +1235,25 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Assessment of concurrent medication list for drug interactions"
     ],
     management: [
-      "Administer 1–3 hours after meals and at bedtime for optimal acid neutralization",
-      "Separate from other oral medications by at least 1–2 hours",
+      "Administer 1-3 hours after meals and at bedtime for optimal acid neutralization",
+      "Separate from other oral medications by at least 1-2 hours",
       "Use combination aluminum/magnesium products to balance constipation and diarrhea effects",
       "Monitor renal function in clients on long-term therapy",
-      "Educate that antacids provide symptomatic relief only—not a substitute for definitive acid suppression therapy"
+      "Educate that antacids provide symptomatic relief only; not a substitute for definitive acid suppression therapy"
     ],
     nursingActions: [
-      "Administer antacids as ordered and separate from other medications by 1–2 hours",
+      "Administer antacids as ordered and separate from other medications by 1-2 hours",
       "Monitor bowel patterns: constipation (aluminum) or diarrhea (magnesium)",
       "Report signs of electrolyte imbalances: muscle weakness, confusion, cardiac arrhythmias",
-      "Educate client that antacids are for short-term symptomatic relief—report persistent symptoms",
+      "Educate client that antacids are for short-term symptomatic relief; report persistent symptoms",
       "Monitor phosphorus levels with chronic aluminum hydroxide use (binds phosphorus in GI tract)"
     ],
     signs: {
       left: [
         "Constipation (aluminum-based antacids)",
         "Diarrhea (magnesium-based antacids)",
-        "Belching and gastric distension (calcium carbonate—CO₂ release)",
-        "Acid rebound (calcium carbonate—gastrin stimulation)"
+        "Belching and gastric distension (calcium carbonate; CO₂ release)",
+        "Acid rebound (calcium carbonate; gastrin stimulation)"
       ],
       right: [
         "Hypophosphatemia (aluminum binds dietary phosphorus)",
@@ -1269,7 +1269,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Neutralizes gastric HCl by reacting with acid in the stomach lumen; also binds dietary phosphate in the GI tract, reducing phosphorus absorption",
         sideEffects: "Constipation, hypophosphatemia, aluminum toxicity in renal failure (osteomalacia, encephalopathy)",
         contra: "Severe renal impairment (aluminum accumulation), hypophosphatemia",
-        pearl: "Used therapeutically in hyperphosphatemia of chronic kidney disease to bind dietary phosphorus; causes constipation—remember 'AlumiNUM = NUMbs the bowel'"
+        pearl: "Used therapeutically in hyperphosphatemia of chronic kidney disease to bind dietary phosphorus; causes constipation; remember 'AlumiNUM = NUMbs the bowel'"
       },
       {
         name: "Calcium carbonate (Tums)",
@@ -1282,9 +1282,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     ],
     pearls: [
       "Aluminum = constipation; Magnesium = diarrhea; combine them to balance GI effects",
-      "Separate antacids from all other oral medications by at least 1–2 hours to prevent drug interactions",
-      "Aluminum hydroxide binds phosphorus—used therapeutically in CKD hyperphosphatemia",
-      "Calcium carbonate causes acid rebound—not recommended for long-term use in GERD"
+      "Separate antacids from all other oral medications by at least 1-2 hours to prevent drug interactions",
+      "Aluminum hydroxide binds phosphorus; used therapeutically in CKD hyperphosphatemia",
+      "Calcium carbonate causes acid rebound; not recommended for long-term use in GERD"
     ],
     quiz: [
       {
@@ -1296,7 +1296,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
           "Take ciprofloxacin with milk to enhance absorption"
         ],
         correct: 1,
-        rationale: "Antacids bind fluoroquinolones (ciprofloxacin) in the GI tract, forming insoluble complexes that dramatically reduce antibiotic absorption. Medications should be separated by at least 1–2 hours to prevent this interaction."
+        rationale: "Antacids bind fluoroquinolones (ciprofloxacin) in the GI tract, forming insoluble complexes that dramatically reduce antibiotic absorption. Medications should be separated by at least 1-2 hours to prevent this interaction."
       }
     ]
   },
@@ -1304,9 +1304,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "h2-receptor-antagonists": {
     title: "H2-Receptor Antagonists",
     cellular: {
-      title: "H2-Receptor Antagonists – Ranitidine, Famotidine & MOA on Parietal Cells",
+      title: "H2-Receptor Antagonists - Ranitidine, Famotidine & MOA on Parietal Cells",
       content:
-        "H2-receptor antagonists (H2RAs) are competitive, reversible blockers of histamine type 2 (H2) receptors on the basolateral membrane of gastric parietal cells. Parietal cells in the gastric body and fundus secrete hydrochloric acid through the H⁺/K⁺-ATPase (proton pump) on their apical membrane. Acid secretion is stimulated by three main mediators: histamine (from enterochromaffin-like [ECL] cells), acetylcholine (from vagal nerve endings), and gastrin (from G cells). Histamine binding to H2 receptors activates adenylyl cyclase, increasing intracellular cyclic AMP (cAMP), which activates protein kinase A and ultimately stimulates the proton pump.\n\nH2RAs block the histamine-mediated pathway of acid secretion, reducing both basal and meal-stimulated acid output by approximately 60–70%. Because they block only the histamine pathway (not acetylcholine or gastrin pathways), they are less potent suppressors of acid secretion than proton pump inhibitors (PPIs), which directly inhibit the final common pathway (the proton pump itself). The major H2RAs include famotidine (Pepcid), ranitidine (Zantac—note: withdrawn in many markets due to NDMA contamination concerns), cimetidine (Tagamet), and nizatidine (Axid).\n\nCimetidine, the first H2RA developed, has the most significant drug interaction profile: it inhibits cytochrome P450 enzymes (CYP1A2, CYP2C19, CYP2D6, CYP3A4) and has anti-androgenic effects (gynecomastia, impotence). Famotidine is the most potent H2RA (20–40× more potent than cimetidine on a molar basis) with minimal drug interactions and is currently preferred. All H2RAs can cause tolerance (tachyphylaxis) with chronic use—receptor upregulation diminishes their acid-suppressive effect over time, which is a significant limitation compared to PPIs."
+        "H2-receptor antagonists (H2RAs) are competitive, reversible blockers of histamine type 2 (H2) receptors on the basolateral membrane of gastric parietal cells. Parietal cells in the gastric body and fundus secrete hydrochloric acid through the H⁺/K⁺-ATPase (proton pump) on their apical membrane. Acid secretion is stimulated by three main mediators: histamine (from enterochromaffin-like [ECL] cells), acetylcholine (from vagal nerve endings), and gastrin (from G cells). Histamine binding to H2 receptors activates adenylyl cyclase, increasing intracellular cyclic AMP (cAMP), which activates protein kinase A and ultimately stimulates the proton pump.\n\nH2RAs block the histamine-mediated pathway of acid secretion, reducing both basal and meal-stimulated acid output by approximately 60-70%. Because they block only the histamine pathway (not acetylcholine or gastrin pathways), they are less potent suppressors of acid secretion than proton pump inhibitors (PPIs), which directly inhibit the final common pathway (the proton pump itself). The major H2RAs include famotidine (Pepcid), ranitidine (Zantac; note: withdrawn in many markets due to NDMA contamination concerns), cimetidine (Tagamet), and nizatidine (Axid).\n\nCimetidine, the first H2RA developed, has the most significant drug interaction profile: it inhibits cytochrome P450 enzymes (CYP1A2, CYP2C19, CYP2D6, CYP3A4) and has anti-androgenic effects (gynecomastia, impotence). Famotidine is the most potent H2RA (20-40× more potent than cimetidine on a molar basis) with minimal drug interactions and is currently preferred. All H2RAs can cause tolerance (tachyphylaxis) with chronic use; receptor upregulation diminishes their acid-suppressive effect over time, which is a significant limitation compared to PPIs."
     },
     riskFactors: [
       "Chronic use leading to tolerance/tachyphylaxis",
@@ -1323,18 +1323,18 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Hepatic function tests if concurrent hepatotoxic medications"
     ],
     management: [
-      "Administer 30–60 minutes before meals for meal-stimulated acid suppression",
+      "Administer 30-60 minutes before meals for meal-stimulated acid suppression",
       "Bedtime dosing most effective for nocturnal acid suppression",
       "Dose reduction in renal impairment for all H2RAs",
       "Consider switching to PPI if tolerance develops or symptoms are inadequately controlled",
-      "Avoid cimetidine in clients taking warfarin, phenytoin, or theophylline—use famotidine instead"
+      "Avoid cimetidine in clients taking warfarin, phenytoin, or theophylline; use famotidine instead"
     ],
     nursingActions: [
       "Administer as ordered; timing depends on indication (before meals or at bedtime)",
       "Monitor for drug interactions, especially with cimetidine (CYP450 inhibitor)",
       "Report signs of GI bleeding: melena, hematemesis, decreased hemoglobin",
-      "Educate client that tolerance may develop with chronic use—report diminishing symptom relief",
-      "Monitor mental status in elderly clients—H2RAs can cause confusion and delirium"
+      "Educate client that tolerance may develop with chronic use; report diminishing symptom relief",
+      "Monitor mental status in elderly clients; H2RAs can cause confusion and delirium"
     ],
     signs: {
       left: [
@@ -1371,7 +1371,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     pearls: [
       "Famotidine is preferred over cimetidine due to fewer drug interactions and no anti-androgenic effects",
       "H2RAs are less potent than PPIs because they block only one of three acid-stimulating pathways",
-      "Tolerance develops with chronic H2RA use—this does not occur with PPIs",
+      "Tolerance develops with chronic H2RA use; this does not occur with PPIs",
       "Ranitidine (Zantac) was withdrawn from many markets due to NDMA carcinogen contamination concerns"
     ],
     quiz: [
@@ -1384,7 +1384,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
           "Interaction with another medication"
         ],
         correct: 1,
-        rationale: "Cimetidine has anti-androgenic properties—it inhibits dihydrotestosterone binding and increases serum estradiol. This can cause gynecomastia and impotence. The nurse should report this finding and anticipate switching to famotidine."
+        rationale: "Cimetidine has anti-androgenic properties; it inhibits dihydrotestosterone binding and increases serum estradiol. This can cause gynecomastia and impotence. The nurse should report this finding and anticipate switching to famotidine."
       }
     ]
   },
@@ -1392,39 +1392,39 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "proton-pump-inhibitors": {
     title: "Proton Pump Inhibitors (PPIs)",
     cellular: {
-      title: "PPIs – Omeprazole, Pantoprazole & Irreversible H⁺/K⁺-ATPase Inhibition",
+      title: "PPIs - Omeprazole, Pantoprazole & Irreversible H⁺/K⁺-ATPase Inhibition",
       content:
-        "Proton pump inhibitors (PPIs) are the most potent class of acid-suppressive medications, irreversibly inhibiting the hydrogen-potassium ATPase enzyme system (H⁺/K⁺-ATPase, or 'proton pump') on the apical membrane of gastric parietal cells. The proton pump is the final common pathway for all acid secretion, regardless of the stimulating mediator (histamine, acetylcholine, or gastrin). By covalently binding to cysteine residues on the alpha subunit of the proton pump, PPIs provide sustained acid suppression until new pump molecules are synthesized (half-life of pump turnover is approximately 18 hours).\n\nPPIs are prodrugs that require activation in an acidic environment. After oral absorption, they are distributed to parietal cells and accumulate in the acidic secretory canaliculi (pH ~ 1), where they are protonated and converted to their active sulfenamide form. This activated molecule then forms a disulfide bond with the proton pump, irreversibly inactivating it. Because only actively secreting pumps are inhibited, PPIs are most effective when taken 30–60 minutes before the first meal of the day, when fasting parietal cells are transitioning to active acid secretion. Maximum acid suppression requires 3–5 days of therapy as successive generations of pumps are inactivated.\n\nLong-term PPI use (> 1 year) is associated with several concerning adverse effects: increased risk of Clostridioides difficile infection (reduced gastric acid barrier), hypomagnesemia, vitamin B12 deficiency (acid-dependent absorption), calcium malabsorption leading to osteoporotic fractures (especially hip, wrist, spine), chronic kidney disease, and rebound acid hypersecretion upon discontinuation. Common PPIs include omeprazole (Prilosec), esomeprazole (Nexium), pantoprazole (Protonix), and lansoprazole (Prevacid)."
+        "Proton pump inhibitors (PPIs) are the most potent class of acid-suppressive medications, irreversibly inhibiting the hydrogen-potassium ATPase enzyme system (H⁺/K⁺-ATPase, or 'proton pump') on the apical membrane of gastric parietal cells. The proton pump is the final common pathway for all acid secretion, regardless of the stimulating mediator (histamine, acetylcholine, or gastrin). By covalently binding to cysteine residues on the alpha subunit of the proton pump, PPIs provide sustained acid suppression until new pump molecules are synthesized (half-life of pump turnover is approximately 18 hours).\n\nPPIs are prodrugs that require activation in an acidic environment. After oral absorption, they are distributed to parietal cells and accumulate in the acidic secretory canaliculi (pH ~ 1), where they are protonated and converted to their active sulfenamide form. This activated molecule then forms a disulfide bond with the proton pump, irreversibly inactivating it. Because only actively secreting pumps are inhibited, PPIs are most effective when taken 30-60 minutes before the first meal of the day, when fasting parietal cells are transitioning to active acid secretion. Maximum acid suppression requires 3-5 days of therapy as successive generations of pumps are inactivated.\n\nLong-term PPI use (> 1 year) is associated with several concerning adverse effects: increased risk of Clostridioides difficile infection (reduced gastric acid barrier), hypomagnesemia, vitamin B12 deficiency (acid-dependent absorption), calcium malabsorption leading to osteoporotic fractures (especially hip, wrist, spine), chronic kidney disease, and rebound acid hypersecretion upon discontinuation. Common PPIs include omeprazole (Prilosec), esomeprazole (Nexium), pantoprazole (Protonix), and lansoprazole (Prevacid)."
     },
     riskFactors: [
       "Long-term use > 1 year (increased complication risk)",
       "Elderly clients (higher osteoporotic fracture risk)",
-      "Concurrent clopidogrel use—omeprazole inhibits CYP2C19-mediated activation of clopidogrel",
+      "Concurrent clopidogrel use; omeprazole inhibits CYP2C19-mediated activation of clopidogrel",
       "Renal impairment (increased risk of interstitial nephritis)",
       "Hypomagnesemia risk with concurrent diuretics",
       "Immunocompromised clients (C. difficile risk increased)"
     ],
     diagnostics: [
-      "Monitor symptom relief (heartburn, regurgitation) after 4–8 weeks of therapy",
+      "Monitor symptom relief (heartburn, regurgitation) after 4-8 weeks of therapy",
       "Serum magnesium levels with long-term use (especially if concurrent diuretics)",
       "Vitamin B12 levels annually with chronic use (> 2 years)",
       "Bone density screening (DEXA) for high-risk clients on long-term therapy",
       "Renal function monitoring for interstitial nephritis"
     ],
     management: [
-      "Take 30–60 minutes before the first meal of the day on an empty stomach",
-      "Standard course: 4–8 weeks for peptic ulcer disease; 8 weeks for GERD",
-      "Evaluate need for continued therapy regularly—use lowest effective dose for shortest duration",
+      "Take 30-60 minutes before the first meal of the day on an empty stomach",
+      "Standard course: 4-8 weeks for peptic ulcer disease; 8 weeks for GERD",
+      "Evaluate need for continued therapy regularly; use lowest effective dose for shortest duration",
       "Taper gradually if discontinuing long-term therapy to prevent rebound acid hypersecretion",
       "Triple therapy for H. pylori: PPI + clarithromycin + amoxicillin (or metronidazole) × 14 days"
     ],
     nursingActions: [
-      "Administer as ordered 30–60 minutes before breakfast; do not crush enteric-coated formulations",
+      "Administer as ordered 30-60 minutes before breakfast; do not crush enteric-coated formulations",
       "Monitor for signs of hypomagnesemia: muscle cramps, tremors, cardiac arrhythmias",
       "Educate client on long-term risks: bone fractures, B12 deficiency, C. difficile infection",
-      "Report new-onset diarrhea (especially watery, foul-smelling)—may indicate C. difficile",
+      "Report new-onset diarrhea (especially watery, foul-smelling); may indicate C. difficile",
       "Monitor for drug interactions: PPIs reduce absorption of ketoconazole, iron, and calcium",
-      "Do not abruptly discontinue long-term PPI therapy—taper as ordered"
+      "Do not abruptly discontinue long-term PPI therapy; taper as ordered"
     ],
     signs: {
       left: [
@@ -1447,7 +1447,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Irreversibly inhibits H⁺/K⁺-ATPase on parietal cell apical membrane, blocking the final step of acid secretion regardless of stimulus; most effective acid suppression available",
         sideEffects: "Headache, diarrhea, nausea, hypomagnesemia, B12 deficiency, increased fracture risk",
         contra: "Concurrent rilpivirine, CYP2C19-dependent medications (clopidogrel interaction)",
-        pearl: "Inhibits CYP2C19—can reduce clopidogrel activation; pantoprazole or lansoprazole preferred in clients taking clopidogrel"
+        pearl: "Inhibits CYP2C19; can reduce clopidogrel activation; pantoprazole or lansoprazole preferred in clients taking clopidogrel"
       },
       {
         name: "Pantoprazole (Protonix)",
@@ -1455,12 +1455,12 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Irreversibly inhibits the gastric proton pump (H⁺/K⁺-ATPase); available in IV formulation for clients unable to take oral medications",
         sideEffects: "Headache, diarrhea, injection site reactions (IV), hypomagnesemia",
         contra: "Hypersensitivity to benzimidazole class",
-        pearl: "Preferred PPI when IV administration is needed (e.g., active GI bleeding); has less CYP2C19 interaction than omeprazole—safer with clopidogrel"
+        pearl: "Preferred PPI when IV administration is needed (e.g., active GI bleeding); has less CYP2C19 interaction than omeprazole; safer with clopidogrel"
       }
     ],
     pearls: [
-      "PPIs must be taken 30–60 minutes before meals—the pump must be actively secreting acid for the drug to work",
-      "Omeprazole reduces clopidogrel effectiveness—use pantoprazole instead in cardiac clients",
+      "PPIs must be taken 30-60 minutes before meals; the pump must be actively secreting acid for the drug to work",
+      "Omeprazole reduces clopidogrel effectiveness; use pantoprazole instead in cardiac clients",
       "Taper PPIs gradually after long-term use to prevent rebound acid hypersecretion",
       "PPIs are more potent than H2RAs because they block the final common pathway of all acid secretion"
     ],
@@ -1482,9 +1482,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "antiemetics": {
     title: "Antiemetics",
     cellular: {
-      title: "Antiemetics – Ondansetron, Metoclopramide, Promethazine & Receptor Targets",
+      title: "Antiemetics - Ondansetron, Metoclopramide, Promethazine & Receptor Targets",
       content:
-        "Antiemetic medications target specific receptors involved in the emetic reflex arc to prevent or treat nausea and vomiting. The vomiting center in the medulla oblongata receives input from four main areas: the chemoreceptor trigger zone (CTZ) in the area postrema (outside the blood-brain barrier, sensitive to toxins and drugs), the vestibular system (motion-related inputs via histamine H1 and muscarinic receptors), the GI tract (vagal afferents with serotonin 5-HT3 receptors), and higher cortical centers (anticipatory nausea via memory and anxiety pathways). Effective antiemetic therapy requires matching the drug's receptor target to the emetic stimulus.\n\nOndansetron (Zofran) is a selective 5-HT3 receptor antagonist that blocks serotonin binding on vagal afferents in the GI tract and in the CTZ. It is the first-line antiemetic for chemotherapy-induced and postoperative nausea and vomiting (PONV). Serotonin is released from enterochromaffin cells in the GI mucosa when damaged by chemotherapy, surgery, or radiation—ondansetron blocks this signal before it reaches the vomiting center. Metoclopramide (Reglan) is a dopamine D2 antagonist and weak 5-HT3 antagonist that also has prokinetic effects, accelerating gastric emptying by increasing gastric motility. Its dopamine-blocking action carries a risk of extrapyramidal symptoms (EPS) and tardive dyskinesia with chronic use.\n\nPromethazine (Phenergan) is a first-generation antihistamine (H1 blocker) with anticholinergic properties that is effective for motion sickness and postoperative nausea. However, it carries significant risks including severe tissue injury from IV extravasation (can cause gangrene), excessive sedation, and respiratory depression—the FDA has a boxed warning against IV use in children under 2. Other antiemetic classes include anticholinergics (scopolamine—transdermal for motion sickness), NK1 receptor antagonists (aprepitant—for highly emetogenic chemotherapy), and cannabinoids (dronabinol—appetite stimulation and chemotherapy-related nausea)."
+        "Antiemetic medications target specific receptors involved in the emetic reflex arc to prevent or treat nausea and vomiting. The vomiting center in the medulla oblongata receives input from four main areas: the chemoreceptor trigger zone (CTZ) in the area postrema (outside the blood-brain barrier, sensitive to toxins and drugs), the vestibular system (motion-related inputs via histamine H1 and muscarinic receptors), the GI tract (vagal afferents with serotonin 5-HT3 receptors), and higher cortical centers (anticipatory nausea via memory and anxiety pathways). Effective antiemetic therapy requires matching the drug's receptor target to the emetic stimulus.\n\nOndansetron (Zofran) is a selective 5-HT3 receptor antagonist that blocks serotonin binding on vagal afferents in the GI tract and in the CTZ. It is the first-line antiemetic for chemotherapy-induced and postoperative nausea and vomiting (PONV). Serotonin is released from enterochromaffin cells in the GI mucosa when damaged by chemotherapy, surgery, or radiation; ondansetron blocks this signal before it reaches the vomiting center. Metoclopramide (Reglan) is a dopamine D2 antagonist and weak 5-HT3 antagonist that also has prokinetic effects, accelerating gastric emptying by increasing gastric motility. Its dopamine-blocking action carries a risk of extrapyramidal symptoms (EPS) and tardive dyskinesia with chronic use.\n\nPromethazine (Phenergan) is a first-generation antihistamine (H1 blocker) with anticholinergic properties that is effective for motion sickness and postoperative nausea. However, it carries significant risks including severe tissue injury from IV extravasation (can cause gangrene), excessive sedation, and respiratory depression; the FDA has a boxed warning against IV use in children under 2. Other antiemetic classes include anticholinergics (scopolamine; transdermal for motion sickness), NK1 receptor antagonists (aprepitant; for highly emetogenic chemotherapy), and cannabinoids (dronabinol; appetite stimulation and chemotherapy-related nausea)."
     },
     riskFactors: [
       "QT prolongation risk with ondansetron (especially at high IV doses)",
@@ -1502,7 +1502,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     ],
     management: [
       "Match antiemetic to emetic stimulus: 5-HT3 antagonists for chemotherapy/postop; anticholinergics for motion sickness",
-      "Ondansetron: 4–8 mg IV or PO every 8 hours; premedicate before chemotherapy",
+      "Ondansetron: 4-8 mg IV or PO every 8 hours; premedicate before chemotherapy",
       "Metoclopramide: limit use to < 12 weeks to reduce tardive dyskinesia risk",
       "Promethazine: prefer deep IM injection over IV; never administer intra-arterially",
       "Combination therapy for highly emetogenic chemotherapy: ondansetron + dexamethasone + aprepitant"
@@ -1548,9 +1548,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "Ondansetron does not cause sedation or EPS—it is the safest first-line antiemetic for most indications",
-      "Promethazine IV extravasation can cause tissue necrosis—always verify IV patency; IM route preferred",
-      "Metoclopramide is both an antiemetic AND a prokinetic—useful in gastroparesis but limit to < 12 weeks",
+      "Ondansetron does not cause sedation or EPS; it is the safest first-line antiemetic for most indications",
+      "Promethazine IV extravasation can cause tissue necrosis; always verify IV patency; IM route preferred",
+      "Metoclopramide is both an antiemetic AND a prokinetic; useful in gastroparesis but limit to < 12 weeks",
       "Treat acute EPS from metoclopramide or promethazine with IV diphenhydramine (Benadryl)"
     ],
     quiz: [
@@ -1571,9 +1571,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "laxatives": {
     title: "Laxatives",
     cellular: {
-      title: "Laxatives – Osmotic, Stimulant, Bulk-Forming & Stool Softeners",
+      title: "Laxatives - Osmotic, Stimulant, Bulk-Forming & Stool Softeners",
       content:
-        "Laxatives are medications that promote bowel movements through various mechanisms, classified into four main categories based on their mode of action. Bulk-forming laxatives (psyllium, methylcellulose) are the most physiologically similar to dietary fiber—they absorb water in the intestinal lumen, increasing fecal bulk and stimulating peristalsis through mechanoreceptor activation. They are the safest laxative category and are recommended as first-line therapy for chronic constipation, but require adequate fluid intake (8–10 glasses/day) to prevent intestinal obstruction.\n\nOsmotic laxatives (polyethylene glycol [PEG 3350/MiraLAX], magnesium hydroxide [Milk of Magnesia], lactulose) draw water into the intestinal lumen through osmotic gradients, softening stool and increasing intraluminal volume. PEG 3350 is an inert, non-absorbable polymer that is the preferred osmotic agent for chronic constipation due to predictable dose-response and minimal electrolyte disturbance. Lactulose is an osmotic laxative also used to reduce ammonia levels in hepatic encephalopathy—colonic bacteria ferment it to organic acids that lower pH and trap ammonia as ammonium ions. Magnesium-containing laxatives must be used cautiously in renal impairment due to magnesium accumulation risk.\n\nStimulant laxatives (bisacodyl, senna/sennosides) directly stimulate myenteric plexus neurons in the colonic wall, increasing peristaltic contractions and inhibiting water and electrolyte reabsorption. They are potent and rapid-acting but should not be used long-term due to risk of melanosis coli (benign pigmentation of colonic mucosa), electrolyte imbalances (hypokalemia), and cathartic colon (dependence with diminished colonic motility). Stool softeners (docusate sodium) are surfactants that lower surface tension of stool, allowing water and fat penetration—they are preventive agents, not effective for established constipation."
+        "Laxatives are medications that promote bowel movements through various mechanisms, classified into four main categories based on their mode of action. Bulk-forming laxatives (psyllium, methylcellulose) are the most physiologically similar to dietary fiber; they absorb water in the intestinal lumen, increasing fecal bulk and stimulating peristalsis through mechanoreceptor activation. They are the safest laxative category and are recommended as first-line therapy for chronic constipation, but require adequate fluid intake (8-10 glasses/day) to prevent intestinal obstruction.\n\nOsmotic laxatives (polyethylene glycol [PEG 3350/MiraLAX], magnesium hydroxide [Milk of Magnesia], lactulose) draw water into the intestinal lumen through osmotic gradients, softening stool and increasing intraluminal volume. PEG 3350 is an inert, non-absorbable polymer that is the preferred osmotic agent for chronic constipation due to predictable dose-response and minimal electrolyte disturbance. Lactulose is an osmotic laxative also used to reduce ammonia levels in hepatic encephalopathy; colonic bacteria ferment it to organic acids that lower pH and trap ammonia as ammonium ions. Magnesium-containing laxatives must be used cautiously in renal impairment due to magnesium accumulation risk.\n\nStimulant laxatives (bisacodyl, senna/sennosides) directly stimulate myenteric plexus neurons in the colonic wall, increasing peristaltic contractions and inhibiting water and electrolyte reabsorption. They are potent and rapid-acting but should not be used long-term due to risk of melanosis coli (benign pigmentation of colonic mucosa), electrolyte imbalances (hypokalemia), and cathartic colon (dependence with diminished colonic motility). Stool softeners (docusate sodium) are surfactants that lower surface tension of stool, allowing water and fat penetration; they are preventive agents, not effective for established constipation."
     },
     riskFactors: [
       "Chronic stimulant laxative use leading to cathartic colon and dependence",
@@ -1590,10 +1590,10 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Bristol Stool Form Scale to guide therapy adjustments"
     ],
     management: [
-      "First-line: lifestyle modifications—high-fiber diet (25–35 g/day), adequate fluids (8–10 glasses/day), regular exercise",
+      "First-line: lifestyle modifications; high-fiber diet (25-35 g/day), adequate fluids (8-10 glasses/day), regular exercise",
       "Bulk-forming laxatives (psyllium) as first pharmacologic therapy for chronic constipation",
       "Osmotic laxatives (PEG 3350) for chronic constipation unresponsive to fiber",
-      "Stimulant laxatives (bisacodyl, senna) for short-term use or acute constipation—not daily",
+      "Stimulant laxatives (bisacodyl, senna) for short-term use or acute constipation; not daily",
       "Stool softeners (docusate) for prevention in post-surgical clients or those on opioids",
       "Address underlying cause: medications (opioids), metabolic (hypothyroidism), structural (obstruction)"
     ],
@@ -1602,7 +1602,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       "Educate client that stool softeners prevent hard stools but do not treat established constipation",
       "Monitor for electrolyte imbalances with stimulant and osmotic laxatives: hypokalemia, dehydration",
       "Report absence of bowel movement for > 3 days despite laxative therapy",
-      "Educate client to avoid chronic stimulant laxative use—risk of bowel dependence",
+      "Educate client to avoid chronic stimulant laxative use; risk of bowel dependence",
       "Monitor strict intake and output in clients receiving bowel preparation regimens"
     ],
     signs: {
@@ -1626,7 +1626,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Retains water in the intestinal lumen through osmotic effect, increasing stool water content and volume; does not ferment (less gas than lactulose) and does not cause electrolyte shifts",
         sideEffects: "Bloating, cramping, nausea, diarrhea with excessive dosing",
         contra: "Known or suspected bowel obstruction, GI perforation",
-        pearl: "Preferred osmotic laxative for chronic constipation—dissolve in 8 oz liquid; onset 1–3 days; safe for long-term use"
+        pearl: "Preferred osmotic laxative for chronic constipation; dissolve in 8 oz liquid; onset 1-3 days; safe for long-term use"
       },
       {
         name: "Bisacodyl (Dulcolax)",
@@ -1638,10 +1638,10 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "Bulk-forming laxatives MUST be taken with adequate fluid—can cause esophageal or intestinal obstruction if taken dry",
-      "Stool softeners are preventive agents—they are not effective for treating existing constipation",
-      "Stimulant laxatives should not be used long-term—can lead to cathartic colon and laxative dependence",
-      "Never give laxatives to clients with undiagnosed abdominal pain—may mask surgical abdomen"
+      "Bulk-forming laxatives MUST be taken with adequate fluid; can cause esophageal or intestinal obstruction if taken dry",
+      "Stool softeners are preventive agents; they are not effective for treating existing constipation",
+      "Stimulant laxatives should not be used long-term; can lead to cathartic colon and laxative dependence",
+      "Never give laxatives to clients with undiagnosed abdominal pain; may mask surgical abdomen"
     ],
     quiz: [
       {
@@ -1661,16 +1661,16 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "antidiarrheals": {
     title: "Antidiarrheals",
     cellular: {
-      title: "Antidiarrheals – Loperamide, Bismuth Subsalicylate & MOA",
+      title: "Antidiarrheals - Loperamide, Bismuth Subsalicylate & MOA",
       content:
-        "Antidiarrheal medications reduce stool frequency and volume through different mechanisms depending on the drug class. Loperamide (Imodium) is a synthetic opioid that acts on mu-opioid receptors in the myenteric plexus of the intestinal wall. Unlike other opioids, loperamide does not cross the blood-brain barrier at therapeutic doses (it is a substrate for P-glycoprotein efflux pumps that actively transport it out of the CNS), so it provides peripheral antidiarrheal effects without central analgesic or euphoric properties. It decreases intestinal motility, increases transit time, and enhances water and electrolyte absorption from the intestinal lumen.\n\nBismuth subsalicylate (Pepto-Bismol) has multiple mechanisms of action: it reduces intestinal secretion through antiprostaglandin effects, has mild antimicrobial activity against pathogenic bacteria (including Helicobacter pylori), and provides a protective coating on the intestinal mucosa. In the acidic gastric environment, bismuth subsalicylate is hydrolyzed to bismuth (which has topical antimicrobial and anti-inflammatory effects) and salicylate (which is absorbed systemically). This salicylate component is clinically significant—it can cause salicylism in overdose and has the same contraindications as aspirin.\n\nImportant clinical considerations include: loperamide should NOT be used in infectious diarrhea with bloody stools or high fever (C. difficile, Shigella, E. coli O157:H7) because slowing motility traps toxins in the colon and increases the risk of toxic megacolon. Bismuth subsalicylate causes harmless black discoloration of the tongue and stool—educate clients to prevent unnecessary alarm. Neither agent should be used for more than 48 hours without medical evaluation, as persistent diarrhea may indicate an underlying condition requiring specific treatment."
+        "Antidiarrheal medications reduce stool frequency and volume through different mechanisms depending on the drug class. Loperamide (Imodium) is a synthetic opioid that acts on mu-opioid receptors in the myenteric plexus of the intestinal wall. Unlike other opioids, loperamide does not cross the blood-brain barrier at therapeutic doses (it is a substrate for P-glycoprotein efflux pumps that actively transport it out of the CNS), so it provides peripheral antidiarrheal effects without central analgesic or euphoric properties. It decreases intestinal motility, increases transit time, and enhances water and electrolyte absorption from the intestinal lumen.\n\nBismuth subsalicylate (Pepto-Bismol) has multiple mechanisms of action: it reduces intestinal secretion through antiprostaglandin effects, has mild antimicrobial activity against pathogenic bacteria (including Helicobacter pylori), and provides a protective coating on the intestinal mucosa. In the acidic gastric environment, bismuth subsalicylate is hydrolyzed to bismuth (which has topical antimicrobial and anti-inflammatory effects) and salicylate (which is absorbed systemically). This salicylate component is clinically significant; it can cause salicylism in overdose and has the same contraindications as aspirin.\n\nImportant clinical considerations include: loperamide should NOT be used in infectious diarrhea with bloody stools or high fever (C. difficile, Shigella, E. coli O157:H7) because slowing motility traps toxins in the colon and increases the risk of toxic megacolon. Bismuth subsalicylate causes harmless black discoloration of the tongue and stool; educate clients to prevent unnecessary alarm. Neither agent should be used for more than 48 hours without medical evaluation, as persistent diarrhea may indicate an underlying condition requiring specific treatment."
     },
     riskFactors: [
       "Loperamide misuse/overdose (may cause QT prolongation, cardiac arrhythmias, and death at supratherapeutic doses)",
       "Use in infectious diarrhea with fever/bloody stools (risk of toxic megacolon)",
       "Salicylate sensitivity or aspirin allergy (bismuth subsalicylate)",
       "Concurrent anticoagulant therapy (bismuth subsalicylate has salicylate effects)",
-      "Children under 2 years (loperamide) or children/teens with viral illness (bismuth—Reye syndrome risk)",
+      "Children under 2 years (loperamide) or children/teens with viral illness (bismuth; Reye syndrome risk)",
       "Renal impairment (salicylate accumulation with bismuth subsalicylate)"
     ],
     diagnostics: [
@@ -1682,13 +1682,13 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     management: [
       "Address underlying cause: rehydration (oral rehydration solution or IV fluids) is the priority",
       "Loperamide: 4 mg initially, then 2 mg after each loose stool (max 16 mg/day)",
-      "Bismuth subsalicylate: 524 mg every 30–60 minutes as needed (max 8 doses/24 hours)",
+      "Bismuth subsalicylate: 524 mg every 30-60 minutes as needed (max 8 doses/24 hours)",
       "Do not use antidiarrheals for more than 48 hours without medical evaluation",
       "For infectious diarrhea: treat the infection, not the symptom (avoid loperamide)"
     ],
     nursingActions: [
       "Assess stool frequency, consistency, and presence of blood or mucus before administering antidiarrheals",
-      "Do NOT administer loperamide if client has bloody diarrhea, high fever, or suspected C. difficile—report to provider",
+      "Do NOT administer loperamide if client has bloody diarrhea, high fever, or suspected C. difficile; report to provider",
       "Monitor for dehydration: skin turgor, mucous membranes, urine output, vital signs",
       "Educate client that bismuth subsalicylate causes harmless black tongue and black stools",
       "Monitor for loperamide toxicity at high doses: abdominal distension, constipation, ileus",
@@ -1715,7 +1715,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Activates mu-opioid receptors in the intestinal myenteric plexus, slowing peristalsis, increasing intestinal transit time, and enhancing water and electrolyte reabsorption; does not cross blood-brain barrier at therapeutic doses",
         sideEffects: "Constipation, abdominal cramps, dizziness, nausea; overdose: QT prolongation, cardiac arrest",
         contra: "Bloody diarrhea, bacterial enterocolitis (C. difficile, Shigella), abdominal distension, children < 2 years",
-        pearl: "Do NOT use for infectious diarrhea with blood or fever—trapping toxin-producing bacteria increases risk of toxic megacolon and systemic toxicity"
+        pearl: "Do NOT use for infectious diarrhea with blood or fever; trapping toxin-producing bacteria increases risk of toxic megacolon and systemic toxicity"
       },
       {
         name: "Bismuth subsalicylate (Pepto-Bismol)",
@@ -1723,14 +1723,14 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Reduces intestinal secretion (antiprostaglandin effect), provides antimicrobial activity against enteric pathogens, and coats intestinal mucosa; hydrolyzed to bismuth and salicylate in the GI tract",
         sideEffects: "Black tongue and stools, nausea, constipation, tinnitus (salicylism at high doses)",
         contra: "Aspirin/salicylate allergy, children with viral infections (Reye syndrome risk), concurrent anticoagulant therapy",
-        pearl: "Contains salicylate—has same contraindications as aspirin; warn clients about harmless black discoloration of tongue and stool"
+        pearl: "Contains salicylate; has same contraindications as aspirin; warn clients about harmless black discoloration of tongue and stool"
       }
     ],
     pearls: [
-      "Never give loperamide for bloody diarrhea or suspected C. difficile—slowing motility traps toxins and worsens disease",
-      "Bismuth subsalicylate = salicylate—avoid in aspirin allergy, children with viral illness, and concurrent anticoagulation",
-      "Rehydration is always the priority in diarrheal illness—antidiarrheals address symptoms, not the cause",
-      "Loperamide overdose is a growing concern—high doses cause fatal cardiac arrhythmias (QT prolongation)"
+      "Never give loperamide for bloody diarrhea or suspected C. difficile; slowing motility traps toxins and worsens disease",
+      "Bismuth subsalicylate = salicylate; avoid in aspirin allergy, children with viral illness, and concurrent anticoagulation",
+      "Rehydration is always the priority in diarrheal illness; antidiarrheals address symptoms, not the cause",
+      "Loperamide overdose is a growing concern; high doses cause fatal cardiac arrhythmias (QT prolongation)"
     ],
     quiz: [
       {
@@ -1750,9 +1750,9 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
   "hepatic-encephalopathy-meds": {
     title: "Hepatic Encephalopathy Medications",
     cellular: {
-      title: "Hepatic Encephalopathy Meds – Lactulose, Rifaximin & Ammonia Reduction",
+      title: "Hepatic Encephalopathy Meds - Lactulose, Rifaximin & Ammonia Reduction",
       content:
-        "Hepatic encephalopathy (HE) is a neuropsychiatric syndrome resulting from the accumulation of neurotoxins, primarily ammonia (NH₃), in the systemic circulation due to impaired hepatic clearance. In a healthy liver, ammonia generated from protein metabolism, bacterial urease activity in the colon, and glutamine deamination in enterocytes is converted to urea via the urea cycle and excreted by the kidneys. In cirrhosis, two mechanisms cause hyperammonemia: decreased hepatocyte urea cycle function, and portosystemic shunting that diverts portal blood (containing ammonia from the GI tract) directly into the systemic circulation, bypassing hepatic detoxification.\n\nAt the cellular level, ammonia crosses the blood-brain barrier and is metabolized by astrocytes using glutamine synthetase to convert glutamate + ammonia → glutamine. Accumulation of glutamine within astrocytes creates an osmotic gradient, causing astrocyte swelling (Alzheimer type II astrocytosis) and cerebral edema. This leads to increased intracranial pressure, impaired neurotransmission, altered cerebral blood flow, and the clinical manifestations of HE—ranging from subtle cognitive impairment (minimal HE) through confusion, asterixis, and somnolence to coma (West Haven Grade IV). Precipitating factors include GI bleeding (protein load), infection, constipation, hypokalemia, alkalosis (favors NH₃ over NH₄⁺, increasing CNS penetration), sedative use, and dehydration.\n\nLactulose and rifaximin are the mainstays of HE treatment and prevention. Lactulose is a non-absorbable synthetic disaccharide that is fermented by colonic bacteria to lactic, acetic, and formic acids, lowering colonic pH. The acidic environment converts ammonia (NH₃, which is absorbable) to ammonium (NH₄⁺, which is not absorbable), trapping it in the colonic lumen for fecal excretion. Additionally, the osmotic laxative effect increases fecal ammonia elimination. Rifaximin is a non-absorbable antibiotic (rifamycin derivative) that reduces ammonia-producing gut bacteria without significant systemic absorption or resistance development."
+        "Hepatic encephalopathy (HE) is a neuropsychiatric syndrome resulting from the accumulation of neurotoxins, primarily ammonia (NH₃), in the systemic circulation due to impaired hepatic clearance. In a healthy liver, ammonia generated from protein metabolism, bacterial urease activity in the colon, and glutamine deamination in enterocytes is converted to urea via the urea cycle and excreted by the kidneys. In cirrhosis, two mechanisms cause hyperammonemia: decreased hepatocyte urea cycle function, and portosystemic shunting that diverts portal blood (containing ammonia from the GI tract) directly into the systemic circulation, bypassing hepatic detoxification.\n\nAt the cellular level, ammonia crosses the blood-brain barrier and is metabolized by astrocytes using glutamine synthetase to convert glutamate + ammonia → glutamine. Accumulation of glutamine within astrocytes creates an osmotic gradient, causing astrocyte swelling (Alzheimer type II astrocytosis) and cerebral edema. This leads to increased intracranial pressure, impaired neurotransmission, altered cerebral blood flow, and the clinical manifestations of HE; ranging from subtle cognitive impairment (minimal HE) through confusion, asterixis, and somnolence to coma (West Haven Grade IV). Precipitating factors include GI bleeding (protein load), infection, constipation, hypokalemia, alkalosis (favors NH₃ over NH₄⁺, increasing CNS penetration), sedative use, and dehydration.\n\nLactulose and rifaximin are the mainstays of HE treatment and prevention. Lactulose is a non-absorbable synthetic disaccharide that is fermented by colonic bacteria to lactic, acetic, and formic acids, lowering colonic pH. The acidic environment converts ammonia (NH₃, which is absorbable) to ammonium (NH₄⁺, which is not absorbable), trapping it in the colonic lumen for fecal excretion. Additionally, the osmotic laxative effect increases fecal ammonia elimination. Rifaximin is a non-absorbable antibiotic (rifamycin derivative) that reduces ammonia-producing gut bacteria without significant systemic absorption or resistance development."
     },
     riskFactors: [
       "Cirrhosis with portosystemic shunting (most common setting)",
@@ -1767,26 +1767,26 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
     diagnostics: [
       "Clinical assessment using West Haven criteria: Grade 0 (minimal HE) through Grade IV (coma)",
       "Serum ammonia level: elevated, though levels correlate poorly with clinical severity",
-      "Asterixis (flapping tremor) assessment: hallmark finding of Grade II–III HE",
+      "Asterixis (flapping tremor) assessment: hallmark finding of Grade II-III HE",
       "Number connection test or Stroop test for minimal HE detection",
       "Evaluate precipitating factors: CBC, CMP (potassium, BUN), blood cultures, stool guaiac",
       "CT head to rule out structural causes (subdural hematoma, stroke) if presentation is atypical"
     ],
     management: [
-      "Lactulose: titrate to 2–3 soft bowel movements per day (usual dose 15–30 mL PO 2–3 times daily)",
+      "Lactulose: titrate to 2-3 soft bowel movements per day (usual dose 15-30 mL PO 2-3 times daily)",
       "Rifaximin 550 mg PO twice daily as adjunctive therapy to lactulose for HE prevention",
       "Identify and treat precipitating factors: infection, GI bleeding, electrolyte imbalances, constipation",
-      "Protein restriction only in acute, severe episodes (1.2–1.5 g/kg/day otherwise to prevent sarcopenia)",
+      "Protein restriction only in acute, severe episodes (1.2-1.5 g/kg/day otherwise to prevent sarcopenia)",
       "Lactulose enemas (300 mL in 700 mL water) for clients unable to take oral medications",
       "Zinc supplementation (zinc is a cofactor in urea cycle enzymes)"
     ],
     nursingActions: [
-      "Administer lactulose as ordered; titrate to achieve 2–3 soft stools per day",
+      "Administer lactulose as ordered; titrate to achieve 2-3 soft stools per day",
       "Monitor level of consciousness using standardized scales (West Haven, Glasgow Coma Scale)",
       "Assess for asterixis: have client extend arms with wrists dorsiflexed and fingers spread",
       "Implement safety precautions: fall risk, aspiration precautions, bed alarm if confused",
       "Monitor serum ammonia levels, electrolytes (especially potassium), and renal function",
-      "Report excessive diarrhea from lactulose—dehydration can paradoxically worsen HE"
+      "Report excessive diarrhea from lactulose; dehydration can paradoxically worsen HE"
     ],
     signs: {
       left: [
@@ -1809,7 +1809,7 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         action: "Colonic bacteria ferment lactulose to organic acids, lowering colonic pH from ~7 to ~5, converting absorbable ammonia (NH₃) to non-absorbable ammonium (NH₄⁺); osmotic effect increases fecal bulk and accelerates ammonia excretion",
         sideEffects: "Diarrhea, flatulence, abdominal cramping, nausea, electrolyte imbalances (hypokalemia, hyponatremia)",
         contra: "Galactosemia, bowel obstruction",
-        pearl: "Titrate to 2–3 soft stools/day—too few = inadequate ammonia clearance, too many = dehydration which WORSENS encephalopathy"
+        pearl: "Titrate to 2-3 soft stools/day; too few = inadequate ammonia clearance, too many = dehydration which WORSENS encephalopathy"
       },
       {
         name: "Rifaximin (Xifaxan)",
@@ -1821,11 +1821,11 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "Lactulose titration goal: 2–3 soft stools/day—excessive diarrhea causes dehydration and hypokalemia, which worsen HE",
+      "Lactulose titration goal: 2-3 soft stools/day; excessive diarrhea causes dehydration and hypokalemia, which worsen HE",
       "Alkalosis promotes HE because NH₃ (crosses blood-brain barrier) predominates over NH₄⁺ in alkaline pH",
-      "GI bleeding is a major HE precipitant—blood in the GI tract is a massive protein/ammonia load",
-      "Serum ammonia levels correlate poorly with clinical severity—always treat based on clinical assessment",
-      "Do NOT chronically restrict dietary protein—this causes sarcopenia and worsens outcomes in cirrhosis"
+      "GI bleeding is a major HE precipitant; blood in the GI tract is a massive protein/ammonia load",
+      "Serum ammonia levels correlate poorly with clinical severity; always treat based on clinical assessment",
+      "Do NOT chronically restrict dietary protein; this causes sarcopenia and worsens outcomes in cirrhosis"
     ],
     quiz: [
       {
@@ -1833,11 +1833,11 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         options: [
           "Continue the current lactulose dose as prescribed",
           "Administer an additional lactulose dose to further reduce ammonia",
-          "Hold lactulose and report to the provider—excessive diarrhea can worsen HE",
+          "Hold lactulose and report to the provider; excessive diarrhea can worsen HE",
           "Increase fluid intake and continue lactulose at the same dose"
         ],
         correct: 2,
-        rationale: "The goal is 2–3 soft stools/day. Excessive diarrhea from lactulose causes dehydration, hypokalemia, and metabolic alkalosis—all of which worsen hepatic encephalopathy. The nurse should hold the dose and report to the provider for dose adjustment."
+        rationale: "The goal is 2-3 soft stools/day. Excessive diarrhea from lactulose causes dehydration, hypokalemia, and metabolic alkalosis; all of which worsen hepatic encephalopathy. The nurse should hold the dose and report to the provider for dose adjustment."
       }
     ]
   }

@@ -111,7 +111,7 @@ export default function ClinicalClarityIndex() {
             </div>
           </div>
           <p className="text-lg text-gray-600 max-w-3xl leading-relaxed mt-4">
-            The questions every nursing student asks — answered through cellular mechanisms, 
+            The questions every nursing student asks: answered through cellular mechanisms, 
             not textbook definitions. Each explanation traces the physiological chain from 
             molecular disturbance to clinical consequence.
           </p>

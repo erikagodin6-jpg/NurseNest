@@ -466,7 +466,7 @@ export default function PricingPage() {
                 Practice Tool Add-Ons
               </h2>
               <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-addon-subtitle">
-                Get unlimited access to our interactive practice tools. Free users get 10 questions per day — upgrade for unlimited practice.
+                Get unlimited access to our interactive practice tools. Free users get 10 questions per day: upgrade for unlimited practice.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -506,7 +506,7 @@ export default function PricingPage() {
                   features: [
                     "Unlimited Lab Interpretation",
                     "Unlimited Med Math",
-                    "Best value — save over buying separately",
+                    "Best value: save over buying separately",
                     "Priority access to new practice tools",
                   ],
                   popular: true,

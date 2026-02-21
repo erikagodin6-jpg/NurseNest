@@ -32,7 +32,7 @@ const milestones: MilestoneConfig[] = [
   },
   {
     type: "test_score",
-    title: "Strong performance — ready for more depth?",
+    title: "Strong performance: ready for more depth?",
     message: "Your test scores suggest you're building solid clinical reasoning. Full access unlocks advanced pathophysiology, drug interaction analysis, and condition-specific clinical pearls that strengthen exam confidence.",
     cta: "Unlock Advanced Content",
     icon: Target,
@@ -40,7 +40,7 @@ const milestones: MilestoneConfig[] = [
   {
     type: "study_streak",
     title: "Consistency builds mastery",
-    message: "You've returned to study multiple times — that kind of discipline is what separates confident clinicians from uncertain ones. Full access ensures every study session builds toward deeper understanding.",
+    message: "You've returned to study multiple times: that kind of discipline is what separates confident clinicians from uncertain ones. Full access ensures every study session builds toward deeper understanding.",
     cta: "Support Your Momentum",
     icon: Sparkles,
   },

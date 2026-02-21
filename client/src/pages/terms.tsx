@@ -97,7 +97,7 @@ export default function TermsPage() {
           <section data-testid="section-intellectual-property">
             <h2 className="text-2xl font-semibold text-primary mb-4">7. Intellectual Property</h2>
             <p className="text-gray-700 leading-relaxed mb-3">
-              All content available on NurseNest — including but not limited to lessons, practice questions, answer rationales, graphics, illustrations, interface design, educational frameworks, software code, and branding — is the intellectual property of NurseNest and is protected by applicable copyright, trademark, and intellectual property laws.
+              All content available on NurseNest: including but not limited to lessons, practice questions, answer rationales, graphics, illustrations, interface design, educational frameworks, software code, and branding: is the intellectual property of NurseNest and is protected by applicable copyright, trademark, and intellectual property laws.
             </p>
             <p className="text-gray-700 leading-relaxed">
               Your subscription grants you a limited, non-transferable, non-exclusive, revocable license to access and use the Platform's content for your personal educational purposes only. This license does not transfer any ownership rights to you.

@@ -65,7 +65,7 @@ export default function RefundPolicyPage() {
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2 mb-4">
                 <li>Your refund request is submitted within 30 calendar days of your initial purchase date.</li>
-                <li>The subscription is your first-ever purchase on NurseNest — the guarantee does not apply to returning subscribers.</li>
+                <li>The subscription is your first-ever purchase on NurseNest: the guarantee does not apply to returning subscribers.</li>
                 <li>The subscription was purchased directly through NurseNest (nursenest.ca), not through a third-party reseller, app store, or promotional partner.</li>
                 <li>Your account usage falls within reasonable limits as described in Section 3 below.</li>
               </ul>
@@ -73,7 +73,7 @@ export default function RefundPolicyPage() {
                 The following are explicitly excluded from refund eligibility:
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2">
-                <li>Subscription renewals (monthly or otherwise) — only the initial purchase qualifies.</li>
+                <li>Subscription renewals (monthly or otherwise): only the initial purchase qualifies.</li>
                 <li>Repeat refund requests from users who have previously received a refund under this guarantee.</li>
                 <li>Purchases made through third-party platforms, gift codes, or promotional bundles not originating from NurseNest.</li>
               </ul>
@@ -114,9 +114,9 @@ export default function RefundPolicyPage() {
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2">
                 <li>Change of mind after substantial usage of the platform's premium content and features.</li>
-                <li>Dissatisfaction related to exam outcomes, test performance, or clinical results — NurseNest is an educational resource and does not guarantee specific examination results.</li>
+                <li>Dissatisfaction related to exam outcomes, test performance, or clinical results: NurseNest is an educational resource and does not guarantee specific examination results.</li>
                 <li>Purchases made at promotional, discounted, or special offer pricing.</li>
-                <li>Subscription renewals, whether automatic or manual — only first-time purchases are covered by the satisfaction guarantee.</li>
+                <li>Subscription renewals, whether automatic or manual: only first-time purchases are covered by the satisfaction guarantee.</li>
                 <li>Accounts that have been suspended or terminated due to violations of our Terms of Use, including prohibited conduct such as content redistribution or account sharing.</li>
               </ul>
             </CardContent>
@@ -137,7 +137,7 @@ export default function RefundPolicyPage() {
                 <li>Your account may be flagged as having used the satisfaction guarantee, which may restrict eligibility for future guarantee claims on subsequent purchases.</li>
               </ul>
               <p className="text-gray-700 leading-relaxed">
-                Refunds are typically processed within 5–10 business days and will be returned to the original payment method used at the time of purchase.
+                Refunds are typically processed within 5-10 business days and will be returned to the original payment method used at the time of purchase.
               </p>
             </CardContent>
           </Card>
@@ -164,7 +164,7 @@ export default function RefundPolicyPage() {
                 <li>A brief explanation of the reason for your refund request.</li>
               </ul>
               <p className="text-gray-700 leading-relaxed">
-                Our team will review your request and respond within 2–3 business days. We are committed to handling all requests with care and transparency.
+                Our team will review your request and respond within 2-3 business days. We are committed to handling all requests with care and transparency.
               </p>
             </CardContent>
           </Card>
@@ -176,13 +176,13 @@ export default function RefundPolicyPage() {
                 <h2 className="text-2xl font-semibold text-primary">7. Our Commitment</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
-                At NurseNest, we believe in the quality of our educational content and the value it brings to nursing students and professionals. Our 30-day satisfaction guarantee reflects that belief — we want you to feel confident in choosing NurseNest as your study companion.
+                At NurseNest, we believe in the quality of our educational content and the value it brings to nursing students and professionals. Our 30-day satisfaction guarantee reflects that belief: we want you to feel confident in choosing NurseNest as your study companion.
               </p>
               <p className="text-gray-700 leading-relaxed mb-3">
                 We are committed to treating every learner with fairness, respect, and transparency. If something isn't working for you, we genuinely want to hear about it. Your feedback helps us improve the platform for everyone.
               </p>
               <p className="text-gray-600 text-sm italic">
-                This policy is designed to balance the needs of all our learners — protecting the investment of dedicated students while ensuring that new subscribers can explore NurseNest with peace of mind.
+                This policy is designed to balance the needs of all our learners: protecting the investment of dedicated students while ensuring that new subscribers can explore NurseNest with peace of mind.
               </p>
             </CardContent>
           </Card>

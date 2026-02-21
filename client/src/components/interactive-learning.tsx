@@ -380,12 +380,12 @@ export function SelfCheckQuiz({
               {percentage}%
             </span>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">{title} — Complete</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{title}: Complete</h3>
           <p className="text-gray-600 mb-1">
             {score}/{questions.length} correct
           </p>
           <p className="text-sm text-gray-400 mb-6">
-            {percentage >= 80 ? "Excellent understanding!" : percentage >= 60 ? "Good foundation — review the topics you missed." : "Keep studying — revisit the concepts and try again."}
+            {percentage >= 80 ? "Excellent understanding!" : percentage >= 60 ? "Good foundation: review the topics you missed." : "Keep studying: revisit the concepts and try again."}
           </p>
           <Button onClick={reset} className="rounded-full" data-testid="button-retry-quiz">
             <RotateCcw className="w-4 h-4 mr-2" /> Try Again

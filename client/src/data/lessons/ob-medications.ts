@@ -61,7 +61,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Crosses placenta and stimulates type II pneumocyte surfactant production, accelerating fetal lung maturity and reducing risk of neonatal RDS",
         sideEffects: "Transient maternal hyperglycemia, leukocytosis, insomnia, injection site pain, decreased fetal movement for 24-48 hours",
         contra: "Active chorioamnionitis with plan for immediate delivery, systemic fungal infection, gestational age beyond 37 weeks",
-        pearl: "Maximum benefit occurs 24 hours to 7 days after the first dose — time administration to optimize the therapeutic window before anticipated delivery"
+        pearl: "Maximum benefit occurs 24 hours to 7 days after the first dose: time administration to optimize the therapeutic window before anticipated delivery"
       },
       {
         name: "Dexamethasone",
@@ -74,7 +74,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
     ],
     pearls: [
       "A single rescue course may be given if ≥14 days have passed since the initial course and delivery remains imminent before 34 weeks",
-      "Corticosteroids cause a transient decrease in fetal movement and heart rate variability for 24-48 hours — this is expected and should not be confused with fetal distress",
+      "Corticosteroids cause a transient decrease in fetal movement and heart rate variability for 24-48 hours: this is expected and should not be confused with fetal distress",
       "Late preterm steroid administration (34-36+6 weeks) may be considered but carries a higher risk of neonatal hypoglycemia",
       "Betamethasone is generally preferred over dexamethasone due to its longer half-life and simpler dosing schedule"
     ],
@@ -152,7 +152,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Binds to mu opioid receptors in the CNS to produce rapid-onset analgesia; short duration allows easier titration during labor",
         sideEffects: "Respiratory depression, nausea, pruritus, dizziness, neonatal respiratory depression if given close to delivery",
         contra: "Known hypersensitivity, severe respiratory depression, use within 1 hour of anticipated delivery",
-        pearl: "Onset is 2-3 minutes IV with duration of 30-60 minutes — ideal for titration during active labor; always have naloxone at bedside"
+        pearl: "Onset is 2-3 minutes IV with duration of 30-60 minutes: ideal for titration during active labor; always have naloxone at bedside"
       },
       {
         name: "Butorphanol (Stadol)",
@@ -160,13 +160,13 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Provides analgesia via kappa receptor agonism with partial mu antagonism; ceiling effect on respiratory depression improves safety profile",
         sideEffects: "Sedation, dizziness, nausea, diaphoresis, transient sinusoidal-like fetal heart rate pattern",
         contra: "Opioid-dependent clients (may precipitate withdrawal), severe respiratory depression, administration close to delivery",
-        pearl: "Do NOT administer to opioid-dependent clients — the antagonist component can trigger acute withdrawal syndrome"
+        pearl: "Do NOT administer to opioid-dependent clients: the antagonist component can trigger acute withdrawal syndrome"
       }
     ],
     pearls: [
       "Time opioid administration carefully: avoid giving within 1-2 hours of anticipated delivery to reduce neonatal respiratory depression risk",
       "Butorphanol may cause a transient sinusoidal-like FHR pattern that should not be confused with true sinusoidal pattern indicating fetal anemia",
-      "Naloxone reverses opioid effects in the neonate but has a shorter half-life than most opioids — monitor for re-sedation",
+      "Naloxone reverses opioid effects in the neonate but has a shorter half-life than most opioids: monitor for re-sedation",
       "Mixed agonist-antagonists (butorphanol, nalbuphine) should never be given to opioid-dependent clients as they precipitate withdrawal"
     ],
     quiz: [
@@ -243,7 +243,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Activates cervical collagenase to soften and efface the cervix; stimulates uterine smooth muscle contraction via prostaglandin receptors",
         sideEffects: "Tachysystole, uterine hyperstimulation, nausea, vomiting, diarrhea, fever, uterine rupture (especially with prior uterine scar)",
         contra: "Prior cesarean section or uterine surgery, active asthma, known hypersensitivity, placenta previa",
-        pearl: "ABSOLUTELY contraindicated in clients with prior uterine scar — high risk of uterine rupture; wait 4 hours after last dose before starting oxytocin"
+        pearl: "ABSOLUTELY contraindicated in clients with prior uterine scar: high risk of uterine rupture; wait 4 hours after last dose before starting oxytocin"
       },
       {
         name: "Dinoprostone (Cervidil/Prepidil)",
@@ -251,13 +251,13 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Promotes cervical ripening through collagen degradation and increases uterine smooth muscle tone to initiate contractions",
         sideEffects: "Tachysystole, nausea, vomiting, diarrhea, fever, back pain",
         contra: "Active vaginal bleeding, non-reassuring FHR, client already in active labor, hypersensitivity to prostaglandins",
-        pearl: "Cervidil has a retrieval string allowing quick removal if tachysystole occurs — a major safety advantage over misoprostol"
+        pearl: "Cervidil has a retrieval string allowing quick removal if tachysystole occurs: a major safety advantage over misoprostol"
       }
     ],
     pearls: [
       "Bishop score <6 indicates an unfavorable cervix that will benefit from prostaglandin ripening before oxytocin induction",
-      "Misoprostol is CONTRAINDICATED in clients with a prior uterine scar — always verify surgical history before administration",
-      "Cervidil can be removed if tachysystole develops; misoprostol cannot be retrieved once administered — this is a key safety distinction",
+      "Misoprostol is CONTRAINDICATED in clients with a prior uterine scar: always verify surgical history before administration",
+      "Cervidil can be removed if tachysystole develops; misoprostol cannot be retrieved once administered: this is a key safety distinction",
       "Allow at least 4 hours after misoprostol or 30 minutes after Cervidil removal before initiating oxytocin infusion"
     ],
     quiz: [
@@ -308,7 +308,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       "Administer oxytocin 10-40 units in IV solution postpartum as ordered for hemorrhage prevention"
     ],
     nursingActions: [
-      "Always administer oxytocin via infusion pump as a secondary (piggyback) infusion — never as a primary line bolus",
+      "Always administer oxytocin via infusion pump as a secondary (piggyback) infusion: never as a primary line bolus",
       "Monitor and document contraction pattern and FHR every 15 minutes during first stage and every 5 minutes during second stage",
       "Discontinue oxytocin and notify the provider immediately for tachysystole or non-reassuring FHR",
       "Maintain strict intake and output records to detect fluid overload",
@@ -335,13 +335,13 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Binds to myometrial oxytocin receptors, increasing intracellular calcium to stimulate rhythmic uterine contractions; postpartum promotes uterine involution and hemostasis",
         sideEffects: "Tachysystole, uterine hyperstimulation, water intoxication (hyponatremia), nausea, hypotension with rapid IV bolus, uterine rupture (rare)",
         contra: "Placenta previa, vasa previa, cord prolapse, transverse lie, active genital herpes with vaginal lesions, prior classical cesarean incision",
-        pearl: "Administer via infusion pump as a piggyback to a primary IV line so it can be immediately discontinued without interrupting IV access — short 3-5 min half-life allows rapid effect reversal"
+        pearl: "Administer via infusion pump as a piggyback to a primary IV line so it can be immediately discontinued without interrupting IV access: short 3-5 min half-life allows rapid effect reversal"
       }
     ],
     pearls: [
-      "Oxytocin must ALWAYS be administered via infusion pump as a secondary (piggyback) line — never bolused during labor",
+      "Oxytocin must ALWAYS be administered via infusion pump as a secondary (piggyback) line: never bolused during labor",
       "The short half-life (3-5 minutes) is a safety advantage: discontinue the infusion and effects resolve quickly",
-      "Water intoxication risk increases with prolonged infusion and hypotonic IV fluids — use isotonic solutions and monitor I&O",
+      "Water intoxication risk increases with prolonged infusion and hypotonic IV fluids: use isotonic solutions and monitor I&O",
       "Postpartum: oxytocin is the first-line uterotonic for preventing and treating postpartum hemorrhage"
     ],
     quiz: [
@@ -366,7 +366,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       content: "Postpartum hemorrhage (PPH) is defined as blood loss ≥1000 mL or blood loss accompanied by signs of hypovolemia within 24 hours after birth. The most common cause is uterine atony, accounting for approximately 80% of PPH cases. Pharmacologic management targets the underlying pathophysiology by promoting sustained myometrial contraction to compress the spiral arteries at the former placental site. A coordinated, stepwise approach to medication administration is essential, beginning with uterine massage and oxytocin as first-line therapy and escalating to second-line uterotonics as needed.\n\nOxytocin (Pitocin) is the first-line medication for both prevention and treatment of PPH due to uterine atony. When oxytocin alone is insufficient, methylergonovine (Methergine) may be administered intramuscularly to produce sustained uterine tetanic contraction through direct smooth muscle stimulation. Methylergonovine is contraindicated in clients with hypertension or preeclampsia because it causes systemic vasoconstriction that can dangerously elevate blood pressure. Carboprost (Hemabate/15-methyl PGF2α) is a synthetic prostaglandin that produces powerful myometrial contractions and is administered intramuscularly. It is contraindicated in clients with asthma because it can cause severe bronchospasm.\n\nMisoprostol (Cytotec) can be administered rectally (800-1000 mcg) as an adjunct uterotonic in PPH management. It is advantageous because it does not require refrigeration and can be administered by multiple routes. Tranexamic acid (TXA) is an antifibrinolytic agent that inhibits plasminogen activation, reducing fibrinolysis and stabilizing blood clots. It should be administered within 3 hours of hemorrhage onset for maximum efficacy. The nurse must recognize PPH early, initiate fundal massage, administer uterotonics as ordered, maintain IV access with large-bore catheters, and prepare for potential blood transfusion or surgical intervention."
     },
     riskFactors: [
-      "Uterine atony (most common cause — overdistended uterus, prolonged labor, chorioamnionitis)",
+      "Uterine atony (most common cause: overdistended uterus, prolonged labor, chorioamnionitis)",
       "Retained placental fragments or membranes",
       "Genital tract lacerations (cervical, vaginal, perineal)",
       "Uterine inversion",
@@ -397,7 +397,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
     nursingActions: [
       "Assess fundal tone and lochia every 15 minutes during the first hour postpartum and report a boggy uterus immediately",
       "Perform fundal massage firmly and continuously until the uterus becomes firm and contracted",
-      "Administer uterotonics as ordered in the correct sequence — oxytocin first, then escalate as needed",
+      "Administer uterotonics as ordered in the correct sequence: oxytocin first, then escalate as needed",
       "Monitor vital signs every 5-15 minutes during active hemorrhage and report signs of shock",
       "Maintain strict intake and output including accurate quantitative blood loss measurement",
       "Verify contraindications before administering each medication: blood pressure for Methergine, respiratory status for Hemabate",
@@ -421,22 +421,22 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         type: "Ergot Alkaloid Uterotonic",
         action: "Produces sustained tetanic uterine contraction through direct smooth muscle stimulation, compressing spiral arteries to reduce bleeding",
         sideEffects: "Hypertension, nausea, vomiting, headache, dizziness, peripheral vasoconstriction, chest pain",
-        contra: "HYPERTENSION, preeclampsia/eclampsia, coronary artery disease — causes dangerous vasoconstriction and blood pressure elevation",
-        pearl: "ALWAYS check blood pressure before administration — contraindicated if BP is elevated; given IM (never IV except in life-threatening emergencies due to risk of severe hypertension and stroke)"
+        contra: "HYPERTENSION, preeclampsia/eclampsia, coronary artery disease: causes dangerous vasoconstriction and blood pressure elevation",
+        pearl: "ALWAYS check blood pressure before administration: contraindicated if BP is elevated; given IM (never IV except in life-threatening emergencies due to risk of severe hypertension and stroke)"
       },
       {
         name: "Carboprost (Hemabate / 15-methyl PGF2α)",
         type: "Prostaglandin F2-alpha Analog",
         action: "Stimulates intense myometrial contraction through prostaglandin receptor activation, effective for refractory uterine atony",
         sideEffects: "Nausea, vomiting, diarrhea, fever, bronchospasm, hypertension, flushing",
-        contra: "ASTHMA or reactive airway disease — can cause severe life-threatening bronchospasm; also contraindicated in active hepatic, renal, or cardiac disease",
-        pearl: "ALWAYS assess respiratory status before administration — absolutely contraindicated in clients with asthma; may be given IM or directly into the myometrium"
+        contra: "ASTHMA or reactive airway disease: can cause severe life-threatening bronchospasm; also contraindicated in active hepatic, renal, or cardiac disease",
+        pearl: "ALWAYS assess respiratory status before administration: absolutely contraindicated in clients with asthma; may be given IM or directly into the myometrium"
       }
     ],
     pearls: [
       "Remember the PPH medication contraindications: Methergine = hypertension, Hemabate = asthma (mnemonic: 'M for Methergine, M for elevated BP'; 'H for Hemabate, H for hard to breathe')",
-      "Oxytocin is always the FIRST-LINE treatment for PPH due to uterine atony — escalate to other uterotonics only when it is ineffective",
-      "Tranexamic acid (TXA) should be administered within 3 hours of hemorrhage onset for maximum benefit — do not delay",
+      "Oxytocin is always the FIRST-LINE treatment for PPH due to uterine atony: escalate to other uterotonics only when it is ineffective",
+      "Tranexamic acid (TXA) should be administered within 3 hours of hemorrhage onset for maximum benefit: do not delay",
       "The 4 T's of PPH etiology: Tone (atony), Tissue (retained placenta), Trauma (lacerations), Thrombin (coagulopathy)"
     ],
     quiz: [
@@ -458,7 +458,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
     title: "Rh Immune Globulin (RhoGAM)",
     cellular: {
       title: "Prevention of Rh Sensitization",
-      content: "Rh immune globulin (RhIG), commonly known by the brand name RhoGAM, is a blood product containing anti-D immunoglobulin (IgG) antibodies that prevent Rh sensitization (alloimmunization) in Rh-negative individuals exposed to Rh-positive blood. When an Rh-negative mother carries an Rh-positive fetus, fetal red blood cells carrying the D antigen may cross the placenta into the maternal circulation during pregnancy, delivery, or any fetomaternal hemorrhage event. Without intervention, the mother's immune system recognizes the D antigen as foreign and produces anti-D antibodies (IgG), which can cross the placenta in subsequent pregnancies and attack Rh-positive fetal red blood cells, causing hemolytic disease of the fetus and newborn (HDFN).\n\nRhIG works by passively binding to and destroying any fetal Rh-positive red blood cells that have entered the maternal circulation before the mother's immune system can mount an active immune response. By eliminating the antigenic stimulus, RhIG prevents the formation of maternal anti-D antibodies. This mechanism is known as antibody-mediated immune suppression. RhIG is a passive immunization — it does not stimulate the mother's immune system to produce her own antibodies. Because the passively administered antibodies are gradually cleared, repeated doses are necessary for each pregnancy and sensitizing event.\n\nThe standard protocol involves administering RhIG 300 mcg intramuscularly at 28 weeks of gestation (antepartum prophylaxis) and again within 72 hours after delivery if the newborn is confirmed Rh-positive (postpartum prophylaxis). Additional doses are administered as ordered after any sensitizing event, including amniocentesis, chorionic villus sampling (CVS), abdominal trauma, ectopic pregnancy, spontaneous or elective abortion, external cephalic version, or any episode of vaginal bleeding during pregnancy. A Kleihauer-Betke (KB) test may be performed to quantify the volume of fetomaternal hemorrhage and determine if additional RhIG doses are needed beyond the standard 300 mcg dose."
+      content: "Rh immune globulin (RhIG), commonly known by the brand name RhoGAM, is a blood product containing anti-D immunoglobulin (IgG) antibodies that prevent Rh sensitization (alloimmunization) in Rh-negative individuals exposed to Rh-positive blood. When an Rh-negative mother carries an Rh-positive fetus, fetal red blood cells carrying the D antigen may cross the placenta into the maternal circulation during pregnancy, delivery, or any fetomaternal hemorrhage event. Without intervention, the mother's immune system recognizes the D antigen as foreign and produces anti-D antibodies (IgG), which can cross the placenta in subsequent pregnancies and attack Rh-positive fetal red blood cells, causing hemolytic disease of the fetus and newborn (HDFN).\n\nRhIG works by passively binding to and destroying any fetal Rh-positive red blood cells that have entered the maternal circulation before the mother's immune system can mount an active immune response. By eliminating the antigenic stimulus, RhIG prevents the formation of maternal anti-D antibodies. This mechanism is known as antibody-mediated immune suppression. RhIG is a passive immunization: it does not stimulate the mother's immune system to produce her own antibodies. Because the passively administered antibodies are gradually cleared, repeated doses are necessary for each pregnancy and sensitizing event.\n\nThe standard protocol involves administering RhIG 300 mcg intramuscularly at 28 weeks of gestation (antepartum prophylaxis) and again within 72 hours after delivery if the newborn is confirmed Rh-positive (postpartum prophylaxis). Additional doses are administered as ordered after any sensitizing event, including amniocentesis, chorionic villus sampling (CVS), abdominal trauma, ectopic pregnancy, spontaneous or elective abortion, external cephalic version, or any episode of vaginal bleeding during pregnancy. A Kleihauer-Betke (KB) test may be performed to quantify the volume of fetomaternal hemorrhage and determine if additional RhIG doses are needed beyond the standard 300 mcg dose."
     },
     riskFactors: [
       "Rh-negative mother with Rh-positive partner",
@@ -512,15 +512,15 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         type: "Blood Product / Passive Immunoglobulin",
         action: "Passively administered anti-D antibodies bind to and destroy Rh-positive fetal red blood cells in maternal circulation, preventing maternal immune system from producing anti-D antibodies",
         sideEffects: "Injection site pain, low-grade fever, myalgia, lethargy, rare allergic reaction",
-        contra: "Rh-positive mother (not needed), prior Rh sensitization (positive indirect Coombs — RhIG is no longer effective), known IgA deficiency with anti-IgA antibodies (anaphylaxis risk)",
-        pearl: "Must be administered within 72 hours postpartum for effectiveness — earlier is better; always verify Rh status and antibody screen before giving"
+        contra: "Rh-positive mother (not needed), prior Rh sensitization (positive indirect Coombs: RhIG is no longer effective), known IgA deficiency with anti-IgA antibodies (anaphylaxis risk)",
+        pearl: "Must be administered within 72 hours postpartum for effectiveness: earlier is better; always verify Rh status and antibody screen before giving"
       }
     ],
     pearls: [
-      "RhoGAM is given at 28 weeks antepartum AND within 72 hours postpartum if the newborn is Rh-positive — both doses are essential",
-      "RhIG is a blood product — follow institutional blood product administration protocols including dual verification",
-      "If the mother is already sensitized (positive indirect Coombs), RhIG will NOT be effective — it can only prevent sensitization, not reverse it",
-      "A standard 300 mcg dose covers approximately 30 mL of fetal whole blood — Kleihauer-Betke testing determines if additional doses are needed for large hemorrhages"
+      "RhoGAM is given at 28 weeks antepartum AND within 72 hours postpartum if the newborn is Rh-positive: both doses are essential",
+      "RhIG is a blood product: follow institutional blood product administration protocols including dual verification",
+      "If the mother is already sensitized (positive indirect Coombs), RhIG will NOT be effective: it can only prevent sensitization, not reverse it",
+      "A standard 300 mcg dose covers approximately 30 mL of fetal whole blood: Kleihauer-Betke testing determines if additional doses are needed for large hemorrhages"
     ],
     quiz: [
       {
@@ -541,7 +541,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
     title: "Rubella Vaccine (MMR) Postpartum",
     cellular: {
       title: "Postpartum Rubella Immunization & Congenital Rubella Prevention",
-      content: "Rubella (German measles) is a teratogenic viral infection that can cause devastating congenital rubella syndrome (CRS) when maternal infection occurs during the first trimester of pregnancy. CRS manifestations include sensorineural deafness, congenital heart defects (patent ductus arteriosus, pulmonary stenosis), cataracts, intellectual disability, hepatosplenomegaly, and thrombocytopenic purpura. Prenatal screening identifies non-immune mothers through rubella IgG antibody titer; a titer <1:8 or negative IgG indicates susceptibility to infection.\n\nThe measles-mumps-rubella (MMR) vaccine is a live attenuated virus vaccine that stimulates active immunity by exposing the immune system to weakened viral antigens, triggering both humoral (antibody) and cell-mediated immune responses. Because it is a live vaccine, MMR is CONTRAINDICATED during pregnancy due to the theoretical risk of fetal infection. Therefore, non-immune mothers are vaccinated in the immediate postpartum period before hospital discharge. Seroconversion typically occurs within 2-6 weeks after vaccination, providing protection for future pregnancies.\n\nAfter postpartum MMR administration, the client must be counseled to avoid pregnancy for at least 28 days (1 month) following vaccination. The nurse should educate the client about reliable contraception during this period. Breastfeeding is NOT a contraindication to MMR vaccination — the vaccine can be safely administered to lactating mothers. The vaccine virus may be detected in breast milk, but this does not pose a risk to the nursing infant. Common side effects include mild injection site soreness, low-grade fever, and a transient rash 7-10 days after vaccination. The nurse should also verify that the client does not have a severe allergy to neomycin or gelatin, which are components of the vaccine."
+      content: "Rubella (German measles) is a teratogenic viral infection that can cause devastating congenital rubella syndrome (CRS) when maternal infection occurs during the first trimester of pregnancy. CRS manifestations include sensorineural deafness, congenital heart defects (patent ductus arteriosus, pulmonary stenosis), cataracts, intellectual disability, hepatosplenomegaly, and thrombocytopenic purpura. Prenatal screening identifies non-immune mothers through rubella IgG antibody titer; a titer <1:8 or negative IgG indicates susceptibility to infection.\n\nThe measles-mumps-rubella (MMR) vaccine is a live attenuated virus vaccine that stimulates active immunity by exposing the immune system to weakened viral antigens, triggering both humoral (antibody) and cell-mediated immune responses. Because it is a live vaccine, MMR is CONTRAINDICATED during pregnancy due to the theoretical risk of fetal infection. Therefore, non-immune mothers are vaccinated in the immediate postpartum period before hospital discharge. Seroconversion typically occurs within 2-6 weeks after vaccination, providing protection for future pregnancies.\n\nAfter postpartum MMR administration, the client must be counseled to avoid pregnancy for at least 28 days (1 month) following vaccination. The nurse should educate the client about reliable contraception during this period. Breastfeeding is NOT a contraindication to MMR vaccination: the vaccine can be safely administered to lactating mothers. The vaccine virus may be detected in breast milk, but this does not pose a risk to the nursing infant. Common side effects include mild injection site soreness, low-grade fever, and a transient rash 7-10 days after vaccination. The nurse should also verify that the client does not have a severe allergy to neomycin or gelatin, which are components of the vaccine."
     },
     riskFactors: [
       "Non-immune rubella status identified during prenatal screening (titer <1:8)",
@@ -592,15 +592,15 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         type: "Live Attenuated Virus Vaccine",
         action: "Introduces weakened rubella, measles, and mumps viral antigens to stimulate active humoral and cell-mediated immunity without causing disease",
         sideEffects: "Injection site soreness, low-grade fever, transient rash, arthralgias (especially in adult women), lymphadenopathy, rare thrombocytopenia",
-        contra: "PREGNANCY (live vaccine — teratogenic risk), severe immunosuppression, severe allergy to neomycin or gelatin, recent blood product administration (wait 3 months)",
-        pearl: "Administer postpartum BEFORE discharge — this is often the only opportunity to immunize; breastfeeding is NOT a contraindication"
+        contra: "PREGNANCY (live vaccine: teratogenic risk), severe immunosuppression, severe allergy to neomycin or gelatin, recent blood product administration (wait 3 months)",
+        pearl: "Administer postpartum BEFORE discharge: this is often the only opportunity to immunize; breastfeeding is NOT a contraindication"
       }
     ],
     pearls: [
-      "MMR is a LIVE vaccine — absolutely contraindicated during pregnancy; administer only in the postpartum period",
+      "MMR is a LIVE vaccine: absolutely contraindicated during pregnancy; administer only in the postpartum period",
       "Instruct client to avoid pregnancy for at least 28 days after MMR vaccination",
       "Breastfeeding is safe and NOT a contraindication to MMR administration",
-      "If RhoGAM and MMR are both needed postpartum, they can be given at the same time but at different sites — however, rubella titer should be rechecked in 3 months as the blood product may interfere with seroconversion"
+      "If RhoGAM and MMR are both needed postpartum, they can be given at the same time but at different sites: however, rubella titer should be rechecked in 3 months as the blood product may interfere with seroconversion"
     ],
     quiz: [
       {
@@ -624,7 +624,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       content: "Exogenous lung surfactants are administered to premature neonates to treat or prevent respiratory distress syndrome (RDS), which results from inadequate endogenous surfactant production by immature type II pneumocytes. Pulmonary surfactant is a complex mixture of phospholipids (primarily dipalmitoylphosphatidylcholine/DPPC) and surfactant proteins that lines the alveolar surface, reducing surface tension at the air-liquid interface. By lowering surface tension, surfactant prevents alveolar collapse (atelectasis) at end-expiration and reduces the work of breathing. Premature neonates born before 34-36 weeks typically have insufficient surfactant, leading to progressive atelectasis, ventilation-perfusion mismatch, hypoxemia, and respiratory failure.\n\nNatural surfactant preparations derived from animal sources include beractant (Survanta, bovine), calfactant (Infasurf, calf), and poractant alfa (Curosurf, porcine). These preparations contain both phospholipids and surfactant proteins that more closely mimic endogenous human surfactant. Synthetic surfactants such as lucinactant (Surfaxin) are also available. Natural surfactants generally demonstrate faster onset and improved outcomes compared to earlier synthetic formulations. Surfactant is administered directly into the lungs via an endotracheal (ET) tube in aliquots, with the neonate repositioned between doses to promote even distribution throughout both lungs.\n\nAdministration technique is critical for effectiveness. The surfactant is warmed to room temperature before instillation. The neonate is intubated, and the surfactant is administered in divided doses (typically 2-4 aliquots) through a catheter placed into the ET tube or via specialized delivery devices. Between aliquots, the neonate is repositioned (right lateral, left lateral, head up, head down) to facilitate gravitational distribution of surfactant to all lung segments. The nurse monitors the neonate's oxygen saturation, heart rate, and breath sounds throughout the procedure. Rapid improvements in oxygenation are expected, and ventilator settings may need to be quickly adjusted to prevent hyperoxia and air leak syndromes (pneumothorax). Suctioning should be avoided for at least 1-2 hours after administration to prevent removal of the surfactant from the airways."
     },
     riskFactors: [
-      "Prematurity (<34 weeks gestation) — primary risk factor for RDS",
+      "Prematurity (<34 weeks gestation): primary risk factor for RDS",
       "Low birth weight (<2500 g), very low birth weight (<1500 g)",
       "Male sex (delayed lung maturity compared to females)",
       "Maternal diabetes (hyperinsulinemia inhibits surfactant production)",
@@ -643,7 +643,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
     ],
     management: [
       "Administer exogenous surfactant via endotracheal tube as ordered (prophylactic within 15-30 minutes of birth, or rescue within first few hours)",
-      "Warm surfactant to room temperature before administration — do not shake",
+      "Warm surfactant to room temperature before administration: do not shake",
       "Administer in divided aliquots with position changes between each dose",
       "Avoid suctioning ET tube for 1-2 hours after surfactant administration",
       "Adjust ventilator settings promptly as oxygenation improves to prevent hyperoxia and air leak",
@@ -651,7 +651,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
     ],
     nursingActions: [
       "Verify correct ET tube placement before surfactant administration (auscultate bilateral breath sounds, confirm with X-ray)",
-      "Warm surfactant vial to room temperature; gently swirl to mix — do NOT shake vigorously",
+      "Warm surfactant vial to room temperature; gently swirl to mix: do NOT shake vigorously",
       "Monitor oxygen saturation, heart rate, and skin color continuously during and after administration",
       "Reposition neonate between aliquots to promote even pulmonary distribution",
       "Observe for acute complications: bradycardia, desaturation, ET tube obstruction during administration",
@@ -678,7 +678,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Replaces deficient pulmonary surfactant, reducing alveolar surface tension, preventing atelectasis, and improving lung compliance and gas exchange",
         sideEffects: "Transient bradycardia, oxygen desaturation during administration, ET tube reflux or obstruction, pulmonary hemorrhage (rare)",
         contra: "None absolute; use with caution in neonates with active pulmonary hemorrhage",
-        pearl: "Administer within 15 minutes of birth for prophylaxis in extremely premature neonates; do NOT shake the vial — gently swirl to resuspend"
+        pearl: "Administer within 15 minutes of birth for prophylaxis in extremely premature neonates; do NOT shake the vial: gently swirl to resuspend"
       },
       {
         name: "Poractant alfa (Curosurf)",
@@ -686,12 +686,12 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Rapidly adsorbs to the alveolar surface to restore surfactant function, lowering surface tension and preventing end-expiratory alveolar collapse",
         sideEffects: "Transient bradycardia and desaturation during instillation, ET tube reflux, rare pulmonary hemorrhage",
         contra: "No absolute contraindications; relative caution with active pulmonary hemorrhage",
-        pearl: "Has a higher phospholipid concentration per mL than beractant, allowing a smaller instillation volume — may reduce airway flooding during administration"
+        pearl: "Has a higher phospholipid concentration per mL than beractant, allowing a smaller instillation volume: may reduce airway flooding during administration"
       }
     ],
     pearls: [
-      "Do NOT suction the ET tube for 1-2 hours after surfactant administration — suctioning removes surfactant from the airways and reduces effectiveness",
-      "Rapid improvement in oxygenation after surfactant is expected — adjust ventilator settings promptly to prevent hyperoxia and air leak",
+      "Do NOT suction the ET tube for 1-2 hours after surfactant administration: suctioning removes surfactant from the airways and reduces effectiveness",
+      "Rapid improvement in oxygenation after surfactant is expected: adjust ventilator settings promptly to prevent hyperoxia and air leak",
       "Natural (animal-derived) surfactants are generally preferred over older synthetic formulations due to the presence of surfactant proteins",
       "INSURE technique (INtubate-SURfactant-Extubate) allows surfactant delivery with minimal ventilator time in stable preterm neonates"
     ],
@@ -741,7 +741,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       "Delay administration for up to 1 hour after birth to allow initial parent-infant bonding and first breastfeed",
       "Gently open the neonate's eyelid by applying slight pressure to the lower lid to expose the conjunctival sac",
       "Apply ointment from inner canthus to outer canthus in a thin ribbon",
-      "Do NOT irrigate or wipe the eyes after application — the ointment must remain in contact with conjunctiva",
+      "Do NOT irrigate or wipe the eyes after application: the ointment must remain in contact with conjunctiva",
       "Inform parents that temporary blurred vision and mild eye swelling are expected and will resolve",
       "Assess eyes for signs of infection at each subsequent assessment (redness, edema, purulent discharge)"
     ],
@@ -764,13 +764,13 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Inhibits bacterial protein synthesis by binding to the 50S ribosomal subunit; provides prophylaxis against N. gonorrhoeae and C. trachomatis conjunctival infection",
         sideEffects: "Temporary blurred vision, mild chemical conjunctivitis (redness, swelling), transient irritation",
         contra: "Known hypersensitivity to erythromycin or any macrolide antibiotic",
-        pearl: "Required by law in most jurisdictions for ALL newborns regardless of delivery method or maternal STI status — may delay up to 1 hour for bonding but do not omit"
+        pearl: "Required by law in most jurisdictions for ALL newborns regardless of delivery method or maternal STI status: may delay up to 1 hour for bonding but do not omit"
       }
     ],
     pearls: [
-      "Erythromycin eye prophylaxis is legally mandated in most jurisdictions for ALL newborns — do not omit even for cesarean births",
+      "Erythromycin eye prophylaxis is legally mandated in most jurisdictions for ALL newborns: do not omit even for cesarean births",
       "May delay administration up to 1 hour to allow initial bonding and breastfeeding, but do not exceed the time window",
-      "Do NOT wipe or irrigate ointment from the eyes — it must remain to be effective",
+      "Do NOT wipe or irrigate ointment from the eyes: it must remain to be effective",
       "Parents should be reassured that the temporary blurriness from the ointment does not affect the newborn's long-term vision"
     ],
     quiz: [
@@ -792,7 +792,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
     title: "Phytonadione (Vitamin K) for Newborns",
     cellular: {
       title: "Vitamin K and Prevention of Hemorrhagic Disease of the Newborn",
-      content: "Phytonadione (vitamin K1) is administered intramuscularly to all newborns within the first hour of life to prevent vitamin K deficiency bleeding (VKDB), formerly known as hemorrhagic disease of the newborn. Newborns are born with low stores of vitamin K because the vitamin does not cross the placenta efficiently, the neonatal gut is sterile at birth (vitamin K is normally synthesized by intestinal bacteria), and breast milk contains low levels of vitamin K. Without prophylaxis, neonates are at risk for spontaneous bleeding, which can manifest as early VKDB (within 24 hours, usually related to maternal medications), classic VKDB (days 2-7), or late VKDB (2-12 weeks, often presenting as intracranial hemorrhage).\n\nAt the molecular level, vitamin K is an essential cofactor for the hepatic enzyme gamma-glutamyl carboxylase, which catalyzes the post-translational carboxylation of glutamic acid residues on clotting factors II (prothrombin), VII, IX, and X, as well as proteins C and S. This carboxylation reaction converts inactive precursor proteins into their biologically active forms, which are capable of binding calcium and assembling on phospholipid surfaces to participate in the coagulation cascade. Without adequate vitamin K, these clotting factors remain in their non-functional, undercarboxylated forms (called PIVKAs — Proteins Induced by Vitamin K Absence), and the neonate cannot form stable blood clots.\n\nThe standard dose is phytonadione 0.5-1 mg (0.5 mg for neonates <1500 g, 1 mg for term neonates) administered intramuscularly into the anterolateral aspect of the vastus lateralis muscle within the first hour of birth. The IM route is preferred over oral administration because it provides more reliable absorption, sustained blood levels, and superior protection against late VKDB. Oral vitamin K regimens require multiple doses and have higher failure rates, particularly for late-onset VKDB. The nurse should use a 25-gauge, 5/8-inch needle and apply gentle pressure without massaging the site after injection to minimize bruising in the vitamin K-deficient neonate."
+      content: "Phytonadione (vitamin K1) is administered intramuscularly to all newborns within the first hour of life to prevent vitamin K deficiency bleeding (VKDB), formerly known as hemorrhagic disease of the newborn. Newborns are born with low stores of vitamin K because the vitamin does not cross the placenta efficiently, the neonatal gut is sterile at birth (vitamin K is normally synthesized by intestinal bacteria), and breast milk contains low levels of vitamin K. Without prophylaxis, neonates are at risk for spontaneous bleeding, which can manifest as early VKDB (within 24 hours, usually related to maternal medications), classic VKDB (days 2-7), or late VKDB (2-12 weeks, often presenting as intracranial hemorrhage).\n\nAt the molecular level, vitamin K is an essential cofactor for the hepatic enzyme gamma-glutamyl carboxylase, which catalyzes the post-translational carboxylation of glutamic acid residues on clotting factors II (prothrombin), VII, IX, and X, as well as proteins C and S. This carboxylation reaction converts inactive precursor proteins into their biologically active forms, which are capable of binding calcium and assembling on phospholipid surfaces to participate in the coagulation cascade. Without adequate vitamin K, these clotting factors remain in their non-functional, undercarboxylated forms (called PIVKAs: Proteins Induced by Vitamin K Absence), and the neonate cannot form stable blood clots.\n\nThe standard dose is phytonadione 0.5-1 mg (0.5 mg for neonates <1500 g, 1 mg for term neonates) administered intramuscularly into the anterolateral aspect of the vastus lateralis muscle within the first hour of birth. The IM route is preferred over oral administration because it provides more reliable absorption, sustained blood levels, and superior protection against late VKDB. Oral vitamin K regimens require multiple doses and have higher failure rates, particularly for late-onset VKDB. The nurse should use a 25-gauge, 5/8-inch needle and apply gentle pressure without massaging the site after injection to minimize bruising in the vitamin K-deficient neonate."
     },
     riskFactors: [
       "All newborns are at risk (universal prophylaxis is standard of care)",
@@ -818,7 +818,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       "Document administration time, dose, route, lot number, and injection site"
     ],
     nursingActions: [
-      "Administer vitamin K within the first hour of life — do not delay unless medically necessary",
+      "Administer vitamin K within the first hour of life: do not delay unless medically necessary",
       "Select the vastus lateralis muscle as the preferred injection site in neonates",
       "Stabilize the neonate's leg securely before injection to ensure accurate placement",
       "Monitor the injection site for hematoma, swelling, or excessive bleeding",
@@ -844,14 +844,14 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Serves as essential cofactor for gamma-glutamyl carboxylase, enabling carboxylation and activation of clotting factors II, VII, IX, and X, restoring normal coagulation capability",
         sideEffects: "Injection site pain, erythema, rare allergic reaction, very rare anaphylactoid reaction with IV administration",
         contra: "Known hypersensitivity to phytonadione or any component; IV route carries risk of anaphylactoid reaction and is reserved for emergencies",
-        pearl: "IM route is strongly preferred over oral — IM provides sustained levels and superior protection against late VKDB; counsel hesitant parents that the risk of intracranial hemorrhage without vitamin K far outweighs injection discomfort"
+        pearl: "IM route is strongly preferred over oral: IM provides sustained levels and superior protection against late VKDB; counsel hesitant parents that the risk of intracranial hemorrhage without vitamin K far outweighs injection discomfort"
       }
     ],
     pearls: [
-      "Vitamin K is a universal newborn prophylaxis — ALL neonates should receive it within the first hour of life regardless of feeding method",
-      "IM route is superior to oral route for preventing late VKDB — always advocate for IM administration",
-      "Late VKDB (2-12 weeks) often presents as sudden intracranial hemorrhage with devastating neurological consequences — most cases occur in infants who did not receive IM vitamin K",
-      "Do NOT massage the injection site after administration — this increases bruising risk in the vitamin K-deficient neonate"
+      "Vitamin K is a universal newborn prophylaxis: ALL neonates should receive it within the first hour of life regardless of feeding method",
+      "IM route is superior to oral route for preventing late VKDB: always advocate for IM administration",
+      "Late VKDB (2-12 weeks) often presents as sudden intracranial hemorrhage with devastating neurological consequences: most cases occur in infants who did not receive IM vitamin K",
+      "Do NOT massage the injection site after administration: this increases bruising risk in the vitamin K-deficient neonate"
     ],
     quiz: [
       {
@@ -923,7 +923,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Contains recombinant HBsAg that stimulates active immunity by inducing anti-HBs antibody production; does NOT contain live virus",
         sideEffects: "Injection site pain, redness, swelling, low-grade fever, irritability, rare anaphylaxis",
         contra: "Known severe allergic reaction (anaphylaxis) to a previous dose or vaccine component (yeast hypersensitivity)",
-        pearl: "Universal newborn vaccination is recommended regardless of maternal HBsAg status — the first dose should be given within 12 hours of birth"
+        pearl: "Universal newborn vaccination is recommended regardless of maternal HBsAg status: the first dose should be given within 12 hours of birth"
       },
       {
         name: "Hepatitis B Immune Globulin (HBIG)",
@@ -931,13 +931,13 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Provides immediate passive immunity with preformed anti-HBs antibodies that neutralize HBV particles, preventing perinatal transmission while active immunity develops",
         sideEffects: "Injection site pain, low-grade fever, headache, rare allergic reaction",
         contra: "Known severe hypersensitivity to immune globulin products, IgA deficiency with anti-IgA antibodies",
-        pearl: "Must be given within 12 hours of birth to infants of HBsAg-positive mothers at a SEPARATE injection site from the vaccine — time is critical for effectiveness"
+        pearl: "Must be given within 12 hours of birth to infants of HBsAg-positive mothers at a SEPARATE injection site from the vaccine: time is critical for effectiveness"
       }
     ],
     pearls: [
       "The 12-hour window is CRITICAL: both HBIG and first vaccine dose must be given within 12 hours of birth for infants of HBsAg-positive mothers",
-      "HBIG and hepatitis B vaccine are given at DIFFERENT anatomical sites (e.g., right and left vastus lateralis) — never mix in the same syringe",
-      "The hepatitis B vaccine is NOT a live vaccine — it is safe for all newborns including immunocompromised infants",
+      "HBIG and hepatitis B vaccine are given at DIFFERENT anatomical sites (e.g., right and left vastus lateralis): never mix in the same syringe",
+      "The hepatitis B vaccine is NOT a live vaccine: it is safe for all newborns including immunocompromised infants",
       "Post-vaccination testing (HBsAg and anti-HBs) at 9-12 months confirms whether the infant is protected or was infected despite prophylaxis"
     ],
     quiz: [
@@ -962,7 +962,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       content: "Contraceptive methods are pharmacologic and non-pharmacologic interventions designed to prevent pregnancy through various mechanisms including suppression of ovulation, alteration of cervical mucus, prevention of fertilization, and inhibition of implantation. Combined oral contraceptives (COCs) contain both estrogen (ethinyl estradiol) and progestin and work primarily by suppressing the hypothalamic-pituitary-ovarian (HPO) axis. Estrogen suppresses follicle-stimulating hormone (FSH) secretion, preventing follicular development, while progestin suppresses the luteinizing hormone (LH) surge, preventing ovulation. Additionally, progestin thickens cervical mucus (creating a barrier to sperm penetration) and thins the endometrial lining, making it less receptive to implantation.\n\nProgestin-only methods include the progestin-only pill (minipill), depot medroxyprogesterone acetate (Depo-Provera injection), the etonogestrel implant (Nexplanon), and the levonorgestrel-releasing intrauterine device (Mirena, Kyleena, Liletta). These methods are particularly important for individuals who have contraindications to estrogen, such as those with a history of thromboembolic events, migraine with aura, smokers over 35 years of age, or women who are breastfeeding in the early postpartum period. The copper IUD (Paragard) is a non-hormonal intrauterine device that creates a local inflammatory response within the uterus, producing an environment that is toxic to both sperm and ova. It can also be used as emergency contraception when inserted within 5 days of unprotected intercourse.\n\nBarrier methods include male and female condoms, diaphragms, and cervical caps, which physically prevent sperm from reaching the ovum. Condoms have the added benefit of providing protection against sexually transmitted infections (STIs). Emergency contraception options include levonorgestrel (Plan B, effective up to 72 hours), ulipristal acetate (Ella, effective up to 120 hours), and the copper IUD (most effective, up to 5 days). The nurse's role includes educating clients about the mechanism of action, proper use, potential side effects, warning signs (ACHES mnemonic for COCs: Abdominal pain, Chest pain, Headaches, Eye problems, Severe leg pain), and the importance of consistent and correct use for maximum effectiveness."
     },
     riskFactors: [
-      "History of deep vein thrombosis (DVT) or pulmonary embolism (PE) — contraindication for estrogen-containing methods",
+      "History of deep vein thrombosis (DVT) or pulmonary embolism (PE): contraindication for estrogen-containing methods",
       "Smoking and age >35 years (increased thromboembolic risk with estrogen)",
       "Migraine with aura (increased stroke risk with combined hormonal contraceptives)",
       "Uncontrolled hypertension",
@@ -992,7 +992,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       "Measure and document baseline blood pressure before initiating combined hormonal contraception",
       "Educate the client on the ACHES warning signs: Abdominal pain, Chest pain, Headaches (severe), Eye problems (visual changes), Severe leg pain",
       "Teach proper use of chosen method: timing, storage, missed dose protocol, and backup method use",
-      "Counsel on STI prevention — hormonal methods do NOT protect against STIs; advise condom use",
+      "Counsel on STI prevention: hormonal methods do NOT protect against STIs; advise condom use",
       "For Depo-Provera: advise client to return every 11-13 weeks; educate about potential bone density loss with prolonged use",
       "For IUD: educate client to check for strings monthly and report if strings are absent, shorter, or longer"
     ],
@@ -1016,7 +1016,7 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
         action: "Suppresses ovulation by inhibiting FSH and LH secretion; thickens cervical mucus to block sperm; thins endometrial lining to reduce implantation receptivity",
         sideEffects: "Nausea, breast tenderness, breakthrough bleeding, headache, mood changes, weight changes, increased risk of thromboembolic events (DVT, PE, stroke)",
         contra: "History of DVT/PE, stroke, coronary artery disease, migraine with aura, smoking + age >35, breast cancer, uncontrolled hypertension, active liver disease, breastfeeding <21 days postpartum",
-        pearl: "Teach ACHES warning signs for thromboembolic complications — if any ACHES symptom occurs, instruct the client to stop the medication and seek immediate medical attention"
+        pearl: "Teach ACHES warning signs for thromboembolic complications: if any ACHES symptom occurs, instruct the client to stop the medication and seek immediate medical attention"
       },
       {
         name: "Depot Medroxyprogesterone Acetate (Depo-Provera)",
@@ -1028,10 +1028,10 @@ export const obMedicationsLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "ACHES mnemonic for combined hormonal contraceptive danger signs: Abdominal pain, Chest pain, Headaches (severe), Eye problems, Severe leg pain — seek immediate care",
+      "ACHES mnemonic for combined hormonal contraceptive danger signs: Abdominal pain, Chest pain, Headaches (severe), Eye problems, Severe leg pain: seek immediate care",
       "Progestin-only methods are safe for breastfeeding clients and those with estrogen contraindications (DVT history, migraine with aura, smokers >35)",
       "The copper IUD (Paragard) is the most effective form of emergency contraception when inserted within 5 days of unprotected intercourse",
-      "Depo-Provera may cause bone density loss with use >2 years — recommend calcium/vitamin D supplementation and periodic reassessment"
+      "Depo-Provera may cause bone density loss with use >2 years: recommend calcium/vitamin D supplementation and periodic reassessment"
     ],
     quiz: [
       {

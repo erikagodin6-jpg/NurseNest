@@ -195,7 +195,7 @@ function getCredentials(): { username: string; password: string } | null {
 }
 
 function formatDate(d: string | null) {
-  if (!d) return "—";
+  if (!d) return "-";
   return new Date(d).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -746,7 +746,7 @@ export default function ContentEditorPage() {
                               {item.type}
                             </td>
                             <td className="px-4 py-3 text-gray-600 capitalize">
-                              {item.bodySystem || "—"}
+                              {item.bodySystem || "-"}
                             </td>
                             <td className="px-4 py-3">
                               <Badge variant="outline" className="text-xs">

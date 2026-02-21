@@ -621,7 +621,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-neuro-t6",
     type: "term",
     question: "Decerebrate vs Decorticate Posturing",
-    answer: "Decorticate: Arms flexed (bent inward), legs extended — indicates cortical damage. Decerebrate: Arms extended and internally rotated, legs extended — indicates brainstem damage (worse prognosis). Remember: COR = CORD (flexion toward core); DE-cerebrate = Death (extension = worse).",
+    answer: "Decorticate: Arms flexed (bent inward), legs extended: indicates cortical damage. Decerebrate: Arms extended and internally rotated, legs extended: indicates brainstem damage (worse prognosis). Remember: COR = CORD (flexion toward core); DE-cerebrate = Death (extension = worse).",
     category: "Neurological",
     difficulty: 3
   },
@@ -631,7 +631,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which medication is the antidote for benzodiazepine overdose causing respiratory depression?",
     options: ["Naloxone", "Flumazenil", "Atropine", "Protamine sulfate"],
     correctIndex: 1,
-    answer: "Flumazenil (Romazicon) is the specific antidote for benzodiazepine overdose. Naloxone reverses opioid overdose. Monitor closely after administration as flumazenil has a shorter half-life than most benzodiazepines — resedation may occur.",
+    answer: "Flumazenil (Romazicon) is the specific antidote for benzodiazepine overdose. Naloxone reverses opioid overdose. Monitor closely after administration as flumazenil has a shorter half-life than most benzodiazepines: resedation may occur.",
     category: "Neurological",
     difficulty: 2
   },
@@ -712,7 +712,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with acute pancreatitis has severe epigastric pain. Which position provides the most comfort?",
     options: ["Supine with legs elevated", "Right lateral with knees straight", "Fetal position (side-lying, knees drawn up)", "Prone position"],
     correctIndex: 2,
-    answer: "The fetal position (side-lying with knees drawn to chest) relieves pressure on the inflamed pancreas. Also: NPO status, NG tube if vomiting, IV fluids, pain management (avoid morphine — may cause sphincter of Oddi spasm; use meperidine or hydromorphone).",
+    answer: "The fetal position (side-lying with knees drawn to chest) relieves pressure on the inflamed pancreas. Also: NPO status, NG tube if vomiting, IV fluids, pain management (avoid morphine: may cause sphincter of Oddi spasm; use meperidine or hydromorphone).",
     category: "GI",
     difficulty: 2
   },
@@ -871,7 +871,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-renal-t1",
     type: "term",
     question: "Acute Kidney Injury (AKI)",
-    answer: "Rapid decline in kidney function over hours to days. Three categories: Pre-renal (decreased perfusion — dehydration, shock), Intrarenal (kidney damage — nephrotoxic drugs, glomerulonephritis), Post-renal (obstruction — kidney stones, BPH). Hallmark: Oliguria (< 400 mL/day), rising BUN/creatinine.",
+    answer: "Rapid decline in kidney function over hours to days. Three categories: Pre-renal (decreased perfusion: dehydration, shock), Intrarenal (kidney damage: nephrotoxic drugs, glomerulonephritis), Post-renal (obstruction: kidney stones, BPH). Hallmark: Oliguria (< 400 mL/day), rising BUN/creatinine.",
     category: "Renal/GU",
     difficulty: 3
   },
@@ -1240,7 +1240,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which diuretic is potassium-sparing?",
     options: ["Furosemide", "Hydrochlorothiazide", "Spironolactone", "Bumetanide"],
     correctIndex: 2,
-    answer: "Spironolactone is a potassium-sparing diuretic (aldosterone antagonist). It retains potassium while excreting sodium/water. Monitor for hyperkalemia. Loop diuretics (furosemide) and thiazides (HCTZ) WASTE potassium — monitor for hypokalemia.",
+    answer: "Spironolactone is a potassium-sparing diuretic (aldosterone antagonist). It retains potassium while excreting sodium/water. Monitor for hyperkalemia. Loop diuretics (furosemide) and thiazides (HCTZ) WASTE potassium: monitor for hypokalemia.",
     category: "Pharmacology",
     difficulty: 2
   },
@@ -1332,7 +1332,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What is the primary concern when a client takes both an SSRI and a MAOI?",
     options: ["Hepatotoxicity", "Nephrotoxicity", "Serotonin syndrome", "Tardive dyskinesia"],
     correctIndex: 2,
-    answer: "Combining SSRIs and MAOIs causes serotonin syndrome — a potentially fatal condition with excess serotonin. Signs: Agitation, hyperthermia, tachycardia, diaphoresis, tremor, hyperreflexia, clonus. A 2-week washout period is required between these drug classes.",
+    answer: "Combining SSRIs and MAOIs causes serotonin syndrome: a potentially fatal condition with excess serotonin. Signs: Agitation, hyperthermia, tachycardia, diaphoresis, tremor, hyperreflexia, clonus. A 2-week washout period is required between these drug classes.",
     category: "Pharmacology",
     difficulty: 3
   },
@@ -1360,7 +1360,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client is prescribed amiodarone. Which side effect requires long-term monitoring?",
     options: ["Hair loss", "Pulmonary toxicity and thyroid dysfunction", "Weight gain", "GI upset only"],
     correctIndex: 1,
-    answer: "Amiodarone has serious long-term toxicities: Pulmonary fibrosis (monitor with chest X-ray, PFTs), thyroid dysfunction (contains iodine — can cause hypo or hyperthyroidism), hepatotoxicity, corneal microdeposits, photosensitivity (use sunscreen). Blue-gray skin discoloration possible.",
+    answer: "Amiodarone has serious long-term toxicities: Pulmonary fibrosis (monitor with chest X-ray, PFTs), thyroid dysfunction (contains iodine: can cause hypo or hyperthyroidism), hepatotoxicity, corneal microdeposits, photosensitivity (use sunscreen). Blue-gray skin discoloration possible.",
     category: "Pharmacology",
     difficulty: 4
   },
@@ -1388,7 +1388,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which class of antibiotics is contraindicated in children under 8 years due to permanent tooth discoloration?",
     options: ["Penicillins", "Macrolides", "Tetracyclines", "Cephalosporins"],
     correctIndex: 2,
-    answer: "Tetracyclines (doxycycline, tetracycline) bind to calcium in developing teeth and bones, causing permanent yellow-brown discoloration. Contraindicated in children < 8, pregnant/breastfeeding women. Also causes photosensitivity — use sunscreen.",
+    answer: "Tetracyclines (doxycycline, tetracycline) bind to calcium in developing teeth and bones, causing permanent yellow-brown discoloration. Contraindicated in children < 8, pregnant/breastfeeding women. Also causes photosensitivity: use sunscreen.",
     category: "Pharmacology",
     difficulty: 2
   },
@@ -1465,7 +1465,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A child presents with a barking cough, stridor, and hoarseness. What condition is most likely?",
     options: ["Epiglottitis", "Croup (laryngotracheobronchitis)", "Asthma", "Bronchiolitis"],
     correctIndex: 1,
-    answer: "Croup: Viral, age 6 mo-3 yrs, gradual onset, barking (seal-like) cough, stridor, hoarseness, steeple sign on X-ray. Treatment: Cool mist humidification, racemic epinephrine, corticosteroids (dexamethasone). Epiglottitis: Bacterial, sudden onset, drooling, no cough, thumb sign on X-ray — do NOT examine throat.",
+    answer: "Croup: Viral, age 6 mo-3 yrs, gradual onset, barking (seal-like) cough, stridor, hoarseness, steeple sign on X-ray. Treatment: Cool mist humidification, racemic epinephrine, corticosteroids (dexamethasone). Epiglottitis: Bacterial, sudden onset, drooling, no cough, thumb sign on X-ray: do NOT examine throat.",
     category: "Pediatrics",
     difficulty: 2
   },
@@ -1495,7 +1495,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "An infant with a congenital heart defect turns cyanotic during crying and feeding. The nurse places the infant in the knee-chest position. Which defect is most likely?",
     options: ["Atrial septal defect", "Ventricular septal defect", "Tetralogy of Fallot", "Patent ductus arteriosus"],
     correctIndex: 2,
-    answer: "Tetralogy of Fallot causes 'Tet spells' — cyanotic episodes during crying, feeding, or straining. Knee-chest position increases systemic vascular resistance, redirecting blood to the lungs. TOF = 4 defects: VSD, overriding aorta, pulmonary stenosis, right ventricular hypertrophy.",
+    answer: "Tetralogy of Fallot causes 'Tet spells': cyanotic episodes during crying, feeding, or straining. Knee-chest position increases systemic vascular resistance, redirecting blood to the lungs. TOF = 4 defects: VSD, overriding aorta, pulmonary stenosis, right ventricular hypertrophy.",
     category: "Pediatrics",
     difficulty: 3
   },
@@ -1503,7 +1503,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-peds-t1",
     type: "term",
     question: "Febrile Seizures",
-    answer: "Seizures triggered by rapid rise in temperature, occurring in children 6 months to 5 years. Usually brief (< 15 min), generalized. Most are simple and benign. Management: Fever control (acetaminophen/ibuprofen — NO aspirin), seizure precautions, parent education. Do not indicate epilepsy.",
+    answer: "Seizures triggered by rapid rise in temperature, occurring in children 6 months to 5 years. Usually brief (< 15 min), generalized. Most are simple and benign. Management: Fever control (acetaminophen/ibuprofen: NO aspirin), seizure precautions, parent education. Do not indicate epilepsy.",
     category: "Pediatrics",
     difficulty: 2
   },
@@ -1531,7 +1531,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A child with suspected epiglottitis arrives in the ER. Which action should the nurse AVOID?",
     options: ["Keeping the child calm", "Allowing the child to sit upright", "Examining the throat with a tongue depressor", "Having intubation equipment at bedside"],
     correctIndex: 2,
-    answer: "NEVER examine the throat of a child with suspected epiglottitis using a tongue depressor — this can trigger complete airway obstruction. Keep the child calm, in an upright position (tripod), and have emergency intubation/tracheostomy equipment immediately available.",
+    answer: "NEVER examine the throat of a child with suspected epiglottitis using a tongue depressor: this can trigger complete airway obstruction. Keep the child calm, in an upright position (tripod), and have emergency intubation/tracheostomy equipment immediately available.",
     category: "Pediatrics",
     difficulty: 2
   },
@@ -1618,7 +1618,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What are the four stages of labor?",
     options: ["Dilation, delivery, placenta, recovery", "Latent, active, transition, pushing", "Onset, progression, birth, bonding", "Early, mid, late, postpartum"],
     correctIndex: 0,
-    answer: "Stage 1: Cervical dilation (0-10 cm) — latent (0-6 cm), active (6-10 cm with transition). Stage 2: Full dilation to delivery of baby. Stage 3: Delivery of placenta (5-30 min). Stage 4: Recovery (first 1-2 hours postpartum — monitor for hemorrhage).",
+    answer: "Stage 1: Cervical dilation (0-10 cm): latent (0-6 cm), active (6-10 cm with transition). Stage 2: Full dilation to delivery of baby. Stage 3: Delivery of placenta (5-30 min). Stage 4: Recovery (first 1-2 hours postpartum: monitor for hemorrhage).",
     category: "Maternity",
     difficulty: 1
   },
@@ -1797,7 +1797,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-mh-t3",
     type: "term",
     question: "Alcohol Withdrawal Timeline",
-    answer: "6-12 hours: Tremors, anxiety, nausea, insomnia. 12-24 hours: Hallucinations (visual/tactile). 24-48 hours: Seizures. 48-72 hours: Delirium tremens (DTs) — agitation, confusion, tachycardia, hypertension, fever, diaphoresis. DTs can be fatal. Treatment: Benzodiazepines (chlordiazepoxide, lorazepam), thiamine, IV fluids.",
+    answer: "6-12 hours: Tremors, anxiety, nausea, insomnia. 12-24 hours: Hallucinations (visual/tactile). 24-48 hours: Seizures. 48-72 hours: Delirium tremens (DTs): agitation, confusion, tachycardia, hypertension, fever, diaphoresis. DTs can be fatal. Treatment: Benzodiazepines (chlordiazepoxide, lorazepam), thiamine, IV fluids.",
     category: "Mental Health",
     difficulty: 3
   },
@@ -1894,7 +1894,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which isolation precaution is required for a client with MRSA wound infection?",
     options: ["Airborne", "Droplet", "Contact", "Standard only"],
     correctIndex: 2,
-    answer: "MRSA, VRE, C. difficile, scabies, and wound infections require Contact precautions: Private room (or cohort), gloves and gown on entry, dedicated equipment, hand hygiene with soap and water (especially for C. diff — alcohol doesn't kill spores).",
+    answer: "MRSA, VRE, C. difficile, scabies, and wound infections require Contact precautions: Private room (or cohort), gloves and gown on entry, dedicated equipment, hand hygiene with soap and water (especially for C. diff: alcohol doesn't kill spores).",
     category: "Infection Control",
     difficulty: 1
   },
@@ -1958,7 +1958,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which client should the nurse see FIRST when making rounds?",
     options: ["Client on contact precautions for MRSA", "Client on airborne precautions for TB", "Client with a new surgical wound, no infection", "Client on droplet precautions for influenza"],
     correctIndex: 2,
-    answer: "See the client WITHOUT infection first to prevent cross-contamination. Always go from 'clean to dirty' — assess non-infected clients before those with infections. Use proper PPE and hand hygiene between all clients.",
+    answer: "See the client WITHOUT infection first to prevent cross-contamination. Always go from 'clean to dirty': assess non-infected clients before those with infections. Use proper PPE and hand hygiene between all clients.",
     category: "Infection Control",
     difficulty: 2
   },
@@ -2084,7 +2084,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client has a sodium level of 128 mEq/L. Which symptom is most concerning?",
     options: ["Thirst", "Seizures", "Muscle cramps", "Dry mucous membranes"],
     correctIndex: 1,
-    answer: "Hyponatremia (Na < 135): Mild: Nausea, headache, muscle cramps. Severe (< 120): Confusion, seizures, coma. Causes: SIADH, water intoxication, diuretics. Treatment: Fluid restriction (dilutional), hypertonic saline (3% NaCl) for severe — correct slowly to prevent osmotic demyelination syndrome.",
+    answer: "Hyponatremia (Na < 135): Mild: Nausea, headache, muscle cramps. Severe (< 120): Confusion, seizures, coma. Causes: SIADH, water intoxication, diuretics. Treatment: Fluid restriction (dilutional), hypertonic saline (3% NaCl) for severe: correct slowly to prevent osmotic demyelination syndrome.",
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -2114,7 +2114,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with hypocalcemia has a positive Chvostek's sign. What does this indicate?",
     options: ["Adequate calcium levels", "Neuromuscular irritability", "Hyperkalemia", "Fluid overload"],
     correctIndex: 1,
-    answer: "Chvostek's sign: Tapping the facial nerve (in front of ear) causes facial muscle twitching — positive in hypocalcemia. Also assess Trousseau's sign (carpopedal spasm with BP cuff inflated). Hypocalcemia causes neuromuscular irritability, tetany, laryngospasm, cardiac dysrhythmias.",
+    answer: "Chvostek's sign: Tapping the facial nerve (in front of ear) causes facial muscle twitching: positive in hypocalcemia. Also assess Trousseau's sign (carpopedal spasm with BP cuff inflated). Hypocalcemia causes neuromuscular irritability, tetany, laryngospasm, cardiac dysrhythmias.",
     category: "Fluid & Electrolytes",
     difficulty: 2
   },
@@ -2168,7 +2168,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client on IV potassium replacement has the infusion running at 40 mEq/hour via peripheral IV. What is wrong?",
     options: ["Nothing; this is the standard rate", "Rate is too fast; max 10 mEq/hour peripherally", "Rate is too slow", "Potassium should be given IM"],
     correctIndex: 1,
-    answer: "IV potassium: Maximum rate 10 mEq/hour via peripheral IV (20 mEq/hour via central line with cardiac monitoring). NEVER give IV push — can cause fatal cardiac arrest. Always dilute. Must be on a pump. Monitor ECG during replacement. Burning at IV site is common.",
+    answer: "IV potassium: Maximum rate 10 mEq/hour via peripheral IV (20 mEq/hour via central line with cardiac monitoring). NEVER give IV push: can cause fatal cardiac arrest. Always dilute. Must be on a pump. Monitor ECG during replacement. Burning at IV site is common.",
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -2235,7 +2235,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-t1",
     type: "term",
     question: "Wound Healing Phases",
-    answer: "1. Hemostasis (immediate): Clot formation. 2. Inflammatory (1-4 days): Redness, swelling, warmth — immune cells clear debris. 3. Proliferative (4-21 days): Granulation tissue, collagen, angiogenesis, epithelialization. 4. Maturation/Remodeling (21 days-2 years): Collagen reorganization, scar strengthening.",
+    answer: "1. Hemostasis (immediate): Clot formation. 2. Inflammatory (1-4 days): Redness, swelling, warmth: immune cells clear debris. 3. Proliferative (4-21 days): Granulation tissue, collagen, angiogenesis, epithelialization. 4. Maturation/Remodeling (21 days-2 years): Collagen reorganization, scar strengthening.",
     category: "Wound Care",
     difficulty: 2
   },
@@ -2330,7 +2330,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client receiving IV morphine has a respiratory rate of 8 breaths/min and is difficult to arouse. What is the priority action?",
     options: ["Continue the morphine and monitor", "Administer naloxone (Narcan)", "Give another dose of morphine", "Apply oxygen only"],
     correctIndex: 1,
-    answer: "Respiratory depression (RR < 12) is the most serious opioid adverse effect. Naloxone (Narcan) is the antidote — it reverses opioid effects by competing at receptor sites. Give in small increments (0.04-0.4 mg IV). Monitor closely as naloxone has a shorter half-life than most opioids — resedation may occur.",
+    answer: "Respiratory depression (RR < 12) is the most serious opioid adverse effect. Naloxone (Narcan) is the antidote: it reverses opioid effects by competing at receptor sites. Give in small increments (0.04-0.4 mg IV). Monitor closely as naloxone has a shorter half-life than most opioids: resedation may occur.",
     category: "Pain Management",
     difficulty: 2
   },
@@ -2340,7 +2340,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which statement about pain management is most accurate?",
     options: ["Vital signs always correlate with pain levels", "The client's self-report is the most reliable indicator of pain", "Clients who smile cannot be in pain", "Opioids should be withheld if vital signs are normal"],
     correctIndex: 1,
-    answer: "Pain is subjective — the client's self-report is the GOLD STANDARD for pain assessment. Clients can adapt to chronic pain and not show objective signs. Vital signs may or may not change with pain. Cultural background affects pain expression but not pain experience.",
+    answer: "Pain is subjective: the client's self-report is the GOLD STANDARD for pain assessment. Clients can adapt to chronic pain and not show objective signs. Vital signs may or may not change with pain. Cultural background affects pain expression but not pain experience.",
     category: "Pain Management",
     difficulty: 1
   },
@@ -2394,7 +2394,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with neuropathic pain from diabetic neuropathy is prescribed gabapentin. What should the nurse teach?",
     options: ["Expect immediate pain relief", "Avoid abrupt discontinuation", "Take only when pain is severe", "Crushing the capsule is preferred"],
     correctIndex: 1,
-    answer: "Gabapentin is an adjuvant analgesic effective for neuropathic pain. Takes days to weeks for full effect. Do NOT stop abruptly — taper gradually to prevent seizures. Side effects: Dizziness, drowsiness, peripheral edema. Take consistently as prescribed.",
+    answer: "Gabapentin is an adjuvant analgesic effective for neuropathic pain. Takes days to weeks for full effect. Do NOT stop abruptly: taper gradually to prevent seizures. Side effects: Dizziness, drowsiness, peripheral edema. Take consistently as prescribed.",
     category: "Pain Management",
     difficulty: 2
   },
@@ -2415,7 +2415,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client receiving chemotherapy has an ANC of 400 cells/mm³. What precautions are necessary?",
     options: ["Standard precautions only", "Neutropenic precautions", "Airborne precautions", "No special precautions"],
     correctIndex: 1,
-    answer: "ANC < 500 = severe neutropenia. Neutropenic precautions: Private room, no fresh flowers/fruits, no raw foods, strict hand hygiene, limit visitors, no rectal temperatures, avoid crowds. Monitor for infection (fever may be the ONLY sign — report temp > 38°C immediately).",
+    answer: "ANC < 500 = severe neutropenia. Neutropenic precautions: Private room, no fresh flowers/fruits, no raw foods, strict hand hygiene, limit visitors, no rectal temperatures, avoid crowds. Monitor for infection (fever may be the ONLY sign: report temp > 38°C immediately).",
     category: "Oncology",
     difficulty: 2
   },
@@ -2497,7 +2497,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-onc-t4",
     type: "term",
     question: "Spinal Cord Compression (Oncological Emergency)",
-    answer: "Tumor compresses spinal cord, causing progressive neurological damage. Signs: Back pain (earliest), motor weakness, sensory changes, bowel/bladder dysfunction (late). Medical emergency — diagnosis by MRI. Treatment: High-dose corticosteroids (dexamethasone), radiation, surgery. Permanent paralysis if untreated.",
+    answer: "Tumor compresses spinal cord, causing progressive neurological damage. Signs: Back pain (earliest), motor weakness, sensory changes, bowel/bladder dysfunction (late). Medical emergency: diagnosis by MRI. Treatment: High-dose corticosteroids (dexamethasone), radiation, surgery. Permanent paralysis if untreated.",
     category: "Oncology",
     difficulty: 4
   },
@@ -2510,7 +2510,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "An elderly client is confused and agitated, which started acutely 2 hours ago. What is the most likely cause?",
     options: ["Alzheimer's disease", "Normal aging", "Delirium", "Depression"],
     correctIndex: 2,
-    answer: "Delirium: ACUTE onset (hours to days), fluctuating, often reversible. Causes: Infection (UTI most common in elderly), medications, dehydration, pain, metabolic imbalance. Dementia: GRADUAL onset (months to years), progressive, irreversible. Always rule out delirium first — it's a medical emergency.",
+    answer: "Delirium: ACUTE onset (hours to days), fluctuating, often reversible. Causes: Infection (UTI most common in elderly), medications, dehydration, pain, metabolic imbalance. Dementia: GRADUAL onset (months to years), progressive, irreversible. Always rule out delirium first: it's a medical emergency.",
     category: "Gerontology",
     difficulty: 2
   },
@@ -2633,7 +2633,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What is the significance of an S3 heart sound in an adult?",
     options: ["Normal finding in athletes", "Indicates heart failure (volume overload)", "Indicates aortic stenosis", "Normal in all adults"],
     correctIndex: 1,
-    answer: "S3 (ventricular gallop) in adults indicates ventricular volume overload — associated with heart failure. Heard after S2 during rapid ventricular filling. S3 can be normal in children and young adults. S4 indicates stiff ventricle (HTN, cardiomyopathy) — heard before S1.",
+    answer: "S3 (ventricular gallop) in adults indicates ventricular volume overload: associated with heart failure. Heard after S2 during rapid ventricular filling. S3 can be normal in children and young adults. S4 indicates stiff ventricle (HTN, cardiomyopathy): heard before S1.",
     category: "Cardiovascular",
     difficulty: 3
   },
@@ -2683,7 +2683,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-neuro-t8",
     type: "term",
     question: "Parkinson's Disease Cardinal Signs",
-    answer: "TRAP: Tremor (resting, pill-rolling), Rigidity (cogwheel), Akinesia/Bradykinesia (slow movement), Postural instability (shuffling gait, festination). Also: Mask-like face, micrographia, dysphagia. Treatment: Levodopa/carbidopa, dopamine agonists. No cure — progressive disease.",
+    answer: "TRAP: Tremor (resting, pill-rolling), Rigidity (cogwheel), Akinesia/Bradykinesia (slow movement), Postural instability (shuffling gait, festination). Also: Mask-like face, micrographia, dysphagia. Treatment: Levodopa/carbidopa, dopamine agonists. No cure: progressive disease.",
     category: "Neurological",
     difficulty: 2
   },
@@ -2725,7 +2725,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-endo-t7",
     type: "term",
     question: "HbA1c (Glycated Hemoglobin)",
-    answer: "Measures average blood glucose over 2-3 months. Normal: < 5.7%. Prediabetes: 5.7-6.4%. Diabetes: ≥ 6.5%. Target for most diabetics: < 7%. Reflects glucose control — not affected by daily fluctuations. Used for diagnosis and monitoring of treatment effectiveness.",
+    answer: "Measures average blood glucose over 2-3 months. Normal: < 5.7%. Prediabetes: 5.7-6.4%. Diabetes: ≥ 6.5%. Target for most diabetics: < 7%. Reflects glucose control: not affected by daily fluctuations. Used for diagnosis and monitoring of treatment effectiveness.",
     category: "Endocrine",
     difficulty: 1
   },
@@ -2788,7 +2788,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-pharm-t10",
     type: "term",
     question: "Corticosteroids (Prednisone, Dexamethasone)",
-    answer: "Anti-inflammatory, immunosuppressive. Side effects: Hyperglycemia, weight gain, osteoporosis, cushingoid features, poor wound healing, increased infection risk, mood changes, GI upset. Take with food. NEVER stop abruptly (adrenal crisis) — must taper. Monitor blood glucose.",
+    answer: "Anti-inflammatory, immunosuppressive. Side effects: Hyperglycemia, weight gain, osteoporosis, cushingoid features, poor wound healing, increased infection risk, mood changes, GI upset. Take with food. NEVER stop abruptly (adrenal crisis): must taper. Monitor blood glucose.",
     category: "Pharmacology",
     difficulty: 2
   },
@@ -2816,7 +2816,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-pharm-t11",
     type: "term",
     question: "Nitroglycerin Administration",
-    answer: "SL: Place under tongue, sit down, do not swallow. May repeat every 5 minutes × 3 doses. Call 911 if no relief after first dose. Side effects: Headache (vasodilation), hypotension, dizziness. Store in dark glass bottle, replace every 6 months. Do not combine with PDE5 inhibitors (sildenafil) — severe hypotension.",
+    answer: "SL: Place under tongue, sit down, do not swallow. May repeat every 5 minutes × 3 doses. Call 911 if no relief after first dose. Side effects: Headache (vasodilation), hypotension, dizziness. Store in dark glass bottle, replace every 6 months. Do not combine with PDE5 inhibitors (sildenafil): severe hypotension.",
     category: "Pharmacology",
     difficulty: 2
   },
@@ -2909,7 +2909,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-mh-t7",
     type: "term",
     question: "Defense Mechanisms",
-    answer: "Unconscious coping strategies: Denial (refusing reality), Projection (attributing own feelings to others), Rationalization (logical excuses), Displacement (redirecting emotions to safer target), Regression (reverting to earlier behavior), Sublimation (channeling impulses into socially acceptable activities — most mature).",
+    answer: "Unconscious coping strategies: Denial (refusing reality), Projection (attributing own feelings to others), Rationalization (logical excuses), Displacement (redirecting emotions to safer target), Regression (reverting to earlier behavior), Sublimation (channeling impulses into socially acceptable activities: most mature).",
     category: "Mental Health",
     difficulty: 2
   },
@@ -2995,7 +2995,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with a Stage 2 pressure injury has a partial-thickness wound with a blister. What is the appropriate action?",
     options: ["Pop the blister to drain fluid", "Leave the blister intact and apply appropriate dressing", "Apply hydrogen peroxide", "Leave it open to air"],
     correctIndex: 1,
-    answer: "Leave intact blisters alone — they provide a natural biological dressing that promotes healing and prevents infection. Apply a transparent film or hydrocolloid dressing. If the blister ruptures, gently cleanse and apply an appropriate wound dressing.",
+    answer: "Leave intact blisters alone: they provide a natural biological dressing that promotes healing and prevents infection. Apply a transparent film or hydrocolloid dressing. If the blister ruptures, gently cleanse and apply an appropriate wound dressing.",
     category: "Wound Care",
     difficulty: 2
   },
@@ -3003,7 +3003,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-t6",
     type: "term",
     question: "Wound Assessment: COLOR Model",
-    answer: "Red: Granulation tissue (healthy, protect it). Yellow: Slough (needs gentle debridement). Black: Eschar (necrotic tissue, needs debridement unless on stable heel). Pink: Epithelial tissue (healed/healing, protect). Mixed: Multiple tissue types present — treat the worst color.",
+    answer: "Red: Granulation tissue (healthy, protect it). Yellow: Slough (needs gentle debridement). Black: Eschar (necrotic tissue, needs debridement unless on stable heel). Pink: Epithelial tissue (healed/healing, protect). Mixed: Multiple tissue types present: treat the worst color.",
     category: "Wound Care",
     difficulty: 2
   },
@@ -3024,7 +3024,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-pain-t5",
     type: "term",
     question: "Phantom Limb Pain",
-    answer: "Pain sensation in a limb that has been amputated. Occurs in up to 80% of amputees. The brain continues to receive nerve signals from the area. Treatments: Mirror therapy, TENS, gabapentin/pregabalin, tricyclic antidepressants, opioids, psychological support. It is REAL pain — validate the client's experience.",
+    answer: "Pain sensation in a limb that has been amputated. Occurs in up to 80% of amputees. The brain continues to receive nerve signals from the area. Treatments: Mirror therapy, TENS, gabapentin/pregabalin, tricyclic antidepressants, opioids, psychological support. It is REAL pain: validate the client's experience.",
     category: "Pain Management",
     difficulty: 3
   },
@@ -3037,7 +3037,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which side effect of chemotherapy puts the client at highest risk for life-threatening complications?",
     options: ["Alopecia", "Nausea", "Myelosuppression (bone marrow suppression)", "Fatigue"],
     correctIndex: 2,
-    answer: "Myelosuppression is the most dangerous side effect. It reduces RBCs (anemia), WBCs (infection risk — leading cause of chemo-related death), and platelets (bleeding risk). Nadir (lowest count) typically 7-14 days after treatment. Monitor CBC regularly.",
+    answer: "Myelosuppression is the most dangerous side effect. It reduces RBCs (anemia), WBCs (infection risk: leading cause of chemo-related death), and platelets (bleeding risk). Nadir (lowest count) typically 7-14 days after treatment. Monitor CBC regularly.",
     category: "Oncology",
     difficulty: 2
   },
@@ -3129,7 +3129,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-neuro-t9",
     type: "term",
     question: "Status Epilepticus",
-    answer: "Seizure lasting > 5 minutes or two or more seizures without regaining consciousness between them. Medical emergency — can cause brain damage or death. Treatment: IV benzodiazepine (lorazepam or diazepam) first-line, followed by fosphenytoin or phenytoin. Maintain airway, monitor vitals, prevent injury.",
+    answer: "Seizure lasting > 5 minutes or two or more seizures without regaining consciousness between them. Medical emergency: can cause brain damage or death. Treatment: IV benzodiazepine (lorazepam or diazepam) first-line, followed by fosphenytoin or phenytoin. Maintain airway, monitor vitals, prevent injury.",
     category: "Neurological",
     difficulty: 3
   },
@@ -3163,7 +3163,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with newly diagnosed Type 1 diabetes asks why they can't take oral medications instead of insulin. What is the best explanation?",
     options: ["Oral medications are too expensive", "Type 1 diabetes involves autoimmune destruction of beta cells, so the pancreas produces no insulin", "Insulin works faster than oral medications", "There is no difference between Type 1 and Type 2"],
     correctIndex: 1,
-    answer: "Type 1 diabetes: Autoimmune destruction of pancreatic beta cells = absolute insulin deficiency. The body produces no insulin, so exogenous insulin is required for survival. Type 2: Insulin resistance with relative deficiency — oral medications can help by improving sensitivity or stimulating production.",
+    answer: "Type 1 diabetes: Autoimmune destruction of pancreatic beta cells = absolute insulin deficiency. The body produces no insulin, so exogenous insulin is required for survival. Type 2: Insulin resistance with relative deficiency: oral medications can help by improving sensitivity or stimulating production.",
     category: "Endocrine",
     difficulty: 1
   },
@@ -3268,7 +3268,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client is admitted after a suicide attempt and seems calmer. When is the risk of a repeated attempt HIGHEST?",
     options: ["During the deepest depression", "When the client starts to improve and has more energy", "After 1 year of treatment", "When sleeping"],
     correctIndex: 1,
-    answer: "The highest risk period is when depression begins to lift — the client now has the energy and motivation to act on suicidal thoughts. Sudden calmness after depression may indicate the client has made a decision and plan. Maintain close observation, remove access to means.",
+    answer: "The highest risk period is when depression begins to lift: the client now has the energy and motivation to act on suicidal thoughts. Sudden calmness after depression may indicate the client has made a decision and plan. Maintain close observation, remove access to means.",
     category: "Mental Health",
     difficulty: 3
   },
@@ -3331,7 +3331,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with hypercalcemia (Ca 12.5 mg/dL) presents with confusion and constipation. Which treatment is expected?",
     options: ["Calcium gluconate IV", "Normal saline hydration and loop diuretics", "Vitamin D supplementation", "Thiazide diuretics"],
     correctIndex: 1,
-    answer: "Hypercalcemia treatment: IV NS for hydration (dilutes calcium and promotes renal excretion), loop diuretics (furosemide — promotes calcium excretion). AVOID thiazide diuretics (they RETAIN calcium). For malignancy: Bisphosphonates, calcitonin. Signs: 'Bones, stones, groans, moans' (bone pain, kidney stones, constipation, confusion).",
+    answer: "Hypercalcemia treatment: IV NS for hydration (dilutes calcium and promotes renal excretion), loop diuretics (furosemide: promotes calcium excretion). AVOID thiazide diuretics (they RETAIN calcium). For malignancy: Bisphosphonates, calcitonin. Signs: 'Bones, stones, groans, moans' (bone pain, kidney stones, constipation, confusion).",
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -3339,7 +3339,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-fe-t7",
     type: "term",
     question: "Hyperphosphatemia",
-    answer: "Phosphate > 4.5 mg/dL. Common in renal failure. Phosphorus and calcium have an INVERSE relationship — hyperphosphatemia causes hypocalcemia. Signs: Tetany, muscle cramps, calcification of soft tissues. Treatment: Phosphate binders (calcium acetate, sevelamer) taken WITH meals, limit dietary phosphorus.",
+    answer: "Phosphate > 4.5 mg/dL. Common in renal failure. Phosphorus and calcium have an INVERSE relationship: hyperphosphatemia causes hypocalcemia. Signs: Tetany, muscle cramps, calcification of soft tissues. Treatment: Phosphate binders (calcium acetate, sevelamer) taken WITH meals, limit dietary phosphorus.",
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -3402,7 +3402,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with CKD Stage 5 is prescribed erythropoietin (EPO). What is the rationale?",
     options: ["To lower blood pressure", "To treat anemia caused by decreased erythropoietin production by the kidneys", "To increase calcium levels", "To reduce potassium"],
     correctIndex: 1,
-    answer: "Healthy kidneys produce erythropoietin (EPO), which stimulates RBC production. In CKD, EPO production decreases, causing anemia. Synthetic EPO (epoetin alfa/darbepoetin) stimulates RBC production. Also supplement iron if needed. Monitor Hgb (target 10-12 g/dL — avoid overcorrection due to thrombosis risk).",
+    answer: "Healthy kidneys produce erythropoietin (EPO), which stimulates RBC production. In CKD, EPO production decreases, causing anemia. Synthetic EPO (epoetin alfa/darbepoetin) stimulates RBC production. Also supplement iron if needed. Monitor Hgb (target 10-12 g/dL: avoid overcorrection due to thrombosis risk).",
     category: "Renal/GU",
     difficulty: 2
   },
@@ -3442,7 +3442,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What is the normal fetal heart rate range?",
     options: ["60-100 bpm", "80-120 bpm", "110-160 bpm", "160-200 bpm"],
     correctIndex: 2,
-    answer: "Normal fetal heart rate: 110-160 bpm. Tachycardia (> 160): May indicate maternal fever, infection, fetal distress, medications. Bradycardia (< 110 sustained): May indicate fetal hypoxia, cord compression — urgent evaluation. Moderate variability (6-25 bpm fluctuations) is reassuring.",
+    answer: "Normal fetal heart rate: 110-160 bpm. Tachycardia (> 160): May indicate maternal fever, infection, fetal distress, medications. Bradycardia (< 110 sustained): May indicate fetal hypoxia, cord compression: urgent evaluation. Moderate variability (6-25 bpm fluctuations) is reassuring.",
     category: "Maternity",
     difficulty: 1
   },
@@ -3492,7 +3492,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client has a wound packed with wet-to-dry dressings. What is the purpose?",
     options: ["To keep the wound warm", "Mechanical debridement of necrotic tissue", "To prevent all drainage", "To seal the wound closed"],
     correctIndex: 1,
-    answer: "Wet-to-dry dressings provide mechanical debridement: Moist gauze is placed in the wound bed, allowed to dry, and then removed — pulling adherent necrotic tissue with it. This is non-selective (removes both necrotic and healthy tissue). Painful — premedicate. Being replaced by more selective methods in many settings.",
+    answer: "Wet-to-dry dressings provide mechanical debridement: Moist gauze is placed in the wound bed, allowed to dry, and then removed: pulling adherent necrotic tissue with it. This is non-selective (removes both necrotic and healthy tissue). Painful: premedicate. Being replaced by more selective methods in many settings.",
     category: "Wound Care",
     difficulty: 3
   },
@@ -3502,7 +3502,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with chronic pain says they need more medication to achieve the same relief. What is this phenomenon called?",
     options: ["Addiction", "Tolerance", "Dependence", "Pseudoaddiction"],
     correctIndex: 1,
-    answer: "Tolerance: A normal physiological response where higher doses are needed to achieve the same effect over time. Dependence: Physical withdrawal symptoms when drug is stopped. Addiction: Compulsive use despite harm (behavioral disorder). Pseudoaddiction: Drug-seeking behavior caused by inadequate pain treatment — resolves with proper pain management.",
+    answer: "Tolerance: A normal physiological response where higher doses are needed to achieve the same effect over time. Dependence: Physical withdrawal symptoms when drug is stopped. Addiction: Compulsive use despite harm (behavioral disorder). Pseudoaddiction: Drug-seeking behavior caused by inadequate pain treatment: resolves with proper pain management.",
     category: "Pain Management",
     difficulty: 2
   },
@@ -3512,7 +3512,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with a port-a-cath needs a blood draw. What special needle is required?",
     options: ["Regular hypodermic needle", "Butterfly needle", "Huber (non-coring) needle", "Blunt-tip needle"],
     correctIndex: 2,
-    answer: "Implanted ports (port-a-cath) require a Huber needle — a non-coring needle designed not to damage the port's silicone septum. Regular needles can core the septum, causing leakage. Use sterile technique for access. Flush with heparinized saline per protocol.",
+    answer: "Implanted ports (port-a-cath) require a Huber needle: a non-coring needle designed not to damage the port's silicone septum. Regular needles can core the septum, causing leakage. Use sterile technique for access. Flush with heparinized saline per protocol.",
     category: "Oncology",
     difficulty: 3
   },
@@ -3590,7 +3590,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-pharm-q21",
     type: "question",
     question: "A client taking an SSRI antidepressant reports inability to achieve orgasm. What should the nurse tell the client?",
-    options: ["This is not related to the medication", "Sexual dysfunction is a common side effect of SSRIs — discuss with your provider", "Stop the medication immediately", "Increase the dose"],
+    options: ["This is not related to the medication", "Sexual dysfunction is a common side effect of SSRIs: discuss with your provider", "Stop the medication immediately", "Increase the dose"],
     correctIndex: 1,
     answer: "Sexual dysfunction (decreased libido, delayed ejaculation, anorgasmia) is one of the most common reasons for SSRI non-adherence. Options: Dose adjustment, switching to bupropion (less sexual side effects) or mirtazapine, adding bupropion, timing doses. Never stop abruptly (discontinuation syndrome).",
     category: "Pharmacology",
@@ -3712,7 +3712,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with a head injury has unequal pupils (one dilated, one constricted). What does this indicate?",
     options: ["Normal finding", "CN III compression from uncal herniation (increased ICP)", "Medication side effect", "Dehydration"],
     correctIndex: 1,
-    answer: "Unilateral pupil dilation (anisocoria) in a head injury patient indicates compression of CN III (oculomotor nerve) from transtentorial (uncal) herniation — a neurosurgical emergency. The dilated pupil is on the SAME side as the lesion. Report immediately. Prepare for intervention.",
+    answer: "Unilateral pupil dilation (anisocoria) in a head injury patient indicates compression of CN III (oculomotor nerve) from transtentorial (uncal) herniation: a neurosurgical emergency. The dilated pupil is on the SAME side as the lesion. Report immediately. Prepare for intervention.",
     category: "Neurological",
     difficulty: 4
   },
@@ -3722,7 +3722,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with peptic ulcer disease tests positive for H. pylori. What is the standard treatment?",
     options: ["Antacids only", "Triple therapy: PPI + amoxicillin + clarithromycin", "Surgery", "NSAIDs"],
     correctIndex: 1,
-    answer: "H. pylori eradication: Triple therapy for 14 days — PPI (omeprazole) + two antibiotics (amoxicillin + clarithromycin, or metronidazole). Also: Bismuth-based quadruple therapy as alternative. Confirm eradication with stool antigen or urea breath test 4 weeks after treatment completion.",
+    answer: "H. pylori eradication: Triple therapy for 14 days: PPI (omeprazole) + two antibiotics (amoxicillin + clarithromycin, or metronidazole). Also: Bismuth-based quadruple therapy as alternative. Confirm eradication with stool antigen or urea breath test 4 weeks after treatment completion.",
     category: "GI",
     difficulty: 2
   },
@@ -3732,7 +3732,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client in thyroid storm has a temperature of 40.5°C and heart rate of 150. Which medication combination is expected?",
     options: ["Levothyroxine and aspirin", "PTU, propranolol, corticosteroids, and cooling measures", "Insulin and IV fluids", "Calcium gluconate and vitamin D"],
     correctIndex: 1,
-    answer: "Thyroid storm treatment: PTU (blocks thyroid hormone synthesis AND peripheral conversion of T4 to T3), propranolol (controls tachycardia/symptoms), corticosteroids (blocks T4→T3 conversion, prevents adrenal crisis), cooling blankets (avoid aspirin — displaces T4 from proteins), IV fluids.",
+    answer: "Thyroid storm treatment: PTU (blocks thyroid hormone synthesis AND peripheral conversion of T4 to T3), propranolol (controls tachycardia/symptoms), corticosteroids (blocks T4→T3 conversion, prevents adrenal crisis), cooling blankets (avoid aspirin: displaces T4 from proteins), IV fluids.",
     category: "Endocrine",
     difficulty: 4
   },
@@ -3742,7 +3742,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client is prescribed metoclopramide (Reglan). Which side effect should the nurse monitor for?",
     options: ["Hyperglycemia", "Extrapyramidal symptoms (tardive dyskinesia)", "Weight loss", "Hypertension"],
     correctIndex: 1,
-    answer: "Metoclopramide is a dopamine antagonist — side effects include extrapyramidal symptoms (EPS): Dystonia, akathisia, tardive dyskinesia (especially with long-term use > 12 weeks). Also causes drowsiness and elevated prolactin. Antidote for acute dystonia: Diphenhydramine (Benadryl) or benztropine (Cogentin).",
+    answer: "Metoclopramide is a dopamine antagonist: side effects include extrapyramidal symptoms (EPS): Dystonia, akathisia, tardive dyskinesia (especially with long-term use > 12 weeks). Also causes drowsiness and elevated prolactin. Antidote for acute dystonia: Diphenhydramine (Benadryl) or benztropine (Cogentin).",
     category: "Pharmacology",
     difficulty: 3
   },
@@ -3762,7 +3762,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A nurse is caring for four clients. Which client should be assessed FIRST?",
     options: ["Client complaining of incision pain rated 5/10", "Client with oxygen saturation of 84% on room air", "Client requesting pain medication", "Client who needs discharge teaching"],
     correctIndex: 1,
-    answer: "Prioritize using ABCs (Airway, Breathing, Circulation) and Maslow's hierarchy. An SpO2 of 84% indicates significant hypoxemia and impaired breathing — this client is at immediate risk and needs assessment first. Apply oxygen and assess respiratory status. Then address other clients in order of acuity.",
+    answer: "Prioritize using ABCs (Airway, Breathing, Circulation) and Maslow's hierarchy. An SpO2 of 84% indicates significant hypoxemia and impaired breathing: this client is at immediate risk and needs assessment first. Apply oxygen and assess respiratory status. Then address other clients in order of acuity.",
     category: "Safety & Ethics",
     difficulty: 2
   },
@@ -3772,7 +3772,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client receiving TPN (total parenteral nutrition) has a blood glucose of 280 mg/dL. What is the most likely cause?",
     options: ["Dehydration", "High dextrose concentration in TPN causing hyperglycemia", "Kidney disease", "Medication error"],
     correctIndex: 1,
-    answer: "TPN contains high concentrations of dextrose, which can cause hyperglycemia. Monitor blood glucose every 4-6 hours. Insulin may be added to TPN or given separately. Never abruptly discontinue TPN (risk of rebound hypoglycemia) — taper gradually. Also monitor for infection (central line).",
+    answer: "TPN contains high concentrations of dextrose, which can cause hyperglycemia. Monitor blood glucose every 4-6 hours. Insulin may be added to TPN or given separately. Never abruptly discontinue TPN (risk of rebound hypoglycemia): taper gradually. Also monitor for infection (central line).",
     category: "Fluid & Electrolytes",
     difficulty: 3
   },
@@ -3859,7 +3859,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-cv-t18",
     type: "term",
     question: "Ejection Fraction (EF)",
-    answer: "Percentage of blood pumped out of the ventricle with each contraction. Normal EF: 55-70%. HFrEF (reduced EF): ≤ 40% — treated with ACEi/ARB, beta blockers, aldosterone antagonists, ARNI. HFpEF (preserved EF): ≥ 50% — treated with diuretics, BP control, and symptom management.",
+    answer: "Percentage of blood pumped out of the ventricle with each contraction. Normal EF: 55-70%. HFrEF (reduced EF): ≤ 40%: treated with ACEi/ARB, beta blockers, aldosterone antagonists, ARNI. HFpEF (preserved EF): ≥ 50%: treated with diuretics, BP control, and symptom management.",
     category: "Cardiovascular",
     difficulty: 3
   },
@@ -3910,7 +3910,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with TB is started on RIPE therapy. What does RIPE stand for?",
     options: ["Rifampin, Isoniazid, Pyrazinamide, Ethambutol", "Ranitidine, Ibuprofen, Prednisone, Erythromycin", "Rifampin, Insulin, Penicillin, Epinephrine", "Remdesivir, Isoniazid, Prednisone, Ethambutol"],
     correctIndex: 0,
-    answer: "RIPE therapy for active TB: Rifampin (red/orange secretions), Isoniazid/INH (hepatotoxic, supplement B6/pyridoxine), Pyrazinamide (hepatotoxic), Ethambutol (optic neuritis — monitor vision). Treatment: 6-9 months minimum. Directly observed therapy (DOT) recommended for adherence.",
+    answer: "RIPE therapy for active TB: Rifampin (red/orange secretions), Isoniazid/INH (hepatotoxic, supplement B6/pyridoxine), Pyrazinamide (hepatotoxic), Ethambutol (optic neuritis: monitor vision). Treatment: 6-9 months minimum. Directly observed therapy (DOT) recommended for adherence.",
     category: "Respiratory",
     difficulty: 3
   },
@@ -3928,7 +3928,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with a new tracheostomy is in respiratory distress and the inner cannula is occluded. What is the first action?",
     options: ["Call the physician", "Remove the inner cannula and replace with a clean one", "Start CPR", "Suction through the occluded cannula"],
     correctIndex: 1,
-    answer: "Tracheostomy emergency: If the inner cannula is blocked, remove it (they are designed to be removable for cleaning). Replace with a clean/sterile inner cannula. If the entire trach is dislodged within 72 hours (immature stoma), do NOT reinsert — ventilate via mouth/nose and call for help.",
+    answer: "Tracheostomy emergency: If the inner cannula is blocked, remove it (they are designed to be removable for cleaning). Replace with a clean/sterile inner cannula. If the entire trach is dislodged within 72 hours (immature stoma), do NOT reinsert: ventilate via mouth/nose and call for help.",
     category: "Respiratory",
     difficulty: 3
   },
@@ -4156,7 +4156,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which oral antidiabetic drug works by increasing incretin levels to enhance insulin secretion?",
     options: ["Metformin", "Glipizide (sulfonylurea)", "Sitagliptin (DPP-4 inhibitor)", "Pioglitazone (thiazolidinedione)"],
     correctIndex: 2,
-    answer: "DPP-4 inhibitors (sitagliptin, saxagliptin, linagliptin) prevent breakdown of incretin hormones (GLP-1, GIP), which stimulate insulin secretion and suppress glucagon. Well-tolerated, low hypoglycemia risk. Weight neutral. Related: GLP-1 receptor agonists (semaglutide) — injected, also promote weight loss.",
+    answer: "DPP-4 inhibitors (sitagliptin, saxagliptin, linagliptin) prevent breakdown of incretin hormones (GLP-1, GIP), which stimulate insulin secretion and suppress glucagon. Well-tolerated, low hypoglycemia risk. Weight neutral. Related: GLP-1 receptor agonists (semaglutide): injected, also promote weight loss.",
     category: "Endocrine",
     difficulty: 3
   },
@@ -4339,7 +4339,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-peds-q19",
     type: "question",
     question: "An infant is placed prone to sleep by the parents. What education should the nurse provide?",
-    options: ["Prone position is safest", "'Back to sleep' — always place infants supine for sleep to reduce SIDS risk", "Side-lying is the best position", "Position doesn't matter after 1 month"],
+    options: ["Prone position is safest", "'Back to sleep': always place infants supine for sleep to reduce SIDS risk", "Side-lying is the best position", "Position doesn't matter after 1 month"],
     correctIndex: 1,
     answer: "SIDS prevention (Safe Sleep): Back to sleep (supine), firm flat mattress, no loose bedding/pillows/bumpers/toys, room-sharing (not bed-sharing), pacifier at sleep time, avoid overheating, smoke-free environment. 'Tummy time' only when awake and supervised. ABCs: Alone, on Back, in Crib.",
     category: "Pediatrics",
@@ -4382,7 +4382,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What is the Bishop Score used for?",
     options: ["Assessing newborn health", "Evaluating cervical readiness for labor induction", "Measuring fetal movement", "Screening for GDM"],
     correctIndex: 1,
-    answer: "Bishop Score assesses cervical favorability for induction. Evaluates: Dilation, effacement, station, consistency, and position of cervix. Score ≥ 8: Favorable (likely successful induction). Score < 6: Unfavorable (cervical ripening needed before induction — misoprostol, dinoprostone, mechanical methods).",
+    answer: "Bishop Score assesses cervical favorability for induction. Evaluates: Dilation, effacement, station, consistency, and position of cervix. Score ≥ 8: Favorable (likely successful induction). Score < 6: Unfavorable (cervical ripening needed before induction: misoprostol, dinoprostone, mechanical methods).",
     category: "Maternity",
     difficulty: 3
   },
@@ -4438,7 +4438,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which finding in a newborn assessment requires immediate intervention?",
     options: ["Milia on the nose", "Epstein pearls on the gums", "Central cyanosis persisting beyond 10 minutes of life", "Acrocyanosis (blue hands and feet)"],
     correctIndex: 2,
-    answer: "Central cyanosis (blue trunk, lips, tongue) beyond 10 minutes indicates inadequate oxygenation — may suggest congenital heart defect, respiratory disorder, or persistent pulmonary hypertension. Requires immediate evaluation. Acrocyanosis (blue hands/feet) is normal in the first 24-48 hours. Milia and Epstein pearls are benign.",
+    answer: "Central cyanosis (blue trunk, lips, tongue) beyond 10 minutes indicates inadequate oxygenation: may suggest congenital heart defect, respiratory disorder, or persistent pulmonary hypertension. Requires immediate evaluation. Acrocyanosis (blue hands/feet) is normal in the first 24-48 hours. Milia and Epstein pearls are benign.",
     category: "Maternity",
     difficulty: 2
   },
@@ -4459,7 +4459,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-mh-t9",
     type: "term",
     question: "Maslow's Hierarchy Applied to Nursing Priority",
-    answer: "Bottom to top: 1. Physiological needs (ABCs, oxygen, nutrition, elimination — ALWAYS first priority). 2. Safety & Security (fall prevention, medication safety, infection control). 3. Love/Belonging (therapeutic relationships, family). 4. Self-Esteem (independence, respect). 5. Self-Actualization (growth, education). Prioritize lower levels first.",
+    answer: "Bottom to top: 1. Physiological needs (ABCs, oxygen, nutrition, elimination: ALWAYS first priority). 2. Safety & Security (fall prevention, medication safety, infection control). 3. Love/Belonging (therapeutic relationships, family). 4. Self-Esteem (independence, respect). 5. Self-Actualization (growth, education). Prioritize lower levels first.",
     category: "Mental Health",
     difficulty: 1
   },
@@ -4551,7 +4551,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "The RPN has four clients. Which should be assessed FIRST?",
     options: ["Post-op day 2, ambulatory, requesting pain medication", "New admission with chest pain and diaphoresis", "Client with controlled diabetes needing insulin", "Client needing discharge teaching"],
     correctIndex: 1,
-    answer: "Prioritize using ABCs and acuity: Chest pain + diaphoresis suggests possible MI — this is the most acute, potentially life-threatening situation. Apply oxygen, obtain ECG, notify provider, prepare MONA protocol. The other clients are stable or have predictable needs that can wait briefly.",
+    answer: "Prioritize using ABCs and acuity: Chest pain + diaphoresis suggests possible MI: this is the most acute, potentially life-threatening situation. Apply oxygen, obtain ECG, notify provider, prepare MONA protocol. The other clients are stable or have predictable needs that can wait briefly.",
     category: "Safety & Ethics",
     difficulty: 2
   },
@@ -4669,7 +4669,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What nutrition components are most important for wound healing?",
     options: ["High-fat and high-sodium diet", "Protein, Vitamin C, Zinc, and adequate calories", "Low-protein, high-carbohydrate diet", "Vitamin D and calcium only"],
     correctIndex: 1,
-    answer: "Wound healing nutrition: Protein (1.2-1.5 g/kg/day — tissue repair, immune function), Vitamin C (collagen synthesis, immune function), Zinc (cell division, immune function), adequate calories (prevent catabolism), adequate hydration, Iron (oxygen transport). Malnutrition is the #1 modifiable risk factor for impaired healing.",
+    answer: "Wound healing nutrition: Protein (1.2-1.5 g/kg/day: tissue repair, immune function), Vitamin C (collagen synthesis, immune function), Zinc (cell division, immune function), adequate calories (prevent catabolism), adequate hydration, Iron (oxygen transport). Malnutrition is the #1 modifiable risk factor for impaired healing.",
     category: "Wound Care",
     difficulty: 2
   },
@@ -4700,7 +4700,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client in palliative care has escalating pain requiring frequent opioid dose increases. The family expresses concern about 'addiction.' What is the best response?",
     options: ["Agree and reduce the dose", "Explain that physical dependence and tolerance are normal physiological responses, different from addiction", "Suggest non-pharmacological methods only", "Switch to acetaminophen only"],
     correctIndex: 1,
-    answer: "Educate: Tolerance (needing higher doses) and physical dependence (withdrawal if stopped) are NORMAL physiological responses, not addiction. Addiction is a behavioral disorder involving compulsive use despite harm — rare in clients taking opioids for pain as prescribed. Pain control is a right, especially in palliative care.",
+    answer: "Educate: Tolerance (needing higher doses) and physical dependence (withdrawal if stopped) are NORMAL physiological responses, not addiction. Addiction is a behavioral disorder involving compulsive use despite harm: rare in clients taking opioids for pain as prescribed. Pain control is a right, especially in palliative care.",
     category: "Pain Management",
     difficulty: 3
   },
@@ -4713,7 +4713,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client receiving chemotherapy asks why they are losing their hair. What is the best explanation?",
     options: ["The medication targets only cancer cells", "Chemotherapy affects all rapidly dividing cells, including hair follicles", "Hair loss is unrelated to treatment", "It is an allergic reaction"],
     correctIndex: 1,
-    answer: "Chemotherapy is cytotoxic to all rapidly dividing cells (cancer cells AND normal cells). Rapidly dividing normal cells affected: Hair follicles (alopecia), GI mucosa (mucositis, nausea), bone marrow (myelosuppression). Hair loss is usually temporary — regrowth begins 3-6 months after completing treatment.",
+    answer: "Chemotherapy is cytotoxic to all rapidly dividing cells (cancer cells AND normal cells). Rapidly dividing normal cells affected: Hair follicles (alopecia), GI mucosa (mucositis, nausea), bone marrow (myelosuppression). Hair loss is usually temporary: regrowth begins 3-6 months after completing treatment.",
     category: "Oncology",
     difficulty: 1
   },
@@ -4721,7 +4721,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-onc-t6",
     type: "term",
     question: "Febrile Neutropenia",
-    answer: "Temperature ≥ 38.3°C (single) or ≥ 38°C sustained for 1 hour with ANC < 500. Medical emergency in cancer clients — infection can be rapidly fatal. Treatment: Obtain blood cultures (before antibiotics), then start broad-spectrum IV antibiotics within 60 minutes. Do NOT delay for culture results.",
+    answer: "Temperature ≥ 38.3°C (single) or ≥ 38°C sustained for 1 hour with ANC < 500. Medical emergency in cancer clients: infection can be rapidly fatal. Treatment: Obtain blood cultures (before antibiotics), then start broad-spectrum IV antibiotics within 60 minutes. Do NOT delay for culture results.",
     category: "Oncology",
     difficulty: 3
   },
@@ -4782,7 +4782,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What is the primary purpose of donepezil (Aricept) in Alzheimer's disease?",
     options: ["Cure the disease", "Slow cognitive decline by inhibiting acetylcholinesterase", "Manage behavioral symptoms", "Improve sleep"],
     correctIndex: 1,
-    answer: "Donepezil is an acetylcholinesterase inhibitor — increases available acetylcholine in the brain (deficient in Alzheimer's). Does NOT cure or halt progression but may temporarily slow cognitive decline and improve function. Side effects: Nausea, diarrhea, dizziness, bradycardia. Other: Rivastigmine, galantamine.",
+    answer: "Donepezil is an acetylcholinesterase inhibitor: increases available acetylcholine in the brain (deficient in Alzheimer's). Does NOT cure or halt progression but may temporarily slow cognitive decline and improve function. Side effects: Nausea, diarrhea, dizziness, bradycardia. Other: Rivastigmine, galantamine.",
     category: "Gerontology",
     difficulty: 2
   },
@@ -4795,7 +4795,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with a pacemaker is instructed to avoid what?",
     options: ["Walking and light exercise", "MRI machines and strong magnetic fields", "Taking medications as prescribed", "Eating a balanced diet"],
     correctIndex: 1,
-    answer: "Pacemaker precautions: Avoid strong electromagnetic fields (MRI — unless MRI-conditional pacer), don't lean against running engines, carry pacemaker ID card, keep cell phone on opposite side, report dizziness/syncope/hiccups. OK: Microwaves, airport security (inform agents). Regular pacemaker checks every 3-6 months.",
+    answer: "Pacemaker precautions: Avoid strong electromagnetic fields (MRI: unless MRI-conditional pacer), don't lean against running engines, carry pacemaker ID card, keep cell phone on opposite side, report dizziness/syncope/hiccups. OK: Microwaves, airport security (inform agents). Regular pacemaker checks every 3-6 months.",
     category: "Cardiovascular",
     difficulty: 2
   },
@@ -4803,7 +4803,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-resp-q24",
     type: "question",
     question: "A nurse is caring for a client with a laryngectomy. What is the priority airway concern?",
-    options: ["The client cannot cough effectively", "The client breathes through a permanent stoma — keep emergency supplies at bedside", "The client has nasal congestion", "The client needs incentive spirometry via the mouth"],
+    options: ["The client cannot cough effectively", "The client breathes through a permanent stoma: keep emergency supplies at bedside", "The client has nasal congestion", "The client needs incentive spirometry via the mouth"],
     correctIndex: 1,
     answer: "Post-laryngectomy: The trachea is permanently attached to the stoma (neck). No connection between nose/mouth and lungs. Emergency: Suction and resuscitate via stoma, not mouth/nose. Keep stoma moist with humidified air. Communication: Esophageal speech, electrolarynx, or tracheoesophageal puncture (TEP) valve.",
     category: "Respiratory",
@@ -4813,9 +4813,9 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-neuro-q21",
     type: "question",
     question: "A client with a C5 spinal cord injury asks if they will be able to breathe on their own. What is the best response?",
-    options: ["No, you will need a ventilator permanently", "The phrenic nerve (C3-C5) controls the diaphragm — most C5 injuries allow independent breathing", "Breathing is unaffected by spinal cord injury", "You will need surgery to breathe"],
+    options: ["No, you will need a ventilator permanently", "The phrenic nerve (C3-C5) controls the diaphragm: most C5 injuries allow independent breathing", "Breathing is unaffected by spinal cord injury", "You will need surgery to breathe"],
     correctIndex: 1,
-    answer: "The diaphragm is innervated by the phrenic nerve (C3-C5). C5 injuries typically preserve diaphragm function, allowing independent breathing. C1-C3 injuries usually require permanent mechanical ventilation. C4: Variable — may or may not maintain diaphragm function. All high SCI clients have weakened cough.",
+    answer: "The diaphragm is innervated by the phrenic nerve (C3-C5). C5 injuries typically preserve diaphragm function, allowing independent breathing. C1-C3 injuries usually require permanent mechanical ventilation. C4: Variable: may or may not maintain diaphragm function. All high SCI clients have weakened cough.",
     category: "Neurological",
     difficulty: 3
   },
@@ -4825,7 +4825,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with ulcerative colitis is scheduled for a total proctocolectomy with ileostomy. What should the nurse teach about the stoma?",
     options: ["Output will be formed solid stool", "Output will be liquid/semi-liquid and continuous; skin protection is critical", "No output is expected", "The stoma is temporary"],
     correctIndex: 1,
-    answer: "Ileostomy output is liquid to semi-liquid (digestive enzymes are still active). Key teaching: Skin barrier protection is critical (enzymes are corrosive), empty pouch when 1/3 to 1/2 full, adequate fluid intake (1.5-2L+/day — increased loss), monitor for dehydration and electrolyte imbalance (especially sodium/potassium).",
+    answer: "Ileostomy output is liquid to semi-liquid (digestive enzymes are still active). Key teaching: Skin barrier protection is critical (enzymes are corrosive), empty pouch when 1/3 to 1/2 full, adequate fluid intake (1.5-2L+/day: increased loss), monitor for dehydration and electrolyte imbalance (especially sodium/potassium).",
     category: "GI",
     difficulty: 2
   },
@@ -4835,7 +4835,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with Addison's disease is under physiological stress (surgery, illness). What medication adjustment is needed?",
     options: ["Decrease corticosteroid dose", "Double or triple the corticosteroid dose (stress dosing)", "Stop all medications", "No change needed"],
     correctIndex: 1,
-    answer: "During physiological stress, the body normally increases cortisol production. Clients with Addison's cannot do this — risk of adrenal crisis (severe hypotension, shock, death). Stress dosing: Double or triple the usual corticosteroid dose during illness, surgery, or significant stress. Gradually return to normal dose.",
+    answer: "During physiological stress, the body normally increases cortisol production. Clients with Addison's cannot do this: risk of adrenal crisis (severe hypotension, shock, death). Stress dosing: Double or triple the usual corticosteroid dose during illness, surgery, or significant stress. Gradually return to normal dose.",
     category: "Endocrine",
     difficulty: 3
   },
@@ -4935,7 +4935,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with fibromyalgia reports widespread pain, fatigue, and sleep disturbances. Which medications are FDA-approved for fibromyalgia?",
     options: ["Opioids only", "Pregabalin (Lyrica), duloxetine (Cymbalta), and milnacipran (Savella)", "Aspirin and acetaminophen only", "Beta blockers"],
     correctIndex: 1,
-    answer: "FDA-approved for fibromyalgia: Pregabalin (anticonvulsant — modulates calcium channels), duloxetine and milnacipran (SNRIs — modulate pain signaling). Also helpful: Aerobic exercise (most evidence), CBT, sleep hygiene, stress management. Opioids are generally NOT recommended for fibromyalgia.",
+    answer: "FDA-approved for fibromyalgia: Pregabalin (anticonvulsant: modulates calcium channels), duloxetine and milnacipran (SNRIs: modulate pain signaling). Also helpful: Aerobic exercise (most evidence), CBT, sleep hygiene, stress management. Opioids are generally NOT recommended for fibromyalgia.",
     category: "Pain Management",
     difficulty: 3
   },
@@ -4955,7 +4955,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "An elderly client with constipation asks about prevention strategies. What is the best advice?",
     options: ["Take daily laxatives", "Increase fiber intake, fluids, and physical activity", "Restrict fluid intake", "Eat only processed foods"],
     correctIndex: 1,
-    answer: "Constipation prevention in elderly: Increase dietary fiber (25-30g/day — bran, fruits, vegetables, whole grains), adequate fluid intake (8+ glasses/day), regular physical activity, establish a regular toileting schedule (after meals — utilize gastrocolic reflex), respond promptly to urge. Avoid chronic laxative use.",
+    answer: "Constipation prevention in elderly: Increase dietary fiber (25-30g/day: bran, fruits, vegetables, whole grains), adequate fluid intake (8+ glasses/day), regular physical activity, establish a regular toileting schedule (after meals: utilize gastrocolic reflex), respond promptly to urge. Avoid chronic laxative use.",
     category: "Gerontology",
     difficulty: 1
   },
@@ -5015,7 +5015,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client is prescribed clonidine for hypertension. What is the most important teaching about this medication?",
     options: ["It can be stopped at any time", "Abrupt discontinuation can cause rebound hypertensive crisis", "It has no side effects", "Take it only when blood pressure is high"],
     correctIndex: 1,
-    answer: "Clonidine (centrally acting alpha-2 agonist) must NEVER be stopped abruptly — rebound hypertensive crisis can occur (severe HTN, tachycardia, headache, tremor). Taper gradually over 2-4 days under medical supervision. Also available as a patch (changed weekly). Side effects: Drowsiness, dry mouth, constipation.",
+    answer: "Clonidine (centrally acting alpha-2 agonist) must NEVER be stopped abruptly: rebound hypertensive crisis can occur (severe HTN, tachycardia, headache, tremor). Taper gradually over 2-4 days under medical supervision. Also available as a patch (changed weekly). Side effects: Drowsiness, dry mouth, constipation.",
     category: "Pharmacology",
     difficulty: 3
   },
@@ -5055,7 +5055,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which immunization is a live vaccine?",
     options: ["Influenza (injectable)", "Hepatitis B", "MMR (Measles, Mumps, Rubella)", "Tetanus (Td/Tdap)"],
     correctIndex: 2,
-    answer: "Live vaccines: MMR, Varicella, Rotavirus, Live attenuated influenza (nasal spray — NOT injectable), Yellow fever, BCG, Smallpox. Contraindicated in: Immunosuppressed, pregnant, recent blood product recipients. Inactivated vaccines (safe in immunocompromised): DTaP, Hep B, injectable flu, IPV, HPV, PCV.",
+    answer: "Live vaccines: MMR, Varicella, Rotavirus, Live attenuated influenza (nasal spray: NOT injectable), Yellow fever, BCG, Smallpox. Contraindicated in: Immunosuppressed, pregnant, recent blood product recipients. Inactivated vaccines (safe in immunocompromised): DTaP, Hep B, injectable flu, IPV, HPV, PCV.",
     category: "Infection Control",
     difficulty: 2
   },
@@ -5065,7 +5065,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A nurse suspects child abuse in a pediatric client. What is the nurse's legal obligation?",
     options: ["Wait for more evidence", "Report suspected abuse to the appropriate authorities (mandatory reporter)", "Discuss with the parents first", "Document and wait for the next shift"],
     correctIndex: 1,
-    answer: "Nurses are MANDATORY reporters of suspected child abuse/neglect. Report to Child Protective Services (CPS) or appropriate authority. You do NOT need proof — suspicion is sufficient. Document objective findings (bruises, burns, inconsistent history). Failure to report is a legal offense. Inform according to facility policy.",
+    answer: "Nurses are MANDATORY reporters of suspected child abuse/neglect. Report to Child Protective Services (CPS) or appropriate authority. You do NOT need proof: suspicion is sufficient. Document objective findings (bruises, burns, inconsistent history). Failure to report is a legal offense. Inform according to facility policy.",
     category: "Safety & Ethics",
     difficulty: 2
   },
@@ -5097,7 +5097,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-gi-t11",
     type: "term",
     question: "Pancreatitis Lab Values",
-    answer: "Elevated: Serum lipase (most specific), serum amylase, WBC, blood glucose (pancreas can't produce insulin), bilirubin (if biliary obstruction). Decreased: Serum calcium (saponification — fat necrosis binds calcium). Ranson's criteria or APACHE II score used to assess severity.",
+    answer: "Elevated: Serum lipase (most specific), serum amylase, WBC, blood glucose (pancreas can't produce insulin), bilirubin (if biliary obstruction). Decreased: Serum calcium (saponification: fat necrosis binds calcium). Ranson's criteria or APACHE II score used to assess severity.",
     category: "GI",
     difficulty: 3
   },
@@ -5137,7 +5137,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-mat-t9",
     type: "term",
     question: "Postpartum Assessment: BUBBLE-HE",
-    answer: "B: Breasts (engorgement, nipples). U: Uterus (fundal height, firmness — should be at or below umbilicus, firm). B: Bladder (distension, voiding). B: Bowel (function, BM). L: Lochia (color, amount, odor, clots). E: Episiotomy/Incision (REEDA: Redness, Edema, Ecchymosis, Discharge, Approximation). H: Homans (DVT). E: Emotional status.",
+    answer: "B: Breasts (engorgement, nipples). U: Uterus (fundal height, firmness: should be at or below umbilicus, firm). B: Bladder (distension, voiding). B: Bowel (function, BM). L: Lochia (color, amount, odor, clots). E: Episiotomy/Incision (REEDA: Redness, Edema, Ecchymosis, Discharge, Approximation). H: Homans (DVT). E: Emotional status.",
     category: "Maternity",
     difficulty: 2
   },
@@ -5153,7 +5153,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-ic-t8",
     type: "term",
     question: "Catheter-Associated UTI (CAUTI) Prevention Bundle",
-    answer: "Insert only when medically necessary. Use smallest catheter possible. Maintain closed drainage system. Secure catheter to prevent traction. Keep drainage bag below bladder level (never on floor). Perform perineal hygiene. Assess daily for removal — remove as soon as possible. Hand hygiene before and after manipulation.",
+    answer: "Insert only when medically necessary. Use smallest catheter possible. Maintain closed drainage system. Secure catheter to prevent traction. Keep drainage bag below bladder level (never on floor). Perform perineal hygiene. Assess daily for removal: remove as soon as possible. Hand hygiene before and after manipulation.",
     category: "Infection Control",
     difficulty: 2
   },
@@ -5169,7 +5169,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-fe-t10",
     type: "term",
     question: "IV Complications",
-    answer: "Infiltration: Non-vesicant leaks into tissue (cool, pale, swollen — stop IV, elevate, warm compress). Extravasation: Vesicant leaks (burning, blistering — stop IV, aspirate, antidote). Phlebitis: Vein inflammation (red, warm, tender along vein — rotate site). Air embolism: Air in line (Trendelenburg, left lateral).",
+    answer: "Infiltration: Non-vesicant leaks into tissue (cool, pale, swollen: stop IV, elevate, warm compress). Extravasation: Vesicant leaks (burning, blistering: stop IV, aspirate, antidote). Phlebitis: Vein inflammation (red, warm, tender along vein: rotate site). Air embolism: Air in line (Trendelenburg, left lateral).",
     category: "Fluid & Electrolytes",
     difficulty: 2
   },
@@ -5261,7 +5261,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A child with Type 1 diabetes has ketones in the urine and a blood glucose of 310 mg/dL. What is the priority?",
     options: ["Encourage exercise to lower blood glucose", "Administer insulin and increase fluid intake as directed", "Give extra food", "Wait and recheck in 4 hours"],
     correctIndex: 1,
-    answer: "Ketonuria with hyperglycemia indicates insufficient insulin — DKA may be developing. Do NOT exercise (worsens ketone production). Actions: Administer supplemental insulin as prescribed (correction dose), push fluids (non-caloric), recheck glucose and ketones in 1-2 hours, contact provider if not improving.",
+    answer: "Ketonuria with hyperglycemia indicates insufficient insulin: DKA may be developing. Do NOT exercise (worsens ketone production). Actions: Administer supplemental insulin as prescribed (correction dose), push fluids (non-caloric), recheck glucose and ketones in 1-2 hours, contact provider if not improving.",
     category: "Pediatrics",
     difficulty: 2
   },
@@ -5329,7 +5329,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-endo-q21",
     type: "question",
     question: "What is the significance of a positive ketone test in a Type 1 diabetic with blood glucose of 350 mg/dL?",
-    options: ["Normal finding", "Indicates the body is burning fat due to insulin deficiency — DKA risk", "Indicates hypoglycemia", "Means the diabetes is controlled"],
+    options: ["Normal finding", "Indicates the body is burning fat due to insulin deficiency: DKA risk", "Indicates hypoglycemia", "Means the diabetes is controlled"],
     correctIndex: 1,
     answer: "Ketones indicate the body cannot use glucose for energy (insulin deficiency) and is breaking down fat for fuel. Ketone byproducts (acetoacetate, beta-hydroxybutyrate, acetone) cause metabolic acidosis → DKA. Check ketones when BG > 240 mg/dL. Moderate/large ketones: Seek medical attention immediately.",
     category: "Endocrine",
@@ -5341,7 +5341,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client is prescribed dantrolene. For which two conditions is this medication used?",
     options: ["Depression and anxiety", "Malignant hyperthermia and neuroleptic malignant syndrome", "Hypertension and heart failure", "Asthma and COPD"],
     correctIndex: 1,
-    answer: "Dantrolene is a skeletal muscle relaxant that acts directly on muscle cells. Used for: Malignant hyperthermia (anesthetic-triggered hypermetabolic crisis — high fever, rigid muscles, metabolic acidosis) and NMS (antipsychotic-related). Both are life-threatening emergencies requiring immediate intervention.",
+    answer: "Dantrolene is a skeletal muscle relaxant that acts directly on muscle cells. Used for: Malignant hyperthermia (anesthetic-triggered hypermetabolic crisis: high fever, rigid muscles, metabolic acidosis) and NMS (antipsychotic-related). Both are life-threatening emergencies requiring immediate intervention.",
     category: "Pharmacology",
     difficulty: 4
   },
@@ -5482,7 +5482,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What is the priority nursing assessment for a client receiving alteplase (tPA) for ischemic stroke?",
     options: ["Appetite assessment", "Frequent neurological assessments and monitoring for signs of bleeding", "Daily weight", "Bowel function"],
     correctIndex: 1,
-    answer: "tPA is a thrombolytic — major risk is hemorrhage. Monitor: Neurological status q15min × 2 hours, then q30min × 6 hours. Signs of hemorrhagic conversion: Sudden headache, decreased LOC, new neurological deficits. Check all puncture sites for bleeding. Avoid IM injections, arterial punctures, and anticoagulants for 24 hours.",
+    answer: "tPA is a thrombolytic: major risk is hemorrhage. Monitor: Neurological status q15min × 2 hours, then q30min × 6 hours. Signs of hemorrhagic conversion: Sudden headache, decreased LOC, new neurological deficits. Check all puncture sites for bleeding. Avoid IM injections, arterial punctures, and anticoagulants for 24 hours.",
     category: "Neurological",
     difficulty: 3
   },
@@ -5492,7 +5492,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with myasthenia gravis should be taught to take pyridostigmine (Mestinon) at what time?",
     options: ["At bedtime", "30-60 minutes before meals to maximize swallowing ability", "Only when symptoms appear", "With dairy products"],
     correctIndex: 1,
-    answer: "Pyridostigmine (anticholinesterase) improves neuromuscular transmission in myasthenia gravis. Take 30-60 minutes before meals so peak effect coincides with eating (reduces aspiration risk). Take on time — timing is crucial. Signs of too much: SLUDGE symptoms (cholinergic crisis). Too little: Weakness worsens (myasthenic crisis).",
+    answer: "Pyridostigmine (anticholinesterase) improves neuromuscular transmission in myasthenia gravis. Take 30-60 minutes before meals so peak effect coincides with eating (reduces aspiration risk). Take on time: timing is crucial. Signs of too much: SLUDGE symptoms (cholinergic crisis). Too little: Weakness worsens (myasthenic crisis).",
     category: "Neurological",
     difficulty: 3
   },
@@ -5544,7 +5544,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-renal-t9",
     type: "term",
     question: "Renal Diet Summary",
-    answer: "CKD diet restrictions: Low potassium (avoid bananas, oranges, potatoes), low phosphorus (avoid dairy, cola, processed foods), low sodium (< 2g/day), adequate protein (varies by stage — higher in dialysis, lower in pre-dialysis), fluid restriction. Phosphate binders taken WITH meals. Calcium and vitamin D supplementation.",
+    answer: "CKD diet restrictions: Low potassium (avoid bananas, oranges, potatoes), low phosphorus (avoid dairy, cola, processed foods), low sodium (< 2g/day), adequate protein (varies by stage: higher in dialysis, lower in pre-dialysis), fluid restriction. Phosphate binders taken WITH meals. Calcium and vitamin D supplementation.",
     category: "Renal/GU",
     difficulty: 2
   },
@@ -5575,7 +5575,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-endo-t12",
     type: "term",
     question: "Diabetic Retinopathy",
-    answer: "Microvascular complication of diabetes affecting retinal blood vessels. Types: Non-proliferative (microaneurysms, hemorrhages, hard exudates) and Proliferative (neovascularization — new fragile vessels that can bleed). Leading cause of blindness in working-age adults. Prevention: Tight glucose and BP control. Annual dilated eye exams.",
+    answer: "Microvascular complication of diabetes affecting retinal blood vessels. Types: Non-proliferative (microaneurysms, hemorrhages, hard exudates) and Proliferative (neovascularization: new fragile vessels that can bleed). Leading cause of blindness in working-age adults. Prevention: Tight glucose and BP control. Annual dilated eye exams.",
     category: "Endocrine",
     difficulty: 3
   },
@@ -5629,7 +5629,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client is prescribed methotrexate for rheumatoid arthritis. Which supplement should be given concurrently?",
     options: ["Vitamin B12", "Folic acid (to reduce side effects)", "Vitamin D", "Iron"],
     correctIndex: 1,
-    answer: "Methotrexate is a folate antagonist. Supplementing with folic acid (1 mg daily, not on methotrexate day) reduces side effects (mouth sores, nausea, hair thinning) without reducing effectiveness. Also monitor: CBC (bone marrow suppression), LFTs (hepatotoxicity), renal function. Avoid alcohol. Teratogenic — effective contraception required.",
+    answer: "Methotrexate is a folate antagonist. Supplementing with folic acid (1 mg daily, not on methotrexate day) reduces side effects (mouth sores, nausea, hair thinning) without reducing effectiveness. Also monitor: CBC (bone marrow suppression), LFTs (hepatotoxicity), renal function. Avoid alcohol. Teratogenic: effective contraception required.",
     category: "Pharmacology",
     difficulty: 3
   },
@@ -5647,7 +5647,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client taking valproic acid (Depakote) for seizures should have which lab monitored regularly?",
     options: ["Thyroid function", "Liver function tests and CBC", "Cardiac enzymes", "Renal function only"],
     correctIndex: 1,
-    answer: "Valproic acid requires monitoring: LFTs (hepatotoxicity — can be fatal, especially in children < 2), CBC (thrombocytopenia, platelet dysfunction), ammonia levels (hyperammonemia). Therapeutic level: 50-100 mcg/mL. Teratogenic (neural tube defects). Drug interactions: Many. Take with food to reduce GI upset.",
+    answer: "Valproic acid requires monitoring: LFTs (hepatotoxicity: can be fatal, especially in children < 2), CBC (thrombocytopenia, platelet dysfunction), ammonia levels (hyperammonemia). Therapeutic level: 50-100 mcg/mL. Teratogenic (neural tube defects). Drug interactions: Many. Take with food to reduce GI upset.",
     category: "Pharmacology",
     difficulty: 3
   },
@@ -5847,7 +5847,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "Which personal protective equipment is removed LAST when doffing?",
     options: ["Gloves", "Gown", "Mask or N95 respirator", "Goggles"],
     correctIndex: 2,
-    answer: "Doffing order (remove most contaminated first): 1. Gloves (most contaminated — hand hygiene). 2. Goggles/face shield. 3. Gown (untie and roll away from body). 4. Mask/N95 (removed LAST — handle by straps only, away from face). Hand hygiene after each step and after all PPE is removed.",
+    answer: "Doffing order (remove most contaminated first): 1. Gloves (most contaminated: hand hygiene). 2. Goggles/face shield. 3. Gown (untie and roll away from body). 4. Mask/N95 (removed LAST: handle by straps only, away from face). Hand hygiene after each step and after all PPE is removed.",
     category: "Infection Control",
     difficulty: 2
   },
@@ -5930,7 +5930,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-wound-t9",
     type: "term",
     question: "Wound Irrigation",
-    answer: "Purpose: Remove debris, bacteria, and necrotic tissue. Solution: Normal saline (preferred — non-cytotoxic). Pressure: 8-15 psi (achieved with 35 mL syringe and 19-gauge angiocatheter). Too little pressure: Ineffective. Too much pressure: Tissue trauma, drives bacteria deeper. Irrigate from cleanest to most contaminated area. Warm solution to body temperature.",
+    answer: "Purpose: Remove debris, bacteria, and necrotic tissue. Solution: Normal saline (preferred: non-cytotoxic). Pressure: 8-15 psi (achieved with 35 mL syringe and 19-gauge angiocatheter). Too little pressure: Ineffective. Too much pressure: Tissue trauma, drives bacteria deeper. Irrigate from cleanest to most contaminated area. Warm solution to body temperature.",
     category: "Wound Care",
     difficulty: 2
   },
@@ -5953,7 +5953,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with chronic pain is started on pregabalin (Lyrica). What should the nurse monitor?",
     options: ["Blood pressure only", "Dizziness, drowsiness, weight gain, and peripheral edema", "Heart rate only", "No monitoring needed"],
     correctIndex: 1,
-    answer: "Pregabalin side effects: Dizziness, somnolence, weight gain, peripheral edema, blurred vision, dry mouth. Schedule V controlled substance (potential for misuse). Do not abruptly discontinue (seizure risk — taper over 1 week). Used for: Neuropathic pain, fibromyalgia, seizures, generalized anxiety.",
+    answer: "Pregabalin side effects: Dizziness, somnolence, weight gain, peripheral edema, blurred vision, dry mouth. Schedule V controlled substance (potential for misuse). Do not abruptly discontinue (seizure risk: taper over 1 week). Used for: Neuropathic pain, fibromyalgia, seizures, generalized anxiety.",
     category: "Pain Management",
     difficulty: 2
   },
@@ -6044,7 +6044,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client with GERD is prescribed a PPI. How long does it take for PPIs to reach maximum effectiveness?",
     options: ["Immediately", "2-4 weeks", "Same day", "6 months"],
     correctIndex: 1,
-    answer: "PPIs (omeprazole, pantoprazole) take 2-4 weeks to reach maximum acid suppression. They irreversibly inhibit the proton pump — new pumps must be synthesized. Take 30 minutes before the first meal of the day for optimal absorption. Short-term use preferred; long-term risks: C. diff, osteoporosis, hypomagnesemia, B12 deficiency.",
+    answer: "PPIs (omeprazole, pantoprazole) take 2-4 weeks to reach maximum acid suppression. They irreversibly inhibit the proton pump: new pumps must be synthesized. Take 30 minutes before the first meal of the day for optimal absorption. Short-term use preferred; long-term risks: C. diff, osteoporosis, hypomagnesemia, B12 deficiency.",
     category: "GI",
     difficulty: 2
   },
@@ -6082,7 +6082,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A child with cerebral palsy has spastic quadriplegia. What is the priority nursing concern?",
     options: ["Cognitive development only", "Aspiration risk due to impaired swallowing, and prevention of contractures", "Pain management only", "Vision screening"],
     correctIndex: 1,
-    answer: "Spastic quadriplegia (all four limbs affected) presents multiple challenges: Aspiration risk (impaired swallowing — position upright for feeds, thicken liquids), contracture prevention (ROM exercises, splints, positioning), skin integrity, nutrition, communication support, seizure management, and developmental stimulation.",
+    answer: "Spastic quadriplegia (all four limbs affected) presents multiple challenges: Aspiration risk (impaired swallowing: position upright for feeds, thicken liquids), contracture prevention (ROM exercises, splints, positioning), skin integrity, nutrition, communication support, seizure management, and developmental stimulation.",
     category: "Pediatrics",
     difficulty: 3
   },
@@ -6142,7 +6142,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A nurse is performing wound care and notices a wound with red, beefy granulation tissue filling the wound bed. What does this indicate?",
     options: ["Infection", "Healthy healing tissue", "Necrotic tissue", "Hypergranulation"],
     correctIndex: 1,
-    answer: "Red, moist, beefy granulation tissue is a sign of healthy wound healing (proliferative phase). It indicates new capillary growth (angiogenesis) and collagen deposition. Protect this tissue — use non-adherent dressings, avoid trauma during dressing changes, maintain moist environment. If tissue is pale/dusky, circulation may be impaired.",
+    answer: "Red, moist, beefy granulation tissue is a sign of healthy wound healing (proliferative phase). It indicates new capillary growth (angiogenesis) and collagen deposition. Protect this tissue: use non-adherent dressings, avoid trauma during dressing changes, maintain moist environment. If tissue is pale/dusky, circulation may be impaired.",
     category: "Wound Care",
     difficulty: 1
   },
@@ -6162,7 +6162,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "A client undergoing chemotherapy has a platelet count of 25,000 and develops a severe headache. What is the priority concern?",
     options: ["Migraine", "Intracranial hemorrhage", "Dehydration", "Medication side effect"],
     correctIndex: 1,
-    answer: "Severe headache in a thrombocytopenic client is a RED FLAG for intracranial hemorrhage — a life-threatening emergency. Assess: Neurological status (LOC, pupils, motor function), vital signs. Notify provider immediately. Prepare for platelet transfusion and CT scan. Other bleeding signs: Retinal hemorrhages, GI bleeding, hematuria.",
+    answer: "Severe headache in a thrombocytopenic client is a RED FLAG for intracranial hemorrhage: a life-threatening emergency. Assess: Neurological status (LOC, pupils, motor function), vital signs. Notify provider immediately. Prepare for platelet transfusion and CT scan. Other bleeding signs: Retinal hemorrhages, GI bleeding, hematuria.",
     category: "Oncology",
     difficulty: 3
   },
@@ -6192,7 +6192,7 @@ export const rpnFlashcards: FlashcardData[] = [
     question: "What is the priority teaching for a client prescribed inhaled corticosteroids?",
     options: ["Take before bedtime only", "Rinse mouth thoroughly after each use to prevent oral candidiasis (thrush)", "Use as a rescue inhaler", "Do not use spacer device"],
     correctIndex: 1,
-    answer: "Inhaled corticosteroids (fluticasone, budesonide) deposit medication in the oropharynx, promoting Candida growth. Rinse and spit after every use. Use a spacer device (increases lung deposition, reduces oral deposition). ICS is for maintenance/prevention — NOT a rescue inhaler. Takes 1-2 weeks for full effect.",
+    answer: "Inhaled corticosteroids (fluticasone, budesonide) deposit medication in the oropharynx, promoting Candida growth. Rinse and spit after every use. Use a spacer device (increases lung deposition, reduces oral deposition). ICS is for maintenance/prevention: NOT a rescue inhaler. Takes 1-2 weeks for full effect.",
     category: "Respiratory",
     difficulty: 1
   },
@@ -6220,7 +6220,7 @@ export const rpnFlashcards: FlashcardData[] = [
     id: "rpn-peds-t13",
     type: "term",
     question: "Tonsillectomy Post-Op Care",
-    answer: "Position: Side-lying or prone to facilitate drainage. Diet: Clear cool liquids → soft foods. Avoid: Red/brown liquids (mask bleeding), straws (suction/irritation), acidic/citrus, crunchy/rough foods. Monitor for: Frequent swallowing (sign of bleeding — most dangerous complication), hemorrhage (immediate or 5-10 days post-op). Pain management: Avoid aspirin.",
+    answer: "Position: Side-lying or prone to facilitate drainage. Diet: Clear cool liquids → soft foods. Avoid: Red/brown liquids (mask bleeding), straws (suction/irritation), acidic/citrus, crunchy/rough foods. Monitor for: Frequent swallowing (sign of bleeding: most dangerous complication), hemorrhage (immediate or 5-10 days post-op). Pain management: Avoid aspirin.",
     category: "Pediatrics",
     difficulty: 2
   },

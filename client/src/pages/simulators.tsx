@@ -82,7 +82,7 @@ const osceStations: Station[] = [
         { id: "c", text: "Hypovolemic shock", correct: false },
         { id: "d", text: "Neurogenic shock", correct: false },
       ],
-      explanation: "This presentation — hypotension, tachycardia, tachypnea, fever, and mildly decreased SpO2 — is the hallmark of septic shock. The elevated temperature with hemodynamic instability suggests a systemic infectious process. Cardiogenic shock typically presents with cool/clammy skin without fever, and neurogenic shock presents with bradycardia rather than tachycardia.",
+      explanation: "This presentation: hypotension, tachycardia, tachypnea, fever, and mildly decreased SpO2: is the hallmark of septic shock. The elevated temperature with hemodynamic instability suggests a systemic infectious process. Cardiogenic shock typically presents with cool/clammy skin without fever, and neurogenic shock presents with bradycardia rather than tachycardia.",
     },
   },
   {
@@ -100,7 +100,7 @@ const osceStations: Station[] = [
         { id: "c", text: "Mix with D5W instead of NS", correct: false },
         { id: "d", text: "Administer without cardiac monitoring", correct: false },
       ],
-      explanation: "IV potassium must NEVER be given via IV push — it can cause fatal cardiac arrhythmias. It must be diluted and infused slowly (typically no faster than 10 mEq/hour peripherally, 20 mEq/hour centrally) using an infusion pump. Cardiac monitoring is recommended for rates >10 mEq/hr. This is a critical patient safety principle tested on NCLEX.",
+      explanation: "IV potassium must NEVER be given via IV push: it can cause fatal cardiac arrhythmias. It must be diluted and infused slowly (typically no faster than 10 mEq/hour peripherally, 20 mEq/hour centrally) using an infusion pump. Cardiac monitoring is recommended for rates >10 mEq/hr. This is a critical patient safety principle tested on NCLEX.",
     },
   },
   {

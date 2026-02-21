@@ -107,7 +107,7 @@ const faqData = [
         id: "exam-1",
         question: "Can I use NurseNest to prepare for the NCLEX or REX-PN?",
         answer:
-          "Yes. NurseNest is designed to support learners preparing for nursing licensure examinations including the NCLEX-RN, NCLEX-PN, and REX-PN. Content is structured around clinical reasoning, prioritization, and safety logic — the cognitive patterns these exams test. NurseNest is an independent educational resource and is not affiliated with NCSBN or any regulatory body.",
+          "Yes. NurseNest is designed to support learners preparing for nursing licensure examinations including the NCLEX-RN, NCLEX-PN, and REX-PN. Content is structured around clinical reasoning, prioritization, and safety logic: the cognitive patterns these exams test. NurseNest is an independent educational resource and is not affiliated with NCSBN or any regulatory body.",
       },
       {
         id: "exam-2",
@@ -125,7 +125,7 @@ const faqData = [
         id: "exam-4",
         question: "Are NurseNest questions realistic compared to actual exam questions?",
         answer:
-          "NurseNest questions are independently authored by nursing educators and structured to reflect the cognitive complexity, clinical reasoning depth, and safety-focused thinking patterns tested on licensure exams. They are original educational content — not reproductions of actual exam items — and are designed to develop the same clinical judgment skills that exams assess.",
+          "NurseNest questions are independently authored by nursing educators and structured to reflect the cognitive complexity, clinical reasoning depth, and safety-focused thinking patterns tested on licensure exams. They are original educational content: not reproductions of actual exam items: and are designed to develop the same clinical judgment skills that exams assess.",
       },
       {
         id: "exam-5",

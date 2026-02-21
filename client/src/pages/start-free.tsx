@@ -73,7 +73,7 @@ const painPoints = [
   {
     icon: Brain,
     title: "Theory feels disconnected from clinical reality",
-    description: "You understand the textbook definition, but when the question asks what happens next — the gap between knowing and reasoning becomes clear.",
+    description: "You understand the textbook definition, but when the question asks what happens next: the gap between knowing and reasoning becomes clear.",
   },
   {
     icon: Layers,
@@ -83,7 +83,7 @@ const painPoints = [
   {
     icon: Target,
     title: "Exam questions feel unpredictable",
-    description: "You studied everything, but the question asks you to prioritize, differentiate, or anticipate — skills that pure memorization doesn't build.",
+    description: "You studied everything, but the question asks you to prioritize, differentiate, or anticipate: skills that pure memorization doesn't build.",
   },
   {
     icon: Activity,
@@ -105,7 +105,7 @@ const premiumPreview = [
   },
   {
     title: "Pharmacology with Purpose",
-    description: "Medication education built around receptor-level mechanisms of action, explaining not just what drugs do but why they work — and when they fail.",
+    description: "Medication education built around receptor-level mechanisms of action, explaining not just what drugs do but why they work: and when they fail.",
     icon: Pill,
   },
   {
@@ -196,7 +196,7 @@ export default function StartFreePage() {
                 Sound Familiar?
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Most nursing students hit the same walls. The issue isn't effort — it's approach.
+                Most nursing students hit the same walls. The issue isn't effort: it's approach.
               </p>
             </div>
 
@@ -231,7 +231,7 @@ export default function StartFreePage() {
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
                 NurseNest builds the cognitive architecture that connects isolated facts into 
-                clinical reasoning — the skill that separates confident practitioners from uncertain ones.
+                clinical reasoning: the skill that separates confident practitioners from uncertain ones.
               </p>
             </div>
 
@@ -240,7 +240,7 @@ export default function StartFreePage() {
                 { label: "Mechanistic Understanding", desc: "Build causal models of disease progression rather than memorizing isolated clinical facts" },
                 { label: "Pattern Recognition", desc: "See the connections between related pathologies and presentations across body systems" },
                 { label: "Clinical Decision Logic", desc: "Develop the prioritization instinct and escalation reasoning that exam questions test" },
-                { label: "Compensatory Reasoning", desc: "Understand how the body adapts — and when adaptation becomes failure" },
+                { label: "Compensatory Reasoning", desc: "Understand how the body adapts: and when adaptation becomes failure" },
                 { label: "Pharmacological Clarity", desc: "Connect drug mechanisms to disease processes at the receptor level with purpose" },
                 { label: "Exam-Aligned Reasoning", desc: "Train the decision logic and prioritization patterns licensing examinations implicitly assess" },
               ].map((item, i) => (
@@ -270,7 +270,7 @@ export default function StartFreePage() {
                 Preview What's Inside
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Each body system contains layered clinical content — from cellular mechanisms 
+                Each body system contains layered clinical content: from cellular mechanisms 
                 through pharmacological intervention to nursing-specific reasoning.
               </p>
             </div>
@@ -340,7 +340,7 @@ export default function StartFreePage() {
                 Learning Experiences Designed for Depth
               </h2>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Each element of the platform serves a specific cognitive purpose — building the 
+                Each element of the platform serves a specific cognitive purpose: building the 
                 layered understanding that produces confident, capable nurses.
               </p>
             </div>
@@ -378,7 +378,7 @@ export default function StartFreePage() {
                   Start with Anatomy & Physiology
                 </h3>
                 <p className="text-gray-600 leading-relaxed mb-6 max-w-xl">
-                  Explore foundational content across 10 body systems — completely free. Build your 
+                  Explore foundational content across 10 body systems: completely free. Build your 
                   physiological foundation before advancing into clinical pathophysiology, pharmacology, 
                   and exam-focused reasoning.
                 </p>

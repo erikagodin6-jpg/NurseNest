@@ -30,7 +30,7 @@ export default function DisclaimerPage() {
           <section data-testid="section-educational-only">
             <h2 className="text-2xl font-semibold text-primary mb-4">Educational Purposes Only</h2>
             <p className="text-gray-700 leading-relaxed">
-              NurseNest is an educational platform designed to support nursing students and professionals in their studies and exam preparation. All content — including lessons, practice questions, rationales, flashcards, and supplementary materials — is provided strictly for educational and informational purposes. NurseNest is intended to complement, not replace, formal nursing education, clinical training, or supervised clinical practice.
+              NurseNest is an educational platform designed to support nursing students and professionals in their studies and exam preparation. All content: including lessons, practice questions, rationales, flashcards, and supplementary materials: is provided strictly for educational and informational purposes. NurseNest is intended to complement, not replace, formal nursing education, clinical training, or supervised clinical practice.
             </p>
           </section>
 

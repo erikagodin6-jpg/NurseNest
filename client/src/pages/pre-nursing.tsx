@@ -116,7 +116,7 @@ const cellBiologyQuiz: import("@/components/interactive-learning").QuizQuestion[
     question: "Which organelle is primarily responsible for ATP production?",
     options: ["Golgi apparatus", "Mitochondria", "Lysosome", "Ribosome"],
     correctIndex: 1,
-    rationale: "Mitochondria are the 'powerhouse of the cell' — they produce ATP through oxidative phosphorylation and the electron transport chain.",
+    rationale: "Mitochondria are the 'powerhouse of the cell': they produce ATP through oxidative phosphorylation and the electron transport chain.",
     hint: "Think about which organelle has its own DNA and a double membrane.",
   },
   {
@@ -125,7 +125,7 @@ const cellBiologyQuiz: import("@/components/interactive-learning").QuizQuestion[
     options: ["Shrink (crenation)", "Swell and possibly lyse", "Stay the same size", "Lose its nucleus"],
     correctIndex: 1,
     rationale: "In a hypotonic solution, water moves INTO the cell by osmosis because solute concentration is lower outside. The RBC swells and may burst (hemolysis).",
-    hint: "Water follows solute — 'water chases salt.'",
+    hint: "Water follows solute: 'water chases salt.'",
   },
   {
     id: "cb3",
@@ -189,14 +189,14 @@ const pharmQuiz: import("@/components/interactive-learning").QuizQuestion[] = [
 ];
 
 const pathoFindings = [
-  { id: "f1", text: "Heart rate 110 bpm", isAbnormal: true, explanation: "Tachycardia — a compensatory response to maintain cardiac output when stroke volume falls." },
+  { id: "f1", text: "Heart rate 110 bpm", isAbnormal: true, explanation: "Tachycardia: a compensatory response to maintain cardiac output when stroke volume falls." },
   { id: "f2", text: "Blood pressure 120/80 mmHg", isAbnormal: false, explanation: "" },
-  { id: "f3", text: "Respiratory rate 28/min", isAbnormal: true, explanation: "Tachypnea — the body is attempting to increase oxygen delivery or compensate for metabolic acidosis." },
+  { id: "f3", text: "Respiratory rate 28/min", isAbnormal: true, explanation: "Tachypnea: the body is attempting to increase oxygen delivery or compensate for metabolic acidosis." },
   { id: "f4", text: "Temperature 37.0°C", isAbnormal: false, explanation: "" },
-  { id: "f5", text: "Oxygen saturation 88%", isAbnormal: true, explanation: "Hypoxemia — indicates inadequate oxygenation. Normal SpO2 is 94-100%." },
-  { id: "f6", text: "Urine output 15 mL/hr", isAbnormal: true, explanation: "Oliguria — suggests decreased renal perfusion. Normal is >30 mL/hr." },
+  { id: "f5", text: "Oxygen saturation 88%", isAbnormal: true, explanation: "Hypoxemia: indicates inadequate oxygenation. Normal SpO2 is 94-100%." },
+  { id: "f6", text: "Urine output 15 mL/hr", isAbnormal: true, explanation: "Oliguria: suggests decreased renal perfusion. Normal is >30 mL/hr." },
   { id: "f7", text: "Capillary refill 2 seconds", isAbnormal: false, explanation: "" },
-  { id: "f8", text: "Mental status: confused", isAbnormal: true, explanation: "Altered LOC — indicates decreased cerebral perfusion, a late sign of decompensation." },
+  { id: "f8", text: "Mental status: confused", isAbnormal: true, explanation: "Altered LOC: indicates decreased cerebral perfusion, a late sign of decompensation." },
 ];
 
 export default function PreNursingPage() {
@@ -232,7 +232,7 @@ export default function PreNursingPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Pre-Nursing Foundations — Free Interactive Learning | NurseNest"
+        title="Pre-Nursing Foundations: Free Interactive Learning | NurseNest"
         description="Master essential nursing foundations before school: cell biology, physiology, medical terminology, pharmacology basics, and pathophysiology logic. Free interactive modules."
         keywords="pre-nursing, nursing foundations, cell biology nursing, medical terminology, pharmacology basics, pathophysiology intro, free nursing study"
       />
@@ -325,7 +325,7 @@ function CellBiologyModule() {
       </MicroLesson>
 
       <AnatomyLabeling
-        title="Cell Structure — Click to Identify"
+        title="Cell Structure: Click to Identify"
         description="Click each point to reveal the organelle name. Can you identify all 9?"
         svgContent={<CellSVG />}
         labels={cellLabels}
@@ -348,7 +348,7 @@ function CellBiologyModule() {
         <CognitiveCard
           type="remember"
           title="Key Principle"
-          content="'Water chases salt' — water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."
+          content="'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."
         />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
@@ -419,7 +419,7 @@ function PhysiologyModule() {
       </MicroLesson>
 
       <AnatomyLabeling
-        title="Heart Anatomy — Click to Identify"
+        title="Heart Anatomy: Click to Identify"
         description="Identify the major structures of the heart"
         svgContent={<HeartSVG />}
         labels={heartLabels}
@@ -530,7 +530,7 @@ function PharmacologyModule() {
     <div className="space-y-8" data-testid="module-pharmacology">
       <div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Intro Pharmacology</h2>
-        <p className="text-gray-600">Understand how drugs interact with the body at the receptor level — the foundation for medication safety.</p>
+        <p className="text-gray-600">Understand how drugs interact with the body at the receptor level: the foundation for medication safety.</p>
       </div>
 
       <MicroLesson title="Drug-Receptor Basics" subtitle="How medications produce their effects" icon={<Pill className="w-5 h-5" />}>
@@ -621,7 +621,7 @@ function PathophysiologyModule() {
       />
 
       <AnatomyLabeling
-        title="Respiratory Anatomy — Click to Identify"
+        title="Respiratory Anatomy: Click to Identify"
         description="Identify the major respiratory structures"
         svgContent={<LungsSVG />}
         labels={lungLabels}
