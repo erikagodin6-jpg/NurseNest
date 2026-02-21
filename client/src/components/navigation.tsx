@@ -85,6 +85,10 @@ export function Navigation() {
       setLocation("/reports");
       return;
     }
+    if (itemLabel === "Clinical Clarity") {
+      setLocation("/clinical-clarity");
+      return;
+    }
     toast({
       title: "Subscription Required",
       description: `Access to ${label} ${itemLabel || ""} materials requires an active subscription.`,
@@ -114,7 +118,7 @@ export function Navigation() {
               <item.icon className="w-4 h-4 text-primary/70" />
               <span>{item.label}</span>
             </div>
-            {isPaid && !["Lessons", "Flashcards", "Reports"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Flashcards", "Reports", "Clinical Clarity"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator className="bg-primary/10" />
@@ -134,6 +138,7 @@ export function Navigation() {
   const learningItems = [
     { icon: BookOpen, label: "Lessons" },
     { icon: Layers, label: "Flashcards" },
+    { icon: Lightbulb, label: "Clinical Clarity" },
     { icon: Activity, label: "Clinical Skill Lab" },
     { icon: Stethoscope, label: "Simulators" },
     { icon: FileText, label: "Exams" },

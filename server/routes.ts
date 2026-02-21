@@ -770,6 +770,7 @@ export async function registerRoutes(
         primaryKeyword: post.primaryKeyword,
         publishedAt: new Date(),
         autoPublish: true,
+        authorName: "Erika Godin, RN",
       });
       res.json(created);
     } catch (e: any) {

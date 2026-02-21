@@ -97,6 +97,7 @@ export const contentItems = pgTable("content_items", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   publishedAt: timestamp("published_at"),
   authorId: varchar("author_id"),
+  authorName: text("author_name"),
 });
 
 export const insertContentItemSchema = createInsertSchema(contentItems).omit({

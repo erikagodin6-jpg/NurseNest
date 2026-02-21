@@ -20,6 +20,7 @@ import {
   BookOpen,
   Home,
   List,
+  User,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
@@ -408,6 +409,12 @@ export default function ContentPage() {
                 <span className="flex items-center gap-1 text-sm text-gray-400" data-testid="text-published-date">
                   <Calendar className="w-3.5 h-3.5" />
                   {formatDate(contentItem!.publishedAt as unknown as string)}
+                </span>
+              )}
+              {(contentItem as any).authorName && (
+                <span className="flex items-center gap-1 text-sm text-gray-400" data-testid="text-author-name">
+                  <User className="w-3.5 h-3.5" />
+                  {(contentItem as any).authorName}
                 </span>
               )}
             </div>

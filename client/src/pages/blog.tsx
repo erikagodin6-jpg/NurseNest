@@ -13,6 +13,7 @@ import {
   ArrowRight,
   Clock,
   Tag,
+  User,
 } from "lucide-react";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -218,6 +219,12 @@ export default function BlogPage() {
                           )}
 
                           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                            {article.authorName && (
+                              <span className="flex items-center gap-1.5">
+                                <User className="w-3.5 h-3.5" />
+                                {article.authorName}
+                              </span>
+                            )}
                             {article.publishedAt && (
                               <span className="flex items-center gap-1.5">
                                 <Calendar className="w-3.5 h-3.5" />

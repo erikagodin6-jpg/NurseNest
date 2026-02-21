@@ -215,6 +215,7 @@ export async function runBlogScheduler(): Promise<{ generated: number; message: 
         primaryKeyword: post.primaryKeyword,
         publishedAt: now,
         autoPublish: true,
+        authorName: "Erika Godin, RN",
       });
 
       generated++;

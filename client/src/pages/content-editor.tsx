@@ -61,9 +61,10 @@ type ContentItem = {
   updatedAt: string;
   publishedAt: string | null;
   authorId: string | null;
+  authorName: string | null;
 };
 
-const CONTENT_TYPES = ["lesson", "article", "guide", "flashcard-set", "blog-post", "exam", "clinical-case"];
+const CONTENT_TYPES = ["lesson", "article", "guide", "flashcard-set", "blog-post", "blog", "exam", "clinical-case"];
 
 const CMS_TEMPLATES: Record<string, { blocks: ContentBlock[]; category: string; tags: string[] }> = {
   lesson: {
@@ -235,6 +236,8 @@ export default function ContentEditorPage() {
   const [scheduledAt, setScheduledAt] = useState("");
   const [clinicalSafetyReview, setClinicalSafetyReview] = useState(false);
   const [autoPublish, setAutoPublish] = useState(false);
+  const [authorName, setAuthorName] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
   const [showSeo, setShowSeo] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -281,6 +284,7 @@ export default function ContentEditorPage() {
     setScheduledAt("");
     setClinicalSafetyReview(false);
     setAutoPublish(false);
+    setAuthorName("");
     setShowSeo(false);
     setShowPreview(false);
     setDeleteConfirm(false);
@@ -324,6 +328,7 @@ export default function ContentEditorPage() {
     setScheduledAt(item.scheduledAt ? new Date(item.scheduledAt).toISOString().slice(0, 16) : "");
     setClinicalSafetyReview(item.clinicalSafetyReview || false);
     setAutoPublish(item.autoPublish || false);
+    setAuthorName(item.authorName || "");
     setShowSeo(false);
     setShowPreview(false);
     setDeleteConfirm(false);
@@ -442,6 +447,7 @@ export default function ContentEditorPage() {
       scheduledAt: scheduledAt ? new Date(scheduledAt).toISOString() : null,
       clinicalSafetyReview,
       autoPublish,
+      authorName: authorName || null,
     };
 
     try {
@@ -532,10 +538,12 @@ export default function ContentEditorPage() {
   const filteredItems = items.filter((item) => {
     const matchesStatus =
       statusFilter === "all" || item.status === statusFilter;
+    const matchesType =
+      typeFilter === "all" || item.type === typeFilter;
     const matchesSearch =
       !searchQuery ||
       item.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesStatus && matchesSearch;
+    return matchesStatus && matchesType && matchesSearch;
   });
 
   if (!user) {
@@ -642,31 +650,49 @@ export default function ContentEditorPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <div className="relative flex-grow max-w-md">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <Input
-                    type="text"
-                    placeholder="Search by title..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9"
-                    data-testid="input-search-content"
-                  />
+              <div className="flex flex-col gap-4 mb-6">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="relative flex-grow max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Input
+                      type="text"
+                      placeholder="Search by title..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-9"
+                      data-testid="input-search-content"
+                    />
+                  </div>
+                  <div className="flex gap-1 bg-white rounded-lg border border-primary/10 p-1">
+                    {["all", "draft", "review", "scheduled", "published"].map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => setStatusFilter(s)}
+                        className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                          statusFilter === s
+                            ? "bg-primary text-white"
+                            : "text-gray-600 hover:bg-gray-50"
+                        }`}
+                        data-testid={`filter-status-${s}`}
+                      >
+                        {s.charAt(0).toUpperCase() + s.slice(1)}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex gap-1 bg-white rounded-lg border border-primary/10 p-1">
-                  {["all", "draft", "review", "scheduled", "published"].map((s) => (
+                <div className="flex flex-wrap gap-1">
+                  {["all", ...CONTENT_TYPES].map((t) => (
                     <button
-                      key={s}
-                      onClick={() => setStatusFilter(s)}
-                      className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                        statusFilter === s
-                          ? "bg-primary text-white"
-                          : "text-gray-600 hover:bg-gray-50"
+                      key={t}
+                      onClick={() => setTypeFilter(t)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        typeFilter === t
+                          ? "bg-primary/10 text-primary border border-primary/30"
+                          : "text-gray-500 border border-gray-200 hover:bg-gray-50"
                       }`}
-                      data-testid={`filter-status-${s}`}
+                      data-testid={`filter-type-${t}`}
                     >
-                      {s.charAt(0).toUpperCase() + s.slice(1)}
+                      {t === "all" ? "All Types" : t.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                     </button>
                   ))}
                 </div>
@@ -1281,6 +1307,18 @@ export default function ContentEditorPage() {
                             ))}
                           </SelectContent>
                         </Select>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-600 mb-1 block">
+                          Author
+                        </label>
+                        <Input
+                          value={authorName}
+                          onChange={(e) => setAuthorName(e.target.value)}
+                          placeholder="e.g. Erika Godin, RN"
+                          data-testid="input-author-name"
+                        />
                       </div>
 
                       <div>
