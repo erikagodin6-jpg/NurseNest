@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
@@ -563,6 +564,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      <AdminEditButton />
     </div>
   );
 }

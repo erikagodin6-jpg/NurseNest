@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -253,6 +254,7 @@ export default function ClinicalClarityIndex() {
 
         <EducationalIntegrity variant="footer" className="mt-12" />
       </main>
+      <AdminEditButton />
     </div>
   );
 }

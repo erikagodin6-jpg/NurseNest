@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -1577,6 +1578,7 @@ export default function Flashcards() {
         .backface-hidden { backface-visibility: hidden; }
         .perspective-1000 { perspective: 1000px; }
       `}} />
+      <AdminEditButton />
     </div>
   );
 }

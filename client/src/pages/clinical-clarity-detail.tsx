@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link, useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { EducationalIntegrity } from "@/components/educational-integrity";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -365,6 +366,7 @@ export default function ClinicalClarityDetail() {
           </div>
         </footer>
       </main>
+      <AdminEditButton />
     </div>
   );
 }

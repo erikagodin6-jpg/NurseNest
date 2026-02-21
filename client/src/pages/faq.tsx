@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { useLocation } from "wouter";
 import {
   Accordion,
@@ -333,6 +334,7 @@ export default function FAQPage() {
           </p>
         </div>
       </div>
+      <AdminEditButton />
     </div>
   );
 }

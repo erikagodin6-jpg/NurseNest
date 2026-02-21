@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Link } from "wouter";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import {
   Heart,
@@ -267,6 +268,7 @@ export default function AnatomyPage() {
           </Link>
         </div>
       </section>
+      <AdminEditButton />
     </div>
   );
 }

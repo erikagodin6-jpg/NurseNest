@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -263,6 +264,7 @@ export default function BlogPage() {
           <p className="mt-1">Content is for educational purposes only and does not replace clinical judgment.</p>
         </div>
       </footer>
+      <AdminEditButton />
     </div>
   );
 }

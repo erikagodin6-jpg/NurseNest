@@ -95,24 +95,30 @@ export async function generateBlogPost(topic?: string, citationStyle: "apa7" | "
     messages: [
       {
         role: "system",
-        content: `You are a nursing education content writer creating medically accurate, evidence-based blog posts for NurseNest, a nursing education platform. Write content suitable for nursing students (RPN/LVN, RN, and NP levels).
+        content: `You are a scholarly nursing education content writer creating medically accurate, evidence-based, citable blog posts for NurseNest, a nursing education platform. Write content suitable for nursing students (RPN/LVN, RN, and NP levels) at a scholarly level so students can cite these posts in their academic work.
 
 CRITICAL RULES:
-- All medical information must be clinically accurate
+- All medical information must be clinically accurate and evidence-based
 - Include proper nursing scope of practice considerations
 - NurseNest is NOT affiliated with NCLEX, NCSBN, CNO, or any regulatory body
-- Reference only real, verifiable medical sources
-- Use professional but accessible language
+- Reference only real, verifiable medical sources (nursing journals, textbooks, WHO, CDC, etc.)
+- Use professional academic language that is still accessible
 - Include clinical pearls and practical tips
+- MUST include a dedicated section comparing Adults vs Pediatrics with developmental considerations (age-specific differences in presentation, assessment, treatment, dosing, vital sign norms, developmental milestones, and family-centered care implications)
+- MUST use in-text APA 7 citations throughout the post (e.g., "According to Potter et al. (2023)..." or "...has been documented in clinical literature (Hockenberry & Wilson, 2022)")
+- Every factual clinical claim should have an in-text citation
+- Include at least 5 credible references
 
 You must respond with valid JSON in this exact format:
 {
   "title": "Blog post title",
   "slug": "url-friendly-slug",
-  "summary": "2-3 sentence summary",
+  "summary": "2-3 sentence scholarly summary",
   "content": [
     {"type": "heading", "text": "Section heading"},
-    {"type": "paragraph", "text": "Paragraph content..."},
+    {"type": "paragraph", "text": "Paragraph with in-text APA7 citations like (Author, Year)..."},
+    {"type": "heading", "text": "Adult vs Pediatric Considerations"},
+    {"type": "paragraph", "text": "Detailed comparison of adult and pediatric differences with developmental considerations..."},
     {"type": "list", "items": ["item1", "item2"]},
     {"type": "callout", "text": "Clinical pearl or important note"}
   ],
@@ -122,17 +128,29 @@ You must respond with valid JSON in this exact format:
   "seoKeywords": ["keyword1", "keyword2"],
   "primaryKeyword": "main keyword",
   "citations": [
-    {"author": "Author Name", "year": 2024, "title": "Source Title", "source": "Journal/Publisher", "url": "https://example.com"}
+    {"author": "Author, A. B.", "year": 2024, "title": "Source Title", "source": "Journal Name or Publisher", "url": "https://doi.org/example"}
   ]
 }`
       },
       {
         role: "user",
-        content: `Write a comprehensive, medically accurate nursing education blog post about: "${selectedTopic}". Include at least 3 credible citations from nursing journals, textbooks, or authoritative healthcare organizations. The post should be 800-1200 words with multiple sections, clinical pearls, and practical application tips.`
+        content: `Write a comprehensive, scholarly, medically accurate nursing education blog post about: "${selectedTopic}".
+
+Requirements:
+1. Include at least 5 credible APA 7 citations from nursing journals, textbooks, or authoritative healthcare organizations (WHO, CDC, AHA, etc.)
+2. Use in-text APA 7 citations throughout (e.g., "(Potter et al., 2023)" or "According to Hockenberry & Wilson (2022)")
+3. The post should be 1000-1500 words with multiple sections, clinical pearls, and practical application tips
+4. MUST include a dedicated "Adult vs Pediatric Considerations" section covering:
+   - Age-specific differences in presentation and pathophysiology
+   - Developmental considerations across pediatric age groups (neonate, infant, toddler, school-age, adolescent)
+   - Differences in assessment findings, vital sign norms, and treatment approaches
+   - Family-centered care implications
+   - Pediatric-specific safety considerations and dosing differences
+5. Write at a scholarly level suitable for academic citation by nursing students`
       }
     ],
     response_format: { type: "json_object" },
-    max_completion_tokens: 4096,
+    max_completion_tokens: 8192,
   });
 
   const parsed = JSON.parse(response.choices[0]?.message?.content || "{}");

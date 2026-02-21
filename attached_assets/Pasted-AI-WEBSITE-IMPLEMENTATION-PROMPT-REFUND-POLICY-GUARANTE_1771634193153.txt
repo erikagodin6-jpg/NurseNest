@@ -1,0 +1,77 @@
+AI WEBSITE IMPLEMENTATION PROMPT — REFUND POLICY & GUARANTEE LOGIC
+Add a professionally written 30-Day Money-Back Guarantee / Refund Policy page to the website. The policy must be written in clear, consumer-friendly language while protecting digital educational content from abuse.
+Create a standalone page titled:
+“Refund Policy & 30-Day Satisfaction Guarantee”
+Tone: Trustworthy, transparent, confident, not defensive, not overly legalistic.
+The policy must contain the following sections and rules.
+1. Guarantee Framework
+State that NurseNest offers a 30-day satisfaction guarantee applicable only to first-time subscriptions purchased directly through the website.
+Clarify that the 30-day period is calculated from the initial purchase date, not renewal dates.
+2. Eligibility Conditions
+Clearly specify that refunds are only available when ALL of the following are true:
+• The request is made within 30 calendar days of purchase
+• The subscription is a first-time purchase
+• The purchase was made directly through NurseNest
+• Account usage remains within reasonable limits
+Explicitly exclude:
+• Subscription renewals
+• Repeat refund requests
+• Purchases made through third parties (if applicable)
+3. Usage-Based Safeguards (Critical Section)
+Implement protective conditions appropriate for digital learning platforms.
+State that refund eligibility may be denied if the account shows substantial consumption of paid content.
+Define substantial usage as examples such as:
+• Completion of a significant portion of the question bank
+• Excessive access to premium lessons or modules
+• Behavior consistent with content harvesting or misuse
+Include a configurable threshold variable for internal logic:
+Example:
+“Refund eligibility may be void if more than [X]% of the question bank has been completed.”
+Use placeholder variables so administrators can adjust later:
+[X]% = default recommended value 20–25%
+4. Non-Refundable Circumstances
+Explicitly state refunds are not granted for:
+• Change of mind after substantial usage
+• Dissatisfaction related to exam outcomes or performance
+• Promotional or discounted purchases (optional rule but recommended)
+• Subscription renewals
+• Violations of Terms of Use
+5. Effect of Refund
+State that approved refunds result in:
+• Immediate termination of platform access
+• Revocation of license to use materials
+• Possible restriction from future guarantees
+6. Refund Request Process
+Provide a simple instruction:
+Users must contact support via email and provide account details.
+Include placeholder email variable:
+support@[domain].ca
+7. UX & Presentation Requirements
+The page must visually match the website’s existing aesthetic:
+• Soft clinical pastel theme
+• Clean typography
+• Calm professional layout
+• No aggressive legal styling
+• High readability
+Add subtle reassurance elements such as:
+“Designed to ensure fairness for all learners.”
+8. Backend / Logic Instruction (Important for AI Builders)
+If the platform includes user analytics or progress tracking, integrate logic hooks:
+Refund eligibility should be evaluated using:
+• Percentage of Qbank completed
+• Lesson access metrics
+• Subscription age
+Do NOT automatically approve refunds without usage checks.
+9. Compliance & Tone Constraints
+Avoid extreme legal language. Avoid threatening tone. Avoid ambiguous wording.
+Policy must feel:
+• Fair
+• Modern SaaS-style
+• Professional healthcare education brand
+10. Output Requirements
+Generate:
+✔ Full policy text
+✔ Proper headings & structure
+✔ Ready-to-publish page content
+✔ No placeholder lorem ipsum
+✔ No generic template wording

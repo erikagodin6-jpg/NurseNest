@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { Link, useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -385,6 +386,7 @@ export default function LessonDetail() {
             </CardContent>
           </Card>
         </main>
+        <AdminEditButton />
       </div>
     );
   }
@@ -829,6 +831,7 @@ export default function LessonDetail() {
           .select-none { user-select: text !important; -webkit-user-select: text !important; }
         }
       `}</style>
+      <AdminEditButton />
     </div>
   );
 }

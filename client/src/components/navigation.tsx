@@ -89,6 +89,18 @@ export function Navigation() {
       setLocation("/clinical-clarity");
       return;
     }
+    if (itemLabel === "Clinical Skill Lab") {
+      setLocation("/simulators/clinical-skills");
+      return;
+    }
+    if (itemLabel === "Simulators") {
+      setLocation("/simulators/osce");
+      return;
+    }
+    if (itemLabel === "Exams") {
+      setLocation("/med-math");
+      return;
+    }
     toast({
       title: "Subscription Required",
       description: `Access to ${label} ${itemLabel || ""} materials requires an active subscription.`,
@@ -118,7 +130,7 @@ export function Navigation() {
               <item.icon className="w-4 h-4 text-primary/70" />
               <span>{item.label}</span>
             </div>
-            {isPaid && !["Lessons", "Flashcards", "Reports", "Clinical Clarity"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Flashcards", "Reports", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator className="bg-primary/10" />
@@ -252,9 +264,8 @@ export function Navigation() {
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-skills")}>
-              <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> Clinical Skills Simulator</span>
-              <Lock className="w-3 h-3 text-gray-300" />
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-skills")}>
+              <Stethoscope className="w-4 h-4" /> Clinical Skills Simulator
             </Button>
           </SheetClose>
           {user && (

@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -270,6 +271,7 @@ export default function Reports() {
             Log In
           </Button>
         </main>
+        <AdminEditButton />
       </div>
     );
   }
@@ -490,6 +492,7 @@ export default function Reports() {
           </div>
         )}
       </main>
+      <AdminEditButton />
     </div>
   );
 }

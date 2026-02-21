@@ -21,6 +21,7 @@ import {
   Home,
   List,
   User,
+  Pencil,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
@@ -123,26 +124,38 @@ function QuizQuestionBlock({ content }: { content: string }) {
   );
 }
 
+function getBlockContent(block: any): string {
+  return block.content || block.text || "";
+}
+
+function getBlockItems(block: any): string[] {
+  if (block.items && Array.isArray(block.items)) return block.items;
+  const content = getBlockContent(block);
+  return content.split("\n").filter((item: string) => item.trim());
+}
+
 function ContentBlockRenderer({ block }: { block: ContentBlock }) {
+  const content = getBlockContent(block);
+
   switch (block.type) {
     case "heading":
       return (
         <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4" data-testid="text-content-heading">
-          {block.content}
+          {content}
         </h2>
       );
 
     case "paragraph":
       return (
         <p className="text-gray-700 leading-relaxed mb-4" data-testid="text-content-paragraph">
-          {block.content}
+          {content}
         </p>
       );
 
     case "list":
       return (
         <ul className="my-4 space-y-2 pl-1" data-testid="list-content">
-          {block.content.split("\n").filter((item) => item.trim()).map((item, i) => (
+          {getBlockItems(block).map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-gray-700">
               <List className="w-4 h-4 text-primary shrink-0 mt-1" />
               <span>{item.trim()}</span>
@@ -161,7 +174,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
               </div>
               <div>
                 <p className="text-sm font-bold text-amber-700 uppercase tracking-wider mb-1">Clinical Pearl</p>
-                <p className="text-gray-800 leading-relaxed">{block.content}</p>
+                <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
           </CardContent>
@@ -178,7 +191,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
               </div>
               <div>
                 <p className="text-sm font-bold text-purple-700 uppercase tracking-wider mb-1">Medication Information</p>
-                <p className="text-gray-800 leading-relaxed">{block.content}</p>
+                <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
           </CardContent>
@@ -195,7 +208,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
               </div>
               <div>
                 <p className="text-sm font-bold text-red-700 uppercase tracking-wider mb-1">Warning</p>
-                <p className="text-gray-800 leading-relaxed">{block.content}</p>
+                <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
           </CardContent>
@@ -204,7 +217,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
 
     case "quiz-question":
     case "question":
-      return <QuizQuestionBlock content={block.content} />;
+      return <QuizQuestionBlock content={content} />;
 
     case "callout":
       return (
@@ -216,7 +229,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
               </div>
               <div>
                 <p className="text-sm font-bold text-blue-700 uppercase tracking-wider mb-1">Key Point</p>
-                <p className="text-gray-800 leading-relaxed">{block.content}</p>
+                <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
           </CardContent>
@@ -233,7 +246,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
               </div>
               <div>
                 <p className="text-sm font-bold text-indigo-700 uppercase tracking-wider mb-1">Flashcard</p>
-                <p className="text-gray-800 leading-relaxed whitespace-pre-line">{block.content}</p>
+                <p className="text-gray-800 leading-relaxed whitespace-pre-line">{content}</p>
               </div>
             </div>
           </CardContent>
@@ -242,7 +255,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
 
     default:
       return (
-        <p className="text-gray-700 leading-relaxed mb-4">{block.content}</p>
+        <p className="text-gray-700 leading-relaxed mb-4">{content}</p>
       );
   }
 }
@@ -255,7 +268,7 @@ function formatDate(dateStr: string | null | undefined): string {
 
 export default function ContentPage() {
   const { slug } = useParams<{ slug: string }>();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   const { data: contentItem, isLoading, error } = useQuery<ContentItem>({
     queryKey: ["content-slug", slug],
@@ -427,6 +440,21 @@ export default function ContentPage() {
               </p>
             )}
           </header>
+
+          <div className="flex items-center gap-3 mb-8" data-testid="section-cite-top">
+            <CiteThisPage
+              title={contentItem!.title}
+              publishedDate={contentItem!.publishedAt as unknown as string}
+            />
+            {isAdmin && (
+              <Link href={`/content-editor?edit=${contentItem!.id}`}>
+                <Button variant="outline" size="sm" className="gap-2 rounded-full" data-testid="button-admin-edit">
+                  <Pencil className="w-4 h-4" />
+                  Edit Page
+                </Button>
+              </Link>
+            )}
+          </div>
 
           <section className="prose-lg max-w-none" data-testid="section-content-blocks">
             {contentBlocks.map((block, index) => (

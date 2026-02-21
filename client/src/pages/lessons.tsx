@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -1876,6 +1877,7 @@ export default function Lessons() {
           </TabsContent>
         </Tabs>
       </main>
+      <AdminEditButton />
     </div>
   );
 }
