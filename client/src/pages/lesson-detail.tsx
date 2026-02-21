@@ -160,7 +160,7 @@ function QuizSection({
             </div>
             {percentage - preTestScore.percentage > 0 ? (
               <p className="text-emerald-600 font-bold text-lg" data-testid="text-improvement">
-                +{percentage - preTestScore.percentage}% improvement! 🎉
+                +{percentage - preTestScore.percentage}% improvement
               </p>
             ) : percentage - preTestScore.percentage === 0 ? (
               <p className="text-gray-600 font-medium">Same score — review the lesson and try again!</p>
@@ -392,7 +392,7 @@ export default function LessonDetail() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 select-none" onContextMenu={(e) => e.preventDefault()}>
       <SEO
-        title={`${lessonContent?.title || "Lesson"} - Nursing Pathophysiology`}
+        title={`${lessonContent?.title || "Lesson"} - Clinical Nursing Lesson | NurseNest`}
         description={generateLessonSeoDescription(id || "", lessonContent)}
         keywords={generateLessonKeywords(id || "", lessonContent)}
         canonicalPath={`/lessons/${id}`}
@@ -506,7 +506,7 @@ export default function LessonDetail() {
             <CardContent className="p-6 flex items-center justify-between">
               <div className="space-y-1">
                 <p className="text-sm font-bold text-primary uppercase tracking-wider">Learning Progress</p>
-                <p className="text-gray-600">Complete pre-test, study, then take the post-test.</p>
+                <p className="text-gray-600">Pre-Test → Study → Post-Test. Track your clinical reasoning improvement.</p>
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold text-primary">{postTestDone ? "100%" : preTestDone ? "50%" : "0%"}</p>
@@ -523,7 +523,7 @@ export default function LessonDetail() {
               </TabsTrigger>
               <TabsTrigger value="content" className="gap-2 text-sm" data-testid="tab-content">
                 <BookOpen className="w-4 h-4" />
-                Lesson Content
+                Clinical Content
               </TabsTrigger>
               <TabsTrigger value="posttest" className="gap-2 text-sm" data-testid="tab-posttest">
                 <TrendingUp className="w-4 h-4" />
@@ -544,23 +544,43 @@ export default function LessonDetail() {
             </TabsContent>
 
             <TabsContent value="content" className="mt-6">
+              <nav className="hidden lg:block fixed left-4 top-1/3 z-30 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 p-3 space-y-1 max-w-[160px]" data-testid="nav-quick-sections">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Sections</p>
+                {[
+                  { id: "pathophysiology", label: "Pathophysiology" },
+                  { id: "risk-factors", label: "Risk Factors" },
+                  { id: "diagnostics", label: "Diagnostics" },
+                  { id: "management", label: "Management" },
+                  { id: "nursing-actions", label: "Nursing Actions" },
+                  { id: "lifespan", label: "Lifespan" },
+                  { id: "clinical-findings", label: "Clinical Findings" },
+                  { id: "pharmacology", label: "Pharmacology" },
+                  { id: "exam-readiness", label: "Exam Readiness" },
+                ].map(item => (
+                  <a key={item.id} href={`#${item.id}`} className="block text-xs text-gray-500 hover:text-primary py-1 px-2 rounded hover:bg-primary/5 transition-colors truncate">
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
               <div className="space-y-12">
-                <section className="space-y-6">
+                <section id="pathophysiology" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <Microscope className="text-primary w-8 h-8" />
                     <h2>{lessonContent.cellular.title}</h2>
                   </div>
+                  <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
                   <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700 whitespace-pre-wrap">
                     {lessonContent.cellular.content}
                   </div>
                 </section>
 
                 {lessonContent.riskFactors && lessonContent.riskFactors.length > 0 && (
-                  <section data-testid="section-risk-factors" className="space-y-6">
+                  <section id="risk-factors" data-testid="section-risk-factors" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ShieldAlert className="text-rose-500 w-8 h-8" />
                       <h2>Risk Factors</h2>
                     </div>
+                    <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
                     <Card className="border-none shadow-sm bg-rose-50/60">
                       <CardContent className="p-8">
                         <div className="grid sm:grid-cols-2 gap-3">
@@ -577,11 +597,12 @@ export default function LessonDetail() {
                 )}
 
                 {lessonContent.diagnostics && lessonContent.diagnostics.length > 0 && (
-                  <section data-testid="section-diagnostics" className="space-y-6">
+                  <section id="diagnostics" data-testid="section-diagnostics" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Search className="text-cyan-600 w-8 h-8" />
                       <h2>Diagnostics</h2>
                     </div>
+                    <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
                     <Card className="border-none shadow-sm bg-cyan-50/60">
                       <CardContent className="p-8">
                         <div className="grid sm:grid-cols-2 gap-3">
@@ -598,11 +619,12 @@ export default function LessonDetail() {
                 )}
 
                 {lessonContent.management && lessonContent.management.length > 0 && (
-                  <section data-testid="section-management" className="space-y-6">
+                  <section id="management" data-testid="section-management" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-emerald-600 w-8 h-8" />
                       <h2>Management</h2>
                     </div>
+                    <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
                     <Card className="border-none shadow-sm bg-emerald-50/60">
                       <CardContent className="p-8">
                         <ul className="space-y-3">
@@ -621,11 +643,12 @@ export default function LessonDetail() {
                 )}
 
                 {lessonContent.nursingActions && lessonContent.nursingActions.length > 0 && (
-                  <section data-testid="section-nursing-actions" className="space-y-6">
+                  <section id="nursing-actions" data-testid="section-nursing-actions" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <HeartPulse className="text-violet-600 w-8 h-8" />
-                      <h2>Nursing Actions</h2>
+                      <h2>Nursing Actions and Scope Considerations</h2>
                     </div>
+                    <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
                     <Card className="border-none shadow-sm bg-violet-50/60">
                       <CardContent className="p-8">
                         <ul className="space-y-3">
@@ -642,22 +665,24 @@ export default function LessonDetail() {
                 )}
 
                 {lessonContent.lifespan && (
-                  <section className="space-y-6">
+                  <section id="lifespan" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Users className="text-indigo-500 w-8 h-8" />
                       <h2>Across the Lifespan</h2>
                     </div>
+                    <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
                     <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900 italic">
                       {lessonContent.lifespan.content}
                     </div>
                   </section>
                 )}
 
-                <section className="space-y-6">
+                <section id="clinical-findings" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <AlertCircle className="text-orange-500 w-8 h-8" />
-                    <h2>Clinical Signs and Danger Signs</h2>
+                    <h2>Clinical Findings and Red Flags</h2>
                   </div>
+                  <p className="text-sm text-gray-500 mt-1">Key clinical presentations and warning signs</p>
                   <div className="grid md:grid-cols-2 gap-8">
                     <Card className="border-none shadow-md bg-white">
                       <CardContent className="p-8 space-y-4">
@@ -679,7 +704,7 @@ export default function LessonDetail() {
                       <CardContent className="p-8 space-y-4">
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           <AlertCircle className="text-orange-500 w-6 h-6" />
-                          <h3>Danger Signs</h3>
+                          <h3>Red Flags: When to Escalate</h3>
                         </div>
                         <ul className="space-y-2">
                           {lessonContent.signs.right.map((s, i) => (
@@ -694,11 +719,12 @@ export default function LessonDetail() {
                   </div>
                 </section>
 
-                <section className="space-y-6">
+                <section id="pharmacology" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <Pill className="text-primary w-8 h-8" />
                     <h2>Pharmacology and Safety</h2>
                   </div>
+                  <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
                   <div className="space-y-4">
                     {lessonContent.medications.map((med, i) => (
                       <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
@@ -726,14 +752,14 @@ export default function LessonDetail() {
                   </div>
                 </section>
 
-                <section className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
+                <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
                   <div className="flex items-center gap-3 text-2xl font-bold">
                     <FileText className="text-primary w-8 h-8" />
-                    <h2>Clinical Mastery</h2>
+                    <h2>Exam Readiness</h2>
                   </div>
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Principles</h4>
+                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Logic</h4>
                       <ul className="space-y-2 text-gray-300">
                         {lessonContent.pearls.map((p, i) => (
                           <li key={i} className="flex gap-2">
@@ -744,9 +770,9 @@ export default function LessonDetail() {
                       </ul>
                     </div>
                     <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Exam Danger Zone</h4>
+                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Common Exam Traps</h4>
                       <p className="text-sm text-gray-400 leading-relaxed italic">
-                        Clinical reasoning over memorization. If something changes suddenly, it is your priority.
+                        These are the high-yield reasoning patterns most commonly tested. Focus on what changed, what is the priority, and what should the nurse do first.
                       </p>
                     </div>
                   </div>

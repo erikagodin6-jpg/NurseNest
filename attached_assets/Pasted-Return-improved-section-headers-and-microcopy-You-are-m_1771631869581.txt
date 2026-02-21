@@ -1,0 +1,681 @@
+Return improved section headers and microcopy.
+You are my product + curriculum UX consultant for a nursing education site (NurseNest). Review this lesson page content and propose specific improvements.
+
+LESSON PAGE CONTENT (current):
+- Title: “Neuro Deterioration: Early vs Late”
+- Tags: REX-PN Focus, Difficulty: Moderate, Clinical Excellence
+- Learning progress bar (25%)
+- Sections: Cellular Sensitivity; Risk Factors; Diagnostics; Management (currently numbered 1–6); Nursing Actions; Canadian Clinical Data (lab ranges); Across the Lifespan; Clinical Findings; Danger Signs; Pharmacology and Safety (Mannitol); REX-PN Mastery (Priority Principles + Exam Danger Zone); Case Study Challenge; Start Mastery Quiz
+
+GOALS:
+1) Improve learning effectiveness and exam readiness (REX-PN / NCLEX-style thinking)
+2) Improve user engagement, time-on-page, and completion rate
+3) Improve perceived value of membership (premium feel)
+4) Improve safety and scope accuracy for RPN (Canadian context)
+5) Improve SEO for the lesson page without making it feel like keyword stuffing
+
+CONSTRAINTS:
+- Keep the page skimmable and mobile-friendly
+- No checkmarks, emojis, or decorative dividers
+- Use clear, professional language suitable for beginner-safe but clinically correct education
+- Avoid legally risky claims (e.g., “approved”)
+- If recommending changes, specify what to ADD, REMOVE, MERGE, or REORDER
+- Output should be actionable and implementation-ready
+
+DELIVERABLE:
+A) Content improvements
+   - What to add (new sections, missing clinical content, missing exam traps)
+   - What to remove or consolidate (redundancy, low-value blocks)
+   - What to reword for clarity + scope safety
+B) Structural / UI improvements
+   - Suggested page layout order
+   - Interaction improvements (expand/collapse, quick nav, mastery gating, progress logic)
+   - “Case Study Challenge” improvements to mimic exam reasoning
+C) SEO improvements (on-page)
+   - Provide: recommended H1, meta title, meta description, URL slug
+   - Provide: suggested internal links and anchor text (to related lessons)
+   - Provide: FAQ snippet ideas (2–4 Q&As) relevant to this lesson
+
+IMPORTANT CLINICAL CONTENT TO ENSURE IS PRESENT:
+- Neuro deterioration causes/differentials: hypoxia, hypoglycemia, stroke, intracranial bleed, infection, meds/over-sedation, seizures, CO2 retention, hypotension, fever, electrolyte derangements
+- ABC-first logic and escalation thresholds
+- Focused neuro assessment elements: LOC trends, pupils, motor strength, speech, new headache/vomiting, seizures, Cushing triad signs, airway protection criteria
+- RPN scope framing: what RPN can assess/implement independently vs when to escalate to RN/MD/rapid response
+
+Write the answer as a set of clear recommendations, organized exactly as A/B/C above.
+Act as a senior UX designer, learning science specialist, and conversion strategist for a nursing education platform called NurseNest.
+
+I will provide the current Flashcard Study Suite interface text and structure. Analyze it and propose specific improvements.
+
+CURRENT UI CONTENT:
+
+Flashcard Study Suite
+Configure your clinical mastery session.
+
+Configuration
+
+CARD TYPE
+Mixed
+Terms
+Questions
+
+TOPICS
+Cardiovascular
+Pediatrics
+Oncology
+Neurological
+Respiratory
+GI
+Pharmacology
+Skin
+Infection
+GU / Renal
+Musculoskeletal
+Endocrine
+Maternal
+Psychiatry
+Hematology
+Neonatal
+Procedures
+
+Clear All
+Start Session (88 Cards)
+
+Saved Mastery
+Review the 0 difficult cards you've flagged for extra focus.
+
+Study Tips
+Focus on 'Why' - Rationales are more important than correct answers.
+Mixed mode simulates exam environments better.
+
+GOALS:
+
+1) Increase perceived sophistication and premium feel
+2) Improve learning psychology and cognitive engagement
+3) Reduce decision fatigue for anxious nursing students
+4) Improve exam relevance (REX-PN / NCLEX-style preparation)
+5) Improve conversion psychology (make users want to start studying)
+6) Keep the interface clean, minimal, modern, not playful or childish
+7) Maintain mobile friendliness
+
+CONSTRAINTS:
+
+- No emojis, no checkmarks, no decorative fluff
+- Avoid generic marketing phrases
+- Use clinically credible language
+- Preserve simplicity and clarity
+- Recommendations must be implementation-ready
+
+DELIVERABLES:
+
+A) Rewrite the microcopy and labels for higher credibility and motivation
+B) Suggest structural improvements to the configuration logic
+C) Suggest features that increase engagement and retention (but realistic for a startup)
+D) Improve the “Saved Mastery” concept to feel valuable and psychologically compelling
+E) Suggest exam-focused enhancements that differentiate from generic flashcard apps
+
+Important context:
+NurseNest is a serious exam-prep and clinical reasoning platform for RPN, RN, and NP learners.
+
+Return the answer as specific UI text replacements and feature recommendations. You are a senior full-stack engineer + instructional designer building an interactive OSCE simulation module for a nursing education platform (NurseNest).
+
+PRODUCT VISION:
+Create a “click-the-room” OSCE simulation where the learner sees a patient scene image (2D illustration or photo-style graphic) and must click the correct items/actions in the correct sequence to pass. Examples: hand hygiene, introduce self, confirm patient identity, provide privacy, assessment steps, safety checks, documentation.
+
+CORE REQUIREMENTS:
+1) Web app implementation using Next.js (App Router) + TypeScript + Tailwind.
+2) Simulation is state-driven: steps, prerequisites, branching, scoring, timer, attempts.
+3) The scene uses a single image with multiple clickable hotspots (rects/polygons). Hotspots can be highlighted on hover and can show tooltips.
+4) The system enforces correct sequencing:
+   - Some steps are mandatory before others (hand hygiene before contact, ID before meds/assessment, privacy before exposing patient).
+   - Allow recovery: when the learner makes a mistake, provide targeted feedback and optionally allow retry.
+5) Provide:
+   - Practice Mode: feedback after each step
+   - Exam Mode: minimal feedback until end, then results + remediation plan
+6) Tracking:
+   - Pass/fail threshold
+   - Missed critical steps
+   - Time to completion
+   - “Safety violations” counter
+   - Save results per user (stub auth ok)
+7) Authoring:
+   - Simulation content must be defined in JSON so new OSCE stations can be added without coding.
+   - JSON includes: steps, step text, criticality, accepted hotspots, prerequisites, time limits, feedback, and scoring weights.
+8) Accessibility:
+   - Keyboard navigation alternative (list of actions) to mirror the clickable hotspots
+   - ARIA labels for hotspots
+9) No external paid services required.
+
+DELIVERABLES:
+A) Architecture overview (components, state machine approach, data model)
+B) A working MVP implementation:
+   - One OSCE station (e.g., “Initial bedside assessment”)
+   - One scene image placeholder
+   - 10–15 steps including hand hygiene, privacy, ID, vitals, focused assessment, documentation, call for help criteria
+   - Hotspot definitions for: sanitizer dispenser, curtain, bedside table/ID band, call bell, stethoscope, BP cuff, pulse ox, thermometer, charting station
+C) Provide code for:
+   - /app/osce/[stationId]/page.tsx
+   - reusable components: SceneHotspots, StepPanel, ResultsPanel, ModeToggle
+   - JSON schema + example station JSON in /data/osce/stations/initial-bedside-assessment.json
+   - scoring + validation functions (TypeScript)
+D) Provide instructions to add a new station (authoring guide)
+
+IMPLEMENTATION DETAILS:
+- Use a finite-state machine pattern or reducer-based state management (React useReducer) to track progress.
+- Hotspots should be positioned relative to the image using percentage coordinates for responsive scaling.
+- The UI should be clean, clinical, and minimal with clear typography.
+- Include an “Action Log” showing completed steps and mistakes (Practice Mode only).
+- Include “Pause” button only in Practice Mode.
+
+SAFETY / CLINICAL RULES FOR THIS STATION:
+- Must perform hand hygiene before touching patient or equipment.
+- Must confirm identity using two identifiers before assessment procedures.
+- Must provide privacy before exposing chest/abdomen.
+- Must apply standard precautions.
+- Must escalate if red flags appear (e.g., SpO2 < 92% with distress, SBP < 90, acute neuro change).
+- Provide scope framing: learner is RPN-level; “escalate to RN/MD/rapid response” actions must be included when indicated.
+
+OUTPUT FORMAT:
+1) Start with Architecture overview
+2) Then give the JSON schema + example JSON
+3) Then provide complete TypeScript/React code files (copy/paste ready)
+4) Then authoring guide
+5) Then a short test checklist
+
+Do not hand-wave. Provide working code for the MVP.
+You are an OSCE content author. Create a new OSCE station definition JSON for NurseNest using the provided schema.
+
+STATION TYPE:
+“Focused respiratory assessment for a patient with shortness of breath”
+
+AUDIENCE:
+RPN / NCLEX-style clinical reasoning
+
+SCENE HOTSPOTS REQUIRED:
+sanitizer, curtain, ID band, pulse oximeter, stethoscope, oxygen setup, call bell, charting station
+
+INCLUDE:
+- 12–18 steps
+- prerequisites and critical steps
+- common errors (e.g., skipping ID check, not assessing work of breathing, forgetting to reassess after intervention)
+- red flags and required escalation actions
+- practice feedback text for each step
+
+Return only valid JSON.
+You are a UI engineer. I have a single scene image for an OSCE station. I need responsive clickable hotspots.
+
+Tasks:
+- Provide a React component that renders an image and clickable hotspots positioned via percentage coordinates.
+- Support rectangle and polygon hotspots.
+- Include hover highlight, focus ring, and ARIA labels.
+- Emit hotspotId on click.
+- Keep it responsive for mobile.
+
+Tech:
+Next.js + TypeScript + Tailwind, no extra libraries.
+
+Return a complete component called SceneHotspots.tsx.
+You are a learning science engineer. Design a scoring system for OSCE click-step simulations.
+
+Requirements:
+- Sequencing enforcement with prerequisites
+- Weighted scoring by step criticality
+- Safety violation penalties for critical misses
+- Pass/fail thresholds
+- Clear remediation output: “missed critical steps,” “order errors,” “knowledge gaps”
+
+Provide:
+- TypeScript scoring function signatures
+- Example scoring outcomes for 3 sample student runs
+
+Keep it realistic for nursing OSCE evaluation.
+Style requirements:
+
+Clean 2D digital illustration, modern medical education aesthetic, soft pastel color palette, minimalistic, rounded shapes, gentle lighting, smooth gradients, calm clinical atmosphere, professional healthcare training visuals, no harsh contrast, no realism, no 3D, no cartoon exaggeration, elegant and polished, educational UI-friendly composition, consistent with a premium nursing education platform, neutral and reassuring tone, soft shadows, simple environment design, visually clear, minimal noise, flat illustration style, contemporary healthcare app artwork.
+Create a clean 2D clinical OSCE simulation scene.
+
+Scene description:
+A hospital patient room designed for nursing skills assessment. Include a patient bed, privacy curtain, hand sanitizer dispenser, bedside monitor, oxygen setup, and basic assessment equipment. The environment should look organized, calm, and educational rather than realistic or dramatic.
+
+Visual style:
+Clean 2D digital illustration, soft pastel medical palette, rounded modern shapes, minimalistic healthcare training interface aesthetic, smooth gradients, gentle lighting, professional nursing education visuals, flat design, visually clear, minimal clutter, premium e-learning platform style.
+
+Constraints:
+No photorealism, no 3D, no exaggerated cartoon features, no mascots, no childish style, no text embedded in the image, no branding logos, no visual noise.
+
+Purpose:
+Designed for interactive OSCE simulations where learners click objects to perform clinical steps.
+Create a professional healthcare character illustration.
+
+Character:
+Registered Practical Nurse wearing clean clinical scrubs, neutral and approachable expression, confident but calm demeanor, designed for educational simulations. Character should be generic and non-identifiable.
+
+Visual style:
+Clean 2D digital illustration, soft pastel tones, minimalistic modern medical training aesthetic, rounded shapes, soft lighting, smooth gradients, flat design, premium healthcare learning platform style.
+
+Constraints:
+No cartoon exaggeration, no realism, no stylized anime features, no mascots, no embedded text, neutral medical education tone.
+Generate a 2D hospital room illustration optimized for interactive hotspots.
+
+Scene composition:
+Clear object separation, uncluttered layout, equipment easily distinguishable, objects spaced for clickable interaction (sanitizer, curtain, call bell, monitor, BP cuff, stethoscope, charting area).
+
+Visual style:
+Flat 2D medical education illustration, soft pastel palette, rounded minimalistic design, clean healthcare UI aesthetic, smooth gradients, gentle shadows, modern e-learning visuals.
+
+Technical constraints:
+No perspective distortion, avoid extreme angles, maintain visual simplicity, no text labels inside image, no complex background details, consistent lighting.
+[Describe scene or object clearly]
+
+Visual style:
+Clean 2D digital illustration, modern pastel medical education aesthetic, minimalistic, rounded shapes, soft gradients, gentle lighting, professional healthcare training visuals, flat design, calm clinical interface style.
+
+Constraints:
+No realism, no 3D, no cartoon exaggeration, no embedded text, no visual clutter, premium educational platform aesthetic.
+Match the exact illustration style, color palette, lighting, and design language of this reference image: [attach image]
+Maintain the same aesthetic consistency and visual tone.
+Explain the difference between clinical skills examinations in Canada vs the United States for nursing education.
+
+Clarify:
+- Whether the term OSCE is used in the US
+- Common American equivalents or alternative names
+- Differences in exam structure and educational culture
+- Which terminology is safest and most familiar for US nursing students
+
+Provide practical guidance for naming simulations on a nursing education platform targeting both Canadian and US users.
+Generate naming conventions for interactive nursing simulations that feel native to both Canadian and US nursing students.
+
+Constraints:
+- Avoid regionally awkward terminology
+- Maintain clinical credibility
+- Suitable for a premium nursing exam-prep platform
+- Emphasize assessment, safety, and clinical reasoning
+
+Return multiple naming options for:
+- Simulation category labels
+- Individual simulation titles
+- Navigation menu wording
+List the highest-value clinical skills simulations for nursing students preparing for licensing exams and early clinical practice.
+
+Prioritize:
+- High-frequency bedside skills
+- Patient safety logic
+- Clinical sequencing errors
+- Situations commonly tested or failed
+- RPN / RN entry-level relevance
+
+Avoid:
+- Rare procedures
+- Highly specialized ICU-only tasks
+
+Return simulations grouped by category (assessment, medication, safety, communication, deterioration recognition).
+You are a senior full-stack engineer and clinical education designer.
+
+Build a scalable interactive nursing simulation system for a nursing education platform called NurseNest.
+
+PRODUCT CONCEPT:
+Create “OSCE-style / Clinical Skills Checkoff” simulations where learners interact with a 2D clinical scene image and must click correct actions in the correct clinical sequence to pass.
+
+Simulations must mimic real nursing school skills evaluations and licensing-exam logic, emphasizing patient safety, prioritization, and clinical reasoning rather than memorization.
+
+TECH STACK:
+Next.js (App Router) + TypeScript + Tailwind CSS.
+Use clean component-based architecture.
+No external paid libraries required.
+
+CORE SYSTEM REQUIREMENTS:
+
+1) Simulation Framework
+- Simulations are driven by JSON configuration files (no hardcoded logic)
+- Each simulation contains:
+  - title
+  - difficulty
+  - clinical category
+  - steps
+  - prerequisites
+  - critical safety violations
+  - scoring weights
+  - feedback messages
+  - pass/fail rules
+
+2) Scene Interaction
+- Render a single 2D scene image
+- Support clickable hotspots positioned via percentage coordinates
+- Hotspots represent clinical actions or objects (sanitizer, curtain, monitor, patient, equipment)
+
+3) Sequencing Logic
+- Enforce safe clinical order
+- Block unsafe actions if prerequisites not met
+- Track:
+  - correct steps
+  - order errors
+  - critical failures
+  - safety violations
+
+4) Modes
+- Practice Mode: immediate feedback + coaching
+- Exam Mode: minimal feedback until completion
+
+5) Evaluation System
+- Weighted scoring model
+- Critical safety violations trigger failure or penalties
+- Results screen showing:
+  - pass/fail
+  - missed critical actions
+  - unsafe actions
+  - remediation guidance
+
+6) Learning Psychology
+- Focus on realistic nursing mistakes
+- Reinforce safety and prioritization logic
+- Avoid trivia-style interactions
+
+7) Accessibility
+- Keyboard alternative to clicking
+- ARIA labels for hotspots
+
+INITIAL SIMULATION LIBRARY TO IMPLEMENT:
+
+Create JSON definitions and example scenes for the following simulations:
+
+FOUNDATIONAL SAFETY & ENTRY BEHAVIORS
+- Hand Hygiene and Infection Control Sequence
+- Patient Identification and Two-Identifier Validation
+- PPE Selection and Isolation Precautions
+- Patient Privacy and Dignity Setup
+- Environmental Safety and Fall Risk Prevention
+- Medication Rights and Safety Check
+
+PATIENT ASSESSMENT SIMULATIONS
+- Initial Bedside Assessment
+- Focused Respiratory Assessment
+- Focused Cardiac Assessment
+- Neurological Checks and LOC Changes
+- Pain Assessment Across the Lifespan
+- Fluid Status and Edema Assessment
+
+CLINICAL DETERIORATION SCENARIOS
+- Sudden Decreased Level of Consciousness
+- Hypoxia Recognition and Response
+- Hypoglycemia Recognition and Management
+- Hypotension / Shock Indicators
+- Post-Operative Complication Recognition
+- Pediatric Deterioration Cues
+
+MEDICATION & HIGH-RISK SAFETY
+- Safe Medication Administration Sequence
+- High-Alert Medication Safety
+- Insulin Administration Safety Logic
+- Anticoagulant Precautions
+- Opioid Monitoring and Respiratory Depression
+
+COMMUNICATION & PROFESSIONAL PRACTICE
+- Therapeutic Communication Scenario
+- Escalating Concerns Using SBAR
+- Handling Patient Refusal of Care
+- Managing an Anxious or Distressed Patient
+- Reporting Unexpected Findings
+
+ADVANCED / HIGH-VALUE ADDITIONS
+- Seizure Recognition and Immediate Priorities
+- Chest Pain Initial Nursing Response
+- Stroke Recognition and Urgency Logic
+- Oxygen Therapy Escalation Decisions
+- IV Therapy Safety and Complications
+- Restraint Safety and Alternatives
+- Documentation and Legal Safety Traps
+- Pediatric Medication Safety Checks
+- End-of-Life Comfort Priorities
+- Delegation and Assignment Safety Logic
+
+DELIVERABLES:
+
+A) System Architecture Overview
+- Components
+- State management strategy
+- Data model
+
+B) JSON Schema for simulations
+
+C) Example JSON simulation files (multiple)
+
+D) React / TypeScript Components
+- SceneHotspots
+- SimulationEngine
+- StepValidator
+- ResultsPanel
+- ModeToggle
+
+E) Scoring & Validation Logic
+
+F) Example Simulation UI
+
+DESIGN REQUIREMENTS:
+- Clean, clinical, minimal UI
+- Professional nursing education aesthetic
+- No playful cartoon style
+- Mobile-friendly layout
+
+CLINICAL SAFETY LOGIC:
+- Enforce ABC priorities where relevant
+- Include realistic unsafe learner mistakes
+- Distinguish critical vs non-critical errors
+- Include escalation actions when indicated
+
+Do not produce pseudocode. Provide working implementation-ready code.
+Generate additional high-value nursing simulations for a clinical skills and exam-prep platform.
+
+Constraints:
+- Focus on common student failure points
+- Prioritize safety, prioritization, deterioration recognition
+- Suitable for RPN / RN learners
+- Avoid rare or highly specialized procedures
+
+Return grouped simulation titles by:
+- Assessment
+- Medication Safety
+- Emergencies
+- Communication
+- Legal / Ethical Traps
+Create a clean 2D nursing simulation scene.
+
+Environment:
+Hospital patient room designed for interactive clinical skills evaluation.
+
+Visual style:
+Clean 2D digital illustration, soft pastel medical education palette, minimalistic, rounded shapes, flat design, calm clinical atmosphere, visually clear layout, hotspot-friendly object separation.
+
+Constraints:
+No text embedded in image, no realism, no 3D, no exaggerated cartoon features, professional healthcare training visual style.
+
+You are a senior nursing education designer, clinical skills instructor, and healthcare simulation architect.
+
+Design a dedicated section of a nursing education platform (NurseNest) for practicing nurses and new graduates working in clinical environments.
+
+PRODUCT CONCEPT:
+Create a “Clinical Practice & Floor Training” area focused on real-world nursing skills, clinical judgment, and unit-specific competencies.
+
+This section is NOT exam prep. It is designed for nurses actively working or transitioning into roles such as:
+
+- Medical-Surgical Nursing
+- Pediatric Nursing
+- Critical Care / ICU
+- Emergency / Acute Care
+- Maternal / Postpartum
+- Neonatal Care
+- Long-Term Care / Geriatrics
+
+PRIMARY USERS:
+- New graduate nurses
+- Nurses transitioning between specialties
+- Nurses seeking confidence and safety reinforcement
+- Early-career clinical staff
+
+GOALS:
+1) Identify high-value clinical skills nurses struggle with in real practice
+2) Emphasize safety, prioritization, workflow efficiency, and error prevention
+3) Focus on practical bedside decision-making rather than theory
+4) Ensure content reflects realistic clinical environments
+5) Improve confidence and reduce cognitive overload for new nurses
+
+CONTENT FORMAT:
+Generate structured concepts for “training/practice videos” and interactive simulations.
+
+Each training module should include:
+
+- Title
+- Clinical context
+- Skill or scenario focus
+- Common mistakes and risks
+- Safety priorities
+- Escalation triggers
+- Learning objectives
+
+FLOOR-SPECIFIC TRAINING TO INCLUDE:
+
+MEDICAL-SURGICAL
+- Time management and prioritization
+- Recognizing early deterioration
+- Safe medication workflows
+- IV therapy monitoring and complications
+- Post-operative patient surveillance
+- Pain reassessment logic
+- Fluid balance interpretation
+- Communicating critical findings
+
+PEDIATRICS
+- Pediatric assessment differences
+- Pediatric vital sign interpretation
+- Weight-based medication safety
+- Recognizing pediatric distress
+- Family-centered communication
+- Fever management safety
+- Pediatric respiratory warning signs
+- Escalation in pediatric patients
+
+CRITICAL CARE / ICU
+- Monitoring and alarm interpretation
+- Hemodynamic instability recognition
+- Sedation safety awareness
+- Oxygenation and ventilation basics
+- Lines, drains, and device safety
+- Rapid changes and prioritization logic
+- Recognizing shock patterns
+- Escalation and team communication
+
+EMERGENCY / ACUTE CARE
+- Triage mindset and prioritization
+- Rapid assessment logic
+- Recognizing life-threatening patterns
+- Communication under pressure
+- Initial stabilization priorities
+- Handling multiple competing demands
+- Escalation triggers
+- High-risk medication awareness
+
+MATERNAL / POSTPARTUM
+- Postpartum complication recognition
+- Hemorrhage warning signs
+- Pain vs danger assessment
+- Newborn safety priorities
+- Breastfeeding challenges
+- Maternal vital sign interpretation
+- Escalation for maternal instability
+
+NEONATAL
+- Normal vs abnormal newborn findings
+- Thermoregulation safety
+- Feeding and glucose concerns
+- Respiratory distress cues
+- Sepsis warning patterns
+- Escalation thresholds
+
+LONG-TERM CARE / GERIATRICS
+- Subtle deterioration recognition
+- Delirium vs dementia differentiation
+- Fall risk mitigation
+- Polypharmacy safety
+- Skin and wound monitoring
+- Communication with families
+- Escalation decisions
+
+IMPORTANT DESIGN PHILOSOPHY:
+Focus on real nurse fears and failure points:
+
+- “What do I do first?”
+- “Is this normal or dangerous?”
+- “When do I escalate?”
+- “What mistakes do new nurses make here?”
+
+VISUAL & GRAPHIC STYLE REQUIREMENTS:
+
+All scenes, characters, and graphics must follow this strict visual identity:
+
+Clean 2D digital illustration, modern medical education aesthetic, soft pastel color palette, minimalistic, rounded shapes, gentle lighting, smooth gradients, calm clinical atmosphere, professional healthcare training visuals, flat design, visually clear, minimal clutter, premium nursing education platform style.
+
+Constraints:
+- No realism
+- No 3D
+- No cartoon exaggeration
+- No mascots
+- No embedded text inside images
+- Calm, professional, clinical tone
+
+DELIVERABLES:
+
+A) Propose the structure of the “Clinical Practice & Floor Training” section
+B) Generate high-value training/practice video concepts grouped by floor
+C) Identify skills with highest anxiety-reduction and confidence-building impact
+D) Suggest progression logic (new grad → competent → confident)
+E) Maintain professional clinical credibility
+Create a clean 2D nursing clinical training scene.
+
+Environment:
+Realistic hospital or clinical care environment relevant to [INSERT FLOOR TYPE].
+
+Scene focus:
+Illustrate a nurse performing or preparing for a common clinical task. Ensure objects are clearly separated for educational use.
+
+Visual style:
+Clean 2D digital illustration, soft pastel medical palette, minimalistic, rounded modern shapes, smooth gradients, gentle lighting, professional healthcare training visual, flat design, calm clinical UI aesthetic.
+
+Constraints:
+No text embedded in image, no realism, no 3D, no exaggerated cartoon style, no mascots, premium medical education aesthetic. You are a senior TypeScript/Node build engineer helping me fix a deployment build failure in my repo.
+
+ERROR (exact):
+Build failed
+Top-level await is not supported with CommonJS output format in server/index.ts
+The build script is configured to output in 'cjs' format but uses top-level await at line 56
+esbuild cannot compile top-level await when targeting CommonJS format in script/build.ts.
+
+TASK:
+Fix the build so it deploys successfully.
+
+CONTEXT / CONSTRAINTS:
+- This project uses esbuild for bundling.
+- The current output format is CommonJS ("cjs").
+- There is a top-level `await` in `server/index.ts` around line 56 (and possibly elsewhere).
+- I want a solution that works in production and does not break runtime behavior.
+- Prefer minimal changes, but correctness > minimal.
+- I can accept either:
+  (A) Keep CommonJS output and refactor code to remove top-level await, OR
+  (B) Switch server build output to ESM where top-level await is supported (and update package.json / imports accordingly).
+- You must inspect and modify:
+  - server/index.ts (remove top-level await safely or wrap it)
+  - script/build.ts (esbuild options)
+  - Any tsconfig/package.json settings involved (module, type, target) if needed
+- Provide exact code changes (diff style is ideal) and explain why each change is necessary.
+
+REQUIRED OUTPUT:
+1) Brief diagnosis: why this error happens in this repo
+2) Two fix options (A and B) with pros/cons
+3) Implement the best option with:
+   - Updated code for server/index.ts
+   - Updated esbuild config in script/build.ts
+   - Any package.json / tsconfig.json edits required
+4) A checklist of commands to run locally to verify the fix
+
+IMPORTANT:
+- Do not hand-wave. Give copy/paste-ready code.
+- If you choose option A (keep CJS), wrap startup logic in an async `main()` and call it with proper error handling.
+- If you choose option B (ESM), ensure node can run the output, adjust "type": "module" or file extensions, and update import syntax accordingly.
