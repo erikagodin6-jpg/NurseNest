@@ -1,6 +1,6 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and, desc, sql, lte, ne, ilike } from "drizzle-orm";
+import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
 
 export interface IStorage {
@@ -42,6 +42,13 @@ export interface IStorage {
   deleteUserFlashcard(id: string, userId: string): Promise<void>;
   getBlogConfig(): Promise<BlogConfig | undefined>;
   upsertBlogConfig(config: Partial<BlogConfig>): Promise<BlogConfig>;
+  createPageView(view: InsertPageView): Promise<PageView>;
+  getPageViewAnalytics(days?: number): Promise<any>;
+  updatePageViewDuration(sessionId: string, page: string, duration: number): Promise<void>;
+  createFeedback(feedback: InsertUserFeedback): Promise<UserFeedback>;
+  getAllFeedback(): Promise<UserFeedback[]>;
+  updateFeedback(id: string, updates: Partial<UserFeedback>): Promise<UserFeedback>;
+  upvoteFeedback(id: string): Promise<UserFeedback>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -320,6 +327,100 @@ export class DatabaseStorage implements IStorage {
     }
     const [created] = await db.insert(blogConfig).values(config as any).returning();
     return created;
+  }
+
+  async createPageView(view: InsertPageView): Promise<PageView> {
+    const [created] = await db.insert(pageViews).values(view).returning();
+    return created;
+  }
+
+  async updatePageViewDuration(sessionId: string, page: string, duration: number): Promise<void> {
+    await db.update(pageViews)
+      .set({ duration })
+      .where(and(eq(pageViews.sessionId, sessionId), eq(pageViews.page, page)));
+  }
+
+  async getPageViewAnalytics(days = 30): Promise<any> {
+    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+
+    const allViews = await db.select().from(pageViews)
+      .where(gte(pageViews.createdAt, since))
+      .orderBy(desc(pageViews.createdAt));
+
+    const totalViews = allViews.length;
+    const uniqueSessions = new Set(allViews.map(v => v.sessionId)).size;
+
+    const pageCounts: Record<string, number> = {};
+    const referrerCounts: Record<string, number> = {};
+    const deviceCounts: Record<string, number> = {};
+    const browserCounts: Record<string, number> = {};
+    const osCounts: Record<string, number> = {};
+    const utmSourceCounts: Record<string, number> = {};
+    const dailyViews: Record<string, number> = {};
+    let totalDuration = 0;
+    let durationCount = 0;
+    let checkoutIntents = 0;
+    let pricingViews = 0;
+
+    allViews.forEach(v => {
+      pageCounts[v.page] = (pageCounts[v.page] || 0) + 1;
+      if (v.referrer) referrerCounts[v.referrer] = (referrerCounts[v.referrer] || 0) + 1;
+      if (v.deviceType) deviceCounts[v.deviceType] = (deviceCounts[v.deviceType] || 0) + 1;
+      if (v.browser) browserCounts[v.browser] = (browserCounts[v.browser] || 0) + 1;
+      if (v.os) osCounts[v.os] = (osCounts[v.os] || 0) + 1;
+      if (v.utmSource) utmSourceCounts[v.utmSource] = (utmSourceCounts[v.utmSource] || 0) + 1;
+      if (v.duration && v.duration > 0) { totalDuration += v.duration; durationCount++; }
+      if (v.isCheckoutIntent) checkoutIntents++;
+      if (v.isPricingView) pricingViews++;
+
+      const day = v.createdAt.toISOString().split("T")[0];
+      dailyViews[day] = (dailyViews[day] || 0) + 1;
+    });
+
+    const topPages = Object.entries(pageCounts).sort((a, b) => b[1] - a[1]).slice(0, 20).map(([page, views]) => ({ page, views }));
+    const topReferrers = Object.entries(referrerCounts).sort((a, b) => b[1] - a[1]).slice(0, 15).map(([referrer, views]) => ({ referrer, views }));
+    const avgDuration = durationCount > 0 ? Math.round(totalDuration / durationCount) : 0;
+
+    return {
+      totalViews,
+      uniqueSessions,
+      avgDuration,
+      checkoutIntents,
+      pricingViews,
+      topPages,
+      topReferrers,
+      devices: deviceCounts,
+      browsers: browserCounts,
+      operatingSystems: osCounts,
+      utmSources: utmSourceCounts,
+      dailyViews: Object.entries(dailyViews).sort((a, b) => a[0].localeCompare(b[0])).map(([date, views]) => ({ date, views })),
+      conversionRate: uniqueSessions > 0 ? Math.round((checkoutIntents / uniqueSessions) * 100) : 0,
+    };
+  }
+
+  async createFeedback(feedback: InsertUserFeedback): Promise<UserFeedback> {
+    const [created] = await db.insert(userFeedback).values(feedback).returning();
+    return created;
+  }
+
+  async getAllFeedback(): Promise<UserFeedback[]> {
+    return db.select().from(userFeedback).orderBy(desc(userFeedback.createdAt));
+  }
+
+  async updateFeedback(id: string, updates: Partial<UserFeedback>): Promise<UserFeedback> {
+    const [updated] = await db.update(userFeedback)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(userFeedback.id, id))
+      .returning();
+    return updated;
+  }
+
+  async upvoteFeedback(id: string): Promise<UserFeedback> {
+    const [updated] = await db.execute(sql`
+      UPDATE user_feedback SET upvotes = upvotes + 1, updated_at = NOW()
+      WHERE id = ${id} RETURNING *
+    `).then(r => r.rows);
+    return updated as unknown as UserFeedback;
   }
 }
 
