@@ -148,3 +148,11 @@ export const featureUsage = pgTable("feature_usage", {
 });
 
 export type FeatureUsage = typeof featureUsage.$inferSelect;
+
+export const lessonOverrides = pgTable("lesson_overrides", {
+  lessonId: text("lesson_id").primaryKey(),
+  overrides: jsonb("overrides").default(sql`'{}'::jsonb`),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type LessonOverride = typeof lessonOverrides.$inferSelect;

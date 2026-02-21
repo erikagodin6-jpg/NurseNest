@@ -8,11 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { 
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
-  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil
+  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil, X, Plus, Trash2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
@@ -22,6 +23,40 @@ import { canAccessTier } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem } from "@/lib/seo-utils";
 import { trackMilestone } from "@/components/upgrade-prompt";
+
+function EditableText({ value, onChange, multiline = false, className = "" }: { value: string; onChange: (v: string) => void; multiline?: boolean; className?: string }) {
+  if (multiline) {
+    return <Textarea value={value} onChange={(e) => onChange(e.target.value)} className={`min-h-[120px] ${className}`} />;
+  }
+  return <Input value={value} onChange={(e) => onChange(e.target.value)} className={className} />;
+}
+
+function EditableList({ items, onChange, placeholder = "Enter item..." }: { items: string[]; onChange: (items: string[]) => void; placeholder?: string }) {
+  return (
+    <div className="space-y-2">
+      {items.map((item, i) => (
+        <div key={i} className="flex gap-2">
+          <Input
+            value={item}
+            onChange={(e) => {
+              const updated = [...items];
+              updated[i] = e.target.value;
+              onChange(updated);
+            }}
+            placeholder={placeholder}
+            className="flex-1"
+          />
+          <Button variant="ghost" size="sm" className="h-10 w-10 p-0 text-red-400 hover:text-red-600" onClick={() => onChange(items.filter((_, idx) => idx !== i))}>
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
+      ))}
+      <Button variant="outline" size="sm" className="gap-1" onClick={() => onChange([...items, ""])}>
+        <Plus className="w-3 h-3" /> Add Item
+      </Button>
+    </div>
+  );
+}
 
 function getLessonTier(lessonId: string): string {
   if (lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
@@ -256,6 +291,9 @@ export default function LessonDetail() {
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState<LessonContent | null>(null);
+  const [saving, setSaving] = useState(false);
   const { toast } = useToast();
   const { user, hasAccess } = useAuth();
 
@@ -267,9 +305,81 @@ export default function LessonDetail() {
     return () => window.removeEventListener("regionChange", handleRegionChange);
   }, []);
 
-  const lessonContent = useMemo(() => {
+  const baseLesson = useMemo(() => {
     return contentMap[id as string] || contentMap["neuro-basics"];
   }, [id]);
+
+  const [overrides, setOverrides] = useState<Partial<LessonContent> | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      fetch(`/api/lesson-overrides/${id}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data && Object.keys(data).length > 0) {
+            setOverrides(data);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [id]);
+
+  const lessonContent = useMemo(() => {
+    if (!overrides) return baseLesson;
+    return { ...baseLesson, ...overrides } as LessonContent;
+  }, [baseLesson, overrides]);
+
+  const startEditing = () => {
+    const data = JSON.parse(JSON.stringify(lessonContent));
+    if (!data.riskFactors) data.riskFactors = [];
+    if (!data.diagnostics) data.diagnostics = [];
+    if (!data.management) data.management = [];
+    if (!data.nursingActions) data.nursingActions = [];
+    if (!data.lifespan) data.lifespan = { title: "Across the Lifespan", content: "" };
+    setEditData(data);
+    setIsEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setEditData(null);
+    setIsEditing(false);
+  };
+
+  const saveEdits = async () => {
+    if (!editData || !id) return;
+    setSaving(true);
+    try {
+      const diff: Record<string, any> = {};
+      const fields: (keyof LessonContent)[] = ["cellular", "riskFactors", "diagnostics", "management", "nursingActions", "lifespan", "signs", "medications", "pearls"];
+      for (const field of fields) {
+        const editVal = editData[field];
+        const baseVal = baseLesson[field];
+        if (JSON.stringify(editVal) !== JSON.stringify(baseVal)) {
+          diff[field] = editVal;
+        }
+      }
+
+      const res = await fetch(`/api/lesson-overrides/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "x-user-tier": user?.tier || "" },
+        body: JSON.stringify(diff),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Save failed");
+      }
+      setOverrides(Object.keys(diff).length > 0 ? diff : null);
+      setIsEditing(false);
+      setEditData(null);
+      toast({ title: "Saved", description: "Lesson content updated successfully" });
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message || "Failed to save changes", variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const ed = isEditing && editData ? editData : null;
 
   const lessonTier = getLessonTier(id || "");
   const userHasAccess = canAccessTier(user?.tier, lessonTier);
@@ -485,16 +595,16 @@ export default function LessonDetail() {
                  </div>
                )}
                <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
-               {user?.tier === "admin" && (
+               {user?.tier === "admin" && !isEditing && (
                  <Button
                    variant="outline"
                    size="sm"
                    className="gap-2 text-xs"
-                   onClick={() => navigate(`/content-editor?lesson=${id}`)}
+                   onClick={startEditing}
                    data-testid="button-admin-edit-lesson"
                  >
                    <Pencil className="w-3 h-3" />
-                   Edit Lesson
+                   Edit Inline
                  </Button>
                )}
             </div>
@@ -577,19 +687,43 @@ export default function LessonDetail() {
                   </a>
                 ))}
               </nav>
+              {isEditing && (
+                <div className="sticky top-0 z-50 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between shadow-lg mb-6" data-testid="bar-inline-editing">
+                  <div className="flex items-center gap-2 text-amber-800 font-medium">
+                    <Pencil className="w-4 h-4" />
+                    Editing Mode - Changes save to database overrides
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={cancelEditing} className="gap-1" data-testid="button-cancel-edit">
+                      <X className="w-3 h-3" /> Cancel
+                    </Button>
+                    <Button size="sm" onClick={saveEdits} disabled={saving} className="gap-1" data-testid="button-save-edit">
+                      <Save className="w-3 h-3" /> {saving ? "Saving..." : "Save Changes"}
+                    </Button>
+                  </div>
+                </div>
+              )}
               <div className="space-y-12">
                 <section id="pathophysiology" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <Microscope className="text-primary w-8 h-8" />
-                    <h2>{lessonContent.cellular.title}</h2>
+                    {ed ? (
+                      <EditableText value={ed.cellular.title} onChange={(v) => setEditData({ ...ed, cellular: { ...ed.cellular, title: v } })} className="text-2xl font-bold" />
+                    ) : (
+                      <h2>{lessonContent.cellular.title}</h2>
+                    )}
                   </div>
                   <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
-                  <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700 whitespace-pre-wrap">
-                    {lessonContent.cellular.content}
+                  <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700">
+                    {ed ? (
+                      <EditableText value={ed.cellular.content} onChange={(v) => setEditData({ ...ed, cellular: { ...ed.cellular, content: v } })} multiline className="min-h-[200px]" />
+                    ) : (
+                      <div className="whitespace-pre-wrap">{lessonContent.cellular.content}</div>
+                    )}
                   </div>
                 </section>
 
-                {lessonContent.riskFactors && lessonContent.riskFactors.length > 0 && (
+                {(ed || (lessonContent.riskFactors && lessonContent.riskFactors.length > 0)) ? (
                   <section id="risk-factors" data-testid="section-risk-factors" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ShieldAlert className="text-rose-500 w-8 h-8" />
@@ -598,20 +732,24 @@ export default function LessonDetail() {
                     <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
                     <Card className="border-none shadow-sm bg-rose-50/60">
                       <CardContent className="p-8">
-                        <div className="grid sm:grid-cols-2 gap-3">
-                          {lessonContent.riskFactors.map((rf, i) => (
-                            <div key={i} className="flex items-start gap-2 text-gray-700">
-                              <div className="w-2 h-2 rounded-full bg-rose-400 mt-2 shrink-0" />
-                              <span>{rf}</span>
-                            </div>
-                          ))}
-                        </div>
+                        {ed ? (
+                          <EditableList items={ed.riskFactors || []} onChange={(items) => setEditData({ ...ed, riskFactors: items })} placeholder="Risk factor..." />
+                        ) : (
+                          <div className="grid sm:grid-cols-2 gap-3">
+                            {lessonContent.riskFactors!.map((rf, i) => (
+                              <div key={i} className="flex items-start gap-2 text-gray-700">
+                                <div className="w-2 h-2 rounded-full bg-rose-400 mt-2 shrink-0" />
+                                <span>{rf}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   </section>
-                )}
+                ) : null}
 
-                {lessonContent.diagnostics && lessonContent.diagnostics.length > 0 && (
+                {(ed || (lessonContent.diagnostics && lessonContent.diagnostics.length > 0)) ? (
                   <section id="diagnostics" data-testid="section-diagnostics" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Search className="text-cyan-600 w-8 h-8" />
@@ -620,20 +758,24 @@ export default function LessonDetail() {
                     <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
                     <Card className="border-none shadow-sm bg-cyan-50/60">
                       <CardContent className="p-8">
-                        <div className="grid sm:grid-cols-2 gap-3">
-                          {lessonContent.diagnostics.map((d, i) => (
-                            <div key={i} className="flex items-start gap-2 text-gray-700">
-                              <div className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0" />
-                              <span>{d}</span>
-                            </div>
-                          ))}
-                        </div>
+                        {ed ? (
+                          <EditableList items={ed.diagnostics || []} onChange={(items) => setEditData({ ...ed, diagnostics: items })} placeholder="Diagnostic finding..." />
+                        ) : (
+                          <div className="grid sm:grid-cols-2 gap-3">
+                            {lessonContent.diagnostics!.map((d, i) => (
+                              <div key={i} className="flex items-start gap-2 text-gray-700">
+                                <div className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0" />
+                                <span>{d}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   </section>
-                )}
+                ) : null}
 
-                {lessonContent.management && lessonContent.management.length > 0 && (
+                {(ed || (lessonContent.management && lessonContent.management.length > 0)) ? (
                   <section id="management" data-testid="section-management" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-emerald-600 w-8 h-8" />
@@ -642,22 +784,26 @@ export default function LessonDetail() {
                     <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
                     <Card className="border-none shadow-sm bg-emerald-50/60">
                       <CardContent className="p-8">
-                        <ul className="space-y-3">
-                          {lessonContent.management.map((m, i) => (
-                            <li key={i} className="flex items-start gap-3 text-gray-700">
-                              <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
-                                <span className="text-emerald-700 text-xs font-bold">{i + 1}</span>
-                              </div>
-                              <span>{m}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {ed ? (
+                          <EditableList items={ed.management || []} onChange={(items) => setEditData({ ...ed, management: items })} placeholder="Management step..." />
+                        ) : (
+                          <ul className="space-y-3">
+                            {lessonContent.management!.map((m, i) => (
+                              <li key={i} className="flex items-start gap-3 text-gray-700">
+                                <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
+                                  <span className="text-emerald-700 text-xs font-bold">{i + 1}</span>
+                                </div>
+                                <span>{m}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </CardContent>
                     </Card>
                   </section>
-                )}
+                ) : null}
 
-                {lessonContent.nursingActions && lessonContent.nursingActions.length > 0 && (
+                {(ed || (lessonContent.nursingActions && lessonContent.nursingActions.length > 0)) ? (
                   <section id="nursing-actions" data-testid="section-nursing-actions" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <HeartPulse className="text-violet-600 w-8 h-8" />
@@ -666,28 +812,36 @@ export default function LessonDetail() {
                     <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
                     <Card className="border-none shadow-sm bg-violet-50/60">
                       <CardContent className="p-8">
-                        <ul className="space-y-3">
-                          {lessonContent.nursingActions.map((na, i) => (
-                            <li key={i} className="flex items-start gap-3 text-gray-700">
-                              <HeartPulse className="w-4 h-4 text-violet-500 mt-1 shrink-0" />
-                              <span>{na}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {ed ? (
+                          <EditableList items={ed.nursingActions || []} onChange={(items) => setEditData({ ...ed, nursingActions: items })} placeholder="Nursing action..." />
+                        ) : (
+                          <ul className="space-y-3">
+                            {lessonContent.nursingActions!.map((na, i) => (
+                              <li key={i} className="flex items-start gap-3 text-gray-700">
+                                <HeartPulse className="w-4 h-4 text-violet-500 mt-1 shrink-0" />
+                                <span>{na}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </CardContent>
                     </Card>
                   </section>
-                )}
+                ) : null}
 
-                {lessonContent.lifespan && (
+                {(ed || lessonContent.lifespan) && (
                   <section id="lifespan" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Users className="text-indigo-500 w-8 h-8" />
                       <h2>Across the Lifespan</h2>
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
-                    <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900 italic">
-                      {lessonContent.lifespan.content}
+                    <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900">
+                      {ed && ed.lifespan ? (
+                        <EditableText value={ed.lifespan.content} onChange={(v) => setEditData({ ...ed, lifespan: { ...ed.lifespan!, content: v } })} multiline className="min-h-[120px]" />
+                      ) : (
+                        <span className="italic">{lessonContent.lifespan!.content}</span>
+                      )}
                     </div>
                   </section>
                 )}
@@ -705,14 +859,18 @@ export default function LessonDetail() {
                           <AlertCircle className="text-blue-500 w-6 h-6" />
                           <h3>Clinical Findings</h3>
                         </div>
-                        <ul className="space-y-2">
-                          {lessonContent.signs.left.map((s, i) => (
-                            <li key={i} className="flex items-center gap-2 text-gray-600">
-                              <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                              {s}
-                            </li>
-                          ))}
-                        </ul>
+                        {ed ? (
+                          <EditableList items={ed.signs.left} onChange={(items) => setEditData({ ...ed, signs: { ...ed.signs, left: items } })} placeholder="Clinical finding..." />
+                        ) : (
+                          <ul className="space-y-2">
+                            {lessonContent.signs.left.map((s, i) => (
+                              <li key={i} className="flex items-center gap-2 text-gray-600">
+                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                                {s}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </CardContent>
                     </Card>
                     <Card className="border-none shadow-md bg-white border-l-4 border-l-orange-400">
@@ -721,14 +879,18 @@ export default function LessonDetail() {
                           <AlertCircle className="text-orange-500 w-6 h-6" />
                           <h3>Red Flags: When to Escalate</h3>
                         </div>
-                        <ul className="space-y-2">
-                          {lessonContent.signs.right.map((s, i) => (
-                            <li key={i} className="flex items-center gap-2 text-gray-600">
-                              <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                              {s}
-                            </li>
-                          ))}
-                        </ul>
+                        {ed ? (
+                          <EditableList items={ed.signs.right} onChange={(items) => setEditData({ ...ed, signs: { ...ed.signs, right: items } })} placeholder="Red flag..." />
+                        ) : (
+                          <ul className="space-y-2">
+                            {lessonContent.signs.right.map((s, i) => (
+                              <li key={i} className="flex items-center gap-2 text-gray-600">
+                                <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                                {s}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </CardContent>
                     </Card>
                   </div>
@@ -741,29 +903,62 @@ export default function LessonDetail() {
                   </div>
                   <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
                   <div className="space-y-4">
-                    {lessonContent.medications.map((med, i) => (
+                    {(ed || lessonContent).medications.map((med, i) => (
                       <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
-                        <div className="bg-primary/5 px-6 py-3 border-b border-primary/10">
-                          <span className="font-bold text-gray-900">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
+                        <div className="bg-primary/5 px-6 py-3 border-b border-primary/10 flex items-center justify-between">
+                          {ed ? (
+                            <div className="flex gap-2 flex-1">
+                              <Input value={med.name} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], name: e.target.value }; setEditData({ ...ed, medications: meds }); }} placeholder="Drug name" className="font-bold w-40" />
+                              <Input value={med.type} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], type: e.target.value }; setEditData({ ...ed, medications: meds }); }} placeholder="Type" className="w-32" />
+                              <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-600" onClick={() => { const meds = ed.medications.filter((_, idx) => idx !== i); setEditData({ ...ed, medications: meds }); }}>
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <div>
+                              <span className="font-bold text-gray-900">{med.name}</span> <span className="text-gray-500 text-sm">({med.type})</span>
+                            </div>
+                          )}
                         </div>
                         <CardContent className="p-6 grid md:grid-cols-2 gap-6">
                           <div className="space-y-2">
                             <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
-                            <p className="text-gray-700">{med.action}</p>
+                            {ed ? (
+                              <Textarea value={med.action} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], action: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="min-h-[60px]" />
+                            ) : (
+                              <p className="text-gray-700">{med.action}</p>
+                            )}
                             <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
-                            <p className="text-gray-700">{med.sideEffects}</p>
+                            {ed ? (
+                              <Textarea value={med.sideEffects} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], sideEffects: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="min-h-[60px]" />
+                            ) : (
+                              <p className="text-gray-700">{med.sideEffects}</p>
+                            )}
                           </div>
                           <div className="space-y-2">
                             <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
-                            <p className="text-gray-700">{med.contra}</p>
+                            {ed ? (
+                              <Textarea value={med.contra} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], contra: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="min-h-[60px]" />
+                            ) : (
+                              <p className="text-gray-700">{med.contra}</p>
+                            )}
                             <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2">
                               <Lightbulb className="w-5 h-5 text-yellow-600 shrink-0" />
-                              <p className="text-sm text-yellow-800 font-medium">Pearl: {med.pearl}</p>
+                              {ed ? (
+                                <Input value={med.pearl} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], pearl: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="text-sm" />
+                              ) : (
+                                <p className="text-sm text-yellow-800 font-medium">Pearl: {med.pearl}</p>
+                              )}
                             </div>
                           </div>
                         </CardContent>
                       </Card>
                     ))}
+                    {ed && (
+                      <Button variant="outline" className="gap-2" onClick={() => setEditData({ ...ed, medications: [...ed.medications, { name: "", type: "", action: "", sideEffects: "", contra: "", pearl: "" }] })}>
+                        <Plus className="w-4 h-4" /> Add Medication
+                      </Button>
+                    )}
                   </div>
                 </section>
 
@@ -775,14 +970,18 @@ export default function LessonDetail() {
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                       <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Logic</h4>
-                      <ul className="space-y-2 text-gray-300">
-                        {lessonContent.pearls.map((p, i) => (
-                          <li key={i} className="flex gap-2">
-                            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                            {p}
-                          </li>
-                        ))}
-                      </ul>
+                      {ed ? (
+                        <EditableList items={ed.pearls} onChange={(items) => setEditData({ ...ed, pearls: items })} placeholder="Exam pearl..." />
+                      ) : (
+                        <ul className="space-y-2 text-gray-300">
+                          {lessonContent.pearls.map((p, i) => (
+                            <li key={i} className="flex gap-2">
+                              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                              {p}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                     <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                       <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Common Exam Traps</h4>

@@ -1,8 +1,8 @@
 import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { sql } from "drizzle-orm";
-import { storage, DatabaseStorage } from "./storage";
-import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema, insertContentItemSchema } from "@shared/schema";
+import { storage, DatabaseStorage, pool } from "./storage";
+import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema, insertContentItemSchema, lessonOverrides } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 import { generateBlogPost, runBlogScheduler } from "./blog-automation";
@@ -689,6 +689,48 @@ export async function registerRoutes(
         return res.status(403).json({ error: "Admin access required" });
       }
       await storage.deleteContentItem(req.params.id);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/lesson-overrides/:lessonId", async (req, res) => {
+    try {
+      const { lessonId } = req.params;
+      const result = await pool.query(`SELECT overrides FROM lesson_overrides WHERE lesson_id = $1`, [lessonId]);
+      if (result.rows.length > 0) {
+        res.json(result.rows[0].overrides || {});
+      } else {
+        res.json({});
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/lesson-overrides/:lessonId", async (req, res) => {
+    try {
+      const authHeader = req.headers["x-user-tier"] as string;
+      if (authHeader !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const { lessonId } = req.params;
+      const overrides = req.body;
+      if (!overrides || typeof overrides !== "object") {
+        return res.status(400).json({ error: "Invalid overrides data" });
+      }
+      const cleanOverrides = Object.fromEntries(
+        Object.entries(overrides).filter(([_, v]) => v !== null && v !== undefined)
+      );
+      if (Object.keys(cleanOverrides).length === 0) {
+        await pool.query(`DELETE FROM lesson_overrides WHERE lesson_id = $1`, [lessonId]);
+      } else {
+        await pool.query(
+          `INSERT INTO lesson_overrides (lesson_id, overrides, updated_at) VALUES ($1, $2, NOW()) ON CONFLICT (lesson_id) DO UPDATE SET overrides = $2, updated_at = NOW()`,
+          [lessonId, JSON.stringify(cleanOverrides)]
+        );
+      }
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });

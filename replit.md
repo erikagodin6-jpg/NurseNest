@@ -45,6 +45,7 @@ Preferred communication style: Simple, everyday language.
     - **Medication Mastery Engine**: Mechanism-first drug explorer with receptor/pathway effects.
 - **Admin Features**: Dashboard (`/admin`) for user analytics, subscriptions, activity, content popularity, and blog automation controls.
 - **Admin Preview Mode**: Admin users can preview the platform as free/rpn/rn/np users via dropdown in navigation.
+- **Inline Lesson Editing**: Admin users can edit lesson content directly on lesson detail pages without navigating to a separate editor. Edits are stored as JSON overrides in `lesson_overrides` table and merged with static TypeScript lesson data at render time. Supports editing all sections: pathophysiology, risk factors, diagnostics, management, nursing actions, lifespan, clinical findings, medications, and exam pearls.
 - **Blog Automation**: OpenAI-powered blog post generation with APA7/MLA citation support, auto-scheduler (2x/day for 120 days, then 1x/day for 100 days), admin controls in dashboard.
 - **Custom Flashcards**: Users can create, edit, delete, and study their own flashcards stored in PostgreSQL (`user_flashcards` table). Accessible from profile page with flip-card study mode.
 - **Tier Isolation**: Access is EXCLUSIVE not hierarchical. RPN users see only RPN content, RN sees only RN, NP sees only NP. Admin sees all. Free/unauthenticated users see all tabs.
@@ -60,7 +61,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL.
-- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`, `user_flashcards`, `blog_config`, `feature_usage`.
+- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`, `user_flashcards`, `blog_config`, `feature_usage`, `lesson_overrides`.
 - **Validation**: Zod schemas generated from Drizzle.
 
 ### Content Architecture
