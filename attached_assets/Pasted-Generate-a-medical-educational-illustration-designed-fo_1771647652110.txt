@@ -1,0 +1,67 @@
+Generate a medical educational illustration designed for the NurseNest learning platform. The illustration must follow a consistent visual identity suitable for nursing students and clinical education materials across lessons, flashcards, quizzes, mock exams, and study modules.
+Global visual style:
+• Flat clean 2-D vector illustration
+• Soft pastel clinical aesthetic
+• Palette dominated by blush pinks, soft corals, warm creams, lavender, pale blues
+• Extremely soft gradients and airbrush shading
+• Rounded edges and smooth shapes
+• Minimalist, modern, polished appearance
+• White or very light pastel background
+• No photorealism, no texture noise, no gritty effects
+• Calm, friendly, academic tone
+Educational design language:
+• Designed for a professional nursing education website
+• Visually cohesive with modern e-learning interfaces
+• Soft hierarchy, balanced spacing, clean composition
+• Clear focal subject
+• Subtle depth without realism
+• Cute but clinically serious presentation
+Subject rendering rules:
+• Anatomy must remain clinically and structurally accurate
+• No exaggerated cartoon distortion that breaks realism
+• No grotesque or horror styling
+• No unnecessary visual clutter
+• Simplified forms but medically plausible
+Typography & labeling system:
+• Clean nursing-education infographic style
+• Minimal text, short clinical labels only
+• Soft rounded sans-serif appearance
+• Labels inside soft pastel containers or bubbles
+• Thin dashed leader lines
+• Harmonized with illustration
+Content intent:
+The image must function as a nursing study aid, not decorative art.
+It should visually clarify a clinical concept, pathology, assessment finding, physiologic mechanism, or comparison relevant to nursing education and licensing exams.
+Graphic usage context:
+This illustration may be used inside:
+• Lesson pages
+• Flashcards
+• Exam questions
+• Case scenarios
+• Concept summaries
+• Review modules
+Therefore clarity, simplicity, and instructional usefulness are mandatory.
+Lighting & mood:
+• Soft lighting
+• Gentle gradients
+• Clean, reassuring, cognitively easy to process
+Strict exclusions:
+• No photorealistic rendering
+• No dark dramatic lighting
+• No harsh contrast
+• No realistic skin texture
+• No noise or grain
+• No 3-D effects
+Clinical subject:
+[INSERT LESSON OR CONCEPT HERE]
+Examples:
+• Cellular injury mechanisms
+• Heart failure pathophysiology
+• Pediatric ECG interpretation
+• Shock states
+• Acid–base disorders
+• Skin lesions
+• Pharmacology mechanisms
+• Hemodynamics
+Negative Prompt (Use When Supported)
+photorealistic, realistic photography, 3D, hyperrealistic skin, dark lighting, horror, gritty, grain, noise, harsh shadows, dramatic realism, textured rendering
