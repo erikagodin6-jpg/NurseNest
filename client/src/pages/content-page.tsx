@@ -271,6 +271,27 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
         </Card>
       );
 
+    case "references":
+      return (
+        <div className="my-6 border-t border-gray-200 pt-6" data-testid="references-section">
+          <ol className="space-y-3 pl-0 list-none">
+            {getBlockItems(block).map((ref, i) => (
+              <li key={i} className="text-sm text-gray-700 leading-relaxed pl-8 relative" style={{ textIndent: "-2rem", paddingLeft: "2rem" }}>
+                {ref.split(/(\*[^*]+\*)/g).map((part, j) =>
+                  part.startsWith("*") && part.endsWith("*")
+                    ? <em key={j}>{part.slice(1, -1)}</em>
+                    : part.includes("https://") 
+                      ? <span key={j}>{part.split(/(https?:\/\/[^\s]+)/g).map((seg, k) =>
+                          seg.startsWith("http") ? <a key={k} href={seg} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">{seg}</a> : seg
+                        )}</span>
+                      : <span key={j}>{part}</span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+      );
+
     default:
       return (
         <p className="text-gray-700 leading-relaxed mb-4">{content}</p>
@@ -280,7 +301,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
 
 const BLOCK_TYPES = [
   "heading", "paragraph", "list", "clinical-pearl", "medication",
-  "warning", "quiz-question", "callout", "flashcard",
+  "warning", "quiz-question", "callout", "flashcard", "references",
 ];
 
 const TIER_OPTIONS = ["free", "rpn", "rn", "np"];

@@ -161,25 +161,43 @@ Requirements:
 
   const parsed = JSON.parse(response.choices[0]?.message?.content || "{}");
 
+  function stripDashes(str: string): string {
+    return str
+      .replace(/\u2014/g, ", ")
+      .replace(/\u2013/g, " to ")
+      .replace(/—/g, ", ")
+      .replace(/–/g, " to ")
+      .replace(/\s*--\s*/g, ", ");
+  }
+
   if (parsed.content && Array.isArray(parsed.content)) {
     parsed.content = parsed.content.map((block: any) => {
-      if (block.text) block.text = block.text.replace(/\u2014/g, "; ").replace(/\u2013/g, "-").replace(/—/g, "; ").replace(/–/g, "-");
-      if (block.content) block.content = block.content.replace(/\u2014/g, "; ").replace(/\u2013/g, "-").replace(/—/g, "; ").replace(/–/g, "-");
+      if (block.text) block.text = stripDashes(block.text);
+      if (block.content) block.content = stripDashes(block.content);
       if (block.items && Array.isArray(block.items)) {
-        block.items = block.items.map((item: string) => item.replace(/\u2014/g, "; ").replace(/\u2013/g, "-").replace(/—/g, "; ").replace(/–/g, "-"));
+        block.items = block.items.map((item: string) => stripDashes(item));
       }
       return block;
     });
   }
 
+  if (parsed.title) parsed.title = stripDashes(parsed.title);
+  if (parsed.summary) parsed.summary = stripDashes(parsed.summary);
+
   const formattedCitations = parsed.citations
     ? formatCitations(parsed.citations, citationStyle)
     : "";
 
-  if (formattedCitations) {
+  if (parsed.citations && Array.isArray(parsed.citations) && parsed.citations.length > 0) {
+    const referenceItems = parsed.citations.map((c: any) => {
+      if (citationStyle === "apa7") {
+        return formatAPA7Citation(c.author, c.year, c.title, c.source, c.url);
+      }
+      return formatMLACitation(c.author, c.title, c.source, c.year, c.url);
+    });
     parsed.content.push(
       { type: "heading", text: citationStyle === "apa7" ? "References (APA 7th Edition)" : "Works Cited (MLA)" },
-      { type: "paragraph", text: formattedCitations }
+      { type: "references", items: referenceItems }
     );
   }
 
