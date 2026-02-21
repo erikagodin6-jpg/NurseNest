@@ -1,0 +1,149 @@
+Design a structured curriculum roadmap for a "Clinical Practice & Floor Training" section of NurseNest.
+
+Audience:
+- New graduates
+- Early-career nurses
+- Specialty transitions
+
+Goals:
+- Reduce clinical anxiety
+- Improve safety and prioritization
+- Reinforce real-world decision patterns
+
+Provide:
+- Module progression structure
+- Difficulty evolution
+- Competency themes
+- High-risk topics
+- Retention loops
+
+Emphasize realism and nurse cognitive load.
+Fix this build error by keeping CommonJS output and removing top-level await.
+
+Implement:
+- Replace top-level await in server/index.ts with an async main() function
+- Call main().catch(...) and ensure server starts only after awaited initialization completes
+- Keep esbuild output format as "cjs"
+- Ensure script/build.ts can compile without top-level await too (wrap build in async function or remove TLA)
+
+Return diffs for server/index.ts and script/build.ts and any other files needed.
+
+You are a senior assessment engineer + nursing educator building a premium question bank and practice exam system for NurseNest.
+
+PRODUCT GOAL:
+Create high-fidelity RPN (REX-PN), RN (NCLEX), and NP practice exams and a question bank with rationales that teach clinical reasoning (not just answers). The system must feel exam-realistic without copying any specific vendor UI.
+
+SCOPE:
+Build BOTH:
+1) A question bank system (topic filtering, difficulty, modes, analytics)
+2) Practice exams (timed, exam-mode, adaptive options, review and remediation)
+
+TECH STACK:
+Next.js (App Router) + TypeScript + Tailwind + PostgreSQL (or SQLite if easier) + Prisma ORM.
+If auth exists, integrate; otherwise stub user IDs.
+
+REQUIREMENTS:
+
+A) QUESTION DATA MODEL
+Design a schema that supports:
+- Multiple tiers: RPN / RN / NP
+- Question types:
+  - Single best answer (SBA)
+  - Select-all-that-apply (SATA)
+  - Ordered response (drag order)
+  - Fill-in-the-blank numeric (med math)
+  - Case-based NGN-style items (for RN tier)
+- Metadata:
+  - system/topic/subtopic
+  - difficulty (beginner/easy/moderate/hard)
+  - clinical setting (med-surg, peds, ICU, ER, maternity, etc.)
+  - cognitive skill (recall, application, analysis, prioritization, delegation)
+  - safety level (critical/non-critical)
+  - tags (e.g., anticoagulants, sepsis, postpartum hemorrhage)
+  - references (optional)
+- Answer logic:
+  - correct option(s)
+  - partial credit rules (for SATA/ordered)
+- Rationales:
+  - correct rationale
+  - why each wrong option is wrong
+  - key teaching points
+  - exam-trap notes (what wording misleads students)
+
+B) QUESTION AUTHORING PIPELINE
+Build an authoring workflow:
+- JSON import/export for questions
+- Admin UI (basic) to create/edit questions
+- Validation to prevent bad questions (missing correct answers, duplicate options, etc.)
+- Versioning or "draft/published" state
+
+C) QUESTION BANK UI
+Create pages/components:
+- /qbank
+  - filters: tier, topic, difficulty, question type, setting
+  - “study sets” saved by user
+  - “mastery” score per topic
+- Study modes:
+  - Tutor Mode (feedback after each question)
+  - Exam Mode (no feedback until end)
+- After answering:
+  - show rationale
+  - allow flagging “difficult”
+  - add to “review later”
+  - track time per question
+
+D) PRACTICE EXAMS
+Create:
+- /exams
+  - exam builder: choose tier, length (25/50/75/125), topics, difficulty mix
+  - timed mode + pause rules (pause allowed only in tutor mode)
+  - scoring at end with breakdown by topic + cognitive skill
+  - remediation plan: recommend lessons + targeted question sets
+
+E) ANALYTICS / REPORTS
+Track:
+- accuracy by topic
+- streaks
+- time-per-question
+- weakest areas
+- flagged questions
+- missed critical safety concepts
+
+F) CONTENT GENERATION (IMPORTANT)
+Also create an AI-assisted content generator prompt + JSON format for new questions.
+
+Constraints:
+- Do NOT copy any proprietary question stems verbatim.
+- Questions must be original and scenario-based.
+- Use Canadian context where relevant (units, meds naming acceptable, PHIPA vs HIPAA differences).
+- Keep scope appropriate per tier (RPN vs RN vs NP).
+- Make questions challenging and realistic with plausible distractors.
+
+DELIVERABLES:
+1) Prisma schema (or SQL) for questions, attempts, exams, user progress
+2) Next.js routes/pages/components for QBank + Exams + Review
+3) Seed script with sample questions (at least 30 across multiple topics and question types)
+4) Admin authoring UI (minimal but functional)
+5) JSON format specification for importing/exporting questions
+6) A separate prompt that generates new questions in that JSON format
+
+Output copy/paste-ready code with file paths and instructions to run migrations and seed data.
+Do not hand-wave; implement the core features end-to-end.
+You are a nursing question writer generating original exam-style items for NurseNest.
+
+Generate 50 questions for the RPN (REX-PN) tier on these topics: [list topics].
+
+Rules:
+- Output ONLY valid JSON in the schema provided below (no commentary).
+- Include a realistic clinical vignette, question, options, correct answer(s), rationales:
+  - Correct rationale
+  - Why each distractor is wrong
+  - Key teaching points
+  - Exam trap note
+- Use a mix of SBA and SATA.
+- Difficulty distribution: 20% easy, 60% moderate, 20% hard.
+- Avoid brand/proprietary question phrasing.
+- Ensure every question tests clinical reasoning and safety.
+
+JSON SCHEMA:
+[PASTE YOUR SCHEMA HERE]

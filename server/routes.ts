@@ -729,11 +729,12 @@ export async function registerRoutes(
       if (!user || user.password !== password || user.tier !== "admin") {
         return res.status(403).json({ error: "Admin access required" });
       }
-      const { citationStyle, postsPerDay, isActive } = req.body;
+      const { citationStyle, postsPerDay, isActive, dayCount } = req.body;
       const updates: any = {};
       if (citationStyle !== undefined) updates.citationStyle = citationStyle;
       if (postsPerDay !== undefined) updates.postsPerDay = postsPerDay;
       if (isActive !== undefined) updates.isActive = isActive;
+      if (dayCount !== undefined) updates.dayCount = dayCount;
       const config = await storage.upsertBlogConfig(updates);
       res.json(config);
     } catch (e: any) {

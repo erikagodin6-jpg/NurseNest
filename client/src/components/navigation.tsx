@@ -336,6 +336,12 @@ export function Navigation() {
                       Admin Dashboard
                     </Button>
                   </SheetClose>
+                  <SheetClose asChild>
+                    <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/content-editor")} data-testid="button-content-editor-mobile">
+                      <FileText className="w-4 h-4" />
+                      Content Editor
+                    </Button>
+                  </SheetClose>
                 </>
               )}
               {isAdmin && (
@@ -607,6 +613,10 @@ export function Navigation() {
                     <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/admin")} data-testid="button-admin-nav">
                       <Shield className="w-4 h-4 mr-1" />
                       Admin
+                    </Button>
+                    <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/content-editor")} data-testid="button-content-editor-nav">
+                      <FileText className="w-4 h-4 mr-1" />
+                      Editor
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

@@ -19,9 +19,12 @@ import {
   ArrowLeft,
   Trophy,
   History,
-  Trash2
+  Trash2,
+  Pencil
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
+import { useLocation } from "wouter";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
@@ -950,6 +953,8 @@ const allCards: Flashcard[] = [
 ];
 
 export default function Flashcards() {
+  const { user } = useAuth();
+  const [, setLocation] = useLocation();
   const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -1047,6 +1052,18 @@ export default function Flashcards() {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight" data-testid="text-flashcard-heading">Clinical Review & Exam Practice</h1>
             <p className="text-gray-600" data-testid="text-flashcard-subheading">Build your session. Select topics and question formats to target your weakest areas.</p>
+            {user?.tier === "admin" && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 text-xs mt-3"
+                onClick={() => setLocation("/content-editor")}
+                data-testid="button-admin-manage-flashcards"
+              >
+                <Pencil className="w-3 h-3" />
+                Manage Content
+              </Button>
+            )}
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">

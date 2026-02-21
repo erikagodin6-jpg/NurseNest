@@ -21,6 +21,7 @@ import {
   ChevronUp,
   Shield,
   RefreshCw,
+  Layers,
 } from "lucide-react";
 
 type AdminData = {
@@ -296,6 +297,24 @@ export default function AdminPage() {
             <div>
               <h1 className="text-3xl font-bold text-gray-900" data-testid="text-admin-title">Admin Dashboard</h1>
               <p className="text-gray-500 mt-1">Platform analytics and user management</p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/content-editor")} data-testid="button-admin-content-editor">
+                  <FileText className="w-3 h-3" />
+                  Content Editor
+                </Button>
+                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/lessons")} data-testid="button-admin-lessons">
+                  <BookOpen className="w-3 h-3" />
+                  Lessons
+                </Button>
+                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/flashcards")} data-testid="button-admin-flashcards">
+                  <Layers className="w-3 h-3" />
+                  Flashcards
+                </Button>
+                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/blog")} data-testid="button-admin-blog">
+                  <FileText className="w-3 h-3" />
+                  Blog
+                </Button>
+              </div>
             </div>
             <Button
               variant="outline"
@@ -637,43 +656,79 @@ export default function AdminPage() {
                     <CardHeader>
                       <CardTitle className="text-sm font-semibold text-gray-700">Blog Automation Settings</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                          <label className="text-xs text-gray-500 block mb-1">Status</label>
+                          <label className="text-xs text-gray-500 block mb-2">Automation Status</label>
                           <Button
                             size="sm"
                             variant={blogConfig?.isActive ? "default" : "outline"}
                             onClick={() => handleBlogConfigUpdate({ isActive: !blogConfig?.isActive })}
+                            className={blogConfig?.isActive ? "bg-green-600 hover:bg-green-700" : ""}
                             data-testid="button-toggle-blog-automation"
                           >
                             {blogConfig?.isActive ? "Active" : "Inactive"}
                           </Button>
                         </div>
                         <div>
-                          <label className="text-xs text-gray-500 block mb-1">Citation Style</label>
+                          <label className="text-xs text-gray-500 block mb-2">Citation Style</label>
                           <div className="flex gap-2">
                             <Button size="sm" variant={blogConfig?.citationStyle === "apa7" ? "default" : "outline"} onClick={() => handleBlogConfigUpdate({ citationStyle: "apa7" })} data-testid="button-apa7">APA 7</Button>
                             <Button size="sm" variant={blogConfig?.citationStyle === "mla" ? "default" : "outline"} onClick={() => handleBlogConfigUpdate({ citationStyle: "mla" })} data-testid="button-mla">MLA</Button>
                           </div>
                         </div>
+                        <div>
+                          <label className="text-xs text-gray-500 block mb-2">Posts Per Day</label>
+                          <div className="flex gap-2">
+                            {[1, 2, 3].map(n => (
+                              <Button
+                                key={n}
+                                size="sm"
+                                variant={(blogConfig?.postsPerDay || 2) === n ? "default" : "outline"}
+                                onClick={() => handleBlogConfigUpdate({ postsPerDay: n })}
+                                data-testid={`button-posts-per-day-${n}`}
+                              >
+                                {n}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 block mb-2">Reset Day Counter</label>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              if (confirm("Reset the day counter to 0? This will restart the posting schedule.")) {
+                                handleBlogConfigUpdate({ dayCount: 0 });
+                              }
+                            }}
+                            data-testid="button-reset-day-count"
+                          >
+                            Reset to Day 0
+                          </Button>
+                        </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-4 text-sm">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
                         <div>
-                          <span className="text-gray-500">Day Count:</span>{" "}
-                          <strong>{blogConfig?.dayCount || 0}</strong>
+                          <span className="text-xs text-gray-500 block">Day Count</span>
+                          <strong className="text-lg text-gray-900">{blogConfig?.dayCount || 0}</strong>
                         </div>
                         <div>
-                          <span className="text-gray-500">Total Posts:</span>{" "}
-                          <strong>{blogConfig?.totalPostsGenerated || 0}</strong>
+                          <span className="text-xs text-gray-500 block">Total Posts</span>
+                          <strong className="text-lg text-gray-900">{blogConfig?.totalPostsGenerated || 0}</strong>
                         </div>
                         <div>
-                          <span className="text-gray-500">Posts/Day:</span>{" "}
-                          <strong>{(blogConfig?.dayCount || 0) < 120 ? (blogConfig?.postsPerDay || 2) : 1}</strong>
+                          <span className="text-xs text-gray-500 block">Current Rate</span>
+                          <strong className="text-lg text-gray-900">{blogConfig?.postsPerDay || 2}/day</strong>
+                        </div>
+                        <div>
+                          <span className="text-xs text-gray-500 block">Last Post</span>
+                          <strong className="text-sm text-gray-900">{blogConfig?.lastPostAt ? formatDate(blogConfig.lastPostAt) : "Never"}</strong>
                         </div>
                       </div>
                       <p className="text-xs text-gray-400">
-                        Schedule: 2x/day for 120 days, then 1x/day for 100 days (220 total days)
+                        Default schedule: 2x/day for 120 days, then 1x/day for 100 days (220 total days). You can override the posts per day rate above.
                       </p>
                     </CardContent>
                   </Card>

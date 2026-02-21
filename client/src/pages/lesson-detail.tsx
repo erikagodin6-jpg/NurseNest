@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { 
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
-  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen
+  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
@@ -482,6 +482,18 @@ export default function LessonDetail() {
                  </div>
                )}
                <h1 className="text-5xl font-bold text-gray-900">{lessonContent.title}</h1>
+               {user?.tier === "admin" && (
+                 <Button
+                   variant="outline"
+                   size="sm"
+                   className="gap-2 text-xs"
+                   onClick={() => navigate(`/content-editor?lesson=${id}`)}
+                   data-testid="button-admin-edit-lesson"
+                 >
+                   <Pencil className="w-3 h-3" />
+                   Edit Lesson
+                 </Button>
+               )}
             </div>
             {(() => {
               const diff = getDifficulty(id || "");
