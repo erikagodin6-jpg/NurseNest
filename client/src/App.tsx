@@ -20,6 +20,7 @@ import AnatomyPage from "@/pages/anatomy";
 import TermsPage from "@/pages/terms";
 import PrivacyPage from "@/pages/privacy";
 import DisclaimerPage from "@/pages/disclaimer";
+import RefundPolicyPage from "@/pages/refund-policy";
 import StartFreePage from "@/pages/start-free";
 import AdminPage from "@/pages/admin";
 import ContentEditorPage from "@/pages/content-editor";
@@ -67,6 +68,7 @@ function Router() {
       <Route path="/terms" component={TermsPage} />
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/disclaimer" component={DisclaimerPage} />
+      <Route path="/refund-policy" component={RefundPolicyPage} />
       <Route component={NotFound} />
     </Switch>
   );
