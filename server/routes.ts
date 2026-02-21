@@ -986,5 +986,70 @@ export async function registerRoutes(
     await capturePaypalOrder(req, res);
   });
 
+  app.post("/api/track/pageview", async (req, res) => {
+    try {
+      const view = await storage.createPageView(req.body);
+      res.json(view);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/track/duration", async (req, res) => {
+    try {
+      const { sessionId, page, duration } = req.body;
+      await storage.updatePageViewDuration(sessionId, page, duration);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/site-analytics", async (req, res) => {
+    try {
+      const days = parseInt(req.query.days as string) || 30;
+      const analytics = await storage.getPageViewAnalytics(days);
+      res.json(analytics);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/feedback", async (req, res) => {
+    try {
+      const feedback = await storage.createFeedback(req.body);
+      res.json(feedback);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/feedback", async (req, res) => {
+    try {
+      const feedbackList = await storage.getAllFeedback();
+      res.json(feedbackList);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/feedback/:id", async (req, res) => {
+    try {
+      const updated = await storage.updateFeedback(req.params.id, req.body);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/feedback/:id/upvote", async (req, res) => {
+    try {
+      const updated = await storage.upvoteFeedback(req.params.id);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
