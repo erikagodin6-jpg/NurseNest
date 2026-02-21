@@ -159,7 +159,7 @@ export function Navigation() {
       return;
     }
     if (itemLabel === "Exams") {
-      setLocation("/med-math");
+      setLocation("/mock-exams");
       return;
     }
     toast({

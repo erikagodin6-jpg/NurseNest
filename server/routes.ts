@@ -861,6 +861,108 @@ export async function registerRoutes(
     }
   });
 
+  async function getAuthUser(req: any) {
+    const username = req.headers["x-username"] as string;
+    const password = req.headers["x-password"] as string;
+    if (!username || !password) return null;
+    const user = await storage.getUserByUsername(username);
+    if (!user || user.password !== password) return null;
+    return user;
+  }
+
+  app.post("/api/mock-exams/start", async (req, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { tier, totalQuestions, questions } = req.body;
+      if (!tier || !totalQuestions || !questions || !Array.isArray(questions)) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      const result = await pool.query(
+        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status) VALUES ($1, $2, $3, $4, 'in_progress') RETURNING id`,
+        [String(authUser.id), tier, totalQuestions, JSON.stringify(questions)]
+      );
+      res.json({ attemptId: result.rows[0].id });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/mock-exams/:attemptId/progress", async (req, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { attemptId } = req.params;
+      const { answers, flagged, timeSpent } = req.body;
+      const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
+      if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
+      await pool.query(
+        `UPDATE mock_exam_attempts SET answers = $1, flagged = $2, time_spent = $3 WHERE id = $4`,
+        [JSON.stringify(answers || {}), JSON.stringify(flagged || []), timeSpent || 0, attemptId]
+      );
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/mock-exams/:attemptId/complete", async (req, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { attemptId } = req.params;
+      const { answers, flagged, timeSpent, report } = req.body;
+      if (!answers || !report) return res.status(400).json({ error: "Missing required fields" });
+      const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
+      if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
+      await pool.query(
+        `UPDATE mock_exam_attempts SET status = 'completed', answers = $1, flagged = $2, time_spent = $3, report = $4, score = $5, completed_at = NOW() WHERE id = $6`,
+        [JSON.stringify(answers), JSON.stringify(flagged || []), timeSpent, JSON.stringify(report), report.score, attemptId]
+      );
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/mock-exams/history/:userId", async (req, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      if (String(authUser.id) !== req.params.userId && authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      const result = await pool.query(
+        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report FROM mock_exam_attempts WHERE user_id = $1 ORDER BY started_at DESC LIMIT 20`,
+        [req.params.userId]
+      );
+      res.json(result.rows);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/mock-exams/:attemptId", async (req, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      const { attemptId } = req.params;
+      const result = await pool.query(
+        `SELECT * FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/paypal/status", (req, res) => {
     res.json({ configured: isPaypalConfigured() });
   });

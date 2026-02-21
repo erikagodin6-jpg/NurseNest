@@ -43,6 +43,7 @@ Preferred communication style: Simple, everyday language.
     - **Clinical Clarity**: Explanations for "Why does X happen?" topics.
     - **Clinical Case Simulation Platform**: Branching decision cases with vitals, labs, and debriefing.
     - **Medication Mastery Engine**: Mechanism-first drug explorer with receptor/pathway effects.
+- **Mock Exam Engine**: Timed mock exams at `/mock-exams` with configurable tier (RPN/RN/NP), exam length (25/75/100/150), question flagging, pause/resume timer, question navigator, auto-save every 10s, post-exam report with score ring, body system breakdown, weak area analysis, question review with rationale, and score trend across attempts. Pages: `mock-exams.tsx`, `mock-exam-session.tsx`, `mock-exam-report.tsx`. Question pool from `client/src/lib/question-pool.ts` using stratified random sampling. Data stored in `mock_exam_attempts` table.
 - **Admin Features**: Dashboard (`/admin`) for user analytics, subscriptions, activity, content popularity, and blog automation controls.
 - **Admin Preview Mode**: Admin users can preview the platform as free/rpn/rn/np users via dropdown in navigation.
 - **Inline Lesson Editing**: Admin users can edit lesson content directly on lesson detail pages without navigating to a separate editor. Edits are stored as JSON overrides in `lesson_overrides` table and merged with static TypeScript lesson data at render time. Supports editing all sections: pathophysiology, risk factors, diagnostics, management, nursing actions, lifespan, clinical findings, medications, and exam pearls.
@@ -61,7 +62,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL.
-- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`, `user_flashcards`, `blog_config`, `feature_usage`, `lesson_overrides`.
+- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`, `user_flashcards`, `blog_config`, `feature_usage`, `lesson_overrides`, `mock_exam_attempts`.
 - **Validation**: Zod schemas generated from Drizzle.
 
 ### Content Architecture

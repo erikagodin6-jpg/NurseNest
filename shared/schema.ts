@@ -149,6 +149,30 @@ export const featureUsage = pgTable("feature_usage", {
 
 export type FeatureUsage = typeof featureUsage.$inferSelect;
 
+export const mockExamAttempts = pgTable("mock_exam_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  tier: text("tier").notNull().default("rpn"),
+  totalQuestions: integer("total_questions").notNull(),
+  status: text("status").notNull().default("in_progress"),
+  score: integer("score"),
+  timeSpent: integer("time_spent"),
+  questions: jsonb("questions").default(sql`'[]'::jsonb`),
+  answers: jsonb("answers").default(sql`'{}'::jsonb`),
+  flagged: jsonb("flagged").default(sql`'[]'::jsonb`),
+  report: jsonb("report").default(sql`'{}'::jsonb`),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertMockExamAttemptSchema = createInsertSchema(mockExamAttempts).omit({
+  id: true,
+  startedAt: true,
+});
+
+export type MockExamAttempt = typeof mockExamAttempts.$inferSelect;
+export type InsertMockExamAttempt = z.infer<typeof insertMockExamAttemptSchema>;
+
 export const lessonOverrides = pgTable("lesson_overrides", {
   lessonId: text("lesson_id").primaryKey(),
   overrides: jsonb("overrides").default(sql`'{}'::jsonb`),

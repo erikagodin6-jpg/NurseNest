@@ -34,6 +34,9 @@ import CaseSimulationPage from "@/pages/case-simulation";
 import MedicationMasteryPage from "@/pages/medication-mastery";
 import SimulatorsPage from "@/pages/simulators";
 import PreNursingPage from "@/pages/pre-nursing";
+import MockExamsPage from "@/pages/mock-exams";
+import MockExamSession from "@/pages/mock-exam-session";
+import MockExamReport from "@/pages/mock-exam-report";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 
 function Router() {
@@ -50,6 +53,9 @@ function Router() {
       <Route path="/simulators/osce" component={SimulatorsPage} />
       <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
       <Route path="/pre-nursing" component={PreNursingPage} />
+      <Route path="/mock-exams/:id/report" component={MockExamReport} />
+      <Route path="/mock-exams/:id" component={MockExamSession} />
+      <Route path="/mock-exams" component={MockExamsPage} />
       <Route path="/medication-mastery" component={MedicationMasteryPage} />
       <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
       <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
