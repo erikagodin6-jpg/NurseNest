@@ -10,7 +10,7 @@ export function Footer() {
             <img
               src={brandLogo}
               alt="NurseNest"
-              className="h-9 w-auto object-contain"
+              className="h-12 w-auto object-contain"
             />
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
