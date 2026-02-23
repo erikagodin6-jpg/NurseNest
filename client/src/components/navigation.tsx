@@ -50,7 +50,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
-import { brandLogo } from "@/lib/theme-logos";
+import { ThemedLogo } from "@/components/themed-logo";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { data: subData } = useQuery({
@@ -248,11 +248,7 @@ export function Navigation() {
       <SheetContent side="left" className="w-72 bg-white p-5 overflow-y-auto">
         <SheetHeader className="mb-6">
           <SheetTitle className="text-left flex items-center gap-2">
-            <img
-              src={brandLogo}
-              alt="NurseNest"
-              className="max-w-none" style={{width: "220px", height: "auto"}}
-            />
+            <ThemedLogo width={220} />
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-1">
@@ -517,11 +513,7 @@ export function Navigation() {
             <MobileNav />
             <Link href="/">
               <div className="flex items-center cursor-pointer group" data-testid="link-home-logo">
-                <img
-                  src={brandLogo}
-                  alt="NurseNest"
-                  className="max-w-none group-hover:scale-105 transition-transform duration-300" style={{width: "220px", height: "auto"}}
-                />
+                <ThemedLogo width={220} className="group-hover:scale-105 transition-transform duration-300" />
               </div>
             </Link>
 
