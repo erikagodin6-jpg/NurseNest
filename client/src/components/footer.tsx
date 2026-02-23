@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { brandLogo } from "@/lib/theme-logos";
+import { brandLogo, getLogoMaskStyle } from "@/lib/theme-logos";
 
 export function Footer() {
   return (
@@ -7,10 +7,10 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <img
-              src={brandLogo}
-              alt="NurseNest"
-              className="h-12 w-auto object-contain"
+            <div
+              role="img"
+              aria-label="NurseNest"
+              style={getLogoMaskStyle(brandLogo, 40)}
             />
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
