@@ -238,6 +238,233 @@ function VitalSignsReferenceCharts() {
   );
 }
 
+function IsolationTypesGuide() {
+  const isolationTypes = [
+    {
+      type: "Standard Precautions",
+      color: "bg-green-50 border-green-200",
+      iconColor: "text-green-600",
+      headerBg: "bg-green-100",
+      applies: "ALL patients, ALL encounters, regardless of diagnosis",
+      when: "Every patient interaction — the baseline for all care",
+      ppe: ["Gloves (when touching blood/body fluids/mucous membranes)", "Gown (if splashing anticipated)", "Mask + eye protection (if splash/spray risk)", "Hand hygiene before and after every contact"],
+      room: "No special room required",
+      examples: ["Every patient in every setting", "Routine vital signs with intact skin — gloves optional, hand hygiene mandatory", "Blood draw, wound care, suctioning — gloves required"],
+      keyPoints: ["Foundation of ALL infection prevention", "Treats every patient as potentially infectious", "Hand hygiene is the single most important measure"]
+    },
+    {
+      type: "Contact Precautions",
+      color: "bg-yellow-50 border-yellow-200",
+      iconColor: "text-yellow-600",
+      headerBg: "bg-yellow-100",
+      applies: "Organisms spread by direct or indirect physical contact",
+      when: "Known or suspected infection with contact-transmitted organisms",
+      ppe: ["Gown — don before entering the room", "Gloves — don before entering the room", "Remove PPE before leaving the room", "Hand hygiene immediately after removal"],
+      room: "Private room preferred; cohort patients with same organism if unavailable",
+      examples: ["MRSA (Methicillin-Resistant Staphylococcus aureus)", "VRE (Vancomycin-Resistant Enterococcus)", "C. difficile (Clostridioides difficile) — use SOAP & WATER, not alcohol rub", "Scabies, lice (pediculosis)", "Draining wounds with heavy drainage not contained by dressing", "RSV (Respiratory Syncytial Virus) in infants", "Norovirus, Rotavirus"],
+      keyPoints: ["Dedicated equipment (stethoscope, BP cuff) stays in the room", "C. difficile spores resist alcohol — ONLY soap and water works", "Patient transport: cover infected area, clean surfaces after contact"]
+    },
+    {
+      type: "Droplet Precautions",
+      color: "bg-blue-50 border-blue-200",
+      iconColor: "text-blue-600",
+      headerBg: "bg-blue-100",
+      applies: "Organisms spread by large respiratory droplets (>5 microns) that travel 3–6 feet",
+      when: "Known or suspected infection with droplet-transmitted organisms",
+      ppe: ["Surgical mask — don before entering the room", "Eye protection if splash risk", "Gloves and gown per standard precautions as needed"],
+      room: "Private room preferred; maintain ≥3 feet between patients if cohorting; door may remain open",
+      examples: ["Influenza (seasonal flu)", "Pertussis (whooping cough)", "Bacterial meningitis (Neisseria meningitidis)", "Mumps", "Rubella (German measles)", "Group A Streptococcus (pharyngitis, scarlet fever)", "Respiratory infections caused by adenovirus, rhinovirus"],
+      keyPoints: ["Surgical mask is sufficient — N95 is NOT required", "Patient wears surgical mask during transport", "Droplets fall to surfaces quickly — do not remain airborne", "Negative pressure room is NOT needed"]
+    },
+    {
+      type: "Airborne Precautions",
+      color: "bg-red-50 border-red-200",
+      iconColor: "text-red-600",
+      headerBg: "bg-red-100",
+      applies: "Organisms spread by tiny airborne nuclei (<5 microns) that remain suspended in air and travel long distances",
+      when: "Known or suspected infection with airborne-transmitted organisms",
+      ppe: ["N95 respirator (must be fit-tested annually) — don BEFORE entering room", "PAPR (Powered Air-Purifying Respirator) as alternative to N95", "Gloves and gown per standard precautions"],
+      room: "Airborne Infection Isolation Room (AIIR) — negative pressure, ≥6–12 air exchanges/hour, air exhausted outside or HEPA-filtered, DOOR MUST REMAIN CLOSED",
+      examples: ["Tuberculosis (pulmonary or laryngeal TB)", "Measles (Rubeola)", "Varicella (Chickenpox)", "Disseminated Herpes Zoster (Shingles) in immunocompromised patients", "COVID-19 (during aerosol-generating procedures)", "Smallpox"],
+      keyPoints: ["N95 required — surgical mask is NOT sufficient", "Room must be negative pressure with door CLOSED at all times", "Patient wears surgical mask during transport (NOT N95)", "Immune healthcare workers preferred for varicella/measles patients", "Verify negative pressure daily (smoke test or monitor)"]
+    },
+    {
+      type: "Protective (Reverse) Isolation",
+      color: "bg-purple-50 border-purple-200",
+      iconColor: "text-purple-600",
+      headerBg: "bg-purple-100",
+      applies: "Severely immunocompromised patients at high risk for opportunistic infections",
+      when: "ANC (Absolute Neutrophil Count) < 500/mm³ or as ordered for high-risk patients",
+      ppe: ["Mask, gown, gloves for anyone entering the room", "Strict hand hygiene enforcement for all visitors", "Visitors screened for signs of illness before entering"],
+      room: "Private room with positive pressure (air flows OUT of the room); HEPA-filtered air; door closed",
+      examples: ["Neutropenic patients (post-chemotherapy, ANC < 500)", "Bone marrow / stem cell transplant recipients", "Severe combined immunodeficiency (SCID)", "Organ transplant patients on heavy immunosuppression"],
+      keyPoints: ["Protects the PATIENT from environmental organisms (opposite of other isolation types)", "No fresh flowers, fruits, or raw vegetables (harbor bacteria/fungi)", "Low-microbial diet (neutropenic diet) may be ordered", "Monitor for subtle infection signs — fever may be the ONLY indicator", "Positive pressure keeps contaminated air OUT of the room"]
+    }
+  ];
+
+  return (
+    <section id="isolation-types" className="space-y-6" data-testid="isolation-types-guide">
+      <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+        <ShieldAlert className="text-blue-600 w-8 h-8" />
+        <h2>Types of Isolation Precautions</h2>
+      </div>
+      <p className="text-sm text-gray-500 mt-1">When, why, and how to implement each type of isolation — from Standard to Protective</p>
+
+      <div className="space-y-6">
+        {isolationTypes.map((iso) => (
+          <Card key={iso.type} className={`border shadow-md overflow-hidden ${iso.color}`} data-testid={`card-isolation-${iso.type.toLowerCase().replace(/[^a-z]+/g, "-")}`}>
+            <div className={`${iso.headerBg} px-6 py-4 border-b ${iso.color.split(" ")[1]}`}>
+              <div className="flex items-center gap-3">
+                <ShieldAlert className={`w-6 h-6 ${iso.iconColor}`} />
+                <h3 className="text-xl font-bold text-gray-900">{iso.type}</h3>
+              </div>
+              <p className="text-sm text-gray-700 mt-1 font-medium">{iso.applies}</p>
+            </div>
+            <CardContent className="p-6 space-y-5">
+              <div>
+                <h4 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
+                  <AlertCircle className="w-4 h-4 text-amber-500" />
+                  When to Use
+                </h4>
+                <p className="text-gray-700 text-sm">{iso.when}</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-5">
+                <div>
+                  <h4 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
+                    <ShieldAlert className="w-4 h-4 text-blue-500" />
+                    Required PPE
+                  </h4>
+                  <ul className="space-y-1.5">
+                    {iso.ppe.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
+                    <Stethoscope className="w-4 h-4 text-indigo-500" />
+                    Common Conditions
+                  </h4>
+                  <ul className="space-y-1.5">
+                    {iso.examples.map((ex, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-1.5 flex-shrink-0" />
+                        <span>{ex}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
+                  <Activity className="w-4 h-4 text-purple-500" />
+                  Room Requirements
+                </h4>
+                <p className="text-gray-700 text-sm bg-white/60 rounded-lg px-4 py-2 border border-gray-100">{iso.room}</p>
+              </div>
+
+              <div className="bg-white/70 rounded-lg p-4 border border-gray-100">
+                <h4 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
+                  <Lightbulb className="w-4 h-4 text-amber-500" />
+                  Key Points to Remember
+                </h4>
+                <ul className="space-y-1.5">
+                  {iso.keyPoints.map((kp, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                      <Zap className="w-3.5 h-3.5 text-amber-400 mt-0.5 flex-shrink-0" />
+                      <span>{kp}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="border-none shadow-md bg-white overflow-hidden">
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm" data-testid="table-isolation-comparison">
+              <thead>
+                <tr className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+                  <th className="text-left px-4 py-3 font-bold text-gray-800">Feature</th>
+                  <th className="text-center px-3 py-3 font-bold text-yellow-700 bg-yellow-50/50">Contact</th>
+                  <th className="text-center px-3 py-3 font-bold text-blue-700 bg-blue-50/50">Droplet</th>
+                  <th className="text-center px-3 py-3 font-bold text-red-700 bg-red-50/50">Airborne</th>
+                  <th className="text-center px-3 py-3 font-bold text-purple-700 bg-purple-50/50">Protective</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100">
+                  <td className="px-4 py-3 font-semibold text-gray-800">Mask Type</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Not required*</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Surgical mask</td>
+                  <td className="text-center px-3 py-3 text-gray-700 font-medium">N95 respirator</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Surgical mask</td>
+                </tr>
+                <tr className="border-b border-gray-100 bg-gray-50/50">
+                  <td className="px-4 py-3 font-semibold text-gray-800">Gown</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                </tr>
+                <tr className="border-b border-gray-100">
+                  <td className="px-4 py-3 font-semibold text-gray-800">Gloves</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                </tr>
+                <tr className="border-b border-gray-100 bg-gray-50/50">
+                  <td className="px-4 py-3 font-semibold text-gray-800">Room Pressure</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Normal</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Normal</td>
+                  <td className="text-center px-3 py-3 text-red-600 font-medium">Negative</td>
+                  <td className="text-center px-3 py-3 text-purple-600 font-medium">Positive</td>
+                </tr>
+                <tr className="border-b border-gray-100">
+                  <td className="px-4 py-3 font-semibold text-gray-800">Door</td>
+                  <td className="text-center px-3 py-3 text-gray-700">May be open</td>
+                  <td className="text-center px-3 py-3 text-gray-700">May be open</td>
+                  <td className="text-center px-3 py-3 text-red-600 font-medium">CLOSED</td>
+                  <td className="text-center px-3 py-3 text-purple-600 font-medium">CLOSED</td>
+                </tr>
+                <tr className="border-b border-gray-100 bg-gray-50/50">
+                  <td className="px-4 py-3 font-semibold text-gray-800">Dedicated Equipment</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Preferred</td>
+                  <td className="text-center px-3 py-3 text-gray-700">Preferred</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-semibold text-gray-800">Purpose</td>
+                  <td className="text-center px-3 py-3 text-gray-700 text-xs">Protect others from patient</td>
+                  <td className="text-center px-3 py-3 text-gray-700 text-xs">Protect others from patient</td>
+                  <td className="text-center px-3 py-3 text-gray-700 text-xs">Protect others from patient</td>
+                  <td className="text-center px-3 py-3 text-purple-700 text-xs font-medium">Protect patient from others</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="px-4 py-2 bg-amber-50 border-t border-amber-100">
+            <p className="text-xs text-amber-700 flex items-center gap-1.5">
+              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+              *Contact precautions: mask not routinely required unless splash risk. Always apply Standard Precautions in addition to Transmission-Based Precautions.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </section>
+  );
+}
+
 function getLessonTier(lessonId: string): string {
   if (lessonId.startsWith("np-") || lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
   if (lessonId.startsWith("rn-") || lessonId.includes("-rn") || lessonId.includes("nclex-")) return "rn";
@@ -1266,6 +1493,7 @@ export default function LessonDetail() {
                 )}
 
                 {id === "vital-signs-red-flags" && <VitalSignsReferenceCharts />}
+                {id === "infection-prevention-ppe" && <IsolationTypesGuide />}
 
                 <section id="clinical-findings" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
