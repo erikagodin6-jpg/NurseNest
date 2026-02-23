@@ -1381,5 +1381,29 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  app.get("/api/dashboard-widgets", async (req: Request, res: Response) => {
+    try {
+      const userId = req.headers["x-user-id"] as string;
+      if (!userId) return res.status(401).json({ error: "Not authenticated" });
+      const widgets = await storage.getDashboardWidgets(userId);
+      res.json(widgets);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/dashboard-widgets", async (req: Request, res: Response) => {
+    try {
+      const userId = req.headers["x-user-id"] as string;
+      if (!userId) return res.status(401).json({ error: "Not authenticated" });
+      const { widgets } = req.body;
+      if (!Array.isArray(widgets)) return res.status(400).json({ error: "widgets must be an array" });
+      const saved = await storage.saveDashboardWidgets(userId, widgets);
+      res.json(saved);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
