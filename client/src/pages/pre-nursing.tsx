@@ -48,6 +48,12 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 
+import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
+import illustrationHomeostasis from "@assets/E9E33423-6365-4686-98CB-3197D14546E5_1771868083264.png";
+import illustrationCranialNerves from "@assets/119BE6D3-7233-475C-883A-BA86F5BAE1E9_1771867815027.png";
+import illustrationElectrolytes from "@assets/AB6C69A2-A616-4DBF-8567-6990D4260BDE_1771867744630.png";
+import illustrationInflammatoryResponse from "@assets/046AF766-D3A2-4713-BF5D-BC2AFF8EEA89_1771876993790.png";
+
 function cn(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -62,6 +68,7 @@ const modules: {
   color: string;
   bg: string;
   lessons: number;
+  image: string;
 }[] = [
   {
     id: "cell-biology",
@@ -71,6 +78,7 @@ const modules: {
     color: "text-blue-600",
     bg: "bg-blue-50",
     lessons: 4,
+    image: illustrationCellStructure,
   },
   {
     id: "physiology",
@@ -80,6 +88,7 @@ const modules: {
     color: "text-emerald-600",
     bg: "bg-emerald-50",
     lessons: 4,
+    image: illustrationHomeostasis,
   },
   {
     id: "terminology",
@@ -89,6 +98,7 @@ const modules: {
     color: "text-purple-600",
     bg: "bg-purple-50",
     lessons: 3,
+    image: illustrationCranialNerves,
   },
   {
     id: "pharmacology",
@@ -98,6 +108,7 @@ const modules: {
     color: "text-amber-600",
     bg: "bg-amber-50",
     lessons: 3,
+    image: illustrationElectrolytes,
   },
   {
     id: "pathophysiology",
@@ -107,6 +118,7 @@ const modules: {
     color: "text-rose-600",
     bg: "bg-rose-50",
     lessons: 3,
+    image: illustrationInflammatoryResponse,
   },
 ];
 
@@ -269,11 +281,21 @@ export default function PreNursingPage() {
                 onClick={() => setActiveModule(mod.id)}
                 data-testid={`module-card-${mod.id}`}
               >
-                <CardContent className="p-6">
-                  <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110", mod.bg, mod.color)}>
-                    <mod.icon className="w-6 h-6" />
+                <div className="h-40 overflow-hidden bg-gray-50">
+                  <img
+                    src={mod.image}
+                    alt={mod.title}
+                    className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                    draggable={false}
+                  />
+                </div>
+                <CardContent className="p-5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", mod.bg, mod.color)}>
+                      <mod.icon className="w-4 h-4" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900">{mod.title}</h3>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{mod.title}</h3>
                   <p className="text-sm text-gray-500 mb-3">{mod.subtitle}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-400">{mod.lessons} interactive lessons</span>
