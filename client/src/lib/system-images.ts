@@ -51,24 +51,24 @@ import illustrationPneumonia2 from "@assets/2822B068-C435-4F56-B2E6-72985CD879C0
 import illustrationTuberculosis from "@assets/7CC48532-F634-439A-A26E-19B80ACD4E71_1771867744630.png";
 import illustrationTracheostomy from "@assets/FAC5D419-76F4-4D90-98A7-4378B516EE35_1771867744630.png";
 
-import illustrationParkinsons from "@assets/4852D310-AE8C-41BD-B37F-8ABC0D9DED3C_1771867853919.png";
-import illustrationMS from "@assets/4F731B3B-FA9F-453D-8753-5B3C18BD59B3_1771867853919.png";
+import illustrationParkinsons from "@assets/4852D310-46DE-4C2E-BDD3-E0EB64B7C1B4_1771867815027.png";
+import illustrationMS from "@assets/4F731B3B-4F82-47B7-B780-852B6A9D44FF_1771867815027.png";
 import illustrationStroke from "@assets/ABD0FB30-EEF2-4E4F-9EFC-63FF5DD16E97_1771867815027.png";
-import illustrationBrainAbscess from "@assets/2A9B59A4-E340-4987-9A52-62C5FE4E4A3E_1771867853919.png";
-import illustrationDeliriumDementia from "@assets/11D8B700-41BA-45CB-8FFD-4CDEF8A7D5E4_1771867853919.png";
-import illustrationCranialNerves from "@assets/119BE6D3-DEF9-42CD-8A5F-C94CA2ADE23A_1771867853919.png";
-import illustrationTrigeminalNeuralgia from "@assets/2985B0AC-2C3C-4BD4-9E39-5BA7C8BDA3CC_1771867853919.png";
+import illustrationBrainAbscess from "@assets/2A9B59A4-A6B9-40AF-B456-BF6B044759F2_1771867815027.png";
+import illustrationDeliriumDementia from "@assets/11D8B700-9B63-4814-9645-2EBF488A5D13_1771867815027.png";
+import illustrationCranialNerves from "@assets/119BE6D3-7233-475C-883A-BA86F5BAE1E9_1771867815027.png";
+import illustrationTrigeminalNeuralgia from "@assets/2985B0AC-8C9B-406B-B2C7-AF2CB2FE150E_1771867815027.png";
 import illustrationICP from "@assets/BE77DF2E-EE81-45E8-A0AD-C5C7CDEA5751_1771867815027.png";
 import illustrationCarpalTunnel from "@assets/C46EA9A2-16B7-4223-9121-033F81FF0FA3_1771867815027.png";
 import illustrationCerebralEdema from "@assets/D38A7151-5018-4FD0-85AA-B7A3412233AA_1771867815027.png";
 import illustrationMyastheniaGravis from "@assets/D3BEF0E0-7D92-4AA1-85A1-3FFD1CAC0FC8_1771867815027.png";
 import illustrationConcussion from "@assets/EA8B2FBA-7CD7-4EAA-86EB-9132862D7852_1771867815027.png";
 import illustrationBellsPalsy from "@assets/EC6A1578-0D03-4761-9872-7DE52A606239_1771867815027.png";
-import illustrationCysticFibrosis from "@assets/0CF9BBF6-DB93-4C74-9ADB-EA47FCB62DC8_1771867935818.png";
-import illustrationWhoopingCough from "@assets/3152E6A5-E6E1-422C-BE43-1AB1BC71D67E_1771867935819.png";
+import illustrationCysticFibrosis from "@assets/0CF9BBF6-F4E3-44FB-ACAE-C1B61F1A6A1A_1771867815027.png";
+import illustrationWhoopingCough from "@assets/3152E6A5-2C3D-44C2-8DD9-B774C76920D4_1771867815027.png";
 import illustrationBronchiectasis from "@assets/9970E70D-588A-49DB-8AB5-A1BBB53165ED_1771867815027.png";
-import illustrationPleurisy from "@assets/66A965E9-66DE-41A8-BF87-0B61A2A14299_1771867935818.png";
-import illustrationChestPhysio from "@assets/3403E0A1-7133-4C3F-A3B2-33C0B52EC40A_1771867935819.png";
+import illustrationPleurisy from "@assets/66A965E9-EB8E-49AA-80BC-C95B77582194_1771867815027.png";
+import illustrationChestPhysio from "@assets/3403E0A1-FD35-4565-8FBD-AC1B12F6E5B9_1771867815027.png";
 import illustrationRSV from "@assets/FF3F138F-78D6-4835-87F3-C60BD532466C_1771867815027.png";
 import illustrationHemoptysis from "@assets/B354DEF5-097E-4AC9-AF5F-931EE3005A87_1771867815027.png";
 
