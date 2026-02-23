@@ -33,6 +33,7 @@ import { postpartumNeonatalLessons } from "./postpartum-neonatal";
 import { vaccinesLessons } from "./vaccines";
 import { fundamentalsLessons } from "./fundamentals";
 import { delegationLessons } from "./delegation";
+import { clinicalScenariosLessons } from "./clinical-scenarios";
 import { electrolytePotassiumLessons } from "./electrolyte-potassium";
 import { rpnExtraBank } from "./extra-questions-rpn";
 import { rnExtraBank } from "./extra-questions-rn";
@@ -75,6 +76,7 @@ export const contentMap: Record<string, LessonContent> = {
   ...vaccinesLessons,
   ...fundamentalsLessons,
   ...delegationLessons,
+  ...clinicalScenariosLessons,
   ...electrolytePotassiumLessons,
   ...rpnExtraBank,
   ...rnExtraBank,
