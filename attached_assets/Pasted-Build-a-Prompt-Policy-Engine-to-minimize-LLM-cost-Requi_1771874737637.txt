@@ -1,0 +1,1116 @@
+Build a Prompt Policy Engine to minimize LLM cost.
+
+Requirements:
+- Create a database table prompt_policies:
+  id (string), version (int), name, platform (CA/US/both), tier (PN/RN/NP/both), text, created_at, hash
+- Create a table prompt_schemas:
+  id, version, name, json_schema_text
+- Create a table prompt_runs:
+  id, policy_ids_used[], schema_id, input_summary, token_estimate, created_at
+
+API:
+- GET /api/policies?platform=&tier=
+- GET /api/policies/:id
+- POST /api/prompt-run (records usage)
+- Helper: buildPrompt(policyIds[], schemaId, userInput) -> finalPrompt
+
+Rules:
+- At runtime, never paste the full giant prompt; reference policy IDs and load them server-side.
+- Add versioning so you can update rules without breaking old content.
+
+Return:
+- schema migrations
+- API routes
+- helper utilities
+- example usage in question generation and exam assembly
+Build an admin-only Content Factory for generating and validating question/flashcard banks in batches to reduce cost.
+
+Requirements:
+- Queue table content_jobs:
+  id, type (questions/flashcards/cases/lessons), platform, tier, exam, topic_list, batch_size, status, progress, created_at
+- Worker logic:
+  1) Generate batch (100–200 items) using strong model + policy IDs
+  2) Validate batch using cheaper model + validator policies
+  3) Deduplicate against existing bank (hash + embedding similarity optional)
+  4) Store only passing items as operational
+  5) Store rejected items with reasons
+
+Admin UI:
+- Create job, watch progress, approve promotion
+- Stats: duplicates %, tier violations %, lab unit violations %
+
+Return:
+- DB schema
+- worker code
+- admin UI components
+- example job configs for CA REx-PN and US NCLEX-RN
+Implement the CAT exam simulator WITHOUT calling the LLM during a user exam.
+
+Inputs:
+- Stored item bank with metadata (platform, tier, exam, domain, itemType, difficulty, discrimination proxy, safetyCritical)
+- Blueprint config JSON
+- Exposure control rules
+
+Behavior:
+- Select items adaptively (theta + SE) and enforce blueprint coverage.
+- Insert unscored items per config.
+- Insert case testlets per config.
+- Track stopping reasons (confidence pass/fail, max items, time).
+- Store attempt + attempt_items.
+- Produce readiness estimate + confidence band deterministically.
+
+Output:
+- attempt record saved to DB
+- report card metrics computed and stored
+- remediation plan generated from deterministic analytics (no LLM required)
+
+Return file-by-file code for Next.js + DB.
+Create a deterministic remediation engine.
+
+Inputs:
+- attempt_items with domain_tags, skill_tags, item_type, safetyCritical, correctness
+- lesson and flashcard mappings by domain/skill
+
+Output:
+- top strengths (3)
+- top focus areas (3–5) using weighted misses and minimum sample sizes
+- next study plan (3–7 actions) chosen from content catalog
+
+Rules:
+- Weight safetyCritical misses x2
+- Require min N items per domain before labeling it weak/strong
+- Never mix platform/tier content
+- Provide human-readable explanation strings
+
+Return:
+- algorithm + code
+- UI components for report card
+- caching strategy
+Use policies: POLICY_GLOBAL_DUAL_V3, POLICY_TIER_RN_V2, POLICY_PLATFORM_US_LABS_V1
+Use schema: SCHEMA_ITEM_V4
+Task: Generate 150 items for topic list: [...]
+Return JSON only.
+Implement a cost-optimized LLM architecture for NurseNest (CA + US).
+
+Goals:
+- No LLM calls during live exams; exams run deterministically from stored banks.
+- Offline batch generation with validation and dedupe.
+- Prompt policies stored in DB; runtime only references policy IDs.
+- Multi-model routing: strong model for generation, cheap model for validation/tagging.
+- Caching for report cards and remediation plans.
+
+Deliver:
+- DB schema migrations
+- worker/queue system
+- admin UI to generate banks
+- deterministic CAT engine
+- report card + remediation engine
+- printing routes
+
+Return exact code changes for Next.js + Tailwind + current DB stack.
+Build an Admin CMS inside my Next.js + Tailwind NurseNest app so I can add/edit content from any browser (desktop or mobile), without using Replit.
+
+Non-negotiables:
+- Secure authentication + role based access control (RBAC)
+- Only admins can access /admin routes
+- Mobile-first responsive UI (works well on phone)
+- WYSIWYG editor for lessons (rich text, headings, tables, callouts, images)
+- Separate content by jurisdiction and tier:
+  - jurisdiction: CA or US
+  - tier: RPN/LPN, RN, NP
+  - exam: REX-PN, NCLEX-PN, NCLEX-RN, NP
+- Versioning + audit log:
+  - Every edit creates a new version
+  - Ability to compare versions (diff)
+  - Rollback to a prior version
+  - Track who changed what and when
+- Draft → Review → Publish workflow
+  - Draft edits do not affect live content until published
+  - Schedule publish option
+- Content structure:
+  - Lessons
+  - Flashcard decks (knowledge + question-based)
+  - Question bank items
+  - Case studies/testlets
+- Media uploads for images/diagrams
+- Search/filter inside admin:
+  - by topic, tag, tier, jurisdiction, exam, last updated, guideline source
+- Public pages should render the published version only
+
+Database schema (must implement):
+- users (id, email, role)
+- content_items (id, type, title, slug, jurisdiction, tier, exam, status, tags, created_at, updated_at)
+- content_versions (id, content_item_id, version_number, body_json_or_md, created_by, created_at, change_summary, guideline_refs[])
+- audit_log (id, user_id, action, entity_type, entity_id, created_at, metadata)
+
+Admin features:
+- Create new lesson
+- Edit lesson
+- Preview as CA vs US and by tier
+- Publish / unpublish
+- Rollback
+- View change history
+
+Deliverables:
+- File-by-file code changes
+- Secure middleware for /admin
+- Admin UI components
+- Editor setup (choose a stable library)
+- API routes for CRUD
+- Tests for RBAC and publish workflow
+Enhance the CMS so each content item can store guideline provenance and be easy to update when guidelines change.
+
+Add fields:
+- guideline_refs[]: { name, jurisdiction, organization, url, accessed_date, notes }
+- last_guideline_reviewed_at
+- next_guideline_review_due_at (default: 90 days after publish)
+- guideline_change_risk: low/medium/high (set by admin)
+
+Admin UI:
+- Show guideline refs on each lesson
+- Show “Review due” badge
+- Filter list by “review due soon” and “overdue”
+- Bulk set review due dates
+- Add “Guideline Review” tab per lesson with past review notes
+Build a Quarterly Guideline Review system that runs every ~90 days.
+
+Goal:
+- Automatically check for updates to official guidelines linked in each lesson
+- Create draft suggestions and flag impacted content
+- Never auto-publish changes
+
+Requirements:
+- A scheduled job (cron) runs every 90 days
+- It scans content_items where next_guideline_review_due_at <= today
+- For each content item:
+  1) Fetch guideline sources listed in guideline_refs (official sites only)
+  2) Detect if content likely changed since last review date
+  3) Produce a “Change Summary” and “Proposed Edits” as a new DRAFT version
+  4) Add the item to an admin “Review Queue”
+
+Outputs in admin:
+- Review Queue page:
+  - content title, jurisdiction, tier, due date, sources checked
+  - AI change summary
+  - Diff view (current published vs proposed draft)
+  - Approve/Publish or Reject
+
+Safety:
+- Must respect jurisdiction separation (CA vs US)
+- Must respect tier separation (RPN vs RN vs NP)
+- Must preserve lab unit system by platform (CA SI vs US conventional)
+- Must cite the guideline sources used for the proposed changes
+- If sources conflict or uncertainty exists, label “Verify per local protocol” and do not propose definitive changes.
+
+Deliverables:
+- Cron scheduling approach for the hosting environment
+- Server-side job code
+- Review Queue UI
+- Diff viewer
+- Logging (what was checked, when, and result)
+When reviewing guideline sources, only generate a draft if there is evidence of a change since last_guideline_reviewed_at.
+If no meaningful change is detected, do not generate text. Return: {status:"no_change"}.
+When proposing updates to a lesson, keep edits minimal:
+- Change only the sections affected by guideline updates
+- Preserve existing structure, tone, and jurisdiction/tier constraints
+- Provide a clear change summary + citations
+Implement a secure Admin CMS inside my existing Replit-hosted Next.js + Tailwind NurseNest app so I can add/edit content from any browser (desktop/mobile) without opening Replit.
+
+Constraints:
+- Works on Replit hosting
+- Uses my existing auth system (or implement simple auth if needed)
+- Only admins can access /admin routes (RBAC)
+- Mobile-first admin UI
+
+Core content:
+- Lessons
+- Flashcard decks
+- Question bank items
+- Case studies/testlets
+
+Content separation (non-negotiable):
+- platform/jurisdiction: CA or US
+- tier: Practical Nurse (RPN/LPN), RN, NP/APRN
+- exam: REx-PN, NCLEX-PN, NCLEX-RN, NP
+Never mix or allow cross-tier assignment.
+
+Editor requirements:
+- WYSIWYG editor for lessons (headings, lists, tables, callouts, images)
+- Autosave drafts
+- Preview mode (how it will look on public site)
+
+Publishing workflow:
+- Draft → Review → Publish
+- Only published versions show publicly
+
+Versioning:
+- Every edit creates a new version
+- Show version history
+- Diff viewer between versions
+- Rollback button
+
+Audit log:
+- Track who edited, when, and what changed
+
+Search/filter in admin:
+- by title, tags, tier, jurisdiction, exam, status, last updated
+
+Database:
+- Use Postgres in Replit if available; if not, use SQLite as fallback.
+- Implement migrations.
+
+Routes:
+- /admin (dashboard)
+- /admin/content (list)
+- /admin/content/new
+- /admin/content/[id]/edit
+- /admin/content/[id]/history
+- /admin/content/[id]/preview
+
+Deliver:
+- Exact file-by-file code changes
+- DB schema + migrations
+- Secure middleware protecting /admin
+- Seed an initial admin account and a way to promote a user to admin securely
+Enhance the Admin CMS so each content item tracks guideline provenance and review dates.
+
+Add fields to content:
+- guideline_refs[]: { organization, jurisdiction, url, accessed_date, notes }
+- last_guideline_reviewed_at
+- next_guideline_review_due_at (default = published_at + 90 days)
+- guideline_change_risk: low/medium/high
+
+Admin UI:
+- Show “Review due” badges
+- Filter: due in 7/30 days, overdue
+- Add/edit guideline references
+- Add “Guideline Review Notes” per version
+Implement a Guideline Review Queue system (quarterly review) for content.
+
+Behavior:
+- Identify content items where next_guideline_review_due_at <= today
+- For each item, create a “review task” record with status: pending/in_progress/complete
+- Provide an admin page /admin/reviews listing all due items
+- Provide buttons:
+  1) “Mark reviewed” (no changes)
+  2) “Create update draft” (AI-assisted update draft)
+  3) “Skip / defer 30 days”
+
+AI-assisted draft updates must:
+- Never auto-publish
+- Create a new DRAFT version only
+- Include a change summary
+- Respect jurisdiction (CA vs US), tier boundaries, and lab units
+- If uncertain, label “Verify per local protocol” rather than guessing
+
+Implementation details:
+- Store review tasks in DB
+- Use server-side routes to run the review generation
+- Log what was checked and when
+
+Deliver:
+- Schema for review_tasks
+- Admin UI screens
+- Draft creation flow
+- Diff viewer for proposed changes
+Refactor the system so we do NOT call AI during user exams or routine browsing.
+
+Rules:
+- AI is only used for:
+  (a) generating new content in admin (batch mode)
+  (b) generating draft updates during guideline review
+- Exams must run deterministically using the stored question bank (no AI calls in exam flow).
+- Store prompts as reusable policies in the DB and reference them by policy_id instead of pasting long prompts each time.
+- Add caching for AI outputs and prevent duplicate generation.
+
+Deliver:
+- prompt_policies table
+- helper to assemble prompts by policy_id
+- content generation queue in admin
+- dedupe checks (hash + similarity)
+You are generating a long-form NurseNest clinical education article designed to rank strongly in search engines while remaining genuinely valuable for nursing students and exam candidates.
+
+PLATFORM (REQUIRED):
+[CANADA_SITE | US_SITE]
+
+CRITICAL JURISDICTION ENFORCEMENT
+If CANADA_SITE:
+- Use Canadian clinical terminology
+- Use SI / Canadian lab units
+- Reference Canadian guideline bodies only when citing authorities
+- Never use U.S. practice language
+
+If US_SITE:
+- Use U.S. clinical terminology
+- Use U.S. lab conventions
+- Reference U.S. guideline bodies only when citing authorities
+- Never use Canadian regulatory language
+
+If jurisdiction unclear → STOP.
+
+PRIMARY OBJECTIVE
+Create a high-authority educational article that:
+
+✔ Maximizes informational value  
+✔ Demonstrates expertise and clinical credibility  
+✔ Targets realistic search intent  
+✔ Avoids generic textbook phrasing  
+✔ Provides information gain beyond typical exam prep pages  
+
+ARTICLE REQUIREMENTS (NON-NEGOTIABLE)
+
+1) SEARCH-OPTIMIZED TITLE
+- Must reflect real user search behavior
+- Avoid clickbait
+- High clarity and specificity
+- Include core clinical concept naturally
+
+2) META DESCRIPTION
+- Unique, concise, compelling
+- Written for human CTR, not keyword stuffing
+
+3) OPENING SECTION
+- Immediately address the clinical problem or knowledge gap
+- No generic introductions
+- Assume reader is a nursing student or exam candidate
+
+4) HIGH INFORMATIONAL DENSITY BODY
+Content must include:
+
+• Mechanism-level explanations (physiology/pathophysiology)
+• Explicit symptom-to-mechanism links
+• Clinical reasoning logic
+• Safety implications
+• Common misinterpretations
+• Subtle exam traps
+• Practical memory anchors
+
+Avoid:
+✘ Filler explanations
+✘ Broad generic summaries
+✘ Repetition of obvious facts
+
+5) STRUCTURAL SEO ELEMENTS
+- Use clear hierarchical headings
+- Add sections matching search intent variations
+- Include FAQ-style subheadings where useful
+- Avoid artificial keyword repetition
+
+6) INTERNAL LINKING LOGIC
+Suggest contextually relevant internal links:
+- Related diseases
+- Related mechanisms
+- Related exam topics
+- Related nursing decision areas
+
+7) CLINICAL & EXAM VALUE
+Article must help the reader:
+
+✔ Recognize patterns  
+✔ Avoid clinical mistakes  
+✔ Improve exam performance  
+✔ Understand WHY findings occur  
+
+8) CITATION / AUTHORITY RULES
+- Cite only real, widely recognized organizations or guideline bodies
+- Never fabricate studies
+- Prefer guidelines over individual papers
+- If uncertain → write "Verify per local guideline/protocol"
+
+9) LANGUAGE & TONE
+- Expert, clinically precise, high credibility
+- No marketing tone
+- No exaggerated claims
+- No shallow educational language
+
+10) DIFFERENTIATION REQUIREMENT
+Assume competing pages already exist.
+Provide additional insights, clarifications, or reasoning depth beyond standard nursing resources.
+
+OUTPUT FORMAT
+Return:
+
+• Title  
+• Meta description  
+• Full article with headings  
+• Suggested FAQs  
+• Suggested internal links  
+• References (only legitimate authorities)
+Add latent search intent coverage:
+Include sections addressing related questions users commonly search for but may not explicitly ask.
+You are generating a NurseNest educational article designed to achieve strong SEO performance while delivering high clinical and exam-prep value.
+
+PLATFORM (REQUIRED):
+[CANADA_SITE | US_SITE]
+
+Apply strict jurisdiction separation:
+- Canada → Canadian terminology, SI lab units, Canadian practice context
+- US → U.S. terminology, U.S. lab conventions, U.S. practice context
+Never mix.
+
+ARTICLE CATEGORY (REQUIRED):
+Select ONE:
+
+1) Pathophysiology Deep Dive
+2) Disease Comparison / Differentiation
+3) Clinical Decision / Practice Issue
+4) Current Nursing Issue / Trend
+5) Nursing Interview / Career Strategy
+6) Patient Safety / Error Prevention
+7) Lab Interpretation / Diagnostics Logic
+8) Exam Strategy / Cognitive Errors
+
+PRIMARY SEO OBJECTIVE
+Create an article that:
+
+✔ Matches realistic search intent
+✔ Provides high informational value
+✔ Demonstrates clinical expertise
+✔ Avoids generic textbook explanations
+✔ Contains information gain beyond typical nursing resources
+
+TITLE REQUIREMENTS
+- Highly specific
+- Reflect actual user search behavior
+- No vague titles
+- No clickbait
+- Must imply a problem, confusion, or comparison
+
+META DESCRIPTION
+- Unique
+- Written for human click behavior
+- Clear value proposition
+
+CONTENT DEPTH REQUIREMENTS
+
+If Category = Pathophysiology Deep Dive:
+- Explain mechanisms from system → cellular level
+- Link symptoms directly to physiology
+- Include common clinical misinterpretations
+- Include safety implications
+
+If Category = Disease Comparison:
+- Compare mechanisms, not just symptoms
+- Highlight high-yield differentiators
+- Include exam traps & misdiagnosis risks
+- Include decision-making cues
+
+If Category = Clinical Practice Issue:
+- Focus on real-world nursing decisions
+- Prioritization & safety emphasis
+- Discuss consequences of errors
+
+If Category = Current Nursing Issue:
+- Focus on topics nurses actively search
+- Avoid opinion-only writing
+- Provide practical implications
+
+If Category = Interview / Career:
+- Provide psychologically realistic advice
+- Avoid generic resume tips
+- Include common mistakes
+
+CORE ARTICLE STRUCTURE
+
+1) Immediate problem framing (no generic intros)
+2) High-density explanatory sections
+3) Clinical reasoning & safety insights
+4) Common pitfalls / errors
+5) Practical memory anchors
+6) FAQ-style subheadings (search intent coverage)
+7) Suggested internal links
+8) References (real authorities only)
+
+SEO STRUCTURE RULES
+- Use clear hierarchical headings
+- Avoid keyword stuffing
+- Cover related latent search intents naturally
+- Prefer clarity & depth over length padding
+
+AUTHORITY & CITATION RULES
+- Cite only legitimate, widely recognized organizations
+- Never fabricate studies
+- Prefer guideline bodies over random papers
+- If uncertain → write "Verify per local guideline/protocol"
+
+DIFFERENTIATION RULE
+Assume similar articles exist online.
+Provide additional reasoning depth, clarifications, or safety insights that typical nursing blogs omit.
+
+OUTPUT FORMAT
+Return:
+
+• Title
+• Meta description
+• Full article with headings
+• FAQ candidates
+• Suggested internal links
+• References
+Implement dynamic sitemap generation for my NurseNest Next.js app.
+
+Requirements:
+- Generate /sitemap.xml automatically
+- Include only indexable public pages
+- Exclude admin routes, preview routes, test pages, query params
+- Use canonical domain https://www.nursenest.ca (not replit domain)
+- Pull URLs dynamically from lessons, blog posts, flashcards, exams
+- Update whenever new content is published
+- Follow XML sitemap protocol
+
+Return:
+- Exact code for sitemap route
+- Filtering logic for indexable pages
+- Example output
+Create a proper robots.txt for NurseNest.
+
+Rules:
+- Allow indexing of public pages
+- Block admin, auth, preview, API routes
+- Reference sitemap location
+- Use correct domain
+
+Return exact robots.txt content.
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /api
+Disallow: /auth
+Disallow: /preview
+
+Sitemap: https://www.nursenest.ca/sitemap.xml
+Ensure all pages include canonical tags.
+
+Rules:
+- Canonical must always use https://www.nursenest.ca
+- Prevent replit domain duplication
+- Prevent query param duplication
+- Add logic globally in layout/head
+
+Return exact code changes.
+Implement global SEO metadata defaults.
+
+Requirements:
+- Unique title per page
+- Unique meta description per page
+- Sensible fallbacks
+- Proper OpenGraph tags
+- Prevent duplicate titles
+
+Return layout/head implementation.
+Generate NurseNest article topics optimized for organic search growth.
+
+Constraints:
+- Nursing students & exam candidates
+- High search intent
+- Avoid broad generic topics
+- Prefer confusion-driven searches
+- Prefer comparison and interpretation topics
+
+Return:
+- 50 article titles
+- Grouped by topic clusters
+- Ordered by likely traffic value
+Design topical authority clusters for NurseNest.
+
+Requirements:
+- Identify pillar topics
+- Create supporting article map
+- Suggest internal linking strategy
+- Avoid content cannibalization
+
+Return structured cluster plan.
+Implement intelligent internal linking suggestions.
+
+Rules:
+- Link related pathophysiology
+- Link related diseases
+- Link related exam topics
+- Avoid excessive linking
+- Improve crawl depth
+
+Return implementation logic.
+Generate FAQ schema candidates for NurseNest articles.
+
+Rules:
+- Questions real users search
+- Avoid generic FAQs
+- Align with nursing cognition
+Return JSON-LD only.
+Design a free interactive tool for NurseNest that attracts backlinks and organic traffic.
+
+Requirements:
+- High-value for nursing students
+- Frequently searched problem
+- Simple but credible
+- Encourages repeat visits
+
+Return:
+- Tool concept
+- UI behavior
+- SEO justification
+Audit NurseNest for performance and Core Web Vitals.
+
+Identify:
+- Slow routes
+- Unnecessary renders
+- Large bundles
+- Blocking scripts
+
+Return optimization actions.
+Prevent SEO duplication between Replit domain and production domain.
+
+Requirements:
+- Force canonical domain
+- Add redirects if needed
+- Prevent index conflicts
+
+Return exact implementation.
+Write a NurseNest credibility and methodology page.
+
+Goals:
+- Build trust with nursing students and exam candidates
+- Explain how educational content and questions are created
+- Emphasize clinical accuracy and safety logic
+- Reinforce jurisdiction separation (Canada vs US)
+- Reinforce tier separation (Practical Nurse vs RN vs NP)
+
+Must include:
+- Question design philosophy
+- Clinical reasoning focus
+- Safety-first logic
+- Pathophysiology depth standards
+- Update/review principles
+- Responsible use of AI (AI-assisted, not AI-random)
+
+Tone:
+- Highly professional
+- Calm, authoritative
+- Reassuring
+- No marketing exaggeration
+Create a page explaining how NurseNest practice questions are designed.
+
+Focus on:
+- Cognitive difficulty
+- Clinical realism
+- Distractor engineering
+- Why rationales are detailed
+- How this improves exam performance
+
+Avoid:
+- Marketing tone
+- Vague claims
+
+Audience:
+- Skeptical nursing students comparing platforms
+Write a NurseNest content review and update policy.
+
+Include:
+- Commitment to accuracy
+- Jurisdiction-specific considerations
+- How guideline changes are handled
+- Why automatic updates are unsafe
+- Review philosophy
+- Safety language when uncertain
+
+Tone:
+- Evidence-aware
+- Responsible
+- Professional
+Design a NurseNest Lab Value Reference Tool optimized for:
+
+- Nursing students
+- Exam preparation
+- High bookmarkability
+- Backlink potential
+
+Features:
+- Searchable labs
+- Filter by system
+- Jurisdiction-aware units (CA vs US)
+- Clinical interpretation notes
+- Safety implications
+- Mobile friendly
+
+Explain:
+- Why users would return
+- Why other sites would link to it
+- SEO value
+Design a NurseNest ECG Interpretation Practice Tool.
+
+Requirements:
+- High cognitive value
+- Repeat usage behavior
+- Nursing exam relevance
+- Progressive difficulty
+- Immediate rationales
+
+Explain:
+- Traffic potential
+- Backlink potential
+- Retention effects
+Design an interactive NurseNest Clinical Decision Challenge feature.
+
+Focus:
+- Short realistic scenarios
+- Prioritization & safety logic
+- Highly engaging
+- Shareable
+
+Explain SEO and backlink benefits.
+Write a natural, non-spammy outreach message promoting a free NurseNest educational tool.
+
+Constraints:
+- Friendly but professional
+- No SEO jargon
+- No sales tone
+- Focus on usefulness for nursing students
+
+Generate 5 variations.
+Apply NurseNest visual design system to ALL generated UI components.
+
+Design Language Requirements:
+
+Aesthetic:
+- Soft clinical
+- Modern, minimal, premium
+- Calm, intelligent, non-cartoonish
+- Pastel color palette only
+- Clean medical education feel
+
+Avoid:
+- Childish illustrations
+- Loud saturated colors
+- Playful or toy-like UI
+- Harsh contrast
+- Clip-art style graphics
+
+Color Behavior:
+- Use soft pastel tones
+- Low visual noise
+- High readability
+- Subtle shadows only
+- No aggressive gradients
+
+Component Style:
+- Rounded corners (soft radius)
+- Generous spacing
+- Light visual weight
+- Professional medical UI
+- Mobile-first layout
+- Clean typography hierarchy
+
+Visual Tone:
+- Should feel like a premium clinical learning platform
+- Comparable to modern health-tech dashboards
+- Calm, credible, cognitively supportive
+
+Consistency Rules:
+- All new components must visually match existing NurseNest theme
+- Maintain harmony with pastel brand identity
+- Prioritize clarity and cognitive ease
+
+Confirm visual alignment before output.
+Design a NurseNest Interactive Lab Value Interpretation & Clinical Reasoning Engine.
+
+CRITICAL: Follow NurseNest visual design system.
+
+Visual Style:
+- Soft pastel clinical UI
+- Premium, modern, minimal
+- Rounded components
+- Calm medical aesthetic
+- High readability
+- No cartoon-like visuals
+
+Functional Requirements:
+
+Jurisdiction Logic:
+- Canada → SI units only
+- US → Conventional units only
+- Never display dual units
+
+UI Behavior:
+- Clean dashboard-like layout
+- Search-focused interface
+- Soft cards / panels
+- Subtle shadows
+- Comfortable spacing
+- Mobile-friendly
+
+User Experience:
+- Feel cognitively calm, not busy
+- Minimal visual clutter
+- Clear information hierarchy
+- Designed for stressed nursing students
+
+Avoid:
+- Bright medical red warnings everywhere
+- Toy-like graphics
+- Playful icons
+- Heavy gradients
+
+Feature Set:
+- Lab search
+- Lab pages
+- Value interpretation
+- Clinical meaning
+- Nursing implications
+- Safety alerts (visually subtle)
+
+Explain:
+- UI layout logic
+- Visual hierarchy
+- How aesthetic improves usability
+Return implementation approach.
+Generate NurseNest Lab Interpretation Page.
+
+Lab: [LAB_NAME]
+Platform: [CANADA_SITE | US_SITE]
+
+CRITICAL DESIGN RULES:
+- Follow NurseNest pastel clinical aesthetic
+- Premium educational tone
+- Modern, minimal, soft UI feel
+- No cartoonish visuals
+- No loud colors
+
+Content Style:
+- High informational density
+- Mechanism-level reasoning
+- Clinical clarity
+- Exam relevance
+
+Visual Structure:
+- Clean sections
+- Soft visual grouping
+- Calm readability
+- Professional clinical interface
+
+Avoid:
+- Dense textbook blocks
+- Loud emphasis styling
+- Overdecorated UI
+
+Return:
+- Structured layout
+- Section hierarchy
+- UI presentation guidance
+- SEO-safe headings
+When generating graphics or visual elements for NurseNest:
+
+Style Requirements:
+- Soft pastel medical illustration style
+- Clean, minimal, modern
+- Anatomically respectful
+- Professional educational tone
+- No exaggerated cartoon style
+- No mascot-like visuals
+
+Visual Feel:
+- Similar to modern medical infographics
+- Soft color palette
+- Calm and credible
+- Designed for adult learners
+
+Avoid:
+- Kawaii / chibi / playful cartoon look
+- Thick outlines
+- Loud saturated colors
+- Decorative clutter
+
+Graphics must feel clinical, modern, and premium.
+Follow NurseNest visual design system exactly. Do not introduce new visual styles.
+Follow NurseNest visual design system exactly. Do not introduce new visual styles.
+Create a “NurseNest Style Lock” rule and enforce it across future UI work.
+
+Requirements:
+- Add /docs/style-lock.md with non-negotiable rules:
+  - must reuse existing tokens/classes/components
+  - no new random colors
+  - keep border radius consistent
+  - keep typography consistent
+  - keep spacing consistent
+- Add a short checklist at the top of style-lock.md:
+  - “Before adding UI, check existing component usage”
+  - “Use existing Button/Card/Input variants”
+  - “Do not introduce new palettes”
+- Ensure every new feature prompt can reference these files.
+
+Do not change existing UI visuals. Only add documentation and guidance.
+Before writing any UI code:
+1) Read /docs/design-system.md and /docs/style-lock.md in this repo.
+2) Reuse existing components and Tailwind classes already used on the site.
+3) Do not introduce new color palettes, fonts, or spacing systems.
+4) All new UI must be visually indistinguishable from existing NurseNest pages.
+
+Now implement: [FEATURE].
+When building new UI, match existing NurseNest styling exactly. Additionally:
+- Keep the visual tone “soft clinical + premium” (calm, minimal, professional).
+- Avoid childish/cartoonish visuals.
+- Use subtle emphasis only (soft borders, gentle shadows, muted highlights).
+- Prioritize readability and cognitive ease.
+
+Important: do NOT redesign the website. Only extend the existing style consistently.
+
+Generate lecture slide content for NurseNest.
+
+Topic: [TOPIC]
+
+Visual Style Requirements (NON-NEGOTIABLE):
+- Soft pastel clinical aesthetic
+- Premium medical education feel
+- Minimalist, modern, calm
+- No cartoonish graphics
+- No childish illustrations
+- Clean layouts with generous spacing
+- Subtle visual hierarchy
+- Professional nursing education tone
+
+Slide Rules:
+- High information density
+- Avoid large text blocks
+- Use structured teaching flow
+- Emphasize mechanisms & reasoning
+- Prioritize clarity over decoration
+
+Lecture Tone:
+- Feels like advanced clinical teaching
+- Credible for nursing exam preparation
+
+Return:
+- Slide titles
+- Slide text
+- Suggested visual elements per slide
+Do NOT generate generic educational slides.
+
+Avoid:
+- Textbook summaries
+- Definition-only slides
+- Filler explanations
+- Overly simplistic visuals
+
+Prefer:
+- Mechanism-level teaching
+- Clinical reasoning emphasis
+- Exam-relevant framing
+- Safety implications
+Narration Style:
+- Calm, confident, clinical educator tone
+- Neutral professional pacing
+- No exaggerated enthusiasm
+- No dramatic voice acting
+- Designed for stressed exam candidates
+Video Style Requirements:
+- Clean medical education visuals
+- Soft pastel clinical palette
+- Minimal animation
+- No avatar instructor
+- No cartoon style
+- Premium e-learning feel
+- Calm, distraction-free presentation
+
+Generate a NurseNest clinical micro-lecture.
+
+Topic: [TOPIC]
+Platform: [CANADA_SITE | US_SITE]
+Target Tier: [PRACTICAL_NURSE | RN | NP]
+
+CRITICAL RULES:
+- Follow strict jurisdiction separation
+- Follow strict tier separation
+- Maintain NurseNest aesthetic tone
+
+LECTURE OBJECTIVES
+- Exam-focused clinical reasoning
+- Mechanism-level clarity
+- High informational density
+- No filler explanations
+- No generic textbook summaries
+
+STRUCTURE
+
+1) Opening Hook (clinical curiosity / confusion driven)
+2) Core Mechanism Explanation
+3) Symptom-Mechanism Links
+4) Clinical Significance
+5) Common Errors / Exam Traps
+6) Safety Logic
+7) Memory Anchors / Pattern Recognition
+
+VISUAL STYLE REQUIREMENTS
+- Soft pastel clinical aesthetic
+- Premium medical education feel
+- Minimalist
+- Calm, modern, credible
+- No cartoonish graphics
+- No childish visuals
+- Clean slide-based design
+
+OUTPUT
+Return:
+
+A) Lecture Script (voice narration style)
+B) Slide Breakdown:
+   - Slide titles
+   - Slide text
+   - Suggested visual elements
+C) Key Exam Traps
+D) High-yield memory anchors
+Apply NurseNest slide design language:
+
+- Soft pastel palette
+- Clean medical education visuals
+- Generous spacing
+- Rounded elements
+- Subtle shadows
+- Minimal visual noise
+- High readability
+- No clip-art style icons
+- No cartoon illustrations
+- Premium clinical feel
+
+Slides must look like a modern professional learning platform.
+Narration tone:
+
+- Calm clinical educator
+- Confident but neutral
+- No exaggerated enthusiasm
+- No dramatic acting
+- Clear pacing
+- Designed for exam preparation
+- Credible academic tone
+Repurpose this NurseNest lecture into:
+
+1) SEO-optimized blog article
+2) 10 high-yield flashcards
+3) 5 exam-style questions
+4) 3 TikTok micro-teaching clips
+5) Pinterest infographic concept
+
+Maintain:
+- Jurisdiction correctness
+- Tier correctness
+- Clinical reasoning depth
+- NurseNest visual tone
+
+
+
+
+
+
+
+
+
+
+
+Video lectures
+
+
+When building new UI, match existing NurseNest styling exactly. Additionally:
+- Keep the visual tone “soft clinical + premium” (calm, minimal, professional).
+- Avoid childish/cartoonish visuals.
+- Use subtle emphasis only (soft borders, gentle shadows, muted highlights).
+- Prioritize readability and cognitive ease.
+
+Important: do NOT redesign the website. Only extend the existing style consistently.

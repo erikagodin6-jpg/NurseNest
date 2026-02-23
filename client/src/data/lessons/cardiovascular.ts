@@ -366,6 +366,946 @@ export const cardiovascularLessons: Record<string, LessonContent> = {
     pearls: ["Virchow's Triad is the framework for understanding VTE risk: Stasis + Endothelial injury + Hypercoagulability. Every hospitalized patient should be assessed for VTE prophylaxis: mechanical (SCDs, TED hose) and/or pharmacologic (LMWH, UFH).", "D-dimer is a 'rule-out' test, not a 'rule-in' test. A negative D-dimer in a low-probability patient effectively excludes PE (>99% NPV). But an elevated D-dimer does NOT diagnose PE: it simply means further imaging (CT-PA) is needed. D-dimer is elevated in many conditions (infection, cancer, pregnancy, recent surgery, trauma).", "The most common cause of death from PE is RIGHT VENTRICULAR FAILURE, not hypoxemia. The thin-walled RV cannot handle the acute increase in pulmonary vascular resistance. RV dilation → septal shift → decreased LV filling → decreased cardiac output → obstructive shock.", "Post-thrombotic syndrome (PTS) affects 20-50% of DVT patients within 2 years. Chronic venous insufficiency causes pain, swelling, skin changes, and ulceration. Compression stockings (30-40 mmHg) were previously recommended for prevention but recent evidence (SOX trial) is equivocal.", "If a patient has a cardiac arrest and PE is suspected, consider administering tPA during CPR. The 2020 AHA guidelines state that fibrinolytic therapy can be considered for cardiac arrest with suspected PE. Continue CPR for at least 60-90 minutes after fibrinolytic administration to allow drug effect."],
     quiz: [{ question: "A postoperative patient on day 3 after hip replacement reports sudden onset of dyspnea, pleuritic chest pain, and anxiety. Vital signs: HR 118, RR 28, BP 88/60, SpO2 88%. What is the most likely diagnosis and priority intervention?", options: ["Pneumothorax: prepare for chest tube insertion", "Massive pulmonary embolism: prepare for systemic thrombolysis and supportive care", "Acute MI: obtain 12-lead ECG and administer aspirin", "Fat embolism syndrome: supportive care and high-flow oxygen"], correct: 1, rationale: "This postoperative orthopedic patient (high VTE risk: immobility + surgery + endothelial injury = all three components of Virchow's triad) presents with the classic triad of massive PE: sudden dyspnea, pleuritic chest pain, and hemodynamic instability (HR 118, BP 88/60, SpO2 88%). The hypotension classifies this as massive (high-risk) PE. Priority interventions: Supplemental oxygen/intubation if needed, IV fluid bolus (cautious: RV is preload-dependent but also volume-sensitive), vasopressors (norepinephrine), and systemic thrombolysis (alteplase 100 mg IV over 2 hours) given hemodynamic compromise. CT-PA confirms diagnosis if patient is stable enough for imaging, but treatment should not be delayed in hemodynamically unstable patients with high clinical suspicion. Fat embolism typically presents 24-72 hours post-fracture with petechial rash, confusion, and respiratory distress: less likely on day 3 post-replacement." }]
   },
+  "heart-failure": {
+    title: "Heart Failure",
+    cellular: { title: "Pump Failure Pathophysiology", content: "Heart failure occurs when the ventricles cannot pump sufficient blood to meet metabolic demands. Compensatory mechanisms (SNS activation, RAAS, ventricular remodeling) initially maintain output but eventually worsen the condition through fluid retention and increased afterload." },
+    riskFactors: ["Coronary artery disease", "Hypertension (chronic afterload increase)", "Valvular heart disease", "Diabetes mellitus", "Obesity", "Alcohol abuse", "Prior myocardial infarction", "Family history of cardiomyopathy"],
+    diagnostics: ["Expect BNP/NT-proBNP to be ordered (elevated in HF)", "Expect echocardiogram to assess ejection fraction", "Expect chest X-ray for pulmonary congestion", "Monitor daily weights at same time", "Monitor strict intake and output", "Expect basic metabolic panel for electrolytes and renal function"],
+    management: ["Position in high-Fowler's to ease breathing", "Enforce fluid restriction as ordered", "Enforce sodium restriction (<2g/day) as ordered", "Administer diuretics as prescribed", "Apply oxygen as ordered", "Maintain bed rest during acute exacerbation", "Apply compression stockings as ordered"],
+    nursingActions: ["Weigh patient daily (same time, same scale)", "Assess lung sounds every shift for crackles", "Monitor peripheral and sacral edema", "Report weight gain >2 lbs/24 hrs", "Measure intake and output strictly", "Educate on low-sodium diet", "Monitor for medication side effects (diuretic-induced hypokalemia)"],
+    signs: {
+      left: ["Dyspnea on exertion", "Orthopnea (uses 2-3 pillows)", "Fatigue and exercise intolerance", "S3 heart sound (ventricular gallop)"],
+      right: ["Pulmonary edema (pink frothy sputum)", "Severe peripheral edema and ascites", "Jugular venous distention", "Rapid weight gain (>3 lbs in 2 days)"]
+    },
+    medications: [
+      { name: "Furosemide", type: "Loop Diuretic", action: "Inhibits Na/K/2Cl cotransporter in loop of Henle to reduce fluid volume", sideEffects: "Hypokalemia, ototoxicity, dehydration", contra: "Severe hypovolemia, anuria", pearl: "Give IV push slowly; monitor potassium and replace as ordered." },
+      { name: "Lisinopril", type: "ACE Inhibitor", action: "Blocks angiotensin-converting enzyme to reduce afterload and prevent remodeling", sideEffects: "Dry cough, hyperkalemia, hypotension", contra: "Bilateral renal artery stenosis, angioedema history", pearl: "First-line for HFrEF; monitor renal function and potassium." }
+    ],
+    pearls: ["Daily weights are the most sensitive indicator of fluid status changes", "Left-sided HF = lungs (crackles, dyspnea); Right-sided HF = systemic (edema, JVD)", "Teach patients to weigh daily and report gains >2 lbs in 24 hours"],
+    quiz: [
+      { question: "A patient with heart failure has gained 3 lbs overnight. What is the priority nursing action?", options: ["Encourage ambulation", "Hold the morning diuretic", "Notify the provider", "Increase oral fluid intake"], correct: 2, rationale: "Rapid weight gain indicates fluid retention and worsening HF. The provider should be notified to adjust the diuretic regimen." },
+      { question: "Which assessment finding is most consistent with left-sided heart failure?", options: ["Hepatomegaly", "Jugular venous distention", "Bilateral crackles on auscultation", "Dependent pitting edema"], correct: 2, rationale: "Left-sided HF causes blood to back up into the pulmonary vasculature, resulting in pulmonary congestion heard as crackles." }
+    ]
+  },
+  "hypertension": {
+    title: "Hypertension",
+    cellular: { title: "Vascular Resistance Pathology", content: "Chronic elevation of systemic vascular resistance damages the endothelial lining of arteries, promoting atherosclerosis. Sustained pressure overload forces the left ventricle to hypertrophy, eventually leading to diastolic dysfunction and heart failure." },
+    riskFactors: ["Family history of hypertension", "High sodium diet", "Obesity", "Sedentary lifestyle", "Smoking", "Excessive alcohol intake", "Age >55 years", "African American descent"],
+    diagnostics: ["Expect serial blood pressure measurements to confirm diagnosis", "Expect basic metabolic panel for renal function", "Expect lipid panel to be ordered", "Monitor for target organ damage (retinal exam, urinalysis)", "Expect ECG to assess for left ventricular hypertrophy", "Expect urinalysis for proteinuria"],
+    management: ["Encourage DASH diet as ordered", "Promote regular aerobic exercise", "Administer antihypertensives as prescribed", "Educate on smoking cessation", "Limit sodium intake to <2g/day as ordered", "Encourage weight management", "Monitor blood pressure at home"],
+    nursingActions: ["Assess blood pressure in both arms at initial visit", "Use correct cuff size for accurate readings", "Educate patient on medication adherence", "Teach patient to rise slowly (orthostatic precautions)", "Monitor for signs of hypertensive crisis", "Educate about avoiding OTC decongestants and NSAIDs", "Assess for end-organ damage symptoms"],
+    signs: {
+      left: ["Often asymptomatic (silent killer)", "Mild headache (occipital, morning)", "Fatigue", "Elevated BP readings on routine screening"],
+      right: ["Severe headache with visual changes", "Epistaxis (severe)", "Chest pain or dyspnea", "Altered mental status (hypertensive encephalopathy)"]
+    },
+    medications: [
+      { name: "Amlodipine", type: "Calcium Channel Blocker", action: "Relaxes vascular smooth muscle to reduce peripheral resistance", sideEffects: "Peripheral edema, dizziness, flushing", contra: "Severe aortic stenosis", pearl: "No grapefruit juice; does not require potassium monitoring." },
+      { name: "Hydrochlorothiazide", type: "Thiazide Diuretic", action: "Inhibits sodium reabsorption in distal tubule to reduce blood volume", sideEffects: "Hypokalemia, hyperglycemia, hyperuricemia", contra: "Anuria, sulfonamide allergy", pearl: "Give in morning to avoid nocturia; first-line for uncomplicated HTN." }
+    ],
+    pearls: ["Hypertension is called the 'silent killer' because most patients are asymptomatic until organ damage occurs", "Teach patients to never abruptly stop beta-blockers (rebound hypertension/tachycardia)", "BP goal is generally <130/80 for most adults per current guidelines"],
+    quiz: [{ question: "A patient on hydrochlorothiazide reports muscle cramps and weakness. What lab should the nurse anticipate?", options: ["Serum calcium", "Serum potassium", "Serum sodium", "Blood glucose"], correct: 1, rationale: "Thiazide diuretics cause potassium wasting. Muscle cramps and weakness are classic signs of hypokalemia." }]
+  },
+  "peds-cardiac-basics": {
+    title: "Pediatric Cardiac Principles",
+    cellular: { title: "Fetal-to-Neonatal Transition", content: "At birth, the first breath drops pulmonary vascular resistance, increasing left atrial pressure to functionally close the foramen ovale. Rising PaO2 triggers ductus arteriosus constriction. Failure of these transitions results in persistent fetal circulation or symptomatic congenital heart defects." },
+    riskFactors: ["Maternal rubella in first trimester", "Maternal diabetes", "Chromosomal abnormalities (Trisomy 21)", "Family history of congenital heart disease", "Maternal alcohol/drug use", "Fetal exposure to teratogens", "Prematurity"],
+    diagnostics: ["Expect echocardiogram to evaluate cardiac structures", "Monitor pulse oximetry in all four extremities", "Expect chest X-ray for cardiac silhouette", "Monitor growth parameters (failure to thrive)", "Expect hyperoxia test for cyanotic defects", "Monitor feeding tolerance and weight gain"],
+    management: ["Cluster nursing care to minimize oxygen demand", "Feed in upright position with frequent rest periods", "Maintain thermoneutral environment", "Administer digoxin and diuretics as ordered", "Provide small, frequent, high-calorie feedings", "Position in semi-Fowler's for respiratory ease"],
+    nursingActions: ["Monitor for feeding intolerance and diaphoresis with feeds", "Assess apical pulse for full minute before digoxin administration", "Monitor oxygen saturation trends", "Report cyanosis that worsens with crying", "Weigh diapers for strict output measurement", "Educate parents on signs of heart failure in infants", "Maintain meticulous fluid balance records"],
+    signs: {
+      left: ["Tachypnea during feeding", "Diaphoresis with exertion", "Poor weight gain/failure to thrive", "Mild perioral cyanosis with crying"],
+      right: ["Severe cyanosis unresponsive to oxygen", "Hypercyanotic (Tet) spells", "Hepatomegaly and edema", "Absent or bounding femoral pulses"]
+    },
+    medications: [
+      { name: "Digoxin", type: "Cardiac Glycoside", action: "Increases myocardial contractility and slows AV conduction", sideEffects: "Bradycardia, nausea, visual disturbances", contra: "Hypokalemia (increases toxicity risk)", pearl: "Hold if apical pulse <100 in infant or <70 in child; check potassium before giving." },
+      { name: "Prostaglandin E1 (Alprostadil)", type: "Vasodilator", action: "Keeps ductus arteriosus patent in duct-dependent lesions", sideEffects: "Apnea, hypotension, fever", contra: "None absolute in emergent situations", pearl: "Have intubation equipment at bedside; apnea occurs in 10-12% of neonates." }
+    ],
+    pearls: ["Acyanotic defects (VSD, ASD) = left-to-right shunt = increased pulmonary blood flow", "Cyanotic defects (Tetralogy of Fallot) = right-to-left shunt = decreased pulmonary blood flow", "Knee-chest position increases systemic vascular resistance and helps resolve Tet spells"],
+    quiz: [{ question: "An infant with Tetralogy of Fallot becomes deeply cyanotic and irritable. What is the priority intervention?", options: ["Administer oxygen via nasal cannula", "Place in knee-chest position", "Obtain a 12-lead ECG", "Start an IV infusion"], correct: 1, rationale: "Knee-chest position increases systemic vascular resistance, which reduces right-to-left shunting and improves pulmonary blood flow during a Tet spell." }]
+  },
+  "cardiac-assessment-ecg": {
+    title: "Cardiac Assessment and ECG",
+    cellular: { title: "Electrical Conduction Basics", content: "Cardiac myocytes generate action potentials through sequential ion channel activation. The ECG records the sum of these electrical vectors from the body surface: P wave (atrial depolarization), QRS complex (ventricular depolarization), and T wave (ventricular repolarization)." },
+    riskFactors: ["Electrolyte imbalances (potassium, calcium, magnesium)", "Coronary artery disease", "Heart failure", "Drug toxicity (digoxin, antiarrhythmics)", "Thyroid disorders", "Structural heart disease", "Caffeine and stimulant use"],
+    diagnostics: ["Expect 12-lead ECG to be ordered", "Monitor continuous cardiac telemetry", "Expect serum electrolytes to be drawn", "Monitor cardiac biomarkers if ischemia suspected", "Expect rhythm strip interpretation", "Monitor for artifact vs true arrhythmia"],
+    management: ["Maintain continuous telemetry as ordered", "Ensure proper lead placement for accurate tracings", "Maintain electrolyte balance as ordered", "Keep crash cart accessible for monitored patients", "Document rhythm strips per protocol", "Report rhythm changes immediately"],
+    nursingActions: ["Verify lead placement at start of every shift", "Interpret and document rhythm strips", "Report PR interval >0.20 seconds or QRS >0.12 seconds", "Identify and escalate ST-segment changes", "Ensure alarm parameters are set appropriately", "Replace electrodes daily to maintain signal quality", "Correlate rhythm changes with patient symptoms"],
+    signs: {
+      left: ["Normal sinus rhythm on monitor", "Sinus tachycardia with activity", "Occasional PACs", "Sinus bradycardia in athletes"],
+      right: ["New ST elevation or depression", "Wide QRS (>0.12 sec) or bundle branch block", "Absent P waves with irregular rhythm (AFib)", "Ventricular tachycardia or fibrillation"]
+    },
+    medications: [
+      { name: "Amiodarone", type: "Antiarrhythmic (Class III)", action: "Prolongs action potential duration and refractory period in all cardiac tissue", sideEffects: "Pulmonary toxicity, thyroid dysfunction, photosensitivity", contra: "Severe sinus node dysfunction, iodine allergy", pearl: "Monitor thyroid and pulmonary function tests regularly; causes corneal microdeposits." },
+      { name: "Adenosine", type: "Antiarrhythmic", action: "Slows conduction through AV node to terminate SVT", sideEffects: "Chest tightness, flushing, transient asystole", contra: "Second/third degree heart block", pearl: "Give rapid IV push followed by 20mL NS flush; warn patient of brief 'dying' sensation." }
+    ],
+    pearls: ["Rate calculation: 300 divided by number of large boxes between R-R intervals", "ST elevation in two contiguous leads = STEMI until proven otherwise", "Always correlate ECG changes with patient clinical presentation"],
+    quiz: [{ question: "A nurse notes ST elevation in leads II, III, and aVF. Which coronary artery territory is affected?", options: ["Anterior (LAD)", "Lateral (circumflex)", "Inferior (RCA)", "Septal (LAD)"], correct: 2, rationale: "Leads II, III, and aVF represent the inferior wall of the heart, supplied primarily by the right coronary artery." }]
+  },
+  "cardiac-cycle-hemodynamics": {
+    title: "Cardiac Cycle and Hemodynamics",
+    cellular: { title: "Pressure-Volume Relationships", content: "The cardiac cycle consists of systole (ventricular contraction/ejection) and diastole (ventricular relaxation/filling). Cardiac output is determined by heart rate x stroke volume, with stroke volume influenced by preload (volume), afterload (resistance), and contractility (force)." },
+    riskFactors: ["Heart failure (impaired contractility)", "Hypertension (increased afterload)", "Dehydration/hemorrhage (decreased preload)", "Valvular disease (altered flow dynamics)", "Sepsis (distributive vasodilation)", "Cardiac tamponade (impaired filling)"],
+    diagnostics: ["Monitor blood pressure trends (systolic, diastolic, MAP)", "Expect echocardiogram for ejection fraction", "Monitor central venous pressure if line present", "Expect cardiac output measurements", "Monitor urine output as perfusion indicator", "Expect lactate levels for tissue perfusion"],
+    management: ["Maintain adequate preload with IV fluids as ordered", "Administer vasoactive medications per protocol", "Position to optimize venous return", "Monitor hemodynamic parameters continuously", "Maintain MAP >65 mmHg as ordered", "Titrate medications based on hemodynamic goals"],
+    nursingActions: ["Calculate and document MAP (target >65)", "Monitor urine output hourly (minimum 0.5 mL/kg/hr)", "Assess peripheral perfusion (capillary refill, skin temperature)", "Document hemodynamic trends", "Report cardiac output <4 L/min", "Correlate vital signs with patient symptoms", "Monitor for signs of inadequate tissue perfusion"],
+    signs: {
+      left: ["Adequate MAP (>65 mmHg)", "Warm extremities with brisk capillary refill", "Urine output >0.5 mL/kg/hr", "Alert and oriented mental status"],
+      right: ["MAP <65 mmHg despite interventions", "Cool mottled extremities", "Oliguria (<0.5 mL/kg/hr)", "Altered mental status, confusion"]
+    },
+    medications: [
+      { name: "Dobutamine", type: "Beta-1 Agonist (Inotrope)", action: "Increases myocardial contractility and cardiac output", sideEffects: "Tachycardia, hypotension, arrhythmias", contra: "Hypertrophic obstructive cardiomyopathy", pearl: "Used in cardiogenic shock to improve contractility; monitor for tachyarrhythmias." },
+      { name: "Norepinephrine", type: "Alpha/Beta Agonist (Vasopressor)", action: "Increases systemic vascular resistance and MAP", sideEffects: "Tissue necrosis with extravasation, reflex bradycardia", contra: "Hypovolemia (must correct volume first)", pearl: "First-line vasopressor in septic shock; give via central line when possible." }
+    ],
+    pearls: ["Cardiac Output = Heart Rate x Stroke Volume (CO = HR x SV)", "MAP = (SBP + 2 x DBP) / 3; target >65 for adequate organ perfusion", "Preload = volume (Frank-Starling mechanism); Afterload = resistance; Contractility = force"],
+    quiz: [{ question: "A patient in septic shock has low SVR and high cardiac output. Which medication does the nurse anticipate?", options: ["Dobutamine", "Norepinephrine", "Furosemide", "Diltiazem"], correct: 1, rationale: "Septic shock features distributive vasodilation (low SVR). Norepinephrine is the first-line vasopressor to increase SVR and maintain MAP." }]
+  },
+  "conduction-system": {
+    title: "Conduction System and Dysrhythmias",
+    cellular: { title: "Automaticity and Conduction", content: "The SA node has the fastest intrinsic rate (60-100 bpm) and serves as the primary pacemaker. If it fails, the AV junction (40-60 bpm) or ventricular Purkinje fibers (20-40 bpm) take over. Dysrhythmias arise from altered automaticity, re-entry circuits, or triggered activity." },
+    riskFactors: ["Electrolyte imbalances (hypo/hyperkalemia)", "Myocardial ischemia or infarction", "Heart failure", "Drug toxicity (digoxin, beta-blockers)", "Hypoxia", "Thyroid disorders", "Excessive caffeine or stimulant use"],
+    diagnostics: ["Expect 12-lead ECG and rhythm strip analysis", "Monitor continuous telemetry", "Expect serum potassium, magnesium, calcium levels", "Monitor cardiac biomarkers if ischemia suspected", "Expect thyroid function tests", "Monitor drug levels if applicable (digoxin)"],
+    management: ["Maintain continuous cardiac monitoring as ordered", "Correct electrolyte imbalances as prescribed", "Administer antiarrhythmics as ordered", "Keep defibrillator/crash cart at bedside", "Maintain adequate oxygenation", "Restrict stimulants as ordered"],
+    nursingActions: ["Identify rhythm on telemetry every shift and with changes", "Report new-onset atrial fibrillation or ventricular rhythms immediately", "Assess pulse with rhythm changes (pulseless = emergency)", "Document rhythm strip with each assessment", "Check apical-radial pulse deficit in atrial fibrillation", "Monitor for hemodynamic instability with rhythm changes", "Ensure alarm limits are individualized and active"],
+    signs: {
+      left: ["Sinus tachycardia or bradycardia", "Premature beats (PACs, PVCs)", "First-degree AV block", "Atrial fibrillation with controlled rate"],
+      right: ["Ventricular tachycardia (pulseless or unstable)", "Ventricular fibrillation", "Third-degree heart block", "Torsades de Pointes"]
+    },
+    medications: [
+      { name: "Atropine", type: "Anticholinergic", action: "Blocks vagal tone at SA and AV nodes to increase heart rate", sideEffects: "Tachycardia, dry mouth, urinary retention", contra: "Narrow-angle glaucoma", pearl: "First-line for symptomatic bradycardia; ineffective for infranodal blocks (Mobitz II, 3rd degree)." },
+      { name: "Amiodarone", type: "Class III Antiarrhythmic", action: "Prolongs repolarization and refractory period in all cardiac tissue", sideEffects: "Pulmonary fibrosis, thyroid dysfunction, hepatotoxicity", contra: "Cardiogenic shock, severe sinus node disease", pearl: "Monitor for QT prolongation; assess thyroid and pulmonary function regularly." }
+    ],
+    pearls: ["VFib = NO pulse, NO organized rhythm = immediate defibrillation", "Atrial fibrillation without anticoagulation = stroke risk (CHA2DS2-VASc score)", "Peaked T waves on ECG suggest hyperkalemia; flattened T waves suggest hypokalemia"],
+    quiz: [{ question: "A patient on a telemetry monitor suddenly shows ventricular fibrillation. What is the nurse's first action?", options: ["Administer amiodarone IV push", "Begin CPR and call a code", "Obtain a 12-lead ECG", "Check a pulse and defibrillate if pulseless"], correct: 3, rationale: "Per ACLS protocol, check for a pulse. Ventricular fibrillation is pulseless; immediate defibrillation is the priority intervention." }]
+  },
+  "pad-claudication": {
+    title: "Peripheral Artery Disease and Claudication",
+    cellular: { title: "Arterial Occlusive Disease", content: "Atherosclerotic plaque progressively narrows peripheral arteries, reducing distal blood flow. During exercise, the increased oxygen demand exceeds the limited supply through stenosed vessels, causing intermittent claudication. Severe disease leads to rest pain and tissue necrosis." },
+    riskFactors: ["Smoking (strongest modifiable risk factor)", "Diabetes mellitus", "Hypertension", "Hyperlipidemia", "Age >50 years", "Chronic kidney disease", "Family history of atherosclerosis"],
+    diagnostics: ["Expect ankle-brachial index (ABI) to be ordered", "Expect duplex ultrasound of lower extremities", "Monitor pedal pulses and capillary refill", "Expect lipid panel and HbA1c", "Expect CT angiography for severe disease", "Monitor wound healing progress"],
+    management: ["Encourage supervised walking exercise program", "Position legs flat or slightly dependent (NOT elevated)", "Administer antiplatelet therapy as ordered", "Protect feet from injury with proper footwear", "Maintain skin integrity with gentle cleansing", "Administer statin therapy as ordered", "Avoid cold exposure to extremities"],
+    nursingActions: ["Assess pedal pulses bilaterally every shift", "Monitor ABI trends", "Inspect feet daily for ulcers, color changes, hair loss", "Educate on smoking cessation (most important intervention)", "Report new rest pain or non-healing wounds", "Teach proper foot care and shoe selection", "Monitor for signs of acute limb ischemia (6 Ps)"],
+    signs: {
+      left: ["Intermittent claudication (calf pain with walking)", "Cool extremities with diminished pulses", "Hair loss on lower legs", "Pale or shiny skin on affected limb"],
+      right: ["Rest pain (especially nocturnal)", "Non-healing ulcers on toes/feet", "Gangrene of toes", "Absent pedal pulses with rubor on dependency"]
+    },
+    medications: [
+      { name: "Cilostazol", type: "Phosphodiesterase III Inhibitor", action: "Vasodilates and inhibits platelet aggregation to improve walking distance", sideEffects: "Headache, diarrhea, palpitations", contra: "Heart failure (any severity)", pearl: "Contraindicated in HF; take on empty stomach for best absorption." },
+      { name: "Clopidogrel", type: "Antiplatelet (P2Y12 Inhibitor)", action: "Irreversibly blocks ADP-mediated platelet activation", sideEffects: "Bleeding, bruising, GI upset", contra: "Active bleeding", pearl: "Hold 5-7 days before elective surgery; monitor for signs of bleeding." }
+    ],
+    pearls: ["Arterial ulcers: painful, pale base, well-defined borders, found on toes/feet", "Venous ulcers: minimal pain, ruddy base, irregular borders, found on medial malleolus", "Never elevate legs above heart level in arterial disease (worsens ischemia)"],
+    quiz: [{ question: "A patient with PAD asks about the best way to improve their walking distance. What is the nurse's best response?", options: ["Elevate your legs when resting", "Participate in a supervised walking program", "Avoid all physical activity", "Apply heat to your legs before walking"], correct: 1, rationale: "Supervised exercise programs improve collateral circulation and are first-line therapy for intermittent claudication." }]
+  },
+  "cardioversion-defib": {
+    title: "Cardioversion and Defibrillation",
+    cellular: { title: "Electrical Therapy for Dysrhythmias", content: "Defibrillation delivers an unsynchronized shock to depolarize all myocardial cells simultaneously, allowing the SA node to resume control. Synchronized cardioversion times the shock to the R wave to avoid the vulnerable T-wave period, which could trigger ventricular fibrillation." },
+    riskFactors: ["Atrial fibrillation or flutter (for cardioversion)", "Ventricular fibrillation or pulseless VT (for defibrillation)", "Unstable tachyarrhythmias", "Electrolyte imbalances", "Digitalis toxicity", "Myocardial ischemia"],
+    diagnostics: ["Expect 12-lead ECG before and after procedure", "Monitor continuous telemetry", "Expect electrolytes to be drawn (potassium, magnesium)", "Monitor coagulation studies if on anticoagulants", "Expect digoxin level if patient on digoxin", "Monitor oxygen saturation"],
+    management: ["Ensure sync mode is ON for cardioversion", "Ensure sync mode is OFF for defibrillation", "Have emergency airway equipment at bedside", "Administer sedation for elective cardioversion as ordered", "Ensure anticoagulation for AFib >48 hours before cardioversion", "Clear all personnel before delivering shock"],
+    nursingActions: ["Verify informed consent for elective cardioversion", "Apply conductive pads in proper position", "Ensure patient is NPO for elective procedures", "Call 'Clear!' and verify before shock delivery", "Monitor rhythm and vitals post-procedure", "Document rhythm, energy level, and patient response", "Assess skin under pads post-procedure"],
+    signs: {
+      left: ["Stable tachyarrhythmia (candidate for cardioversion)", "Patient responsive and symptomatic", "Atrial fibrillation with rapid ventricular response", "Organized rhythm on monitor"],
+      right: ["Pulseless ventricular tachycardia", "Ventricular fibrillation", "Hemodynamic collapse", "Loss of consciousness"]
+    },
+    medications: [
+      { name: "Midazolam", type: "Benzodiazepine (Sedative)", action: "Provides procedural sedation for elective cardioversion", sideEffects: "Respiratory depression, hypotension", contra: "Severe respiratory insufficiency", pearl: "Have flumazenil (reversal agent) available; monitor respiratory status." },
+      { name: "Epinephrine", type: "Catecholamine", action: "Increases coronary and cerebral perfusion during cardiac arrest", sideEffects: "Tachycardia, hypertension, arrhythmias", contra: "None in cardiac arrest", pearl: "Give 1mg IV every 3-5 minutes during cardiac arrest per ACLS." }
+    ],
+    pearls: ["Defibrillation = unsynchronized = for VFib/pulseless VT only", "Cardioversion = synchronized = for unstable tachycardias with a pulse", "After cardioversion, re-check that sync mode is ON before each subsequent shock (many defibrillators auto-reset to unsync after each shock)"],
+    quiz: [{ question: "A nurse is assisting with synchronized cardioversion for unstable atrial fibrillation. What must be verified before delivering the shock?", options: ["The patient is intubated", "The sync mode is activated on the defibrillator", "A central line is in place", "The patient has a digoxin level drawn"], correct: 1, rationale: "Sync mode times the shock to the R wave, avoiding the vulnerable T-wave period that could trigger ventricular fibrillation." }]
+  },
+  "raynauds-phenomenon-rpn": {
+    title: "Raynaud's Phenomenon",
+    cellular: { title: "Vasospastic Response", content: "Episodic vasospasm of digital arteries and arterioles causes a classic triphasic color change: white (ischemia), blue (cyanosis), and red (reperfusion). In primary Raynaud's, the vasospasm is exaggerated and idiopathic; in secondary Raynaud's, it is associated with connective tissue diseases." },
+    riskFactors: ["Female sex (predominant)", "Cold climate exposure", "Connective tissue disease (scleroderma, SLE)", "Smoking", "Repetitive vibration exposure", "Beta-blocker use", "Family history"],
+    diagnostics: ["Monitor for triphasic color changes in digits", "Expect ANA and ESR if autoimmune disease suspected", "Monitor capillary refill in digits", "Expect cold stimulation test", "Monitor for digital ulceration"],
+    management: ["Avoid cold exposure and maintain warmth", "Administer calcium channel blockers as ordered", "Apply warm soaks to hands as ordered", "Encourage smoking cessation", "Avoid vasoconstrictive medications"],
+    nursingActions: ["Monitor and report color changes in digits", "Administer medications as ordered", "Teach patient to wear insulated gloves in cold weather", "Report any digital ulceration or non-healing wounds", "Educate on stress reduction techniques", "Monitor for medication side effects", "Report worsening episodes to provider"],
+    signs: {
+      left: ["Episodic white/blue fingers with cold exposure", "Numbness and tingling in affected digits", "Triphasic color change (white-blue-red)", "Symptoms resolve with warming"],
+      right: ["Digital ulceration", "Persistent cyanosis despite warming", "Gangrene of fingertips", "Severe pain with tissue loss"]
+    },
+    medications: [
+      { name: "Nifedipine", type: "Calcium Channel Blocker", action: "Relaxes vascular smooth muscle to reduce vasospasm", sideEffects: "Headache, dizziness, peripheral edema", contra: "Severe hypotension", pearl: "Most commonly prescribed for Raynaud's; take with food." }
+    ],
+    pearls: ["Teach patients to wear layered clothing and insulated gloves", "Secondary Raynaud's is associated with scleroderma and may indicate more serious autoimmune disease", "Smoking cessation is critical as nicotine causes vasoconstriction"],
+    quiz: [{ question: "A patient with Raynaud's phenomenon reports white fingers after going outside in winter. What should the RPN teach first?", options: ["Apply ice to the fingers", "Wear insulated gloves and avoid cold exposure", "Take aspirin daily", "Elevate the hands above the heart"], correct: 1, rationale: "Cold avoidance and keeping extremities warm is the primary non-pharmacologic intervention for Raynaud's." }]
+  },
+  "buergers-disease-rpn": {
+    title: "Buerger's Disease",
+    cellular: { title: "Thromboangiitis Obliterans", content: "Buerger's disease causes segmental inflammation and thrombosis of small and medium arteries and veins, primarily in the extremities. Unlike atherosclerosis, the vessel wall remains intact but becomes heavily infiltrated with inflammatory cells and thrombus. It occurs almost exclusively in smokers." },
+    riskFactors: ["Tobacco use (essential for diagnosis)", "Male sex (historically, though female incidence rising)", "Age 20-40 years", "Southeast Asian or Middle Eastern descent", "Cannabis use (emerging risk)", "Heavy smoking (>1.5 packs/day)"],
+    diagnostics: ["Expect arteriography showing 'corkscrew' collateral vessels", "Monitor Allen test result", "Expect CBC and inflammatory markers", "Monitor pedal and radial pulses", "Expect autoimmune panel to rule out other vasculitis"],
+    management: ["Absolute smoking cessation (only treatment that halts disease)", "Administer analgesics as ordered", "Maintain wound care for ulcerations as ordered", "Avoid cold exposure", "Protect extremities from trauma"],
+    nursingActions: ["Monitor and report changes in peripheral pulses", "Assess digits for color changes and ulceration", "Administer medications as ordered", "Educate on absolute tobacco cessation", "Report any new pain or wound development", "Monitor wound healing progress", "Document neurovascular assessments"],
+    signs: {
+      left: ["Intermittent claudication in arches of feet", "Cold sensitivity in fingers and toes", "Color changes in digits", "Migratory superficial thrombophlebitis"],
+      right: ["Rest pain in digits", "Non-healing ulcers on fingers/toes", "Gangrene of digits", "Absent distal pulses"]
+    },
+    medications: [
+      { name: "Iloprost", type: "Prostacyclin Analogue", action: "Vasodilates and inhibits platelet aggregation", sideEffects: "Headache, flushing, jaw pain", contra: "Active bleeding", pearl: "Used IV for critical limb ischemia; smoking cessation remains the most effective treatment." }
+    ],
+    pearls: ["Complete smoking cessation is the ONLY way to stop disease progression", "Even one cigarette can trigger disease flare", "Buerger's differs from PAD: affects young smokers, involves both arteries and veins"],
+    quiz: [{ question: "A 30-year-old male smoker presents with foot claudication and digital ulcers. What is the most important intervention the RPN should reinforce?", options: ["Start anticoagulation therapy", "Complete and permanent smoking cessation", "Elevate the legs above heart level", "Apply compression stockings"], correct: 1, rationale: "Complete tobacco cessation is the only intervention proven to halt disease progression in Buerger's disease." }]
+  },
+  "venous-insufficiency-rpn": {
+    title: "Venous Insufficiency",
+    cellular: { title: "Venous Valve Incompetence", content: "Damaged or weakened venous valves allow blood to reflux and pool in the lower extremities. Sustained venous hypertension causes fluid transudation, hemosiderin deposition (brown staining), and chronic inflammatory changes that impair skin integrity and wound healing." },
+    riskFactors: ["History of DVT", "Obesity", "Prolonged standing or sitting", "Pregnancy (multiple)", "Female sex", "Age >50 years", "Family history of venous disease"],
+    diagnostics: ["Expect venous duplex ultrasound to assess valve function", "Monitor for hemosiderin staining", "Expect wound assessment for venous ulcers", "Monitor leg circumference for edema trends", "Expect albumin level if significant edema"],
+    management: ["Elevate legs above heart level when resting", "Apply compression stockings as ordered (30-40 mmHg)", "Maintain wound care protocol as ordered", "Administer diuretics if prescribed", "Encourage walking and calf muscle exercises", "Avoid prolonged standing or sitting"],
+    nursingActions: ["Monitor and report wound characteristics", "Apply compression wraps/stockings as ordered", "Measure and document leg circumference", "Administer medications as ordered", "Educate on leg elevation techniques", "Report signs of wound infection", "Assess skin integrity every shift"],
+    signs: {
+      left: ["Dependent edema (worse at end of day)", "Brown discoloration (hemosiderin staining)", "Aching/heaviness in legs with standing", "Dilated superficial veins"],
+      right: ["Large shallow ulcers at medial malleolus", "Weeping edema with skin breakdown", "Cellulitis surrounding wound", "Lipodermatosclerosis (hardened, tight skin)"]
+    },
+    medications: [
+      { name: "Horse Chestnut Seed Extract", type: "Venotonic", action: "Reduces capillary permeability and venous distensibility", sideEffects: "GI upset, dizziness", contra: "Liver disease, bleeding disorders", pearl: "May be used as adjunct to compression therapy; not a substitute for compression." }
+    ],
+    pearls: ["Venous ulcers: medial malleolus, shallow, ruddy base, irregular borders, minimal pain", "Compression therapy is the cornerstone of treatment; never use on arterial disease (check ABI first)", "Elevate legs ABOVE heart level, not just on a footstool"],
+    quiz: [{ question: "A patient with venous insufficiency has an ulcer at the medial malleolus. Before applying compression stockings, what assessment is essential?", options: ["Serum albumin level", "Ankle-brachial index (ABI)", "Wound culture results", "Hemoglobin level"], correct: 1, rationale: "ABI must be checked before compression therapy. If arterial disease is present (ABI <0.8), compression can worsen ischemia." }]
+  },
+  "varicose-veins-rpn": {
+    title: "Varicose Veins",
+    cellular: { title: "Vein Wall Weakness and Valve Failure", content: "Weakened vein walls dilate under sustained venous pressure, causing the valves to become incompetent. This creates a cycle of reflux, further dilation, and worsening valve failure. Blood pools in the superficial venous system, creating tortuous, distended veins visible under the skin." },
+    riskFactors: ["Prolonged standing occupation", "Obesity", "Pregnancy", "Family history", "Female sex", "Age >40 years", "History of DVT"],
+    diagnostics: ["Expect duplex ultrasound to assess reflux", "Monitor Trendelenburg test result", "Expect visual assessment of vein distribution", "Monitor for signs of venous insufficiency progression", "Expect ABI if arterial disease needs to be ruled out"],
+    management: ["Apply graduated compression stockings as ordered", "Elevate legs when sitting or resting", "Encourage regular walking", "Avoid prolonged standing or crossing legs", "Administer sclerotherapy post-care as ordered", "Maintain healthy weight"],
+    nursingActions: ["Assess varicose vein distribution and severity", "Apply compression stockings as ordered", "Monitor for thrombophlebitis signs", "Administer medications as ordered", "Educate on leg elevation and activity", "Report new pain, swelling, or skin changes", "Post-sclerotherapy: monitor injection sites"],
+    signs: {
+      left: ["Visible tortuous dilated veins", "Aching or heaviness in legs", "Leg fatigue worsened by prolonged standing", "Mild ankle edema at end of day"],
+      right: ["Superficial thrombophlebitis (tender, warm cord)", "Skin ulceration near varicosities", "Significant edema with skin changes", "Bleeding from ruptured varicosity"]
+    },
+    medications: [
+      { name: "Sodium Tetradecyl Sulfate", type: "Sclerosant", action: "Injected into varicose veins to cause fibrosis and closure", sideEffects: "Skin discoloration, local pain, allergic reaction", contra: "DVT, skin infection at injection site", pearl: "Post-procedure: compression and walking; avoid prolonged sitting." }
+    ],
+    pearls: ["Compression stockings should be applied in the morning before standing", "Walking improves calf muscle pump action and venous return", "Varicose veins alone are mostly cosmetic, but can progress to venous insufficiency"],
+    quiz: [{ question: "When should compression stockings be applied for a patient with varicose veins?", options: ["After walking for 30 minutes", "First thing in the morning before getting out of bed", "Only when legs are symptomatic", "At bedtime to prevent nocturnal edema"], correct: 1, rationale: "Compression stockings should be applied in the morning before standing when veins are least distended, to prevent blood pooling throughout the day." }]
+  },
+  "endocarditis-basics-rpn": {
+    title: "Endocarditis Basics",
+    cellular: { title: "Valvular Vegetation Formation", content: "Infective endocarditis begins when bacteria enter the bloodstream and adhere to damaged endocardial surfaces, typically heart valves. Vegetations (fibrin-platelet-bacteria masses) form and can fragment, sending septic emboli to the brain, kidneys, spleen, and skin." },
+    riskFactors: ["IV drug use (tricuspid valve)", "Prosthetic heart valves", "Structural heart defects", "Poor dental hygiene", "Rheumatic heart disease", "Immunosuppression", "Indwelling venous catheters"],
+    diagnostics: ["Expect multiple blood cultures before antibiotics", "Expect echocardiogram (TEE preferred)", "Monitor temperature trends", "Expect CBC with differential (elevated WBC)", "Monitor for embolic events"],
+    management: ["Administer IV antibiotics as ordered (4-6 weeks)", "Maintain IV access for prolonged therapy", "Monitor for embolic complications", "Maintain bed rest during acute febrile phase", "Ensure meticulous oral and skin hygiene"],
+    nursingActions: ["Monitor and report temperature spikes", "Administer antibiotics on schedule as ordered", "Assess for signs of embolic events (petechiae, splinter hemorrhages)", "Report new heart murmur to provider", "Monitor for signs of heart failure", "Perform neurovascular checks regularly", "Report Janeway lesions or Osler nodes"],
+    signs: {
+      left: ["Persistent fever despite antibiotics", "New or changing heart murmur", "Petechiae on conjunctivae or mucosa", "Splinter hemorrhages in nailbeds"],
+      right: ["Sudden neurological deficits (cerebral emboli)", "Hematuria (renal emboli)", "Left upper quadrant pain (splenic emboli)", "Heart failure symptoms (valve destruction)"]
+    },
+    medications: [
+      { name: "Vancomycin", type: "Glycopeptide Antibiotic", action: "Inhibits cell wall synthesis; covers MRSA and gram-positive organisms", sideEffects: "Red man syndrome (infuse slowly), nephrotoxicity, ototoxicity", contra: "Known hypersensitivity", pearl: "Infuse over at least 60 minutes; monitor trough levels and renal function." }
+    ],
+    pearls: ["Blood cultures BEFORE antibiotics (at least 3 sets from different sites)", "Prophylactic antibiotics before dental procedures for high-risk patients", "IV drug users most commonly affect the TRICUSPID valve"],
+    quiz: [{ question: "An RPN notes petechiae on a patient's conjunctivae and splinter hemorrhages in the nailbeds. Combined with fever and a new murmur, what condition should be reported?", options: ["Disseminated intravascular coagulation", "Infective endocarditis", "Rheumatic fever", "Thrombocytopenia"], correct: 1, rationale: "Petechiae, splinter hemorrhages, fever, and a new murmur are classic findings of infective endocarditis caused by septic emboli." }]
+  },
+  "rheumatic-fever-rpn": {
+    title: "Rheumatic Fever",
+    cellular: { title: "Autoimmune Cross-Reactivity", content: "Following untreated Group A Streptococcal pharyngitis, molecular mimicry triggers an autoimmune response where antibodies attack cardiac tissue (especially mitral valve), joints, skin, and the CNS. The cross-reactive antibodies damage the valve endothelium, leading to chronic valvular disease." },
+    riskFactors: ["Untreated strep pharyngitis", "Age 5-15 years", "Overcrowded living conditions", "Poor access to healthcare", "Family history", "Recurrent strep infections"],
+    diagnostics: ["Expect ASO titer (elevated)", "Expect throat culture or rapid strep test", "Monitor ESR and CRP (elevated)", "Expect echocardiogram for valve assessment", "Expect ECG for PR prolongation"],
+    management: ["Administer antibiotics to eradicate strep as ordered", "Maintain bed rest during acute carditis", "Administer anti-inflammatory medications as ordered", "Initiate prophylactic antibiotics as ordered", "Manage joint pain with positioning and comfort measures"],
+    nursingActions: ["Monitor and report cardiac symptoms (new murmur, tachycardia)", "Administer medications as ordered", "Assess joint involvement (migratory polyarthritis)", "Report chorea symptoms (involuntary movements)", "Monitor temperature trends", "Educate family on importance of completing antibiotic prophylaxis", "Report skin findings (erythema marginatum, subcutaneous nodules)"],
+    signs: {
+      left: ["Migratory polyarthritis (large joints)", "Low-grade fever", "Erythema marginatum (trunk rash)", "Elevated inflammatory markers"],
+      right: ["Carditis with new mitral murmur", "Sydenham chorea (involuntary movements)", "Heart failure symptoms", "Pericardial friction rub"]
+    },
+    medications: [
+      { name: "Penicillin V", type: "Antibiotic", action: "Eradicates Group A Streptococcus to prevent recurrence", sideEffects: "Allergic reaction, GI upset", contra: "Penicillin allergy", pearl: "Monthly IM penicillin G benzathine for secondary prophylaxis; duration depends on cardiac involvement." }
+    ],
+    pearls: ["Jones Criteria: major = carditis, polyarthritis, chorea, erythema marginatum, subcutaneous nodules", "Rheumatic fever does NOT occur without prior strep infection", "Mitral stenosis is the most common long-term valvular consequence"],
+    quiz: [{ question: "An RPN caring for a child with rheumatic fever should monitor for which most serious complication?", options: ["Joint deformity", "Carditis with valve damage", "Chronic skin rash", "Hearing loss"], correct: 1, rationale: "Carditis is the most serious manifestation of rheumatic fever because it can cause permanent mitral valve damage." }]
+  },
+  "kawasaki-disease-rpn": {
+    title: "Kawasaki Disease",
+    cellular: { title: "Systemic Vasculitis", content: "Kawasaki disease causes acute inflammation of medium-sized arteries throughout the body, with particular tropism for coronary arteries. The inflammatory cascade damages the arterial wall, leading to coronary artery aneurysms in 25% of untreated cases, which can thrombose and cause myocardial infarction." },
+    riskFactors: ["Age <5 years (peak 1-2 years)", "Male sex", "Asian descent (Japanese, Korean)", "Winter-spring seasonality", "Sibling history of Kawasaki disease"],
+    diagnostics: ["Expect echocardiogram to assess coronary arteries", "Monitor temperature (fever ≥5 days required for diagnosis)", "Expect CBC (thrombocytosis in subacute phase)", "Monitor ESR and CRP", "Expect urinalysis (sterile pyuria)"],
+    management: ["Administer IVIG as ordered (within first 10 days)", "Administer high-dose aspirin as ordered during acute phase", "Transition to low-dose aspirin as ordered for antiplatelet effect", "Monitor cardiac function closely", "Maintain adequate hydration"],
+    nursingActions: ["Monitor and report temperature trends", "Administer IVIG per protocol as ordered", "Assess mucous membranes and extremities", "Report changes in coronary artery assessment", "Monitor for IVIG reaction (fever, chills, hypotension)", "Assess skin for desquamation", "Educate parents on long-term cardiac follow-up"],
+    signs: {
+      left: ["High fever ≥5 days unresponsive to antibiotics", "Bilateral conjunctival injection (non-purulent)", "Strawberry tongue and cracked lips", "Edema and erythema of hands and feet"],
+      right: ["Coronary artery aneurysm on echo", "Peeling skin of fingers and toes (desquamation)", "Irritability (disproportionate to fever)", "Signs of myocardial ischemia (rare but critical)"]
+    },
+    medications: [
+      { name: "IVIG (Immune Globulin)", type: "Immunomodulator", action: "Reduces coronary artery aneurysm risk through anti-inflammatory effect", sideEffects: "Fever, chills, hypotension, anaphylaxis", contra: "IgA deficiency (check before administration)", pearl: "Must be given within first 10 days of illness for maximum benefit; delay live vaccines 11 months after IVIG." }
+    ],
+    pearls: ["Aspirin is used in Kawasaki disease despite the general pediatric rule against aspirin (Reye syndrome risk)", "Coronary artery aneurysm is the most dangerous complication", "Desquamation of fingers/toes occurs in the subacute phase (week 2-3)"],
+    quiz: [{ question: "A 3-year-old with Kawasaki disease is receiving IVIG. What is the most important assessment during infusion?", options: ["Monitor for desquamation", "Assess for infusion reaction (fever, hypotension, chills)", "Check for strawberry tongue resolution", "Monitor joint swelling"], correct: 1, rationale: "IVIG can cause anaphylaxis and infusion reactions. Vital signs should be monitored frequently during administration." }]
+  },
+  "cardiomyopathy-basics-rpn": {
+    title: "Cardiomyopathy Basics",
+    cellular: { title: "Myocardial Structural Disease", content: "Cardiomyopathies alter the structure and function of the ventricular myocardium. Dilated cardiomyopathy stretches and thins the walls (systolic failure). Hypertrophic cardiomyopathy thickens the septum (outflow obstruction). Restrictive cardiomyopathy stiffens the walls (diastolic failure)." },
+    riskFactors: ["Family history/genetic mutations (HCM)", "Chronic alcohol use (dilated)", "Viral myocarditis", "Chemotherapy (doxorubicin)", "Chronic hypertension", "Amyloidosis or sarcoidosis (restrictive)", "Peripartum state"],
+    diagnostics: ["Expect echocardiogram to assess chamber size and function", "Expect BNP level", "Monitor ECG for hypertrophy or arrhythmias", "Expect cardiac MRI for tissue characterization", "Monitor chest X-ray for cardiomegaly"],
+    management: ["Administer heart failure medications as ordered", "Maintain activity restrictions as ordered", "Administer anticoagulants if atrial fibrillation present as ordered", "Avoid strenuous exertion in HCM", "Maintain adequate hydration in HCM (avoid dehydration)"],
+    nursingActions: ["Monitor and report dyspnea, chest pain, or syncope", "Assess for signs of heart failure every shift", "Administer medications as ordered", "Monitor daily weights", "Report arrhythmias on telemetry", "Educate on activity restrictions (especially HCM)", "Report any syncopal episodes immediately"],
+    signs: {
+      left: ["Exertional dyspnea", "Fatigue and exercise intolerance", "Palpitations", "Systolic murmur (HCM) that increases with Valsalva"],
+      right: ["Syncope (especially with exertion in HCM)", "Severe heart failure symptoms", "Ventricular arrhythmias", "Sudden cardiac death risk (HCM)"]
+    },
+    medications: [
+      { name: "Metoprolol", type: "Beta-Blocker", action: "Reduces heart rate and myocardial oxygen demand; improves diastolic filling", sideEffects: "Bradycardia, hypotension, fatigue", contra: "Severe bradycardia, decompensated HF", pearl: "First-line for HCM; slows heart rate to improve filling time. Never stop abruptly." }
+    ],
+    pearls: ["HCM: leading cause of sudden cardiac death in young athletes", "Dilated CM: most common type; 'big floppy heart' with low EF", "In HCM, avoid dehydration, Valsalva, and strenuous exercise (increases outflow obstruction)"],
+    quiz: [{ question: "Which cardiomyopathy type is the leading cause of sudden cardiac death in young athletes?", options: ["Dilated cardiomyopathy", "Hypertrophic cardiomyopathy", "Restrictive cardiomyopathy", "Ischemic cardiomyopathy"], correct: 1, rationale: "Hypertrophic cardiomyopathy (HCM) causes septal thickening that can obstruct the left ventricular outflow tract during exertion, leading to fatal arrhythmias." }]
+  },
+  "shock-types-recognition-rpn": {
+    title: "Shock Types Recognition",
+    cellular: { title: "Inadequate Tissue Perfusion", content: "Shock occurs when cellular oxygen delivery fails to meet demand. Regardless of type, the end result is anaerobic metabolism, lactic acid accumulation, and cellular death. Each shock type has a distinct mechanism: cardiogenic (pump failure), hypovolemic (volume loss), distributive (vasodilation), or obstructive (mechanical barrier)." },
+    riskFactors: ["Hemorrhage or dehydration (hypovolemic)", "Myocardial infarction (cardiogenic)", "Sepsis or anaphylaxis (distributive)", "Tension pneumothorax or tamponade (obstructive)", "Burns (hypovolemic/distributive)", "Spinal cord injury (neurogenic/distributive)"],
+    diagnostics: ["Monitor vital signs frequently (trending is key)", "Expect lactate levels to assess tissue perfusion", "Monitor urine output hourly", "Expect CBC, metabolic panel, coagulation studies", "Monitor central venous pressure if available", "Expect arterial blood gas"],
+    management: ["Maintain IV access with large-bore catheters", "Administer fluids or blood products as ordered", "Administer vasopressors as ordered", "Position flat with legs elevated (for hypovolemic)", "Maintain airway and oxygenation", "Identify and treat underlying cause"],
+    nursingActions: ["Monitor and report vital sign trends every 15 minutes", "Monitor urine output hourly (report <30 mL/hr)", "Assess mental status changes", "Administer medications and fluids as ordered", "Report signs of worsening perfusion", "Monitor skin color, temperature, and capillary refill", "Document all interventions and responses"],
+    signs: {
+      left: ["Tachycardia (compensatory)", "Narrowing pulse pressure", "Anxiety and restlessness", "Cool, pale, clammy skin (except distributive)"],
+      right: ["Hypotension unresponsive to fluids", "Altered mental status/unresponsiveness", "Anuria", "Multi-organ dysfunction (MODS)"]
+    },
+    medications: [
+      { name: "Norepinephrine", type: "Vasopressor", action: "Increases SVR and MAP through alpha-adrenergic stimulation", sideEffects: "Tissue necrosis with extravasation, arrhythmias", contra: "Uncorrected hypovolemia", pearl: "First-line vasopressor for septic shock; always correct volume status first." },
+      { name: "Epinephrine", type: "Catecholamine", action: "Alpha and beta agonist; increases HR, contractility, and SVR", sideEffects: "Tachycardia, arrhythmias, hyperglycemia", contra: "None in anaphylaxis or cardiac arrest", pearl: "First-line for anaphylactic shock (0.3-0.5mg IM) and cardiac arrest." }
+    ],
+    pearls: ["Warm shock (distributive) = warm, flushed skin; Cold shock (all others) = cool, clammy skin", "Tachycardia is the earliest compensatory sign; hypotension is a LATE sign", "Lactate >4 mmol/L indicates severe tissue hypoperfusion"],
+    quiz: [{ question: "An RPN assesses a patient with warm, flushed skin, bounding pulses, and hypotension. Which type of shock should be reported?", options: ["Hypovolemic shock", "Cardiogenic shock", "Distributive shock (septic)", "Obstructive shock"], correct: 2, rationale: "Distributive shock (septic) causes massive vasodilation resulting in warm, flushed skin and low SVR, unlike other shock types which present with cold, clammy skin." }]
+  },
+  "chest-pain-differential-rpn": {
+    title: "Chest Pain Differential",
+    cellular: { title: "Chest Pain Pathways", content: "Chest pain can originate from cardiac ischemia (demand exceeding supply), pleural irritation, musculoskeletal strain, esophageal spasm, or anxiety. Cardiac pain is mediated by visceral afferent nerve fibers that also innervate the arm and jaw, explaining referred pain patterns." },
+    riskFactors: ["Coronary artery disease risk factors", "GERD or esophageal disorders", "Musculoskeletal injury or strain", "Anxiety/panic disorder", "Pulmonary conditions (PE, pneumothorax)", "Aortic dissection risk factors", "Pericarditis"],
+    diagnostics: ["Expect 12-lead ECG within 10 minutes of arrival", "Expect serial troponin levels", "Expect chest X-ray", "Monitor continuous telemetry", "Expect D-dimer if PE suspected", "Monitor oxygen saturation"],
+    management: ["Administer oxygen as ordered", "Obtain IV access", "Administer aspirin as ordered if cardiac cause suspected", "Administer nitroglycerin as ordered", "Position for comfort", "Keep NPO until diagnosis clarified"],
+    nursingActions: ["Assess pain using PQRST method", "Monitor and report vital signs frequently", "Obtain and report 12-lead ECG promptly", "Administer medications as ordered", "Report any hemodynamic instability", "Monitor for changes in pain character or severity", "Document detailed pain assessment"],
+    signs: {
+      left: ["Substernal chest pressure relieved by rest/nitroglycerin (angina)", "Sharp pleuritic pain worse with inspiration", "Reproducible pain with palpation (musculoskeletal)", "Burning epigastric pain after meals (GERD)"],
+      right: ["Crushing substernal pain with diaphoresis (MI)", "Tearing chest/back pain (aortic dissection)", "Sudden dyspnea with pleuritic pain (PE)", "Diffuse chest pain with pericardial friction rub (pericarditis)"]
+    },
+    medications: [
+      { name: "Nitroglycerin", type: "Vasodilator", action: "Reduces preload and dilates coronary arteries to improve myocardial oxygen supply", sideEffects: "Headache, hypotension, reflex tachycardia", contra: "SBP <90, recent PDE5 inhibitor use, right ventricular MI", pearl: "Give up to 3 doses sublingual 5 minutes apart; hold if SBP <90." }
+    ],
+    pearls: ["Cardiac chest pain: pressure/squeezing, radiates to jaw/arm, associated with diaphoresis and nausea", "Aortic dissection: sudden tearing pain radiating to back; do NOT give anticoagulants", "Women, elderly, and diabetics may present atypically (fatigue, nausea, dyspnea without classic pain)"],
+    quiz: [{ question: "A patient presents with sudden tearing chest pain radiating to the back and unequal arm blood pressures. What should the RPN suspect and report?", options: ["Myocardial infarction", "Pulmonary embolism", "Aortic dissection", "Pericarditis"], correct: 2, rationale: "Sudden tearing pain radiating to the back with BP discrepancy between arms is the classic presentation of aortic dissection." }]
+  },
+  "dic-basics": {
+    title: "DIC Basics",
+    cellular: { title: "Consumptive Coagulopathy", content: "Disseminated intravascular coagulation is a paradoxical state where widespread clotting in small vessels consumes all available clotting factors and platelets, leading to simultaneous hemorrhage. The trigger is massive release of tissue factor from damaged tissues, sepsis, or obstetric complications." },
+    riskFactors: ["Sepsis (most common cause)", "Obstetric complications (placental abruption, amniotic fluid embolism)", "Massive trauma or burns", "Malignancy (especially acute leukemia)", "Transfusion reactions", "Snake envenomation"],
+    diagnostics: ["Expect coagulation studies (PT/INR, PTT elevated)", "Monitor platelet count (thrombocytopenia)", "Expect fibrinogen level (low)", "Expect D-dimer and fibrin degradation products (elevated)", "Monitor CBC for hemoglobin trends", "Expect peripheral blood smear (schistocytes)"],
+    management: ["Treat the underlying cause (most important)", "Administer blood products as ordered (platelets, FFP, cryoprecipitate)", "Administer heparin as ordered if thrombosis predominates", "Maintain IV access with large-bore catheters", "Protect skin and mucous membranes from trauma", "Avoid IM injections and invasive procedures"],
+    nursingActions: ["Monitor for signs of both bleeding AND clotting", "Assess all body fluids for blood (urine, stool, sputum)", "Apply pressure to venipuncture sites for extended time", "Report petechiae, ecchymoses, or oozing from sites", "Monitor vital signs for hemorrhagic shock", "Use soft toothbrush and electric razor", "Document all bleeding episodes"],
+    signs: {
+      left: ["Petechiae and ecchymoses", "Oozing from IV sites and wounds", "Prolonged bleeding from venipuncture", "Microscopic hematuria"],
+      right: ["Uncontrolled hemorrhage from multiple sites", "Organ dysfunction from microvascular thrombosis", "Acral cyanosis (fingers, toes, nose)", "Signs of hemorrhagic shock"]
+    },
+    medications: [
+      { name: "Heparin", type: "Anticoagulant", action: "Interrupts the clotting cascade to halt the consumptive cycle in thrombotic-predominant DIC", sideEffects: "Hemorrhage, HIT", contra: "Active uncontrolled bleeding", pearl: "Controversial in DIC; used when thrombosis predominates. Monitor aPTT closely." }
+    ],
+    pearls: ["DIC = 'Death Is Coming' - high mortality; treat the underlying cause", "Lab triad: low platelets + low fibrinogen + elevated D-dimer", "Bleeding AND clotting occur simultaneously - unique to DIC"],
+    quiz: [{ question: "A patient with sepsis develops petechiae, oozing from IV sites, and has elevated D-dimer with low platelets. What does the nurse suspect?", options: ["Thrombocytopenic purpura", "Disseminated intravascular coagulation", "Hemophilia", "Vitamin K deficiency"], correct: 1, rationale: "Sepsis triggering simultaneous bleeding and clotting with elevated D-dimer and low platelets is classic DIC." }]
+  },
+  "marfan-syndrome-rpn": {
+    title: "Marfan Syndrome",
+    cellular: { title: "Fibrillin-1 Deficiency", content: "Marfan syndrome is an autosomal dominant connective tissue disorder caused by mutations in the FBN1 gene encoding fibrillin-1. Defective fibrillin weakens elastic fibers in the aorta, eyes, and skeleton, leading to aortic root dilation and risk of dissection or rupture." },
+    riskFactors: ["Family history (autosomal dominant)", "Spontaneous FBN1 mutation (25% of cases)", "Tall stature with long limbs", "Joint hypermobility", "Known aortic root dilation"],
+    diagnostics: ["Expect echocardiogram to monitor aortic root diameter", "Expect slit-lamp eye exam for lens subluxation", "Monitor blood pressure trends", "Expect genetic testing for FBN1 mutation", "Expect skeletal assessment (arm span > height)"],
+    management: ["Administer beta-blockers as ordered to reduce aortic wall stress", "Restrict strenuous physical activity and contact sports", "Monitor aortic root size with serial imaging", "Maintain blood pressure control", "Refer for genetic counseling"],
+    nursingActions: ["Monitor and report chest or back pain (aortic dissection risk)", "Administer medications as ordered", "Assess for Marfanoid features during assessment", "Report visual changes (lens subluxation)", "Educate on activity restrictions", "Monitor blood pressure trends", "Report any sudden severe pain immediately"],
+    signs: {
+      left: ["Tall, thin body habitus", "Long fingers (arachnodactyly)", "Pectus excavatum or carinatum", "Joint hypermobility"],
+      right: ["Sudden tearing chest/back pain (aortic dissection)", "Visual changes (lens subluxation)", "Aortic regurgitation murmur", "Spontaneous pneumothorax"]
+    },
+    medications: [
+      { name: "Atenolol", type: "Beta-Blocker", action: "Reduces heart rate and aortic wall stress to slow aortic dilation", sideEffects: "Bradycardia, fatigue, hypotension", contra: "Severe bradycardia, decompensated HF", pearl: "First-line to slow aortic root dilation; lifelong therapy required." }
+    ],
+    pearls: ["Aortic dissection is the leading cause of death in Marfan syndrome", "Avoid isometric exercises and contact sports (increases aortic wall stress)", "Lens subluxation is upward in Marfan (downward in homocystinuria)"],
+    quiz: [{ question: "A tall, thin patient with Marfan syndrome suddenly develops severe tearing chest pain radiating to the back. What is the priority action?", options: ["Administer nitroglycerin sublingual", "Report immediately and prepare for emergency intervention", "Perform a 12-lead ECG", "Encourage deep breathing exercises"], correct: 1, rationale: "Sudden tearing pain in a Marfan patient suggests aortic dissection, a life-threatening emergency requiring immediate notification and intervention." }]
+  },
+  "endocarditis-infection-rpn": {
+    title: "Endocarditis Infection",
+    cellular: { title: "Bacteremia and Valve Colonization", content: "Transient bacteremia allows organisms to seed damaged or prosthetic valve endothelium. Staphylococcus aureus (acute, aggressive) and Streptococcus viridans (subacute, indolent) are the most common pathogens. Vegetations serve as protected bacterial reservoirs resistant to immune clearance." },
+    riskFactors: ["IV drug use", "Prosthetic heart valves", "Prior endocarditis", "Poor dental hygiene", "Congenital heart defects", "Immunosuppression", "Central venous catheters"],
+    diagnostics: ["Expect 3 sets of blood cultures from different sites", "Expect transesophageal echocardiogram (TEE)", "Monitor temperature every 4 hours", "Expect CBC and inflammatory markers", "Monitor for embolic signs"],
+    management: ["Administer IV antibiotics on schedule as ordered", "Maintain IV access (PICC line for long-term therapy)", "Maintain bed rest during febrile phase", "Administer antipyretics as ordered", "Ensure adequate nutrition and hydration"],
+    nursingActions: ["Administer antibiotics at scheduled times as ordered", "Monitor and report fever patterns", "Assess for embolic complications each shift", "Report petechiae, Janeway lesions, or Osler nodes", "Monitor for new or changing murmur", "Assess neurological status (embolic stroke risk)", "Inspect IV/PICC site for infection daily"],
+    signs: {
+      left: ["Persistent low-grade fever", "Fatigue and malaise", "Night sweats", "New or changing heart murmur"],
+      right: ["Janeway lesions (painless palmar/plantar macules)", "Osler nodes (painful fingertip nodules)", "Roth spots (retinal hemorrhages)", "Stroke symptoms from septic emboli"]
+    },
+    medications: [
+      { name: "Nafcillin", type: "Penicillinase-Resistant Penicillin", action: "Bactericidal against MSSA endocarditis", sideEffects: "Phlebitis, interstitial nephritis, hepatotoxicity", contra: "Penicillin allergy", pearl: "Used for native valve MSSA endocarditis; vancomycin is substituted for MRSA." }
+    ],
+    pearls: ["Janeway lesions = painless (immune complex deposits); Osler nodes = painful (septic emboli)", "Subacute endocarditis (Strep viridans) = dental origin; Acute (Staph aureus) = IV drug use", "Antibiotic therapy typically requires 4-6 weeks of IV administration"],
+    quiz: [{ question: "An RPN notes painful nodules on a patient's fingertips. Combined with fever and a heart murmur, what should be reported?", options: ["Contact dermatitis", "Osler nodes suggestive of endocarditis", "Rheumatoid nodules", "Gout tophi"], correct: 1, rationale: "Osler nodes are painful nodules on fingertips caused by immune complex deposition, a classic sign of infective endocarditis." }]
+  },
+  "toxic-shock-syndrome-rpn": {
+    title: "Toxic Shock Syndrome",
+    cellular: { title: "Superantigen-Mediated Shock", content: "Toxic shock syndrome is caused by bacterial superantigen toxins (TSST-1 from S. aureus or streptococcal pyrogenic exotoxins) that bypass normal antigen processing and activate massive T-cell proliferation. This triggers a cytokine storm causing widespread vasodilation, capillary leak, and multi-organ failure." },
+    riskFactors: ["Tampon use (prolonged, super-absorbent)", "Nasal packing", "Wound infections", "Post-surgical infections", "Skin or soft tissue infections", "Burns"],
+    diagnostics: ["Expect blood cultures and wound cultures", "Monitor vital signs for shock", "Expect CBC, metabolic panel, liver function tests", "Monitor for coagulopathy", "Expect creatine kinase if myositis suspected"],
+    management: ["Remove source of infection (tampon, packing, foreign body)", "Administer IV fluids aggressively as ordered", "Administer antibiotics as ordered", "Administer vasopressors as ordered if hypotensive", "Maintain airway and oxygenation"],
+    nursingActions: ["Monitor and report vital signs every 15 minutes", "Administer fluids and medications as ordered", "Report diffuse rash progression", "Monitor urine output hourly", "Assess for signs of multi-organ dysfunction", "Report desquamation of palms and soles", "Educate on tampon safety (change every 4-8 hours)"],
+    signs: {
+      left: ["Sudden high fever (>102°F/38.9°C)", "Diffuse sunburn-like rash", "Myalgia and diarrhea", "Sore throat and headache"],
+      right: ["Hypotension and tachycardia (shock)", "Desquamation of palms/soles (1-2 weeks later)", "Altered mental status/confusion", "Multi-organ dysfunction (renal, liver failure)"]
+    },
+    medications: [
+      { name: "Clindamycin", type: "Lincosamide Antibiotic", action: "Inhibits bacterial protein synthesis including toxin production", sideEffects: "C. difficile colitis, diarrhea", contra: "Known hypersensitivity", pearl: "Added to antistaphylococcal antibiotics specifically to suppress toxin production." }
+    ],
+    pearls: ["Remove the source (tampon, packing) IMMEDIATELY - this is the priority", "Teach patients to change tampons every 4-8 hours and use lowest absorbency needed", "Rash desquamation (peeling palms/soles) occurs 1-2 weeks after onset and is diagnostic"],
+    quiz: [{ question: "A young woman presents with sudden fever, diffuse rash, and hypotension. She has a tampon in place. What is the RPN's priority action?", options: ["Obtain blood cultures", "Remove the tampon immediately and report findings", "Administer antibiotics", "Apply oxygen"], correct: 1, rationale: "Removing the source of infection (tampon) is the immediate priority in toxic shock syndrome to stop ongoing toxin production." }]
+  },
+  "focused-cardiac-assessment": {
+    title: "Focused Cardiac Assessment",
+    cellular: { title: "Systematic Heart Evaluation", content: "A focused cardiac assessment evaluates the heart's mechanical and electrical function through inspection, palpation, and auscultation of specific anatomic landmarks. Abnormal findings reflect alterations in valve function, chamber pressures, conduction, or myocardial perfusion." },
+    riskFactors: ["Cardiovascular disease risk factors", "History of valvular disease", "History of heart failure", "Hypertension", "Diabetes mellitus", "Family history of cardiac disease"],
+    diagnostics: ["Expect 12-lead ECG", "Monitor blood pressure bilaterally", "Expect cardiac biomarkers if ischemia suspected", "Monitor oxygen saturation", "Expect chest X-ray for cardiac silhouette"],
+    management: ["Perform systematic cardiac assessment per protocol", "Document and report abnormal findings", "Position patient appropriately for assessment", "Maintain calm environment for accurate auscultation", "Correlate findings with patient history"],
+    nursingActions: ["Inspect for JVD, edema, and cyanosis", "Palpate PMI at 5th intercostal space, midclavicular line", "Auscultate all four valve areas systematically", "Assess peripheral pulses bilaterally", "Monitor capillary refill time", "Document heart rate, rhythm, and any extra sounds", "Assess for orthopnea and dyspnea"],
+    signs: {
+      left: ["Regular rate and rhythm on auscultation", "PMI palpable at normal location", "Symmetric peripheral pulses", "Capillary refill <3 seconds"],
+      right: ["Displaced PMI (cardiomegaly)", "New murmur or gallop (S3, S4)", "Jugular venous distention", "Pulsus paradoxus (>10 mmHg variation)"]
+    },
+    medications: [
+      { name: "Nitroglycerin", type: "Vasodilator", action: "Reduces preload through venous dilation; dilates coronary arteries", sideEffects: "Headache, hypotension, dizziness", contra: "SBP <90, PDE5 inhibitors, right ventricular MI", pearl: "If chest pain occurs during assessment, administer as ordered; hold if SBP <90." }
+    ],
+    pearls: ["Auscultation landmarks: Aortic (2nd ICS right), Pulmonic (2nd ICS left), Erb's point (3rd ICS left), Tricuspid (4th ICS left), Mitral (5th ICS MCL)", "S3 = heart failure (volume overload); S4 = stiff ventricle (HTN, HCM)", "Always assess JVD with patient at 45-degree angle"],
+    quiz: [{ question: "During a focused cardiac assessment, the nurse hears an S3 heart sound. What condition does this suggest?", options: ["Aortic stenosis", "Heart failure (volume overload)", "Mitral valve prolapse", "Normal finding in elderly"], correct: 1, rationale: "S3 (ventricular gallop) occurs during rapid ventricular filling and indicates volume overload, commonly heard in heart failure." }]
+  },
+  "heart-sounds-rpn": {
+    title: "Heart Sounds",
+    cellular: { title: "Valve Closure Mechanics", content: "S1 (lub) results from closure of the mitral and tricuspid valves at the onset of systole. S2 (dub) results from closure of the aortic and pulmonic valves at the end of systole. Extra sounds (S3, S4, murmurs) indicate abnormal flow dynamics, valve dysfunction, or chamber compliance changes." },
+    riskFactors: ["Valvular heart disease", "Heart failure", "Hypertension", "Congenital heart defects", "Rheumatic heart disease", "Infective endocarditis"],
+    diagnostics: ["Monitor heart sounds with stethoscope", "Expect echocardiogram for murmur evaluation", "Monitor for changes in heart sounds over time", "Expect chest X-ray if cardiomegaly suspected", "Monitor oxygen saturation"],
+    management: ["Document and report abnormal heart sounds", "Position patient appropriately for auscultation", "Use bell of stethoscope for low-pitched sounds (S3, S4)", "Use diaphragm for high-pitched sounds (S1, S2, murmurs)", "Correlate sounds with symptoms"],
+    nursingActions: ["Auscultate heart sounds systematically at all four areas", "Report new murmurs or extra heart sounds", "Document character, location, and timing of sounds", "Differentiate S3 from S4 by timing", "Monitor for changes in previously documented sounds", "Assess respiratory effect on heart sounds", "Report murmur changes with position changes"],
+    signs: {
+      left: ["Normal S1 and S2", "Physiologic splitting of S2 with inspiration", "Innocent flow murmur (grade I-II, systolic)", "S4 in athletes (benign)"],
+      right: ["New S3 gallop (heart failure)", "Loud systolic murmur (grade III+)", "Diastolic murmur (always pathologic)", "Pericardial friction rub"]
+    },
+    medications: [
+      { name: "Digoxin", type: "Cardiac Glycoside", action: "Increases contractility and slows AV conduction", sideEffects: "Bradycardia, visual disturbances, GI upset, arrhythmias", contra: "Hypokalemia, hypomagnesemia, HCM", pearl: "Check apical pulse for full minute before administering; hold if HR <60 in adults." }
+    ],
+    pearls: ["All diastolic murmurs are pathologic until proven otherwise", "Murmurs graded I-VI: I = barely audible; VI = heard without stethoscope", "Use bell for S3/S4; diaphragm for murmurs and S1/S2"],
+    quiz: [{ question: "An RPN hears a diastolic murmur during assessment. What is the appropriate action?", options: ["Document as a normal finding", "Report to the provider immediately", "Recheck in 24 hours", "No action needed if the patient is asymptomatic"], correct: 1, rationale: "Diastolic murmurs are always considered pathologic and must be reported for further evaluation, typically with echocardiography." }]
+  },
+  "dvt-management": {
+    title: "DVT Management",
+    cellular: { title: "Virchow's Triad and Thrombus Formation", content: "Deep vein thrombosis develops when Virchow's triad converges: venous stasis (immobility), endothelial injury (surgery, trauma), and hypercoagulability (genetic or acquired). The thrombus can propagate and embolize to the pulmonary vasculature, causing potentially fatal pulmonary embolism." },
+    riskFactors: ["Immobility or prolonged bed rest", "Recent surgery (especially orthopedic)", "Malignancy", "Oral contraceptive or HRT use", "Obesity", "Pregnancy/postpartum", "Prior DVT history", "Factor V Leiden or other thrombophilia"],
+    diagnostics: ["Expect compression ultrasound of affected extremity", "Expect D-dimer level", "Monitor circumference measurements of affected limb", "Expect coagulation studies (PT/INR, aPTT)", "Monitor for signs of pulmonary embolism"],
+    management: ["Administer anticoagulation as ordered", "Elevate affected extremity above heart level", "Apply warm compresses as ordered (NOT massage)", "Administer analgesics as ordered", "Apply compression stockings to unaffected limb as ordered", "Encourage early ambulation once anticoagulated"],
+    nursingActions: ["Measure and compare leg circumferences bilaterally", "Assess for Homans sign (though unreliable)", "Monitor for sudden dyspnea or chest pain (PE)", "Administer anticoagulants as scheduled", "Monitor aPTT for heparin or INR for warfarin", "Educate on bleeding precautions", "Report signs of bleeding immediately"],
+    signs: {
+      left: ["Unilateral leg swelling", "Calf pain or tenderness", "Warmth and erythema over affected area", "Pitting edema of affected leg"],
+      right: ["Sudden dyspnea and chest pain (PE)", "Massive swelling with cyanosis (phlegmasia)", "Tachycardia and hypoxemia", "Hemodynamic instability (massive PE)"]
+    },
+    medications: [
+      { name: "Enoxaparin (Lovenox)", type: "Low Molecular Weight Heparin", action: "Inhibits Factor Xa to prevent clot propagation", sideEffects: "Bleeding, injection site bruising, thrombocytopenia", contra: "Active major bleeding, HIT history", pearl: "Inject in abdomen; do NOT aspirate or rub. Monitor anti-Xa levels if needed." },
+      { name: "Warfarin", type: "Vitamin K Antagonist", action: "Inhibits vitamin K-dependent clotting factor synthesis", sideEffects: "Hemorrhage, skin necrosis (rare)", contra: "Pregnancy, active bleeding", pearl: "Bridge with heparin until INR therapeutic (2-3); monitor for drug and food interactions (vitamin K)." }
+    ],
+    pearls: ["NEVER massage the affected leg (risk of embolization)", "Heparin and warfarin overlap for at least 5 days and until INR 2-3", "Teach patients on warfarin to maintain consistent vitamin K intake, not eliminate it"],
+    quiz: [{ question: "A patient on heparin for DVT suddenly develops dyspnea, chest pain, and tachycardia. What should the nurse suspect?", options: ["Heparin toxicity", "Pulmonary embolism", "Pneumonia", "Anxiety attack"], correct: 1, rationale: "Sudden dyspnea, chest pain, and tachycardia in a DVT patient strongly suggests pulmonary embolism from thrombus migration." }]
+  },
+  "neurogenic-shock": {
+    title: "Neurogenic Shock",
+    cellular: { title: "Sympathetic Denervation", content: "Neurogenic shock results from loss of sympathetic nervous system tone, typically from spinal cord injury above T6. Without sympathetic input, massive vasodilation occurs below the injury level, and the heart loses its sympathetic drive, resulting in bradycardia with hypotension - a unique combination among shock types." },
+    riskFactors: ["Spinal cord injury (above T6)", "Spinal anesthesia", "Severe brain injury", "Spinal cord tumors", "Epidural anesthesia complications"],
+    diagnostics: ["Monitor vital signs continuously", "Expect CT or MRI of spine", "Monitor neurological assessment", "Expect arterial blood gas", "Monitor urine output hourly", "Expect spinal X-rays"],
+    management: ["Maintain spinal immobilization as ordered", "Administer IV fluids cautiously as ordered", "Administer vasopressors as ordered", "Administer atropine for bradycardia as ordered", "Maintain normothermia (poikilothermia expected)", "Maintain adequate oxygenation"],
+    nursingActions: ["Monitor for bradycardia AND hypotension simultaneously", "Assess neurological status frequently", "Monitor temperature (patient cannot thermoregulate below injury)", "Report urine output <30 mL/hr", "Maintain spinal alignment", "Monitor for autonomic dysreflexia if chronic injury", "Prevent skin breakdown with position changes"],
+    signs: {
+      left: ["Hypotension with bradycardia (unique to neurogenic)", "Warm, dry, flushed skin below injury", "Loss of motor/sensory function below injury level", "Flaccid paralysis"],
+      right: ["Severe hypotension unresponsive to fluids", "Profound bradycardia", "Respiratory failure (high cervical injury)", "Poikilothermia (inability to regulate temperature)"]
+    },
+    medications: [
+      { name: "Phenylephrine", type: "Alpha-1 Agonist (Vasopressor)", action: "Pure alpha stimulation increases SVR without cardiac stimulation", sideEffects: "Reflex bradycardia, tissue necrosis with extravasation", contra: "Severe bradycardia (would worsen it)", pearl: "Preferred if heart rate is adequate; use norepinephrine if both HR and BP are low." }
+    ],
+    pearls: ["Neurogenic shock = bradycardia + hypotension + warm skin (opposite of hypovolemic shock)", "Do NOT over-resuscitate with fluids (heart cannot compensate with tachycardia)", "Differentiate from spinal shock (loss of reflexes below injury) which is a neurological, not hemodynamic, event"],
+    quiz: [{ question: "A patient with a cervical spinal cord injury has BP 70/40 and HR 48. Their skin is warm and dry. What type of shock is this?", options: ["Hypovolemic shock", "Cardiogenic shock", "Neurogenic shock", "Septic shock"], correct: 2, rationale: "Bradycardia + hypotension + warm, dry skin is the classic triad of neurogenic shock from loss of sympathetic tone after spinal cord injury." }]
+  },
+  "obstructive-shock": {
+    title: "Obstructive Shock",
+    cellular: { title: "Mechanical Cardiac Obstruction", content: "Obstructive shock occurs when a mechanical barrier prevents adequate cardiac filling or ejection. Cardiac tamponade compresses the heart externally. Tension pneumothorax shifts mediastinal structures, kinking great vessels. Massive PE obstructs pulmonary outflow. All cause precipitous drops in cardiac output." },
+    riskFactors: ["Chest trauma (tamponade, tension pneumothorax)", "Pericardial effusion", "Massive pulmonary embolism", "Mechanical ventilation with high PEEP", "Constrictive pericarditis"],
+    diagnostics: ["Expect bedside echocardiogram (FAST exam)", "Monitor for Beck's triad (tamponade)", "Expect chest X-ray or CT", "Monitor central venous pressure (elevated)", "Expect ABG for respiratory status", "Monitor continuous telemetry"],
+    management: ["Treat the underlying obstruction emergently", "Prepare for pericardiocentesis if tamponade", "Prepare for needle decompression if tension pneumothorax", "Administer IV fluids to maintain preload as ordered", "Administer vasopressors as ordered if needed"],
+    nursingActions: ["Monitor vital signs continuously", "Assess for Beck's triad (hypotension, muffled heart sounds, JVD)", "Report tracheal deviation immediately (tension pneumothorax)", "Prepare emergency equipment for pericardiocentesis or chest tube", "Monitor for pulsus paradoxus", "Report sudden cardiovascular deterioration", "Maintain large-bore IV access"],
+    signs: {
+      left: ["Elevated CVP/JVD", "Tachycardia (compensatory)", "Dyspnea", "Narrowing pulse pressure"],
+      right: ["Beck's triad: JVD + hypotension + muffled heart sounds (tamponade)", "Tracheal deviation away from affected side (tension pneumo)", "Pulseless electrical activity (PEA)", "Cardiovascular collapse"]
+    },
+    medications: [
+      { name: "IV Normal Saline", type: "Volume Expander", action: "Increases preload to partially compensate for obstructed filling", sideEffects: "Fluid overload if underlying obstruction not relieved", contra: "Pulmonary edema", pearl: "Volume is a temporizing measure only; definitive treatment requires relieving the obstruction." }
+    ],
+    pearls: ["Obstructive shock requires identifying and removing the mechanical barrier - fluids alone will not resolve it", "Beck's triad = cardiac tamponade; tracheal deviation = tension pneumothorax", "PEA arrest: think obstructive causes (H's and T's) - tamponade, tension pneumo, thromboembolism"],
+    quiz: [{ question: "A trauma patient has JVD, hypotension, and muffled heart sounds. What should the nurse prepare for?", options: ["Chest tube insertion", "Pericardiocentesis", "Defibrillation", "IV thrombolytics"], correct: 1, rationale: "Beck's triad (JVD, hypotension, muffled heart sounds) indicates cardiac tamponade, requiring emergent pericardiocentesis." }]
+  },
+  "hemodynamic-assessment-rn": {
+    title: "Hemodynamic Assessment (RN)",
+    cellular: { title: "Invasive Monitoring Principles", content: "Hemodynamic monitoring uses invasive catheters to directly measure intracardiac and intravascular pressures. A pulmonary artery catheter measures right atrial pressure (preload), pulmonary artery pressures, and pulmonary artery wedge pressure (left ventricular preload), allowing differentiation of shock types and guiding therapy." },
+    riskFactors: ["Critical illness requiring vasoactive medications", "Cardiogenic shock", "Acute respiratory distress syndrome", "Complex fluid management needs", "Post-cardiac surgery"],
+    diagnostics: ["Monitor CVP per protocol (normal 2-8 mmHg)", "Monitor PA pressures continuously", "Obtain PAWP readings per protocol", "Calculate cardiac output/cardiac index", "Monitor mixed venous oxygen saturation (SvO2)", "Correlate waveforms with clinical presentation"],
+    management: ["Maintain transducer at phlebostatic axis per protocol", "Zero the system per unit protocol", "Maintain continuous pressure monitoring", "Titrate vasoactive medications per hemodynamic parameters", "Prevent line infection per central line bundle", "Assess waveform quality continuously"],
+    nursingActions: ["Level and zero transducer at phlebostatic axis (4th ICS, mid-axillary)", "Assess insertion site for infection per protocol", "Obtain hemodynamic readings at end-expiration", "Document and trend hemodynamic parameters", "Identify and troubleshoot dampened waveforms", "Prevent catheter-related bloodstream infection", "Correlate hemodynamic data with clinical assessment"],
+    signs: {
+      left: ["CVP 2-8 mmHg (adequate preload)", "PAWP 8-12 mmHg (adequate LV preload)", "Cardiac Index 2.5-4.0 L/min/m2", "SvO2 60-80% (adequate O2 delivery)"],
+      right: ["Elevated PAWP >18 mmHg (LV failure/fluid overload)", "Low cardiac index <2.2 (cardiogenic shock)", "SvO2 <60% (inadequate tissue oxygenation)", "Dampened waveform (clot, air, kink in line)"]
+    },
+    medications: [
+      { name: "Milrinone", type: "Phosphodiesterase III Inhibitor (Inodilator)", action: "Increases contractility and causes vasodilation to reduce afterload", sideEffects: "Hypotension, arrhythmias, thrombocytopenia", contra: "Severe aortic/pulmonic stenosis", pearl: "Does not increase myocardial oxygen demand like dobutamine; useful in decompensated HF." }
+    ],
+    pearls: ["Phlebostatic axis = 4th ICS at mid-axillary line; always level here for accurate readings", "Read hemodynamic pressures at end-expiration (eliminates intrathoracic pressure effects)", "High PAWP + Low CO = cardiogenic shock; Low PAWP + Low CO = hypovolemic shock"],
+    quiz: [{ question: "An RN obtains a PAWP of 22 mmHg and cardiac index of 1.8 L/min/m2. What do these values indicate?", options: ["Hypovolemic shock", "Septic shock", "Cardiogenic shock", "Normal hemodynamics"], correct: 2, rationale: "Elevated PAWP (>18) with low cardiac index (<2.2) indicates cardiogenic shock - the heart is failing as a pump with fluid backing up." }]
+  },
+  "peripheral-vascular-rn": {
+    title: "Peripheral Vascular (RN)",
+    cellular: { title: "Arterial vs Venous Disease Assessment", content: "Peripheral vascular assessment differentiates arterial insufficiency (atherosclerotic occlusion reducing distal perfusion) from venous insufficiency (valvular incompetence causing blood pooling). The RN uses pulse assessment, skin changes, ABI, and wound characteristics to determine the type and guide evidence-based interventions." },
+    riskFactors: ["Smoking", "Diabetes mellitus", "Hypertension", "Hyperlipidemia", "Obesity", "Prolonged immobility", "History of DVT"],
+    diagnostics: ["Perform ankle-brachial index per protocol", "Assess peripheral pulses using Doppler if needed", "Monitor capillary refill and skin temperature", "Assess wound characteristics per protocol", "Monitor for signs of acute limb ischemia"],
+    management: ["Implement position changes based on disease type per protocol", "Apply compression therapy for venous disease per protocol (after confirming ABI >0.8)", "Initiate wound care protocol based on ulcer type", "Administer antiplatelet or anticoagulant therapy per protocol", "Implement DVT prophylaxis per protocol for at-risk patients"],
+    nursingActions: ["Perform comprehensive peripheral vascular assessment per protocol", "Calculate and document ABI bilaterally", "Assess the 6 P's of acute arterial occlusion", "Implement evidence-based wound care per protocol", "Educate on modifiable risk factor reduction", "Apply sequential compression devices per protocol", "Assess for Homans sign and leg circumference changes"],
+    signs: {
+      left: ["Arterial: pallor, cool skin, diminished pulses, hair loss", "Venous: edema, brown discoloration, warm skin", "Claudication with predictable walking distance", "Mild edema improving with elevation"],
+      right: ["6 P's: Pain, Pallor, Pulselessness, Paresthesia, Paralysis, Poikilothermia", "Non-healing arterial ulcers with gangrene", "Acute limb ischemia requiring emergency intervention", "Massive DVT with phlegmasia cerulea dolens"]
+    },
+    medications: [
+      { name: "Pentoxifylline", type: "Hemorrheologic Agent", action: "Improves blood flow by reducing blood viscosity and increasing RBC flexibility", sideEffects: "GI upset, dizziness, headache", contra: "Recent cerebral or retinal hemorrhage", pearl: "May improve walking distance in PAD; less effective than cilostazol." }
+    ],
+    pearls: ["Arterial ulcers: ELEVATE is wrong (keep legs level/dependent); Venous ulcers: ELEVATE above heart", "ABI interpretation: >0.9 normal; 0.5-0.9 claudication; <0.5 critical ischemia", "6 P's of acute arterial occlusion: Pain, Pallor, Pulselessness, Paresthesia, Paralysis, Poikilothermia"],
+    quiz: [{ question: "An RN calculates an ABI of 0.4 on a patient's right leg. What does this indicate?", options: ["Normal arterial flow", "Mild arterial disease", "Moderate claudication", "Critical limb ischemia"], correct: 3, rationale: "ABI <0.5 indicates critical limb ischemia with high risk of tissue loss. This requires urgent vascular referral." }]
+  },
+  "hf-advanced-np": {
+    title: "Heart Failure Advanced (NP)",
+    cellular: { title: "Neurohormonal Activation and Remodeling", content: "Progressive HF triggers maladaptive neurohormonal cascades: RAAS activation increases sodium/water retention and afterload; SNS activation increases heart rate and contractility but also myocardial oxygen demand. Chronic ventricular wall stress activates matrix metalloproteinases that remodel the ventricle from elliptical to spherical, worsening function." },
+    riskFactors: ["Prior MI with reduced EF", "Chronic uncontrolled hypertension", "Valvular heart disease", "Cardiotoxic chemotherapy exposure", "Chronic alcohol use", "Familial dilated cardiomyopathy", "Diabetes with cardiomyopathy", "Obstructive sleep apnea"],
+    diagnostics: ["Order BNP/NT-proBNP for diagnosis and trending", "Order echocardiogram to assess EF and wall motion", "Order chest X-ray for pulmonary congestion", "Order iron studies (iron deficiency worsens HF)", "Order thyroid function tests", "Monitor daily weights and I&O", "Order right heart catheterization for refractory cases"],
+    management: ["Prescribe GDMT: ACEi/ARB/ARNI + beta-blocker + mineralocorticoid receptor antagonist", "Order SGLT2 inhibitor for HFrEF regardless of diabetes status", "Order IV diuretics for acute decompensation", "Prescribe hydralazine/isosorbide dinitrate for African American patients", "Refer for ICD if EF ≤35% despite 3 months of optimal therapy", "Consider CRT if LBBB with QRS ≥150ms"],
+    nursingActions: ["Titrate GDMT to target doses per protocol", "Order BNP trending to guide therapy", "Assess volume status at each visit", "Evaluate medication adherence and side effects", "Screen for depression and sleep apnea", "Refer for cardiac rehab", "Assess candidacy for advanced therapies (LVAD, transplant)"],
+    signs: {
+      left: ["Exertional dyspnea with decreased exercise capacity", "Orthopnea and PND", "Elevated BNP with pulmonary crackles", "S3 gallop on auscultation"],
+      right: ["Cardiogenic shock (cold and wet profile)", "Refractory volume overload despite max diuretics", "Cheyne-Stokes respirations", "Cardiorenal syndrome with rising creatinine"]
+    },
+    medications: [
+      { name: "Sacubitril/Valsartan (Entresto)", type: "ARNI", action: "Combines neprilysin inhibitor (increases natriuretic peptides) with ARB to reduce neurohormonal activation", sideEffects: "Hypotension, hyperkalemia, angioedema", contra: "ACEi use within 36 hours, angioedema history", pearl: "Superior to ACEi alone for HFrEF mortality reduction; requires 36-hour ACEi washout." },
+      { name: "Dapagliflozin", type: "SGLT2 Inhibitor", action: "Promotes glucosuria and natriuresis; reduces preload and cardiac remodeling", sideEffects: "UTI, genital yeast infections, DKA (rare)", contra: "Type 1 diabetes, eGFR <20", pearl: "Indicated for HFrEF regardless of diabetes status; proven mortality benefit." }
+    ],
+    pearls: ["Four pillars of GDMT for HFrEF: ARNI (or ACEi/ARB), beta-blocker, MRA, SGLT2i", "Warm and wet = vasodilator + diuretic; Cold and wet = inotrope + diuretic; Cold and dry = fluids cautiously", "Iron deficiency (even without anemia) worsens HF - order IV iron if ferritin <100"],
+    quiz: [{ question: "An NP is managing a patient with HFrEF (EF 30%) on lisinopril, carvedilol, and spironolactone. What additional medication should be prescribed?", options: ["Amlodipine", "Dapagliflozin (SGLT2 inhibitor)", "Digoxin", "Hydralazine"], correct: 1, rationale: "SGLT2 inhibitors are now the fourth pillar of GDMT for HFrEF, shown to reduce mortality and hospitalization regardless of diabetes status." }]
+  },
+  "afib-management-np": {
+    title: "AFib Management (NP)",
+    cellular: { title: "Atrial Remodeling and Thrombogenesis", content: "Atrial fibrillation results from multiple re-entrant wavelets or focal triggers (often from pulmonary veins) causing chaotic atrial electrical activity at 350-600 impulses/min. Loss of organized atrial contraction creates stasis in the left atrial appendage, forming thrombi that can embolize to the brain causing stroke." },
+    riskFactors: ["Hypertension (most common modifiable cause)", "Heart failure", "Valvular heart disease", "Obstructive sleep apnea", "Obesity", "Excessive alcohol (holiday heart)", "Hyperthyroidism", "Advanced age"],
+    diagnostics: ["Order 12-lead ECG (absent P waves, irregularly irregular)", "Order echocardiogram to assess valve function and LA size", "Order thyroid function tests", "Order CHA2DS2-VASc score calculation", "Order HAS-BLED score for bleeding risk", "Order continuous Holter monitor for paroxysmal AFib"],
+    management: ["Prescribe rate control: beta-blocker or CCB (non-dihydropyridine) as first-line", "Prescribe anticoagulation based on CHA2DS2-VASc score ≥2 in men, ≥3 in women", "Order DOAC as preferred anticoagulant over warfarin", "Consider rhythm control with antiarrhythmic if symptomatic despite rate control", "Refer for catheter ablation if drug-refractory", "Order cardioversion if hemodynamically unstable"],
+    nursingActions: ["Calculate and document CHA2DS2-VASc score", "Prescribe appropriate anticoagulation", "Order rate-controlling medications and titrate to target HR <110 at rest", "Evaluate for reversible causes (thyroid, alcohol, sleep apnea)", "Refer for sleep study if clinically indicated", "Counsel on stroke risk and anticoagulation importance", "Assess for drug interactions with DOACs"],
+    signs: {
+      left: ["Palpitations and irregular pulse", "Fatigue and exercise intolerance", "Irregularly irregular rhythm on ECG", "Absence of P waves on ECG"],
+      right: ["Rapid ventricular response (HR >150)", "Hemodynamic instability (hypotension, altered LOC)", "Acute stroke symptoms (embolic event)", "Acute heart failure exacerbation"]
+    },
+    medications: [
+      { name: "Apixaban (Eliquis)", type: "Direct Oral Anticoagulant (Factor Xa Inhibitor)", action: "Directly inhibits Factor Xa to prevent thrombus formation", sideEffects: "Bleeding, bruising", contra: "Active pathological bleeding, prosthetic heart valve", pearl: "Preferred DOAC for AFib; lower bleeding risk than warfarin; no routine monitoring needed." },
+      { name: "Diltiazem", type: "Non-Dihydropyridine CCB", action: "Slows AV node conduction to control ventricular rate", sideEffects: "Bradycardia, hypotension, constipation", contra: "HFrEF, WPW syndrome", pearl: "IV for acute rate control; avoid in HFrEF (negative inotrope). Use beta-blockers instead for HFrEF." }
+    ],
+    pearls: ["CHA2DS2-VASc: CHF=1, HTN=1, Age≥75=2, DM=1, Stroke/TIA=2, Vascular dz=1, Age 65-74=1, Sex(female)=1", "DOACs preferred over warfarin for non-valvular AFib (no INR monitoring, fewer drug interactions)", "Rate control target: resting HR <110 bpm (lenient) or <80 bpm (strict) based on symptoms"],
+    quiz: [{ question: "An NP calculates a CHA2DS2-VASc score of 3 for a male patient with new AFib. What should be prescribed?", options: ["Aspirin only", "No anticoagulation needed", "Direct oral anticoagulant (DOAC)", "Anticoagulation only if symptomatic"], correct: 2, rationale: "CHA2DS2-VASc ≥2 in men indicates anticoagulation for stroke prevention. DOACs are preferred over warfarin for non-valvular AFib." }]
+  },
+  "acs-management-np": {
+    title: "ACS Management (NP)",
+    cellular: { title: "Plaque Rupture and Thrombotic Cascade", content: "Acute coronary syndrome encompasses unstable angina, NSTEMI, and STEMI. Vulnerable atherosclerotic plaque ruptures, exposing the thrombogenic lipid core to circulating blood. Platelet adhesion and activation trigger the coagulation cascade, forming a thrombus that partially (NSTEMI) or completely (STEMI) occludes the coronary artery." },
+    riskFactors: ["Known CAD or prior MI", "Hypertension and hyperlipidemia", "Diabetes mellitus", "Active smoking", "Family history of premature CAD (<55 male, <65 female)", "Cocaine or methamphetamine use", "Chronic kidney disease"],
+    diagnostics: ["Order serial troponin (high-sensitivity preferred) at 0 and 3 hours", "Order 12-lead ECG within 10 minutes of presentation", "Order echocardiogram to assess wall motion abnormalities", "Order lipid panel and HbA1c", "Order coronary angiography for STEMI or high-risk NSTEMI", "Order BNP if heart failure suspected"],
+    management: ["Order dual antiplatelet therapy (aspirin + P2Y12 inhibitor)", "Prescribe anticoagulation (heparin or enoxaparin)", "Order urgent cardiac catheterization for STEMI (door-to-balloon <90 min)", "Prescribe high-intensity statin therapy", "Order beta-blocker within 24 hours if no contraindications", "Prescribe ACEi/ARB for all ACS patients (especially if EF <40%)", "Order fibrinolytic therapy if PCI not available within 120 minutes for STEMI"],
+    nursingActions: ["Risk-stratify using TIMI or GRACE score", "Initiate MONA protocol and dual antiplatelet therapy", "Coordinate emergent cardiac catheterization for STEMI", "Prescribe secondary prevention medications at discharge", "Order cardiac rehabilitation referral", "Counsel on lifestyle modifications", "Schedule follow-up echocardiogram at 6-12 weeks"],
+    signs: {
+      left: ["Substernal chest pressure with exertion", "Pain relieved by rest or nitroglycerin (UA)", "ST depression or T-wave inversion (NSTEMI)", "New-onset angina pattern"],
+      right: ["Persistent crushing chest pain >20 minutes (STEMI)", "ST elevation in contiguous leads", "New LBBB on ECG", "Cardiogenic shock (Killip class IV)"]
+    },
+    medications: [
+      { name: "Ticagrelor", type: "P2Y12 Inhibitor", action: "Reversibly inhibits platelet P2Y12 receptor to prevent aggregation", sideEffects: "Bleeding, dyspnea, bradycardia", contra: "Active bleeding, prior intracranial hemorrhage", pearl: "Preferred over clopidogrel for ACS; must be given BID; causes transient dyspnea." },
+      { name: "Tenecteplase", type: "Fibrinolytic (tPA)", action: "Activates plasminogen to dissolve coronary thrombus", sideEffects: "Hemorrhage (especially intracranial)", contra: "Active internal bleeding, recent stroke, intracranial neoplasm", pearl: "Single IV bolus for STEMI when PCI unavailable within 120 min; check all contraindications carefully." }
+    ],
+    pearls: ["Door-to-balloon time <90 minutes for primary PCI; door-to-needle <30 minutes for fibrinolysis", "STEMI: ST elevation ≥1mm in 2+ contiguous leads (≥2mm in V1-V3)", "Post-ACS discharge: DAPT + statin + beta-blocker + ACEi/ARB (evidence-based secondary prevention)"],
+    quiz: [{ question: "An NP evaluates a patient with ST elevation in V1-V4. What is the priority order?", options: ["Stress test", "Emergent cardiac catheterization with PCI", "Discharge with cardiology follow-up", "CT coronary angiography"], correct: 1, rationale: "Anterior STEMI (V1-V4) requires emergent percutaneous coronary intervention within 90 minutes of presentation." }]
+  },
+  "cardiac-arrest-acls-np": {
+    title: "Cardiac Arrest ACLS (NP)",
+    cellular: { title: "Cardiac Arrest Physiology", content: "Cardiac arrest occurs when effective cardiac mechanical activity ceases. Shockable rhythms (VF/pVT) involve disorganized or rapid ventricular electrical activity without effective contraction. Non-shockable rhythms (asystole/PEA) lack effective electrical or mechanical activity. Early defibrillation and high-quality CPR are the primary determinants of survival." },
+    riskFactors: ["Coronary artery disease and prior MI", "Heart failure with reduced EF", "Prior cardiac arrest", "Hypertrophic cardiomyopathy", "Long QT syndrome", "Severe electrolyte imbalances", "Drug overdose (tricyclics, digoxin)"],
+    diagnostics: ["Order continuous cardiac monitoring", "Order point-of-care glucose and electrolytes", "Order arterial blood gas", "Order end-tidal CO2 monitoring (ETCO2 >10 indicates quality CPR)", "Order post-arrest 12-lead ECG", "Order post-arrest echocardiogram"],
+    management: ["Direct high-quality CPR (rate 100-120/min, depth 2-2.4 inches)", "Order defibrillation for VF/pVT (biphasic 120-200J)", "Order epinephrine 1mg IV every 3-5 minutes", "Order amiodarone 300mg IV for refractory VF/pVT", "Order targeted temperature management 32-36°C post-ROSC", "Identify and treat reversible causes (H's and T's)"],
+    nursingActions: ["Lead the code team and assign roles", "Order and evaluate ETCO2 for CPR quality", "Prescribe and manage post-arrest care bundle", "Order coronary angiography for STEMI post-arrest", "Prescribe targeted temperature management", "Order neuroprognostication studies at 72+ hours", "Document and debrief after arrest"],
+    signs: {
+      left: ["Shockable rhythm identified (VF or pVT)", "ETCO2 >10 mmHg (adequate CPR quality)", "Return of spontaneous circulation (ROSC)", "Palpable pulse returns with organized rhythm"],
+      right: ["Refractory VF despite multiple shocks", "ETCO2 <10 mmHg (poor CPR quality or no perfusion)", "Asystole or PEA without reversible cause", "Prolonged arrest >30 minutes without ROSC"]
+    },
+    medications: [
+      { name: "Epinephrine", type: "Catecholamine (ACLS)", action: "Alpha-mediated vasoconstriction increases coronary and cerebral perfusion during CPR", sideEffects: "Post-ROSC hypertension, tachyarrhythmias", contra: "None in cardiac arrest", pearl: "1mg IV/IO every 3-5 min; give immediately for non-shockable rhythms, after 2nd shock for shockable rhythms." },
+      { name: "Amiodarone", type: "Class III Antiarrhythmic (ACLS)", action: "Stabilizes myocardial membranes to terminate refractory VF/pVT", sideEffects: "Hypotension, bradycardia", contra: "None in cardiac arrest", pearl: "300mg IV first dose, 150mg second dose for refractory VF/pVT." }
+    ],
+    pearls: ["H's and T's: Hypovolemia, Hypoxia, Hydrogen ion (acidosis), Hypo/Hyperkalemia, Hypothermia | Tension pneumothorax, Tamponade, Toxins, Thrombosis (PE/MI)", "Minimize interruptions in chest compressions; pulse checks every 2 minutes only", "Post-ROSC: targeted temperature management (32-36°C for 24h) improves neurological outcomes"],
+    quiz: [{ question: "During a cardiac arrest, ETCO2 drops from 35 to 8 mmHg. What does this indicate?", options: ["Return of spontaneous circulation", "Improved ventilation", "Poor quality CPR or loss of perfusion", "Medication is working"], correct: 2, rationale: "ETCO2 <10 mmHg during CPR indicates either poor quality compressions or absence of circulatory output. Ensure adequate depth and rate." }]
+  },
+  "hfpef-np": {
+    title: "HFpEF (NP)",
+    cellular: { title: "Diastolic Dysfunction Mechanisms", content: "Heart failure with preserved ejection fraction (HFpEF, EF ≥50%) involves impaired ventricular relaxation and increased myocardial stiffness. The stiff ventricle cannot fill adequately during diastole, leading to elevated filling pressures, pulmonary congestion, and exercise intolerance despite normal systolic function." },
+    riskFactors: ["Hypertension (most common cause)", "Obesity and metabolic syndrome", "Female sex", "Advanced age", "Diabetes mellitus", "Atrial fibrillation", "Chronic kidney disease", "Obstructive sleep apnea"],
+    diagnostics: ["Order echocardiogram (EF ≥50% with diastolic dysfunction)", "Order BNP/NT-proBNP (may be only mildly elevated)", "Order exercise stress echocardiography", "Order HFpEF diagnostic score (H2FPEF or HFA-PEFF)", "Order hemodynamic assessment if diagnosis uncertain"],
+    management: ["Prescribe SGLT2 inhibitor (empagliflozin/dapagliflozin - class I recommendation)", "Prescribe diuretics for congestion management", "Order aggressive blood pressure control", "Prescribe weight management and exercise program", "Treat comorbidities: AFib rate control, sleep apnea, diabetes", "Order iron replacement if deficient"],
+    nursingActions: ["Diagnose HFpEF using validated scoring systems", "Prescribe SGLT2 inhibitor as first-line", "Optimize volume status with diuretics", "Order comprehensive comorbidity screening", "Refer for cardiac rehabilitation", "Monitor for diuretic resistance", "Evaluate for obesity-related HFpEF phenotype"],
+    signs: {
+      left: ["Exertional dyspnea disproportionate to activity", "Exercise intolerance", "Elevated BNP with preserved EF on echo", "Pulmonary congestion on chest X-ray"],
+      right: ["Flash pulmonary edema with hypertensive crisis", "Refractory volume overload", "Right heart failure (JVD, edema, ascites)", "Atrial fibrillation with loss of atrial kick"]
+    },
+    medications: [
+      { name: "Empagliflozin", type: "SGLT2 Inhibitor", action: "Promotes natriuresis and osmotic diuresis; reduces cardiac preload and remodeling", sideEffects: "Genital mycotic infections, UTI, hypotension", contra: "Type 1 diabetes, eGFR <20", pearl: "EMPEROR-Preserved trial showed mortality benefit in HFpEF; now class I recommendation." },
+      { name: "Spironolactone", type: "Mineralocorticoid Receptor Antagonist", action: "Blocks aldosterone to reduce fibrosis and fluid retention", sideEffects: "Hyperkalemia, gynecomastia, renal impairment", contra: "Potassium >5.0, eGFR <30", pearl: "TOPCAT trial suggested benefit in HFpEF; monitor potassium and renal function closely." }
+    ],
+    pearls: ["HFpEF is now more common than HFrEF; SGLT2 inhibitors are the first proven therapy", "Traditional HFrEF drugs (ACEi, beta-blockers) have NOT shown mortality benefit in HFpEF", "Obesity-HFpEF phenotype responds well to weight loss and GLP-1 agonists"],
+    quiz: [{ question: "An NP diagnoses HFpEF (EF 60%) in an obese, hypertensive patient. What is the first-line pharmacotherapy to prescribe?", options: ["ACE inhibitor", "Beta-blocker", "SGLT2 inhibitor", "Digoxin"], correct: 2, rationale: "SGLT2 inhibitors are the only drug class with proven mortality and hospitalization benefit in HFpEF per EMPEROR-Preserved and DELIVER trials." }]
+  },
+  "valvular-disease-np": {
+    title: "Valvular Disease (NP)",
+    cellular: { title: "Hemodynamic Consequences of Valve Dysfunction", content: "Stenotic valves create pressure overload upstream, causing concentric hypertrophy. Regurgitant valves cause volume overload, leading to eccentric dilation. Aortic stenosis produces a pressure gradient that reduces cardiac output and coronary perfusion, while mitral regurgitation causes pulmonary congestion from volume regurgitating into the left atrium." },
+    riskFactors: ["Rheumatic heart disease (mitral stenosis)", "Bicuspid aortic valve (aortic stenosis)", "Age-related calcific degeneration", "Infective endocarditis", "Myxomatous degeneration (mitral valve prolapse)", "Marfan syndrome", "Prior radiation therapy"],
+    diagnostics: ["Order transthoracic echocardiogram for severity grading", "Order transesophageal echocardiogram for surgical planning", "Order exercise stress testing for asymptomatic severe disease", "Order BNP to assess hemodynamic burden", "Order cardiac catheterization if echo-clinical discordance", "Order CT calcium scoring for aortic stenosis"],
+    management: ["Diagnose and classify valve disease severity per guidelines", "Prescribe medical management for heart failure symptoms", "Refer for surgical valve replacement or repair per indications", "Order TAVR evaluation for high-risk surgical candidates with aortic stenosis", "Prescribe endocarditis prophylaxis for prosthetic valves", "Order serial echocardiograms for surveillance"],
+    nursingActions: ["Classify valve disease severity using echo parameters", "Determine timing for surgical intervention", "Prescribe anticoagulation for mechanical valves (INR 2.5-3.5)", "Order serial echo surveillance per guidelines", "Manage heart failure symptoms pharmacologically", "Counsel on endocarditis prophylaxis indications", "Coordinate multidisciplinary heart valve team referral"],
+    signs: {
+      left: ["Systolic crescendo-decrescendo murmur (aortic stenosis)", "Holosystolic murmur at apex (mitral regurgitation)", "Exertional dyspnea and fatigue", "Mid-diastolic rumble at apex (mitral stenosis)"],
+      right: ["Syncope or angina with exertion (severe aortic stenosis)", "Acute pulmonary edema (acute mitral regurgitation)", "Atrial fibrillation (mitral stenosis/regurgitation)", "Right heart failure from pulmonary hypertension"]
+    },
+    medications: [
+      { name: "Warfarin", type: "Vitamin K Antagonist", action: "Inhibits synthesis of vitamin K-dependent clotting factors for mechanical valve anticoagulation", sideEffects: "Hemorrhage, skin necrosis, teratogenicity", contra: "Pregnancy, active bleeding", pearl: "Required for mechanical valves (target INR 2.5-3.5); DOACs are contraindicated in mechanical valves." }
+    ],
+    pearls: ["Aortic stenosis triad: syncope, angina, heart failure (once symptoms appear, prognosis is poor without intervention)", "DOACs are CONTRAINDICATED in mechanical heart valves - only warfarin is approved", "Severe aortic stenosis: avoid nitrates and vasodilators (cannot increase cardiac output to compensate)"],
+    quiz: [{ question: "A patient with a mechanical mitral valve asks about switching from warfarin to a DOAC. What is the NP's response?", options: ["DOACs are safer and can be prescribed", "DOACs are contraindicated in mechanical valves; warfarin must be continued", "Either option is acceptable", "Aspirin alone is sufficient"], correct: 1, rationale: "DOACs are contraindicated in mechanical heart valves. The RE-ALIGN trial showed increased thromboembolic events with dabigatran vs warfarin in mechanical valves." }]
+  },
+  "pvd-advanced-np": {
+    title: "PVD Advanced (NP)",
+    cellular: { title: "Atherosclerotic Burden and Critical Limb Ischemia", content: "Advanced peripheral vascular disease represents diffuse atherosclerosis with significant stenosis or occlusion of lower extremity arteries. Critical limb ischemia (CLI) occurs when rest blood flow cannot meet baseline metabolic needs, leading to ischemic rest pain, non-healing wounds, and tissue necrosis requiring revascularization to prevent amputation." },
+    riskFactors: ["Smoking (strongest risk factor)", "Diabetes mellitus (accelerates disease)", "Chronic kidney disease (calcific arteriopathy)", "Advanced age", "Hyperlipidemia", "Prior failed revascularization", "Multilevel arterial disease"],
+    diagnostics: ["Order ABI with exercise testing", "Order CT angiography or MR angiography for anatomic assessment", "Order segmental pressures and pulse volume recordings", "Order wound assessment and tissue oxygen measurements (TcPO2)", "Order toe pressures for diabetic patients (falsely elevated ABI)"],
+    management: ["Prescribe high-intensity statin and antiplatelet therapy", "Order revascularization (endovascular or surgical) for CLI", "Prescribe cilostazol for claudication symptoms", "Order aggressive cardiovascular risk factor modification", "Prescribe wound care and offloading for ischemic ulcers", "Refer to vascular surgery for limb-threatening disease"],
+    nursingActions: ["Risk-stratify patients using Rutherford classification", "Order appropriate vascular imaging for surgical planning", "Prescribe guideline-directed medical therapy", "Coordinate multidisciplinary wound care", "Order supervised exercise therapy referral", "Manage post-revascularization antiplatelet regimen", "Assess for concurrent coronary and cerebrovascular disease"],
+    signs: {
+      left: ["Lifestyle-limiting claudication", "ABI 0.4-0.9 with exercise limitation", "Diminished but palpable pulses", "Trophic changes (hair loss, thin skin)"],
+      right: ["Rest pain (Rutherford 4)", "Non-healing ischemic ulcers (Rutherford 5)", "Gangrene (Rutherford 6)", "ABI <0.4 or absolute ankle pressure <50 mmHg"]
+    },
+    medications: [
+      { name: "Rivaroxaban (low dose)", type: "Factor Xa Inhibitor (Vascular Dose)", action: "2.5mg BID with aspirin reduces MACE and MALE events in PAD", sideEffects: "Bleeding", contra: "High bleeding risk, dual antiplatelet therapy", pearl: "COMPASS trial: rivaroxaban 2.5mg BID + aspirin reduced limb events in PAD; NNT of 42 to prevent major amputation." }
+    ],
+    pearls: ["PAD is a coronary artery disease equivalent - treat aggressively for cardiovascular risk", "Critical limb ischemia = vascular emergency; revascularization within 2 weeks to prevent amputation", "Diabetic patients may have falsely normal ABI due to calcified vessels; use toe pressures instead"],
+    quiz: [{ question: "An NP evaluates a diabetic patient with an ABI of 1.4. How should this result be interpreted?", options: ["Normal arterial flow", "Mild arterial disease", "Falsely elevated due to vessel calcification; order toe pressures", "Critical limb ischemia"], correct: 2, rationale: "ABI >1.3 indicates non-compressible calcified vessels (common in diabetes). Toe pressures or TcPO2 should be ordered for accurate assessment." }]
+  },
+  "takotsubo-cardiomyopathy-np": {
+    title: "Takotsubo Cardiomyopathy (NP)",
+    cellular: { title: "Catecholamine-Mediated Myocardial Stunning", content: "Takotsubo (stress) cardiomyopathy results from a massive catecholamine surge that causes direct myocardial toxicity and microvascular spasm. The apical segments develop transient wall motion abnormalities (apical ballooning) while basal segments hypercontract, giving the ventricle a characteristic 'takotsubo' (Japanese octopus trap) shape." },
+    riskFactors: ["Postmenopausal women (90% of cases)", "Acute emotional stress (grief, surprise, argument)", "Acute physical stress (surgery, critical illness)", "Pheochromocytoma", "Neurological injury (subarachnoid hemorrhage)"],
+    diagnostics: ["Order 12-lead ECG (may show ST elevation mimicking STEMI)", "Order serial troponin (mildly elevated, disproportionate to wall motion)", "Order emergent coronary angiography to exclude MI", "Order echocardiogram showing apical ballooning with basal hyperkinesis", "Order BNP (elevated)", "Order ventriculography during catheterization"],
+    management: ["Diagnose by excluding obstructive coronary disease on angiography", "Prescribe supportive care: ACEi/ARB and beta-blocker", "Order inotropic support if cardiogenic shock develops", "Avoid catecholamines if possible (may worsen)", "Prescribe anticoagulation if severe apical akinesis (thrombus risk)", "Monitor for recovery (typically weeks)"],
+    nursingActions: ["Differentiate from STEMI using angiography findings", "Prescribe beta-blockers to reduce catecholamine effect", "Monitor for LVOT obstruction (avoid inotropes if present)", "Order serial echocardiograms to document recovery", "Screen for and manage emotional stressors", "Counsel on expected full recovery in most cases", "Monitor for complications (arrhythmia, thrombus, cardiogenic shock)"],
+    signs: {
+      left: ["Sudden chest pain after emotional/physical stress", "ECG changes mimicking STEMI", "Mildly elevated troponin", "Apical wall motion abnormalities on echo"],
+      right: ["Acute heart failure with pulmonary edema", "Cardiogenic shock (5-10% of cases)", "LVOT obstruction from basal hyperkinesis", "Ventricular arrhythmias"]
+    },
+    medications: [
+      { name: "Metoprolol", type: "Beta-Blocker", action: "Reduces catecholamine-mediated myocardial toxicity and prevents recurrence", sideEffects: "Bradycardia, hypotension, fatigue", contra: "Cardiogenic shock with LVOT obstruction (use cautiously)", pearl: "Beta-blockers may prevent recurrence; avoid dobutamine in Takotsubo (can worsen LVOT obstruction)." }
+    ],
+    pearls: ["Takotsubo mimics STEMI; coronary angiography shows clean coronaries", "Troponin is disproportionately low compared to the degree of wall motion abnormality", "Full recovery of EF typically occurs within 1-4 weeks; in-hospital mortality is 1-2%"],
+    quiz: [{ question: "A postmenopausal woman presents with chest pain and ST elevation after her husband's death. Coronary angiography shows no obstructive disease. What should the NP diagnose?", options: ["Unstable angina", "Takotsubo cardiomyopathy", "Pericarditis", "Coronary vasospasm"], correct: 1, rationale: "Emotional stress trigger, ST elevation, and clean coronary arteries in a postmenopausal woman is the classic presentation of Takotsubo (stress) cardiomyopathy." }]
+  },
+  "infective-endocarditis-advanced-np": {
+    title: "Infective Endocarditis Advanced (NP)",
+    cellular: { title: "Vegetation Pathology and Embolic Risk", content: "Infective endocarditis vegetations consist of fibrin, platelets, and trapped bacteria forming on valve endothelium. Vegetation size >10mm, mobility, and mitral valve location increase embolic risk. S. aureus produces biofilm and tissue-destructive enzymes, causing rapid valve destruction, abscess formation, and high embolic rates." },
+    riskFactors: ["Prosthetic heart valves", "IV drug use (right-sided IE)", "Structural heart disease", "Implantable cardiac devices", "Poor dentition", "Healthcare-associated bacteremia", "Immunosuppression"],
+    diagnostics: ["Order 3 sets of blood cultures from separate sites before antibiotics", "Order TEE (superior sensitivity for vegetations, abscess, perforation)", "Order Modified Duke Criteria assessment", "Order CT head if neurological symptoms (embolic stroke)", "Order splenic imaging if left upper quadrant pain", "Order ECG serially (new AV block suggests perivalvular abscess)"],
+    management: ["Prescribe empiric IV antibiotics based on presentation (native vs prosthetic valve)", "Order organism-specific therapy once cultures return", "Refer for early surgical evaluation per guidelines", "Prescribe surgical intervention for: HF, uncontrolled infection, large vegetations >10mm, prosthetic valve IE", "Order ID consultation for antibiotic management", "Prescribe outpatient parenteral antibiotic therapy (OPAT) when stable"],
+    nursingActions: ["Apply Modified Duke Criteria to establish diagnosis", "Prescribe empiric antibiotics immediately after cultures obtained", "Refer for surgical evaluation per ACC/AHA indications", "Monitor for new embolic events daily", "Order serial ECGs to detect conduction abnormalities", "Coordinate OPAT for outpatient completion of therapy", "Order dental evaluation and treatment"],
+    signs: {
+      left: ["Persistent fever despite appropriate antibiotics", "Changing or new regurgitant murmur", "Peripheral stigmata (Osler nodes, Janeway lesions, Roth spots)", "Positive blood cultures"],
+      right: ["Embolic stroke or mycotic aneurysm rupture", "Heart failure from acute valve destruction", "New AV block (perivalvular abscess)", "Septic pulmonary emboli (right-sided IE: cough, hemoptysis, infiltrates)"]
+    },
+    medications: [
+      { name: "Daptomycin", type: "Lipopeptide Antibiotic", action: "Depolarizes bacterial cell membrane; bactericidal against MRSA", sideEffects: "Myopathy (monitor CK weekly), eosinophilic pneumonia", contra: "Pneumonia (inactivated by surfactant)", pearl: "Alternative to vancomycin for right-sided MRSA IE; NOT effective for pneumonia." }
+    ],
+    pearls: ["Modified Duke Criteria: 2 major, 1 major + 3 minor, or 5 minor = definite IE", "Surgical indications: HF, uncontrolled infection, vegetation >10mm with embolic event, prosthetic valve IE with dehiscence", "New AV block in IE = perivalvular abscess until proven otherwise (requires urgent surgery)"],
+    quiz: [{ question: "An NP managing a patient with native valve endocarditis notes a new first-degree AV block on ECG. What complication should be suspected?", options: ["Medication side effect", "Perivalvular abscess extending into conduction system", "Normal variant", "Electrolyte imbalance"], correct: 1, rationale: "New conduction abnormalities in IE indicate the infection has extended beyond the valve into the perivalvular tissue (abscess), which is a surgical indication." }]
+  },
+  "marfan-cardiac-np": {
+    title: "Marfan Cardiac (NP)",
+    cellular: { title: "Fibrillin-1 and Aortic Root Pathology", content: "Defective fibrillin-1 impairs elastic fiber assembly in the aortic media, leading to cystic medial necrosis. The weakened aortic wall progressively dilates at the sinuses of Valsalva, creating an aneurysm prone to dissection. TGF-beta dysregulation from abnormal fibrillin accelerates smooth muscle apoptosis and extracellular matrix degradation." },
+    riskFactors: ["Aortic root diameter >5.0 cm", "Rapid aortic growth (>0.5 cm/year)", "Family history of aortic dissection", "Pregnancy (increased aortic wall stress)", "Uncontrolled hypertension", "FBN1 mutations associated with severe phenotype"],
+    diagnostics: ["Order annual echocardiogram for aortic root measurement", "Order CT or MR angiography for comprehensive aortic assessment", "Order genetic testing for FBN1 mutation confirmation", "Order ophthalmologic exam for lens subluxation", "Order skeletal survey for systemic features", "Calculate revised Ghent criteria score"],
+    management: ["Prescribe beta-blocker therapy to reduce aortic wall stress (first-line)", "Prescribe losartan as alternative or adjunct (TGF-beta modulation)", "Refer for prophylactic aortic root replacement when root ≥5.0 cm", "Lower surgical threshold for family history of dissection (≥4.5 cm)", "Counsel on pregnancy risks (pre-conception echocardiogram mandatory)", "Restrict isometric exercise and contact sports"],
+    nursingActions: ["Prescribe and titrate beta-blocker or ARB therapy", "Order and interpret serial aortic imaging", "Determine timing for surgical referral based on aortic dimensions", "Provide preconception counseling (50% transmission risk)", "Coordinate multidisciplinary care (cardiology, genetics, ophthalmology)", "Prescribe exercise restrictions and counsel on safe activities", "Screen first-degree relatives"],
+    signs: {
+      left: ["Aortic root dilation on echocardiogram", "Diastolic murmur of aortic regurgitation", "Mitral valve prolapse with click", "Marfanoid body habitus"],
+      right: ["Sudden tearing chest/back pain (acute dissection)", "Aortic root >5.0 cm with rapid expansion", "Acute severe aortic regurgitation", "Hemodynamic collapse from rupture"]
+    },
+    medications: [
+      { name: "Losartan", type: "Angiotensin II Receptor Blocker", action: "Reduces aortic wall stress and modulates TGF-beta signaling in Marfan aortopathy", sideEffects: "Hypotension, hyperkalemia, dizziness", contra: "Pregnancy, bilateral renal artery stenosis", pearl: "May slow aortic root dilation through TGF-beta modulation; used as alternative or adjunct to beta-blockers." }
+    ],
+    pearls: ["Prophylactic aortic root replacement at ≥5.0 cm (or ≥4.5 cm with family history of dissection)", "Pregnancy in Marfan: high risk if root >4.0 cm; mandatory preconception echo and close monitoring", "Screen all first-degree relatives - autosomal dominant with variable expressivity"],
+    quiz: [{ question: "An NP measures an aortic root of 4.8 cm in a Marfan patient whose father died of aortic dissection. What should be recommended?", options: ["Continue surveillance with annual echo", "Refer for prophylactic aortic root replacement", "Increase beta-blocker dose only", "No intervention until symptoms develop"], correct: 1, rationale: "With family history of dissection, the surgical threshold is lowered to ≥4.5 cm. This patient at 4.8 cm exceeds that threshold and should be referred for surgery." }]
+  },
+  "constrictive-pericarditis-np": {
+    title: "Constrictive Pericarditis (NP)",
+    cellular: { title: "Pericardial Fibrosis and Impaired Filling", content: "Constrictive pericarditis results from chronic pericardial inflammation leading to fibrosis and calcification that encases the heart in a rigid shell. The non-compliant pericardium limits diastolic filling, equalizing pressures across all four chambers. Venous return is preserved in early diastole but abruptly halted when the ventricle hits the rigid pericardial constraint." },
+    riskFactors: ["Prior cardiac surgery", "Prior radiation therapy", "Tuberculosis (common globally)", "Idiopathic/viral pericarditis", "Chronic renal failure", "Connective tissue diseases", "Prior purulent pericarditis"],
+    diagnostics: ["Order echocardiogram with Doppler (septal bounce, respirophasic variation)", "Order cardiac CT for pericardial thickening and calcification", "Order cardiac MRI for pericardial inflammation assessment", "Order right heart catheterization showing equalization of diastolic pressures", "Order BNP (typically normal or low, unlike restrictive CM)", "Order CBC and inflammatory markers"],
+    management: ["Diagnose by differentiating from restrictive cardiomyopathy", "Prescribe diuretics cautiously for congestion (preload-dependent)", "Refer for pericardiectomy (definitive treatment)", "Prescribe anti-inflammatory therapy for active inflammation", "Order TB workup in appropriate clinical context", "Avoid aggressive diuresis (can precipitate low output)"],
+    nursingActions: ["Differentiate constrictive pericarditis from restrictive cardiomyopathy", "Order appropriate imaging for diagnosis", "Manage volume status carefully (avoid over-diuresis)", "Refer for surgical pericardiectomy evaluation", "Order evaluation for treatable underlying cause (TB)", "Monitor for signs of low cardiac output", "Coordinate post-pericardiectomy care"],
+    signs: {
+      left: ["JVD with prominent y-descent", "Kussmaul sign (JVD increases with inspiration)", "Peripheral edema and ascites", "Pericardial knock on auscultation"],
+      right: ["Severe ascites disproportionate to peripheral edema", "Low cardiac output with fatigue", "Hepatic congestion with elevated liver enzymes", "Pulsus paradoxus"]
+    },
+    medications: [
+      { name: "Colchicine", type: "Anti-Inflammatory", action: "Inhibits microtubule polymerization to reduce pericardial inflammation", sideEffects: "Diarrhea, nausea, myelosuppression", contra: "Severe renal/hepatic impairment", pearl: "Used for recurrent pericarditis to prevent progression to constriction; add to NSAID therapy." }
+    ],
+    pearls: ["Constrictive pericarditis vs restrictive cardiomyopathy: BNP low in constriction, high in restriction", "Kussmaul sign (JVD rising with inspiration) is characteristic of constrictive pericarditis", "Pericardiectomy is the definitive treatment but carries 5-10% operative mortality"],
+    quiz: [{ question: "An NP evaluates a patient with JVD that increases with inspiration, ascites, and normal BNP. What is the most likely diagnosis?", options: ["Heart failure with preserved EF", "Restrictive cardiomyopathy", "Constrictive pericarditis", "Cardiac tamponade"], correct: 2, rationale: "Kussmaul sign (JVD increasing with inspiration), ascites, and normal BNP are characteristic of constrictive pericarditis, distinguishing it from restrictive cardiomyopathy." }]
+  },
+  "cardiac-tamponade-mgmt-np": {
+    title: "Cardiac Tamponade Management (NP)",
+    cellular: { title: "Pericardial Pressure and Diastolic Collapse", content: "Cardiac tamponade occurs when pericardial fluid accumulates faster than the pericardium can stretch, raising intrapericardial pressure above right atrial and then right ventricular diastolic pressure. This external compression collapses the right-sided chambers during diastole, severely reducing ventricular filling and cardiac output." },
+    riskFactors: ["Pericarditis (viral, uremic, malignant)", "Chest trauma (penetrating or blunt)", "Post-cardiac surgery or catheterization", "Aortic dissection into pericardium", "Malignancy with pericardial metastasis", "Anticoagulant therapy"],
+    diagnostics: ["Order bedside echocardiogram (first-line diagnostic)", "Identify right atrial and ventricular diastolic collapse on echo", "Order ECG (electrical alternans, low voltage)", "Assess for pulsus paradoxus >10 mmHg", "Order chest X-ray (enlarged cardiac silhouette if chronic)", "Order CT if etiology unclear"],
+    management: ["Order emergent pericardiocentesis for hemodynamic compromise", "Prescribe aggressive IV fluid resuscitation to maintain preload", "Avoid diuretics, vasodilators, and positive pressure ventilation", "Order pericardial window for recurrent effusions", "Treat underlying cause", "Prepare for possible surgical exploration"],
+    nursingActions: ["Diagnose tamponade using clinical and echo findings", "Order emergent pericardiocentesis under echo guidance", "Prescribe IV fluid bolus to increase preload", "Avoid medications that reduce preload (diuretics, nitroglycerin)", "Determine etiology and order appropriate workup", "Order pericardial fluid analysis (cytology, culture, protein, glucose)", "Plan for recurrence prevention (window vs pericardiectomy)"],
+    signs: {
+      left: ["Beck's triad: JVD, hypotension, muffled heart sounds", "Tachycardia (compensatory)", "Pulsus paradoxus >10 mmHg", "Dyspnea and chest discomfort"],
+      right: ["Hemodynamic collapse and shock", "Electrical alternans on ECG", "Pulseless electrical activity (PEA) arrest", "Equalization of diastolic pressures on catheterization"]
+    },
+    medications: [
+      { name: "IV Normal Saline Bolus", type: "Volume Expander", action: "Increases intravascular volume to improve right heart filling against pericardial compression", sideEffects: "Fluid overload if cause is not tamponade", contra: "Confirmed cardiogenic shock from pump failure", pearl: "Temporizing measure only; definitive treatment is pericardiocentesis to drain fluid." }
+    ],
+    pearls: ["Beck's triad is present in only ~30% of tamponade cases; bedside echo is the diagnostic gold standard", "NEVER give diuretics or vasodilators in tamponade (reduces preload, worsens output)", "Electrical alternans (beat-to-beat QRS amplitude variation) is highly specific for large pericardial effusion with tamponade"],
+    quiz: [{ question: "An NP evaluates a post-cardiac surgery patient with JVD, hypotension, and equalization of diastolic pressures. Diuretics are ordered. What should the NP do?", options: ["Administer the diuretics as ordered", "Hold diuretics and order emergent pericardiocentesis", "Order a chest X-ray first", "Increase vasopressor dosing"], correct: 1, rationale: "Diuretics are contraindicated in tamponade as they reduce preload. The patient needs emergent pericardiocentesis to relieve the tamponade." }]
+  },
+  "stemi-nstemi-algorithm-np": {
+    title: "STEMI/NSTEMI Algorithm (NP)",
+    cellular: { title: "Complete vs Partial Coronary Occlusion", content: "STEMI represents complete coronary artery occlusion with transmural ischemia (full wall thickness), producing ST elevation on ECG. NSTEMI involves partial occlusion or complete occlusion with collateral flow, causing subendocardial ischemia with ST depression or T-wave inversion and elevated troponin." },
+    riskFactors: ["Prior coronary artery disease", "Multiple cardiovascular risk factors", "Diabetes (may mask chest pain symptoms)", "Chronic kidney disease", "Prior coronary stent (in-stent thrombosis)", "Cocaine/methamphetamine use", "Premature family history of CAD"],
+    diagnostics: ["Order 12-lead ECG within 10 minutes (repeat every 15-30 min if initial non-diagnostic)", "Order high-sensitivity troponin at 0 and 1-3 hours", "Order echocardiogram for wall motion abnormalities", "Order TIMI or GRACE risk score for NSTEMI", "Order coronary angiography based on risk stratification", "Order chest X-ray to evaluate for alternative diagnoses"],
+    management: ["STEMI: Order emergent PCI with door-to-balloon <90 minutes", "STEMI: Order fibrinolysis if PCI unavailable within 120 minutes", "NSTEMI high-risk: Order invasive strategy within 24 hours", "Prescribe DAPT: aspirin + P2Y12 inhibitor", "Prescribe anticoagulation (heparin or bivalirudin)", "Order beta-blocker, ACEi, and high-intensity statin", "Prescribe glycoprotein IIb/IIIa inhibitor for high-risk PCI"],
+    nursingActions: ["Determine STEMI vs NSTEMI management algorithm", "Activate cardiac catheterization lab for STEMI", "Risk-stratify NSTEMI patients for invasive vs conservative strategy", "Prescribe evidence-based secondary prevention at discharge", "Order predischarge functional testing for low-risk NSTEMI if conservative", "Ensure dual antiplatelet therapy duration counseling", "Order cardiac rehabilitation referral"],
+    signs: {
+      left: ["ST depression or T-wave inversion (NSTEMI)", "Chest pain with troponin elevation", "Dynamic ECG changes", "Low TIMI risk score (conservative strategy candidate)"],
+      right: ["ST elevation ≥1mm in 2+ contiguous leads (STEMI)", "New LBBB with acute presentation", "Ongoing ischemia despite medical therapy", "Hemodynamic instability or cardiogenic shock"]
+    },
+    medications: [
+      { name: "Bivalirudin", type: "Direct Thrombin Inhibitor", action: "Directly inhibits thrombin to prevent clot formation during PCI", sideEffects: "Bleeding, back pain", contra: "Active major bleeding", pearl: "Alternative to heparin during PCI; shorter half-life and lower bleeding risk; no HIT risk." }
+    ],
+    pearls: ["STEMI equivalents: new LBBB, Wellens syndrome (deep T-wave inversions in V2-V3), posterior MI (ST depression V1-V3)", "High-risk NSTEMI features: ongoing pain, dynamic ECG changes, hemodynamic instability, elevated troponin, GRACE >140", "Post-MI: DAPT for 12 months (minimum), then aspirin lifelong"],
+    quiz: [{ question: "An NP evaluates an NSTEMI patient with ongoing chest pain, dynamic ST changes, and GRACE score of 165. What management strategy should be ordered?", options: ["Conservative management with stress test in 48 hours", "Early invasive strategy with angiography within 24 hours", "Discharge with outpatient cardiology follow-up", "Medical management only with serial troponins"], correct: 1, rationale: "GRACE score >140 with ongoing symptoms and dynamic ECG changes indicates high-risk NSTEMI requiring early invasive strategy within 24 hours." }]
+  },
+  "heart-transplant-rejection-np": {
+    title: "Heart Transplant Rejection (NP)",
+    cellular: { title: "Alloimmune Response", content: "Heart transplant rejection occurs when the recipient's immune system recognizes donor HLA antigens as foreign. Hyperacute rejection (minutes-hours) involves preformed antibodies. Acute cellular rejection (weeks-months) is T-cell mediated with lymphocytic infiltration of the myocardium. Antibody-mediated rejection involves donor-specific antibodies causing complement activation and endothelial damage." },
+    riskFactors: ["Medication non-adherence (most common cause of late rejection)", "Prior rejection episodes", "Young recipient age", "Female donor to male recipient", "HLA mismatch", "CMV serostatus mismatch", "Inadequate immunosuppression levels"],
+    diagnostics: ["Order surveillance endomyocardial biopsies per protocol", "Order donor-specific antibody (DSA) panel", "Order echocardiogram for LV function decline", "Order cell-free donor-derived DNA (dd-cfDNA) as non-invasive marker", "Order gene expression profiling (AlloMap)", "Monitor drug levels of immunosuppressants"],
+    management: ["Diagnose rejection grade using ISHLT pathological classification", "Prescribe IV methylprednisolone pulse for acute cellular rejection (grade 2R+)", "Order anti-thymocyte globulin for hemodynamically significant rejection", "Prescribe plasmapheresis and IVIG for antibody-mediated rejection", "Adjust maintenance immunosuppression regimen", "Order repeat biopsy to confirm treatment response"],
+    nursingActions: ["Interpret endomyocardial biopsy results using ISHLT grading", "Prescribe rejection treatment based on severity and type", "Optimize immunosuppressive drug levels", "Order appropriate rejection surveillance testing", "Evaluate for cardiac allograft vasculopathy (chronic rejection)", "Manage immunosuppression side effects and drug interactions", "Counsel on medication adherence importance"],
+    signs: {
+      left: ["Fatigue and malaise", "Low-grade fever", "Mild decrease in exercise tolerance", "New atrial arrhythmias"],
+      right: ["Acute heart failure symptoms (dyspnea, edema)", "Significant EF decline on echocardiogram", "Hemodynamic compromise requiring inotropes", "Positive biopsy with lymphocytic infiltration"]
+    },
+    medications: [
+      { name: "Tacrolimus", type: "Calcineurin Inhibitor", action: "Inhibits T-cell activation by blocking calcineurin-NFAT pathway", sideEffects: "Nephrotoxicity, tremor, hyperglycemia, hypertension", contra: "Hypersensitivity", pearl: "Cornerstone of maintenance immunosuppression; maintain trough levels 8-12 ng/mL early, 5-8 ng/mL late post-transplant." },
+      { name: "Mycophenolate Mofetil", type: "Antimetabolite", action: "Inhibits purine synthesis to suppress B and T lymphocyte proliferation", sideEffects: "GI upset, leukopenia, CMV reactivation", contra: "Pregnancy (teratogenic)", pearl: "Part of triple immunosuppression with tacrolimus and steroids; monitor CBC for leukopenia." }
+    ],
+    pearls: ["Triple immunosuppression: calcineurin inhibitor + antimetabolite + corticosteroid", "Transplanted hearts are denervated: no chest pain with ischemia; dyspnea may be the only anginal equivalent", "Cardiac allograft vasculopathy (chronic rejection) is the leading cause of late graft failure"],
+    quiz: [{ question: "A heart transplant recipient presents with declining EF and fatigue. Endomyocardial biopsy shows grade 2R cellular rejection. What should the NP order?", options: ["Increase oral immunosuppression only", "IV methylprednisolone pulse therapy", "Emergent retransplantation", "Observation with repeat biopsy in 2 weeks"], correct: 1, rationale: "Grade 2R (moderate) acute cellular rejection requires IV methylprednisolone pulse therapy (typically 500-1000mg daily for 3 days) followed by adjustment of maintenance immunosuppression." }]
+  },
+  "pulmonary-hypertension-np": {
+    title: "Pulmonary Hypertension (NP)",
+    cellular: { title: "Pulmonary Vascular Remodeling", content: "Pulmonary hypertension involves progressive remodeling of pulmonary arterioles through endothelial dysfunction, smooth muscle hypertrophy, and in-situ thrombosis. The imbalance between vasoconstrictors (endothelin-1, thromboxane) and vasodilators (nitric oxide, prostacyclin) drives sustained elevation of pulmonary artery pressure, leading to right ventricular failure." },
+    riskFactors: ["Idiopathic PAH (young women)", "Connective tissue disease (scleroderma)", "Congenital heart disease with Eisenmenger syndrome", "Chronic thromboembolic disease (Group 4 PH)", "Left heart disease (most common cause: Group 2 PH)", "Chronic lung disease (Group 3 PH)", "HIV infection", "Portal hypertension"],
+    diagnostics: ["Order echocardiogram for estimated PA pressure and RV function", "Order right heart catheterization for definitive diagnosis (mPAP ≥20 mmHg)", "Order vasoreactivity testing during catheterization", "Order 6-minute walk test for functional capacity", "Order BNP/NT-proBNP for RV strain", "Order CT pulmonary angiography (CTEPH)", "Order pulmonary function tests and V/Q scan"],
+    management: ["Classify PH by WHO Group to guide treatment", "Prescribe PAH-specific therapy for Group 1 (PDE5 inhibitors, ERA, prostacyclin pathway agents)", "Order upfront combination therapy for high-risk PAH", "Prescribe anticoagulation for CTEPH", "Refer for pulmonary endarterectomy for operable CTEPH", "Prescribe diuretics for right heart failure", "Refer for lung transplantation evaluation for refractory disease"],
+    nursingActions: ["Confirm diagnosis with right heart catheterization", "Classify PH group and prescribe targeted therapy", "Order functional assessments (6MWT, WHO functional class)", "Prescribe PAH-specific medications and monitor for side effects", "Evaluate for CTEPH (potentially curable with surgery)", "Monitor RV function with serial echocardiography", "Refer for transplant evaluation if progressing on maximal therapy"],
+    signs: {
+      left: ["Exertional dyspnea (most common presenting symptom)", "Fatigue and exercise intolerance", "Loud P2 on auscultation", "Right ventricular heave"],
+      right: ["Syncope with exertion (severe RV failure)", "Right heart failure (JVD, edema, ascites)", "Hemoptysis", "Pericardial effusion from elevated RA pressure"]
+    },
+    medications: [
+      { name: "Sildenafil", type: "PDE5 Inhibitor", action: "Inhibits cGMP degradation to promote pulmonary vasodilation via nitric oxide pathway", sideEffects: "Headache, flushing, visual changes, hypotension", contra: "Concurrent nitrate use", pearl: "Used for PAH (Group 1), NOT for left heart disease-related PH (Group 2). Absolutely contraindicated with nitrates." },
+      { name: "Epoprostenol", type: "Prostacyclin Analogue", action: "Potent pulmonary vasodilator and platelet inhibitor via continuous IV infusion", sideEffects: "Jaw pain, flushing, diarrhea, catheter-related complications", contra: "Pulmonary veno-occlusive disease", pearl: "Continuous IV infusion; abrupt interruption can cause fatal rebound PH. Requires dedicated central line." }
+    ],
+    pearls: ["Group 2 PH (left heart disease) is the most common cause; treating the underlying left heart disease is the priority", "PAH-specific drugs (PDE5i, ERA, prostacyclins) are ONLY for Group 1 PAH; harmful in Group 2", "CTEPH (Group 4) is potentially curable with pulmonary thromboendarterectomy"],
+    quiz: [{ question: "An NP evaluates a patient with PH secondary to HFpEF (Group 2). Should PAH-specific therapy be prescribed?", options: ["Yes, prescribe sildenafil for vasodilation", "No, PAH-specific drugs are not indicated for Group 2 PH; treat the underlying left heart disease", "Yes, prescribe bosentan", "Yes, start epoprostenol infusion"], correct: 1, rationale: "PAH-specific therapies are indicated only for Group 1 PAH. In Group 2 PH, treating the underlying left heart disease and volume management are the appropriate strategies." }]
+  },
+  "cerebral-venous-sinus-thrombosis-np": {
+    title: "Cerebral Venous Sinus Thrombosis (NP)",
+    cellular: { title: "Venous Outflow Obstruction", content: "CVST occurs when thrombus forms in the dural venous sinuses, obstructing cerebral venous drainage. Increased venous pressure causes vasogenic edema, reduced CSF absorption (raised intracranial pressure), and venous infarction with hemorrhagic transformation. The thrombotic process is often related to hypercoagulable states or local infection." },
+    riskFactors: ["Oral contraceptive use", "Pregnancy and postpartum period", "Thrombophilia (Factor V Leiden, prothrombin mutation)", "Head/neck infection (mastoiditis, sinusitis)", "Malignancy", "Dehydration", "Inflammatory conditions (IBD, Behcet's)", "Polycythemia vera"],
+    diagnostics: ["Order CT venography or MR venography (diagnostic gold standard)", "Order non-contrast CT head (may show dense triangle sign)", "Order D-dimer (elevated, but not specific)", "Order thrombophilia workup after acute treatment", "Order LP if needed (elevated opening pressure)", "Order CBC and coagulation studies"],
+    management: ["Prescribe anticoagulation with heparin even if hemorrhagic infarction present", "Transition to warfarin for 3-12 months based on etiology", "Order ICP management if elevated", "Prescribe antiepileptic therapy for seizures", "Discontinue oral contraceptives and treat underlying cause", "Consider endovascular thrombolysis for severe cases"],
+    nursingActions: ["Diagnose CVST using clinical presentation and neuroimaging", "Prescribe anticoagulation promptly (even with hemorrhagic component)", "Order and interpret thrombophilia workup", "Manage elevated ICP as needed", "Prescribe seizure prophylaxis if cortical involvement", "Counsel on contraceptive alternatives if OCP-related", "Determine anticoagulation duration based on etiology"],
+    signs: {
+      left: ["Progressive headache (most common symptom)", "Papilledema from elevated ICP", "Focal neurological deficits", "Seizures (more common than arterial stroke)"],
+      right: ["Altered consciousness or coma", "Bilateral hemorrhagic venous infarctions", "Status epilepticus", "Transtentorial herniation from cerebral edema"]
+    },
+    medications: [
+      { name: "Heparin (Unfractionated)", type: "Anticoagulant", action: "Activates antithrombin III to prevent clot propagation", sideEffects: "Bleeding, HIT, osteoporosis with prolonged use", contra: "Uncontrolled active bleeding", pearl: "Anticoagulate EVEN with hemorrhagic infarction in CVST (the hemorrhage is caused by venous congestion, not the anticoagulant)." }
+    ],
+    pearls: ["CVST is unique: anticoagulate even with intracranial hemorrhage (the hemorrhage is from venous congestion)", "Young women on OCPs with headache and papilledema: think CVST", "Seizures are more common in CVST than in arterial stroke"],
+    quiz: [{ question: "An NP diagnoses CVST with a small hemorrhagic component on CT. What is the appropriate treatment?", options: ["Withhold anticoagulation due to hemorrhage", "Prescribe heparin anticoagulation despite the hemorrhage", "Order surgical evacuation", "Observe without treatment"], correct: 1, rationale: "In CVST, anticoagulation is indicated even with hemorrhagic transformation because the hemorrhage results from venous congestion, and anticoagulation prevents clot propagation." }]
+  },
+  "portal-hypertension-np": {
+    title: "Portal Hypertension (NP)",
+    cellular: { title: "Hepatic Sinusoidal Resistance", content: "Portal hypertension develops when hepatic fibrosis (usually from cirrhosis) increases resistance to portal venous flow through the liver sinusoids. Portal pressure exceeds 5 mmHg (clinically significant >10 mmHg), causing portosystemic collateral formation (varices), splanchnic vasodilation, ascites, and hepatorenal syndrome through complex neurohormonal activation." },
+    riskFactors: ["Cirrhosis (most common cause: alcohol, HCV, NASH)", "Portal vein thrombosis", "Budd-Chiari syndrome", "Schistosomiasis (global)", "Hepatic sinusoidal obstruction syndrome", "Right heart failure causing hepatic congestion", "Myeloproliferative neoplasms"],
+    diagnostics: ["Order hepatic venous pressure gradient measurement (HVPG ≥10 clinically significant)", "Order upper endoscopy for variceal screening", "Order abdominal ultrasound with Doppler", "Order liver function tests and synthetic function", "Order CBC (thrombocytopenia suggests portal hypertension)", "Order MELD score calculation"],
+    management: ["Prescribe non-selective beta-blocker (NSBB) for variceal prophylaxis", "Order endoscopic variceal ligation (EVL) for large varices", "Prescribe diuretics for ascites (spironolactone + furosemide)", "Order large-volume paracentesis with albumin for tense ascites", "Refer for TIPS for refractory ascites or recurrent variceal bleeding", "Evaluate for liver transplantation"],
+    nursingActions: ["Screen for varices with EGD and prescribe prophylaxis", "Prescribe carvedilol or propranolol for portal pressure reduction", "Manage ascites with diuretics and sodium restriction", "Order diagnostic paracentesis if new ascites or concern for SBP", "Prescribe SBP prophylaxis with norfloxacin for high-risk patients", "Evaluate for hepatorenal syndrome if renal function declines", "Coordinate transplant evaluation"],
+    signs: {
+      left: ["Ascites (shifting dullness, fluid wave)", "Splenomegaly with thrombocytopenia", "Caput medusae (dilated periumbilical veins)", "Spider angiomata on trunk"],
+      right: ["Acute variceal hemorrhage (hematemesis, melena)", "Hepatorenal syndrome (rising creatinine, low urine sodium)", "Spontaneous bacterial peritonitis (fever, abdominal pain)", "Hepatic encephalopathy"]
+    },
+    medications: [
+      { name: "Carvedilol", type: "Non-Selective Beta-Blocker (with alpha-1 blockade)", action: "Reduces portal pressure by decreasing cardiac output (beta-1) and splanchnic vasodilation (alpha-1)", sideEffects: "Hypotension, bradycardia, fatigue", contra: "Refractory ascites, SBP, hepatorenal syndrome (may worsen hypotension)", pearl: "More effective than propranolol for portal pressure reduction; start low (6.25mg BID). Stop NSBBs if SBP <90 or refractory ascites develops." },
+      { name: "Octreotide", type: "Somatostatin Analogue", action: "Reduces splanchnic blood flow and portal pressure during acute variceal bleeding", sideEffects: "Hyperglycemia, abdominal cramps, bradycardia", contra: "Hypersensitivity", pearl: "Give with endoscopy for acute variceal bleed; continue IV infusion for 3-5 days." }
+    ],
+    pearls: ["HVPG ≥10 mmHg = clinically significant portal hypertension (risk of varices and ascites)", "Stop NSBBs in refractory ascites, SBP, or hepatorenal syndrome (can worsen hypotension)", "Diagnostic paracentesis: PMN >250/mm3 = spontaneous bacterial peritonitis (treat with ceftriaxone)"],
+    quiz: [{ question: "An NP managing a cirrhotic patient on carvedilol for variceal prophylaxis finds the patient has developed refractory ascites and SBP <85. What should be done?", options: ["Increase carvedilol dose", "Discontinue carvedilol", "Add a calcium channel blocker", "Continue carvedilol and add midodrine"], correct: 1, rationale: "NSBBs should be discontinued in refractory ascites with hypotension (SBP <90) as they can worsen hemodynamics in decompensated cirrhosis." }]
+  },
+  "advanced-cardiac-auscultation-np": {
+    title: "Advanced Cardiac Auscultation (NP)",
+    cellular: { title: "Hemodynamic Correlates of Heart Sounds", content: "Heart sounds and murmurs reflect pressure gradients and flow dynamics across valves. Murmur intensity correlates with flow velocity and pressure gradient. Maneuvers that alter preload and afterload change murmur characteristics diagnostically: Valsalva reduces preload (increases HCM murmur, decreases most others); squatting increases preload and afterload (decreases HCM, increases aortic stenosis)." },
+    diagnostics: ["Order echocardiogram for murmur characterization", "Order dynamic auscultation with maneuvers", "Order transesophageal echo for prosthetic valve assessment", "Order cardiac catheterization for hemodynamic correlation"],
+    management: ["Diagnose valve pathology by murmur characteristics and maneuvers", "Order appropriate imaging to confirm auscultatory findings", "Prescribe medical management based on valve disease severity", "Refer for surgical evaluation when indicated", "Order serial surveillance for progressive valve disease"],
+    nursingActions: ["Perform systematic auscultation with dynamic maneuvers", "Differentiate systolic from diastolic murmurs", "Order confirmatory echocardiography", "Determine functional severity using clinical and echo data", "Prescribe appropriate follow-up intervals", "Identify red-flag murmurs requiring urgent evaluation"],
+    signs: {
+      left: ["Innocent flow murmur (soft, systolic, grade I-II)", "Physiologic S2 splitting with inspiration", "S4 in hypertensive patients", "Mid-systolic click of mitral valve prolapse"],
+      right: ["Harsh systolic crescendo-decrescendo murmur with radiation to carotids (aortic stenosis)", "Holosystolic murmur at apex radiating to axilla (mitral regurgitation)", "Diastolic decrescendo murmur at left sternal border (aortic regurgitation)", "Opening snap with diastolic rumble at apex (mitral stenosis)"]
+    },
+    medications: [
+      { name: "Amyl Nitrite", type: "Vasodilator (Diagnostic)", action: "Decreases preload and afterload; used to differentiate murmurs during auscultation", sideEffects: "Hypotension, tachycardia, headache", contra: "Severe aortic stenosis, hypovolemia", pearl: "Increases HCM murmur (less blood to obstruct); decreases aortic stenosis murmur (less flow across valve)." }
+    ],
+    pearls: ["Valsalva and standing INCREASE HCM murmur (decreased preload worsens obstruction)", "Squatting DECREASES HCM murmur (increased preload and afterload reduce obstruction)", "All diastolic murmurs and any new murmur in an older adult require echocardiographic evaluation"],
+    quiz: [{ question: "An NP hears a systolic murmur that gets louder when the patient performs Valsalva. What is the most likely diagnosis?", options: ["Aortic stenosis", "Mitral regurgitation", "Hypertrophic cardiomyopathy", "Ventricular septal defect"], correct: 2, rationale: "HCM murmur increases with decreased preload (Valsalva, standing) because reduced ventricular volume worsens outflow tract obstruction." }]
+  },
+  "hemodynamic-monitoring-np": {
+    title: "Hemodynamic Monitoring (NP)",
+    cellular: { title: "PA Catheter Interpretation", content: "The pulmonary artery catheter provides direct pressure measurements that reflect chamber function. CVP reflects RV preload. PA systolic reflects RV afterload. PAWP (wedge) reflects LV preload. Thermodilution cardiac output measures pump function. Together, these parameters differentiate shock types and guide vasoactive medication titration." },
+    diagnostics: ["Order PA catheter placement for hemodynamic assessment", "Order thermodilution cardiac output measurements", "Order continuous SvO2 monitoring", "Order derived hemodynamic calculations (SVR, PVR, CI)", "Order arterial line for continuous BP monitoring", "Order point-of-care echocardiography as adjunct"],
+    management: ["Prescribe PA catheter insertion for diagnostic uncertainty in shock", "Order hemodynamic profiles to guide therapy", "Prescribe vasoactive medications based on hemodynamic data", "Order fluid challenges with hemodynamic monitoring", "Prescribe inotropes for low cardiac output states", "Remove catheter when hemodynamic goals achieved"],
+    nursingActions: ["Interpret hemodynamic profiles and differentiate shock types", "Prescribe goal-directed therapy based on hemodynamic parameters", "Order and interpret cardiac output measurements", "Titrate vasoactive medications to hemodynamic targets", "Identify and correct hemodynamic monitoring errors", "Determine when invasive monitoring is no longer needed", "Calculate and interpret derived parameters (SVR, PVR, CI, SVRI)"],
+    signs: {
+      left: ["Normal hemodynamic profile (CVP 2-8, PAWP 8-12, CI 2.5-4.0, SVR 800-1200)", "Appropriate response to fluid challenge", "SvO2 60-80%", "Balanced oxygen delivery and consumption"],
+      right: ["Cardiogenic: high PAWP, low CI, high SVR", "Septic: low PAWP (or normal), high CI, low SVR", "Hypovolemic: low PAWP, low CI, high SVR", "RV failure: high CVP, low PAWP, low CI"]
+    },
+    medications: [
+      { name: "Vasopressin", type: "V1 Receptor Agonist", action: "Non-catecholamine vasopressor that increases SVR through V1 receptor-mediated vasoconstriction", sideEffects: "Digital ischemia, hyponatremia, coronary vasoconstriction", contra: "Mesenteric ischemia", pearl: "Used as second-line vasopressor in septic shock (0.03-0.04 units/min fixed dose); catecholamine-sparing effect." }
+    ],
+    pearls: ["Hemodynamic profiles: Cardiogenic = high wedge + low CO + high SVR; Septic = low-normal wedge + high CO + low SVR", "SvO2 <60% = tissues are extracting more oxygen than normal (inadequate delivery or increased demand)", "Fluid responsiveness: assess with passive leg raise or pulse pressure variation, not just CVP"],
+    quiz: [{ question: "An NP reviews hemodynamics: CVP 18, PAWP 24, CI 1.6, SVR 2400. What shock type do these values indicate?", options: ["Septic shock", "Hypovolemic shock", "Cardiogenic shock", "Neurogenic shock"], correct: 2, rationale: "High PAWP (24), low CI (1.6), and high SVR (2400) indicate cardiogenic shock - the heart is failing with backup of blood and compensatory vasoconstriction." }]
+  },
+  "cardiac-output-np": {
+    title: "Cardiac Output (NP)",
+    cellular: { title: "Determinants of Cardiac Performance", content: "Cardiac output (CO = HR x SV) is determined by four factors: heart rate, preload (Frank-Starling mechanism), afterload (systemic vascular resistance), and contractility (inotropic state). Optimizing each determinant independently allows targeted therapy: volume for preload, vasopressors/vasodilators for afterload, and inotropes for contractility." },
+    diagnostics: ["Order thermodilution cardiac output via PA catheter", "Order non-invasive cardiac output monitoring (pulse contour analysis)", "Order echocardiographic cardiac output estimation", "Order arterial line for continuous hemodynamic monitoring", "Order SvO2 or ScvO2 for oxygen delivery assessment", "Order lactate clearance as perfusion marker"],
+    management: ["Prescribe IV fluids for preload optimization", "Prescribe vasopressors for afterload support", "Prescribe inotropes for contractility enhancement", "Order heart rate optimization (pacing for bradycardia, rate control for tachycardia)", "Prescribe mechanical circulatory support for refractory low output", "Order vasodilators for excessive afterload"],
+    nursingActions: ["Calculate and interpret cardiac output and cardiac index", "Prescribe targeted therapy based on the impaired determinant", "Order fluid responsiveness assessment before volume loading", "Titrate vasoactive medications to CO/CI goals", "Monitor end-organ perfusion markers (lactate, UOP, mental status)", "Identify compensatory mechanisms and their limitations", "Determine need for mechanical circulatory support"],
+    signs: {
+      left: ["Adequate CI >2.2 L/min/m2", "Urine output >0.5 mL/kg/hr", "Warm extremities with brisk capillary refill", "Normal lactate and SvO2"],
+      right: ["CI <2.2 with signs of organ hypoperfusion", "Elevated lactate >2 mmol/L", "SvO2 <60% (increased oxygen extraction)", "Oliguria with rising creatinine"]
+    },
+    medications: [
+      { name: "Levosimendan", type: "Calcium Sensitizer (Inodilator)", action: "Sensitizes troponin C to calcium to improve contractility without increasing oxygen demand; also causes vasodilation via K-ATP channels", sideEffects: "Hypotension, tachycardia, headache", contra: "Severe hypotension, mechanical obstruction", pearl: "Does not increase myocardial oxygen demand like traditional inotropes; effects last 7-10 days after 24-hour infusion." }
+    ],
+    pearls: ["CO = HR x SV; normal CO 4-8 L/min; normal CI 2.5-4.0 L/min/m2", "Always assess fluid responsiveness before giving volume (passive leg raise, pulse pressure variation)", "Inotropes increase contractility but also increase myocardial oxygen demand (except levosimendan)"],
+    quiz: [{ question: "An NP manages a patient with CI of 1.8 despite adequate preload (PAWP 14) and vasopressor support (SVR 1400). What additional therapy should be ordered?", options: ["More IV fluids", "Higher vasopressor doses", "Inotropic support", "Diuretics"], correct: 2, rationale: "With adequate preload and afterload but persistently low CI, the problem is contractility. An inotrope (dobutamine or milrinone) should be added." }]
+  },
+  "vascular-assessment-np": {
+    title: "Vascular Assessment (NP)",
+    cellular: { title: "Comprehensive Vascular Evaluation", content: "Advanced vascular assessment integrates history, physical examination, and non-invasive testing to localize disease, quantify severity, and determine intervention timing. Arterial disease assessment relies on pressure measurements (ABI, segmental pressures) and flow studies, while venous disease assessment evaluates valve competence and reflux using duplex ultrasonography." },
+    diagnostics: ["Order ABI with exercise testing for claudication", "Order segmental pressures and pulse volume recordings", "Order CT angiography for interventional planning", "Order duplex ultrasound for venous reflux quantification", "Order toe pressures and TcPO2 for critical ischemia", "Order MR angiography for renal-safe alternative"],
+    management: ["Diagnose and classify arterial and venous disease severity", "Prescribe GDMT for arterial disease (statin, antiplatelet, risk factor modification)", "Order revascularization for critical limb ischemia", "Prescribe compression therapy for venous disease (after confirming adequate arterial flow)", "Order venous ablation for symptomatic reflux", "Prescribe wound care protocols based on ulcer etiology"],
+    nursingActions: ["Perform comprehensive vascular physical examination", "Order and interpret non-invasive vascular studies", "Risk-stratify patients for intervention vs conservative management", "Prescribe evidence-based medical therapy", "Coordinate vascular surgery or interventional radiology referral", "Order post-procedure surveillance", "Manage complex wounds with multidisciplinary approach"],
+    signs: {
+      left: ["Diminished but palpable pulses", "Claudication at reproducible distances", "Mild varicosities without skin changes", "Ankle edema improving with elevation"],
+      right: ["Absent pulses with rest pain", "Non-healing ischemic ulcers", "Acute limb ischemia (6 P's)", "Massive DVT with phlegmasia"]
+    },
+    medications: [
+      { name: "Atorvastatin", type: "HMG-CoA Reductase Inhibitor", action: "Reduces LDL cholesterol and stabilizes atherosclerotic plaque", sideEffects: "Myalgia, hepatotoxicity, rhabdomyolysis (rare)", contra: "Active liver disease, pregnancy", pearl: "High-intensity statin (40-80mg) is indicated for all PAD patients regardless of baseline LDL." }
+    ],
+    pearls: ["PAD is a cardiovascular risk equivalent - treat with same intensity as known CAD", "ABI interpretation: >1.3 = non-compressible; 0.9-1.3 = normal; 0.5-0.89 = claudication; <0.5 = critical ischemia", "Always check ABI before applying compression therapy for venous disease"],
+    quiz: [{ question: "An NP evaluates a patient with mixed arterial-venous disease. ABI is 0.6 with significant venous reflux. What modification to compression therapy is needed?", options: ["Standard 30-40 mmHg compression", "No compression therapy allowed", "Modified compression (20-30 mmHg) with close monitoring", "Apply compression only at night"], correct: 2, rationale: "With mixed disease (ABI 0.5-0.8), modified lower-pressure compression (20-30 mmHg) may be used cautiously to manage venous disease without worsening arterial insufficiency." }]
+  },
+  "polymyalgia-rheumatica-np": {
+    title: "Polymyalgia Rheumatica (NP)",
+    cellular: { title: "Systemic Inflammatory Myalgia", content: "Polymyalgia rheumatica (PMR) is a systemic inflammatory condition affecting periarticular structures (bursae, synovium) of the shoulder and hip girdles. Elevated IL-6 drives the acute phase response. PMR is closely associated with giant cell arteritis (GCA), with 15-20% of PMR patients developing GCA, which can cause irreversible vision loss from ophthalmic artery inflammation." },
+    riskFactors: ["Age >50 years (rarely before 50)", "Female sex (2-3:1)", "Northern European descent", "Genetic predisposition (HLA-DR4)", "Association with giant cell arteritis"],
+    diagnostics: ["Order ESR and CRP (markedly elevated)", "Order CBC (normochromic normocytic anemia common)", "Order CK (normal, differentiating from myositis)", "Order temporal artery biopsy if GCA suspected", "Order ultrasound of shoulders for bursitis", "Order liver function tests before steroid initiation"],
+    management: ["Prescribe low-dose prednisone (12.5-25mg daily) as first-line", "Order rapid taper over 12-18 months based on symptom response", "Prescribe methotrexate as steroid-sparing agent for relapses", "Screen for and manage steroid side effects", "Prescribe calcium and vitamin D for bone protection", "Order bone density scan before prolonged steroid use"],
+    nursingActions: ["Diagnose PMR based on clinical criteria and inflammatory markers", "Prescribe corticosteroid therapy and monitor response", "Screen for concurrent GCA at every visit", "Order steroid taper schedule and adjust based on symptoms/ESR", "Prescribe steroid-sparing agents for frequent relapsers", "Monitor for steroid complications (hyperglycemia, osteoporosis, cataracts)", "Educate on GCA warning signs (headache, jaw claudication, vision changes)"],
+    signs: {
+      left: ["Bilateral shoulder and hip girdle pain and stiffness", "Morning stiffness lasting >45 minutes", "Markedly elevated ESR/CRP", "Rapid dramatic response to low-dose prednisone"],
+      right: ["New-onset headache (suspect GCA)", "Jaw claudication (GCA)", "Visual disturbances or sudden vision loss (GCA emergency)", "Aortic aneurysm (large vessel GCA)"]
+    },
+    medications: [
+      { name: "Prednisone", type: "Corticosteroid", action: "Suppresses IL-6 mediated inflammation in periarticular structures", sideEffects: "Hyperglycemia, osteoporosis, weight gain, adrenal suppression", contra: "Uncontrolled infection, psychosis history (relative)", pearl: "Dramatic response to 15-20mg/day within 24-72 hours is virtually diagnostic; lack of response should prompt reconsideration of diagnosis." }
+    ],
+    pearls: ["PMR responds dramatically to low-dose prednisone (12.5-25mg) within 1-3 days; lack of response = reconsider diagnosis", "Always screen for GCA: new headache, jaw claudication, or vision changes = emergent high-dose steroids", "CK is NORMAL in PMR (elevated CK suggests myositis, not PMR)"],
+    quiz: [{ question: "An NP starts prednisone 15mg for a patient with suspected PMR. After 3 days, there is no improvement. What should be reconsidered?", options: ["Increase prednisone to 60mg", "The diagnosis of PMR should be questioned", "Add methotrexate", "Switch to a different corticosteroid"], correct: 1, rationale: "PMR characteristically shows dramatic improvement within 24-72 hours of low-dose prednisone. Failure to respond should prompt reconsideration of the diagnosis (consider myositis, malignancy, or RA)." }]
+  },
+  "scleroderma-systemic-sclerosis-np": {
+    title: "Scleroderma/Systemic Sclerosis (NP)",
+    cellular: { title: "Fibrosis and Vasculopathy", content: "Systemic sclerosis involves three pathologic processes: vasculopathy (endothelial damage causing Raynaud's and digital ischemia), immune activation (autoantibodies and T-cell infiltration), and fibrosis (excessive collagen deposition in skin, lungs, heart, and GI tract). The fibrotic process replaces normal tissue architecture with dense collagen, impairing organ function." },
+    riskFactors: ["Female sex (4:1)", "Age 30-50 years", "African American descent (more severe disease)", "Silica or organic solvent exposure", "Anti-Scl-70 antibody (diffuse disease)", "Anti-centromere antibody (limited/CREST)"],
+    diagnostics: ["Order ANA and scleroderma-specific antibodies (anti-Scl-70, anti-centromere)", "Order pulmonary function tests (DLCO for early ILD detection)", "Order echocardiogram for pulmonary hypertension screening", "Order high-resolution CT chest for interstitial lung disease", "Order right heart catheterization if PH suspected", "Order nailfold capillaroscopy", "Order esophageal motility studies if dysphagia"],
+    management: ["Prescribe calcium channel blockers for Raynaud's phenomenon", "Order PDE5 inhibitors for severe digital ischemia", "Prescribe immunosuppression for progressive ILD (mycophenolate or nintedanib)", "Order PAH-specific therapy if pulmonary hypertension confirmed", "Prescribe PPI for GERD/esophageal dysmotility", "Refer for autologous stem cell transplant for rapidly progressive diffuse disease", "Order annual screening: PFTs, echocardiogram, and anti-RNA polymerase III (renal crisis)"],
+    nursingActions: ["Diagnose and classify systemic sclerosis (limited vs diffuse)", "Order organ-specific screening per guidelines", "Prescribe organ-targeted therapies", "Monitor for scleroderma renal crisis (sudden hypertension and AKI)", "Prescribe ACEi immediately for renal crisis (only proven therapy)", "Coordinate multidisciplinary care", "Monitor for cardiac involvement (myocardial fibrosis, conduction disease)"],
+    signs: {
+      left: ["Raynaud's phenomenon (earliest manifestation)", "Skin thickening of fingers (sclerodactyly)", "GERD and dysphagia", "Telangiectasia on face and hands"],
+      right: ["Scleroderma renal crisis (sudden HTN, AKI, hemolytic anemia)", "Progressive interstitial lung disease", "Pulmonary arterial hypertension", "Digital ulcers progressing to gangrene"]
+    },
+    medications: [
+      { name: "Mycophenolate Mofetil", type: "Immunosuppressant", action: "Inhibits lymphocyte proliferation to slow progressive interstitial lung disease", sideEffects: "GI upset, leukopenia, infection risk", contra: "Pregnancy (teratogenic)", pearl: "First-line for scleroderma-ILD per SLS-II trial; replaces cyclophosphamide due to better tolerability." },
+      { name: "Captopril", type: "ACE Inhibitor", action: "Blocks RAAS activation in scleroderma renal crisis", sideEffects: "Hyperkalemia, cough, hypotension", contra: "Bilateral renal artery stenosis", pearl: "ACE inhibitors are lifesaving in scleroderma renal crisis; do NOT use ARBs (not proven). Start even if dialysis is needed." }
+    ],
+    pearls: ["CREST syndrome (limited SSc): Calcinosis, Raynaud's, Esophageal dysmotility, Sclerodactyly, Telangiectasia", "Scleroderma renal crisis: MUST use ACEi (captopril); ARBs are NOT equivalent and should not be substituted", "Annual PFT with DLCO is essential for early ILD detection before symptoms develop"],
+    quiz: [{ question: "A patient with diffuse scleroderma develops sudden severe hypertension and rising creatinine. What should the NP prescribe immediately?", options: ["Nifedipine", "Captopril (ACE inhibitor)", "Losartan (ARB)", "Labetalol"], correct: 1, rationale: "Scleroderma renal crisis requires ACE inhibitors (captopril is the prototype). ARBs have NOT been proven effective and should not be substituted." }]
+  },
+  "marfan-syndrome-np": {
+    title: "Marfan Syndrome (NP)",
+    cellular: { title: "FBN1 Mutation and Cardiovascular Implications", content: "Marfan syndrome results from mutations in the FBN1 gene encoding fibrillin-1, a glycoprotein essential for elastic fiber integrity. Defective fibrillin leads to dysregulated TGF-beta signaling, causing progressive aortic root dilation, mitral valve prolapse, and aortic dissection risk. The NP must manage lifelong cardiovascular surveillance and determine timing for prophylactic surgery." },
+    riskFactors: ["Confirmed FBN1 mutation", "Aortic root z-score >3", "Progressive aortic dilation (>0.5 cm/year)", "Family history of aortic events <50 years", "Pregnancy planning in affected women", "Competitive or isometric exercise participation"],
+    diagnostics: ["Order echocardiogram with aortic root measurements annually", "Order CT or MR aortic angiography for complete aortic assessment", "Order genetic testing and family screening", "Order ophthalmologic exam (slit-lamp for ectopia lentis)", "Order revised Ghent criteria assessment", "Order exercise stress test before activity clearance"],
+    management: ["Prescribe beta-blocker as first-line (atenolol or metoprolol)", "Prescribe losartan as adjunct or alternative per COMPARE trial", "Refer for prophylactic aortic root replacement at ≥5.0 cm (≥4.5 cm with risk factors)", "Prescribe exercise restrictions (no isometric, contact sports, or competitive athletics)", "Order preconception counseling and echocardiogram for women planning pregnancy", "Screen and evaluate all first-degree relatives"],
+    nursingActions: ["Prescribe and optimize cardiovascular protective therapy", "Determine surgical referral timing based on aortic dimensions and growth rate", "Coordinate genetic counseling and family screening", "Order and interpret serial aortic imaging", "Provide preconception counseling (discuss 50% transmission risk)", "Prescribe safe exercise parameters", "Manage pregnancy (C-section if root >4.0 cm)"],
+    signs: {
+      left: ["Aortic root dilation (stable, monitored)", "Mitral valve prolapse with mild regurgitation", "Tall, thin habitus with arachnodactyly", "Positive wrist and thumb signs"],
+      right: ["Acute aortic dissection (tearing pain, BP asymmetry)", "Progressive aortic regurgitation", "Lens subluxation with visual changes", "Spontaneous pneumothorax"]
+    },
+    medications: [
+      { name: "Atenolol", type: "Beta-1 Selective Blocker", action: "Reduces aortic wall stress by lowering heart rate, blood pressure, and dP/dt (rate of pressure rise)", sideEffects: "Bradycardia, fatigue, exercise intolerance", contra: "Severe asthma, decompensated HF", pearl: "Titrate to resting HR 60-70 bpm; lifelong therapy to slow aortic root dilation." },
+      { name: "Losartan", type: "ARB", action: "Blocks TGF-beta signaling in addition to angiotensin II receptor blockade", sideEffects: "Hypotension, hyperkalemia", contra: "Pregnancy", pearl: "COMPARE trial showed additional benefit when added to beta-blocker in reducing aortic growth rate." }
+    ],
+    pearls: ["Surgical thresholds: ≥5.0 cm general, ≥4.5 cm with family history of dissection or rapid growth >0.5 cm/yr", "Pregnancy risk: aortic root >4.0 cm = high risk for dissection; requires shared decision-making", "Ectopia lentis is UP in Marfan (DOWN in homocystinuria) - classic board pearl"],
+    quiz: [{ question: "An NP evaluates a Marfan patient with aortic root of 5.2 cm, stable over 6 months, on optimal medical therapy. What is the next step?", options: ["Continue surveillance with 6-month echo", "Refer for prophylactic aortic root replacement", "Increase beta-blocker dose", "Add losartan and recheck in 1 year"], correct: 1, rationale: "Aortic root ≥5.0 cm in Marfan syndrome meets the threshold for prophylactic surgical replacement regardless of stability." }]
+  },
+  "intra-aortic-balloon-pump-np": {
+    title: "Intra-Aortic Balloon Pump (NP)",
+    cellular: { title: "Counterpulsation Physiology", content: "The IABP uses counterpulsation to augment coronary perfusion and reduce left ventricular workload. The balloon inflates during diastole (increasing diastolic augmentation and coronary perfusion pressure) and deflates just before systole (reducing afterload by creating a vacuum effect that facilitates ventricular ejection). This increases myocardial oxygen supply while decreasing demand." },
+    riskFactors: ["Cardiogenic shock post-MI", "Refractory unstable angina", "Mechanical complications of MI (VSD, papillary muscle rupture)", "Bridge to cardiac surgery or transplant", "Post-cardiotomy low cardiac output syndrome"],
+    diagnostics: ["Order chest X-ray to verify balloon tip position (2-3 cm distal to left subclavian)", "Monitor arterial waveform for proper timing", "Order hemodynamic monitoring (CO, PAWP, MAP)", "Monitor peripheral pulses in catheterized leg", "Order daily CBC and coagulation studies", "Monitor urine output hourly"],
+    management: ["Order IABP insertion for appropriate indications", "Prescribe 1:1 augmentation ratio initially", "Order timing optimization (inflate at dicrotic notch, deflate before systole)", "Prescribe anticoagulation (heparin infusion)", "Order weaning protocol (decrease ratio 1:1 → 1:2 → 1:3)", "Prescribe removal when hemodynamically stable off vasopressors"],
+    nursingActions: ["Order IABP placement and verify positioning", "Prescribe timing adjustments based on waveform analysis", "Identify early and late inflation/deflation errors", "Order gradual weaning protocol", "Monitor for complications (limb ischemia, aortic injury, thrombocytopenia)", "Prescribe anticoagulation therapy", "Determine readiness for removal based on hemodynamic stability"],
+    signs: {
+      left: ["Proper augmentation: diastolic augmentation peak higher than preceding systolic peak", "Improved MAP and cardiac output", "Decreased PAWP (reduced preload)", "Adequate urine output and mentation"],
+      right: ["Late inflation: augmentation appears after dicrotic notch (suboptimal coronary perfusion)", "Early deflation: sharp drop before systole (loss of afterload reduction)", "Limb ischemia (absent pulses, pain, pallor in catheterized leg)", "Balloon rupture (blood in tubing, loss of augmentation)"]
+    },
+    medications: [
+      { name: "Heparin Infusion", type: "Anticoagulant", action: "Prevents thrombus formation on the balloon catheter", sideEffects: "Bleeding, HIT, thrombocytopenia", contra: "Active uncontrolled bleeding, severe thrombocytopenia", pearl: "Maintain aPTT 50-70 seconds; monitor platelets daily for HIT; hold for active bleeding." }
+    ],
+    pearls: ["IABP inflates in DIASTOLE (coronary perfusion) and deflates before SYSTOLE (afterload reduction)", "Contraindicated in aortic regurgitation (inflation worsens regurgitation) and aortic dissection", "Monitor the catheterized limb's pulses, color, temperature, and sensation every hour - limb ischemia is the most common complication"],
+    quiz: [
+      { question: "An NP reviews an IABP waveform and notes the augmentation peak appears well after the dicrotic notch. What timing error is present?", options: ["Early inflation", "Late inflation", "Early deflation", "Late deflation"], correct: 1, rationale: "Late inflation means the balloon inflates after the dicrotic notch, reducing the effectiveness of diastolic augmentation and coronary perfusion." },
+      { question: "Which condition is an absolute contraindication for IABP placement?", options: ["Cardiogenic shock", "Unstable angina", "Aortic regurgitation", "Acute MI with VSD"], correct: 2, rationale: "IABP is contraindicated in aortic regurgitation because balloon inflation during diastole would worsen the regurgitant flow back into the left ventricle." }
+    ]
+  },
   "pacemaker-care": {
     title: "Pacemakers: Insertion, Types, and Nursing Care",
     cellular: { title: "Cardiac Conduction Physiology & Pacemaker Intervention", content: "The heart's intrinsic conduction system generates and propagates electrical impulses in a precise sequence: the sinoatrial (SA) node (the natural pacemaker, firing at 60-100 bpm) depolarizes atrial myocytes via gap junctions, then the impulse travels through internodal pathways to the atrioventricular (AV) node (which delays conduction ~0.12 seconds to allow atrial contraction to complete ventricular filling), then rapidly through the Bundle of His, left and right bundle branches, and finally the Purkinje fibers that trigger synchronized ventricular contraction.\n\nWhen this system fails: due to SA node degeneration (sick sinus syndrome), AV node fibrosis (heart blocks), or bundle branch disease: the heart rate drops (bradycardia) or becomes unreliable. At the cellular level, the pacemaker cells of the SA and AV nodes are specialized autorhythmic cells that spontaneously depolarize due to funny channels (If channels) allowing slow Na+ leak during diastole. With aging, fibrosis, ischemia, or drug toxicity (beta-blockers, calcium channel blockers, digoxin), these cells lose automaticity or the impulse cannot propagate through fibrotic conduction tissue.\n\nAn artificial pacemaker delivers electrical impulses to myocardial tissue through a lead (electrode wire) positioned in the heart chamber. The electrical pulse depolarizes adjacent myocytes, which then propagate depolarization via gap junctions throughout the chamber, triggering contraction. Pacemakers are described by a standardized 3-5 letter code (NBG code): the first letter indicates the chamber paced (A=atrium, V=ventricle, D=dual), the second indicates the chamber sensed, and the third indicates the response to sensing (I=inhibited, T=triggered, D=dual).\n\nTemporary pacemakers (transvenous or transcutaneous) are used emergently for symptomatic bradycardia, complete heart block, or post-MI conduction disturbances. Permanent pacemakers (pulse generator implanted subcutaneously, typically below the left clavicle) are indicated for chronic symptomatic bradycardia, Mobitz Type II second-degree heart block, and third-degree (complete) heart block. Biventricular pacemakers (cardiac resynchronization therapy: CRT) pace both ventricles simultaneously to improve synchrony in heart failure with wide QRS (>150ms, LBBB pattern).\n\nModern pacemakers also have rate-responsive (R) features using accelerometers or minute ventilation sensors to increase heart rate with physical activity, mimicking the body's normal chronotropic response to exercise." },
