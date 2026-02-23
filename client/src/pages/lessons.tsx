@@ -1787,8 +1787,8 @@ export default function Lessons() {
         )}
         additionalStructuredData={[
           buildBreadcrumbStructuredData([
-            { name: "Home", url: "https://nursenest.replit.app/" },
-            { name: "Lessons", url: "https://nursenest.replit.app/lessons" },
+            { name: "Home", url: "https://www.nursenest.ca/" },
+            { name: "Lessons", url: "https://www.nursenest.ca/lessons" },
           ]),
         ]}
       />

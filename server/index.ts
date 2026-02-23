@@ -134,7 +134,7 @@ function getSiteBase(): string {
   if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/, "");
   const domains = process.env.REPLIT_DOMAINS;
   if (domains) return `https://${domains.split(",")[0]}`;
-  return "https://nursenest.replit.app";
+  return "https://www.nursenest.ca";
 }
 
 function sitemapUrl(loc: string, priority: string, changefreq: string, lastmod?: string): string {

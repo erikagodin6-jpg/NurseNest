@@ -124,7 +124,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content" | "blog" | "analytics" | "feedback"
+    "overview" | "users" | "activity" | "content" | "blog" | "analytics" | "feedback" | "social"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -137,6 +137,10 @@ export default function AdminPage() {
 
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
+
+  const [socialPosts, setSocialPosts] = useState<any[]>([]);
+  const [socialLoading, setSocialLoading] = useState(false);
+  const [newPost, setNewPost] = useState({ platform: "facebook", content: "", scheduledAt: "", tier: "rpn", imageUrl: "" });
 
   // -------------------------------
   // ✅ ADMIN VERIFY (FIXED)
@@ -254,6 +258,9 @@ export default function AdminPage() {
     if (activeTab === "feedback" && feedbackList.length === 0 && !feedbackLoading) {
       fetchFeedback();
     }
+    if (activeTab === "social" && socialPosts.length === 0 && !socialLoading) {
+      fetchSocialPosts();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
@@ -294,6 +301,50 @@ export default function AdminPage() {
       }
     } catch {
       // ignore
+    }
+  }
+
+  async function fetchSocialPosts() {
+    setSocialLoading(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/social-posts?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) setSocialPosts(await res.json());
+    } catch {
+    } finally {
+      setSocialLoading(false);
+    }
+  }
+
+  async function createSocialPost() {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/social-posts?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPost),
+      });
+      if (res.ok) {
+        const created = await res.json();
+        setSocialPosts((prev) => [created, ...prev]);
+        setNewPost({ platform: "facebook", content: "", scheduledAt: "", tier: "rpn", imageUrl: "" });
+      }
+    } catch {
+    }
+  }
+
+  async function deleteSocialPost(id: string) {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/social-posts/${id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, { method: "DELETE" });
+      if (res.ok) setSocialPosts((prev) => prev.filter((p) => p.id !== id));
+    } catch {
     }
   }
 
@@ -563,7 +614,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content", "blog", "analytics", "feedback"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content", "blog", "analytics", "feedback", "social"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -579,6 +630,7 @@ export default function AdminPage() {
                     {tab === "blog" && "Blog Automation"}
                     {tab === "analytics" && "Site Analytics"}
                     {tab === "feedback" && "Feedback"}
+                    {tab === "social" && "Social Scheduler"}
                   </button>
                 ))}
               </div>
@@ -1208,6 +1260,131 @@ export default function AdminPage() {
                       ))}
                     </div>
                   )}
+                </div>
+              )}
+
+              {activeTab === "social" && (
+                <div className="space-y-6" data-testid="section-social">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-semibold text-gray-900">Social Media Scheduler</h2>
+                    <Button size="sm" variant="outline" onClick={fetchSocialPosts} disabled={socialLoading} className="gap-2" data-testid="button-refresh-social">
+                      <RefreshCw className={`w-4 h-4 ${socialLoading ? "animate-spin" : ""}`} />
+                      Refresh
+                    </Button>
+                  </div>
+
+                  <Card className="border border-primary/10">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Create New Post</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">Platform</label>
+                          <select
+                            value={newPost.platform}
+                            onChange={(e) => setNewPost((p) => ({ ...p, platform: e.target.value }))}
+                            className="w-full border rounded-md px-3 py-2 text-sm bg-white"
+                            data-testid="select-social-platform"
+                          >
+                            <option value="facebook">Facebook</option>
+                            <option value="instagram">Instagram</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">Tier Focus</label>
+                          <select
+                            value={newPost.tier}
+                            onChange={(e) => setNewPost((p) => ({ ...p, tier: e.target.value }))}
+                            className="w-full border rounded-md px-3 py-2 text-sm bg-white"
+                            data-testid="select-social-tier"
+                          >
+                            <option value="rpn">RPN/LVN</option>
+                            <option value="rn">RN</option>
+                            <option value="np">NP</option>
+                            <option value="general">General</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">Schedule For</label>
+                          <input
+                            type="datetime-local"
+                            value={newPost.scheduledAt}
+                            onChange={(e) => setNewPost((p) => ({ ...p, scheduledAt: e.target.value }))}
+                            className="w-full border rounded-md px-3 py-2 text-sm bg-white"
+                            data-testid="input-social-schedule"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-600 mb-1 block">Post Content</label>
+                        <textarea
+                          value={newPost.content}
+                          onChange={(e) => setNewPost((p) => ({ ...p, content: e.target.value }))}
+                          placeholder="Write your social post... Use engagement hooks like 'Comment your answer below!'"
+                          rows={4}
+                          className="w-full border rounded-md px-3 py-2 text-sm bg-white resize-none"
+                          data-testid="input-social-content"
+                        />
+                      </div>
+                      {newPost.platform === "instagram" && (
+                        <div>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">Image URL (required for Instagram)</label>
+                          <input
+                            type="url"
+                            value={newPost.imageUrl}
+                            onChange={(e) => setNewPost((p) => ({ ...p, imageUrl: e.target.value }))}
+                            placeholder="https://www.nursenest.ca/images/..."
+                            className="w-full border rounded-md px-3 py-2 text-sm bg-white"
+                            data-testid="input-social-image"
+                          />
+                        </div>
+                      )}
+                      <Button onClick={createSocialPost} disabled={!newPost.content.trim()} className="gap-2" data-testid="button-create-social-post">
+                        Schedule Post
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-primary/10">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Scheduled & Published Posts</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {socialLoading ? (
+                        <div className="flex items-center justify-center py-10">
+                          <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                        </div>
+                      ) : socialPosts.length === 0 ? (
+                        <p className="text-sm text-gray-400 text-center py-8">No posts scheduled yet.</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {socialPosts.map((post: any) => (
+                            <div key={post.id} className="flex items-start gap-3 p-3 rounded-lg border border-gray-100 bg-gray-50/50" data-testid={`card-social-post-${post.id}`}>
+                              <div className={`px-2 py-1 rounded text-xs font-bold uppercase ${post.platform === "facebook" ? "bg-blue-100 text-blue-700" : "bg-pink-100 text-pink-700"}`}>
+                                {post.platform}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm text-gray-800 whitespace-pre-wrap line-clamp-3">{post.content}</p>
+                                <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                                  <span className={`font-medium ${post.status === "published" ? "text-green-600" : post.status === "failed" ? "text-red-600" : "text-amber-600"}`}>
+                                    {post.status}
+                                  </span>
+                                  {post.scheduledAt && <span>Scheduled: {new Date(post.scheduledAt).toLocaleString()}</span>}
+                                  <span className="capitalize">{post.tier}</span>
+                                </div>
+                              </div>
+                              {post.status === "draft" && (
+                                <Button size="sm" variant="ghost" className="text-red-500 text-xs" onClick={() => deleteSocialPost(post.id)} data-testid={`button-delete-social-${post.id}`}>
+                                  Delete
+                                </Button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
                 </div>
               )}
             </>

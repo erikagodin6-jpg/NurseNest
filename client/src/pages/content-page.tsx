@@ -682,7 +682,7 @@ export default function ContentPage() {
   const description = contentItem!.seoDescription || contentItem!.summary || "";
   const contentBlocks: ContentBlock[] = (contentItem!.content as ContentBlock[]) || [];
   const tags: string[] = contentItem!.tags || [];
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://nursenest.replit.app";
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://www.nursenest.ca";
 
   const learningResourceData = {
     "@context": "https://schema.org",

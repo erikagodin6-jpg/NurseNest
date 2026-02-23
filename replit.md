@@ -51,18 +51,22 @@ Preferred communication style: Simple, everyday language.
 - **Custom Flashcards**: Users can create, edit, delete, and study their own flashcards stored in PostgreSQL (`user_flashcards` table). Accessible from profile page with flip-card study mode.
 - **Tier Isolation**: Access is EXCLUSIVE not hierarchical. RPN users see only RPN content, RN sees only RN, NP sees only NP. Admin sees all. Free/unauthenticated users see all tabs.
 - **CMS Templates**: Content editor supports quick-create templates for lessons, flashcard decks, exam questions, and clinical case studies.
-- **SEO**: Comprehensive SEO implementation including sitemap.xml, robots.txt, and structured data.
+- **SEO**: Comprehensive SEO implementation including sitemap.xml, robots.txt, and structured data. Domain: www.nursenest.ca.
+- **Question of the Day (QOTD)**: Server-side daily question engine (`server/qotd-engine.ts`) with day-based rotation from 20 sample questions. SEO-optimized landing page at `/question-of-the-day` with email capture for subscribers. Database tables: `qotd_history`, `email_subscribers`.
+- **Question Bank**: Standalone practice question page at `/question-bank` with tier/body-system filtering, instant rationale display, and progress tracking.
+- **Social Media Scheduler**: Admin-managed social post scheduling for Facebook and Instagram via Meta Graph API. Admin UI tab in dashboard for creating, viewing, and deleting posts. Cron endpoint protected by `SOCIAL_CRON_SECRET`. Facebook posts use engagement-first strategy (no rationales). Database table: `social_posts`.
 
 ### Pages Overview
 - **Core Pages**: Home, Start Free, Anatomy, Lessons, Flashcards, Med Math, Lab Values, Reports, Pricing.
 - **User Management**: Login, Profile.
 - **Admin Tools**: Admin Dashboard, Content Editor.
 - **Dynamic Content**: `/learn/:slug`, `/clinical-clarity`, `/clinical-clarity/:slug`, `/blog`.
+- **Practice & Assessment**: `/question-of-the-day` (QOTD with email capture), `/question-bank` (filterable practice questions).
 - **Legal/Informational**: FAQ, Terms of Use, Privacy Policy, Disclaimer, Subscription Success.
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL.
-- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`, `user_flashcards`, `blog_config`, `feature_usage`, `lesson_overrides`, `mock_exam_attempts`.
+- **Schema**: `shared/schema.ts` for `users`, `notes`, `test_results`, `user_progress`, `content_items`, `user_flashcards`, `blog_config`, `feature_usage`, `lesson_overrides`, `mock_exam_attempts`, `qotd_history`, `email_subscribers`, `social_posts`.
 - **Validation**: Zod schemas generated from Drizzle.
 
 ### Content Architecture

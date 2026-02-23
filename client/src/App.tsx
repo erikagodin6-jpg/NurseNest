@@ -39,6 +39,8 @@ import MockExamSession from "@/pages/mock-exam-session";
 import MockExamReport from "@/pages/mock-exam-report";
 import ContactPage from "@/pages/contact";
 import FeedbackPage from "@/pages/feedback";
+import QuestionOfTheDay from "@/pages/question-of-the-day";
+import QuestionBank from "@/pages/question-bank";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
@@ -83,6 +85,8 @@ function Router() {
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/disclaimer" component={DisclaimerPage} />
       <Route path="/refund-policy" component={RefundPolicyPage} />
+      <Route path="/question-of-the-day" component={QuestionOfTheDay} />
+      <Route path="/question-bank" component={QuestionBank} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/feedback" component={FeedbackPage} />
       <Route component={NotFound} />

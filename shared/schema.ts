@@ -233,3 +233,60 @@ export const insertUserFeedbackSchema = createInsertSchema(userFeedback).omit({
 
 export type UserFeedback = typeof userFeedback.$inferSelect;
 export type InsertUserFeedback = z.infer<typeof insertUserFeedbackSchema>;
+
+export const qotdHistory = pgTable("qotd_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  questionDate: text("question_date").notNull().unique(),
+  tier: text("tier").notNull().default("rpn"),
+  questionText: text("question_text").notNull(),
+  options: jsonb("options").default(sql`'[]'::jsonb`),
+  correctIndex: integer("correct_index").notNull(),
+  rationale: text("rationale").notNull(),
+  bodySystem: text("body_system"),
+  lessonId: text("lesson_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type QotdHistory = typeof qotdHistory.$inferSelect;
+
+export const emailSubscribers = pgTable("email_subscribers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
+  tier: text("tier").default("general"),
+  source: text("source").default("qotd"),
+  verified: boolean("verified").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertEmailSubscriberSchema = createInsertSchema(emailSubscribers).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type EmailSubscriber = typeof emailSubscribers.$inferSelect;
+export type InsertEmailSubscriber = z.infer<typeof insertEmailSubscriberSchema>;
+
+export const socialPosts = pgTable("social_posts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  platform: text("platform").notNull(),
+  postType: text("post_type").default("qotd"),
+  content: text("content").notNull(),
+  imageUrl: text("image_url"),
+  hashtags: text("hashtags").array().default(sql`'{}'::text[]`),
+  status: text("status").default("scheduled"),
+  scheduledAt: timestamp("scheduled_at"),
+  publishedAt: timestamp("published_at"),
+  platformPostId: text("platform_post_id"),
+  engagementData: jsonb("engagement_data").default(sql`'{}'::jsonb`),
+  tier: text("tier").default("rpn"),
+  questionData: jsonb("question_data").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSocialPostSchema = createInsertSchema(socialPosts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type SocialPost = typeof socialPosts.$inferSelect;
+export type InsertSocialPost = z.infer<typeof insertSocialPostSchema>;

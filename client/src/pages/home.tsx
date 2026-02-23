@@ -66,11 +66,11 @@ export default function Home() {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "NurseNest",
-          "url": "https://nursenest.replit.app",
+          "url": "https://www.nursenest.ca",
           "description": "Comprehensive nursing exam preparation platform with 10,000+ practice questions, clinical case simulations, and pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations.",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://nursenest.replit.app/lessons?q={search_term_string}",
+            "target": "https://www.nursenest.ca/lessons?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         }}

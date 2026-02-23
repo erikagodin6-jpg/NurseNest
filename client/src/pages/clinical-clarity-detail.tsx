@@ -102,7 +102,7 @@ export default function ClinicalClarityDetail() {
           "name": confusion.question,
           "headline": confusion.question,
           "description": confusion.shortAnswer,
-          "url": `https://nursenest.replit.app/clinical-clarity/${confusion.slug}`,
+          "url": `https://www.nursenest.ca/clinical-clarity/${confusion.slug}`,
           "publisher": {
             "@type": "Organization",
             "name": "NurseNest",
@@ -119,8 +119,8 @@ export default function ClinicalClarityDetail() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://nursenest.replit.app/" },
-              { "@type": "ListItem", "position": 2, "name": "Clinical Clarity", "item": "https://nursenest.replit.app/clinical-clarity" },
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nursenest.ca/" },
+              { "@type": "ListItem", "position": 2, "name": "Clinical Clarity", "item": "https://www.nursenest.ca/clinical-clarity" },
               { "@type": "ListItem", "position": 3, "name": confusion.question },
             ],
           },

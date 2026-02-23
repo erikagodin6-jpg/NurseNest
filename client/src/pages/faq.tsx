@@ -239,8 +239,8 @@ export default function FAQPage() {
         structuredData={buildFaqStructuredData(allFaqs)}
         additionalStructuredData={[
           buildBreadcrumbStructuredData([
-            { name: "Home", url: "https://nursenest.replit.app/" },
-            { name: "FAQ", url: "https://nursenest.replit.app/faq" },
+            { name: "Home", url: "https://www.nursenest.ca/" },
+            { name: "FAQ", url: "https://www.nursenest.ca/faq" },
           ]),
         ]}
       />

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -49,6 +49,16 @@ export interface IStorage {
   getAllFeedback(): Promise<UserFeedback[]>;
   updateFeedback(id: string, updates: Partial<UserFeedback>): Promise<UserFeedback>;
   upvoteFeedback(id: string): Promise<UserFeedback>;
+  getQotdByDate(date: string): Promise<QotdHistory | undefined>;
+  createQotd(data: Partial<QotdHistory>): Promise<QotdHistory>;
+  getRecentQotd(limit?: number): Promise<QotdHistory[]>;
+  createEmailSubscriber(data: InsertEmailSubscriber): Promise<EmailSubscriber>;
+  getEmailSubscriberByEmail(email: string): Promise<EmailSubscriber | undefined>;
+  getAllSocialPosts(): Promise<SocialPost[]>;
+  getScheduledSocialPosts(): Promise<SocialPost[]>;
+  createSocialPost(data: InsertSocialPost): Promise<SocialPost>;
+  updateSocialPost(id: string, updates: Partial<SocialPost>): Promise<SocialPost>;
+  deleteSocialPost(id: string): Promise<void>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -421,6 +431,54 @@ export class DatabaseStorage implements IStorage {
       WHERE id = ${id} RETURNING *
     `).then(r => r.rows);
     return updated as unknown as UserFeedback;
+  }
+
+  async getQotdByDate(date: string): Promise<QotdHistory | undefined> {
+    const [row] = await db.select().from(qotdHistory).where(eq(qotdHistory.questionDate, date));
+    return row;
+  }
+
+  async createQotd(data: Partial<QotdHistory>): Promise<QotdHistory> {
+    const [created] = await db.insert(qotdHistory).values(data as any).returning();
+    return created;
+  }
+
+  async getRecentQotd(limit = 30): Promise<QotdHistory[]> {
+    return db.select().from(qotdHistory).orderBy(desc(qotdHistory.questionDate)).limit(limit);
+  }
+
+  async createEmailSubscriber(data: InsertEmailSubscriber): Promise<EmailSubscriber> {
+    const [created] = await db.insert(emailSubscribers).values(data).returning();
+    return created;
+  }
+
+  async getEmailSubscriberByEmail(email: string): Promise<EmailSubscriber | undefined> {
+    const [row] = await db.select().from(emailSubscribers).where(eq(emailSubscribers.email, email));
+    return row;
+  }
+
+  async getAllSocialPosts(): Promise<SocialPost[]> {
+    return db.select().from(socialPosts).orderBy(desc(socialPosts.createdAt));
+  }
+
+  async getScheduledSocialPosts(): Promise<SocialPost[]> {
+    return db.select().from(socialPosts)
+      .where(and(eq(socialPosts.status, "scheduled"), lte(socialPosts.scheduledAt, new Date())))
+      .orderBy(socialPosts.scheduledAt);
+  }
+
+  async createSocialPost(data: InsertSocialPost): Promise<SocialPost> {
+    const [created] = await db.insert(socialPosts).values(data).returning();
+    return created;
+  }
+
+  async updateSocialPost(id: string, updates: Partial<SocialPost>): Promise<SocialPost> {
+    const [updated] = await db.update(socialPosts).set(updates).where(eq(socialPosts.id, id)).returning();
+    return updated;
+  }
+
+  async deleteSocialPost(id: string): Promise<void> {
+    await db.delete(socialPosts).where(eq(socialPosts.id, id));
   }
 }
 

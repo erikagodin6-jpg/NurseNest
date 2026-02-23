@@ -1413,7 +1413,7 @@ export default function Flashcards() {
           "@type": "LearningResource",
           "name": "NurseNest Nursing Flashcards",
           "description": "Interactive nursing flashcards with quiz-style questions for NCLEX and clinical exam preparation.",
-          "url": "https://nursenest.replit.app/flashcards",
+          "url": "https://www.nursenest.ca/flashcards",
           "learningResourceType": "Flashcard",
           "educationalLevel": "College",
           "about": { "@type": "Thing", "name": "Nursing Education" }

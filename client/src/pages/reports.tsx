@@ -250,7 +250,7 @@ export default function Reports() {
             "@type": "WebPage",
             "name": "NurseNest Performance Analytics",
             "description": "Track nursing study progress with mastery scores and performance insights.",
-            "url": "https://nursenest.replit.app/reports",
+            "url": "https://www.nursenest.ca/reports",
           }}
         />
         <Navigation />
@@ -290,7 +290,7 @@ export default function Reports() {
           "@type": "WebPage",
           "name": "NurseNest Performance Analytics",
           "description": "Track nursing study progress with mastery scores, study time analytics, and performance insights.",
-          "url": "https://nursenest.replit.app/reports",
+          "url": "https://www.nursenest.ca/reports",
         }}
       />
       <Navigation />

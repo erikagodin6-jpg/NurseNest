@@ -1155,5 +1155,231 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  // --------------------
+  // Question of the Day
+  // --------------------
+  app.get("/api/qotd/today", async (_req, res) => {
+    try {
+      const today = new Date().toISOString().split("T")[0];
+      let qotd = await storage.getQotdByDate(today);
+      if (!qotd) {
+        const { buildQuestionPoolServer } = await import("./qotd-engine");
+        const question = buildQuestionPoolServer();
+        if (question) {
+          qotd = await storage.createQotd({
+            questionDate: today,
+            tier: question.tier,
+            questionText: question.question,
+            options: question.options as any,
+            correctIndex: question.correct,
+            rationale: question.rationale,
+            bodySystem: question.bodySystem,
+            lessonId: question.lessonId,
+          });
+        }
+      }
+      if (qotd) {
+        res.json({
+          date: qotd.questionDate,
+          tier: qotd.tier,
+          question: qotd.questionText,
+          options: qotd.options,
+          correctIndex: qotd.correctIndex,
+          rationale: qotd.rationale,
+          bodySystem: qotd.bodySystem,
+          lessonId: qotd.lessonId,
+        });
+      } else {
+        res.status(404).json({ error: "No questions available" });
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/qotd/archive", async (_req, res) => {
+    try {
+      const limit = parseInt(_req.query.limit as string) || 30;
+      const archive = await storage.getRecentQotd(limit);
+      res.json(archive.map(q => ({
+        date: q.questionDate,
+        tier: q.tier,
+        question: q.questionText,
+        bodySystem: q.bodySystem,
+      })));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Email Subscribers
+  // --------------------
+  app.post("/api/subscribe", async (req, res) => {
+    try {
+      const { email, tier, source } = req.body;
+      if (!email || !email.includes("@")) {
+        return res.status(400).json({ error: "Valid email required" });
+      }
+      const existing = await storage.getEmailSubscriberByEmail(email.toLowerCase().trim());
+      if (existing) {
+        return res.json({ message: "Already subscribed", subscriber: existing });
+      }
+      const subscriber = await storage.createEmailSubscriber({
+        email: email.toLowerCase().trim(),
+        tier: tier || "general",
+        source: source || "qotd",
+        verified: false,
+      });
+      res.json({ message: "Subscribed successfully", subscriber });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Social Posts (Admin)
+  // --------------------
+  app.get("/api/admin/social-posts", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const posts = await storage.getAllSocialPosts();
+      res.json(posts);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/social-posts", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { platform, postType, content, imageUrl, hashtags, scheduledAt, tier, questionData } = req.body;
+      const post = await storage.createSocialPost({
+        platform,
+        postType: postType || "qotd",
+        content,
+        imageUrl,
+        hashtags: hashtags || [],
+        status: "scheduled",
+        scheduledAt: scheduledAt ? new Date(scheduledAt) : null,
+        tier: tier || "rpn",
+        questionData: questionData || {},
+      });
+      res.json(post);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/social-posts/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const updated = await storage.updateSocialPost(req.params.id, req.body);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/social-posts/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteSocialPost(req.params.id);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Social Cron (protected by SOCIAL_CRON_SECRET)
+  // --------------------
+  app.post("/api/cron/social-publish", async (req, res) => {
+    try {
+      const secret = req.headers["x-cron-secret"] || req.body.secret;
+      if (!process.env.SOCIAL_CRON_SECRET || secret !== process.env.SOCIAL_CRON_SECRET) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const duePosts = await storage.getScheduledSocialPosts();
+      const results: any[] = [];
+      for (const post of duePosts) {
+        try {
+          if (post.platform === "facebook" && process.env.FACEBOOK_PAGE_TOKEN) {
+            const fbRes = await fetch(
+              `https://graph.facebook.com/v19.0/me/feed`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  message: post.content,
+                  access_token: process.env.FACEBOOK_PAGE_TOKEN,
+                }),
+              }
+            );
+            const fbData = await fbRes.json() as any;
+            await storage.updateSocialPost(post.id, {
+              status: fbData.id ? "published" : "failed",
+              publishedAt: fbData.id ? new Date() : undefined,
+              platformPostId: fbData.id || null,
+            });
+            results.push({ id: post.id, platform: "facebook", status: fbData.id ? "published" : "failed" });
+          } else if (post.platform === "instagram" && process.env.INSTAGRAM_BUSINESS_ID && process.env.FACEBOOK_PAGE_TOKEN) {
+            if (post.imageUrl) {
+              const containerRes = await fetch(
+                `https://graph.facebook.com/v19.0/${process.env.INSTAGRAM_BUSINESS_ID}/media`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    image_url: post.imageUrl,
+                    caption: post.content,
+                    access_token: process.env.FACEBOOK_PAGE_TOKEN,
+                  }),
+                }
+              );
+              const containerData = await containerRes.json() as any;
+              if (containerData.id) {
+                const publishRes = await fetch(
+                  `https://graph.facebook.com/v19.0/${process.env.INSTAGRAM_BUSINESS_ID}/media_publish`,
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      creation_id: containerData.id,
+                      access_token: process.env.FACEBOOK_PAGE_TOKEN,
+                    }),
+                  }
+                );
+                const publishData = await publishRes.json() as any;
+                await storage.updateSocialPost(post.id, {
+                  status: publishData.id ? "published" : "failed",
+                  publishedAt: publishData.id ? new Date() : undefined,
+                  platformPostId: publishData.id || null,
+                });
+                results.push({ id: post.id, platform: "instagram", status: publishData.id ? "published" : "failed" });
+              }
+            } else {
+              await storage.updateSocialPost(post.id, { status: "failed" });
+              results.push({ id: post.id, platform: "instagram", status: "failed", reason: "No image URL" });
+            }
+          } else {
+            await storage.updateSocialPost(post.id, { status: "failed" });
+            results.push({ id: post.id, platform: post.platform, status: "failed", reason: "Missing credentials" });
+          }
+        } catch (postErr: any) {
+          await storage.updateSocialPost(post.id, { status: "failed" });
+          results.push({ id: post.id, status: "failed", error: postErr.message });
+        }
+      }
+      res.json({ processed: results.length, results });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }

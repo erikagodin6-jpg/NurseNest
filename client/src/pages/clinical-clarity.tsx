@@ -72,7 +72,7 @@ export default function ClinicalClarityIndex() {
           "@type": "CollectionPage",
           "name": "Clinical Clarity - Mechanism-Driven Nursing Explanations",
           "description": "Expert answers to the most searched nursing pathophysiology questions, explained through cellular mechanisms and clinical reasoning.",
-          "url": "https://nursenest.replit.app/clinical-clarity",
+          "url": "https://www.nursenest.ca/clinical-clarity",
           "provider": {
             "@type": "Organization",
             "name": "NurseNest",

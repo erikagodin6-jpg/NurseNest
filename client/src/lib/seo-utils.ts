@@ -86,7 +86,7 @@ export function buildLessonStructuredData(lessonId: string, lesson: LessonConten
     "provider": {
       "@type": "EducationalOrganization",
       "name": "NurseNest",
-      "url": "https://nursenest.replit.app",
+      "url": "https://www.nursenest.ca",
     },
     "isAccessibleForFree": false,
     "inLanguage": "en",
@@ -139,7 +139,7 @@ export function buildCatalogStructuredData(lessons: { id: string; name: string }
     "hasPart": lessons.slice(0, 50).map((l) => ({
       "@type": "LearningResource",
       "name": l.name,
-      "url": `https://nursenest.replit.app/lessons/${l.id}`,
+      "url": `https://www.nursenest.ca/lessons/${l.id}`,
     })),
   };
 }

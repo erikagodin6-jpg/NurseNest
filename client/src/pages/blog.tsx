@@ -112,7 +112,7 @@ export default function BlogPage() {
     "@type": "Blog",
     "name": "NurseNest Clinical Education Blog",
     "description": "Evidence-based nursing education articles covering clinical reasoning, pharmacology, lab interpretation, and exam preparation for RPN and RN students.",
-    "url": "https://nursenest.com/blog",
+    "url": "https://www.nursenest.ca/blog",
     "publisher": {
       "@type": "Organization",
       "name": "NurseNest"

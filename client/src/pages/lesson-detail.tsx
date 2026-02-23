@@ -721,10 +721,10 @@ export default function LessonDetail() {
         structuredData={buildLessonStructuredData(id || "", lessonContent)}
         additionalStructuredData={[
           buildBreadcrumbStructuredData([
-            { name: "Home", url: "https://nursenest.replit.app/" },
-            { name: "Lessons", url: "https://nursenest.replit.app/lessons" },
-            { name: getLessonBodySystem(id || ""), url: "https://nursenest.replit.app/lessons" },
-            { name: lessonContent.title, url: `https://nursenest.replit.app/lessons/${id}` },
+            { name: "Home", url: "https://www.nursenest.ca/" },
+            { name: "Lessons", url: "https://www.nursenest.ca/lessons" },
+            { name: getLessonBodySystem(id || ""), url: "https://www.nursenest.ca/lessons" },
+            { name: lessonContent.title, url: `https://www.nursenest.ca/lessons/${id}` },
           ]),
         ]}
       />
