@@ -7,7 +7,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <ThemedLogo width={200} />
+            <ThemedLogo width={160} />
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
             <Link href="/terms" className="hover:text-primary transition-colors">Terms of Use</Link>

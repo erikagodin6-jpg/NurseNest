@@ -248,7 +248,7 @@ export function Navigation() {
       <SheetContent side="left" className="w-72 bg-white p-5 overflow-y-auto">
         <SheetHeader className="mb-6">
           <SheetTitle className="text-left flex items-center gap-2">
-            <ThemedLogo width={220} />
+            <ThemedLogo width={180} />
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-1">
@@ -513,7 +513,7 @@ export function Navigation() {
             <MobileNav />
             <Link href="/">
               <div className="flex items-center cursor-pointer group" data-testid="link-home-logo">
-                <ThemedLogo width={220} className="group-hover:scale-105 transition-transform duration-300" />
+                <ThemedLogo width={180} className="group-hover:scale-105 transition-transform duration-300" />
               </div>
             </Link>
 
