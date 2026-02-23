@@ -1,16 +1,17 @@
 import { Link } from "wouter";
-import { Heart } from "lucide-react";
+import { useTheme } from "next-themes";
+import { getThemeLogo } from "@/lib/theme-logos";
 
 export function Footer() {
+  const { resolvedTheme, theme } = useTheme();
+  const themeLogo = getThemeLogo(resolvedTheme || theme);
+
   return (
     <footer className="bg-white border-t border-primary/10 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">N</span>
-            </div>
-            <span className="font-semibold text-gray-900">NurseNest</span>
+            <img src={themeLogo.brand} alt="NurseNest" className="h-7 w-auto" />
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
             <Link href="/terms" className="hover:text-primary transition-colors">Terms of Use</Link>

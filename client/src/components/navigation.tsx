@@ -50,6 +50,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
+import { getThemeLogo } from "@/lib/theme-logos";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { data: subData } = useQuery({
@@ -118,8 +119,9 @@ export function Navigation() {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
   });
   const { toast } = useToast();
-  const { setTheme, theme } = useTheme();
+  const { setTheme, theme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const themeLogo = getThemeLogo(resolvedTheme || theme);
   const [, setLocation] = useLocation();
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
 
@@ -247,10 +249,11 @@ export function Navigation() {
       <SheetContent side="left" className="w-72 bg-white p-5">
         <SheetHeader className="mb-6">
           <SheetTitle className="text-left flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent-foreground rounded-lg flex items-center justify-center">
-              <Heart className="w-5 h-5 text-white fill-white" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">NurseNest</span>
+            <img
+              src={themeLogo.brand}
+              alt="NurseNest"
+              className="h-8 w-auto"
+            />
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-1">
@@ -514,13 +517,12 @@ export function Navigation() {
           <div className="flex items-center gap-2 lg:gap-6">
             <MobileNav />
             <Link href="/">
-              <div className="flex items-center gap-2 cursor-pointer group">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary to-accent-foreground rounded-xl sm:rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
-                  <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-white" />
-                </div>
-                <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent tracking-tight">
-                  NurseNest
-                </span>
+              <div className="flex items-center cursor-pointer group" data-testid="link-home-logo">
+                <img
+                  src={themeLogo.brand}
+                  alt="NurseNest"
+                  className="h-8 sm:h-10 w-auto group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
             </Link>
 
