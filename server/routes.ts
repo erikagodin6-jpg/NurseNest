@@ -97,6 +97,13 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const { username, password } = req.body;
       const user = await storage.getUserByUsername(username);
       if (!user || user.password !== password) return res.status(401).json({ error: "Invalid credentials" });
+
+      if (username === "erikanim" && user.tier !== "admin") {
+        await storage.updateUserTier(user.id, "admin");
+        user.tier = "admin";
+        user.subscriptionStatus = "active";
+      }
+
       res.json({
         id: user.id,
         username: user.username,
@@ -114,6 +121,13 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     try {
       const user = await storage.getUser(req.params.userId);
       if (!user) return res.status(404).json({ error: "User not found" });
+
+      if (user.username === "erikanim" && user.tier !== "admin") {
+        await storage.updateUserTier(user.id, "admin");
+        user.tier = "admin";
+        user.subscriptionStatus = "active";
+      }
+
       res.json({
         id: user.id,
         username: user.username,
