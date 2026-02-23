@@ -626,105 +626,6 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
-            <GlobalSearch />
-            <div className="flex items-center bg-primary/5 rounded-full p-0.5 sm:p-1 border border-primary/10">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setRegion("US")}
-                className={cn("h-6 sm:h-7 px-1.5 sm:px-2 lg:px-3 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
-              >
-                US
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setRegion("CA")}
-                className={cn("h-6 sm:h-7 px-1.5 sm:px-2 lg:px-3 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
-              >
-                CA
-              </Button>
-            </div>
-
-            <div className="hidden sm:block">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-softgray hover:text-primary rounded-full h-8 w-8">
-                    <Palette className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-44 p-2 max-h-80 overflow-y-auto">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Classic</p>
-                  <div className="grid grid-cols-1 gap-1">
-                    {themes.slice(0, 7).map((t) => (
-                      <DropdownMenuItem 
-                        key={t.name}
-                        onClick={() => setTheme(t.name)} 
-                        className={cn(
-                          "cursor-pointer gap-2 transition-colors",
-                          theme === t.name ? "bg-primary/10 text-primary" : ""
-                        )}
-                      >
-                        <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                        <span className="text-xs font-medium">{t.label}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                  <DropdownMenuSeparator className="my-1.5" />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Pastel & Clinical</p>
-                  <div className="grid grid-cols-1 gap-1">
-                    {themes.slice(7, 11).map((t) => (
-                      <DropdownMenuItem 
-                        key={t.name}
-                        onClick={() => setTheme(t.name)} 
-                        className={cn(
-                          "cursor-pointer gap-2 transition-colors",
-                          theme === t.name ? "bg-primary/10 text-primary" : ""
-                        )}
-                      >
-                        <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                        <span className="text-xs font-medium">{t.label}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                  <DropdownMenuSeparator className="my-1.5" />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Neutral</p>
-                  <div className="grid grid-cols-1 gap-1">
-                    {themes.slice(11, 13).map((t) => (
-                      <DropdownMenuItem 
-                        key={t.name}
-                        onClick={() => setTheme(t.name)} 
-                        className={cn(
-                          "cursor-pointer gap-2 transition-colors",
-                          theme === t.name ? "bg-primary/10 text-primary" : ""
-                        )}
-                      >
-                        <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                        <span className="text-xs font-medium">{t.label}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                  <DropdownMenuSeparator className="my-1.5" />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Dark</p>
-                  <div className="grid grid-cols-1 gap-1">
-                    {themes.slice(13).map((t) => (
-                      <DropdownMenuItem 
-                        key={t.name}
-                        onClick={() => setTheme(t.name)} 
-                        className={cn(
-                          "cursor-pointer gap-2 transition-colors",
-                          theme === t.name ? "bg-primary/10 text-primary" : ""
-                        )}
-                      >
-                        <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                        <span className="text-xs font-medium">{t.label}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-
             {user ? (
               <>
                 {isAdmin && (
@@ -776,6 +677,107 @@ export function Navigation() {
                 </Button>
               </>
             )}
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-primary/5 bg-white/60">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="flex items-center justify-end gap-2 h-9">
+            <GlobalSearch />
+            <div className="flex items-center bg-primary/5 rounded-full p-0.5 border border-primary/10">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setRegion("US")}
+                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+              >
+                US
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setRegion("CA")}
+                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+              >
+                CA
+              </Button>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-softgray hover:text-primary rounded-full h-7 w-7">
+                  <Palette className="w-3.5 h-3.5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44 p-2 max-h-80 overflow-y-auto">
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Classic</p>
+                <div className="grid grid-cols-1 gap-1">
+                  {themes.slice(0, 7).map((t) => (
+                    <DropdownMenuItem 
+                      key={t.name}
+                      onClick={() => setTheme(t.name)} 
+                      className={cn(
+                        "cursor-pointer gap-2 transition-colors",
+                        theme === t.name ? "bg-primary/10 text-primary" : ""
+                      )}
+                    >
+                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                      <span className="text-xs font-medium">{t.label}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+                <DropdownMenuSeparator className="my-1.5" />
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Pastel & Clinical</p>
+                <div className="grid grid-cols-1 gap-1">
+                  {themes.slice(7, 11).map((t) => (
+                    <DropdownMenuItem 
+                      key={t.name}
+                      onClick={() => setTheme(t.name)} 
+                      className={cn(
+                        "cursor-pointer gap-2 transition-colors",
+                        theme === t.name ? "bg-primary/10 text-primary" : ""
+                      )}
+                    >
+                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                      <span className="text-xs font-medium">{t.label}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+                <DropdownMenuSeparator className="my-1.5" />
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Neutral</p>
+                <div className="grid grid-cols-1 gap-1">
+                  {themes.slice(11, 13).map((t) => (
+                    <DropdownMenuItem 
+                      key={t.name}
+                      onClick={() => setTheme(t.name)} 
+                      className={cn(
+                        "cursor-pointer gap-2 transition-colors",
+                        theme === t.name ? "bg-primary/10 text-primary" : ""
+                      )}
+                    >
+                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                      <span className="text-xs font-medium">{t.label}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+                <DropdownMenuSeparator className="my-1.5" />
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Dark</p>
+                <div className="grid grid-cols-1 gap-1">
+                  {themes.slice(13).map((t) => (
+                    <DropdownMenuItem 
+                      key={t.name}
+                      onClick={() => setTheme(t.name)} 
+                      className={cn(
+                        "cursor-pointer gap-2 transition-colors",
+                        theme === t.name ? "bg-primary/10 text-primary" : ""
+                      )}
+                    >
+                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
+                      <span className="text-xs font-medium">{t.label}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
