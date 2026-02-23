@@ -1,11 +1,39 @@
 import type { Express, Request } from "express";
-import { createServer, type Server } from "http";
+import type { Server } from "http";
 import { sql } from "drizzle-orm";
 import { storage, DatabaseStorage, pool } from "./storage";
-import { insertNoteSchema, insertTestResultSchema, insertUserProgressSchema, insertUserSchema, insertContentItemSchema, lessonOverrides } from "@shared/schema";
+import {
+  insertNoteSchema,
+  insertTestResultSchema,
+  insertUserProgressSchema,
+  insertUserSchema,
+  insertContentItemSchema,
+} from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 import { generateBlogPost, runBlogScheduler } from "./blog-automation";
+
+/**
+ * Consistent admin auth (DB-based).
+ * Uses the same "username + password" you store in localStorage on the client.
+ */
+async function requireAdmin(req: any, res: any) {
+  const username = String(req.body?.username || req.query?.username || "");
+  const password = String(req.body?.password || req.query?.password || "");
+
+  if (!username || !password) {
+    res.status(401).json({ error: "Authentication required" });
+    return null;
+  }
+
+  const user = await storage.getUserByUsername(username);
+  if (!user || user.password !== password || user.tier !== "admin") {
+    res.status(403).json({ error: "Admin access required" });
+    return null;
+  }
+
+  return user;
+}
 
 function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
   if (!targetTier || targetTier === "free") return true;
@@ -26,17 +54,39 @@ async function extractUserTier(req: Request): Promise<string | null> {
   return null;
 }
 
-export async function registerRoutes(
-  httpServer: Server,
-  app: Express
-): Promise<Server> {
+export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
+  // --------------------
+  // Admin verify endpoint (single source of truth)
+  // --------------------
+  app.post("/api/admin/verify", async (req, res) => {
+    try {
+      const username = String(req.body?.username || "");
+      const password = String(req.body?.password || "");
+      if (!username || !password) return res.json({ isAdmin: false });
+
+      const user = await storage.getUserByUsername(username);
+      const ok = Boolean(user && user.password === password && user.tier === "admin");
+      res.json({ isAdmin: ok });
+    } catch {
+      res.json({ isAdmin: false });
+    }
+  });
+
+  // --------------------
+  // Auth
+  // --------------------
   app.post("/api/auth/register", async (req, res) => {
     try {
       const data = insertUserSchema.parse(req.body);
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
       const user = await storage.createUser(data);
-      res.json({ id: user.id, username: user.username, tier: user.tier, subscriptionStatus: user.subscriptionStatus });
+      res.json({
+        id: user.id,
+        username: user.username,
+        tier: user.tier,
+        subscriptionStatus: user.subscriptionStatus,
+      });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
@@ -47,7 +97,14 @@ export async function registerRoutes(
       const { username, password } = req.body;
       const user = await storage.getUserByUsername(username);
       if (!user || user.password !== password) return res.status(401).json({ error: "Invalid credentials" });
-      res.json({ id: user.id, username: user.username, tier: user.tier, subscriptionStatus: user.subscriptionStatus, email: user.email, region: user.region });
+      res.json({
+        id: user.id,
+        username: user.username,
+        tier: user.tier,
+        subscriptionStatus: user.subscriptionStatus,
+        email: user.email,
+        region: user.region,
+      });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
@@ -57,12 +114,22 @@ export async function registerRoutes(
     try {
       const user = await storage.getUser(req.params.userId);
       if (!user) return res.status(404).json({ error: "User not found" });
-      res.json({ id: user.id, username: user.username, tier: user.tier, subscriptionStatus: user.subscriptionStatus, email: user.email, region: user.region });
+      res.json({
+        id: user.id,
+        username: user.username,
+        tier: user.tier,
+        subscriptionStatus: user.subscriptionStatus,
+        email: user.email,
+        region: user.region,
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
   });
 
+  // --------------------
+  // Stripe
+  // --------------------
   app.get("/api/stripe/publishable-key", async (_req, res) => {
     try {
       const key = await getStripePublishableKey();
@@ -111,24 +178,26 @@ export async function registerRoutes(
       const amount = priceMap[tier];
       if (!amount) return res.status(400).json({ error: "Invalid tier" });
 
-      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
 
       const session = await stripe.checkout.sessions.create({
         customer: customerId,
-        payment_method_types: ['card'],
-        line_items: [{
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: tierNames[tier],
-              description: `Monthly subscription to ${tierNames[tier]} content`,
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: tierNames[tier],
+                description: `Monthly subscription to ${tierNames[tier]} content`,
+              },
+              unit_amount: amount,
+              recurring: { interval: "month" },
             },
-            unit_amount: amount,
-            recurring: { interval: 'month' },
+            quantity: 1,
           },
-          quantity: 1,
-        }],
-        mode: 'subscription',
+        ],
+        mode: "subscription",
         success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
         cancel_url: `${baseUrl}/lessons`,
         metadata: { userId: user.id, tier },
@@ -171,7 +240,7 @@ export async function registerRoutes(
       const stripe = await getUncachableStripeClient();
       const portalSession = await stripe.billingPortal.sessions.create({
         customer: user.stripeCustomerId,
-        return_url: `${req.protocol}://${req.get('host')}/lessons`,
+        return_url: `${req.protocol}://${req.get("host")}/lessons`,
       });
 
       res.json({ url: portalSession.url });
@@ -192,7 +261,7 @@ export async function registerRoutes(
         try {
           const { db: pgPool } = await import("./db");
           const result = await pgPool.execute(
-            sql`SELECT current_period_end, status FROM stripe.subscriptions WHERE id = ${user.stripeSubscriptionId} LIMIT 1`
+            sql`SELECT current_period_end, status FROM stripe.subscriptions WHERE id = ${user.stripeSubscriptionId} LIMIT 1`,
           );
           if (result.rows && result.rows.length > 0) {
             const sub = result.rows[0] as any;
@@ -200,11 +269,14 @@ export async function registerRoutes(
               const endDate = new Date(sub.current_period_end * 1000);
               currentPeriodEnd = endDate.toISOString();
               const now = new Date();
-              daysRemaining = Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+              daysRemaining = Math.max(
+                0,
+                Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
+              );
             }
           }
-        } catch (stripeErr) {
-          // Stripe data not available, continue without it
+        } catch {
+          // Stripe sync table might not be available yet; ignore
         }
       }
 
@@ -220,6 +292,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Notes
+  // --------------------
   app.get("/api/notes/:userId", async (req, res) => {
     try {
       const notes = await storage.getNotesByUser(req.params.userId);
@@ -257,6 +332,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // User flashcards
+  // --------------------
   app.get("/api/user-flashcards/:userId", async (req, res) => {
     try {
       const cards = await storage.getUserFlashcards(req.params.userId);
@@ -270,7 +348,12 @@ export async function registerRoutes(
     try {
       const { userId, question, answer, category } = req.body;
       if (!userId || !question || !answer) return res.status(400).json({ error: "Missing required fields" });
-      const card = await storage.createUserFlashcard({ userId, question, answer, category: category || "My Cards" });
+      const card = await storage.createUserFlashcard({
+        userId,
+        question,
+        answer,
+        category: category || "My Cards",
+      });
       res.json(card);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -303,6 +386,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Test results
+  // --------------------
   app.get("/api/test-results/:userId", async (req, res) => {
     try {
       const lessonId = req.query.lessonId as string | undefined;
@@ -323,6 +409,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Progress
+  // --------------------
   app.get("/api/progress/:userId", async (req, res) => {
     try {
       const progress = await storage.getUserProgress(req.params.userId);
@@ -351,6 +440,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Admin analytics (already protected – kept)
+  // --------------------
   app.post("/api/admin/analytics", async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -373,10 +465,12 @@ export async function registerRoutes(
       const tierCounts: Record<string, number> = {};
       const regionCounts: Record<string, number> = {};
       const statusCounts: Record<string, number> = {};
+
       allUsers.forEach((u: any) => {
         tierCounts[u.tier || "free"] = (tierCounts[u.tier || "free"] || 0) + 1;
         regionCounts[u.region || "US"] = (regionCounts[u.region || "US"] || 0) + 1;
-        statusCounts[u.subscriptionStatus || "inactive"] = (statusCounts[u.subscriptionStatus || "inactive"] || 0) + 1;
+        statusCounts[u.subscriptionStatus || "inactive"] =
+          (statusCounts[u.subscriptionStatus || "inactive"] || 0) + 1;
       });
 
       const now = new Date();
@@ -388,28 +482,25 @@ export async function registerRoutes(
       const recentProgress7 = allProgress.filter((p: any) => new Date(p.lastAccessed) > last7Days);
       const recentProgress30 = allProgress.filter((p: any) => new Date(p.lastAccessed) > last30Days);
 
-      const activeUsers7 = new Set([
-        ...recentTests7.map((r: any) => r.userId),
-        ...recentProgress7.map((p: any) => p.userId),
-      ]).size;
-
-      const activeUsers30 = new Set([
-        ...recentTests30.map((r: any) => r.userId),
-        ...recentProgress30.map((p: any) => p.userId),
-      ]).size;
+      const activeUsers7 = new Set([...recentTests7.map((r: any) => r.userId), ...recentProgress7.map((p: any) => p.userId)]).size;
+      const activeUsers30 = new Set([...recentTests30.map((r: any) => r.userId), ...recentProgress30.map((p: any) => p.userId)]).size;
 
       const lessonPopularity: Record<string, number> = {};
       allProgress.forEach((p: any) => {
         lessonPopularity[p.lessonId] = (lessonPopularity[p.lessonId] || 0) + 1;
       });
+
       const topLessons = Object.entries(lessonPopularity)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 15)
         .map(([lessonId, count]) => ({ lessonId, accessCount: count }));
 
-      const avgScore = allResults.length > 0
-        ? Math.round(allResults.reduce((sum: number, r: any) => sum + (r.score / r.totalQuestions) * 100, 0) / allResults.length)
-        : 0;
+      const avgScore =
+        allResults.length > 0
+          ? Math.round(
+              allResults.reduce((sum: number, r: any) => sum + (r.score / r.totalQuestions) * 100, 0) / allResults.length,
+            )
+          : 0;
 
       const userList = allUsers.map((u: any) => ({
         id: u.id,
@@ -424,11 +515,8 @@ export async function registerRoutes(
         lastActivity: (() => {
           const userTests = allResults.filter((r: any) => r.userId === u.id);
           const userProg = allProgress.filter((p: any) => p.userId === u.id);
-          const dates = [
-            ...userTests.map((r: any) => new Date(r.completedAt)),
-            ...userProg.map((p: any) => new Date(p.lastAccessed)),
-          ];
-          return dates.length > 0 ? new Date(Math.max(...dates.map(d => d.getTime()))) : null;
+          const dates = [...userTests.map((r: any) => new Date(r.completedAt)), ...userProg.map((p: any) => new Date(p.lastAccessed))];
+          return dates.length > 0 ? new Date(Math.max(...dates.map((d) => d.getTime()))) : null;
         })(),
       }));
 
@@ -467,13 +555,14 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Report card (unchanged)
+  // --------------------
   app.get("/api/report-card/:userId", async (req, res) => {
     try {
-      const [progress, results] = await Promise.all([
-        storage.getUserProgress(req.params.userId),
-        storage.getTestResults(req.params.userId),
-      ]);
+      const [progress, results] = await Promise.all([storage.getUserProgress(req.params.userId), storage.getTestResults(req.params.userId)]);
       const lessonStats: Record<string, any> = {};
+
       progress.forEach((p) => {
         lessonStats[p.lessonId] = {
           completed: p.completed === "true",
@@ -482,6 +571,7 @@ export async function registerRoutes(
           lastAccessed: p.lastAccessed,
         };
       });
+
       results.forEach((r) => {
         if (!lessonStats[r.lessonId]) lessonStats[r.lessonId] = {};
         if (!lessonStats[r.lessonId].testHistory) lessonStats[r.lessonId].testHistory = [];
@@ -492,11 +582,14 @@ export async function registerRoutes(
           date: r.completedAt,
         });
       });
+
       const totalLessons = Object.keys(lessonStats).length;
       const completedLessons = Object.values(lessonStats).filter((s: any) => s.completed).length;
-      const avgScore = results.length > 0
-        ? Math.round(results.reduce((sum, r) => sum + (r.score / r.totalQuestions) * 100, 0) / results.length)
-        : 0;
+      const avgScore =
+        results.length > 0
+          ? Math.round(results.reduce((sum, r) => sum + (r.score / r.totalQuestions) * 100, 0) / results.length)
+          : 0;
+
       res.json({
         totalLessonsStarted: totalLessons,
         completedLessons,
@@ -510,78 +603,13 @@ export async function registerRoutes(
     }
   });
 
-  app.get("/robots.txt", (_req, res) => {
-    res.type("text/plain").send(
-      `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nSitemap: https://nursenest.replit.app/sitemap.xml`
-    );
-  });
-
-  app.get("/sitemap.xml", async (_req, res) => {
-    const staticPages = [
-      { loc: "/", priority: "1.0", changefreq: "weekly" },
-      { loc: "/lessons", priority: "0.9", changefreq: "weekly" },
-      { loc: "/flashcards", priority: "0.8", changefreq: "weekly" },
-      { loc: "/pricing", priority: "0.8", changefreq: "monthly" },
-      { loc: "/start-free", priority: "0.8", changefreq: "monthly" },
-      { loc: "/anatomy", priority: "0.7", changefreq: "monthly" },
-      { loc: "/faq", priority: "0.6", changefreq: "monthly" },
-      { loc: "/terms", priority: "0.3", changefreq: "yearly" },
-      { loc: "/privacy", priority: "0.3", changefreq: "yearly" },
-      { loc: "/disclaimer", priority: "0.3", changefreq: "yearly" },
-      { loc: "/med-math", priority: "0.8", changefreq: "weekly" },
-      { loc: "/lab-values", priority: "0.8", changefreq: "weekly" },
-      { loc: "/blog", priority: "0.8", changefreq: "daily" },
-      { loc: "/clinical-clarity", priority: "0.7", changefreq: "weekly" },
-      { loc: "/case-simulations", priority: "0.7", changefreq: "weekly" },
-      { loc: "/medication-mastery", priority: "0.7", changefreq: "weekly" },
-      { loc: "/mock-exams", priority: "0.8", changefreq: "weekly" },
-      { loc: "/contact", priority: "0.5", changefreq: "monthly" },
-      { loc: "/refund-policy", priority: "0.3", changefreq: "yearly" },
-      { loc: "/pre-nursing", priority: "0.7", changefreq: "monthly" },
-    ];
-
-    const lessonIds = [
-      "heart-failure","hypertension","aaa-rupture","mi-management","hf-advanced","shock-syndromes","dysrhythmias",
-      "copd-exacerbation","asthma-emergency","pe-recognition","ards-management",
-      "neuro-basics","stroke","stroke-advanced","increased-icp","seizure-safety",
-      "gi-bleed","acute-abdomen","liver-cirrhosis",
-      "aki-management","electrolyte-safety","ckd-management",
-      "siadh-di","dka-hhns","adrenal-insufficiency",
-      "iron-deficiency-anemia","dic-basics","sickle-cell","all-leukemia",
-      "epiglottitis","dehydration-peds","congenital-heart",
-      "preeclampsia","postpartum-hemorrhage","gestational-diabetes",
-      "neonatal-respiratory-distress","neonatal-sepsis","hyperbilirubinemia",
-      "lithium-toxicity","nms-serotonin","major-depression",
-      "compartment-syndrome","burn-management",
-      "sepsis-mastery","anemia-types",
-      "delirium-dementia","parkinsons",
-      "respiratory-assessment","abdominal-assessment",
-      "cardiac-assessment-ecg","cranial-nerve-assessment",
-    ];
-
-    const base = "https://nursenest.replit.app";
-    const urls = staticPages.map(
-      (p) => `  <url><loc>${base}${p.loc}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`
-    );
-    lessonIds.forEach((id) => {
-      urls.push(`  <url><loc>${base}/lessons/${id}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>`);
-    });
-
-    try {
-      const publishedContent = await storage.getPublishedContent();
-      publishedContent.forEach((item) => {
-        urls.push(`  <url><loc>${base}/learn/${item.slug}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>`);
-      });
-    } catch {}
-
-    res.type("application/xml").send(
-      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>`
-    );
-  });
-
+  // --------------------
+  // Content
+  // --------------------
   app.get("/api/content", async (req, res) => {
     try {
       const { status, username, password, type, category } = req.query;
+
       if (status === "all" && username && password) {
         const adminUser = await storage.getUserByUsername(username as string);
         if (adminUser && adminUser.password === password && adminUser.tier === "admin") {
@@ -589,10 +617,8 @@ export async function registerRoutes(
           return res.json(items);
         }
       }
-      const items = await storage.getPublishedContent(
-        type as string | undefined,
-        category as string | undefined
-      );
+
+      const items = await storage.getPublishedContent(type as string | undefined, category as string | undefined);
       res.json(items);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -604,7 +630,10 @@ export async function registerRoutes(
       const { slug, primaryKeyword, excludeId } = req.body;
       const slugExists = slug ? await storage.checkDuplicateSlug(slug, excludeId) : false;
       const keywordOverlap = primaryKeyword ? await storage.checkKeywordOverlap(primaryKeyword, excludeId) : [];
-      res.json({ slugExists, keywordOverlap: keywordOverlap.map(i => ({ id: i.id, title: i.title, primaryKeyword: i.primaryKeyword })) });
+      res.json({
+        slugExists,
+        keywordOverlap: keywordOverlap.map((i) => ({ id: i.id, title: i.title, primaryKeyword: i.primaryKeyword })),
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -614,6 +643,7 @@ export async function registerRoutes(
     try {
       const item = await storage.getContentItem(req.params.id);
       if (!item) return res.status(404).json({ error: "Content not found" });
+
       if (item.status !== "published") {
         const { username, password } = req.query;
         if (!username || !password) return res.status(404).json({ error: "Content not found" });
@@ -622,12 +652,14 @@ export async function registerRoutes(
           return res.status(404).json({ error: "Content not found" });
         }
       }
+
       if (item.tier && item.tier !== "free") {
         const userTier = await extractUserTier(req);
         if (!canAccessTier(userTier, item.tier)) {
           return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
         }
       }
+
       res.json(item);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -638,15 +670,15 @@ export async function registerRoutes(
     try {
       const item = await storage.getContentItemBySlug(req.params.slug);
       if (!item) return res.status(404).json({ error: "Content not found" });
-      if (item.status !== "published") {
-        return res.status(404).json({ error: "Content not found" });
-      }
+      if (item.status !== "published") return res.status(404).json({ error: "Content not found" });
+
       if (item.tier && item.tier !== "free") {
         const userTier = await extractUserTier(req);
         if (!canAccessTier(userTier, item.tier)) {
           return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
         }
       }
+
       res.json(item);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -655,12 +687,13 @@ export async function registerRoutes(
 
   app.post("/api/content", async (req, res) => {
     try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
       const { username, password, ...contentData } = req.body;
-      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
-      const adminUser = await storage.getUserByUsername(username);
-      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      void username;
+      void password;
+
       const parsed = insertContentItemSchema.parse(contentData);
       const item = await storage.createContentItem(parsed);
       res.json(item);
@@ -671,12 +704,13 @@ export async function registerRoutes(
 
   app.put("/api/content/:id", async (req, res) => {
     try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
       const { username, password, ...contentData } = req.body;
-      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
-      const adminUser = await storage.getUserByUsername(username);
-      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      void username;
+      void password;
+
       const item = await storage.updateContentItem(req.params.id, contentData);
       res.json(item);
     } catch (e: any) {
@@ -686,12 +720,9 @@ export async function registerRoutes(
 
   app.delete("/api/content/:id", async (req, res) => {
     try {
-      const { username, password } = req.body;
-      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
-      const adminUser = await storage.getUserByUsername(username);
-      if (!adminUser || adminUser.password !== password || adminUser.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
       await storage.deleteContentItem(req.params.id);
       res.json({ success: true });
     } catch (e: any) {
@@ -699,6 +730,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Lesson overrides (NOW protected consistently)
+  // --------------------
   app.get("/api/lesson-overrides/:lessonId", async (req, res) => {
     try {
       const { lessonId } = req.params;
@@ -713,50 +747,68 @@ export async function registerRoutes(
     }
   });
 
+  /**
+   * IMPORTANT: This endpoint now expects admin credentials.
+   * Send:
+   * {
+   *   username, password,
+   *   overrides: { ... }
+   * }
+   */
   app.put("/api/lesson-overrides/:lessonId", async (req, res) => {
     try {
-      const authHeader = req.headers["x-user-tier"] as string;
-      if (authHeader !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
       const { lessonId } = req.params;
-      const overrides = req.body;
+      const overrides = req.body?.overrides;
+
       if (!overrides || typeof overrides !== "object") {
         return res.status(400).json({ error: "Invalid overrides data" });
       }
-      const cleanOverrides = Object.fromEntries(
-        Object.entries(overrides).filter(([_, v]) => v !== null && v !== undefined)
-      );
+
+      const cleanOverrides = Object.fromEntries(Object.entries(overrides).filter(([_, v]) => v !== null && v !== undefined));
+
       if (Object.keys(cleanOverrides).length === 0) {
         await pool.query(`DELETE FROM lesson_overrides WHERE lesson_id = $1`, [lessonId]);
       } else {
         await pool.query(
-          `INSERT INTO lesson_overrides (lesson_id, overrides, updated_at) VALUES ($1, $2, NOW()) ON CONFLICT (lesson_id) DO UPDATE SET overrides = $2, updated_at = NOW()`,
-          [lessonId, JSON.stringify(cleanOverrides)]
+          `INSERT INTO lesson_overrides (lesson_id, overrides, updated_at)
+           VALUES ($1, $2, NOW())
+           ON CONFLICT (lesson_id)
+           DO UPDATE SET overrides = $2, updated_at = NOW()`,
+          [lessonId, JSON.stringify(cleanOverrides)],
         );
       }
+
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
   });
 
+  // --------------------
+  // Feature usage (unchanged)
+  // --------------------
   const validFeatures = ["lab-values", "med-math"];
 
   app.get("/api/feature-usage/:userId/:feature", async (req, res) => {
     try {
       const { userId, feature } = req.params;
       if (!validFeatures.includes(feature)) return res.status(400).json({ error: "Invalid feature" });
+
       const today = new Date().toISOString().slice(0, 10);
       const usage = await storage.getFeatureUsage(userId, feature, today);
       const user = await storage.getUser(userId);
-      const hasUnlimited = user?.tier === "admin" ||
-        (user?.subscriptionStatus === "active" && (
-          user?.tier === "lab-values" && feature === "lab-values" ||
-          user?.tier === "med-math" && feature === "med-math" ||
-          user?.tier === "practice-tools" ||
-          ["rpn", "rn", "np"].includes(user?.tier || "")
-        ));
+
+      const hasUnlimited =
+        user?.tier === "admin" ||
+        (user?.subscriptionStatus === "active" &&
+          ((user?.tier === "lab-values" && feature === "lab-values") ||
+            (user?.tier === "med-math" && feature === "med-math") ||
+            user?.tier === "practice-tools" ||
+            ["rpn", "rn", "np"].includes(user?.tier || "")));
+
       res.json({ count: usage?.count || 0, limit: 10, hasUnlimited });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -767,18 +819,22 @@ export async function registerRoutes(
     try {
       const { userId, feature } = req.params;
       if (!validFeatures.includes(feature)) return res.status(400).json({ error: "Invalid feature" });
+
       const today = new Date().toISOString().slice(0, 10);
       const user = await storage.getUser(userId);
-      const hasUnlimited = user?.tier === "admin" ||
-        (user?.subscriptionStatus === "active" && (
-          user?.tier === "lab-values" && feature === "lab-values" ||
-          user?.tier === "med-math" && feature === "med-math" ||
-          user?.tier === "practice-tools" ||
-          ["rpn", "rn", "np"].includes(user?.tier || "")
-        ));
+
+      const hasUnlimited =
+        user?.tier === "admin" ||
+        (user?.subscriptionStatus === "active" &&
+          ((user?.tier === "lab-values" && feature === "lab-values") ||
+            (user?.tier === "med-math" && feature === "med-math") ||
+            user?.tier === "practice-tools" ||
+            ["rpn", "rn", "np"].includes(user?.tier || "")));
+
       if (hasUnlimited) {
         return res.json({ count: 0, limit: 10, hasUnlimited: true });
       }
+
       const usage = await storage.incrementFeatureUsage(userId, feature, today);
       res.json({ count: usage.count, limit: 10, hasUnlimited: false });
     } catch (e: any) {
@@ -786,7 +842,10 @@ export async function registerRoutes(
     }
   });
 
-  app.get("/api/blog/config", async (req, res) => {
+  // --------------------
+  // Blog automation (kept, now uses requireAdmin for consistency)
+  // --------------------
+  app.get("/api/blog/config", async (_req, res) => {
     try {
       const config = await storage.getBlogConfig();
       res.json(config || { isActive: false, citationStyle: "apa7", postsPerDay: 2, dayCount: 0, totalPostsGenerated: 0 });
@@ -797,17 +856,16 @@ export async function registerRoutes(
 
   app.post("/api/blog/config", async (req, res) => {
     try {
-      const { username, password } = req.body;
-      const user = await storage.getUserByUsername(username);
-      if (!user || user.password !== password || user.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
       const { citationStyle, postsPerDay, isActive, dayCount } = req.body;
       const updates: any = {};
       if (citationStyle !== undefined) updates.citationStyle = citationStyle;
       if (postsPerDay !== undefined) updates.postsPerDay = postsPerDay;
       if (isActive !== undefined) updates.isActive = isActive;
       if (dayCount !== undefined) updates.dayCount = dayCount;
+
       const config = await storage.upsertBlogConfig(updates);
       res.json(config);
     } catch (e: any) {
@@ -817,11 +875,10 @@ export async function registerRoutes(
 
   app.post("/api/blog/generate", async (req, res) => {
     try {
-      const { username, password, topic, citationStyle } = req.body;
-      const user = await storage.getUserByUsername(username);
-      if (!user || user.password !== password || user.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { topic, citationStyle } = req.body;
       const post = await generateBlogPost(topic, citationStyle || "apa7");
 
       const isDup = await storage.checkDuplicateSlug(post.slug);
@@ -845,6 +902,7 @@ export async function registerRoutes(
         autoPublish: true,
         authorName: "Erika Godin, RN",
       });
+
       res.json(created);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -853,11 +911,9 @@ export async function registerRoutes(
 
   app.post("/api/blog/run-scheduler", async (req, res) => {
     try {
-      const { username, password } = req.body;
-      const user = await storage.getUserByUsername(username);
-      if (!user || user.password !== password || user.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
       const result = await runBlogScheduler();
       res.json(result);
     } catch (e: any) {
@@ -865,6 +921,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Mock exams (unchanged auth style)
+  // --------------------
   async function getAuthUser(req: any) {
     const username = req.headers["x-username"] as string;
     const password = req.headers["x-password"] as string;
@@ -878,6 +937,7 @@ export async function registerRoutes(
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
       const { tier, totalQuestions, questions } = req.body;
       if (!tier || !totalQuestions || !questions || !Array.isArray(questions)) {
         return res.status(400).json({ error: "Missing required fields" });
@@ -885,10 +945,14 @@ export async function registerRoutes(
       if (authUser.tier !== "admin" && authUser.tier !== tier) {
         return res.status(403).json({ error: "You can only access exams matching your subscription tier" });
       }
+
       const result = await pool.query(
-        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status) VALUES ($1, $2, $3, $4, 'in_progress') RETURNING id`,
-        [String(authUser.id), tier, totalQuestions, JSON.stringify(questions)]
+        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status)
+         VALUES ($1, $2, $3, $4, 'in_progress')
+         RETURNING id`,
+        [String(authUser.id), tier, totalQuestions, JSON.stringify(questions)],
       );
+
       res.json({ attemptId: result.rows[0].id });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -899,15 +963,19 @@ export async function registerRoutes(
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
       const { attemptId } = req.params;
       const { answers, flagged, timeSpent } = req.body;
+
       const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
+
       await pool.query(
         `UPDATE mock_exam_attempts SET answers = $1, flagged = $2, time_spent = $3 WHERE id = $4`,
-        [JSON.stringify(answers || {}), JSON.stringify(flagged || []), timeSpent || 0, attemptId]
+        [JSON.stringify(answers || {}), JSON.stringify(flagged || []), timeSpent || 0, attemptId],
       );
+
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -918,16 +986,28 @@ export async function registerRoutes(
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
       const { attemptId } = req.params;
       const { answers, flagged, timeSpent, report } = req.body;
       if (!answers || !report) return res.status(400).json({ error: "Missing required fields" });
+
       const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
+
       await pool.query(
-        `UPDATE mock_exam_attempts SET status = 'completed', answers = $1, flagged = $2, time_spent = $3, report = $4, score = $5, completed_at = NOW() WHERE id = $6`,
-        [JSON.stringify(answers), JSON.stringify(flagged || []), timeSpent, JSON.stringify(report), report.score, attemptId]
+        `UPDATE mock_exam_attempts
+         SET status = 'completed',
+             answers = $1,
+             flagged = $2,
+             time_spent = $3,
+             report = $4,
+             score = $5,
+             completed_at = NOW()
+         WHERE id = $6`,
+        [JSON.stringify(answers), JSON.stringify(flagged || []), timeSpent, JSON.stringify(report), report.score, attemptId],
       );
+
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -938,13 +1018,20 @@ export async function registerRoutes(
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
       if (String(authUser.id) !== req.params.userId && authUser.tier !== "admin") {
         return res.status(403).json({ error: "Access denied" });
       }
+
       const result = await pool.query(
-        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report FROM mock_exam_attempts WHERE user_id = $1 ORDER BY started_at DESC LIMIT 20`,
-        [req.params.userId]
+        `SELECT id, tier, total_questions, status, score, time_spent, started_at, completed_at, report
+         FROM mock_exam_attempts
+         WHERE user_id = $1
+         ORDER BY started_at DESC
+         LIMIT 20`,
+        [req.params.userId],
       );
+
       res.json(result.rows);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -955,22 +1042,25 @@ export async function registerRoutes(
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
       const { attemptId } = req.params;
-      const result = await pool.query(
-        `SELECT * FROM mock_exam_attempts WHERE id = $1`,
-        [attemptId]
-      );
+      const result = await pool.query(`SELECT * FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
+
       if (result.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
         return res.status(403).json({ error: "Access denied" });
       }
+
       res.json(result.rows[0]);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
   });
 
-  app.get("/api/paypal/status", (req, res) => {
+  // --------------------
+  // PayPal (unchanged)
+  // --------------------
+  app.get("/api/paypal/status", (_req, res) => {
     res.json({ configured: isPaypalConfigured() });
   });
 
@@ -986,6 +1076,9 @@ export async function registerRoutes(
     await capturePaypalOrder(req, res);
   });
 
+  // --------------------
+  // Tracking + Admin site analytics (NOW PROTECTED)
+  // --------------------
   app.post("/api/track/pageview", async (req, res) => {
     try {
       const view = await storage.createPageView(req.body);
@@ -1005,8 +1098,16 @@ export async function registerRoutes(
     }
   });
 
+  /**
+   * NOW protected. Your Admin UI must call this with username/password.
+   * Recommended: use POST instead of GET so credentials are not in the URL.
+   * But to keep your current UI, we accept both body and query.
+   */
   app.get("/api/admin/site-analytics", async (req, res) => {
     try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
       const days = parseInt(req.query.days as string) || 30;
       const analytics = await storage.getPageViewAnalytics(days);
       res.json(analytics);
@@ -1015,6 +1116,9 @@ export async function registerRoutes(
     }
   });
 
+  // --------------------
+  // Feedback (unchanged)
+  // --------------------
   app.post("/api/feedback", async (req, res) => {
     try {
       const feedback = await storage.createFeedback(req.body);
@@ -1024,7 +1128,7 @@ export async function registerRoutes(
     }
   });
 
-  app.get("/api/feedback", async (req, res) => {
+  app.get("/api/feedback", async (_req, res) => {
     try {
       const feedbackList = await storage.getAllFeedback();
       res.json(feedbackList);
@@ -1042,9 +1146,9 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/feedback/:id/upvote", async (req, res) => {
+  app.post("/api/feedback/:id/upvote", async (_req, res) => {
     try {
-      const updated = await storage.upvoteFeedback(req.params.id);
+      const updated = await storage.upvoteFeedback(_req.params.id);
       res.json(updated);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

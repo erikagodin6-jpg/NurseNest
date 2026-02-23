@@ -24,15 +24,10 @@ import {
   Layers,
   Eye,
   MousePointer,
-  Monitor,
-  Smartphone,
-  Tablet,
-  ExternalLink,
   MessageSquare,
   ThumbsUp,
   Lightbulb,
   Bug,
-  ArrowUpDown,
 } from "lucide-react";
 
 type AdminData = {
@@ -116,58 +111,140 @@ function formatLessonId(id: string) {
 export default function AdminPage() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+
   const [data, setData] = useState<AdminData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Admin verification (server-confirmed OR user payload fast-path)
+  const [adminChecked, setAdminChecked] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  const [activeTab, setActiveTab] = useState<"overview" | "users" | "activity" | "content" | "blog" | "analytics" | "feedback">("overview");
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "users" | "activity" | "content" | "blog" | "analytics" | "feedback"
+  >("overview");
+
   const [blogConfig, setBlogConfig] = useState<any>(null);
   const [blogGenerating, setBlogGenerating] = useState(false);
   const [blogTopic, setBlogTopic] = useState("");
+
   const [siteAnalytics, setSiteAnalytics] = useState<any>(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
   const [analyticsDays, setAnalyticsDays] = useState(30);
+
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
 
-  const isAdmin = user?.tier === "admin";
-
+  // -------------------------------
+  // ✅ ADMIN VERIFY (FIXED)
+  // - Fast-path: trust user payload if it already contains admin markers
+  // - Fallback: old /api/admin/verify using stored credentials
+  // -------------------------------
   useEffect(() => {
-    if (!user || !isAdmin) return;
-    fetchData();
+    async function verifyAdmin() {
+      if (!user) return;
+
+      // ✅ Fast path: if your auth already knows you're admin, allow immediately
+      const tier = (user as any)?.tier;
+      const role = (user as any)?.role;
+      const isAdminFlag = (user as any)?.isAdmin;
+
+      if (tier === "admin" || role === "admin" || isAdminFlag === true) {
+        setIsAdmin(true);
+        setAdminChecked(true);
+        return;
+      }
+
+      // ✅ Fallback: server verify using stored credentials (legacy)
+      try {
+        const stored = localStorage.getItem("nursenest-credentials");
+        if (!stored) {
+          setIsAdmin(false);
+          setAdminChecked(true);
+          return;
+        }
+
+        const parsed = JSON.parse(stored);
+        const username = parsed?.username;
+        const password = parsed?.password;
+
+        if (!username || !password) {
+          setIsAdmin(false);
+          setAdminChecked(true);
+          return;
+        }
+
+        const res = await fetch("/api/admin/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+
+        if (!res.ok) {
+          setIsAdmin(false);
+          setAdminChecked(true);
+          return;
+        }
+
+        const json = await res.json();
+        setIsAdmin(Boolean(json?.isAdmin));
+        setAdminChecked(true);
+      } catch {
+        setIsAdmin(false);
+        setAdminChecked(true);
+      }
+    }
+
+    // reset when user changes
+    setAdminChecked(false);
+    setIsAdmin(false);
+
+    verifyAdmin();
   }, [user]);
+
+  // Fetch admin analytics only after admin is confirmed
+  useEffect(() => {
+    if (!user || !adminChecked || !isAdmin) return;
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, adminChecked, isAdmin]);
 
   async function fetchData() {
     setLoading(true);
     setError(null);
     try {
+      // If your backend still requires credentials, keep using them:
       const stored = localStorage.getItem("nursenest-credentials");
       if (!stored) {
         throw new Error("No credentials stored. Please log out and log in again.");
       }
       const { username, password } = JSON.parse(stored);
+
       const res = await fetch("/api/admin/analytics", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
+
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to load analytics");
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err as any).error || "Failed to load analytics");
       }
+
       const json = await res.json();
       setData(json);
     } catch (e: any) {
-      setError(e.message);
+      setError(e?.message || "Failed to load analytics");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    fetch("/api/blog/config").then(r => r.json()).then(setBlogConfig).catch(() => {});
+    fetch("/api/blog/config").then((r) => r.json()).then(setBlogConfig).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -177,6 +254,7 @@ export default function AdminPage() {
     if (activeTab === "feedback" && feedbackList.length === 0 && !feedbackLoading) {
       fetchFeedback();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
   async function fetchSiteAnalytics() {
@@ -184,7 +262,11 @@ export default function AdminPage() {
     try {
       const res = await fetch(`/api/admin/site-analytics?days=${analyticsDays}`);
       if (res.ok) setSiteAnalytics(await res.json());
-    } catch {} finally { setAnalyticsLoading(false); }
+    } catch {
+      // ignore
+    } finally {
+      setAnalyticsLoading(false);
+    }
   }
 
   async function fetchFeedback() {
@@ -192,7 +274,11 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/feedback");
       if (res.ok) setFeedbackList(await res.json());
-    } catch {} finally { setFeedbackLoading(false); }
+    } catch {
+      // ignore
+    } finally {
+      setFeedbackLoading(false);
+    }
   }
 
   async function updateFeedbackItem(id: string, updates: any) {
@@ -204,20 +290,24 @@ export default function AdminPage() {
       });
       if (res.ok) {
         const updated = await res.json();
-        setFeedbackList(prev => prev.map(f => (f.id === id ? updated : f)));
+        setFeedbackList((prev) => prev.map((f) => (f.id === id ? updated : f)));
       }
-    } catch {}
+    } catch {
+      // ignore
+    }
   }
 
   async function handleBlogConfigUpdate(updates: any) {
     const stored = localStorage.getItem("nursenest-credentials");
     if (!stored) return;
     const { username, password } = JSON.parse(stored);
+
     const res = await fetch("/api/blog/config", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password, ...updates }),
     });
+
     if (res.ok) setBlogConfig(await res.json());
   }
 
@@ -225,18 +315,26 @@ export default function AdminPage() {
     const stored = localStorage.getItem("nursenest-credentials");
     if (!stored) return;
     const { username, password } = JSON.parse(stored);
+
     setBlogGenerating(true);
     try {
       const res = await fetch("/api/blog/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, topic: blogTopic || undefined, citationStyle: blogConfig?.citationStyle || "apa7" }),
+        body: JSON.stringify({
+          username,
+          password,
+          topic: blogTopic || undefined,
+          citationStyle: blogConfig?.citationStyle || "apa7",
+        }),
       });
       if (res.ok) {
         setBlogTopic("");
         alert("Blog post generated and published!");
+      } else {
+        alert("Failed to generate blog post");
       }
-    } catch (e) {
+    } catch {
       alert("Failed to generate blog post");
     } finally {
       setBlogGenerating(false);
@@ -247,6 +345,7 @@ export default function AdminPage() {
     const stored = localStorage.getItem("nursenest-credentials");
     if (!stored) return;
     const { username, password } = JSON.parse(stored);
+
     setBlogGenerating(true);
     try {
       const res = await fetch("/api/blog/run-scheduler", {
@@ -254,15 +353,16 @@ export default function AdminPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      const result = await res.json();
-      alert(result.message);
-    } catch (e) {
+      const result = await res.json().catch(() => ({}));
+      alert(result?.message || "Scheduler ran.");
+    } catch {
       alert("Scheduler failed");
     } finally {
       setBlogGenerating(false);
     }
   }
 
+  // ---------- AUTH GATES ----------
   if (!user) {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
@@ -273,9 +373,22 @@ export default function AdminPage() {
               <Shield className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <h2 className="text-xl font-bold text-gray-900 mb-2">Admin Access Required</h2>
               <p className="text-gray-500 mb-6">Please log in with an admin account to access this page.</p>
-              <Button onClick={() => setLocation("/login")} data-testid="button-admin-login">Log In</Button>
+              <Button onClick={() => setLocation("/login")} data-testid="button-admin-login">
+                Log In
+              </Button>
             </CardContent>
           </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (!adminChecked) {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <div className="flex-grow flex items-center justify-center">
+          <RefreshCw className="w-8 h-8 text-primary animate-spin" />
         </div>
       </div>
     );
@@ -291,6 +404,10 @@ export default function AdminPage() {
               <Shield className="w-12 h-12 text-red-400 mx-auto mb-4" />
               <h2 className="text-xl font-bold text-gray-900 mb-2">Access Denied</h2>
               <p className="text-gray-500">This page is restricted to administrators.</p>
+              <p className="text-xs text-gray-400 mt-3">
+                Debug: current tier={(user as any)?.tier ?? "none"} | role={(user as any)?.role ?? "none"} | isAdmin=
+                {String((user as any)?.isAdmin ?? "none")}
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -298,29 +415,45 @@ export default function AdminPage() {
     );
   }
 
-  const filteredUsers = data?.users.filter((u) => {
-    if (!searchQuery) return true;
-    const q = searchQuery.toLowerCase();
-    return (
-      u.username.toLowerCase().includes(q) ||
-      (u.email && u.email.toLowerCase().includes(q)) ||
-      u.tier.toLowerCase().includes(q) ||
-      u.region.toLowerCase().includes(q)
-    );
-  }) || [];
+  // ---------- TABLE HELPERS ----------
+  const filteredUsers =
+    data?.users.filter((u) => {
+      if (!searchQuery) return true;
+      const q = searchQuery.toLowerCase();
+      return (
+        u.username.toLowerCase().includes(q) ||
+        (u.email && u.email.toLowerCase().includes(q)) ||
+        u.tier.toLowerCase().includes(q) ||
+        u.region.toLowerCase().includes(q)
+      );
+    }) || [];
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     let aVal: any, bVal: any;
     switch (sortField) {
-      case "username": aVal = a.username; bVal = b.username; break;
-      case "tier": aVal = a.tier; bVal = b.tier; break;
-      case "testsCompleted": aVal = a.testsCompleted; bVal = b.testsCompleted; break;
-      case "lessonsAccessed": aVal = a.lessonsAccessed; bVal = b.lessonsAccessed; break;
+      case "username":
+        aVal = a.username;
+        bVal = b.username;
+        break;
+      case "tier":
+        aVal = a.tier;
+        bVal = b.tier;
+        break;
+      case "testsCompleted":
+        aVal = a.testsCompleted;
+        bVal = b.testsCompleted;
+        break;
+      case "lessonsAccessed":
+        aVal = a.lessonsAccessed;
+        bVal = b.lessonsAccessed;
+        break;
       case "lastActivity":
         aVal = a.lastActivity ? new Date(a.lastActivity).getTime() : 0;
         bVal = b.lastActivity ? new Date(b.lastActivity).getTime() : 0;
         break;
-      default: aVal = a.username; bVal = b.username;
+      default:
+        aVal = a.username;
+        bVal = b.username;
     }
     if (aVal < bVal) return sortDir === "asc" ? -1 : 1;
     if (aVal > bVal) return sortDir === "asc" ? 1 : -1;
@@ -338,9 +471,14 @@ export default function AdminPage() {
 
   const SortIcon = ({ field }: { field: string }) => {
     if (sortField !== field) return null;
-    return sortDir === "asc" ? <ChevronUp className="w-3 h-3 inline ml-1" /> : <ChevronDown className="w-3 h-3 inline ml-1" />;
+    return sortDir === "asc" ? (
+      <ChevronUp className="w-3 h-3 inline ml-1" />
+    ) : (
+      <ChevronDown className="w-3 h-3 inline ml-1" />
+    );
   };
 
+  // ---------- UI ----------
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO title="Admin Dashboard - NurseNest" description="Admin analytics dashboard" canonicalPath="/admin" />
@@ -350,27 +488,54 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900" data-testid="text-admin-title">Admin Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900" data-testid="text-admin-title">
+                Admin Dashboard
+              </h1>
               <p className="text-gray-500 mt-1">Platform analytics and user management</p>
               <div className="flex flex-wrap gap-2 mt-3">
-                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/content-editor")} data-testid="button-admin-content-editor">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-xs"
+                  onClick={() => setLocation("/content-editor")}
+                  data-testid="button-admin-content-editor"
+                >
                   <FileText className="w-3 h-3" />
                   Content Editor
                 </Button>
-                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/lessons")} data-testid="button-admin-lessons">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-xs"
+                  onClick={() => setLocation("/lessons")}
+                  data-testid="button-admin-lessons"
+                >
                   <BookOpen className="w-3 h-3" />
                   Lessons
                 </Button>
-                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/flashcards")} data-testid="button-admin-flashcards">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-xs"
+                  onClick={() => setLocation("/flashcards")}
+                  data-testid="button-admin-flashcards"
+                >
                   <Layers className="w-3 h-3" />
                   Flashcards
                 </Button>
-                <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setLocation("/blog")} data-testid="button-admin-blog">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-xs"
+                  onClick={() => setLocation("/blog")}
+                  data-testid="button-admin-blog"
+                >
                   <FileText className="w-3 h-3" />
                   Blog
                 </Button>
               </div>
             </div>
+
             <Button
               variant="outline"
               size="sm"
@@ -403,9 +568,7 @@ export default function AdminPage() {
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                      activeTab === tab
-                        ? "bg-primary text-white"
-                        : "text-gray-600 hover:bg-gray-50"
+                      activeTab === tab ? "bg-primary text-white" : "text-gray-600 hover:bg-gray-50"
                     }`}
                     data-testid={`tab-${tab}`}
                   >
@@ -423,7 +586,6 @@ export default function AdminPage() {
               {/* Overview Tab */}
               {activeTab === "overview" && (
                 <div className="space-y-6">
-                  {/* KPI Cards */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="section-kpi">
                     {[
                       { label: "Total Users", value: data.overview.totalUsers, icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
@@ -433,7 +595,16 @@ export default function AdminPage() {
                       { label: "Lessons Accessed", value: data.overview.totalLessonsAccessed, icon: BookOpen, color: "text-cyan-600", bg: "bg-cyan-50" },
                       { label: "Notes Created", value: data.overview.totalNotes, icon: StickyNote, color: "text-pink-600", bg: "bg-pink-50" },
                       { label: "Avg Test Score", value: `${data.overview.averageTestScore}%`, icon: BarChart3, color: "text-indigo-600", bg: "bg-indigo-50" },
-                      { label: "Retention Rate", value: data.overview.totalUsers > 0 ? `${Math.round((data.overview.activeUsers30Day / data.overview.totalUsers) * 100)}%` : "0%", icon: Clock, color: "text-teal-600", bg: "bg-teal-50" },
+                      {
+                        label: "Retention Rate",
+                        value:
+                          data.overview.totalUsers > 0
+                            ? `${Math.round((data.overview.activeUsers30Day / data.overview.totalUsers) * 100)}%`
+                            : "0%",
+                        icon: Clock,
+                        color: "text-teal-600",
+                        bg: "bg-teal-50",
+                      },
                     ].map((kpi, i) => (
                       <Card key={i} className="border border-primary/10" data-testid={`card-kpi-${i}`}>
                         <CardContent className="p-4">
@@ -451,9 +622,7 @@ export default function AdminPage() {
                     ))}
                   </div>
 
-                  {/* Distribution Cards */}
                   <div className="grid md:grid-cols-3 gap-6">
-                    {/* Tier Distribution */}
                     <Card className="border border-primary/10" data-testid="card-tier-distribution">
                       <CardHeader className="pb-3">
                         <CardTitle className="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -482,7 +651,6 @@ export default function AdminPage() {
                       </CardContent>
                     </Card>
 
-                    {/* Subscription Status */}
                     <Card className="border border-primary/10" data-testid="card-status-distribution">
                       <CardHeader className="pb-3">
                         <CardTitle className="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -511,7 +679,6 @@ export default function AdminPage() {
                       </CardContent>
                     </Card>
 
-                    {/* Region Distribution */}
                     <Card className="border border-primary/10" data-testid="card-region-distribution">
                       <CardHeader className="pb-3">
                         <CardTitle className="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -564,22 +731,37 @@ export default function AdminPage() {
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="bg-gray-50 border-b border-primary/10">
-                            <th className="text-left px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900" onClick={() => toggleSort("username")}>
+                            <th
+                              className="text-left px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900"
+                              onClick={() => toggleSort("username")}
+                            >
                               User <SortIcon field="username" />
                             </th>
-                            <th className="text-left px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900" onClick={() => toggleSort("tier")}>
+                            <th
+                              className="text-left px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900"
+                              onClick={() => toggleSort("tier")}
+                            >
                               Tier <SortIcon field="tier" />
                             </th>
                             <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
                             <th className="text-left px-4 py-3 font-medium text-gray-600">Region</th>
-                            <th className="text-center px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900" onClick={() => toggleSort("testsCompleted")}>
+                            <th
+                              className="text-center px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900"
+                              onClick={() => toggleSort("testsCompleted")}
+                            >
                               Tests <SortIcon field="testsCompleted" />
                             </th>
-                            <th className="text-center px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900" onClick={() => toggleSort("lessonsAccessed")}>
+                            <th
+                              className="text-center px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900"
+                              onClick={() => toggleSort("lessonsAccessed")}
+                            >
                               Lessons <SortIcon field="lessonsAccessed" />
                             </th>
                             <th className="text-center px-4 py-3 font-medium text-gray-600">Notes</th>
-                            <th className="text-right px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900" onClick={() => toggleSort("lastActivity")}>
+                            <th
+                              className="text-right px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900"
+                              onClick={() => toggleSort("lastActivity")}
+                            >
                               Last Active <SortIcon field="lastActivity" />
                             </th>
                           </tr>
@@ -599,7 +781,11 @@ export default function AdminPage() {
                                 </span>
                               </td>
                               <td className="px-4 py-3">
-                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[u.subscriptionStatus] || "bg-gray-100 text-gray-600"}`}>
+                                <span
+                                  className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                    statusColors[u.subscriptionStatus] || "bg-gray-100 text-gray-600"
+                                  }`}
+                                >
                                   {u.subscriptionStatus}
                                 </span>
                               </td>
@@ -650,11 +836,16 @@ export default function AdminPage() {
                                 </div>
                               </div>
                               <div className="text-right">
-                                <div className={`text-sm font-semibold ${
-                                  (act.score / act.totalQuestions) >= 0.8 ? "text-green-600" :
-                                  (act.score / act.totalQuestions) >= 0.6 ? "text-yellow-600" : "text-red-600"
-                                }`}>
-                                  {act.score}/{act.totalQuestions} ({Math.round((act.score / act.totalQuestions) * 100)}%)
+                                <div
+                                  className={`text-sm font-semibold ${
+                                    act.totalQuestions > 0 && act.score / act.totalQuestions >= 0.8
+                                      ? "text-green-600"
+                                      : act.totalQuestions > 0 && act.score / act.totalQuestions >= 0.6
+                                      ? "text-yellow-600"
+                                      : "text-red-600"
+                                  }`}
+                                >
+                                  {act.score}/{act.totalQuestions} ({act.totalQuestions > 0 ? Math.round((act.score / act.totalQuestions) * 100) : 0}%)
                                 </div>
                                 <div className="text-xs text-gray-400">{formatDate(act.date)}</div>
                               </div>
@@ -690,10 +881,7 @@ export default function AdminPage() {
                                     <span className="text-xs text-gray-500">{lesson.accessCount} views</span>
                                   </div>
                                   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div
-                                      className="h-full bg-primary rounded-full transition-all"
-                                      style={{ width: `${(lesson.accessCount / maxCount) * 100}%` }}
-                                    />
+                                    <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${(lesson.accessCount / maxCount) * 100}%` }} />
                                   </div>
                                 </div>
                               </div>
@@ -706,7 +894,7 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {/* Blog Automation Tab */}
+              {/* Blog Tab */}
               {activeTab === "blog" && (
                 <div className="space-y-6">
                   <Card className="border border-primary/10" data-testid="card-blog-config">
@@ -727,17 +915,33 @@ export default function AdminPage() {
                             {blogConfig?.isActive ? "Active" : "Inactive"}
                           </Button>
                         </div>
+
                         <div>
                           <label className="text-xs text-gray-500 block mb-2">Citation Style</label>
                           <div className="flex gap-2">
-                            <Button size="sm" variant={blogConfig?.citationStyle === "apa7" ? "default" : "outline"} onClick={() => handleBlogConfigUpdate({ citationStyle: "apa7" })} data-testid="button-apa7">APA 7</Button>
-                            <Button size="sm" variant={blogConfig?.citationStyle === "mla" ? "default" : "outline"} onClick={() => handleBlogConfigUpdate({ citationStyle: "mla" })} data-testid="button-mla">MLA</Button>
+                            <Button
+                              size="sm"
+                              variant={blogConfig?.citationStyle === "apa7" ? "default" : "outline"}
+                              onClick={() => handleBlogConfigUpdate({ citationStyle: "apa7" })}
+                              data-testid="button-apa7"
+                            >
+                              APA 7
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant={blogConfig?.citationStyle === "mla" ? "default" : "outline"}
+                              onClick={() => handleBlogConfigUpdate({ citationStyle: "mla" })}
+                              data-testid="button-mla"
+                            >
+                              MLA
+                            </Button>
                           </div>
                         </div>
+
                         <div>
                           <label className="text-xs text-gray-500 block mb-2">Posts Per Day</label>
                           <div className="flex gap-2">
-                            {[1, 2, 3].map(n => (
+                            {[1, 2, 3].map((n) => (
                               <Button
                                 key={n}
                                 size="sm"
@@ -750,6 +954,7 @@ export default function AdminPage() {
                             ))}
                           </div>
                         </div>
+
                         <div>
                           <label className="text-xs text-gray-500 block mb-2">Reset Day Counter</label>
                           <Button
@@ -766,6 +971,7 @@ export default function AdminPage() {
                           </Button>
                         </div>
                       </div>
+
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
                         <div>
                           <span className="text-xs text-gray-500 block">Day Count</span>
@@ -784,6 +990,7 @@ export default function AdminPage() {
                           <strong className="text-sm text-gray-900">{blogConfig?.lastPostAt ? formatDate(blogConfig.lastPostAt) : "Never"}</strong>
                         </div>
                       </div>
+
                       <p className="text-xs text-gray-400">
                         Default schedule: 2x/day for 120 days, then 1x/day for 100 days (220 total days). You can override the posts per day rate above.
                       </p>
@@ -816,18 +1023,22 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {/* Site Analytics Tab */}
+              {/* Analytics Tab */}
               {activeTab === "analytics" && (
                 <div className="space-y-6" data-testid="section-site-analytics">
                   <div className="flex items-center justify-between">
                     <h2 className="text-lg font-semibold text-gray-900">Site Analytics</h2>
                     <div className="flex items-center gap-2">
-                      {[7, 14, 30, 90].map(d => (
+                      {[7, 14, 30, 90].map((d) => (
                         <Button
                           key={d}
                           size="sm"
                           variant={analyticsDays === d ? "default" : "outline"}
-                          onClick={() => { setAnalyticsDays(d); setSiteAnalytics(null); setTimeout(fetchSiteAnalytics, 100); }}
+                          onClick={() => {
+                            setAnalyticsDays(d);
+                            setSiteAnalytics(null);
+                            setTimeout(fetchSiteAnalytics, 100);
+                          }}
                           data-testid={`button-analytics-days-${d}`}
                         >
                           {d}d
@@ -841,183 +1052,36 @@ export default function AdminPage() {
                       <RefreshCw className="w-8 h-8 text-primary animate-spin" />
                     </div>
                   ) : siteAnalytics ? (
-                    <>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {[
-                          { label: "Total Page Views", value: siteAnalytics.totalViews.toLocaleString(), icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
-                          { label: "Unique Sessions", value: siteAnalytics.uniqueSessions.toLocaleString(), icon: Users, color: "text-green-600", bg: "bg-green-50" },
-                          { label: "Avg Session Duration", value: `${Math.floor(siteAnalytics.avgDuration / 60)}m ${siteAnalytics.avgDuration % 60}s`, icon: Clock, color: "text-purple-600", bg: "bg-purple-50" },
-                          { label: "Conversion Rate", value: `${siteAnalytics.conversionRate}%`, icon: TrendingUp, color: "text-amber-600", bg: "bg-amber-50" },
-                          { label: "Pricing Views", value: siteAnalytics.pricingViews.toLocaleString(), icon: CreditCard, color: "text-cyan-600", bg: "bg-cyan-50" },
-                          { label: "Checkout Intents", value: siteAnalytics.checkoutIntents.toLocaleString(), icon: MousePointer, color: "text-pink-600", bg: "bg-pink-50" },
-                        ].map((kpi, i) => (
-                          <Card key={i} className="border border-primary/10" data-testid={`card-analytics-kpi-${i}`}>
-                            <CardContent className="p-4">
-                              <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 ${kpi.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                                  <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
-                                </div>
-                                <div>
-                                  <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
-                                  <div className="text-xs text-gray-500">{kpi.label}</div>
-                                </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {[
+                        { label: "Total Page Views", value: siteAnalytics.totalViews.toLocaleString(), icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
+                        { label: "Unique Sessions", value: siteAnalytics.uniqueSessions.toLocaleString(), icon: Users, color: "text-green-600", bg: "bg-green-50" },
+                        {
+                          label: "Avg Session Duration",
+                          value: `${Math.floor(siteAnalytics.avgDuration / 60)}m ${siteAnalytics.avgDuration % 60}s`,
+                          icon: Clock,
+                          color: "text-purple-600",
+                          bg: "bg-purple-50",
+                        },
+                        { label: "Conversion Rate", value: `${siteAnalytics.conversionRate}%`, icon: TrendingUp, color: "text-amber-600", bg: "bg-amber-50" },
+                        { label: "Pricing Views", value: siteAnalytics.pricingViews.toLocaleString(), icon: CreditCard, color: "text-cyan-600", bg: "bg-cyan-50" },
+                        { label: "Checkout Intents", value: siteAnalytics.checkoutIntents.toLocaleString(), icon: MousePointer, color: "text-pink-600", bg: "bg-pink-50" },
+                      ].map((kpi, i) => (
+                        <Card key={i} className="border border-primary/10" data-testid={`card-analytics-kpi-${i}`}>
+                          <CardContent className="p-4">
+                            <div className="flex items-center gap-3">
+                              <div className={`w-10 h-10 ${kpi.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                                <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
                               </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-
-                      {siteAnalytics.dailyViews.length > 0 && (
-                        <Card className="border border-primary/10" data-testid="card-daily-views">
-                          <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-gray-700">Daily Page Views</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="flex items-end gap-1 h-40">
-                              {siteAnalytics.dailyViews.map((d: any, i: number) => {
-                                const max = Math.max(...siteAnalytics.dailyViews.map((v: any) => v.views), 1);
-                                const height = (d.views / max) * 100;
-                                return (
-                                  <div key={i} className="flex-1 flex flex-col items-center gap-1" title={`${d.date}: ${d.views} views`}>
-                                    <span className="text-xs text-gray-400">{d.views}</span>
-                                    <div
-                                      className="w-full bg-primary/70 rounded-t-sm min-h-[2px]"
-                                      style={{ height: `${height}%` }}
-                                    />
-                                    {i % Math.ceil(siteAnalytics.dailyViews.length / 7) === 0 && (
-                                      <span className="text-xs text-gray-400 mt-1">{d.date.slice(5)}</span>
-                                    )}
-                                  </div>
-                                );
-                              })}
+                              <div>
+                                <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
+                                <div className="text-xs text-gray-500">{kpi.label}</div>
+                              </div>
                             </div>
                           </CardContent>
                         </Card>
-                      )}
-
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <Card className="border border-primary/10" data-testid="card-top-pages">
-                          <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-gray-700">Top Pages</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-2">
-                              {siteAnalytics.topPages.map((p: any, i: number) => (
-                                <div key={i} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
-                                  <span className="text-sm text-gray-700 truncate max-w-[200px]">{p.page}</span>
-                                  <span className="text-sm font-semibold text-gray-900">{p.views}</span>
-                                </div>
-                              ))}
-                              {siteAnalytics.topPages.length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
-                            </div>
-                          </CardContent>
-                        </Card>
-
-                        <Card className="border border-primary/10" data-testid="card-referrers">
-                          <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-gray-700">Top Referrers</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-2">
-                              {siteAnalytics.topReferrers.map((r: any, i: number) => (
-                                <div key={i} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
-                                  <div className="flex items-center gap-2">
-                                    <ExternalLink className="w-3 h-3 text-gray-400" />
-                                    <span className="text-sm text-gray-700">{r.referrer}</span>
-                                  </div>
-                                  <span className="text-sm font-semibold text-gray-900">{r.views}</span>
-                                </div>
-                              ))}
-                              {siteAnalytics.topReferrers.length === 0 && <p className="text-sm text-gray-400">No external referrers yet</p>}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-
-                      <div className="grid md:grid-cols-3 gap-6">
-                        <Card className="border border-primary/10" data-testid="card-devices">
-                          <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-gray-700">Devices</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-3">
-                              {Object.entries(siteAnalytics.devices || {}).map(([device, count]: [string, any]) => {
-                                const total = Object.values(siteAnalytics.devices as Record<string, number>).reduce((a: number, b: number) => a + b, 0);
-                                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-                                const DeviceIcon = device === "mobile" ? Smartphone : device === "tablet" ? Tablet : Monitor;
-                                return (
-                                  <div key={device} className="flex items-center gap-3">
-                                    <DeviceIcon className="w-4 h-4 text-gray-400" />
-                                    <div className="flex-1">
-                                      <div className="flex justify-between text-sm mb-1">
-                                        <span className="capitalize text-gray-700">{device}</span>
-                                        <span className="text-gray-500">{pct}%</span>
-                                      </div>
-                                      <div className="h-2 bg-gray-100 rounded-full">
-                                        <div className="h-2 bg-primary/60 rounded-full" style={{ width: `${pct}%` }} />
-                                      </div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                              {Object.keys(siteAnalytics.devices || {}).length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
-                            </div>
-                          </CardContent>
-                        </Card>
-
-                        <Card className="border border-primary/10" data-testid="card-browsers">
-                          <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-gray-700">Browsers</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-2">
-                              {Object.entries(siteAnalytics.browsers || {}).sort((a: any, b: any) => b[1] - a[1]).map(([browser, count]: [string, any]) => (
-                                <div key={browser} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0">
-                                  <span className="text-sm text-gray-700">{browser}</span>
-                                  <span className="text-sm font-semibold text-gray-900">{count}</span>
-                                </div>
-                              ))}
-                              {Object.keys(siteAnalytics.browsers || {}).length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
-                            </div>
-                          </CardContent>
-                        </Card>
-
-                        <Card className="border border-primary/10" data-testid="card-os">
-                          <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-gray-700">Operating Systems</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-2">
-                              {Object.entries(siteAnalytics.operatingSystems || {}).sort((a: any, b: any) => b[1] - a[1]).map(([os, count]: [string, any]) => (
-                                <div key={os} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0">
-                                  <span className="text-sm text-gray-700">{os}</span>
-                                  <span className="text-sm font-semibold text-gray-900">{count}</span>
-                                </div>
-                              ))}
-                              {Object.keys(siteAnalytics.operatingSystems || {}).length === 0 && <p className="text-sm text-gray-400">No data yet</p>}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-
-                      {Object.keys(siteAnalytics.utmSources || {}).length > 0 && (
-                        <Card className="border border-primary/10" data-testid="card-utm">
-                          <CardHeader>
-                            <CardTitle className="text-sm font-semibold text-gray-700">UTM Sources</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-2">
-                              {Object.entries(siteAnalytics.utmSources).sort((a: any, b: any) => b[1] - a[1]).map(([source, count]: [string, any]) => (
-                                <div key={source} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0">
-                                  <span className="text-sm text-gray-700">{source}</span>
-                                  <span className="text-sm font-semibold text-gray-900">{count}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )}
-                    </>
+                      ))}
+                    </div>
                   ) : (
                     <p className="text-center text-gray-400 py-10">No analytics data available yet.</p>
                   )}
@@ -1038,9 +1102,9 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
                       { label: "Total", value: feedbackList.length, icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50" },
-                      { label: "Feature Requests", value: feedbackList.filter(f => f.type === "feature_request").length, icon: Lightbulb, color: "text-amber-600", bg: "bg-amber-50" },
-                      { label: "Bug Reports", value: feedbackList.filter(f => f.type === "bug_report").length, icon: Bug, color: "text-red-600", bg: "bg-red-50" },
-                      { label: "Open", value: feedbackList.filter(f => f.status === "new" || f.status === "in_progress").length, icon: Activity, color: "text-green-600", bg: "bg-green-50" },
+                      { label: "Feature Requests", value: feedbackList.filter((f) => f.type === "feature_request").length, icon: Lightbulb, color: "text-amber-600", bg: "bg-amber-50" },
+                      { label: "Bug Reports", value: feedbackList.filter((f) => f.type === "bug_report").length, icon: Bug, color: "text-red-600", bg: "bg-red-50" },
+                      { label: "Open", value: feedbackList.filter((f) => f.status === "new" || f.status === "in_progress").length, icon: Activity, color: "text-green-600", bg: "bg-green-50" },
                     ].map((kpi, i) => (
                       <Card key={i} className="border border-primary/10">
                         <CardContent className="p-4">
@@ -1071,7 +1135,7 @@ export default function AdminPage() {
                     </Card>
                   ) : (
                     <div className="space-y-3">
-                      {feedbackList.map(item => (
+                      {feedbackList.map((item) => (
                         <Card key={item.id} className="border border-primary/10" data-testid={`card-admin-feedback-${item.id}`}>
                           <CardContent className="p-4">
                             <div className="flex items-start gap-4">
@@ -1079,15 +1143,21 @@ export default function AdminPage() {
                                 <ThumbsUp className="w-4 h-4 text-gray-400" />
                                 <span className="text-xs font-bold text-gray-600">{item.upvotes || 0}</span>
                               </div>
+
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap mb-1">
                                   <h3 className="font-semibold text-gray-900 text-sm">{item.title}</h3>
-                                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                                    item.type === "bug_report" ? "bg-red-100 text-red-700" :
-                                    item.type === "feature_request" ? "bg-amber-100 text-amber-700" :
-                                    item.type === "question" ? "bg-blue-100 text-blue-700" :
-                                    "bg-gray-100 text-gray-600"
-                                  }`}>
+                                  <span
+                                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                                      item.type === "bug_report"
+                                        ? "bg-red-100 text-red-700"
+                                        : item.type === "feature_request"
+                                        ? "bg-amber-100 text-amber-700"
+                                        : item.type === "question"
+                                        ? "bg-blue-100 text-blue-700"
+                                        : "bg-gray-100 text-gray-600"
+                                    }`}
+                                  >
                                     {(item.type || "feedback").replace(/_/g, " ")}
                                   </span>
                                   {item.category && item.category !== "general" && (
@@ -1096,16 +1166,19 @@ export default function AdminPage() {
                                     </span>
                                   )}
                                 </div>
+
                                 <p className="text-xs text-gray-500 mb-2">{item.description}</p>
+
                                 <div className="flex items-center gap-3 text-xs text-gray-400 mb-3">
                                   <span>{item.username || "Anonymous"}</span>
                                   {item.email && <span>{item.email}</span>}
                                   <span>{new Date(item.createdAt).toLocaleDateString()}</span>
                                 </div>
+
                                 <div className="flex items-center gap-2 flex-wrap">
                                   <select
                                     value={item.status || "new"}
-                                    onChange={e => updateFeedbackItem(item.id, { status: e.target.value })}
+                                    onChange={(e) => updateFeedbackItem(item.id, { status: e.target.value })}
                                     className="text-xs border rounded-md px-2 py-1 bg-white"
                                     data-testid={`select-feedback-status-${item.id}`}
                                   >
@@ -1115,9 +1188,10 @@ export default function AdminPage() {
                                     <option value="completed">Completed</option>
                                     <option value="declined">Declined</option>
                                   </select>
+
                                   <select
                                     value={item.priority || "medium"}
-                                    onChange={e => updateFeedbackItem(item.id, { priority: e.target.value })}
+                                    onChange={(e) => updateFeedbackItem(item.id, { priority: e.target.value })}
                                     className="text-xs border rounded-md px-2 py-1 bg-white"
                                     data-testid={`select-feedback-priority-${item.id}`}
                                   >
