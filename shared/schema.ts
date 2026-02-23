@@ -306,3 +306,22 @@ export const insertDashboardWidgetSchema = createInsertSchema(dashboardWidgets).
 
 export type DashboardWidget = typeof dashboardWidgets.$inferSelect;
 export type InsertDashboardWidget = z.infer<typeof insertDashboardWidgetSchema>;
+
+export const lessonImages = pgTable("lesson_images", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  lessonId: text("lesson_id").notNull(),
+  objectPath: text("object_path").notNull(),
+  fileName: text("file_name").notNull(),
+  section: text("section").default("general"),
+  caption: text("caption"),
+  position: integer("position").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertLessonImageSchema = createInsertSchema(lessonImages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type LessonImage = typeof lessonImages.$inferSelect;
+export type InsertLessonImage = z.infer<typeof insertLessonImageSchema>;

@@ -12,6 +12,7 @@ import {
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 import { generateBlogPost, runBlogScheduler } from "./blog-automation";
+import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 
 /**
  * Consistent admin auth (DB-based).
@@ -55,6 +56,8 @@ async function extractUserTier(req: Request): Promise<string | null> {
 }
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
+  registerObjectStorageRoutes(app);
+
   // --------------------
   // Admin verify endpoint (single source of truth)
   // --------------------
@@ -795,6 +798,74 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         );
       }
 
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Lesson Images (admin only)
+  // --------------------
+  app.get("/api/lesson-images/:lessonId", async (req, res) => {
+    try {
+      const { lessonId } = req.params;
+      const result = await pool.query(
+        `SELECT * FROM lesson_images WHERE lesson_id = $1 ORDER BY section, position`,
+        [lessonId]
+      );
+      res.json(result.rows);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/lesson-images", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { lessonId, objectPath, fileName, section, caption, position } = req.body;
+      if (!lessonId || !objectPath || !fileName) {
+        return res.status(400).json({ error: "lessonId, objectPath, and fileName are required" });
+      }
+
+      const result = await pool.query(
+        `INSERT INTO lesson_images (lesson_id, object_path, file_name, section, caption, position)
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+        [lessonId, objectPath, fileName, section || "general", caption || null, position || 0]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/lesson-images/:imageId", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { imageId } = req.params;
+      const { caption, section, position } = req.body;
+      const result = await pool.query(
+        `UPDATE lesson_images SET caption = COALESCE($1, caption), section = COALESCE($2, section), position = COALESCE($3, position) WHERE id = $4 RETURNING *`,
+        [caption, section, position, imageId]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Image not found" });
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/lesson-images/:imageId", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { imageId } = req.params;
+      await pool.query(`DELETE FROM lesson_images WHERE id = $1`, [imageId]);
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
