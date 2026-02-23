@@ -86,6 +86,10 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
           )}
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/dashboard")} data-testid="menu-user-dashboard">
+          <BarChart className="w-4 h-4" />
+          My Dashboard
+        </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/profile")} data-testid="menu-user-profile">
           <User className="w-4 h-4" />
           My Profile

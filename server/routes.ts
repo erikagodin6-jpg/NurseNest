@@ -1385,6 +1385,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     try {
       const userId = req.headers["x-user-id"] as string;
       if (!userId) return res.status(401).json({ error: "Not authenticated" });
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(401).json({ error: "Invalid user" });
       const widgets = await storage.getDashboardWidgets(userId);
       res.json(widgets);
     } catch (e: any) {
@@ -1396,9 +1398,18 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     try {
       const userId = req.headers["x-user-id"] as string;
       if (!userId) return res.status(401).json({ error: "Not authenticated" });
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(401).json({ error: "Invalid user" });
       const { widgets } = req.body;
       if (!Array.isArray(widgets)) return res.status(400).json({ error: "widgets must be an array" });
-      const saved = await storage.saveDashboardWidgets(userId, widgets);
+      if (widgets.length > 20) return res.status(400).json({ error: "Too many widgets" });
+      const sanitized = widgets.map((w: any, i: number) => ({
+        widgetType: String(w.widgetType || "").slice(0, 50),
+        position: i,
+        visible: Boolean(w.visible),
+        config: w.config || {},
+      }));
+      const saved = await storage.saveDashboardWidgets(userId, sanitized);
       res.json(saved);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

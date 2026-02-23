@@ -24,6 +24,7 @@ import DisclaimerPage from "@/pages/disclaimer";
 import RefundPolicyPage from "@/pages/refund-policy";
 import StartFreePage from "@/pages/start-free";
 import AdminPage from "@/pages/admin";
+import DashboardPage from "@/pages/dashboard";
 import ContentEditorPage from "@/pages/content-editor";
 import MedMathPage from "@/pages/med-math";
 import LabValuesPage from "@/pages/lab-values";
@@ -108,6 +109,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/dashboard" component={DashboardPage} />
       <Route path="/start-free" component={StartFreePage} />
       <Route path="/med-math" component={MedMathPage} />
       <Route path="/lab-values" component={LabValuesPage} />
