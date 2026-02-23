@@ -848,7 +848,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       if (!admin) return;
 
       const { lessonId } = req.params;
-      const overrides = req.body?.overrides;
+      const { username, password, ...overrides } = req.body || {};
 
       if (!overrides || typeof overrides !== "object") {
         return res.status(400).json({ error: "Invalid overrides data" });

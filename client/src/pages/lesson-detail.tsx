@@ -979,10 +979,11 @@ export default function LessonDetail() {
         }
       }
 
+      const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
       const res = await fetch(`/api/lesson-overrides/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "x-user-tier": user?.tier || "" },
-        body: JSON.stringify(diff),
+        body: JSON.stringify({ ...diff, username: creds.username, password: creds.password }),
       });
       if (!res.ok) {
         const err = await res.json();
