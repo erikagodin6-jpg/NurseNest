@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -59,6 +59,8 @@ export interface IStorage {
   createSocialPost(data: InsertSocialPost): Promise<SocialPost>;
   updateSocialPost(id: string, updates: Partial<SocialPost>): Promise<SocialPost>;
   deleteSocialPost(id: string): Promise<void>;
+  getDashboardWidgets(userId: string): Promise<DashboardWidget[]>;
+  saveDashboardWidgets(userId: string, widgets: { widgetType: string; position: number; visible: boolean; config?: any }[]): Promise<DashboardWidget[]>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -479,6 +481,23 @@ export class DatabaseStorage implements IStorage {
 
   async deleteSocialPost(id: string): Promise<void> {
     await db.delete(socialPosts).where(eq(socialPosts.id, id));
+  }
+
+  async getDashboardWidgets(userId: string): Promise<DashboardWidget[]> {
+    return db.select().from(dashboardWidgets).where(eq(dashboardWidgets.userId, userId)).orderBy(dashboardWidgets.position);
+  }
+
+  async saveDashboardWidgets(userId: string, widgets: { widgetType: string; position: number; visible: boolean; config?: any }[]): Promise<DashboardWidget[]> {
+    await db.delete(dashboardWidgets).where(eq(dashboardWidgets.userId, userId));
+    if (widgets.length === 0) return [];
+    const rows = widgets.map((w) => ({
+      userId,
+      widgetType: w.widgetType,
+      position: w.position,
+      visible: w.visible,
+      config: w.config || {},
+    }));
+    return db.insert(dashboardWidgets).values(rows).returning();
   }
 }
 
