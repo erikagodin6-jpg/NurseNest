@@ -1,19 +1,16 @@
 import { Link } from "wouter";
-import { brandLogo, getLogoMaskStyle } from "@/lib/theme-logos";
+import { brandLogo } from "@/lib/theme-logos";
 
 export function Footer() {
-  const logoStyle = getLogoMaskStyle(brandLogo);
-
   return (
     <footer className="bg-white border-t border-primary/10 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <span
-              role="img"
-              aria-label="NurseNest"
-              className="inline-block h-9 w-[130px]"
-              style={logoStyle}
+            <img
+              src={brandLogo}
+              alt="NurseNest"
+              className="h-9 w-auto object-contain"
             />
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">

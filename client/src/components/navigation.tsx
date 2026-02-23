@@ -50,7 +50,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
-import { brandLogo, getLogoMaskStyle } from "@/lib/theme-logos";
+import { brandLogo } from "@/lib/theme-logos";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { data: subData } = useQuery({
@@ -121,7 +121,6 @@ export function Navigation() {
   const { toast } = useToast();
   const { setTheme, theme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const logoStyle = getLogoMaskStyle(brandLogo);
   const [, setLocation] = useLocation();
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
 
@@ -249,11 +248,10 @@ export function Navigation() {
       <SheetContent side="left" className="w-72 bg-white p-5 overflow-y-auto">
         <SheetHeader className="mb-6">
           <SheetTitle className="text-left flex items-center gap-2">
-            <span
-              role="img"
-              aria-label="NurseNest"
-              className="inline-block h-10 w-[140px]"
-              style={logoStyle}
+            <img
+              src={brandLogo}
+              alt="NurseNest"
+              className="h-10 w-auto object-contain"
             />
           </SheetTitle>
         </SheetHeader>
@@ -519,11 +517,10 @@ export function Navigation() {
             <MobileNav />
             <Link href="/">
               <div className="flex items-center cursor-pointer group" data-testid="link-home-logo">
-                <span
-                  role="img"
-                  aria-label="NurseNest"
-                  className="inline-block h-10 sm:h-12 w-[140px] sm:w-[170px] group-hover:scale-105 transition-transform duration-300"
-                  style={logoStyle}
+                <img
+                  src={brandLogo}
+                  alt="NurseNest"
+                  className="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
             </Link>
