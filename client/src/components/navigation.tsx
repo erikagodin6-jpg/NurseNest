@@ -707,23 +707,19 @@ export function Navigation() {
             <div className="md:hidden" />
             <div className="flex items-center gap-2">
             <GlobalSearch />
-            <div className="flex items-center bg-white rounded-full p-px border border-primary/20 shadow-sm">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+            <div className="flex items-center bg-white rounded-full border border-primary/20 shadow-sm" style={{ padding: "1px" }}>
+              <button 
                 onClick={() => setRegion("US")}
-                className={cn("h-5 px-1.5 rounded-full text-[9px] font-bold transition-all min-w-0", region === "US" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
+                className={cn("h-4 px-1 rounded-full text-[8px] font-bold transition-all leading-none", region === "US" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary")}
               >
-                🇺🇸 US
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+                🇺🇸US
+              </button>
+              <button 
                 onClick={() => setRegion("CA")}
-                className={cn("h-5 px-1.5 rounded-full text-[9px] font-bold transition-all min-w-0", region === "CA" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
+                className={cn("h-4 px-1 rounded-full text-[8px] font-bold transition-all leading-none", region === "CA" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary")}
               >
-                🇨🇦 CA
-              </Button>
+                🇨🇦CA
+              </button>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
