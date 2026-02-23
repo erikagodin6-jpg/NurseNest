@@ -62,6 +62,182 @@ function EditableList({ items, onChange, placeholder = "Enter item..." }: { item
   );
 }
 
+function VitalSignsReferenceCharts() {
+  const vitalSignsData = [
+    { ageGroup: "Newborn (0–28 days)", hr: "120–160", rr: "30–60", sbp: "60–80", dbp: "35–55", temp: "36.5–37.5°C", spo2: "≥95%" },
+    { ageGroup: "Infant (1–12 months)", hr: "100–150", rr: "25–50", sbp: "70–100", dbp: "40–65", temp: "36.5–37.5°C", spo2: "≥95%" },
+    { ageGroup: "Toddler (1–3 years)", hr: "90–140", rr: "20–30", sbp: "80–110", dbp: "50–75", temp: "36.5–37.5°C", spo2: "≥95%" },
+    { ageGroup: "Preschool (3–5 years)", hr: "80–120", rr: "20–28", sbp: "85–110", dbp: "50–75", temp: "36.5–37.5°C", spo2: "≥95%" },
+    { ageGroup: "School Age (6–12 years)", hr: "70–110", rr: "18–25", sbp: "90–120", dbp: "55–80", temp: "36.5–37.5°C", spo2: "≥95%" },
+    { ageGroup: "Adolescent (13–17 years)", hr: "60–100", rr: "12–20", sbp: "100–130", dbp: "60–85", temp: "36.5–37.5°C", spo2: "≥95%" },
+    { ageGroup: "Adult (18–64 years)", hr: "60–100", rr: "12–20", sbp: "90–140", dbp: "60–90", temp: "36.1–37.2°C", spo2: "≥95%" },
+    { ageGroup: "Older Adult (65+ years)", hr: "60–100", rr: "12–20", sbp: "90–150", dbp: "60–90", temp: "35.8–36.9°C", spo2: "≥93%" },
+  ];
+
+  const redFlagsByAge = [
+    {
+      group: "Newborn & Infant",
+      flags: [
+        "HR < 100 or > 180 bpm — consider sepsis, dehydration, or cardiac anomaly",
+        "RR > 60 — assess for respiratory distress syndrome, TTN, or congenital anomaly",
+        "Temperature < 36.0°C or > 38.0°C — infection risk highest in neonates",
+        "Capillary refill > 3 seconds — perfusion concern",
+        "SBP < 60 mmHg (newborn) or < 70 mmHg (infant) — shock"
+      ]
+    },
+    {
+      group: "Toddler & Preschool",
+      flags: [
+        "HR > 150 — rule out fever, pain, dehydration, or cardiac cause",
+        "RR > 40 — respiratory distress; assess for retractions, nasal flaring, grunting",
+        "SBP < 70 + (2 × age in years) — hypotension formula for ages 1–10",
+        "Temperature > 39°C — assess for febrile seizure risk (6 months–5 years)",
+        "SpO2 < 94% — supplemental O2 and escalation"
+      ]
+    },
+    {
+      group: "School Age & Adolescent",
+      flags: [
+        "HR < 50 or > 130 — evaluate for cardiac arrhythmia, substance use, or anxiety vs. true pathology",
+        "RR > 28 — consider asthma exacerbation, DKA, or panic attack",
+        "SBP > 130 or < 80 — assess for hypertensive emergency or hemorrhage",
+        "New-onset orthostatic hypotension — dehydration, eating disorder, or cardiac",
+        "Temperature > 40°C — aggressive cooling and investigation"
+      ]
+    },
+    {
+      group: "Adult",
+      flags: [
+        "HR < 40 or > 130 — immediate RRT activation",
+        "RR < 8 or > 28 — most predictive sign of deterioration",
+        "SBP < 90 or > 180 mmHg — hemodynamic emergency",
+        "SpO2 < 90% (< 88% in COPD) — supplemental O2 and escalation",
+        "Temperature > 38.5°C with tachycardia — sepsis screening (qSOFA)"
+      ]
+    },
+    {
+      group: "Older Adult (65+)",
+      flags: [
+        "Baseline may be lower — 'normal' BP of 150/80 may be their norm; acute drop is the red flag",
+        "Blunted febrile response — infection without fever is common; assess WBC and mental status",
+        "New confusion or agitation — may be the ONLY sign of UTI, pneumonia, or MI",
+        "Orthostatic hypotension — fall risk; hold antihypertensives and reassess",
+        "SpO2 < 93% — lower threshold for escalation due to reduced reserve"
+      ]
+    }
+  ];
+
+  return (
+    <section id="vital-signs-charts" className="space-y-6" data-testid="vital-signs-reference-charts">
+      <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+        <HeartPulse className="text-red-500 w-8 h-8" />
+        <h2>Normal Vital Signs Reference Charts</h2>
+      </div>
+      <p className="text-sm text-gray-500 mt-1">Age-specific normal ranges for clinical assessment — from newborn through older adult</p>
+
+      <Card className="border-none shadow-md bg-white overflow-hidden">
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm" data-testid="table-vital-signs-ranges">
+              <thead>
+                <tr className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+                  <th className="text-left px-4 py-3 font-bold text-gray-800 whitespace-nowrap">Age Group</th>
+                  <th className="text-center px-3 py-3 font-bold text-gray-800">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <Heart className="w-4 h-4 text-red-400" />
+                      <span>HR (bpm)</span>
+                    </div>
+                  </th>
+                  <th className="text-center px-3 py-3 font-bold text-gray-800">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <Wind className="w-4 h-4 text-blue-400" />
+                      <span>RR (/min)</span>
+                    </div>
+                  </th>
+                  <th className="text-center px-3 py-3 font-bold text-gray-800">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <Activity className="w-4 h-4 text-purple-400" />
+                      <span>SBP (mmHg)</span>
+                    </div>
+                  </th>
+                  <th className="text-center px-3 py-3 font-bold text-gray-800">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <Activity className="w-4 h-4 text-indigo-400" />
+                      <span>DBP (mmHg)</span>
+                    </div>
+                  </th>
+                  <th className="text-center px-3 py-3 font-bold text-gray-800">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <Zap className="w-4 h-4 text-orange-400" />
+                      <span>Temp (°C)</span>
+                    </div>
+                  </th>
+                  <th className="text-center px-3 py-3 font-bold text-gray-800">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <Droplets className="w-4 h-4 text-cyan-400" />
+                      <span>SpO2</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {vitalSignsData.map((row, i) => (
+                  <tr key={row.ageGroup} className={`border-b border-gray-100 ${i % 2 === 0 ? "bg-white" : "bg-gray-50/50"} hover:bg-blue-50/50 transition-colors`}>
+                    <td className="px-4 py-3 font-semibold text-gray-800 whitespace-nowrap">{row.ageGroup}</td>
+                    <td className="text-center px-3 py-3 text-gray-700 font-medium">{row.hr}</td>
+                    <td className="text-center px-3 py-3 text-gray-700 font-medium">{row.rr}</td>
+                    <td className="text-center px-3 py-3 text-gray-700 font-medium">{row.sbp}</td>
+                    <td className="text-center px-3 py-3 text-gray-700 font-medium">{row.dbp}</td>
+                    <td className="text-center px-3 py-3 text-gray-700 font-medium">{row.temp}</td>
+                    <td className="text-center px-3 py-3 text-gray-700 font-medium">{row.spo2}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="px-4 py-2 bg-amber-50 border-t border-amber-100">
+            <p className="text-xs text-amber-700 flex items-center gap-1.5">
+              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+              Values are general ranges. Always compare to the individual patient's baseline. Ranges may vary slightly by source.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="flex items-center gap-3 text-xl font-bold text-gray-900 mt-8">
+        <ShieldAlert className="text-orange-500 w-7 h-7" />
+        <h3>Age-Specific Red Flags & Escalation Triggers</h3>
+      </div>
+      <p className="text-sm text-gray-500 mt-1">When to escalate — critical thresholds by age group</p>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        {redFlagsByAge.map((section) => (
+          <Card key={section.group} className="border-none shadow-md bg-white" data-testid={`card-red-flags-${section.group.toLowerCase().replace(/[^a-z]+/g, "-")}`}>
+            <CardContent className="p-5">
+              <div className="flex items-center gap-2 mb-3">
+                {section.group.includes("Newborn") && <Baby className="w-5 h-5 text-pink-500" />}
+                {section.group.includes("Toddler") && <Baby className="w-5 h-5 text-purple-500" />}
+                {section.group.includes("School") && <Users className="w-5 h-5 text-blue-500" />}
+                {section.group === "Adult" && <HeartPulse className="w-5 h-5 text-red-500" />}
+                {section.group.includes("Older") && <Users className="w-5 h-5 text-amber-600" />}
+                <h4 className="font-bold text-gray-800">{section.group}</h4>
+              </div>
+              <ul className="space-y-2">
+                {section.flags.map((flag, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                    <AlertCircle className="w-3.5 h-3.5 text-orange-400 mt-0.5 flex-shrink-0" />
+                    <span>{flag}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function getLessonTier(lessonId: string): string {
   if (lessonId.startsWith("np-") || lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
   if (lessonId.startsWith("rn-") || lessonId.includes("-rn") || lessonId.includes("nclex-")) return "rn";
@@ -1088,6 +1264,8 @@ export default function LessonDetail() {
                     </div>
                   </section>
                 )}
+
+                {id === "vital-signs-red-flags" && <VitalSignsReferenceCharts />}
 
                 <section id="clinical-findings" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
