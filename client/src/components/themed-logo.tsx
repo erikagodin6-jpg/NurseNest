@@ -6,46 +6,39 @@ interface ThemedLogoProps {
   className?: string;
 }
 
-function hslToRgb(hslStr: string): [number, number, number] {
-  const match = hslStr.match(/[\d.]+/g);
-  if (!match || match.length < 3) return [124, 58, 237];
-  const h = parseFloat(match[0]) / 360;
-  const s = parseFloat(match[1]) / 100;
-  const l = parseFloat(match[2]) / 100;
-
-  if (s === 0) {
-    const v = Math.round(l * 255);
-    return [v, v, v];
+function parseColor(color: string): [number, number, number] {
+  const hex = color.replace("#", "").trim();
+  if (hex.length === 6) {
+    return [
+      parseInt(hex.substring(0, 2), 16),
+      parseInt(hex.substring(2, 4), 16),
+      parseInt(hex.substring(4, 6), 16),
+    ];
   }
-
-  const hue2rgb = (p: number, q: number, t: number) => {
-    if (t < 0) t += 1;
-    if (t > 1) t -= 1;
-    if (t < 1 / 6) return p + (q - p) * 6 * t;
-    if (t < 1 / 2) return q;
-    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-    return p;
-  };
-
-  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-  const p = 2 * l - q;
-  return [
-    Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
-    Math.round(hue2rgb(p, q, h) * 255),
-    Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
-  ];
+  if (hex.length === 3) {
+    return [
+      parseInt(hex[0] + hex[0], 16),
+      parseInt(hex[1] + hex[1], 16),
+      parseInt(hex[2] + hex[2], 16),
+    ];
+  }
+  const rgb = color.match(/[\d.]+/g);
+  if (rgb && rgb.length >= 3) {
+    return [parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2])];
+  }
+  return [124, 58, 237];
 }
 
 export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dataUrl, setDataUrl] = useState<string | null>(null);
-  const [primaryHsl, setPrimaryHsl] = useState("");
+  const [primaryColor, setPrimaryColor] = useState("");
 
   useEffect(() => {
     const computeColor = () => {
       const style = getComputedStyle(document.documentElement);
-      const hsl = style.getPropertyValue("--primary").trim();
-      if (hsl) setPrimaryHsl(hsl);
+      const color = style.getPropertyValue("--theme-primary").trim();
+      if (color) setPrimaryColor(color);
     };
     computeColor();
 
@@ -59,9 +52,9 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
   }, []);
 
   useEffect(() => {
-    if (!primaryHsl) return;
+    if (!primaryColor) return;
 
-    const [tr, tg, tb] = hslToRgb(primaryHsl);
+    const [tr, tg, tb] = parseColor(primaryColor);
 
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -124,7 +117,7 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
       setDataUrl(cropCanvas.toDataURL("image/png"));
     };
     img.src = brandLogo;
-  }, [primaryHsl]);
+  }, [primaryColor]);
 
   return (
     <>

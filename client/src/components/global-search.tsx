@@ -126,9 +126,6 @@ export function GlobalSearch() {
       >
         <Search className="w-3.5 h-3.5" />
         <span className="hidden lg:inline">Search...</span>
-        <kbd className="hidden lg:inline-flex items-center text-[10px] font-mono text-gray-400 bg-white/80 border border-gray-200 rounded px-1 py-0.5">
-          Ctrl K
-        </kbd>
       </button>
     );
   }
