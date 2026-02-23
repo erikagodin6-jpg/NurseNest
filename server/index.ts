@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
+import { injectMeta } from "./seo-meta";
 
 import { runMigrations } from "stripe-replit-sync";
 import { getStripeSync } from "./stripeClient";
@@ -264,6 +265,64 @@ app.use((req, res, next) => {
     console.error("Internal Server Error:", err);
     if (res.headersSent) return next(err);
     return res.status(status).json({ message });
+  });
+
+  // SEO: intercept HTML responses to inject per-page meta tags
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    const urlPath = req.originalUrl || req.path;
+    if (urlPath.startsWith("/api") || urlPath.startsWith("/vite-hmr") || /\.\w{2,5}($|\?)/.test(urlPath)) {
+      return next();
+    }
+    const origWrite = res.write;
+    const origEnd = res.end;
+    const chunks: Buffer[] = [];
+    let intercepting = false;
+
+    res.write = function (chunk: any, encodingOrCb?: any, cb?: any): boolean {
+      const ct = res.getHeader("content-type");
+      if (ct && typeof ct === "string" && ct.includes("text/html")) {
+        intercepting = true;
+        if (Buffer.isBuffer(chunk)) {
+          chunks.push(chunk);
+        } else if (typeof chunk === "string") {
+          chunks.push(Buffer.from(chunk, typeof encodingOrCb === "string" ? encodingOrCb as BufferEncoding : "utf-8"));
+        }
+        return true;
+      }
+      return origWrite.apply(res, arguments as any);
+    } as any;
+
+    res.end = function (chunk?: any, encodingOrCb?: any, cb?: any): any {
+      if (chunk && intercepting) {
+        if (Buffer.isBuffer(chunk)) {
+          chunks.push(chunk);
+        } else if (typeof chunk === "string") {
+          chunks.push(Buffer.from(chunk, typeof encodingOrCb === "string" ? encodingOrCb as BufferEncoding : "utf-8"));
+        }
+      } else if (chunk) {
+        const ct = res.getHeader("content-type");
+        if (ct && typeof ct === "string" && ct.includes("text/html")) {
+          intercepting = true;
+          if (Buffer.isBuffer(chunk)) {
+            chunks.push(chunk);
+          } else if (typeof chunk === "string") {
+            chunks.push(Buffer.from(chunk, typeof encodingOrCb === "string" ? encodingOrCb as BufferEncoding : "utf-8"));
+          }
+        }
+      }
+
+      if (intercepting && chunks.length > 0) {
+        let html = Buffer.concat(chunks).toString("utf-8");
+        const seoPath = (req.originalUrl || req.path).split("?")[0];
+        html = injectMeta(html, seoPath);
+        res.setHeader("content-length", Buffer.byteLength(html));
+        origWrite.call(res, html, "utf-8");
+        return origEnd.call(res);
+      }
+      return origEnd.apply(res, arguments as any);
+    } as any;
+
+    next();
   });
 
   // Vite dev / static prod
