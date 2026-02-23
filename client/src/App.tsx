@@ -41,6 +41,12 @@ import ContactPage from "@/pages/contact";
 import FeedbackPage from "@/pages/feedback";
 import QuestionOfTheDay from "@/pages/question-of-the-day";
 import QuestionBank from "@/pages/question-bank";
+import FirstActionSimulatorPage from "@/pages/first-action-simulator";
+import SafetyHazardSimulatorPage from "@/pages/safety-hazard-simulator";
+import IVComplicationsSimulatorPage from "@/pages/iv-complications-simulator";
+import ElectrolyteABGSimulatorPage from "@/pages/electrolyte-abg-simulator";
+import DeterioratingPatientSimulatorPage from "@/pages/deteriorating-patient-simulator";
+import BloodTransfusionSimulatorPage from "@/pages/blood-transfusion-simulator";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
@@ -59,6 +65,12 @@ function Router() {
       <Route path="/admin" component={AdminPage} />
       <Route path="/content-editor" component={ContentEditorPage} />
       <Route path="/case-simulations" component={CaseSimulationPage} />
+      <Route path="/first-action-simulator" component={FirstActionSimulatorPage} />
+      <Route path="/safety-hazard-simulator" component={SafetyHazardSimulatorPage} />
+      <Route path="/iv-complications-simulator" component={IVComplicationsSimulatorPage} />
+      <Route path="/electrolyte-abg-simulator" component={ElectrolyteABGSimulatorPage} />
+      <Route path="/deteriorating-patient-simulator" component={DeterioratingPatientSimulatorPage} />
+      <Route path="/blood-transfusion-simulator" component={BloodTransfusionSimulatorPage} />
       <Route path="/simulators/clinical-skills" component={SimulatorsPage} />
       <Route path="/simulators/osce" component={SimulatorsPage} />
       <Route path="/simulators/clinical-lab" component={SimulatorsPage} />

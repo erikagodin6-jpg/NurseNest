@@ -323,6 +323,43 @@ export function Navigation() {
 
           <div className="h-[1px] bg-gray-100 my-2" />
 
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Labs</p>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/first-action-simulator")}>
+              <Activity className="w-4 h-4" /> First Action Prioritization
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/safety-hazard-simulator")}>
+              <Heart className="w-4 h-4" /> Safety Hazard Detection
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/iv-complications-simulator")}>
+              <Dna className="w-4 h-4" /> IV Complications
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/electrolyte-abg-simulator")}>
+              <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Electrolyte & ABG</span>
+              <Lock className="w-3 h-3 text-gray-300" />
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/deteriorating-patient-simulator")}>
+              <span className="flex items-center gap-2"><Activity className="w-4 h-4" /> Deteriorating Patient</span>
+              <Lock className="w-3 h-3 text-gray-300" />
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blood-transfusion-simulator")}>
+              <span className="flex items-center gap-2"><Heart className="w-4 h-4" /> Blood Transfusion</span>
+              <Lock className="w-3 h-3 text-gray-300" />
+            </Button>
+          </SheetClose>
+
+          <div className="h-[1px] bg-gray-100 my-2" />
+
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Resources</p>
           <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pricing")}>
@@ -550,6 +587,32 @@ export function Navigation() {
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/clinical-skills")}>
                     <Stethoscope className="w-4 h-4" />
                     Clinical Skills Simulator
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Interactive Labs</p>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/first-action-simulator")}>
+                    <Activity className="w-4 h-4" />
+                    First Action Prioritization
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/safety-hazard-simulator")}>
+                    <Heart className="w-4 h-4" />
+                    Safety Hazard Detection
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/iv-complications-simulator")}>
+                    <Dna className="w-4 h-4" />
+                    IV Complications
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/electrolyte-abg-simulator")}>
+                    <FlaskConical className="w-4 h-4" />
+                    Electrolyte & ABG
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/deteriorating-patient-simulator")}>
+                    <Activity className="w-4 h-4" />
+                    Deteriorating Patient
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/blood-transfusion-simulator")}>
+                    <Heart className="w-4 h-4" />
+                    Blood Transfusion
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pricing")}>

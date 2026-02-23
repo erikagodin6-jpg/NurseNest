@@ -43,6 +43,14 @@ Preferred communication style: Simple, everyday language.
     - **Clinical Clarity**: Explanations for "Why does X happen?" topics.
     - **Clinical Case Simulation Platform**: Branching decision cases with vitals, labs, and debriefing.
     - **Medication Mastery Engine**: Mechanism-first drug explorer with receptor/pathway effects.
+- **Interactive Clinical Simulators** (6 modules, CA/US unit switching, score tracking, immediate feedback):
+    - **First Action Prioritization** (`/first-action-simulator`): 16 tier-scoped scenarios (RPN stable, RN unstable/ICU, NP diagnosis). Paid.
+    - **Safety & Hazard Detection** (`/safety-hazard-simulator`): 6 clinical environments with hazard identification. FREE.
+    - **IV Complications** (`/iv-complications-simulator`): 8 scenarios (infiltration, extravasation, phlebitis, air embolism, etc.) with two-phase questions. FREE.
+    - **Electrolyte & ABG Interpretation** (`/electrolyte-abg-simulator`): 8 electrolyte cases + 6 ABG stepwise analysis cases. Paid.
+    - **Deteriorating Patient** (`/deteriorating-patient-simulator`): 6 staged scenarios (sepsis, COPD, hemorrhage, opioid, anaphylaxis, STEMI) with time-to-action scoring. Paid.
+    - **Blood Transfusion** (`/blood-transfusion-simulator`): ABO/Rh compatibility, reaction recognition (6 types), intervention decision-making. Paid.
+- **Unit Conversion System**: Centralized in `client/src/lib/unit-conversion.ts` for CA metric / US imperial switching (temp, weight, glucose, creatinine, hemoglobin, vitals).
 - **Mock Exam Engine**: Timed mock exams at `/mock-exams` with configurable tier (RPN/RN/NP), exam length (25/75/100/150), question flagging, pause/resume timer, question navigator, auto-save every 10s, post-exam report with score ring, body system breakdown, weak area analysis, question review with rationale, and score trend across attempts. Pages: `mock-exams.tsx`, `mock-exam-session.tsx`, `mock-exam-report.tsx`. Question pool from `client/src/lib/question-pool.ts` using stratified random sampling. Data stored in `mock_exam_attempts` table.
 - **Admin Features**: Dashboard (`/admin`) for user analytics, subscriptions, activity, content popularity, and blog automation controls.
 - **Admin Preview Mode**: Admin users can preview the platform as free/rpn/rn/np users via dropdown in navigation.

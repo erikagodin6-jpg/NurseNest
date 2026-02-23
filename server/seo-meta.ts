@@ -109,6 +109,30 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Clinical Case Simulations - Nursing Scenarios | NurseNest",
     description: "Practice clinical decision-making with branching case simulations. Manage patient scenarios with vitals, labs, and real-time feedback.",
   },
+  "/first-action-simulator": {
+    title: "First Action Prioritization Simulator - Nursing Priority | NurseNest",
+    description: "Practice choosing the FIRST nursing action in clinical scenarios. Tier-scoped RPN, RN, and NP scenarios with immediate feedback and NCLEX-style rationales.",
+  },
+  "/safety-hazard-simulator": {
+    title: "Safety & Hazard Detection Engine - Free Nursing Practice | NurseNest",
+    description: "Free interactive patient safety training. Identify fall risks, medication errors, infection breaches, and equipment hazards in clinical environments.",
+  },
+  "/iv-complications-simulator": {
+    title: "IV Complications Simulator - Free Nursing Practice | NurseNest",
+    description: "Free interactive IV complication recognition. Identify infiltration, extravasation, phlebitis, air embolism, and more with nursing interventions.",
+  },
+  "/electrolyte-abg-simulator": {
+    title: "Electrolyte & ABG Interpretation Engine | NurseNest",
+    description: "Master electrolyte imbalances and arterial blood gas interpretation. Interactive cases with ECG clues, stepwise ABG analysis, and exam trap warnings.",
+  },
+  "/deteriorating-patient-simulator": {
+    title: "Deteriorating Patient Simulator - Clinical Escalation | NurseNest",
+    description: "Manage deteriorating patients with staged vital sign changes. Practice ABCs priority, escalation decisions, and time-critical interventions.",
+  },
+  "/blood-transfusion-simulator": {
+    title: "Blood Transfusion Compatibility & Reactions | NurseNest",
+    description: "Practice ABO/Rh compatibility, recognize transfusion reactions (hemolytic, TACO, TRALI), and choose correct nursing interventions.",
+  },
   "/medication-mastery": {
     title: "Medication Mastery - Drug Mechanisms & Safety | NurseNest",
     description: "Explore medication mechanisms of action at the receptor level. Pharmacology mastery for nursing students with safety considerations.",

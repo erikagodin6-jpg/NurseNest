@@ -159,6 +159,12 @@ app.get("/sitemap.xml", (_req, res) => {
   entries.push(sitemapUrl(`${base}/mock-exams`, "0.8", "weekly", today));
   entries.push(sitemapUrl(`${base}/clinical-clarity`, "0.8", "weekly", today));
   entries.push(sitemapUrl(`${base}/case-simulations`, "0.7", "monthly", today));
+  entries.push(sitemapUrl(`${base}/first-action-simulator`, "0.8", "monthly", today));
+  entries.push(sitemapUrl(`${base}/safety-hazard-simulator`, "0.8", "monthly", today));
+  entries.push(sitemapUrl(`${base}/iv-complications-simulator`, "0.8", "monthly", today));
+  entries.push(sitemapUrl(`${base}/electrolyte-abg-simulator`, "0.8", "monthly", today));
+  entries.push(sitemapUrl(`${base}/deteriorating-patient-simulator`, "0.7", "monthly", today));
+  entries.push(sitemapUrl(`${base}/blood-transfusion-simulator`, "0.7", "monthly", today));
   entries.push(sitemapUrl(`${base}/medication-mastery`, "0.7", "monthly", today));
   entries.push(sitemapUrl(`${base}/blog`, "0.7", "daily", today));
   entries.push(sitemapUrl(`${base}/pre-nursing`, "0.6", "monthly", today));
