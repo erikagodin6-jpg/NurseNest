@@ -699,12 +699,12 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex items-center justify-end gap-2 h-9">
             <GlobalSearch />
-            <div className="flex items-center bg-white rounded-full p-0.5 border border-primary/20 shadow-sm">
+            <div className="flex items-center bg-white rounded-full p-px border border-primary/20 shadow-sm">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("US")}
-                className={cn("h-6 px-2.5 rounded-full text-[11px] font-bold transition-all", region === "US" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
+                className={cn("h-5 px-1.5 rounded-full text-[9px] font-bold transition-all min-w-0", region === "US" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
               >
                 🇺🇸 US
               </Button>
@@ -712,7 +712,7 @@ export function Navigation() {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("CA")}
-                className={cn("h-6 px-2.5 rounded-full text-[11px] font-bold transition-all", region === "CA" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
+                className={cn("h-5 px-1.5 rounded-full text-[9px] font-bold transition-all min-w-0", region === "CA" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
               >
                 🇨🇦 CA
               </Button>

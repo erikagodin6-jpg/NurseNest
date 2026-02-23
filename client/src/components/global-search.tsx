@@ -121,11 +121,11 @@ export function GlobalSearch() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/15 bg-primary/5 hover:bg-primary/10 transition-colors text-sm text-gray-500 hover:text-primary"
+        className="flex items-center gap-2 px-3 py-1 rounded-full border border-primary/15 bg-white/70 hover:bg-white transition-colors text-xs text-gray-400 hover:text-primary w-32 sm:w-44 lg:w-56"
         data-testid="button-global-search"
       >
-        <Search className="w-3.5 h-3.5" />
-        <span className="hidden lg:inline">Search...</span>
+        <Search className="w-3 h-3 shrink-0" />
+        <span className="truncate">Search lessons, topics...</span>
       </button>
     );
   }
