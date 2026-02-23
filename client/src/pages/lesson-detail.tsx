@@ -26,6 +26,7 @@ import { trackMilestone } from "@/components/upgrade-prompt";
 import { getLessonImage } from "@/lib/system-images";
 import { ProtectedImage } from "@/components/protected-image";
 import { getImageAltText, getImageTitle, getImageStructuredData } from "@/lib/image-seo";
+import { LessonImageManager } from "@/components/lesson-image-manager";
 
 function EditableText({ value, onChange, multiline = false, className = "" }: { value: string; onChange: (v: string) => void; multiline?: boolean; className?: string }) {
   if (multiline) {
@@ -955,6 +956,14 @@ export default function LessonDetail() {
                       <div className="whitespace-pre-wrap">{lessonContent.cellular.content}</div>
                     )}
                   </div>
+                  {id && (
+                    <LessonImageManager
+                      lessonId={id}
+                      section="pathophysiology"
+                      isAdmin={user?.tier === "admin"}
+                      isEditing={isEditing}
+                    />
+                  )}
                 </section>
 
                 {(ed || (lessonContent.riskFactors && lessonContent.riskFactors.length > 0)) ? (
@@ -1128,6 +1137,14 @@ export default function LessonDetail() {
                       </CardContent>
                     </Card>
                   </div>
+                  {id && (
+                    <LessonImageManager
+                      lessonId={id}
+                      section="clinical-findings"
+                      isAdmin={user?.tier === "admin"}
+                      isEditing={isEditing}
+                    />
+                  )}
                 </section>
 
                 <section id="pharmacology" className="space-y-6">

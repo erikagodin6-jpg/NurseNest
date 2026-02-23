@@ -3,6 +3,8 @@ import { Navigation } from "@/components/navigation";
 import { Link } from "wouter";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
+import { useAuth } from "@/lib/auth";
+import { LessonImageManager } from "@/components/lesson-image-manager";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import {
   Heart,
@@ -200,6 +202,9 @@ const bodySystems = [
 
 export default function AnatomyPage() {
   const [expandedSystems, setExpandedSystems] = useState<Set<string>>(new Set());
+  const [isEditing, setIsEditing] = useState(false);
+  const { user } = useAuth();
+  const isAdmin = user?.tier === "admin";
 
   const toggleSystem = (id: string) => {
     setExpandedSystems((prev) => {
@@ -235,6 +240,19 @@ export default function AnatomyPage() {
               <BookOpen className="w-4 h-4" />
               <span>12 topics · Cell biology to organ systems · Exam-ready review</span>
             </div>
+            {isAdmin && (
+              <button
+                onClick={() => setIsEditing(!isEditing)}
+                className={`mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  isEditing
+                    ? "bg-amber-100 text-amber-800 border border-amber-300"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+                data-testid="button-toggle-anatomy-edit"
+              >
+                {isEditing ? "Exit Image Editing" : "Manage Images"}
+              </button>
+            )}
           </div>
         </div>
       </section>
@@ -279,6 +297,12 @@ export default function AnatomyPage() {
                 {isExpanded && (
                   <CardContent className="pt-0 animate-in fade-in-0 slide-in-from-top-2 duration-300" data-testid={`content-system-${system.id}`}>
                     <div className={`border-t ${system.borderColor} pt-4 space-y-4`}>
+                      <LessonImageManager
+                        lessonId={`anatomy-${system.id}`}
+                        section="anatomy"
+                        isAdmin={isAdmin}
+                        isEditing={isEditing}
+                      />
                       {system.content.map((paragraph, idx) => (
                         <p key={idx} className="text-sm text-gray-700 leading-relaxed">
                           {paragraph}
