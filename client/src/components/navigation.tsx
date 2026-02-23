@@ -292,12 +292,6 @@ export function Navigation() {
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/clinical-clarity")}>
-              <Lightbulb className="w-4 h-4" />
-              Clinical Clarity
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
               <BookOpen className="w-4 h-4" />
               Blog
@@ -306,7 +300,13 @@ export function Navigation() {
 
           <div className="h-[1px] bg-gray-100 my-2" />
 
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Premium Tools</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Tools</p>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/clinical-clarity")}>
+              <Lightbulb className="w-4 h-4" />
+              Clinical Clarity
+            </Button>
+          </SheetClose>
           <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/flashcards")}>
               <Layers className="w-4 h-4" />
@@ -343,9 +343,8 @@ export function Navigation() {
             </Button>
           </SheetClose>
 
-          <div className="h-[1px] bg-gray-100 my-2" />
-
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Labs</p>
+          <div className="h-[1px] bg-gray-100 my-1" />
+          <p className="text-[10px] font-semibold text-gray-300 uppercase tracking-wider mb-1 px-3">Clinical Simulators</p>
           <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/first-action-simulator")}>
               <Activity className="w-4 h-4" /> First Action Prioritization
@@ -547,20 +546,22 @@ export function Navigation() {
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lessons")}>
                 Lessons
               </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/clinical-clarity")}>
-                Clinical Clarity
-              </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/blog")}>
                 Blog
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary px-2 lg:px-3 gap-1">
-                    <MoreHorizontal className="w-4 h-4" />
-                    <span className="hidden lg:inline">More</span>
+                  <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-3 group data-[state=open]:text-primary">
+                    Interactive Tools
+                    <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-52 p-2">
+                <DropdownMenuContent align="start" className="w-56 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/clinical-clarity")}>
+                    <Lightbulb className="w-4 h-4 text-primary/70" />
+                    Clinical Clarity
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Premium Tools</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/med-math")}>
                     <Calculator className="w-4 h-4" />
@@ -583,7 +584,7 @@ export function Navigation() {
                     Clinical Skills Simulator
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Interactive Labs</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Clinical Simulators</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/first-action-simulator")}>
                     <Activity className="w-4 h-4" />
                     First Action Prioritization
