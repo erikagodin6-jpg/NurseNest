@@ -27,6 +27,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { ProtectedImage } from "@/components/protected-image";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
@@ -1489,10 +1490,12 @@ export default function Flashcards() {
                 <div className="grid md:grid-cols-2 flex-1">
                   <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100 relative overflow-hidden">
                     {currentCard.image ? (
-                      <img 
+                      <ProtectedImage 
                         src={currentCard.image} 
-                        alt="Clinical" 
-                        className="w-64 h-64 object-contain rounded-2xl shadow-sm hover:scale-105 transition-transform duration-500"
+                        alt={`Clinical flashcard illustration for ${currentCard.category || "nursing"} — NurseNest`}
+                        title={`NurseNest ${currentCard.category || "Nursing"} Flashcard`}
+                        className="w-64 h-64 object-contain rounded-2xl shadow-sm"
+                        data-testid={`img-flashcard-${currentCard.id}`}
                       />
                     ) : (
                       <div className="w-64 h-64 bg-gray-200 rounded-2xl flex items-center justify-center">

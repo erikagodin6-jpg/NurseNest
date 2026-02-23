@@ -24,6 +24,8 @@ import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem } from "@/lib/seo-utils";
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getLessonImage } from "@/lib/system-images";
+import { ProtectedImage } from "@/components/protected-image";
+import { getImageAltText, getImageTitle, getImageStructuredData } from "@/lib/image-seo";
 
 function EditableText({ value, onChange, multiline = false, className = "" }: { value: string; onChange: (v: string) => void; multiline?: boolean; className?: string }) {
   if (multiline) {
@@ -797,10 +799,19 @@ export default function LessonDetail() {
 
         {(() => {
           const lessonImg = getLessonImage(id || "");
+          const lessonId = id || "";
           return lessonImg ? (
             <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-6 shadow-md">
-              <img src={lessonImg} alt={lessonContent.title} className="w-full h-full object-cover" loading="lazy" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/30 to-transparent" />
+              <ProtectedImage
+                src={lessonImg}
+                alt={getImageAltText(lessonId, lessonContent.title)}
+                title={getImageTitle(lessonId, lessonContent.title)}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                data-testid={`img-lesson-${lessonId}`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/30 to-transparent pointer-events-none" style={{ zIndex: 3 }} />
+              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getImageStructuredData(lessonId, lessonImg, lessonContent.title)) }} />
             </div>
           ) : null;
         })()}

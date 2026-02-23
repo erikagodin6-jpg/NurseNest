@@ -1,4 +1,5 @@
 import { Switch, Route } from "wouter";
+import { useEffect } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -52,6 +53,54 @@ import { usePageTracker } from "@/hooks/use-page-tracker";
 
 function PageTracker() {
   usePageTracker();
+  return null;
+}
+
+function CopyProtection() {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "PrintScreen") {
+        e.preventDefault();
+        document.body.style.filter = "blur(20px)";
+        setTimeout(() => { document.body.style.filter = ""; }, 1500);
+      }
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "s" || e.key === "S" || e.key === "i" || e.key === "I")) {
+        const imgs = document.querySelectorAll(".protected-image");
+        imgs.forEach((img) => { (img as HTMLElement).style.visibility = "hidden"; });
+        setTimeout(() => {
+          imgs.forEach((img) => { (img as HTMLElement).style.visibility = "visible"; });
+        }, 2000);
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === "s" || e.key === "S") && !e.shiftKey) {
+        e.preventDefault();
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        const imgs = document.querySelectorAll(".protected-image");
+        imgs.forEach((img) => { (img as HTMLElement).style.visibility = "hidden"; });
+        setTimeout(() => {
+          if (document.visibilityState === "visible") {
+            const imgs2 = document.querySelectorAll(".protected-image");
+            imgs2.forEach((img) => { (img as HTMLElement).style.visibility = "visible"; });
+          }
+        }, 300);
+      } else {
+        const imgs = document.querySelectorAll(".protected-image");
+        imgs.forEach((img) => { (img as HTMLElement).style.visibility = "visible"; });
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   return null;
 }
 
@@ -114,6 +163,7 @@ function App() {
           <TooltipProvider>
             <Toaster />
             <PageTracker />
+            <CopyProtection />
             <Router />
             <UpgradePrompt />
           </TooltipProvider>

@@ -1,0 +1,131 @@
+You are Replit AI working inside my NurseNest codebase.
+
+GOAL
+Create an automated “Micro-Lecture Factory” that generates a narrated PowerPoint lecture for EVERY pathophysiology lesson already listed in my website (all patho systems and conditions that appear in my Lessons data / routes / database). Each lecture must be generated in three tiers: RPN (college), RN (university), NP (graduate).
+
+LECTURE OUTPUTS PER TOPIC PER TIER
+For each lesson topic, generate and store:
+1) A 5–8 minute narration script (mechanism-driven, clinically accurate)
+2) A PowerPoint deck (.pptx) with 8–10 slides matching NurseNest aesthetic
+3) Voiceover audio (mp3) reading the script (TTS API preferred; browser TTS fallback if no API key)
+4) Metadata JSON (title, slug, tier, keywords, duration estimate, citations placeholders)
+
+QUALITY / ACADEMIC DEPTH REQUIREMENTS
+Write THREE versions for the same topic with clear separation:
+
+RPN (College):
+- Explain clearly with accurate physiology and observable cause-effect
+- Focus on nursing assessment priorities, safety, common complications, exam traps
+- Minimal molecular/receptor detail
+
+RN (University):
+- Include cellular mechanisms, compensatory responses, and system interactions
+- Explain WHY each sign/symptom occurs pathophysiologically
+- Include diagnostic reasoning implications and treatment targets
+
+NP (Graduate):
+- Include receptor/pathway-level explanations where relevant
+- Include differential diagnosis (mimics), diagnostic nuance, and decompensation patterns
+- Include therapeutic targeting logic and common clinical misinterpretations
+
+WRITING RULES
+- Main explanations must be written in full sentences (no bullet-point paragraphs)
+- At the end ONLY, add “Clinical Pearls” as bullet points (high-yield)
+- Avoid fluff, avoid casual tone, avoid “memorize this”
+- Must be exam-relevant and patient-safety oriented
+- Must be clinically accurate and consistent (no duplicate symptoms, no spelling errors)
+
+POWERPOINT DESIGN REQUIREMENTS (NurseNest Aesthetic)
+- Premium medical education feel
+- Soft pastel clinical palette
+- Minimalist, clean typography, generous spacing
+- No cartoonish visuals, no playful icons, no decorative clutter
+- Each slide has: Title + concise body text + speaker notes
+- Include a “Mechanism → Manifestations” logic flow across slides
+- Include a final slide: “Common Exam & Clinical Traps”
+
+VOICEOVER REQUIREMENTS
+Preferred: integrate a TTS API to generate mp3 from the script.
+- Implement provider-agnostic interface (e.g., TTS_PROVIDER=openai|elevenlabs|google)
+- Read secrets from env vars
+Fallback: if no provider configured, enable browser SpeechSynthesis playback on the lecture page.
+
+CODEBASE INTEGRATION REQUIREMENTS
+1) Find the canonical source of truth for lessons list:
+   - Search the repo for lessons data, lesson routes, lesson registry, or database tables that store lesson topics.
+   - Do NOT hardcode the list in the generator.
+   - Create a function getAllLessonTopics() that returns unique topic objects:
+     { id, title, slug, system, tierAvailable, tags }
+
+2) Create database schema (or storage model) for generated microlectures:
+   - microlectures table:
+     id, lesson_id (or slug), tier (rpn|rn|np), title, slug,
+     script_path, pptx_path, audio_path, created_at, updated_at,
+     status (pending|generated|failed), error_message
+
+3) Create backend generation pipeline:
+   - A job runner that loops through all lesson topics and generates 3 tiers each.
+   - Add concurrency control (e.g., 2–3 at a time) to avoid rate limits.
+   - Cache: do not regenerate if already exists unless “Regenerate” is clicked.
+   - Add robust error handling and logging.
+
+4) LLM output must be STRUCTURED JSON
+Generate a JSON object like:
+{
+  "title": "...",
+  "slug": "...",
+  "tier": "rpn|rn|np",
+  "duration_minutes": 6,
+  "keywords": ["..."],
+  "script": {
+     "intro": "...",
+     "body": "...",
+     "closing": "...",
+     "clinical_pearls": ["...", "..."]
+  },
+  "slides": [
+     {"title":"...", "body":"...", "speakerNotes":"...", "visualDescription":"..."},
+     ...
+  ],
+  "exam_traps": ["...", "..."],
+  "flashcards": [{"q":"...", "a":"..."}],
+  "questions": [{"stem":"...", "options":["A","B","C","D"], "answer":"B", "rationale":"..."}]
+}
+
+Validate this JSON against a schema. If invalid, automatically retry generation once with strict constraints.
+
+5) Generate PPTX programmatically
+- Use PptxGenJS to create .pptx using slides[].
+- Enforce consistent font sizes, spacing, and NurseNest pastel background shapes.
+- No external images required; use simple clean shapes/lines.
+- Put speaker notes into PPT notes for each slide.
+
+6) Create Admin UI
+Add /admin/microlectures with:
+- “Generate all” button (creates jobs for every lesson x 3 tiers)
+- Progress UI: counts generated/failed/pending
+- Per-lesson controls: Generate, Regenerate, View outputs
+- Filter by system (cardio, resp, neuro, etc.)
+
+7) Create User Lecture Player Pages
+- /lectures (index with filters by system and tier)
+- /lecture/:slug?tier=rn (or separate slug per tier)
+- Display slides (render from PPTX or store slide text as HTML cards)
+- Play audio mp3 with controls
+- If audio missing and no TTS provider, use browser SpeechSynthesis to read the script
+
+8) Access Control
+- RPN content: accessible per membership rules
+- RN: higher tier
+- NP: highest tier
+Use existing auth/subscription gating already in my code.
+
+DELIVERABLES
+- Implement the full feature end-to-end in my repo.
+- Show me the exact files changed/added and where to paste env vars.
+- Include a “Quick Start” section with steps to run locally and generate a sample lecture for one topic first, then run “Generate all”.
+
+IMPORTANT
+Before generating everything, implement a “dry run” mode that generates ONE topic per tier for testing, then enable batch generation.
+
+Now proceed: inspect the repo, locate the lesson list source, design the schema, then implement the generator, pptx builder, TTS integration, admin UI, and lecture player pages.
