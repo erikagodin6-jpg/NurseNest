@@ -1,17 +1,20 @@
 import { Link } from "wouter";
-import { useTheme } from "next-themes";
-import { getThemeLogo } from "@/lib/theme-logos";
+import { brandLogo, getLogoMaskStyle } from "@/lib/theme-logos";
 
 export function Footer() {
-  const { resolvedTheme, theme } = useTheme();
-  const themeLogo = getThemeLogo(resolvedTheme || theme);
+  const logoStyle = getLogoMaskStyle(brandLogo);
 
   return (
     <footer className="bg-white border-t border-primary/10 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <img src={themeLogo.brand} alt="NurseNest" className="h-7 w-auto" />
+            <span
+              role="img"
+              aria-label="NurseNest"
+              className="inline-block h-9 w-[130px]"
+              style={logoStyle}
+            />
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
             <Link href="/terms" className="hover:text-primary transition-colors">Terms of Use</Link>
