@@ -872,7 +872,15 @@ function QuizSection({
 export default function LessonDetail() {
   const { id } = useParams();
   const [, navigate] = useLocation();
-  const [activeTab, setActiveTab] = useState("pretest");
+  const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
+  const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
+  const [activeTab, setActiveTab] = useState(() => {
+    const hidePre = localStorage.getItem("nursenest-hide-pretest") === "true";
+    const hidePost = localStorage.getItem("nursenest-hide-posttest") === "true";
+    if (hidePre && hidePost) return "content";
+    if (hidePre) return "content";
+    return "pretest";
+  });
   const [preTestDone, setPreTestDone] = useState(false);
   const [postTestDone, setPostTestDone] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
@@ -1278,33 +1286,72 @@ export default function LessonDetail() {
             </CardContent>
           </Card>
 
+          <div className="flex items-center justify-end gap-4 mb-2 text-xs text-gray-500" data-testid="test-visibility-toggles">
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={!hidePreTest}
+                onChange={(e) => {
+                  const hide = !e.target.checked;
+                  setHidePreTest(hide);
+                  localStorage.setItem("nursenest-hide-pretest", String(hide));
+                  if (hide && activeTab === "pretest") setActiveTab("content");
+                }}
+                className="rounded border-gray-300 text-primary focus:ring-primary w-3.5 h-3.5"
+                data-testid="toggle-pretest"
+              />
+              Show Pre-Test
+            </label>
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={!hidePostTest}
+                onChange={(e) => {
+                  const hide = !e.target.checked;
+                  setHidePostTest(hide);
+                  localStorage.setItem("nursenest-hide-posttest", String(hide));
+                  if (hide && activeTab === "posttest") setActiveTab("content");
+                }}
+                className="rounded border-gray-300 text-primary focus:ring-primary w-3.5 h-3.5"
+                data-testid="toggle-posttest"
+              />
+              Show Post-Test
+            </label>
+          </div>
+
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full" data-testid="tabs-lesson">
-            <TabsList className="grid w-full grid-cols-3 h-12">
-              <TabsTrigger value="pretest" className="gap-2 text-sm" data-testid="tab-pretest">
-                <BarChart3 className="w-4 h-4" />
-                Pre-Test
-              </TabsTrigger>
+            <TabsList className={`grid w-full h-12 ${hidePreTest && hidePostTest ? "grid-cols-1" : hidePreTest || hidePostTest ? "grid-cols-2" : "grid-cols-3"}`}>
+              {!hidePreTest && (
+                <TabsTrigger value="pretest" className="gap-2 text-sm" data-testid="tab-pretest">
+                  <BarChart3 className="w-4 h-4" />
+                  Pre-Test
+                </TabsTrigger>
+              )}
               <TabsTrigger value="content" className="gap-2 text-sm" data-testid="tab-content">
                 <BookOpen className="w-4 h-4" />
                 Clinical Content
               </TabsTrigger>
-              <TabsTrigger value="posttest" className="gap-2 text-sm" data-testid="tab-posttest">
-                <TrendingUp className="w-4 h-4" />
-                Post-Test
-              </TabsTrigger>
+              {!hidePostTest && (
+                <TabsTrigger value="posttest" className="gap-2 text-sm" data-testid="tab-posttest">
+                  <TrendingUp className="w-4 h-4" />
+                  Post-Test
+                </TabsTrigger>
+              )}
             </TabsList>
 
-            <TabsContent value="pretest" className="mt-6">
-              <QuizSection
-                questions={preTestQuestions}
-                lessonId={id || ""}
-                testType="pretest"
-                onComplete={(score, total) => {
-                  setPreTestDone(true);
-                  trackMilestone("test_complete", { score: Math.round((score / total) * 100) });
-                }}
-              />
-            </TabsContent>
+            {!hidePreTest && (
+              <TabsContent value="pretest" className="mt-6">
+                <QuizSection
+                  questions={preTestQuestions}
+                  lessonId={id || ""}
+                  testType="pretest"
+                  onComplete={(score, total) => {
+                    setPreTestDone(true);
+                    trackMilestone("test_complete", { score: Math.round((score / total) * 100) });
+                  }}
+                />
+              </TabsContent>
+            )}
 
             <TabsContent value="content" className="mt-6">
               <nav className="hidden lg:block fixed left-4 top-1/3 z-30 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 p-3 space-y-1 max-w-[160px]" data-testid="nav-quick-sections">
@@ -1651,28 +1698,30 @@ export default function LessonDetail() {
               </div>
             </TabsContent>
 
-            <TabsContent value="posttest" className="mt-6">
-              <QuizSection
-                questions={postTestQuestions}
-                lessonId={id || ""}
-                testType="posttest"
-                onComplete={(score, total) => {
-                  setPostTestDone(true);
-                  trackMilestone("test_complete", { score: Math.round((score / total) * 100) });
-                  if (user) {
-                    fetch("/api/progress", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        userId: user.id,
-                        lessonId: id,
-                        completed: "true",
-                      }),
-                    }).catch(() => {});
-                  }
-                }}
-              />
-            </TabsContent>
+            {!hidePostTest && (
+              <TabsContent value="posttest" className="mt-6">
+                <QuizSection
+                  questions={postTestQuestions}
+                  lessonId={id || ""}
+                  testType="posttest"
+                  onComplete={(score, total) => {
+                    setPostTestDone(true);
+                    trackMilestone("test_complete", { score: Math.round((score / total) * 100) });
+                    if (user) {
+                      fetch("/api/progress", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          userId: user.id,
+                          lessonId: id,
+                          completed: "true",
+                        }),
+                      }).catch(() => {});
+                    }
+                  }}
+                />
+              </TabsContent>
+            )}
           </Tabs>
         </div>
       </main>
