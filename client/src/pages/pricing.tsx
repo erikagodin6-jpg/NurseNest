@@ -163,7 +163,7 @@ export default function PricingPage() {
       const res = await fetch("/api/stripe/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id, tier: tierId, duration }),
+        body: JSON.stringify({ userId: user.id, tier: tierId, duration, region }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -194,7 +194,7 @@ export default function PricingPage() {
       const res = await fetch("/api/stripe/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id, tier: passId, duration: "one-time" }),
+        body: JSON.stringify({ userId: user.id, tier: passId, duration: "one-time", region }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -352,10 +352,38 @@ export default function PricingPage() {
                               amount={price.toFixed(2)}
                               currency={isCAD ? "CAD" : "USD"}
                               intent="CAPTURE"
-                              onSuccess={(data) => {
+                              onSuccess={async (data) => {
                                 setPaypalTier(null);
-                                toast({ title: "Payment Successful", description: "Your subscription is being activated." });
-                                navigate("/subscription/success");
+                                try {
+                                  const activateRes = await fetch("/api/paypal/activate-subscription", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                      userId: user!.id,
+                                      tier: tier.id,
+                                      paypalOrderId: data?.id || data?.orderID || "unknown",
+                                      username: user!.username,
+                                      password: (JSON.parse(localStorage.getItem("nursenest-user") || "{}")).password || "",
+                                    }),
+                                  });
+                                  if (activateRes.ok) {
+                                    const stored = localStorage.getItem("nursenest-user");
+                                    if (stored) {
+                                      const parsed = JSON.parse(stored);
+                                      parsed.tier = tier.id;
+                                      parsed.subscriptionStatus = "active";
+                                      localStorage.setItem("nursenest-user", JSON.stringify(parsed));
+                                    }
+                                    toast({ title: "Payment Successful", description: "Your subscription is now active!" });
+                                    navigate("/subscription/success?tier=" + tier.id);
+                                  } else {
+                                    toast({ title: "Payment Received", description: "Payment captured but activation pending. Please contact support." });
+                                    navigate("/subscription/success");
+                                  }
+                                } catch {
+                                  toast({ title: "Payment Received", description: "Payment captured. Subscription will be activated shortly." });
+                                  navigate("/subscription/success");
+                                }
                               }}
                               onError={() => {
                                 toast({ title: "Payment Error", description: "PayPal payment failed. Please try again.", variant: "destructive" });

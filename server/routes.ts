@@ -158,7 +158,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   app.post("/api/stripe/create-checkout", async (req, res) => {
     try {
-      const { userId, tier } = req.body;
+      const { userId, tier, duration, region } = req.body;
       const user = await storage.getUser(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
 
@@ -174,13 +174,33 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         customerId = customer.id;
       }
 
-      const priceMap: Record<string, number> = {
-        rpn: 2999,
-        rn: 3999,
-        np: 4999,
-        "lab-values": 999,
-        "med-math": 999,
-        "practice-tools": 1499,
+      const isCAD = region === "CA";
+      const currency = isCAD ? "cad" : "usd";
+
+      const priceTable: Record<string, Record<string, { CAD: number; USD: number }>> = {
+        rpn: {
+          monthly: { CAD: 2999, USD: 2199 },
+          "3-month": { CAD: 7499, USD: 5499 },
+          "6-month": { CAD: 13499, USD: 9999 },
+          yearly: { CAD: 23999, USD: 17999 },
+        },
+        rn: {
+          monthly: { CAD: 3999, USD: 2999 },
+          "3-month": { CAD: 9999, USD: 7499 },
+          "6-month": { CAD: 17999, USD: 13499 },
+          yearly: { CAD: 31999, USD: 23999 },
+        },
+        np: {
+          monthly: { CAD: 4999, USD: 3699 },
+          "3-month": { CAD: 12499, USD: 9499 },
+          "6-month": { CAD: 22499, USD: 16999 },
+          yearly: { CAD: 39999, USD: 29999 },
+        },
+        "lab-values": { monthly: { CAD: 999, USD: 999 } },
+        "med-math": { monthly: { CAD: 999, USD: 999 } },
+        "practice-tools": { monthly: { CAD: 1499, USD: 1499 } },
+        "1-day": { "one-time": { CAD: 499, USD: 399 } },
+        "3-day": { "one-time": { CAD: 999, USD: 799 } },
       };
 
       const tierNames: Record<string, string> = {
@@ -190,12 +210,62 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         "lab-values": "NurseNest Lab Interpretation Unlimited",
         "med-math": "NurseNest Med Math Unlimited",
         "practice-tools": "NurseNest All Practice Tools",
+        "1-day": "NurseNest 1-Day Trial Pass",
+        "3-day": "NurseNest 3-Day Trial Pass",
       };
 
-      const amount = priceMap[tier];
-      if (!amount) return res.status(400).json({ error: "Invalid tier" });
+      const selectedDuration = duration || "monthly";
+      const tierPrices = priceTable[tier];
+      if (!tierPrices) return res.status(400).json({ error: "Invalid tier" });
+
+      const durationPrices = tierPrices[selectedDuration] || tierPrices["monthly"];
+      if (!durationPrices) return res.status(400).json({ error: "Invalid duration" });
+
+      const amount = isCAD ? durationPrices.CAD : durationPrices.USD;
+
+      const intervalMap: Record<string, { interval: "month" | "year"; interval_count: number }> = {
+        monthly: { interval: "month", interval_count: 1 },
+        "3-month": { interval: "month", interval_count: 3 },
+        "6-month": { interval: "month", interval_count: 6 },
+        yearly: { interval: "year", interval_count: 1 },
+      };
+
+      const durationLabels: Record<string, string> = {
+        monthly: "Monthly",
+        "3-month": "3-Month",
+        "6-month": "6-Month",
+        yearly: "Yearly",
+      };
+
+      const recurring = intervalMap[selectedDuration] || intervalMap["monthly"];
+      const durationLabel = durationLabels[selectedDuration] || "Monthly";
 
       const baseUrl = `${req.protocol}://${req.get("host")}`;
+
+      if (selectedDuration === "one-time" || tier === "lab-values" || tier === "med-math" || tier === "practice-tools") {
+        const session = await stripe.checkout.sessions.create({
+          customer: customerId,
+          payment_method_types: ["card"],
+          line_items: [
+            {
+              price_data: {
+                currency,
+                product_data: {
+                  name: tierNames[tier],
+                  description: `One-time access to ${tierNames[tier]}`,
+                },
+                unit_amount: amount,
+              },
+              quantity: 1,
+            },
+          ],
+          mode: "payment",
+          success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
+          cancel_url: `${baseUrl}/pricing`,
+          metadata: { userId: user.id, tier, duration: selectedDuration },
+        });
+        return res.json({ url: session.url });
+      }
 
       const session = await stripe.checkout.sessions.create({
         customer: customerId,
@@ -203,21 +273,21 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         line_items: [
           {
             price_data: {
-              currency: "usd",
+              currency,
               product_data: {
                 name: tierNames[tier],
-                description: `Monthly subscription to ${tierNames[tier]} content`,
+                description: `${durationLabel} subscription to ${tierNames[tier]} content`,
               },
               unit_amount: amount,
-              recurring: { interval: "month" },
+              recurring: { interval: recurring.interval, interval_count: recurring.interval_count },
             },
             quantity: 1,
           },
         ],
         mode: "subscription",
         success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
-        cancel_url: `${baseUrl}/lessons`,
-        metadata: { userId: user.id, tier },
+        cancel_url: `${baseUrl}/pricing`,
+        metadata: { userId: user.id, tier, duration: selectedDuration },
       });
 
       res.json({ url: session.url });
@@ -1159,6 +1229,43 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   app.post("/paypal/order/:orderID/capture", async (req, res) => {
     await capturePaypalOrder(req, res);
+  });
+
+  app.post("/api/paypal/activate-subscription", async (req, res) => {
+    try {
+      const { userId, tier, paypalOrderId, username, password } = req.body;
+      if (!userId || !tier) return res.status(400).json({ error: "userId and tier required" });
+      if (!paypalOrderId) return res.status(400).json({ error: "PayPal order ID required" });
+
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      if (username && password) {
+        if (user.username !== username || user.password !== password) {
+          return res.status(403).json({ error: "Authentication failed" });
+        }
+      }
+
+      if (String(user.id) !== String(userId)) {
+        return res.status(403).json({ error: "User mismatch" });
+      }
+
+      const validTiers = ["rpn", "rn", "np", "1-day", "3-day", "lab-values", "med-math", "practice-tools"];
+      if (!validTiers.includes(tier)) {
+        return res.status(400).json({ error: "Invalid tier" });
+      }
+
+      await storage.updateUserStripeInfo(userId, {
+        subscriptionStatus: "active",
+        tier,
+      });
+
+      console.log(`PayPal subscription activated: user=${userId}, tier=${tier}, paypalOrder=${paypalOrderId}`);
+      res.json({ success: true, tier });
+    } catch (e: any) {
+      console.error("PayPal activation error:", e);
+      res.status(500).json({ error: e.message });
+    }
   });
 
   // --------------------
