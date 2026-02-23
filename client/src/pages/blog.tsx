@@ -59,9 +59,17 @@ function formatDate(d: string | null) {
   });
 }
 
+const TIER_FILTERS = [
+  { key: null, label: "All Articles" },
+  { key: "rpn", label: "RPN/LVN" },
+  { key: "rn", label: "RN" },
+  { key: "np", label: "NP" },
+];
+
 export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
 
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ["/api/content", "blog"],
@@ -91,7 +99,12 @@ export default function BlogPage() {
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (article.summary || "").toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = !selectedCategory || article.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    const matchesTier = !selectedTier ||
+      article.tier === selectedTier ||
+      (article.tags && article.tags.some((t: string) => t.toLowerCase() === selectedTier)) ||
+      (article.title && article.title.toLowerCase().includes(selectedTier === "rpn" ? "rpn" : selectedTier === "rn" ? " rn " : "np")) ||
+      (article.category && article.category.toLowerCase().includes(selectedTier));
+    return matchesSearch && matchesCategory && matchesTier;
   });
 
   const structuredData = {
@@ -129,6 +142,23 @@ export default function BlogPage() {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
               Evidence-based nursing education covering clinical reasoning, pathophysiology, pharmacology, and exam preparation for RPN and RN students.
             </p>
+
+            <div className="flex items-center justify-center gap-2 mb-6" data-testid="section-tier-filters">
+              {TIER_FILTERS.map((tier) => (
+                <button
+                  key={tier.key || "all"}
+                  onClick={() => setSelectedTier(selectedTier === tier.key ? null : tier.key)}
+                  className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                    selectedTier === tier.key || (!selectedTier && !tier.key)
+                      ? "bg-primary text-white shadow-md shadow-primary/25"
+                      : "bg-white text-gray-600 border border-gray-200 hover:border-primary/30 hover:text-primary hover:shadow-sm"
+                  }`}
+                  data-testid={`filter-tier-${tier.key || "all"}`}
+                >
+                  {tier.label}
+                </button>
+              ))}
+            </div>
 
             <div className="relative max-w-lg mx-auto">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />

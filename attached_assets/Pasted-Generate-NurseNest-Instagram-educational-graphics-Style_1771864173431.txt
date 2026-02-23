@@ -1,0 +1,1100 @@
+Generate NurseNest Instagram educational graphics.
+
+Style Requirements:
+- Pastel clinical aesthetic
+- Minimalist design
+- Soft medical color palette
+- High legibility
+- Clean spacing
+- Modern nursing education style
+- No clutter
+- No cartoonish exaggeration
+
+Content Rules:
+- Focus on clinical reasoning
+- Exam-relevant challenges
+- Comparison or decision logic
+- Short text only
+
+
+
+
+
+
+
+
+Generate 30 NurseNest Instagram post concepts.
+
+Objectives:
+- Maximize comments and saves
+- Trigger curiosity and self-assessment
+- Reinforce exam difficulty and realism
+
+Constraints:
+- No promotional hype
+- No emojis
+- Short captions only
+- Clinical reasoning focus
+- Avoid trivial recall questions
+
+Return:
+- Caption text
+- Visual theme
+- Cognitive trigger type
+
+
+
+
+Generate 30 high-engagement NurseNest Instagram posts.
+
+Objectives:
+- Maximize comments and saves
+- Use curiosity and exam psychology
+- Emphasize clinical reasoning
+- Avoid trivial recall questions
+
+Include:
+- Hook line
+- Short scenario
+- Answer options
+- Comment trigger
+
+Constraints:
+- No hype language
+- No emojis
+- Professional clinical tone
+
+
+
+
+
+AI PROMPT — NurseNest Interactive Activity
+Title: Blood Transfusion Compatibility & Transfusion Reactions
+Prompt:
+Create a clinically accurate, exam-level interactive learning module for a nursing education website. The module will teach blood transfusion compatibility and transfusion reactions for REX-PN and NCLEX-RN learners.
+The design must match a modern NurseNest aesthetic:
+• Soft pastel clinical color palette (lavender, soft blue, white, subtle gradients)
+• Rounded UI elements, clean medical dashboard style
+• Professional, minimalistic, NOT cartoonish
+• Clear typography, visually calm, mobile-responsive
+ 
+Functional Requirements
+Build the module as a self-contained React / Next.js component with internal state logic and no external dependencies.
+The activity must contain the following sections:
+ 
+1. ABO & Rh Compatibility Simulator
+Display a randomized patient blood type (A+, O-, AB-, etc.).
+Provide multiple donor blood unit options.
+User selects a donor unit → system evaluates compatibility.
+Rules must be medically correct:
+• O- = universal RBC donor
+• AB+ = universal RBC recipient
+• ABO incompatibility = hemolysis risk
+• Rh mismatch logic included
+Feedback must include:
+• Compatible / incompatible result
+• Clear physiologic rationale
+• Safety explanation written at exam level
+ 
+2. Transfusion Reaction Recognition Challenge
+Generate randomized clinical scenarios including:
+• Time since transfusion start
+• Patient symptoms
+• Vital signs
+Users must identify:
+A) Type of transfusion reaction
+B) Priority nursing action
+Include ONLY clinically correct reactions:
+• Acute hemolytic reaction
+• Febrile non-hemolytic reaction
+• Mild allergic reaction
+• Anaphylactic reaction
+• TACO (circulatory overload)
+• TRALI
+Ensure symptom patterns are accurate:
+• Acute hemolytic → fever, chills, flank pain, hypotension
+• Febrile → fever/chills without hemolysis
+• Allergic → rash, urticaria
+• Anaphylaxis → airway compromise, hypotension
+• TACO → dyspnea, crackles, hypertension
+• TRALI → hypoxia, respiratory distress without fluid overload
+ 
+3. Nursing Intervention Decision Logic
+Require learners to choose actions such as:
+• Stop transfusion
+• Maintain IV with normal saline
+• Notify provider / blood bank
+• Assess vitals
+• Support airway / oxygen
+• Monitor urine output
+Incorrect selections trigger corrective teaching with rationale.
+Correct selections reinforce safety priorities.
+ 
+4. Exam Trap Scenarios
+Include difficult cases that test differentiation:
+• Fever vs hemolytic reaction
+• TACO vs TRALI
+• Itching vs anaphylaxis
+Provide explanation of why distractors are wrong.
+ 
+UX / Behavior Rules
+• Immediate feedback after each decision
+• Score tracking and progress indicator
+• Progressive difficulty option (basic → advanced)
+• Mobile-friendly layout
+• Clean animations (subtle, smooth, modern)
+ 
+Accuracy Constraint (Critical)
+All physiology, compatibility logic, and reactions must be clinically correct and consistent with nursing practice and transfusion safety principles. Avoid oversimplifications that create inaccuracies.
+ 
+Visual Elements
+Include clean medical-style visuals where helpful:
+• ABO compatibility reference grid
+• Reaction comparison cards
+• Priority intervention flow logic
+Graphics must be professional, minimal, pastel clinical style.
+ 
+Output
+Return fully functional React / Next.js code with:
+• Component structure
+• State management
+• Styling consistent with Tailwind CSS
+• No placeholder pseudo-logic
+
+
+
+
+
+
+
+1) MASTER PROMPT (use for every module)
+PROMPT — Master Build Rules (Canada + US + Unit Switching)
+Create an interactive nursing learning module for NurseNest that can run on two sites:
+•	Canada version (REX-PN, NCLEX-RN Canadian learners)
+•	US version (NCLEX-RN, NCLEX-PN)
+Hard Requirements
+1.	Build as a self-contained React/Next.js component using TailwindCSS.
+2.	Must be mobile-first, fast, accessible.
+3.	Must support Country Mode: CA or US (toggle in UI and/or via prop).
+4.	Must support Unit Mode: metric or imperial (toggle in UI and/or via prop).
+o	Units must update everywhere: prompts, answer choices, explanations, calculations, and displayed values.
+5.	Content must be clinically accurate and aligned with safe nursing practice, using exam-style reasoning.
+Unit Conversion & Display Rules
+Implement a single units.ts (or inline helper) with conversions and formatting:
+•	Weight: kg ↔ lb
+•	Height: cm ↔ in/ft
+•	Temperature: °C ↔ °F
+•	Glucose: mmol/L ↔ mg/dL (use 18 factor)
+•	Cholesterol often: mmol/L ↔ mg/dL (factor varies by analyte; if used, avoid unless you implement correct factors)
+•	Creatinine: µmol/L ↔ mg/dL (use 88.4 factor)
+•	BUN/urea: avoid mixing unless you implement correct conversion; prefer creatinine + eGFR context
+•	Hemoglobin: g/L (common CA lab reporting) ↔ g/dL (common US); (g/dL × 10 = g/L)
+•	ABGs: pH, PaCO₂, HCO₃⁻ in standard units; PaO₂ in mmHg (common) — if you show kPa, provide kPa↔mmHg (×7.5006)
+Clinical Localization Rules (CA vs US)
+•	Medication names: if brand names used, show generic first (works for both).
+•	Scope language: use neutral “nurse” language, and when needed show role logic as:
+o	RPN/LPN vs RN vs NP/Provider, without making unsafe legal claims.
+•	Guidelines: avoid quoting country-specific policies unless essential. Focus on universally taught exam principles.
+UX & Pedagogy
+•	Include: scenario cards, immediate feedback, rationale, “why other options are wrong”, score tracking, difficulty levels.
+•	Include an “Exam Tips” panel with common traps.
+•	Include subtle pastel professional design (rounded cards, soft shadows, calm palette).
+•	No external dependencies.
+Return full runnable code.
+ 
+2) MODULE PROMPTS
+Each prompt below assumes you paste the Master Prompt first, then add one module prompt.
+ 
+A) Deteriorating Patient Simulator (Rapid Response / ABCs)
+PROMPT — Deteriorating Patient Simulator
+Build an interactive simulator where the learner monitors a patient whose status changes over time (ticks).
+Scenarios to include (randomized):
+•	Sepsis progression
+•	Acute respiratory failure (asthma/COPD/pneumonia)
+•	Hypovolemia/hemorrhage
+•	Opioid over-sedation
+•	Anaphylaxis
+Data shown:
+•	HR, BP, RR, SpO₂, Temp (unit-switch °C/°F), mental status, urine output (mL/hr), pain
+•	Brief history + meds + allergies
+Learner tasks:
+1.	Identify most urgent problem (ABCs).
+2.	Pick first action (e.g., airway positioning, oxygen, stop opioid, fluids, call rapid response).
+3.	Decide when to escalate (notify provider/rapid response).
+Feedback rules:
+•	Must prioritize lifesaving steps (airway, breathing, circulation).
+•	Explain rationale in exam style.
+•	Include red flags: new confusion, hypotension, rising RR, SpO₂ drop, anaphylaxis signs.
+Include a “Time-to-action” scoring: faster correct actions score higher.
+ 
+B) Oxygen & Respiratory Support Trainer (devices + FiO₂ logic)
+PROMPT — Oxygen Delivery & Respiratory Support
+Create an interactive trainer that shows a patient presentation and asks:
+•	Which oxygen device to choose
+•	What flow rate setting
+•	What to monitor next
+Include:
+•	Nasal cannula, simple mask, Venturi, non-rebreather, high-flow nasal cannula (conceptual), BVM (emergency)
+•	COPD caution: target sats reasoning (present as “per provider order/clinical targets” and explain hypercapnia risk conceptually)
+Use unit switching for:
+•	Temp
+•	If you show ABGs, include mmHg and optionally kPa with correct conversion.
+Add a mini-game: “Match device to scenario” timed rounds.
+ 
+C) Shock Differentiation Challenge
+PROMPT — Shock Types Decision Module
+Build cases with vitals, exam findings, and a few labs (lactate optional). Learner must:
+1.	Choose shock type: hypovolemic, cardiogenic, distributive (septic), obstructive.
+2.	Choose priority intervention.
+3.	Identify the key differentiator clue.
+Include bedside clues:
+•	Skin temp, JVP, crackles, cap refill, mental status, urine output.
+Add “trap” cases:
+•	Sepsis with warm shock vs cardiogenic
+•	PE (obstructive) vs panic/anxiety
+•	Hemorrhage with initially normal BP
+ 
+D) Medication Error Prevention Engine
+PROMPT — Medication Safety & Error Prevention
+Create interactive “near-miss” scenarios:
+•	Wrong patient, wrong dose, allergy, contraindication, high-alert meds, LASA (look-alike sound-alike)
+•	Med reconciliation discrepancies
+•	IV compatibility error
+Learner actions:
+•	Identify the error
+•	Choose safest nursing response
+•	Document/escalate appropriately
+Include dose-check calculations with unit switching:
+•	Weight-based dosing: kg (CA/US both use kg clinically; still support lb entry and convert)
+•	Concentrations, mL/hr
+Must emphasize: verify orders, clarify unsafe orders, patient identification, and safety culture.
+ 
+E) Insulin & Glycemic Control Simulator (with CA/US glucose units)
+PROMPT — Insulin & Glycemic Control (mmol/L ↔ mg/dL)
+Build a simulator with:
+•	Meal timing, glucose readings, ordered insulin regimen (basal/bolus + correction)
+•	Hypoglycemia recognition + treatment decisions
+•	DKA vs HHS recognition (advanced)
+Critical unit rules:
+•	Canada site defaults to mmol/L
+•	US site defaults to mg/dL
+•	Provide unit toggle; show converted values in smaller text optionally.
+Learner chooses:
+•	Which insulin (rapid/short/intermediate/long)
+•	When to administer relative to meals
+•	Treat hypo with appropriate carbs and recheck timing
+Include common exam traps:
+•	Holding insulin when NPO (distinguish basal vs bolus)
+•	Treat low sugar before giving insulin
+•	Unrecognized nocturnal hypoglycemia
+ 
+F) IV Rate & Pump Programming Trainer
+PROMPT — IV Fluids: mL/hr + drip factor
+Create:
+•	Calculation drills: mL/hr, time to infuse, weight-based infusions
+•	Drop factor problems for gravity tubing
+•	Pump programming “fill the fields” simulation
+Unit switching:
+•	Weight conversions for weight-based dosing
+•	Use mL as standard; if you include ounces, do so only in imperial mode and still show mL.
+Add safety checks:
+•	Assess site, infiltration/extravasation cues
+•	High-alert infusion double-check
+ 
+G) ECG Rhythm Recognition Trainer
+PROMPT — ECG Rhythm Trainer + Nursing Response
+Build a rhythm strip interactive module:
+•	Display a simplified rhythm strip (SVG-like; generate with code, no images required)
+•	Learner identifies rhythm: sinus rhythms, AF, SVT, VT, VF, asystole, heart blocks (tiered)
+Then learner chooses:
+•	Immediate nursing response (assess patient first, vitals, call help, prepare defib, etc.)
+Include “patient context” toggles:
+•	Stable vs unstable (BP, LOC, chest pain)
+Avoid country-specific ACLS protocol quoting; teach exam-safe principles:
+•	VF/pulseless VT = emergency, defib/CPR
+•	Symptomatic bradycardia = assess/prepare escalation
+ 
+H) Chest Pain / ACS Decision Simulator
+PROMPT — ACS / Chest Pain Pathway
+Create case-based pathway:
+•	Symptoms + risk factors + ECG description + troponin trend (conceptual)
+•	Learner decides: first nursing action, what to monitor, what to prepare for
+Include traps:
+•	GI mimic vs ACS red flags
+•	STEMI vs NSTEMI concept
+•	Nitroglycerin contraindication concept (e.g., hypotension) without overly prescriptive med orders
+Unit switching:
+•	If you include troponin, avoid numeric unit differences unless you keep it qualitative (“elevated/rising”).
+•	Keep BP in mmHg for both (standard).
+ 
+I) Neuro Assessment & GCS Simulator
+PROMPT — Neuro Assessment + GCS Scoring
+Build:
+•	Interactive GCS calculator: learner selects eye/verbal/motor response → score auto-calculated.
+•	Scenario progression: head injury, stroke, sedation, increased ICP.
+Learner identifies:
+•	Early deterioration signs
+•	When to escalate
+Include:
+•	Pupils, limb strength, speech changes
+•	Cushing triad concept (advanced)
+ 
+J) Stroke Recognition & Priorities
+PROMPT — Stroke FAST + Time-Critical Decisions
+Build scenarios with:
+•	Onset time (last known well)
+•	Neuro deficits
+•	CT “hemorrhage vs no bleed” as a scenario clue (no actual image needed)
+Learner chooses:
+•	Immediate actions: glucose check, airway, call stroke team, NPO, monitor BP per order, etc.
+•	Differentiate ischemic vs hemorrhagic warning signs conceptually.
+Avoid hard guideline thresholds unless you present them as “per protocol/provider order” and keep reasoning focus.
+ 
+K) Electrolyte Imbalance Challenge
+PROMPT — Electrolytes (K, Na, Ca, Mg) + ECG Clues
+Build a quiz engine with:
+•	Lab values + symptoms + ECG hints
+•	Learner identifies electrolyte abnormality and first nursing priority
+Unit rules:
+•	Electrolytes are typically mmol/L in both CA/US, so keep mmol/L.
+•	For glucose include mmol/L↔mg/dL when relevant.
+Must include:
+•	Hyper/hypokalemia dangers and classic ECG patterns (described)
+•	Hypocalcemia tetany, hypercalcemia “stones/bones”
+•	Hyponatremia neuro symptoms
+ 
+L) ABG Interpretation Engine
+PROMPT — ABG Interpretation + Compensation
+Build:
+•	Stepwise ABG interpreter (pH → CO₂ → HCO₃ → compensation)
+•	Cases: COPD retention, DKA, vomiting, sepsis/lactic acidosis, panic hyperventilation
+Units:
+•	Standard ABG units (pH, PaCO₂ mmHg, HCO₃ mEq/L).
+•	Optionally support kPa if unit mode metric is selected; ensure conversion is correct.
+Learner outputs:
+•	Primary disorder
+•	Expected compensation
+•	Priority nursing action
+ 
+M) Priority & Delegation Trainer (RN vs RPN/LPN)
+PROMPT — Prioritization, Delegation & Assignment
+Create interactive “who do you see first / delegate to whom” cases.
+Country mode logic:
+•	Display roles as:
+o	CA: RPN, RN, NP/Provider
+o	US: LPN/LVN, RN, NP/Provider
+Rules (exam-safe, general):
+•	Unstable/assessment/teaching/new orders → RN
+•	Predictable/stable tasks → RPN/LPN under direction
+•	Provider/NP for prescribing/diagnosing
+Include rationales and common traps:
+•	Fresh post-op instability
+•	New chest pain
+•	Abnormal vitals trending worse
+•	Complex IV meds
+ 
+N) Infection Control Breach Simulator
+PROMPT — Infection Prevention & Isolation
+Build a “spot the breach” activity:
+•	Scenario: patient with suspected pathogen
+•	Learner selects: precautions (contact/droplet/airborne), PPE order, room setup
+Include:
+•	Hand hygiene moments
+•	Donning/doffing order
+•	Needle-stick immediate steps
+Avoid jurisdiction-specific policy citations; teach principles.
+ 
+O) Fluid Volume & Dehydration Simulator
+PROMPT — Fluids, Dehydration, Overload
+Create scenarios:
+•	Dehydration from GI losses
+•	HF fluid overload
+•	Burns/third spacing
+•	AKI with poor output
+Learner tasks:
+•	Interpret I&O and vitals
+•	Choose fluid type conceptually (isotonic vs hypotonic vs hypertonic—high-level)
+•	Identify red flags (pulmonary edema, hypotension)
+Unit switching:
+•	Weight changes kg/lb
+•	Temp °C/°F
+•	Output mL/hr (standard)
+ 
+3) ONE “DUAL-SITE” IMPLEMENTATION PROMPT (optional but powerful)
+If you want a single codebase that adapts automatically:
+PROMPT — Build as Configurable Module Pack
+Implement each module as a config-driven engine:
+•	countryMode: "CA" | "US"
+•	unitMode: "metric" | "imperial"
+•	defaults: CA→metric, US→imperial (but allow toggles)
+•	formatters: centralized conversions and display text
+•	content: scenario objects with values stored in SI units internally, converted only at display layer.
+•	MASTER SEO + PLATFORM PROMPT (Paste into EVERY build)
+•	PROMPT — NurseNest Interactive Module with Integrated SEO
+•	Create a clinically accurate, interactive nursing learning module for NurseNest designed for both:
+•	• Canadian nursing learners (REX-PN, NCLEX-RN)
+• American nursing learners (NCLEX-RN, NCLEX-PN)
+•	The module must be implemented as a self-contained React / Next.js component using TailwindCSS with no external dependencies.
+•	 
+•	🌐 Localization & Units (Critical)
+•	Implement:
+•	• countryMode: "CA" | "US"
+• unitMode: "metric" | "imperial"
+•	Defaults:
+•	• Canada → metric
+• US → imperial
+•	Units must dynamically update across:
+•	✔ Vital signs
+✔ Lab values
+✔ Explanations
+✔ Questions
+✔ Calculations
+•	Include proper conversions where relevant:
+•	• °C ↔ °F
+• kg ↔ lb
+• mmol/L ↔ mg/dL (glucose)
+• µmol/L ↔ mg/dL (creatinine)
+•	 
+•	🎯 Pedagogical Rules
+•	• Focus on clinical judgment & exam-style reasoning
+• Provide immediate feedback
+• Include rationales for correct & incorrect answers
+• Include difficulty scaling
+• Clean, modern pastel NurseNest UI (rounded cards, soft clinical palette)
+•	 
+•	🔎 Integrated SEO Requirements (Non-Negotiable)
+•	Generate content with semantic SEO structure:
+•	Page Metadata
+•	Generate:
+•	• SEO title (high-intent keywords)
+• Meta description (CTR-optimized)
+• Canonical-friendly slug
+• Open Graph description
+•	Target Keywords
+•	Naturally incorporate:
+•	• Primary keywords
+• Secondary keywords
+• Long-tail search phrases nursing students use
+•	Avoid keyword stuffing; maintain natural language.
+•	 
+•	Header Structure
+•	Use proper hierarchy:
+•	• H1 – Core topic keyword
+• H2 – Subtopics aligned with exam searches
+• H3 – Specific clinical concepts
+•	 
+•	Search Intent Optimization
+•	Content must satisfy:
+•	✔ Exam preparation intent
+✔ Clinical reasoning intent
+✔ “Symptoms / interventions / priorities” queries
+•	 
+•	Internal Linking Suggestions
+•	Generate contextual internal link placeholders:
+•	Example:
+•	[Review Electrolyte Disorders Module]
+[Practice ABG Interpretation Scenarios]
+•	 
+•	Rich Content Signals
+•	Include structured educational elements:
+•	✔ Clinical pearls
+✔ Exam traps
+✔ Safety alerts
+✔ Decision frameworks
+•	 
+•	Return fully functional component code + SEO metadata.
+•	 
+•	 
+•	🧠 1. FIRST ACTION / PRIORITIZATION SIMULATOR
+•	PROMPT — First Nursing Action Clinical Simulator (SEO Optimized)
+•	Put this in each nursing tier as this is a paid option and relate each tier to the scope of practice – RPN gets stable patients, RN can have more unstable patients/ICU/Emergency, NP tier includes diagnosis and prescription of medications 
+•	Build an interactive module titled:
+•	“First Nursing Action – Clinical Prioritization & Decision Making”
+•	SEO Focus:
+•	Target high-intent queries such as:
+•	• first nursing action questions
+• nursing prioritization scenarios
+• NCLEX priority questions
+• REX-PN clinical judgment
+•	 
+•	Module Logic
+•	Present randomized clinical scenarios with:
+•	✔ Vitals
+✔ Symptoms
+✔ Brief history including patient allergies and comorbidities 
+•	Learner must choose:
+•	“What is the FIRST nursing action?”
+•	Include common exam traps:
+•	• Assessment vs intervention confusion
+• Airway vs circulation errors
+• Stable vs unstable misjudgments
+•	 
+•	Feedback System
+•	Explain:
+•	✔ Why correct answer is priority
+✔ Why distractors are unsafe or delayed
+•	Include “Exam Strategy Tips” section.
+•	 
+•	 
+•	⚠️ 2. SAFETY & HAZARD DETECTION ENGINE
+•	PROMPT — Nursing Safety & Hazard Detection Activity (SEO Optimized)
+•	Create an interactive hazard detection simulation.
+•	This goes in the free section
+•	SEO Targets:
+•	• nursing safety scenarios
+• identify patient safety risks
+• NCLEX safety questions
+• hospital hazard identification
+•	 
+•	Mechanics
+•	Display clinical environments where learners click hazards:
+•	✔ Fall risks
+✔ Oxygen errors
+✔ IV complications
+✔ Infection breaches
+✔ Medication dangers
+•	 
+•	Teaching Logic
+•	Each hazard clicked → show:
+•	✔ Risk explanation
+✔ Potential patient harm
+✔ Correct nursing action
+•	 
+•	 
+•	💉 3. IV COMPLICATIONS & LINE MANAGEMENT
+•	PROMPT — IV Complications & Line Safety Simulator (SEO Optimized)
+•	This goes in the free section 
+•	SEO Targets:
+•	• IV infiltration vs extravasation
+• IV complications nursing
+• phlebitis signs
+• IV therapy safety
+•	 
+•	Include scenarios for:
+•	✔ Infiltration
+✔ Extravasation
+✔ Phlebitis
+✔ Infection
+✔ Fluid overload
+•	Learner selects:
+•	✔ Identify complication
+✔ First intervention
+•	 
+•	 
+•	❤️ 4. CARDIAC MEDICATION DECISION CHALLENGES
+•	PROMPT — Cardiac Medication Nursing Decisions (SEO Optimized)
+•	This goes in the paid section (in each tier) 
+•	SEO Targets:
+•	• cardiac medications nursing questions
+• when to hold beta blockers
+• antihypertensive nursing considerations
+• NCLEX cardiac pharmacology
+•	 
+•	Include:
+•	✔ Vital sign interpretation
+✔ Hold vs give decisions
+✔ Contraindication traps
+•	 
+•	 
+•	🫁 5. RESPIRATORY SOUNDS RECOGNITION
+•	PROMPT — Lung Sounds & Nursing Priorities Trainer (SEO Optimized)
+•	SEO Targets:
+•	• lung sounds nursing
+• crackles vs wheezes
+• abnormal breath sounds
+• respiratory assessment NCLEX
+•	 
+•	Interactive features:
+•	✔ Play audio clips
+✔ Identify sound
+✔ Choose priority intervention
+•	 
+•	 
+•	🧪 6. LAB TREND INTERPRETATION ENGINE
+•	PROMPT — Lab Value Trends & Clinical Interpretation (SEO Optimized)
+•	SEO Targets:
+•	• lab values nursing interpretation
+• rising creatinine meaning
+• abnormal labs NCLEX
+• nursing lab trends
+•	 
+•	Learners interpret sequential labs → identify concern & priority.
+•	 
+•	 
+•	🏥 7. POST-OPERATIVE COMPLICATION TIMELINE
+•	PROMPT — Post-Operative Complication Timing Simulator (SEO Optimized)
+•	SEO Targets:
+•	• post op complications nursing
+• immediate vs early complications
+• NCLEX post operative questions
+•	 
+•	Learners match complications to time windows.
+•	 
+•	 
+•	🧬 8. ACID-BASE & ELECTROLYTE INTEGRATION
+•	PROMPT — Acid-Base & Electrolyte Clinical Cases (SEO Optimized)
+•	SEO Targets:
+•	• ABG interpretation nursing
+• metabolic vs respiratory acidosis
+• electrolyte imbalance scenarios
+•	 
+•	Combine ABGs + labs + symptoms.
+•	 
+•	 
+•	⏱ 9. RAPID-FIRE NURSING JUDGMENT MODE
+•	PROMPT — Rapid-Fire NCLEX / REX-PN Challenge Mode (SEO Optimized)
+•	SEO Targets:
+•	• NCLEX practice questions
+• REX-PN quiz
+• nursing exam practice
+•	Gamified timed decision engine.
+•	 
+•	 
+•	🧩 10. “WHAT CHANGED?” DETECTION GAME
+•	PROMPT — Clinical Change Detection Simulator (SEO Optimized)
+•	SEO Targets:
+•	• recognizing patient deterioration
+• subtle clinical changes nursing
+•	Show baseline vs updated patient → identify priority change.
+
+
+
+
+
+
+
+AI PROMPT — Pharmacology Clinical Reasoning Game
+Title: Medication Effects & Side Effects Clinical Judgment Game
+Prompt:
+Create a clinically accurate, interactive pharmacology learning game, not a static quiz, for a nursing education platform (NurseNest). The game must train nursing students to recognize:
+• Expected medication effects
+• Dangerous side effects
+• Hold parameters
+• Nursing priorities
+• Medication class patterns
+The module must be implemented as a self-contained React / Next.js component using TailwindCSS with a modern pastel NurseNest design (soft clinical palette, rounded UI, professional appearance, mobile-first).
+ 
+🌎 Localization & Units (Critical)
+Implement:
+• countryMode: "CA" | "US"
+• unitMode: "metric" | "imperial"
+Defaults:
+• Canada → metric
+• US → imperial
+Units must dynamically adjust for:
+✔ Blood pressure interpretation
+✔ Glucose (mmol/L ↔ mg/dL)
+✔ Weight-based dosing (kg ↔ lb input)
+✔ Lab values where relevant
+Medication names must use generic drug names first, avoiding country-specific brand bias.
+ 
+🎮 Game Mechanics (Very Important)
+Design as a clinical decision game with progressive difficulty.
+Gameplay loop:
+1.	Present a patient scenario including:
+o	Diagnosis / condition
+o	Vital signs
+o	Current medication order
+2.	Ask learner to identify:
+✔ What effect should be expected
+✔ What side effect is most concerning
+✔ Whether medication should be given or held
+✔ Priority nursing action
+ 
+🧠 Question Types to Include
+Randomized question engines:
+A) Expected Effect Recognition
+Example:
+“Patient receiving furosemide. Which finding is expected?”
+✔ Increased urine output
+✔ Hypokalemia risk
+✔ Blood pressure reduction
+ 
+B) Dangerous Side Effect Detection
+Example:
+“Which finding requires immediate action?”
+✔ Severe hypotension
+✔ Angioedema
+✔ Bradycardia
+✔ Hypoglycemia
+ 
+C) Hold vs Give Decisions (High-Value)
+Example:
+“Metoprolol ordered. HR = 48. What is the best action?”
+ 
+D) Medication Class Pattern Matching
+Learners recognize drug families:
+✔ Beta-blockers
+✔ ACE inhibitors
+✔ Diuretics
+✔ Calcium channel blockers
+✔ Insulins
+✔ Anticoagulants
+ 
+🏥 Medication Categories (High-Yield Only)
+Include medications most tested on exams:
+✔ Antihypertensives
+✔ Diuretics
+✔ Cardiac drugs
+✔ Insulins
+✔ Anticoagulants
+✔ Opioids
+✔ Steroids
+✔ Bronchodilators
+✔ Thyroid medications
+Avoid obscure or rarely tested drugs.
+ 
+⚠️ Clinical Accuracy Constraints (Critical)
+All pharmacology must be clinically correct and exam-safe:
+✔ No unsafe simplifications
+✔ No fictional side effects
+✔ No incorrect contraindications
+Side effects and actions must reflect nursing exam logic.
+ 
+🧩 Feedback & Teaching Logic
+After each answer:
+✔ Explain why correct answer is correct
+✔ Explain why distractors are wrong
+✔ Highlight common exam traps
+✔ Provide clinical safety insight
+ 
+⏱ Engagement Features
+Include:
+✔ Score tracking
+✔ Streak bonuses
+✔ Difficulty progression
+✔ Timed challenge mode
+✔ “Exam Trap Alerts”
+ 
+🔎 Integrated SEO Requirements (Non-Negotiable)
+Automatically generate:
+Metadata
+• SEO title (high-intent pharmacology keywords)
+• Meta description
+• Slug
+Target search phrases such as:
+• pharmacology for nursing students
+• medication side effects nursing
+• NCLEX medication questions
+• REX-PN pharmacology practice
+ 
+Semantic Structure
+Use search-optimized headers:
+H1 – Pharmacology / Medication Core Topic
+H2 – Side Effects / Nursing Priorities / Hold Parameters
+H3 – Drug Class Patterns
+ 
+Search Intent Matching
+Content must satisfy:
+✔ Exam preparation intent
+✔ Medication safety reasoning
+✔ Clinical judgment logic
+ 
+🎨 Visual Design Rules
+Style:
+✔ Pastel clinical color system
+✔ Clean medical UI
+✔ Modern micro-interactions
+✔ No cartoon style
+Optional visuals:
+✔ Drug class comparison cards
+✔ Side effect severity indicators
+ 
+Output Requirements
+Return:
+✔ Fully functional React / Next.js code
+✔ Internal state logic
+✔ Tailwind styling
+✔ Game mechanics implemented
+✔ SEO metadata included
+No placeholder logic.
+MASTER AI PROMPT — NurseNest Hotspot Clinical Game Generator
+Prompt Title:
+Interactive Hotspot Clinical Judgment Game – NurseNest
+Prompt:
+Create a clinically accurate interactive hotspot game for a nursing education platform (NurseNest). The game must train nursing students to visually identify clinical findings, safety risks, assessment priorities, or errors by clicking directly on an image.
+The output must be designed as a self-contained React / Next.js component using TailwindCSS with internal state logic.
+ 
+🎨 Visual & Branding Rules (Critical)
+Generate or assume an image with the following style:
+• Clean medical illustration
+• Soft pastel clinical color palette (lavender, soft blues, white, neutral tones)
+• Modern, minimalistic UI aesthetic
+• Rounded interface elements
+• Professional medical education style
+• NOT cartoonish or childish
+• Clear visual hierarchy
+• Optimized for mobile screens
+Scene must be visually clear and uncluttered.
+ 
+🌎 Localization & Units (Required)
+Implement:
+• countryMode: "CA" | "US"
+• unitMode: "metric" | "imperial"
+Defaults:
+• Canada → metric
+• US → imperial
+Units must dynamically adjust wherever displayed:
+✔ Vital signs (°C ↔ °F)
+✔ Weight (kg ↔ lb)
+✔ Glucose (mmol/L ↔ mg/dL)
+✔ Lab values where applicable
+ 
+🧠 Game Mechanics (Non-Negotiable)
+The activity must NOT be passive.
+Implement true hotspot interaction:
+• Display image/scene
+• Capture user click coordinates
+• Compare click position to predefined hotspot regions
+• Provide immediate feedback
+Hotspots must include:
+✔ Correct targets
+✔ Incorrect distractor areas
+✔ Educational feedback
+ 
+🏥 Scenario Generator (Dynamic)
+Generate a nursing-relevant clinical scenario:
+Examples:
+• Patient safety hazards
+• IV complications
+• Medication errors
+• Respiratory assessment findings
+• Neuro deficits
+• Isolation/PPE breaches
+• Skin breakdown risks
+• Cardiac monitoring abnormalities
+Scene type:
+[INSERT SCENARIO TYPE HERE]
+ 
+🎯 Learner Objective
+User must perform a visually driven task such as:
+✔ Identify safety risks
+✔ Locate abnormal assessment findings
+✔ Detect equipment errors
+✔ Select priority concern areas
+✔ Find clinical deterioration clues
+ 
+⚠️ Clinical Accuracy Constraint (Critical)
+All clinical elements must be medically correct and consistent with nursing practice and licensing exam logic.
+Avoid:
+✘ Fictional physiology
+✘ Unsafe clinical advice
+✘ Incorrect vital sign interpretations
+ 
+🧩 Feedback & Teaching Logic
+When learner clicks:
+Correct Hotspot:
+✔ Confirm correct identification
+✔ Explain clinical significance
+✔ Provide exam-relevant rationale
+Incorrect Hotspot:
+✔ Explain why incorrect
+✔ Clarify common misconception
+✔ Reinforce correct reasoning
+Include “Exam Trap” style corrections.
+ 
+⏱ Engagement Features
+Include:
+✔ Score tracking
+✔ Attempts counter
+✔ Success feedback
+✔ Difficulty scaling option
+✔ Subtle animations
+ 
+🔎 Integrated SEO Generation (Very Important)
+Automatically generate:
+SEO Title
+Use high-intent nursing search phrasing.
+Example patterns:
+• “Identify Patient Safety Risks – Nursing Clinical Game”
+• “IV Complications Hotspot Quiz for NCLEX & REX-PN”
+• “Find the Medication Errors – Nursing Safety Simulation”
+ 
+Meta Description
+Optimized for exam-seeking students.
+ 
+Semantic Header Structure
+H1 – Core searchable topic
+H2 – Clinical skill focus
+H3 – Scenario-specific concepts
+ 
+Keyword Strategy
+Naturally include search phrases nursing students use.
+Examples:
+• nursing safety scenarios
+• NCLEX practice
+• REX-PN preparation
+• nursing clinical judgment
+• assessment priorities
+Avoid keyword stuffing.
+ 
+🧱 Technical Requirements
+Return:
+✔ Functional React / Next.js code
+✔ Hotspot coordinate logic
+✔ Click detection system
+✔ Tailwind styling
+✔ No placeholder pseudo-logic
+Hotspots defined programmatically.
+Example logic style:
+const hotspots = [
+  { id: "correct_1", x: ___, y: ___, radius: ___, isCorrect: true },
+  { id: "distractor_1", x: ___, y: ___, radius: ___, isCorrect: false }
+];
+ 
+ 
+
+1. Patient Room Safety Hazards (Extremely High ROI)
+Scene Concept:
+Medical-surgical inpatient room with subtle safety risks.
+Hotspots to include:
+✔ Bed height incorrect
+✔ Call bell out of reach
+✔ Cluttered floor / cords
+✔ Missing fall precautions
+✔ Oxygen tubing hazard
+✔ Side rails misuse
+Why this works:
+✔ Huge NCLEX / REX-PN category
+✔ Highly intuitive gameplay
+✔ Excellent for new users
+ 
+💉 2. IV Site Complication Detection
+Scene Concept:
+Patient arm with peripheral IV.
+Hotspots:
+✔ Infiltration signs
+✔ Phlebitis indicators
+✔ Normal site (distractor)
+✔ Dislodged catheter
+✔ Infection clues
+Exam traps:
+✔ Swelling vs redness differentiation
+✔ Pain vs normal discomfort confusion
+ 
+🫁 3. Oxygen Setup & Delivery Errors
+Scene Concept:
+Patient receiving oxygen therapy.
+Hotspots:
+✔ Incorrect device selection
+✔ Flow rate mismatch
+✔ Disconnected tubing
+✔ Empty humidifier
+✔ COPD risk trap
+✔ Proper setup distractor
+High-value reasoning skill.
+ 
+💊 4. Medication Administration Error Scene
+Scene Concept:
+Medication tray + MAR + patient wristband.
+Hidden issues:
+✔ Wrong patient risk
+✔ Allergy conflict
+✔ Dose error
+✔ Look-alike drug trap
+✔ Expired medication
+✔ Incorrect route
+Very strong exam relevance.
+ 
+🧪 5. Critical Lab Value Recognition
+Scene Concept:
+Digital chart / lab panel.
+Hotspots:
+✔ Dangerous potassium
+✔ Critical glucose (unit-switched)
+✔ Rising creatinine
+✔ Mild abnormal distractor
+✔ Trend-based danger
+Targets one of the largest exam failure domains.
+ 
+🧠 6. Neuro Deterioration Recognition Scene
+Scene Concept:
+Post-head injury patient.
+Hotspots:
+✔ Unequal pupils
+✔ Decreased LOC
+✔ Abnormal posturing
+✔ Vital sign red flags
+✔ Benign findings distractors
+Tests early recognition logic.
+ 
+❤️ 7. Fluid Overload vs Dehydration
+Scene Concept:
+Patient assessment view.
+Clickable findings:
+✔ Edema
+✔ Dry mucous membranes
+✔ Crackles
+✔ Hypotension
+✔ Weight change
+✔ Misleading distractors
+Excellent for clinical reasoning training.
+ 
+🚨 8. Transfusion Reaction Early Detection
+Scene Concept:
+Blood transfusion in progress.
+Hotspots:
+✔ Fever/chills
+✔ Flank pain cue
+✔ Hypotension
+✔ Mild itching distractor
+✔ Back pain clue
+✔ Correct nursing action triggers
+Extremely exam-relevant.
+ 
+🏥 9. Isolation Precautions & PPE Errors
+Scene Concept:
+Isolation room entry scene.
+Hotspots:
+✔ Wrong PPE order
+✔ Missing equipment
+✔ Incorrect signage
+✔ Contamination risks
+✔ Proper PPE distractor
+Very strong NCLEX category.
+ 
+👶 10. Postpartum Hemorrhage Recognition
+Scene Concept:
+Immediate postpartum patient.
+Hotspots:
+✔ Excessive bleeding cues
+✔ Boggy uterus clue
+✔ Vital sign instability
+✔ Normal lochia distractor
+✔ Delayed recognition traps
+Very strong perceived exam value.
+ 
+⭐ BONUS HIGH-ENGAGEMENT SCENE IDEAS (Highly Recommended)
+If expanding further, these perform extremely well:
+ 
+🫀 11. ECG Monitor & Alarming Rhythm
+User clicks:
+✔ Lethal rhythm indicators
+✔ Artifact distractors
+✔ Vital sign clues
+ 
+🧬 12. Endocrine Crisis Recognition (DKA vs Hypoglycemia)
+Hotspots:
+✔ Fruity breath clue
+✔ Mental status changes
+✔ Lab hints
+✔ Misleading symptoms
+ 
+⚕️ 13. Pressure Injury Risk Scene
+Patient positioning + skin:
+✔ Bony prominences
+✔ Incorrect positioning
+✔ Moisture risks
+✔ Preventable hazards
+ 
+🫁 14. Respiratory Distress Escalation
+Clickable:
+✔ Accessory muscle use
+✔ Silent hypoxia clues
+✔ Anxiety distractors
+ 
+💊 15. High-Alert Medication Safety Check
+Hotspots:
+✔ Insulin errors
+✔ Anticoagulant risks
+✔ Pump programming mismatch

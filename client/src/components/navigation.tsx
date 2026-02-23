@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
+import { GlobalSearch } from "@/components/global-search";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -565,6 +566,7 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
+            <GlobalSearch />
             <div className="flex items-center bg-primary/5 rounded-full p-0.5 sm:p-1 border border-primary/10">
               <Button 
                 variant="ghost" 
