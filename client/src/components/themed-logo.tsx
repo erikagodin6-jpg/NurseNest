@@ -102,19 +102,72 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
       ctx.putImageData(imageData, 0, 0);
 
       const pad = 4;
-      const cx = Math.max(0, minX - pad);
       const cy = Math.max(0, minY - pad);
-      const cw = Math.min(w - cx, maxX - minX + 1 + pad * 2);
       const ch = Math.min(h - cy, maxY - minY + 1 + pad * 2);
 
-      const cropCanvas = document.createElement("canvas");
-      cropCanvas.width = cw;
-      cropCanvas.height = ch;
-      const cropCtx = cropCanvas.getContext("2d");
-      if (!cropCtx) return;
-      cropCtx.drawImage(canvas, cx, cy, cw, ch, 0, 0, cw, ch);
+      const colHasContent: boolean[] = new Array(w).fill(false);
+      for (let x = minX; x <= maxX; x++) {
+        for (let y = minY; y <= maxY; y++) {
+          const a = data[(y * w + x) * 4 + 3];
+          if (a > 0) {
+            colHasContent[x] = true;
+            break;
+          }
+        }
+      }
 
-      setDataUrl(cropCanvas.toDataURL("image/png"));
+      let gapStart = -1;
+      let gapEnd = -1;
+      let longestGapStart = -1;
+      let longestGapLen = 0;
+      for (let x = minX; x <= maxX; x++) {
+        if (!colHasContent[x]) {
+          if (gapStart === -1) gapStart = x;
+          gapEnd = x;
+        } else {
+          if (gapStart !== -1) {
+            const gapLen = gapEnd - gapStart + 1;
+            if (gapLen > longestGapLen) {
+              longestGapLen = gapLen;
+              longestGapStart = gapStart;
+            }
+          }
+          gapStart = -1;
+        }
+      }
+
+      const desiredGap = 6;
+
+      if (longestGapLen > desiredGap && longestGapStart > minX) {
+        const leftEnd = longestGapStart;
+        const rightStart = longestGapStart + longestGapLen;
+        const leftWidth = leftEnd - minX;
+        const rightWidth = maxX - rightStart + 1;
+        const totalWidth = leftWidth + desiredGap + rightWidth;
+
+        const cropCanvas = document.createElement("canvas");
+        cropCanvas.width = totalWidth + pad * 2;
+        cropCanvas.height = ch;
+        const cropCtx = cropCanvas.getContext("2d");
+        if (!cropCtx) return;
+
+        cropCtx.drawImage(canvas, minX, cy, leftWidth, ch, pad, 0, leftWidth, ch);
+        cropCtx.drawImage(canvas, rightStart, cy, rightWidth, ch, pad + leftWidth + desiredGap, 0, rightWidth, ch);
+
+        setDataUrl(cropCanvas.toDataURL("image/png"));
+      } else {
+        const cx = Math.max(0, minX - pad);
+        const cw = Math.min(w - cx, maxX - minX + 1 + pad * 2);
+
+        const cropCanvas = document.createElement("canvas");
+        cropCanvas.width = cw;
+        cropCanvas.height = ch;
+        const cropCtx = cropCanvas.getContext("2d");
+        if (!cropCtx) return;
+        cropCtx.drawImage(canvas, cx, cy, cw, ch, 0, 0, cw, ch);
+
+        setDataUrl(cropCanvas.toDataURL("image/png"));
+      }
     };
     img.src = brandLogo;
   }, [primaryColor]);
