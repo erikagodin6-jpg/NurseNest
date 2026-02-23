@@ -246,7 +246,7 @@ export function Navigation() {
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-72 bg-white p-5">
+      <SheetContent side="left" className="w-72 bg-white p-5 overflow-y-auto">
         <SheetHeader className="mb-6">
           <SheetTitle className="text-left flex items-center gap-2">
             <span

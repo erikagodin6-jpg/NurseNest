@@ -50,6 +50,7 @@ import ElectrolyteABGSimulatorPage from "@/pages/electrolyte-abg-simulator";
 import DeterioratingPatientSimulatorPage from "@/pages/deteriorating-patient-simulator";
 import BloodTransfusionSimulatorPage from "@/pages/blood-transfusion-simulator";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
+import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
 function PageTracker() {
@@ -168,6 +169,7 @@ function App() {
             <CopyProtection />
             <Router />
             <UpgradePrompt />
+            <PWAInstallPrompt />
           </TooltipProvider>
         </AuthProvider>
       </ThemeProvider>
