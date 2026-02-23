@@ -14,3 +14,39 @@ export interface ExamQuestion {
   s: string;
   dr?: string[];
 }
+
+export type Difficulty = 1 | 2 | 3;
+export type BloomLevel = "recall" | "understanding" | "application" | "analysis";
+export type BankCourse = "anatomy" | "pre-nursing" | "bls" | "pals" | "acls";
+
+export interface BankQuestion {
+  id: string;
+  course: BankCourse;
+  topic: string;
+  subtopic: string;
+  stem: string;
+  options: string[];
+  correctAnswer?: number;
+  correctAnswers?: number[];
+  correctOrder?: number[];
+  type: QuestionType;
+  rationaleCorrect: string;
+  rationaleIncorrect: string[];
+  difficulty: Difficulty;
+  bloomLevel: BloomLevel;
+  clinicalCorrelation: string;
+  references: string[];
+  tags: string[];
+  estimatedTimeSeconds: number;
+}
+
+export interface ExamForm {
+  examId: string;
+  title: string;
+  course: BankCourse;
+  timeLimitMinutes: number;
+  passMark: number;
+  blueprintSummary: Record<string, number>;
+  sections: { topic: string; n: number }[];
+  questionIds: string[];
+}

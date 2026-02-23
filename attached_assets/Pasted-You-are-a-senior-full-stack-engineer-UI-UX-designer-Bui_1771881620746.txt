@@ -1,0 +1,140 @@
+You are a senior full-stack engineer + UI/UX designer.
+
+Build a Printable Lab Values Reference page for my nursing education website.
+
+CRITICAL BRANDING REQUIREMENTS (NON-NEGOTIABLE)
+
+1) The printable output (browser print AND PDF export) MUST include:
+
+- NurseNest logo at the top
+- Website name: NurseNest
+- Website URL: www.nursenest.ca
+- Optional subtitle: "Lab Values Reference"
+- A professional header layout suitable for academic use
+- A footer on every printed page containing:
+    www.nursenest.ca | NurseNest Educational Reference | Date Generated
+
+2) Branding rules:
+
+- Logo visible on screen AND print
+- Header must repeat on each printed page if content spans multiple pages
+- Footer must repeat on each printed page
+- Print layout must work for BOTH:
+    - A4 (Canada)
+    - US Letter (USA)
+
+3) Logo behavior:
+
+- Create a reusable LogoHeader component
+- Logo should be left-aligned or centered with clean spacing
+- Use placeholder logo asset if none exists, but structure code so I can replace with my NurseNest logo file easily
+- Do NOT embed external URLs for the logo — reference local asset (e.g., /public/logo.png)
+
+PAGE FUNCTIONALITY
+
+Create a single page at:
+
+/free/lab-values
+
+The page must:
+
+- Display common lab reference ranges
+- Support BOTH SI units (Canada) and Conventional units (USA)
+- Provide unit toggle:
+    - SI Only
+    - USA Only
+    - Both
+
+Include table columns:
+
+Test | SI Range | USA Range | Clinical Interpretation Pearls
+
+CLINICAL SAFETY TEXT (REQUIRED)
+
+At top of page AND in print header:
+
+"Reference ranges vary by laboratory, analyzer, patient population, and institution. Always use local laboratory standards and clinical context."
+
+PRINT STYLESHEET (VERY IMPORTANT)
+
+Implement print-specific CSS:
+
+- Hide navigation, buttons, controls
+- Preserve logo + header + footer
+- High contrast (black text on white background)
+- Avoid awkward page breaks
+- Prevent table rows from splitting
+- Add page margins appropriate for printing
+- Ensure typography remains readable when printed
+
+HEADER / FOOTER PRINT LOGIC
+
+- Header must appear on EVERY printed page
+- Footer must appear on EVERY printed page
+- Footer includes dynamic date generated
+- Use proper CSS print rules (@media print)
+
+PDF EXPORT
+
+Add:
+
+"Download PDF" button
+
+Behavior:
+
+- Export the EXACT same branded print layout
+- Preserve logo + header + footer
+- Work reliably on Replit
+
+DATA STRUCTURE
+
+Create JSON dataset:
+
+/content/labs/adultLabValues.json
+
+Each lab entry must include:
+
+- test
+- si.unit + si.range
+- usa.unit + usa.range
+- pearls[]
+- notes (optional)
+
+CONTENT SECTIONS (MINIMUM)
+
+CBC
+Electrolytes
+Renal
+Liver
+Coagulation
+ABGs (mmHg + kPa)
+Cardiac (with assay variability notes)
+Endocrine
+Critical values note
+
+UI DESIGN REQUIREMENTS
+
+On-screen:
+
+- Clean, modern, premium educational design
+- Consistent with NurseNest aesthetic
+- Soft pastel accents allowed on screen only
+
+Printed:
+
+- Professional academic reference look
+- Minimal color usage
+- Clean table formatting
+
+DELIVERABLES
+
+Provide:
+
+- All code files with paths
+- Print CSS
+- Header + Footer components
+- Sample logo placeholder
+- JSON dataset populated
+- README explaining how to replace logo and edit labs
+
+Now implement this.

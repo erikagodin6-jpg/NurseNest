@@ -1,0 +1,121 @@
+MASTER PROMPT FOR REPLIT AI – Clinical Sounds + OSCE Assessment Modules
+Paste this exactly into Replit AI:
+PROMPT START
+Build a modern, production-ready web module system for my nursing education platform. The modules must be clinically accurate, visually clean, and designed for nursing students preparing for OSCEs, clinical labs, and licensure exams (REX-PN, NCLEX, RN, NP).
+Use a minimal, modern UI consistent with a soft clinical aesthetic (clean layout, rounded cards, subtle pastel accents, high readability, no cartoonish styling).
+Create the following interactive modules:
+MODULE 1 – Lung Sounds Training Lab
+Create an interactive lung auscultation training tool.
+Include:
+• High-quality audio playback for each sound
+• Clearly labeled anatomical auscultation locations on a chest diagram
+• Clickable hotspots for listening
+• Clinical explanations written at nursing school level
+Sounds to include:
+• Normal vesicular breath sounds
+• Bronchial breath sounds
+• Crackles (fine and coarse)
+• Wheezes
+• Rhonchi
+• Stridor
+• Pleural friction rub
+For each sound provide:
+• Pathophysiology mechanism
+• Common causes
+• Clinical significance
+• Nursing assessment implications
+• Common OSCE mistakes
+Add a self-test mode where users hear a random sound and must identify it.
+MODULE 2 – Heart Sounds Training Lab
+Create an interactive cardiac auscultation simulator.
+Include:
+• Anatomical cardiac listening sites (Aortic, Pulmonic, Erb’s point, Tricuspid, Mitral)
+• Clickable hotspots on a chest diagram
+• Audio playback
+• Clinical teaching content
+Sounds to include:
+• Normal S1 / S2
+• S3 and S4
+• Systolic murmur
+• Diastolic murmur
+• Pericardial friction rub
+For each sound explain:
+• Hemodynamic mechanism
+• Valve or ventricular physiology involved
+• Associated conditions
+• Nursing implications
+• OSCE interpretation tips
+Include quiz mode.
+MODULE 3 – Bowel Sounds Training Lab
+Create a GI auscultation training tool.
+Include:
+• Abdominal listening regions
+• Audio playback examples
+Sounds:
+• Normal bowel sounds
+• Hypoactive
+• Hyperactive
+• High-pitched / obstructive patterns
+• Absent bowel sounds
+Explain:
+• Physiological basis
+• Clinical interpretation
+• Red flags
+• Nursing actions
+MODULE 4 – OSCE Clinical Assessment Simulator
+Build an OSCE practice environment where students perform structured assessments.
+Create interactive case-based simulations for:
+• Neurological assessment
+• Cardiac assessment
+• Gastrointestinal assessment
+Each OSCE case must include:
+• Patient scenario
+• Vital signs
+• Relevant history cues
+• Interactive decision points
+• Correct vs incorrect actions
+• Realistic clinical findings
+For Neuro Assessment include:
+• Level of consciousness
+• GCS scoring interaction
+• Pupillary assessment
+• Motor strength grading
+• Sensory testing
+• Red flag findings
+For Cardiac Assessment include:
+• Inspection
+• Palpation landmarks
+• Auscultation sequence
+• Edema assessment
+• JVP concepts
+• Abnormal findings
+For GI Assessment include:
+• Inspection
+• Auscultation precedence rules
+• Palpation safety logic
+• Percussion basics
+• Concerning signs
+Provide immediate feedback when users make errors, explaining clinical reasoning.
+TECHNICAL REQUIREMENTS
+• Use React / Next.js style architecture
+• Component-based structure
+• Easily extendable for more modules
+• Clean state management
+• Audio playback system
+• Reusable quiz engine
+• Mobile-responsive design
+CLINICAL ACCURACY RULES
+All content must reflect real nursing assessment standards:
+• No simplified lay explanations
+• No vague descriptions
+• Use correct clinical terminology
+• Reflect OSCE marking logic
+• Avoid unsafe shortcuts
+UX / DESIGN RULES
+• Clean medical UI (not gamified childish)
+• Soft clinical colour accents only
+• Highly readable typography
+• Card-based layout
+• Smooth transitions
+Output full working code structure and components.
+PROMPT END

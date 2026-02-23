@@ -1,0 +1,151 @@
+Master Prompt: Build a 3-Track OSCE Practice Game (RPN/RN/NP)
+PROMPT FOR AI
+You are a senior full-stack engineer + nurse educator. Build an interactive web-based OSCE practice game for Canadian nursing learners with three selectable tracks: RPN, RN, and NP.
+1) Product goal
+Create a “patient room OSCE simulator” where learners:
+See an image-based patient room (scene).
+Click hotspots on objects (patient, monitor, IV pump, meds, PPE, charting station, etc.).
+Choose clinical actions via selectable text.
+Must complete tasks in the correct sequence to pass.
+Receive OSCE-style scoring + feedback with critical fails.
+2) Tracks and scope rules
+The game must support three tracks with distinct expectations:
+RPN (Practical Nursing)
+Focus: foundational assessments, safety, routine skills, recognizing deterioration, reporting appropriately.
+Actions are more procedural and safety-driven.
+Clinical reasoning required is basic-to-intermediate.
+Must follow a “safe sequence” (ID checks, hand hygiene, PPE, vital signs, etc.).
+RN (BScN)
+Focus: broader assessment, prioritization, interpreting findings, initiating nursing interventions, escalation, medication safety, more complex patient contexts.
+More branching decisions.
+Requires higher-level rationale and prioritization.
+NP (Graduate)
+Focus: advanced assessment, differential thinking, diagnostics, prescribing/ordering where appropriate (in simulation), complex decision-making, red flags, system-level safety.
+Requires explicit rationale, interpretation, and management planning.
+Includes “diagnostic reasoning panels” and “orders” (labs/imaging) within scope for simulation.
+Track selection must dynamically adjust:
+Allowed actions
+Required steps
+Strictness of sequencing
+Feedback depth
+Pass thresholds
+Case complexity and time pressure
+3) Core gameplay loop
+For each scenario:
+Show the patient room image with hotspots.
+Provide scenario stem (triage note / handover / chief complaint).
+Learner interacts via hotspots + choice panels.
+Engine enforces step logic (gated tasks; order matters).
+End with a scored OSCE rubric and teaching feedback.
+4) Hotspot system requirements
+Hotspots are defined via a scenario JSON: { id, label, polygon/rect coordinates, objectType, actions[] }.
+Hotspots highlight on hover + are keyboard accessible.
+Clicking opens a side panel or modal listing available actions.
+Hotspots can be enabled/disabled based on track, phase, or prior steps.
+5) Actions and sequencing engine
+Implement an engine that supports:
+Phases (e.g., Safety → Assessment → Intervention → Education → Documentation).
+Prerequisites for actions (e.g., “Perform patient ID” required before “Administer medication”).
+Critical fails (e.g., giving med without ID check; ignoring severe hypoxia; missing anaphylaxis).
+Soft errors (minor sequence issues; delays; incomplete documentation).
+Branching based on findings (new vitals, pain score, lung sounds, blood glucose).
+“Undo” is NOT allowed unless scenario explicitly permits a correction step (e.g., “You realize you skipped hand hygiene; perform now with penalty.”)
+6) Rubric & scoring
+Create a rubric engine with:
+Checklist items (done/not done)
+Timing/sequence (done in correct order vs late)
+Safety/critical elements (weighted heavily)
+Communication (SBAR escalation, patient education, consent)
+Documentation quality
+Clinical reasoning (RN/NP heavier weighting)
+Pass criteria by track:
+RPN: 75%+ and no critical fail
+RN: 80%+ and no critical fail
+NP: 85%+ and no critical fail + must complete reasoning section adequately
+Feedback output:
+Score breakdown by domain
+“Critical safety misses”
+“What you did well”
+“Priority next time”
+Brief rationales aligned with track
+7) Scenario packs (must ship with at least 9 total)
+Build initial content: 3 scenarios per track (RPN, RN, NP), but architect it so scenarios are reusable across tracks with different expectations.
+Provide at minimum these scenarios:
+RPN pack
+Post-op day 0 pain + respiratory risk (atelectasis prevention, opioid safety, vitals, mobility)
+Hypoglycemia in diabetic patient (recognition, glucose check, oral/IV treatment based on LOC, recheck)
+Fall risk + anticoagulant patient found on floor (safety, neuro checks, reporting, documentation)
+RN pack
+Sepsis early recognition (qSOFA features, cultures timing, fluids, escalation)
+CHF exacerbation with hypoxia (oxygen, positioning, diuretics within nursing scope, monitoring, escalation)
+Chest pain rule-out ACS (MONA considerations, ECG timing, contraindications, escalation)
+NP pack
+Acute asthma vs pneumonia vs PE differential (history, exam, orders, initial treatment, red flags)
+Abdominal pain (appendicitis vs ectopic vs gastroenteritis) differential with appropriate orders and disposition
+Pediatric fever with red flags (serious bacterial infection considerations, workup plan, parent counseling)
+Each scenario must include:
+Scenario stem
+Room image placeholder
+Hotspots list
+Findings database (vitals, exam results, lab results that can be revealed)
+Correct action sequence
+Branch logic
+Track-specific rubric mapping and rationales
+8) UI/UX requirements
+Clean, modern educational UI
+Scene centered, side panel for actions
+Timeline/progress indicator with phases
+“Task list” that updates as learner progresses (can be hidden for harder modes)
+Optional timer (default off; RN/NP can enable)
+Mobile/tablet responsive
+9) Tech stack & code quality
+React + TypeScript
+State management: Zustand or Redux Toolkit (pick one)
+Scenario content stored as JSON files
+Hotspot rendering via SVG overlay on an image (polygons/rectangles)
+Provide seed data and placeholder images (do not use copyrighted assets)
+Include tests for the rules engine (unit tests)
+Include clear docs: how to add a scenario, how to define hotspots, how to author rubric items
+10) Admin/Author mode (basic)
+Include a simple “Author Mode” page:
+Upload a room image (local)
+Click to place hotspots (record coordinates)
+Export scenario JSON template
+This can be minimal but must work.
+11) Output deliverables
+Generate the full Replit-ready project:
+Folder structure
+All code
+Sample scenario JSON files (9+)
+Components (Scene, HotspotOverlay, ActionPanel, RubricSummary, TrackSelect, ScenarioSelect)
+Rules engine + scoring engine
+Documentation (README)
+Make the system extendable so I can add more scenarios without rewriting core logic.
+Scenario Design Templates (so the AI builds content correctly)
+Include in the codebase a scenario author template that looks like:
+scenarioId
+title
+trackAvailability (RPN/RN/NP)
+stem (handover text)
+sceneImage
+hotspots[] with coordinates
+actions[] each with:
+actionId
+label
+type (assess/intervene/educate/document/escalate/order)
+prerequisites[]
+reveals[] (vital/exam/lab)
+criticalFailIfSkipped boolean
+scoreImpact by track
+feedback by track
+rubric[] with domain + weights by track
+branchingRules[]
+If you want it even more “exam-like”
+Add difficulty toggles:
+“Guided” (shows task list + hints)
+“Standard”
+“Strict OSCE” (minimal hints, tighter sequencing, higher penalties)
+Optional: a second prompt to generate room images safely
+If you’re also generating the room images with an image AI, use this:
+IMAGE PROMPT
+Create an original, non-photorealistic, clinically accurate 2D patient room illustration in a clean educational style. Include patient in bed, bedside monitor, IV pole, oxygen setup, medication cart, PPE station, hand sanitizer, call bell, charting station, and sharps container. Use clear lighting and high contrast so objects are easy to identify. No logos, no copyrighted materials.

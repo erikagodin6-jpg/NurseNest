@@ -736,6 +736,519 @@ export const clinicalConfusions: ClinicalConfusion[] = [
     ],
     keywords: ["hypothyroidism weight gain", "thyroid metabolism", "myxedema", "hypothyroid symptoms", "thyroid nursing"],
   },
+  {
+    slug: "why-does-diabetes-cause-peripheral-neuropathy",
+    question: "Why does diabetes cause peripheral neuropathy?",
+    shortAnswer: "Chronic hyperglycemia damages peripheral nerves through multiple biochemical pathways including polyol accumulation, advanced glycation end-products, and microvascular ischemia. The longest nerves are affected first, producing the characteristic 'stocking-glove' pattern of numbness and pain.",
+    category: "Endocrine",
+    bodySystem: "Endocrine",
+    difficulty: "intermediate",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Peripheral nerves rely on a delicate metabolic environment to maintain axonal integrity and Schwann cell function. In chronic hyperglycemia, excess glucose enters nerve cells via insulin-independent GLUT1 transporters, overwhelming normal glycolytic pathways. The surplus glucose is shunted into the polyol pathway, where aldose reductase converts glucose to sorbitol. Sorbitol accumulates intracellularly because it cannot easily cross cell membranes, drawing water in osmotically and causing Schwann cell swelling and dysfunction. Simultaneously, sorbitol is slowly converted to fructose by sorbitol dehydrogenase, depleting NADPH — a critical cofactor for regenerating glutathione, the cell's primary antioxidant. This leaves nerve cells vulnerable to oxidative stress from reactive oxygen species (ROS). In parallel, non-enzymatic glycation of structural proteins produces advanced glycation end-products (AGEs), which cross-link proteins in the nerve extracellular matrix and myelin sheath, impairing nerve conduction velocity. AGEs also bind to RAGE receptors on endothelial cells, activating NF-κB inflammatory pathways that damage the vasa nervorum — the tiny blood vessels supplying peripheral nerves. This microvascular ischemia compounds the direct metabolic injury, creating a dual-hit mechanism. The longest axons (those supplying the feet) are most vulnerable because they have the greatest metabolic demands and longest supply lines, explaining the distal-to-proximal progression of symptoms.",
+      chain: [
+        "Chronic hyperglycemia floods nerve cells with excess glucose via GLUT1",
+        "Polyol pathway activation: aldose reductase converts glucose → sorbitol",
+        "Sorbitol accumulation causes osmotic Schwann cell swelling and NADPH depletion",
+        "Reduced glutathione leaves nerves vulnerable to oxidative stress (ROS)",
+        "Advanced glycation end-products (AGEs) cross-link myelin proteins",
+        "AGE-RAGE signaling damages vasa nervorum endothelium → microvascular ischemia",
+        "Longest axons (feet) fail first → stocking-glove distribution"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Diabetic neuropathy only happens in patients with very high blood sugars.",
+        reality: "Neuropathy can develop even with moderately elevated HbA1c levels over time. Prediabetic patients can develop neuropathy. The duration of glucose exposure matters as much as peak levels — years of glucose in the 140-180 mg/dL range causes cumulative nerve damage through AGE formation and polyol pathway activation.",
+      },
+      {
+        myth: "Diabetic neuropathy is always painful.",
+        reality: "Many patients experience painless neuropathy characterized by numbness and loss of protective sensation. This painless form is arguably more dangerous because patients cannot feel injuries, pressure sores, or infections on their feet. Painless neuropathy is a leading cause of diabetic foot ulcers and non-traumatic amputations.",
+      },
+      {
+        myth: "Diabetic neuropathy only affects the feet.",
+        reality: "While distal symmetric polyneuropathy (stocking-glove pattern) is most common, diabetes also causes autonomic neuropathy affecting the heart (resting tachycardia, orthostatic hypotension), GI tract (gastroparesis), bladder (neurogenic bladder), and sexual function (erectile dysfunction). Focal mononeuropathies (cranial nerve III palsy, carpal tunnel) also occur at higher rates.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Perform monofilament testing on diabetic patients' feet at every visit: inability to feel a 10g monofilament indicates loss of protective sensation and high ulcer risk",
+        "Teach patients to inspect their feet daily with a mirror, wear properly fitted shoes, and never walk barefoot: they cannot rely on pain to warn them of injury",
+        "Gabapentin, pregabalin, or duloxetine are first-line treatments for painful diabetic neuropathy: opioids are generally avoided due to limited efficacy and addiction risk",
+        "Tight glycemic control (HbA1c < 7%) slows progression of neuropathy but rarely reverses established nerve damage: prevention through early glucose control is key",
+      ],
+    },
+    pauseAndThink: "A diabetic patient presents with a painless, deep ulcer on the ball of their foot that they 'didn't notice' for weeks. Their HbA1c is 8.2%. Why did they not feel this ulcer forming, and what does this tell you about their nerve function?",
+    relatedLessons: [
+      { id: "dka-management", title: "DKA Management" },
+      { id: "electrolyte-emergencies", title: "Electrolyte Emergencies" },
+      { id: "wound-care", title: "Wound Care" },
+    ],
+    keywords: ["diabetic neuropathy", "peripheral neuropathy diabetes", "polyol pathway", "diabetic foot care", "neuropathy nursing"],
+  },
+  {
+    slug: "why-does-immobility-cause-deep-vein-thrombosis",
+    question: "Why does immobility cause deep vein thrombosis?",
+    shortAnswer: "Immobility eliminates the skeletal muscle pump that normally propels venous blood back to the heart, causing venous stasis. Stagnant blood in the deep veins of the legs activates the coagulation cascade, and endothelial changes from prolonged pressure create the conditions described by Virchow's triad for clot formation.",
+    category: "Pathophysiology",
+    bodySystem: "Cardiovascular",
+    difficulty: "foundational",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Venous return from the lower extremities depends heavily on the calf muscle pump — contraction of the gastrocnemius and soleus muscles compresses deep veins, propelling blood upward through one-way valves toward the heart. When a patient is immobile (bed rest, prolonged surgery, paralysis, long flights), this pump ceases to function, and blood pools in the deep veins of the calves and thighs. This venous stasis is the first element of Virchow's triad. Stagnant blood allows activated clotting factors to accumulate locally rather than being diluted and cleared by hepatic metabolism. Prolonged stasis also causes hypoxia in the venous endothelium. Hypoxic endothelial cells upregulate P-selectin on their luminal surface, which recruits leukocytes and platelets. The endothelium shifts from an anticoagulant phenotype (producing prostacyclin, nitric oxide, and thrombomodulin) to a procoagulant phenotype, expressing tissue factor and von Willebrand factor. This is the second element — endothelial injury/dysfunction. Additionally, immobility is frequently accompanied by the third element — hypercoagulability — due to surgical stress, dehydration, malignancy, or hormonal factors that increase circulating clotting factors. Thrombus formation typically begins in the valve cusps of deep veins, where blood flow is slowest and stasis is most pronounced. The initial platelet-fibrin nidus propagates as successive layers of red cells and fibrin mesh are deposited, forming a red thrombus that can eventually occlude the vessel or embolize to the pulmonary vasculature.",
+      chain: [
+        "Immobility eliminates the calf muscle pump mechanism",
+        "Venous blood pools in deep leg veins (venous stasis)",
+        "Stagnant blood allows clotting factor accumulation locally",
+        "Hypoxic endothelium shifts from anticoagulant to procoagulant phenotype",
+        "P-selectin expression recruits platelets and leukocytes to vessel wall",
+        "Thrombus initiates at valve cusps where stasis is greatest",
+        "Clot propagates → risk of pulmonary embolism if dislodged"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "DVT only happens to elderly or surgical patients.",
+        reality: "DVT can develop in anyone with prolonged immobility. Young, healthy individuals on long-haul flights, students sitting for extended exams, or patients on bed rest for any reason are at risk. Additional risk factors include oral contraceptives, pregnancy, obesity, inherited thrombophilias (Factor V Leiden), and malignancy.",
+      },
+      {
+        myth: "A negative Homans' sign rules out DVT.",
+        reality: "Homans' sign (calf pain with dorsiflexion) has a sensitivity of only 10-54% and is neither specific nor reliable for diagnosing DVT. Many DVTs are clinically silent. Diagnosis requires duplex ultrasonography. A negative Homans' sign should never reassure you that DVT is absent.",
+      },
+      {
+        myth: "Compression stockings are uncomfortable accessories, not medical interventions.",
+        reality: "Graduated compression stockings (sequential compression devices) are evidence-based prophylaxis that mechanically augments venous return and reduces stasis. They compress distal veins more than proximal, mimicking the muscle pump. Combined with pharmacological prophylaxis (low-molecular-weight heparin), they significantly reduce DVT incidence in hospitalized patients.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Encourage early ambulation post-surgery: even short walks to the bathroom activate the calf muscle pump and significantly reduce DVT risk",
+        "Apply sequential compression devices (SCDs) to all immobile hospitalized patients unless contraindicated by active DVT or severe peripheral arterial disease",
+        "Assess calves bilaterally every shift for asymmetric swelling, warmth, tenderness, or redness: unilateral leg swelling is a red flag for DVT",
+        "Never massage a suspected DVT: mechanical manipulation can dislodge the thrombus, causing a life-threatening pulmonary embolism",
+      ],
+    },
+    pauseAndThink: "A post-operative patient on day 3 after hip replacement refuses to ambulate due to pain. Their left calf is 3 cm larger in circumference than the right. What is your priority nursing action, and why is it urgent?",
+    relatedLessons: [
+      { id: "pe-recognition", title: "Pulmonary Embolism Recognition" },
+      { id: "anticoagulant-therapy", title: "Anticoagulant Therapy" },
+      { id: "post-op-care", title: "Post-Operative Care" },
+    ],
+    keywords: ["DVT immobility", "Virchow triad", "deep vein thrombosis prevention", "venous stasis", "DVT nursing"],
+  },
+  {
+    slug: "why-does-hyperglycemia-cause-polyuria",
+    question: "Why does hyperglycemia cause polyuria?",
+    shortAnswer: "When blood glucose exceeds the renal threshold (~180 mg/dL), glucose spills into the urine and acts as an osmotic diuretic. The unabsorbed glucose molecules hold water in the renal tubules by osmotic force, preventing normal water reabsorption and producing large volumes of dilute, glucose-containing urine.",
+    category: "Endocrine",
+    bodySystem: "Renal",
+    difficulty: "foundational",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Under normal conditions, all filtered glucose is reabsorbed in the proximal convoluted tubule (PCT) by sodium-glucose cotransporters — SGLT2 reabsorbs approximately 90% in the early PCT, and SGLT1 reabsorbs the remaining 10% in the late PCT. These transporters have a maximum transport capacity (Tm) of approximately 375 mg/min. When plasma glucose exceeds approximately 180 mg/dL (the renal threshold), the filtered glucose load surpasses the Tm of these transporters, and unreabsorbed glucose remains in the tubular fluid. Glucose is an osmotically active solute: each glucose molecule in the tubular lumen holds water molecules around it through osmotic forces, preventing their reabsorption in the PCT and loop of Henle. This osmotic effect also impairs the countercurrent concentration mechanism in the loop of Henle by disrupting the medullary osmotic gradient. The result is large volumes of dilute urine containing glucose (glucosuria). This osmotic diuresis also drags electrolytes — particularly sodium, potassium, and phosphate — into the urine, contributing to the electrolyte derangements seen in uncontrolled diabetes. The water loss from polyuria triggers thirst (polydipsia) as a compensatory mechanism. If fluid intake cannot match losses, severe dehydration develops, which in DKA or HHS can lead to hypovolemic shock. SGLT2 inhibitor medications (empagliflozin, dapagliflozin) intentionally exploit this mechanism by blocking glucose reabsorption to lower blood glucose, deliberately inducing mild glucosuria.",
+      chain: [
+        "Blood glucose rises above renal threshold (~180 mg/dL)",
+        "SGLT2/SGLT1 transporters in PCT become saturated (exceed Tm)",
+        "Unreabsorbed glucose remains in tubular fluid",
+        "Glucose acts as osmotic solute, holding water in the tubule",
+        "Medullary concentration gradient is disrupted",
+        "Large volumes of glucose-containing dilute urine produced (osmotic diuresis)",
+        "Electrolyte losses (Na+, K+, PO4) accompany water losses",
+        "Dehydration triggers polydipsia as compensatory response"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Polyuria in diabetes is caused by drinking too much water.",
+        reality: "The causality is reversed: polyuria from osmotic diuresis causes water loss, which triggers thirst and polydipsia. The excessive urination drives the excessive drinking, not the other way around. Treating the hyperglycemia resolves the polyuria, which then resolves the polydipsia.",
+      },
+      {
+        myth: "Any elevated blood sugar causes glucose in the urine.",
+        reality: "Glucosuria only occurs when blood glucose exceeds the renal threshold of approximately 180 mg/dL. Below this level, SGLT2 and SGLT1 transporters successfully reabsorb all filtered glucose. This threshold can be altered by pregnancy (lower threshold) or chronic kidney disease (variable). SGLT2 inhibitors pharmacologically lower this threshold.",
+      },
+      {
+        myth: "Polyuria from diabetes is just an inconvenience, not dangerous.",
+        reality: "Osmotic diuresis can produce urine output exceeding 3-5 liters per day, causing severe dehydration, electrolyte depletion, and hemodynamic instability. In HHS (hyperosmolar hyperglycemic state), the profound dehydration from sustained osmotic diuresis can cause serum osmolality to exceed 320 mOsm/kg, leading to altered consciousness, seizures, and death if untreated.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Monitor strict intake and output in hyperglycemic patients: urine output exceeding 200 mL/hr suggests significant osmotic diuresis requiring aggressive IV fluid replacement",
+        "The 'three Ps' of diabetes (polyuria, polydipsia, polyphagia) are direct consequences of glucose metabolism derangement: polyuria is the most objective and measurable sign",
+        "Patients on SGLT2 inhibitors will have glucosuria by design: do not use urine glucose testing to monitor their diabetes. They also have increased UTI and genital infection risk from glucose-rich urine",
+        "In DKA/HHS management, fluid resuscitation is priority one because osmotic diuresis has depleted intravascular volume: start 0.9% NS at 1-1.5 L/hr initially, then adjust based on hemodynamics",
+      ],
+    },
+    pauseAndThink: "A newly diagnosed Type 1 diabetic presents with blood glucose of 520 mg/dL, urine output of 400 mL/hr, heart rate 128, and blood pressure 88/52. How does understanding osmotic diuresis explain all of these findings?",
+    relatedLessons: [
+      { id: "dka-management", title: "DKA Management" },
+      { id: "renal-physiology", title: "Renal Physiology" },
+      { id: "fluid-balance", title: "Fluid Balance" },
+    ],
+    keywords: ["hyperglycemia polyuria", "osmotic diuresis", "glucosuria mechanism", "diabetes polyuria", "SGLT2 nursing"],
+  },
+  {
+    slug: "why-does-copd-cause-barrel-chest",
+    question: "Why does COPD cause barrel chest?",
+    shortAnswer: "Chronic air trapping from obstructed airways keeps the lungs hyperinflated, gradually forcing the thoracic cage into a permanently expanded position. Over years, the diaphragm flattens, the intercostal muscles remodel, and the anteroposterior diameter of the chest increases to match the laterally expanded dimensions.",
+    category: "Respiratory",
+    bodySystem: "Respiratory",
+    difficulty: "intermediate",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "In COPD, two structural changes drive chronic air trapping. In emphysema, destruction of alveolar walls by neutrophil elastase and matrix metalloproteinases eliminates the elastic recoil that normally drives passive exhalation and destroys the radial traction that holds small airways open. Without elastic recoil pulling airways open during expiration, small airways collapse prematurely, trapping air distally. In chronic bronchitis, airway inflammation, mucosal edema, and mucus hypersecretion narrow the bronchial lumen, increasing expiratory resistance. Both mechanisms increase residual volume (RV) — the air remaining in the lungs after maximal exhalation — and functional residual capacity (FRC). As RV and FRC chronically increase, the lungs remain in a state of hyperinflation. This sustained hyperinflation pushes the diaphragm downward and flattens it from its normal dome shape. A flattened diaphragm has a mechanical disadvantage: it can no longer generate effective negative intrathoracic pressure during inspiration, forcing patients to recruit accessory muscles (sternocleidomastoid, scalenes, external intercostals) for breathing. The constantly elevated intrathoracic volume exerts continuous outward pressure on the ribcage. Over months to years, the costal cartilages remodel under this sustained stress, the ribs become more horizontally oriented (instead of their normal downward slope), and the anteroposterior (AP) diameter of the chest approaches the transverse diameter. The normal AP-to-transverse ratio of 1:2 shifts toward 1:1, producing the characteristic barrel-shaped thorax. This is a late finding indicating severe, long-standing disease.",
+      chain: [
+        "Alveolar wall destruction (emphysema) eliminates elastic recoil",
+        "Airway inflammation and mucus (chronic bronchitis) increase expiratory resistance",
+        "Air trapping increases residual volume and functional residual capacity",
+        "Chronic lung hyperinflation pushes diaphragm down and flattens it",
+        "Sustained outward pressure on ribcage remodels costal cartilages",
+        "Ribs shift to horizontal orientation, AP diameter increases",
+        "AP:transverse ratio approaches 1:1 → barrel chest appearance"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Barrel chest is an early sign of COPD.",
+        reality: "Barrel chest is a LATE physical finding that develops after years of chronic hyperinflation and skeletal remodeling. By the time barrel chest is visible, the patient typically has severe COPD (GOLD Stage III-IV) with significantly reduced FEV1. Early COPD may have no visible chest wall changes. Spirometry detects airflow limitation long before barrel chest develops.",
+      },
+      {
+        myth: "Barrel chest means the lungs are working harder and getting more air in.",
+        reality: "Barrel chest actually represents a mechanical disadvantage. The hyperinflated lungs and flattened diaphragm mean the respiratory muscles are working at a suboptimal length-tension relationship. Tidal volume is actually reduced because the patient is breathing at the top of their lung volume curve where compliance is poor. They work harder to breathe less effectively.",
+      },
+      {
+        myth: "Barrel chest can be reversed with proper treatment.",
+        reality: "Once skeletal remodeling has occurred, barrel chest is irreversible. The costal cartilage changes and rib repositioning are permanent structural adaptations. Treatment focuses on preventing further progression, optimizing airflow (bronchodilators, smoking cessation), and managing the mechanical disadvantage with techniques like pursed-lip breathing and pulmonary rehabilitation.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "When assessing chest shape, compare AP diameter to lateral diameter: a ratio approaching 1:1 (normally 1:2) indicates chronic hyperinflation and should prompt spirometry evaluation",
+        "Patients with barrel chest often adopt a tripod position (leaning forward on hands) to optimize accessory muscle mechanics: allow this positioning and do not force them supine during respiratory distress",
+        "Auscultation in barrel chest patients may reveal diminished breath sounds throughout due to hyperinflation: this baseline finding must be documented so acute changes (absent sounds suggesting pneumothorax) can be detected",
+        "Teach pursed-lip breathing: the back-pressure created during exhalation stents small airways open, reducing air trapping and improving gas exchange despite the fixed chest wall changes",
+      ],
+    },
+    pauseAndThink: "A COPD patient with barrel chest is placed supine for a procedure and immediately becomes severely dyspneic. Why does supine positioning uniquely threaten a patient with a flattened diaphragm?",
+    relatedLessons: [
+      { id: "copd-exacerbation", title: "COPD Exacerbation" },
+      { id: "ards", title: "ARDS" },
+      { id: "pneumonia", title: "Pneumonia" },
+    ],
+    keywords: ["barrel chest COPD", "air trapping mechanism", "COPD hyperinflation", "chest wall remodeling", "COPD nursing assessment"],
+  },
+  {
+    slug: "why-does-pancreatitis-cause-hypocalcemia",
+    question: "Why does pancreatitis cause hypocalcemia?",
+    shortAnswer: "During acute pancreatitis, pancreatic lipase leaks into surrounding tissue and breaks down peripancreatic fat, releasing free fatty acids that bind ionized calcium through a process called saponification. This sequesters calcium in insoluble calcium-fatty acid soaps, pulling ionized calcium out of circulation.",
+    category: "Pathophysiology",
+    bodySystem: "Gastrointestinal",
+    difficulty: "advanced",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Acute pancreatitis involves premature activation of pancreatic zymogens (particularly trypsinogen to trypsin) within the pancreatic parenchyma rather than in the duodenal lumen. Trypsin then activates other proenzymes — phospholipase A2, elastase, and critically, lipase — initiating autodigestion of the pancreas and surrounding tissues. Activated lipase escapes the damaged pancreas and enters the peripancreatic and retroperitoneal fat. Here, lipase hydrolyzes triglycerides in adipocytes into glycerol and free fatty acids (FFAs). These FFAs — particularly long-chain saturated fatty acids like palmitic and stearic acid — have a strong affinity for divalent cations, especially calcium (Ca²⁺). The FFAs combine with ionized calcium to form insoluble calcium soaps (calcium stearate, calcium palmitate) in a process called saponification. This process is visible grossly as chalky white deposits in the mesentery and omentum at surgery or autopsy (fat necrosis). Each molecule of calcium sequestered by saponification is removed from the bioavailable ionized calcium pool in plasma. In severe necrotizing pancreatitis, the extent of fat necrosis can be massive, sequestering clinically significant amounts of calcium. Additionally, pancreatitis-associated systemic inflammation increases calcitonin precursor release from extrathyroidal tissues (procalcitonin), which further promotes calcium deposition in tissues. Hypoalbuminemia from third-spacing of protein-rich fluid also reduces total serum calcium, though ionized calcium is more clinically relevant. Severe hypocalcemia in pancreatitis (Cullen's sign positive, Grey Turner's sign positive) is an ominous prognostic indicator, correlating with extensive necrosis and high mortality (Ranson's criteria includes calcium < 8 mg/dL).",
+      chain: [
+        "Premature zymogen activation (trypsinogen → trypsin) within the pancreas",
+        "Trypsin activates lipase and other digestive enzymes",
+        "Lipase escapes into peripancreatic fat and hydrolyzes triglycerides",
+        "Free fatty acids released from adipocyte triglyceride breakdown",
+        "FFAs bind ionized calcium → insoluble calcium soaps (saponification)",
+        "Ionized calcium sequestered in fat necrosis deposits",
+        "Systemic calcium drops → hypocalcemia with potential cardiac and neuromuscular effects",
+        "Hypocalcemia severity correlates with extent of fat necrosis (prognostic indicator)"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Hypocalcemia in pancreatitis is caused by poor calcium absorption from the gut.",
+        reality: "The primary mechanism is saponification — calcium binding to free fatty acids in necrotic peripancreatic fat. While pancreatitis can impair fat-soluble vitamin absorption (including vitamin D) in chronic disease, the acute hypocalcemia seen in severe pancreatitis is driven by calcium sequestration in tissue, not malabsorption. The speed of calcium decline (hours to days) is too rapid to be explained by absorption deficits alone.",
+      },
+      {
+        myth: "Mild hypocalcemia in pancreatitis is clinically insignificant.",
+        reality: "Hypocalcemia in acute pancreatitis is a prognostic indicator included in Ranson's criteria (calcium < 8 mg/dL within 48 hours). Its presence suggests extensive fat necrosis and severe disease. Moreover, significant ionized hypocalcemia can cause tetany, laryngospasm, seizures, QT prolongation, and cardiac arrhythmias — each life-threatening in an already critically ill patient.",
+      },
+      {
+        myth: "Treating the hypocalcemia with calcium infusion fixes the problem.",
+        reality: "While IV calcium gluconate is necessary to prevent cardiac and neuromuscular complications, the infused calcium continues to be consumed by ongoing saponification as long as fat necrosis progresses. Treatment must address the underlying pancreatitis (NPO, IV fluids, pain management, source control) while simultaneously replacing calcium. Serial ionized calcium monitoring is essential because total calcium is unreliable in hypoalbuminemic states.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Monitor ionized calcium (not just total calcium) in acute pancreatitis: hypoalbuminemia from third-spacing makes total calcium unreliable. Correct total calcium for albumin or use ionized calcium directly",
+        "Assess for Chvostek's sign (facial muscle twitch with tapping) and Trousseau's sign (carpopedal spasm with BP cuff inflation) as bedside indicators of hypocalcemia",
+        "Calcium < 8 mg/dL within 48 hours of admission is one of Ranson's criteria: its presence indicates severe pancreatitis with higher mortality risk and need for ICU-level monitoring",
+        "Keep IV calcium gluconate at bedside for pancreatitis patients: acute symptomatic hypocalcemia (tetany, seizures, QT prolongation) requires immediate IV calcium replacement with cardiac monitoring",
+      ],
+    },
+    pauseAndThink: "A patient with acute pancreatitis has a total calcium of 7.1 mg/dL and albumin of 2.4 g/dL on hospital day 2. The surgical team finds extensive chalky white deposits in the mesentery during exploratory laparotomy. What is the connection between these white deposits and the lab finding?",
+    relatedLessons: [
+      { id: "gi-emergencies", title: "GI Emergencies" },
+      { id: "electrolyte-emergencies", title: "Electrolyte Emergencies" },
+      { id: "acute-abdomen", title: "Acute Abdomen" },
+    ],
+    keywords: ["pancreatitis hypocalcemia", "saponification calcium", "fat necrosis pancreatitis", "Ranson criteria", "pancreatitis nursing"],
+  },
+  {
+    slug: "why-does-cirrhosis-cause-ascites",
+    question: "Why does cirrhosis cause ascites?",
+    shortAnswer: "Cirrhosis causes portal hypertension by obstructing blood flow through the fibrotic liver, which increases hydrostatic pressure in splanchnic capillaries. Combined with reduced albumin synthesis (lowering oncotic pressure) and renal sodium retention from RAAS activation, fluid weeps from the visceral peritoneum into the abdominal cavity.",
+    category: "Pathophysiology",
+    bodySystem: "Gastrointestinal",
+    difficulty: "intermediate",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "In cirrhosis, chronic hepatocyte injury from alcohol, viral hepatitis, or other insults triggers hepatic stellate cell activation. These cells transform from quiescent vitamin A-storing cells into proliferative myofibroblasts that deposit excessive collagen (Types I and III) in the space of Disse — the gap between hepatocytes and sinusoidal endothelium. This fibrosis distorts hepatic architecture, constricts sinusoidal blood flow, and increases intrahepatic vascular resistance. As resistance rises, portal venous pressure increases (normal 5-10 mmHg; portal hypertension defined as >10 mmHg, clinically significant at >12 mmHg). Elevated portal pressure transmits backward into the splanchnic capillary bed (mesenteric, gastric, splenic circulation), increasing capillary hydrostatic pressure and driving fluid out of capillaries into the peritoneal cavity (Starling forces). Simultaneously, damaged hepatocytes produce less albumin — the primary determinant of plasma oncotic pressure. Serum albumin below 3 g/dL significantly reduces the oncotic force that normally holds fluid within the vasculature. The reduced effective arterial blood volume from splanchnic vasodilation (mediated by excess nitric oxide) triggers arterial baroreceptors, activating the renin-angiotensin-aldosterone system (RAAS), sympathetic nervous system, and ADH release. These neurohormonal responses cause aggressive renal sodium and water retention, expanding plasma volume but paradoxically worsening ascites because the retained fluid preferentially weeps into the peritoneal cavity where Starling forces favor fluid accumulation. The serum-ascites albumin gradient (SAAG ≥ 1.1 g/dL) confirms portal hypertension as the cause of ascites.",
+      chain: [
+        "Hepatic stellate cell activation deposits collagen → fibrosis distorts liver architecture",
+        "Intrahepatic vascular resistance increases → portal hypertension develops",
+        "Elevated portal pressure increases splanchnic capillary hydrostatic pressure",
+        "Reduced hepatic albumin synthesis lowers plasma oncotic pressure",
+        "Starling forces drive fluid from splanchnic capillaries into peritoneal cavity",
+        "Splanchnic vasodilation reduces effective arterial volume",
+        "RAAS/ADH activation causes renal sodium and water retention → worsens ascites cycle"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Ascites is simply 'water retention' that can be fixed by drinking less fluid.",
+        reality: "Ascites results from complex pathophysiology involving portal hypertension, hypoalbuminemia, and neurohormonal activation. Fluid restriction alone does not resolve ascites. Management requires sodium restriction (< 2g/day), diuretics (spironolactone as primary, furosemide as adjunct), and treatment of the underlying liver disease. Therapeutic paracentesis is needed for tense ascites.",
+      },
+      {
+        myth: "Draining all the ascites fluid at once is safe and therapeutic.",
+        reality: "Large-volume paracentesis (>5 liters) without albumin replacement can cause paracentesis-induced circulatory dysfunction (PICD) — a dangerous drop in effective circulating volume that triggers further RAAS activation, renal vasoconstriction, and hepatorenal syndrome. Albumin infusion (6-8g per liter removed) is given concurrently to maintain oncotic pressure and prevent hemodynamic collapse.",
+      },
+      {
+        myth: "Ascites fluid is sterile and low-risk.",
+        reality: "Ascitic fluid in cirrhosis is susceptible to spontaneous bacterial peritonitis (SBP), which occurs without an obvious intra-abdominal source of infection. Bacteria translocate from the gut through edematous intestinal walls into protein-poor ascitic fluid that has impaired opsonic activity. SBP carries 20-30% mortality and requires immediate empiric antibiotics. Diagnostic paracentesis with cell count is essential for any cirrhotic patient with ascites who develops fever, abdominal pain, or encephalopathy.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Measure abdominal girth daily at the same level (umbilicus) with the patient supine: increasing girth indicates accumulating ascites and may signal worsening liver function or medication non-adherence",
+        "Monitor daily weights: a weight gain of >0.5 kg/day in a cirrhotic patient suggests fluid retention. Diuretic dose adjustment targets 0.5 kg/day weight loss for ascites without peripheral edema, or 1 kg/day with edema",
+        "Assess for SBP in any cirrhotic patient with ascites who develops new fever, abdominal tenderness, altered mental status, or unexplained clinical deterioration: diagnostic paracentesis is the definitive test (PMN count ≥ 250 cells/mm³)",
+        "Teach sodium restriction (< 2g/day): most ascites diuresis can be achieved with sodium restriction plus spironolactone. Hidden sodium in processed foods and medications (IV normal saline) must be identified and minimized",
+      ],
+    },
+    pauseAndThink: "A cirrhotic patient with tense ascites undergoes a 6-liter therapeutic paracentesis without albumin replacement. Six hours later, they develop tachycardia, hypotension, and oliguria. What pathophysiological process explains this deterioration?",
+    relatedLessons: [
+      { id: "liver-failure", title: "Liver Failure" },
+      { id: "gi-bleed", title: "GI Bleed Management" },
+      { id: "fluid-balance", title: "Fluid Balance" },
+    ],
+    keywords: ["cirrhosis ascites", "portal hypertension ascites", "SAAG ascites", "spontaneous bacterial peritonitis", "ascites nursing"],
+  },
+  {
+    slug: "why-do-burns-cause-hyperkalemia",
+    question: "Why do burns cause hyperkalemia?",
+    shortAnswer: "Severe burns cause massive cellular destruction, releasing intracellular potassium stores directly into the bloodstream. Since intracellular potassium concentration is approximately 150 mEq/L compared to 3.5-5.0 mEq/L extracellularly, even moderate cell lysis can rapidly overwhelm the body's ability to buffer and excrete the potassium load.",
+    category: "Emergency",
+    bodySystem: "Integumentary",
+    difficulty: "intermediate",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Normal cells maintain a potassium concentration gradient of approximately 150 mEq/L intracellularly versus 3.5-5.0 mEq/L extracellularly, upheld by the Na+/K+ ATPase pump. Severe thermal injury causes direct coagulative necrosis of cells in the burn zone — the 'zone of coagulation' at the center of the burn experiences irreversible protein denaturation and immediate cell death. Surrounding this is the 'zone of stasis,' where cells are injured but potentially viable, and beyond that the 'zone of hyperemia.' As cells in the coagulation and stasis zones die, their membranes lose integrity and release their entire intracellular potassium content into the extracellular fluid. In a major burn (>20% total body surface area), the volume of tissue destruction can release enormous quantities of potassium simultaneously. Compounding this direct release, burn injury causes systemic inflammation that damages cells remote from the burn site. Massive tissue injury also releases myoglobin from damaged skeletal muscle (rhabdomyolysis) and hemoglobin from destroyed red blood cells (hemolysis), both of which carry additional potassium. Furthermore, metabolic acidosis — common in severe burns from hypovolemia, poor tissue perfusion, and lactic acid production — causes hydrogen ions to enter cells in exchange for potassium ions, further driving K+ into the extracellular space. The kidneys, which normally excrete excess potassium, may be compromised by burn-related acute kidney injury from hypovolemia and myoglobin-induced tubular damage. The combination of massive potassium release, ongoing cellular death, acidosis-driven transcellular shift, and impaired renal excretion creates a rapidly escalating hyperkalemia that can cause lethal cardiac arrhythmias.",
+      chain: [
+        "Thermal injury causes coagulative necrosis in the zone of coagulation",
+        "Cell membrane rupture releases intracellular K+ (150 mEq/L) into extracellular space",
+        "Zone of stasis cells undergo delayed death, releasing additional K+ over hours",
+        "Rhabdomyolysis and hemolysis add further potassium to circulation",
+        "Metabolic acidosis drives H+/K+ exchange, pushing more K+ extracellularly",
+        "Hypovolemia and myoglobin impair renal potassium excretion",
+        "Serum K+ rises rapidly → cardiac conduction abnormalities → arrhythmia risk"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Hyperkalemia in burns is only a concern with very large burns (>50% TBSA).",
+        reality: "Clinically significant hyperkalemia can occur with burns as small as 20% TBSA, especially with deep partial-thickness or full-thickness burns that cause more complete cellular destruction. Electrical burns are particularly dangerous because they cause deep tissue injury disproportionate to visible skin damage, with extensive rhabdomyolysis releasing massive potassium loads from deep muscle necrosis.",
+      },
+      {
+        myth: "Succinylcholine is safe to use in burn patients for rapid sequence intubation.",
+        reality: "Succinylcholine is CONTRAINDICATED in burn patients beyond 24-48 hours post-injury (and up to 1-2 years after). Burns cause upregulation of extrajunctional acetylcholine receptors across the entire muscle membrane. When succinylcholine depolarizes these proliferated receptors simultaneously, the resulting potassium efflux is massive and can cause fatal hyperkalemia and cardiac arrest. Use rocuronium instead.",
+      },
+      {
+        myth: "IV fluid resuscitation worsens hyperkalemia by diluting the blood.",
+        reality: "Aggressive fluid resuscitation (Parkland formula: 4 mL × kg × %TBSA) actually helps manage hyperkalemia by restoring renal perfusion and enabling potassium excretion. Adequate circulating volume supports glomerular filtration rate, allowing the kidneys to clear excess potassium. Lactated Ringer's is preferred despite containing 4 mEq/L potassium because the volume restored far outweighs the potassium administered.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Obtain a stat potassium level on all burn patients >15-20% TBSA on arrival and repeat every 4-6 hours during the acute resuscitation phase: hyperkalemia can develop rapidly and cause lethal arrhythmias",
+        "Place all major burn patients on continuous cardiac monitoring: watch for peaked T waves (earliest sign), widened QRS, and sine wave patterns that indicate critical hyperkalemia",
+        "Alert anesthesia that succinylcholine is contraindicated in burn patients after 24-48 hours post-injury: document this clearly in the chart and communicate verbally during handoff",
+        "Monitor urine output hourly (target 0.5-1 mL/kg/hr in adults, 1-2 mL/kg/hr in children): adequate urine output reflects renal perfusion necessary for potassium excretion. Dark or tea-colored urine suggests myoglobinuria requiring increased fluid rates",
+      ],
+    },
+    pauseAndThink: "A patient with 35% TBSA full-thickness burns arrives intubated. The paramedic reports using succinylcholine for intubation in the field 4 hours after the burn occurred. The patient now has peaked T waves on the monitor. What is the most urgent intervention?",
+    relatedLessons: [
+      { id: "burn-management", title: "Burn Management" },
+      { id: "electrolyte-emergencies", title: "Electrolyte Emergencies" },
+      { id: "aki-management", title: "AKI Management" },
+    ],
+    keywords: ["burns hyperkalemia", "burn potassium release", "succinylcholine burns", "burn electrolyte imbalance", "burn nursing"],
+  },
+  {
+    slug: "why-does-a-stroke-cause-dysphagia",
+    question: "Why does a stroke cause dysphagia?",
+    shortAnswer: "Swallowing requires precise coordination of over 30 muscles controlled by cranial nerves V, VII, IX, X, and XII, with cortical and brainstem centers orchestrating the sequence. A stroke damaging any part of this network disrupts the swallowing reflex, causing dysphagia that puts patients at high risk for aspiration pneumonia.",
+    category: "Neurology",
+    bodySystem: "Neurological",
+    difficulty: "intermediate",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Swallowing is one of the most complex neuromuscular events in the body, involving three phases: oral (voluntary), pharyngeal (reflexive), and esophageal (involuntary). The swallowing center is located in the medulla oblongata (nucleus tractus solitarius and nucleus ambiguus), which coordinates the precise sequential activation of muscles in the tongue, soft palate, pharynx, larynx, and upper esophageal sphincter. Cortical input from the precentral gyrus (motor cortex), insula, and anterior cingulate cortex initiates and modulates voluntary swallowing. Sensory feedback travels via cranial nerves V (trigeminal — sensation from the oral cavity), VII (facial — taste, oral sensation), IX (glossopharyngeal — posterior tongue and pharynx sensation, triggers the swallow reflex), and X (vagus — laryngeal and pharyngeal sensation and motor function). Motor output travels via CN V (muscles of mastication), VII (lip closure), IX and X (pharyngeal constrictors, palatal elevation, laryngeal closure), and XII (hypoglossal — tongue movement). A stroke affecting the lateral medulla (Wallenberg syndrome) directly damages the swallowing center, causing severe dysphagia. Hemispheric strokes affecting the motor cortex, internal capsule, or corona radiata disrupt voluntary swallowing initiation and tongue control. The most dangerous consequence is impaired laryngeal elevation and epiglottic closure during the pharyngeal phase, which normally seals the airway. When this protective mechanism fails, food and liquids enter the trachea (aspiration). Silent aspiration — aspiration without a cough reflex — occurs when sensory nerves are also damaged, making it particularly treacherous because neither the patient nor the nurse may realize aspiration is occurring.",
+      chain: [
+        "Stroke damages cortical swallowing centers, brainstem nuclei, or cranial nerve pathways",
+        "Disrupted motor control of tongue, palate, pharynx, or larynx",
+        "Impaired coordination of the 3-phase swallowing sequence",
+        "Failed laryngeal elevation and epiglottic closure during pharyngeal phase",
+        "Airway protection lost → food/liquid enters trachea (aspiration)",
+        "Sensory damage may eliminate cough reflex → silent aspiration",
+        "Aspiration of oral bacteria-laden secretions → aspiration pneumonia risk"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "If a patient can drink water without coughing, they can swallow safely.",
+        reality: "Silent aspiration occurs in 40-70% of stroke patients with dysphagia — they aspirate without any visible cough or distress. A bedside water swallow test has limited sensitivity. Formal swallowing evaluation by speech-language pathology (SLP) using videofluoroscopic swallowing study (VFSS) or fiberoptic endoscopic evaluation of swallowing (FEES) is the gold standard for detecting silent aspiration.",
+      },
+      {
+        myth: "Dysphagia after stroke is permanent.",
+        reality: "Many stroke patients recover swallowing function, particularly those with unilateral hemispheric strokes. The intact hemisphere can reorganize and assume swallowing control through neuroplasticity, often within weeks to months. Early SLP intervention with targeted exercises (Mendelsohn maneuver, supraglottic swallow, tongue strengthening) accelerates recovery. Brainstem strokes tend to cause more persistent dysphagia.",
+      },
+      {
+        myth: "Thickened liquids prevent all aspiration.",
+        reality: "While thickened liquids slow bolus transit and may reduce aspiration volume, they do not eliminate aspiration risk entirely. Some patients aspirate thickened liquids as well. Thickened liquids also reduce fluid intake (patients find them unpalatable), increasing dehydration risk. The consistency and diet texture must be individualized based on instrumental swallowing assessment, not applied as a blanket intervention.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "NOTHING by mouth (NPO) for ALL stroke patients until a formal swallowing screening is performed: this is a critical safety intervention. Most stroke care protocols mandate dysphagia screening before any oral intake",
+        "Position the patient upright at 90 degrees during meals and for at least 30 minutes after eating to use gravity to assist bolus transit and reduce aspiration risk",
+        "Monitor for signs of aspiration: wet or gurgling voice quality after swallowing, coughing during or after meals, recurrent low-grade fevers, and unexplained oxygen desaturation during or after eating",
+        "Provide oral care every 2-4 hours for dysphagic stroke patients: reducing oral bacterial load significantly decreases the severity of aspiration pneumonia if aspiration does occur",
+      ],
+    },
+    pauseAndThink: "A stroke patient passes a bedside water swallow test without coughing but develops a fever of 38.5°C and new right lower lobe infiltrate on chest X-ray 48 hours later. What do you suspect happened, and why didn't the bedside test catch it?",
+    relatedLessons: [
+      { id: "stroke-management", title: "Stroke Management" },
+      { id: "neuro-basics", title: "Neurological Basics" },
+      { id: "pneumonia", title: "Pneumonia" },
+    ],
+    keywords: ["stroke dysphagia", "swallowing after stroke", "aspiration risk stroke", "silent aspiration", "dysphagia nursing"],
+  },
+  {
+    slug: "why-does-acute-kidney-injury-cause-metabolic-acidosis",
+    question: "Why does acute kidney injury cause metabolic acidosis?",
+    shortAnswer: "The kidneys normally maintain acid-base balance by excreting hydrogen ions and regenerating bicarbonate. When acute kidney injury impairs tubular function, the kidneys cannot excrete the daily acid load from metabolism, and bicarbonate regeneration fails — causing hydrogen ions to accumulate and serum pH to drop.",
+    category: "Renal",
+    bodySystem: "Renal",
+    difficulty: "intermediate",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Normal cellular metabolism generates approximately 50-100 mEq of non-volatile acid daily (primarily sulfuric acid from methionine and cysteine metabolism, and phosphoric acid from phospholipid metabolism). The kidneys maintain acid-base homeostasis through three mechanisms in the proximal and distal tubules: (1) Reabsorption of filtered bicarbonate: approximately 4,320 mEq of bicarbonate is filtered daily, and 85-90% is reabsorbed in the proximal convoluted tubule via carbonic anhydrase-dependent mechanisms. If this reclamation fails, bicarbonate is lost in the urine, directly depleting the blood's buffering capacity. (2) Titratable acid excretion: hydrogen ions are secreted into the tubular lumen and buffered by urinary phosphate (HPO₄²⁻ + H⁺ → H₂PO₄⁻), effectively excreting acid without dangerously lowering urine pH. (3) Ammoniagenesis: proximal tubular cells generate ammonia (NH₃) from glutamine metabolism. NH₃ diffuses into the tubular lumen and combines with secreted H⁺ to form ammonium (NH₄⁺), which is trapped in the urine and excreted — this is the kidney's most quantitatively important mechanism for acid excretion and can be upregulated in response to acid loads. In AKI, tubular cell injury impairs all three mechanisms simultaneously. Damaged tubular cells cannot secrete hydrogen ions effectively, cannot reabsorb filtered bicarbonate, and cannot generate adequate ammonia from glutamine. The daily metabolic acid load continues unabated while excretion capacity plummets. Additionally, reduced glomerular filtration rate leads to retention of organic anions (sulfate, phosphate, urate) — these unmeasured anions increase the anion gap. The result is a high anion gap metabolic acidosis (HAGMA) when organic acids accumulate, or a non-anion gap metabolic acidosis (NAGMA) when bicarbonate wasting predominates, depending on the predominant mechanism of tubular injury.",
+      chain: [
+        "AKI damages renal tubular epithelial cells",
+        "Impaired H⁺ secretion into tubular lumen",
+        "Failed bicarbonate reabsorption → bicarbonate wasting in urine",
+        "Reduced ammoniagenesis from injured proximal tubular cells",
+        "Daily metabolic acid production continues (50-100 mEq/day) without excretion",
+        "Organic anion retention (sulfate, phosphate) increases anion gap",
+        "Serum bicarbonate drops, pH falls → metabolic acidosis"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Metabolic acidosis in AKI is only important when pH drops below 7.2.",
+        reality: "Even moderate acidosis (pH 7.25-7.35) has significant physiological effects. Acidosis impairs cardiac contractility, causes vasodilation reducing blood pressure, shifts the oxyhemoglobin dissociation curve rightward (Bohr effect), promotes hyperkalemia through H⁺/K⁺ exchange, and increases protein catabolism. In critically ill AKI patients, these effects compound existing hemodynamic instability.",
+      },
+      {
+        myth: "Giving sodium bicarbonate fully corrects the problem.",
+        reality: "IV sodium bicarbonate provides temporary buffering but does not address the underlying tubular dysfunction. It also carries risks: sodium loading can worsen fluid overload, rapid alkalization can cause paradoxical CNS acidosis (CO₂ crosses the blood-brain barrier faster than bicarbonate), and overcorrection can precipitate alkalosis-induced hypokalemia and tetany. Bicarbonate is reserved for severe acidosis (pH < 7.1-7.2) as a bridge while treating the underlying AKI.",
+      },
+      {
+        myth: "All metabolic acidosis in AKI has a high anion gap.",
+        reality: "AKI can cause both high anion gap metabolic acidosis (from retained sulfate, phosphate, and organic acids) and non-anion gap (hyperchloremic) metabolic acidosis (from impaired bicarbonate reabsorption and ammoniagenesis). Early or mild AKI often presents with non-anion gap acidosis, while advanced AKI with significant GFR reduction typically shows high anion gap acidosis. Calculating the anion gap helps distinguish the mechanism.",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Monitor arterial blood gases and serum bicarbonate in all AKI patients: a declining bicarbonate trend indicates worsening acidosis even before pH drops significantly due to respiratory compensation (Kussmaul breathing)",
+        "Observe for Kussmaul respirations (deep, rapid breathing) as the respiratory system attempts to compensate for metabolic acidosis by blowing off CO₂: this is a sign of significant acidosis, not a primary respiratory problem",
+        "Acidosis and hyperkalemia frequently coexist in AKI: treat them as a linked pair. For every 0.1 decrease in pH, serum potassium rises approximately 0.6 mEq/L from transcellular shift — correcting the acidosis helps lower potassium",
+        "Renal replacement therapy (dialysis) may be needed when acidosis is refractory to medical management (pH persistently < 7.1), when bicarbonate supplementation alone cannot keep pace with acid generation, or when associated hyperkalemia becomes life-threatening",
+      ],
+    },
+    pauseAndThink: "An AKI patient has a pH of 7.18, bicarbonate of 10 mEq/L, and respiratory rate of 36 with deep labored breathing. Their potassium is 6.2 mEq/L. Why is the patient breathing so rapidly, and how does correcting the acidosis also help the potassium?",
+    relatedLessons: [
+      { id: "aki-management", title: "AKI Management" },
+      { id: "electrolyte-emergencies", title: "Electrolyte Emergencies" },
+      { id: "acid-base", title: "Acid-Base Balance" },
+    ],
+    keywords: ["AKI metabolic acidosis", "kidney injury acid base", "renal acidosis mechanism", "anion gap AKI", "AKI nursing"],
+  },
+  {
+    slug: "why-does-myocardial-infarction-cause-cardiogenic-shock",
+    question: "Why does myocardial infarction cause cardiogenic shock?",
+    shortAnswer: "When a large myocardial infarction destroys 40% or more of functioning left ventricular myocardium, the heart can no longer generate sufficient cardiac output to maintain systemic perfusion. This pump failure creates a devastating cycle: reduced coronary perfusion worsens ischemia, which further reduces contractility, causing progressive hemodynamic collapse.",
+    category: "Emergency",
+    bodySystem: "Cardiovascular",
+    difficulty: "advanced",
+    mechanism: {
+      title: "The Cellular Mechanism",
+      content: "Cardiogenic shock complicates approximately 5-8% of ST-elevation myocardial infarctions and carries a mortality rate of 40-50% even with optimal treatment. The pathophysiology begins when coronary artery occlusion (typically the left anterior descending artery for anterior MIs) deprives a large territory of myocardium of oxygen. Within minutes, ischemic cardiomyocytes switch from aerobic to anaerobic metabolism, producing lactate and depleting ATP reserves. Without ATP, calcium reuptake by the sarcoplasmic reticulum (via SERCA2a) fails, causing cytoplasmic calcium overload that paradoxically impairs both contraction (stunned myocardium) and relaxation (diastolic dysfunction). As ischemia persists beyond 20-40 minutes, irreversible necrosis begins. The infarcted segment becomes akinetic (non-contracting) or dyskinetic (paradoxically bulging during systole), eliminating its contribution to stroke volume. When the cumulative non-functioning myocardium exceeds approximately 40% of the left ventricle, cardiac output falls below the threshold needed to maintain systemic perfusion (cardiac index < 2.2 L/min/m²). This triggers a lethal positive feedback loop: reduced cardiac output lowers mean arterial pressure, which reduces coronary perfusion pressure (coronary flow depends on diastolic aortic pressure). Reduced coronary perfusion worsens ischemia in the border zone surrounding the infarct, extending the area of dysfunction and further reducing contractility. Simultaneously, compensatory vasoconstriction (from sympathetic activation and RAAS) increases systemic vascular resistance (afterload), forcing the failing ventricle to pump against higher resistance — further reducing stroke volume. The heart becomes trapped in a downward spiral of worsening pump failure, increasing wall stress, extending infarction, and deteriorating hemodynamics. Left ventricular end-diastolic pressure rises as the ventricle fails to empty adequately, causing pulmonary congestion and edema that impairs oxygenation — adding hypoxic injury to the ischemic insult.",
+      chain: [
+        "Coronary occlusion causes acute myocardial ischemia over a large territory",
+        "ATP depletion → calcium overload → myocardial stunning and necrosis",
+        "Loss of >40% of functioning LV myocardium → severe systolic dysfunction",
+        "Cardiac output drops below perfusion threshold (CI < 2.2 L/min/m²)",
+        "Reduced MAP → reduced coronary perfusion → extends ischemia (positive feedback loop)",
+        "Compensatory vasoconstriction increases afterload on the failing ventricle",
+        "Rising LVEDP causes pulmonary edema → worsens oxygenation",
+        "Progressive hemodynamic collapse without emergent intervention"
+      ],
+    },
+    misconceptions: [
+      {
+        myth: "Cardiogenic shock always presents immediately after the MI.",
+        reality: "While some patients present in cardiogenic shock at the time of MI, many develop it hours to days later as the infarct extends, border zone ischemia progresses, or mechanical complications develop (papillary muscle rupture, ventricular septal defect, free wall rupture). Serial hemodynamic assessment in the first 48-72 hours post-MI is critical because delayed cardiogenic shock has a particularly poor prognosis if not caught early.",
+      },
+      {
+        myth: "IV fluids help improve blood pressure in cardiogenic shock like they do in other types of shock.",
+        reality: "Unlike hypovolemic or distributive shock, the problem in cardiogenic shock is pump failure, not volume depletion. Aggressive IV fluids in cardiogenic shock increase preload on an already failing ventricle, worsen pulmonary congestion, and can precipitate flash pulmonary edema. Management focuses on inotropic support (dobutamine), vasopressor support (norepinephrine), and emergent revascularization (PCI). Mechanical circulatory support (IABP, Impella, ECMO) may be needed.",
+      },
+      {
+        myth: "If the patient's blood pressure responds to vasopressors, the cardiogenic shock is resolving.",
+        reality: "Vasopressors increase blood pressure by increasing systemic vascular resistance (afterload), but this actually increases the workload on the failing heart and can worsen cardiac output. A rising blood pressure on vasopressors without improvement in cardiac index, lactate clearance, urine output, and mental status indicates pseudo-improvement. True resolution requires restoration of myocardial perfusion through emergent revascularization (PCI or CABG).",
+      },
+    ],
+    clinicalRelevance: {
+      title: "What This Means at the Bedside",
+      points: [
+        "Recognize the cardiogenic shock triad: hypotension (SBP < 90 mmHg for >30 minutes), evidence of end-organ hypoperfusion (altered mental status, cool/mottled extremities, oliguria < 0.5 mL/kg/hr), and pulmonary congestion (crackles, elevated JVP, pulmonary edema on CXR)",
+        "Differentiate cardiogenic from other shock types: cardiogenic shock has ELEVATED filling pressures (PCWP > 18 mmHg) with LOW cardiac index (< 2.2 L/min/m²) — if a pulmonary artery catheter is in place, these hemodynamic parameters guide management",
+        "Time is myocardium: emergent cardiac catheterization and PCI to restore coronary blood flow is the definitive treatment. Every minute of delay allows the infarct to extend and the feedback loop to worsen. Facilitate urgent transfer to the cath lab",
+        "Monitor lactate clearance as a marker of tissue perfusion improvement: declining lactate indicates improving cardiac output and tissue oxygen delivery. Persistently elevated or rising lactate despite treatment indicates refractory shock and need for escalation (mechanical circulatory support)",
+      ],
+    },
+    pauseAndThink: "A patient 6 hours post-anterior STEMI develops SBP of 78 mmHg, heart rate 118, SpO2 88% with bilateral crackles, and urine output of 10 mL over the last 2 hours. A colleague suggests a 500 mL NS bolus. Why would this be harmful, and what interventions should you prioritize instead?",
+    relatedLessons: [
+      { id: "mi-management", title: "Myocardial Infarction Management" },
+      { id: "shock-types", title: "Types of Shock" },
+      { id: "hf-advanced", title: "Heart Failure Advanced" },
+    ],
+    keywords: ["cardiogenic shock MI", "myocardial infarction shock", "pump failure heart", "cardiogenic shock management", "MI nursing"],
+  },
 ];
 
 export const confusionCategories = Array.from(new Set(clinicalConfusions.map(c => c.category)));

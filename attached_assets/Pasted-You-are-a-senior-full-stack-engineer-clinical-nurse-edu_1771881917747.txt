@@ -1,0 +1,181 @@
+You are a senior full-stack engineer + clinical nurse educator + UI/UX designer.
+
+Create a FREE Printable Clinical Reference Sheets section for my nursing education website (NurseNest).
+
+CRITICAL GLOBAL REQUIREMENTS (APPLY TO ALL SHEETS)
+
+Branding (MANDATORY):
+- Display NurseNest logo at the top of every sheet
+- Show title of sheet clearly under logo
+- Include website URL: www.nursenest.ca
+- Include footer on EVERY printed page:
+  www.nursenest.ca | NurseNest Clinical Reference | Date Generated
+
+Print Formatting (NON-NEGOTIABLE):
+- Must print cleanly on BOTH A4 (Canada) and US Letter (USA)
+- High contrast for printing (black text on white background)
+- No layout distortion when printed
+- Prevent awkward page breaks
+- Prevent excessive whitespace
+- Hide navigation/buttons in print mode
+- Header + footer must remain visible when printing
+- Provide print-specific CSS
+
+Style:
+- Clean, modern clinical reference sheet
+- Premium academic appearance
+- Highly scannable under exam conditions
+- Avoid verbose textbook paragraphs
+- Use concise clinical phrasing
+
+Clinical Safety Text (Include on every sheet):
+"Educational reference only. Reference ranges, protocols, and clinical decisions must always follow institutional policies and current official guidelines."
+
+Spelling & Accuracy:
+Before finalizing output verify:
+- Clinical plausibility
+- No unsafe simplifications
+- Correct spelling
+- Logical consistency
+
+OUTPUT FORMAT:
+Create webpages optimized for print (NOT PDFs only). Printing to PDF must work perfectly from browser.
+
+-------------------------------------
+
+CREATE THE FOLLOWING FREE PRINTABLE SHEETS
+
+-------------------------------------
+
+1) MEDICATION ANTIDOTES & REVERSAL AGENTS SHEET
+
+Include high-yield exam-relevant items:
+
+- Opioid reversal principles
+- Benzodiazepine reversal concepts
+- Anticoagulant reversal concepts (high level)
+- Hypoglycemia rescue agents
+- Electrolyte emergency considerations
+- Safety warnings & common student errors
+
+Formatting:
+- Table or structured quick-reference layout
+- Focus on recognition & safety logic
+- Avoid copying proprietary guideline text
+
+-------------------------------------
+
+2) IV FLUIDS & SOLUTIONS REFERENCE (CANADA + USA)
+
+Include:
+
+- Isotonic / hypotonic / hypertonic concepts
+- Common solutions (normal saline, LR, etc.)
+- Clinical effects & risks
+- Situations where fluids are dangerous
+- Electrolyte implications
+- Exam traps
+
+Units:
+- Ensure compatibility with Canadian & American conventions
+- Avoid unsafe numeric claims where variability exists
+- Use conceptually accurate language
+
+-------------------------------------
+
+3) ACID–BASE DISORDERS REFERENCE SHEET
+
+Include:
+
+- Respiratory vs metabolic logic
+- Compensation concepts
+- Classic disorder patterns
+- Clinical clues
+- Dangerous combinations
+- Frequent student mistakes
+- Quick interpretation structure
+
+Design:
+- Extremely scannable
+- Decision-tree / logic-flow oriented
+
+-------------------------------------
+
+4) INJECTION SITES & ADMINISTRATION REFERENCE
+
+Include:
+
+- IM vs Subcutaneous vs Intradermal
+- Common anatomical sites
+- Angle & technique principles
+- Safety considerations
+- Site selection logic
+- Common student mistakes
+
+Design:
+- Visual hierarchy optimized for printing
+- No copyrighted diagrams
+- Use descriptive labeling if visuals required
+
+-------------------------------------
+
+5) DOCUMENTATION & REPORT-TAKING SHEETS
+
+Create printable structured templates:
+
+A) Nursing report / handover template
+B) SBAR-style communication sheet
+C) Shift note structure
+D) Common charting pitfalls
+E) Safety/legal reminders
+
+Design:
+- Minimalist worksheet style
+- Clean writing space
+- No clutter
+
+-------------------------------------
+
+6) PEDIATRIC vs ADULT DIFFERENCES REFERENCE
+
+Include high-yield differences:
+
+- Vital sign patterns
+- Respiratory differences
+- Cardiovascular considerations
+- Medication safety concepts
+- Assessment differences
+- Deterioration patterns
+- Exam-relevant contrasts
+
+Formatting:
+- Comparison layout
+- High memorization value
+
+-------------------------------------
+
+TECHNICAL IMPLEMENTATION
+
+- Next.js / React / TypeScript
+- Each sheet should be its own route:
+   /free/printables/antidotes
+   /free/printables/iv-fluids
+   /free/printables/acid-base
+   /free/printables/injection-sites
+   /free/printables/documentation
+   /free/printables/peds-vs-adult
+
+- Reusable components:
+   PrintableLayout
+   PrintHeader
+   PrintFooter
+
+- Implement print CSS using @media print
+- Ensure header/footer repeat properly
+- Ensure tables do not split poorly
+- Ensure typography remains readable
+
+DELIVERABLES:
+Provide all code files with paths and sample content populated.
+
+Now implement this.
