@@ -132,7 +132,6 @@ app.get("/robots.txt", (_req, res) => {
 });
 
 function getSiteBase(): string {
-  if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/, "");
   return "https://www.nursenest.ca";
 }
 
