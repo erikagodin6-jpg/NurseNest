@@ -538,38 +538,19 @@ export function Navigation() {
             </Link>
 
             <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-3 group data-[state=open]:text-primary">
-                    Free
-                    <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-52 p-2">
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pre-nursing")}>
-                    <BookOpen className="w-4 h-4 text-primary/70" />
-                    Pre-Nursing Foundations
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/anatomy")}>
-                    <Dna className="w-4 h-4 text-primary/70" />
-                    Anatomy & Physiology
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/clinical-clarity")}>
-                    <Lightbulb className="w-4 h-4 text-primary/70" />
-                    Clinical Clarity
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/lessons")}>
-                    <BookOpen className="w-4 h-4 text-primary/70" />
-                    Browse Lessons
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/blog")}>
-                    <FileText className="w-4 h-4 text-primary/70" />
-                    Blog
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-2 lg:px-3" onClick={() => setLocation("/blog")}>
-                <FileText className="w-4 h-4" />
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/pre-nursing")}>
+                Pre-Nursing
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/anatomy")}>
+                Anatomy
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lessons")}>
+                Lessons
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/clinical-clarity")}>
+                Clinical Clarity
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/blog")}>
                 Blog
               </Button>
               <DropdownMenu>
