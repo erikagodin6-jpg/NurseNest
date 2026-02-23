@@ -1,31 +1,3 @@
-import systemCardiovascular from "@/assets/images/system-cardiovascular.png";
-import systemRespiratory from "@/assets/images/system-respiratory.png";
-import systemNeurological from "@/assets/images/system-neurological.png";
-import systemGastrointestinal from "@/assets/images/system-gastrointestinal.png";
-import systemRenal from "@/assets/images/system-renal.png";
-import systemEndocrine from "@/assets/images/system-endocrine.png";
-import systemHematology from "@/assets/images/system-hematology.png";
-import systemMusculoskeletal from "@/assets/images/system-musculoskeletal.png";
-import systemImmune from "@/assets/images/system-immune.png";
-import systemMaternity from "@/assets/images/system-maternity.png";
-import systemPediatrics from "@/assets/images/system-pediatrics.png";
-import systemMentalHealth from "@/assets/images/system-mental-health.png";
-import systemOncology from "@/assets/images/system-oncology.png";
-import systemPharmacology from "@/assets/images/system-pharmacology.png";
-import systemFundamentals from "@/assets/images/system-fundamentals.png";
-import systemEmergency from "@/assets/images/system-emergency.png";
-import systemSensory from "@/assets/images/system-sensory.png";
-import systemWoundCare from "@/assets/images/system-wound-care.png";
-import systemDelegation from "@/assets/images/system-delegation.png";
-import systemInfectionControl from "@/assets/images/system-infection-control.png";
-import systemPain from "@/assets/images/system-pain.png";
-import systemPalliative from "@/assets/images/system-palliative.png";
-import systemCommunity from "@/assets/images/system-community.png";
-import systemCell from "@/assets/images/system-cell.png";
-import systemHomeostasis from "@/assets/images/system-homeostasis.png";
-import systemReproductive from "@/assets/images/system-reproductive.png";
-import systemAssessment from "@/assets/images/system-assessment.png";
-
 import illustrationBacteria from "@assets/0F849D91-31C9-462C-90A3-86BC0A349208_1771867669482.png";
 import illustrationVirus from "@assets/68A849D0-5AC6-4572-9DFC-1DB87E8C4EBE_1771867669482.png";
 import illustrationWound from "@assets/0C0087C1-6D3B-4F00-8750-23E66D85FDE6_1771867669482.png";
@@ -72,26 +44,36 @@ import illustrationChestPhysio from "@assets/3403E0A1-FD35-4565-8FBD-AC1B12F6E5B
 import illustrationRSV from "@assets/FF3F138F-78D6-4835-87F3-C60BD532466C_1771867815027.png";
 import illustrationHemoptysis from "@assets/B354DEF5-097E-4AC9-AF5F-931EE3005A87_1771867815027.png";
 
-import illustrationInflammatoryResponse from "@assets/046AF766-D3A2-4713-BF5D-BC2AFF8EEA89_1771868083264.png";
-import illustrationRetinalDetachment from "@assets/0AE4E67F-B5E1-48E4-8AD0-B41CE2ACB23F_1771868083264.png";
+import illustrationInflammatoryResponse from "@assets/046AF766-D3A2-4713-BF5D-BC2AFF8EEA89_1771876993790.png";
+import illustrationRetinalDetachment from "@assets/0AE4E67F-B5E1-48E4-8AD0-B41CE2ACB23F_1771876993790.png";
 import illustrationPressureInjuries from "@assets/100A1278-5109-4338-9152-6FAF72E85341_1771868083264.png";
 import illustrationInnateImmunity from "@assets/1C466673-4454-450E-AE1C-B74640446346_1771868083264.png";
-import illustrationConjunctivitis from "@assets/2A5A215F-C1B8-47AC-A578-56692F1FAE77_1771868083264.png";
+import illustrationConjunctivitis from "@assets/2A5A215F-C1B8-47AC-A578-56692F1FAE77_1771876993790.png";
 import illustrationAplasticAnemia from "@assets/32E51C4A-3F99-43D5-96B2-2CE324330F87_1771868083264.png";
-import illustrationAlopecia from "@assets/39538283-9967-45C0-ADA2-25E5520E3F5F_1771868083263.png";
-import illustrationPemphigus from "@assets/5A41761B-2000-49FF-83C0-27A72968F216_1771868083264.png";
+import illustrationAlopecia from "@assets/39538283-9967-45C0-ADA2-25E5520E3F5F_1771876993790.png";
+import illustrationPemphigus from "@assets/5A41761B-2000-49FF-83C0-27A72968F216_1771876993790.png";
 import illustrationPolycythemia from "@assets/5F1310AB-CBDE-4C49-87A2-4638DFB92AF1_1771868083264.png";
 import illustrationAtopicDermatitis from "@assets/64F2AD56-DDA3-4282-A2AE-989A8876E293_1771868083264.png";
 import illustrationOtitis from "@assets/7AE05516-F883-4435-9F59-41BF4D7C1264_1771868083264.png";
-import illustrationSJS from "@assets/8B2140B9-A90F-43FD-8CFB-3B5D7AE1B05B_1771868083264.png";
+import illustrationSJS from "@assets/8B2140B9-A90F-43FD-8CFB-3B5D7AE1B05B_1771876993790.png";
 import illustrationAdaptiveImmunity from "@assets/8F8DFB41-141E-49CA-999F-AAE67CC821E8_1771868083264.png";
-import illustrationAtopicDermatitis2 from "@assets/AC563340-1AD1-4E93-B849-E8ED7958B6B2_1771868083264.png";
-import illustrationHerpesSimplex from "@assets/BCFFAFC1-BDE7-483A-AC2F-9F685A023DDC_1771868083264.png";
-import illustrationGlaucoma from "@assets/C738090F-1F80-4FAD-9716-D7BFB7A7FF64_1771868083264.png";
+import illustrationAtopicDermatitis2 from "@assets/AC563340-1AD1-4E93-B849-E8ED7958B6B2_1771876993790.png";
+import illustrationHerpesSimplex from "@assets/BCFFAFC1-BDE7-483A-AC2F-9F685A023DDC_1771876993790.png";
+import illustrationGlaucoma from "@assets/C738090F-1F80-4FAD-9716-D7BFB7A7FF64_1771876993790.png";
 import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
-import illustrationVitiligo from "@assets/DCDE9D04-6308-4E8B-B67F-3676A7AA7FFC_1771868083264.png";
-import illustrationShingles from "@assets/E5D77B27-3EBD-41F1-BB70-B4EA0BB8052B_1771868083264.png";
+import illustrationVitiligo from "@assets/DCDE9D04-6308-4E8B-B67F-3676A7AA7FFC_1771876993790.png";
+import illustrationShingles from "@assets/E5D77B27-3EBD-41F1-BB70-B4EA0BB8052B_1771876993790.png";
 import illustrationHomeostasis from "@assets/E9E33423-6365-4686-98CB-3197D14546E5_1771868083264.png";
+
+import illustrationPinworms from "@assets/595789F6-9300-49DC-8E91-A4F4BD47828A_1771876993790.png";
+import illustrationHeadLice from "@assets/95D15121-15BA-432E-B4B8-E53EC2CE32EE_1771876993790.png";
+import illustrationImpetigo from "@assets/58B1FEFF-175B-46BA-9670-C05E9C913B71_1771876993790.png";
+import illustrationVaricellaStages from "@assets/81F07655-36A5-4878-8AF7-095BBCE054C7_1771876993790.png";
+import illustrationVaricella from "@assets/C527559D-8D1C-4361-8CEE-E31DDB490260_1771876993790.png";
+import illustrationEpiglottitis from "@assets/542F3445-06E2-4D67-AD5D-216D41169BDA_1771876993790.png";
+import illustrationOsteoporosis from "@assets/FCA45E66-D79A-4B8E-BE56-78FCF54E7DDF_1771876993790.png";
+import illustrationKawasaki from "@assets/11A2CDEF-EBC1-4490-8E31-20C247CCF959_1771876993790.png";
+import illustrationScabies from "@assets/DB83B384-23E6-4FF0-B109-D8795113ABB2_1771876993790.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis": illustrationEndocarditis,
@@ -216,8 +198,8 @@ const lessonSpecificImages: Record<string, string> = {
   "contact-dermatitis": illustrationAtopicDermatitis2,
   "stevens-johnson-syndrome": illustrationSJS,
   "urticaria": illustrationAtopicDermatitis,
-  "scabies": illustrationAtopicDermatitis2,
-  "impetigo": illustrationAtopicDermatitis,
+  "scabies": illustrationScabies,
+  "impetigo": illustrationImpetigo,
   "pemphigus-vulgaris": illustrationPemphigus,
   "melanoma": illustrationRheumaticFever,
   "toxic-epidermal-necrolysis": illustrationSJS,
@@ -244,7 +226,6 @@ const lessonSpecificImages: Record<string, string> = {
   "polycythemia-vera": illustrationPolycythemia,
   "atopic-dermatitis": illustrationAtopicDermatitis,
   "eczema": illustrationAtopicDermatitis2,
-  "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
   "otitis-media": illustrationOtitis,
   "otitis-externa": illustrationOtitis,
   "ear-infection": illustrationOtitis,
@@ -257,168 +238,194 @@ const lessonSpecificImages: Record<string, string> = {
   "cell-biology": illustrationCellStructure,
   "vitiligo": illustrationVitiligo,
   "herpes-zoster": illustrationShingles,
-  "herpes-zoster-shingles": illustrationShingles,
   "shingles": illustrationShingles,
   "varicella-zoster": illustrationShingles,
   "homeostasis": illustrationHomeostasis,
   "feedback-loops": illustrationHomeostasis,
   "homeostasis-feedback": illustrationHomeostasis,
-  "psoriasis": illustrationAtopicDermatitis2,
+  "pinworms": illustrationPinworms,
+  "enterobiasis": illustrationPinworms,
+  "head-lice": illustrationHeadLice,
+  "pediculosis": illustrationHeadLice,
+  "varicella": illustrationVaricella,
+  "chickenpox": illustrationVaricella,
+  "varicella-rash-stages": illustrationVaricellaStages,
+  "epiglottitis": illustrationEpiglottitis,
+  "osteoporosis": illustrationOsteoporosis,
+  "osteoporosis-basics": illustrationOsteoporosis,
+  "kawasaki-disease": illustrationKawasaki,
+  "kawasaki": illustrationKawasaki,
+  "raynauds": illustrationRaynauds,
+  "raynauds-phenomenon": illustrationRaynauds,
+  "varicose-veins": illustrationVaricoseVeins,
+  "venous-insufficiency": illustrationVenousInsufficiency,
+  "rheumatic-fever": illustrationRheumaticFever,
 };
 
 const systemImageMap: Record<string, string> = {
-  "cardiovascular": systemCardiovascular,
-  "cardiovascular-rn": systemCardiovascular,
-  "cardiovascular-np": systemCardiovascular,
-  "cardiovascular-pharmacology-rpn": systemCardiovascular,
-  "cardiovascular-pharmacology-rn": systemCardiovascular,
-  "cardiovascular-pharmacology-np": systemCardiovascular,
+  "cardiovascular": illustrationCardiacCycle,
+  "cardiovascular-rn": illustrationCardiacCycle,
+  "cardiovascular-np": illustrationCardiacCycle,
+  "cardiovascular-rpn": illustrationCardiacCycle,
+  "cardiovascular-pharmacology-rpn": illustrationCardiacCycle,
+  "cardiovascular-pharmacology-rn": illustrationCardiacCycle,
+  "cardiovascular-pharmacology-np": illustrationCardiacCycle,
 
-  "respiratory": systemRespiratory,
-  "respiratory-rn": systemRespiratory,
-  "respiratory-np": systemRespiratory,
-  "respiratory-pharmacology-rpn": systemRespiratory,
-  "respiratory-pharmacology-rn": systemRespiratory,
-  "respiratory-pharmacology-np": systemRespiratory,
+  "respiratory": illustrationCOPD,
+  "respiratory-rn": illustrationCOPD,
+  "respiratory-np": illustrationCOPD,
+  "respiratory-rpn": illustrationCOPD,
+  "respiratory-pharmacology-rpn": illustrationCOPD,
+  "respiratory-pharmacology-rn": illustrationCOPD,
+  "respiratory-pharmacology-np": illustrationCOPD,
 
-  "neurological": systemNeurological,
-  "neurological-rn": systemNeurological,
-  "neurological-np": systemNeurological,
-  "neuro-basics": systemNeurological,
-  "neurological-pharmacology-rpn": systemNeurological,
-  "neurological-pharmacology-rn": systemNeurological,
-  "neurological-pharmacology-np": systemNeurological,
+  "neurological": illustrationStroke,
+  "neurological-rn": illustrationStroke,
+  "neurological-np": illustrationStroke,
+  "neurological-rpn": illustrationStroke,
+  "neuro-basics": illustrationStroke,
+  "neurological-pharmacology-rpn": illustrationStroke,
+  "neurological-pharmacology-rn": illustrationStroke,
+  "neurological-pharmacology-np": illustrationStroke,
 
-  "gastrointestinal": systemGastrointestinal,
-  "gastrointestinal-rn": systemGastrointestinal,
-  "gastrointestinal-np": systemGastrointestinal,
-  "gi-advanced": systemGastrointestinal,
-  "gi-pharmacology-rpn": systemGastrointestinal,
-  "gi-pharmacology-rn": systemGastrointestinal,
-  "gi-pharmacology-np": systemGastrointestinal,
+  "gastrointestinal": illustrationElectrolytes,
+  "gastrointestinal-rn": illustrationElectrolytes,
+  "gastrointestinal-np": illustrationElectrolytes,
+  "gastrointestinal-rpn": illustrationElectrolytes,
+  "gi-advanced": illustrationElectrolytes,
+  "gi-pharmacology-rpn": illustrationElectrolytes,
+  "gi-pharmacology-rn": illustrationElectrolytes,
+  "gi-pharmacology-np": illustrationElectrolytes,
 
-  "renal": systemRenal,
-  "renal-metabolic-rn": systemRenal,
-  "renal-np": systemRenal,
-  "renal-pharmacology-rpn": systemRenal,
-  "renal-pharmacology-rn": systemRenal,
-  "renal-pharmacology-np": systemRenal,
+  "renal": illustrationKidneys,
+  "renal-rpn": illustrationKidneys,
+  "renal-metabolic-rn": illustrationKidneys,
+  "renal-np": illustrationKidneys,
+  "renal-pharmacology-rpn": illustrationKidneys,
+  "renal-pharmacology-rn": illustrationKidneys,
+  "renal-pharmacology-np": illustrationKidneys,
 
-  "endocrine": systemEndocrine,
-  "endocrine-rn": systemEndocrine,
-  "endocrine-np": systemEndocrine,
-  "endocrine-pharmacology-rpn": systemEndocrine,
-  "endocrine-pharmacology-rn": systemEndocrine,
-  "endocrine-pharmacology-np": systemEndocrine,
+  "endocrine": illustrationHomeostasis,
+  "endocrine-rpn": illustrationHomeostasis,
+  "endocrine-rn": illustrationHomeostasis,
+  "endocrine-np": illustrationHomeostasis,
+  "endocrine-pharmacology-rpn": illustrationHomeostasis,
+  "endocrine-pharmacology-rn": illustrationHomeostasis,
+  "endocrine-pharmacology-np": illustrationHomeostasis,
 
-  "hematology": systemHematology,
-  "hematology-rn": systemHematology,
-  "hematology-np": systemHematology,
-  "hematology-oncology-rpn": systemHematology,
-  "hematology-pharmacology-rpn": systemHematology,
+  "hematology": illustrationPolycythemia,
+  "hematology-rpn": illustrationPolycythemia,
+  "hematology-rn": illustrationPolycythemia,
+  "hematology-np": illustrationPolycythemia,
+  "hematology-oncology-rpn": illustrationPolycythemia,
+  "hematology-pharmacology-rpn": illustrationPolycythemia,
 
-  "musculoskeletal": systemMusculoskeletal,
-  "musculoskeletal-rn": systemMusculoskeletal,
-  "musculoskeletal-np": systemMusculoskeletal,
-  "orthopedic-rpn": systemMusculoskeletal,
+  "musculoskeletal": illustrationOsteoporosis,
+  "musculoskeletal-rpn": illustrationOsteoporosis,
+  "musculoskeletal-rn": illustrationOsteoporosis,
+  "musculoskeletal-np": illustrationOsteoporosis,
+  "orthopedic-rpn": illustrationOsteoporosis,
 
-  "immune": systemImmune,
-  "immune-system": systemImmune,
-  "immune-rn": systemImmune,
-  "immune-np": systemImmune,
-  "autoimmune-rheumatology-np": systemImmune,
+  "immune": illustrationInflammatoryResponse,
+  "immune-system": illustrationInflammatoryResponse,
+  "immune-system-rpn": illustrationInflammatoryResponse,
+  "immune-rn": illustrationInflammatoryResponse,
+  "immune-np": illustrationInflammatoryResponse,
+  "autoimmune-rheumatology-np": illustrationInflammatoryResponse,
 
-  "maternity": systemMaternity,
-  "maternity-rn": systemMaternity,
-  "maternity-np": systemMaternity,
-  "maternity-rpn": systemMaternity,
-  "maternity-pharmacology-rpn": systemMaternity,
-  "maternity-pharmacology-rn": systemMaternity,
-  "maternity-pharmacology-np": systemMaternity,
-  "postpartum-neonatal-rpn": systemMaternity,
+  "maternity": illustrationHomeostasis,
+  "maternity-rn": illustrationHomeostasis,
+  "maternity-np": illustrationHomeostasis,
+  "maternity-rpn": illustrationHomeostasis,
+  "maternity-pharmacology-rpn": illustrationHomeostasis,
+  "maternity-pharmacology-rn": illustrationHomeostasis,
+  "maternity-pharmacology-np": illustrationHomeostasis,
+  "postpartum-neonatal-rpn": illustrationHomeostasis,
 
-  "pediatrics": systemPediatrics,
-  "pediatrics-rn": systemPediatrics,
-  "pediatrics-np": systemPediatrics,
-  "pediatrics-rpn": systemPediatrics,
-  "pediatric-pharmacology-rpn": systemPediatrics,
-  "pediatric-pharmacology-rn": systemPediatrics,
-  "pediatric-pharmacology-np": systemPediatrics,
-  "neonatal-rpn": systemPediatrics,
+  "pediatrics": illustrationEpiglottitis,
+  "pediatrics-rn": illustrationEpiglottitis,
+  "pediatrics-np": illustrationEpiglottitis,
+  "pediatrics-rpn": illustrationEpiglottitis,
+  "pediatric-pharmacology-rpn": illustrationEpiglottitis,
+  "pediatric-pharmacology-rn": illustrationEpiglottitis,
+  "pediatric-pharmacology-np": illustrationEpiglottitis,
+  "neonatal-rpn": illustrationEpiglottitis,
 
-  "mental-health": systemMentalHealth,
-  "mental-health-rn": systemMentalHealth,
-  "mental-health-np": systemMentalHealth,
-  "mental-health-rpn": systemMentalHealth,
-  "psychiatric-pharmacology-rpn": systemMentalHealth,
-  "psychiatric-pharmacology-rn": systemMentalHealth,
-  "psychiatric-pharmacology-np": systemMentalHealth,
+  "mental-health": illustrationDeliriumDementia,
+  "mental-health-rn": illustrationDeliriumDementia,
+  "mental-health-np": illustrationDeliriumDementia,
+  "mental-health-rpn": illustrationDeliriumDementia,
+  "psychiatric-pharmacology-rpn": illustrationDeliriumDementia,
+  "psychiatric-pharmacology-rn": illustrationDeliriumDementia,
+  "psychiatric-pharmacology-np": illustrationDeliriumDementia,
 
-  "oncology": systemOncology,
-  "oncology-rn": systemOncology,
-  "oncology-np": systemOncology,
-  "oncology-rpn": systemOncology,
-  "oncology-pharmacology-rpn": systemOncology,
-  "oncology-pharmacology-rn": systemOncology,
-  "oncology-pharmacology-np": systemOncology,
+  "oncology": illustrationTumor,
+  "oncology-rn": illustrationTumor,
+  "oncology-np": illustrationTumor,
+  "oncology-rpn": illustrationTumor,
+  "oncology-pharmacology-rpn": illustrationTumor,
+  "oncology-pharmacology-rn": illustrationTumor,
+  "oncology-pharmacology-np": illustrationTumor,
 
-  "pharmacology": systemPharmacology,
-  "pharmacology-core-rpn": systemPharmacology,
-  "pharmacology-core-rn": systemPharmacology,
-  "pharmacology-core-np": systemPharmacology,
-  "analgesic-pharmacology-rpn": systemPharmacology,
+  "pharmacology": illustrationElectrolytes,
+  "pharmacology-core-rpn": illustrationElectrolytes,
+  "pharmacology-core-rn": illustrationElectrolytes,
+  "pharmacology-core-np": illustrationElectrolytes,
+  "analgesic-pharmacology-rpn": illustrationElectrolytes,
 
-  "fundamentals-core": systemFundamentals,
-  "fundamentals": systemFundamentals,
-  "nursing-fundamentals-rpn": systemFundamentals,
+  "fundamentals-core": illustrationBacteria,
+  "fundamentals": illustrationBacteria,
+  "nursing-fundamentals-rpn": illustrationBacteria,
 
-  "emergency": systemEmergency,
-  "emergency-rn": systemEmergency,
-  "emergency-np": systemEmergency,
-  "emergency-rpn": systemEmergency,
-  "clinical-scenarios-rpn": systemEmergency,
-  "critical-care-advanced-np": systemEmergency,
+  "emergency": illustrationShock,
+  "emergency-rn": illustrationShock,
+  "emergency-np": illustrationShock,
+  "emergency-rpn": illustrationShock,
+  "clinical-scenarios": illustrationShock,
+  "clinical-scenarios-rpn": illustrationShock,
+  "critical-care-advanced-np": illustrationShock,
 
-  "eye-ear": systemSensory,
-  "eye-ear-rpn": systemSensory,
-  "sensory-np": systemSensory,
+  "heent-skin-rpn": illustrationAtopicDermatitis2,
+  "eye-ear": illustrationGlaucoma,
+  "eye-ear-rpn": illustrationGlaucoma,
+  "sensory-np": illustrationGlaucoma,
 
-  "wound-care-rpn": systemWoundCare,
-  "skin-infections-rpn": systemWoundCare,
+  "wound-care-rpn": illustrationWound,
+  "skin-infections-rpn": illustrationScabies,
 
-  "delegation-core": systemDelegation,
-  "delegation": systemDelegation,
+  "delegation-core": illustrationCranialNerves,
+  "delegation": illustrationCranialNerves,
 
-  "infection-control-rpn": systemInfectionControl,
-  "infection-control": systemInfectionControl,
+  "infection-control-rpn": illustrationVirus,
+  "infection-control": illustrationVirus,
 
-  "pain-management-rpn": systemPain,
-  "pain-management": systemPain,
+  "pain-management-rpn": illustrationNerve,
+  "pain-management": illustrationNerve,
 
-  "palliative-eol-rpn": systemPalliative,
-  "palliative": systemPalliative,
+  "palliative-eol-rpn": illustrationCardiacCycle,
+  "palliative": illustrationCardiacCycle,
 
-  "community-health-rpn": systemCommunity,
-  "community": systemCommunity,
+  "community-health-rpn": illustrationInnateImmunity,
+  "community": illustrationInnateImmunity,
 
-  "cell-structure": systemCell,
-  "cell-biology": systemCell,
-  "feedback-loops": systemHomeostasis,
-  "homeostasis": systemHomeostasis,
+  "cell-structure": illustrationCellStructure,
+  "cell-biology": illustrationCellStructure,
+  "feedback-loops": illustrationHomeostasis,
+  "homeostasis": illustrationHomeostasis,
 
-  "reproductive": systemReproductive,
+  "reproductive": illustrationHomeostasis,
 
-  "assessment-rpn": systemAssessment,
-  "assessment": systemAssessment,
+  "assessment-rpn": illustrationCranialNerves,
+  "assessment": illustrationCranialNerves,
 
-  "nutrition-rpn": systemFundamentals,
-  "lab-fundamentals-rpn": systemRenal,
-  "vaccines-rpn": systemInfectionControl,
+  "nutrition-rpn": illustrationElectrolytes,
+  "lab-fundamentals-rpn": illustrationKidneys,
+  "vaccines-rpn": illustrationVirus,
 
-  "rare-genetic-disorders-np": systemHematology,
-  "toxicology-np": systemEmergency,
-  "advanced-diagnostics-np": systemAssessment,
-  "advanced-pharmacology-np": systemPharmacology,
+  "rare-genetic-disorders-np": illustrationCellStructure,
+  "toxicology-np": illustrationShock,
+  "advanced-diagnostics-np": illustrationCranialNerves,
+  "advanced-pharmacology-np": illustrationElectrolytes,
 };
 
 export function getSystemImage(systemId: string): string | undefined {
@@ -464,45 +471,40 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("aplastic")) return illustrationAplasticAnemia;
   if (lessonId.includes("alopecia") || lessonId.includes("hair-loss")) return illustrationAlopecia;
   if (lessonId.includes("pemphigus")) return illustrationPemphigus;
-  if (lessonId.includes("polycythemia")) return illustrationPolycythemia;
+  if (lessonId.includes("polycythem")) return illustrationPolycythemia;
   if (lessonId.includes("atopic") || lessonId.includes("eczema")) return illustrationAtopicDermatitis;
-  if (lessonId.includes("otitis")) return illustrationOtitis;
-  if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationSJS;
+  if (lessonId.includes("otitis") || lessonId.includes("ear-infect")) return illustrationOtitis;
   if (lessonId.includes("herpes-simplex") || lessonId.includes("hsv") || lessonId.includes("cold-sore")) return illustrationHerpesSimplex;
-  if (lessonId.includes("herpes-zoster") || lessonId.includes("shingles") || lessonId.includes("varicella-zoster")) return illustrationShingles;
   if (lessonId.includes("glaucoma")) return illustrationGlaucoma;
   if (lessonId.includes("vitiligo")) return illustrationVitiligo;
-  if (lessonId.includes("cell-structure") || lessonId.includes("cell-biology")) return illustrationCellStructure;
+  if (lessonId.includes("shingles") || lessonId.includes("herpes-zoster") || lessonId.includes("varicella-zoster")) return illustrationShingles;
+  if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationSJS;
+  if (lessonId.includes("cell-struct") || lessonId.includes("cell-bio")) return illustrationCellStructure;
   if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
-  if (lessonId.includes("psoriasis")) return illustrationAtopicDermatitis2;
-  if (lessonId.includes("contact-dermatitis")) return illustrationAtopicDermatitis2;
-  if (lessonId.includes("cardio") || lessonId.includes("heart") || lessonId.includes("mi-") || lessonId.includes("hf-") || lessonId.includes("aaa-") || lessonId.includes("dvt") || lessonId.includes("pacemaker") || lessonId.includes("aortic") || lessonId.includes("carotid") || lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return systemCardiovascular;
-  if (lessonId.includes("resp") || lessonId.includes("copd") || lessonId.includes("asthma") || lessonId.includes("pneumo") || lessonId.includes("tb-") || lessonId.includes("pe-") || lessonId.includes("ards") || lessonId.includes("osa-") || lessonId.includes("lung") || lessonId.includes("ventilat")) return systemRespiratory;
-  if (lessonId.includes("neuro") || lessonId.includes("brain") || lessonId.includes("seizure") || lessonId.includes("meniere") || lessonId.includes("duchenne") || lessonId.includes("spina") || lessonId.includes("guillain") || lessonId.includes("huntington")) return systemNeurological;
-  if (lessonId.includes("gi-") || lessonId.includes("gastro") || lessonId.includes("abdomen") || lessonId.includes("pyloric") || lessonId.includes("liver") || lessonId.includes("cirrhosis") || lessonId.includes("ulcer") || lessonId.includes("colitis") || lessonId.includes("cholecyst") || lessonId.includes("celiac") || lessonId.includes("dumping") || lessonId.includes("ercp")) return systemGastrointestinal;
-  if (lessonId.includes("renal") || lessonId.includes("kidney") || lessonId.includes("aki-") || lessonId.includes("ckd-") || lessonId.includes("electrolyte") || lessonId.includes("rhabdo") || lessonId.includes("dialysis") || lessonId.includes("fistula") || lessonId.includes("bph") || lessonId.includes("crrt")) return systemRenal;
-  if (lessonId.includes("endocrine") || lessonId.includes("thyroid") || lessonId.includes("siadh") || lessonId.includes("dka") || lessonId.includes("adrenal") || lessonId.includes("cushing") || lessonId.includes("diabetes") || lessonId.includes("dm-")) return systemEndocrine;
-  if (lessonId.includes("hemat") || lessonId.includes("anemia") || lessonId.includes("leukemia") || lessonId.includes("lymphoma") || lessonId.includes("polycythemia") || lessonId.includes("sickle") || lessonId.includes("blood-transfusion") || lessonId.includes("spherocytosis") || lessonId.includes("g6pd")) return systemHematology;
-  if (lessonId.includes("ortho") || lessonId.includes("musculo") || lessonId.includes("fracture") || lessonId.includes("joint") || lessonId.includes("bone") || lessonId.includes("hip-") || lessonId.includes("cast-") || lessonId.includes("traction") || lessonId.includes("amputation") || lessonId.includes("compartment")) return systemMusculoskeletal;
-  if (lessonId.includes("immune") || lessonId.includes("autoimmune") || lessonId.includes("lupus") || lessonId.includes("hiv") || lessonId.includes("rheumat") || lessonId.includes("anaphylaxis") || lessonId.includes("allerg")) return systemImmune;
-  if (lessonId.includes("matern") || lessonId.includes("labor") || lessonId.includes("preeclampsia") || lessonId.includes("postpartum") || lessonId.includes("prenatal") || lessonId.includes("ectopic") || lessonId.includes("placenta") || lessonId.includes("abruptio") || lessonId.includes("cesarean") || lessonId.includes("oxytocin")) return systemMaternity;
-  if (lessonId.includes("pedia") || lessonId.includes("neonat") || lessonId.includes("child") || lessonId.includes("infant") || lessonId.includes("rsv") || lessonId.includes("croup") || lessonId.includes("epiglottitis") || lessonId.includes("kawasaki")) return systemPediatrics;
-  if (lessonId.includes("mental") || lessonId.includes("psych") || lessonId.includes("depression") || lessonId.includes("anxiety") || lessonId.includes("bipolar") || lessonId.includes("schizo") || lessonId.includes("eating-disorder") || lessonId.includes("substance") || lessonId.includes("suicide") || lessonId.includes("ptsd")) return systemMentalHealth;
-  if (lessonId.includes("onco") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("radiation") || lessonId.includes("tumor") || lessonId.includes("neutropenic") || lessonId.includes("breast-cancer") || lessonId.includes("prostate-cancer") || lessonId.includes("cervical-cancer") || lessonId.includes("colorectal")) return systemOncology;
-  if (lessonId.includes("pharm") || lessonId.includes("medication") || lessonId.includes("drug") || lessonId.includes("analgesic") || lessonId.includes("antibiotic") || lessonId.includes("antihypertensive") || lessonId.includes("anticoagulant")) return systemPharmacology;
-  if (lessonId.includes("fundament") || lessonId.includes("vital-sign") || lessonId.includes("adpie") || lessonId.includes("documentation") || lessonId.includes("fluid-balance") || lessonId.includes("nutrition")) return systemFundamentals;
-  if (lessonId.includes("emergency") || lessonId.includes("triage") || lessonId.includes("resuscit") || lessonId.includes("cpr") || lessonId.includes("ecmo") || lessonId.includes("balloon-pump") || lessonId.includes("prone-position")) return systemEmergency;
-  if (lessonId.includes("eye") || lessonId.includes("ear") || lessonId.includes("glaucoma") || lessonId.includes("cataract") || lessonId.includes("retinal") || lessonId.includes("otitis")) return systemSensory;
-  if (lessonId.includes("wound") || lessonId.includes("burn") || lessonId.includes("skin") || lessonId.includes("dressing") || lessonId.includes("npwt") || lessonId.includes("masd")) return systemWoundCare;
-  if (lessonId.includes("delegat") || lessonId.includes("sbar") || lessonId.includes("prioritiz") || lessonId.includes("who-to-see") || lessonId.includes("unstable-vs")) return systemDelegation;
-  if (lessonId.includes("infection") || lessonId.includes("ppe") || lessonId.includes("vaccine") || lessonId.includes("communicable") || lessonId.includes("bioterror")) return systemInfectionControl;
-  if (lessonId.includes("pain") || lessonId.includes("pca-") || lessonId.includes("epidural") || lessonId.includes("opioid")) return systemPain;
-  if (lessonId.includes("palliative") || lessonId.includes("hospice") || lessonId.includes("dnr") || lessonId.includes("grief") || lessonId.includes("postmortem") || lessonId.includes("death-dying") || lessonId.includes("comfort-measures") || lessonId.includes("family-support-eol")) return systemPalliative;
-  if (lessonId.includes("community") || lessonId.includes("home-care") || lessonId.includes("public-health") || lessonId.includes("discharge") || lessonId.includes("screening-program") || lessonId.includes("health-promotion")) return systemCommunity;
-  if (lessonId.includes("assessment") || lessonId.includes("diagnostic") || lessonId.includes("lab-fundamental")) return systemAssessment;
-  if (lessonId.includes("poison") || lessonId.includes("toxidrome") || lessonId.includes("toxicol")) return systemEmergency;
-
-  return systemFundamentals;
+  if (lessonId.includes("pinworm") || lessonId.includes("enterobias")) return illustrationPinworms;
+  if (lessonId.includes("head-lice") || lessonId.includes("pediculosis")) return illustrationHeadLice;
+  if (lessonId.includes("impetigo")) return illustrationImpetigo;
+  if (lessonId.includes("varicella") || lessonId.includes("chickenpox")) return illustrationVaricella;
+  if (lessonId.includes("epiglottitis")) return illustrationEpiglottitis;
+  if (lessonId.includes("osteoporosis")) return illustrationOsteoporosis;
+  if (lessonId.includes("kawasaki")) return illustrationKawasaki;
+  if (lessonId.includes("scabies")) return illustrationScabies;
+  if (lessonId.includes("raynaud")) return illustrationRaynauds;
+  if (lessonId.includes("varicose")) return illustrationVaricoseVeins;
+  if (lessonId.includes("venous-insuff")) return illustrationVenousInsufficiency;
+  if (lessonId.includes("endocarditis")) return illustrationEndocarditis;
+  if (lessonId.includes("rheumatic")) return illustrationRheumaticFever;
+  if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShock;
+  if (lessonId.includes("copd") || lessonId.includes("emphysema")) return illustrationCOPD;
+  if (lessonId.includes("asthma")) return illustrationAsthma;
+  if (lessonId.includes("pneumonia")) return illustrationPneumonia;
+  if (lessonId.includes("tuberculosis") || lessonId.includes("tb-")) return illustrationTuberculosis;
+  if (lessonId.includes("tracheostomy")) return illustrationTracheostomy;
+  if (lessonId.includes("kidney") || lessonId.includes("renal") || lessonId.includes("dialysis") || lessonId.includes("crrt")) return illustrationKidneys;
+  if (lessonId.includes("electrolyte") || lessonId.includes("acid-base")) return illustrationElectrolytes;
+  if (lessonId.includes("tumor") || lessonId.includes("cancer") || lessonId.includes("chemo") || lessonId.includes("oncol")) return illustrationTumor;
+  if (lessonId.includes("wound") || lessonId.includes("burn") || lessonId.includes("cellulitis")) return illustrationWound;
+  if (lessonId.includes("bacteria") || lessonId.includes("infection")) return illustrationBacteria;
+  if (lessonId.includes("virus") || lessonId.includes("viral")) return illustrationVirus;
+  return undefined;
 }
-
-export default systemImageMap;
