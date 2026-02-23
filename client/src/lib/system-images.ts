@@ -26,26 +26,30 @@ import systemHomeostasis from "@/assets/images/system-homeostasis.png";
 import systemReproductive from "@/assets/images/system-reproductive.png";
 import systemAssessment from "@/assets/images/system-assessment.png";
 
-import illustrationBacteria from "@assets/0F849D91-31C9-462C-90A3-86BC0A349208_1771867669482.png";
-import illustrationVirus from "@assets/68A849D0-5AC6-4572-9DFC-1DB87E8C4EBE_1771867669482.png";
-import illustrationWound from "@assets/0C0087C1-6D3B-4F00-8750-23E66D85FDE6_1771867669482.png";
-import illustrationNerve from "@assets/13DB4F71-9318-425E-8ACB-115E87A307FF_1771867669482.png";
-import illustrationTumor from "@assets/19052799-0836-412F-A563-C125C1C643DF_1771867669482.png";
-import illustrationElectrolytes from "@assets/AB6C69A2-A616-4DBF-8567-6990D4260BDE_1771867669482.png";
-import illustrationCardiacCycle from "@assets/C59AF0B3-CD44-43B6-B2D5-D708852AAFA8_1771867669482.png";
-import illustrationKidneys from "@assets/BF46940D-B9D9-4006-9ECE-FAA14A1AC986_1771867669482.png";
-import illustrationPAD from "@assets/A987EB13-6A3D-4CEB-B724-73F03632ABCF_1771867669482.png";
-import illustrationCardioversion from "@assets/154E2788-B2DC-45AF-8785-5E32B5F79614_1771867669482.png";
-import illustrationPacemaker from "@assets/F7434780-BFF4-4E06-827A-32BE201FCEB3_1771867669482.png";
-import illustrationRaynauds from "@assets/E0D83C65-E1EE-4232-84E1-AD84C731ABF8_1771867669482.png";
-import illustrationGangrene from "@assets/15AF44D0-F75A-47B4-9634-E4B1BB4753F4_1771867669482.png";
-import illustrationVenousInsufficiency from "@assets/11F2AACE-1F8A-405D-A2F0-32864E6E0806_1771867669482.png";
-import illustrationVaricoseVeins from "@assets/1268322E-C450-4C17-98DE-DA4328F10967_1771867669482.png";
-import illustrationEndocarditis from "@assets/C4246E27-C245-4BBC-A5AD-1AA3ED53B79D_1771867669482.png";
-import illustrationRheumaticFever from "@assets/15F3BD85-F280-4197-AC38-EB32D5FC2A5F_1771867669482.png";
-import illustrationShock from "@assets/80A82C61-D7D0-4F48-BD94-BF4487E5B4AD_1771867669482.png";
-import illustrationCOPD from "@assets/1EDFE7E4-FCC4-4937-B2AC-A6E852F6306A_1771867669482.png";
-import illustrationAsthma from "@assets/AF6DD963-6E1A-4CE9-A78A-93E77EFB8438_1771867669482.png";
+import illustrationBacteria from "@assets/0F849D91-31C9-462C-90A3-86BC0A349208_1771867744630.png";
+import illustrationVirus from "@assets/68A849D0-5AC6-4572-9DFC-1DB87E8C4EBE_1771867744630.png";
+import illustrationWound from "@assets/0C0087C1-6D3B-4F00-8750-23E66D85FDE6_1771867744630.png";
+import illustrationNerve from "@assets/13DB4F71-9318-425E-8ACB-115E87A307FF_1771867744630.png";
+import illustrationTumor from "@assets/19052799-0836-412F-A563-C125C1C643DF_1771867744630.png";
+import illustrationElectrolytes from "@assets/AB6C69A2-A616-4DBF-8567-6990D4260BDE_1771867744630.png";
+import illustrationCardiacCycle from "@assets/C59AF0B3-CD44-43B6-B2D5-D708852AAFA8_1771867744630.png";
+import illustrationKidneys from "@assets/BF46940D-B9D9-4006-9ECE-FAA14A1AC986_1771867744630.png";
+import illustrationPAD from "@assets/A987EB13-6A3D-4CEB-B724-73F03632ABCF_1771867744630.png";
+import illustrationCardioversion from "@assets/154E2788-B2DC-45AF-8785-5E32B5F79614_1771867744630.png";
+import illustrationPacemaker from "@assets/F7434780-BFF4-4E06-827A-32BE201FCEB3_1771867744630.png";
+import illustrationRaynauds from "@assets/E0D83C65-E1EE-4232-84E1-AD84C731ABF8_1771867744630.png";
+import illustrationGangrene from "@assets/15AF44D0-F75A-47B4-9634-E4B1BB4753F4_1771867744630.png";
+import illustrationVenousInsufficiency from "@assets/11F2AACE-1F8A-405D-A2F0-32864E6E0806_1771867744630.png";
+import illustrationVaricoseVeins from "@assets/1268322E-C450-4C17-98DE-DA4328F10967_1771867744630.png";
+import illustrationEndocarditis from "@assets/C4246E27-C245-4BBC-A5AD-1AA3ED53B79D_1771867744630.png";
+import illustrationRheumaticFever from "@assets/15F3BD85-F280-4197-AC38-EB32D5FC2A5F_1771867744630.png";
+import illustrationShock from "@assets/80A82C61-D7D0-4F48-BD94-BF4487E5B4AD_1771867744630.png";
+import illustrationCOPD from "@assets/1EDFE7E4-FCC4-4937-B2AC-A6E852F6306A_1771867744630.png";
+import illustrationAsthma from "@assets/AF6DD963-6E1A-4CE9-A78A-93E77EFB8438_1771867744630.png";
+import illustrationPneumonia from "@assets/17B9FBD3-65EF-47A2-B25F-63412E705658_1771867744630.png";
+import illustrationPneumonia2 from "@assets/2822B068-C435-4F56-B2E6-72985CD879C0_1771867744630.png";
+import illustrationTuberculosis from "@assets/7CC48532-F634-439A-A26E-19B80ACD4E71_1771867744630.png";
+import illustrationTracheostomy from "@assets/FAC5D419-76F4-4D90-98A7-4378B516EE35_1771867744630.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis": illustrationEndocarditis,
@@ -95,8 +99,19 @@ const lessonSpecificImages: Record<string, string> = {
   "respiratory-rpn": illustrationCOPD,
   "respiratory-rn": illustrationCOPD,
   "respiratory-np": illustrationCOPD,
-  "pneumonia-basics": illustrationBacteria,
-  "active-tb": illustrationBacteria,
+  "pneumonia-basics": illustrationPneumonia,
+  "pneumonia-management": illustrationPneumonia,
+  "pneumonia-community": illustrationPneumonia,
+  "pneumonia-hospital": illustrationPneumonia2,
+  "pneumonia-aspiration": illustrationPneumonia2,
+  "active-tb": illustrationTuberculosis,
+  "tuberculosis": illustrationTuberculosis,
+  "latent-tb": illustrationTuberculosis,
+  "tb-screening": illustrationTuberculosis,
+  "tracheostomy-care": illustrationTracheostomy,
+  "tracheostomy": illustrationTracheostomy,
+  "tracheostomy-suctioning": illustrationTracheostomy,
+  "laryngectomy": illustrationTracheostomy,
   "sterile-technique": illustrationBacteria,
   "neuro-basics": illustrationNerve,
   "stroke": illustrationNerve,
