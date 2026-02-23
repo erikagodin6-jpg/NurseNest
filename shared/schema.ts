@@ -290,3 +290,19 @@ export const insertSocialPostSchema = createInsertSchema(socialPosts).omit({
 
 export type SocialPost = typeof socialPosts.$inferSelect;
 export type InsertSocialPost = z.infer<typeof insertSocialPostSchema>;
+
+export const dashboardWidgets = pgTable("dashboard_widgets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  widgetType: text("widget_type").notNull(),
+  position: integer("position").notNull().default(0),
+  visible: boolean("visible").notNull().default(true),
+  config: jsonb("config").default(sql`'{}'::jsonb`),
+});
+
+export const insertDashboardWidgetSchema = createInsertSchema(dashboardWidgets).omit({
+  id: true,
+});
+
+export type DashboardWidget = typeof dashboardWidgets.$inferSelect;
+export type InsertDashboardWidget = z.infer<typeof insertDashboardWidgetSchema>;
