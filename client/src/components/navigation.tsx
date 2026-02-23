@@ -131,6 +131,21 @@ export function Navigation() {
   };
 
   useEffect(() => {
+    if (!localStorage.getItem("nursenest-region")) {
+      fetch("https://ipapi.co/json/")
+        .then(r => r.json())
+        .then(data => {
+          const country = data?.country_code;
+          const detected: "US" | "CA" = country === "US" ? "US" : "CA";
+          setRegionState(detected);
+          localStorage.setItem("nursenest-region", detected);
+          window.dispatchEvent(new Event("regionChange"));
+        })
+        .catch(() => {});
+    }
+  }, []);
+
+  useEffect(() => {
     setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -684,22 +699,22 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex items-center justify-end gap-2 h-9">
             <GlobalSearch />
-            <div className="flex items-center bg-white/50 rounded-full p-0.5 border border-primary/10">
+            <div className="flex items-center bg-white rounded-full p-0.5 border border-primary/20 shadow-sm">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("US")}
-                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-primary/50 hover:text-primary")}
+                className={cn("h-6 px-2.5 rounded-full text-[11px] font-bold transition-all", region === "US" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
               >
-                US
+                🇺🇸 US
               </Button>
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("CA")}
-                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-primary/50 hover:text-primary")}
+                className={cn("h-6 px-2.5 rounded-full text-[11px] font-bold transition-all", region === "CA" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary hover:bg-primary/5")}
               >
-                CA
+                🇨🇦 CA
               </Button>
             </div>
             <DropdownMenu>
