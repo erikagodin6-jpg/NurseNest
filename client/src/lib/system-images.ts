@@ -72,6 +72,27 @@ import illustrationChestPhysio from "@assets/3403E0A1-FD35-4565-8FBD-AC1B12F6E5B
 import illustrationRSV from "@assets/FF3F138F-78D6-4835-87F3-C60BD532466C_1771867815027.png";
 import illustrationHemoptysis from "@assets/B354DEF5-097E-4AC9-AF5F-931EE3005A87_1771867815027.png";
 
+import illustrationInflammatoryResponse from "@assets/046AF766-D3A2-4713-BF5D-BC2AFF8EEA89_1771868083264.png";
+import illustrationRetinalDetachment from "@assets/0AE4E67F-B5E1-48E4-8AD0-B41CE2ACB23F_1771868083264.png";
+import illustrationPressureInjuries from "@assets/100A1278-5109-4338-9152-6FAF72E85341_1771868083264.png";
+import illustrationInnateImmunity from "@assets/1C466673-4454-450E-AE1C-B74640446346_1771868083264.png";
+import illustrationConjunctivitis from "@assets/2A5A215F-C1B8-47AC-A578-56692F1FAE77_1771868083264.png";
+import illustrationAplasticAnemia from "@assets/32E51C4A-3F99-43D5-96B2-2CE324330F87_1771868083264.png";
+import illustrationAlopecia from "@assets/39538283-9967-45C0-ADA2-25E5520E3F5F_1771868083263.png";
+import illustrationPemphigus from "@assets/5A41761B-2000-49FF-83C0-27A72968F216_1771868083264.png";
+import illustrationPolycythemia from "@assets/5F1310AB-CBDE-4C49-87A2-4638DFB92AF1_1771868083264.png";
+import illustrationAtopicDermatitis from "@assets/64F2AD56-DDA3-4282-A2AE-989A8876E293_1771868083264.png";
+import illustrationOtitis from "@assets/7AE05516-F883-4435-9F59-41BF4D7C1264_1771868083264.png";
+import illustrationSJS from "@assets/8B2140B9-A90F-43FD-8CFB-3B5D7AE1B05B_1771868083264.png";
+import illustrationAdaptiveImmunity from "@assets/8F8DFB41-141E-49CA-999F-AAE67CC821E8_1771868083264.png";
+import illustrationAtopicDermatitis2 from "@assets/AC563340-1AD1-4E93-B849-E8ED7958B6B2_1771868083264.png";
+import illustrationHerpesSimplex from "@assets/BCFFAFC1-BDE7-483A-AC2F-9F685A023DDC_1771868083264.png";
+import illustrationGlaucoma from "@assets/C738090F-1F80-4FAD-9716-D7BFB7A7FF64_1771868083264.png";
+import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
+import illustrationVitiligo from "@assets/DCDE9D04-6308-4E8B-B67F-3676A7AA7FFC_1771868083264.png";
+import illustrationShingles from "@assets/E5D77B27-3EBD-41F1-BB70-B4EA0BB8052B_1771868083264.png";
+import illustrationHomeostasis from "@assets/E9E33423-6365-4686-98CB-3197D14546E5_1771868083264.png";
+
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis": illustrationEndocarditis,
   "peripheral-artery-disease": illustrationPAD,
@@ -169,9 +190,9 @@ const lessonSpecificImages: Record<string, string> = {
   "anaphylaxis": illustrationShock,
   "compartment-syndrome": illustrationGangrene,
   "malignant-hyperthermia": illustrationShock,
-  "psoriasis": illustrationWound,
-  "eczema-atopic-dermatitis": illustrationWound,
-  "herpes-zoster-shingles": illustrationWound,
+  "psoriasis": illustrationAtopicDermatitis2,
+  "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
+  "herpes-zoster-shingles": illustrationShingles,
   "ards-management": illustrationAsthma,
   "oxygen-therapy": illustrationCOPD,
   "chest-tube-care": illustrationCOPD,
@@ -192,14 +213,57 @@ const lessonSpecificImages: Record<string, string> = {
   "hemoptysis-management": illustrationHemoptysis,
   "abg-basics": illustrationElectrolytes,
   "abg-interpretation-rn": illustrationElectrolytes,
-  "contact-dermatitis": illustrationRaynauds,
-  "stevens-johnson-syndrome": illustrationRaynauds,
-  "urticaria": illustrationRaynauds,
-  "scabies": illustrationVaricoseVeins,
-  "impetigo": illustrationVaricoseVeins,
-  "pemphigus-vulgaris": illustrationVaricoseVeins,
+  "contact-dermatitis": illustrationAtopicDermatitis2,
+  "stevens-johnson-syndrome": illustrationSJS,
+  "urticaria": illustrationAtopicDermatitis,
+  "scabies": illustrationAtopicDermatitis2,
+  "impetigo": illustrationAtopicDermatitis,
+  "pemphigus-vulgaris": illustrationPemphigus,
   "melanoma": illustrationRheumaticFever,
-  "toxic-epidermal-necrolysis": illustrationRheumaticFever,
+  "toxic-epidermal-necrolysis": illustrationSJS,
+  "inflammatory-response": illustrationInflammatoryResponse,
+  "inflammation": illustrationInflammatoryResponse,
+  "retinal-detachment": illustrationRetinalDetachment,
+  "pressure-injuries": illustrationPressureInjuries,
+  "pressure-ulcers": illustrationPressureInjuries,
+  "pressure-injury-staging": illustrationPressureInjuries,
+  "bedsores": illustrationPressureInjuries,
+  "innate-immunity": illustrationInnateImmunity,
+  "innate-immune-system": illustrationInnateImmunity,
+  "adaptive-immunity": illustrationAdaptiveImmunity,
+  "adaptive-immune-system": illustrationAdaptiveImmunity,
+  "immune-response": illustrationInnateImmunity,
+  "conjunctivitis": illustrationConjunctivitis,
+  "pink-eye": illustrationConjunctivitis,
+  "aplastic-anemia": illustrationAplasticAnemia,
+  "alopecia": illustrationAlopecia,
+  "alopecia-areata": illustrationAlopecia,
+  "hair-loss": illustrationAlopecia,
+  "pemphigus": illustrationPemphigus,
+  "polycythemia": illustrationPolycythemia,
+  "polycythemia-vera": illustrationPolycythemia,
+  "atopic-dermatitis": illustrationAtopicDermatitis,
+  "eczema": illustrationAtopicDermatitis2,
+  "eczema-atopic-dermatitis": illustrationAtopicDermatitis,
+  "otitis-media": illustrationOtitis,
+  "otitis-externa": illustrationOtitis,
+  "ear-infection": illustrationOtitis,
+  "herpes-simplex": illustrationHerpesSimplex,
+  "hsv": illustrationHerpesSimplex,
+  "cold-sores": illustrationHerpesSimplex,
+  "glaucoma": illustrationGlaucoma,
+  "glaucoma-management": illustrationGlaucoma,
+  "cell-structure": illustrationCellStructure,
+  "cell-biology": illustrationCellStructure,
+  "vitiligo": illustrationVitiligo,
+  "herpes-zoster": illustrationShingles,
+  "herpes-zoster-shingles": illustrationShingles,
+  "shingles": illustrationShingles,
+  "varicella-zoster": illustrationShingles,
+  "homeostasis": illustrationHomeostasis,
+  "feedback-loops": illustrationHomeostasis,
+  "homeostasis-feedback": illustrationHomeostasis,
+  "psoriasis": illustrationAtopicDermatitis2,
 };
 
 const systemImageMap: Record<string, string> = {
@@ -338,6 +402,7 @@ const systemImageMap: Record<string, string> = {
   "community": systemCommunity,
 
   "cell-structure": systemCell,
+  "cell-biology": systemCell,
   "feedback-loops": systemHomeostasis,
   "homeostasis": systemHomeostasis,
 
@@ -390,6 +455,27 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("chest-physio") || lessonId.includes("postural-drainage")) return illustrationChestPhysio;
   if (lessonId.includes("rsv")) return illustrationRSV;
   if (lessonId.includes("hemoptysis")) return illustrationHemoptysis;
+  if (lessonId.includes("inflammat")) return illustrationInflammatoryResponse;
+  if (lessonId.includes("retinal-detach")) return illustrationRetinalDetachment;
+  if (lessonId.includes("pressure-injur") || lessonId.includes("pressure-ulcer") || lessonId.includes("bedsore")) return illustrationPressureInjuries;
+  if (lessonId.includes("innate-immun")) return illustrationInnateImmunity;
+  if (lessonId.includes("adaptive-immun")) return illustrationAdaptiveImmunity;
+  if (lessonId.includes("conjunctiv") || lessonId.includes("pink-eye")) return illustrationConjunctivitis;
+  if (lessonId.includes("aplastic")) return illustrationAplasticAnemia;
+  if (lessonId.includes("alopecia") || lessonId.includes("hair-loss")) return illustrationAlopecia;
+  if (lessonId.includes("pemphigus")) return illustrationPemphigus;
+  if (lessonId.includes("polycythemia")) return illustrationPolycythemia;
+  if (lessonId.includes("atopic") || lessonId.includes("eczema")) return illustrationAtopicDermatitis;
+  if (lessonId.includes("otitis")) return illustrationOtitis;
+  if (lessonId.includes("stevens-johnson") || lessonId.includes("sjs")) return illustrationSJS;
+  if (lessonId.includes("herpes-simplex") || lessonId.includes("hsv") || lessonId.includes("cold-sore")) return illustrationHerpesSimplex;
+  if (lessonId.includes("herpes-zoster") || lessonId.includes("shingles") || lessonId.includes("varicella-zoster")) return illustrationShingles;
+  if (lessonId.includes("glaucoma")) return illustrationGlaucoma;
+  if (lessonId.includes("vitiligo")) return illustrationVitiligo;
+  if (lessonId.includes("cell-structure") || lessonId.includes("cell-biology")) return illustrationCellStructure;
+  if (lessonId.includes("homeostasis") || lessonId.includes("feedback-loop")) return illustrationHomeostasis;
+  if (lessonId.includes("psoriasis")) return illustrationAtopicDermatitis2;
+  if (lessonId.includes("contact-dermatitis")) return illustrationAtopicDermatitis2;
   if (lessonId.includes("cardio") || lessonId.includes("heart") || lessonId.includes("mi-") || lessonId.includes("hf-") || lessonId.includes("aaa-") || lessonId.includes("dvt") || lessonId.includes("pacemaker") || lessonId.includes("aortic") || lessonId.includes("carotid") || lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return systemCardiovascular;
   if (lessonId.includes("resp") || lessonId.includes("copd") || lessonId.includes("asthma") || lessonId.includes("pneumo") || lessonId.includes("tb-") || lessonId.includes("pe-") || lessonId.includes("ards") || lessonId.includes("osa-") || lessonId.includes("lung") || lessonId.includes("ventilat")) return systemRespiratory;
   if (lessonId.includes("neuro") || lessonId.includes("brain") || lessonId.includes("seizure") || lessonId.includes("meniere") || lessonId.includes("duchenne") || lessonId.includes("spina") || lessonId.includes("guillain") || lessonId.includes("huntington")) return systemNeurological;

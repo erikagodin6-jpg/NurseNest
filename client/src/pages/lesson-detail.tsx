@@ -492,8 +492,6 @@ export default function LessonDetail() {
 
   const baseLesson = useMemo(() => {
     if (id && contentMap[id]) return contentMap[id];
-    const keys = Object.keys(contentMap);
-    if (keys.length > 0) return contentMap[keys[0]];
     return null;
   }, [id]);
 
@@ -529,8 +527,8 @@ export default function LessonDetail() {
               Back to Lessons
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">Lesson Not Found</h1>
-          <p className="text-gray-600">The lesson you are looking for does not exist or has been moved.</p>
+          <h1 className="text-3xl font-bold text-gray-900">Coming Soon</h1>
+          <p className="text-gray-600">This lesson is currently being developed. Check back soon for the full content!</p>
         </main>
         <Footer />
       </div>
