@@ -434,7 +434,7 @@ export default function Home() {
                   Does NurseNest cover both Canadian and US nursing content?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Yes. NurseNest supports exam preparation for both Canadian (REX-PN) and US (NCLEX) nursing licensure examinations. The platform adjusts regional content including lab value units, pricing currency, and scope-of-practice language based on your region selection. Core pathophysiology and clinical reasoning content is applicable across both jurisdictions, ensuring comprehensive preparation regardless of where you plan to practice.
+                  Yes. NurseNest supports exam preparation for all major nursing licensure examinations, including NCLEX-RN, NCLEX-PN, REX-PN, and NP certification exams (ANCC, AANP). Whether you're preparing for your RPN/LVN, RN, or Nurse Practitioner licensing exam in Canada or the United States, NurseNest has you covered. The platform adjusts regional content including lab value units, pricing currency, and scope-of-practice language based on your region selection. Core pathophysiology and clinical reasoning content is applicable across both jurisdictions, ensuring comprehensive preparation regardless of where you plan to practice.
                 </AccordionContent>
               </AccordionItem>
 

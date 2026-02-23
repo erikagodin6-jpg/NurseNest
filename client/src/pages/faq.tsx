@@ -154,7 +154,7 @@ const faqData = [
         id: "content-2",
         question: "Is content tailored for Canadian and American learners?",
         answer:
-          "Yes. Use the region toggle to switch between Canadian and US guidelines, lab values, terminology, and scope-of-practice standards. Core physiological principles remain consistent across regions.",
+          "Yes. NurseNest supports all major nursing licensure examinations, including NCLEX-RN, NCLEX-PN, REX-PN, and NP certification exams (ANCC, AANP). Whether you're preparing for your RPN/LVN, RN, or Nurse Practitioner licensing exam in Canada or the United States, NurseNest has you covered. Use the region toggle to switch between Canadian and US guidelines, lab values, terminology, and scope-of-practice standards. Core physiological principles remain consistent across regions.",
       },
       {
         id: "content-3",
