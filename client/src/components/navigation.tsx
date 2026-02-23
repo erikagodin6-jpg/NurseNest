@@ -251,7 +251,7 @@ export function Navigation() {
             <img
               src={brandLogo}
               alt="NurseNest"
-              className="h-14 w-[260px] object-contain object-left"
+              className="max-w-none" style={{width: "220px", height: "auto"}}
             />
           </SheetTitle>
         </SheetHeader>
@@ -520,7 +520,7 @@ export function Navigation() {
                 <img
                   src={brandLogo}
                   alt="NurseNest"
-                  className="h-14 w-[280px] object-contain object-left group-hover:scale-105 transition-transform duration-300"
+                  className="max-w-none group-hover:scale-105 transition-transform duration-300" style={{width: "220px", height: "auto"}}
                 />
               </div>
             </Link>
