@@ -26,9 +26,9 @@ import systemHomeostasis from "@/assets/images/system-homeostasis.png";
 import systemReproductive from "@/assets/images/system-reproductive.png";
 import systemAssessment from "@/assets/images/system-assessment.png";
 
-import illustrationBacteria from "@assets/0F849D91-31C9-462C-90A3-86BC0A349208_1771867744630.png";
-import illustrationVirus from "@assets/68A849D0-5AC6-4572-9DFC-1DB87E8C4EBE_1771867744630.png";
-import illustrationWound from "@assets/0C0087C1-6D3B-4F00-8750-23E66D85FDE6_1771867744630.png";
+import illustrationBacteria from "@assets/0F849D91-31C9-462C-90A3-86BC0A349208_1771867669482.png";
+import illustrationVirus from "@assets/68A849D0-5AC6-4572-9DFC-1DB87E8C4EBE_1771867669482.png";
+import illustrationWound from "@assets/0C0087C1-6D3B-4F00-8750-23E66D85FDE6_1771867669482.png";
 import illustrationNerve from "@assets/13DB4F71-9318-425E-8ACB-115E87A307FF_1771867744630.png";
 import illustrationTumor from "@assets/19052799-0836-412F-A563-C125C1C643DF_1771867744630.png";
 import illustrationElectrolytes from "@assets/AB6C69A2-A616-4DBF-8567-6990D4260BDE_1771867744630.png";
@@ -41,7 +41,7 @@ import illustrationRaynauds from "@assets/E0D83C65-E1EE-4232-84E1-AD84C731ABF8_1
 import illustrationGangrene from "@assets/15AF44D0-F75A-47B4-9634-E4B1BB4753F4_1771867744630.png";
 import illustrationVenousInsufficiency from "@assets/11F2AACE-1F8A-405D-A2F0-32864E6E0806_1771867744630.png";
 import illustrationVaricoseVeins from "@assets/1268322E-C450-4C17-98DE-DA4328F10967_1771867744630.png";
-import illustrationEndocarditis from "@assets/C4246E27-C245-4BBC-A5AD-1AA3ED53B79D_1771867744630.png";
+import illustrationEndocarditis from "@assets/C4246E27-C245-4BBC-A5AD-1AA3ED53B79D_1771867669482.png";
 import illustrationRheumaticFever from "@assets/15F3BD85-F280-4197-AC38-EB32D5FC2A5F_1771867744630.png";
 import illustrationShock from "@assets/80A82C61-D7D0-4F48-BD94-BF4487E5B4AD_1771867744630.png";
 import illustrationCOPD from "@assets/1EDFE7E4-FCC4-4937-B2AC-A6E852F6306A_1771867744630.png";
@@ -50,6 +50,27 @@ import illustrationPneumonia from "@assets/17B9FBD3-65EF-47A2-B25F-63412E705658_
 import illustrationPneumonia2 from "@assets/2822B068-C435-4F56-B2E6-72985CD879C0_1771867744630.png";
 import illustrationTuberculosis from "@assets/7CC48532-F634-439A-A26E-19B80ACD4E71_1771867744630.png";
 import illustrationTracheostomy from "@assets/FAC5D419-76F4-4D90-98A7-4378B516EE35_1771867744630.png";
+
+import illustrationParkinsons from "@assets/4852D310-AE8C-41BD-B37F-8ABC0D9DED3C_1771867853919.png";
+import illustrationMS from "@assets/4F731B3B-FA9F-453D-8753-5B3C18BD59B3_1771867853919.png";
+import illustrationStroke from "@assets/ABD0FB30-EEF2-4E4F-9EFC-63FF5DD16E97_1771867815027.png";
+import illustrationBrainAbscess from "@assets/2A9B59A4-E340-4987-9A52-62C5FE4E4A3E_1771867853919.png";
+import illustrationDeliriumDementia from "@assets/11D8B700-41BA-45CB-8FFD-4CDEF8A7D5E4_1771867853919.png";
+import illustrationCranialNerves from "@assets/119BE6D3-DEF9-42CD-8A5F-C94CA2ADE23A_1771867853919.png";
+import illustrationTrigeminalNeuralgia from "@assets/2985B0AC-2C3C-4BD4-9E39-5BA7C8BDA3CC_1771867853919.png";
+import illustrationICP from "@assets/BE77DF2E-EE81-45E8-A0AD-C5C7CDEA5751_1771867815027.png";
+import illustrationCarpalTunnel from "@assets/C46EA9A2-16B7-4223-9121-033F81FF0FA3_1771867815027.png";
+import illustrationCerebralEdema from "@assets/D38A7151-5018-4FD0-85AA-B7A3412233AA_1771867815027.png";
+import illustrationMyastheniaGravis from "@assets/D3BEF0E0-7D92-4AA1-85A1-3FFD1CAC0FC8_1771867815027.png";
+import illustrationConcussion from "@assets/EA8B2FBA-7CD7-4EAA-86EB-9132862D7852_1771867815027.png";
+import illustrationBellsPalsy from "@assets/EC6A1578-0D03-4761-9872-7DE52A606239_1771867815027.png";
+import illustrationCysticFibrosis from "@assets/0CF9BBF6-DB93-4C74-9ADB-EA47FCB62DC8_1771867935818.png";
+import illustrationWhoopingCough from "@assets/3152E6A5-E6E1-422C-BE43-1AB1BC71D67E_1771867935819.png";
+import illustrationBronchiectasis from "@assets/9970E70D-588A-49DB-8AB5-A1BBB53165ED_1771867815027.png";
+import illustrationPleurisy from "@assets/66A965E9-66DE-41A8-BF87-0B61A2A14299_1771867935818.png";
+import illustrationChestPhysio from "@assets/3403E0A1-7133-4C3F-A3B2-33C0B52EC40A_1771867935819.png";
+import illustrationRSV from "@assets/FF3F138F-78D6-4835-87F3-C60BD532466C_1771867815027.png";
+import illustrationHemoptysis from "@assets/B354DEF5-097E-4AC9-AF5F-931EE3005A87_1771867815027.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis": illustrationEndocarditis,
@@ -114,10 +135,31 @@ const lessonSpecificImages: Record<string, string> = {
   "laryngectomy": illustrationTracheostomy,
   "sterile-technique": illustrationBacteria,
   "neuro-basics": illustrationNerve,
-  "stroke": illustrationNerve,
-  "stroke-advanced": illustrationNerve,
+  "stroke": illustrationStroke,
+  "stroke-advanced": illustrationStroke,
   "seizure-safety": illustrationNerve,
-  "increased-icp": illustrationNerve,
+  "increased-icp": illustrationICP,
+  "increased-icp-np": illustrationICP,
+  "parkinsons-disease": illustrationParkinsons,
+  "parkinsons": illustrationParkinsons,
+  "multiple-sclerosis": illustrationMS,
+  "ms-management": illustrationMS,
+  "brain-abscess": illustrationBrainAbscess,
+  "delirium-vs-dementia": illustrationDeliriumDementia,
+  "delirium": illustrationDeliriumDementia,
+  "dementia-care": illustrationDeliriumDementia,
+  "cranial-nerve-assessment": illustrationCranialNerves,
+  "cranial-nerves": illustrationCranialNerves,
+  "trigeminal-neuralgia": illustrationTrigeminalNeuralgia,
+  "carpal-tunnel": illustrationCarpalTunnel,
+  "carpal-tunnel-syndrome": illustrationCarpalTunnel,
+  "cerebral-edema": illustrationCerebralEdema,
+  "myasthenia-gravis": illustrationMyastheniaGravis,
+  "concussion": illustrationConcussion,
+  "concussion-management": illustrationConcussion,
+  "tbi-management": illustrationConcussion,
+  "bells-palsy": illustrationBellsPalsy,
+  "cp-management": illustrationCerebralEdema,
   "breast-cancer": illustrationTumor,
   "cervical-cancer": illustrationTumor,
   "prostate-cancer": illustrationTumor,
@@ -133,6 +175,21 @@ const lessonSpecificImages: Record<string, string> = {
   "ards-management": illustrationAsthma,
   "oxygen-therapy": illustrationCOPD,
   "chest-tube-care": illustrationCOPD,
+  "cystic-fibrosis": illustrationCysticFibrosis,
+  "cf-management": illustrationCysticFibrosis,
+  "pertussis-basics": illustrationWhoopingCough,
+  "whooping-cough": illustrationWhoopingCough,
+  "bronchiectasis": illustrationBronchiectasis,
+  "bronchiectasis-management": illustrationBronchiectasis,
+  "pleurisy": illustrationPleurisy,
+  "pleural-effusion": illustrationPleurisy,
+  "chest-physiotherapy": illustrationChestPhysio,
+  "chest-physio": illustrationChestPhysio,
+  "postural-drainage": illustrationChestPhysio,
+  "rsv-management": illustrationRSV,
+  "rsv-bronchiolitis": illustrationRSV,
+  "hemoptysis": illustrationHemoptysis,
+  "hemoptysis-management": illustrationHemoptysis,
   "abg-basics": illustrationElectrolytes,
   "abg-interpretation-rn": illustrationElectrolytes,
   "contact-dermatitis": illustrationRaynauds,
@@ -313,9 +370,29 @@ export function getSystemImage(systemId: string): string | undefined {
 
 export function getLessonImage(lessonId: string): string | undefined {
   if (lessonSpecificImages[lessonId]) return lessonSpecificImages[lessonId];
+  if (lessonId.includes("parkinson")) return illustrationParkinsons;
+  if (lessonId.includes("multiple-sclerosis") || lessonId === "ms-management") return illustrationMS;
+  if (lessonId.includes("stroke")) return illustrationStroke;
+  if (lessonId.includes("bells-palsy")) return illustrationBellsPalsy;
+  if (lessonId.includes("myasthenia")) return illustrationMyastheniaGravis;
+  if (lessonId.includes("concussion") || lessonId.includes("tbi")) return illustrationConcussion;
+  if (lessonId.includes("carpal-tunnel")) return illustrationCarpalTunnel;
+  if (lessonId.includes("trigeminal")) return illustrationTrigeminalNeuralgia;
+  if (lessonId.includes("cranial-nerve")) return illustrationCranialNerves;
+  if (lessonId.includes("delirium") || lessonId.includes("dementia")) return illustrationDeliriumDementia;
+  if (lessonId.includes("cerebral-edema")) return illustrationCerebralEdema;
+  if (lessonId.includes("brain-abscess")) return illustrationBrainAbscess;
+  if (lessonId.includes("icp")) return illustrationICP;
+  if (lessonId.includes("cystic-fibrosis") || lessonId === "cf-management") return illustrationCysticFibrosis;
+  if (lessonId.includes("pertussis") || lessonId.includes("whooping")) return illustrationWhoopingCough;
+  if (lessonId.includes("bronchiect")) return illustrationBronchiectasis;
+  if (lessonId.includes("pleurisy") || lessonId.includes("pleural-effusion")) return illustrationPleurisy;
+  if (lessonId.includes("chest-physio") || lessonId.includes("postural-drainage")) return illustrationChestPhysio;
+  if (lessonId.includes("rsv")) return illustrationRSV;
+  if (lessonId.includes("hemoptysis")) return illustrationHemoptysis;
   if (lessonId.includes("cardio") || lessonId.includes("heart") || lessonId.includes("mi-") || lessonId.includes("hf-") || lessonId.includes("aaa-") || lessonId.includes("dvt") || lessonId.includes("pacemaker") || lessonId.includes("aortic") || lessonId.includes("carotid") || lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return systemCardiovascular;
   if (lessonId.includes("resp") || lessonId.includes("copd") || lessonId.includes("asthma") || lessonId.includes("pneumo") || lessonId.includes("tb-") || lessonId.includes("pe-") || lessonId.includes("ards") || lessonId.includes("osa-") || lessonId.includes("lung") || lessonId.includes("ventilat")) return systemRespiratory;
-  if (lessonId.includes("neuro") || lessonId.includes("brain") || lessonId.includes("stroke") || lessonId.includes("seizure") || lessonId.includes("icp") || lessonId.includes("meniere") || lessonId.includes("duchenne") || lessonId.includes("spina") || lessonId.includes("myasthenia") || lessonId.includes("guillain") || lessonId.includes("huntington")) return systemNeurological;
+  if (lessonId.includes("neuro") || lessonId.includes("brain") || lessonId.includes("seizure") || lessonId.includes("meniere") || lessonId.includes("duchenne") || lessonId.includes("spina") || lessonId.includes("guillain") || lessonId.includes("huntington")) return systemNeurological;
   if (lessonId.includes("gi-") || lessonId.includes("gastro") || lessonId.includes("abdomen") || lessonId.includes("pyloric") || lessonId.includes("liver") || lessonId.includes("cirrhosis") || lessonId.includes("ulcer") || lessonId.includes("colitis") || lessonId.includes("cholecyst") || lessonId.includes("celiac") || lessonId.includes("dumping") || lessonId.includes("ercp")) return systemGastrointestinal;
   if (lessonId.includes("renal") || lessonId.includes("kidney") || lessonId.includes("aki-") || lessonId.includes("ckd-") || lessonId.includes("electrolyte") || lessonId.includes("rhabdo") || lessonId.includes("dialysis") || lessonId.includes("fistula") || lessonId.includes("bph") || lessonId.includes("crrt")) return systemRenal;
   if (lessonId.includes("endocrine") || lessonId.includes("thyroid") || lessonId.includes("siadh") || lessonId.includes("dka") || lessonId.includes("adrenal") || lessonId.includes("cushing") || lessonId.includes("diabetes") || lessonId.includes("dm-")) return systemEndocrine;
