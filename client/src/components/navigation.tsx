@@ -190,15 +190,20 @@ export function Navigation() {
     });
   };
 
-  const NavDropdown = ({ label, items, isPaid = false }: { label: string, items: { icon: any, label: string }[], isPaid?: boolean }) => (
+  const NavDropdown = ({ label, items, isPaid = false, subBar = false }: { label: string, items: { icon: any, label: string }[], isPaid?: boolean, subBar?: boolean }) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-3 group data-[state=open]:text-primary"
+          className={cn(
+            "font-medium hover:bg-transparent flex items-center gap-1 group data-[state=open]:text-primary",
+            subBar 
+              ? "text-xs text-primary/70 hover:text-primary px-1.5 lg:px-2 h-7" 
+              : "text-sm text-softgray hover:text-primary px-2 lg:px-3"
+          )}
         >
           {label}
-          <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          <ChevronDown className={cn("transition-transform duration-200 group-data-[state=open]:rotate-180", subBar ? "w-3 h-3" : "w-3.5 h-3.5")} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-48 p-2 bg-white rounded-lg shadow-lg border-primary/20 animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2">
@@ -533,10 +538,6 @@ export function Navigation() {
             </Link>
 
             <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
-              {designations.map((d) => (
-                <NavDropdown key={d} label={d} items={learningItems} isPaid />
-              ))}
-              <div className="h-4 w-[1px] bg-primary/20 mx-1 lg:mx-2" />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-3 group data-[state=open]:text-primary">
@@ -697,7 +698,14 @@ export function Navigation() {
       </div>
       <div className="border-t border-primary/10 bg-primary/15">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-          <div className="flex items-center justify-end gap-2 h-9">
+          <div className="flex items-center justify-between gap-2 h-9">
+            <div className="hidden md:flex items-center gap-0.5">
+              {designations.map((d) => (
+                <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
+              ))}
+            </div>
+            <div className="md:hidden" />
+            <div className="flex items-center gap-2">
             <GlobalSearch />
             <div className="flex items-center bg-white rounded-full p-px border border-primary/20 shadow-sm">
               <Button 
@@ -793,6 +801,7 @@ export function Navigation() {
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
+            </div>
           </div>
         </div>
       </div>
