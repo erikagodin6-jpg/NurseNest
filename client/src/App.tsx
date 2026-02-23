@@ -49,6 +49,7 @@ import IVComplicationsSimulatorPage from "@/pages/iv-complications-simulator";
 import ElectrolyteABGSimulatorPage from "@/pages/electrolyte-abg-simulator";
 import DeterioratingPatientSimulatorPage from "@/pages/deteriorating-patient-simulator";
 import BloodTransfusionSimulatorPage from "@/pages/blood-transfusion-simulator";
+import LectureViewer from "@/pages/lecture-viewer";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import { usePageTracker } from "@/hooks/use-page-tracker";
@@ -137,6 +138,7 @@ function Router() {
       <Route path="/learn/:slug" component={ContentPage} />
       <Route path="/anatomy" component={AnatomyPage} />
       <Route path="/lessons" component={Lessons} />
+      <Route path="/lectures/:slug" component={LectureViewer} />
       <Route path="/lessons/:id" component={LessonDetail} />
       <Route path="/flashcards" component={Flashcards} />
       <Route path="/reports" component={Reports} />
