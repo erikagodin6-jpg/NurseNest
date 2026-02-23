@@ -680,16 +680,16 @@ export function Navigation() {
           </div>
         </div>
       </div>
-      <div className="border-t border-primary/10" style={{ backgroundColor: "var(--theme-primary)", opacity: 0.9 }}>
+      <div className="border-t border-primary/10 bg-primary/15">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex items-center justify-end gap-2 h-9">
             <GlobalSearch />
-            <div className="flex items-center bg-white/20 rounded-full p-0.5 border border-white/20">
+            <div className="flex items-center bg-white/50 rounded-full p-0.5 border border-primary/10">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("US")}
-                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-white/70 hover:text-white")}
+                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-primary/50 hover:text-primary")}
               >
                 US
               </Button>
@@ -697,14 +697,14 @@ export function Navigation() {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setRegion("CA")}
-                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-white/70 hover:text-white")}
+                className={cn("h-5 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-primary/50 hover:text-primary")}
               >
                 CA
               </Button>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-white/80 hover:text-white rounded-full h-7 w-7">
+                <Button variant="ghost" size="icon" className="text-primary/70 hover:text-primary rounded-full h-7 w-7">
                   <Palette className="w-3.5 h-3.5" />
                 </Button>
               </DropdownMenuTrigger>
