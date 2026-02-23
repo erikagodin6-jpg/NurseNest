@@ -133,8 +133,6 @@ app.get("/robots.txt", (_req, res) => {
 
 function getSiteBase(): string {
   if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/, "");
-  const domains = process.env.REPLIT_DOMAINS;
-  if (domains) return `https://${domains.split(",")[0]}`;
   return "https://www.nursenest.ca";
 }
 
