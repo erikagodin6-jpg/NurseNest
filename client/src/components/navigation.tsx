@@ -160,6 +160,10 @@ export function Navigation() {
       setLocation("/lessons");
       return;
     }
+    if (itemLabel === "Lectures") {
+      setLocation("/lectures");
+      return;
+    }
     if (itemLabel === "Flashcards") {
       setLocation("/flashcards");
       return;
@@ -218,7 +222,7 @@ export function Navigation() {
               <item.icon className="w-4 h-4 text-primary/70" />
               <span>{item.label}</span>
             </div>
-            {isPaid && !["Lessons", "Flashcards", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Lectures", "Flashcards", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -227,6 +231,7 @@ export function Navigation() {
 
   const learningItems = [
     { icon: BookOpen, label: "Lessons" },
+    { icon: Play, label: "Lectures" },
     { icon: Layers, label: "Flashcards" },
     { icon: Lightbulb, label: "Clinical Clarity" },
     { icon: Activity, label: "Clinical Skill Lab" },
@@ -293,12 +298,6 @@ export function Navigation() {
             </Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lectures")} data-testid="button-lectures-mobile">
-              <Play className="w-4 h-4" />
-              Lectures
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
               <BookOpen className="w-4 h-4" />
               Blog
@@ -308,6 +307,12 @@ export function Navigation() {
           <div className="h-[1px] bg-gray-100 my-2" />
 
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Tools</p>
+          <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lectures")} data-testid="button-lectures-mobile">
+              <Play className="w-4 h-4" />
+              Lectures
+            </Button>
+          </SheetClose>
           <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/clinical-clarity")}>
               <Lightbulb className="w-4 h-4" />
@@ -552,9 +557,6 @@ export function Navigation() {
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lessons")}>
                 Lessons
-              </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lectures")} data-testid="button-lectures-nav">
-                Lectures
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/blog")}>
                 Blog
