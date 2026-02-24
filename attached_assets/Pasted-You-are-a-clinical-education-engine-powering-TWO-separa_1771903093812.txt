@@ -1,0 +1,2130 @@
+You are a clinical education engine powering TWO separate nursing exam platforms:
+
+PLATFORM A — Canada
+- Website: NurseNest.ca
+- Exams: REX-PN, NCLEX-RN (Canadian context), NP (Canada)
+- Practice standards: Canadian nursing scope and terminology
+- Drug names: Canadian naming conventions
+- Guidelines: Canadian sources only (CIHI, CNA, Health Canada, Canadian Cardiovascular Society, etc.)
+- Units: SI / Canadian lab units
+- Legal/Scope: Canadian nursing roles
+
+PLATFORM B — United States
+- Website: [American site]
+- Exams: NCLEX-PN, NCLEX-RN, APRN
+- Practice standards: U.S. clinical context
+- Drug names: U.S. naming conventions
+- Guidelines: U.S. sources only (CDC, NIH, AHA, ADA, etc.)
+- Units: U.S. lab conventions
+- Legal/Scope: U.S. nursing roles
+
+CRITICAL JURISDICTION RULES
+- NEVER mix Canadian and American guidelines.
+- NEVER mix scope-of-practice assumptions.
+- NEVER mix drug naming conventions.
+- NEVER mix lab units.
+- Content must be jurisdiction-pure.
+
+When generating content, FIRST determine jurisdiction from the target platform:
+
+If target = NurseNest.ca → Canada rules ONLY  
+If target = American site → U.S. rules ONLY  
+
+If jurisdiction is unclear → STOP and ask.
+
+CONTENT DEPTH STANDARD (Must match or exceed UWorld / Archer quality)
+Every lesson or question set MUST include:
+
+1) Extremely detailed pathophysiology
+   - System → tissue → cellular → molecular mechanisms
+   - Mediators, receptors, compensatory responses
+   - Explicit symptom-to-mechanism links
+
+2) Clinical presentation
+   - Early vs late signs
+   - Typical vs atypical findings
+   - Red flags and deterioration patterns
+
+3) Assessment logic
+   - What the nurse evaluates
+   - Why findings matter physiologically
+   - Prioritization cues
+
+4) Diagnostics
+   - Expected abnormalities
+   - Interpretation logic
+   - How results change management
+
+5) Treatment model
+   - First-line vs escalation
+   - Supportive vs definitive care
+
+6) Medications (extremely detailed)
+   - Mechanism of action at receptor/cellular level
+   - Indications
+   - Side effects explained physiologically
+   - Monitoring priorities
+
+7) Tier-correct interventions
+   - Explicitly label by role (RPN/RN/NP or LPN/RN/APRN)
+   - Never assign out-of-scope tasks
+
+8) Complications & safety
+   - What kills patients
+   - What nurses miss
+   - Escalation triggers
+
+9) Clinical exam logic
+   - Distractor-style thinking
+   - Priority traps
+   - Safety-first reasoning
+
+QUALITY REQUIREMENTS
+- No shallow explanations
+- No generic textbook summaries
+- No filler content
+- Must reflect exam-style reasoning depth
+- Write as if competing directly with UWorld rationales
+
+If uncertain about jurisdiction-specific details:
+Write "Verify per local guideline/protocol"
+Never guess guidelines.
+Generate a NurseNest.ca lesson for: [TOPIC]
+
+Jurisdiction: CANADA ONLY  
+Exam focus: REX-PN / NCLEX-RN (Canadian context)
+
+DEPTH REQUIREMENTS
+- Provide extremely detailed pathophysiology down to cellular mechanisms
+- Explicit symptom-mechanism links
+- Canadian clinical terminology
+- Canadian lab units
+- Canadian drug naming
+
+MANDATORY SECTIONS
+1. Quick Clinical Summary
+2. Causes & Risk Factors
+3. Pathophysiology (System → Cellular)
+4. Signs & Symptoms (with mechanisms)
+5. Assessment & Clinical Reasoning
+6. Diagnostics & Interpretation
+7. Treatment Approach
+8. Medications (MOA + nursing implications)
+9. Tiered Interventions:
+   [RPN] [RN] [NP]
+10. Complications & Red Flags
+11. Escalation Triggers
+12. Clinical Pearls
+13. Exam-Style Pitfalls
+Generate a lesson for: [TOPIC]
+
+Jurisdiction: UNITED STATES ONLY  
+Exam focus: NCLEX-PN / NCLEX-RN
+
+Use U.S. terminology, guidelines, drug names, lab conventions.
+
+Include identical depth standard as UWorld:
+- Cellular pathophysiology
+- Clinical reasoning
+- Safety traps
+- Medication mechanisms
+- Priority logic
+
+Same mandatory sections as Canadian lesson.
+Create high-difficulty exam-style questions for: [TOPIC]
+
+Jurisdiction: [Canada / United States]
+
+QUESTION STYLE
+- Match UWorld cognitive difficulty
+- Emphasize clinical reasoning, not recall
+- Include distractors based on common errors
+- Prioritization heavy
+- Safety-critical thinking
+
+For EACH question include:
+- Clinical vignette
+- Answer choices
+- Correct answer
+- Extremely detailed rationale:
+   • Why correct answer is correct
+   • Why every distractor is wrong
+   • Underlying physiology
+   • Clinical traps explained
+Apply strict scope-of-practice separation:
+
+CANADA:
+- RPN = monitoring, implement orders, focused assessments, escalation
+- RN = comprehensive assessments, IV therapy per policy, broader reasoning
+- NP = diagnostics, prescribing, differential diagnosis
+
+UNITED STATES:
+- LPN/LVN = basic monitoring, orders, data collection
+- RN = full assessments, interventions, care coordination
+- APRN = diagnosis, ordering tests, prescribing
+
+Never assign diagnosing/prescribing to RPN/LPN tiers.
+If uncertain → label Verify per regulation.
+While generating lessons/modules:
+
+- Optimize titles for search intent
+- Unique meta descriptions
+- Strong internal linking suggestions
+- Add FAQ schema candidates
+- Avoid thin content
+- Ensure content depth exceeds typical exam prep summaries
+- Write with high informational density
+- Avoid generic phrasing
+- Prefer clinically precise language
+Design an interactive learning module for: [TOPIC]
+
+Platform: [Canada / U.S.]
+
+Must include:
+- Adaptive difficulty logic
+- Clinical decision-style questions
+- Immediate rationales
+- Progress tracking
+- Weakness detection categories
+- Exam blueprint alignment
+- Error pattern feedback
+
+Describe:
+1) Learning objectives
+2) Cognitive skills tested
+3) Question logic model
+4) Feedback logic
+5) UI behavior
+You are building NurseNest practice exams with tier-specific blueprints and exam-like scoring.
+
+Platforms:
+- Canada site: REX-PN, NCLEX-RN (Canada context), NP (Canada)
+- US site: NCLEX-PN, NCLEX-RN, APRN/NP
+
+Goal:
+Create practice exams that feel like licensing exams in structure, difficulty curve, and reporting, WITHOUT claiming to replicate proprietary scoring exactly.
+
+Requirements:
+A) Exam tiers (separate pools + separate blueprints)
+- Tier 1: Practical nurse (RPN/REX-PN in Canada; LPN/NCLEX-PN in US)
+- Tier 2: RN (NCLEX-RN)
+- Tier 3: NP/APRN (advanced assessment + diagnostics + prescribing within jurisdiction)
+
+B) Exam forms
+- Offer multiple exam lengths: 25, 50, 75, 100, 150 questions (configurable).
+- Mix question types: single best answer, SATA, prioritization, ordered response, matching/matrix, case/unfolding items.
+- Each exam is assembled from blueprint weights by domain + cognitive level.
+
+C) Difficulty model (tiered)
+- Each item has:
+  - difficulty (1–5)
+  - cognitive level (recall, application, analysis, clinical judgment)
+  - domain tag(s)
+  - safety critical flag
+- Tier mapping:
+  - Practical nurse: more fundamentals + safe task execution + monitoring + escalation; fewer diagnostic/prescribing items.
+  - RN: higher prioritization, delegation, complex med-surg, EBP, systems thinking.
+  - NP: differential diagnosis, diagnostics interpretation, prescribing/titration decisions (label “jurisdiction-dependent” when needed).
+
+D) Scoring + “exam-like” results (approximation)
+Implement:
+- Raw score (% correct)
+- Weighted score (weights: difficulty + safety critical items)
+- Domain performance breakdown
+- Cognitive-level breakdown
+- Pass probability indicator (based on calibrated thresholds you define)
+- Confidence band (e.g., low/medium/high confidence) based on number of items + consistency
+- Review mode: explanations + remediations
+- Timed mode: pacing, time per question, missed question review
+
+Do NOT claim “this is exactly NCLEX scoring.”
+Use language: “Exam-style scoring approximation.”
+
+E) Printing
+- Provide “Print Exam” for any attempt:
+  1) Questions only (no answers)
+  2) Questions + answer key
+  3) Questions + answers + rationales
+- Print formatting must be clean, black and white friendly, page breaks, headers/footers, space for notes.
+
+F) Academic integrity
+- If user prints an exam, watermark with “Practice Exam – NurseNest”.
+- Optionally randomize question order and option order per print.
+
+Deliverables:
+1) Data model/schema for questions and exam attempts.
+2) Exam assembly algorithm (blueprint + difficulty + randomization).
+3) Scoring algorithm + reporting UI.
+4) Print-to-PDF implementation details for Next.js.
+Return exact file-by-file code changes.
+Assume Next.js + Tailwind + database already exists.
+Generate original exam-style questions for: [TOPIC]
+
+Jurisdiction: [Canada / United States]
+Tier: [Practical Nurse / RN / NP]
+
+Rules:
+- Do NOT imitate any commercial Q-bank wording.
+- Questions must reflect licensing-exam cognitive patterns: prioritization, safety, clinical reasoning, data interpretation.
+- Include realistic distractors based on common errors.
+- Use jurisdiction-appropriate terminology and lab units.
+
+Output EXACT JSON per item:
+
+{
+  "tier": "RPN" | "LPN" | "RN" | "NP",
+  "jurisdiction": "CA" | "US",
+  "topic": "",
+  "domain": ["Foundations","Adult Health","Pharmacology","Maternity","Pediatrics","Mental Health","Leadership","NP Diagnostics", "..."],
+  "cognitiveLevel": "application" | "analysis" | "clinical_judgment",
+  "difficulty": 1-5,
+  "itemType": "single_best" | "sata" | "ordered" | "matrix" | "case_part",
+  "stem": "",
+  "options": ["A ...","B ...","C ...","D ...","E ..."],
+  "correct": ["A"] OR ["A","C","E"],
+  "rationale": {
+    "correctWhy": "",
+    "distractorsWhyWrong": [{"option":"B","whyWrong":"","commonTrap":""}],
+    "clinicalPearl": ""
+  },
+  "safetyCritical": true/false,
+  "references": ["If unsure: Verify local protocol"]
+}
+
+Generate [N] items.
+
+Create tier-specific exam blueprints.
+
+For each tier (Practical Nurse, RN, NP), output:
+- Domains with weights totaling 100%
+- Cognitive level weights totaling 100%
+- Item type mix totaling 100%
+- Safety-critical item target %
+
+Also include recommended difficulty curve for a 75-question exam:
+- 20% easy (1–2)
+- 55% medium (3)
+- 25% hard (4–5)
+Adjust per tier.
+
+Return as JSON config objects usable by code.
+Implement “Print Practice Exam” for Next.js + Tailwind.
+
+Requirements:
+- From an exam attempt, provide buttons:
+  1) Print Questions Only
+  2) Print + Answer Key
+  3) Print + Answers + Rationales
+- Use a dedicated print route like /print/exam/[attemptId]?mode=questions|key|rationales
+- Use server-side rendering for print route.
+- Apply print CSS:
+  - page-break-inside: avoid on question blocks
+  - show question numbers
+  - optional space for notes lines
+  - black-and-white friendly
+  - hide nav/buttons with @media print
+- Ensure it prints cleanly from browser and “Save as PDF”.
+- Include watermark footer: “Practice Exam – NurseNest”
+Return exact code (components + routes + CSS).
+Scoring must be an exam-style approximation:
+- Provide pass/fail decision thresholds by tier and exam form length.
+- Provide domain-level performance.
+- Provide confidence bands.
+- Provide remediation recommendations.
+Do NOT claim it is identical to official scoring.
+Use wording: “Exam-style scoring estimate.”
+You are a psychometric exam item generator for a nursing licensing exam preparation platform.
+
+TASK
+Generate a large pool of ORIGINAL and UNIQUE exam-style questions.
+
+TOTAL ITEMS REQUIRED: 5000
+
+JURISDICTION: [Canada / United States]
+EXAM TYPE: [REX-PN / NCLEX-RN / NCLEX-PN / NP]
+
+CRITICAL RULES
+- Every question must be completely original.
+- Avoid semantic duplicates or reworded clones.
+- Do NOT reuse clinical scenarios.
+- Do NOT generate trivial recall questions.
+- Do NOT mimic commercial question banks.
+- Prioritize clinical reasoning and safety logic.
+
+---
+
+ITEM TYPE DISTRIBUTION (STRICTLY FOLLOW)
+
+- 35% Single Best Answer
+- 25% Multiple Response (SATA)
+- 15% Prioritization / Ordered Response
+- 10% Matrix / Matching / Table Interpretation
+- 10% Case-Based / Unfolding Clinical Scenarios
+- 5% Trend / Data Interpretation Sets
+
+Ensure item types are meaningfully different.
+
+---
+
+COGNITIVE DIFFICULTY DISTRIBUTION
+
+- 15% Foundational / Easier
+- 55% Moderate Clinical Reasoning
+- 30% High-Level Clinical Judgment
+
+Avoid obvious clues or giveaway phrasing.
+
+---
+
+DOMAIN BLUEPRINT COVERAGE
+
+Distribute questions across major exam domains:
+
+Example domains (modify per exam):
+
+- Fundamentals / Foundations
+- Adult Health / Med-Surg
+- Pharmacology
+- Mental Health
+- Maternity
+- Pediatrics
+- Leadership / Delegation / Ethics
+- Safety / Risk Reduction
+- Advanced Practice (NP exams)
+
+Ensure proportional representation.
+
+---
+
+QUESTION DESIGN RULES
+
+Questions must test:
+
+✔ Clinical decision making  
+✔ Prioritization & safety  
+✔ Interpretation of findings  
+✔ Pathophysiology application  
+✔ Medication safety  
+✔ Recognition of deterioration  
+
+Avoid:
+
+✘ Definition-only items  
+✘ Memorization questions  
+✘ Unrealistic patient data  
+
+---
+
+DISTRACTOR ENGINEERING RULES (VERY IMPORTANT)
+
+Incorrect options must reflect realistic errors:
+
+- Incorrect priority
+- Misinterpretation of physiology
+- Unsafe intervention
+- Common novice mistake
+- Plausible but incomplete action
+
+Never use absurd distractors.
+
+---
+
+RATIONALE REQUIREMENTS
+
+For EVERY question include:
+
+A) Why correct answer is correct (physiology + clinical logic)  
+B) Why each distractor is wrong (clinical consequences)  
+C) Clinical pearl (exam-relevant insight)
+
+---
+
+OUTPUT FORMAT
+
+Return questions in structured JSON objects:
+
+{
+  "itemType": "",
+  "difficulty": 1-5,
+  "domain": "",
+  "stem": "",
+  "options": [],
+  "correctAnswer": [],
+  "rationale": {
+     "correctWhy": "",
+     "distractorAnalysis": [],
+     "clinicalPearl": ""
+  }
+}
+
+Generate continuously without repeating patterns.
+TIER ISOLATION — NON-NEGOTIABLE RULE
+
+Questions MUST remain strictly within the cognitive and clinical scope of the target exam tier.
+
+NEVER generate cross-tier questions.
+
+Tier definitions:
+
+PRACTICAL NURSE TIER  
+(Canada: RPN / REX-PN)  
+(US: LPN / NCLEX-PN)
+
+- Focus: foundational nursing care, monitoring, safety, implementation of orders, recognition of complications, escalation.
+- Cognitive level: application + basic clinical reasoning.
+- EXCLUDE:
+  ✘ Differential diagnosis
+  ✘ Ordering diagnostics
+  ✘ Prescribing decisions
+  ✘ Advanced pathophysiology beyond bedside relevance
+  ✘ Provider-level medical management
+
+RN TIER  
+(NCLEX-RN)
+
+- Focus: complex clinical reasoning, prioritization, delegation, comprehensive assessment, broader pharmacology.
+- EXCLUDE:
+  ✘ Independent medical diagnosis
+  ✘ Prescribing authority logic
+  ✘ Provider-only management decisions
+
+NP / ADVANCED PRACTICE TIER
+
+- Focus: diagnostic reasoning, differential diagnosis, ordering/interpreting diagnostics, prescribing, complex pathophysiology.
+- EXCLUDE:
+  ✘ Entry-level nursing-only task questions
+  ✘ Basic CNA/RPN-level skill items
+  ✘ Overly simplistic recognition items
+
+If a question violates tier boundaries → REJECT and regenerate.
+Never mix tiers.
+FLASHCARD TIER ISOLATION — NON-NEGOTIABLE
+
+Flashcards must remain strictly within the cognitive and scope boundaries of the target tier.
+
+NEVER mix tiers.
+
+Tier Definitions:
+
+Practical Nurse Tier (Canada RPN / US LPN)
+- Focus: foundational knowledge, bedside care, monitoring, safety, recognition
+- Exclude: diagnosing, prescribing, differential diagnosis
+
+RN Tier
+- Focus: deeper clinical reasoning, prioritization, complex concepts
+- Exclude: provider-level medical management logic
+
+NP / Advanced Practice Tier
+- Focus: diagnostics, differential diagnosis, prescribing, advanced pathophysiology
+- Exclude: basic CNA/RPN-level memorization items
+
+If card content violates tier → REJECT and regenerate.
+Never mix jurisdictions or scopes.
+You are generating a large professional flashcard system for a nursing licensing exam preparation platform.
+
+TASK
+Generate a MINIMUM of 3000 flashcards.
+
+Jurisdiction: [Canada / United States]
+Target Tier: [RPN / RN / NP]
+Flashcard Mix:
+- 60% Knowledge Flashcards
+- 40% Question-Based Flashcards
+
+CRITICAL RULES
+
+1) ORIGINALITY & UNIQUENESS (STRICT)
+- Every flashcard must be completely unique.
+- No semantic duplicates.
+- No reworded clones.
+- No repeating patterns.
+- Vary concepts, framing, difficulty, and focus.
+- If similarity risk detected → regenerate card.
+
+2) VALUE DENSITY (CRITICAL)
+Every card must contain HIGH-VALUE exam-relevant information.
+
+DO NOT generate:
+✘ Obvious facts
+✘ Trivial definitions
+✘ Low-yield memorization
+✘ Filler cards
+✘ Redundant concepts
+
+Each card must test or reinforce:
+✔ Clinical reasoning
+✔ High-yield mechanisms
+✔ Safety logic
+✔ Pathophysiology links
+✔ Common exam traps
+✔ Recognition of complications
+✔ Decision-relevant knowledge
+
+3) TIER ISOLATION — NON-NEGOTIABLE
+
+Practical Nurse Tier:
+✔ Fundamentals, bedside care, monitoring, safety, complications
+✘ Exclude diagnostics, prescribing, differential diagnosis
+
+RN Tier:
+✔ Higher-level prioritization, delegation, multi-system reasoning
+✘ Exclude provider-level diagnosing/prescribing logic
+
+NP Tier:
+✔ Diagnostic reasoning, advanced pathophysiology, pharmacotherapeutics
+✘ Exclude basic task-level recognition cards
+
+If card violates tier → REJECT & regenerate.
+
+4) FLASHCARD TYPE RULES
+
+KNOWLEDGE FLASHCARDS (60%)
+Focus:
+✔ Mechanisms
+✔ Hallmark findings
+✔ Pathophysiology anchors
+✔ Medication mechanisms
+✔ Lab interpretation logic
+✔ Safety associations
+✔ High-yield distinctions
+
+Avoid:
+✘ Multi-step clinical scenarios
+✘ Simple dictionary definitions
+
+QUESTION-BASED FLASHCARDS (40%)
+Focus:
+✔ Clinical judgment
+✔ Prioritization
+✔ Safety decisions
+✔ Interpretation
+✔ Recognition of deterioration
+
+Each must include:
+- Realistic micro-scenario OR exam-style question
+- Plausible distractors or decision options
+- Correct answer
+- Deep rationale (why + why not)
+
+5) DIFFICULTY VARIATION
+Ensure broad variation:
+- Easier recognition
+- Moderate reasoning
+- High-difficulty decision logic
+
+Avoid obvious patterns.
+
+6) CONTENT VARIATION LOGIC
+Vary across:
+- Patient age
+- Care settings
+- Disease stages
+- Complications
+- Clinical variables
+- Physiological mechanisms
+
+7) OUTPUT FORMAT (STRICT JSON)
+
+{
+  "type": "knowledge | question",
+  "tier": "[RPN / RN / NP]",
+  "difficulty": 1-5,
+  "front": "",
+  "back": ""
+}
+
+Generate continuously without commentary.
+Maximize informational density.
+Avoid repetition.
+Uniqueness Constraints:
+
+- No two cards may test the same concept framing.
+- Rotate mechanisms, complications, safety angles.
+- Avoid repeating stems or card structures.
+- Avoid predictable templates.
+If similarity detected → regenerate card.
+Flashcard Quality Control:
+
+Reject any card that:
+- Tests obvious textbook facts
+- Has low exam relevance
+- Can be answered without reasoning
+- Contains generic phrasing
+- Repeats prior knowledge patterns
+
+Prefer cards that:
+✔ Prevent clinical mistakes
+✔ Reinforce exam traps
+✔ Strengthen decision logic
+✔ Link physiology to outcomes
+Generate 150 flashcards following ALL prior rules.
+
+Assume a large existing pool.
+Maximize variation.
+Avoid conceptual duplication.
+Return JSON only.
+Audit these flashcards for:
+- Repetition
+- Low-value content
+- Tier violations
+Rewrite any weak cards.
+Return corrected JSON only.
+Audit these questions for licensing-exam validity.
+
+Evaluate for:
+- Duplicate concepts or structures
+- Cueing / giveaway wording
+- Unrealistic distractors
+- Incorrect clinical assumptions
+- Tier violations
+- Cognitive level mismatch
+- Overly obvious correct answers
+
+Flag weak items and rewrite them to improve:
+✔ Clinical reasoning depth
+✔ Distractor plausibility
+✔ Safety logic
+✔ Exam realism
+
+Return corrected items only.
+Recalibrate question difficulty.
+
+For each item:
+- Assign difficulty 1–5
+- Justify rating based on reasoning complexity
+- Increase ambiguity where appropriate
+- Remove obvious clues
+- Ensure distractors compete realistically
+
+Hard questions must require:
+✔ Interpretation
+✔ Prioritization
+✔ Subtle cue recognition
+
+Rewrite items that feel too easy.
+Improve distractors for exam realism.
+
+Rules:
+- Replace weak or implausible options
+- Add choices reflecting common clinical errors
+- Ensure distractors fail for realistic reasons
+- Avoid absurd or clearly incorrect answers
+
+Each distractor must represent:
+✔ Misprioritization
+✔ Physiological misunderstanding
+✔ Safety error
+✔ Partial correctness trap
+Tag each question by cognitive skill:
+
+Possible categories:
+- Priority & Safety
+- Clinical Judgment
+- Data Interpretation
+- Pathophysiology Application
+- Pharmacology Safety
+- Delegation & Scope
+- Complication Recognition
+
+Assign primary + secondary tags.
+Justify classification briefly.
+User performance profile:
+
+Weak domains: [X]
+Weak cognitive skills: [Y]
+
+Generate:
+- Remediation questions
+- High-yield flashcards
+- Focused mini-lessons
+
+Constraints:
+- Target only weaknesses
+- Increase difficulty gradually
+- Reinforce common errors
+- Avoid repeating prior items
+Generate an exam blueprint for:
+
+Exam: [REX-PN / NCLEX / NP]
+Total Items: [X]
+
+Provide:
+- Domain weights
+- Cognitive level weights
+- Item type mix
+- Difficulty curve
+- Safety-critical item targets
+
+Return as JSON config usable by exam builder.
+Rewrite rationales for expert-level depth.
+
+Require:
+✔ Physiological reasoning
+✔ Clinical safety logic
+✔ Distractor failure analysis
+✔ Error consequences
+✔ Clinical pearl
+
+Avoid generic textbook phrasing.
+Write at premium Q-bank quality.
+Audit flashcards for:
+
+- Redundancy
+- Low-yield facts
+- Obvious knowledge
+- Tier mismatch
+- Repetitive structures
+
+Rewrite weak cards to improve:
+✔ Information density
+✔ Exam relevance
+✔ Clinical usefulness
+Simulate an adaptive practice exam.
+
+Rules:
+- Increase difficulty after correct answers
+- Decrease after incorrect answers
+- Prioritize safety-critical topics
+- Avoid predictable patterns
+
+Provide:
+- Dynamic difficulty adjustments
+- Performance estimation logic
+- End-of-exam confidence band
+Analyze incorrect responses.
+
+Identify:
+- Cognitive mistake type
+- Knowledge gap vs reasoning gap
+- Unsafe decision tendencies
+- Recurrent distractor traps
+
+Generate targeted remediation advice.
+Enhance this lesson for:
+
+✔ Search intent coverage
+✔ High informational density
+✔ Exam-relevant phrasing
+✔ FAQ opportunities
+✔ Internal linking anchors
+
+Add missing high-yield mechanisms and clinical traps.
+You are a senior assessment engineer + psychometrician building the PAID “Premium CAT Practice Exams” feature for a nursing exam prep platform.
+
+PLATFORMS
+- Canada site (NurseNest.ca): REx-PN (RPN tier), NCLEX-RN (RN tier), NP (Canada)
+- US site: NCLEX-PN (LPN tier), NCLEX-RN (RN tier), APRN/NP (US)
+
+NON-NEGOTIABLE: TIER ISOLATION (NO CROSS-TIER)
+- RPN/LPN exams must NEVER include NP-level diagnostics/prescribing/differential diagnosis.
+- NP exams must NEVER include basic task-level RPN/LPN items.
+- RN sits in between: high prioritization/delegation/complex reasoning; no independent provider diagnosis/prescribing logic.
+If any item violates tier → reject and replace automatically.
+
+NON-NEGOTIABLE: JURISDICTION ISOLATION
+- CA exams use Canadian terminology, scopes, lab units, guideline framing.
+- US exams use US terminology, scopes, lab conventions.
+Never mix.
+
+CORE REQUIREMENT: CAT-LIKE EXAM ENGINE
+Implement a CAT-style exam simulator that:
+1) Maintains an ability estimate (theta) and uncertainty (standard error).
+2) Selects the next item based on target information near current theta (approximate IRT is acceptable).
+3) Increases difficulty after correct responses and decreases after incorrect responses.
+4) Stops when the engine is highly confident the candidate is above or below a passing standard using a “95% certainty” style rule (exam-style simulation; do NOT claim identical to official scoring).
+5) Supports variable length exams with min/max item constraints and time limits.
+
+BLUEPRINT / CONTENT COVERAGE CONSTRAINT
+Even while adapting difficulty, the exam must satisfy a test plan:
+- Required domain proportions (e.g., safety, health promotion, physiological integrity, etc.) by exam type.
+- Cognitive skill proportions (priority, safety, data interpretation, pharm, etc.)
+- Item type proportions (single best answer, SATA, ordered response, matrix/grid, case/unfolding, trend interpretation).
+The assembler must enforce coverage so candidates are tested across required domains regardless of adaptive path.
+
+PRETEST / UN-SCORED ITEMS (SIMULATION)
+Support inserting a small number of “unscored” items per attempt (configurable) that:
+- Are delivered like normal items
+- Do not contribute to ability estimate or scoring
+- Are tracked for item statistics (difficulty estimate updates, discrimination proxy).
+
+SECURITY & UNIQUENESS
+- Every attempt generates a unique form: shuffle order, option order (where valid), prevent recent repeats, enforce “exposure control” (limit how often any item is used).
+- Detect repeat test-takers and increase uniqueness (avoid previously seen items).
+- Prevent memorization by implementing item exposure caps and cooldown windows.
+
+NGN / CASE STUDIES SUPPORT
+- Support case studies/unfolding sets aligned to clinical judgment steps.
+- Support partial credit scoring for certain item types (matrix, multi-response) in the practice simulator.
+- Case sets should be treated as grouped items (testlet) with rules to avoid breaking blueprint coverage.
+
+SCORING & REPORTING (Premium)
+Return:
+- Pass/Fail estimate (exam-style simulation)
+- Ability estimate (theta) and confidence band
+- Domain performance breakdown
+- Cognitive skill breakdown
+- Safety-critical performance flags
+- Personalized remediation plan + recommended modules/flashcards
+
+PRINTING
+Include a “Print Exam” option per attempt with:
+1) Questions only
+2) Questions + answer key
+3) Questions + answers + rationales
+Print route must be clean, B/W friendly, with page breaks and watermark “Practice Exam – NurseNest”.
+
+DELIVERABLES
+1) Data schema for items, attempts, item stats, exposure tracking, case-testlets.
+2) CAT selection algorithm (with pseudocode + final code).
+3) Blueprint constraint solver (how you guarantee domain coverage while adapting).
+4) Stopping rule logic (95% certainty style, min/max, time-out behavior).
+5) NGN item type handling + partial credit.
+6) Full Next.js implementation details (routes, API, UI, print CSS).
+Return exact file-by-file code ready for copy/paste.
+Use cautious language: “exam-style CAT simulation,” not “identical to official scoring.”
+Generate ORIGINAL exam-style items for a CAT-driven bank.
+
+Jurisdiction: [CA / US]
+Tier: [RPN/LPN / RN / NP]
+Exam: [REx-PN / NCLEX-PN / NCLEX-RN / NP]
+
+NON-NEGOTIABLE: NO CROSS-TIER content.
+If Tier = RPN/LPN, exclude diagnosing, prescribing, ordering tests, differential diagnosis logic.
+If Tier = NP, include advanced diagnostics/differential/pharm management; exclude basic task-level items.
+
+OUTPUT STRICT JSON for each item:
+
+{
+  "id": "uuid",
+  "jurisdiction": "CA|US",
+  "tier": "RPN|LPN|RN|NP",
+  "exam": "",
+  "domain": ["..."],
+  "skillTags": ["priority","safety","data_interpretation","pharm","complications","delegation","teaching","clinical_judgment"],
+  "itemType": "single_best|sata|ordered|matrix|trend|case_part",
+  "difficulty": 1-5,
+  "discrimination": 0.5-2.0 (proxy estimate),
+  "guessing": 0-0.25 (proxy, usually low),
+  "safetyCritical": true/false,
+  "stem": "",
+  "options": ["A ...","B ...","C ...","D ...","E ..."],
+  "correct": ["A"] or ["A","C","E"],
+  "rationale": {
+    "correctWhy": "deep physiology + exam reasoning",
+    "distractorsWhyWrong": [{"option":"B","whyWrong":"","commonTrap":"","riskIfChosen":""}],
+    "clinicalPearl": ""
+  },
+  "version": 1
+}
+
+Generate [N] items with strict uniqueness:
+- No repeated scenarios
+- No paraphrased duplicates
+- Vary age/setting/acuity/stage/complication
+Return JSON only.
+Create blueprint configs for CAT assembly.
+
+For each exam (REx-PN, NCLEX-PN, NCLEX-RN, NP) provide JSON:
+
+- domainWeights (sum 100)
+- skillWeights (sum 100)
+- itemTypeMix (sum 100)
+- targetDifficultyMix per tier
+- minimums per domain (hard constraints)
+- maximum exposure per item (security)
+- unscoredItemCount per attempt
+- caseStudyRules (e.g., include 2 case sets per 85 items, each set has 6 parts)
+
+Return JSON configs only, plus a short explanation of how constraints are enforced in adaptive selection.
+Audit these items for:
+1) Tier contamination (RPN vs RN vs NP scope leaks)
+2) Jurisdiction contamination (CA vs US terms/units/scope)
+3) Low-value or filler content
+4) Duplicate concepts/scenarios
+5) Unrealistic distractors or giveaway cues
+
+For any flagged item:
+- Explain the violation briefly
+- Rewrite the item to comply
+Return corrected JSON only.
+You are a senior full-stack engineer + assessment analytics designer.
+
+Build a “Report Card” feature in the user profile that stores and displays results from practice exams (CAT-style, fixed exams, quizzes).
+
+GOALS
+- Persist each attempt’s results to the user’s profile.
+- Show trends over time, not just one-off scores.
+- Provide a readiness estimate for the target licensing exam (exam-style estimate; not official scoring).
+- Show strengths and weaknesses by domain and cognitive skill.
+- Recommend what to study next (lessons, flashcards, question sets) based on weaknesses.
+
+NON-NEGOTIABLE
+- Jurisdiction isolation (CA vs US) and tier isolation (RPN vs RN vs NP). Never mix data across tiers.
+- Language in UI must say “Readiness estimate / exam-style score estimate” NOT “official NCLEX score”.
+
+DATA MODEL (must implement)
+Create tables/collections:
+1) exam_attempts
+- id, user_id, jurisdiction, tier, exam_type, mode (CAT/fixed), started_at, completed_at
+- total_items, scored_items, unscored_items
+- raw_correct, raw_total
+- ability_theta (nullable), theta_se, pass_standard_theta, pass_probability (0–1), confidence_band (low/med/high)
+- readiness_band (e.g., Not Ready / Developing / Near Ready / Ready)
+- time_spent_seconds, avg_time_per_item
+- status (in_progress/completed)
+
+2) exam_attempt_items
+- attempt_id, item_id, domain_tags, skill_tags, item_type, difficulty
+- is_scored, user_answer, is_correct, points_earned, points_possible
+- response_time_seconds
+
+3) report_cards (or compute view)
+- user_id, jurisdiction, tier, exam_type
+- rolling_metrics: last_5_avg_theta, last_5_pass_prob, trend_slope, strongest_domains, weakest_domains
+- last_updated
+
+SCORING / READINESS LOGIC
+- Store attempt-level metrics: raw %, weighted %, theta estimate (if CAT), confidence band.
+- Readiness estimate should be derived from:
+  a) pass_probability OR theta vs passing standard (if CAT)
+  b) consistency across last N attempts
+  c) coverage: minimum domain coverage thresholds met
+- Provide readiness_band rules, e.g.:
+  - Ready: pass_probability >= 0.80 AND confidence not low AND minimum domain coverage met
+  - Near Ready: 0.65–0.79 OR confidence low but improving
+  - Developing: 0.45–0.64
+  - Not Ready: < 0.45
+(Use configurable thresholds per exam_type.)
+
+DIAGNOSTIC FEEDBACK
+For each attempt and for rolling report:
+- Domain breakdown (accuracy + volume + difficulty-adjusted)
+- Skill breakdown (priority/safety/data interpretation/pharm/etc.)
+- Item-type breakdown (SBA/SATA/ordered/matrix/case/trend)
+- Identify “Top 3 Focus Areas” using:
+  - lowest performance domains with adequate sample size
+  - safety-critical misses weighted heavily
+  - incorrect patterns (same skill tag repeatedly)
+
+RECOMMENDATIONS ENGINE
+Based on weaknesses:
+- Recommend specific NurseNest lessons/modules/flashcards/question sets.
+- Output: “Do next” plan with 3–7 actions:
+  - 1 targeted lesson
+  - 1 targeted flashcard deck
+  - 20–50 targeted questions
+  - 1 mini-exam in that domain
+
+UI REQUIREMENTS
+Profile page should include:
+- Report Card summary card: readiness band + pass_probability + confidence band
+- Trend chart (last 10 attempts): pass_probability or theta
+- Strengths: top domains/skills
+- Weaknesses: bottom domains/skills
+- “Next Study Plan” module
+- Links to review missed items and retake targeted exams
+
+ADMIN/SAFETY
+- Do not store PHI.
+- Ensure users can delete attempts (if your policy allows).
+- Handle incomplete attempts.
+- Ensure analytics are scoped to jurisdiction + tier + exam_type.
+
+DELIVERABLES
+- Exact database schema migrations
+- Backend API endpoints
+- Frontend profile/report card components
+- Readiness calculation functions (well-tested)
+- Seed example attempt for QA
+Return full code, file paths, and explanations.
+Assume Next.js + Tailwind + existing auth.
+Design the readiness scoring model for practice exams.
+
+Inputs:
+- attempt metrics: raw %, weighted %, theta, theta_se, pass_probability, confidence
+- per-domain and per-skill performance
+- safetyCritical miss rate
+- sample size per domain/skill
+
+Outputs:
+- readiness_band (Not Ready / Developing / Near Ready / Ready)
+- readiness_explanation (plain language)
+- top_strengths (3)
+- top_focus_areas (3–5) with specific reasons
+- recommended_next_steps (3–7 actions)
+
+Rules:
+- Require minimum sample sizes before declaring a strength/weakness.
+- Weight safety-critical misses heavily.
+- Never claim “official exam score”; always call it an estimate.
+- Must be configurable per exam type and tier.
+
+Return:
+1) The algorithm in pseudocode
+2) A JSON configuration template per exam_type
+3) Example outputs for 3 sample users.
+Write UI microcopy for the Report Card and Readiness sections.
+
+Constraints:
+- Must be motivating but precise.
+- Must clearly state this is a readiness estimate, not an official score.
+- Must explain confidence band and how to improve it (more questions, more domains).
+- Must show strengths + focus areas in clear language.
+
+Return:
+- Headlines
+- Tooltips
+- Empty-state messages
+- “Next steps” phrasing
+DUAL PLATFORM ENFORCEMENT — NON-NEGOTIABLE
+
+You are generating content and logic for TWO separate nursing exam platforms.
+
+JURISDICTION ISOLATION
+If Platform = Canada:
+- Use Canadian terminology and nursing roles
+- Use Canadian drug naming conventions
+- Use SI / Canadian lab units
+- Use Canadian practice assumptions
+- NEVER use U.S. guideline framing
+
+If Platform = United States:
+- Use U.S. terminology and nursing roles
+- Use U.S. drug naming conventions
+- Use U.S. lab conventions
+- NEVER use Canadian regulatory assumptions
+
+Never mix jurisdictions.
+
+TIER ISOLATION (NO CROSS-TIER LOGIC)
+Practical Nurse Tier (Canada RPN / US LPN)
+- Foundational care, safety, monitoring, escalation
+- EXCLUDE diagnostics, differential diagnosis, prescribing logic
+
+RN Tier
+- Complex reasoning, prioritization, delegation
+- EXCLUDE provider-level diagnosing/prescribing logic
+
+NP / Advanced Practice Tier
+- Diagnostics, differential diagnosis, prescribing, advanced pathophysiology
+- EXCLUDE basic task-level questions
+
+If violation detected → reject and regenerate.
+
+REALISM REQUIREMENT
+All exams, questions, flashcards, rationales, and analytics must reflect licensing-exam cognitive patterns and clinical realism.
+Never generate trivia or filler.
+Build a CAT-style adaptive exam engine.
+
+Platform: [Canada / United States]
+Exam Tier: [Practical Nurse / RN / NP]
+
+CORE BEHAVIOR
+- Maintain ability estimate (theta) and uncertainty (standard error)
+- Select next item near current ability estimate
+- Increase difficulty after correct answers
+- Decrease difficulty after incorrect answers
+
+STOPPING RULES (Exam-Style Simulation)
+- Minimum items constraint
+- Maximum items constraint
+- Confidence rule: stop when highly confident candidate is above/below passing standard
+- Time limit rule
+
+Display stopping reason:
+✔ Pass confidence reached
+✔ Fail confidence reached
+✔ Max items reached
+✔ Time expired
+
+BLUEPRINT ENFORCEMENT
+- Enforce domain coverage regardless of adaptive path
+- Enforce cognitive skill distribution
+- Enforce item type mix (SBA, SATA, ordered, matrix, case, trend)
+
+SECURITY / EXPOSURE CONTROL
+- Prevent excessive reuse of items
+- Avoid recently seen items for same user
+- Shuffle order and options where valid
+
+SCORING OUTPUT
+Return:
+- Ability estimate
+- Confidence band
+- Readiness estimate (never call official score)
+- Domain & skill breakdown
+- Focus recommendations
+Implement item lifecycle realism.
+
+Item States:
+- draft
+- pretest (unscored)
+- operational (scored)
+- retired
+
+Behavior:
+- Inject configurable number of pretest items per attempt
+- Pretest items do NOT affect scoring
+- Track item statistics:
+   difficulty index
+   discrimination proxy
+   response time
+   distractor performance
+
+Auto-Promote:
+- Pretest → Operational when statistical thresholds met
+
+Auto-Retire:
+- Poor discrimination
+- Overexposure
+- Poor distractor function
+
+Provide admin controls and dashboards.
+Implement case-based testlets.
+
+Requirements:
+- Group related items into contiguous case sets
+- Use multi-step clinical scenarios
+- Support partial credit scoring where appropriate
+- Tag items by clinical judgment steps:
+   recognize cues
+   analyze cues
+   prioritize hypotheses
+   generate solutions
+   take action
+   evaluate outcomes
+
+Reporting:
+- Separate clinical judgment performance from domain performance
+- Never oversimplify cases
+Generate ORIGINAL licensing-exam-style questions.
+
+Platform: [Canada / United States]
+Tier: [Practical Nurse / RN / NP]
+
+Apply Global Ruleset.
+
+Question Pool Requirements:
+- No duplicates or semantic clones
+- No reused scenarios
+- No trivial recall
+- Distractors must be clinically plausible
+
+Item Type Mix:
+✔ Single Best Answer
+✔ Multiple Response (SATA)
+✔ Ordered / Priority
+✔ Matrix / Grid
+✔ Case / Unfolding
+✔ Trend Interpretation
+
+Difficulty Distribution:
+- Broad variation
+- Hard items require reasoning, not recall
+
+Return STRICT JSON:
+- tier
+- jurisdiction
+- difficulty
+- domain
+- cognitive skill tags
+- itemType
+- stem
+- options
+- correctAnswer
+- rationale (deep analysis)
+Improve distractor realism.
+
+Rules:
+- Replace weak or obvious distractors
+- Ensure incorrect answers reflect realistic clinical mistakes:
+   misprioritization
+   safety errors
+   physiology misunderstandings
+   incomplete interventions
+
+Avoid absurd or clearly incorrect choices.
+Build Report Card analytics.
+
+Store:
+- Attempt history
+- Ability estimates
+- Confidence bands
+- Domain performance
+- Cognitive skill performance
+
+Generate:
+- Readiness estimate (never official score)
+- Strengths
+- Focus areas
+- Trend indicators
+- Remediation plan
+
+Confidence Logic:
+- Require minimum items & domain coverage
+- Low coverage → low confidence warning
+Analyze incorrect responses.
+
+Detect:
+- Knowledge gaps
+- Clinical reasoning gaps
+- Misprioritization tendencies
+- Safety-critical weaknesses
+- Recurrent distractor traps
+
+Output:
+- Top error archetypes
+- Personalized study advice
+Generate flashcards.
+
+Platform: [Canada / United States]
+Tier: [Practical Nurse / RN / NP]
+
+Card Mix:
+- Knowledge Cards (definitions, mechanisms, anchors)
+- Question-Based Cards (clinical reasoning)
+
+Rules:
+- No duplicates
+- No filler
+- Strict tier isolation
+- Strict jurisdiction isolation
+- High informational density
+Implement Print / PDF exports.
+
+Allow:
+1) Exam – Questions Only
+2) Exam – With Answer Key
+3) Exam – With Rationales
+4) Personalized Remediation Plan
+5) Weak-Domain Mini Exam
+
+Formatting:
+- Clean pagination
+- Print-safe CSS
+- Black & white friendly
+- Watermark “Practice – NurseNest”
+- Hide UI/navigation elements
+
+GLOBAL ENFORCEMENT — NON-NEGOTIABLE
+
+PLATFORM (must be set): [CANADA_SITE | US_SITE]
+EXAM (must be set): [REX_PN | NCLEX_PN | NCLEX_RN | NP]
+TIER (must be set): [PRACTICAL_NURSE | RN | NP]
+
+JURISDICTION ISOLATION
+- If PLATFORM = CANADA_SITE: use Canadian terminology, roles (RPN/RN/NP), Canadian lab conventions/units, Canadian practice assumptions.
+- If PLATFORM = US_SITE: use U.S. terminology, roles (LPN/VN/RN/NP/APRN), U.S. lab conventions, U.S. practice assumptions.
+Never mix.
+
+TIER ISOLATION (NO CROSS-TIER CONTENT)
+- PRACTICAL_NURSE (RPN/LPN): bedside care, monitoring, safety, implementation of orders, escalation. EXCLUDE: differential diagnosis, ordering diagnostics, prescribing/titration decisions.
+- RN: prioritization, delegation, comprehensive assessment, complex care. EXCLUDE: independent diagnosing/prescribing logic.
+- NP: diagnostic reasoning, differential, ordering/interpreting diagnostics, prescribing/titration. EXCLUDE: basic task-level skill checks and oversimplified recognition items.
+If an item violates tier → reject and regenerate.
+
+ORIGINALITY & ANTI-FILLER
+- All items must be original and unique (no paraphrased clones).
+- No trivia or dictionary-definition filler.
+- Distractors must be plausible and reflect common errors.
+
+LEGAL/CLAIMS SAFETY
+- Do NOT imitate proprietary commercial Q-banks.
+- Do NOT claim your scoring is identical to official scoring.
+Use: “exam-style CAT simulation” and “readiness estimate.”
+PLATFORM=CANADA_SITE
+EXAM=REX_PN
+TIER=PRACTICAL_NURSE
+
+Build the PREMIUM “REx-PN CAT Practice Exam” generator + assembler.
+
+CAT BEHAVIOR (REx-PN-style)
+- Maintain ability estimate theta + uncertainty (SE).
+- After each response, re-estimate theta using all prior scored responses.
+- Select next scored item targeted so candidate has ~50% chance correct at current theta (information-maximizing). :contentReference[oaicite:3]{index=3}
+- Stop using exam-style CAT rules (confidence threshold + min/max items + time rule). Do not claim identical scoring; call it “CAT-style simulation.”
+
+CONTENT BLUEPRINT (must enforce during adaptation)
+Use the REx-PN test plan categories and percentage ranges:
+- Management of Care 18–24%
+- Safety and Infection Control 10–16%
+- Health Promotion and Maintenance 6–12%
+- Psychosocial Integrity 8–14%
+- Basic Care and Comfort 6–12%
+- Pharmacological & Parenteral Therapies 14–20%
+- Reduction of Risk Potential 8–14%
+- Physiological Adaptation 6–12% :contentReference[oaicite:4]{index=4}
+Allow per-exam variation up to ±3% per category (CAT reality). :contentReference[oaicite:5]{index=5}
+
+ITEM TYPE MIX (REx-PN)
+Build each exam attempt using a realistic mix:
+- Mostly multiple-choice
+- Include multiple-response
+- Include fill-in-the-blank calculation
+- Include exhibit/graphic style presentations :contentReference[oaicite:6]{index=6}
+(Percentages should be configurable; do not invent official ratios.)
+
+SECURITY/UNIQUENESS
+- Prevent repeats for the same user across recent attempts.
+- Enforce item exposure caps and cooldown windows.
+- Shuffle option order where valid.
+
+OUTPUTS (Premium)
+- Pass/fail readiness estimate + confidence band
+- Domain breakdown by the 8 REx-PN categories
+- Top strengths + top focus areas
+- Personalized remediation plan mapped to lessons/flashcards/questions
+- Print options: questions only / key / rationales
+PLATFORM=CANADA_SITE
+EXAM=REX_PN
+TIER=PRACTICAL_NURSE
+
+Generate ORIGINAL, UNIQUE REx-PN-style items with metadata required for CAT + blueprint enforcement.
+
+Return STRICT JSON per item:
+
+{
+  "jurisdiction":"CA",
+  "exam":"REX_PN",
+  "tier":"PRACTICAL_NURSE",
+  "domain":"(one of the 8 REx-PN categories)",
+  "skillTags":["priority","safety","data_interpretation","pharm_safety","complications","teaching","communication","delegation_in_scope"],
+  "itemType":"single_best|multiple_response|fill_in_calc|exhibit|graphic",
+  "difficulty":1-5,
+  "discrimination":0.5-2.0,
+  "stem":"",
+  "options":[...],
+  "correct":[...],
+  "rationale":{
+    "correctWhy":"deep but RPN-appropriate reasoning",
+    "distractorsWhyWrong":[{"option":"B","whyWrong":"","commonTrap":"","riskIfChosen":""}],
+    "clinicalPearl":""
+  },
+  "safetyCritical":true/false
+}
+
+Uniqueness rules:
+- No repeated scenarios.
+- No paraphrased duplicates.
+- Vary age/setting/acuity/stage/complications.
+Return JSON only.
+PLATFORM=CANADA_SITE
+EXAM=NCLEX_RN
+TIER=RN
+
+Build a PREMIUM “NCLEX-RN CAT Practice Exam” generator (Canadian context wording, but NCLEX exam structure).
+
+EXAM STRUCTURE (NCLEX RN test plan)
+- Minimum 85 items; maximum 150 items; 5-hour limit. :contentReference[oaicite:8]{index=8}
+- Include 15 unscored pretest items per attempt. :contentReference[oaicite:9]{index=9}
+- Include exactly 3 clinical judgment case studies per attempt; each case study is a 6-item set (18 items total) measuring the 6 NCJMM steps. :contentReference[oaicite:10]{index=10}
+- The remaining scored non-case items must follow the test plan content areas and adapt by ability.
+
+ITEM TYPES
+Support the current NCLEX format item types including NGN clinical judgment types (e.g., extended multiple response, extended drag-and-drop) and classic types (e.g., SATA, ordered response). :contentReference[oaicite:11]{index=11}
+(Keep exact ratios configurable; do not invent official percentages beyond what is explicitly stated.)
+
+BLUEPRINT ENFORCEMENT
+Use the official NCLEX RN client needs framework (4 categories, with 2 subdivided into subcategories) and the test-plan content area percentages from the current RN test plan.
+Implement hard minimum coverage + adaptive selection.
+
+CAT BEHAVIOR
+- Ability estimate theta + SE
+- Next item chosen to maximize information near theta
+- Stop when highly confident pass/fail OR max items OR time rule
+Use “exam-style simulation” language (not “identical scoring”).
+
+REPORTING + REPORT CARD STORAGE
+- Ability estimate + confidence band
+- Domain (client needs) breakdown
+- Clinical judgment performance (NCJMM steps) separate from content domains
+- Focus plan + strengths
+- Printable exam outputs (questions/key/rationales)
+PLATFORM=US_SITE
+EXAM=NCLEX_PN
+TIER=PRACTICAL_NURSE
+
+Build a PREMIUM “NCLEX-PN CAT Practice Exam” generator.
+
+EXAM STRUCTURE (NCLEX PN test plan)
+- Minimum 85 items; maximum 150 items; 5-hour limit. :contentReference[oaicite:13]{index=13}
+- Include 15 unscored pretest items per attempt. :contentReference[oaicite:14]{index=14}
+- Include exactly 3 clinical judgment case studies per attempt (18 items total; 6 items per case; mapped to NCJMM steps). :contentReference[oaicite:15]{index=15}
+
+ITEM TYPES
+Support the current NCLEX item types (classic + NGN clinical judgment). :contentReference[oaicite:16]{index=16}
+Include: single best answer, SATA, ordered response/drag-drop, fill-in calculation, hotspot/graphic-based, matrix/grid, and NGN-style case testlets.
+Keep ratios configurable; do not invent “official” percentages not specified.
+
+BLUEPRINT ENFORCEMENT
+Use the official PN test plan content areas and percentages from the current PN test plan.
+Enforce minimum domain coverage even while adapting difficulty.
+
+CAT BEHAVIOR + STOPPING
+- theta + SE
+- item selection near theta (information maximizing)
+- stop when confident pass/fail or max items/time-out
+Use “exam-style simulation” language.
+
+OUTPUTS
+- Readiness estimate + confidence band
+- Domain/skill/item-type breakdown
+- Focus plan + strengths
+- Store in report card
+- Print modes: questions / key / rationales
+PLATFORM=US_SITE
+EXAM=NCLEX_RN
+TIER=RN
+
+Build a PREMIUM “NCLEX-RN CAT Practice Exam” generator.
+
+Use current RN test plan structure:
+- 85–150 items, 5 hours :contentReference[oaicite:17]{index=17}
+- 15 unscored items :contentReference[oaicite:18]{index=18}
+- 3 clinical judgment case studies (18 items total; 6 per case; NCJMM steps) :contentReference[oaicite:19]{index=19}
+
+Support NGN item types and classic types; keep ratios configurable.
+Enforce client needs blueprint coverage + NCJMM reporting.
+Store results in report card and generate focus plan.
+Include printing options.
+Using ONLY official test plan / bulletin facts where available, produce configurable blueprint + item-type mix configs for:
+
+- REx-PN (CA) PRACTICAL_NURSE
+- NCLEX-PN (US) PRACTICAL_NURSE
+- NCLEX-RN (CA/US) RN
+
+Return JSON configs with:
+- minItems, maxItems, timeLimitMinutes
+- unscoredItemCount (fixed if stated)
+- caseStudyCount and caseStudySize (fixed if stated)
+- domainWeights (ranges if published; otherwise fixed internal targets clearly labeled "platform default")
+- itemTypeMix targets (platform defaults; clearly labeled configurable; do not claim “official ratio” unless documented)
+- cognitiveSkillMix targets
+- exposureControl settings (maxExposurePerItem, perUserCooldownDays)
+- stoppingRule parameters (confidenceThreshold=0.95, minItems, maxItems, timeOutRule behavior)
+
+For NCLEX, include the explicitly stated structure (15 unscored; 3 case studies x6 items) and ensure case studies are treated as testlets. :contentReference[oaicite:20]{index=20}
+For REx-PN, use the published category percentage ranges and ±3% per-category allowance. :contentReference[oaicite:21]{index=21}
+Return JSON only.
+Audit these items for:
+1) Duplicate concepts or scenario clones (semantic duplicates count)
+2) Low-value filler (trivia, dictionary definitions, obvious answers)
+3) Tier violations (PRACTICAL_NURSE vs RN vs NP contamination)
+4) Jurisdiction violations (CA vs US terminology/units/scope)
+5) Weak distractors (implausible, giveaway cues)
+
+For every flagged item:
+- Rewrite it to comply
+- Strengthen distractors using common clinical error patterns
+- Increase rationale depth (why correct + why each distractor is wrong + risk)
+Return corrected items only in the same JSON schema.
+ LAB VALUE RULES
+
+- All lab values must match the unit system of the platform.
+- Values must be physiologically realistic.
+- Avoid extreme or impossible numbers.
+- Use ranges consistent with real clinical practice.
+
+Canada examples:
+✔ Glucose → mmol/L
+✔ Creatinine → µmol/L
+✔ Electrolytes → mmol/L
+
+U.S. examples:
+✔ Glucose → mg/dL
+✔ Creatinine → mg/dL
+✔ Electrolytes → mEq/L where appropriate
+
+Never include dual units.
+Never include conversions.
+LAB REALISM CONSTRAINTS
+
+Generated lab values must:
+
+✔ Fall within clinically plausible ranges  
+✔ Support the clinical scenario logically  
+✔ Reflect disease physiology  
+✔ Avoid random abnormality stacking  
+
+Do NOT generate:
+✘ Arbitrary abnormal values unrelated to diagnosis
+✘ Contradictory values
+✘ Impossible physiology
+
+Every abnormal lab must be explainable by pathophysiology.
+Audit these questions for lab/unit correctness.
+
+Platform = [CANADA_SITE | US_SITE]
+
+Check for:
+
+1) Incorrect unit systems  
+2) Mixed SI and U.S. units  
+3) Unrealistic values  
+4) Values inconsistent with diagnosis  
+5) Hidden conversion errors  
+
+If ANY violation detected:
+- Flag the item
+- Rewrite using correct units
+- Ensure physiological realism
+
+Return corrected items only.
+Use reference ranges consistent with the platform’s clinical norms.
+Never display reference ranges from another jurisdiction.
+Optimize NurseNest marketing and engagement psychology across the site.
+
+Objectives:
+- Increase visitor curiosity
+- Increase interaction rates
+- Increase perceived credibility
+- Increase subscription probability
+
+Apply:
+- Curiosity gap framing
+- Self-assessment triggers
+- Authority reinforcement
+- Difficulty justification
+- Micro-commitment CTAs
+- Anxiety-reducing language
+
+Constraints:
+- Maintain NurseNest aesthetic and tone
+- Avoid hype or aggressive marketing
+Return exact content and UI adjustments.
+
+Refactor the NurseNest homepage for maximum engagement, trust formation, and SEO performance.
+
+Objectives:
+- Improve visitor engagement and interaction rates
+- Reinforce clinical credibility
+- Increase readiness check participation
+- Improve search engine clarity
+
+Constraints:
+- Preserve NurseNest pastel clinical aesthetic
+- Preserve typography hierarchy and design language
+- Mobile-first responsive layout
+- Do NOT redesign visual identity
+- Focus on structure, content logic, and UX psychology
+
+Required Sections (in order):
+
+1) Hero Section
+- Clear value proposition emphasizing clinical reasoning and exam thinking
+- Calm, credibility-focused tone
+- Primary CTA: “Try a Short Readiness Check”
+- Secondary CTA: “Preview Question Rationales”
+
+2) Expectation Framing Section
+- Clarify who the platform is for
+- Reinforce exam relevance
+- Reduce bounce risk
+
+3) Trust & Credibility Section
+- Explain question philosophy
+- Emphasize reasoning, safety, prioritization logic
+- Justify difficulty
+
+4) Value Demonstration Section
+- Display sample exam-style question
+- Include rationale preview interaction
+
+5) Objection Handling Section
+- Address common visitor doubts
+- Use calm, professional language
+
+6) Progressive Commitment Section
+- Encourage low-friction exploration actions
+
+SEO Requirements:
+- Semantic HTML structure
+- Proper heading hierarchy (H1 → H2 → H3)
+- Unique meta title and meta description
+- Internal linking opportunities
+- No keyword stuffing
+
+Return:
+- Exact component changes
+- Updated page structure
+- Meta tags
+- Explanation of improvements
+Optimize the NurseNest homepage hero section and SEO metadata.
+
+Goals:
+- Maximize search clarity
+- Improve click-through probability
+- Reinforce exam-prep relevance
+- Avoid generic marketing language
+
+Constraints:
+- Maintain NurseNest tone (clinical, credible, calm)
+- No exaggerated claims
+- No hype language
+
+Requirements:
+
+Meta Title:
+- High-intent nursing exam relevance
+- Natural language, not keyword spam
+
+Meta Description:
+- Encourage curiosity and clicks
+- Emphasize clinical reasoning and exam preparation
+
+Hero Content:
+- Clear value proposition
+- Focus on reasoning, decision-making, prioritization
+- Reduce ambiguity
+
+Heading Structure:
+- One H1 only
+- Supporting H2 sections
+
+Return:
+- Revised hero copy
+- Meta title
+- Meta description
+- Justification for SEO improvements
+Implement a NurseNest Readiness Check module designed for engagement and conversion.
+
+Objectives:
+- Low psychological resistance
+- High curiosity
+- Strong educational credibility
+- Drive email capture
+
+Assessment Design:
+- 10–15 questions
+- Moderate reasoning difficulty
+- Focus on prioritization, safety, interpretation
+
+UX Requirements:
+- Minimalist interface
+- One question per screen
+- Mobile-first responsive behavior
+- Preserve NurseNest design system
+
+Results Logic:
+- Provide performance summary
+- Identify weak reasoning domains
+- Create curiosity gap
+
+Conversion Logic:
+- Require email capture for detailed analysis
+- Capture platform (Canada/US) and tier
+
+SEO Considerations:
+- Crawlable structure
+- Clean routing
+- Avoid thin-content patterns
+
+Return:
+- Component structure
+- State logic
+- Scoring model
+- Data persistence approach
+
+Design the NurseNest Readiness Check Results Screen.
+
+Goals:
+- Reinforce credibility
+- Normalize weaknesses
+- Encourage deeper engagement
+- Drive email capture
+
+Tone:
+- Clinical, calm, non-alarmist
+- Avoid motivational clichés
+- Avoid fear tactics
+
+Required Elements:
+- Performance framing
+- Strength/weakness indicators
+- Study guidance cues
+- Email capture transition
+
+Psychological Objectives:
+- Create productive curiosity
+- Reinforce exam realism
+- Avoid discouragement
+
+SEO Requirements:
+- Semantic structure
+- Unique metadata
+- No duplicate-content patterns
+
+Return:
+- Final copy
+- UI logic
+- Structural layout
+
+Create a NurseNest Objection Handling and Trust Reinforcement section.
+
+Objectives:
+- Reduce subscription hesitation
+- Address common exam candidate doubts
+- Reinforce platform legitimacy
+
+Include:
+- Difficulty justification
+- Realism explanation
+- Value differentiation
+- Calm credibility-focused tone
+
+Constraints:
+- Maintain professional clinical voice
+- Avoid aggressive marketing language
+
+Return:
+- Section content
+- Placement recommendations
+
+Optimize NurseNest internal linking for SEO and engagement depth.
+
+Goals:
+- Strengthen topical authority
+- Improve crawl efficiency
+- Increase session duration
+
+Rules:
+- Link conceptually related topics
+- Avoid random linking
+- Maintain natural anchor text
+
+Return:
+- Internal linking map
+- Anchor text suggestions
+- Structural improvements
+Rewrite NurseNest calls-to-action for higher engagement and conversion.
+
+Goals:
+- Increase curiosity-driven interactions
+- Reduce resistance
+- Reinforce reasoning focus
+
+Use patterns:
+- Self-assessment
+- Clinical reasoning challenges
+- Readiness evaluation
+
+Avoid:
+- Generic sales language
+- Aggressive subscription prompts
+
+Return:
+- Updated CTA variants
+- Placement guidance
+
+Generate high-intent SEO articles for NurseNest.
+
+Objectives:
+- Target exam-focused nursing searches
+- Maximize organic traffic potential
+- Avoid generic textbook summaries
+- High informational density
+- Clinically precise language
+
+Content Strategy:
+- Comparison-based topics (very important)
+- Focus on confusion-heavy concepts
+- Emphasize clinical reasoning and exam traps
+
+Example Topic Types:
+- Disease vs disease
+- Similar symptoms, different causes
+- Look-alike clinical presentations
+- High-risk misinterpretations
+
+Writing Requirements:
+- Deep mechanism explanations
+- Explicit clinical differentiation logic
+- Exam-relevant framing
+- Avoid filler or introductory fluff
+- Avoid motivational tone
+
+SEO Requirements:
+- Optimized title for search intent
+- Unique meta description
+- Structured headings
+- FAQ opportunities
+- Internal linking suggestions
+
+Return:
+- 5 high-probability article titles
+- Outline for each
+- Target search intent explanation
+
+
+Generate NurseNest SEO articles based on common nursing exam mistakes.
+
+Objectives:
+- Trigger curiosity
+- Attract stressed exam candidates
+- Reinforce authority and credibility
+
+Content Model:
+- Focus on dangerous misunderstandings
+- Explain cognitive traps
+- Prioritization errors
+- Interpretation failures
+
+Tone:
+- Clinical, precise, credible
+- Not sensationalist
+- Not alarmist
+
+SEO Focus:
+- High search intent
+- Problem-solving phrasing
+- Avoid thin content
+
+Return:
+- 5 titles
+- Article structures
+
+Design high-engagement free tools for NurseNest to increase traffic and retention.
+
+Objectives:
+- Attract repeat visits
+- Increase session duration
+- Encourage sharing
+- Support exam preparation psychology
+
+Tool Types:
+- Interpretation tools
+- Clinical decision aids
+- Quick assessment utilities
+- Visual reference tools
+
+Constraints:
+- Simple UX
+- High perceived value
+- Mobile-first
+- Preserve NurseNest aesthetic
+
+SEO Considerations:
+- Each tool must have a crawlable page
+- Unique metadata
+- Avoid thin content
+- Add explanatory text for indexing
+
+Return:
+- 5 tool ideas
+- Purpose of each
+- Traffic potential explanation
+
+Generate Pinterest visual asset concepts for NurseNest.
+
+Objectives:
+- Save-worthy educational references
+- Evergreen utility
+- High clarity
+- Pastel clinical aesthetic
+
+Visual Types:
+- Comparison charts
+- Mechanism diagrams
+- Interpretation guides
+- Clinical traps
+- Priority frameworks
+
+Constraints:
+- Clean minimal layout
+- No clutter
+- Highly legible text
+- NurseNest branding style
+
+Return:
+- 10 visual concepts
+- Titles for pins
+
+For each NurseNest article, generate companion Pinterest visuals.
+
+Goals:
+- Reinforce article authority
+- Drive visual search traffic
+- Increase content lifespan
+
+Return:
+- Pin titles
+- Visual themes
+- Engagement hooks
+
+Generate backlink-magnet content ideas for NurseNest.
+
+Objectives:
+- Highly referenceable
+- Unique educational value
+- Difficult to substitute
+- Evergreen relevance
+
+Examples:
+- Clinical reference charts
+- Decision frameworks
+- Cognitive trap guides
+- Exam preparation models
+
+Return:
+- 5 asset ideas
+- Why others would link to them
+
+
+
+Rewrite NurseNest content strategy for maximum search-intent alignment.
+
+Goals:
+- Capture exam-driven searches
+- Avoid broad low-intent topics
+- Prioritize confusion & decision queries
+
+Return:
+- Topic categories
+- High-value keyword patterns
+- Content architecture logic
+Implement an Admin-only “Social Scheduler” feature in my NurseNest Next.js + Tailwind app that automatically posts original nursing exam-style questions to a Facebook Page.
+
+Goal
+- Post 1–3 times per day to a Facebook Page I own
+- Drive traffic back to my site (Question of the Day landing pages)
+- Track performance and avoid duplicates
+
+Non-negotiables
+- All questions must be original (no copying or reworded clones from commercial banks)
+- Do not claim “official NCLEX scoring” or that this replicates the real exam
+- Maintain NurseNest pastel clinical aesthetic in the admin UI
+- Mobile-friendly admin UI
+- Secrets must never be exposed to the browser
+
+Platforms
+- Facebook Page posting via Meta Graph API:
+  - Publish to Page feed using /{page-id}/feed
+  - Handle errors and rate limiting gracefully
+
+Permissions/Access (implementation notes)
+- Use a Page Access Token and ensure required permissions for posting are handled (e.g., pages_manage_posts and pages_read_engagement) as applicable.
+- Document the setup steps in comments.
+
+Admin routes
+- /admin/social (overview dashboard)
+- /admin/social/queue (create/edit scheduled posts)
+- /admin/social/logs (posting history)
+
+Database tables
+1) social_accounts
+- id, platform ("facebook"), page_id, page_name
+- access_token_encrypted, token_expires_at
+- created_at, updated_at
+
+2) social_post_queue
+- id, platform, account_id
+- jurisdiction ("CA"|"US"|"NEUTRAL")
+- tier ("PRACTICAL_NURSE"|"RN"|"NP")
+- post_type ("question_of_day"|"blog_share"|"announcement")
+- scheduled_for (timestamp)
+- status ("queued"|"posted"|"failed"|"skipped")
+- post_text (string)
+- link_url (string)
+- image_url (nullable)
+- dedupe_hash (unique)
+- created_at, updated_at
+
+3) social_post_logs
+- id, queue_id
+- attempted_at
+- status ("success"|"fail")
+- response_payload (json)
+- error_message (text nullable)
+
+Scheduler runner
+- Create a server-side endpoint: POST /api/admin/social/run
+- Protect it with a secret token header or query param:
+  - env SOCIAL_CRON_SECRET
+- The runner should:
+  - find all queued posts where scheduled_for <= now
+  - post them in order
+  - update statuses and log responses
+  - retry transient errors with exponential backoff
+  - if rate-limited, stop and reschedule remaining items
+
+Tracking
+- Automatically append UTMs to link_url:
+  utm_source=facebook&utm_medium=social&utm_campaign=qotd&utm_content={tier}_{jurisdiction}
+
+Return
+- Exact file-by-file code changes
+- Migrations/schema
+- Admin UI components
+- API routes + scheduler logic
+- Clear env vars required:
+  FACEBOOK_PAGE_ID
+  FACEBOOK_PAGE_ACCESS_TOKEN
+SOCIAL_CRON_SECRET
+
+Generate Pinterest visual asset concepts for NurseNest.
+
+Objectives:
+- Save-worthy educational references
+- Evergreen utility
+- High clarity
+- Pastel clinical aesthetic
+
+Visual Types:
+- Comparison charts
+- Mechanism diagrams
+- Interpretation guides
+- Clinical traps
+- Priority frameworks
+
+Constraints:
+- Clean minimal layout
+- No clutter
+- Highly legible text
+- NurseNest branding style
+
+Return:
+- 10 visual concepts
+- Titles for pins
+
+For each NurseNest article, generate companion Pinterest visuals.
+
+Goals:
+- Reinforce article authority
+- Drive visual search traffic
+- Increase content lifespan
+
+Return:
+- Pin titles
+- Visual themes
+- Engagement hooks
+
+Generate backlink-magnet content ideas for NurseNest.
+
+Objectives:
+- Highly referenceable
+- Unique educational value
+- Difficult to substitute
+- Evergreen relevance
+
+Examples:
+- Clinical reference charts
+- Decision frameworks
+- Cognitive trap guides
+- Exam preparation models
+
+Return:
+- 5 asset ideas
+- Why others would link to them
+
+Rewrite NurseNest content strategy for maximum search-intent alignment.
+
+Goals:
+- Capture exam-driven searches
+- Avoid broad low-intent topics
+- Prioritize confusion & decision queries
+
+Return:
+- Topic categories
+- High-value keyword patterns
+- Content architecture logic
+
