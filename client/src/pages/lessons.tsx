@@ -36,7 +36,8 @@ import {
   Flame,
   HeartHandshake,
   Bandage,
-  Target
+  Target,
+  Calculator
 } from "lucide-react";
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
@@ -97,6 +98,27 @@ const clinicalScenariosSystems = [
       { id: "pediatric-vs-adult-priorities", name: "Pediatric vs Adult Prioritization Differences", status: "Available" },
       { id: "first-action-logic", name: "First Action Logic: What to Do Before Calling the Provider", status: "Available" },
       { id: "assignment-making-scenarios", name: "Assignment Making: Matching Patient Acuity to Staff", status: "Available" }
+    ]
+  }
+];
+
+const medMathSystems = [
+  {
+    id: "med-math-core",
+    title: "Med Math & Calculations",
+    icon: Calculator,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-50",
+    diseases: [
+      { id: "med-math-dosage-calculations", name: "Dosage Calculation Fundamentals", status: "Available" },
+      { id: "med-math-iv-flow-rates", name: "IV Flow Rate Calculations", status: "Available" },
+      { id: "med-math-weight-based-dosing", name: "Weight-Based Dosing Calculations", status: "Available" },
+      { id: "med-math-infusion-rates", name: "Infusion Rate & Titration Calculations", status: "Available" },
+      { id: "med-math-pediatric-dosing", name: "Pediatric Dosing & Safety", status: "Available" },
+      { id: "med-math-reconstitution", name: "Reconstitution & Dilution Calculations", status: "Available" },
+      { id: "med-math-unit-conversions", name: "Unit Conversions in Medication Math", status: "Available" },
+      { id: "med-math-drip-rate-formulas", name: "Drip Rate Formulas & Shortcuts", status: "Available" },
+      { id: "med-math-safe-dose-range", name: "Safe Dose Range Verification", status: "Available" }
     ]
   }
 ];
@@ -1868,7 +1890,7 @@ export default function Lessons() {
           <TabsContent value="rpn" className="mt-0">
             <LecturesSection tier="rpn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...rpnNonPharm].map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
@@ -1876,7 +1898,7 @@ export default function Lessons() {
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...rnNonPharm].map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
@@ -1884,7 +1906,7 @@ export default function Lessons() {
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...npNonPharm].map((system) => (
+              {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>

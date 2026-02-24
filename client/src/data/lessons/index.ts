@@ -38,6 +38,7 @@ import { electrolytePotassiumLessons } from "./electrolyte-potassium";
 import { rpnExtraBank } from "./extra-questions-rpn";
 import { rnExtraBank } from "./extra-questions-rn";
 import { npExtraBank } from "./extra-questions-np";
+import { medMathLessons } from "./med-math-lessons";
 
 export type { LessonContent } from "./types";
 
@@ -81,4 +82,5 @@ export const contentMap: Record<string, LessonContent> = {
   ...rpnExtraBank,
   ...rnExtraBank,
   ...npExtraBank,
+  ...medMathLessons,
 };
