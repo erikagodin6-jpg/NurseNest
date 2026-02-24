@@ -37,7 +37,21 @@ import {
   Clock,
   Users,
   FileText,
-  TrendingUp
+  TrendingUp,
+  PlayCircle,
+  Calculator,
+  ClipboardCheck,
+  Siren,
+  Droplets,
+  Thermometer,
+  TestTubes,
+  LayoutDashboard,
+  MessageSquareQuote,
+  Newspaper,
+  Globe,
+  Gamepad2,
+  Award,
+  Microscope
 } from "lucide-react";
 
 export default function Home() {
@@ -166,6 +180,257 @@ export default function Home() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* Platform Features Showcase */}
+        <section className="py-20 bg-gradient-to-b from-white via-primary/3 to-white relative z-10" data-testid="section-platform-features">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-5">
+                <Award className="w-4 h-4 text-primary" />
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">Everything You Need in One Platform</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5" data-testid="text-features-heading">
+                The Most Complete Nursing Exam Prep Platform
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                From your first anatomy lesson to the day you pass your licensing exam, NurseNest gives you every tool you need to study smarter, build confidence, and think like a clinician.
+              </p>
+            </div>
+
+            {/* Headline Stats Row */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 max-w-4xl mx-auto">
+              {[
+                { value: "10,000+", label: "Practice Questions", icon: Target, color: "from-blue-500 to-indigo-600" },
+                { value: "400+", label: "Clinical Lessons", icon: BookOpen, color: "from-emerald-500 to-teal-600" },
+                { value: "9", label: "Clinical Simulators", icon: Gamepad2, color: "from-purple-500 to-violet-600" },
+                { value: "3", label: `Exam Tracks (${rpnLabel}/RN/NP)`, icon: GraduationCap, color: "from-rose-500 to-pink-600" },
+              ].map((stat, i) => (
+                <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
+                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.color}`} />
+                  <div className="mx-auto w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <stat.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{stat.value}</div>
+                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Main Feature Cards - 2x3 Grid */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+              {/* Mock Exams */}
+              <div
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                onClick={() => setLocation("/mock-exams")}
+                data-testid="card-feature-mock-exams"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-indigo-100/50 to-transparent rounded-bl-full" />
+                <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <ClipboardCheck className="w-6 h-6 text-indigo-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Timed Mock Exams</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Full-length simulated exams with configurable length (25–150 questions), question flagging, pause/resume, and a detailed post-exam report with score trends and weak area breakdown.</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{examLabel} Format</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">Score Trends</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">Auto-Save</span>
+                </div>
+              </div>
+
+              {/* Clinical Simulators */}
+              <div
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                onClick={() => setLocation("/first-action-simulator")}
+                data-testid="card-feature-simulators"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-purple-100/50 to-transparent rounded-bl-full" />
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Stethoscope className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">9 Interactive Clinical Simulators</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Practice real-world clinical decisions: first-action prioritization, IV complications, deteriorating patients, electrolyte/ABG interpretation, blood transfusion safety, and hazard detection.</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">Branching Scenarios</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">Instant Feedback</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">2 Free</span>
+                </div>
+              </div>
+
+              {/* Question Bank */}
+              <div
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                onClick={() => setLocation("/question-bank")}
+                data-testid="card-feature-question-bank"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-100/50 to-transparent rounded-bl-full" />
+                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Target className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">10,000+ Practice Questions</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Filter by tier, body system, or topic. Every question includes detailed rationales explaining why the correct answer is right and why each distractor is wrong.</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{rpnLabel}/RN/NP</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Deep Rationales</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Progress Tracking</span>
+                </div>
+              </div>
+
+              {/* Pharmacology Flashcards */}
+              <div
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                onClick={() => setLocation("/flashcards")}
+                data-testid="card-feature-flashcards"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-bl-full" />
+                <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Pill className="w-6 h-6 text-amber-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Pharmacology Flashcards</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Study drug classes by mechanism of action with flip-card review, bookmark flagging, mastery tracking, and custom flashcard creation. Plus a full Medication Mastery drug explorer.</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Custom Cards</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Drug Explorer</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Mastery Tracking</span>
+                </div>
+              </div>
+
+              {/* Med Math & Lab Values */}
+              <div
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                onClick={() => setLocation("/med-math")}
+                data-testid="card-feature-med-math"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-100/50 to-transparent rounded-bl-full" />
+                <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Calculator className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Med Math & Lab Interpretation</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Randomized clinical calculations with stepwise solutions, plus an abnormal lab interpretation engine with cluster-based scenarios and ABG analysis practice.</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">Stepwise Solutions</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">ABG Analysis</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">Lab Clusters</span>
+                </div>
+              </div>
+
+              {/* Video Lectures */}
+              <div
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                onClick={() => setLocation("/lectures")}
+                data-testid="card-feature-lectures"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-rose-100/50 to-transparent rounded-bl-full" />
+                <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <PlayCircle className="w-6 h-6 text-rose-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Video & Micro-Lectures</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Full video lectures and bite-sized micro-lectures with slide-based lessons, clinical pearls, voiceover, and knowledge checks built in. Learn on your schedule.</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">Video Lectures</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">Clinical Pearls</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">Free Content</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Secondary Features Strip */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/dashboard")} data-testid="card-feature-dashboard">
+                <div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center shrink-0">
+                  <LayoutDashboard className="w-5 h-5 text-sky-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900">Learning Dashboard</h4>
+                  <p className="text-xs text-gray-500">Drag-and-drop widgets, study streaks, progress tracking</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/reports")} data-testid="card-feature-analytics">
+                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center shrink-0">
+                  <BarChart3 className="w-5 h-5 text-orange-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900">Performance Analytics</h4>
+                  <p className="text-xs text-gray-500">Track scores by body system, spot weak areas, see trends</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/question-of-the-day")} data-testid="card-feature-qotd">
+                <div className="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center shrink-0">
+                  <MessageSquareQuote className="w-5 h-5 text-violet-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900">Question of the Day</h4>
+                  <p className="text-xs text-gray-500">Daily clinical reasoning question with detailed rationale</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/blog")} data-testid="card-feature-blog">
+                <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center shrink-0">
+                  <Newspaper className="w-5 h-5 text-teal-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900">Scholarly Blog</h4>
+                  <p className="text-xs text-gray-500">APA7-cited articles on nursing topics and exam strategy</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Differentiators Row */}
+            <div className="bg-gradient-to-r from-primary/5 via-white to-primary/5 rounded-2xl border border-primary/10 p-6 sm:p-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                    <Globe className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">Canada & US</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">CAD/USD pricing, regional lab values, scope-of-practice language</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                    <Microscope className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">Deep Pathophysiology</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">Cellular-level explanations, receptor-level drug MOA, not just surface summaries</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                    <Shield className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">Tier-Specific Scope</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">{rpnLabel} monitor/report, RN protocol-based, NP order/prescribe</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                    <Sparkles className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">Hand-Drawn Illustrations</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">Original copyrighted medical illustrations created by nursing professionals</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mt-10">
+              <Button
+                size="lg"
+                className="h-14 px-10 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-all hover:-translate-y-1"
+                onClick={() => setLocation("/start-free")}
+                data-testid="button-features-start-free"
+              >
+                Start Free — No Credit Card Required
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
             </div>
           </div>
         </section>
