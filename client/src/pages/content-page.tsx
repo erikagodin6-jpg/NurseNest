@@ -684,29 +684,74 @@ export default function ContentPage() {
   const tags: string[] = contentItem!.tags || [];
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://www.nursenest.ca";
 
-  const learningResourceData = {
-    "@context": "https://schema.org",
-    "@type": "LearningResource",
-    name: contentItem!.title,
-    description: description,
-    learningResourceType: contentItem!.type || "Lesson",
-    educationalLevel: contentItem!.tier === "np" ? "Nurse Practitioner" : contentItem!.tier === "rn" ? "Registered Nurse" : "Practical Nurse",
-    provider: {
-      "@type": "EducationalOrganization",
-      name: "NurseNest",
-      url: baseUrl,
-    },
-    isAccessibleForFree: contentItem!.tier === "free",
-    inLanguage: "en",
-    datePublished: contentItem!.publishedAt,
-    url: `${baseUrl}/learn/${slug}`,
-  };
+  const isBlogType = ["blog", "blog-post", "article"].includes(contentItem!.type || "");
 
-  const breadcrumbData = buildBreadcrumbStructuredData([
-    { name: "Home", url: `${baseUrl}/` },
-    { name: "Learn", url: `${baseUrl}/lessons` },
-    { name: contentItem!.title, url: `${baseUrl}/learn/${slug}` },
-  ]);
+  const wordCount = contentBlocks.reduce((acc, block) => acc + (block.content || "").split(/\s+/).length, 0);
+
+  const structuredData = isBlogType
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: contentItem!.title,
+        description: description,
+        author: {
+          "@type": "Organization",
+          name: "NurseNest",
+          url: baseUrl,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "NurseNest",
+          url: baseUrl,
+          logo: {
+            "@type": "ImageObject",
+            url: `${baseUrl}/logo.png`,
+          },
+        },
+        datePublished: contentItem!.publishedAt || contentItem!.createdAt,
+        dateModified: contentItem!.updatedAt || contentItem!.publishedAt || contentItem!.createdAt,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${baseUrl}/learn/${slug}`,
+        },
+        url: `${baseUrl}/learn/${slug}`,
+        inLanguage: "en",
+        isAccessibleForFree: true,
+        keywords: tags.length > 0 ? tags.join(", ") : contentItem!.category || undefined,
+        wordCount: wordCount > 0 ? wordCount : undefined,
+        articleSection: contentItem!.category || "Nursing Education",
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        name: contentItem!.title,
+        description: description,
+        learningResourceType: contentItem!.type || "Lesson",
+        educationalLevel: contentItem!.tier === "np" ? "Nurse Practitioner" : contentItem!.tier === "rn" ? "Registered Nurse" : "Practical Nurse",
+        provider: {
+          "@type": "EducationalOrganization",
+          name: "NurseNest",
+          url: baseUrl,
+        },
+        isAccessibleForFree: contentItem!.tier === "free",
+        inLanguage: "en",
+        datePublished: contentItem!.publishedAt,
+        url: `${baseUrl}/learn/${slug}`,
+      };
+
+  const breadcrumbData = buildBreadcrumbStructuredData(
+    isBlogType
+      ? [
+          { name: "Home", url: `${baseUrl}/` },
+          { name: "Blog", url: `${baseUrl}/blog` },
+          { name: contentItem!.title, url: `${baseUrl}/learn/${slug}` },
+        ]
+      : [
+          { name: "Home", url: `${baseUrl}/` },
+          { name: "Learn", url: `${baseUrl}/lessons` },
+          { name: contentItem!.title, url: `${baseUrl}/learn/${slug}` },
+        ],
+  );
 
   const tierLabel =
     contentItem!.tier === "np" ? "NP" : contentItem!.tier === "rn" ? "RN" : contentItem!.tier === "free" ? "Free" : "RPN";
@@ -718,7 +763,8 @@ export default function ContentPage() {
         description={description}
         canonicalPath={`/learn/${slug}`}
         ogType="article"
-        structuredData={learningResourceData}
+        keywords={tags.length > 0 ? tags.join(", ") : (contentItem!.category ? `${contentItem!.category}, nursing, ${contentItem!.tier || "education"}` : undefined)}
+        structuredData={structuredData}
         additionalStructuredData={[breadcrumbData]}
       />
       <Navigation />

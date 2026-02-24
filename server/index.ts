@@ -142,7 +142,7 @@ function sitemapUrl(loc: string, priority: string, changefreq: string, lastmod?:
   return entry;
 }
 
-app.get("/sitemap.xml", (_req, res) => {
+app.get("/sitemap.xml", async (_req, res) => {
   const base = getSiteBase();
   const today = new Date().toISOString().split("T")[0];
 
@@ -204,6 +204,16 @@ app.get("/sitemap.xml", (_req, res) => {
   for (const slug of clarityTopics) {
     entries.push(sitemapUrl(`${base}/clinical-clarity/${slug}`, "0.6", "monthly", today));
   }
+
+  try {
+    const blogTypes = ["blog", "blog-post", "article"];
+    const publishedContent = await storage.getPublishedContent();
+    const blogPosts = publishedContent.filter((item) => blogTypes.includes(item.type || "") && item.slug);
+    for (const post of blogPosts) {
+      const lastmod = post.updatedAt ? new Date(post.updatedAt).toISOString().split("T")[0] : (post.publishedAt ? new Date(post.publishedAt).toISOString().split("T")[0] : today);
+      entries.push(sitemapUrl(`${base}/learn/${post.slug}`, "0.6", "weekly", lastmod));
+    }
+  } catch {}
 
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +

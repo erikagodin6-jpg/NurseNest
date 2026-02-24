@@ -107,16 +107,42 @@ export default function BlogPage() {
     return matchesSearch && matchesCategory && matchesTier;
   });
 
+  const baseUrl = "https://www.nursenest.ca";
+
+  const blogPostingItems = filteredArticles.slice(0, 10).map((article: any) => ({
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.summary || article.seoDescription || "",
+    url: `${baseUrl}/learn/${article.slug}`,
+    datePublished: article.publishedAt || article.createdAt,
+    dateModified: article.updatedAt || article.publishedAt || article.createdAt,
+    author: { "@type": "Organization", name: "NurseNest" },
+    articleSection: article.category || "Nursing Education",
+    ...(article.tags?.length ? { keywords: article.tags.join(", ") } : {}),
+  }));
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "name": "NurseNest Clinical Education Blog",
-    "description": "Evidence-based nursing education articles covering clinical reasoning, pharmacology, lab interpretation, and exam preparation for RPN and RN students.",
-    "url": "https://www.nursenest.ca/blog",
-    "publisher": {
+    name: "NurseNest Clinical Education Blog",
+    description: "Evidence-based nursing education articles covering clinical reasoning, pharmacology, lab interpretation, and exam preparation for RPN and RN students.",
+    url: `${baseUrl}/blog`,
+    publisher: {
       "@type": "Organization",
-      "name": "NurseNest"
-    }
+      name: "NurseNest",
+      url: baseUrl,
+    },
+    inLanguage: "en",
+    ...(blogPostingItems.length > 0 ? { blogPost: blogPostingItems } : {}),
+  };
+
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${baseUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${baseUrl}/blog` },
+    ],
   };
 
   return (
@@ -125,8 +151,10 @@ export default function BlogPage() {
         title="Nursing Education Blog | Clinical Reasoning & Exam Prep | NurseNest"
         description="Evidence-based nursing articles on clinical reasoning, pharmacology, lab values, and NCLEX/REX-PN exam preparation. Written for RPN and RN students."
         canonicalPath="/blog"
+        keywords="nursing blog, clinical reasoning, pharmacology, NCLEX prep, REX-PN, lab interpretation, nursing education, RPN, RN, NP"
+        structuredData={structuredData}
+        additionalStructuredData={[breadcrumbData]}
       />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <Navigation />
 
       <main className="flex-grow" data-testid="section-blog">
