@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getLecturesForTier, type LectureMetadata } from "@/data/micro-lectures";
 import { 
   Heart, 
   Wind, 
@@ -28,6 +29,7 @@ import {
   Stethoscope,
   Bug,
   Thermometer,
+  PlayCircle,
   Scale,
   Clock,
   Home,
@@ -1757,6 +1759,47 @@ const npSystems = [
   }
 ];
 
+function LecturesSection({ tier, onNavigate }: { tier: string; onNavigate: (path: string) => void }) {
+  const lectures = getLecturesForTier(tier);
+  if (lectures.length === 0) return null;
+
+  return (
+    <div className="mb-10">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="p-2.5 rounded-xl bg-primary/10">
+          <PlayCircle className="w-6 h-6 text-primary" />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">Micro-Lectures</h2>
+          <p className="text-sm text-gray-500">Slide-based visual lectures with narration scripts & flashcards</p>
+        </div>
+      </div>
+      <div className="grid md:grid-cols-2 gap-4">
+        {lectures.map((lecture) => (
+          <div
+            key={lecture.slug}
+            data-testid={`lecture-card-${lecture.slug}`}
+            onClick={() => onNavigate(`/lectures/${lecture.slug}`)}
+            className="flex items-center gap-4 p-4 rounded-xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all cursor-pointer group"
+          >
+            <div className="p-2.5 rounded-lg bg-primary/15 shrink-0">
+              <PlayCircle className="w-5 h-5 text-primary" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="font-medium text-gray-900 block truncate">{lecture.title}</span>
+              <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{lecture.duration}</span>
+                <span className="px-1.5 py-0.5 rounded-full bg-primary/10 text-primary font-medium">{lecture.level}</span>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform shrink-0" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Lessons() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
@@ -1823,6 +1866,7 @@ export default function Lessons() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="rpn" className="mt-0">
+            <LecturesSection tier="rpn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...rpnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
@@ -1830,6 +1874,7 @@ export default function Lessons() {
             </div>
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
+            <LecturesSection tier="rn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...rnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
@@ -1837,6 +1882,7 @@ export default function Lessons() {
             </div>
           </TabsContent>
           <TabsContent value="np" className="mt-0">
+            <LecturesSection tier="np" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...npNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />

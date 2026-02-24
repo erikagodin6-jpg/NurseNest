@@ -13,8 +13,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { 
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
-  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil, X, Plus, Trash2
+  ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil, X, Plus, Trash2,
+  PlayCircle, Clock, ChevronRight
 } from "lucide-react";
+import { getLecturesForLesson } from "@/data/micro-lectures";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { contentMap } from "@/data/lessons";
@@ -1703,6 +1705,42 @@ export default function LessonDetail() {
             )}
           </Tabs>
         </div>
+
+        {(() => {
+          const relatedLectures = getLecturesForLesson(id || "");
+          if (relatedLectures.length === 0) return null;
+          return (
+            <div className="mt-8">
+              <Card className="border border-primary/20 bg-primary/5">
+                <div className="p-4 flex items-center gap-2 border-b border-primary/10">
+                  <PlayCircle className="h-5 w-5 text-primary" />
+                  <span className="font-semibold text-gray-900">Related Micro-Lectures</span>
+                </div>
+                <CardContent className="p-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {relatedLectures.map((lecture) => (
+                      <Link key={lecture.slug} href={`/lectures/${lecture.slug}`}>
+                        <div
+                          className="flex items-center gap-3 p-3 rounded-lg bg-white border border-primary/15 hover:border-primary/30 cursor-pointer transition-all group"
+                          data-testid={`related-lecture-${lecture.slug}`}
+                        >
+                          <PlayCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <span className="text-sm font-medium text-gray-900 block truncate">{lecture.title}</span>
+                            <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                              <Clock className="w-3 h-3" />{lecture.duration}
+                            </span>
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          );
+        })()}
       </main>
 
       <style>{`
