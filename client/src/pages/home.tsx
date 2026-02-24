@@ -118,24 +118,24 @@ export default function Home() {
                 A question bank, clinical case simulations, pharmacology flashcards, and pathophysiology lessons designed to mirror the cognitive patterns tested on nursing licensure examinations. Built for {rpnLabel}, RN, and NP students preparing for {examLabel}, {altExam}, clinical placements, and the transition from student to practicing nurse.
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 px-4 sm:px-0">
                 <Button 
                   size="lg" 
-                  className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 text-white" 
+                  className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 text-white w-full sm:w-auto" 
                   onClick={() => setLocation("/start-free")}
                   data-testid="button-hero-start-free"
                 >
                   Start Your Exam Prep Free
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
                 </Button>
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="h-14 px-8 text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50" 
+                  className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50 w-full sm:w-auto" 
                   onClick={() => setLocation("/lessons")}
                   data-testid="button-hero-browse"
                 >
-                  <BookOpen className="mr-2 w-5 h-5 text-primary" />
+                  <BookOpen className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
                   Explore the Full Lesson Library
                 </Button>
               </div>

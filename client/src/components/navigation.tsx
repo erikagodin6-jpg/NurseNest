@@ -477,7 +477,7 @@ export function Navigation() {
               {isAdmin && (
                 <>
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 mt-2 px-3">Preview Mode</p>
-                  <div className="flex flex-wrap gap-1 px-3 mb-1">
+          <div className="flex flex-wrap gap-1.5 px-3 mb-1">
                     {[
                       { key: null, label: "Admin" },
                       { key: "free", label: "Free" },
@@ -491,8 +491,8 @@ export function Navigation() {
                         size="sm"
                         onClick={() => setPreviewTier(opt.key)}
                         className={cn(
-                          "h-7 px-2 text-[10px] rounded-full",
-                          (previewTier === opt.key || (!previewTier && !opt.key)) ? "bg-primary text-white" : "text-gray-500"
+                          "h-7 px-2.5 text-[10px] rounded-full flex-1 min-w-[70px] sm:flex-none",
+                          (previewTier === opt.key || (!previewTier && !opt.key)) ? "bg-primary text-white" : "text-gray-500 border-gray-200"
                         )}
                         data-testid={`button-preview-${opt.key || "admin"}-mobile`}
                       >
