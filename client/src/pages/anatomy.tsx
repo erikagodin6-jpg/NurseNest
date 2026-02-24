@@ -23,6 +23,8 @@ import {
   Sparkles,
   Microscope,
   RefreshCw,
+  PlayCircle,
+  Video,
 } from "lucide-react";
 
 import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
@@ -343,6 +345,28 @@ export default function AnatomyPage() {
                           {paragraph}
                         </p>
                       ))}
+                      {system.id === "cell-structure" && (
+                        <Link href="/lectures/cell-anatomy">
+                          <div
+                            className="flex items-center gap-3 p-4 mt-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 hover:border-emerald-300 cursor-pointer transition-all group hover:shadow-md"
+                            data-testid="link-cell-anatomy-lecture"
+                          >
+                            <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 transition-colors">
+                              <PlayCircle className="w-5 h-5 text-emerald-600" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology – Video Lecture</span>
+                                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">Free</span>
+                              </div>
+                              <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                                <Video className="w-3 h-3" />Watch the full video lecture on cell biology foundations
+                              </span>
+                            </div>
+                            <ChevronDown className="w-4 h-4 text-emerald-500 -rotate-90 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                          </div>
+                        </Link>
+                      )}
                     </div>
                   </CardContent>
                 )}
