@@ -385,38 +385,37 @@ export default function LectureViewer() {
         )}
       </div>
 
-        {!isFullscreen && lectureMeta && lectureMeta.relatedLessonIds.length > 0 && (
-          <div className="max-w-7xl mx-auto w-full px-4 pb-8">
-            <Card style={{ border: "1px solid var(--border-color)" }}>
-              <div className="p-4" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
-                <div className="flex items-center gap-2">
-                  <BookOpen className="h-5 w-5" style={{ color: "var(--accent-primary)" }} />
-                  <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Related Lessons</span>
-                </div>
+      {!isFullscreen && lectureMeta && lectureMeta.relatedLessonIds.length > 0 && (
+        <div className="max-w-7xl mx-auto w-full px-4 pb-8">
+          <Card style={{ border: "1px solid var(--border-color)" }}>
+            <div className="p-4" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5" style={{ color: "var(--accent-primary)" }} />
+                <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Related Lessons</span>
               </div>
-              <CardContent className="p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {lectureMeta.relatedLessonIds.map((lessonId) => (
-                    <Link key={lessonId} href={`/lessons/${lessonId}`}>
-                      <div
-                        className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all hover:opacity-80"
-                        style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-color)" }}
-                        data-testid={`related-lesson-${lessonId}`}
-                      >
-                        <BookOpen className="h-4 w-4 flex-shrink-0" style={{ color: "var(--accent-primary)" }} />
-                        <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
-                          {lessonId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-                        </span>
-                        <ChevronRight className="h-4 w-4 ml-auto flex-shrink-0" style={{ color: "var(--text-secondary)" }} />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-      </div>
+            </div>
+            <CardContent className="p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {lectureMeta.relatedLessonIds.map((lessonId) => (
+                  <Link key={lessonId} href={`/lessons/${lessonId}`}>
+                    <div
+                      className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all hover:opacity-80"
+                      style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-color)" }}
+                      data-testid={`related-lesson-${lessonId}`}
+                    >
+                      <BookOpen className="h-4 w-4 flex-shrink-0" style={{ color: "var(--accent-primary)" }} />
+                      <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+                        {lessonId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                      </span>
+                      <ChevronRight className="h-4 w-4 ml-auto flex-shrink-0" style={{ color: "var(--text-secondary)" }} />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {!isFullscreen && <Footer />}
     </div>
