@@ -9,9 +9,22 @@ export interface LectureMetadata {
   category: string;
   tiers: ("rpn" | "rn" | "np")[];
   relatedLessonIds: string[];
+  videoUrl?: string;
+  free?: boolean;
 }
 
 export const lectureRegistry: LectureMetadata[] = [
+  {
+    slug: "cell-anatomy",
+    title: "Cell Anatomy & Cellular Biology – Foundations for Nursing",
+    duration: "Video Lecture",
+    level: "All Levels",
+    category: "Anatomy & Physiology",
+    tiers: ["rpn", "rn", "np"],
+    relatedLessonIds: [],
+    videoUrl: "/videos/cell-anatomy-lecture.mp4",
+    free: true,
+  },
   {
     slug: "heart-failure",
     title: heartFailureLecture.title,

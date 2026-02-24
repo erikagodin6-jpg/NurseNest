@@ -23,13 +23,15 @@ import {
 } from "lucide-react";
 import { lectureData, lectureRegistry, getLecturesForLesson } from "@/data/micro-lectures";
 import { Link } from "wouter";
+import { Video } from "lucide-react";
 
 export default function LectureViewer() {
   const [, params] = useRoute("/lectures/:slug");
   const [, navigate] = useLocation();
   const slug = params?.slug || "heart-failure";
-  const lecture = lectureData[slug];
   const lectureMeta = lectureRegistry.find((l) => l.slug === slug);
+  const isVideoLecture = !!lectureMeta?.videoUrl;
+  const lecture = isVideoLecture ? null : lectureData[slug];
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showVoiceover, setShowVoiceover] = useState(true);
@@ -45,8 +47,9 @@ export default function LectureViewer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const autoPlayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  if (!lecture) {
+  if (!lecture && !isVideoLecture) {
     return (
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--bg-primary)" }}>
         <Navigation />
@@ -54,8 +57,81 @@ export default function LectureViewer() {
           <Card className="p-8 text-center">
             <h2 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Lecture Not Found</h2>
             <p style={{ color: "var(--text-secondary)" }}>The requested lecture could not be found.</p>
-            <Button className="mt-4" onClick={() => navigate("/lessons")} data-testid="button-back-lessons">Back to Lessons</Button>
+            <Button className="mt-4" onClick={() => navigate("/lectures")} data-testid="button-back-lessons">Back to Lectures</Button>
           </Card>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (isVideoLecture && lectureMeta) {
+    return (
+      <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--bg-primary)" }}>
+        <Navigation />
+        <div className="flex-1 flex flex-col">
+          <div className="w-full" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
+            <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-3">
+              <Button variant="ghost" size="sm" onClick={() => navigate("/lectures")} data-testid="button-back-lectures" className="shrink-0">
+                <ChevronLeft className="h-4 w-4 mr-1" />Back
+              </Button>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg font-bold leading-tight truncate" style={{ color: "var(--text-primary)" }} data-testid="text-lecture-title">
+                  {lectureMeta.title}
+                </h1>
+                <div className="flex items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+                  <span className="flex items-center gap-1"><Video className="h-3.5 w-3.5" />Video Lecture</span>
+                  <span className="flex items-center gap-1"><GraduationCap className="h-3.5 w-3.5" />{lectureMeta.level}</span>
+                  {lectureMeta.free && (
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">FREE</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-5xl mx-auto w-full px-4 py-6">
+            <Card className="overflow-hidden" style={{ border: "1px solid var(--border-color)" }}>
+              <div className="relative bg-black aspect-video">
+                <video
+                  ref={videoRef}
+                  src={lectureMeta.videoUrl}
+                  controls
+                  controlsList="nodownload"
+                  onContextMenu={(e) => e.preventDefault()}
+                  className="w-full h-full"
+                  playsInline
+                  preload="metadata"
+                  data-testid="video-lecture-player"
+                >
+                  Your browser does not support the video element.
+                </video>
+              </div>
+            </Card>
+
+            <div className="mt-6">
+              <Card style={{ border: "1px solid var(--border-color)" }}>
+                <CardContent className="p-5">
+                  <h2 className="font-semibold text-lg mb-2" style={{ color: "var(--text-primary)" }}>About This Lecture</h2>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                    This video lecture covers cell anatomy and cellular biology foundations essential for all nursing students. 
+                    Topics include organelle structure and function, membrane transport, cell division, and how cellular 
+                    processes relate to clinical nursing practice.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    <span className="text-xs px-2 py-1 rounded-full" style={{ backgroundColor: "var(--bg-secondary)", color: "var(--text-secondary)", border: "1px solid var(--border-color)" }}>
+                      {lectureMeta.category}
+                    </span>
+                    {lectureMeta.tiers.map((tier) => (
+                      <span key={tier} className="text-xs px-2 py-1 rounded-full uppercase font-medium" style={{ backgroundColor: "var(--bg-secondary)", color: "var(--text-secondary)", border: "1px solid var(--border-color)" }}>
+                        {tier}
+                      </span>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
         <Footer />
       </div>
