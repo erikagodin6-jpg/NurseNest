@@ -1,0 +1,597 @@
+-	viral hepatitis
+-	Hepatitis c
+-	Chronic hepatitis 
+-	Cirrhosis
+-	Sickle cell
+-	Thalassemia
+-	Febrile seizure
+-	Cholecystitis
+-	Bowel obstruction
+-	Muscle strain
+-	Myoglobinuria
+-	Compartment syndrome
+-	Bone tumorso
+-	Osteogenesis imperfecta
+-	Osteoarthritis
+-	Amkylosing spondylitis
+-	Fibromyalgia
+-	Contracture
+-	Chronic fatigue syndrome
+-	Disuse atrophy
+-	Syndactyly
+-	Polydactyly
+-	Hip dysplasia
+-	Clubfoot
+-	Rickets
+-	Scoliosis
+-	Odteochondroses
+-	Spinal muscular atrophy
+-	Osteochondroma
+-	Ewing sarcoma
+-	
+-	
+-	Tetralogy of fallot
+-	Encopresis
+-	SIADH
+-	Acromegaly 
+-	Prolactinoma 
+-	Thyrotoxicosis 
+-	Acute blood loss
+-	Macrocytic anemias
+-	Iron overload
+-	Granulocytosis
+-	Infectious mononucleosis
+-	Hodgkin lymphoma
+-	Non Hodgkin lymphoma
+-	Multiple myeloma
+-	Thrombocytopenia
+-	Vitamin k deficiency
+-	Thrombus
+-	Hydrops fetalis
+-	Kernicterus
+-	G6PD deficiency
+-	Von Willebrand disease
+-	Thrombophilia
+-	Epispadias
+-	Hemolytic uremic syndrome
+-	Urinary incontinence 
+-	Vesicoureteral reflux
+-	
+-	Chronic venous insufficiency
+-	Coronary artery disease
+-	Pericarditis
+-	Pericardial effusion
+-	Dilated cardiomyopathy
+-	Hypertrophic cardiomyopathy
+-	Patent ductus arteriosus
+-	Atrial septal defect
+-	Ventricular septal defect
+-	Coarctation of the aorta
+-	Aortic stenosis
+-	Transposition of the great arteries
+-	Hypoplastic left heart syndrome
+-	Pediatric hypertension
+-	
+-	Grave’s disease
+-	Insulin resistance 
+-	Congenital adrenal hyperplasia
+-	Hyperaldosteronism – primary and secondary
+-	Hypocortisolism 
+-	
+-	Tracheoesophageal fistula
+-	Hypertrophic pyloric stenosis
+-	Refeeding syndrome
+-	Pyrosis
+-	Hypertensive encephalopathy
+-	Neural tube defets
+-	Meningocele
+-	Craniyosynostososis
+-	Microcephaly
+-	Tay sachs
+-	Lead poisoing 
+-	Perinatal stroke
+-	Neuroblastoma
+-	Retinoblastoma
+-	
+-	Cauda equina
+-	Hirschspring
+-	Albumin
+-	Uterine rupture
+-	Memantine
+-	Dietary sources of folic acid
+-	Conductive hearing loss
+-	Sensorineural hearing loss
+-	Mixed hearing loss
+-	Nystagmus 
+-	Strabismus
+-	Amblyopia 
+-	Dystonia
+-	Disorders of gait and balance
+-	Hypotonia 
+-	Hypertonia 
+-	Huntington
+-	TBI
+-	Low back pain
+-	AVM (arteriovenous malformation)
+-	Migraine
+-	Encephalitis 
+-	Peripheral neuropathy
+-	
+-	Age-related macular degeneration 
+-	Retinal detachment
+-	Presbyopia 
+-	Astigmatism 
+-	Color blindness
+-	Papilledea
+-	Blepharitis
+-	
+-	Eclampsia
+-	Cleft palate
+-	Ziprasidone hydrochloride
+-	Atrial fibrillation
+-	CABG
+-	Lupus
+-	Mononucleosis
+-	Correcting hyperkalemia
+-	Foods containing high and low potassium
+-	Autonomic dysreflexia
+-	Macrolide antibiotics
+-	Nephrotic syndrome
+-	Newborn hypoglycemia
+-	Neonatal abstinence syndrome
+-	Tonsillectomy
+-	TPN
+-	Glyburide
+-	Ventricular bigeminy
+-	ACE inhibitors
+-	Extravasion
+-	Glaucoma
+-	Hydronephrosis
+-	Renal colic
+-	Urethral stricture
+-	Neurogenic bladder
+-	Overactive bladder syndrome
+-	Kidney tumors
+-	Bladder tumors
+-	Glomerulonephritis
+-	Lupus nephritis
+-	Nephritic syndrome
+-	Nephrotic syndrome
+-	Uremia
+-	Acute kidney injury
+-	
+-	Intussusception
+-	Antisocial personality disorder
+-	Conversion disorder
+-	Placenta previa
+-	Placental abruption
+-	Menopause
+-	Sputum sample
+-	Hepatitis b
+-	Submersion injury
+-	Chest tube care
+-	Hemophilia
+-	Milrinone
+-	Cardiac tamponade
+-	Atrioventricular canal defect
+-	Acute coronary syndrome
+-	Epidural block
+-	Acute lumbosacral strain
+-	Lumbosacral disc herniation
+-	Inguinal hernia
+-	Lithium toxicity
+-	Cisplatin
+-	Residual limb care post amputation
+-	Heparin
+-	Morning sickness
+-	Phenelzine
+-	Testicular torsion
+-	Septic arthritis
+-	IUD
+-	Misoprostol
+-	Increased icp in infants
+-	Ventriculoperitoneal shunt
+-	Metformin
+-	Breast engorgement
+-	Diabetic nephropathy
+-	Allergic immunotherapy injections
+-	Factor XA inhibitors
+-	Linezolid
+-	Administering medication to infants
+-	Tinea corporis
+-	Vacuum assisted birth
+-	Prostate cancer
+-	HELLP syndrome
+-	Thiazide diuretics
+-	Aphasia
+Upper and lower motor neuron syndromes
+-	Primary adrenal insufficiency
+-	Malignant hyperthermia
+-	Pulmonary embolism
+-	APTT
+-	Epiglottitis
+-	Positive pressure ventilation
+-	Statins
+-	Guaiac fecal occult blood test
+-	Airborne precautions
+-	Major depressive disorder
+-	Codeine
+-	Newborns to Mothers with DM
+-	Oxytocin
+-	Digoxin
+-	Vasectomy
+-	Insomnia
+-	Narcolepsy 
+-	
+-	Heimlich (adults and babies)
+-	Abnormal neurologic assessment
+-	Alcohol withdrawal
+-	Cardiac catheterization
+-	Radiation therapy
+-	Subdural hematoma
+-	Percutaneous kidney biopsy
+-	Knee arthroplasty
+-	Course crackles
+-	Cervical cerclage
+-	Acute blood loss
+-	Tricyclic antidepressants
+-	Retinoblastoma
+-	Syphilis
+-	Dsm-5 personality disorders
+-	Preterm birth
+-	Meniere disease
+-	Chest tube removal
+-	JP tube care and removal
+-	Pessary
+-	Tardive dyskinesia
+-	Fat embolism
+-	Creatinine clearance
+-	Cellulitis
+-	Polycythemia
+-	Thyroidectomy
+-	Meningeal irritation
+-	Postpartum endometritis
+-	Zika virus
+-	Ascending colostomy
+-	Amiodarone
+-	Latex allergy
+-	Status epilepticus
+-	Nitrazine test
+-	Disorders of temperature regulation 
+
+-	Cervical cap
+-	Umbilical cord prolapse
+-	Stages of labor
+-	Spina bifida
+-	Shoulder dystocia
+-	Wound irrigation
+-	C diff
+-	Osa
+-	Dysphagia
+-	Achalasia
+-	Gastritis
+-	Duodenal ulcer
+-	Lactose intolerance
+-	Portal hypertension 
+-	Hepatic encephalopathy
+-	Hepatorenal syndrome
+-	Acute liver failure
+-	Alcoholic liver disease
+-	Viral hepatitis
+-	Cholelithiasis
+-	Pancreatitis
+-	Esophageal cancer
+-	Stomach cancer
+-	Colorectal cancer
+-	Esophageal atresia
+-	Intestinal malrotation 
+-	Meckel diverticulum 
+-	Meconium ileus 
+-	Meconium aspiration syndrome
+-	Eosinophilic esophagitis 
+-	Nerotizing enterocolitis
+-	Rotavirus
+-	Biliary atresia
+-	
+-	Separation anxiety
+-	Methotrexate
+-	Cervical cancer
+-	Acute postinfectious glomerulonephritis
+-	Vaginal hematoma
+-	MRSA
+-	Oral candidias
+-	Cholecystectomy
+-	Osteoporosis
+-	Rib fractures
+-	Androgen insensitivity syndrome
+-	Delayed puberty 
+-	Precocious puberty
+-	Dysmenorrhea
+-	Abnormal uterine bleeding
+-	PCOS
+-	Pelvic inflammatory disease
+-	Vaginitis
+-	Bacterial vaginosis
+-	Cervicitis
+-	Vulvodynia
+-	Bartholinitis
+-	Uterine prolapse
+-	Benign ovarian cyssts
+-	Endometrial polyp
+-	Endometriosis
+-	Infertility 
+-	Galactorrhea
+-	Breast cancer
+-	Urethritis
+-	Urethral stricture 
+-	Phimosis
+-	Priapism 
+-	Balanitis
+-	Penile cancer
+-	Cryptorchidism
+-	Orchitis
+-	Prostatitis
+-	Gynecomastia
+-	Male breast cancer
+-	Group b strep
+-	Genital herpes
+-	Human papillomavirus
+-	
+-	Giving drugs via NG tube
+-	Anticipatory guidance
+-	Potassium chloride administration
+-	Assisting a falling patient
+-	Phototherapy
+-	Rhabdomyolysis
+-	Chronic bronchitis
+-	Thyroid storm
+-	Atopic dermatitis
+-	Azathioprine
+-	Preconception counselling
+-	HIV
+-	Infant formula
+-	Kidney transplant
+-	Serotonin syndrome 
+-	Vaccines during pregnancy
+-	Sulfasalazine
+-	Metoclopramide
+-	Severe burns
+-	Anticholinergics
+-	Myopia
+-	Mastitis
+-	Infant reflexes
+-	Ulcerative colitis
+-	Sucralfate
+-	Epidural
+-	Bumetanide
+-	Peritoneal dyalisis
+-	Trichomoniasis
+-	Hemodialysis
+-	Cleansing enemas
+-	Lasix
+-	Lead poisoning
+-	Bulimia nervosa
+-	Arteriovenous fistula 
+-	Thoracentesis
+-	Fetal heart rate monitoring
+-	Intrapartum fetal heart monitoring
+-	Late and variable accels and decels
+-	Perinatal asphyixia
+-	Maximizing fetal oxygenation during pushing with variable decels
+-	Pavlik harness
+-	Negative pressure wound therapy
+-	Rhonchi
+-	Oxygutinin
+-	Acute hemolytic transfusion reaction 
+-	Anaphylactic transfusion reaction
+-	Blood transfusions
+-	Febrile nonhemolytic transfusion reaction
+-	Levetiracetam
+-	Short acting insulin
+-	Tumor lysis syndrome
+-	Filgrastim
+-	Methadone
+-	Calcium channel blocker
+-	St johns wort
+-	Aminoglycosides
+-	Tetracycline
+-	Clozapine
+-	Clonidine
+-	Hydromorphone
+-	Vancomycin 
+-	NPH insulin
+-	Rifapentine
+-	Nitroglycerine
+-	Butorphanol
+-	Tamoxifen
+-	Methylphenidate
+-	Insulin pump
+-	Sodium polystyrene sulfonate
+-	TPA
+-	Transdermal medications
+-	Tiotropium
+-	Long term ppi therapy
+-	Benzodiazepines
+-	Phentolamine
+-	Lactulose
+-	Absolute contraindications for contraceptive pills
+-	Cavidopa-levodopa
+-	ACHES with contraceptive use
+-	Pincer grasp
+-	Myelomeningocele
+-	Otitis externa
+-	Impetigo
+-	Scarlet fever
+-	Splenic sequestration crisis
+-	Erythema infectiosum
+-	Hemophilia a and b
+-	Shaken baby syndrome
+-	Pyelonephritis
+-	Operative vaginal birth
+-	Anencephaly
+-	Abnormal findings in newborns
+-	Molar pregnancy
+-	Placenta accreta
+-	Bishop score
+-	Naegeles rule
+-	Herpes simplex
+-	Fetal metabolic acidemia
+-	Macrosomia
+-	Trisomy 18
+-	Right occipital posterior position
+-	Preterm labor
+-	Acrocyanosis
+-	Carbon monoxide poisoning
+-	Atrial pacing/ventricular pacing
+-	AKI
+-	Aplastic anemia
+-	Abdominal hernia
+-	Nephrolilthiasis
+-	Lithotripsy
+-	Macular degeneration
+-	Pelvic inflammatory disease
+-	Pancreatitis
+-	Chronic pancreatitis
+-	Angina
+-	Basal cell carcinoma
+-	TURP
+-	Cushing
+-	Pleural effusion
+-	Traction
+-	Transfusion associated circulatory overload
+-	Dyspnea
+-	Aspiration
+-	Atelectasis
+-	Pulmonary edema
+-	Acute bronchitis
+-	Cor pulmonale
+-	Croup
+-	Bacterial tracheitis
+-	Tonsillar infections
+-	Surfactant deficiency disorder
+-	Bronchopulmonary dysplasia
+-	Sudden infant death syndrome
+-	
+-	Molluscum contagiosum
+-	Tinea
+-	Head lice
+-	Hemolytic uremic syndrome
+-	Pinworms
+-	Conjunctivitis
+-	Administering eye drops
+-	Clean catch urine specimen
+-	Hypercalcemia
+-	Hyperkalemia
+-	Hypermagnesemia
+-	Hypernatremia
+-	Hyperphosphatemia
+-	Hypocalcemia
+-	Hypokalemia
+-	Hypomagnesemia
+-	Hyponatremia
+-	Enema administration
+-	Foreign body aspiration
+-	Seizure precautions
+-	Trisomy 21
+-	Fetal alcohol syndrome
+-	Hypertension in pregnancy
+-	Hypospadias
+-	Infant botulism
+-	Newborn circumcision
+-	Postpartum depression
+-	Postpartum hemorrhage
+-	Postpartum psychosis
+-	Agoraphobia
+-	Schizophrenia
+-	Intimate partner violence
+-	Opioid withdrawal
+-	Panic disorder
+-	Ptsd
+-	Postmortem care
+-	Laryngectomy
+-	Cardiogenic shock
+-	Primary skin lesions
+-	Secondary skin lesions
+-	Keloids
+-	Pruritic
+-	Eczema
+-	Allergic contact dermatitis
+-	Atopic dermatitis
+-	Psoriasis 
+-	Lupus erythematosus
+-	Acne roscea
+-	Acne vulgaris 
+-	Lichen plabus 
+-	Erythema multiforme
+-	Steens johnson syndrome 
+-	Pemphigus
+-	Folliculitis
+-	Scleroderma
+-	Urticaria
+-	Seborrheic keratosis
+-	Actinic keratosis
+-	Nevi
+-	Basal cell carcinoma
+-	Squamous cell carcinoma
+-	Kaposi sarcoma
+-	Erkel cell carcinoma
+-	Frostnip
+-	Frostbite
+-	Alopecia 
+-	Hirsutism
+-	Onychomycosis
+-	Tinea capitis
+-	Staphylococcal scalded skin syndrome
+-	Tinea corporis
+-	Molluscum contagiosum 
+-	Rubella
+-	Hand foot and mouth disease
+-	Fleas and bedbugs
+-	Pediculosis
+-	Infantile hemangiomas
+-	Erythema toxicum neonatorum 
+-	Multiple organ dysfunction syndrome
+-	Reperfusion injury
+-	
+-	Disaster triage
+-	Neurogenic shock
+-	Obstructive shock
+-	Breast cancer
+-	Mastectomy
+-	Diaper candidiasis
+-	Cataracts
+-	Celiac disease
+-	Chlamydia
+-	Paracentesis
+-	DVT
+-	Crutch paralysis
+-	Toxic epidermal necrolysis
+-	Surgical site infections
+-	Loop diuretics
+-	IV insertion
+-	Post liver biopsy care
+-	Broca aphasia
+-	Wernicke aphasia
+-	Osteomalacia
+-	Transferring a client
+-	Viral rhimitis
+-	V-fib
+-	PVC
+-	Peritonsillar abscess
+-	Acute prostitis
+-	Clopidrogel
+-	Succinylcholine
+-	Stages of infection 
+-	Viral infection 
+-	Fungal infection 
+-	Parasitic infection
+-	Antibiotic and microbial resistance
+-	General adaptation syndrome (stress) 
+-	Allostasis 
+-	Effects of chronic stress
+-	Coping strategies
+-	Tumor classification and nomenclature
+-	Stress systems
+-	Paraneoplastic syndromes
+-	Treatment of cancer
+-	fever
