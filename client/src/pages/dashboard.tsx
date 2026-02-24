@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { SEO } from "@/components/seo";
+import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
@@ -10,7 +12,9 @@ import {
   LayoutDashboard, BookOpen, FlaskConical, Brain, FileText,
   TrendingUp, GripVertical, Plus, X, Eye, EyeOff, Settings,
   Stethoscope, Pill, Activity, ClipboardList, Award, Target,
-  ChevronUp, ChevronDown, BarChart3, Bookmark, Clock
+  ChevronUp, ChevronDown, BarChart3, Bookmark, Clock,
+  Sparkles, ArrowRight, CheckCircle2, PlayCircle, Flame,
+  RotateCcw
 } from "lucide-react";
 
 type WidgetConfig = {
@@ -53,7 +57,7 @@ const WIDGET_DEFINITIONS: Record<string, { label: string; icon: any; description
   },
   study_streak: {
     label: "Study Streak",
-    icon: Activity,
+    icon: Flame,
     description: "Track your daily study consistency",
     component: StudyStreakWidget,
   },
@@ -69,18 +73,30 @@ const WIDGET_DEFINITIONS: Record<string, { label: string; icon: any; description
     description: "Quick access to clinical simulators",
     component: ClinicalToolsWidget,
   },
+  recommended: {
+    label: "Recommended Next Steps",
+    icon: Sparkles,
+    description: "AI-suggested study actions based on your progress",
+    component: RecommendedWidget,
+  },
 };
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "welcome", position: 0, visible: true },
   { widgetType: "progress", position: 1, visible: true },
-  { widgetType: "recent_lessons", position: 2, visible: true },
-  { widgetType: "quick_links", position: 3, visible: true },
-  { widgetType: "exam_stats", position: 4, visible: true },
-  { widgetType: "study_streak", position: 5, visible: true },
-  { widgetType: "flashcard_review", position: 6, visible: true },
-  { widgetType: "clinical_tools", position: 7, visible: true },
+  { widgetType: "recommended", position: 2, visible: true },
+  { widgetType: "recent_lessons", position: 3, visible: true },
+  { widgetType: "quick_links", position: 4, visible: true },
+  { widgetType: "exam_stats", position: 5, visible: true },
+  { widgetType: "study_streak", position: 6, visible: true },
+  { widgetType: "flashcard_review", position: 7, visible: true },
+  { widgetType: "clinical_tools", position: 8, visible: true },
 ];
+
+const breadcrumbData = buildBreadcrumbStructuredData([
+  { name: "Home", url: "https://www.nursenest.ca/" },
+  { name: "Dashboard", url: "https://www.nursenest.ca/dashboard" },
+]);
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -202,95 +218,134 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background" data-testid="dashboard-page">
+      <SEO
+        title="My Dashboard - Personalized Learning Hub"
+        description="Your personalized nursing learning dashboard. Track study progress, review flashcards, access clinical tools, and prepare for NCLEX exams all in one place."
+        keywords="nursing dashboard, NCLEX study tracker, nursing education progress, clinical learning tools"
+        canonicalPath="/dashboard"
+        structuredData={breadcrumbData}
+        additionalStructuredData={[{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "NurseNest Dashboard",
+          "description": "Personalized nursing student learning dashboard with progress tracking, exam stats, and clinical tools.",
+          "url": "https://www.nursenest.ca/dashboard",
+          "isPartOf": { "@type": "WebSite", "name": "NurseNest", "url": "https://www.nursenest.ca" },
+        }]}
+      />
       <Navigation />
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="flex items-center justify-between mb-8">
+      <main className="container mx-auto px-4 py-6 sm:py-8 max-w-7xl" role="main" aria-label="Learning Dashboard">
+        <nav aria-label="Breadcrumb" className="mb-4">
+          <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <li><Link href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">Home</Link></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="font-medium text-foreground">Dashboard</li>
+          </ol>
+        </nav>
+
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-3xl font-bold" data-testid="text-dashboard-title">My Dashboard</h1>
-            <p className="text-muted-foreground mt-1">Your personalized learning command center</p>
+            <h1 className="text-2xl sm:text-3xl font-bold" data-testid="text-dashboard-title">My Dashboard</h1>
+            <p className="text-muted-foreground mt-1 text-sm sm:text-base">Your personalized learning command center</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-shrink-0">
             {editing ? (
               <>
-                <Button variant="outline" size="sm" onClick={handleReset} data-testid="button-reset-dashboard">
-                  Reset to Default
+                <Button variant="outline" size="sm" onClick={handleReset} data-testid="button-reset-dashboard" aria-label="Reset dashboard to default layout">
+                  <RotateCcw className="h-4 w-4 mr-1.5" />
+                  <span className="hidden sm:inline">Reset</span>
                 </Button>
                 <Button size="sm" onClick={handleSave} disabled={saving} data-testid="button-save-dashboard">
                   {saving ? "Saving..." : "Save Layout"}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={() => setEditing(false)} data-testid="button-cancel-edit">
+                <Button variant="ghost" size="sm" onClick={() => setEditing(false)} data-testid="button-cancel-edit" aria-label="Cancel editing">
                   <X className="h-4 w-4" />
                 </Button>
               </>
             ) : (
-              <Button variant="outline" size="sm" onClick={() => setEditing(true)} data-testid="button-customize-dashboard">
-                <Settings className="h-4 w-4 mr-2" />
+              <Button variant="outline" size="sm" onClick={() => setEditing(true)} data-testid="button-customize-dashboard" aria-label="Customize dashboard layout">
+                <Settings className="h-4 w-4 mr-1.5" />
                 Customize
               </Button>
             )}
           </div>
-        </div>
+        </header>
 
         {editing && availableToAdd.length > 0 && (
-          <Card className="mb-6 border-dashed">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <Plus className="h-4 w-4" /> Add Widgets
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {availableToAdd.map((key) => {
-                  const def = WIDGET_DEFINITIONS[key];
-                  const Icon = def.icon;
-                  return (
-                    <Button
-                      key={key}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => addWidget(key)}
-                      data-testid={`button-add-widget-${key}`}
-                    >
-                      <Icon className="h-4 w-4 mr-1" />
-                      {def.label}
-                    </Button>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
+          <section className="mb-6" aria-label="Add widgets">
+            <Card className="border-dashed border-primary/30">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <Plus className="h-4 w-4" /> Add Widgets
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {availableToAdd.map((key) => {
+                    const def = WIDGET_DEFINITIONS[key];
+                    const Icon = def.icon;
+                    return (
+                      <Button
+                        key={key}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => addWidget(key)}
+                        className="gap-1.5"
+                        data-testid={`button-add-widget-${key}`}
+                        aria-label={`Add ${def.label} widget`}
+                      >
+                        <Icon className="h-4 w-4" />
+                        {def.label}
+                      </Button>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          </section>
         )}
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" aria-busy="true" aria-label="Loading dashboard">
             {[1, 2, 3, 4].map((i) => (
               <Card key={i} className="animate-pulse">
-                <CardContent className="h-40" />
+                <CardHeader className="pb-3">
+                  <div className="h-4 w-32 bg-muted rounded" />
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="h-3 w-full bg-muted rounded" />
+                    <div className="h-3 w-3/4 bg-muted rounded" />
+                    <div className="h-3 w-1/2 bg-muted rounded" />
+                  </div>
+                </CardContent>
               </Card>
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" aria-label="Dashboard widgets">
             {(editing ? widgets : visibleWidgets).map((widget, index) => {
               const def = WIDGET_DEFINITIONS[widget.widgetType];
               if (!def) return null;
               const WidgetComponent = def.component;
               const Icon = def.icon;
+              const isFullWidth = widget.widgetType === "welcome" || widget.widgetType === "recommended";
               return (
-                <div
+                <article
                   key={widget.widgetType}
                   className={`relative ${editing ? "cursor-move" : ""} ${
                     !widget.visible && editing ? "opacity-50" : ""
-                  } ${widget.widgetType === "welcome" ? "md:col-span-2" : ""}`}
+                  } ${isFullWidth ? "md:col-span-2" : ""}`}
+                  aria-label={`${def.label} widget`}
                   draggable={editing}
                   onDragStart={() => handleDragStart(index)}
                   onDragOver={(e) => handleDragOver(e, index)}
                   onDragEnd={handleDragEnd}
                   data-testid={`widget-${widget.widgetType}`}
                 >
-                  <Card className={`h-full transition-all ${editing ? "ring-2 ring-primary/20 hover:ring-primary/40" : ""}`}>
+                  <Card className={`h-full transition-all ${editing ? "ring-2 ring-primary/20 hover:ring-primary/40" : "hover:shadow-md"}`}>
                     {editing && (
-                      <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
+                      <div className="absolute top-2 right-2 flex items-center gap-0.5 z-10 bg-background/80 backdrop-blur-sm rounded-lg p-0.5">
                         <Button
                           variant="ghost"
                           size="icon"
@@ -298,6 +353,7 @@ export default function DashboardPage() {
                           onClick={() => moveWidget(index, "up")}
                           disabled={index === 0}
                           data-testid={`button-move-up-${widget.widgetType}`}
+                          aria-label={`Move ${def.label} up`}
                         >
                           <ChevronUp className="h-3 w-3" />
                         </Button>
@@ -308,6 +364,7 @@ export default function DashboardPage() {
                           onClick={() => moveWidget(index, "down")}
                           disabled={index === widgets.length - 1}
                           data-testid={`button-move-down-${widget.widgetType}`}
+                          aria-label={`Move ${def.label} down`}
                         >
                           <ChevronDown className="h-3 w-3" />
                         </Button>
@@ -317,6 +374,7 @@ export default function DashboardPage() {
                           className="h-7 w-7"
                           onClick={() => toggleWidget(index)}
                           data-testid={`button-toggle-${widget.widgetType}`}
+                          aria-label={widget.visible ? `Hide ${def.label}` : `Show ${def.label}`}
                         >
                           {widget.visible ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
                         </Button>
@@ -326,28 +384,29 @@ export default function DashboardPage() {
                           className="h-7 w-7 text-destructive"
                           onClick={() => removeWidget(index)}
                           data-testid={`button-remove-${widget.widgetType}`}
+                          aria-label={`Remove ${def.label}`}
                         >
                           <X className="h-3 w-3" />
                         </Button>
-                        <GripVertical className="h-4 w-4 text-muted-foreground" />
+                        <GripVertical className="h-4 w-4 text-muted-foreground ml-0.5" aria-hidden="true" />
                       </div>
                     )}
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
-                        <Icon className="h-4 w-4 text-primary" />
+                        <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
                         {def.label}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       {widget.visible ? <WidgetComponent user={user} /> : (
-                        <p className="text-xs text-muted-foreground italic">Widget hidden</p>
+                        <p className="text-xs text-muted-foreground italic">Widget hidden — toggle visibility to show</p>
                       )}
                     </CardContent>
                   </Card>
-                </div>
+                </article>
               );
             })}
-          </div>
+          </section>
         )}
       </main>
       <Footer />
@@ -375,16 +434,16 @@ function WelcomeWidget({ user }: { user: any }) {
       </p>
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="default" onClick={() => navigate("/lessons")} data-testid="button-go-lessons">
-          <BookOpen className="h-4 w-4 mr-1" /> Lessons
+          <BookOpen className="h-4 w-4 mr-1.5" /> Lessons
         </Button>
         <Button size="sm" variant="outline" onClick={() => navigate("/flashcards")} data-testid="button-go-flashcards">
-          <Brain className="h-4 w-4 mr-1" /> Flashcards
+          <Brain className="h-4 w-4 mr-1.5" /> Flashcards
         </Button>
         <Button size="sm" variant="outline" onClick={() => navigate("/mock-exams")} data-testid="button-go-mock-exams">
-          <ClipboardList className="h-4 w-4 mr-1" /> Mock Exams
+          <ClipboardList className="h-4 w-4 mr-1.5" /> Mock Exams
         </Button>
         <Button size="sm" variant="outline" onClick={() => navigate("/question-of-the-day")} data-testid="button-go-qotd">
-          <Target className="h-4 w-4 mr-1" /> QOTD
+          <Target className="h-4 w-4 mr-1.5" /> QOTD
         </Button>
       </div>
     </div>
@@ -393,6 +452,7 @@ function WelcomeWidget({ user }: { user: any }) {
 
 function ProgressWidget({ user }: { user: any }) {
   const [progress, setProgress] = useState<any[]>([]);
+  const [, navigate] = useLocation();
 
   useEffect(() => {
     fetch(`/api/progress/${user.id}`)
@@ -405,10 +465,22 @@ function ProgressWidget({ user }: { user: any }) {
   const total = progress.length || 1;
   const pct = Math.round((completed / total) * 100);
 
+  if (progress.length === 0) {
+    return (
+      <div className="text-center py-4" data-testid="widget-content-progress-empty">
+        <TrendingUp className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+        <p className="text-sm text-muted-foreground mb-2">Start your first lesson to track progress</p>
+        <Button size="sm" variant="link" onClick={() => navigate("/lessons")} data-testid="button-progress-browse">
+          Browse Lessons <ArrowRight className="h-3 w-3 ml-1" />
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div data-testid="widget-content-progress">
       <div className="flex items-center gap-4 mb-3">
-        <div className="relative h-16 w-16">
+        <div className="relative h-16 w-16 flex-shrink-0" role="img" aria-label={`${pct}% complete`}>
           <svg viewBox="0 0 36 36" className="h-16 w-16 -rotate-90">
             <path
               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -423,7 +495,7 @@ function ProgressWidget({ user }: { user: any }) {
               stroke="currentColor"
               strokeWidth="3"
               strokeDasharray={`${pct}, 100`}
-              className="text-primary"
+              className="text-primary transition-all duration-700"
             />
           </svg>
           <span className="absolute inset-0 flex items-center justify-center text-sm font-bold">{pct}%</span>
@@ -433,7 +505,12 @@ function ProgressWidget({ user }: { user: any }) {
           <p className="text-xs text-muted-foreground">lessons completed</p>
         </div>
       </div>
-      <p className="text-xs text-muted-foreground">{total - completed} remaining in your plan</p>
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
+          <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${pct}%` }} />
+        </div>
+        <span>{total - completed} left</span>
+      </div>
     </div>
   );
 }
@@ -455,28 +532,36 @@ function RecentLessonsWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-recent-empty">
         <BookOpen className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground">No lessons started yet</p>
-        <Button size="sm" variant="link" onClick={() => navigate("/lessons")}>
-          Browse Lessons
+        <p className="text-sm text-muted-foreground mb-2">No lessons started yet</p>
+        <Button size="sm" variant="link" onClick={() => navigate("/lessons")} data-testid="button-recent-browse">
+          Browse Lessons <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-2" data-testid="widget-content-recent">
+    <div className="space-y-1.5" data-testid="widget-content-recent">
       {progress.map((p: any, i: number) => (
         <button
           key={i}
-          className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors text-left"
-          onClick={() => navigate(`/lessons`)}
+          className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted transition-colors text-left"
+          onClick={() => navigate(`/lessons/${p.lessonId || ""}`)}
           data-testid={`link-recent-lesson-${i}`}
+          aria-label={`Continue ${p.lessonId || "lesson"}`}
         >
-          <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
+          {p.completed ? (
+            <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+          ) : (
+            <PlayCircle className="h-4 w-4 text-primary flex-shrink-0" />
+          )}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{p.lessonId || "Lesson"}</p>
+            <p className="text-sm font-medium truncate">
+              {(p.lessonId || "Lesson").replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}
+            </p>
             <p className="text-xs text-muted-foreground">{p.completed ? "Completed" : "In progress"}</p>
           </div>
+          <ArrowRight className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
         </button>
       ))}
     </div>
@@ -486,27 +571,28 @@ function RecentLessonsWidget({ user }: { user: any }) {
 function QuickLinksWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
   const links = [
-    { label: "Med Math Lab", icon: FlaskConical, path: "/med-math" },
-    { label: "Lab Values", icon: Activity, path: "/lab-values" },
-    { label: "Clinical Clarity", icon: Stethoscope, path: "/clinical-clarity" },
-    { label: "Question Bank", icon: ClipboardList, path: "/question-bank" },
-    { label: "Pharmacology", icon: Pill, path: "/flashcards" },
-    { label: "Blog", icon: FileText, path: "/blog" },
+    { label: "Med Math Lab", icon: FlaskConical, path: "/med-math", desc: "Practice calculations" },
+    { label: "Lab Values", icon: Activity, path: "/lab-values", desc: "Abnormal findings" },
+    { label: "Clinical Clarity", icon: Stethoscope, path: "/clinical-clarity", desc: "Why does X happen?" },
+    { label: "Question Bank", icon: ClipboardList, path: "/question-bank", desc: "Practice questions" },
+    { label: "Pharmacology", icon: Pill, path: "/flashcards", desc: "Drug flashcards" },
+    { label: "Blog", icon: FileText, path: "/blog", desc: "Evidence-based articles" },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-2" data-testid="widget-content-quick-links">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" data-testid="widget-content-quick-links">
       {links.map((link) => {
         const Icon = link.icon;
         return (
           <button
             key={link.path}
-            className="flex items-center gap-2 p-3 rounded-lg border hover:bg-muted transition-colors text-left"
+            className="flex flex-col items-center gap-1.5 p-3 rounded-lg border hover:bg-muted hover:border-primary/30 transition-all text-center group"
             onClick={() => navigate(link.path)}
             data-testid={`link-quick-${link.path.slice(1)}`}
+            aria-label={`${link.label}: ${link.desc}`}
           >
-            <Icon className="h-4 w-4 text-primary" />
-            <span className="text-xs font-medium">{link.label}</span>
+            <Icon className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
+            <span className="text-xs font-medium leading-tight">{link.label}</span>
           </button>
         );
       })}
@@ -529,30 +615,35 @@ function ExamStatsWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-exam-empty">
         <Award className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground">No exams taken yet</p>
-        <Button size="sm" variant="link" onClick={() => navigate("/mock-exams")}>
-          Start a Mock Exam
+        <p className="text-sm text-muted-foreground mb-2">Test your readiness with a mock exam</p>
+        <Button size="sm" variant="link" onClick={() => navigate("/mock-exams")} data-testid="button-exam-start">
+          Start a Mock Exam <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     );
   }
 
   const avgScore = Math.round(stats.reduce((sum, s) => sum + (s.score || 0), 0) / stats.length);
+  const bestScore = Math.max(...stats.map((s) => s.score || 0));
 
   return (
     <div data-testid="widget-content-exam-stats">
-      <div className="flex items-center gap-4 mb-3">
-        <div className="text-center">
-          <p className="text-3xl font-bold text-primary">{avgScore}%</p>
-          <p className="text-xs text-muted-foreground">Avg Score</p>
+      <div className="grid grid-cols-3 gap-3 mb-3">
+        <div className="text-center p-2 rounded-lg bg-primary/5">
+          <p className="text-2xl font-bold text-primary">{avgScore}%</p>
+          <p className="text-[10px] text-muted-foreground">Average</p>
         </div>
-        <div className="text-center">
-          <p className="text-3xl font-bold">{stats.length}</p>
-          <p className="text-xs text-muted-foreground">Exams Taken</p>
+        <div className="text-center p-2 rounded-lg bg-green-50">
+          <p className="text-2xl font-bold text-green-600">{bestScore}%</p>
+          <p className="text-[10px] text-muted-foreground">Best</p>
+        </div>
+        <div className="text-center p-2 rounded-lg bg-muted">
+          <p className="text-2xl font-bold">{stats.length}</p>
+          <p className="text-[10px] text-muted-foreground">Taken</p>
         </div>
       </div>
       <Button size="sm" variant="outline" className="w-full" onClick={() => navigate("/mock-exams")} data-testid="button-view-exams">
-        <BarChart3 className="h-4 w-4 mr-1" /> View All Results
+        <BarChart3 className="h-4 w-4 mr-1.5" /> View All Results
       </Button>
     </div>
   );
@@ -584,19 +675,23 @@ function StudyStreakWidget({ user }: { user: any }) {
           <p className="text-2xl font-bold">{progress.length}</p>
           <p className="text-xs text-muted-foreground">Total activities</p>
         </div>
-        <Clock className="h-8 w-8 text-muted-foreground" />
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-orange-600">
+          <Flame className="h-4 w-4" />
+          <span className="text-sm font-semibold">Active</span>
+        </div>
       </div>
-      <div className="flex justify-between gap-1">
+      <div className="flex justify-between gap-1" role="group" aria-label="Weekly activity">
         {days.map((d, i) => {
           const isToday = d.toDateString() === today.toDateString();
           return (
             <div key={i} className="flex flex-col items-center gap-1">
               <div
-                className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-medium ${
+                className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-medium transition-colors ${
                   isToday
-                    ? "bg-primary text-primary-foreground"
+                    ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-muted text-muted-foreground"
                 }`}
+                aria-label={`${dayLabels[d.getDay()]} ${d.getDate()}${isToday ? " (today)" : ""}`}
               >
                 {dayLabels[d.getDay()]}
               </div>
@@ -626,9 +721,9 @@ function FlashcardReviewWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-flashcard-empty">
         <Brain className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground">No custom flashcards yet</p>
-        <Button size="sm" variant="link" onClick={() => navigate("/profile")}>
-          Create Flashcards
+        <p className="text-sm text-muted-foreground mb-2">Create flashcards to boost retention</p>
+        <Button size="sm" variant="link" onClick={() => navigate("/profile")} data-testid="button-flashcard-create">
+          Create Flashcards <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     );
@@ -637,13 +732,13 @@ function FlashcardReviewWidget({ user }: { user: any }) {
   return (
     <div className="space-y-2" data-testid="widget-content-flashcard-review">
       {cards.map((card: any, i: number) => (
-        <div key={i} className="p-2 rounded-lg bg-muted text-sm">
-          <p className="font-medium truncate">{card.question}</p>
-          <p className="text-xs text-muted-foreground truncate">{card.category || "General"}</p>
+        <div key={i} className="p-2.5 rounded-lg bg-muted/60 border border-transparent hover:border-primary/20 transition-colors">
+          <p className="text-sm font-medium truncate">{card.question}</p>
+          <p className="text-xs text-muted-foreground truncate mt-0.5">{card.category || "General"}</p>
         </div>
       ))}
       <Button size="sm" variant="outline" className="w-full mt-2" onClick={() => navigate("/flashcards")} data-testid="button-study-flashcards">
-        <Bookmark className="h-4 w-4 mr-1" /> Study All
+        <Bookmark className="h-4 w-4 mr-1.5" /> Study All Cards
       </Button>
     </div>
   );
@@ -652,10 +747,10 @@ function FlashcardReviewWidget({ user }: { user: any }) {
 function ClinicalToolsWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
   const tools = [
-    { label: "First Action", path: "/first-action-simulator", icon: Target },
-    { label: "IV Complications", path: "/iv-complications-simulator", icon: Activity },
-    { label: "Safety Hazard", path: "/safety-hazard-simulator", icon: Stethoscope },
-    { label: "Deteriorating Patient", path: "/deteriorating-patient-simulator", icon: TrendingUp },
+    { label: "First Action", path: "/first-action-simulator", icon: Target, desc: "Prioritization" },
+    { label: "IV Complications", path: "/iv-complications-simulator", icon: Activity, desc: "Recognition" },
+    { label: "Safety Hazard", path: "/safety-hazard-simulator", icon: Stethoscope, desc: "Environment scan" },
+    { label: "Deteriorating Pt", path: "/deteriorating-patient-simulator", icon: TrendingUp, desc: "Time-critical" },
   ];
 
   return (
@@ -665,15 +760,77 @@ function ClinicalToolsWidget({ user }: { user: any }) {
         return (
           <button
             key={tool.path}
-            className="flex items-center gap-2 p-3 rounded-lg border hover:bg-muted transition-colors text-left"
+            className="flex flex-col items-center gap-1.5 p-3 rounded-lg border hover:bg-muted hover:border-primary/30 transition-all text-center group"
             onClick={() => navigate(tool.path)}
             data-testid={`link-clinical-${tool.path.slice(1)}`}
+            aria-label={`${tool.label}: ${tool.desc}`}
           >
-            <Icon className="h-4 w-4 text-primary" />
-            <span className="text-xs font-medium">{tool.label}</span>
+            <Icon className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
+            <span className="text-xs font-medium leading-tight">{tool.label}</span>
           </button>
         );
       })}
+    </div>
+  );
+}
+
+function RecommendedWidget({ user }: { user: any }) {
+  const [, navigate] = useLocation();
+  const [progress, setProgress] = useState<any[]>([]);
+  const [examStats, setExamStats] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(`/api/progress/${user.id}`).then((r) => r.json()).then(setProgress).catch(() => {});
+    fetch(`/api/mock-exams/history/${user.id}`).then((r) => r.json()).then(setExamStats).catch(() => {});
+  }, [user.id]);
+
+  const completedCount = progress.filter((p: any) => p.completed).length;
+  const hasExams = examStats.length > 0;
+  const avgScore = hasExams ? Math.round(examStats.reduce((s, e) => s + (e.score || 0), 0) / examStats.length) : 0;
+
+  const recommendations: { text: string; action: string; path: string; icon: any; priority: number }[] = [];
+
+  if (completedCount === 0) {
+    recommendations.push({ text: "Start your first lesson to build a study foundation", action: "Begin Learning", path: "/lessons", icon: BookOpen, priority: 1 });
+  }
+  if (!hasExams) {
+    recommendations.push({ text: "Take a mock exam to benchmark your current knowledge", action: "Start Mock Exam", path: "/mock-exams", icon: ClipboardList, priority: 2 });
+  } else if (avgScore < 70) {
+    recommendations.push({ text: "Focus on weak areas — review lessons before retaking exams", action: "Review Lessons", path: "/lessons", icon: BookOpen, priority: 1 });
+  }
+  recommendations.push({ text: "Practice today's Question of the Day", action: "Try QOTD", path: "/question-of-the-day", icon: Target, priority: 3 });
+  if (completedCount > 0 && completedCount < 10) {
+    recommendations.push({ text: "Keep momentum — complete 10 lessons to unlock insights", action: "Continue", path: "/lessons", icon: TrendingUp, priority: 2 });
+  }
+  recommendations.push({ text: "Try a clinical simulator to test decision-making skills", action: "Simulate", path: "/first-action-simulator", icon: Stethoscope, priority: 4 });
+
+  const sorted = recommendations.sort((a, b) => a.priority - b.priority).slice(0, 3);
+
+  return (
+    <div data-testid="widget-content-recommended">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {sorted.map((rec, i) => {
+          const Icon = rec.icon;
+          return (
+            <button
+              key={i}
+              className="flex items-start gap-3 p-3 rounded-lg border hover:bg-muted hover:border-primary/30 transition-all text-left group"
+              onClick={() => navigate(rec.path)}
+              data-testid={`link-recommendation-${i}`}
+            >
+              <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0 group-hover:bg-primary/15 transition-colors">
+                <Icon className="h-4 w-4 text-primary" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium leading-snug mb-1">{rec.text}</p>
+                <span className="text-xs text-primary font-medium flex items-center gap-1">
+                  {rec.action} <ArrowRight className="h-3 w-3" />
+                </span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
