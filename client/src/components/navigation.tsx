@@ -15,6 +15,7 @@ import {
   Tag,
   Dna,
   Menu,
+  Play,
   MoreHorizontal,
   LogIn,
   LogOut,
@@ -292,6 +293,12 @@ export function Navigation() {
             </Button>
           </SheetClose>
           <SheetClose asChild>
+            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lectures")} data-testid="button-lectures-mobile">
+              <Play className="w-4 h-4" />
+              Lectures
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
             <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
               <BookOpen className="w-4 h-4" />
               Blog
@@ -545,6 +552,9 @@ export function Navigation() {
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lessons")}>
                 Lessons
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lectures")} data-testid="button-lectures-nav">
+                Lectures
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/blog")}>
                 Blog

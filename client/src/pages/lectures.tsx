@@ -1,0 +1,95 @@
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
+import { Play, Clock, GraduationCap, BookOpen } from "lucide-react";
+import { lectureRegistry } from "@/data/micro-lectures";
+import { SEO } from "@/components/seo";
+
+export default function LecturesPage() {
+  return (
+    <>
+      <SEO
+        title="Micro-Lectures | NurseNest"
+        description="Interactive slide-based micro-lectures covering key nursing topics. Visual learning with voiceover scripts, flashcards, and clinical pearls."
+      />
+      <Navigation />
+      <main className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
+        <div className="container mx-auto px-4 py-8 max-w-5xl">
+          <nav aria-label="Breadcrumb" className="mb-4">
+            <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <li><Link href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">Home</Link></li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="font-medium text-foreground">Lectures</li>
+            </ol>
+          </nav>
+
+          <header className="mb-8">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 rounded-xl bg-primary/10">
+                <Play className="h-6 w-6 text-primary" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground" data-testid="text-lectures-title">
+                Micro-Lectures
+              </h1>
+            </div>
+            <p className="text-muted-foreground max-w-2xl">
+              Interactive slide-based lectures with voiceover scripts, embedded flashcards, and clinical pearls. 
+              Each lecture breaks complex topics into visual, digestible segments.
+            </p>
+          </header>
+
+          {lectureRegistry.length === 0 ? (
+            <Card className="text-center py-12">
+              <CardContent>
+                <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <h2 className="text-lg font-semibold mb-2">Coming Soon</h2>
+                <p className="text-muted-foreground">Micro-lectures are being developed. Check back soon!</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {lectureRegistry.map((lecture) => (
+                <Link key={lecture.slug} href={`/lectures/${lecture.slug}`}>
+                  <Card className="h-full hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer group border-primary/10" data-testid={`card-lecture-${lecture.slug}`}>
+                    <CardContent className="p-5">
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                          <Play className="h-5 w-5 text-primary" />
+                        </div>
+                        <div className="flex gap-1.5 flex-wrap justify-end">
+                          {lecture.tiers.map((tier) => (
+                            <Badge key={tier} variant="secondary" className="text-[10px] uppercase">
+                              {tier}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                      <h2 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2" data-testid={`text-lecture-title-${lecture.slug}`}>
+                        {lecture.title}
+                      </h2>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3.5 w-3.5" />
+                          {lecture.duration}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <GraduationCap className="h-3.5 w-3.5" />
+                          {lecture.level}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-2">{lecture.category}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+}
