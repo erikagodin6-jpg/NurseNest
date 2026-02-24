@@ -211,7 +211,8 @@ const rpnSystems = [
       { id: "hydrocephalus-basics-rpn", name: "Hydrocephalus Basics", status: "Available" },
       { id: "spinal-stenosis-rpn", name: "Spinal Stenosis", status: "Available" },
       { id: "peripheral-neuropathy-basics-rpn", name: "Peripheral Neuropathy Basics", status: "Available" },
-      { id: "seizure-types-priorities-rpn", name: "Seizure Types & Nursing Priorities", status: "Available" }
+      { id: "seizure-types-priorities-rpn", name: "Seizure Types & Nursing Priorities", status: "Available" },
+      { id: "febrile-seizure", name: "Febrile Seizures", status: "Available" }
     ]
   },
   {
@@ -233,6 +234,9 @@ const rpnSystems = [
       { id: "constipation-management-rpn", name: "Constipation Management", status: "Available" },
       { id: "diarrhea-management-rpn", name: "Diarrhea Management", status: "Available" },
       { id: "hepatitis-basics-rpn", name: "Hepatitis Basics", status: "Available" },
+      { id: "viral-hepatitis", name: "Viral Hepatitis Overview", status: "Available" },
+      { id: "hepatitis-c", name: "Hepatitis C", status: "Available" },
+      { id: "chronic-hepatitis", name: "Chronic Hepatitis", status: "Available" },
       { id: "stoma-care-rpn", name: "Stoma Care and Ostomy Management", status: "Available" },
       { id: "rectal-medication-rpn", name: "Rectal Medication Administration", status: "Available" },
       { id: "crohns-disease-basics-rpn", name: "Crohn's Disease Basics", status: "Available" },
@@ -374,6 +378,15 @@ const rpnSystems = [
       { id: "osteoporosis-basics", name: "Osteoporosis", status: "Available" },
       { id: "scoliosis-basics", name: "Scoliosis", status: "Available" },
       { id: "hip-dysplasia", name: "Developmental Hip Dysplasia", status: "Available" },
+      { id: "clubfoot", name: "Clubfoot (Talipes Equinovarus)", status: "Available" },
+      { id: "rickets", name: "Rickets", status: "Available" },
+      { id: "compartment-syndrome", name: "Compartment Syndrome", status: "Available" },
+      { id: "fibromyalgia", name: "Fibromyalgia", status: "Available" },
+      { id: "contracture", name: "Contracture", status: "Available" },
+      { id: "chronic-fatigue-syndrome", name: "Chronic Fatigue Syndrome", status: "Available" },
+      { id: "disuse-atrophy", name: "Disuse Atrophy", status: "Available" },
+      { id: "syndactyly", name: "Syndactyly", status: "Available" },
+      { id: "polydactyly", name: "Polydactyly", status: "Available" },
       { id: "fracture-sprain-care", name: "Fractures, Sprains, and Strains", status: "Available" },
       { id: "fracture-types", name: "Fracture Types and Healing", status: "Available" },
       { id: "cast-care", name: "Cast Care and Traction", status: "Available" },
@@ -856,6 +869,7 @@ const rnSystems = [
       { id: "increased-icp", name: "Increased ICP and TBI", status: "Available" },
       { id: "stroke-advanced", name: "Stroke & TIA Management", status: "Available" },
       { id: "seizure-safety", name: "Seizure Precautions", status: "Available" },
+      { id: "febrile-seizure", name: "Febrile Seizures", status: "Available" },
       { id: "subdural-hematoma", name: "Subdural Hematoma", status: "Available" },
       { id: "meniere-disease", name: "Meniere Disease", status: "Available" },
       { id: "duchenne-md", name: "Duchenne Muscular Dystrophy", status: "Available" },
@@ -881,7 +895,10 @@ const rnSystems = [
       { id: "cholecystectomy", name: "Cholecystectomy", status: "Available" },
       { id: "ercp-egd", name: "ERCP & EGD Procedures", status: "Available" },
       { id: "dumping-syndrome", name: "Dumping Syndrome", status: "Available" },
-      { id: "celiac-disease", name: "Celiac Disease", status: "Available" }
+      { id: "celiac-disease", name: "Celiac Disease", status: "Available" },
+      { id: "viral-hepatitis", name: "Viral Hepatitis Overview", status: "Available" },
+      { id: "hepatitis-c", name: "Hepatitis C", status: "Available" },
+      { id: "chronic-hepatitis", name: "Chronic Hepatitis", status: "Available" }
     ]
   },
   {
@@ -928,6 +945,7 @@ const rnSystems = [
       { id: "aml-leukemia", name: "Acute Myelogenous Leukemia", status: "Available" },
       { id: "sepsis-mastery", name: "Sepsis & SIRS Recognition", status: "Available" },
       { id: "sickle-cell", name: "Sickle Cell Crisis", status: "Available" },
+      { id: "thalassemia", name: "Thalassemia", status: "Available" },
       { id: "anemia-types", name: "Iron, Aplastic & Pernicious Anemia", status: "Available" },
       { id: "sle-autoimmune", name: "SLE (Lupus) & Autoimmune", status: "Available" },
       { id: "breast-cancer", name: "Breast Cancer & Mastectomy", status: "Available" },
@@ -944,6 +962,16 @@ const rnSystems = [
     bgColor: "bg-emerald-50",
     diseases: [
       { id: "compartment-syndrome", name: "Compartment Syndrome", status: "Available" },
+      { id: "fibromyalgia", name: "Fibromyalgia", status: "Available" },
+      { id: "contracture", name: "Contracture", status: "Available" },
+      { id: "chronic-fatigue-syndrome", name: "Chronic Fatigue Syndrome", status: "Available" },
+      { id: "disuse-atrophy", name: "Disuse Atrophy", status: "Available" },
+      { id: "scoliosis", name: "Scoliosis", status: "Available" },
+      { id: "hip-dysplasia", name: "Hip Dysplasia", status: "Available" },
+      { id: "clubfoot", name: "Clubfoot", status: "Available" },
+      { id: "rickets", name: "Rickets", status: "Available" },
+      { id: "syndactyly", name: "Syndactyly", status: "Available" },
+      { id: "polydactyly", name: "Polydactyly", status: "Available" },
       { id: "burn-management", name: "Burn Injury & Resuscitation", status: "Available" },
       { id: "pressure-injury", name: "Advanced Wound Care", status: "Available" },
       { id: "vac-dressing", name: "VAC Dressing (Negative Pressure Wound Therapy)", status: "Available" },

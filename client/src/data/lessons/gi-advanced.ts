@@ -1840,5 +1840,86 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
         rationale: "The goal is 2-3 soft stools/day. Excessive diarrhea from lactulose causes dehydration, hypokalemia, and metabolic alkalosis; all of which worsen hepatic encephalopathy. The nurse should hold the dose and report to the provider for dose adjustment."
       }
     ]
+  },
+  "viral-hepatitis": {
+    title: "Viral Hepatitis Overview",
+    cellular: { title: "Hepatotropic Virus Pathology", content: "Viral hepatitis involves inflammation and necrosis of hepatocytes caused by hepatotropic viruses (A, B, C, D, E). Each virus targets hepatocytes through specific receptors and replicates within the cell. The immune response (cytotoxic T lymphocytes) directed against viral antigens on the hepatocyte surface causes the majority of liver damage, not the virus itself. Hepatocyte necrosis leads to elevated transaminases (ALT > AST), impaired bilirubin conjugation (jaundice), and reduced synthetic function (coagulopathy, hypoalbuminemia). Hepatitis A and E are transmitted fecal-oral and typically cause acute self-limited disease. Hepatitis B and C are bloodborne and can progress to chronic hepatitis, cirrhosis, and hepatocellular carcinoma." },
+    riskFactors: ["IV drug use (shared needles - Hep B, C)", "Unprotected sexual contact (Hep B)", "Travel to endemic areas (Hep A, E)", "Contaminated food/water (Hep A, E)", "Healthcare workers (needlestick - Hep B, C)", "Blood transfusion before 1992 (Hep C)", "Perinatal transmission (Hep B)", "Tattoos/body piercings with non-sterile equipment", "Dialysis patients", "Immunocompromised individuals"],
+    diagnostics: ["Expect hepatitis panel with serologic markers", "Monitor liver function tests (ALT, AST, bilirubin, albumin)", "Expect coagulation studies (PT/INR)", "Monitor for signs of hepatic failure", "Expect abdominal ultrasound", "Monitor for hepatic encephalopathy signs"],
+    management: ["Enforce strict hand hygiene and standard precautions", "Administer hepatitis A and B vaccines as indicated", "Maintain adequate nutrition with small frequent meals", "Avoid hepatotoxic substances (alcohol, acetaminophen)", "Implement contact precautions for Hep A/E (fecal-oral)", "Refer for antiviral treatment (Hep B, C) as ordered"],
+    nursingActions: ["Monitor liver function tests trends", "Assess for jaundice (scleral icterus is earliest sign)", "Monitor for coagulopathy (bleeding, bruising)", "Educate on transmission prevention", "Assess nutritional intake and appetite", "Report signs of hepatic encephalopathy (confusion, asterixis)", "Administer prescribed antiemetics for nausea", "Educate about avoiding alcohol and hepatotoxic medications"],
+    signs: {
+      left: ["Fatigue and Malaise", "Anorexia and Nausea", "Right Upper Quadrant Tenderness", "Low-Grade Fever (Prodromal Phase)"],
+      right: ["Jaundice and Scleral Icterus", "Dark Urine (Cola-Colored) and Clay-Colored Stools", "Hepatomegaly with Tenderness", "Coagulopathy (Elevated PT/INR)"]
+    },
+    medications: [
+      { name: "Hepatitis B Vaccine", type: "Immunization", action: "Stimulates anti-HBs antibody production for lifelong immunity", sideEffects: "Injection site soreness, mild fever", contra: "Severe allergic reaction to prior dose or yeast", pearl: "3-dose series (0, 1, 6 months); check anti-HBs titer in healthcare workers to confirm immunity >10 mIU/mL" },
+      { name: "Immune Globulin", type: "Passive Immunization", action: "Provides immediate but temporary passive immunity", sideEffects: "Injection site pain, allergic reaction", contra: "IgA deficiency (risk of anaphylaxis)", pearl: "Give within 24 hours of Hep A exposure or within 12 hours of birth for infants of HBsAg+ mothers (with vaccine)" }
+    ],
+    pearls: [
+      "Hep A: fecal-oral, acute only, VACCINE available; Hep B: bloodborne, can become chronic, VACCINE available; Hep C: bloodborne, most common chronic form, NO vaccine, NOW CURABLE with DAAs",
+      "ALT is the most specific liver enzyme - 'L for Liver'; ALT > AST suggests viral hepatitis; AST > ALT (2:1 ratio) suggests alcoholic hepatitis",
+      "Infants born to HBsAg-positive mothers must receive BOTH hepatitis B vaccine AND hepatitis B immune globulin (HBIG) within 12 hours of birth"
+    ],
+    quiz: [{
+      question: "A patient has positive HBsAg, positive HBeAg, and positive anti-HBc IgM. What does this serologic pattern indicate?",
+      options: ["Chronic hepatitis B infection", "Acute hepatitis B infection with high infectivity", "Immunity from vaccination", "Resolved past hepatitis B infection"],
+      correct: 1,
+      rationale: "HBsAg positive = active infection. Anti-HBc IgM = acute (recent) infection (IgG would indicate chronic or past). HBeAg positive = high viral replication and high infectivity. This combination indicates an acute, highly infectious hepatitis B infection."
+    }]
+  },
+  "hepatitis-c": {
+    title: "Hepatitis C",
+    cellular: { title: "Chronic Bloodborne Hepatitis", content: "Hepatitis C virus (HCV) is an RNA flavivirus that infects hepatocytes via the CD81 receptor and claudin-1. Unlike hepatitis B, HCV has high mutation rates and lacks a proofreading mechanism, creating viral quasispecies that evade immune detection - this is why no vaccine exists and why chronic infection develops in 75-85% of cases. Chronic HCV triggers persistent low-grade inflammation, stellate cell activation, and progressive fibrosis (F0-F4 staging). Over 20-30 years, 15-30% of chronically infected patients progress to cirrhosis, and 1-5% per year of cirrhotics develop hepatocellular carcinoma (HCC). HCV is now CURABLE with direct-acting antivirals (DAAs)." },
+    riskFactors: ["IV drug use (most common route in North America)", "Blood transfusion/organ transplant before 1992", "Needlestick injuries (healthcare workers)", "Birth to HCV-infected mother (5% vertical transmission)", "Intranasal drug use (shared straws)", "Tattoos/piercings with non-sterile equipment", "Incarceration history", "HIV co-infection", "Born between 1945-1965 (baby boomer screening recommendation)", "Hemodialysis"],
+    diagnostics: ["Expect anti-HCV antibody test (screening)", "Expect HCV RNA viral load (confirms active infection)", "Expect HCV genotype testing (guides treatment selection)", "Monitor liver function tests", "Expect FibroScan or liver biopsy for fibrosis staging", "Expect hepatic function panel (albumin, bilirubin, INR)", "Screen for HCC with alpha-fetoprotein and ultrasound every 6 months in cirrhotics"],
+    management: ["Initiate direct-acting antiviral (DAA) therapy as prescribed", "Treatment duration typically 8-12 weeks", "Avoid alcohol completely", "Avoid hepatotoxic medications (especially acetaminophen >2g/day)", "Screen and vaccinate for hepatitis A and B", "Monitor for drug interactions with DAAs", "Post-treatment: confirm sustained virologic response (SVR) at 12 weeks"],
+    nursingActions: ["Educate on medication adherence (missed doses reduce cure rates)", "Teach blood and body fluid precautions", "Assess for medication side effects and drug interactions", "Educate on avoiding alcohol", "Ensure hepatitis A and B vaccination is complete", "Support mental health (depression common with diagnosis)", "Educate on transmission prevention (do not share razors, toothbrushes)", "Monitor for signs of decompensated liver disease"],
+    signs: {
+      left: ["Often Asymptomatic for Decades", "Fatigue (Most Common Symptom)", "Mild RUQ Discomfort", "Arthralgia and Myalgia"],
+      right: ["Jaundice (Advanced Disease)", "Spider Angiomata and Palmar Erythema", "Cryoglobulinemia (Purpura, Arthritis, Neuropathy)", "Hepatocellular Carcinoma (Late Complication)"]
+    },
+    medications: [
+      { name: "Sofosbuvir/Velpatasvir (Epclusa)", type: "Direct-Acting Antiviral (DAA)", action: "Pan-genotypic: Sofosbuvir inhibits NS5B RNA polymerase; Velpatasvir inhibits NS5A protein - blocks viral replication", sideEffects: "Headache, fatigue, nausea", contra: "Co-administration with amiodarone (risk of fatal bradycardia), strong P-gp inducers", pearl: "Pan-genotypic (works for ALL genotypes 1-6); 12-week course; >95% cure rate (SVR12); check for drug interactions especially with PPIs, statins, and HIV medications" },
+      { name: "Glecaprevir/Pibrentasvir (Mavyret)", type: "Direct-Acting Antiviral (DAA)", action: "NS3/4A protease inhibitor + NS5A inhibitor; dual-target viral replication blockade", sideEffects: "Headache, fatigue, diarrhea", contra: "Moderate-to-severe hepatic impairment (Child-Pugh B or C), co-administration with atazanavir or rifampin", pearl: "8-week treatment for treatment-naive patients without cirrhosis; pan-genotypic; >97% cure rate" }
+    ],
+    pearls: [
+      "Hepatitis C is now CURABLE - DAAs achieve >95% sustained virologic response (SVR); cure is defined as undetectable HCV RNA 12 weeks after treatment completion",
+      "Anti-HCV antibody positive does NOT distinguish active from resolved infection - must confirm with HCV RNA viral load; antibody remains positive for life even after cure",
+      "There is NO vaccine for hepatitis C due to the virus's rapid mutation rate - prevention relies entirely on avoiding blood-to-blood contact"
+    ],
+    quiz: [{
+      question: "A patient treated for hepatitis C has undetectable HCV RNA 12 weeks after completing DAA therapy. What does this result indicate?",
+      options: ["The patient needs additional treatment cycles", "Sustained virologic response - the patient is cured", "The patient is now immune and cannot be reinfected", "The virus is in remission but may return"],
+      correct: 1,
+      rationale: "Sustained virologic response at 12 weeks (SVR12) is defined as undetectable HCV RNA 12 weeks after completing treatment. This is considered a virologic cure with >99% durability. However, unlike hepatitis B recovery, HCV cure does NOT confer immunity - patients can be reinfected with new exposure. The anti-HCV antibody remains positive for life (it's a marker of past exposure, not immunity)."
+    }]
+  },
+  "chronic-hepatitis": {
+    title: "Chronic Hepatitis",
+    cellular: { title: "Persistent Hepatic Inflammation", content: "Chronic hepatitis is defined as persistent hepatic inflammation lasting >6 months, most commonly caused by hepatitis B or C viruses, autoimmune hepatitis, or drug-induced liver injury. Persistent inflammation activates hepatic stellate cells (Ito cells), which transform into myofibroblasts and deposit excessive extracellular matrix (collagen types I and III). This progressive fibrosis distorts hepatic architecture, impairs sinusoidal blood flow, and ultimately leads to cirrhosis. The METAVIR scoring system grades inflammation (A0-A3) and stages fibrosis (F0-F4, where F4 = cirrhosis). Unlike acute hepatitis, chronic hepatitis often presents insidiously with nonspecific symptoms until decompensation occurs." },
+    riskFactors: ["Chronic hepatitis B infection (5-10% of adults, 90% of infected neonates)", "Chronic hepatitis C infection (75-85% of acute infections)", "Autoimmune hepatitis (female predominance, associated with other autoimmune diseases)", "Chronic alcohol use", "Non-alcoholic steatohepatitis (NASH/MAFLD)", "Drug-induced hepatotoxicity (methotrexate, isoniazid, statins)", "Wilson disease", "Alpha-1 antitrypsin deficiency", "Hemochromatosis"],
+    diagnostics: ["Monitor serial liver function tests (ALT, AST trends over time)", "Expect viral hepatitis serologies and viral loads", "Expect autoimmune markers (ANA, anti-smooth muscle antibody, IgG levels)", "Expect non-invasive fibrosis assessment (FibroScan/elastography)", "Expect liver biopsy for definitive diagnosis and staging", "Monitor alpha-fetoprotein every 6 months (HCC screening)", "Expect metabolic workup (ferritin, ceruloplasmin, A1AT level)"],
+    management: ["Treat underlying etiology (antivirals for HBV/HCV, immunosuppression for autoimmune)", "Avoid hepatotoxic substances (alcohol, unnecessary medications)", "Vaccinate against hepatitis A and B if not immune", "Screen for hepatocellular carcinoma every 6 months", "Manage complications of portal hypertension", "Refer for liver transplant evaluation when appropriate", "Encourage Mediterranean-type diet and exercise for NAFLD"],
+    nursingActions: ["Monitor liver function trends over time", "Educate on medication adherence for antiviral or immunosuppressive therapy", "Assess for signs of disease progression (jaundice, ascites, encephalopathy)", "Teach about alcohol avoidance", "Ensure vaccination status is current", "Monitor for medication side effects", "Screen for depression (common with chronic liver disease diagnosis)", "Educate on signs requiring immediate medical attention"],
+    signs: {
+      left: ["Fatigue (Most Common Symptom)", "Mild RUQ Discomfort", "Anorexia and Weight Loss", "Hepatomegaly"],
+      right: ["Progressive Jaundice", "Spider Angiomata (Estrogen Metabolism Impairment)", "Palmar Erythema", "Signs of Cirrhosis (Ascites, Varices, Encephalopathy)"]
+    },
+    medications: [
+      { name: "Entecavir/Tenofovir", type: "Antiviral (HBV)", action: "Nucleos(t)ide analogues that suppress HBV DNA replication", sideEffects: "Headache, fatigue; tenofovir: renal toxicity, bone density loss", contra: "Renal impairment (tenofovir); lactic acidosis risk", pearl: "First-line HBV antivirals; do NOT stop abruptly - risk of severe hepatic flare from immune reconstitution" },
+      { name: "Prednisone + Azathioprine", type: "Immunosuppressive (Autoimmune Hepatitis)", action: "Suppress the autoimmune attack on hepatocytes", sideEffects: "Infection risk, bone loss, diabetes, myelosuppression", contra: "Active infection, TPMT deficiency (azathioprine)", pearl: "Check TPMT enzyme activity before starting azathioprine; 80% of autoimmune hepatitis patients respond to immunosuppression" }
+    ],
+    pearls: [
+      "Chronic hepatitis is often silent for years - 'the liver suffers in silence'; many patients are diagnosed incidentally through abnormal liver enzymes",
+      "NEVER abruptly stop HBV antivirals - withdrawal can trigger a severe hepatitis flare due to immune reconstitution that can lead to liver failure",
+      "All patients with chronic hepatitis B or C AND cirrhosis need HCC screening with ultrasound and alpha-fetoprotein every 6 months for life"
+    ],
+    quiz: [{
+      question: "A patient with chronic hepatitis B on entecavir tells the nurse they stopped taking their medication 2 weeks ago because they 'felt fine.' What is the nurse's priority concern?",
+      options: ["The patient will develop drug resistance", "The patient is at risk for a severe hepatitis flare from abrupt discontinuation", "The viral load will slowly increase but without immediate danger", "The medication has a long half-life so 2 weeks is not concerning"],
+      correct: 1,
+      rationale: "Abrupt discontinuation of HBV nucleos(t)ide analogues can trigger a severe hepatitis B flare due to immune reconstitution and rapid viral rebound. The immune system, no longer suppressed by viral suppression, mounts an aggressive response against the rebounding virus, causing massive hepatocyte necrosis. This can lead to acute liver failure and death. The nurse should urgently contact the provider and educate the patient to never stop these medications without medical supervision."
+    }]
   }
 };

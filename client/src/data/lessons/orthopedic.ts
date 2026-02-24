@@ -1998,5 +1998,138 @@ export const orthopedicLessons: Record<string, LessonContent> = {
         rationale: "A rudimentary (Type B) postaxial digit connected by a narrow skin pedicle without bony or tendon components can be safely ligated at the base with suture in the newborn nursery. The ligated tissue becomes ischemic and falls off within 7-10 days. Fully formed (Type A) digits with bone and joint connections require formal surgical excision."
       }
     ]
+  },
+  "compartment-syndrome": {
+    title: "Compartment Syndrome",
+    cellular: { title: "Tissue Pressure Crisis", content: "Compartment syndrome occurs when pressure within a closed fascial compartment rises above capillary perfusion pressure (typically >30 mmHg), causing ischemia to muscles, nerves, and blood vessels. Trauma, fractures, tight casts, or burns cause edema and hemorrhage within the rigid fascial boundaries. As pressure exceeds 30 mmHg, capillary blood flow ceases, leading to muscle necrosis within 4-6 hours. Irreversible nerve damage occurs within 12-24 hours. Rhabdomyolysis releases myoglobin into circulation, potentially causing acute kidney injury." },
+    riskFactors: ["Tibial fractures (most common cause)", "Forearm fractures", "Crush injuries", "Tight casts or circumferential dressings", "Severe burns", "Prolonged limb compression (unconscious patient)", "Anticoagulant therapy", "Reperfusion after vascular injury", "High-energy trauma", "Surgical positioning"],
+    diagnostics: ["Monitor compartment pressure measurement (Stryker device)", "Expect serial creatine kinase (CK) levels", "Monitor urine myoglobin", "Expect serum potassium monitoring", "Monitor urine output hourly", "Expect renal function tests"],
+    management: ["Remove all constrictive dressings, casts, and bandages immediately", "Maintain limb at heart level (do NOT elevate - reduces arterial perfusion)", "Prepare for emergent fasciotomy as ordered", "Maintain aggressive IV fluid resuscitation as ordered", "Monitor for rhabdomyolysis and acute kidney injury", "Post-fasciotomy: leave wounds open for delayed primary closure"],
+    nursingActions: ["Perform neurovascular checks every 1-2 hours on affected limb", "Assess the 6 P's: Pain, Pressure, Paralysis, Paresthesia, Pallor, Pulselessness", "Report pain out of proportion to injury IMMEDIATELY", "Report pain with passive stretch of affected muscles", "Monitor urine color (dark/cola-colored suggests myoglobin)", "Never elevate limb above heart level", "Bivalve or remove any casts immediately if symptoms develop"],
+    signs: {
+      left: ["Tense/Swollen Compartment", "Pain with Active Movement", "Paresthesias (Tingling)", "Firmness on Palpation"],
+      right: ["Pain OUT OF PROPORTION to Injury", "Pain with Passive Stretch (Earliest Sign)", "Paralysis (Late/Ominous)", "Pulselessness (Very Late - Limb Threatened)"]
+    },
+    medications: [
+      { name: "IV Normal Saline", type: "Fluid Resuscitation", action: "Maintains renal perfusion and flushes myoglobin", sideEffects: "Fluid overload", contra: "Heart failure", pearl: "Target urine output >200 mL/hr to prevent myoglobin-induced AKI" },
+      { name: "Mannitol", type: "Osmotic Diuretic", action: "Promotes renal excretion of myoglobin and reduces compartment edema", sideEffects: "Electrolyte imbalance, dehydration", contra: "Anuria, severe dehydration", pearl: "Used adjunctively with IV fluids to protect kidneys from myoglobin damage" }
+    ],
+    pearls: [
+      "Pain with PASSIVE STRETCH is the earliest and most reliable sign of compartment syndrome - do not wait for pulselessness",
+      "The 6 P's develop in order: Pain → Pressure → Paresthesia → Paralysis → Pallor → Pulselessness - by the time you lose pulses, tissue death has occurred",
+      "NEVER elevate the limb above heart level - this reduces arterial inflow and worsens ischemia; keep at heart level"
+    ],
+    quiz: [{
+      question: "A patient with a tibial fracture in a cast reports severe, increasing leg pain that worsens when you dorsiflex the foot. What is the priority nursing action?",
+      options: ["Administer prescribed pain medication and reassess in 30 minutes", "Elevate the leg above heart level to reduce swelling", "Notify the provider immediately and prepare to bivalve the cast", "Apply ice packs to the affected area"],
+      correct: 2,
+      rationale: "Pain with passive stretch (dorsiflexion stretches posterior compartment) is the hallmark sign of compartment syndrome. This is a surgical emergency requiring immediate cast removal and possible fasciotomy. Delaying for pain medication risks irreversible muscle and nerve damage."
+    }]
+  },
+  "hip-dysplasia": {
+    title: "Developmental Dysplasia of the Hip (DDH)",
+    cellular: { title: "Abnormal Hip Joint Development", content: "Developmental dysplasia of the hip encompasses a spectrum of abnormalities where the femoral head and acetabulum fail to develop a stable relationship. The acetabulum may be shallow (dysplasia), the femoral head may be partially displaced (subluxation), or completely displaced from the acetabulum (dislocation). During fetal development, mechanical forces (breech positioning) or ligamentous laxity (maternal estrogen exposure) prevent normal acetabular deepening, leading to an unstable hip joint that may progress to complete dislocation if untreated." },
+    riskFactors: ["Breech presentation (strongest risk factor)", "Female sex (4:1 ratio due to estrogen-induced ligament laxity)", "First-born child", "Family history of DDH", "Oligohydramnios", "Large for gestational age", "Swaddling with legs extended and adducted", "Left hip involvement (more common due to intrauterine positioning)", "Associated musculoskeletal conditions (torticollis)"],
+    diagnostics: ["Perform Ortolani maneuver (reduces dislocated hip - palpable 'clunk')", "Perform Barlow maneuver (dislocates unstable hip)", "Expect hip ultrasound for infants <4-6 months", "Expect X-ray for infants >4-6 months (ossification centers visible)", "Assess for asymmetric gluteal/thigh folds", "Monitor for leg length discrepancy (Galeazzi sign)", "Assess for limited hip abduction"],
+    management: ["Apply Pavlik harness as ordered for infants <6 months", "Maintain hip flexion and abduction position", "Closed reduction under anesthesia if harness fails", "Open surgical reduction for late-diagnosed cases", "Spica cast application post-reduction as ordered", "Follow-up imaging to confirm reduction"],
+    nursingActions: ["Teach parents proper Pavlik harness application and care", "Ensure harness is worn 23 hours/day as ordered", "Check skin under harness straps for breakdown every diaper change", "Assess neurovascular status of lower extremities", "Teach safe swaddling (hips flexed and abducted - 'hip-healthy' swaddling)", "Provide car seat modification education", "Monitor growth and development milestones"],
+    signs: {
+      left: ["Positive Ortolani 'Clunk'", "Asymmetric Thigh/Gluteal Folds", "Limited Hip Abduction", "Apparent Leg Length Discrepancy"],
+      right: ["Positive Barlow Sign (Hip Dislocates)", "Galeazzi Sign (Unequal Knee Heights)", "Trendelenburg Gait (Older Child)", "Waddling Gait with Bilateral DDH"]
+    },
+    medications: [
+      { name: "Acetaminophen", type: "Analgesic/Antipyretic", action: "Pain relief post-procedure", sideEffects: "Hepatotoxicity with overdose", contra: "Liver disease", pearl: "Weight-based dosing: 10-15 mg/kg every 4-6 hours; do not exceed 75 mg/kg/day in children" }
+    ],
+    pearls: [
+      "Ortolani reduces a DISLOCATED hip (clunk IN), Barlow DISLOCATES an unstable hip (clunk OUT) - think 'Ortolani = Out to In'",
+      "Never swaddle infants with legs straight and adducted - always allow hips to flex and abduct naturally ('frog-leg' position)",
+      "Pavlik harness avascular necrosis risk increases if hip is forced into extreme abduction - harness should allow some movement"
+    ],
+    quiz: [{
+      question: "During a newborn exam, the nurse performs the Ortolani maneuver and feels a palpable 'clunk' as the hip moves into the acetabulum. What does this indicate?",
+      options: ["Normal hip joint movement", "The hip was dislocated and has been reduced back into the socket", "The hip ligaments are too tight", "A fractured femur"],
+      correct: 1,
+      rationale: "The Ortolani maneuver tests for a dislocated hip. A palpable clunk indicates the femoral head was displaced and has been reduced (moved back) into the acetabulum. This is a positive finding requiring referral for treatment, typically a Pavlik harness."
+    }]
+  },
+  "clubfoot": {
+    title: "Clubfoot (Talipes Equinovarus)",
+    cellular: { title: "Congenital Foot Deformity", content: "Clubfoot is a complex congenital deformity involving four components: hindfoot equinus (plantarflexion at the ankle), hindfoot varus (inversion of the heel), forefoot adduction (medial deviation of the forefoot), and cavus (high medial longitudinal arch). The exact etiology involves both genetic factors and abnormal intrauterine positioning. Histologically, the muscles and tendons on the medial and posterior aspects of the foot and ankle are shortened and fibrotic, while the bones (talus and calcaneus) are abnormally shaped. Without treatment, the child walks on the lateral border of the foot." },
+    riskFactors: ["Male sex (2:1 ratio)", "Family history of clubfoot", "Oligohydramnios", "Neuromuscular disorders (spina bifida, arthrogryposis)", "Smoking during pregnancy", "Amniotic band syndrome", "Bilateral involvement in 50% of cases", "Associated syndromes (Edwards syndrome/trisomy 18)"],
+    diagnostics: ["Clinical diagnosis at birth based on foot position", "Assess whether deformity is flexible (positional) or rigid (true clubfoot)", "Expect prenatal ultrasound detection (after 16 weeks gestation)", "Expect X-rays of foot and ankle for surgical planning", "Rule out associated anomalies (spina bifida, hip dysplasia)", "Score severity using Pirani or Dimeglio classification"],
+    management: ["Initiate Ponseti method of serial casting within first 1-2 weeks of life", "Weekly cast changes with gentle manipulation", "Percutaneous Achilles tenotomy for residual equinus (majority of cases)", "Foot abduction brace (Denis Browne bar) after casting", "Brace worn 23 hours/day for 3 months, then nighttime until age 4-5 years", "Extensive surgical release reserved for resistant or recurrent cases"],
+    nursingActions: ["Teach parents about the Ponseti casting schedule and expectations", "Assess neurovascular status after each cast application", "Monitor skin integrity around cast edges", "Teach parents brace application and wearing schedule", "Educate about signs of cast complications (color change, swelling, odor)", "Provide emotional support to parents", "Emphasize importance of brace compliance to prevent recurrence"],
+    signs: {
+      left: ["Foot Turned Inward and Downward", "Deep Creases on Medial Foot/Sole", "Shortened Calf Muscle (Affected Side)", "Smaller Foot on Affected Side"],
+      right: ["Rigid Deformity (Cannot Passively Correct)", "Walking on Lateral Border of Foot (If Untreated)", "Calf Muscle Atrophy", "Skin Calluses on Lateral Foot"]
+    },
+    medications: [
+      { name: "Acetaminophen", type: "Analgesic", action: "Pain relief during casting and post-tenotomy", sideEffects: "Hepatotoxicity with overdose", contra: "Liver disease", pearl: "May be given 30 minutes before cast changes to reduce infant distress" }
+    ],
+    pearls: [
+      "Ponseti method has >95% success rate when started early - it has replaced extensive surgical correction as first-line treatment",
+      "Brace compliance is the KEY to preventing recurrence - 80% recurrence rate without bracing vs <5% with proper brace use",
+      "A positional clubfoot (flexible, corrects with gentle pressure) is NOT true clubfoot and resolves with stretching exercises alone"
+    ],
+    quiz: [{
+      question: "The parents of an infant being treated with Ponseti casting for clubfoot ask why the brace must be worn for years. What is the best response?",
+      options: ["The brace helps the bones grow stronger", "Without the brace, there is an 80% chance the clubfoot will return", "The brace is only needed until the child starts walking", "The brace corrects the deformity - casts just hold it in place"],
+      correct: 1,
+      rationale: "The foot abduction brace prevents recurrence after Ponseti casting. Without bracing, recurrence rates are approximately 80%. The brace is worn full-time initially, then at night until age 4-5 years, when the risk of recurrence diminishes."
+    }]
+  },
+  "rickets": {
+    title: "Rickets",
+    cellular: { title: "Defective Bone Mineralization", content: "Rickets is a disorder of defective mineralization of the growth plate and newly formed bone (osteoid) in children. Vitamin D deficiency is the most common cause, leading to inadequate intestinal calcium and phosphorus absorption. Without sufficient calcium and phosphorus, osteoid tissue produced by osteoblasts cannot be mineralized. The growth plates widen and become disorganized because chondrocytes continue to proliferate but fail to undergo normal calcification and apoptosis. This results in soft, deformable bones that bow under mechanical stress. In adults, the same process is called osteomalacia." },
+    riskFactors: ["Exclusive breastfeeding without vitamin D supplementation", "Dark skin pigmentation (reduced UV vitamin D synthesis)", "Limited sun exposure", "Malabsorption disorders (celiac disease, Crohn's)", "Chronic kidney disease (renal rickets)", "Liver disease", "Anticonvulsant medications (increase vitamin D catabolism)", "Prematurity", "Vegetarian/vegan diet without supplementation", "Geographic latitude with low UV exposure"],
+    diagnostics: ["Expect serum 25-hydroxyvitamin D level (low, <20 ng/mL)", "Expect serum calcium and phosphorus (low)", "Expect alkaline phosphatase (elevated - indicates osteoblast activity)", "Expect parathyroid hormone level (elevated secondary to hypocalcemia)", "Expect X-rays of wrists and knees showing widened, frayed growth plates", "Monitor for associated hypocalcemia symptoms"],
+    management: ["Administer vitamin D supplementation as prescribed (ergocalciferol or cholecalciferol)", "Ensure adequate calcium intake through diet or supplements", "Phosphorus supplementation for phosphate-wasting rickets", "Treat underlying malabsorption if present", "Sun exposure education (10-15 minutes, 2-3 times per week)", "Orthopedic follow-up for severe skeletal deformities"],
+    nursingActions: ["Administer vitamin D supplements as prescribed", "Teach parents about vitamin D-rich foods", "Educate on safe sun exposure practices", "Monitor growth parameters and plot on growth chart", "Handle child gently to prevent pathological fractures", "Assess for signs of hypocalcemia (tetany, Chvostek sign)", "Ensure all breastfed infants receive 400 IU vitamin D daily from birth"],
+    signs: {
+      left: ["Bowed Legs (Genu Varum)", "Widened Wrists and Ankles", "Frontal Bossing", "Delayed Fontanelle Closure"],
+      right: ["Rachitic Rosary (Costochondral Beading)", "Harrison's Groove (Rib Cage Indentation)", "Pathological Fractures", "Hypocalcemic Seizures"]
+    },
+    medications: [
+      { name: "Cholecalciferol (Vitamin D3)", type: "Vitamin Supplement", action: "Restores vitamin D levels to enable calcium/phosphorus absorption", sideEffects: "Hypercalcemia with overdose", contra: "Hypercalcemia, sarcoidosis", pearl: "Treatment dose 2000-5000 IU/day for 6-12 weeks, then maintenance 400-1000 IU/day; monitor calcium levels" },
+      { name: "Calcium Carbonate", type: "Mineral Supplement", action: "Provides calcium for bone mineralization", sideEffects: "Constipation, hypercalcemia", contra: "Hypercalcemia, kidney stones", pearl: "Give with meals for better absorption; separate from iron supplements by 2 hours" }
+    ],
+    pearls: [
+      "ALL breastfed infants should receive 400 IU/day of vitamin D starting within the first few days of life - breast milk contains insufficient vitamin D",
+      "Rachitic rosary (beading at costochondral junctions) is pathognomonic for rickets - palpate along the rib cage during assessment",
+      "Alkaline phosphatase is the first lab to elevate and last to normalize - use it to monitor treatment response"
+    ],
+    quiz: [{
+      question: "A breastfed 8-month-old presents with bowed legs and widened wrists. Labs show low vitamin D, low calcium, and elevated alkaline phosphatase. Which finding is most specific for rickets?",
+      options: ["Low serum calcium", "Elevated alkaline phosphatase", "Rachitic rosary on rib palpation", "Bowed legs"],
+      correct: 2,
+      rationale: "Rachitic rosary (palpable beading at the costochondral junctions where the ribs meet the cartilage) is a pathognomonic finding for rickets. While bowed legs, low calcium, and elevated ALP are all associated with rickets, they can occur in other conditions. Rachitic rosary is uniquely characteristic of rickets."
+    }]
+  },
+  "scoliosis": {
+    title: "Scoliosis",
+    cellular: { title: "Spinal Curvature Pathology", content: "Scoliosis is a lateral curvature of the spine exceeding 10 degrees (Cobb angle) with vertebral rotation. Idiopathic scoliosis (80% of cases) involves asymmetric growth of vertebral bodies during rapid growth periods. The vertebral bodies rotate toward the convex side of the curve, causing the spinous processes to deviate toward the concave side. This rotation creates the characteristic rib hump visible on forward bending (Adam's test). The intervertebral discs become wedge-shaped, and paraspinal muscles develop asymmetric tone. Untreated severe curvature (>50 degrees) can compromise cardiopulmonary function." },
+    riskFactors: ["Female sex (8:1 for curves requiring treatment)", "Family history of scoliosis", "Adolescent growth spurt (10-16 years)", "Skeletal immaturity (Risser sign 0-2)", "Neuromuscular disorders (cerebral palsy, muscular dystrophy)", "Connective tissue disorders (Marfan, Ehlers-Danlos)", "Spinal cord abnormalities (tethered cord, syringomyelia)", "Prematurity"],
+    diagnostics: ["Perform Adam's forward bend test (screening)", "Use scoliometer to measure trunk rotation (>7 degrees is positive)", "Expect standing posteroanterior (PA) X-ray of full spine", "Measure Cobb angle on X-ray", "Assess skeletal maturity with Risser sign (0-5)", "Expect MRI if atypical features (left thoracic curve, rapid progression, pain, neurologic symptoms)", "Monitor height and Tanner staging"],
+    management: ["Observation with serial X-rays every 4-6 months for curves 10-25 degrees", "Bracing (TLSO/Boston brace) for curves 25-40 degrees in growing children", "Brace worn 16-23 hours/day as prescribed", "Spinal fusion surgery for curves >45-50 degrees or progressive despite bracing", "Postoperative management: log-rolling, wound care, pain management", "Physical therapy for posture and core strengthening"],
+    nursingActions: ["Screen adolescents during school health assessments", "Teach proper brace wearing and skin care", "Assess body image concerns (especially adolescent girls)", "Post-surgical: log-roll for positioning changes", "Monitor neurovascular status of lower extremities post-op", "Assess for signs of superior mesenteric artery syndrome post-surgery", "Provide emotional support regarding body image", "Educate on activity restrictions and return-to-activity timeline"],
+    signs: {
+      left: ["Uneven Shoulder Heights", "Asymmetric Waistline", "One Scapula More Prominent", "Uneven Hemlines on Clothing"],
+      right: ["Rib Hump on Forward Bending (Adam's Test)", "Cobb Angle >25° (Bracing Threshold)", "Cobb Angle >45-50° (Surgical Threshold)", "Cardiopulmonary Compromise (Severe Curves >70°)"]
+    },
+    medications: [
+      { name: "Acetaminophen/NSAIDs", type: "Analgesic", action: "Post-operative pain management", sideEffects: "GI upset, hepatotoxicity", contra: "Active bleeding, liver disease", pearl: "Multimodal pain management preferred post-spinal fusion; avoid NSAIDs initially if bone fusion is concern" },
+      { name: "Patient-Controlled Analgesia (PCA)", type: "Opioid Analgesic", action: "Post-surgical pain control", sideEffects: "Respiratory depression, constipation", contra: "Respiratory compromise", pearl: "Only the patient should press the PCA button - NEVER allow family members to press it (risk of respiratory depression)" }
+    ],
+    pearls: [
+      "Adam's forward bend test is the gold standard screening tool - a positive test (visible rib hump or trunk asymmetry) requires X-ray confirmation",
+      "Brace compliance is everything - the brace only works if worn as prescribed; address adolescent body image concerns proactively",
+      "Post-spinal fusion: log-roll ONLY, watch for superior mesenteric artery syndrome (abdominal distension, bilious vomiting, inability to tolerate feeds)"
+    ],
+    quiz: [{
+      question: "An adolescent 2 days post-spinal fusion for scoliosis develops abdominal distension and bilious vomiting. What should the nurse suspect?",
+      options: ["Normal post-operative ileus that will resolve spontaneously", "Superior mesenteric artery syndrome from body cast compression", "Opioid-induced constipation from PCA use", "Appendicitis requiring surgical consultation"],
+      correct: 1,
+      rationale: "Superior mesenteric artery (SMA) syndrome occurs when the third part of the duodenum is compressed between the SMA and the aorta. It can occur after spinal surgery due to correction of the spinal curve altering the angle of the SMA. Symptoms include bilious vomiting, abdominal distension, and inability to tolerate oral intake. Treatment includes gastric decompression and positioning (left lateral or prone)."
+    }]
   }
 };
