@@ -138,7 +138,7 @@ export default function LectureViewer() {
     );
   }
 
-  const slides = lecture.slides;
+  const slides = lecture!.slides;
   const totalSlides = slides.length;
   const slide = slides[currentSlide];
   const progress = ((currentSlide + 1) / totalSlides) * 100;
@@ -237,10 +237,10 @@ export default function LectureViewer() {
             <div className="flex items-center gap-3">
               <Heart className="h-5 w-5" style={{ color: "var(--accent-primary)" }} />
               <div>
-                <h1 className="text-lg font-bold leading-tight" style={{ color: "var(--text-primary)" }} data-testid="text-lecture-title">{lecture.title}</h1>
+                <h1 className="text-lg font-bold leading-tight" style={{ color: "var(--text-primary)" }} data-testid="text-lecture-title">{lecture!.title}</h1>
                 <div className="flex items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                  <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{lecture.duration}</span>
-                  <span className="flex items-center gap-1"><GraduationCap className="h-3.5 w-3.5" />{lecture.level}</span>
+                  <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{lecture!.duration}</span>
+                  <span className="flex items-center gap-1"><GraduationCap className="h-3.5 w-3.5" />{lecture!.level}</span>
                 </div>
               </div>
             </div>
@@ -389,13 +389,13 @@ export default function LectureViewer() {
               <div className="p-4 flex items-center justify-between" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5" style={{ color: "var(--accent-primary)" }} />
-                  <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Review Flashcards ({lecture.flashcards.length})</span>
+                  <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Review Flashcards ({lecture!.flashcards.length})</span>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => setShowFlashcards(false)}><X className="h-4 w-4" /></Button>
               </div>
               <CardContent className="p-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {lecture.flashcards.map((fc, i) => (
+                  {lecture!.flashcards.map((fc, i) => (
                     <div
                       key={i}
                       onClick={() => toggleFlipCard(i)}
@@ -409,7 +409,7 @@ export default function LectureViewer() {
                     >
                       <div>
                         <p className="text-xs uppercase tracking-wider mb-2 opacity-70">
-                          {flippedCards.has(i) ? "Answer" : "Question"} {i + 1}/{lecture.flashcards.length}
+                          {flippedCards.has(i) ? "Answer" : "Question"} {i + 1}/{lecture!.flashcards.length}
                         </p>
                         <p className="text-sm leading-relaxed font-medium">
                           {flippedCards.has(i) ? fc.back : fc.front}
@@ -437,7 +437,7 @@ export default function LectureViewer() {
                 <div>
                   <h3 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: "var(--accent-primary)" }}>Safety Pearls</h3>
                   <ul className="space-y-2">
-                    {lecture.clinicalSafetyPearls.map((pearl, i) => (
+                    {lecture!.clinicalSafetyPearls.map((pearl, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm" data-testid={`pearl-${i}`}>
                         <span className="mt-1 flex-shrink-0 h-2 w-2 rounded-full" style={{ backgroundColor: "var(--accent-primary)" }} />
                         <span style={{ color: "var(--text-primary)" }}>{pearl}</span>
@@ -448,7 +448,7 @@ export default function LectureViewer() {
                 <div>
                   <h3 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: "var(--accent-primary)" }}>Memory Anchors</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {lecture.memoryAnchors.map((anchor, i) => (
+                    {lecture!.memoryAnchors.map((anchor, i) => (
                       <div key={i} className="rounded-lg p-3 text-sm" style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-color)" }} data-testid={`anchor-${i}`}>
                         <span style={{ color: "var(--text-primary)" }}>{anchor}</span>
                       </div>

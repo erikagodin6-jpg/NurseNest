@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { Play, Clock, GraduationCap, BookOpen } from "lucide-react";
+import { Play, Clock, GraduationCap, BookOpen, Video } from "lucide-react";
 import { lectureRegistry } from "@/data/micro-lectures";
 import { SEO } from "@/components/seo";
 
@@ -60,6 +60,16 @@ export default function LecturesPage() {
                           <Play className="h-5 w-5 text-primary" />
                         </div>
                         <div className="flex gap-1.5 flex-wrap justify-end">
+                          {lecture.free && (
+                            <Badge className="text-[10px] uppercase bg-green-100 text-green-700 hover:bg-green-100">
+                              FREE
+                            </Badge>
+                          )}
+                          {lecture.videoUrl && (
+                            <Badge variant="outline" className="text-[10px] uppercase gap-1">
+                              <Video className="h-3 w-3" />Video
+                            </Badge>
+                          )}
                           {lecture.tiers.map((tier) => (
                             <Badge key={tier} variant="secondary" className="text-[10px] uppercase">
                               {tier}
