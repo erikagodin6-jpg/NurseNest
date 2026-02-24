@@ -27,39 +27,17 @@ import { getLessonImage } from "@/lib/system-images";
 import { ProtectedImage } from "@/components/protected-image";
 import { getImageAltText, getImageTitle, getImageStructuredData } from "@/lib/image-seo";
 import { LessonImageManager } from "@/components/lesson-image-manager";
+import { RichTextEditor, RichTextListEditor, RichTextDisplay } from "@/components/rich-text-editor";
 
 function EditableText({ value, onChange, multiline = false, className = "" }: { value: string; onChange: (v: string) => void; multiline?: boolean; className?: string }) {
   if (multiline) {
-    return <Textarea value={value} onChange={(e) => onChange(e.target.value)} className={`min-h-[120px] ${className}`} />;
+    return <RichTextEditor value={value} onChange={onChange} className={className} minHeight="120px" />;
   }
   return <Input value={value} onChange={(e) => onChange(e.target.value)} className={className} />;
 }
 
 function EditableList({ items, onChange, placeholder = "Enter item..." }: { items: string[]; onChange: (items: string[]) => void; placeholder?: string }) {
-  return (
-    <div className="space-y-2">
-      {items.map((item, i) => (
-        <div key={i} className="flex gap-2">
-          <Input
-            value={item}
-            onChange={(e) => {
-              const updated = [...items];
-              updated[i] = e.target.value;
-              onChange(updated);
-            }}
-            placeholder={placeholder}
-            className="flex-1"
-          />
-          <Button variant="ghost" size="sm" className="h-10 w-10 p-0 text-red-400 hover:text-red-600" onClick={() => onChange(items.filter((_, idx) => idx !== i))}>
-            <Trash2 className="w-4 h-4" />
-          </Button>
-        </div>
-      ))}
-      <Button variant="outline" size="sm" className="gap-1" onClick={() => onChange([...items, ""])}>
-        <Plus className="w-3 h-3" /> Add Item
-      </Button>
-    </div>
-  );
+  return <RichTextListEditor items={items} onChange={onChange} placeholder={placeholder} />;
 }
 
 function VitalSignsReferenceCharts() {
@@ -226,7 +204,7 @@ function VitalSignsReferenceCharts() {
                 {section.flags.map((flag, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                     <AlertCircle className="w-3.5 h-3.5 text-orange-400 mt-0.5 flex-shrink-0" />
-                    <span>{flag}</span>
+                    <RichTextDisplay html={flag} />
                   </li>
                 ))}
               </ul>
@@ -339,7 +317,7 @@ function IsolationTypesGuide() {
                     {iso.ppe.map((item, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                         <CheckCircle2 className="w-3.5 h-3.5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>{item}</span>
+                        <RichTextDisplay html={item} />
                       </li>
                     ))}
                   </ul>
@@ -353,7 +331,7 @@ function IsolationTypesGuide() {
                     {iso.examples.map((ex, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                         <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-1.5 flex-shrink-0" />
-                        <span>{ex}</span>
+                        <RichTextDisplay html={ex} />
                       </li>
                     ))}
                   </ul>
@@ -377,7 +355,7 @@ function IsolationTypesGuide() {
                   {iso.keyPoints.map((kp, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                       <Zap className="w-3.5 h-3.5 text-amber-400 mt-0.5 flex-shrink-0" />
-                      <span>{kp}</span>
+                      <RichTextDisplay html={kp} />
                     </li>
                   ))}
                 </ul>
@@ -1404,7 +1382,7 @@ export default function LessonDetail() {
                     {ed ? (
                       <EditableText value={ed.cellular.content} onChange={(v) => setEditData({ ...ed, cellular: { ...ed.cellular, content: v } })} multiline className="min-h-[200px]" />
                     ) : (
-                      <div className="whitespace-pre-wrap">{lessonContent.cellular.content}</div>
+                      <div className="whitespace-pre-wrap"><RichTextDisplay html={lessonContent.cellular.content} /></div>
                     )}
                   </div>
                   {id && (
@@ -1433,7 +1411,7 @@ export default function LessonDetail() {
                             {lessonContent.riskFactors!.map((rf, i) => (
                               <div key={i} className="flex items-start gap-2 text-gray-700">
                                 <div className="w-2 h-2 rounded-full bg-rose-400 mt-2 shrink-0" />
-                                <span>{rf}</span>
+                                <RichTextDisplay html={rf} />
                               </div>
                             ))}
                           </div>
@@ -1459,7 +1437,7 @@ export default function LessonDetail() {
                             {lessonContent.diagnostics!.map((d, i) => (
                               <div key={i} className="flex items-start gap-2 text-gray-700">
                                 <div className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0" />
-                                <span>{d}</span>
+                                <RichTextDisplay html={d} />
                               </div>
                             ))}
                           </div>
@@ -1487,7 +1465,7 @@ export default function LessonDetail() {
                                 <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
                                   <span className="text-emerald-700 text-xs font-bold">{i + 1}</span>
                                 </div>
-                                <span>{m}</span>
+                                <RichTextDisplay html={m} />
                               </li>
                             ))}
                           </ul>
@@ -1513,7 +1491,7 @@ export default function LessonDetail() {
                             {lessonContent.nursingActions!.map((na, i) => (
                               <li key={i} className="flex items-start gap-3 text-gray-700">
                                 <HeartPulse className="w-4 h-4 text-violet-500 mt-1 shrink-0" />
-                                <span>{na}</span>
+                                <RichTextDisplay html={na} />
                               </li>
                             ))}
                           </ul>
@@ -1534,7 +1512,7 @@ export default function LessonDetail() {
                       {ed && ed.lifespan ? (
                         <EditableText value={ed.lifespan.content} onChange={(v) => setEditData({ ...ed, lifespan: { ...ed.lifespan!, content: v } })} multiline className="min-h-[120px]" />
                       ) : (
-                        <span className="italic">{lessonContent.lifespan!.content}</span>
+                        <span className="italic"><RichTextDisplay html={lessonContent.lifespan!.content} /></span>
                       )}
                     </div>
                   </section>
@@ -1562,8 +1540,8 @@ export default function LessonDetail() {
                           <ul className="space-y-2">
                             {lessonContent.signs.left.map((s, i) => (
                               <li key={i} className="flex items-center gap-2 text-gray-600">
-                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                                {s}
+                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                                <RichTextDisplay html={s} />
                               </li>
                             ))}
                           </ul>
@@ -1582,8 +1560,8 @@ export default function LessonDetail() {
                           <ul className="space-y-2">
                             {lessonContent.signs.right.map((s, i) => (
                               <li key={i} className="flex items-center gap-2 text-gray-600">
-                                <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                                {s}
+                                <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
+                                <RichTextDisplay html={s} />
                               </li>
                             ))}
                           </ul>
@@ -1629,30 +1607,30 @@ export default function LessonDetail() {
                           <div className="space-y-2">
                             <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
                             {ed ? (
-                              <Textarea value={med.action} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], action: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="min-h-[60px]" />
+                              <RichTextEditor value={med.action} onChange={(v) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], action: v }; setEditData({ ...ed, medications: meds }); }} minHeight="60px" />
                             ) : (
-                              <p className="text-gray-700">{med.action}</p>
+                              <p className="text-gray-700"><RichTextDisplay html={med.action} /></p>
                             )}
                             <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
                             {ed ? (
-                              <Textarea value={med.sideEffects} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], sideEffects: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="min-h-[60px]" />
+                              <RichTextEditor value={med.sideEffects} onChange={(v) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], sideEffects: v }; setEditData({ ...ed, medications: meds }); }} minHeight="60px" />
                             ) : (
-                              <p className="text-gray-700">{med.sideEffects}</p>
+                              <p className="text-gray-700"><RichTextDisplay html={med.sideEffects} /></p>
                             )}
                           </div>
                           <div className="space-y-2">
                             <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
                             {ed ? (
-                              <Textarea value={med.contra} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], contra: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="min-h-[60px]" />
+                              <RichTextEditor value={med.contra} onChange={(v) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], contra: v }; setEditData({ ...ed, medications: meds }); }} minHeight="60px" />
                             ) : (
-                              <p className="text-gray-700">{med.contra}</p>
+                              <p className="text-gray-700"><RichTextDisplay html={med.contra} /></p>
                             )}
                             <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2">
                               <Lightbulb className="w-5 h-5 text-yellow-600 shrink-0" />
                               {ed ? (
                                 <Input value={med.pearl} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], pearl: e.target.value }; setEditData({ ...ed, medications: meds }); }} className="text-sm" />
                               ) : (
-                                <p className="text-sm text-yellow-800 font-medium">Pearl: {med.pearl}</p>
+                                <p className="text-sm text-yellow-800 font-medium">Pearl: <RichTextDisplay html={med.pearl} /></p>
                               )}
                             </div>
                           </div>
@@ -1682,7 +1660,7 @@ export default function LessonDetail() {
                           {lessonContent.pearls.map((p, i) => (
                             <li key={i} className="flex gap-2">
                               <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                              {p}
+                              <RichTextDisplay html={p} />
                             </li>
                           ))}
                         </ul>
