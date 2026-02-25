@@ -218,40 +218,72 @@ Requirements:
   }
 
   const failurePatterns = [
-    /\bunable to produce\b/i,
+    /\bunable to\b/i,
     /\bcannot produce\b/i,
     /\bcannot generate\b/i,
     /\bcannot browse\b/i,
     /\bcannot verify\b/i,
     /\bcannot access\b/i,
+    /\bcannot complete\b/i,
+    /\bcannot fulfill\b/i,
+    /\bcannot create\b/i,
+    /\bcannot write\b/i,
     /\bI must be transparent\b/i,
     /\bI do not have the ability\b/i,
-    /\bI cannot fulfill\b/i,
+    /\bI cannot\b/i,
+    /\bI can't\b/i,
     /\bI am unable\b/i,
     /\bI'm unable\b/i,
     /\bclarification needed\b/i,
     /\bclarification and request\b/i,
-    /\brequest for source permission\b/i,
+    /\bneed clarification\b/i,
+    /\bneeds clarification\b/i,
+    /\brequest for source\b/i,
     /\brequest for permission\b/i,
     /\bprefatory note\b/i,
     /\bcitation limitations\b/i,
-    /\bwithout verified.*citations\b/i,
+    /\bwithout verified\b/i,
     /\bI apologize\b/i,
-    /\bI can't provide\b/i,
+    /\bI must clarify\b/i,
     /\bAs an AI\b/i,
     /\bAs a language model\b/i,
+    /\bI'm not able\b/i,
+    /\bI am not able\b/i,
+    /\bbefore proceeding\b/i,
+    /\bbefore I can\b/i,
+    /\bimportant disclaimer\b/i,
+    /\bimportant note before\b/i,
+    /\bI need to clarify\b/i,
+    /\bI should note\b/i,
+    /\bI want to be upfront\b/i,
+    /\bI want to be transparent\b/i,
+    /\bI have to be honest\b/i,
+    /\bI don't have access\b/i,
+    /\bdo not have access\b/i,
+    /\bfabricate\b/i,
+    /\bhallucinate\b/i,
   ];
 
-  const titleAndContent = [
+  const allText = [
     parsed.title || "",
     parsed.summary || "",
-    ...(Array.isArray(parsed.content) ? parsed.content.map((b: any) => b.text || b.content || "").slice(0, 3) : []),
+    ...(Array.isArray(parsed.content) ? parsed.content.map((b: any) => {
+      const parts: string[] = [];
+      if (b.text) parts.push(b.text);
+      if (b.content) parts.push(b.content);
+      if (b.items && Array.isArray(b.items)) parts.push(b.items.join(" "));
+      return parts.join(" ");
+    }) : []),
   ].join(" ");
 
-  const isFailedGeneration = failurePatterns.some(p => p.test(titleAndContent));
+  const isFailedGeneration = failurePatterns.some(p => p.test(allText));
 
-  if (isFailedGeneration || !parsed.title || !Array.isArray(parsed.content) || parsed.content.length < 4) {
-    throw new Error(`Blog generation failed: the model did not produce a valid article for "${selectedTopic}". Skipping.`);
+  const paragraphBlocks = Array.isArray(parsed.content) ? parsed.content.filter((b: any) => b.type === "paragraph") : [];
+  const totalWordCount = allText.split(/\s+/).length;
+
+  if (isFailedGeneration || !parsed.title || !Array.isArray(parsed.content) || parsed.content.length < 4 || paragraphBlocks.length < 3 || totalWordCount < 400) {
+    const reason = isFailedGeneration ? "contained refusal/disclaimer language" : !parsed.title ? "missing title" : totalWordCount < 400 ? `too short (${totalWordCount} words)` : "too few content blocks";
+    throw new Error(`Blog generation rejected for "${selectedTopic}": ${reason}. Only complete articles are saved.`);
   }
 
   if (parsed.content && Array.isArray(parsed.content)) {

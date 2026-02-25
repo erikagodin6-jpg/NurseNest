@@ -646,6 +646,23 @@ export default function AdminPage() {
     }
   }
 
+  async function deleteQueueItem(id: string, title: string) {
+    if (!confirm(`Delete "${title}" from the queue? This cannot be undone.`)) return;
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      await fetch(`/api/content/${id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      fetchPublishQueue();
+      fetchBlogPosts();
+    } catch {
+    }
+  }
+
   async function publishScheduledNow() {
     try {
       const stored = localStorage.getItem("nursenest-credentials");
@@ -1544,6 +1561,9 @@ export default function AdminPage() {
                                 />
                                 <Button size="sm" variant="outline" className="h-6 text-[10px] px-2 shrink-0" onClick={() => updateQueueItem(item.id, { status: "published" })} data-testid={`button-queue-publish-${item.id}`}>
                                   Publish
+                                </Button>
+                                <Button size="sm" variant="ghost" className="h-6 w-6 p-0 shrink-0 text-gray-400 hover:text-red-500 hover:bg-red-50" onClick={() => deleteQueueItem(item.id, item.title)} data-testid={`button-queue-delete-${item.id}`}>
+                                  <Trash2 className="w-3 h-3" />
                                 </Button>
                               </div>
                             );
