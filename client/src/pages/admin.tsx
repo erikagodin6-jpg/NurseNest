@@ -159,6 +159,7 @@ export default function AdminPage() {
   const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; results: any[] } | null>(null);
   const [publishQueue, setPublishQueue] = useState<any[]>([]);
   const [queueLoading, setQueueLoading] = useState(false);
+  const [selectedQueueIds, setSelectedQueueIds] = useState<Set<string>>(new Set());
 
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const [blogPostsLoading, setBlogPostsLoading] = useState(false);
@@ -660,6 +661,44 @@ export default function AdminPage() {
       fetchPublishQueue();
       fetchBlogPosts();
     } catch {
+    }
+  }
+
+  async function deleteSelectedQueueItems() {
+    if (selectedQueueIds.size === 0) return;
+    if (!confirm(`Delete ${selectedQueueIds.size} selected post${selectedQueueIds.size > 1 ? "s" : ""} from the queue? This cannot be undone.`)) return;
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      for (const id of selectedQueueIds) {
+        await fetch(`/api/content/${id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+      }
+      setSelectedQueueIds(new Set());
+      fetchPublishQueue();
+      fetchBlogPosts();
+    } catch {
+    }
+  }
+
+  function toggleQueueSelection(id: string) {
+    setSelectedQueueIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAllQueue() {
+    if (selectedQueueIds.size === publishQueue.length) {
+      setSelectedQueueIds(new Set());
+    } else {
+      setSelectedQueueIds(new Set(publishQueue.map((p: any) => p.id)));
     }
   }
 
@@ -1515,6 +1554,12 @@ export default function AdminPage() {
                           {queueLoading && <RefreshCw className="w-3 h-3 animate-spin text-gray-400" />}
                         </div>
                         <div className="flex items-center gap-2">
+                          {selectedQueueIds.size > 0 && (
+                            <Button size="sm" variant="destructive" className="h-7 text-xs gap-1" onClick={deleteSelectedQueueItems} data-testid="button-delete-selected-queue">
+                              <Trash2 className="w-3 h-3" />
+                              Delete {selectedQueueIds.size} Selected
+                            </Button>
+                          )}
                           {publishQueue.length > 0 && (
                             <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={publishScheduledNow} data-testid="button-publish-due">
                               <CheckCircle2 className="w-3 h-3" />
@@ -1533,21 +1578,39 @@ export default function AdminPage() {
                           <p className="text-[10px] text-gray-300 mt-1">Generate a batch of posts with scheduling to see them here.</p>
                         </div>
                       ) : (
-                        <div className="space-y-1.5 max-h-80 overflow-y-auto">
+                        <div className="space-y-1.5 max-h-[500px] overflow-y-auto">
+                          <div className="flex items-center gap-2 px-2.5 py-1.5 border-b border-amber-200/50 mb-1">
+                            <input
+                              type="checkbox"
+                              checked={publishQueue.length > 0 && selectedQueueIds.size === publishQueue.length}
+                              onChange={toggleSelectAllQueue}
+                              className="w-3.5 h-3.5 rounded border-gray-300 accent-primary cursor-pointer"
+                              data-testid="checkbox-select-all-queue"
+                            />
+                            <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Select All</span>
+                          </div>
                           {publishQueue.map((item: any, idx: number) => {
                             const scheduledDate = item.scheduledAt ? new Date(item.scheduledAt) : null;
                             const isPast = scheduledDate && scheduledDate <= new Date();
                             const isToday = scheduledDate && scheduledDate.toDateString() === new Date().toDateString();
+                            const isSelected = selectedQueueIds.has(item.id);
                             return (
-                              <div key={item.id} className={`flex items-center gap-3 p-2.5 rounded-lg border ${isPast ? "bg-red-50 border-red-200" : isToday ? "bg-yellow-50 border-yellow-200" : "bg-white border-gray-100"}`} data-testid={`queue-item-${item.id}`}>
-                                <div className="text-[10px] font-bold text-gray-400 w-5 text-center shrink-0">{idx + 1}</div>
+                              <div key={item.id} className={`flex items-center gap-2 p-2.5 rounded-lg border transition-colors ${isSelected ? "bg-primary/5 border-primary/30 ring-1 ring-primary/10" : isPast ? "bg-red-50 border-red-200" : isToday ? "bg-yellow-50 border-yellow-200" : "bg-white border-gray-100"}`} data-testid={`queue-item-${item.id}`}>
+                                <input
+                                  type="checkbox"
+                                  checked={isSelected}
+                                  onChange={() => toggleQueueSelection(item.id)}
+                                  className="w-3.5 h-3.5 rounded border-gray-300 accent-primary cursor-pointer shrink-0"
+                                  data-testid={`checkbox-queue-${item.id}`}
+                                />
+                                <div className="text-[10px] font-bold text-gray-400 w-4 text-center shrink-0">{idx + 1}</div>
                                 <div className="flex-1 min-w-0">
                                   <p className="text-xs font-medium text-gray-800 truncate">{item.title}</p>
                                   <div className="flex items-center gap-2 mt-0.5">
                                     {isPast && <span className="text-[9px] font-bold text-red-500 uppercase">Overdue</span>}
                                     {isToday && !isPast && <span className="text-[9px] font-bold text-yellow-600 uppercase">Today</span>}
                                     <span className="text-[10px] text-gray-400">
-                                      {scheduledDate ? scheduledDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " at " + scheduledDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "No date"}
+                                      {scheduledDate ? scheduledDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" }) + " at " + scheduledDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "No date set"}
                                     </span>
                                     {item.authorName && <span className="text-[10px] text-gray-300">by {item.authorName}</span>}
                                   </div>
