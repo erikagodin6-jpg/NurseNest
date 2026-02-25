@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   ChevronRight, 
   ChevronLeft, 
@@ -22,7 +24,13 @@ import {
   Trophy,
   History,
   Trash2,
-  Pencil
+  Pencil,
+  Plus,
+  Search,
+  AlertTriangle,
+  Sparkles,
+  Lock,
+  CreditCard
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -955,10 +963,19 @@ const allCards: Flashcard[] = [
   }
 ];
 
+type CustomCard = {
+  id: string;
+  userId: string;
+  question: string;
+  answer: string;
+  category: string;
+  createdAt: string;
+};
+
 export default function Flashcards() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
-  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered">("setup");
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -974,6 +991,124 @@ export default function Flashcards() {
   const [includeMastered, setIncludeMastered] = useState(false);
   const [sessionResults, setSessionResults] = useState<{ id: string; correct: boolean }[]>([]);
   const [region, setRegion] = useState<"US" | "CA">("CA");
+
+  const [customCards, setCustomCards] = useState<CustomCard[]>([]);
+  const [customCardsLoading, setCustomCardsLoading] = useState(false);
+  const [newQuestion, setNewQuestion] = useState("");
+  const [newAnswer, setNewAnswer] = useState("");
+  const [newCategory, setNewCategory] = useState("My Cards");
+  const [validating, setValidating] = useState(false);
+  const [validationResult, setValidationResult] = useState<{ accurate: boolean; feedback: string } | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [customSearch, setCustomSearch] = useState("");
+  const [editingCard, setEditingCard] = useState<CustomCard | null>(null);
+  const [myCardsStudyIndex, setMyCardsStudyIndex] = useState(0);
+  const [myCardsFlipped, setMyCardsFlipped] = useState(false);
+  const FREE_LIMIT = 50;
+
+  const isPaid = user && (user as any).tier !== "free" && (user as any).subscriptionStatus === "active";
+
+  const fetchCustomCards = useCallback(async () => {
+    if (!user) return;
+    setCustomCardsLoading(true);
+    try {
+      const res = await fetch(`/api/user-flashcards/${user.id}`);
+      if (res.ok) setCustomCards(await res.json());
+    } catch {} finally {
+      setCustomCardsLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user && (view === "mycards" || view === "mycards-study")) fetchCustomCards();
+  }, [user, view, fetchCustomCards]);
+
+  const handleValidateAndSave = async () => {
+    if (!user || !newQuestion.trim() || !newAnswer.trim()) return;
+    setValidating(true);
+    setValidationResult(null);
+    try {
+      const valRes = await fetch("/api/user-flashcards/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: newQuestion, answer: newAnswer }),
+      });
+      const valData = await valRes.json();
+      setValidationResult(valData);
+
+      if (!valData.accurate) {
+        setValidating(false);
+        return;
+      }
+
+      setSaving(true);
+      const saveRes = await fetch("/api/user-flashcards", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, question: newQuestion, answer: newAnswer, category: newCategory }),
+      });
+
+      if (saveRes.ok) {
+        setNewQuestion("");
+        setNewAnswer("");
+        setNewCategory("My Cards");
+        setValidationResult(null);
+        fetchCustomCards();
+      } else {
+        const err = await saveRes.json();
+        if (err.upgradeRequired) {
+          setValidationResult({ accurate: false, feedback: err.error });
+        } else {
+          setValidationResult({ accurate: false, feedback: err.error || "Failed to save" });
+        }
+      }
+    } catch {
+      setValidationResult({ accurate: false, feedback: "Network error - please try again" });
+    } finally {
+      setValidating(false);
+      setSaving(false);
+    }
+  };
+
+  const handleUpdateCard = async () => {
+    if (!user || !editingCard) return;
+    setValidating(true);
+    setValidationResult(null);
+    try {
+      const valRes = await fetch("/api/user-flashcards/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: editingCard.question, answer: editingCard.answer }),
+      });
+      const valData = await valRes.json();
+      if (!valData.accurate) {
+        setValidationResult(valData);
+        setValidating(false);
+        return;
+      }
+
+      const res = await fetch(`/api/user-flashcards/${editingCard.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, question: editingCard.question, answer: editingCard.answer, category: editingCard.category }),
+      });
+      if (res.ok) {
+        setEditingCard(null);
+        setValidationResult(null);
+        fetchCustomCards();
+      }
+    } catch {} finally {
+      setValidating(false);
+    }
+  };
+
+  const handleDeleteCard = async (cardId: string) => {
+    if (!user || !confirm("Delete this flashcard?")) return;
+    try {
+      const res = await fetch(`/api/user-flashcards/${cardId}?userId=${user.id}`, { method: "DELETE" });
+      if (res.ok) setCustomCards(prev => prev.filter(c => c.id !== cardId));
+    } catch {}
+  };
 
   useEffect(() => {
     setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
@@ -1186,6 +1321,28 @@ export default function Flashcards() {
                 </p>
               </Card>
 
+              <Card 
+                className="border-none shadow-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                onClick={() => { setView("mycards"); fetchCustomCards(); }}
+                data-testid="card-mycards"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
+                    <Plus className="w-6 h-6 text-white/80" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
+                      {user ? "Free for everyone" : "Sign in to start"}
+                    </span>
+                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">My Flashcards</h3>
+                <p className="text-white/70 text-sm leading-relaxed">
+                  Create your own flashcards with AI-powered medical accuracy validation. Build a personalized study deck for your weakest areas.
+                </p>
+              </Card>
+
               <Card className="border-none shadow-md bg-white p-6 rounded-3xl border border-primary/10">
                 <div className="flex items-center gap-3 mb-4">
                   <History className="w-5 h-5 text-primary" />
@@ -1209,6 +1366,341 @@ export default function Flashcards() {
             </div>
           </div>
         </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "mycards") {
+    const filteredCards = customCards.filter(c => {
+      if (!customSearch) return true;
+      const s = customSearch.toLowerCase();
+      return c.question.toLowerCase().includes(s) || c.answer.toLowerCase().includes(s) || c.category.toLowerCase().includes(s);
+    });
+    const customCategories = Array.from(new Set(customCards.map(c => c.category)));
+
+    if (!user) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+          <Navigation />
+          <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+            <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-mycards">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Configuration
+            </Button>
+            <Card className="border-none shadow-xl bg-white p-12 rounded-3xl text-center">
+              <Lock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In to Create Flashcards</h2>
+              <p className="text-gray-500 mb-6">Create a free account to build your own custom study deck with AI-powered medical accuracy validation.</p>
+              <Button className="rounded-xl" onClick={() => setLocation("/signup")} data-testid="button-signup-mycards">Create Free Account</Button>
+            </Card>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
+          <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-mycards">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Configuration
+          </Button>
+
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-mycards-title">My Flashcards</h2>
+              <p className="text-gray-500 text-sm mt-1">
+                {!isPaid ? `${customCards.length} / ${FREE_LIMIT} cards used` : `${customCards.length} cards created`}
+                {!isPaid && customCards.length >= FREE_LIMIT && (
+                  <span className="text-amber-600 ml-2 font-medium">- Upgrade for unlimited cards</span>
+                )}
+              </p>
+            </div>
+            {customCards.length >= 2 && (
+              <Button
+                className="rounded-xl gap-2"
+                onClick={() => { setMyCardsStudyIndex(0); setMyCardsFlipped(false); setView("mycards-study"); }}
+                data-testid="button-study-mycards"
+              >
+                <BookOpen className="w-4 h-4" />
+                Study ({customCards.length})
+              </Button>
+            )}
+          </div>
+
+          <Card className="border-none shadow-xl bg-white p-8 rounded-3xl mb-8" data-testid="card-create-flashcard">
+            <div className="flex items-center gap-2 mb-6">
+              <Sparkles className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold text-gray-900">{editingCard ? "Edit Card" : "Create New Card"}</h3>
+              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium ml-auto">AI Validated</span>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Front (Question / Term)</label>
+                <Input
+                  placeholder="e.g., What are the signs of right-sided heart failure?"
+                  value={editingCard ? editingCard.question : newQuestion}
+                  onChange={(e) => editingCard ? setEditingCard({ ...editingCard, question: e.target.value }) : setNewQuestion(e.target.value)}
+                  className="rounded-xl"
+                  data-testid="input-flashcard-question"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Back (Answer / Definition)</label>
+                <Textarea
+                  placeholder="e.g., Peripheral edema, jugular venous distension (JVD), hepatomegaly, weight gain, ascites"
+                  value={editingCard ? editingCard.answer : newAnswer}
+                  onChange={(e) => editingCard ? setEditingCard({ ...editingCard, answer: e.target.value }) : setNewAnswer(e.target.value)}
+                  className="rounded-xl min-h-[100px]"
+                  data-testid="input-flashcard-answer"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Category</label>
+                <Input
+                  placeholder="e.g., Cardiac, Pharmacology, Maternity"
+                  value={editingCard ? editingCard.category : newCategory}
+                  onChange={(e) => editingCard ? setEditingCard({ ...editingCard, category: e.target.value }) : setNewCategory(e.target.value)}
+                  className="rounded-xl"
+                  data-testid="input-flashcard-category"
+                />
+              </div>
+
+              {validationResult && (
+                <div className={cn(
+                  "p-4 rounded-xl flex items-start gap-3",
+                  validationResult.accurate ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-800"
+                )} data-testid="text-validation-result">
+                  {validationResult.accurate ? <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /> : <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />}
+                  <div>
+                    <p className="font-semibold text-sm">{validationResult.accurate ? "Medically Accurate" : "Needs Revision"}</p>
+                    <p className="text-xs mt-1">{validationResult.feedback}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-2">
+                {editingCard ? (
+                  <>
+                    <Button
+                      className="rounded-xl gap-2 flex-1"
+                      onClick={handleUpdateCard}
+                      disabled={validating || !editingCard.question.trim() || !editingCard.answer.trim()}
+                      data-testid="button-update-flashcard"
+                    >
+                      {validating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
+                      {validating ? "Validating..." : "Validate & Update"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="rounded-xl"
+                      onClick={() => { setEditingCard(null); setValidationResult(null); }}
+                      data-testid="button-cancel-edit"
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    className="rounded-xl gap-2 w-full h-12"
+                    onClick={handleValidateAndSave}
+                    disabled={validating || saving || !newQuestion.trim() || !newAnswer.trim() || (!isPaid && customCards.length >= FREE_LIMIT)}
+                    data-testid="button-create-flashcard"
+                  >
+                    {validating ? <RefreshCw className="w-4 h-4 animate-spin" /> : saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                    {validating ? "AI Validating..." : saving ? "Saving..." : "Validate & Create Card"}
+                  </Button>
+                )}
+              </div>
+
+              {!isPaid && customCards.length >= FREE_LIMIT && (
+                <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-xl" data-testid="text-upgrade-prompt">
+                  <CreditCard className="w-5 h-5 text-amber-600 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-amber-800">Free limit reached ({FREE_LIMIT} cards)</p>
+                    <p className="text-xs text-amber-600 mt-0.5">Upgrade to any plan for unlimited flashcards.</p>
+                  </div>
+                  <Button size="sm" className="rounded-xl ml-auto shrink-0" onClick={() => setLocation("/pricing")} data-testid="button-upgrade-mycards">Upgrade</Button>
+                </div>
+              )}
+            </div>
+          </Card>
+
+          {customCards.length > 0 && (
+            <>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="relative flex-1 max-w-sm">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <Input
+                    placeholder="Search your cards..."
+                    value={customSearch}
+                    onChange={(e) => setCustomSearch(e.target.value)}
+                    className="pl-10 rounded-xl"
+                    data-testid="input-search-mycards"
+                  />
+                </div>
+                {customCategories.length > 1 && (
+                  <div className="flex gap-1 flex-wrap">
+                    {customCategories.map(cat => (
+                      <button
+                        key={cat}
+                        onClick={() => setCustomSearch(customSearch === cat ? "" : cat)}
+                        className={cn(
+                          "px-3 py-1 rounded-full text-xs font-medium transition-colors",
+                          customSearch === cat ? "bg-primary text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        )}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="grid gap-3">
+                {filteredCards.map(card => (
+                  <Card key={card.id} className="border border-gray-100 shadow-sm bg-white rounded-2xl overflow-hidden hover:shadow-md transition-shadow" data-testid={`card-custom-${card.id}`}>
+                    <div className="p-5">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{card.category}</span>
+                          </div>
+                          <h4 className="font-bold text-gray-900 text-sm mb-1" data-testid={`text-question-${card.id}`}>{card.question}</h4>
+                          <p className="text-gray-500 text-xs leading-relaxed line-clamp-2" data-testid={`text-answer-${card.id}`}>{card.answer}</p>
+                        </div>
+                        <div className="flex gap-1 shrink-0">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="w-8 h-8 p-0 text-gray-400 hover:text-primary"
+                            onClick={() => { setEditingCard(card); setValidationResult(null); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                            data-testid={`button-edit-${card.id}`}
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="w-8 h-8 p-0 text-gray-400 hover:text-red-500"
+                            onClick={() => handleDeleteCard(card.id)}
+                            data-testid={`button-delete-${card.id}`}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              {filteredCards.length === 0 && customSearch && (
+                <p className="text-center text-gray-400 text-sm py-8">No cards match "{customSearch}"</p>
+              )}
+            </>
+          )}
+
+          {customCards.length === 0 && !customCardsLoading && (
+            <div className="text-center py-12">
+              <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No cards yet</h3>
+              <p className="text-gray-500 text-sm">Create your first flashcard above. Our AI will validate the medical accuracy before saving.</p>
+            </div>
+          )}
+
+          {customCardsLoading && (
+            <div className="flex items-center justify-center py-12">
+              <RefreshCw className="w-6 h-6 text-primary animate-spin" />
+            </div>
+          )}
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "mycards-study") {
+    if (customCards.length === 0) {
+      setView("mycards");
+      return null;
+    }
+    const studyCard = customCards[myCardsStudyIndex];
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-3xl mx-auto px-4 py-12 w-full flex-1">
+          <div className="flex items-center justify-between mb-8">
+            <Button variant="ghost" className="gap-2" onClick={() => setView("mycards")} data-testid="button-exit-study-mycards">
+              <ArrowLeft className="w-4 h-4" />
+              Back to My Cards
+            </Button>
+            <span className="text-sm text-gray-500 font-medium" data-testid="text-study-progress">{myCardsStudyIndex + 1} / {customCards.length}</span>
+          </div>
+
+          <div className="flex items-center justify-center mb-6">
+            <div className="w-full bg-gray-100 rounded-full h-1.5">
+              <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${((myCardsStudyIndex + 1) / customCards.length) * 100}%` }} />
+            </div>
+          </div>
+
+          <div 
+            className="w-full h-[450px] relative cursor-pointer group perspective-1000"
+            onClick={() => setMyCardsFlipped(!myCardsFlipped)}
+            data-testid="card-study-flip"
+          >
+            <div className={cn(
+              "w-full h-full transition-all duration-700 [transform-style:preserve-3d]",
+              myCardsFlipped ? "[transform:rotateY(180deg)]" : ""
+            )}>
+              <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-8 sm:p-12 text-center overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-2 bg-emerald-400/40" />
+                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-8">{studyCard?.category}</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight" data-testid="text-study-question">{studyCard?.question}</h2>
+                <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">
+                  <RefreshCw className="w-4 h-4" />
+                  Tap to reveal
+                </div>
+              </Card>
+
+              <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-8 sm:p-12 text-center">
+                <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">Answer</h3>
+                <p className="text-xl sm:text-2xl font-medium leading-relaxed max-w-lg" data-testid="text-study-answer">{studyCard?.answer}</p>
+              </Card>
+            </div>
+          </div>
+
+          <div className="flex justify-between mt-8">
+            <Button
+              variant="outline"
+              className="rounded-xl gap-2"
+              disabled={myCardsStudyIndex === 0}
+              onClick={() => { setMyCardsStudyIndex(prev => prev - 1); setMyCardsFlipped(false); }}
+              data-testid="button-study-prev"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Previous
+            </Button>
+            <Button
+              className="rounded-xl gap-2"
+              disabled={myCardsStudyIndex === customCards.length - 1}
+              onClick={() => { setMyCardsStudyIndex(prev => prev + 1); setMyCardsFlipped(false); }}
+              data-testid="button-study-next"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </main>
+
+        <style dangerouslySetInnerHTML={{ __html: `
+          .backface-hidden { backface-visibility: hidden; }
+          .perspective-1000 { perspective: 1000px; }
+        `}} />
         <Footer />
       </div>
     );

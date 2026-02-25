@@ -1,0 +1,137 @@
+You are a senior full-stack engineer and product architect. You are working inside my existing NurseNest codebase. Your job is to FIX and UPGRADE the admin page into a complete internal CMS so I can create/edit: flashcards, exam questions, lessons, and blog posts. Do not generate placeholder code that ignores my repo. You must first inspect my project structure and reuse existing UI components, styles, tokens, and page layout so the admin experience matches the rest of the site aesthetic exactly.
+
+NON-NEGOTIABLES
+1) Preserve my current site aesthetic EXACTLY:
+   - Reuse existing components, fonts, Tailwind tokens, spacing, rounded corners, shadows, color palette.
+   - Admin pages must look identical to existing public pages (same nav, typography scale, button styles).
+   - Do not introduce new design systems unless already present.
+2) Must support inline editing + drag-and-drop images for lessons using the SAME editor behavior and styling as my public lesson pages.
+3) Must support CRUD + scheduling + drafts + approval workflow for AI-assisted blog posts.
+4) All AI-assisted blog posts must be scholarly, comprehensive, and include APA 7 in-text citations and a reference list, with sources from the last 5 years.
+5) Add authentication + authorization: only admins can access admin routes and APIs.
+6) Add robust validation, error handling, and audit logging (who changed what and when).
+
+PHASE 0 — DISCOVERY (DO THIS FIRST)
+- Print a brief map of the current repo:
+  - Framework (Next.js / React / etc), router type, UI library, styling approach.
+  - Existing admin routes or components.
+  - Data layer: database provider (Postgres/SQLite/Prisma/Supabase/Firebase/etc), schemas/models, where content is stored.
+  - Existing auth approach (Clerk/Auth0/NextAuth/custom), user roles, middleware.
+- Identify why the current admin page is “broken” or insufficient.
+- Propose a minimal migration plan that does NOT break public pages.
+
+PHASE 1 — DATA MODELS + MIGRATIONS
+Implement or update schemas for:
+A) Lessons
+- id, title, slug, tier (RPN/RN/NP), system/category, tags
+- hero/cover image
+- content blocks (rich text + images + callouts + tables)
+- status (draft/published/scheduled)
+- publishAt, updatedAt, createdAt, authorId
+- SEO fields: metaTitle, metaDescription, canonical, ogImage
+B) Flashcards
+- id, deckId, question/front, answer/back, rationales, tags, difficulty, references (optional)
+- status (draft/published)
+C) Exam Questions
+- id, stem, options, correctAnswer(s), rationale, difficulty, topic, tags, references
+- question type: MCQ/SATA/Case/Ordering/Fill-in
+- status (draft/published)
+D) Blog Posts
+- id, title, slug, topic, outline, body, summary
+- status: draft / pending_review / approved / scheduled / published
+- publishAt, createdAt, updatedAt, authorId, reviewerId
+- citations array + reference list (APA 7)
+- SEO fields
+
+Add an AuditLog table:
+- id, actorId, entityType, entityId, action, beforeJson, afterJson, timestamp, ip/userAgent if available.
+
+Use the existing ORM/migrations pattern in the repo (Prisma migrations if Prisma exists; otherwise follow current patterns).
+Do not invent a new DB if one already exists.
+
+PHASE 2 — ADMIN ROUTES + AUTHZ
+Create an /admin area with:
+- Admin dashboard overview cards: Lessons, Flashcards, Exam Qs, Blog Posts
+- Role-based access:
+  - Middleware that blocks non-admin users from /admin and all admin APIs
+  - If no admin role exists, add it (role column or roles table) and a secure way to promote initial admin
+- Server-side checks for every mutation (not only client-side).
+
+PHASE 3 — LESSON BUILDER (INLINE EDITING + DRAG/DROP IMAGES)
+Implement a Lesson Builder that matches public lesson page styling, with:
+- Inline editable title, description, tags, tier, category.
+- Content editor that supports:
+  - headings, paragraphs, bold/italic, lists
+  - callout blocks (clinical pearls)
+  - tables (for lab values etc)
+  - image blocks with drag-and-drop upload, resizing, alt text, caption
+  - reordering blocks via drag-and-drop
+- The preview mode must render EXACTLY like the public lesson page.
+- Save as draft, publish now, schedule publish.
+- Versioning: keep at least last 10 revisions OR implement a simple revisions table.
+- Accessibility: alt text required for images.
+
+If the repo already uses an editor (TipTap/Slate/Quill/MDX), reuse it and extend it rather than replacing.
+
+PHASE 4 — FLASHCARDS + EXAM QUESTIONS CMS
+Build admin CRUD for:
+- Deck management (create/edit decks, tags, tier)
+- Flashcard creation:
+  - bulk import via CSV
+  - inline create/edit single card
+- Exam questions:
+  - question builder with answer validation
+  - tagging, difficulty, topic mapping
+  - bulk import optional
+
+PHASE 5 — BLOG CMS + AI WORKFLOW + APA 7 REQUIREMENTS
+Implement blog post pipeline:
+- Create blog draft by choosing:
+  - topic, target audience (RPN/RN/NP), word count range, posting date/time, number per day
+- AI writer integration:
+  - Provide an “AI Generate Draft” button that sends structured instructions to a server endpoint.
+  - The AI output MUST include:
+    - scholarly tone, comprehensive structure with headings
+    - APA 7 in-text citations
+    - references section at end (APA 7 format)
+    - sources MUST be within the last 5 years
+  - Add constraints:
+    - No made-up citations. If sources cannot be verified, flag the draft as “needs_sources”.
+- Editorial workflow:
+  - statuses: draft -> pending_review -> approved -> scheduled/published
+  - reviewer can edit, comment, approve
+  - scheduling system:
+    - cron or server scheduler consistent with hosting environment (Replit)
+    - publishes scheduled posts automatically
+  - drafts and revisions preserved
+
+IMPORTANT: If the codebase cannot truly verify citations automatically, implement a “Citation Verification” step:
+- For each reference, store DOI/URL if available
+- Provide admin UI to mark each citation as verified
+- Block “approved” unless citations are verified OR explicitly overridden by admin (with audit log).
+
+PHASE 6 — MEDIA UPLOADS
+- Implement image uploads for lessons/blog:
+  - validate file type/size
+  - store in existing storage solution (S3/Supabase storage/Cloudinary/local) used in repo
+  - generate responsive sizes if possible
+  - always save alt text
+- Ensure drag-and-drop works in editor.
+
+PHASE 7 — QA + HARDENING
+- Add form validation (zod or existing validator)
+- Add error boundaries and toasts
+- Add loading states
+- Add unit tests or basic integration tests (at least for authz and publish scheduling)
+- Confirm public pages still build and render
+
+DELIVERABLES
+1) A concise summary of what you changed and why.
+2) A list of files added/modified.
+3) Clear run instructions (dev + prod), including migrations.
+4) Screenshots are optional, but provide route list and test checklist.
+
+START NOW:
+- First, inspect the repository and report Phase 0 discovery.
+- Then implement Phase 1 onward in small, verifiable commits/steps.
+- Do NOT ask me to design this for you; make reasonable assumptions, document them, and proceed.

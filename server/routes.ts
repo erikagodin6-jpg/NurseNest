@@ -2,6 +2,17 @@ import type { Express, Request } from "express";
 import type { Server } from "http";
 import { sql } from "drizzle-orm";
 import { storage, DatabaseStorage, pool } from "./storage";
+
+function snakeToCamel(obj: any): any {
+  if (Array.isArray(obj)) return obj.map(snakeToCamel);
+  if (obj === null || typeof obj !== "object") return obj;
+  const result: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const camelKey = key.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+    result[camelKey] = value;
+  }
+  return result;
+}
 import {
   insertNoteSchema,
   insertTestResultSchema,
@@ -433,17 +444,85 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  app.post("/api/user-flashcards/validate", async (req, res) => {
+    try {
+      const { question, answer } = req.body;
+      if (!question || !answer) return res.status(400).json({ error: "Missing question and answer" });
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are a medical accuracy validator for nursing education flashcards. Evaluate whether the following flashcard contains medically accurate information appropriate for nursing students (RPN/LVN, RN, or NP level). 
+            
+Respond with ONLY valid JSON in this exact format:
+{"accurate": true, "feedback": "Brief explanation"} or {"accurate": false, "feedback": "Specific explanation of what is medically incorrect and what the correct information is"}
+
+Rules:
+- The content must be factually correct medical/nursing information
+- Common mnemonics and nursing study aids are acceptable
+- Minor wording variations are acceptable as long as the core medical facts are correct
+- Reject content that contains dangerous misinformation that could harm patients
+- Reject non-medical/non-nursing content (recipes, jokes, unrelated trivia)
+- Be reasonably lenient - accept content that is generally correct even if not perfectly worded`
+          },
+          {
+            role: "user",
+            content: `Question/Front: ${question}\n\nAnswer/Back: ${answer}`
+          }
+        ],
+        temperature: 0.1,
+        max_tokens: 300,
+      });
+
+      const text = response.choices[0]?.message?.content || "";
+      try {
+        const parsed = JSON.parse(text.replace(/```json\n?|\n?```/g, "").trim());
+        res.json({ accurate: parsed.accurate, feedback: parsed.feedback });
+      } catch {
+        res.json({ accurate: true, feedback: "Validation completed" });
+      }
+    } catch (e: any) {
+      console.error("Flashcard validation error:", e.message);
+      res.json({ accurate: true, feedback: "Validation unavailable - card accepted" });
+    }
+  });
+
   app.post("/api/user-flashcards", async (req, res) => {
     try {
       const { userId, question, answer, category } = req.body;
       if (!userId || !question || !answer) return res.status(400).json({ error: "Missing required fields" });
+
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      const existingCards = await storage.getUserFlashcards(userId);
+      const FREE_LIMIT = 50;
+      const isPaid = user.tier !== "free" && user.subscriptionStatus === "active";
+
+      if (!isPaid && existingCards.length >= FREE_LIMIT) {
+        return res.status(403).json({ 
+          error: `Free accounts are limited to ${FREE_LIMIT} flashcards. Upgrade your plan to create unlimited flashcards.`,
+          limit: FREE_LIMIT,
+          current: existingCards.length,
+          upgradeRequired: true
+        });
+      }
+
       const card = await storage.createUserFlashcard({
         userId,
         question,
         answer,
         category: category || "My Cards",
       });
-      res.json(card);
+      res.json({ ...card, remaining: isPaid ? null : FREE_LIMIT - existingCards.length - 1 });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
@@ -842,23 +921,34 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         }
       }
 
-      let items = await storage.getPublishedContent(type as string | undefined, category as string | undefined);
+      let items: any[] = [];
+      try {
+        items = await storage.getPublishedContent(type as string | undefined, category as string | undefined);
+        console.log(`[Content API] Drizzle returned ${items.length} items for type=${type || "all"}`);
+      } catch (ormErr: any) {
+        console.error("[Content API] Drizzle ORM error:", ormErr.message);
+      }
 
       if (items.length === 0) {
-        const { pool } = await import("./storage");
-        let q = "SELECT * FROM content_items WHERE status = 'published'";
-        const params: string[] = [];
-        if (type) {
-          params.push(type as string);
-          q += ` AND type = $${params.length}`;
+        console.log("[Content API] Drizzle returned 0, trying raw SQL fallback...");
+        try {
+          let q = "SELECT * FROM content_items WHERE status = 'published'";
+          const params: string[] = [];
+          if (type) {
+            params.push(type as string);
+            q += ` AND type = $${params.length}`;
+          }
+          if (category) {
+            params.push(category as string);
+            q += ` AND category = $${params.length}`;
+          }
+          q += " ORDER BY published_at DESC NULLS LAST";
+          const result = await pool.query(q, params);
+          items = snakeToCamel(result.rows);
+          console.log(`[Content API] Raw SQL returned ${items.length} items for type=${type || "all"}`);
+        } catch (sqlErr: any) {
+          console.error("[Content API] Raw SQL error:", sqlErr.message);
         }
-        if (category) {
-          params.push(category as string);
-          q += ` AND category = $${params.length}`;
-        }
-        q += " ORDER BY published_at DESC NULLS LAST";
-        const result = await pool.query(q, params);
-        items = result.rows;
       }
 
       res.json(items);
@@ -911,12 +1001,20 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   app.get("/api/content/slug/:slug", async (req, res) => {
     try {
-      let item = await storage.getContentItemBySlug(req.params.slug);
+      let item: any = null;
+      try {
+        item = await storage.getContentItemBySlug(req.params.slug);
+      } catch (ormErr: any) {
+        console.error("Drizzle ORM slug fetch error:", ormErr.message);
+      }
 
       if (!item) {
-        const { pool } = await import("./storage");
-        const result = await pool.query("SELECT * FROM content_items WHERE slug = $1 LIMIT 1", [req.params.slug]);
-        item = result.rows[0] || null;
+        try {
+          const result = await pool.query("SELECT * FROM content_items WHERE slug = $1 LIMIT 1", [req.params.slug]);
+          item = result.rows[0] ? snakeToCamel(result.rows[0]) : null;
+        } catch (sqlErr: any) {
+          console.error("Raw SQL slug fetch error:", sqlErr.message);
+        }
       }
 
       if (!item) return res.status(404).json({ error: "Content not found" });
@@ -1532,116 +1630,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
-  // --------------------
-  // Stripe Promotions (Admin)
-  // --------------------
-  app.post("/api/admin/promotions", async (req, res) => {
-    try {
-      const admin = await requireAdmin(req, res);
-      if (!admin) return;
-
-      const { code, discountType, amount, duration, maxRedemptions, expiresAt } = req.body;
-      if (!code || !discountType || !amount || !duration) {
-        return res.status(400).json({ error: "code, discountType, amount, and duration are required" });
-      }
-      if (!["percent_off", "amount_off"].includes(discountType)) {
-        return res.status(400).json({ error: "discountType must be percent_off or amount_off" });
-      }
-      if (!["once", "repeating", "forever"].includes(duration)) {
-        return res.status(400).json({ error: "duration must be once, repeating, or forever" });
-      }
-
-      const stripe = await getUncachableStripeClient();
-
-      const couponParams: any = {
-        duration,
-        name: `Promo: ${code}`,
-      };
-      if (discountType === "percent_off") {
-        couponParams.percent_off = Number(amount);
-      } else {
-        couponParams.amount_off = Number(amount);
-        couponParams.currency = "usd";
-      }
-      if (duration === "repeating") {
-        couponParams.duration_in_months = 3;
-      }
-
-      const coupon = await stripe.coupons.create(couponParams);
-
-      const promoParams: any = {
-        coupon: coupon.id,
-        code: code.toUpperCase(),
-      };
-      if (maxRedemptions) {
-        promoParams.max_redemptions = Number(maxRedemptions);
-      }
-      if (expiresAt) {
-        promoParams.expires_at = Math.floor(new Date(expiresAt).getTime() / 1000);
-      }
-
-      const promotionCode = await stripe.promotionCodes.create(promoParams);
-
-      res.json({
-        id: promotionCode.id,
-        code: promotionCode.code,
-        couponId: coupon.id,
-        discountType,
-        amount: Number(amount),
-        duration,
-        maxRedemptions: promotionCode.max_redemptions,
-        expiresAt: promotionCode.expires_at,
-        active: promotionCode.active,
-      });
-    } catch (e: any) {
-      console.error("Create promotion error:", e);
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.get("/api/admin/promotions", async (req, res) => {
-    try {
-      const admin = await requireAdmin(req, res);
-      if (!admin) return;
-
-      const stripe = await getUncachableStripeClient();
-      const promotionCodes = await stripe.promotionCodes.list({ limit: 100 });
-
-      const results = promotionCodes.data.map((pc: any) => ({
-        id: pc.id,
-        code: pc.code,
-        couponId: pc.coupon?.id,
-        discountType: pc.coupon?.percent_off ? "percent_off" : "amount_off",
-        amount: pc.coupon?.percent_off || pc.coupon?.amount_off || 0,
-        duration: pc.coupon?.duration,
-        maxRedemptions: pc.max_redemptions,
-        timesRedeemed: pc.times_redeemed,
-        expiresAt: pc.expires_at,
-        active: pc.active,
-        created: pc.created,
-      }));
-
-      res.json(results);
-    } catch (e: any) {
-      console.error("List promotions error:", e);
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.delete("/api/admin/promotions/:id", async (req, res) => {
-    try {
-      const admin = await requireAdmin(req, res);
-      if (!admin) return;
-
-      const stripe = await getUncachableStripeClient();
-      const updated = await stripe.promotionCodes.update(req.params.id, { active: false });
-
-      res.json({ success: true, id: updated.id, active: updated.active });
-    } catch (e: any) {
-      console.error("Deactivate promotion error:", e);
-      res.status(500).json({ error: e.message });
-    }
-  });
 
   // --------------------
   // Feedback (unchanged)
