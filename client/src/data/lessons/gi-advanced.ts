@@ -1921,5 +1921,830 @@ export const giAdvancedLessons: Record<string, LessonContent> = {
       correct: 1,
       rationale: "Abrupt discontinuation of HBV nucleos(t)ide analogues can trigger a severe hepatitis B flare due to immune reconstitution and rapid viral rebound. The immune system, no longer suppressed by viral suppression, mounts an aggressive response against the rebounding virus, causing massive hepatocyte necrosis. This can lead to acute liver failure and death. The nurse should urgently contact the provider and educate the patient to never stop these medications without medical supervision."
     }]
+  },
+
+  "biliary-atresia-rpn": {
+    title: "Biliary Atresia (RPN Basics)",
+    cellular: {
+      title: "Biliary Atresia - Recognizing Obstructive Jaundice in Newborns",
+      content:
+        "Biliary atresia is a condition in which the bile ducts outside the liver become blocked or destroyed, preventing bile from draining into the intestine. Bile is a fluid produced by the liver that helps digest fats and carries waste products for excretion. When bile cannot drain, it backs up into the liver, causing progressive damage. This condition occurs in approximately 1 in 10,000–15,000 live births and is the most common reason for liver transplantation in children.\n\nThe hallmark presentation is persistent jaundice beyond 2 weeks of life. Unlike physiological jaundice of the newborn (which resolves within the first 1–2 weeks), biliary atresia jaundice worsens over time. The backed-up bile causes conjugated (direct) hyperbilirubinemia, which is always abnormal in a newborn. The infant develops pale, clay-colored (acholic) stools because bile pigments cannot reach the intestine, and dark amber urine because excess conjugated bilirubin is excreted by the kidneys. The liver becomes enlarged and firm on palpation as bile accumulates and causes inflammation and early fibrosis. Without surgical intervention, progressive liver fibrosis leads to cirrhosis and liver failure within the first year of life."
+    },
+    riskFactors: [
+      "Newborn with jaundice persisting beyond 2 weeks of life",
+      "Female sex (slightly higher incidence)",
+      "Premature birth or low birth weight",
+      "Associated congenital anomalies (polysplenia, situs inversus, cardiac defects)"
+    ],
+    diagnostics: [
+      "Serum bilirubin: elevated direct (conjugated) bilirubin is always abnormal in a newborn",
+      "Liver function tests: elevated GGT and ALP",
+      "Abdominal ultrasound: absent or abnormal gallbladder, triangular cord sign at porta hepatis",
+      "HIDA scan: no excretion of radiotracer into the intestine confirms biliary obstruction",
+      "Liver biopsy and intraoperative cholangiogram for definitive diagnosis"
+    ],
+    management: [
+      "Kasai portoenterostomy (surgical connection of a loop of intestine directly to the liver surface to allow bile drainage) performed ideally before 60 days of life",
+      "Fat-soluble vitamin supplementation (A, D, E, K) because bile is needed for fat absorption",
+      "Medium-chain triglyceride (MCT) formula for improved fat absorption",
+      "Monitor for cholangitis (infection of the bile drainage system) post-Kasai",
+      "Liver transplant evaluation if Kasai procedure fails or cirrhosis progresses"
+    ],
+    nursingActions: [
+      "Monitor stool color: report persistent pale or clay-colored stools to the RN/provider",
+      "Monitor skin and sclera for worsening jaundice",
+      "Weigh infant daily and record intake and output accurately",
+      "Administer fat-soluble vitamins and MCT formula as ordered",
+      "Report signs of cholangitis: fever, worsening jaundice, irritability",
+      "Educate parents on stool color monitoring using a stool color card"
+    ],
+    signs: {
+      left: [
+        "Persistent jaundice beyond 2 weeks of life (worsening, not resolving)",
+        "Clay-colored (acholic) stools",
+        "Dark amber or tea-colored urine",
+        "Hepatomegaly (enlarged, firm liver on palpation)"
+      ],
+      right: [
+        "Poor weight gain and failure to thrive",
+        "Abdominal distension",
+        "Easy bruising (vitamin K malabsorption → coagulopathy)",
+        "Irritability and poor feeding"
+      ]
+    },
+    medications: [
+      {
+        name: "Ursodiol (Actigall)",
+        type: "Bile acid (choleretic agent)",
+        action: "Promotes bile flow and protects hepatocytes from toxic bile acid accumulation",
+        sideEffects: "Diarrhea, nausea",
+        contra: "Complete biliary obstruction (no bile flow possible)",
+        pearl: "Used post-Kasai to promote bile drainage; monitor stool color to assess effectiveness"
+      },
+      {
+        name: "Phytonadione (Vitamin K)",
+        type: "Fat-soluble vitamin supplement",
+        action: "Essential cofactor for synthesis of clotting factors II, VII, IX, X; malabsorbed when bile flow is absent",
+        sideEffects: "Injection site reaction, rare anaphylaxis with IV administration",
+        contra: "Known hypersensitivity",
+        pearl: "Give IM or IV as bile absence prevents oral absorption; monitor for bruising and bleeding as signs of deficiency"
+      }
+    ],
+    pearls: [
+      "Any jaundice persisting beyond 2 weeks of life requires a fractionated bilirubin to rule out biliary atresia",
+      "Clay-colored stools + dark urine + persistent jaundice = suspect biliary atresia until proven otherwise",
+      "The Kasai procedure is most successful when performed before 60 days of life; early recognition is critical",
+      "Biliary atresia is the #1 indication for pediatric liver transplantation"
+    ],
+    quiz: [
+      {
+        question: "A 3-week-old infant has persistent jaundice, clay-colored stools, and dark urine. Which action should the practical nurse take first?",
+        options: [
+          "Document findings and continue routine care",
+          "Report findings to the RN/provider immediately",
+          "Place the infant under phototherapy lights",
+          "Increase oral feeding frequency"
+        ],
+        correct: 1,
+        rationale: "Persistent jaundice beyond 2 weeks with clay-colored stools and dark urine suggests biliary atresia, which requires urgent evaluation. The practical nurse should report these findings immediately so that diagnostic workup (fractionated bilirubin, ultrasound) can be initiated. Phototherapy treats unconjugated hyperbilirubinemia and would not address obstructive jaundice."
+      }
+    ]
+  },
+
+  "biliary-atresia": {
+    title: "Biliary Atresia",
+    cellular: {
+      title: "Biliary Atresia - Progressive Obliterative Cholangiopathy & Kasai Procedure",
+      content:
+        "Biliary atresia is a progressive obliterative cholangiopathy of infancy in which the extrahepatic bile ducts undergo inflammatory destruction and fibrous obliteration, preventing bile drainage from the liver to the duodenum. The etiology remains incompletely understood but involves a complex interplay of viral triggers, immune-mediated bile duct injury, and defective morphogenesis. The perinatal or acquired form (approximately 85% of cases) is thought to be initiated by a viral insult (reovirus, rotavirus, or cytomegalovirus) that triggers an aberrant immune response targeting bile duct epithelial cells (cholangiocytes).\n\nAt the cellular level, the inflammatory infiltrate surrounding the bile ducts is predominantly composed of CD4+ and CD8+ T lymphocytes, natural killer cells, and macrophages. These immune cells release pro-inflammatory cytokines including TNF-α, IFN-γ, and IL-2, which directly damage cholangiocyte apical membranes and tight junctions. Activated macrophages produce matrix metalloproteinases (MMPs) that degrade the periductal extracellular matrix, while transforming growth factor-β (TGF-β) signaling activates periductal myofibroblasts that deposit excessive collagen, leading to concentric fibrosis and luminal obliteration. The progressive cholestasis activates hepatic stellate cells through bile acid toxicity, accelerating bridging fibrosis and biliary cirrhosis.\n\nThe embryonic or fetal form (approximately 15% of cases) involves defective bile duct morphogenesis during the fourth to sixth week of gestation, often associated with laterality defects (biliary atresia splenic malformation syndrome). These infants may present with polysplenia, situs inversus, preduodenal portal vein, interrupted inferior vena cava, and cardiac anomalies. This form suggests a developmental defect in the Notch signaling pathway or abnormal Hedgehog signaling that disrupts ductal plate remodeling.\n\nThe Kasai portoenterostomy involves excision of the obliterated extrahepatic bile ducts and creation of a Roux-en-Y jejunal conduit anastomosed to the porta hepatis (the transected surface of the liver hilum where microscopic bile ductules may still be patent). Success depends critically on age at surgery: when performed before 60 days of life, approximately 60-70% of infants achieve bile drainage. After 90 days, success rates drop below 20% due to advanced intrahepatic fibrosis. Even with successful bile drainage, approximately 70-80% of children eventually require liver transplantation due to progressive intrahepatic disease."
+    },
+    riskFactors: [
+      "Newborn with persistent conjugated hyperbilirubinemia beyond 2 weeks of life",
+      "Female sex (slightly higher incidence in perinatal form)",
+      "Possible viral triggers: reovirus, rotavirus, CMV exposure in perinatal period",
+      "Associated congenital anomalies (polysplenia, situs inversus, cardiac defects) in embryonic form",
+      "No clear genetic inheritance pattern in most cases"
+    ],
+    diagnostics: [
+      "Fractionated bilirubin: elevated direct (conjugated) bilirubin (> 1 mg/dL or > 20% of total) is always pathological",
+      "Liver function tests: markedly elevated GGT (most sensitive), elevated ALP, variably elevated transaminases",
+      "Abdominal ultrasound: absent or atretic gallbladder, triangular cord sign (echogenic triangular density at porta hepatis), absent common bile duct",
+      "Hepatobiliary scintigraphy (HIDA scan): good hepatocyte uptake but NO excretion into the intestine within 24 hours",
+      "Percutaneous liver biopsy: bile duct proliferation, bile plugs in portal triads, portal fibrosis, inflammatory infiltrate",
+      "Intraoperative cholangiogram: definitive diagnosis showing non-patent extrahepatic biliary system"
+    ],
+    management: [
+      "Kasai portoenterostomy within 30-60 days of life for optimal outcomes",
+      "Perioperative IV antibiotics to prevent cholangitis",
+      "Postoperative ursodiol (ursodeoxycholic acid) to promote bile flow and protect hepatocytes",
+      "Prophylactic antibiotics (trimethoprim-sulfamethoxazole) for cholangitis prevention in first year post-Kasai",
+      "Aggressive nutritional support: MCT-based formula, caloric supplementation (120-150% of normal requirements)",
+      "Fat-soluble vitamin supplementation (vitamins A, D, E, K) with monitoring of serum levels",
+      "Liver transplant evaluation for failed Kasai (no bile drainage by 3 months post-surgery) or progressive liver failure"
+    ],
+    nursingActions: [
+      "Monitor stool color systematically using a validated stool color card; report any pale or acholic stools",
+      "Monitor and report signs of ascending cholangitis: fever, worsening jaundice, acholic stools, irritability",
+      "Maintain strict intake and output; monitor daily weights and growth parameters",
+      "Administer fat-soluble vitamins and assess for deficiency signs: bleeding (K), rickets (D), neurological changes (E), night blindness (A)",
+      "Monitor for signs of portal hypertension: splenomegaly, ascites, variceal bleeding",
+      "Educate parents on long-term monitoring needs, stool color assessment, and signs requiring emergency care",
+      "Provide psychosocial support to family regarding potential need for liver transplantation"
+    ],
+    signs: {
+      left: [
+        "Persistent jaundice worsening beyond 2 weeks of life",
+        "Acholic (clay-colored, pale) stools",
+        "Dark amber urine (conjugated bilirubinuria)",
+        "Hepatomegaly with firm liver edge on palpation"
+      ],
+      right: [
+        "Failure to thrive and poor weight gain despite adequate intake",
+        "Splenomegaly (developing portal hypertension)",
+        "Ascites (progressive liver fibrosis)",
+        "Easy bruising and prolonged bleeding (vitamin K malabsorption)",
+        "Pruritus (bile salt deposition in skin)"
+      ]
+    },
+    medications: [
+      {
+        name: "Ursodiol (Ursodeoxycholic Acid)",
+        type: "Hydrophilic bile acid / Choleretic",
+        action: "Replaces toxic hydrophobic bile acids at the hepatocyte membrane, stabilizes cholangiocyte membranes, promotes bicarbonate-rich bile secretion (choleresis), and has anti-apoptotic effects on hepatocytes via inhibition of mitochondrial membrane permeability transition",
+        sideEffects: "Diarrhea, nausea, elevated transaminases (transient)",
+        contra: "Complete biliary obstruction with no bile flow",
+        pearl: "Start post-Kasai to maximize bile drainage; effective bile flow is confirmed by pigmented (yellow-green) stools"
+      },
+      {
+        name: "Trimethoprim-Sulfamethoxazole (TMP-SMX)",
+        type: "Antibiotic (folate antagonist combination)",
+        action: "Prophylactic suppression of enteric bacteria that can ascend through the Roux-en-Y conduit and cause cholangitis",
+        sideEffects: "Rash, bone marrow suppression, Stevens-Johnson syndrome (rare), hepatotoxicity",
+        contra: "Sulfa allergy, severe hepatic or renal impairment, G6PD deficiency",
+        pearl: "Cholangitis is the most common post-Kasai complication; prophylaxis significantly reduces episodes in the first year"
+      }
+    ],
+    pearls: [
+      "Conjugated (direct) bilirubin > 1 mg/dL in a newborn is NEVER normal and demands immediate investigation",
+      "The 'golden window' for Kasai surgery is before 60 days of life; every day of delay worsens outcomes",
+      "GGT is the most sensitive liver enzyme for biliary atresia and is markedly elevated compared to other neonatal cholestatic conditions",
+      "Even successful Kasai is not curative; 70-80% of patients eventually need liver transplantation",
+      "Cholangitis post-Kasai presents as fever + worsening jaundice + acholic stools; requires immediate IV antibiotics"
+    ],
+    quiz: [
+      {
+        question: "A 4-week-old infant presents with worsening jaundice, clay-colored stools, and dark urine. Laboratory results show a total bilirubin of 9.2 mg/dL with a direct bilirubin of 6.8 mg/dL. Which diagnostic finding on hepatobiliary scintigraphy (HIDA scan) would confirm biliary atresia?",
+        options: [
+          "Rapid uptake and excretion of radiotracer into the intestine",
+          "Good hepatocyte uptake but no excretion into the intestine at 24 hours",
+          "Poor hepatocyte uptake with delayed excretion into the intestine",
+          "Normal uptake and excretion with gallbladder visualization"
+        ],
+        correct: 1,
+        rationale: "In biliary atresia, hepatocytes can take up the radiotracer normally, but the obliterated extrahepatic bile ducts prevent any excretion into the intestine. Non-visualization of the intestine at 24 hours despite good hepatocyte uptake is characteristic of biliary atresia and differentiates it from neonatal hepatitis, where some excretion may occur."
+      }
+    ]
+  },
+
+  "biliary-atresia-np": {
+    title: "Biliary Atresia (Advanced NP)",
+    cellular: {
+      title: "Biliary Atresia - Molecular Pathogenesis, Immune-Mediated Cholangiopathy & Transplant Considerations",
+      content:
+        "Biliary atresia represents a phenotypic endpoint of progressive obliterative cholangiopathy driven by the convergence of viral triggers, dysregulated innate and adaptive immunity, and aberrant developmental signaling. Current molecular evidence supports a two-hit model: an initial viral insult (reovirus type 3, rotavirus group C, or CMV) infects cholangiocytes via apical membrane receptors, triggering innate immune activation through pattern recognition receptors (Toll-like receptors TLR3 and TLR7 recognizing viral dsRNA and ssRNA respectively). This initial inflammatory response activates resident hepatic macrophages (Kupffer cells) and recruits circulating monocytes, NK cells, and dendritic cells to the periductal region.\n\nThe second hit involves a maladaptive adaptive immune response. Molecular mimicry between viral epitopes and cholangiocyte surface antigens (particularly enolase-α and annexin A2) drives autoreactive CD4+ Th1 cell activation. These Th1 cells produce IFN-γ and TNF-α that upregulate MHC class II expression on cholangiocytes, rendering them targets for CD8+ cytotoxic T lymphocyte-mediated killing via perforin-granzyme pathways and Fas-FasL-mediated apoptosis. Simultaneously, IL-17-producing Th17 cells amplify neutrophil recruitment and periductal inflammation. Regulatory T cell (Treg) dysfunction, characterized by decreased FOXP3 expression, fails to suppress this autoimmune cascade.\n\nAt the molecular level, TGF-β1 signaling through Smad2/3 phosphorylation activates hepatic stellate cells and portal fibroblasts, driving excessive deposition of collagen types I, III, and IV in the portal tracts. Hedgehog pathway activation (through Sonic Hedgehog ligand binding to Patched receptors on stellate cells) promotes epithelial-to-mesenchymal transition (EMT) of reactive cholangiocytes, further contributing to fibrogenesis. The Notch signaling pathway, essential for normal biliary morphogenesis during the ductal plate remodeling phase (weeks 12-20 of gestation), is disrupted in the embryonic form of biliary atresia, leading to defective intrahepatic bile duct formation resembling Alagille syndrome.\n\nThe Kasai portoenterostomy exploits the fact that microscopic bile ductules at the porta hepatis (within the fibrous tissue remnant) may still be patent and connected to intrahepatic bile ducts. Resection of the fibrous remnant and anastomosis of a Roux-en-Y jejunal loop to the exposed transected surface allows bile to drain directly from these microscopic channels. Post-Kasai, the native liver bile drainage capacity is assessed by monitoring serum bilirubin clearance: normalization of total bilirubin to < 2 mg/dL within 3 months predicts a 10-year native liver survival of approximately 75%. Persistently elevated bilirubin indicates ongoing intrahepatic disease progression requiring transplant evaluation.\n\nLiver transplantation outcomes in biliary atresia are excellent, with 5-year patient survival exceeding 90% and graft survival exceeding 85%. Living-donor left lateral segmentectomy from a parent is the most common graft type. Post-transplant immunosuppression typically involves tacrolimus-based regimens targeting calcineurin-NFAT pathway inhibition to prevent T cell-mediated graft rejection. Long-term complications include chronic rejection, post-transplant lymphoproliferative disorder (PTLD, driven by EBV reactivation), and renal dysfunction from calcineurin inhibitor nephrotoxicity."
+    },
+    riskFactors: [
+      "Perinatal viral exposure (reovirus, rotavirus, CMV) triggering immune-mediated bile duct destruction",
+      "Dysregulated Th1/Th17 immune response with Treg insufficiency",
+      "Biliary atresia splenic malformation (BASM) syndrome with laterality defects (embryonic form)",
+      "Possible genetic susceptibility loci identified on chromosomes 2q37.3 and 10q24.2 (GPC1 and ADD3 genes)",
+      "Aberrant Notch and Hedgehog signaling during biliary morphogenesis (embryonic form)",
+      "No clear Mendelian inheritance pattern; likely multifactorial etiology"
+    ],
+    diagnostics: [
+      "Fractionated bilirubin: conjugated fraction > 20% of total or > 1 mg/dL is always pathological in neonates",
+      "Serum GGT: markedly elevated (often > 300 U/L); most sensitive biochemical marker distinguishing BA from other neonatal cholestatic conditions",
+      "Abdominal ultrasound: triangular cord sign (sensitivity 73-100%), absent/abnormal gallbladder, absent common bile duct",
+      "Hepatobiliary scintigraphy with phenobarbital priming: good hepatocyte uptake, absent intestinal excretion at 24 hours",
+      "MR cholangiography (MRCP): emerging non-invasive tool for visualizing biliary anatomy",
+      "Percutaneous liver biopsy: bile duct proliferation, bile plugs in portal triads, portal fibrosis with preserved lobular architecture (distinguishes from neonatal hepatitis)",
+      "Intraoperative cholangiogram: gold standard showing non-patent extrahepatic biliary system",
+      "Post-Kasai monitoring: serial bilirubin trends, liver elastography (FibroScan) for fibrosis staging"
+    ],
+    management: [
+      "Kasai portoenterostomy before 30-45 days of life for optimal outcomes (before 60 days at latest)",
+      "Perioperative corticosteroids (prednisolone taper) to reduce periductal inflammation and improve bile drainage (evidence mixed but widely practiced)",
+      "Ursodeoxycholic acid (15-20 mg/kg/day) for choleresis and hepatoprotection post-Kasai",
+      "Cholangitis prophylaxis: TMP-SMX or neomycin for 12 months post-Kasai",
+      "Aggressive nutritional optimization: MCT-enriched formula, caloric density 120-150% of age-appropriate intake",
+      "Fat-soluble vitamin replacement with serum level monitoring: vitamin A (retinol), D (25-OH), E (alpha-tocopherol:lipid ratio), K (INR/PT)",
+      "Portal hypertension management: propranolol for variceal prophylaxis, endoscopic variceal ligation if indicated",
+      "Liver transplant evaluation: indicated for failed Kasai (persistent jaundice at 3 months), growth failure, recurrent cholangitis, or progressive portal hypertension",
+      "Post-transplant: tacrolimus-based immunosuppression, EBV viral load monitoring for PTLD surveillance"
+    ],
+    nursingActions: [
+      "Coordinate multidisciplinary care: hepatology, transplant surgery, nutrition, social work",
+      "Monitor post-Kasai bilirubin trends: failure to clear bilirubin below 2 mg/dL by 3 months post-surgery indicates poor prognosis",
+      "Assess for cholangitis systematically: fever > 38°C, rising bilirubin, acholic stools, elevated WBC with left shift",
+      "Monitor fat-soluble vitamin levels and administer water-miscible preparations as ordered",
+      "Perform serial growth assessments and nutritional status monitoring (mid-arm circumference, triceps skinfold)",
+      "Educate family on transplant evaluation process, living-donor options, and long-term immunosuppression requirements",
+      "Monitor for portal hypertension complications: splenomegaly progression, thrombocytopenia trends, variceal bleeding signs",
+      "Support family through complex medical decision-making with evidence-based information"
+    ],
+    signs: {
+      left: [
+        "Progressive conjugated hyperbilirubinemia not responding to Kasai",
+        "Persistent acholic stools post-Kasai (indicates failed bile drainage)",
+        "Hepatomegaly progressing to firm, nodular liver (cirrhotic transformation)",
+        "Ascites and abdominal distension (decompensated portal hypertension)"
+      ],
+      right: [
+        "Splenomegaly with hypersplenism (thrombocytopenia, leukopenia)",
+        "Growth failure despite caloric supplementation (hepatic synthetic failure)",
+        "Fat-soluble vitamin deficiency manifestations: rickets (D), coagulopathy (K), peripheral neuropathy (E)",
+        "Recurrent cholangitis episodes with increasing frequency"
+      ]
+    },
+    medications: [
+      {
+        name: "Tacrolimus (Prograf)",
+        type: "Calcineurin inhibitor / Immunosuppressant",
+        action: "Binds FKBP12 protein, forming a complex that inhibits calcineurin phosphatase activity, preventing dephosphorylation of NFAT transcription factor, thereby blocking IL-2 transcription and T cell activation; critical for preventing graft rejection post-liver transplant",
+        sideEffects: "Nephrotoxicity, neurotoxicity (tremor, headache), hyperglycemia, hyperkalemia, hypertension, increased infection risk",
+        contra: "Hypersensitivity to tacrolimus or polyoxyl 60 hydrogenated castor oil (IV formulation)",
+        pearl: "Therapeutic drug monitoring essential (trough levels 8-12 ng/mL early post-transplant, 5-8 ng/mL maintenance); nephrotoxicity is dose-dependent and the primary long-term concern"
+      },
+      {
+        name: "Prednisolone",
+        type: "Corticosteroid / Anti-inflammatory",
+        action: "Suppresses periductal inflammation post-Kasai by inhibiting NF-κB-mediated cytokine transcription, reducing immune-mediated cholangiocyte injury; may improve early bile drainage",
+        sideEffects: "Growth suppression, immunosuppression, hyperglycemia, adrenal suppression, osteoporosis",
+        contra: "Active untreated infection, live vaccines during therapy",
+        pearl: "Typically given as a post-Kasai taper (starting 2 mg/kg/day, weaning over 8-12 weeks); evidence for benefit is mixed but widely practiced in major centers"
+      }
+    ],
+    pearls: [
+      "The two-hit hypothesis (viral trigger → autoimmune bile duct destruction) explains why biliary atresia presents postnatally even though bile ducts form by week 12 of gestation",
+      "GGT is the single most useful biochemical marker: markedly elevated in biliary atresia, normal or mildly elevated in most other neonatal cholestatic conditions",
+      "Post-Kasai bilirubin clearance to < 2 mg/dL within 3 months is the strongest predictor of native liver survival",
+      "Liver transplant for biliary atresia has > 90% five-year patient survival; living-donor left lateral segmentectomy is preferred for size matching",
+      "PTLD risk is highest in the first year post-transplant; EBV-seronegative recipients of EBV-seropositive grafts are at highest risk"
+    ],
+    quiz: [
+      {
+        question: "A nurse practitioner is evaluating a 10-week-old infant 6 weeks post-Kasai portoenterostomy. The total bilirubin remains 8.4 mg/dL with a direct fraction of 6.9 mg/dL, and stools remain pale. Which clinical implication is most accurate?",
+        options: [
+          "This is expected; bilirubin clearance takes 4-6 months post-Kasai",
+          "The persistent hyperbilirubinemia indicates Kasai failure and warrants liver transplant evaluation",
+          "Increasing the ursodiol dose will resolve the cholestasis",
+          "The infant should undergo a repeat Kasai procedure"
+        ],
+        correct: 1,
+        rationale: "Failure to clear bilirubin below 2 mg/dL within 3 months post-Kasai is the strongest predictor of poor native liver survival and indicates Kasai failure. At 6 weeks post-surgery with persistently elevated conjugated bilirubin and acholic stools, this infant shows no evidence of effective bile drainage. Liver transplant evaluation should be initiated. A repeat Kasai procedure is not standard practice and has poor outcomes."
+      }
+    ]
+  },
+
+  "eosinophilic-esophagitis-rpn": {
+    title: "Eosinophilic Esophagitis (RPN Basics)",
+    cellular: {
+      title: "Eosinophilic Esophagitis - Recognizing Dysphagia & Allergic Inflammation",
+      content:
+        "Eosinophilic esophagitis (EoE) is a chronic immune-mediated condition in which the esophagus becomes inflamed with a type of white blood cell called eosinophils. Normally, eosinophils are not found in the esophageal tissue; their presence indicates an allergic inflammatory response. This inflammation causes the esophagus to become swollen, stiff, and narrowed, making swallowing difficult and painful.\n\nEoE is increasingly common, particularly in children and young adults with a history of other allergic conditions such as asthma, eczema, or food allergies. The most common symptom in older children and adults is dysphagia (difficulty swallowing), especially with solid foods. Younger children may present with feeding difficulties, food refusal, vomiting, and failure to thrive. A hallmark presentation is food impaction, where a solid food bolus becomes stuck in the esophagus and cannot pass. Clients often develop compensatory eating behaviors such as eating very slowly, cutting food into tiny pieces, drinking excessive liquids with meals, and avoiding certain textures."
+    },
+    riskFactors: [
+      "Male sex (3:1 male-to-female ratio)",
+      "History of atopic conditions: asthma, eczema, allergic rhinitis, food allergies",
+      "Family history of EoE or atopic diseases",
+      "Caucasian ethnicity (highest prevalence)",
+      "Age: can occur at any age but most commonly diagnosed in children and young adults"
+    ],
+    management: [
+      "Dietary elimination therapy: remove common trigger foods (milk, wheat, eggs, soy, nuts, fish/shellfish)",
+      "Swallowed topical corticosteroids (fluticasone or budesonide) to reduce esophageal eosinophilic inflammation",
+      "Proton pump inhibitor (PPI) therapy as initial trial",
+      "Esophageal dilation for symptomatic strictures",
+      "Allergy testing to identify potential food triggers"
+    ],
+    nursingActions: [
+      "Monitor for signs of food impaction: sudden inability to swallow, drooling, chest pain",
+      "Educate client/family on dietary elimination and food diary keeping",
+      "Report episodes of dysphagia, food impaction, or weight loss to the RN/provider",
+      "Ensure client understands how to properly swallow topical corticosteroids (swallow, do not inhale)",
+      "Monitor growth parameters in pediatric clients",
+      "Provide emotional support; dietary restrictions can be socially challenging for children"
+    ],
+    signs: {
+      left: [
+        "Dysphagia (difficulty swallowing), especially with solid foods",
+        "Food impaction (food bolus stuck in esophagus)",
+        "Chest pain or heartburn not responsive to antacids",
+        "Feeding refusal and vomiting in young children"
+      ],
+      right: [
+        "Compensatory eating behaviors (slow eating, excessive chewing, avoiding textures)",
+        "Failure to thrive or poor weight gain in children",
+        "Abdominal pain and nausea",
+        "History of multiple atopic conditions (asthma, eczema, allergies)"
+      ]
+    },
+    medications: [
+      {
+        name: "Fluticasone (swallowed, not inhaled)",
+        type: "Topical corticosteroid",
+        action: "Reduces eosinophilic inflammation in the esophageal mucosa when swallowed as a topical agent",
+        sideEffects: "Oral candidiasis (thrush), esophageal candidiasis",
+        contra: "Active esophageal infection",
+        pearl: "Client must swallow the medication, NOT inhale it; do not eat or drink for 30 minutes after administration to maximize mucosal contact time"
+      },
+      {
+        name: "Omeprazole (Prilosec)",
+        type: "Proton pump inhibitor (PPI)",
+        action: "Suppresses gastric acid secretion, which may reduce acid-mediated esophageal inflammation; some patients with EoE respond to PPI therapy alone",
+        sideEffects: "Headache, diarrhea, abdominal pain; long-term: vitamin B12 and magnesium deficiency",
+        contra: "Known hypersensitivity",
+        pearl: "PPI-responsive esophageal eosinophilia is now considered part of the EoE spectrum; a PPI trial is often the first step"
+      }
+    ],
+    pearls: [
+      "EoE should be suspected in any client with recurrent dysphagia, food impaction, or heartburn not responding to standard GERD treatment",
+      "Food impaction requiring emergency removal is often the event that leads to EoE diagnosis",
+      "The 'six food elimination diet' removes milk, wheat, eggs, soy, nuts, and fish/shellfish; foods are reintroduced one at a time",
+      "Topical corticosteroids for EoE are swallowed, not inhaled; this is a common point of client confusion"
+    ],
+    quiz: [
+      {
+        question: "A 12-year-old with a history of asthma and eczema presents with difficulty swallowing solid foods and reports that food 'gets stuck.' Which condition should the nurse suspect?",
+        options: [
+          "Gastroesophageal reflux disease (GERD)",
+          "Eosinophilic esophagitis (EoE)",
+          "Esophageal cancer",
+          "Achalasia"
+        ],
+        correct: 1,
+        rationale: "The combination of dysphagia with food impaction symptoms in a young client with a strong atopic history (asthma, eczema) is highly suggestive of eosinophilic esophagitis. While GERD can cause heartburn, it typically does not cause dysphagia with food impaction in children."
+      }
+    ]
+  },
+
+  "eosinophilic-esophagitis": {
+    title: "Eosinophilic Esophagitis",
+    cellular: {
+      title: "Eosinophilic Esophagitis - Th2-Mediated Inflammation, Fibrotic Remodeling & Dietary Management",
+      content:
+        "Eosinophilic esophagitis (EoE) is a chronic, antigen-driven, immune-mediated esophageal disease characterized by symptoms of esophageal dysfunction and histologically by eosinophil-predominant inflammation (≥ 15 eosinophils per high-power field on esophageal biopsy). The pathogenesis involves a Th2-mediated immune response triggered primarily by food antigens and, to a lesser extent, aeroallergens.\n\nAt the cellular level, antigen presentation by esophageal dendritic cells activates CD4+ Th2 lymphocytes, which produce interleukin-4 (IL-4), interleukin-5 (IL-5), and interleukin-13 (IL-13). IL-5 is the primary cytokine responsible for eosinophil maturation in the bone marrow, recruitment to the esophagus, and prolonged survival through inhibition of apoptosis. IL-13 acts on esophageal epithelial cells to downregulate the barrier protein desmoglein-1, disrupting epithelial integrity and increasing permeability to luminal antigens. IL-13 also induces esophageal epithelial cells to produce eotaxin-3 (CCL26), the most potent eosinophil chemotactic factor, which binds to CCR3 receptors on eosinophils, creating a powerful chemoattractant gradient that draws eosinophils into the esophageal mucosa.\n\nActivated eosinophils degranulate, releasing major basic protein (MBP), eosinophil peroxidase (EPO), and eosinophil cationic protein (ECP), which are directly cytotoxic to epithelial cells. Eosinophils also release TGF-β1, which activates subepithelial fibroblasts and smooth muscle cells, driving collagen deposition and smooth muscle hypertrophy in the lamina propria. This fibrotic remodeling progressively reduces esophageal compliance and caliber, creating the characteristic ringed appearance (trachealization or feline esophagus) and strictures seen on endoscopy.\n\nEndoscopic findings include linear furrows (vertical grooves from mucosal edema), white exudates or plaques (eosinophilic microabscesses), concentric rings (fixed strictures from subepithelial fibrosis), mucosal edema with loss of vascular pattern, and narrow-caliber esophagus. The EoE Endoscopic Reference Score (EREFS) standardizes the grading of these findings. Biopsy must be obtained from both the proximal and distal esophagus (minimum 2-4 specimens from each site) because eosinophilic infiltration can be patchy."
+    },
+    riskFactors: [
+      "Male sex (3:1 predominance)",
+      "Atopic triad: concurrent asthma, eczema, or allergic rhinitis (50-80% of EoE patients)",
+      "IgE-mediated food allergies (though EoE itself is primarily non-IgE mediated)",
+      "Family history of EoE (sibling recurrence risk 40-fold higher than general population)",
+      "Caucasian ethnicity",
+      "Early antibiotic exposure, cesarean delivery, and formula feeding (microbiome disruption hypothesis)"
+    ],
+    diagnostics: [
+      "Upper endoscopy with biopsies: ≥ 15 eosinophils/HPF from proximal AND distal esophagus (minimum 6 biopsies total)",
+      "Endoscopic findings: rings, furrows, white exudates, edema, strictures (EREFS scoring)",
+      "Symptoms of esophageal dysfunction: dysphagia, food impaction, chest pain, feeding difficulties",
+      "Rule out other causes of esophageal eosinophilia: GERD, parasitic infection, hypereosinophilic syndrome, Crohn's disease",
+      "PPI trial: current guidelines consider PPI-responsive esophageal eosinophilia as part of the EoE spectrum",
+      "Allergy testing (skin prick testing and atopy patch testing) to guide dietary elimination"
+    ],
+    management: [
+      "Dietary therapy: empiric 6-food elimination diet (milk, wheat, eggs, soy, nuts, fish/shellfish) with sequential reintroduction and repeat endoscopy after each food",
+      "2-food or 4-food elimination (step-up approach: remove milk and wheat first, then add soy and eggs if needed)",
+      "Swallowed topical corticosteroids: fluticasone MDI (swallowed without spacer) or oral viscous budesonide slurry",
+      "PPI therapy: omeprazole or esomeprazole as first-line or adjunctive therapy",
+      "Endoscopic dilation for symptomatic strictures (gradual, controlled dilation to avoid perforation)",
+      "Dupilumab (anti-IL-4/IL-13 monoclonal antibody) for refractory EoE in patients ≥ 12 years and weighing ≥ 40 kg",
+      "Repeat endoscopy with biopsies 8-12 weeks after each therapeutic intervention to assess histological response"
+    ],
+    nursingActions: [
+      "Educate on proper swallowed corticosteroid technique: puff into mouth and swallow (no spacer), or mix budesonide with honey/sucralose slurry; NPO for 30 minutes after",
+      "Assess and document dysphagia severity using a validated symptom scoring tool",
+      "Monitor for food impaction: sudden dysphagia, inability to swallow saliva, drooling, chest pain → emergency",
+      "Support dietary elimination compliance: connect with dietitian, provide meal planning resources",
+      "Monitor growth charts in pediatric patients and report any decline in growth velocity",
+      "Educate on the chronic nature of EoE: lifelong disease requiring ongoing monitoring even during remission",
+      "Screen for oral candidiasis in patients on swallowed corticosteroids"
+    ],
+    signs: {
+      left: [
+        "Dysphagia primarily to solid foods (most common symptom in adolescents and adults)",
+        "Food impaction requiring emergency endoscopic removal",
+        "Heartburn/chest pain unresponsive to standard GERD therapy",
+        "Feeding difficulties, vomiting, and food refusal in young children"
+      ],
+      right: [
+        "Endoscopic: rings (trachealization), linear furrows, white exudates, narrow caliber",
+        "Compensatory eating behaviors (prolonged mealtimes, excessive liquid intake with solids)",
+        "Failure to thrive in pediatric patients",
+        "Concurrent atopic conditions (asthma, eczema, rhinitis, food allergies)"
+      ]
+    },
+    medications: [
+      {
+        name: "Oral Viscous Budesonide (OVB)",
+        type: "Topical corticosteroid slurry",
+        action: "Potent glucocorticoid that suppresses Th2 cytokine production, reduces eotaxin-3 expression, inhibits eosinophil recruitment and activation, and restores epithelial barrier protein (desmoglein-1) expression in the esophageal mucosa",
+        sideEffects: "Esophageal candidiasis (10-15%), adrenal suppression (rare with topical use)",
+        contra: "Active esophageal infection (candidiasis, herpes)",
+        pearl: "Mix budesonide respules with 5-10 mL of sucralose or honey to create a viscous slurry that coats the esophagus; NPO for 30 min after dosing to maximize mucosal contact"
+      },
+      {
+        name: "Dupilumab (Dupixent)",
+        type: "Monoclonal antibody (anti-IL-4Rα)",
+        action: "Blocks IL-4 and IL-13 signaling by binding the shared IL-4 receptor alpha subunit, inhibiting Th2-mediated inflammation, reducing eotaxin-3 production, and decreasing eosinophil recruitment to the esophagus",
+        sideEffects: "Injection site reactions, conjunctivitis, nasopharyngitis",
+        contra: "Known hypersensitivity to dupilumab; caution with helminth infections",
+        pearl: "First FDA-approved biologic for EoE (2022); indicated for patients ≥ 12 years and ≥ 40 kg with inadequate response to or intolerance of conventional therapies"
+      }
+    ],
+    pearls: [
+      "Diagnostic threshold is ≥ 15 eosinophils/HPF on esophageal biopsy; always biopsy both proximal and distal esophagus (at least 6 biopsies total)",
+      "Milk and wheat are the two most common trigger foods, accounting for the majority of EoE cases; a 2-food elimination diet is now the preferred initial approach",
+      "EoE is a chronic disease; stopping treatment leads to relapse in most patients within 3-6 months",
+      "Esophageal perforation risk during dilation is low (< 1%) when using the 'rule of three' (no more than 3 mm dilation per session)",
+      "Dupilumab is the first biologic therapy for EoE and represents a paradigm shift for refractory cases"
+    ],
+    quiz: [
+      {
+        question: "A nurse is caring for a client recently diagnosed with eosinophilic esophagitis who is prescribed oral viscous budesonide. Which instruction is most important for the nurse to provide?",
+        options: [
+          "Take the medication with a full glass of water",
+          "Swallow the viscous slurry and do not eat or drink for 30 minutes afterward",
+          "Use a spacer device to ensure proper inhalation",
+          "Take the medication with food to prevent stomach upset"
+        ],
+        correct: 1,
+        rationale: "Oral viscous budesonide must be swallowed (not inhaled) and the patient should remain NPO for 30 minutes after to maximize esophageal mucosal contact time. Drinking water immediately would wash the medication away from the esophageal surface, reducing its therapeutic effect."
+      }
+    ]
+  },
+
+  "eosinophilic-esophagitis-np": {
+    title: "Eosinophilic Esophagitis (Advanced NP)",
+    cellular: {
+      title: "Eosinophilic Esophagitis - Cytokine Pathways, Epithelial Barrier Dysfunction & Biologic Therapies",
+      content:
+        "Eosinophilic esophagitis represents a paradigm of chronic Th2-polarized mucosal inflammation driven by a complex interplay between genetic susceptibility, epithelial barrier dysfunction, and antigen-specific immune activation. Genome-wide association studies (GWAS) have identified the EoE susceptibility locus on chromosome 5q22 encompassing the TSLP (thymic stromal lymphopoietin) gene, and the 2p23 locus harboring the CAPN14 (calpain-14) gene. TSLP, an epithelial-derived alarmin cytokine released in response to allergen exposure, activates dendritic cells to promote Th2 polarization. Calpain-14, an intracellular protease induced by IL-13 in esophageal epithelial cells, cleaves desmoglein-1 and disrupts epithelial barrier integrity, creating a positive feedback loop of barrier dysfunction → allergen penetration → Th2 amplification.\n\nThe molecular cascade begins when food or aeroallergens penetrate the disrupted epithelial barrier and are captured by CD11c+ dendritic cells in the esophageal lamina propria. These dendritic cells migrate to regional lymph nodes and present antigen to naïve CD4+ T cells in the context of TSLP-primed co-stimulation, driving Th2 differentiation. The resulting Th2 effector cells home to the esophageal mucosa via integrin α4β7 and CCR3-mediated chemotaxis. IL-4 from Th2 cells drives B cell class switching to IgE and IgG4 production, while IL-5 acts on eosinophil progenitors in the bone marrow, promoting eosinophilopoiesis, and on mature eosinophils to enhance survival by upregulating anti-apoptotic protein Bcl-2.\n\nIL-13 is the central effector cytokine in EoE pathogenesis, acting on esophageal epithelial cells through the IL-4Rα/IL-13Rα1 receptor complex to activate JAK1/TYK2-STAT6 signaling. STAT6 phosphorylation drives transcription of eotaxin-3 (CCL26), periostin, and CAPN14 while suppressing desmoglein-1, filaggrin, and involucrin expression. The net result is a defective epithelial barrier producing massive eosinophil chemoattraction. Eotaxin-3 is the single most upregulated gene in EoE esophageal tissue (53-fold increase over controls) and serves as a potential biomarker.\n\nTissue remodeling in EoE involves TGF-β1-mediated activation of subepithelial fibroblasts through Smad2/3 signaling, driving collagen deposition and lamina propria fibrosis. Concurrently, eosinophil-derived TGF-β1 stimulates smooth muscle cell hypertrophy and hyperplasia, contributing to esophageal wall thickening and decreased compliance (reduced distensibility). The EndoFLIP (endolumenal functional lumen imaging probe) system measures esophageal distensibility and has emerged as a functional biomarker that correlates with fibrostenotic disease severity and food impaction risk better than histology alone.\n\nBiologic therapies targeting the Th2 axis represent the frontier of EoE management. Dupilumab (anti-IL-4Rα) blocks both IL-4 and IL-13 signaling, achieving histological remission (< 6 eos/HPF) in 60% of patients in phase 3 trials. Emerging therapies include anti-IL-5 agents (mepolizumab, reslizumab) which reduce tissue eosinophilia but show inconsistent symptom improvement, anti-IL-13 (cendakimab/RPC4046) with promising phase 2/3 data, anti-TSLP (tezepelumab) targeting the upstream alarmin, and anti-Siglec-8 (lirentelimab) which induces eosinophil apoptosis. The dissociation between eosinophil count reduction and symptom improvement with anti-IL-5 therapy suggests that tissue remodeling and fibrosis, rather than active eosinophilic inflammation alone, may be the primary drivers of symptoms in established disease."
+    },
+    riskFactors: [
+      "Genetic susceptibility: TSLP gene polymorphisms (5q22), CAPN14 variants (2p23), eotaxin-3 (CCL26) gene variants",
+      "Epithelial barrier dysfunction: loss of desmoglein-1, filaggrin, involucrin expression",
+      "Atopic comorbidities: 50-80% of EoE patients have concurrent asthma, eczema, rhinitis, or IgE-mediated food allergy",
+      "Male sex (3:1 ratio; estrogen may be protective via downregulation of eotaxin-3)",
+      "Environmental factors: early antibiotic exposure, acid suppression in infancy, cesarean delivery (microbiome disruption)",
+      "Family history: sibling recurrence risk 40-80 fold higher than general population; 50% heritability in twin studies"
+    ],
+    diagnostics: [
+      "Upper endoscopy with systematic biopsies: ≥ 15 eos/HPF from ≥ 2 esophageal levels (proximal and distal; minimum 6 biopsies); stomach and duodenum biopsied to exclude eosinophilic gastroenteritis",
+      "EREFS scoring (Endoscopic Reference Score): standardized grading of Exudates, Rings, Edema, Furrows, and Strictures",
+      "EndoFLIP (functional lumen imaging probe): measures esophageal distensibility (reduced distensibility plateau < 12 mm indicates fibrostenotic disease)",
+      "Esophageal string test or Cytosponge: minimally invasive biomarker monitoring (eosinophil-derived proteins: MBP, EPO, eotaxin-3)",
+      "Serum biomarkers under investigation: absolute eosinophil count (low sensitivity), eotaxin-3, periostin, ECP",
+      "Allergy testing: skin prick testing (SPT) for IgE-mediated sensitization, atopy patch testing (limited clinical utility)",
+      "Food-specific IgG4 panel (research tool; clinical utility not established)"
+    ],
+    management: [
+      "Step-up dietary approach: 2-food elimination diet (milk + wheat) → 4-food → 6-food with endoscopic reassessment after each 6-8 week elimination period",
+      "Swallowed topical corticosteroids: oral viscous budesonide (OVB) 1-2 mg BID or fluticasone MDI 440-880 mcg BID swallowed; induction for 8-12 weeks, then maintenance dosing",
+      "PPI therapy: high-dose PPI (omeprazole 20-40 mg BID) as first-line or adjunctive; PPI-responsive EoE is now part of the EoE spectrum",
+      "Dupilumab 300 mg SC weekly: FDA-approved for EoE in patients ≥ 12 years and ≥ 40 kg with inadequate response to conventional therapy; 60% histological remission rate",
+      "Endoscopic dilation for fixed strictures: through-the-scope balloon or Savary dilators; follow 'rule of three' (≤ 3 mm increment per session); repeat as needed",
+      "Emerging biologics: cendakimab (anti-IL-13), tezepelumab (anti-TSLP), lirentelimab (anti-Siglec-8) in clinical trials",
+      "Maintenance therapy required lifelong: relapse occurs in > 80% of patients within 3-6 months of treatment discontinuation",
+      "Monitoring: repeat endoscopy with biopsies 8-12 weeks after therapy initiation and with each dietary modification; consider EndoFLIP for functional assessment"
+    ],
+    nursingActions: [
+      "Coordinate multidisciplinary care: gastroenterology, allergy/immunology, dietitian, and psychosocial support",
+      "Educate on biologic therapy administration: dupilumab self-injection technique, injection site rotation, cold chain storage",
+      "Monitor for biologic therapy adverse effects: injection site reactions, conjunctivitis (dupilumab-specific), eosinophilia",
+      "Assess esophageal symptom burden using validated tools (Dysphagia Symptom Questionnaire - DSQ, EoE Activity Index - EEsAI)",
+      "Coordinate sequential dietary elimination and reintroduction protocols with endoscopy scheduling",
+      "Educate on emergency food impaction management: do not attempt to force-swallow; present to ED for endoscopic removal",
+      "Monitor for adrenal suppression in patients on chronic swallowed corticosteroids (morning cortisol screening)",
+      "Support quality of life: EoE significantly impacts psychosocial functioning, especially in adolescents"
+    ],
+    signs: {
+      left: [
+        "Dysphagia to solids with compensatory eating behaviors",
+        "Food impaction requiring emergency endoscopic removal",
+        "Heartburn or chest pain refractory to standard GERD therapy",
+        "Feeding difficulty, food refusal, and failure to thrive in young children"
+      ],
+      right: [
+        "Endoscopic: rings (fibrostenotic), furrows (inflammatory), exudates (eosinophilic microabscesses)",
+        "Reduced esophageal distensibility on EndoFLIP (< 12 mm distensibility plateau)",
+        "Histology: ≥ 15 eos/HPF with eosinophil microabscesses, basal zone hyperplasia, spongiosis",
+        "Tissue remodeling: subepithelial fibrosis, smooth muscle hypertrophy on deep biopsies"
+      ]
+    },
+    medications: [
+      {
+        name: "Dupilumab (Dupixent)",
+        type: "Monoclonal antibody (anti-IL-4 receptor alpha)",
+        action: "Binds IL-4Rα subunit shared by IL-4 and IL-13 receptors, blocking JAK1/TYK2-STAT6 signaling cascade, reducing eotaxin-3 transcription, restoring desmoglein-1 expression, decreasing eosinophil recruitment, and inhibiting subepithelial fibrosis; achieves histological remission (< 6 eos/HPF) in 60% of patients",
+        sideEffects: "Injection site reactions (10-15%), conjunctivitis (5-10%), nasopharyngitis, transient peripheral eosinophilia",
+        contra: "Hypersensitivity to dupilumab; screen for helminth infections before initiation",
+        pearl: "300 mg SC weekly is the approved EoE dose (higher frequency than atopic dermatitis dosing); onset of histological improvement seen by week 12; conjunctivitis is a class effect of IL-13 blockade"
+      },
+      {
+        name: "Cendakimab (investigational)",
+        type: "Monoclonal antibody (anti-IL-13)",
+        action: "Selectively neutralizes IL-13 without blocking IL-4 signaling, specifically targeting the downstream effector cytokine responsible for eotaxin-3 induction, epithelial barrier disruption, and fibroblast activation in EoE",
+        sideEffects: "Injection site reactions, upper respiratory infections (phase 3 trial data)",
+        contra: "Investigational; not yet approved",
+        pearl: "Phase 3 trials show histological remission rates comparable to dupilumab; selective IL-13 blockade may reduce conjunctivitis risk seen with dual IL-4/IL-13 inhibition"
+      }
+    ],
+    pearls: [
+      "Eotaxin-3 (CCL26) is the most upregulated gene in EoE tissue (53-fold increase); it is the critical eosinophil chemoattractant driven by IL-13-STAT6 signaling",
+      "EndoFLIP distensibility measurement better predicts food impaction risk than eosinophil count or endoscopic appearance alone",
+      "Anti-IL-5 therapies reduce eosinophil counts but show inconsistent symptom improvement, suggesting fibrotic remodeling is the primary symptom driver in established disease",
+      "The CAPN14-desmoglein-1 axis creates a positive feedback loop: IL-13 → calpain-14 activation → desmoglein-1 cleavage → barrier dysfunction → allergen penetration → more IL-13",
+      "Maintenance therapy is essential; EoE is a chronic disease with > 80% relapse rate within months of discontinuing treatment"
+    ],
+    quiz: [
+      {
+        question: "A nurse practitioner is evaluating treatment options for a 16-year-old with eosinophilic esophagitis refractory to swallowed budesonide and dietary elimination. The most recent biopsy shows 45 eos/HPF with significant subepithelial fibrosis. Which biologic therapy is FDA-approved for this indication?",
+        options: [
+          "Mepolizumab (anti-IL-5)",
+          "Omalizumab (anti-IgE)",
+          "Dupilumab (anti-IL-4Rα)",
+          "Benralizumab (anti-IL-5Rα)"
+        ],
+        correct: 2,
+        rationale: "Dupilumab (anti-IL-4Rα) is the first and currently only FDA-approved biologic for eosinophilic esophagitis in patients ≥ 12 years and ≥ 40 kg. By blocking the shared IL-4Rα subunit, it inhibits both IL-4 and IL-13 signaling, addressing the central Th2 cytokine axis in EoE pathogenesis. Anti-IL-5 agents reduce eosinophil counts but have not shown consistent symptom improvement in EoE trials."
+      }
+    ]
+  },
+
+  "meckel-diverticulum-rpn": {
+    title: "Meckel's Diverticulum (RPN Basics)",
+    cellular: {
+      title: "Meckel's Diverticulum - Recognizing Painless Rectal Bleeding in Children",
+      content:
+        "Meckel's diverticulum is the most common congenital anomaly of the gastrointestinal tract, affecting approximately 2% of the population. It is a small pouch (outpouching) of the intestinal wall located in the ileum (the last part of the small intestine), usually within about 2 feet (60 cm) of the ileocecal valve. This pouch is a remnant of the omphalomesenteric (vitelline) duct, which normally connects the developing intestine to the yolk sac during fetal development and usually disappears completely by the seventh week of gestation.\n\nThe classic teaching for Meckel's diverticulum is the 'Rule of 2s': it occurs in 2% of the population, is about 2 inches long, is located within 2 feet of the ileocecal valve, is usually found before age 2, and may contain 2 types of ectopic (misplaced) tissue — gastric and pancreatic. When the diverticulum contains gastric tissue, it produces hydrochloric acid, which can erode the adjacent normal intestinal lining and cause painless rectal bleeding. This bleeding is the most common presentation in children and typically appears as brick-red or maroon-colored (currant jelly) stools."
+    },
+    riskFactors: [
+      "Congenital anomaly present from birth (failure of vitelline duct regression)",
+      "Male sex (symptomatic cases are 2-3 times more common in males)",
+      "Age under 2 years (most common age for symptomatic presentation)",
+      "Presence of ectopic gastric tissue within the diverticulum (increases bleeding risk)"
+    ],
+    management: [
+      "Surgical resection (removal of the diverticulum) for symptomatic cases",
+      "IV fluid resuscitation for significant bleeding",
+      "Blood transfusion if hemoglobin drops significantly from bleeding",
+      "Monitor for signs of intestinal obstruction if the diverticulum causes a volvulus or intussusception",
+      "Post-surgical routine wound care and pain management"
+    ],
+    nursingActions: [
+      "Monitor and report painless rectal bleeding (brick-red or maroon stools) in a child",
+      "Monitor vital signs for signs of hypovolemia: tachycardia, hypotension, poor capillary refill",
+      "Maintain accurate intake and output, including stool output",
+      "Report any abdominal distension, vomiting, or signs of intestinal obstruction",
+      "Prepare client for Meckel's scan (technetium-99m pertechnetate scan) as ordered",
+      "Post-surgical: monitor surgical site, resume diet as ordered, assess bowel function"
+    ],
+    signs: {
+      left: [
+        "Painless rectal bleeding (most common presentation in children)",
+        "Brick-red or maroon-colored (currant jelly) stools",
+        "Signs of anemia from chronic or acute blood loss: pallor, tachycardia, fatigue",
+        "No abdominal pain with bleeding episodes (painless)"
+      ],
+      right: [
+        "Abdominal pain and distension (if obstruction or volvulus occurs)",
+        "Nausea and vomiting (if intestinal obstruction develops)",
+        "Signs of peritonitis (if diverticulitis or perforation occurs): rigid abdomen, fever, guarding",
+        "Melena or hematochezia depending on bleeding rate"
+      ]
+    },
+    medications: [
+      {
+        name: "Normal Saline or Lactated Ringer's",
+        type: "IV crystalloid fluid",
+        action: "Volume replacement to maintain circulatory volume and tissue perfusion during acute bleeding episodes",
+        sideEffects: "Fluid overload if administered too rapidly in pediatric patients",
+        contra: "Heart failure (use with caution); monitor for signs of fluid overload",
+        pearl: "Use weight-based boluses (20 mL/kg) for pediatric fluid resuscitation; reassess after each bolus"
+      },
+      {
+        name: "Acetaminophen (Tylenol)",
+        type: "Non-opioid analgesic / Antipyretic",
+        action: "Provides post-surgical pain relief by inhibiting central prostaglandin synthesis",
+        sideEffects: "Hepatotoxicity with overdose",
+        contra: "Severe liver disease; do not exceed maximum daily dose (based on weight in children)",
+        pearl: "First-line post-surgical analgesic in pediatric patients; use weight-based dosing (10-15 mg/kg every 4-6 hours)"
+      }
+    ],
+    pearls: [
+      "The 'Rule of 2s' helps remember key features of Meckel's diverticulum: 2% of population, 2 inches long, 2 feet from ileocecal valve, presents before age 2, 2 types of ectopic tissue",
+      "Painless rectal bleeding in a child under 2 should raise suspicion for Meckel's diverticulum",
+      "The Meckel's scan (technetium-99m) detects ectopic gastric tissue in the diverticulum, which is the cause of bleeding",
+      "Most Meckel's diverticula are asymptomatic and found incidentally; only symptomatic cases require surgery"
+    ],
+    quiz: [
+      {
+        question: "A 20-month-old child presents with painless, brick-red rectal bleeding. The child appears pale but is otherwise comfortable with a non-tender abdomen. Which condition should the nurse suspect?",
+        options: [
+          "Intussusception",
+          "Meckel's diverticulum",
+          "Pyloric stenosis",
+          "Hirschsprung disease"
+        ],
+        correct: 1,
+        rationale: "Painless rectal bleeding with brick-red stools in a child under 2 is the classic presentation of a symptomatic Meckel's diverticulum with ectopic gastric tissue. Intussusception also causes rectal bleeding but is typically accompanied by colicky abdominal pain and a 'sausage-shaped' mass. The painless nature of the bleeding is the key differentiating feature."
+      }
+    ]
+  },
+
+  "meckel-diverticulum": {
+    title: "Meckel's Diverticulum",
+    cellular: {
+      title: "Meckel's Diverticulum - Vitelline Duct Remnant, Ectopic Gastric Tissue & Surgical Management",
+      content:
+        "Meckel's diverticulum is a true diverticulum (containing all layers of the intestinal wall: mucosa, submucosa, muscularis propria, and serosa) arising from incomplete obliteration of the omphalomesenteric (vitelline) duct. During embryonic development, the vitelline duct connects the midgut lumen to the yolk sac, providing nutrition to the developing embryo. By the seventh week of gestation, this duct normally undergoes complete involution. Persistence of the intestinal end of the vitelline duct results in Meckel's diverticulum, which protrudes from the antimesenteric border of the ileum.\n\nAt the cellular level, the diverticulum contains normal ileal mucosa in its base but may harbor heterotopic (ectopic) tissue in approximately 50% of symptomatic cases. Ectopic gastric mucosa is present in approximately 60% of symptomatic cases and contains functional parietal cells that secrete hydrochloric acid and chief cells that produce pepsinogen. This acid secretion directly erodes the adjacent normal ileal mucosa, causing peptic ulceration at the junction between the ectopic gastric tissue and the native ileal epithelium. The ulcerated mucosa bleeds, producing the characteristic painless lower GI hemorrhage. The ileal mucosa lacks the protective mechanisms of native gastric mucosa (bicarbonate secretion, mucus layer, rapid epithelial turnover), making it highly vulnerable to acid injury.\n\nEctopic pancreatic tissue is found in approximately 5-16% of symptomatic cases and can cause inflammation (diverticulitis) mimicking appendicitis. Complications beyond bleeding include intestinal obstruction (from intussusception with the diverticulum acting as a lead point, volvulus around a persistent fibrous band connecting the diverticulum to the umbilicus, or internal herniation), diverticulitis (clinically indistinguishable from appendicitis), and perforation with peritonitis.\n\nThe Meckel's scan (technetium-99m pertechnetate scintigraphy) exploits the fact that technetium-99m pertechnetate is taken up by gastric mucosa parietal cells. Pretreatment with an H2-receptor blocker (ranitidine) or a proton pump inhibitor 48 hours before the scan increases sensitivity by preventing acid secretion, which washes the radionuclide from the gastric mucosa and reduces detection. The sensitivity of the Meckel's scan is approximately 85-90% in children but only 60% in adults, partly because adults are less likely to have ectopic gastric tissue."
+    },
+    riskFactors: [
+      "Congenital: failure of vitelline duct regression by week 7 of gestation",
+      "Male sex: symptomatic presentations are 2-3 times more common in males",
+      "Age under 2 years: peak age for hemorrhagic presentation",
+      "Presence of ectopic gastric tissue (highest risk for bleeding)",
+      "Persistent fibrous band to umbilicus (risk for volvulus and obstruction)"
+    ],
+    diagnostics: [
+      "Technetium-99m pertechnetate scan (Meckel's scan): detects ectopic gastric tissue; sensitivity 85-90% in children",
+      "Pretreatment with H2 blocker (cimetidine/ranitidine) or PPI before Meckel's scan improves sensitivity",
+      "CBC: anemia (low hemoglobin/hematocrit) from acute or chronic GI bleeding",
+      "CT scan with contrast: may show a blind-ending loop or inflammatory changes in the RLQ",
+      "CT angiography or tagged RBC scan for active bleeding localization",
+      "Capsule endoscopy or double-balloon enteroscopy: may visualize the diverticulum directly",
+      "Surgical exploration: definitive diagnosis when imaging is inconclusive but clinical suspicion remains high"
+    ],
+    management: [
+      "Surgical resection for all symptomatic Meckel's diverticula",
+      "Simple diverticulectomy: for uncomplicated cases with a narrow neck and no adjacent ileal pathology",
+      "Segmental ileal resection with primary anastomosis: for diverticula with broad bases, adjacent ulceration, or when ectopic tissue extends into adjacent ileum",
+      "Laparoscopic approach preferred when feasible",
+      "Aggressive IV fluid resuscitation and blood transfusion for acute hemorrhage",
+      "Incidental Meckel's diverticulum: resection recommended in young males with palpable abnormalities or clinical risk factors; observation for asymptomatic cases in older adults"
+    ],
+    nursingActions: [
+      "Monitor hemodynamic status during acute bleeding: heart rate, blood pressure, urine output, capillary refill",
+      "Monitor and document stool characteristics: color, amount, frequency (use a stool chart)",
+      "Maintain large-bore IV access and ensure type and crossmatch are current",
+      "Prepare client for Meckel's scan: explain procedure, ensure pretreatment medications are administered as ordered",
+      "Post-surgical: monitor for return of bowel function, assess surgical site, advance diet as tolerated",
+      "Report signs of complications: obstruction (distension, vomiting, absent bowel sounds), peritonitis (rigid abdomen, fever)"
+    ],
+    signs: {
+      left: [
+        "Painless rectal bleeding: brick-red or maroon stools (hemorrhage from ectopic gastric tissue ulceration)",
+        "Iron deficiency anemia from occult chronic bleeding",
+        "Currant jelly stools (if intussusception occurs with Meckel's as lead point)",
+        "Periumbilical pain progressing to RLQ (diverticulitis mimicking appendicitis)"
+      ],
+      right: [
+        "Abdominal distension and bilious vomiting (intestinal obstruction from volvulus or intussusception)",
+        "Right lower quadrant tenderness with guarding (Meckel's diverticulitis)",
+        "Signs of peritonitis: rigid abdomen, rebound tenderness, fever (perforation)",
+        "Hemodynamic instability: tachycardia, hypotension, poor perfusion (massive hemorrhage)"
+      ]
+    },
+    medications: [
+      {
+        name: "Cimetidine or Ranitidine (pre-scan)",
+        type: "H2-receptor antagonist",
+        action: "Blocks histamine-2 receptors on parietal cells, inhibiting acid secretion; in the context of Meckel's scan, prevents acid-mediated washout of technetium-99m from ectopic gastric mucosa, increasing scan sensitivity",
+        sideEffects: "Headache, dizziness, diarrhea; ranitidine withdrawn in some markets due to NDMA contamination",
+        contra: "Known hypersensitivity",
+        pearl: "Administered 48 hours before the Meckel's scan to enhance detection of ectopic gastric tissue; improves sensitivity from approximately 60% to 85-90%"
+      },
+      {
+        name: "Pantoprazole (Protonix) IV",
+        type: "Proton pump inhibitor",
+        action: "Irreversibly inhibits the H+/K+ ATPase proton pump on parietal cells, suppressing gastric acid secretion; used adjunctively to reduce acid-mediated mucosal erosion from ectopic gastric tissue",
+        sideEffects: "Headache, diarrhea, hypomagnesemia with prolonged use",
+        contra: "Known hypersensitivity to benzimidazoles",
+        pearl: "May be used as pre-scan preparation and to reduce ongoing acid-mediated ulceration while awaiting surgical intervention"
+      }
+    ],
+    pearls: [
+      "Meckel's diverticulum is a TRUE diverticulum (all intestinal wall layers) on the antimesenteric border, unlike colonic diverticula which are pseudodiverticula",
+      "Painless rectal bleeding in a child under 2 = Meckel's diverticulum until proven otherwise",
+      "The Meckel's scan detects ectopic GASTRIC tissue, not the diverticulum itself; a negative scan does not rule out Meckel's (diverticulum without gastric tissue will be missed)",
+      "Meckel's diverticulitis is clinically indistinguishable from appendicitis; it is often diagnosed intraoperatively when a normal appendix is found",
+      "The lifetime risk of complications from an asymptomatic Meckel's diverticulum is approximately 4-6%, decreasing with age"
+    ],
+    quiz: [
+      {
+        question: "A nurse is preparing a 3-year-old child for a technetium-99m pertechnetate (Meckel's) scan. Which medication should the nurse expect to administer before the scan to improve diagnostic accuracy?",
+        options: [
+          "Ondansetron (Zofran)",
+          "Cimetidine (Tagamet)",
+          "Metoclopramide (Reglan)",
+          "Sucralfate (Carafate)"
+        ],
+        correct: 1,
+        rationale: "H2-receptor antagonists such as cimetidine are administered before a Meckel's scan to block acid secretion by ectopic gastric parietal cells. This prevents the acid-mediated washout of technetium-99m pertechnetate from the gastric mucosa, increasing the scan's sensitivity for detecting ectopic gastric tissue. Without pretreatment, the scan may miss smaller foci of gastric tissue."
+      }
+    ]
+  },
+
+  "meckel-diverticulum-np": {
+    title: "Meckel's Diverticulum (Advanced NP)",
+    cellular: {
+      title: "Meckel's Diverticulum - Embryologic Pathogenesis, Heterotopic Tissue Differentiation & Advanced Surgical Decision-Making",
+      content:
+        "Meckel's diverticulum represents the prototypical vitelline duct anomaly, arising from incomplete involution of the omphalomesenteric (vitelline) duct during the fifth to seventh week of embryonic development. The vitelline duct connects the primitive midgut to the yolk sac and provides nutritional support to the developing embryo before placental circulation is established. Normal embryogenesis requires complete regression of this duct by week 7, mediated by apoptotic signaling through the BMP (bone morphogenetic protein) and Wnt/β-catenin pathways that regulate mesenteric and ductal remodeling. Failure of apoptosis in the intestinal segment of the vitelline duct results in a persistent blind-ending pouch — Meckel's diverticulum.\n\nThe spectrum of vitelline duct anomalies includes: (1) Meckel's diverticulum (most common; persistence of the intestinal end), (2) vitelline duct cyst (persistence of the middle segment, forming an isolated cyst), (3) vitelline duct fistula (complete persistent patent duct from ileum to umbilicus, presenting with intestinal content drainage from the umbilicus), (4) fibrous band (a cord-like remnant connecting the diverticulum to the umbilicus, creating a potential axis for volvulus), and (5) umbilical sinus (persistence of the umbilical end only).\n\nThe heterotopic tissue within Meckel's diverticulum arises from aberrant differentiation of pluripotent endodermal stem cells during embryonic gut regionalization. The gastric heterotopia contains functionally active parietal cells expressing H+/K+ ATPase proton pumps that secrete hydrochloric acid, and chief cells producing pepsinogen. This ectopic acid production creates a hostile microenvironment at the junction between gastric-type and ileal-type mucosa, where the ileal epithelium lacks the protective mechanisms of native gastric mucosa — specifically, the surface mucus-bicarbonate barrier, prostaglandin-mediated cytoprotection, and the rapid epithelial turnover (every 3-5 days) that characterizes gastric mucosa. The result is peptic ulceration of the adjacent ileal mucosa with erosion into submucosal arterioles, producing hemorrhage.\n\nPancreatic heterotopia, found in 5-16% of symptomatic cases, contains exocrine acinar tissue and ductal elements. This tissue can produce pancreatic enzymes (lipase, amylase, trypsinogen) and undergo inflammatory changes mimicking diverticulitis. Rarely, pancreatic heterotopia can develop into pancreatic adenocarcinoma or neuroendocrine tumors. Carcinoid tumors (well-differentiated neuroendocrine tumors) are the most common neoplasm arising in Meckel's diverticulum, arising from enterochromaffin cells within the heterotopic or native mucosa. Gastrointestinal stromal tumors (GISTs) and adenocarcinomas have also been reported.\n\nSurgical decision-making for incidentally discovered Meckel's diverticulum remains controversial. A 2020 meta-analysis supports prophylactic resection in patients under 50 years with a diverticulum > 2 cm, palpable abnormality, or visible heterotopic tissue. The lifetime complication risk decreases with age: approximately 4.2% for ages 0-20, 2% for ages 20-40, and nearly zero after age 60. Laparoscopic resection has reduced morbidity of prophylactic surgery, shifting the risk-benefit calculation in favor of resection, especially when a fibrous band to the umbilicus is present (volvulus risk)."
+    },
+    riskFactors: [
+      "Embryologic: failure of BMP/Wnt-mediated apoptotic regression of the vitelline duct by week 7 of gestation",
+      "Heterotopic gastric tissue: present in 50-60% of symptomatic cases; contains functional parietal cells causing peptic ulceration",
+      "Male sex: symptomatic presentations 2-3 times more frequent (possibly related to hormonal influences on acid secretion)",
+      "Persistent fibrous band or mesodiverticular band: creates axis for volvulus and internal herniation",
+      "Broad-based diverticulum (> 2 cm): higher complication rate than narrow-necked diverticula"
+    ],
+    diagnostics: [
+      "Technetium-99m pertechnetate scintigraphy: specificity 95%, sensitivity 85-90% in children (lower in adults); improved with pentagastrin stimulation, cimetidine pretreatment, and glucagon (reduces peristalsis)",
+      "CT enterography or CT angiography: identifies the diverticulum as a blind-ending loop on the antimesenteric border; useful for obstruction and active bleeding localization",
+      "Capsule endoscopy: direct visualization of the diverticulum and heterotopic mucosa; useful in occult GI bleeding evaluation",
+      "Double-balloon enteroscopy: allows both visualization and tissue biopsy; can confirm heterotopic tissue histologically",
+      "Tagged RBC scan (technetium-99m-labeled red blood cells): localizes active bleeding source when Meckel's scan is negative",
+      "Mesenteric angiography: identifies active arterial bleeding (requires bleeding rate > 0.5 mL/min)",
+      "Intraoperative diagnosis: definitive when non-invasive workup is inconclusive; laparoscopic exploration of terminal ileum"
+    ],
+    management: [
+      "Symptomatic Meckel's: mandatory surgical resection via diverticulectomy or segmental ileal resection with primary anastomosis",
+      "Diverticulectomy with stapled transection: appropriate for narrow-based diverticula without adjacent ileal involvement",
+      "Segmental ileal resection: required when the diverticulum has a broad base (> 2 cm), when ectopic tissue extends into adjacent ileum, or when adjacent ileal ulceration is present",
+      "Laparoscopic approach: preferred for elective resection; shorter recovery, lower wound complications",
+      "Incidental Meckel's: prophylactic resection recommended for patients < 50 years, male sex, diverticulum > 2 cm, palpable abnormality, or visible band/heterotopic tissue",
+      "Acute hemorrhage management: IV fluid resuscitation, packed RBC transfusion (target hemoglobin > 7 g/dL), emergent surgical intervention for massive or refractory bleeding",
+      "Post-operative: standard surgical follow-up; no long-term surveillance needed after complete resection"
+    ],
+    nursingActions: [
+      "Coordinate pre-operative imaging studies and ensure appropriate scan preparation (cimetidine pretreatment for Meckel's scan)",
+      "Manage acute GI hemorrhage: two large-bore IVs, fluid resuscitation, blood product administration, continuous hemodynamic monitoring",
+      "Monitor for rare post-operative complications: anastomotic leak (tachycardia, fever, peritoneal signs), wound infection, adhesive small bowel obstruction",
+      "Educate patient/family on the congenital nature of the condition and excellent prognosis after surgical resection",
+      "For NP prescriptive practice: order pre-scan cimetidine protocol, manage post-operative pain (multimodal analgesia), advance diet progression"
+    ],
+    signs: {
+      left: [
+        "Painless massive lower GI hemorrhage: brick-red or maroon hematochezia (ectopic gastric tissue ulceration)",
+        "Chronic iron deficiency anemia from occult bleeding",
+        "RLQ pain mimicking appendicitis (Meckel's diverticulitis)",
+        "Small bowel obstruction pattern: bilious vomiting, abdominal distension, absent flatus"
+      ],
+      right: [
+        "Umbilical drainage of intestinal content (patent vitelline duct fistula)",
+        "Volvulus with small bowel ischemia: severe colicky pain, hemodynamic instability",
+        "Intussusception with Meckel's as lead point: intermittent colicky pain, currant jelly stools, palpable mass",
+        "Peritoneal signs from perforation: rigid abdomen, guarding, rebound tenderness, fever"
+      ]
+    },
+    medications: [
+      {
+        name: "Cimetidine (pre-scan protocol)",
+        type: "H2-receptor antagonist",
+        action: "Blocks H2 histamine receptors on ectopic gastric parietal cells, preventing HCl secretion; in diagnostic context, prevents acid-mediated washout of technetium-99m pertechnetate from ectopic gastric mucosa, improving Meckel's scan sensitivity from 60% to 85-90%",
+        sideEffects: "Anti-androgenic effects (gynecomastia, decreased libido) with prolonged use, drug interactions via CYP450 inhibition",
+        contra: "Known hypersensitivity; caution with hepatic impairment due to CYP450 interactions",
+        pearl: "Administered 20 mg/kg/day divided BID for 2 days before the scan; alternative: famotidine (does not inhibit CYP450)"
+      },
+      {
+        name: "Octreotide (Sandostatin)",
+        type: "Somatostatin analogue",
+        action: "Reduces splanchnic blood flow and inhibits GI hormone secretion; used as adjunctive therapy for refractory GI hemorrhage from Meckel's diverticulum to reduce bleeding rate before surgical intervention",
+        sideEffects: "Bradycardia, hyperglycemia, gallstone formation, injection site pain",
+        contra: "Hypersensitivity to octreotide",
+        pearl: "Consider as a temporizing measure for massive hemorrhage from Meckel's diverticulum in patients who are hemodynamically unstable and awaiting emergent surgery"
+      }
+    ],
+    pearls: [
+      "Meckel's diverticulum is a TRUE diverticulum (all wall layers) because it arises from the embryonic vitelline duct, unlike acquired pseudodiverticula that herniate through muscular defects",
+      "The 'Rule of 2s' is a mnemonic, not a clinical rule: approximately 50% of symptomatic cases present after age 2, and ectopic gastric tissue prevalence varies by study",
+      "A negative Meckel's scan does NOT rule out Meckel's diverticulum; it only rules out ectopic gastric tissue; diverticula containing only pancreatic tissue or normal ileal mucosa will be missed",
+      "Carcinoid tumors in Meckel's diverticulum are typically benign (< 2 cm) with low metastatic potential; however, resection specimens should always undergo histopathological examination",
+      "The incidental Meckel's resection debate has shifted toward resection in young patients since laparoscopic surgery has reduced operative morbidity significantly"
+    ],
+    quiz: [
+      {
+        question: "A nurse practitioner is evaluating a 28-year-old male with recurrent episodes of painless lower GI bleeding. A Meckel's scan is negative. Which of the following is the most appropriate next step?",
+        options: [
+          "Reassure the patient that Meckel's diverticulum has been ruled out",
+          "Order a tagged RBC scan or CT angiography to localize the bleeding source",
+          "Repeat the Meckel's scan without cimetidine pretreatment",
+          "Prescribe iron supplementation and discharge with outpatient follow-up"
+        ],
+        correct: 1,
+        rationale: "A negative Meckel's scan only indicates the absence of detectable ectopic gastric tissue; it does not rule out Meckel's diverticulum as a cause of bleeding. The diverticulum may contain pancreatic heterotopia or have bleeding from a non-gastric mechanism. Additional imaging with tagged RBC scan, CT angiography, or mesenteric angiography should be pursued to localize the active bleeding source. If suspicion remains high, laparoscopic exploration may be warranted."
+      }
+    ]
   }
 };
