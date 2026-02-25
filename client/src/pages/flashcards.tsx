@@ -1101,7 +1101,7 @@ export default function Flashcards() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("upgraded")) {
+    if (params.get("upgraded") || params.get("view") === "decks") {
       setView("decks");
     }
   }, []);
