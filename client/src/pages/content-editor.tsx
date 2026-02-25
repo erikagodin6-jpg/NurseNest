@@ -30,6 +30,19 @@ import {
   Send,
   Sparkles,
   X,
+  Bold,
+  Italic,
+  Underline as UnderlineIcon,
+  List,
+  ListOrdered,
+  GripVertical,
+  Type,
+  AlertTriangle,
+  Pill,
+  MessageSquare,
+  HelpCircle,
+  CreditCard,
+  Heading,
 } from "lucide-react";
 
 type ContentBlock = {
@@ -241,6 +254,8 @@ export default function ContentEditorPage() {
   const [showSeo, setShowSeo] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
@@ -369,6 +384,45 @@ export default function ContentEditorPage() {
 
   function removeBlock(index: number) {
     setBlocks(blocks.filter((_, i) => i !== index));
+  }
+
+  function handleDragDrop(fromIndex: number, toIndex: number) {
+    if (fromIndex === toIndex) return;
+    const updated = [...blocks];
+    const [moved] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, moved);
+    setBlocks(updated);
+    setDragIndex(null);
+    setDragOverIndex(null);
+  }
+
+  function applyFormatting(index: number, format: string) {
+    const textarea = document.querySelector(`[data-testid="textarea-block-${index}"]`) as HTMLTextAreaElement;
+    if (!textarea) return;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = blocks[index].content;
+    const selected = text.substring(start, end);
+    if (start === end) return;
+
+    let wrapped = selected;
+    switch (format) {
+      case "bold": wrapped = `**${selected}**`; break;
+      case "italic": wrapped = `*${selected}*`; break;
+      case "underline": wrapped = `<u>${selected}</u>`; break;
+      case "heading": wrapped = `## ${selected}`; break;
+      case "bullet": wrapped = selected.split("\n").map(l => `- ${l}`).join("\n"); break;
+      case "numbered": wrapped = selected.split("\n").map((l, i) => `${i + 1}. ${l}`).join("\n"); break;
+      default: return;
+    }
+
+    const newContent = text.substring(0, start) + wrapped + text.substring(end);
+    updateBlock(index, newContent);
+    setTimeout(() => {
+      textarea.focus();
+      textarea.selectionStart = start;
+      textarea.selectionEnd = start + wrapped.length;
+    }, 0);
   }
 
   function moveBlock(index: number, direction: "up" | "down") {
@@ -1005,13 +1059,28 @@ export default function ContentEditorPage() {
                       {blocks.map((block, index) => (
                         <div
                           key={index}
-                          className="border border-gray-200 rounded-lg p-4 space-y-2"
+                          className={`border rounded-lg p-4 space-y-2 transition-all ${
+                            dragOverIndex === index ? "border-primary border-2 bg-primary/5" :
+                            dragIndex === index ? "opacity-50 border-dashed border-gray-300" :
+                            "border-gray-200"
+                          }`}
                           data-testid={`block-${index}`}
+                          draggable
+                          onDragStart={() => setDragIndex(index)}
+                          onDragOver={(e) => { e.preventDefault(); setDragOverIndex(index); }}
+                          onDragLeave={() => setDragOverIndex(null)}
+                          onDrop={(e) => { e.preventDefault(); if (dragIndex !== null) handleDragDrop(dragIndex, index); }}
+                          onDragEnd={() => { setDragIndex(null); setDragOverIndex(null); }}
                         >
                           <div className="flex items-center justify-between">
-                            <Badge variant="outline" className="capitalize">
-                              {block.type.replace("-", " ")}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                              <div className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600">
+                                <GripVertical className="w-4 h-4" />
+                              </div>
+                              <Badge variant="outline" className="capitalize">
+                                {block.type.replace("-", " ")}
+                              </Badge>
+                            </div>
                             <div className="flex items-center gap-1">
                               <Button
                                 variant="ghost"
@@ -1044,6 +1113,71 @@ export default function ContentEditorPage() {
                               </Button>
                             </div>
                           </div>
+                          <div className="flex items-center gap-0.5 border border-gray-100 rounded-md p-1 bg-gray-50">
+                            <button
+                              type="button"
+                              className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
+                              title="Bold"
+                              onClick={() => applyFormatting(index, "bold")}
+                            >
+                              <Bold className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
+                              title="Italic"
+                              onClick={() => applyFormatting(index, "italic")}
+                            >
+                              <Italic className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
+                              title="Underline"
+                              onClick={() => applyFormatting(index, "underline")}
+                            >
+                              <UnderlineIcon className="w-3.5 h-3.5" />
+                            </button>
+                            <div className="w-px h-5 bg-gray-200 mx-1" />
+                            <button
+                              type="button"
+                              className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
+                              title="Heading"
+                              onClick={() => applyFormatting(index, "heading")}
+                            >
+                              <Heading className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
+                              title="Bullet List"
+                              onClick={() => applyFormatting(index, "bullet")}
+                            >
+                              <List className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
+                              title="Numbered List"
+                              onClick={() => applyFormatting(index, "numbered")}
+                            >
+                              <ListOrdered className="w-3.5 h-3.5" />
+                            </button>
+                            <div className="w-px h-5 bg-gray-200 mx-1" />
+                            <Select onValueChange={(v) => { const updated = [...blocks]; updated[index] = { ...updated[index], type: v }; setBlocks(updated); }} value={block.type}>
+                              <SelectTrigger className="h-7 w-auto gap-1 text-xs border-none shadow-none bg-transparent px-2">
+                                <Type className="w-3 h-3" />
+                                <span className="capitalize">{block.type.replace("-", " ")}</span>
+                              </SelectTrigger>
+                              <SelectContent>
+                                {BLOCK_TYPES.map((bt) => (
+                                  <SelectItem key={bt} value={bt}>
+                                    {bt.replace("-", " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
                           <Textarea
                             value={block.content}
                             onChange={(e) =>
@@ -1057,6 +1191,7 @@ export default function ContentEditorPage() {
                                   ? 6
                                   : 4
                             }
+                            className="allow-select font-mono text-sm"
                             data-testid={`textarea-block-${index}`}
                           />
                         </div>

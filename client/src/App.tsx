@@ -63,6 +63,15 @@ function PageTracker() {
 
 function CopyProtection() {
   useEffect(() => {
+    function isEditableTarget(target: EventTarget | null): boolean {
+      if (!target || !(target instanceof HTMLElement)) return false;
+      const tag = target.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return true;
+      if (target.isContentEditable) return true;
+      if (target.closest(".allow-select")) return true;
+      return false;
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "PrintScreen") {
         e.preventDefault();
@@ -77,6 +86,36 @@ function CopyProtection() {
         }, 2000);
       }
       if ((e.ctrlKey || e.metaKey) && (e.key === "s" || e.key === "S") && !e.shiftKey) {
+        e.preventDefault();
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === "c" || e.key === "C" || e.key === "x" || e.key === "X" || e.key === "a" || e.key === "A") && !isEditableTarget(e.target)) {
+        e.preventDefault();
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === "u" || e.key === "U")) {
+        e.preventDefault();
+      }
+    };
+
+    const handleCopy = (e: ClipboardEvent) => {
+      if (!isEditableTarget(e.target)) {
+        e.preventDefault();
+      }
+    };
+
+    const handleCut = (e: ClipboardEvent) => {
+      if (!isEditableTarget(e.target)) {
+        e.preventDefault();
+      }
+    };
+
+    const handleContextMenu = (e: MouseEvent) => {
+      if (!isEditableTarget(e.target)) {
+        e.preventDefault();
+      }
+    };
+
+    const handleDragStart = (e: DragEvent) => {
+      if (!isEditableTarget(e.target)) {
         e.preventDefault();
       }
     };
@@ -98,10 +137,18 @@ function CopyProtection() {
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("copy", handleCopy);
+    document.addEventListener("cut", handleCut);
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("dragstart", handleDragStart);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("copy", handleCopy);
+      document.removeEventListener("cut", handleCut);
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("dragstart", handleDragStart);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);

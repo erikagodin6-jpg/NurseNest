@@ -285,7 +285,10 @@ export default function AdminPage() {
   async function fetchSiteAnalytics() {
     setAnalyticsLoading(true);
     try {
-      const res = await fetch(`/api/admin/site-analytics?days=${analyticsDays}`);
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) { setAnalyticsLoading(false); return; }
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/site-analytics?days=${analyticsDays}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
       if (res.ok) setSiteAnalytics(await res.json());
     } catch {
       // ignore

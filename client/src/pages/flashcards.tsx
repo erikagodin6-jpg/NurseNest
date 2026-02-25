@@ -1154,41 +1154,41 @@ export default function Flashcards() {
 
             <div className="space-y-6">
               <Card 
-                className="border-none shadow-lg bg-indigo-900 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                className="border-none shadow-lg bg-gradient-to-br from-primary/90 to-primary text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
                 onClick={() => setView("bookmarks")}
               >
                 <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                    <Bookmark className="w-6 h-6 text-indigo-300" />
+                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
+                    <Bookmark className="w-6 h-6 text-white/80" />
                   </div>
                   <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Flagged for Review</h3>
-                <p className="text-indigo-200/80 text-sm leading-relaxed">
+                <p className="text-white/70 text-sm leading-relaxed">
                   {bookmarks.length > 0 ? `${bookmarks.length} cards marked for focused review. These are the concepts you found most challenging.` : "Flag difficult cards during your session to build a targeted review deck."}
                 </p>
               </Card>
 
               <Card 
-                className="border-none shadow-lg bg-emerald-900 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                className="border-none shadow-lg bg-gradient-to-br from-primary/70 to-primary/50 text-gray-900 p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
                 onClick={() => setView("mastered")}
                 data-testid="card-mastered"
               >
                 <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                    <Trophy className="w-6 h-6 text-emerald-300" />
+                  <div className="w-12 h-12 bg-white/30 rounded-2xl flex items-center justify-center">
+                    <Trophy className="w-6 h-6 text-gray-900/70" />
                   </div>
-                  <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-5 h-5 text-gray-900/30 group-hover:translate-x-1 transition-transform" />
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Mastered Cards</h3>
-                <p className="text-emerald-200/80 text-sm leading-relaxed">
+                <p className="text-gray-900/60 text-sm leading-relaxed">
                   {mastered.length > 0 ? `${mastered.length} cards you've confidently learned. They won't appear in regular study sessions.` : "Mark cards as mastered during your session to track your progress."}
                 </p>
               </Card>
 
-              <Card className="border-none shadow-md bg-white p-6 rounded-3xl">
+              <Card className="border-none shadow-md bg-white p-6 rounded-3xl border border-primary/10">
                 <div className="flex items-center gap-3 mb-4">
-                  <History className="w-5 h-5 text-amber-500" />
+                  <History className="w-5 h-5 text-primary" />
                   <h4 className="font-bold text-gray-900">Exam Strategy</h4>
                 </div>
                 <ul className="space-y-3 text-sm text-gray-600">
