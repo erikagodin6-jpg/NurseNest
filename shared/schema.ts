@@ -325,3 +325,45 @@ export const insertLessonImageSchema = createInsertSchema(lessonImages).omit({
 
 export type LessonImage = typeof lessonImages.$inferSelect;
 export type InsertLessonImage = z.infer<typeof insertLessonImageSchema>;
+
+export const auditLogs = pgTable("audit_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  actorId: varchar("actor_id"),
+  actorUsername: text("actor_username"),
+  entityType: text("entity_type").notNull(),
+  entityId: varchar("entity_id"),
+  action: text("action").notNull(),
+  beforeJson: jsonb("before_json"),
+  afterJson: jsonb("after_json"),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
+
+export const contentRevisions = pgTable("content_revisions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  revisionNumber: integer("revision_number").notNull().default(1),
+  title: text("title"),
+  content: jsonb("content"),
+  status: text("status"),
+  editedBy: varchar("edited_by"),
+  editedByUsername: text("edited_by_username"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContentRevisionSchema = createInsertSchema(contentRevisions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type ContentRevision = typeof contentRevisions.$inferSelect;
+export type InsertContentRevision = z.infer<typeof insertContentRevisionSchema>;
