@@ -39,6 +39,9 @@ import { rpnExtraBank } from "./extra-questions-rpn";
 import { rnExtraBank } from "./extra-questions-rn";
 import { npExtraBank } from "./extra-questions-np";
 import { medMathLessons } from "./med-math-lessons";
+import { reproductiveLessons } from "./reproductive";
+import { reproductiveRpnLessons } from "./reproductive-rpn";
+import { reproductiveNpLessons } from "./reproductive-np";
 
 export type { LessonContent } from "./types";
 
@@ -83,4 +86,7 @@ export const contentMap: Record<string, LessonContent> = {
   ...rnExtraBank,
   ...npExtraBank,
   ...medMathLessons,
+  ...reproductiveLessons,
+  ...reproductiveRpnLessons,
+  ...reproductiveNpLessons,
 };

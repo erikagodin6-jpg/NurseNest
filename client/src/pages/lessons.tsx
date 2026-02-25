@@ -598,7 +598,14 @@ const rpnSystems = [
       { id: "menopause-basics", name: "Menopause", status: "Available" },
       { id: "breast-self-exam", name: "Breast Self-Examination", status: "Available" },
       { id: "pap-smear-basics", name: "Pap Smear and Cervical Screening", status: "Available" },
-      { id: "uti-basics", name: "Urinary Tract Infections", status: "Available" }
+      { id: "uti-basics", name: "Urinary Tract Infections", status: "Available" },
+      { id: "delayed-puberty-rpn", name: "Delayed Puberty", status: "Available" },
+      { id: "precocious-puberty-rpn", name: "Precocious Puberty", status: "Available" },
+      { id: "dysmenorrhea-rpn", name: "Dysmenorrhea", status: "Available" },
+      { id: "abnormal-uterine-bleeding-rpn", name: "Abnormal Uterine Bleeding", status: "Available" },
+      { id: "pcos-rpn", name: "Polycystic Ovary Syndrome (PCOS)", status: "Available" },
+      { id: "pid-rpn", name: "Pelvic Inflammatory Disease", status: "Available" },
+      { id: "vaginitis-rpn", name: "Vaginitis", status: "Available" }
     ]
   },
   {
@@ -1017,6 +1024,27 @@ const rnSystems = [
       { id: "postpartum-depression-care", name: "Postpartum Depression", status: "Available" },
       { id: "postpartum-psychosis", name: "Postpartum Psychosis", status: "Available" },
       { id: "vaginal-hematoma", name: "Vaginal Hematoma", status: "Available" }
+    ]
+  },
+  {
+    id: "womens-health-rn",
+    title: "Women's Health & Reproductive",
+    icon: Users,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "endometriosis", name: "Endometriosis", status: "Available" },
+      { id: "polycystic-ovary-syndrome", name: "Polycystic Ovary Syndrome (PCOS)", status: "Available" },
+      { id: "ovarian-cysts", name: "Ovarian Cysts", status: "Available" },
+      { id: "uterine-fibroids", name: "Uterine Fibroids (Leiomyomas)", status: "Available" },
+      { id: "cervical-cancer", name: "Cervical Cancer", status: "Available" },
+      { id: "ovarian-cancer", name: "Ovarian Cancer", status: "Available" },
+      { id: "pelvic-inflammatory-disease", name: "Pelvic Inflammatory Disease", status: "Available" },
+      { id: "delayed-puberty", name: "Delayed Puberty", status: "Available" },
+      { id: "precocious-puberty", name: "Precocious Puberty", status: "Available" },
+      { id: "dysmenorrhea", name: "Dysmenorrhea", status: "Available" },
+      { id: "abnormal-uterine-bleeding", name: "Abnormal Uterine Bleeding", status: "Available" },
+      { id: "vaginitis", name: "Vaginitis", status: "Available" }
     ]
   },
   {
@@ -1552,7 +1580,11 @@ const npSystems = [
       { id: "cervical-cancer-screening-np", name: "Cervical Cancer Screening: Guidelines & Colposcopy", status: "Available" },
       { id: "hrt-prescribing-np", name: "HRT Prescribing: Risks, Benefits & Monitoring", status: "Available" },
       { id: "aub-np", name: "Abnormal Uterine Bleeding: PALM-COEIN Classification", status: "Available" },
-      { id: "pid-np", name: "Pelvic Inflammatory Disease: Empiric Treatment", status: "Available" }
+      { id: "pid-np", name: "Pelvic Inflammatory Disease: Empiric Treatment", status: "Available" },
+      { id: "delayed-puberty-np", name: "Delayed Puberty: KNDy Neurons & Hormonal Replacement", status: "Available" },
+      { id: "precocious-puberty-np", name: "Precocious Puberty: GnRH Agonist Protocols", status: "Available" },
+      { id: "dysmenorrhea-np", name: "Dysmenorrhea: COX-2/Prostaglandin Pathway & IUD Management", status: "Available" },
+      { id: "vaginitis-np", name: "Vaginitis: Microbiome Ecology & Resistance Patterns", status: "Available" }
     ]
   },
   {

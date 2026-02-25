@@ -79,7 +79,7 @@ Preferred communication style: Simple, everyday language.
 - **Validation**: Zod schemas generated from Drizzle.
 
 ### Content Architecture
-- Lesson content is organized as TypeScript modules in `client/src/data/lessons/` by body system, covering over 32 diverse modules.
+- Lesson content is organized as TypeScript modules in `client/src/data/lessons/` by body system, covering over 35 diverse modules including reproductive health (reproductive.ts, reproductive-rpn.ts, reproductive-np.ts).
 - Lessons page has 4 tabs: RPN/LVN, RN, NP, Pharmacology. Fundamentals and Delegation content merged into each tier tab.
 - Pharmacology lessons collected from all tiers into a separate tab with tier sub-sections.
 - Flashcard system supports bookmarking (flagged for review) and mastery tracking via localStorage.
