@@ -1,0 +1,184 @@
+You are a senior full-stack engineer and social automation architect working inside my existing NurseNest codebase and admin/editor console. Build an automated social posting system that publishes a “Question of the Day” plus marketing content to BOTH Facebook and Instagram, twice per day, using official Meta APIs and best practices.
+
+NON-NEGOTIABLES
+1) Platform: Facebook Page + Instagram Business/Creator account connected to the Page.
+2) Frequency: 2 posts per day (default times 08:30 and 19:30 America/Toronto).
+3) Content types per day:
+   - Post A: Question of the Day (nursing exam style question)
+   - Post B: Marketing content (promote NurseNest resources, blog posts, flashcards, freebies)
+4) Must be controllable from my admin/editor console:
+   - enable/disable automation
+   - set posting times
+   - choose target platforms (FB, IG, or both)
+   - pick topic buckets (RPN/RN/NP)
+   - approve posts before publishing OR allow autopost
+   - view logs and failures
+5) Must be on-brand:
+   - clean, pastel clinical NurseNest tone
+   - human, supportive, confident
+   - no emojis unless site already uses them (default: minimal)
+   - no em dashes
+6) SEO and tracking:
+   - include a link back to my site with UTM parameters
+   - rotate backlinks to relevant pages (blog, lessons, flashcards, freebies)
+7) Safety and compliance:
+   - No personalized medical advice
+   - Educational only
+   - No protected health information
+   - Clear disclaimer line included when appropriate
+8) Use official Meta Graph API:
+   - Facebook Page publishing endpoint
+   - Instagram Content Publishing API (IG User Media publish flow)
+   - Never scrape, never use unofficial bots
+
+PHASE 0: DISCOVERY
+- Inspect the repo to identify existing admin console, auth, database/ORM, and any job scheduler.
+- Identify where settings are stored and how to add a new “Social Automation” module.
+- Confirm environment constraints for Replit hosting (long-running jobs vs scheduled tasks). If cron is not available, implement a safe fallback scheduler.
+
+PHASE 1: DATA MODELS
+Create or extend DB tables:
+
+SocialAccount
+- id, platform ('facebook'|'instagram'), pageId, igUserId
+- accessTokenEncrypted, tokenExpiresAt
+- connectedByUserId, createdAt, updatedAt
+
+SocialAutomationSettings
+- id, isEnabled
+- timezone = 'America/Toronto'
+- postTimes = ['08:30','19:30']
+- platforms = { facebook: true, instagram: true }
+- approvalMode = 'required'|'auto'
+- topicBuckets = ['RPN','RN','NP'] with toggles
+- hashtagSets (optional)
+- utmSource='social', utmMedium, utmCampaign rotation rules
+
+SocialPostDraft
+- id, type ('question'|'marketing')
+- topicBucket, topicTag
+- captionText
+- linkUrl
+- mediaUrl (optional)
+- scheduledFor
+- status ('draft'|'pending_approval'|'scheduled'|'published'|'failed'|'skipped')
+- platformTargets (fb/ig)
+- createdBy ('ai'|'admin')
+- publishedAt, errorMessage
+- metaResponseJson
+
+SocialPostLog
+- id, draftId, platform, status, requestJson, responseJson, createdAt
+
+PHASE 2: META AUTH CONNECTION FLOW
+Implement a “Connect Facebook and Instagram” setup in admin:
+- Use Facebook Login OAuth to request required permissions for Page publishing and Instagram publishing.
+- Store tokens securely (encrypt at rest).
+- Implement token refresh / re-auth prompts.
+- Validate that the IG account is connected and eligible for publishing.
+
+PHASE 3: CONTENT GENERATION ENGINE
+In admin console, implement “Generate next 7 days” button that creates drafts.
+
+Question of the Day requirements:
+- Provide one question with 4 options (A-D) OR SATA when appropriate
+- Provide correct answer and a short rationale
+- Keep it short enough for social caption length
+- Encourage click-through to the full explanation on NurseNest
+- End with a CTA: “Answer in comments” + link
+
+Marketing post requirements:
+- Promote a specific NurseNest resource, rotating:
+  - blog post
+  - free printable
+  - flashcard deck
+  - lesson
+- Must include:
+  - what the user gets
+  - who it is for (RPN/RN/NP)
+  - one clear CTA
+  - one trackable link with UTM
+
+Brand voice:
+- professional, warm, human
+- no fear mongering
+- no exaggerated claims
+
+Hashtags:
+- Use a controlled set of 6–12 relevant hashtags per post
+- Rotate sets to avoid repetition
+- Mix broad and niche tags
+- Keep them nursing-student focused
+
+Links:
+- Always include a canonical NurseNest link with UTM:
+  - Example: https://www.nursenest.ca/blog/<slug>?utm_source=facebook&utm_medium=social&utm_campaign=qotd
+  - For IG, if link in bio is required, use a consistent landing page:
+    https://www.nursenest.ca/links?utm_source=instagram&utm_medium=social&utm_campaign=qotd
+  - If the system supports it, also post as IG caption with the link even if not clickable
+
+IMPORTANT: Provide deterministic templates so posts stay consistent.
+
+PHASE 4: APPROVAL WORKFLOW
+If approvalMode='required':
+- Generated posts go to status 'pending_approval'
+- Admin can edit caption, link, hashtags, scheduled time, platform targets
+- Admin clicks Approve, then status becomes 'scheduled'
+
+If approvalMode='auto':
+- Generated posts go directly to 'scheduled'
+
+PHASE 5: SCHEDULER AND PUBLISHING
+Implement a scheduler that runs reliably in Replit:
+- Preferred: use an existing job runner or cron-like system if present.
+- Fallback: server-side interval that checks every 60 seconds for due posts:
+  - Select drafts where status='scheduled' and scheduledFor <= now
+  - Mark as “publishing” using transaction lock to prevent duplicates
+  - Publish to Facebook and Instagram
+  - On success: mark published and store API response
+  - On failure: mark failed and store errorMessage
+
+Meta API publishing logic:
+- Facebook Page: create post with message + link + optional image
+- Instagram: create media container then publish
+- Support image attachments:
+  - If no design system exists, use text-only captions initially
+  - Optional enhancement: auto-generate a branded image (pastel, NurseNest logo) using an internal generator if already available
+
+PHASE 6: ADMIN UI MODULE
+In the editor console create a “Social Automation” screen with:
+- Connect accounts status
+- Toggle enable/disable
+- Set times
+- Choose platforms
+- Select topic buckets
+- Choose approval mode
+- Generate drafts (next 7 days)
+- Draft queue with edit/approve buttons
+- Logs and failures with retry button
+- “Post now” button for manual test
+
+PHASE 7: QUALITY CONTROLS
+- Prevent duplicate questions within last 30 days
+- Avoid repeating identical hashtags in consecutive posts
+- Validate link reachable and uses correct domain
+- Hard block medical advice and claims
+- Add disclaimer to QOTD posts:
+  “Educational content only. Not medical advice.”
+
+DELIVERABLES
+1) Repo discovery summary and architecture plan
+2) Meta OAuth setup instructions and required env vars
+3) DB migrations
+4) Admin UI for social automation
+5) Working end-to-end test:
+   - Connect FB and IG
+   - Generate 7 days of drafts
+   - Approve one post
+   - Publish successfully to both platforms
+6) Failure handling and logs
+
+START NOW
+- Inspect the repo and implement this module end-to-end.
+- Do not leave placeholders like “working on it”.
+- Make reasonable assumptions and document them briefly.
