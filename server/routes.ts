@@ -260,6 +260,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
             },
           ],
           mode: "payment",
+          allow_promotion_codes: true,
           success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
           cancel_url: `${baseUrl}/pricing`,
           metadata: { userId: user.id, tier, duration: selectedDuration },
@@ -285,6 +286,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
           },
         ],
         mode: "subscription",
+        allow_promotion_codes: true,
         success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`,
         cancel_url: `${baseUrl}/pricing`,
         metadata: { userId: user.id, tier, duration: selectedDuration },
@@ -1301,9 +1303,175 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       if (!admin) return;
 
       const days = parseInt(req.query.days as string) || 30;
-      const analytics = await storage.getPageViewAnalytics(days);
-      res.json(analytics);
+      const dbStorage = storage as DatabaseStorage;
+
+      const [analytics, allUsers] = await Promise.all([
+        storage.getPageViewAnalytics(days),
+        dbStorage.getAllUsers(),
+      ]);
+
+      const subscriptionBreakdown: Record<string, number> = { free: 0, rpn: 0, rn: 0, np: 0, admin: 0 };
+      const statusBreakdown: Record<string, number> = {};
+      const regionBreakdown: Record<string, number> = {};
+
+      allUsers.forEach((u: any) => {
+        const tier = u.tier || "free";
+        subscriptionBreakdown[tier] = (subscriptionBreakdown[tier] || 0) + 1;
+        const status = u.subscriptionStatus || "inactive";
+        statusBreakdown[status] = (statusBreakdown[status] || 0) + 1;
+        const region = u.region || "US";
+        regionBreakdown[region] = (regionBreakdown[region] || 0) + 1;
+      });
+
+      const activeSubscribers = allUsers.filter((u: any) => u.subscriptionStatus === "active" && u.tier !== "free" && u.tier !== "admin").length;
+
+      const conversionFunnel = {
+        totalVisitors: analytics.uniqueSessions,
+        pricingViews: analytics.pricingViews,
+        checkoutIntents: analytics.checkoutIntents,
+        activeSubscribers,
+        pricingRate: analytics.uniqueSessions > 0 ? Math.round((analytics.pricingViews / analytics.uniqueSessions) * 100) : 0,
+        checkoutRate: analytics.pricingViews > 0 ? Math.round((analytics.checkoutIntents / analytics.pricingViews) * 100) : 0,
+      };
+
+      res.json({
+        traffic: {
+          totalViews: analytics.totalViews,
+          uniqueSessions: analytics.uniqueSessions,
+          avgDuration: analytics.avgDuration,
+          bounceRate: analytics.bounceRate,
+        },
+        topPages: analytics.topPages,
+        topReferrers: analytics.topReferrers,
+        devices: analytics.devices,
+        browsers: analytics.browsers,
+        operatingSystems: analytics.operatingSystems,
+        subscriptionBreakdown,
+        subscriptionStatus: statusBreakdown,
+        userRegions: regionBreakdown,
+        totalUsers: allUsers.length,
+        conversionFunnel,
+        dailyViews: analytics.dailyViews,
+        utmCampaigns: analytics.utmCampaigns,
+        utmSources: analytics.utmSources,
+        utmMediums: analytics.utmMediums,
+        utmCampaignNames: analytics.utmCampaignNames,
+        blogContent: analytics.blogContent,
+        countries: analytics.countries,
+        conversionRate: analytics.conversionRate,
+      });
     } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Stripe Promotions (Admin)
+  // --------------------
+  app.post("/api/admin/promotions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { code, discountType, amount, duration, maxRedemptions, expiresAt } = req.body;
+      if (!code || !discountType || !amount || !duration) {
+        return res.status(400).json({ error: "code, discountType, amount, and duration are required" });
+      }
+      if (!["percent_off", "amount_off"].includes(discountType)) {
+        return res.status(400).json({ error: "discountType must be percent_off or amount_off" });
+      }
+      if (!["once", "repeating", "forever"].includes(duration)) {
+        return res.status(400).json({ error: "duration must be once, repeating, or forever" });
+      }
+
+      const stripe = await getUncachableStripeClient();
+
+      const couponParams: any = {
+        duration,
+        name: `Promo: ${code}`,
+      };
+      if (discountType === "percent_off") {
+        couponParams.percent_off = Number(amount);
+      } else {
+        couponParams.amount_off = Number(amount);
+        couponParams.currency = "usd";
+      }
+      if (duration === "repeating") {
+        couponParams.duration_in_months = 3;
+      }
+
+      const coupon = await stripe.coupons.create(couponParams);
+
+      const promoParams: any = {
+        coupon: coupon.id,
+        code: code.toUpperCase(),
+      };
+      if (maxRedemptions) {
+        promoParams.max_redemptions = Number(maxRedemptions);
+      }
+      if (expiresAt) {
+        promoParams.expires_at = Math.floor(new Date(expiresAt).getTime() / 1000);
+      }
+
+      const promotionCode = await stripe.promotionCodes.create(promoParams);
+
+      res.json({
+        id: promotionCode.id,
+        code: promotionCode.code,
+        couponId: coupon.id,
+        discountType,
+        amount: Number(amount),
+        duration,
+        maxRedemptions: promotionCode.max_redemptions,
+        expiresAt: promotionCode.expires_at,
+        active: promotionCode.active,
+      });
+    } catch (e: any) {
+      console.error("Create promotion error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/promotions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const stripe = await getUncachableStripeClient();
+      const promotionCodes = await stripe.promotionCodes.list({ limit: 100 });
+
+      const results = promotionCodes.data.map((pc: any) => ({
+        id: pc.id,
+        code: pc.code,
+        couponId: pc.coupon?.id,
+        discountType: pc.coupon?.percent_off ? "percent_off" : "amount_off",
+        amount: pc.coupon?.percent_off || pc.coupon?.amount_off || 0,
+        duration: pc.coupon?.duration,
+        maxRedemptions: pc.max_redemptions,
+        timesRedeemed: pc.times_redeemed,
+        expiresAt: pc.expires_at,
+        active: pc.active,
+        created: pc.created,
+      }));
+
+      res.json(results);
+    } catch (e: any) {
+      console.error("List promotions error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/promotions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const stripe = await getUncachableStripeClient();
+      const updated = await stripe.promotionCodes.update(req.params.id, { active: false });
+
+      res.json({ success: true, id: updated.id, active: updated.active });
+    } catch (e: any) {
+      console.error("Deactivate promotion error:", e);
       res.status(500).json({ error: e.message });
     }
   });

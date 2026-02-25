@@ -365,7 +365,13 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(pageViews.createdAt));
 
     const totalViews = allViews.length;
-    const uniqueSessions = new Set(allViews.map(v => v.sessionId)).size;
+    const sessionPageCounts: Record<string, number> = {};
+    allViews.forEach(v => {
+      sessionPageCounts[v.sessionId] = (sessionPageCounts[v.sessionId] || 0) + 1;
+    });
+    const uniqueSessions = Object.keys(sessionPageCounts).length;
+    const bounceSessions = Object.values(sessionPageCounts).filter(c => c === 1).length;
+    const bounceRate = uniqueSessions > 0 ? Math.round((bounceSessions / uniqueSessions) * 100) : 0;
 
     const pageCounts: Record<string, number> = {};
     const referrerCounts: Record<string, number> = {};
@@ -373,6 +379,10 @@ export class DatabaseStorage implements IStorage {
     const browserCounts: Record<string, number> = {};
     const osCounts: Record<string, number> = {};
     const utmSourceCounts: Record<string, number> = {};
+    const utmMediumCounts: Record<string, number> = {};
+    const utmCampaignCounts: Record<string, number> = {};
+    const utmCombined: Record<string, number> = {};
+    const countryCounts: Record<string, number> = {};
     const dailyViews: Record<string, number> = {};
     let totalDuration = 0;
     let durationCount = 0;
@@ -386,6 +396,13 @@ export class DatabaseStorage implements IStorage {
       if (v.browser) browserCounts[v.browser] = (browserCounts[v.browser] || 0) + 1;
       if (v.os) osCounts[v.os] = (osCounts[v.os] || 0) + 1;
       if (v.utmSource) utmSourceCounts[v.utmSource] = (utmSourceCounts[v.utmSource] || 0) + 1;
+      if (v.utmMedium) utmMediumCounts[v.utmMedium] = (utmMediumCounts[v.utmMedium] || 0) + 1;
+      if (v.utmCampaign) utmCampaignCounts[v.utmCampaign] = (utmCampaignCounts[v.utmCampaign] || 0) + 1;
+      if (v.utmSource || v.utmMedium || v.utmCampaign) {
+        const key = `${v.utmSource || "direct"}|${v.utmMedium || "none"}|${v.utmCampaign || "none"}`;
+        utmCombined[key] = (utmCombined[key] || 0) + 1;
+      }
+      if (v.country) countryCounts[v.country] = (countryCounts[v.country] || 0) + 1;
       if (v.duration && v.duration > 0) { totalDuration += v.duration; durationCount++; }
       if (v.isCheckoutIntent) checkoutIntents++;
       if (v.isPricingView) pricingViews++;
@@ -398,10 +415,30 @@ export class DatabaseStorage implements IStorage {
     const topReferrers = Object.entries(referrerCounts).sort((a, b) => b[1] - a[1]).slice(0, 15).map(([referrer, views]) => ({ referrer, views }));
     const avgDuration = durationCount > 0 ? Math.round(totalDuration / durationCount) : 0;
 
+    const blogPages = Object.entries(pageCounts)
+      .filter(([page]) => page.startsWith("/blog") || page.startsWith("/content/"))
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 15)
+      .map(([page, views]) => ({ page, views }));
+
+    const utmCampaigns = Object.entries(utmCombined)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(([key, views]) => {
+        const [source, medium, campaign] = key.split("|");
+        return { source, medium, campaign, views };
+      });
+
+    const countries = Object.entries(countryCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 30)
+      .map(([country, views]) => ({ country, views }));
+
     return {
       totalViews,
       uniqueSessions,
       avgDuration,
+      bounceRate,
       checkoutIntents,
       pricingViews,
       topPages,
@@ -410,6 +447,11 @@ export class DatabaseStorage implements IStorage {
       browsers: browserCounts,
       operatingSystems: osCounts,
       utmSources: utmSourceCounts,
+      utmMediums: utmMediumCounts,
+      utmCampaignNames: utmCampaignCounts,
+      utmCampaigns,
+      countries,
+      blogContent: blogPages,
       dailyViews: Object.entries(dailyViews).sort((a, b) => a[0].localeCompare(b[0])).map(([date, views]) => ({ date, views })),
       conversionRate: uniqueSessions > 0 ? Math.round((checkoutIntents / uniqueSessions) * 100) : 0,
     };
