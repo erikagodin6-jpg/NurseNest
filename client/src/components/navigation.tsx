@@ -190,6 +190,14 @@ export function Navigation() {
       setLocation("/mock-exams");
       return;
     }
+    if (itemLabel === "Pricing") {
+      setLocation("/pricing");
+      return;
+    }
+    if (itemLabel === "FAQ") {
+      setLocation("/faq");
+      return;
+    }
     toast({
       title: "Subscription Required",
       description: `Access to ${label} ${itemLabel || ""} materials requires an active subscription.`,
@@ -742,6 +750,26 @@ export function Navigation() {
                 </Button>
               </div>
             )}
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-primary/10 bg-primary/5">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="flex items-center justify-between gap-2 h-9">
+            <div className="hidden md:flex items-center gap-0.5">
+              {designations.map((d) => (
+                <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
+              ))}
+            </div>
+            <div className="md:hidden" />
+            <div className="flex items-center gap-2">
+              <NavDropdown label="Learning" items={learningItems} isPaid subBar />
+              <NavDropdown label="Resources" items={[
+                { icon: Tag, label: "Pricing" },
+                { icon: HelpCircle, label: "FAQ" },
+                { icon: BarChart, label: "Reports" },
+              ]} subBar />
+            </div>
           </div>
         </div>
       </div>

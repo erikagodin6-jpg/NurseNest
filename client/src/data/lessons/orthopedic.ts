@@ -2131,5 +2131,387 @@ export const orthopedicLessons: Record<string, LessonContent> = {
       correct: 1,
       rationale: "Superior mesenteric artery (SMA) syndrome occurs when the third part of the duodenum is compressed between the SMA and the aorta. It can occur after spinal surgery due to correction of the spinal curve altering the angle of the SMA. Symptoms include bilious vomiting, abdominal distension, and inability to tolerate oral intake. Treatment includes gastric decompression and positioning (left lateral or prone)."
     }]
+  },
+
+  "osteoporosis-rn": {
+    title: "Osteoporosis – RN Clinical Management",
+    cellular: {
+      title: "Osteoclast-Osteoblast Imbalance and the RANK/RANKL/OPG Pathway",
+      content: "Osteoporosis is a systemic skeletal disease characterized by low bone mass and microarchitectural deterioration of bone tissue, leading to enhanced bone fragility and a consequent increase in fracture risk. Bone is a dynamic tissue that undergoes continuous remodeling through the coordinated activity of osteoclasts (bone-resorbing cells derived from monocyte-macrophage lineage) and osteoblasts (bone-forming cells derived from mesenchymal stem cells). In healthy bone, resorption and formation are tightly coupled so that the amount of bone removed by osteoclasts is replaced by an equal amount of new bone laid down by osteoblasts. This coupling is regulated by the RANK/RANKL/OPG signaling axis. Osteoblasts and bone marrow stromal cells express receptor activator of nuclear factor kappa-B ligand (RANKL) on their surface, which binds to its receptor RANK on osteoclast precursors, stimulating their differentiation, activation, and survival. Osteoprotegerin (OPG), a soluble decoy receptor also produced by osteoblasts, competes with RANK for RANKL binding, thereby inhibiting osteoclastogenesis. In osteoporosis, the balance tips toward excessive resorption: RANKL expression increases relative to OPG, osteoclast activity outpaces osteoblast formation, and net bone loss occurs with each remodeling cycle.\n\nEstrogen plays a central protective role in bone homeostasis. It suppresses RANKL expression, promotes OPG production, induces osteoclast apoptosis, and supports osteoblast survival. The precipitous decline in estrogen at menopause removes these protective effects, unleashing accelerated osteoclastic resorption that is most pronounced in trabecular bone (vertebral bodies, distal radius, proximal femur). This rapid bone loss phase lasts 5 to 10 years after menopause, during which women may lose 2 to 5 percent of bone mass per year. Age-related bone loss affects both sexes and involves declining osteoblast function, reduced growth factor production (IGF-1), decreased calcium absorption from vitamin D insufficiency, and secondary hyperparathyroidism that further stimulates resorption. The result is cortical thinning, trabecular perforation, and loss of structural connectivity that cannot be fully restored once established."
+    },
+    riskFactors: [
+      "Postmenopausal estrogen deficiency accelerating osteoclast-mediated bone resorption",
+      "Advanced age with declining osteoblast proliferative capacity and reduced growth factor signaling",
+      "Low body weight (BMI less than 19) providing less mechanical loading stimulus for bone formation",
+      "Family history of osteoporotic fracture suggesting genetic variation in collagen structure or RANKL/OPG ratio",
+      "Prolonged glucocorticoid therapy (prednisone greater than 5 mg/day for 3 or more months) suppressing osteoblast function and increasing osteoclast lifespan",
+      "Smoking reducing estrogen levels, impairing osteoblast activity, and increasing cortisol",
+      "Excessive alcohol intake (more than 3 drinks per day) directly toxic to osteoblasts",
+      "Sedentary lifestyle removing mechanical loading signals that stimulate bone formation",
+      "Calcium and vitamin D deficiency reducing substrate for mineralization and triggering secondary hyperparathyroidism",
+      "Hyperthyroidism, hyperparathyroidism, and hypogonadism accelerating bone turnover"
+    ],
+    diagnostics: [
+      "DEXA scan (dual-energy X-ray absorptiometry) measuring bone mineral density at the lumbar spine, femoral neck, and total hip",
+      "T-score interpretation: normal (above -1.0), osteopenia (-1.0 to -2.5), osteoporosis (at or below -2.5), severe osteoporosis (at or below -2.5 with fragility fracture)",
+      "FRAX score (Fracture Risk Assessment Tool) integrating clinical risk factors with BMD to estimate 10-year probability of major osteoporotic and hip fracture",
+      "Serum calcium, phosphorus, alkaline phosphatase, and 25-hydroxyvitamin D to exclude metabolic bone disease",
+      "TSH, PTH, and serum protein electrophoresis when secondary causes are suspected",
+      "Lateral vertebral assessment or thoracolumbar X-ray to identify prevalent vertebral compression fractures"
+    ],
+    management: [
+      "Bisphosphonate therapy (alendronate, risedronate, zoledronic acid) as first-line pharmacotherapy inhibiting osteoclast-mediated resorption",
+      "Calcium supplementation (1200 mg daily from diet plus supplements) and vitamin D (800-1000 IU daily) as foundation therapy",
+      "Weight-bearing and resistance exercise to stimulate osteoblast activity through mechanotransduction",
+      "Fall prevention program including home safety assessment, balance training, vision correction, and medication review",
+      "Bisphosphonate administration teaching: take on empty stomach with full glass of water, remain upright for 30-60 minutes, do not eat or drink anything else for at least 30 minutes",
+      "Monitoring bone density with DEXA every 1-2 years to assess treatment response",
+      "Drug holiday consideration after 5 years of oral bisphosphonate or 3 years of IV zoledronic acid in lower-risk patients"
+    ],
+    nursingActions: [
+      "Assess fall risk using a standardized tool and implement individualized fall prevention interventions",
+      "Educate on correct bisphosphonate administration to prevent esophageal erosion and ensure absorption",
+      "Monitor for bisphosphonate side effects including GI irritation, musculoskeletal pain, and rare atypical femur fracture symptoms (thigh or groin pain)",
+      "Teach patients to report new or unusual thigh pain which may indicate atypical femoral fracture",
+      "Encourage adequate calcium intake through dietary sources first (dairy, fortified foods, leafy greens) before supplementation",
+      "Perform height measurement at each visit to detect vertebral compression fractures (height loss greater than 2 cm warrants imaging)",
+      "Assess for kyphosis progression and its impact on respiratory function, balance, and self-image",
+      "Review medication list for drugs that increase fall risk (sedatives, antihypertensives, anticholinergics) or bone loss (glucocorticoids, aromatase inhibitors)"
+    ],
+    signs: {
+      left: [
+        "Loss of height (greater than 4 cm cumulative) from vertebral compression fractures",
+        "Progressive thoracic kyphosis (dowager hump) from anterior wedging of thoracic vertebrae",
+        "Back pain from vertebral compression fracture - acute onset, localized, worsens with standing and relieved by rest",
+        "Fragility fracture from minimal trauma (fall from standing height or less) at hip, wrist, or vertebra"
+      ],
+      right: [
+        "Reduced rib-to-pelvis distance causing abdominal protuberance and early satiety",
+        "Decreased pulmonary function from thoracic kyphosis restricting chest expansion",
+        "Balance impairment from altered center of gravity increasing fall risk",
+        "Dental manifestations including tooth loss from mandibular bone density loss"
+      ]
+    },
+    medications: [
+      {
+        name: "Alendronate",
+        type: "Oral Bisphosphonate (Nitrogen-Containing)",
+        action: "Binds to hydroxyapatite in bone, is internalized by osteoclasts during resorption, and inhibits farnesyl pyrophosphate synthase in the mevalonate pathway, disrupting osteoclast cytoskeletal organization and inducing apoptosis",
+        sideEffects: "Esophageal irritation and ulceration, musculoskeletal pain, jaw osteonecrosis (rare), atypical femur fracture (rare with prolonged use), hypocalcemia",
+        contra: "Esophageal disorders (stricture, achalasia), inability to remain upright for 30 minutes, hypocalcemia, severe renal impairment (CrCl less than 35 mL/min)",
+        pearl: "Must be taken on an empty stomach with a full glass of plain water first thing in the morning, and the patient must remain upright for at least 30 minutes to prevent esophageal erosion - the most common reason for discontinuation"
+      },
+      {
+        name: "Zoledronic Acid",
+        type: "IV Bisphosphonate",
+        action: "Same mechanism as oral bisphosphonates but delivered as once-yearly IV infusion, ensuring 100 percent bioavailability and eliminating GI side effects and adherence concerns",
+        sideEffects: "Acute phase reaction (fever, myalgia, headache for 1-3 days post-infusion), hypocalcemia, renal impairment, jaw osteonecrosis (rare), atypical femur fracture (rare)",
+        contra: "Hypocalcemia (must correct before infusion), CrCl less than 35 mL/min, pregnancy",
+        pearl: "Pre-treat with acetaminophen to reduce acute phase reaction; ensure patient is well-hydrated and has adequate vitamin D levels before infusion to prevent hypocalcemia"
+      }
+    ],
+    pearls: [
+      "DEXA T-score of -2.5 or below diagnoses osteoporosis, but treatment may also be indicated for osteopenia with high FRAX score (10-year hip fracture risk of 3 percent or greater, or major osteoporotic fracture risk of 20 percent or greater)",
+      "Height loss greater than 2 cm at a single visit or greater than 4 cm cumulative should prompt vertebral fracture assessment - many compression fractures are clinically silent",
+      "Bisphosphonate drug holidays (temporary discontinuation after 3-5 years) are considered for lower-risk patients because the drug remains bound to bone for years, but high-risk patients should continue treatment"
+    ],
+    quiz: [
+      {
+        question: "A 67-year-old postmenopausal woman has a DEXA T-score of -2.8 at the lumbar spine. She is prescribed alendronate. Which instruction is essential for the nurse to include in patient teaching?",
+        options: [
+          "Take the medication with food to reduce stomach upset",
+          "Take it on an empty stomach with a full glass of water and remain upright for 30 minutes",
+          "Take it at bedtime with a glass of milk for better calcium absorption",
+          "Crush the tablet and mix with applesauce if swallowing is difficult"
+        ],
+        correct: 1,
+        rationale: "Alendronate must be taken on an empty stomach with a full glass of plain water first thing in the morning to ensure absorption (food reduces bioavailability to near zero). The patient must remain upright for at least 30 minutes to prevent the tablet from lodging in the esophagus and causing erosion or ulceration. The tablet should never be crushed, and dairy products chelate the drug."
+      }
+    ]
+  },
+
+  "osteoporosis-advanced-np": {
+    title: "Osteoporosis – NP Advanced Prescriptive Management",
+    cellular: {
+      title: "Molecular Bone Biology: Wnt/β-Catenin Signaling, Sclerostin, and Cathepsin K",
+      content: "Advanced understanding of osteoporosis requires knowledge of the molecular pathways governing bone cell differentiation and activity beyond the RANK/RANKL/OPG axis. The canonical Wnt/β-catenin signaling pathway is the master regulator of osteoblast differentiation and bone formation. Wnt ligands bind to the Frizzled receptor and its co-receptor LRP5/6 on mesenchymal stem cells, inhibiting the destruction complex (GSK-3β, axin, APC) and allowing β-catenin to accumulate in the cytoplasm and translocate to the nucleus where it activates transcription factors (TCF/LEF) that drive osteoblast commitment, proliferation, and survival. Simultaneously, Wnt signaling suppresses osteoclastogenesis by upregulating OPG expression in osteoblasts. Sclerostin, a glycoprotein encoded by the SOST gene and produced almost exclusively by osteocytes (the mechanosensory cells embedded within mineralized bone matrix), acts as a potent inhibitor of Wnt signaling by binding to LRP5/6 and preventing Wnt ligand engagement. When mechanical loading is applied to bone, osteocytes downregulate sclerostin production, releasing the brake on Wnt signaling and promoting bone formation at sites of mechanical strain. In disuse and aging, sclerostin levels rise, suppressing formation and contributing to net bone loss.\n\nCathepsin K is a cysteine protease expressed by activated osteoclasts within the resorption lacuna (Howship lacuna). After osteoclasts dissolve the mineral phase of bone using hydrochloric acid secreted through the ruffled border, cathepsin K degrades the exposed organic matrix, primarily type I collagen. This enzyme operates optimally at the acidic pH of the resorption lacuna and is the rate-limiting step in organic matrix degradation. Cathepsin K inhibitors (odanacatib) were developed to reduce resorption while preserving the osteoclast itself, theoretically maintaining the coupling signals that osteoclasts provide to osteoblasts, but clinical development was halted due to cerebrovascular adverse effects. Understanding these pathways informs the mechanism of newer therapeutics: romosozumab (anti-sclerostin monoclonal antibody) unleashes Wnt-mediated bone formation while simultaneously reducing resorption, producing a dual-effect anabolic agent; teriparatide (recombinant PTH 1-34) given intermittently paradoxically stimulates osteoblast activity by preferentially activating the formation arm of bone remodeling; and denosumab (anti-RANKL monoclonal antibody) mimics OPG by sequestering RANKL and profoundly suppressing osteoclast maturation and function."
+    },
+    riskFactors: [
+      "Postmenopausal estrogen deficiency removing suppression of RANKL and osteoclast apoptosis signals",
+      "Glucocorticoid-induced osteoporosis through suppression of Wnt signaling, osteoblast apoptosis induction, and enhanced osteoclastogenesis",
+      "Aromatase inhibitor therapy in breast cancer eliminating residual peripheral estrogen conversion",
+      "Androgen deprivation therapy in prostate cancer removing testosterone-mediated bone protection",
+      "Type 2 diabetes with paradoxically increased fracture risk despite normal or elevated BMD due to altered bone quality (advanced glycation end-products crosslinking collagen)",
+      "Chronic kidney disease-mineral bone disorder (CKD-MBD) with impaired vitamin D activation and secondary/tertiary hyperparathyroidism",
+      "Genetic polymorphisms in LRP5, ESR1, SOST, and RANKL genes affecting peak bone mass and remodeling rates",
+      "Celiac disease and inflammatory bowel disease with malabsorption and chronic inflammatory cytokine-driven bone loss"
+    ],
+    diagnostics: [
+      "DEXA scan with T-score interpretation at lumbar spine, femoral neck, total hip, and one-third distal radius (forearm if other sites cannot be measured or in hyperparathyroidism)",
+      "FRAX score calculation integrating age, sex, BMI, prior fracture, parental hip fracture, glucocorticoid use, rheumatoid arthritis, secondary causes, alcohol, smoking, and femoral neck BMD",
+      "Trabecular bone score (TBS) as a DEXA-derived textural index providing information about bone microarchitecture quality independent of BMD",
+      "Bone turnover markers: serum CTX (C-terminal telopeptide) for resorption monitoring and P1NP (procollagen type 1 N-terminal propeptide) for formation monitoring to assess treatment response",
+      "Comprehensive metabolic workup: 25-hydroxyvitamin D, intact PTH, serum calcium, phosphorus, alkaline phosphatase, TSH, testosterone (in men), 24-hour urine calcium",
+      "Serum protein electrophoresis and free light chains to exclude multiple myeloma in patients with unexplained vertebral fractures",
+      "Vertebral fracture assessment (VFA) via DEXA or lateral thoracolumbar X-ray to identify prevalent morphometric fractures"
+    ],
+    management: [
+      "First-line therapy: oral bisphosphonates (alendronate 70 mg weekly, risedronate 35 mg weekly) or IV zoledronic acid (5 mg annually) for most patients",
+      "Denosumab (60 mg subcutaneous every 6 months) for patients intolerant to bisphosphonates or with renal impairment (not renally cleared)",
+      "Teriparatide (20 mcg subcutaneous daily for up to 2 years) as anabolic therapy for severe osteoporosis, multiple vertebral fractures, or failure of antiresorptive agents",
+      "Romosozumab (210 mg subcutaneous monthly for 12 months) as anti-sclerostin antibody providing dual anabolic and antiresorptive effect for very high-risk patients",
+      "Transition strategy: always follow anabolic therapy (teriparatide or romosozumab) with antiresorptive agent to consolidate gains - discontinuation without transition causes rapid bone loss",
+      "Bisphosphonate drug holiday after 5 years oral or 3 years IV in lower-risk patients - reassess with repeat DEXA and bone turnover markers; high-risk patients should continue treatment",
+      "FRAX treatment thresholds: initiate pharmacotherapy if 10-year hip fracture probability is 3 percent or greater or major osteoporotic fracture probability is 20 percent or greater",
+      "Glucocorticoid-induced osteoporosis: initiate bisphosphonate prophylaxis if prednisone dose is 2.5 mg or more daily expected for 3 or more months"
+    ],
+    nursingActions: [
+      "Obtain baseline DEXA, FRAX score, and bone turnover markers before initiating therapy",
+      "Ensure adequate calcium (1200 mg daily) and vitamin D (800-2000 IU daily with target 25-OH-D level 30-50 ng/mL) in all patients before starting pharmacotherapy",
+      "Educate about denosumab rebound phenomenon: discontinuation causes rapid increase in bone turnover markers and vertebral fracture risk within 6-12 months if not transitioned to bisphosphonate",
+      "Monitor for atypical femur fracture prodromal symptoms (thigh or groin pain) during long-term bisphosphonate or denosumab therapy and obtain femur X-ray if reported",
+      "Perform dental clearance before initiating bisphosphonate or denosumab therapy and advise patients to maintain good oral hygiene to reduce osteonecrosis of the jaw risk",
+      "Track bone turnover markers (CTX, P1NP) at 3-6 months to confirm treatment response before repeat DEXA",
+      "Counsel on romosozumab cardiovascular warning: contraindicated in patients with recent MI or stroke within the past year",
+      "Educate that teriparatide is limited to 2 years due to theoretical osteosarcoma risk observed in rat studies and must be followed by an antiresorptive agent"
+    ],
+    signs: {
+      left: [
+        "Vertebral compression fracture presenting as acute midline back pain, height loss, or incidental radiographic finding",
+        "Hip fracture (femoral neck or intertrochanteric) after low-energy fall - carries 20-30 percent one-year mortality in elderly",
+        "Distal radius (Colles) fracture from fall on outstretched hand - often the sentinel fracture prompting workup",
+        "Progressive thoracic kyphosis with restrictive pulmonary physiology and altered center of gravity"
+      ],
+      right: [
+        "Atypical femur fracture: transverse or short oblique fracture at the subtrochanteric or femoral shaft with lateral cortical thickening - associated with prolonged bisphosphonate use",
+        "Osteonecrosis of the jaw: exposed bone in the oral cavity not healing within 8 weeks, associated with bisphosphonates and denosumab especially after dental procedures",
+        "Denosumab rebound vertebral fractures: multiple new vertebral fractures occurring 6-18 months after denosumab discontinuation due to rebound osteoclastogenesis",
+        "Hypocalcemia after denosumab or zoledronic acid administration, especially in vitamin D-deficient or CKD patients"
+      ]
+    },
+    medications: [
+      {
+        name: "Denosumab",
+        type: "Anti-RANKL Monoclonal Antibody",
+        action: "Fully human monoclonal antibody that binds RANKL with high affinity, preventing it from activating RANK on osteoclast precursors, thereby profoundly inhibiting osteoclast differentiation, activation, and survival - mimics the physiologic action of OPG",
+        sideEffects: "Hypocalcemia (especially in CKD and vitamin D deficiency), cellulitis and skin infections, osteonecrosis of the jaw (rare), atypical femur fracture (rare), rebound vertebral fractures on discontinuation",
+        contra: "Hypocalcemia (must correct before administration), pregnancy, caution in immunocompromised patients",
+        pearl: "Unlike bisphosphonates, denosumab does not accumulate in bone and its effects are fully reversible - this means discontinuation causes rapid rebound bone loss and must always be followed by bisphosphonate transition therapy"
+      },
+      {
+        name: "Romosozumab",
+        type: "Anti-Sclerostin Monoclonal Antibody",
+        action: "Binds and inhibits sclerostin, releasing the inhibition on the Wnt/β-catenin signaling pathway in osteoblasts, producing a unique dual effect of simultaneously increasing bone formation (anabolic) and decreasing bone resorption (antiresorptive) - the only current agent with this mechanism",
+        sideEffects: "Cardiovascular events (MI, stroke - black box warning), injection site reactions, hypocalcemia, jaw osteonecrosis (rare), atypical femur fracture (rare)",
+        contra: "History of MI or stroke within preceding 12 months, hypocalcemia",
+        pearl: "Limited to 12 monthly doses because the bone formation effect wanes with continued use (modeling-based formation is self-limiting); must be followed by antiresorptive therapy to maintain gains"
+      },
+      {
+        name: "Teriparatide",
+        type: "Recombinant PTH (1-34) Anabolic Agent",
+        action: "Intermittent low-dose PTH administration paradoxically stimulates osteoblast activity over osteoclast activity by preferentially activating the bone formation arm of remodeling, increasing trabecular connectivity, cortical thickness, and overall bone strength",
+        sideEffects: "Orthostatic hypotension (first-dose effect), leg cramps, nausea, transient hypercalcemia, injection site erythema",
+        contra: "Unexplained elevated alkaline phosphatase, Paget disease, prior skeletal radiation, open epiphyses (pediatric patients), pre-existing hypercalcemia, bone metastases",
+        pearl: "Must be used for no more than 2 years (FDA labeling based on rat osteosarcoma data at supratherapeutic doses) and MUST be followed by an antiresorptive agent - stopping without transition causes rapid loss of all BMD gains within 12-24 months"
+      }
+    ],
+    pearls: [
+      "Anabolic-first sequencing: in very high-risk patients (T-score below -3.0, multiple vertebral fractures, recent hip fracture), starting with teriparatide or romosozumab and then transitioning to a bisphosphonate produces greater BMD gains than antiresorptive-first strategies",
+      "Denosumab must never be simply discontinued - always transition to a bisphosphonate (preferably zoledronic acid 6 months after the last denosumab dose) to prevent rebound vertebral fractures from explosive osteoclast reactivation",
+      "FRAX has limitations: it underestimates risk in patients with type 2 diabetes (who have normal BMD but poor bone quality), glucocorticoid doses above 7.5 mg/day, multiple recent fractures, and lumbar spine BMD much lower than femoral neck BMD"
+    ],
+    quiz: [
+      {
+        question: "A nurse practitioner is managing a 72-year-old woman who completed 12 months of romosozumab for severe osteoporosis (T-score -3.5 with vertebral fractures). What is the most important next step?",
+        options: [
+          "Discontinue treatment and recheck DEXA in 2 years",
+          "Transition to an antiresorptive agent such as alendronate or denosumab to consolidate bone gains",
+          "Continue romosozumab for an additional 12 months to maximize benefit",
+          "Switch to teriparatide for 2 years of additional anabolic therapy"
+        ],
+        correct: 1,
+        rationale: "After completing romosozumab (limited to 12 monthly doses), transitioning to an antiresorptive agent is essential to consolidate the bone density gains achieved. Without transition therapy, the anabolic benefits are rapidly lost. Continuing romosozumab beyond 12 months is not recommended as the formation effect wanes. Sequential anabolic-to-antiresorptive therapy provides optimal long-term outcomes."
+      }
+    ]
+  },
+
+  "rib-fractures-rpn": {
+    title: "Rib Fractures – RPN Fundamentals",
+    cellular: {
+      title: "Rib Fracture Basics and Respiratory Monitoring",
+      content: "Rib fractures occur when a force applied to the chest wall exceeds the structural strength of the rib, causing it to crack or break. The ribs form a protective cage around the lungs and heart, and when fractured, the sharp bone edges can potentially injure the underlying lung tissue or blood vessels. The most significant clinical concern with rib fractures is not the bone injury itself but the breathing complications that follow. When a patient has fractured ribs, breathing causes significant pain. This pain leads to a natural protective response called splinting, where the patient takes shallow breaths to avoid the pain of full chest expansion. Shallow breathing prevents the lungs from fully inflating, causing small airways and alveoli to collapse (atelectasis). Collapsed lung areas cannot participate in gas exchange, and accumulated secretions in poorly ventilated regions create an ideal environment for bacterial growth and pneumonia. This pain-splinting-atelectasis-pneumonia cycle is the primary reason rib fractures can become life-threatening, particularly in elderly patients. External binding or strapping of the chest is strictly avoided because it further restricts chest expansion and worsens the very complications that make rib fractures dangerous."
+    },
+    riskFactors: [
+      "Falls, especially in elderly patients with osteoporosis",
+      "Motor vehicle accidents causing blunt chest trauma",
+      "Direct blows during contact sports or physical assault",
+      "Chronic severe coughing from respiratory infections",
+      "Osteoporosis causing fractures with minimal force",
+      "Chronic steroid use weakening bone structure"
+    ],
+    diagnostics: [
+      "Chest X-ray to look for fracture lines and check for pneumothorax or hemothorax",
+      "Pulse oximetry monitoring for oxygen saturation changes indicating breathing problems",
+      "Pain assessment using a standardized scale to guide analgesic administration",
+      "Respiratory rate and depth monitoring to detect shallow breathing patterns",
+      "Auscultation of bilateral lung sounds to detect diminished sounds or crackles"
+    ],
+    management: [
+      "Pain management is the top priority to allow deep breathing and coughing",
+      "Incentive spirometry use every 1-2 hours while awake to prevent lung collapse",
+      "Pillow splinting during coughing (patient hugs a pillow to the chest for support)",
+      "Positioning with head of bed elevated 30-45 degrees to ease breathing",
+      "Do NOT apply rib binders or wrap the chest - this worsens breathing complications",
+      "Report any sudden shortness of breath, absent breath sounds, or crackling under the skin immediately"
+    ],
+    nursingActions: [
+      "Assess respiratory status frequently: respiratory rate, depth, oxygen saturation, and lung sounds",
+      "Administer prescribed pain medications on schedule rather than waiting for severe pain to develop",
+      "Encourage and assist with incentive spirometry use, documenting volumes achieved",
+      "Teach the patient to splint the chest with a pillow when coughing or changing position",
+      "Monitor for signs of pneumothorax: sudden worsening of dyspnea, absent breath sounds on affected side, subcutaneous emphysema (crackling sensation under skin)",
+      "Monitor for signs of hemothorax: decreased breath sounds at lung base, increasing pain, dropping oxygen levels",
+      "Report changes in respiratory status, new onset of fever, or changes in sputum color or amount to the RN or physician promptly",
+      "Document pain levels before and after medication administration to evaluate effectiveness"
+    ],
+    signs: {
+      left: [
+        "Localized chest wall tenderness at the fracture site worsening with palpation or deep breathing",
+        "Shallow, rapid breathing (splinting) as the patient guards against pain",
+        "Bruising (ecchymosis) over the injured area developing over 24-48 hours",
+        "Guarding behavior - patient holds the affected side and resists movement"
+      ],
+      right: [
+        "Decreasing oxygen saturation from shallow breathing and atelectasis",
+        "Diminished breath sounds on the affected side requiring immediate reporting",
+        "Subcutaneous emphysema (crackling or rice-crispy sensation under the skin) indicating air leak",
+        "Fever developing 48-72 hours after injury suggesting possible pneumonia from retained secretions"
+      ]
+    },
+    medications: [
+      {
+        name: "Acetaminophen",
+        type: "Non-Opioid Analgesic",
+        action: "Inhibits prostaglandin synthesis in the central nervous system to reduce pain perception without the respiratory depression effects of opioids",
+        sideEffects: "Hepatotoxicity with doses exceeding 4 grams per day, nausea",
+        contra: "Severe hepatic impairment, active liver disease, chronic alcohol use (increased hepatotoxicity risk)",
+        pearl: "Often used as a scheduled baseline analgesic in combination with other pain medications - using acetaminophen around the clock reduces the need for opioids which can suppress the cough reflex and worsen secretion retention"
+      }
+    ],
+    pearls: [
+      "Pain control is treatment - adequate analgesia allows the patient to breathe deeply, cough effectively, and use the incentive spirometer, preventing the most dangerous complication (pneumonia)",
+      "Never wrap, bind, or strap the chest for rib fractures - this was abandoned decades ago because it restricts breathing and dramatically increases pneumonia risk",
+      "Report any sudden change in breathing, new absent breath sounds, or crackling under the skin immediately - these may indicate pneumothorax requiring emergency intervention"
+    ],
+    quiz: [
+      {
+        question: "A patient with rib fractures is taking only shallow breaths and refusing to use the incentive spirometer due to pain. What should the RPN do first?",
+        options: [
+          "Apply a rib binder to stabilize the fractures and reduce pain",
+          "Ensure prescribed analgesics are administered and reassess willingness to use the spirometer after pain relief",
+          "Allow the patient to rest quietly and avoid deep breathing to prevent further injury",
+          "Document the refusal and move on to the next patient"
+        ],
+        correct: 1,
+        rationale: "Adequate pain control is the most critical intervention for rib fractures. Pain-induced splinting leads to atelectasis and pneumonia. Administering prescribed analgesics first enables the patient to participate in deep breathing exercises. Rib binders are contraindicated. Allowing continued shallow breathing without intervention increases pneumonia risk."
+      }
+    ]
+  },
+
+  "rib-fractures-np": {
+    title: "Rib Fractures – NP Advanced Management",
+    cellular: {
+      title: "Flail Chest Biomechanics, Pulmonary Contusion, and Advanced Analgesia",
+      content: "Advanced management of rib fractures requires understanding the biomechanics of flail chest, the pathophysiology of associated pulmonary contusion, and the rationale for regional analgesia techniques. Flail chest occurs when three or more contiguous ribs are each fractured in two or more locations, creating a free-floating segment of chest wall that is mechanically disconnected from the respiratory bellows. During spontaneous inspiration, the intact chest wall expands outward as the diaphragm descends, generating negative intrapleural pressure. The flail segment, no longer tethered to the skeletal framework, is drawn inward by this negative pressure (paradoxical motion), reducing the effective tidal volume. During expiration, positive intrathoracic pressure pushes the segment outward while the intact wall moves inward. This paradoxical respiratory movement not only reduces minute ventilation but also creates pendulum-like airflow (pendelluft) between the lungs, where air from the injured side moves to the contralateral lung during inspiration rather than exiting through the trachea, further impairing gas exchange.\n\nThe force required to produce a flail chest invariably causes underlying pulmonary contusion, which is the primary determinant of morbidity and mortality rather than the chest wall instability itself. Pulmonary contusion involves direct parenchymal injury with disruption of the alveolar-capillary membrane, leading to hemorrhage and edema within the alveolar spaces and interstitium. The contused lung develops ventilation-perfusion mismatch as blood continues to flow through non-ventilated, fluid-filled alveoli (intrapulmonary shunt). The inflammatory response peaks at 48-72 hours, during which worsening hypoxemia and bilateral infiltrates on imaging may progress to ARDS. Management of the contused lung involves protective ventilation strategies (low tidal volume 6 mL/kg ideal body weight, PEEP optimization to recruit atelectatic alveoli, permissive hypercapnia) and judicious fluid management because excessive crystalloid resuscitation worsens pulmonary edema in the contused tissue.\n\nRegional analgesia is the cornerstone of rib fracture management in the advanced practice setting. Thoracic epidural analgesia (TEA) provides bilateral continuous segmental analgesia by infusing local anesthetic (bupivacaine) with or without opioid (fentanyl or hydromorphone) into the epidural space at the appropriate thoracic dermatome level. TEA has been shown to reduce pneumonia rates, ICU length of stay, and ventilator days compared to systemic opioid analgesia. Intercostal nerve blocks, performed by injecting local anesthetic (bupivacaine 0.5 percent with epinephrine) at the inferior border of the rib proximal to the fracture site, provide excellent unilateral analgesia for 6-12 hours per injection. Paravertebral blocks offer an alternative to epidural placement, providing unilateral segmental analgesia with fewer hemodynamic effects than epidural. Surgical stabilization of rib fractures (SSRF) with titanium plates and screws is increasingly utilized for flail chest, multiple displaced fractures, and fractures causing intractable pain despite optimal regional analgesia, with evidence demonstrating reduced ventilator dependence and ICU length of stay."
+    },
+    riskFactors: [
+      "High-energy blunt chest trauma (motor vehicle collision, fall from height) producing multiple fractures and pulmonary contusion",
+      "Elderly patients (age greater than 65) with rib fractures have significantly higher pneumonia and mortality rates than younger adults with equivalent injuries",
+      "Anticoagulant therapy increasing hemothorax risk from intercostal vessel laceration",
+      "Pre-existing COPD with limited pulmonary reserve unable to compensate for impaired ventilation",
+      "Bilateral rib fractures compounding ventilatory impairment and pain burden",
+      "First and second rib fractures indicating very high-energy mechanism and associated with great vessel and brachial plexus injury",
+      "Lower rib fractures (ribs 9-12) associated with hepatic injury (right) and splenic injury (left) requiring abdominal evaluation",
+      "Flail chest with underlying pulmonary contusion as the primary driver of respiratory failure"
+    ],
+    diagnostics: [
+      "CT chest with IV contrast as the gold standard for comprehensive assessment: rib fracture mapping, pulmonary contusion extent, pneumothorax, hemothorax, and mediastinal injury",
+      "Arterial blood gas analysis with serial monitoring: PaO2/FiO2 ratio less than 300 suggesting ALI, less than 200 defining ARDS",
+      "Chest X-ray for initial screening and serial monitoring of pulmonary contusion evolution (opacification peaks at 48-72 hours)",
+      "Point-of-care ultrasound (POCUS) for rapid bedside detection of pneumothorax (absent lung sliding), hemothorax (dependent echogenic fluid), and rib fractures (cortical disruption)",
+      "CT angiography of the chest for first/second rib fractures to evaluate aortic and great vessel injury",
+      "FAST examination to assess for splenic or hepatic laceration with lower rib fractures",
+      "Bone turnover markers and DEXA scan in elderly patients with fragility rib fractures to evaluate for underlying osteoporosis"
+    ],
+    management: [
+      "Thoracic epidural analgesia as gold standard for multi-level rib fracture pain: continuous infusion of bupivacaine 0.0625-0.125 percent with fentanyl 2-5 mcg/mL at 4-8 mL/hour",
+      "Intercostal nerve block with 0.5 percent bupivacaine with epinephrine at 1-2 levels above and below each fracture for targeted unilateral analgesia",
+      "Paravertebral block as epidural alternative: single-injection or catheter-based technique providing ipsilateral multi-dermatomal somatic and sympathetic blockade",
+      "Multimodal systemic analgesia: scheduled acetaminophen, NSAIDs (ketorolac IV then ibuprofen), gabapentin for neuropathic component, and limited opioids",
+      "Surgical stabilization of rib fractures (SSRF) indications: flail chest, 3 or more severely displaced fractures, fractures causing intractable pain despite regional analgesia, failure to wean from mechanical ventilation",
+      "Protective mechanical ventilation for respiratory failure: low tidal volume (6 mL/kg IBW), PEEP titration, plateau pressure less than 30 cmH2O",
+      "Chest tube thoracostomy for pneumothorax greater than 20 percent or any hemothorax - use large-bore (28-36 Fr) for hemothorax to prevent clotting",
+      "Judicious fluid resuscitation in pulmonary contusion - avoid excessive crystalloid which worsens parenchymal edema"
+    ],
+    nursingActions: [
+      "Perform serial respiratory assessments including PaO2/FiO2 ratio trending to detect progression toward ARDS",
+      "Manage thoracic epidural infusion: assess dermatome level of blockade, monitor for hypotension (sympathectomy), motor block, and catheter site infection",
+      "Monitor for epidural complications: epidural hematoma (back pain, neurologic deficit), epidural abscess (fever, localized tenderness), dural puncture headache",
+      "Perform aggressive pulmonary toilet: chest physiotherapy, nasotracheal suctioning if needed, bronchoscopy for mucus plugging",
+      "Monitor chest tube output: greater than 1500 mL immediate output or greater than 200 mL/hour for 2-4 hours indicates massive hemothorax requiring surgical exploration",
+      "Assess for abdominal organ injury with lower rib fractures: serial abdominal exams, hemoglobin monitoring, and FAST examination results",
+      "Implement rib fracture scoring systems (such as the RibScore) to risk-stratify patients and guide ICU admission decisions",
+      "Coordinate multidisciplinary approach involving trauma surgery, anesthesia/pain service, respiratory therapy, and physical therapy"
+    ],
+    signs: {
+      left: [
+        "Paradoxical chest wall movement in flail chest: affected segment retracts during inspiration and bulges during expiration",
+        "Progressive hypoxemia peaking at 48-72 hours from evolving pulmonary contusion rather than mechanical chest wall instability",
+        "Subcutaneous emphysema tracking from the fracture site along fascial planes indicating pneumothorax with ongoing air leak",
+        "Massive hemothorax presenting with hypotension, tracheal deviation toward contralateral side, and absent ipsilateral breath sounds"
+      ],
+      right: [
+        "Pendelluft phenomenon: ineffective gas exchange from pendulum-like airflow between lungs rather than through the trachea",
+        "Widening alveolar-arterial oxygen gradient from intrapulmonary shunting through contused lung parenchyma",
+        "Bilateral pulmonary infiltrates on CXR at 48-72 hours distinguishing contusion from initial presentation (contusion evolves; pneumothorax presents immediately)",
+        "Intercostal artery hemorrhage presenting as delayed hemothorax 24-48 hours after injury, particularly in patients on anticoagulants"
+      ]
+    },
+    medications: [
+      {
+        name: "Bupivacaine (Epidural/Intercostal)",
+        type: "Long-Acting Amide Local Anesthetic",
+        action: "Reversibly blocks sodium channels in nerve fibers, preventing depolarization and action potential propagation along intercostal sensory nerves, providing segmental analgesia without systemic sedation or respiratory depression",
+        sideEffects: "Cardiovascular toxicity at high systemic levels (refractory ventricular arrhythmias, cardiac arrest), CNS toxicity (circumoral numbness, tinnitus, seizures), hypotension from sympathetic blockade (epidural), motor block",
+        contra: "Patient refusal, coagulopathy or therapeutic anticoagulation (epidural placement), local infection at insertion site, hypovolemia (epidural), known allergy to amide local anesthetics",
+        pearl: "Lipid emulsion (Intralipid 20 percent) must be immediately available when performing regional blocks - it is the specific antidote for local anesthetic systemic toxicity (LAST) and can be life-saving for bupivacaine-induced cardiac arrest"
+      },
+      {
+        name: "Ketorolac",
+        type: "Parenteral NSAID",
+        action: "Non-selective cyclooxygenase inhibitor providing potent analgesic and anti-inflammatory effects comparable to moderate-dose opioids without respiratory depression, sedation, or cough suppression",
+        sideEffects: "GI hemorrhage (highest risk of all NSAIDs), acute kidney injury, platelet dysfunction, surgical site bleeding",
+        contra: "Active GI bleeding, renal impairment (CrCl less than 30 mL/min), coagulopathy, concurrent anticoagulants, use exceeding 5 days, post-CABG",
+        pearl: "Ketorolac is the ideal systemic analgesic for rib fractures because it provides opioid-equivalent pain relief without suppressing respiratory drive or cough reflex - but must be limited to 5 days and used cautiously in trauma patients who may have occult renal injury"
+      }
+    ],
+    pearls: [
+      "In flail chest, respiratory failure is primarily caused by the underlying pulmonary contusion, not the paradoxical chest wall motion - stabilizing the flail segment alone does not resolve hypoxemia if significant contusion is present",
+      "The 'Rule of 65': patients aged 65 or older with 3 or more rib fractures have mortality rates exceeding 20 percent and should be strongly considered for ICU-level monitoring with early epidural or regional analgesia",
+      "Surgical rib fixation (SSRF) is an emerging standard for flail chest - evidence from recent trials demonstrates significant reductions in ventilator days, ICU length of stay, pneumonia rates, and long-term pain compared to non-operative management"
+    ],
+    quiz: [
+      {
+        question: "A nurse practitioner is managing a 70-year-old patient with 5 left-sided rib fractures and progressive hypoxemia despite IV opioid analgesia. PaO2/FiO2 ratio is 280. What is the most appropriate next intervention?",
+        options: [
+          "Increase the IV opioid dose to improve pain control and breathing",
+          "Consult anesthesia for thoracic epidural catheter placement for superior regional analgesia",
+          "Apply a rib binder and chest wrap for external stabilization",
+          "Initiate mechanical ventilation immediately for respiratory failure"
+        ],
+        correct: 1,
+        rationale: "Thoracic epidural analgesia is the gold standard for multi-level rib fracture pain management and has been shown to reduce pneumonia, ICU stay, and ventilator days. Increasing IV opioids risks respiratory depression. Rib binders are contraindicated. The PaO2/FiO2 of 280 indicates acute lung injury but does not yet require intubation. Regional analgesia will enable effective breathing and may prevent progression to respiratory failure."
+      }
+    ]
   }
 };

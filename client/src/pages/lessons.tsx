@@ -248,7 +248,8 @@ const rpnSystems = [
       { id: "hemorrhoids-rpn", name: "Hemorrhoids", status: "Available" },
       { id: "anal-fissure-rpn", name: "Anal Fissure", status: "Available" },
       { id: "cdiff-management-rpn", name: "C. Difficile Management", status: "Available" },
-      { id: "malabsorption-syndromes-rpn", name: "Malabsorption Syndromes", status: "Available" }
+      { id: "malabsorption-syndromes-rpn", name: "Malabsorption Syndromes", status: "Available" },
+      { id: "cholecystectomy-rpn", name: "Cholecystectomy", status: "Available" }
     ]
   },
   {
@@ -394,7 +395,8 @@ const rpnSystems = [
       { id: "mobility-aids", name: "Mobility Aids and Ambulation", status: "Available" },
       { id: "joint-replacement-basics", name: "Joint Replacement Basics", status: "Available" },
       { id: "body-mechanics", name: "Body Mechanics and Ergonomics", status: "Available" },
-      { id: "fall-prevention", name: "Fall Prevention Strategies", status: "Available" }
+      { id: "fall-prevention", name: "Fall Prevention Strategies", status: "Available" },
+      { id: "rib-fractures-rpn", name: "Rib Fractures", status: "Available" }
     ]
   },
   {
@@ -429,7 +431,8 @@ const rpnSystems = [
       { id: "turner-syndrome-rpn", name: "Turner Syndrome", status: "Available" },
       { id: "klinefelter-syndrome-rpn", name: "Klinefelter Syndrome", status: "Available" },
       { id: "hemolytic-uremic-syndrome-rpn", name: "Hemolytic Uremic Syndrome", status: "Available" },
-      { id: "reye-syndrome-rpn", name: "Reye Syndrome", status: "Available" }
+      { id: "reye-syndrome-rpn", name: "Reye Syndrome", status: "Available" },
+      { id: "androgen-insensitivity-rpn", name: "Androgen Insensitivity Syndrome", status: "Available" }
     ]
   },
   {
@@ -986,7 +989,8 @@ const rnSystems = [
       { id: "gout-management", name: "Gout", status: "Available" },
       { id: "toxic-epidermal", name: "Toxic Epidermal Necrolysis", status: "Available" },
       { id: "cataracts", name: "Cataracts", status: "Available" },
-      { id: "sjogren-syndrome", name: "Sjogren Syndrome", status: "Available" }
+      { id: "sjogren-syndrome", name: "Sjogren Syndrome", status: "Available" },
+      { id: "rib-fractures", name: "Rib Fractures", status: "Available" }
     ]
   },
   {
@@ -1049,7 +1053,8 @@ const rnSystems = [
       { id: "trisomy-21", name: "Down Syndrome (Trisomy 21)", status: "Available" },
       { id: "fetal-alcohol-syndrome", name: "Fetal Alcohol Spectrum Disorder", status: "Available" },
       { id: "tonsillectomy", name: "Tonsillectomy", status: "Available" },
-      { id: "separation-anxiety-rn", name: "Separation Anxiety Disorder", status: "Available" }
+      { id: "separation-anxiety-rn", name: "Separation Anxiety Disorder", status: "Available" },
+      { id: "androgen-insensitivity", name: "Androgen Insensitivity Syndrome", status: "Available" }
     ]
   },
   {
@@ -1129,7 +1134,8 @@ const rnSystems = [
       { id: "hepatitis-management", name: "Hepatitis", status: "Available" },
       { id: "trichomoniasis", name: "Trichomoniasis", status: "Available" },
       { id: "zika-virus", name: "Zika Virus", status: "Available" },
-      { id: "chlamydia", name: "Chlamydia", status: "Available" }
+      { id: "chlamydia", name: "Chlamydia", status: "Available" },
+      { id: "oral-candidiasis-rn", name: "Oral Candidiasis (Thrush)", status: "Available" }
     ]
   },
   {
@@ -1342,6 +1348,7 @@ const npSystems = [
       { id: "insulinoma-np", name: "Insulinoma: Whipple Triad & Surgical Management", status: "Available" },
       { id: "conn-syndrome-np", name: "Conn Syndrome: Primary Aldosteronism & ARR", status: "Available" },
       { id: "myxedema-coma-np", name: "Myxedema Coma: Emergency Thyroid Replacement", status: "Available" },
+      { id: "androgen-insensitivity-np", name: "Androgen Insensitivity Syndrome: AR Gene & DSD", status: "Available" },
       { id: "diabetes-pregnancy-np", name: "Diabetes Management in Pregnancy: Glycemic Targets", status: "Available" }
     ]
   },
@@ -1472,7 +1479,8 @@ const npSystems = [
     diseases: [
       { id: "compartment-np", name: "Compartment Syndrome: Fasciotomy", status: "Available" },
       { id: "fat-embolism-np", name: "Fat Embolism Syndrome", status: "Available" },
-      { id: "spinal-cord-injury-np", name: "Spinal Cord Injury: Autonomic Dysreflexia", status: "Available" }
+      { id: "spinal-cord-injury-np", name: "Spinal Cord Injury: Autonomic Dysreflexia", status: "Available" },
+      { id: "rib-fractures-np", name: "Rib Fractures: Flail Chest & Regional Analgesia", status: "Available" }
     ]
   },
   {
@@ -1491,7 +1499,8 @@ const npSystems = [
       { id: "cholangitis-np", name: "Cholangitis: Charcot & Reynolds Pentad", status: "Available" },
       { id: "hepatorenal-syndrome-np", name: "Hepatorenal Syndrome: Pathophysiology & Terlipressin", status: "Available" },
       { id: "portal-hypertension-np", name: "Portal Hypertension: Varices & Beta-Blockers", status: "Available" },
-      { id: "tips-procedure-np", name: "TIPS Procedure: Indications & Complications", status: "Available" }
+      { id: "tips-procedure-np", name: "TIPS Procedure: Indications & Complications", status: "Available" },
+      { id: "cholecystectomy-np", name: "Cholecystectomy: Bile Duct Injury & Postcholecystectomy Syndrome", status: "Available" }
     ]
   },
   {
@@ -1600,7 +1609,8 @@ const npSystems = [
       { id: "osteomyelitis-np", name: "Osteomyelitis: Acute vs Chronic Management", status: "Available" },
       { id: "meningitis-management-np", name: "Meningitis: Empiric Coverage & Dexamethasone", status: "Available" },
       { id: "lyme-disease-np", name: "Lyme Disease: Staging & Doxycycline Protocols", status: "Available" },
-      { id: "sti-management-np", name: "STI Management: Syndromic & Expedited Partner Therapy", status: "Available" }
+      { id: "sti-management-np", name: "STI Management: Syndromic & Expedited Partner Therapy", status: "Available" },
+      { id: "oral-candidiasis-np", name: "Oral Candidiasis: Azole Resistance & Systemic Candidiasis", status: "Available" }
     ]
   },
   {
