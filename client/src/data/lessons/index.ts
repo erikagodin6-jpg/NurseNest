@@ -45,6 +45,16 @@ import { reproductiveNpLessons } from "./reproductive-np";
 
 export type { LessonContent } from "./types";
 
+function countQuestions(lessons: Record<string, LessonContent>): number {
+  let count = 0;
+  for (const lesson of Object.values(lessons)) {
+    if (lesson.quiz) count += lesson.quiz.length;
+    if (lesson.preTest) count += lesson.preTest.length;
+    if (lesson.postTest) count += lesson.postTest.length;
+  }
+  return count;
+}
+
 export const contentMap: Record<string, LessonContent> = {
   ...cardiovascularLessons,
   ...respiratoryLessons,
@@ -90,3 +100,6 @@ export const contentMap: Record<string, LessonContent> = {
   ...reproductiveRpnLessons,
   ...reproductiveNpLessons,
 };
+
+export const lessonCount = Object.keys(contentMap).length;
+export const questionCount = countQuestions(contentMap);

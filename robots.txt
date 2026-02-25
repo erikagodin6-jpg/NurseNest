@@ -2,6 +2,10 @@ User-agent: *
 Allow: /
 
 Disallow: /admin
+Disallow: /content-editor
 Disallow: /api/
+Disallow: /login
+Disallow: /profile
+Disallow: /subscription/success
 
 Sitemap: https://www.nursenest.ca/sitemap.xml

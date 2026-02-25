@@ -60,12 +60,12 @@ export function getLessonTierLabel(lessonId: string): string {
   return "Practical Nurse (RPN/LVN)";
 }
 
-export function buildLessonStructuredData(lessonId: string, lesson: LessonContent) {
+export function buildLessonStructuredData(lessonId: string, lesson: LessonContent, isFree: boolean = false) {
   const bodySystem = getLessonBodySystem(lessonId);
   const tierLabel = getLessonTierLabel(lessonId);
   const description = generateLessonSeoDescription(lessonId, lesson);
 
-  return {
+  const data: Record<string, any> = {
     "@context": "https://schema.org",
     "@type": "LearningResource",
     "name": lesson.title,
@@ -88,7 +88,7 @@ export function buildLessonStructuredData(lessonId: string, lesson: LessonConten
       "name": "NurseNest",
       "url": "https://www.nursenest.ca",
     },
-    "isAccessibleForFree": false,
+    "isAccessibleForFree": isFree,
     "inLanguage": "en",
     "interactivityType": "mixed",
     "hasPart": [
@@ -96,6 +96,16 @@ export function buildLessonStructuredData(lessonId: string, lesson: LessonConten
       { "@type": "Quiz", "name": `${lesson.title} Post-Test`, "description": "Mastery verification assessment" },
     ],
   };
+
+  if (!isFree) {
+    data["hasPart"].push({
+      "@type": "WebPageElement",
+      "isAccessibleForFree": false,
+      "cssSelector": ".premium-content",
+    });
+  }
+
+  return data;
 }
 
 export function buildBreadcrumbStructuredData(items: { name: string; url: string }[]) {

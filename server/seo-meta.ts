@@ -67,11 +67,11 @@ function slugToTitle(slug: string): string {
 const staticPages: Record<string, { title: string; description: string }> = {
   "/": {
     title: "NurseNest - NCLEX & REX-PN Exam Prep | Nursing Question Bank, Simulations & Flashcards",
-    description: "Prepare for NCLEX and REX-PN with NurseNest. 10,000+ nursing practice questions, clinical case simulations, pharmacology flashcards, and 150+ pathophysiology lessons for RPN/LVN, RN, and NP students in Canada and the US. Start free - no credit card required.",
+    description: "Prepare for NCLEX and REX-PN with NurseNest. 1,200+ nursing practice questions, clinical case simulations, pharmacology flashcards, and 200+ pathophysiology lessons for RPN/LVN, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.",
   },
   "/lessons": {
     title: "Nursing Lessons - Pathophysiology & Clinical Topics | NurseNest",
-    description: "Browse 150+ clinical nursing lessons covering pathophysiology, pharmacology, and patient care for RPN/LVN, RN, and NP students. Interactive content with exam prep focus.",
+    description: "Browse 200+ clinical nursing lessons covering pathophysiology, pharmacology, and patient care for RPN/LVN, RN, and NP students. Interactive content with exam prep focus.",
   },
   "/flashcards": {
     title: "Nursing Flashcards - Pharmacology & Clinical Review | NurseNest",
@@ -178,8 +178,8 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: "Answer a new nursing practice question every day. Free NCLEX and REX-PN exam prep with detailed rationales. Subscribe for daily email delivery.",
   },
   "/question-bank": {
-    title: "Question Bank - 10,000+ Nursing Practice Questions | NurseNest",
-    description: "Practice with 10,000+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX and REX-PN prep.",
+    title: "Question Bank - 1,200+ Nursing Practice Questions | NurseNest",
+    description: "Practice with 1,200+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX and REX-PN prep. New questions added weekly.",
   },
   "/login": {
     title: "Log In | NurseNest",
@@ -246,7 +246,7 @@ export function getPageMeta(pathname: string): PageMeta {
 
   return {
     title: "NurseNest - NCLEX & REX-PN Exam Prep | Nursing Education Platform",
-    description: "Prepare for NCLEX and REX-PN with NurseNest. 10,000+ practice questions, clinical lessons, pharmacology flashcards, and case simulations for nursing students.",
+    description: "Prepare for NCLEX and REX-PN with NurseNest. 1,200+ practice questions, 200+ clinical lessons, pharmacology flashcards, and case simulations for nursing students. New content added weekly.",
     canonical,
   };
 }

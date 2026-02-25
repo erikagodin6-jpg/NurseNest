@@ -54,6 +54,17 @@ import {
   Microscope
 } from "lucide-react";
 
+import { lessonCount, questionCount } from "@/data/lessons/index";
+
+function formatCount(n: number): string {
+  if (n >= 1000) {
+    const hundreds = Math.floor(n / 100) * 100;
+    return `${hundreds.toLocaleString()}+`;
+  }
+  const tens = Math.floor(n / 10) * 10;
+  return `${tens}+`;
+}
+
 export default function Home() {
   const [, setLocation] = useLocation();
   const [region, setRegion] = useState<"US" | "CA">(() => {
@@ -73,7 +84,7 @@ export default function Home() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
         title="NurseNest - Nursing Exam Prep | NCLEX & REX-PN Question Bank, Clinical Simulations & Flashcards"
-        description={`Prepare for nursing licensure examinations with NurseNest. Access 10,000+ practice questions designed to mirror the cognitive patterns tested on ${examLabel} and ${altExam}, clinical case simulations, pharmacology flashcards, and pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. Start free - no credit card required.`}
+        description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions designed to mirror the cognitive patterns tested on ${examLabel} and ${altExam}, clinical case simulations, pharmacology flashcards, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
         keywords="nursing exam prep, NCLEX practice questions, REX-PN exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test"
         canonicalPath="/"
         structuredData={{
@@ -81,7 +92,7 @@ export default function Home() {
           "@type": "WebSite",
           "name": "NurseNest",
           "url": "https://www.nursenest.ca",
-          "description": "Comprehensive nursing exam preparation platform with 10,000+ practice questions, clinical case simulations, and pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations.",
+          "description": "Comprehensive nursing exam preparation platform with 1,200+ practice questions, clinical case simulations, and 200+ pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations. New content added weekly.",
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://www.nursenest.ca/lessons?q={search_term_string}",
@@ -104,7 +115,7 @@ export default function Home() {
             <div className="text-center max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-2">
                 <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
-                <span className="text-sm font-medium text-gray-600">10,000+ Practice Questions & Clinical Simulations</span>
+                <span className="text-sm font-medium text-gray-600">1,200+ Practice Questions & Clinical Simulations - New Content Weekly</span>
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
@@ -115,7 +126,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-hero-subheading">
-                A question bank, clinical case simulations, pharmacology flashcards, and pathophysiology lessons designed to mirror the cognitive patterns tested on nursing licensure examinations. Built for {rpnLabel}, RN, and NP students preparing for {examLabel}, {altExam}, clinical placements, and the transition from student to practicing nurse.
+                A growing question bank, clinical case simulations, pharmacology flashcards, and pathophysiology lessons designed to mirror the cognitive patterns tested on nursing licensure examinations. Built for {rpnLabel}, RN, and NP students preparing for {examLabel}, {altExam}, clinical placements, and the transition from student to practicing nurse. New lessons and questions added every week.
               </p>
               
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 px-4 sm:px-0">
@@ -203,8 +214,8 @@ export default function Home() {
             {/* Headline Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 max-w-4xl mx-auto">
               {[
-                { value: "10,000+", label: "Practice Questions", icon: Target, color: "from-blue-500 to-indigo-600" },
-                { value: "400+", label: "Clinical Lessons", icon: BookOpen, color: "from-emerald-500 to-teal-600" },
+                { value: formatCount(questionCount), label: "Practice Questions", icon: Target, color: "from-blue-500 to-indigo-600" },
+                { value: formatCount(lessonCount), label: "Clinical Lessons", icon: BookOpen, color: "from-emerald-500 to-teal-600" },
                 { value: "9", label: "Clinical Simulators", icon: Gamepad2, color: "from-purple-500 to-violet-600" },
                 { value: "3", label: `Exam Tracks (${rpnLabel}/RN/NP)`, icon: GraduationCap, color: "from-rose-500 to-pink-600" },
               ].map((stat, i) => (
@@ -269,8 +280,8 @@ export default function Home() {
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Target className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">10,000+ Practice Questions</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Filter by tier, body system, or topic. Every question includes detailed rationales explaining why the correct answer is right and why each distractor is wrong.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{formatCount(questionCount)} Practice Questions</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Filter by tier, body system, or topic. Every question includes detailed rationales explaining why the correct answer is right and why each distractor is wrong. New questions added weekly.</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{rpnLabel}/RN/NP</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Deep Rationales</span>
@@ -533,7 +544,7 @@ export default function Home() {
 
             <div className="text-center mt-12">
               <Button variant="outline" className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-gray-700" onClick={() => setLocation("/lessons")} data-testid="button-browse-all-topics">
-                Browse All 150+ Lessons
+                Browse All {formatCount(lessonCount)} Lessons
                 <ChevronRight className="ml-1 w-4 h-4" />
               </Button>
             </div>
@@ -576,9 +587,9 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { value: "150+", label: "Clinical Lessons", icon: BookOpen },
-                  { value: "10,000+", label: "Practice Questions", icon: Target },
-                  { value: "25+", label: "Body Systems", icon: HeartPulse },
+                  { value: formatCount(lessonCount), label: "Clinical Lessons", icon: BookOpen },
+                  { value: formatCount(questionCount), label: "Practice Questions", icon: Target },
+                  { value: "15+", label: "Body Systems", icon: HeartPulse },
                   { value: "6", label: "Study Modes", icon: Layers },
                 ].map((stat, i) => (
                   <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-primary/5 text-center" data-testid={`stat-${i}`}>
@@ -735,7 +746,7 @@ export default function Home() {
                   How many practice questions are available on NurseNest?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  NurseNest offers over 10,000 practice questions spanning all major nursing content areas including medical-surgical, pharmacology, maternal-newborn, pediatrics, mental health, critical care, and clinical prioritization. New questions are added regularly to ensure comprehensive coverage of the content domains assessed on nursing licensure examinations. Each question includes a detailed rationale explaining the clinical reasoning behind the correct answer.
+                  NurseNest offers over {formatCount(questionCount).replace('+', '')} practice questions spanning all major nursing content areas including medical-surgical, pharmacology, maternal-newborn, pediatrics, mental health, critical care, and clinical prioritization. New questions are added every week to ensure comprehensive and growing coverage of the content domains assessed on nursing licensure examinations. Each question includes a detailed rationale explaining the clinical reasoning behind the correct answer.
                 </AccordionContent>
               </AccordionItem>
 

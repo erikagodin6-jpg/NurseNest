@@ -854,14 +854,12 @@ export default function LessonDetail() {
   const [, setLocation] = useLocation();
   const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
   const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
+  const { user, hasAccess } = useAuth();
   
-  // Extract tier from ID (e.g., "rpn-hypertension" -> tier: rpn, slug: hypertension)
   const tierFromId = id?.split('-')[0];
   const slugFromId = id?.split('-').slice(1).join('-');
 
   useEffect(() => {
-    // If user is logged in and tries to access a lesson with a different tier in the URL
-    // we should redirect them to their tier's version of the lesson if it exists
     if (user && user.tier !== 'admin' && tierFromId && tierFromId !== user.tier) {
       const targetId = `${user.tier}-${slugFromId}`;
       if (contentMap[targetId]) {
@@ -890,7 +888,6 @@ export default function LessonDetail() {
   const [editData, setEditData] = useState<LessonContent | null>(null);
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
-  const { user, hasAccess } = useAuth();
 
   useEffect(() => {
     const handleRegionChange = () => {
@@ -1127,7 +1124,7 @@ export default function LessonDetail() {
         keywords={generateLessonKeywords(id || "", lessonContent)}
         canonicalPath={`/lessons/${id}`}
         ogType="article"
-        structuredData={buildLessonStructuredData(id || "", lessonContent)}
+        structuredData={buildLessonStructuredData(id || "", lessonContent, lessonTier === "free")}
         additionalStructuredData={[
           buildBreadcrumbStructuredData([
             { name: "Home", url: "https://www.nursenest.ca/" },
