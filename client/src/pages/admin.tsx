@@ -128,7 +128,7 @@ export default function AdminPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit"].includes(tab)) {
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation"].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, []);
@@ -145,7 +145,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -190,6 +190,9 @@ export default function AdminPage() {
 
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
   const [auditLoading, setAuditLoading] = useState(false);
+
+  const [deckReports, setDeckReports] = useState<any[]>([]);
+  const [deckReportsLoading, setDeckReportsLoading] = useState(false);
 
   // -------------------------------
   // ✅ ADMIN VERIFY (FIXED)
@@ -316,6 +319,9 @@ export default function AdminPage() {
     }
     if (activeTab === "audit" && auditLogs.length === 0 && !auditLoading) {
       fetchAuditLogs();
+    }
+    if (activeTab === "deck-moderation" && deckReports.length === 0 && !deckReportsLoading) {
+      fetchDeckReports();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
@@ -474,6 +480,35 @@ export default function AdminPage() {
     } catch {} finally {
       setAuditLoading(false);
     }
+  }
+
+  async function fetchDeckReports() {
+    setDeckReportsLoading(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) { setDeckReportsLoading(false); return; }
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/deck-reports?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) setDeckReports(await res.json());
+    } catch {} finally {
+      setDeckReportsLoading(false);
+    }
+  }
+
+  async function updateDeckReportStatus(reportId: string, status: string) {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/deck-reports/${reportId}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (res.ok) {
+        setDeckReports((prev) => prev.map((r) => r.id === reportId ? { ...r, status } : r));
+      }
+    } catch {}
   }
 
   async function fetchPromotions() {
@@ -1110,7 +1145,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1128,6 +1163,7 @@ export default function AdminPage() {
                     {tab === "feedback" && "Feedback"}
                     {tab === "social" && "Social Scheduler"}
                     {tab === "audit" && "Audit Log"}
+                    {tab === "deck-moderation" && "Deck Reports"}
                   </button>
                 ))}
               </div>
@@ -3053,6 +3089,87 @@ export default function AdminPage() {
                                         </div>
                                       )}
                                     </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {activeTab === "deck-moderation" && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-gray-800">Deck Reports</h2>
+                    <Button size="sm" variant="outline" onClick={fetchDeckReports} data-testid="button-refresh-deck-reports">
+                      <RefreshCw className="w-4 h-4 mr-1" />
+                      Refresh
+                    </Button>
+                  </div>
+                  <Card className="border border-primary/10">
+                    <CardContent className="p-0">
+                      {deckReportsLoading ? (
+                        <div className="flex items-center justify-center py-10">
+                          <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                        </div>
+                      ) : deckReports.length === 0 ? (
+                        <p className="text-sm text-gray-400 text-center py-8" data-testid="text-no-deck-reports">No deck reports submitted yet.</p>
+                      ) : (
+                        <div className="divide-y divide-gray-100">
+                          {deckReports.map((report: any, idx: number) => (
+                            <div key={report.id || idx} className="p-4 hover:bg-gray-50/50 transition-colors" data-testid={`card-deck-report-${idx}`}>
+                              <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <Badge className={
+                                      report.status === "pending" ? "bg-amber-100 text-amber-700 border-amber-200" :
+                                      report.status === "resolved" ? "bg-green-100 text-green-700 border-green-200" :
+                                      "bg-gray-100 text-gray-500 border-gray-200"
+                                    }>
+                                      {report.status || "pending"}
+                                    </Badge>
+                                    <span className="text-xs text-gray-500 capitalize">{report.reason || "inaccuracy"}</span>
+                                  </div>
+                                  <p className="text-sm text-gray-800 font-medium mb-1">
+                                    Deck: <span className="font-mono text-xs">{report.deckId?.substring(0, 8)}...</span>
+                                    {report.cardId && <> / Card: <span className="font-mono text-xs">{report.cardId.substring(0, 8)}...</span></>}
+                                  </p>
+                                  {report.details && (
+                                    <p className="text-sm text-gray-600 bg-gray-50 rounded p-2 mb-2">{report.details}</p>
+                                  )}
+                                  <div className="flex items-center gap-3 text-xs text-gray-500">
+                                    <span>Reported by: <span className="font-medium text-gray-700">{report.reporterUsername || "Anonymous"}</span></span>
+                                    <span>{report.createdAt ? new Date(report.createdAt).toLocaleString() : ""}</span>
+                                  </div>
+                                </div>
+                                <div className="flex gap-2 shrink-0">
+                                  {report.status !== "resolved" && (
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      className="text-green-600 border-green-200 hover:bg-green-50"
+                                      onClick={() => updateDeckReportStatus(report.id, "resolved")}
+                                      data-testid={`button-resolve-report-${idx}`}
+                                    >
+                                      <CheckCircle2 className="w-4 h-4 mr-1" />
+                                      Resolve
+                                    </Button>
+                                  )}
+                                  {report.status !== "dismissed" && (
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      className="text-gray-500 border-gray-200 hover:bg-gray-50"
+                                      onClick={() => updateDeckReportStatus(report.id, "dismissed")}
+                                      data-testid={`button-dismiss-report-${idx}`}
+                                    >
+                                      <XCircle className="w-4 h-4 mr-1" />
+                                      Dismiss
+                                    </Button>
                                   )}
                                 </div>
                               </div>
