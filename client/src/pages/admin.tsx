@@ -152,8 +152,9 @@ export default function AdminPage() {
   const [blogGenerating, setBlogGenerating] = useState(false);
   const [blogTopic, setBlogTopic] = useState("");
   const [batchMode, setBatchMode] = useState(false);
+  const todayStr = new Date().toISOString().slice(0, 10);
   const [batchTopics, setBatchTopics] = useState("");
-  const [batchStartDate, setBatchStartDate] = useState("");
+  const [batchStartDate, setBatchStartDate] = useState(todayStr);
   const [batchPostsPerDay, setBatchPostsPerDay] = useState(1);
   const [batchPublishAll, setBatchPublishAll] = useState(false);
   const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; results: any[] } | null>(null);
@@ -1439,13 +1440,14 @@ export default function AdminPage() {
                             <Button
                               onClick={() => { handleGenerateBlogPost(); }}
                               disabled={blogGenerating || !blogTopic.trim()}
-                              className="shrink-0"
+                              className="shrink-0 gap-1.5"
                               data-testid="button-generate-blog"
                             >
-                              {blogGenerating ? "Generating..." : "Generate Draft"}
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              {blogGenerating ? "Generating..." : "Generate & Post Now"}
                             </Button>
                           </div>
-                          <p className="text-[10px] text-gray-400 mt-2">Enter a specific nursing topic and click Generate. A scholarly draft with APA 7 citations will be created for your review.</p>
+                          <p className="text-[10px] text-gray-400 mt-2">Enter a nursing topic and click Generate. The article will be generated with APA 7 citations and published immediately.</p>
                         </>
                       ) : (
                         <div className="space-y-3">
