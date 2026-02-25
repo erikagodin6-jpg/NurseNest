@@ -121,14 +121,11 @@ export default function Home() {
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
-                Nursing Exam Prep{" "}
-                <span className="bg-gradient-to-r from-primary to-accent-foreground bg-clip-text text-transparent">
-                  That Teaches You to Think Like a Clinician
-                </span>
+                {t("home.hero.title")}
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-hero-subheading">
-                A growing question bank, clinical case simulations, pharmacology flashcards, and pathophysiology lessons designed to mirror the cognitive patterns tested on nursing licensure examinations. Built for {rpnLabel}, RN, and NP students preparing for {examLabel}, {altExam}, clinical placements, and the transition from student to practicing nurse. New lessons and questions added every week.
+                {t("home.hero.subtitle")}
               </p>
               
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 px-4 sm:px-0">
@@ -267,10 +264,10 @@ export default function Home() {
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">Everything You Need in One Platform</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5" data-testid="text-features-heading">
-                The Most Complete Nursing Exam Prep Platform
+                {t("home.features.title")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                From your first anatomy lesson to the day you pass your licensing exam, NurseNest gives you every tool you need to study smarter, build confidence, and think like a clinician.
+                {t("home.features.subtitle")}
               </p>
             </div>
 
@@ -305,8 +302,8 @@ export default function Home() {
                 <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <ClipboardCheck className="w-6 h-6 text-indigo-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Timed Mock Exams</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Full-length simulated exams with configurable length (25-150 questions), question flagging, pause/resume, and a detailed post-exam report with score trends and weak area breakdown.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.exams.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.exams.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{examLabel} Format</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">Score Trends</span>
@@ -324,8 +321,8 @@ export default function Home() {
                 <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Stethoscope className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">9 Interactive Clinical Simulators</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Practice real-world clinical decisions: first-action prioritization, IV complications, deteriorating patients, electrolyte/ABG interpretation, blood transfusion safety, and hazard detection.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.simulators.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.simulators.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">Branching Scenarios</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">Instant Feedback</span>
@@ -363,8 +360,8 @@ export default function Home() {
                 <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Layers className="w-6 h-6 text-amber-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks with Learn & Test Modes</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Create custom decks, import via CSV, and study with spaced-retry Learn mode or timed Test mode with full report cards. Accuracy validation, public sharing, and pharmacology drug explorer included.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.flashcards.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.flashcards.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Learn Mode</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Test Mode</span>
@@ -383,8 +380,8 @@ export default function Home() {
                 <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Calculator className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Med Math & Lab Interpretation</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Randomized clinical calculations with stepwise solutions, plus an abnormal lab interpretation engine with cluster-based scenarios and ABG analysis practice.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.tools.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.tools.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">Stepwise Solutions</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">ABG Analysis</span>
@@ -402,8 +399,8 @@ export default function Home() {
                 <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <PlayCircle className="w-6 h-6 text-rose-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Video & Micro-Lectures</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Full video lectures and bite-sized micro-lectures with slide-based lessons, clinical pearls, voiceover, and knowledge checks built in. Learn on your schedule.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.lessons.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.lessons.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">Video Lectures</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">Clinical Pearls</span>
@@ -875,10 +872,10 @@ export default function Home() {
         <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-primary/5" data-testid="section-final-cta">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6" data-testid="text-cta-heading">
-              Stop Memorizing. Start Reasoning.
+              {t("home.cta.title")}
             </h2>
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Nursing licensure examinations test clinical reasoning, not recall. NurseNest teaches you to think through problems the way real clinicians do, whether you are preparing for your exam, starting your first clinical placement, or transitioning to a new unit.
+              {t("home.cta.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button 
@@ -887,7 +884,7 @@ export default function Home() {
                 onClick={() => setLocation("/start-free")}
                 data-testid="button-cta-start"
               >
-                Start Your Exam Prep Free
+                {t("home.cta.button")}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               <Button 
@@ -897,7 +894,7 @@ export default function Home() {
                 onClick={() => setLocation("/pricing")}
                 data-testid="button-cta-pricing"
               >
-                View Plans & Pricing
+                {t("home.hero.cta2")}
               </Button>
             </div>
             <p className="text-sm text-gray-400 mt-6">No credit card required. Free anatomy content and practice questions included.</p>

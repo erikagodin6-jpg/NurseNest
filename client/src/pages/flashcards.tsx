@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
+import { useI18n } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -987,6 +988,7 @@ type CustomCard = {
 export default function Flashcards() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useI18n();
   const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -1500,8 +1502,8 @@ export default function Flashcards() {
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
           <div className="text-center mb-12">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight" data-testid="text-flashcard-heading">Clinical Review & Exam Practice</h1>
-            <p className="text-gray-600" data-testid="text-flashcard-subheading">Build your session. Select topics and question formats to target your weakest areas.</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight" data-testid="text-flashcard-heading">{t("flashcards.title")}</h1>
+            <p className="text-gray-600" data-testid="text-flashcard-subheading">{t("flashcards.subtitle")}</p>
             {user?.tier === "admin" && (
               <Button
                 variant="outline"

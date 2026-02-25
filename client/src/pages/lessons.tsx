@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { useI18n } from "@/lib/i18n";
 import { Footer } from "@/components/footer";
 import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -1944,6 +1945,7 @@ function LecturesSection({ tier, onNavigate }: { tier: string; onNavigate: (path
 export default function Lessons() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
+  const { t } = useI18n();
   const userTier = user?.tier || "free";
   const isAdmin = userTier === "admin";
   const previewTier = isAdmin ? (localStorage.getItem("nursenest-admin-preview") || null) : null;
@@ -1981,8 +1983,8 @@ export default function Lessons() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <div className="mb-12 flex flex-col items-center gap-6">
           <div className="text-center w-full">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Clinical Lesson Library</h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Structured from foundational concepts to advanced clinical reasoning. Every lesson connects pathophysiology to the decision-making patterns tested on nursing licensure examinations.</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">{t("lessons.title")}</h1>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("lessons.subtitle")}</p>
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
             <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
