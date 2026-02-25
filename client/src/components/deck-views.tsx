@@ -490,7 +490,7 @@ export function DeckEditor({
               <Plus className="w-4 h-4 mr-1" /> Add Card
             </Button>
             <Button variant="outline" onClick={aiCheckCard} disabled={aiChecking || !newCardFront?.trim() || !newCardBack?.trim()} className="rounded-xl gap-2" data-testid="button-ai-check">
-              <Sparkles className="w-4 h-4" /> {aiChecking ? "Checking..." : "AI Check"}
+              <Sparkles className="w-4 h-4" /> {aiChecking ? "Checking..." : "Verify Accuracy"}
             </Button>
           </div>
         </CardContent>

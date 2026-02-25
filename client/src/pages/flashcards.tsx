@@ -1651,7 +1651,7 @@ export default function Flashcards() {
                 </div>
                 <h3 className="text-2xl font-bold mb-2">My Flashcards</h3>
                 <p className="text-white/70 text-sm leading-relaxed">
-                  Create your own flashcards with AI-powered medical accuracy validation. Build a personalized study deck for your weakest areas.
+                  Create your own flashcards with expert-reviewed medical accuracy validation. Build a personalized study deck for your weakest areas.
                 </p>
               </Card>
 
@@ -1725,7 +1725,7 @@ export default function Flashcards() {
             <Card className="border-none shadow-xl bg-white p-12 rounded-3xl text-center">
               <Lock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In to Create Flashcards</h2>
-              <p className="text-gray-500 mb-6">Create a free account to build your own custom study deck with AI-powered medical accuracy validation.</p>
+              <p className="text-gray-500 mb-6">Create a free account to build your own custom study deck with expert-reviewed medical accuracy validation.</p>
               <Button className="rounded-xl" onClick={() => setLocation("/signup")} data-testid="button-signup-mycards">Create Free Account</Button>
             </Card>
           </main>
@@ -1769,7 +1769,7 @@ export default function Flashcards() {
             <div className="flex items-center gap-2 mb-6">
               <Sparkles className="w-5 h-5 text-primary" />
               <h3 className="text-lg font-bold text-gray-900">{editingCard ? "Edit Card" : "Create New Card"}</h3>
-              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium ml-auto">AI Validated</span>
+              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium ml-auto">Accuracy Verified</span>
             </div>
 
             <div className="space-y-4">
@@ -1846,7 +1846,7 @@ export default function Flashcards() {
                     data-testid="button-create-flashcard"
                   >
                     {validating ? <RefreshCw className="w-4 h-4 animate-spin" /> : saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                    {validating ? "AI Validating..." : saving ? "Saving..." : "Validate & Create Card"}
+                    {validating ? "Validating..." : saving ? "Saving..." : "Validate & Create Card"}
                   </Button>
                 )}
               </div>
@@ -1943,7 +1943,7 @@ export default function Flashcards() {
             <div className="text-center py-12">
               <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">No cards yet</h3>
-              <p className="text-gray-500 text-sm">Create your first flashcard above. Our AI will validate the medical accuracy before saving.</p>
+              <p className="text-gray-500 text-sm">Create your first flashcard above. Each card will be validated for medical accuracy before saving.</p>
             </div>
           )}
 

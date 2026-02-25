@@ -115,7 +115,7 @@ export default function Home() {
             <div className="text-center max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-2">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-sm font-medium text-gray-600">New: Flashcard Decks with Learn & Test Modes, AI Blog, 10-Language Support</span>
+                <span className="text-sm font-medium text-gray-600">New: Flashcard Decks with Learn & Test Modes, Clinical Blog, 10-Language Support</span>
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
@@ -163,7 +163,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>AI-Verified Flashcard Decks</span>
+                  <span>Expert-Verified Flashcard Decks</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
@@ -220,7 +220,7 @@ export default function Home() {
                   <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">Flashcard Deck System</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">Create your own decks, study with spaced-retry Learn mode or timed Test mode, get AI accuracy checks, share with classmates, and import cards via CSV. Full report cards after every session.</p>
+                <p className="text-sm text-gray-600 leading-relaxed">Create your own decks, study with spaced-retry Learn mode or timed Test mode, share with classmates, and import cards via CSV. Full report cards after every session with expert-reviewed accuracy validation.</p>
               </div>
 
               <div
@@ -362,11 +362,11 @@ export default function Home() {
                   <Layers className="w-6 h-6 text-amber-600" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks with Learn & Test Modes</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Create custom decks, import via CSV, and study with spaced-retry Learn mode or timed Test mode with full report cards. AI accuracy checking, public sharing, and pharmacology drug explorer included.</p>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Create custom decks, import via CSV, and study with spaced-retry Learn mode or timed Test mode with full report cards. Accuracy validation, public sharing, and pharmacology drug explorer included.</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Learn Mode</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Test Mode</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">AI Accuracy Check</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Accuracy Check</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">CSV Import</span>
                 </div>
               </div>
@@ -792,7 +792,7 @@ export default function Home() {
                   How do the flashcard deck Learn and Test modes work?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Learn Mode uses spaced retry to help you master every card. Cards you miss are automatically re-queued until you get them right. Test Mode is a timed assessment where you go through the entire deck once, with a detailed report card at the end showing your accuracy, time spent, and which cards you need to review. Both modes include keyboard shortcuts for faster studying. You can also create your own decks, import cards via CSV, and run an AI accuracy check to verify your content before studying.
+                  Learn Mode uses spaced retry to help you master every card. Cards you miss are automatically re-queued until you get them right. Test Mode is a timed assessment where you go through the entire deck once, with a detailed report card at the end showing your accuracy, time spent, and which cards you need to review. Both modes include keyboard shortcuts for faster studying. You can also create your own decks, import cards via CSV, and run an accuracy check to verify your content before studying.
                 </AccordionContent>
               </AccordionItem>
 

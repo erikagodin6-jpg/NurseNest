@@ -1358,7 +1358,7 @@ export default function AdminPage() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <Lightbulb className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-semibold text-gray-700">AI Blog Post Generator</span>
+                          <span className="text-sm font-semibold text-gray-700">Blog Post Generator</span>
                           <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">APA 7 Citations</span>
                         </div>
                         <button
@@ -1386,10 +1386,10 @@ export default function AdminPage() {
                               className="shrink-0"
                               data-testid="button-generate-blog"
                             >
-                              {blogGenerating ? "Generating..." : "Generate AI Draft"}
+                              {blogGenerating ? "Generating..." : "Generate Draft"}
                             </Button>
                           </div>
-                          <p className="text-[10px] text-gray-400 mt-2">Enter a specific nursing topic and click Generate. The AI will create a scholarly draft with APA 7 citations ready for your review.</p>
+                          <p className="text-[10px] text-gray-400 mt-2">Enter a specific nursing topic and click Generate. A scholarly draft with APA 7 citations will be created for your review.</p>
                         </>
                       ) : (
                         <div className="space-y-3">
