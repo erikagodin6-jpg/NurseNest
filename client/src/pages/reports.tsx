@@ -35,72 +35,72 @@ import {
 
 const BODY_SYSTEM_MAP: Record<string, { lessons: string[]; icon: any; color: string }> = {
   "Cardiovascular": {
-    lessons: ["aaa-rupture", "mi-management", "hf-advanced", "dvt-pe", "endocarditis", "hypertensive-crisis"],
+    lessons: ["aaa-rupture", "mi-management", "hf-advanced", "dysrhythmias", "pe-recognition", "infective-endocarditis", "peripheral-artery-disease", "aortic-dissection", "carotid-endarterectomy", "cardiovascular-rpn", "cardiovascular-rn", "cardiovascular-np", "chf-basics", "mi-acute", "hypertension-management", "cardiac-monitoring", "cardiac-rhythm-rn", "cardiac-auscultation-rn", "cardiogenic-shock", "pe-dvt", "heart-failure", "hypertension", "peds-cardiac-basics", "cardiac-assessment-ecg", "cardiac-cycle-hemodynamics", "conduction-system", "pad-claudication", "cardioversion-defib", "raynauds-phenomenon-rpn", "buergers-disease-rpn", "venous-insufficiency-rpn", "varicose-veins-rpn", "endocarditis-basics-rpn", "rheumatic-fever-rpn", "kawasaki-disease-rpn", "cardiomyopathy-basics-rpn", "shock-types-recognition-rpn", "chest-pain-differential-rpn", "dic-basics", "marfan-syndrome-rpn", "endocarditis-infection-rpn", "toxic-shock-syndrome-rpn", "focused-cardiac-assessment", "heart-sounds-rpn", "dvt-management", "neurogenic-shock", "obstructive-shock", "hemodynamic-assessment-rn", "peripheral-vascular-rn", "hf-advanced-np", "afib-management-np", "acs-management-np", "cardiac-arrest-acls-np", "hfpef-np", "valvular-disease-np", "pvd-advanced-np", "takotsubo-cardiomyopathy-np", "infective-endocarditis-advanced-np", "marfan-cardiac-np", "constrictive-pericarditis-np", "cardiac-tamponade-mgmt-np", "stemi-nstemi-algorithm-np", "heart-transplant-rejection-np", "cerebral-venous-sinus-thrombosis-np", "portal-hypertension-np", "advanced-cardiac-auscultation-np", "hemodynamic-monitoring-np", "cardiac-output-np", "vascular-assessment-np", "polymyalgia-rheumatica-np", "scleroderma-systemic-sclerosis-np", "marfan-syndrome-np", "intra-aortic-balloon-pump-np", "pacemaker-care", "hypertensive-emergency-np", "vte-prophylaxis-np", "brugada-syndrome-np", "long-qt-syndrome-np", "tetralogy-of-fallot"],
     icon: Heart,
     color: "text-red-500",
   },
   "Respiratory": {
-    lessons: ["pneumonia", "copd-exacerbation", "pneumothorax", "ards", "tb", "asthma-status"],
+    lessons: ["copd-exacerbation", "asthma-emergency", "peds-respiratory", "epiglottitis-peds", "ards-management", "active-tb", "osa-management", "respiratory-rpn", "respiratory-rn", "respiratory-np", "asthma-copd", "pneumonia-basics", "abg-basics", "abg-interpretation-rn", "chest-tube-care", "oxygen-therapy", "tracheostomy-care", "abg-advanced-np", "airway-assessment-rn", "alpha-1-antitrypsin-deficiency-np", "ards-management-np", "asthma-basics-rpn", "asthma-emergency-np", "asthma-outpatient-np", "bronchiectasis-management-np", "bronchiectasis-rpn", "bronchopulmonary-dysplasia-rpn", "chest-tube-basics-rpn", "copd-basics-rpn", "copd-outpatient-np", "cystic-fibrosis-adult-np", "cystic-fibrosis-basics-rpn", "cystic-fibrosis-peds-rpn", "hemothorax-management-np", "interstitial-lung-disease-np", "lung-auscultation", "lung-cancer-basics-rpn", "lung-cancer-staging-np", "lung-sounds-assessment-rpn", "non-invasive-ventilation-modes-np", "occupational-lung-disease-np", "oxygen-therapy-basics", "oxygen-therapy-setup-rpn", "pleural-effusion-np", "pneumonia-basics-rpn", "pneumonia-management-np", "pulmonary-fibrosis-basics-rpn", "respiratory-assessment", "respiratory-assessment-rn", "respiratory-failure-np", "respiratory-mechanics-np", "respiratory-pattern-rpn", "sarcoidosis-pulmonary-np", "tb-basics-rpn", "tb-management-advanced-np", "tb-management-basics-rpn", "tb-management-np", "tracheobronchial-injury-np", "tracheostomy-basics-rpn", "tracheostomy-care-rpn", "ventilator-assessment-rn", "ventilator-associated-pneumonia-np", "ventilator-bundle-np", "pulmonary-hypertension-np"],
     icon: Wind,
     color: "text-blue-500",
   },
   "Neurological": {
-    lessons: ["neuro-basics", "stroke-management", "seizures", "meningitis", "icp-management"],
+    lessons: ["neuro-basics", "stroke", "cp-management", "increased-icp", "stroke-advanced", "seizure-safety", "neuritis-neuropathy", "febrile-seizure"],
     icon: Brain,
     color: "text-purple-500",
   },
   "Gastrointestinal": {
-    lessons: ["gi-bleed", "pancreatitis", "bowel-obstruction", "liver-failure", "appendicitis"],
+    lessons: ["gi-bleed", "acute-abdomen", "ibs-basics", "peptic-ulcer", "ulcerative-colitis", "cholecystectomy", "cholecystectomy-rpn", "cholecystectomy-np", "ercp-egd", "dumping-syndrome", "bariatric-surgery", "cholecystitis", "cirrhosis", "portal-hypertension", "ascites", "esophageal-varices", "hepatitis", "pancreatitis", "ibs", "crohns-disease", "diverticulitis", "hemorrhoids", "antacids", "h2-receptor-antagonists", "proton-pump-inhibitors", "antiemetics", "laxatives", "antidiarrheals", "hepatic-encephalopathy-meds", "viral-hepatitis", "hepatitis-c", "chronic-hepatitis", "biliary-atresia-rpn", "biliary-atresia", "biliary-atresia-np", "eosinophilic-esophagitis-rpn", "eosinophilic-esophagitis", "eosinophilic-esophagitis-np", "meckel-diverticulum-rpn", "meckel-diverticulum", "meckel-diverticulum-np"],
     icon: Utensils,
     color: "text-amber-600",
   },
   "Renal": {
-    lessons: ["aki-ckd", "electrolyte-emergencies", "uti-pyelo", "nephrotic-syndrome"],
+    lessons: ["aki-management", "ckd-management", "rhabdomyolysis", "av-fistula", "dialysis-steal", "glomerulonephritis-basics-rpn", "acute-glomerulonephritis", "acute-glomerulonephritis-np"],
     icon: Droplets,
     color: "text-cyan-500",
   },
   "Endocrine": {
-    lessons: ["dka-management", "thyroid-storm", "addisonian-crisis", "siadh-di"],
+    lessons: ["siadh-di", "hypothyroidism-basics", "adrenal-insufficiency", "thyroidectomy", "siadh-basics-rpn", "acromegaly-basics-rpn", "prolactinoma-basics", "thyrotoxicosis-basics", "dka-hhns", "dka-hhns-np", "siadh-di-np", "diabetes-lifespan", "addisons-disease-basics-rpn", "cushings-syndrome-basics-rpn", "thyroid-storm-np", "pheochromocytoma-np"],
     icon: Gauge,
     color: "text-orange-500",
   },
   "Hematology": {
-    lessons: ["dic", "sickle-cell", "blood-transfusion", "thalassemia"],
+    lessons: ["all-leukemia", "aml-leukemia", "sickle-cell", "polycythemia", "thalassemia", "iron-overload", "acute-blood-loss", "macrocytic-anemias"],
     icon: Syringe,
     color: "text-rose-500",
   },
   "Pediatrics": {
-    lessons: ["peds-cardiac", "epiglottitis", "cp-management", "kawasaki-critical", "all-leukemia"],
+    lessons: ["kawasaki-critical", "congenital-heart", "pyloric-intussusception", "adhd-basics", "separation-anxiety", "separation-anxiety-rn", "separation-anxiety-np", "lead-poisoning", "varicella", "dehydration-peds", "hip-dysplasia", "foreign-body-aspiration", "androgen-insensitivity-rpn", "androgen-insensitivity", "androgen-insensitivity-np"],
     icon: Baby,
     color: "text-pink-500",
   },
   "Maternity/OB": {
-    lessons: ["preeclampsia", "placenta-previa", "postpartum-hemorrhage"],
+    lessons: ["ectopic-pregnancy", "dic-pregnancy", "hyperemesis-gravidarum", "torch-infections", "chorioamnionitis", "multiple-gestation", "placental-abnormalities", "pregnancy-stis", "uterine-rupture", "uterine-inversion", "antenatal-testing", "vaginal-hematoma-rpn", "vaginal-hematoma", "vaginal-hematoma-np", "fetal-monitoring-advanced", "prenatal-basics", "labor-stages", "postpartum-basics", "breastfeeding-basics", "placenta-previa-abruption", "postpartum-hemorrhage", "gestational-diabetes", "fetal-monitoring-rn", "postpartum-depression-care", "pph-shock", "subinvolution", "postpartum-vte", "newborn-reflexes", "meconium-aspiration", "betamethasone-dexamethasone", "opioid-analgesics-ob", "prostaglandins-ob", "oxytocin-ob", "pph-medications", "rh-immune-globulin", "rubella-vaccine", "lung-surfactants", "eye-prophylaxis-newborn", "phytonadione", "hep-b-vaccine-newborn", "contraceptives"],
     icon: Users,
     color: "text-fuchsia-500",
   },
   "Mental Health": {
-    lessons: ["depression-suicide", "substance-withdrawal", "schizophrenia"],
+    lessons: ["schizophrenia", "major-depressive-disorder", "ptsd", "panic-disorder", "antisocial-personality-disorder", "conversion-disorder", "alcohol-withdrawal", "opioid-withdrawal", "insomnia", "narcolepsy", "agoraphobia", "intimate-partner-violence", "bulimia-nervosa", "dsm5-personality-disorders", "postmortem-care", "serotonin-syndrome", "tardive-dyskinesia"],
     icon: Smile,
     color: "text-teal-500",
   },
   "Oncology": {
-    lessons: ["oncology-emergencies", "chemo-management"],
+    lessons: ["hodgkin-lymphoma", "non-hodgkin-lymphoma", "multiple-myeloma", "breast-cancer", "mastectomy", "cervical-cancer", "prostate-cancer", "basal-cell-carcinoma", "squamous-cell-carcinoma", "kaposi-sarcoma", "merkel-cell-carcinoma", "neuroblastoma", "retinoblastoma", "radiation-therapy", "tumor-classification", "paraneoplastic-syndromes", "treatment-of-cancer", "esophageal-cancer", "stomach-cancer", "colorectal-cancer", "bladder-tumors", "kidney-tumors"],
     icon: Radiation,
     color: "text-indigo-500",
   },
   "Emergency": {
-    lessons: ["trauma-assessment", "burn-management", "shock-types"],
+    lessons: ["shock-syndromes", "sepsis-mastery", "burn-management", "compartment-syndrome", "malignant-hyperthermia", "anaphylaxis"],
     icon: Zap,
     color: "text-yellow-500",
   },
   "Eye/Ear": {
-    lessons: ["glaucoma", "cataracts", "macular-degeneration", "retinal-detachment", "otitis-media", "menieres-disease", "hearing-loss"],
+    lessons: ["glaucoma", "cataracts", "macular-degeneration", "retinal-detachment", "conjunctivitis", "ophthalmic-med-admin", "antiinfective-eye-meds", "antiinflammatory-eye-meds", "eye-lubricants", "beta-blockers-eye", "carbonic-anhydrase-inhibitors-eye", "osmotic-meds-eye", "otitis-media", "menieres-disease", "hearing-loss"],
     icon: Eye,
     color: "text-emerald-500",
   },
   "Infection Control": {
-    lessons: ["mrsa-management", "c-diff", "sepsis-management"],
+    lessons: ["hand-hygiene", "ppe-basics", "isolation-precautions-rpn", "sterile-technique", "airborne-precautions", "droplet-precautions", "cdiff-basics", "pertussis-basics"],
     icon: ShieldAlert,
     color: "text-lime-600",
   },

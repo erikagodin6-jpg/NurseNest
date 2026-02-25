@@ -697,6 +697,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   // --------------------
   app.get("/api/content", async (req, res) => {
     try {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.setHeader("ETag", `"content-${Date.now()}"`);
       const { status, username, password, type, category } = req.query;
 
       if (status === "all" && username && password) {
@@ -710,6 +712,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const items = await storage.getPublishedContent(type as string | undefined, category as string | undefined);
       res.json(items);
     } catch (e: any) {
+      console.error("Content API error:", e.message);
       res.status(500).json({ error: e.message });
     }
   });

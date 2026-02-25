@@ -135,7 +135,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "feedback" | "social"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -159,6 +159,12 @@ export default function AdminPage() {
   const [socialPosts, setSocialPosts] = useState<any[]>([]);
   const [socialLoading, setSocialLoading] = useState(false);
   const [newPost, setNewPost] = useState({ platform: "facebook", content: "", scheduledAt: "", tier: "rpn", imageUrl: "" });
+
+  const [promotions, setPromotions] = useState<any[]>([]);
+  const [promotionsLoading, setPromotionsLoading] = useState(false);
+  const [newPromo, setNewPromo] = useState({ code: "", discountType: "percent_off", amount: "", duration: "once", maxRedemptions: "", expiresAt: "" });
+  const [promoCreating, setPromoCreating] = useState(false);
+  const [analyticsSubTab, setAnalyticsSubTab] = useState<"traffic" | "users" | "content" | "campaigns">("traffic");
 
   // -------------------------------
   // ✅ ADMIN VERIFY (FIXED)
@@ -279,6 +285,9 @@ export default function AdminPage() {
     if (activeTab === "social" && socialPosts.length === 0 && !socialLoading) {
       fetchSocialPosts();
     }
+    if (activeTab === "promotions" && promotions.length === 0 && !promotionsLoading) {
+      fetchPromotions();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
@@ -369,6 +378,64 @@ export default function AdminPage() {
     }
   }
 
+  async function fetchPromotions() {
+    setPromotionsLoading(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) { setPromotionsLoading(false); return; }
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/promotions?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) setPromotions(await res.json());
+    } catch {} finally {
+      setPromotionsLoading(false);
+    }
+  }
+
+  async function createPromotion() {
+    if (!newPromo.code || !newPromo.amount) return;
+    setPromoCreating(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch("/api/admin/promotions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username, password,
+          code: newPromo.code.toUpperCase(),
+          discountType: newPromo.discountType,
+          amount: Number(newPromo.amount),
+          duration: newPromo.duration,
+          maxRedemptions: newPromo.maxRedemptions ? Number(newPromo.maxRedemptions) : undefined,
+          expiresAt: newPromo.expiresAt || undefined,
+        }),
+      });
+      if (res.ok) {
+        setNewPromo({ code: "", discountType: "percent_off", amount: "", duration: "once", maxRedemptions: "", expiresAt: "" });
+        fetchPromotions();
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert((err as any).error || "Failed to create promotion");
+      }
+    } catch {
+      alert("Failed to create promotion");
+    } finally {
+      setPromoCreating(false);
+    }
+  }
+
+  async function deletePromotion(id: string) {
+    if (!confirm("Deactivate this promotion code?")) return;
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/promotions/${id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, { method: "DELETE" });
+      if (res.ok) fetchPromotions();
+    } catch {}
+  }
+
   async function handleBlogConfigUpdate(updates: any) {
     const stored = localStorage.getItem("nursenest-credentials");
     if (!stored) return;
@@ -443,10 +510,8 @@ export default function AdminPage() {
       const res = await fetch(`/api/content?status=all&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
       if (res.ok) {
         const allItems = await res.json();
-        const blogTypes = ["blog", "blog-post", "article"];
-        const blogItems = allItems.filter((item: any) => blogTypes.includes(item.type));
-        blogItems.sort((a: any, b: any) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime());
-        setBlogPosts(blogItems);
+        allItems.sort((a: any, b: any) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime());
+        setBlogPosts(allItems);
       }
     } catch {} finally {
       setBlogPostsLoading(false);
@@ -801,7 +866,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "feedback", "social"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -815,6 +880,7 @@ export default function AdminPage() {
                     {tab === "activity" && "Recent Activity"}
                     {tab === "content-engine" && "Content Engine"}
                     {tab === "analytics" && "Site Analytics"}
+                    {tab === "promotions" && "Promotions"}
                     {tab === "feedback" && "Feedback"}
                     {tab === "social" && "Social Scheduler"}
                   </button>
