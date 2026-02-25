@@ -230,16 +230,18 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="data-theme" defaultTheme="clinical-light" enableSystem={false}>
-        <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <PageTracker />
-            <CopyProtection />
-            <Router />
-            <UpgradePrompt />
-            <PWAInstallPrompt />
-          </TooltipProvider>
-        </AuthProvider>
+        <I18nProvider>
+          <AuthProvider>
+            <TooltipProvider>
+              <Toaster />
+              <PageTracker />
+              <CopyProtection />
+              <Router />
+              <UpgradePrompt />
+              <PWAInstallPrompt />
+            </TooltipProvider>
+          </AuthProvider>
+        </I18nProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
