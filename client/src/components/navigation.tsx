@@ -520,14 +520,15 @@ export function Navigation() {
                   onClick={() => setLanguage(lang.code)}
                   data-testid={`button-lang-${lang.code}-mobile`}
                   className={cn(
-                    "flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium border transition-colors",
+                    "flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[11px] font-medium border transition-colors",
                     language === lang.code
                       ? "bg-primary/10 border-primary/30 text-primary font-bold"
                       : "bg-white border-gray-200 text-gray-500 hover:border-primary/20 hover:text-primary"
                   )}
                 >
                   <span>{lang.flag}</span>
-                  <span>{lang.code.toUpperCase()}</span>
+                  <span>{lang.name}</span>
+                  {lang.name !== lang.nativeName && <span className="text-[9px] opacity-60">({lang.nativeName})</span>}
                 </button>
               ))}
             </div>
@@ -770,7 +771,7 @@ export function Navigation() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="hidden lg:flex items-center gap-1.5 text-softgray hover:text-primary h-8 px-2" data-testid="button-language-selector">
                   <Globe className="w-4 h-4" />
-                  <span className="text-xs font-bold">{currentLang?.flag} {currentLang?.code.toUpperCase()}</span>
+                  <span className="text-xs font-bold">{currentLang?.flag} {currentLang?.name}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 p-2 max-h-80 overflow-y-auto">

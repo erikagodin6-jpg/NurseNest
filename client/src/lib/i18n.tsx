@@ -4,15 +4,15 @@ export type LanguageCode = "en" | "fr" | "tl" | "hi" | "es" | "zh" | "ar" | "ko"
 
 export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; flag: string }[] = [
   { code: "en", name: "English", nativeName: "English", flag: "🇬🇧" },
-  { code: "fr", name: "French", nativeName: "Francais", flag: "🇫🇷" },
+  { code: "fr", name: "French", nativeName: "Fran\u00e7ais", flag: "🇫🇷" },
   { code: "tl", name: "Filipino", nativeName: "Tagalog", flag: "🇵🇭" },
-  { code: "hi", name: "Hindi", nativeName: "Hindi", flag: "🇮🇳" },
-  { code: "es", name: "Spanish", nativeName: "Espanol", flag: "🇪🇸" },
-  { code: "zh", name: "Chinese", nativeName: "Zhongwen", flag: "🇨🇳" },
-  { code: "ar", name: "Arabic", nativeName: "Arabi", flag: "🇸🇦" },
-  { code: "ko", name: "Korean", nativeName: "Hangugeo", flag: "🇰🇷" },
-  { code: "pt", name: "Portuguese", nativeName: "Portugues", flag: "🇧🇷" },
-  { code: "pa", name: "Punjabi", nativeName: "Panjabi", flag: "🇨🇦" },
+  { code: "hi", name: "Hindi", nativeName: "\u0939\u093f\u0928\u094d\u0926\u0940", flag: "🇮🇳" },
+  { code: "es", name: "Spanish", nativeName: "Espa\u00f1ol", flag: "🇪🇸" },
+  { code: "zh", name: "Chinese", nativeName: "\u4e2d\u6587", flag: "🇨🇳" },
+  { code: "ar", name: "Arabic", nativeName: "\u0627\u0644\u0639\u0631\u0628\u064a\u0629", flag: "🇸🇦" },
+  { code: "ko", name: "Korean", nativeName: "\ud55c\uad6d\uc5b4", flag: "🇰🇷" },
+  { code: "pt", name: "Portuguese", nativeName: "Portugu\u00eas", flag: "🇧🇷" },
+  { code: "pa", name: "Punjabi", nativeName: "\u0a2a\u0a70\u0a1c\u0a3e\u0a2c\u0a40", flag: "🇨🇦" },
 ];
 
 const translations: Record<LanguageCode, Record<string, string>> = {
