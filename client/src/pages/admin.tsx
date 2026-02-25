@@ -123,6 +123,14 @@ export default function AdminPage() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab");
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit"].includes(tab)) {
+      setActiveTab(tab as any);
+    }
+  }, []);
+
   const [data, setData] = useState<AdminData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -135,7 +143,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -165,6 +173,9 @@ export default function AdminPage() {
   const [newPromo, setNewPromo] = useState({ code: "", discountType: "percent_off", amount: "", duration: "once", maxRedemptions: "", expiresAt: "" });
   const [promoCreating, setPromoCreating] = useState(false);
   const [analyticsSubTab, setAnalyticsSubTab] = useState<"traffic" | "users" | "content" | "campaigns">("traffic");
+
+  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [auditLoading, setAuditLoading] = useState(false);
 
   // -------------------------------
   // ✅ ADMIN VERIFY (FIXED)
@@ -288,6 +299,9 @@ export default function AdminPage() {
     if (activeTab === "promotions" && promotions.length === 0 && !promotionsLoading) {
       fetchPromotions();
     }
+    if (activeTab === "audit" && auditLogs.length === 0 && !auditLoading) {
+      fetchAuditLogs();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
@@ -375,6 +389,19 @@ export default function AdminPage() {
       const res = await fetch(`/api/admin/social-posts/${id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, { method: "DELETE" });
       if (res.ok) setSocialPosts((prev) => prev.filter((p) => p.id !== id));
     } catch {
+    }
+  }
+
+  async function fetchAuditLogs() {
+    setAuditLoading(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) { setAuditLoading(false); return; }
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/audit-logs?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&limit=100`);
+      if (res.ok) setAuditLogs(await res.json());
+    } catch {} finally {
+      setAuditLoading(false);
     }
   }
 
@@ -866,7 +893,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -883,6 +910,7 @@ export default function AdminPage() {
                     {tab === "promotions" && "Promotions"}
                     {tab === "feedback" && "Feedback"}
                     {tab === "social" && "Social Scheduler"}
+                    {tab === "audit" && "Audit Log"}
                   </button>
                 ))}
               </div>
@@ -2446,6 +2474,73 @@ export default function AdminPage() {
                                   Delete
                                 </Button>
                               )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {activeTab === "audit" && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-gray-800">Audit Log</h2>
+                    <Button size="sm" variant="outline" onClick={fetchAuditLogs} data-testid="button-refresh-audit">
+                      <RefreshCw className="w-4 h-4 mr-1" />
+                      Refresh
+                    </Button>
+                  </div>
+                  <Card className="border border-primary/10">
+                    <CardContent className="p-0">
+                      {auditLoading ? (
+                        <div className="flex items-center justify-center py-10">
+                          <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                        </div>
+                      ) : auditLogs.length === 0 ? (
+                        <p className="text-sm text-gray-400 text-center py-8">No audit log entries yet. Changes to content will appear here.</p>
+                      ) : (
+                        <div className="divide-y divide-gray-100">
+                          {auditLogs.map((log: any, idx: number) => (
+                            <div key={log.id || idx} className="p-4 hover:bg-gray-50/50 transition-colors" data-testid={`card-audit-log-${idx}`}>
+                              <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase ${
+                                      log.action === "create" ? "bg-green-100 text-green-700" :
+                                      log.action === "update" ? "bg-blue-100 text-blue-700" :
+                                      log.action === "delete" ? "bg-red-100 text-red-700" :
+                                      log.action === "restore_revision" ? "bg-purple-100 text-purple-700" :
+                                      "bg-gray-100 text-gray-700"
+                                    }`}>
+                                      {log.action}
+                                    </span>
+                                    <span className="text-xs text-gray-500 capitalize">{log.entityType}</span>
+                                    {log.entityId && <span className="text-xs text-gray-400 font-mono truncate max-w-[120px]">{log.entityId.substring(0, 8)}...</span>}
+                                  </div>
+                                  <div className="flex items-center gap-3 text-xs text-gray-500">
+                                    <span className="font-medium text-gray-700">{log.actorUsername || "System"}</span>
+                                    <span>{log.createdAt ? new Date(log.createdAt).toLocaleString() : ""}</span>
+                                  </div>
+                                  {(log.beforeJson || log.afterJson) && (
+                                    <div className="mt-2 flex gap-4 text-xs">
+                                      {log.beforeJson && (
+                                        <div className="bg-red-50 rounded p-2 flex-1">
+                                          <span className="font-semibold text-red-600">Before: </span>
+                                          <span className="text-gray-600">{typeof log.beforeJson === "string" ? log.beforeJson : JSON.stringify(log.beforeJson, null, 1)}</span>
+                                        </div>
+                                      )}
+                                      {log.afterJson && (
+                                        <div className="bg-green-50 rounded p-2 flex-1">
+                                          <span className="font-semibold text-green-600">After: </span>
+                                          <span className="text-gray-600">{typeof log.afterJson === "string" ? log.afterJson : JSON.stringify(log.afterJson, null, 1)}</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
                             </div>
                           ))}
                         </div>

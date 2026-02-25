@@ -367,3 +367,109 @@ export const insertContentRevisionSchema = createInsertSchema(contentRevisions).
 
 export type ContentRevision = typeof contentRevisions.$inferSelect;
 export type InsertContentRevision = z.infer<typeof insertContentRevisionSchema>;
+
+export const flashcardDecks = pgTable("flashcard_decks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ownerId: varchar("owner_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description").default(""),
+  tags: jsonb("tags").default(sql`'[]'::jsonb`),
+  tier: text("tier").default("free"),
+  visibility: text("visibility").default("private"),
+  slug: text("slug"),
+  isUpgraded: boolean("is_upgraded").default(false),
+  upgradedAt: timestamp("upgraded_at"),
+  upgradedLimit: integer("upgraded_limit").default(300),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  cardCount: integer("card_count").default(0),
+  viewCount: integer("view_count").default(0),
+  saveCount: integer("save_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertFlashcardDeckSchema = createInsertSchema(flashcardDecks).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  cardCount: true,
+  viewCount: true,
+  saveCount: true,
+});
+
+export type FlashcardDeck = typeof flashcardDecks.$inferSelect;
+export type InsertFlashcardDeck = z.infer<typeof insertFlashcardDeckSchema>;
+
+export const deckFlashcards = pgTable("deck_flashcards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  deckId: varchar("deck_id").notNull(),
+  front: text("front").notNull(),
+  back: text("back").notNull(),
+  rationale: text("rationale"),
+  tags: jsonb("tags").default(sql`'[]'::jsonb`),
+  difficulty: text("difficulty").default("medium"),
+  aiCheckStatus: text("ai_check_status").default("unknown"),
+  aiCheckSummary: text("ai_check_summary"),
+  aiCheckConfidence: integer("ai_check_confidence"),
+  userOverride: boolean("user_override").default(false),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertDeckFlashcardSchema = createInsertSchema(deckFlashcards).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type DeckFlashcard = typeof deckFlashcards.$inferSelect;
+export type InsertDeckFlashcard = z.infer<typeof insertDeckFlashcardSchema>;
+
+export const studySessions = pgTable("study_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  deckId: varchar("deck_id").notNull(),
+  mode: text("mode").notNull().default("learn"),
+  totalCards: integer("total_cards").default(0),
+  correctCount: integer("correct_count").default(0),
+  incorrectCount: integer("incorrect_count").default(0),
+  timeSeconds: integer("time_seconds"),
+  missedCardIds: jsonb("missed_card_ids").default(sql`'[]'::jsonb`),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  endedAt: timestamp("ended_at"),
+});
+
+export const insertStudySessionSchema = createInsertSchema(studySessions).omit({
+  id: true,
+  startedAt: true,
+});
+
+export type StudySession = typeof studySessions.$inferSelect;
+export type InsertStudySession = z.infer<typeof insertStudySessionSchema>;
+
+export const deckReports = pgTable("deck_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  reporterId: varchar("reporter_id").notNull(),
+  targetType: text("target_type").notNull(),
+  targetId: varchar("target_id").notNull(),
+  reason: text("reason").notNull(),
+  notes: text("notes"),
+  status: text("status").default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertDeckReportSchema = createInsertSchema(deckReports).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type DeckReport = typeof deckReports.$inferSelect;
+export type InsertDeckReport = z.infer<typeof insertDeckReportSchema>;
+
+export const savedDecks = pgTable("saved_decks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  deckId: varchar("deck_id").notNull(),
+  savedAt: timestamp("saved_at").defaultNow().notNull(),
+});

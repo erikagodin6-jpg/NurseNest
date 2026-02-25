@@ -74,6 +74,21 @@ app.post(
         return res.status(500).json({ error: "Webhook processing error" });
       }
 
+      const bodyStr = req.body.toString("utf8");
+      try {
+        const evt = JSON.parse(bodyStr);
+        if (evt.type === "checkout.session.completed" && evt.data?.object?.metadata?.purchaseType === "deck_upgrade") {
+          const meta = evt.data.object.metadata;
+          const { Pool } = await import("pg");
+          const dbPool = new Pool({ connectionString: process.env.DATABASE_URL });
+          await dbPool.query(
+            `UPDATE flashcard_decks SET is_upgraded = true, upgraded_at = NOW(), stripe_payment_intent_id = $1 WHERE id = $2 AND owner_id = $3`,
+            [evt.data.object.payment_intent || evt.data.object.id, meta.deckId, meta.userId]
+          );
+          await dbPool.end();
+          console.log(`Deck ${meta.deckId} upgraded for user ${meta.userId}`);
+        }
+      } catch {}
       await WebhookHandlers.processWebhook(req.body as Buffer, sig);
       return res.status(200).json({ received: true });
     } catch (error: any) {

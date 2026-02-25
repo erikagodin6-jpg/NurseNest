@@ -105,6 +105,23 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
           <StickyNote className="w-4 h-4" />
           My Notes
         </DropdownMenuItem>
+        {user.tier === "admin" && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin")} data-testid="menu-admin-dashboard">
+              <Shield className="w-4 h-4" />
+              Admin Dashboard
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/content-editor")} data-testid="menu-content-editor">
+              <FileText className="w-4 h-4" />
+              Content Editor
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin?tab=content-engine")} data-testid="menu-blog-manager">
+              <BookOpen className="w-4 h-4" />
+              Blog Manager
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-red-500" onClick={() => { logout(); setLocation("/"); }} data-testid="menu-user-logout">
           <LogOut className="w-4 h-4" />

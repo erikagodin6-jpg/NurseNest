@@ -2183,5 +2183,94 @@ export const oncologyLessons: Record<string, LessonContent> = {
         rationale: "HPV 16 positivity, even with ASC-US cytology, carries a significantly elevated risk for CIN 3+ (approximately 4% at 5 years). ASCCP risk-based management guidelines recommend immediate colposcopy with directed biopsy to evaluate for high-grade dysplasia or occult invasive disease. HPV 16 is the most oncogenic HPV genotype and warrants expedited evaluation regardless of cytologic grade."
       }
     ]
+  },
+
+  "tumor-lysis-rpn": {
+    title: "Tumor Lysis Syndrome (TLS)",
+    cellular: {
+      title: "Pathophysiology of Tumor Lysis Syndrome",
+      content: "Tumor lysis syndrome (TLS) is an oncologic emergency resulting from the rapid destruction of large numbers of malignant cells, either spontaneously or following initiation of cytotoxic therapy. When tumor cells lyse, they release massive quantities of intracellular contents into the bloodstream, including potassium, phosphorus, nucleic acids, and uric acid. Nucleic acids are metabolized to uric acid by xanthine oxidase in the liver. The sudden surge of uric acid overwhelms renal excretion capacity, and uric acid crystals precipitate in the renal tubules, causing obstructive uropathy and acute kidney injury. Elevated phosphorus binds to serum calcium, forming calcium phosphate deposits in tissues and causing secondary hypocalcemia. The resulting electrolyte derangements - hyperkalemia, hyperphosphatemia, hypocalcemia, and hyperuricemia - create a cascade of life-threatening complications including fatal cardiac dysrhythmias from hyperkalemia and seizures or tetany from hypocalcemia."
+    },
+    riskFactors: [
+      "Large tumor burden with bulky disease or high white blood cell count",
+      "Rapidly proliferating malignancies (Burkitt lymphoma, acute lymphoblastic leukemia, acute myeloid leukemia)",
+      "High sensitivity of tumor to cytotoxic therapy",
+      "Pre-existing renal insufficiency or dehydration",
+      "Elevated baseline uric acid or LDH levels before treatment",
+      "Concurrent use of nephrotoxic medications",
+      "Inadequate hydration before initiation of chemotherapy"
+    ],
+    diagnostics: [
+      "Serum potassium level (elevated in TLS)",
+      "Serum phosphorus level (elevated in TLS)",
+      "Serum calcium level (decreased due to calcium-phosphorus binding)",
+      "Serum uric acid level (elevated from nucleic acid breakdown)",
+      "Blood urea nitrogen and creatinine (elevated indicating renal injury)",
+      "Lactate dehydrogenase (LDH) level as marker of cell destruction",
+      "12-lead ECG to assess for hyperkalemia-related changes (peaked T waves, widened QRS)",
+      "Urinalysis for uric acid crystals"
+    ],
+    management: [
+      "Aggressive IV hydration with isotonic saline at 2-3 liters per square meter per day to maintain high urine output",
+      "Allopurinol prophylaxis to inhibit xanthine oxidase and reduce uric acid production",
+      "Rasburicase for high-risk patients or established TLS (converts uric acid to soluble allantoin)",
+      "Correction of hyperkalemia with insulin and dextrose, calcium gluconate for cardiac protection, sodium polystyrene sulfonate",
+      "Phosphate binders (aluminum hydroxide or sevelamer) for hyperphosphatemia",
+      "Calcium replacement only for symptomatic hypocalcemia (avoid if phosphorus is elevated to prevent tissue calcification)",
+      "Renal replacement therapy (hemodialysis) for refractory electrolyte imbalances or oliguric renal failure",
+      "Avoidance of potassium and phosphorus in IV fluids and dietary intake"
+    ],
+    nursingActions: [
+      "Monitor electrolytes every 4 to 6 hours during the high-risk period (24-72 hours after chemotherapy initiation)",
+      "Maintain strict intake and output with goal urine output of at least 2 mL per kg per hour",
+      "Place patient on continuous cardiac monitoring and report dysrhythmias immediately",
+      "Assess for signs of hypocalcemia including Chvostek sign, Trousseau sign, muscle cramps, and tetany",
+      "Monitor for hyperkalemia symptoms including muscle weakness, paresthesias, and ECG changes",
+      "Ensure IV access is patent for emergency medication administration",
+      "Administer rasburicase as ordered and place blood samples on ice immediately (rasburicase continues to degrade uric acid in vitro at room temperature)",
+      "Educate patient to report palpitations, numbness, tingling, muscle cramping, or decreased urine output"
+    ],
+    signs: {
+      left: [
+        "Nausea, vomiting, diarrhea, and anorexia from metabolic derangements",
+        "Muscle cramps, tetany, and carpopedal spasm from hypocalcemia",
+        "Oliguria or anuria indicating acute kidney injury",
+        "Seizures from severe hypocalcemia or metabolic encephalopathy"
+      ],
+      right: [
+        "Cardiac dysrhythmias (peaked T waves, bradycardia, ventricular tachycardia) from hyperkalemia",
+        "Muscle weakness and paresthesias from potassium imbalance",
+        "Flank pain and hematuria from uric acid nephropathy",
+        "Edema and fluid overload from renal failure"
+      ]
+    },
+    medications: [
+      {
+        name: "Rasburicase (Elitek)",
+        type: "Recombinant urate oxidase enzyme",
+        action: "Catalyzes the enzymatic oxidation of uric acid to allantoin, a highly water-soluble compound that is easily excreted by the kidneys, rapidly reducing serum uric acid levels",
+        sideEffects: "Anaphylaxis, methemoglobinemia, hemolytic anemia (especially in G6PD-deficient patients), headache, nausea, fever",
+        contra: "Glucose-6-phosphate dehydrogenase (G6PD) deficiency (risk of severe hemolytic anemia and methemoglobinemia), known hypersensitivity to rasburicase",
+        pearl: "Blood samples for uric acid must be collected in pre-chilled heparinized tubes and transported on ice to the lab immediately - rasburicase in the blood sample will continue to degrade uric acid at room temperature, producing falsely low results"
+      }
+    ],
+    pearls: [
+      "TLS can occur within 12 to 72 hours after initiating chemotherapy - the highest risk period requires intensive monitoring even if the patient appears clinically stable",
+      "Rasburicase is contraindicated in patients with G6PD deficiency due to risk of severe hemolytic anemia - screen high-risk populations (African, Mediterranean, Southeast Asian descent) before administration",
+      "Do not administer calcium unless the patient is symptomatic (tetany, seizures, cardiac instability) because correcting calcium while phosphorus is elevated can cause widespread calcium phosphate precipitation in tissues including the kidneys and heart"
+    ],
+    quiz: [
+      {
+        question: "A nurse is caring for a patient with Burkitt lymphoma who began chemotherapy 18 hours ago. The patient develops peaked T waves on the cardiac monitor, muscle weakness, and oliguria. Which electrolyte imbalance should the nurse suspect as the most immediately life-threatening?",
+        options: [
+          "Hypocalcemia causing peripheral numbness",
+          "Hyperkalemia causing cardiac dysrhythmia",
+          "Hyperuricemia causing joint inflammation",
+          "Hyperphosphatemia causing tissue calcification"
+        ],
+        correct: 1,
+        rationale: "Peaked T waves on the cardiac monitor combined with muscle weakness in a patient receiving chemotherapy for a high-risk malignancy strongly indicates hyperkalemia from tumor lysis syndrome. Hyperkalemia is the most immediately life-threatening electrolyte derangement in TLS because it can rapidly progress to fatal ventricular dysrhythmias and cardiac arrest. Immediate interventions include IV calcium gluconate for cardiac membrane stabilization, insulin with dextrose, and continuous cardiac monitoring."
+      }
+    ]
   }
 };

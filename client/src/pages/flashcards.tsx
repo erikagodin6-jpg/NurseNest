@@ -30,7 +30,18 @@ import {
   AlertTriangle,
   Sparkles,
   Lock,
-  CreditCard
+  CreditCard,
+  Layers,
+  Share2,
+  Copy,
+  Flag,
+  Globe,
+  EyeOff,
+  Timer,
+  Upload,
+  Download,
+  BarChart3,
+  Eye
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -975,7 +986,7 @@ type CustomCard = {
 export default function Flashcards() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
-  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study">("setup");
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -1007,6 +1018,306 @@ export default function Flashcards() {
   const FREE_LIMIT = 50;
 
   const isPaid = user && (user as any).tier !== "free" && (user as any).subscriptionStatus === "active";
+
+  const [myDecks, setMyDecks] = useState<any[]>([]);
+  const [publicDecks, setPublicDecks] = useState<any[]>([]);
+  const [savedDecksList, setSavedDecksList] = useState<any[]>([]);
+  const [currentDeck, setCurrentDeck] = useState<any>(null);
+  const [deckCards, setDeckCards] = useState<any[]>([]);
+  const [deckLoading, setDeckLoading] = useState(false);
+  const [newDeckTitle, setNewDeckTitle] = useState("");
+  const [newDeckDescription, setNewDeckDescription] = useState("");
+  const [newDeckVisibility, setNewDeckVisibility] = useState("private");
+  const [deckSearchQuery, setDeckSearchQuery] = useState("");
+  const [newCardFront, setNewCardFront] = useState("");
+  const [newCardBack, setNewCardBack] = useState("");
+  const [newCardRationale, setNewCardRationale] = useState("");
+  const [aiCheckResult, setAiCheckResult] = useState<any>(null);
+  const [aiChecking, setAiChecking] = useState(false);
+  const [csvImportText, setCsvImportText] = useState("");
+  const [showCsvImport, setShowCsvImport] = useState(false);
+  const [entitlement, setEntitlement] = useState<any>({ isPremium: false, totalFreeCards: 0, limit: 50 });
+  const [deckStudyIndex, setDeckStudyIndex] = useState(0);
+  const [deckStudyFlipped, setDeckStudyFlipped] = useState(false);
+  const [deckStudyCorrect, setDeckStudyCorrect] = useState(0);
+  const [deckStudyIncorrect, setDeckStudyIncorrect] = useState(0);
+  const [deckStudyMissed, setDeckStudyMissed] = useState<string[]>([]);
+  const [deckStudyQueue, setDeckStudyQueue] = useState<any[]>([]);
+  const [deckStudyStartTime, setDeckStudyStartTime] = useState(0);
+  const [deckStudySessionId, setDeckStudySessionId] = useState("");
+  const [deckStudyComplete, setDeckStudyComplete] = useState(false);
+  const [editingDeckCard, setEditingDeckCard] = useState<any>(null);
+  const [deckTab, setDeckTab] = useState<"my" | "browse" | "saved">("my");
+
+  const fetchMyDecks = useCallback(async () => {
+    if (!user) return;
+    setDeckLoading(true);
+    try {
+      const res = await fetch(`/api/decks?userId=${user.id}`);
+      if (res.ok) setMyDecks(await res.json());
+    } catch {} finally { setDeckLoading(false); }
+  }, [user]);
+
+  const fetchPublicDecks = useCallback(async () => {
+    try {
+      const url = deckSearchQuery ? `/api/decks?visibility=public&search=${encodeURIComponent(deckSearchQuery)}` : `/api/decks?visibility=public`;
+      const res = await fetch(url);
+      if (res.ok) setPublicDecks(await res.json());
+    } catch {}
+  }, [deckSearchQuery]);
+
+  const fetchSavedDecks = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await fetch(`/api/saved-decks?userId=${user.id}`);
+      if (res.ok) setSavedDecksList(await res.json());
+    } catch {}
+  }, [user]);
+
+  const fetchEntitlement = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await fetch(`/api/user-entitlement?userId=${user.id}`);
+      if (res.ok) setEntitlement(await res.json());
+    } catch {}
+  }, [user]);
+
+  const fetchDeckCards = useCallback(async (deckId: string) => {
+    try {
+      const res = await fetch(`/api/decks/${deckId}/cards`);
+      if (res.ok) setDeckCards(await res.json());
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    if (view === "decks" || view === "browse-decks") {
+      fetchMyDecks();
+      fetchPublicDecks();
+      fetchSavedDecks();
+      fetchEntitlement();
+    }
+  }, [view, fetchMyDecks, fetchPublicDecks, fetchSavedDecks, fetchEntitlement]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("upgraded")) {
+      setView("decks");
+    }
+  }, []);
+
+  const createDeck = async () => {
+    if (!user || !newDeckTitle.trim()) return;
+    try {
+      const res = await fetch("/api/decks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, title: newDeckTitle, description: newDeckDescription, visibility: newDeckVisibility }),
+      });
+      if (res.ok) {
+        const deck = await res.json();
+        setNewDeckTitle("");
+        setNewDeckDescription("");
+        setMyDecks(prev => [deck, ...prev]);
+        setCurrentDeck(deck);
+        setDeckCards([]);
+        setView("deck-edit");
+      }
+    } catch {}
+  };
+
+  const addCardToDeck = async (overrideFront?: string, overrideBack?: string) => {
+    if (!user || !currentDeck) return;
+    const front = overrideFront || newCardFront;
+    const back = overrideBack || newCardBack;
+    if (!front.trim() || !back.trim()) return;
+    try {
+      const res = await fetch(`/api/decks/${currentDeck.id}/cards`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, front, back, rationale: newCardRationale || undefined }),
+      });
+      if (res.ok) {
+        const card = await res.json();
+        setDeckCards(prev => [...prev, card]);
+        setNewCardFront("");
+        setNewCardBack("");
+        setNewCardRationale("");
+        setAiCheckResult(null);
+        fetchEntitlement();
+      } else {
+        const err = await res.json();
+        if (err.upgradeRequired) {
+          alert(err.error || "Card limit reached");
+        }
+      }
+    } catch {}
+  };
+
+  const aiCheckCard = async () => {
+    if (!newCardFront.trim() || !newCardBack.trim()) return;
+    setAiChecking(true);
+    try {
+      const res = await fetch(`/api/decks/${currentDeck?.id}/ai-check`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ front: newCardFront, back: newCardBack, rationale: newCardRationale }),
+      });
+      if (res.ok) setAiCheckResult(await res.json());
+    } catch {} finally { setAiChecking(false); }
+  };
+
+  const handleCsvImport = async () => {
+    if (!user || !currentDeck || !csvImportText.trim()) return;
+    const lines = csvImportText.trim().split("\n");
+    const cards = lines.map(line => {
+      const parts = line.split(",").map(p => p.trim().replace(/^"|"$/g, ""));
+      return { front: parts[0] || "", back: parts[1] || "", rationale: parts[2] || "" };
+    }).filter(c => c.front && c.back);
+    if (cards.length === 0) return;
+    try {
+      const res = await fetch(`/api/decks/${currentDeck.id}/cards/bulk-import`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, cards }),
+      });
+      if (res.ok) {
+        const result = await res.json();
+        alert(`Imported ${result.imported} cards${result.skipped > 0 ? `, ${result.skipped} skipped (limit reached)` : ""}`);
+        setCsvImportText("");
+        setShowCsvImport(false);
+        fetchDeckCards(currentDeck.id);
+        fetchEntitlement();
+      }
+    } catch {}
+  };
+
+  const deleteDeckCard = async (cardId: string) => {
+    if (!user || !currentDeck) return;
+    try {
+      await fetch(`/api/decks/${currentDeck.id}/cards/${cardId}?userId=${user.id}`, { method: "DELETE" });
+      setDeckCards(prev => prev.filter(c => c.id !== cardId));
+      fetchEntitlement();
+    } catch {}
+  };
+
+  const deleteDeck = async (deckId: string) => {
+    if (!user || !confirm("Delete this deck and all its cards?")) return;
+    try {
+      await fetch(`/api/decks/${deckId}?userId=${user.id}`, { method: "DELETE" });
+      setMyDecks(prev => prev.filter(d => d.id !== deckId));
+      if (currentDeck?.id === deckId) {
+        setCurrentDeck(null);
+        setView("decks");
+      }
+    } catch {}
+  };
+
+  const startDeckStudy = async (mode: "learn" | "test") => {
+    if (!currentDeck || deckCards.length === 0) return;
+    const shuffled = [...deckCards].sort(() => Math.random() - 0.5);
+    setDeckStudyQueue(shuffled);
+    setDeckStudyIndex(0);
+    setDeckStudyFlipped(false);
+    setDeckStudyCorrect(0);
+    setDeckStudyIncorrect(0);
+    setDeckStudyMissed([]);
+    setDeckStudyStartTime(Date.now());
+    setDeckStudyComplete(false);
+    try {
+      const res = await fetch("/api/study-sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user?.id, deckId: currentDeck.id, mode }),
+      });
+      if (res.ok) {
+        const session = await res.json();
+        setDeckStudySessionId(session.id);
+      }
+    } catch {}
+    setView(mode === "learn" ? "deck-study-learn" : "deck-study-test");
+  };
+
+  const handleDeckStudyAnswer = (correct: boolean) => {
+    const card = deckStudyQueue[deckStudyIndex];
+    if (correct) {
+      setDeckStudyCorrect(prev => prev + 1);
+    } else {
+      setDeckStudyIncorrect(prev => prev + 1);
+      setDeckStudyMissed(prev => [...prev, card.id]);
+      if (view === "deck-study-learn") {
+        const insertAt = Math.min(deckStudyIndex + 4, deckStudyQueue.length);
+        const newQueue = [...deckStudyQueue];
+        newQueue.splice(insertAt, 0, { ...card, retry: true });
+        setDeckStudyQueue(newQueue);
+      }
+    }
+    if (deckStudyIndex + 1 >= deckStudyQueue.length) {
+      finishDeckStudy();
+    } else {
+      setDeckStudyIndex(prev => prev + 1);
+      setDeckStudyFlipped(false);
+    }
+  };
+
+  const finishDeckStudy = async () => {
+    setDeckStudyComplete(true);
+    const timeSeconds = Math.round((Date.now() - deckStudyStartTime) / 1000);
+    if (deckStudySessionId) {
+      try {
+        await fetch(`/api/study-sessions/${deckStudySessionId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            totalCards: deckStudyQueue.length,
+            correctCount: deckStudyCorrect + (deckStudyQueue[deckStudyIndex] ? 0 : 0),
+            incorrectCount: deckStudyIncorrect,
+            timeSeconds,
+            missedCardIds: deckStudyMissed,
+          }),
+        });
+      } catch {}
+    }
+    setView("deck-report");
+  };
+
+  const saveDeck = async (deckId: string) => {
+    if (!user) return;
+    try {
+      await fetch(`/api/decks/${deckId}/save`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id }),
+      });
+      fetchSavedDecks();
+    } catch {}
+  };
+
+  const duplicateDeck = async (deckId: string) => {
+    if (!user) return;
+    try {
+      const res = await fetch(`/api/decks/${deckId}/duplicate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id }),
+      });
+      if (res.ok) {
+        fetchMyDecks();
+        alert("Deck copied to your library!");
+      }
+    } catch {}
+  };
+
+  const reportDeck = async (deckId: string, reason: string) => {
+    if (!user) return;
+    try {
+      await fetch("/api/deck-reports", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reporterId: user.id, targetType: "deck", targetId: deckId, reason }),
+      });
+      alert("Report submitted. Thank you for helping maintain accuracy.");
+    } catch {}
+  };
 
   const fetchCustomCards = useCallback(async () => {
     if (!user) return;
@@ -1340,6 +1651,28 @@ export default function Flashcards() {
                 <h3 className="text-2xl font-bold mb-2">My Flashcards</h3>
                 <p className="text-white/70 text-sm leading-relaxed">
                   Create your own flashcards with AI-powered medical accuracy validation. Build a personalized study deck for your weakest areas.
+                </p>
+              </Card>
+
+              <Card 
+                className="border-none shadow-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
+                data-testid="card-study-decks"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
+                    <Layers className="w-6 h-6 text-white/80" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
+                      Study Decks
+                    </span>
+                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Study Decks</h3>
+                <p className="text-white/70 text-sm leading-relaxed">
+                  Create organized decks with Learn and Test modes. Share with classmates, import CSV files, and track your progress.
                 </p>
               </Card>
 

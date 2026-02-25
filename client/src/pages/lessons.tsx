@@ -180,7 +180,8 @@ const rpnSystems = [
       { id: "bronchiectasis-rpn", name: "Bronchiectasis", status: "Available" },
       { id: "rsv-rpn", name: "Respiratory Syncytial Virus (RSV)", status: "Available" },
       { id: "pertussis-management-rpn", name: "Pertussis/Whooping Cough Management", status: "Available" },
-      { id: "hemoptysis-assessment-rpn", name: "Hemoptysis Assessment", status: "Available" }
+      { id: "hemoptysis-assessment-rpn", name: "Hemoptysis Assessment", status: "Available" },
+      { id: "rhonchi-rpn", name: "Rhonchi: Assessment & Clinical Significance", status: "Available" }
     ]
   },
   {
@@ -338,7 +339,11 @@ const rpnSystems = [
       { id: "aplastic-anemia-rpn", name: "Aplastic Anemia", status: "Available" },
       { id: "blood-typing-crossmatch-rpn", name: "Blood Typing and Crossmatch", status: "Available" },
       { id: "polycythemia-basics-rpn", name: "Polycythemia Basics", status: "Available" },
-      { id: "lymphoma-basics-rpn", name: "Lymphoma Basics", status: "Available" }
+      { id: "lymphoma-basics-rpn", name: "Lymphoma Basics", status: "Available" },
+      { id: "blood-transfusion-rpn", name: "Blood Transfusions", status: "Available" },
+      { id: "hemolytic-transfusion-rpn", name: "Acute Hemolytic Transfusion Reaction", status: "Available" },
+      { id: "anaphylactic-transfusion-rpn", name: "Anaphylactic Transfusion Reaction", status: "Available" },
+      { id: "febrile-transfusion-rpn", name: "Febrile Nonhemolytic Transfusion Reaction", status: "Available" }
     ]
   },
   {
@@ -432,7 +437,8 @@ const rpnSystems = [
       { id: "klinefelter-syndrome-rpn", name: "Klinefelter Syndrome", status: "Available" },
       { id: "hemolytic-uremic-syndrome-rpn", name: "Hemolytic Uremic Syndrome", status: "Available" },
       { id: "reye-syndrome-rpn", name: "Reye Syndrome", status: "Available" },
-      { id: "androgen-insensitivity-rpn", name: "Androgen Insensitivity Syndrome", status: "Available" }
+      { id: "androgen-insensitivity-rpn", name: "Androgen Insensitivity Syndrome", status: "Available" },
+      { id: "pavlik-harness-rpn", name: "Pavlik Harness (DDH)", status: "Available" }
     ]
   },
   {
@@ -462,7 +468,8 @@ const rpnSystems = [
       { id: "amniotic-fluid-imbalances-rpn", name: "Amniotic Fluid Imbalances", status: "Available" },
       { id: "postpartum-hemorrhage-basics-rpn", name: "Postpartum Hemorrhage Basics", status: "Available" },
       { id: "mastitis-basics-rpn", name: "Mastitis Basics", status: "Available" },
-      { id: "vaginal-hematoma-rpn", name: "Vaginal Hematoma", status: "Available" }
+      { id: "vaginal-hematoma-rpn", name: "Vaginal Hematoma", status: "Available" },
+      { id: "fetal-oxygenation-pushing-rpn", name: "Fetal Oxygenation During Pushing", status: "Available" }
     ]
   },
   {
@@ -583,7 +590,10 @@ const rpnSystems = [
       { id: "adverse-drug-reactions", name: "Adverse Drug Reactions", status: "Available" },
       { id: "analgesic-basics", name: "Pain Management and Analgesics", status: "Available" },
       { id: "antibiotic-basics", name: "Antibiotic Classes Overview", status: "Available" },
-      { id: "methotrexate-safety-rpn", name: "Methotrexate Safety", status: "Available" }
+      { id: "methotrexate-safety-rpn", name: "Methotrexate Safety", status: "Available" },
+      { id: "oxybutynin-rpn", name: "Oxybutynin (Ditropan)", status: "Available" },
+      { id: "levetiracetam-rpn", name: "Levetiracetam (Keppra)", status: "Available" },
+      { id: "short-acting-insulin-rpn", name: "Regular Insulin (Humulin R/Novolin R)", status: "Available" }
     ]
   },
   {
@@ -835,7 +845,8 @@ const rpnSystems = [
       { id: "prostate-cancer-basics-rpn", name: "Prostate Cancer Basics", status: "Available" },
       { id: "cervical-cancer-basics-rpn", name: "Cervical Cancer Basics", status: "Available" },
       { id: "leukemia-basics-rpn", name: "Leukemia Basics", status: "Available" },
-      { id: "lymphoma-basics-onc-rpn", name: "Lymphoma Basics", status: "Available" }
+      { id: "lymphoma-basics-onc-rpn", name: "Lymphoma Basics", status: "Available" },
+      { id: "tumor-lysis-rpn", name: "Tumor Lysis Syndrome", status: "Available" }
     ]
   }
 ];
@@ -1030,7 +1041,8 @@ const rnSystems = [
       { id: "mastitis", name: "Mastitis", status: "Available" },
       { id: "postpartum-depression-care", name: "Postpartum Depression", status: "Available" },
       { id: "postpartum-psychosis", name: "Postpartum Psychosis", status: "Available" },
-      { id: "vaginal-hematoma", name: "Vaginal Hematoma", status: "Available" }
+      { id: "vaginal-hematoma", name: "Vaginal Hematoma", status: "Available" },
+      { id: "fetal-oxygenation-pushing", name: "Fetal Oxygenation During Pushing with Variable Decels", status: "Available" }
     ]
   },
   {
@@ -1096,7 +1108,8 @@ const rnSystems = [
       { id: "fetal-alcohol-syndrome", name: "Fetal Alcohol Spectrum Disorder", status: "Available" },
       { id: "tonsillectomy", name: "Tonsillectomy", status: "Available" },
       { id: "separation-anxiety-rn", name: "Separation Anxiety Disorder", status: "Available" },
-      { id: "androgen-insensitivity", name: "Androgen Insensitivity Syndrome", status: "Available" }
+      { id: "androgen-insensitivity", name: "Androgen Insensitivity Syndrome", status: "Available" },
+      { id: "pavlik-harness", name: "Pavlik Harness: DDH Treatment", status: "Available" }
     ]
   },
   {
@@ -1605,7 +1618,13 @@ const npSystems = [
       { id: "bartholinitis-np", name: "Bartholinitis: Abscess Algorithm & Surgical Options", status: "Available" },
       { id: "uterine-prolapse-np", name: "Uterine Prolapse: POP-Q & Surgical Repair", status: "Available" },
       { id: "benign-ovarian-cysts-np", name: "Benign Ovarian Cysts: IOTA Rules & RMI Scoring", status: "Available" },
-      { id: "endometrial-polyp-np", name: "Endometrial Polyp: Molecular Proliferation & Malignancy Risk", status: "Available" }
+      { id: "endometrial-polyp-np", name: "Endometrial Polyp: Molecular Proliferation & Malignancy Risk", status: "Available" },
+      { id: "priapism-np", name: "Priapism: Ischemic vs Nonischemic & Corporal Aspiration", status: "Available" },
+      { id: "balanitis-np", name: "Balanitis: Etiology & Treatment Algorithms", status: "Available" },
+      { id: "penile-cancer-np", name: "Penile Cancer: Staging & Surgical Management", status: "Available" },
+      { id: "cryptorchidism-np", name: "Cryptorchidism: GnRH Axis & Orchiopexy Timing", status: "Available" },
+      { id: "orchitis-np", name: "Orchitis: Viral vs Bacterial & Fertility Implications", status: "Available" },
+      { id: "prostatitis-np", name: "Prostatitis: NIH Classification & Targeted Therapy", status: "Available" }
     ]
   },
   {

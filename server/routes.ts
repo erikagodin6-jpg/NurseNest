@@ -19,6 +19,8 @@ import {
   insertUserProgressSchema,
   insertUserSchema,
   insertContentItemSchema,
+  insertAuditLogSchema,
+  insertContentRevisionSchema,
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
@@ -45,6 +47,42 @@ async function requireAdmin(req: any, res: any) {
   }
 
   return user;
+}
+
+async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
+  try {
+    await pool.query(
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, ip_address, user_agent, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())`,
+      [actor?.id || null, actor?.username || null, entityType, entityId, action,
+       beforeJson ? JSON.stringify(beforeJson) : null, afterJson ? JSON.stringify(afterJson) : null,
+       req.ip || req.headers?.["x-forwarded-for"] || null, req.headers?.["user-agent"] || null]
+    );
+  } catch (e) {
+    console.error("Audit log error:", e);
+  }
+}
+
+async function saveRevision(contentId: string, existingItem: any, editor: any) {
+  try {
+    const countResult = await pool.query(`SELECT COUNT(*) as cnt FROM content_revisions WHERE content_id = $1`, [contentId]);
+    const revNum = parseInt(countResult.rows[0]?.cnt || "0") + 1;
+    await pool.query(
+      `INSERT INTO content_revisions (id, content_id, revision_number, title, content, status, edited_by, edited_by_username, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW())`,
+      [contentId, revNum, existingItem.title, JSON.stringify(existingItem.content), existingItem.status, editor?.id || null, editor?.username || null]
+    );
+    const oldRevisions = await pool.query(
+      `SELECT id FROM content_revisions WHERE content_id = $1 ORDER BY revision_number DESC OFFSET 10`,
+      [contentId]
+    );
+    if (oldRevisions.rows.length > 0) {
+      const ids = oldRevisions.rows.map((r: any) => r.id);
+      await pool.query(`DELETE FROM content_revisions WHERE id = ANY($1)`, [ids]);
+    }
+  } catch (e) {
+    console.error("Save revision error:", e);
+  }
 }
 
 function canAccessTier(userTier: string | null | undefined, targetTier: string): boolean {
@@ -1044,6 +1082,7 @@ Rules:
 
       const parsed = insertContentItemSchema.parse(contentData);
       const item = await storage.createContentItem(parsed);
+      await logAudit(req, admin, "content", item.id, "create", null, { title: item.title, type: item.type, status: item.status });
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -1059,7 +1098,16 @@ Rules:
       void username;
       void password;
 
+      const existing = await storage.getContentItem(req.params.id);
+      if (existing) {
+        await saveRevision(req.params.id, existing, admin);
+      }
+
       const item = await storage.updateContentItem(req.params.id, contentData);
+      await logAudit(req, admin, "content", req.params.id, "update",
+        existing ? { title: existing.title, status: existing.status } : null,
+        { title: item.title, status: item.status }
+      );
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -1071,8 +1119,596 @@ Rules:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
+      const existing = await storage.getContentItem(req.params.id);
       await storage.deleteContentItem(req.params.id);
+      await logAudit(req, admin, "content", req.params.id, "delete", existing ? { title: existing.title, type: existing.type } : null, null);
       res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/audit-logs", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const limit = parseInt(req.query.limit as string) || 50;
+      const offset = parseInt(req.query.offset as string) || 0;
+      const entityType = req.query.entityType as string;
+      let query = `SELECT * FROM audit_logs`;
+      const params: any[] = [];
+      if (entityType) {
+        query += ` WHERE entity_type = $1`;
+        params.push(entityType);
+      }
+      query += ` ORDER BY created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+      params.push(limit, offset);
+      const result = await pool.query(query, params);
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/content/:id/revisions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(
+        `SELECT id, content_id, revision_number, title, status, edited_by_username, created_at FROM content_revisions WHERE content_id = $1 ORDER BY revision_number DESC`,
+        [req.params.id]
+      );
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/content/:id/revisions/:revId/restore", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const revResult = await pool.query(`SELECT * FROM content_revisions WHERE id = $1 AND content_id = $2`, [req.params.revId, req.params.id]);
+      if (revResult.rows.length === 0) return res.status(404).json({ error: "Revision not found" });
+      const rev = snakeToCamel(revResult.rows[0]) as any;
+      const existing = await storage.getContentItem(req.params.id);
+      if (existing) await saveRevision(req.params.id, existing, admin);
+      const updates: any = {};
+      if (rev.title) updates.title = rev.title;
+      if (rev.content) updates.content = rev.content;
+      if (rev.status) updates.status = rev.status;
+      const item = await storage.updateContentItem(req.params.id, updates);
+      await logAudit(req, admin, "content", req.params.id, "restore_revision", { revisionId: req.params.revId, revisionNumber: rev.revisionNumber }, { title: item.title });
+      res.json(item);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/flashcards/bulk-import", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { cards } = req.body;
+      if (!Array.isArray(cards) || cards.length === 0) return res.status(400).json({ error: "cards array required" });
+      const contentBlocks = cards.map((c: any, i: number) => ({
+        type: "flashcard",
+        order: i,
+        question: c.question || c.front || "",
+        answer: c.answer || c.back || "",
+        category: c.category || "General",
+        difficulty: c.difficulty || "medium",
+        tags: c.tags || [],
+      }));
+      const contentData = {
+        title: req.body.deckName || `Flashcard Deck - ${new Date().toLocaleDateString()}`,
+        slug: req.body.slug || `deck-${Date.now()}`,
+        type: "flashcard-set",
+        category: req.body.category || "General",
+        tier: req.body.tier || "free",
+        status: req.body.status || "draft",
+        content: contentBlocks,
+        tags: req.body.tags || [],
+      };
+      const parsed = insertContentItemSchema.parse(contentData);
+      const item = await storage.createContentItem(parsed);
+      await logAudit(req, admin, "content", item.id, "bulk_import_flashcards", null, { title: item.title, cardCount: cards.length });
+      res.json({ ...item, importedCount: cards.length });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Flashcard Decks API
+  // --------------------
+
+  const FREE_GLOBAL_MAX = 50;
+  const DECK_UPGRADED_MAX = 300;
+  const PREMIUM_MAX = 5000;
+
+  async function getUserCardEntitlement(userId: string) {
+    const userResult = await pool.query(`SELECT tier, subscription_status FROM users WHERE id = $1`, [userId]);
+    const u = userResult.rows[0];
+    if (!u) return { isPremium: false, totalFreeCards: 0, limit: FREE_GLOBAL_MAX };
+    const isPremium = u.tier !== "free" && u.subscription_status === "active";
+    if (isPremium) return { isPremium: true, totalFreeCards: 0, limit: PREMIUM_MAX };
+    const countResult = await pool.query(
+      `SELECT COALESCE(SUM(
+        (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = d.id)
+      ), 0) as total
+      FROM flashcard_decks d WHERE d.owner_id = $1 AND d.is_upgraded = false`,
+      [userId]
+    );
+    const totalFreeCards = parseInt(countResult.rows[0]?.total || "0");
+    return { isPremium: false, totalFreeCards, limit: FREE_GLOBAL_MAX };
+  }
+
+  app.get("/api/decks", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      const visibility = req.query.visibility as string;
+      const search = req.query.search as string;
+      let query = `SELECT d.*, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id`;
+      const params: any[] = [];
+      const conditions: string[] = [];
+      if (userId) {
+        conditions.push(`d.owner_id = $${params.length + 1}`);
+        params.push(userId);
+      }
+      if (visibility === "public") {
+        conditions.push(`d.visibility = 'public'`);
+      }
+      if (search) {
+        conditions.push(`(d.title ILIKE $${params.length + 1} OR d.description ILIKE $${params.length + 1})`);
+        params.push(`%${search}%`);
+      }
+      if (conditions.length > 0) query += ` WHERE ` + conditions.join(` AND `);
+      query += ` ORDER BY d.updated_at DESC LIMIT 100`;
+      const result = await pool.query(query, params);
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/decks/:id", async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT d.*, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id WHERE d.id = $1`,
+        [req.params.id]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deck = snakeToCamel(result.rows[0]) as any;
+      if (deck.visibility === "private") {
+        const userId = req.query.userId as string;
+        if (deck.ownerId !== userId) return res.status(403).json({ error: "Private deck" });
+      }
+      await pool.query(`UPDATE flashcard_decks SET view_count = view_count + 1 WHERE id = $1`, [req.params.id]);
+      res.json(deck);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/decks", async (req, res) => {
+    try {
+      const { userId, title, description, tags, tier, visibility, slug } = req.body;
+      if (!userId || !title) return res.status(400).json({ error: "userId and title required" });
+      const userCheck = await pool.query(`SELECT id FROM users WHERE id = $1`, [userId]);
+      if (userCheck.rows.length === 0) return res.status(404).json({ error: "User not found" });
+      const deckSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + Date.now().toString(36);
+      const result = await pool.query(
+        `INSERT INTO flashcard_decks (id, owner_id, title, description, tags, tier, visibility, slug, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), NOW()) RETURNING *`,
+        [userId, title, description || "", JSON.stringify(tags || []), tier || "free", visibility || "private", deckSlug]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/decks/:id", async (req, res) => {
+    try {
+      const { userId, title, description, tags, tier, visibility } = req.body;
+      const deckCheck = await pool.query(`SELECT owner_id FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+      if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      if (deckCheck.rows[0].owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      const updates: string[] = [];
+      const params: any[] = [];
+      if (title !== undefined) { params.push(title); updates.push(`title = $${params.length}`); }
+      if (description !== undefined) { params.push(description); updates.push(`description = $${params.length}`); }
+      if (tags !== undefined) { params.push(JSON.stringify(tags)); updates.push(`tags = $${params.length}`); }
+      if (tier !== undefined) { params.push(tier); updates.push(`tier = $${params.length}`); }
+      if (visibility !== undefined) { params.push(visibility); updates.push(`visibility = $${params.length}`); }
+      params.push(req.params.id);
+      updates.push(`updated_at = NOW()`);
+      const result = await pool.query(
+        `UPDATE flashcard_decks SET ${updates.join(", ")} WHERE id = $${params.length} RETURNING *`,
+        params
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/decks/:id", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      const deckCheck = await pool.query(`SELECT owner_id FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+      if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      if (deckCheck.rows[0].owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      await pool.query(`DELETE FROM deck_flashcards WHERE deck_id = $1`, [req.params.id]);
+      await pool.query(`DELETE FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/decks/:id/cards", async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC`,
+        [req.params.id]
+      );
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/decks/:id/cards", async (req, res) => {
+    try {
+      const { userId, front, back, rationale, tags, difficulty } = req.body;
+      if (!userId || !front || !back) return res.status(400).json({ error: "userId, front, and back required" });
+      const deckCheck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+      if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deck = deckCheck.rows[0];
+      if (deck.owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      const entitlement = await getUserCardEntitlement(userId);
+      if (!entitlement.isPremium) {
+        if (deck.is_upgraded) {
+          const deckCardCount = await pool.query(`SELECT COUNT(*) as cnt FROM deck_flashcards WHERE deck_id = $1`, [req.params.id]);
+          const count = parseInt(deckCardCount.rows[0]?.cnt || "0");
+          if (count >= (deck.upgraded_limit || DECK_UPGRADED_MAX)) {
+            return res.status(403).json({ error: "Deck card limit reached", limit: deck.upgraded_limit || DECK_UPGRADED_MAX, upgradeRequired: false });
+          }
+        } else {
+          if (entitlement.totalFreeCards >= FREE_GLOBAL_MAX) {
+            return res.status(403).json({
+              error: "Your study capacity is full. Most exam-focused decks require 120-200 cards.",
+              limit: FREE_GLOBAL_MAX,
+              used: entitlement.totalFreeCards,
+              upgradeRequired: true
+            });
+          }
+        }
+      }
+      const result = await pool.query(
+        `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, tags, difficulty, sort_order, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM deck_flashcards WHERE deck_id = $1), NOW(), NOW()) RETURNING *`,
+        [req.params.id, front, back, rationale || null, JSON.stringify(tags || []), difficulty || "medium"]
+      );
+      await pool.query(`UPDATE flashcard_decks SET card_count = (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = $1), updated_at = NOW() WHERE id = $1`, [req.params.id]);
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/decks/:deckId/cards/:cardId", async (req, res) => {
+    try {
+      const { userId, front, back, rationale, tags, difficulty, aiCheckStatus, aiCheckSummary, aiCheckConfidence, userOverride } = req.body;
+      const deckCheck = await pool.query(`SELECT owner_id FROM flashcard_decks WHERE id = $1`, [req.params.deckId]);
+      if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      if (deckCheck.rows[0].owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      const updates: string[] = [];
+      const params: any[] = [];
+      if (front !== undefined) { params.push(front); updates.push(`front = $${params.length}`); }
+      if (back !== undefined) { params.push(back); updates.push(`back = $${params.length}`); }
+      if (rationale !== undefined) { params.push(rationale); updates.push(`rationale = $${params.length}`); }
+      if (tags !== undefined) { params.push(JSON.stringify(tags)); updates.push(`tags = $${params.length}`); }
+      if (difficulty !== undefined) { params.push(difficulty); updates.push(`difficulty = $${params.length}`); }
+      if (aiCheckStatus !== undefined) { params.push(aiCheckStatus); updates.push(`ai_check_status = $${params.length}`); }
+      if (aiCheckSummary !== undefined) { params.push(aiCheckSummary); updates.push(`ai_check_summary = $${params.length}`); }
+      if (aiCheckConfidence !== undefined) { params.push(aiCheckConfidence); updates.push(`ai_check_confidence = $${params.length}`); }
+      if (userOverride !== undefined) { params.push(userOverride); updates.push(`user_override = $${params.length}`); }
+      updates.push(`updated_at = NOW()`);
+      params.push(req.params.cardId);
+      const result = await pool.query(
+        `UPDATE deck_flashcards SET ${updates.join(", ")} WHERE id = $${params.length} RETURNING *`,
+        params
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/decks/:deckId/cards/:cardId", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      const deckCheck = await pool.query(`SELECT owner_id FROM flashcard_decks WHERE id = $1`, [req.params.deckId]);
+      if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      if (deckCheck.rows[0].owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      await pool.query(`DELETE FROM deck_flashcards WHERE id = $1 AND deck_id = $2`, [req.params.cardId, req.params.deckId]);
+      await pool.query(`UPDATE flashcard_decks SET card_count = (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = $1), updated_at = NOW() WHERE id = $1`, [req.params.deckId]);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/decks/:id/cards/bulk-import", async (req, res) => {
+    try {
+      const { userId, cards } = req.body;
+      if (!userId || !Array.isArray(cards) || cards.length === 0) return res.status(400).json({ error: "userId and cards array required" });
+      const deckCheck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+      if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deck = deckCheck.rows[0];
+      if (deck.owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      const entitlement = await getUserCardEntitlement(userId);
+      let allowedCount = cards.length;
+      if (!entitlement.isPremium) {
+        if (deck.is_upgraded) {
+          const deckCardCount = await pool.query(`SELECT COUNT(*) as cnt FROM deck_flashcards WHERE deck_id = $1`, [req.params.id]);
+          const current = parseInt(deckCardCount.rows[0]?.cnt || "0");
+          const remaining = (deck.upgraded_limit || DECK_UPGRADED_MAX) - current;
+          allowedCount = Math.min(cards.length, remaining);
+        } else {
+          const remaining = FREE_GLOBAL_MAX - entitlement.totalFreeCards;
+          allowedCount = Math.min(cards.length, remaining);
+        }
+      }
+      if (allowedCount <= 0) {
+        return res.status(403).json({ error: "Card limit reached", upgradeRequired: true, imported: 0, skipped: cards.length });
+      }
+      const toImport = cards.slice(0, allowedCount);
+      let imported = 0;
+      for (let i = 0; i < toImport.length; i++) {
+        const c = toImport[i];
+        const front = c.front || c.question || "";
+        const back = c.back || c.answer || "";
+        if (!front || !back) continue;
+        await pool.query(
+          `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, tags, difficulty, sort_order, created_at, updated_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), NOW())`,
+          [req.params.id, front, back, c.rationale || null, JSON.stringify(c.tags || []), c.difficulty || "medium", i]
+        );
+        imported++;
+      }
+      await pool.query(`UPDATE flashcard_decks SET card_count = (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = $1), updated_at = NOW() WHERE id = $1`, [req.params.id]);
+      res.json({ imported, skipped: cards.length - imported, total: cards.length });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/decks/:id/ai-check", async (req, res) => {
+    try {
+      const { front, back, rationale, tier, tags } = req.body;
+      if (!front || !back) return res.status(400).json({ error: "front and back required" });
+      const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
+      if (!apiKey) return res.json({ status: "unknown", explanation: "AI validation unavailable", confidence: 0 });
+      const { default: OpenAI } = await import("openai");
+      const openai = new OpenAI({ apiKey });
+      const prompt = `You are a nursing education content validator. Evaluate this flashcard for medical accuracy.
+Front: ${front}
+Back: ${back}
+${rationale ? `Rationale: ${rationale}` : ""}
+${tier ? `Level: ${tier}` : ""}
+
+Respond in JSON: {"status": "pass"|"flag"|"unknown", "explanation": "brief reason", "confidence": 0.0-1.0, "suggestedCorrection": "optional correction if flagged"}
+Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate content. Never auto-correct.`;
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }],
+        response_format: { type: "json_object" },
+        max_tokens: 300,
+      });
+      const result = JSON.parse(completion.choices[0]?.message?.content || '{"status":"unknown","explanation":"Could not validate","confidence":0}');
+      res.json(result);
+    } catch (e: any) {
+      res.json({ status: "unknown", explanation: "Validation error", confidence: 0 });
+    }
+  });
+
+  app.get("/api/user-entitlement", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const entitlement = await getUserCardEntitlement(userId);
+      res.json(entitlement);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/study-sessions", async (req, res) => {
+    try {
+      const { userId, deckId, mode } = req.body;
+      if (!userId || !deckId) return res.status(400).json({ error: "userId and deckId required" });
+      const result = await pool.query(
+        `INSERT INTO study_sessions (id, user_id, deck_id, mode, started_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, NOW()) RETURNING *`,
+        [userId, deckId, mode || "learn"]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/study-sessions/:id", async (req, res) => {
+    try {
+      const { totalCards, correctCount, incorrectCount, timeSeconds, missedCardIds } = req.body;
+      const result = await pool.query(
+        `UPDATE study_sessions SET total_cards = $1, correct_count = $2, incorrect_count = $3, time_seconds = $4, missed_card_ids = $5, ended_at = NOW() WHERE id = $6 RETURNING *`,
+        [totalCards || 0, correctCount || 0, incorrectCount || 0, timeSeconds || 0, JSON.stringify(missedCardIds || []), req.params.id]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/study-sessions", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      const deckId = req.query.deckId as string;
+      let query = `SELECT * FROM study_sessions WHERE user_id = $1`;
+      const params: any[] = [userId];
+      if (deckId) {
+        query += ` AND deck_id = $2`;
+        params.push(deckId);
+      }
+      query += ` ORDER BY started_at DESC LIMIT 20`;
+      const result = await pool.query(query, params);
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/decks/:id/save", async (req, res) => {
+    try {
+      const { userId } = req.body;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const existing = await pool.query(`SELECT id FROM saved_decks WHERE user_id = $1 AND deck_id = $2`, [userId, req.params.id]);
+      if (existing.rows.length > 0) return res.json({ success: true, already: true });
+      await pool.query(`INSERT INTO saved_decks (id, user_id, deck_id) VALUES (gen_random_uuid(), $1, $2)`, [userId, req.params.id]);
+      await pool.query(`UPDATE flashcard_decks SET save_count = save_count + 1 WHERE id = $1`, [req.params.id]);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/decks/:id/save", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      await pool.query(`DELETE FROM saved_decks WHERE user_id = $1 AND deck_id = $2`, [userId, req.params.id]);
+      await pool.query(`UPDATE flashcard_decks SET save_count = GREATEST(save_count - 1, 0) WHERE id = $1`, [req.params.id]);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/saved-decks", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      const result = await pool.query(
+        `SELECT d.*, u.username as owner_username FROM saved_decks s JOIN flashcard_decks d ON s.deck_id = d.id LEFT JOIN users u ON d.owner_id = u.id WHERE s.user_id = $1 ORDER BY s.saved_at DESC`,
+        [userId]
+      );
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/decks/:id/duplicate", async (req, res) => {
+    try {
+      const { userId } = req.body;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const deckResult = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+      if (deckResult.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deck = deckResult.rows[0];
+      if (deck.visibility === "private" && deck.owner_id !== userId) return res.status(403).json({ error: "Cannot duplicate private deck" });
+      const newSlug = deck.slug + "-copy-" + Date.now().toString(36);
+      const newDeck = await pool.query(
+        `INSERT INTO flashcard_decks (id, owner_id, title, description, tags, tier, visibility, slug, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, 'private', $6, NOW(), NOW()) RETURNING *`,
+        [userId, deck.title + " (Copy)", deck.description, deck.tags, deck.tier, newSlug]
+      );
+      const cards = await pool.query(`SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order`, [req.params.id]);
+      for (const card of cards.rows) {
+        await pool.query(
+          `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, tags, difficulty, sort_order, created_at, updated_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), NOW())`,
+          [newDeck.rows[0].id, card.front, card.back, card.rationale, card.tags, card.difficulty, card.sort_order]
+        );
+      }
+      await pool.query(`UPDATE flashcard_decks SET card_count = (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = $1) WHERE id = $1`, [newDeck.rows[0].id]);
+      res.json(snakeToCamel(newDeck.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/deck-reports", async (req, res) => {
+    try {
+      const { reporterId, targetType, targetId, reason, notes } = req.body;
+      if (!reporterId || !targetType || !targetId || !reason) return res.status(400).json({ error: "Missing required fields" });
+      const result = await pool.query(
+        `INSERT INTO deck_reports (id, reporter_id, target_type, target_id, reason, notes, status, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, 'pending', NOW()) RETURNING *`,
+        [reporterId, targetType, targetId, reason, notes || null]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/deck-reports", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(
+        `SELECT r.*, u.username as reporter_username FROM deck_reports r LEFT JOIN users u ON r.reporter_id = u.id ORDER BY r.created_at DESC LIMIT 50`
+      );
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/deck-reports/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { status } = req.body;
+      await pool.query(`UPDATE deck_reports SET status = $1 WHERE id = $2`, [status, req.params.id]);
+      await logAudit(req, admin, "deck_report", req.params.id, "update_status", null, { status });
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/billing/deck-upgrade/create-checkout", async (req, res) => {
+    try {
+      const { userId, deckId } = req.body;
+      if (!userId || !deckId) return res.status(400).json({ error: "userId and deckId required" });
+      const deckCheck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
+      if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found or not owned by you" });
+      if (deckCheck.rows[0].is_upgraded) return res.status(400).json({ error: "Deck already upgraded" });
+      const stripe = (await import("stripe")).default;
+      const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY || "");
+      const session = await stripeClient.checkout.sessions.create({
+        mode: "payment",
+        payment_method_types: ["card"],
+        line_items: [{
+          price_data: {
+            currency: "cad",
+            product_data: {
+              name: `Deck Upgrade: ${deckCheck.rows[0].title}`,
+              description: "Increase this deck's card limit to 300 cards",
+            },
+            unit_amount: 299,
+          },
+          quantity: 1,
+        }],
+        metadata: { userId, deckId, purchaseType: "deck_upgrade" },
+        success_url: `${req.headers.origin || "https://www.nursenest.ca"}/flashcards?upgraded=${deckId}`,
+        cancel_url: `${req.headers.origin || "https://www.nursenest.ca"}/flashcards`,
+      });
+      res.json({ url: session.url, sessionId: session.id });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
