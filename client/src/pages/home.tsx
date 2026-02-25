@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Accordion,
   AccordionContent,
@@ -67,6 +68,7 @@ function formatCount(n: number): string {
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const { t } = useI18n();
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
   });
@@ -136,7 +138,7 @@ export default function Home() {
                   onClick={() => setLocation("/start-free")}
                   data-testid="button-hero-start-free"
                 >
-                  Start Your Exam Prep Free
+                  {t("home.hero.cta")}
                   <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
                 </Button>
                 <Button 
@@ -147,7 +149,7 @@ export default function Home() {
                   data-testid="button-hero-browse"
                 >
                   <BookOpen className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
-                  Explore the Full Lesson Library
+                  {t("home.hero.cta2")}
                 </Button>
               </div>
 

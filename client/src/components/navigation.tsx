@@ -57,6 +57,7 @@ import { useI18n, LANGUAGES } from "@/lib/i18n";
 import { Globe } from "lucide-react";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
+  const { t } = useI18n();
   const { data: subData } = useQuery({
     queryKey: ["/api/subscription", user.id],
     queryFn: async () => {
@@ -93,41 +94,41 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/dashboard")} data-testid="menu-user-dashboard">
           <BarChart className="w-4 h-4" />
-          My Dashboard
+          {t("nav.dashboard")}
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/profile")} data-testid="menu-user-profile">
           <User className="w-4 h-4" />
-          My Profile
+          {t("nav.profile")}
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/reports")} data-testid="menu-user-reports">
           <BarChart className="w-4 h-4" />
-          Reports & Analytics
+          {t("nav.reports")}
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/profile#notes")} data-testid="menu-user-notes">
           <StickyNote className="w-4 h-4" />
-          My Notes
+          {t("nav.notes")}
         </DropdownMenuItem>
         {user.tier === "admin" && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin")} data-testid="menu-admin-dashboard">
               <Shield className="w-4 h-4" />
-              Admin Dashboard
+              {t("nav.admin")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/content-editor")} data-testid="menu-content-editor">
               <FileText className="w-4 h-4" />
-              Content Editor
+              {t("nav.contentEditor")}
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin?tab=content-engine")} data-testid="menu-blog-manager">
               <BookOpen className="w-4 h-4" />
-              Blog Manager
+              {t("nav.blogManager")}
             </DropdownMenuItem>
           </>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-red-500" onClick={() => { logout(); setLocation("/"); }} data-testid="menu-user-logout">
           <LogOut className="w-4 h-4" />
-          Sign Out
+          {t("nav.signout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -145,7 +146,7 @@ export function Navigation() {
   const [mounted, setMounted] = useState(false);
   const [, setLocation] = useLocation();
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
-  const { language, setLanguage } = useI18n();
+  const { language, setLanguage, t } = useI18n();
   const currentLang = LANGUAGES.find(l => l.code === language);
 
   const setRegion = (newRegion: "US" | "CA") => {
@@ -638,12 +639,12 @@ export function Navigation() {
                 <SheetClose asChild>
                   <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/login")}>
                     <LogIn className="w-4 h-4" />
-                    Log in
+                    {t("nav.login")}
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
                   <Button className="w-full bg-primary hover:brightness-110 text-white rounded-full h-9 mt-1" onClick={() => setLocation("/login")}>
-                    Get Started
+                    {t("nav.signup")}
                   </Button>
                 </SheetClose>
               </>
@@ -686,14 +687,14 @@ export function Navigation() {
                 Anatomy
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lessons")}>
-                Lessons
+                {t("nav.lessons")}
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/blog")}>
-                Blog
+                {t("nav.blog")}
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2 relative" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-nav">
-                Study Decks
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 px-1 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">Free</span>
+                {t("nav.flashcards")}
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 px-1 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">{t("common.free")}</span>
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -829,10 +830,10 @@ export function Navigation() {
             ) : (
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" className="hidden sm:flex text-softgray hover:text-primary font-medium px-3 h-8" onClick={() => setLocation("/login")} data-testid="button-login">
-                  Log in
+                  {t("nav.login")}
                 </Button>
                 <Button size="sm" className="bg-primary hover:brightness-110 text-white font-bold rounded-full px-4 h-8 shadow-sm shadow-primary/20" onClick={() => setLocation("/login")} data-testid="button-signup">
-                  Get Started
+                  {t("nav.signup")}
                 </Button>
               </div>
             )}
