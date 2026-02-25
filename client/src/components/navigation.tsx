@@ -53,6 +53,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
+import { useI18n, LANGUAGES } from "@/lib/i18n";
+import { Globe } from "lucide-react";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { data: subData } = useQuery({
@@ -143,6 +145,8 @@ export function Navigation() {
   const [mounted, setMounted] = useState(false);
   const [, setLocation] = useLocation();
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
+  const { language, setLanguage } = useI18n();
+  const currentLang = LANGUAGES.find(l => l.code === language);
 
   const setRegion = (newRegion: "US" | "CA") => {
     setRegionState(newRegion);
@@ -507,6 +511,28 @@ export function Navigation() {
 
             <div className="h-[1px] bg-gray-100 my-2" />
 
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Language</p>
+            <div className="flex flex-wrap gap-1.5 px-3 mb-2">
+              {LANGUAGES.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code)}
+                  data-testid={`button-lang-${lang.code}-mobile`}
+                  className={cn(
+                    "flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium border transition-colors",
+                    language === lang.code
+                      ? "bg-primary/10 border-primary/30 text-primary font-bold"
+                      : "bg-white border-gray-200 text-gray-500 hover:border-primary/20 hover:text-primary"
+                  )}
+                >
+                  <span>{lang.flag}</span>
+                  <span>{lang.code.toUpperCase()}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="h-[1px] bg-gray-100 my-2" />
+
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Region & Theme</p>
             <div className="flex items-center gap-2 px-3 mb-2">
               <div className="flex items-center bg-primary/5 rounded-full p-0.5 border border-primary/10">
@@ -739,6 +765,30 @@ export function Navigation() {
               <GlobalSearch />
             </div>
             
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="hidden lg:flex items-center gap-1.5 text-softgray hover:text-primary h-8 px-2" data-testid="button-language-selector">
+                  <Globe className="w-4 h-4" />
+                  <span className="text-xs font-bold">{currentLang?.flag} {currentLang?.code.toUpperCase()}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-52 p-2 max-h-80 overflow-y-auto">
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">Language</p>
+                {LANGUAGES.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => setLanguage(lang.code)}
+                    className={cn("cursor-pointer gap-2", language === lang.code && "text-primary font-bold bg-primary/5")}
+                    data-testid={`button-lang-${lang.code}`}
+                  >
+                    <span className="text-base">{lang.flag}</span>
+                    <span>{lang.name}</span>
+                    <span className="text-gray-400 text-xs ml-auto">{lang.nativeName}</span>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="hidden lg:flex items-center gap-1.5 text-softgray hover:text-primary h-8 px-2" data-testid="button-region-selector">
