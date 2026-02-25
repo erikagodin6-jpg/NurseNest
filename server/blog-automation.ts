@@ -217,6 +217,43 @@ Requirements:
     return s;
   }
 
+  const failurePatterns = [
+    /\bunable to produce\b/i,
+    /\bcannot produce\b/i,
+    /\bcannot generate\b/i,
+    /\bcannot browse\b/i,
+    /\bcannot verify\b/i,
+    /\bcannot access\b/i,
+    /\bI must be transparent\b/i,
+    /\bI do not have the ability\b/i,
+    /\bI cannot fulfill\b/i,
+    /\bI am unable\b/i,
+    /\bI'm unable\b/i,
+    /\bclarification needed\b/i,
+    /\bclarification and request\b/i,
+    /\brequest for source permission\b/i,
+    /\brequest for permission\b/i,
+    /\bprefatory note\b/i,
+    /\bcitation limitations\b/i,
+    /\bwithout verified.*citations\b/i,
+    /\bI apologize\b/i,
+    /\bI can't provide\b/i,
+    /\bAs an AI\b/i,
+    /\bAs a language model\b/i,
+  ];
+
+  const titleAndContent = [
+    parsed.title || "",
+    parsed.summary || "",
+    ...(Array.isArray(parsed.content) ? parsed.content.map((b: any) => b.text || b.content || "").slice(0, 3) : []),
+  ].join(" ");
+
+  const isFailedGeneration = failurePatterns.some(p => p.test(titleAndContent));
+
+  if (isFailedGeneration || !parsed.title || !Array.isArray(parsed.content) || parsed.content.length < 4) {
+    throw new Error(`Blog generation failed: the model did not produce a valid article for "${selectedTopic}". Skipping.`);
+  }
+
   if (parsed.content && Array.isArray(parsed.content)) {
     parsed.content = parsed.content.map((block: any) => {
       if (block.text) block.text = stripDashes(block.text);
