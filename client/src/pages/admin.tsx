@@ -1583,6 +1583,17 @@ export default function AdminPage() {
                     </CardContent>
                   </Card>
 
+                  {publishQueue.length > 0 && (
+                    <Button
+                      className="w-full h-10 text-sm font-semibold gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm mb-3"
+                      onClick={publishScheduledNow}
+                      data-testid="button-publish-now-top"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      Publish Now ({publishQueue.filter((p: any) => p.scheduledAt && new Date(p.scheduledAt) <= new Date()).length} due)
+                    </Button>
+                  )}
+
                   <Card className="border border-amber-200 bg-amber-50/30" data-testid="card-publish-queue">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
@@ -1596,12 +1607,6 @@ export default function AdminPage() {
                             <Button size="sm" variant="destructive" className="h-7 text-xs gap-1" onClick={deleteSelectedQueueItems} data-testid="button-delete-selected-queue">
                               <Trash2 className="w-3 h-3" />
                               Delete {selectedQueueIds.size} Selected
-                            </Button>
-                          )}
-                          {publishQueue.length > 0 && (
-                            <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={publishScheduledNow} data-testid="button-publish-due">
-                              <CheckCircle2 className="w-3 h-3" />
-                              Publish All Due
                             </Button>
                           )}
                           <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={fetchPublishQueue} data-testid="button-refresh-queue">
