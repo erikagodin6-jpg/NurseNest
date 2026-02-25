@@ -56,6 +56,7 @@ const DeterioratingPatientSimulatorPage = lazy(() => import("@/pages/deteriorati
 const BloodTransfusionSimulatorPage = lazy(() => import("@/pages/blood-transfusion-simulator"));
 const LectureViewer = lazy(() => import("@/pages/lecture-viewer"));
 const LecturesPage = lazy(() => import("@/pages/lectures"));
+const DeckPage = lazy(() => import("@/pages/deck-page"));
 
 function PageTracker() {
   usePageTracker();
@@ -203,6 +204,7 @@ function Router() {
         <Route path="/lectures" component={LecturesPage} />
         <Route path="/lectures/:slug" component={LectureViewer} />
         <Route path="/lessons/:id" component={LessonDetail} />
+        <Route path="/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/flashcards" component={Flashcards} />
         <Route path="/reports" component={Reports} />
         <Route path="/login" component={LoginPage} />

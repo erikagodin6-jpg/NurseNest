@@ -252,7 +252,42 @@ export function DeckView({
 }: Partial<DeckViewsProps> & { user: any; setView: any }) {
   const [reportOpen, setReportOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
+  const [linkCopied, setLinkCopied] = useState(false);
   const isOwner = currentDeck?.userId === user?.id;
+
+  const shareUrl = currentDeck?.slug
+    ? `${window.location.origin}/flashcards/deck/${currentDeck.slug}`
+    : "";
+
+  const handleCopyLink = async () => {
+    if (!shareUrl) return;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+    } catch {
+      const input = document.createElement("input");
+      input.value = shareUrl;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+    }
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
+  };
+
+  const handleNativeShare = async () => {
+    if (navigator.share && shareUrl) {
+      try {
+        await navigator.share({
+          title: `${currentDeck.title} - NurseNest Study Deck`,
+          text: currentDeck.description || "Check out this nursing study deck!",
+          url: shareUrl,
+        });
+      } catch {}
+    } else {
+      handleCopyLink();
+    }
+  };
 
   if (!currentDeck) return null;
 
@@ -335,6 +370,26 @@ export function DeckView({
           )}
         </div>
       </div>
+
+      {shareUrl && (
+        <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-xl border border-gray-200">
+          <div className="flex-1 min-w-0">
+            <input
+              readOnly
+              value={shareUrl}
+              className="w-full bg-transparent text-sm text-gray-600 border-none outline-none truncate"
+              onClick={(e) => (e.target as HTMLInputElement).select()}
+              data-testid="input-share-url"
+            />
+          </div>
+          <Button size="sm" variant="outline" onClick={handleCopyLink} className="rounded-lg gap-1.5 shrink-0" data-testid="button-copy-deck-link">
+            {linkCopied ? <><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Copied!</> : <><Copy className="w-3.5 h-3.5" /> Copy Link</>}
+          </Button>
+          <Button size="sm" variant="outline" onClick={handleNativeShare} className="rounded-lg gap-1.5 shrink-0" data-testid="button-share-deck-native">
+            <Share2 className="w-3.5 h-3.5" /> Share
+          </Button>
+        </div>
+      )}
 
       {reportOpen && (
         <Card className="border-red-200 bg-red-50">

@@ -1282,6 +1282,25 @@ Rules:
     }
   });
 
+  app.get("/api/decks/by-slug/:slug", async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT d.*, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id WHERE d.slug = $1`,
+        [req.params.slug]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deck = snakeToCamel(result.rows[0]) as any;
+      if (deck.visibility === "private") {
+        const userId = req.query.userId as string;
+        if (deck.ownerId !== userId) return res.status(403).json({ error: "Private deck" });
+      }
+      await pool.query(`UPDATE flashcard_decks SET view_count = view_count + 1 WHERE id = $1`, [deck.id]);
+      res.json(deck);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/decks/:id", async (req, res) => {
     try {
       const result = await pool.query(
@@ -1673,6 +1692,150 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         `SELECT r.*, u.username as reporter_username FROM deck_reports r LEFT JOIN users u ON r.reporter_id = u.id ORDER BY r.created_at DESC LIMIT 50`
       );
       res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/seed-starter-decks", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const existing = await pool.query(`SELECT id FROM flashcard_decks WHERE owner_id = 'system'`);
+      if (existing.rows.length > 0) return res.json({ message: "Starter decks already exist", count: existing.rows.length });
+
+      await pool.query(`INSERT INTO users (id, username, password, tier) VALUES ('system', 'NurseNest', 'system-no-login', 'admin') ON CONFLICT (id) DO NOTHING`);
+
+      const starterDecks = [
+        {
+          title: "Cardiac Medications",
+          slug: "cardiac-medications",
+          description: "Essential cardiac drugs, mechanisms, and nursing considerations for NCLEX prep",
+          tags: ["pharmacology", "cardiac", "NCLEX"],
+          cards: [
+            { front: "What is the antidote for heparin?", back: "Protamine sulfate", rationale: "Protamine binds to heparin and neutralizes its anticoagulant effect. Dose: 1 mg per 100 units of heparin." },
+            { front: "What is the antidote for warfarin (Coumadin)?", back: "Vitamin K (phytonadione)", rationale: "Vitamin K reverses warfarin by restoring clotting factor synthesis. IV route for emergencies, PO for non-urgent reversal." },
+            { front: "What lab value monitors heparin therapy?", back: "aPTT (activated Partial Thromboplastin Time)", rationale: "Therapeutic aPTT is typically 1.5-2.5 times the control value. Monitor every 6 hours after dose changes." },
+            { front: "What lab value monitors warfarin therapy?", back: "PT/INR (Prothrombin Time / International Normalized Ratio)", rationale: "Therapeutic INR is usually 2.0-3.0. For mechanical heart valves, target is 2.5-3.5." },
+            { front: "What class of drug is metoprolol?", back: "Beta-blocker (beta-1 selective)", rationale: "Metoprolol reduces heart rate and blood pressure. Hold if HR < 60 or SBP < 100. Monitor for bradycardia and hypotension." },
+            { front: "What is the priority nursing action before giving digoxin?", back: "Check apical pulse for one full minute; hold if HR < 60 bpm", rationale: "Digoxin slows heart rate. Subtherapeutic HR indicates toxicity risk. Also monitor potassium levels (hypokalemia increases toxicity)." },
+            { front: "What are signs of digoxin toxicity?", back: "Nausea, vomiting, visual disturbances (yellow-green halos), bradycardia, dysrhythmias", rationale: "Therapeutic digoxin level: 0.5-2.0 ng/mL. Hypokalemia increases toxicity risk. Antidote: Digibind (digoxin immune Fab)." },
+            { front: "What is the mechanism of action of nitroglycerin?", back: "Vasodilation (primarily venous) reducing preload and myocardial oxygen demand", rationale: "Administered sublingually for acute angina. Max 3 doses, 5 minutes apart. Monitor for hypotension and headache." },
+            { front: "What is a critical side effect of ACE inhibitors (e.g., lisinopril)?", back: "Persistent dry cough and risk of angioedema", rationale: "ACE inhibitors prevent conversion of angiotensin I to II. Cough is due to bradykinin accumulation. Switch to ARB if intolerable." },
+            { front: "What electrolyte must be monitored with loop diuretics (furosemide)?", back: "Potassium (risk of hypokalemia)", rationale: "Furosemide causes potassium excretion. Signs of hypokalemia: muscle weakness, cramping, cardiac dysrhythmias, U waves on ECG." },
+          ],
+        },
+        {
+          title: "Electrolyte Imbalances",
+          slug: "electrolyte-imbalances",
+          description: "Key electrolyte disorders, symptoms, and nursing interventions for exam preparation",
+          tags: ["electrolytes", "pathophysiology", "NCLEX"],
+          cards: [
+            { front: "What are signs of hyperkalemia?", back: "Tall peaked T waves, muscle weakness, bradycardia, cardiac arrest risk", rationale: "Potassium > 5.0 mEq/L. Emergency treatment: IV calcium gluconate (cardioprotection), insulin + glucose, sodium bicarbonate, kayexalate." },
+            { front: "What are signs of hypokalemia?", back: "Muscle weakness, leg cramps, shallow respirations, U waves on ECG, cardiac dysrhythmias", rationale: "Potassium < 3.5 mEq/L. Causes: diuretics, vomiting, NG suction. Administer IV potassium NEVER by push, always diluted." },
+            { front: "What is Trousseau sign?", back: "Carpal spasm when BP cuff is inflated; indicates hypocalcemia", rationale: "Calcium < 8.5 mg/dL. Trousseau sign occurs because low calcium increases neuromuscular excitability." },
+            { front: "What is Chvostek sign?", back: "Facial muscle twitching when tapping the facial nerve; indicates hypocalcemia", rationale: "Tap anterior to the ear over the facial nerve. Positive response = ipsilateral facial muscle contraction." },
+            { front: "What are signs of hypernatremia?", back: "Thirst, dry mucous membranes, restlessness, confusion, seizures", rationale: "Sodium > 145 mEq/L. Often caused by dehydration. Treatment: hypotonic IV fluids (0.45% NaCl). Correct slowly to prevent cerebral edema." },
+            { front: "What are signs of hyponatremia?", back: "Nausea, headache, confusion, seizures, muscle cramps", rationale: "Sodium < 135 mEq/L. Causes: SIADH, water intoxication, diuretics. Treatment: fluid restriction, hypertonic saline (3% NaCl) for severe cases." },
+            { front: "What electrolyte imbalance causes carpopedal spasm?", back: "Hypocalcemia", rationale: "Low calcium increases neuromuscular irritability causing tetany, spasms, and seizure risk. Also seen in hypomagnesemia." },
+            { front: "What is the relationship between magnesium and calcium?", back: "Hypomagnesemia can cause refractory hypocalcemia", rationale: "Magnesium is needed for PTH secretion and action. Must correct magnesium first before calcium will normalize." },
+            { front: "What are signs of hypercalcemia?", back: "Bones, stones, groans, moans (bone pain, kidney stones, constipation, confusion)", rationale: "Calcium > 10.5 mg/dL. Causes: hyperparathyroidism, malignancy. Encourage fluids, loop diuretics, calcitonin." },
+            { front: "What are signs of hypermagnesemia?", back: "Lethargy, decreased DTRs, hypotension, respiratory depression, cardiac arrest", rationale: "Magnesium > 2.5 mg/dL. Often iatrogenic (magnesium sulfate therapy). Antidote: IV calcium gluconate." },
+          ],
+        },
+        {
+          title: "Infection Control & PPE",
+          slug: "infection-control-ppe",
+          description: "Standard and transmission-based precautions, PPE selection, and isolation protocols",
+          tags: ["fundamentals", "infection control", "safety"],
+          cards: [
+            { front: "What type of isolation requires an N95 respirator?", back: "Airborne precautions", rationale: "Used for TB, measles, varicella, COVID-19. Requires negative pressure room with 6-12 air exchanges per hour." },
+            { front: "Name 3 diseases requiring airborne precautions", back: "Tuberculosis (TB), measles (rubeola), varicella (chickenpox)", rationale: "Remember 'My Chicken has TB'. These pathogens travel on air currents and remain suspended. N95 + negative pressure room required." },
+            { front: "What type of isolation requires a surgical mask within 3 feet?", back: "Droplet precautions", rationale: "Used for influenza, pertussis, meningitis, mumps. Droplets travel up to 3-6 feet. Private room or 3-foot curtain separation." },
+            { front: "What PPE is needed for contact precautions?", back: "Gown and gloves", rationale: "Used for MRSA, VRE, C. diff, scabies. Dedicated equipment. Don gown and gloves before entering room." },
+            { front: "What is the correct order for donning PPE?", back: "Gown, mask/respirator, goggles/face shield, gloves", rationale: "Remember the order goes from least to most contaminated. Gloves go on last and cover gown cuffs." },
+            { front: "What is the correct order for doffing (removing) PPE?", back: "Gloves, goggles/face shield, gown, mask/respirator", rationale: "Gloves are most contaminated and removed first. Perform hand hygiene between steps. Mask removed last at doorway." },
+            { front: "When is hand hygiene required? (5 moments)", back: "Before patient contact, before aseptic task, after body fluid exposure, after patient contact, after touching surroundings", rationale: "WHO 5 Moments for Hand Hygiene. Use alcohol-based rub (20 sec) or soap and water (40-60 sec). Soap required for C. diff." },
+            { front: "What precaution type is required for C. difficile?", back: "Contact precautions with soap and water hand washing (not alcohol rub)", rationale: "C. diff spores are resistant to alcohol. Must use soap and water. Bleach-based cleaning for surfaces. Private room preferred." },
+            { front: "What is the sterile field rule for distance?", back: "A 1-inch border around a sterile field is considered non-sterile", rationale: "Never turn your back on a sterile field. Keep the field at waist level or above. If contamination is suspected, start over." },
+            { front: "What type of precaution is used for a patient with shingles (herpes zoster)?", back: "Airborne + Contact precautions (if disseminated); Contact only if localized and covered", rationale: "Disseminated zoster can be aerosolized. Localized covered lesions require contact only. Susceptible staff should avoid the patient." },
+          ],
+        },
+        {
+          title: "Vital Signs & Assessment",
+          slug: "vital-signs-assessment",
+          description: "Normal ranges, abnormal findings, and priority nursing responses for vital sign changes",
+          tags: ["assessment", "fundamentals", "clinical"],
+          cards: [
+            { front: "What is the priority action for a respiratory rate of 8?", back: "Assess airway, administer oxygen, prepare for respiratory support, notify provider", rationale: "RR < 12 is bradypnea and may indicate CNS depression (opioids, neurological injury). Hold opioids if prescribed and assess." },
+            { front: "What does a widening pulse pressure indicate?", back: "Increased intracranial pressure (ICP) - Cushing triad component", rationale: "Cushing triad: widening pulse pressure, bradycardia, irregular respirations. This is a late sign of increased ICP - emergency." },
+            { front: "What position optimizes breathing for a dyspneic patient?", back: "High Fowler's position (60-90 degrees) or orthopneic position", rationale: "Upright positioning allows maximum lung expansion by lowering the diaphragm. Tripod position also helps." },
+            { front: "What is the normal SpO2 range?", back: "95-100% on room air", rationale: "SpO2 < 90% indicates significant hypoxemia. For COPD patients, acceptable range may be 88-92% to maintain hypoxic drive." },
+            { front: "When should you take an apical pulse?", back: "Before administering digoxin or beta-blockers; for irregular radial pulse; in infants and children", rationale: "Apical pulse is the most accurate. Located at 5th intercostal space, midclavicular line. Count for full 60 seconds." },
+            { front: "What does a pulse deficit indicate?", back: "Cardiac dysrhythmia (difference between apical and radial pulse)", rationale: "Pulse deficit = apical rate minus radial rate. Occurs when some cardiac contractions are too weak to produce a palpable pulse wave." },
+            { front: "What temperature indicates a fever?", back: "Oral > 100.4F (38C)", rationale: "Report fever with other findings. Rectal is most accurate (0.5-1F higher than oral). Axillary is least accurate (0.5-1F lower)." },
+            { front: "What blood pressure reading indicates Stage 2 hypertension?", back: "Systolic 140+ or Diastolic 90+ mmHg", rationale: "Stage 1: 130-139/80-89. Stage 2: 140+/90+. Hypertensive crisis: > 180/120. Verify with repeat measurement on both arms." },
+            { front: "What is orthostatic hypotension?", back: "Drop of 20+ mmHg systolic or 10+ mmHg diastolic within 3 minutes of standing", rationale: "Assess lying, sitting, then standing BP. Causes: dehydration, blood loss, medications. Implement fall precautions." },
+            { front: "What does a Glasgow Coma Scale (GCS) of 8 or less indicate?", back: "Severe brain injury; patient likely needs intubation for airway protection", rationale: "GCS ranges from 3-15. Eye opening (1-4) + Verbal (1-5) + Motor (1-6). Score of 8 or less = coma. 'GCS less than 8, intubate.'" },
+          ],
+        },
+        {
+          title: "Diabetes Management",
+          slug: "diabetes-management",
+          description: "Insulin types, hypoglycemia vs hyperglycemia, DKA, and nursing priorities",
+          tags: ["endocrine", "pharmacology", "NCLEX"],
+          cards: [
+            { front: "What are the signs of hypoglycemia?", back: "Shakiness, sweating, tachycardia, confusion, pallor, irritability, hunger", rationale: "Blood glucose < 70 mg/dL. Treat with 15g fast-acting carbs (4 oz juice, glucose tablets). Recheck in 15 min. Rule of 15." },
+            { front: "What are the signs of DKA (Diabetic Ketoacidosis)?", back: "Kussmaul respirations, fruity breath, dehydration, abdominal pain, nausea, altered LOC", rationale: "DKA occurs in Type 1 diabetes. BG > 300, pH < 7.35, ketones present. Treatment: IV fluids first, then insulin drip, potassium monitoring." },
+            { front: "What is the onset of rapid-acting insulin (lispro/aspart)?", back: "15 minutes onset, peak 1-2 hours, duration 3-5 hours", rationale: "Given before meals (within 15 min of eating). Clear appearance. Can be given IV in emergencies." },
+            { front: "What is the onset of regular insulin?", back: "30-60 minutes onset, peak 2-4 hours, duration 6-8 hours", rationale: "The only insulin that can be given IV. Clear appearance. Give 30 min before meals when given subcutaneously." },
+            { front: "What is the onset of NPH insulin?", back: "1-2 hours onset, peak 4-12 hours, duration 18-24 hours", rationale: "Intermediate-acting, cloudy appearance. Must be rolled gently (not shaken). Often combined with rapid-acting insulin." },
+            { front: "When mixing insulins, which is drawn up first?", back: "Clear before cloudy (regular before NPH)", rationale: "Remember 'RN' - Regular before NPH. Draw air into NPH first, then air into regular, draw regular first, then draw NPH." },
+            { front: "What is the priority assessment for a patient on an insulin drip?", back: "Blood glucose monitoring every 1-2 hours and potassium levels", rationale: "Insulin drives potassium into cells, causing hypokalemia. IV potassium replacement is often needed. Monitor ECG for dysrhythmias." },
+            { front: "What differentiates DKA from HHS (Hyperosmolar Hyperglycemic State)?", back: "DKA has ketones and metabolic acidosis; HHS has extreme hyperglycemia (>600) without significant ketosis", rationale: "DKA = Type 1, rapid onset, BG 300-800. HHS = Type 2, gradual onset, BG > 600, severe dehydration, higher mortality." },
+            { front: "What are signs of the dawn phenomenon?", back: "Elevated fasting blood glucose (early morning hyperglycemia)", rationale: "Caused by growth hormone and cortisol release between 5-8 AM. Management: adjust evening insulin timing or increase dose." },
+            { front: "Where are the best injection sites for insulin absorption?", back: "Abdomen (fastest), then arms, thighs, buttocks (slowest)", rationale: "Rotate within one region before moving to another. Avoid injecting within 2 inches of the navel. Exercise increases absorption at the site." },
+          ],
+        },
+        {
+          title: "Maternal & Newborn Essentials",
+          slug: "maternal-newborn-essentials",
+          description: "Pregnancy complications, labor stages, postpartum assessment, and newborn care",
+          tags: ["maternity", "OB", "newborn"],
+          cards: [
+            { front: "What are warning signs of preeclampsia?", back: "BP 140/90+, proteinuria, headache, visual changes, epigastric pain, edema (face/hands)", rationale: "Preeclampsia occurs after 20 weeks gestation. Severe: BP 160/110+. Treatment: magnesium sulfate (seizure prevention), antihypertensives." },
+            { front: "What is the antidote for magnesium sulfate toxicity?", back: "Calcium gluconate", rationale: "Signs of mag toxicity: loss of DTRs, respiratory depression (RR < 12), urine output < 30 mL/hr. Keep antidote at bedside." },
+            { front: "What does APGAR assess?", back: "Appearance (color), Pulse, Grimace (reflex), Activity (muscle tone), Respirations", rationale: "Scored at 1 and 5 minutes after birth. Each category scored 0-2, total 0-10. Score 7-10 normal, < 7 needs intervention." },
+            { front: "What is the normal fetal heart rate range?", back: "110-160 beats per minute", rationale: "Tachycardia > 160 (maternal fever, infection). Bradycardia < 110 (cord compression, late decelerations). Monitor with EFM." },
+            { front: "What do late decelerations indicate?", back: "Uteroplacental insufficiency (fetal distress)", rationale: "Late decels begin after contraction peak and return to baseline after contraction ends. Interventions: left lateral position, O2, stop Pitocin, notify provider." },
+            { front: "What is the BUBBLE-HE postpartum assessment?", back: "Breasts, Uterus, Bladder, Bowel, Lochia, Episiotomy/incision, Homan sign, Emotions", rationale: "Systematic head-to-toe postpartum check. Fundus should be firm, at or below umbilicus, midline. Boggy = massage firmly." },
+            { front: "What is the normal progression of lochia?", back: "Rubra (red, 1-3 days), Serosa (pink-brown, 4-10 days), Alba (white-yellow, 10+ days)", rationale: "Saturating a pad in < 1 hour or passing large clots indicates hemorrhage. Assess for uterine atony or retained placenta." },
+            { front: "What position is used for cord prolapse?", back: "Trendelenburg or knee-chest position", rationale: "Elevate hips above heart to relieve pressure on the cord. Do NOT attempt to push cord back. Cover cord with sterile saline gauze. Emergency C-section." },
+            { front: "What is the normal newborn blood glucose?", back: "40-60 mg/dL in the first 24 hours, then > 45 mg/dL", rationale: "Screen at-risk infants: LGA, SGA, infants of diabetic mothers. Signs of hypoglycemia: jitteriness, poor feeding, lethargy, seizures." },
+            { front: "When should the first hepatitis B vaccine be given?", back: "Within 12 hours of birth", rationale: "Part of the routine newborn immunization schedule. Given IM in the vastus lateralis. Second dose at 1 month, third at 6 months." },
+          ],
+        },
+      ];
+
+      for (const deck of starterDecks) {
+        const deckResult = await pool.query(
+          `INSERT INTO flashcard_decks (id, owner_id, title, description, tags, tier, visibility, slug, card_count, created_at, updated_at)
+           VALUES (gen_random_uuid(), 'system', $1, $2, $3, 'free', 'public', $4, $5, NOW(), NOW()) RETURNING id`,
+          [deck.title, deck.description, JSON.stringify(deck.tags), deck.slug, deck.cards.length]
+        );
+        const deckId = deckResult.rows[0].id;
+        for (let i = 0; i < deck.cards.length; i++) {
+          const card = deck.cards[i];
+          await pool.query(
+            `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, sort_order, created_at, updated_at)
+             VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, NOW(), NOW())`,
+            [deckId, card.front, card.back, card.rationale, i]
+          );
+        }
+      }
+
+      res.json({ message: "Starter decks seeded", count: starterDecks.length });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -2891,5 +3054,137 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  seedStarterDecks().catch((e) => console.error("Starter deck seed error:", e?.message));
+
   return httpServer;
+}
+
+async function seedStarterDecks() {
+  const existing = await pool.query(`SELECT id FROM flashcard_decks WHERE owner_id = 'system' LIMIT 1`);
+  if (existing.rows.length > 0) return;
+
+  await pool.query(`INSERT INTO users (id, username, password, tier) VALUES ('system', 'NurseNest', 'system-no-login', 'admin') ON CONFLICT (id) DO NOTHING`);
+
+  const decks = [
+    {
+      title: "Cardiac Medications", slug: "cardiac-medications",
+      description: "Essential cardiac drugs, mechanisms, and nursing considerations for NCLEX prep",
+      tags: ["pharmacology", "cardiac", "NCLEX"],
+      cards: [
+        { front: "What is the antidote for heparin?", back: "Protamine sulfate", rationale: "Protamine binds to heparin and neutralizes its anticoagulant effect. Dose: 1 mg per 100 units of heparin." },
+        { front: "What is the antidote for warfarin (Coumadin)?", back: "Vitamin K (phytonadione)", rationale: "Vitamin K reverses warfarin by restoring clotting factor synthesis. IV route for emergencies, PO for non-urgent reversal." },
+        { front: "What lab value monitors heparin therapy?", back: "aPTT (activated Partial Thromboplastin Time)", rationale: "Therapeutic aPTT is typically 1.5-2.5 times the control value. Monitor every 6 hours after dose changes." },
+        { front: "What lab value monitors warfarin therapy?", back: "PT/INR (Prothrombin Time / International Normalized Ratio)", rationale: "Therapeutic INR is usually 2.0-3.0. For mechanical heart valves, target is 2.5-3.5." },
+        { front: "What class of drug is metoprolol?", back: "Beta-blocker (beta-1 selective)", rationale: "Metoprolol reduces heart rate and blood pressure. Hold if HR < 60 or SBP < 100. Monitor for bradycardia and hypotension." },
+        { front: "What is the priority nursing action before giving digoxin?", back: "Check apical pulse for one full minute; hold if HR < 60 bpm", rationale: "Digoxin slows heart rate. Subtherapeutic HR indicates toxicity risk. Also monitor potassium levels (hypokalemia increases toxicity)." },
+        { front: "What are signs of digoxin toxicity?", back: "Nausea, vomiting, visual disturbances (yellow-green halos), bradycardia, dysrhythmias", rationale: "Therapeutic digoxin level: 0.5-2.0 ng/mL. Hypokalemia increases toxicity risk. Antidote: Digibind (digoxin immune Fab)." },
+        { front: "What is the mechanism of action of nitroglycerin?", back: "Vasodilation (primarily venous) reducing preload and myocardial oxygen demand", rationale: "Administered sublingually for acute angina. Max 3 doses, 5 minutes apart. Monitor for hypotension and headache." },
+        { front: "What is a critical side effect of ACE inhibitors (e.g., lisinopril)?", back: "Persistent dry cough and risk of angioedema", rationale: "ACE inhibitors prevent conversion of angiotensin I to II. Cough is due to bradykinin accumulation. Switch to ARB if intolerable." },
+        { front: "What electrolyte must be monitored with loop diuretics (furosemide)?", back: "Potassium (risk of hypokalemia)", rationale: "Furosemide causes potassium excretion. Signs of hypokalemia: muscle weakness, cramping, cardiac dysrhythmias, U waves on ECG." },
+      ],
+    },
+    {
+      title: "Electrolyte Imbalances", slug: "electrolyte-imbalances",
+      description: "Key electrolyte disorders, symptoms, and nursing interventions for exam preparation",
+      tags: ["electrolytes", "pathophysiology", "NCLEX"],
+      cards: [
+        { front: "What are signs of hyperkalemia?", back: "Tall peaked T waves, muscle weakness, bradycardia, cardiac arrest risk", rationale: "Potassium > 5.0 mEq/L. Emergency treatment: IV calcium gluconate (cardioprotection), insulin + glucose, sodium bicarbonate, kayexalate." },
+        { front: "What are signs of hypokalemia?", back: "Muscle weakness, leg cramps, shallow respirations, U waves on ECG, cardiac dysrhythmias", rationale: "Potassium < 3.5 mEq/L. Causes: diuretics, vomiting, NG suction. Administer IV potassium NEVER by push, always diluted." },
+        { front: "What is Trousseau sign?", back: "Carpal spasm when BP cuff is inflated; indicates hypocalcemia", rationale: "Calcium < 8.5 mg/dL. Trousseau sign occurs because low calcium increases neuromuscular excitability." },
+        { front: "What is Chvostek sign?", back: "Facial muscle twitching when tapping the facial nerve; indicates hypocalcemia", rationale: "Tap anterior to the ear over the facial nerve. Positive response = ipsilateral facial muscle contraction." },
+        { front: "What are signs of hypernatremia?", back: "Thirst, dry mucous membranes, restlessness, confusion, seizures", rationale: "Sodium > 145 mEq/L. Often caused by dehydration. Treatment: hypotonic IV fluids (0.45% NaCl). Correct slowly to prevent cerebral edema." },
+        { front: "What are signs of hyponatremia?", back: "Nausea, headache, confusion, seizures, muscle cramps", rationale: "Sodium < 135 mEq/L. Causes: SIADH, water intoxication, diuretics. Treatment: fluid restriction, hypertonic saline (3% NaCl) for severe cases." },
+        { front: "What electrolyte imbalance causes carpopedal spasm?", back: "Hypocalcemia", rationale: "Low calcium increases neuromuscular irritability causing tetany, spasms, and seizure risk. Also seen in hypomagnesemia." },
+        { front: "What is the relationship between magnesium and calcium?", back: "Hypomagnesemia can cause refractory hypocalcemia", rationale: "Magnesium is needed for PTH secretion and action. Must correct magnesium first before calcium will normalize." },
+        { front: "What are signs of hypercalcemia?", back: "Bones, stones, groans, moans (bone pain, kidney stones, constipation, confusion)", rationale: "Calcium > 10.5 mg/dL. Causes: hyperparathyroidism, malignancy. Encourage fluids, loop diuretics, calcitonin." },
+        { front: "What are signs of hypermagnesemia?", back: "Lethargy, decreased DTRs, hypotension, respiratory depression, cardiac arrest", rationale: "Magnesium > 2.5 mg/dL. Often iatrogenic (magnesium sulfate therapy). Antidote: IV calcium gluconate." },
+      ],
+    },
+    {
+      title: "Infection Control & PPE", slug: "infection-control-ppe",
+      description: "Standard and transmission-based precautions, PPE selection, and isolation protocols",
+      tags: ["fundamentals", "infection control", "safety"],
+      cards: [
+        { front: "What type of isolation requires an N95 respirator?", back: "Airborne precautions", rationale: "Used for TB, measles, varicella, COVID-19. Requires negative pressure room with 6-12 air exchanges per hour." },
+        { front: "Name 3 diseases requiring airborne precautions", back: "Tuberculosis (TB), measles (rubeola), varicella (chickenpox)", rationale: "Remember 'My Chicken has TB'. These pathogens travel on air currents and remain suspended. N95 + negative pressure room required." },
+        { front: "What type of isolation requires a surgical mask within 3 feet?", back: "Droplet precautions", rationale: "Used for influenza, pertussis, meningitis, mumps. Droplets travel up to 3-6 feet. Private room or 3-foot curtain separation." },
+        { front: "What PPE is needed for contact precautions?", back: "Gown and gloves", rationale: "Used for MRSA, VRE, C. diff, scabies. Dedicated equipment. Don gown and gloves before entering room." },
+        { front: "What is the correct order for donning PPE?", back: "Gown, mask/respirator, goggles/face shield, gloves", rationale: "Remember the order goes from least to most contaminated. Gloves go on last and cover gown cuffs." },
+        { front: "What is the correct order for doffing (removing) PPE?", back: "Gloves, goggles/face shield, gown, mask/respirator", rationale: "Gloves are most contaminated and removed first. Perform hand hygiene between steps. Mask removed last at doorway." },
+        { front: "When is hand hygiene required? (5 moments)", back: "Before patient contact, before aseptic task, after body fluid exposure, after patient contact, after touching surroundings", rationale: "WHO 5 Moments for Hand Hygiene. Use alcohol-based rub (20 sec) or soap and water (40-60 sec). Soap required for C. diff." },
+        { front: "What precaution type is required for C. difficile?", back: "Contact precautions with soap and water hand washing (not alcohol rub)", rationale: "C. diff spores are resistant to alcohol. Must use soap and water. Bleach-based cleaning for surfaces. Private room preferred." },
+        { front: "What is the sterile field rule for distance?", back: "A 1-inch border around a sterile field is considered non-sterile", rationale: "Never turn your back on a sterile field. Keep the field at waist level or above. If contamination is suspected, start over." },
+        { front: "What type of precaution is used for a patient with shingles (herpes zoster)?", back: "Airborne + Contact precautions (if disseminated); Contact only if localized and covered", rationale: "Disseminated zoster can be aerosolized. Localized covered lesions require contact only. Susceptible staff should avoid the patient." },
+      ],
+    },
+    {
+      title: "Vital Signs & Assessment", slug: "vital-signs-assessment",
+      description: "Normal ranges, abnormal findings, and priority nursing responses for vital sign changes",
+      tags: ["assessment", "fundamentals", "clinical"],
+      cards: [
+        { front: "What is the priority action for a respiratory rate of 8?", back: "Assess airway, administer oxygen, prepare for respiratory support, notify provider", rationale: "RR < 12 is bradypnea and may indicate CNS depression (opioids, neurological injury). Hold opioids if prescribed and assess." },
+        { front: "What does a widening pulse pressure indicate?", back: "Increased intracranial pressure (ICP) - Cushing triad component", rationale: "Cushing triad: widening pulse pressure, bradycardia, irregular respirations. This is a late sign of increased ICP - emergency." },
+        { front: "What position optimizes breathing for a dyspneic patient?", back: "High Fowler's position (60-90 degrees) or orthopneic position", rationale: "Upright positioning allows maximum lung expansion by lowering the diaphragm. Tripod position also helps." },
+        { front: "What is the normal SpO2 range?", back: "95-100% on room air", rationale: "SpO2 < 90% indicates significant hypoxemia. For COPD patients, acceptable range may be 88-92% to maintain hypoxic drive." },
+        { front: "When should you take an apical pulse?", back: "Before administering digoxin or beta-blockers; for irregular radial pulse; in infants and children", rationale: "Apical pulse is the most accurate. Located at 5th intercostal space, midclavicular line. Count for full 60 seconds." },
+        { front: "What does a pulse deficit indicate?", back: "Cardiac dysrhythmia (difference between apical and radial pulse)", rationale: "Pulse deficit = apical rate minus radial rate. Occurs when some cardiac contractions are too weak to produce a palpable pulse wave." },
+        { front: "What temperature indicates a fever?", back: "Oral > 100.4F (38C)", rationale: "Report fever with other findings. Rectal is most accurate (0.5-1F higher than oral). Axillary is least accurate (0.5-1F lower)." },
+        { front: "What blood pressure reading indicates Stage 2 hypertension?", back: "Systolic 140+ or Diastolic 90+ mmHg", rationale: "Stage 1: 130-139/80-89. Stage 2: 140+/90+. Hypertensive crisis: > 180/120. Verify with repeat measurement on both arms." },
+        { front: "What is orthostatic hypotension?", back: "Drop of 20+ mmHg systolic or 10+ mmHg diastolic within 3 minutes of standing", rationale: "Assess lying, sitting, then standing BP. Causes: dehydration, blood loss, medications. Implement fall precautions." },
+        { front: "What does a Glasgow Coma Scale (GCS) of 8 or less indicate?", back: "Severe brain injury; patient likely needs intubation for airway protection", rationale: "GCS ranges from 3-15. Eye opening (1-4) + Verbal (1-5) + Motor (1-6). Score of 8 or less = coma. 'GCS less than 8, intubate.'" },
+      ],
+    },
+    {
+      title: "Diabetes Management", slug: "diabetes-management",
+      description: "Insulin types, hypoglycemia vs hyperglycemia, DKA, and nursing priorities",
+      tags: ["endocrine", "pharmacology", "NCLEX"],
+      cards: [
+        { front: "What are the signs of hypoglycemia?", back: "Shakiness, sweating, tachycardia, confusion, pallor, irritability, hunger", rationale: "Blood glucose < 70 mg/dL. Treat with 15g fast-acting carbs (4 oz juice, glucose tablets). Recheck in 15 min. Rule of 15." },
+        { front: "What are the signs of DKA (Diabetic Ketoacidosis)?", back: "Kussmaul respirations, fruity breath, dehydration, abdominal pain, nausea, altered LOC", rationale: "DKA occurs in Type 1 diabetes. BG > 300, pH < 7.35, ketones present. Treatment: IV fluids first, then insulin drip, potassium monitoring." },
+        { front: "What is the onset of rapid-acting insulin (lispro/aspart)?", back: "15 minutes onset, peak 1-2 hours, duration 3-5 hours", rationale: "Given before meals (within 15 min of eating). Clear appearance. Can be given IV in emergencies." },
+        { front: "What is the onset of regular insulin?", back: "30-60 minutes onset, peak 2-4 hours, duration 6-8 hours", rationale: "The only insulin that can be given IV. Clear appearance. Give 30 min before meals when given subcutaneously." },
+        { front: "What is the onset of NPH insulin?", back: "1-2 hours onset, peak 4-12 hours, duration 18-24 hours", rationale: "Intermediate-acting, cloudy appearance. Must be rolled gently (not shaken). Often combined with rapid-acting insulin." },
+        { front: "When mixing insulins, which is drawn up first?", back: "Clear before cloudy (regular before NPH)", rationale: "Remember 'RN' - Regular before NPH. Draw air into NPH first, then air into regular, draw regular first, then draw NPH." },
+        { front: "What is the priority assessment for a patient on an insulin drip?", back: "Blood glucose monitoring every 1-2 hours and potassium levels", rationale: "Insulin drives potassium into cells, causing hypokalemia. IV potassium replacement is often needed. Monitor ECG for dysrhythmias." },
+        { front: "What differentiates DKA from HHS (Hyperosmolar Hyperglycemic State)?", back: "DKA has ketones and metabolic acidosis; HHS has extreme hyperglycemia (>600) without significant ketosis", rationale: "DKA = Type 1, rapid onset, BG 300-800. HHS = Type 2, gradual onset, BG > 600, severe dehydration, higher mortality." },
+        { front: "What are signs of the dawn phenomenon?", back: "Elevated fasting blood glucose (early morning hyperglycemia)", rationale: "Caused by growth hormone and cortisol release between 5-8 AM. Management: adjust evening insulin timing or increase dose." },
+        { front: "Where are the best injection sites for insulin absorption?", back: "Abdomen (fastest), then arms, thighs, buttocks (slowest)", rationale: "Rotate within one region before moving to another. Avoid injecting within 2 inches of the navel. Exercise increases absorption at the site." },
+      ],
+    },
+    {
+      title: "Maternal & Newborn Essentials", slug: "maternal-newborn-essentials",
+      description: "Pregnancy complications, labor stages, postpartum assessment, and newborn care",
+      tags: ["maternity", "OB", "newborn"],
+      cards: [
+        { front: "What are warning signs of preeclampsia?", back: "BP 140/90+, proteinuria, headache, visual changes, epigastric pain, edema (face/hands)", rationale: "Preeclampsia occurs after 20 weeks gestation. Severe: BP 160/110+. Treatment: magnesium sulfate (seizure prevention), antihypertensives." },
+        { front: "What is the antidote for magnesium sulfate toxicity?", back: "Calcium gluconate", rationale: "Signs of mag toxicity: loss of DTRs, respiratory depression (RR < 12), urine output < 30 mL/hr. Keep antidote at bedside." },
+        { front: "What does APGAR assess?", back: "Appearance (color), Pulse, Grimace (reflex), Activity (muscle tone), Respirations", rationale: "Scored at 1 and 5 minutes after birth. Each category scored 0-2, total 0-10. Score 7-10 normal, < 7 needs intervention." },
+        { front: "What is the normal fetal heart rate range?", back: "110-160 beats per minute", rationale: "Tachycardia > 160 (maternal fever, infection). Bradycardia < 110 (cord compression, late decelerations). Monitor with EFM." },
+        { front: "What do late decelerations indicate?", back: "Uteroplacental insufficiency (fetal distress)", rationale: "Late decels begin after contraction peak and return to baseline after contraction ends. Interventions: left lateral position, O2, stop Pitocin, notify provider." },
+        { front: "What is the BUBBLE-HE postpartum assessment?", back: "Breasts, Uterus, Bladder, Bowel, Lochia, Episiotomy/incision, Homan sign, Emotions", rationale: "Systematic head-to-toe postpartum check. Fundus should be firm, at or below umbilicus, midline. Boggy = massage firmly." },
+        { front: "What is the normal progression of lochia?", back: "Rubra (red, 1-3 days), Serosa (pink-brown, 4-10 days), Alba (white-yellow, 10+ days)", rationale: "Saturating a pad in < 1 hour or passing large clots indicates hemorrhage. Assess for uterine atony or retained placenta." },
+        { front: "What position is used for cord prolapse?", back: "Trendelenburg or knee-chest position", rationale: "Elevate hips above heart to relieve pressure on the cord. Do NOT attempt to push cord back. Cover cord with sterile saline gauze. Emergency C-section." },
+        { front: "What is the normal newborn blood glucose?", back: "40-60 mg/dL in the first 24 hours, then > 45 mg/dL", rationale: "Screen at-risk infants: LGA, SGA, infants of diabetic mothers. Signs of hypoglycemia: jitteriness, poor feeding, lethargy, seizures." },
+        { front: "When should the first hepatitis B vaccine be given?", back: "Within 12 hours of birth", rationale: "Part of the routine newborn immunization schedule. Given IM in the vastus lateralis. Second dose at 1 month, third at 6 months." },
+      ],
+    },
+  ];
+
+  for (const deck of decks) {
+    const r = await pool.query(
+      `INSERT INTO flashcard_decks (id, owner_id, title, description, tags, tier, visibility, slug, card_count, created_at, updated_at)
+       VALUES (gen_random_uuid(), 'system', $1, $2, $3, 'free', 'public', $4, $5, NOW(), NOW()) RETURNING id`,
+      [deck.title, deck.description, JSON.stringify(deck.tags), deck.slug, deck.cards.length]
+    );
+    const deckId = r.rows[0].id;
+    for (let i = 0; i < deck.cards.length; i++) {
+      const c = deck.cards[i];
+      await pool.query(
+        `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, sort_order, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, NOW(), NOW())`,
+        [deckId, c.front, c.back, c.rationale, i]
+      );
+    }
+  }
+  console.log(`Seeded ${decks.length} starter study decks`);
 }
