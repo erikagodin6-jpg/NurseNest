@@ -45,7 +45,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 function estimateReadTime(content: any[]): number {
   if (!content || !Array.isArray(content)) return 5;
   const totalWords = content.reduce((acc, block) => {
-    return acc + (block.content || "").split(/\s+/).length;
+    return acc + (block.content || block.text || "").split(/\s+/).length;
   }, 0);
   return Math.max(3, Math.ceil(totalWords / 200));
 }

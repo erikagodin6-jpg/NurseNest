@@ -135,7 +135,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content" | "blog" | "analytics" | "feedback" | "social"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "feedback" | "social"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -472,6 +472,7 @@ export default function AdminPage() {
         slug: editingPost.slug,
         type: editingPost.type || "blog",
         category: editingPost.category || null,
+        bodySystem: editingPost.bodySystem || null,
         tier: editingPost.tier || "free",
         status: editingPost.status || "draft",
         summary: editingPost.summary || null,
@@ -479,10 +480,18 @@ export default function AdminPage() {
         tags: editingPost.tags || [],
         seoTitle: editingPost.seoTitle || null,
         seoDescription: editingPost.seoDescription || null,
+        seoKeywords: editingPost.seoKeywords || [],
+        primaryKeyword: editingPost.primaryKeyword || null,
+        scheduledAt: editingPost.scheduledAt ? new Date(editingPost.scheduledAt).toISOString() : null,
+        autoPublish: editingPost.autoPublish || false,
+        authorName: editingPost.authorName || "Erika Godin, RN",
       };
 
       if (editingPost.status === "published" && !editingPost.publishedAt) {
         body.publishedAt = new Date().toISOString();
+      }
+      if (editingPost.status === "scheduled" && editingPost.scheduledAt) {
+        body.status = "scheduled";
       }
 
       const res = await fetch(url, {
@@ -504,6 +513,22 @@ export default function AdminPage() {
     setSavingPost(false);
   }
 
+  async function handleQuickTierChange(id: string, newTier: string) {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/content/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, tier: newTier }),
+      });
+      if (res.ok) {
+        setBlogPosts((prev) => prev.map((p) => p.id === id ? { ...p, tier: newTier } : p));
+      }
+    } catch {}
+  }
+
   async function handleDeleteBlogPost(id: string) {
     if (!confirm("Are you sure you want to delete this blog post? This cannot be undone.")) return;
     try {
@@ -518,25 +543,58 @@ export default function AdminPage() {
     } catch {}
   }
 
-  function startNewBlogPost() {
+  function startNewContent(contentType: string) {
     setCreatingNew(true);
+    const templates: Record<string, any[]> = {
+      blog: [
+        { type: "heading", content: "" },
+        { type: "paragraph", content: "" },
+      ],
+      lesson: [
+        { type: "heading", content: "Learning Objectives" },
+        { type: "list", content: "" },
+        { type: "heading", content: "Pathophysiology" },
+        { type: "paragraph", content: "" },
+        { type: "heading", content: "Clinical Presentation" },
+        { type: "paragraph", content: "" },
+        { type: "heading", content: "Nursing Interventions" },
+        { type: "paragraph", content: "" },
+        { type: "callout", content: "Clinical Pearl: " },
+      ],
+      "flashcard-set": [
+        { type: "flashcard", content: "Q: \nA: " },
+        { type: "flashcard", content: "Q: \nA: " },
+        { type: "flashcard", content: "Q: \nA: " },
+      ],
+      article: [
+        { type: "heading", content: "" },
+        { type: "paragraph", content: "" },
+        { type: "references", content: "" },
+      ],
+    };
     setEditingPost({
       title: "",
       slug: "",
-      type: "blog",
+      type: contentType,
       category: "clinical-reasoning",
+      bodySystem: null,
       tier: "free",
       status: "draft",
       summary: "",
-      content: [{ type: "paragraph", content: "" }],
+      content: templates[contentType] || templates.blog,
       tags: [],
       seoTitle: "",
       seoDescription: "",
+      seoKeywords: [],
+      primaryKeyword: "",
+      scheduledAt: null,
+      autoPublish: false,
+      authorName: "Erika Godin, RN",
     });
   }
 
   useEffect(() => {
-    if (activeTab === "blog" && blogPosts.length === 0 && !blogPostsLoading) {
+    if (activeTab === "content-engine" && blogPosts.length === 0 && !blogPostsLoading) {
       fetchBlogPosts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -743,7 +801,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content", "blog", "analytics", "feedback", "social"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "feedback", "social"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -755,8 +813,7 @@ export default function AdminPage() {
                     {tab === "overview" && "Overview"}
                     {tab === "users" && `Users (${data.overview.totalUsers})`}
                     {tab === "activity" && "Recent Activity"}
-                    {tab === "content" && "Content Analytics"}
-                    {tab === "blog" && "Blog Automation"}
+                    {tab === "content-engine" && "Content Engine"}
                     {tab === "analytics" && "Site Analytics"}
                     {tab === "feedback" && "Feedback"}
                     {tab === "social" && "Social Scheduler"}
@@ -1039,8 +1096,8 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {/* Content Tab */}
-              {activeTab === "content" && (
+              {/* Content Engine Tab */}
+              {activeTab === "content-engine" && (
                 <div className="space-y-6">
                   <Card className="border border-primary/10" data-testid="card-top-lessons">
                     <CardHeader>
@@ -1072,12 +1129,7 @@ export default function AdminPage() {
                       )}
                     </CardContent>
                   </Card>
-                </div>
-              )}
 
-              {/* Blog Tab */}
-              {activeTab === "blog" && (
-                <div className="space-y-6">
                   <Card className="border border-primary/10" data-testid="card-blog-config">
                     <CardHeader>
                       <CardTitle className="text-sm font-semibold text-gray-700">Blog Automation Settings</CardTitle>
@@ -1211,9 +1263,18 @@ export default function AdminPage() {
                           <Button size="sm" variant="outline" onClick={() => fetchBlogPosts()} data-testid="button-refresh-blog-posts">
                             <RefreshCw className="w-3 h-3 mr-1" /> Refresh
                           </Button>
-                          <Button size="sm" onClick={startNewBlogPost} data-testid="button-new-blog-post">
-                            <Plus className="w-3 h-3 mr-1" /> New Post
-                          </Button>
+                          <select
+                            className="border rounded-lg px-2 py-1.5 text-xs bg-white"
+                            defaultValue=""
+                            onChange={(e) => { if (e.target.value) { startNewContent(e.target.value); e.target.value = ""; } }}
+                            data-testid="select-new-content-type"
+                          >
+                            <option value="" disabled>+ New...</option>
+                            <option value="blog">Blog Post</option>
+                            <option value="article">Article</option>
+                            <option value="lesson">Lesson Post</option>
+                            <option value="flashcard-set">Flashcard Set</option>
+                          </select>
                         </div>
                       </div>
                     </CardHeader>
@@ -1221,7 +1282,9 @@ export default function AdminPage() {
                       {editingPost ? (
                         <div className="space-y-4" data-testid="blog-post-editor">
                           <div className="flex items-center justify-between border-b pb-3">
-                            <h3 className="text-sm font-semibold">{creatingNew ? "New Blog Post" : "Edit Blog Post"}</h3>
+                            <h3 className="text-sm font-semibold">
+                              {creatingNew ? `New ${(editingPost.type || "blog").replace("-", " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}` : "Edit Content"}
+                            </h3>
                             <div className="flex gap-2">
                               <Button size="sm" onClick={handleSaveBlogPost} disabled={savingPost || !editingPost.title || !editingPost.slug} data-testid="button-save-blog-post">
                                 <Save className="w-3 h-3 mr-1" /> {savingPost ? "Saving..." : "Save"}
@@ -1232,8 +1295,8 @@ export default function AdminPage() {
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="md:col-span-2">
                               <label className="text-xs text-gray-500 block mb-1">Title</label>
                               <Input
                                 value={editingPost.title || ""}
@@ -1245,10 +1308,28 @@ export default function AdminPage() {
                                     slug: creatingNew ? title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") : prev.slug,
                                   }));
                                 }}
-                                placeholder="Blog post title"
+                                placeholder="Content title"
                                 data-testid="input-edit-title"
                               />
                             </div>
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">Content Type</label>
+                              <select
+                                className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
+                                value={editingPost.type || "blog"}
+                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, type: e.target.value }))}
+                                data-testid="select-edit-type"
+                              >
+                                <option value="blog">Blog Post</option>
+                                <option value="article">Article</option>
+                                <option value="lesson">Lesson</option>
+                                <option value="flashcard-set">Flashcard Set</option>
+                                <option value="guide">Guide</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label className="text-xs text-gray-500 block mb-1">Slug</label>
                               <Input
@@ -1258,9 +1339,18 @@ export default function AdminPage() {
                                 data-testid="input-edit-slug"
                               />
                             </div>
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">Author</label>
+                              <Input
+                                value={editingPost.authorName || ""}
+                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, authorName: e.target.value }))}
+                                placeholder="Author name"
+                                data-testid="input-edit-author"
+                              />
+                            </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div>
                               <label className="text-xs text-gray-500 block mb-1">Status</label>
                               <select
@@ -1271,6 +1361,7 @@ export default function AdminPage() {
                               >
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
+                                <option value="scheduled">Scheduled</option>
                                 <option value="archived">Archived</option>
                               </select>
                             </div>
@@ -1295,20 +1386,81 @@ export default function AdminPage() {
                               </select>
                             </div>
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Tier</label>
+                              <label className="text-xs text-gray-500 block mb-1">Tier (Free / Paid)</label>
+                              <div className="flex rounded-lg border overflow-hidden" data-testid="tier-toggle">
+                                {[
+                                  { value: "free", label: "Free" },
+                                  { value: "rpn", label: "RPN" },
+                                  { value: "rn", label: "RN" },
+                                  { value: "np", label: "NP" },
+                                ].map((t) => (
+                                  <button
+                                    key={t.value}
+                                    type="button"
+                                    onClick={() => setEditingPost((prev: any) => ({ ...prev, tier: t.value }))}
+                                    className={`flex-1 px-2 py-1.5 text-xs font-medium transition-colors ${
+                                      editingPost.tier === t.value
+                                        ? "bg-primary text-white"
+                                        : "bg-white text-gray-600 hover:bg-gray-50"
+                                    }`}
+                                    data-testid={`button-tier-${t.value}`}
+                                  >
+                                    {t.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">Body System</label>
                               <select
                                 className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
-                                value={editingPost.tier || "free"}
-                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, tier: e.target.value }))}
-                                data-testid="select-edit-tier"
+                                value={editingPost.bodySystem || ""}
+                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, bodySystem: e.target.value || null }))}
+                                data-testid="select-edit-body-system"
                               >
-                                <option value="free">Free</option>
-                                <option value="rpn">RPN/LVN</option>
-                                <option value="rn">RN</option>
-                                <option value="np">NP</option>
+                                <option value="">None</option>
+                                <option value="cardiovascular">Cardiovascular</option>
+                                <option value="respiratory">Respiratory</option>
+                                <option value="neurological">Neurological</option>
+                                <option value="gastrointestinal">Gastrointestinal</option>
+                                <option value="musculoskeletal">Musculoskeletal</option>
+                                <option value="endocrine">Endocrine</option>
+                                <option value="reproductive">Reproductive</option>
+                                <option value="renal">Renal/Urinary</option>
+                                <option value="integumentary">Integumentary</option>
+                                <option value="hematologic">Hematologic</option>
+                                <option value="immune">Immune</option>
+                                <option value="mental-health">Mental Health</option>
                               </select>
                             </div>
                           </div>
+
+                          {editingPost.status === "scheduled" && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                              <div>
+                                <label className="text-xs text-blue-700 block mb-1">Schedule Date & Time</label>
+                                <Input
+                                  type="datetime-local"
+                                  value={editingPost.scheduledAt ? new Date(editingPost.scheduledAt).toISOString().slice(0, 16) : ""}
+                                  onChange={(e) => setEditingPost((prev: any) => ({ ...prev, scheduledAt: e.target.value ? new Date(e.target.value).toISOString() : null }))}
+                                  className="bg-white"
+                                  data-testid="input-schedule-datetime"
+                                />
+                              </div>
+                              <div className="flex items-end gap-2">
+                                <label className="flex items-center gap-2 text-xs text-blue-700 cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    checked={editingPost.autoPublish || false}
+                                    onChange={(e) => setEditingPost((prev: any) => ({ ...prev, autoPublish: e.target.checked }))}
+                                    className="rounded"
+                                    data-testid="checkbox-auto-publish"
+                                  />
+                                  Auto-publish at scheduled time (skip clinical review)
+                                </label>
+                              </div>
+                            </div>
+                          )}
 
                           <div>
                             <label className="text-xs text-gray-500 block mb-1">Summary</label>
@@ -1355,6 +1507,10 @@ export default function AdminPage() {
                                     <option value="callout">Callout</option>
                                     <option value="quote">Quote</option>
                                     <option value="code">Code</option>
+                                    <option value="flashcard">Flashcard</option>
+                                    <option value="references">References</option>
+                                    <option value="warning">Warning</option>
+                                    <option value="medication">Medication</option>
                                   </select>
                                   <Textarea
                                     value={block.content || ""}
@@ -1426,37 +1582,60 @@ export default function AdminPage() {
                               {blogPosts
                                 .filter((p) => !blogPostSearch || p.title?.toLowerCase().includes(blogPostSearch.toLowerCase()))
                                 .map((post) => (
-                                <div key={post.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors" data-testid={`blog-post-row-${post.id}`}>
-                                  <div className="flex-1 min-w-0 mr-3">
-                                    <div className="flex items-center gap-2 mb-1">
-                                      <span className="text-sm font-medium text-gray-900 truncate">{post.title}</span>
-                                      <Badge variant="outline" className={`text-[10px] px-1.5 py-0 shrink-0 ${post.status === "published" ? "bg-green-50 text-green-700 border-green-200" : post.status === "archived" ? "bg-gray-50 text-gray-500" : "bg-yellow-50 text-yellow-700 border-yellow-200"}`}>
-                                        {post.status || "draft"}
-                                      </Badge>
-                                      {post.category && (
-                                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 shrink-0">
-                                          {post.category}
+                                <div key={post.id} className="p-3 border rounded-lg hover:bg-gray-50 transition-colors" data-testid={`blog-post-row-${post.id}`}>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex-1 min-w-0 mr-3">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-sm font-medium text-gray-900 truncate">{post.title}</span>
+                                        <Badge variant="outline" className={`text-[10px] px-1.5 py-0 shrink-0 ${post.status === "published" ? "bg-green-50 text-green-700 border-green-200" : post.status === "scheduled" ? "bg-blue-50 text-blue-700 border-blue-200" : post.status === "archived" ? "bg-gray-50 text-gray-500" : "bg-yellow-50 text-yellow-700 border-yellow-200"}`}>
+                                          {post.status || "draft"}
                                         </Badge>
-                                      )}
+                                        {post.category && (
+                                          <Badge variant="outline" className="text-[10px] px-1.5 py-0 shrink-0">
+                                            {post.category}
+                                          </Badge>
+                                        )}
+                                      </div>
+                                      <div className="flex items-center gap-3 text-xs text-gray-500">
+                                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(post.updatedAt || post.createdAt)}</span>
+                                        <span className="flex items-center gap-1"><Tag className="w-3 h-3" /> {post.type || "blog"}</span>
+                                      </div>
                                     </div>
-                                    <div className="flex items-center gap-3 text-xs text-gray-500">
-                                      <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(post.updatedAt || post.createdAt)}</span>
-                                      <span className="flex items-center gap-1"><Tag className="w-3 h-3" /> {post.type || "blog"}</span>
-                                      {post.tier && post.tier !== "free" && <span className="capitalize">{post.tier}</span>}
+                                    <div className="flex gap-1 shrink-0">
+                                      {post.status === "published" && post.slug && (
+                                        <Button size="sm" variant="ghost" onClick={() => window.open(`/learn/${post.slug}`, "_blank")} data-testid={`button-view-${post.id}`}>
+                                          <ExternalLink className="w-3.5 h-3.5" />
+                                        </Button>
+                                      )}
+                                      <Button size="sm" variant="ghost" onClick={() => setEditingPost({ ...post })} data-testid={`button-edit-${post.id}`}>
+                                        <Pencil className="w-3.5 h-3.5" />
+                                      </Button>
+                                      <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700" onClick={() => handleDeleteBlogPost(post.id)} data-testid={`button-delete-${post.id}`}>
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </Button>
                                     </div>
                                   </div>
-                                  <div className="flex gap-1 shrink-0">
-                                    {post.status === "published" && post.slug && (
-                                      <Button size="sm" variant="ghost" onClick={() => window.open(`/learn/${post.slug}`, "_blank")} data-testid={`button-view-${post.id}`}>
-                                        <ExternalLink className="w-3.5 h-3.5" />
-                                      </Button>
-                                    )}
-                                    <Button size="sm" variant="ghost" onClick={() => setEditingPost({ ...post })} data-testid={`button-edit-${post.id}`}>
-                                      <Pencil className="w-3.5 h-3.5" />
-                                    </Button>
-                                    <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700" onClick={() => handleDeleteBlogPost(post.id)} data-testid={`button-delete-${post.id}`}>
-                                      <Trash2 className="w-3.5 h-3.5" />
-                                    </Button>
+                                  <div className="flex items-center gap-1 mt-2 pt-2 border-t border-gray-100">
+                                    <span className="text-[10px] text-gray-400 mr-1">Tier:</span>
+                                    {[
+                                      { value: "free", label: "Free", color: "bg-gray-100 text-gray-700" },
+                                      { value: "rpn", label: "RPN", color: "bg-blue-100 text-blue-700" },
+                                      { value: "rn", label: "RN", color: "bg-purple-100 text-purple-700" },
+                                      { value: "np", label: "NP", color: "bg-amber-100 text-amber-700" },
+                                    ].map((t) => (
+                                      <button
+                                        key={t.value}
+                                        onClick={() => handleQuickTierChange(post.id, t.value)}
+                                        className={`px-2 py-0.5 rounded text-[10px] font-medium transition-all ${
+                                          (post.tier || "free") === t.value
+                                            ? `${t.color} ring-1 ring-offset-1 ring-primary/30`
+                                            : "bg-gray-50 text-gray-400 hover:bg-gray-100"
+                                        }`}
+                                        data-testid={`button-quick-tier-${t.value}-${post.id}`}
+                                      >
+                                        {t.label}
+                                      </button>
+                                    ))}
                                   </div>
                                 </div>
                               ))}
