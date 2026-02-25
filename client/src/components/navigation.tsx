@@ -387,6 +387,21 @@ export function Navigation() {
               </Button>
             </SheetClose>
 
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-auto py-2" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-mobile">
+                <div className="flex items-start gap-2">
+                  <Layers className="w-4 h-4 mt-0.5 shrink-0" />
+                  <div className="text-left">
+                    <div className="flex items-center gap-1.5">
+                      <span>Study Decks</span>
+                      <span className="text-[8px] font-bold bg-emerald-500 text-white px-1.5 py-0.5 rounded-full leading-none">Free</span>
+                    </div>
+                    <span className="text-[10px] text-gray-400 block">Create flashcard decks, study with Learn & Test modes</span>
+                  </div>
+                </div>
+              </Button>
+            </SheetClose>
+
             <div className="h-[1px] bg-gray-100 my-2" />
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Tools</p>
@@ -649,6 +664,10 @@ export function Navigation() {
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/blog")}>
                 Blog
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2 relative" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-nav">
+                Study Decks
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 px-1 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">Free</span>
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
