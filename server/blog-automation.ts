@@ -173,12 +173,48 @@ Requirements:
   const parsed = JSON.parse(response.choices[0]?.message?.content || "{}");
 
   function stripDashes(str: string): string {
-    return str
+    let s = str
       .replace(/\u2014/g, ", ")
       .replace(/\u2013/g, " to ")
+      .replace(/\u2015/g, ", ")
+      .replace(/\u2012/g, "-")
       .replace(/ - /g, ", ")
+      .replace(/\u2018/g, "'")
+      .replace(/\u2019/g, "'")
+      .replace(/\u201C/g, '"')
+      .replace(/\u201D/g, '"')
+      .replace(/\u2026/g, "...")
+      .replace(/\u00A0/g, " ")
       .replace(/–/g, " to ")
+      .replace(/—/g, ", ")
       .replace(/\s*--\s*/g, ", ");
+
+    const aiPhrases = [
+      /\bIn conclusion\b/gi,
+      /\bLet's explore\b/gi,
+      /\bLet's dive into\b/gi,
+      /\bLet us explore\b/gi,
+      /\bIn this article,?\s*/gi,
+      /\bIn this blog post,?\s*/gi,
+      /\bIn this comprehensive guide,?\s*/gi,
+      /\bWithout further ado\b/gi,
+      /\bIt's worth noting that\b/gi,
+      /\bIt is worth noting that\b/gi,
+      /\bMoreover,?\s*/gi,
+      /\bFurthermore,?\s*/gi,
+      /\bAdditionally,?\s*/gi,
+      /\bIn summary,?\s*/gi,
+      /\bTo summarize,?\s*/gi,
+      /\bAll in all,?\s*/gi,
+      /\bAt the end of the day,?\s*/gi,
+      /\bIt goes without saying\b/gi,
+      /\bNeedless to say,?\s*/gi,
+    ];
+    for (const phrase of aiPhrases) {
+      s = s.replace(phrase, "");
+    }
+    s = s.replace(/\s{2,}/g, " ").trim();
+    return s;
   }
 
   if (parsed.content && Array.isArray(parsed.content)) {

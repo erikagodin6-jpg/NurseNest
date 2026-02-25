@@ -114,8 +114,8 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-2">
-                <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
-                <span className="text-sm font-medium text-gray-600">1,200+ Practice Questions & Clinical Simulations - New Content Weekly</span>
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span className="text-sm font-medium text-gray-600">New: Flashcard Decks with Learn & Test Modes, AI Blog, 10-Language Support</span>
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
@@ -159,11 +159,11 @@ export default function Home() {
               <div className="pt-6 flex flex-wrap items-center justify-center gap-3 text-sm text-gray-600">
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>Evidence-Informed Content</span>
+                  <span>Learn & Test Study Modes</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>Rationale-Based Learning</span>
+                  <span>AI-Verified Flashcard Decks</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
@@ -171,7 +171,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>Canada & US Coverage</span>
+                  <span>10 Languages Supported</span>
                 </div>
               </div>
 
@@ -191,6 +191,67 @@ export default function Home() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* What's New Section */}
+        <section className="py-12 bg-gradient-to-b from-emerald-50/50 to-white relative z-10 border-t border-emerald-100/50" data-testid="section-whats-new">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-emerald-300" />
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Just Launched</span>
+              </div>
+              <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-emerald-300" />
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-5">
+              <div
+                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                onClick={() => setLocation("/flashcards")}
+                data-testid="card-new-decks"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 bg-amber-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Layers className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
+                </div>
+                <h3 className="text-base font-bold text-gray-900 mb-1.5">Flashcard Deck System</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">Create your own decks, study with spaced-retry Learn mode or timed Test mode, get AI accuracy checks, share with classmates, and import cards via CSV. Full report cards after every session.</p>
+              </div>
+
+              <div
+                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                onClick={() => setLocation("/blog")}
+                data-testid="card-new-blog"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 bg-teal-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <FileText className="w-5 h-5 text-teal-600" />
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
+                </div>
+                <h3 className="text-base font-bold text-gray-900 mb-1.5">Clinical Education Blog</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">Scholarly nursing articles with APA 7 citations, written by nursing professionals. Weekly content on clinical reasoning, pharmacology, pathophysiology, and exam strategy. Each post has its own SEO page.</p>
+              </div>
+
+              <div
+                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                onClick={() => setLocation("/lessons")}
+                data-testid="card-new-languages"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-9 h-9 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Globe className="w-5 h-5 text-indigo-600" />
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
+                </div>
+                <h3 className="text-base font-bold text-gray-900 mb-1.5">10-Language Support</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">Study in English, French, Filipino, Hindi, Spanish, Chinese, Arabic, Korean, Portuguese, or Punjabi. Full interface translation with RTL support. Switch languages instantly from the navigation bar.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -217,7 +278,7 @@ export default function Home() {
                 { value: formatCount(questionCount), label: "Practice Questions", icon: Target, color: "from-blue-500 to-indigo-600" },
                 { value: formatCount(lessonCount), label: "Clinical Lessons", icon: BookOpen, color: "from-emerald-500 to-teal-600" },
                 { value: "9", label: "Clinical Simulators", icon: Gamepad2, color: "from-purple-500 to-violet-600" },
-                { value: "3", label: `Exam Tracks (${rpnLabel}/RN/NP)`, icon: GraduationCap, color: "from-rose-500 to-pink-600" },
+                { value: "7", label: "Study Modes", icon: Layers, color: "from-amber-500 to-orange-600" },
               ].map((stat, i) => (
                 <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
                   <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.color}`} />
@@ -289,22 +350,24 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Pharmacology Flashcards */}
+              {/* Flashcard Decks */}
               <div
                 className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/flashcards")}
                 data-testid="card-feature-flashcards"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-bl-full" />
+                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">New</div>
                 <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Pill className="w-6 h-6 text-amber-600" />
+                  <Layers className="w-6 h-6 text-amber-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Pharmacology Flashcards</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Study drug classes by mechanism of action with flip-card review, bookmark flagging, mastery tracking, and custom flashcard creation. Plus a full Medication Mastery drug explorer.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks with Learn & Test Modes</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Create custom decks, import via CSV, and study with spaced-retry Learn mode or timed Test mode with full report cards. AI accuracy checking, public sharing, and pharmacology drug explorer included.</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Custom Cards</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Drug Explorer</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Mastery Tracking</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Learn Mode</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Test Mode</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">AI Accuracy Check</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">CSV Import</span>
                 </div>
               </div>
 
@@ -379,13 +442,14 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/blog")} data-testid="card-feature-blog">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer relative overflow-hidden" onClick={() => setLocation("/blog")} data-testid="card-feature-blog">
+                <div className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-1.5 py-0.5 rounded-full">New</div>
                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center shrink-0">
                   <Newspaper className="w-5 h-5 text-teal-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">Scholarly Blog</h4>
-                  <p className="text-xs text-gray-500">APA7-cited articles on nursing topics and exam strategy</p>
+                  <h4 className="text-sm font-bold text-gray-900">Clinical Education Blog</h4>
+                  <p className="text-xs text-gray-500">APA7-cited scholarly articles with new posts published weekly</p>
                 </div>
               </div>
             </div>
@@ -422,11 +486,11 @@ export default function Home() {
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                    <Sparkles className="w-4 h-4 text-primary" />
+                    <Globe className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">Hand-Drawn Illustrations</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">Original copyrighted medical illustrations created by nursing professionals</p>
+                    <h4 className="text-sm font-bold text-gray-900">10 Languages</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">English, French, Filipino, Hindi, Spanish, Chinese, Arabic, Korean, Portuguese, Punjabi</p>
                   </div>
                 </div>
               </div>
@@ -719,7 +783,16 @@ export default function Home() {
                   What does the free plan include?
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  The free plan includes Pre-Nursing Foundations modules, interactive anatomy and physiology diagrams, Clinical Clarity explanations, access to the lesson library for browsing, and limited practice questions. No credit card is required to start. Premium plans unlock the full question bank, clinical case simulations, flashcard decks, med math tools, and performance analytics.
+                  The free plan includes Pre-Nursing Foundations modules, interactive anatomy and physiology diagrams, Clinical Clarity explanations, access to the lesson library for browsing, limited practice questions, and up to 50 flashcards across your decks. No credit card is required to start. Premium plans unlock the full question bank, clinical case simulations, unlimited flashcard decks with Learn and Test modes, med math tools, performance analytics, and all 10 language translations.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="faq-6b" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+                <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
+                  How do the flashcard deck Learn and Test modes work?
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                  Learn Mode uses spaced retry to help you master every card. Cards you miss are automatically re-queued until you get them right. Test Mode is a timed assessment where you go through the entire deck once, with a detailed report card at the end showing your accuracy, time spent, and which cards you need to review. Both modes include keyboard shortcuts for faster studying. You can also create your own decks, import cards via CSV, and run an AI accuracy check to verify your content before studying.
                 </AccordionContent>
               </AccordionItem>
 
