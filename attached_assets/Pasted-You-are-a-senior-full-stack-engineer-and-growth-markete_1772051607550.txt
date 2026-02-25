@@ -1,0 +1,73 @@
+You are a senior full-stack engineer and growth marketer working inside my existing NurseNest codebase and admin/editor console. Build a social automation system that posts twice per day to BOTH Facebook and Instagram and maximizes engagement for nursing students.
+
+SITE + BRAND REQUIREMENTS
+- Brand: NurseNest
+- Website link to include in every post:
+  https://www.nursenest.ca
+- Use my existing design tokens, pastel clinical aesthetic, and logo asset already in the repo.
+- Every post must include either:
+  1) A branded image with the NurseNest logo visible (preferred), AND a short “Learn more” line, OR
+  2) If image generation fails, include a clean text post with “Want to learn more? Visit NurseNest: https://www.nursenest.ca” and UTM parameters.
+
+POSTING REQUIREMENTS
+- Frequency: 2 posts daily (default 08:30 and 19:30 America/Toronto)
+- Post types:
+  A) Question of the Day (engagement-first)
+  B) Marketing content (conversion-first)
+- Admin console controls:
+  - Enable/disable automation
+  - Set posting times
+  - Select platforms (FB, IG, or both)
+  - Choose audience tier (RPN, RN, NP)
+  - Approval workflow: required or auto
+  - Draft queue + edit + approve + schedule
+  - Logs + retries + failure notifications
+
+ENGAGEMENT OPTIMIZATION (NON-NEGOTIABLE)
+- Use an image-first strategy for Instagram and also for Facebook when possible.
+- Generate branded images in formats that perform best:
+  - Instagram: 1080x1350 portrait (primary)
+  - Facebook: 1080x1080 square (secondary)
+- Each image must include:
+  - Pastel clinical layout with strong contrast for readability
+  - The question or marketing hook
+  - NurseNest logo in bottom corner
+  - Small website text at bottom: “nursenest.ca”
+- Keep captions concise and comment-driven:
+  - For Question of the Day: prompt users to answer in comments
+  - Include a short rationale teaser and push full explanation to NurseNest link
+- Hashtags:
+  - Instagram: 8 to 12 controlled hashtags, rotated sets
+  - Facebook: optional, 0 to 3 max
+- Always include trackable links with UTMs:
+  - Facebook: https://www.nursenest.ca/<path>?utm_source=facebook&utm_medium=social&utm_campaign=qotd (or marketing)
+  - Instagram: https://www.nursenest.ca/links?utm_source=instagram&utm_medium=social&utm_campaign=qotd (or marketing)
+
+TECH REQUIREMENTS
+- Use official Meta Graph API for Facebook Page publishing and Instagram Content Publishing API.
+- Implement OAuth connection flow in admin.
+- Store tokens securely (encrypt at rest).
+- Implement scheduler that works reliably in this hosting environment:
+  - If cron not available, use a server-side polling job that checks every 60 seconds for due posts.
+  - Use DB transactions/locks to prevent double-posting.
+
+DATA MODELS
+Create or extend:
+- SocialAccount (fb page id, ig user id, encrypted token, expiry)
+- SocialAutomationSettings (isEnabled, times, platforms, approvalMode, tier filters)
+- SocialPostDraft (type, caption, image urls, link url, scheduledFor, status, platformTargets)
+- SocialPostLog (request/response, errors)
+
+CONTENT GENERATION
+- Create “Generate next 14 days” button.
+- Question bank must avoid repetition for 30 days.
+- Question posts include: question + options + CTA to comment + short teaser rationale.
+- Marketing posts rotate: blog articles, lessons, flashcards, free printables.
+- Must be educational, no personal medical advice.
+
+DELIVERABLES
+- Working admin module
+- Working posting to FB + IG with branded images and logo
+- Clear env var setup instructions for Meta + storage
+- Manual test steps: connect accounts, generate drafts, approve one, publish successfully
+- No placeholder “working on it” UI anywhere

@@ -1,0 +1,161 @@
+You are a senior full-stack engineer working inside my NurseNest codebase. I want my Social Post page in my admin/editor console to be able to auto post to my Facebook Page and Instagram account. Right now there is no option to connect accounts. Implement the full official Meta connection flow and autopost functionality.
+
+IMPORTANT CONSTRAINTS
+- You must use official Meta OAuth and the Meta Graph API.
+- Do NOT ask for my password inside the app.
+- The UI must provide a “Connect Facebook” and “Connect Instagram” flow that opens Meta login/authorization in a secure popup or redirect, then returns to my admin console.
+- Posting must work for:
+  - Facebook Page publishing
+  - Instagram Business/Creator publishing using Instagram Content Publishing API
+- My app must support autoposting from within the Social Post page plus scheduled autoposts.
+
+PHASE 0: REPO DISCOVERY
+- Inspect my repo to identify framework/router, auth, DB/ORM, existing admin console Social Post page, and current “working on it” or stubbed features.
+- Identify if any Meta/Stripe/OAuth code exists already. Reuse if present.
+
+PHASE 1: META APP SETUP GUIDANCE (IN CODE COMMENTS + README)
+Provide clear instructions (do not stop coding):
+- Create Meta app
+- Add Facebook Login
+- Enable required Graph API products
+- Configure OAuth redirect URIs for my domains
+- Connect IG account to a Facebook Page (requirement)
+- Explain which accounts are eligible for IG publishing (Business/Creator only)
+- List required env vars:
+  META_APP_ID
+  META_APP_SECRET
+  META_REDIRECT_URI
+  META_WEBHOOK_VERIFY_TOKEN (optional)
+  ENCRYPTION_KEY (for token encryption)
+
+PHASE 2: DATABASE MODELS
+Create or extend tables:
+
+SocialAccountConnection
+- id
+- userId (admin who connected)
+- platform: 'facebook' | 'instagram'
+- facebookPageId
+- instagramBusinessAccountId
+- accessTokenEncrypted
+- tokenExpiresAt
+- scopesGranted
+- connectedAt
+- updatedAt
+- isConnected boolean
+
+SocialPostDraft
+- id, type (question|marketing)
+- caption
+- linkUrl
+- imageUrl(s)
+- scheduledFor datetime
+- targets: {facebook:boolean, instagram:boolean}
+- status: draft|pending_approval|scheduled|publishing|published|failed
+- publishedAt
+- errorMessage
+- metaResponseJson
+
+SocialAutomationSettings
+- isEnabled
+- timezone = 'America/Toronto'
+- postTimes array
+- approvalMode required|auto
+
+SocialPostLog
+- draftId, platform, requestJson, responseJson, status, createdAt
+
+Tokens must be encrypted at rest using ENCRYPTION_KEY.
+
+PHASE 3: ADMIN UI CHANGES (SOCIAL POST PAGE)
+On the Social Post page:
+A) Add a “Connections” section at top:
+- Connect Facebook Page button
+- Connect Instagram button
+- Show current connection status
+- Show “Reconnect” if token expired
+- Show which Page and IG account are connected
+- Disconnect button (revokes locally and optionally calls Meta revoke endpoint)
+
+B) Add posting controls:
+- Post Now button (manual test)
+- Draft editor with:
+  - caption
+  - link
+  - image upload/select
+  - platform toggles (FB/IG)
+- Schedule controls:
+  - date/time picker
+  - approval required toggle
+
+C) Add “Auto Post” controls:
+- enable/disable automation
+- select 2 times daily default 08:30 and 19:30
+- generate next 14 days drafts
+- approval workflow
+
+PHASE 4: OAUTH CONNECT FLOW
+Implement routes:
+- GET /api/meta/connect?platform=facebook
+  - redirects to Meta OAuth dialog with correct scopes
+- GET /api/meta/callback
+  - exchanges code for access token
+  - fetches:
+    - user pages
+    - page access token
+    - instagram business account id connected to the page
+  - stores encrypted tokens and ids in DB
+  - redirects back to /admin/social with success message
+
+Scopes: request only what is needed for Page posting and IG publishing per current Meta requirements. Handle permission errors gracefully.
+
+PHASE 5: POSTING IMPLEMENTATION
+Implement server endpoint:
+- POST /api/social/publish
+Input: draftId
+Actions:
+- Validate admin auth
+- Load SocialAccountConnection tokens
+- For Facebook:
+  - publish a Page post with message + link + image if provided
+- For Instagram:
+  - create media container then publish
+- Save responses and status updates
+- On failure store errorMessage and allow retry
+
+PHASE 6: SCHEDULER
+Implement reliable scheduled publishing:
+- If cron exists in the repo, use it
+- Otherwise implement a server-side polling job that runs every 60 seconds:
+  - selects due drafts where status='scheduled' and scheduledFor <= now
+  - marks them 'publishing' in a transaction lock
+  - publishes to selected platforms
+  - marks success/failure
+Prevent double-posting with DB locks.
+
+PHASE 7: ENGAGEMENT DEFAULTS
+- Prefer image-first posting.
+- Auto-generate branded images if the repo already has an image generator. If not, implement a simple branded template generator that:
+  - renders 1080x1350 portrait with pastel background and readable text
+  - places NurseNest logo bottom corner
+  - includes “nursenest.ca” on image
+If image generation is too heavy to implement now, support image upload and fall back to text-only posts.
+
+Always include:
+“Want to learn more? Visit https://www.nursenest.ca”
+
+Also include UTM links.
+
+PHASE 8: QA AND DELIVERABLES
+Deliver:
+- Working “Connect Facebook/Instagram” flow in UI
+- Working “Post Now” test to both platforms
+- Working scheduled autopost twice daily
+- Logs and retries
+- README setup instructions (Meta app + env vars + how to connect accounts)
+
+START NOW
+- Inspect the repo and locate the Social Post page.
+- Implement the connection UI and OAuth first so I can actually connect my accounts.
+- Replace any placeholders. No “working on it” messages remain.
+- Proceed without asking me questions; make reasonable assumptions and document them briefly.

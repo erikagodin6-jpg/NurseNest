@@ -810,7 +810,7 @@ export default function AdminPage() {
 
   // ---------- UI ----------
   return (
-    <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500 admin-selectable">
       <SEO title="Admin Dashboard - NurseNest" description="Admin analytics dashboard" canonicalPath="/admin" />
       <Navigation />
 
@@ -1193,19 +1193,35 @@ export default function AdminPage() {
               {/* Content Engine Tab */}
               {activeTab === "content-engine" && (
                 <div className="space-y-6">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3" data-testid="section-quick-actions">
-                    <button
-                      onClick={() => { handleGenerateBlogPost(); }}
-                      disabled={blogGenerating}
-                      className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-primary/30 hover:border-primary hover:bg-primary/5 transition-all group disabled:opacity-50"
-                      data-testid="button-generate-blog"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                        <Lightbulb className="w-5 h-5 text-primary" />
+                  <Card className="border border-primary/10 mb-4" data-testid="card-ai-generator">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Lightbulb className="w-4 h-4 text-primary" />
+                        <span className="text-sm font-semibold text-gray-700">AI Blog Post Generator</span>
+                        <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">APA 7 Citations</span>
                       </div>
-                      <span className="text-xs font-semibold text-gray-700">{blogGenerating ? "Generating..." : "AI Blog Post"}</span>
-                      <span className="text-[10px] text-gray-400">APA 7 citations</span>
-                    </button>
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Enter a topic (e.g., 'Diabetic Ketoacidosis management for RPN students')"
+                          value={blogTopic}
+                          onChange={(e) => setBlogTopic(e.target.value)}
+                          className="flex-1 text-sm"
+                          data-testid="input-ai-topic"
+                        />
+                        <Button
+                          onClick={() => { handleGenerateBlogPost(); }}
+                          disabled={blogGenerating || !blogTopic.trim()}
+                          className="shrink-0"
+                          data-testid="button-generate-blog"
+                        >
+                          {blogGenerating ? "Generating..." : "Generate AI Draft"}
+                        </Button>
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-2">Enter a specific nursing topic and click Generate. The AI will create a scholarly draft with APA 7 citations ready for your review.</p>
+                    </CardContent>
+                  </Card>
+
+                  <div className="grid grid-cols-3 md:grid-cols-3 gap-3" data-testid="section-quick-actions">
                     <button
                       onClick={() => startNewContent("blog")}
                       className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-blue-300 hover:border-blue-500 hover:bg-blue-50 transition-all group"
@@ -1281,16 +1297,6 @@ export default function AdminPage() {
                             {blogGenerating ? "Running..." : "Run Now"}
                           </Button>
                         </div>
-                      </div>
-                      <div className="mt-3 flex items-center gap-2">
-                        <input
-                          type="text"
-                          placeholder="Custom topic for AI generation (optional)"
-                          value={blogTopic}
-                          onChange={(e) => setBlogTopic(e.target.value)}
-                          className="flex-1 border rounded-lg px-3 py-1.5 text-xs"
-                          data-testid="input-blog-topic"
-                        />
                       </div>
                     </CardContent>
                   </Card>
@@ -1426,30 +1432,57 @@ export default function AdminPage() {
                             </div>
                           </div>
 
-                          {editingPost.status === "scheduled" && (
-                            <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                              <div className="flex-1">
-                                <label className="text-xs text-blue-700 block mb-1">Schedule Date & Time</label>
+                          <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Calendar className="w-3.5 h-3.5 text-blue-600" />
+                              <span className="text-xs font-semibold text-blue-700">Publishing Options</span>
+                            </div>
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <div className="flex-1 min-w-[200px]">
+                                <label className="text-[10px] text-blue-600 block mb-1">Schedule Date & Time</label>
                                 <Input
                                   type="datetime-local"
                                   value={editingPost.scheduledAt ? new Date(editingPost.scheduledAt).toISOString().slice(0, 16) : ""}
-                                  onChange={(e) => setEditingPost((prev: any) => ({ ...prev, scheduledAt: e.target.value ? new Date(e.target.value).toISOString() : null }))}
-                                  className="bg-white"
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    setEditingPost((prev: any) => ({
+                                      ...prev,
+                                      scheduledAt: val ? new Date(val).toISOString() : null,
+                                      status: val ? "scheduled" : prev.status,
+                                    }));
+                                  }}
+                                  className="bg-white text-sm"
                                   data-testid="input-schedule-datetime"
                                 />
                               </div>
-                              <label className="flex items-center gap-2 text-xs text-blue-700 cursor-pointer">
-                                <input
-                                  type="checkbox"
-                                  checked={editingPost.autoPublish || false}
-                                  onChange={(e) => setEditingPost((prev: any) => ({ ...prev, autoPublish: e.target.checked }))}
-                                  className="rounded"
-                                  data-testid="checkbox-auto-publish"
-                                />
-                                Auto-publish
-                              </label>
+                              <div className="flex items-center gap-3">
+                                <label className="flex items-center gap-2 text-xs text-blue-700 cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    checked={editingPost.autoPublish || false}
+                                    onChange={(e) => setEditingPost((prev: any) => ({ ...prev, autoPublish: e.target.checked }))}
+                                    className="rounded"
+                                    data-testid="checkbox-auto-publish"
+                                  />
+                                  Auto-publish
+                                </label>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="h-7 text-xs border-blue-300 text-blue-700 hover:bg-blue-100"
+                                  onClick={() => setEditingPost((prev: any) => ({ ...prev, status: "published", scheduledAt: null }))}
+                                  data-testid="button-publish-now"
+                                >
+                                  Publish Now
+                                </Button>
+                              </div>
                             </div>
-                          )}
+                            {editingPost.scheduledAt && (
+                              <p className="text-[10px] text-blue-500 mt-2">
+                                This post will be automatically published on {new Date(editingPost.scheduledAt).toLocaleString()}
+                              </p>
+                            )}
+                          </div>
 
                           <div>
                             <label className="text-xs text-gray-500 block mb-1">Summary</label>

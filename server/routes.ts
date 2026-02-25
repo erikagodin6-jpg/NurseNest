@@ -954,7 +954,17 @@ Rules:
       if (status === "all" && username && password) {
         const adminUser = await storage.getUserByUsername(username as string);
         if (adminUser && adminUser.password === password && adminUser.tier === "admin") {
-          const items = await storage.getAllContentItems();
+          let items: any[] = [];
+          try {
+            const result = await pool.query("SELECT * FROM content_items ORDER BY updated_at DESC NULLS LAST");
+            items = snakeToCamel(result.rows);
+          } catch (e: any) {
+            console.error("[Content API] Admin raw SQL error:", e.message);
+            try {
+              items = await storage.getAllContentItems();
+            } catch {}
+          }
+          console.log(`[Content API] Admin fetch returned ${items.length} total items`);
           return res.json(items);
         }
       }

@@ -6,6 +6,9 @@ interface ThemedLogoProps {
   className?: string;
 }
 
+let cachedDataUrl: string | null = null;
+let cachedColor: string = "";
+
 function parseColor(color: string): [number, number, number] {
   const hex = color.replace("#", "").trim();
   if (hex.length === 6) {
@@ -26,33 +29,51 @@ function parseColor(color: string): [number, number, number] {
   if (rgb && rgb.length >= 3) {
     return [parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2])];
   }
-  return [124, 58, 237];
+  return [59, 130, 246];
+}
+
+function getCurrentThemeColor(): string {
+  const style = getComputedStyle(document.documentElement);
+  return style.getPropertyValue("--theme-primary").trim();
 }
 
 export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [dataUrl, setDataUrl] = useState<string | null>(null);
-  const [primaryColor, setPrimaryColor] = useState("");
+  const [dataUrl, setDataUrl] = useState<string | null>(cachedDataUrl);
+  const [primaryColor, setPrimaryColor] = useState(cachedColor || "");
 
   useEffect(() => {
     const computeColor = () => {
-      const style = getComputedStyle(document.documentElement);
-      const color = style.getPropertyValue("--theme-primary").trim();
-      if (color) setPrimaryColor(color);
+      const color = getCurrentThemeColor();
+      if (color && color !== primaryColor) {
+        setPrimaryColor(color);
+      }
     };
     computeColor();
 
-    const observer = new MutationObserver(computeColor);
+    const observer = new MutationObserver(() => {
+      requestAnimationFrame(computeColor);
+    });
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class", "style", "data-theme"],
     });
 
-    return () => observer.disconnect();
-  }, []);
+    const interval = setInterval(computeColor, 500);
+
+    return () => {
+      observer.disconnect();
+      clearInterval(interval);
+    };
+  }, [primaryColor]);
 
   useEffect(() => {
     if (!primaryColor) return;
+
+    if (primaryColor === cachedColor && cachedDataUrl) {
+      setDataUrl(cachedDataUrl);
+      return;
+    }
 
     const [tr, tg, tb] = parseColor(primaryColor);
 
@@ -137,6 +158,7 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
       }
 
       const desiredGap = 6;
+      let result: string;
 
       if (longestGapLen > desiredGap && longestGapStart > minX) {
         const leftEnd = longestGapStart;
@@ -154,7 +176,7 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
         cropCtx.drawImage(canvas, minX, cy, leftWidth, ch, pad, 0, leftWidth, ch);
         cropCtx.drawImage(canvas, rightStart, cy, rightWidth, ch, pad + leftWidth + desiredGap, 0, rightWidth, ch);
 
-        setDataUrl(cropCanvas.toDataURL("image/png"));
+        result = cropCanvas.toDataURL("image/png");
       } else {
         const cx = Math.max(0, minX - pad);
         const cw = Math.min(w - cx, maxX - minX + 1 + pad * 2);
@@ -166,30 +188,34 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
         if (!cropCtx) return;
         cropCtx.drawImage(canvas, cx, cy, cw, ch, 0, 0, cw, ch);
 
-        setDataUrl(cropCanvas.toDataURL("image/png"));
+        result = cropCanvas.toDataURL("image/png");
       }
+
+      cachedDataUrl = result;
+      cachedColor = primaryColor;
+      setDataUrl(result);
     };
     img.src = brandLogo;
   }, [primaryColor]);
 
-  return (
-    <>
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-      {dataUrl ? (
+  if (dataUrl) {
+    return (
+      <>
+        <canvas ref={canvasRef} style={{ display: "none" }} />
         <img
           src={dataUrl}
           alt="NurseNest"
           className={`max-w-none ${className}`}
           style={{ width: `${width}px`, height: "auto" }}
         />
-      ) : (
-        <img
-          src={brandLogo}
-          alt="NurseNest"
-          className={`max-w-none ${className}`}
-          style={{ width: `${width}px`, height: "auto" }}
-        />
-      )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+      <div style={{ width: `${width}px`, height: "36px" }} className={className} />
     </>
   );
 }
