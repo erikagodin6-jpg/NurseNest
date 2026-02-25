@@ -216,7 +216,7 @@ export default function Home() {
                   <div className="w-9 h-9 bg-amber-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Layers className="w-5 h-5 text-amber-600" />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.decks.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.decks.desc")}</p>
@@ -231,7 +231,7 @@ export default function Home() {
                   <div className="w-9 h-9 bg-teal-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                     <FileText className="w-5 h-5 text-teal-600" />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.blog.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.blog.desc")}</p>
@@ -246,7 +246,7 @@ export default function Home() {
                   <div className="w-9 h-9 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Globe className="w-5 h-5 text-indigo-600" />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.languages.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.languages.desc")}</p>
@@ -340,8 +340,8 @@ export default function Home() {
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Target className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{formatCount(questionCount)} Practice Questions</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Filter by tier, body system, or topic. Every question includes detailed rationales explaining why the correct answer is right and why each distractor is wrong. New questions added weekly.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{formatCount(questionCount)} {t("home.qbank.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.qbank.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{rpnLabel}/RN/NP</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{t("home.feature.deepRationales")}</span>
@@ -356,7 +356,7 @@ export default function Home() {
                 data-testid="card-feature-flashcards"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-bl-full" />
-                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">New</div>
+                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">{t("home.new.label")}</div>
                 <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Layers className="w-6 h-6 text-amber-600" />
                 </div>
@@ -442,7 +442,7 @@ export default function Home() {
               </div>
 
               <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer relative overflow-hidden" onClick={() => setLocation("/blog")} data-testid="card-feature-blog">
-                <div className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-1.5 py-0.5 rounded-full">New</div>
+                <div className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-1.5 py-0.5 rounded-full">{t("home.new.label")}</div>
                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center shrink-0">
                   <Newspaper className="w-5 h-5 text-teal-600" />
                 </div>
@@ -480,7 +480,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-gray-900">{t("home.diff.scope")}</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">{rpnLabel} monitor/report, RN protocol-based, NP order/prescribe</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{rpnLabel} {t("home.diff.scopeDesc")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -571,27 +571,27 @@ export default function Home() {
         <section className="py-24 bg-white/50 backdrop-blur-sm relative z-10" data-testid="section-study-topics">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-6">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-study-heading">What You Can Study on NurseNest</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-study-heading">{t("home.study.heading")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Every topic is built around the clinical reasoning patterns tested on nursing licensure examinations. No filler content. No outdated material. Every lesson connects pathophysiology to the decision-making frameworks that examiners use to write questions.
+                {t("home.study.subtitle")}
               </p>
             </div>
 
             <p className="text-center text-sm text-gray-500 mb-12 max-w-2xl mx-auto">
-              Structured from foundational concepts to advanced clinical judgment. Whether you are in your first semester or preparing for your licensing exam, the content meets you where you are.
+              {t("home.study.subtext")}
             </p>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: HeartPulse, title: "Medical-Surgical Nursing", desc: "Master cardiovascular, respiratory, neurological, gastrointestinal, renal, and endocrine pathophysiology through lessons designed to align with exam content domains. Each module connects disease mechanisms to the clinical prioritization and acute deterioration patterns that licensing examinations assess most heavily.", color: "bg-red-50 text-red-600" },
-                { icon: Pill, title: "Pharmacology & Medication Safety", desc: "Study drug classes organized by mechanism of action, with emphasis on side effect profiles, contraindications, and high-alert medications. Content is designed to mirror the cognitive patterns tested on nursing licensure examinations, including dosage calculation errors and medication safety scenarios that appear frequently.", color: "bg-blue-50 text-blue-600" },
-                { icon: Baby, title: "Maternal, Newborn & Pediatric Nursing", desc: "Comprehensive coverage of pregnancy complications, labor and delivery assessment, postpartum care, neonatal danger signs, and pediatric conditions across developmental stages. Lessons emphasize the critical thinking required to differentiate normal from abnormal findings in obstetric and pediatric clinical scenarios.", color: "bg-pink-50 text-pink-600" },
-                { icon: Brain, title: "Mental Health Nursing", desc: "Explore psychiatric conditions, therapeutic communication techniques, crisis intervention protocols, and psychopharmacology through a clinical reasoning lens. Content addresses the cognitive traps that examinations use in psychiatric scenarios, helping you recognize safety-based nursing responses under pressure.", color: "bg-purple-50 text-purple-600" },
-                { icon: FlaskConical, title: "Lab Values & Critical Diagnostics", desc: "Go beyond memorizing normal ranges. Learn to interpret abnormal lab clusters, analyze arterial blood gases, recognize electrolyte emergencies, and connect diagnostic findings to immediate nursing actions. Each lesson builds the cluster-based reasoning that exam questions demand.", color: "bg-emerald-50 text-emerald-600" },
-                { icon: Activity, title: "Critical Care & Emergency Response", desc: "Develop rapid assessment skills for shock recognition, respiratory failure patterns, neurological deterioration, sepsis identification, and metabolic emergencies like DKA and HHS. Lessons are structured around the clinical judgment process used in acute care settings and tested on licensing examinations.", color: "bg-orange-50 text-orange-600" },
-                { icon: Target, title: "Clinical Prioritization & Delegation", desc: "Practice who-do-you-see-first scenarios, delegation decision-making, and the safety-based frameworks that underpin every prioritization question on nursing examinations. Learn to distinguish acute findings from expected findings and apply assignment logic confidently under timed conditions.", color: "bg-indigo-50 text-indigo-600" },
-                { icon: Stethoscope, title: "Clinical Case Simulations", desc: "Work through branching patient scenarios for conditions like sepsis, myocardial infarction, diabetic ketoacidosis, and stroke. Each simulation follows a consequence-based decision pathway, allowing you to practice the clinical judgment process in a risk-free environment before exam day.", color: "bg-teal-50 text-teal-600" },
-                { icon: GraduationCap, title: "Pathophysiology & Clinical Reasoning", desc: "Understand disease processes at the cellular and molecular level, explained in clinical context. When you know why a condition produces specific signs and symptoms, you can reason through unfamiliar exam questions instead of relying on memorization alone.", color: "bg-amber-50 text-amber-600" },
+                { icon: HeartPulse, title: t("home.study.medsurg"), desc: t("home.study.medsurgDesc"), color: "bg-red-50 text-red-600" },
+                { icon: Pill, title: t("home.study.pharm"), desc: t("home.study.pharmDesc"), color: "bg-blue-50 text-blue-600" },
+                { icon: Baby, title: t("home.study.maternal"), desc: t("home.study.maternalDesc"), color: "bg-pink-50 text-pink-600" },
+                { icon: Brain, title: t("home.study.mental"), desc: t("home.study.mentalDesc"), color: "bg-purple-50 text-purple-600" },
+                { icon: FlaskConical, title: t("home.study.lab"), desc: t("home.study.labDesc"), color: "bg-emerald-50 text-emerald-600" },
+                { icon: Activity, title: t("home.study.critical"), desc: t("home.study.criticalDesc"), color: "bg-orange-50 text-orange-600" },
+                { icon: Target, title: t("home.study.priority"), desc: t("home.study.priorityDesc"), color: "bg-indigo-50 text-indigo-600" },
+                { icon: Stethoscope, title: t("home.study.cases"), desc: t("home.study.casesDesc"), color: "bg-teal-50 text-teal-600" },
+                { icon: GraduationCap, title: t("home.study.patho"), desc: t("home.study.pathoDesc"), color: "bg-amber-50 text-amber-600" },
               ].map((topic, i) => (
                 <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" onClick={() => setLocation("/lessons")} data-testid={`card-topic-${i}`}>
                   <CardContent className="p-6">
@@ -607,7 +607,7 @@ export default function Home() {
 
             <div className="text-center mt-12">
               <Button variant="outline" className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-gray-700" onClick={() => setLocation("/lessons")} data-testid="button-browse-all-topics">
-                Browse All {formatCount(lessonCount)} Lessons
+                {t("home.study.browseAll")} ({formatCount(lessonCount)})
                 <ChevronRight className="ml-1 w-4 h-4" />
               </Button>
             </div>
@@ -621,20 +621,20 @@ export default function Home() {
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-primary/20 shadow-sm mb-6">
                   <Users className="w-3.5 h-3.5 text-primary" />
-                  <span className="text-xs font-semibold text-primary uppercase tracking-wide">Beyond the Exam</span>
+                  <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.nurses.badge")}</span>
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6" data-testid="text-new-nurses-heading">
-                  From Student to Practicing Nurse
+                  {t("home.nurses.heading")}
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                  Passing the exam is the first milestone. NurseNest also prepares you for the clinical realities that textbooks skip: floor-specific protocols, shift prioritization, recognizing patient deterioration in real time, and building confidence as a new hire.
+                  {t("home.nurses.subtitle")}
                 </p>
                 <div className="space-y-4">
                   {[
-                    { title: "New Graduate Transition", desc: "Practical clinical reasoning for your first weeks on the floor. Shift organization, time management, and knowing when to escalate." },
-                    { title: "Floor-Specialty Readiness", desc: "Med-surg, ICU, ER, pediatrics, maternal-newborn, and mental health. Understand the assessment patterns and red flags specific to your unit." },
-                    { title: "Medication Safety in Practice", desc: "High-alert drug protocols, IV medication safety, common look-alike/sound-alike errors, and dose verification workflows used in hospitals." },
-                    { title: "Clinical Deterioration Recognition", desc: "Early warning signs, NEWS/MEWS scoring concepts, SBAR escalation frameworks, and the assessment sequences that prevent adverse events." },
+                    { title: t("home.nurses.grad"), desc: t("home.nurses.gradDesc") },
+                    { title: t("home.nurses.floor"), desc: t("home.nurses.floorDesc") },
+                    { title: t("home.nurses.medSafety"), desc: t("home.nurses.medSafetyDesc") },
+                    { title: t("home.nurses.deterioration"), desc: t("home.nurses.deteriorationDesc") },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
@@ -650,10 +650,10 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { value: formatCount(lessonCount), label: "Clinical Lessons", icon: BookOpen },
-                  { value: formatCount(questionCount), label: "Practice Questions", icon: Target },
-                  { value: "15+", label: "Body Systems", icon: HeartPulse },
-                  { value: "6", label: "Study Modes", icon: Layers },
+                  { value: formatCount(lessonCount), label: t("home.stats.lessons"), icon: BookOpen },
+                  { value: formatCount(questionCount), label: t("home.stats.questions"), icon: Target },
+                  { value: "15+", label: t("home.nurses.bodySystems"), icon: HeartPulse },
+                  { value: "6", label: t("home.nurses.studyModes"), icon: Layers },
                 ].map((stat, i) => (
                   <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-primary/5 text-center" data-testid={`stat-${i}`}>
                     <div className="mx-auto w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-3">
@@ -672,44 +672,20 @@ export default function Home() {
         <section className="py-24 bg-white" data-testid="section-why-nursenest">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-why-heading">Why Students Choose NurseNest</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-why-heading">{t("home.why.heading")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Most study tools hand you a question and an answer key. NurseNest teaches you how to reason through clinical problems the way licensing exams expect you to, so unfamiliar questions stop being intimidating.
+                {t("home.why.subtitle")}
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                {
-                  icon: Lightbulb,
-                  title: "Rationale-First Design",
-                  desc: "Every question, lesson, and simulation explains the clinical reasoning behind the correct answer. You learn why an option is right and why the others are wrong, building the judgment patterns that examiners assess on licensing examinations."
-                },
-                {
-                  icon: Brain,
-                  title: "Clinical Judgment Architecture",
-                  desc: "Content is organized around the cognitive patterns tested on nursing licensure examinations: recognizing cues, analyzing hypotheses, prioritizing actions, and evaluating outcomes. This mirrors the clinical judgment framework that modern exams are designed to measure."
-                },
-                {
-                  icon: Layers,
-                  title: "Structured Progression",
-                  desc: "Start with foundational pathophysiology and build toward complex case analysis. Each lesson connects to related topics so concepts reinforce each other instead of existing in isolation, taking you from beginner to advanced systematically."
-                },
-                {
-                  icon: Stethoscope,
-                  title: "Interactive Case Simulations",
-                  desc: "Work through branching patient scenarios where your decisions determine outcomes. Practice clinical reasoning in a risk-free environment before your exam or your first shift, with detailed feedback on every decision point."
-                },
-                {
-                  icon: BarChart3,
-                  title: "Performance Analytics",
-                  desc: "Track your proficiency by body system, identify weak areas with precision, and focus your study time where it matters most. Pre-test and post-test comparison data shows exactly how your clinical reasoning is improving over time."
-                },
-                {
-                  icon: Zap,
-                  title: "Exam-Relevant, Zero Filler",
-                  desc: "Every lesson covers high-yield concepts that align with the content domains tested on nursing licensure examinations. No obscure topics, no outdated protocols, no wasted study sessions. Study what will actually be assessed."
-                },
+                { icon: Lightbulb, title: t("home.why.rationale"), desc: t("home.why.rationaleDesc") },
+                { icon: Brain, title: t("home.why.judgment"), desc: t("home.why.judgmentDesc") },
+                { icon: Layers, title: t("home.why.progression"), desc: t("home.why.progressionDesc") },
+                { icon: Stethoscope, title: t("home.why.simulation"), desc: t("home.why.simulationDesc") },
+                { icon: BarChart3, title: t("home.why.analytics"), desc: t("home.why.analyticsDesc") },
+                { icon: Zap, title: t("home.why.noFiller"), desc: t("home.why.noFillerDesc") },
               ].map((feature, i) => (
                 <div key={i} className="bg-gray-50/80 rounded-2xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100" data-testid={`card-feature-${i}`}>
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-5">
@@ -727,114 +703,114 @@ export default function Home() {
         <section className="py-24 bg-gradient-to-b from-white to-gray-50" data-testid="section-faq-home">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-faq-heading">Common Questions About NurseNest</h2>
-              <p className="text-lg text-gray-600">Straightforward answers about how NurseNest works and what to expect.</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-faq-heading">{t("home.faq.heading")}</h2>
+              <p className="text-lg text-gray-600">{t("home.faq.subtitle")}</p>
             </div>
 
             <Accordion type="single" collapsible className="space-y-3">
               <AccordionItem value="faq-1" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Is NurseNest affiliated with NCLEX, NCSBN, or any licensing body?
+                  {t("home.faq.q1")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  No. NurseNest is an independent educational platform. It is not affiliated with, endorsed by, or connected to NCLEX, NCSBN, CNO, or any nursing regulatory body. All content is developed independently by nursing professionals and is designed to align with the content domains and cognitive patterns assessed on nursing licensure examinations.
+                  {t("home.faq.a1")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-2" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Are the practice questions similar to what appears on nursing licensure exams?
+                  {t("home.faq.q2")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  NurseNest questions are designed to mirror the clinical reasoning and cognitive patterns tested on nursing licensure examinations. They are not actual exam questions, but they target the same thinking skills, content domains, and clinical judgment frameworks that examiners use to assess readiness for practice. This includes Next Generation-style case studies and clinical judgment scenarios.
+                  {t("home.faq.a2")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-3" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Can I use NurseNest while still in nursing school?
+                  {t("home.faq.q3")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Absolutely. Many nursing students use NurseNest alongside their coursework to reinforce pathophysiology, pharmacology, and clinical reasoning skills. The structured progression from foundational concepts to advanced case analysis is designed to complement how nursing programs build knowledge across semesters, making it valuable from your first year through graduation.
+                  {t("home.faq.a3")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-4" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  How is NurseNest different from a traditional question bank?
+                  {t("home.faq.q4")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Traditional question banks give you a question, four options, and the correct answer. NurseNest provides deep rationales explaining why the correct answer is right and why each distractor is wrong. It connects questions to pathophysiology lessons, includes interactive case simulations with branching outcomes, and tracks your performance across body systems to target your weak areas. The goal is to build clinical reasoning, not just test recall.
+                  {t("home.faq.a4")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-5" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Does NurseNest cover both Canadian and US nursing content?
+                  {t("home.faq.q5")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Yes. NurseNest supports exam preparation for all major nursing licensure examinations, including NCLEX-RN, NCLEX-PN, REX-PN, and NP certification exams (ANCC, AANP). Whether you're preparing for your RPN/LVN, RN, or Nurse Practitioner licensing exam in Canada or the United States, NurseNest has you covered. The platform adjusts regional content including lab value units, pricing currency, and scope-of-practice language based on your region selection. Core pathophysiology and clinical reasoning content is applicable across both jurisdictions, ensuring comprehensive preparation regardless of where you plan to practice.
+                  {t("home.faq.a5")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-6" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  What does the free plan include?
+                  {t("home.faq.q6")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  The free plan includes Pre-Nursing Foundations modules, interactive anatomy and physiology diagrams, Clinical Clarity explanations, access to the lesson library for browsing, limited practice questions, and up to 50 flashcards across your decks. No credit card is required to start. Premium plans unlock the full question bank, clinical case simulations, unlimited flashcard decks with Learn and Test modes, med math tools, performance analytics, and all 10 language translations.
+                  {t("home.faq.a6")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-6b" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  How do the flashcard deck Learn and Test modes work?
+                  {t("home.faq.q6b")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Learn Mode uses spaced retry to help you master every card. Cards you miss are automatically re-queued until you get them right. Test Mode is a timed assessment where you go through the entire deck once, with a detailed report card at the end showing your accuracy, time spent, and which cards you need to review. Both modes include keyboard shortcuts for faster studying. You can also create your own decks, import cards via CSV, and run an accuracy check to verify your content before studying.
+                  {t("home.faq.a6b")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-7" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Can I cancel my subscription at any time?
+                  {t("home.faq.q7")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Yes. All subscriptions can be cancelled at any time through your profile page. You retain access to premium features until the end of your current billing period. There are no cancellation fees or long-term commitments.
+                  {t("home.faq.a7")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-8" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Does NurseNest include Next Generation NCLEX-style questions?
+                  {t("home.faq.q8")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Yes. NurseNest includes question formats designed to mirror the cognitive patterns tested on Next Generation nursing licensure examinations, including case studies with multiple response points, drag-and-drop prioritization, highlight-the-evidence items, and clinical judgment scenarios that require you to recognize cues, analyze information, and evaluate outcomes. These formats are integrated throughout the question bank and clinical simulations.
+                  {t("home.faq.a8")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-9" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  How many practice questions are available on NurseNest?
+                  {t("home.faq.q9")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  NurseNest offers over {formatCount(questionCount).replace('+', '')} practice questions spanning all major nursing content areas including medical-surgical, pharmacology, maternal-newborn, pediatrics, mental health, critical care, and clinical prioritization. New questions are added every week to ensure comprehensive and growing coverage of the content domains assessed on nursing licensure examinations. Each question includes a detailed rationale explaining the clinical reasoning behind the correct answer.
+                  {t("home.faq.a9prefix")} {formatCount(questionCount).replace('+', '')} {t("home.faq.a9suffix")}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="faq-10" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-gray-900 hover:no-underline py-5">
-                  Is the content reviewed by nursing professionals?
+                  {t("home.faq.q10")}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
-                  Yes. All NurseNest content is developed and reviewed by nursing professionals with clinical and educational expertise. Lessons, practice questions, and case simulations are created to reflect current evidence-based practice guidelines and are designed to align with the content domains assessed on nursing licensure examinations. Content is regularly updated to maintain clinical accuracy and relevance.
+                  {t("home.faq.a10")}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
             <div className="text-center mt-8">
               <Button variant="outline" className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-gray-700" onClick={() => setLocation("/faq")} data-testid="button-view-all-faq">
-                View All FAQs
+                {t("home.faq.viewAll")}
                 <ChevronRight className="ml-1 w-4 h-4" />
               </Button>
             </div>

@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   BookOpen,
   Search,
@@ -16,6 +17,9 @@ import {
   Clock,
   Tag,
   User,
+  Mail,
+  CheckCircle2,
+  Bell,
 } from "lucide-react";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -70,6 +74,38 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [subEmail, setSubEmail] = useState("");
+  const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [subMessage, setSubMessage] = useState("");
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!subEmail || !subEmail.includes("@")) {
+      setSubStatus("error");
+      setSubMessage("Please enter a valid email address.");
+      return;
+    }
+    setSubStatus("loading");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: subEmail, source: "blog", tier: "general" }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSubStatus("success");
+        setSubMessage(data.message === "Already subscribed" ? "You're already subscribed!" : "Subscribed! You'll receive new articles by email.");
+        setSubEmail("");
+      } else {
+        setSubStatus("error");
+        setSubMessage(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setSubStatus("error");
+      setSubMessage("Connection error. Please try again.");
+    }
+  }
 
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ["/api/content", "blog"],
@@ -203,6 +239,51 @@ export default function BlogPage() {
         </section>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Card className="mb-8 border border-primary/15 bg-gradient-to-r from-primary/5 via-white to-primary/5 shadow-sm overflow-hidden" data-testid="card-blog-subscribe">
+            <CardContent className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Bell className="w-5 h-5 text-primary" />
+                    <h3 className="text-lg font-bold text-gray-900">Subscribe to New Articles</h3>
+                  </div>
+                  <p className="text-sm text-gray-600">Get new nursing education articles delivered to your inbox. Evidence-based content on clinical reasoning, pharmacology, and exam prep.</p>
+                </div>
+                {subStatus === "success" ? (
+                  <div className="flex items-center gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl" data-testid="text-subscribe-success">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <span className="text-sm font-medium text-emerald-700">{subMessage}</span>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto shrink-0">
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <input
+                        type="email"
+                        placeholder="your@email.com"
+                        value={subEmail}
+                        onChange={(e) => { setSubEmail(e.target.value); if (subStatus === "error") setSubStatus("idle"); }}
+                        className="h-11 pl-10 pr-4 w-full sm:w-64 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                        data-testid="input-blog-subscribe-email"
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      disabled={subStatus === "loading"}
+                      className="h-11 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm text-sm font-semibold"
+                      data-testid="button-blog-subscribe"
+                    >
+                      {subStatus === "loading" ? "Subscribing..." : "Subscribe"}
+                    </Button>
+                    {subStatus === "error" && (
+                      <p className="text-xs text-red-500 mt-1 sm:absolute sm:top-full sm:left-0 sm:mt-1" data-testid="text-subscribe-error">{subMessage}</p>
+                    )}
+                  </form>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
           {categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8" data-testid="section-blog-categories">
               <button
