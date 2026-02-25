@@ -458,7 +458,8 @@ const rpnSystems = [
       { id: "umbilical-cord-prolapse-rpn", name: "Umbilical Cord Prolapse", status: "Available" },
       { id: "amniotic-fluid-imbalances-rpn", name: "Amniotic Fluid Imbalances", status: "Available" },
       { id: "postpartum-hemorrhage-basics-rpn", name: "Postpartum Hemorrhage Basics", status: "Available" },
-      { id: "mastitis-basics-rpn", name: "Mastitis Basics", status: "Available" }
+      { id: "mastitis-basics-rpn", name: "Mastitis Basics", status: "Available" },
+      { id: "vaginal-hematoma-rpn", name: "Vaginal Hematoma", status: "Available" }
     ]
   },
   {
@@ -578,7 +579,8 @@ const rpnSystems = [
       { id: "med-interactions", name: "Common Drug Interactions", status: "Available" },
       { id: "adverse-drug-reactions", name: "Adverse Drug Reactions", status: "Available" },
       { id: "analgesic-basics", name: "Pain Management and Analgesics", status: "Available" },
-      { id: "antibiotic-basics", name: "Antibiotic Classes Overview", status: "Available" }
+      { id: "antibiotic-basics", name: "Antibiotic Classes Overview", status: "Available" },
+      { id: "methotrexate-safety-rpn", name: "Methotrexate Safety", status: "Available" }
     ]
   },
   {
@@ -915,7 +917,8 @@ const rnSystems = [
       { id: "av-fistula", name: "Arteriovenous Fistula & Dialysis", status: "Available" },
       { id: "dialysis-steal", name: "Dialysis Access Steal Syndrome", status: "Available" },
       { id: "hemodialysis-care", name: "Hemodialysis: Principles and Nursing Care", status: "Available" },
-      { id: "bph-management", name: "Benign Prostatic Hyperplasia", status: "Available" }
+      { id: "bph-management", name: "Benign Prostatic Hyperplasia", status: "Available" },
+      { id: "acute-glomerulonephritis", name: "Acute Postinfectious Glomerulonephritis", status: "Available" }
     ]
   },
   {
@@ -1008,7 +1011,8 @@ const rnSystems = [
       { id: "uterine-inversion", name: "Uterine Inversion", status: "Available" },
       { id: "mastitis", name: "Mastitis", status: "Available" },
       { id: "postpartum-depression-care", name: "Postpartum Depression", status: "Available" },
-      { id: "postpartum-psychosis", name: "Postpartum Psychosis", status: "Available" }
+      { id: "postpartum-psychosis", name: "Postpartum Psychosis", status: "Available" },
+      { id: "vaginal-hematoma", name: "Vaginal Hematoma", status: "Available" }
     ]
   },
   {
@@ -1044,7 +1048,8 @@ const rnSystems = [
       { id: "hydrocephalus", name: "Hydrocephalus", status: "Available" },
       { id: "trisomy-21", name: "Down Syndrome (Trisomy 21)", status: "Available" },
       { id: "fetal-alcohol-syndrome", name: "Fetal Alcohol Spectrum Disorder", status: "Available" },
-      { id: "tonsillectomy", name: "Tonsillectomy", status: "Available" }
+      { id: "tonsillectomy", name: "Tonsillectomy", status: "Available" },
+      { id: "separation-anxiety-rn", name: "Separation Anxiety Disorder", status: "Available" }
     ]
   },
   {
@@ -1353,7 +1358,8 @@ const npSystems = [
       { id: "nephrotic-syndrome-np", name: "Nephrotic Syndrome: Proteinuria & Complications", status: "Available" },
       { id: "renal-replacement-np", name: "Renal Replacement Therapy: HD vs CRRT vs PD", status: "Available" },
       { id: "contrast-nephropathy-np", name: "Contrast Nephropathy: Prevention Strategies", status: "Available" },
-      { id: "hyperkalemia-emergency-np", name: "Hyperkalemia Emergency: ECG Changes & Treatment", status: "Available" }
+      { id: "hyperkalemia-emergency-np", name: "Hyperkalemia Emergency: ECG Changes & Treatment", status: "Available" },
+      { id: "acute-glomerulonephritis-np", name: "Acute Glomerulonephritis: Immunopathology & Biopsy", status: "Available" }
     ]
   },
   {
@@ -1393,7 +1399,8 @@ const npSystems = [
       { id: "vbac-management-np", name: "VBAC Management: Risk Stratification & Monitoring", status: "Available" },
       { id: "twin-to-twin-transfusion-np", name: "Twin-to-Twin Transfusion Syndrome: Staging & Laser Therapy", status: "Available" },
       { id: "cord-prolapse-management-np", name: "Cord Prolapse Management: Emergency Delivery", status: "Available" },
-      { id: "dic-obstetrics-np", name: "DIC in Obstetrics: Etiology & Coagulation Replacement", status: "Available" }
+      { id: "dic-obstetrics-np", name: "DIC in Obstetrics: Etiology & Coagulation Replacement", status: "Available" },
+      { id: "vaginal-hematoma-np", name: "Vaginal Hematoma: Surgical Management & Embolization", status: "Available" }
     ]
   },
   {
@@ -1439,7 +1446,8 @@ const npSystems = [
       { id: "vasopressors-np", name: "Vasopressors: Receptor Pharmacology", status: "Available" },
       { id: "sedation-np", name: "ICU Sedation: RASS & Protocols", status: "Available" },
       { id: "paralytic-agents-np", name: "Neuromuscular Blocking Agents", status: "Available" },
-      { id: "thrombolytics-np", name: "Thrombolytics: Fibrinolytic Pathway", status: "Available" }
+      { id: "thrombolytics-np", name: "Thrombolytics: Fibrinolytic Pathway", status: "Available" },
+      { id: "methotrexate-safety-np", name: "Methotrexate: Molecular Pharmacology & Pharmacogenomics", status: "Available" }
     ]
   },
   {
@@ -1517,7 +1525,8 @@ const npSystems = [
       { id: "nms-advanced-np", name: "Neuroleptic Malignant Syndrome: Dantrolene Protocol", status: "Available" },
       { id: "ect-np", name: "ECT: Indications, Mechanism & Monitoring", status: "Available" },
       { id: "sud-advanced-np", name: "Substance Use Disorders: Advanced Pharmacotherapy", status: "Available" },
-      { id: "oud-mat-np", name: "Opioid Use Disorder: MAT & Buprenorphine Prescribing", status: "Available" }
+      { id: "oud-mat-np", name: "Opioid Use Disorder: MAT & Buprenorphine Prescribing", status: "Available" },
+      { id: "separation-anxiety-np", name: "Separation Anxiety: Neurodevelopmental & Pharmacogenomics", status: "Available" }
     ]
   },
   {

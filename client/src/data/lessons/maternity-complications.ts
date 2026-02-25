@@ -447,6 +447,131 @@ const antenatalTesting: LessonContent = {
   ]
 };
 
+const vaginalHematomaRpn: LessonContent = {
+  title: "Vaginal/Vulvar Hematoma – RPN Basics",
+  cellular: {
+    title: "Understanding Postpartum Hematoma Formation",
+    content: "A vaginal or vulvar hematoma is a collection of blood within the soft tissues of the perineum, vagina, or vulva that develops when blood vessels are damaged during vaginal delivery. The blood accumulates in the loose connective tissue, producing visible or palpable swelling, severe pain disproportionate to the apparent injury, and discoloration. Hematomas may form even without visible lacerations when deeper vessels rupture beneath intact skin or mucosa. Predisposing factors include instrumental delivery (forceps or vacuum), episiotomy, prolonged second stage of labor, precipitous delivery, first vaginal delivery, and pre-existing coagulopathy. The RPN role focuses on vigilant postpartum monitoring, early recognition, comfort measures, and prompt reporting of findings to the healthcare team."
+  },
+  signs: {
+    left: [
+      "Severe perineal or vaginal pain disproportionate to apparent injury",
+      "Visible swelling or bulging mass in the perineum or vulva",
+      "Ecchymosis (bruising) of perineal tissues",
+      "Pressure sensation in the rectum or vagina",
+      "Difficulty voiding due to urethral compression"
+    ],
+    right: [
+      "Expanding hematoma: increasing swelling, worsening pain, tense mass",
+      "Tachycardia out of proportion to blood loss seen externally",
+      "Hypotension suggesting concealed hemorrhage",
+      "Restlessness and anxiety (early sign of hemodynamic compromise)",
+      "Pallor and diaphoresis indicating significant blood loss"
+    ]
+  },
+  medications: [
+    { name: "Ice Application", type: "Non-pharmacological", action: "Reduces swelling and provides pain relief through vasoconstriction and reduced nerve conduction in the first 24 hours postpartum", sideEffects: "Skin irritation if applied directly without barrier", contra: "Do not apply directly to skin; use cloth barrier; limit to 20 minutes on/20 minutes off", pearl: "Ice is most effective in the first 12-24 hours for small, stable hematomas" },
+    { name: "Analgesics (Acetaminophen/Ibuprofen)", type: "Pain management", action: "Provides pain relief for stable hematomas managed conservatively", sideEffects: "Ibuprofen: GI irritation; Acetaminophen: hepatotoxicity at high doses", contra: "Ibuprofen caution if bleeding risk; acetaminophen caution in liver disease", pearl: "Adequate pain control helps the patient mobilize and void, which are important postpartum goals" }
+  ],
+  pearls: [
+    "Severe perineal pain disproportionate to visible injury is the hallmark sign of hematoma",
+    "Monitor vital signs frequently: tachycardia may be the first sign of expanding hematoma",
+    "Report any increasing swelling, worsening pain, or hemodynamic changes immediately",
+    "Apply ice packs with a barrier for 20 minutes on/20 minutes off in the first 24 hours",
+    "Monitor urine output: hematoma can compress the urethra causing urinary retention",
+    "Document size of swelling, color changes, and patient comfort level at each assessment"
+  ],
+  quiz: [
+    { question: "A postpartum patient reports severe perineal pain that seems worse than expected. The nurse observes a tense, swollen mass on the vulva. What is the priority action?", options: ["Apply ice and reassess in 2 hours", "Report findings to the healthcare provider immediately and continue monitoring vital signs", "Administer ibuprofen and document", "Encourage ambulation"], correct: 1, rationale: "A tense, swollen mass with severe pain suggests a hematoma that may be expanding. The priority is to report to the provider for evaluation while continuing to monitor vital signs for hemodynamic compromise." },
+    { question: "What is the most characteristic finding of a postpartum vaginal hematoma?", options: ["Bright red vaginal bleeding", "Severe pain disproportionate to visible perineal injury", "Elevated temperature", "Foul-smelling lochia"], correct: 1, rationale: "Pain disproportionate to the apparent injury is the hallmark sign of a hematoma. The blood collects internally, so external bleeding may be minimal while pain is severe." }
+  ]
+};
+
+const vaginalHematoma: LessonContent = {
+  title: "Vaginal Hematoma – Pathophysiology & RN Management",
+  cellular: {
+    title: "Vascular Injury and Hematoma Classification",
+    content: "Vaginal and vulvar hematomas result from vascular injury during the birth process, with blood accumulating in the loose areolar connective tissue of the perineum, paravaginal space, or retroperitoneal area. Classification is clinically important: vulvar hematomas are the most common and visible, presenting as unilateral labial swelling below the pelvic diaphragm; vaginal hematomas form above the pelvic diaphragm in the paravaginal or ischiorectal space and may not be visible externally; retroperitoneal hematomas are the most dangerous, extending into the broad ligament or retroperitoneal space with potential for massive concealed hemorrhage. The distinction between arterial and venous hematomas affects clinical presentation: arterial hematomas expand rapidly, present early (within the first few hours postpartum), and are more likely to require surgical intervention, while venous hematomas expand more slowly and may present later (6-24 hours postpartum). The rich blood supply of the pelvic floor—including branches of the internal iliac artery (pudendal, inferior vesical, middle rectal arteries)—means that hematomas can accumulate large volumes of blood before becoming clinically apparent. Risk factors include operative vaginal delivery, episiotomy (especially mediolateral), nulliparity, prolonged second stage, macrosomia, and coagulation disorders. Assessment requires systematic evaluation including visual inspection, palpation, hemodynamic monitoring, and serial assessments to detect expansion. Surgical evacuation is indicated for hematomas that are large (>3-4 cm), rapidly expanding, causing hemodynamic instability, or causing urinary retention or severe uncontrolled pain."
+  },
+  signs: {
+    left: [
+      "Severe perineal/vaginal pain disproportionate to visible injury",
+      "Unilateral vulvar swelling with tense, discolored mass",
+      "Rectal pressure or sensation of fullness",
+      "Urinary retention from urethral compression",
+      "Vaginal hematoma may present as bulging vaginal wall mass on examination"
+    ],
+    right: [
+      "Arterial hematoma: rapid expansion within 1-2 hours, bright discoloration",
+      "Venous hematoma: slower expansion over 6-24 hours",
+      "Retroperitoneal hematoma: flank pain, abdominal distension, concealed hemorrhage",
+      "Hemodynamic instability: tachycardia, hypotension, decreased urine output",
+      "Hypovolemic shock if large volume blood loss (may exceed 500 mL without visible bleeding)"
+    ]
+  },
+  medications: [
+    { name: "Oxytocin (Pitocin)", type: "Uterotonic", action: "Promotes uterine contraction to reduce ongoing uterine bleeding; does not directly treat hematoma but manages concurrent atony", sideEffects: "Water intoxication with prolonged high-dose infusion, nausea", contra: "Hypersensitivity", pearl: "Used as part of postpartum hemorrhage management if uterine atony coexists with hematoma" },
+    { name: "Tranexamic Acid", type: "Antifibrinolytic", action: "Inhibits plasminogen activation, stabilizing clot formation and reducing bleeding", sideEffects: "Nausea, diarrhea, thromboembolic events (rare)", contra: "Active thromboembolic disease, subarachnoid hemorrhage", pearl: "May be considered as adjunct therapy for postpartum hemorrhage associated with hematoma formation" },
+    { name: "Broad-Spectrum Antibiotics", type: "Antimicrobial prophylaxis", action: "Prevent infection of evacuated hematoma cavity; given perioperatively if surgical drainage is performed", sideEffects: "Varies by agent", contra: "Known allergy to specific antibiotic class", pearl: "Hematoma cavities are an excellent medium for bacterial growth; prophylactic antibiotics are standard with surgical evacuation" }
+  ],
+  pearls: [
+    "Classify hematomas by location: vulvar (below pelvic diaphragm), vaginal (above), retroperitoneal (most dangerous)",
+    "Arterial hematomas expand rapidly and present early; venous hematomas are slower and present later",
+    "Pain disproportionate to visible injury is the hallmark: always palpate if the patient reports severe perineal pain",
+    "Surgical evacuation criteria: >3-4 cm, rapid expansion, hemodynamic instability, urinary retention, uncontrolled pain",
+    "Retroperitoneal hematomas may present with flank pain and shock without visible perineal swelling",
+    "Serial assessments are essential: mark hematoma borders with a skin marker to track expansion",
+    "Two large-bore IVs, type and crossmatch, and prepare for possible surgical intervention"
+  ],
+  quiz: [
+    { question: "A postpartum patient had a forceps-assisted delivery. Four hours later she reports worsening perineal pain and rectal pressure. Examination reveals a 5 cm tense, fluctuant mass on the left labia. Vital signs show HR 118, BP 96/60. What is the priority intervention?", options: ["Apply ice and monitor", "Notify the provider for surgical evaluation and establish large-bore IV access", "Administer oral analgesics", "Encourage sitz bath"], correct: 1, rationale: "A large (>3-4 cm), tense hematoma with tachycardia and hypotension indicates hemodynamic compromise requiring urgent surgical evaluation. Large-bore IV access prepares for potential transfusion." },
+    { question: "What distinguishes a retroperitoneal hematoma from a vulvar hematoma?", options: ["Retroperitoneal hematomas are always smaller", "Retroperitoneal hematomas may cause flank pain and concealed hemorrhage without visible perineal swelling", "Vulvar hematomas are more dangerous", "Retroperitoneal hematomas only occur with cesarean delivery"], correct: 1, rationale: "Retroperitoneal hematomas extend into the broad ligament or retroperitoneal space. They may not produce visible perineal swelling but can cause massive concealed hemorrhage presenting as flank pain, abdominal distension, and hemodynamic instability." }
+  ]
+};
+
+const vaginalHematomaNp: LessonContent = {
+  title: "Vaginal Hematoma – Advanced NP Management",
+  cellular: {
+    title: "Pelvic Vascular Anatomy and Advanced Hematoma Pathophysiology",
+    content: "The pelvic floor vasculature is supplied primarily by branches of the internal iliac (hypogastric) artery, including the pudendal artery and its branches (inferior rectal, perineal, and dorsal artery of the clitoris), the vaginal artery, the uterine artery, and the inferior vesical artery. Batson's venous plexus—a valveless network of veins connecting the pelvic, vertebral, and abdominal venous systems—contributes to the rich venous drainage of the perineum and vaginal canal. This valveless system allows bidirectional blood flow, which can facilitate rapid expansion of venous hematomas along tissue planes. During vaginal delivery, shearing forces on the pelvic soft tissues can avulse branches of the pudendal artery or disrupt paravaginal venous plexuses, particularly during operative delivery or with inadequate repair of deep perineal lacerations. The loose areolar tissue of the ischiorectal fossa, paravaginal space, and retroperitoneal space offers minimal resistance to blood accumulation, allowing hematomas to expand to massive volumes (documented cases exceeding 1-2 liters) before producing hemodynamic compromise. Retroperitoneal hematomas extending into the broad ligament are particularly dangerous because they can track cephalad along the retroperitoneum without producing visible perineal findings. Large hematomas (>500 mL) can trigger consumption of clotting factors and platelets, precipitating disseminated intravascular coagulation (DIC) through a mechanism involving tissue factor release from damaged endothelium and activation of the extrinsic coagulation pathway. Selective arterial embolization via interventional radiology has emerged as a key management option for arterial hematomas that are refractory to surgical packing or for patients who are poor surgical candidates. This technique involves fluoroscopy-guided catheterization of the internal iliac artery with selective embolization of the bleeding branch using gelatin sponge particles, coils, or polyvinyl alcohol particles. Evidence-based management algorithms stratify hematomas by size, expansion rate, and hemodynamic status: small (<3 cm) stable hematomas are managed conservatively with ice, analgesia, and serial monitoring; moderate (3-5 cm) hematomas require close observation with preparation for intervention; large (>5 cm) or expanding hematomas with hemodynamic compromise require surgical evacuation, ligation of bleeding vessels, and possible packing of the cavity with hemostatic agents."
+  },
+  signs: {
+    left: [
+      "Vulvar hematoma: unilateral labial mass below the pelvic diaphragm (most common, most visible)",
+      "Vaginal hematoma: paravaginal mass above the pelvic diaphragm, may present as vaginal wall bulge",
+      "Retroperitoneal hematoma: extends into broad ligament, may present with flank/abdominal pain only",
+      "Arterial injury (pudendal artery branches): rapid expansion, bright discoloration, early presentation",
+      "Venous plexus disruption: slower expansion, darker discoloration, delayed presentation 6-24 hours"
+    ],
+    right: [
+      "DIC from large hematoma: consumption of clotting factors, oozing from IV sites, petechiae",
+      "Hemodynamic collapse: tachycardia, hypotension, oliguria, altered mental status",
+      "Urethral obstruction with acute urinary retention requiring catheterization",
+      "Secondary infection of hematoma cavity (febrile, erythema, fluctuance days after delivery)",
+      "Necrotizing fasciitis (rare but catastrophic complication of infected hematoma)"
+    ]
+  },
+  medications: [
+    { name: "Selective Arterial Embolization", type: "Interventional radiology procedure", action: "Fluoroscopy-guided catheterization of the internal iliac artery with selective embolization of bleeding branch using gelatin sponge, coils, or PVA particles", sideEffects: "Post-embolization syndrome (fever, pain), non-target embolization, vessel dissection", contra: "Hemodynamically unstable patients who cannot tolerate fluoroscopy time; active DIC may impair clot formation at embolization site", pearl: "Indicated for arterial hematomas refractory to surgical packing or in patients who are poor surgical candidates; success rate >90% in experienced centers" },
+    { name: "Tranexamic Acid (TXA)", type: "Antifibrinolytic", action: "Competitively inhibits plasminogen activation at lysine binding sites, preventing fibrin degradation and stabilizing clot", sideEffects: "Nausea, diarrhea, thromboembolic risk (low at recommended doses)", contra: "Active thromboembolic disease, subarachnoid hemorrhage, acquired color vision disturbance", pearl: "WOMAN trial evidence supports TXA within 3 hours of postpartum hemorrhage onset; 1g IV over 10 minutes, repeat if bleeding continues after 30 minutes" },
+    { name: "Cryoprecipitate/Fibrinogen Concentrate", type: "Blood product/hemostatic agent", action: "Replaces consumed fibrinogen in DIC secondary to large hematoma; targets fibrinogen level >200 mg/dL", sideEffects: "Transfusion reactions, volume overload", contra: "None absolute when fibrinogen is critically depleted", pearl: "Large hematomas (>500 mL) can trigger DIC through tissue factor release; monitor fibrinogen levels and replace aggressively if depleted" }
+  ],
+  pearls: [
+    "Batson's venous plexus is valveless, allowing bidirectional flow and rapid hematoma expansion along tissue planes",
+    "Pudendal artery branches are the most common arterial source; internal pudendal artery ligation or embolization may be required",
+    "Selective arterial embolization is an alternative to surgical exploration for arterial hematomas refractory to packing",
+    "Large hematomas (>500 mL) can precipitate DIC through tissue factor release and extrinsic pathway activation",
+    "Management algorithm: <3 cm stable → conservative; 3-5 cm → close observation; >5 cm or expanding with hemodynamic compromise → surgical evacuation",
+    "Retroperitoneal hematomas can track cephalad without visible perineal findings: CT imaging may be needed for diagnosis",
+    "Post-evacuation: pack cavity with hemostatic agents, place vaginal packing, Foley catheter, and monitor for re-accumulation"
+  ],
+  quiz: [
+    { question: "A postpartum patient develops a rapidly expanding vulvar hematoma that recurs after initial surgical evacuation and packing. What advanced intervention should be considered?", options: ["Repeat packing with tighter pressure", "Selective arterial embolization via interventional radiology", "Observation with serial vitals", "Oral tranexamic acid"], correct: 1, rationale: "Selective arterial embolization is indicated for hematomas refractory to surgical packing. Fluoroscopy-guided catheterization allows targeted occlusion of the bleeding arterial branch with >90% success in experienced centers." },
+    { question: "What mechanism explains how a large postpartum hematoma can trigger DIC?", options: ["Direct pressure on the liver reducing clotting factor synthesis", "Tissue factor release from damaged endothelium activating the extrinsic coagulation pathway, consuming clotting factors", "Immune-mediated platelet destruction", "Hypothermia from blood loss"], correct: 1, rationale: "Large hematomas cause tissue factor release from damaged endothelium, activating the extrinsic coagulation cascade. Widespread consumption of clotting factors and platelets produces the characteristic DIC picture of simultaneous bleeding and microvascular thrombosis." },
+    { question: "Why is Batson's venous plexus clinically significant in the context of vaginal hematomas?", options: ["It provides arterial supply to the perineum", "It is a valveless venous network that allows bidirectional flow and rapid hematoma expansion along tissue planes", "It drains into the portal system", "It is the primary site of clot formation"], correct: 1, rationale: "Batson's venous plexus is a valveless network connecting pelvic, vertebral, and abdominal venous systems. Its valveless nature allows bidirectional blood flow, facilitating rapid expansion of venous hematomas along tissue planes without the resistance of venous valves." }
+  ]
+};
+
 export const maternityComplicationsLessons: Record<string, LessonContent> = {
   "ectopic-pregnancy": ectopicPregnancy,
   "dic-pregnancy": dicPregnancy,
@@ -459,4 +584,7 @@ export const maternityComplicationsLessons: Record<string, LessonContent> = {
   "uterine-rupture": uterineRupture,
   "uterine-inversion": uterineInversion,
   "antenatal-testing": antenatalTesting,
+  "vaginal-hematoma-rpn": vaginalHematomaRpn,
+  "vaginal-hematoma": vaginalHematoma,
+  "vaginal-hematoma-np": vaginalHematomaNp,
 };

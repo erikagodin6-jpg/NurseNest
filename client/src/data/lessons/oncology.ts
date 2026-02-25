@@ -2006,5 +2006,182 @@ export const oncologyLessons: Record<string, LessonContent> = {
         rationale: "Tamoxifen is the standard first-line adjuvant hormonal therapy for ER-positive male breast cancer. Aromatase inhibitors alone are not effective in men because the pituitary compensates for decreased peripheral estrogen by increasing gonadotropin secretion, which stimulates the testes to produce more androgens. Tamoxifen directly blocks the estrogen receptor."
       }
     ]
+  },
+
+  "cervical-cancer-basics-rpn": {
+    title: "Cervical Cancer Basics (RPN)",
+    cellular: {
+      title: "Cervical Cancer Overview",
+      content: "Cervical cancer develops from abnormal cell changes in the cervix, most commonly in the transformation zone where squamous and columnar epithelium meet. Persistent infection with high-risk human papillomavirus (HPV) types, especially HPV 16 and 18, is the primary cause. The virus integrates into host cell DNA and produces oncoproteins E6 and E7 that inactivate tumor suppressor proteins, allowing uncontrolled cell growth. Cervical cancer progresses through precancerous stages (cervical intraepithelial neoplasia CIN 1, 2, 3) before becoming invasive, making screening and early detection critical for prevention."
+    },
+    riskFactors: [
+      "Persistent high-risk HPV infection (types 16 and 18 cause approximately 70% of cases)",
+      "Lack of HPV vaccination",
+      "Smoking (doubles the risk of cervical cancer)",
+      "Immunosuppression (HIV, organ transplant recipients)",
+      "Multiple sexual partners or early onset of sexual activity",
+      "History of sexually transmitted infections (chlamydia, herpes)",
+      "Prolonged oral contraceptive use (greater than 5 years)",
+      "Lack of regular Pap screening"
+    ],
+    diagnostics: [
+      "Pap smear (cervical cytology) for screening - report abnormal results to RN or provider",
+      "HPV co-testing with Pap smear as ordered",
+      "Report any abnormal vaginal bleeding (postcoital, intermenstrual, postmenopausal)",
+      "Observe and document any unusual vaginal discharge (watery, blood-tinged, malodorous)",
+      "Monitor vital signs before and after any cervical procedures"
+    ],
+    management: [
+      "Encourage completion of HPV vaccination series (ages 9-26, catch-up through age 45)",
+      "Reinforce Pap screening schedule as recommended by provider",
+      "Assist with post-procedure care following colposcopy or cervical biopsy",
+      "Apply ice packs and provide comfort measures as ordered after cervical procedures",
+      "Educate patient to avoid intercourse, tampons, and douching for specified period after procedures",
+      "Report heavy bleeding, fever, or foul-smelling discharge after procedures immediately"
+    ],
+    nursingActions: [
+      "Educate patients on the importance of regular Pap screening",
+      "Provide HPV vaccination education and address vaccine hesitancy",
+      "Report abnormal vaginal bleeding patterns to the RN or provider",
+      "Monitor for signs of cervical cancer: postcoital bleeding, watery or blood-tinged discharge, pelvic pain",
+      "Assist with patient positioning during cervical examinations",
+      "Provide emotional support and reassurance during screening and diagnostic procedures",
+      "Document and report any abnormal findings from cervical examination"
+    ],
+    signs: {
+      left: [
+        "Abnormal vaginal bleeding (postcoital, intermenstrual, or postmenopausal)",
+        "Watery, blood-tinged, or malodorous vaginal discharge",
+        "Pelvic pain or pressure (may indicate advanced disease)",
+        "Abnormal Pap smear results"
+      ],
+      right: [
+        "Leg edema or pain (may indicate lymph node involvement)",
+        "Flank pain or hydronephrosis symptoms (advanced disease)",
+        "Fatigue and unintended weight loss",
+        "Dyspareunia (pain during intercourse)"
+      ]
+    },
+    medications: [
+      {
+        name: "HPV Vaccine (Gardasil 9)",
+        type: "Recombinant vaccine",
+        action: "Provides immunity against 9 HPV types including high-risk types 16 and 18, preventing HPV-related cervical, anal, oropharyngeal, and genital cancers",
+        sideEffects: "Injection site pain, redness, swelling, headache, syncope (especially in adolescents - observe for 15 minutes after administration)",
+        contra: "Severe allergic reaction to a previous dose or vaccine component, pregnancy (defer until after delivery)",
+        pearl: "Most effective when administered before HPV exposure - recommended at ages 11-12 with catch-up vaccination through age 26 and shared clinical decision-making for ages 27-45"
+      }
+    ],
+    pearls: [
+      "HPV vaccination is the most effective primary prevention strategy for cervical cancer - strongly encourage completion of the vaccine series",
+      "Abnormal vaginal bleeding, especially postcoital bleeding, is the most common early warning sign of cervical cancer and should always be reported",
+      "Pap screening detects precancerous changes years before invasive cancer develops - emphasize adherence to screening recommendations"
+    ],
+    quiz: [
+      {
+        question: "A 28-year-old patient asks about cervical cancer prevention. Which response by the RPN is most appropriate?",
+        options: [
+          "Cervical cancer cannot be prevented, only treated once diagnosed",
+          "HPV vaccination and regular Pap screening are the most effective prevention strategies",
+          "Annual pelvic examinations replace the need for Pap smears",
+          "Only patients with a family history of cervical cancer need screening"
+        ],
+        correct: 1,
+        rationale: "HPV vaccination prevents infection with the high-risk HPV types that cause approximately 70% of cervical cancers, and regular Pap screening detects precancerous changes that can be treated before progressing to invasive cancer. Together, these are the most effective prevention strategies."
+      }
+    ]
+  },
+
+  "cervical-cancer-screening-np": {
+    title: "Cervical Cancer Screening & Advanced Management (NP)",
+    cellular: {
+      title: "Molecular Pathogenesis of Cervical Cancer",
+      content: "Cervical carcinogenesis is driven by persistent infection with high-risk HPV genotypes, predominantly HPV 16 and 18, which account for approximately 70% of invasive cervical cancers. Upon integration into the host genome, the viral oncoproteins E6 and E7 exert their transformative effects through distinct molecular mechanisms. E6 binds to the E6-associated protein (E6AP), a ubiquitin ligase, forming a complex that targets the p53 tumor suppressor protein for proteasomal degradation, abolishing p53-mediated cell cycle arrest and apoptosis. E7 binds and destabilizes retinoblastoma protein (pRb), releasing E2F transcription factors that drive uncontrolled S-phase entry and DNA replication. The combined loss of p53 and pRb function creates genomic instability, accumulation of secondary mutations, and progressive neoplastic transformation through CIN grades. The tumor microenvironment undergoes immunoediting, with HPV-infected cells evading immune clearance through downregulation of MHC class I molecules, secretion of immunosuppressive cytokines (IL-10, TGF-beta), and recruitment of regulatory T cells. Squamous cell carcinoma accounts for approximately 70% of invasive cervical cancers, while adenocarcinoma (arising from endocervical glandular epithelium) accounts for approximately 25% and is increasing in incidence due to relative insensitivity to cytologic screening. Lymphovascular space invasion (LVSI) is a critical histopathologic prognostic factor predicting lymph node metastasis and disease recurrence."
+    },
+    riskFactors: [
+      "Persistent high-risk HPV infection (HPV 16 confers highest risk for squamous cell carcinoma; HPV 18 for adenocarcinoma)",
+      "Immunosuppression (HIV-positive women have 6-fold increased risk; CD4 count inversely correlates with CIN progression)",
+      "Smoking (nitrosamines concentrate in cervical mucus and cause direct DNA damage; synergistic carcinogenic effect with HPV)",
+      "High parity (3 or more full-term pregnancies increases risk through hormonal and mechanical cervical trauma mechanisms)",
+      "Long-term combined oral contraceptive use (greater than 5 years; estrogen promotes viral gene expression in HPV-infected cells)",
+      "Co-infection with Chlamydia trachomatis (chronic inflammation facilitates HPV persistence and integration)",
+      "DES exposure in utero (increased risk of clear cell adenocarcinoma of the cervix and vagina)",
+      "MTHFR polymorphisms affecting folate metabolism (impaired DNA methylation and repair)"
+    ],
+    diagnostics: [
+      "Reflex HPV genotyping for HPV 16/18 on abnormal cytology (ASC-US or higher) to stratify immediate colposcopy need",
+      "Colposcopy with directed biopsy using 3-5% acetic acid application (acetowhite epithelium indicates dysplasia) and Lugol iodine (Schiller test - non-staining areas indicate abnormal glycogen-depleted cells)",
+      "Endocervical curettage (ECC) during colposcopy when transformation zone is not fully visualized or cytology suggests glandular abnormality",
+      "FIGO staging with MRI pelvis (preferred for local staging - tumor size, parametrial invasion, lymph node assessment) and PET-CT for distant metastasis evaluation",
+      "Sentinel lymph node mapping with indocyanine green or technetium-99m for surgical staging in early-stage disease",
+      "Serum SCC antigen as tumor marker for squamous cell carcinoma (elevated levels correlate with stage and recurrence risk)"
+    ],
+    management: [
+      "ASCCP risk-based management algorithms: immediate colposcopy for HPV 16/18-positive or HSIL cytology; 1-year surveillance for HPV-positive/cytology-negative with non-16/18 genotypes",
+      "LEEP (loop electrosurgical excision procedure) or cold knife conization for CIN 2/3 with positive margins requiring re-excision or close surveillance based on reproductive goals",
+      "Radical hysterectomy (Type C) with pelvic lymphadenectomy for FIGO stage IA2-IB1 (tumor less than 4 cm without lymphovascular invasion)",
+      "Concurrent chemoradiation (cisplatin-based) with external beam radiation and brachytherapy for stage IB3 and above (cisplatin acts as radiosensitizer through inhibition of DNA repair mechanisms)",
+      "Bevacizumab (anti-VEGF) added to cisplatin-paclitaxel for recurrent or metastatic cervical cancer (targets tumor angiogenesis)",
+      "Pembrolizumab (anti-PD-1 checkpoint inhibitor) for PD-L1-positive recurrent or metastatic cervical cancer after first-line chemotherapy failure (restores T-cell-mediated antitumor immunity)"
+    ],
+    nursingActions: [
+      "Interpret and counsel on HPV genotype-specific risk using ASCCP management guidelines",
+      "Perform colposcopic examination and directed biopsies per institutional credentialing and scope of practice",
+      "Prescribe and manage pre-procedure anxiolytics and post-procedure analgesics for cervical procedures",
+      "Order and interpret follow-up HPV testing and cytology per ASCCP surveillance protocols",
+      "Coordinate multidisciplinary care including gynecologic oncology referral for invasive disease",
+      "Manage cisplatin-related toxicities: nephrotoxicity (aggressive hydration, monitor creatinine), ototoxicity (baseline audiometry), neurotoxicity (peripheral neuropathy assessment), severe nausea (5-HT3 antagonist plus NK1 antagonist antiemetic regimen)",
+      "Counsel on fertility preservation options (oocyte or embryo cryopreservation) before definitive treatment for reproductive-age patients"
+    ],
+    signs: {
+      left: [
+        "Postcoital bleeding (most common early symptom of invasive cervical cancer)",
+        "Irregular intermenstrual or postmenopausal vaginal bleeding",
+        "Serosanguineous or malodorous vaginal discharge (indicative of tumor necrosis)",
+        "Cervical mass visible on speculum examination (exophytic, ulcerative, or barrel-shaped)"
+      ],
+      right: [
+        "Pelvic sidewall pain radiating to lower extremity (sciatic nerve involvement indicates parametrial extension)",
+        "Unilateral leg edema (lymphatic obstruction from pelvic lymph node metastasis)",
+        "Hydronephrosis and flank pain (ureteral obstruction from parametrial disease - Stage IIIB by FIGO)",
+        "Vesicovaginal or rectovaginal fistula (advanced local disease or post-radiation complication)"
+      ]
+    },
+    medications: [
+      {
+        name: "Cisplatin",
+        type: "Platinum-based alkylating-like antineoplastic",
+        action: "Forms platinum-DNA adducts that create intrastrand and interstrand cross-links, inhibiting DNA replication and transcription and triggering apoptosis. Acts as a radiosensitizer by inhibiting DNA damage repair pathways (homologous recombination and non-homologous end joining), potentiating radiation-induced cell death in concurrent chemoradiation protocols",
+        sideEffects: "Dose-limiting nephrotoxicity (proximal tubular damage), severe nausea and vomiting (highly emetogenic - requires triple antiemetic prophylaxis), ototoxicity (irreversible high-frequency sensorineural hearing loss), peripheral sensory neuropathy, myelosuppression, electrolyte wasting (hypomagnesemia, hypokalemia)",
+        contra: "Pre-existing renal impairment (creatinine clearance less than 60 mL/min requires dose modification), pre-existing hearing loss, severe myelosuppression, pregnancy",
+        pearl: "Aggressive pre- and post-hydration with normal saline (1-2 L) and mannitol-induced diuresis are essential to prevent cisplatin nephrotoxicity. Monitor magnesium levels closely as cisplatin causes renal magnesium wasting that may persist for months after treatment completion."
+      },
+      {
+        name: "Pembrolizumab (Keytruda)",
+        type: "Anti-PD-1 immune checkpoint inhibitor",
+        action: "Blocks the programmed death-1 (PD-1) receptor on T lymphocytes, preventing engagement with PD-L1 ligand expressed on tumor cells. This restores T-cell-mediated cytotoxic activity against HPV-transformed cervical cancer cells that have evaded immune surveillance through PD-L1 overexpression",
+        sideEffects: "Immune-related adverse events: pneumonitis, colitis, hepatitis, thyroiditis (hypothyroidism or hyperthyroidism), adrenal insufficiency, type 1 diabetes mellitus, myocarditis (rare but potentially fatal), skin toxicity (rash, pruritus, vitiligo)",
+        contra: "Active autoimmune disease requiring systemic immunosuppression, organ transplant recipients, severe immune-related adverse event from prior checkpoint inhibitor therapy",
+        pearl: "PD-L1 combined positive score (CPS) of 1 or greater is required for pembrolizumab eligibility in cervical cancer. Monitor thyroid function (TSH) every 6 weeks and educate patients to report new-onset diarrhea, cough, or fatigue immediately as these may indicate immune-related adverse events requiring prompt corticosteroid intervention."
+      }
+    ],
+    pearls: [
+      "ASCCP risk-based management uses HPV genotype-specific risk stratification: HPV 16-positive ASC-US carries a 5-year CIN 3+ risk of approximately 4%, warranting immediate colposcopy, while non-16/18 HPV-positive ASC-US has lower risk and may be managed with 1-year surveillance",
+      "Adenocarcinoma in situ (AIS) of the cervix requires cold knife conization (not LEEP) with negative margins for fertility-sparing management, as skip lesions are common and thermal artifact from LEEP obscures margin evaluation",
+      "Pembrolizumab has changed the treatment paradigm for recurrent cervical cancer - the KEYNOTE-826 trial demonstrated significant overall survival benefit when added to chemotherapy with or without bevacizumab in PD-L1-positive (CPS greater than or equal to 1) recurrent or metastatic disease"
+    ],
+    quiz: [
+      {
+        question: "A 34-year-old woman has an HPV 16-positive Pap smear showing ASC-US. According to ASCCP guidelines, what is the recommended next step?",
+        options: [
+          "Repeat Pap smear in 3 years per routine screening",
+          "Immediate colposcopy with directed biopsy",
+          "Total hysterectomy for cancer prevention",
+          "Start empiric cisplatin chemotherapy"
+        ],
+        correct: 1,
+        rationale: "HPV 16 positivity, even with ASC-US cytology, carries a significantly elevated risk for CIN 3+ (approximately 4% at 5 years). ASCCP risk-based management guidelines recommend immediate colposcopy with directed biopsy to evaluate for high-grade dysplasia or occult invasive disease. HPV 16 is the most oncogenic HPV genotype and warrants expedited evaluation regardless of cytologic grade."
+      }
+    ]
   }
 };
