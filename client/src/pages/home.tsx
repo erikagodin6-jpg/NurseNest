@@ -117,7 +117,7 @@ export default function Home() {
             <div className="text-center max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-2">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-sm font-medium text-gray-600">New: Flashcard Decks with Learn & Test Modes, Clinical Blog, 10-Language Support</span>
+                <span className="text-sm font-medium text-gray-600">{t("home.new.announcement")}</span>
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-hero-heading">
@@ -151,26 +151,26 @@ export default function Home() {
               </div>
 
               <div className="space-y-1 pt-2">
-                <p className="text-sm text-primary font-semibold">Created by nurses, for nurses.</p>
-                <p className="text-xs text-gray-400">No credit card required. Free lessons and anatomy content included.</p>
+                <p className="text-sm text-primary font-semibold">{t("home.tagline")}</p>
+                <p className="text-xs text-gray-400">{t("home.nocc")}</p>
               </div>
 
               <div className="pt-6 flex flex-wrap items-center justify-center gap-3 text-sm text-gray-600">
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>Learn & Test Study Modes</span>
+                  <span>{t("home.pill.learntest")}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>Expert-Verified Flashcard Decks</span>
+                  <span>{t("home.pill.decks")}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>{rpnLabel}, RN & NP Tracks</span>
+                  <span>{t("home.pill.tracks")}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-primary/10 backdrop-blur-sm shadow-sm">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span>10 Languages Supported</span>
+                  <span>{t("home.pill.languages")}</span>
                 </div>
               </div>
 
@@ -201,7 +201,7 @@ export default function Home() {
               <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-emerald-300" />
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
                 <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Just Launched</span>
+                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("home.new.badge")}</span>
               </div>
               <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-emerald-300" />
             </div>
@@ -218,8 +218,8 @@ export default function Home() {
                   </div>
                   <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-1.5">Flashcard Deck System</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">Create your own decks, study with spaced-retry Learn mode or timed Test mode, share with classmates, and import cards via CSV. Full report cards after every session with expert-reviewed accuracy validation.</p>
+                <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.decks.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.decks.desc")}</p>
               </div>
 
               <div
@@ -233,8 +233,8 @@ export default function Home() {
                   </div>
                   <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-1.5">Clinical Education Blog</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">Scholarly nursing articles with APA 7 citations, written by nursing professionals. Weekly content on clinical reasoning, pharmacology, pathophysiology, and exam strategy. Each post has its own SEO page.</p>
+                <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.blog.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.blog.desc")}</p>
               </div>
 
               <div
@@ -248,8 +248,8 @@ export default function Home() {
                   </div>
                   <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">New</span>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-1.5">10-Language Support</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">Study in English, French, Filipino, Hindi, Spanish, Chinese, Arabic, Korean, Portuguese, or Punjabi. Full interface translation with RTL support. Switch languages instantly from the navigation bar.</p>
+                <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.languages.title")}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.languages.desc")}</p>
               </div>
             </div>
           </div>
@@ -261,7 +261,7 @@ export default function Home() {
             <div className="text-center max-w-3xl mx-auto mb-14">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-5">
                 <Award className="w-4 h-4 text-primary" />
-                <span className="text-xs font-bold text-primary uppercase tracking-wider">Everything You Need in One Platform</span>
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.platform.badge")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5" data-testid="text-features-heading">
                 {t("home.features.title")}
@@ -274,10 +274,10 @@ export default function Home() {
             {/* Headline Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 max-w-4xl mx-auto">
               {[
-                { value: formatCount(questionCount), label: "Practice Questions", icon: Target, color: "from-blue-500 to-indigo-600" },
-                { value: formatCount(lessonCount), label: "Clinical Lessons", icon: BookOpen, color: "from-emerald-500 to-teal-600" },
-                { value: "9", label: "Clinical Simulators", icon: Gamepad2, color: "from-purple-500 to-violet-600" },
-                { value: "7", label: "Study Modes", icon: Layers, color: "from-amber-500 to-orange-600" },
+                { value: formatCount(questionCount), label: t("home.stats.questions"), icon: Target, color: "from-blue-500 to-indigo-600" },
+                { value: formatCount(lessonCount), label: t("home.stats.lessons"), icon: BookOpen, color: "from-emerald-500 to-teal-600" },
+                { value: "9", label: t("home.stats.simulators"), icon: Gamepad2, color: "from-purple-500 to-violet-600" },
+                { value: "7", label: t("home.stats.modes"), icon: Layers, color: "from-amber-500 to-orange-600" },
               ].map((stat, i) => (
                 <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
                   <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.color}`} />
@@ -306,8 +306,8 @@ export default function Home() {
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.exams.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{examLabel} Format</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">Score Trends</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">Auto-Save</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.scoreTrends")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.autoSave")}</span>
                 </div>
               </div>
 
@@ -324,9 +324,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.simulators.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.simulators.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">Branching Scenarios</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">Instant Feedback</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">2 Free</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">{t("home.feature.branching")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">{t("home.feature.instantFeedback")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">{t("home.feature.free2")}</span>
                 </div>
               </div>
 
@@ -344,8 +344,8 @@ export default function Home() {
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">Filter by tier, body system, or topic. Every question includes detailed rationales explaining why the correct answer is right and why each distractor is wrong. New questions added weekly.</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{rpnLabel}/RN/NP</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Deep Rationales</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Progress Tracking</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{t("home.feature.deepRationales")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{t("home.feature.progressTracking")}</span>
                 </div>
               </div>
 
@@ -363,10 +363,10 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.flashcards.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.flashcards.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Learn Mode</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Test Mode</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Accuracy Check</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">CSV Import</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.learnMode")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.testMode")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.accuracyCheck")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.csvImport")}</span>
                 </div>
               </div>
 
@@ -383,9 +383,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.tools.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.tools.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">Stepwise Solutions</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">ABG Analysis</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">Lab Clusters</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("home.feature.stepwise")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("home.feature.abg")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("home.feature.labClusters")}</span>
                 </div>
               </div>
 
@@ -402,9 +402,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.lessons.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.lessons.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">Video Lectures</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">Clinical Pearls</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">Free Content</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">{t("home.feature.videoLectures")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">{t("home.feature.clinicalPearls")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">{t("home.feature.freeContent")}</span>
                 </div>
               </div>
             </div>
@@ -416,8 +416,8 @@ export default function Home() {
                   <LayoutDashboard className="w-5 h-5 text-sky-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">Learning Dashboard</h4>
-                  <p className="text-xs text-gray-500">Drag-and-drop widgets, study streaks, progress tracking</p>
+                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.dashboard")}</h4>
+                  <p className="text-xs text-gray-500">{t("home.secondary.dashboardDesc")}</p>
                 </div>
               </div>
 
@@ -426,8 +426,8 @@ export default function Home() {
                   <BarChart3 className="w-5 h-5 text-orange-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">Performance Analytics</h4>
-                  <p className="text-xs text-gray-500">Track scores by body system, spot weak areas, see trends</p>
+                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.analytics")}</h4>
+                  <p className="text-xs text-gray-500">{t("home.secondary.analyticsDesc")}</p>
                 </div>
               </div>
 
@@ -436,8 +436,8 @@ export default function Home() {
                   <MessageSquareQuote className="w-5 h-5 text-violet-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">Question of the Day</h4>
-                  <p className="text-xs text-gray-500">Daily clinical reasoning question with detailed rationale</p>
+                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.qotd")}</h4>
+                  <p className="text-xs text-gray-500">{t("home.secondary.qotdDesc")}</p>
                 </div>
               </div>
 
@@ -447,8 +447,8 @@ export default function Home() {
                   <Newspaper className="w-5 h-5 text-teal-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">Clinical Education Blog</h4>
-                  <p className="text-xs text-gray-500">APA7-cited scholarly articles with new posts published weekly</p>
+                  <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.blog")}</h4>
+                  <p className="text-xs text-gray-500">{t("home.secondary.blogDesc")}</p>
                 </div>
               </div>
             </div>
@@ -461,8 +461,8 @@ export default function Home() {
                     <Globe className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">Canada & US</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">CAD/USD pricing, regional lab values, scope-of-practice language</p>
+                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.region")}</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.regionDesc")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -470,8 +470,8 @@ export default function Home() {
                     <Microscope className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">Deep Pathophysiology</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">Cellular-level explanations, receptor-level drug MOA, not just surface summaries</p>
+                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.patho")}</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.pathoDesc")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -479,7 +479,7 @@ export default function Home() {
                     <Shield className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">Tier-Specific Scope</h4>
+                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.scope")}</h4>
                     <p className="text-xs text-gray-500 mt-0.5">{rpnLabel} monitor/report, RN protocol-based, NP order/prescribe</p>
                   </div>
                 </div>
@@ -488,8 +488,8 @@ export default function Home() {
                     <Globe className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">10 Languages</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">English, French, Filipino, Hindi, Spanish, Chinese, Arabic, Korean, Portuguese, Punjabi</p>
+                    <h4 className="text-sm font-bold text-gray-900">{t("home.diff.languages")}</h4>
+                    <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.languagesDesc")}</p>
                   </div>
                 </div>
               </div>
@@ -502,7 +502,7 @@ export default function Home() {
                 onClick={() => setLocation("/start-free")}
                 data-testid="button-features-start-free"
               >
-                Start Free  -  No Credit Card Required
+                {t("home.startFree")}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </div>
@@ -515,11 +515,11 @@ export default function Home() {
             <div className="text-center max-w-3xl mx-auto mb-12">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
                 <Sparkles className="w-3.5 h-3.5 text-primary" />
-                <span className="text-xs font-semibold text-primary uppercase tracking-wide">Free & Interactive</span>
+                <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.free.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-free-learning-heading">Start Building Your Clinical Foundation</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-free-learning-heading">{t("home.free.title")}</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                No account needed. Explore interactive anatomy, concept checks, and foundational modules designed to develop the clinical thinking that exam questions actually test.
+                {t("home.free.subtitle")}
               </p>
             </div>
 
@@ -529,9 +529,9 @@ export default function Home() {
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <GraduationCap className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Pre-Nursing Foundations</h3>
-                  <p className="text-sm text-gray-600 mb-3">Interactive modules on cell biology, physiology principles, medical terminology, pharmacology basics, and pathophysiology logic.</p>
-                  <span className="text-xs text-primary font-medium">5 interactive modules</span>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("home.free.preNursing")}</h3>
+                  <p className="text-sm text-gray-600 mb-3">{t("home.free.preNursingDesc")}</p>
+                  <span className="text-xs text-primary font-medium">{t("home.free.preNursingMeta")}</span>
                 </CardContent>
               </Card>
 
@@ -540,9 +540,9 @@ export default function Home() {
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <HeartPulse className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Interactive Anatomy & Physiology</h3>
-                  <p className="text-sm text-gray-600 mb-3">Click-to-label diagrams of cardiovascular, respiratory, neurological, renal, and endocrine systems with immediate feedback.</p>
-                  <span className="text-xs text-primary font-medium">Click-to-label exercises</span>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("home.free.anatomy")}</h3>
+                  <p className="text-sm text-gray-600 mb-3">{t("home.free.anatomyDesc")}</p>
+                  <span className="text-xs text-primary font-medium">{t("home.free.anatomyMeta")}</span>
                 </CardContent>
               </Card>
 
@@ -551,16 +551,16 @@ export default function Home() {
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Lightbulb className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Clinical Clarity</h3>
-                  <p className="text-sm text-gray-600 mb-3">Clear, evidence-based answers to "Why does X happen?" questions that students commonly get wrong on exams.</p>
-                  <span className="text-xs text-primary font-medium">Explore topics</span>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("home.free.clarity")}</h3>
+                  <p className="text-sm text-gray-600 mb-3">{t("home.free.clarityDesc")}</p>
+                  <span className="text-xs text-primary font-medium">{t("home.free.clarityMeta")}</span>
                 </CardContent>
               </Card>
             </div>
 
             <div className="text-center mt-10">
               <Button className="rounded-full px-8 h-12 bg-primary hover:brightness-110 text-white shadow-md" onClick={() => setLocation("/pre-nursing")} data-testid="button-explore-free">
-                Explore Free Modules
+                {t("home.free.explore")}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </div>
@@ -848,22 +848,22 @@ export default function Home() {
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-6">
                 <Mail className="w-7 h-7 text-primary" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-email-heading">Free Clinical Reasoning Questions Delivered Weekly</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-email-heading">{t("home.email.title")}</h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Receive weekly practice questions with detailed rationales, pharmacology review cards, and exam strategy breakdowns. Written by nursing educators. Useful from day one. Unsubscribe anytime.
+                {t("home.email.subtitle")}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                 <input 
                   type="email" 
-                  placeholder="Enter your email address" 
+                  placeholder={t("home.email.placeholder")} 
                   className="flex-1 h-12 px-4 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
                   data-testid="input-email"
                 />
                 <Button className="h-12 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm" data-testid="button-subscribe">
-                  Send Me Practice Questions
+                  {t("home.email.button")}
                 </Button>
               </div>
-              <p className="text-xs text-gray-400 mt-4">No spam. No sales pitches. Just clinically useful study material.</p>
+              <p className="text-xs text-gray-400 mt-4">{t("home.email.disclaimer")}</p>
             </div>
           </div>
         </section>
@@ -897,7 +897,7 @@ export default function Home() {
                 {t("home.hero.cta2")}
               </Button>
             </div>
-            <p className="text-sm text-gray-400 mt-6">No credit card required. Free anatomy content and practice questions included.</p>
+            <p className="text-sm text-gray-400 mt-6">{t("home.cta.disclaimer")}</p>
           </div>
           
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent-foreground/5 rounded-full blur-3xl -z-10 opacity-40" />
