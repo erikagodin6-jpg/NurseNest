@@ -29,7 +29,7 @@ Preferred communication style: Simple, everyday language.
 - **Engagement**: Interactive components like `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, `KnowledgeCheck`.
 
 ### Technical Implementations
-- **Frontend Build**: Vite with React plugin
+- **Frontend Build**: Vite with React plugin, route-based code splitting via React.lazy()
 - **State Management**: TanStack React Query for server state, React useState for local state
 - **Path Aliases**: `@/` (client), `@shared/` (shared), `@assets/` (attached assets)
 - **Backend**: Express 5 on Node.js with TypeScript

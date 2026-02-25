@@ -605,7 +605,14 @@ const rpnSystems = [
       { id: "abnormal-uterine-bleeding-rpn", name: "Abnormal Uterine Bleeding", status: "Available" },
       { id: "pcos-rpn", name: "Polycystic Ovary Syndrome (PCOS)", status: "Available" },
       { id: "pid-rpn", name: "Pelvic Inflammatory Disease", status: "Available" },
-      { id: "vaginitis-rpn", name: "Vaginitis", status: "Available" }
+      { id: "vaginitis-rpn", name: "Vaginitis", status: "Available" },
+      { id: "bacterial-vaginosis-rpn", name: "Bacterial Vaginosis", status: "Available" },
+      { id: "cervicitis-rpn", name: "Cervicitis", status: "Available" },
+      { id: "vulvodynia-rpn", name: "Vulvodynia", status: "Available" },
+      { id: "bartholinitis-rpn", name: "Bartholinitis", status: "Available" },
+      { id: "uterine-prolapse-rpn", name: "Uterine Prolapse", status: "Available" },
+      { id: "benign-ovarian-cysts-rpn", name: "Benign Ovarian Cysts", status: "Available" },
+      { id: "endometrial-polyp-rpn", name: "Endometrial Polyp", status: "Available" }
     ]
   },
   {
@@ -1044,7 +1051,14 @@ const rnSystems = [
       { id: "precocious-puberty", name: "Precocious Puberty", status: "Available" },
       { id: "dysmenorrhea", name: "Dysmenorrhea", status: "Available" },
       { id: "abnormal-uterine-bleeding", name: "Abnormal Uterine Bleeding", status: "Available" },
-      { id: "vaginitis", name: "Vaginitis", status: "Available" }
+      { id: "vaginitis", name: "Vaginitis", status: "Available" },
+      { id: "bacterial-vaginosis", name: "Bacterial Vaginosis", status: "Available" },
+      { id: "cervicitis", name: "Cervicitis", status: "Available" },
+      { id: "vulvodynia", name: "Vulvodynia", status: "Available" },
+      { id: "bartholinitis", name: "Bartholinitis", status: "Available" },
+      { id: "uterine-prolapse", name: "Uterine Prolapse", status: "Available" },
+      { id: "benign-ovarian-cysts", name: "Benign Ovarian Cysts", status: "Available" },
+      { id: "endometrial-polyp", name: "Endometrial Polyp", status: "Available" }
     ]
   },
   {
@@ -1584,7 +1598,14 @@ const npSystems = [
       { id: "delayed-puberty-np", name: "Delayed Puberty: KNDy Neurons & Hormonal Replacement", status: "Available" },
       { id: "precocious-puberty-np", name: "Precocious Puberty: GnRH Agonist Protocols", status: "Available" },
       { id: "dysmenorrhea-np", name: "Dysmenorrhea: COX-2/Prostaglandin Pathway & IUD Management", status: "Available" },
-      { id: "vaginitis-np", name: "Vaginitis: Microbiome Ecology & Resistance Patterns", status: "Available" }
+      { id: "vaginitis-np", name: "Vaginitis: Microbiome Ecology & Resistance Patterns", status: "Available" },
+      { id: "bacterial-vaginosis-np", name: "Bacterial Vaginosis: Biofilm Ecology & Recurrence", status: "Available" },
+      { id: "cervicitis-np", name: "Cervicitis: Pathogen Lifecycle & Empiric Treatment", status: "Available" },
+      { id: "vulvodynia-np", name: "Vulvodynia: Neuropathic Pain & Multimodal Management", status: "Available" },
+      { id: "bartholinitis-np", name: "Bartholinitis: Abscess Algorithm & Surgical Options", status: "Available" },
+      { id: "uterine-prolapse-np", name: "Uterine Prolapse: POP-Q & Surgical Repair", status: "Available" },
+      { id: "benign-ovarian-cysts-np", name: "Benign Ovarian Cysts: IOTA Rules & RMI Scoring", status: "Available" },
+      { id: "endometrial-polyp-np", name: "Endometrial Polyp: Molecular Proliferation & Malignancy Risk", status: "Available" }
     ]
   },
   {

@@ -5,7 +5,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Who Do You See First: Adult Medical-Surgical",
     cellular: {
       title: "Clinical Prioritization Using Physiological Acuity",
-      content: "The 'Who Do You See First' question is one of the most commonly tested concepts on nursing licensure examinations. It requires the nurse to rapidly triage multiple patients and determine which one has the highest clinical acuity based on physiological threat. This decision-making process is rooted in the ABCs (Airway, Breathing, Circulation), Maslow's Hierarchy of Needs, and the concept of clinical urgency versus routine care.\n\nThe fundamental principle is: the patient with the greatest physiological instability or the highest risk of rapid deterioration is seen FIRST. This means acute changes always take priority over chronic stable conditions. New-onset symptoms take priority over expected post-procedural findings. Abnormal vital signs take priority over patient requests or scheduled tasks.\n\nKey decision-making framework:\n1. ABCs First: Any patient with airway compromise, respiratory distress, or hemodynamic instability is the priority.\n2. Acute over Chronic: A patient with new-onset chest pain is prioritized over a patient with stable chronic heart failure.\n3. Unexpected over Expected: A post-op patient with sudden oxygen desaturation is prioritized over a post-op patient reporting incisional pain.\n4. Unstable over Stable: A patient with vital signs outside normal parameters is seen before one with normal vitals.\n5. Assessment Before Intervention: Gather data before acting — but never delay intervention for a patient in immediate danger.\n\nCommon exam traps include:\n- The patient who 'looks' most dramatic but is actually stable (e.g., a patient with a large wound that is healing well)\n- The patient with subtle signs of deterioration (e.g., new confusion in an elderly patient — may indicate sepsis, stroke, or hypoxia)\n- Prioritizing patient satisfaction or scheduled procedures over acute changes\n- Choosing the patient with the most complex diagnosis rather than the one with the most acute presentation"
+      content: "The 'Who Do You See First' question is one of the most commonly tested concepts on nursing licensure examinations. It requires the nurse to rapidly triage multiple patients and determine which one has the highest clinical acuity based on physiological threat. This decision-making process is rooted in the ABCs (Airway, Breathing, Circulation), Maslow's Hierarchy of Needs, and the concept of clinical urgency versus routine care.\n\nThe fundamental principle is: the patient with the greatest physiological instability or the highest risk of rapid deterioration is seen FIRST. This means acute changes always take priority over chronic stable conditions. New-onset symptoms take priority over expected post-procedural findings. Abnormal vital signs take priority over patient requests or scheduled tasks.\n\nKey decision-making framework:\n1. ABCs First: Any patient with airway compromise, respiratory distress, or hemodynamic instability is the priority.\n2. Acute over Chronic: A patient with new-onset chest pain is prioritized over a patient with stable chronic heart failure.\n3. Unexpected over Expected: A post-op patient with sudden oxygen desaturation is prioritized over a post-op patient reporting incisional pain.\n4. Unstable over Stable: A patient with vital signs outside normal parameters is seen before one with normal vitals.\n5. Assessment Before Intervention: Gather data before acting  -  but never delay intervention for a patient in immediate danger.\n\nCommon exam traps include:\n- The patient who 'looks' most dramatic but is actually stable (e.g., a patient with a large wound that is healing well)\n- The patient with subtle signs of deterioration (e.g., new confusion in an elderly patient  -  may indicate sepsis, stroke, or hypoxia)\n- Prioritizing patient satisfaction or scheduled procedures over acute changes\n- Choosing the patient with the most complex diagnosis rather than the one with the most acute presentation"
     },
     riskFactors: [
       "New-onset vital sign changes (tachycardia, hypotension, tachypnea, fever, desaturation)",
@@ -18,16 +18,16 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "Diabetic patients with blood glucose extremes (<70 or >400 mg/dL)"
     ],
     diagnostics: [
-      "Rapid vital sign assessment: HR, BP, RR, SpO2, temperature — look for trends and acute changes",
+      "Rapid vital sign assessment: HR, BP, RR, SpO2, temperature  -  look for trends and acute changes",
       "Level of consciousness: Alert, oriented, responsive to verbal/painful stimuli (AVPU scale)",
-      "Pain assessment: New-onset, worsening, or uncontrolled pain — especially chest, abdominal, or headache",
+      "Pain assessment: New-onset, worsening, or uncontrolled pain  -  especially chest, abdominal, or headache",
       "Respiratory assessment: Breath sounds, work of breathing, accessory muscle use, SpO2 trend",
       "Circulatory assessment: Skin color/temperature, capillary refill, pulse quality, urine output",
       "Neurological: Pupil response, grip strength, facial symmetry, speech clarity"
     ],
     management: [
       "Triage all assigned patients at the start of each shift using ABCs and acuity assessment",
-      "See the most physiologically unstable patient FIRST — do not get distracted by requests or scheduled tasks",
+      "See the most physiologically unstable patient FIRST  -  do not get distracted by requests or scheduled tasks",
       "After initial triage, reassess based on new information (labs, provider orders, patient changes)",
       "Delegate stable patient tasks (vitals, hygiene, ambulation) to unlicensed assistive personnel",
       "Document rationale for prioritization decisions when they impact care delivery",
@@ -37,7 +37,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "ALWAYS see the patient with acute respiratory distress or airway compromise FIRST",
       "Report and act on critical vital signs: systolic BP <90 or >180, HR <50 or >120, RR <10 or >28, SpO2 <92%, temp >38.5°C",
       "New-onset chest pain: apply O2, obtain 12-lead ECG, notify provider STAT",
-      "New-onset confusion in elderly: assess blood glucose, oxygen, neurological status — may indicate stroke, sepsis, or medication reaction",
+      "New-onset confusion in elderly: assess blood glucose, oxygen, neurological status  -  may indicate stroke, sepsis, or medication reaction",
       "Post-op bleeding: assess surgical site, vital signs, apply pressure if accessible, notify surgeon",
       "Prioritize assessment over comfort measures when multiple patients need attention simultaneously"
     ],
@@ -64,7 +64,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         action: "Increases inspired oxygen concentration to maintain SpO2 >94% (>88-92% for COPD patients)",
         sideEffects: "Oxygen toxicity with prolonged high FiO2, absorption atelectasis, CO2 retention in COPD",
         contra: "Use cautiously in COPD patients (titrate to SpO2 88-92% to avoid suppressing hypoxic drive)",
-        pearl: "Oxygen is a medication — always titrate to target SpO2 and document flow rate. In emergencies, apply O2 first and titrate down."
+        pearl: "Oxygen is a medication  -  always titrate to target SpO2 and document flow rate. In emergencies, apply O2 first and titrate down."
       },
       {
         name: "Nitroglycerin (NTG)",
@@ -72,15 +72,15 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         action: "Relaxes vascular smooth muscle via nitric oxide release, reducing preload and myocardial oxygen demand",
         sideEffects: "Headache (most common), hypotension, dizziness, reflex tachycardia",
         contra: "Systolic BP <90 mmHg, use of PDE5 inhibitors (sildenafil/tadalafil) within 24-48 hours, right ventricular infarction",
-        pearl: "Give sublingual every 5 minutes × 3 doses for chest pain. Check BP before EACH dose. If no relief after 3 doses, suspect acute MI — activate emergency protocol."
+        pearl: "Give sublingual every 5 minutes × 3 doses for chest pain. Check BP before EACH dose. If no relief after 3 doses, suspect acute MI  -  activate emergency protocol."
       }
     ],
     pearls: [
-      "The word 'NEW' is the most important word in prioritization — new symptoms always take priority over chronic stable conditions",
+      "The word 'NEW' is the most important word in prioritization  -  new symptoms always take priority over chronic stable conditions",
       "Acute changes > Chronic conditions. Unexpected findings > Expected findings. Physiological needs > Psychosocial needs",
       "Never choose an answer that delays assessment of an acutely ill patient for a task that can wait or be delegated",
-      "On exams, if a patient is 'pale, diaphoretic, and anxious,' this is describing hemodynamic instability — see this patient FIRST",
-      "A patient who 'doesn't look right' to an experienced nurse often IS deteriorating — trust clinical judgment and assess immediately",
+      "On exams, if a patient is 'pale, diaphoretic, and anxious,' this is describing hemodynamic instability  -  see this patient FIRST",
+      "A patient who 'doesn't look right' to an experienced nurse often IS deteriorating  -  trust clinical judgment and assess immediately",
       "Post-surgical patients with sudden onset symptoms (pain, dyspnea, bleeding) are ALWAYS a priority over stable patients"
     ],
     preTest: [
@@ -115,7 +115,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "A patient requesting PRN anti-nausea medication"
         ],
         correct: 2,
-        rationale: "Sudden onset severe headache with blurred vision could indicate a hypertensive crisis, stroke, or increased intracranial pressure — all life-threatening emergencies requiring immediate assessment."
+        rationale: "Sudden onset severe headache with blurred vision could indicate a hypertensive crisis, stroke, or increased intracranial pressure  -  all life-threatening emergencies requiring immediate assessment."
       }
     ],
     postTest: [
@@ -128,7 +128,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "A patient with a fractured hip awaiting surgery requesting pain medication"
         ],
         correct: 1,
-        rationale: "A weak or diminished pedal pulse post-cardiac catheterization indicates possible arterial occlusion or thrombus at the catheter insertion site — a time-sensitive vascular emergency. The other patients have conditions that, while requiring attention, are not immediately life-threatening."
+        rationale: "A weak or diminished pedal pulse post-cardiac catheterization indicates possible arterial occlusion or thrombus at the catheter insertion site  -  a time-sensitive vascular emergency. The other patients have conditions that, while requiring attention, are not immediately life-threatening."
       },
       {
         question: "The nurse is prioritizing morning assessments. Which patient is seen FIRST?",
@@ -139,7 +139,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "A patient with stable vitals asking about their lab results"
         ],
         correct: 0,
-        rationale: "A patient with a new tracheostomy who is coughing and anxious may have a mucus plug, displacement, or airway obstruction — this is an ABCs priority. Airway always comes first."
+        rationale: "A patient with a new tracheostomy who is coughing and anxious may have a mucus plug, displacement, or airway obstruction  -  this is an ABCs priority. Airway always comes first."
       },
       {
         question: "A nurse receives four phone calls simultaneously. Which call is returned FIRST?",
@@ -172,39 +172,39 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Who Do You See First: Pediatric Scenarios",
     cellular: {
       title: "Pediatric-Specific Prioritization Considerations",
-      content: "Pediatric patients present unique prioritization challenges because children have different physiological reserves, communicate symptoms differently, and deteriorate faster than adults. The same ABCs framework applies, but the clinical presentation of emergencies differs significantly in pediatric populations.\n\nKey pediatric-specific considerations:\n\n1. Airway: Children have smaller, more compliant airways that are more easily obstructed. The pediatric airway is funnel-shaped (narrowest at the cricoid ring until age 8), making even small amounts of edema or secretions more dangerous. Infants are obligate nose breathers until approximately 4-6 months — nasal congestion alone can cause respiratory distress.\n\n2. Breathing: Children rely more heavily on diaphragmatic breathing. Any abdominal distension (e.g., from paralytic ileus or peritonitis) can compromise ventilation. Normal respiratory rates are significantly higher in infants and toddlers (30-60/min in newborns, 20-30/min in toddlers). Tachypnea is often the FIRST sign of distress in infants.\n\n3. Circulation: Children maintain blood pressure through tachycardia and vasoconstriction longer than adults. Hypotension is a LATE sign of shock in children — by the time BP drops, the child has lost 25-30% of blood volume. Tachycardia with poor perfusion (prolonged capillary refill >3 seconds, mottled skin, decreased urine output) is an early sign of shock.\n\n4. Communication: Young children cannot articulate symptoms. The nurse must rely on behavioral cues (irritability, lethargy, inconsolability, poor feeding, decreased play activity) and parental reports ('something is different about my child'). Parental intuition is often clinically significant.\n\n5. Dehydration: Children have higher metabolic rates and proportionally more body water. They dehydrate faster and are at higher risk for fluid and electrolyte imbalances. Signs include decreased urine output (<1 mL/kg/hr), sunken fontanelle (infants), decreased skin turgor, and dry mucous membranes.\n\nPrioritization framework for pediatric patients:\n- Respiratory distress in any child = HIGHEST priority (most common cause of pediatric cardiac arrest is respiratory failure, NOT cardiac causes)\n- Behavioral changes: a previously playful child who is now lethargic and unresponsive to stimulation is critically ill\n- Fever in neonates (<28 days): always an emergency requiring immediate workup for sepsis\n- Inconsolable crying in infants: rule out intussusception, meningitis, incarcerated hernia, hair tourniquet syndrome"
+      content: "Pediatric patients present unique prioritization challenges because children have different physiological reserves, communicate symptoms differently, and deteriorate faster than adults. The same ABCs framework applies, but the clinical presentation of emergencies differs significantly in pediatric populations.\n\nKey pediatric-specific considerations:\n\n1. Airway: Children have smaller, more compliant airways that are more easily obstructed. The pediatric airway is funnel-shaped (narrowest at the cricoid ring until age 8), making even small amounts of edema or secretions more dangerous. Infants are obligate nose breathers until approximately 4-6 months  -  nasal congestion alone can cause respiratory distress.\n\n2. Breathing: Children rely more heavily on diaphragmatic breathing. Any abdominal distension (e.g., from paralytic ileus or peritonitis) can compromise ventilation. Normal respiratory rates are significantly higher in infants and toddlers (30-60/min in newborns, 20-30/min in toddlers). Tachypnea is often the FIRST sign of distress in infants.\n\n3. Circulation: Children maintain blood pressure through tachycardia and vasoconstriction longer than adults. Hypotension is a LATE sign of shock in children  -  by the time BP drops, the child has lost 25-30% of blood volume. Tachycardia with poor perfusion (prolonged capillary refill >3 seconds, mottled skin, decreased urine output) is an early sign of shock.\n\n4. Communication: Young children cannot articulate symptoms. The nurse must rely on behavioral cues (irritability, lethargy, inconsolability, poor feeding, decreased play activity) and parental reports ('something is different about my child'). Parental intuition is often clinically significant.\n\n5. Dehydration: Children have higher metabolic rates and proportionally more body water. They dehydrate faster and are at higher risk for fluid and electrolyte imbalances. Signs include decreased urine output (<1 mL/kg/hr), sunken fontanelle (infants), decreased skin turgor, and dry mucous membranes.\n\nPrioritization framework for pediatric patients:\n- Respiratory distress in any child = HIGHEST priority (most common cause of pediatric cardiac arrest is respiratory failure, NOT cardiac causes)\n- Behavioral changes: a previously playful child who is now lethargic and unresponsive to stimulation is critically ill\n- Fever in neonates (<28 days): always an emergency requiring immediate workup for sepsis\n- Inconsolable crying in infants: rule out intussusception, meningitis, incarcerated hernia, hair tourniquet syndrome"
     },
     riskFactors: [
-      "Neonates and infants (<12 months) — highest vulnerability due to immature immune and physiological systems",
-      "Premature infants — increased risk of apnea, respiratory failure, and sepsis",
-      "Children with congenital heart defects — at risk for heart failure, cyanotic spells, and arrhythmias",
-      "Immunocompromised children (chemotherapy, transplant) — fever may be the only sign of life-threatening infection",
-      "Children with recent surgical procedures — higher risk of airway and respiratory complications",
-      "Toddlers and preschoolers — high risk for foreign body aspiration and accidental poisoning",
-      "Adolescents — risk of self-harm, substance use, and eating disorders presenting as medical complaints"
+      "Neonates and infants (<12 months)  -  highest vulnerability due to immature immune and physiological systems",
+      "Premature infants  -  increased risk of apnea, respiratory failure, and sepsis",
+      "Children with congenital heart defects  -  at risk for heart failure, cyanotic spells, and arrhythmias",
+      "Immunocompromised children (chemotherapy, transplant)  -  fever may be the only sign of life-threatening infection",
+      "Children with recent surgical procedures  -  higher risk of airway and respiratory complications",
+      "Toddlers and preschoolers  -  high risk for foreign body aspiration and accidental poisoning",
+      "Adolescents  -  risk of self-harm, substance use, and eating disorders presenting as medical complaints"
     ],
     diagnostics: [
       "Pediatric Assessment Triangle (PAT): Appearance (muscle tone, interactiveness, consolability, look/gaze, speech/cry), Work of Breathing (abnormal positioning, retractions, nasal flaring, audible sounds), Circulation to Skin (pallor, mottling, cyanosis)",
-      "Vital signs with AGE-APPROPRIATE ranges — a 'normal' adult HR of 70 would be bradycardic in an infant",
+      "Vital signs with AGE-APPROPRIATE ranges  -  a 'normal' adult HR of 70 would be bradycardic in an infant",
       "Capillary refill: >3 seconds in children is abnormal and suggests poor perfusion",
       "Fontanelle assessment in infants: bulging (increased ICP, meningitis), sunken (dehydration)",
       "Weight-based medication dosing check: verify all pediatric medication doses are appropriate for weight",
       "Urine output monitoring: <1 mL/kg/hr in children indicates inadequate perfusion or dehydration"
     ],
     management: [
-      "ALWAYS assess the child with respiratory distress FIRST — respiratory failure is the #1 cause of pediatric cardiac arrest",
+      "ALWAYS assess the child with respiratory distress FIRST  -  respiratory failure is the #1 cause of pediatric cardiac arrest",
       "Use the PAT (Pediatric Assessment Triangle) for rapid visual assessment from the doorway before touching the child",
-      "Involve parents in the assessment process — they know their child's baseline behavior",
+      "Involve parents in the assessment process  -  they know their child's baseline behavior",
       "For neonatal fever (< 28 days old): full sepsis workup is mandatory regardless of how well the infant appears",
       "Treat dehydration aggressively with weight-based fluid boluses (20 mL/kg NS, may repeat × 3)",
-      "Maintain a calm environment — agitation can worsen respiratory distress and increase oxygen demand"
+      "Maintain a calm environment  -  agitation can worsen respiratory distress and increase oxygen demand"
     ],
     nursingActions: [
       "SEE FIRST: Any child with signs of respiratory distress (retractions, nasal flaring, grunting, head bobbing, tripod positioning)",
-      "SEE FIRST: Febrile neonate (<28 days) — always a medical emergency",
+      "SEE FIRST: Febrile neonate (<28 days)  -  always a medical emergency",
       "SEE FIRST: Lethargic child who was previously active and interactive (indicates significant illness)",
       "Report immediately: bulging fontanelle, petechial rash with fever (meningococcemia), barking cough with stridor (croup/epiglottitis), drooling with inability to swallow (epiglottitis)",
-      "Never leave a child with respiratory distress unattended — keep suction and appropriately-sized airway equipment at bedside",
+      "Never leave a child with respiratory distress unattended  -  keep suction and appropriately-sized airway equipment at bedside",
       "Calculate all medication doses based on weight in kilograms and DOUBLE-CHECK the math before administration"
     ],
     signs: {
@@ -212,7 +212,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         "SEE FIRST: Infant with nasal flaring, grunting, and intercostal retractions",
         "SEE FIRST: 3-week-old neonate with fever of 38.2°C (full sepsis workup needed)",
         "SEE FIRST: Previously active toddler who is now limp and unresponsive to parents",
-        "SEE FIRST: Child with sudden onset stridor and drooling (suspect epiglottitis — do NOT examine throat)",
+        "SEE FIRST: Child with sudden onset stridor and drooling (suspect epiglottitis  -  do NOT examine throat)",
         "SEE FIRST: Infant with inconsolable crying, drawing legs to abdomen (possible intussusception)"
       ],
       right: [
@@ -242,11 +242,11 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       }
     ],
     pearls: [
-      "In pediatrics, respiratory failure is the #1 cause of cardiac arrest — NOT a cardiac event. A child in respiratory distress is ALWAYS your priority",
+      "In pediatrics, respiratory failure is the #1 cause of cardiac arrest  -  NOT a cardiac event. A child in respiratory distress is ALWAYS your priority",
       "Tachycardia is the FIRST sign of shock in children. Hypotension is a LATE sign indicating decompensated shock and imminent arrest",
-      "A quiet, lethargic child who was previously active is MORE concerning than a screaming, crying child — crying requires energy and an intact airway",
-      "Never examine the throat of a child with suspected epiglottitis — this can cause complete airway obstruction. Keep the child calm, in a position of comfort (usually sitting upright on parent's lap)",
-      "Fever in a neonate (<28 days) is ALWAYS an emergency — assume sepsis until proven otherwise, even if the baby 'looks fine'",
+      "A quiet, lethargic child who was previously active is MORE concerning than a screaming, crying child  -  crying requires energy and an intact airway",
+      "Never examine the throat of a child with suspected epiglottitis  -  this can cause complete airway obstruction. Keep the child calm, in a position of comfort (usually sitting upright on parent's lap)",
+      "Fever in a neonate (<28 days) is ALWAYS an emergency  -  assume sepsis until proven otherwise, even if the baby 'looks fine'",
       "Trust parental intuition: 'My child isn't acting right' is a clinically significant finding that warrants thorough assessment"
     ],
     preTest: [
@@ -270,7 +270,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "A 3-year-old with a runny nose and mild cough"
         ],
         correct: 1,
-        rationale: "A lethargic child who is not responding to stimulation is critically ill. In pediatrics, a quiet, limp child is far more concerning than a crying child. Crying requires energy, an intact airway, and adequate perfusion — lethargy suggests severe illness."
+        rationale: "A lethargic child who is not responding to stimulation is critically ill. In pediatrics, a quiet, limp child is far more concerning than a crying child. Crying requires energy, an intact airway, and adequate perfusion  -  lethargy suggests severe illness."
       },
       {
         question: "The MOST common cause of cardiac arrest in children is:",
@@ -289,7 +289,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "An 8-year-old with gastroenteritis tolerating oral fluids"
         ],
         correct: 0,
-        rationale: "Stridor at rest with drooling in a child with croup suggests severe airway obstruction or possible epiglottitis — a life-threatening emergency. The child with tingling requires assessment for compartment syndrome (neurovascular check), but the airway emergency takes priority."
+        rationale: "Stridor at rest with drooling in a child with croup suggests severe airway obstruction or possible epiglottitis  -  a life-threatening emergency. The child with tingling requires assessment for compartment syndrome (neurovascular check), but the airway emergency takes priority."
       },
       {
         question: "A child post-tonsillectomy is swallowing frequently. The nurse should:",
@@ -300,18 +300,18 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "Encourage the child to spit out saliva instead of swallowing"
         ],
         correct: 1,
-        rationale: "Frequent swallowing post-tonsillectomy is an early sign of hemorrhage — the child is swallowing blood running down the posterior pharynx. This requires immediate assessment including checking the throat with a flashlight, vital signs, and notification of the surgeon."
+        rationale: "Frequent swallowing post-tonsillectomy is an early sign of hemorrhage  -  the child is swallowing blood running down the posterior pharynx. This requires immediate assessment including checking the throat with a flashlight, vital signs, and notification of the surgeon."
       },
       {
         question: "Hypotension in a pediatric patient indicates:",
         options: [
-          "Early compensated shock — begin monitoring",
+          "Early compensated shock  -  begin monitoring",
           "A normal variation that resolves on its own",
-          "Late decompensated shock — intervene immediately",
+          "Late decompensated shock  -  intervene immediately",
           "The need for a repeat blood pressure measurement"
         ],
         correct: 2,
-        rationale: "Children compensate for shock through tachycardia and vasoconstriction, maintaining normal blood pressure until 25-30% of blood volume is lost. When hypotension occurs, it indicates decompensated shock — the child is in imminent danger of cardiac arrest."
+        rationale: "Children compensate for shock through tachycardia and vasoconstriction, maintaining normal blood pressure until 25-30% of blood volume is lost. When hypotension occurs, it indicates decompensated shock  -  the child is in imminent danger of cardiac arrest."
       }
     ],
     quiz: [
@@ -333,7 +333,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Delegation Traps: Common Exam Pitfalls",
     cellular: {
       title: "Understanding Delegation Errors in Licensure Examination Context",
-      content: "Delegation questions are among the most frequently tested topics on NCLEX and nursing licensure examinations. These questions evaluate the nurse's understanding of scope of practice, legal accountability, and clinical judgment in assigning tasks. Common exam traps exploit misunderstandings about what can be delegated, to whom, and under what circumstances.\n\nThe Five Rights of Delegation provide the legal and clinical framework:\n1. Right Task: The task is within the delegate's scope and competency. Not all nursing tasks can be delegated. Assessment, evaluation, nursing judgment, care planning, patient education about disease processes, and administration of medications requiring nursing judgment (IV push, blood products) CANNOT be delegated to unlicensed assistive personnel (UAP).\n\n2. Right Circumstance: The patient's condition is stable and predictable. Patients with unstable vital signs, changing conditions, or complex care needs should NOT have care delegated to UAP. The key word is PREDICTABLE — if the outcome of the task is uncertain, the RN should perform it.\n\n3. Right Person: The delegate has the appropriate training, competency, and licensure. An LPN/LVN can perform tasks within LPN scope (stable patient assessments, routine medication administration, wound care). A UAP can perform ADLs, vital signs, I&O measurement, and basic tasks that do not require nursing judgment.\n\n4. Right Direction/Communication: Clear, specific instructions are given including what to do, when to report, and what to observe. 'Check on the patient' is insufficient — 'Take vital signs every 15 minutes and report if systolic BP drops below 100 or pulse exceeds 120' is appropriate direction.\n\n5. Right Supervision: The delegating nurse maintains accountability and follows up on delegated tasks. Delegation does NOT transfer accountability — the RN remains responsible for patient outcomes.\n\nCommon exam traps:\n- Delegating ASSESSMENT to UAP (UAP can collect data such as vital signs, but cannot interpret or assess)\n- Confusing LPN/LVN scope with UAP scope (LPNs can perform many more tasks including medication administration)\n- Delegating tasks to the 'most experienced' UAP when the task itself is outside UAP scope regardless of experience\n- Choosing to 'do it yourself' when delegation IS appropriate (this wastes RN time and reduces patient safety)\n- Delegating to a float nurse without considering their competency in the specific unit's patient population"
+      content: "Delegation questions are among the most frequently tested topics on NCLEX and nursing licensure examinations. These questions evaluate the nurse's understanding of scope of practice, legal accountability, and clinical judgment in assigning tasks. Common exam traps exploit misunderstandings about what can be delegated, to whom, and under what circumstances.\n\nThe Five Rights of Delegation provide the legal and clinical framework:\n1. Right Task: The task is within the delegate's scope and competency. Not all nursing tasks can be delegated. Assessment, evaluation, nursing judgment, care planning, patient education about disease processes, and administration of medications requiring nursing judgment (IV push, blood products) CANNOT be delegated to unlicensed assistive personnel (UAP).\n\n2. Right Circumstance: The patient's condition is stable and predictable. Patients with unstable vital signs, changing conditions, or complex care needs should NOT have care delegated to UAP. The key word is PREDICTABLE  -  if the outcome of the task is uncertain, the RN should perform it.\n\n3. Right Person: The delegate has the appropriate training, competency, and licensure. An LPN/LVN can perform tasks within LPN scope (stable patient assessments, routine medication administration, wound care). A UAP can perform ADLs, vital signs, I&O measurement, and basic tasks that do not require nursing judgment.\n\n4. Right Direction/Communication: Clear, specific instructions are given including what to do, when to report, and what to observe. 'Check on the patient' is insufficient  -  'Take vital signs every 15 minutes and report if systolic BP drops below 100 or pulse exceeds 120' is appropriate direction.\n\n5. Right Supervision: The delegating nurse maintains accountability and follows up on delegated tasks. Delegation does NOT transfer accountability  -  the RN remains responsible for patient outcomes.\n\nCommon exam traps:\n- Delegating ASSESSMENT to UAP (UAP can collect data such as vital signs, but cannot interpret or assess)\n- Confusing LPN/LVN scope with UAP scope (LPNs can perform many more tasks including medication administration)\n- Delegating tasks to the 'most experienced' UAP when the task itself is outside UAP scope regardless of experience\n- Choosing to 'do it yourself' when delegation IS appropriate (this wastes RN time and reduces patient safety)\n- Delegating to a float nurse without considering their competency in the specific unit's patient population"
     },
     riskFactors: [
       "Failure to understand scope of practice boundaries (RN vs LPN vs UAP)",
@@ -359,7 +359,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "RN CAN delegate to UAP: Vital signs on stable patients, ADLs (bathing, feeding, toileting), ambulation, I&O measurement, specimen collection, comfort measures, post-mortem care",
       "NEVER delegate: Anything involving nursing judgment or clinical decision-making to unlicensed personnel",
       "Always delegate with clear parameters: what to do, what to report, when to report, expected outcomes",
-      "Follow up on ALL delegated tasks — delegation does not transfer accountability"
+      "Follow up on ALL delegated tasks  -  delegation does not transfer accountability"
     ],
     nursingActions: [
       "Before delegating, ask: 'Can this task be safely performed by someone other than an RN?'",
@@ -371,16 +371,16 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     ],
     signs: {
       left: [
-        "EXAM TRAP: 'The experienced UAP can assess the patient' — Experience does NOT change scope. UAP cannot assess, only collect data",
-        "EXAM TRAP: 'Delegate the newly admitted patient to the LPN' — Initial assessments are RN-only responsibilities",
-        "EXAM TRAP: 'The UAP can reinforce teaching about medications' — UAP can reinforce ONLY pre-established, simple education. Medication teaching requires nursing judgment",
-        "EXAM TRAP: 'Delegate the stable tracheostomy suction to the new grad RN' — Consider if the new grad has demonstrated competency first"
+        "EXAM TRAP: 'The experienced UAP can assess the patient'  -  Experience does NOT change scope. UAP cannot assess, only collect data",
+        "EXAM TRAP: 'Delegate the newly admitted patient to the LPN'  -  Initial assessments are RN-only responsibilities",
+        "EXAM TRAP: 'The UAP can reinforce teaching about medications'  -  UAP can reinforce ONLY pre-established, simple education. Medication teaching requires nursing judgment",
+        "EXAM TRAP: 'Delegate the stable tracheostomy suction to the new grad RN'  -  Consider if the new grad has demonstrated competency first"
       ],
       right: [
         "CORRECT: 'Delegate vital signs and ambulation of stable post-op day 2 patient to the UAP'",
         "CORRECT: 'Assign the LPN to administer oral medications to stable patients'",
         "CORRECT: 'The RN performs the initial assessment on all newly admitted patients'",
-        "CORRECT: 'The RN evaluates the effectiveness of pain medication — this cannot be delegated'"
+        "CORRECT: 'The RN evaluates the effectiveness of pain medication  -  this cannot be delegated'"
       ]
     },
     medications: [
@@ -395,11 +395,11 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     ],
     pearls: [
       "UAP can COLLECT data (vital signs, I&O) but cannot INTERPRET or ASSESS data. The distinction is critical for exam questions",
-      "The most experienced UAP still cannot perform tasks outside UAP scope — experience does not expand legal scope of practice",
+      "The most experienced UAP still cannot perform tasks outside UAP scope  -  experience does not expand legal scope of practice",
       "When in doubt on an exam, choose the answer that keeps assessment, evaluation, and nursing judgment with the RN",
       "Delegation is a TWO-WAY accountability: the RN is accountable for the delegation decision; the delegate is accountable for performing the task correctly",
-      "'Stable and predictable' are the key words for delegation eligibility — if either word doesn't apply, the RN should perform the task",
-      "On exams, watch for the answer that says 'do it yourself' when delegation IS appropriate — appropriate delegation is part of effective nursing practice"
+      "'Stable and predictable' are the key words for delegation eligibility  -  if either word doesn't apply, the RN should perform the task",
+      "On exams, watch for the answer that says 'do it yourself' when delegation IS appropriate  -  appropriate delegation is part of effective nursing practice"
     ],
     preTest: [
       {
@@ -485,7 +485,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Unexpected vs Expected Findings: Clinical Red Flags",
     cellular: {
       title: "Differentiating Normal from Abnormal Clinical Findings",
-      content: "One of the most critical clinical skills — and most frequently tested examination concepts — is the ability to distinguish between EXPECTED findings (normal responses to a condition, treatment, or procedure) and UNEXPECTED findings (abnormal responses that indicate complications, deterioration, or the need for immediate intervention).\n\nExpected findings are predictable responses that fall within the anticipated clinical course. They do not require urgent intervention, though they may require routine nursing management. Examples: incisional pain after surgery, mild swelling after a joint replacement, low-grade fever on post-op day 1 (atelectasis), bruising at an IV site after removal.\n\nUnexpected findings are deviations from the anticipated clinical course that may indicate complications requiring immediate assessment and intervention. They represent clinical red flags that should trigger the nurse to gather more data, notify the provider, and potentially initiate emergency protocols. Examples: sudden sharp chest pain in a post-op patient (PE), excessive bright red bleeding through a dressing, temperature >38.5°C with rigors, sudden confusion in a previously oriented patient.\n\nThe clinical reasoning process for differentiating expected vs. unexpected:\n1. Know the BASELINE: What is normal for this patient? What is their medical history? What procedure did they have?\n2. Know the TIMELINE: What findings are typical at this stage of recovery or illness? Post-op day 1 low-grade fever is expected; post-op day 5 high fever is not.\n3. Know the TREND: Is the finding improving, stable, or worsening? A gradual decrease in surgical drain output is expected; a sudden increase is not.\n4. Know the PATTERN: Does this finding fit the expected pattern for the condition? Colostomy output beginning on post-op day 2-3 is expected; absence of output by day 5 is not.\n5. Know the SEVERITY: Is the magnitude of the finding within expected limits? Mild incisional pain (4/10) controlled by prescribed analgesics is expected; severe pain (9/10) unresponsive to medication is not.\n\nExam strategy: When an exam question presents a clinical scenario and asks 'Which finding requires follow-up?' or 'Which finding should the nurse report immediately?' — the answer is ALWAYS the unexpected finding that deviates from the anticipated clinical course."
+      content: "One of the most critical clinical skills  -  and most frequently tested examination concepts  -  is the ability to distinguish between EXPECTED findings (normal responses to a condition, treatment, or procedure) and UNEXPECTED findings (abnormal responses that indicate complications, deterioration, or the need for immediate intervention).\n\nExpected findings are predictable responses that fall within the anticipated clinical course. They do not require urgent intervention, though they may require routine nursing management. Examples: incisional pain after surgery, mild swelling after a joint replacement, low-grade fever on post-op day 1 (atelectasis), bruising at an IV site after removal.\n\nUnexpected findings are deviations from the anticipated clinical course that may indicate complications requiring immediate assessment and intervention. They represent clinical red flags that should trigger the nurse to gather more data, notify the provider, and potentially initiate emergency protocols. Examples: sudden sharp chest pain in a post-op patient (PE), excessive bright red bleeding through a dressing, temperature >38.5°C with rigors, sudden confusion in a previously oriented patient.\n\nThe clinical reasoning process for differentiating expected vs. unexpected:\n1. Know the BASELINE: What is normal for this patient? What is their medical history? What procedure did they have?\n2. Know the TIMELINE: What findings are typical at this stage of recovery or illness? Post-op day 1 low-grade fever is expected; post-op day 5 high fever is not.\n3. Know the TREND: Is the finding improving, stable, or worsening? A gradual decrease in surgical drain output is expected; a sudden increase is not.\n4. Know the PATTERN: Does this finding fit the expected pattern for the condition? Colostomy output beginning on post-op day 2-3 is expected; absence of output by day 5 is not.\n5. Know the SEVERITY: Is the magnitude of the finding within expected limits? Mild incisional pain (4/10) controlled by prescribed analgesics is expected; severe pain (9/10) unresponsive to medication is not.\n\nExam strategy: When an exam question presents a clinical scenario and asks 'Which finding requires follow-up?' or 'Which finding should the nurse report immediately?'  -  the answer is ALWAYS the unexpected finding that deviates from the anticipated clinical course."
     },
     riskFactors: [
       "Failure to establish baseline assessment data for comparison",
@@ -501,7 +501,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "Timeline matching: evaluate findings against expected recovery milestones",
       "Severity assessment: determine if the magnitude of the finding exceeds expected parameters",
       "Pattern recognition: identify clusters of findings that suggest a complication",
-      "Lab value comparison: compare to previous results — look for trends, not just single values",
+      "Lab value comparison: compare to previous results  -  look for trends, not just single values",
       "Physical assessment changes: compare current exam to admission and shift-to-shift assessments"
     ],
     management: [
@@ -515,10 +515,10 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     nursingActions: [
       "Establish a thorough baseline assessment at the start of every shift and after every procedure",
       "Know expected recovery timelines for common surgical procedures and medical conditions",
-      "Document ALL assessment findings — expected and unexpected — to establish a clear clinical trajectory",
+      "Document ALL assessment findings  -  expected and unexpected  -  to establish a clear clinical trajectory",
       "Report unexpected findings IMMEDIATELY using SBAR communication",
       "Never 'normalize' an abnormal finding by attributing it to anxiety, pain, or a pre-existing condition without assessment",
-      "Teach patients and families to report new symptoms or changes — they are often the first to notice"
+      "Teach patients and families to report new symptoms or changes  -  they are often the first to notice"
     ],
     signs: {
       left: [
@@ -552,8 +552,8 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "On exams, 'Which finding requires the nurse to notify the provider?' = the UNEXPECTED finding that deviates from normal recovery",
       "The timeline matters: low-grade fever on post-op day 1 is expected (Wind/atelectasis). Fever on day 5-7 is unexpected (Wound infection, DVT)",
       "Any SUDDEN onset of symptoms (pain, dyspnea, confusion, bleeding) is almost always unexpected and requires immediate action",
-      "Trust the data: compare current assessment to baseline. If something changed, investigate — even if the patient 'looks fine'",
-      "Expected does NOT mean unimportant — expected findings still require documentation, monitoring, and appropriate nursing interventions",
+      "Trust the data: compare current assessment to baseline. If something changed, investigate  -  even if the patient 'looks fine'",
+      "Expected does NOT mean unimportant  -  expected findings still require documentation, monitoring, and appropriate nursing interventions",
       "When an exam gives you four findings and asks which one to report, three will be expected and one will be the clinical red flag"
     ],
     preTest: [
@@ -577,7 +577,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "Blood pressure of 128/78 mmHg"
         ],
         correct: 1,
-        rationale: "A soft, pulsatile mass at the catheter insertion site indicates a pseudoaneurysm — a serious vascular complication requiring immediate intervention. Mild bruising, back pain from bed rest, and normal BP are all expected findings."
+        rationale: "A soft, pulsatile mass at the catheter insertion site indicates a pseudoaneurysm  -  a serious vascular complication requiring immediate intervention. Mild bruising, back pain from bed rest, and normal BP are all expected findings."
       },
       {
         question: "Which post-operative finding is EXPECTED on day 1?",
@@ -595,10 +595,10 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       {
         question: "A patient with a chest tube has fluctuation (tidaling) in the water-seal chamber. This finding is:",
         options: [
-          "Unexpected — notify the provider immediately",
-          "Expected — this indicates the system is functioning properly",
+          "Unexpected  -  notify the provider immediately",
+          "Expected  -  this indicates the system is functioning properly",
           "Expected only if the patient is on mechanical ventilation",
-          "Unexpected — the chest tube is malfunctioning"
+          "Unexpected  -  the chest tube is malfunctioning"
         ],
         correct: 1,
         rationale: "Fluctuation (tidaling) in the water-seal chamber during respiration is an EXPECTED finding indicating the chest tube system is patent and functioning properly. Absence of tidaling would be unexpected and could indicate tube occlusion or lung re-expansion."
@@ -606,13 +606,13 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       {
         question: "A post-thyroidectomy patient reports a tight sensation in the neck and tingling around the lips. This finding is:",
         options: [
-          "Expected — normal swelling after neck surgery",
-          "Unexpected — may indicate hypocalcemia from parathyroid damage and requires immediate assessment",
-          "Expected — a side effect of anesthesia wearing off",
-          "Not significant — offer the patient a throat lozenge"
+          "Expected  -  normal swelling after neck surgery",
+          "Unexpected  -  may indicate hypocalcemia from parathyroid damage and requires immediate assessment",
+          "Expected  -  a side effect of anesthesia wearing off",
+          "Not significant  -  offer the patient a throat lozenge"
         ],
         correct: 1,
-        rationale: "Tingling around the lips (circumoral paresthesia) and a tight neck sensation after thyroidectomy are signs of hypocalcemia from accidental parathyroid gland removal or damage. This is a serious complication — check calcium levels, have IV calcium gluconate available, and assess for Chvostek's and Trousseau's signs."
+        rationale: "Tingling around the lips (circumoral paresthesia) and a tight neck sensation after thyroidectomy are signs of hypocalcemia from accidental parathyroid gland removal or damage. This is a serious complication  -  check calcium levels, have IV calcium gluconate available, and assess for Chvostek's and Trousseau's signs."
       },
       {
         question: "Which assessment finding after a lumbar puncture requires immediate intervention?",
@@ -623,7 +623,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "Drowsiness from sedation medication"
         ],
         correct: 2,
-        rationale: "Clear fluid leaking from the LP site with fever and neck stiffness suggests CSF leak with possible meningitis — a medical emergency. A positional headache is common after LP (expected), as is mild back discomfort and sedation-related drowsiness."
+        rationale: "Clear fluid leaking from the LP site with fever and neck stiffness suggests CSF leak with possible meningitis  -  a medical emergency. A positional headache is common after LP (expected), as is mild back discomfort and sedation-related drowsiness."
       }
     ],
     quiz: [
@@ -652,13 +652,13 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "Admission from emergency department with acute illness",
       "Chronic comorbidities (COPD, heart failure, renal disease, diabetes, immunosuppression)",
       "Advanced age with limited physiological reserve",
-      "Recent discharge from ICU (within 48 hours) — highest risk of re-deterioration",
+      "Recent discharge from ICU (within 48 hours)  -  highest risk of re-deterioration",
       "History of previous cardiac arrest or ICU admission during this hospitalization",
       "Sepsis or suspected infection with systemic inflammatory response",
-      "Patients receiving opioids or sedatives — risk of respiratory depression"
+      "Patients receiving opioids or sedatives  -  risk of respiratory depression"
     ],
     diagnostics: [
-      "Vital sign trends: Look at the TRAJECTORY, not just the single data point — worsening trends over hours are critical",
+      "Vital sign trends: Look at the TRAJECTORY, not just the single data point  -  worsening trends over hours are critical",
       "Early Warning Score (EWS/MEWS/NEWS): Calculate and track aggregate score changes over time",
       "Lactate level: >2 mmol/L suggests tissue hypoperfusion; >4 mmol/L indicates severe sepsis/shock",
       "Arterial blood gas: Assess acid-base status, oxygenation, and ventilation",
@@ -675,10 +675,10 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     ],
     nursingActions: [
       "Monitor vital signs at minimum every 4 hours for stable patients; increase frequency for at-risk patients",
-      "Calculate Early Warning Scores at every vital sign assessment — escalate based on score thresholds",
+      "Calculate Early Warning Scores at every vital sign assessment  -  escalate based on score thresholds",
       "Trust your clinical intuition: 'I'm worried about this patient' is a VALID reason to activate the Rapid Response Team",
       "Document the TRAJECTORY of findings: 'HR has increased from 88 to 102 to 118 over the past 3 hours'",
-      "Ensure IV access is maintained for at-risk patients — you'll need it if rapid intervention is required",
+      "Ensure IV access is maintained for at-risk patients  -  you'll need it if rapid intervention is required",
       "Brief the oncoming nurse about at-risk patients with specific parameters: 'Watch for HR >110, BP <100 systolic, any change in mental status'"
     ],
     signs: {
@@ -694,7 +694,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         "LATE/CRITICAL: SpO2 <90% despite supplemental oxygen",
         "LATE/CRITICAL: Unresponsive or only responsive to painful stimuli",
         "LATE/CRITICAL: Mottled, cyanotic, or ashen skin color",
-        "LATE/CRITICAL: Agonal breathing or apnea — initiate Code Blue immediately"
+        "LATE/CRITICAL: Agonal breathing or apnea  -  initiate Code Blue immediately"
       ]
     },
     medications: [
@@ -703,7 +703,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         type: "Isotonic Crystalloid Fluid",
         action: "Volume expansion to restore intravascular volume and improve perfusion in hypotension and shock",
         sideEffects: "Fluid overload (crackles, JVD, peripheral edema), hyperchloremic metabolic acidosis with large volumes",
-        contra: "Use cautiously in heart failure patients — risk of volume overload. Consider Lactated Ringer's as an alternative for large-volume resuscitation",
+        contra: "Use cautiously in heart failure patients  -  risk of volume overload. Consider Lactated Ringer's as an alternative for large-volume resuscitation",
         pearl: "For acute deterioration with hypotension: 500-1000 mL bolus for adults, reassess after each bolus. Pediatrics: 20 mL/kg bolus, may repeat × 3."
       },
       {
@@ -712,15 +712,15 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         action: "Alpha-1: vasoconstriction (raises BP). Beta-1: increased heart rate and contractility. Beta-2: bronchodilation",
         sideEffects: "Tachycardia, hypertension, arrhythmias, myocardial ischemia, anxiety, tremor",
         contra: "No absolute contraindications in cardiac arrest. In non-arrest situations: use cautiously with coronary artery disease, arrhythmias",
-        pearl: "Cardiac arrest dose: 1 mg IV push every 3-5 minutes. Anaphylaxis: 0.3-0.5 mg IM (1:1000) into anterolateral thigh. NEVER give 1:1000 IV — this is a lethal dose."
+        pearl: "Cardiac arrest dose: 1 mg IV push every 3-5 minutes. Anaphylaxis: 0.3-0.5 mg IM (1:1000) into anterolateral thigh. NEVER give 1:1000 IV  -  this is a lethal dose."
       }
     ],
     pearls: [
       "60-80% of in-hospital cardiac arrests are preceded by identifiable warning signs 6-24 hours before the event",
-      "Tachycardia is often the EARLIEST sign of deterioration — a rising heart rate trend is more important than any single reading",
+      "Tachycardia is often the EARLIEST sign of deterioration  -  a rising heart rate trend is more important than any single reading",
       "You do NOT need to diagnose the problem to activate the Rapid Response Team. 'I'm concerned about my patient' is sufficient",
       "Respiratory rate is the most frequently abnormal vital sign before cardiac arrest and the most commonly missed or inaccurately recorded vital sign",
-      "Never reassure yourself by a normal blood pressure alone — patients compensate until they can't, and then they crash rapidly",
+      "Never reassure yourself by a normal blood pressure alone  -  patients compensate until they can't, and then they crash rapidly",
       "If something feels wrong, ACT. The cost of a false alarm is infinitely less than the cost of failing to rescue"
     ],
     preTest: [
@@ -765,7 +765,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         options: [
           "Wait until objective findings appear before escalating",
           "Document concern in the chart and continue monitoring",
-          "Activate the Rapid Response Team — nursing concern is a valid activation criterion",
+          "Activate the Rapid Response Team  -  nursing concern is a valid activation criterion",
           "Ask a colleague if they think the patient looks unwell"
         ],
         correct: 2,
@@ -780,7 +780,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "Profound metabolic acidosis and altered consciousness"
         ],
         correct: 1,
-        rationale: "During the compensatory phase, the body activates mechanisms like tachycardia and tachypnea to maintain perfusion and blood pressure. Blood pressure remains normal despite physiological stress. This is the optimal time for intervention — before progression to decompensation."
+        rationale: "During the compensatory phase, the body activates mechanisms like tachycardia and tachypnea to maintain perfusion and blood pressure. Blood pressure remains normal despite physiological stress. This is the optimal time for intervention  -  before progression to decompensation."
       }
     ],
     quiz: [
@@ -802,16 +802,16 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Medication Safety: Prioritization & Error Prevention",
     cellular: {
       title: "Pharmacological Safety Systems and Error Prevention at the Cellular Level",
-      content: "Medication errors are one of the leading causes of preventable patient harm in healthcare, affecting an estimated 1.5 million patients annually in the United States alone. Understanding the systems, processes, and clinical reasoning behind medication safety is essential for every nurse.\n\nThe Eight Rights of Medication Administration form the foundation of safe practice:\n1. Right Patient: Verify using two patient identifiers (name and DOB or MRN). NEVER use room number as an identifier.\n2. Right Medication: Compare the medication to the order, checking drug name, formulation, and appearance.\n3. Right Dose: Verify the dose is appropriate for the patient's age, weight, and renal/hepatic function.\n4. Right Route: Confirm the route matches the order and is appropriate for the medication and patient.\n5. Right Time: Administer within the facility's time window (typically ±30 minutes of scheduled time).\n6. Right Documentation: Record administration immediately after giving the medication.\n7. Right Reason: Understand WHY the medication is ordered — does the indication match the patient's condition?\n8. Right Response: Evaluate the patient's response to the medication — is it producing the intended effect? Are there adverse effects?\n\nHigh-Alert Medications require additional safety checks because errors with these drugs can cause significant patient harm or death. The Institute for Safe Medication Practices (ISMP) identifies categories including:\n- Anticoagulants (heparin, warfarin, enoxaparin)\n- Insulin (all types)\n- Opioids (morphine, fentanyl, hydromorphone)\n- Concentrated electrolytes (potassium chloride, hypertonic saline)\n- Chemotherapy agents\n- Neuromuscular blocking agents\n\nSound-alike/Look-alike (SALA) medications are a major source of errors. Examples: metformin/metoprolol, hydromorphone/morphine, prednisone/prednisolone, celebrex/celexa. Strategies include tall-man lettering (hydrOXYzine vs. hydrALAzine), barcode verification, and independent double-checks.\n\nMedication reconciliation is the process of comparing a patient's current medication list with new orders at every transition of care (admission, transfer, discharge). Discrepancies must be resolved before medications are administered."
+      content: "Medication errors are one of the leading causes of preventable patient harm in healthcare, affecting an estimated 1.5 million patients annually in the United States alone. Understanding the systems, processes, and clinical reasoning behind medication safety is essential for every nurse.\n\nThe Eight Rights of Medication Administration form the foundation of safe practice:\n1. Right Patient: Verify using two patient identifiers (name and DOB or MRN). NEVER use room number as an identifier.\n2. Right Medication: Compare the medication to the order, checking drug name, formulation, and appearance.\n3. Right Dose: Verify the dose is appropriate for the patient's age, weight, and renal/hepatic function.\n4. Right Route: Confirm the route matches the order and is appropriate for the medication and patient.\n5. Right Time: Administer within the facility's time window (typically ±30 minutes of scheduled time).\n6. Right Documentation: Record administration immediately after giving the medication.\n7. Right Reason: Understand WHY the medication is ordered  -  does the indication match the patient's condition?\n8. Right Response: Evaluate the patient's response to the medication  -  is it producing the intended effect? Are there adverse effects?\n\nHigh-Alert Medications require additional safety checks because errors with these drugs can cause significant patient harm or death. The Institute for Safe Medication Practices (ISMP) identifies categories including:\n- Anticoagulants (heparin, warfarin, enoxaparin)\n- Insulin (all types)\n- Opioids (morphine, fentanyl, hydromorphone)\n- Concentrated electrolytes (potassium chloride, hypertonic saline)\n- Chemotherapy agents\n- Neuromuscular blocking agents\n\nSound-alike/Look-alike (SALA) medications are a major source of errors. Examples: metformin/metoprolol, hydromorphone/morphine, prednisone/prednisolone, celebrex/celexa. Strategies include tall-man lettering (hydrOXYzine vs. hydrALAzine), barcode verification, and independent double-checks.\n\nMedication reconciliation is the process of comparing a patient's current medication list with new orders at every transition of care (admission, transfer, discharge). Discrepancies must be resolved before medications are administered."
     },
     riskFactors: [
-      "Polypharmacy (5+ medications) — increases risk of drug interactions and errors",
+      "Polypharmacy (5+ medications)  -  increases risk of drug interactions and errors",
       "High-alert medications: insulin, anticoagulants, opioids, concentrated electrolytes",
-      "Sound-alike/look-alike drug names (SALA) — metformin/metoprolol, hydromorphone/morphine",
-      "Pediatric and geriatric patients — weight-based dosing errors, altered pharmacokinetics",
-      "Renal or hepatic impairment — requires dose adjustments that may be overlooked",
-      "Transitions of care (admission, transfer, discharge) — medication reconciliation gaps",
-      "Verbal or telephone orders — high risk of miscommunication",
+      "Sound-alike/look-alike drug names (SALA)  -  metformin/metoprolol, hydromorphone/morphine",
+      "Pediatric and geriatric patients  -  weight-based dosing errors, altered pharmacokinetics",
+      "Renal or hepatic impairment  -  requires dose adjustments that may be overlooked",
+      "Transitions of care (admission, transfer, discharge)  -  medication reconciliation gaps",
+      "Verbal or telephone orders  -  high risk of miscommunication",
       "Interruptions during medication preparation and administration"
     ],
     diagnostics: [
@@ -828,13 +828,13 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "Independent double-check for high-alert medications: two nurses independently verify dose, drug, and patient",
       "Use standardized concentrations for high-alert IV infusions to reduce calculation errors",
       "Implement medication reconciliation at every transition of care",
-      "If a medication error occurs: assess the patient first, notify the provider, complete an incident report, and do NOT punish — foster a culture of reporting"
+      "If a medication error occurs: assess the patient first, notify the provider, complete an incident report, and do NOT punish  -  foster a culture of reporting"
     ],
     nursingActions: [
-      "NEVER administer a medication you are unfamiliar with — look it up first",
-      "Check allergies before EVERY medication administration — ask the patient directly and check the chart",
+      "NEVER administer a medication you are unfamiliar with  -  look it up first",
+      "Check allergies before EVERY medication administration  -  ask the patient directly and check the chart",
       "Hold and clarify any order that seems inappropriate: wrong dose, wrong route, wrong frequency, or doesn't match diagnosis",
-      "Report medication errors through the facility's incident reporting system — do NOT attempt to hide errors",
+      "Report medication errors through the facility's incident reporting system  -  do NOT attempt to hide errors",
       "Educate patients about their medications: name, purpose, expected effects, and what to report",
       "When taking verbal or telephone orders: write the order, read it back, and receive confirmation (SBAR + read-back)"
     ],
@@ -857,7 +857,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     medications: [
       {
         name: "Heparin (Unfractionated)",
-        type: "Anticoagulant — HIGH ALERT",
+        type: "Anticoagulant  -  HIGH ALERT",
         action: "Inhibits thrombin and Factor Xa to prevent clot formation and extension",
         sideEffects: "Bleeding (most serious), heparin-induced thrombocytopenia (HIT), bruising",
         contra: "Active uncontrolled bleeding, severe thrombocytopenia, history of HIT",
@@ -865,20 +865,20 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       },
       {
         name: "Insulin (all types)",
-        type: "Antidiabetic — HIGH ALERT",
+        type: "Antidiabetic  -  HIGH ALERT",
         action: "Facilitates glucose uptake into cells, reducing blood glucose levels",
         sideEffects: "Hypoglycemia (most dangerous), weight gain, lipodystrophy at injection sites",
         contra: "Hypoglycemia (check glucose BEFORE administration), hypokalemia (insulin shifts potassium intracellularly)",
-        pearl: "ALWAYS check blood glucose before administering insulin. Independent double-check required. Know the onset, peak, and duration of each type. Keep rapid-acting glucose (juice, glucose tablets) available. Insulin and potassium have a critical relationship — insulin drives K+ into cells."
+        pearl: "ALWAYS check blood glucose before administering insulin. Independent double-check required. Know the onset, peak, and duration of each type. Keep rapid-acting glucose (juice, glucose tablets) available. Insulin and potassium have a critical relationship  -  insulin drives K+ into cells."
       }
     ],
     pearls: [
       "The #1 rule of medication safety: If something doesn't seem right, STOP and CLARIFY before administering",
-      "NEVER document medication administration before giving the medication — always document AFTER",
-      "Independent double-checks for high-alert medications mean two nurses INDEPENDENTLY verify — not just co-signing",
-      "If a patient says 'That doesn't look like my usual pill' — STOP and verify. Patients often know their medications better than we expect",
+      "NEVER document medication administration before giving the medication  -  always document AFTER",
+      "Independent double-checks for high-alert medications mean two nurses INDEPENDENTLY verify  -  not just co-signing",
+      "If a patient says 'That doesn't look like my usual pill'  -  STOP and verify. Patients often know their medications better than we expect",
       "Medication errors are SYSTEM failures, not individual failures. Report all errors to improve the system. A culture of punishment leads to underreporting",
-      "The most dangerous medication errors involve the 'wrong dose' of the 'right drug' — always double-check dosing calculations"
+      "The most dangerous medication errors involve the 'wrong dose' of the 'right drug'  -  always double-check dosing calculations"
     ],
     preTest: [
       {
@@ -907,7 +907,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         question: "The Eight Rights of Medication Administration include all EXCEPT:",
         options: ["Right Patient", "Right Dose", "Right Room", "Right Response"],
         correct: 2,
-        rationale: "The Eight Rights are: Right Patient, Right Medication, Right Dose, Right Route, Right Time, Right Documentation, Right Reason, and Right Response. 'Right Room' is NOT one of the rights — room numbers should never be used as patient identifiers."
+        rationale: "The Eight Rights are: Right Patient, Right Medication, Right Dose, Right Route, Right Time, Right Documentation, Right Reason, and Right Response. 'Right Room' is NOT one of the rights  -  room numbers should never be used as patient identifiers."
       }
     ],
     postTest: [
@@ -959,7 +959,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Post-Operative Complication Recognition",
     cellular: {
       title: "Systematic Assessment of Post-Surgical Complications by Phase",
-      content: "Post-operative complication recognition requires a systematic understanding of WHEN specific complications are most likely to occur, HOW they present, and WHAT the nurse must do immediately upon identification. Complications follow a predictable temporal pattern that should guide nursing assessment priorities at every stage of post-operative recovery.\n\nPhase 1: Immediate (0-24 hours) — Anesthesia and Surgical Risks\nThe immediate post-operative period is dominated by risks related to anesthesia recovery and the acute surgical insult. Airway compromise from residual neuromuscular blockade, emergence delirium, laryngospasm, and aspiration are the primary threats. Hemorrhage from surgical site bleeding manifests as increasing drain output, expanding hematoma, tachycardia, and falling blood pressure. Hypothermia from prolonged surgery and cold operating rooms can cause coagulopathy, shivering, and delayed metabolism of anesthetic agents.\n\nMalignant hyperthermia is a rare but life-threatening anesthesia complication caused by a genetic susceptibility to volatile anesthetics and succinylcholine. It presents with rapidly rising temperature (>40°C), muscle rigidity (especially masseter/jaw), tachycardia, hypercarbia, and metabolic/respiratory acidosis. Treatment is immediate cessation of triggering agents, administration of dantrolene sodium (2.5 mg/kg IV), active cooling, and supportive care.\n\nPhase 2: Early (24-72 hours) — Immobility and Inflammatory Response\nAtelectasis remains the #1 most common post-operative complication, caused by shallow breathing, pain-limited inspiratory effort, and prolonged supine positioning. It presents as low-grade fever (typically post-op day 1-2), diminished breath sounds at the lung bases, and mild tachypnea. Prevention (incentive spirometry, deep breathing, early ambulation) is far more effective than treatment.\n\nDeep vein thrombosis (DVT) begins forming during surgery from venous stasis, vessel injury, and hypercoagulability (Virchow's triad). Signs include unilateral calf pain, warmth, swelling, and positive Homans' sign (though this test has limited sensitivity). DVT can dislodge to cause pulmonary embolism (PE), most commonly on post-op days 5-7.\n\nPhase 3: Late (72 hours to weeks) — Healing and Systemic Complications\nWound infection typically presents 5-7 days post-operatively with erythema, warmth, induration, purulent drainage, and fever. Wound dehiscence (separation of wound layers) and evisceration (protrusion of abdominal organs) are emergencies typically occurring on post-op days 5-10, often precipitated by coughing, vomiting, or straining."
+      content: "Post-operative complication recognition requires a systematic understanding of WHEN specific complications are most likely to occur, HOW they present, and WHAT the nurse must do immediately upon identification. Complications follow a predictable temporal pattern that should guide nursing assessment priorities at every stage of post-operative recovery.\n\nPhase 1: Immediate (0-24 hours)  -  Anesthesia and Surgical Risks\nThe immediate post-operative period is dominated by risks related to anesthesia recovery and the acute surgical insult. Airway compromise from residual neuromuscular blockade, emergence delirium, laryngospasm, and aspiration are the primary threats. Hemorrhage from surgical site bleeding manifests as increasing drain output, expanding hematoma, tachycardia, and falling blood pressure. Hypothermia from prolonged surgery and cold operating rooms can cause coagulopathy, shivering, and delayed metabolism of anesthetic agents.\n\nMalignant hyperthermia is a rare but life-threatening anesthesia complication caused by a genetic susceptibility to volatile anesthetics and succinylcholine. It presents with rapidly rising temperature (>40°C), muscle rigidity (especially masseter/jaw), tachycardia, hypercarbia, and metabolic/respiratory acidosis. Treatment is immediate cessation of triggering agents, administration of dantrolene sodium (2.5 mg/kg IV), active cooling, and supportive care.\n\nPhase 2: Early (24-72 hours)  -  Immobility and Inflammatory Response\nAtelectasis remains the #1 most common post-operative complication, caused by shallow breathing, pain-limited inspiratory effort, and prolonged supine positioning. It presents as low-grade fever (typically post-op day 1-2), diminished breath sounds at the lung bases, and mild tachypnea. Prevention (incentive spirometry, deep breathing, early ambulation) is far more effective than treatment.\n\nDeep vein thrombosis (DVT) begins forming during surgery from venous stasis, vessel injury, and hypercoagulability (Virchow's triad). Signs include unilateral calf pain, warmth, swelling, and positive Homans' sign (though this test has limited sensitivity). DVT can dislodge to cause pulmonary embolism (PE), most commonly on post-op days 5-7.\n\nPhase 3: Late (72 hours to weeks)  -  Healing and Systemic Complications\nWound infection typically presents 5-7 days post-operatively with erythema, warmth, induration, purulent drainage, and fever. Wound dehiscence (separation of wound layers) and evisceration (protrusion of abdominal organs) are emergencies typically occurring on post-op days 5-10, often precipitated by coughing, vomiting, or straining."
     },
     riskFactors: [
       "Prolonged surgical time (>3 hours increases all complication risks)",
@@ -976,7 +976,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "Respiratory: auscultate breath sounds every shift, incentive spirometry volume tracking, SpO2 trending",
       "Circulatory: vital sign trends, surgical site assessment (color, drainage, approximation), drain output (amount, color, consistency)",
       "Gastrointestinal: bowel sound assessment, flatus passage, first bowel movement, tolerance of diet advancement",
-      "Neurovascular: For orthopedic/vascular procedures — 6 P's: Pain, Pallor, Pulselessness, Paresthesia, Paralysis, Poikilothermia",
+      "Neurovascular: For orthopedic/vascular procedures  -  6 P's: Pain, Pallor, Pulselessness, Paresthesia, Paralysis, Poikilothermia",
       "Laboratory: CBC (hemoglobin trend for bleeding, WBC for infection), basic metabolic panel, coagulation studies as indicated"
     ],
     management: [
@@ -984,15 +984,15 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "EARLY: Incentive spirometry 10 breaths every 1-2 hours, early ambulation within 4-8 hours, DVT prophylaxis (SCDs, pharmacological)",
       "EARLY: Strict I&O monitoring, assess for urinary retention (bladder scan if no void within 6-8 hours)",
       "LATE: Assess wound healing trajectory, monitor for signs of infection, continue mobilization",
-      "COMPLICATION: Hemorrhage — apply pressure, vitals every 5 minutes, notify surgeon, prepare for return to OR",
-      "COMPLICATION: Evisceration — do NOT push organs back in, cover with sterile saline-moistened gauze, supine position with knees bent, NPO, notify surgeon STAT"
+      "COMPLICATION: Hemorrhage  -  apply pressure, vitals every 5 minutes, notify surgeon, prepare for return to OR",
+      "COMPLICATION: Evisceration  -  do NOT push organs back in, cover with sterile saline-moistened gauze, supine position with knees bent, NPO, notify surgeon STAT"
     ],
     nursingActions: [
       "Assess ABCs and level of consciousness immediately upon PACU arrival and at every assessment interval",
       "Monitor surgical site and drains: document output color, amount, and consistency every 1-4 hours depending on procedure",
-      "Enforce cough, deep breathing, and incentive spirometry — educate patient about the importance of pulmonary toilet",
+      "Enforce cough, deep breathing, and incentive spirometry  -  educate patient about the importance of pulmonary toilet",
       "Assess pain using a validated scale and manage per protocol while monitoring for respiratory depression",
-      "Promote early ambulation: dangle legs first, then stand, then ambulate with assistance — assess for orthostatic changes",
+      "Promote early ambulation: dangle legs first, then stand, then ambulate with assistance  -  assess for orthostatic changes",
       "Report: increasing pain despite adequate analgesia, new tachycardia, fever > 38.5°C, excessive drain output, wound separation, absent pulses distal to surgical site"
     ],
     signs: {
@@ -1016,24 +1016,24 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         action: "Inhibits calcium release from the sarcoplasmic reticulum, reversing the hypermetabolic state of malignant hyperthermia",
         sideEffects: "Muscle weakness, drowsiness, diarrhea, hepatotoxicity with prolonged use",
         contra: "No absolute contraindications when treating malignant hyperthermia (it is the definitive treatment)",
-        pearl: "Dantrolene MUST be available in every OR suite. Initial dose: 2.5 mg/kg IV push, repeat every 5-10 minutes until symptoms resolve (max ~10 mg/kg). Reconstitution requires 60 mL sterile water per 20 mg vial — it takes time to prepare, so start early."
+        pearl: "Dantrolene MUST be available in every OR suite. Initial dose: 2.5 mg/kg IV push, repeat every 5-10 minutes until symptoms resolve (max ~10 mg/kg). Reconstitution requires 60 mL sterile water per 20 mg vial  -  it takes time to prepare, so start early."
       },
       {
         name: "Naloxone (Narcan)",
         type: "Opioid Antagonist",
         action: "Competitively binds opioid receptors, reversing respiratory depression, sedation, and hypotension caused by opioid medications",
         sideEffects: "Acute opioid withdrawal (nausea, vomiting, diaphoresis, tachycardia), return of severe pain, pulmonary edema",
-        contra: "Use cautiously in opioid-dependent patients — can precipitate severe withdrawal. Titrate to respiratory rate, not consciousness",
-        pearl: "Post-op respiratory depression from opioids: give naloxone 0.04-0.4 mg IV, titrate to RR >12. Duration is shorter than most opioids (30-90 min) — patient may re-sedate. Monitor closely after administration."
+        contra: "Use cautiously in opioid-dependent patients  -  can precipitate severe withdrawal. Titrate to respiratory rate, not consciousness",
+        pearl: "Post-op respiratory depression from opioids: give naloxone 0.04-0.4 mg IV, titrate to RR >12. Duration is shorter than most opioids (30-90 min)  -  patient may re-sedate. Monitor closely after administration."
       }
     ],
     pearls: [
       "Post-op fever mnemonic: Wind (Day 1-2), Water (Day 3-5), Wound (Day 5-7), Walking (Day 5-7), Wonder drugs (anytime)",
-      "Atelectasis is the #1 most common post-op complication — prevention with incentive spirometry and early ambulation is essential",
+      "Atelectasis is the #1 most common post-op complication  -  prevention with incentive spirometry and early ambulation is essential",
       "If evisceration occurs: NEVER push organs back in. Cover with sterile saline-moistened gauze, position supine with knees bent, NPO, call surgeon STAT",
       "The 6 P's of neurovascular compromise: Pain (out of proportion), Pallor, Pulselessness, Paresthesia, Paralysis, Poikilothermia (cool extremity)",
       "Sudden dyspnea + chest pain + tachycardia on post-op day 5-7 = PE until proven otherwise",
-      "Malignant hyperthermia is a genetic condition — always ask about family history of anesthesia complications"
+      "Malignant hyperthermia is a genetic condition  -  always ask about family history of anesthesia complications"
     ],
     preTest: [
       {
@@ -1099,7 +1099,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Pediatric vs Adult Prioritization Differences",
     cellular: {
       title: "Developmental Physiology and Its Impact on Clinical Prioritization",
-      content: "Effective clinical prioritization requires understanding the fundamental physiological differences between pediatric and adult patients. Children are NOT simply 'small adults' — they have distinct anatomy, physiology, pharmacokinetics, and communication patterns that significantly impact how clinical priorities are established.\n\nAirway Differences:\n- Pediatric airways are smaller, shorter, and more anterior. The larynx is higher (C3-C4 in infants vs C4-C5 in adults).\n- The airway is funnel-shaped in children (narrowest at cricoid) vs cylindrical in adults (narrowest at vocal cords).\n- The large tongue and occiput can cause airway obstruction when supine — use the 'sniffing position' for optimal airway alignment.\n- Infants are obligate nose breathers until 4-6 months — nasal congestion alone can cause respiratory distress.\n- Even 1 mm of edema in a pediatric airway causes 44% reduction in cross-sectional area (vs 19% in adults).\n\nBreathing Differences:\n- Children depend more on diaphragmatic breathing; abdominal processes can compromise ventilation.\n- Fewer alveoli and less surfactant in young children = less respiratory reserve.\n- Higher metabolic rate = higher oxygen consumption per kg = faster desaturation when compromised.\n- Respiratory failure is the #1 cause of cardiac arrest in children (vs cardiac causes in adults).\n\nCirculation Differences:\n- Higher resting heart rates: newborn 120-160, infant 100-150, toddler 90-130, school-age 70-110.\n- Cardiac output is heart-rate dependent in infants (limited ability to increase stroke volume).\n- Children compensate for shock through tachycardia and vasoconstriction — hypotension is a LATE ominous sign.\n- Blood volume is proportionally smaller: 80 mL/kg (vs 70 mL/kg in adults). A 5 kg infant has only 400 mL total blood volume — small losses are proportionally significant.\n\nNeurological Differences:\n- Open fontanelles in infants allow early detection of increased ICP (bulging) or dehydration (sunken).\n- Children may not exhibit classic signs of meningitis — irritability, poor feeding, and lethargy may be the only symptoms in infants.\n- Pain assessment requires age-appropriate tools (FLACC for infants/toddlers, Wong-Baker FACES for preschool-school age).\n\nFluid and Electrolyte Differences:\n- Higher body water percentage (70-80% in infants vs 60% in adults) = faster dehydration.\n- Higher metabolic rate = higher caloric and fluid requirements per kg.\n- Immature renal function in neonates = limited ability to concentrate urine or handle fluid overload."
+      content: "Effective clinical prioritization requires understanding the fundamental physiological differences between pediatric and adult patients. Children are NOT simply 'small adults'  -  they have distinct anatomy, physiology, pharmacokinetics, and communication patterns that significantly impact how clinical priorities are established.\n\nAirway Differences:\n- Pediatric airways are smaller, shorter, and more anterior. The larynx is higher (C3-C4 in infants vs C4-C5 in adults).\n- The airway is funnel-shaped in children (narrowest at cricoid) vs cylindrical in adults (narrowest at vocal cords).\n- The large tongue and occiput can cause airway obstruction when supine  -  use the 'sniffing position' for optimal airway alignment.\n- Infants are obligate nose breathers until 4-6 months  -  nasal congestion alone can cause respiratory distress.\n- Even 1 mm of edema in a pediatric airway causes 44% reduction in cross-sectional area (vs 19% in adults).\n\nBreathing Differences:\n- Children depend more on diaphragmatic breathing; abdominal processes can compromise ventilation.\n- Fewer alveoli and less surfactant in young children = less respiratory reserve.\n- Higher metabolic rate = higher oxygen consumption per kg = faster desaturation when compromised.\n- Respiratory failure is the #1 cause of cardiac arrest in children (vs cardiac causes in adults).\n\nCirculation Differences:\n- Higher resting heart rates: newborn 120-160, infant 100-150, toddler 90-130, school-age 70-110.\n- Cardiac output is heart-rate dependent in infants (limited ability to increase stroke volume).\n- Children compensate for shock through tachycardia and vasoconstriction  -  hypotension is a LATE ominous sign.\n- Blood volume is proportionally smaller: 80 mL/kg (vs 70 mL/kg in adults). A 5 kg infant has only 400 mL total blood volume  -  small losses are proportionally significant.\n\nNeurological Differences:\n- Open fontanelles in infants allow early detection of increased ICP (bulging) or dehydration (sunken).\n- Children may not exhibit classic signs of meningitis  -  irritability, poor feeding, and lethargy may be the only symptoms in infants.\n- Pain assessment requires age-appropriate tools (FLACC for infants/toddlers, Wong-Baker FACES for preschool-school age).\n\nFluid and Electrolyte Differences:\n- Higher body water percentage (70-80% in infants vs 60% in adults) = faster dehydration.\n- Higher metabolic rate = higher caloric and fluid requirements per kg.\n- Immature renal function in neonates = limited ability to concentrate urine or handle fluid overload."
     },
     riskFactors: [
       "Failure to use age-appropriate vital sign ranges (applying adult parameters to children)",
@@ -1116,11 +1116,11 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "ADULT: GCS (Glasgow Coma Scale) for neurological assessment in trauma and altered consciousness",
       "PEDIATRIC: Modified GCS for children; fontanelle assessment in infants; FLACC pain scale for pre-verbal children",
       "ADULT: Standard vital sign ranges applied uniformly regardless of age",
-      "PEDIATRIC: Age-specific vital sign ranges — a HR of 70 is normal for an adult but bradycardic for an infant"
+      "PEDIATRIC: Age-specific vital sign ranges  -  a HR of 70 is normal for an adult but bradycardic for an infant"
     ],
     management: [
-      "ADULT cardiac arrest: most commonly cardiac origin — defibrillation and cardiac drugs are primary interventions",
-      "PEDIATRIC cardiac arrest: most commonly respiratory origin — restore ventilation and oxygenation FIRST",
+      "ADULT cardiac arrest: most commonly cardiac origin  -  defibrillation and cardiac drugs are primary interventions",
+      "PEDIATRIC cardiac arrest: most commonly respiratory origin  -  restore ventilation and oxygenation FIRST",
       "ADULT shock: hypotension is an early/mid sign; fluid and vasopressor management",
       "PEDIATRIC shock: tachycardia is the first sign; fluid boluses 20 mL/kg (weight-based), repeat up to 3 times",
       "ADULT medication dosing: standard adult doses with renal/hepatic adjustment",
@@ -1130,22 +1130,22 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "Always use age-appropriate vital sign reference charts when assessing pediatric patients",
       "Weigh ALL pediatric patients in KILOGRAMS upon admission and verify weight before any medication administration",
       "Use the PAT (Pediatric Assessment Triangle) for quick initial assessment: Appearance, Work of Breathing, Circulation to Skin",
-      "Involve parents in assessment — they know their child's baseline behavior and can identify subtle changes",
+      "Involve parents in assessment  -  they know their child's baseline behavior and can identify subtle changes",
       "Use age-appropriate pain assessment tools: FLACC (0-3 years), Wong-Baker FACES (3-8 years), numeric scale (8+ years)",
-      "Calculate ALL fluid boluses and medication doses based on weight — never estimate or use 'standard' doses"
+      "Calculate ALL fluid boluses and medication doses based on weight  -  never estimate or use 'standard' doses"
     ],
     signs: {
       left: [
-        "ADULT Priority: Chest pain with ST elevation — activate cardiac cath lab",
-        "ADULT Priority: Acute stroke symptoms — time-critical thrombolytic window",
+        "ADULT Priority: Chest pain with ST elevation  -  activate cardiac cath lab",
+        "ADULT Priority: Acute stroke symptoms  -  time-critical thrombolytic window",
         "ADULT Priority: Hemodynamic instability with hypotension",
         "ADULT Priority: Severe sepsis with lactate elevation and organ dysfunction"
       ],
       right: [
-        "PEDIATRIC Priority: Respiratory distress with retractions and grunting — prevent respiratory arrest",
-        "PEDIATRIC Priority: Tachycardia with poor perfusion — early compensated shock",
-        "PEDIATRIC Priority: Behavioral change (active → lethargic) — indicates serious illness",
-        "PEDIATRIC Priority: Fever in neonate (<28 days) — full sepsis workup mandatory"
+        "PEDIATRIC Priority: Respiratory distress with retractions and grunting  -  prevent respiratory arrest",
+        "PEDIATRIC Priority: Tachycardia with poor perfusion  -  early compensated shock",
+        "PEDIATRIC Priority: Behavioral change (active → lethargic)  -  indicates serious illness",
+        "PEDIATRIC Priority: Fever in neonate (<28 days)  -  full sepsis workup mandatory"
       ]
     },
     medications: [
@@ -1153,17 +1153,17 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         name: "Weight-Based Dosing Principle",
         type: "Pediatric Safety Standard",
         action: "All pediatric medications are dosed in mg/kg (or mcg/kg) based on actual body weight in kilograms",
-        sideEffects: "Dosing errors are the #1 medication safety concern in pediatrics — overdose can be fatal, underdose can be ineffective",
-        contra: "Never use adult standard doses for children. Never estimate weight — always weigh the child in kg",
+        sideEffects: "Dosing errors are the #1 medication safety concern in pediatrics  -  overdose can be fatal, underdose can be ineffective",
+        contra: "Never use adult standard doses for children. Never estimate weight  -  always weigh the child in kg",
         pearl: "The Broselow Tape is used in emergency situations to estimate weight and provide pre-calculated drug doses based on the child's length when actual weight cannot be obtained."
       }
     ],
     pearls: [
-      "Children are NOT small adults — their physiology, pharmacology, and clinical presentations are fundamentally different",
-      "In adults, cardiac arrest is usually cardiac in origin. In children, it's almost always respiratory — AIRWAY and BREATHING are paramount",
+      "Children are NOT small adults  -  their physiology, pharmacology, and clinical presentations are fundamentally different",
+      "In adults, cardiac arrest is usually cardiac in origin. In children, it's almost always respiratory  -  AIRWAY and BREATHING are paramount",
       "Tachycardia = first sign of shock in children. Hypotension = LATE sign meaning decompensation has occurred",
-      "A quiet, lethargic child is MORE concerning than a screaming child — crying requires energy and an intact cardiorespiratory system",
-      "1 mm of airway edema reduces a pediatric airway by 44% vs 19% in adults — small changes have huge impact",
+      "A quiet, lethargic child is MORE concerning than a screaming child  -  crying requires energy and an intact cardiorespiratory system",
+      "1 mm of airway edema reduces a pediatric airway by 44% vs 19% in adults  -  small changes have huge impact",
       "Parental report of 'something is different about my child' is a clinically significant finding that warrants immediate assessment"
     ],
     preTest: [
@@ -1177,7 +1177,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         question: "A pediatric patient has a heart rate of 160 bpm. This finding is:",
         options: [
           "Always abnormal and requires immediate intervention",
-          "Dependent on the child's age — it could be normal or abnormal",
+          "Dependent on the child's age  -  it could be normal or abnormal",
           "Normal for all pediatric age groups",
           "Indicative of cardiac arrest"
         ],
@@ -1187,8 +1187,8 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       {
         question: "Hypotension in a pediatric patient with signs of shock indicates:",
         options: [
-          "Early compensated shock — begin monitoring",
-          "Decompensated shock — the child has lost 25-30% of blood volume",
+          "Early compensated shock  -  begin monitoring",
+          "Decompensated shock  -  the child has lost 25-30% of blood volume",
           "A normal variation in children",
           "The need for repeat blood pressure measurement"
         ],
@@ -1223,7 +1223,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
           "See patients in the order they were admitted"
         ],
         correct: 2,
-        rationale: "Prioritization is always based on clinical acuity and physiological stability, regardless of the patient's age. The patient with the greatest risk of deterioration — whether adult or pediatric — is assessed first."
+        rationale: "Prioritization is always based on clinical acuity and physiological stability, regardless of the patient's age. The patient with the greatest risk of deterioration  -  whether adult or pediatric  -  is assessed first."
       }
     ],
     quiz: [
@@ -1240,7 +1240,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "First Action Logic: What to Do Before Calling the Provider",
     cellular: {
       title: "Nursing Autonomy and Independent Practice Before Provider Notification",
-      content: "One of the most challenging aspects of nursing practice — and one of the most frequently tested concepts on licensure examinations — is determining which actions the nurse should take INDEPENDENTLY before notifying the healthcare provider. This requires understanding the distinction between independent nursing interventions, collaborative interventions, and dependent interventions.\n\nIndependent nursing interventions are actions within the nurse's scope of practice that do NOT require a physician order. These are based on nursing assessment, knowledge, and clinical judgment. Examples include: positioning the patient (elevate HOB for dyspnea), applying oxygen (in emergencies), performing a focused assessment, initiating CPR, taking vital signs, applying pressure to a bleeding site, and implementing safety measures.\n\nCollaborative interventions require coordination between nursing and medical teams but may be initiated through standing orders or protocols. Examples include: activating a Rapid Response Team, implementing a sepsis bundle per protocol, and administering medications per PRN or protocol orders.\n\nDependent interventions require a specific provider order before the nurse can act. Examples include: starting new medications, performing invasive procedures, changing diet orders, and ordering diagnostic tests.\n\nThe exam logic for 'What should the nurse do FIRST?' follows a predictable pattern:\n1. If the patient is in immediate danger (ABC compromise): ACT FIRST, then notify the provider. Never delay life-saving intervention to make a phone call.\n2. If the patient needs assessment: ASSESS FIRST, then notify the provider with data. Never call a provider saying 'something is wrong' without assessment data.\n3. If the patient is stable but has a new finding: GATHER DATA FIRST (vitals, labs, focused assessment), then call the provider with complete information using SBAR.\n4. If the patient needs a new order: PREPARE first (have relevant data ready), then call the provider with a recommendation.\n\nCommon exam trap: An answer choice says 'Notify the healthcare provider' as the FIRST action. In most scenarios, this is INCORRECT unless the nurse has already assessed the patient and gathered data. The exception is when a life-threatening finding has already been identified and the nurse needs provider intervention beyond nursing scope (e.g., a medication to reverse the situation)."
+      content: "One of the most challenging aspects of nursing practice  -  and one of the most frequently tested concepts on licensure examinations  -  is determining which actions the nurse should take INDEPENDENTLY before notifying the healthcare provider. This requires understanding the distinction between independent nursing interventions, collaborative interventions, and dependent interventions.\n\nIndependent nursing interventions are actions within the nurse's scope of practice that do NOT require a physician order. These are based on nursing assessment, knowledge, and clinical judgment. Examples include: positioning the patient (elevate HOB for dyspnea), applying oxygen (in emergencies), performing a focused assessment, initiating CPR, taking vital signs, applying pressure to a bleeding site, and implementing safety measures.\n\nCollaborative interventions require coordination between nursing and medical teams but may be initiated through standing orders or protocols. Examples include: activating a Rapid Response Team, implementing a sepsis bundle per protocol, and administering medications per PRN or protocol orders.\n\nDependent interventions require a specific provider order before the nurse can act. Examples include: starting new medications, performing invasive procedures, changing diet orders, and ordering diagnostic tests.\n\nThe exam logic for 'What should the nurse do FIRST?' follows a predictable pattern:\n1. If the patient is in immediate danger (ABC compromise): ACT FIRST, then notify the provider. Never delay life-saving intervention to make a phone call.\n2. If the patient needs assessment: ASSESS FIRST, then notify the provider with data. Never call a provider saying 'something is wrong' without assessment data.\n3. If the patient is stable but has a new finding: GATHER DATA FIRST (vitals, labs, focused assessment), then call the provider with complete information using SBAR.\n4. If the patient needs a new order: PREPARE first (have relevant data ready), then call the provider with a recommendation.\n\nCommon exam trap: An answer choice says 'Notify the healthcare provider' as the FIRST action. In most scenarios, this is INCORRECT unless the nurse has already assessed the patient and gathered data. The exception is when a life-threatening finding has already been identified and the nurse needs provider intervention beyond nursing scope (e.g., a medication to reverse the situation)."
     },
     riskFactors: [
       "Calling the provider without completing an assessment first (unprepared communication)",
@@ -1260,18 +1260,18 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "Step 6: Does the nurse have a recommendation? → Formulate what you think is needed"
     ],
     management: [
-      "EMERGENCY (ABCs compromised): Act first — position, oxygen, initiate CPR if needed, THEN notify provider",
+      "EMERGENCY (ABCs compromised): Act first  -  position, oxygen, initiate CPR if needed, THEN notify provider",
       "ACUTE CHANGE (not immediately life-threatening): Assess, gather data, initiate within-scope interventions, then notify",
       "NEW FINDING (stable patient): Complete assessment, review recent labs, document, then notify with SBAR",
       "EXPECTED FINDING (within parameters): Document, continue monitoring, notify at next scheduled communication",
       "BEFORE calling: Know the patient's current vital signs, recent labs, medications, and allergies",
-      "WHEN calling: Use SBAR format — be concise, have data ready, state your recommendation"
+      "WHEN calling: Use SBAR format  -  be concise, have data ready, state your recommendation"
     ],
     nursingActions: [
       "ASSESS before calling: A provider cannot make decisions without data. 'My patient doesn't look right' is not SBAR",
-      "ACT within scope during emergencies: Elevate HOB for dyspnea, apply O2, position patient, initiate CPR — these do NOT require orders",
+      "ACT within scope during emergencies: Elevate HOB for dyspnea, apply O2, position patient, initiate CPR  -  these do NOT require orders",
       "PREPARE before calling: Have chart accessible, know recent vital sign trends, review relevant labs, have allergy information",
-      "RECOMMEND when calling: State what you think is needed — 'I recommend a STAT chest X-ray and ABG' is more effective than 'What do you want me to do?'",
+      "RECOMMEND when calling: State what you think is needed  -  'I recommend a STAT chest X-ray and ABG' is more effective than 'What do you want me to do?'",
       "DOCUMENT everything: assessment findings, interventions performed, provider notification time, orders received, patient response",
       "FOLLOW UP: After receiving orders, implement them promptly and reassess the patient's response"
     ],
@@ -1296,18 +1296,18 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         name: "Standing Order / Protocol Medications",
         type: "Pre-Authorized Interventions",
         action: "Medications pre-authorized by provider-approved protocols allow nurses to administer without individual patient orders for specific clinical scenarios",
-        sideEffects: "Vary by medication — nurse must still know indications, contraindications, and adverse effects",
+        sideEffects: "Vary by medication  -  nurse must still know indications, contraindications, and adverse effects",
         contra: "Standing orders must match the clinical scenario exactly. If the patient's situation doesn't fit the protocol criteria, an individual order is required",
         pearl: "Common standing orders include: supplemental O2 for SpO2 <92%, acetaminophen for fever >38.5°C, insulin sliding scale for glucose management, epinephrine for anaphylaxis, and naloxone for opioid-induced respiratory depression."
       }
     ],
     pearls: [
-      "On exams, 'Notify the healthcare provider' is rarely the FIRST action — assess and intervene within scope FIRST",
+      "On exams, 'Notify the healthcare provider' is rarely the FIRST action  -  assess and intervene within scope FIRST",
       "The exception: if the question states the nurse has already assessed and the findings require medical intervention beyond nursing scope",
       "In emergencies, you have standing authority to: maintain airway, apply O2, initiate CPR, apply pressure to bleeding, position for safety",
       "SBAR is the gold standard for provider communication: Situation, Background, Assessment, Recommendation",
       "A nurse who calls a provider and says 'I don't know what's wrong but the patient looks bad' has NOT prepared adequately",
-      "Always end your SBAR with a recommendation — this demonstrates clinical judgment and often expedites appropriate orders"
+      "Always end your SBAR with a recommendation  -  this demonstrates clinical judgment and often expedites appropriate orders"
     ],
     preTest: [
       {
@@ -1350,7 +1350,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
         options: [
           "Administer the patient's scheduled antihypertensive medication",
           "Reassess the blood pressure in 15 minutes",
-          "Notify the provider STAT with assessment findings — this is a hypertensive emergency requiring medical intervention",
+          "Notify the provider STAT with assessment findings  -  this is a hypertensive emergency requiring medical intervention",
           "Encourage the patient to rest and offer acetaminophen for the headache"
         ],
         correct: 2,
@@ -1398,7 +1398,7 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     title: "Assignment Making: Matching Patient Acuity to Staff",
     cellular: {
       title: "Principles of Patient Assignment Based on Acuity and Staff Competency",
-      content: "Assignment making is a critical charge nurse and team leader responsibility that requires matching patient needs to staff capabilities while maintaining safe, equitable workloads. Unlike delegation (assigning a specific task), assignment making involves allocating complete patient care responsibility to team members based on their licensure, competency, experience, and the patients' acuity levels.\n\nKey principles of safe assignment making:\n\n1. Match Acuity to Competency: The most complex, unstable patients should be assigned to the most experienced and competent nurses. New graduates, float pool nurses, and agency staff should receive patients with predictable, stable conditions that are within their demonstrated competency.\n\n2. Consider Continuity of Care: When possible, patients should be assigned to the same nurse they had on previous shifts. Continuity improves outcomes because the nurse knows the patient's baseline, trajectory, and family dynamics.\n\n3. Balance Workload: Assignment making is not just about patient numbers — it's about the cumulative complexity, acuity, and care demands. A nurse with two ICU patients may have a heavier workload than a nurse with five stable step-down patients.\n\n4. Geographic Considerations: When possible, assign patients in close proximity to reduce travel time and improve surveillance. This is especially important for patients requiring frequent monitoring.\n\n5. Skill Mix: Ensure each team has an appropriate mix of RNs, LPNs, and UAPs to meet patient needs. Consider which team members can handle which tasks based on scope and competency.\n\n6. Special Considerations: New admissions, discharges, and transfers create additional workload. Post-operative patients returning from the OR need immediate assessment. Patients requiring isolation add time for donning/doffing PPE.\n\nCommon assignment-making errors on exams:\n- Assigning an unstable patient to a float nurse unfamiliar with the unit\n- Giving a new graduate the most complex patient because they 'need to learn'\n- Overloading one nurse while another has a lighter assignment without justification\n- Assigning an LPN to a patient requiring initial assessment or care planning\n- Failing to consider pending admissions, discharges, or procedures in the workload"
+      content: "Assignment making is a critical charge nurse and team leader responsibility that requires matching patient needs to staff capabilities while maintaining safe, equitable workloads. Unlike delegation (assigning a specific task), assignment making involves allocating complete patient care responsibility to team members based on their licensure, competency, experience, and the patients' acuity levels.\n\nKey principles of safe assignment making:\n\n1. Match Acuity to Competency: The most complex, unstable patients should be assigned to the most experienced and competent nurses. New graduates, float pool nurses, and agency staff should receive patients with predictable, stable conditions that are within their demonstrated competency.\n\n2. Consider Continuity of Care: When possible, patients should be assigned to the same nurse they had on previous shifts. Continuity improves outcomes because the nurse knows the patient's baseline, trajectory, and family dynamics.\n\n3. Balance Workload: Assignment making is not just about patient numbers  -  it's about the cumulative complexity, acuity, and care demands. A nurse with two ICU patients may have a heavier workload than a nurse with five stable step-down patients.\n\n4. Geographic Considerations: When possible, assign patients in close proximity to reduce travel time and improve surveillance. This is especially important for patients requiring frequent monitoring.\n\n5. Skill Mix: Ensure each team has an appropriate mix of RNs, LPNs, and UAPs to meet patient needs. Consider which team members can handle which tasks based on scope and competency.\n\n6. Special Considerations: New admissions, discharges, and transfers create additional workload. Post-operative patients returning from the OR need immediate assessment. Patients requiring isolation add time for donning/doffing PPE.\n\nCommon assignment-making errors on exams:\n- Assigning an unstable patient to a float nurse unfamiliar with the unit\n- Giving a new graduate the most complex patient because they 'need to learn'\n- Overloading one nurse while another has a lighter assignment without justification\n- Assigning an LPN to a patient requiring initial assessment or care planning\n- Failing to consider pending admissions, discharges, or procedures in the workload"
     },
     riskFactors: [
       "Float or agency nurses unfamiliar with unit-specific patient populations and protocols",
@@ -1426,10 +1426,10 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
       "UAP: Assign ADL care, vital signs, ambulation, and comfort measures for stable patients under RN supervision"
     ],
     nursingActions: [
-      "As charge nurse, review ALL patient acuities before making assignments — do not assign based solely on room numbers or convenience",
+      "As charge nurse, review ALL patient acuities before making assignments  -  do not assign based solely on room numbers or convenience",
       "Communicate assignment rationale to staff: 'You have Mrs. Johnson because she needs frequent neuro checks and you're our most experienced neuro nurse'",
       "Build flexibility into assignments to accommodate unexpected admissions or patient changes",
-      "Check in with staff throughout the shift — redistribute if a patient's acuity changes significantly",
+      "Check in with staff throughout the shift  -  redistribute if a patient's acuity changes significantly",
       "Pair new graduates or orientees with experienced staff for complex patients (buddy system)",
       "Document assignment decisions when they involve patient safety considerations"
     ],
@@ -1459,11 +1459,11 @@ export const clinicalScenariosLessons: Record<string, LessonContent> = {
     ],
     pearls: [
       "Assignment making is about COMPETENCY, not just convenience. The goal is to match patient needs to staff capabilities",
-      "A float nurse should NEVER receive the most complex patients on the unit — they lack unit-specific knowledge and familiarity with protocols",
-      "New graduates need stable, predictable patients — not complex ones 'to learn from.' Learning occurs with appropriate support, not trial by fire",
+      "A float nurse should NEVER receive the most complex patients on the unit  -  they lack unit-specific knowledge and familiarity with protocols",
+      "New graduates need stable, predictable patients  -  not complex ones 'to learn from.' Learning occurs with appropriate support, not trial by fire",
       "LPNs cannot perform initial assessments, create care plans, or administer IV push medications. Assignment must reflect these scope limitations",
-      "Continuity of care improves outcomes — assign the same nurse to the same patient across shifts whenever possible",
-      "When an exam question asks 'Which patient should be assigned to the float nurse?' — the answer is always the most STABLE patient"
+      "Continuity of care improves outcomes  -  assign the same nurse to the same patient across shifts whenever possible",
+      "When an exam question asks 'Which patient should be assigned to the float nurse?'  -  the answer is always the most STABLE patient"
     ],
     preTest: [
       {

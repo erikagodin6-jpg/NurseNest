@@ -16,7 +16,7 @@ export interface LectureMetadata {
 export const lectureRegistry: LectureMetadata[] = [
   {
     slug: "cell-anatomy",
-    title: "Cell Anatomy & Cellular Biology – Foundations for Nursing",
+    title: "Cell Anatomy & Cellular Biology - Foundations for Nursing",
     duration: "Video Lecture",
     level: "All Levels",
     category: "Anatomy & Physiology",

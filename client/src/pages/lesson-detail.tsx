@@ -44,65 +44,65 @@ function EditableList({ items, onChange, placeholder = "Enter item..." }: { item
 
 function VitalSignsReferenceCharts() {
   const vitalSignsData = [
-    { ageGroup: "Newborn (0–28 days)", hr: "120–160", rr: "30–60", sbp: "60–80", dbp: "35–55", temp: "36.5–37.5°C", spo2: "≥95%" },
-    { ageGroup: "Infant (1–12 months)", hr: "100–150", rr: "25–50", sbp: "70–100", dbp: "40–65", temp: "36.5–37.5°C", spo2: "≥95%" },
-    { ageGroup: "Toddler (1–3 years)", hr: "90–140", rr: "20–30", sbp: "80–110", dbp: "50–75", temp: "36.5–37.5°C", spo2: "≥95%" },
-    { ageGroup: "Preschool (3–5 years)", hr: "80–120", rr: "20–28", sbp: "85–110", dbp: "50–75", temp: "36.5–37.5°C", spo2: "≥95%" },
-    { ageGroup: "School Age (6–12 years)", hr: "70–110", rr: "18–25", sbp: "90–120", dbp: "55–80", temp: "36.5–37.5°C", spo2: "≥95%" },
-    { ageGroup: "Adolescent (13–17 years)", hr: "60–100", rr: "12–20", sbp: "100–130", dbp: "60–85", temp: "36.5–37.5°C", spo2: "≥95%" },
-    { ageGroup: "Adult (18–64 years)", hr: "60–100", rr: "12–20", sbp: "90–140", dbp: "60–90", temp: "36.1–37.2°C", spo2: "≥95%" },
-    { ageGroup: "Older Adult (65+ years)", hr: "60–100", rr: "12–20", sbp: "90–150", dbp: "60–90", temp: "35.8–36.9°C", spo2: "≥93%" },
+    { ageGroup: "Newborn (0-28 days)", hr: "120-160", rr: "30-60", sbp: "60-80", dbp: "35-55", temp: "36.5-37.5°C", spo2: "≥95%" },
+    { ageGroup: "Infant (1-12 months)", hr: "100-150", rr: "25-50", sbp: "70-100", dbp: "40-65", temp: "36.5-37.5°C", spo2: "≥95%" },
+    { ageGroup: "Toddler (1-3 years)", hr: "90-140", rr: "20-30", sbp: "80-110", dbp: "50-75", temp: "36.5-37.5°C", spo2: "≥95%" },
+    { ageGroup: "Preschool (3-5 years)", hr: "80-120", rr: "20-28", sbp: "85-110", dbp: "50-75", temp: "36.5-37.5°C", spo2: "≥95%" },
+    { ageGroup: "School Age (6-12 years)", hr: "70-110", rr: "18-25", sbp: "90-120", dbp: "55-80", temp: "36.5-37.5°C", spo2: "≥95%" },
+    { ageGroup: "Adolescent (13-17 years)", hr: "60-100", rr: "12-20", sbp: "100-130", dbp: "60-85", temp: "36.5-37.5°C", spo2: "≥95%" },
+    { ageGroup: "Adult (18-64 years)", hr: "60-100", rr: "12-20", sbp: "90-140", dbp: "60-90", temp: "36.1-37.2°C", spo2: "≥95%" },
+    { ageGroup: "Older Adult (65+ years)", hr: "60-100", rr: "12-20", sbp: "90-150", dbp: "60-90", temp: "35.8-36.9°C", spo2: "≥93%" },
   ];
 
   const redFlagsByAge = [
     {
       group: "Newborn & Infant",
       flags: [
-        "HR < 100 or > 180 bpm — consider sepsis, dehydration, or cardiac anomaly",
-        "RR > 60 — assess for respiratory distress syndrome, TTN, or congenital anomaly",
-        "Temperature < 36.0°C or > 38.0°C — infection risk highest in neonates",
-        "Capillary refill > 3 seconds — perfusion concern",
-        "SBP < 60 mmHg (newborn) or < 70 mmHg (infant) — shock"
+        "HR < 100 or > 180 bpm  -  consider sepsis, dehydration, or cardiac anomaly",
+        "RR > 60  -  assess for respiratory distress syndrome, TTN, or congenital anomaly",
+        "Temperature < 36.0°C or > 38.0°C  -  infection risk highest in neonates",
+        "Capillary refill > 3 seconds  -  perfusion concern",
+        "SBP < 60 mmHg (newborn) or < 70 mmHg (infant)  -  shock"
       ]
     },
     {
       group: "Toddler & Preschool",
       flags: [
-        "HR > 150 — rule out fever, pain, dehydration, or cardiac cause",
-        "RR > 40 — respiratory distress; assess for retractions, nasal flaring, grunting",
-        "SBP < 70 + (2 × age in years) — hypotension formula for ages 1–10",
-        "Temperature > 39°C — assess for febrile seizure risk (6 months–5 years)",
-        "SpO2 < 94% — supplemental O2 and escalation"
+        "HR > 150  -  rule out fever, pain, dehydration, or cardiac cause",
+        "RR > 40  -  respiratory distress; assess for retractions, nasal flaring, grunting",
+        "SBP < 70 + (2 × age in years)  -  hypotension formula for ages 1-10",
+        "Temperature > 39°C  -  assess for febrile seizure risk (6 months-5 years)",
+        "SpO2 < 94%  -  supplemental O2 and escalation"
       ]
     },
     {
       group: "School Age & Adolescent",
       flags: [
-        "HR < 50 or > 130 — evaluate for cardiac arrhythmia, substance use, or anxiety vs. true pathology",
-        "RR > 28 — consider asthma exacerbation, DKA, or panic attack",
-        "SBP > 130 or < 80 — assess for hypertensive emergency or hemorrhage",
-        "New-onset orthostatic hypotension — dehydration, eating disorder, or cardiac",
-        "Temperature > 40°C — aggressive cooling and investigation"
+        "HR < 50 or > 130  -  evaluate for cardiac arrhythmia, substance use, or anxiety vs. true pathology",
+        "RR > 28  -  consider asthma exacerbation, DKA, or panic attack",
+        "SBP > 130 or < 80  -  assess for hypertensive emergency or hemorrhage",
+        "New-onset orthostatic hypotension  -  dehydration, eating disorder, or cardiac",
+        "Temperature > 40°C  -  aggressive cooling and investigation"
       ]
     },
     {
       group: "Adult",
       flags: [
-        "HR < 40 or > 130 — immediate RRT activation",
-        "RR < 8 or > 28 — most predictive sign of deterioration",
-        "SBP < 90 or > 180 mmHg — hemodynamic emergency",
-        "SpO2 < 90% (< 88% in COPD) — supplemental O2 and escalation",
-        "Temperature > 38.5°C with tachycardia — sepsis screening (qSOFA)"
+        "HR < 40 or > 130  -  immediate RRT activation",
+        "RR < 8 or > 28  -  most predictive sign of deterioration",
+        "SBP < 90 or > 180 mmHg  -  hemodynamic emergency",
+        "SpO2 < 90% (< 88% in COPD)  -  supplemental O2 and escalation",
+        "Temperature > 38.5°C with tachycardia  -  sepsis screening (qSOFA)"
       ]
     },
     {
       group: "Older Adult (65+)",
       flags: [
-        "Baseline may be lower — 'normal' BP of 150/80 may be their norm; acute drop is the red flag",
-        "Blunted febrile response — infection without fever is common; assess WBC and mental status",
-        "New confusion or agitation — may be the ONLY sign of UTI, pneumonia, or MI",
-        "Orthostatic hypotension — fall risk; hold antihypertensives and reassess",
-        "SpO2 < 93% — lower threshold for escalation due to reduced reserve"
+        "Baseline may be lower  -  'normal' BP of 150/80 may be their norm; acute drop is the red flag",
+        "Blunted febrile response  -  infection without fever is common; assess WBC and mental status",
+        "New confusion or agitation  -  may be the ONLY sign of UTI, pneumonia, or MI",
+        "Orthostatic hypotension  -  fall risk; hold antihypertensives and reassess",
+        "SpO2 < 93%  -  lower threshold for escalation due to reduced reserve"
       ]
     }
   ];
@@ -113,7 +113,7 @@ function VitalSignsReferenceCharts() {
         <HeartPulse className="text-red-500 w-8 h-8" />
         <h2>Normal Vital Signs Reference Charts</h2>
       </div>
-      <p className="text-sm text-gray-500 mt-1">Age-specific normal ranges for clinical assessment — from newborn through older adult</p>
+      <p className="text-sm text-gray-500 mt-1">Age-specific normal ranges for clinical assessment  -  from newborn through older adult</p>
 
       <Card className="border-none shadow-md bg-white overflow-hidden">
         <CardContent className="p-0">
@@ -188,7 +188,7 @@ function VitalSignsReferenceCharts() {
         <ShieldAlert className="text-orange-500 w-7 h-7" />
         <h3>Age-Specific Red Flags & Escalation Triggers</h3>
       </div>
-      <p className="text-sm text-gray-500 mt-1">When to escalate — critical thresholds by age group</p>
+      <p className="text-sm text-gray-500 mt-1">When to escalate  -  critical thresholds by age group</p>
 
       <div className="grid md:grid-cols-2 gap-4">
         {redFlagsByAge.map((section) => (
@@ -226,10 +226,10 @@ function IsolationTypesGuide() {
       iconColor: "text-green-600",
       headerBg: "bg-green-100",
       applies: "ALL patients, ALL encounters, regardless of diagnosis",
-      when: "Every patient interaction — the baseline for all care",
+      when: "Every patient interaction  -  the baseline for all care",
       ppe: ["Gloves (when touching blood/body fluids/mucous membranes)", "Gown (if splashing anticipated)", "Mask + eye protection (if splash/spray risk)", "Hand hygiene before and after every contact"],
       room: "No special room required",
-      examples: ["Every patient in every setting", "Routine vital signs with intact skin — gloves optional, hand hygiene mandatory", "Blood draw, wound care, suctioning — gloves required"],
+      examples: ["Every patient in every setting", "Routine vital signs with intact skin  -  gloves optional, hand hygiene mandatory", "Blood draw, wound care, suctioning  -  gloves required"],
       keyPoints: ["Foundation of ALL infection prevention", "Treats every patient as potentially infectious", "Hand hygiene is the single most important measure"]
     },
     {
@@ -239,22 +239,22 @@ function IsolationTypesGuide() {
       headerBg: "bg-yellow-100",
       applies: "Organisms spread by direct or indirect physical contact",
       when: "Known or suspected infection with contact-transmitted organisms",
-      ppe: ["Gown — don before entering the room", "Gloves — don before entering the room", "Remove PPE before leaving the room", "Hand hygiene immediately after removal"],
+      ppe: ["Gown  -  don before entering the room", "Gloves  -  don before entering the room", "Remove PPE before leaving the room", "Hand hygiene immediately after removal"],
       room: "Private room preferred; cohort patients with same organism if unavailable",
-      examples: ["MRSA (Methicillin-Resistant Staphylococcus aureus)", "VRE (Vancomycin-Resistant Enterococcus)", "C. difficile (Clostridioides difficile) — use SOAP & WATER, not alcohol rub", "Scabies, lice (pediculosis)", "Draining wounds with heavy drainage not contained by dressing", "RSV (Respiratory Syncytial Virus) in infants", "Norovirus, Rotavirus"],
-      keyPoints: ["Dedicated equipment (stethoscope, BP cuff) stays in the room", "C. difficile spores resist alcohol — ONLY soap and water works", "Patient transport: cover infected area, clean surfaces after contact"]
+      examples: ["MRSA (Methicillin-Resistant Staphylococcus aureus)", "VRE (Vancomycin-Resistant Enterococcus)", "C. difficile (Clostridioides difficile)  -  use SOAP & WATER, not alcohol rub", "Scabies, lice (pediculosis)", "Draining wounds with heavy drainage not contained by dressing", "RSV (Respiratory Syncytial Virus) in infants", "Norovirus, Rotavirus"],
+      keyPoints: ["Dedicated equipment (stethoscope, BP cuff) stays in the room", "C. difficile spores resist alcohol  -  ONLY soap and water works", "Patient transport: cover infected area, clean surfaces after contact"]
     },
     {
       type: "Droplet Precautions",
       color: "bg-blue-50 border-blue-200",
       iconColor: "text-blue-600",
       headerBg: "bg-blue-100",
-      applies: "Organisms spread by large respiratory droplets (>5 microns) that travel 3–6 feet",
+      applies: "Organisms spread by large respiratory droplets (>5 microns) that travel 3-6 feet",
       when: "Known or suspected infection with droplet-transmitted organisms",
-      ppe: ["Surgical mask — don before entering the room", "Eye protection if splash risk", "Gloves and gown per standard precautions as needed"],
+      ppe: ["Surgical mask  -  don before entering the room", "Eye protection if splash risk", "Gloves and gown per standard precautions as needed"],
       room: "Private room preferred; maintain ≥3 feet between patients if cohorting; door may remain open",
       examples: ["Influenza (seasonal flu)", "Pertussis (whooping cough)", "Bacterial meningitis (Neisseria meningitidis)", "Mumps", "Rubella (German measles)", "Group A Streptococcus (pharyngitis, scarlet fever)", "Respiratory infections caused by adenovirus, rhinovirus"],
-      keyPoints: ["Surgical mask is sufficient — N95 is NOT required", "Patient wears surgical mask during transport", "Droplets fall to surfaces quickly — do not remain airborne", "Negative pressure room is NOT needed"]
+      keyPoints: ["Surgical mask is sufficient  -  N95 is NOT required", "Patient wears surgical mask during transport", "Droplets fall to surfaces quickly  -  do not remain airborne", "Negative pressure room is NOT needed"]
     },
     {
       type: "Airborne Precautions",
@@ -263,10 +263,10 @@ function IsolationTypesGuide() {
       headerBg: "bg-red-100",
       applies: "Organisms spread by tiny airborne nuclei (<5 microns) that remain suspended in air and travel long distances",
       when: "Known or suspected infection with airborne-transmitted organisms",
-      ppe: ["N95 respirator (must be fit-tested annually) — don BEFORE entering room", "PAPR (Powered Air-Purifying Respirator) as alternative to N95", "Gloves and gown per standard precautions"],
-      room: "Airborne Infection Isolation Room (AIIR) — negative pressure, ≥6–12 air exchanges/hour, air exhausted outside or HEPA-filtered, DOOR MUST REMAIN CLOSED",
+      ppe: ["N95 respirator (must be fit-tested annually)  -  don BEFORE entering room", "PAPR (Powered Air-Purifying Respirator) as alternative to N95", "Gloves and gown per standard precautions"],
+      room: "Airborne Infection Isolation Room (AIIR)  -  negative pressure, ≥6-12 air exchanges/hour, air exhausted outside or HEPA-filtered, DOOR MUST REMAIN CLOSED",
       examples: ["Tuberculosis (pulmonary or laryngeal TB)", "Measles (Rubeola)", "Varicella (Chickenpox)", "Disseminated Herpes Zoster (Shingles) in immunocompromised patients", "COVID-19 (during aerosol-generating procedures)", "Smallpox"],
-      keyPoints: ["N95 required — surgical mask is NOT sufficient", "Room must be negative pressure with door CLOSED at all times", "Patient wears surgical mask during transport (NOT N95)", "Immune healthcare workers preferred for varicella/measles patients", "Verify negative pressure daily (smoke test or monitor)"]
+      keyPoints: ["N95 required  -  surgical mask is NOT sufficient", "Room must be negative pressure with door CLOSED at all times", "Patient wears surgical mask during transport (NOT N95)", "Immune healthcare workers preferred for varicella/measles patients", "Verify negative pressure daily (smoke test or monitor)"]
     },
     {
       type: "Protective (Reverse) Isolation",
@@ -278,7 +278,7 @@ function IsolationTypesGuide() {
       ppe: ["Mask, gown, gloves for anyone entering the room", "Strict hand hygiene enforcement for all visitors", "Visitors screened for signs of illness before entering"],
       room: "Private room with positive pressure (air flows OUT of the room); HEPA-filtered air; door closed",
       examples: ["Neutropenic patients (post-chemotherapy, ANC < 500)", "Bone marrow / stem cell transplant recipients", "Severe combined immunodeficiency (SCID)", "Organ transplant patients on heavy immunosuppression"],
-      keyPoints: ["Protects the PATIENT from environmental organisms (opposite of other isolation types)", "No fresh flowers, fruits, or raw vegetables (harbor bacteria/fungi)", "Low-microbial diet (neutropenic diet) may be ordered", "Monitor for subtle infection signs — fever may be the ONLY indicator", "Positive pressure keeps contaminated air OUT of the room"]
+      keyPoints: ["Protects the PATIENT from environmental organisms (opposite of other isolation types)", "No fresh flowers, fruits, or raw vegetables (harbor bacteria/fungi)", "Low-microbial diet (neutropenic diet) may be ordered", "Monitor for subtle infection signs  -  fever may be the ONLY indicator", "Positive pressure keeps contaminated air OUT of the room"]
     }
   ];
 
@@ -288,7 +288,7 @@ function IsolationTypesGuide() {
         <ShieldAlert className="text-blue-600 w-8 h-8" />
         <h2>Types of Isolation Precautions</h2>
       </div>
-      <p className="text-sm text-gray-500 mt-1">When, why, and how to implement each type of isolation — from Standard to Protective</p>
+      <p className="text-sm text-gray-500 mt-1">When, why, and how to implement each type of isolation  -  from Standard to Protective</p>
 
       <div className="space-y-6">
         {isolationTypes.map((iso) => (

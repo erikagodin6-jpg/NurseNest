@@ -97,7 +97,7 @@ const scenarios: Scenario[] = [
       { id: "c", text: "Notify the charge nurse/RN of vital sign changes and decreased urine output", isCorrect: true, rationale: "The triad of rising HR, falling BP, and decreased urine output may indicate early hemorrhage or fluid volume deficit post-operatively. As an RPN, reporting these changes to the RN/charge nurse is the priority action within scope." },
       { id: "d", text: "Elevate the head of bed and recheck vitals in 30 minutes", isCorrect: false, rationale: "Delaying action by 30 minutes when hemodynamic indicators are trending negatively is unsafe. This could allow deterioration to progress undetected." },
     ],
-    examTrap: "Exams often tempt you to 'recheck in 30 minutes' — but trending tachycardia + hypotension + oliguria requires immediate escalation, not watchful waiting.",
+    examTrap: "Exams often tempt you to 'recheck in 30 minutes'  -  but trending tachycardia + hypotension + oliguria requires immediate escalation, not watchful waiting.",
   },
   {
     id: "rpn-2",
@@ -115,11 +115,11 @@ const scenarios: Scenario[] = [
     question: "What is the FIRST nursing action?",
     options: [
       { id: "a", text: "Administer the next scheduled dose of sliding scale insulin", isCorrect: false, rationale: "The blood glucose is critically low at 2.8 mmol/L. Administering insulin would cause dangerous further hypoglycemia and is contraindicated." },
-      { id: "b", text: "Check the patient's blood glucose level at the bedside", isCorrect: true, rationale: "The symptoms (diaphoresis, tremor, cool/clammy skin, tachycardia) are classic hypoglycemia signs. Confirming blood glucose with a point-of-care test is the first action — it validates the clinical picture and guides the next intervention (glucose administration). This is within RPN scope." },
+      { id: "b", text: "Check the patient's blood glucose level at the bedside", isCorrect: true, rationale: "The symptoms (diaphoresis, tremor, cool/clammy skin, tachycardia) are classic hypoglycemia signs. Confirming blood glucose with a point-of-care test is the first action  -  it validates the clinical picture and guides the next intervention (glucose administration). This is within RPN scope." },
       { id: "c", text: "Notify the surgeon that the patient cannot go to the OR", isCorrect: false, rationale: "While the surgical team should eventually be notified, the immediate priority is confirming and treating the hypoglycemia, not surgical logistics." },
       { id: "d", text: "Offer orange juice with sugar packets", isCorrect: false, rationale: "The patient is NPO, and treating without confirming the glucose level first could mask other conditions. Confirm the glucose reading first, then follow hypoglycemia protocol." },
     ],
-    examTrap: "Many students jump to 'give juice' — but the patient is NPO, and you must CONFIRM the blood glucose first before treating. Assess before you intervene.",
+    examTrap: "Many students jump to 'give juice'  -  but the patient is NPO, and you must CONFIRM the blood glucose first before treating. Assess before you intervene.",
   },
   {
     id: "rpn-3",
@@ -141,7 +141,7 @@ const scenarios: Scenario[] = [
       { id: "c", text: "Notify the charge nurse about the patient's confusion", isCorrect: false, rationale: "Reporting confusion is appropriate but secondary. The patient needs immediate physical safety before any communication or documentation occurs." },
       { id: "d", text: "Obtain an order for a urinary catheter to reduce bathroom trips", isCorrect: false, rationale: "Urinary catheters increase infection risk and are not first-line for fall prevention. This does not address the immediate safety concern of a patient standing unsafely." },
     ],
-    examTrap: "Don't overthink interventions when the patient is in immediate physical danger. Safety FIRST — get the patient safe, then plan prevention.",
+    examTrap: "Don't overthink interventions when the patient is in immediate physical danger. Safety FIRST  -  get the patient safe, then plan prevention.",
   },
   {
     id: "rpn-4",
@@ -159,7 +159,7 @@ const scenarios: Scenario[] = [
     question: "What is the FIRST nursing action?",
     options: [
       { id: "a", text: "Stop the transfusion immediately and keep the IV line open with normal saline", isCorrect: true, rationale: "Back pain, chills, fever, dark urine, and hemodynamic instability during a transfusion indicate an acute hemolytic transfusion reaction. Stopping the transfusion immediately prevents further exposure to incompatible blood. The IV must remain open for emergency medication access." },
-      { id: "b", text: "Slow the transfusion rate and administer diphenhydramine", isCorrect: false, rationale: "Slowing the rate is appropriate for mild allergic reactions (hives, itching). This presentation has hemolytic signs — back pain, dark urine, hemodynamic changes — which require immediate cessation, not rate adjustment." },
+      { id: "b", text: "Slow the transfusion rate and administer diphenhydramine", isCorrect: false, rationale: "Slowing the rate is appropriate for mild allergic reactions (hives, itching). This presentation has hemolytic signs  -  back pain, dark urine, hemodynamic changes  -  which require immediate cessation, not rate adjustment." },
       { id: "c", text: "Obtain a blood sample for repeat type and crossmatch", isCorrect: false, rationale: "Blood samples will be needed, but the first priority is stopping further exposure to the incompatible blood product. Lab work follows the stop-the-transfusion action." },
       { id: "d", text: "Administer acetaminophen for fever and monitor", isCorrect: false, rationale: "Treating the fever symptomatically without stopping the causative agent is dangerous. The fever is from the hemolytic reaction, not a simple infection." },
     ],
@@ -185,7 +185,7 @@ const scenarios: Scenario[] = [
       { id: "c", text: "Reconnect the chest tube to the original drainage system", isCorrect: false, rationale: "The original connection may be contaminated. Reconnecting without sterile technique introduces infection risk. The emergency water-seal method provides immediate safe intervention." },
       { id: "d", text: "Remove the chest tube and apply an occlusive dressing", isCorrect: false, rationale: "Removing a chest tube is a provider-level decision and requires an order. Additionally, removing drainage post-lobectomy could lead to tension pneumothorax." },
     ],
-    examTrap: "NEVER clamp a chest tube as the first action — this is the #1 exam trap. The correct emergency response is sterile water submersion to create a temporary water seal.",
+    examTrap: "NEVER clamp a chest tube as the first action  -  this is the #1 exam trap. The correct emergency response is sterile water submersion to create a temporary water seal.",
   },
   {
     id: "rn-1",
@@ -202,12 +202,12 @@ const scenarios: Scenario[] = [
     vitals: { hr: 118, bpSystolic: 164, bpDiastolic: 98, rr: 24, spo2: 93, tempC: 37.0 },
     question: "What is the FIRST nursing action?",
     options: [
-      { id: "a", text: "Administer sublingual nitroglycerin as per standing order", isCorrect: false, rationale: "While NTG is appropriate for chest pain, the very first action must be assessment — obtain a 12-lead ECG to determine if this is an acute MI (STEMI). Treatment decisions depend on ECG findings." },
+      { id: "a", text: "Administer sublingual nitroglycerin as per standing order", isCorrect: false, rationale: "While NTG is appropriate for chest pain, the very first action must be assessment  -  obtain a 12-lead ECG to determine if this is an acute MI (STEMI). Treatment decisions depend on ECG findings." },
       { id: "b", text: "Obtain a 12-lead ECG immediately", isCorrect: true, rationale: "A 12-lead ECG is the first diagnostic action for acute chest pain. It differentiates STEMI from NSTEMI/unstable angina and determines the treatment pathway (emergent PCI vs. medical management). The goal is ECG within 10 minutes of symptom onset." },
       { id: "c", text: "Start a second IV line and draw cardiac troponins", isCorrect: false, rationale: "While troponins and IV access are important, they do not guide immediate emergency treatment the way an ECG does. The ECG determines whether this patient needs emergent catheterization NOW." },
       { id: "d", text: "Call a rapid response and prepare for possible intubation", isCorrect: false, rationale: "The patient is alert, talking, and has adequate (though declining) oxygenation. A rapid response may be warranted, but the 12-lead ECG provides critical data that must come first." },
     ],
-    examTrap: "Don't jump to nitroglycerin — the ECG determines everything. STEMI = cath lab immediately. NSTEMI = medical management. The ECG MUST come first.",
+    examTrap: "Don't jump to nitroglycerin  -  the ECG determines everything. STEMI = cath lab immediately. NSTEMI = medical management. The ECG MUST come first.",
   },
   {
     id: "rn-2",
@@ -240,7 +240,7 @@ const scenarios: Scenario[] = [
     patientHistory: "55-year-old male returned from cardiac catheterization via right femoral artery 2 hours ago. Pressure dressing in place. Now reporting increasing groin pain and 'something feels wet.'",
     age: 55,
     sex: "Male",
-    allergies: ["Contrast dye (mild — premedicated)"],
+    allergies: ["Contrast dye (mild  -  premedicated)"],
     comorbidities: ["CAD", "Type 2 Diabetes", "On dual antiplatelet therapy"],
     symptoms: ["Increasing right groin pain", "Expanding hematoma palpable at groin site", "Feeling lightheaded", "Right foot feels 'tingly'"],
     vitals: { hr: 120, bpSystolic: 84, bpDiastolic: 52, rr: 24, spo2: 95, tempC: 36.8 },
@@ -270,7 +270,7 @@ const scenarios: Scenario[] = [
     options: [
       { id: "a", text: "Administer aspirin 325 mg per stroke protocol", isCorrect: false, rationale: "This patient is on warfarin (anticoagulant). Administering aspirin before knowing INR and stroke type (ischemic vs. hemorrhagic) could worsen a hemorrhagic stroke. Never give antiplatelets before imaging." },
       { id: "b", text: "Lower blood pressure with IV labetalol immediately", isCorrect: false, rationale: "In acute stroke, permissive hypertension is maintained unless BP exceeds 220/120 (or 185/110 if tPA candidate). Aggressive BP reduction can worsen ischemic injury by reducing perfusion to the penumbra." },
-      { id: "c", text: "Activate the stroke alert/code stroke and note the time of symptom onset", isCorrect: true, rationale: "Time is brain. Activating the stroke protocol mobilizes the stroke team, prioritizes CT imaging, and ensures the tPA decision window is maximized. The last-known-well time (45 minutes ago) is critical — this patient is within the 4.5-hour tPA window. Every minute of delay = 1.9 million neurons lost." },
+      { id: "c", text: "Activate the stroke alert/code stroke and note the time of symptom onset", isCorrect: true, rationale: "Time is brain. Activating the stroke protocol mobilizes the stroke team, prioritizes CT imaging, and ensures the tPA decision window is maximized. The last-known-well time (45 minutes ago) is critical  -  this patient is within the 4.5-hour tPA window. Every minute of delay = 1.9 million neurons lost." },
       { id: "d", text: "Perform a complete neurological assessment using the NIH Stroke Scale", isCorrect: false, rationale: "The NIHSS is essential but is performed as part of the stroke protocol after activation. Activating the code stroke triggers ALL components simultaneously, including rapid CT and NIHSS scoring." },
     ],
     examTrap: "Never treat BP aggressively in acute stroke unless it exceeds specific thresholds. And never give aspirin before ruling out hemorrhagic stroke with CT.",
@@ -313,7 +313,7 @@ const scenarios: Scenario[] = [
     question: "What is the FIRST nursing action?",
     options: [
       { id: "a", text: "Notify the trauma surgeon and prepare for emergent chest tube insertion", isCorrect: true, rationale: "Tracheal deviation, absent breath sounds, JVD, hypotension, and tachycardia in a trauma patient = tension pneumothorax until proven otherwise. This is a clinical diagnosis requiring emergent decompression. The RN must immediately notify the trauma team and prepare for needle decompression (2nd intercostal space, midclavicular line) or chest tube. This is minutes-to-death without intervention." },
-      { id: "b", text: "Obtain a stat portable chest X-ray to confirm the diagnosis", isCorrect: false, rationale: "Tension pneumothorax is a CLINICAL diagnosis — waiting for imaging in a rapidly decompensating patient wastes critical time. The classic signs (tracheal deviation, absent breath sounds, JVD, hypotension) are diagnostic." },
+      { id: "b", text: "Obtain a stat portable chest X-ray to confirm the diagnosis", isCorrect: false, rationale: "Tension pneumothorax is a CLINICAL diagnosis  -  waiting for imaging in a rapidly decompensating patient wastes critical time. The classic signs (tracheal deviation, absent breath sounds, JVD, hypotension) are diagnostic." },
       { id: "c", text: "Apply high-flow oxygen via non-rebreather mask at 15 L/min", isCorrect: false, rationale: "Oxygen alone cannot treat tension pneumothorax because the issue is mechanical (trapped air compressing the mediastinum), not a gas exchange problem alone. Oxygen is supportive but not the priority action." },
       { id: "d", text: "Position the patient on the left side to improve ventilation", isCorrect: false, rationale: "Positional changes will not resolve a tension pneumothorax. The trapped air must be evacuated through decompression. No amount of repositioning addresses the underlying mechanical obstruction." },
     ],
@@ -337,7 +337,7 @@ const scenarios: Scenario[] = [
       { id: "a", text: "Prescribe amoxicillin 1g TID empirically for 7 days", isCorrect: false, rationale: "Empiric treatment is premature without diagnostic confirmation. Chest X-ray is needed to confirm pneumonia and rule out other pathologies (effusion, mass, abscess). Additionally, amoxicillin alone may not cover atypical organisms." },
       { id: "b", text: "Order a chest X-ray (PA and lateral) to confirm the diagnosis", isCorrect: true, rationale: "Clinical presentation is suggestive of pneumonia, but CXR confirmation is the standard of care. It confirms the diagnosis, identifies the location and extent of consolidation, detects complications (effusion, abscess), and guides antibiotic selection and disposition decisions (outpatient vs. inpatient). Diagnosis before treatment." },
       { id: "c", text: "Order sputum culture and sensitivity before starting antibiotics", isCorrect: false, rationale: "Sputum cultures are not routinely recommended for outpatient CAP per IDSA guidelines. They are reserved for patients requiring hospitalization or with risk factors for resistant organisms." },
-      { id: "d", text: "Refer to pulmonology for bronchoscopy", isCorrect: false, rationale: "Bronchoscopy is not indicated for a straightforward CAP presentation. It is reserved for recurrent pneumonia, non-resolving infiltrates, or suspected malignancy — none of which apply here." },
+      { id: "d", text: "Refer to pulmonology for bronchoscopy", isCorrect: false, rationale: "Bronchoscopy is not indicated for a straightforward CAP presentation. It is reserved for recurrent pneumonia, non-resolving infiltrates, or suspected malignancy  -  none of which apply here." },
     ],
     examTrap: "NP exams test whether you diagnose before you treat. Even when the clinical picture is 'classic,' diagnostic confirmation (CXR) comes before empiric antibiotics.",
   },
@@ -379,11 +379,11 @@ const scenarios: Scenario[] = [
     question: "What is the FIRST action by the Nurse Practitioner?",
     options: [
       { id: "a", text: "Order a thyroid ultrasound and TSH level", isCorrect: true, rationale: "For a palpable thyroid nodule, the initial evaluation per ATA guidelines is thyroid ultrasound (to characterize size, composition, vascularity) AND TSH level (to assess thyroid function). Ultrasound determines whether fine-needle aspiration biopsy is indicated based on size and suspicious features. TSH guides whether a radionuclide scan is needed." },
-      { id: "b", text: "Refer immediately to endocrinology for fine-needle aspiration", isCorrect: false, rationale: "FNA may ultimately be needed, but the NP should first obtain ultrasound to characterize the nodule. Not all nodules require FNA — size, composition, and echogenicity guide this decision. Immediate referral without imaging skips the diagnostic workup." },
-      { id: "c", text: "Order CT scan of the neck with contrast to evaluate the nodule", isCorrect: false, rationale: "CT with contrast is not first-line for thyroid nodule evaluation. Additionally, this patient has an iodine contrast allergy. Ultrasound is the gold standard imaging modality for thyroid nodules — it's non-invasive, radiation-free, and provides the specific characterization needed." },
+      { id: "b", text: "Refer immediately to endocrinology for fine-needle aspiration", isCorrect: false, rationale: "FNA may ultimately be needed, but the NP should first obtain ultrasound to characterize the nodule. Not all nodules require FNA  -  size, composition, and echogenicity guide this decision. Immediate referral without imaging skips the diagnostic workup." },
+      { id: "c", text: "Order CT scan of the neck with contrast to evaluate the nodule", isCorrect: false, rationale: "CT with contrast is not first-line for thyroid nodule evaluation. Additionally, this patient has an iodine contrast allergy. Ultrasound is the gold standard imaging modality for thyroid nodules  -  it's non-invasive, radiation-free, and provides the specific characterization needed." },
       { id: "d", text: "Start levothyroxine to suppress the nodule growth", isCorrect: false, rationale: "TSH suppression therapy is no longer recommended for thyroid nodules per current guidelines. Additionally, initiating thyroid hormone without knowing the TSH level could cause iatrogenic hyperthyroidism." },
     ],
-    examTrap: "Thyroid nodule workup ALWAYS starts with ultrasound + TSH. Never jump to FNA without imaging first, and never suppress with levothyroxine — that's outdated practice.",
+    examTrap: "Thyroid nodule workup ALWAYS starts with ultrasound + TSH. Never jump to FNA without imaging first, and never suppress with levothyroxine  -  that's outdated practice.",
   },
   {
     id: "np-4",
@@ -402,7 +402,7 @@ const scenarios: Scenario[] = [
     options: [
       { id: "a", text: "Order a lumbar puncture to rule out meningitis", isCorrect: false, rationale: "LP is not routinely indicated for a simple febrile seizure in an immunized child >12 months with no meningeal signs. The AAP guidelines state LP should be considered only if meningeal signs are present, immunizations are incomplete, or the child was on antibiotics." },
       { id: "b", text: "Prescribe phenobarbital for seizure prophylaxis", isCorrect: false, rationale: "Anticonvulsant prophylaxis is NOT recommended for simple febrile seizures per AAP guidelines. The risks of daily medication outweigh the benefits, and simple febrile seizures do not increase epilepsy risk." },
-      { id: "c", text: "Perform a thorough assessment to identify the fever source and determine if this is a simple febrile seizure", isCorrect: true, rationale: "The NP must first classify the seizure (simple vs. complex febrile seizure) by assessing duration (<15 min), focality (generalized), recurrence (first episode), and age (6 months–5 years). Then identify the fever source — bilateral otitis media is the likely cause. A simple febrile seizure in an immunized child with an identifiable fever source requires treating the underlying infection, fever management, and parent education — not neuroimaging or anticonvulsants." },
+      { id: "c", text: "Perform a thorough assessment to identify the fever source and determine if this is a simple febrile seizure", isCorrect: true, rationale: "The NP must first classify the seizure (simple vs. complex febrile seizure) by assessing duration (<15 min), focality (generalized), recurrence (first episode), and age (6 months-5 years). Then identify the fever source  -  bilateral otitis media is the likely cause. A simple febrile seizure in an immunized child with an identifiable fever source requires treating the underlying infection, fever management, and parent education  -  not neuroimaging or anticonvulsants." },
       { id: "d", text: "Order a stat CT scan of the head to rule out intracranial pathology", isCorrect: false, rationale: "Neuroimaging is not indicated for simple febrile seizures per AAP guidelines. CT exposes the child to unnecessary radiation. Imaging is reserved for complex febrile seizures (focal, prolonged >15 min, or recurrent within 24 hours)." },
     ],
     examTrap: "Simple febrile seizures do NOT require LP, CT, EEG, or anticonvulsants. The exam tests whether you can resist over-investigating a benign condition.",
@@ -422,12 +422,12 @@ const scenarios: Scenario[] = [
     vitals: { hr: 112, bpSystolic: 96, bpDiastolic: 62, rr: 32, spo2: 86, tempC: 36.9, glucoseMmol: 9.8 },
     question: "What is the FIRST action by the Nurse Practitioner?",
     options: [
-      { id: "a", text: "Order IV furosemide 80 mg push and establish continuous telemetry", isCorrect: false, rationale: "While IV diuretics are essential, the patient's SpO2 is 86% with severe dyspnea. Oxygenation must be addressed first — a patient who cannot oxygenate will deteriorate regardless of diuresis. Stabilize the ABCs before definitive treatment." },
+      { id: "a", text: "Order IV furosemide 80 mg push and establish continuous telemetry", isCorrect: false, rationale: "While IV diuretics are essential, the patient's SpO2 is 86% with severe dyspnea. Oxygenation must be addressed first  -  a patient who cannot oxygenate will deteriorate regardless of diuresis. Stabilize the ABCs before definitive treatment." },
       { id: "b", text: "Apply BiPAP at 10/5 cmH2O and position upright to stabilize oxygenation", isCorrect: true, rationale: "With SpO2 86%, RR 32, and bilateral crackles, this patient has acute pulmonary edema with respiratory failure. Non-invasive positive pressure ventilation (BiPAP) immediately reduces work of breathing, improves oxygenation, reduces preload, and buys time for definitive treatment. Upright positioning reduces venous return and improves diaphragmatic excursion. ABC approach: secure the airway and breathing FIRST." },
-      { id: "c", text: "Start IV nitroglycerin drip for preload and afterload reduction", isCorrect: false, rationale: "The patient's systolic BP is 96 mmHg — nitroglycerin will cause further hypotension and is contraindicated when SBP <100. Vasodilators require adequate blood pressure to be used safely in HF." },
+      { id: "c", text: "Start IV nitroglycerin drip for preload and afterload reduction", isCorrect: false, rationale: "The patient's systolic BP is 96 mmHg  -  nitroglycerin will cause further hypotension and is contraindicated when SBP <100. Vasodilators require adequate blood pressure to be used safely in HF." },
       { id: "d", text: "Order stat BNP, troponin, BMP, and chest X-ray", isCorrect: false, rationale: "Diagnostics are important but this patient is in acute respiratory distress. Labs and imaging can be ordered simultaneously with stabilization, but they should never delay life-saving respiratory support." },
     ],
-    examTrap: "In acute decompensated HF: stabilize oxygenation (BiPAP) before diuresis. And NEVER give nitroglycerin with SBP <100 — that's a critical safety check.",
+    examTrap: "In acute decompensated HF: stabilize oxygenation (BiPAP) before diuresis. And NEVER give nitroglycerin with SBP <100  -  that's a critical safety check.",
   },
   {
     id: "np-6",
@@ -444,10 +444,10 @@ const scenarios: Scenario[] = [
     vitals: { hr: 124, bpSystolic: 108, bpDiastolic: 72, rr: 28, spo2: 90, tempC: 37.4 },
     question: "What is the FIRST action by the Nurse Practitioner?",
     options: [
-      { id: "a", text: "Order a D-dimer level to evaluate for PE", isCorrect: false, rationale: "D-dimer is a rule-OUT test used in LOW-probability PE patients. This patient has HIGH clinical probability (Wells score ≥7: recent surgery, immobilization, tachycardia, hemoptysis, DVT signs, OCP use). In high-probability patients, D-dimer is unreliable — go directly to definitive imaging." },
+      { id: "a", text: "Order a D-dimer level to evaluate for PE", isCorrect: false, rationale: "D-dimer is a rule-OUT test used in LOW-probability PE patients. This patient has HIGH clinical probability (Wells score ≥7: recent surgery, immobilization, tachycardia, hemoptysis, DVT signs, OCP use). In high-probability patients, D-dimer is unreliable  -  go directly to definitive imaging." },
       { id: "b", text: "Initiate therapeutic anticoagulation with IV heparin and order CT pulmonary angiography", isCorrect: true, rationale: "In a hemodynamically stable patient with HIGH clinical probability for PE (multiple risk factors: recent surgery, OCP, obesity + classic symptoms: pleuritic pain, dyspnea, hemoptysis, DVT signs), guidelines recommend initiating anticoagulation BEFORE imaging confirmation if clinical suspicion is high. CTPA is the gold standard diagnostic test. Delaying anticoagulation while waiting for imaging increases clot propagation risk." },
       { id: "c", text: "Order bilateral lower extremity duplex ultrasound first", isCorrect: false, rationale: "While the calf signs suggest DVT, the primary concern is pulmonary embolism. LE ultrasound may confirm DVT but does not evaluate the lungs. CTPA directly visualizes the pulmonary vasculature and is the definitive test." },
-      { id: "d", text: "Administer aspirin 325 mg and morphine for pain control", isCorrect: false, rationale: "Aspirin is not the anticoagulant of choice for PE — heparin is the standard. Morphine can cause respiratory depression in a patient already hypoxic with SpO2 90%. This approach undertreats and potentially harms." },
+      { id: "d", text: "Administer aspirin 325 mg and morphine for pain control", isCorrect: false, rationale: "Aspirin is not the anticoagulant of choice for PE  -  heparin is the standard. Morphine can cause respiratory depression in a patient already hypoxic with SpO2 90%. This approach undertreats and potentially harms." },
     ],
     examTrap: "High-probability PE = skip D-dimer and go straight to CTPA + anticoagulation. D-dimer is only useful for ruling OUT PE in LOW-probability patients.",
   },
@@ -655,7 +655,7 @@ function ScenarioRunner({
                   {showFeedback && (
                     <div className="mt-3 pt-3 border-t border-gray-100">
                       <p className={`text-xs font-semibold mb-1 ${opt.isCorrect ? "text-emerald-600" : "text-gray-500"}`}>
-                        {opt.isCorrect ? "✓ Correct — Priority Action" : "✗ Not the priority"}
+                        {opt.isCorrect ? "✓ Correct  -  Priority Action" : "✗ Not the priority"}
                       </p>
                       <p className="text-sm text-gray-600 leading-relaxed">{opt.rationale}</p>
                     </div>
@@ -738,7 +738,7 @@ function SummaryScreen({
             {correctCount}/{total}
           </div>
           <p className="text-gray-500 text-sm">
-            {percentage}% accuracy —{" "}
+            {percentage}% accuracy  - {" "}
             {percentage >= 80 ? "Excellent clinical reasoning!" : percentage >= 60 ? "Good foundation, review weak areas." : "Needs focused review. Re-attempt recommended."}
           </p>
         </CardContent>
@@ -900,7 +900,7 @@ export default function FirstActionSimulatorPage() {
                 </div>
               </div>
               <p className="text-lg text-gray-600 max-w-3xl leading-relaxed mt-4">
-                "What do you do FIRST?" — the most common and most missed exam question type.
+                "What do you do FIRST?"  -  the most common and most missed exam question type.
                 Select your tier to practice clinical prioritization with realistic patient scenarios.
               </p>
             </div>

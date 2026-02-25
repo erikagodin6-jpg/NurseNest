@@ -165,7 +165,7 @@ Requirements:
     return str
       .replace(/\u2014/g, ", ")
       .replace(/\u2013/g, " to ")
-      .replace(/—/g, ", ")
+      .replace(/ - /g, ", ")
       .replace(/–/g, " to ")
       .replace(/\s*--\s*/g, ", ");
   }

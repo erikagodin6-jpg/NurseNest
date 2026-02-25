@@ -57,21 +57,21 @@ function getCompatibilityRationale(patient: BloodType, donor: BloodType): string
   const donorRh = donor.includes("+");
 
   if (canReceive(patient, donor)) {
-    if (donor === "O-") return "O- is the universal RBC donor — it lacks A, B antigens and Rh factor, so no ABO or Rh incompatibility occurs.";
-    if (patient === "AB+") return "AB+ is the universal recipient — AB plasma has no anti-A or anti-B antibodies, and Rh+ can receive Rh+ or Rh- blood.";
-    if (patientABO === donorABO && patientRh === donorRh) return `Exact type match (${donor}). No antigen-antibody mismatch — safest transfusion option.`;
+    if (donor === "O-") return "O- is the universal RBC donor  -  it lacks A, B antigens and Rh factor, so no ABO or Rh incompatibility occurs.";
+    if (patient === "AB+") return "AB+ is the universal recipient  -  AB plasma has no anti-A or anti-B antibodies, and Rh+ can receive Rh+ or Rh- blood.";
+    if (patientABO === donorABO && patientRh === donorRh) return `Exact type match (${donor}). No antigen-antibody mismatch  -  safest transfusion option.`;
     if (patientABO === donorABO) return `ABO match. Rh-negative donor blood is safe for Rh-positive recipients since there is no D antigen to trigger anti-D antibodies.`;
     if (donorABO === "O") return "Type O donor lacks A and B antigens, so recipient's anti-A/anti-B antibodies have nothing to attack. ABO-compatible.";
     return `Compatible: the donor RBCs do not carry antigens that the recipient's plasma antibodies would attack. No hemolysis risk.`;
   }
 
   const reasons: string[] = [];
-  if (!patientRh && donorRh) reasons.push("Rh incompatibility: Rh-negative patients must NOT receive Rh-positive blood — it triggers anti-D antibody production and hemolysis.");
+  if (!patientRh && donorRh) reasons.push("Rh incompatibility: Rh-negative patients must NOT receive Rh-positive blood  -  it triggers anti-D antibody production and hemolysis.");
   const patientAntibodies = patientABO === "A" ? ["B"] : patientABO === "B" ? ["A"] : patientABO === "O" ? ["A", "B"] : [];
   const donorAntigens = donorABO === "A" ? ["A"] : donorABO === "B" ? ["B"] : donorABO === "AB" ? ["A", "B"] : [];
   const conflict = donorAntigens.filter(a => patientAntibodies.includes(a));
   if (conflict.length > 0) reasons.push(`ABO incompatibility: patient has anti-${conflict.join(" and anti-")} antibodies that attack donor ${conflict.join("/")} antigens → acute hemolytic reaction risk.`);
-  return reasons.length > 0 ? reasons.join(" ") : "Incompatible transfusion — antigen-antibody mismatch leads to hemolysis risk.";
+  return reasons.length > 0 ? reasons.join(" ") : "Incompatible transfusion  -  antigen-antibody mismatch leads to hemolysis risk.";
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -173,7 +173,7 @@ const scenarios: TransfusionScenario[] = [
     reactionType: "taco",
     priorityAction: "Stop or slow transfusion, position upright, administer diuretics (furosemide) as ordered, apply oxygen.",
     rationale: "TACO is volume overload from rapid or excessive transfusion. The heart cannot handle the increased preload → pulmonary edema. Classic findings: hypertension, JVD, crackles, elevated BNP. Treat with diuretics and positioning. Risk factors: elderly, CHF, renal disease.",
-    examTrap: "Exam Trap: TACO vs TRALI — both cause respiratory distress. TACO = hypertension + JVD + fluid overload signs + responds to diuretics. TRALI = hypotension/normal BP + NO fluid overload + bilateral infiltrates. BNP is elevated in TACO, normal in TRALI."
+    examTrap: "Exam Trap: TACO vs TRALI  -  both cause respiratory distress. TACO = hypertension + JVD + fluid overload signs + responds to diuretics. TRALI = hypotension/normal BP + NO fluid overload + bilateral infiltrates. BNP is elevated in TACO, normal in TRALI."
   },
   {
     id: "s6",
@@ -183,8 +183,8 @@ const scenarios: TransfusionScenario[] = [
     vitals: { hr: 112, bp: "98/62", rr: 32, spo2: 82, temp: 38.1 },
     reactionType: "trali",
     priorityAction: "Stop transfusion, provide aggressive respiratory support (high-flow O₂, may need intubation), notify provider immediately.",
-    rationale: "TRALI is caused by donor antibodies activating recipient neutrophils in pulmonary vasculature → capillary leak → non-cardiogenic pulmonary edema. Occurs within 6 hours. Key: NO fluid overload signs (normal BNP, no JVD). Diuretics are NOT helpful — this is a permeability problem, not a volume problem.",
-    examTrap: "Exam Trap: TRALI vs TACO — TRALI shows bilateral infiltrates WITHOUT fluid overload. Blood pressure is normal or LOW (not elevated). Diuretics will NOT help and may worsen hypotension. Supportive respiratory care is the priority."
+    rationale: "TRALI is caused by donor antibodies activating recipient neutrophils in pulmonary vasculature → capillary leak → non-cardiogenic pulmonary edema. Occurs within 6 hours. Key: NO fluid overload signs (normal BNP, no JVD). Diuretics are NOT helpful  -  this is a permeability problem, not a volume problem.",
+    examTrap: "Exam Trap: TRALI vs TACO  -  TRALI shows bilateral infiltrates WITHOUT fluid overload. Blood pressure is normal or LOW (not elevated). Diuretics will NOT help and may worsen hypotension. Supportive respiratory care is the priority."
   },
   {
     id: "s7",
@@ -194,7 +194,7 @@ const scenarios: TransfusionScenario[] = [
     vitals: { hr: 128, bp: "76/42", rr: 28, spo2: 91, temp: 39.5 },
     reactionType: "acute_hemolytic",
     priorityAction: "STOP transfusion immediately, maintain IV with NS (new tubing), send blood bag + tubing to lab, draw direct Coombs test.",
-    rationale: "This is a classic ABO-incompatible transfusion — a never event. Anti-B antibodies in the type A patient attack the type B donor RBCs → massive intravascular hemolysis → free hemoglobin → DIC + renal failure. Oozing from IV site indicates early DIC. This is the deadliest transfusion reaction."
+    rationale: "This is a classic ABO-incompatible transfusion  -  a never event. Anti-B antibodies in the type A patient attack the type B donor RBCs → massive intravascular hemolysis → free hemoglobin → DIC + renal failure. Oozing from IV site indicates early DIC. This is the deadliest transfusion reaction."
   },
   {
     id: "s8",
@@ -220,7 +220,7 @@ const scenarios: TransfusionScenario[] = [
     id: "s10",
     timeSinceStart: "15 minutes",
     patientBackground: "35-year-old male with known IgA deficiency, receiving plasma products during surgery.",
-    symptoms: ["Bronchospasm with audible wheezing", "Rapidly dropping blood pressure", "Generalized erythema and urticaria", "Laryngeal edema — voice becoming hoarse", "Tachycardia"],
+    symptoms: ["Bronchospasm with audible wheezing", "Rapidly dropping blood pressure", "Generalized erythema and urticaria", "Laryngeal edema  -  voice becoming hoarse", "Tachycardia"],
     vitals: { hr: 140, bp: "64/38", rr: 36, spo2: 78, temp: 37.2 },
     reactionType: "anaphylactic",
     priorityAction: "STOP transfusion, administer epinephrine 0.3 mg IM immediately, establish second IV, prepare for intubation.",
@@ -281,8 +281,8 @@ const interventions: InterventionItem[] = [
     applicableTo: ["acute_hemolytic"],
     rationaleIfWrong: {
       febrile_nonhemolytic: "Urine monitoring is not a priority for febrile reactions as hemolysis does not occur.",
-      mild_allergic: "No hemolysis occurs in allergic reactions — urine monitoring is not specifically indicated.",
-      anaphylactic: "While important for overall assessment, urine monitoring is not a priority intervention in anaphylaxis — focus on epinephrine and airway.",
+      mild_allergic: "No hemolysis occurs in allergic reactions  -  urine monitoring is not specifically indicated.",
+      anaphylactic: "While important for overall assessment, urine monitoring is not a priority intervention in anaphylaxis  -  focus on epinephrine and airway.",
       taco: "Urine output monitoring helps assess diuretic response in TACO, but it is secondary to the primary interventions.",
       trali: "TRALI does not involve hemolysis, so urine color monitoring is not specifically indicated."
     },
@@ -307,9 +307,9 @@ const interventions: InterventionItem[] = [
     applicableTo: ["febrile_nonhemolytic"],
     rationaleIfWrong: {
       acute_hemolytic: "While fever is present, antipyretics do NOT address the underlying hemolysis. The priority is stopping the transfusion and preventing renal failure.",
-      mild_allergic: "Antipyretics are not indicated for allergic reactions — antihistamines are the correct pharmacologic treatment.",
+      mild_allergic: "Antipyretics are not indicated for allergic reactions  -  antihistamines are the correct pharmacologic treatment.",
       anaphylactic: "Antipyretics will NOT treat anaphylaxis. Epinephrine is the only first-line treatment.",
-      taco: "Antipyretics are not indicated for TACO — the issue is volume overload, not fever.",
+      taco: "Antipyretics are not indicated for TACO  -  the issue is volume overload, not fever.",
       trali: "While low-grade fever may be present in TRALI, antipyretics do not address the pulmonary pathology."
     },
     rationaleIfCorrect: "Acetaminophen treats the fever and discomfort caused by cytokine-mediated inflammatory response to donor WBC antigens. This is the standard pharmacologic intervention for febrile non-hemolytic reactions."
@@ -322,7 +322,7 @@ const interventions: InterventionItem[] = [
       acute_hemolytic: "Diuretics may be considered to maintain urine output in hemolytic reactions, but they are not the primary intervention.",
       febrile_nonhemolytic: "Diuretics are NOT indicated for febrile reactions. There is no volume overload.",
       mild_allergic: "Diuretics are NOT indicated for allergic reactions.",
-      anaphylactic: "Diuretics are CONTRAINDICATED in anaphylaxis — the patient is already hypotensive from vasodilation. Removing volume would worsen shock.",
+      anaphylactic: "Diuretics are CONTRAINDICATED in anaphylaxis  -  the patient is already hypotensive from vasodilation. Removing volume would worsen shock.",
       trali: "Diuretics are NOT indicated for TRALI and may WORSEN outcomes. TRALI is a permeability problem (capillary leak), NOT a volume problem. Diuretics reduce preload in an already hypotensive patient."
     },
     rationaleIfCorrect: "Furosemide (loop diuretic) promotes rapid diuresis to reduce intravascular volume → decreased preload → relief of pulmonary congestion. TACO is the ONE transfusion reaction where diuretics are clearly indicated."
@@ -336,7 +336,7 @@ const interventions: InterventionItem[] = [
       taco: "TACO is a volume-related problem, not a blood product problem. The blood bank does not need the bag for investigation.",
       trali: "While the blood bank should be notified, the focus in TRALI is on respiratory support. The bag may be sent but is less critical than in hemolytic reactions."
     },
-    rationaleIfCorrect: "The blood bag and tubing are sent to the blood bank for investigation — direct Coombs test, repeat crossmatch, culture for contamination. This helps identify the cause and prevent future reactions."
+    rationaleIfCorrect: "The blood bag and tubing are sent to the blood bank for investigation  -  direct Coombs test, repeat crossmatch, culture for contamination. This helps identify the cause and prevent future reactions."
   },
 ];
 
@@ -536,7 +536,7 @@ function CompatibilitySimulator() {
               )}
               <div>
                 <p className="text-sm font-bold text-gray-900 mb-1">
-                  {canReceive(roundData.patient, selectedDonor) ? "Correct — Compatible Transfusion" : "Incorrect — Incompatible Transfusion"}
+                  {canReceive(roundData.patient, selectedDonor) ? "Correct  -  Compatible Transfusion" : "Incorrect  -  Incompatible Transfusion"}
                 </p>
                 <p className="text-sm text-gray-600 leading-relaxed" data-testid="text-compatibility-rationale">
                   {getCompatibilityRationale(roundData.patient, selectedDonor)}
@@ -633,7 +633,7 @@ function ReactionRecognition() {
             <p className="text-sm text-gray-600 mt-4 max-w-md mx-auto">
               {pct >= 90 ? "Outstanding! You can rapidly identify transfusion reaction types." :
                pct >= 70 ? "Good clinical reasoning! Review the exam trap scenarios to sharpen your differentiation." :
-               "Keep studying reaction patterns — accurate recognition saves lives."}
+               "Keep studying reaction patterns  -  accurate recognition saves lives."}
             </p>
             <Button className="mt-6 rounded-full gap-2" onClick={handleRestart} data-testid="button-restart-reactions">
               <RotateCcw className="w-4 h-4" /> Try Again
@@ -806,7 +806,7 @@ function InterventionDecision() {
             <p className="text-sm text-gray-600 mt-4 max-w-md mx-auto">
               {pct >= 90 ? "Exceptional! You know exactly which interventions match each reaction type." :
                pct >= 70 ? "Strong nursing judgment! Review the rationales for any missed interventions." :
-               "Practice distinguishing reaction-specific interventions — each reaction has a unique treatment protocol."}
+               "Practice distinguishing reaction-specific interventions  -  each reaction has a unique treatment protocol."}
             </p>
             <Button className="mt-6 rounded-full gap-2" onClick={handleRestart} data-testid="button-restart-interventions">
               <RotateCcw className="w-4 h-4" /> Try Again

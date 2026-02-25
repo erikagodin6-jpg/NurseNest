@@ -736,7 +736,7 @@ export const anatomyQuestions: BankQuestion[] = [
     options: ["5", "7", "12", "4"],
     correctAnswer: 1,
     type: "mcq",
-    rationaleCorrect: "There are 7 cervical vertebrae (C1–C7) in the neck region. The first cervical vertebra (C1) is the atlas, which supports the skull, and C2 is the axis, which allows head rotation.",
+    rationaleCorrect: "There are 7 cervical vertebrae (C1-C7) in the neck region. The first cervical vertebra (C1) is the atlas, which supports the skull, and C2 is the axis, which allows head rotation.",
     rationaleIncorrect: [
       "There are 5 lumbar vertebrae, not 5 cervical vertebrae.",
       "There are 12 thoracic vertebrae, not 12 cervical vertebrae.",
@@ -744,7 +744,7 @@ export const anatomyQuestions: BankQuestion[] = [
     ],
     difficulty: 1,
     bloomLevel: "recall",
-    clinicalCorrelation: "Cervical spine injuries, particularly at C3–C5, can impair diaphragm function and breathing. Nurses must maintain cervical spine stabilization in trauma patients until injury is ruled out.",
+    clinicalCorrelation: "Cervical spine injuries, particularly at C3-C5, can impair diaphragm function and breathing. Nurses must maintain cervical spine stabilization in trauma patients until injury is ruled out.",
     references: ["Tortora & Derrickson, Principles of Anatomy & Physiology"],
     tags: ["vertebral column", "cervical vertebrae", "axial skeleton", "spinal injury"],
     estimatedTimeSeconds: 30
@@ -886,7 +886,7 @@ export const anatomyQuestions: BankQuestion[] = [
     type: "mcq",
     rationaleCorrect: "Parathyroid hormone (PTH) is released by the parathyroid glands when blood calcium levels are low. PTH stimulates osteoclast activity to break down bone and release calcium into the blood, raising serum calcium levels.",
     rationaleIncorrect: [
-      "Calcitonin, produced by the thyroid gland, inhibits osteoclast activity and lowers blood calcium—the opposite effect of PTH.",
+      "Calcitonin, produced by the thyroid gland, inhibits osteoclast activity and lowers blood calcium - the opposite effect of PTH.",
       "Insulin regulates blood glucose levels, not calcium homeostasis.",
       "Cortisol is a stress hormone that can indirectly affect bone density but does not directly stimulate osteoclasts for calcium release."
     ],
@@ -1036,7 +1036,7 @@ export const anatomyQuestions: BankQuestion[] = [
     ],
     difficulty: 1,
     bloomLevel: "recall",
-    clinicalCorrelation: "Spinal cord injuries above C3–C5 can paralyze the diaphragm (innervated by the phrenic nerve), requiring mechanical ventilation. Nurses monitor respiratory function in spinal cord injury patients.",
+    clinicalCorrelation: "Spinal cord injuries above C3-C5 can paralyze the diaphragm (innervated by the phrenic nerve), requiring mechanical ventilation. Nurses monitor respiratory function in spinal cord injury patients.",
     references: ["Tortora & Derrickson, Principles of Anatomy & Physiology"],
     tags: ["diaphragm", "respiration", "breathing", "phrenic nerve", "inspiration"],
     estimatedTimeSeconds: 30
@@ -1094,7 +1094,7 @@ export const anatomyQuestions: BankQuestion[] = [
     options: ["Fatty acids via aerobic metabolism", "Creatine phosphate", "Blood glucose via glycolysis", "Muscle glycogen via aerobic respiration"],
     correctAnswer: 1,
     type: "mcq",
-    rationaleCorrect: "Creatine phosphate is the first and fastest energy source used during brief, intense activity (first 10–15 seconds). It donates its phosphate group directly to ADP to regenerate ATP without requiring oxygen.",
+    rationaleCorrect: "Creatine phosphate is the first and fastest energy source used during brief, intense activity (first 10-15 seconds). It donates its phosphate group directly to ADP to regenerate ATP without requiring oxygen.",
     rationaleIncorrect: [
       "Fatty acid metabolism is a slow, aerobic process used during prolonged, low-intensity activity.",
       "Blood glucose via glycolysis becomes a primary source after creatine phosphate is depleted.",
@@ -1362,11 +1362,11 @@ export const anatomyQuestions: BankQuestion[] = [
     options: ["Atrioventricular (AV) node", "Sinoatrial (SA) node", "Bundle of His", "Purkinje fibers"],
     correctAnswer: 1,
     type: "mcq",
-    rationaleCorrect: "The sinoatrial (SA) node, located in the right atrium, is the natural pacemaker of the heart. It spontaneously generates electrical impulses at a rate of 60–100 beats per minute, setting the normal heart rhythm (sinus rhythm).",
+    rationaleCorrect: "The sinoatrial (SA) node, located in the right atrium, is the natural pacemaker of the heart. It spontaneously generates electrical impulses at a rate of 60-100 beats per minute, setting the normal heart rhythm (sinus rhythm).",
     rationaleIncorrect: [
-      "The AV node is a secondary pacemaker (40–60 bpm) that delays impulse transmission between atria and ventricles.",
-      "The Bundle of His conducts impulses from the AV node to the ventricles but has a lower intrinsic rate (20–40 bpm).",
-      "Purkinje fibers distribute impulses throughout the ventricles but have the lowest intrinsic rate (20–40 bpm)."
+      "The AV node is a secondary pacemaker (40-60 bpm) that delays impulse transmission between atria and ventricles.",
+      "The Bundle of His conducts impulses from the AV node to the ventricles but has a lower intrinsic rate (20-40 bpm).",
+      "Purkinje fibers distribute impulses throughout the ventricles but have the lowest intrinsic rate (20-40 bpm)."
     ],
     difficulty: 1,
     bloomLevel: "recall",
@@ -1433,7 +1433,7 @@ export const anatomyQuestions: BankQuestion[] = [
     options: ["Lymphocytes", "Monocytes", "Neutrophils", "Eosinophils"],
     correctAnswer: 2,
     type: "mcq",
-    rationaleCorrect: "Neutrophils are the most abundant white blood cells, comprising 50–70% of circulating WBCs. They are the first responders to bacterial infections, arriving at infection sites to phagocytize bacteria and release antimicrobial substances.",
+    rationaleCorrect: "Neutrophils are the most abundant white blood cells, comprising 50-70% of circulating WBCs. They are the first responders to bacterial infections, arriving at infection sites to phagocytize bacteria and release antimicrobial substances.",
     rationaleIncorrect: [
       "Lymphocytes are the second most abundant WBCs and are primarily involved in adaptive immunity (T cells, B cells).",
       "Monocytes mature into macrophages and arrive later in the inflammatory response.",
@@ -1784,7 +1784,7 @@ export const anatomyQuestions: BankQuestion[] = [
     ],
     difficulty: 1,
     bloomLevel: "recall",
-    clinicalCorrelation: "Nurses set and monitor tidal volume on mechanical ventilators. Low tidal volumes (6–8 mL/kg ideal body weight) are used in ARDS patients to prevent ventilator-induced lung injury.",
+    clinicalCorrelation: "Nurses set and monitor tidal volume on mechanical ventilators. Low tidal volumes (6-8 mL/kg ideal body weight) are used in ARDS patients to prevent ventilator-induced lung injury.",
     references: ["Tortora & Derrickson, Principles of Anatomy & Physiology"],
     tags: ["tidal volume", "respiratory volumes", "pulmonary function", "ventilation"],
     estimatedTimeSeconds: 30
@@ -2041,7 +2041,7 @@ export const anatomyQuestions: BankQuestion[] = [
     options: ["Urethra", "Ureter", "Renal vein", "Collecting duct"],
     correctAnswer: 1,
     type: "mcq",
-    rationaleCorrect: "The ureters are paired muscular tubes that transport urine from the renal pelvis of each kidney to the urinary bladder via peristaltic contractions. Each ureter is approximately 25–30 cm long.",
+    rationaleCorrect: "The ureters are paired muscular tubes that transport urine from the renal pelvis of each kidney to the urinary bladder via peristaltic contractions. Each ureter is approximately 25-30 cm long.",
     rationaleIncorrect: [
       "The urethra transports urine from the bladder to the outside of the body.",
       "The renal vein carries filtered blood away from the kidney back to the inferior vena cava.",
@@ -2085,7 +2085,7 @@ export const anatomyQuestions: BankQuestion[] = [
     options: ["Renal vein", "Renal artery", "Inferior vena cava", "Hepatic artery"],
     correctAnswer: 1,
     type: "mcq",
-    rationaleCorrect: "The renal artery branches directly from the abdominal aorta and delivers blood to the kidney for filtration. Each kidney receives approximately 20–25% of cardiac output, reflecting the kidney's vital role in filtering blood.",
+    rationaleCorrect: "The renal artery branches directly from the abdominal aorta and delivers blood to the kidney for filtration. Each kidney receives approximately 20-25% of cardiac output, reflecting the kidney's vital role in filtering blood.",
     rationaleIncorrect: [
       "The renal vein carries filtered blood away from the kidney to the inferior vena cava.",
       "The inferior vena cava returns blood to the heart; it does not directly supply the kidney.",

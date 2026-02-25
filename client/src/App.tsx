@@ -1,59 +1,60 @@
 import { Switch, Route } from "wouter";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/lib/auth";
-import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
-import Lessons from "@/pages/lessons";
-import LessonDetail from "@/pages/lesson-detail";
-import Flashcards from "@/pages/flashcards";
-import Reports from "@/pages/reports";
-import LoginPage from "@/pages/login";
-import ProfilePage from "@/pages/profile";
-import SubscriptionSuccess from "@/pages/subscription-success";
-import PricingPage from "@/pages/pricing";
-import FAQPage from "@/pages/faq";
-import AnatomyPage from "@/pages/anatomy";
-import TermsPage from "@/pages/terms";
-import PrivacyPage from "@/pages/privacy";
-import DisclaimerPage from "@/pages/disclaimer";
-import RefundPolicyPage from "@/pages/refund-policy";
-import StartFreePage from "@/pages/start-free";
-import AdminPage from "@/pages/admin";
-import DashboardPage from "@/pages/dashboard";
-import ContentEditorPage from "@/pages/content-editor";
-import MedMathPage from "@/pages/med-math";
-import LabValuesPage from "@/pages/lab-values";
-import ContentPage from "@/pages/content-page";
-import BlogPage from "@/pages/blog";
-import ClinicalClarityIndex from "@/pages/clinical-clarity";
-import ClinicalClarityDetail from "@/pages/clinical-clarity-detail";
-import CaseSimulationPage from "@/pages/case-simulation";
-import MedicationMasteryPage from "@/pages/medication-mastery";
-import SimulatorsPage from "@/pages/simulators";
-import PreNursingPage from "@/pages/pre-nursing";
-import MockExamsPage from "@/pages/mock-exams";
-import MockExamSession from "@/pages/mock-exam-session";
-import MockExamReport from "@/pages/mock-exam-report";
-import ContactPage from "@/pages/contact";
-import FeedbackPage from "@/pages/feedback";
-import QuestionOfTheDay from "@/pages/question-of-the-day";
-import QuestionBank from "@/pages/question-bank";
-import FirstActionSimulatorPage from "@/pages/first-action-simulator";
-import SafetyHazardSimulatorPage from "@/pages/safety-hazard-simulator";
-import IVComplicationsSimulatorPage from "@/pages/iv-complications-simulator";
-import ElectrolyteABGSimulatorPage from "@/pages/electrolyte-abg-simulator";
-import DeterioratingPatientSimulatorPage from "@/pages/deteriorating-patient-simulator";
-import BloodTransfusionSimulatorPage from "@/pages/blood-transfusion-simulator";
-import LectureViewer from "@/pages/lecture-viewer";
-import LecturesPage from "@/pages/lectures";
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import { usePageTracker } from "@/hooks/use-page-tracker";
+
+const NotFound = lazy(() => import("@/pages/not-found"));
+const Lessons = lazy(() => import("@/pages/lessons"));
+const LessonDetail = lazy(() => import("@/pages/lesson-detail"));
+const Flashcards = lazy(() => import("@/pages/flashcards"));
+const Reports = lazy(() => import("@/pages/reports"));
+const LoginPage = lazy(() => import("@/pages/login"));
+const ProfilePage = lazy(() => import("@/pages/profile"));
+const SubscriptionSuccess = lazy(() => import("@/pages/subscription-success"));
+const PricingPage = lazy(() => import("@/pages/pricing"));
+const FAQPage = lazy(() => import("@/pages/faq"));
+const AnatomyPage = lazy(() => import("@/pages/anatomy"));
+const TermsPage = lazy(() => import("@/pages/terms"));
+const PrivacyPage = lazy(() => import("@/pages/privacy"));
+const DisclaimerPage = lazy(() => import("@/pages/disclaimer"));
+const RefundPolicyPage = lazy(() => import("@/pages/refund-policy"));
+const StartFreePage = lazy(() => import("@/pages/start-free"));
+const AdminPage = lazy(() => import("@/pages/admin"));
+const DashboardPage = lazy(() => import("@/pages/dashboard"));
+const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
+const MedMathPage = lazy(() => import("@/pages/med-math"));
+const LabValuesPage = lazy(() => import("@/pages/lab-values"));
+const ContentPage = lazy(() => import("@/pages/content-page"));
+const BlogPage = lazy(() => import("@/pages/blog"));
+const ClinicalClarityIndex = lazy(() => import("@/pages/clinical-clarity"));
+const ClinicalClarityDetail = lazy(() => import("@/pages/clinical-clarity-detail"));
+const CaseSimulationPage = lazy(() => import("@/pages/case-simulation"));
+const MedicationMasteryPage = lazy(() => import("@/pages/medication-mastery"));
+const SimulatorsPage = lazy(() => import("@/pages/simulators"));
+const PreNursingPage = lazy(() => import("@/pages/pre-nursing"));
+const MockExamsPage = lazy(() => import("@/pages/mock-exams"));
+const MockExamSession = lazy(() => import("@/pages/mock-exam-session"));
+const MockExamReport = lazy(() => import("@/pages/mock-exam-report"));
+const ContactPage = lazy(() => import("@/pages/contact"));
+const FeedbackPage = lazy(() => import("@/pages/feedback"));
+const QuestionOfTheDay = lazy(() => import("@/pages/question-of-the-day"));
+const QuestionBank = lazy(() => import("@/pages/question-bank"));
+const FirstActionSimulatorPage = lazy(() => import("@/pages/first-action-simulator"));
+const SafetyHazardSimulatorPage = lazy(() => import("@/pages/safety-hazard-simulator"));
+const IVComplicationsSimulatorPage = lazy(() => import("@/pages/iv-complications-simulator"));
+const ElectrolyteABGSimulatorPage = lazy(() => import("@/pages/electrolyte-abg-simulator"));
+const DeterioratingPatientSimulatorPage = lazy(() => import("@/pages/deteriorating-patient-simulator"));
+const BloodTransfusionSimulatorPage = lazy(() => import("@/pages/blood-transfusion-simulator"));
+const LectureViewer = lazy(() => import("@/pages/lecture-viewer"));
+const LecturesPage = lazy(() => import("@/pages/lectures"));
 
 function PageTracker() {
   usePageTracker();
@@ -108,57 +109,70 @@ function CopyProtection() {
   return null;
 }
 
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="text-center space-y-3">
+        <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+        <p className="text-sm text-gray-500">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/dashboard" component={DashboardPage} />
-      <Route path="/start-free" component={StartFreePage} />
-      <Route path="/med-math" component={MedMathPage} />
-      <Route path="/lab-values" component={LabValuesPage} />
-      <Route path="/admin" component={AdminPage} />
-      <Route path="/content-editor" component={ContentEditorPage} />
-      <Route path="/case-simulations" component={CaseSimulationPage} />
-      <Route path="/first-action-simulator" component={FirstActionSimulatorPage} />
-      <Route path="/safety-hazard-simulator" component={SafetyHazardSimulatorPage} />
-      <Route path="/iv-complications-simulator" component={IVComplicationsSimulatorPage} />
-      <Route path="/electrolyte-abg-simulator" component={ElectrolyteABGSimulatorPage} />
-      <Route path="/deteriorating-patient-simulator" component={DeterioratingPatientSimulatorPage} />
-      <Route path="/blood-transfusion-simulator" component={BloodTransfusionSimulatorPage} />
-      <Route path="/simulators/clinical-skills" component={SimulatorsPage} />
-      <Route path="/simulators/osce" component={SimulatorsPage} />
-      <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
-      <Route path="/pre-nursing" component={PreNursingPage} />
-      <Route path="/mock-exams/:id/report" component={MockExamReport} />
-      <Route path="/mock-exams/:id" component={MockExamSession} />
-      <Route path="/mock-exams" component={MockExamsPage} />
-      <Route path="/medication-mastery" component={MedicationMasteryPage} />
-      <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
-      <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
-      <Route path="/blog" component={BlogPage} />
-      <Route path="/learn/:slug" component={ContentPage} />
-      <Route path="/anatomy" component={AnatomyPage} />
-      <Route path="/lessons" component={Lessons} />
-      <Route path="/lectures" component={LecturesPage} />
-      <Route path="/lectures/:slug" component={LectureViewer} />
-      <Route path="/lessons/:id" component={LessonDetail} />
-      <Route path="/flashcards" component={Flashcards} />
-      <Route path="/reports" component={Reports} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/profile" component={ProfilePage} />
-      <Route path="/subscription/success" component={SubscriptionSuccess} />
-      <Route path="/pricing" component={PricingPage} />
-      <Route path="/faq" component={FAQPage} />
-      <Route path="/terms" component={TermsPage} />
-      <Route path="/privacy" component={PrivacyPage} />
-      <Route path="/disclaimer" component={DisclaimerPage} />
-      <Route path="/refund-policy" component={RefundPolicyPage} />
-      <Route path="/question-of-the-day" component={QuestionOfTheDay} />
-      <Route path="/question-bank" component={QuestionBank} />
-      <Route path="/contact" component={ContactPage} />
-      <Route path="/feedback" component={FeedbackPage} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<LoadingFallback />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/dashboard" component={DashboardPage} />
+        <Route path="/start-free" component={StartFreePage} />
+        <Route path="/med-math" component={MedMathPage} />
+        <Route path="/lab-values" component={LabValuesPage} />
+        <Route path="/admin" component={AdminPage} />
+        <Route path="/content-editor" component={ContentEditorPage} />
+        <Route path="/case-simulations" component={CaseSimulationPage} />
+        <Route path="/first-action-simulator" component={FirstActionSimulatorPage} />
+        <Route path="/safety-hazard-simulator" component={SafetyHazardSimulatorPage} />
+        <Route path="/iv-complications-simulator" component={IVComplicationsSimulatorPage} />
+        <Route path="/electrolyte-abg-simulator" component={ElectrolyteABGSimulatorPage} />
+        <Route path="/deteriorating-patient-simulator" component={DeterioratingPatientSimulatorPage} />
+        <Route path="/blood-transfusion-simulator" component={BloodTransfusionSimulatorPage} />
+        <Route path="/simulators/clinical-skills" component={SimulatorsPage} />
+        <Route path="/simulators/osce" component={SimulatorsPage} />
+        <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
+        <Route path="/pre-nursing" component={PreNursingPage} />
+        <Route path="/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/mock-exams/:id" component={MockExamSession} />
+        <Route path="/mock-exams" component={MockExamsPage} />
+        <Route path="/medication-mastery" component={MedicationMasteryPage} />
+        <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
+        <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
+        <Route path="/blog" component={BlogPage} />
+        <Route path="/learn/:slug" component={ContentPage} />
+        <Route path="/anatomy" component={AnatomyPage} />
+        <Route path="/lessons" component={Lessons} />
+        <Route path="/lectures" component={LecturesPage} />
+        <Route path="/lectures/:slug" component={LectureViewer} />
+        <Route path="/lessons/:id" component={LessonDetail} />
+        <Route path="/flashcards" component={Flashcards} />
+        <Route path="/reports" component={Reports} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/profile" component={ProfilePage} />
+        <Route path="/subscription/success" component={SubscriptionSuccess} />
+        <Route path="/pricing" component={PricingPage} />
+        <Route path="/faq" component={FAQPage} />
+        <Route path="/terms" component={TermsPage} />
+        <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/disclaimer" component={DisclaimerPage} />
+        <Route path="/refund-policy" component={RefundPolicyPage} />
+        <Route path="/question-of-the-day" component={QuestionOfTheDay} />
+        <Route path="/question-bank" component={QuestionBank} />
+        <Route path="/contact" component={ContactPage} />
+        <Route path="/feedback" component={FeedbackPage} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 

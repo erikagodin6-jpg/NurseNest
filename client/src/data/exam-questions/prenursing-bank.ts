@@ -3574,7 +3574,7 @@ export const prenursingQuestions: BankQuestion[] = [
     ],
     correctAnswer: 1,
     type: "mcq",
-    rationaleCorrect: "Cultural competence begins with self-awareness — understanding one's own cultural background, values, beliefs, and potential biases. This self-reflection helps nurses recognize how their own culture may influence their interactions with patients from different backgrounds.",
+    rationaleCorrect: "Cultural competence begins with self-awareness  -  understanding one's own cultural background, values, beliefs, and potential biases. This self-reflection helps nurses recognize how their own culture may influence their interactions with patients from different backgrounds.",
     rationaleIncorrect: [
       "It is impossible to learn about every culture; cultural humility and openness are more practical approaches",
       "Treating all patients the same ignores individual cultural needs and preferences",

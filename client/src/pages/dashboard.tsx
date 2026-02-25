@@ -399,7 +399,7 @@ export default function DashboardPage() {
                     </CardHeader>
                     <CardContent>
                       {widget.visible ? <WidgetComponent user={user} /> : (
-                        <p className="text-xs text-muted-foreground italic">Widget hidden — toggle visibility to show</p>
+                        <p className="text-xs text-muted-foreground italic">Widget hidden  -  toggle visibility to show</p>
                       )}
                     </CardContent>
                   </Card>
@@ -796,11 +796,11 @@ function RecommendedWidget({ user }: { user: any }) {
   if (!hasExams) {
     recommendations.push({ text: "Take a mock exam to benchmark your current knowledge", action: "Start Mock Exam", path: "/mock-exams", icon: ClipboardList, priority: 2 });
   } else if (avgScore < 70) {
-    recommendations.push({ text: "Focus on weak areas — review lessons before retaking exams", action: "Review Lessons", path: "/lessons", icon: BookOpen, priority: 1 });
+    recommendations.push({ text: "Focus on weak areas  -  review lessons before retaking exams", action: "Review Lessons", path: "/lessons", icon: BookOpen, priority: 1 });
   }
   recommendations.push({ text: "Practice today's Question of the Day", action: "Try QOTD", path: "/question-of-the-day", icon: Target, priority: 3 });
   if (completedCount > 0 && completedCount < 10) {
-    recommendations.push({ text: "Keep momentum — complete 10 lessons to unlock insights", action: "Continue", path: "/lessons", icon: TrendingUp, priority: 2 });
+    recommendations.push({ text: "Keep momentum  -  complete 10 lessons to unlock insights", action: "Continue", path: "/lessons", icon: TrendingUp, priority: 2 });
   }
   recommendations.push({ text: "Try a clinical simulator to test decision-making skills", action: "Simulate", path: "/first-action-simulator", icon: Stethoscope, priority: 4 });
 

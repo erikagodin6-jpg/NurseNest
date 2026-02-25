@@ -116,7 +116,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "fall",
         riskExplanation: "Non-skid slippers are a safety measure, not a hazard.",
-        potentialHarm: "N/A — this is a correct safety practice.",
+        potentialHarm: "N/A  -  this is a correct safety practice.",
         nursingAction: "No action needed; ensure the patient wears them when ambulating.",
       },
       {
@@ -125,7 +125,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "iv",
         riskExplanation: "A properly positioned IV pole with infusing fluids is standard care.",
-        potentialHarm: "N/A — this is routine and appropriate.",
+        potentialHarm: "N/A  -  this is routine and appropriate.",
         nursingAction: "Continue to monitor the IV site and infusion rate per protocol.",
       },
       {
@@ -134,7 +134,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "equipment",
         riskExplanation: "Having corrective lenses accessible helps the patient see and navigate safely.",
-        potentialHarm: "N/A — this supports patient safety.",
+        potentialHarm: "N/A  -  this supports patient safety.",
         nursingAction: "No action needed; this is a best practice for fall prevention.",
       },
     ],
@@ -144,7 +144,7 @@ const scenarios: Scenario[] = [
     title: "Medication Preparation Area",
     icon: Pill,
     description:
-      "You arrive at the medication preparation room to administer 0800 medications. On the counter you notice a pre-drawn syringe labeled 'Mr. Thompson, Room 210' but your patient is Mrs. Garcia in Room 215. A bottle of Metoprolol 25 mg sits next to Metformin 500 mg — both in similar white packaging. One vial of Heparin has an expiration date of last month. The Pyxis machine is logged in under another nurse's credentials. The medication administration record (MAR) is open on the computer. Your patient's allergy bracelet is missing from the med drawer paperwork. A sharps container on the wall is three-quarters full.",
+      "You arrive at the medication preparation room to administer 0800 medications. On the counter you notice a pre-drawn syringe labeled 'Mr. Thompson, Room 210' but your patient is Mrs. Garcia in Room 215. A bottle of Metoprolol 25 mg sits next to Metformin 500 mg  -  both in similar white packaging. One vial of Heparin has an expiration date of last month. The Pyxis machine is logged in under another nurse's credentials. The medication administration record (MAR) is open on the computer. Your patient's allergy bracelet is missing from the med drawer paperwork. A sharps container on the wall is three-quarters full.",
     items: [
       {
         id: "mp-wrong-label",
@@ -197,7 +197,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "medication",
         riskExplanation: "Having the MAR open during medication preparation is standard workflow for verification.",
-        potentialHarm: "N/A — this is expected practice for checking the five rights.",
+        potentialHarm: "N/A  -  this is expected practice for checking the five rights.",
         nursingAction: "Continue to use the MAR for verification of right drug, dose, time, route, and patient.",
       },
       {
@@ -206,7 +206,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "infection",
         riskExplanation: "A sharps container should be replaced when it reaches the fill line (typically three-quarters). Being at capacity is the threshold, not yet over it.",
-        potentialHarm: "N/A — it is at the recommended change point but not overfilled.",
+        potentialHarm: "N/A  -  it is at the recommended change point but not overfilled.",
         nursingAction: "Plan to replace the sharps container soon; it is approaching but has not exceeded the fill line.",
       },
     ],
@@ -234,7 +234,7 @@ const scenarios: Scenario[] = [
         category: "equipment",
         riskExplanation: "Post-operative patients need the incentive spirometer within reach to perform hourly breathing exercises and prevent atelectasis.",
         potentialHarm: "Atelectasis, pneumonia, and prolonged hospital stay.",
-        nursingAction: "Place the spirometer on the overbed table within arm's reach and educate the patient on its use every 1–2 hours.",
+        nursingAction: "Place the spirometer on the overbed table within arm's reach and educate the patient on its use every 1-2 hours.",
       },
       {
         id: "po-pain",
@@ -269,7 +269,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "equipment",
         riskExplanation: "Properly applied compression stockings support venous return and DVT prevention.",
-        potentialHarm: "N/A — this is correct preventive care.",
+        potentialHarm: "N/A  -  this is correct preventive care.",
         nursingAction: "Continue to assess skin integrity under the stockings and remove per protocol for skin checks.",
       },
       {
@@ -278,7 +278,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "medication",
         riskExplanation: "A properly programmed and functioning PCA pump is standard post-operative pain management.",
-        potentialHarm: "N/A — correct operation confirmed.",
+        potentialHarm: "N/A  -  correct operation confirmed.",
         nursingAction: "Continue to monitor respiratory rate and sedation level per PCA protocol.",
       },
       {
@@ -287,7 +287,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "equipment",
         riskExplanation: "Clear yellow urine with an intact drainage system indicates normal renal function post-operatively.",
-        potentialHarm: "N/A — this is an expected finding.",
+        potentialHarm: "N/A  -  this is an expected finding.",
         nursingAction: "Monitor intake and output; assess for catheter removal eligibility per protocol.",
       },
     ],
@@ -350,7 +350,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "equipment",
         riskExplanation: "A functioning cardiac monitor providing accurate readings is standard monitoring for bronchiolitis.",
-        potentialHarm: "N/A — this is appropriate and expected.",
+        potentialHarm: "N/A  -  this is appropriate and expected.",
         nursingAction: "Continue to monitor and respond to any alarm changes.",
       },
       {
@@ -359,7 +359,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "equipment",
         riskExplanation: "Having suction readily available is essential for a child with bronchiolitis who may need airway clearance.",
-        potentialHarm: "N/A — this is correct emergency preparedness.",
+        potentialHarm: "N/A  -  this is correct emergency preparedness.",
         nursingAction: "Verify suction is functioning and an appropriate-size catheter is available.",
       },
     ],
@@ -422,7 +422,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "infection",
         riskExplanation: "Dedicated equipment prevents cross-contamination between isolation and non-isolation patients.",
-        potentialHarm: "N/A — this is a correct isolation practice.",
+        potentialHarm: "N/A  -  this is a correct isolation practice.",
         nursingAction: "Continue using dedicated equipment; clean per protocol between uses.",
       },
       {
@@ -431,7 +431,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "infection",
         riskExplanation: "Hand hygiene stations at entry and exit points support infection prevention protocols.",
-        potentialHarm: "N/A — this is best practice for hand hygiene compliance.",
+        potentialHarm: "N/A  -  this is best practice for hand hygiene compliance.",
         nursingAction: "Ensure dispensers are full and functional; perform hand hygiene on entry and exit.",
       },
     ],
@@ -449,7 +449,7 @@ const scenarios: Scenario[] = [
         isHazard: true,
         category: "equipment",
         riskExplanation: "An inaccessible crash cart delays response time during cardiac arrest or acute deterioration.",
-        potentialHarm: "Delayed defibrillation, medication administration, or airway management — increasing mortality risk.",
+        potentialHarm: "Delayed defibrillation, medication administration, or airway management  -  increasing mortality risk.",
         nursingAction: "Clear the path to the crash cart immediately; ensure it is always accessible within seconds.",
       },
       {
@@ -472,7 +472,7 @@ const scenarios: Scenario[] = [
       },
       {
         id: "ed-monitor-alarm",
-        label: "Cardiac monitor alarming (HR 48) — unacknowledged",
+        label: "Cardiac monitor alarming (HR 48)  -  unacknowledged",
         isHazard: true,
         category: "equipment",
         riskExplanation: "A heart rate of 48 bpm indicates symptomatic bradycardia requiring immediate assessment.",
@@ -485,7 +485,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "oxygen",
         riskExplanation: "A properly placed pulse oximeter reading 97% indicates adequate oxygenation.",
-        potentialHarm: "N/A — this is an expected, reassuring finding.",
+        potentialHarm: "N/A  -  this is an expected, reassuring finding.",
         nursingAction: "Continue monitoring; ensure alarms are set to appropriate thresholds.",
       },
       {
@@ -494,7 +494,7 @@ const scenarios: Scenario[] = [
         isHazard: false,
         category: "fall",
         riskExplanation: "This is correct fall prevention positioning for an ED patient.",
-        potentialHarm: "N/A — this represents proper safety measures.",
+        potentialHarm: "N/A  -  this represents proper safety measures.",
         nursingAction: "No action needed; continue to reassess fall risk with any change in patient condition.",
       },
     ],
@@ -526,7 +526,7 @@ function ScenarioSelector({
         </div>
         <p className="text-lg text-gray-600 max-w-3xl leading-relaxed mt-4">
           Sharpen your clinical eye by identifying patient safety hazards in realistic clinical environments. 
-          Each scenario tests your ability to distinguish true hazards from safe practices — a critical 
+          Each scenario tests your ability to distinguish true hazards from safe practices  -  a critical 
           competency for nursing licensure exams and real-world patient care.
         </p>
       </div>
@@ -787,7 +787,7 @@ function ScenarioRunner({
             {correctlyIdentified < totalHazards && (
               <p className="text-sm text-amber-700 bg-amber-50 rounded-lg p-3 mb-4 flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                You missed {totalHazards - correctlyIdentified} hazard{totalHazards - correctlyIdentified > 1 ? "s" : ""}. Missed hazards are highlighted in amber above — review them carefully.
+                You missed {totalHazards - correctlyIdentified} hazard{totalHazards - correctlyIdentified > 1 ? "s" : ""}. Missed hazards are highlighted in amber above  -  review them carefully.
               </p>
             )}
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">

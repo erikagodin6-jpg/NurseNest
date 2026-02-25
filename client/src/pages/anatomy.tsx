@@ -356,7 +356,7 @@ export default function AnatomyPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology – Video Lecture</span>
+                                <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology - Video Lecture</span>
                                 <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">Free</span>
                               </div>
                               <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">

@@ -112,10 +112,10 @@ const scenarios: Scenario[] = [
         urgentProblem: {
           question: "What is the most urgent concern at this time?",
           options: [
-            "Possible early SIRS/infection — fever + tachycardia post-op",
-            "Pain management — patient rates pain 4/10",
-            "Fluid overload — elevated BP",
-            "Anxiety — patient reports feeling unwell",
+            "Possible early SIRS/infection  -  fever + tachycardia post-op",
+            "Pain management  -  patient rates pain 4/10",
+            "Fluid overload  -  elevated BP",
+            "Anxiety  -  patient reports feeling unwell",
           ],
           correctIndex: 0,
           rationale: "Two SIRS criteria are met (temp >38°C, HR >90). In a post-op patient, this warrants immediate assessment for infection source. Early recognition of sepsis is critical for survival.",
@@ -134,7 +134,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should you notify the provider at this time?",
           shouldEscalate: true,
-          rationale: "Yes — two SIRS criteria in a post-op patient warrants provider notification. Early sepsis management (blood cultures, lactate, antibiotics within 1 hour) dramatically improves outcomes.",
+          rationale: "Yes  -  two SIRS criteria in a post-op patient warrants provider notification. Early sepsis management (blood cultures, lactate, antibiotics within 1 hour) dramatically improves outcomes.",
         },
       },
       {
@@ -147,10 +147,10 @@ const scenarios: Scenario[] = [
         urgentProblem: {
           question: "What is the most urgent concern now?",
           options: [
-            "Sepsis with possible progression — hypotension + infection signs",
-            "Dehydration — decreased urine output",
-            "Wound dehiscence — purulent drainage",
-            "Medication side effect — restlessness from cefazolin",
+            "Sepsis with possible progression  -  hypotension + infection signs",
+            "Dehydration  -  decreased urine output",
+            "Wound dehiscence  -  purulent drainage",
+            "Medication side effect  -  restlessness from cefazolin",
           ],
           correctIndex: 0,
           rationale: "The combination of infection source (purulent wound), hypotension, tachycardia, fever, and altered mental status indicates sepsis progression. This requires immediate sepsis bundle initiation.",
@@ -169,7 +169,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should you activate rapid response?",
           shouldEscalate: true,
-          rationale: "Yes — the patient meets sepsis criteria with organ dysfunction (hypotension, altered mental status, decreased UO). Rapid response ensures timely interventions and possible ICU transfer.",
+          rationale: "Yes  -  the patient meets sepsis criteria with organ dysfunction (hypotension, altered mental status, decreased UO). Rapid response ensures timely interventions and possible ICU transfer.",
         },
       },
       {
@@ -178,14 +178,14 @@ const scenarios: Scenario[] = [
         urineOutput: "10 mL/hr",
         painLevel: 3,
         narrative: "Despite initial fluid bolus, BP continues to drop. Patient now lethargic and confused. Lactate returns at 4.8 mmol/L. Skin is mottled on extremities.",
-        redFlags: ["Severe hypotension (BP 78/48)", "Lactate >4 mmol/L", "Altered LOC — oriented to person only", "SpO2 dropping (91%)", "Mottled skin"],
+        redFlags: ["Severe hypotension (BP 78/48)", "Lactate >4 mmol/L", "Altered LOC  -  oriented to person only", "SpO2 dropping (91%)", "Mottled skin"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Septic shock — refractory hypotension despite fluids",
-            "Respiratory failure — SpO2 91%",
-            "Acute kidney injury — oliguria",
-            "Pain crisis — patient groaning",
+            "Septic shock  -  refractory hypotension despite fluids",
+            "Respiratory failure  -  SpO2 91%",
+            "Acute kidney injury  -  oliguria",
+            "Pain crisis  -  patient groaning",
           ],
           correctIndex: 0,
           rationale: "Septic shock is defined by sepsis with persistent hypotension requiring vasopressors despite adequate fluid resuscitation, AND lactate >2 mmol/L. This patient has refractory hypotension with lactate of 4.8.",
@@ -204,7 +204,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should the patient be transferred to ICU?",
           shouldEscalate: true,
-          rationale: "Absolutely — septic shock requires ICU-level monitoring: continuous arterial BP, central venous access, vasopressors, and possible mechanical ventilation. Delay in ICU transfer increases mortality.",
+          rationale: "Absolutely  -  septic shock requires ICU-level monitoring: continuous arterial BP, central venous access, vasopressors, and possible mechanical ventilation. Delay in ICU transfer increases mortality.",
         },
       },
     ],
@@ -225,17 +225,17 @@ const scenarios: Scenario[] = [
         urineOutput: "35 mL/hr",
         painLevel: 2,
         narrative: "Patient sitting upright, using pursed-lip breathing. Audible wheezing bilaterally. Speaking in short sentences. Productive cough with yellow-green sputum.",
-        redFlags: ["SpO2 91% — below target for COPD", "Elevated RR (22)", "Speaking in short sentences only"],
+        redFlags: ["SpO2 91%  -  below target for COPD", "Elevated RR (22)", "Speaking in short sentences only"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Airway/Breathing — worsening respiratory status with hypoxemia",
-            "Infection — yellow-green sputum",
-            "Hypertension — BP 142/84",
-            "Dehydration — needs fluid assessment",
+            "Airway/Breathing  -  worsening respiratory status with hypoxemia",
+            "Infection  -  yellow-green sputum",
+            "Hypertension  -  BP 142/84",
+            "Dehydration  -  needs fluid assessment",
           ],
           correctIndex: 0,
-          rationale: "ABCs — Breathing is the priority. SpO2 of 91% in a COPD patient indicates worsening hypoxemia. However, remember that COPD patients should have a target SpO2 of 88-92% to avoid suppressing hypoxic drive.",
+          rationale: "ABCs  -  Breathing is the priority. SpO2 of 91% in a COPD patient indicates worsening hypoxemia. However, remember that COPD patients should have a target SpO2 of 88-92% to avoid suppressing hypoxic drive.",
         },
         priorityAction: {
           question: "What is your first priority action?",
@@ -251,7 +251,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should you notify the respiratory therapist/provider?",
           shouldEscalate: true,
-          rationale: "Yes — worsening COPD exacerbation requires collaborative management. RT can optimize bronchodilator therapy and assess for non-invasive ventilation (NIV) need.",
+          rationale: "Yes  -  worsening COPD exacerbation requires collaborative management. RT can optimize bronchodilator therapy and assess for non-invasive ventilation (NIV) need.",
         },
       },
       {
@@ -260,14 +260,14 @@ const scenarios: Scenario[] = [
         urineOutput: "30 mL/hr",
         painLevel: 3,
         narrative: "Despite bronchodilators and titrated O2, patient is worsening. Using accessory muscles (sternocleidomastoid, intercostals). Tripod positioning. Speaking in 2-3 word phrases only. ABG shows: pH 7.32, PaCO2 55, PaO2 58, HCO3 28.",
-        redFlags: ["SpO2 87% — below target", "Rising RR (28)", "Accessory muscle use", "Respiratory acidosis on ABG", "Speaking in 2-3 word phrases"],
+        redFlags: ["SpO2 87%  -  below target", "Rising RR (28)", "Accessory muscle use", "Respiratory acidosis on ABG", "Speaking in 2-3 word phrases"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Impending respiratory failure — worsening despite treatment",
-            "Metabolic acidosis — pH 7.32",
-            "Hypertension crisis — BP 150/90",
-            "Anxiety — patient appears agitated",
+            "Impending respiratory failure  -  worsening despite treatment",
+            "Metabolic acidosis  -  pH 7.32",
+            "Hypertension crisis  -  BP 150/90",
+            "Anxiety  -  patient appears agitated",
           ],
           correctIndex: 0,
           rationale: "The ABG shows acute-on-chronic respiratory acidosis (elevated PaCO2 with partially compensated HCO3). Combined with clinical signs of respiratory distress (accessory muscles, tripod, inability to speak in sentences), this patient is heading toward respiratory failure.",
@@ -275,43 +275,43 @@ const scenarios: Scenario[] = [
         priorityAction: {
           question: "What is your first priority action?",
           options: [
-            "Increase oxygen to 100% via non-rebreather — patient is hypoxic",
+            "Increase oxygen to 100% via non-rebreather  -  patient is hypoxic",
             "Initiate non-invasive ventilation (BiPAP) and notify physician for potential intubation",
-            "Administer lorazepam for anxiety — patient is distressed",
+            "Administer lorazepam for anxiety  -  patient is distressed",
             "Obtain chest X-ray before any changes",
           ],
           correctIndex: 1,
-          rationale: "BiPAP (NIV) reduces work of breathing and helps with CO2 clearance in acute COPD exacerbation with respiratory acidosis. High-flow O2 can worsen CO2 retention. Benzodiazepines can depress respiratory drive — contraindicated.",
+          rationale: "BiPAP (NIV) reduces work of breathing and helps with CO2 clearance in acute COPD exacerbation with respiratory acidosis. High-flow O2 can worsen CO2 retention. Benzodiazepines can depress respiratory drive  -  contraindicated.",
         },
         escalation: {
           question: "Should you call a rapid response/code?",
           shouldEscalate: true,
-          rationale: "Yes — this patient needs immediate escalation. NIV should be initiated urgently, and the ICU team should be notified for potential intubation if NIV fails. Delaying escalation in respiratory failure increases intubation risk and mortality.",
+          rationale: "Yes  -  this patient needs immediate escalation. NIV should be initiated urgently, and the ICU team should be notified for potential intubation if NIV fails. Delaying escalation in respiratory failure increases intubation risk and mortality.",
         },
       },
       {
         vitals: { hr: 120, bpSystolic: 158, bpDiastolic: 92, rr: 34, spo2: 82, tempC: 37.8 },
-        mentalStatus: "Drowsy, confused, difficult to rouse — possible CO2 narcosis",
+        mentalStatus: "Drowsy, confused, difficult to rouse  -  possible CO2 narcosis",
         urineOutput: "20 mL/hr",
         painLevel: 1,
         narrative: "Patient becomes increasingly drowsy despite BiPAP at 12/5. No longer responding to verbal commands. Paradoxical breathing noted. Repeat ABG: pH 7.25, PaCO2 72, PaO2 52.",
-        redFlags: ["SpO2 82% — critically low", "CO2 narcosis — decreasing LOC", "Paradoxical breathing", "Severe respiratory acidosis pH 7.25"],
+        redFlags: ["SpO2 82%  -  critically low", "CO2 narcosis  -  decreasing LOC", "Paradoxical breathing", "Severe respiratory acidosis pH 7.25"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Airway compromise — CO2 narcosis with decreasing consciousness",
-            "Cardiac arrhythmia — tachycardia HR 120",
-            "Renal failure — decreased urine output",
-            "Pneumonia — worsening infection",
+            "Airway compromise  -  CO2 narcosis with decreasing consciousness",
+            "Cardiac arrhythmia  -  tachycardia HR 120",
+            "Renal failure  -  decreased urine output",
+            "Pneumonia  -  worsening infection",
           ],
           correctIndex: 0,
-          rationale: "CO2 narcosis (PaCO2 72) is causing decreased LOC. An unconscious patient cannot protect their airway. This is a life-threatening emergency requiring immediate airway management (intubation). ABCs — Airway is the priority.",
+          rationale: "CO2 narcosis (PaCO2 72) is causing decreased LOC. An unconscious patient cannot protect their airway. This is a life-threatening emergency requiring immediate airway management (intubation). ABCs  -  Airway is the priority.",
         },
         priorityAction: {
           question: "What is your first priority action?",
           options: [
             "Increase BiPAP settings and continue monitoring",
-            "Prepare for emergent intubation — bag-valve-mask ventilation, call anesthesia/RT",
+            "Prepare for emergent intubation  -  bag-valve-mask ventilation, call anesthesia/RT",
             "Administer IV methylprednisolone bolus",
             "Suction airway and reposition patient",
           ],
@@ -321,7 +321,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Is this a code/emergency situation?",
           shouldEscalate: true,
-          rationale: "Yes — this is a respiratory emergency. Call for emergent airway management (code blue/MET call). The patient needs intubation, ICU admission, and mechanical ventilation.",
+          rationale: "Yes  -  this is a respiratory emergency. Call for emergent airway management (code blue/MET call). The patient needs intubation, ICU admission, and mechanical ventilation.",
         },
       },
     ],
@@ -346,10 +346,10 @@ const scenarios: Scenario[] = [
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Possible early hemorrhage — tachycardia + restlessness + oozing in anticoagulated patient",
-            "Post-operative anxiety — patient is scared",
-            "Pain management — patient is uncomfortable",
-            "Medication error — heparin infusion needs adjustment",
+            "Possible early hemorrhage  -  tachycardia + restlessness + oozing in anticoagulated patient",
+            "Post-operative anxiety  -  patient is scared",
+            "Pain management  -  patient is uncomfortable",
+            "Medication error  -  heparin infusion needs adjustment",
           ],
           correctIndex: 0,
           rationale: "In a patient bridged with heparin after hip replacement, tachycardia and restlessness are classic EARLY signs of hemorrhage. Anxiety and restlessness are the body's response to hypovolemia (sympathetic activation). Always think 'bleeding' before 'anxiety' post-op.",
@@ -368,7 +368,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should you notify the surgeon?",
           shouldEscalate: true,
-          rationale: "Yes — a post-op patient on anticoagulation with tachycardia, restlessness, and oozing needs immediate surgeon notification. The heparin drip may need to be held or reversed with protamine.",
+          rationale: "Yes  -  a post-op patient on anticoagulation with tachycardia, restlessness, and oozing needs immediate surgeon notification. The heparin drip may need to be held or reversed with protamine.",
         },
       },
       {
@@ -381,13 +381,13 @@ const scenarios: Scenario[] = [
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Hemorrhagic shock — active bleeding with hemodynamic instability",
-            "Coagulopathy — INR 3.2 needs vitamin K",
-            "Anemia — Hgb 72 needs transfusion",
-            "Delirium — new confusion needs assessment",
+            "Hemorrhagic shock  -  active bleeding with hemodynamic instability",
+            "Coagulopathy  -  INR 3.2 needs vitamin K",
+            "Anemia  -  Hgb 72 needs transfusion",
+            "Delirium  -  new confusion needs assessment",
           ],
           correctIndex: 0,
-          rationale: "The patient is in Class II–III hemorrhagic shock: tachycardia >120, hypotension, altered mental status, decreased UO, and significant blood loss. The coagulopathy is contributing to bleeding but treating shock is the priority.",
+          rationale: "The patient is in Class II-III hemorrhagic shock: tachycardia >120, hypotension, altered mental status, decreased UO, and significant blood loss. The coagulopathy is contributing to bleeding but treating shock is the priority.",
         },
         priorityAction: {
           question: "What is your first priority action?",
@@ -403,7 +403,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should you call rapid response/code?",
           shouldEscalate: true,
-          rationale: "Yes — hemorrhagic shock requires immediate team response. The surgeon needs to evaluate for surgical bleeding, blood bank for possible massive transfusion protocol, and consider protamine for heparin reversal.",
+          rationale: "Yes  -  hemorrhagic shock requires immediate team response. The surgeon needs to evaluate for surgical bleeding, blood bank for possible massive transfusion protocol, and consider protamine for heparin reversal.",
         },
       },
       {
@@ -412,14 +412,14 @@ const scenarios: Scenario[] = [
         urineOutput: "5 mL/hr (anuric)",
         painLevel: 0,
         narrative: "Despite 2L crystalloid bolus, BP continues to deteriorate. Massive transfusion protocol activated. Patient now barely responsive. Extremities cold and mottled. Repeat Hgb 58 g/L.",
-        redFlags: ["Severe hypotension (BP 74/42)", "Obtunded — responds to pain only", "Hypothermia (35.8°C)", "Near-anuric", "SpO2 dropping to 90%"],
+        redFlags: ["Severe hypotension (BP 74/42)", "Obtunded  -  responds to pain only", "Hypothermia (35.8°C)", "Near-anuric", "SpO2 dropping to 90%"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Class IV hemorrhagic shock — immediately life-threatening",
-            "Hypothermia — temperature 35.8°C",
-            "Respiratory compromise — SpO2 90%",
-            "Acute kidney injury — anuric",
+            "Class IV hemorrhagic shock  -  immediately life-threatening",
+            "Hypothermia  -  temperature 35.8°C",
+            "Respiratory compromise  -  SpO2 90%",
+            "Acute kidney injury  -  anuric",
           ],
           correctIndex: 0,
           rationale: "Class IV hemorrhagic shock (>40% blood volume loss): obtunded, severely hypotensive, tachycardic, anuric. The lethal triad of hypothermia, acidosis, and coagulopathy is developing. This is immediately life-threatening.",
@@ -438,7 +438,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Is this a surgical emergency?",
           shouldEscalate: true,
-          rationale: "Yes — emergent return to OR for surgical hemostasis is likely required. Massive transfusion protocol should continue. The patient needs surgical team, anesthesia, and OR immediately.",
+          rationale: "Yes  -  emergent return to OR for surgical hemostasis is likely required. Massive transfusion protocol should continue. The patient needs surgical team, anesthesia, and OR immediately.",
         },
       },
     ],
@@ -459,14 +459,14 @@ const scenarios: Scenario[] = [
         urineOutput: "25 mL/hr",
         painLevel: 2,
         narrative: "Patient difficult to rouse for vital signs. When awakened, reports pain is well-controlled (2/10). Nurse notes patient is very drowsy between assessments. Last morphine dose given 45 minutes ago.",
-        redFlags: ["Excessive sedation — opioid-naive elderly patient", "RR at lower end of normal (14)", "Drowsiness between assessments"],
+        redFlags: ["Excessive sedation  -  opioid-naive elderly patient", "RR at lower end of normal (14)", "Drowsiness between assessments"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Over-sedation — elderly opioid-naive patient with excessive drowsiness after multiple morphine doses",
-            "Pain managed well — pain 2/10 is the goal",
-            "Hypotension — BP 110/68 is low for elderly",
-            "UTI risk — decreased urine output",
+            "Over-sedation  -  elderly opioid-naive patient with excessive drowsiness after multiple morphine doses",
+            "Pain managed well  -  pain 2/10 is the goal",
+            "Hypotension  -  BP 110/68 is low for elderly",
+            "UTI risk  -  decreased urine output",
           ],
           correctIndex: 0,
           rationale: "An opioid-naive 78 y/o with CKD (delayed drug clearance) who received 12 mg morphine in 8 hours is at HIGH risk for respiratory depression. Excessive sedation precedes respiratory arrest. RASS sedation scale assessment is critical.",
@@ -474,7 +474,7 @@ const scenarios: Scenario[] = [
         priorityAction: {
           question: "What is your first priority action?",
           options: [
-            "Let patient sleep — pain is controlled",
+            "Let patient sleep  -  pain is controlled",
             "Assess sedation level (RASS/Pasero), hold further opioid doses, increase monitoring frequency",
             "Administer naloxone 0.4 mg IV immediately",
             "Switch to PCA pump for better pain control",
@@ -485,7 +485,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should you notify the provider?",
           shouldEscalate: true,
-          rationale: "Yes — notify the provider about over-sedation in an opioid-naive elderly patient with CKD. Morphine dose needs adjustment (reduce by 50% or switch to safer alternative). Naloxone should be at bedside.",
+          rationale: "Yes  -  notify the provider about over-sedation in an opioid-naive elderly patient with CKD. Morphine dose needs adjustment (reduce by 50% or switch to safer alternative). Naloxone should be at bedside.",
         },
       },
       {
@@ -494,14 +494,14 @@ const scenarios: Scenario[] = [
         urineOutput: "15 mL/hr",
         painLevel: 0,
         narrative: "Thirty minutes later, patient not responding to name or gentle stimulation. Pinpoint pupils noted. Respiratory rate dropped to 10. Shallow, irregular breaths. Responds only to sternal rub.",
-        redFlags: ["Respiratory depression (RR 10)", "SpO2 dropping (90%)", "Pinpoint pupils — classic opioid sign", "Somnolent — responds to pain only"],
+        redFlags: ["Respiratory depression (RR 10)", "SpO2 dropping (90%)", "Pinpoint pupils  -  classic opioid sign", "Somnolent  -  responds to pain only"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Opioid-induced respiratory depression — life-threatening",
-            "Hypotension — BP 100/60",
-            "Post-op ileus — decreased bowel sounds",
-            "Stroke — sudden decreased LOC",
+            "Opioid-induced respiratory depression  -  life-threatening",
+            "Hypotension  -  BP 100/60",
+            "Post-op ileus  -  decreased bowel sounds",
+            "Stroke  -  sudden decreased LOC",
           ],
           correctIndex: 0,
           rationale: "Classic opioid toxicity triad: respiratory depression (RR 10), decreased LOC (somnolent), pinpoint pupils. This is a medical emergency. Without intervention, respiratory arrest will follow.",
@@ -510,17 +510,17 @@ const scenarios: Scenario[] = [
           question: "What is your first priority action?",
           options: [
             "Call physician and await orders",
-            "Administer naloxone 0.04–0.4 mg IV, stimulate patient, support airway (jaw thrust, head tilt)",
+            "Administer naloxone 0.04-0.4 mg IV, stimulate patient, support airway (jaw thrust, head tilt)",
             "Apply high-flow oxygen and continue monitoring",
             "Obtain stat CT head to rule out stroke",
           ],
           correctIndex: 1,
-          rationale: "Naloxone (Narcan) is the opioid antagonist — start low dose (0.04 mg in elderly/post-op to avoid complete reversal causing severe pain and sympathetic surge). Titrate to RR >12. Support airway simultaneously. Do not delay for orders in emergency.",
+          rationale: "Naloxone (Narcan) is the opioid antagonist  -  start low dose (0.04 mg in elderly/post-op to avoid complete reversal causing severe pain and sympathetic surge). Titrate to RR >12. Support airway simultaneously. Do not delay for orders in emergency.",
         },
         escalation: {
           question: "Should you call rapid response?",
           shouldEscalate: true,
-          rationale: "Yes — opioid-induced respiratory depression with RR 10 and SpO2 90% requires rapid response activation. The patient may need bag-valve-mask ventilation if naloxone response is inadequate.",
+          rationale: "Yes  -  opioid-induced respiratory depression with RR 10 and SpO2 90% requires rapid response activation. The patient may need bag-valve-mask ventilation if naloxone response is inadequate.",
         },
       },
       {
@@ -529,14 +529,14 @@ const scenarios: Scenario[] = [
         urineOutput: "0 mL/hr",
         painLevel: 0,
         narrative: "Patient found unresponsive by nurse entering room. Lips cyanotic. Agonal breathing at rate of 6. Pulse weak and thready. Naloxone not yet administered. Crash cart at bedside.",
-        redFlags: ["Near respiratory arrest (RR 6)", "Severe hypoxemia (SpO2 82%)", "Unresponsive — no purposeful movement", "Cyanosis", "Agonal breathing"],
+        redFlags: ["Near respiratory arrest (RR 6)", "Severe hypoxemia (SpO2 82%)", "Unresponsive  -  no purposeful movement", "Cyanosis", "Agonal breathing"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Airway/Breathing — imminent respiratory arrest",
-            "Circulation — bradycardia HR 54",
-            "Neurological — unresponsive, possible brain injury",
-            "Renal failure — anuric",
+            "Airway/Breathing  -  imminent respiratory arrest",
+            "Circulation  -  bradycardia HR 54",
+            "Neurological  -  unresponsive, possible brain injury",
+            "Renal failure  -  anuric",
           ],
           correctIndex: 0,
           rationale: "ABCs: Airway and Breathing are the immediate priority. Agonal breathing at RR 6 with cyanosis indicates imminent respiratory arrest. Without immediate airway management and naloxone, cardiac arrest will follow.",
@@ -544,7 +544,7 @@ const scenarios: Scenario[] = [
         priorityAction: {
           question: "What is your first priority action?",
           options: [
-            "Start CPR — patient appears lifeless",
+            "Start CPR  -  patient appears lifeless",
             "Bag-valve-mask ventilation + administer naloxone 0.4 mg IV, repeat q2-3 min. Call code blue.",
             "Intubate immediately",
             "Administer epinephrine 1 mg IV",
@@ -555,7 +555,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Is this a code blue situation?",
           shouldEscalate: true,
-          rationale: "Yes — activate code blue/MET call. The patient has agonal breathing and may progress to respiratory arrest within minutes. The team needs to prepare for possible intubation and continued naloxone administration.",
+          rationale: "Yes  -  activate code blue/MET call. The patient has agonal breathing and may progress to respiratory arrest within minutes. The team needs to prepare for possible intubation and continued naloxone administration.",
         },
       },
     ],
@@ -566,7 +566,7 @@ const scenarios: Scenario[] = [
     description: "Rapid recognition and treatment of anaphylactic reaction post-medication administration.",
     history: "34 y/o female admitted for cellulitis. Newly prescribed IV ceftriaxone. PMHx: Seasonal allergies, mild asthma.",
     meds: "Ceftriaxone 1 g IV q24h (first dose), Flucloxacillin 500 mg PO QID, Salbutamol MDI PRN",
-    allergies: "Amoxicillin (childhood rash — possible cross-reactivity with cephalosporins)",
+    allergies: "Amoxicillin (childhood rash  -  possible cross-reactivity with cephalosporins)",
     patientAge: 34,
     patientSex: "Female",
     stages: [
@@ -576,14 +576,14 @@ const scenarios: Scenario[] = [
         urineOutput: "50 mL/hr",
         painLevel: 2,
         narrative: "10 minutes after starting ceftriaxone IV infusion, patient reports generalized itching and feeling flushed. Nurse observes urticaria (hives) developing on chest and arms. No facial swelling yet.",
-        redFlags: ["Urticaria during new IV antibiotic", "Known amoxicillin allergy — cross-reactivity risk", "Onset within 10 minutes of infusion"],
+        redFlags: ["Urticaria during new IV antibiotic", "Known amoxicillin allergy  -  cross-reactivity risk", "Onset within 10 minutes of infusion"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Possible allergic reaction/early anaphylaxis — urticaria during cephalosporin infusion with penicillin allergy history",
-            "Anxiety — patient is nervous about IV medications",
-            "Drug fever — feeling warm",
-            "Contact dermatitis — itchy rash",
+            "Possible allergic reaction/early anaphylaxis  -  urticaria during cephalosporin infusion with penicillin allergy history",
+            "Anxiety  -  patient is nervous about IV medications",
+            "Drug fever  -  feeling warm",
+            "Contact dermatitis  -  itchy rash",
           ],
           correctIndex: 0,
           rationale: "Urticaria within minutes of starting a cephalosporin in a patient with penicillin allergy history suggests an IgE-mediated allergic reaction. Cross-reactivity between penicillins and cephalosporins is 1-2% but can cause anaphylaxis. This can progress rapidly.",
@@ -597,12 +597,12 @@ const scenarios: Scenario[] = [
             "Apply calamine lotion to affected areas",
           ],
           correctIndex: 1,
-          rationale: "STOP the offending agent immediately. Do NOT slow it — stop it completely. Maintain IV access (you may need it for medications). Giving antihistamines while continuing the allergen is dangerous — the reaction can progress to anaphylaxis.",
+          rationale: "STOP the offending agent immediately. Do NOT slow it  -  stop it completely. Maintain IV access (you may need it for medications). Giving antihistamines while continuing the allergen is dangerous  -  the reaction can progress to anaphylaxis.",
         },
         escalation: {
           question: "Should you notify the provider immediately?",
           shouldEscalate: true,
-          rationale: "Yes — allergic reaction to IV antibiotic requires immediate provider notification. Alternative antibiotic is needed. Epinephrine and emergency equipment should be at bedside in case of progression.",
+          rationale: "Yes  -  allergic reaction to IV antibiotic requires immediate provider notification. Alternative antibiotic is needed. Epinephrine and emergency equipment should be at bedside in case of progression.",
         },
       },
       {
@@ -611,14 +611,14 @@ const scenarios: Scenario[] = [
         urineOutput: "40 mL/hr",
         painLevel: 4,
         narrative: "Despite stopping the infusion, symptoms are progressing. Facial and lip swelling noted (angioedema). Voice is becoming hoarse. Patient reports throat tightness. Wheezing audible on auscultation. Urticaria spreading to trunk and legs.",
-        redFlags: ["Angioedema (facial/lip swelling)", "Throat tightness — impending airway compromise", "Hoarse voice — laryngeal edema", "Wheezing — bronchospasm", "Hypotension developing (BP 100/62)"],
+        redFlags: ["Angioedema (facial/lip swelling)", "Throat tightness  -  impending airway compromise", "Hoarse voice  -  laryngeal edema", "Wheezing  -  bronchospasm", "Hypotension developing (BP 100/62)"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Anaphylaxis — airway compromise with angioedema and bronchospasm",
-            "Asthma exacerbation — wheezing",
-            "Anxiety/panic attack — throat tightness",
-            "Angioedema — facial swelling needs antihistamines",
+            "Anaphylaxis  -  airway compromise with angioedema and bronchospasm",
+            "Asthma exacerbation  -  wheezing",
+            "Anxiety/panic attack  -  throat tightness",
+            "Angioedema  -  facial swelling needs antihistamines",
           ],
           correctIndex: 0,
           rationale: "This is anaphylaxis. Two or more body systems are involved: skin (urticaria), respiratory (wheezing, throat tightness, hoarseness), cardiovascular (tachycardia, hypotension). Angioedema + hoarseness = laryngeal edema = airway emergency.",
@@ -632,12 +632,12 @@ const scenarios: Scenario[] = [
             "Position patient upright and apply oxygen",
           ],
           correctIndex: 1,
-          rationale: "Epinephrine IM is the FIRST-LINE treatment for anaphylaxis — it addresses all mechanisms: bronchospasm, vasodilation, and angioedema. Antihistamines and steroids are adjuncts, NOT substitutes. Delay in epinephrine is the #1 cause of anaphylaxis death.",
+          rationale: "Epinephrine IM is the FIRST-LINE treatment for anaphylaxis  -  it addresses all mechanisms: bronchospasm, vasodilation, and angioedema. Antihistamines and steroids are adjuncts, NOT substitutes. Delay in epinephrine is the #1 cause of anaphylaxis death.",
         },
         escalation: {
           question: "Should you call a code/emergency response?",
           shouldEscalate: true,
-          rationale: "Yes — anaphylaxis is a medical emergency. Call the code team. The patient may need repeated epinephrine, IV fluid bolus, and emergent airway management if laryngeal edema progresses.",
+          rationale: "Yes  -  anaphylaxis is a medical emergency. Call the code team. The patient may need repeated epinephrine, IV fluid bolus, and emergent airway management if laryngeal edema progresses.",
         },
       },
       {
@@ -646,17 +646,17 @@ const scenarios: Scenario[] = [
         urineOutput: "10 mL/hr",
         painLevel: 8,
         narrative: "Despite IM epinephrine, patient is worsening. Stridor now audible without stethoscope. Massive facial and tongue swelling. Unable to speak. Diaphoretic with severe hypotension. IV access difficult due to edema.",
-        redFlags: ["Stridor — critical airway obstruction", "Severe hypotension (BP 72/40) — anaphylactic shock", "SpO2 84% — severe hypoxemia", "Unable to speak — near-complete airway obstruction"],
+        redFlags: ["Stridor  -  critical airway obstruction", "Severe hypotension (BP 72/40)  -  anaphylactic shock", "SpO2 84%  -  severe hypoxemia", "Unable to speak  -  near-complete airway obstruction"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Airway — complete airway obstruction imminent from laryngeal edema",
-            "Circulation — anaphylactic shock",
-            "Breathing — bronchospasm",
-            "Skin — worsening urticaria",
+            "Airway  -  complete airway obstruction imminent from laryngeal edema",
+            "Circulation  -  anaphylactic shock",
+            "Breathing  -  bronchospasm",
+            "Skin  -  worsening urticaria",
           ],
           correctIndex: 0,
-          rationale: "ABCs — Airway is ALWAYS first when compromised. Stridor indicates critical upper airway obstruction from laryngeal edema. Without immediate airway intervention, complete obstruction and death will follow. Circulation (shock) is second priority.",
+          rationale: "ABCs  -  Airway is ALWAYS first when compromised. Stridor indicates critical upper airway obstruction from laryngeal edema. Without immediate airway intervention, complete obstruction and death will follow. Circulation (shock) is second priority.",
         },
         priorityAction: {
           question: "What is your first priority action?",
@@ -667,12 +667,12 @@ const scenarios: Scenario[] = [
             "Administer IV corticosteroids for delayed benefit",
           ],
           correctIndex: 1,
-          rationale: "With imminent complete airway obstruction, emergent airway management is priority. Intubation may be extremely difficult with edema — surgical airway (cricothyrotomy) must be available. IV epinephrine (1:10,000 dilution) for refractory anaphylaxis. Large-volume IV fluids for distributive shock.",
+          rationale: "With imminent complete airway obstruction, emergent airway management is priority. Intubation may be extremely difficult with edema  -  surgical airway (cricothyrotomy) must be available. IV epinephrine (1:10,000 dilution) for refractory anaphylaxis. Large-volume IV fluids for distributive shock.",
         },
         escalation: {
           question: "Is this a code blue situation?",
           shouldEscalate: true,
-          rationale: "Absolutely — this is a life-threatening emergency requiring full code team response. Anesthesia for difficult airway, surgery for possible cricothyrotomy, and ICU for post-resuscitation management.",
+          rationale: "Absolutely  -  this is a life-threatening emergency requiring full code team response. Anesthesia for difficult airway, surgery for possible cricothyrotomy, and ICU for post-resuscitation management.",
         },
       },
     ],
@@ -693,17 +693,17 @@ const scenarios: Scenario[] = [
         urineOutput: "40 mL/hr",
         painLevel: 8,
         narrative: "Patient arrived 20 minutes ago with crushing substernal chest pain 8/10 radiating to left arm and jaw. Diaphoretic, pale, and anxious. ECG shows ST elevation in leads II, III, aVF (inferior STEMI). Troponin pending.",
-        redFlags: ["ST elevation on ECG — STEMI", "Severe chest pain 8/10 with radiation", "Diaphoresis — autonomic response to MI", "Multiple cardiac risk factors"],
+        redFlags: ["ST elevation on ECG  -  STEMI", "Severe chest pain 8/10 with radiation", "Diaphoresis  -  autonomic response to MI", "Multiple cardiac risk factors"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Acute STEMI — myocardial tissue is dying, time-dependent emergency",
-            "Hypertension — BP 148/92 needs treatment",
-            "Anxiety — patient needs anxiolytic",
-            "Pain management — pain 8/10 needs opioids",
+            "Acute STEMI  -  myocardial tissue is dying, time-dependent emergency",
+            "Hypertension  -  BP 148/92 needs treatment",
+            "Anxiety  -  patient needs anxiolytic",
+            "Pain management  -  pain 8/10 needs opioids",
           ],
           correctIndex: 0,
-          rationale: "'Time is muscle' — every minute of coronary occlusion results in more myocardial death. The goal is door-to-balloon time <90 minutes for PCI. This is the highest priority cardiac emergency.",
+          rationale: "'Time is muscle'  -  every minute of coronary occlusion results in more myocardial death. The goal is door-to-balloon time <90 minutes for PCI. This is the highest priority cardiac emergency.",
         },
         priorityAction: {
           question: "What is your first priority action?",
@@ -714,12 +714,12 @@ const scenarios: Scenario[] = [
             "Start heparin drip immediately",
           ],
           correctIndex: 1,
-          rationale: "STEMI protocol: ASA 325 mg (chew), NTG 0.4 mg SL (check BP first — contraindicated if SBP <90), O2 only if SpO2 <94%, and activate the cath lab for emergent PCI. Morphine is used cautiously (can cause hypotension).",
+          rationale: "STEMI protocol: ASA 325 mg (chew), NTG 0.4 mg SL (check BP first  -  contraindicated if SBP <90), O2 only if SpO2 <94%, and activate the cath lab for emergent PCI. Morphine is used cautiously (can cause hypotension).",
         },
         escalation: {
           question: "Should the cath lab be activated?",
           shouldEscalate: true,
-          rationale: "Yes — immediate cath lab activation for STEMI. Goal is door-to-balloon <90 minutes. The interventional cardiologist must be notified. Delay in reperfusion directly increases mortality and infarct size.",
+          rationale: "Yes  -  immediate cath lab activation for STEMI. Goal is door-to-balloon <90 minutes. The interventional cardiologist must be notified. Delay in reperfusion directly increases mortality and infarct size.",
         },
       },
       {
@@ -727,23 +727,23 @@ const scenarios: Scenario[] = [
         mentalStatus: "Alert but increasingly anxious, diaphoretic, nauseated",
         urineOutput: "25 mL/hr",
         painLevel: 9,
-        narrative: "ASA and NTG given. Chest pain has not improved (9/10). BP dropping. New crackles heard at lung bases bilaterally — possible pulmonary edema. Patient nauseated with one episode of vomiting. Repeat ECG shows extending ST changes.",
-        redFlags: ["Chest pain not relieved by NTG", "BP dropping (102/64)", "New bilateral crackles — pulmonary edema", "SpO2 dropping (93%)", "Extending ST changes — ongoing infarction"],
+        narrative: "ASA and NTG given. Chest pain has not improved (9/10). BP dropping. New crackles heard at lung bases bilaterally  -  possible pulmonary edema. Patient nauseated with one episode of vomiting. Repeat ECG shows extending ST changes.",
+        redFlags: ["Chest pain not relieved by NTG", "BP dropping (102/64)", "New bilateral crackles  -  pulmonary edema", "SpO2 dropping (93%)", "Extending ST changes  -  ongoing infarction"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Developing cardiogenic shock — failing pump with pulmonary edema",
-            "GI bleeding — patient is vomiting",
-            "Aspiration risk — patient vomiting",
-            "Medication failure — NTG not working",
+            "Developing cardiogenic shock  -  failing pump with pulmonary edema",
+            "GI bleeding  -  patient is vomiting",
+            "Aspiration risk  -  patient vomiting",
+            "Medication failure  -  NTG not working",
           ],
           correctIndex: 0,
-          rationale: "NTG-unresponsive chest pain with dropping BP and pulmonary edema indicates significant myocardial damage with developing left ventricular failure. Cardiogenic shock (pump failure) is developing — the heart cannot maintain adequate cardiac output.",
+          rationale: "NTG-unresponsive chest pain with dropping BP and pulmonary edema indicates significant myocardial damage with developing left ventricular failure. Cardiogenic shock (pump failure) is developing  -  the heart cannot maintain adequate cardiac output.",
         },
         priorityAction: {
           question: "What is your first priority action?",
           options: [
-            "Give more nitroglycerin — chest pain still present",
+            "Give more nitroglycerin  -  chest pain still present",
             "Position upright, apply O2, hold further NTG (SBP approaching 90), prepare for emergent PCI, establish second IV access",
             "Administer furosemide IV for pulmonary edema",
             "Prepare for thrombolytic therapy",
@@ -754,7 +754,7 @@ const scenarios: Scenario[] = [
         escalation: {
           question: "Should you expedite transfer to cath lab?",
           shouldEscalate: true,
-          rationale: "Yes — the patient is deteriorating rapidly. Communicate urgency to cath lab team. Consider intra-aortic balloon pump (IABP) or vasopressor support during transport if hemodynamically unstable.",
+          rationale: "Yes  -  the patient is deteriorating rapidly. Communicate urgency to cath lab team. Consider intra-aortic balloon pump (IABP) or vasopressor support during transport if hemodynamically unstable.",
         },
       },
       {
@@ -763,14 +763,14 @@ const scenarios: Scenario[] = [
         urineOutput: "5 mL/hr",
         painLevel: 7,
         narrative: "Patient now in cardiogenic shock. JVD present. Bilateral crackles to mid-lung fields. Skin cold, clammy, and mottled. ST elevation persists. BNP elevated at 1200 pg/mL. Bedside echo shows severe LV dysfunction with EF ~20%.",
-        redFlags: ["Cardiogenic shock (BP 76/44)", "Severe pulmonary edema (SpO2 86%)", "EF 20% — severe LV failure", "Confusion — cerebral hypoperfusion", "JVD + crackles — biventricular failure"],
+        redFlags: ["Cardiogenic shock (BP 76/44)", "Severe pulmonary edema (SpO2 86%)", "EF 20%  -  severe LV failure", "Confusion  -  cerebral hypoperfusion", "JVD + crackles  -  biventricular failure"],
         urgentProblem: {
           question: "What is the most urgent concern?",
           options: [
-            "Cardiogenic shock — heart cannot maintain perfusion to vital organs",
-            "Respiratory failure — SpO2 86%",
-            "Acute kidney injury — near-anuric",
-            "Elevated BNP — needs diuretics",
+            "Cardiogenic shock  -  heart cannot maintain perfusion to vital organs",
+            "Respiratory failure  -  SpO2 86%",
+            "Acute kidney injury  -  near-anuric",
+            "Elevated BNP  -  needs diuretics",
           ],
           correctIndex: 0,
           rationale: "Cardiogenic shock is the primary problem driving ALL other organ failures. The heart is the failing pump. SpO2 is low because of pulmonary edema from pump failure. AKI is from poor cardiac output. Treating the underlying pump failure is key.",
@@ -784,12 +784,12 @@ const scenarios: Scenario[] = [
             "Begin non-invasive ventilation (BiPAP)",
           ],
           correctIndex: 1,
-          rationale: "Cardiogenic shock needs inotropic support (dobutamine) to improve contractility AND vasopressor (norepinephrine) to maintain perfusion pressure. Emergent PCI with possible IABP or Impella is definitive. IV fluids are CONTRAINDICATED — the heart cannot handle more volume. BiPAP helps breathing but doesn't fix the pump.",
+          rationale: "Cardiogenic shock needs inotropic support (dobutamine) to improve contractility AND vasopressor (norepinephrine) to maintain perfusion pressure. Emergent PCI with possible IABP or Impella is definitive. IV fluids are CONTRAINDICATED  -  the heart cannot handle more volume. BiPAP helps breathing but doesn't fix the pump.",
         },
         escalation: {
           question: "Is this a critical emergency?",
           shouldEscalate: true,
-          rationale: "Yes — cardiogenic shock has ~50% mortality. The patient needs emergent PCI, mechanical circulatory support, ICU admission, and possible cardiac surgery consultation. Every minute of delay worsens outcomes.",
+          rationale: "Yes  -  cardiogenic shock has ~50% mortality. The patient needs emergent PCI, mechanical circulatory support, ICU admission, and possible cardiac surgery consultation. Every minute of delay worsens outcomes.",
         },
       },
     ],
@@ -798,15 +798,15 @@ const scenarios: Scenario[] = [
 
 const examTips = [
   { tip: "Always assess before intervening (unless life-threatening)", icon: "🔍" },
-  { tip: "ABCs always come first — Airway, Breathing, Circulation", icon: "🫁" },
+  { tip: "ABCs always come first  -  Airway, Breathing, Circulation", icon: "🫁" },
   { tip: "Don't delay escalation for unstable patients", icon: "📞" },
   { tip: "Tachycardia + restlessness = BLEEDING until proven otherwise in post-op patients", icon: "🩸" },
-  { tip: "Treat the patient, not the number — correlate vitals with clinical picture", icon: "📊" },
+  { tip: "Treat the patient, not the number  -  correlate vitals with clinical picture", icon: "📊" },
   { tip: "In opioid toxicity: RR is the most important vital sign to monitor", icon: "💊" },
-  { tip: "Epinephrine is FIRST-LINE for anaphylaxis — antihistamines are adjuncts only", icon: "💉" },
+  { tip: "Epinephrine is FIRST-LINE for anaphylaxis  -  antihistamines are adjuncts only", icon: "💉" },
   { tip: "COPD patients: target SpO2 88-92%. High-flow O2 can cause CO2 narcosis", icon: "🌬️" },
   { tip: "Sepsis: blood cultures BEFORE antibiotics, but don't delay antibiotics for cultures", icon: "🦠" },
-  { tip: "STEMI: 'Time is muscle' — door-to-balloon <90 minutes saves lives", icon: "❤️" },
+  { tip: "STEMI: 'Time is muscle'  -  door-to-balloon <90 minutes saves lives", icon: "❤️" },
 ];
 
 function getVitalStatus(label: string, value: number): "normal" | "abnormal" | "critical" {
@@ -1027,7 +1027,7 @@ function EscalationBlock({
               onClick={() => !revealed && onSelect(val)}
               data-testid={`escalation-${val ? "yes" : "no"}`}
             >
-              <p className="text-sm font-semibold text-gray-700">{val ? "Yes — Escalate" : "No — Continue monitoring"}</p>
+              <p className="text-sm font-semibold text-gray-700">{val ? "Yes  -  Escalate" : "No  -  Continue monitoring"}</p>
             </div>
           );
         })}
@@ -1280,7 +1280,7 @@ function SummaryScreen({
   if (urgentMissed) areas.push("Problem identification (ABCs prioritization)");
   if (actionMissed) areas.push("Priority nursing interventions");
   if (escalationMissed) areas.push("Escalation / rapid response activation");
-  if (avgTime > 90) areas.push("Time management — practice faster clinical decision-making");
+  if (avgTime > 90) areas.push("Time management  -  practice faster clinical decision-making");
 
   const scoreColor = scorePercent >= 80 ? "text-emerald-600" : scorePercent >= 60 ? "text-amber-600" : "text-red-600";
   const scoreBg = scorePercent >= 80 ? "bg-emerald-50 border-emerald-200" : scorePercent >= 60 ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200";
@@ -1421,7 +1421,7 @@ function ScenarioSelector({
         </div>
         <p className="text-lg text-gray-600 max-w-3xl leading-relaxed mt-4">
           Monitor patients whose clinical status deteriorates over time. Identify red flags,
-          prioritize interventions using ABCs, and decide when to escalate — just like real nursing practice.
+          prioritize interventions using ABCs, and decide when to escalate  -  just like real nursing practice.
         </p>
       </div>
 
@@ -1487,7 +1487,7 @@ function ScenarioSelector({
         <CardContent className="p-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
             <Lightbulb className="w-5 h-5 text-blue-500" />
-            Exam Tips — Common Traps
+            Exam Tips  -  Common Traps
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">
             {examTips.slice(0, 6).map((t, i) => (

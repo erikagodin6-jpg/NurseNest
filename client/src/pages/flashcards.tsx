@@ -1492,7 +1492,7 @@ export default function Flashcards() {
                     {currentCard.image ? (
                       <ProtectedImage 
                         src={currentCard.image} 
-                        alt={`Clinical flashcard illustration for ${currentCard.category || "nursing"} — NurseNest`}
+                        alt={`Clinical flashcard illustration for ${currentCard.category || "nursing"}  -  NurseNest`}
                         title={`NurseNest ${currentCard.category || "Nursing"} Flashcard`}
                         className="w-64 h-64 object-contain rounded-2xl shadow-sm"
                         data-testid={`img-flashcard-${currentCard.id}`}

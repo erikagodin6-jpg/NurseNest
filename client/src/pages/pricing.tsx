@@ -234,7 +234,7 @@ export default function PricingPage() {
               <div className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-50 border border-red-200/60 text-sm" data-testid="badge-canadian-pricing">
                 <span role="img" aria-label="maple leaf">🍁</span>
                 <span className="text-gray-700">
-                  <span className="font-semibold text-gray-900">Canadian pricing with Canadian lab values</span> — the first nursing exam prep platform built specifically for Canadian students, with Canadian reference ranges, scope-of-practice language, and REX-PN alignment.
+                  <span className="font-semibold text-gray-900">Canadian pricing with Canadian lab values</span>  -  the first nursing exam prep platform built specifically for Canadian students, with Canadian reference ranges, scope-of-practice language, and REX-PN alignment.
                 </span>
               </div>
             )}

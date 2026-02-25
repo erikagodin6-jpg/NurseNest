@@ -112,7 +112,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Calculation: 4 ÷ 10 × 1 = 0.4 mL"
     ],
     rationale: "Morphine is an opioid analgesic. The 10 mg/mL concentration is standard for IV use. 0.4 mL is a reasonable IV push volume.",
-    safetyNote: "⚠️ IV morphine should be pushed slowly over 4–5 minutes. Monitor respiratory rate and oxygen saturation."
+    safetyNote: "⚠️ IV morphine should be pushed slowly over 4-5 minutes. Monitor respiratory rate and oxygen saturation."
   },
   {
     id: "dos-8",
@@ -154,8 +154,8 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Available: 2 mg per 1 mL",
       "Calculation: 1 ÷ 2 × 1 = 0.5 mL"
     ],
-    rationale: "Hydromorphone (Dilaudid) is an opioid analgesic 5–7× more potent than morphine. 0.5 mL is a safe, measurable IV volume.",
-    safetyNote: "⚠️ Administer slowly over 2–3 minutes. Have naloxone available. Monitor respiratory rate."
+    rationale: "Hydromorphone (Dilaudid) is an opioid analgesic 5-7× more potent than morphine. 0.5 mL is a safe, measurable IV volume.",
+    safetyNote: "⚠️ Administer slowly over 2-3 minutes. Have naloxone available. Monitor respiratory rate."
   },
   {
     id: "dos-11",
@@ -240,7 +240,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Calculation: 7.5 ÷ 5 = 1.5 tablets"
     ],
     rationale: "Warfarin (Coumadin) is an anticoagulant with dosing adjusted by INR. 1.5 scored tablets is a realistic administration using one whole + one half tablet.",
-    safetyNote: "⚠️ Monitor INR regularly. Target INR is typically 2.0–3.0. Watch for signs of bleeding."
+    safetyNote: "⚠️ Monitor INR regularly. Target INR is typically 2.0-3.0. Watch for signs of bleeding."
   },
   {
     id: "dos-17",
@@ -281,7 +281,7 @@ export const medMathQuestions: MedMathQuestion[] = [
     steps: [
       "Desired dose: 40 mg",
       "Available: 40 mg per 0.4 mL",
-      "Calculation: the prefilled syringe contains exactly 40 mg in 0.4 mL — administer the full syringe"
+      "Calculation: the prefilled syringe contains exactly 40 mg in 0.4 mL  -  administer the full syringe"
     ],
     rationale: "Enoxaparin (Lovenox) is a low-molecular-weight heparin for DVT prophylaxis. The 40 mg/0.4 mL prefilled syringe is a standard formulation. Inject into abdominal subcutaneous tissue.",
     safetyNote: "⚠️ Do not expel the air bubble from the prefilled syringe. Inject at a 90° angle into the abdomen."
@@ -326,7 +326,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Available: 325 mg per tablet",
       "Calculation: 650 ÷ 325 = 2 tablets"
     ],
-    rationale: "Acetaminophen (Tylenol) is available in 325 mg and 500 mg tablets. 650 mg is a standard adult dose. Monitor total daily intake (max 3000–4000 mg/day).",
+    rationale: "Acetaminophen (Tylenol) is available in 325 mg and 500 mg tablets. 650 mg is a standard adult dose. Monitor total daily intake (max 3000-4000 mg/day).",
     safetyNote: "⚠️ Total daily acetaminophen should not exceed 3000 mg for older adults or 4000 mg for healthy adults. Check all medication sources."
   },
   {
@@ -369,7 +369,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Available: 5 mg per 1 mL (10 mg in 2 mL vial)",
       "Calculation: 10 ÷ 5 = 2 mL (the entire vial)"
     ],
-    rationale: "Metoclopramide (Reglan) is a prokinetic antiemetic. The full 2 mL vial delivers the ordered 10 mg dose. Administer IV over 1–2 minutes."
+    rationale: "Metoclopramide (Reglan) is a prokinetic antiemetic. The full 2 mL vial delivers the ordered 10 mg dose. Administer IV over 1-2 minutes."
   },
 
   // ============================================================
@@ -656,7 +656,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Drop factor: 15 gtt/mL",
       "Calculation: (100 × 15) ÷ 60 = 25 gtt/min"
     ],
-    rationale: "Gentamicin is an aminoglycoside antibiotic infused over 30–60 minutes. Peak and trough levels should be monitored to prevent nephrotoxicity and ototoxicity.",
+    rationale: "Gentamicin is an aminoglycoside antibiotic infused over 30-60 minutes. Peak and trough levels should be monitored to prevent nephrotoxicity and ototoxicity.",
     safetyNote: "⚠️ Monitor gentamicin peak and trough levels. Assess renal function (BUN, creatinine) during therapy."
   },
   {
@@ -690,7 +690,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Ordered dose: 15 mg/kg",
       "Calculation: 80 × 15 = 1200 mg"
     ],
-    rationale: "Vancomycin is dosed by weight (15–20 mg/kg) to achieve therapeutic trough levels (15–20 mcg/mL for serious infections). 1200 mg for an 80 kg patient is a standard dose."
+    rationale: "Vancomycin is dosed by weight (15-20 mg/kg) to achieve therapeutic trough levels (15-20 mcg/mL for serious infections). 1200 mg for an 80 kg patient is a standard dose."
   },
   {
     id: "wb-2",
@@ -788,7 +788,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Available: 50 mg/mL",
       "Volume: 1050 ÷ 50 = 21 mL"
     ],
-    rationale: "A phenytoin loading dose of 15–20 mg/kg is used for status epilepticus or new seizure treatment. The large volume (21 mL) is infused IV slowly, not pushed.",
+    rationale: "A phenytoin loading dose of 15-20 mg/kg is used for status epilepticus or new seizure treatment. The large volume (21 mL) is infused IV slowly, not pushed.",
     safetyNote: "⚠️ Infuse phenytoin no faster than 50 mg/min in adults. Monitor ECG and blood pressure during infusion. Use only NS for flushing (precipitates in dextrose)."
   },
   {
@@ -802,7 +802,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Convert: 198 ÷ 2.2 = 90 kg",
       "Dose: 90 × 25 = 2250 mg"
     ],
-    rationale: "Cefazolin is a first-generation cephalosporin used for surgical prophylaxis. Weight-based dosing (often 25–30 mg/kg) is recommended for patients over 120 kg, but 2250 mg (≈2 g) is within standard dosing."
+    rationale: "Cefazolin is a first-generation cephalosporin used for surgical prophylaxis. Weight-based dosing (often 25-30 mg/kg) is recommended for patients over 120 kg, but 2250 mg (≈2 g) is within standard dosing."
   },
   {
     id: "wb-10",
@@ -817,7 +817,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Calculation: 85 × 18 = 1530 units/hr"
     ],
     rationale: "After the heparin bolus, the standard weight-based protocol calls for 18 units/kg/hr as the initial continuous infusion rate. This is adjusted based on PTT/aPTT results.",
-    safetyNote: "⚠️ Heparin is a high-alert medication. Monitor aPTT q6h initially. Target is typically 1.5–2.5× control."
+    safetyNote: "⚠️ Heparin is a high-alert medication. Monitor aPTT q6h initially. Target is typically 1.5-2.5× control."
   },
   {
     id: "wb-11",
@@ -871,7 +871,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Available: 250 mg/mL",
       "Volume: 3400 ÷ 250 = 13.6 mL"
     ],
-    rationale: "Ampicillin 50 mg/kg q6h is used for serious infections like endocarditis or meningitis. The large volume (13.6 mL) should be further diluted in 50–100 mL and infused IV."
+    rationale: "Ampicillin 50 mg/kg q6h is used for serious infections like endocarditis or meningitis. The large volume (13.6 mL) should be further diluted in 50-100 mL and infused IV."
   },
   {
     id: "wb-15",
@@ -1001,7 +1001,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "mL/min: 2 ÷ 4 = 0.5 mL/min",
       "mL/hr: 0.5 × 60 = 30 mL/hr"
     ],
-    rationale: "Lidocaine drip (1–4 mg/min) is used for ventricular arrhythmias. 2 g in 500 mL is a standard premixed concentration. The pump rate calculation prevents medication errors."
+    rationale: "Lidocaine drip (1-4 mg/min) is used for ventricular arrhythmias. 2 g in 500 mL is a standard premixed concentration. The pump rate calculation prevents medication errors."
   },
   {
     id: "inf-4",
@@ -1015,7 +1015,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Pump rate: 4 ÷ 1 = 4 mL/hr"
     ],
     rationale: "The insulin drip concentration of 1 unit/mL (100 units in 100 mL) makes calculations straightforward. At 4 units/hr, the pump rate equals 4 mL/hr.",
-    safetyNote: "⚠️ Insulin is a high-alert medication. Check blood glucose every 1–2 hours. Use an infusion pump only."
+    safetyNote: "⚠️ Insulin is a high-alert medication. Check blood glucose every 1-2 hours. Use an infusion pump only."
   },
   {
     id: "inf-5",
@@ -1030,7 +1030,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "mL/min: 0.01 ÷ 0.2 = 0.05 mL/min",
       "mL/hr: 0.05 × 60 = 3 mL/hr"
     ],
-    rationale: "Nitroglycerin is a vasodilator titrated by mcg/min for angina or acute HF. Starting dose is typically 5–10 mcg/min, increased by 5–10 mcg/min every 5 minutes based on BP and symptoms."
+    rationale: "Nitroglycerin is a vasodilator titrated by mcg/min for angina or acute HF. Starting dose is typically 5-10 mcg/min, increased by 5-10 mcg/min every 5 minutes based on BP and symptoms."
   },
   {
     id: "inf-6",
@@ -1044,7 +1044,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Concentration: 40 g / 1000 mL = 0.04 g/mL",
       "Pump rate: (2 ÷ 40) × 1000 = 50 mL/hr"
     ],
-    rationale: "Magnesium sulfate is used to prevent seizures in preeclampsia/eclampsia. The maintenance dose of 2 g/hr follows a 4–6 g IV loading dose.",
+    rationale: "Magnesium sulfate is used to prevent seizures in preeclampsia/eclampsia. The maintenance dose of 2 g/hr follows a 4-6 g IV loading dose.",
     safetyNote: "⚠️ Monitor deep tendon reflexes, respiratory rate (>12/min), and urine output (>30 mL/hr). Have calcium gluconate at bedside as antidote."
   },
   {
@@ -1107,7 +1107,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "mL/min: 650 ÷ 1000 = 0.65 mL/min",
       "mL/hr: 0.65 × 60 = 39 mL/hr"
     ],
-    rationale: "Dobutamine is a beta-1 agonist used for heart failure with low cardiac output. 10 mcg/kg/min is within the standard range (2.5–20 mcg/kg/min)."
+    rationale: "Dobutamine is a beta-1 agonist used for heart failure with low cardiac output. 10 mcg/kg/min is within the standard range (2.5-20 mcg/kg/min)."
   },
   {
     id: "inf-11",
@@ -1167,7 +1167,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "mL/min: 30 ÷ 200 = 0.15 mL/min",
       "mL/hr: 0.15 × 60 = 9 mL/hr"
     ],
-    rationale: "Milrinone is a phosphodiesterase inhibitor (inodilator) used in acute decompensated heart failure. 0.375 mcg/kg/min is within the standard range (0.375–0.75)."
+    rationale: "Milrinone is a phosphodiesterase inhibitor (inodilator) used in acute decompensated heart failure. 0.375 mcg/kg/min is within the standard range (0.375-0.75)."
   },
   {
     id: "inf-15",
@@ -1182,7 +1182,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "mL/min: 3.5 ÷ 4 = 0.875 mL/min",
       "mL/hr: 0.875 × 60 = 52.5 mL/hr"
     ],
-    rationale: "Epinephrine infusion at low doses (0.01–0.1 mcg/kg/min) provides beta-adrenergic effects for cardiogenic shock. Central line access is required."
+    rationale: "Epinephrine infusion at low doses (0.01-0.1 mcg/kg/min) provides beta-adrenergic effects for cardiogenic shock. Central line access is required."
   },
   {
     id: "inf-16",
@@ -1240,7 +1240,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "mL/min: 0.03 ÷ 0.2 = 0.15 mL/min",
       "mL/hr: 0.15 × 60 = 9 mL/hr"
     ],
-    rationale: "Nitroglycerin is titrated in increments of 5–10 mcg/min based on blood pressure and symptom response. Recalculating the pump rate after each titration is a critical nursing skill."
+    rationale: "Nitroglycerin is titrated in increments of 5-10 mcg/min based on blood pressure and symptom response. Recalculating the pump rate after each titration is a critical nursing skill."
   },
   {
     id: "inf-20",
@@ -1255,7 +1255,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "mL/min: 4 ÷ 10 = 0.4 mL/min",
       "mL/hr: 0.4 × 60 = 24 mL/hr"
     ],
-    rationale: "Oxytocin for labor augmentation is measured in milliunits/min. Starting dose is typically 1–4 milliunits/min, increased every 30–60 minutes. Continuous fetal monitoring is required.",
+    rationale: "Oxytocin for labor augmentation is measured in milliunits/min. Starting dose is typically 1-4 milliunits/min, increased every 30-60 minutes. Continuous fetal monitoring is required.",
     safetyNote: "⚠️ Oxytocin is a high-alert medication in obstetrics. Monitor uterine contractions, fetal heart rate, and maternal vitals continuously."
   },
 
@@ -1316,7 +1316,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Available: 200 mg per 5 mL",
       "Volume: (250 ÷ 200) × 5 = 6.25 mL"
     ],
-    rationale: "Azithromycin (Zithromax) Z-pack: 10 mg/kg on day 1, then 5 mg/kg on days 2–5. 6.25 mL can be measured with an oral syringe."
+    rationale: "Azithromycin (Zithromax) Z-pack: 10 mg/kg on day 1, then 5 mg/kg on days 2-5. 6.25 mL can be measured with an oral syringe."
   },
   {
     id: "ped-5",
@@ -1347,7 +1347,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Weight: 3.5 kg",
       "Rate: 3.5 × 4 = 14 mL/hr"
     ],
-    rationale: "Neonatal fluid requirements vary by day of life. Day 1 typically starts at 60–80 mL/kg/day (~3–4 mL/kg/hr). Precise infusion pumps and buretrol sets are mandatory for neonates.",
+    rationale: "Neonatal fluid requirements vary by day of life. Day 1 typically starts at 60-80 mL/kg/day (~3-4 mL/kg/hr). Precise infusion pumps and buretrol sets are mandatory for neonates.",
     safetyNote: "⚠️ Neonatal fluid rates require precision. Always use a volumetric pump. Even small errors can cause fluid overload."
   },
   {
@@ -1449,7 +1449,7 @@ export const medMathQuestions: MedMathQuestion[] = [
       "Available: 150 mg/mL",
       "Volume: 140 ÷ 150 = 0.93 mL"
     ],
-    rationale: "Clindamycin is used for bone and soft tissue infections in penicillin-allergic children. 10 mg/kg q8h is within the standard range (20–40 mg/kg/day)."
+    rationale: "Clindamycin is used for bone and soft tissue infections in penicillin-allergic children. 10 mg/kg q8h is within the standard range (20-40 mg/kg/day)."
   },
   {
     id: "ped-14",

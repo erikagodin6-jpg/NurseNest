@@ -95,9 +95,9 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative overflow-hidden py-20 lg:py-28" data-testid="hero-section">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl animate-pulse duration-[10s]" />
-            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/30 blur-3xl animate-pulse duration-[15s]" />
-            <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent-foreground/10 blur-3xl animate-pulse duration-[20s]" />
+            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl" />
+            <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/30 blur-3xl" />
+            <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-accent-foreground/10 blur-3xl" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -232,7 +232,7 @@ export default function Home() {
                   <ClipboardCheck className="w-6 h-6 text-indigo-600" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Timed Mock Exams</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">Full-length simulated exams with configurable length (25–150 questions), question flagging, pause/resume, and a detailed post-exam report with score trends and weak area breakdown.</p>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">Full-length simulated exams with configurable length (25-150 questions), question flagging, pause/resume, and a detailed post-exam report with score trends and weak area breakdown.</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{examLabel} Format</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">Score Trends</span>
@@ -428,7 +428,7 @@ export default function Home() {
                 onClick={() => setLocation("/start-free")}
                 data-testid="button-features-start-free"
               >
-                Start Free — No Credit Card Required
+                Start Free  -  No Credit Card Required
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </div>
@@ -817,7 +817,7 @@ export default function Home() {
             <p className="text-sm text-gray-400 mt-6">No credit card required. Free anatomy content and practice questions included.</p>
           </div>
           
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/10 to-accent-foreground/10 rounded-full blur-3xl -z-10 opacity-60" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent-foreground/5 rounded-full blur-3xl -z-10 opacity-40" />
         </section>
       </main>
 
