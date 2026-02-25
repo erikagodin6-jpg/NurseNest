@@ -1099,183 +1099,115 @@ export default function AdminPage() {
               {/* Content Engine Tab */}
               {activeTab === "content-engine" && (
                 <div className="space-y-6">
-                  <Card className="border border-primary/10" data-testid="card-top-lessons">
-                    <CardHeader>
-                      <CardTitle className="text-sm font-semibold text-gray-700">Most Accessed Lessons</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {data.topLessons.length === 0 ? (
-                        <p className="text-gray-400 text-center py-8">No lesson data yet</p>
-                      ) : (
-                        <div className="space-y-3">
-                          {data.topLessons.map((lesson, i) => {
-                            const maxCount = data.topLessons[0]?.accessCount || 1;
-                            return (
-                              <div key={i} className="flex items-center gap-4" data-testid={`row-lesson-${i}`}>
-                                <span className="text-xs font-mono text-gray-400 w-6 text-right">{i + 1}.</span>
-                                <div className="flex-grow">
-                                  <div className="flex items-center justify-between mb-1">
-                                    <span className="text-sm font-medium text-gray-900">{formatLessonId(lesson.lessonId)}</span>
-                                    <span className="text-xs text-gray-500">{lesson.accessCount} views</span>
-                                  </div>
-                                  <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${(lesson.accessCount / maxCount) * 100}%` }} />
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3" data-testid="section-quick-actions">
+                    <button
+                      onClick={() => { handleGenerateBlogPost(); }}
+                      disabled={blogGenerating}
+                      className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-primary/30 hover:border-primary hover:bg-primary/5 transition-all group disabled:opacity-50"
+                      data-testid="button-generate-blog"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Lightbulb className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="text-xs font-semibold text-gray-700">{blogGenerating ? "Generating..." : "AI Blog Post"}</span>
+                      <span className="text-[10px] text-gray-400">APA 7 citations</span>
+                    </button>
+                    <button
+                      onClick={() => startNewContent("blog")}
+                      className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-blue-300 hover:border-blue-500 hover:bg-blue-50 transition-all group"
+                      data-testid="button-new-blog"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                        <FileText className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <span className="text-xs font-semibold text-gray-700">New Blog Post</span>
+                      <span className="text-[10px] text-gray-400">Write manually</span>
+                    </button>
+                    <button
+                      onClick={() => startNewContent("flashcard-set")}
+                      className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-purple-300 hover:border-purple-500 hover:bg-purple-50 transition-all group"
+                      data-testid="button-new-flashcards"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                        <Layers className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <span className="text-xs font-semibold text-gray-700">New Flashcards</span>
+                      <span className="text-[10px] text-gray-400">Q&A card set</span>
+                    </button>
+                    <button
+                      onClick={() => startNewContent("lesson")}
+                      className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-green-300 hover:border-green-500 hover:bg-green-50 transition-all group"
+                      data-testid="button-new-lesson"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                        <BookOpen className="w-5 h-5 text-green-600" />
+                      </div>
+                      <span className="text-xs font-semibold text-gray-700">New Lesson</span>
+                      <span className="text-[10px] text-gray-400">Educational content</span>
+                    </button>
+                  </div>
 
-                  <Card className="border border-primary/10" data-testid="card-blog-config">
-                    <CardHeader>
-                      <CardTitle className="text-sm font-semibold text-gray-700">Blog Automation Settings</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                          <label className="text-xs text-gray-500 block mb-2">Automation Status</label>
-                          <Button
-                            size="sm"
-                            variant={blogConfig?.isActive ? "default" : "outline"}
-                            onClick={() => handleBlogConfigUpdate({ isActive: !blogConfig?.isActive })}
-                            className={blogConfig?.isActive ? "bg-green-600 hover:bg-green-700" : ""}
-                            data-testid="button-toggle-blog-automation"
-                          >
-                            {blogConfig?.isActive ? "Active" : "Inactive"}
-                          </Button>
-                        </div>
-
-                        <div>
-                          <label className="text-xs text-gray-500 block mb-2">Citation Style</label>
-                          <div className="flex gap-2">
+                  <Card className="border border-primary/10" data-testid="card-blog-automation">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-medium text-gray-600">Blog Automation:</span>
                             <Button
                               size="sm"
-                              variant={blogConfig?.citationStyle === "apa7" ? "default" : "outline"}
-                              onClick={() => handleBlogConfigUpdate({ citationStyle: "apa7" })}
-                              data-testid="button-apa7"
+                              variant={blogConfig?.isActive ? "default" : "outline"}
+                              onClick={() => handleBlogConfigUpdate({ isActive: !blogConfig?.isActive })}
+                              className={`h-7 text-xs ${blogConfig?.isActive ? "bg-green-600 hover:bg-green-700" : ""}`}
+                              data-testid="button-toggle-blog-automation"
                             >
-                              APA 7
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant={blogConfig?.citationStyle === "mla" ? "default" : "outline"}
-                              onClick={() => handleBlogConfigUpdate({ citationStyle: "mla" })}
-                              data-testid="button-mla"
-                            >
-                              MLA
+                              {blogConfig?.isActive ? "ON" : "OFF"}
                             </Button>
                           </div>
+                          <div className="hidden md:flex items-center gap-3 text-xs text-gray-500">
+                            <span>Day {blogConfig?.dayCount || 0}</span>
+                            <span>{blogConfig?.totalPostsGenerated || 0} posts</span>
+                            <span>{blogConfig?.postsPerDay || 2}/day</span>
+                            <span>Last: {blogConfig?.lastPostAt ? formatDate(blogConfig.lastPostAt) : "Never"}</span>
+                          </div>
                         </div>
-
-                        <div>
-                          <label className="text-xs text-gray-500 block mb-2">Posts Per Day</label>
-                          <div className="flex gap-2">
+                        <div className="flex items-center gap-2">
+                          <div className="flex rounded border overflow-hidden">
                             {[1, 2, 3].map((n) => (
-                              <Button
+                              <button
                                 key={n}
-                                size="sm"
-                                variant={(blogConfig?.postsPerDay || 2) === n ? "default" : "outline"}
                                 onClick={() => handleBlogConfigUpdate({ postsPerDay: n })}
+                                className={`px-2 py-1 text-xs ${(blogConfig?.postsPerDay || 2) === n ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
                                 data-testid={`button-posts-per-day-${n}`}
                               >
-                                {n}
-                              </Button>
+                                {n}x
+                              </button>
                             ))}
                           </div>
-                        </div>
-
-                        <div>
-                          <label className="text-xs text-gray-500 block mb-2">Reset Day Counter</label>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              if (confirm("Reset the day counter to 0? This will restart the posting schedule.")) {
-                                handleBlogConfigUpdate({ dayCount: 0 });
-                              }
-                            }}
-                            data-testid="button-reset-day-count"
-                          >
-                            Reset to Day 0
+                          <Button size="sm" variant="outline" className="h-7 text-xs" onClick={handleRunScheduler} disabled={blogGenerating} data-testid="button-run-scheduler">
+                            {blogGenerating ? "Running..." : "Run Now"}
                           </Button>
                         </div>
                       </div>
-
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
-                        <div>
-                          <span className="text-xs text-gray-500 block">Day Count</span>
-                          <strong className="text-lg text-gray-900">{blogConfig?.dayCount || 0}</strong>
-                        </div>
-                        <div>
-                          <span className="text-xs text-gray-500 block">Total Posts</span>
-                          <strong className="text-lg text-gray-900">{blogConfig?.totalPostsGenerated || 0}</strong>
-                        </div>
-                        <div>
-                          <span className="text-xs text-gray-500 block">Current Rate</span>
-                          <strong className="text-lg text-gray-900">{blogConfig?.postsPerDay || 2}/day</strong>
-                        </div>
-                        <div>
-                          <span className="text-xs text-gray-500 block">Last Post</span>
-                          <strong className="text-sm text-gray-900">{blogConfig?.lastPostAt ? formatDate(blogConfig.lastPostAt) : "Never"}</strong>
-                        </div>
-                      </div>
-
-                      <p className="text-xs text-gray-400">
-                        Default schedule: 2x/day for 120 days, then 1x/day for 100 days (220 total days). You can override the posts per day rate above.
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border border-primary/10" data-testid="card-blog-generate">
-                    <CardHeader>
-                      <CardTitle className="text-sm font-semibold text-gray-700">Generate Blog Post</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <input
-                        type="text"
-                        placeholder="Topic (optional - random if blank)"
-                        value={blogTopic}
-                        onChange={(e) => setBlogTopic(e.target.value)}
-                        className="w-full border rounded-lg px-3 py-2 text-sm"
-                        data-testid="input-blog-topic"
-                      />
-                      <div className="flex gap-2">
-                        <Button size="sm" onClick={handleGenerateBlogPost} disabled={blogGenerating} data-testid="button-generate-blog">
-                          {blogGenerating ? "Generating..." : "Generate & Publish"}
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={handleRunScheduler} disabled={blogGenerating} data-testid="button-run-scheduler">
-                          {blogGenerating ? "Running..." : "Run Scheduler"}
-                        </Button>
+                      <div className="mt-3 flex items-center gap-2">
+                        <input
+                          type="text"
+                          placeholder="Custom topic for AI generation (optional)"
+                          value={blogTopic}
+                          onChange={(e) => setBlogTopic(e.target.value)}
+                          className="flex-1 border rounded-lg px-3 py-1.5 text-xs"
+                          data-testid="input-blog-topic"
+                        />
                       </div>
                     </CardContent>
                   </Card>
 
-                  {/* Blog Post Manager */}
-                  <Card className="border border-primary/10" data-testid="card-blog-posts">
-                    <CardHeader>
+                  <Card className="border border-primary/10" data-testid="card-all-content">
+                    <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-sm font-semibold text-gray-700">Manage Blog Posts</CardTitle>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline" onClick={() => fetchBlogPosts()} data-testid="button-refresh-blog-posts">
-                            <RefreshCw className="w-3 h-3 mr-1" /> Refresh
-                          </Button>
-                          <select
-                            className="border rounded-lg px-2 py-1.5 text-xs bg-white"
-                            defaultValue=""
-                            onChange={(e) => { if (e.target.value) { startNewContent(e.target.value); e.target.value = ""; } }}
-                            data-testid="select-new-content-type"
-                          >
-                            <option value="" disabled>+ New...</option>
-                            <option value="blog">Blog Post</option>
-                            <option value="article">Article</option>
-                            <option value="lesson">Lesson Post</option>
-                            <option value="flashcard-set">Flashcard Set</option>
-                          </select>
-                        </div>
+                        <CardTitle className="text-sm font-semibold text-gray-700">All Content ({blogPosts.length})</CardTitle>
+                        <Button size="sm" variant="ghost" onClick={() => fetchBlogPosts()} data-testid="button-refresh-content">
+                          <RefreshCw className="w-3 h-3" />
+                        </Button>
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -1283,7 +1215,7 @@ export default function AdminPage() {
                         <div className="space-y-4" data-testid="blog-post-editor">
                           <div className="flex items-center justify-between border-b pb-3">
                             <h3 className="text-sm font-semibold">
-                              {creatingNew ? `New ${(editingPost.type || "blog").replace("-", " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}` : "Edit Content"}
+                              {creatingNew ? `New ${(editingPost.type || "blog").replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}` : "Edit Content"}
                             </h3>
                             <div className="flex gap-2">
                               <Button size="sm" onClick={handleSaveBlogPost} disabled={savingPost || !editingPost.title || !editingPost.slug} data-testid="button-save-blog-post">
@@ -1295,7 +1227,7 @@ export default function AdminPage() {
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div className="md:col-span-2">
                               <label className="text-xs text-gray-500 block mb-1">Title</label>
                               <Input
@@ -1313,7 +1245,7 @@ export default function AdminPage() {
                               />
                             </div>
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Content Type</label>
+                              <label className="text-xs text-gray-500 block mb-1">Type</label>
                               <select
                                 className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
                                 value={editingPost.type || "blog"}
@@ -1329,28 +1261,16 @@ export default function AdminPage() {
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                             <div>
                               <label className="text-xs text-gray-500 block mb-1">Slug</label>
                               <Input
                                 value={editingPost.slug || ""}
                                 onChange={(e) => setEditingPost((prev: any) => ({ ...prev, slug: e.target.value }))}
-                                placeholder="url-friendly-slug"
+                                placeholder="url-slug"
                                 data-testid="input-edit-slug"
                               />
                             </div>
-                            <div>
-                              <label className="text-xs text-gray-500 block mb-1">Author</label>
-                              <Input
-                                value={editingPost.authorName || ""}
-                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, authorName: e.target.value }))}
-                                placeholder="Author name"
-                                data-testid="input-edit-author"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div>
                               <label className="text-xs text-gray-500 block mb-1">Status</label>
                               <select
@@ -1386,7 +1306,7 @@ export default function AdminPage() {
                               </select>
                             </div>
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Tier (Free / Paid)</label>
+                              <label className="text-xs text-gray-500 block mb-1">Tier</label>
                               <div className="flex rounded-lg border overflow-hidden" data-testid="tier-toggle">
                                 {[
                                   { value: "free", label: "Free" },
@@ -1410,34 +1330,11 @@ export default function AdminPage() {
                                 ))}
                               </div>
                             </div>
-                            <div>
-                              <label className="text-xs text-gray-500 block mb-1">Body System</label>
-                              <select
-                                className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
-                                value={editingPost.bodySystem || ""}
-                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, bodySystem: e.target.value || null }))}
-                                data-testid="select-edit-body-system"
-                              >
-                                <option value="">None</option>
-                                <option value="cardiovascular">Cardiovascular</option>
-                                <option value="respiratory">Respiratory</option>
-                                <option value="neurological">Neurological</option>
-                                <option value="gastrointestinal">Gastrointestinal</option>
-                                <option value="musculoskeletal">Musculoskeletal</option>
-                                <option value="endocrine">Endocrine</option>
-                                <option value="reproductive">Reproductive</option>
-                                <option value="renal">Renal/Urinary</option>
-                                <option value="integumentary">Integumentary</option>
-                                <option value="hematologic">Hematologic</option>
-                                <option value="immune">Immune</option>
-                                <option value="mental-health">Mental Health</option>
-                              </select>
-                            </div>
                           </div>
 
                           {editingPost.status === "scheduled" && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                              <div>
+                            <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                              <div className="flex-1">
                                 <label className="text-xs text-blue-700 block mb-1">Schedule Date & Time</label>
                                 <Input
                                   type="datetime-local"
@@ -1447,18 +1344,16 @@ export default function AdminPage() {
                                   data-testid="input-schedule-datetime"
                                 />
                               </div>
-                              <div className="flex items-end gap-2">
-                                <label className="flex items-center gap-2 text-xs text-blue-700 cursor-pointer">
-                                  <input
-                                    type="checkbox"
-                                    checked={editingPost.autoPublish || false}
-                                    onChange={(e) => setEditingPost((prev: any) => ({ ...prev, autoPublish: e.target.checked }))}
-                                    className="rounded"
-                                    data-testid="checkbox-auto-publish"
-                                  />
-                                  Auto-publish at scheduled time (skip clinical review)
-                                </label>
-                              </div>
+                              <label className="flex items-center gap-2 text-xs text-blue-700 cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={editingPost.autoPublish || false}
+                                  onChange={(e) => setEditingPost((prev: any) => ({ ...prev, autoPublish: e.target.checked }))}
+                                  className="rounded"
+                                  data-testid="checkbox-auto-publish"
+                                />
+                                Auto-publish
+                              </label>
                             </div>
                           )}
 
@@ -1467,8 +1362,8 @@ export default function AdminPage() {
                             <Textarea
                               value={editingPost.summary || ""}
                               onChange={(e) => setEditingPost((prev: any) => ({ ...prev, summary: e.target.value }))}
-                              placeholder="Brief summary of the post..."
-                              className="min-h-[60px]"
+                              placeholder="Brief summary..."
+                              className="min-h-[50px]"
                               data-testid="textarea-edit-summary"
                             />
                           </div>
@@ -1513,7 +1408,7 @@ export default function AdminPage() {
                                     <option value="medication">Medication</option>
                                   </select>
                                   <Textarea
-                                    value={block.content || ""}
+                                    value={block.content || block.text || ""}
                                     onChange={(e) => {
                                       const blocks = [...(editingPost.content || [])];
                                       blocks[idx] = { ...blocks[idx], content: e.target.value };
@@ -1540,26 +1435,29 @@ export default function AdminPage() {
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                              <label className="text-xs text-gray-500 block mb-1">SEO Title</label>
-                              <Input
-                                value={editingPost.seoTitle || ""}
-                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, seoTitle: e.target.value }))}
-                                placeholder="SEO title (optional)"
-                                data-testid="input-edit-seo-title"
-                              />
+                          <details className="text-xs">
+                            <summary className="text-gray-500 cursor-pointer hover:text-gray-700">SEO Settings</summary>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                              <div>
+                                <label className="text-xs text-gray-500 block mb-1">SEO Title</label>
+                                <Input
+                                  value={editingPost.seoTitle || ""}
+                                  onChange={(e) => setEditingPost((prev: any) => ({ ...prev, seoTitle: e.target.value }))}
+                                  placeholder="SEO title (optional)"
+                                  data-testid="input-edit-seo-title"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-xs text-gray-500 block mb-1">SEO Description</label>
+                                <Input
+                                  value={editingPost.seoDescription || ""}
+                                  onChange={(e) => setEditingPost((prev: any) => ({ ...prev, seoDescription: e.target.value }))}
+                                  placeholder="SEO description (optional)"
+                                  data-testid="input-edit-seo-desc"
+                                />
+                              </div>
                             </div>
-                            <div>
-                              <label className="text-xs text-gray-500 block mb-1">SEO Description</label>
-                              <Input
-                                value={editingPost.seoDescription || ""}
-                                onChange={(e) => setEditingPost((prev: any) => ({ ...prev, seoDescription: e.target.value }))}
-                                placeholder="SEO description (optional)"
-                                data-testid="input-edit-seo-desc"
-                              />
-                            </div>
-                          </div>
+                          </details>
                         </div>
                       ) : (
                         <div className="space-y-3">
@@ -1568,17 +1466,17 @@ export default function AdminPage() {
                             <Input
                               value={blogPostSearch}
                               onChange={(e) => setBlogPostSearch(e.target.value)}
-                              placeholder="Search blog posts..."
+                              placeholder="Search all content..."
                               className="pl-9"
                               data-testid="input-search-blog-posts"
                             />
                           </div>
                           {blogPostsLoading ? (
-                            <p className="text-sm text-gray-500 text-center py-4">Loading posts...</p>
+                            <p className="text-sm text-gray-500 text-center py-4">Loading content...</p>
                           ) : blogPosts.length === 0 ? (
-                            <p className="text-sm text-gray-500 text-center py-4">No blog posts found. Generate or create one above.</p>
+                            <p className="text-sm text-gray-500 text-center py-4">No content found. Use the buttons above to create or generate content.</p>
                           ) : (
-                            <div className="space-y-2 max-h-[500px] overflow-y-auto">
+                            <div className="space-y-2 max-h-[600px] overflow-y-auto">
                               {blogPosts
                                 .filter((p) => !blogPostSearch || p.title?.toLowerCase().includes(blogPostSearch.toLowerCase()))
                                 .map((post) => (
@@ -1590,57 +1488,87 @@ export default function AdminPage() {
                                         <Badge variant="outline" className={`text-[10px] px-1.5 py-0 shrink-0 ${post.status === "published" ? "bg-green-50 text-green-700 border-green-200" : post.status === "scheduled" ? "bg-blue-50 text-blue-700 border-blue-200" : post.status === "archived" ? "bg-gray-50 text-gray-500" : "bg-yellow-50 text-yellow-700 border-yellow-200"}`}>
                                           {post.status || "draft"}
                                         </Badge>
-                                        {post.category && (
-                                          <Badge variant="outline" className="text-[10px] px-1.5 py-0 shrink-0">
-                                            {post.category}
-                                          </Badge>
-                                        )}
+                                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 shrink-0 bg-white">
+                                          {post.type || "blog"}
+                                        </Badge>
                                       </div>
                                       <div className="flex items-center gap-3 text-xs text-gray-500">
                                         <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(post.updatedAt || post.createdAt)}</span>
-                                        <span className="flex items-center gap-1"><Tag className="w-3 h-3" /> {post.type || "blog"}</span>
+                                        {post.category && <span>{post.category}</span>}
                                       </div>
                                     </div>
-                                    <div className="flex gap-1 shrink-0">
-                                      {post.status === "published" && post.slug && (
-                                        <Button size="sm" variant="ghost" onClick={() => window.open(`/learn/${post.slug}`, "_blank")} data-testid={`button-view-${post.id}`}>
-                                          <ExternalLink className="w-3.5 h-3.5" />
+                                    <div className="flex items-center gap-2 shrink-0">
+                                      <div className="flex rounded border overflow-hidden">
+                                        {[
+                                          { value: "free", label: "Free" },
+                                          { value: "rpn", label: "RPN" },
+                                          { value: "rn", label: "RN" },
+                                          { value: "np", label: "NP" },
+                                        ].map((t) => (
+                                          <button
+                                            key={t.value}
+                                            onClick={() => handleQuickTierChange(post.id, t.value)}
+                                            className={`px-1.5 py-0.5 text-[10px] font-medium transition-all ${
+                                              (post.tier || "free") === t.value
+                                                ? "bg-primary text-white"
+                                                : "bg-white text-gray-400 hover:bg-gray-100"
+                                            }`}
+                                            data-testid={`button-quick-tier-${t.value}-${post.id}`}
+                                          >
+                                            {t.label}
+                                          </button>
+                                        ))}
+                                      </div>
+                                      <div className="flex gap-0.5">
+                                        {post.status === "published" && post.slug && (
+                                          <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => window.open(`/learn/${post.slug}`, "_blank")} data-testid={`button-view-${post.id}`}>
+                                            <ExternalLink className="w-3 h-3" />
+                                          </Button>
+                                        )}
+                                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => setEditingPost({ ...post })} data-testid={`button-edit-${post.id}`}>
+                                          <Pencil className="w-3 h-3" />
                                         </Button>
-                                      )}
-                                      <Button size="sm" variant="ghost" onClick={() => setEditingPost({ ...post })} data-testid={`button-edit-${post.id}`}>
-                                        <Pencil className="w-3.5 h-3.5" />
-                                      </Button>
-                                      <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700" onClick={() => handleDeleteBlogPost(post.id)} data-testid={`button-delete-${post.id}`}>
-                                        <Trash2 className="w-3.5 h-3.5" />
-                                      </Button>
+                                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-500 hover:text-red-700" onClick={() => handleDeleteBlogPost(post.id)} data-testid={`button-delete-${post.id}`}>
+                                          <Trash2 className="w-3 h-3" />
+                                        </Button>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="flex items-center gap-1 mt-2 pt-2 border-t border-gray-100">
-                                    <span className="text-[10px] text-gray-400 mr-1">Tier:</span>
-                                    {[
-                                      { value: "free", label: "Free", color: "bg-gray-100 text-gray-700" },
-                                      { value: "rpn", label: "RPN", color: "bg-blue-100 text-blue-700" },
-                                      { value: "rn", label: "RN", color: "bg-purple-100 text-purple-700" },
-                                      { value: "np", label: "NP", color: "bg-amber-100 text-amber-700" },
-                                    ].map((t) => (
-                                      <button
-                                        key={t.value}
-                                        onClick={() => handleQuickTierChange(post.id, t.value)}
-                                        className={`px-2 py-0.5 rounded text-[10px] font-medium transition-all ${
-                                          (post.tier || "free") === t.value
-                                            ? `${t.color} ring-1 ring-offset-1 ring-primary/30`
-                                            : "bg-gray-50 text-gray-400 hover:bg-gray-100"
-                                        }`}
-                                        data-testid={`button-quick-tier-${t.value}-${post.id}`}
-                                      >
-                                        {t.label}
-                                      </button>
-                                    ))}
                                   </div>
                                 </div>
                               ))}
                             </div>
                           )}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-primary/10" data-testid="card-top-lessons">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-sm font-semibold text-gray-700">Most Accessed Lessons</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {data.topLessons.length === 0 ? (
+                        <p className="text-gray-400 text-center py-4 text-sm">No lesson data yet</p>
+                      ) : (
+                        <div className="space-y-2">
+                          {data.topLessons.slice(0, 10).map((lesson, i) => {
+                            const maxCount = data.topLessons[0]?.accessCount || 1;
+                            return (
+                              <div key={i} className="flex items-center gap-3" data-testid={`row-lesson-${i}`}>
+                                <span className="text-xs font-mono text-gray-400 w-5 text-right">{i + 1}.</span>
+                                <div className="flex-grow">
+                                  <div className="flex items-center justify-between mb-0.5">
+                                    <span className="text-xs font-medium text-gray-900">{formatLessonId(lesson.lessonId)}</span>
+                                    <span className="text-[10px] text-gray-500">{lesson.accessCount} views</span>
+                                  </div>
+                                  <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${(lesson.accessCount / maxCount) * 100}%` }} />
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
                       )}
                     </CardContent>
