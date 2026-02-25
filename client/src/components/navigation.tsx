@@ -27,7 +27,8 @@ import {
   Pill,
   StickyNote,
   Calendar,
-  UserCircle
+  UserCircle,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -116,6 +117,7 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [region, setRegionState] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
   });
@@ -265,265 +267,322 @@ export function Navigation() {
   ];
 
   const MobileNav = () => (
-    <Sheet>
+    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8">
+        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8 -ml-1">
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-72 bg-white p-5 overflow-y-auto">
-        <SheetHeader className="mb-6">
-          <SheetTitle className="text-left flex items-center gap-2">
-            <ThemedLogo width={180} />
-          </SheetTitle>
-        </SheetHeader>
-        <div className="flex flex-col gap-1">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Free Learning</p>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pre-nursing")}>
-              <BookOpen className="w-4 h-4" />
-              Pre-Nursing Foundations
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/anatomy")}>
-              <Dna className="w-4 h-4" />
-              Anatomy & Physiology
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lessons")}>
-              <BookOpen className="w-4 h-4" />
-              Lessons
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
-              <BookOpen className="w-4 h-4" />
-              Blog
-            </Button>
-          </SheetClose>
-
-          <div className="h-[1px] bg-gray-100 my-2" />
-
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Tools</p>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lectures")} data-testid="button-lectures-mobile">
-              <Play className="w-4 h-4" />
-              Lectures
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/clinical-clarity")}>
-              <Lightbulb className="w-4 h-4" />
-              Clinical Clarity
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/flashcards")}>
-              <Layers className="w-4 h-4" />
-              Flashcards
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/med-math")}>
-              <span className="flex items-center gap-2"><Calculator className="w-4 h-4" /> Med Math Lab</span>
-              <Lock className="w-3 h-3 text-gray-300" />
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lab-values")}>
-              <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Lab Interpretation</span>
-              <Lock className="w-3 h-3 text-gray-300" />
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/case-simulations")}>
-              <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> Case Simulations</span>
-              <Lock className="w-3 h-3 text-gray-300" />
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/medication-mastery")}>
-              <span className="flex items-center gap-2"><Pill className="w-4 h-4" /> Medication Mastery</span>
-              <Lock className="w-3 h-3 text-gray-300" />
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-skills")}>
-              <Stethoscope className="w-4 h-4" /> Clinical Skills Simulator
-            </Button>
-          </SheetClose>
-
-          <div className="h-[1px] bg-gray-100 my-1" />
-          <p className="text-[10px] font-semibold text-gray-300 uppercase tracking-wider mb-1 px-3">Clinical Simulators</p>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/first-action-simulator")}>
-              <Activity className="w-4 h-4" /> First Action Prioritization
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/safety-hazard-simulator")}>
-              <Heart className="w-4 h-4" /> Safety Hazard Detection
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/iv-complications-simulator")}>
-              <Dna className="w-4 h-4" /> IV Complications
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/electrolyte-abg-simulator")}>
-              <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Electrolyte & ABG</span>
-              <Lock className="w-3 h-3 text-gray-300" />
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/deteriorating-patient-simulator")}>
-              <span className="flex items-center gap-2"><Activity className="w-4 h-4" /> Deteriorating Patient</span>
-              <Lock className="w-3 h-3 text-gray-300" />
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blood-transfusion-simulator")}>
-              <span className="flex items-center gap-2"><Heart className="w-4 h-4" /> Blood Transfusion</span>
-              <Lock className="w-3 h-3 text-gray-300" />
-            </Button>
-          </SheetClose>
-
-          <div className="h-[1px] bg-gray-100 my-2" />
-
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Resources</p>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pricing")}>
-              <Tag className="w-4 h-4" />
-              Pricing
-            </Button>
-          </SheetClose>
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/faq")}>
-              <HelpCircle className="w-4 h-4" />
-              FAQ
-            </Button>
-          </SheetClose>
-
-          <div className="h-[1px] bg-gray-100 my-2" />
-
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Region & Theme</p>
-          <div className="flex items-center gap-2 px-3 mb-2">
-            <div className="flex items-center bg-primary/5 rounded-full p-0.5 border border-primary/10">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setRegion("US")}
-                className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
-                data-testid="button-region-us-mobile"
-              >
-                US
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setRegion("CA")}
-                className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
-                data-testid="button-region-ca-mobile"
-              >
-                CA
-              </Button>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2 px-3 mb-1">
-            {themes.map((t) => (
-              <button
-                key={t.name}
-                onClick={() => setTheme(t.name)}
-                title={t.label}
-                data-testid={`button-theme-${t.name}-mobile`}
-                className={cn(
-                  "w-6 h-6 rounded-full border-2 transition-all hover:scale-110",
-                  theme === t.name ? "border-primary ring-2 ring-primary/30 scale-110" : "border-gray-200"
-                )}
-                style={{ backgroundColor: t.color }}
-              />
-            ))}
-          </div>
-
-          <div className="h-[1px] bg-gray-100 my-2" />
-
-          {user ? (
-            <>
+      <SheetContent side="left" className="w-80 bg-white p-0 overflow-y-auto">
+        <div className="flex flex-col h-full">
+          <SheetHeader className="p-5 border-b sticky top-0 bg-white z-10">
+            <SheetTitle className="text-left flex items-center justify-between">
+              <ThemedLogo width={160} />
               <SheetClose asChild>
-                <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/profile")}>
-                  <User className="w-4 h-4" />
-                  {user.username}
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <X className="w-4 h-4" />
                 </Button>
               </SheetClose>
-              {user.tier === "admin" && (
-                <>
-                  <SheetClose asChild>
-                    <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin")} data-testid="button-admin-mobile">
-                      <Shield className="w-4 h-4" />
-                      Admin Dashboard
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/content-editor")} data-testid="button-content-editor-mobile">
-                      <FileText className="w-4 h-4" />
-                      Content Editor
-                    </Button>
-                  </SheetClose>
-                </>
-              )}
-              {isAdmin && (
-                <>
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 mt-2 px-3">Preview Mode</p>
-          <div className="flex flex-wrap gap-1.5 px-3 mb-1">
-                    {[
-                      { key: null, label: "Admin" },
-                      { key: "free", label: "Free" },
-                      { key: "rpn", label: "RPN/LVN" },
-                      { key: "rn", label: "RN" },
-                      { key: "np", label: "NP" },
-                    ].map((opt) => (
-                      <Button
-                        key={opt.key || "admin"}
-                        variant={previewTier === opt.key || (!previewTier && !opt.key) ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setPreviewTier(opt.key)}
-                        className={cn(
-                          "h-7 px-2.5 text-[10px] rounded-full flex-1 min-w-[70px] sm:flex-none",
-                          (previewTier === opt.key || (!previewTier && !opt.key)) ? "bg-primary text-white" : "text-gray-500 border-gray-200"
-                        )}
-                        data-testid={`button-preview-${opt.key || "admin"}-mobile`}
-                      >
-                        {opt.label}
-                      </Button>
-                    ))}
+            </SheetTitle>
+          </SheetHeader>
+          
+          <div className="p-5 flex flex-col gap-1 pb-20">
+            <div className="mb-6">
+              <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-3 px-3">Practice Tiers</p>
+              <div className="grid grid-cols-1 gap-2 px-1">
+                <Button 
+                  variant="outline" 
+                  className={cn(
+                    "justify-start gap-3 h-14 border-primary/10 hover:border-primary/30 hover:bg-primary/5 shadow-sm",
+                    user?.tier === 'rpn' && "bg-primary/5 border-primary/40 ring-1 ring-primary/20"
+                  )}
+                  onClick={() => { setLocation("/lessons?tier=rpn"); setMobileMenuOpen(false); }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shadow-inner shrink-0">PN</div>
+                  <div className="text-left overflow-hidden">
+                    <div className="text-sm font-bold truncate">{region === 'CA' ? 'RPN/REX-PN' : 'LPN/LVN'}</div>
+                    <div className="text-[10px] text-gray-500 truncate">Practical Nursing Exam Prep</div>
                   </div>
-                </>
-              )}
-              <SheetClose asChild>
-                <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => { logout(); setLocation("/"); }}>
-                  <LogOut className="w-4 h-4" />
-                  Sign Out
                 </Button>
-              </SheetClose>
-            </>
-          ) : (
-            <>
-              <SheetClose asChild>
-                <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/login")}>
-                  <LogIn className="w-4 h-4" />
-                  Log in
+                <Button 
+                  variant="outline" 
+                  className={cn(
+                    "justify-start gap-3 h-14 border-primary/10 hover:border-primary/30 hover:bg-primary/5 shadow-sm",
+                    user?.tier === 'rn' && "bg-primary/5 border-primary/40 ring-1 ring-primary/20"
+                  )}
+                  onClick={() => { setLocation("/lessons?tier=rn"); setMobileMenuOpen(false); }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 font-bold text-sm shadow-inner shrink-0">RN</div>
+                  <div className="text-left overflow-hidden">
+                    <div className="text-sm font-bold truncate">RN/NCLEX-RN</div>
+                    <div className="text-[10px] text-gray-500 truncate">Registered Nursing Exam Prep</div>
+                  </div>
                 </Button>
-              </SheetClose>
-              <SheetClose asChild>
-                <Button className="w-full bg-primary hover:brightness-110 text-white rounded-full h-9 mt-1" onClick={() => setLocation("/login")}>
-                  Get Started
+                <Button 
+                  variant="outline" 
+                  className={cn(
+                    "justify-start gap-3 h-14 border-primary/10 hover:border-primary/30 hover:bg-primary/5 shadow-sm",
+                    user?.tier === 'np' && "bg-primary/5 border-primary/40 ring-1 ring-primary/20"
+                  )}
+                  onClick={() => { setLocation("/lessons?tier=np"); setMobileMenuOpen(false); }}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-sm shadow-inner shrink-0">NP</div>
+                  <div className="text-left overflow-hidden">
+                    <div className="text-sm font-bold truncate">NP/Advanced</div>
+                    <div className="text-[10px] text-gray-500 truncate">Nurse Practitioner Content</div>
+                  </div>
                 </Button>
-              </SheetClose>
-            </>
-          )}
+              </div>
+              <div className="h-[1px] bg-gray-100 my-6 mx-3" />
+            </div>
+
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Free Learning</p>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pre-nursing")}>
+                <BookOpen className="w-4 h-4" />
+                Pre-Nursing Foundations
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/anatomy")}>
+                <Dna className="w-4 h-4" />
+                Anatomy & Physiology
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lessons")}>
+                <BookOpen className="w-4 h-4" />
+                Lessons
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
+                <BookOpen className="w-4 h-4" />
+                Blog
+              </Button>
+            </SheetClose>
+
+            <div className="h-[1px] bg-gray-100 my-2" />
+
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Tools</p>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lectures")} data-testid="button-lectures-mobile">
+                <Play className="w-4 h-4" />
+                Lectures
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/clinical-clarity")}>
+                <Lightbulb className="w-4 h-4" />
+                Clinical Clarity
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/flashcards")}>
+                <Layers className="w-4 h-4" />
+                Flashcards
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/med-math")}>
+                <span className="flex items-center gap-2"><Calculator className="w-4 h-4" /> Med Math Lab</span>
+                <Lock className="w-3 h-3 text-gray-300" />
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lab-values")}>
+                <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Lab Interpretation</span>
+                <Lock className="w-3 h-3 text-gray-300" />
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/case-simulations")}>
+                <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> Case Simulations</span>
+                <Lock className="w-3 h-3 text-gray-300" />
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/medication-mastery")}>
+                <span className="flex items-center gap-2"><Pill className="w-4 h-4" /> Medication Mastery</span>
+                <Lock className="w-3 h-3 text-gray-300" />
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-skills")}>
+                <Stethoscope className="w-4 h-4" /> Clinical Skills Simulator
+              </Button>
+            </SheetClose>
+
+            <div className="h-[1px] bg-gray-100 my-1" />
+            <p className="text-[10px] font-semibold text-gray-300 uppercase tracking-wider mb-1 px-3">Clinical Simulators</p>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/first-action-simulator")}>
+                <Activity className="w-4 h-4" /> First Action Prioritization
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/safety-hazard-simulator")}>
+                <Heart className="w-4 h-4" /> Safety Hazard Detection
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/iv-complications-simulator")}>
+                <Dna className="w-4 h-4" /> IV Complications
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/electrolyte-abg-simulator")}>
+                <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Electrolyte & ABG</span>
+                <Lock className="w-3 h-3 text-gray-300" />
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/deteriorating-patient-simulator")}>
+                <span className="flex items-center gap-2"><Activity className="w-4 h-4" /> Deteriorating Patient</span>
+                <Lock className="w-3 h-3 text-gray-300" />
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blood-transfusion-simulator")}>
+                <span className="flex items-center gap-2"><Heart className="w-4 h-4" /> Blood Transfusion</span>
+                <Lock className="w-3 h-3 text-gray-300" />
+              </Button>
+            </SheetClose>
+
+            <div className="h-[1px] bg-gray-100 my-2" />
+
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Resources</p>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pricing")}>
+                <Tag className="w-4 h-4" />
+                Pricing
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/faq")}>
+                <HelpCircle className="w-4 h-4" />
+                FAQ
+              </Button>
+            </SheetClose>
+
+            <div className="h-[1px] bg-gray-100 my-2" />
+
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Region & Theme</p>
+            <div className="flex items-center gap-2 px-3 mb-2">
+              <div className="flex items-center bg-primary/5 rounded-full p-0.5 border border-primary/10">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setRegion("US")}
+                  className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+                  data-testid="button-region-us-mobile"
+                >
+                  US
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setRegion("CA")}
+                  className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
+                  data-testid="button-region-ca-mobile"
+                >
+                  CA
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 px-3 mb-1">
+              {themes.map((t) => (
+                <button
+                  key={t.name}
+                  onClick={() => setTheme(t.name)}
+                  title={t.label}
+                  data-testid={`button-theme-${t.name}-mobile`}
+                  className={cn(
+                    "w-6 h-6 rounded-full border-2 transition-all hover:scale-110",
+                    theme === t.name ? "border-primary ring-2 ring-primary/30 scale-110" : "border-gray-200"
+                  )}
+                  style={{ backgroundColor: t.color }}
+                />
+              ))}
+            </div>
+
+            <div className="h-[1px] bg-gray-100 my-2" />
+
+            {user ? (
+              <>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/profile")}>
+                    <User className="w-4 h-4" />
+                    {user.username}
+                  </Button>
+                </SheetClose>
+                {user.tier === "admin" && (
+                  <>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin")} data-testid="button-admin-mobile">
+                        <Shield className="w-4 h-4" />
+                        Admin Dashboard
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/content-editor")} data-testid="button-content-editor-mobile">
+                        <FileText className="w-4 h-4" />
+                        Content Editor
+                      </Button>
+                    </SheetClose>
+                  </>
+                )}
+                {isAdmin && (
+                  <>
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 mt-2 px-3">Preview Mode</p>
+                    <div className="flex flex-wrap gap-1.5 px-3 mb-1">
+                      {[
+                        { key: null, label: "Admin" },
+                        { key: "free", label: "Free" },
+                        { key: "rpn", label: "RPN/LVN" },
+                        { key: "rn", label: "RN" },
+                        { key: "np", label: "NP" },
+                      ].map((opt) => (
+                        <Button
+                          key={opt.key || "admin"}
+                          variant={previewTier === opt.key || (!previewTier && !opt.key) ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setPreviewTier(opt.key)}
+                          className={cn(
+                            "h-7 px-2.5 text-[10px] rounded-full flex-1 min-w-[70px] sm:flex-none",
+                            (previewTier === opt.key || (!previewTier && !opt.key)) ? "bg-primary text-white" : "text-gray-500 border-gray-200"
+                          )}
+                          data-testid={`button-preview-${opt.key || "admin"}-mobile`}
+                        >
+                          {opt.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </>
+                )}
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => { logout(); setLocation("/"); }}>
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </Button>
+                </SheetClose>
+              </>
+            ) : (
+              <>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/login")}>
+                    <LogIn className="w-4 h-4" />
+                    Log in
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button className="w-full bg-primary hover:brightness-110 text-white rounded-full h-9 mt-1" onClick={() => setLocation("/login")}>
+                    Get Started
+                  </Button>
+                </SheetClose>
+              </>
+            )}
+          </div>
         </div>
       </SheetContent>
     </Sheet>
@@ -540,11 +599,16 @@ export function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          <div className="flex items-center gap-2 lg:gap-6">
+          <div className="flex items-center gap-1 sm:gap-2 lg:gap-6">
             <MobileNav />
             <Link href="/">
               <div className="flex items-center cursor-pointer group" data-testid="link-home-logo">
-                <ThemedLogo width={180} className="group-hover:scale-105 transition-transform duration-300" />
+                <div className="hidden sm:block">
+                  <ThemedLogo width={180} className="group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="sm:hidden -ml-1">
+                  <ThemedLogo width={130} className="group-hover:scale-105 transition-transform duration-300" />
+                </div>
               </div>
             </Link>
 
@@ -621,177 +685,63 @@ export function Navigation() {
                     <Heart className="w-4 h-4" />
                     Blood Transfusion
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/pricing")}>
-                    <Tag className="w-4 h-4" />
-                    Pricing
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/faq")}>
-                    <HelpCircle className="w-4 h-4" />
-                    FAQ
-                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
 
-          <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
-            {user ? (
-              <>
-                {isAdmin && (
-                  <>
-                    <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/admin")} data-testid="button-admin-nav">
-                      <Shield className="w-4 h-4 mr-1" />
-                      Admin
-                    </Button>
-                    <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/content-editor")} data-testid="button-content-editor-nav">
-                      <FileText className="w-4 h-4 mr-1" />
-                      Editor
-                    </Button>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant={previewTier ? "default" : "ghost"} size="sm" className={cn("hidden sm:inline-flex text-xs px-2 rounded-full", previewTier ? "bg-primary text-white" : "text-softgray hover:text-primary")} data-testid="button-preview-mode">
-                          {previewTier ? `Viewing as: ${previewTier.toUpperCase()}` : "Preview"}
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-40 p-2">
-                        <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">View as user tier</p>
-                        {[
-                          { key: null, label: "Admin (Full)" },
-                          { key: "free", label: "Free User" },
-                          { key: "rpn", label: "RPN/LVN" },
-                          { key: "rn", label: "RN" },
-                          { key: "np", label: "NP" },
-                        ].map((opt) => (
-                          <DropdownMenuItem
-                            key={opt.key || "admin"}
-                            onClick={() => setPreviewTier(opt.key)}
-                            className={cn("cursor-pointer text-xs", (previewTier === opt.key || (!previewTier && !opt.key)) ? "bg-primary/10 text-primary" : "")}
-                          >
-                            {opt.label}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </>
-                )}
-                <UserProfileDropdown user={user} logout={logout} setLocation={setLocation} />
-              </>
-            ) : (
-              <>
-                <Button variant="ghost" className="hidden sm:inline-flex text-softgray hover:text-primary font-medium text-sm px-2" onClick={() => setLocation("/login")} data-testid="button-login-nav">
-                  Log in
-                </Button>
-                <Button className="bg-primary hover:brightness-110 text-white rounded-full px-3 sm:px-4 lg:px-6 text-xs sm:text-sm shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5" onClick={() => setLocation("/login")} data-testid="button-get-started">
-                  Get Started
-                </Button>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="border-t border-primary/10 bg-primary/15">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-          <div className="flex items-center justify-between gap-2 h-9">
-            <div className="hidden md:flex items-center gap-0.5">
-              {designations.map((d) => (
-                <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
-              ))}
+          <div className="flex items-center gap-1.5 lg:gap-3">
+            <div className="hidden sm:block">
+              <GlobalSearch />
             </div>
-            <div className="md:hidden" />
-            <div className="flex items-center gap-2">
-            <GlobalSearch />
-            <div className="flex items-center bg-white rounded-full border border-primary/20 shadow-sm" style={{ padding: "1px" }}>
-              <button 
-                onClick={() => setRegion("US")}
-                className={cn("h-4 px-1 rounded-full text-[8px] font-bold transition-all leading-none", region === "US" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary")}
-              >
-                🇺🇸US
-              </button>
-              <button 
-                onClick={() => setRegion("CA")}
-                className={cn("h-4 px-1 rounded-full text-[8px] font-bold transition-all leading-none", region === "CA" ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:text-primary")}
-              >
-                🇨🇦CA
-              </button>
-            </div>
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-primary/70 hover:text-primary rounded-full h-7 w-7">
-                  <Palette className="w-3.5 h-3.5" />
+                <Button variant="ghost" size="sm" className="hidden lg:flex items-center gap-1.5 text-softgray hover:text-primary h-8 px-2" data-testid="button-region-selector">
+                  <Palette className="w-4 h-4" />
+                  <span className="text-xs font-bold">{region}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-44 p-2 max-h-80 overflow-y-auto">
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Classic</p>
-                <div className="grid grid-cols-1 gap-1">
-                  {themes.slice(0, 7).map((t) => (
-                    <DropdownMenuItem 
+              <DropdownMenuContent align="end" className="w-48 p-2">
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">Select Region</p>
+                <DropdownMenuItem onClick={() => setRegion("US")} className={cn("cursor-pointer gap-2", region === "US" && "text-primary font-bold bg-primary/5")} data-testid="button-region-us">
+                  🇺🇸 United States (USD)
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setRegion("CA")} className={cn("cursor-pointer gap-2", region === "CA" && "text-primary font-bold bg-primary/5")} data-testid="button-region-ca">
+                  🇨🇦 Canada (CAD)
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">Select Theme</p>
+                <div className="grid grid-cols-5 gap-2 px-2 py-1">
+                  {themes.map((t) => (
+                    <button
                       key={t.name}
-                      onClick={() => setTheme(t.name)} 
+                      onClick={() => setTheme(t.name)}
+                      title={t.label}
+                      data-testid={`button-theme-${t.name}`}
                       className={cn(
-                        "cursor-pointer gap-2 transition-colors",
-                        theme === t.name ? "bg-primary/10 text-primary" : ""
+                        "w-6 h-6 rounded-full border shadow-sm transition-transform hover:scale-125",
+                        theme === t.name ? "ring-2 ring-primary ring-offset-1 scale-110" : "border-gray-200"
                       )}
-                    >
-                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                      <span className="text-xs font-medium">{t.label}</span>
-                    </DropdownMenuItem>
-                  ))}
-                </div>
-                <DropdownMenuSeparator className="my-1.5" />
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Pastel & Clinical</p>
-                <div className="grid grid-cols-1 gap-1">
-                  {themes.slice(7, 11).map((t) => (
-                    <DropdownMenuItem 
-                      key={t.name}
-                      onClick={() => setTheme(t.name)} 
-                      className={cn(
-                        "cursor-pointer gap-2 transition-colors",
-                        theme === t.name ? "bg-primary/10 text-primary" : ""
-                      )}
-                    >
-                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                      <span className="text-xs font-medium">{t.label}</span>
-                    </DropdownMenuItem>
-                  ))}
-                </div>
-                <DropdownMenuSeparator className="my-1.5" />
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Neutral</p>
-                <div className="grid grid-cols-1 gap-1">
-                  {themes.slice(11, 13).map((t) => (
-                    <DropdownMenuItem 
-                      key={t.name}
-                      onClick={() => setTheme(t.name)} 
-                      className={cn(
-                        "cursor-pointer gap-2 transition-colors",
-                        theme === t.name ? "bg-primary/10 text-primary" : ""
-                      )}
-                    >
-                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                      <span className="text-xs font-medium">{t.label}</span>
-                    </DropdownMenuItem>
-                  ))}
-                </div>
-                <DropdownMenuSeparator className="my-1.5" />
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-wider">Dark</p>
-                <div className="grid grid-cols-1 gap-1">
-                  {themes.slice(13).map((t) => (
-                    <DropdownMenuItem 
-                      key={t.name}
-                      onClick={() => setTheme(t.name)} 
-                      className={cn(
-                        "cursor-pointer gap-2 transition-colors",
-                        theme === t.name ? "bg-primary/10 text-primary" : ""
-                      )}
-                    >
-                      <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: t.color }} />
-                      <span className="text-xs font-medium">{t.label}</span>
-                    </DropdownMenuItem>
+                      style={{ backgroundColor: t.color }}
+                    />
                   ))}
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
-            </div>
+
+            {user ? (
+              <UserProfileDropdown user={user} logout={logout} setLocation={setLocation} />
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" className="hidden sm:flex text-softgray hover:text-primary font-medium px-3 h-8" onClick={() => setLocation("/login")} data-testid="button-login">
+                  Log in
+                </Button>
+                <Button size="sm" className="bg-primary hover:brightness-110 text-white font-bold rounded-full px-4 h-8 shadow-sm shadow-primary/20" onClick={() => setLocation("/login")} data-testid="button-signup">
+                  Get Started
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

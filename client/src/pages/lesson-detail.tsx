@@ -851,9 +851,25 @@ function QuizSection({
 
 export default function LessonDetail() {
   const { id } = useParams();
-  const [, navigate] = useLocation();
+  const [, setLocation] = useLocation();
   const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
   const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
+  
+  // Extract tier from ID (e.g., "rpn-hypertension" -> tier: rpn, slug: hypertension)
+  const tierFromId = id?.split('-')[0];
+  const slugFromId = id?.split('-').slice(1).join('-');
+
+  useEffect(() => {
+    // If user is logged in and tries to access a lesson with a different tier in the URL
+    // we should redirect them to their tier's version of the lesson if it exists
+    if (user && user.tier !== 'admin' && tierFromId && tierFromId !== user.tier) {
+      const targetId = `${user.tier}-${slugFromId}`;
+      if (contentMap[targetId]) {
+        setLocation(`/lessons/${targetId}`);
+      }
+    }
+  }, [user, id, tierFromId, slugFromId, setLocation]);
+
   const [activeTab, setActiveTab] = useState(() => {
     const hidePre = localStorage.getItem("nursenest-hide-pretest") === "true";
     const hidePost = localStorage.getItem("nursenest-hide-posttest") === "true";

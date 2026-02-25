@@ -42,24 +42,40 @@ export function ContentGate({
 
   if (visibility === "preview") {
     return (
-      <div className="relative">
+      <div className="relative overflow-visible" data-testid="container-preview-content">
         <div
-          className="overflow-hidden"
-          style={{ maxHeight: `${previewLines * 1.75}rem` }}
+          className="relative transition-all duration-700 blur-[2px] opacity-70 pointer-events-none select-none overflow-hidden max-h-[300px]"
+          aria-hidden="true"
         >
           {children}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
-        <div className="relative -mt-4 flex flex-col items-center py-6">
-          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-            <Eye className="w-5 h-5 text-primary" />
+        
+        {/* Schema.org Paywall Indicator */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "isAccessibleForFree": "False",
+            "hasPart": {
+              "@type": "WebPageElement",
+              "isAccessibleForFree": "False",
+              "cssSelector": ".premium-content"
+            }
+          })}
+        </script>
+
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white via-white/95 to-transparent h-64 flex flex-col items-center justify-end pb-8 pt-20 px-6 z-20">
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 shadow-sm border border-primary/10 rotate-3">
+            <Eye className="w-6 h-6 text-primary" />
           </div>
-          <p className="text-sm text-gray-600 mb-1 font-medium">Continue reading {featureName}</p>
-          <p className="text-xs text-gray-400 mb-4">Unlock full access with a subscription</p>
+          <h4 className="text-lg font-bold text-gray-900 mb-1">Unlock Complete Lesson</h4>
+          <p className="text-sm text-gray-500 mb-6 text-center max-w-xs leading-relaxed">
+            Gain full access to detailed pathophysiology, nursing interventions, and exam pearls.
+          </p>
           <Link href="/pricing">
-            <Button size="sm" className="rounded-full gap-2 bg-primary text-white hover:brightness-110" data-testid="button-unlock-preview">
-              <Sparkles className="w-3.5 h-3.5" />
-              View Plans
+            <Button size="lg" className="rounded-full gap-2 bg-primary text-white hover:brightness-110 px-8 shadow-lg shadow-primary/20" data-testid="button-unlock-preview">
+              <Sparkles className="w-4 h-4" />
+              Upgrade for Full Access
             </Button>
           </Link>
         </div>

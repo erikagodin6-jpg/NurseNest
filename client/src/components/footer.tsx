@@ -3,13 +3,13 @@ import { ThemedLogo } from "@/components/themed-logo";
 
 export function Footer() {
   return (
-    <footer className="bg-white border-t border-primary/10 py-12 mt-auto">
+    <footer className="bg-white border-t border-primary/10 py-12 mt-auto text-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <ThemedLogo width={160} />
           </div>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+          <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-500">
             <Link href="/terms" className="hover:text-primary transition-colors">Terms of Use</Link>
             <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
             <Link href="/disclaimer" className="hover:text-primary transition-colors">Disclaimer</Link>
