@@ -1,20 +1,20 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation } from "wouter";
-import { Search, X, BookOpen, Stethoscope, Pill, FileText, ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Search, X, BookOpen, Stethoscope, Pill, FileText, ArrowRight, Layers, Newspaper } from "lucide-react";
 import { contentMap } from "@/data/lessons";
 import { clinicalConfusions } from "@/data/clinical-confusions";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 
 type SearchResult = {
   id: string;
   title: string;
-  type: "lesson" | "clinical-clarity" | "medication";
+  type: "lesson" | "clinical-clarity" | "medication" | "blog" | "deck";
   path: string;
   snippet?: string;
 };
 
-function buildSearchIndex(): SearchResult[] {
+function buildStaticIndex(): SearchResult[] {
   const results: SearchResult[] = [];
 
   Object.entries(contentMap).forEach(([id, lesson]) => {
@@ -48,12 +48,16 @@ const TYPE_ICONS: Record<string, any> = {
   lesson: BookOpen,
   "clinical-clarity": Stethoscope,
   medication: Pill,
+  blog: Newspaper,
+  deck: Layers,
 };
 
 const TYPE_LABELS: Record<string, string> = {
   lesson: "Lesson",
   "clinical-clarity": "Clinical Clarity",
   medication: "Medication",
+  blog: "Blog Article",
+  deck: "Flashcard Deck",
 };
 
 export function GlobalSearch() {
@@ -62,20 +66,125 @@ export function GlobalSearch() {
   const [, setLocation] = useLocation();
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const searchIndex = useMemo(() => buildSearchIndex(), []);
+  const staticIndex = useMemo(() => buildStaticIndex(), []);
+
+  const { data: contentItems = [] } = useQuery({
+    queryKey: ["/api/search/content"],
+    queryFn: async () => {
+      const types = ["article", "blog-post", "blog"];
+      const all: any[] = [];
+      for (const t of types) {
+        try {
+          const res = await fetch(`/api/content?type=${t}`);
+          if (res.ok) {
+            const items = await res.json();
+            all.push(...items);
+          }
+        } catch {}
+      }
+      return all;
+    },
+    staleTime: 5 * 60 * 1000,
+    enabled: open,
+  });
+
+  const { data: publicDecks = [] } = useQuery({
+    queryKey: ["/api/search/decks"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/decks?visibility=public");
+        if (res.ok) return await res.json();
+      } catch {}
+      return [];
+    },
+    staleTime: 5 * 60 * 1000,
+    enabled: open,
+  });
+
+  const searchIndex = useMemo(() => {
+    const combined = [...staticIndex];
+
+    const seenSlugs = new Set(combined.map((r) => r.id));
+
+    if (Array.isArray(contentItems)) {
+      contentItems.forEach((item: any) => {
+        if (item.slug && item.status === "published" && !seenSlugs.has(item.slug)) {
+          seenSlugs.add(item.slug);
+          const snippetText = item.summary || "";
+          let contentSnippet = "";
+          if (item.content && Array.isArray(item.content)) {
+            contentSnippet = item.content
+              .slice(0, 5)
+              .map((b: any) => b.content || b.text || "")
+              .join(" ")
+              .slice(0, 200);
+          }
+          combined.push({
+            id: item.slug,
+            title: item.title,
+            type: "blog",
+            path: `/learn/${item.slug}`,
+            snippet: snippetText || contentSnippet,
+          });
+        }
+      });
+    }
+
+    if (Array.isArray(publicDecks)) {
+      publicDecks.forEach((deck: any) => {
+        if (deck.id && !seenSlugs.has(`deck-${deck.id}`)) {
+          seenSlugs.add(`deck-${deck.id}`);
+          combined.push({
+            id: `deck-${deck.id}`,
+            title: deck.title,
+            type: "deck",
+            path: `/flashcards?deck=${deck.id}`,
+            snippet: deck.description || `${deck.cardCount || 0} cards`,
+          });
+        }
+      });
+    }
+
+    return combined;
+  }, [staticIndex, contentItems, publicDecks]);
 
   const results = useMemo(() => {
     if (!query.trim() || query.length < 2) return [];
     const q = query.toLowerCase();
+    const words = q.split(/\s+/).filter(Boolean);
+
     return searchIndex
-      .filter(
-        (item) =>
-          item.title.toLowerCase().includes(q) ||
-          (item.snippet && item.snippet.toLowerCase().includes(q))
-      )
-      .slice(0, 8);
+      .map((item) => {
+        const titleLower = item.title.toLowerCase();
+        const snippetLower = (item.snippet || "").toLowerCase();
+
+        let score = 0;
+        let matches = true;
+        for (const word of words) {
+          const inTitle = titleLower.includes(word);
+          const inSnippet = snippetLower.includes(word);
+          if (!inTitle && !inSnippet) {
+            matches = false;
+            break;
+          }
+          if (inTitle) score += 10;
+          if (inSnippet) score += 3;
+        }
+        if (titleLower === q) score += 50;
+        if (titleLower.startsWith(q)) score += 20;
+
+        return { ...item, score, matches };
+      })
+      .filter((item) => item.matches)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 12);
   }, [query, searchIndex]);
+
+  useEffect(() => {
+    setSelectedIndex(-1);
+  }, [query]);
 
   useEffect(() => {
     if (open && inputRef.current) {
@@ -117,6 +226,19 @@ export function GlobalSearch() {
     setQuery("");
   };
 
+  const handleKeyNav = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex((prev) => Math.min(prev + 1, results.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => Math.max(prev - 1, -1));
+    } else if (e.key === "Enter" && selectedIndex >= 0 && results[selectedIndex]) {
+      e.preventDefault();
+      handleSelect(results[selectedIndex]);
+    }
+  };
+
   if (!open) {
     return (
       <button
@@ -125,7 +247,7 @@ export function GlobalSearch() {
         data-testid="button-global-search"
       >
         <Search className="w-3 h-3 shrink-0" />
-        <span className="truncate">Search lessons, topics...</span>
+        <span className="truncate">Search everything...</span>
       </button>
     );
   }
@@ -144,9 +266,10 @@ export function GlobalSearch() {
             <Input
               ref={inputRef}
               type="text"
-              placeholder="Search conditions, lessons, topics..."
+              placeholder="Search lessons, blog posts, flashcard decks..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyNav}
               className="border-0 shadow-none focus-visible:ring-0 text-base px-0 h-auto"
               data-testid="input-global-search"
             />
@@ -169,13 +292,16 @@ export function GlobalSearch() {
 
             {results.length > 0 && (
               <div className="py-2">
-                {results.map((result) => {
+                {results.map((result, idx) => {
                   const Icon = TYPE_ICONS[result.type] || FileText;
+                  const isSelected = idx === selectedIndex;
                   return (
                     <button
                       key={`${result.type}-${result.id}`}
                       onClick={() => handleSelect(result)}
-                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-colors text-left group"
+                      className={`w-full flex items-center gap-3 px-4 py-3 transition-colors text-left group ${
+                        isSelected ? "bg-primary/10" : "hover:bg-primary/5"
+                      }`}
                       data-testid={`search-result-${result.id}`}
                     >
                       <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -185,9 +311,16 @@ export function GlobalSearch() {
                         <p className="text-sm font-medium text-gray-900 truncate">
                           {result.title}
                         </p>
-                        <p className="text-xs text-gray-400">
-                          {TYPE_LABELS[result.type]}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-400">
+                            {TYPE_LABELS[result.type]}
+                          </span>
+                          {result.snippet && (
+                            <span className="text-xs text-gray-300 truncate max-w-[200px]">
+                              {result.snippet.slice(0, 60)}
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
@@ -199,9 +332,18 @@ export function GlobalSearch() {
             {query.length < 2 && (
               <div className="px-6 py-8 text-center text-gray-400">
                 <p className="text-sm">Type at least 2 characters to search</p>
-                <p className="text-xs mt-1">Search across lessons, conditions, and topics</p>
+                <p className="text-xs mt-1">Search across lessons, blog articles, flashcard decks, and clinical topics</p>
               </div>
             )}
+          </div>
+
+          <div className="px-4 py-2 border-t border-gray-100 flex items-center justify-between text-[10px] text-gray-400">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">↑↓</kbd> navigate</span>
+              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">Enter</kbd> select</span>
+              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">Esc</kbd> close</span>
+            </div>
+            <span>{searchIndex.length} items indexed</span>
           </div>
         </div>
       </div>
