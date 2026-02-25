@@ -1666,43 +1666,543 @@ export default function AdminPage() {
                     </div>
                   </div>
 
+                  <div className="flex gap-1 bg-gray-50 rounded-lg p-1 overflow-x-auto" data-testid="nav-analytics-subtabs">
+                    {(["traffic", "users", "content", "campaigns"] as const).map((st) => (
+                      <button key={st} onClick={() => setAnalyticsSubTab(st)} className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${analyticsSubTab === st ? "bg-primary text-white" : "text-gray-600 hover:bg-gray-100"}`} data-testid={`subtab-${st}`}>
+                        {st === "traffic" ? "Traffic Overview" : st === "users" ? "Users & Subscriptions" : st === "content" ? "Content & SEO" : "Campaigns & Sources"}
+                      </button>
+                    ))}
+                  </div>
+
                   {analyticsLoading ? (
                     <div className="flex items-center justify-center py-20">
                       <RefreshCw className="w-8 h-8 text-primary animate-spin" />
                     </div>
                   ) : siteAnalytics ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {[
-                        { label: "Total Page Views", value: siteAnalytics.totalViews.toLocaleString(), icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
-                        { label: "Unique Sessions", value: siteAnalytics.uniqueSessions.toLocaleString(), icon: Users, color: "text-green-600", bg: "bg-green-50" },
-                        {
-                          label: "Avg Session Duration",
-                          value: `${Math.floor(siteAnalytics.avgDuration / 60)}m ${siteAnalytics.avgDuration % 60}s`,
-                          icon: Clock,
-                          color: "text-purple-600",
-                          bg: "bg-purple-50",
-                        },
-                        { label: "Conversion Rate", value: `${siteAnalytics.conversionRate}%`, icon: TrendingUp, color: "text-amber-600", bg: "bg-amber-50" },
-                        { label: "Pricing Views", value: siteAnalytics.pricingViews.toLocaleString(), icon: CreditCard, color: "text-cyan-600", bg: "bg-cyan-50" },
-                        { label: "Checkout Intents", value: siteAnalytics.checkoutIntents.toLocaleString(), icon: MousePointer, color: "text-pink-600", bg: "bg-pink-50" },
-                      ].map((kpi, i) => (
-                        <Card key={i} className="border border-primary/10" data-testid={`card-analytics-kpi-${i}`}>
-                          <CardContent className="p-4">
-                            <div className="flex items-center gap-3">
-                              <div className={`w-10 h-10 ${kpi.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                                <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
+                    <div className="space-y-6">
+                      {analyticsSubTab === "traffic" && (
+                        <>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {[
+                              { label: "Total Page Views", value: (siteAnalytics.traffic?.totalViews || 0).toLocaleString(), icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
+                              { label: "Unique Sessions", value: (siteAnalytics.traffic?.uniqueSessions || 0).toLocaleString(), icon: Users, color: "text-green-600", bg: "bg-green-50" },
+                              { label: "Avg Duration", value: `${Math.floor((siteAnalytics.traffic?.avgDuration || 0) / 60)}m ${(siteAnalytics.traffic?.avgDuration || 0) % 60}s`, icon: Clock, color: "text-purple-600", bg: "bg-purple-50" },
+                              { label: "Bounce Rate", value: `${siteAnalytics.traffic?.bounceRate || 0}%`, icon: Activity, color: "text-red-600", bg: "bg-red-50" },
+                            ].map((kpi, i) => (
+                              <Card key={i} className="border border-primary/10" data-testid={`card-analytics-kpi-${i}`}>
+                                <CardContent className="p-4">
+                                  <div className="flex items-center gap-3">
+                                    <div className={`w-10 h-10 ${kpi.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                                      <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
+                                    </div>
+                                    <div>
+                                      <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
+                                      <div className="text-xs text-gray-500">{kpi.label}</div>
+                                    </div>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+
+                          <Card className="border border-primary/10">
+                            <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Conversion Funnel</CardTitle></CardHeader>
+                            <CardContent className="space-y-2">
+                              {(() => {
+                                const f = siteAnalytics.conversionFunnel || {};
+                                const steps = [
+                                  { label: "Visitors", value: f.totalVisitors || 0 },
+                                  { label: "Pricing Page", value: f.pricingViews || 0, rate: f.pricingRate },
+                                  { label: "Checkout Started", value: f.checkoutIntents || 0, rate: f.checkoutRate },
+                                  { label: "Active Subscribers", value: f.activeSubscribers || 0 },
+                                ];
+                                const max = Math.max(...steps.map((s) => s.value), 1);
+                                return steps.map((s, i) => (
+                                  <div key={i} className="flex items-center gap-3">
+                                    <div className="w-32 text-xs text-gray-600 text-right">{s.label}</div>
+                                    <div className="flex-1 h-6 bg-gray-100 rounded-full overflow-hidden">
+                                      <div className="h-full bg-primary/70 rounded-full transition-all" style={{ width: `${(s.value / max) * 100}%` }} />
+                                    </div>
+                                    <div className="w-16 text-xs font-semibold text-gray-700">{s.value.toLocaleString()}</div>
+                                    {s.rate !== undefined && <div className="w-12 text-xs text-gray-400">{s.rate}%</div>}
+                                  </div>
+                                ));
+                              })()}
+                            </CardContent>
+                          </Card>
+
+                          {siteAnalytics.dailyViews && siteAnalytics.dailyViews.length > 0 && (
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Daily Views Trend</CardTitle></CardHeader>
+                              <CardContent>
+                                <div className="flex items-end gap-[2px] h-32">
+                                  {(() => {
+                                    const maxV = Math.max(...siteAnalytics.dailyViews.map((d: any) => d.views || d.count || 0), 1);
+                                    return siteAnalytics.dailyViews.map((d: any, i: number) => {
+                                      const v = d.views || d.count || 0;
+                                      return (
+                                        <div key={i} className="flex-1 group relative cursor-default" title={`${d.date || d.day}: ${v} views`}>
+                                          <div className="bg-primary/60 hover:bg-primary rounded-t transition-colors" style={{ height: `${(v / maxV) * 100}%`, minHeight: v > 0 ? "2px" : "0" }} />
+                                        </div>
+                                      );
+                                    });
+                                  })()}
+                                </div>
+                                <div className="flex justify-between mt-1">
+                                  <span className="text-[10px] text-gray-400">{siteAnalytics.dailyViews[0]?.date || siteAnalytics.dailyViews[0]?.day || ""}</span>
+                                  <span className="text-[10px] text-gray-400">{siteAnalytics.dailyViews[siteAnalytics.dailyViews.length - 1]?.date || siteAnalytics.dailyViews[siteAnalytics.dailyViews.length - 1]?.day || ""}</span>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          )}
+
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Top Pages</CardTitle></CardHeader>
+                              <CardContent>
+                                {(siteAnalytics.topPages || []).length === 0 ? (
+                                  <p className="text-xs text-gray-400 py-4 text-center">No page data yet</p>
+                                ) : (
+                                  <div className="space-y-2">
+                                    {(siteAnalytics.topPages || []).slice(0, 10).map((p: any, i: number) => {
+                                      const maxP = Math.max(...(siteAnalytics.topPages || []).map((x: any) => x.views || x.count || 0), 1);
+                                      const v = p.views || p.count || 0;
+                                      return (
+                                        <div key={i} className="flex items-center gap-2">
+                                          <div className="flex-1 text-xs text-gray-700 truncate">{p.path || p.page || p.name}</div>
+                                          <div className="w-24 h-3 bg-gray-100 rounded-full overflow-hidden">
+                                            <div className="h-full bg-blue-400 rounded-full" style={{ width: `${(v / maxP) * 100}%` }} />
+                                          </div>
+                                          <div className="w-10 text-xs font-semibold text-right text-gray-600">{v}</div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </CardContent>
+                            </Card>
+
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Top Referrers</CardTitle></CardHeader>
+                              <CardContent>
+                                {(siteAnalytics.topReferrers || []).length === 0 ? (
+                                  <p className="text-xs text-gray-400 py-4 text-center">No referrer data yet</p>
+                                ) : (
+                                  <div className="space-y-2">
+                                    {(siteAnalytics.topReferrers || []).slice(0, 10).map((r: any, i: number) => {
+                                      const maxR = Math.max(...(siteAnalytics.topReferrers || []).map((x: any) => x.views || x.count || 0), 1);
+                                      const v = r.views || r.count || 0;
+                                      return (
+                                        <div key={i} className="flex items-center gap-2">
+                                          <div className="flex-1 text-xs text-gray-700 truncate">{r.referrer || r.source || r.name}</div>
+                                          <div className="w-24 h-3 bg-gray-100 rounded-full overflow-hidden">
+                                            <div className="h-full bg-green-400 rounded-full" style={{ width: `${(v / maxR) * 100}%` }} />
+                                          </div>
+                                          <div className="w-10 text-xs font-semibold text-right text-gray-600">{v}</div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </CardContent>
+                            </Card>
+                          </div>
+
+                          <div className="grid md:grid-cols-3 gap-6">
+                            {[
+                              { title: "Devices", data: siteAnalytics.devices, color: "bg-purple-400" },
+                              { title: "Browsers", data: siteAnalytics.browsers, color: "bg-amber-400" },
+                              { title: "Operating Systems", data: siteAnalytics.operatingSystems, color: "bg-cyan-400" },
+                            ].map((section) => (
+                              <Card key={section.title} className="border border-primary/10">
+                                <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{section.title}</CardTitle></CardHeader>
+                                <CardContent>
+                                  {(section.data || []).length === 0 ? (
+                                    <p className="text-xs text-gray-400 py-4 text-center">No data</p>
+                                  ) : (
+                                    <div className="space-y-2">
+                                      {(section.data || []).slice(0, 6).map((item: any, i: number) => {
+                                        const maxD = Math.max(...(section.data || []).map((x: any) => x.count || 0), 1);
+                                        return (
+                                          <div key={i} className="flex items-center gap-2">
+                                            <div className="flex-1 text-xs text-gray-700 truncate">{item.name}</div>
+                                            <div className="w-20 h-3 bg-gray-100 rounded-full overflow-hidden">
+                                              <div className={`h-full ${section.color} rounded-full`} style={{ width: `${(item.count / maxD) * 100}%` }} />
+                                            </div>
+                                            <div className="w-8 text-xs font-semibold text-right text-gray-600">{item.count}</div>
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                        </>
+                      )}
+
+                      {analyticsSubTab === "users" && (
+                        <>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <Card className="border border-primary/10">
+                              <CardContent className="p-4">
+                                <div className="text-2xl font-bold text-gray-900">{(siteAnalytics.totalUsers || 0).toLocaleString()}</div>
+                                <div className="text-xs text-gray-500">Total Users</div>
+                              </CardContent>
+                            </Card>
+                            <Card className="border border-primary/10">
+                              <CardContent className="p-4">
+                                <div className="text-2xl font-bold text-green-600">{(siteAnalytics.activeSubscribers || 0).toLocaleString()}</div>
+                                <div className="text-xs text-gray-500">Active Subscribers</div>
+                              </CardContent>
+                            </Card>
+                            <Card className="border border-primary/10">
+                              <CardContent className="p-4">
+                                <div className="text-2xl font-bold text-purple-600">{siteAnalytics.conversionRate || 0}%</div>
+                                <div className="text-xs text-gray-500">Conversion Rate</div>
+                              </CardContent>
+                            </Card>
+                            <Card className="border border-primary/10">
+                              <CardContent className="p-4">
+                                <div className="text-2xl font-bold text-amber-600">{(siteAnalytics.conversionFunnel?.checkoutIntents || 0).toLocaleString()}</div>
+                                <div className="text-xs text-gray-500">Checkout Intents</div>
+                              </CardContent>
+                            </Card>
+                          </div>
+
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Tier Distribution</CardTitle></CardHeader>
+                              <CardContent>
+                                {(() => {
+                                  const tiers = siteAnalytics.subscriptionBreakdown || {};
+                                  const entries = Object.entries(tiers) as [string, number][];
+                                  const total = entries.reduce((s, [, v]) => s + (v as number), 0) || 1;
+                                  const colors: Record<string, string> = { free: "bg-gray-400", rpn: "bg-blue-500", rn: "bg-purple-500", np: "bg-amber-500", admin: "bg-red-500" };
+                                  return (
+                                    <div className="space-y-3">
+                                      {entries.map(([tier, count]) => (
+                                        <div key={tier}>
+                                          <div className="flex justify-between text-xs mb-1">
+                                            <span className="font-medium text-gray-700">{tierLabels[tier] || tier}</span>
+                                            <span className="text-gray-500">{(count as number)} ({Math.round(((count as number) / total) * 100)}%)</span>
+                                          </div>
+                                          <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                                            <div className={`h-full ${colors[tier] || "bg-gray-400"} rounded-full`} style={{ width: `${((count as number) / total) * 100}%` }} />
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  );
+                                })()}
+                              </CardContent>
+                            </Card>
+
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Subscription Status</CardTitle></CardHeader>
+                              <CardContent>
+                                {(() => {
+                                  const statuses = siteAnalytics.subscriptionStatus || {};
+                                  const entries = Object.entries(statuses) as [string, number][];
+                                  const total = entries.reduce((s, [, v]) => s + (v as number), 0) || 1;
+                                  const colors: Record<string, string> = { active: "bg-green-500", inactive: "bg-gray-400", canceled: "bg-red-400", past_due: "bg-yellow-500" };
+                                  return (
+                                    <div className="space-y-3">
+                                      {entries.map(([status, count]) => (
+                                        <div key={status}>
+                                          <div className="flex justify-between text-xs mb-1">
+                                            <span className="font-medium text-gray-700 capitalize">{status.replace("_", " ")}</span>
+                                            <span className="text-gray-500">{(count as number)} ({Math.round(((count as number) / total) * 100)}%)</span>
+                                          </div>
+                                          <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                                            <div className={`h-full ${colors[status] || "bg-gray-400"} rounded-full`} style={{ width: `${((count as number) / total) * 100}%` }} />
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  );
+                                })()}
+                              </CardContent>
+                            </Card>
+                          </div>
+
+                          {siteAnalytics.countries && Object.keys(siteAnalytics.countries).length > 0 && (
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Geographic Distribution</CardTitle></CardHeader>
+                              <CardContent>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                  {Object.entries(siteAnalytics.countries || {}).sort((a: any, b: any) => b[1] - a[1]).slice(0, 12).map(([country, count]: any) => (
+                                    <div key={country} className="flex items-center justify-between bg-gray-50 rounded px-3 py-2">
+                                      <span className="text-xs text-gray-700">{country}</span>
+                                      <span className="text-xs font-semibold text-gray-600">{count}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          )}
+
+                          {siteAnalytics.userRegions && Object.keys(siteAnalytics.userRegions).length > 0 && (
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">User Regions (Registered)</CardTitle></CardHeader>
+                              <CardContent>
+                                <div className="space-y-2">
+                                  {Object.entries(siteAnalytics.userRegions || {}).sort((a: any, b: any) => b[1] - a[1]).map(([region, count]: any) => (
+                                    <div key={region} className="flex items-center gap-2">
+                                      <div className="flex-1 text-xs text-gray-700">{region || "Unknown"}</div>
+                                      <div className="w-10 text-xs font-semibold text-right text-gray-600">{count}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          )}
+                        </>
+                      )}
+
+                      {analyticsSubTab === "content" && (
+                        <>
+                          {siteAnalytics.blogContent && siteAnalytics.blogContent.length > 0 && (
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Top Blog Content</CardTitle></CardHeader>
+                              <CardContent>
+                                <div className="space-y-2">
+                                  {siteAnalytics.blogContent.slice(0, 10).map((b: any, i: number) => {
+                                    const maxB = Math.max(...siteAnalytics.blogContent.map((x: any) => x.views || x.count || 0), 1);
+                                    const v = b.views || b.count || 0;
+                                    return (
+                                      <div key={i} className="flex items-center gap-2">
+                                        <div className="flex-1 text-xs text-gray-700 truncate">{b.title || b.slug || b.path || b.name}</div>
+                                        <div className="w-24 h-3 bg-gray-100 rounded-full overflow-hidden">
+                                          <div className="h-full bg-pink-400 rounded-full" style={{ width: `${(v / maxB) * 100}%` }} />
+                                        </div>
+                                        <div className="w-10 text-xs font-semibold text-right text-gray-600">{v}</div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          )}
+
+                          <Card className="border border-primary/10">
+                            <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">SEO Overview</CardTitle></CardHeader>
+                            <CardContent>
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                                  <div className="text-xl font-bold text-gray-900">{(siteAnalytics.traffic?.totalViews || 0).toLocaleString()}</div>
+                                  <div className="text-[10px] text-gray-500">Total Impressions</div>
+                                </div>
+                                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                                  <div className="text-xl font-bold text-gray-900">{(siteAnalytics.topPages || []).length}</div>
+                                  <div className="text-[10px] text-gray-500">Unique Pages Visited</div>
+                                </div>
+                                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                                  <div className="text-xl font-bold text-gray-900">{(siteAnalytics.topReferrers || []).length}</div>
+                                  <div className="text-[10px] text-gray-500">Referral Sources</div>
+                                </div>
+                                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                                  <div className="text-xl font-bold text-gray-900">{(siteAnalytics.blogContent || []).length}</div>
+                                  <div className="text-[10px] text-gray-500">Blog Posts Tracked</div>
+                                </div>
                               </div>
-                              <div>
-                                <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
-                                <div className="text-xs text-gray-500">{kpi.label}</div>
+                            </CardContent>
+                          </Card>
+                        </>
+                      )}
+
+                      {analyticsSubTab === "campaigns" && (
+                        <>
+                          {(siteAnalytics.utmCampaigns || []).length > 0 && (
+                            <Card className="border border-primary/10">
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">UTM Campaigns</CardTitle></CardHeader>
+                              <CardContent>
+                                <div className="overflow-x-auto">
+                                  <table className="w-full text-xs">
+                                    <thead>
+                                      <tr className="border-b text-left text-gray-500">
+                                        <th className="pb-2">Campaign</th>
+                                        <th className="pb-2">Source</th>
+                                        <th className="pb-2">Medium</th>
+                                        <th className="pb-2 text-right">Views</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {siteAnalytics.utmCampaigns.slice(0, 15).map((c: any, i: number) => (
+                                        <tr key={i} className="border-b border-gray-50">
+                                          <td className="py-2 font-medium text-gray-700">{c.campaign || c.name || "-"}</td>
+                                          <td className="py-2 text-gray-600">{c.source || "-"}</td>
+                                          <td className="py-2 text-gray-600">{c.medium || "-"}</td>
+                                          <td className="py-2 text-right font-semibold text-gray-700">{(c.views || c.count || 0).toLocaleString()}</td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          )}
+
+                          {(() => {
+                            const sources = siteAnalytics.utmSources || {};
+                            const mediums = siteAnalytics.utmMediums || {};
+                            const hasSources = Object.keys(sources).length > 0;
+                            const hasMediums = Object.keys(mediums).length > 0;
+                            if (!hasSources && !hasMediums) return null;
+                            return (
+                              <div className="grid md:grid-cols-2 gap-6">
+                                {hasSources && (
+                                  <Card className="border border-primary/10">
+                                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Traffic Sources (UTM)</CardTitle></CardHeader>
+                                    <CardContent>
+                                      <div className="space-y-2">
+                                        {Object.entries(sources).sort((a: any, b: any) => b[1] - a[1]).slice(0, 8).map(([src, cnt]: any) => (
+                                          <div key={src} className="flex items-center justify-between bg-gray-50 rounded px-3 py-2">
+                                            <span className="text-xs text-gray-700">{src}</span>
+                                            <span className="text-xs font-semibold text-gray-600">{cnt}</span>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </CardContent>
+                                  </Card>
+                                )}
+                                {hasMediums && (
+                                  <Card className="border border-primary/10">
+                                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Traffic Mediums (UTM)</CardTitle></CardHeader>
+                                    <CardContent>
+                                      <div className="space-y-2">
+                                        {Object.entries(mediums).sort((a: any, b: any) => b[1] - a[1]).slice(0, 8).map(([med, cnt]: any) => (
+                                          <div key={med} className="flex items-center justify-between bg-gray-50 rounded px-3 py-2">
+                                            <span className="text-xs text-gray-700">{med}</span>
+                                            <span className="text-xs font-semibold text-gray-600">{cnt}</span>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </CardContent>
+                                  </Card>
+                                )}
+                              </div>
+                            );
+                          })()}
+
+                          {(siteAnalytics.utmCampaigns || []).length === 0 && !Object.keys(siteAnalytics.utmSources || {}).length && (
+                            <Card className="border border-primary/10">
+                              <CardContent className="p-8 text-center text-gray-400">
+                                <Globe className="w-10 h-10 mx-auto mb-3 opacity-40" />
+                                <p className="text-sm">No UTM campaign data yet. Add UTM parameters to your marketing links to track campaigns.</p>
+                              </CardContent>
+                            </Card>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-center text-gray-400 py-10">No analytics data available yet.</p>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "promotions" && (
+                <div className="space-y-6" data-testid="section-promotions">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-semibold text-gray-900">Promotion Codes</h2>
+                    <Button size="sm" variant="outline" onClick={fetchPromotions} disabled={promotionsLoading} className="gap-2" data-testid="button-refresh-promotions">
+                      <RefreshCw className={`w-4 h-4 ${promotionsLoading ? "animate-spin" : ""}`} />
+                      Refresh
+                    </Button>
+                  </div>
+
+                  <Card className="border border-primary/10">
+                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Create Promotion Code</CardTitle></CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Code Name</label>
+                          <Input placeholder="SUMMER25" value={newPromo.code} onChange={(e) => setNewPromo({ ...newPromo, code: e.target.value })} data-testid="input-promo-code" />
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Discount Type</label>
+                          <select className="w-full border rounded-md px-3 py-2 text-sm" value={newPromo.discountType} onChange={(e) => setNewPromo({ ...newPromo, discountType: e.target.value })} data-testid="select-promo-type">
+                            <option value="percent_off">Percentage Off</option>
+                            <option value="amount_off">Fixed Amount Off (cents)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">{newPromo.discountType === "percent_off" ? "Percentage" : "Amount (cents)"}</label>
+                          <Input type="number" placeholder={newPromo.discountType === "percent_off" ? "25" : "500"} value={newPromo.amount} onChange={(e) => setNewPromo({ ...newPromo, amount: e.target.value })} data-testid="input-promo-amount" />
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Duration</label>
+                          <select className="w-full border rounded-md px-3 py-2 text-sm" value={newPromo.duration} onChange={(e) => setNewPromo({ ...newPromo, duration: e.target.value })} data-testid="select-promo-duration">
+                            <option value="once">Once</option>
+                            <option value="repeating">Repeating</option>
+                            <option value="forever">Forever</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Max Uses (optional)</label>
+                          <Input type="number" placeholder="100" value={newPromo.maxRedemptions} onChange={(e) => setNewPromo({ ...newPromo, maxRedemptions: e.target.value })} data-testid="input-promo-max" />
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Expires (optional)</label>
+                          <Input type="date" value={newPromo.expiresAt} onChange={(e) => setNewPromo({ ...newPromo, expiresAt: e.target.value })} data-testid="input-promo-expires" />
+                        </div>
+                      </div>
+                      <Button onClick={createPromotion} disabled={promoCreating || !newPromo.code || !newPromo.amount} className="gap-2" data-testid="button-create-promo">
+                        <Plus className="w-4 h-4" />
+                        {promoCreating ? "Creating..." : "Create Promotion"}
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  {promotionsLoading ? (
+                    <div className="flex items-center justify-center py-10">
+                      <RefreshCw className="w-8 h-8 text-primary animate-spin" />
+                    </div>
+                  ) : promotions.length === 0 ? (
+                    <Card className="border border-primary/10">
+                      <CardContent className="p-8 text-center text-gray-400">
+                        <Tag className="w-10 h-10 mx-auto mb-3 opacity-40" />
+                        <p className="text-sm">No promotion codes yet. Create one above to offer discounts.</p>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="space-y-3">
+                      {promotions.map((promo: any) => (
+                        <Card key={promo.id} className="border border-primary/10" data-testid={`card-promo-${promo.id}`}>
+                          <CardContent className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <Badge variant={promo.active ? "default" : "secondary"} data-testid={`badge-promo-status-${promo.id}`}>
+                                  {promo.active ? "Active" : "Inactive"}
+                                </Badge>
+                                <span className="font-mono font-bold text-sm" data-testid={`text-promo-code-${promo.id}`}>{promo.code}</span>
+                                <span className="text-xs text-gray-500">
+                                  {promo.percentOff ? `${promo.percentOff}% off` : promo.amountOff ? `$${(promo.amountOff / 100).toFixed(2)} off` : ""}
+                                </span>
+                                <span className="text-xs text-gray-400">{promo.duration}</span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <span className="text-xs text-gray-500">
+                                  {promo.timesRedeemed || 0}{promo.maxRedemptions ? `/${promo.maxRedemptions}` : ""} used
+                                </span>
+                                {promo.expiresAt && (
+                                  <span className="text-xs text-gray-400">
+                                    Expires {new Date(promo.expiresAt * 1000).toLocaleDateString()}
+                                  </span>
+                                )}
+                                {promo.active && (
+                                  <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700" onClick={() => deletePromotion(promo.id)} data-testid={`button-delete-promo-${promo.id}`}>
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           </CardContent>
                         </Card>
                       ))}
                     </div>
-                  ) : (
-                    <p className="text-center text-gray-400 py-10">No analytics data available yet.</p>
                   )}
                 </div>
               )}

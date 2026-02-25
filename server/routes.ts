@@ -645,6 +645,139 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   });
 
   // --------------------
+  // Admin Promotions (Stripe coupon + promo code management)
+  // --------------------
+  app.post("/api/admin/promotions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { code, discountType, amount, duration, maxRedemptions, expiresAt } = req.body;
+
+      if (!code || !discountType || !amount || !duration) {
+        return res.status(400).json({ error: "Missing required fields: code, discountType, amount, duration" });
+      }
+
+      if (!["percent_off", "amount_off"].includes(discountType)) {
+        return res.status(400).json({ error: "discountType must be percent_off or amount_off" });
+      }
+
+      if (!["once", "repeating", "forever"].includes(duration)) {
+        return res.status(400).json({ error: "duration must be once, repeating, or forever" });
+      }
+
+      const stripe = await getUncachableStripeClient();
+
+      const couponParams: any = {
+        duration,
+        name: `Promo: ${code}`,
+      };
+
+      if (discountType === "percent_off") {
+        couponParams.percent_off = Number(amount);
+      } else {
+        couponParams.amount_off = Math.round(Number(amount) * 100);
+        couponParams.currency = "usd";
+      }
+
+      if (duration === "repeating") {
+        couponParams.duration_in_months = 3;
+      }
+
+      if (maxRedemptions) {
+        couponParams.max_redemptions = Number(maxRedemptions);
+      }
+
+      if (expiresAt) {
+        couponParams.redeem_by = Math.floor(new Date(expiresAt).getTime() / 1000);
+      }
+
+      const coupon = await stripe.coupons.create(couponParams);
+
+      const promoCodeParams: any = {
+        coupon: coupon.id,
+        code: code.toUpperCase(),
+      };
+
+      if (maxRedemptions) {
+        promoCodeParams.max_redemptions = Number(maxRedemptions);
+      }
+
+      if (expiresAt) {
+        promoCodeParams.expires_at = Math.floor(new Date(expiresAt).getTime() / 1000);
+      }
+
+      const promoCode = await stripe.promotionCodes.create(promoCodeParams);
+
+      res.json({
+        id: promoCode.id,
+        code: promoCode.code,
+        couponId: coupon.id,
+        discountType,
+        amount: Number(amount),
+        duration,
+        maxRedemptions: maxRedemptions || null,
+        expiresAt: expiresAt || null,
+        active: promoCode.active,
+      });
+    } catch (e: any) {
+      console.error("Create promotion error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/promotions", async (req, res) => {
+    try {
+      const username = String(req.query.username || "");
+      const password = String(req.query.password || "");
+      if (!username || !password) return res.status(401).json({ error: "Authentication required" });
+
+      const user = await storage.getUserByUsername(username);
+      if (!user || user.password !== password || user.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const stripe = await getUncachableStripeClient();
+
+      const promotionCodes = await stripe.promotionCodes.list({ limit: 100, expand: ["data.coupon"] });
+
+      const promos = promotionCodes.data.map((pc: any) => ({
+        id: pc.id,
+        code: pc.code,
+        couponId: pc.coupon?.id || pc.coupon,
+        discountType: pc.coupon?.percent_off ? "percent_off" : "amount_off",
+        amount: pc.coupon?.percent_off || (pc.coupon?.amount_off ? pc.coupon.amount_off / 100 : 0),
+        duration: pc.coupon?.duration || "once",
+        maxRedemptions: pc.max_redemptions,
+        timesRedeemed: pc.times_redeemed,
+        active: pc.active,
+        expiresAt: pc.expires_at ? new Date(pc.expires_at * 1000).toISOString() : null,
+        created: new Date(pc.created * 1000).toISOString(),
+      }));
+
+      res.json(promos);
+    } catch (e: any) {
+      console.error("List promotions error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/promotions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const stripe = await getUncachableStripeClient();
+      const promoCode = await stripe.promotionCodes.update(req.params.id, { active: false });
+
+      res.json({ success: true, id: promoCode.id, active: promoCode.active });
+    } catch (e: any) {
+      console.error("Deactivate promotion error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
   // Report card (unchanged)
   // --------------------
   app.get("/api/report-card/:userId", async (req, res) => {
@@ -1362,6 +1495,11 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         checkoutRate: analytics.pricingViews > 0 ? Math.round((analytics.checkoutIntents / analytics.pricingViews) * 100) : 0,
       };
 
+      const toSortedArray = (obj: Record<string, number>) =>
+        Object.entries(obj)
+          .sort((a, b) => b[1] - a[1])
+          .map(([name, count]) => ({ name, count }));
+
       res.json({
         traffic: {
           totalViews: analytics.totalViews,
@@ -1371,13 +1509,14 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         },
         topPages: analytics.topPages,
         topReferrers: analytics.topReferrers,
-        devices: analytics.devices,
-        browsers: analytics.browsers,
-        operatingSystems: analytics.operatingSystems,
+        devices: toSortedArray(analytics.devices || {}),
+        browsers: toSortedArray(analytics.browsers || {}),
+        operatingSystems: toSortedArray(analytics.operatingSystems || {}),
         subscriptionBreakdown,
         subscriptionStatus: statusBreakdown,
         userRegions: regionBreakdown,
         totalUsers: allUsers.length,
+        activeSubscribers,
         conversionFunnel,
         dailyViews: analytics.dailyViews,
         utmCampaigns: analytics.utmCampaigns,
