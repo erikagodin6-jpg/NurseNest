@@ -1976,7 +1976,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { topics, citationStyle, scheduleStartDate } = req.body;
+      const { topics, citationStyle, scheduleStartDate, postsPerDay, publishAllNow, authorName } = req.body;
       if (!topics || !Array.isArray(topics) || topics.length === 0) {
         return res.status(400).json({ error: "topics array is required" });
       }
@@ -1984,13 +1984,14 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         return res.status(400).json({ error: "Maximum 20 topics per batch" });
       }
 
+      const perDay = Math.max(1, Math.min(10, postsPerDay || 1));
       const results: any[] = [];
       const startDate = scheduleStartDate ? new Date(scheduleStartDate) : new Date();
 
       for (let i = 0; i < topics.length; i++) {
         const topicEntry = topics[i];
         const topicText = typeof topicEntry === "string" ? topicEntry : topicEntry.topic;
-        const dayOffset = typeof topicEntry === "string" ? i : (topicEntry.dayOffset ?? i);
+        const dayOffset = typeof topicEntry === "string" ? Math.floor(i / perDay) : (topicEntry.dayOffset ?? Math.floor(i / perDay));
 
         if (!topicText || !topicText.trim()) {
           results.push({ index: i, status: "skipped", reason: "Empty topic" });
@@ -2004,9 +2005,10 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
 
           const scheduledDate = new Date(startDate);
           scheduledDate.setDate(scheduledDate.getDate() + dayOffset);
-          scheduledDate.setHours(9, 0, 0, 0);
+          const slotInDay = i % perDay;
+          scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
 
-          const isImmediate = dayOffset === 0 && i === 0;
+          const isImmediate = publishAllNow || (dayOffset === 0 && i === 0);
 
           const created = await storage.createContentItem({
             title: post.title,
@@ -2025,7 +2027,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
             publishedAt: isImmediate ? new Date() : null,
             scheduledAt: isImmediate ? null : scheduledDate,
             autoPublish: true,
-            authorName: "Erika Godin, RN",
+            authorName: authorName || "Erika Godin, RN",
           });
 
           results.push({ index: i, status: "success", id: created.id, title: created.title, scheduledAt: isImmediate ? null : scheduledDate.toISOString() });

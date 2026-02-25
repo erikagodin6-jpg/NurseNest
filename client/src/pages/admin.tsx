@@ -154,6 +154,8 @@ export default function AdminPage() {
   const [batchMode, setBatchMode] = useState(false);
   const [batchTopics, setBatchTopics] = useState("");
   const [batchStartDate, setBatchStartDate] = useState("");
+  const [batchPostsPerDay, setBatchPostsPerDay] = useState(1);
+  const [batchPublishAll, setBatchPublishAll] = useState(false);
   const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; results: any[] } | null>(null);
   const [publishQueue, setPublishQueue] = useState<any[]>([]);
   const [queueLoading, setQueueLoading] = useState(false);
@@ -592,6 +594,8 @@ export default function AdminPage() {
           topics: topicLines,
           citationStyle: blogConfig?.citationStyle || "apa7",
           scheduleStartDate: batchStartDate || undefined,
+          postsPerDay: batchPostsPerDay,
+          publishAllNow: batchPublishAll,
         }),
       });
       if (res.ok) {
@@ -1397,21 +1401,54 @@ export default function AdminPage() {
                             className="text-sm font-mono"
                             data-testid="input-batch-topics"
                           />
-                          <div className="flex items-center gap-3">
-                            <div className="flex-1">
-                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Start Publishing Date</label>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div>
+                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Start Date</label>
                               <input
                                 type="date"
                                 value={batchStartDate}
-                                onChange={(e) => setBatchStartDate(e.target.value)}
+                                onChange={(e) => { setBatchStartDate(e.target.value); setBatchPublishAll(false); }}
                                 className="w-full border rounded-md px-3 py-1.5 text-sm bg-white"
+                                disabled={batchPublishAll}
                                 data-testid="input-batch-start-date"
                               />
                             </div>
-                            <div className="text-[10px] text-gray-400 flex-1">
-                              {batchTopics.split("\n").filter(t => t.trim()).length} topics entered.
-                              {batchStartDate && ` Posts will be scheduled 1/day starting ${new Date(batchStartDate + "T09:00:00").toLocaleDateString()}.`}
-                              {!batchStartDate && " First post publishes immediately, rest scheduled 1/day."}
+                            <div>
+                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Posts Per Day</label>
+                              <div className="flex rounded-md border overflow-hidden">
+                                {[1, 2, 3, 5, 10].map((n) => (
+                                  <button
+                                    key={n}
+                                    onClick={() => setBatchPostsPerDay(n)}
+                                    disabled={batchPublishAll}
+                                    className={`flex-1 px-2 py-1.5 text-xs font-medium transition-colors ${batchPostsPerDay === n && !batchPublishAll ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"} ${batchPublishAll ? "opacity-50" : ""}`}
+                                    data-testid={`button-batch-ppd-${n}`}
+                                  >
+                                    {n}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Publish Mode</label>
+                              <button
+                                onClick={() => setBatchPublishAll(!batchPublishAll)}
+                                className={`w-full px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${batchPublishAll ? "bg-primary text-white border-primary" : "bg-white text-gray-600 border-gray-200 hover:border-primary"}`}
+                                data-testid="button-batch-publish-all"
+                              >
+                                {batchPublishAll ? "Publish All Now" : "Schedule"}
+                              </button>
+                            </div>
+                            <div className="flex items-end">
+                              <div className="text-[10px] text-gray-400 leading-tight">
+                                {(() => {
+                                  const count = batchTopics.split("\n").filter(t => t.trim()).length;
+                                  if (batchPublishAll) return `${count} topics. All will publish immediately.`;
+                                  const days = Math.ceil(count / batchPostsPerDay);
+                                  const startLabel = batchStartDate ? new Date(batchStartDate + "T09:00:00").toLocaleDateString() : "today";
+                                  return `${count} topics, ${batchPostsPerDay}/day over ${days} day${days !== 1 ? "s" : ""} starting ${startLabel}.`;
+                                })()}
+                              </div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
@@ -1427,7 +1464,7 @@ export default function AdminPage() {
                                   Generating {batchProgress ? `${batchProgress.current}/${batchProgress.total}` : "..."}
                                 </>
                               ) : (
-                                <>Generate {batchTopics.split("\n").filter(t => t.trim()).length} Posts</>
+                                <>{batchPublishAll ? "Generate & Publish" : "Generate & Schedule"} {batchTopics.split("\n").filter(t => t.trim()).length} Posts</>
                               )}
                             </Button>
                             <span className="text-[10px] text-gray-400">Max 20 topics per batch. Each takes ~30 seconds.</span>
@@ -1452,48 +1489,83 @@ export default function AdminPage() {
                     </CardContent>
                   </Card>
 
-                  {publishQueue.length > 0 && (
-                    <Card className="border border-amber-200 bg-amber-50/30" data-testid="card-publish-queue">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-amber-600" />
-                            <span className="text-sm font-semibold text-gray-700">Publishing Queue ({publishQueue.length})</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Button size="sm" variant="outline" className="h-7 text-xs" onClick={publishScheduledNow} data-testid="button-publish-due">
-                              Publish Due Now
-                            </Button>
-                            <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={fetchPublishQueue} data-testid="button-refresh-queue">
-                              <RefreshCw className="w-3 h-3" />
-                            </Button>
-                          </div>
+                  <Card className="border border-amber-200 bg-amber-50/30" data-testid="card-publish-queue">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-amber-600" />
+                          <span className="text-sm font-semibold text-gray-700">Scheduled Posts ({publishQueue.length})</span>
+                          {queueLoading && <RefreshCw className="w-3 h-3 animate-spin text-gray-400" />}
                         </div>
-                        <div className="space-y-2 max-h-60 overflow-y-auto">
-                          {publishQueue.map((item: any) => (
-                            <div key={item.id} className="flex items-center gap-3 p-2 rounded-lg bg-white border border-gray-100" data-testid={`queue-item-${item.id}`}>
-                              <div className="flex-1 min-w-0">
-                                <p className="text-xs font-medium text-gray-800 truncate">{item.title}</p>
-                                <p className="text-[10px] text-gray-400">
-                                  {item.scheduledAt ? `Scheduled: ${new Date(item.scheduledAt).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}` : "No date set"}
-                                </p>
+                        <div className="flex items-center gap-2">
+                          {publishQueue.length > 0 && (
+                            <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={publishScheduledNow} data-testid="button-publish-due">
+                              <CheckCircle2 className="w-3 h-3" />
+                              Publish All Due
+                            </Button>
+                          )}
+                          <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={fetchPublishQueue} data-testid="button-refresh-queue">
+                            <RefreshCw className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      </div>
+                      {publishQueue.length === 0 ? (
+                        <div className="text-center py-6">
+                          <Clock className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                          <p className="text-xs text-gray-400">No scheduled posts in the queue.</p>
+                          <p className="text-[10px] text-gray-300 mt-1">Generate a batch of posts with scheduling to see them here.</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-1.5 max-h-80 overflow-y-auto">
+                          {publishQueue.map((item: any, idx: number) => {
+                            const scheduledDate = item.scheduledAt ? new Date(item.scheduledAt) : null;
+                            const isPast = scheduledDate && scheduledDate <= new Date();
+                            const isToday = scheduledDate && scheduledDate.toDateString() === new Date().toDateString();
+                            return (
+                              <div key={item.id} className={`flex items-center gap-3 p-2.5 rounded-lg border ${isPast ? "bg-red-50 border-red-200" : isToday ? "bg-yellow-50 border-yellow-200" : "bg-white border-gray-100"}`} data-testid={`queue-item-${item.id}`}>
+                                <div className="text-[10px] font-bold text-gray-400 w-5 text-center shrink-0">{idx + 1}</div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-medium text-gray-800 truncate">{item.title}</p>
+                                  <div className="flex items-center gap-2 mt-0.5">
+                                    {isPast && <span className="text-[9px] font-bold text-red-500 uppercase">Overdue</span>}
+                                    {isToday && !isPast && <span className="text-[9px] font-bold text-yellow-600 uppercase">Today</span>}
+                                    <span className="text-[10px] text-gray-400">
+                                      {scheduledDate ? scheduledDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " at " + scheduledDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "No date"}
+                                    </span>
+                                    {item.authorName && <span className="text-[10px] text-gray-300">by {item.authorName}</span>}
+                                  </div>
+                                </div>
+                                <input
+                                  type="datetime-local"
+                                  defaultValue={scheduledDate ? scheduledDate.toISOString().slice(0, 16) : ""}
+                                  onChange={(e) => updateQueueItem(item.id, { scheduledAt: e.target.value ? new Date(e.target.value).toISOString() : undefined })}
+                                  className="text-[10px] border rounded px-1.5 py-1 w-40 bg-white"
+                                  data-testid={`input-queue-date-${item.id}`}
+                                />
+                                <Button size="sm" variant="outline" className="h-6 text-[10px] px-2 shrink-0" onClick={() => updateQueueItem(item.id, { status: "published" })} data-testid={`button-queue-publish-${item.id}`}>
+                                  Publish
+                                </Button>
                               </div>
-                              <input
-                                type="date"
-                                defaultValue={item.scheduledAt ? new Date(item.scheduledAt).toISOString().split("T")[0] : ""}
-                                onChange={(e) => updateQueueItem(item.id, { scheduledAt: e.target.value ? e.target.value + "T09:00:00" : undefined })}
-                                className="text-xs border rounded px-2 py-1 w-32 bg-white"
-                                data-testid={`input-queue-date-${item.id}`}
-                              />
-                              <Button size="sm" variant="outline" className="h-6 text-[10px] px-2" onClick={() => updateQueueItem(item.id, { status: "published" })} data-testid={`button-queue-publish-${item.id}`}>
-                                Publish
-                              </Button>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
-                      </CardContent>
-                    </Card>
-                  )}
+                      )}
+                      {publishQueue.length > 0 && (
+                        <div className="mt-3 pt-3 border-t border-amber-200/50 flex items-center justify-between text-[10px] text-gray-400">
+                          <span>
+                            {(() => {
+                              const dates = publishQueue.filter((p: any) => p.scheduledAt).map((p: any) => new Date(p.scheduledAt));
+                              if (dates.length === 0) return "No dates set";
+                              const earliest = new Date(Math.min(...dates.map(d => d.getTime())));
+                              const latest = new Date(Math.max(...dates.map(d => d.getTime())));
+                              return `${earliest.toLocaleDateString("en-US", { month: "short", day: "numeric" })} to ${latest.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+                            })()}
+                          </span>
+                          <span>{publishQueue.filter((p: any) => p.scheduledAt && new Date(p.scheduledAt) <= new Date()).length} overdue</span>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
 
                   <div className="grid grid-cols-3 md:grid-cols-3 gap-3" data-testid="section-quick-actions">
                     <button
