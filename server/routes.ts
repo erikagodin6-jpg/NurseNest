@@ -698,7 +698,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   app.get("/api/content", async (req, res) => {
     try {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      res.setHeader("ETag", `"content-${Date.now()}"`);
+      res.setHeader("Pragma", "no-cache");
       const { status, username, password, type, category } = req.query;
 
       if (status === "all" && username && password) {
@@ -709,7 +709,25 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         }
       }
 
-      const items = await storage.getPublishedContent(type as string | undefined, category as string | undefined);
+      let items = await storage.getPublishedContent(type as string | undefined, category as string | undefined);
+
+      if (items.length === 0) {
+        const { pool } = await import("./storage");
+        let q = "SELECT * FROM content_items WHERE status = 'published'";
+        const params: string[] = [];
+        if (type) {
+          params.push(type as string);
+          q += ` AND type = $${params.length}`;
+        }
+        if (category) {
+          params.push(category as string);
+          q += ` AND category = $${params.length}`;
+        }
+        q += " ORDER BY published_at DESC NULLS LAST";
+        const result = await pool.query(q, params);
+        items = result.rows;
+      }
+
       res.json(items);
     } catch (e: any) {
       console.error("Content API error:", e.message);
@@ -760,7 +778,14 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   app.get("/api/content/slug/:slug", async (req, res) => {
     try {
-      const item = await storage.getContentItemBySlug(req.params.slug);
+      let item = await storage.getContentItemBySlug(req.params.slug);
+
+      if (!item) {
+        const { pool } = await import("./storage");
+        const result = await pool.query("SELECT * FROM content_items WHERE slug = $1 LIMIT 1", [req.params.slug]);
+        item = result.rows[0] || null;
+      }
+
       if (!item) return res.status(404).json({ error: "Content not found" });
       if (item.status !== "published") return res.status(404).json({ error: "Content not found" });
 
