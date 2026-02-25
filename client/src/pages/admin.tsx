@@ -39,6 +39,8 @@ import {
   Calendar,
   Tag,
   Plus,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 
 type AdminData = {
@@ -149,6 +151,12 @@ export default function AdminPage() {
   const [blogConfig, setBlogConfig] = useState<any>(null);
   const [blogGenerating, setBlogGenerating] = useState(false);
   const [blogTopic, setBlogTopic] = useState("");
+  const [batchMode, setBatchMode] = useState(false);
+  const [batchTopics, setBatchTopics] = useState("");
+  const [batchStartDate, setBatchStartDate] = useState("");
+  const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; results: any[] } | null>(null);
+  const [publishQueue, setPublishQueue] = useState<any[]>([]);
+  const [queueLoading, setQueueLoading] = useState(false);
 
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const [blogPostsLoading, setBlogPostsLoading] = useState(false);
@@ -167,6 +175,8 @@ export default function AdminPage() {
   const [socialPosts, setSocialPosts] = useState<any[]>([]);
   const [socialLoading, setSocialLoading] = useState(false);
   const [newPost, setNewPost] = useState({ platform: "facebook", content: "", scheduledAt: "", tier: "rpn", imageUrl: "" });
+  const [metaStatus, setMetaStatus] = useState<any>(null);
+  const [metaLoading, setMetaLoading] = useState(false);
 
   const [promotions, setPromotions] = useState<any[]>([]);
   const [promotionsLoading, setPromotionsLoading] = useState(false);
@@ -295,6 +305,7 @@ export default function AdminPage() {
     }
     if (activeTab === "social" && socialPosts.length === 0 && !socialLoading) {
       fetchSocialPosts();
+      fetchMetaStatus();
     }
     if (activeTab === "promotions" && promotions.length === 0 && !promotionsLoading) {
       fetchPromotions();
@@ -388,6 +399,62 @@ export default function AdminPage() {
       const { username, password } = JSON.parse(stored);
       const res = await fetch(`/api/admin/social-posts/${id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, { method: "DELETE" });
       if (res.ok) setSocialPosts((prev) => prev.filter((p) => p.id !== id));
+    } catch {
+    }
+  }
+
+  async function fetchMetaStatus() {
+    setMetaLoading(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/meta/status?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) setMetaStatus(await res.json());
+    } catch {
+    } finally {
+      setMetaLoading(false);
+    }
+  }
+
+  async function connectMeta() {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/meta/connect?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authUrl) window.location.href = data.authUrl;
+      }
+    } catch {
+    }
+  }
+
+  async function disconnectMeta() {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/meta/disconnect?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, { method: "POST" });
+      if (res.ok) setMetaStatus({ connected: false });
+    } catch {
+    }
+  }
+
+  async function publishNow(postId: string) {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/social/publish-now?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId }),
+      });
+      if (res.ok) {
+        fetchSocialPosts();
+      }
     } catch {
     }
   }
@@ -504,6 +571,94 @@ export default function AdminPage() {
       alert("Failed to generate blog post");
     } finally {
       setBlogGenerating(false);
+    }
+  }
+
+  async function handleBatchGenerate() {
+    const stored = localStorage.getItem("nursenest-credentials");
+    if (!stored) return;
+    const { username, password } = JSON.parse(stored);
+    const topicLines = batchTopics.split("\n").map(t => t.trim()).filter(t => t.length > 0);
+    if (topicLines.length === 0) return;
+
+    setBlogGenerating(true);
+    setBatchProgress({ current: 0, total: topicLines.length, results: [] });
+    try {
+      const res = await fetch("/api/blog/generate-batch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username, password,
+          topics: topicLines,
+          citationStyle: blogConfig?.citationStyle || "apa7",
+          scheduleStartDate: batchStartDate || undefined,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setBatchProgress({ current: data.total, total: data.total, results: data.results });
+        alert(`Batch complete: ${data.generated}/${data.total} posts generated and queued.`);
+        setBatchTopics("");
+        fetchBlogPosts();
+        fetchPublishQueue();
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Batch generation failed");
+      }
+    } catch {
+      alert("Batch generation failed");
+    } finally {
+      setBlogGenerating(false);
+    }
+  }
+
+  async function fetchPublishQueue() {
+    setQueueLoading(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/blog/queue?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) setPublishQueue(await res.json());
+    } catch {
+    } finally {
+      setQueueLoading(false);
+    }
+  }
+
+  async function updateQueueItem(id: string, updates: { scheduledAt?: string; status?: string }) {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      await fetch(`/api/blog/queue/${id}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+      fetchPublishQueue();
+      fetchBlogPosts();
+    } catch {
+    }
+  }
+
+  async function publishScheduledNow() {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/blog/publish-scheduled?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        alert(`Published ${data.published} scheduled posts.`);
+        fetchPublishQueue();
+        fetchBlogPosts();
+      }
+    } catch {
     }
   }
 
@@ -688,6 +843,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (activeTab === "content-engine" && blogPosts.length === 0 && !blogPostsLoading) {
       fetchBlogPosts();
+      fetchPublishQueue();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
@@ -1195,31 +1351,149 @@ export default function AdminPage() {
                 <div className="space-y-6">
                   <Card className="border border-primary/10 mb-4" data-testid="card-ai-generator">
                     <CardContent className="p-4">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Lightbulb className="w-4 h-4 text-primary" />
-                        <span className="text-sm font-semibold text-gray-700">AI Blog Post Generator</span>
-                        <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">APA 7 Citations</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <Input
-                          placeholder="Enter a topic (e.g., 'Diabetic Ketoacidosis management for RPN students')"
-                          value={blogTopic}
-                          onChange={(e) => setBlogTopic(e.target.value)}
-                          className="flex-1 text-sm"
-                          data-testid="input-ai-topic"
-                        />
-                        <Button
-                          onClick={() => { handleGenerateBlogPost(); }}
-                          disabled={blogGenerating || !blogTopic.trim()}
-                          className="shrink-0"
-                          data-testid="button-generate-blog"
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Lightbulb className="w-4 h-4 text-primary" />
+                          <span className="text-sm font-semibold text-gray-700">AI Blog Post Generator</span>
+                          <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">APA 7 Citations</span>
+                        </div>
+                        <button
+                          onClick={() => setBatchMode(!batchMode)}
+                          className={`text-xs px-3 py-1 rounded-full border transition-colors ${batchMode ? "bg-primary text-white border-primary" : "bg-white text-gray-600 border-gray-200 hover:border-primary"}`}
+                          data-testid="button-toggle-batch"
                         >
-                          {blogGenerating ? "Generating..." : "Generate AI Draft"}
-                        </Button>
+                          {batchMode ? "Batch Mode ON" : "Switch to Batch"}
+                        </button>
                       </div>
-                      <p className="text-[10px] text-gray-400 mt-2">Enter a specific nursing topic and click Generate. The AI will create a scholarly draft with APA 7 citations ready for your review.</p>
+
+                      {!batchMode ? (
+                        <>
+                          <div className="flex gap-2">
+                            <Input
+                              placeholder="Enter a topic (e.g., 'Diabetic Ketoacidosis management for RPN students')"
+                              value={blogTopic}
+                              onChange={(e) => setBlogTopic(e.target.value)}
+                              className="flex-1 text-sm"
+                              data-testid="input-ai-topic"
+                            />
+                            <Button
+                              onClick={() => { handleGenerateBlogPost(); }}
+                              disabled={blogGenerating || !blogTopic.trim()}
+                              className="shrink-0"
+                              data-testid="button-generate-blog"
+                            >
+                              {blogGenerating ? "Generating..." : "Generate AI Draft"}
+                            </Button>
+                          </div>
+                          <p className="text-[10px] text-gray-400 mt-2">Enter a specific nursing topic and click Generate. The AI will create a scholarly draft with APA 7 citations ready for your review.</p>
+                        </>
+                      ) : (
+                        <div className="space-y-3">
+                          <Textarea
+                            placeholder={"Enter one topic per line, e.g.:\nDiabetic Ketoacidosis management\nHeart failure nursing interventions\nSepsis identification and early treatment\nPediatric asthma assessment"}
+                            value={batchTopics}
+                            onChange={(e) => setBatchTopics(e.target.value)}
+                            rows={6}
+                            className="text-sm font-mono"
+                            data-testid="input-batch-topics"
+                          />
+                          <div className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Start Publishing Date</label>
+                              <input
+                                type="date"
+                                value={batchStartDate}
+                                onChange={(e) => setBatchStartDate(e.target.value)}
+                                className="w-full border rounded-md px-3 py-1.5 text-sm bg-white"
+                                data-testid="input-batch-start-date"
+                              />
+                            </div>
+                            <div className="text-[10px] text-gray-400 flex-1">
+                              {batchTopics.split("\n").filter(t => t.trim()).length} topics entered.
+                              {batchStartDate && ` Posts will be scheduled 1/day starting ${new Date(batchStartDate + "T09:00:00").toLocaleDateString()}.`}
+                              {!batchStartDate && " First post publishes immediately, rest scheduled 1/day."}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              onClick={handleBatchGenerate}
+                              disabled={blogGenerating || batchTopics.split("\n").filter(t => t.trim()).length === 0}
+                              className="gap-2"
+                              data-testid="button-batch-generate"
+                            >
+                              {blogGenerating ? (
+                                <>
+                                  <RefreshCw className="w-4 h-4 animate-spin" />
+                                  Generating {batchProgress ? `${batchProgress.current}/${batchProgress.total}` : "..."}
+                                </>
+                              ) : (
+                                <>Generate {batchTopics.split("\n").filter(t => t.trim()).length} Posts</>
+                              )}
+                            </Button>
+                            <span className="text-[10px] text-gray-400">Max 20 topics per batch. Each takes ~30 seconds.</span>
+                          </div>
+                          {batchProgress && batchProgress.results.length > 0 && (
+                            <div className="mt-2 p-3 rounded-lg bg-gray-50 border text-xs space-y-1 max-h-40 overflow-y-auto">
+                              {batchProgress.results.map((r: any, i: number) => (
+                                <div key={i} className="flex items-center gap-2">
+                                  {r.status === "success" ? (
+                                    <CheckCircle2 className="w-3 h-3 text-green-500 shrink-0" />
+                                  ) : (
+                                    <XCircle className="w-3 h-3 text-red-500 shrink-0" />
+                                  )}
+                                  <span className="truncate">{r.title || r.topic || `Topic ${r.index + 1}`}</span>
+                                  {r.scheduledAt && <span className="text-gray-400 shrink-0">({new Date(r.scheduledAt).toLocaleDateString()})</span>}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
+
+                  {publishQueue.length > 0 && (
+                    <Card className="border border-amber-200 bg-amber-50/30" data-testid="card-publish-queue">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-amber-600" />
+                            <span className="text-sm font-semibold text-gray-700">Publishing Queue ({publishQueue.length})</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button size="sm" variant="outline" className="h-7 text-xs" onClick={publishScheduledNow} data-testid="button-publish-due">
+                              Publish Due Now
+                            </Button>
+                            <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={fetchPublishQueue} data-testid="button-refresh-queue">
+                              <RefreshCw className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="space-y-2 max-h-60 overflow-y-auto">
+                          {publishQueue.map((item: any) => (
+                            <div key={item.id} className="flex items-center gap-3 p-2 rounded-lg bg-white border border-gray-100" data-testid={`queue-item-${item.id}`}>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-medium text-gray-800 truncate">{item.title}</p>
+                                <p className="text-[10px] text-gray-400">
+                                  {item.scheduledAt ? `Scheduled: ${new Date(item.scheduledAt).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}` : "No date set"}
+                                </p>
+                              </div>
+                              <input
+                                type="date"
+                                defaultValue={item.scheduledAt ? new Date(item.scheduledAt).toISOString().split("T")[0] : ""}
+                                onChange={(e) => updateQueueItem(item.id, { scheduledAt: e.target.value ? e.target.value + "T09:00:00" : undefined })}
+                                className="text-xs border rounded px-2 py-1 w-32 bg-white"
+                                data-testid={`input-queue-date-${item.id}`}
+                              />
+                              <Button size="sm" variant="outline" className="h-6 text-[10px] px-2" onClick={() => updateQueueItem(item.id, { status: "published" })} data-testid={`button-queue-publish-${item.id}`}>
+                                Publish
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
 
                   <div className="grid grid-cols-3 md:grid-cols-3 gap-3" data-testid="section-quick-actions">
                     <button
@@ -2401,6 +2675,50 @@ export default function AdminPage() {
                     </Button>
                   </div>
 
+                  <Card className={`border ${metaStatus?.connected ? "border-green-200 bg-green-50/30" : "border-amber-200 bg-amber-50/30"}`} data-testid="card-meta-connection">
+                    <CardContent className="pt-4 pb-3">
+                      {metaLoading ? (
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <RefreshCw className="w-4 h-4 animate-spin" /> Checking Meta connection...
+                        </div>
+                      ) : metaStatus?.connected ? (
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">f</div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-900">Connected to Meta</p>
+                              <p className="text-xs text-gray-500">
+                                Page: {metaStatus.facebookPageName || "Unknown"}
+                                {metaStatus.instagramUsername && ` | IG: @${metaStatus.instagramUsername}`}
+                                {metaStatus.expired && <span className="text-red-600 ml-2">(Token expired - reconnect)</span>}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {metaStatus.expired && (
+                              <Button size="sm" variant="outline" onClick={connectMeta} className="text-xs" data-testid="button-reconnect-meta">
+                                Reconnect
+                              </Button>
+                            )}
+                            <Button size="sm" variant="ghost" onClick={disconnectMeta} className="text-xs text-red-500" data-testid="button-disconnect-meta">
+                              Disconnect
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">Connect Meta (Facebook & Instagram)</p>
+                            <p className="text-xs text-gray-500">Link your Facebook Page and Instagram Business account to publish posts directly.</p>
+                          </div>
+                          <Button size="sm" onClick={connectMeta} className="gap-2" data-testid="button-connect-meta">
+                            Connect Meta
+                          </Button>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
                   <Card className="border border-primary/10">
                     <CardHeader>
                       <CardTitle className="text-sm">Create New Post</CardTitle>
@@ -2502,11 +2820,18 @@ export default function AdminPage() {
                                   <span className="capitalize">{post.tier}</span>
                                 </div>
                               </div>
-                              {post.status === "draft" && (
-                                <Button size="sm" variant="ghost" className="text-red-500 text-xs" onClick={() => deleteSocialPost(post.id)} data-testid={`button-delete-social-${post.id}`}>
-                                  Delete
-                                </Button>
-                              )}
+                              <div className="flex items-center gap-1 shrink-0">
+                                {(post.status === "draft" || post.status === "scheduled") && metaStatus?.connected && (
+                                  <Button size="sm" variant="outline" className="text-xs" onClick={() => publishNow(post.id)} data-testid={`button-publish-now-${post.id}`}>
+                                    Publish Now
+                                  </Button>
+                                )}
+                                {(post.status === "draft" || post.status === "scheduled") && (
+                                  <Button size="sm" variant="ghost" className="text-red-500 text-xs" onClick={() => deleteSocialPost(post.id)} data-testid={`button-delete-social-${post.id}`}>
+                                    Delete
+                                  </Button>
+                                )}
+                              </div>
                             </div>
                           ))}
                         </div>

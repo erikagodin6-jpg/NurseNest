@@ -473,3 +473,16 @@ export const savedDecks = pgTable("saved_decks", {
   deckId: varchar("deck_id").notNull(),
   savedAt: timestamp("saved_at").defaultNow().notNull(),
 });
+
+export const socialConnections = pgTable("social_connections", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  facebookPageId: text("facebook_page_id"),
+  facebookPageName: text("facebook_page_name"),
+  facebookPageToken: text("facebook_page_token"),
+  instagramBusinessId: text("instagram_business_id"),
+  instagramUsername: text("instagram_username"),
+  tokenExpiresAt: timestamp("token_expires_at"),
+  connectedAt: timestamp("connected_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});

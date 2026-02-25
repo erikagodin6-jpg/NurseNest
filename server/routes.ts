@@ -1971,6 +1971,133 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  app.post("/api/blog/generate-batch", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { topics, citationStyle, scheduleStartDate } = req.body;
+      if (!topics || !Array.isArray(topics) || topics.length === 0) {
+        return res.status(400).json({ error: "topics array is required" });
+      }
+      if (topics.length > 20) {
+        return res.status(400).json({ error: "Maximum 20 topics per batch" });
+      }
+
+      const results: any[] = [];
+      const startDate = scheduleStartDate ? new Date(scheduleStartDate) : new Date();
+
+      for (let i = 0; i < topics.length; i++) {
+        const topicEntry = topics[i];
+        const topicText = typeof topicEntry === "string" ? topicEntry : topicEntry.topic;
+        const dayOffset = typeof topicEntry === "string" ? i : (topicEntry.dayOffset ?? i);
+
+        if (!topicText || !topicText.trim()) {
+          results.push({ index: i, status: "skipped", reason: "Empty topic" });
+          continue;
+        }
+
+        try {
+          const post = await generateBlogPost(topicText.trim(), citationStyle || "apa7");
+          const isDup = await storage.checkDuplicateSlug(post.slug);
+          const finalSlug = isDup ? `${post.slug}-${Date.now()}` : post.slug;
+
+          const scheduledDate = new Date(startDate);
+          scheduledDate.setDate(scheduledDate.getDate() + dayOffset);
+          scheduledDate.setHours(9, 0, 0, 0);
+
+          const isImmediate = dayOffset === 0 && i === 0;
+
+          const created = await storage.createContentItem({
+            title: post.title,
+            slug: finalSlug,
+            type: "blog",
+            category: "nursing-education",
+            tier: "free",
+            status: isImmediate ? "published" : "scheduled",
+            tags: post.tags,
+            summary: post.summary,
+            content: post.content,
+            seoTitle: post.seoTitle,
+            seoDescription: post.seoDescription,
+            seoKeywords: post.seoKeywords,
+            primaryKeyword: post.primaryKeyword,
+            publishedAt: isImmediate ? new Date() : null,
+            scheduledAt: isImmediate ? null : scheduledDate,
+            autoPublish: true,
+            authorName: "Erika Godin, RN",
+          });
+
+          results.push({ index: i, status: "success", id: created.id, title: created.title, scheduledAt: isImmediate ? null : scheduledDate.toISOString() });
+        } catch (err: any) {
+          results.push({ index: i, status: "failed", topic: topicText, error: err.message });
+        }
+      }
+
+      res.json({ total: topics.length, generated: results.filter(r => r.status === "success").length, results });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/blog/queue", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`
+        SELECT * FROM content_items
+        WHERE status = 'scheduled' AND type = 'blog'
+        ORDER BY scheduled_at ASC NULLS LAST
+      `);
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/blog/queue/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { id } = req.params;
+      const { scheduledAt, status } = req.body;
+      const updates: any = {};
+      if (scheduledAt !== undefined) updates.scheduled_at = scheduledAt ? new Date(scheduledAt) : null;
+      if (status) {
+        updates.status = status;
+        if (status === "published") {
+          updates.published_at = new Date();
+          updates.scheduled_at = null;
+        }
+      }
+      const setClauses = Object.entries(updates).map(([key], i) => `${key} = $${i + 2}`).join(", ");
+      const values = Object.values(updates);
+      if (setClauses) {
+        await pool.query(`UPDATE content_items SET ${setClauses}, updated_at = NOW() WHERE id = $1`, [id, ...values]);
+      }
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/blog/publish-scheduled", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const now = new Date();
+      const result = await pool.query(`
+        UPDATE content_items
+        SET status = 'published', published_at = NOW(), scheduled_at = NULL, updated_at = NOW()
+        WHERE status = 'scheduled' AND scheduled_at <= $1 AND type = 'blog'
+        RETURNING id, title
+      `, [now]);
+      res.json({ published: result.rows.length, posts: snakeToCamel(result.rows) });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/blog/run-scheduler", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -2572,6 +2699,191 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       }));
       const saved = await storage.saveDashboardWidgets(userId, sanitized);
       res.json(saved);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Meta OAuth Connect Flow
+  // --------------------
+  app.get("/api/meta/connect", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const appId = process.env.META_APP_ID;
+      const redirectUri = process.env.META_REDIRECT_URI || `${req.protocol}://${req.get("host")}/api/meta/callback`;
+      if (!appId) return res.status(500).json({ error: "META_APP_ID not configured" });
+      const scopes = "pages_show_list,pages_read_engagement,pages_manage_posts,instagram_basic,instagram_content_publish,business_management";
+      const authUrl = `https://www.facebook.com/v19.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=code&state=${admin.id}`;
+      res.json({ authUrl });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/meta/callback", async (req, res) => {
+    try {
+      const { code, state } = req.query;
+      if (!code) return res.redirect("/admin?tab=social&error=no_code");
+      const appId = process.env.META_APP_ID;
+      const appSecret = process.env.META_APP_SECRET;
+      const redirectUri = process.env.META_REDIRECT_URI || `${req.protocol}://${req.get("host")}/api/meta/callback`;
+      if (!appId || !appSecret) return res.redirect("/admin?tab=social&error=missing_config");
+
+      const tokenRes = await fetch(
+        `https://graph.facebook.com/v19.0/oauth/access_token?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&client_secret=${appSecret}&code=${code}`
+      );
+      const tokenData = await tokenRes.json() as any;
+      if (!tokenData.access_token) return res.redirect("/admin?tab=social&error=token_failed");
+
+      const longLivedRes = await fetch(
+        `https://graph.facebook.com/v19.0/oauth/access_token?grant_type=fb_exchange_token&client_id=${appId}&client_secret=${appSecret}&fb_exchange_token=${tokenData.access_token}`
+      );
+      const longLivedData = await longLivedRes.json() as any;
+      const longToken = longLivedData.access_token || tokenData.access_token;
+
+      const pagesRes = await fetch(`https://graph.facebook.com/v19.0/me/accounts?access_token=${longToken}`);
+      const pagesData = await pagesRes.json() as any;
+      const pages = pagesData.data || [];
+      if (pages.length === 0) return res.redirect("/admin?tab=social&error=no_pages");
+
+      const page = pages[0];
+      const pageToken = page.access_token;
+      const pageId = page.id;
+      const pageName = page.name;
+
+      let igAccountId = "";
+      let igUsername = "";
+      try {
+        const igRes = await fetch(`https://graph.facebook.com/v19.0/${pageId}?fields=instagram_business_account&access_token=${pageToken}`);
+        const igData = await igRes.json() as any;
+        if (igData.instagram_business_account?.id) {
+          igAccountId = igData.instagram_business_account.id;
+          const igInfoRes = await fetch(`https://graph.facebook.com/v19.0/${igAccountId}?fields=username&access_token=${pageToken}`);
+          const igInfo = await igInfoRes.json() as any;
+          igUsername = igInfo.username || "";
+        }
+      } catch {}
+
+      const expiresAt = longLivedData.expires_in
+        ? new Date(Date.now() + longLivedData.expires_in * 1000).toISOString()
+        : new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString();
+
+      await pool.query(`
+        INSERT INTO social_connections (id, user_id, facebook_page_id, facebook_page_name, facebook_page_token,
+          instagram_business_id, instagram_username, token_expires_at, connected_at, updated_at)
+        VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
+        ON CONFLICT (user_id) DO UPDATE SET
+          facebook_page_id = $2, facebook_page_name = $3, facebook_page_token = $4,
+          instagram_business_id = $5, instagram_username = $6, token_expires_at = $7, updated_at = NOW()
+      `, [state, pageId, pageName, pageToken, igAccountId, igUsername, expiresAt]);
+
+      res.redirect(`/admin?tab=social&connected=true&page=${encodeURIComponent(pageName)}&ig=${encodeURIComponent(igUsername)}`);
+    } catch (e: any) {
+      console.error("Meta callback error:", e.message);
+      res.redirect(`/admin?tab=social&error=${encodeURIComponent(e.message)}`);
+    }
+  });
+
+  app.get("/api/meta/status", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query("SELECT * FROM social_connections WHERE user_id = $1", [admin.id]);
+      if (result.rows.length === 0) return res.json({ connected: false });
+      const conn = snakeToCamel(result.rows)[0];
+      res.json({
+        connected: true,
+        facebookPageName: conn.facebookPageName,
+        facebookPageId: conn.facebookPageId,
+        instagramUsername: conn.instagramUsername,
+        instagramBusinessId: conn.instagramBusinessId,
+        tokenExpiresAt: conn.tokenExpiresAt,
+        expired: new Date(conn.tokenExpiresAt) < new Date(),
+      });
+    } catch (e: any) {
+      res.json({ connected: false });
+    }
+  });
+
+  app.post("/api/meta/disconnect", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await pool.query("DELETE FROM social_connections WHERE user_id = $1", [admin.id]);
+      res.json({ disconnected: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/social/publish-now", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { postId } = req.body;
+      if (!postId) return res.status(400).json({ error: "postId required" });
+
+      const connResult = await pool.query("SELECT * FROM social_connections WHERE user_id = $1", [admin.id]);
+      if (connResult.rows.length === 0) return res.status(400).json({ error: "No Meta account connected" });
+      const conn = connResult.rows[0];
+
+      const post = await storage.getSocialPost(postId);
+      if (!post) return res.status(404).json({ error: "Post not found" });
+
+      const results: any[] = [];
+
+      if (post.platform === "facebook" || post.platform === "both") {
+        try {
+          const fbRes = await fetch(`https://graph.facebook.com/v19.0/${conn.facebook_page_id}/feed`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: post.content, access_token: conn.facebook_page_token }),
+          });
+          const fbData = await fbRes.json() as any;
+          results.push({ platform: "facebook", success: !!fbData.id, postId: fbData.id, error: fbData.error?.message });
+        } catch (e: any) {
+          results.push({ platform: "facebook", success: false, error: e.message });
+        }
+      }
+
+      if ((post.platform === "instagram" || post.platform === "both") && conn.instagram_business_id) {
+        try {
+          if (post.imageUrl) {
+            const containerRes = await fetch(`https://graph.facebook.com/v19.0/${conn.instagram_business_id}/media`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ image_url: post.imageUrl, caption: post.content, access_token: conn.facebook_page_token }),
+            });
+            const containerData = await containerRes.json() as any;
+            if (containerData.id) {
+              const publishRes = await fetch(`https://graph.facebook.com/v19.0/${conn.instagram_business_id}/media_publish`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ creation_id: containerData.id, access_token: conn.facebook_page_token }),
+              });
+              const publishData = await publishRes.json() as any;
+              results.push({ platform: "instagram", success: !!publishData.id, postId: publishData.id, error: publishData.error?.message });
+            } else {
+              results.push({ platform: "instagram", success: false, error: containerData.error?.message || "Container creation failed" });
+            }
+          } else {
+            results.push({ platform: "instagram", success: false, error: "Image URL required for Instagram" });
+          }
+        } catch (e: any) {
+          results.push({ platform: "instagram", success: false, error: e.message });
+        }
+      }
+
+      const allSuccess = results.every(r => r.success);
+      await storage.updateSocialPost(postId, {
+        status: allSuccess ? "published" : "failed",
+        publishedAt: allSuccess ? new Date() : undefined,
+        platformPostId: results.find(r => r.postId)?.postId || null,
+      });
+
+      res.json({ results });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

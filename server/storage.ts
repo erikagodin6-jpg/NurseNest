@@ -57,6 +57,7 @@ export interface IStorage {
   getEmailSubscriberByEmail(email: string): Promise<EmailSubscriber | undefined>;
   getAllSocialPosts(): Promise<SocialPost[]>;
   getScheduledSocialPosts(): Promise<SocialPost[]>;
+  getSocialPost(id: string): Promise<SocialPost | undefined>;
   createSocialPost(data: InsertSocialPost): Promise<SocialPost>;
   updateSocialPost(id: string, updates: Partial<SocialPost>): Promise<SocialPost>;
   deleteSocialPost(id: string): Promise<void>;
@@ -508,6 +509,11 @@ export class DatabaseStorage implements IStorage {
 
   async getAllSocialPosts(): Promise<SocialPost[]> {
     return db.select().from(socialPosts).orderBy(desc(socialPosts.createdAt));
+  }
+
+  async getSocialPost(id: string): Promise<SocialPost | undefined> {
+    const [post] = await db.select().from(socialPosts).where(eq(socialPosts.id, id));
+    return post;
   }
 
   async getScheduledSocialPosts(): Promise<SocialPost[]> {

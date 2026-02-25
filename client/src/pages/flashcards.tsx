@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DeckHub, DeckView, DeckEditor, DeckStudyLearn, DeckStudyTest, DeckReportCard } from "@/components/deck-views";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   ChevronRight, 
@@ -1951,6 +1952,189 @@ export default function Flashcards() {
               <RefreshCw className="w-6 h-6 text-primary animate-spin" />
             </div>
           )}
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "decks" || view === "browse-decks") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
+          <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-decks">
+            <ArrowLeft className="w-4 h-4" /> Back to Configuration
+          </Button>
+          <DeckHub
+            user={user}
+            isPaid={!!isPaid}
+            setView={setView}
+            setLocation={setLocation}
+            myDecks={myDecks}
+            setMyDecks={setMyDecks}
+            publicDecks={publicDecks}
+            savedDecksList={savedDecksList}
+            currentDeck={currentDeck}
+            setCurrentDeck={setCurrentDeck}
+            deckCards={deckCards}
+            deckLoading={deckLoading}
+            entitlement={entitlement}
+            deckTab={deckTab}
+            setDeckTab={setDeckTab}
+            deckSearchQuery={deckSearchQuery}
+            setDeckSearchQuery={setDeckSearchQuery}
+            fetchMyDecks={fetchMyDecks}
+            fetchPublicDecks={fetchPublicDecks}
+            fetchSavedDecks={fetchSavedDecks}
+            fetchDeckCards={fetchDeckCards}
+            fetchEntitlement={fetchEntitlement}
+            createDeck={createDeck}
+            deleteDeck={deleteDeck}
+            saveDeck={saveDeck}
+            duplicateDeck={duplicateDeck}
+            newDeckTitle={newDeckTitle}
+            setNewDeckTitle={setNewDeckTitle}
+            newDeckDescription={newDeckDescription}
+            setNewDeckDescription={setNewDeckDescription}
+            newDeckVisibility={newDeckVisibility}
+            setNewDeckVisibility={setNewDeckVisibility}
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "deck-view") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <DeckView
+            user={user}
+            isPaid={!!isPaid}
+            setView={setView}
+            setLocation={setLocation}
+            currentDeck={currentDeck}
+            setCurrentDeck={setCurrentDeck}
+            deckCards={deckCards}
+            fetchDeckCards={fetchDeckCards}
+            startDeckStudy={startDeckStudy}
+            deleteDeck={deleteDeck}
+            saveDeck={saveDeck}
+            duplicateDeck={duplicateDeck}
+            reportDeck={reportDeck}
+            entitlement={entitlement}
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "deck-edit") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <DeckEditor
+            user={user}
+            isPaid={!!isPaid}
+            setView={setView}
+            setLocation={setLocation}
+            currentDeck={currentDeck}
+            deckCards={deckCards}
+            setDeckCards={setDeckCards}
+            addCardToDeck={addCardToDeck}
+            deleteDeckCard={deleteDeckCard}
+            aiCheckCard={aiCheckCard}
+            handleCsvImport={handleCsvImport}
+            entitlement={entitlement}
+            newCardFront={newCardFront}
+            setNewCardFront={setNewCardFront}
+            newCardBack={newCardBack}
+            setNewCardBack={setNewCardBack}
+            newCardRationale={newCardRationale}
+            setNewCardRationale={setNewCardRationale}
+            aiCheckResult={aiCheckResult}
+            aiChecking={aiChecking}
+            csvImportText={csvImportText}
+            setCsvImportText={setCsvImportText}
+            showCsvImport={showCsvImport}
+            setShowCsvImport={setShowCsvImport}
+            fetchDeckCards={fetchDeckCards}
+            fetchEntitlement={fetchEntitlement}
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "deck-study-learn") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <DeckStudyLearn
+            user={user}
+            setView={setView}
+            currentDeck={currentDeck}
+            deckStudyQueue={deckStudyQueue}
+            deckStudyIndex={deckStudyIndex}
+            deckStudyFlipped={deckStudyFlipped}
+            setDeckStudyFlipped={setDeckStudyFlipped}
+            deckStudyCorrect={deckStudyCorrect}
+            deckStudyIncorrect={deckStudyIncorrect}
+            handleDeckStudyAnswer={handleDeckStudyAnswer}
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "deck-study-test") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <DeckStudyTest
+            user={user}
+            setView={setView}
+            currentDeck={currentDeck}
+            deckStudyQueue={deckStudyQueue}
+            deckStudyIndex={deckStudyIndex}
+            deckStudyFlipped={deckStudyFlipped}
+            setDeckStudyFlipped={setDeckStudyFlipped}
+            deckStudyCorrect={deckStudyCorrect}
+            deckStudyIncorrect={deckStudyIncorrect}
+            handleDeckStudyAnswer={handleDeckStudyAnswer}
+            deckStudyStartTime={deckStudyStartTime}
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "deck-report") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <DeckReportCard
+            setView={setView}
+            currentDeck={currentDeck}
+            deckStudyCorrect={deckStudyCorrect}
+            deckStudyIncorrect={deckStudyIncorrect}
+            deckStudyQueue={deckStudyQueue}
+            deckStudyStartTime={deckStudyStartTime}
+            deckStudyMissed={deckStudyMissed}
+            deckCards={deckCards}
+            startDeckStudy={startDeckStudy}
+          />
         </main>
         <Footer />
       </div>
