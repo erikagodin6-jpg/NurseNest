@@ -58,16 +58,62 @@ interface Problem {
   safetyNote?: string;
 }
 
-const medications = [
-  "Morphine", "Furosemide", "Digoxin", "Metoprolol", "Amoxicillin",
-  "Vancomycin", "Heparin", "Dopamine", "Gentamicin", "Ceftriaxone",
-  "Lisinopril", "Phenytoin", "Acetaminophen", "Ibuprofen", "Ketorolac",
+interface MedProfile {
+  name: string;
+  tabletStrengths: number[];
+  oralSuspension?: { mg: number; ml: number }[];
+  injectable?: { mg: number; ml: number }[];
+  typicalOralDoses: number[];
+  typicalInjDoses?: number[];
+  maxSingleDose?: number;
+  route: string[];
+  mgPerKgRange?: [number, number];
+  unit?: string;
+}
+
+const medProfiles: MedProfile[] = [
+  { name: "Morphine", tabletStrengths: [15, 30], injectable: [{ mg: 10, ml: 1 }, { mg: 4, ml: 1 }, { mg: 2, ml: 1 }], typicalOralDoses: [15, 30], typicalInjDoses: [2, 4, 6, 8, 10], route: ["PO", "IV", "IM", "subQ"], mgPerKgRange: [0.1, 0.2] },
+  { name: "Furosemide", tabletStrengths: [20, 40, 80], injectable: [{ mg: 10, ml: 1 }, { mg: 20, ml: 2 }, { mg: 40, ml: 4 }], typicalOralDoses: [20, 40, 80], typicalInjDoses: [10, 20, 40], route: ["PO", "IV"], mgPerKgRange: [0.5, 2.0] },
+  { name: "Metoprolol", tabletStrengths: [25, 50, 100], typicalOralDoses: [25, 50, 100], injectable: [{ mg: 5, ml: 5 }], typicalInjDoses: [5], route: ["PO", "IV"] },
+  { name: "Amoxicillin", tabletStrengths: [250, 500, 875], oralSuspension: [{ mg: 125, ml: 5 }, { mg: 250, ml: 5 }, { mg: 400, ml: 5 }], typicalOralDoses: [250, 500, 875], route: ["PO"], mgPerKgRange: [25, 45] },
+  { name: "Lisinopril", tabletStrengths: [2.5, 5, 10, 20, 40], typicalOralDoses: [5, 10, 20, 40], route: ["PO"] },
+  { name: "Acetaminophen", tabletStrengths: [325, 500, 650], oralSuspension: [{ mg: 160, ml: 5 }], typicalOralDoses: [325, 500, 650, 1000], route: ["PO"], maxSingleDose: 1000, mgPerKgRange: [10, 15] },
+  { name: "Ibuprofen", tabletStrengths: [200, 400, 600, 800], oralSuspension: [{ mg: 100, ml: 5 }], typicalOralDoses: [200, 400, 600, 800], route: ["PO"], maxSingleDose: 800, mgPerKgRange: [5, 10] },
+  { name: "Ketorolac", tabletStrengths: [10], injectable: [{ mg: 30, ml: 1 }, { mg: 15, ml: 1 }], typicalOralDoses: [10], typicalInjDoses: [15, 30], route: ["PO", "IM", "IV"], maxSingleDose: 30 },
+  { name: "Digoxin", tabletStrengths: [0.125, 0.25], injectable: [{ mg: 0.5, ml: 2 }, { mg: 0.25, ml: 1 }], typicalOralDoses: [0.125, 0.25], typicalInjDoses: [0.25, 0.5], route: ["PO", "IV"], unit: "mg" },
+  { name: "Phenytoin", tabletStrengths: [100], oralSuspension: [{ mg: 125, ml: 5 }], typicalOralDoses: [100, 200, 300], route: ["PO"], mgPerKgRange: [5, 7] },
+  { name: "Ceftriaxone", injectable: [{ mg: 250, ml: 1 }, { mg: 1000, ml: 3.6 }, { mg: 2000, ml: 6.4 }], typicalInjDoses: [250, 500, 1000, 2000], tabletStrengths: [], typicalOralDoses: [], route: ["IV", "IM"], mgPerKgRange: [25, 75] },
+  { name: "Vancomycin", injectable: [{ mg: 500, ml: 10 }, { mg: 1000, ml: 20 }], typicalInjDoses: [500, 750, 1000, 1500], tabletStrengths: [125, 250], typicalOralDoses: [125, 250], route: ["IV", "PO"], mgPerKgRange: [10, 15] },
+  { name: "Gentamicin", injectable: [{ mg: 80, ml: 2 }, { mg: 40, ml: 1 }], typicalInjDoses: [40, 80, 120, 160], tabletStrengths: [], typicalOralDoses: [], route: ["IV", "IM"], mgPerKgRange: [1.0, 2.5] },
+  { name: "Prednisone", tabletStrengths: [1, 5, 10, 20, 50], typicalOralDoses: [5, 10, 20, 40, 60], route: ["PO"], mgPerKgRange: [0.5, 2.0] },
+  { name: "Ondansetron", tabletStrengths: [4, 8], injectable: [{ mg: 4, ml: 2 }], oralSuspension: [{ mg: 4, ml: 5 }], typicalOralDoses: [4, 8], typicalInjDoses: [4], route: ["PO", "IV"], mgPerKgRange: [0.1, 0.15] },
 ];
 
-const pedsMeds = [
-  "Amoxicillin", "Acetaminophen", "Ibuprofen", "Cephalexin", "Azithromycin",
-  "Clindamycin", "Ondansetron", "Dexamethasone", "Prednisolone", "Trimethoprim",
+const medications = medProfiles.map(m => m.name);
+
+interface PedsMedProfile {
+  name: string;
+  suspensions: { mg: number; ml: number }[];
+  mgPerKgPerDose: [number, number];
+  maxSingleDose: number;
+  typicalDivisions: number[];
+  injectable?: { mg: number; ml: number }[];
+}
+
+const pedsMedProfiles: PedsMedProfile[] = [
+  { name: "Amoxicillin", suspensions: [{ mg: 125, ml: 5 }, { mg: 250, ml: 5 }, { mg: 400, ml: 5 }], mgPerKgPerDose: [12.5, 25], maxSingleDose: 500, typicalDivisions: [2, 3] },
+  { name: "Acetaminophen", suspensions: [{ mg: 160, ml: 5 }], mgPerKgPerDose: [10, 15], maxSingleDose: 1000, typicalDivisions: [4] },
+  { name: "Ibuprofen", suspensions: [{ mg: 100, ml: 5 }], mgPerKgPerDose: [5, 10], maxSingleDose: 400, typicalDivisions: [3, 4] },
+  { name: "Cephalexin", suspensions: [{ mg: 125, ml: 5 }, { mg: 250, ml: 5 }], mgPerKgPerDose: [6.25, 12.5], maxSingleDose: 500, typicalDivisions: [2, 4] },
+  { name: "Azithromycin", suspensions: [{ mg: 100, ml: 5 }, { mg: 200, ml: 5 }], mgPerKgPerDose: [5, 10], maxSingleDose: 500, typicalDivisions: [1] },
+  { name: "Clindamycin", suspensions: [{ mg: 75, ml: 5 }], mgPerKgPerDose: [5, 10], maxSingleDose: 450, typicalDivisions: [3, 4], injectable: [{ mg: 150, ml: 1 }] },
+  { name: "Ondansetron", suspensions: [{ mg: 4, ml: 5 }], mgPerKgPerDose: [0.1, 0.15], maxSingleDose: 4, typicalDivisions: [3], injectable: [{ mg: 4, ml: 2 }] },
+  { name: "Dexamethasone", suspensions: [{ mg: 1, ml: 1 }], mgPerKgPerDose: [0.15, 0.6], maxSingleDose: 10, typicalDivisions: [1, 2] },
+  { name: "Prednisolone", suspensions: [{ mg: 15, ml: 5 }], mgPerKgPerDose: [0.5, 2.0], maxSingleDose: 60, typicalDivisions: [1, 2] },
+  { name: "Trimethoprim", suspensions: [{ mg: 40, ml: 5 }], mgPerKgPerDose: [4, 6], maxSingleDose: 320, typicalDivisions: [2] },
 ];
+
+const pedsMeds = pedsMedProfiles.map(m => m.name);
 
 const ivFluids = [
   "Normal Saline (0.9% NaCl)", "D5W", "Lactated Ringer's", "D5 0.45% NaCl",
