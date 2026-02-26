@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useI18n } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import {
   AnatomyLabeling,
   MatchingExercise,
@@ -46,6 +49,12 @@ import {
   FlaskConical,
   Target,
   Layers,
+  Pencil,
+  Save,
+  Wand2,
+  Loader2,
+  Plus,
+  Trash2,
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { ScienceFoundationsModule } from "@/data/pre-nursing-science";
@@ -333,10 +342,207 @@ const pathoFindings = [
   { id: "f8", text: "Mental status: confused", isAbnormal: true, explanation: "Altered LOC: indicates decreased cerebral perfusion, a late sign of decompensation." },
 ];
 
+type ModuleOverride = {
+  title?: string;
+  description?: string;
+  supplementalContent?: string[];
+};
+
+function PreNursingModuleEditor({
+  moduleId,
+  moduleName,
+  overrides,
+  onSave,
+}: {
+  moduleId: string;
+  moduleName: string;
+  overrides: ModuleOverride;
+  onSave: (data: ModuleOverride) => Promise<void>;
+}) {
+  const [editTitle, setEditTitle] = useState(overrides.title || "");
+  const [editDesc, setEditDesc] = useState(overrides.description || "");
+  const [editContent, setEditContent] = useState<string[]>(overrides.supplementalContent || []);
+  const [saving, setSaving] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const data: ModuleOverride = {};
+      if (editTitle.trim()) data.title = editTitle;
+      if (editDesc.trim()) data.description = editDesc;
+      if (editContent.length > 0 && editContent.some((c) => c.trim())) data.supplementalContent = editContent.filter((c) => c.trim());
+      await onSave(data);
+      toast({ title: "Saved", description: `${moduleName} content updated` });
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const generateWithAI = async () => {
+    if (!aiPrompt.trim()) {
+      toast({ title: "Enter a prompt", description: "Describe what to generate", variant: "destructive" });
+      return;
+    }
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    if (!creds.username) return;
+    setAiLoading(true);
+    try {
+      const res = await fetch("/api/ai/generate-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          prompt: `For the pre-nursing module "${moduleName}", ${aiPrompt}. Return as JSON: {"paragraphs":["paragraph 1","paragraph 2","paragraph 3"]}. Each paragraph should be educational, detailed, and appropriate for pre-nursing students.`,
+          mode: "generate",
+        }),
+      });
+      if (!res.ok) throw new Error("AI generation failed");
+      const data = await res.json();
+      const blocks = data.blocks || [];
+      let found = false;
+      const jsonBlock = blocks.find((b: any) => b.content && b.content.includes('"paragraphs"'));
+      if (jsonBlock) {
+        try {
+          const jsonMatch = jsonBlock.content.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            if (parsed.paragraphs) {
+              setEditContent(parsed.paragraphs);
+              found = true;
+            }
+          }
+        } catch {}
+      }
+      if (!found && blocks.length > 0) {
+        const paragraphs = blocks.filter((b: any) => b.type === "paragraph" && b.content).map((b: any) => b.content);
+        if (paragraphs.length > 0) {
+          setEditContent(paragraphs);
+          found = true;
+        }
+      }
+      if (found) {
+        toast({ title: "AI Generated", description: "Content generated. Review and save." });
+      } else {
+        toast({ title: "No content", description: "AI did not return usable content. Try a different prompt.", variant: "destructive" });
+      }
+      setAiPrompt("");
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4 border-2 border-purple-200 rounded-xl p-4 bg-purple-50/30 mb-6" data-testid={`editor-prenursing-${moduleId}`}>
+      <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+        <Pencil className="w-4 h-4" />
+        Admin Inline Editor: {moduleName}
+      </div>
+      <div className="space-y-3">
+        <div>
+          <label className="text-xs font-medium text-gray-600">Override Title (leave empty to keep default)</label>
+          <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder={moduleName} className="mt-1" data-testid={`input-prenursing-title-${moduleId}`} />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-600">Override Description</label>
+          <Input value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Custom module description..." className="mt-1" data-testid={`input-prenursing-desc-${moduleId}`} />
+        </div>
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-medium text-gray-600">Supplemental Content Paragraphs ({editContent.length})</label>
+            <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-content-${moduleId}`}>
+              <Plus className="w-3 h-3" /> Add Paragraph
+            </Button>
+          </div>
+          {editContent.map((p, idx) => (
+            <div key={idx} className="flex gap-2 mb-2">
+              <textarea
+                value={p}
+                onChange={(e) => {
+                  const updated = [...editContent];
+                  updated[idx] = e.target.value;
+                  setEditContent(updated);
+                }}
+                className="flex-1 text-sm p-3 border rounded-lg min-h-[80px] resize-y focus:ring-2 focus:ring-purple-300 focus:border-purple-400"
+                placeholder="Educational content paragraph..."
+                data-testid={`textarea-prenursing-content-${moduleId}-${idx}`}
+              />
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 shrink-0 mt-1" onClick={() => setEditContent(editContent.filter((_, i) => i !== idx))} data-testid={`button-remove-content-${moduleId}-${idx}`}>
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
+        <div className="border border-purple-200 rounded-lg p-3 bg-white space-y-2">
+          <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">
+            <Wand2 className="w-3.5 h-3.5" />
+            AI Content Generation
+          </div>
+          <div className="flex gap-2">
+            <Input
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              placeholder="e.g. Generate comprehensive content about cell biology for pre-nursing..."
+              className="text-sm"
+              onKeyDown={(e) => { if (e.key === "Enter") generateWithAI(); }}
+              data-testid={`input-ai-prompt-prenursing-${moduleId}`}
+            />
+            <Button size="sm" className="gap-1 bg-purple-600 hover:bg-purple-700 shrink-0" onClick={generateWithAI} disabled={aiLoading} data-testid={`button-ai-generate-prenursing-${moduleId}`}>
+              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+              Generate
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <Button size="sm" onClick={handleSave} disabled={saving} className="gap-1" data-testid={`button-save-prenursing-${moduleId}`}>
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          Save Changes
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function SupplementalContent({ moduleId }: { moduleId: string }) {
+  const [content, setContent] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch(`/api/lesson-overrides/prenursing-${moduleId}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.supplementalContent?.length) setContent(data.supplementalContent);
+      })
+      .catch(() => {});
+  }, [moduleId]);
+
+  if (content.length === 0) return null;
+
+  return (
+    <div className="space-y-3 mt-6 pt-4 border-t border-gray-200" data-testid={`supplemental-${moduleId}`}>
+      {content.map((p, idx) => (
+        <p key={idx} className="text-sm text-gray-700 leading-relaxed">{p}</p>
+      ))}
+    </div>
+  );
+}
+
 export default function PreNursingPage() {
   const [, setLocation] = useLocation();
   const [activeModule, setActiveModule] = useState<ModuleId | null>(null);
+  const [isContentEditing, setIsContentEditing] = useState(false);
+  const [moduleOverrides, setModuleOverrides] = useState<Record<string, ModuleOverride>>({});
   const { t } = useI18n();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const isAdmin = user?.tier === "admin";
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -346,37 +552,95 @@ export default function PreNursingPage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (activeModule) {
+      fetch(`/api/lesson-overrides/prenursing-${activeModule}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data && Object.keys(data).length > 0) {
+            setModuleOverrides((prev) => ({ ...prev, [activeModule]: data }));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [activeModule]);
+
+  const saveModuleOverride = useCallback(async (moduleId: string, data: ModuleOverride) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    const res = await fetch(`/api/lesson-overrides/prenursing-${moduleId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "x-user-tier": user?.tier || "" },
+      body: JSON.stringify({ ...data, username: creds.username, password: creds.password }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Save failed");
+    }
+    setModuleOverrides((prev) => ({ ...prev, [moduleId]: { ...prev[moduleId], ...data } }));
+  }, [user]);
+
+  const moduleComponents: Record<string, { component: React.ReactNode; name: string }> = {
+    "cell-biology": { component: <CellBiologyModule />, name: "Cell Biology" },
+    "physiology": { component: <PhysiologyModule />, name: "Physiology Principles" },
+    "terminology": { component: <TerminologyModule />, name: "Medical Terminology" },
+    "pharmacology": { component: <PharmacologyModule />, name: "Intro Pharmacology" },
+    "pathophysiology": { component: <PathophysiologyModule />, name: "Intro Pathophysiology" },
+    "science-foundations": { component: <ScienceFoundationsModule />, name: "Science Foundations" },
+    "anatomy-physiology": { component: <AnatomyPhysiologyModule />, name: "Anatomy & Physiology" },
+    "research-statistics": { component: <ResearchStatisticsModule />, name: "Research & Statistics" },
+    "medical-terminology": { component: <MedicalTerminologyModule />, name: "Medical Terminology Extended" },
+    "chemistry": { component: <ChemistryModule />, name: "Chemistry" },
+    "microbiology": { component: <MicrobiologyModule />, name: "Microbiology" },
+    "infection-control": { component: <InfectionControlModule />, name: "Infection Control" },
+    "fluids-electrolytes": { component: <FluidsElectrolytesModule />, name: "Fluids & Electrolytes" },
+    "communication": { component: <CommunicationModule />, name: "Communication" },
+    "ethics-legal": { component: <EthicsLegalModule />, name: "Ethics & Legal" },
+    "study-strategies": { component: <StudyStrategiesModule />, name: "Study Strategies" },
+  };
+
   if (activeModule) {
     const activeModuleData = modules.find((m) => m.id === activeModule);
+    const mc = moduleComponents[activeModule];
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <SEO title={`Pre-Nursing: ${activeModuleData ? t(activeModuleData.titleKey) : ''} | NurseNest`} description="Free pre-nursing foundations modules" />
         <Navigation />
         <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
-          <button
-            onClick={() => setActiveModule(null)}
-            className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary mb-6 transition-colors"
-            data-testid="button-back-modules"
-          >
-            <ArrowLeft className="w-4 h-4" /> {t("preNursing.backToModules")}
-          </button>
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={() => setActiveModule(null)}
+              className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors"
+              data-testid="button-back-modules"
+            >
+              <ArrowLeft className="w-4 h-4" /> {t("preNursing.backToModules")}
+            </button>
+            {isAdmin && (
+              <button
+                onClick={() => setIsContentEditing(!isContentEditing)}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  isContentEditing
+                    ? "bg-purple-100 text-purple-800 border border-purple-300"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+                data-testid="button-toggle-prenursing-edit"
+              >
+                <Pencil className="w-3.5 h-3.5" />
+                {isContentEditing ? "Exit Editing" : "Edit Content"}
+              </button>
+            )}
+          </div>
 
-          {activeModule === "cell-biology" && <CellBiologyModule />}
-          {activeModule === "physiology" && <PhysiologyModule />}
-          {activeModule === "terminology" && <TerminologyModule />}
-          {activeModule === "pharmacology" && <PharmacologyModule />}
-          {activeModule === "pathophysiology" && <PathophysiologyModule />}
-          {activeModule === "science-foundations" && <ScienceFoundationsModule />}
-          {activeModule === "anatomy-physiology" && <AnatomyPhysiologyModule />}
-          {activeModule === "research-statistics" && <ResearchStatisticsModule />}
-          {activeModule === "medical-terminology" && <MedicalTerminologyModule />}
-          {activeModule === "chemistry" && <ChemistryModule />}
-          {activeModule === "microbiology" && <MicrobiologyModule />}
-          {activeModule === "infection-control" && <InfectionControlModule />}
-          {activeModule === "fluids-electrolytes" && <FluidsElectrolytesModule />}
-          {activeModule === "communication" && <CommunicationModule />}
-          {activeModule === "ethics-legal" && <EthicsLegalModule />}
-          {activeModule === "study-strategies" && <StudyStrategiesModule />}
+          {isContentEditing && isAdmin && mc && (
+            <PreNursingModuleEditor
+              moduleId={activeModule}
+              moduleName={mc.name}
+              overrides={moduleOverrides[activeModule] || {}}
+              onSave={(data) => saveModuleOverride(activeModule, data)}
+            />
+          )}
+
+          {mc?.component}
+          <SupplementalContent moduleId={activeModule} />
         </main>
         <AdminEditButton pageName="pre-nursing" defaultTier="prenursing" defaultCategory="pre-nursing" />
         <Footer />

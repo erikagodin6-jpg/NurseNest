@@ -1,11 +1,14 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import {
   Heart,
   Wind,
@@ -25,6 +28,13 @@ import {
   RefreshCw,
   PlayCircle,
   Video,
+  Pencil,
+  Save,
+  X,
+  Wand2,
+  Loader2,
+  Plus,
+  Trash2,
 } from "lucide-react";
 
 import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
@@ -226,11 +236,193 @@ const bodySystems = [
   },
 ];
 
+type SystemOverride = {
+  name?: string;
+  description?: string;
+  content?: string[];
+};
+
+function AnatomySystemEditor({
+  system,
+  overrides,
+  onSave,
+}: {
+  system: typeof bodySystems[0];
+  overrides: SystemOverride;
+  onSave: (data: SystemOverride) => Promise<void>;
+}) {
+  const [editName, setEditName] = useState(overrides.name || system.name);
+  const [editDesc, setEditDesc] = useState(overrides.description || system.description);
+  const [editContent, setEditContent] = useState<string[]>(overrides.content || [...system.content]);
+  const [saving, setSaving] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const data: SystemOverride = {};
+      if (editName !== system.name) data.name = editName;
+      if (editDesc !== system.description) data.description = editDesc;
+      if (JSON.stringify(editContent) !== JSON.stringify(system.content)) data.content = editContent;
+      await onSave(data);
+      toast({ title: "Saved", description: `${system.name} content updated` });
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const generateWithAI = async () => {
+    if (!aiPrompt.trim()) {
+      toast({ title: "Enter a prompt", description: "Describe what to generate", variant: "destructive" });
+      return;
+    }
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    if (!creds.username) return;
+    setAiLoading(true);
+    try {
+      const res = await fetch("/api/ai/generate-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          prompt: `For the anatomy topic "${system.name}" (${system.description}), ${aiPrompt}. Return as JSON: {"paragraphs":["paragraph 1 text","paragraph 2 text","paragraph 3 text"]}. Each paragraph should be comprehensive, detailed, and exam-ready for nursing students.`,
+          mode: "generate",
+        }),
+      });
+      if (!res.ok) throw new Error("AI generation failed");
+      const data = await res.json();
+      const blocks = data.blocks || [];
+      let found = false;
+      const jsonBlock = blocks.find((b: any) => b.content && b.content.includes('"paragraphs"'));
+      if (jsonBlock) {
+        try {
+          const jsonMatch = jsonBlock.content.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            if (parsed.paragraphs) {
+              setEditContent(parsed.paragraphs);
+              found = true;
+            }
+          }
+        } catch {}
+      }
+      if (!found && blocks.length > 0) {
+        const paragraphs = blocks.filter((b: any) => b.type === "paragraph" && b.content).map((b: any) => b.content);
+        if (paragraphs.length > 0) {
+          setEditContent(paragraphs);
+          found = true;
+        }
+      }
+      if (found) {
+        toast({ title: "AI Generated", description: "Content generated. Review and save." });
+      } else {
+        toast({ title: "No content", description: "AI did not return usable content. Try a different prompt.", variant: "destructive" });
+      }
+      setAiPrompt("");
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4 border-2 border-purple-200 rounded-xl p-4 bg-purple-50/30" data-testid={`editor-anatomy-${system.id}`}>
+      <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+        <Pencil className="w-4 h-4" />
+        Editing: {system.name}
+      </div>
+      <div className="space-y-3">
+        <div>
+          <label className="text-xs font-medium text-gray-600">System Name</label>
+          <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="mt-1" data-testid={`input-anatomy-name-${system.id}`} />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-gray-600">Description</label>
+          <Input value={editDesc} onChange={(e) => setEditDesc(e.target.value)} className="mt-1" data-testid={`input-anatomy-desc-${system.id}`} />
+        </div>
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-medium text-gray-600">Content Paragraphs ({editContent.length})</label>
+            <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-paragraph-${system.id}`}>
+              <Plus className="w-3 h-3" /> Add Paragraph
+            </Button>
+          </div>
+          {editContent.map((p, idx) => (
+            <div key={idx} className="flex gap-2 mb-2">
+              <textarea
+                value={p}
+                onChange={(e) => {
+                  const updated = [...editContent];
+                  updated[idx] = e.target.value;
+                  setEditContent(updated);
+                }}
+                className="flex-1 text-sm p-3 border rounded-lg min-h-[100px] resize-y focus:ring-2 focus:ring-purple-300 focus:border-purple-400"
+                data-testid={`textarea-anatomy-paragraph-${system.id}-${idx}`}
+              />
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 shrink-0 mt-1" onClick={() => setEditContent(editContent.filter((_, i) => i !== idx))} data-testid={`button-remove-paragraph-${system.id}-${idx}`}>
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
+        <div className="border border-purple-200 rounded-lg p-3 bg-white space-y-2">
+          <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">
+            <Wand2 className="w-3.5 h-3.5" />
+            AI Content Generation
+          </div>
+          <div className="flex gap-2">
+            <Input
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              placeholder="e.g. Generate comprehensive content about the cardiovascular system..."
+              className="text-sm"
+              onKeyDown={(e) => { if (e.key === "Enter") generateWithAI(); }}
+              data-testid={`input-ai-prompt-anatomy-${system.id}`}
+            />
+            <Button size="sm" className="gap-1 bg-purple-600 hover:bg-purple-700 shrink-0" onClick={generateWithAI} disabled={aiLoading} data-testid={`button-ai-generate-anatomy-${system.id}`}>
+              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+              Generate
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <Button size="sm" onClick={handleSave} disabled={saving} className="gap-1" data-testid={`button-save-anatomy-${system.id}`}>
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          Save Changes
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export default function AnatomyPage() {
   const [expandedSystems, setExpandedSystems] = useState<Set<string>>(new Set());
   const [isEditing, setIsEditing] = useState(false);
+  const [isContentEditing, setIsContentEditing] = useState(false);
+  const [overrides, setOverrides] = useState<Record<string, SystemOverride>>({});
   const { user } = useAuth();
+  const { toast } = useToast();
   const isAdmin = user?.tier === "admin";
+
+  useEffect(() => {
+    bodySystems.forEach((system) => {
+      fetch(`/api/lesson-overrides/anatomy-${system.id}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data && Object.keys(data).length > 0) {
+            setOverrides((prev) => ({ ...prev, [system.id]: data }));
+          }
+        })
+        .catch(() => {});
+    });
+  }, []);
 
   const toggleSystem = (id: string) => {
     setExpandedSystems((prev) => {
@@ -242,6 +434,29 @@ export default function AnatomyPage() {
       }
       return next;
     });
+  };
+
+  const saveSystemOverride = useCallback(async (systemId: string, data: SystemOverride) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    const res = await fetch(`/api/lesson-overrides/anatomy-${systemId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "x-user-tier": user?.tier || "" },
+      body: JSON.stringify({ ...data, username: creds.username, password: creds.password }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Save failed");
+    }
+    setOverrides((prev) => ({ ...prev, [systemId]: { ...prev[systemId], ...data } }));
+  }, [user]);
+
+  const getSystemContent = (system: typeof bodySystems[0]) => {
+    const ov = overrides[system.id];
+    return {
+      name: ov?.name || system.name,
+      description: ov?.description || system.description,
+      content: ov?.content || system.content,
+    };
   };
 
   return (
@@ -267,17 +482,31 @@ export default function AnatomyPage() {
               <span>12 topics · Cell biology to organ systems · Exam-ready review</span>
             </div>
             {isAdmin && (
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className={`mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  isEditing
-                    ? "bg-amber-100 text-amber-800 border border-amber-300"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-                data-testid="button-toggle-anatomy-edit"
-              >
-                {isEditing ? "Exit Image Editing" : "Manage Images"}
-              </button>
+              <div className="flex items-center justify-center gap-3 mt-4">
+                <button
+                  onClick={() => setIsEditing(!isEditing)}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    isEditing
+                      ? "bg-amber-100 text-amber-800 border border-amber-300"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                  data-testid="button-toggle-anatomy-edit"
+                >
+                  {isEditing ? "Exit Image Editing" : "Manage Images"}
+                </button>
+                <button
+                  onClick={() => setIsContentEditing(!isContentEditing)}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    isContentEditing
+                      ? "bg-purple-100 text-purple-800 border border-purple-300"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                  data-testid="button-toggle-anatomy-content-edit"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                  {isContentEditing ? "Exit Content Editing" : "Edit Content"}
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -288,6 +517,7 @@ export default function AnatomyPage() {
           {bodySystems.map((system) => {
             const isExpanded = expandedSystems.has(system.id);
             const IconComponent = system.icon;
+            const resolved = getSystemContent(system);
 
             return (
               <Card
@@ -301,7 +531,7 @@ export default function AnatomyPage() {
                 >
                   <img
                     src={system.image}
-                    alt={system.name}
+                    alt={resolved.name}
                     className="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-105"
                     draggable={false}
                   />
@@ -318,10 +548,10 @@ export default function AnatomyPage() {
                       </div>
                       <div>
                         <CardTitle className="text-lg" data-testid={`title-system-${system.id}`}>
-                          {system.name}
+                          {resolved.name}
                         </CardTitle>
                         <CardDescription data-testid={`desc-system-${system.id}`}>
-                          {system.description}
+                          {resolved.description}
                         </CardDescription>
                       </div>
                     </div>
@@ -340,11 +570,19 @@ export default function AnatomyPage() {
                         isAdmin={isAdmin}
                         isEditing={isEditing}
                       />
-                      {system.content.map((paragraph, idx) => (
-                        <p key={idx} className="text-sm text-gray-700 leading-relaxed">
-                          {paragraph}
-                        </p>
-                      ))}
+                      {isContentEditing && isAdmin ? (
+                        <AnatomySystemEditor
+                          system={system}
+                          overrides={overrides[system.id] || {}}
+                          onSave={(data) => saveSystemOverride(system.id, data)}
+                        />
+                      ) : (
+                        resolved.content.map((paragraph, idx) => (
+                          <p key={idx} className="text-sm text-gray-700 leading-relaxed">
+                            {paragraph}
+                          </p>
+                        ))
+                      )}
                       {system.id === "cell-structure" && (
                         <LocaleLink href="/lectures/cell-anatomy">
                           <div
