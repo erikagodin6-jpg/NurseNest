@@ -59,6 +59,34 @@ NurseNest is an interactive nursing education platform designed for RPN/LVN, RN,
 - Lessons are categorized into RPN/LVN, RN, NP, and Pharmacology tabs.
 - Flashcard system includes bookmarking and mastery tracking.
 
+## Vite Dev Server & SEO — Critical Invariants
+
+### Root Cause (Blank Screen Fix)
+Global `res.write`/`res.end` wrapping in Express (the SEO meta interceptor) interfered with Vite's streamed module responses. `/@vite/client` and `/src/*.tsx` were returned as corrupted HTML instead of JS modules, causing every React component import to fail silently.
+
+### Fix
+- Removed the global response-wrapping SEO interceptor from `server/index.ts`.
+- Moved SEO meta injection into `vite-plugin-meta-images.ts` using Vite's `transformIndexHtml` hook, which only touches HTML responses.
+- `main.tsx` uses clean static imports only (no dynamic `import()` wrappers).
+
+### Invariant Rules (DO NOT VIOLATE)
+1. **Never intercept/wrap responses** for `/@*`, `/src/*`, `/.vite/*`, `/node_modules/*`, `/vite-hmr`, `/__vite_ping` in dev.
+2. **Never globally wrap `res.write`/`res.end`** — this breaks Vite module streaming.
+3. In dev, **SEO/meta injection must be HTML-only** via `transformIndexHtml` (string transform, no response monkey-patching).
+4. `/@vite/client` must always return `200 text/javascript` — never served by Express SPA fallback.
+5. `main.tsx` must use **static imports only** — no dynamic `import("./App")` wrappers.
+
+### Health Check (run if blank screen returns)
+- `GET /@vite/client` → should be `200 text/javascript`
+- `GET /src/App.tsx` → should be `200 text/javascript` (module)
+- If either returns HTML, check middleware ordering or response-wrapping code in `server/index.ts`.
+- If "Failed to fetch dynamically imported module" errors appear in console, a middleware is intercepting Vite paths.
+
+### Production SEO
+- `transformIndexHtml` runs during dev and at build time, but NOT at runtime in production (Vite is not running).
+- Production serves static `dist/` files via Express (`server/static.ts`).
+- If per-route dynamic meta is needed in production, add an Express HTML injection step that runs ONLY on HTML navigations with guards: `Accept: text/html` + `Sec-Fetch-Dest: document`, and NEVER wraps module/static file responses.
+
 ## External Dependencies
 
 ### Database
