@@ -5,7 +5,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { useI18n } from "@/lib/i18n";
 import { Footer } from "@/components/footer";
-import { LocaleLink } from "@/components/locale-link";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -142,6 +142,14 @@ const preNursingSystems = [
       { id: "pre-nursing-science", name: "Science Foundations: Biology, Chemistry & Physics for Nursing", status: "Available" },
       { id: "pre-nursing-anatomy", name: "Anatomy & Physiology: Structure, Function & Body Systems", status: "Available" },
       { id: "pre-nursing-research", name: "Research & Statistics: Evidence-Based Nursing Practice", status: "Available" },
+      { id: "pre-nursing-terminology", name: "Medical Terminology: Roots, Prefixes & Suffixes", status: "Available" },
+      { id: "pre-nursing-chemistry", name: "Chemistry for Health Sciences: Atoms, Bonds & pH", status: "Available" },
+      { id: "pre-nursing-microbiology", name: "Microbiology Foundations: Bacteria, Viruses & Fungi", status: "Available" },
+      { id: "pre-nursing-infection-control", name: "Infection Control: Chain of Infection & PPE", status: "Available" },
+      { id: "pre-nursing-fluids", name: "Fluids & Electrolytes Foundations", status: "Available" },
+      { id: "pre-nursing-communication", name: "Healthcare Communication: SBAR & Documentation", status: "Available" },
+      { id: "pre-nursing-ethics", name: "Ethics & Legal Foundations: Bioethics & Patient Rights", status: "Available" },
+      { id: "pre-nursing-study", name: "Study & Cognitive Strategies for Nursing School", status: "Available" },
     ]
   }
 ];
@@ -2080,6 +2088,14 @@ export default function Lessons() {
     "pre-nursing-science": "/pre-nursing?module=science-foundations",
     "pre-nursing-anatomy": "/pre-nursing?module=anatomy-physiology",
     "pre-nursing-research": "/pre-nursing?module=research-statistics",
+    "pre-nursing-terminology": "/pre-nursing?module=medical-terminology",
+    "pre-nursing-chemistry": "/pre-nursing?module=chemistry",
+    "pre-nursing-microbiology": "/pre-nursing?module=microbiology",
+    "pre-nursing-infection-control": "/pre-nursing?module=infection-control",
+    "pre-nursing-fluids": "/pre-nursing?module=fluids-electrolytes",
+    "pre-nursing-communication": "/pre-nursing?module=communication",
+    "pre-nursing-ethics": "/pre-nursing?module=ethics-legal",
+    "pre-nursing-study": "/pre-nursing?module=study-strategies",
   };
 
   const handleLessonSelect = (id: string) => {

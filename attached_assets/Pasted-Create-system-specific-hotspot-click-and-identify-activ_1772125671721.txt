@@ -1,0 +1,183 @@
+Create system-specific hotspot click-and-identify activities for the NurseNest platform.
+
+You must generate TWO categories of hotspot activities:
+
+CATEGORY 1 — FREE TIER (Foundational / Pre-Nursing / Early Nursing Level)
+CATEGORY 2 — PAID TIER (Clinical Assessment / Examination / Interpretation Levela)
+
+All visuals must follow a medically accurate, professional anatomy diagram style consistent with a clean pastel clinical NurseNest aesthetic.
+
+GLOBAL VISUAL RULES (apply to ALL diagrams):
+
+• Diagrams must be anatomically accurate and clinically realistic
+• No cartoonish or symbolic organs
+• Clean medical illustration style
+• Soft pastel clinical palette with good contrast
+• White/light background
+• Clear structure visibility
+• Correct proportions and positioning
+
+HOTSPOT DESIGN RULES (apply to ALL activities):
+
+• Click regions must map precisely to correct anatomical structures
+• Hotspots must not overlap ambiguously
+• Each hotspot must include:
+  - Structure name
+  - Short educational explanation (1–2 sentences)
+  - Optional hint text
+• Activities must test recognition and understanding, not random clicking
+
+------------------------------------------------------------
+CATEGORY 1 — FREE TIER HOTSPOTS
+Goal: Foundational structure identification & basic functional recognition
+------------------------------------------------------------
+
+Create hotspot activities for EACH major body system:
+
+CARDIOVASCULAR SYSTEM
+• Identify heart chambers
+• Identify major vessels (aorta, vena cava, pulmonary arteries/veins)
+• Identify basic blood flow pathway
+• Identify conduction structures (SA node, AV node conceptually)
+
+RESPIRATORY SYSTEM
+• Identify upper vs lower airway structures
+• Identify lungs, bronchi, diaphragm
+• Identify basic gas exchange structures (alveoli conceptually)
+
+NERVOUS SYSTEM
+• Identify major brain regions (cerebrum, cerebellum, brainstem)
+• Identify spinal cord
+• Identify basic neuron structure
+
+RENAL / URINARY SYSTEM
+• Identify kidneys, ureters, bladder
+• Identify nephron components (simplified)
+
+GASTROINTESTINAL SYSTEM
+• Identify major organs (stomach, liver, pancreas, intestines)
+• Identify accessory organs
+
+MUSCULOSKELETAL SYSTEM
+• Identify major bones
+• Identify major muscle groups
+• Identify joint structures (basic)
+
+ENDOCRINE SYSTEM
+• Identify major glands
+• Basic hormone-source mapping (no disease)
+
+LYMPHATIC / IMMUNE SYSTEM
+• Identify lymph nodes, spleen, thymus
+• Basic immune structure recognition
+
+REPRODUCTIVE SYSTEM
+• Identify major structures (male/female)
+• Normal anatomy only
+
+FREE TIER QUESTION STYLE:
+
+• Pure structure identification
+• Basic function association
+• No pathophysiology
+• No disease interpretation
+• No clinical diagnosis
+
+------------------------------------------------------------
+CATEGORY 2 — PAID TIER HOTSPOTS
+Goal: Clinical assessment, examination skills, interpretation logic
+------------------------------------------------------------
+
+Create advanced hotspot activities simulating clinical examination and assessment tasks.
+
+CARDIOVASCULAR ASSESSMENT HOTSPOTS
+
+1) Cardiac Auscultation Map
+• Hotspots for aortic, pulmonic, tricuspid, mitral listening areas
+• Include correct anatomical placement landmarks
+• Include explanation of what is best heard at each location
+• Include normal sound associations (S1/S2 logic)
+• No disease deep-dives unless conceptual (e.g., murmur meaning patterns allowed)
+
+2) Heart Sound Interpretation Activities
+• Identify which valve closure produces S1/S2
+• Recognize basic sound timing logic
+
+3) ECG Lead Placement
+• Hotspots for correct limb leads
+• Hotspots for correct precordial lead positions (V1–V6)
+• Emphasize anatomical landmarks and placement reasoning
+
+------------------------------------------------------------
+
+RESPIRATORY ASSESSMENT HOTSPOTS
+
+1) Lung Auscultation Regions
+• Correct anterior/posterior listening zones
+• Distinguish upper vs lower lobes
+• Explain airflow reasoning
+
+2) Palpation Landmarks
+• Chest expansion assessment regions
+• Tactile fremitus concept
+
+3) Percussion Zones
+• Resonance vs dullness conceptually
+• Anatomical relevance
+
+------------------------------------------------------------
+
+NEUROLOGICAL ASSESSMENT HOTSPOTS
+
+• Cranial nerve assessment regions
+• Motor vs sensory testing zones
+• Reflex testing landmarks
+• Brain functional region mapping (clinical relevance)
+
+------------------------------------------------------------
+
+ABDOMINAL / GI ASSESSMENT HOTSPOTS
+
+• Four quadrant mapping
+• Organ localization
+• Auscultation vs palpation sequencing logic
+• Percussion relevance
+
+------------------------------------------------------------
+
+RENAL / FLUID ASSESSMENT HOTSPOTS
+
+• Edema assessment zones
+• Bladder landmarks (non-invasive)
+• Fluid balance physical indicators
+
+------------------------------------------------------------
+
+MUSCULOSKELETAL ASSESSMENT HOTSPOTS
+
+• Joint assessment landmarks
+• ROM testing regions
+• Muscle group functional testing
+
+------------------------------------------------------------
+
+GENERAL PAID TIER DESIGN RULES
+
+• Simulate realistic clinical skill recognition
+• Focus on examination technique logic
+• Emphasize landmark-based reasoning
+• Avoid cartoon visuals
+• Avoid unrealistic anatomy
+• Avoid trivia-style questions
+
+------------------------------------------------------------
+
+OUTPUT REQUIREMENTS
+
+For EACH hotspot activity provide:
+
+• Diagram description (what is visually shown)
+• List of hotspot targets
+• Explanation for each hotspot
+• Educational goal of activity
+• Ensure clinical plausibility and learner usefulness

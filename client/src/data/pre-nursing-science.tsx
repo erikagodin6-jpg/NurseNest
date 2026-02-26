@@ -16,6 +16,7 @@ import {
   BookOpen,
   Beaker,
   Sparkles,
+  Activity,
 } from "lucide-react";
 
 export function ScienceFoundationsModule() {
@@ -483,6 +484,294 @@ export function ScienceFoundationsModule() {
             options: ["Expert opinion", "Case study", "Systematic review of RCTs", "Single randomized controlled trial"],
             correctIndex: 2,
             rationale: "Systematic reviews and meta-analyses of multiple RCTs sit at the top of the evidence hierarchy because they synthesize findings across many studies, reducing bias and increasing generalizability. Expert opinion is the weakest level.",
+          },
+        ]}
+      />
+
+      <MicroLesson title="Cell Structure & Organelles" subtitle="The functional compartments within every human cell" icon={<Microscope className="w-5 h-5" />}>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Every human cell is a miniature factory with specialized compartments called{" "}
+          <HoverReveal term="organelles" definition="Membrane-bound or non-membrane structures within a cell that perform specific functions. Each organelle contributes to cell survival, just as each organ contributes to body function." />.
+          Understanding organelle function explains why certain toxins, drugs, and diseases affect cells the way they do.
+        </p>
+        <ProgressiveReveal
+          title="Key Organelles and Their Functions"
+          cards={[
+            {
+              id: "org1",
+              title: "Nucleus",
+              summary: "Control center housing DNA",
+              detail: "Contains chromatin (uncoiled DNA) that condenses into chromosomes during division. The nuclear envelope has pores that regulate mRNA export. The nucleolus within the nucleus produces ribosomal RNA (rRNA), essential for protein synthesis.",
+            },
+            {
+              id: "org2",
+              title: "Mitochondria",
+              summary: "Powerhouse — generates ATP via aerobic respiration",
+              detail: "Double-membraned organelle with its own DNA (maternal inheritance). The inner membrane folds (cristae) maximize surface area for the electron transport chain. Produces ~36 ATP per glucose molecule. Cells with high energy demands (cardiac muscle, hepatocytes) have thousands of mitochondria.",
+            },
+            {
+              id: "org3",
+              title: "Endoplasmic Reticulum (ER)",
+              summary: "Rough ER synthesizes proteins; Smooth ER processes lipids",
+              detail: "Rough ER is studded with ribosomes — it synthesizes secretory proteins and membrane proteins. Smooth ER synthesizes lipids, detoxifies drugs (abundant in liver cells), and stores calcium in muscle cells (sarcoplasmic reticulum).",
+            },
+            {
+              id: "org4",
+              title: "Golgi Apparatus",
+              summary: "Packaging and shipping center",
+              detail: "Receives proteins from the rough ER, modifies them (glycosylation, phosphorylation), sorts them, and packages them into vesicles for secretion, membrane insertion, or lysosomal delivery. Think of it as the post office of the cell.",
+            },
+            {
+              id: "org5",
+              title: "Lysosomes & Peroxisomes",
+              summary: "Digestive and detoxification compartments",
+              detail: "Lysosomes contain hydrolytic enzymes (pH ~5) that break down worn-out organelles, bacteria, and cellular debris — autophagy and phagocytosis depend on them. Peroxisomes neutralize toxic hydrogen peroxide (H2O2) using catalase and break down fatty acids via beta-oxidation.",
+            },
+          ]}
+        />
+        <CognitiveCard
+          type="concept"
+          title="Organelle Dysfunction & Disease"
+          content="Lysosomal storage diseases (Tay-Sachs, Gaucher disease) occur when enzyme deficiencies prevent lysosomes from breaking down specific substrates. Mitochondrial dysfunction is implicated in neurodegenerative diseases. Understanding organelle function reveals why these conditions manifest the way they do."
+        />
+      </MicroLesson>
+
+      <MatchingExercise
+        title="Organelle Function Matching"
+        description="Match each organelle to its primary role"
+        pairs={[
+          { id: "om1", term: "Mitochondria", definition: "ATP production via aerobic respiration" },
+          { id: "om2", term: "Rough ER", definition: "Protein synthesis and folding" },
+          { id: "om3", term: "Golgi apparatus", definition: "Protein modification and packaging" },
+          { id: "om4", term: "Lysosomes", definition: "Intracellular digestion and recycling" },
+          { id: "om5", term: "Smooth ER", definition: "Lipid synthesis and drug detoxification" },
+          { id: "om6", term: "Nucleus", definition: "Houses DNA and controls gene expression" },
+        ]}
+      />
+
+      <SelfCheckQuiz
+        title="Cell Structure Check"
+        questions={[
+          {
+            id: "sf18",
+            question: "A patient's liver biopsy shows cells with extensive smooth endoplasmic reticulum. This is most consistent with:",
+            options: ["High protein secretion activity", "Active drug metabolism and detoxification", "Rapid cell division", "Impaired energy production"],
+            correctIndex: 1,
+            rationale: "Smooth ER is abundant in hepatocytes (liver cells) because it houses enzymes for drug detoxification (cytochrome P450 system) and lipid metabolism. Chronic drug use or alcohol exposure can cause smooth ER proliferation in liver cells.",
+          },
+          {
+            id: "sf19",
+            question: "Which organelle has its own DNA and is inherited exclusively from the mother?",
+            options: ["Nucleus", "Golgi apparatus", "Mitochondria", "Lysosomes"],
+            correctIndex: 2,
+            rationale: "Mitochondria contain their own circular DNA (mtDNA), inherited maternally because the egg contributes all cytoplasmic organelles. Sperm mitochondria are degraded after fertilization. Mitochondrial DNA mutations cause specific inherited disorders (e.g., MELAS syndrome).",
+          },
+          {
+            id: "sf20",
+            question: "In Tay-Sachs disease, a lysosomal enzyme deficiency causes toxic lipid accumulation. This demonstrates the importance of:",
+            options: ["Mitochondrial function", "Cell membrane permeability", "Intracellular digestion by lysosomes", "Protein synthesis by ribosomes"],
+            correctIndex: 2,
+            rationale: "Tay-Sachs results from deficiency of hexosaminidase A, a lysosomal enzyme. Without it, GM2 ganglioside accumulates in neurons, causing progressive neurological deterioration. This illustrates how organelle dysfunction translates to systemic disease.",
+          },
+        ]}
+      />
+
+      <MicroLesson title="Water & Its Unique Properties" subtitle="Why water is the foundation of all biological systems" icon={<Beaker className="w-5 h-5" />}>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Water comprises approximately 60% of adult body weight and is the{" "}
+          <HoverReveal term="universal solvent" definition="Water dissolves more substances than any other liquid due to its polar nature. This property is essential for nutrient transport, waste removal, and metabolic reactions in the body." />{" "}
+          of biology. Its unique molecular properties make life possible.
+        </p>
+        <div className="grid sm:grid-cols-2 gap-3 mt-3">
+          <div className="p-4 bg-cyan-50/60 rounded-xl border border-cyan-100">
+            <p className="text-xs font-semibold text-cyan-700 mb-1">Polarity & Hydrogen Bonding</p>
+            <p className="text-xs text-cyan-600">Water is a polar molecule — oxygen pulls electrons more strongly than hydrogen, creating partial charges. This polarity allows hydrogen bonding between water molecules, giving water high cohesion, adhesion, and surface tension.</p>
+          </div>
+          <div className="p-4 bg-sky-50/60 rounded-xl border border-sky-100">
+            <p className="text-xs font-semibold text-sky-700 mb-1">High Specific Heat</p>
+            <p className="text-xs text-sky-600">Water resists temperature changes due to extensive hydrogen bonding. This stabilizes body temperature — the body can absorb significant heat before temperature rises. Sweating exploits water's high heat of vaporization for cooling.</p>
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-3 mt-3">
+          <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
+            <p className="text-xs font-semibold text-blue-700 mb-1">Solvent Properties</p>
+            <p className="text-xs text-blue-600">Polar and ionic substances dissolve in water (hydrophilic). Nonpolar substances do not (hydrophobic). This governs drug solubility — water-soluble drugs distribute throughout body fluids while fat-soluble drugs accumulate in adipose tissue.</p>
+          </div>
+          <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-100">
+            <p className="text-xs font-semibold text-indigo-700 mb-1">Reactant & Medium</p>
+            <p className="text-xs text-indigo-600">Water participates directly in hydrolysis reactions (breaking bonds by adding water) and dehydration synthesis (forming bonds by removing water). Nearly all metabolic reactions occur in aqueous solution.</p>
+          </div>
+        </div>
+        <CognitiveCard
+          type="remember"
+          title="Dehydration & Water Balance"
+          content="Because water is critical for every metabolic process, dehydration impairs cellular function rapidly. Even 2% body water loss affects cognitive function and cardiovascular performance. This is why fluid balance assessment (intake/output, skin turgor, mucous membranes) is a fundamental nursing skill."
+        />
+      </MicroLesson>
+
+      <MicroLesson title="Cellular Energy Metabolism" subtitle="Glycolysis, Krebs cycle, electron transport chain" icon={<Sparkles className="w-5 h-5" />}>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Cells extract energy from nutrients through a series of metabolic pathways. Understanding these pathways explains why oxygen deprivation is so dangerous and how metabolic diseases affect the body.
+        </p>
+        <ProgressiveReveal
+          title="The Three Stages of Aerobic Respiration"
+          cards={[
+            {
+              id: "aer1",
+              title: "Stage 1: Glycolysis",
+              summary: "Glucose → 2 pyruvate (occurs in cytoplasm, no oxygen required)",
+              detail: "Glucose (6-carbon) is split into two pyruvate molecules (3-carbon each). Net yield: 2 ATP and 2 NADH. This is the only pathway that functions without oxygen. When oxygen is absent, pyruvate is converted to lactate (anaerobic metabolism) — this produces far less energy and generates acid.",
+            },
+            {
+              id: "aer2",
+              title: "Stage 2: Krebs Cycle (Citric Acid Cycle)",
+              summary: "Pyruvate → CO₂ + electron carriers (occurs in mitochondrial matrix)",
+              detail: "Pyruvate is converted to acetyl-CoA, which enters the Krebs cycle. Each turn produces CO₂ (exhaled by the lungs), NADH, FADH₂ (electron carriers), and 1 ATP. The CO₂ produced here is the carbon dioxide you breathe out — directly linking cellular metabolism to respiratory function.",
+            },
+            {
+              id: "aer3",
+              title: "Stage 3: Electron Transport Chain (ETC)",
+              summary: "NADH/FADH₂ → ATP (occurs on inner mitochondrial membrane, requires O₂)",
+              detail: "NADH and FADH₂ donate electrons to a series of protein complexes. As electrons pass through, protons are pumped across the membrane, creating a gradient. ATP synthase harnesses this gradient to produce ~34 ATP. Oxygen is the final electron acceptor — without it, the entire chain stops. This is why oxygen deprivation kills cells rapidly.",
+            },
+          ]}
+        />
+        <CognitiveCard
+          type="warning"
+          title="Oxygen Deprivation & Cell Death"
+          content="When cells are deprived of oxygen (ischemia), the electron transport chain halts. Cells revert to anaerobic glycolysis, producing only 2 ATP instead of ~36-38 per glucose. Lactic acid accumulates, pH drops, and cellular enzymes denature. Within minutes, irreversible damage occurs in oxygen-dependent tissues like brain and heart. This is the biochemical basis of stroke and myocardial infarction."
+        />
+        <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100 mt-3">
+          <p className="text-xs font-semibold text-amber-700 mb-1">Metabolism Summary</p>
+          <p className="text-xs text-amber-600">C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ~36-38 ATP. This single equation connects nutrition (glucose input), respiration (O₂ input, CO₂ output), and cellular energy. Every vital sign you assess reflects this equation in action.</p>
+        </div>
+      </MicroLesson>
+
+      <SelfCheckQuiz
+        title="Metabolism & Water Properties Check"
+        questions={[
+          {
+            id: "sf21",
+            question: "Why does water's high specific heat capacity benefit the human body?",
+            options: ["It helps water freeze quickly", "It stabilizes body temperature against rapid changes", "It makes water a poor solvent", "It increases metabolic rate"],
+            correctIndex: 1,
+            rationale: "Water's high specific heat means it absorbs large amounts of heat before its temperature rises significantly. This prevents rapid body temperature fluctuations during exercise, fever, or environmental exposure — a critical aspect of thermoregulation.",
+          },
+          {
+            id: "sf22",
+            question: "During aerobic respiration, which stage produces the MOST ATP?",
+            options: ["Glycolysis", "Krebs cycle", "Electron transport chain", "Fermentation"],
+            correctIndex: 2,
+            rationale: "The electron transport chain produces approximately 34 of the 36-38 total ATP generated per glucose molecule. It requires oxygen as the final electron acceptor, which is why aerobic metabolism is vastly more efficient than anaerobic metabolism.",
+            hint: "This is the stage that requires oxygen and occurs on the inner mitochondrial membrane.",
+          },
+          {
+            id: "sf23",
+            question: "A patient in shock has elevated blood lactate levels. This indicates:",
+            options: ["Adequate oxygen delivery to tissues", "Cells are using anaerobic glycolysis due to insufficient oxygen", "Excess protein metabolism", "Normal exercise response"],
+            correctIndex: 1,
+            rationale: "Elevated lactate indicates cells have switched to anaerobic metabolism because oxygen delivery is inadequate (hypoperfusion). Without oxygen, pyruvate is converted to lactate instead of entering the Krebs cycle. Serum lactate is a key marker of tissue hypoxia in critical care.",
+          },
+          {
+            id: "sf24",
+            question: "Fat-soluble drugs tend to accumulate in adipose tissue because:",
+            options: ["Adipose tissue has more blood flow", "Nonpolar substances dissolve in nonpolar environments", "Fat cells actively transport drugs inside", "Adipose tissue has more mitochondria"],
+            correctIndex: 1,
+            rationale: "The principle 'like dissolves like' applies. Fat-soluble (lipophilic/nonpolar) drugs dissolve in the nonpolar lipid environment of adipose tissue. This is why obese patients may have altered drug distribution and why some fat-soluble toxins persist in the body for extended periods.",
+          },
+        ]}
+      />
+
+      <MicroLesson title="Homeostasis & Feedback Loops" subtitle="How the body maintains internal stability through self-regulation" icon={<Activity className="w-5 h-5" />}>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          <HoverReveal term="Homeostasis" definition="The maintenance of a relatively stable internal environment despite changes in external conditions. It is the single most important concept in physiology — virtually all disease can be understood as a failure of homeostasis." />{" "}
+          is the body's ability to maintain stable internal conditions. Every organ system participates in homeostatic regulation through feedback mechanisms.
+        </p>
+        <div className="grid sm:grid-cols-2 gap-3 mt-3">
+          <div className="p-4 bg-green-50/60 rounded-xl border border-green-100">
+            <p className="text-sm font-semibold text-green-700 mb-1">Negative Feedback</p>
+            <p className="text-xs text-green-600">The response OPPOSES the stimulus, returning the variable to its set point. This is the most common feedback mechanism. Example: when blood glucose rises after eating, the pancreas releases insulin, which lowers blood glucose back to normal.</p>
+            <p className="text-[10px] text-green-500 mt-1 italic">Components: receptor (sensor) → control center (integrator) → effector (response)</p>
+          </div>
+          <div className="p-4 bg-rose-50/60 rounded-xl border border-rose-100">
+            <p className="text-sm font-semibold text-rose-700 mb-1">Positive Feedback</p>
+            <p className="text-xs text-rose-600">The response AMPLIFIES the stimulus, driving the variable further from its starting point. Less common but critical in specific situations. Example: during labor, oxytocin causes uterine contractions, which push the baby against the cervix, triggering more oxytocin release.</p>
+            <p className="text-[10px] text-rose-500 mt-1 italic">Always requires an external event to terminate the cycle.</p>
+          </div>
+        </div>
+        <CognitiveCard
+          type="concept"
+          title="Disease as Homeostatic Failure"
+          content="Diabetes mellitus is a failure of glucose homeostasis — in Type 1, the receptor/effector (beta cells) is destroyed; in Type 2, cells become resistant to the effector (insulin). Fever represents a temporary resetting of the temperature set point by pyrogens. Understanding feedback loops helps you predict how disruptions at any point in the loop will manifest clinically."
+        />
+      </MicroLesson>
+
+      <MicroLesson title="Organic Chemistry Basics" subtitle="Functional groups, isomers, and biological molecules" icon={<FlaskConical className="w-5 h-5" />}>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Organic chemistry is the study of carbon-containing compounds. Carbon's ability to form four covalent bonds with diverse atoms creates the molecular complexity needed for life. Key{" "}
+          <HoverReveal term="functional groups" definition="Specific groupings of atoms within molecules that determine the molecule's chemical behavior and properties. Examples: hydroxyl (-OH), carboxyl (-COOH), amino (-NH₂), phosphate (-PO₄)." />{" "}
+          determine how biological molecules interact.
+        </p>
+        <div className="space-y-3 mt-3">
+          <div className="p-4 bg-violet-50/60 rounded-xl border border-violet-100">
+            <p className="text-xs font-semibold text-violet-700 mb-1">Hydroxyl Group (-OH)</p>
+            <p className="text-xs text-violet-600">Makes molecules polar and water-soluble. Found in alcohols, sugars, and many drugs. Ethanol (CH₃CH₂OH) is metabolized by alcohol dehydrogenase in the liver.</p>
+          </div>
+          <div className="p-4 bg-fuchsia-50/60 rounded-xl border border-fuchsia-100">
+            <p className="text-xs font-semibold text-fuchsia-700 mb-1">Carboxyl (-COOH) & Amino (-NH₂) Groups</p>
+            <p className="text-xs text-fuchsia-600">Amino acids contain both groups. The carboxyl group acts as an acid (donates H+), the amino group acts as a base (accepts H+). Peptide bonds form between these groups during protein synthesis via dehydration reactions.</p>
+          </div>
+          <div className="p-4 bg-pink-50/60 rounded-xl border border-pink-100">
+            <p className="text-xs font-semibold text-pink-700 mb-1">Phosphate Group (-PO₄)</p>
+            <p className="text-xs text-pink-600">Found in ATP, DNA, and phospholipids. High-energy phosphate bonds in ATP store and release energy for cellular work. Phosphorylation (adding a phosphate group) activates or deactivates enzymes — a key regulatory mechanism.</p>
+          </div>
+        </div>
+        <CognitiveCard
+          type="remember"
+          title="Dehydration Synthesis & Hydrolysis"
+          content="Large biological molecules are built by dehydration synthesis (removing water to form bonds: amino acids → proteins, monosaccharides → polysaccharides) and broken down by hydrolysis (adding water to break bonds). Digestion is fundamentally hydrolysis — enzymes add water molecules to break food into absorbable units."
+        />
+      </MicroLesson>
+
+      <MatchingExercise
+        title="Advanced Science Concepts Matching"
+        description="Match each concept to its description"
+        pairs={[
+          { id: "adv1", term: "Negative feedback", definition: "Response opposes stimulus to restore set point" },
+          { id: "adv2", term: "Positive feedback", definition: "Response amplifies stimulus until external termination" },
+          { id: "adv3", term: "Electron transport chain", definition: "Produces ~34 ATP using oxygen as final electron acceptor" },
+          { id: "adv4", term: "Hydrolysis", definition: "Breaking bonds by adding water" },
+          { id: "adv5", term: "Phospholipid bilayer", definition: "Cell membrane structure with polar heads and nonpolar tails" },
+          { id: "adv6", term: "Glycolysis", definition: "Glucose splitting that occurs without oxygen in cytoplasm" },
+          { id: "adv7", term: "Mitochondrial cristae", definition: "Inner membrane folds that maximize ATP production surface area" },
+          { id: "adv8", term: "Hydroxyl group (-OH)", definition: "Functional group that increases water solubility" },
+        ]}
+      />
+
+      <SelfCheckQuiz
+        title="Advanced Science Foundations Check"
+        questions={[
+          {
+            id: "sf25",
+            question: "Blood glucose homeostasis is maintained primarily by:",
+            options: ["Positive feedback from the adrenal glands", "Negative feedback involving insulin and glucagon", "Conscious dietary control only", "Positive feedback from the pancreas"],
+            correctIndex: 1,
+            rationale: "Blood glucose regulation is a classic negative feedback loop. When glucose rises, insulin is released to lower it. When glucose falls, glucagon is released to raise it. Both hormones work in opposition to maintain the set point — this is the mechanism disrupted in diabetes.",
+          },
+          {
+            id: "sf26",
+            question: "During digestion, starch is broken down into glucose by:",
+            options: ["Dehydration synthesis", "Hydrolysis", "Oxidation", "Phosphorylation"],
+            correctIndex: 1,
+            rationale: "Hydrolysis (hydro = water, lysis = break) uses water to cleave the glycosidic bonds between glucose units in starch. Amylase in saliva and pancreatic secretions catalyzes this reaction. All digestive breakdown of macromolecules occurs via hydrolysis.",
+          },
+          {
+            id: "sf27",
+            question: "A cell with an unusually large number of mitochondria is most likely involved in:",
+            options: ["Fat storage", "High energy-demand activity", "Cell division", "Protein secretion"],
+            correctIndex: 1,
+            rationale: "Cells with high energy demands accumulate more mitochondria to produce more ATP. Cardiac muscle cells, skeletal muscle during exercise, renal tubular cells, and hepatocytes all have abundant mitochondria. A cell's mitochondrial density reflects its metabolic activity.",
+            hint: "Think about which cell types need the most ATP to function.",
           },
         ]}
       />

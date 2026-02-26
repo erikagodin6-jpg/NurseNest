@@ -13,6 +13,10 @@ import {
   Lightbulb,
   Search,
   TrendingUp,
+  Users,
+  Shield,
+  PieChart,
+  Layers,
 } from "lucide-react";
 
 const foundationsQuiz: import("@/components/interactive-learning").QuizQuestion[] = [
@@ -231,6 +235,65 @@ const appraisalQuiz: import("@/components/interactive-learning").QuizQuestion[] 
     ],
     correctIndex: 1,
     rationale: "Truncating the Y-axis (not starting at 0) can make small differences appear dramatic. This is a common way statistics can be visually misleading. Always check axis scales when interpreting graphs in research papers.",
+  },
+];
+
+const advancedTopicsQuiz: import("@/components/interactive-learning").QuizQuestion[] = [
+  {
+    id: "at1",
+    question: "A researcher recruits participants from a single hospital's waiting room during morning hours only. This is an example of:",
+    options: ["Random sampling", "Stratified sampling", "Convenience sampling", "Purposive sampling"],
+    correctIndex: 2,
+    rationale: "Convenience sampling selects participants based on easy availability rather than random selection. Recruiting from one location at one time introduces sampling bias — the sample may not represent the broader population (e.g., excludes evening/night patients and those at other facilities).",
+  },
+  {
+    id: "at2",
+    question: "The Belmont Report principle of 'justice' in research ethics refers to:",
+    options: [
+      "Ensuring participants sign consent forms",
+      "Fair distribution of research burdens and benefits across populations",
+      "Keeping participant data confidential",
+      "Maximizing the number of participants",
+    ],
+    correctIndex: 1,
+    rationale: "Justice requires that the burdens and benefits of research are distributed equitably. Historically, vulnerable populations (e.g., prisoners, minorities) bore disproportionate research burdens while privileged groups received the benefits. Justice ensures fair participant selection and access to findings.",
+    hint: "Think about WHO participates in research and WHO benefits from the results.",
+  },
+  {
+    id: "at3",
+    question: "A histogram differs from a bar chart because a histogram:",
+    options: [
+      "Uses horizontal bars instead of vertical bars",
+      "Displays continuous numerical data with no gaps between bars",
+      "Can only show categorical data",
+      "Always starts the Y-axis at zero",
+    ],
+    correctIndex: 1,
+    rationale: "Histograms display the distribution of continuous numerical data (e.g., ages, weights) with adjacent bars representing intervals. Bar charts display categorical data (e.g., blood types, diagnoses) with gaps between bars. The distinction matters for correct data interpretation.",
+  },
+  {
+    id: "at4",
+    question: "In a forest plot from a meta-analysis, a study's confidence interval that crosses the line of no effect (1.0 for ratios or 0 for differences) indicates:",
+    options: [
+      "The study found a statistically significant result",
+      "The study did NOT find a statistically significant result",
+      "The study had the largest sample size",
+      "The study had high heterogeneity",
+    ],
+    correctIndex: 1,
+    rationale: "In a forest plot, each study is represented by a point estimate and confidence interval. If the CI crosses the line of no effect (null value), the result is not statistically significant for that individual study. Studies whose CIs do not cross the null line found significant effects.",
+  },
+  {
+    id: "at5",
+    question: "An IRB (Institutional Review Board) must approve a research study BEFORE it begins primarily to:",
+    options: [
+      "Ensure the study will produce significant results",
+      "Protect the rights and welfare of human research participants",
+      "Guarantee the study receives funding",
+      "Verify the statistical methods are correct",
+    ],
+    correctIndex: 1,
+    rationale: "IRBs (or REBs in Canada) exist to protect human participants. They review research protocols for ethical concerns including informed consent processes, risk-benefit ratios, confidentiality protections, and safeguards for vulnerable populations. They do not evaluate scientific merit or funding.",
   },
 ];
 
@@ -836,6 +899,250 @@ export function ResearchStatisticsModule() {
         />
 
         <SelfCheckQuiz title="Knowledge Check: Clinical Interpretation" questions={appliedQuiz} />
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
+            <Users className="w-5 h-5 text-sky-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Sampling, Ethics, Visualization & Synthesis</h3>
+        </div>
+
+        <MicroLesson
+          title="Sampling Methods"
+          subtitle="How participants are selected shapes the entire study"
+          icon={<Users className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            The way a researcher selects participants from a{" "}
+            <HoverReveal
+              term="population"
+              definition="The entire group of individuals the researcher wants to draw conclusions about (e.g., all registered nurses in Canada). Since studying every member is usually impossible, a sample is drawn."
+            />{" "}
+            determines whether findings can be generalized. The goal is a sample that accurately represents the target population.
+          </p>
+
+          <div className="space-y-3 mt-4">
+            <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
+              <p className="text-xs font-semibold text-blue-700 mb-1">Simple Random Sampling</p>
+              <p className="text-xs text-blue-600">Every member of the population has an equal chance of being selected (like drawing names from a hat). Minimizes selection bias and supports statistical generalization. Gold standard but often impractical in clinical research.</p>
+            </div>
+            <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
+              <p className="text-xs font-semibold text-emerald-700 mb-1">Stratified Sampling</p>
+              <p className="text-xs text-emerald-600">The population is divided into subgroups (strata) based on a key characteristic (e.g., age, sex, diagnosis), then random samples are drawn from each stratum. Ensures proportional representation of important subgroups.</p>
+            </div>
+            <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
+              <p className="text-xs font-semibold text-amber-700 mb-1">Convenience Sampling</p>
+              <p className="text-xs text-amber-600">Participants are selected based on easy availability (e.g., patients in your unit today). Most common in nursing research but highest risk of sampling bias. Results may not generalize beyond the immediate group.</p>
+            </div>
+            <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100">
+              <p className="text-xs font-semibold text-purple-700 mb-1">Purposive (Purposeful) Sampling</p>
+              <p className="text-xs text-purple-600">Participants are deliberately chosen because they have specific characteristics or experiences relevant to the study. Common in qualitative research. Example: selecting only nurses who have experienced moral distress.</p>
+            </div>
+          </div>
+
+          <CognitiveCard
+            type="concept"
+            title="Why Sample Size Matters"
+            content="Larger samples increase statistical power (the ability to detect a real effect) and produce narrower confidence intervals (more precise estimates). Small samples risk Type II errors (missing real effects) and may not capture population variability. Researchers use power analysis before a study to calculate the minimum sample needed."
+          />
+          <CognitiveCard
+            type="remember"
+            title="Sampling Bias"
+            content="Sampling bias occurs when certain members of the population are systematically more or less likely to be selected. This threatens external validity — your results may not apply to the broader population. Examples: volunteer bias (only motivated people enroll), non-response bias (those who don't respond differ from those who do), and selection bias from convenience sampling."
+          />
+        </MicroLesson>
+
+        <MicroLesson
+          title="Ethical Considerations in Research"
+          subtitle="Protecting participants is a non-negotiable foundation"
+          icon={<Shield className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            Research ethics exist because of historical abuses — the Nazi experiments, the{" "}
+            <HoverReveal
+              term="Tuskegee Syphilis Study"
+              definition="A U.S. Public Health Service study (1932–1972) that deliberately withheld treatment from African American men with syphilis without their informed consent, even after penicillin became the standard cure. This led directly to the Belmont Report and modern research ethics regulations."
+            />{" "}
+            , and others. Modern ethical frameworks ensure research never exploits participants.
+          </p>
+
+          <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-100 mt-4">
+            <p className="text-xs font-semibold text-indigo-700 mb-2">Informed Consent in Research</p>
+            <p className="text-xs text-indigo-600">Research informed consent requires: (1) disclosure of purpose, procedures, risks, benefits, and alternatives; (2) participant comprehension; (3) voluntary agreement without coercion. Participants must know they can withdraw at any time without penalty to their care.</p>
+          </div>
+
+          <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100 mt-3">
+            <p className="text-xs font-semibold text-teal-700 mb-2">IRB / REB Review</p>
+            <p className="text-xs text-teal-600">An Institutional Review Board (IRB) in the U.S. or Research Ethics Board (REB) in Canada must review and approve all human subjects research BEFORE data collection begins. They evaluate risk-benefit ratios, consent processes, confidentiality protections, and safeguards for vulnerable populations.</p>
+          </div>
+
+          <ProgressiveReveal
+            title="The Belmont Report: Three Core Principles"
+            cards={[
+              {
+                id: "bp1",
+                title: "Respect for Persons",
+                summary: "Autonomy and protection of those with diminished autonomy",
+                detail: "Individuals are treated as autonomous agents capable of making their own decisions. Those with diminished autonomy (children, cognitively impaired, prisoners) receive additional protections. This principle underlies informed consent — participants must be given adequate information, comprehend it, and choose freely.",
+              },
+              {
+                id: "bp2",
+                title: "Beneficence",
+                summary: "Maximize benefits, minimize harms",
+                detail: "Researchers have an obligation to (1) do no harm and (2) maximize possible benefits while minimizing possible harms. This requires a careful risk-benefit analysis before and during the study. If risks begin to outweigh benefits, the study must be modified or stopped. This principle led to Data Safety Monitoring Boards in clinical trials.",
+              },
+              {
+                id: "bp3",
+                title: "Justice",
+                summary: "Fair distribution of research burdens and benefits",
+                detail: "The benefits and burdens of research must be distributed equitably. No group should bear a disproportionate share of research risks while another group reaps the benefits. This principle arose from historical exploitation of prisoners, institutionalized individuals, and racial minorities in research. It requires fair participant selection procedures.",
+              },
+            ]}
+          />
+
+          <CognitiveCard
+            type="concept"
+            title="Vulnerable Populations"
+            content="Vulnerable populations require additional ethical protections because they have diminished capacity to give truly voluntary consent. This includes: children (require parental consent plus child assent), pregnant women, prisoners, cognitively impaired individuals, economically disadvantaged persons, and those in dependent relationships (e.g., students, employees). IRBs/REBs apply heightened scrutiny to studies involving these groups."
+          />
+        </MicroLesson>
+
+        <MicroLesson
+          title="Data Visualization & Interpretation"
+          subtitle="Reading graphs correctly is a critical research literacy skill"
+          icon={<PieChart className="w-5 h-5" />}
+        >
+          <div className="space-y-3">
+            <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
+              <p className="text-xs font-semibold text-blue-700 mb-1">Bar Charts</p>
+              <p className="text-xs text-blue-600">Display categorical data using rectangular bars. Bar height (or length) represents frequency or value. Bars are separated by gaps. Best for comparing discrete groups (e.g., infection rates by unit, diagnoses by type). Always check: Does the Y-axis start at 0?</p>
+            </div>
+            <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
+              <p className="text-xs font-semibold text-emerald-700 mb-1">Histograms</p>
+              <p className="text-xs text-emerald-600">Display the distribution of continuous numerical data. Bars are adjacent (no gaps) because the X-axis represents a continuous scale divided into intervals (bins). Reveals shape of distribution: normal, skewed left, skewed right, bimodal. Example: distribution of patient ages in a study.</p>
+            </div>
+            <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100">
+              <p className="text-xs font-semibold text-purple-700 mb-1">Scatter Plots</p>
+              <p className="text-xs text-purple-600">Show the relationship between two continuous variables using individual data points plotted on X-Y axes. Reveal correlations (positive, negative, none), outliers, and the strength of relationships. A trend line may be added. Example: plotting hours studied vs exam scores.</p>
+            </div>
+          </div>
+
+          <CognitiveCard
+            type="concept"
+            title="Interpreting Graphs: Key Questions"
+            content="When reading any graph, systematically ask: (1) What variables are on each axis? (2) What are the units? (3) Does the Y-axis start at 0, or is it truncated? (4) Are the intervals equal? (5) Is the scale linear or logarithmic? (6) What is the sample size? (7) Are error bars or confidence intervals shown? Missing any of these can lead to misinterpretation."
+          />
+
+          <div className="space-y-3 mt-3">
+            <div className="p-4 bg-red-50/60 rounded-xl border border-red-100">
+              <p className="text-xs font-semibold text-red-700 mb-1">Misleading Visual: Truncated Axes</p>
+              <p className="text-xs text-red-600">A Y-axis starting at 98 instead of 0 can make a temperature change from 98.6&deg;F to 99.2&deg;F appear enormous. Always look at the actual numerical difference, not just the visual size of bars or lines.</p>
+            </div>
+            <div className="p-4 bg-orange-50/60 rounded-xl border border-orange-100">
+              <p className="text-xs font-semibold text-orange-700 mb-1">Misleading Visual: Unequal Intervals</p>
+              <p className="text-xs text-orange-600">If X-axis intervals are 1, 2, 5, 10, 50, a linear-looking trend may actually represent exponential growth. Verify that axis intervals are consistent before drawing conclusions about rates of change.</p>
+            </div>
+            <div className="p-4 bg-yellow-50/60 rounded-xl border border-yellow-100">
+              <p className="text-xs font-semibold text-yellow-700 mb-1">Misleading Visual: 3D Charts &amp; Pictographs</p>
+              <p className="text-xs text-yellow-600">Three-dimensional bar charts distort visual perception — rear bars appear smaller. Pictographs that scale both width and height make differences appear squared. Stick to simple 2D charts for accurate comparison.</p>
+            </div>
+          </div>
+        </MicroLesson>
+
+        <MicroLesson
+          title="Systematic Reviews & Meta-Analysis"
+          subtitle="The pinnacle of the evidence hierarchy"
+          icon={<Layers className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            A{" "}
+            <HoverReveal
+              term="systematic review"
+              definition="A rigorous, reproducible method of identifying, appraising, and synthesizing ALL relevant studies on a specific research question. It follows a pre-defined protocol, uses comprehensive search strategies across multiple databases, and applies explicit inclusion/exclusion criteria to minimize bias."
+            />{" "}
+            synthesizes all available evidence on a question. When it includes statistical pooling of results, it becomes a{" "}
+            <HoverReveal
+              term="meta-analysis"
+              definition="A statistical technique that combines the quantitative results from multiple independent studies into a single pooled estimate, increasing statistical power and providing a more precise effect size than any individual study alone."
+            />.
+          </p>
+
+          <ProgressiveReveal
+            title="How a Systematic Review Is Conducted"
+            cards={[
+              {
+                id: "sr1",
+                title: "Step 1: Formulate the Question",
+                summary: "Define a focused, answerable research question using PICO",
+                detail: "The review begins with a clearly defined question, typically structured using PICO (Population, Intervention, Comparison, Outcome). Example: 'In hospitalized adults (P), does early mobilization (I) compared to bed rest (C) reduce length of stay (O)?' The protocol is often registered in advance (e.g., PROSPERO database).",
+              },
+              {
+                id: "sr2",
+                title: "Step 2: Comprehensive Literature Search",
+                summary: "Search multiple databases with a systematic, reproducible strategy",
+                detail: "Reviewers search multiple databases (PubMed, CINAHL, Cochrane, Embase) using predefined search terms. The search strategy is documented in detail so it can be reproduced. Grey literature (dissertations, conference proceedings) may also be searched to reduce publication bias.",
+              },
+              {
+                id: "sr3",
+                title: "Step 3: Screen & Select Studies",
+                summary: "Apply inclusion/exclusion criteria, usually with two independent reviewers",
+                detail: "Two or more reviewers independently screen titles, abstracts, and full texts against pre-defined inclusion and exclusion criteria. Disagreements are resolved by consensus or a third reviewer. A PRISMA flow diagram documents how many studies were identified, screened, excluded (with reasons), and included.",
+              },
+              {
+                id: "sr4",
+                title: "Step 4: Extract Data & Assess Quality",
+                summary: "Systematically extract results and evaluate risk of bias",
+                detail: "Data from each included study is extracted into standardized forms (sample size, design, outcomes, effect sizes). Study quality is assessed using validated tools (e.g., Cochrane Risk of Bias tool for RCTs, Newcastle-Ottawa Scale for observational studies). Low-quality studies may be excluded or analyzed separately.",
+              },
+              {
+                id: "sr5",
+                title: "Step 5: Synthesize & Pool Results",
+                summary: "Combine findings narratively or statistically (meta-analysis)",
+                detail: "If studies are sufficiently similar (homogeneous), results are statistically pooled in a meta-analysis to produce a single summary effect size. If studies are too different (heterogeneous), a narrative synthesis describes patterns across studies. The pooled result is displayed in a forest plot.",
+              },
+            ]}
+          />
+
+          <div className="space-y-3 mt-4">
+            <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-100">
+              <p className="text-xs font-semibold text-indigo-700 mb-1">Forest Plots</p>
+              <p className="text-xs text-indigo-600">The primary visual output of a meta-analysis. Each horizontal line represents one study: the square is the point estimate (effect size), the line is the confidence interval, and the square's size reflects the study's weight. The diamond at the bottom represents the pooled (combined) effect. A vertical line of no effect (0 for mean differences, 1.0 for ratios) helps determine significance.</p>
+            </div>
+            <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
+              <p className="text-xs font-semibold text-amber-700 mb-1">Heterogeneity (I&sup2;)</p>
+              <p className="text-xs text-amber-600">Measures how much variation across studies is due to real differences rather than chance. I&sup2; = 0% means no heterogeneity (studies agree). I&sup2; &gt; 50% suggests substantial heterogeneity — the pooled result should be interpreted cautiously. Sources include differences in populations, interventions, or outcome measures.</p>
+            </div>
+            <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
+              <p className="text-xs font-semibold text-teal-700 mb-1">Pooled Effect Size</p>
+              <p className="text-xs text-teal-600">The combined estimate from all studies, weighted by study size and precision. Represented by the diamond in a forest plot. A narrow diamond indicates a precise pooled estimate. If the diamond does not cross the line of no effect, the overall result is statistically significant.</p>
+            </div>
+          </div>
+
+          <CognitiveCard
+            type="remember"
+            title="Why Systematic Reviews Are Powerful"
+            content="By combining data from multiple studies, systematic reviews and meta-analyses increase statistical power, improve precision of effect estimates, resolve conflicting results from individual studies, and reduce the impact of bias from any single study. They sit at the top of the evidence pyramid and are the foundation of clinical practice guidelines."
+          />
+        </MicroLesson>
+
+        <SelfCheckQuiz title="Knowledge Check: Advanced Research Topics" questions={advancedTopicsQuiz} />
+
+        <MatchingExercise
+          title="Advanced Research Concepts"
+          description="Match each research concept to its correct definition"
+          pairs={[
+            { id: "ar1", term: "Convenience Sampling", definition: "Selecting participants based on easy availability" },
+            { id: "ar2", term: "Belmont Report", definition: "Foundational document establishing respect, beneficence, and justice in research" },
+            { id: "ar3", term: "Forest Plot", definition: "Visual display of individual and pooled results in meta-analysis" },
+            { id: "ar4", term: "Heterogeneity (I\u00B2)", definition: "Measure of variation across studies beyond chance" },
+            { id: "ar5", term: "Stratified Sampling", definition: "Dividing population into subgroups before random selection" },
+            { id: "ar6", term: "Histogram", definition: "Graph displaying distribution of continuous data with adjacent bars" },
+            { id: "ar7", term: "IRB / REB", definition: "Ethics committee that reviews research before it begins" },
+            { id: "ar8", term: "Purposive Sampling", definition: "Deliberately selecting participants with specific characteristics" },
+          ]}
+        />
       </section>
     </div>
   );

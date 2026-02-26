@@ -58,6 +58,8 @@ NurseNest is an interactive nursing education platform designed for RPN/LVN, RN,
 - Lesson content is organized into TypeScript modules by body system, supporting pre/post-test questions.
 - Lessons are categorized into RPN/LVN, RN, NP, and Pharmacology tabs.
 - Flashcard system includes bookmarking and mastery tracking.
+- **Pre-Nursing Foundations Program**: 16 interactive modules (cell biology, physiology, terminology, pharmacology intro, pathophysiology intro, science foundations, anatomy & physiology, research & statistics, medical terminology, chemistry, microbiology, infection control, fluids & electrolytes, healthcare communication, ethics & legal, study strategies). Data files in `client/src/data/pre-nursing-*.tsx`, rendered in `client/src/pages/pre-nursing.tsx`.
+- **CMS Content Integration**: DB-stored lessons (`/api/content/lessons`) appear on the Lessons page as "Additional Lessons" section. Lesson-detail page falls back to DB content when no static content exists. Flashcards page fetches DB flashcard sets from `/api/content/flashcard-sets`.
 
 ## Vite Dev Server & SEO — Critical Invariants
 

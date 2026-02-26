@@ -19,6 +19,9 @@ import {
   Dumbbell,
   Network,
   Sparkles,
+  Wind,
+  Utensils,
+  Droplet,
 } from "lucide-react";
 
 const structuralQuiz: import("@/components/interactive-learning").QuizQuestion[] = [
@@ -284,6 +287,46 @@ const endocrineQuiz: import("@/components/interactive-learning").QuizQuestion[] 
     options: ["Anterior pituitary", "Adrenal medulla", "Adrenal cortex", "Thyroid gland"],
     correctIndex: 2,
     rationale: "Cortisol is released from the adrenal cortex in response to ACTH from the anterior pituitary. It raises blood glucose, suppresses immune function, and helps the body cope with stress. Chronic cortisol elevation can cause Cushing syndrome. The adrenal medulla releases epinephrine/norepinephrine.",
+  },
+];
+
+const bodySystemsQuiz: import("@/components/interactive-learning").QuizQuestion[] = [
+  {
+    id: "bs1",
+    question: "Blood returning from the body enters the heart through the:",
+    options: ["Left atrium via pulmonary veins", "Right atrium via superior and inferior venae cavae", "Left ventricle via the aorta", "Right ventricle via the pulmonary trunk"],
+    correctIndex: 1,
+    rationale: "Deoxygenated blood from systemic circulation returns to the right atrium via the superior vena cava (from the head and upper body) and inferior vena cava (from the lower body). From the right atrium, blood passes through the tricuspid valve into the right ventricle.",
+    hint: "Think: 'Right receives returning blood.'",
+  },
+  {
+    id: "bs2",
+    question: "Gas exchange in the lungs occurs at the:",
+    options: ["Bronchi", "Bronchioles", "Alveoli", "Trachea"],
+    correctIndex: 2,
+    rationale: "Alveoli are the tiny, thin-walled air sacs at the terminal ends of the respiratory tree. Their single-cell-thick walls (type I pneumocytes) and dense surrounding capillary network provide a massive surface area (~70 m\u00B2) for efficient diffusion of O\u2082 into and CO\u2082 out of the blood.",
+  },
+  {
+    id: "bs3",
+    question: "The primary site of nutrient absorption in the gastrointestinal tract is the:",
+    options: ["Stomach", "Small intestine", "Large intestine", "Esophagus"],
+    correctIndex: 1,
+    rationale: "The small intestine (especially the jejunum and ileum) is the primary site of nutrient absorption. Its enormous surface area is created by circular folds (plicae circulares), villi, and microvilli (brush border). The large intestine primarily absorbs water and electrolytes.",
+    hint: "Villi and microvilli dramatically increase the absorptive surface area of this organ.",
+  },
+  {
+    id: "bs4",
+    question: "The functional unit of the kidney responsible for urine formation is the:",
+    options: ["Renal pelvis", "Nephron", "Collecting duct", "Renal cortex"],
+    correctIndex: 1,
+    rationale: "Each kidney contains approximately 1 million nephrons. Each nephron consists of a glomerulus (filtration), proximal convoluted tubule (reabsorption), loop of Henle (concentration gradient), and distal convoluted tubule (secretion and fine-tuning). The nephron is the structural and functional unit of the kidney.",
+  },
+  {
+    id: "bs5",
+    question: "During normal quiet inspiration, the diaphragm:",
+    options: ["Relaxes and moves superiorly", "Contracts and moves inferiorly (flattens)", "Remains stationary", "Contracts and moves superiorly"],
+    correctIndex: 1,
+    rationale: "During inspiration, the diaphragm contracts and flattens (moves inferiorly), increasing the volume of the thoracic cavity. This decreases intrapleural and intrapulmonary pressure, creating a pressure gradient that draws air into the lungs. The external intercostals also assist by elevating the ribs.",
   },
 ];
 
@@ -1146,6 +1189,288 @@ export function AnatomyPhysiologyModule() {
         />
 
         <SelfCheckQuiz title="Endocrine System Check" questions={endocrineQuiz} />
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
+            <Heart className="w-5 h-5 text-red-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Cardiovascular System</h3>
+        </div>
+
+        <MicroLesson
+          title="Heart Anatomy & Blood Flow Pathway"
+          subtitle="Four chambers, four valves, two circuits"
+          icon={<Heart className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            The heart is a muscular pump approximately the size of a fist, located in the{" "}
+            <HoverReveal
+              term="mediastinum"
+              definition="The central compartment of the thoracic cavity between the two pleural cavities. The heart sits within the pericardial sac in the middle mediastinum, slightly left of the midline."
+            />{" "}
+            of the thoracic cavity. It has four chambers that work in coordinated pairs to maintain two distinct circulatory loops.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3 mt-3">
+            <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
+              <p className="text-xs font-semibold text-blue-700 mb-1">Right Side (Pulmonary Circuit)</p>
+              <p className="text-xs text-blue-600">Right atrium receives deoxygenated blood from the body via the superior and inferior venae cavae. Blood flows through the tricuspid valve into the right ventricle, then is pumped through the pulmonary semilunar valve into the pulmonary trunk and arteries to the lungs for gas exchange.</p>
+            </div>
+            <div className="p-4 bg-red-50/60 rounded-xl border border-red-100">
+              <p className="text-xs font-semibold text-red-700 mb-1">Left Side (Systemic Circuit)</p>
+              <p className="text-xs text-red-600">The left atrium receives oxygenated blood from the lungs via four pulmonary veins. Blood flows through the bicuspid (mitral) valve into the left ventricle — the most muscular chamber — then is ejected through the aortic semilunar valve into the aorta to supply the entire body.</p>
+            </div>
+          </div>
+          <ProgressiveReveal
+            title="Blood Flow Sequence"
+            cards={[
+              { id: "bf1", title: "Step 1: Venous Return", summary: "Venae cavae → Right atrium → Tricuspid valve → Right ventricle", detail: "Deoxygenated blood from the systemic circuit returns to the right atrium via the superior vena cava (upper body) and inferior vena cava (lower body), then passes through the tricuspid (right atrioventricular) valve into the right ventricle." },
+              { id: "bf2", title: "Step 2: Pulmonary Circuit", summary: "Right ventricle → Pulmonary valve → Pulmonary arteries → Lungs", detail: "The right ventricle contracts, closing the tricuspid valve and opening the pulmonary semilunar valve. Blood is pumped into the pulmonary trunk, which splits into left and right pulmonary arteries carrying deoxygenated blood to the lungs for gas exchange." },
+              { id: "bf3", title: "Step 3: Pulmonary Return", summary: "Pulmonary veins → Left atrium → Mitral valve → Left ventricle", detail: "Oxygenated blood returns from the lungs via four pulmonary veins into the left atrium, then flows through the bicuspid (mitral) valve into the left ventricle — the thickest, most muscular chamber." },
+              { id: "bf4", title: "Step 4: Systemic Circuit", summary: "Left ventricle → Aortic valve → Aorta → Body → Venae cavae", detail: "The left ventricle contracts powerfully, ejecting oxygenated blood through the aortic semilunar valve into the aorta for distribution to all body tissues. After gas exchange at tissue capillaries, deoxygenated blood returns via venules and veins to the venae cavae, completing the circuit." },
+            ]}
+          />
+          <CognitiveCard
+            type="remember"
+            title="Key Anatomical Facts"
+            content="The left ventricle wall is approximately 3x thicker than the right because it must generate enough pressure to pump blood through the entire systemic circuit. The coronary arteries (right and left) branch from the base of the aorta and supply the myocardium itself with oxygenated blood. The septum separates left and right sides, preventing mixing of oxygenated and deoxygenated blood."
+          />
+        </MicroLesson>
+
+        <MicroLesson
+          title="Cardiac Cycle & Blood Vessel Types"
+          subtitle="Systole, diastole, and the vascular tree"
+          icon={<Activity className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            The{" "}
+            <HoverReveal
+              term="cardiac cycle"
+              definition="One complete heartbeat consisting of atrial systole, ventricular systole, and a relaxation period (diastole). At a resting heart rate of 75 bpm, each cycle lasts approximately 0.8 seconds."
+            />{" "}
+            includes all events from one heartbeat to the next. The heart&apos;s intrinsic conduction system coordinates the rhythmic contractions without requiring external neural input.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-3 mt-3">
+            <div className="p-4 bg-rose-50/60 rounded-xl border border-rose-100">
+              <p className="text-xs font-semibold text-rose-700 mb-1">Systole (Contraction)</p>
+              <p className="text-xs text-rose-600">Atrial systole: atria contract, pushing remaining blood into ventricles. Ventricular systole: ventricles contract, AV valves close (S1 &ldquo;lub&rdquo;), semilunar valves open, blood ejected into pulmonary trunk and aorta.</p>
+            </div>
+            <div className="p-4 bg-sky-50/60 rounded-xl border border-sky-100">
+              <p className="text-xs font-semibold text-sky-700 mb-1">Diastole (Relaxation)</p>
+              <p className="text-xs text-sky-600">Ventricles relax, semilunar valves close (S2 &ldquo;dub&rdquo;), AV valves open. Passive ventricular filling occurs (~70% of filling). The heart spends more time in diastole than systole. Coronary perfusion occurs primarily during diastole.</p>
+            </div>
+            <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100">
+              <p className="text-xs font-semibold text-purple-700 mb-1">Conduction System</p>
+              <p className="text-xs text-purple-600">SA node (pacemaker, 60-100 bpm) → AV node (delay) → Bundle of His → right and left bundle branches → Purkinje fibers → ventricular contraction. This intrinsic system allows the heart to beat independently.</p>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-3 mt-3">
+            <div className="p-4 bg-red-50/60 rounded-xl border border-red-100">
+              <p className="text-xs font-semibold text-red-700 mb-1">Arteries</p>
+              <p className="text-xs text-red-600">Carry blood AWAY from the heart. Thick, muscular, elastic walls withstand high pressure. Arteries branch into smaller arterioles, which regulate blood flow to capillary beds via vasoconstriction/vasodilation.</p>
+            </div>
+            <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
+              <p className="text-xs font-semibold text-emerald-700 mb-1">Capillaries</p>
+              <p className="text-xs text-emerald-600">Microscopic vessels with walls only one endothelial cell thick. This is where exchange occurs: O&#8322; and nutrients diffuse to tissues; CO&#8322; and wastes diffuse into blood. Connect arterioles to venules.</p>
+            </div>
+            <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
+              <p className="text-xs font-semibold text-blue-700 mb-1">Veins</p>
+              <p className="text-xs text-blue-600">Carry blood TOWARD the heart. Thinner walls, lower pressure, larger lumens than arteries. Many contain one-way valves to prevent backflow. Venous return aided by skeletal muscle pump and respiratory pump.</p>
+            </div>
+          </div>
+          <CognitiveCard
+            type="concept"
+            title="Cardiac Output"
+            content="Cardiac output (CO) = Heart Rate (HR) × Stroke Volume (SV). Normal resting CO is approximately 5 L/min. Stroke volume is the amount of blood ejected per beat (~70 mL). CO can increase 4-5x during vigorous exercise through increased HR and SV. Blood pressure = CO × peripheral resistance."
+          />
+        </MicroLesson>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
+            <Wind className="w-5 h-5 text-cyan-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Respiratory System</h3>
+        </div>
+
+        <MicroLesson
+          title="Airways Anatomy & Gas Exchange"
+          subtitle="From nasal cavity to alveolar diffusion"
+          icon={<Wind className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            The respiratory system is divided into the{" "}
+            <HoverReveal
+              term="upper respiratory tract"
+              definition="Includes the nose, nasal cavity, paranasal sinuses, pharynx (nasopharynx, oropharynx, laryngopharynx), and larynx. Functions include warming, humidifying, and filtering inspired air before it reaches the lower airways."
+            />{" "}
+            and the{" "}
+            <HoverReveal
+              term="lower respiratory tract"
+              definition="Includes the trachea, bronchi (primary, secondary, tertiary), bronchioles, terminal bronchioles, respiratory bronchioles, alveolar ducts, and alveoli. The lower tract is the site of gas conduction and exchange."
+            />.
+          </p>
+          <ProgressiveReveal
+            title="Airway Branching (Conducting Zone → Respiratory Zone)"
+            cards={[
+              { id: "ab1", title: "Trachea", summary: "C-shaped cartilage rings maintain patency", detail: "The trachea is lined with pseudostratified ciliated columnar epithelium (mucociliary escalator) that traps and propels inhaled particles upward. C-shaped hyaline cartilage rings keep the airway open while the posterior trachealis muscle allows esophageal expansion during swallowing." },
+              { id: "ab2", title: "Bronchi", summary: "Progressive branching with decreasing cartilage", detail: "Primary (main) bronchi enter each lung at the hilum. They subdivide into secondary (lobar) bronchi (3 right, 2 left — matching lung lobes), then tertiary (segmental) bronchi. As airways branch, cartilage decreases and smooth muscle increases, allowing autonomic control of airway diameter." },
+              { id: "ab3", title: "Bronchioles", summary: "No cartilage; smooth muscle controls diameter", detail: "Bronchioles lack cartilage entirely and rely on smooth muscle for structural support and diameter regulation. Terminal bronchioles are the smallest conducting airways. The conducting zone (nose through terminal bronchioles) warms, humidifies, and filters air but performs no gas exchange — this is anatomical dead space (~150 mL)." },
+              { id: "ab4", title: "Respiratory Zone", summary: "Respiratory bronchioles → Alveolar ducts → Alveoli", detail: "The respiratory zone begins at respiratory bronchioles, which have scattered alveoli budding from their walls. These lead to alveolar ducts and alveolar sacs. An estimated 300 million alveoli provide ~70 m² of surface area for gas exchange — roughly the size of a tennis court." },
+            ]}
+          />
+          <div className="grid sm:grid-cols-2 gap-3 mt-3">
+            <div className="p-4 bg-cyan-50/60 rounded-xl border border-cyan-100">
+              <p className="text-xs font-semibold text-cyan-700 mb-1">Alveolar Structure</p>
+              <p className="text-xs text-cyan-600">Type I pneumocytes: thin squamous cells forming the gas exchange surface. Type II pneumocytes: secrete pulmonary surfactant, which reduces surface tension and prevents alveolar collapse (atelectasis). Alveolar macrophages: phagocytize inhaled particles and pathogens.</p>
+            </div>
+            <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
+              <p className="text-xs font-semibold text-teal-700 mb-1">Gas Exchange (External Respiration)</p>
+              <p className="text-xs text-teal-600">O&#8322; diffuses from alveoli (high PO&#8322;) into pulmonary capillary blood (low PO&#8322;). CO&#8322; diffuses from blood (high PCO&#8322;) into alveoli (low PCO&#8322;). Diffusion occurs across the respiratory membrane: alveolar epithelium + shared basement membrane + capillary endothelium (~0.5 &mu;m total thickness).</p>
+            </div>
+          </div>
+          <CognitiveCard
+            type="concept"
+            title="Ventilation Mechanics"
+            content="Inspiration is an ACTIVE process: the diaphragm contracts and flattens, external intercostals elevate the ribs, thoracic volume increases, intrapulmonary pressure drops below atmospheric pressure, and air flows IN (Boyle's law). Quiet expiration is PASSIVE: the diaphragm and intercostals relax, elastic recoil of lungs decreases thoracic volume, intrapulmonary pressure rises above atmospheric pressure, and air flows OUT. Forced expiration recruits internal intercostals and abdominal muscles."
+          />
+          <CognitiveCard
+            type="remember"
+            title="Oxygen Transport"
+            content="~98.5% of O₂ is transported bound to hemoglobin (as oxyhemoglobin, HbO₂) within red blood cells. ~1.5% is dissolved in plasma. Each hemoglobin molecule can carry up to 4 O₂ molecules. CO₂ transport: ~70% as bicarbonate (HCO₃⁻) in plasma, ~23% bound to hemoglobin (carbaminohemoglobin), ~7% dissolved in plasma."
+          />
+        </MicroLesson>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
+            <Utensils className="w-5 h-5 text-orange-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Digestive System</h3>
+        </div>
+
+        <MicroLesson
+          title="GI Tract Anatomy & Digestion"
+          subtitle="From mouth to anus — mechanical and chemical breakdown"
+          icon={<Utensils className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            The gastrointestinal (GI) tract is a continuous muscular tube approximately 9 meters long, extending from the mouth to the anus. The wall of the GI tract has four basic layers:{" "}
+            <HoverReveal
+              term="mucosa"
+              definition="The innermost layer, consisting of epithelium, lamina propria (connective tissue), and muscularis mucosae. The mucosa has direct contact with the lumen contents and varies in structure along the GI tract based on function (secretion, absorption, or protection)."
+            />, submucosa, muscularis externa (smooth muscle for peristalsis), and serosa (outermost protective layer).
+          </p>
+          <ProgressiveReveal
+            title="GI Tract Organs in Sequence"
+            cards={[
+              { id: "gi1", title: "Mouth (Oral Cavity)", summary: "Mechanical and initial chemical digestion begins", detail: "Mastication (chewing) physically breaks food into smaller pieces. Salivary glands secrete saliva containing salivary amylase (begins starch digestion) and lingual lipase (begins fat digestion). The tongue mixes food with saliva to form a bolus for swallowing." },
+              { id: "gi2", title: "Pharynx & Esophagus", summary: "Swallowing propels bolus via peristalsis", detail: "The pharynx connects the oral cavity to the esophagus. Swallowing (deglutition) is coordinated by the swallowing center in the medulla. The epiglottis covers the larynx to prevent aspiration. The esophagus uses peristalsis to move the bolus to the stomach. The lower esophageal sphincter (cardiac sphincter) prevents reflux." },
+              { id: "gi3", title: "Stomach", summary: "Churning and chemical digestion produce chyme", detail: "The stomach churns food and mixes it with gastric juice. Parietal cells secrete HCl (denatures proteins, activates pepsinogen, kills bacteria) and intrinsic factor (essential for vitamin B12 absorption in the ileum). Chief cells secrete pepsinogen, activated to pepsin by HCl. The resulting acidic mixture is called chyme." },
+              { id: "gi4", title: "Small Intestine", summary: "Primary site of chemical digestion and nutrient absorption", detail: "Duodenum: receives bile (from liver/gallbladder via common bile duct) and pancreatic juice (from pancreas via pancreatic duct). Most chemical digestion is completed here. Jejunum: primary site of nutrient absorption. Ileum: absorbs vitamin B12 and bile salts. Villi and microvilli create an enormous absorptive surface area." },
+              { id: "gi5", title: "Large Intestine", summary: "Water absorption, microbiota, feces formation", detail: "The large intestine (cecum → ascending colon → transverse colon → descending colon → sigmoid colon → rectum → anal canal) absorbs water and electrolytes from remaining indigestible material. It houses trillions of gut microbiota that synthesize vitamin K and some B vitamins. Feces are formed, stored in the rectum, and eliminated via defecation." },
+            ]}
+          />
+          <div className="grid sm:grid-cols-3 gap-3 mt-3">
+            <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
+              <p className="text-xs font-semibold text-amber-700 mb-1">Liver</p>
+              <p className="text-xs text-amber-600">Largest internal organ. Produces bile (emulsifies fats for digestion). Metabolizes nutrients absorbed from the GI tract (via hepatic portal vein). Detoxifies substances, synthesizes plasma proteins (albumin, clotting factors), stores glycogen, and produces urea from ammonia.</p>
+            </div>
+            <div className="p-4 bg-yellow-50/60 rounded-xl border border-yellow-100">
+              <p className="text-xs font-semibold text-yellow-700 mb-1">Pancreas</p>
+              <p className="text-xs text-yellow-600">Dual function organ. Exocrine: secretes pancreatic juice into the duodenum containing digestive enzymes (pancreatic amylase, lipase, trypsinogen, chymotrypsinogen) and bicarbonate (neutralizes gastric acid). Endocrine: islets of Langerhans produce insulin (beta cells) and glucagon (alpha cells).</p>
+            </div>
+            <div className="p-4 bg-green-50/60 rounded-xl border border-green-100">
+              <p className="text-xs font-semibold text-green-700 mb-1">Gallbladder</p>
+              <p className="text-xs text-green-600">Stores and concentrates bile produced by the liver. When fat enters the duodenum, cholecystokinin (CCK) is released, stimulating the gallbladder to contract and release bile through the common bile duct into the duodenum for fat emulsification.</p>
+            </div>
+          </div>
+          <CognitiveCard
+            type="concept"
+            title="Mechanical vs. Chemical Digestion"
+            content="Mechanical digestion physically breaks food into smaller pieces without altering chemical composition — includes mastication (chewing), churning in the stomach, and segmentation in the small intestine. Chemical digestion uses enzymes and other chemicals to break covalent bonds in macromolecules: amylase breaks starch into maltose, pepsin/trypsin break proteins into peptides, lipase breaks triglycerides into fatty acids and monoglycerides, and brush border enzymes complete final digestion at the intestinal wall."
+          />
+        </MicroLesson>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
+            <Droplet className="w-5 h-5 text-amber-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Urinary System</h3>
+        </div>
+
+        <MicroLesson
+          title="Kidney Structure & Urine Formation"
+          subtitle="Nephron physiology — filtration, reabsorption, secretion"
+          icon={<Droplet className="w-5 h-5" />}
+        >
+          <p className="text-sm text-gray-600 leading-relaxed">
+            The urinary system consists of two kidneys, two ureters, the urinary bladder, and the urethra. The kidneys are retroperitoneal organs located against the posterior abdominal wall. Each kidney has an outer{" "}
+            <HoverReveal
+              term="renal cortex"
+              definition="The outer region of the kidney containing the glomeruli, Bowman's capsules, proximal and distal convoluted tubules, and cortical collecting ducts. Most nephron structures reside here."
+            />{" "}
+            and an inner{" "}
+            <HoverReveal
+              term="renal medulla"
+              definition="The inner region containing the loops of Henle and medullary collecting ducts, organized into renal pyramids. The medulla maintains the osmotic gradient essential for concentrating urine."
+            />.
+          </p>
+          <ProgressiveReveal
+            title="Three Processes of Urine Formation"
+            cards={[
+              { id: "uf1", title: "Glomerular Filtration", summary: "Blood pressure forces plasma components into Bowman's capsule", detail: "Hydrostatic pressure in the glomerular capillaries forces water, electrolytes, glucose, amino acids, and waste products through the filtration membrane (fenestrated endothelium, basement membrane, podocyte filtration slits) into Bowman's capsule. ~180 L of filtrate is produced daily; only ~1-2 L becomes urine. Normal GFR ≈ 125 mL/min. Blood cells and most proteins are too large to be filtered." },
+              { id: "uf2", title: "Tubular Reabsorption", summary: "Essential substances reclaimed from filtrate back into blood", detail: "The proximal convoluted tubule (PCT) reclaims ~65% of filtered water, nearly all glucose and amino acids, and most Na+, Cl⁻, K+, and HCO₃⁻ via active transport, cotransport, and osmosis. The descending limb of the loop of Henle is permeable to water (water reabsorbed). The ascending limb actively pumps out Na+/Cl⁻ (creating the medullary concentration gradient). The DCT and collecting duct perform hormonally regulated fine-tuning (ADH, aldosterone)." },
+              { id: "uf3", title: "Tubular Secretion", summary: "Unwanted substances moved from blood into tubular fluid", detail: "Substances are actively transported FROM peritubular capillary blood INTO the tubular fluid for elimination. Key substances secreted include H+ ions (critical for acid-base balance), K+ (regulated by aldosterone), NH₄+, certain drugs (penicillin, aspirin metabolites), and creatinine. Secretion is essentially the reverse of reabsorption and provides an additional mechanism for removing wastes and regulating blood composition." },
+            ]}
+          />
+          <div className="grid sm:grid-cols-2 gap-3 mt-3">
+            <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
+              <p className="text-xs font-semibold text-amber-700 mb-1">Nephron Components</p>
+              <p className="text-xs text-amber-600">Glomerulus (capillary tuft enclosed by Bowman&apos;s capsule) → Proximal convoluted tubule (PCT) → Descending limb of loop of Henle (permeable to water) → Ascending limb (impermeable to water, actively transports Na+/Cl−) → Distal convoluted tubule (DCT) → Collecting duct → Renal pelvis.</p>
+            </div>
+            <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
+              <p className="text-xs font-semibold text-teal-700 mb-1">Hormonal Regulation</p>
+              <p className="text-xs text-teal-600">ADH (from posterior pituitary): increases water reabsorption in collecting ducts, concentrating urine. Aldosterone (from adrenal cortex): increases Na+ reabsorption and K+ secretion in DCT/collecting duct. ANP (from heart atria): promotes Na+ and water excretion, lowering blood volume. Renin-angiotensin-aldosterone system (RAAS): activated by low blood pressure to retain Na+ and water.</p>
+            </div>
+          </div>
+          <CognitiveCard
+            type="remember"
+            title="Kidney Functions Beyond Urine Formation"
+            content="The kidneys do far more than produce urine. They regulate blood volume and pressure (RAAS, ADH), maintain electrolyte balance (Na+, K+, Ca²+, phosphate), regulate acid-base balance (H+ secretion, HCO₃⁻ reabsorption), produce erythropoietin (EPO, stimulates red blood cell production), activate vitamin D (calcitriol, for calcium absorption), and perform gluconeogenesis during prolonged fasting."
+          />
+        </MicroLesson>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+            <Activity className="w-5 h-5 text-emerald-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Body Systems Review</h3>
+        </div>
+
+        <SelfCheckQuiz title="Cardiovascular, Respiratory, Digestive & Urinary Systems Check" questions={bodySystemsQuiz} />
+
+        <MatchingExercise
+          title="Organ Systems & Key Functions"
+          description="Match each organ system to its primary function"
+          pairs={[
+            { id: "osm1", term: "Cardiovascular System", definition: "Pumps and transports blood, O\u2082, nutrients, and wastes throughout the body" },
+            { id: "osm2", term: "Respiratory System", definition: "Gas exchange — delivers O\u2082 to blood and removes CO\u2082 from the body" },
+            { id: "osm3", term: "Digestive System", definition: "Breaks down food into absorbable nutrients; eliminates solid waste" },
+            { id: "osm4", term: "Urinary System", definition: "Filters blood, regulates fluid/electrolyte balance, and produces urine" },
+            { id: "osm5", term: "Nervous System", definition: "Rapid electrochemical signaling for sensation, integration, and motor response" },
+            { id: "osm6", term: "Endocrine System", definition: "Hormone-based regulation of metabolism, growth, and reproduction" },
+            { id: "osm7", term: "Musculoskeletal System", definition: "Supports the body, enables movement, and protects internal organs" },
+            { id: "osm8", term: "Integumentary System", definition: "Protects against external threats, regulates temperature, and prevents water loss" },
+          ]}
+        />
       </section>
     </div>
   );

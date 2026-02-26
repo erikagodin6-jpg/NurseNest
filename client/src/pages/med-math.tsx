@@ -26,7 +26,7 @@ import {
   ShieldCheck,
   BookOpen,
 } from "lucide-react";
-import { LocaleLink } from "@/components/locale-link";
+import { LocaleLink } from "@/lib/LocaleLink";
 
 function seededRandom(seed: number) {
   let s = seed % 2147483647;

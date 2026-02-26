@@ -51,6 +51,14 @@ import { useLocation } from "wouter";
 import { ScienceFoundationsModule } from "@/data/pre-nursing-science";
 import { ResearchStatisticsModule } from "@/data/pre-nursing-research";
 import { AnatomyPhysiologyModule } from "@/data/pre-nursing-anatomy";
+import { MedicalTerminologyModule } from "@/data/pre-nursing-terminology";
+import { ChemistryModule } from "@/data/pre-nursing-chemistry";
+import { MicrobiologyModule } from "@/data/pre-nursing-microbiology";
+import { InfectionControlModule } from "@/data/pre-nursing-infection-control";
+import { FluidsElectrolytesModule } from "@/data/pre-nursing-fluids-electrolytes";
+import { CommunicationModule } from "@/data/pre-nursing-communication";
+import { EthicsLegalModule } from "@/data/pre-nursing-ethics-legal";
+import { StudyStrategiesModule } from "@/data/pre-nursing-study-strategies";
 
 import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
 import illustrationHomeostasis from "@assets/E9E33423-6365-4686-98CB-3197D14546E5_1771868083264.png";
@@ -62,7 +70,7 @@ function cn(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-type ModuleId = "cell-biology" | "physiology" | "terminology" | "pharmacology" | "pathophysiology" | "science-foundations" | "anatomy-physiology" | "research-statistics";
+type ModuleId = "cell-biology" | "physiology" | "terminology" | "pharmacology" | "pathophysiology" | "science-foundations" | "anatomy-physiology" | "research-statistics" | "medical-terminology" | "chemistry" | "microbiology" | "infection-control" | "fluids-electrolytes" | "communication" | "ethics-legal" | "study-strategies";
 
 const modules: {
   id: ModuleId;
@@ -153,6 +161,86 @@ const modules: {
     bg: "bg-indigo-50",
     lessons: 5,
     image: illustrationCranialNerves,
+  },
+  {
+    id: "medical-terminology",
+    titleKey: "preNursing.mod.medicalTerminology",
+    subtitleKey: "preNursing.mod.medicalTerminologyDesc",
+    icon: BookOpen,
+    color: "text-cyan-600",
+    bg: "bg-cyan-50",
+    lessons: 4,
+    image: illustrationCranialNerves,
+  },
+  {
+    id: "chemistry",
+    titleKey: "preNursing.mod.chemistry",
+    subtitleKey: "preNursing.mod.chemistryDesc",
+    icon: Beaker,
+    color: "text-orange-600",
+    bg: "bg-orange-50",
+    lessons: 4,
+    image: illustrationElectrolytes,
+  },
+  {
+    id: "microbiology",
+    titleKey: "preNursing.mod.microbiology",
+    subtitleKey: "preNursing.mod.microbiologyDesc",
+    icon: Sparkles,
+    color: "text-lime-600",
+    bg: "bg-lime-50",
+    lessons: 4,
+    image: illustrationCellStructure,
+  },
+  {
+    id: "infection-control",
+    titleKey: "preNursing.mod.infectionControl",
+    subtitleKey: "preNursing.mod.infectionControlDesc",
+    icon: Target,
+    color: "text-rose-600",
+    bg: "bg-rose-50",
+    lessons: 4,
+    image: illustrationInflammatoryResponse,
+  },
+  {
+    id: "fluids-electrolytes",
+    titleKey: "preNursing.mod.fluidsElectrolytes",
+    subtitleKey: "preNursing.mod.fluidsElectrolytesDesc",
+    icon: Droplets,
+    color: "text-sky-600",
+    bg: "bg-sky-50",
+    lessons: 4,
+    image: illustrationElectrolytes,
+  },
+  {
+    id: "communication",
+    titleKey: "preNursing.mod.communication",
+    subtitleKey: "preNursing.mod.communicationDesc",
+    icon: Layers,
+    color: "text-violet-600",
+    bg: "bg-violet-50",
+    lessons: 4,
+    image: illustrationHomeostasis,
+  },
+  {
+    id: "ethics-legal",
+    titleKey: "preNursing.mod.ethicsLegal",
+    subtitleKey: "preNursing.mod.ethicsLegalDesc",
+    icon: Lightbulb,
+    color: "text-amber-600",
+    bg: "bg-amber-50",
+    lessons: 4,
+    image: illustrationCranialNerves,
+  },
+  {
+    id: "study-strategies",
+    titleKey: "preNursing.mod.studyStrategies",
+    subtitleKey: "preNursing.mod.studyStrategiesDesc",
+    icon: Brain,
+    color: "text-pink-600",
+    bg: "bg-pink-50",
+    lessons: 4,
+    image: illustrationHomeostasis,
   },
 ];
 
@@ -281,6 +369,14 @@ export default function PreNursingPage() {
           {activeModule === "science-foundations" && <ScienceFoundationsModule />}
           {activeModule === "anatomy-physiology" && <AnatomyPhysiologyModule />}
           {activeModule === "research-statistics" && <ResearchStatisticsModule />}
+          {activeModule === "medical-terminology" && <MedicalTerminologyModule />}
+          {activeModule === "chemistry" && <ChemistryModule />}
+          {activeModule === "microbiology" && <MicrobiologyModule />}
+          {activeModule === "infection-control" && <InfectionControlModule />}
+          {activeModule === "fluids-electrolytes" && <FluidsElectrolytesModule />}
+          {activeModule === "communication" && <CommunicationModule />}
+          {activeModule === "ethics-legal" && <EthicsLegalModule />}
+          {activeModule === "study-strategies" && <StudyStrategiesModule />}
         </main>
         <AdminEditButton />
         <Footer />
