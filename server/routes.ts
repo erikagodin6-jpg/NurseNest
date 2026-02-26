@@ -108,6 +108,167 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerObjectStorageRoutes(app);
 
   // --------------------
+  // AI Content Generation (admin-only)
+  // --------------------
+  app.post("/api/ai/generate-content", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { prompt, context, mode } = req.body;
+      if (!prompt) return res.status(400).json({ error: "Prompt is required" });
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const systemPrompts: Record<string, string> = {
+        "generate": `You are a nursing education content writer for NurseNest, a professional nursing exam prep platform. Generate comprehensive, university-level clinical nursing content. Use evidence-based medical information. Structure content with clear headings, clinical pearls, and practical nursing interventions. Return ONLY valid JSON array of content blocks in this format:
+[{"type":"heading","content":"Section Title"},{"type":"paragraph","content":"Detailed content..."},{"type":"list","content":"Item 1\\nItem 2\\nItem 3"},{"type":"clinical-pearl","content":"Important clinical insight..."},{"type":"warning","content":"Critical safety warning..."},{"type":"callout","content":"Key takeaway..."}]
+Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medication, quiz-question, flashcard, references`,
+
+        "improve": `You are a nursing education editor for NurseNest. Improve the provided content by making it more comprehensive, clinically accurate, and engaging for nursing students. Maintain the same structure but enhance the quality. Return ONLY valid JSON array of content blocks in the same format as the input.`,
+
+        "expand": `You are a nursing education content expert. Take the provided content and significantly expand it with more detail, clinical examples, nursing interventions, patient teaching points, and evidence-based rationale. Return ONLY valid JSON array of content blocks.`,
+
+        "simplify": `You are a nursing education writer. Simplify the provided content to make it more accessible while keeping clinical accuracy. Use plain language, analogies, and clear explanations. Return ONLY valid JSON array of content blocks.`,
+
+        "quiz": `You are a nursing exam question writer. Generate NCLEX-style questions based on the provided topic/content. Return ONLY valid JSON array of content blocks where each question uses this format:
+[{"type":"quiz-question","content":"Q: Question text\\nA) Option A\\nB) Option B\\nC) Option C\\nD) Option D\\nCorrect: B\\nRationale: Explanation of why B is correct and why others are wrong"}]`,
+      };
+
+      const systemPrompt = systemPrompts[mode] || systemPrompts["generate"];
+
+      const messages: any[] = [
+        { role: "system", content: systemPrompt },
+      ];
+
+      if (context) {
+        messages.push({ role: "user", content: `Existing content context:\n${JSON.stringify(context)}` });
+      }
+      messages.push({ role: "user", content: prompt });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages,
+        temperature: 0.7,
+        max_tokens: 4096,
+      });
+
+      const text = response.choices[0]?.message?.content || "[]";
+      let blocks;
+      try {
+        const jsonMatch = text.match(/\[[\s\S]*\]/);
+        blocks = jsonMatch ? JSON.parse(jsonMatch[0]) : [];
+      } catch {
+        blocks = [{ type: "paragraph", content: text }];
+      }
+
+      await logAudit(req, admin, "ai", null, "generate-content", null, { mode, prompt: prompt.substring(0, 200) });
+      res.json({ blocks });
+    } catch (e: any) {
+      console.error("AI generate error:", e);
+      res.status(500).json({ error: e.message || "AI generation failed" });
+    }
+  });
+
+  app.post("/api/ai/generate-seo", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { title, summary, content, tier, category } = req.body;
+      if (!title) return res.status(400).json({ error: "Title is required" });
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const contentPreview = Array.isArray(content)
+        ? content.slice(0, 5).map((b: any) => b.content || "").join(" ").substring(0, 500)
+        : "";
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are an SEO specialist for NurseNest, a nursing exam preparation platform. Generate SEO metadata for nursing education content. Include relevant nursing exam keywords (NCLEX, REX-PN, AANP, ANCC, FNP-BC, etc.) where appropriate. Return ONLY valid JSON:
+{"seoTitle":"SEO-optimized title (50-60 chars)","seoDescription":"Meta description with keywords (150-160 chars)","seoKeywords":["keyword1","keyword2","keyword3","keyword4","keyword5"],"primaryKeyword":"main target keyword","secondaryKeywords":["secondary1","secondary2","secondary3"]}`
+          },
+          {
+            role: "user",
+            content: `Title: ${title}\nSummary: ${summary || ""}\nTier: ${tier || "general"}\nCategory: ${category || ""}\nContent preview: ${contentPreview}`
+          }
+        ],
+        temperature: 0.3,
+        max_tokens: 512,
+      });
+
+      const text = response.choices[0]?.message?.content || "{}";
+      let seo;
+      try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        seo = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+      } catch {
+        seo = {};
+      }
+
+      await logAudit(req, admin, "ai", null, "generate-seo", null, { title });
+      res.json(seo);
+    } catch (e: any) {
+      console.error("AI SEO error:", e);
+      res.status(500).json({ error: e.message || "AI SEO generation failed" });
+    }
+  });
+
+  app.post("/api/ai/chat-assist", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { message, contentContext } = req.body;
+      if (!message) return res.status(400).json({ error: "Message is required" });
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are a helpful AI assistant for NurseNest content editors. You help with nursing education content creation, editing, and SEO optimization. You can:
+- Answer questions about nursing topics
+- Suggest content improvements
+- Help write clinical pearls and key points
+- Suggest SEO keywords and descriptions
+- Help structure lesson content
+Keep responses concise and actionable.`
+          },
+          ...(contentContext ? [{ role: "user" as const, content: `Current content context: ${JSON.stringify(contentContext).substring(0, 1000)}` }] : []),
+          { role: "user", content: message }
+        ],
+        temperature: 0.7,
+        max_tokens: 1024,
+      });
+
+      const reply = response.choices[0]?.message?.content || "I couldn't generate a response.";
+      res.json({ reply });
+    } catch (e: any) {
+      console.error("AI chat error:", e);
+      res.status(500).json({ error: e.message || "AI chat failed" });
+    }
+  });
+
+  // --------------------
   // Admin verify endpoint (single source of truth)
   // --------------------
   app.post("/api/admin/verify", async (req, res) => {

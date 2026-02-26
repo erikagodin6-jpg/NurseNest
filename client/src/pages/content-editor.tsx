@@ -437,27 +437,35 @@ export default function ContentEditorPage() {
     setBlocks(updated);
   }
 
-  function autoGenerateSeo() {
-    setSeoTitle(title ? `${title} | NurseNest` : "");
-    setSeoDescription(
-      summary ||
-        blocks
-          .filter((b) => b.type === "paragraph")
-          .map((b) => b.content)
-          .join(" ")
-          .slice(0, 160)
-    );
-    const kw = [
-      title.toLowerCase(),
-      type,
-      bodySystem,
-      "nursing",
-      "nclex",
-      ...tags,
-    ]
-      .filter(Boolean)
-      .join(", ");
-    setSeoKeywords(kw);
+  async function autoGenerateSeo() {
+    const creds = getCredentials();
+    if (!creds) {
+      setSeoTitle(title ? `${title} | NurseNest` : "");
+      setSeoDescription(summary || blocks.filter((b) => b.type === "paragraph").map((b) => b.content).join(" ").slice(0, 160));
+      setSeoKeywords([title.toLowerCase(), type, bodySystem, "nursing", "nclex", ...tags].filter(Boolean).join(", "));
+      return;
+    }
+    try {
+      const res = await fetch("/api/ai/generate-seo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username, password: creds.password,
+          title, summary, content: blocks, tier, category,
+        }),
+      });
+      if (!res.ok) throw new Error("AI SEO failed");
+      const seo = await res.json();
+      if (seo.seoTitle) setSeoTitle(seo.seoTitle);
+      if (seo.seoDescription) setSeoDescription(seo.seoDescription);
+      if (seo.seoKeywords) setSeoKeywords(seo.seoKeywords.join(", "));
+      if (seo.primaryKeyword) setPrimaryKeyword(seo.primaryKeyword);
+      if (seo.secondaryKeywords) setSecondaryKeywords(seo.secondaryKeywords.join(", "));
+    } catch {
+      setSeoTitle(title ? `${title} | NurseNest` : "");
+      setSeoDescription(summary || blocks.filter((b) => b.type === "paragraph").map((b) => b.content).join(" ").slice(0, 160));
+      setSeoKeywords([title.toLowerCase(), type, bodySystem, "nursing", "nclex", ...tags].filter(Boolean).join(", "));
+    }
   }
 
   async function handleSave() {
