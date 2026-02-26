@@ -1659,133 +1659,427 @@ export default function LessonDetail() {
 
     if (dbContent) {
       const blocks = Array.isArray(dbContent.content) ? dbContent.content : [];
+
       const objectives: string[] = [];
       const clinicalPearls: string[] = [];
       const assessmentItems: string[] = [];
+      let pathophysiologyText = "";
+      const riskFactors: string[] = [];
+      const diagnosticItems: string[] = [];
+      const managementItems: string[] = [];
+      const nursingActionItems: string[] = [];
+      const signsLeft: string[] = [];
+      const signsRight: string[] = [];
+      let lifespanText = "";
+      const medsParsed: { name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[] = [];
+      const consumedIndices = new Set<number>();
+
       for (let i = 0; i < blocks.length; i++) {
         const block = blocks[i];
-        if (block.type === "heading" && typeof block.content === "string" && /objectives/i.test(block.content)) {
-          const next = blocks[i + 1];
-          if (next && (next.type === "bulletList" || next.type === "list" || next.type === "numberedList" || next.type === "numbered-list") && Array.isArray(next.items)) {
-            objectives.push(...next.items);
-          }
+        const headingText = (block.type === "heading" && typeof block.content === "string") ? block.content : "";
+        const next = blocks[i + 1];
+        const nextItems = next && (next.type === "bulletList" || next.type === "list" || next.type === "numberedList" || next.type === "numbered-list") && Array.isArray(next.items) ? next.items : null;
+        const nextParagraph = next && next.type === "paragraph" && next.content ? next.content : "";
+
+        if (/objectives/i.test(headingText) && nextItems) {
+          objectives.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/pathophysiology/i.test(headingText) && nextParagraph) {
+          pathophysiologyText = nextParagraph;
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/risk\s*factors/i.test(headingText) && nextItems) {
+          riskFactors.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/diagnostic/i.test(headingText) && nextItems) {
+          diagnosticItems.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/medical\s*management|^management$/i.test(headingText) && nextItems) {
+          managementItems.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/nursing\s*actions/i.test(headingText) && nextItems) {
+          nursingActionItems.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/assessment\s*findings/i.test(headingText) && nextItems) {
+          assessmentItems.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/early\s*signs/i.test(headingText) && nextItems) {
+          signsLeft.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/late.*signs|emergency/i.test(headingText) && nextItems) {
+          signsRight.push(...nextItems);
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/lifespan/i.test(headingText) && nextParagraph) {
+          lifespanText = nextParagraph;
+          consumedIndices.add(i); consumedIndices.add(i + 1);
+        } else if (/signs\s*&?\s*symptoms|signs\s*and\s*symptoms/i.test(headingText)) {
+          consumedIndices.add(i);
+        } else if (/^medications$/i.test(headingText)) {
+          consumedIndices.add(i);
         }
-        if (block.type === "heading" && typeof block.content === "string" && /assessment findings/i.test(block.content)) {
-          const next = blocks[i + 1];
-          if (next && (next.type === "bulletList" || next.type === "list") && Array.isArray(next.items)) {
-            assessmentItems.push(...next.items);
-          }
-        }
+
         if (block.type === "clinical-pearl" || block.type === "clinicalPearl") {
           if (block.content) clinicalPearls.push(block.content);
+          consumedIndices.add(i);
+        }
+        if (block.type === "medication" && block.content) {
+          const lines = block.content.split("\n");
+          const nameLine = lines[0] || "";
+          const nameMatch = nameLine.match(/^(.+?)\s*\((.+?)\)/);
+          medsParsed.push({
+            name: nameMatch ? nameMatch[1].trim() : nameLine.trim(),
+            type: nameMatch ? nameMatch[2].trim() : "",
+            action: (lines.find((l: string) => l.startsWith("Action:")) || "").replace("Action:", "").trim(),
+            sideEffects: (lines.find((l: string) => l.startsWith("Side Effects:")) || "").replace("Side Effects:", "").trim(),
+            contra: (lines.find((l: string) => l.startsWith("Contraindications:")) || "").replace("Contraindications:", "").trim(),
+            pearl: (lines.find((l: string) => l.startsWith("Nursing Pearl:")) || "").replace("Nursing Pearl:", "").trim(),
+          });
+          consumedIndices.add(i);
         }
       }
 
+      const remainingBlocks = blocks.filter((_: any, i: number) => !consumedIndices.has(i));
+
       const dbLessonIsPublished = dbContent.status === "published";
+      const dbTierLabel = dbContent.tier === "np" ? "NP Focus" : dbContent.tier === "rn" ? "RN Focus" : dbContent.tier === "free" ? "Free" : "RPN Focus";
 
       return (
         <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
           <Navigation />
-          <main className="max-w-4xl mx-auto px-4 py-10 w-full space-y-6" data-testid="db-lesson-detail">
-            <LocaleLink href="/lessons">
-              <Button variant="ghost" className="mb-4 group" data-testid="button-back-lessons">
-                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                Back to Lessons
-              </Button>
-            </LocaleLink>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-3 flex-wrap">
-                {dbContent.category && (
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-100 text-blue-700" data-testid="badge-category">
-                    {dbContent.category}
-                  </span>
-                )}
-                {dbContent.tier && (
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-purple-100 text-purple-700" data-testid="badge-tier">
-                    {dbContent.tier.toUpperCase()}
-                  </span>
-                )}
-                {!dbLessonIsPublished && (
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-800" data-testid="badge-draft">
-                    Draft
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-title">{dbContent.title}</h1>
-                {isAdmin && (
-                  <div className="flex gap-2">
-                    {!dbLessonIsPublished && (
-                      <Button
-                        size="sm"
-                        className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-white"
-                        data-testid="button-publish-db-lesson"
-                        onClick={async () => {
-                          const creds = getCredentials();
-                          if (!creds) return;
-                          try {
-                            const res = await fetch(`/api/content/${dbContent.id}`, {
-                              method: "PUT",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({ username: creds.username, password: creds.password, status: "published" }),
-                            });
-                            if (!res.ok) throw new Error("Publish failed");
-                            setDbContent({ ...dbContent, status: "published" });
-                            toast({ title: "Published", description: "Lesson is now live and visible to students." });
-                          } catch (e: any) {
-                            toast({ title: "Error", description: e.message, variant: "destructive" });
-                          }
-                        }}
-                      >
-                        <Save className="w-3 h-3" /> Publish
-                      </Button>
-                    )}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="gap-1 text-xs"
-                      data-testid="button-edit-db-lesson"
-                      onClick={() => {
-                        setDbEditMode(true);
-                      }}
-                    >
-                      <Pencil className="w-3 h-3" /> Edit Lesson
-                    </Button>
-                  </div>
-                )}
-              </div>
-              {dbContent.summary && (
-                <p className="text-gray-600 text-base" data-testid="text-lesson-summary">{dbContent.summary}</p>
-              )}
+          <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full" data-testid="db-lesson-detail">
+            <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500">
+              <ol className="flex items-center gap-1 flex-wrap">
+                <li><LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink></li>
+                <li className="text-gray-300">/</li>
+                <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors">Lessons</LocaleLink></li>
+                <li className="text-gray-300">/</li>
+                <li className="text-gray-900 font-medium">{dbContent.title}</li>
+              </ol>
+            </nav>
+            <div className="flex items-center justify-between mb-8">
+              <LocaleLink href="/lessons">
+                <Button variant="ghost" className="group" data-testid="button-back-lessons">
+                  <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                  Back to Overview
+                </Button>
+              </LocaleLink>
             </div>
 
-            {objectives.length > 0 && <LessonObjectives objectives={objectives} />}
-
-            {assessmentItems.length > 0 && (
-              <section className="space-y-4">
-                <div className="flex items-center gap-3 text-xl font-bold text-gray-900">
-                  <Stethoscope className="text-teal-600 w-6 h-6" />
-                  <h2>Assessment Findings</h2>
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900" data-testid="text-lesson-title">{dbContent.title}</h1>
+                  {isAdmin && (
+                    <div className="flex gap-2">
+                      {!dbLessonIsPublished && (
+                        <Button
+                          size="sm"
+                          className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                          data-testid="button-publish-db-lesson"
+                          onClick={async () => {
+                            const creds = getCredentials();
+                            if (!creds) return;
+                            try {
+                              const res = await fetch(`/api/content/${dbContent.id}`, {
+                                method: "PUT",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ username: creds.username, password: creds.password, status: "published" }),
+                              });
+                              if (!res.ok) throw new Error("Publish failed");
+                              setDbContent({ ...dbContent, status: "published" });
+                              toast({ title: "Published", description: "Lesson is now live and visible to students." });
+                            } catch (e: any) {
+                              toast({ title: "Error", description: e.message, variant: "destructive" });
+                            }
+                          }}
+                        >
+                          <Save className="w-3 h-3" /> Publish
+                        </Button>
+                      )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-1 text-xs"
+                        data-testid="button-edit-db-lesson"
+                        onClick={() => { setDbEditMode(true); }}
+                      >
+                        <Pencil className="w-3 h-3" /> Edit Lesson
+                      </Button>
+                    </div>
+                  )}
                 </div>
-                <Card className="border-none shadow-sm bg-teal-50/60">
-                  <CardContent className="p-6">
-                    <div className="grid sm:grid-cols-2 gap-3">
-                      {assessmentItems.map((af, i) => (
-                        <div key={i} className="flex items-start gap-2 text-gray-700">
-                          <Stethoscope className="w-4 h-4 text-teal-600 mt-1 shrink-0" />
-                          <span>{af}</span>
+                <div className="flex items-center gap-4 flex-wrap">
+                  <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">
+                    {dbTierLabel}
+                  </span>
+                  {dbContent.category && (
+                    <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-bold" data-testid="badge-category">
+                      {dbContent.category}
+                    </span>
+                  )}
+                  {!dbLessonIsPublished && (
+                    <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm font-bold" data-testid="badge-draft">
+                      Draft
+                    </span>
+                  )}
+                </div>
+                {dbContent.summary && (
+                  <p className="text-gray-600 text-lg" data-testid="text-lesson-summary">{dbContent.summary}</p>
+                )}
+              </div>
+
+              {objectives.length > 0 && <LessonObjectives objectives={objectives} />}
+
+              <div className="space-y-12">
+                {pathophysiologyText && (
+                  <section id="pathophysiology" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <Microscope className="text-primary w-8 h-8" />
+                      <h2>Pathophysiology</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
+                    <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700">
+                      <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: pathophysiologyText }} />
+                    </div>
+                  </section>
+                )}
+
+                {riskFactors.length > 0 && (
+                  <section id="risk-factors" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <ShieldAlert className="text-rose-500 w-8 h-8" />
+                      <h2>Risk Factors</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
+                    <Card className="border-none shadow-sm bg-rose-50/60">
+                      <CardContent className="p-8">
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {riskFactors.map((rf, i) => (
+                            <div key={i} className="flex items-start gap-2 text-gray-700">
+                              <div className="w-2 h-2 rounded-full bg-rose-400 mt-2 shrink-0" />
+                              <span dangerouslySetInnerHTML={{ __html: rf }} />
+                            </div>
+                          ))}
                         </div>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
+
+                {diagnosticItems.length > 0 && (
+                  <section id="diagnostics" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <Search className="text-cyan-600 w-8 h-8" />
+                      <h2>Diagnostics</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
+                    <Card className="border-none shadow-sm bg-cyan-50/60">
+                      <CardContent className="p-8">
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {diagnosticItems.map((d, i) => (
+                            <div key={i} className="flex items-start gap-2 text-gray-700">
+                              <div className="w-2 h-2 rounded-full bg-cyan-500 mt-2 shrink-0" />
+                              <span dangerouslySetInnerHTML={{ __html: d }} />
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
+
+                {managementItems.length > 0 && (
+                  <section id="management" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <ClipboardList className="text-emerald-600 w-8 h-8" />
+                      <h2>Management</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
+                    <Card className="border-none shadow-sm bg-emerald-50/60">
+                      <CardContent className="p-8">
+                        <ul className="space-y-3">
+                          {managementItems.map((m, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
+                                <span className="text-emerald-700 text-xs font-bold">{i + 1}</span>
+                              </div>
+                              <span dangerouslySetInnerHTML={{ __html: m }} />
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
+
+                {nursingActionItems.length > 0 && (
+                  <section id="nursing-actions" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <HeartPulse className="text-violet-600 w-8 h-8" />
+                      <h2>Nursing Actions and Scope Considerations</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
+                    <Card className="border-none shadow-sm bg-violet-50/60">
+                      <CardContent className="p-8">
+                        <ul className="space-y-3">
+                          {nursingActionItems.map((na, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-700">
+                              <HeartPulse className="w-4 h-4 text-violet-500 mt-1 shrink-0" />
+                              <span dangerouslySetInnerHTML={{ __html: na }} />
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
+
+                {assessmentItems.length > 0 && (
+                  <section id="assessment-findings" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <ClipboardList className="text-teal-600 w-8 h-8" />
+                      <h2>Assessment Findings</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, labs, and subjective/objective findings</p>
+                    <Card className="border-none shadow-sm bg-teal-50/60">
+                      <CardContent className="p-8">
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {assessmentItems.map((af, i) => (
+                            <div key={i} className="flex items-start gap-2 text-gray-700">
+                              <Stethoscope className="w-4 h-4 text-teal-600 mt-1 shrink-0" />
+                              <span dangerouslySetInnerHTML={{ __html: af }} />
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </section>
+                )}
+
+                {lifespanText && (
+                  <section id="lifespan" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <Users className="text-indigo-500 w-8 h-8" />
+                      <h2>Across the Lifespan</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
+                    <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900">
+                      <span className="italic" dangerouslySetInnerHTML={{ __html: lifespanText }} />
+                    </div>
+                  </section>
+                )}
+
+                {(signsLeft.length > 0 || signsRight.length > 0) && (
+                  <section id="clinical-findings" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <AlertCircle className="text-orange-500 w-8 h-8" />
+                      <h2>Clinical Findings and Red Flags</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Key clinical presentations and warning signs</p>
+                    <div className="grid md:grid-cols-2 gap-8">
+                      {signsLeft.length > 0 && (
+                        <Card className="border-none shadow-md bg-white">
+                          <CardContent className="p-8 space-y-4">
+                            <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                              <AlertCircle className="text-blue-500 w-6 h-6" />
+                              <h3>Clinical Findings</h3>
+                            </div>
+                            <ul className="space-y-2">
+                              {signsLeft.map((s, i) => (
+                                <li key={i} className="flex items-center gap-2 text-gray-600">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                                  <span dangerouslySetInnerHTML={{ __html: s }} />
+                                </li>
+                              ))}
+                            </ul>
+                          </CardContent>
+                        </Card>
+                      )}
+                      {signsRight.length > 0 && (
+                        <Card className="border-none shadow-md bg-white border-l-4 border-l-orange-400">
+                          <CardContent className="p-8 space-y-4">
+                            <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                              <AlertCircle className="text-orange-500 w-6 h-6" />
+                              <h3>Red Flags: When to Escalate</h3>
+                            </div>
+                            <ul className="space-y-2">
+                              {signsRight.map((s, i) => (
+                                <li key={i} className="flex items-center gap-2 text-gray-600">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
+                                  <span dangerouslySetInnerHTML={{ __html: s }} />
+                                </li>
+                              ))}
+                            </ul>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
+                  </section>
+                )}
+
+                {medsParsed.length > 0 && (
+                  <section id="pharmacology" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <Pill className="text-primary w-8 h-8" />
+                      <h2>Pharmacology and Safety</h2>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
+                    <div className="space-y-4">
+                      {medsParsed.map((med, i) => (
+                        <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
+                          <div className="bg-primary/5 px-6 py-3 border-b border-primary/10">
+                            <span className="font-bold text-gray-900">{med.name}</span> {med.type && <span className="text-gray-500 text-sm">({med.type})</span>}
+                          </div>
+                          <CardContent className="p-6 grid md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                              <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
+                              <p className="text-gray-700">{med.action}</p>
+                              <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
+                              <p className="text-gray-700">{med.sideEffects}</p>
+                            </div>
+                            <div className="space-y-2">
+                              <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
+                              <p className="text-gray-700">{med.contra}</p>
+                              {med.pearl && (
+                                <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2">
+                                  <Lightbulb className="w-5 h-5 text-yellow-600 shrink-0" />
+                                  <p className="text-sm text-yellow-800 font-medium">Pearl: {med.pearl}</p>
+                                </div>
+                              )}
+                            </div>
+                          </CardContent>
+                        </Card>
                       ))}
                     </div>
-                  </CardContent>
-                </Card>
-              </section>
-            )}
+                  </section>
+                )}
 
-            {clinicalPearls.length > 0 && <ClinicalPearlsList pearls={clinicalPearls} />}
+                {clinicalPearls.length > 0 && (
+                  <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
+                    <div className="flex items-center gap-3 text-2xl font-bold">
+                      <FileText className="text-primary w-8 h-8" />
+                      <h2>Exam Readiness</h2>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <div className="space-y-4">
+                        <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Logic</h4>
+                        <ul className="space-y-2 text-gray-300">
+                          {clinicalPearls.map((p, i) => (
+                            <li key={i} className="flex gap-2">
+                              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                              <span dangerouslySetInnerHTML={{ __html: p }} />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </section>
+                )}
 
-            <ContentBlockRenderer blocks={blocks} />
+                {remainingBlocks.length > 0 && (
+                  <ContentBlockRenderer blocks={remainingBlocks} />
+                )}
+              </div>
+            </div>
           </main>
           <Footer />
         </div>
