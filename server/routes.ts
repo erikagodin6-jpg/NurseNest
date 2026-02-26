@@ -1337,8 +1337,16 @@ Rules:
         contentData.regionScope = "BOTH";
       }
       const parsed = insertContentItemSchema.parse(contentData);
-      const item = await storage.createContentItem(parsed);
-      await logAudit(req, admin, "content", item.id, "create", null, { title: item.title, type: item.type, status: item.status, regionScope: item.regionScope });
+      const existingBySlug = parsed.slug ? await storage.getContentItemBySlug(parsed.slug) : undefined;
+      let item;
+      if (existingBySlug) {
+        await saveRevision(existingBySlug.id, existingBySlug, admin);
+        item = await storage.updateContentItem(existingBySlug.id, parsed);
+        await logAudit(req, admin, "content", item.id, "update", { title: existingBySlug.title, status: existingBySlug.status }, { title: item.title, type: item.type, status: item.status, regionScope: item.regionScope });
+      } else {
+        item = await storage.createContentItem(parsed);
+        await logAudit(req, admin, "content", item.id, "create", null, { title: item.title, type: item.type, status: item.status, regionScope: item.regionScope });
+      }
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
