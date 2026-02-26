@@ -77,53 +77,6 @@
   </head>
   <body class="h-full">
     <div id="root" class="h-full"></div>
-    <div id="debug-banner" style="position:fixed;top:0;left:0;right:0;bottom:0;background:white;color:#111;padding:40px;font-family:monospace;font-size:13px;z-index:99999;overflow:auto;">
-      <h2 style="color:#3b82f6;font-size:18px;margin-bottom:12px;">Debug: Waiting for React...</h2>
-      <div id="debug-log" style="white-space:pre-wrap;background:#f3f4f6;padding:16px;border-radius:8px;"></div>
-    </div>
-    <script>
-      var dbg = document.getElementById('debug-log');
-      function dlog(msg) { dbg.textContent += msg + '\n'; }
-      dlog('URL: ' + location.href);
-      dlog('Path: ' + location.pathname);
-      window.addEventListener('error', function(e) {
-        dlog('SCRIPT ERROR: ' + e.message + ' at ' + (e.filename || 'unknown') + ':' + e.lineno);
-      });
-      window.addEventListener('unhandledrejection', function(e) {
-        dlog('PROMISE REJECTION: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason)));
-        if (e.reason && e.reason.stack) dlog(e.reason.stack);
-      });
-      if ('serviceWorker' in navigator) {
-        dlog('Clearing service workers...');
-        navigator.serviceWorker.getRegistrations().then(function(regs) {
-          dlog('Found ' + regs.length + ' service worker(s)');
-          regs.forEach(function(r) { r.unregister(); });
-          if (regs.length > 0) {
-            dlog('Unregistered all SWs. Reloading in 1s...');
-            setTimeout(function() { location.reload(); }, 1000);
-          }
-        });
-        caches.keys().then(function(names) {
-          if (names.length > 0) {
-            dlog('Clearing ' + names.length + ' cache(s): ' + names.join(', '));
-            names.forEach(function(n) { caches.delete(n); });
-          }
-        });
-      }
-    </script>
     <script type="module" src="/src/main.tsx"></script>
-    <script type="module">
-      var dbg2 = document.getElementById('debug-log');
-      function dlog2(msg) { dbg2.textContent += msg + '\n'; }
-      dlog2('Module scripts loaded OK');
-      setTimeout(function() {
-        var root = document.getElementById('root');
-        if (root && root.children.length > 0) {
-          document.getElementById('debug-banner').remove();
-        } else {
-          dlog2('React did NOT mount after 8s. Root innerHTML length: ' + (root ? root.innerHTML.length : 'null'));
-        }
-      }, 8000);
-    </script>
   </body>
 </html>
