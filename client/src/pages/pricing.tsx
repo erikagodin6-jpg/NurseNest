@@ -28,11 +28,11 @@ const savingsPercent: Record<Duration, number> = {
   yearly: 33,
 };
 
-const periodLabel: Record<Duration, string> = {
-  monthly: "/mo",
-  "3-month": "/3 mo",
-  "6-month": "/6 mo",
-  yearly: "/yr",
+const periodLabelKeys: Record<Duration, string> = {
+  monthly: "pricing.periodMo",
+  "3-month": "pricing.period3Mo",
+  "6-month": "pricing.period6Mo",
+  yearly: "pricing.periodYr",
 };
 
 const tiers = [
@@ -46,13 +46,13 @@ const tiers = [
       "6-month": { CAD: 134.99, USD: 99.99 },
       yearly: { CAD: 239.99, USD: 179.99 },
     },
-    features: [
-      "All RPN/LVN pathophysiology lessons",
-      "Flashcards by body system",
-      "Note-taking with auto-save",
-      "Progress tracking & report card",
-      "Pre/Post test scoring",
-      "REX-PN exam preparation",
+    featureKeys: [
+      "pricing.rpn.feature1",
+      "pricing.rpn.feature2",
+      "pricing.rpn.feature3",
+      "pricing.rpn.feature4",
+      "pricing.rpn.feature5",
+      "pricing.rpn.feature6",
     ],
     popular: false,
   },
@@ -66,13 +66,13 @@ const tiers = [
       "6-month": { CAD: 179.99, USD: 134.99 },
       yearly: { CAD: 319.99, USD: 239.99 },
     },
-    features: [
-      "All RN-level clinical content",
-      "Clinical reasoning question bank",
-      "Advanced pharmacology",
-      "Clinical decision-making modules",
-      "Timed practice exams",
-      "Comprehensive rationales",
+    featureKeys: [
+      "pricing.rn.feature1",
+      "pricing.rn.feature2",
+      "pricing.rn.feature3",
+      "pricing.rn.feature4",
+      "pricing.rn.feature5",
+      "pricing.rn.feature6",
     ],
     popular: true,
   },
@@ -86,13 +86,13 @@ const tiers = [
       "6-month": { CAD: 224.99, USD: 169.99 },
       yearly: { CAD: 399.99, USD: 299.99 },
     },
-    features: [
-      "Advanced practice content",
-      "Molecular-level pathophysiology",
-      "Diagnostic reasoning modules",
-      "Prescriptive authority content",
-      "NP certification prep",
-      "Evidence-based practice",
+    featureKeys: [
+      "pricing.np.feature1",
+      "pricing.np.feature2",
+      "pricing.np.feature3",
+      "pricing.np.feature4",
+      "pricing.np.feature5",
+      "pricing.np.feature6",
     ],
     popular: false,
   },
@@ -101,27 +101,27 @@ const tiers = [
 const trialPasses = [
   {
     id: "1-day",
-    name: "1-Day Pass",
+    nameKey: "pricing.trial.1day",
     priceCAD: 4.99,
     priceUSD: 3.99,
     features: [
-      { text: "Access to 3 lessons of your choice", included: true },
-      { text: "Flashcards", included: false },
-      { text: "Note-taking", included: false },
+      { textKey: "pricing.trial.1day.feature1", included: true },
+      { textKey: "pricing.trial.1day.feature2", included: false },
+      { textKey: "pricing.trial.1day.feature3", included: false },
     ],
-    limit: "Single use only",
+    limitKey: "pricing.trial.singleUse",
   },
   {
     id: "3-day",
-    name: "3-Day Pass",
+    nameKey: "pricing.trial.3day",
     priceCAD: 9.99,
     priceUSD: 7.99,
     features: [
-      { text: "Access to 10 lessons", included: true },
-      { text: "Flashcards included", included: true },
-      { text: "Note-taking", included: false },
+      { textKey: "pricing.trial.3day.feature1", included: true },
+      { textKey: "pricing.trial.3day.feature2", included: true },
+      { textKey: "pricing.trial.3day.feature3", included: false },
     ],
-    limit: "Single use only",
+    limitKey: "pricing.trial.singleUse",
   },
 ];
 
@@ -314,21 +314,21 @@ export default function PricingPage() {
                         ${price.toFixed(2)}
                       </span>
                       <span className="text-gray-400 text-sm ml-1" data-testid={`text-tier-currency-${tier.id}`}>
-                        {currency}{periodLabel[duration]}
+                        {currency}{t(periodLabelKeys[duration])}
                       </span>
                     </div>
                     {duration !== "monthly" && (
                       <p className="text-xs text-gray-400 mt-1" data-testid={`text-tier-equiv-${tier.id}`}>
-                        ≈ ${(price / (duration === "3-month" ? 3 : duration === "6-month" ? 6 : 12)).toFixed(2)} {currency}/mo
+                        ≈ ${(price / (duration === "3-month" ? 3 : duration === "6-month" ? 6 : 12)).toFixed(2)} {currency}{t("pricing.equivPerMo")}
                       </p>
                     )}
                   </CardHeader>
                   <CardContent className="pt-2">
                     <ul className="space-y-3 mb-8">
-                      {tier.features.map((feature, idx) => (
+                      {tier.featureKeys.map((featureKey, idx) => (
                         <li key={idx} className="flex items-start gap-3 text-sm text-gray-600" data-testid={`text-feature-${tier.id}-${idx}`}>
                           <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                          <span>{feature}</span>
+                          <span>{t(featureKey)}</span>
                         </li>
                       ))}
                     </ul>
@@ -450,7 +450,7 @@ export default function PricingPage() {
                     </div>
                     <CardHeader className="text-center pb-2 pt-8">
                       <CardTitle className="text-lg font-bold" data-testid={`text-trial-name-${pass.id}`}>
-                        {pass.name}
+                        {t(pass.nameKey)}
                       </CardTitle>
                       <div className="mt-3 mb-1">
                         <span className="text-3xl font-bold text-primary" data-testid={`text-trial-price-${pass.id}`}>
@@ -461,7 +461,7 @@ export default function PricingPage() {
                         </span>
                       </div>
                       <p className="text-xs text-gray-400" data-testid={`text-trial-limit-${pass.id}`}>
-                        {pass.limit}
+                        {t(pass.limitKey)}
                       </p>
                     </CardHeader>
                     <CardContent className="pt-2">
@@ -479,7 +479,7 @@ export default function PricingPage() {
                             ) : (
                               <X className="w-4 h-4 text-gray-300 mt-0.5 flex-shrink-0" />
                             )}
-                            <span className={feature.included ? "" : "line-through"}>{feature.text}</span>
+                            <span className={feature.included ? "" : "line-through"}>{t(feature.textKey)}</span>
                           </li>
                         ))}
                       </ul>
@@ -511,41 +511,41 @@ export default function PricingPage() {
               {[
                 {
                   id: "lab-values",
-                  name: "Lab Interpretation",
+                  nameKey: "pricing.addon.labInterpretation",
                   icon: Beaker,
                   priceCAD: 9.99,
                   priceUSD: 7.99,
-                  features: [
-                    "Unlimited daily lab interpretation scenarios",
-                    "All 6 clinical categories",
-                    "Mechanism explanations & clinical danger alerts",
-                    "Quiz challenges with detailed rationales",
+                  featureKeys: [
+                    "pricing.addon.labFeature1",
+                    "pricing.addon.labFeature2",
+                    "pricing.addon.labFeature3",
+                    "pricing.addon.labFeature4",
                   ],
                 },
                 {
                   id: "med-math",
-                  name: "Med Math",
+                  nameKey: "pricing.addon.medMath",
                   icon: Calculator,
                   priceCAD: 9.99,
                   priceUSD: 7.99,
-                  features: [
-                    "Unlimited daily calculation problems",
-                    "All 5 calculation categories",
-                    "Step-by-step solutions",
-                    "Safety alerts for unusual dosages",
+                  featureKeys: [
+                    "pricing.addon.medMathFeature1",
+                    "pricing.addon.medMathFeature2",
+                    "pricing.addon.medMathFeature3",
+                    "pricing.addon.medMathFeature4",
                   ],
                 },
                 {
                   id: "practice-tools",
-                  name: "All Practice Tools",
+                  nameKey: "pricing.addon.allTools",
                   icon: Zap,
                   priceCAD: 14.99,
                   priceUSD: 11.99,
-                  features: [
-                    "Unlimited Lab Interpretation",
-                    "Unlimited Med Math",
-                    "Best value: save over buying separately",
-                    "Priority access to new practice tools",
+                  featureKeys: [
+                    "pricing.addon.allToolsFeature1",
+                    "pricing.addon.allToolsFeature2",
+                    "pricing.addon.allToolsFeature3",
+                    "pricing.addon.allToolsFeature4",
                   ],
                   popular: true,
                 },
@@ -576,23 +576,23 @@ export default function PricingPage() {
                         <Icon className="w-6 h-6 text-primary" />
                       </div>
                       <CardTitle className="text-lg font-bold" data-testid={`text-addon-name-${addon.id}`}>
-                        {addon.name}
+                        {t(addon.nameKey)}
                       </CardTitle>
                       <div className="mt-3 mb-1">
                         <span className="text-3xl font-bold text-primary" data-testid={`text-addon-price-${addon.id}`}>
                           ${price.toFixed(2)}
                         </span>
                         <span className="text-gray-400 text-sm ml-1">
-                          {currency}/mo
+                          {currency}{t("pricing.perMo")}
                         </span>
                       </div>
                     </CardHeader>
                     <CardContent className="pt-2">
                       <ul className="space-y-2 mb-6">
-                        {addon.features.map((feature, idx) => (
+                        {addon.featureKeys.map((featureKey, idx) => (
                           <li key={idx} className="flex items-start gap-3 text-sm text-gray-600" data-testid={`text-addon-feature-${addon.id}-${idx}`}>
                             <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                            <span>{feature}</span>
+                            <span>{t(featureKey)}</span>
                           </li>
                         ))}
                       </ul>

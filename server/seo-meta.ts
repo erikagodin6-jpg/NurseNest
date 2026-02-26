@@ -1,9 +1,28 @@
+import { pool } from "./storage";
+import * as fs from "fs";
+import * as path from "path";
+
 const SITE_BASE = "https://www.nursenest.ca";
+
+let lessonSeoData: Record<string, any> | null = null;
+function getLessonSeoData(): Record<string, any> {
+  if (!lessonSeoData) {
+    try {
+      const dataPath = path.join(__dirname, "lesson-seo-data.json");
+      lessonSeoData = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+    } catch {
+      lessonSeoData = {};
+    }
+  }
+  return lessonSeoData!;
+}
 
 interface PageMeta {
   title: string;
   description: string;
   canonical: string;
+  jsonLd?: string;
+  noscriptContent?: string;
 }
 
 function slugToTitle(slug: string): string {
@@ -195,6 +214,151 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
 };
 
+function escapeHtml(str: string): string {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function extractTextFromContent(content: any): string {
+  if (!content || !Array.isArray(content)) return "";
+  const parts: string[] = [];
+  for (const block of content) {
+    if (typeof block === "string") {
+      parts.push(block);
+    } else if (block && typeof block === "object") {
+      if (block.text) parts.push(block.text);
+      if (block.heading) parts.push(block.heading);
+      if (block.title) parts.push(block.title);
+      if (block.content) {
+        if (typeof block.content === "string") parts.push(block.content);
+        else if (Array.isArray(block.content)) {
+          for (const item of block.content) {
+            if (typeof item === "string") parts.push(item);
+            else if (item && item.text) parts.push(item.text);
+          }
+        }
+      }
+      if (block.items && Array.isArray(block.items)) {
+        for (const item of block.items) {
+          if (typeof item === "string") parts.push(item);
+          else if (item && item.text) parts.push(item.text);
+        }
+      }
+      if (block.sections && Array.isArray(block.sections)) {
+        parts.push(extractTextFromContent(block.sections));
+      }
+    }
+  }
+  return parts.join(" ").replace(/\s+/g, " ").trim();
+}
+
+function buildNoscriptHtml(content: any, title: string): string {
+  if (!content || !Array.isArray(content)) return "";
+  const parts: string[] = [`<h1>${escapeHtml(title)}</h1>`];
+  for (const block of content) {
+    if (!block || typeof block !== "object") continue;
+    if (block.heading) {
+      parts.push(`<h2>${escapeHtml(block.heading)}</h2>`);
+    }
+    if (block.text) {
+      parts.push(`<p>${escapeHtml(block.text)}</p>`);
+    }
+    if (block.content) {
+      if (typeof block.content === "string") {
+        parts.push(`<p>${escapeHtml(block.content)}</p>`);
+      }
+    }
+    if (block.items && Array.isArray(block.items)) {
+      parts.push("<ul>");
+      for (const item of block.items) {
+        const text = typeof item === "string" ? item : (item?.text || "");
+        if (text) parts.push(`<li>${escapeHtml(text)}</li>`);
+      }
+      parts.push("</ul>");
+    }
+  }
+  return parts.join("\n");
+}
+
+function buildLessonContentArray(lesson: any): any[] {
+  const blocks: any[] = [];
+  if (lesson.cellular) {
+    blocks.push({ heading: lesson.cellular.title || "Pathophysiology", text: lesson.cellular.content });
+  }
+  if (lesson.riskFactors?.length) {
+    blocks.push({ heading: "Risk Factors", items: lesson.riskFactors });
+  }
+  if (lesson.diagnostics?.length) {
+    blocks.push({ heading: "Diagnostics", items: lesson.diagnostics });
+  }
+  if (lesson.signs) {
+    const signItems = [...(lesson.signs.left || []), ...(lesson.signs.right || [])];
+    if (signItems.length) blocks.push({ heading: "Signs and Symptoms", items: signItems });
+  }
+  if (lesson.management?.length) {
+    blocks.push({ heading: "Management", items: lesson.management });
+  }
+  if (lesson.nursingActions?.length) {
+    blocks.push({ heading: "Nursing Actions", items: lesson.nursingActions });
+  }
+  if (lesson.medications?.length) {
+    for (const med of lesson.medications) {
+      blocks.push({ heading: med.name, text: `${med.type} - ${med.action}` });
+    }
+  }
+  if (lesson.pearls?.length) {
+    blocks.push({ heading: "Clinical Pearls", items: lesson.pearls });
+  }
+  if (lesson.lifespan) {
+    blocks.push({ heading: lesson.lifespan.title || "Lifespan Considerations", text: lesson.lifespan.content });
+  }
+  return blocks;
+}
+
+async function fetchContentForPath(pathname: string): Promise<{ title: string; content: any; summary?: string; tags?: string[]; category?: string; type?: string; createdAt?: string } | null> {
+  const lessonMatch = pathname.match(/^\/lessons\/(.+)$/);
+  const blogMatch = pathname.match(/^\/blog\/(.+)$/);
+  const clarityMatch = pathname.match(/^\/clinical-clarity\/(.+)$/);
+
+  if (lessonMatch) {
+    const slug = lessonMatch[1];
+    const data = getLessonSeoData();
+    const lesson = data[slug];
+    if (lesson) {
+      const content = buildLessonContentArray(lesson);
+      const desc = lesson.cellular?.content || "";
+      return {
+        title: lesson.title,
+        content,
+        summary: desc.substring(0, 300),
+        type: "lesson",
+      };
+    }
+    return null;
+  }
+
+  const slug = blogMatch?.[1] || clarityMatch?.[1];
+  if (!slug) return null;
+
+  try {
+    const result = await pool.query(
+      "SELECT title, content, summary, tags, category, type, created_at FROM content_items WHERE slug = $1 AND status = 'published' LIMIT 1",
+      [slug]
+    );
+    if (result.rows[0]) {
+      return {
+        title: result.rows[0].title,
+        content: result.rows[0].content,
+        summary: result.rows[0].summary,
+        tags: result.rows[0].tags,
+        category: result.rows[0].category,
+        type: result.rows[0].type,
+        createdAt: result.rows[0].created_at,
+      };
+    }
+  } catch (e) {}
+  return null;
+}
+
 export function getPageMeta(pathname: string): PageMeta {
   const cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
   const canonical = cleanPath === "/" ? `${SITE_BASE}/` : `${SITE_BASE}${cleanPath}`;
@@ -251,8 +415,74 @@ export function getPageMeta(pathname: string): PageMeta {
   };
 }
 
-export function injectMeta(html: string, pathname: string): string {
+export async function injectMeta(html: string, pathname: string): Promise<string> {
   const meta = getPageMeta(pathname);
+
+  const contentData = await fetchContentForPath(pathname);
+  if (contentData) {
+    if (contentData.summary) {
+      meta.description = contentData.summary.substring(0, 300);
+    }
+
+    const isLesson = pathname.startsWith("/lessons/");
+    const isBlog = pathname.startsWith("/blog/") && pathname !== "/blog";
+    const textContent = extractTextFromContent(contentData.content);
+    const wordCount = textContent.split(/\s+/).length;
+
+    const jsonLd: any = {
+      "@context": "https://schema.org",
+      "@type": isLesson ? "Course" : "Article",
+      "name": contentData.title,
+      "headline": contentData.title,
+      "description": meta.description,
+      "url": meta.canonical,
+      "publisher": {
+        "@type": "Organization",
+        "name": "NurseNest",
+        "url": SITE_BASE,
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "NurseNest",
+        "url": SITE_BASE,
+      },
+      "inLanguage": "en",
+    };
+
+    if (isLesson) {
+      jsonLd["@type"] = "Course";
+      jsonLd["hasCourseInstance"] = {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+      };
+      if (contentData.category) jsonLd["courseCode"] = contentData.category;
+      jsonLd["educationalLevel"] = "Professional";
+      jsonLd["about"] = {
+        "@type": "Thing",
+        "name": contentData.title,
+      };
+    }
+
+    if (isBlog) {
+      jsonLd["@type"] = "Article";
+      jsonLd["author"] = { "@type": "Organization", "name": "NurseNest" };
+      jsonLd["wordCount"] = wordCount;
+    }
+
+    if (contentData.createdAt) {
+      jsonLd["datePublished"] = new Date(contentData.createdAt).toISOString().split("T")[0];
+    }
+    if (contentData.tags && contentData.tags.length > 0) {
+      jsonLd["keywords"] = contentData.tags.join(", ");
+    }
+
+    if (textContent.length > 100) {
+      jsonLd["articleBody"] = textContent.substring(0, 5000);
+    }
+
+    meta.jsonLd = JSON.stringify(jsonLd);
+    meta.noscriptContent = buildNoscriptHtml(contentData.content, contentData.title);
+  }
 
   html = html.replace(
     /<!--SEO_TITLE-->.*?<!--\/SEO_TITLE-->/s,
@@ -261,7 +491,7 @@ export function injectMeta(html: string, pathname: string): string {
 
   html = html.replace(
     /<!--SEO_DESC-->.*?<!--\/SEO_DESC-->/s,
-    `<!--SEO_DESC--><meta name="description" content="${meta.description}" /><!--/SEO_DESC-->`
+    `<!--SEO_DESC--><meta name="description" content="${escapeHtml(meta.description)}" /><!--/SEO_DESC-->`
   );
 
   html = html.replace(
@@ -271,23 +501,37 @@ export function injectMeta(html: string, pathname: string): string {
 
   html = html.replace(
     /<!--SEO_OG_TITLE-->.*?<!--\/SEO_OG_TITLE-->/s,
-    `<!--SEO_OG_TITLE--><meta property="og:title" content="${meta.title}" /><!--/SEO_OG_TITLE-->`
+    `<!--SEO_OG_TITLE--><meta property="og:title" content="${escapeHtml(meta.title)}" /><!--/SEO_OG_TITLE-->`
   );
 
   html = html.replace(
     /<!--SEO_OG_DESC-->.*?<!--\/SEO_OG_DESC-->/s,
-    `<!--SEO_OG_DESC--><meta property="og:description" content="${meta.description}" /><!--/SEO_OG_DESC-->`
+    `<!--SEO_OG_DESC--><meta property="og:description" content="${escapeHtml(meta.description)}" /><!--/SEO_OG_DESC-->`
   );
 
   html = html.replace(
     /<!--SEO_TW_TITLE-->.*?<!--\/SEO_TW_TITLE-->/s,
-    `<!--SEO_TW_TITLE--><meta name="twitter:title" content="${meta.title}" /><!--/SEO_TW_TITLE-->`
+    `<!--SEO_TW_TITLE--><meta name="twitter:title" content="${escapeHtml(meta.title)}" /><!--/SEO_TW_TITLE-->`
   );
 
   html = html.replace(
     /<!--SEO_TW_DESC-->.*?<!--\/SEO_TW_DESC-->/s,
-    `<!--SEO_TW_DESC--><meta name="twitter:description" content="${meta.description}" /><!--/SEO_TW_DESC-->`
+    `<!--SEO_TW_DESC--><meta name="twitter:description" content="${escapeHtml(meta.description)}" /><!--/SEO_TW_DESC-->`
   );
+
+  if (meta.jsonLd) {
+    html = html.replace(
+      "</head>",
+      `<script type="application/ld+json">${meta.jsonLd}</script>\n</head>`
+    );
+  }
+
+  if (meta.noscriptContent) {
+    html = html.replace(
+      "</body>",
+      `<noscript><article role="main">${meta.noscriptContent}</article></noscript>\n</body>`
+    );
+  }
 
   return html;
 }

@@ -352,10 +352,16 @@ app.use((req, res, next) => {
       if (intercepting && chunks.length > 0) {
         let html = Buffer.concat(chunks).toString("utf-8");
         const seoPath = (req.originalUrl || req.path).split("?")[0];
-        html = injectMeta(html, seoPath);
-        res.setHeader("content-length", Buffer.byteLength(html));
-        origWrite.call(res, html, "utf-8");
-        return origEnd.call(res);
+        injectMeta(html, seoPath).then((injected) => {
+          res.setHeader("content-length", Buffer.byteLength(injected));
+          origWrite.call(res, injected, "utf-8");
+          origEnd.call(res);
+        }).catch(() => {
+          res.setHeader("content-length", Buffer.byteLength(html));
+          origWrite.call(res, html, "utf-8");
+          origEnd.call(res);
+        });
+        return;
       }
       return origEnd.apply(res, arguments as any);
     } as any;
