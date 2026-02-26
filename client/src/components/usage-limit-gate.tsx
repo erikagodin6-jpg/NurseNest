@@ -41,7 +41,7 @@ export function UsageLimitBanner({ feature, remaining, limit, count }: UsageLimi
 
 export function UsageLimitPaywall({ feature }: { feature: "lab-values" | "med-math" }) {
   const { user } = useAuth();
-  const region = (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+  const region = (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   const isCAD = region === "CA";
   const price = featurePrices[feature];
   const name = featureNames[feature];

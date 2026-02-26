@@ -813,13 +813,13 @@ export default function SafetyHazardSimulatorPage() {
   const [completedScenarios, setCompletedScenarios] = useState<Set<string>>(new Set());
   const [scores, setScores] = useState<Record<string, { score: number; total: number }>>({});
   const [region, setRegion] = useState<CountryMode>(() => {
-    return (localStorage.getItem("nursenest-region") as CountryMode) || "CA";
+    return (localStorage.getItem("nursenest-region") as CountryMode) || "US";
   });
   const unitMode = getDefaultUnitMode(region);
 
   useEffect(() => {
     const handler = () => {
-      setRegion((localStorage.getItem("nursenest-region") as CountryMode) || "CA");
+      setRegion((localStorage.getItem("nursenest-region") as CountryMode) || "US");
     };
     window.addEventListener("regionChange", handler);
     return () => window.removeEventListener("regionChange", handler);

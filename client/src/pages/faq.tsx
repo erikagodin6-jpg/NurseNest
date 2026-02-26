@@ -182,7 +182,7 @@ export default function FAQPage() {
             >
               {t("faq.termsOfUse")}
             </a>
-            ,{" "}
+            {t("faq.footerSeparator")}{" "}
             <a
               href="/privacy"
               onClick={(e) => { e.preventDefault(); setLocation("/privacy"); }}
@@ -191,7 +191,7 @@ export default function FAQPage() {
             >
               {t("faq.privacyPolicy")}
             </a>
-            , and{" "}
+            {t("faq.footerAnd")}{" "}
             <a
               href="/disclaimer"
               onClick={(e) => { e.preventDefault(); setLocation("/disclaimer"); }}
@@ -200,7 +200,7 @@ export default function FAQPage() {
             >
               {t("faq.disclaimer")}
             </a>
-            .
+            {t("faq.footerPeriod")}
           </p>
         </div>
       </div>

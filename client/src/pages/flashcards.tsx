@@ -1150,7 +1150,7 @@ export default function Flashcards() {
       } else {
         const err = await res.json();
         if (err.upgradeRequired) {
-          alert(err.error || "Card limit reached");
+          alert(err.error || t("flashcards.cardLimitReached"));
         }
       }
     } catch {}
@@ -1185,7 +1185,7 @@ export default function Flashcards() {
       });
       if (res.ok) {
         const result = await res.json();
-        alert(`Imported ${result.imported} cards${result.skipped > 0 ? `, ${result.skipped} skipped (limit reached)` : ""}`);
+        alert(`${t("flashcards.importedPrefix")} ${result.imported} ${t("flashcards.importedCards")}${result.skipped > 0 ? `, ${result.skipped} ${t("flashcards.skippedSuffix")}` : ""}`);
         setCsvImportText("");
         setShowCsvImport(false);
         fetchDeckCards(currentDeck.id);
@@ -1204,7 +1204,7 @@ export default function Flashcards() {
   };
 
   const deleteDeck = async (deckId: string) => {
-    if (!user || !confirm("Delete this deck and all its cards?")) return;
+    if (!user || !confirm(t("flashcards.confirmDeleteDeck"))) return;
     try {
       await fetch(`/api/decks/${deckId}?userId=${user.id}`, { method: "DELETE" });
       setMyDecks(prev => prev.filter(d => d.id !== deckId));
@@ -1305,7 +1305,7 @@ export default function Flashcards() {
       });
       if (res.ok) {
         fetchMyDecks();
-        alert("Deck copied to your library!");
+        alert(t("flashcards.deckCopied"));
       }
     } catch {}
   };
@@ -1318,7 +1318,7 @@ export default function Flashcards() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ reporterId: user.id, targetType: "deck", targetId: deckId, reason }),
       });
-      alert("Report submitted. Thank you for helping maintain accuracy.");
+      alert(t("flashcards.reportSubmitted"));
     } catch {}
   };
 
@@ -1373,11 +1373,11 @@ export default function Flashcards() {
         if (err.upgradeRequired) {
           setValidationResult({ accurate: false, feedback: err.error });
         } else {
-          setValidationResult({ accurate: false, feedback: err.error || "Failed to save" });
+          setValidationResult({ accurate: false, feedback: err.error || t("flashcards.failedToSave") });
         }
       }
     } catch {
-      setValidationResult({ accurate: false, feedback: "Network error - please try again" });
+      setValidationResult({ accurate: false, feedback: t("flashcards.networkError") });
     } finally {
       setValidating(false);
       setSaving(false);
@@ -1417,7 +1417,7 @@ export default function Flashcards() {
   };
 
   const handleDeleteCard = async (cardId: string) => {
-    if (!user || !confirm("Delete this flashcard?")) return;
+    if (!user || !confirm(t("flashcards.confirmDeleteFlashcard"))) return;
     try {
       const res = await fetch(`/api/user-flashcards/${cardId}?userId=${user.id}`, { method: "DELETE" });
       if (res.ok) setCustomCards(prev => prev.filter(c => c.id !== cardId));
@@ -1425,7 +1425,7 @@ export default function Flashcards() {
   };
 
   useEffect(() => {
-    setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
+    setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
   }, []);
 
   const categories = useMemo(() => Array.from(new Set(allCards.map(c => c.category))), []);
@@ -1837,7 +1837,7 @@ export default function Flashcards() {
                       onClick={() => { setEditingCard(null); setValidationResult(null); }}
                       data-testid="button-cancel-edit"
                     >
-                      Cancel
+                      {t("common.cancel")}
                     </Button>
                   </>
                 ) : (
@@ -1936,7 +1936,7 @@ export default function Flashcards() {
               </div>
 
               {filteredCards.length === 0 && customSearch && (
-                <p className="text-center text-gray-400 text-sm py-8">No cards match "{customSearch}"</p>
+                <p className="text-center text-gray-400 text-sm py-8">{t("flashcards.noCardsMatch")} "{customSearch}"</p>
               )}
             </>
           )}
@@ -1966,7 +1966,7 @@ export default function Flashcards() {
         <Navigation />
         <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
           <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-decks">
-            <ArrowLeft className="w-4 h-4" /> Back to Configuration
+            <ArrowLeft className="w-4 h-4" /> {t("flashcards.backToConfig")}
           </Button>
           <DeckHub
             user={user}
@@ -2245,7 +2245,7 @@ export default function Flashcards() {
               size="sm" 
               className="text-rose-500 hover:text-rose-600 border-rose-100 bg-rose-50"
               onClick={() => {
-                if(confirm("Clear all bookmarks?")) {
+                if(confirm(t("flashcards.confirmClearBookmarks"))) {
                   setBookmarks([]);
                   localStorage.removeItem("nursenest-bookmarks");
                 }
@@ -2318,7 +2318,7 @@ export default function Flashcards() {
               className="text-rose-500 hover:text-rose-600 border-rose-100 bg-rose-50"
               data-testid="button-clear-mastered"
               onClick={() => {
-                if(confirm("Clear all mastered cards?")) {
+                if(confirm(t("flashcards.confirmClearMastered"))) {
                   setMastered([]);
                   localStorage.removeItem("nursenest-mastered");
                 }
@@ -2544,15 +2544,15 @@ export default function Flashcards() {
                     </div>
                     {showRationale && (
                       <div className="mt-8 p-6 bg-primary/5 border border-primary/10 rounded-2xl animate-in fade-in slide-in-from-bottom-2 duration-500">
-                        <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">Rationale</p>
+                        <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">{t("flashcards.rationale")}</p>
                         <p className="text-sm text-gray-700 leading-relaxed font-medium">{currentCard.answer}</p>
                       </div>
                     )}
                   </div>
                 </div>
                 <div className="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                  <Button variant="ghost" onClick={() => setView("setup")} className="text-gray-400">Exit Session</Button>
-                  <Button variant="ghost" onClick={handleNext} className="text-primary gap-2">Next Card <ChevronRight className="w-4 h-4" /></Button>
+                  <Button variant="ghost" onClick={() => setView("setup")} className="text-gray-400">{t("flashcards.exitSession")}</Button>
+                  <Button variant="ghost" onClick={handleNext} className="text-primary gap-2">{t("flashcards.nextCard")} <ChevronRight className="w-4 h-4" /></Button>
                 </div>
               </Card>
             ) : (
@@ -2567,21 +2567,21 @@ export default function Flashcards() {
                   {/* Front: Term */}
                   <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-6 sm:p-12 text-center overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-2 bg-primary/20" />
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest mb-8">Clinical Terminology</span>
+                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest mb-8">{t("flashcards.clinicalTerminology")}</span>
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 leading-tight">{currentCard.question}</h2>
                     <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">
                       <RefreshCw className="w-4 h-4" />
-                      Tap to define
+                      {t("flashcards.tapToDefine")}
                     </div>
                   </Card>
 
                   {/* Back: Definition */}
                   <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-primary text-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-6 sm:p-12 text-center">
-                    <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">Clinical Definition</h3>
+                    <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">{t("flashcards.clinicalDefinition")}</h3>
                     <p className="text-2xl font-medium leading-relaxed max-w-lg">{currentCard.answer}</p>
                     <div className="mt-12 pt-8 border-t border-white/10 w-full flex justify-center gap-8">
                        <Button variant="ghost" className="text-white hover:bg-white/10" onClick={(e) => { e.stopPropagation(); handleNext(); }}>
-                         Got it <ChevronRight className="w-4 h-4 ml-2" />
+                         {t("flashcards.gotIt")} <ChevronRight className="w-4 h-4 ml-2" />
                        </Button>
                     </div>
                   </Card>

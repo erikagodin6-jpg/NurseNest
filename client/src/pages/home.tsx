@@ -70,10 +70,10 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const { t } = useI18n();
   const [region, setRegion] = useState<"US" | "CA">(() => {
-    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
   useEffect(() => {
-    const handler = () => setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
+    const handler = () => setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
     window.addEventListener("regionChange", handler);
     return () => window.removeEventListener("regionChange", handler);
   }, []);

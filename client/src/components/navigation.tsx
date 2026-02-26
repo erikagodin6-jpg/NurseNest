@@ -139,7 +139,7 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [region, setRegionState] = useState<"US" | "CA">(() => {
-    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
   const { toast } = useToast();
   const { setTheme, theme, resolvedTheme } = useTheme();
@@ -161,7 +161,7 @@ export function Navigation() {
         .then(r => r.json())
         .then(data => {
           const country = data?.country_code;
-          const detected: "US" | "CA" = country === "US" ? "US" : "CA";
+          const detected: "US" | "CA" = country === "CA" ? "CA" : "US";
           setRegionState(detected);
           localStorage.setItem("nursenest-region", detected);
           window.dispatchEvent(new Event("regionChange"));

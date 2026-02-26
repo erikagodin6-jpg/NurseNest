@@ -817,7 +817,7 @@ export default function FirstActionSimulatorPage() {
 
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [country, setCountry] = useState<CountryMode>(() => {
-    return (localStorage.getItem("nursenest-region") as CountryMode) || "CA";
+    return (localStorage.getItem("nursenest-region") as CountryMode) || "US";
   });
   const [unitMode, setUnitMode] = useState<UnitMode>(() => getDefaultUnitMode(country));
   const [simulationResults, setSimulationResults] = useState<{ scenarioId: string; correct: boolean; selectedId: string }[] | null>(null);

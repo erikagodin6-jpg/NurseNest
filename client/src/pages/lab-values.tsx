@@ -442,10 +442,10 @@ export default function LabValuesPage() {
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number | null>>({});
   const [score, setScore] = useState({ correct: 0, total: 0 });
   const [region, setRegion] = useState<"US" | "CA">(() => {
-    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
   useEffect(() => {
-    const handler = () => setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
+    const handler = () => setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
     window.addEventListener("regionChange", handler);
     return () => window.removeEventListener("regionChange", handler);
   }, []);

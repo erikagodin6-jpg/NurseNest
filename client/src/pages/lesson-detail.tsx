@@ -882,7 +882,7 @@ export default function LessonDetail() {
   const [noteSaving, setNoteSaving] = useState(false);
   const saveTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const [region, setRegion] = useState<"US" | "CA">(() => {
-    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<LessonContent | null>(null);
@@ -891,7 +891,7 @@ export default function LessonDetail() {
 
   useEffect(() => {
     const handleRegionChange = () => {
-      setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
+      setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
     };
     window.addEventListener("regionChange", handleRegionChange);
     return () => window.removeEventListener("regionChange", handleRegionChange);

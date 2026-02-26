@@ -14,12 +14,12 @@ import PayPalButton from "@/components/PayPalButton";
 
 type Duration = "monthly" | "3-month" | "6-month" | "yearly";
 
-const durations: { key: Duration; label: string }[] = [
-  { key: "monthly", label: "Monthly" },
-  { key: "3-month", label: "3-Month" },
-  { key: "6-month", label: "6-Month" },
-  { key: "yearly", label: "Yearly" },
-];
+const durationKeys: Record<Duration, string> = {
+  monthly: "pricing.durationMonthly",
+  "3-month": "pricing.duration3Month",
+  "6-month": "pricing.duration6Month",
+  yearly: "pricing.durationYearly",
+};
 
 const savingsPercent: Record<Duration, number> = {
   monthly: 0,
@@ -131,7 +131,7 @@ export default function PricingPage() {
   const { toast } = useToast();
   const { t } = useI18n();
   const [region, setRegion] = useState<"US" | "CA">(() => {
-    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "CA";
+    return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
   const [duration, setDuration] = useState<Duration>("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
@@ -147,7 +147,7 @@ export default function PricingPage() {
 
   useEffect(() => {
     const handleRegionChange = () => {
-      setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "CA");
+      setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
     };
     window.addEventListener("regionChange", handleRegionChange);
     return () => window.removeEventListener("regionChange", handleRegionChange);
@@ -244,21 +244,21 @@ export default function PricingPage() {
 
           <div className="flex justify-center mb-10">
             <div className="inline-flex bg-white rounded-full p-1 shadow-sm border border-gray-200" data-testid="toggle-duration">
-              {durations.map((d) => (
+              {(["monthly", "3-month", "6-month", "yearly"] as Duration[]).map((d) => (
                 <button
-                  key={d.key}
-                  onClick={() => setDuration(d.key)}
+                  key={d}
+                  onClick={() => setDuration(d)}
                   className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
-                    duration === d.key
+                    duration === d
                       ? "bg-primary text-white shadow-md"
                       : "text-gray-600 hover:text-gray-900"
                   }`}
-                  data-testid={`button-duration-${d.key}`}
+                  data-testid={`button-duration-${d}`}
                 >
-                  {d.label}
-                  {savingsPercent[d.key] > 0 && duration === d.key && (
+                  {t(durationKeys[d])}
+                  {savingsPercent[d] > 0 && duration === d && (
                     <span className="absolute -top-2 -right-1 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
-                      -{savingsPercent[d.key]}%
+                      -{savingsPercent[d]}%
                     </span>
                   )}
                 </button>
@@ -269,7 +269,7 @@ export default function PricingPage() {
           {savings > 0 && (
             <div className="text-center mb-8">
               <Badge className="bg-green-100 text-green-700 border-green-200 px-4 py-1.5 text-sm font-semibold" data-testid="badge-savings">
-                {t("pricing.save")} {savings}% {t("pricing.saveBilling")} {durations.find((d) => d.key === duration)?.label} {t("pricing.billing")}
+                {t("pricing.save")} {savings}% {t("pricing.saveBilling")} {t(durationKeys[duration])} {t("pricing.billing")}
               </Badge>
             </div>
           )}
@@ -376,19 +376,19 @@ export default function PricingPage() {
                                       parsed.subscriptionStatus = "active";
                                       localStorage.setItem("nursenest-user", JSON.stringify(parsed));
                                     }
-                                    toast({ title: "Payment Successful", description: "Your subscription is now active!" });
+                                    toast({ title: t("pricing.paymentSuccessTitle"), description: t("pricing.paymentSuccessDesc") });
                                     navigate("/subscription/success?tier=" + tier.id);
                                   } else {
-                                    toast({ title: "Payment Received", description: "Payment captured but activation pending. Please contact support." });
+                                    toast({ title: t("pricing.paymentReceivedTitle"), description: t("pricing.paymentReceivedPending") });
                                     navigate("/subscription/success");
                                   }
                                 } catch {
-                                  toast({ title: "Payment Received", description: "Payment captured. Subscription will be activated shortly." });
+                                  toast({ title: t("pricing.paymentReceivedTitle"), description: t("pricing.paymentReceivedShortly") });
                                   navigate("/subscription/success");
                                 }
                               }}
                               onError={() => {
-                                toast({ title: "Payment Error", description: "PayPal payment failed. Please try again.", variant: "destructive" });
+                                toast({ title: t("pricing.paymentErrorTitle"), description: t("pricing.paymentErrorDesc"), variant: "destructive" });
                               }}
                             />
                             <Button variant="ghost" size="sm" className="w-full mt-1 text-xs text-gray-400" onClick={() => setPaypalTier(null)} data-testid={`button-paypal-cancel-${tier.id}`}>
