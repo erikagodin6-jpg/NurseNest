@@ -45,7 +45,13 @@ import {
   Microscope,
   FlaskConical,
   BarChart3,
-  Database
+  Database,
+  Trophy,
+  Lightbulb,
+  Search,
+  FileText,
+  Syringe,
+  ClipboardList
 } from "lucide-react";
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
@@ -2278,6 +2284,548 @@ const npSystems = [
       { id: "ruling-out-findings-np", name: "Which Finding Rules It Out?", status: "Available" },
       { id: "mandatory-imaging-np", name: "When Is Imaging Mandatory?", status: "Available" },
       { id: "severity-markers-np", name: "What Makes It Severe?", status: "Available" }
+    ]
+  },
+  {
+    id: "prescribing-foundations-np",
+    title: "Core Prescribing Foundations",
+    icon: Syringe,
+    color: "text-emerald-700",
+    bgColor: "bg-emerald-50",
+    diseases: [
+      { id: "pharmacokinetics-applied-np", name: "Pharmacokinetics: Absorption, Bioavailability & First-Pass", status: "Available" },
+      { id: "half-life-dosing-np", name: "Half-Life & Steady-State Dosing Principles", status: "Available" },
+      { id: "cyp450-interactions-np", name: "Hepatic Metabolism: CYP450 Interactions", status: "Available" },
+      { id: "renal-elimination-dosing-np", name: "Renal Elimination & Dose Adjustment", status: "Available" },
+      { id: "protein-binding-np", name: "Protein Binding Relevance", status: "Available" },
+      { id: "pharmacodynamics-np", name: "Pharmacodynamics: Agonists, Antagonists & Dose-Response", status: "Available" },
+      { id: "therapeutic-window-np", name: "Therapeutic Window & Potency vs Efficacy", status: "Available" },
+      { id: "renal-dosing-adjustments-np", name: "Patient-Specific: Renal Dosing Adjustments", status: "Available" },
+      { id: "hepatic-impairment-prescribing-np", name: "Patient-Specific: Hepatic Impairment Considerations", status: "Available" },
+      { id: "pregnancy-safety-prescribing-np", name: "Pregnancy Safety Categories & Logic", status: "Available" },
+      { id: "geriatric-prescribing-beers-np", name: "Geriatric Prescribing: Beers Criteria Logic", status: "Available" },
+      { id: "pediatric-weight-dosing-np", name: "Pediatric Weight-Based Dosing", status: "Available" },
+      { id: "obesity-prescribing-np", name: "Obesity Prescribing Considerations", status: "Available" },
+      { id: "polypharmacy-risk-np", name: "Polypharmacy Risk Assessment", status: "Available" },
+      { id: "drug-drug-interactions-np", name: "Drug–Drug Interactions: CYP Inhibitors/Inducers", status: "Available" },
+      { id: "qt-prolongation-risks-np", name: "QT Prolongation Risks", status: "Available" },
+      { id: "serotonin-syndrome-risk-np", name: "Serotonin Syndrome Risk Combinations", status: "Available" },
+      { id: "bleeding-risk-stacking-np", name: "Bleeding Risk: Anticoagulant Stacking", status: "Available" },
+      { id: "additive-hypotension-np", name: "Additive Hypotension Risks", status: "Available" },
+      { id: "hyperkalemia-stacking-np", name: "Hyperkalemia Stacking", status: "Available" },
+      { id: "monitoring-safety-np", name: "Monitoring & Safety: Baseline Labs & Ongoing Requirements", status: "Available" },
+      { id: "red-flag-adverse-effects-np", name: "Red Flag Adverse Effects & When to Stop", status: "Available" },
+      { id: "black-box-warnings-np", name: "Black Box Warnings: High-Yield", status: "Available" },
+      { id: "prescribing-process-logic-np", name: "Prescribing Process: Diagnosis to Follow-Up", status: "Available" }
+    ]
+  },
+  {
+    id: "cardiovascular-prescribing-np",
+    title: "Cardiovascular Prescribing",
+    icon: Heart,
+    color: "text-red-600",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "acei-arb-selection-np", name: "Hypertension: ACEi vs ARB Selection", status: "Available" },
+      { id: "thiazide-prescribing-np", name: "Thiazide Diuretics: Selection & Monitoring", status: "Available" },
+      { id: "ccb-dhp-nondhp-np", name: "CCB: DHP vs Non-DHP Logic", status: "Available" },
+      { id: "beta-blocker-selection-np", name: "Beta Blockers: When Appropriate & Agent Selection", status: "Available" },
+      { id: "resistant-htn-strategies-np", name: "Resistant Hypertension Strategies", status: "Available" },
+      { id: "hf-acei-arb-arni-np", name: "Heart Failure: ACEi/ARB/ARNI Prescribing", status: "Available" },
+      { id: "hf-beta-blocker-agents-np", name: "Heart Failure: Beta Blocker Agent Selection", status: "Available" },
+      { id: "hf-mra-prescribing-np", name: "Heart Failure: MRA Prescribing", status: "Available" },
+      { id: "hf-sglt2i-np", name: "Heart Failure: SGLT2 Inhibitor Logic", status: "Available" },
+      { id: "diuretics-loop-thiazide-np", name: "Diuretics: Loop vs Thiazide in HF", status: "Available" },
+      { id: "afib-rate-rhythm-logic-np", name: "AFib: Rate vs Rhythm Control Logic", status: "Available" },
+      { id: "afib-anticoagulation-chadsvasc-np", name: "AFib: CHA₂DS₂-VASc Anticoagulation Decisions", status: "Available" },
+      { id: "doac-warfarin-selection-np", name: "DOAC vs Warfarin Selection", status: "Available" },
+      { id: "statin-intensity-np", name: "Statin Intensity Selection & ASCVD Risk", status: "Available" },
+      { id: "lipid-monitoring-np", name: "Lipid Monitoring: LFTs & CK", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory-prescribing-np",
+    title: "Respiratory Prescribing",
+    icon: Wind,
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "asthma-step-therapy-np", name: "Asthma: Step Therapy Prescribing", status: "Available" },
+      { id: "saba-ics-logic-np", name: "SABA vs ICS Logic", status: "Available" },
+      { id: "laba-safety-logic-np", name: "LABA Safety Logic", status: "Available" },
+      { id: "smart-therapy-np", name: "SMART Therapy Concept", status: "Available" },
+      { id: "copd-lama-laba-ics-np", name: "COPD: LAMA vs LABA vs ICS Combinations", status: "Available" },
+      { id: "copd-exacerbation-rx-np", name: "COPD Exacerbation Prescribing", status: "Available" },
+      { id: "pneumonia-outpatient-abx-np", name: "Pneumonia Outpatient: Antibiotic Selection & Allergy", status: "Available" }
+    ]
+  },
+  {
+    id: "psychiatric-prescribing-np",
+    title: "Psychiatric Prescribing",
+    icon: Brain,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "ssri-selection-differences-np", name: "Depression: SSRI Selection Differences", status: "Available" },
+      { id: "snri-logic-np", name: "SNRI Logic & Selection", status: "Available" },
+      { id: "ssri-sexual-side-effects-np", name: "Sexual Side Effects Management", status: "Available" },
+      { id: "discontinuation-syndrome-np", name: "Discontinuation Syndrome", status: "Available" },
+      { id: "augmentation-strategies-np", name: "Augmentation Strategies", status: "Available" },
+      { id: "anxiety-ssri-firstline-np", name: "Anxiety: First-Line SSRIs", status: "Available" },
+      { id: "benzodiazepine-risks-rx-np", name: "Benzodiazepine Risks & Prescribing", status: "Available" },
+      { id: "bipolar-mood-stabilizers-rx-np", name: "Bipolar: Mood Stabilizer Prescribing", status: "Available" },
+      { id: "atypical-antipsychotics-rx-np", name: "Atypical Antipsychotics: Selection & Monitoring", status: "Available" },
+      { id: "antipsychotic-metabolic-monitoring-np", name: "Antipsychotic Metabolic Monitoring", status: "Available" },
+      { id: "eps-recognition-np", name: "EPS Recognition & Management", status: "Available" },
+      { id: "antipsychotic-qt-risk-np", name: "Antipsychotic QT Prolongation Risk", status: "Available" }
+    ]
+  },
+  {
+    id: "endocrine-prescribing-np",
+    title: "Endocrine Prescribing",
+    icon: Zap,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "metformin-firstline-np", name: "Diabetes: Metformin First-Line Logic", status: "Available" },
+      { id: "sglt2i-cv-renal-benefit-np", name: "SGLT2 Inhibitors: CV/Renal Benefit", status: "Available" },
+      { id: "glp1-agonists-np", name: "GLP-1 Agonists: Selection & Titration", status: "Available" },
+      { id: "insulin-types-titration-np", name: "Insulin Types & Titration Basics", status: "Available" },
+      { id: "levothyroxine-dosing-np", name: "Levothyroxine Dosing & TSH Monitoring", status: "Available" },
+      { id: "bisphosphonate-prescribing-np", name: "Bisphosphonate Prescribing", status: "Available" },
+      { id: "calcium-vitamin-d-logic-np", name: "Calcium/Vitamin D Logic", status: "Available" }
+    ]
+  },
+  {
+    id: "renal-electrolyte-prescribing-np",
+    title: "Renal / Electrolyte Prescribing",
+    icon: Droplets,
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "hyperkalemia-mgmt-rx-np", name: "Hyperkalemia Management Prescribing", status: "Available" },
+      { id: "diuretic-selection-logic-np", name: "Diuretic Selection Logic", status: "Available" },
+      { id: "ckd-medication-adjustments-np", name: "CKD Medication Adjustments", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-prescribing-np",
+    title: "GI Prescribing",
+    icon: Droplets,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "ppi-h2-blocker-logic-np", name: "PPI vs H2 Blocker Selection", status: "Available" },
+      { id: "ibs-therapies-rx-np", name: "IBS Therapies: Selection & Logic", status: "Available" },
+      { id: "h-pylori-regimens-np", name: "H. pylori Regimens", status: "Available" },
+      { id: "hepatitis-treatment-overview-np", name: "Hepatitis Treatment Overview", status: "Available" }
+    ]
+  },
+  {
+    id: "womens-health-prescribing-np",
+    title: "Women's Health Prescribing",
+    icon: Users,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "contraceptive-selection-np", name: "Contraceptive Selection Logic", status: "Available" },
+      { id: "hormone-therapy-rx-np", name: "Hormone Therapy Prescribing", status: "Available" },
+      { id: "sti-treatment-guidelines-np", name: "STI Treatment Guidelines", status: "Available" },
+      { id: "uti-women-management-np", name: "UTI Management in Women", status: "Available" },
+      { id: "pregnancy-safe-meds-np", name: "Pregnancy-Safe Medication Logic", status: "Available" }
+    ]
+  },
+  {
+    id: "pediatric-prescribing-np",
+    title: "Pediatric Prescribing",
+    icon: Baby,
+    color: "text-sky-600",
+    bgColor: "bg-sky-50",
+    diseases: [
+      { id: "peds-weight-dosing-np", name: "Pediatric Weight-Based Dosing", status: "Available" },
+      { id: "peds-antibiotic-selection-np", name: "Pediatric Antibiotic Selection", status: "Available" },
+      { id: "vaccine-contraindications-np", name: "Vaccine Contraindications", status: "Available" }
+    ]
+  },
+  {
+    id: "geriatric-prescribing-np",
+    title: "Geriatric Prescribing",
+    icon: Users,
+    color: "text-stone-600",
+    bgColor: "bg-stone-50",
+    diseases: [
+      { id: "beers-criteria-prescribing-np", name: "Beers Criteria: Prescribing Application", status: "Available" },
+      { id: "fall-risk-meds-np", name: "Fall-Risk Medications", status: "Available" },
+      { id: "deprescribing-strategies-np", name: "Deprescribing Strategies", status: "Available" }
+    ]
+  },
+  {
+    id: "infectious-disease-prescribing-np",
+    title: "Infectious Disease Prescribing",
+    icon: Bug,
+    color: "text-lime-600",
+    bgColor: "bg-lime-50",
+    diseases: [
+      { id: "antibiotic-selection-logic-np", name: "Antibiotic Selection Logic", status: "Available" },
+      { id: "narrow-broad-spectrum-np", name: "Narrow vs Broad Spectrum Selection", status: "Available" },
+      { id: "resistance-principles-np", name: "Resistance Principles", status: "Available" },
+      { id: "antibiotic-duration-decisions-np", name: "Antibiotic Duration Decisions", status: "Available" },
+      { id: "antifungal-basics-np", name: "Antifungal Basics", status: "Available" },
+      { id: "antiviral-basics-np", name: "Antiviral Basics", status: "Available" }
+    ]
+  },
+  {
+    id: "legal-ethical-prescribing-np",
+    title: "Legal & Ethical Prescribing",
+    icon: Scale,
+    color: "text-gray-700",
+    bgColor: "bg-gray-50",
+    diseases: [
+      { id: "controlled-substances-np", name: "Controlled Substances Prescribing", status: "Available" },
+      { id: "documentation-requirements-np", name: "Documentation Requirements", status: "Available" },
+      { id: "pdmp-usage-np", name: "PDMP Usage", status: "Available" },
+      { id: "informed-consent-prescribing-np", name: "Informed Consent for Prescribing", status: "Available" },
+      { id: "off-label-prescribing-np", name: "Off-Label Prescribing Principles", status: "Available" },
+      { id: "scope-of-practice-ca-us-np", name: "Scope-of-Practice: Canada vs U.S. Differences", status: "Available" }
+    ]
+  },
+  {
+    id: "cv-core-physiology-np",
+    title: "Cardiovascular Core Physiology & Assessment",
+    icon: Heart,
+    color: "text-red-700",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "cardiac-conduction-system-np", name: "Cardiac Conduction System", status: "Available" },
+      { id: "pressure-volume-relationships-np", name: "Pressure-Volume Relationships", status: "Available" },
+      { id: "cardiac-output-determinants-np", name: "Cardiac Output Determinants", status: "Available" },
+      { id: "systemic-pulmonary-circulation-np", name: "Systemic vs Pulmonary Circulation", status: "Available" },
+      { id: "vascular-resistance-principles-np", name: "Vascular Resistance Principles", status: "Available" },
+      { id: "heart-sound-interpretation-np", name: "Heart Sound Interpretation (S1, S2, S3, S4)", status: "Available" },
+      { id: "murmur-timing-logic-np", name: "Murmur Timing Logic: Systolic vs Diastolic", status: "Available" },
+      { id: "jvp-assessment-np", name: "Jugular Venous Pressure Assessment", status: "Available" },
+      { id: "peripheral-pulse-assessment-np", name: "Peripheral Pulse Assessment", status: "Available" },
+      { id: "edema-grading-np", name: "Edema Grading & Interpretation", status: "Available" },
+      { id: "orthostatic-vitals-np", name: "Orthostatic Vitals", status: "Available" },
+      { id: "ecg-basics-np", name: "12-Lead ECG Basics: Rhythms, Blocks & Ischemia", status: "Available" },
+      { id: "arrhythmia-recognition-np", name: "Basic Arrhythmia Recognition", status: "Available" },
+      { id: "troponin-interpretation-np", name: "Troponin Interpretation", status: "Available" },
+      { id: "bnp-interpretation-np", name: "BNP Interpretation", status: "Available" },
+      { id: "lipid-panel-analysis-np", name: "Lipid Panel Analysis", status: "Available" },
+      { id: "ascvd-risk-calculation-np", name: "ASCVD Risk Calculation", status: "Available" },
+      { id: "htn-all-stages-np", name: "Hypertension: All Stages & Guidelines", status: "Available" },
+      { id: "hyperlipidemia-np", name: "Hyperlipidemia", status: "Available" },
+      { id: "stable-ischemic-hd-np", name: "Stable Ischemic Heart Disease", status: "Available" },
+      { id: "pad-basics-np", name: "Peripheral Arterial Disease", status: "Available" },
+      { id: "dvt-basics-np", name: "DVT Basics", status: "Available" },
+      { id: "antihypertensives-comparison-np", name: "Antihypertensives: Mechanism-Based Comparison", status: "Available" },
+      { id: "anticoagulants-doac-warfarin-np", name: "Anticoagulants: DOAC vs Warfarin Logic", status: "Available" },
+      { id: "antiplatelets-np", name: "Antiplatelets", status: "Available" }
+    ]
+  },
+  {
+    id: "resp-core-physiology-np",
+    title: "Respiratory Core Physiology & Assessment",
+    icon: Wind,
+    color: "text-blue-700",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "ventilation-perfusion-np", name: "Ventilation-Perfusion Relationships", status: "Available" },
+      { id: "oxygen-dissociation-curve-np", name: "Oxygen Dissociation Curve", status: "Available" },
+      { id: "airflow-dynamics-np", name: "Airflow Dynamics", status: "Available" },
+      { id: "acid-base-physiology-np", name: "Acid-Base Physiology Basics", status: "Available" },
+      { id: "lung-auscultation-interpretation-np", name: "Lung Auscultation Interpretation", status: "Available" },
+      { id: "percussion-patterns-np", name: "Percussion Patterns", status: "Available" },
+      { id: "spirometry-interpretation-np", name: "Spirometry Interpretation", status: "Available" },
+      { id: "pulse-oximetry-limits-np", name: "Pulse Oximetry Limits", status: "Available" },
+      { id: "abg-interpretation-np", name: "ABG Interpretation", status: "Available" },
+      { id: "pft-obstructive-restrictive-np", name: "PFT Patterns: Obstructive vs Restrictive", status: "Available" },
+      { id: "chest-xray-interpretation-np", name: "Chest X-Ray Interpretation Basics", status: "Available" },
+      { id: "asthma-step-therapy-core-np", name: "Asthma: Step Therapy", status: "Available" },
+      { id: "copd-gold-staging-np", name: "COPD: GOLD Staging", status: "Available" },
+      { id: "pneumonia-outpatient-np", name: "Pneumonia: Outpatient Management", status: "Available" },
+      { id: "tb-basics-np", name: "TB Basics", status: "Available" },
+      { id: "pe-basics-np", name: "PE Basics", status: "Available" },
+      { id: "sleep-apnea-np", name: "Sleep Apnea", status: "Available" },
+      { id: "uri-differentiation-np", name: "URI Differentiation", status: "Available" },
+      { id: "beta-agonists-saba-laba-np", name: "Beta-Agonists: SABA/LABA", status: "Available" },
+      { id: "inhaled-corticosteroids-np", name: "Inhaled Corticosteroids", status: "Available" },
+      { id: "anticholinergics-resp-np", name: "Anticholinergics (Respiratory)", status: "Available" },
+      { id: "systemic-steroids-np", name: "Systemic Steroids", status: "Available" },
+      { id: "antibiotic-selection-resp-np", name: "Antibiotic Selection Principles (Respiratory)", status: "Available" }
+    ]
+  },
+  {
+    id: "neuro-core-physiology-np",
+    title: "Neurological Core Physiology & Assessment",
+    icon: Brain,
+    color: "text-purple-700",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "neuronal-signaling-np", name: "Neuronal Signaling", status: "Available" },
+      { id: "cranial-nerve-functions-np", name: "Cranial Nerve Functions", status: "Available" },
+      { id: "motor-sensory-pathways-np", name: "Motor vs Sensory Pathways", status: "Available" },
+      { id: "complete-neuro-exam-np", name: "Complete Neuro Exam", status: "Available" },
+      { id: "gcs-assessment-np", name: "Glasgow Coma Scale", status: "Available" },
+      { id: "stroke-fast-nih-np", name: "Stroke Recognition: FAST + NIH Basics", status: "Available" },
+      { id: "headache-red-flags-np", name: "Headache Red Flags", status: "Available" },
+      { id: "imaging-indications-neuro-np", name: "Neurological Imaging Indications", status: "Available" },
+      { id: "migraine-tension-cluster-np", name: "Migraine vs Tension vs Cluster", status: "Available" },
+      { id: "stroke-tia-np", name: "Stroke/TIA", status: "Available" },
+      { id: "seizure-disorders-np", name: "Seizure Disorders", status: "Available" },
+      { id: "peripheral-neuropathy-np", name: "Peripheral Neuropathy", status: "Available" },
+      { id: "bells-palsy-np", name: "Bell's Palsy", status: "Available" },
+      { id: "dementia-delirium-np", name: "Dementia vs Delirium", status: "Available" },
+      { id: "parkinsons-disease-np", name: "Parkinson's Disease", status: "Available" },
+      { id: "antiepileptics-basics-np", name: "Antiepileptics Basics", status: "Available" },
+      { id: "migraine-therapies-np", name: "Migraine Therapies", status: "Available" },
+      { id: "parkinson-meds-np", name: "Parkinson Medications", status: "Available" },
+      { id: "neuropathic-pain-meds-np", name: "Neuropathic Pain Medications", status: "Available" }
+    ]
+  },
+  {
+    id: "heme-core-np",
+    title: "Hematology Core Concepts",
+    icon: ShieldAlert,
+    color: "text-orange-700",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "hematopoiesis-np", name: "Hematopoiesis", status: "Available" },
+      { id: "coagulation-cascade-np", name: "Coagulation Cascade", status: "Available" },
+      { id: "iron-metabolism-np", name: "Iron Metabolism", status: "Available" },
+      { id: "cbc-interpretation-np", name: "CBC Interpretation", status: "Available" },
+      { id: "iron-studies-np", name: "Iron Studies", status: "Available" },
+      { id: "pt-inr-aptt-np", name: "PT/INR/aPTT Interpretation", status: "Available" },
+      { id: "d-dimer-logic-np", name: "D-Dimer Logic", status: "Available" },
+      { id: "iron-deficiency-anemia-np", name: "Iron Deficiency Anemia", status: "Available" },
+      { id: "b12-deficiency-np", name: "B12 Deficiency", status: "Available" },
+      { id: "anemia-chronic-disease-np", name: "Anemia of Chronic Disease", status: "Available" },
+      { id: "sickle-cell-np", name: "Sickle Cell Disease", status: "Available" },
+      { id: "thrombocytopenia-np", name: "Thrombocytopenia", status: "Available" },
+      { id: "coagulopathies-basics-np", name: "Coagulopathies Basics", status: "Available" }
+    ]
+  },
+  {
+    id: "infectious-disease-core-np",
+    title: "Infectious Disease: Primary Care Scope",
+    icon: Bug,
+    color: "text-lime-700",
+    bgColor: "bg-lime-50",
+    diseases: [
+      { id: "host-pathogen-interaction-core-np", name: "Host-Pathogen Interaction", status: "Available" },
+      { id: "antimicrobial-stewardship-np", name: "Antimicrobial Stewardship", status: "Available" },
+      { id: "resistance-mechanisms-np", name: "Resistance Mechanisms", status: "Available" },
+      { id: "uti-primary-care-np", name: "UTI: Primary Care Management", status: "Available" },
+      { id: "sti-management-core-np", name: "STI Management", status: "Available" },
+      { id: "cellulitis-np", name: "Cellulitis", status: "Available" },
+      { id: "sinusitis-np", name: "Sinusitis", status: "Available" },
+      { id: "pharyngitis-np", name: "Pharyngitis", status: "Available" },
+      { id: "gi-infections-np", name: "GI Infections", status: "Available" },
+      { id: "hiv-basics-np", name: "HIV Basics", status: "Available" },
+      { id: "hepatitis-basics-np", name: "Hepatitis Basics", status: "Available" },
+      { id: "adult-immunizations-np", name: "Adult Immunizations", status: "Available" },
+      { id: "pediatric-vaccine-schedule-np", name: "Pediatric Vaccine Schedule Overview", status: "Available" }
+    ]
+  },
+  {
+    id: "endocrine-core-np",
+    title: "Endocrine Core Physiology & Conditions",
+    icon: Zap,
+    color: "text-rose-700",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "hypothalamic-pituitary-axis-np", name: "Hypothalamic-Pituitary Axis", status: "Available" },
+      { id: "insulin-glucose-dynamics-np", name: "Insulin-Glucose Dynamics", status: "Available" },
+      { id: "thyroid-regulation-np", name: "Thyroid Regulation", status: "Available" },
+      { id: "tsh-interpretation-np", name: "TSH Interpretation", status: "Available" },
+      { id: "a1c-interpretation-np", name: "A1C Interpretation", status: "Available" },
+      { id: "cortisol-testing-np", name: "Cortisol Testing Basics", status: "Available" },
+      { id: "type1-vs-type2-dm-np", name: "Type 1 vs Type 2 Diabetes", status: "Available" },
+      { id: "dka-hhs-basics-np", name: "DKA vs HHS Basics", status: "Available" },
+      { id: "hypothyroidism-core-np", name: "Hypothyroidism", status: "Available" },
+      { id: "hyperthyroidism-core-np", name: "Hyperthyroidism", status: "Available" },
+      { id: "thyroid-nodules-np", name: "Thyroid Nodules", status: "Available" },
+      { id: "adrenal-disorders-basics-np", name: "Adrenal Disorders Basics", status: "Available" },
+      { id: "pcos-core-np", name: "PCOS", status: "Available" },
+      { id: "osteoporosis-core-np", name: "Osteoporosis", status: "Available" },
+      { id: "insulin-types-np", name: "Insulin Types", status: "Available" },
+      { id: "thyroid-hormone-therapy-np", name: "Thyroid Hormone Therapy", status: "Available" }
+    ]
+  },
+  {
+    id: "renal-gu-core-np",
+    title: "Renal / GU Core Physiology & Conditions",
+    icon: Droplets,
+    color: "text-cyan-700",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "gfr-physiology-np", name: "GFR Physiology", status: "Available" },
+      { id: "raas-np", name: "RAAS", status: "Available" },
+      { id: "fluid-balance-np", name: "Fluid Balance", status: "Available" },
+      { id: "cmp-interpretation-np", name: "CMP Interpretation", status: "Available" },
+      { id: "egfr-np", name: "eGFR", status: "Available" },
+      { id: "urinalysis-interpretation-np", name: "Urinalysis Interpretation", status: "Available" },
+      { id: "urine-culture-logic-np", name: "Urine Culture Logic", status: "Available" },
+      { id: "aki-vs-ckd-np", name: "AKI vs CKD", status: "Available" },
+      { id: "electrolyte-abnormalities-np", name: "Electrolyte Abnormalities", status: "Available" },
+      { id: "bph-np", name: "BPH", status: "Available" },
+      { id: "nephrolithiasis-np", name: "Nephrolithiasis", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-hepatic-core-np",
+    title: "GI / Hepatic Core Physiology & Conditions",
+    icon: Droplets,
+    color: "text-amber-700",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "liver-function-np", name: "Liver Function", status: "Available" },
+      { id: "bilirubin-metabolism-np", name: "Bilirubin Metabolism", status: "Available" },
+      { id: "gi-motility-np", name: "GI Motility", status: "Available" },
+      { id: "lft-interpretation-np", name: "LFT Interpretation", status: "Available" },
+      { id: "lipase-amylase-np", name: "Lipase/Amylase Interpretation", status: "Available" },
+      { id: "stool-testing-np", name: "Stool Testing", status: "Available" },
+      { id: "gerd-core-np", name: "GERD", status: "Available" },
+      { id: "pud-np", name: "PUD", status: "Available" },
+      { id: "ibs-ibd-np", name: "IBS vs IBD", status: "Available" },
+      { id: "hepatitis-core-np", name: "Hepatitis", status: "Available" },
+      { id: "cirrhosis-core-np", name: "Cirrhosis", status: "Available" },
+      { id: "gallbladder-disease-np", name: "Gallbladder Disease", status: "Available" },
+      { id: "pancreatitis-basics-np", name: "Pancreatitis Basics", status: "Available" }
+    ]
+  },
+  {
+    id: "derm-core-np",
+    title: "Dermatology Core Assessment & Conditions",
+    icon: Eye,
+    color: "text-pink-600",
+    bgColor: "bg-pink-50",
+    diseases: [
+      { id: "primary-secondary-lesions-np", name: "Primary vs Secondary Lesions", status: "Available" },
+      { id: "abcde-melanoma-rule-np", name: "ABCDE Melanoma Rule", status: "Available" },
+      { id: "eczema-np", name: "Eczema", status: "Available" },
+      { id: "psoriasis-core-np", name: "Psoriasis", status: "Available" },
+      { id: "acne-np", name: "Acne", status: "Available" },
+      { id: "fungal-infections-np", name: "Fungal Infections", status: "Available" },
+      { id: "skin-cancers-basics-np", name: "Skin Cancers Basics", status: "Available" },
+      { id: "rashes-differentiation-np", name: "Rashes Differentiation", status: "Available" }
+    ]
+  },
+  {
+    id: "pediatrics-core-np",
+    title: "Pediatrics Core Concepts & Conditions",
+    icon: Baby,
+    color: "text-sky-700",
+    bgColor: "bg-sky-50",
+    diseases: [
+      { id: "growth-development-milestones-np", name: "Growth & Development Milestones", status: "Available" },
+      { id: "pediatric-dosing-logic-np", name: "Pediatric Dosing Logic", status: "Available" },
+      { id: "pediatric-red-flags-np", name: "Pediatric Red Flags", status: "Available" },
+      { id: "otitis-media-np", name: "Otitis Media", status: "Available" },
+      { id: "bronchiolitis-np", name: "Bronchiolitis", status: "Available" },
+      { id: "croup-np", name: "Croup", status: "Available" },
+      { id: "pediatric-asthma-np", name: "Pediatric Asthma", status: "Available" },
+      { id: "adhd-basics-np", name: "ADHD Basics", status: "Available" },
+      { id: "kawasaki-disease-np", name: "Kawasaki Disease", status: "Available" },
+      { id: "intussusception-np", name: "Intussusception", status: "Available" },
+      { id: "tetralogy-of-fallot-np", name: "Tetralogy of Fallot", status: "Available" }
+    ]
+  },
+  {
+    id: "womens-health-core-np",
+    title: "Women's Health Core Concepts",
+    icon: Users,
+    color: "text-rose-700",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "menstrual-physiology-np", name: "Menstrual Physiology", status: "Available" },
+      { id: "contraception-np", name: "Contraception", status: "Available" },
+      { id: "pregnancy-basics-np", name: "Pregnancy Basics", status: "Available" },
+      { id: "amenorrhea-np", name: "Amenorrhea", status: "Available" },
+      { id: "prenatal-screening-np", name: "Prenatal Screening", status: "Available" },
+      { id: "sti-screening-np", name: "STI Screening", status: "Available" },
+      { id: "menopause-management-np", name: "Menopause Management", status: "Available" }
+    ]
+  },
+  {
+    id: "geriatrics-core-np",
+    title: "Geriatrics Core Concepts",
+    icon: Users,
+    color: "text-stone-700",
+    bgColor: "bg-stone-50",
+    diseases: [
+      { id: "polypharmacy-np", name: "Polypharmacy", status: "Available" },
+      { id: "frailty-np", name: "Frailty", status: "Available" },
+      { id: "fall-risk-np", name: "Fall Risk", status: "Available" },
+      { id: "cognitive-decline-np", name: "Cognitive Decline", status: "Available" }
+    ]
+  },
+  {
+    id: "psych-core-np",
+    title: "Psychiatric Core Diagnoses & Pharmacology",
+    icon: Brain,
+    color: "text-violet-700",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "depression-core-np", name: "Depression", status: "Available" },
+      { id: "anxiety-disorders-core-np", name: "Anxiety Disorders", status: "Available" },
+      { id: "bipolar-disorder-core-np", name: "Bipolar Disorder", status: "Available" },
+      { id: "schizophrenia-basics-np", name: "Schizophrenia Basics", status: "Available" },
+      { id: "substance-use-disorders-np", name: "Substance Use Disorders", status: "Available" },
+      { id: "ssris-np", name: "SSRIs", status: "Available" },
+      { id: "snris-np", name: "SNRIs", status: "Available" },
+      { id: "antipsychotics-core-np", name: "Antipsychotics", status: "Available" },
+      { id: "mood-stabilizers-core-np", name: "Mood Stabilizers", status: "Available" }
+    ]
+  },
+  {
+    id: "professional-practice-np",
+    title: "Professional Practice & Guidelines",
+    icon: FileText,
+    color: "text-gray-700",
+    bgColor: "bg-gray-50",
+    diseases: [
+      { id: "evidence-based-practice-np", name: "Evidence-Based Practice", status: "Available" },
+      { id: "screening-guidelines-uspstf-np", name: "Screening Guidelines: USPSTF-Style Logic", status: "Available" },
+      { id: "preventive-care-np", name: "Preventive Care", status: "Available" },
+      { id: "risk-stratification-np", name: "Risk Stratification", status: "Available" },
+      { id: "shared-decision-making-np", name: "Shared Decision-Making", status: "Available" },
+      { id: "documentation-standards-np", name: "Documentation Standards", status: "Available" },
+      { id: "scope-of-practice-np", name: "Scope of Practice", status: "Available" },
+      { id: "ethics-practice-np", name: "Ethics", status: "Available" }
+    ]
+  },
+  {
+    id: "exam-strategy-np",
+    title: "NP Exam Strategy",
+    icon: GraduationCap,
+    color: "text-indigo-700",
+    bgColor: "bg-indigo-50",
+    diseases: [
+      { id: "clinical-prioritization-np", name: "Clinical Prioritization", status: "Available" },
+      { id: "red-flags-exam-np", name: "Red Flags Recognition", status: "Available" },
+      { id: "guideline-application-np", name: "Guideline Application", status: "Available" },
+      { id: "medication-selection-logic-np", name: "Medication Selection Logic", status: "Available" },
+      { id: "risk-benefit-reasoning-np", name: "Risk vs Benefit Reasoning", status: "Available" },
+      { id: "differential-diagnosis-narrowing-np", name: "Differential Diagnosis Narrowing", status: "Available" },
+      { id: "next-best-step-np", name: "Next Best Step Decisions", status: "Available" },
+      { id: "health-promotion-np", name: "Health Promotion", status: "Available" }
+    ]
+  },
+  {
+    id: "rare-high-risk-np",
+    title: "Rare & High-Risk: Don't Miss Diseases",
+    icon: AlertCircle,
+    color: "text-red-700",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "aortic-dissection-np", name: "Aortic Dissection", status: "Available" },
+      { id: "hypertrophic-cardiomyopathy-np", name: "Hypertrophic Cardiomyopathy", status: "Available" },
+      { id: "spontaneous-pneumothorax-np", name: "Spontaneous Pneumothorax", status: "Available" },
+      { id: "guillain-barre-np", name: "Guillain–Barré Syndrome", status: "Available" },
+      { id: "celiac-disease-atypical-np", name: "Celiac Disease: Atypical Presentation", status: "Available" },
+      { id: "wernicke-encephalopathy-np", name: "Wernicke Encephalopathy", status: "Available" },
+      { id: "creutzfeldt-jakob-np", name: "Creutzfeldt-Jakob Disease", status: "Available" }
     ]
   }
 ];
