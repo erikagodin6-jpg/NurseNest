@@ -250,6 +250,14 @@ export default function PreNursingPage() {
   const [activeModule, setActiveModule] = useState<ModuleId | null>(null);
   const { t } = useI18n();
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const mod = params.get("module");
+    if (mod && modules.some((m) => m.id === mod)) {
+      setActiveModule(mod as ModuleId);
+    }
+  }, []);
+
   if (activeModule) {
     const activeModuleData = modules.find((m) => m.id === activeModule);
     return (

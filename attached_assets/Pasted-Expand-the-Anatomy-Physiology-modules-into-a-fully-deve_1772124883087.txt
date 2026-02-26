@@ -1,0 +1,111 @@
+Expand the Anatomy & Physiology modules into a fully developed, university-level course that is academically rigorous, conceptually deep, and structured like a serious pre-health sciences program.
+
+Depth & Academic Standard:
+
+Content must reflect university-level expectations, not simplified nursing summaries. Explanations should develop true understanding of biological mechanisms, not memorization lists.
+
+Coverage Requirements:
+
+Develop a complete head-to-toe Anatomy & Physiology curriculum including:
+
+• Cellular and molecular foundations of human biology
+• Tissue types and structural organization
+• Integumentary system
+• Skeletal system
+• Muscular system
+• Nervous system
+• Endocrine system
+• Cardiovascular system
+• Respiratory system
+• Renal/urinary system
+• Gastrointestinal system
+• Immune/lymphatic system
+• Reproductive system
+• Homeostasis and regulatory integration
+
+Cell Biology & Foundational Mechanisms (Critical):
+
+Include deep explanations of:
+
+• Cell structure and organelles
+• Membrane dynamics and transport mechanisms
+• Ion gradients and electrochemical principles
+• Cellular communication and signaling
+• Protein synthesis and genetic control
+• Cellular metabolism and energy production
+• Cell cycle and replication basics
+• Structure–function relationships
+
+Physiology Standards:
+
+Explain HOW systems function mechanistically:
+
+• Cause–effect relationships
+• Feedback loops
+• Gradients, pressures, flows
+• Electrical signaling principles
+• Mechanical forces where relevant
+• Chemical signaling logic
+• Functional integration across systems
+
+Avoid shallow descriptions such as “the heart pumps blood.” Instead explain:
+
+• Pressure generation
+• Electrical conduction logic
+• Valve mechanics
+• Vascular dynamics
+• Functional consequences
+
+Lesson Construction Rules:
+
+For EVERY system/module:
+
+• Provide structured sections
+• Explain mechanisms and reasoning
+• Clarify commonly misunderstood concepts
+• Use precise biological terminology
+• Emphasize structure–function relationships
+• Avoid oversimplified textbook language
+• Avoid pathophysiology and disease discussions unless essential for explaining normal physiology boundaries
+
+Tone & Style:
+
+Professional, academic, clear, intelligent.
+Write like a high-quality university learning resource.
+
+Quiz Requirements (Mandatory):
+
+At the end of EACH module, generate a quiz containing 10–20 questions.
+
+Quiz design rules:
+
+• Questions must test understanding, not trivial recall
+• Use applied reasoning and conceptual testing
+• Include clinical-style logic where appropriate but without pathophysiology
+• Include answer key with explanations
+• Avoid ambiguous or poorly constructed questions
+• Avoid unrealistic numbers or nonsense scenarios
+
+Example question style:
+
+• Mechanism-based reasoning
+• Functional prediction
+• Structure–function relationships
+• Cause–effect logic
+
+Quality Control:
+
+• No shallow filler content
+• No bullet-only summaries
+• No generic high-school explanations
+• Content must feel cohesive and instructional
+• Modules should logically build on each other
+• Ensure internal conceptual consistency
+
+Output Expectations:
+
+• Fully expanded modules
+• Clear hierarchical organization
+• Deep conceptual explanations
+• Quiz at end of each module
+• Answer rationales included

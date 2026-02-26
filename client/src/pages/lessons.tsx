@@ -44,7 +44,8 @@ import {
   GraduationCap,
   Microscope,
   FlaskConical,
-  BarChart3
+  BarChart3,
+  Database
 } from "lucide-react";
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
@@ -1964,6 +1965,91 @@ function LecturesSection({ tier, onNavigate }: { tier: string; onNavigate: (path
   );
 }
 
+interface DbLesson {
+  id: number;
+  title: string;
+  slug: string;
+  category?: string;
+  bodySystem?: string;
+  tier?: string;
+  summary?: string;
+  tags?: string[];
+}
+
+function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
+  if (lessons.length === 0) return null;
+
+  const grouped = lessons.reduce<Record<string, DbLesson[]>>((acc, lesson) => {
+    const cat = lesson.category || "Other";
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(lesson);
+    return acc;
+  }, {});
+
+  const tierColors: Record<string, string> = {
+    free: "bg-green-100 text-green-800",
+    rpn: "bg-blue-100 text-blue-800",
+    rn: "bg-purple-100 text-purple-800",
+    np: "bg-red-100 text-red-800",
+  };
+
+  return (
+    <div className="mt-10">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="p-2.5 rounded-xl bg-primary/10">
+          <Database className="w-6 h-6 text-primary" />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">Additional Lessons</h2>
+          <p className="text-sm text-gray-500">Supplemental lesson content</p>
+        </div>
+      </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+        {Object.entries(grouped).map(([category, items]) => (
+          <Card key={category} className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
+            <CardHeader className="flex flex-row items-center gap-4 pb-2 bg-slate-50">
+              <div className="p-3 rounded-xl bg-white shadow-sm text-primary">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <CardTitle className="text-xl font-bold text-gray-900">{category}</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="space-y-3">
+                {items.map((lesson) => (
+                  <LocaleLink
+                    key={lesson.id}
+                    href={`/lessons/${lesson.slug}`}
+                    data-testid={`db-lesson-card-${lesson.slug}`}
+                    className="flex items-center justify-between p-4 rounded-xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all cursor-pointer group no-underline"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <BookOpen className="w-5 h-5 shrink-0 text-primary" />
+                      <div className="min-w-0">
+                        <span className="font-medium text-gray-900 block truncate">{lesson.title}</span>
+                        {lesson.summary && (
+                          <span className="text-xs text-gray-500 block truncate mt-0.5">{lesson.summary}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 ml-2">
+                      {lesson.tier && (
+                        <Badge variant="secondary" className={`text-xs ${tierColors[lesson.tier] || ""}`}>
+                          {lesson.tier.toUpperCase()}
+                        </Badge>
+                      )}
+                      <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </LocaleLink>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Lessons() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
@@ -1976,6 +2062,15 @@ export default function Lessons() {
 
   const defaultTab = showAllTabs ? "rpn" : effectiveTier;
   const [activeTab, setActiveTab] = useState(defaultTab);
+
+  const [dbLessons, setDbLessons] = useState<DbLesson[]>([]);
+
+  useEffect(() => {
+    fetch("/api/content/lessons")
+      .then((r) => r.ok ? r.json() : [])
+      .then((data) => setDbLessons(Array.isArray(data) ? data : []))
+      .catch(() => setDbLessons([]));
+  }, []);
 
   const rpnNonPharm = rpnSystems.filter(s => !s.id.includes("pharmacology"));
   const rnNonPharm = rnSystems.filter(s => !s.id.includes("pharmacology"));
@@ -2051,6 +2146,7 @@ export default function Lessons() {
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} />
               ))}
             </div>
+            <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "rpn")} />
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
@@ -2059,6 +2155,7 @@ export default function Lessons() {
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} />
               ))}
             </div>
+            <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "rn")} />
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
@@ -2067,6 +2164,7 @@ export default function Lessons() {
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} />
               ))}
             </div>
+            <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "np")} />
           </TabsContent>
           <TabsContent value="pharmacology" className="mt-0">
             <div className="space-y-10">
