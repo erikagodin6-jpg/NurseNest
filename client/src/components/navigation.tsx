@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
+import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { 
@@ -267,7 +268,7 @@ export function Navigation() {
     { icon: FileText, label: t("nav.exams"), key: "Exams" },
   ];
 
-  const designations = region === "CA" ? ["RPN", "RN", "NP"] : ["LVN", "RN", "NP"];
+  const designations = getExamConstants(region as ConstRegion).designations;
 
   const themes = [
     { name: "lavender", color: "#9d82dd", label: "Lavender" },

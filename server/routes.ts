@@ -134,6 +134,18 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
             await logAudit(req, admin, "ai", contentId, "region-blocked", null, { reason: "Cross-region AI edit rejected", itemRegion: existing.regionScope, requestRegion: region });
             return res.status(403).json({ error: "Cannot edit content outside this domain's region scope" });
           }
+          const protectedFields = existing.protectedFields || [];
+          if (protectedFields.length > 0) {
+            const promptLower = (prompt as string).toLowerCase();
+            const fieldsAtRisk = protectedFields.filter((f: string) => {
+              const fLower = f.toLowerCase();
+              return promptLower.includes(fLower) || (fLower === "exam-names" && /\b(nclex|rex-pn|aanp|ancc)\b/i.test(prompt)) || (fLower === "lab-values" && /\b(lab|mmol|meq|mg\/dl|µmol)\b/i.test(prompt));
+            });
+            if (fieldsAtRisk.length > 0) {
+              await logAudit(req, admin, "ai", contentId, "protected-field-blocked", null, { reason: "AI attempted to modify protected fields", fields: fieldsAtRisk, prompt: prompt.substring(0, 200) });
+              return res.status(403).json({ error: `Cannot modify protected fields: ${fieldsAtRisk.join(", ")}. Remove these from the prompt or unprotect the fields first.` });
+            }
+          }
         }
       }
 
@@ -1314,8 +1326,12 @@ Rules:
       void password;
 
       const validScopes = ["BOTH", "US_ONLY", "CA_ONLY"];
-      if (!contentData.regionScope) {
-        const region = req.region || "US";
+      const region = req.region || "US";
+      const tierLower = (contentData.tier || "free").toLowerCase();
+      const isRegionLockedTier = tierLower === "rpn" || tierLower === "rn" || tierLower === "lvn";
+      if (isRegionLockedTier) {
+        contentData.regionScope = `${region}_ONLY`;
+      } else if (!contentData.regionScope) {
         contentData.regionScope = getDefaultRegionScope(contentData.tier, region);
       } else if (!validScopes.includes(contentData.regionScope)) {
         contentData.regionScope = "BOTH";
@@ -1341,6 +1357,18 @@ Rules:
       const existing = await storage.getContentItem(req.params.id);
       if (existing) {
         await saveRevision(req.params.id, existing, admin);
+        const region = req.region || "US";
+        const existingTier = (existing.tier || "free").toLowerCase();
+        const updateTier = (contentData.tier || existingTier).toLowerCase();
+        const isLockedTier = updateTier === "rpn" || updateTier === "rn" || updateTier === "lvn";
+        if (isLockedTier) {
+          contentData.regionScope = `${region}_ONLY`;
+        } else if (contentData.regionScope) {
+          const validScopes = ["BOTH", "US_ONLY", "CA_ONLY"];
+          if (!validScopes.includes(contentData.regionScope)) {
+            contentData.regionScope = existing.regionScope || "BOTH";
+          }
+        }
       }
 
       const item = await storage.updateContentItem(req.params.id, contentData);
@@ -1772,6 +1800,61 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       res.json(result);
     } catch (e: any) {
       res.json({ status: "unknown", explanation: "Validation error", confidence: 0 });
+    }
+  });
+
+  app.post("/api/decks/:id/ai-generate", async (req, res) => {
+    try {
+      const { userId, prompt, count } = req.body;
+      if (!userId || !prompt?.trim()) return res.status(400).json({ error: "userId and prompt required" });
+      const deckId = req.params.id;
+      const deck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
+      if (deck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+
+      const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
+      const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
+      if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
+
+      const numCards = Math.min(Math.max(parseInt(count) || 10, 1), 25);
+      const region = req.region || "US";
+      const regionNote = region === "CA"
+        ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."
+        : "Use American nursing terminology, conventional units, and US exam standards (NCLEX).";
+
+      const { default: OpenAI } = await import("openai");
+      const openai = new OpenAI({ apiKey, baseURL });
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are a nursing education flashcard generator for NurseNest. Generate high-quality, exam-ready flashcards for nursing students. ${regionNote} Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale explaining why the answer is correct. Return ONLY valid JSON.`,
+          },
+          {
+            role: "user",
+            content: `Generate exactly ${numCards} nursing flashcards about: ${prompt}\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation"}]}`,
+          },
+        ],
+        response_format: { type: "json_object" },
+        temperature: 0.7,
+        max_tokens: 4096,
+      });
+
+      const text = completion.choices[0]?.message?.content || '{"cards":[]}';
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        return res.status(500).json({ error: "Failed to parse AI response" });
+      }
+
+      const cards = (parsed.cards || []).filter((c: any) => c.front?.trim() && c.back?.trim());
+      if (cards.length === 0) return res.status(400).json({ error: "AI did not generate valid cards. Try a different prompt." });
+
+      res.json({ cards });
+    } catch (e: any) {
+      console.error("AI flashcard generation error:", e);
+      res.status(500).json({ error: e.message || "AI generation failed" });
     }
   });
 

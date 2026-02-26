@@ -66,6 +66,15 @@ type DeckViewsProps = {
   setCsvImportText: (s: string) => void;
   showCsvImport: boolean;
   setShowCsvImport: (b: boolean) => void;
+  aiGeneratePrompt: string;
+  setAiGeneratePrompt: (s: string) => void;
+  aiGenerateCount: number;
+  setAiGenerateCount: (n: number) => void;
+  aiGenerating: boolean;
+  aiGeneratedCards: {front: string; back: string; rationale: string}[];
+  aiGenerateCards: () => void;
+  addAiGeneratedCards: () => void;
+  removeAiGeneratedCard: (index: number) => void;
   deckStudyIndex: number;
   deckStudyFlipped: boolean;
   setDeckStudyFlipped: (b: boolean) => void;
@@ -445,8 +454,11 @@ export function DeckEditor({
   newCardRationale, setNewCardRationale, aiCheckResult, aiChecking,
   csvImportText, setCsvImportText, showCsvImport, setShowCsvImport,
   fetchDeckCards, fetchEntitlement,
+  aiGeneratePrompt, setAiGeneratePrompt, aiGenerateCount, setAiGenerateCount,
+  aiGenerating, aiGeneratedCards, aiGenerateCards, addAiGeneratedCards, removeAiGeneratedCard,
 }: Partial<DeckViewsProps> & { user: any; setView: any }) {
   const [editingCard, setEditingCard] = useState<any>(null);
+  const [showAiGenerate, setShowAiGenerate] = useState(false);
 
   if (!currentDeck) return null;
 
@@ -470,10 +482,100 @@ export function DeckEditor({
         <span className={cn("font-medium", limitInfo.used >= limitInfo.max ? "text-red-500" : "text-gray-500")}>
           {limitInfo.used} / {limitInfo.max} {currentDeck.isUpgraded ? "deck" : "total"} cards used
         </span>
-        <Button size="sm" variant="outline" onClick={() => setShowCsvImport!(!showCsvImport)} className="h-7 text-xs gap-1 ml-auto" data-testid="button-csv-import">
+        <Button size="sm" variant="outline" onClick={() => { setShowAiGenerate(!showAiGenerate); if (showCsvImport) setShowCsvImport!(false); }} className="h-7 text-xs gap-1 ml-auto bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100" data-testid="button-ai-generate-toggle">
+          <Sparkles className="w-3 h-3" /> AI Generate
+        </Button>
+        <Button size="sm" variant="outline" onClick={() => { setShowCsvImport!(!showCsvImport); if (showAiGenerate) setShowAiGenerate(false); }} className="h-7 text-xs gap-1" data-testid="button-csv-import">
           <Upload className="w-3 h-3" /> CSV Import
         </Button>
       </div>
+
+      {showAiGenerate && (
+        <Card className="border-purple-200 bg-purple-50/30" data-testid="card-ai-generate">
+          <CardContent className="p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-purple-600" />
+              <h3 className="text-sm font-bold text-purple-800">AI Flashcard Generator</h3>
+            </div>
+            <p className="text-xs text-gray-600">Describe what you want to study and AI will create flashcards for you.</p>
+            <Textarea
+              placeholder="e.g., Cardiac medications including beta blockers, ACE inhibitors, and antiarrhythmics with their mechanisms of action and side effects"
+              value={aiGeneratePrompt}
+              onChange={(e) => setAiGeneratePrompt!(e.target.value)}
+              className="min-h-[80px] text-sm bg-white"
+              data-testid="input-ai-generate-prompt"
+            />
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <label className="text-xs text-gray-500 whitespace-nowrap">Cards:</label>
+                <select
+                  value={aiGenerateCount}
+                  onChange={(e) => setAiGenerateCount!(parseInt(e.target.value))}
+                  className="text-xs border rounded-lg px-2 py-1.5 bg-white"
+                  data-testid="select-ai-generate-count"
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                  <option value={20}>20</option>
+                  <option value={25}>25</option>
+                </select>
+              </div>
+              <Button
+                size="sm"
+                onClick={aiGenerateCards}
+                disabled={aiGenerating || !aiGeneratePrompt?.trim()}
+                className="gap-1 bg-purple-600 hover:bg-purple-700"
+                data-testid="button-ai-generate"
+              >
+                {aiGenerating ? (
+                  <>
+                    <RefreshCw className="w-3 h-3 animate-spin" /> Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3 h-3" /> Generate Cards
+                  </>
+                )}
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => setShowAiGenerate(false)}>Cancel</Button>
+            </div>
+
+            {aiGeneratedCards && aiGeneratedCards.length > 0 && (
+              <div className="space-y-2 pt-2 border-t border-purple-200">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-semibold text-purple-700">{aiGeneratedCards.length} cards generated — review before adding:</p>
+                  <Button size="sm" onClick={addAiGeneratedCards} className="gap-1 bg-emerald-600 hover:bg-emerald-700" data-testid="button-add-ai-cards">
+                    <Plus className="w-3 h-3" /> Add All to Deck
+                  </Button>
+                </div>
+                <div className="max-h-[300px] overflow-y-auto space-y-2 pr-1">
+                  {aiGeneratedCards.map((card, idx) => (
+                    <div key={idx} className="bg-white rounded-lg border border-purple-100 p-3 text-sm" data-testid={`ai-card-preview-${idx}`}>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-gray-900">{card.front}</p>
+                          <p className="text-gray-600 mt-1">{card.back}</p>
+                          {card.rationale && <p className="text-xs text-gray-400 mt-1 italic">{card.rationale}</p>}
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="shrink-0 text-red-400 hover:text-red-600 h-7 w-7 p-0"
+                          onClick={() => removeAiGeneratedCard!(idx)}
+                          data-testid={`button-remove-ai-card-${idx}`}
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {showCsvImport && (
         <Card className="border-primary/20">

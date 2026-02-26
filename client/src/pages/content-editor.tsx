@@ -1468,21 +1468,104 @@ export default function ContentEditorPage() {
                         <label className="text-sm font-medium text-gray-600 mb-1 block">
                           Region Scope
                         </label>
-                        <div className="flex items-center gap-2">
-                          <Select value={regionScope} onValueChange={setRegionScope}>
-                            <SelectTrigger data-testid="select-region-scope">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="BOTH">Both (US &amp; CA)</SelectItem>
-                              <SelectItem value="US_ONLY">US Only</SelectItem>
-                              <SelectItem value="CA_ONLY">CA Only</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <span className="text-xs font-bold text-primary whitespace-nowrap" data-testid="text-current-domain-region">
-                            {currentRegion === "CA" ? "🇨🇦" : "🇺🇸"} {currentRegion}
-                          </span>
-                        </div>
+                        {(() => {
+                          const tierLower = (tier || "free").toLowerCase();
+                          const isRegionLocked = (tierLower === "rpn" || tierLower === "rn" || tierLower === "lvn");
+                          const isPublished = editingId && status === "published" && isRegionLocked;
+                          const forcedScope = isRegionLocked ? (currentRegion === "CA" ? "CA_ONLY" : "US_ONLY") : null;
+                          if (forcedScope && regionScope !== forcedScope && !editingId) {
+                            setTimeout(() => setRegionScope(forcedScope), 0);
+                          }
+                          return (
+                            <div className="flex items-center gap-2">
+                              <Select
+                                value={isRegionLocked && !editingId ? (forcedScope || regionScope) : regionScope}
+                                onValueChange={setRegionScope}
+                                disabled={!!isPublished}
+                              >
+                                <SelectTrigger data-testid="select-region-scope">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {isRegionLocked ? (
+                                    <SelectItem value={currentRegion === "CA" ? "CA_ONLY" : "US_ONLY"}>
+                                      {currentRegion === "CA" ? "CA Only" : "US Only"}
+                                    </SelectItem>
+                                  ) : (
+                                    <>
+                                      <SelectItem value="BOTH">Both (US &amp; CA)</SelectItem>
+                                      <SelectItem value="US_ONLY">US Only</SelectItem>
+                                      <SelectItem value="CA_ONLY">CA Only</SelectItem>
+                                    </>
+                                  )}
+                                </SelectContent>
+                              </Select>
+                              <span className="text-xs font-bold text-primary whitespace-nowrap" data-testid="text-current-domain-region">
+                                {currentRegion === "CA" ? "🇨🇦" : "🇺🇸"} {currentRegion} domain
+                              </span>
+                              {isPublished && (
+                                <span className="text-[10px] text-amber-600">Locked after publish</span>
+                              )}
+                            </div>
+                          );
+                        })()}
+                        {editingId && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="mt-2 text-xs gap-1"
+                            onClick={async () => {
+                              const otherRegion = currentRegion === "CA" ? "US" : "CA";
+                              const otherScope = `${otherRegion}_ONLY`;
+                              const newTitle = title + ` (${otherRegion})`;
+                              const newSlug = slug + `-${otherRegion.toLowerCase()}`;
+                              const creds = getCredentials();
+                              if (!creds) return;
+                              const payload = {
+                                title: newTitle,
+                                slug: newSlug,
+                                type,
+                                category: category || null,
+                                bodySystem: bodySystem || null,
+                                tier,
+                                status: "draft",
+                                tags,
+                                summary: summary || null,
+                                content: blocks,
+                                seoTitle: seoTitle || null,
+                                seoDescription: seoDescription || null,
+                                seoKeywords: seoKeywords.split(",").map(k => k.trim()).filter(Boolean),
+                                primaryKeyword: primaryKeyword || null,
+                                secondaryKeywords: secondaryKeywords.split(",").map(k => k.trim()).filter(Boolean),
+                                regionScope: otherScope,
+                                authorName: authorName || null,
+                                versionKey: editingId,
+                                username: creds.username,
+                                password: creds.password,
+                              };
+                              try {
+                                const res = await fetch("/api/content", {
+                                  method: "POST",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify(payload),
+                                });
+                                if (!res.ok) {
+                                  const err = await res.json();
+                                  alert(err.error || "Failed to create variant");
+                                  return;
+                                }
+                                const created = await res.json();
+                                alert(`Created ${otherRegion} variant as draft. Opening...`);
+                                openItem(created);
+                              } catch {
+                                alert("Failed to create variant");
+                              }
+                            }}
+                            data-testid="button-create-region-variant"
+                          >
+                            <RefreshCw className="w-3 h-3" /> Create {currentRegion === "CA" ? "US" : "CA"} Variant
+                          </Button>
+                        )}
                       </div>
 
                       <div>

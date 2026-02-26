@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -86,8 +87,9 @@ export default function Home() {
     return () => window.removeEventListener("regionChange", handler);
   }, []);
 
-  const examLabel = region === "CA" ? "REX-PN" : "NCLEX";
-  const rpnLabel = region === "CA" ? "RPN" : "LVN";
+  const regionConst = getExamConstants(region as ConstRegion);
+  const examLabel = regionConst.practicalNurse.examName;
+  const rpnLabel = regionConst.practicalNurse.designation;
   const altExam = region === "CA" ? "NCLEX" : "REX-PN";
 
   async function handleEmailSubscribe() {

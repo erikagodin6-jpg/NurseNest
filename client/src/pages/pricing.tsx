@@ -1,5 +1,6 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect } from "react";
+import { getExamConstants, getCurrency, type Region as ConstRegion } from "@shared/constants";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";

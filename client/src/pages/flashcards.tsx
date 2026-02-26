@@ -1209,6 +1209,61 @@ export default function Flashcards() {
     } catch {}
   };
 
+  const [aiGeneratePrompt, setAiGeneratePrompt] = useState("");
+  const [aiGenerateCount, setAiGenerateCount] = useState(10);
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiGeneratedCards, setAiGeneratedCards] = useState<{front: string; back: string; rationale: string}[]>([]);
+
+  const aiGenerateCards = async () => {
+    if (!user || !currentDeck || !aiGeneratePrompt.trim()) return;
+    setAiGenerating(true);
+    setAiGeneratedCards([]);
+    try {
+      const res = await fetch(`/api/decks/${currentDeck.id}/ai-generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, prompt: aiGeneratePrompt, count: aiGenerateCount }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error || "AI generation failed");
+        return;
+      }
+      const data = await res.json();
+      setAiGeneratedCards(data.cards || []);
+    } catch (e: any) {
+      alert("AI generation failed. Please try again.");
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
+  const addAiGeneratedCards = async () => {
+    if (!user || !currentDeck || aiGeneratedCards.length === 0) return;
+    try {
+      const res = await fetch(`/api/decks/${currentDeck.id}/cards/bulk-import`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, cards: aiGeneratedCards }),
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setAiGeneratedCards([]);
+        setAiGeneratePrompt("");
+        fetchDeckCards(currentDeck.id);
+        fetchEntitlement();
+        alert(`Added ${result.imported} AI-generated cards to your deck!`);
+      } else {
+        const err = await res.json();
+        alert(err.error || "Failed to add cards");
+      }
+    } catch {}
+  };
+
+  const removeAiGeneratedCard = (index: number) => {
+    setAiGeneratedCards(prev => prev.filter((_, i) => i !== index));
+  };
+
   const deleteDeckCard = async (cardId: string) => {
     if (!user || !currentDeck) return;
     try {
@@ -2123,6 +2178,15 @@ export default function Flashcards() {
             setShowCsvImport={setShowCsvImport}
             fetchDeckCards={fetchDeckCards}
             fetchEntitlement={fetchEntitlement}
+            aiGeneratePrompt={aiGeneratePrompt}
+            setAiGeneratePrompt={setAiGeneratePrompt}
+            aiGenerateCount={aiGenerateCount}
+            setAiGenerateCount={setAiGenerateCount}
+            aiGenerating={aiGenerating}
+            aiGeneratedCards={aiGeneratedCards}
+            aiGenerateCards={aiGenerateCards}
+            addAiGeneratedCards={addAiGeneratedCards}
+            removeAiGeneratedCard={removeAiGeneratedCard}
           />
         </main>
         <Footer />
