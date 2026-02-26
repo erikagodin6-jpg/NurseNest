@@ -1,0 +1,70 @@
+PROMPT START
+Fix my NurseNest lesson system architecture.
+Problem:
+My admin dashboard allows me to add lesson content, but newly created lessons do not appear on the public Lessons pages or Flashcards pages. This indicates my content storage is not properly connected to the front-end rendering logic.
+Your task is to correct the data flow and create a reusable lesson template system.
+OBJECTIVE
+Implement a proper dynamic lesson architecture where:
+• Admin-created lessons automatically render on the Lessons page
+• Lessons are generated from stored data, not hardcoded components
+• A reusable lesson template exists for unpublished lessons
+• Lesson pages update without manual coding
+• Flashcards and other modules can read the same lesson data
+REQUIRED ARCHITECTURE
+Create a single source of truth for lesson content.
+Lessons must be stored in a structured format such as:
+title
+slug
+category
+tier (free / paid)
+status (published / draft / unpublished)
+content
+quiz
+metadata
+Do not create a separate admin-only schema.
+LESSON TEMPLATE SYSTEM
+Build a reusable lesson template component that:
+• Dynamically loads lesson data by slug or ID
+• Displays placeholder sections when content is missing
+• Supports unpublished / draft lessons
+• Prevents rendering errors for incomplete lessons
+Template sections must include:
+Lesson Title
+Learning Objectives
+Core Content
+Clinical Relevance
+Key Concepts
+Knowledge Check / Quiz Section
+If content fields are empty, show intelligent placeholders.
+FRONT-END RENDERING FIX
+Update the Lessons page so it:
+• Queries stored lessons dynamically
+• Filters by status = published
+• Filters by tier (free vs paid if applicable)
+• Automatically updates when lessons are added
+Remove hardcoded lesson lists.
+ADMIN PANEL FIX
+Ensure the admin lesson creation system:
+• Writes to the same lesson data source used by the UI
+• Correctly sets published/draft status
+• Generates slugs automatically
+• Immediately becomes visible when published
+FLASHCARDS INTEGRATION
+Ensure Flashcards pages can read lesson data or linked flashcard data from the same content structure.
+Avoid duplicating logic or separate databases.
+ERROR PREVENTION RULES
+• No UI should break if lessons are incomplete
+• Missing content must render safely
+• Invalid slugs must route gracefully
+• Draft lessons must not appear publicly
+DESIGN CONSTRAINTS
+Maintain NurseNest styling and layout.
+Do not redesign visual components.
+Only fix architecture and data flow.
+SUCCESS CRITERIA
+After implementation:
+• Creating a lesson in admin → appears on Lessons page
+• Publishing/unpublishing works instantly
+• Lesson template renders correctly
+• No hardcoded lessons remain
+PROMPT END
