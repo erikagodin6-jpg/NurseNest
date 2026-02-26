@@ -77,16 +77,36 @@
   </head>
   <body class="h-full">
     <div id="root" class="h-full"></div>
-    <div id="debug-banner" style="position:fixed;top:0;left:0;right:0;background:#3b82f6;color:white;padding:8px 16px;font-family:sans-serif;font-size:14px;z-index:99999;text-align:center;">Page loading... if you see this but no app content, JavaScript failed to mount.</div>
-    <script>window.__debugStart = Date.now();</script>
+    <div id="debug-banner" style="position:fixed;top:0;left:0;right:0;bottom:0;background:white;color:#111;padding:40px;font-family:monospace;font-size:13px;z-index:99999;overflow:auto;">
+      <h2 style="color:#3b82f6;font-size:18px;margin-bottom:12px;">Debug: Waiting for React...</h2>
+      <div id="debug-log" style="white-space:pre-wrap;background:#f3f4f6;padding:16px;border-radius:8px;"></div>
+    </div>
+    <script>
+      var dbg = document.getElementById('debug-log');
+      function dlog(msg) { dbg.textContent += msg + '\n'; }
+      dlog('URL: ' + location.href);
+      dlog('Path: ' + location.pathname);
+      window.addEventListener('error', function(e) {
+        dlog('ERROR: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        dlog('PROMISE REJECTION: ' + (e.reason && e.reason.message ? e.reason.message : e.reason));
+        if (e.reason && e.reason.stack) dlog(e.reason.stack);
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
     <script type="module">
-      setTimeout(() => {
-        if (document.getElementById('root').children.length > 0) {
-          const banner = document.getElementById('debug-banner');
-          if (banner) banner.remove();
+      var dbg2 = document.getElementById('debug-log');
+      function dlog2(msg) { dbg2.textContent += msg + '\n'; }
+      dlog2('Module scripts loaded OK');
+      setTimeout(function() {
+        var root = document.getElementById('root');
+        if (root && root.children.length > 0) {
+          document.getElementById('debug-banner').remove();
+        } else {
+          dlog2('React did NOT mount after 8s. Root innerHTML length: ' + (root ? root.innerHTML.length : 'null'));
         }
-      }, 5000);
+      }, 8000);
     </script>
   </body>
 </html>
