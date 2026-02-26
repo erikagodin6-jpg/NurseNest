@@ -1,0 +1,324 @@
+CORE ADVANCED PATHOPHYSIOLOGY MODULES (FOUNDATIONAL)
+
+These should come BEFORE system modules.
+
+1. Advanced Cellular Injury & Adaptation
+
+Reversible vs irreversible injury
+
+Inflammation cascade
+
+Oxidative stress
+
+Apoptosis vs necrosis
+
+Tissue repair & fibrosis
+
+Chronic inflammation mechanisms
+
+2. Immunologic & Inflammatory Mechanisms
+
+Innate vs adaptive immunity
+
+Cytokine signaling
+
+Hypersensitivity reactions (Type I–IV)
+
+Autoimmune pathogenesis
+
+Chronic inflammatory states
+
+3. Hemodynamic & Shock Physiology
+
+Preload, afterload, contractility
+
+Perfusion pressure
+
+Shock types (cardiogenic, distributive, hypovolemic, obstructive)
+
+Microcirculation failure
+
+4. Acid–Base & Electrolyte Pathophysiology
+
+Metabolic vs respiratory disturbances
+
+Compensation mechanisms
+
+Potassium regulation
+
+Sodium disorders
+
+Calcium regulation
+
+RAAS physiology
+
+❤️ CARDIOVASCULAR PATHOPHYSIOLOGY MODULES
+1. Hypertension Mechanisms
+
+RAAS dysregulation
+
+Sympathetic overactivity
+
+Endothelial dysfunction
+
+Vascular remodeling
+
+2. Atherosclerosis & Plaque Biology
+
+Endothelial injury
+
+Foam cell formation
+
+Plaque rupture mechanisms
+
+Thrombosis
+
+3. Ischemic Heart Disease
+
+Oxygen supply-demand mismatch
+
+Stable vs unstable angina
+
+Infarction cascade
+
+4. Heart Failure
+
+HFrEF vs HFpEF mechanisms
+
+Neurohormonal activation
+
+Ventricular remodeling
+
+Fluid retention physiology
+
+5. Arrhythmogenesis
+
+Automaticity
+
+Reentry circuits
+
+Conduction block
+
+AFib pathogenesis
+
+6. Valvular Disease Mechanisms
+
+Pressure overload vs volume overload
+
+Stenosis vs regurgitation physiology
+
+🫁 RESPIRATORY PATHOPHYSIOLOGY
+1. Obstructive vs Restrictive Disease Mechanisms
+
+Airflow limitation
+
+Loss of elasticity
+
+Fibrosis mechanics
+
+2. Asthma Pathophysiology
+
+Airway hyperresponsiveness
+
+Eosinophilic inflammation
+
+Bronchoconstriction cascade
+
+3. COPD Pathophysiology
+
+Chronic inflammation
+
+Alveolar destruction
+
+V/Q mismatch
+
+4. Pneumonia & Gas Exchange
+
+Consolidation
+
+Diffusion impairment
+
+5. Pulmonary Embolism
+
+Vascular obstruction
+
+Dead space ventilation
+
+🧠 NEUROLOGICAL PATHOPHYSIOLOGY
+1. Ischemic Stroke Cascade
+
+Energy failure
+
+Excitotoxicity
+
+Cytotoxic edema
+
+2. Seizure Physiology
+
+Neuronal hyperexcitability
+
+Ion channel dysfunction
+
+3. Neurodegeneration
+
+Dopamine depletion (Parkinson’s)
+
+Amyloid/tau pathology (conceptual)
+
+4. Peripheral Neuropathy
+
+Demyelination vs axonal injury
+
+🧪 ENDOCRINE PATHOPHYSIOLOGY
+1. Insulin Resistance & Type 2 Diabetes
+
+Beta cell dysfunction
+
+Glucose toxicity
+
+Incretin pathways
+
+2. DKA vs HHS
+
+Ketogenesis
+
+Osmotic diuresis
+
+3. Thyroid Disorders
+
+Hyperthyroidism mechanisms
+
+Autoimmune thyroiditis
+
+4. Adrenal Disorders
+
+Cortisol excess
+
+Cortisol deficiency
+
+5. PCOS
+
+Hyperandrogenism
+
+Insulin resistance
+
+🧂 RENAL PATHOPHYSIOLOGY
+1. AKI Mechanisms
+
+Prerenal vs intrinsic vs postrenal
+
+Tubular injury
+
+2. CKD Progression
+
+Nephron loss
+
+RAAS overactivation
+
+Secondary hyperparathyroidism
+
+3. Proteinuria Mechanisms
+
+Glomerular injury
+
+🍽 GI / HEPATIC PATHOPHYSIOLOGY
+1. GERD Mechanisms
+
+LES dysfunction
+
+2. Peptic Ulcer Disease
+
+Mucosal barrier breakdown
+
+3. Cirrhosis
+
+Portal hypertension
+
+Ascites formation
+
+4. Pancreatitis
+
+Autodigestion cascade
+
+🩸 HEMATOLOGY PATHOPHYSIOLOGY
+1. Anemia Mechanisms
+
+Production vs destruction vs loss
+
+2. Coagulation Disorders
+
+Platelet dysfunction
+
+Clotting factor deficiency
+
+3. Thromboembolism
+
+Virchow’s triad
+
+🦠 INFECTIOUS PATHOPHYSIOLOGY
+1. Sepsis Cascade
+
+Cytokine storm
+
+Vasodilation
+
+Capillary leak
+
+2. Host–Pathogen Interaction
+
+Immune evasion
+
+Chronic infection mechanisms
+
+👶 PEDIATRIC PATHOPHYSIOLOGY
+1. Bronchiolitis
+
+Airway narrowing in infants
+
+2. Congenital Heart Disease Basics
+
+Shunting physiology
+
+👩 WOMEN’S HEALTH PATHOPHYSIOLOGY
+1. Abnormal Uterine Bleeding Mechanisms
+
+Hormonal dysregulation
+
+2. Endometriosis
+
+Ectopic endometrial implantation
+
+🧠 PSYCHIATRIC PATHOPHYSIOLOGY
+1. Depression Neurobiology
+
+Monoamine hypothesis (conceptual)
+
+HPA axis involvement
+
+2. Anxiety Disorders
+
+Amygdala dysregulation
+
+🔷 CROSS-SYSTEM HIGH-YIELD CONCEPT MODULES
+
+These are heavily tested:
+
+1. Differential Diagnosis Frameworks
+
+Inflammatory vs ischemic vs obstructive vs infectious patterns
+
+2. Red Flag Mechanisms
+
+Why certain symptoms are dangerous
+
+3. Multi-System Disease Interaction
+
+Diabetes + CKD + HF interplay
+
+Metabolic syndrome
+
+4. Aging Physiology Changes
+
+Pharmacokinetic changes
+
+Organ reserve decline

@@ -1928,6 +1928,357 @@ const npSystems = [
       { id: "icu-nutrition-np", name: "ICU Nutrition", status: "Available" },
       { id: "early-mobilization-icu-np", name: "Early Mobilization ICU", status: "Available" }
     ]
+  },
+  {
+    id: "advanced-pathophysiology-foundations-np",
+    title: "Core Advanced Pathophysiology",
+    icon: Microscope,
+    color: "text-violet-700",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "cellular-injury-adaptation-np", name: "Advanced Cellular Injury & Adaptation", status: "Available" },
+      { id: "reversible-irreversible-injury-np", name: "Reversible vs Irreversible Injury", status: "Available" },
+      { id: "inflammation-cascade-np", name: "Inflammation Cascade", status: "Available" },
+      { id: "oxidative-stress-np", name: "Oxidative Stress", status: "Available" },
+      { id: "apoptosis-necrosis-np", name: "Apoptosis vs Necrosis", status: "Available" },
+      { id: "tissue-repair-fibrosis-np", name: "Tissue Repair & Fibrosis", status: "Available" },
+      { id: "chronic-inflammation-mechanisms-np", name: "Chronic Inflammation Mechanisms", status: "Available" },
+      { id: "immunologic-inflammatory-mechanisms-np", name: "Immunologic & Inflammatory Mechanisms", status: "Available" },
+      { id: "innate-adaptive-immunity-np", name: "Innate vs Adaptive Immunity", status: "Available" },
+      { id: "cytokine-signaling-np", name: "Cytokine Signaling", status: "Available" },
+      { id: "hypersensitivity-reactions-np", name: "Hypersensitivity Reactions (Type I–IV)", status: "Available" },
+      { id: "autoimmune-pathogenesis-np", name: "Autoimmune Pathogenesis", status: "Available" },
+      { id: "chronic-inflammatory-states-np", name: "Chronic Inflammatory States", status: "Available" },
+      { id: "hemodynamic-shock-physiology-np", name: "Hemodynamic & Shock Physiology", status: "Available" },
+      { id: "preload-afterload-contractility-np", name: "Preload, Afterload, Contractility", status: "Available" },
+      { id: "perfusion-pressure-np", name: "Perfusion Pressure", status: "Available" },
+      { id: "shock-types-np", name: "Shock Types: Cardiogenic, Distributive, Hypovolemic, Obstructive", status: "Available" },
+      { id: "microcirculation-failure-np", name: "Microcirculation Failure", status: "Available" },
+      { id: "acid-base-electrolyte-patho-np", name: "Acid–Base & Electrolyte Pathophysiology", status: "Available" },
+      { id: "metabolic-respiratory-disturbances-np", name: "Metabolic vs Respiratory Disturbances", status: "Available" },
+      { id: "compensation-mechanisms-np", name: "Compensation Mechanisms", status: "Available" },
+      { id: "potassium-regulation-np", name: "Potassium Regulation", status: "Available" },
+      { id: "sodium-disorders-np", name: "Sodium Disorders", status: "Available" },
+      { id: "calcium-regulation-np", name: "Calcium Regulation", status: "Available" },
+      { id: "raas-physiology-np", name: "RAAS Physiology", status: "Available" }
+    ]
+  },
+  {
+    id: "cardiovascular-pathophysiology-np",
+    title: "Cardiovascular Pathophysiology",
+    icon: Heart,
+    color: "text-red-700",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "htn-mechanisms-np", name: "Hypertension Mechanisms: RAAS & Endothelial Dysfunction", status: "Available" },
+      { id: "atherosclerosis-plaque-biology-np", name: "Atherosclerosis & Plaque Biology", status: "Available" },
+      { id: "ischemic-heart-disease-patho-np", name: "Ischemic Heart Disease: O2 Supply-Demand Mismatch", status: "Available" },
+      { id: "hf-mechanisms-np", name: "Heart Failure Mechanisms: HFrEF vs HFpEF", status: "Available" },
+      { id: "arrhythmogenesis-np", name: "Arrhythmogenesis: Automaticity & Reentry", status: "Available" },
+      { id: "valvular-disease-mechanisms-np", name: "Valvular Disease Mechanisms: Pressure vs Volume Overload", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory-pathophysiology-np",
+    title: "Respiratory Pathophysiology",
+    icon: Wind,
+    color: "text-blue-700",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "obstructive-restrictive-mechanisms-np", name: "Obstructive vs Restrictive Disease Mechanisms", status: "Available" },
+      { id: "asthma-pathophysiology-np", name: "Asthma Pathophysiology: Airway Hyperresponsiveness", status: "Available" },
+      { id: "copd-pathophysiology-np", name: "COPD Pathophysiology: V/Q Mismatch", status: "Available" },
+      { id: "pneumonia-gas-exchange-np", name: "Pneumonia & Gas Exchange: Consolidation & Diffusion", status: "Available" },
+      { id: "pe-pathophysiology-np", name: "Pulmonary Embolism: Vascular Obstruction & Dead Space", status: "Available" }
+    ]
+  },
+  {
+    id: "neurological-pathophysiology-np",
+    title: "Neurological Pathophysiology",
+    icon: Brain,
+    color: "text-purple-700",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "ischemic-stroke-cascade-np", name: "Ischemic Stroke Cascade: Energy Failure & Excitotoxicity", status: "Available" },
+      { id: "seizure-physiology-np", name: "Seizure Physiology: Neuronal Hyperexcitability", status: "Available" },
+      { id: "neurodegeneration-np", name: "Neurodegeneration: Dopamine Depletion & Amyloid/Tau", status: "Available" },
+      { id: "peripheral-neuropathy-patho-np", name: "Peripheral Neuropathy: Demyelination vs Axonal Injury", status: "Available" }
+    ]
+  },
+  {
+    id: "endocrine-pathophysiology-np",
+    title: "Endocrine Pathophysiology",
+    icon: Zap,
+    color: "text-rose-700",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "insulin-resistance-t2d-np", name: "Insulin Resistance & Type 2 Diabetes: Beta Cell Dysfunction", status: "Available" },
+      { id: "dka-hhs-patho-np", name: "DKA vs HHS: Ketogenesis & Osmotic Diuresis", status: "Available" },
+      { id: "thyroid-disorders-patho-np", name: "Thyroid Disorders: Hyperthyroidism & Autoimmune Thyroiditis", status: "Available" },
+      { id: "adrenal-disorders-patho-np", name: "Adrenal Disorders: Cortisol Excess & Deficiency", status: "Available" },
+      { id: "pcos-pathophysiology-np", name: "PCOS: Hyperandrogenism & Insulin Resistance", status: "Available" }
+    ]
+  },
+  {
+    id: "renal-pathophysiology-np",
+    title: "Renal Pathophysiology",
+    icon: Droplets,
+    color: "text-cyan-700",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "aki-mechanisms-np", name: "AKI Mechanisms: Prerenal vs Intrinsic vs Postrenal", status: "Available" },
+      { id: "ckd-progression-patho-np", name: "CKD Progression: Nephron Loss & RAAS Overactivation", status: "Available" },
+      { id: "proteinuria-mechanisms-np", name: "Proteinuria Mechanisms: Glomerular Injury", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-hepatic-pathophysiology-np",
+    title: "GI / Hepatic Pathophysiology",
+    icon: Droplets,
+    color: "text-amber-700",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "gerd-mechanisms-np", name: "GERD Mechanisms: LES Dysfunction", status: "Available" },
+      { id: "peptic-ulcer-patho-np", name: "Peptic Ulcer Disease: Mucosal Barrier Breakdown", status: "Available" },
+      { id: "cirrhosis-patho-np", name: "Cirrhosis: Portal Hypertension & Ascites Formation", status: "Available" },
+      { id: "pancreatitis-patho-np", name: "Pancreatitis: Autodigestion Cascade", status: "Available" }
+    ]
+  },
+  {
+    id: "hematology-pathophysiology-np",
+    title: "Hematology Pathophysiology",
+    icon: ShieldAlert,
+    color: "text-orange-700",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "anemia-mechanisms-np", name: "Anemia Mechanisms: Production vs Destruction vs Loss", status: "Available" },
+      { id: "coagulation-disorders-patho-np", name: "Coagulation Disorders: Platelet & Clotting Factor", status: "Available" },
+      { id: "thromboembolism-patho-np", name: "Thromboembolism: Virchow's Triad", status: "Available" }
+    ]
+  },
+  {
+    id: "infectious-pathophysiology-np",
+    title: "Infectious Pathophysiology",
+    icon: AlertCircle,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "sepsis-cascade-patho-np", name: "Sepsis Cascade: Cytokine Storm & Capillary Leak", status: "Available" },
+      { id: "host-pathogen-interaction-np", name: "Host–Pathogen Interaction: Immune Evasion", status: "Available" }
+    ]
+  },
+  {
+    id: "pediatric-pathophysiology-np",
+    title: "Pediatric Pathophysiology",
+    icon: Baby,
+    color: "text-sky-700",
+    bgColor: "bg-sky-50",
+    diseases: [
+      { id: "bronchiolitis-patho-np", name: "Bronchiolitis: Airway Narrowing in Infants", status: "Available" },
+      { id: "congenital-heart-disease-patho-np", name: "Congenital Heart Disease: Shunting Physiology", status: "Available" }
+    ]
+  },
+  {
+    id: "womens-health-pathophysiology-np",
+    title: "Women's Health Pathophysiology",
+    icon: Users,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "aub-mechanisms-np", name: "Abnormal Uterine Bleeding Mechanisms: Hormonal Dysregulation", status: "Available" },
+      { id: "endometriosis-patho-np", name: "Endometriosis: Ectopic Endometrial Implantation", status: "Available" }
+    ]
+  },
+  {
+    id: "psychiatric-pathophysiology-np",
+    title: "Psychiatric Pathophysiology",
+    icon: Brain,
+    color: "text-violet-700",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "depression-neurobiology-np", name: "Depression Neurobiology: Monoamine Hypothesis & HPA Axis", status: "Available" },
+      { id: "anxiety-disorders-patho-np", name: "Anxiety Disorders: Amygdala Dysregulation", status: "Available" }
+    ]
+  },
+  {
+    id: "cross-system-concepts-np",
+    title: "Cross-System High-Yield Concepts",
+    icon: Lightbulb,
+    color: "text-yellow-700",
+    bgColor: "bg-yellow-50",
+    diseases: [
+      { id: "differential-diagnosis-frameworks-np", name: "Differential Diagnosis Frameworks", status: "Available" },
+      { id: "red-flag-mechanisms-np", name: "Red Flag Mechanisms: Why Symptoms Are Dangerous", status: "Available" },
+      { id: "multi-system-disease-interaction-np", name: "Multi-System Disease Interaction: DM + CKD + HF", status: "Available" },
+      { id: "metabolic-syndrome-np", name: "Metabolic Syndrome", status: "Available" },
+      { id: "aging-physiology-changes-np", name: "Aging Physiology: Pharmacokinetic & Organ Reserve Changes", status: "Available" }
+    ]
+  },
+  {
+    id: "diagnostic-reasoning-np",
+    title: "Diagnostic Reasoning & Criteria",
+    icon: Search,
+    color: "text-teal-700",
+    bgColor: "bg-teal-50",
+    diseases: [
+      { id: "diagnostic-criteria-logic-np", name: "Diagnostic Criteria Logic: Screening vs Diagnostic Tests", status: "Available" },
+      { id: "sensitivity-specificity-np", name: "Sensitivity vs Specificity Application", status: "Available" },
+      { id: "confirmatory-testing-logic-np", name: "Confirmatory Testing & Rule-In/Rule-Out Reasoning", status: "Available" },
+      { id: "guideline-based-diagnosis-np", name: "Guideline-Based Diagnosis: DSM-5, ADA, AHA, GOLD", status: "Available" }
+    ]
+  },
+  {
+    id: "cardiovascular-diagnostic-criteria-np",
+    title: "Cardiovascular Diagnostic Criteria",
+    icon: Heart,
+    color: "text-red-600",
+    bgColor: "bg-red-50",
+    diseases: [
+      { id: "htn-diagnostic-criteria-np", name: "Hypertension: BP Thresholds & Confirmation", status: "Available" },
+      { id: "hyperlipidemia-criteria-np", name: "Hyperlipidemia: LDL Thresholds & ASCVD Risk", status: "Available" },
+      { id: "hf-diagnostic-criteria-np", name: "Heart Failure: Symptoms, EF & BNP Interpretation", status: "Available" },
+      { id: "afib-diagnostic-criteria-np", name: "Atrial Fibrillation: ECG Confirmation", status: "Available" },
+      { id: "acs-diagnostic-criteria-np", name: "ACS: Troponin Rise/Fall & ECG Changes", status: "Available" }
+    ]
+  },
+  {
+    id: "respiratory-diagnostic-criteria-np",
+    title: "Respiratory Diagnostic Criteria",
+    icon: Wind,
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    diseases: [
+      { id: "asthma-diagnostic-criteria-np", name: "Asthma: Spirometry & Reversibility Criteria", status: "Available" },
+      { id: "copd-diagnostic-criteria-np", name: "COPD: FEV1/FVC Threshold & GOLD Staging", status: "Available" },
+      { id: "pneumonia-diagnostic-criteria-np", name: "Pneumonia: Clinical + Imaging Requirements", status: "Available" },
+      { id: "pe-diagnostic-criteria-np", name: "PE: Wells Criteria & D-Dimer Interpretation", status: "Available" }
+    ]
+  },
+  {
+    id: "neuro-diagnostic-criteria-np",
+    title: "Neurological Diagnostic Criteria",
+    icon: Brain,
+    color: "text-purple-600",
+    bgColor: "bg-purple-50",
+    diseases: [
+      { id: "stroke-diagnostic-criteria-np", name: "Stroke: Clinical Diagnosis & Imaging Confirmation", status: "Available" },
+      { id: "migraine-diagnostic-criteria-np", name: "Migraine: ICHD Diagnostic Features", status: "Available" },
+      { id: "epilepsy-diagnostic-criteria-np", name: "Epilepsy: Unprovoked Seizure Recurrence Definition", status: "Available" },
+      { id: "dementia-diagnostic-criteria-np", name: "Dementia: Cognitive Decline & Reversible Causes", status: "Available" }
+    ]
+  },
+  {
+    id: "endocrine-diagnostic-criteria-np",
+    title: "Endocrine Diagnostic Criteria",
+    icon: Zap,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "t2d-diagnostic-criteria-np", name: "Type 2 Diabetes: A1C, FPG, OGTT Criteria", status: "Available" },
+      { id: "prediabetes-criteria-np", name: "Prediabetes: Lab Cutoffs", status: "Available" },
+      { id: "hypothyroidism-criteria-np", name: "Hypothyroidism: TSH & Free T4 Interpretation", status: "Available" },
+      { id: "hyperthyroidism-criteria-np", name: "Hyperthyroidism: Suppressed TSH & T4/T3", status: "Available" },
+      { id: "pcos-rotterdam-criteria-np", name: "PCOS: Rotterdam Criteria", status: "Available" }
+    ]
+  },
+  {
+    id: "renal-diagnostic-criteria-np",
+    title: "Renal Diagnostic Criteria",
+    icon: Droplets,
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-50",
+    diseases: [
+      { id: "ckd-diagnostic-criteria-np", name: "CKD: eGFR Threshold & Albuminuria Criteria", status: "Available" },
+      { id: "aki-diagnostic-criteria-np", name: "AKI: Creatinine Rise & Urine Output Thresholds", status: "Available" }
+    ]
+  },
+  {
+    id: "gi-diagnostic-criteria-np",
+    title: "GI Diagnostic Criteria",
+    icon: Droplets,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "gerd-diagnostic-criteria-np", name: "GERD: Clinical vs Endoscopy Indications", status: "Available" },
+      { id: "ibs-rome-iv-criteria-np", name: "IBS: Rome IV Criteria", status: "Available" },
+      { id: "cirrhosis-diagnostic-criteria-np", name: "Cirrhosis: Imaging, Labs & Clinical Findings", status: "Available" },
+      { id: "acute-pancreatitis-criteria-np", name: "Acute Pancreatitis: 2 of 3 Diagnostic Rule", status: "Available" }
+    ]
+  },
+  {
+    id: "hematology-diagnostic-criteria-np",
+    title: "Hematology Diagnostic Criteria",
+    icon: ShieldAlert,
+    color: "text-orange-600",
+    bgColor: "bg-orange-50",
+    diseases: [
+      { id: "iron-deficiency-anemia-criteria-np", name: "Iron Deficiency Anemia: Ferritin & Microcytosis", status: "Available" },
+      { id: "b12-deficiency-criteria-np", name: "B12 Deficiency: Lab Thresholds & Clinical Signs", status: "Available" },
+      { id: "dvt-diagnostic-criteria-np", name: "DVT: Wells Criteria & Imaging Confirmation", status: "Available" }
+    ]
+  },
+  {
+    id: "infectious-diagnostic-criteria-np",
+    title: "Infectious Disease Diagnostic Criteria",
+    icon: AlertCircle,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    diseases: [
+      { id: "uti-diagnostic-criteria-np", name: "UTI: Urinalysis & Culture Thresholds", status: "Available" },
+      { id: "sepsis-diagnostic-criteria-np", name: "Sepsis: SIRS vs qSOFA Concepts", status: "Available" },
+      { id: "hiv-diagnostic-criteria-np", name: "HIV: Screening vs Confirmatory Testing", status: "Available" }
+    ]
+  },
+  {
+    id: "pediatric-diagnostic-criteria-np",
+    title: "Pediatric Diagnostic Criteria",
+    icon: Baby,
+    color: "text-sky-600",
+    bgColor: "bg-sky-50",
+    diseases: [
+      { id: "otitis-media-criteria-np", name: "Otitis Media: Bulging TM Requirement", status: "Available" },
+      { id: "adhd-dsm5-criteria-np", name: "ADHD: DSM-5 Duration & Impairment Criteria", status: "Available" }
+    ]
+  },
+  {
+    id: "womens-health-diagnostic-criteria-np",
+    title: "Women's Health Diagnostic Criteria",
+    icon: Users,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "aub-palm-coein-criteria-np", name: "AUB: PALM-COEIN Classification", status: "Available" },
+      { id: "menopause-criteria-np", name: "Menopause: 12-Month Amenorrhea Rule", status: "Available" },
+      { id: "ectopic-pregnancy-criteria-np", name: "Ectopic Pregnancy: hCG Trends & Imaging", status: "Available" }
+    ]
+  },
+  {
+    id: "psychiatric-diagnostic-criteria-np",
+    title: "Psychiatric Diagnostic Criteria",
+    icon: Brain,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    diseases: [
+      { id: "mdd-dsm5-criteria-np", name: "MDD: DSM-5 Symptom Count & Duration", status: "Available" },
+      { id: "gad-diagnostic-criteria-np", name: "GAD: Duration Requirement", status: "Available" },
+      { id: "bipolar-diagnostic-criteria-np", name: "Bipolar Disorder: Mania Duration Threshold", status: "Available" }
+    ]
+  },
+  {
+    id: "high-yield-exam-patterns-np",
+    title: "High-Yield NP Exam Patterns",
+    icon: Trophy,
+    color: "text-yellow-700",
+    bgColor: "bg-yellow-50",
+    diseases: [
+      { id: "borderline-lab-values-np", name: "Borderline Lab Values: When to Recheck", status: "Available" },
+      { id: "criteria-fulfillment-np", name: "Does Patient Meet Full Criteria?", status: "Available" },
+      { id: "confirmatory-repeat-testing-np", name: "What Must Be Repeated to Confirm?", status: "Available" },
+      { id: "lab-confirms-diagnosis-np", name: "Which Lab Confirms the Diagnosis?", status: "Available" },
+      { id: "ruling-out-findings-np", name: "Which Finding Rules It Out?", status: "Available" },
+      { id: "mandatory-imaging-np", name: "When Is Imaging Mandatory?", status: "Available" },
+      { id: "severity-markers-np", name: "What Makes It Severe?", status: "Available" }
+    ]
   }
 ];
 
