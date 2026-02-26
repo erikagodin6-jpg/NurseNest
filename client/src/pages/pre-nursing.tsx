@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -8,7 +8,9 @@ import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { AdminImageOverlay, useSiteImages } from "@/components/admin-image-overlay";
 import {
   AnatomyLabeling,
   MatchingExercise,
@@ -55,6 +57,10 @@ import {
   Loader2,
   Plus,
   Trash2,
+  X,
+  Upload,
+  ImagePlus,
+  Camera,
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { ScienceFoundationsModule } from "@/data/pre-nursing-science";
@@ -539,10 +545,22 @@ export default function PreNursingPage() {
   const [activeModule, setActiveModule] = useState<ModuleId | null>(null);
   const [isContentEditing, setIsContentEditing] = useState(false);
   const [moduleOverrides, setModuleOverrides] = useState<Record<string, ModuleOverride>>({});
+  const [customModules, setCustomModules] = useState<any[]>([]);
+  const [showModuleModal, setShowModuleModal] = useState(false);
+  const [editingModule, setEditingModule] = useState<any>(null);
+  const [activeCustomModule, setActiveCustomModule] = useState<any>(null);
   const { t } = useI18n();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { getImageUrl } = useSiteImages();
   const isAdmin = user?.tier === "admin";
+
+  useEffect(() => {
+    fetch("/api/custom-modules?page=pre-nursing")
+      .then((r) => r.json())
+      .then(setCustomModules)
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -597,6 +615,101 @@ export default function PreNursingPage() {
     "ethics-legal": { component: <EthicsLegalModule />, name: "Ethics & Legal" },
     "study-strategies": { component: <StudyStrategiesModule />, name: "Study Strategies" },
   };
+
+  const deleteCustomModule = async (id: string) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    try {
+      const res = await fetch(`/api/custom-modules/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: creds.username, password: creds.password }),
+      });
+      if (!res.ok) throw new Error("Delete failed");
+      setCustomModules((prev) => prev.filter((m) => m.id !== id));
+      toast({ title: "Module deleted" });
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const iconMap: Record<string, any> = {
+    BookOpen, Heart, Brain, Dna, Activity, Pill, Stethoscope, Beaker, FlaskConical, Lightbulb,
+    Droplets, Wind, Sparkles, GraduationCap, Target, Layers,
+  };
+
+  if (activeCustomModule) {
+    const cMod = activeCustomModule;
+    const cLessons = (cMod.lessons || []) as { id: string; name: string; status?: string }[];
+    const cContent = (cMod.content || {}) as { paragraphs?: string[] };
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <SEO title={`Pre-Nursing: ${cMod.title} | NurseNest`} description={cMod.description || "Custom pre-nursing module"} />
+        <Navigation />
+        <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={() => setActiveCustomModule(null)}
+              className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors"
+              data-testid="button-back-custom-modules"
+            >
+              <ArrowLeft className="w-4 h-4" /> {t("preNursing.backToModules")}
+            </button>
+            {isAdmin && (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => { setEditingModule(cMod); setShowModuleModal(true); }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+                  data-testid="button-edit-custom-module"
+                >
+                  <Pencil className="w-3.5 h-3.5" /> Edit Module
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              {cMod.imageUrl && (
+                <AdminImageOverlay imageKey={`custom-module-${cMod.id}`} src={cMod.imageUrl} isAdmin={isAdmin} className="w-16 h-16 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0" imgClassName="w-full h-full object-contain p-1" />
+              )}
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900" data-testid="text-custom-module-title">{cMod.title}</h1>
+                {cMod.description && <p className="text-gray-600 mt-1">{cMod.description}</p>}
+              </div>
+            </div>
+          </div>
+          {cContent.paragraphs && cContent.paragraphs.length > 0 && (
+            <div className="mb-8 space-y-4">
+              {cContent.paragraphs.map((p: string, i: number) => (
+                <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 text-gray-700 leading-relaxed shadow-sm">{p}</div>
+              ))}
+            </div>
+          )}
+          {cLessons.length > 0 && (
+            <div className="space-y-3">
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">Lessons</h2>
+              {cLessons.map((lesson, idx) => (
+                <button
+                  key={lesson.id || idx}
+                  onClick={() => lesson.id && setLocation(`/lessons/${lesson.id}`)}
+                  className="w-full text-left p-4 bg-white rounded-xl border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all flex items-center justify-between group"
+                  data-testid={`custom-lesson-${lesson.id || idx}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", cMod.bgColor || "bg-primary/10", cMod.color || "text-primary")}>
+                      <BookOpen className="w-4 h-4" />
+                    </div>
+                    <span className="font-medium text-gray-900">{lesson.name}</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary transition-colors" />
+                </button>
+              ))}
+            </div>
+          )}
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (activeModule) {
     const activeModuleData = modules.find((m) => m.id === activeModule);
@@ -688,14 +801,14 @@ export default function PreNursingPage() {
                 onClick={() => setActiveModule(mod.id)}
                 data-testid={`module-card-${mod.id}`}
               >
-                <div className="h-40 overflow-hidden bg-gray-50">
-                  <img
-                    src={mod.image}
-                    alt={t(mod.titleKey)}
-                    className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
-                    draggable={false}
-                  />
-                </div>
+                <AdminImageOverlay
+                  imageKey={`prenursing-module-${mod.id}`}
+                  src={mod.image}
+                  alt={t(mod.titleKey)}
+                  isAdmin={isAdmin}
+                  className="h-40 overflow-hidden bg-gray-50"
+                  imgClassName="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                />
                 <CardContent className="p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", mod.bg, mod.color)}>
@@ -711,6 +824,83 @@ export default function PreNursingPage() {
                 </CardContent>
               </Card>
             ))}
+
+            {customModules.map((cMod) => {
+              const IconComp = iconMap[cMod.icon] || BookOpen;
+              const cLessons = (cMod.lessons || []) as any[];
+              return (
+                <Card
+                  key={cMod.id}
+                  className="border border-primary/10 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden bg-white group relative"
+                  onClick={() => setActiveCustomModule(cMod)}
+                  data-testid={`module-card-custom-${cMod.id}`}
+                >
+                  {cMod.imageUrl ? (
+                    <AdminImageOverlay
+                      imageKey={`custom-module-${cMod.id}`}
+                      src={cMod.imageUrl}
+                      alt={cMod.title}
+                      isAdmin={isAdmin}
+                      className="h-40 overflow-hidden bg-gray-50"
+                      imgClassName="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className={cn("h-40 flex items-center justify-center", cMod.bgColor || "bg-primary/10")}>
+                      <IconComp className={cn("w-16 h-16 opacity-30", cMod.color || "text-primary")} />
+                    </div>
+                  )}
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", cMod.bgColor || "bg-primary/10", cMod.color || "text-primary")}>
+                        <IconComp className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-gray-900">{cMod.title}</h3>
+                    </div>
+                    {cMod.description && <p className="text-sm text-gray-500 mb-3">{cMod.description}</p>}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-400">{cLessons.length} lessons</span>
+                      <ChevronRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  </CardContent>
+                  {isAdmin && (
+                    <div className="absolute top-2 left-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setEditingModule(cMod); setShowModuleModal(true); }}
+                        className="w-7 h-7 rounded-full bg-white/90 shadow-md border border-gray-200 flex items-center justify-center hover:bg-blue-50"
+                        data-testid={`button-edit-module-${cMod.id}`}
+                      >
+                        <Pencil className="w-3 h-3 text-blue-600" />
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); if (confirm("Delete this module?")) deleteCustomModule(cMod.id); }}
+                        className="w-7 h-7 rounded-full bg-white/90 shadow-md border border-gray-200 flex items-center justify-center hover:bg-red-50"
+                        data-testid={`button-delete-module-${cMod.id}`}
+                      >
+                        <Trash2 className="w-3 h-3 text-red-600" />
+                      </button>
+                    </div>
+                  )}
+                </Card>
+              );
+            })}
+
+            {isAdmin && (
+              <Card
+                className="border-2 border-dashed border-primary/30 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden bg-white/50 group flex items-center justify-center min-h-[280px]"
+                onClick={() => { setEditingModule(null); setShowModuleModal(true); }}
+                data-testid="button-add-module"
+              >
+                <div className="text-center space-y-3 p-6">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto group-hover:bg-primary/20 transition-colors">
+                    <Plus className="w-7 h-7 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">Add Module</p>
+                    <p className="text-xs text-gray-500 mt-1">Create a new learning module</p>
+                  </div>
+                </div>
+              </Card>
+            )}
           </div>
 
           <div className="mt-16 text-center">
@@ -726,8 +916,269 @@ export default function PreNursingPage() {
           </div>
         </section>
       </main>
+
+      {showModuleModal && (
+        <CustomModuleModal
+          module={editingModule}
+          page="pre-nursing"
+          onClose={() => { setShowModuleModal(false); setEditingModule(null); }}
+          onSaved={(mod) => {
+            if (editingModule) {
+              setCustomModules((prev) => prev.map((m) => m.id === mod.id ? mod : m));
+              if (activeCustomModule?.id === mod.id) setActiveCustomModule(mod);
+            } else {
+              setCustomModules((prev) => [...prev, mod]);
+            }
+            setShowModuleModal(false);
+            setEditingModule(null);
+          }}
+        />
+      )}
+
       <AdminEditButton pageName="pre-nursing" defaultTier="prenursing" defaultCategory="pre-nursing" />
       <Footer />
+    </div>
+  );
+}
+
+const ICON_OPTIONS = [
+  { name: "BookOpen", icon: BookOpen },
+  { name: "Heart", icon: Heart },
+  { name: "Brain", icon: Brain },
+  { name: "Dna", icon: Dna },
+  { name: "Activity", icon: Activity },
+  { name: "Pill", icon: Pill },
+  { name: "Stethoscope", icon: Stethoscope },
+  { name: "Beaker", icon: Beaker },
+  { name: "FlaskConical", icon: FlaskConical },
+  { name: "Lightbulb", icon: Lightbulb },
+  { name: "Droplets", icon: Droplets },
+  { name: "Wind", icon: Wind },
+  { name: "Sparkles", icon: Sparkles },
+  { name: "GraduationCap", icon: GraduationCap },
+  { name: "Target", icon: Target },
+  { name: "Layers", icon: Layers },
+];
+
+const COLOR_OPTIONS = [
+  { label: "Blue", color: "text-blue-600", bg: "bg-blue-50" },
+  { label: "Emerald", color: "text-emerald-600", bg: "bg-emerald-50" },
+  { label: "Purple", color: "text-purple-600", bg: "bg-purple-50" },
+  { label: "Rose", color: "text-rose-600", bg: "bg-rose-50" },
+  { label: "Amber", color: "text-amber-600", bg: "bg-amber-50" },
+  { label: "Teal", color: "text-teal-600", bg: "bg-teal-50" },
+  { label: "Indigo", color: "text-indigo-600", bg: "bg-indigo-50" },
+  { label: "Pink", color: "text-pink-600", bg: "bg-pink-50" },
+];
+
+function CustomModuleModal({ module, page, onClose, onSaved }: {
+  module: any;
+  page: string;
+  onClose: () => void;
+  onSaved: (mod: any) => void;
+}) {
+  const [title, setTitle] = useState(module?.title || "");
+  const [description, setDescription] = useState(module?.description || "");
+  const [icon, setIcon] = useState(module?.icon || "BookOpen");
+  const [colorIdx, setColorIdx] = useState(() => {
+    const idx = COLOR_OPTIONS.findIndex((c) => c.color === module?.color);
+    return idx >= 0 ? idx : 0;
+  });
+  const [imageUrl, setImageUrl] = useState(module?.imageUrl || "");
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [lessons, setLessons] = useState<{ id: string; name: string }[]>(
+    module?.lessons ? (module.lessons as any[]) : []
+  );
+  const [paragraphs, setParagraphs] = useState<string[]>(
+    module?.content?.paragraphs || []
+  );
+  const [newLessonName, setNewLessonName] = useState("");
+  const [newLessonId, setNewLessonId] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  const handleUpload = async (file: File) => {
+    setUploading(true);
+    try {
+      const res = await fetch("/api/uploads/request-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type || "image/png" }),
+      });
+      if (!res.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL, objectPath } = await res.json();
+      const uploadRes = await fetch(uploadURL, { method: "PUT", body: file, headers: { "Content-Type": file.type || "image/png" } });
+      if (!uploadRes.ok) throw new Error("Upload failed");
+      setImageUrl(objectPath);
+    } catch (e: any) {
+      toast({ title: "Upload error", description: e.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!title.trim()) { toast({ title: "Title is required", variant: "destructive" }); return; }
+    setSaving(true);
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    const selectedColor = COLOR_OPTIONS[colorIdx];
+    const body = {
+      page,
+      title: title.trim(),
+      description: description.trim() || null,
+      icon,
+      color: selectedColor.color,
+      bgColor: selectedColor.bg,
+      imageUrl: imageUrl || null,
+      lessons,
+      content: { paragraphs: paragraphs.filter((p) => p.trim()) },
+      username: creds.username,
+      password: creds.password,
+    };
+    try {
+      const url = module ? `/api/custom-modules/${module.id}` : "/api/custom-modules";
+      const method = module ? "PUT" : "POST";
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (!res.ok) throw new Error("Save failed");
+      const saved = await res.json();
+      toast({ title: module ? "Module updated" : "Module created" });
+      onSaved(saved);
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 space-y-5 my-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} data-testid="modal-custom-module">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-gray-900">{module ? "Edit Module" : "Add New Module"}</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Title *</label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Module title" data-testid="input-module-title" />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Description</label>
+            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Brief description of the module" rows={2} data-testid="input-module-description" />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Icon</label>
+            <div className="flex flex-wrap gap-2">
+              {ICON_OPTIONS.map((opt) => (
+                <button
+                  key={opt.name}
+                  onClick={() => setIcon(opt.name)}
+                  className={cn("w-9 h-9 rounded-lg flex items-center justify-center border-2 transition-all", icon === opt.name ? "border-primary bg-primary/10" : "border-gray-200 hover:border-gray-300")}
+                  title={opt.name}
+                >
+                  <opt.icon className="w-4 h-4" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Color Theme</label>
+            <div className="flex flex-wrap gap-2">
+              {COLOR_OPTIONS.map((opt, idx) => (
+                <button
+                  key={opt.label}
+                  onClick={() => setColorIdx(idx)}
+                  className={cn("px-3 py-1.5 rounded-lg text-sm font-medium border-2 transition-all", opt.bg, opt.color, colorIdx === idx ? "border-current ring-1 ring-current" : "border-transparent")}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Module Image</label>
+            {imageUrl && (
+              <div className="mb-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                <img src={imageUrl} alt="Module" className="w-full h-32 object-contain p-2" />
+              </div>
+            )}
+            <div className="flex gap-2">
+              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); }} />
+              <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()} disabled={uploading} className="gap-2" data-testid="button-upload-module-image">
+                {uploading ? <><Loader2 className="w-3 h-3 animate-spin" /> Uploading...</> : <><Upload className="w-3 h-3" /> Upload</>}
+              </Button>
+              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Or paste image URL" className="flex-1 text-sm h-9" data-testid="input-module-image-url" />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Content Paragraphs</label>
+            <div className="space-y-2">
+              {paragraphs.map((p, idx) => (
+                <div key={idx} className="flex gap-2">
+                  <Textarea value={p} onChange={(e) => { const updated = [...paragraphs]; updated[idx] = e.target.value; setParagraphs(updated); }} rows={2} className="flex-1 text-sm" />
+                  <Button variant="ghost" size="icon" className="h-9 w-9 text-red-500" onClick={() => setParagraphs(paragraphs.filter((_, i) => i !== idx))}>
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              ))}
+              <Button variant="outline" size="sm" onClick={() => setParagraphs([...paragraphs, ""])} className="gap-1">
+                <Plus className="w-3 h-3" /> Add Paragraph
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Lessons</label>
+            <div className="space-y-2">
+              {lessons.map((l, idx) => (
+                <div key={idx} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                  <BookOpen className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 flex-1">{l.name}</span>
+                  <span className="text-xs text-gray-400">{l.id}</span>
+                  <button onClick={() => setLessons(lessons.filter((_, i) => i !== idx))} className="text-red-400 hover:text-red-600">
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+              <div className="flex gap-2">
+                <Input value={newLessonName} onChange={(e) => setNewLessonName(e.target.value)} placeholder="Lesson name" className="flex-1 text-sm h-9" data-testid="input-lesson-name" />
+                <Input value={newLessonId} onChange={(e) => setNewLessonId(e.target.value)} placeholder="lesson-slug" className="w-32 text-sm h-9" data-testid="input-lesson-id" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-9"
+                  disabled={!newLessonName.trim()}
+                  onClick={() => {
+                    if (newLessonName.trim()) {
+                      const slug = newLessonId.trim() || newLessonName.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                      setLessons([...lessons, { id: slug, name: newLessonName.trim() }]);
+                      setNewLessonName("");
+                      setNewLessonId("");
+                    }
+                  }}
+                  data-testid="button-add-lesson"
+                >
+                  <Plus className="w-3 h-3" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-2 pt-2">
+          <Button onClick={handleSave} disabled={saving || !title.trim()} className="flex-1 gap-2" data-testid="button-save-module">
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {module ? "Save Changes" : "Create Module"}
+          </Button>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+        </div>
+      </div>
     </div>
   );
 }

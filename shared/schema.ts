@@ -491,3 +491,44 @@ export const socialConnections = pgTable("social_connections", {
   connectedAt: timestamp("connected_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+export const siteImages = pgTable("site_images", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  imageKey: text("image_key").notNull().unique(),
+  url: text("url").notNull(),
+  alt: text("alt"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSiteImageSchema = createInsertSchema(siteImages).omit({
+  id: true,
+  updatedAt: true,
+});
+export type SiteImage = typeof siteImages.$inferSelect;
+export type InsertSiteImage = z.infer<typeof insertSiteImageSchema>;
+
+export const customPageModules = pgTable("custom_page_modules", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  page: text("page").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  icon: text("icon").default("BookOpen"),
+  color: text("color").default("text-primary"),
+  bgColor: text("bg_color").default("bg-primary/10"),
+  imageUrl: text("image_url"),
+  sortOrder: integer("sort_order").default(0),
+  lessons: jsonb("lessons").default(sql`'[]'::jsonb`),
+  tier: text("tier"),
+  status: text("status").default("active"),
+  content: jsonb("content").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertCustomPageModuleSchema = createInsertSchema(customPageModules).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type CustomPageModule = typeof customPageModules.$inferSelect;
+export type InsertCustomPageModule = z.infer<typeof insertCustomPageModuleSchema>;

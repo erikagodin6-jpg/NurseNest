@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -65,6 +65,15 @@ export interface IStorage {
   deleteSocialPost(id: string): Promise<void>;
   getDashboardWidgets(userId: string): Promise<DashboardWidget[]>;
   saveDashboardWidgets(userId: string, widgets: { widgetType: string; position: number; visible: boolean; config?: any }[]): Promise<DashboardWidget[]>;
+  getAllSiteImages(): Promise<SiteImage[]>;
+  getSiteImage(key: string): Promise<SiteImage | undefined>;
+  upsertSiteImage(key: string, url: string, alt?: string): Promise<SiteImage>;
+  deleteSiteImage(key: string): Promise<void>;
+  getCustomModules(page: string): Promise<CustomPageModule[]>;
+  getCustomModule(id: string): Promise<CustomPageModule | undefined>;
+  createCustomModule(data: InsertCustomPageModule): Promise<CustomPageModule>;
+  updateCustomModule(id: string, updates: Partial<InsertCustomPageModule>): Promise<CustomPageModule>;
+  deleteCustomModule(id: string): Promise<void>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -562,6 +571,52 @@ export class DatabaseStorage implements IStorage {
       config: w.config || {},
     }));
     return db.insert(dashboardWidgets).values(rows).returning();
+  }
+
+  async getAllSiteImages(): Promise<SiteImage[]> {
+    return db.select().from(siteImages);
+  }
+
+  async getSiteImage(key: string): Promise<SiteImage | undefined> {
+    const [img] = await db.select().from(siteImages).where(eq(siteImages.imageKey, key));
+    return img;
+  }
+
+  async upsertSiteImage(key: string, url: string, alt?: string): Promise<SiteImage> {
+    const existing = await this.getSiteImage(key);
+    if (existing) {
+      const [updated] = await db.update(siteImages).set({ url, alt, updatedAt: new Date() }).where(eq(siteImages.imageKey, key)).returning();
+      return updated;
+    }
+    const [created] = await db.insert(siteImages).values({ imageKey: key, url, alt }).returning();
+    return created;
+  }
+
+  async deleteSiteImage(key: string): Promise<void> {
+    await db.delete(siteImages).where(eq(siteImages.imageKey, key));
+  }
+
+  async getCustomModules(page: string): Promise<CustomPageModule[]> {
+    return db.select().from(customPageModules).where(eq(customPageModules.page, page)).orderBy(customPageModules.sortOrder);
+  }
+
+  async getCustomModule(id: string): Promise<CustomPageModule | undefined> {
+    const [mod] = await db.select().from(customPageModules).where(eq(customPageModules.id, id));
+    return mod;
+  }
+
+  async createCustomModule(data: InsertCustomPageModule): Promise<CustomPageModule> {
+    const [created] = await db.insert(customPageModules).values(data).returning();
+    return created;
+  }
+
+  async updateCustomModule(id: string, updates: Partial<InsertCustomPageModule>): Promise<CustomPageModule> {
+    const [updated] = await db.update(customPageModules).set({ ...updates, updatedAt: new Date() }).where(eq(customPageModules.id, id)).returning();
+    return updated;
+  }
+
+  async deleteCustomModule(id: string): Promise<void> {
+    await db.delete(customPageModules).where(eq(customPageModules.id, id));
   }
 }
 

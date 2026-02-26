@@ -3491,6 +3491,98 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
 
   seedStarterDecks().catch((e) => console.error("Starter deck seed error:", e?.message));
 
+  app.get("/api/site-images", async (_req, res) => {
+    try {
+      const images = await storage.getAllSiteImages();
+      res.json(images);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/site-images/:key", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { url, alt } = req.body;
+      if (!url) return res.status(400).json({ error: "url is required" });
+      const image = await storage.upsertSiteImage(req.params.key, url, alt);
+      res.json(image);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/site-images/:key", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteSiteImage(req.params.key);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/custom-modules", async (req, res) => {
+    try {
+      const page = (req.query.page as string) || "pre-nursing";
+      const modules = await storage.getCustomModules(page);
+      res.json(modules);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/custom-modules", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { page, title, description, icon, color, bgColor, imageUrl, sortOrder, lessons, tier, content } = req.body;
+      if (!page || !title) return res.status(400).json({ error: "page and title are required" });
+      const mod = await storage.createCustomModule({ page, title, description, icon, color, bgColor, imageUrl, sortOrder, lessons: lessons || [], tier, content });
+      res.json(mod);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/custom-modules/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { page, title, description, icon, color, bgColor, imageUrl, sortOrder, lessons, tier, content, status } = req.body;
+      const updates: any = {};
+      if (page !== undefined) updates.page = page;
+      if (title !== undefined) updates.title = title;
+      if (description !== undefined) updates.description = description;
+      if (icon !== undefined) updates.icon = icon;
+      if (color !== undefined) updates.color = color;
+      if (bgColor !== undefined) updates.bgColor = bgColor;
+      if (imageUrl !== undefined) updates.imageUrl = imageUrl;
+      if (sortOrder !== undefined) updates.sortOrder = sortOrder;
+      if (lessons !== undefined) updates.lessons = lessons;
+      if (tier !== undefined) updates.tier = tier;
+      if (content !== undefined) updates.content = content;
+      if (status !== undefined) updates.status = status;
+      const mod = await storage.updateCustomModule(req.params.id, updates);
+      res.json(mod);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/custom-modules/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteCustomModule(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 

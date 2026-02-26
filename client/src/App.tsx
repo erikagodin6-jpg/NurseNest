@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n";
+import { SiteImagesProvider } from "@/components/admin-image-overlay";
 import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE } from "@/lib/locale-utils";
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
@@ -294,14 +295,16 @@ function App() {
         <ThemeProvider attribute="data-theme" defaultTheme="clinical-light" enableSystem={false}>
           <I18nProvider>
             <AuthProvider>
-              <TooltipProvider>
-                <Toaster />
-                <PageTracker />
-                <CopyProtection />
-                <LocaleRouter />
-                <UpgradePrompt />
-                <PWAInstallPrompt />
-              </TooltipProvider>
+              <SiteImagesProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <PageTracker />
+                  <CopyProtection />
+                  <LocaleRouter />
+                  <UpgradePrompt />
+                  <PWAInstallPrompt />
+                </TooltipProvider>
+              </SiteImagesProvider>
             </AuthProvider>
           </I18nProvider>
         </ThemeProvider>

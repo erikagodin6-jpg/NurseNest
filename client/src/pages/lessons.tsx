@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -10,7 +10,12 @@ import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { getLecturesForTier, type LectureMetadata } from "@/data/micro-lectures";
+import { AdminImageOverlay, useSiteImages } from "@/components/admin-image-overlay";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Heart, 
   Wind, 
@@ -51,7 +56,17 @@ import {
   Search,
   FileText,
   Syringe,
-  ClipboardList
+  ClipboardList,
+  Plus,
+  Pencil,
+  Trash2,
+  X,
+  Upload,
+  Save,
+  Loader2,
+  Dna,
+  Layers,
+  Sparkles,
 } from "lucide-react";
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
@@ -2971,6 +2986,34 @@ export default function Lessons() {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   const [dbLessons, setDbLessons] = useState<DbLesson[]>([]);
+  const [customSystems, setCustomSystems] = useState<any[]>([]);
+  const [showSystemModal, setShowSystemModal] = useState(false);
+  const [editingSystem, setEditingSystem] = useState<any>(null);
+  const [systemModalTier, setSystemModalTier] = useState("rpn");
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetch("/api/custom-modules?page=lessons")
+      .then((r) => r.ok ? r.json() : [])
+      .then(setCustomSystems)
+      .catch(() => {});
+  }, []);
+
+  const deleteCustomSystem = async (id: string) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    try {
+      const res = await fetch(`/api/custom-modules/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: creds.username, password: creds.password }),
+      });
+      if (!res.ok) throw new Error("Delete failed");
+      setCustomSystems((prev) => prev.filter((s) => s.id !== id));
+      toast({ title: "System deleted" });
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+  };
 
   useEffect(() => {
     fetch("/api/content/lessons")
@@ -3060,6 +3103,12 @@ export default function Lessons() {
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} />
               ))}
+              {customSystems.filter((s) => s.tier === "rpn" || !s.tier).map((cs) => (
+                <CustomSystemCard key={cs.id} system={cs} tier="rpn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rpn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} />
+              ))}
+              {isAdmin && (
+                <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rpn"); setShowSystemModal(true); }} />
+              )}
             </div>
             <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "rpn")} />
           </TabsContent>
@@ -3069,6 +3118,12 @@ export default function Lessons() {
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} />
               ))}
+              {customSystems.filter((s) => s.tier === "rn" || !s.tier).map((cs) => (
+                <CustomSystemCard key={cs.id} system={cs} tier="rn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} />
+              ))}
+              {isAdmin && (
+                <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rn"); setShowSystemModal(true); }} />
+              )}
             </div>
             <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "rn")} />
           </TabsContent>
@@ -3078,6 +3133,12 @@ export default function Lessons() {
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].map((system) => (
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} />
               ))}
+              {customSystems.filter((s) => s.tier === "np" || !s.tier).map((cs) => (
+                <CustomSystemCard key={cs.id} system={cs} tier="np" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("np"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} />
+              ))}
+              {isAdmin && (
+                <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("np"); setShowSystemModal(true); }} />
+              )}
             </div>
             <DbLessonsSection lessons={dbLessons.filter(l => !l.tier || l.tier === "free" || l.tier === "np")} />
           </TabsContent>
@@ -3117,6 +3178,22 @@ export default function Lessons() {
           </TabsContent>
         </Tabs>
       </main>
+      {showSystemModal && (
+        <LessonSystemModal
+          system={editingSystem}
+          defaultTier={systemModalTier}
+          onClose={() => { setShowSystemModal(false); setEditingSystem(null); }}
+          onSaved={(mod) => {
+            if (editingSystem) {
+              setCustomSystems((prev) => prev.map((s) => s.id === mod.id ? mod : s));
+            } else {
+              setCustomSystems((prev) => [...prev, mod]);
+            }
+            setShowSystemModal(false);
+            setEditingSystem(null);
+          }}
+        />
+      )}
       <AdminEditButton />
       <Footer />
     </div>
@@ -3142,18 +3219,22 @@ function DifficultyBadge({ level }: { level: DifficultyLevel }) {
 
 function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (id: string) => void, tier: string }) {
   const { t } = useI18n();
+  const { user } = useAuth();
   const systemImg = getSystemImage(system.id);
+  const isAdmin = user?.tier === "admin";
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
       {systemImg && (
         <div className={cn("relative h-36 overflow-hidden", system.bgColor)}>
-          <img
+          <AdminImageOverlay
+            imageKey={`lesson-system-${system.id}`}
             src={systemImg}
             alt={system.title}
-            className="w-full h-full object-cover opacity-80"
-            loading="lazy"
+            isAdmin={isAdmin}
+            className="w-full h-full"
+            imgClassName="w-full h-full object-cover opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent pointer-events-none" />
         </div>
       )}
       <CardHeader className={cn("flex flex-row items-center gap-4 pb-2", !systemImg && system.bgColor)}>
@@ -3198,6 +3279,320 @@ function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+const LESSON_ICON_MAP: Record<string, any> = {
+  BookOpen, Heart, Brain, Dna, Activity, Pill, Stethoscope, Beaker, FlaskConical, Lightbulb,
+  Droplets, Wind, Sparkles, GraduationCap, Target, Layers, AlertCircle, Baby, Users, Eye,
+  ShieldAlert, Scissors, Bug, Thermometer, Flame, HeartHandshake, Bandage, Calculator, Microscope,
+};
+
+function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete }: {
+  system: any; tier: string; isAdmin: boolean; onSelect: (id: string) => void; onEdit: () => void; onDelete: () => void;
+}) {
+  const lessons = (system.lessons || []) as { id: string; name: string; status?: string }[];
+  const IconComp = LESSON_ICON_MAP[system.icon] || BookOpen;
+  return (
+    <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white relative group">
+      {system.imageUrl && (
+        <div className={cn("relative h-36 overflow-hidden", system.bgColor || "bg-gray-50")}>
+          <img src={system.imageUrl} alt={system.title} className="w-full h-full object-cover opacity-80" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent" />
+        </div>
+      )}
+      <CardHeader className={cn("flex flex-row items-center gap-4 pb-2", !system.imageUrl && (system.bgColor || "bg-gray-50"))}>
+        <div className={cn("p-3 rounded-xl bg-white shadow-sm", system.color || "text-primary")}>
+          <IconComp className="w-6 h-6" />
+        </div>
+        <CardTitle className="text-xl font-bold text-gray-900">{system.title}</CardTitle>
+      </CardHeader>
+      <CardContent className="pt-6">
+        <div className="space-y-3">
+          {lessons.map((disease, idx) => (
+            <div
+              key={disease.id || idx}
+              data-testid={`custom-lesson-card-${disease.id || idx}`}
+              onClick={() => disease.id && onSelect(disease.id)}
+              className="flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer group/lesson border-primary/20 bg-primary/5 hover:bg-primary/10"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <BookOpen className="w-5 h-5 shrink-0 text-primary" />
+                <span className="font-medium text-gray-900 truncate">{disease.name}</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-primary group-hover/lesson:translate-x-1 transition-transform shrink-0 ml-2" />
+            </div>
+          ))}
+        </div>
+      </CardContent>
+      {isAdmin && (
+        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+          <button
+            onClick={(e) => { e.stopPropagation(); onEdit(); }}
+            className="w-7 h-7 rounded-full bg-white/90 shadow-md border border-gray-200 flex items-center justify-center hover:bg-blue-50"
+            data-testid={`button-edit-system-${system.id}`}
+          >
+            <Pencil className="w-3 h-3 text-blue-600" />
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDelete(); }}
+            className="w-7 h-7 rounded-full bg-white/90 shadow-md border border-gray-200 flex items-center justify-center hover:bg-red-50"
+            data-testid={`button-delete-system-${system.id}`}
+          >
+            <Trash2 className="w-3 h-3 text-red-600" />
+          </button>
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function AddSystemCard({ onClick }: { onClick: () => void }) {
+  return (
+    <Card
+      className="border-2 border-dashed border-primary/30 hover:border-primary/50 transition-all cursor-pointer bg-white/50 flex items-center justify-center min-h-[200px]"
+      onClick={onClick}
+      data-testid="button-add-system"
+    >
+      <div className="text-center space-y-3 p-6">
+        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto hover:bg-primary/20 transition-colors">
+          <Plus className="w-7 h-7 text-primary" />
+        </div>
+        <div>
+          <p className="font-semibold text-gray-900">Add System</p>
+          <p className="text-xs text-gray-500 mt-1">Create a new lesson system</p>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+const SYSTEM_ICON_OPTIONS = [
+  { name: "BookOpen", icon: BookOpen },
+  { name: "Heart", icon: Heart },
+  { name: "Brain", icon: Brain },
+  { name: "Activity", icon: Activity },
+  { name: "Pill", icon: Pill },
+  { name: "Stethoscope", icon: Stethoscope },
+  { name: "Beaker", icon: Beaker },
+  { name: "FlaskConical", icon: FlaskConical },
+  { name: "Lightbulb", icon: Lightbulb },
+  { name: "Droplets", icon: Droplets },
+  { name: "Wind", icon: Wind },
+  { name: "AlertCircle", icon: AlertCircle },
+  { name: "Baby", icon: Baby },
+  { name: "Eye", icon: Eye },
+  { name: "Scissors", icon: Scissors },
+  { name: "Bug", icon: Bug },
+];
+
+const SYSTEM_COLOR_OPTIONS = [
+  { label: "Red", color: "text-red-500", bg: "bg-red-50" },
+  { label: "Blue", color: "text-blue-500", bg: "bg-blue-50" },
+  { label: "Green", color: "text-green-500", bg: "bg-green-50" },
+  { label: "Purple", color: "text-purple-500", bg: "bg-purple-50" },
+  { label: "Amber", color: "text-amber-500", bg: "bg-amber-50" },
+  { label: "Teal", color: "text-teal-500", bg: "bg-teal-50" },
+  { label: "Rose", color: "text-rose-500", bg: "bg-rose-50" },
+  { label: "Indigo", color: "text-indigo-500", bg: "bg-indigo-50" },
+];
+
+function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
+  system: any; defaultTier: string; onClose: () => void; onSaved: (mod: any) => void;
+}) {
+  const [title, setTitle] = useState(system?.title || "");
+  const [icon, setIcon] = useState(system?.icon || "BookOpen");
+  const [colorIdx, setColorIdx] = useState(() => {
+    const idx = SYSTEM_COLOR_OPTIONS.findIndex((c) => c.color === system?.color);
+    return idx >= 0 ? idx : 0;
+  });
+  const [tier, setTier] = useState(system?.tier || defaultTier);
+  const [imageUrl, setImageUrl] = useState(system?.imageUrl || "");
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [lessons, setLessons] = useState<{ id: string; name: string; status: string }[]>(
+    system?.lessons ? (system.lessons as any[]).map((l: any) => ({ ...l, status: l.status || "Available" })) : []
+  );
+  const [newLessonName, setNewLessonName] = useState("");
+  const [newLessonId, setNewLessonId] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  const handleUpload = async (file: File) => {
+    setUploading(true);
+    try {
+      const res = await fetch("/api/uploads/request-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type || "image/png" }),
+      });
+      if (!res.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL, objectPath } = await res.json();
+      const uploadRes = await fetch(uploadURL, { method: "PUT", body: file, headers: { "Content-Type": file.type || "image/png" } });
+      if (!uploadRes.ok) throw new Error("Upload failed");
+      setImageUrl(objectPath);
+    } catch (e: any) {
+      toast({ title: "Upload error", description: e.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!title.trim()) { toast({ title: "Title required", variant: "destructive" }); return; }
+    setSaving(true);
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    const selectedColor = SYSTEM_COLOR_OPTIONS[colorIdx];
+    const body = {
+      page: "lessons",
+      title: title.trim(),
+      icon,
+      color: selectedColor.color,
+      bgColor: selectedColor.bg,
+      imageUrl: imageUrl || null,
+      tier,
+      lessons,
+      username: creds.username,
+      password: creds.password,
+    };
+    try {
+      const url = system ? `/api/custom-modules/${system.id}` : "/api/custom-modules";
+      const method = system ? "PUT" : "POST";
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (!res.ok) throw new Error("Save failed");
+      const saved = await res.json();
+      toast({ title: system ? "System updated" : "System created" });
+      onSaved(saved);
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 space-y-5 my-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} data-testid="modal-lesson-system">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-gray-900">{system ? "Edit System" : "Add New System"}</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">System Title *</label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Endocrine System" data-testid="input-system-title" />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Tier</label>
+            <div className="flex gap-2">
+              {["rpn", "rn", "np"].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTier(t)}
+                  className={cn("px-4 py-2 rounded-lg text-sm font-medium border-2 transition-all uppercase", tier === t ? "border-primary bg-primary/10 text-primary" : "border-gray-200 text-gray-500 hover:border-gray-300")}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Icon</label>
+            <div className="flex flex-wrap gap-2">
+              {SYSTEM_ICON_OPTIONS.map((opt) => (
+                <button
+                  key={opt.name}
+                  onClick={() => setIcon(opt.name)}
+                  className={cn("w-9 h-9 rounded-lg flex items-center justify-center border-2 transition-all", icon === opt.name ? "border-primary bg-primary/10" : "border-gray-200 hover:border-gray-300")}
+                  title={opt.name}
+                >
+                  <opt.icon className="w-4 h-4" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Color</label>
+            <div className="flex flex-wrap gap-2">
+              {SYSTEM_COLOR_OPTIONS.map((opt, idx) => (
+                <button
+                  key={opt.label}
+                  onClick={() => setColorIdx(idx)}
+                  className={cn("px-3 py-1.5 rounded-lg text-sm font-medium border-2 transition-all", opt.bg, opt.color, colorIdx === idx ? "border-current ring-1 ring-current" : "border-transparent")}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">System Image</label>
+            {imageUrl && (
+              <div className="mb-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                <img src={imageUrl} alt="System" className="w-full h-32 object-cover" />
+              </div>
+            )}
+            <div className="flex gap-2">
+              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); }} />
+              <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()} disabled={uploading} className="gap-2">
+                {uploading ? <><Loader2 className="w-3 h-3 animate-spin" /> Uploading...</> : <><Upload className="w-3 h-3" /> Upload</>}
+              </Button>
+              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Or paste image URL" className="flex-1 text-sm h-9" />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">Lessons</label>
+            <div className="space-y-2">
+              {lessons.map((l, idx) => (
+                <div key={idx} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                  <BookOpen className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 flex-1">{l.name}</span>
+                  <span className="text-xs text-gray-400">{l.id}</span>
+                  <button onClick={() => setLessons(lessons.filter((_, i) => i !== idx))} className="text-red-400 hover:text-red-600">
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+              <div className="flex gap-2">
+                <Input value={newLessonName} onChange={(e) => setNewLessonName(e.target.value)} placeholder="Lesson name" className="flex-1 text-sm h-9" data-testid="input-system-lesson-name" />
+                <Input value={newLessonId} onChange={(e) => setNewLessonId(e.target.value)} placeholder="lesson-slug" className="w-32 text-sm h-9" data-testid="input-system-lesson-id" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-9"
+                  disabled={!newLessonName.trim()}
+                  onClick={() => {
+                    if (newLessonName.trim()) {
+                      const slug = newLessonId.trim() || newLessonName.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                      setLessons([...lessons, { id: slug, name: newLessonName.trim(), status: "Available" }]);
+                      setNewLessonName("");
+                      setNewLessonId("");
+                    }
+                  }}
+                  data-testid="button-add-system-lesson"
+                >
+                  <Plus className="w-3 h-3" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-2 pt-2">
+          <Button onClick={handleSave} disabled={saving || !title.trim()} className="flex-1 gap-2" data-testid="button-save-system">
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {system ? "Save Changes" : "Create System"}
+          </Button>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+        </div>
+      </div>
+    </div>
   );
 }
 
