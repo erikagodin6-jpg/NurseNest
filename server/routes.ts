@@ -2134,12 +2134,31 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  app.get("/api/blog/occupied-days", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`
+        SELECT DISTINCT DATE(COALESCE(scheduled_at, published_at)) AS day
+        FROM content_items
+        WHERE type = 'blog'
+          AND status IN ('scheduled', 'published')
+          AND COALESCE(scheduled_at, published_at) >= CURRENT_DATE
+        ORDER BY day ASC
+      `);
+      const days = result.rows.map((r: any) => r.day ? new Date(r.day).toISOString().slice(0, 10) : null).filter(Boolean);
+      res.json({ occupiedDays: days });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/blog/generate-batch", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { topics, citationStyle, scheduleStartDate, postsPerDay, publishAllNow, authorName } = req.body;
+      const { topics, citationStyle, scheduleStartDate, postsPerDay, publishAllNow, authorName, smartSchedule, overrideDates } = req.body;
       if (!topics || !Array.isArray(topics) || topics.length === 0) {
         return res.status(400).json({ error: "topics array is required" });
       }
@@ -2151,10 +2170,36 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const results: any[] = [];
       const startDate = scheduleStartDate ? new Date(scheduleStartDate) : new Date();
 
+      let availableDays: string[] = [];
+      if (smartSchedule && !publishAllNow) {
+        const occResult = await pool.query(`
+          SELECT DISTINCT DATE(COALESCE(scheduled_at, published_at)) AS day
+          FROM content_items
+          WHERE type = 'blog'
+            AND status IN ('scheduled', 'published')
+            AND COALESCE(scheduled_at, published_at) >= CURRENT_DATE
+        `);
+        const occupiedSet = new Set(occResult.rows.map((r: any) => r.day ? new Date(r.day).toISOString().slice(0, 10) : "").filter(Boolean));
+
+        const totalSlotsNeeded = Math.ceil(topics.filter(t => typeof t === "string" ? t.trim() : t?.topic?.trim()).length / perDay);
+        const cursor = new Date(startDate);
+        while (availableDays.length < totalSlotsNeeded) {
+          const dayStr = cursor.toISOString().slice(0, 10);
+          if (!occupiedSet.has(dayStr)) {
+            availableDays.push(dayStr);
+          }
+          cursor.setDate(cursor.getDate() + 1);
+          if (availableDays.length === 0 && cursor.getTime() - startDate.getTime() > 365 * 86400000) break;
+        }
+      }
+
+      const useOverride = overrideDates && Array.isArray(overrideDates) && overrideDates.length > 0;
+
+      let slotCounter = 0;
+
       for (let i = 0; i < topics.length; i++) {
         const topicEntry = topics[i];
         const topicText = typeof topicEntry === "string" ? topicEntry : topicEntry.topic;
-        const dayOffset = typeof topicEntry === "string" ? Math.floor(i / perDay) : (topicEntry.dayOffset ?? Math.floor(i / perDay));
 
         if (!topicText || !topicText.trim()) {
           results.push({ index: i, status: "skipped", reason: "Empty topic" });
@@ -2166,12 +2211,25 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
           const isDup = await storage.checkDuplicateSlug(post.slug);
           const finalSlug = isDup ? `${post.slug}-${Date.now()}` : post.slug;
 
-          const scheduledDate = new Date(startDate);
-          scheduledDate.setDate(scheduledDate.getDate() + dayOffset);
-          const slotInDay = i % perDay;
-          scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
+          let scheduledDate: Date;
+          const slotInDay = slotCounter % perDay;
 
-          const isImmediate = publishAllNow || (dayOffset === 0 && i === 0);
+          if (useOverride && overrideDates[i]) {
+            scheduledDate = new Date(overrideDates[i]);
+            scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
+          } else if (smartSchedule && !publishAllNow && availableDays.length > 0) {
+            const dayIndex = Math.floor(slotCounter / perDay);
+            const dayStr = availableDays[Math.min(dayIndex, availableDays.length - 1)];
+            scheduledDate = new Date(dayStr + "T09:00:00");
+            scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
+          } else {
+            const dayOffset = typeof topicEntry === "string" ? Math.floor(slotCounter / perDay) : (topicEntry.dayOffset ?? Math.floor(slotCounter / perDay));
+            scheduledDate = new Date(startDate);
+            scheduledDate.setDate(scheduledDate.getDate() + dayOffset);
+            scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
+          }
+
+          const isImmediate = publishAllNow;
 
           const created = await storage.createContentItem({
             title: post.title,
@@ -2193,6 +2251,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
             authorName: authorName || "Erika Godin, RN",
           });
 
+          slotCounter++;
           results.push({ index: i, status: "success", id: created.id, title: created.title, scheduledAt: isImmediate ? null : scheduledDate.toISOString() });
         } catch (err: any) {
           results.push({ index: i, status: "failed", topic: topicText, error: err.message });

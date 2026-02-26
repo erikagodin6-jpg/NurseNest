@@ -157,6 +157,9 @@ export default function AdminPage() {
   const [batchStartDate, setBatchStartDate] = useState(todayStr);
   const [batchPostsPerDay, setBatchPostsPerDay] = useState(1);
   const [batchPublishAll, setBatchPublishAll] = useState(false);
+  const [batchSmartSchedule, setBatchSmartSchedule] = useState(true);
+  const [batchScheduleMode, setBatchScheduleMode] = useState<"smart" | "manual">("smart");
+  const [occupiedDays, setOccupiedDays] = useState<string[]>([]);
   const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; results: any[] } | null>(null);
   const [publishQueue, setPublishQueue] = useState<any[]>([]);
   const [queueLoading, setQueueLoading] = useState(false);
@@ -633,6 +636,7 @@ export default function AdminPage() {
           scheduleStartDate: batchStartDate || undefined,
           postsPerDay: batchPostsPerDay,
           publishAllNow: batchPublishAll,
+          smartSchedule: batchScheduleMode === "smart" && !batchPublishAll,
         }),
       });
       if (res.ok) {
@@ -642,6 +646,7 @@ export default function AdminPage() {
         setBatchTopics("");
         fetchBlogPosts();
         fetchPublishQueue();
+        fetchOccupiedDays();
       } else {
         const err = await res.json().catch(() => ({}));
         alert(err.error || "Batch generation failed");
@@ -651,6 +656,19 @@ export default function AdminPage() {
     } finally {
       setBlogGenerating(false);
     }
+  }
+
+  async function fetchOccupiedDays() {
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) return;
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/blog/occupied-days?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setOccupiedDays(data.occupiedDays || []);
+      }
+    } catch {}
   }
 
   async function fetchPublishQueue() {
@@ -940,6 +958,7 @@ export default function AdminPage() {
     if (activeTab === "content-engine" && blogPosts.length === 0 && !blogPostsLoading) {
       fetchBlogPosts();
       fetchPublishQueue();
+      fetchOccupiedDays();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
@@ -1495,53 +1514,91 @@ export default function AdminPage() {
                             className="text-sm font-mono"
                             data-testid="input-batch-topics"
                           />
-                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <div>
-                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Start Date</label>
-                              <input
-                                type="date"
-                                value={batchStartDate}
-                                onChange={(e) => { setBatchStartDate(e.target.value); setBatchPublishAll(false); }}
-                                className="w-full border rounded-md px-3 py-1.5 text-sm bg-white"
-                                disabled={batchPublishAll}
-                                data-testid="input-batch-start-date"
-                              />
-                            </div>
-                            <div>
-                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Posts Per Day</label>
+                          <div className="space-y-3">
+                            <div className="flex items-center gap-2">
+                              <label className="text-[10px] font-medium text-gray-500">Schedule Mode</label>
                               <div className="flex rounded-md border overflow-hidden">
-                                {[1, 2, 3, 5, 10].map((n) => (
+                                {([
+                                  { value: "smart" as const, label: "Fill Empty Days" },
+                                  { value: "manual" as const, label: "Manual Override" },
+                                ]).map((opt) => (
                                   <button
-                                    key={n}
-                                    onClick={() => setBatchPostsPerDay(n)}
+                                    key={opt.value}
+                                    onClick={() => { setBatchScheduleMode(opt.value); setBatchPublishAll(false); }}
                                     disabled={batchPublishAll}
-                                    className={`flex-1 px-2 py-1.5 text-xs font-medium transition-colors ${batchPostsPerDay === n && !batchPublishAll ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"} ${batchPublishAll ? "opacity-50" : ""}`}
-                                    data-testid={`button-batch-ppd-${n}`}
+                                    className={`px-3 py-1 text-[11px] font-medium transition-colors ${batchScheduleMode === opt.value && !batchPublishAll ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"} ${batchPublishAll ? "opacity-50" : ""}`}
+                                    data-testid={`button-schedule-mode-${opt.value}`}
                                   >
-                                    {n}
+                                    {opt.label}
                                   </button>
                                 ))}
                               </div>
-                            </div>
-                            <div>
-                              <label className="text-[10px] font-medium text-gray-500 mb-1 block">Publish Mode</label>
                               <button
                                 onClick={() => setBatchPublishAll(!batchPublishAll)}
-                                className={`w-full px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${batchPublishAll ? "bg-primary text-white border-primary" : "bg-white text-gray-600 border-gray-200 hover:border-primary"}`}
+                                className={`ml-auto px-3 py-1 text-[11px] font-medium rounded-md border transition-colors ${batchPublishAll ? "bg-red-500 text-white border-red-500" : "bg-white text-gray-500 border-gray-200 hover:border-red-300"}`}
                                 data-testid="button-batch-publish-all"
                               >
-                                {batchPublishAll ? "Publish All Now" : "Schedule"}
+                                {batchPublishAll ? "Publish All Now" : "Publish Immediately"}
                               </button>
                             </div>
-                            <div className="flex items-end">
-                              <div className="text-[10px] text-gray-400 leading-tight">
-                                {(() => {
-                                  const count = batchTopics.split("\n").filter(t => t.trim()).length;
-                                  if (batchPublishAll) return `${count} topics. All will publish immediately.`;
-                                  const days = Math.ceil(count / batchPostsPerDay);
-                                  const startLabel = batchStartDate ? new Date(batchStartDate + "T09:00:00").toLocaleDateString() : "today";
-                                  return `${count} topics, ${batchPostsPerDay}/day over ${days} day${days !== 1 ? "s" : ""} starting ${startLabel}.`;
-                                })()}
+
+                            {!batchPublishAll && batchScheduleMode === "smart" && occupiedDays.length > 0 && (
+                              <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
+                                <p className="text-[10px] font-medium text-amber-700 mb-1.5">Days with existing posts (will be skipped):</p>
+                                <div className="flex flex-wrap gap-1">
+                                  {occupiedDays.slice(0, 14).map((d) => (
+                                    <span key={d} className="inline-block px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] rounded font-mono">
+                                      {new Date(d + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+                                    </span>
+                                  ))}
+                                  {occupiedDays.length > 14 && <span className="text-[10px] text-amber-600">+{occupiedDays.length - 14} more</span>}
+                                </div>
+                              </div>
+                            )}
+
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                              <div>
+                                <label className="text-[10px] font-medium text-gray-500 mb-1 block">
+                                  {batchScheduleMode === "smart" ? "Start Looking From" : "Start Date"}
+                                </label>
+                                <input
+                                  type="date"
+                                  value={batchStartDate}
+                                  onChange={(e) => { setBatchStartDate(e.target.value); setBatchPublishAll(false); }}
+                                  className="w-full border rounded-md px-3 py-1.5 text-sm bg-white"
+                                  disabled={batchPublishAll}
+                                  data-testid="input-batch-start-date"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-[10px] font-medium text-gray-500 mb-1 block">Posts Per Day</label>
+                                <div className="flex rounded-md border overflow-hidden">
+                                  {[1, 2, 3, 5, 10].map((n) => (
+                                    <button
+                                      key={n}
+                                      onClick={() => setBatchPostsPerDay(n)}
+                                      disabled={batchPublishAll}
+                                      className={`flex-1 px-2 py-1.5 text-xs font-medium transition-colors ${batchPostsPerDay === n && !batchPublishAll ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"} ${batchPublishAll ? "opacity-50" : ""}`}
+                                      data-testid={`button-batch-ppd-${n}`}
+                                    >
+                                      {n}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="col-span-2 flex items-end">
+                                <div className="text-[10px] text-gray-400 leading-tight">
+                                  {(() => {
+                                    const count = batchTopics.split("\n").filter(t => t.trim()).length;
+                                    if (batchPublishAll) return `${count} topics. All will publish immediately.`;
+                                    if (batchScheduleMode === "smart") {
+                                      return `${count} topics, ${batchPostsPerDay}/day. Will fill ${Math.ceil(count / batchPostsPerDay)} empty day${Math.ceil(count / batchPostsPerDay) !== 1 ? "s" : ""} starting ${new Date(batchStartDate + "T09:00:00").toLocaleDateString()}. Days with existing posts will be skipped.`;
+                                    }
+                                    const days = Math.ceil(count / batchPostsPerDay);
+                                    const startLabel = batchStartDate ? new Date(batchStartDate + "T09:00:00").toLocaleDateString() : "today";
+                                    return `${count} topics, ${batchPostsPerDay}/day over ${days} day${days !== 1 ? "s" : ""} starting ${startLabel}. Existing posts on those days will not be moved.`;
+                                  })()}
+                                </div>
                               </div>
                             </div>
                           </div>
