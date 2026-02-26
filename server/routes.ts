@@ -1296,16 +1296,21 @@ Rules:
       }
 
       if (!item) return res.status(404).json({ error: "Content not found" });
-      if (item.status !== "published") return res.status(404).json({ error: "Content not found" });
 
-      const region = req.region || "US";
-      if (!isRegionAllowed(item.regionScope || item.region_scope, region)) {
+      const requestingUserTier = await extractUserTier(req);
+      const isRequestingAdmin = requestingUserTier === "admin";
+
+      if (item.status !== "published" && !isRequestingAdmin) {
         return res.status(404).json({ error: "Content not found" });
       }
 
-      if (item.tier && item.tier !== "free") {
-        const userTier = await extractUserTier(req);
-        if (!canAccessTier(userTier, item.tier)) {
+      const region = req.region || "US";
+      if (!isRequestingAdmin && !isRegionAllowed(item.regionScope || item.region_scope, region)) {
+        return res.status(404).json({ error: "Content not found" });
+      }
+
+      if (!isRequestingAdmin && item.tier && item.tier !== "free") {
+        if (!canAccessTier(requestingUserTier, item.tier)) {
           return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
         }
       }

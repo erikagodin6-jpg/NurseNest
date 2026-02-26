@@ -327,11 +327,11 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
       }
       setSuccess(true);
       toast({ title: "Lesson Published", description: "The lesson is now live and visible to students." });
-      if (onPublished) {
-        setTimeout(() => onPublished(), 1500);
-      } else {
-        setTimeout(() => window.location.reload(), 1500);
-      }
+      setTimeout(() => {
+        if (onPublished) {
+          onPublished();
+        }
+      }, 1500);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -1589,17 +1589,11 @@ export default function LessonDetail() {
     }
   }, [id]);
 
-  useEffect(() => {
-    if (baseLesson) {
-      setDbLoading(false);
-      return;
-    }
-    if (!id) {
-      setDbLoading(false);
-      return;
-    }
+  const fetchDbLesson = useCallback((slug: string) => {
     setDbLoading(true);
-    fetch(`/api/content/slug/${id}`)
+    const creds = getCredentials();
+    const params = creds ? `?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}` : "";
+    fetch(`/api/content/slug/${slug}${params}`)
       .then((r) => {
         if (!r.ok) throw new Error("Not found");
         return r.json();
@@ -1614,7 +1608,19 @@ export default function LessonDetail() {
       .finally(() => {
         setDbLoading(false);
       });
-  }, [baseLesson, id]);
+  }, []);
+
+  useEffect(() => {
+    if (baseLesson) {
+      setDbLoading(false);
+      return;
+    }
+    if (!id) {
+      setDbLoading(false);
+      return;
+    }
+    fetchDbLesson(id);
+  }, [baseLesson, id, fetchDbLesson]);
 
   const lessonContent = useMemo(() => {
     if (!baseLesson) return null;
@@ -1635,6 +1641,19 @@ export default function LessonDetail() {
           </main>
           <Footer />
         </div>
+      );
+    }
+
+    if (dbContent && dbEditMode && isAdmin && id) {
+      return (
+        <AdminLessonCreator
+          lessonId={id}
+          existingContent={dbContent}
+          onPublished={() => {
+            setDbEditMode(false);
+            fetchDbLesson(id);
+          }}
+        />
       );
     }
 
@@ -1728,7 +1747,7 @@ export default function LessonDetail() {
                       className="gap-1 text-xs"
                       data-testid="button-edit-db-lesson"
                       onClick={() => {
-                        setDbContent(null);
+                        setDbEditMode(true);
                       }}
                     >
                       <Pencil className="w-3 h-3" /> Edit Lesson
@@ -1774,7 +1793,7 @@ export default function LessonDetail() {
     }
 
     if (isAdmin && id) {
-      return <AdminLessonCreator lessonId={id} />;
+      return <AdminLessonCreator lessonId={id} onPublished={() => fetchDbLesson(id)} />;
     }
 
     return (
