@@ -462,7 +462,7 @@
     display: none !important;
   }
   .protected-image-wrapper::before {
-    content: "© NurseNest — Printing of copyrighted illustrations is not permitted.";
+    content: "© NurseNest - Printing of copyrighted illustrations is not permitted.";
     display: block;
     padding: 2rem;
     text-align: center;
