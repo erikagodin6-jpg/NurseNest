@@ -2419,6 +2419,7 @@ export default function LessonDetail() {
                     <h2>Pharmacology and Safety</h2>
                   </div>
                   <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
+                  <SectionAIButton section="medications" label="Medications" />
                   <div className="space-y-4">
                     {(ed || lessonContent).medications.map((med, i) => (
                       <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
@@ -2484,6 +2485,7 @@ export default function LessonDetail() {
                     <FileText className="text-primary w-8 h-8" />
                     <h2>Exam Readiness</h2>
                   </div>
+                  <SectionAIButton section="pearls" label="Exam Pearls" />
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                       <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Logic</h4>
