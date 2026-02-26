@@ -1,0 +1,87 @@
+Revise and regenerate all hotspot / click-and-identify activities to use medically accurate, clinically realistic diagrams that align with a professional nursing education platform.
+
+Critical visual accuracy rules (must follow strictly):
+
+1) Diagrams must be anatomically correct and clinically plausible.
+   - Correct proportions
+   - Correct relative positioning of structures
+   - Correct labeling targets
+   - No distorted, cartoonish, or symbolic anatomy
+
+2) DO NOT use:
+   ✖ cartoon or childish illustrations
+   ✖ emoji-style icons
+   ✖ exaggerated colors that misrepresent anatomy
+   ✖ oversimplified “blob” organs
+   ✖ random shapes used as placeholders
+
+3) Visuals must resemble:
+   - Professional anatomy atlas illustrations
+   - Clean medical textbook diagrams
+   - High-quality nursing exam prep graphics
+   - Simplified but accurate clinical diagrams
+
+Educational design requirements:
+
+4) Each hotspot diagram must clearly support the learning objective.
+   - Hotspots must correspond to real anatomical structures
+   - Click areas must be logically sized and placed
+   - No “guesswork” clicking due to poor visual clarity
+
+5) Structures included must be appropriate to the learner level:
+   - Pre-nursing / nursing student appropriate
+   - Avoid unnecessary micro-detail
+   - Avoid pathophysiology unless explicitly required
+   - Focus on normal anatomy and structure–function recognition
+
+Aesthetic requirements (NurseNest brand):
+
+6) Match a clean, modern, pastel-clinical aesthetic:
+   - Soft pastel palette (muted blues, lavenders, soft pinks, sage greens)
+   - High contrast between structures without neon or harsh colors
+   - White or very light background
+   - Rounded, modern, professional look
+
+7) Line work:
+   - Clean, smooth lines
+   - Consistent stroke thickness
+   - No sketchy or hand-drawn effects
+
+8) Typography (if labels are visible):
+   - Clean sans-serif font
+   - Professional medical style
+   - No playful or decorative fonts
+
+Hotspot interaction rules:
+
+9) Each hotspot must:
+   - Be placed precisely over the correct anatomical structure
+   - Have enough clickable area to be usable but not misleading
+   - Avoid overlapping or ambiguous regions
+
+10) Provide metadata for each hotspot:
+   - Structure name
+   - Brief educational description (1–2 sentences)
+   - Optional hint text for learners
+
+Consistency rules:
+
+11) Maintain consistent visual style across all hotspot activities.
+   - Same color logic for the same systems
+   - Same illustration style across modules
+   - Same visual language across the site
+
+Quality control (mandatory):
+
+12) Before finalizing any diagram:
+   - Verify anatomical accuracy against standard anatomy references
+   - Ensure the diagram would be acceptable for nursing exam prep
+   - Ensure the visual matches the site’s professional aesthetic
+
+Output expectations:
+
+• Regenerate hotspot diagrams with accurate medical visuals
+• Ensure visuals are suitable for nursing education
+• Ensure diagrams integrate seamlessly into interactive hotspot activities
+• Avoid placeholder or low-effort graphics
+• Prioritize clarity, realism, and educational value
