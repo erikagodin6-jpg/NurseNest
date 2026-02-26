@@ -87,12 +87,29 @@
       dlog('URL: ' + location.href);
       dlog('Path: ' + location.pathname);
       window.addEventListener('error', function(e) {
-        dlog('ERROR: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
+        dlog('SCRIPT ERROR: ' + e.message + ' at ' + (e.filename || 'unknown') + ':' + e.lineno);
       });
       window.addEventListener('unhandledrejection', function(e) {
-        dlog('PROMISE REJECTION: ' + (e.reason && e.reason.message ? e.reason.message : e.reason));
+        dlog('PROMISE REJECTION: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason)));
         if (e.reason && e.reason.stack) dlog(e.reason.stack);
       });
+      if ('serviceWorker' in navigator) {
+        dlog('Clearing service workers...');
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+          dlog('Found ' + regs.length + ' service worker(s)');
+          regs.forEach(function(r) { r.unregister(); });
+          if (regs.length > 0) {
+            dlog('Unregistered all SWs. Reloading in 1s...');
+            setTimeout(function() { location.reload(); }, 1000);
+          }
+        });
+        caches.keys().then(function(names) {
+          if (names.length > 0) {
+            dlog('Clearing ' + names.length + ' cache(s): ' + names.join(', '));
+            names.forEach(function(n) { caches.delete(n); });
+          }
+        });
+      }
     </script>
     <script type="module" src="/src/main.tsx"></script>
     <script type="module">
