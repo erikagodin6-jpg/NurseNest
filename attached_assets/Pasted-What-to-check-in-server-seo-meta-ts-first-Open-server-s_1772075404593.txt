@@ -1,0 +1,98 @@
+What to check in server/seo-meta.ts first
+
+Open server/seo-meta.ts and determine:
+
+Signature: does injectMeta accept (html, path) or (req, html) or something else?
+
+Dependencies: does it rely on req, headers, host, protocol, cookies, etc.?
+
+Idempotency: does it already check for existing tags or will it duplicate on reload?
+
+You want injectMeta to be callable from Vite plugin context using only:
+
+html (string)
+
+ctx.path (string like /lessons, /blog/some-slug)
+
+optionally a fixed canonical base: https://www.nursenest.ca (or derive from env)
+
+If it currently depends on Express req/res, refactor it into two layers:
+
+getMetaForPath(path) → returns {title, description, og, ...}
+
+injectMeta(html, meta) → returns updated html
+
+Exact approach in vite-plugin-meta-images.ts
+
+You’ll add an import and call injectMeta inside the existing transformIndexHtml hook.
+
+Template you can hand your AI (minimal + safe)
+// vite-plugin-meta-images.ts
+import type { Plugin } from "vite";
+
+// adjust relative path to where seo-meta.ts lives from this plugin file
+import { injectMeta } from "./server/seo-meta";
+
+export default function metaImagesPlugin(): Plugin {
+  return {
+    name: "meta-images",
+    enforce: "pre",
+
+    transformIndexHtml: {
+      order: "pre",
+      handler(html, ctx) {
+        // ctx.path is the request pathname being served
+        const path = ctx?.path ?? "/";
+
+        try {
+          // IMPORTANT: injectMeta must NOT rely on Express req/res
+          // It should accept (html, path) or similar.
+          return injectMeta(html, path);
+        } catch (err) {
+          // Never break dev server if SEO injection fails
+          return html;
+        }
+      },
+    },
+  };
+}
+
+If your plugin already returns tags: [...] rather than a full HTML string, that’s also fine — but simplest is string-in/string-out.
+
+Important gotchas (don’t skip these)
+1) Make sure the plugin actually runs
+
+Add a temporary log:
+
+console.log("[transformIndexHtml]", ctx?.path)
+and confirm it prints when you load a page in preview.
+
+2) Don’t double-inject tags
+
+If injectMeta inserts <title> and <meta ...> blindly, you’ll end up with duplicates.
+Fix by making injectMeta:
+
+replace existing <title> if present
+
+replace/update existing meta tags (match by name= or property=) if present
+
+otherwise insert into <head>
+
+3) Ensure you are not injecting with the Replit preview domain
+
+For SEO tags, you should prefer:
+
+canonical and OG URLs using https://www.nursenest.ca (production)
+Not the Replit preview host.
+
+Best pattern:
+
+const siteUrl = process.env.SITE_URL ?? "https://www.nursenest.ca";
+
+4) Keep the global interceptor removed
+
+Once you do this, the global res.write/res.end wrapper should stay gone in dev. That was the source of the module fetch breakage.
+
+What to do next
+
+Paste the content of injectMeta (or just its function signature + 20–40 lines inside it). I’ll tell you immediately whether it’s compatible with being called from transformIndexHtml, and what exact refactor is needed if it currently depends on Express req.

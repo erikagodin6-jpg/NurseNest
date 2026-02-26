@@ -1,0 +1,88 @@
+1) Remove global SEO interceptor safely (don’t leave “half wrapping”)
+
+In server/index.ts (or wherever it lives):
+
+Delete any middleware that wraps res.write / res.end
+
+Delete any middleware that reads/modifies HTML for all requests
+
+Ensure nothing else monkey-patches res.*
+
+If you can’t delete it entirely (because prod needs it), then gate it:
+
+Only run in production
+
+Only for HTML navigation requests
+
+But for dev stability, simplest is removal.
+
+2) Add SEO injection to vite-plugin-meta-images.ts using transformIndexHtml
+
+Implement SEO injection only via transformIndexHtml.
+
+Required behaviors:
+
+Must never throw (catch errors and return original HTML)
+
+Must be idempotent (no duplicate meta on reload)
+
+Should use ctx.path to pick correct metadata (home vs lessons vs blog etc.), if your injectMeta supports per-route meta
+
+Minimum safe implementation pattern
+
+enforce: "pre"
+
+transformIndexHtml: { order: "pre", handler(html, ctx) { … } }
+
+3) Restore main.tsx to a normal Vite entry
+
+Make sure main.tsx has:
+
+No import("/@vite/client")
+
+No /* @vite-ignore */ hacks
+
+No nanoid cache-busting on the script URL
+
+Just normal React bootstrapping and normal imports
+
+Also confirm index.html (or whatever template is served) uses:
+
+<script type="module" src="/src/main.tsx"></script>
+
+No query strings.
+
+4) Verify the two “smoking gun” endpoints after changes
+
+On Replit preview domain:
+
+/@vite/client → 200 JS
+
+/src/App.tsx → 200 TSX/module
+
+If either returns HTML, then something still intercepts those routes (usually SPA fallback order). But removing the global interceptor fixes the biggest cause.
+
+5) Production note (don’t let this surprise you)
+
+transformIndexHtml will help in dev and during build, but if you relied on the Express interceptor to inject dynamic SEO tags at runtime (per-route), you’ll need a production strategy such as:
+
+server-side HTML template injection in Express for dist/index.html, or
+
+prerendering, or
+
+a meta-tag route map + HTML string injection only on document navigations
+
+You can defer this until after preview is stable, but keep it in mind.
+
+“Tell the AI exactly what ‘done’ means”
+
+Copy/paste this to keep it honest:
+
+Definition of done:
+
+- Replit Preview loads the app (no blank screen)
+- Network shows /@vite/client 200 (JS) and /src/App.tsx 200 (module), not HTML
+- No “Failed to fetch dynamically imported module” errors
+- Meta tags are injected into HTML via transformIndexHtml (verify in page source)
+- No code imports /@vite/client manually
+- main.tsx is normal static imports only

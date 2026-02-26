@@ -43,7 +43,7 @@ NurseNest is an interactive nursing education platform designed for RPN/LVN, RN,
 - **Internationalization (i18n)**: Custom system supporting 15 languages (including RTL), with fallback to English. UI chrome is fully translated, while educational content remains in English.
 - **Tier Isolation**: Access is exclusive per tier (RPN, RN, NP); free users see all tabs.
 - **CMS Templates**: Quick-create templates for various content types.
-- **SEO**: Comprehensive implementation including sitemap.xml, robots.txt, and structured data.
+- **SEO**: Per-route meta tags injected via Vite `transformIndexHtml` hook in `vite-plugin-meta-images.ts` (calls `injectMeta` from `server/seo-meta.ts`). Includes sitemap.xml, robots.txt, structured data (JSON-LD), and noscript fallback content for crawlers.
 - **Question of the Day (QOTD)**: Server-side engine for daily questions with an SEO-optimized landing page.
 - **Question Bank**: Filterable practice questions with instant rationale and progress tracking.
 - **Social Media Scheduler**: Admin-managed scheduling for Facebook and Instagram via Meta Graph API.

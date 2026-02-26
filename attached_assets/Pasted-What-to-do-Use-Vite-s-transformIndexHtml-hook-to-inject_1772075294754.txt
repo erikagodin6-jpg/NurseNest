@@ -1,0 +1,98 @@
+What to do
+
+Use Vite’s transformIndexHtml hook to inject SEO meta only when Vite is serving HTML. That guarantees:
+
+no res.write/res.end wrapping
+
+no interference with streamed module responses
+
+/@vite/client and /src/*.tsx stay untouched
+
+Extending an existing plugin that already has transformIndexHtml (like vite-plugin-meta-images.ts) is a pragmatic way to do it without touching Vite config.
+
+Implementation plan your AI should follow
+1) Remove/disable the global SEO interceptor
+
+If it still exists anywhere, it must be removed or no-op’d. The rule is: no global response wrapping.
+
+2) Inject SEO meta via transformIndexHtml
+
+In vite-plugin-meta-images.ts (or whatever plugin file you can edit), add logic like:
+
+import injectMeta from server/seo-meta.ts
+
+call it inside transformIndexHtml(html, ctx)
+
+return the modified HTML
+
+3) Ensure it’s safe in dev
+
+transformIndexHtml runs in dev and build. Make sure:
+
+it doesn’t crash if route/page data isn’t present
+
+it only injects when needed
+
+it does not over-inject duplicates on HMR reload (idempotent injection)
+
+Concrete code sketch (what “good” looks like)
+
+In vite-plugin-meta-images.ts:
+
+import type { Plugin } from "vite";
+import { injectMeta } from "./server/seo-meta"; // adjust path
+
+export default function metaImagesAndSeoPlugin(): Plugin {
+  return {
+    name: "meta-images-and-seo",
+    enforce: "pre",
+
+    transformIndexHtml: {
+      order: "pre",
+      handler(html, ctx) {
+        // ctx.path is the URL path being served, e.g. "/" or "/lessons"
+        // Use it to choose the right meta tags per route if injectMeta supports it.
+        try {
+          return injectMeta(html, ctx?.path ?? "/");
+        } catch (e) {
+          // Never break dev server because of SEO injection
+          return html;
+        }
+      },
+    },
+  };
+}
+
+Important details:
+
+Use order: "pre" so tags appear early.
+
+Ensure injectMeta accepts a route/path argument. If it currently relies on req, refactor injectMeta to accept path + whatever data it needs (route map, title/description lookup, etc.).
+
+Keep it idempotent: if meta tags already exist, don’t duplicate.
+
+What your AI must not do
+
+Do not stub /@vite/client
+
+Do not disable React Fast Refresh as the primary solution
+
+Do not wrap res.write/res.end anywhere globally
+
+Verification steps (must pass)
+
+After the plugin change:
+
+GET /@vite/client loads (200 JS)
+
+GET /src/App.tsx loads (200 module)
+
+App renders in Replit preview
+
+“View source” / HTML head contains injected meta tags for / at least
+
+If (1) or (2) fail, something is still intercepting module routes (like an Express fallback).
+
+One risk to watch
+
+If the plugin file is not actually loaded by Vite, your change won’t run. To confirm, temporarily add a console.log("[meta plugin] transformIndexHtml", ctx.path) and watch server logs.
