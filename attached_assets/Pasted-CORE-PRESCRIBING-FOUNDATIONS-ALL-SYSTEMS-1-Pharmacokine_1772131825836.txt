@@ -1,0 +1,313 @@
+CORE PRESCRIBING FOUNDATIONS (ALL SYSTEMS)
+1. Pharmacokinetics (Applied, Not Memorized)
+
+Absorption differences (oral vs transdermal vs inhaled)
+
+Bioavailability logic
+
+First-pass metabolism
+
+Half-life implications for dosing frequency
+
+Steady-state principles
+
+Hepatic metabolism (CYP450 interactions)
+
+Renal elimination and dose adjustment
+
+Protein binding relevance
+
+2. Pharmacodynamics
+
+Receptor agonist vs antagonist logic
+
+Partial agonists
+
+Dose-response curves
+
+Therapeutic window
+
+Potency vs efficacy differences
+
+3. Patient-Specific Prescribing
+
+Renal dosing adjustments
+
+Hepatic impairment considerations
+
+Pregnancy safety categories (conceptually)
+
+Geriatric prescribing (Beers Criteria logic)
+
+Pediatric weight-based dosing
+
+Obesity considerations
+
+Polypharmacy risk
+
+4. Drug–Drug Interactions
+
+CYP inhibitors/inducers
+
+QT prolongation risks
+
+Serotonin syndrome risks
+
+Bleeding risks (anticoagulant stacking)
+
+Additive hypotension
+
+Hyperkalemia stacking
+
+5. Monitoring & Safety
+
+Baseline labs before initiation
+
+Ongoing monitoring requirements
+
+Red flag adverse effects
+
+When to stop a medication
+
+Black box warnings (high-yield)
+
+6. Prescribing Process Logic
+
+Confirm diagnosis
+
+Determine first-line therapy
+
+Identify contraindications
+
+Consider patient preference & adherence
+
+Select dose
+
+Provide counseling
+
+Plan follow-up
+
+Monitor response
+
+🫀 CARDIOVASCULAR PRESCRIBING
+Hypertension
+
+ACEi vs ARB selection
+
+Thiazides
+
+CCB (DHP vs non-DHP)
+
+Beta blockers (when appropriate)
+
+Resistant HTN strategies
+
+Heart Failure
+
+ACEi/ARB/ARNI
+
+Beta blockers (specific agents)
+
+MRA
+
+SGLT2 inhibitors
+
+Diuretics (loop vs thiazide)
+
+Atrial Fibrillation
+
+Rate vs rhythm control logic
+
+Anticoagulation decisions (CHA₂DS₂-VASc logic)
+
+DOAC vs warfarin selection
+
+Lipid Management
+
+Statin intensity selection
+
+ASCVD risk-based decisions
+
+Monitoring LFTs & CK
+
+🫁 RESPIRATORY PRESCRIBING
+Asthma
+
+Step therapy
+
+SABA vs ICS
+
+LABA safety logic
+
+SMART therapy concept
+
+COPD
+
+LAMA vs LABA vs ICS combinations
+
+Exacerbation management
+
+Pneumonia (Outpatient)
+
+First-line antibiotic selection
+
+Coverage logic
+
+Allergy considerations
+
+🧠 PSYCHIATRIC PRESCRIBING
+Depression
+
+SSRI selection differences
+
+SNRI logic
+
+Sexual side effects
+
+Discontinuation syndrome
+
+Augmentation strategies
+
+Anxiety
+
+First-line SSRIs
+
+Benzodiazepine risks
+
+Bipolar
+
+Mood stabilizers
+
+Atypical antipsychotics
+
+Antipsychotics
+
+Metabolic monitoring
+
+EPS recognition
+
+QT risk
+
+🧪 ENDOCRINE PRESCRIBING
+Diabetes
+
+Metformin first-line logic
+
+SGLT2 inhibitors (CV/renal benefit)
+
+GLP-1 agonists
+
+Insulin types and titration basics
+
+Thyroid
+
+Levothyroxine dosing
+
+Monitoring TSH
+
+Osteoporosis
+
+Bisphosphonates
+
+Calcium/Vitamin D logic
+
+🧂 RENAL / ELECTROLYTE PRESCRIBING
+
+Hyperkalemia management
+
+Diuretic selection
+
+CKD medication adjustments
+
+🍽 GI PRESCRIBING
+
+PPI vs H2 blockers
+
+IBS therapies
+
+H. pylori regimens (conceptual)
+
+Hepatitis treatment overview
+
+👩 WOMEN’S HEALTH PRESCRIBING
+
+Contraceptive selection
+
+Hormone therapy
+
+STI treatment guidelines
+
+UTI management in women
+
+Pregnancy-safe medication logic
+
+👶 PEDIATRIC PRESCRIBING
+
+Weight-based dosing
+
+Pediatric antibiotic selection
+
+Vaccine contraindications
+
+🧓 GERIATRIC PRESCRIBING
+
+Beers criteria
+
+Fall-risk meds
+
+Deprescribing strategies
+
+🩺 INFECTIOUS DISEASE PRESCRIBING
+
+Antibiotic selection logic
+
+Narrow vs broad spectrum
+
+Resistance principles
+
+Duration decisions
+
+Antifungal basics
+
+Antiviral basics
+
+⚖️ LEGAL & ETHICAL PRESCRIBING (HIGH-YIELD ON EXAMS)
+
+Controlled substances
+
+Documentation requirements
+
+PDMP usage
+
+Informed consent
+
+Off-label prescribing principles
+
+Scope-of-practice boundaries (Canada vs U.S. differences)
+
+🧠 HIGH-YIELD EXAM SCENARIOS
+
+NP exams often test:
+
+• “Best next medication”
+• “Which is contraindicated?”
+• “What monitoring is required?”
+• “Which adjustment is needed with CKD?”
+• “Which drug interaction is most concerning?”
+• “Which patient should NOT receive this medication?”
+
+🔥 What Most NP Candidates Underestimate
+
+Monitoring requirements
+
+Contraindications
+
+Renal dosing
+
+Polypharmacy stacking
+
+Guideline-based sequencing
+
+Black box warnings
+
+Pregnancy risk
