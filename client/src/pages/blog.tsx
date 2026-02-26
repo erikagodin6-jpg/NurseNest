@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen,
   Search,
@@ -22,16 +23,16 @@ import {
   Bell,
 } from "lucide-react";
 
-const CATEGORY_LABELS: Record<string, string> = {
-  "clinical-reasoning": "Clinical Reasoning",
-  "pharmacology": "Pharmacology",
-  "lab-interpretation": "Lab Interpretation",
-  "exam-prep": "Exam Prep",
-  "patient-safety": "Patient Safety",
-  "pathophysiology": "Pathophysiology",
-  "assessment-skills": "Assessment Skills",
-  "medication-safety": "Medication Safety",
-  "nursing-fundamentals": "Nursing Fundamentals",
+const CATEGORY_KEYS: Record<string, string> = {
+  "clinical-reasoning": "blog.categoryClinicalReasoning",
+  "pharmacology": "blog.categoryPharmacology",
+  "lab-interpretation": "blog.categoryLabInterpretation",
+  "exam-prep": "blog.categoryExamPrep",
+  "patient-safety": "blog.categoryPatientSafety",
+  "pathophysiology": "blog.categoryPathophysiology",
+  "assessment-skills": "blog.categoryAssessmentSkills",
+  "medication-safety": "blog.categoryMedicationSafety",
+  "nursing-fundamentals": "blog.categoryNursingFundamentals",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -63,14 +64,8 @@ function formatDate(d: string | null) {
   });
 }
 
-const TIER_FILTERS = [
-  { key: null, label: "All Articles" },
-  { key: "rpn", label: "RPN/LVN" },
-  { key: "rn", label: "RN" },
-  { key: "np", label: "NP" },
-];
-
 export default function BlogPage() {
+  const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
@@ -78,11 +73,18 @@ export default function BlogPage() {
   const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [subMessage, setSubMessage] = useState("");
 
+  const TIER_FILTERS = [
+    { key: null, label: t("blog.filterAll") },
+    { key: "rpn", label: t("blog.filterRpn") },
+    { key: "rn", label: t("blog.filterRn") },
+    { key: "np", label: t("blog.filterNp") },
+  ];
+
   async function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
     if (!subEmail || !subEmail.includes("@")) {
       setSubStatus("error");
-      setSubMessage("Please enter a valid email address.");
+      setSubMessage(t("blog.subscribeErrorInvalidEmail"));
       return;
     }
     setSubStatus("loading");
@@ -95,15 +97,15 @@ export default function BlogPage() {
       const data = await res.json();
       if (res.ok) {
         setSubStatus("success");
-        setSubMessage(data.message === "Already subscribed" ? "You're already subscribed!" : "Subscribed! You'll receive new articles by email.");
+        setSubMessage(data.message === "Already subscribed" ? t("blog.subscribeAlreadySubscribed") : t("blog.subscribeSuccess"));
         setSubEmail("");
       } else {
         setSubStatus("error");
-        setSubMessage(data.error || "Something went wrong. Please try again.");
+        setSubMessage(data.error || t("blog.subscribeErrorGeneric"));
       }
     } catch {
       setSubStatus("error");
-      setSubMessage("Connection error. Please try again.");
+      setSubMessage(t("blog.subscribeErrorConnection"));
     }
   }
 
@@ -112,9 +114,9 @@ export default function BlogPage() {
     queryFn: async () => {
       const types = ["article", "blog-post", "blog"];
       const results: any[] = [];
-      for (const t of types) {
+      for (const tp of types) {
         try {
-          const res = await fetch(`/api/content?type=${t}`);
+          const res = await fetch(`/api/content?type=${tp}`);
           if (res.ok) {
             const data = await res.json();
             results.push(...data);
@@ -137,7 +139,7 @@ export default function BlogPage() {
     const matchesCategory = !selectedCategory || article.category === selectedCategory;
     const matchesTier = !selectedTier ||
       article.tier === selectedTier ||
-      (article.tags && article.tags.some((t: string) => t.toLowerCase() === selectedTier)) ||
+      (article.tags && article.tags.some((tg: string) => tg.toLowerCase() === selectedTier)) ||
       (article.title && article.title.toLowerCase().includes(selectedTier === "rpn" ? "rpn" : selectedTier === "rn" ? " rn " : "np")) ||
       (article.category && article.category.toLowerCase().includes(selectedTier));
     return matchesSearch && matchesCategory && matchesTier;
@@ -181,6 +183,11 @@ export default function BlogPage() {
     ],
   };
 
+  function getCategoryLabel(cat: string): string {
+    const key = CATEGORY_KEYS[cat];
+    return key ? t(key) : cat;
+  }
+
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
@@ -198,13 +205,13 @@ export default function BlogPage() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <BookOpen className="w-6 h-6 text-primary" />
-              <span className="text-sm font-semibold text-primary uppercase tracking-wider">NurseNest Blog</span>
+              <span className="text-sm font-semibold text-primary uppercase tracking-wider">{t("blog.badge")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" data-testid="text-blog-heading">
-              Clinical Education Articles
+              {t("blog.heading")}
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-              Evidence-based nursing education covering clinical reasoning, pathophysiology, pharmacology, and exam preparation for RPN and RN students.
+              {t("blog.subtitle")}
             </p>
 
             <div className="flex items-center justify-center gap-2 mb-6" data-testid="section-tier-filters">
@@ -228,7 +235,7 @@ export default function BlogPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 type="text"
-                placeholder="Search articles..."
+                placeholder={t("blog.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-12 h-12 text-base rounded-xl border-primary/20 bg-white shadow-sm"
@@ -245,9 +252,9 @@ export default function BlogPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <Bell className="w-5 h-5 text-primary" />
-                    <h3 className="text-lg font-bold text-gray-900">Subscribe to New Articles</h3>
+                    <h3 className="text-lg font-bold text-gray-900">{t("blog.subscribeTitle")}</h3>
                   </div>
-                  <p className="text-sm text-gray-600">Get new nursing education articles delivered to your inbox. Evidence-based content on clinical reasoning, pharmacology, and exam prep.</p>
+                  <p className="text-sm text-gray-600">{t("blog.subscribeDesc")}</p>
                 </div>
                 {subStatus === "success" ? (
                   <div className="flex items-center gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl" data-testid="text-subscribe-success">
@@ -260,7 +267,7 @@ export default function BlogPage() {
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input
                         type="email"
-                        placeholder="your@email.com"
+                        placeholder={t("blog.subscribePlaceholder")}
                         value={subEmail}
                         onChange={(e) => { setSubEmail(e.target.value); if (subStatus === "error") setSubStatus("idle"); }}
                         className="h-11 pl-10 pr-4 w-full sm:w-64 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
@@ -273,7 +280,7 @@ export default function BlogPage() {
                       className="h-11 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm text-sm font-semibold"
                       data-testid="button-blog-subscribe"
                     >
-                      {subStatus === "loading" ? "Subscribing..." : "Subscribe"}
+                      {subStatus === "loading" ? t("blog.subscribing") : t("blog.subscribeButton")}
                     </Button>
                     {subStatus === "error" && (
                       <p className="text-xs text-red-500 mt-1 sm:absolute sm:top-full sm:left-0 sm:mt-1" data-testid="text-subscribe-error">{subMessage}</p>
@@ -295,7 +302,7 @@ export default function BlogPage() {
                 }`}
                 data-testid="filter-category-all"
               >
-                All Articles
+                {t("blog.filterAll")}
               </button>
               {categories.map((cat: string) => (
                 <button
@@ -308,7 +315,7 @@ export default function BlogPage() {
                   }`}
                   data-testid={`filter-category-${cat}`}
                 >
-                  {CATEGORY_LABELS[cat] || cat}
+                  {getCategoryLabel(cat)}
                 </button>
               ))}
             </div>
@@ -322,10 +329,10 @@ export default function BlogPage() {
             <div className="text-center py-20">
               <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h2 className="text-xl font-semibold text-gray-600 mb-2">
-                {searchQuery || selectedCategory ? "No articles match your search" : "No articles published yet"}
+                {searchQuery || selectedCategory ? t("blog.noMatchTitle") : t("blog.noArticlesTitle")}
               </h2>
               <p className="text-gray-400">
-                {searchQuery || selectedCategory ? "Try adjusting your search or category filter." : "Check back soon for clinical education content."}
+                {searchQuery || selectedCategory ? t("blog.noMatchDesc") : t("blog.noArticlesDesc")}
               </p>
             </div>
           ) : (
@@ -345,7 +352,7 @@ export default function BlogPage() {
                                 variant="outline"
                                 className={`text-xs ${CATEGORY_COLORS[article.category] || "bg-gray-50 text-gray-600"}`}
                               >
-                                {CATEGORY_LABELS[article.category] || article.category}
+                                {getCategoryLabel(article.category)}
                               </Badge>
                             )}
                             {article.tier && article.tier !== "free" && (
@@ -378,7 +385,7 @@ export default function BlogPage() {
                             )}
                             <span className="flex items-center gap-1.5">
                               <Clock className="w-3.5 h-3.5" />
-                              {estimateReadTime(article.content)} min read
+                              {estimateReadTime(article.content)} {t("blog.minRead")}
                             </span>
                             {article.tags && article.tags.length > 0 && (
                               <span className="flex items-center gap-1.5">

@@ -1902,6 +1902,7 @@ const npSystems = [
 ];
 
 function LecturesSection({ tier, onNavigate }: { tier: string; onNavigate: (path: string) => void }) {
+  const { t } = useI18n();
   const lectures = getLecturesForTier(tier);
   if (lectures.length === 0) return null;
 
@@ -1912,8 +1913,8 @@ function LecturesSection({ tier, onNavigate }: { tier: string; onNavigate: (path
           <PlayCircle className="w-6 h-6 text-primary" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-gray-900">Micro-Lectures</h2>
-          <p className="text-sm text-gray-500">Slide-based visual lectures with narration scripts & flashcards</p>
+          <h2 className="text-xl font-bold text-gray-900">{t("lessons.microLectures")}</h2>
+          <p className="text-sm text-gray-500">{t("lessons.microLecturesDesc")}</p>
         </div>
       </div>
       <div className="grid md:grid-cols-2 gap-4">
@@ -1990,17 +1991,17 @@ export default function Lessons() {
             <TabsList className={cn("bg-gray-100 rounded-full p-1", showAllTabs ? "grid grid-cols-4 w-full md:w-[700px]" : "grid grid-cols-2 w-full md:w-[350px]")}>
               {showAllTabs ? (
                 <>
-                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RPN / LVN</TabsTrigger>
-                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">RN</TabsTrigger>
-                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm">NP</TabsTrigger>
-                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">Pharmacology</TabsTrigger>
+                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">{t("lessons.rpn")}</TabsTrigger>
+                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">{t("lessons.rn")}</TabsTrigger>
+                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700 font-bold text-xs sm:text-sm">{t("lessons.np")}</TabsTrigger>
+                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">{t("lessons.pharmacology")}</TabsTrigger>
                 </>
               ) : (
                 <>
                   <TabsTrigger value={effectiveTier} className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">
-                    {effectiveTier === "rpn" ? "RPN / LVN" : effectiveTier === "rn" ? "RN" : "NP"} Lessons
+                    {effectiveTier === "rpn" ? t("lessons.rpn") : effectiveTier === "rn" ? t("lessons.rn") : t("lessons.np")} {t("lessons.lessons")}
                   </TabsTrigger>
-                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">Pharmacology</TabsTrigger>
+                  <TabsTrigger value="pharmacology" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-indigo-700 font-semibold text-xs sm:text-sm">{t("lessons.pharmacology")}</TabsTrigger>
                 </>
               )}
             </TabsList>
@@ -2036,7 +2037,7 @@ export default function Lessons() {
             <div className="space-y-10">
               {(showAllTabs || effectiveTier === "rpn") && (
                 <div>
-                  <h2 className="text-lg font-bold text-gray-700 mb-4">RPN / LVN Pharmacology</h2>
+                  <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rpnPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {rpnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
                       <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
@@ -2046,7 +2047,7 @@ export default function Lessons() {
               )}
               {(showAllTabs || effectiveTier === "rn") && (
                 <div>
-                  <h2 className="text-lg font-bold text-gray-700 mb-4">RN Pharmacology</h2>
+                  <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rnPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {rnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
                       <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
@@ -2056,7 +2057,7 @@ export default function Lessons() {
               )}
               {(showAllTabs || effectiveTier === "np") && (
                 <div>
-                  <h2 className="text-lg font-bold text-gray-700 mb-4">NP Pharmacology</h2>
+                  <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.npPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {npSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
                       <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />

@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
 import { getExamQuestions, getPoolStats, getAvailableBodySystems } from "@/lib/question-pool";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   GraduationCap, Clock, FileText, BarChart3, ChevronRight,
   Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert
@@ -24,19 +25,6 @@ function getAuthHeaders(): Record<string, string> {
   return {};
 }
 
-const examLengths = [
-  { count: 25, label: "Quick Review", time: "~15 min", desc: "Fast knowledge check" },
-  { count: 75, label: "Standard", time: "~45 min", desc: "Focused practice exam" },
-  { count: 100, label: "Full Length", time: "~60 min", desc: "Comprehensive assessment" },
-  { count: 150, label: "Extended", time: "~90 min", desc: "Maximum coverage" },
-];
-
-const tierOptions = [
-  { value: "rpn", label: "RPN / LVN", desc: "Practical Nursing" },
-  { value: "rn", label: "RN / NCLEX", desc: "Registered Nursing" },
-  { value: "np", label: "NP Advanced", desc: "Nurse Practitioner" },
-];
-
 function getAllowedTiers(userTier: string | undefined, isAdmin: boolean): string[] {
   if (isAdmin) return ["rpn", "rn", "np"];
   if (!userTier || userTier === "free") return [];
@@ -50,6 +38,7 @@ function getAllowedTiers(userTier: string | undefined, isAdmin: boolean): string
 
 export default function MockExamsPage() {
   const { user, effectiveTier, isAdmin } = useAuth();
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const allowedTiers = getAllowedTiers(effectiveTier, isAdmin);
   const [selectedTier, setSelectedTier] = useState(allowedTiers[0] || "rpn");
@@ -57,6 +46,19 @@ export default function MockExamsPage() {
   const [selectedSystems, setSelectedSystems] = useState<string[]>([]);
   const [starting, setStarting] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
+
+  const examLengths = [
+    { count: 25, label: t("mockExams.quickReview"), time: t("mockExams.quickReviewTime"), desc: t("mockExams.quickReviewDesc") },
+    { count: 75, label: t("mockExams.standard"), time: t("mockExams.standardTime"), desc: t("mockExams.standardDesc") },
+    { count: 100, label: t("mockExams.fullLength"), time: t("mockExams.fullLengthTime"), desc: t("mockExams.fullLengthDesc") },
+    { count: 150, label: t("mockExams.extended"), time: t("mockExams.extendedTime"), desc: t("mockExams.extendedDesc") },
+  ];
+
+  const tierOptions = [
+    { value: "rpn", label: t("mockExams.tierRpnLabel"), desc: t("mockExams.tierRpnDesc") },
+    { value: "rn", label: t("mockExams.tierRnLabel"), desc: t("mockExams.tierRnDesc") },
+    { value: "np", label: t("mockExams.tierNpLabel"), desc: t("mockExams.tierNpDesc") },
+  ];
 
   const availableSystems = getAvailableBodySystems(selectedTier);
   const stats = getPoolStats(selectedTier);
@@ -124,9 +126,9 @@ export default function MockExamsPage() {
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
             <GraduationCap className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold" data-testid="text-mock-exam-title">Mock Exam Engine</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold" data-testid="text-mock-exam-title">{t("mockExams.pageTitle")}</h1>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            Simulate real nursing exam conditions. Timed, randomized questions with detailed post-exam analysis and performance tracking.
+            {t("mockExams.pageSubtitle")}
           </p>
         </div>
 
@@ -136,21 +138,21 @@ export default function MockExamsPage() {
               <CardContent className="p-6 text-center">
                 <Trophy className="w-6 h-6 text-amber-500 mx-auto mb-2" />
                 <p className="text-3xl font-bold text-primary">{completedExams.length}</p>
-                <p className="text-sm text-gray-500">Exams Completed</p>
+                <p className="text-sm text-gray-500">{t("mockExams.examsCompleted")}</p>
               </CardContent>
             </Card>
             <Card className="border-none shadow-sm">
               <CardContent className="p-6 text-center">
                 <Target className="w-6 h-6 text-emerald-500 mx-auto mb-2" />
                 <p className="text-3xl font-bold text-emerald-600">{avgScore}%</p>
-                <p className="text-sm text-gray-500">Average Score</p>
+                <p className="text-sm text-gray-500">{t("mockExams.averageScore")}</p>
               </CardContent>
             </Card>
             <Card className="border-none shadow-sm">
               <CardContent className="p-6 text-center">
                 <BarChart3 className="w-6 h-6 text-blue-500 mx-auto mb-2" />
                 <p className="text-3xl font-bold text-blue-600">{bestScore}%</p>
-                <p className="text-sm text-gray-500">Best Score</p>
+                <p className="text-sm text-gray-500">{t("mockExams.bestScore")}</p>
               </CardContent>
             </Card>
           </div>
@@ -159,34 +161,34 @@ export default function MockExamsPage() {
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             <h2 className="text-2xl font-bold flex items-center gap-2">
-              <Brain className="w-6 h-6 text-primary" /> Configure Your Exam
+              <Brain className="w-6 h-6 text-primary" /> {t("mockExams.configureExam")}
             </h2>
 
             <div className="space-y-3">
-              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Your Exam Focus</p>
+              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examFocus")}</p>
               <div className="grid gap-2">
-                {tierOptions.map((t) => {
-                  const isAllowed = allowedTiers.includes(t.value);
-                  const tierStats = getPoolStats(t.value);
+                {tierOptions.map((tier) => {
+                  const isAllowed = allowedTiers.includes(tier.value);
+                  const tierStats = getPoolStats(tier.value);
                   return (
                     <button
-                      key={t.value}
-                      onClick={() => isAllowed && setSelectedTier(t.value)}
+                      key={tier.value}
+                      onClick={() => isAllowed && setSelectedTier(tier.value)}
                       disabled={!isAllowed}
                       className={`p-4 rounded-xl border-2 text-left transition-all relative ${
                         !isAllowed
                           ? "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
-                          : selectedTier === t.value
+                          : selectedTier === tier.value
                           ? "border-primary bg-primary/5 shadow-md"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
-                      data-testid={`button-tier-${t.value}`}
+                      data-testid={`button-tier-${tier.value}`}
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <span className="font-bold text-gray-900">{t.label}</span>
-                          <span className="text-sm text-gray-500 ml-2">{t.desc}</span>
-                          <span className="text-xs text-gray-400 block mt-1">{tierStats.total} questions available</span>
+                          <span className="font-bold text-gray-900">{tier.label}</span>
+                          <span className="text-sm text-gray-500 ml-2">{tier.desc}</span>
+                          <span className="text-xs text-gray-400 block mt-1">{tierStats.total} {t("mockExams.questionsAvailable")}</span>
                         </div>
                         {!isAllowed && <Lock className="w-4 h-4 text-gray-400" />}
                       </div>
@@ -196,7 +198,7 @@ export default function MockExamsPage() {
               </div>
               {!user && (
                 <p className="text-sm text-gray-500 text-center py-2">
-                  <Link href="/login" className="text-primary font-medium hover:underline">Sign in</Link> with an active subscription to access mock exams.
+                  <Link href="/login" className="text-primary font-medium hover:underline">{t("mockExams.signIn")}</Link> {t("mockExams.signInPrompt")}
                 </p>
               )}
               {user && allowedTiers.length === 0 && (
@@ -204,10 +206,10 @@ export default function MockExamsPage() {
                   <CardContent className="p-4 flex items-start gap-3">
                     <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Subscription Required</p>
-                      <p className="text-xs text-gray-600 mt-1">Mock exams are available exclusively for paid subscribers. Each tier provides exam content matched to your program.</p>
+                      <p className="text-sm font-medium text-gray-900">{t("mockExams.subscriptionRequired")}</p>
+                      <p className="text-xs text-gray-600 mt-1">{t("mockExams.subscriptionDesc")}</p>
                       <Link href="/pricing">
-                        <Button size="sm" className="mt-2 rounded-full" data-testid="button-upgrade-exams">View Plans</Button>
+                        <Button size="sm" className="mt-2 rounded-full" data-testid="button-upgrade-exams">{t("mockExams.viewPlans")}</Button>
                       </Link>
                     </div>
                   </CardContent>
@@ -217,12 +219,12 @@ export default function MockExamsPage() {
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Focus Areas (Optional)</p>
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.focusAreas")}</p>
                 {selectedSystems.length > 0 && (
-                  <button onClick={() => setSelectedSystems([])} className="text-xs text-primary hover:underline" data-testid="button-clear-systems">Clear All</button>
+                  <button onClick={() => setSelectedSystems([])} className="text-xs text-primary hover:underline" data-testid="button-clear-systems">{t("mockExams.clearAll")}</button>
                 )}
               </div>
-              <p className="text-xs text-gray-400">Select specific body systems to focus on, or leave all unselected for a comprehensive exam.</p>
+              <p className="text-xs text-gray-400">{t("mockExams.focusAreasDesc")}</p>
               <div className="flex flex-wrap gap-2">
                 {availableSystems.map((sys) => {
                   const isSelected = selectedSystems.includes(sys);
@@ -244,12 +246,12 @@ export default function MockExamsPage() {
                 })}
               </div>
               {selectedSystems.length > 0 && (
-                <p className="text-xs text-primary font-medium">{filteredStats.total} questions available from {selectedSystems.length} selected system{selectedSystems.length > 1 ? "s" : ""}</p>
+                <p className="text-xs text-primary font-medium">{filteredStats.total} {t("mockExams.questionsFromSystems")} {selectedSystems.length} {selectedSystems.length > 1 ? t("mockExams.selectedSystems") : t("mockExams.selectedSystem")}</p>
               )}
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Exam Length</p>
+              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examLength")}</p>
               <div className="grid grid-cols-2 gap-2">
                 {examLengths.map((el) => (
                   <button
@@ -265,7 +267,7 @@ export default function MockExamsPage() {
                     }`}
                     data-testid={`button-length-${el.count}`}
                   >
-                    <span className="font-bold text-gray-900">{el.count} Questions</span>
+                    <span className="font-bold text-gray-900">{el.count} {t("mockExams.questions")}</span>
                     <span className="text-xs text-gray-500 block">{el.time}</span>
                     <span className="text-xs text-gray-400">{el.desc}</span>
                   </button>
@@ -280,22 +282,22 @@ export default function MockExamsPage() {
               disabled={starting || !user || allowedTiers.length === 0 || !allowedTiers.includes(selectedTier)}
               data-testid="button-start-exam"
             >
-              {starting ? "Preparing Exam..." : !user ? "Sign In to Start" : allowedTiers.length === 0 ? "Subscription Required" : "Start Mock Exam"}
+              {starting ? t("mockExams.preparingExam") : !user ? t("mockExams.signInToStart") : allowedTiers.length === 0 ? t("mockExams.subscriptionRequired") : t("mockExams.startMockExam")}
               <ArrowRight className="w-5 h-5" />
             </Button>
           </div>
 
           <div className="space-y-6">
             <h2 className="text-2xl font-bold flex items-center gap-2">
-              <History className="w-6 h-6 text-primary" /> Exam History
+              <History className="w-6 h-6 text-primary" /> {t("mockExams.examHistory")}
             </h2>
 
             {completedExams.length === 0 ? (
               <Card className="border-none shadow-sm">
                 <CardContent className="p-8 text-center text-gray-400">
                   <FileText className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                  <p className="font-medium">No exams completed yet</p>
-                  <p className="text-sm mt-1">Your results will appear here after completing a mock exam.</p>
+                  <p className="font-medium">{t("mockExams.noExamsYet")}</p>
+                  <p className="text-sm mt-1">{t("mockExams.noExamsDesc")}</p>
                 </CardContent>
               </Card>
             ) : (
@@ -306,10 +308,10 @@ export default function MockExamsPage() {
                       <CardContent className="p-4 flex items-center justify-between">
                         <div>
                           <p className="font-bold text-gray-900">
-                            {exam.tier?.toUpperCase()} - {exam.total_questions} Questions
+                            {exam.tier?.toUpperCase()} - {exam.total_questions} {t("mockExams.questions")}
                           </p>
                           <p className="text-xs text-gray-400">
-                            {new Date(exam.started_at).toLocaleDateString()} - {exam.time_spent ? `${Math.round(exam.time_spent / 60)} min` : "N/A"}
+                            {new Date(exam.started_at).toLocaleDateString()} - {exam.time_spent ? `${Math.round(exam.time_spent / 60)} ${t("mockExams.min")}` : t("mockExams.na")}
                           </p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -331,13 +333,13 @@ export default function MockExamsPage() {
             <Card className="border-none shadow-sm bg-gray-900 text-white">
               <CardContent className="p-6 space-y-3">
                 <h3 className="font-bold flex items-center gap-2">
-                  <Target className="w-5 h-5 text-primary" /> Question Coverage
+                  <Target className="w-5 h-5 text-primary" /> {t("mockExams.questionCoverage")}
                 </h3>
                 <div className="space-y-2">
                   {Object.entries(stats.systems).sort((a, b) => b[1] - a[1]).map(([system, count]) => (
                     <div key={system} className="flex items-center justify-between text-sm">
                       <span className="text-gray-300">{system}</span>
-                      <span className="text-gray-400">{count} questions</span>
+                      <span className="text-gray-400">{count} {t("mockExams.questions").toLowerCase()}</span>
                     </div>
                   ))}
                 </div>

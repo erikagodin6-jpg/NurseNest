@@ -1513,7 +1513,7 @@ export default function Flashcards() {
                 data-testid="button-admin-manage-flashcards"
               >
                 <Pencil className="w-3 h-3" />
-                Manage Content
+                {t("flashcards.manageContent")}
               </Button>
             )}
           </div>
@@ -1523,28 +1523,28 @@ export default function Flashcards() {
               <CardHeader className="px-0 pt-0">
                 <div className="flex items-center gap-2 mb-2">
                   <Settings2 className="w-5 h-5 text-primary" />
-                  <CardTitle className="text-xl">Configuration</CardTitle>
+                  <CardTitle className="text-xl">{t("flashcards.configuration")}</CardTitle>
                 </div>
               </CardHeader>
               <div className="space-y-6">
                 <div>
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">Card Type</label>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">{t("flashcards.cardType")}</label>
                   <div className="grid grid-cols-3 gap-2">
-                    {(["all", "term", "question"] as const).map(t => (
+                    {(["all", "term", "question"] as const).map(ct => (
                       <Button 
-                        key={t}
-                        variant={selectedType === t ? "default" : "outline"}
-                        onClick={() => setSelectedType(t)}
+                        key={ct}
+                        variant={selectedType === ct ? "default" : "outline"}
+                        onClick={() => setSelectedType(ct)}
                         className="rounded-xl capitalize"
                       >
-                        {t === "all" ? "Mixed" : `${t}s`}
+                        {ct === "all" ? t("flashcards.mixed") : `${ct}s`}
                       </Button>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">Topics</label>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">{t("flashcards.topics")}</label>
                   <div className="flex flex-wrap gap-2">
                     {categories.map(cat => (
                       <Button 
@@ -1569,7 +1569,7 @@ export default function Flashcards() {
                       onClick={() => setSelectedCategories([])}
                       className="text-[10px] text-gray-400 hover:text-gray-600"
                     >
-                      Clear All
+                      {t("flashcards.clearAll")}
                     </Button>
                   </div>
                 </div>
@@ -1584,7 +1584,7 @@ export default function Flashcards() {
                         className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
                         data-testid="checkbox-include-mastered"
                       />
-                      <span className="text-sm text-gray-600">Include mastered cards ({mastered.length})</span>
+                      <span className="text-sm text-gray-600">{t("flashcards.includeMastered")} ({mastered.length})</span>
                     </label>
                   </div>
                 )}
@@ -1595,7 +1595,7 @@ export default function Flashcards() {
                     onClick={startSession}
                     disabled={sessionCards.length === 0}
                   >
-                    Start Session ({sessionCards.length} Cards)
+                    {t("flashcards.startSession")} ({sessionCards.length} {t("flashcards.cards")})
                   </Button>
                 </div>
               </div>
@@ -1612,9 +1612,9 @@ export default function Flashcards() {
                   </div>
                   <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Flagged for Review</h3>
+                <h3 className="text-2xl font-bold mb-2">{t("flashcards.flaggedForReview")}</h3>
                 <p className="text-white/70 text-sm leading-relaxed">
-                  {bookmarks.length > 0 ? `${bookmarks.length} cards marked for focused review. These are the concepts you found most challenging.` : "Flag difficult cards during your session to build a targeted review deck."}
+                  {bookmarks.length > 0 ? `${bookmarks.length} ${t("flashcards.flaggedDesc")}` : t("flashcards.flaggedEmpty")}
                 </p>
               </Card>
 
@@ -1629,9 +1629,9 @@ export default function Flashcards() {
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-900/30 group-hover:translate-x-1 transition-transform" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Mastered Cards</h3>
+                <h3 className="text-2xl font-bold mb-2">{t("flashcards.masteredCards")}</h3>
                 <p className="text-gray-900/60 text-sm leading-relaxed">
-                  {mastered.length > 0 ? `${mastered.length} cards you've confidently learned. They won't appear in regular study sessions.` : "Mark cards as mastered during your session to track your progress."}
+                  {mastered.length > 0 ? `${mastered.length} ${t("flashcards.masteredDesc")}` : t("flashcards.masteredEmpty")}
                 </p>
               </Card>
 
@@ -1646,14 +1646,14 @@ export default function Flashcards() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
-                      {user ? "Free for everyone" : "Sign in to start"}
+                      {user ? t("flashcards.freeForEveryone") : t("flashcards.signInToStart")}
                     </span>
                     <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-2">My Flashcards</h3>
+                <h3 className="text-2xl font-bold mb-2">{t("flashcards.myFlashcards")}</h3>
                 <p className="text-white/70 text-sm leading-relaxed">
-                  Create your own flashcards with expert-reviewed medical accuracy validation. Build a personalized study deck for your weakest areas.
+                  {t("flashcards.myFlashcardsDesc")}
                 </p>
               </Card>
 
@@ -1668,34 +1668,34 @@ export default function Flashcards() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
-                      Study Decks
+                      {t("flashcards.studyDecks")}
                     </span>
                     <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Study Decks</h3>
+                <h3 className="text-2xl font-bold mb-2">{t("flashcards.studyDecks")}</h3>
                 <p className="text-white/70 text-sm leading-relaxed">
-                  Create organized decks with Learn and Test modes. Share with classmates, import CSV files, and track your progress.
+                  {t("flashcards.studyDecksDesc")}
                 </p>
               </Card>
 
               <Card className="border-none shadow-md bg-white p-6 rounded-3xl border border-primary/10">
                 <div className="flex items-center gap-3 mb-4">
                   <History className="w-5 h-5 text-primary" />
-                  <h4 className="font-bold text-gray-900">Exam Strategy</h4>
+                  <h4 className="font-bold text-gray-900">{t("flashcards.examStrategy")}</h4>
                 </div>
                 <ul className="space-y-3 text-sm text-gray-600">
                   <li className="flex gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Read every rationale. Understanding the reasoning matters more than getting the answer right.</span>
+                    <span>{t("flashcards.examTip1")}</span>
                   </li>
                   <li className="flex gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Mixed mode mirrors the unpredictability of real licensing exams.</span>
+                    <span>{t("flashcards.examTip2")}</span>
                   </li>
                   <li className="flex gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Flag cards you struggle with. Return to them until the reasoning clicks.</span>
+                    <span>{t("flashcards.examTip3")}</span>
                   </li>
                 </ul>
               </Card>
@@ -1722,13 +1722,13 @@ export default function Flashcards() {
           <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
             <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-mycards">
               <ArrowLeft className="w-4 h-4" />
-              Back to Configuration
+              {t("flashcards.backToConfig")}
             </Button>
             <Card className="border-none shadow-xl bg-white p-12 rounded-3xl text-center">
               <Lock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In to Create Flashcards</h2>
-              <p className="text-gray-500 mb-6">Create a free account to build your own custom study deck with expert-reviewed medical accuracy validation.</p>
-              <Button className="rounded-xl" onClick={() => setLocation("/signup")} data-testid="button-signup-mycards">Create Free Account</Button>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("flashcards.signInToCreate")}</h2>
+              <p className="text-gray-500 mb-6">{t("flashcards.signInDesc")}</p>
+              <Button className="rounded-xl" onClick={() => setLocation("/signup")} data-testid="button-signup-mycards">{t("flashcards.createFreeAccount")}</Button>
             </Card>
           </main>
           <Footer />
@@ -1742,16 +1742,16 @@ export default function Flashcards() {
         <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
           <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-mycards">
             <ArrowLeft className="w-4 h-4" />
-            Back to Configuration
+            {t("flashcards.backToConfig")}
           </Button>
 
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-mycards-title">My Flashcards</h2>
+              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-mycards-title">{t("flashcards.myFlashcards")}</h2>
               <p className="text-gray-500 text-sm mt-1">
-                {!isPaid ? `${customCards.length} / ${FREE_LIMIT} cards used` : `${customCards.length} cards created`}
+                {!isPaid ? `${customCards.length} / ${FREE_LIMIT} ${t("flashcards.cardsUsed")}` : `${customCards.length} ${t("flashcards.cardsCreated")}`}
                 {!isPaid && customCards.length >= FREE_LIMIT && (
-                  <span className="text-amber-600 ml-2 font-medium">- Upgrade for unlimited cards</span>
+                  <span className="text-amber-600 ml-2 font-medium">- {t("flashcards.upgradeUnlimited")}</span>
                 )}
               </p>
             </div>
@@ -1762,7 +1762,7 @@ export default function Flashcards() {
                 data-testid="button-study-mycards"
               >
                 <BookOpen className="w-4 h-4" />
-                Study ({customCards.length})
+                {t("flashcards.study")} ({customCards.length})
               </Button>
             )}
           </div>
@@ -1770,13 +1770,13 @@ export default function Flashcards() {
           <Card className="border-none shadow-xl bg-white p-8 rounded-3xl mb-8" data-testid="card-create-flashcard">
             <div className="flex items-center gap-2 mb-6">
               <Sparkles className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-bold text-gray-900">{editingCard ? "Edit Card" : "Create New Card"}</h3>
-              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium ml-auto">Accuracy Verified</span>
+              <h3 className="text-lg font-bold text-gray-900">{editingCard ? t("flashcards.editCard") : t("flashcards.createNewCard")}</h3>
+              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium ml-auto">{t("flashcards.accuracyVerified")}</span>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Front (Question / Term)</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">{t("flashcards.frontLabel")}</label>
                 <Input
                   placeholder="e.g., What are the signs of right-sided heart failure?"
                   value={editingCard ? editingCard.question : newQuestion}
@@ -1786,7 +1786,7 @@ export default function Flashcards() {
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Back (Answer / Definition)</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">{t("flashcards.backLabel")}</label>
                 <Textarea
                   placeholder="e.g., Peripheral edema, jugular venous distension (JVD), hepatomegaly, weight gain, ascites"
                   value={editingCard ? editingCard.answer : newAnswer}
@@ -1796,7 +1796,7 @@ export default function Flashcards() {
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Category</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">{t("flashcards.category")}</label>
                 <Input
                   placeholder="e.g., Cardiac, Pharmacology, Maternity"
                   value={editingCard ? editingCard.category : newCategory}
@@ -1813,7 +1813,7 @@ export default function Flashcards() {
                 )} data-testid="text-validation-result">
                   {validationResult.accurate ? <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /> : <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />}
                   <div>
-                    <p className="font-semibold text-sm">{validationResult.accurate ? "Medically Accurate" : "Needs Revision"}</p>
+                    <p className="font-semibold text-sm">{validationResult.accurate ? t("flashcards.medicallyAccurate") : t("flashcards.needsRevision")}</p>
                     <p className="text-xs mt-1">{validationResult.feedback}</p>
                   </div>
                 </div>
@@ -1829,7 +1829,7 @@ export default function Flashcards() {
                       data-testid="button-update-flashcard"
                     >
                       {validating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
-                      {validating ? "Validating..." : "Validate & Update"}
+                      {validating ? t("flashcards.validating") : t("flashcards.validateAndUpdate")}
                     </Button>
                     <Button
                       variant="outline"
@@ -1848,7 +1848,7 @@ export default function Flashcards() {
                     data-testid="button-create-flashcard"
                   >
                     {validating ? <RefreshCw className="w-4 h-4 animate-spin" /> : saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                    {validating ? "Validating..." : saving ? "Saving..." : "Validate & Create Card"}
+                    {validating ? t("flashcards.validating") : saving ? t("flashcards.saving") : t("flashcards.validateAndCreate")}
                   </Button>
                 )}
               </div>
@@ -1857,10 +1857,10 @@ export default function Flashcards() {
                 <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-xl" data-testid="text-upgrade-prompt">
                   <CreditCard className="w-5 h-5 text-amber-600 shrink-0" />
                   <div>
-                    <p className="text-sm font-semibold text-amber-800">Free limit reached ({FREE_LIMIT} cards)</p>
-                    <p className="text-xs text-amber-600 mt-0.5">Upgrade to any plan for unlimited flashcards.</p>
+                    <p className="text-sm font-semibold text-amber-800">{t("flashcards.freeLimitReached")} ({FREE_LIMIT} {t("flashcards.cards")})</p>
+                    <p className="text-xs text-amber-600 mt-0.5">{t("flashcards.upgradeForUnlimited")}</p>
                   </div>
-                  <Button size="sm" className="rounded-xl ml-auto shrink-0" onClick={() => setLocation("/pricing")} data-testid="button-upgrade-mycards">Upgrade</Button>
+                  <Button size="sm" className="rounded-xl ml-auto shrink-0" onClick={() => setLocation("/pricing")} data-testid="button-upgrade-mycards">{t("flashcards.upgrade")}</Button>
                 </div>
               )}
             </div>
@@ -1872,7 +1872,7 @@ export default function Flashcards() {
                 <div className="relative flex-1 max-w-sm">
                   <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                   <Input
-                    placeholder="Search your cards..."
+                    placeholder={t("flashcards.searchCards")}
                     value={customSearch}
                     onChange={(e) => setCustomSearch(e.target.value)}
                     className="pl-10 rounded-xl"
@@ -1944,8 +1944,8 @@ export default function Flashcards() {
           {customCards.length === 0 && !customCardsLoading && (
             <div className="text-center py-12">
               <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No cards yet</h3>
-              <p className="text-gray-500 text-sm">Create your first flashcard above. Each card will be validated for medical accuracy before saving.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("flashcards.noCardsYet")}</h3>
+              <p className="text-gray-500 text-sm">{t("flashcards.noCardsDesc")}</p>
             </div>
           )}
 
@@ -2156,7 +2156,7 @@ export default function Flashcards() {
           <div className="flex items-center justify-between mb-8">
             <Button variant="ghost" className="gap-2" onClick={() => setView("mycards")} data-testid="button-exit-study-mycards">
               <ArrowLeft className="w-4 h-4" />
-              Back to My Cards
+              {t("flashcards.backToMyCards")}
             </Button>
             <span className="text-sm text-gray-500 font-medium" data-testid="text-study-progress">{myCardsStudyIndex + 1} / {customCards.length}</span>
           </div>
@@ -2182,12 +2182,12 @@ export default function Flashcards() {
                 <h2 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight" data-testid="text-study-question">{studyCard?.question}</h2>
                 <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">
                   <RefreshCw className="w-4 h-4" />
-                  Tap to reveal
+                  {t("flashcards.tapToReveal")}
                 </div>
               </Card>
 
               <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-8 sm:p-12 text-center">
-                <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">Answer</h3>
+                <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">{t("flashcards.answer")}</h3>
                 <p className="text-xl sm:text-2xl font-medium leading-relaxed max-w-lg" data-testid="text-study-answer">{studyCard?.answer}</p>
               </Card>
             </div>
@@ -2202,7 +2202,7 @@ export default function Flashcards() {
               data-testid="button-study-prev"
             >
               <ChevronLeft className="w-4 h-4" />
-              Previous
+              {t("flashcards.previous")}
             </Button>
             <Button
               className="rounded-xl gap-2"
@@ -2210,7 +2210,7 @@ export default function Flashcards() {
               onClick={() => { setMyCardsStudyIndex(prev => prev + 1); setMyCardsFlipped(false); }}
               data-testid="button-study-next"
             >
-              Next
+              {t("flashcards.next")}
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
@@ -2232,13 +2232,13 @@ export default function Flashcards() {
         <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
           <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")}>
             <ArrowLeft className="w-4 h-4" />
-            Back to Configuration
+            {t("flashcards.backToConfig")}
           </Button>
 
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Flagged for Review</h1>
-              <p className="text-gray-600">Reviewing your tagged difficult cards.</p>
+              <h1 className="text-3xl font-bold text-gray-900">{t("flashcards.flaggedForReview")}</h1>
+              <p className="text-gray-600">{t("flashcards.reviewingFlagged")}</p>
             </div>
             <Button 
               variant="outline" 
@@ -2252,14 +2252,14 @@ export default function Flashcards() {
               }}
             >
               <Trash2 className="w-4 h-4 mr-2" />
-              Clear Folder
+              {t("flashcards.clearFolder")}
             </Button>
           </div>
 
           {bookmarkedCards.length === 0 ? (
             <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-100">
               <Bookmark className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-              <p className="text-gray-400 font-medium">No bookmarks saved yet.</p>
+              <p className="text-gray-400 font-medium">{t("flashcards.noBookmarks")}</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -2285,7 +2285,7 @@ export default function Flashcards() {
                       startSession();
                     }}
                   >
-                    Study This Card
+                    {t("flashcards.studyThisCard")}
                   </Button>
                 </Card>
               ))}
@@ -2304,13 +2304,13 @@ export default function Flashcards() {
         <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
           <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-mastered">
             <ArrowLeft className="w-4 h-4" />
-            Back to Configuration
+            {t("flashcards.backToConfig")}
           </Button>
 
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Mastered Cards</h1>
-              <p className="text-gray-600">Cards you've confidently learned. They won't appear in regular study sessions.</p>
+              <h1 className="text-3xl font-bold text-gray-900">{t("flashcards.masteredCards")}</h1>
+              <p className="text-gray-600">{t("flashcards.masteredCardsDesc")}</p>
             </div>
             <Button 
               variant="outline" 
@@ -2325,14 +2325,14 @@ export default function Flashcards() {
               }}
             >
               <Trash2 className="w-4 h-4 mr-2" />
-              Clear All
+              {t("flashcards.clearAll")}
             </Button>
           </div>
 
           {masteredCards.length === 0 ? (
             <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-100">
               <Trophy className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-              <p className="text-gray-400 font-medium">No mastered cards yet.</p>
+              <p className="text-gray-400 font-medium">{t("flashcards.noMastered")}</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -2360,7 +2360,7 @@ export default function Flashcards() {
                     }}
                     data-testid={`button-study-mastered-${card.id}`}
                   >
-                    Study This Card
+                    {t("flashcards.studyThisCard")}
                   </Button>
                 </Card>
               ))}
@@ -2384,26 +2384,26 @@ export default function Flashcards() {
           <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
             <Trophy className="w-12 h-12 text-primary" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Session Complete!</h1>
-          <p className="text-gray-600 mb-12">Here is how you performed today.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">{t("flashcards.sessionComplete")}</h1>
+          <p className="text-gray-600 mb-12">{t("flashcards.performanceToday")}</p>
 
           <div className="grid grid-cols-2 gap-4 mb-12">
             <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Accuracy</p>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t("flashcards.accuracy")}</p>
               <p className="text-4xl font-black text-primary">{score}%</p>
             </Card>
             <Card className="border-none shadow-md bg-white p-8 rounded-3xl text-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Total Cards</p>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t("flashcards.totalCards")}</p>
               <p className="text-4xl font-black text-gray-900">{sessionCards.length}</p>
             </Card>
           </div>
 
           <div className="space-y-4">
             <Button className="w-full h-14 rounded-2xl text-lg font-bold" onClick={() => setView("setup")}>
-              New Session
+              {t("flashcards.newSession")}
             </Button>
             <Button variant="outline" className="w-full h-14 rounded-2xl text-lg font-bold" onClick={() => setView("bookmarks")}>
-              Review Bookmarks
+              {t("flashcards.reviewBookmarks")}
             </Button>
           </div>
         </main>
@@ -2435,14 +2435,14 @@ export default function Flashcards() {
       
       <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1 flex flex-col items-center">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Active Session</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight">{t("flashcards.activeSession")}</h1>
           <div className="flex items-center justify-center gap-4">
             <div className="flex items-center gap-2 text-xs text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
               <ShieldAlert className="w-3 h-3" />
-              Capture Restricted
+              {t("flashcards.captureRestricted")}
             </div>
             <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-              {currentCard.type} Mode
+              {currentCard.type} {t("flashcards.mode")}
             </div>
           </div>
         </div>
@@ -2450,7 +2450,7 @@ export default function Flashcards() {
         <div className="w-full grid lg:grid-cols-5 gap-8 flex-1 items-start">
           <div className="lg:col-span-1 space-y-4">
              <Card className="border-none shadow-sm bg-white p-4">
-               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Session Progress</p>
+               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("flashcards.sessionProgress")}</p>
                <p className="text-2xl font-bold text-primary">{currentIndex + 1} <span className="text-gray-300 text-lg">/ {sessionCards.length}</span></p>
                <div className="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
                  <div 
@@ -2460,7 +2460,7 @@ export default function Flashcards() {
                </div>
              </Card>
              <Card className="border-none shadow-sm bg-indigo-50 p-4 border border-indigo-100">
-               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Topic</p>
+               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">{t("flashcards.topic")}</p>
                <p className="text-sm font-bold text-indigo-900">{currentCard.category}</p>
              </Card>
              <Button 
@@ -2473,9 +2473,9 @@ export default function Flashcards() {
                 data-testid="button-bookmark"
               >
                 {bookmarks.includes(currentCard.id) ? (
-                  <><BookmarkCheck className="w-4 h-4 fill-current" /> Saved for Review</>
+                  <><BookmarkCheck className="w-4 h-4 fill-current" /> {t("flashcards.savedForReview")}</>
                 ) : (
-                  <><Bookmark className="w-4 h-4" /> Save for Difficult Review</>
+                  <><Bookmark className="w-4 h-4" /> {t("flashcards.saveForReview")}</>
                 )}
               </Button>
               <Button 
@@ -2488,9 +2488,9 @@ export default function Flashcards() {
                 data-testid="button-mastered"
               >
                 {mastered.includes(currentCard.id) ? (
-                  <><CheckCircle2 className="w-4 h-4 fill-current" /> Mastered</>
+                  <><CheckCircle2 className="w-4 h-4 fill-current" /> {t("flashcards.mastered")}</>
                 ) : (
-                  <><Trophy className="w-4 h-4" /> Mark as Mastered</>
+                  <><Trophy className="w-4 h-4" /> {t("flashcards.markAsMastered")}</>
                 )}
               </Button>
           </div>

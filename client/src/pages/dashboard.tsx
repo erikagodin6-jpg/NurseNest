@@ -7,6 +7,7 @@ import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, BookOpen, FlaskConical, Brain, FileText,
@@ -24,61 +25,40 @@ type WidgetConfig = {
   config?: any;
 };
 
-const WIDGET_DEFINITIONS: Record<string, { label: string; icon: any; description: string; component: React.FC<{ user: any }> }> = {
-  welcome: {
-    label: "Welcome",
-    icon: LayoutDashboard,
-    description: "Personalized greeting and quick actions",
-    component: WelcomeWidget,
-  },
-  progress: {
-    label: "Learning Progress",
-    icon: TrendingUp,
-    description: "Your study progress across all modules",
-    component: ProgressWidget,
-  },
-  recent_lessons: {
-    label: "Recent Lessons",
-    icon: BookOpen,
-    description: "Continue where you left off",
-    component: RecentLessonsWidget,
-  },
-  quick_links: {
-    label: "Quick Access",
-    icon: Target,
-    description: "Jump to your favorite tools",
-    component: QuickLinksWidget,
-  },
-  exam_stats: {
-    label: "Exam Performance",
-    icon: Award,
-    description: "Mock exam scores and trends",
-    component: ExamStatsWidget,
-  },
-  study_streak: {
-    label: "Study Streak",
-    icon: Flame,
-    description: "Track your daily study consistency",
-    component: StudyStreakWidget,
-  },
-  flashcard_review: {
-    label: "Flashcard Review",
-    icon: Brain,
-    description: "Cards due for review",
-    component: FlashcardReviewWidget,
-  },
-  clinical_tools: {
-    label: "Clinical Tools",
-    icon: Stethoscope,
-    description: "Quick access to clinical simulators",
-    component: ClinicalToolsWidget,
-  },
-  recommended: {
-    label: "Recommended Next Steps",
-    icon: Sparkles,
-    description: "AI-suggested study actions based on your progress",
-    component: RecommendedWidget,
-  },
+const WIDGET_ICONS: Record<string, any> = {
+  welcome: LayoutDashboard,
+  progress: TrendingUp,
+  recent_lessons: BookOpen,
+  quick_links: Target,
+  exam_stats: Award,
+  study_streak: Flame,
+  flashcard_review: Brain,
+  clinical_tools: Stethoscope,
+  recommended: Sparkles,
+};
+
+const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
+  welcome: WelcomeWidget,
+  progress: ProgressWidget,
+  recent_lessons: RecentLessonsWidget,
+  quick_links: QuickLinksWidget,
+  exam_stats: ExamStatsWidget,
+  study_streak: StudyStreakWidget,
+  flashcard_review: FlashcardReviewWidget,
+  clinical_tools: ClinicalToolsWidget,
+  recommended: RecommendedWidget,
+};
+
+const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
+  welcome: { label: "dashboard.widget.welcome", desc: "dashboard.widget.welcomeDesc" },
+  progress: { label: "dashboard.widget.progress", desc: "dashboard.widget.progressDesc" },
+  recent_lessons: { label: "dashboard.widget.recentLessons", desc: "dashboard.widget.recentLessonsDesc" },
+  quick_links: { label: "dashboard.widget.quickLinks", desc: "dashboard.widget.quickLinksDesc" },
+  exam_stats: { label: "dashboard.widget.examStats", desc: "dashboard.widget.examStatsDesc" },
+  study_streak: { label: "dashboard.widget.studyStreak", desc: "dashboard.widget.studyStreakDesc" },
+  flashcard_review: { label: "dashboard.widget.flashcardReview", desc: "dashboard.widget.flashcardReviewDesc" },
+  clinical_tools: { label: "dashboard.widget.clinicalTools", desc: "dashboard.widget.clinicalToolsDesc" },
+  recommended: { label: "dashboard.widget.recommended", desc: "dashboard.widget.recommendedDesc" },
 };
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
@@ -100,6 +80,7 @@ const breadcrumbData = buildBreadcrumbStructuredData([
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [widgets, setWidgets] = useState<WidgetConfig[]>(DEFAULT_WIDGETS);
@@ -145,9 +126,9 @@ export default function DashboardPage() {
         body: JSON.stringify({ widgets: newWidgets }),
       });
       if (!res.ok) throw new Error("Save failed");
-      toast({ title: "Dashboard saved", description: "Your layout has been updated." });
+      toast({ title: t("dashboard.savedTitle"), description: t("dashboard.savedDesc") });
     } catch {
-      toast({ title: "Error", description: "Could not save layout.", variant: "destructive" });
+      toast({ title: t("dashboard.errorTitle"), description: t("dashboard.errorDesc"), variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -211,8 +192,8 @@ export default function DashboardPage() {
 
   if (!user) return null;
 
-  const visibleWidgets = widgets.filter((w) => w.visible && WIDGET_DEFINITIONS[w.widgetType]);
-  const availableToAdd = Object.keys(WIDGET_DEFINITIONS).filter(
+  const visibleWidgets = widgets.filter((w) => w.visible && WIDGET_COMPONENTS[w.widgetType]);
+  const availableToAdd = Object.keys(WIDGET_COMPONENTS).filter(
     (key) => !widgets.find((w) => w.widgetType === key)
   );
 
@@ -237,26 +218,26 @@ export default function DashboardPage() {
       <main className="container mx-auto px-4 py-6 sm:py-8 max-w-7xl" role="main" aria-label="Learning Dashboard">
         <nav aria-label="Breadcrumb" className="mb-4">
           <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-            <li><Link href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">Home</Link></li>
+            <li><Link href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">{t("dashboard.breadcrumbHome")}</Link></li>
             <li aria-hidden="true">/</li>
-            <li aria-current="page" className="font-medium text-foreground">Dashboard</li>
+            <li aria-current="page" className="font-medium text-foreground">{t("dashboard.breadcrumbDashboard")}</li>
           </ol>
         </nav>
 
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold" data-testid="text-dashboard-title">My Dashboard</h1>
-            <p className="text-muted-foreground mt-1 text-sm sm:text-base">Your personalized learning command center</p>
+            <h1 className="text-2xl sm:text-3xl font-bold" data-testid="text-dashboard-title">{t("dashboard.pageTitle")}</h1>
+            <p className="text-muted-foreground mt-1 text-sm sm:text-base">{t("dashboard.pageSubtitle")}</p>
           </div>
           <div className="flex gap-2 flex-shrink-0">
             {editing ? (
               <>
                 <Button variant="outline" size="sm" onClick={handleReset} data-testid="button-reset-dashboard" aria-label="Reset dashboard to default layout">
                   <RotateCcw className="h-4 w-4 mr-1.5" />
-                  <span className="hidden sm:inline">Reset</span>
+                  <span className="hidden sm:inline">{t("dashboard.reset")}</span>
                 </Button>
                 <Button size="sm" onClick={handleSave} disabled={saving} data-testid="button-save-dashboard">
-                  {saving ? "Saving..." : "Save Layout"}
+                  {saving ? t("dashboard.saving") : t("dashboard.saveLayout")}
                 </Button>
                 <Button variant="ghost" size="sm" onClick={() => setEditing(false)} data-testid="button-cancel-edit" aria-label="Cancel editing">
                   <X className="h-4 w-4" />
@@ -265,7 +246,7 @@ export default function DashboardPage() {
             ) : (
               <Button variant="outline" size="sm" onClick={() => setEditing(true)} data-testid="button-customize-dashboard" aria-label="Customize dashboard layout">
                 <Settings className="h-4 w-4 mr-1.5" />
-                Customize
+                {t("dashboard.customize")}
               </Button>
             )}
           </div>
@@ -276,14 +257,15 @@ export default function DashboardPage() {
             <Card className="border-dashed border-primary/30">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <Plus className="h-4 w-4" /> Add Widgets
+                  <Plus className="h-4 w-4" /> {t("dashboard.addWidgets")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {availableToAdd.map((key) => {
-                    const def = WIDGET_DEFINITIONS[key];
-                    const Icon = def.icon;
+                    const keys = WIDGET_I18N_KEYS[key];
+                    const Icon = WIDGET_ICONS[key];
+                    const label = t(keys.label);
                     return (
                       <Button
                         key={key}
@@ -292,10 +274,10 @@ export default function DashboardPage() {
                         onClick={() => addWidget(key)}
                         className="gap-1.5"
                         data-testid={`button-add-widget-${key}`}
-                        aria-label={`Add ${def.label} widget`}
+                        aria-label={`Add ${label} widget`}
                       >
                         <Icon className="h-4 w-4" />
-                        {def.label}
+                        {label}
                       </Button>
                     );
                   })}
@@ -325,10 +307,11 @@ export default function DashboardPage() {
         ) : (
           <section className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" aria-label="Dashboard widgets">
             {(editing ? widgets : visibleWidgets).map((widget, index) => {
-              const def = WIDGET_DEFINITIONS[widget.widgetType];
-              if (!def) return null;
-              const WidgetComponent = def.component;
-              const Icon = def.icon;
+              const WidgetComponent = WIDGET_COMPONENTS[widget.widgetType];
+              const keys = WIDGET_I18N_KEYS[widget.widgetType];
+              if (!WidgetComponent || !keys) return null;
+              const Icon = WIDGET_ICONS[widget.widgetType];
+              const widgetLabel = t(keys.label);
               const isFullWidth = widget.widgetType === "welcome" || widget.widgetType === "recommended";
               return (
                 <article
@@ -336,7 +319,7 @@ export default function DashboardPage() {
                   className={`relative ${editing ? "cursor-move" : ""} ${
                     !widget.visible && editing ? "opacity-50" : ""
                   } ${isFullWidth ? "md:col-span-2" : ""}`}
-                  aria-label={`${def.label} widget`}
+                  aria-label={`${widgetLabel} widget`}
                   draggable={editing}
                   onDragStart={() => handleDragStart(index)}
                   onDragOver={(e) => handleDragOver(e, index)}
@@ -353,7 +336,7 @@ export default function DashboardPage() {
                           onClick={() => moveWidget(index, "up")}
                           disabled={index === 0}
                           data-testid={`button-move-up-${widget.widgetType}`}
-                          aria-label={`Move ${def.label} up`}
+                          aria-label={`Move ${widgetLabel} up`}
                         >
                           <ChevronUp className="h-3 w-3" />
                         </Button>
@@ -364,7 +347,7 @@ export default function DashboardPage() {
                           onClick={() => moveWidget(index, "down")}
                           disabled={index === widgets.length - 1}
                           data-testid={`button-move-down-${widget.widgetType}`}
-                          aria-label={`Move ${def.label} down`}
+                          aria-label={`Move ${widgetLabel} down`}
                         >
                           <ChevronDown className="h-3 w-3" />
                         </Button>
@@ -374,7 +357,7 @@ export default function DashboardPage() {
                           className="h-7 w-7"
                           onClick={() => toggleWidget(index)}
                           data-testid={`button-toggle-${widget.widgetType}`}
-                          aria-label={widget.visible ? `Hide ${def.label}` : `Show ${def.label}`}
+                          aria-label={widget.visible ? `Hide ${widgetLabel}` : `Show ${widgetLabel}`}
                         >
                           {widget.visible ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
                         </Button>
@@ -384,7 +367,7 @@ export default function DashboardPage() {
                           className="h-7 w-7 text-destructive"
                           onClick={() => removeWidget(index)}
                           data-testid={`button-remove-${widget.widgetType}`}
-                          aria-label={`Remove ${def.label}`}
+                          aria-label={`Remove ${widgetLabel}`}
                         >
                           <X className="h-3 w-3" />
                         </Button>
@@ -394,12 +377,12 @@ export default function DashboardPage() {
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
                         <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
-                        {def.label}
+                        {widgetLabel}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       {widget.visible ? <WidgetComponent user={user} /> : (
-                        <p className="text-xs text-muted-foreground italic">Widget hidden  -  toggle visibility to show</p>
+                        <p className="text-xs text-muted-foreground italic">{t("dashboard.widgetHidden")}</p>
                       )}
                     </CardContent>
                   </Card>
@@ -416,34 +399,35 @@ export default function DashboardPage() {
 
 function WelcomeWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const greeting = hour < 12 ? t("dashboard.greeting.morning") : hour < 17 ? t("dashboard.greeting.afternoon") : t("dashboard.greeting.evening");
   const tierLabel: Record<string, string> = {
-    free: "Free",
-    rpn: "RPN/LVN",
-    rn: "RN/NCLEX",
-    np: "NP Advanced",
-    admin: "Administrator",
+    free: t("dashboard.tier.free"),
+    rpn: t("dashboard.tier.rpn"),
+    rn: t("dashboard.tier.rn"),
+    np: t("dashboard.tier.np"),
+    admin: t("dashboard.tier.admin"),
   };
 
   return (
     <div data-testid="widget-content-welcome">
       <p className="text-lg font-semibold mb-1">{greeting}, {user.username}!</p>
       <p className="text-sm text-muted-foreground mb-4">
-        Plan: <span className="font-medium text-foreground">{tierLabel[user.tier] || user.tier}</span>
+        {t("dashboard.plan")} <span className="font-medium text-foreground">{tierLabel[user.tier] || user.tier}</span>
       </p>
       <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="default" onClick={() => navigate("/lessons")} data-testid="button-go-lessons">
-          <BookOpen className="h-4 w-4 mr-1.5" /> Lessons
+          <BookOpen className="h-4 w-4 mr-1.5" /> {t("dashboard.goLessons")}
         </Button>
         <Button size="sm" variant="outline" onClick={() => navigate("/flashcards")} data-testid="button-go-flashcards">
-          <Brain className="h-4 w-4 mr-1.5" /> Flashcards
+          <Brain className="h-4 w-4 mr-1.5" /> {t("dashboard.goFlashcards")}
         </Button>
         <Button size="sm" variant="outline" onClick={() => navigate("/mock-exams")} data-testid="button-go-mock-exams">
-          <ClipboardList className="h-4 w-4 mr-1.5" /> Mock Exams
+          <ClipboardList className="h-4 w-4 mr-1.5" /> {t("dashboard.goMockExams")}
         </Button>
         <Button size="sm" variant="outline" onClick={() => navigate("/question-of-the-day")} data-testid="button-go-qotd">
-          <Target className="h-4 w-4 mr-1.5" /> QOTD
+          <Target className="h-4 w-4 mr-1.5" /> {t("dashboard.goQotd")}
         </Button>
       </div>
     </div>
@@ -453,6 +437,7 @@ function WelcomeWidget({ user }: { user: any }) {
 function ProgressWidget({ user }: { user: any }) {
   const [progress, setProgress] = useState<any[]>([]);
   const [, navigate] = useLocation();
+  const { t } = useI18n();
 
   useEffect(() => {
     fetch(`/api/progress/${user.id}`)
@@ -469,9 +454,9 @@ function ProgressWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-progress-empty">
         <TrendingUp className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground mb-2">Start your first lesson to track progress</p>
+        <p className="text-sm text-muted-foreground mb-2">{t("dashboard.progressEmpty")}</p>
         <Button size="sm" variant="link" onClick={() => navigate("/lessons")} data-testid="button-progress-browse">
-          Browse Lessons <ArrowRight className="h-3 w-3 ml-1" />
+          {t("dashboard.progressBrowse")} <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     );
@@ -502,14 +487,14 @@ function ProgressWidget({ user }: { user: any }) {
         </div>
         <div>
           <p className="text-2xl font-bold">{completed}</p>
-          <p className="text-xs text-muted-foreground">lessons completed</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.lessonsCompleted")}</p>
         </div>
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${pct}%` }} />
         </div>
-        <span>{total - completed} left</span>
+        <span>{total - completed} {t("dashboard.lessonsLeft")}</span>
       </div>
     </div>
   );
@@ -517,6 +502,7 @@ function ProgressWidget({ user }: { user: any }) {
 
 function RecentLessonsWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
   const [progress, setProgress] = useState<any[]>([]);
 
   useEffect(() => {
@@ -532,9 +518,9 @@ function RecentLessonsWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-recent-empty">
         <BookOpen className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground mb-2">No lessons started yet</p>
+        <p className="text-sm text-muted-foreground mb-2">{t("dashboard.recentEmpty")}</p>
         <Button size="sm" variant="link" onClick={() => navigate("/lessons")} data-testid="button-recent-browse">
-          Browse Lessons <ArrowRight className="h-3 w-3 ml-1" />
+          {t("dashboard.recentBrowse")} <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     );
@@ -559,7 +545,7 @@ function RecentLessonsWidget({ user }: { user: any }) {
             <p className="text-sm font-medium truncate">
               {(p.lessonId || "Lesson").replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}
             </p>
-            <p className="text-xs text-muted-foreground">{p.completed ? "Completed" : "In progress"}</p>
+            <p className="text-xs text-muted-foreground">{p.completed ? t("dashboard.completed") : t("dashboard.inProgress")}</p>
           </div>
           <ArrowRight className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
         </button>
@@ -570,13 +556,14 @@ function RecentLessonsWidget({ user }: { user: any }) {
 
 function QuickLinksWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
   const links = [
-    { label: "Med Math Lab", icon: FlaskConical, path: "/med-math", desc: "Practice calculations" },
-    { label: "Lab Values", icon: Activity, path: "/lab-values", desc: "Abnormal findings" },
-    { label: "Clinical Clarity", icon: Stethoscope, path: "/clinical-clarity", desc: "Why does X happen?" },
-    { label: "Question Bank", icon: ClipboardList, path: "/question-bank", desc: "Practice questions" },
-    { label: "Pharmacology", icon: Pill, path: "/flashcards", desc: "Drug flashcards" },
-    { label: "Blog", icon: FileText, path: "/blog", desc: "Evidence-based articles" },
+    { label: t("dashboard.quickMedMath"), icon: FlaskConical, path: "/med-math", desc: t("dashboard.quickMedMathDesc") },
+    { label: t("dashboard.quickLabValues"), icon: Activity, path: "/lab-values", desc: t("dashboard.quickLabValuesDesc") },
+    { label: t("dashboard.quickClinicalClarity"), icon: Stethoscope, path: "/clinical-clarity", desc: t("dashboard.quickClinicalClarityDesc") },
+    { label: t("dashboard.quickQuestionBank"), icon: ClipboardList, path: "/question-bank", desc: t("dashboard.quickQuestionBankDesc") },
+    { label: t("dashboard.quickPharmacology"), icon: Pill, path: "/flashcards", desc: t("dashboard.quickPharmacologyDesc") },
+    { label: t("dashboard.quickBlog"), icon: FileText, path: "/blog", desc: t("dashboard.quickBlogDesc") },
   ];
 
   return (
@@ -603,6 +590,7 @@ function QuickLinksWidget({ user }: { user: any }) {
 function ExamStatsWidget({ user }: { user: any }) {
   const [stats, setStats] = useState<any[]>([]);
   const [, navigate] = useLocation();
+  const { t } = useI18n();
 
   useEffect(() => {
     fetch(`/api/mock-exams/history/${user.id}`)
@@ -615,9 +603,9 @@ function ExamStatsWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-exam-empty">
         <Award className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground mb-2">Test your readiness with a mock exam</p>
+        <p className="text-sm text-muted-foreground mb-2">{t("dashboard.examEmpty")}</p>
         <Button size="sm" variant="link" onClick={() => navigate("/mock-exams")} data-testid="button-exam-start">
-          Start a Mock Exam <ArrowRight className="h-3 w-3 ml-1" />
+          {t("dashboard.examStart")} <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     );
@@ -631,19 +619,19 @@ function ExamStatsWidget({ user }: { user: any }) {
       <div className="grid grid-cols-3 gap-3 mb-3">
         <div className="text-center p-2 rounded-lg bg-primary/5">
           <p className="text-2xl font-bold text-primary">{avgScore}%</p>
-          <p className="text-[10px] text-muted-foreground">Average</p>
+          <p className="text-[10px] text-muted-foreground">{t("dashboard.examAverage")}</p>
         </div>
         <div className="text-center p-2 rounded-lg bg-green-50">
           <p className="text-2xl font-bold text-green-600">{bestScore}%</p>
-          <p className="text-[10px] text-muted-foreground">Best</p>
+          <p className="text-[10px] text-muted-foreground">{t("dashboard.examBest")}</p>
         </div>
         <div className="text-center p-2 rounded-lg bg-muted">
           <p className="text-2xl font-bold">{stats.length}</p>
-          <p className="text-[10px] text-muted-foreground">Taken</p>
+          <p className="text-[10px] text-muted-foreground">{t("dashboard.examTaken")}</p>
         </div>
       </div>
       <Button size="sm" variant="outline" className="w-full" onClick={() => navigate("/mock-exams")} data-testid="button-view-exams">
-        <BarChart3 className="h-4 w-4 mr-1.5" /> View All Results
+        <BarChart3 className="h-4 w-4 mr-1.5" /> {t("dashboard.examViewAll")}
       </Button>
     </div>
   );
@@ -651,6 +639,7 @@ function ExamStatsWidget({ user }: { user: any }) {
 
 function StudyStreakWidget({ user }: { user: any }) {
   const [progress, setProgress] = useState<any[]>([]);
+  const { t } = useI18n();
 
   useEffect(() => {
     fetch(`/api/progress/${user.id}`)
@@ -673,11 +662,11 @@ function StudyStreakWidget({ user }: { user: any }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <p className="text-2xl font-bold">{progress.length}</p>
-          <p className="text-xs text-muted-foreground">Total activities</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.streakTotal")}</p>
         </div>
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 text-orange-600">
           <Flame className="h-4 w-4" />
-          <span className="text-sm font-semibold">Active</span>
+          <span className="text-sm font-semibold">{t("dashboard.streakActive")}</span>
         </div>
       </div>
       <div className="flex justify-between gap-1" role="group" aria-label="Weekly activity">
@@ -709,6 +698,7 @@ function StudyStreakWidget({ user }: { user: any }) {
 function FlashcardReviewWidget({ user }: { user: any }) {
   const [cards, setCards] = useState<any[]>([]);
   const [, navigate] = useLocation();
+  const { t } = useI18n();
 
   useEffect(() => {
     fetch(`/api/user-flashcards/${user.id}`)
@@ -721,9 +711,9 @@ function FlashcardReviewWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-flashcard-empty">
         <Brain className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground mb-2">Create flashcards to boost retention</p>
+        <p className="text-sm text-muted-foreground mb-2">{t("dashboard.flashcardEmpty")}</p>
         <Button size="sm" variant="link" onClick={() => navigate("/profile")} data-testid="button-flashcard-create">
-          Create Flashcards <ArrowRight className="h-3 w-3 ml-1" />
+          {t("dashboard.flashcardCreate")} <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     );
@@ -734,11 +724,11 @@ function FlashcardReviewWidget({ user }: { user: any }) {
       {cards.map((card: any, i: number) => (
         <div key={i} className="p-2.5 rounded-lg bg-muted/60 border border-transparent hover:border-primary/20 transition-colors">
           <p className="text-sm font-medium truncate">{card.question}</p>
-          <p className="text-xs text-muted-foreground truncate mt-0.5">{card.category || "General"}</p>
+          <p className="text-xs text-muted-foreground truncate mt-0.5">{card.category || t("dashboard.flashcardGeneral")}</p>
         </div>
       ))}
       <Button size="sm" variant="outline" className="w-full mt-2" onClick={() => navigate("/flashcards")} data-testid="button-study-flashcards">
-        <Bookmark className="h-4 w-4 mr-1.5" /> Study All Cards
+        <Bookmark className="h-4 w-4 mr-1.5" /> {t("dashboard.flashcardStudyAll")}
       </Button>
     </div>
   );
@@ -746,11 +736,12 @@ function FlashcardReviewWidget({ user }: { user: any }) {
 
 function ClinicalToolsWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
   const tools = [
-    { label: "First Action", path: "/first-action-simulator", icon: Target, desc: "Prioritization" },
-    { label: "IV Complications", path: "/iv-complications-simulator", icon: Activity, desc: "Recognition" },
-    { label: "Safety Hazard", path: "/safety-hazard-simulator", icon: Stethoscope, desc: "Environment scan" },
-    { label: "Deteriorating Pt", path: "/deteriorating-patient-simulator", icon: TrendingUp, desc: "Time-critical" },
+    { label: t("dashboard.clinicalFirstAction"), path: "/first-action-simulator", icon: Target, desc: t("dashboard.clinicalFirstActionDesc") },
+    { label: t("dashboard.clinicalIV"), path: "/iv-complications-simulator", icon: Activity, desc: t("dashboard.clinicalIVDesc") },
+    { label: t("dashboard.clinicalSafety"), path: "/safety-hazard-simulator", icon: Stethoscope, desc: t("dashboard.clinicalSafetyDesc") },
+    { label: t("dashboard.clinicalDeteriorating"), path: "/deteriorating-patient-simulator", icon: TrendingUp, desc: t("dashboard.clinicalDeterioratingDesc") },
   ];
 
   return (
@@ -776,6 +767,7 @@ function ClinicalToolsWidget({ user }: { user: any }) {
 
 function RecommendedWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
   const [progress, setProgress] = useState<any[]>([]);
   const [examStats, setExamStats] = useState<any[]>([]);
 
@@ -791,18 +783,18 @@ function RecommendedWidget({ user }: { user: any }) {
   const recommendations: { text: string; action: string; path: string; icon: any; priority: number }[] = [];
 
   if (completedCount === 0) {
-    recommendations.push({ text: "Start your first lesson to build a study foundation", action: "Begin Learning", path: "/lessons", icon: BookOpen, priority: 1 });
+    recommendations.push({ text: t("dashboard.recStartLesson"), action: t("dashboard.recBeginLearning"), path: "/lessons", icon: BookOpen, priority: 1 });
   }
   if (!hasExams) {
-    recommendations.push({ text: "Take a mock exam to benchmark your current knowledge", action: "Start Mock Exam", path: "/mock-exams", icon: ClipboardList, priority: 2 });
+    recommendations.push({ text: t("dashboard.recTakeMock"), action: t("dashboard.recStartMockExam"), path: "/mock-exams", icon: ClipboardList, priority: 2 });
   } else if (avgScore < 70) {
-    recommendations.push({ text: "Focus on weak areas  -  review lessons before retaking exams", action: "Review Lessons", path: "/lessons", icon: BookOpen, priority: 1 });
+    recommendations.push({ text: t("dashboard.recFocusWeak"), action: t("dashboard.recReviewLessons"), path: "/lessons", icon: BookOpen, priority: 1 });
   }
-  recommendations.push({ text: "Practice today's Question of the Day", action: "Try QOTD", path: "/question-of-the-day", icon: Target, priority: 3 });
+  recommendations.push({ text: t("dashboard.recQotd"), action: t("dashboard.recTryQotd"), path: "/question-of-the-day", icon: Target, priority: 3 });
   if (completedCount > 0 && completedCount < 10) {
-    recommendations.push({ text: "Keep momentum  -  complete 10 lessons to unlock insights", action: "Continue", path: "/lessons", icon: TrendingUp, priority: 2 });
+    recommendations.push({ text: t("dashboard.recKeepMomentum"), action: t("dashboard.recContinue"), path: "/lessons", icon: TrendingUp, priority: 2 });
   }
-  recommendations.push({ text: "Try a clinical simulator to test decision-making skills", action: "Simulate", path: "/first-action-simulator", icon: Stethoscope, priority: 4 });
+  recommendations.push({ text: t("dashboard.recTrySimulator"), action: t("dashboard.recSimulate"), path: "/first-action-simulator", icon: Stethoscope, priority: 4 });
 
   const sorted = recommendations.sort((a, b) => a.priority - b.priority).slice(0, 3);
 

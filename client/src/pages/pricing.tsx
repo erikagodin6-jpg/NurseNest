@@ -177,7 +177,7 @@ export default function PricingPage() {
       }
     } catch (err: any) {
       toast({
-        title: "Checkout Error",
+        title: t("pricing.checkoutError"),
         description: err.message,
         variant: "destructive",
       });
@@ -208,7 +208,7 @@ export default function PricingPage() {
       }
     } catch (err: any) {
       toast({
-        title: "Checkout Error",
+        title: t("pricing.checkoutError"),
         description: err.message,
         variant: "destructive",
       });
@@ -230,13 +230,13 @@ export default function PricingPage() {
             </h1>
             <p className="text-gray-500 text-lg max-w-2xl mx-auto" data-testid="text-pricing-subtitle">
               {t("pricing.subtitle")}
-              {isCAD ? " Prices shown in CAD." : " Prices shown in USD."}
+              {isCAD ? ` ${t("pricing.pricesCAD")}` : ` ${t("pricing.pricesUSD")}`}
             </p>
             {isCAD && (
               <div className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-50 border border-red-200/60 text-sm" data-testid="badge-canadian-pricing">
                 <span role="img" aria-label="maple leaf">🍁</span>
                 <span className="text-gray-700">
-                  <span className="font-semibold text-gray-900">Canadian pricing with Canadian lab values</span>  -  the first nursing exam prep platform built specifically for Canadian students, with Canadian reference ranges, scope-of-practice language, and REX-PN alignment.
+                  <span className="font-semibold text-gray-900">{t("pricing.canadianPricingTitle")}</span>  -  {t("pricing.canadianPricingDesc")}
                 </span>
               </div>
             )}
@@ -269,7 +269,7 @@ export default function PricingPage() {
           {savings > 0 && (
             <div className="text-center mb-8">
               <Badge className="bg-green-100 text-green-700 border-green-200 px-4 py-1.5 text-sm font-semibold" data-testid="badge-savings">
-                Save {savings}% with {durations.find((d) => d.key === duration)?.label} billing
+                {t("pricing.save")} {savings}% {t("pricing.saveBilling")} {durations.find((d) => d.key === duration)?.label} {t("pricing.billing")}
               </Badge>
             </div>
           )}
@@ -294,14 +294,14 @@ export default function PricingPage() {
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <Badge className="bg-primary text-white px-4 py-1 text-xs font-semibold shadow-md" data-testid="badge-most-popular">
                         <Star className="w-3 h-3 mr-1 fill-white" />
-                        Most Popular
+                        {t("pricing.mostPopular")}
                       </Badge>
                     </div>
                   )}
                   {savings > 0 && (
                     <div className="absolute -top-3 right-4">
                       <Badge className="bg-green-500 text-white px-3 py-1 text-xs font-semibold shadow-md" data-testid={`badge-save-${tier.id}`}>
-                        Save {savings}%
+                        {t("pricing.save")} {savings}%
                       </Badge>
                     </div>
                   )}
@@ -343,13 +343,13 @@ export default function PricingPage() {
                       data-testid={`button-subscribe-${tier.id}`}
                     >
                       <CreditCard className="w-4 h-4 mr-2" />
-                      {loadingTier === tier.id ? "Processing..." : "Pay with Card"}
+                      {loadingTier === tier.id ? t("pricing.processing") : t("pricing.payWithCard")}
                     </Button>
                     {paypalAvailable && (
                       <div className="mt-2">
                         {paypalTier === tier.id ? (
                           <div className="border rounded-xl p-3 border-[#0070ba]/20 bg-[#0070ba]/5">
-                            <p className="text-xs text-gray-500 mb-2 text-center">Complete payment with PayPal</p>
+                            <p className="text-xs text-gray-500 mb-2 text-center">{t("pricing.completePaypal")}</p>
                             <PayPalButton
                               amount={price.toFixed(2)}
                               currency={isCAD ? "CAD" : "USD"}
@@ -392,7 +392,7 @@ export default function PricingPage() {
                               }}
                             />
                             <Button variant="ghost" size="sm" className="w-full mt-1 text-xs text-gray-400" onClick={() => setPaypalTier(null)} data-testid={`button-paypal-cancel-${tier.id}`}>
-                              Cancel
+                              {t("pricing.cancel")}
                             </Button>
                           </div>
                         ) : (
@@ -408,7 +408,7 @@ export default function PricingPage() {
                             <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.77.77 0 0 1 .757-.65h6.803c2.252 0 3.856.476 4.765 1.414.418.43.69.92.828 1.474.145.58.147 1.27.003 2.105l-.01.06v.532l.418.236c.356.188.637.404.847.644.314.358.516.802.6 1.326.088.54.06 1.18-.083 1.901-.166.84-.437 1.572-.804 2.17-.34.555-.769 1.01-1.277 1.352-.483.326-1.05.573-1.685.733-.612.155-1.31.234-2.073.234H13.39a.95.95 0 0 0-.938.8l-.038.22-.672 4.26-.03.16a.95.95 0 0 1-.938.8H7.076z"/>
                             </svg>
-                            Pay with PayPal
+                            {t("pricing.payWithPaypal")}
                           </Button>
                         )}
                       </div>
@@ -422,10 +422,10 @@ export default function PricingPage() {
           <div className="mb-16">
             <div className="text-center mb-8">
               <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-trial-title">
-                Trial Passes
+                {t("pricing.trialPasses")}
               </h2>
               <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-trial-subtitle">
-                Not ready to commit? Try a limited pass to explore the platform.
+                {t("pricing.trialSubtitle")}
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -442,10 +442,10 @@ export default function PricingPage() {
                     <div className="absolute -top-3 left-4 flex gap-2">
                       <Badge className="bg-amber-100 text-amber-700 border-amber-200 px-3 py-1 text-xs font-semibold" data-testid={`badge-onetime-${pass.id}`}>
                         <Clock className="w-3 h-3 mr-1" />
-                        One-Time
+                        {t("pricing.oneTime")}
                       </Badge>
                       <Badge className="bg-gray-100 text-gray-600 border-gray-200 px-3 py-1 text-xs font-semibold" data-testid={`badge-limited-${pass.id}`}>
-                        Limited Access
+                        {t("pricing.limitedAccess")}
                       </Badge>
                     </div>
                     <CardHeader className="text-center pb-2 pt-8">
@@ -489,7 +489,7 @@ export default function PricingPage() {
                         disabled={loadingTier === pass.id}
                         data-testid={`button-trial-${pass.id}`}
                       >
-                        {loadingTier === pass.id ? "Processing..." : "Get Pass"}
+                        {loadingTier === pass.id ? t("pricing.processing") : t("pricing.getPass")}
                       </Button>
                     </CardContent>
                   </Card>
@@ -501,10 +501,10 @@ export default function PricingPage() {
           <div className="mb-16">
             <div className="text-center mb-8">
               <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-addon-title">
-                Practice Tool Add-Ons
+                {t("pricing.addOns")}
               </h2>
               <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-addon-subtitle">
-                Get unlimited access to our interactive practice tools. Free users get 10 questions per day: upgrade for unlimited practice.
+                {t("pricing.addOnsSubtitle")}
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -567,7 +567,7 @@ export default function PricingPage() {
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                         <Badge className="bg-primary text-white px-4 py-1 text-xs font-semibold shadow-md">
                           <Star className="w-3 h-3 mr-1 fill-white" />
-                          Best Value
+                          {t("pricing.bestValue")}
                         </Badge>
                       </div>
                     )}
@@ -603,10 +603,10 @@ export default function PricingPage() {
                         data-testid={`button-addon-${addon.id}`}
                       >
                         <CreditCard className="w-4 h-4 mr-2" />
-                        {loadingTier === addon.id ? "Processing..." : "Subscribe"}
+                        {loadingTier === addon.id ? t("pricing.processing") : t("pricing.subscribe")}
                       </Button>
                       <p className="text-xs text-center text-gray-400 mt-2">
-                        Included free with any full subscription
+                        {t("pricing.includedFree")}
                       </p>
                     </CardContent>
                   </Card>
@@ -618,7 +618,7 @@ export default function PricingPage() {
           <div className="flex flex-col items-center gap-6 text-center">
             <div className="flex items-center gap-3 bg-white rounded-full px-6 py-3 shadow-sm border border-primary/10" data-testid="badge-money-back">
               <Shield className="w-5 h-5 text-primary" />
-              <span className="text-sm font-medium text-gray-700">30-Day Money-Back Guarantee</span>
+              <span className="text-sm font-medium text-gray-700">{t("pricing.moneyBack")}</span>
             </div>
             <a
               href="/faq"
@@ -626,7 +626,7 @@ export default function PricingPage() {
               data-testid="link-faq"
             >
               <HelpCircle className="w-4 h-4" />
-              Have questions? Check our FAQ
+              {t("pricing.faqLink")}
             </a>
           </div>
         </div>
