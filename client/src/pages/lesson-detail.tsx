@@ -510,153 +510,223 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6 space-y-6">
-            <div className="flex items-center gap-2">
-              <Microscope className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-bold">Pathophysiology</h2>
+        <div className="space-y-12">
+          <section id="pathophysiology" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <Microscope className="text-primary w-8 h-8" />
+              <h2>Pathophysiology</h2>
             </div>
-            <Textarea
-              value={pathophysiology}
-              onChange={(e) => setPathophysiology(e.target.value)}
-              rows={6}
-              placeholder="Describe the underlying pathophysiology, cellular changes, and disease mechanism..."
-              data-testid="input-pathophysiology"
-            />
-          </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-orange-500" />
-                <h2 className="text-lg font-bold">Risk Factors</h2>
-              </div>
-              <ListEditor items={riskFactors} setItems={setRiskFactors} placeholder="Enter risk factor..." />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-center gap-2">
-                <Search className="w-5 h-5 text-blue-500" />
-                <h2 className="text-lg font-bold">Diagnostic Findings</h2>
-              </div>
-              <ListEditor items={diagnostics} setItems={setDiagnostics} placeholder="Enter diagnostic finding..." />
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-center gap-2">
-                <Stethoscope className="w-5 h-5 text-emerald-500" />
-                <h2 className="text-lg font-bold">Medical Management</h2>
-              </div>
-              <ListEditor items={management} setItems={setManagement} placeholder="Enter management item..." />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-center gap-2">
-                <ClipboardList className="w-5 h-5 text-violet-500" />
-                <h2 className="text-lg font-bold">Priority Nursing Actions</h2>
-              </div>
-              <ListEditor items={nursingActions} setItems={setNursingActions} placeholder="Enter nursing action..." />
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card>
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-2">
-              <Stethoscope className="w-5 h-5 text-teal-600" />
-              <h2 className="text-lg font-bold">Assessment Findings</h2>
+            <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+              <Textarea
+                value={pathophysiology}
+                onChange={(e) => setPathophysiology(e.target.value)}
+                rows={6}
+                placeholder="Describe the underlying pathophysiology, cellular changes, and disease mechanism..."
+                className="border-none shadow-none p-0 focus-visible:ring-0 text-gray-700 leading-relaxed resize-y"
+                data-testid="input-pathophysiology"
+              />
             </div>
-            <ListEditor items={assessmentFindings} setItems={setAssessmentFindings} placeholder="Enter assessment finding (vital signs, labs, inspection, etc.)..." />
-          </CardContent>
-        </Card>
+          </section>
 
-        <Card>
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-2">
-              <Activity className="w-5 h-5 text-red-500" />
-              <h2 className="text-lg font-bold">Signs & Symptoms</h2>
+          <section id="risk-factors" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <ShieldAlert className="text-rose-500 w-8 h-8" />
+              <h2>Risk Factors</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">Early Signs</label>
-                <ListEditor items={signsLeft} setItems={setSignsLeft} placeholder="Enter early sign..." />
-              </div>
-              <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">Late / Emergency Signs</label>
-                <ListEditor items={signsRight} setItems={setSignsRight} placeholder="Enter late sign..." />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
+            <Card className="border-none shadow-sm bg-rose-50/60">
+              <CardContent className="p-8">
+                <ListEditor items={riskFactors} setItems={setRiskFactors} placeholder="Enter risk factor..." />
+              </CardContent>
+            </Card>
+          </section>
 
-        <Card>
-          <CardContent className="p-6 space-y-4">
+          <section id="diagnostics" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <Search className="text-cyan-600 w-8 h-8" />
+              <h2>Diagnostics</h2>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
+            <Card className="border-none shadow-sm bg-cyan-50/60">
+              <CardContent className="p-8">
+                <ListEditor items={diagnostics} setItems={setDiagnostics} placeholder="Enter diagnostic finding..." />
+              </CardContent>
+            </Card>
+          </section>
+
+          <section id="management" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <ClipboardList className="text-emerald-600 w-8 h-8" />
+              <h2>Management</h2>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
+            <Card className="border-none shadow-sm bg-emerald-50/60">
+              <CardContent className="p-8">
+                <ListEditor items={management} setItems={setManagement} placeholder="Enter management step..." />
+              </CardContent>
+            </Card>
+          </section>
+
+          <section id="nursing-actions" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <HeartPulse className="text-violet-600 w-8 h-8" />
+              <h2>Nursing Actions and Scope Considerations</h2>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
+            <Card className="border-none shadow-sm bg-violet-50/60">
+              <CardContent className="p-8">
+                <ListEditor items={nursingActions} setItems={setNursingActions} placeholder="Enter nursing action..." />
+              </CardContent>
+            </Card>
+          </section>
+
+          <section id="assessment-findings" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <ClipboardList className="text-teal-600 w-8 h-8" />
+              <h2>Assessment Findings</h2>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, labs, and subjective/objective findings</p>
+            <Card className="border-none shadow-sm bg-teal-50/60">
+              <CardContent className="p-8">
+                <ListEditor items={assessmentFindings} setItems={setAssessmentFindings} placeholder="Enter assessment finding..." />
+              </CardContent>
+            </Card>
+          </section>
+
+          <section id="lifespan" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <Users className="text-indigo-500 w-8 h-8" />
+              <h2>Across the Lifespan</h2>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
+            <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100">
+              <Textarea
+                value={lifespanContent}
+                onChange={(e) => setLifespanContent(e.target.value)}
+                rows={4}
+                placeholder="Considerations for pediatric, adult, and geriatric populations..."
+                className="border-none shadow-none p-0 focus-visible:ring-0 text-indigo-900 leading-relaxed italic resize-y bg-transparent"
+                data-testid="input-lifespan"
+              />
+            </div>
+          </section>
+
+          <section id="clinical-findings" className="space-y-6">
+            <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+              <AlertCircle className="text-orange-500 w-8 h-8" />
+              <h2>Clinical Findings and Red Flags</h2>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">Key clinical presentations and warning signs</p>
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="border-none shadow-md bg-white">
+                <CardContent className="p-8 space-y-4">
+                  <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                    <AlertCircle className="text-blue-500 w-6 h-6" />
+                    <h3>Clinical Findings</h3>
+                  </div>
+                  <ListEditor items={signsLeft} setItems={setSignsLeft} placeholder="Enter early sign..." />
+                </CardContent>
+              </Card>
+              <Card className="border-none shadow-md bg-white border-l-4 border-l-orange-400">
+                <CardContent className="p-8 space-y-4">
+                  <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                    <AlertCircle className="text-orange-500 w-6 h-6" />
+                    <h3>Red Flags: When to Escalate</h3>
+                  </div>
+                  <ListEditor items={signsRight} setItems={setSignsRight} placeholder="Enter late/emergency sign..." />
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          <section id="pharmacology" className="space-y-6">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Pill className="w-5 h-5 text-indigo-500" />
-                <h2 className="text-lg font-bold">Medications</h2>
+              <div>
+                <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                  <Pill className="text-primary w-8 h-8" />
+                  <h2>Pharmacology and Safety</h2>
+                </div>
+                <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
               </div>
               <Button variant="outline" size="sm" onClick={addMedication} className="gap-1" data-testid="button-add-medication">
                 <Plus className="w-3 h-3" /> Add Medication
               </Button>
             </div>
-            {medications.map((med, i) => (
-              <div key={i} className="border rounded-xl p-4 space-y-3 bg-gray-50" data-testid={`medication-card-${i}`}>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-gray-600">Medication #{i + 1}</span>
-                  <Button variant="ghost" size="sm" onClick={() => removeMedication(i)} data-testid={`button-remove-med-${i}`}>
-                    <Trash2 className="w-4 h-4 text-red-400" />
-                  </Button>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <Input value={med.name} onChange={(e) => updateMedication(i, "name", e.target.value)} placeholder="Drug name" data-testid={`input-med-name-${i}`} />
-                  <Input value={med.type} onChange={(e) => updateMedication(i, "type", e.target.value)} placeholder="Classification" data-testid={`input-med-type-${i}`} />
-                </div>
-                <Input value={med.action} onChange={(e) => updateMedication(i, "action", e.target.value)} placeholder="Mechanism of action" data-testid={`input-med-action-${i}`} />
-                <Input value={med.sideEffects} onChange={(e) => updateMedication(i, "sideEffects", e.target.value)} placeholder="Side effects" data-testid={`input-med-side-${i}`} />
-                <Input value={med.contra} onChange={(e) => updateMedication(i, "contra", e.target.value)} placeholder="Contraindications" data-testid={`input-med-contra-${i}`} />
-                <Input value={med.pearl} onChange={(e) => updateMedication(i, "pearl", e.target.value)} placeholder="Nursing pearl" data-testid={`input-med-pearl-${i}`} />
+            <div className="space-y-4">
+              {medications.map((med, i) => (
+                <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900" data-testid={`medication-card-${i}`}>
+                  <div className="bg-primary/5 px-6 py-3 border-b border-primary/10 flex items-center justify-between">
+                    <div className="flex gap-2 flex-1">
+                      <Input value={med.name} onChange={(e) => updateMedication(i, "name", e.target.value)} placeholder="Drug name" className="font-bold w-40" data-testid={`input-med-name-${i}`} />
+                      <Input value={med.type} onChange={(e) => updateMedication(i, "type", e.target.value)} placeholder="Classification" className="w-32" data-testid={`input-med-type-${i}`} />
+                      <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-600" onClick={() => removeMedication(i)} data-testid={`button-remove-med-${i}`}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <CardContent className="p-6 grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
+                      <Input value={med.action} onChange={(e) => updateMedication(i, "action", e.target.value)} placeholder="Mechanism of action" data-testid={`input-med-action-${i}`} />
+                      <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
+                      <Input value={med.sideEffects} onChange={(e) => updateMedication(i, "sideEffects", e.target.value)} placeholder="Side effects" data-testid={`input-med-side-${i}`} />
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
+                      <Input value={med.contra} onChange={(e) => updateMedication(i, "contra", e.target.value)} placeholder="Contraindications" data-testid={`input-med-contra-${i}`} />
+                      <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2 items-center">
+                        <Lightbulb className="w-5 h-5 text-yellow-600 shrink-0" />
+                        <Input value={med.pearl} onChange={(e) => updateMedication(i, "pearl", e.target.value)} placeholder="Nursing pearl" className="text-sm border-none shadow-none p-0 focus-visible:ring-0 bg-transparent" data-testid={`input-med-pearl-${i}`} />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              {medications.length === 0 && (
+                <Card className="border-none shadow-sm bg-white">
+                  <CardContent className="p-8 text-center">
+                    <p className="text-sm text-gray-400">No medications added. Click "Add Medication" or use AI to generate.</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </section>
+
+          <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
+            <div className="flex items-center gap-3 text-2xl font-bold">
+              <FileText className="text-primary w-8 h-8" />
+              <h2>Exam Readiness</h2>
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Clinical Pearls & Priority Logic</h4>
+              <div className="space-y-2">
+                {pearls.map((pearl, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-2" />
+                    <div className="flex gap-2 flex-1">
+                      <Input
+                        value={pearl}
+                        onChange={(e) => { const updated = [...pearls]; updated[i] = e.target.value; setPearls(updated); }}
+                        placeholder="Enter clinical pearl..."
+                        className="bg-gray-800 border-gray-700 text-gray-200 placeholder:text-gray-500"
+                        data-testid={`input-pearl-${i}`}
+                      />
+                      {pearls.length > 1 && (
+                        <Button variant="ghost" size="sm" onClick={() => setPearls(pearls.filter((_, idx) => idx !== i))} className="text-gray-500 hover:text-red-400">
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <Button variant="outline" size="sm" onClick={() => setPearls([...pearls, ""])} className="gap-1 border-gray-700 text-gray-400 hover:text-white mt-2" data-testid="button-add-pearl">
+                  <Plus className="w-3 h-3" /> Add Pearl
+                </Button>
               </div>
-            ))}
-            {medications.length === 0 && (
-              <p className="text-sm text-gray-400 text-center py-4">No medications added. Click "Add Medication" or use AI to generate.</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-2">
-              <Lightbulb className="w-5 h-5 text-amber-500" />
-              <h2 className="text-lg font-bold">Clinical Pearls</h2>
             </div>
-            <ListEditor items={pearls} setItems={setPearls} placeholder="Enter clinical pearl..." />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 space-y-4">
-            <div className="flex items-center gap-2">
-              <Users className="w-5 h-5 text-teal-500" />
-              <h2 className="text-lg font-bold">Across the Lifespan</h2>
-            </div>
-            <Textarea
-              value={lifespanContent}
-              onChange={(e) => setLifespanContent(e.target.value)}
-              rows={4}
-              placeholder="Considerations for pediatric, adult, and geriatric populations..."
-              data-testid="input-lifespan"
-            />
-          </CardContent>
-        </Card>
+          </section>
+        </div>
 
         <Card>
           <CardContent className="p-6 space-y-4">
