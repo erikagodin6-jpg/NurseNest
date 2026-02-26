@@ -1808,14 +1808,36 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const { userId, prompt, count } = req.body;
       if (!userId || !prompt?.trim()) return res.status(400).json({ error: "userId and prompt required" });
       const deckId = req.params.id;
-      const deck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
-      if (deck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deckResult = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
+      if (deckResult.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deck = deckResult.rows[0];
+
+      const entitlement = await getUserCardEntitlement(userId);
+      if (!entitlement.isPremium) {
+        let remaining: number;
+        if (deck.is_upgraded) {
+          const deckCardCount = await pool.query(`SELECT COUNT(*) as cnt FROM deck_flashcards WHERE deck_id = $1`, [deckId]);
+          const current = parseInt(deckCardCount.rows[0]?.cnt || "0");
+          remaining = (deck.upgraded_limit || DECK_UPGRADED_MAX) - current;
+        } else {
+          remaining = FREE_GLOBAL_MAX - entitlement.totalFreeCards;
+        }
+        if (remaining <= 0) {
+          return res.status(403).json({
+            error: `You've reached the free limit of ${FREE_GLOBAL_MAX} cards. Upgrade your plan to create unlimited flashcards with AI.`,
+            upgradeRequired: true,
+            limit: FREE_GLOBAL_MAX,
+            current: entitlement.totalFreeCards,
+          });
+        }
+      }
 
       const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
       const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
       if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
 
-      const numCards = Math.min(Math.max(parseInt(count) || 10, 1), 25);
+      const maxAllowed = entitlement.isPremium ? 25 : Math.min(25, (deck.is_upgraded ? ((deck.upgraded_limit || DECK_UPGRADED_MAX) - entitlement.totalFreeCards) : (FREE_GLOBAL_MAX - entitlement.totalFreeCards)));
+      const numCards = Math.min(Math.max(parseInt(count) || 10, 1), Math.max(maxAllowed, 1));
       const region = req.region || "US";
       const regionNote = region === "CA"
         ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."

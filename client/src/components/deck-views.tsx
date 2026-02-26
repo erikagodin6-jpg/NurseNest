@@ -75,6 +75,7 @@ type DeckViewsProps = {
   aiGenerateCards: () => void;
   addAiGeneratedCards: () => void;
   removeAiGeneratedCard: (index: number) => void;
+  aiUpgradeRequired: boolean;
   deckStudyIndex: number;
   deckStudyFlipped: boolean;
   setDeckStudyFlipped: (b: boolean) => void;
@@ -456,6 +457,7 @@ export function DeckEditor({
   fetchDeckCards, fetchEntitlement,
   aiGeneratePrompt, setAiGeneratePrompt, aiGenerateCount, setAiGenerateCount,
   aiGenerating, aiGeneratedCards, aiGenerateCards, addAiGeneratedCards, removeAiGeneratedCard,
+  aiUpgradeRequired, isPaid,
 }: Partial<DeckViewsProps> & { user: any; setView: any }) {
   const [editingCard, setEditingCard] = useState<any>(null);
   const [showAiGenerate, setShowAiGenerate] = useState(false);
@@ -540,6 +542,27 @@ export function DeckEditor({
               </Button>
               <Button size="sm" variant="outline" onClick={() => setShowAiGenerate(false)}>Cancel</Button>
             </div>
+
+            {!isPaid && (
+              <div className="flex items-center gap-2 text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2" data-testid="text-ai-card-limit">
+                <span>Free plan: {limitInfo.used} / {limitInfo.max} cards used</span>
+                {limitInfo.used >= limitInfo.max && (
+                  <span className="text-red-500 font-medium">— limit reached</span>
+                )}
+              </div>
+            )}
+
+            {aiUpgradeRequired && (
+              <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl" data-testid="text-ai-upgrade-prompt">
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-amber-800">Free card limit reached (50 cards)</p>
+                  <p className="text-xs text-amber-600 mt-0.5">Upgrade your plan to generate unlimited AI flashcards and unlock all premium features.</p>
+                </div>
+                <Button size="sm" className="bg-amber-600 hover:bg-amber-700 shrink-0" onClick={() => window.location.href = "/pricing"} data-testid="button-ai-upgrade">
+                  Upgrade Now
+                </Button>
+              </div>
+            )}
 
             {aiGeneratedCards && aiGeneratedCards.length > 0 && (
               <div className="space-y-2 pt-2 border-t border-purple-200">

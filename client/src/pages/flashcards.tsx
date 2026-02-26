@@ -1214,10 +1214,13 @@ export default function Flashcards() {
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiGeneratedCards, setAiGeneratedCards] = useState<{front: string; back: string; rationale: string}[]>([]);
 
+  const [aiUpgradeRequired, setAiUpgradeRequired] = useState(false);
+
   const aiGenerateCards = async () => {
     if (!user || !currentDeck || !aiGeneratePrompt.trim()) return;
     setAiGenerating(true);
     setAiGeneratedCards([]);
+    setAiUpgradeRequired(false);
     try {
       const res = await fetch(`/api/decks/${currentDeck.id}/ai-generate`, {
         method: "POST",
@@ -1226,7 +1229,11 @@ export default function Flashcards() {
       });
       if (!res.ok) {
         const err = await res.json();
-        alert(err.error || "AI generation failed");
+        if (err.upgradeRequired) {
+          setAiUpgradeRequired(true);
+        } else {
+          alert(err.error || "AI generation failed");
+        }
         return;
       }
       const data = await res.json();
@@ -1246,16 +1253,23 @@ export default function Flashcards() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.id, cards: aiGeneratedCards }),
       });
+      const result = await res.json();
       if (res.ok) {
-        const result = await res.json();
         setAiGeneratedCards([]);
         setAiGeneratePrompt("");
         fetchDeckCards(currentDeck.id);
         fetchEntitlement();
-        alert(`Added ${result.imported} AI-generated cards to your deck!`);
+        if (result.skipped > 0) {
+          alert(`Added ${result.imported} cards. ${result.skipped} cards were skipped due to the free card limit. Upgrade for unlimited cards!`);
+        } else {
+          alert(`Added ${result.imported} AI-generated cards to your deck!`);
+        }
       } else {
-        const err = await res.json();
-        alert(err.error || "Failed to add cards");
+        if (result.upgradeRequired) {
+          setAiUpgradeRequired(true);
+        } else {
+          alert(result.error || "Failed to add cards");
+        }
       }
     } catch {}
   };
@@ -2187,6 +2201,8 @@ export default function Flashcards() {
             aiGenerateCards={aiGenerateCards}
             addAiGeneratedCards={addAiGeneratedCards}
             removeAiGeneratedCard={removeAiGeneratedCard}
+            aiUpgradeRequired={aiUpgradeRequired}
+            isPaid={!!isPaid}
           />
         </main>
         <Footer />
