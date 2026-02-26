@@ -12,11 +12,12 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
   ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil, X, Plus, Trash2,
-  PlayCircle, Clock, ChevronRight
+  PlayCircle, Clock, ChevronRight, Sparkles, Loader2, Wand2
 } from "lucide-react";
 import { getLecturesForLesson } from "@/data/micro-lectures";
 import { useToast } from "@/hooks/use-toast";
@@ -33,6 +34,582 @@ import { getImageAltText, getImageTitle, getImageStructuredData } from "@/lib/im
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { RichTextEditor, RichTextListEditor, RichTextDisplay } from "@/components/rich-text-editor";
 import { ContentBlockRenderer, LessonObjectives, ClinicalPearlsList } from "@/components/content-block-renderer";
+
+function getCredentials() {
+  try {
+    return JSON.parse(localStorage.getItem("nursenest-credentials") || "null");
+  } catch { return null; }
+}
+
+function AdminLessonCreator({ lessonId }: { lessonId: string }) {
+  const displayName = lessonId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const [title, setTitle] = useState(displayName);
+  const [summary, setSummary] = useState("");
+  const [tier, setTier] = useState("rpn");
+  const [category, setCategory] = useState("");
+  const [status, setStatus] = useState("published");
+  const [pathophysiology, setPathophysiology] = useState("");
+  const [riskFactors, setRiskFactors] = useState<string[]>([""]);
+  const [diagnostics, setDiagnostics] = useState<string[]>([""]);
+  const [management, setManagement] = useState<string[]>([""]);
+  const [nursingActions, setNursingActions] = useState<string[]>([""]);
+  const [signsLeft, setSignsLeft] = useState<string[]>([""]);
+  const [signsRight, setSignsRight] = useState<string[]>([""]);
+  const [medications, setMedications] = useState<{ name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[]>([]);
+  const [pearls, setPearls] = useState<string[]>([""]);
+  const [lifespanContent, setLifespanContent] = useState("");
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoDescription, setSeoDescription] = useState("");
+  const [seoKeywords, setSeoKeywords] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [seoGenerating, setSeoGenerating] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const { toast } = useToast();
+  const [, setLocation] = useLocation();
+
+  const generateWithAI = async () => {
+    const creds = getCredentials();
+    if (!creds) { setError("Admin credentials not found"); return; }
+    setAiGenerating(true);
+    setError("");
+    try {
+      const res = await fetch("/api/ai/generate-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          prompt: `Generate a comprehensive clinical nursing lesson about "${title}". Include:
+1. Pathophysiology section with detailed explanation
+2. Risk factors (list of 5-8 items)
+3. Diagnostic findings (list of 5-8 items)
+4. Medical management (list of 5-8 items)
+5. Priority nursing actions (list of 5-8 items)
+6. Signs and symptoms split into two columns (early signs and late/emergency signs)
+7. Key medications with drug name, classification, mechanism of action, side effects, contraindications, and nursing pearl
+8. Clinical pearls (3-5 high-yield exam tips)
+9. Lifespan considerations
+
+Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":["..."],"management":["..."],"nursingActions":["..."],"signsLeft":["early sign 1","early sign 2"],"signsRight":["late sign 1","late sign 2"],"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}],"pearls":["..."],"lifespan":"...","summary":"one sentence summary"}`,
+          mode: "generate",
+        }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || "AI generation failed");
+      const data = await res.json();
+      const blocks = data.blocks || [];
+      const jsonBlock = blocks.find((b: any) => b.content && b.content.includes('"pathophysiology"'));
+      if (jsonBlock) {
+        try {
+          const jsonMatch = jsonBlock.content.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            if (parsed.pathophysiology) setPathophysiology(parsed.pathophysiology);
+            if (parsed.riskFactors?.length) setRiskFactors(parsed.riskFactors);
+            if (parsed.diagnostics?.length) setDiagnostics(parsed.diagnostics);
+            if (parsed.management?.length) setManagement(parsed.management);
+            if (parsed.nursingActions?.length) setNursingActions(parsed.nursingActions);
+            if (parsed.signsLeft?.length) setSignsLeft(parsed.signsLeft);
+            if (parsed.signsRight?.length) setSignsRight(parsed.signsRight);
+            if (parsed.medications?.length) setMedications(parsed.medications);
+            if (parsed.pearls?.length) setPearls(parsed.pearls);
+            if (parsed.lifespan) setLifespanContent(parsed.lifespan);
+            if (parsed.summary) setSummary(parsed.summary);
+            toast({ title: "AI Content Generated", description: "All sections populated. Review and edit before saving." });
+            return;
+          }
+        } catch {}
+      }
+      let patho = "";
+      const risks: string[] = [];
+      const diags: string[] = [];
+      const mgmt: string[] = [];
+      const nursing: string[] = [];
+      const pearlList: string[] = [];
+      for (const block of blocks) {
+        const c = block.content || "";
+        const t = (block.type || "").toLowerCase();
+        if (t === "paragraph" && !patho && c.length > 50) {
+          patho = c;
+        } else if (t === "list" && block.items) {
+          if (risks.length === 0) risks.push(...block.items);
+          else if (diags.length === 0) diags.push(...block.items);
+          else if (mgmt.length === 0) mgmt.push(...block.items);
+          else if (nursing.length === 0) nursing.push(...block.items);
+        } else if (t === "clinical-pearl") {
+          pearlList.push(c);
+        }
+      }
+      if (patho) setPathophysiology(patho);
+      if (risks.length) setRiskFactors(risks);
+      if (diags.length) setDiagnostics(diags);
+      if (mgmt.length) setManagement(mgmt);
+      if (nursing.length) setNursingActions(nursing);
+      if (pearlList.length) setPearls(pearlList);
+      toast({ title: "AI Content Generated", description: "Content populated from AI. Review and edit before saving." });
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
+  const generateSEO = async () => {
+    const creds = getCredentials();
+    if (!creds) { setError("Admin credentials not found"); return; }
+    setSeoGenerating(true);
+    try {
+      const res = await fetch("/api/ai/generate-seo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          title,
+          summary,
+          tier,
+          category,
+          content: [
+            { type: "heading", content: "Pathophysiology" },
+            { type: "paragraph", content: pathophysiology },
+            { type: "heading", content: "Risk Factors" },
+            { type: "list", items: riskFactors },
+            { type: "heading", content: "Clinical Pearls" },
+            ...pearls.map((p) => ({ type: "clinical-pearl", content: p })),
+          ],
+        }),
+      });
+      if (!res.ok) throw new Error("SEO generation failed");
+      const data = await res.json();
+      if (data.seoTitle) setSeoTitle(data.seoTitle);
+      if (data.seoDescription) setSeoDescription(data.seoDescription);
+      if (data.seoKeywords) setSeoKeywords(Array.isArray(data.seoKeywords) ? data.seoKeywords.join(", ") : String(data.seoKeywords));
+      toast({ title: "SEO Generated", description: "SEO metadata populated. Review before saving." });
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setSeoGenerating(false);
+    }
+  };
+
+  const handleSave = async () => {
+    const creds = getCredentials();
+    if (!creds) { setError("Admin credentials not found"); return; }
+    if (!title.trim()) { setError("Title is required"); return; }
+    setSaving(true);
+    setError("");
+    try {
+      const contentBlocks: any[] = [];
+      if (pathophysiology) {
+        contentBlocks.push({ type: "heading", content: "Pathophysiology" });
+        contentBlocks.push({ type: "paragraph", content: pathophysiology });
+      }
+      if (riskFactors.some((r) => r.trim())) {
+        contentBlocks.push({ type: "heading", content: "Risk Factors" });
+        contentBlocks.push({ type: "list", items: riskFactors.filter((r) => r.trim()) });
+      }
+      if (diagnostics.some((d) => d.trim())) {
+        contentBlocks.push({ type: "heading", content: "Diagnostic Findings" });
+        contentBlocks.push({ type: "list", items: diagnostics.filter((d) => d.trim()) });
+      }
+      if (management.some((m) => m.trim())) {
+        contentBlocks.push({ type: "heading", content: "Medical Management" });
+        contentBlocks.push({ type: "list", items: management.filter((m) => m.trim()) });
+      }
+      if (nursingActions.some((n) => n.trim())) {
+        contentBlocks.push({ type: "heading", content: "Priority Nursing Actions" });
+        contentBlocks.push({ type: "list", items: nursingActions.filter((n) => n.trim()) });
+      }
+      if (signsLeft.some((s) => s.trim()) || signsRight.some((s) => s.trim())) {
+        contentBlocks.push({ type: "heading", content: "Signs & Symptoms" });
+        if (signsLeft.some((s) => s.trim())) {
+          contentBlocks.push({ type: "heading", content: "Early Signs" });
+          contentBlocks.push({ type: "list", items: signsLeft.filter((s) => s.trim()) });
+        }
+        if (signsRight.some((s) => s.trim())) {
+          contentBlocks.push({ type: "heading", content: "Late/Emergency Signs" });
+          contentBlocks.push({ type: "list", items: signsRight.filter((s) => s.trim()) });
+        }
+      }
+      if (medications.length > 0) {
+        contentBlocks.push({ type: "heading", content: "Medications" });
+        for (const med of medications) {
+          contentBlocks.push({
+            type: "medication",
+            content: `${med.name} (${med.type})\nAction: ${med.action}\nSide Effects: ${med.sideEffects}\nContraindications: ${med.contra}\nNursing Pearl: ${med.pearl}`,
+          });
+        }
+      }
+      for (const pearl of pearls.filter((p) => p.trim())) {
+        contentBlocks.push({ type: "clinical-pearl", content: pearl });
+      }
+      if (lifespanContent) {
+        contentBlocks.push({ type: "heading", content: "Across the Lifespan" });
+        contentBlocks.push({ type: "paragraph", content: lifespanContent });
+      }
+
+      const slug = lessonId;
+      const res = await fetch("/api/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          title,
+          slug,
+          type: "lesson",
+          summary: summary || null,
+          tier,
+          status,
+          category: category || "General",
+          content: contentBlocks,
+          seoTitle: seoTitle || null,
+          seoDescription: seoDescription || null,
+          seoKeywords: seoKeywords ? seoKeywords.split(",").map((k: string) => k.trim()).filter(Boolean) : [],
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to create lesson");
+      }
+      setSuccess(true);
+      toast({ title: "Lesson Created", description: "The lesson has been saved successfully." });
+      setTimeout(() => window.location.reload(), 1500);
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const addListItem = (list: string[], setList: (v: string[]) => void) => {
+    setList([...list, ""]);
+  };
+
+  const updateListItem = (list: string[], setList: (v: string[]) => void, index: number, value: string) => {
+    const updated = [...list];
+    updated[index] = value;
+    setList(updated);
+  };
+
+  const removeListItem = (list: string[], setList: (v: string[]) => void, index: number) => {
+    setList(list.filter((_, i) => i !== index));
+  };
+
+  const addMedication = () => {
+    setMedications([...medications, { name: "", type: "", action: "", sideEffects: "", contra: "", pearl: "" }]);
+  };
+
+  const updateMedication = (index: number, field: string, value: string) => {
+    const updated = [...medications];
+    updated[index] = { ...updated[index], [field]: value };
+    setMedications(updated);
+  };
+
+  const removeMedication = (index: number) => {
+    setMedications(medications.filter((_, i) => i !== index));
+  };
+
+  if (success) {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+        <Navigation />
+        <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+          <CheckCircle2 className="w-16 h-16 text-emerald-500 mx-auto" />
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-created">Lesson Created</h1>
+          <p className="text-gray-600">The lesson is being loaded...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  function ListEditor({ items, setItems, placeholder }: { items: string[]; setItems: (v: string[]) => void; placeholder: string }) {
+    return (
+      <div className="space-y-2">
+        {items.map((item, i) => (
+          <div key={i} className="flex gap-2">
+            <Input
+              value={item}
+              onChange={(e) => updateListItem(items, setItems, i, e.target.value)}
+              placeholder={placeholder}
+              className="flex-1"
+              data-testid={`input-list-item-${i}`}
+            />
+            {items.length > 1 && (
+              <Button variant="ghost" size="sm" onClick={() => removeListItem(items, setItems, i)} data-testid={`button-remove-item-${i}`}>
+                <Trash2 className="w-4 h-4 text-red-400" />
+              </Button>
+            )}
+          </div>
+        ))}
+        <Button variant="outline" size="sm" onClick={() => addListItem(items, setItems)} className="gap-1" data-testid="button-add-item">
+          <Plus className="w-3 h-3" /> Add Item
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+      <Navigation />
+      <main className="max-w-4xl mx-auto px-4 py-10 w-full space-y-6" data-testid="admin-lesson-creator">
+        <LocaleLink href="/lessons">
+          <Button variant="ghost" className="mb-4 group" data-testid="button-back-lessons">
+            <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to Lessons
+          </Button>
+        </LocaleLink>
+
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+          <Crown className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+          <div>
+            <p className="font-semibold text-amber-800">Admin: Create New Lesson</p>
+            <p className="text-sm text-amber-700">This lesson doesn't exist yet. Fill in the template below or use AI to generate content. The lesson will be saved to the database and immediately available.</p>
+          </div>
+        </div>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm" data-testid="text-error">{error}</div>
+        )}
+
+        <Card>
+          <CardContent className="p-6 space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold">Lesson Details</h2>
+              <div className="flex gap-2">
+                <Button onClick={generateWithAI} disabled={aiGenerating} className="gap-2 bg-purple-600 hover:bg-purple-700" data-testid="button-ai-generate">
+                  {aiGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                  {aiGenerating ? "Generating..." : "Generate with AI"}
+                </Button>
+                <Button onClick={handleSave} disabled={saving} className="gap-2" data-testid="button-save-lesson">
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  {saving ? "Saving..." : "Save Lesson"}
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Title</label>
+                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Lesson title..." data-testid="input-lesson-title" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Category</label>
+                <Input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Respiratory, Cardiovascular..." data-testid="input-lesson-category" />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Summary</label>
+              <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={2} placeholder="Brief clinical summary of this lesson..." data-testid="input-lesson-summary" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tier</label>
+                <Select value={tier} onValueChange={setTier}>
+                  <SelectTrigger data-testid="select-lesson-tier"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="free">FREE</SelectItem>
+                    <SelectItem value="rpn">RPN</SelectItem>
+                    <SelectItem value="rn">RN</SelectItem>
+                    <SelectItem value="np">NP</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Status</label>
+                <Select value={status} onValueChange={setStatus}>
+                  <SelectTrigger data-testid="select-lesson-status"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="published">Published</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 space-y-6">
+            <div className="flex items-center gap-2">
+              <Microscope className="w-5 h-5 text-primary" />
+              <h2 className="text-lg font-bold">Pathophysiology</h2>
+            </div>
+            <Textarea
+              value={pathophysiology}
+              onChange={(e) => setPathophysiology(e.target.value)}
+              rows={6}
+              placeholder="Describe the underlying pathophysiology, cellular changes, and disease mechanism..."
+              data-testid="input-pathophysiology"
+            />
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-5 h-5 text-orange-500" />
+                <h2 className="text-lg font-bold">Risk Factors</h2>
+              </div>
+              <ListEditor items={riskFactors} setItems={setRiskFactors} placeholder="Enter risk factor..." />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-center gap-2">
+                <Search className="w-5 h-5 text-blue-500" />
+                <h2 className="text-lg font-bold">Diagnostic Findings</h2>
+              </div>
+              <ListEditor items={diagnostics} setItems={setDiagnostics} placeholder="Enter diagnostic finding..." />
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-center gap-2">
+                <Stethoscope className="w-5 h-5 text-emerald-500" />
+                <h2 className="text-lg font-bold">Medical Management</h2>
+              </div>
+              <ListEditor items={management} setItems={setManagement} placeholder="Enter management item..." />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-center gap-2">
+                <ClipboardList className="w-5 h-5 text-violet-500" />
+                <h2 className="text-lg font-bold">Priority Nursing Actions</h2>
+              </div>
+              <ListEditor items={nursingActions} setItems={setNursingActions} placeholder="Enter nursing action..." />
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <Activity className="w-5 h-5 text-red-500" />
+              <h2 className="text-lg font-bold">Signs & Symptoms</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">Early Signs</label>
+                <ListEditor items={signsLeft} setItems={setSignsLeft} placeholder="Enter early sign..." />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">Late / Emergency Signs</label>
+                <ListEditor items={signsRight} setItems={setSignsRight} placeholder="Enter late sign..." />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Pill className="w-5 h-5 text-indigo-500" />
+                <h2 className="text-lg font-bold">Medications</h2>
+              </div>
+              <Button variant="outline" size="sm" onClick={addMedication} className="gap-1" data-testid="button-add-medication">
+                <Plus className="w-3 h-3" /> Add Medication
+              </Button>
+            </div>
+            {medications.map((med, i) => (
+              <div key={i} className="border rounded-xl p-4 space-y-3 bg-gray-50" data-testid={`medication-card-${i}`}>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-gray-600">Medication #{i + 1}</span>
+                  <Button variant="ghost" size="sm" onClick={() => removeMedication(i)} data-testid={`button-remove-med-${i}`}>
+                    <Trash2 className="w-4 h-4 text-red-400" />
+                  </Button>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Input value={med.name} onChange={(e) => updateMedication(i, "name", e.target.value)} placeholder="Drug name" data-testid={`input-med-name-${i}`} />
+                  <Input value={med.type} onChange={(e) => updateMedication(i, "type", e.target.value)} placeholder="Classification" data-testid={`input-med-type-${i}`} />
+                </div>
+                <Input value={med.action} onChange={(e) => updateMedication(i, "action", e.target.value)} placeholder="Mechanism of action" data-testid={`input-med-action-${i}`} />
+                <Input value={med.sideEffects} onChange={(e) => updateMedication(i, "sideEffects", e.target.value)} placeholder="Side effects" data-testid={`input-med-side-${i}`} />
+                <Input value={med.contra} onChange={(e) => updateMedication(i, "contra", e.target.value)} placeholder="Contraindications" data-testid={`input-med-contra-${i}`} />
+                <Input value={med.pearl} onChange={(e) => updateMedication(i, "pearl", e.target.value)} placeholder="Nursing pearl" data-testid={`input-med-pearl-${i}`} />
+              </div>
+            ))}
+            {medications.length === 0 && (
+              <p className="text-sm text-gray-400 text-center py-4">No medications added. Click "Add Medication" or use AI to generate.</p>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-amber-500" />
+              <h2 className="text-lg font-bold">Clinical Pearls</h2>
+            </div>
+            <ListEditor items={pearls} setItems={setPearls} placeholder="Enter clinical pearl..." />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-teal-500" />
+              <h2 className="text-lg font-bold">Across the Lifespan</h2>
+            </div>
+            <Textarea
+              value={lifespanContent}
+              onChange={(e) => setLifespanContent(e.target.value)}
+              rows={4}
+              placeholder="Considerations for pediatric, adult, and geriatric populations..."
+              data-testid="input-lifespan"
+            />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-green-600" />
+                <h2 className="text-lg font-bold">SEO Metadata</h2>
+              </div>
+              <Button onClick={generateSEO} disabled={seoGenerating} variant="outline" className="gap-2" data-testid="button-generate-seo">
+                {seoGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+                {seoGenerating ? "Generating..." : "Generate SEO"}
+              </Button>
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">SEO Title</label>
+              <Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder="SEO-optimized page title..." data-testid="input-seo-title" />
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">SEO Description</label>
+              <Textarea value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} rows={2} placeholder="Meta description for search engines..." data-testid="input-seo-description" />
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">SEO Keywords</label>
+              <Input value={seoKeywords} onChange={(e) => setSeoKeywords(e.target.value)} placeholder="Comma-separated keywords..." data-testid="input-seo-keywords" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="flex justify-end gap-3 pb-10">
+          <Button variant="outline" onClick={() => setLocation("/lessons")} data-testid="button-cancel-create">Cancel</Button>
+          <Button onClick={handleSave} disabled={saving} className="gap-2 px-8" data-testid="button-save-lesson-bottom">
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {saving ? "Saving..." : "Save Lesson"}
+          </Button>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 function EditableText({ value, onChange, multiline = false, className = "" }: { value: string; onChange: (v: string) => void; multiline?: boolean; className?: string }) {
   if (multiline) {
@@ -859,6 +1436,7 @@ export default function LessonDetail() {
   const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
   const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
   const { user, hasAccess } = useAuth();
+  const isAdmin = user?.tier === "admin";
   
   const tierFromId = id?.split('-')[0];
   const slugFromId = id?.split('-').slice(1).join('-');
@@ -1020,6 +1598,10 @@ export default function LessonDetail() {
           <Footer />
         </div>
       );
+    }
+
+    if (isAdmin && id) {
+      return <AdminLessonCreator lessonId={id} />;
     }
 
     return (
