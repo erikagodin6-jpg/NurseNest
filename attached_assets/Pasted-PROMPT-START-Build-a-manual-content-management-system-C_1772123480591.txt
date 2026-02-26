@@ -1,0 +1,129 @@
+PROMPT START
+Build a manual content management system (CMS-style) inside my NurseNest app so I can create and publish content myself without using AI generation. This must apply to:
+Lessons
+Flashcards
+Exams / Question Bank (QBank)
+Other learning content modules that already exist or will exist (e.g., checklists, OSCE stations, case studies)
+IMPORTANT HARD RULE:
+Do NOT modify, refactor, or touch any code related to the Blog Generator, Blog pages, Blog admin, blog routing, blog database tables, blog API endpoints, blog UI components, sitemap logic for blog, or any blog-related feature. The blog system is perfect and must remain unchanged.
+If you need to add new tables/endpoints/components, you may do so, but they must not overlap or interfere with blog code.
+CURRENT PROBLEM TO FIX
+My admin area can add content, but new content does not reliably appear on the public Lessons/Flashcards/Exams pages. This indicates the admin storage is disconnected from the public rendering layer. Fix the data flow so admin-created content becomes visible when published.
+Do NOT create new subscription tiers. Do NOT hardcode content menus. Do NOT rely on AI-generated content. This is about manual content creation and dynamic rendering.
+CORE REQUIREMENTS (MUST)
+1) Single Source of Truth Models
+Create or fix unified models for each module. Use the simplest robust storage available in this repo (existing DB preferred; otherwise SQLite+Prisma or equivalent). The admin and public UIs must read/write the SAME source.
+LESSON
+id (uuid)
+title
+slug (auto-generated unique)
+category
+system (optional)
+level (pre-nursing / RPN / RN / NP)
+tier (free / paid)
+status (draft / published / archived)
+excerpt
+objectives (string[])
+sections (block-based array)
+clinicalPearls (string[])
+references (string[] optional)
+createdAt, updatedAt, publishedAt
+FLASHCARD_SET
+id
+title
+slug
+category
+level
+tier
+status
+description
+cards ({ front, back, tags? }[])
+linkedLessonIds? (optional)
+createdAt, updatedAt, publishedAt
+EXAM / QBANK
+id
+title
+slug
+category
+level
+tier
+status
+description
+mode (timed/untimed)
+settings (optional: timeLimit, shuffle, showRationales, passingScore)
+questions (array of question objects; see below)
+linkedLessonIds? (optional)
+createdAt, updatedAt, publishedAt
+QUESTION OBJECT
+id
+stem
+options (A-E array)
+correctOption (index)
+rationaleCorrect (string)
+rationalesIncorrect (string[] aligned to options)
+difficulty (easy/medium/hard)
+tags (string[])
+references? (optional)
+OTHER_CONTENT (generic container for future modules)
+id
+type (checklist/osce/caseStudy/worksheet/etc)
+title
+slug
+category
+level
+tier
+status
+excerpt/description
+blocks (block-based array)
+createdAt, updatedAt, publishedAt
+2) Block-Based Template System (Manual Authoring)
+Implement reusable block rendering so I can fill pages without coding.
+Block types must include:
+heading
+paragraph
+bulletList
+callout (tip/warning/exam/clinical)
+table
+image (url + caption optional)
+divider
+quizEmbed (optional link to exam or lesson quiz)
+All blocks must render safely even if fields are empty.
+3) Admin Builder (No AI)
+Create admin UI that supports:
+Create/edit/delete each content type
+Status workflow: draft → published → archived
+Auto-slug generation with uniqueness validation
+Reorder blocks and items (up/down or drag/drop)
+Preview mode that renders exactly like public pages
+Bulk actions: publish/unpublish/archive (optional)
+Content Diagnostics panel (slug duplicates, empty required fields, missing cards, missing rationales, etc.)
+4) Public Rendering (Dynamic)
+Replace any hardcoded lists for Lessons/Flashcards/Exams/Other Content with dynamic queries:
+Index pages show published only
+Filters: category, level, tier; search bar
+Detail pages load by slug, show 404 if missing
+Draft content only visible in admin preview
+Integrate existing free/paid gating if it exists; otherwise stub without redesigning auth
+5) Exams / QBank User Experience
+Implement exam experience:
+Start exam → question navigation → submit → results
+Show rationales AFTER answer or at end depending on exam settings
+Track score, time (if timed), and show breakdown by category/tag (basic)
+Ensure rationales exist for each option (correct + incorrect)
+6) Non-Interference with Blog System (STRICT)
+Do not edit blog files
+Do not rename or move blog routes/components
+Do not change blog tables/models
+Do not change blog generator prompts or logic
+If any shared utilities would affect blog behavior, duplicate them instead of refactoring shared code
+Add guardrails:
+Keep new API routes under a distinct namespace (e.g., /api/content/*)
+Keep new DB tables clearly prefixed (e.g., nn_lessons, nn_flashcards, nn_exams, nn_content)
+7) Verification / Definition of Done
+Creating a lesson/flashcard/exam in admin → publishing → appears immediately on public index and detail pages
+Draft stays hidden publicly but visible in admin preview
+Exams show rationales correctly and do not crash with missing optional fields
+No changes to blog behavior or code
+Provide 2 sample lessons, 1 flashcard set, and 1 mini exam as seeded data for testing
+Proceed to implement with clean maintainable code.
+PROMPT END
