@@ -1,0 +1,110 @@
+If /@vite/client and /src/App.tsx are loading 200 and you still get a blank preview, you’re no longer dealing with the “module fetch” failure. You’re dealing with a runtime render failure (React crash, mount target mismatch, CSS hiding everything, or an app-level redirect/render guard).
+
+Since I can’t see your logs/console directly, here’s the fastest way to isolate it in 5 minutes.
+
+1) Confirm React is even mounting
+
+In the browser console on the preview page, run:
+
+document.getElementById("root")
+
+If this returns null → your index.html root element doesn’t match your main.tsx mount target.
+
+If it returns an element, run:
+
+document.getElementById("root").innerHTML
+
+If it’s empty and stays empty → React likely crashed before first paint or never ran.
+
+2) Look for the first real console error
+
+In DevTools → Console:
+
+Clear logs
+
+Hard refresh (Ctrl+Shift+R)
+
+Copy the first red error (topmost) and paste it here
+
+Blank screens almost always have a single “first error” that explains everything (provider initialization, router, undefined env var, JSON parse, etc.).
+
+3) Verify the entry module runs
+
+Add one temporary line at the very top of src/main.tsx:
+
+console.log("main.tsx loaded");
+
+Reload and confirm you see it in the console.
+
+If you don’t see it, then main.tsx isn’t executing (wrong script tag, CSP blocking, cached service worker, etc.)
+
+If you do see it, go to step 4.
+
+4) Quick isolation: replace App with a minimal render
+
+Temporarily change src/App.tsx to:
+
+export default function App() {
+  return <div style={{ padding: 24 }}>App booted ✅</div>;
+}
+
+Reload.
+
+If this renders → the blank screen is caused by something inside your real App tree (router, providers, auth, i18n init, data fetch, etc.)
+
+If this still doesn’t render → the issue is in bootstrap (ReactDOM root mount, CSS hiding, or a global error before App).
+
+5) Check for “invisible app” via CSS
+
+Common gotcha: a global CSS rule makes the whole app invisible.
+
+In DevTools → Elements, click the #root element and check computed styles for:
+
+display: none
+
+opacity: 0
+
+visibility: hidden
+
+height: 0
+
+transform: translate… off-screen
+
+Also check body/html for the same.
+
+6) Service worker / PWA cache (surprisingly common on Replit)
+
+If you ever enabled a service worker, it can serve stale HTML and cause blank screens.
+
+DevTools → Application → Service Workers:
+
+Unregister
+
+Clear site data
+
+Hard reload
+
+7) If it’s a client-side routing blank (Wouter)
+
+If your app uses Wouter and you moved to locale-prefixed URLs or changed base paths, you can end up rendering “nothing” if no route matches.
+
+Quick test: add a catch-all route:
+
+import { Route, Switch } from "wouter";
+
+<Switch>
+  {/* your routes */}
+  <Route>404 route hit</Route>
+</Switch>
+
+If “404 route hit” appears, your routes aren’t matching your current URL.
+
+The single most helpful thing to paste
+
+Paste only:
+
+The first console error (topmost red error after hard refresh)
+
+Your main.tsx (first ~30–50 lines)
+
+Your index.html root element line (<div id="...">)
