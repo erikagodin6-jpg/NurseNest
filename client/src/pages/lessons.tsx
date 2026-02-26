@@ -5,8 +5,10 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { useI18n } from "@/lib/i18n";
 import { Footer } from "@/components/footer";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getLecturesForTier, type LectureMetadata } from "@/data/micro-lectures";
 import { 
@@ -38,8 +40,23 @@ import {
   HeartHandshake,
   Bandage,
   Target,
-  Calculator
+  Calculator,
+  Database
 } from "lucide-react";
+
+interface DbLesson {
+  id: string;
+  title: string;
+  slug: string;
+  category: string | null;
+  bodySystem: string | null;
+  tier: string | null;
+  summary: string | null;
+  tags: string[] | null;
+  seoDescription: string | null;
+  publishedAt: string | null;
+  updatedAt: string | null;
+}
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
 import { useAuth } from "@/lib/auth";
@@ -1901,6 +1918,80 @@ const npSystems = [
   }
 ];
 
+function DbLessonsSection({ lessons, onNavigate }: { lessons: DbLesson[]; onNavigate: (path: string) => void }) {
+  if (lessons.length === 0) return null;
+
+  const grouped = lessons.reduce<Record<string, DbLesson[]>>((acc, lesson) => {
+    const cat = lesson.category || "Other";
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(lesson);
+    return acc;
+  }, {});
+
+  const tierColors: Record<string, string> = {
+    free: "bg-green-100 text-green-800",
+    rpn: "bg-blue-100 text-blue-800",
+    rn: "bg-purple-100 text-purple-800",
+    np: "bg-red-100 text-red-800",
+  };
+
+  return (
+    <div className="mt-10">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="p-2.5 rounded-xl bg-primary/10">
+          <Database className="w-6 h-6 text-primary" />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">Additional Lessons</h2>
+          <p className="text-sm text-gray-500">Admin-created lesson content</p>
+        </div>
+      </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+        {Object.entries(grouped).map(([category, items]) => (
+          <Card key={category} className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
+            <CardHeader className="flex flex-row items-center gap-4 pb-2 bg-slate-50">
+              <div className="p-3 rounded-xl bg-white shadow-sm text-primary">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <CardTitle className="text-xl font-bold text-gray-900">{category}</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="space-y-3">
+                {items.map((lesson) => (
+                  <LocaleLink
+                    key={lesson.id}
+                    href={`/lessons/${lesson.slug}`}
+                    data-testid={`db-lesson-card-${lesson.slug}`}
+                    className="flex items-center justify-between p-4 rounded-xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all cursor-pointer group no-underline"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <BookOpen className="w-5 h-5 shrink-0 text-primary" />
+                      <div className="min-w-0">
+                        <span className="font-medium text-gray-900 block truncate">{lesson.title}</span>
+                        {lesson.summary && (
+                          <span className="text-xs text-gray-500 block truncate mt-0.5">{lesson.summary}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 ml-2">
+                      {lesson.tier && (
+                        <Badge variant="secondary" className={cn("text-xs", tierColors[lesson.tier] || "")}>
+                          {lesson.tier.toUpperCase()}
+                        </Badge>
+                      )}
+                      <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </LocaleLink>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function LecturesSection({ tier, onNavigate }: { tier: string; onNavigate: (path: string) => void }) {
   const { t } = useI18n();
   const lectures = getLecturesForTier(tier);
@@ -1955,6 +2046,18 @@ export default function Lessons() {
 
   const defaultTab = showAllTabs ? "rpn" : effectiveTier;
   const [activeTab, setActiveTab] = useState(defaultTab);
+
+  const [dbLessons, setDbLessons] = useState<DbLesson[]>([]);
+
+  useEffect(() => {
+    fetch("/api/content/lessons")
+      .then((res) => res.ok ? res.json() : [])
+      .then((data) => setDbLessons(Array.isArray(data) ? data : []))
+      .catch(() => setDbLessons([]));
+  }, []);
+
+  const dbLessonsByTier = (tier: string) =>
+    dbLessons.filter((l) => !l.tier || l.tier === tier || l.tier === "free");
 
   const rpnNonPharm = rpnSystems.filter(s => !s.id.includes("pharmacology"));
   const rnNonPharm = rnSystems.filter(s => !s.id.includes("pharmacology"));
@@ -2016,6 +2119,7 @@ export default function Lessons() {
                 <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
+            <DbLessonsSection lessons={dbLessonsByTier("rpn")} onNavigate={setLocation} />
           </TabsContent>
           <TabsContent value="rn" className="mt-0">
             <LecturesSection tier="rn" onNavigate={setLocation} />
@@ -2024,6 +2128,7 @@ export default function Lessons() {
                 <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
+            <DbLessonsSection lessons={dbLessonsByTier("rn")} onNavigate={setLocation} />
           </TabsContent>
           <TabsContent value="np" className="mt-0">
             <LecturesSection tier="np" onNavigate={setLocation} />
@@ -2032,6 +2137,7 @@ export default function Lessons() {
                 <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
               ))}
             </div>
+            <DbLessonsSection lessons={dbLessonsByTier("np")} onNavigate={setLocation} />
           </TabsContent>
           <TabsContent value="pharmacology" className="mt-0">
             <div className="space-y-10">

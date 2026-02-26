@@ -31,6 +31,7 @@ import { ProtectedImage } from "@/components/protected-image";
 import { getImageAltText, getImageTitle, getImageStructuredData } from "@/lib/image-seo";
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { RichTextEditor, RichTextListEditor, RichTextDisplay } from "@/components/rich-text-editor";
+import { ContentBlockRenderer, LessonObjectives, ClinicalPearlsList } from "@/components/content-block-renderer";
 
 function EditableText({ value, onChange, multiline = false, className = "" }: { value: string; onChange: (v: string) => void; multiline?: boolean; className?: string }) {
   if (multiline) {
@@ -447,6 +448,7 @@ function IsolationTypesGuide() {
 }
 
 function getLessonTier(lessonId: string): string {
+  if (lessonId.startsWith("med-math-")) return "free";
   if (lessonId.startsWith("np-") || lessonId.includes("-np") || lessonId.includes("advanced-")) return "np";
   if (lessonId.startsWith("rn-") || lessonId.includes("-rn") || lessonId.includes("nclex-")) return "rn";
   return "rpn";
@@ -888,6 +890,8 @@ export default function LessonDetail() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<LessonContent | null>(null);
   const [saving, setSaving] = useState(false);
+  const [dbContent, setDbContent] = useState<any>(null);
+  const [dbLoading, setDbLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -918,6 +922,26 @@ export default function LessonDetail() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (!baseLesson && id) {
+      setDbLoading(true);
+      fetch(`/api/content/slug/${id}`)
+        .then((r) => {
+          if (!r.ok) throw new Error("Not found");
+          return r.json();
+        })
+        .then((data) => {
+          setDbContent(data);
+        })
+        .catch(() => {
+          setDbContent(null);
+        })
+        .finally(() => {
+          setDbLoading(false);
+        });
+    }
+  }, [baseLesson, id]);
+
   const lessonContent = useMemo(() => {
     if (!baseLesson) return null;
     if (!overrides) return baseLesson;
@@ -925,6 +949,78 @@ export default function LessonDetail() {
   }, [baseLesson, overrides]);
 
   if (!baseLesson || !lessonContent) {
+    if (dbLoading) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              <span className="text-gray-600">Loading lesson...</span>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (dbContent) {
+      const blocks = Array.isArray(dbContent.content) ? dbContent.content : [];
+      const objectives: string[] = [];
+      const clinicalPearls: string[] = [];
+      for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
+        if (block.type === "heading" && typeof block.content === "string" && /objectives/i.test(block.content)) {
+          const next = blocks[i + 1];
+          if (next && (next.type === "bulletList" || next.type === "list" || next.type === "numberedList" || next.type === "numbered-list") && Array.isArray(next.items)) {
+            objectives.push(...next.items);
+          }
+        }
+        if (block.type === "clinical-pearl" || block.type === "clinicalPearl") {
+          if (block.content) clinicalPearls.push(block.content);
+        }
+      }
+
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-4xl mx-auto px-4 py-10 w-full space-y-6" data-testid="db-lesson-detail">
+            <LocaleLink href="/lessons">
+              <Button variant="ghost" className="mb-4 group" data-testid="button-back-lessons">
+                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                Back to Lessons
+              </Button>
+            </LocaleLink>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-3 flex-wrap">
+                {dbContent.category && (
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-100 text-blue-700" data-testid="badge-category">
+                    {dbContent.category}
+                  </span>
+                )}
+                {dbContent.tier && (
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-purple-100 text-purple-700" data-testid="badge-tier">
+                    {dbContent.tier.toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-title">{dbContent.title}</h1>
+              {dbContent.summary && (
+                <p className="text-gray-600 text-base" data-testid="text-lesson-summary">{dbContent.summary}</p>
+              )}
+            </div>
+
+            {objectives.length > 0 && <LessonObjectives objectives={objectives} />}
+            {clinicalPearls.length > 0 && <ClinicalPearlsList pearls={clinicalPearls} />}
+
+            <ContentBlockRenderer blocks={blocks} />
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
         <Navigation />
@@ -935,8 +1031,8 @@ export default function LessonDetail() {
               Back to Lessons
             </Button>
           </LocaleLink>
-          <h1 className="text-3xl font-bold text-gray-900">Coming Soon</h1>
-          <p className="text-gray-600">This lesson is currently being developed. Check back soon for the full content!</p>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-not-found">Lesson Not Found</h1>
+          <p className="text-gray-600">This lesson could not be found. It may still be in development or the URL may be incorrect.</p>
         </main>
         <Footer />
       </div>

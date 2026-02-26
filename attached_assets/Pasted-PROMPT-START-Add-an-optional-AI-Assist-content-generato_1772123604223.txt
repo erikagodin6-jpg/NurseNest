@@ -1,0 +1,106 @@
+PROMPT START
+Add an optional “AI Assist” content generator to EACH admin content creator page (Lessons, Flashcards, Exams/QBank, Other Content). This AI generator must help draft content into the existing templates, while preserving manual editing workflows.
+HARD RULE: Do NOT modify, refactor, or touch anything related to the Blog Generator, blog routes, blog pages, blog admin, blog database tables, or blog endpoints. The blog system must remain unchanged.
+This AI Assist feature must be isolated to content modules only (Lessons/Flashcards/Exams/Other Content) and live under new components/routes/services that do not overlap with blog code.
+1) AI ASSIST UX REQUIREMENTS (ADMIN ONLY)
+On each admin “Create/Edit” page, add a collapsible right-side panel (or modal) titled:
+AI Assist (Optional)
+The panel must include:
+A dropdown: “Generate for” (Objectives, Sections/Blocks, Clinical Pearls, Flashcards, Exam Questions, Explanations/Rationales, Metadata/Excerpt)
+A level selector (pre-nursing / RPN / RN / NP)
+A tone selector (friendly / academic / exam-focused)
+A depth slider (brief / standard / comprehensive)
+A “Guardrails” toggle list:
+No medical claims beyond general education
+Avoid hallucinated citations
+Keep within scope level
+Use plain language first, then clinical terms
+A token/length limit setting (hard cap)
+A “Generate” button
+A “Preview output” area
+Buttons: “Insert into fields”, “Append”, “Replace selected block only”, “Discard”
+AI output must NOT automatically overwrite content; it must require an explicit insert action.
+2) COST CONTROL + KEY MANAGEMENT (CRITICAL)
+Implement BYO key support so I can control cost:
+In Admin Settings, add “AI Provider Settings”:
+Provider: OpenAI (default), optionally others if already supported
+API key input (stored encrypted or in server-side env, not exposed in client)
+Model selection dropdown (default to a cost-efficient model)
+Max tokens per request and max requests per minute/day
+Add hard-coded safety limits:
+Max tokens ceiling
+Server-side rate limiting
+Per-admin daily quota
+Show estimated “token usage” approximation before generating (rough estimate is fine)
+If no API key is set, AI Assist must be disabled gracefully with a message and no errors.
+3) TECHNICAL IMPLEMENTATION
+Create a server-side endpoint namespace for AI only:
+/api/content-ai/generate
+Do NOT reuse or modify any blog endpoints.
+Server endpoint responsibilities:
+Validate admin authentication
+Enforce rate limits + quotas
+Enforce max token length
+Validate request schema
+Call AI provider securely using server-side key (never from client)
+Return structured JSON that maps cleanly into my content models
+Request schema should include:
+contentType: lesson | flashcardSet | exam | other
+target: objectives | blocks | clinicalPearls | cards | questions | excerpt | titleIdeas
+context: title, category, level, existingContent (optional), style preferences
+blockTemplate: allowed block types and constraints
+constraints: maxTokens, tone, depth
+Return schema:
+For lessons: objectives[], blocks[], clinicalPearls[], excerpt
+For flashcards: cards[{front, back, tags?}] and optional set description
+For exams: questions[] with correct option + rationales for each option
+For other content: blocks[] and excerpt
+All outputs must conform to existing validation and never crash rendering if fields are missing.
+4) TEMPLATE-AWARE GENERATION (IMPORTANT)
+AI must generate content in my block system, not raw markdown dumps.
+Allowed block types:
+heading
+paragraph
+bulletList
+callout (tip/warning/exam/clinical)
+table
+image (url optional; allow blank url if I’ll add later)
+divider
+Rules:
+Each block must be short and modular (no giant paragraphs)
+Use a consistent structure for clinical lessons:
+Objectives
+Core concept explanation
+Common misconceptions
+Practical examples
+Summary
+Avoid claiming guidelines unless the user provided the guideline text
+5) EXAMS/QBANK SPECIFIC RULES
+When generating questions:
+Provide 4–5 options
+Provide correct option index
+Provide rationaleCorrect AND rationalesIncorrect aligned to each option
+Provide difficulty tag + topic tags
+Avoid trick questions; prioritize safety and reasoning
+Ensure each question is answerable from general nursing knowledge and the lesson context provided
+6) FLASHCARDS SPECIFIC RULES
+When generating flashcards:
+Front must be a clear cue (question or term)
+Back must be concise but complete
+Include common confusion points where appropriate
+Optionally generate tags aligned to category/system
+7) SAFETY + QUALITY GUARDRAILS
+Add automatic post-processing checks:
+No empty titles
+No duplicate slugs
+No exam question without rationales
+No flashcard set with 0 cards
+Reject and regenerate (or return error) if schema invalid
+8) DEFINITION OF DONE
+AI Assist appears on each admin content page (Lessons/Flashcards/Exams/Other)
+Disabled if API key not set
+Generates template-structured content and inserts into the editor safely
+Rate limits and max token caps enforced server-side
+Blog system untouched and unaffected
+Implement now with minimal changes to existing UI styling.
+PROMPT END

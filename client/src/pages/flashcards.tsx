@@ -989,7 +989,7 @@ export default function Flashcards() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
-  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks">("setup");
+  const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -1052,6 +1052,12 @@ export default function Flashcards() {
   const [editingDeckCard, setEditingDeckCard] = useState<any>(null);
   const [deckTab, setDeckTab] = useState<"my" | "browse" | "saved">("my");
 
+  const [dbFlashcardSets, setDbFlashcardSets] = useState<any[]>([]);
+  const [dbSetsLoading, setDbSetsLoading] = useState(false);
+  const [activeDbSet, setActiveDbSet] = useState<any>(null);
+  const [dbStudyIndex, setDbStudyIndex] = useState(0);
+  const [dbStudyFlipped, setDbStudyFlipped] = useState(false);
+
   const fetchMyDecks = useCallback(async () => {
     if (!user) return;
     setDeckLoading(true);
@@ -1106,6 +1112,15 @@ export default function Flashcards() {
     if (params.get("upgraded") || params.get("view") === "decks") {
       setView("decks");
     }
+  }, []);
+
+  useEffect(() => {
+    setDbSetsLoading(true);
+    fetch("/api/content/flashcard-sets")
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setDbFlashcardSets(Array.isArray(data) ? data : []))
+      .catch(() => setDbFlashcardSets([]))
+      .finally(() => setDbSetsLoading(false));
   }, []);
 
   const createDeck = async () => {
@@ -1696,6 +1711,30 @@ export default function Flashcards() {
                 </p>
               </Card>
 
+              {dbFlashcardSets.length > 0 && (
+                <Card 
+                  className="border-none shadow-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                  onClick={() => setView("admin-sets")}
+                  data-testid="card-admin-flashcard-sets"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
+                      <BookOpen className="w-6 h-6 text-white/80" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full font-medium">
+                        {dbFlashcardSets.length} {dbFlashcardSets.length === 1 ? "Set" : "Sets"}
+                      </span>
+                      <ChevronRight className="w-5 h-5 text-white/40 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2" data-testid="text-admin-sets-title">Additional Study Sets</h3>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    Curated flashcard sets created by our clinical education team
+                  </p>
+                </Card>
+              )}
+
               <Card className="border-none shadow-md bg-white p-6 rounded-3xl border border-primary/10">
                 <div className="flex items-center gap-3 mb-4">
                   <History className="w-5 h-5 text-primary" />
@@ -2155,6 +2194,199 @@ export default function Flashcards() {
             startDeckStudy={startDeckStudy}
           />
         </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "admin-sets") {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-5xl mx-auto px-4 py-12 w-full flex-1">
+          <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-admin-sets">
+            <ArrowLeft className="w-4 h-4" />
+            {t("flashcards.backToConfig")}
+          </Button>
+
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-admin-sets-heading">Additional Study Sets</h1>
+            <p className="text-gray-600 mt-1">Curated flashcard sets from our clinical education team</p>
+          </div>
+
+          {dbSetsLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <RefreshCw className="w-6 h-6 text-primary animate-spin" />
+            </div>
+          ) : dbFlashcardSets.length === 0 ? (
+            <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-100">
+              <BookOpen className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+              <p className="text-gray-400 font-medium">No study sets available yet</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {dbFlashcardSets.map((set: any) => {
+                const blocks = Array.isArray(set.content) ? set.content : [];
+                const flashcardBlocks = blocks.filter((b: any) => b.type === "flashcard" || (b.front && b.back));
+                const cardCount = flashcardBlocks.length;
+                return (
+                  <Card
+                    key={set.id}
+                    className="border-none shadow-md hover:shadow-lg transition-all bg-white rounded-2xl overflow-hidden cursor-pointer group"
+                    onClick={() => {
+                      setActiveDbSet(set);
+                      setDbStudyIndex(0);
+                      setDbStudyFlipped(false);
+                      setView("admin-set-study");
+                    }}
+                    data-testid={`card-admin-set-${set.id}`}
+                  >
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        {set.category && (
+                          <span className="text-[10px] font-bold text-primary uppercase tracking-widest px-2 py-0.5 bg-primary/5 rounded-full">
+                            {set.category}
+                          </span>
+                        )}
+                        {set.tier && set.tier !== "free" && (
+                          <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest px-2 py-0.5 bg-amber-50 rounded-full">
+                            {set.tier}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors" data-testid={`text-set-title-${set.id}`}>
+                        {set.title}
+                      </h3>
+                      {set.summary && (
+                        <p className="text-sm text-gray-500 line-clamp-2 mb-4">{set.summary}</p>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-gray-400 font-medium">
+                          {cardCount > 0 ? `${cardCount} cards` : "Study set"}
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (view === "admin-set-study" && activeDbSet) {
+    const blocks = Array.isArray(activeDbSet.content) ? activeDbSet.content : [];
+    const flashcardItems = blocks.filter((b: any) => b.type === "flashcard" || (b.front && b.back));
+    const currentFlashcard = flashcardItems[dbStudyIndex];
+
+    if (flashcardItems.length === 0) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+          <Navigation />
+          <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+            <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("admin-sets")} data-testid="button-back-set-study">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Study Sets
+            </Button>
+            <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-100">
+              <BookOpen className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{activeDbSet.title}</h3>
+              <p className="text-gray-400">No flashcards found in this set. Content may be structured as lesson blocks.</p>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+        <Navigation />
+        <main className="max-w-3xl mx-auto px-4 py-12 w-full flex-1">
+          <div className="flex items-center justify-between mb-8">
+            <Button variant="ghost" className="gap-2" onClick={() => setView("admin-sets")} data-testid="button-back-set-study">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Study Sets
+            </Button>
+            <span className="text-sm text-gray-500 font-medium" data-testid="text-db-study-progress">
+              {dbStudyIndex + 1} / {flashcardItems.length}
+            </span>
+          </div>
+
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900" data-testid="text-db-set-title">{activeDbSet.title}</h2>
+            {activeDbSet.category && (
+              <span className="text-xs text-primary font-medium">{activeDbSet.category}</span>
+            )}
+          </div>
+
+          <div className="flex items-center justify-center mb-6">
+            <div className="w-full bg-gray-100 rounded-full h-1.5">
+              <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${((dbStudyIndex + 1) / flashcardItems.length) * 100}%` }} />
+            </div>
+          </div>
+
+          <div 
+            className="w-full h-[450px] relative cursor-pointer group perspective-1000"
+            onClick={() => setDbStudyFlipped(!dbStudyFlipped)}
+            data-testid="card-db-study-flip"
+          >
+            <div className={cn(
+              "w-full h-full transition-all duration-700 [transform-style:preserve-3d]",
+              dbStudyFlipped ? "[transform:rotateY(180deg)]" : ""
+            )}>
+              <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-8 sm:p-12 text-center overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-2 bg-amber-400/40" />
+                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-8">Front</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight" data-testid="text-db-study-front">
+                  {currentFlashcard?.front || currentFlashcard?.question || currentFlashcard?.title || ""}
+                </h2>
+                <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">
+                  <RefreshCw className="w-4 h-4" />
+                  {t("flashcards.tapToReveal")}
+                </div>
+              </Card>
+
+              <Card className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-gradient-to-br from-amber-500 to-orange-600 text-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-8 sm:p-12 text-center">
+                <h3 className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-8">{t("flashcards.answer")}</h3>
+                <p className="text-xl sm:text-2xl font-medium leading-relaxed max-w-lg" data-testid="text-db-study-back">
+                  {currentFlashcard?.back || currentFlashcard?.answer || currentFlashcard?.content || ""}
+                </p>
+              </Card>
+            </div>
+          </div>
+
+          <div className="flex justify-between mt-8">
+            <Button
+              variant="outline"
+              className="rounded-xl gap-2"
+              disabled={dbStudyIndex === 0}
+              onClick={() => { setDbStudyIndex(prev => prev - 1); setDbStudyFlipped(false); }}
+              data-testid="button-db-study-prev"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              {t("flashcards.previous")}
+            </Button>
+            <Button
+              className="rounded-xl gap-2"
+              disabled={dbStudyIndex === flashcardItems.length - 1}
+              onClick={() => { setDbStudyIndex(prev => prev + 1); setDbStudyFlipped(false); }}
+              data-testid="button-db-study-next"
+            >
+              {t("flashcards.next")}
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </main>
+
+        <style dangerouslySetInnerHTML={{ __html: `
+          .backface-hidden { backface-visibility: hidden; }
+          .perspective-1000 { perspective: 1000px; }
+        `}} />
         <Footer />
       </div>
     );

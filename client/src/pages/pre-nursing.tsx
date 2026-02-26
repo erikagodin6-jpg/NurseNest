@@ -48,6 +48,9 @@ import {
   Layers,
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { ScienceFoundationsModule } from "@/data/pre-nursing-science";
+import { ResearchStatisticsModule } from "@/data/pre-nursing-research";
+import { AnatomyPhysiologyModule } from "@/data/pre-nursing-anatomy";
 
 import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
 import illustrationHomeostasis from "@assets/E9E33423-6365-4686-98CB-3197D14546E5_1771868083264.png";
@@ -59,7 +62,7 @@ function cn(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-type ModuleId = "cell-biology" | "physiology" | "terminology" | "pharmacology" | "pathophysiology";
+type ModuleId = "cell-biology" | "physiology" | "terminology" | "pharmacology" | "pathophysiology" | "science-foundations" | "anatomy-physiology" | "research-statistics";
 
 const modules: {
   id: ModuleId;
@@ -120,6 +123,36 @@ const modules: {
     bg: "bg-rose-50",
     lessons: 3,
     image: illustrationInflammatoryResponse,
+  },
+  {
+    id: "science-foundations",
+    titleKey: "preNursing.mod.scienceFoundations",
+    subtitleKey: "preNursing.mod.scienceFoundationsDesc",
+    icon: FlaskConical,
+    color: "text-teal-600",
+    bg: "bg-teal-50",
+    lessons: 6,
+    image: illustrationCellStructure,
+  },
+  {
+    id: "anatomy-physiology",
+    titleKey: "preNursing.mod.anatomyPhysiology",
+    subtitleKey: "preNursing.mod.anatomyPhysiologyDesc",
+    icon: Heart,
+    color: "text-red-600",
+    bg: "bg-red-50",
+    lessons: 7,
+    image: illustrationHomeostasis,
+  },
+  {
+    id: "research-statistics",
+    titleKey: "preNursing.mod.researchStatistics",
+    subtitleKey: "preNursing.mod.researchStatisticsDesc",
+    icon: GraduationCap,
+    color: "text-indigo-600",
+    bg: "bg-indigo-50",
+    lessons: 5,
+    image: illustrationCranialNerves,
   },
 ];
 
@@ -237,6 +270,9 @@ export default function PreNursingPage() {
           {activeModule === "terminology" && <TerminologyModule />}
           {activeModule === "pharmacology" && <PharmacologyModule />}
           {activeModule === "pathophysiology" && <PathophysiologyModule />}
+          {activeModule === "science-foundations" && <ScienceFoundationsModule />}
+          {activeModule === "anatomy-physiology" && <AnatomyPhysiologyModule />}
+          {activeModule === "research-statistics" && <ResearchStatisticsModule />}
         </main>
         <AdminEditButton />
         <Footer />

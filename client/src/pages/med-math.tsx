@@ -24,7 +24,9 @@ import {
   RotateCcw,
   Lightbulb,
   ShieldCheck,
+  BookOpen,
 } from "lucide-react";
+import { LocaleLink } from "@/components/locale-link";
 
 function seededRandom(seed: number) {
   let s = seed % 2147483647;
@@ -1238,6 +1240,16 @@ export default function MedMathPage() {
               <p className="text-gray-500 mt-1">Interactive practice with unlimited randomized problems and step-by-step solutions</p>
             </div>
           </div>
+          <LocaleLink href="/lessons/med-math-dosage-calculations">
+            <div className="flex items-center gap-3 bg-primary/5 border border-primary/15 rounded-xl px-4 py-3 hover:bg-primary/10 transition-colors cursor-pointer group mt-4" data-testid="link-med-math-lessons">
+              <BookOpen className="w-5 h-5 text-primary flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-900">Med Math Calculation Lessons</p>
+                <p className="text-xs text-gray-500">Study the theory behind dosage calculations, IV flow rates, weight-based dosing, and more</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
+            </div>
+          </LocaleLink>
         </div>
 
         {!usage.hasUnlimited && !usage.isLoading && (

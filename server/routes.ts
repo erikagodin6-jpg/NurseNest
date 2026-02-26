@@ -943,7 +943,43 @@ Rules:
   });
 
   // --------------------
-  // Content
+  // Content - Public typed endpoints
+  // --------------------
+  app.get("/api/content/lessons", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        "SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at FROM content_items WHERE status = 'published' AND type = 'lesson' ORDER BY published_at DESC NULLS LAST"
+      );
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/content/flashcard-sets", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        "SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content FROM content_items WHERE status = 'published' AND type = 'flashcard-set' ORDER BY published_at DESC NULLS LAST"
+      );
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/content/exams", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        "SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at FROM content_items WHERE status = 'published' AND type = 'exam' ORDER BY published_at DESC NULLS LAST"
+      );
+      res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Content - General
   // --------------------
   app.get("/api/content", async (req, res) => {
     try {

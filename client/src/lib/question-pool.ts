@@ -15,6 +15,7 @@ export interface PooledQuestion {
 }
 
 function getLessonTier(lessonId: string): string {
+  if (lessonId.startsWith("med-math-")) return "free";
   if (lessonId.includes("-np") || lessonId.startsWith("np-") || lessonId.includes("advanced-")) return "np";
   if (lessonId.includes("-rn") || lessonId.startsWith("rn-") || lessonId.includes("nclex-")) return "rn";
   return "rpn";
