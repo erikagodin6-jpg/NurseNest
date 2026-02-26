@@ -3,36 +3,60 @@ dbg.style.cssText = 'position:fixed;inset:0;background:white;color:#111;padding:
 document.body.appendChild(dbg);
 function log(msg: string) { dbg.textContent += msg + '\n'; console.log('[dbg]', msg); }
 
-log('main.tsx running - test 2');
+log('main.tsx running - test 4');
 
 async function boot() {
   try {
-    log('Testing /@vite/client fetch...');
-    const viteRes = await fetch('/@vite/client');
-    log('Vite client: ' + viteRes.status + ' size=' + viteRes.headers.get('content-length'));
+    log('Test: Load /@vite/client as blob URL...');
+    const res = await fetch('/@vite/client');
+    const code = await res.text();
+    log('Fetched /@vite/client: ' + code.length + ' chars');
 
-    log('Testing /@vite/client import...');
+    const blob = new Blob([code], { type: 'text/javascript' });
+    const blobUrl = URL.createObjectURL(blob);
     try {
-      await import('/@vite/client' as any);
-      log('/@vite/client import OK');
+      await import(/* @vite-ignore */ blobUrl);
+      log('Blob import of /@vite/client: OK');
     } catch(e: any) {
-      log('/@vite/client import FAILED: ' + e.message);
+      log('Blob import FAILED: ' + e.message);
+      if (e.stack) log(e.stack.substring(0, 500));
     }
 
-    log('Skipping CSS, importing App directly...');
-    const mod = await import('./App');
-    log('App imported OK!');
+    log('Test: Direct import of /@vite/client...');
+    try {
+      await import(/* @vite-ignore */ '/@vite/client');
+      log('Direct import: OK');
+    } catch(e: any) {
+      log('Direct import FAILED: ' + e.message);
+    }
 
-    const { createRoot } = await import('react-dom/client');
-    log('react-dom OK');
+    log('Test: Check if it is a CORS issue...');
+    try {
+      const res2 = await fetch('/@vite/client', { mode: 'cors' });
+      log('CORS headers: ' + res2.headers.get('access-control-allow-origin'));
+      log('Content-Type: ' + res2.headers.get('content-type'));
+    } catch(e: any) {
+      log('CORS fetch failed: ' + e.message);
+    }
 
-    dbg.remove();
-    const App = mod.default;
-    createRoot(document.getElementById("root")!).render(<App />);
-    log('render() called');
+    log('Test: Load via script tag...');
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.textContent = `
+      import("/@vite/client").then(() => {
+        document.getElementById('debug-result').textContent = 'INLINE SCRIPT IMPORT: OK';
+      }).catch(e => {
+        document.getElementById('debug-result').textContent = 'INLINE SCRIPT IMPORT FAILED: ' + e.message;
+      });
+    `;
+    const resultDiv = document.createElement('div');
+    resultDiv.id = 'debug-result';
+    resultDiv.textContent = 'Waiting...';
+    dbg.appendChild(resultDiv);
+    document.head.appendChild(script);
+
   } catch (e: any) {
-    log('ERROR: ' + e.message);
-    if (e.stack) log(e.stack);
+    log('OUTER ERROR: ' + e.message);
   }
 }
 
