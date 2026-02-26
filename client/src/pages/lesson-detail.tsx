@@ -41,21 +41,59 @@ function getCredentials() {
   } catch { return null; }
 }
 
-function AdminLessonCreator({ lessonId }: { lessonId: string }) {
+function AdminLessonCreator({ lessonId, existingContent, onPublished }: { lessonId: string; existingContent?: any; onPublished?: () => void }) {
   const displayName = lessonId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  const [title, setTitle] = useState(displayName);
-  const [summary, setSummary] = useState("");
-  const [tier, setTier] = useState("rpn");
-  const [category, setCategory] = useState("");
+
+  function extractFromBlocks(blocks: any[], heading: string): string[] {
+    for (let i = 0; i < blocks.length; i++) {
+      if (blocks[i].type === "heading" && typeof blocks[i].content === "string" && new RegExp(heading, "i").test(blocks[i].content)) {
+        const next = blocks[i + 1];
+        if (next && (next.type === "list" || next.type === "bulletList") && Array.isArray(next.items)) return next.items;
+      }
+    }
+    return [""];
+  }
+  function extractParagraphAfterHeading(blocks: any[], heading: string): string {
+    for (let i = 0; i < blocks.length; i++) {
+      if (blocks[i].type === "heading" && typeof blocks[i].content === "string" && new RegExp(heading, "i").test(blocks[i].content)) {
+        const next = blocks[i + 1];
+        if (next && next.type === "paragraph" && next.content) return next.content;
+      }
+    }
+    return "";
+  }
+  function extractMeds(blocks: any[]): { name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[] {
+    return blocks.filter(b => b.type === "medication" && b.content).map(b => {
+      const lines = b.content.split("\n");
+      const nameLine = lines[0] || "";
+      const nameMatch = nameLine.match(/^(.+?)\s*\((.+?)\)/);
+      return {
+        name: nameMatch ? nameMatch[1].trim() : nameLine.trim(),
+        type: nameMatch ? nameMatch[2].trim() : "",
+        action: (lines.find((l: string) => l.startsWith("Action:")) || "").replace("Action:", "").trim(),
+        sideEffects: (lines.find((l: string) => l.startsWith("Side Effects:")) || "").replace("Side Effects:", "").trim(),
+        contra: (lines.find((l: string) => l.startsWith("Contraindications:")) || "").replace("Contraindications:", "").trim(),
+        pearl: (lines.find((l: string) => l.startsWith("Nursing Pearl:")) || "").replace("Nursing Pearl:", "").trim(),
+      };
+    });
+  }
+
+  const ec = existingContent;
+  const ecBlocks = ec && Array.isArray(ec.content) ? ec.content : [];
+
+  const [title, setTitle] = useState(ec?.title || displayName);
+  const [summary, setSummary] = useState(ec?.summary || "");
+  const [tier, setTier] = useState(ec?.tier || "rpn");
+  const [category, setCategory] = useState(ec?.category || "");
   const [status, setStatus] = useState("published");
-  const [pathophysiology, setPathophysiology] = useState("");
-  const [riskFactors, setRiskFactors] = useState<string[]>([""]);
-  const [diagnostics, setDiagnostics] = useState<string[]>([""]);
-  const [management, setManagement] = useState<string[]>([""]);
-  const [nursingActions, setNursingActions] = useState<string[]>([""]);
-  const [assessmentFindings, setAssessmentFindings] = useState<string[]>([""]);
-  const [signsLeft, setSignsLeft] = useState<string[]>([""]);
-  const [signsRight, setSignsRight] = useState<string[]>([""]);
+  const [pathophysiology, setPathophysiology] = useState(ecBlocks.length ? extractParagraphAfterHeading(ecBlocks, "pathophysiology") : "");
+  const [riskFactors, setRiskFactors] = useState<string[]>(ecBlocks.length ? extractFromBlocks(ecBlocks, "risk factors") : [""]);
+  const [diagnostics, setDiagnostics] = useState<string[]>(ecBlocks.length ? extractFromBlocks(ecBlocks, "diagnostic") : [""]);
+  const [management, setManagement] = useState<string[]>(ecBlocks.length ? extractFromBlocks(ecBlocks, "management|medical management") : [""]);
+  const [nursingActions, setNursingActions] = useState<string[]>(ecBlocks.length ? extractFromBlocks(ecBlocks, "nursing actions") : [""]);
+  const [assessmentFindings, setAssessmentFindings] = useState<string[]>(ecBlocks.length ? extractFromBlocks(ecBlocks, "assessment findings") : [""]);
+  const [signsLeft, setSignsLeft] = useState<string[]>(ecBlocks.length ? extractFromBlocks(ecBlocks, "early signs") : [""]);
+  const [signsRight, setSignsRight] = useState<string[]>(ecBlocks.length ? extractFromBlocks(ecBlocks, "late.*signs|emergency") : [""]);
   const [medications, setMedications] = useState<{ name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[]>([]);
   const [pearls, setPearls] = useState<string[]>([""]);
   const [lifespanContent, setLifespanContent] = useState("");
@@ -283,13 +321,17 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           seoKeywords: seoKeywords ? seoKeywords.split(",").map((k: string) => k.trim()).filter(Boolean) : [],
         }),
       });
+      const result = await res.json();
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to create lesson");
+        throw new Error(result.error || "Failed to create lesson");
       }
       setSuccess(true);
-      toast({ title: "Lesson Created", description: "The lesson has been saved successfully." });
-      setTimeout(() => window.location.reload(), 1500);
+      toast({ title: "Lesson Published", description: "The lesson is now live and visible to students." });
+      if (onPublished) {
+        setTimeout(() => onPublished(), 1500);
+      } else {
+        setTimeout(() => window.location.reload(), 1500);
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -1515,7 +1557,8 @@ export default function LessonDetail() {
   const [editData, setEditData] = useState<LessonContent | null>(null);
   const [saving, setSaving] = useState(false);
   const [dbContent, setDbContent] = useState<any>(null);
-  const [dbLoading, setDbLoading] = useState(false);
+  const [dbLoading, setDbLoading] = useState(true);
+  const [dbEditMode, setDbEditMode] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -1547,23 +1590,30 @@ export default function LessonDetail() {
   }, [id]);
 
   useEffect(() => {
-    if (!baseLesson && id) {
-      setDbLoading(true);
-      fetch(`/api/content/slug/${id}`)
-        .then((r) => {
-          if (!r.ok) throw new Error("Not found");
-          return r.json();
-        })
-        .then((data) => {
-          setDbContent(data);
-        })
-        .catch(() => {
-          setDbContent(null);
-        })
-        .finally(() => {
-          setDbLoading(false);
-        });
+    if (baseLesson) {
+      setDbLoading(false);
+      return;
     }
+    if (!id) {
+      setDbLoading(false);
+      return;
+    }
+    setDbLoading(true);
+    fetch(`/api/content/slug/${id}`)
+      .then((r) => {
+        if (!r.ok) throw new Error("Not found");
+        return r.json();
+      })
+      .then((data) => {
+        setDbContent(data);
+        setDbEditMode(false);
+      })
+      .catch(() => {
+        setDbContent(null);
+      })
+      .finally(() => {
+        setDbLoading(false);
+      });
   }, [baseLesson, id]);
 
   const lessonContent = useMemo(() => {
