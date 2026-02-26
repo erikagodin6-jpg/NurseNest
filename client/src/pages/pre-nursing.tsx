@@ -378,7 +378,7 @@ export default function PreNursingPage() {
           {activeModule === "ethics-legal" && <EthicsLegalModule />}
           {activeModule === "study-strategies" && <StudyStrategiesModule />}
         </main>
-        <AdminEditButton />
+        <AdminEditButton pageName="pre-nursing" defaultTier="prenursing" defaultCategory="pre-nursing" />
         <Footer />
       </div>
     );
@@ -462,7 +462,7 @@ export default function PreNursingPage() {
           </div>
         </section>
       </main>
-      <AdminEditButton />
+      <AdminEditButton pageName="pre-nursing" defaultTier="prenursing" defaultCategory="pre-nursing" />
       <Footer />
     </div>
   );

@@ -386,7 +386,7 @@ export default function AnatomyPage() {
           </LocaleLink>
         </div>
       </section>
-      <AdminEditButton />
+      <AdminEditButton pageName="anatomy" defaultTier="free" defaultCategory="anatomy" />
       <Footer />
     </div>
   );
