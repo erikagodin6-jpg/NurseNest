@@ -24,6 +24,8 @@ export function serveStatic(app: Express) {
       setHeaders: (res, filePath) => {
         if (filePath.endsWith(".html")) {
           res.setHeader("Cache-Control", "no-cache");
+        } else if (/\.(gif|png|jpg|jpeg|svg|ico|webp|woff2?)$/i.test(filePath)) {
+          res.setHeader("Cache-Control", "public, max-age=604800, immutable");
         }
       },
     }),

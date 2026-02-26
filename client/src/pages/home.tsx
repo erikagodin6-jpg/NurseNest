@@ -59,7 +59,7 @@ import {
   CircleCheck
 } from "lucide-react";
 
-import { lessonCount, questionCount } from "@/data/lessons/index";
+import { lessonCount, questionCount } from "@/data/lesson-counts";
 
 function formatCount(n: number): string {
   if (n >= 1000) {
@@ -122,7 +122,7 @@ export default function Home() {
       <SEO
         title="NurseNest - Nursing Exam Prep | NCLEX & REX-PN Question Bank, Clinical Simulations & Flashcards"
         description={`Prepare for nursing licensure examinations with NurseNest. Access ${formatCount(questionCount)} practice questions designed to mirror the cognitive patterns tested on ${examLabel} and ${altExam}, clinical case simulations, pharmacology flashcards, and ${formatCount(lessonCount)} pathophysiology lessons. Built for ${rpnLabel}, RN, and NP students in Canada and the US. New content added weekly. Start free - no credit card required.`}
-        keywords="nursing exam prep, NCLEX practice questions, REX-PN exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test"
+        keywords="nursing exam prep, NCLEX practice questions, REX-PN exam preparation, nursing question bank, clinical simulations nursing, pharmacology flashcards nursing, pathophysiology lessons, RPN study guide, RN exam review, NP exam prep, NP certification exam, AANP exam prep, ANCC certification review, FNP-BC exam questions, AGPCNP-BC study guide, AGACNP-BC practice test, PMHNP-BC exam prep, PNP-BC certification review, NNP-BC exam questions, ENP-C exam prep, nurse practitioner board exam, Next Generation NCLEX, NCLEX-RN practice questions, nursing clinical reasoning, med-surg nursing review, nursing licensure exam, clinical judgment nursing, nursing study tools, nursing board exam prep, NCLEX review course, nursing practice test, pre-nursing program"
         canonicalPath="/"
         structuredData={{
           "@context": "https://schema.org",

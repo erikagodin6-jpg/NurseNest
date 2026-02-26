@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { 
@@ -33,7 +33,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
-import { GlobalSearch } from "@/components/global-search";
+const GlobalSearch = lazy(() => import("@/components/global-search").then(m => ({ default: m.GlobalSearch })));
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -162,16 +162,23 @@ export function Navigation() {
 
   useEffect(() => {
     if (!localStorage.getItem("nursenest-region")) {
-      fetch("https://ipapi.co/json/")
-        .then(r => r.json())
-        .then(data => {
-          const country = data?.country_code;
-          const detected: "US" | "CA" = country === "CA" ? "CA" : "US";
-          setRegionState(detected);
-          localStorage.setItem("nursenest-region", detected);
-          window.dispatchEvent(new Event("regionChange"));
-        })
-        .catch(() => {});
+      const doFetch = () => {
+        fetch("https://ipapi.co/json/")
+          .then(r => r.json())
+          .then(data => {
+            const country = data?.country_code;
+            const detected: "US" | "CA" = country === "CA" ? "CA" : "US";
+            setRegionState(detected);
+            localStorage.setItem("nursenest-region", detected);
+            window.dispatchEvent(new Event("regionChange"));
+          })
+          .catch(() => {});
+      };
+      if ("requestIdleCallback" in window) {
+        (window as any).requestIdleCallback(doFetch);
+      } else {
+        setTimeout(doFetch, 1000);
+      }
     }
   }, []);
 
@@ -769,7 +776,9 @@ export function Navigation() {
 
           <div className="flex items-center gap-1.5 lg:gap-3">
             <div className="hidden sm:block">
-              <GlobalSearch />
+              <Suspense fallback={<div className="w-48 h-8" />}>
+                <GlobalSearch />
+              </Suspense>
             </div>
             
             <DropdownMenu>

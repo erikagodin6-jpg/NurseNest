@@ -206,6 +206,8 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
           src={dataUrl}
           alt="NurseNest"
           className={`max-w-none ${className}`}
+          width={width}
+          height={Math.round(width * 0.28)}
           style={{ width: `${width}px`, height: "auto" }}
         />
       </>
