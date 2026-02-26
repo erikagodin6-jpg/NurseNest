@@ -15,9 +15,9 @@ export function Footer() {
             <Link href="/terms" className="hover:text-primary transition-colors">{t("footer.terms")}</Link>
             <Link href="/privacy" className="hover:text-primary transition-colors">{t("footer.privacy")}</Link>
             <Link href="/disclaimer" className="hover:text-primary transition-colors">{t("footer.disclaimer")}</Link>
-            <Link href="/refund-policy" className="hover:text-primary transition-colors">Refund Policy</Link>
+            <Link href="/refund-policy" className="hover:text-primary transition-colors">{t("footer.refundPolicy")}</Link>
             <Link href="/faq" className="hover:text-primary transition-colors">{t("footer.faq")}</Link>
-            <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
+            <Link href="/contact" className="hover:text-primary transition-colors">{t("footer.contact")}</Link>
             <Link href="/blog" className="hover:text-primary transition-colors">{t("nav.blog")}</Link>
           </div>
           <div className="text-sm text-gray-500">
@@ -25,7 +25,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-6 text-center text-xs text-gray-400 max-w-3xl mx-auto leading-relaxed">
-          NurseNest is an independent educational platform. It is not affiliated with, endorsed by, or connected to NCLEX, NCSBN, CNO, or any nursing regulatory body. All content is developed independently for educational purposes only.
+          {t("footer.legalDisclaimer")}
         </div>
       </div>
     </footer>

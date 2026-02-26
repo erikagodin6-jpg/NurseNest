@@ -221,13 +221,13 @@ export function Navigation() {
       return;
     }
     toast({
-      title: "Subscription Required",
-      description: `Access to ${label} ${itemLabel || ""} materials requires an active subscription.`,
+      title: t("nav.subscriptionRequired"),
+      description: t("nav.subscriptionDesc"),
       variant: "default",
     });
   };
 
-  const NavDropdown = ({ label, items, isPaid = false, subBar = false }: { label: string, items: { icon: any, label: string }[], isPaid?: boolean, subBar?: boolean }) => (
+  const NavDropdown = ({ label, items, isPaid = false, subBar = false }: { label: string, items: { icon: any, label: string, key?: string }[], isPaid?: boolean, subBar?: boolean }) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
@@ -247,14 +247,14 @@ export function Navigation() {
         {items.map((item, idx) => (
           <DropdownMenuItem 
             key={idx} 
-            onClick={() => handlePaidContent(label, item.label)}
+            onClick={() => handlePaidContent(label, item.key || item.label)}
             className="flex items-center justify-between gap-2 cursor-pointer text-gray-700 hover:text-primary hover:bg-primary/5 focus:bg-primary/5 focus:text-primary rounded-md py-2 px-3"
           >
             <div className="flex items-center gap-2">
               <item.icon className="w-4 h-4 text-primary/70" />
               <span>{item.label}</span>
             </div>
-            {isPaid && !["Lessons", "Lectures", "Flashcards", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.label) && <Lock className="w-3 h-3 text-gray-400" />}
+            {isPaid && !["Lessons", "Lectures", "Flashcards", "Clinical Clarity", "Clinical Skill Lab", "Simulators", "Exams"].includes(item.key || item.label) && <Lock className="w-3 h-3 text-gray-400" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -262,13 +262,13 @@ export function Navigation() {
   );
 
   const learningItems = [
-    { icon: BookOpen, label: "Lessons" },
-    { icon: Play, label: "Lectures" },
-    { icon: Layers, label: "Flashcards" },
-    { icon: Lightbulb, label: "Clinical Clarity" },
-    { icon: Activity, label: "Clinical Skill Lab" },
-    { icon: Stethoscope, label: "Simulators" },
-    { icon: FileText, label: "Exams" },
+    { icon: BookOpen, label: t("nav.lessons"), key: "Lessons" },
+    { icon: Play, label: t("nav.lectures"), key: "Lectures" },
+    { icon: Layers, label: t("nav.flashcards"), key: "Flashcards" },
+    { icon: Lightbulb, label: t("nav.clinicalClarity"), key: "Clinical Clarity" },
+    { icon: Activity, label: t("nav.clinicalSkillLab"), key: "Clinical Skill Lab" },
+    { icon: Stethoscope, label: t("nav.simulators"), key: "Simulators" },
+    { icon: FileText, label: t("nav.exams"), key: "Exams" },
   ];
 
   const designations = region === "CA" ? ["RPN", "RN", "NP"] : ["LVN", "RN", "NP"];
@@ -318,7 +318,7 @@ export function Navigation() {
           
           <div className="p-5 flex flex-col gap-1 pb-20">
             <div className="mb-6">
-              <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-3 px-3">Practice Tiers</p>
+              <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-3 px-3">{t("nav.practiceTiers")}</p>
               <div className="grid grid-cols-1 gap-2 px-1">
                 <Button 
                   variant="outline" 
@@ -331,7 +331,7 @@ export function Navigation() {
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shadow-inner shrink-0">PN</div>
                   <div className="text-left overflow-hidden">
                     <div className="text-sm font-bold truncate">{region === 'CA' ? 'RPN/REX-PN' : 'LPN/LVN'}</div>
-                    <div className="text-[10px] text-gray-500 truncate">Practical Nursing Exam Prep</div>
+                    <div className="text-[10px] text-gray-500 truncate">{t("nav.practicalNursingPrep")}</div>
                   </div>
                 </Button>
                 <Button 
@@ -345,7 +345,7 @@ export function Navigation() {
                   <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 font-bold text-sm shadow-inner shrink-0">RN</div>
                   <div className="text-left overflow-hidden">
                     <div className="text-sm font-bold truncate">RN/NCLEX-RN</div>
-                    <div className="text-[10px] text-gray-500 truncate">Registered Nursing Exam Prep</div>
+                    <div className="text-[10px] text-gray-500 truncate">{t("nav.registeredNursingPrep")}</div>
                   </div>
                 </Button>
                 <Button 
@@ -358,37 +358,37 @@ export function Navigation() {
                 >
                   <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-sm shadow-inner shrink-0">NP</div>
                   <div className="text-left overflow-hidden">
-                    <div className="text-sm font-bold truncate">NP/Advanced</div>
-                    <div className="text-[10px] text-gray-500 truncate">Nurse Practitioner Content</div>
+                    <div className="text-sm font-bold truncate">{t("nav.npAdvanced")}</div>
+                    <div className="text-[10px] text-gray-500 truncate">{t("nav.npContent")}</div>
                   </div>
                 </Button>
               </div>
               <div className="h-[1px] bg-gray-100 my-6 mx-3" />
             </div>
 
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Free Learning</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.freeLearning")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pre-nursing")}>
                 <BookOpen className="w-4 h-4" />
-                Pre-Nursing Foundations
+                {t("nav.preNursingFoundations")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/anatomy")}>
                 <Dna className="w-4 h-4" />
-                Anatomy & Physiology
+                {t("nav.anatomyPhysiology")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lessons")}>
                 <BookOpen className="w-4 h-4" />
-                Lessons
+                {t("nav.lessons")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blog")}>
                 <BookOpen className="w-4 h-4" />
-                Blog
+                {t("nav.blog")}
               </Button>
             </SheetClose>
 
@@ -398,10 +398,10 @@ export function Navigation() {
                   <Layers className="w-4 h-4 mt-0.5 shrink-0" />
                   <div className="text-left">
                     <div className="flex items-center gap-1.5">
-                      <span>Study Decks</span>
-                      <span className="text-[8px] font-bold bg-emerald-500 text-white px-1.5 py-0.5 rounded-full leading-none">Free</span>
+                      <span>{t("nav.studyDecks")}</span>
+                      <span className="text-[8px] font-bold bg-emerald-500 text-white px-1.5 py-0.5 rounded-full leading-none">{t("common.free")}</span>
                     </div>
-                    <span className="text-[10px] text-gray-400 block">Create flashcard decks, study with Learn & Test modes</span>
+                    <span className="text-[10px] text-gray-400 block">{t("nav.studyDecksDesc")}</span>
                   </div>
                 </div>
               </Button>
@@ -409,110 +409,110 @@ export function Navigation() {
 
             <div className="h-[1px] bg-gray-100 my-2" />
 
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Interactive Tools</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.interactiveTools")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lectures")} data-testid="button-lectures-mobile">
                 <Play className="w-4 h-4" />
-                Lectures
+                {t("nav.lectures")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/clinical-clarity")}>
                 <Lightbulb className="w-4 h-4" />
-                Clinical Clarity
+                {t("nav.clinicalClarity")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/flashcards")}>
                 <Layers className="w-4 h-4" />
-                Flashcards
+                {t("nav.flashcards")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/med-math")}>
-                <span className="flex items-center gap-2"><Calculator className="w-4 h-4" /> Med Math Lab</span>
+                <span className="flex items-center gap-2"><Calculator className="w-4 h-4" /> {t("nav.medMathLab")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/lab-values")}>
-                <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Lab Interpretation</span>
+                <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> {t("nav.labInterpretation")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/case-simulations")}>
-                <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> Case Simulations</span>
+                <span className="flex items-center gap-2"><Stethoscope className="w-4 h-4" /> {t("nav.caseSimulations")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/medication-mastery")}>
-                <span className="flex items-center gap-2"><Pill className="w-4 h-4" /> Medication Mastery</span>
+                <span className="flex items-center gap-2"><Pill className="w-4 h-4" /> {t("nav.medicationMastery")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/simulators/clinical-skills")}>
-                <Stethoscope className="w-4 h-4" /> Clinical Skills Simulator
+                <Stethoscope className="w-4 h-4" /> {t("nav.clinicalSkillsSim")}
               </Button>
             </SheetClose>
 
             <div className="h-[1px] bg-gray-100 my-1" />
-            <p className="text-[10px] font-semibold text-gray-300 uppercase tracking-wider mb-1 px-3">Clinical Simulators</p>
+            <p className="text-[10px] font-semibold text-gray-300 uppercase tracking-wider mb-1 px-3">{t("nav.clinicalSimulators")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/first-action-simulator")}>
-                <Activity className="w-4 h-4" /> First Action Prioritization
+                <Activity className="w-4 h-4" /> {t("nav.firstAction")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/safety-hazard-simulator")}>
-                <Heart className="w-4 h-4" /> Safety Hazard Detection
+                <Heart className="w-4 h-4" /> {t("nav.safetyHazard")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/iv-complications-simulator")}>
-                <Dna className="w-4 h-4" /> IV Complications
+                <Dna className="w-4 h-4" /> {t("nav.ivComplications")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/electrolyte-abg-simulator")}>
-                <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> Electrolyte & ABG</span>
+                <span className="flex items-center gap-2"><FlaskConical className="w-4 h-4" /> {t("nav.electrolyteAbg")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/deteriorating-patient-simulator")}>
-                <span className="flex items-center gap-2"><Activity className="w-4 h-4" /> Deteriorating Patient</span>
+                <span className="flex items-center gap-2"><Activity className="w-4 h-4" /> {t("nav.deterioratingPatient")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-between text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/blood-transfusion-simulator")}>
-                <span className="flex items-center gap-2"><Heart className="w-4 h-4" /> Blood Transfusion</span>
+                <span className="flex items-center gap-2"><Heart className="w-4 h-4" /> {t("nav.bloodTransfusion")}</span>
                 <Lock className="w-3 h-3 text-gray-300" />
               </Button>
             </SheetClose>
 
             <div className="h-[1px] bg-gray-100 my-2" />
 
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Resources</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.resources")}</p>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pricing")}>
                 <Tag className="w-4 h-4" />
-                Pricing
+                {t("nav.pricing")}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/faq")}>
                 <HelpCircle className="w-4 h-4" />
-                FAQ
+                {t("footer.faq")}
               </Button>
             </SheetClose>
 
             <div className="h-[1px] bg-gray-100 my-2" />
 
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Language</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.language")}</p>
             <div className="flex flex-wrap gap-1.5 px-3 mb-2">
               {LANGUAGES.map((lang) => (
                 <button
@@ -535,7 +535,7 @@ export function Navigation() {
 
             <div className="h-[1px] bg-gray-100 my-2" />
 
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">Region & Theme</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.regionTheme")}</p>
             <div className="flex items-center gap-2 px-3 mb-2">
               <div className="flex items-center bg-primary/5 rounded-full p-0.5 border border-primary/10">
                 <Button
@@ -589,20 +589,20 @@ export function Navigation() {
                     <SheetClose asChild>
                       <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin")} data-testid="button-admin-mobile">
                         <Shield className="w-4 h-4" />
-                        Admin Dashboard
+                        {t("nav.admin")}
                       </Button>
                     </SheetClose>
                     <SheetClose asChild>
                       <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/content-editor")} data-testid="button-content-editor-mobile">
                         <FileText className="w-4 h-4" />
-                        Content Editor
+                        {t("nav.contentEditor")}
                       </Button>
                     </SheetClose>
                   </>
                 )}
                 {isAdmin && (
                   <>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 mt-2 px-3">Preview Mode</p>
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 mt-2 px-3">{t("nav.previewMode")}</p>
                     <div className="flex flex-wrap gap-1.5 px-3 mb-1">
                       {[
                         { key: null, label: "Admin" },
@@ -631,7 +631,7 @@ export function Navigation() {
                 <SheetClose asChild>
                   <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => { logout(); setLocation("/"); }}>
                     <LogOut className="w-4 h-4" />
-                    Sign Out
+                    {t("nav.signout")}
                   </Button>
                 </SheetClose>
               </>
@@ -682,10 +682,10 @@ export function Navigation() {
 
             <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/pre-nursing")}>
-                Pre-Nursing
+                {t("nav.preNursing")}
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/anatomy")}>
-                Anatomy
+                {t("nav.anatomy")}
               </Button>
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lessons")}>
                 {t("nav.lessons")}
@@ -700,62 +700,62 @@ export function Navigation() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-3 group data-[state=open]:text-primary">
-                    Interactive Tools
+                    {t("nav.interactiveTools")}
                     <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56 p-2">
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/clinical-clarity")}>
                     <Lightbulb className="w-4 h-4 text-primary/70" />
-                    Clinical Clarity
+                    {t("nav.clinicalClarity")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Premium Tools</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.premiumTools")}</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/med-math")}>
                     <Calculator className="w-4 h-4" />
-                    Med Math Lab
+                    {t("nav.medMathLab")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/lab-values")}>
                     <FlaskConical className="w-4 h-4" />
-                    Lab Interpretation
+                    {t("nav.labInterpretation")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/case-simulations")}>
                     <Stethoscope className="w-4 h-4" />
-                    Case Simulations
+                    {t("nav.caseSimulations")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/medication-mastery")}>
                     <Pill className="w-4 h-4" />
-                    Medication Mastery
+                    {t("nav.medicationMastery")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/clinical-skills")}>
                     <Stethoscope className="w-4 h-4" />
-                    Clinical Skills Simulator
+                    {t("nav.clinicalSkillsSim")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">Clinical Simulators</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.clinicalSimulators")}</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/first-action-simulator")}>
                     <Activity className="w-4 h-4" />
-                    First Action Prioritization
+                    {t("nav.firstAction")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/safety-hazard-simulator")}>
                     <Heart className="w-4 h-4" />
-                    Safety Hazard Detection
+                    {t("nav.safetyHazard")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/iv-complications-simulator")}>
                     <Dna className="w-4 h-4" />
-                    IV Complications
+                    {t("nav.ivComplications")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/electrolyte-abg-simulator")}>
                     <FlaskConical className="w-4 h-4" />
-                    Electrolyte & ABG
+                    {t("nav.electrolyteAbg")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/deteriorating-patient-simulator")}>
                     <Activity className="w-4 h-4" />
-                    Deteriorating Patient
+                    {t("nav.deterioratingPatient")}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/blood-transfusion-simulator")}>
                     <Heart className="w-4 h-4" />
-                    Blood Transfusion
+                    {t("nav.bloodTransfusion")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -775,7 +775,7 @@ export function Navigation() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 p-2 max-h-80 overflow-y-auto">
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">Language</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">{t("nav.language")}</p>
                 {LANGUAGES.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
@@ -799,7 +799,7 @@ export function Navigation() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 p-2">
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">Select Region</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">{t("nav.selectRegion")}</p>
                 <DropdownMenuItem onClick={() => setRegion("US")} className={cn("cursor-pointer gap-2", region === "US" && "text-primary font-bold bg-primary/5")} data-testid="button-region-us">
                   🇺🇸 United States (USD)
                 </DropdownMenuItem>
@@ -807,7 +807,7 @@ export function Navigation() {
                   🇨🇦 Canada (CAD)
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">Select Theme</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.selectTheme")}</p>
                 <div className="grid grid-cols-5 gap-2 px-2 py-1">
                   {themes.map((t) => (
                     <button
@@ -851,11 +851,11 @@ export function Navigation() {
             </div>
             <div className="md:hidden" />
             <div className="flex items-center gap-2">
-              <NavDropdown label="Learning" items={learningItems} isPaid subBar />
-              <NavDropdown label="Resources" items={[
-                { icon: Tag, label: "Pricing" },
-                { icon: HelpCircle, label: "FAQ" },
-                { icon: BarChart, label: "Reports" },
+              <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
+              <NavDropdown label={t("nav.resources")} items={[
+                { icon: Tag, label: t("nav.pricing"), key: "Pricing" },
+                { icon: HelpCircle, label: t("footer.faq"), key: "FAQ" },
+                { icon: BarChart, label: t("nav.reports"), key: "Reports" },
               ]} subBar />
             </div>
           </div>
