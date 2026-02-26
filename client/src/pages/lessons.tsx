@@ -2990,7 +2990,19 @@ export default function Lessons() {
   const [showSystemModal, setShowSystemModal] = useState(false);
   const [editingSystem, setEditingSystem] = useState<any>(null);
   const [systemModalTier, setSystemModalTier] = useState("rpn");
+  const [lessonOverrides, setLessonOverrides] = useState<Record<string, any>>({});
   const { toast } = useToast();
+
+  const refreshOverrides = () => {
+    fetch("/api/lesson-overrides")
+      .then((r) => r.ok ? r.json() : {})
+      .then(setLessonOverrides)
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    refreshOverrides();
+  }, []);
 
   useEffect(() => {
     fetch("/api/custom-modules?page=lessons")
@@ -3101,10 +3113,10 @@ export default function Lessons() {
             <LecturesSection tier="rpn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rpnNonPharm].map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} />
+                <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {customSystems.filter((s) => s.tier === "rpn" || !s.tier).map((cs) => (
-                <CustomSystemCard key={cs.id} system={cs} tier="rpn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rpn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} />
+                <CustomSystemCard key={cs.id} system={cs} tier="rpn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rpn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {isAdmin && (
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rpn"); setShowSystemModal(true); }} />
@@ -3116,10 +3128,10 @@ export default function Lessons() {
             <LecturesSection tier="rn" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...rnNonPharm].map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} />
+                <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {customSystems.filter((s) => s.tier === "rn" || !s.tier).map((cs) => (
-                <CustomSystemCard key={cs.id} system={cs} tier="rn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} />
+                <CustomSystemCard key={cs.id} system={cs} tier="rn" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("rn"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {isAdmin && (
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("rn"); setShowSystemModal(true); }} />
@@ -3131,10 +3143,10 @@ export default function Lessons() {
             <LecturesSection tier="np" onNavigate={setLocation} />
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {[...preNursingSystems, ...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...npNonPharm].map((system) => (
-                <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} />
+                <LessonSystemCard key={system.id} system={system} tier="np" onSelect={handleLessonSelect} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {customSystems.filter((s) => s.tier === "np" || !s.tier).map((cs) => (
-                <CustomSystemCard key={cs.id} system={cs} tier="np" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("np"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} />
+                <CustomSystemCard key={cs.id} system={cs} tier="np" isAdmin={isAdmin} onSelect={handleLessonSelect} onEdit={() => { setEditingSystem(cs); setSystemModalTier("np"); setShowSystemModal(true); }} onDelete={() => { if (confirm("Delete this system?")) deleteCustomSystem(cs.id); }} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
               ))}
               {isAdmin && (
                 <AddSystemCard onClick={() => { setEditingSystem(null); setSystemModalTier("np"); setShowSystemModal(true); }} />
@@ -3149,7 +3161,7 @@ export default function Lessons() {
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rpnPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {rpnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
-                      <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                      <LessonSystemCard key={system.id} system={system} tier="rpn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
                     ))}
                   </div>
                 </div>
@@ -3159,7 +3171,7 @@ export default function Lessons() {
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.rnPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {rnSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
-                      <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                      <LessonSystemCard key={system.id} system={system} tier="rn" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
                     ))}
                   </div>
                 </div>
@@ -3169,7 +3181,7 @@ export default function Lessons() {
                   <h2 className="text-lg font-bold text-gray-700 mb-4">{t("lessons.npPharmacology")}</h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {npSystems.filter(s => s.id.includes("pharmacology")).map((system) => (
-                      <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} />
+                      <LessonSystemCard key={system.id} system={system} tier="np" onSelect={(id) => setLocation(`/lessons/${id}`)} lessonOverrides={lessonOverrides} onOverridesChange={refreshOverrides} />
                     ))}
                   </div>
                 </div>
@@ -3217,11 +3229,83 @@ function DifficultyBadge({ level }: { level: DifficultyLevel }) {
   );
 }
 
-function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (id: string) => void, tier: string }) {
+function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverridesChange }: { system: any, onSelect: (id: string) => void, tier: string, lessonOverrides?: Record<string, any>, onOverridesChange?: () => void }) {
   const { t } = useI18n();
   const { user } = useAuth();
+  const { getImageUrl, refresh: refreshImages } = useSiteImages();
   const systemImg = getSystemImage(system.id);
   const isAdmin = user?.tier === "admin";
+  const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
+  const [savingName, setSavingName] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const saveLessonName = async (lessonId: string, newName: string) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    setSavingName(true);
+    try {
+      const existing = lessonOverrides?.[lessonId] || {};
+      const res = await fetch(`/api/lesson-overrides/${lessonId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...existing, title: newName, username: creds.username, password: creds.password }),
+      });
+      if (!res.ok) throw new Error("Save failed");
+      toast({ title: "Lesson name updated" });
+      setEditingLessonId(null);
+      onOverridesChange?.();
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setSavingName(false);
+    }
+  };
+
+  const uploadAndSaveLessonImage = async (lessonId: string, file: File) => {
+    setUploadingImage(lessonId);
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    try {
+      const reqRes = await fetch("/api/uploads/request-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type || "image/png" }),
+      });
+      if (!reqRes.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL, objectPath } = await reqRes.json();
+      const uploadRes = await fetch(uploadURL, { method: "PUT", body: file, headers: { "Content-Type": file.type || "image/png" } });
+      if (!uploadRes.ok) throw new Error("Upload failed");
+      const saveRes = await fetch(`/api/site-images/${encodeURIComponent(`lesson-${lessonId}`)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: objectPath, username: creds.username, password: creds.password }),
+      });
+      if (!saveRes.ok) throw new Error("Save failed");
+      toast({ title: "Lesson image updated" });
+      refreshImages();
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setUploadingImage(null);
+    }
+  };
+
+  const removeLessonImage = async (lessonId: string) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    try {
+      const res = await fetch(`/api/site-images/${encodeURIComponent(`lesson-${lessonId}`)}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: creds.username, password: creds.password }),
+      });
+      if (!res.ok) throw new Error("Delete failed");
+      toast({ title: "Lesson image removed" });
+      refreshImages();
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+  };
+
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
       {systemImg && (
@@ -3247,25 +3331,87 @@ function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (
         <div className="space-y-3">
           {system.diseases.map((disease: any) => {
             const difficulty = getDifficulty(disease.id, tier);
+            const overrideName = lessonOverrides?.[disease.id]?.title;
+            const displayName = overrideName || disease.name;
+            const lessonImgUrl = getImageUrl(`lesson-${disease.id}`, "");
+            const isEditingThis = editingLessonId === disease.id;
             return (
               <div 
                 key={disease.id}
                 data-testid={`lesson-card-${disease.id}`}
-                onClick={() => disease.status === "Available" && onSelect(disease.id)}
+                onClick={() => !isEditingThis && disease.status === "Available" && onSelect(disease.id)}
                 className={cn(
-                  "flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer group",
+                  "flex items-center justify-between p-4 rounded-xl border transition-all group",
+                  isEditingThis ? "border-primary/30 bg-primary/5" :
                   disease.status === "Available" 
-                    ? "border-primary/20 bg-primary/5 hover:bg-primary/10" 
+                    ? "border-primary/20 bg-primary/5 hover:bg-primary/10 cursor-pointer" 
                     : "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
                 )}
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <BookOpen className={cn("w-5 h-5 shrink-0", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
-                  <span className="font-medium text-gray-900 truncate">
-                    {disease.name}
-                  </span>
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  {lessonImgUrl ? (
+                    <img src={lessonImgUrl} alt={displayName} className="w-10 h-10 rounded-lg object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
+                  ) : (
+                    <BookOpen className={cn("w-5 h-5 shrink-0", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
+                  )}
+                  {isEditingThis ? (
+                    <div className="flex items-center gap-2 min-w-0 flex-1" onClick={(e) => e.stopPropagation()}>
+                      <Input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="h-8 text-sm font-medium flex-1"
+                        autoFocus
+                        data-testid={`input-edit-lesson-name-${disease.id}`}
+                        onKeyDown={(e) => { if (e.key === "Enter" && editName.trim()) saveLessonName(disease.id, editName.trim()); if (e.key === "Escape") setEditingLessonId(null); }}
+                      />
+                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0" disabled={savingName || !editName.trim()} onClick={() => saveLessonName(disease.id, editName.trim())} data-testid={`button-save-lesson-name-${disease.id}`}>
+                        {savingName ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
+                      </Button>
+                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => setEditingLessonId(null)} data-testid={`button-cancel-edit-${disease.id}`}>
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <span className="font-medium text-gray-900 truncate">
+                      {displayName}
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center gap-2 shrink-0 ml-2">
+                  {isAdmin && !isEditingThis && (
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setEditingLessonId(disease.id); setEditName(displayName); }}
+                        className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-blue-50"
+                        title="Edit lesson name"
+                        data-testid={`button-edit-lesson-name-${disease.id}`}
+                      >
+                        <Pencil className="w-3 h-3 text-blue-600" />
+                      </button>
+                      <label
+                        className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-green-50 cursor-pointer"
+                        title={lessonImgUrl ? "Change lesson image" : "Add lesson image"}
+                        data-testid={`button-upload-lesson-image-${disease.id}`}
+                      >
+                        {uploadingImage === disease.id ? (
+                          <Loader2 className="w-3 h-3 animate-spin text-gray-500" />
+                        ) : (
+                          <Upload className="w-3 h-3 text-green-600" />
+                        )}
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndSaveLessonImage(disease.id, f); e.target.value = ""; }} />
+                      </label>
+                      {lessonImgUrl && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); if (confirm("Remove lesson image?")) removeLessonImage(disease.id); }}
+                          className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-red-50"
+                          title="Remove lesson image"
+                          data-testid={`button-remove-lesson-image-${disease.id}`}
+                        >
+                          <Trash2 className="w-3 h-3 text-red-500" />
+                        </button>
+                      )}
+                    </div>
+                  )}
                   <DifficultyBadge level={difficulty} />
                   {disease.status === "Available" ? (
                     <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
@@ -3288,11 +3434,83 @@ const LESSON_ICON_MAP: Record<string, any> = {
   ShieldAlert, Scissors, Bug, Thermometer, Flame, HeartHandshake, Bandage, Calculator, Microscope,
 };
 
-function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete }: {
-  system: any; tier: string; isAdmin: boolean; onSelect: (id: string) => void; onEdit: () => void; onDelete: () => void;
+function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, lessonOverrides, onOverridesChange }: {
+  system: any; tier: string; isAdmin: boolean; onSelect: (id: string) => void; onEdit: () => void; onDelete: () => void; lessonOverrides?: Record<string, any>; onOverridesChange?: () => void;
 }) {
   const lessons = (system.lessons || []) as { id: string; name: string; status?: string }[];
   const IconComp = LESSON_ICON_MAP[system.icon] || BookOpen;
+  const { getImageUrl, refresh: refreshImages } = useSiteImages();
+  const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
+  const [savingName, setSavingName] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const saveLessonName = async (lessonId: string, newName: string) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    setSavingName(true);
+    try {
+      const existing = lessonOverrides?.[lessonId] || {};
+      const res = await fetch(`/api/lesson-overrides/${lessonId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...existing, title: newName, username: creds.username, password: creds.password }),
+      });
+      if (!res.ok) throw new Error("Save failed");
+      toast({ title: "Lesson name updated" });
+      setEditingLessonId(null);
+      onOverridesChange?.();
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setSavingName(false);
+    }
+  };
+
+  const uploadAndSaveLessonImage = async (lessonId: string, file: File) => {
+    setUploadingImage(lessonId);
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    try {
+      const reqRes = await fetch("/api/uploads/request-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type || "image/png" }),
+      });
+      if (!reqRes.ok) throw new Error("Failed to get upload URL");
+      const { uploadURL, objectPath } = await reqRes.json();
+      const uploadRes = await fetch(uploadURL, { method: "PUT", body: file, headers: { "Content-Type": file.type || "image/png" } });
+      if (!uploadRes.ok) throw new Error("Upload failed");
+      const saveRes = await fetch(`/api/site-images/${encodeURIComponent(`lesson-${lessonId}`)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: objectPath, username: creds.username, password: creds.password }),
+      });
+      if (!saveRes.ok) throw new Error("Save failed");
+      toast({ title: "Lesson image updated" });
+      refreshImages();
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setUploadingImage(null);
+    }
+  };
+
+  const removeLessonImage = async (lessonId: string) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    try {
+      const res = await fetch(`/api/site-images/${encodeURIComponent(`lesson-${lessonId}`)}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: creds.username, password: creds.password }),
+      });
+      if (!res.ok) throw new Error("Delete failed");
+      toast({ title: "Lesson image removed" });
+      refreshImages();
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+  };
+
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white relative group">
       {system.imageUrl && (
@@ -3309,20 +3527,85 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete }:
       </CardHeader>
       <CardContent className="pt-6">
         <div className="space-y-3">
-          {lessons.map((disease, idx) => (
-            <div
-              key={disease.id || idx}
-              data-testid={`custom-lesson-card-${disease.id || idx}`}
-              onClick={() => disease.id && onSelect(disease.id)}
-              className="flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer group/lesson border-primary/20 bg-primary/5 hover:bg-primary/10"
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <BookOpen className="w-5 h-5 shrink-0 text-primary" />
-                <span className="font-medium text-gray-900 truncate">{disease.name}</span>
+          {lessons.map((disease, idx) => {
+            const overrideName = lessonOverrides?.[disease.id]?.title;
+            const displayName = overrideName || disease.name;
+            const lessonImgUrl = disease.id ? getImageUrl(`lesson-${disease.id}`, "") : "";
+            const isEditingThis = editingLessonId === disease.id;
+            return (
+              <div
+                key={disease.id || idx}
+                data-testid={`custom-lesson-card-${disease.id || idx}`}
+                onClick={() => !isEditingThis && disease.id && onSelect(disease.id)}
+                className={cn("flex items-center justify-between p-4 rounded-xl border transition-all group/lesson border-primary/20 bg-primary/5 hover:bg-primary/10", isEditingThis ? "" : "cursor-pointer")}
+              >
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  {lessonImgUrl ? (
+                    <img src={lessonImgUrl} alt={displayName} className="w-10 h-10 rounded-lg object-cover shrink-0" data-testid={`img-lesson-${disease.id}`} />
+                  ) : (
+                    <BookOpen className="w-5 h-5 shrink-0 text-primary" />
+                  )}
+                  {isEditingThis ? (
+                    <div className="flex items-center gap-2 min-w-0 flex-1" onClick={(e) => e.stopPropagation()}>
+                      <Input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="h-8 text-sm font-medium flex-1"
+                        autoFocus
+                        data-testid={`input-edit-lesson-name-${disease.id}`}
+                        onKeyDown={(e) => { if (e.key === "Enter" && editName.trim()) saveLessonName(disease.id, editName.trim()); if (e.key === "Escape") setEditingLessonId(null); }}
+                      />
+                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0" disabled={savingName || !editName.trim()} onClick={() => saveLessonName(disease.id, editName.trim())} data-testid={`button-save-lesson-name-${disease.id}`}>
+                        {savingName ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
+                      </Button>
+                      <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => setEditingLessonId(null)}>
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <span className="font-medium text-gray-900 truncate">{displayName}</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-1 shrink-0 ml-2">
+                  {isAdmin && !isEditingThis && disease.id && (
+                    <div className="flex items-center gap-1 opacity-0 group-hover/lesson:opacity-100 transition-opacity">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setEditingLessonId(disease.id); setEditName(displayName); }}
+                        className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-blue-50"
+                        title="Edit lesson name"
+                        data-testid={`button-edit-lesson-name-${disease.id}`}
+                      >
+                        <Pencil className="w-3 h-3 text-blue-600" />
+                      </button>
+                      <label
+                        className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-green-50 cursor-pointer"
+                        title={lessonImgUrl ? "Change lesson image" : "Add lesson image"}
+                        data-testid={`button-upload-lesson-image-${disease.id}`}
+                      >
+                        {uploadingImage === disease.id ? (
+                          <Loader2 className="w-3 h-3 animate-spin text-gray-500" />
+                        ) : (
+                          <Upload className="w-3 h-3 text-green-600" />
+                        )}
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAndSaveLessonImage(disease.id, f); e.target.value = ""; }} />
+                      </label>
+                      {lessonImgUrl && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); if (confirm("Remove lesson image?")) removeLessonImage(disease.id); }}
+                          className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-red-50"
+                          title="Remove lesson image"
+                          data-testid={`button-remove-lesson-image-${disease.id}`}
+                        >
+                          <Trash2 className="w-3 h-3 text-red-500" />
+                        </button>
+                      )}
+                    </div>
+                  )}
+                  <ChevronRight className="w-5 h-5 text-primary group-hover/lesson:translate-x-1 transition-transform" />
+                </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-primary group-hover/lesson:translate-x-1 transition-transform shrink-0 ml-2" />
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
       {isAdmin && (

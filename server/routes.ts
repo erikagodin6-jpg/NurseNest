@@ -2223,8 +2223,21 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
   });
 
   // --------------------
-  // Lesson overrides (NOW protected consistently)
+  // Lesson overrides (GET endpoints are public — names/content shown to all users; PUT is admin-only)
   // --------------------
+  app.get("/api/lesson-overrides", async (req, res) => {
+    try {
+      const result = await pool.query(`SELECT lesson_id, overrides FROM lesson_overrides`);
+      const map: Record<string, any> = {};
+      for (const row of result.rows) {
+        map[row.lesson_id] = row.overrides || {};
+      }
+      res.json(map);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/lesson-overrides/:lessonId", async (req, res) => {
     try {
       const { lessonId } = req.params;
