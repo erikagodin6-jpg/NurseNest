@@ -2729,10 +2729,12 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
   // --------------------
   app.post("/api/subscribe", async (req, res) => {
     try {
-      const { email, tier, source } = req.body;
+      const { email, tier, source, frequency } = req.body;
       if (!email || !email.includes("@")) {
         return res.status(400).json({ error: "Valid email required" });
       }
+      const validFrequencies = ["daily", "3x_week", "weekly", "biweekly", "monthly"];
+      const freq = validFrequencies.includes(frequency) ? frequency : "weekly";
       const existing = await storage.getEmailSubscriberByEmail(email.toLowerCase().trim());
       if (existing) {
         return res.json({ message: "Already subscribed", subscriber: existing });
@@ -2742,6 +2744,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         tier: tier || "general",
         source: source || "qotd",
         verified: false,
+        frequency: freq,
       });
       res.json({ message: "Subscribed successfully", subscriber });
     } catch (e: any) {

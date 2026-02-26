@@ -70,8 +70,18 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
   const [subEmail, setSubEmail] = useState("");
+  const [subFrequency, setSubFrequency] = useState<string>("weekly");
+  const [subStep, setSubStep] = useState<"email" | "frequency">("email");
   const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [subMessage, setSubMessage] = useState("");
+
+  const FREQUENCY_OPTIONS = [
+    { value: "daily", label: t("blog.freqDaily") },
+    { value: "3x_week", label: t("blog.freq3xWeek") },
+    { value: "weekly", label: t("blog.freqWeekly") },
+    { value: "biweekly", label: t("blog.freqBiweekly") },
+    { value: "monthly", label: t("blog.freqMonthly") },
+  ];
 
   const TIER_FILTERS = [
     { key: null, label: t("blog.filterAll") },
@@ -80,25 +90,32 @@ export default function BlogPage() {
     { key: "np", label: t("blog.filterNp") },
   ];
 
-  async function handleSubscribe(e: React.FormEvent) {
+  function handleEmailNext(e: React.FormEvent) {
     e.preventDefault();
     if (!subEmail || !subEmail.includes("@")) {
       setSubStatus("error");
       setSubMessage(t("blog.subscribeErrorInvalidEmail"));
       return;
     }
+    setSubStatus("idle");
+    setSubStep("frequency");
+  }
+
+  async function handleSubscribe() {
     setSubStatus("loading");
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: subEmail, source: "blog", tier: "general" }),
+        body: JSON.stringify({ email: subEmail, source: "blog", tier: "general", frequency: subFrequency }),
       });
       const data = await res.json();
       if (res.ok) {
         setSubStatus("success");
         setSubMessage(data.message === "Already subscribed" ? t("blog.subscribeAlreadySubscribed") : t("blog.subscribeSuccess"));
         setSubEmail("");
+        setSubStep("email");
+        setSubFrequency("weekly");
       } else {
         setSubStatus("error");
         setSubMessage(data.error || t("blog.subscribeErrorGeneric"));
@@ -261,8 +278,8 @@ export default function BlogPage() {
                     <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                     <span className="text-sm font-medium text-emerald-700">{subMessage}</span>
                   </div>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto shrink-0">
+                ) : subStep === "email" ? (
+                  <form onSubmit={handleEmailNext} className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto shrink-0">
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input
@@ -270,22 +287,65 @@ export default function BlogPage() {
                         placeholder={t("blog.subscribePlaceholder")}
                         value={subEmail}
                         onChange={(e) => { setSubEmail(e.target.value); if (subStatus === "error") setSubStatus("idle"); }}
-                        className="h-11 pl-10 pr-4 w-full sm:w-64 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                        className="h-11 pl-10 pr-4 w-full sm:w-64 rounded-full border border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white dark:bg-gray-800 dark:text-white"
                         data-testid="input-blog-subscribe-email"
                       />
                     </div>
                     <Button
                       type="submit"
-                      disabled={subStatus === "loading"}
                       className="h-11 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm text-sm font-semibold"
-                      data-testid="button-blog-subscribe"
+                      data-testid="button-blog-subscribe-next"
                     >
-                      {subStatus === "loading" ? t("blog.subscribing") : t("blog.subscribeButton")}
+                      {t("blog.subscribeNext")}
                     </Button>
                     {subStatus === "error" && (
                       <p className="text-xs text-red-500 mt-1 sm:absolute sm:top-full sm:left-0 sm:mt-1" data-testid="text-subscribe-error">{subMessage}</p>
                     )}
                   </form>
+                ) : (
+                  <div className="flex flex-col gap-3 w-full sm:w-auto shrink-0" data-testid="section-subscribe-frequency">
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("blog.freqPrompt")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {FREQUENCY_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setSubFrequency(opt.value)}
+                          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                            subFrequency === opt.value
+                              ? "bg-primary text-white shadow-sm"
+                              : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                          }`}
+                          data-testid={`button-freq-${opt.value}`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setSubStep("email")}
+                        className="h-10 px-4 rounded-full text-sm"
+                        data-testid="button-freq-back"
+                      >
+                        {t("blog.freqBack")}
+                      </Button>
+                      <Button
+                        type="button"
+                        disabled={subStatus === "loading"}
+                        onClick={handleSubscribe}
+                        className="h-10 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm text-sm font-semibold"
+                        data-testid="button-blog-subscribe"
+                      >
+                        {subStatus === "loading" ? t("blog.subscribing") : t("blog.subscribeButton")}
+                      </Button>
+                    </div>
+                    {subStatus === "error" && (
+                      <p className="text-xs text-red-500" data-testid="text-subscribe-error">{subMessage}</p>
+                    )}
+                  </div>
                 )}
               </div>
             </CardContent>

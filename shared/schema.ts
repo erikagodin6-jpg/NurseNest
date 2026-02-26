@@ -255,6 +255,7 @@ export const emailSubscribers = pgTable("email_subscribers", {
   tier: text("tier").default("general"),
   source: text("source").default("qotd"),
   verified: boolean("verified").default(false),
+  frequency: text("frequency").default("weekly"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
