@@ -26,6 +26,7 @@ import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClie
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
 import { generateBlogPost, runBlogScheduler } from "./blog-automation";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
+import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 
 /**
  * Consistent admin auth (DB-based).
@@ -107,6 +108,13 @@ async function extractUserTier(req: Request): Promise<string | null> {
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   registerObjectStorageRoutes(app);
 
+  app.use(regionMiddleware);
+
+  app.get("/api/region", (req, res) => {
+    const region = req.region || "US";
+    res.json({ region });
+  });
+
   // --------------------
   // AI Content Generation (admin-only)
   // --------------------
@@ -115,8 +123,19 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { prompt, context, mode } = req.body;
+      const { prompt, context, mode, contentId } = req.body;
       if (!prompt) return res.status(400).json({ error: "Prompt is required" });
+
+      if (contentId) {
+        const existing = await storage.getContentItem(contentId);
+        if (existing) {
+          const region = req.region || "US";
+          if (!isRegionAllowed(existing.regionScope, region)) {
+            await logAudit(req, admin, "ai", contentId, "region-blocked", null, { reason: "Cross-region AI edit rejected", itemRegion: existing.regionScope, requestRegion: region });
+            return res.status(403).json({ error: "Cannot edit content outside this domain's region scope" });
+          }
+        }
+      }
 
       const OpenAI = (await import("openai")).default;
       const openai = new OpenAI({
@@ -140,9 +159,13 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
       };
 
       const systemPrompt = systemPrompts[mode] || systemPrompts["generate"];
+      const region = req.region || "US";
+      const regionNote = region === "CA"
+        ? "\nIMPORTANT: This is for the CANADIAN nursing audience. Use Canadian terminology: RPN (Registered Practical Nurse), REX-PN exam, CNO (College of Nurses of Ontario), SI units for lab values (mmol/L, µmol/L, g/L), temperatures in °C."
+        : "\nIMPORTANT: This is for the AMERICAN nursing audience. Use American terminology: LPN/LVN, NCLEX-PN exam, State Board of Nursing, conventional units for lab values (mEq/L, mg/dL, g/dL), temperatures in °F.";
 
       const messages: any[] = [
-        { role: "system", content: systemPrompt },
+        { role: "system", content: systemPrompt + regionNote },
       ];
 
       if (context) {
@@ -1106,10 +1129,12 @@ Rules:
   // --------------------
   // Content - Public typed endpoints
   // --------------------
-  app.get("/api/content/lessons", async (_req, res) => {
+  app.get("/api/content/lessons", async (req, res) => {
     try {
+      const region = req.region || "US";
+      const regionFilter = buildRegionFilter(region);
       const result = await pool.query(
-        "SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at FROM content_items WHERE status = 'published' AND type = 'lesson' ORDER BY published_at DESC NULLS LAST"
+        `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'lesson' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
       );
       res.json(snakeToCamel(result.rows));
     } catch (e: any) {
@@ -1117,10 +1142,12 @@ Rules:
     }
   });
 
-  app.get("/api/content/flashcard-sets", async (_req, res) => {
+  app.get("/api/content/flashcard-sets", async (req, res) => {
     try {
+      const region = req.region || "US";
+      const regionFilter = buildRegionFilter(region);
       const result = await pool.query(
-        "SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content FROM content_items WHERE status = 'published' AND type = 'flashcard-set' ORDER BY published_at DESC NULLS LAST"
+        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content, region_scope FROM content_items WHERE status = 'published' AND type = 'flashcard-set' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
       );
       res.json(snakeToCamel(result.rows));
     } catch (e: any) {
@@ -1128,10 +1155,12 @@ Rules:
     }
   });
 
-  app.get("/api/content/exams", async (_req, res) => {
+  app.get("/api/content/exams", async (req, res) => {
     try {
+      const region = req.region || "US";
+      const regionFilter = buildRegionFilter(region);
       const result = await pool.query(
-        "SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at FROM content_items WHERE status = 'published' AND type = 'exam' ORDER BY published_at DESC NULLS LAST"
+        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
       );
       res.json(snakeToCamel(result.rows));
     } catch (e: any) {
@@ -1166,34 +1195,26 @@ Rules:
         }
       }
 
+      const region = req.region || "US";
+      const regionFilter = buildRegionFilter(region);
       let items: any[] = [];
       try {
-        items = await storage.getPublishedContent(type as string | undefined, category as string | undefined);
-        console.log(`[Content API] Drizzle returned ${items.length} items for type=${type || "all"}`);
-      } catch (ormErr: any) {
-        console.error("[Content API] Drizzle ORM error:", ormErr.message);
-      }
-
-      if (items.length === 0) {
-        console.log("[Content API] Drizzle returned 0, trying raw SQL fallback...");
-        try {
-          let q = "SELECT * FROM content_items WHERE status = 'published'";
-          const params: string[] = [];
-          if (type) {
-            params.push(type as string);
-            q += ` AND type = $${params.length}`;
-          }
-          if (category) {
-            params.push(category as string);
-            q += ` AND category = $${params.length}`;
-          }
-          q += " ORDER BY published_at DESC NULLS LAST";
-          const result = await pool.query(q, params);
-          items = snakeToCamel(result.rows);
-          console.log(`[Content API] Raw SQL returned ${items.length} items for type=${type || "all"}`);
-        } catch (sqlErr: any) {
-          console.error("[Content API] Raw SQL error:", sqlErr.message);
+        let q = `SELECT * FROM content_items WHERE status = 'published' AND ${regionFilter}`;
+        const params: string[] = [];
+        if (type) {
+          params.push(type as string);
+          q += ` AND type = $${params.length}`;
         }
+        if (category) {
+          params.push(category as string);
+          q += ` AND category = $${params.length}`;
+        }
+        q += " ORDER BY published_at DESC NULLS LAST";
+        const result = await pool.query(q, params);
+        items = snakeToCamel(result.rows);
+        console.log(`[Content API] Returned ${items.length} items for type=${type || "all"}, region=${region}`);
+      } catch (sqlErr: any) {
+        console.error("[Content API] SQL error:", sqlErr.message);
       }
 
       res.json(items);
@@ -1265,6 +1286,11 @@ Rules:
       if (!item) return res.status(404).json({ error: "Content not found" });
       if (item.status !== "published") return res.status(404).json({ error: "Content not found" });
 
+      const region = req.region || "US";
+      if (!isRegionAllowed(item.regionScope || item.region_scope, region)) {
+        return res.status(404).json({ error: "Content not found" });
+      }
+
       if (item.tier && item.tier !== "free") {
         const userTier = await extractUserTier(req);
         if (!canAccessTier(userTier, item.tier)) {
@@ -1287,9 +1313,16 @@ Rules:
       void username;
       void password;
 
+      const validScopes = ["BOTH", "US_ONLY", "CA_ONLY"];
+      if (!contentData.regionScope) {
+        const region = req.region || "US";
+        contentData.regionScope = getDefaultRegionScope(contentData.tier, region);
+      } else if (!validScopes.includes(contentData.regionScope)) {
+        contentData.regionScope = "BOTH";
+      }
       const parsed = insertContentItemSchema.parse(contentData);
       const item = await storage.createContentItem(parsed);
-      await logAudit(req, admin, "content", item.id, "create", null, { title: item.title, type: item.type, status: item.status });
+      await logAudit(req, admin, "content", item.id, "create", null, { title: item.title, type: item.type, status: item.status, regionScope: item.regionScope });
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });

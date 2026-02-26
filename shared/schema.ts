@@ -98,6 +98,10 @@ export const contentItems = pgTable("content_items", {
   publishedAt: timestamp("published_at"),
   authorId: varchar("author_id"),
   authorName: text("author_name"),
+  regionScope: text("region_scope").default("BOTH"),
+  versionKey: text("version_key"),
+  updatedByAi: boolean("updated_by_ai").default(false),
+  protectedFields: text("protected_fields").array().default(sql`'{}'::text[]`),
 });
 
 export const insertContentItemSchema = createInsertSchema(contentItems).omit({

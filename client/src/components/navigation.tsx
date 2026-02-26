@@ -154,32 +154,16 @@ export function Navigation() {
     setLanguage(langCode);
   };
 
-  const setRegion = (newRegion: "US" | "CA") => {
-    setRegionState(newRegion);
-    localStorage.setItem("nursenest-region", newRegion);
-    window.dispatchEvent(new Event("regionChange"));
-  };
-
   useEffect(() => {
-    if (!localStorage.getItem("nursenest-region")) {
-      const doFetch = () => {
-        fetch("https://ipapi.co/json/")
-          .then(r => r.json())
-          .then(data => {
-            const country = data?.country_code;
-            const detected: "US" | "CA" = country === "CA" ? "CA" : "US";
-            setRegionState(detected);
-            localStorage.setItem("nursenest-region", detected);
-            window.dispatchEvent(new Event("regionChange"));
-          })
-          .catch(() => {});
-      };
-      if ("requestIdleCallback" in window) {
-        (window as any).requestIdleCallback(doFetch);
-      } else {
-        setTimeout(doFetch, 1000);
-      }
-    }
+    fetch("/api/region")
+      .then(r => r.json())
+      .then(data => {
+        const detected: "US" | "CA" = data?.region === "CA" ? "CA" : "US";
+        setRegionState(detected);
+        localStorage.setItem("nursenest-region", detected);
+        window.dispatchEvent(new Event("regionChange"));
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -549,26 +533,9 @@ export function Navigation() {
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.regionTheme")}</p>
             <div className="flex items-center gap-2 px-3 mb-2">
-              <div className="flex items-center bg-primary/5 rounded-full p-0.5 border border-primary/10">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setRegion("US")}
-                  className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "US" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
-                  data-testid="button-region-us-mobile"
-                >
-                  US
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setRegion("CA")}
-                  className={cn("h-6 px-2 rounded-full text-[10px] font-bold transition-all", region === "CA" ? "bg-white shadow-sm text-primary" : "text-gray-400 hover:text-gray-600")}
-                  data-testid="button-region-ca-mobile"
-                >
-                  CA
-                </Button>
-              </div>
+              <span className="text-xs font-bold text-primary bg-primary/5 rounded-full px-2 py-0.5 border border-primary/10" data-testid="text-region-indicator-mobile">
+                {region === "CA" ? "🇨🇦 Canada" : "🇺🇸 United States"}
+              </span>
             </div>
             <div className="flex flex-wrap gap-2 px-3 mb-1">
               {themes.map((t) => (
@@ -813,13 +780,11 @@ export function Navigation() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 p-2">
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">{t("nav.selectRegion")}</p>
-                <DropdownMenuItem onClick={() => setRegion("US")} className={cn("cursor-pointer gap-2", region === "US" && "text-primary font-bold bg-primary/5")} data-testid="button-region-us">
-                  🇺🇸 United States (USD)
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setRegion("CA")} className={cn("cursor-pointer gap-2", region === "CA" && "text-primary font-bold bg-primary/5")} data-testid="button-region-ca">
-                  🇨🇦 Canada (CAD)
-                </DropdownMenuItem>
+                <div className="flex items-center gap-2 px-2 mb-2">
+                  <span className="text-xs font-bold text-primary" data-testid="text-region-indicator-desktop">
+                    {region === "CA" ? "🇨🇦 Canada" : "🇺🇸 United States"}
+                  </span>
+                </div>
                 <DropdownMenuSeparator />
                 <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.selectTheme")}</p>
                 <div className="grid grid-cols-5 gap-2 px-2 py-1">

@@ -1,0 +1,38 @@
+export const CA_EXAMS = {
+  practicalNurse: {
+    title: "RPN (Registered Practical Nurse)",
+    examName: "REX-PN",
+    examFull: "Regulatory Exam - Practical Nurse",
+    regulatoryBody: "CNO (College of Nurses of Ontario)",
+    designation: "RPN",
+    scope: "RPN Scope of Practice",
+  },
+  registeredNurse: {
+    title: "RN (Registered Nurse)",
+    examName: "NCLEX-RN",
+    examFull: "National Council Licensure Examination - Registered Nurse",
+    regulatoryBody: "CNO (College of Nurses of Ontario)",
+    designation: "RN",
+    scope: "RN Scope of Practice",
+  },
+  nursePractitioner: {
+    title: "NP (Nurse Practitioner)",
+    examName: "NP Exam",
+    examFull: "Nurse Practitioner Certification Examination",
+    regulatoryBody: "CNO (College of Nurses of Ontario)",
+    designation: "NP",
+    scope: "NP Scope of Practice",
+  },
+  tiers: {
+    rpn: "RPN",
+    rn: "RN",
+    np: "NP",
+    prenursing: "Pre-Nursing",
+  },
+  designations: ["RPN", "RN", "NP"],
+  currency: "CAD",
+  currencySymbol: "$",
+  tempUnit: "°C",
+  weightUnit: "kg",
+  heightUnit: "cm",
+};

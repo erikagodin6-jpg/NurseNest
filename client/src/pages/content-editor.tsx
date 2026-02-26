@@ -75,6 +75,7 @@ type ContentItem = {
   publishedAt: string | null;
   authorId: string | null;
   authorName: string | null;
+  regionScope: string | null;
 };
 
 const CONTENT_TYPES = ["lesson", "article", "guide", "flashcard-set", "blog-post", "blog", "exam", "clinical-case"];
@@ -250,6 +251,8 @@ export default function ContentEditorPage() {
   const [clinicalSafetyReview, setClinicalSafetyReview] = useState(false);
   const [autoPublish, setAutoPublish] = useState(false);
   const [authorName, setAuthorName] = useState("");
+  const [regionScope, setRegionScope] = useState<string>("BOTH");
+  const [currentRegion, setCurrentRegion] = useState<"US" | "CA">("US");
   const [typeFilter, setTypeFilter] = useState("all");
   const [showSeo, setShowSeo] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -272,6 +275,12 @@ export default function ContentEditorPage() {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/region").then(r => r.json()).then(d => {
+      if (d?.region) setCurrentRegion(d.region);
+    }).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -300,6 +309,7 @@ export default function ContentEditorPage() {
     setClinicalSafetyReview(false);
     setAutoPublish(false);
     setAuthorName("");
+    setRegionScope("BOTH");
     setShowSeo(false);
     setShowPreview(false);
     setDeleteConfirm(false);
@@ -344,6 +354,7 @@ export default function ContentEditorPage() {
     setClinicalSafetyReview(item.clinicalSafetyReview || false);
     setAutoPublish(item.autoPublish || false);
     setAuthorName(item.authorName || "");
+    setRegionScope((item as any).regionScope || "BOTH");
     setShowSeo(false);
     setShowPreview(false);
     setDeleteConfirm(false);
@@ -510,6 +521,7 @@ export default function ContentEditorPage() {
       clinicalSafetyReview,
       autoPublish,
       authorName: authorName || null,
+      regionScope,
     };
 
     try {
@@ -1450,6 +1462,27 @@ export default function ContentEditorPage() {
                             ))}
                           </SelectContent>
                         </Select>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-600 mb-1 block">
+                          Region Scope
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <Select value={regionScope} onValueChange={setRegionScope}>
+                            <SelectTrigger data-testid="select-region-scope">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="BOTH">Both (US &amp; CA)</SelectItem>
+                              <SelectItem value="US_ONLY">US Only</SelectItem>
+                              <SelectItem value="CA_ONLY">CA Only</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <span className="text-xs font-bold text-primary whitespace-nowrap" data-testid="text-current-domain-region">
+                            {currentRegion === "CA" ? "🇨🇦" : "🇺🇸"} {currentRegion}
+                          </span>
+                        </div>
                       </div>
 
                       <div>
