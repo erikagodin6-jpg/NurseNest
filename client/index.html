@@ -77,6 +77,16 @@
   </head>
   <body class="h-full">
     <div id="root" class="h-full"></div>
+    <div id="debug-banner" style="position:fixed;top:0;left:0;right:0;background:#3b82f6;color:white;padding:8px 16px;font-family:sans-serif;font-size:14px;z-index:99999;text-align:center;">Page loading... if you see this but no app content, JavaScript failed to mount.</div>
+    <script>window.__debugStart = Date.now();</script>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      setTimeout(() => {
+        if (document.getElementById('root').children.length > 0) {
+          const banner = document.getElementById('debug-banner');
+          if (banner) banner.remove();
+        }
+      }, 5000);
+    </script>
   </body>
 </html>
