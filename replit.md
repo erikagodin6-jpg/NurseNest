@@ -41,7 +41,7 @@ NurseNest is an interactive nursing education platform designed for RPN/LVN, RN,
 - **Admin Features**: Dashboard for analytics, subscriptions, activity, and a unified Content Engine tab. Admin page layout is locked. Admin preview mode allows viewing as different user tiers.
 - **Blog Automation**: OpenAI-powered blog post generation with scholarly source requirements, APA7/MLA citation support, and scheduled publishing.
 - **Custom Flashcards**: Users can create, edit, and study personal flashcards, including CSV import and AI accuracy checks. Supports public/private/unlisted visibility, and features starter decks and shareable deck pages.
-- **Internationalization (i18n)**: Custom system supporting 15 languages (including RTL), with fallback to English. UI chrome is fully translated, while educational content remains in English.
+- **Internationalization (i18n)**: Custom system supporting 15 languages (including RTL), with fallback to English. French and Spanish are fully translated (2,035 keys each) via OpenAI-powered batch translation. UI chrome is fully translated, while educational content remains in English.
 - **Tier Isolation**: Access is exclusive per tier (RPN, RN, NP); free users see all tabs.
 - **CMS Templates**: Quick-create templates for various content types.
 - **SEO**: Per-route meta tags injected via Vite `transformIndexHtml` hook in `vite-plugin-meta-images.ts` (calls `injectMeta` from `server/seo-meta.ts`). Includes sitemap.xml, robots.txt, structured data (JSON-LD), and noscript fallback content for crawlers.
@@ -58,6 +58,8 @@ NurseNest is an interactive nursing education platform designed for RPN/LVN, RN,
 ### Content Architecture
 - Lesson content is organized into TypeScript modules by body system, supporting pre/post-test questions.
 - Lessons are categorized into RPN/LVN, RN, NP, and Pharmacology tabs.
+- **Lesson Sections**: Each lesson has 10 content sections: Pathophysiology, Risk Factors, Diagnostics, Management, Nursing Actions, Assessment Findings (vital signs, labs, inspection/auscultation/palpation findings), Lifespan, Clinical Findings & Red Flags, Pharmacology, and Exam Readiness. All sections support inline admin editing with AI generation.
+- **Save & Publish**: Admin edit toolbar shows "Save & Publish" button. DB-stored lessons have Publish/Edit buttons visible to admin. Admin can edit DB lessons by clicking "Edit Lesson" which opens the lesson creator form.
 - Flashcard system includes bookmarking and mastery tracking.
 - **Pre-Nursing Foundations Program**: 16 interactive modules (cell biology, physiology, terminology, pharmacology intro, pathophysiology intro, science foundations, anatomy & physiology, research & statistics, medical terminology, chemistry, microbiology, infection control, fluids & electrolytes, healthcare communication, ethics & legal, study strategies). Data files in `client/src/data/pre-nursing-*.tsx`, rendered in `client/src/pages/pre-nursing.tsx`.
 - **CMS Content Integration**: DB-stored lessons (`/api/content/lessons`) appear on the Lessons page as "Additional Lessons" section. Lesson-detail page falls back to DB content when no static content exists. Flashcards page fetches DB flashcard sets from `/api/content/flashcard-sets`.

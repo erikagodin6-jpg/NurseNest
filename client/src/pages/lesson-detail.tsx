@@ -53,6 +53,7 @@ function AdminLessonCreator({ lessonId }: { lessonId: string }) {
   const [diagnostics, setDiagnostics] = useState<string[]>([""]);
   const [management, setManagement] = useState<string[]>([""]);
   const [nursingActions, setNursingActions] = useState<string[]>([""]);
+  const [assessmentFindings, setAssessmentFindings] = useState<string[]>([""]);
   const [signsLeft, setSignsLeft] = useState<string[]>([""]);
   const [signsRight, setSignsRight] = useState<string[]>([""]);
   const [medications, setMedications] = useState<{ name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[]>([]);
@@ -76,12 +77,13 @@ function AdminLessonCreator({ lessonId }: { lessonId: string }) {
 3. Diagnostic findings (list of 5-8 items)
 4. Medical management (list of 5-8 items)
 5. Priority nursing actions (list of 5-8 items)
-6. Signs and symptoms split into two columns (early signs and late/emergency signs)
-7. Key medications with drug name, classification, mechanism of action, side effects, contraindications, and nursing pearl
-8. Clinical pearls (3-5 high-yield exam tips)
-9. Lifespan considerations
+6. Assessment findings: vital signs changes, inspection/auscultation/palpation/percussion findings, lab values, objective/subjective data (list of 5-8 items)
+7. Signs and symptoms split into two columns (early signs and late/emergency signs)
+8. Key medications with drug name, classification, mechanism of action, side effects, contraindications, and nursing pearl
+9. Clinical pearls (3-5 high-yield exam tips)
+10. Lifespan considerations
 
-Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":["..."],"management":["..."],"nursingActions":["..."],"signsLeft":["early sign 1","early sign 2"],"signsRight":["late sign 1","late sign 2"],"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}],"pearls":["..."],"lifespan":"...","summary":"one sentence summary"}`;
+Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":["..."],"management":["..."],"nursingActions":["..."],"assessmentFindings":["..."],"signsLeft":["early sign 1","early sign 2"],"signsRight":["late sign 1","late sign 2"],"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}],"pearls":["..."],"lifespan":"...","summary":"one sentence summary"}`;
 
   const generateWithAI = async () => {
     const creds = getCredentials();
@@ -117,6 +119,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
             if (parsed.diagnostics?.length) setDiagnostics(parsed.diagnostics);
             if (parsed.management?.length) setManagement(parsed.management);
             if (parsed.nursingActions?.length) setNursingActions(parsed.nursingActions);
+            if (parsed.assessmentFindings?.length) setAssessmentFindings(parsed.assessmentFindings);
             if (parsed.signsLeft?.length) setSignsLeft(parsed.signsLeft);
             if (parsed.signsRight?.length) setSignsRight(parsed.signsRight);
             if (parsed.medications?.length) setMedications(parsed.medications);
@@ -227,6 +230,10 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
       if (nursingActions.some((n) => n.trim())) {
         contentBlocks.push({ type: "heading", content: "Priority Nursing Actions" });
         contentBlocks.push({ type: "list", items: nursingActions.filter((n) => n.trim()) });
+      }
+      if (assessmentFindings.some((a) => a.trim())) {
+        contentBlocks.push({ type: "heading", content: "Assessment Findings" });
+        contentBlocks.push({ type: "list", items: assessmentFindings.filter((a) => a.trim()) });
       }
       if (signsLeft.some((s) => s.trim()) || signsRight.some((s) => s.trim())) {
         contentBlocks.push({ type: "heading", content: "Signs & Symptoms" });
@@ -385,9 +392,9 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <CardContent className="p-6 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold">Lesson Details</h2>
-              <Button onClick={handleSave} disabled={saving} className="gap-2" data-testid="button-save-lesson">
+              <Button onClick={handleSave} disabled={saving} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid="button-save-lesson">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                {saving ? "Saving..." : "Save Lesson"}
+                {saving ? "Saving..." : "Save & Publish"}
               </Button>
             </div>
 
@@ -522,6 +529,16 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
         <Card>
           <CardContent className="p-6 space-y-4">
             <div className="flex items-center gap-2">
+              <Stethoscope className="w-5 h-5 text-teal-600" />
+              <h2 className="text-lg font-bold">Assessment Findings</h2>
+            </div>
+            <ListEditor items={assessmentFindings} setItems={setAssessmentFindings} placeholder="Enter assessment finding (vital signs, labs, inspection, etc.)..." />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center gap-2">
               <Activity className="w-5 h-5 text-red-500" />
               <h2 className="text-lg font-bold">Signs & Symptoms</h2>
             </div>
@@ -628,9 +645,9 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
 
         <div className="flex justify-end gap-3 pb-10">
           <Button variant="outline" onClick={() => setLocation("/lessons")} data-testid="button-cancel-create">Cancel</Button>
-          <Button onClick={handleSave} disabled={saving} className="gap-2 px-8" data-testid="button-save-lesson-bottom">
+          <Button onClick={handleSave} disabled={saving} className="gap-2 px-8 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid="button-save-lesson-bottom">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            {saving ? "Saving..." : "Save Lesson"}
+            {saving ? "Saving..." : "Save & Publish"}
           </Button>
         </div>
       </main>
@@ -1575,6 +1592,7 @@ export default function LessonDetail() {
       const blocks = Array.isArray(dbContent.content) ? dbContent.content : [];
       const objectives: string[] = [];
       const clinicalPearls: string[] = [];
+      const assessmentItems: string[] = [];
       for (let i = 0; i < blocks.length; i++) {
         const block = blocks[i];
         if (block.type === "heading" && typeof block.content === "string" && /objectives/i.test(block.content)) {
@@ -1583,10 +1601,18 @@ export default function LessonDetail() {
             objectives.push(...next.items);
           }
         }
+        if (block.type === "heading" && typeof block.content === "string" && /assessment findings/i.test(block.content)) {
+          const next = blocks[i + 1];
+          if (next && (next.type === "bulletList" || next.type === "list") && Array.isArray(next.items)) {
+            assessmentItems.push(...next.items);
+          }
+        }
         if (block.type === "clinical-pearl" || block.type === "clinicalPearl") {
           if (block.content) clinicalPearls.push(block.content);
         }
       }
+
+      const dbLessonIsPublished = dbContent.status === "published";
 
       return (
         <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
@@ -1611,14 +1637,83 @@ export default function LessonDetail() {
                     {dbContent.tier.toUpperCase()}
                   </span>
                 )}
+                {!dbLessonIsPublished && (
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-800" data-testid="badge-draft">
+                    Draft
+                  </span>
+                )}
               </div>
-              <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-title">{dbContent.title}</h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-title">{dbContent.title}</h1>
+                {isAdmin && (
+                  <div className="flex gap-2">
+                    {!dbLessonIsPublished && (
+                      <Button
+                        size="sm"
+                        className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                        data-testid="button-publish-db-lesson"
+                        onClick={async () => {
+                          const creds = getCredentials();
+                          if (!creds) return;
+                          try {
+                            const res = await fetch(`/api/content/${dbContent.id}`, {
+                              method: "PUT",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ username: creds.username, password: creds.password, status: "published" }),
+                            });
+                            if (!res.ok) throw new Error("Publish failed");
+                            setDbContent({ ...dbContent, status: "published" });
+                            toast({ title: "Published", description: "Lesson is now live and visible to students." });
+                          } catch (e: any) {
+                            toast({ title: "Error", description: e.message, variant: "destructive" });
+                          }
+                        }}
+                      >
+                        <Save className="w-3 h-3" /> Publish
+                      </Button>
+                    )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-1 text-xs"
+                      data-testid="button-edit-db-lesson"
+                      onClick={() => {
+                        setDbContent(null);
+                      }}
+                    >
+                      <Pencil className="w-3 h-3" /> Edit Lesson
+                    </Button>
+                  </div>
+                )}
+              </div>
               {dbContent.summary && (
                 <p className="text-gray-600 text-base" data-testid="text-lesson-summary">{dbContent.summary}</p>
               )}
             </div>
 
             {objectives.length > 0 && <LessonObjectives objectives={objectives} />}
+
+            {assessmentItems.length > 0 && (
+              <section className="space-y-4">
+                <div className="flex items-center gap-3 text-xl font-bold text-gray-900">
+                  <Stethoscope className="text-teal-600 w-6 h-6" />
+                  <h2>Assessment Findings</h2>
+                </div>
+                <Card className="border-none shadow-sm bg-teal-50/60">
+                  <CardContent className="p-6">
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {assessmentItems.map((af, i) => (
+                        <div key={i} className="flex items-start gap-2 text-gray-700">
+                          <Stethoscope className="w-4 h-4 text-teal-600 mt-1 shrink-0" />
+                          <span>{af}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </section>
+            )}
+
             {clinicalPearls.length > 0 && <ClinicalPearlsList pearls={clinicalPearls} />}
 
             <ContentBlockRenderer blocks={blocks} />
@@ -1669,6 +1764,7 @@ export default function LessonDetail() {
         diagnostics: `For the lesson "${lessonContent?.title || id}", generate diagnostic findings. ${sectionAiPrompt}. Return as JSON: {"items":["diagnostic 1","diagnostic 2",...]}`,
         management: `For the lesson "${lessonContent?.title || id}", generate medical management steps. ${sectionAiPrompt}. Return as JSON: {"items":["step 1","step 2",...]}`,
         nursingActions: `For the lesson "${lessonContent?.title || id}", generate priority nursing actions. ${sectionAiPrompt}. Return as JSON: {"items":["action 1","action 2",...]}`,
+        assessmentFindings: `For the lesson "${lessonContent?.title || id}", generate nursing assessment findings including vital signs changes, inspection/auscultation/palpation/percussion findings, lab values, and key objective/subjective data a nurse would assess. ${sectionAiPrompt}. Return as JSON: {"items":["finding 1","finding 2",...]}`,
         signs: `For the lesson "${lessonContent?.title || id}", generate signs/symptoms in two columns. ${sectionAiPrompt}. Return as JSON: {"left":["early sign 1",...],"right":["late sign 1",...]}`,
         medications: `For the lesson "${lessonContent?.title || id}", generate key medications. ${sectionAiPrompt}. Return as JSON: {"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}]}`,
         pearls: `For the lesson "${lessonContent?.title || id}", generate clinical pearls. ${sectionAiPrompt}. Return as JSON: {"items":["pearl 1","pearl 2",...]}`,
@@ -1704,6 +1800,8 @@ export default function LessonDetail() {
               updated.management = parsed.items;
             } else if (section === "nursingActions" && parsed.items) {
               updated.nursingActions = parsed.items;
+            } else if (section === "assessmentFindings" && parsed.items) {
+              updated.assessmentFindings = parsed.items;
             } else if (section === "signs" && parsed.left) {
               updated.signs = { ...updated.signs, left: parsed.left, right: parsed.right || updated.signs?.right || [] };
             } else if (section === "medications" && parsed.medications) {
@@ -1760,6 +1858,7 @@ export default function LessonDetail() {
     if (!data.diagnostics) data.diagnostics = [];
     if (!data.management) data.management = [];
     if (!data.nursingActions) data.nursingActions = [];
+    if (!data.assessmentFindings) data.assessmentFindings = [];
     if (!data.lifespan) data.lifespan = { title: "Across the Lifespan", content: "" };
     setEditData(data);
     setIsEditing(true);
@@ -1775,7 +1874,7 @@ export default function LessonDetail() {
     setSaving(true);
     try {
       const diff: Record<string, any> = {};
-      const fields: (keyof LessonContent)[] = ["cellular", "riskFactors", "diagnostics", "management", "nursingActions", "lifespan", "signs", "medications", "pearls"];
+      const fields: (keyof LessonContent)[] = ["cellular", "riskFactors", "diagnostics", "management", "nursingActions", "assessmentFindings", "lifespan", "signs", "medications", "pearls"];
       for (const field of fields) {
         const editVal = editData[field];
         const baseVal = baseLesson[field];
@@ -2168,6 +2267,7 @@ export default function LessonDetail() {
                   { id: "diagnostics", label: "Diagnostics" },
                   { id: "management", label: "Management" },
                   { id: "nursing-actions", label: "Nursing Actions" },
+                  { id: "assessment-findings", label: "Assessment Findings" },
                   { id: "lifespan", label: "Lifespan" },
                   { id: "clinical-findings", label: "Clinical Findings" },
                   { id: "pharmacology", label: "Pharmacology" },
@@ -2182,14 +2282,14 @@ export default function LessonDetail() {
                 <div className="sticky top-0 z-50 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center justify-between shadow-lg mb-6" data-testid="bar-inline-editing">
                   <div className="flex items-center gap-2 text-amber-800 font-medium">
                     <Pencil className="w-4 h-4" />
-                    Editing Mode - Changes save to database overrides
+                    Editing Mode
                   </div>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={cancelEditing} className="gap-1" data-testid="button-cancel-edit">
                       <X className="w-3 h-3" /> Cancel
                     </Button>
-                    <Button size="sm" onClick={saveEdits} disabled={saving} className="gap-1" data-testid="button-save-edit">
-                      <Save className="w-3 h-3" /> {saving ? "Saving..." : "Save Changes"}
+                    <Button size="sm" onClick={saveEdits} disabled={saving} className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid="button-save-publish">
+                      <Save className="w-3 h-3" /> {saving ? "Saving..." : "Save & Publish"}
                     </Button>
                   </div>
                 </div>
@@ -2327,6 +2427,33 @@ export default function LessonDetail() {
                               </li>
                             ))}
                           </ul>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </section>
+                ) : null}
+
+                {(ed || (lessonContent.assessmentFindings && lessonContent.assessmentFindings.length > 0)) ? (
+                  <section id="assessment-findings" data-testid="section-assessment-findings" className="space-y-6">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
+                      <ClipboardList className="text-teal-600 w-8 h-8" />
+                      <h2>Assessment Findings</h2>
+                      <SectionAIButton section="assessmentFindings" label="Assessment Findings" />
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, labs, and subjective/objective findings</p>
+                    <Card className="border-none shadow-sm bg-teal-50/60">
+                      <CardContent className="p-8">
+                        {ed ? (
+                          <EditableList items={ed.assessmentFindings || []} onChange={(items) => setEditData({ ...ed, assessmentFindings: items })} placeholder="Assessment finding..." />
+                        ) : (
+                          <div className="grid sm:grid-cols-2 gap-3">
+                            {lessonContent.assessmentFindings!.map((af, i) => (
+                              <div key={i} className="flex items-start gap-2 text-gray-700">
+                                <Stethoscope className="w-4 h-4 text-teal-600 mt-1 shrink-0" />
+                                <RichTextDisplay html={af} />
+                              </div>
+                            ))}
+                          </div>
                         )}
                       </CardContent>
                     </Card>

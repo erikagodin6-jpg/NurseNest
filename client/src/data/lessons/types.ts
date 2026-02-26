@@ -7,6 +7,7 @@ export type LessonContent = {
   diagnostics?: string[];
   management?: string[];
   nursingActions?: string[];
+  assessmentFindings?: string[];
   signs: { left: string[]; right: string[] };
   medications: { name: string; type: string; action: string; sideEffects: string; contra: string; pearl: string }[];
   pearls: string[];
