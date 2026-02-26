@@ -1,6 +1,5 @@
-const CACHE_NAME = 'nursenest-v2';
+const CACHE_NAME = 'nursenest-v3';
 const STATIC_ASSETS = [
-  '/',
   '/favicon.svg',
   '/favicon.gif',
   '/manifest.json'
@@ -45,6 +44,17 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        return caches.match(event.request).then((cachedResponse) => {
+          return cachedResponse || new Response('Offline', { status: 503 });
+        });
+      })
+    );
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
@@ -58,13 +68,7 @@ self.addEventListener('fetch', (event) => {
       })
       .catch(() => {
         return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          if (event.request.mode === 'navigate') {
-            return caches.match('/');
-          }
-          return new Response('Offline', { status: 503 });
+          return cachedResponse || new Response('Offline', { status: 503 });
         });
       })
   );
