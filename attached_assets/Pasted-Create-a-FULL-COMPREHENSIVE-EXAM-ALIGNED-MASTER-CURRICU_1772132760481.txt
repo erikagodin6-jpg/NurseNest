@@ -1,0 +1,257 @@
+Create a FULL, COMPREHENSIVE, EXAM-ALIGNED MASTER CURRICULUM for NurseNest covering every tier and licensing exam below:
+
+CANADA:
+- RPN → REx-PN
+- RN (provincial licensing)
+- NP → CNPE
+- NP → CNPLE (Coming Soon; do not fabricate unverified details)
+
+UNITED STATES:
+- LPN/LVN → NCLEX-PN
+- RN → NCLEX-RN
+- NP → AANP
+- NP → ANCC
+
+GOAL:
+Generate a complete, structured master blueprint listing EVERYTHING a learner must know to pass their licensing exam at their tier.
+
+This includes:
+- All systems
+- All high-yield diseases
+- All rare “don’t miss” conditions
+- All assessments
+- All labs and diagnostics
+- All clinical skills
+- All pharmacology responsibilities (tier-appropriate)
+- All prescribing (NP only)
+- All referral and escalation rules
+- All prioritization/delegation logic (RN tiers)
+- All exam-style task types
+
+HARD REQUIREMENTS:
+- Scope must match tier. Do not overteach beyond scope.
+- CNPLE must be labeled “Coming Soon.” Do not invent specifics.
+- NCLEX-PN and REx-PN must emphasize safety, recognition, and monitoring.
+- NCLEX-RN must emphasize clinical judgment, prioritization, delegation.
+- NP exams must emphasize diagnostics, prescribing, risk stratification, and referral.
+
+------------------------------------------------------------
+SECTION A — UNIVERSAL EXAM DOMAINS (All Tiers)
+------------------------------------------------------------
+
+List core domains tested across all exams:
+- Clinical judgment & decision-making
+- Safety & infection prevention
+- Medication safety
+- Communication & documentation
+- Ethics & legal scope
+- Health promotion & screening
+- Cultural safety
+- Professional accountability
+
+------------------------------------------------------------
+SECTION B — SYSTEM-BASED MASTER CURRICULUM
+------------------------------------------------------------
+
+For EACH system, generate the full list of required lessons, structured by:
+
+SYSTEMS (must include all):
+- Cardiovascular
+- Respiratory
+- Neurology
+- Endocrine & Metabolic
+- Renal & Urology
+- Gastrointestinal & Hepatic
+- Hematology & Oncology basics
+- Infectious Disease
+- Dermatology (lesions & rashes)
+- Musculoskeletal & Rheumatology
+- Mental Health & Substance Use
+- Women’s Health & OB
+- Pediatrics
+- Geriatrics
+- Immunology & Allergy
+
+For EACH system include:
+
+1) Assessment Skills (tiered)
+   - What to assess
+   - Where/how to assess
+   - What findings mean
+   - Red flags
+
+2) Diagnostics & Labs
+   - Required labs to know (CBC, CMP, A1C, lipids, thyroid, ABG, coagulation, UA, etc.)
+   - What abnormal results indicate
+   - Critical values
+   - Imaging basics (CXR, ECG, US, CT, MRI indications)
+   - Diagnostic criteria (RN recognition-level; NP full thresholds)
+
+3) Core Conditions
+   - Common conditions
+   - High-risk emergencies
+   - Rare “don’t miss” zebras
+   - Pediatric variations
+   - Geriatric variations
+
+4) Management Responsibilities by Tier
+   - LPN/LVN (NCLEX-PN): recognition, monitoring, reporting
+   - RPN (REx-PN): recognition, safety interventions, escalation
+   - RN (NCLEX-RN): advanced interventions, prioritization, delegation
+   - NP (CNPE/AANP/ANCC): diagnose, order tests, prescribe, monitor, refer
+
+5) Referral & Escalation Rules
+   - When to send to ED
+   - When to urgently refer
+   - When to routine refer
+
+6) High-Yield Exam Traps
+   - Borderline labs
+   - Red flag symptoms
+   - Atypical presentations
+   - Priority errors
+
+------------------------------------------------------------
+SECTION C — SKILLS & OSCE-STYLE COMPETENCIES
+------------------------------------------------------------
+
+List ALL skills by tier:
+
+RPN / LPN:
+- Head-to-toe assessment
+- Focused system assessments
+- Oxygen delivery
+- Medication administration
+- Wound care
+- Basic catheter care
+- Glucose monitoring
+- Documentation
+
+RN:
+- IV insertion
+- Infusion calculations
+- Blood transfusion monitoring
+- Central line basics
+- ECG lead placement
+- Advanced respiratory care basics
+- Delegation decisions
+
+NP:
+- Full focused exams (cardiac, respiratory, neuro, abdominal, MSK)
+- Derm lesion identification
+- Pelvic exam workflow
+- Otoscopy
+- Joint exams + special tests
+- ECG interpretation
+- Diagnostic reasoning simulations
+
+------------------------------------------------------------
+SECTION D — LAB & DIAGNOSTIC MASTER LIST
+------------------------------------------------------------
+
+Generate a complete list of must-know labs:
+
+- CBC (all indices)
+- CMP (electrolytes, kidney, liver)
+- A1C
+- Lipid panel
+- Thyroid panel
+- Iron studies
+- B12/folate
+- Coagulation studies
+- Troponin, BNP
+- Lactate
+- ABGs (RN/NP)
+- Urinalysis
+- Pregnancy tests
+- Cultures
+- Inflammatory markers
+
+For EACH:
+- What it measures
+- What abnormal means
+- Tier-appropriate interpretation depth
+
+------------------------------------------------------------
+SECTION E — PHARMACOLOGY (Tiered)
+------------------------------------------------------------
+
+LPN/RPN:
+- Side effects
+- Monitoring
+- Contraindications recognition
+- High-alert meds
+- Patient teaching
+
+RN:
+- IV meds
+- Drip calculations
+- Complex medication safety
+- Monitoring for complications
+
+NP:
+- Prescribing by system
+- First-line therapy
+- Contraindications
+- Drug-drug interactions
+- Renal/hepatic adjustments
+- Pregnancy/lactation considerations
+- Monitoring plans
+- Follow-up timelines
+
+------------------------------------------------------------
+SECTION F — EXAM BLUEPRINT BY TIER
+------------------------------------------------------------
+
+For EACH exam:
+- REx-PN
+- NCLEX-PN
+- NCLEX-RN
+- Canadian RN
+- CNPE
+- CNPLE (Coming Soon)
+- AANP
+- ANCC
+
+Create:
+- Recommended content weighting by domain (estimated)
+- Question types:
+  * Single best answer
+  * SATA
+  * Prioritization (RN)
+  * Delegation (RN)
+  * Case-based reasoning (NP)
+- Minimum question bank targets per system
+
+------------------------------------------------------------
+OUTPUT FORMAT REQUIREMENTS
+------------------------------------------------------------
+
+Deliver:
+
+1) A MASTER STRUCTURED TABLE with columns:
+   - Tier
+   - Exam
+   - System
+   - Concept domain
+   - Lesson title
+   - Learning objectives
+   - Required subtopics
+   - Required labs
+   - Required skills
+   - Question bank tags
+
+2) A separate list of:
+   - “Don’t Miss” high-risk conditions (by tier)
+   - Full clinical skill list by tier
+   - Full lab mastery list
+   - Full prescribing list (NP)
+
+QUALITY CHECK BEFORE FINAL OUTPUT:
+- Confirm no system missing.
+- Confirm pediatric + OB + mental health included.
+- Confirm delegation present in RN tiers.
+- Confirm prescribing only in NP.
+- Confirm CNPLE labeled “Coming Soon.”
+- Confirm NCLEX-PN and REx-PN safety emphasis.
+- Confirm complete diagnostic coverage.

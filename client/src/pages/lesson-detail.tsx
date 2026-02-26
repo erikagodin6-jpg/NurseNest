@@ -66,22 +66,11 @@ function AdminLessonCreator({ lessonId }: { lessonId: string }) {
   const [seoGenerating, setSeoGenerating] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [customPrompt, setCustomPrompt] = useState("");
   const { toast } = useToast();
   const [, setLocation] = useLocation();
 
-  const generateWithAI = async () => {
-    const creds = getCredentials();
-    if (!creds) { setError("Admin credentials not found"); return; }
-    setAiGenerating(true);
-    setError("");
-    try {
-      const res = await fetch("/api/ai/generate-content", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: creds.username,
-          password: creds.password,
-          prompt: `Generate a comprehensive clinical nursing lesson about "${title}". Include:
+  const defaultPrompt = `Generate a comprehensive clinical nursing lesson about "${title}". Include:
 1. Pathophysiology section with detailed explanation
 2. Risk factors (list of 5-8 items)
 3. Diagnostic findings (list of 5-8 items)
@@ -92,7 +81,25 @@ function AdminLessonCreator({ lessonId }: { lessonId: string }) {
 8. Clinical pearls (3-5 high-yield exam tips)
 9. Lifespan considerations
 
-Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":["..."],"management":["..."],"nursingActions":["..."],"signsLeft":["early sign 1","early sign 2"],"signsRight":["late sign 1","late sign 2"],"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}],"pearls":["..."],"lifespan":"...","summary":"one sentence summary"}`,
+Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":["..."],"management":["..."],"nursingActions":["..."],"signsLeft":["early sign 1","early sign 2"],"signsRight":["late sign 1","late sign 2"],"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}],"pearls":["..."],"lifespan":"...","summary":"one sentence summary"}`;
+
+  const generateWithAI = async () => {
+    const creds = getCredentials();
+    if (!creds) { setError("Admin credentials not found"); return; }
+    setAiGenerating(true);
+    setError("");
+    try {
+      const finalPrompt = customPrompt.trim()
+        ? `${customPrompt.trim()}\n\nTopic: "${title}"\n\nReturn as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":["..."],"management":["..."],"nursingActions":["..."],"signsLeft":["early sign 1","early sign 2"],"signsRight":["late sign 1","late sign 2"],"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}],"pearls":["..."],"lifespan":"...","summary":"one sentence summary"}`
+        : defaultPrompt;
+
+      const res = await fetch("/api/ai/generate-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          prompt: finalPrompt,
           mode: "generate",
         }),
       });
@@ -378,15 +385,36 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <CardContent className="p-6 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold">Lesson Details</h2>
-              <div className="flex gap-2">
+              <Button onClick={handleSave} disabled={saving} className="gap-2" data-testid="button-save-lesson">
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                {saving ? "Saving..." : "Save Lesson"}
+              </Button>
+            </div>
+
+            <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 space-y-3">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-purple-600" />
+                <label className="text-sm font-semibold text-purple-800">AI Content Generation</label>
+              </div>
+              <Textarea
+                value={customPrompt}
+                onChange={(e) => setCustomPrompt(e.target.value)}
+                rows={4}
+                placeholder="Enter a custom prompt for AI generation (optional). Leave empty to use the default template. Example: 'Focus on NP-level pathophysiology with molecular mechanisms, include prescribing logic and differential diagnosis for board exams.'"
+                className="text-sm bg-white border-purple-200 placeholder:text-purple-300"
+                data-testid="input-custom-ai-prompt"
+              />
+              <div className="flex items-center gap-3">
                 <Button onClick={generateWithAI} disabled={aiGenerating} className="gap-2 bg-purple-600 hover:bg-purple-700" data-testid="button-ai-generate">
                   {aiGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                   {aiGenerating ? "Generating..." : "Generate with AI"}
                 </Button>
-                <Button onClick={handleSave} disabled={saving} className="gap-2" data-testid="button-save-lesson">
-                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                  {saving ? "Saving..." : "Save Lesson"}
-                </Button>
+                {customPrompt.trim() && (
+                  <span className="text-xs text-purple-600">Using custom prompt</span>
+                )}
+                {!customPrompt.trim() && (
+                  <span className="text-xs text-gray-400">Using default template</span>
+                )}
               </div>
             </div>
 
@@ -1622,6 +1650,110 @@ export default function LessonDetail() {
     );
   }
 
+  const [sectionAiPrompt, setSectionAiPrompt] = useState("");
+  const [sectionAiTarget, setSectionAiTarget] = useState<string | null>(null);
+  const [sectionAiLoading, setSectionAiLoading] = useState(false);
+
+  const generateSectionWithAI = async (section: string) => {
+    if (!sectionAiPrompt.trim()) {
+      toast({ title: "Enter a prompt", description: "Describe what you want AI to generate for this section.", variant: "destructive" });
+      return;
+    }
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    if (!creds.username) return;
+    setSectionAiLoading(true);
+    try {
+      const sectionPromptMap: Record<string, string> = {
+        pathophysiology: `For the lesson "${lessonContent?.title || id}", generate the pathophysiology section. ${sectionAiPrompt}. Return as JSON: {"content":"detailed pathophysiology text"}`,
+        riskFactors: `For the lesson "${lessonContent?.title || id}", generate risk factors. ${sectionAiPrompt}. Return as JSON: {"items":["risk factor 1","risk factor 2",...]}`,
+        diagnostics: `For the lesson "${lessonContent?.title || id}", generate diagnostic findings. ${sectionAiPrompt}. Return as JSON: {"items":["diagnostic 1","diagnostic 2",...]}`,
+        management: `For the lesson "${lessonContent?.title || id}", generate medical management steps. ${sectionAiPrompt}. Return as JSON: {"items":["step 1","step 2",...]}`,
+        nursingActions: `For the lesson "${lessonContent?.title || id}", generate priority nursing actions. ${sectionAiPrompt}. Return as JSON: {"items":["action 1","action 2",...]}`,
+        signs: `For the lesson "${lessonContent?.title || id}", generate signs/symptoms in two columns. ${sectionAiPrompt}. Return as JSON: {"left":["early sign 1",...],"right":["late sign 1",...]}`,
+        medications: `For the lesson "${lessonContent?.title || id}", generate key medications. ${sectionAiPrompt}. Return as JSON: {"medications":[{"name":"...","type":"...","action":"...","sideEffects":"...","contra":"...","pearl":"..."}]}`,
+        pearls: `For the lesson "${lessonContent?.title || id}", generate clinical pearls. ${sectionAiPrompt}. Return as JSON: {"items":["pearl 1","pearl 2",...]}`,
+        lifespan: `For the lesson "${lessonContent?.title || id}", generate lifespan considerations. ${sectionAiPrompt}. Return as JSON: {"content":"detailed lifespan text"}`,
+      };
+      const res = await fetch("/api/ai/generate-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          prompt: sectionPromptMap[section] || sectionAiPrompt,
+          mode: "generate",
+        }),
+      });
+      if (!res.ok) throw new Error("AI generation failed");
+      const data = await res.json();
+      const blocks = data.blocks || [];
+      const jsonBlock = blocks.find((b: any) => b.content && (b.content.includes('"content"') || b.content.includes('"items"') || b.content.includes('"medications"') || b.content.includes('"left"')));
+      if (jsonBlock && editData) {
+        try {
+          const jsonMatch = jsonBlock.content.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            const updated = { ...editData };
+            if (section === "pathophysiology" && parsed.content) {
+              updated.cellular = { ...updated.cellular, content: parsed.content };
+            } else if (section === "riskFactors" && parsed.items) {
+              updated.riskFactors = parsed.items;
+            } else if (section === "diagnostics" && parsed.items) {
+              updated.diagnostics = parsed.items;
+            } else if (section === "management" && parsed.items) {
+              updated.management = parsed.items;
+            } else if (section === "nursingActions" && parsed.items) {
+              updated.nursingActions = parsed.items;
+            } else if (section === "signs" && parsed.left) {
+              updated.signs = { ...updated.signs, left: parsed.left, right: parsed.right || updated.signs?.right || [] };
+            } else if (section === "medications" && parsed.medications) {
+              updated.medications = parsed.medications;
+            } else if (section === "pearls" && parsed.items) {
+              updated.pearls = parsed.items;
+            } else if (section === "lifespan" && parsed.content) {
+              updated.lifespan = { title: updated.lifespan?.title || "Across the Lifespan", content: parsed.content };
+            }
+            setEditData(updated);
+            toast({ title: "Section Updated", description: `AI generated content for ${section}. Review before saving.` });
+          }
+        } catch { toast({ title: "Parse Error", description: "Could not parse AI response. Try a different prompt.", variant: "destructive" }); }
+      }
+      setSectionAiTarget(null);
+      setSectionAiPrompt("");
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    } finally {
+      setSectionAiLoading(false);
+    }
+  };
+
+  const SectionAIButton = ({ section, label }: { section: string; label: string }) => {
+    if (!isEditing) return null;
+    return sectionAiTarget === section ? (
+      <div className="flex items-center gap-2 mt-2">
+        <Input
+          value={sectionAiPrompt}
+          onChange={(e) => setSectionAiPrompt(e.target.value)}
+          placeholder={`Describe what to generate for ${label}...`}
+          className="text-xs h-8"
+          onKeyDown={(e) => { if (e.key === "Enter") generateSectionWithAI(section); }}
+          data-testid={`input-section-ai-${section}`}
+        />
+        <Button size="sm" className="h-8 gap-1 bg-purple-600 hover:bg-purple-700 text-xs shrink-0" onClick={() => generateSectionWithAI(section)} disabled={sectionAiLoading} data-testid={`button-section-ai-generate-${section}`}>
+          {sectionAiLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+          Generate
+        </Button>
+        <Button size="sm" variant="ghost" className="h-8 text-xs shrink-0" onClick={() => { setSectionAiTarget(null); setSectionAiPrompt(""); }}>
+          <X className="w-3 h-3" />
+        </Button>
+      </div>
+    ) : (
+      <Button size="sm" variant="ghost" className="gap-1 text-xs text-purple-600 hover:text-purple-700 hover:bg-purple-50" onClick={() => setSectionAiTarget(section)} data-testid={`button-section-ai-${section}`}>
+        <Sparkles className="w-3 h-3" /> AI Generate
+      </Button>
+    );
+  };
+
   const startEditing = () => {
     const data = JSON.parse(JSON.stringify(lessonContent));
     if (!data.riskFactors) data.riskFactors = [];
@@ -2071,6 +2203,7 @@ export default function LessonDetail() {
                     ) : (
                       <h2>{lessonContent.cellular.title}</h2>
                     )}
+                    <SectionAIButton section="pathophysiology" label="Pathophysiology" />
                   </div>
                   <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
                   <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700">
@@ -2095,6 +2228,7 @@ export default function LessonDetail() {
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ShieldAlert className="text-rose-500 w-8 h-8" />
                       <h2>Risk Factors</h2>
+                      <SectionAIButton section="riskFactors" label="Risk Factors" />
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
                     <Card className="border-none shadow-sm bg-rose-50/60">
@@ -2121,6 +2255,7 @@ export default function LessonDetail() {
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Search className="text-cyan-600 w-8 h-8" />
                       <h2>Diagnostics</h2>
+                      <SectionAIButton section="diagnostics" label="Diagnostics" />
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
                     <Card className="border-none shadow-sm bg-cyan-50/60">
@@ -2147,6 +2282,7 @@ export default function LessonDetail() {
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-emerald-600 w-8 h-8" />
                       <h2>Management</h2>
+                      <SectionAIButton section="management" label="Management" />
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
                     <Card className="border-none shadow-sm bg-emerald-50/60">
@@ -2175,6 +2311,7 @@ export default function LessonDetail() {
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <HeartPulse className="text-violet-600 w-8 h-8" />
                       <h2>Nursing Actions and Scope Considerations</h2>
+                      <SectionAIButton section="nursingActions" label="Nursing Actions" />
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
                     <Card className="border-none shadow-sm bg-violet-50/60">
@@ -2201,6 +2338,7 @@ export default function LessonDetail() {
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Users className="text-indigo-500 w-8 h-8" />
                       <h2>Across the Lifespan</h2>
+                      <SectionAIButton section="lifespan" label="Lifespan" />
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
                     <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900">
@@ -2220,6 +2358,7 @@ export default function LessonDetail() {
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <AlertCircle className="text-orange-500 w-8 h-8" />
                     <h2>Clinical Findings and Red Flags</h2>
+                    <SectionAIButton section="signs" label="Signs & Symptoms" />
                   </div>
                   <p className="text-sm text-gray-500 mt-1">Key clinical presentations and warning signs</p>
                   <div className="grid md:grid-cols-2 gap-8">
