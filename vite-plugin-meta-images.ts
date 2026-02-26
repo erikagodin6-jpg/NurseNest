@@ -10,7 +10,8 @@ export function metaImagesPlugin(): Plugin {
     if (seoLoadAttempted) return;
     seoLoadAttempted = true;
     try {
-      const seoModule = await import('./server/seo-meta');
+      const seoPath = path.resolve(process.cwd(), 'server', 'seo-meta.ts');
+      const seoModule = await import(/* @vite-ignore */ seoPath);
       injectMetaFn = seoModule.injectMeta;
       console.log('[meta-plugin] SEO meta injection loaded');
     } catch (e: any) {
