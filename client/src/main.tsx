@@ -3,40 +3,28 @@ dbg.style.cssText = 'position:fixed;inset:0;background:white;color:#111;padding:
 document.body.appendChild(dbg);
 function log(msg: string) { dbg.textContent += msg + '\n'; console.log('[dbg]', msg); }
 
-log('main.tsx running');
+log('main.tsx running - test 2');
 
 async function boot() {
   try {
-    log('Fetching /src/index.css via fetch()...');
-    const cssRes = await fetch('/src/index.css');
-    log('CSS fetch: ' + cssRes.status + ' ' + cssRes.headers.get('content-type') + ' size=' + cssRes.headers.get('content-length'));
-    if (!cssRes.ok) {
-      const body = await cssRes.text();
-      log('CSS error body: ' + body.substring(0, 500));
+    log('Testing /@vite/client fetch...');
+    const viteRes = await fetch('/@vite/client');
+    log('Vite client: ' + viteRes.status + ' size=' + viteRes.headers.get('content-length'));
+
+    log('Testing /@vite/client import...');
+    try {
+      await import('/@vite/client' as any);
+      log('/@vite/client import OK');
+    } catch(e: any) {
+      log('/@vite/client import FAILED: ' + e.message);
     }
 
-    log('Fetching /src/App.tsx via fetch()...');
-    const appRes = await fetch('/src/App.tsx');
-    log('App fetch: ' + appRes.status + ' ' + appRes.headers.get('content-type') + ' size=' + appRes.headers.get('content-length'));
-    if (!appRes.ok) {
-      const body = await appRes.text();
-      log('App error body: ' + body.substring(0, 500));
-    }
-
-    log('Fetching /src/lib/i18n.tsx via fetch()...');
-    const i18nRes = await fetch('/src/lib/i18n.tsx');
-    log('i18n fetch: ' + i18nRes.status + ' ' + i18nRes.headers.get('content-type') + ' size=' + i18nRes.headers.get('content-length'));
-
-    log('Now trying dynamic import of CSS...');
-    await import('./index.css');
-    log('CSS import OK');
-
-    log('Now trying dynamic import of App...');
+    log('Skipping CSS, importing App directly...');
     const mod = await import('./App');
-    log('App import OK');
+    log('App imported OK!');
 
     const { createRoot } = await import('react-dom/client');
-    log('react-dom OK, rendering...');
+    log('react-dom OK');
 
     dbg.remove();
     const App = mod.default;
