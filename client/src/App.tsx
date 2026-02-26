@@ -96,7 +96,18 @@ function PageTracker() {
 }
 
 function CopyProtection() {
+  const { isAdmin } = useAuth();
+
   useEffect(() => {
+    if (isAdmin) {
+      document.body.classList.add("admin-selectable");
+      return () => {
+        document.body.classList.remove("admin-selectable");
+      };
+    }
+
+    document.body.classList.remove("admin-selectable");
+
     function isEditableTarget(target: EventTarget | null): boolean {
       if (!target || !(target instanceof HTMLElement)) return false;
       const tag = target.tagName;
@@ -185,7 +196,7 @@ function CopyProtection() {
       document.removeEventListener("dragstart", handleDragStart);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [isAdmin]);
 
   return null;
 }
