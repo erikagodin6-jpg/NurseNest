@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n } from "@/lib/i18n";
 
@@ -12,13 +12,13 @@ export function Footer() {
             <ThemedLogo width={160} />
           </div>
           <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-500">
-            <Link href="/terms" className="hover:text-primary transition-colors">{t("footer.terms")}</Link>
-            <Link href="/privacy" className="hover:text-primary transition-colors">{t("footer.privacy")}</Link>
-            <Link href="/disclaimer" className="hover:text-primary transition-colors">{t("footer.disclaimer")}</Link>
-            <Link href="/refund-policy" className="hover:text-primary transition-colors">{t("footer.refundPolicy")}</Link>
-            <Link href="/faq" className="hover:text-primary transition-colors">{t("footer.faq")}</Link>
-            <Link href="/contact" className="hover:text-primary transition-colors">{t("footer.contact")}</Link>
-            <Link href="/blog" className="hover:text-primary transition-colors">{t("nav.blog")}</Link>
+            <LocaleLink href="/terms" className="hover:text-primary transition-colors">{t("footer.terms")}</LocaleLink>
+            <LocaleLink href="/privacy" className="hover:text-primary transition-colors">{t("footer.privacy")}</LocaleLink>
+            <LocaleLink href="/disclaimer" className="hover:text-primary transition-colors">{t("footer.disclaimer")}</LocaleLink>
+            <LocaleLink href="/refund-policy" className="hover:text-primary transition-colors">{t("footer.refundPolicy")}</LocaleLink>
+            <LocaleLink href="/faq" className="hover:text-primary transition-colors">{t("footer.faq")}</LocaleLink>
+            <LocaleLink href="/contact" className="hover:text-primary transition-colors">{t("footer.contact")}</LocaleLink>
+            <LocaleLink href="/blog" className="hover:text-primary transition-colors">{t("nav.blog")}</LocaleLink>
           </div>
           <div className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} NurseNest. {t("footer.rights")}

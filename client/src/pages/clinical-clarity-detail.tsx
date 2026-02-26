@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useMemo } from "react";
-import { Link, useParams } from "wouter";
+import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -75,11 +76,11 @@ export default function ClinicalClarityDetail() {
           <Brain className="w-16 h-16 text-gray-200 mx-auto mb-6" />
           <h1 className="text-3xl font-bold text-gray-900 mb-3">Topic Not Found</h1>
           <p className="text-gray-500 mb-8">The clinical clarity topic you're looking for doesn't exist.</p>
-          <Link href="/clinical-clarity">
+          <LocaleLink href="/clinical-clarity">
             <Button className="rounded-full px-8 bg-primary text-white" data-testid="button-back-to-clarity">
               Back to Clinical Clarity
             </Button>
-          </Link>
+          </LocaleLink>
         </main>
       </div>
     );
@@ -143,12 +144,12 @@ export default function ClinicalClarityDetail() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
-        <Link href="/clinical-clarity">
+        <LocaleLink href="/clinical-clarity">
           <Button variant="ghost" className="gap-2 text-gray-500 hover:text-primary mb-6 -ml-2 text-sm" data-testid="button-back">
             <ArrowLeft className="w-4 h-4" />
             All Clinical Clarity Topics
           </Button>
-        </Link>
+        </LocaleLink>
 
         <article>
           <header className="mb-10">
@@ -294,7 +295,7 @@ export default function ClinicalClarityDetail() {
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {confusion.relatedLessons.map((lesson) => (
-                  <Link key={lesson.id} href={`/lessons/${lesson.id}`}>
+                  <LocaleLink key={lesson.id} href={`/lessons/${lesson.id}`}>
                     <Card className="border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-300 cursor-pointer group h-full">
                       <CardContent className="p-4 flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -306,7 +307,7 @@ export default function ClinicalClarityDetail() {
                         <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                       </CardContent>
                     </Card>
-                  </Link>
+                  </LocaleLink>
                 ))}
               </div>
             </section>
@@ -325,7 +326,7 @@ export default function ClinicalClarityDetail() {
                 {relatedTopics.map((topic) => {
                   const TopicIcon = systemIcons[topic.bodySystem] || Brain;
                   return (
-                    <Link key={topic.slug} href={`/clinical-clarity/${topic.slug}`}>
+                    <LocaleLink key={topic.slug} href={`/clinical-clarity/${topic.slug}`}>
                       <Card className="border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-300 cursor-pointer group">
                         <CardContent className="p-4 flex items-center justify-between">
                           <div className="flex items-center gap-3">
@@ -337,7 +338,7 @@ export default function ClinicalClarityDetail() {
                           <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                         </CardContent>
                       </Card>
-                    </Link>
+                    </LocaleLink>
                   );
                 })}
               </div>
@@ -349,18 +350,18 @@ export default function ClinicalClarityDetail() {
 
         <div className="mt-12 border-t border-gray-100 pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <Link href="/clinical-clarity">
+            <LocaleLink href="/clinical-clarity">
               <Button variant="outline" className="rounded-full gap-2 text-sm" data-testid="button-all-topics">
                 <ArrowLeft className="w-4 h-4" />
                 All Clinical Clarity Topics
               </Button>
-            </Link>
-            <Link href="/lessons">
+            </LocaleLink>
+            <LocaleLink href="/lessons">
               <Button className="rounded-full gap-2 bg-primary text-white hover:brightness-110 text-sm" data-testid="button-full-lessons">
                 Full Lesson Library
                 <ArrowRight className="w-4 h-4" />
               </Button>
-            </Link>
+            </LocaleLink>
           </div>
         </div>
       </main>

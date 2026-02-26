@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect, useCallback } from "react";
-import { useLocation, Link } from "wouter";
+import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -218,7 +219,7 @@ export default function DashboardPage() {
       <main className="container mx-auto px-4 py-6 sm:py-8 max-w-7xl" role="main" aria-label="Learning Dashboard">
         <nav aria-label="Breadcrumb" className="mb-4">
           <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-            <li><Link href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">{t("dashboard.breadcrumbHome")}</Link></li>
+            <li><LocaleLink href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">{t("dashboard.breadcrumbHome")}</LocaleLink></li>
             <li aria-hidden="true">/</li>
             <li aria-current="page" className="font-medium text-foreground">{t("dashboard.breadcrumbDashboard")}</li>
           </ol>

@@ -1,3 +1,4 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
@@ -620,14 +621,14 @@ export default function PricingPage() {
               <Shield className="w-5 h-5 text-primary" />
               <span className="text-sm font-medium text-gray-700">{t("pricing.moneyBack")}</span>
             </div>
-            <a
+            <LocaleLink
               href="/faq"
               className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium"
               data-testid="link-faq"
             >
               <HelpCircle className="w-4 h-4" />
               {t("pricing.faqLink")}
-            </a>
+            </LocaleLink>
           </div>
         </div>
       </main>

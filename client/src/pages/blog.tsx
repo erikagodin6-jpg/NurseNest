@@ -1,5 +1,5 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState } from "react";
-import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -398,7 +398,7 @@ export default function BlogPage() {
           ) : (
             <div className="space-y-6">
               {filteredArticles.map((article: any) => (
-                <Link key={article.id} href={`/learn/${article.slug}`}>
+                <LocaleLink key={article.id} href={`/learn/${article.slug}`}>
                   <Card
                     className="border border-primary/10 hover:shadow-lg hover:border-primary/20 transition-all cursor-pointer group overflow-hidden"
                     data-testid={`card-article-${article.slug}`}
@@ -462,7 +462,7 @@ export default function BlogPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </Link>
+                </LocaleLink>
               ))}
             </div>
           )}

@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import { Link, useParams, useLocation } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -928,12 +929,12 @@ export default function LessonDetail() {
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
         <Navigation />
         <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
-          <Link href="/lessons">
+          <LocaleLink href="/lessons">
             <Button variant="ghost" className="mb-4 group">
               <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Lessons
             </Button>
-          </Link>
+          </LocaleLink>
           <h1 className="text-3xl font-bold text-gray-900">Coming Soon</h1>
           <p className="text-gray-600">This lesson is currently being developed. Check back soon for the full content!</p>
         </main>
@@ -1076,12 +1077,12 @@ export default function LessonDetail() {
         <SEO title={`${lessonContent?.title || "Lesson"} - NurseNest`} description="Subscribe to access this lesson" />
         <Navigation />
         <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-8">
-          <Link href="/lessons">
+          <LocaleLink href="/lessons">
             <Button variant="ghost" className="mb-4 group">
               <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Lessons
             </Button>
-          </Link>
+          </LocaleLink>
 
           <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
             <Lock className="w-12 h-12 text-primary" />
@@ -1139,9 +1140,9 @@ export default function LessonDetail() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500" data-testid="nav-breadcrumb">
           <ol className="flex items-center gap-1 flex-wrap">
-            <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
+            <li><LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink></li>
             <li className="text-gray-300">/</li>
-            <li><Link href="/lessons" className="hover:text-primary transition-colors">Lessons</Link></li>
+            <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors">Lessons</LocaleLink></li>
             <li className="text-gray-300">/</li>
             <li className="text-gray-400">{getLessonBodySystem(id || "")}</li>
             <li className="text-gray-300">/</li>
@@ -1149,12 +1150,12 @@ export default function LessonDetail() {
           </ol>
         </nav>
         <div className="flex items-center justify-between mb-8">
-          <Link href="/lessons">
+          <LocaleLink href="/lessons">
             <Button variant="ghost" className="group">
               <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Overview
             </Button>
-          </Link>
+          </LocaleLink>
           <Button 
             variant={showNotes ? "default" : "outline"} 
             onClick={() => setShowNotes(!showNotes)}
@@ -1732,7 +1733,7 @@ export default function LessonDetail() {
                 <CardContent className="p-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {relatedLectures.map((lecture) => (
-                      <Link key={lecture.slug} href={`/lectures/${lecture.slug}`}>
+                      <LocaleLink key={lecture.slug} href={`/lectures/${lecture.slug}`}>
                         <div
                           className="flex items-center gap-3 p-3 rounded-lg bg-white border border-primary/15 hover:border-primary/30 cursor-pointer transition-all group"
                           data-testid={`related-lecture-${lecture.slug}`}
@@ -1746,7 +1747,7 @@ export default function LessonDetail() {
                           </div>
                           <ChevronRight className="h-4 w-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
                         </div>
-                      </Link>
+                      </LocaleLink>
                     ))}
                   </div>
                 </CardContent>

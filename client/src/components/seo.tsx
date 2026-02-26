@@ -1,4 +1,7 @@
 import { useEffect } from "react";
+import { SUPPORTED_LOCALES, getLocaleFromPath } from "@/lib/locale-utils";
+
+const SITE_DOMAIN = "https://www.nursenest.ca";
 
 interface SEOProps {
   title: string;
@@ -35,17 +38,39 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
     setMeta("twitter:description", description, true);
     setMeta("twitter:card", "summary_large_image", true);
 
+    const hreflangLinks: HTMLLinkElement[] = [];
+
     if (canonicalPath) {
-      const base = window.location.origin;
-      const url = `${base}${canonicalPath}`;
-      setMeta("og:url", url, true);
+      const { locale: currentLocale, pathWithoutLocale } = getLocaleFromPath(canonicalPath);
+      const basePath = pathWithoutLocale === "/" ? "" : pathWithoutLocale;
+
+      const canonicalUrl = `${SITE_DOMAIN}/${currentLocale}${basePath}`;
+      setMeta("og:url", canonicalUrl, true);
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
       if (!link) {
         link = document.createElement("link");
         link.rel = "canonical";
         document.head.appendChild(link);
       }
-      link.href = url;
+      link.href = canonicalUrl;
+
+      document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
+
+      for (const locale of SUPPORTED_LOCALES) {
+        const altLink = document.createElement("link");
+        altLink.rel = "alternate";
+        altLink.hreflang = locale;
+        altLink.href = `${SITE_DOMAIN}/${locale}${basePath}`;
+        document.head.appendChild(altLink);
+        hreflangLinks.push(altLink);
+      }
+
+      const xDefaultLink = document.createElement("link");
+      xDefaultLink.rel = "alternate";
+      xDefaultLink.hreflang = "x-default";
+      xDefaultLink.href = `${SITE_DOMAIN}/en${basePath}`;
+      document.head.appendChild(xDefaultLink);
+      hreflangLinks.push(xDefaultLink);
     }
 
     const scriptIds: string[] = [];
@@ -84,6 +109,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
         const el = document.getElementById(id);
         if (el) el.remove();
       });
+      hreflangLinks.forEach((el) => el.remove());
     };
   }, [title, description, keywords, canonicalPath, ogType, structuredData, additionalStructuredData]);
 

@@ -1,5 +1,5 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, type ReactNode } from "react";
-import { Link } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -72,12 +72,12 @@ export function ContentGate({
           <p className="text-sm text-gray-500 mb-6 text-center max-w-xs leading-relaxed">
             Gain full access to detailed pathophysiology, nursing interventions, and exam pearls.
           </p>
-          <Link href="/pricing">
+          <LocaleLink href="/pricing">
             <Button size="lg" className="rounded-full gap-2 bg-primary text-white hover:brightness-110 px-8 shadow-lg shadow-primary/20" data-testid="button-unlock-preview">
               <Sparkles className="w-4 h-4" />
               Upgrade for Full Access
             </Button>
-          </Link>
+          </LocaleLink>
         </div>
       </div>
     );
@@ -96,13 +96,13 @@ export function ContentGate({
           Access {featureName} with a subscription plan. 
           Build deeper clinical reasoning with mechanism-level explanations and interactive practice.
         </p>
-        <Link href="/pricing">
+        <LocaleLink href="/pricing">
           <Button className="rounded-full gap-2 bg-primary text-white hover:brightness-110 px-6" data-testid="button-unlock-premium">
             <Sparkles className="w-4 h-4" />
             Unlock Access
             <ArrowRight className="w-4 h-4" />
           </Button>
-        </Link>
+        </LocaleLink>
       </CardContent>
     </Card>
   );
@@ -118,7 +118,7 @@ interface InternalLinkCardProps {
 
 export function InternalLinkCard({ href, title, description, icon, badge }: InternalLinkCardProps) {
   return (
-    <Link href={href}>
+    <LocaleLink href={href}>
       <Card className="border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-300 cursor-pointer group h-full">
         <CardContent className="p-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -142,7 +142,7 @@ export function InternalLinkCard({ href, title, description, icon, badge }: Inte
           <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
         </CardContent>
       </Card>
-    </Link>
+    </LocaleLink>
   );
 }
 
@@ -161,7 +161,7 @@ export function CrossLinkBanner({
 }) {
   if (variant === "subtle") {
     return (
-      <Link href={href}>
+      <LocaleLink href={href}>
         <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors cursor-pointer group" data-testid={`link-crosslink-${href.replace(/\//g, '-')}`}>
           <Sparkles className="w-4 h-4 text-primary/50 group-hover:text-primary transition-colors flex-shrink-0" />
           <div className="flex-1">
@@ -170,7 +170,7 @@ export function CrossLinkBanner({
           </div>
           <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
         </div>
-      </Link>
+      </LocaleLink>
     );
   }
 
@@ -181,12 +181,12 @@ export function CrossLinkBanner({
           <h3 className="text-lg font-bold text-gray-900">{title}</h3>
           <p className="text-sm text-gray-500 mt-1">{description}</p>
         </div>
-        <Link href={href}>
+        <LocaleLink href={href}>
           <Button className="rounded-full gap-2 bg-primary text-white hover:brightness-110 flex-shrink-0" data-testid={`button-crosslink-${href.replace(/\//g, '-')}`}>
             {ctaText}
             <ArrowRight className="w-4 h-4" />
           </Button>
-        </Link>
+        </LocaleLink>
       </div>
     </div>
   );

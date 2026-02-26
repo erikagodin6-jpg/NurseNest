@@ -1,3 +1,4 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -6,7 +7,6 @@ import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { type CountryMode, type UnitMode, getDefaultUnitMode, convertGlucose } from "@/lib/unit-conversion";
-import { Link } from "wouter";
 import {
   Lock,
   Sparkles,
@@ -1010,15 +1010,15 @@ export default function ElectrolyteABGSimulatorPage() {
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Master electrolyte imbalances and arterial blood gas interpretation with stepwise clinical cases. Available exclusively for RPN, RN, and NP subscribers.
               </p>
-              <Link href="/pricing">
+              <LocaleLink href="/pricing">
                 <Button className="rounded-full px-8 h-12 gap-2 bg-primary text-white hover:brightness-110 shadow-lg" data-testid="button-upgrade-electrolyte-abg">
                   <Sparkles className="w-4 h-4" />
                   View Subscription Plans
                 </Button>
-              </Link>
+              </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <Link href="/login" className="text-primary hover:underline">Sign in</Link> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
                 </p>
               )}
             </div>

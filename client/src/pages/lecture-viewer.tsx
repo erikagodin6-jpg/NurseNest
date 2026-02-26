@@ -1,3 +1,4 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRoute, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
@@ -22,7 +23,6 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { lectureData, lectureRegistry, getLecturesForLesson } from "@/data/micro-lectures";
-import { Link } from "wouter";
 import { Video } from "lucide-react";
 
 export default function LectureViewer() {
@@ -473,7 +473,7 @@ export default function LectureViewer() {
             <CardContent className="p-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {lectureMeta.relatedLessonIds.map((lessonId) => (
-                  <Link key={lessonId} href={`/lessons/${lessonId}`}>
+                  <LocaleLink key={lessonId} href={`/lessons/${lessonId}`}>
                     <div
                       className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all hover:opacity-80"
                       style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-color)" }}
@@ -485,7 +485,7 @@ export default function LectureViewer() {
                       </span>
                       <ChevronRight className="h-4 w-4 ml-auto flex-shrink-0" style={{ color: "var(--text-secondary)" }} />
                     </div>
-                  </Link>
+                  </LocaleLink>
                 ))}
               </div>
             </CardContent>

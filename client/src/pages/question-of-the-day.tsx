@@ -1,6 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -207,13 +207,13 @@ export default function QuestionOfTheDay() {
                       </div>
 
                       {qotd.lessonId && (
-                        <Link href={`/lessons/${qotd.lessonId}`}>
+                        <LocaleLink href={`/lessons/${qotd.lessonId}`}>
                           <Button variant="outline" className="w-full" data-testid="link-related-lesson">
                             <BookOpen className="h-4 w-4 mr-2" />
                             Study Related Lesson
                             <ArrowRight className="h-4 w-4 ml-2" />
                           </Button>
-                        </Link>
+                        </LocaleLink>
                       )}
                     </div>
                   )}
@@ -255,33 +255,33 @@ export default function QuestionOfTheDay() {
                   <Sparkles className="h-8 w-8 mx-auto mb-3 text-primary" />
                   <h3 className="font-bold mb-2">Mock Exams</h3>
                   <p className="text-sm text-muted-foreground mb-4">Full-length timed practice exams with detailed performance reports.</p>
-                  <Link href="/mock-exams">
+                  <LocaleLink href="/mock-exams">
                     <Button variant="outline" size="sm" data-testid="link-mock-exams">
                       Try a Mock Exam <ArrowRight className="h-3 w-3 ml-1" />
                     </Button>
-                  </Link>
+                  </LocaleLink>
                 </Card>
 
                 <Card className="text-center p-6" data-testid="card-cta-question-bank">
                   <BookOpen className="h-8 w-8 mx-auto mb-3 text-primary" />
                   <h3 className="font-bold mb-2">Question Bank</h3>
                   <p className="text-sm text-muted-foreground mb-4">Practice from thousands of questions with instant rationale feedback.</p>
-                  <Link href="/question-bank">
+                  <LocaleLink href="/question-bank">
                     <Button variant="outline" size="sm" data-testid="link-question-bank">
                       Start Practicing <ArrowRight className="h-3 w-3 ml-1" />
                     </Button>
-                  </Link>
+                  </LocaleLink>
                 </Card>
 
                 <Card className="text-center p-6" data-testid="card-cta-lessons">
                   <Stethoscope className="h-8 w-8 mx-auto mb-3 text-primary" />
                   <h3 className="font-bold mb-2">Clinical Lessons</h3>
                   <p className="text-sm text-muted-foreground mb-4">In-depth pathophysiology lessons with clinical nursing actions.</p>
-                  <Link href="/lessons">
+                  <LocaleLink href="/lessons">
                     <Button variant="outline" size="sm" data-testid="link-lessons">
                       Browse Lessons <ArrowRight className="h-3 w-3 ml-1" />
                     </Button>
-                  </Link>
+                  </LocaleLink>
                 </Card>
               </div>
 

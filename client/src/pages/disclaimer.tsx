@@ -1,6 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { Link } from "wouter";
 
 export default function DisclaimerPage() {
   return (
@@ -82,13 +82,13 @@ export default function DisclaimerPage() {
             </p>
             <p className="text-gray-700 leading-relaxed mt-4">
               See also our{" "}
-              <Link href="/terms" className="text-primary underline hover:text-primary/80" data-testid="link-terms">
+              <LocaleLink href="/terms" className="text-primary underline hover:text-primary/80" data-testid="link-terms">
                 Terms of Use
-              </Link>{" "}
+              </LocaleLink>{" "}
               and{" "}
-              <Link href="/privacy" className="text-primary underline hover:text-primary/80" data-testid="link-privacy">
+              <LocaleLink href="/privacy" className="text-primary underline hover:text-primary/80" data-testid="link-privacy">
                 Privacy Policy
-              </Link>.
+              </LocaleLink>.
             </p>
           </section>
 

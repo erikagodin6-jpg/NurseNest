@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useMemo } from "react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -456,15 +457,15 @@ export default function CaseSimulationPage() {
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Interactive patient scenarios with branching decisions are available exclusively for RPN, RN, and NP subscribers. Each simulation builds the clinical reasoning patterns that define safe practice.
               </p>
-              <Link href="/pricing">
+              <LocaleLink href="/pricing">
                 <Button className="rounded-full px-8 h-12 gap-2 bg-primary text-white hover:brightness-110 shadow-lg" data-testid="button-upgrade-case-sims">
                   <Sparkles className="w-4 h-4" />
                   View Subscription Plans
                 </Button>
-              </Link>
+              </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <Link href="/login" className="text-primary hover:underline">Sign in</Link> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
                 </p>
               )}
             </div>

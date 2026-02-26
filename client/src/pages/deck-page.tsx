@@ -1,3 +1,4 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
@@ -150,9 +151,9 @@ export default function DeckPage() {
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="nav-breadcrumb">
-          <a href="/" className="hover:text-primary transition-colors">Home</a>
+          <LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink>
           <span>/</span>
-          <a href="/flashcards" className="hover:text-primary transition-colors">Flashcards</a>
+          <LocaleLink href="/flashcards" className="hover:text-primary transition-colors">Flashcards</LocaleLink>
           <span>/</span>
           <span className="text-gray-900 font-medium">{deck.title}</span>
         </nav>

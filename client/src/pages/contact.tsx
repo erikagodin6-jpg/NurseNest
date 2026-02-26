@@ -1,3 +1,4 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -220,7 +221,7 @@ export default function ContactPage() {
                 </Button>
                 <p className="text-xs text-gray-400 text-center">
                   By submitting, you agree to our{" "}
-                  <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>.
+                  <LocaleLink href="/privacy" className="text-primary hover:underline">Privacy Policy</LocaleLink>.
                   We will never share your information with third parties.
                 </p>
               </form>

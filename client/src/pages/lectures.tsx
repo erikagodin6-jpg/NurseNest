@@ -1,9 +1,9 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "wouter";
 import { Play, Clock, GraduationCap, BookOpen, Video } from "lucide-react";
 import { lectureRegistry } from "@/data/micro-lectures";
 import { SEO } from "@/components/seo";
@@ -20,7 +20,7 @@ export default function LecturesPage() {
         <div className="container mx-auto px-4 py-8 max-w-5xl">
           <nav aria-label="Breadcrumb" className="mb-4">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <li><Link href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">Home</Link></li>
+              <li><LocaleLink href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">Home</LocaleLink></li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="font-medium text-foreground">Lectures</li>
             </ol>
@@ -52,7 +52,7 @@ export default function LecturesPage() {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {lectureRegistry.map((lecture) => (
-                <Link key={lecture.slug} href={`/lectures/${lecture.slug}`}>
+                <LocaleLink key={lecture.slug} href={`/lectures/${lecture.slug}`}>
                   <Card className="h-full hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer group border-primary/10" data-testid={`card-lecture-${lecture.slug}`}>
                     <CardContent className="p-5">
                       <div className="flex items-start justify-between gap-3 mb-3">
@@ -93,7 +93,7 @@ export default function LecturesPage() {
                       <p className="text-xs text-muted-foreground mt-2">{lecture.category}</p>
                     </CardContent>
                   </Card>
-                </Link>
+                </LocaleLink>
               ))}
             </div>
           )}

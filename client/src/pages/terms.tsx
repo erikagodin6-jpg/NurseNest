@@ -1,6 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { Link } from "wouter";
 
 export default function TermsPage() {
   return (
@@ -166,9 +166,9 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold text-primary mb-4">13. Privacy</h2>
             <p className="text-gray-700 leading-relaxed">
               Your privacy is important to us. Please review our{" "}
-              <Link href="/privacy" className="text-primary underline hover:text-primary/80" data-testid="link-privacy-policy">
+              <LocaleLink href="/privacy" className="text-primary underline hover:text-primary/80" data-testid="link-privacy-policy">
                 Privacy Policy
-              </Link>{" "}
+              </LocaleLink>{" "}
               to understand how we collect, use, and protect your personal information. By using NurseNest, you consent to the collection and use of your information as described in our Privacy Policy.
             </p>
           </section>

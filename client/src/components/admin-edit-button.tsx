@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Pencil, Plus, ExternalLink } from "lucide-react";

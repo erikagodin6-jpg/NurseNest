@@ -1,3 +1,4 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -174,32 +175,29 @@ export default function FAQPage() {
         <div className="mt-12 pt-8 border-t border-primary/10 text-center text-sm text-softgray" data-testid="faq-footer-links">
           <p>
             {t("faq.footerText")}{" "}
-            <a
+            <LocaleLink
               href="/terms"
-              onClick={(e) => { e.preventDefault(); setLocation("/terms"); }}
               className="text-primary hover:underline font-medium"
               data-testid="link-terms"
             >
               {t("faq.termsOfUse")}
-            </a>
+            </LocaleLink>
             {t("faq.footerSeparator")}{" "}
-            <a
+            <LocaleLink
               href="/privacy"
-              onClick={(e) => { e.preventDefault(); setLocation("/privacy"); }}
               className="text-primary hover:underline font-medium"
               data-testid="link-privacy"
             >
               {t("faq.privacyPolicy")}
-            </a>
+            </LocaleLink>
             {t("faq.footerAnd")}{" "}
-            <a
+            <LocaleLink
               href="/disclaimer"
-              onClick={(e) => { e.preventDefault(); setLocation("/disclaimer"); }}
               className="text-primary hover:underline font-medium"
               data-testid="link-disclaimer"
             >
               {t("faq.disclaimer")}
-            </a>
+            </LocaleLink>
             {t("faq.footerPeriod")}
           </p>
         </div>

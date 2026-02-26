@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect, useCallback } from "react";
-import { Link, useParams } from "wouter";
+import { useParams } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -668,11 +669,11 @@ export default function ContentPage() {
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Content Not Found</h1>
           <p className="text-gray-600">The page you're looking for doesn't exist or hasn't been published yet.</p>
-          <Link href="/">
+          <LocaleLink href="/">
             <Button className="rounded-full px-8" data-testid="button-go-home">
               <Home className="w-4 h-4 mr-2" /> Go Home
             </Button>
-          </Link>
+          </LocaleLink>
         </main>
       </div>
     );
@@ -778,17 +779,17 @@ export default function ContentPage() {
           <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-500" data-testid="nav-breadcrumb">
             <ol className="flex items-center gap-1 flex-wrap">
               <li>
-                <Link href="/" className="hover:text-primary transition-colors">
+                <LocaleLink href="/" className="hover:text-primary transition-colors">
                   Home
-                </Link>
+                </LocaleLink>
               </li>
               <li>
                 <ChevronRight className="w-3 h-3 text-gray-300 mx-1" />
               </li>
               <li>
-                <Link href="/lessons" className="hover:text-primary transition-colors">
+                <LocaleLink href="/lessons" className="hover:text-primary transition-colors">
                   Learn
-                </Link>
+                </LocaleLink>
               </li>
               <li>
                 <ChevronRight className="w-3 h-3 text-gray-300 mx-1" />
@@ -884,7 +885,7 @@ export default function ContentPage() {
               <h2 className="text-xl font-bold text-gray-900 mb-6">Related Content</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedItems.map((item) => (
-                  <Link key={item.id} href={`/learn/${item.slug}`}>
+                  <LocaleLink key={item.id} href={`/learn/${item.slug}`}>
                     <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full" data-testid={`card-related-${item.id}`}>
                       <CardContent className="p-5 space-y-2">
                         <div className="flex items-center gap-2">
@@ -900,7 +901,7 @@ export default function ContentPage() {
                         )}
                       </CardContent>
                     </Card>
-                  </Link>
+                  </LocaleLink>
                 ))}
               </div>
             </section>

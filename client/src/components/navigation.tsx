@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { 
   BookOpen, 
   Layers, 
@@ -148,6 +149,10 @@ export function Navigation() {
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
   const { language, setLanguage, t } = useI18n();
   const currentLang = LANGUAGES.find(l => l.code === language);
+
+  const handleLanguageChange = (langCode: typeof language) => {
+    setLanguage(langCode);
+  };
 
   const setRegion = (newRegion: "US" | "CA") => {
     setRegionState(newRegion);
@@ -517,7 +522,7 @@ export function Navigation() {
               {LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
-                  onClick={() => setLanguage(lang.code)}
+                  onClick={() => handleLanguageChange(lang.code)}
                   data-testid={`button-lang-${lang.code}-mobile`}
                   className={cn(
                     "flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[11px] font-medium border transition-colors",
@@ -669,7 +674,7 @@ export function Navigation() {
         <div className="flex items-center justify-between h-14 sm:h-16">
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-6">
             <MobileNav />
-            <Link href="/">
+            <LocaleLink href="/">
               <div className="flex items-center cursor-pointer group" data-testid="link-home-logo">
                 <div className="hidden sm:block">
                   <ThemedLogo width={180} className="group-hover:scale-105 transition-transform duration-300" />
@@ -678,7 +683,7 @@ export function Navigation() {
                   <ThemedLogo width={130} className="group-hover:scale-105 transition-transform duration-300" />
                 </div>
               </div>
-            </Link>
+            </LocaleLink>
 
             <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/pre-nursing")}>
@@ -779,7 +784,7 @@ export function Navigation() {
                 {LANGUAGES.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
-                    onClick={() => setLanguage(lang.code)}
+                    onClick={() => handleLanguageChange(lang.code)}
                     className={cn("cursor-pointer gap-2", language === lang.code && "text-primary font-bold bg-primary/5")}
                     data-testid={`button-lang-${lang.code}`}
                   >

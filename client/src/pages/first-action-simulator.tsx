@@ -1,5 +1,5 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useMemo } from "react";
-import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Footer } from "@/components/footer";
@@ -870,15 +870,15 @@ export default function FirstActionSimulatorPage() {
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Master the "What do you do FIRST?" questions that define nursing exams. Practice clinical prioritization with tier-scoped scenarios designed for RPN, RN, and NP learners.
               </p>
-              <Link href="/pricing">
+              <LocaleLink href="/pricing">
                 <Button className="rounded-full px-8 h-12 gap-2 bg-primary text-white hover:brightness-110 shadow-lg" data-testid="button-upgrade">
                   <Sparkles className="w-4 h-4" />
                   View Subscription Plans
                 </Button>
-              </Link>
+              </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <Link href="/login" className="text-primary hover:underline">Sign in</Link> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
                 </p>
               )}
             </div>

@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router, Redirect, useLocation } from "wouter";
 import { useEffect, lazy, Suspense } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n";
+import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE } from "@/lib/locale-utils";
 const Home = lazy(() => import("@/pages/home"));
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
@@ -169,7 +170,7 @@ function LoadingFallback() {
   );
 }
 
-function Router() {
+function AppRoutes() {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <Switch>
@@ -226,6 +227,24 @@ function Router() {
   );
 }
 
+function LocaleRouter() {
+  const [location] = useLocation();
+  const { locale, pathWithoutLocale } = getLocaleFromPath(location);
+  const segments = location.split("/").filter(Boolean);
+  const firstSegment = segments[0] || "";
+
+  if (!firstSegment || !isValidLocale(firstSegment)) {
+    const redirectTarget = `/${DEFAULT_LOCALE}${location === "/" ? "" : location}`;
+    return <Redirect to={redirectTarget} />;
+  }
+
+  return (
+    <Router base={`/${locale}`}>
+      <AppRoutes />
+    </Router>
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -236,7 +255,7 @@ function App() {
               <Toaster />
               <PageTracker />
               <CopyProtection />
-              <Router />
+              <LocaleRouter />
               <UpgradePrompt />
               <PWAInstallPrompt />
             </TooltipProvider>

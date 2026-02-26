@@ -1,6 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { Link } from "wouter";
 
 export default function PrivacyPage() {
   return (
@@ -134,13 +134,13 @@ export default function PrivacyPage() {
           <section data-testid="section-related-links" className="border-t border-primary/10 pt-6">
             <p className="text-gray-700 leading-relaxed">
               See also our{" "}
-              <Link href="/terms" className="text-primary underline hover:text-primary/80" data-testid="link-terms-of-use">
+              <LocaleLink href="/terms" className="text-primary underline hover:text-primary/80" data-testid="link-terms-of-use">
                 Terms of Use
-              </Link>{" "}
+              </LocaleLink>{" "}
               and{" "}
-              <Link href="/disclaimer" className="text-primary underline hover:text-primary/80" data-testid="link-disclaimer">
+              <LocaleLink href="/disclaimer" className="text-primary underline hover:text-primary/80" data-testid="link-disclaimer">
                 Disclaimer
-              </Link>.
+              </LocaleLink>.
             </p>
           </section>
 

@@ -160,11 +160,23 @@ function getSiteBase(): string {
   return "https://www.nursenest.ca";
 }
 
-function sitemapUrl(loc: string, priority: string, changefreq: string, lastmod?: string): string {
-  let entry = `<url><loc>${loc}</loc><priority>${priority}</priority><changefreq>${changefreq}</changefreq>`;
-  if (lastmod) entry += `<lastmod>${lastmod}</lastmod>`;
-  entry += `</url>`;
-  return entry;
+function sitemapUrl(base: string, path: string, priority: string, changefreq: string, locales: string[], lastmod?: string): string {
+  const lines: string[] = [];
+  for (const locale of locales) {
+    const loc = `${base}/${locale}${path === "/" ? "" : path}`;
+    lines.push(`<url>`);
+    lines.push(`<loc>${loc}</loc>`);
+    lines.push(`<priority>${priority}</priority>`);
+    lines.push(`<changefreq>${changefreq}</changefreq>`);
+    if (lastmod) lines.push(`<lastmod>${lastmod}</lastmod>`);
+    for (const alt of locales) {
+      const altHref = `${base}/${alt}${path === "/" ? "" : path}`;
+      lines.push(`<xhtml:link rel="alternate" hreflang="${alt}" href="${altHref}"/>`);
+    }
+    lines.push(`<xhtml:link rel="alternate" hreflang="x-default" href="${base}/en${path === "/" ? "" : path}"/>`);
+    lines.push(`</url>`);
+  }
+  return lines.join("\n");
 }
 
 app.get("/sitemap.xml", async (_req, res) => {
@@ -172,34 +184,35 @@ app.get("/sitemap.xml", async (_req, res) => {
   const today = new Date().toISOString().split("T")[0];
 
   const entries: string[] = [];
+  const locales = SUPPORTED_LOCALES;
 
-  entries.push(sitemapUrl(`${base}/`, "1.0", "weekly", today));
-  entries.push(sitemapUrl(`${base}/lessons`, "0.9", "weekly", today));
-  entries.push(sitemapUrl(`${base}/flashcards`, "0.8", "weekly", today));
-  entries.push(sitemapUrl(`${base}/pricing`, "0.8", "monthly", today));
-  entries.push(sitemapUrl(`${base}/start-free`, "0.9", "monthly", today));
-  entries.push(sitemapUrl(`${base}/anatomy`, "0.7", "monthly", today));
-  entries.push(sitemapUrl(`${base}/med-math`, "0.8", "monthly", today));
-  entries.push(sitemapUrl(`${base}/lab-values`, "0.8", "monthly", today));
-  entries.push(sitemapUrl(`${base}/mock-exams`, "0.8", "weekly", today));
-  entries.push(sitemapUrl(`${base}/clinical-clarity`, "0.8", "weekly", today));
-  entries.push(sitemapUrl(`${base}/case-simulations`, "0.7", "monthly", today));
-  entries.push(sitemapUrl(`${base}/first-action-simulator`, "0.8", "monthly", today));
-  entries.push(sitemapUrl(`${base}/safety-hazard-simulator`, "0.8", "monthly", today));
-  entries.push(sitemapUrl(`${base}/iv-complications-simulator`, "0.8", "monthly", today));
-  entries.push(sitemapUrl(`${base}/electrolyte-abg-simulator`, "0.8", "monthly", today));
-  entries.push(sitemapUrl(`${base}/deteriorating-patient-simulator`, "0.7", "monthly", today));
-  entries.push(sitemapUrl(`${base}/blood-transfusion-simulator`, "0.7", "monthly", today));
-  entries.push(sitemapUrl(`${base}/medication-mastery`, "0.7", "monthly", today));
-  entries.push(sitemapUrl(`${base}/blog`, "0.7", "daily", today));
-  entries.push(sitemapUrl(`${base}/pre-nursing`, "0.6", "monthly", today));
-  entries.push(sitemapUrl(`${base}/contact`, "0.4", "yearly"));
-  entries.push(sitemapUrl(`${base}/faq`, "0.5", "monthly"));
-  entries.push(sitemapUrl(`${base}/terms`, "0.3", "yearly"));
-  entries.push(sitemapUrl(`${base}/privacy`, "0.3", "yearly"));
-  entries.push(sitemapUrl(`${base}/disclaimer`, "0.3", "yearly"));
-  entries.push(sitemapUrl(`${base}/refund-policy`, "0.3", "yearly"));
-  entries.push(sitemapUrl(`${base}/feedback`, "0.4", "monthly"));
+  entries.push(sitemapUrl(base, "/", "1.0", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/lessons", "0.9", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/flashcards", "0.8", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/pricing", "0.8", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/start-free", "0.9", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/anatomy", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/med-math", "0.8", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/lab-values", "0.8", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/mock-exams", "0.8", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/clinical-clarity", "0.8", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/case-simulations", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/first-action-simulator", "0.8", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/safety-hazard-simulator", "0.8", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/iv-complications-simulator", "0.8", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/electrolyte-abg-simulator", "0.8", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/deteriorating-patient-simulator", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/blood-transfusion-simulator", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/blog", "0.7", "daily", locales, today));
+  entries.push(sitemapUrl(base, "/pre-nursing", "0.6", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/contact", "0.4", "yearly", locales));
+  entries.push(sitemapUrl(base, "/faq", "0.5", "monthly", locales));
+  entries.push(sitemapUrl(base, "/terms", "0.3", "yearly", locales));
+  entries.push(sitemapUrl(base, "/privacy", "0.3", "yearly", locales));
+  entries.push(sitemapUrl(base, "/disclaimer", "0.3", "yearly", locales));
+  entries.push(sitemapUrl(base, "/refund-policy", "0.3", "yearly", locales));
+  entries.push(sitemapUrl(base, "/feedback", "0.4", "monthly", locales));
 
   const lessonIds = [
     "mi-management-np","shock-syndromes-np","sepsis-mastery-np","siadh-di-np","aaa-rupture-np","dka-hhns-np","increased-icp-np","copd-exacerbation-np","aki-management-np","tumor-lysis-np","transfusion-reactions-np","wound-vac-np","hellp-syndrome-np","amniotic-fluid-embolism-np","eclampsia-np","obstetric-hemorrhage-np","neonatal-rds-np","neonatal-hie-np","persistent-pulm-htn-np","neonatal-abstinence-np","central-line-np","lumbar-puncture-np","abg-sampling-np","mechanical-vent-np","head-to-toe-rpn","vital-signs-assessment","pain-assessment-rpn","gcs-assessment-rpn","braden-scale-rpn","comprehensive-health-assessment","primary-survey-rn","nih-stroke-scale","sepsis-screening-rn","comprehensive-hpi-np","differential-diagnosis-np","ecg-advanced-np","sofa-apache-np","point-of-care-us-np","aaa-rupture","mi-management","hf-advanced","pe-recognition","infective-endocarditis","peripheral-artery-disease","aortic-dissection","carotid-endarterectomy","cardiovascular-rpn","cardiovascular-rn","cardiovascular-np","chf-basics","mi-acute","hypertension-management","cardiac-monitoring","cardiac-rhythm-rn","cardiac-auscultation-rn","cardiogenic-shock","pe-dvt","pacemaker-care","abcs-life-threats","unstable-vs-stable","who-to-see-first","delegation-rules-scope","sbar-escalation","post-op-prioritization","shock-syndromes","sepsis-mastery","burn-management","compartment-syndrome","malignant-hyperthermia","siadh-di","hypothyroidism-basics","adrenal-insufficiency","np-testbank-advanced-assessment","np-testbank-prescribing","np-testbank-differential-diagnosis","np-testbank-emergency-management","rn-testbank-cardiovascular","rn-testbank-respiratory","rn-testbank-neuro","rn-testbank-critical-care","rn-testbank-pharmacology","rn-testbank-maternal-child","rpn-testbank-cardiovascular","rpn-testbank-respiratory","rpn-testbank-neuro","rpn-testbank-endocrine","rpn-testbank-renal","rpn-testbank-safety","rpn-testbank-maternity","rpn-testbank-mental-health","nursing-process-adpie","vital-signs-red-flags","medication-administration-safety","infection-prevention-ppe","documentation-sbar-dar","fluid-balance-assessment","gi-bleed","acute-abdomen","ibs-basics","peptic-ulcer","ulcerative-colitis","ercp-egd","dumping-syndrome","bariatric-surgery","portal-hypertension","esophageal-varices","crohns-disease","h2-receptor-antagonists","proton-pump-inhibitors","hepatic-encephalopathy-meds","all-leukemia","aml-leukemia","sickle-cell","hand-hygiene","ppe-basics","isolation-precautions-rpn","sterile-technique","airborne-precautions","droplet-precautions","fetal-monitoring-advanced","prenatal-basics","labor-stages","postpartum-basics","breastfeeding-basics","placenta-previa-abruption","postpartum-hemorrhage","gestational-diabetes","fetal-monitoring-rn","postpartum-depression-care","newborn-assessment","neonatal-thermoreg","neonatal-feeding","neonatal-jaundice-basics","neonatal-respiratory-distress","neonatal-sepsis","nec-necrotizing","neuro-basics","cp-management","increased-icp","stroke-advanced","seizure-safety","neuritis-neuropathy","betamethasone-dexamethasone","opioid-analgesics-ob","prostaglandins-ob","oxytocin-ob","pph-medications","rh-immune-globulin","rubella-vaccine","lung-surfactants","eye-prophylaxis-newborn","hep-b-vaccine-newborn","kawasaki-critical","congenital-heart","pyloric-intussusception","adhd-basics","separation-anxiety","lead-poisoning","dehydration-peds","hip-dysplasia","foreign-body-aspiration","herbals-safety","electrolyte-safety","cardiac-meds","anticoagulant-safety","insulin-safety","lithium-toxicity","factor-xa-inhibitors","vitals-assessment","wound-care-basics","ngtube-care","iv-therapy","blood-transfusion","chest-tube-mgmt","trach-care","osteoporosis-basics","scoliosis-basics","inhaled-spacers","meds-to-infants","cleansing-enemas","wound-irrigation","vac-dressing","hemodialysis-care","fracture-sprain-care","aki-management","ckd-management","av-fistula","dialysis-steal","copd-exacerbation","asthma-emergency","peds-respiratory","epiglottitis-peds","ards-management","active-tb","osa-management","respiratory-rpn","respiratory-rn","respiratory-np","asthma-copd","pneumonia-basics","abg-basics","abg-interpretation-rn","chest-tube-care","oxygen-therapy","tracheostomy-care","pressure-injury","tinea-corporis","oral-candidiasis","cdiff-basics","pertussis-basics","atopic-dermatitis","head-lice","diaper-candidiasis",
@@ -207,7 +220,7 @@ app.get("/sitemap.xml", async (_req, res) => {
   ];
   const uniqueLessonIds = [...new Set(lessonIds)];
   for (const id of uniqueLessonIds) {
-    entries.push(sitemapUrl(`${base}/lessons/${id}`, "0.7", "monthly", today));
+    entries.push(sitemapUrl(base, `/lessons/${id}`, "0.7", "monthly", locales, today));
   }
 
   const clarityTopics = [
@@ -227,7 +240,7 @@ app.get("/sitemap.xml", async (_req, res) => {
     "why-does-hypothyroidism-cause-weight-gain",
   ];
   for (const slug of clarityTopics) {
-    entries.push(sitemapUrl(`${base}/clinical-clarity/${slug}`, "0.6", "monthly", today));
+    entries.push(sitemapUrl(base, `/clinical-clarity/${slug}`, "0.6", "monthly", locales, today));
   }
 
   try {
@@ -236,19 +249,56 @@ app.get("/sitemap.xml", async (_req, res) => {
     const blogPosts = publishedContent.filter((item) => blogTypes.includes(item.type || "") && item.slug);
     for (const post of blogPosts) {
       const lastmod = post.updatedAt ? new Date(post.updatedAt).toISOString().split("T")[0] : (post.publishedAt ? new Date(post.publishedAt).toISOString().split("T")[0] : today);
-      entries.push(sitemapUrl(`${base}/learn/${post.slug}`, "0.6", "weekly", lastmod));
+      entries.push(sitemapUrl(base, `/learn/${post.slug}`, "0.6", "weekly", locales, lastmod));
     }
   } catch {}
 
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n` +
     entries.join("\n") +
     `\n</urlset>`;
 
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600");
   res.status(200).send(xml);
+});
+
+// -------------------------
+// Locale redirect middleware
+// -------------------------
+const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
+const SUPPORTED_LOCALES_SET = new Set(SUPPORTED_LOCALES);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const urlPath = req.path;
+
+  if (
+    urlPath.startsWith("/api") ||
+    urlPath.startsWith("/assets") ||
+    urlPath.startsWith("/vite-hmr") ||
+    urlPath.startsWith("/@") ||
+    urlPath.startsWith("/src") ||
+    urlPath.startsWith("/node_modules") ||
+    urlPath === "/robots.txt" ||
+    urlPath === "/sitemap.xml" ||
+    urlPath === "/sitemap_index.xml" ||
+    /\.\w{2,5}($|\?)/.test(urlPath)
+  ) {
+    return next();
+  }
+
+  const segments = urlPath.split("/").filter(Boolean);
+  const firstSegment = segments[0] || "";
+
+  if (SUPPORTED_LOCALES_SET.has(firstSegment)) {
+    return next();
+  }
+
+  const restPath = urlPath === "/" ? "" : urlPath;
+  const query = req.originalUrl.includes("?") ? req.originalUrl.substring(req.originalUrl.indexOf("?")) : "";
+  const statusCode = process.env.NODE_ENV === "production" ? 301 : 302;
+  return res.redirect(statusCode, `/en${restPath}${query}`);
 });
 
 // -------------------------

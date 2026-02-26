@@ -1,5 +1,5 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useMemo } from "react";
-import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -208,12 +208,12 @@ function MedCard({ med, isExpanded, onToggle }: { med: Medication; isExpanded: b
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {med.relatedLessons.map((lesson) => (
-                    <Link key={lesson.id} href={`/lessons/${lesson.id}`}>
+                    <LocaleLink key={lesson.id} href={`/lessons/${lesson.id}`}>
                       <Button variant="outline" size="sm" className="rounded-full text-xs gap-1 h-7">
                         {lesson.title}
                         <ArrowRight className="w-3 h-3" />
                       </Button>
-                    </Link>
+                    </LocaleLink>
                   ))}
                 </div>
               </section>
@@ -273,15 +273,15 @@ export default function MedicationMasteryPage() {
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 The mechanism-first drug explorer is available exclusively for RPN, RN, and NP subscribers. Understand medications through their receptor pathways and predict clinical effects from first principles.
               </p>
-              <Link href="/pricing">
+              <LocaleLink href="/pricing">
                 <Button className="rounded-full px-8 h-12 gap-2 bg-primary text-white hover:brightness-110 shadow-lg" data-testid="button-upgrade-med-mastery">
                   <Sparkles className="w-4 h-4" />
                   View Subscription Plans
                 </Button>
-              </Link>
+              </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <Link href="/login" className="text-primary hover:underline">Sign in</Link> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
                 </p>
               )}
             </div>

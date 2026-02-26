@@ -1,5 +1,5 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useMemo } from "react";
-import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -182,7 +182,7 @@ export default function ClinicalClarityIndex() {
             const diff = difficultyColors[confusion.difficulty];
             const Icon = systemIcons[confusion.bodySystem] || Brain;
             return (
-              <Link key={confusion.slug} href={`/clinical-clarity/${confusion.slug}`}>
+              <LocaleLink key={confusion.slug} href={`/clinical-clarity/${confusion.slug}`}>
                 <Card
                   className="border border-gray-100 bg-white hover:shadow-lg hover:border-primary/20 transition-all duration-300 cursor-pointer group h-full"
                   data-testid={`card-confusion-${confusion.slug}`}
@@ -223,7 +223,7 @@ export default function ClinicalClarityIndex() {
                     </div>
                   </CardContent>
                 </Card>
-              </Link>
+              </LocaleLink>
             );
           })}
         </div>
@@ -245,12 +245,12 @@ export default function ClinicalClarityIndex() {
             full pathophysiology, pharmacology integration, clinical pearls, and 
             pre/post assessments.
           </p>
-          <Link href="/lessons">
+          <LocaleLink href="/lessons">
             <Button className="rounded-full px-8 bg-primary text-white hover:brightness-110 gap-2" data-testid="button-explore-lessons">
               Explore Full Lessons
               <ArrowRight className="w-4 h-4" />
             </Button>
-          </Link>
+          </LocaleLink>
         </div>
 
         <EducationalIntegrity variant="footer" className="mt-12" />

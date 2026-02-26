@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -31,9 +31,9 @@ export function UsageLimitBanner({ feature, remaining, limit, count }: UsageLimi
       <p className="text-sm text-amber-800">
         <span className="font-bold">{remaining}</span> of {limit} free daily questions remaining.
         {" "}
-        <Link href="/pricing" className="underline font-semibold hover:text-amber-900">
+        <LocaleLink href="/pricing" className="underline font-semibold hover:text-amber-900">
           Upgrade for unlimited access
-        </Link>
+        </LocaleLink>
       </p>
     </div>
   );
@@ -88,16 +88,16 @@ export function UsageLimitPaywall({ feature }: { feature: "lab-values" | "med-ma
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/pricing">
+          <LocaleLink href="/pricing">
             <Button className="gap-2 px-8 rounded-full" data-testid="button-upgrade-feature">
               View Pricing <ArrowRight className="w-4 h-4" />
             </Button>
-          </Link>
+          </LocaleLink>
         </div>
 
         {!user && (
           <p className="text-xs text-gray-400">
-            <Link href="/login" className="underline hover:text-gray-600">Sign in</Link> to track your progress and daily usage across devices.
+            <LocaleLink href="/login" className="underline hover:text-gray-600">Sign in</LocaleLink> to track your progress and daily usage across devices.
           </p>
         )}
 

@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "wouter";
+import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -99,9 +100,9 @@ export default function MockExamReport() {
           <div className="text-center space-y-4">
             <AlertTriangle className="w-12 h-12 text-gray-400 mx-auto" />
             <p className="text-gray-500">Exam report not found.</p>
-            <Link href="/mock-exams">
+            <LocaleLink href="/mock-exams">
               <Button variant="outline">Back to Mock Exams</Button>
-            </Link>
+            </LocaleLink>
           </div>
         </main>
       </div>
@@ -130,11 +131,11 @@ export default function MockExamReport() {
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
-        <Link href="/mock-exams">
+        <LocaleLink href="/mock-exams">
           <Button variant="ghost" className="mb-6 group">
             <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Mock Exams
           </Button>
-        </Link>
+        </LocaleLink>
 
         <div className="text-center mb-10 space-y-6">
           <div className="flex items-center justify-center gap-4">

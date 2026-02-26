@@ -1,5 +1,6 @@
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -198,7 +199,7 @@ export default function MockExamsPage() {
               </div>
               {!user && (
                 <p className="text-sm text-gray-500 text-center py-2">
-                  <Link href="/login" className="text-primary font-medium hover:underline">{t("mockExams.signIn")}</Link> {t("mockExams.signInPrompt")}
+                  <LocaleLink href="/login" className="text-primary font-medium hover:underline">{t("mockExams.signIn")}</LocaleLink> {t("mockExams.signInPrompt")}
                 </p>
               )}
               {user && allowedTiers.length === 0 && (
@@ -208,9 +209,9 @@ export default function MockExamsPage() {
                     <div>
                       <p className="text-sm font-medium text-gray-900">{t("mockExams.subscriptionRequired")}</p>
                       <p className="text-xs text-gray-600 mt-1">{t("mockExams.subscriptionDesc")}</p>
-                      <Link href="/pricing">
+                      <LocaleLink href="/pricing">
                         <Button size="sm" className="mt-2 rounded-full" data-testid="button-upgrade-exams">{t("mockExams.viewPlans")}</Button>
-                      </Link>
+                      </LocaleLink>
                     </div>
                   </CardContent>
                 </Card>
@@ -303,7 +304,7 @@ export default function MockExamsPage() {
             ) : (
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
                 {completedExams.map((exam) => (
-                  <Link key={exam.id} href={`/mock-exams/${exam.id}/report`}>
+                  <LocaleLink key={exam.id} href={`/mock-exams/${exam.id}/report`}>
                     <Card className="border-none shadow-sm hover:shadow-md transition-shadow cursor-pointer">
                       <CardContent className="p-4 flex items-center justify-between">
                         <div>
@@ -325,7 +326,7 @@ export default function MockExamsPage() {
                         </div>
                       </CardContent>
                     </Card>
-                  </Link>
+                  </LocaleLink>
                 ))}
               </div>
             )}
