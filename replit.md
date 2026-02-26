@@ -87,6 +87,17 @@ Preferred communication style: Simple, everyday language.
 - Flashcard system supports bookmarking (flagged for review) and mastery tracking via localStorage.
 - Type definitions in `client/src/data/lessons/types.ts` support pre/post-test questions.
 
+### Internationalization (i18n)
+- **System**: Custom i18n in `client/src/lib/i18n.tsx` with `I18nProvider` wrapping app in `App.tsx`
+- **Languages**: 15 supported (EN, FR, ES, ZH, HI, AR, PT, BN, UR, FA, DE, JA, KO, TL, VI); RTL for AR/UR/FA
+- **Key count**: ~2000+ English keys covering all UI chrome text
+- **Wired pages**: Landing, FAQ, Blog, Mock Exams, Dashboard, Flashcards, Lessons (system titles + lesson names), Pre-Nursing, Anatomy
+- **Pattern**: UI chrome text uses `t("key")` calls; educational/medical content (lesson paragraphs, quiz questions, rationales) stays in English
+- **Lessons i18n**: Uses computed keys `t(\`lessons.sys.${system.id}\`)` and `t(\`lessons.lesson.${disease.id}\`)` - no titleKey/nameKey properties needed
+- **Anatomy i18n**: Uses `nameKey`/`descriptionKey` properties on bodySystems array
+- **Pre-Nursing i18n**: Uses `titleKey`/`subtitleKey` properties on modules array
+- **Fallback**: Non-EN languages fall back to EN for missing keys automatically
+
 ## External Dependencies
 
 ### Database
