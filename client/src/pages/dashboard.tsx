@@ -655,7 +655,7 @@ function StudyStreakWidget({ user }: { user: any }) {
     return d;
   });
 
-  const dayLabels = ["S", "M", "T", "W", "T", "F", "S"];
+  const dayLabels = [t("dashboard.daySun"), t("dashboard.dayMon"), t("dashboard.dayTue"), t("dashboard.dayWed"), t("dashboard.dayThu"), t("dashboard.dayFri"), t("dashboard.daySat")];
 
   return (
     <div data-testid="widget-content-streak">
@@ -669,7 +669,7 @@ function StudyStreakWidget({ user }: { user: any }) {
           <span className="text-sm font-semibold">{t("dashboard.streakActive")}</span>
         </div>
       </div>
-      <div className="flex justify-between gap-1" role="group" aria-label="Weekly activity">
+      <div className="flex justify-between gap-1" role="group" aria-label={t("dashboard.weeklyActivity")}>
         {days.map((d, i) => {
           const isToday = d.toDateString() === today.toDateString();
           return (
@@ -680,7 +680,7 @@ function StudyStreakWidget({ user }: { user: any }) {
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-muted text-muted-foreground"
                 }`}
-                aria-label={`${dayLabels[d.getDay()]} ${d.getDate()}${isToday ? " (today)" : ""}`}
+                aria-label={`${dayLabels[d.getDay()]} ${d.getDate()}${isToday ? ` (${t("dashboard.today")})` : ""}`}
               >
                 {dayLabels[d.getDay()]}
               </div>

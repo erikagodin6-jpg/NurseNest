@@ -2077,9 +2077,17 @@ export default function Lessons() {
 
 function DifficultyBadge({ level }: { level: DifficultyLevel }) {
   const config = difficultyConfig[level];
+  const { t } = useI18n();
+  const labelKeys: Record<DifficultyLevel, string> = {
+    1: "difficulty.beginner",
+    2: "difficulty.easy",
+    3: "difficulty.moderate",
+    4: "difficulty.hard",
+    5: "difficulty.expert",
+  };
   return (
     <span data-testid={`badge-difficulty-${level}`} className={cn("text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap", config.color, config.bg)}>
-      {config.label}
+      {t(labelKeys[level])}
     </span>
   );
 }

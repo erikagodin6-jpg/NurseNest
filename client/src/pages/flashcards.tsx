@@ -1429,6 +1429,23 @@ export default function Flashcards() {
   }, []);
 
   const categories = useMemo(() => Array.from(new Set(allCards.map(c => c.category))), []);
+  const categoryLabelMap: Record<string, string> = {
+    "Cardiovascular": t("flashcards.categoryCardiovascular"),
+    "Pediatrics": t("flashcards.categoryPediatrics"),
+    "Oncology": t("flashcards.categoryOncology"),
+    "Neurological": t("flashcards.categoryNeurological"),
+    "Pharmacology": t("flashcards.categoryPharmacology"),
+    "Respiratory": t("flashcards.categoryRespiratory"),
+    "GI": t("flashcards.categoryGI"),
+    "Skin": t("flashcards.categorySkin"),
+    "Infection": t("flashcards.categoryInfection"),
+    "GU / Renal": t("flashcards.categoryGURenal"),
+    "Musculoskeletal": t("flashcards.categoryMusculoskeletal"),
+    "Maternal": t("flashcards.categoryMaternal"),
+    "Psychiatry": t("flashcards.categoryPsychiatry"),
+    "Hematology": t("flashcards.categoryHematology"),
+  };
+  const catLabel = (cat: string) => categoryLabelMap[cat] || cat;
 
   const sessionCards = useMemo(() => {
     let filtered = allCards;
@@ -1560,7 +1577,7 @@ export default function Flashcards() {
                           selectedCategories.includes(cat) ? "bg-primary/10 text-primary border-primary/20" : ""
                         )}
                       >
-                        {cat}
+                        {catLabel(cat)}
                       </Button>
                     ))}
                     <Button 
@@ -1904,7 +1921,7 @@ export default function Flashcards() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{card.category}</span>
+                            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{catLabel(card.category)}</span>
                           </div>
                           <h4 className="font-bold text-gray-900 text-sm mb-1" data-testid={`text-question-${card.id}`}>{card.question}</h4>
                           <p className="text-gray-500 text-xs leading-relaxed line-clamp-2" data-testid={`text-answer-${card.id}`}>{card.answer}</p>
@@ -2178,7 +2195,7 @@ export default function Flashcards() {
             )}>
               <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-8 sm:p-12 text-center overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-emerald-400/40" />
-                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-8">{studyCard?.category}</span>
+                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-8">{studyCard?.category ? catLabel(studyCard.category) : ""}</span>
                 <h2 className="text-2xl sm:text-3xl font-black text-gray-900 leading-tight" data-testid="text-study-question">{studyCard?.question}</h2>
                 <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">
                   <RefreshCw className="w-4 h-4" />
@@ -2274,7 +2291,7 @@ export default function Flashcards() {
                     </Button>
                   </div>
                   <h4 className="font-bold text-gray-900 mb-3 flex-1">{card.question}</h4>
-                  <div className="text-xs text-gray-400 mb-4">{card.category}</div>
+                  <div className="text-xs text-gray-400 mb-4">{catLabel(card.category)}</div>
                   <Button 
                     variant="secondary" 
                     size="sm" 
@@ -2347,7 +2364,7 @@ export default function Flashcards() {
                     </Button>
                   </div>
                   <h4 className="font-bold text-gray-900 mb-3 flex-1">{card.question}</h4>
-                  <div className="text-xs text-gray-400 mb-4">{card.category}</div>
+                  <div className="text-xs text-gray-400 mb-4">{catLabel(card.category)}</div>
                   <Button 
                     variant="secondary" 
                     size="sm" 
@@ -2461,7 +2478,7 @@ export default function Flashcards() {
              </Card>
              <Card className="border-none shadow-sm bg-indigo-50 p-4 border border-indigo-100">
                <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">{t("flashcards.topic")}</p>
-               <p className="text-sm font-bold text-indigo-900">{currentCard.category}</p>
+               <p className="text-sm font-bold text-indigo-900">{catLabel(currentCard.category)}</p>
              </Card>
              <Button 
                 variant="outline" 
@@ -2503,8 +2520,8 @@ export default function Flashcards() {
                     {currentCard.image ? (
                       <ProtectedImage 
                         src={currentCard.image} 
-                        alt={`Clinical flashcard illustration for ${currentCard.category || "nursing"}  -  NurseNest`}
-                        title={`NurseNest ${currentCard.category || "Nursing"} Flashcard`}
+                        alt={`Clinical flashcard illustration for ${catLabel(currentCard.category || "nursing")}  -  NurseNest`}
+                        title={`NurseNest ${catLabel(currentCard.category || "Nursing")} Flashcard`}
                         className="w-64 h-64 object-contain rounded-2xl shadow-sm"
                         data-testid={`img-flashcard-${currentCard.id}`}
                       />
