@@ -1,6 +1,7 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 export default function PrivacyPage() {
   return (
@@ -146,6 +147,7 @@ export default function PrivacyPage() {
 
         </div>
       </div>
+      <AdminEditButton pageName="privacy" />
       <Footer />
     </div>
   );

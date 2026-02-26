@@ -20,6 +20,7 @@ import {
   Send,
   CheckCircle2,
 } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 const supportCategories = [
   {
@@ -230,6 +231,7 @@ export default function ContactPage() {
         </Card>
       </main>
 
+      <AdminEditButton pageName="contact" />
       <Footer />
     </div>
   );

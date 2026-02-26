@@ -14,6 +14,7 @@ import {
   GraduationCap, Clock, FileText, BarChart3, ChevronRight,
   Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert
 } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -349,6 +350,7 @@ export default function MockExamsPage() {
           </div>
         </div>
       </main>
+      <AdminEditButton pageName="mock-exams" />
       <Footer />
     </div>
   );

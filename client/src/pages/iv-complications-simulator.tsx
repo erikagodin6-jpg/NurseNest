@@ -18,6 +18,7 @@ import {
   ShieldAlert,
   Syringe,
 } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 interface AnswerOption {
   id: string;
@@ -582,6 +583,7 @@ export default function IVComplicationsSimulatorPage() {
           </CardContent>
         </Card>
       </main>
+      <AdminEditButton pageName="iv-complications-simulator" />
       <Footer />
     </div>
   );

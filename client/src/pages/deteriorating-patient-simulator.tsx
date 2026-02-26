@@ -43,6 +43,7 @@ import {
   type UnitMode,
   getDefaultUnitMode,
 } from "@/lib/unit-conversion";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 interface VitalSigns {
   hr: number;
@@ -1591,6 +1592,7 @@ export default function DeterioratingPatientSimulatorPage() {
           />
         )}
       </main>
+      <AdminEditButton pageName="deteriorating-patient-simulator" />
       <Footer />
     </div>
   );

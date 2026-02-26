@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { lectureData, lectureRegistry, getLecturesForLesson } from "@/data/micro-lectures";
 import { Video } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 export default function LectureViewer() {
   const [, params] = useRoute("/lectures/:slug");
@@ -493,6 +494,7 @@ export default function LectureViewer() {
         </div>
       )}
 
+      <AdminEditButton pageName="lecture-viewer" />
       {!isFullscreen && <Footer />}
     </div>
   );

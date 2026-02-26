@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Play, Clock, GraduationCap, BookOpen, Video } from "lucide-react";
 import { lectureRegistry } from "@/data/micro-lectures";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 export default function LecturesPage() {
   return (
@@ -99,6 +100,7 @@ export default function LecturesPage() {
           )}
         </div>
       </main>
+      <AdminEditButton pageName="lectures" />
       <Footer />
     </>
   );

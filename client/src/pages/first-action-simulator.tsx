@@ -39,6 +39,7 @@ import {
   Globe,
   Ruler,
 } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 type Tier = "rpn" | "rn" | "np";
 type Difficulty = "beginner" | "intermediate" | "advanced";
@@ -1056,6 +1057,7 @@ export default function FirstActionSimulatorPage() {
           </div>
         )}
       </main>
+      <AdminEditButton pageName="first-action-simulator" />
       <Footer />
     </div>
   );

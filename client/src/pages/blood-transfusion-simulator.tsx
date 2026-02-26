@@ -28,6 +28,7 @@ import {
   Info,
   ChevronRight,
 } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
@@ -1010,6 +1011,7 @@ export default function BloodTransfusionSimulatorPage() {
           </div>
         )}
       </main>
+      <AdminEditButton pageName="blood-transfusion-simulator" />
       <Footer />
     </div>
   );

@@ -29,6 +29,7 @@ import {
   DoorOpen,
   Siren,
 } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 type HazardItem = {
   id: string;
@@ -883,6 +884,7 @@ export default function SafetyHazardSimulatorPage() {
         )}
       </main>
 
+      <AdminEditButton pageName="safety-hazard-simulator" />
       <Footer />
     </div>
   );

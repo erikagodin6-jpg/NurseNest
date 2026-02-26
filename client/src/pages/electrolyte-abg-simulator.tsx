@@ -22,6 +22,7 @@ import {
   ChevronRight,
   Trophy,
 } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
@@ -1093,6 +1094,7 @@ export default function ElectrolyteABGSimulatorPage() {
           </div>
         )}
       </main>
+      <AdminEditButton pageName="electrolyte-abg-simulator" />
       <Footer />
     </div>
   );

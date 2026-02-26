@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { buildQuestionPool } from "@/lib/question-pool";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 export default function QuestionBank() {
   const [tierFilter, setTierFilter] = useState<string>("all");
@@ -259,6 +260,7 @@ export default function QuestionBank() {
         </div>
       </main>
 
+      <AdminEditButton pageName="question-bank" />
       <Footer />
     </>
   );

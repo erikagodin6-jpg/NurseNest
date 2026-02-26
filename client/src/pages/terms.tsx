@@ -1,6 +1,7 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 export default function TermsPage() {
   return (
@@ -203,6 +204,7 @@ export default function TermsPage() {
 
         </div>
       </div>
+      <AdminEditButton pageName="terms" />
       <Footer />
     </div>
   );

@@ -10,6 +10,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { CheckCircle2, XCircle, Calendar, BookOpen, Stethoscope, Brain, ArrowRight, Mail, Trophy, Sparkles, Clock } from "lucide-react";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 const siteUrl = "https://www.nursenest.ca";
 
@@ -302,6 +303,7 @@ export default function QuestionOfTheDay() {
         </div>
       </main>
 
+      <AdminEditButton pageName="question-of-the-day" />
       <Footer />
     </>
   );

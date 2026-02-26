@@ -1,6 +1,7 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { AdminEditButton } from "@/components/admin-edit-button";
 
 export default function DisclaimerPage() {
   return (
@@ -94,6 +95,7 @@ export default function DisclaimerPage() {
 
         </div>
       </div>
+      <AdminEditButton pageName="disclaimer" />
       <Footer />
     </div>
   );

@@ -1,0 +1,189 @@
+Implement secure admin-only inline editing for the Medical Terminology course AND integrate a medically-accurate AI content generator inside the editor.
+
+This must be implemented cleanly, securely, and extensibly.
+
+===========================================
+PART 1 — ADMIN PERMISSIONS (SERVER-ENFORCED)
+===========================================
+
+1) Use existing authentication system.
+2) Determine admin status via server-side role validation (e.g., user.role === "admin").
+3) All write endpoints MUST validate admin on the server.
+4) Never rely on client-side checks alone.
+
+Non-admin users:
+- Must not see edit UI.
+- Must not be able to call write endpoints successfully.
+
+===========================================
+PART 2 — CONTENT ARCHITECTURE
+===========================================
+
+5) Move Medical Terminology course content into structured CMS-style storage (database or persistent JSON collection).
+
+Content model must include:
+- id (stable key)
+- courseSlug ("medical-terminology")
+- moduleSlug
+- sectionKey
+- locale
+- content (markdown preferred)
+- version (integer)
+- updatedBy
+- updatedAt
+- revisionHistory (optional but recommended)
+
+6) English is the source-of-truth.
+7) If locale content is missing, fallback to English.
+8) UI chrome remains i18n-based; course body content comes from CMS storage.
+
+===========================================
+PART 3 — INLINE EDITING (ADMIN ONLY)
+===========================================
+
+9) For admin users only:
+- Show subtle "Edit" button per content block.
+- Clicking transforms block into markdown or rich-text editor.
+- Provide Save / Cancel.
+- Show loading + success state.
+- Warn on unsaved changes.
+
+10) Use optimistic concurrency:
+- Send current version to server.
+- Reject save if version mismatch.
+
+11) Sanitize all rendered content (prevent XSS).
+12) Maintain NurseNest styling and typography.
+
+===========================================
+PART 4 — AI CONTENT GENERATOR (INSIDE EDITOR)
+===========================================
+
+Add an "AI Generate" button inside the admin editor panel.
+
+When clicked:
+- Opens AI content generator drawer/modal.
+- Admin provides:
+   • Topic
+   • Depth level (Pre-Nursing / RN / NP)
+   • Word count target
+   • Include quiz? (Yes/No)
+   • Include practice exercises? (Yes/No)
+   • Tone (Academic / Concise / Detailed)
+
+===========================================
+MEDICAL ACCURACY REQUIREMENTS (CRITICAL)
+===========================================
+
+AI generator must:
+
+1) Produce medically accurate content only.
+2) Avoid fabricated drug strengths or nonexistent medical terms.
+3) Avoid pathophysiology unless explicitly allowed.
+4) Avoid hallucinated clinical guidelines.
+5) Avoid unsafe medical advice.
+6) Stay within course scope (Medical Terminology).
+
+7) Content must:
+   - Explain roots logically
+   - Use real clinical terminology
+   - Provide correct definitions
+   - Avoid made-up examples
+
+8) Include self-check mechanism:
+   - Before returning output, validate that terms exist in real medical usage.
+   - If uncertain, avoid inventing.
+
+===========================================
+AI GENERATOR TECHNICAL IMPLEMENTATION
+===========================================
+
+Backend endpoint:
+POST /api/ai/generate-course-content
+Admin only.
+
+Request body:
+{
+  topic,
+  depthLevel,
+  wordCount,
+  includeQuiz,
+  includeExercises,
+  tone,
+  courseSlug,
+  moduleSlug
+}
+
+Server:
+- Validates admin
+- Calls AI model
+- Applies medical accuracy guard prompt
+- Returns markdown-formatted content
+- Does NOT auto-save
+- Admin must review and manually click Save
+
+===========================================
+AI SYSTEM PROMPT (INTERNAL — DO NOT DISPLAY)
+===========================================
+
+"You are generating medically accurate academic content for a nursing education platform.
+Only use real medical terminology.
+Do not fabricate drug strengths, diseases, or anatomy.
+Do not provide unsafe clinical advice.
+Stay within requested scope.
+Write at requested academic level.
+If uncertain, omit rather than invent."
+
+===========================================
+PART 5 — AUDIT & SAFETY
+===========================================
+
+13) Log:
+- admin id
+- timestamp
+- content before
+- content after
+- AI-generated vs manual flag
+
+14) Rate-limit AI endpoint to prevent abuse.
+
+15) Add "AI Generated — Review Required" flag until manually saved.
+
+===========================================
+PART 6 — UI FLOW
+===========================================
+
+Admin sees:
+[Edit] → [Editor opens]
+[AI Generate] → content preview → [Insert into editor]
+Admin reviews → edits → clicks Save → version increments
+
+Non-admin sees:
+No edit controls.
+No AI options.
+
+===========================================
+PART 7 — VERIFICATION CHECKLIST
+===========================================
+
+Confirm:
+- Non-admin cannot edit.
+- Direct API calls by non-admin fail.
+- Content persists.
+- Versioning works.
+- AI output respects medical constraints.
+- No hallucinated terminology.
+- No XSS.
+- English fallback works.
+- Brand name “NurseNest” never translated.
+
+===========================================
+DELIVERABLES
+===========================================
+
+- Inline editing working for Medical Terminology course
+- Secure backend endpoints
+- AI generator integrated
+- Medical-accuracy guard prompt implemented
+- Audit logging functional
+- Documentation for applying to other courses
