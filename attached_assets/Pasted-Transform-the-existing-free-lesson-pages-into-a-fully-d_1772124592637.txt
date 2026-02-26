@@ -1,0 +1,86 @@
+Transform the existing free lesson pages into a fully developed, academically rigorous pre-nursing course designed to prepare students BEFORE entering nursing school.
+
+Critical scope constraints (must follow strictly):
+
+1) DO NOT include pathophysiology.
+2) DO NOT include disease mechanisms, medical conditions, or clinical management.
+3) DO NOT include medication teaching except foundational pharmacology principles.
+4) Content must remain at pre-nursing / prerequisite / foundational level.
+
+Goal:
+
+Create a comprehensive university-prep style course that covers ALL core knowledge areas students need before starting nursing education. Lessons must be detailed, structured, and instructional — not brief summaries.
+
+Depth requirement:
+
+Each lesson must be expanded into full teaching content comparable to a high-quality academic study resource. Avoid short explanations. Provide concept development, reasoning, examples, and learning clarity.
+
+Course design requirements:
+
+Organize content into logical modules such as:
+
+• Human Anatomy Foundations
+• Human Physiology Foundations
+• Medical Terminology
+• Basic Chemistry for Health Sciences
+• Cell Biology
+• Homeostasis
+• Genetics Foundations
+• Microbiology Basics
+• Infection Control Foundations
+• Math & Medication Foundations (no drug classes)
+• Fluids & Electrolytes Foundations (no disorders)
+• Basic Physics Concepts Relevant to the Body
+• Research & Evidence-Based Practice Foundations
+• Healthcare Communication Fundamentals
+• Ethical & Legal Foundations
+• Study & Cognitive Strategies for Nursing School
+
+Lesson structure requirements:
+
+For EVERY topic:
+
+• Provide detailed explanations, not definitions
+• Explain mechanisms and underlying principles (non-pathological)
+• Clarify commonly misunderstood concepts
+• Include applied examples relevant to healthcare learning
+• Emphasize conceptual understanding over memorization
+• Use language suitable for serious pre-nursing students
+
+Explicit exclusions:
+
+Do NOT drift into:
+
+✖ Pathophysiology
+✖ Disease discussions
+✖ Clinical treatment
+✖ Drug classes or therapeutics
+✖ Nursing interventions
+✖ Patient management
+
+Foundational pharmacology allowed ONLY at principle level:
+
+✔ Pharmacokinetics basics (absorption, distribution, metabolism, elimination)
+✔ Pharmacodynamics concepts
+✔ Medication safety principles
+✔ Dosage calculation logic (general math only)
+
+Quality rules:
+
+• No shallow filler content
+• No generic textbook summaries
+• No oversimplified bullet lists
+• Lessons must read like premium academic material
+• Content should support SEO by being information-dense and authoritative
+
+Tone:
+
+Professional, clear, intelligent, structured, educational.
+Avoid childish tone or marketing language.
+
+Output expectations:
+
+• Expand ALL existing free lessons
+• Ensure topic coverage is logically complete
+• Fill conceptual gaps students would struggle with in early nursing courses
+• Produce cohesive, course-like material rather than isolated pages
