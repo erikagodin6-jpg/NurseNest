@@ -73,6 +73,9 @@ function formatCount(n: number): string {
 export default function Home() {
   const [, setLocation] = useLocation();
   const { t } = useI18n();
+  const [email, setEmail] = useState("");
+  const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [emailMessage, setEmailMessage] = useState("");
   const [region, setRegion] = useState<"US" | "CA">(() => {
     return (localStorage.getItem("nursenest-region") as "US" | "CA") || "US";
   });
@@ -85,6 +88,33 @@ export default function Home() {
   const examLabel = region === "CA" ? "REX-PN" : "NCLEX";
   const rpnLabel = region === "CA" ? "RPN" : "LVN";
   const altExam = region === "CA" ? "NCLEX" : "REX-PN";
+
+  async function handleEmailSubscribe() {
+    const trimmed = email.trim().toLowerCase();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setEmailStatus("error");
+      setEmailMessage("Please enter a valid email address.");
+      return;
+    }
+    setEmailStatus("loading");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || "Subscription failed. Please try again.");
+      }
+      setEmailStatus("success");
+      setEmailMessage("You're subscribed! Check your inbox for practice questions.");
+      setEmail("");
+    } catch (e: any) {
+      setEmailStatus("error");
+      setEmailMessage(e.message || "Something went wrong. Please try again.");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
@@ -914,17 +944,37 @@ export default function Home() {
               <p className="text-gray-600 mb-8 leading-relaxed">
                 {t("home.email.subtitle")}
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <input 
-                  type="email" 
-                  placeholder={t("home.email.placeholder")} 
-                  className="flex-1 h-12 px-4 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
-                  data-testid="input-email"
-                />
-                <Button className="h-12 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm" data-testid="button-subscribe">
-                  {t("home.email.button")}
-                </Button>
-              </div>
+              {emailStatus === "success" ? (
+                <div className="flex items-center justify-center gap-2 text-green-600 font-medium py-3" data-testid="text-subscribe-success">
+                  <CheckCircle2 className="w-5 h-5" />
+                  <span>{emailMessage}</span>
+                </div>
+              ) : (
+                <>
+                  <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input 
+                      type="email"
+                      value={email}
+                      onChange={(e) => { setEmail(e.target.value); if (emailStatus === "error") setEmailStatus("idle"); }}
+                      onKeyDown={(e) => { if (e.key === "Enter") handleEmailSubscribe(); }}
+                      placeholder={t("home.email.placeholder")} 
+                      className="flex-1 h-12 px-4 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                      data-testid="input-email"
+                    />
+                    <Button 
+                      className="h-12 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm" 
+                      data-testid="button-subscribe"
+                      onClick={handleEmailSubscribe}
+                      disabled={emailStatus === "loading"}
+                    >
+                      {emailStatus === "loading" ? "..." : t("home.email.button")}
+                    </Button>
+                  </div>
+                  {emailStatus === "error" && (
+                    <p className="text-sm text-red-500 mt-2" data-testid="text-subscribe-error">{emailMessage}</p>
+                  )}
+                </>
+              )}
               <p className="text-xs text-gray-400 mt-4">{t("home.email.disclaimer")}</p>
             </div>
           </div>
