@@ -52,7 +52,11 @@ import {
   Globe,
   Gamepad2,
   Award,
-  Microscope
+  Microscope,
+  ShieldCheck,
+  AlertTriangle,
+  XCircle,
+  CircleCheck
 } from "lucide-react";
 
 import { lessonCount, questionCount } from "@/data/lessons/index";
@@ -695,6 +699,88 @@ export default function Home() {
                   <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Flashcard Trust Section */}
+        <section className="py-24 bg-gradient-to-b from-gray-50 to-white" data-testid="section-flashcard-trust">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 bg-red-50 text-red-700 text-sm font-semibold px-4 py-2 rounded-full mb-6" data-testid="badge-flashcard-warning">
+                <AlertTriangle className="w-4 h-4" aria-hidden="true" />
+                {t("home.flashcardTrust.warningBadge")}
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-flashcard-trust-heading">
+                {t("home.flashcardTrust.heading")}
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-flashcard-trust-subtitle">
+                {t("home.flashcardTrust.subtitle")}
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+              <div className="bg-red-50/60 rounded-2xl border border-red-100 p-8" data-testid="card-other-platforms">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                    <XCircle className="w-5 h-5 text-red-500" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">{t("home.flashcardTrust.otherPlatforms")}</h3>
+                </div>
+                <ul className="space-y-4">
+                  {[
+                    t("home.flashcardTrust.issue1"),
+                    t("home.flashcardTrust.issue2"),
+                    t("home.flashcardTrust.issue3"),
+                    t("home.flashcardTrust.issue4"),
+                  ].map((issue, i) => (
+                    <li key={i} className="flex items-start gap-3" data-testid={`text-issue-${i}`}>
+                      <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                      <span className="text-sm text-gray-700 leading-relaxed">{issue}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-emerald-50/60 rounded-2xl border border-emerald-100 p-8" data-testid="card-nursenest-flashcards">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+                    <ShieldCheck className="w-5 h-5 text-emerald-600" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">{t("home.flashcardTrust.nurseNest")}</h3>
+                </div>
+                <ul className="space-y-4">
+                  {[
+                    t("home.flashcardTrust.benefit1"),
+                    t("home.flashcardTrust.benefit2"),
+                    t("home.flashcardTrust.benefit3"),
+                    t("home.flashcardTrust.benefit4"),
+                  ].map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-3" data-testid={`text-benefit-${i}`}>
+                      <CircleCheck className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                      <span className="text-sm text-gray-700 leading-relaxed">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-3xl mx-auto text-center" data-testid="card-flashcard-trust-cta">
+              <ShieldCheck className="w-10 h-10 text-primary mx-auto mb-4" aria-hidden="true" />
+              <h3 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-flashcard-trust-cta">
+                {t("home.flashcardTrust.ctaTitle")}
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed mb-6" data-testid="text-flashcard-trust-cta-desc">
+                {t("home.flashcardTrust.ctaDesc")}
+              </p>
+              <button
+                onClick={() => setLocation("/flashcards")}
+                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors"
+                data-testid="button-explore-flashcards"
+              >
+                {t("home.flashcardTrust.ctaButton")}
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </section>
