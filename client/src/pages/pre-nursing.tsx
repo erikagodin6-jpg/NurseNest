@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
+import { useI18n } from "@/lib/i18n";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -62,8 +63,8 @@ type ModuleId = "cell-biology" | "physiology" | "terminology" | "pharmacology" |
 
 const modules: {
   id: ModuleId;
-  title: string;
-  subtitle: string;
+  titleKey: string;
+  subtitleKey: string;
   icon: any;
   color: string;
   bg: string;
@@ -72,8 +73,8 @@ const modules: {
 }[] = [
   {
     id: "cell-biology",
-    title: "Cell Biology",
-    subtitle: "Cell structure, membrane transport, homeostasis",
+    titleKey: "preNursing.mod.cellBiology",
+    subtitleKey: "preNursing.mod.cellBiologyDesc",
     icon: Dna,
     color: "text-blue-600",
     bg: "bg-blue-50",
@@ -82,8 +83,8 @@ const modules: {
   },
   {
     id: "physiology",
-    title: "Physiology Principles",
-    subtitle: "Feedback loops, fluid compartments, acid-base basics",
+    titleKey: "preNursing.mod.physiology",
+    subtitleKey: "preNursing.mod.physiologyDesc",
     icon: Activity,
     color: "text-emerald-600",
     bg: "bg-emerald-50",
@@ -92,8 +93,8 @@ const modules: {
   },
   {
     id: "terminology",
-    title: "Medical Terminology",
-    subtitle: "Prefixes, suffixes, roots, clinical terms",
+    titleKey: "preNursing.mod.terminology",
+    subtitleKey: "preNursing.mod.terminologyDesc",
     icon: BookOpen,
     color: "text-purple-600",
     bg: "bg-purple-50",
@@ -102,8 +103,8 @@ const modules: {
   },
   {
     id: "pharmacology",
-    title: "Intro Pharmacology",
-    subtitle: "Receptors, agonists/antagonists, drug basics",
+    titleKey: "preNursing.mod.pharmacology",
+    subtitleKey: "preNursing.mod.pharmacologyDesc",
     icon: Pill,
     color: "text-amber-600",
     bg: "bg-amber-50",
@@ -112,8 +113,8 @@ const modules: {
   },
   {
     id: "pathophysiology",
-    title: "Intro Pathophysiology",
-    subtitle: "Disease logic, compensation, early vs late signs",
+    titleKey: "preNursing.mod.pathophysiology",
+    subtitleKey: "preNursing.mod.pathophysiologyDesc",
     icon: Stethoscope,
     color: "text-rose-600",
     bg: "bg-rose-50",
@@ -214,11 +215,13 @@ const pathoFindings = [
 export default function PreNursingPage() {
   const [, setLocation] = useLocation();
   const [activeModule, setActiveModule] = useState<ModuleId | null>(null);
+  const { t } = useI18n();
 
   if (activeModule) {
+    const activeModuleData = modules.find((m) => m.id === activeModule);
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
-        <SEO title={`Pre-Nursing: ${modules.find((m) => m.id === activeModule)?.title} | NurseNest`} description="Free pre-nursing foundations modules" />
+        <SEO title={`Pre-Nursing: ${activeModuleData ? t(activeModuleData.titleKey) : ''} | NurseNest`} description="Free pre-nursing foundations modules" />
         <Navigation />
         <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
           <button
@@ -226,7 +229,7 @@ export default function PreNursingPage() {
             className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary mb-6 transition-colors"
             data-testid="button-back-modules"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Modules
+            <ArrowLeft className="w-4 h-4" /> {t("preNursing.backToModules")}
           </button>
 
           {activeModule === "cell-biology" && <CellBiologyModule />}
@@ -258,16 +261,16 @@ export default function PreNursingPage() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm mb-6">
               <GraduationCap className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-gray-600">Free Interactive Learning</span>
+              <span className="text-sm font-medium text-gray-600">{t("preNursing.badge")}</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 mb-4 leading-tight" data-testid="text-pre-nursing-heading">
-              Pre-Nursing Foundations
+              {t("preNursing.pageTitle")}
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-2 leading-relaxed">
-              Build the essential knowledge you need before nursing school. Interactive visual lessons designed to make foundational concepts stick.
+              {t("preNursing.pageSubtitle")}
             </p>
             <p className="text-sm text-primary font-medium">
-              Created for nurses, by nurses.
+              {t("preNursing.byNurses")}
             </p>
           </div>
         </section>
@@ -284,7 +287,7 @@ export default function PreNursingPage() {
                 <div className="h-40 overflow-hidden bg-gray-50">
                   <img
                     src={mod.image}
-                    alt={mod.title}
+                    alt={t(mod.titleKey)}
                     className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                     draggable={false}
                   />
@@ -294,11 +297,11 @@ export default function PreNursingPage() {
                     <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", mod.bg, mod.color)}>
                       <mod.icon className="w-4 h-4" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">{mod.title}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t(mod.titleKey)}</h3>
                   </div>
-                  <p className="text-sm text-gray-500 mb-3">{mod.subtitle}</p>
+                  <p className="text-sm text-gray-500 mb-3">{t(mod.subtitleKey)}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-400">{mod.lessons} interactive lessons</span>
+                    <span className="text-xs text-gray-400">{mod.lessons} {t("preNursing.interactiveLessons")}</span>
                     <ChevronRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </CardContent>
@@ -310,9 +313,9 @@ export default function PreNursingPage() {
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary/5 rounded-2xl border border-primary/10">
               <Target className="w-5 h-5 text-primary" />
               <span className="text-sm text-gray-700">
-                Ready for deeper clinical content?{" "}
+                {t("preNursing.readyForDeeper")}{" "}
                 <button onClick={() => setLocation("/pricing")} className="text-primary font-semibold hover:underline" data-testid="link-upgrade-pre-nursing">
-                  Explore study plans
+                  {t("preNursing.explorePlans")}
                 </button>
               </span>
             </div>

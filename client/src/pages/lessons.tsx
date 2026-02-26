@@ -2093,6 +2093,7 @@ function DifficultyBadge({ level }: { level: DifficultyLevel }) {
 }
 
 function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (id: string) => void, tier: string }) {
+  const { t } = useI18n();
   const systemImg = getSystemImage(system.id);
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden bg-white">
@@ -2100,7 +2101,7 @@ function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (
         <div className={cn("relative h-36 overflow-hidden", system.bgColor)}>
           <img
             src={systemImg}
-            alt={system.title}
+            alt={t(`lessons.sys.${system.id}`)}
             className="w-full h-full object-cover opacity-80"
             loading="lazy"
           />
@@ -2111,7 +2112,7 @@ function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (
         <div className={cn("p-3 rounded-xl bg-white shadow-sm", system.color)}>
           <system.icon className="w-6 h-6" />
         </div>
-        <CardTitle className="text-xl font-bold text-gray-900">{system.title}</CardTitle>
+        <CardTitle className="text-xl font-bold text-gray-900">{t(`lessons.sys.${system.id}`)}</CardTitle>
       </CardHeader>
       <CardContent className="pt-6">
         <div className="space-y-3">
@@ -2132,7 +2133,7 @@ function LessonSystemCard({ system, onSelect, tier }: { system: any, onSelect: (
                 <div className="flex items-center gap-3 min-w-0">
                   <BookOpen className={cn("w-5 h-5 shrink-0", disease.status === "Available" ? "text-primary" : "text-gray-400")} />
                   <span className="font-medium text-gray-900 truncate">
-                    {disease.name}
+                    {t(`lessons.lesson.${disease.id}`)}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0 ml-2">
