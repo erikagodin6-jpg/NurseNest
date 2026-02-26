@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n";
-import Home from "@/pages/home";
+const Home = lazy(() => import("@/pages/home"));
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import { usePageTracker } from "@/hooks/use-page-tracker";

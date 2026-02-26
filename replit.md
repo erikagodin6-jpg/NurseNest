@@ -32,7 +32,7 @@ Preferred communication style: Simple, everyday language.
 - **Frontend Build**: Vite with React plugin, route-based code splitting via React.lazy()
 - **State Management**: TanStack React Query for server state, React useState for local state
 - **Path Aliases**: `@/` (client), `@shared/` (shared), `@assets/` (attached assets)
-- **Backend**: Express 5 on Node.js with TypeScript
+- **Backend**: Express 5 on Node.js with TypeScript, gzip compression via `compression` middleware, security headers (HSTS, XFO, COOP, nosniff, Referrer-Policy, Permissions-Policy)
 - **API Pattern**: RESTful API with `/api` prefix
 - **Authentication**: Simple username/password auth, session in localStorage, admin authentication with server-side verification.
 - **Content Engine**: Admin-only editor (`/content-editor`) for structured content with block editor, tagging, SEO, and preview. Dynamic SEO-optimized pages at `/learn/:slug`.

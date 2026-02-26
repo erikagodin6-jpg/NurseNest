@@ -131,7 +131,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 px-4 sm:px-0">
                 <Button 
                   size="lg" 
-                  className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 text-white w-full sm:w-auto" 
+                  className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-[transform,box-shadow] hover:-translate-y-1 text-white w-full sm:w-auto" 
                   onClick={() => setLocation("/start-free")}
                   data-testid="button-hero-start-free"
                 >
@@ -208,7 +208,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-3 gap-5">
               <div
-                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
                 onClick={() => setLocation("/flashcards")}
                 data-testid="card-new-decks"
               >
@@ -223,7 +223,7 @@ export default function Home() {
               </div>
 
               <div
-                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
                 onClick={() => setLocation("/blog")}
                 data-testid="card-new-blog"
               >
@@ -238,7 +238,7 @@ export default function Home() {
               </div>
 
               <div
-                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="bg-white rounded-2xl border border-emerald-100 shadow-sm hover:shadow-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
                 onClick={() => setLocation("/lessons")}
                 data-testid="card-new-languages"
               >
@@ -279,7 +279,7 @@ export default function Home() {
                 { value: "9", label: t("home.stats.simulators"), icon: Gamepad2, color: "from-purple-500 to-violet-600" },
                 { value: "7", label: t("home.stats.modes"), icon: Layers, color: "from-amber-500 to-orange-600" },
               ].map((stat, i) => (
-                <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
+                <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
                   <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.color}`} />
                   <div className="mx-auto w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <stat.icon className="w-5 h-5 text-primary" />
@@ -294,7 +294,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
               {/* Mock Exams */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/mock-exams")}
                 data-testid="card-feature-mock-exams"
               >
@@ -313,7 +313,7 @@ export default function Home() {
 
               {/* Clinical Simulators */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/first-action-simulator")}
                 data-testid="card-feature-simulators"
               >
@@ -332,7 +332,7 @@ export default function Home() {
 
               {/* Question Bank */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/question-bank")}
                 data-testid="card-feature-question-bank"
               >
@@ -351,7 +351,7 @@ export default function Home() {
 
               {/* Flashcard Decks */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/flashcards")}
                 data-testid="card-feature-flashcards"
               >
@@ -372,7 +372,7 @@ export default function Home() {
 
               {/* Med Math & Lab Values */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/med-math")}
                 data-testid="card-feature-med-math"
               >
@@ -391,7 +391,7 @@ export default function Home() {
 
               {/* Video Lectures */}
               <div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => setLocation("/lectures")}
                 data-testid="card-feature-lectures"
               >
@@ -411,7 +411,7 @@ export default function Home() {
 
             {/* Secondary Features Strip */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/dashboard")} data-testid="card-feature-dashboard">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/dashboard")} data-testid="card-feature-dashboard">
                 <div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center shrink-0">
                   <LayoutDashboard className="w-5 h-5 text-sky-600" />
                 </div>
@@ -421,7 +421,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/reports")} data-testid="card-feature-analytics">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/reports")} data-testid="card-feature-analytics">
                 <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center shrink-0">
                   <BarChart3 className="w-5 h-5 text-orange-600" />
                 </div>
@@ -431,7 +431,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer" onClick={() => setLocation("/question-of-the-day")} data-testid="card-feature-qotd">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/question-of-the-day")} data-testid="card-feature-qotd">
                 <div className="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center shrink-0">
                   <MessageSquareQuote className="w-5 h-5 text-violet-600" />
                 </div>
@@ -441,7 +441,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all cursor-pointer relative overflow-hidden" onClick={() => setLocation("/blog")} data-testid="card-feature-blog">
+              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden" onClick={() => setLocation("/blog")} data-testid="card-feature-blog">
                 <div className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-1.5 py-0.5 rounded-full">{t("home.new.label")}</div>
                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center shrink-0">
                   <Newspaper className="w-5 h-5 text-teal-600" />
@@ -498,7 +498,7 @@ export default function Home() {
             <div className="text-center mt-10">
               <Button
                 size="lg"
-                className="h-14 px-10 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-all hover:-translate-y-1"
+                className="h-14 px-10 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-[transform,box-shadow] hover:-translate-y-1"
                 onClick={() => setLocation("/start-free")}
                 data-testid="button-features-start-free"
               >
@@ -524,7 +524,7 @@ export default function Home() {
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => setLocation("/pre-nursing")} data-testid="card-free-pre-nursing">
+              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => setLocation("/pre-nursing")} data-testid="card-free-pre-nursing">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <GraduationCap className="w-6 h-6 text-primary" />
@@ -535,7 +535,7 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => setLocation("/anatomy")} data-testid="card-free-anatomy">
+              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => setLocation("/anatomy")} data-testid="card-free-anatomy">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <HeartPulse className="w-6 h-6 text-primary" />
@@ -546,7 +546,7 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => setLocation("/clinical-clarity")} data-testid="card-free-clinical-clarity">
+              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => setLocation("/clinical-clarity")} data-testid="card-free-clinical-clarity">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Lightbulb className="w-6 h-6 text-primary" />
@@ -593,7 +593,7 @@ export default function Home() {
                 { icon: Stethoscope, title: t("home.study.cases"), desc: t("home.study.casesDesc"), color: "bg-teal-50 text-teal-600" },
                 { icon: GraduationCap, title: t("home.study.patho"), desc: t("home.study.pathoDesc"), color: "bg-amber-50 text-amber-600" },
               ].map((topic, i) => (
-                <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" onClick={() => setLocation("/lessons")} data-testid={`card-topic-${i}`}>
+                <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" onClick={() => setLocation("/lessons")} data-testid={`card-topic-${i}`}>
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 ${topic.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                       <topic.icon className="w-6 h-6" />
@@ -687,7 +687,7 @@ export default function Home() {
                 { icon: BarChart3, title: t("home.why.analytics"), desc: t("home.why.analyticsDesc") },
                 { icon: Zap, title: t("home.why.noFiller"), desc: t("home.why.noFillerDesc") },
               ].map((feature, i) => (
-                <div key={i} className="bg-gray-50/80 rounded-2xl p-8 hover:shadow-md transition-all duration-300 border border-gray-100" data-testid={`card-feature-${i}`}>
+                <div key={i} className="bg-gray-50/80 rounded-2xl p-8 hover:shadow-md transition-shadow duration-300 border border-gray-100" data-testid={`card-feature-${i}`}>
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-5">
                     <feature.icon className="w-6 h-6 text-primary" />
                   </div>
@@ -856,7 +856,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button 
                 size="lg" 
-                className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-all hover:-translate-y-1" 
+                className="h-14 px-8 text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-[transform,box-shadow] hover:-translate-y-1" 
                 onClick={() => setLocation("/start-free")}
                 data-testid="button-cta-start"
               >
