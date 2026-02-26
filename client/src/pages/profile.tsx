@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
-import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers } from "lucide-react";
+import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail } from "lucide-react";
 import { contentMap } from "@/data/lessons";
 
 export default function ProfilePage() {
@@ -27,6 +27,20 @@ export default function ProfilePage() {
   const [studyMode, setStudyMode] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [emailSub, setEmailSub] = useState<any>(null);
+  const [emailSubLoading, setEmailSubLoading] = useState(true);
+  const [emailSubFreq, setEmailSubFreq] = useState("weekly");
+  const [emailSubSaving, setEmailSubSaving] = useState(false);
+
+  const FREQ_OPTIONS = [
+    { value: "daily", label: "Once a day" },
+    { value: "every_other_day", label: "Every other day" },
+    { value: "twice_week", label: "Twice a week" },
+    { value: "3x_week", label: "3 times a week" },
+    { value: "weekly", label: "Once a week" },
+    { value: "biweekly", label: "Every two weeks" },
+    { value: "monthly", label: "Once a month" },
+  ];
 
   useEffect(() => {
     if (!user) {
@@ -43,6 +57,20 @@ export default function ProfilePage() {
       .then(setFlashcards)
       .catch(() => {})
       .finally(() => setFlashcardsLoading(false));
+    if (user.email) {
+      fetch(`/api/subscribe/${encodeURIComponent(user.email)}`)
+        .then((r) => r.ok ? r.json() : null)
+        .then((data) => {
+          if (data) {
+            setEmailSub(data);
+            setEmailSubFreq(data.frequency || "weekly");
+          }
+        })
+        .catch(() => {})
+        .finally(() => setEmailSubLoading(false));
+    } else {
+      setEmailSubLoading(false);
+    }
   }, [user]);
 
   async function handleCreateFlashcard() {
@@ -111,6 +139,41 @@ export default function ProfilePage() {
     toast({ title: "Note deleted" });
   }
 
+  async function handleUpdateEmailFrequency() {
+    if (!user?.email || !emailSub) return;
+    setEmailSubSaving(true);
+    try {
+      const res = await fetch(`/api/subscribe/${encodeURIComponent(user.email)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ frequency: emailSubFreq }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setEmailSub(data.subscriber);
+        toast({ title: "Email preferences updated" });
+      }
+    } catch {
+      toast({ title: "Failed to update preferences", variant: "destructive" });
+    } finally {
+      setEmailSubSaving(false);
+    }
+  }
+
+  async function handleUnsubscribeEmail() {
+    if (!user?.email) return;
+    setEmailSubSaving(true);
+    try {
+      await fetch(`/api/subscribe/${encodeURIComponent(user.email)}`, { method: "DELETE" });
+      setEmailSub(null);
+      toast({ title: "Unsubscribed from practice questions" });
+    } catch {
+      toast({ title: "Failed to unsubscribe", variant: "destructive" });
+    } finally {
+      setEmailSubSaving(false);
+    }
+  }
+
   function handleManageSubscription() {
     if (!user) return;
     fetch("/api/stripe/portal", {
@@ -173,6 +236,62 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         </div>
+
+        <Card className="border-none shadow-sm" data-testid="card-email-subscription">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Mail className="w-5 h-5 text-primary" /> Practice Question Emails
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {emailSubLoading ? (
+              <p className="text-gray-500 text-sm">Loading...</p>
+            ) : !user?.email ? (
+              <p className="text-gray-500 text-sm">Add an email to your account to subscribe to practice question emails.</p>
+            ) : !emailSub ? (
+              <p className="text-gray-500 text-sm">You are not subscribed to practice question emails. Subscribe from the homepage to get started.</p>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-sm text-gray-600">
+                  Subscribed as <strong>{emailSub.email}</strong>
+                </p>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <label className="text-sm text-gray-500">Delivery frequency:</label>
+                  <select
+                    value={emailSubFreq}
+                    onChange={(e) => setEmailSubFreq(e.target.value)}
+                    className="h-9 px-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                    data-testid="select-profile-frequency"
+                  >
+                    {FREQ_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                  <Button
+                    size="sm"
+                    onClick={handleUpdateEmailFrequency}
+                    disabled={emailSubSaving || emailSubFreq === emailSub.frequency}
+                    data-testid="button-update-frequency"
+                  >
+                    {emailSubSaving ? "Saving..." : "Save"}
+                  </Button>
+                </div>
+                <div className="pt-2 border-t">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                    onClick={handleUnsubscribeEmail}
+                    disabled={emailSubSaving}
+                    data-testid="button-unsubscribe-email"
+                  >
+                    Unsubscribe from practice question emails
+                  </Button>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         <Card className="border-none shadow-sm">
           <CardHeader>

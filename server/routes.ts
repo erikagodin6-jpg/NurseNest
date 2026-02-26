@@ -2727,14 +2727,15 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
   // --------------------
   // Email Subscribers
   // --------------------
+  const VALID_FREQUENCIES = ["daily", "twice_daily", "3x_daily", "every_other_day", "twice_week", "3x_week", "weekly", "biweekly", "monthly"];
+
   app.post("/api/subscribe", async (req, res) => {
     try {
       const { email, tier, source, frequency } = req.body;
       if (!email || !email.includes("@")) {
         return res.status(400).json({ error: "Valid email required" });
       }
-      const validFrequencies = ["daily", "3x_week", "weekly", "biweekly", "monthly"];
-      const freq = validFrequencies.includes(frequency) ? frequency : "weekly";
+      const freq = VALID_FREQUENCIES.includes(frequency) ? frequency : "weekly";
       const existing = await storage.getEmailSubscriberByEmail(email.toLowerCase().trim());
       if (existing) {
         return res.json({ message: "Already subscribed", subscriber: existing });
@@ -2742,11 +2743,48 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const subscriber = await storage.createEmailSubscriber({
         email: email.toLowerCase().trim(),
         tier: tier || "general",
-        source: source || "qotd",
+        source: source || "homepage",
         verified: false,
         frequency: freq,
       });
       res.json({ message: "Subscribed successfully", subscriber });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/subscribe/:email", async (req, res) => {
+    try {
+      const subscriber = await storage.getEmailSubscriberByEmail(req.params.email.toLowerCase().trim());
+      if (!subscriber) {
+        return res.status(404).json({ error: "Not subscribed" });
+      }
+      res.json(subscriber);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/subscribe/:email", async (req, res) => {
+    try {
+      const { frequency } = req.body;
+      if (frequency && !VALID_FREQUENCIES.includes(frequency)) {
+        return res.status(400).json({ error: "Invalid frequency" });
+      }
+      const updated = await storage.updateEmailSubscriber(req.params.email.toLowerCase().trim(), { frequency });
+      if (!updated) {
+        return res.status(404).json({ error: "Not subscribed" });
+      }
+      res.json({ message: "Subscription updated", subscriber: updated });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/subscribe/:email", async (req, res) => {
+    try {
+      await storage.deleteEmailSubscriber(req.params.email.toLowerCase().trim());
+      res.json({ message: "Unsubscribed successfully" });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

@@ -74,6 +74,7 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const { t } = useI18n();
   const [email, setEmail] = useState("");
+  const [emailFrequency, setEmailFrequency] = useState("weekly");
   const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [emailMessage, setEmailMessage] = useState("");
   const [region, setRegion] = useState<"US" | "CA">(() => {
@@ -101,7 +102,7 @@ export default function Home() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: trimmed }),
+        body: JSON.stringify({ email: trimmed, frequency: emailFrequency }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -795,6 +796,33 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="bg-gradient-to-br from-indigo-50 to-primary/5 rounded-2xl border border-primary/10 shadow-sm p-8 max-w-3xl mx-auto" data-testid="card-flashcard-user-created">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-primary" aria-hidden="true" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900" data-testid="text-flashcard-user-created-heading">
+                  {t("home.flashcardTrust.userCreated.heading")}
+                </h3>
+              </div>
+              <p className="text-sm text-gray-600 leading-relaxed mb-5" data-testid="text-flashcard-user-created-desc">
+                {t("home.flashcardTrust.userCreated.desc")}
+              </p>
+              <ul className="space-y-3">
+                {[
+                  t("home.flashcardTrust.userCreated.benefit1"),
+                  t("home.flashcardTrust.userCreated.benefit2"),
+                  t("home.flashcardTrust.userCreated.benefit3"),
+                  t("home.flashcardTrust.userCreated.benefit4"),
+                ].map((text, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`text-flashcard-user-benefit-${i}`}>
+                    <CircleCheck className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
+                    <span>{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-3xl mx-auto text-center" data-testid="card-flashcard-trust-cta">
               <ShieldCheck className="w-10 h-10 text-primary mx-auto mb-4" aria-hidden="true" />
               <h3 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-flashcard-trust-cta">
@@ -951,16 +979,33 @@ export default function Home() {
                 </div>
               ) : (
                 <>
-                  <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                  <div className="flex flex-col gap-3 max-w-md mx-auto">
                     <input 
                       type="email"
                       value={email}
                       onChange={(e) => { setEmail(e.target.value); if (emailStatus === "error") setEmailStatus("idle"); }}
                       onKeyDown={(e) => { if (e.key === "Enter") handleEmailSubscribe(); }}
                       placeholder={t("home.email.placeholder")} 
-                      className="flex-1 h-12 px-4 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                      className="h-12 px-4 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
                       data-testid="input-email"
                     />
+                    <div className="flex items-center gap-2 justify-center">
+                      <label className="text-sm text-gray-500">{t("home.email.frequencyLabel")}</label>
+                      <select
+                        value={emailFrequency}
+                        onChange={(e) => setEmailFrequency(e.target.value)}
+                        className="h-10 px-3 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                        data-testid="select-frequency"
+                      >
+                        <option value="daily">{t("home.email.freq.daily")}</option>
+                        <option value="every_other_day">{t("home.email.freq.everyOtherDay")}</option>
+                        <option value="twice_week">{t("home.email.freq.twiceWeek")}</option>
+                        <option value="3x_week">{t("home.email.freq.threeWeek")}</option>
+                        <option value="weekly">{t("home.email.freq.weekly")}</option>
+                        <option value="biweekly">{t("home.email.freq.biweekly")}</option>
+                        <option value="monthly">{t("home.email.freq.monthly")}</option>
+                      </select>
+                    </div>
                     <Button 
                       className="h-12 px-6 rounded-full bg-primary hover:brightness-110 text-white shadow-sm" 
                       data-testid="button-subscribe"

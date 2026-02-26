@@ -55,6 +55,8 @@ export interface IStorage {
   getRecentQotd(limit?: number): Promise<QotdHistory[]>;
   createEmailSubscriber(data: InsertEmailSubscriber): Promise<EmailSubscriber>;
   getEmailSubscriberByEmail(email: string): Promise<EmailSubscriber | undefined>;
+  updateEmailSubscriber(email: string, updates: Partial<InsertEmailSubscriber>): Promise<EmailSubscriber | undefined>;
+  deleteEmailSubscriber(email: string): Promise<void>;
   getAllSocialPosts(): Promise<SocialPost[]>;
   getScheduledSocialPosts(): Promise<SocialPost[]>;
   getSocialPost(id: string): Promise<SocialPost | undefined>;
@@ -505,6 +507,15 @@ export class DatabaseStorage implements IStorage {
   async getEmailSubscriberByEmail(email: string): Promise<EmailSubscriber | undefined> {
     const [row] = await db.select().from(emailSubscribers).where(eq(emailSubscribers.email, email));
     return row;
+  }
+
+  async updateEmailSubscriber(email: string, updates: Partial<InsertEmailSubscriber>): Promise<EmailSubscriber | undefined> {
+    const [updated] = await db.update(emailSubscribers).set(updates).where(eq(emailSubscribers.email, email)).returning();
+    return updated;
+  }
+
+  async deleteEmailSubscriber(email: string): Promise<void> {
+    await db.delete(emailSubscribers).where(eq(emailSubscribers.email, email));
   }
 
   async getAllSocialPosts(): Promise<SocialPost[]> {
