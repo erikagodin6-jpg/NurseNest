@@ -1,0 +1,73 @@
+You are a senior full-stack engineer. Debug and fix my inline lesson editor publish flow.
+
+Problem:
+- I have an inline editor on my Lessons page.
+- I enter content, click Publish, then go back to the Lessons main page and click the lesson I just published.
+- Instead of showing the saved lesson, it opens the editor again and the content is not saved.
+Goal:
+- When I click Publish, the lesson must be persisted to the database, reflected immediately on the lesson detail page, and the UI must not route me back to the editor unless I explicitly click Edit.
+- If the lesson is “missing” before publish, publish should create it (upsert), set status to published, and route to the lesson view page.
+
+Tasks:
+1) Reproduce + identify root cause
+- Add console logs and server logs around publish click, request payload, API response, and router navigation.
+- Confirm whether the publish request is firing, whether it returns success, and whether the response contains the updated lesson id/slug/status.
+- Confirm whether the lesson detail page decides to show editor based on a “missing content / draft / empty body / not found” condition that is incorrectly evaluating true after publish.
+- Confirm if there is a caching issue (stale state, SWR/React Query cache not invalidated, Next.js route cache, or a local state overwrite).
+
+2) Fix the persistence layer (must save reliably)
+- Ensure the publish API route uses the correct method (POST/PUT/PATCH) and awaits DB write before returning.
+- Validate payload server-side (title, slug/lessonId, body/content, summary, status).
+- Implement an UPSERT:
+  - If lessonId exists: update.
+  - If lessonId missing but slug/unique key exists: update or create.
+  - If neither exists: create new and return id + slug.
+- Return a clear JSON response:
+  { success: true, lesson: { id, slug, title, body, status, updatedAt } }
+- Add proper error handling and surface errors to the client UI.
+
+3) Fix client state + navigation after publish
+- On Publish button click:
+  - Disable button while saving (prevent double submit).
+  - Call publish endpoint with the current editor content.
+  - On success:
+    - Update local state with returned lesson fields (especially id/slug/status/body).
+    - Invalidate/refetch lessons list query and lesson detail query (React Query/SWR).
+    - Navigate to the lesson VIEW route (not editor route), e.g. /lessons/[slug] or /lessons/[id]
+- Ensure lesson detail page does NOT automatically open editor when body is present.
+- If you currently route to editor when content is empty:
+  - Only do that when lesson truly does not exist (404) OR user explicitly chose “Edit”.
+  - If lesson exists but draft/empty, show a “Draft” view with an Edit button instead of forcing editor route.
+
+4) Confirm routing logic
+- Audit routes:
+  - /lessons (list)
+  - /lessons/[slug] (view)
+  - /lessons/[slug]/edit (edit) OR inline editor within view
+- Ensure Publish never routes to /edit by default.
+- Ensure the “click lesson from list” goes to the view route, not editor route.
+- If you intentionally have inline editing, use a query param like ?edit=true and default is false.
+
+5) Data model consistency checks
+- Confirm the lesson unique identifier is consistent across create, update, fetch:
+  - slug uniqueness, or id.
+- Verify the publish call includes the identifier used by the fetch call.
+Common bug: you publish to id but list/detail fetch uses slug (or vice versa), so it looks like it didn’t save.
+
+6) Deliverables
+- Show me the root cause you found (exact file + lines).
+- Provide the code changes:
+  - API route/controller and DB call
+  - Client publish handler
+  - Any query invalidation/refetch logic
+  - Routing fixes for list click + detail render conditions
+- Add a small regression test plan:
+  - Create new lesson -> publish -> open from list -> shows saved content
+  - Edit existing lesson -> publish -> refresh -> content persists
+  - Network failure -> error toast and no navigation
+  - Draft lesson -> view shows draft state without forced editor
+Tech context assumptions:
+- If using Next.js, tell me whether this is pages router or app router and adjust accordingly.
+- If using React Query/SWR, use correct invalidation patterns.
+- If using Prisma/SQL, implement upsert properly and await it.
+Proceed now: inspect the code paths for publish, lesson fetching, and route decision logic, then implement the fixes.
