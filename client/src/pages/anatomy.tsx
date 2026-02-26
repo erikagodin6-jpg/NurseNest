@@ -331,30 +331,55 @@ function AnatomySystemEditor({
     }
   };
 
+  const IconComponent = system.icon;
+
   return (
-    <div className="space-y-4 border-2 border-purple-200 rounded-xl p-4 bg-purple-50/30" data-testid={`editor-anatomy-${system.id}`}>
-      <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
-        <Pencil className="w-4 h-4" />
-        Editing: {system.name}
+    <div className="space-y-6" data-testid={`editor-anatomy-${system.id}`}>
+      <div className="sticky top-0 z-20 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-2 text-amber-800 font-medium text-sm">
+          <Pencil className="w-4 h-4" />
+          Editing: {system.name}
+        </div>
+        <div className="flex gap-2">
+          <Button size="sm" onClick={handleSave} disabled={saving} className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid={`button-save-anatomy-${system.id}`}>
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            Save Changes
+          </Button>
+        </div>
       </div>
-      <div className="space-y-3">
-        <div>
-          <label className="text-xs font-medium text-gray-600">System Name</label>
-          <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="mt-1" data-testid={`input-anatomy-name-${system.id}`} />
+
+      <div className="flex items-center gap-3">
+        <div className={`w-10 h-10 rounded-xl ${system.bgAccent} flex items-center justify-center`}>
+          <IconComponent className={`w-5 h-5 ${system.color}`} />
         </div>
-        <div>
-          <label className="text-xs font-medium text-gray-600">Description</label>
-          <Input value={editDesc} onChange={(e) => setEditDesc(e.target.value)} className="mt-1" data-testid={`input-anatomy-desc-${system.id}`} />
+        <div className="flex-1">
+          <Input
+            value={editName}
+            onChange={(e) => setEditName(e.target.value)}
+            className="text-lg font-bold border-none shadow-none p-0 focus-visible:ring-0 h-auto"
+            placeholder="System name..."
+            data-testid={`input-anatomy-name-${system.id}`}
+          />
+          <Input
+            value={editDesc}
+            onChange={(e) => setEditDesc(e.target.value)}
+            className="text-sm text-gray-500 border-none shadow-none p-0 focus-visible:ring-0 h-auto mt-1"
+            placeholder="Short description..."
+            data-testid={`input-anatomy-desc-${system.id}`}
+          />
         </div>
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="text-xs font-medium text-gray-600">Content Paragraphs ({editContent.length})</label>
-            <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-paragraph-${system.id}`}>
-              <Plus className="w-3 h-3" /> Add Paragraph
-            </Button>
-          </div>
-          {editContent.map((p, idx) => (
-            <div key={idx} className="flex gap-2 mb-2">
+      </div>
+
+      <div className={`border-t ${system.borderColor} pt-4 space-y-4`}>
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Content Paragraphs</p>
+          <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-paragraph-${system.id}`}>
+            <Plus className="w-3 h-3" /> Add Paragraph
+          </Button>
+        </div>
+        {editContent.map((p, idx) => (
+          <div key={idx} className="relative group">
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
               <textarea
                 value={p}
                 onChange={(e) => {
@@ -362,41 +387,43 @@ function AnatomySystemEditor({
                   updated[idx] = e.target.value;
                   setEditContent(updated);
                 }}
-                className="flex-1 text-sm p-3 border rounded-lg min-h-[100px] resize-y focus:ring-2 focus:ring-purple-300 focus:border-purple-400"
+                className="w-full text-sm p-5 min-h-[120px] resize-y text-gray-700 leading-relaxed border-none focus:ring-0 focus:outline-none"
+                placeholder="Enter educational content..."
                 data-testid={`textarea-anatomy-paragraph-${system.id}-${idx}`}
               />
-              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 shrink-0 mt-1" onClick={() => setEditContent(editContent.filter((_, i) => i !== idx))} data-testid={`button-remove-paragraph-${system.id}-${idx}`}>
-                <Trash2 className="w-4 h-4" />
-              </Button>
             </div>
-          ))}
-        </div>
-        <div className="border border-purple-200 rounded-lg p-3 bg-white space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">
-            <Wand2 className="w-3.5 h-3.5" />
-            AI Content Generation
-          </div>
-          <div className="flex gap-2">
-            <Input
-              value={aiPrompt}
-              onChange={(e) => setAiPrompt(e.target.value)}
-              placeholder="e.g. Generate comprehensive content about the cardiovascular system..."
-              className="text-sm"
-              onKeyDown={(e) => { if (e.key === "Enter") generateWithAI(); }}
-              data-testid={`input-ai-prompt-anatomy-${system.id}`}
-            />
-            <Button size="sm" className="gap-1 bg-purple-600 hover:bg-purple-700 shrink-0" onClick={generateWithAI} disabled={aiLoading} data-testid={`button-ai-generate-anatomy-${system.id}`}>
-              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-              Generate
+            <Button
+              size="sm"
+              variant="ghost"
+              className="absolute top-2 right-2 h-7 w-7 p-0 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={() => setEditContent(editContent.filter((_, i) => i !== idx))}
+              data-testid={`button-remove-paragraph-${system.id}-${idx}`}
+            >
+              <Trash2 className="w-3.5 h-3.5" />
             </Button>
           </div>
-        </div>
+        ))}
       </div>
-      <div className="flex justify-end">
-        <Button size="sm" onClick={handleSave} disabled={saving} className="gap-1" data-testid={`button-save-anatomy-${system.id}`}>
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          Save Changes
-        </Button>
+
+      <div className="bg-purple-50/60 border border-purple-100 rounded-xl p-4 space-y-3">
+        <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+          <Sparkles className="w-4 h-4" />
+          AI Content Generation
+        </div>
+        <div className="flex gap-2">
+          <Input
+            value={aiPrompt}
+            onChange={(e) => setAiPrompt(e.target.value)}
+            placeholder="e.g. Generate comprehensive content about the cardiovascular system..."
+            className="text-sm bg-white"
+            onKeyDown={(e) => { if (e.key === "Enter") generateWithAI(); }}
+            data-testid={`input-ai-prompt-anatomy-${system.id}`}
+          />
+          <Button size="sm" className="gap-1 bg-purple-600 hover:bg-purple-700 shrink-0" onClick={generateWithAI} disabled={aiLoading} data-testid={`button-ai-generate-anatomy-${system.id}`}>
+            {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+            Generate
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -446,72 +446,120 @@ function PreNursingModuleEditor({
   };
 
   return (
-    <div className="space-y-4 border-2 border-purple-200 rounded-xl p-4 bg-purple-50/30 mb-6" data-testid={`editor-prenursing-${moduleId}`}>
-      <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
-        <Pencil className="w-4 h-4" />
-        Admin Inline Editor: {moduleName}
+    <div className="space-y-6 mb-8" data-testid={`editor-prenursing-${moduleId}`}>
+      <div className="sticky top-0 z-20 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-2 text-amber-800 font-medium text-sm">
+          <Pencil className="w-4 h-4" />
+          Editing: {moduleName}
+        </div>
+        <div className="flex gap-2">
+          <Button size="sm" onClick={handleSave} disabled={saving} className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid={`button-save-prenursing-${moduleId}`}>
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            Save Changes
+          </Button>
+        </div>
       </div>
-      <div className="space-y-3">
-        <div>
-          <label className="text-xs font-medium text-gray-600">Override Title (leave empty to keep default)</label>
-          <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder={moduleName} className="mt-1" data-testid={`input-prenursing-title-${moduleId}`} />
-        </div>
-        <div>
-          <label className="text-xs font-medium text-gray-600">Override Description</label>
-          <Input value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Custom module description..." className="mt-1" data-testid={`input-prenursing-desc-${moduleId}`} />
-        </div>
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="text-xs font-medium text-gray-600">Supplemental Content Paragraphs ({editContent.length})</label>
-            <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-content-${moduleId}`}>
-              <Plus className="w-3 h-3" /> Add Paragraph
-            </Button>
+
+      <section className="space-y-4">
+        <div className="flex items-center gap-3 text-xl font-bold text-gray-900">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <BookOpen className="w-5 h-5 text-primary" />
           </div>
-          {editContent.map((p, idx) => (
-            <div key={idx} className="flex gap-2 mb-2">
-              <textarea
-                value={p}
-                onChange={(e) => {
-                  const updated = [...editContent];
-                  updated[idx] = e.target.value;
-                  setEditContent(updated);
-                }}
-                className="flex-1 text-sm p-3 border rounded-lg min-h-[80px] resize-y focus:ring-2 focus:ring-purple-300 focus:border-purple-400"
-                placeholder="Educational content paragraph..."
-                data-testid={`textarea-prenursing-content-${moduleId}-${idx}`}
+          <h2>Module Details</h2>
+        </div>
+        <Card className="border-none shadow-sm bg-blue-50/40">
+          <CardContent className="p-6 space-y-4">
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Title Override</p>
+              <Input
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                placeholder={moduleName}
+                className="bg-white"
+                data-testid={`input-prenursing-title-${moduleId}`}
               />
-              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 shrink-0 mt-1" onClick={() => setEditContent(editContent.filter((_, i) => i !== idx))} data-testid={`button-remove-content-${moduleId}-${idx}`}>
-                <Trash2 className="w-4 h-4" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Description Override</p>
+              <Input
+                value={editDesc}
+                onChange={(e) => setEditDesc(e.target.value)}
+                placeholder="Custom module description..."
+                className="bg-white"
+                data-testid={`input-prenursing-desc-${moduleId}`}
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-xl font-bold text-gray-900">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-emerald-600" />
+            </div>
+            <h2>Supplemental Content</h2>
+          </div>
+          <Button size="sm" variant="outline" className="h-8 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-content-${moduleId}`}>
+            <Plus className="w-3 h-3" /> Add Paragraph
+          </Button>
+        </div>
+        <p className="text-sm text-gray-500">Additional educational content paragraphs displayed below the module</p>
+        <div className="space-y-4">
+          {editContent.map((p, idx) => (
+            <div key={idx} className="relative group">
+              <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <textarea
+                  value={p}
+                  onChange={(e) => {
+                    const updated = [...editContent];
+                    updated[idx] = e.target.value;
+                    setEditContent(updated);
+                  }}
+                  className="w-full text-sm p-5 min-h-[100px] resize-y text-gray-700 leading-relaxed border-none focus:ring-0 focus:outline-none"
+                  placeholder="Educational content paragraph..."
+                  data-testid={`textarea-prenursing-content-${moduleId}-${idx}`}
+                />
+              </div>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="absolute top-2 right-2 h-7 w-7 p-0 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={() => setEditContent(editContent.filter((_, i) => i !== idx))}
+                data-testid={`button-remove-content-${moduleId}-${idx}`}
+              >
+                <Trash2 className="w-3.5 h-3.5" />
               </Button>
             </div>
           ))}
+          {editContent.length === 0 && (
+            <div className="bg-white rounded-xl border border-dashed border-gray-200 p-8 text-center">
+              <p className="text-sm text-gray-400">No supplemental content yet. Click "Add Paragraph" to create.</p>
+            </div>
+          )}
         </div>
-        <div className="border border-purple-200 rounded-lg p-3 bg-white space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">
-            <Wand2 className="w-3.5 h-3.5" />
-            AI Content Generation
-          </div>
-          <div className="flex gap-2">
-            <Input
-              value={aiPrompt}
-              onChange={(e) => setAiPrompt(e.target.value)}
-              placeholder="e.g. Generate comprehensive content about cell biology for pre-nursing..."
-              className="text-sm"
-              onKeyDown={(e) => { if (e.key === "Enter") generateWithAI(); }}
-              data-testid={`input-ai-prompt-prenursing-${moduleId}`}
-            />
-            <Button size="sm" className="gap-1 bg-purple-600 hover:bg-purple-700 shrink-0" onClick={generateWithAI} disabled={aiLoading} data-testid={`button-ai-generate-prenursing-${moduleId}`}>
-              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-              Generate
-            </Button>
-          </div>
+      </section>
+
+      <div className="bg-purple-50/60 border border-purple-100 rounded-xl p-4 space-y-3">
+        <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+          <Sparkles className="w-4 h-4" />
+          AI Content Generation
         </div>
-      </div>
-      <div className="flex justify-end">
-        <Button size="sm" onClick={handleSave} disabled={saving} className="gap-1" data-testid={`button-save-prenursing-${moduleId}`}>
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          Save Changes
-        </Button>
+        <div className="flex gap-2">
+          <Input
+            value={aiPrompt}
+            onChange={(e) => setAiPrompt(e.target.value)}
+            placeholder="e.g. Generate comprehensive content about cell biology for pre-nursing..."
+            className="text-sm bg-white"
+            onKeyDown={(e) => { if (e.key === "Enter") generateWithAI(); }}
+            data-testid={`input-ai-prompt-prenursing-${moduleId}`}
+          />
+          <Button size="sm" className="gap-1 bg-purple-600 hover:bg-purple-700 shrink-0" onClick={generateWithAI} disabled={aiLoading} data-testid={`button-ai-generate-prenursing-${moduleId}`}>
+            {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+            Generate
+          </Button>
+        </div>
       </div>
     </div>
   );
