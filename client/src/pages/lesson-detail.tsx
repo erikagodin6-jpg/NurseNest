@@ -1907,9 +1907,11 @@ export default function LessonDetail() {
                       <h2>Pathophysiology</h2>
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
-                    <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700">
-                      <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: pathophysiologyText }} />
-                    </div>
+                    <Card className="border-none shadow-sm bg-violet-50/50">
+                      <CardContent className="p-8 leading-relaxed text-gray-700">
+                        <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: pathophysiologyText }} />
+                      </CardContent>
+                    </Card>
                   </section>
                 )}
 
@@ -2739,13 +2741,15 @@ export default function LessonDetail() {
                     <SectionAIButton section="pathophysiology" label="Pathophysiology" />
                   </div>
                   <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
-                  <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 leading-relaxed text-gray-700">
+                  <Card className="border-none shadow-sm bg-violet-50/50">
+                    <CardContent className="p-8 leading-relaxed text-gray-700">
                     {ed ? (
                       <EditableText value={ed.cellular.content} onChange={(v) => setEditData({ ...ed, cellular: { ...ed.cellular, content: v } })} multiline className="min-h-[200px]" />
                     ) : (
                       <div className="whitespace-pre-wrap"><RichTextDisplay html={lessonContent.cellular.content} /></div>
                     )}
-                  </div>
+                    </CardContent>
+                  </Card>
                   {id && (
                     <LessonImageManager
                       lessonId={id}
