@@ -57,11 +57,11 @@ export function usePageTracker() {
         if (duration > 1) {
           navigator.sendBeacon(
             "/api/track/duration",
-            JSON.stringify({
+            new Blob([JSON.stringify({
               sessionId: getSessionId(),
               page: lastPageRef.current,
               duration,
-            })
+            })], { type: "application/json" })
           );
         }
       }
@@ -118,11 +118,11 @@ export function usePageTracker() {
         if (duration > 1) {
           navigator.sendBeacon(
             "/api/track/duration",
-            JSON.stringify({
+            new Blob([JSON.stringify({
               sessionId: getSessionId(),
               page: lastPageRef.current,
               duration,
-            })
+            })], { type: "application/json" })
           );
         }
       }

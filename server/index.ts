@@ -295,10 +295,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     return next();
   }
 
-  const restPath = urlPath === "/" ? "" : urlPath;
-  const query = req.originalUrl.includes("?") ? req.originalUrl.substring(req.originalUrl.indexOf("?")) : "";
-  const statusCode = process.env.NODE_ENV === "production" ? 301 : 302;
-  return res.redirect(statusCode, `/en${restPath}${query}`);
+  if (process.env.NODE_ENV === "production") {
+    const restPath = urlPath === "/" ? "" : urlPath;
+    const query = req.originalUrl.includes("?") ? req.originalUrl.substring(req.originalUrl.indexOf("?")) : "";
+    return res.redirect(301, `/en${restPath}${query}`);
+  }
+
+  return next();
 });
 
 // -------------------------
