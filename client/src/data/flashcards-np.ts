@@ -1137,4 +1137,941 @@ export const npFlashcards: FlashcardData[] = [
     category: "Health Policy",
     difficulty: 2
   },
+  {
+    id: "np-policy-q4",
+    type: "question",
+    question: "An NP is advocating for scope of practice expansion in a restricted practice state. Which organization's position statement best supports removal of collaborative agreement requirements?",
+    options: ["The AMA recommends expanded NP independence", "The National Academy of Medicine (formerly IOM) recommends NPs practice to the full extent of their education and training", "The Joint Commission requires physician oversight of all NPs", "CMS mandates collaborative agreements in all states"],
+    correctIndex: 1,
+    answer: "The National Academy of Medicine's 2010 landmark report 'The Future of Nursing' recommended that NPs should practice to the full extent of their education and training. This was reaffirmed in the 2021 follow-up report. The FTC has also advocated against unnecessary practice restrictions as anticompetitive. These positions support legislative efforts to remove collaborative agreement requirements.",
+    category: "Health Policy",
+    difficulty: 2
+  },
+  {
+    id: "np-policy-q5",
+    type: "question",
+    question: "An NP receives a subpoena for a patient's medical records. What is the appropriate first action?",
+    options: ["Immediately release all records to comply with the subpoena", "Contact the practice's legal counsel before releasing any records", "Ignore the subpoena since it violates HIPAA", "Ask the patient to sign a release form"],
+    correctIndex: 1,
+    answer: "Upon receiving a subpoena, the NP should first contact legal counsel. A subpoena alone may not be sufficient to release records under HIPAA; a court order or patient authorization may also be required. The NP should verify the subpoena's validity, determine if a qualified protective order is needed, and ensure compliance with both federal (HIPAA) and state privacy laws before releasing any information.",
+    category: "Health Policy",
+    difficulty: 2
+  },
+  {
+    id: "np-policy-q6",
+    type: "question",
+    question: "An NP is billing Medicare for a comprehensive visit. Under current CMS guidelines, which statement about NP reimbursement is accurate?",
+    options: ["NPs are reimbursed at 100% of the physician fee schedule", "NPs are reimbursed at 85% of the physician fee schedule when billing independently", "NPs cannot bill Medicare directly", "NPs are reimbursed at 50% of the physician fee schedule"],
+    correctIndex: 1,
+    answer: "Medicare reimburses NPs at 85% of the physician fee schedule when billing under their own NPI. When billing 'incident to' a physician, reimbursement is at 100% but requires the physician to be present in the office suite and to have initiated the plan of care. Understanding billing nuances is essential for NP practice viability and revenue optimization.",
+    category: "Health Policy",
+    difficulty: 1
+  },
+  // ============================================================
+  // CARDIOLOGY NP (12 cards)
+  // ============================================================
+  {
+    id: "np-cardio-q1",
+    type: "question",
+    question: "A 58-year-old patient with newly diagnosed HFrEF (EF 25%) and NYHA Class III symptoms is initiated on guideline-directed medical therapy. Which combination represents the four pillars of GDMT?",
+    options: ["ACEi + beta-blocker + CCB + statin", "ARNI + beta-blocker + MRA + SGLT2 inhibitor", "Digoxin + hydralazine + isosorbide dinitrate + diuretic", "ARB + alpha-blocker + loop diuretic + amiodarone"],
+    correctIndex: 1,
+    answer: "The four pillars of GDMT for HFrEF (2022 AHA/ACC/HFSA guidelines) are: (1) ARNI (sacubitril/valsartan) or ACEi/ARB, (2) Evidence-based beta-blocker (carvedilol, metoprolol succinate, bisoprolol), (3) MRA (spironolactone or eplerenone), and (4) SGLT2 inhibitor (dapagliflozin or empagliflozin). All four reduce mortality independently and should be initiated and titrated to target doses.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q2",
+    type: "question",
+    question: "A patient presents with exertional dyspnea and a harsh crescendo-decrescendo systolic murmur best heard at the right upper sternal border radiating to the carotids. What is the most likely diagnosis?",
+    options: ["Mitral regurgitation", "Aortic stenosis", "Mitral valve prolapse", "Aortic regurgitation"],
+    correctIndex: 1,
+    answer: "Aortic stenosis produces a harsh crescendo-decrescendo systolic murmur at the right second intercostal space radiating to the carotids. The classic triad is syncope, angina, and heart failure. Pulsus parvus et tardus (weak and delayed carotid upstroke) is a classic finding. Severe AS (valve area <1.0 cm², mean gradient >40 mmHg) requires surgical or transcatheter aortic valve replacement (TAVR).",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q3",
+    type: "question",
+    question: "A 72-year-old patient with atrial fibrillation has a CHA₂DS₂-VASc score of 4. Which anticoagulation strategy is recommended?",
+    options: ["Aspirin 81 mg daily", "No anticoagulation needed", "Direct oral anticoagulant (DOAC) such as apixaban or rivaroxaban", "Clopidogrel 75 mg daily"],
+    correctIndex: 2,
+    answer: "A CHA₂DS₂-VASc score ≥2 in men or ≥3 in women indicates anticoagulation is recommended. DOACs (apixaban, rivaroxaban, edoxaban, dabigatran) are preferred over warfarin for non-valvular AF due to lower bleeding risk, predictable pharmacokinetics, and no routine INR monitoring. Apixaban has the best safety profile. DOACs are contraindicated in mechanical heart valves and moderate-to-severe mitral stenosis.",
+    category: "Cardiology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-cardio-q4",
+    type: "question",
+    question: "A patient with STEMI presents within 90 minutes of symptom onset. The nearest PCI-capable facility is 45 minutes away. What is the recommended reperfusion strategy?",
+    options: ["Administer fibrinolytics immediately", "Transport to PCI-capable facility for primary PCI", "Start heparin drip and observe", "Administer aspirin only and wait for cardiac catheterization the next day"],
+    correctIndex: 1,
+    answer: "Primary PCI is the preferred reperfusion strategy for STEMI if first medical contact-to-device time is ≤120 minutes. Since the PCI facility is 45 minutes away (well within the 120-minute window), transfer for primary PCI is recommended. Fibrinolytic therapy is indicated only when PCI cannot be performed within 120 minutes. Door-to-balloon time goal is ≤90 minutes at PCI-capable facilities.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q5",
+    type: "question",
+    question: "A patient with chronic stable angina on maximally tolerated doses of metoprolol and amlodipine continues to have 2-3 episodes of angina weekly. Which add-on medication is appropriate?",
+    options: ["Verapamil", "Ranolazine (Ranexa)", "Diltiazem", "Propranolol"],
+    correctIndex: 1,
+    answer: "Ranolazine is a late sodium channel inhibitor approved as add-on therapy for chronic stable angina. It reduces angina frequency without affecting heart rate or blood pressure. It should not be combined with QT-prolonging drugs. Verapamil and diltiazem should not be added to a beta-blocker regimen due to risk of severe bradycardia and heart block.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q6",
+    type: "question",
+    question: "An NP is interpreting a 12-lead ECG and notes ST depression in leads V1-V4 with tall R waves. What does this suggest?",
+    options: ["Anterior STEMI", "Posterior STEMI (reciprocal changes)", "Left bundle branch block", "Pericarditis"],
+    correctIndex: 1,
+    answer: "ST depression in V1-V4 with tall R waves represents reciprocal changes of a posterior STEMI. A posterior ECG (leads V7-V9) should be obtained, which would show ST elevation. Posterior MI often accompanies inferior STEMI and is frequently missed. It involves the posterior descending artery or left circumflex territory.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q7",
+    type: "question",
+    question: "A 45-year-old patient presents with sudden-onset tearing chest pain radiating to the back, blood pressure of 210/120, and a 20 mmHg difference between arms. What is the priority diagnosis to rule out?",
+    options: ["Myocardial infarction", "Aortic dissection", "Pulmonary embolism", "Pneumothorax"],
+    correctIndex: 1,
+    answer: "The classic presentation of aortic dissection includes sudden-onset tearing/ripping chest/back pain, hypertension, and pulse/BP differential between extremities. Type A (ascending aorta) requires emergent surgery. Type B (descending) is managed medically with IV beta-blockers (esmolol, labetalol) to reduce heart rate <60 bpm and SBP 100-120 mmHg. CT angiography is the diagnostic gold standard.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q8",
+    type: "question",
+    question: "A patient with hypertrophic cardiomyopathy (HCM) asks about exercise restrictions. Which activity modification is most important?",
+    options: ["Encourage vigorous aerobic exercise to strengthen the heart", "Avoid competitive sports and intense physical exertion due to risk of sudden cardiac death", "Only restrict swimming", "No restrictions are needed if asymptomatic"],
+    correctIndex: 1,
+    answer: "HCM is the leading cause of sudden cardiac death in young athletes. Patients should avoid competitive sports, heavy lifting, and intense exertion, which can worsen left ventricular outflow tract obstruction. The 2020 AHA/ACC guidelines recommend shared decision-making regarding exercise. Implantable cardioverter-defibrillators (ICDs) are recommended for high-risk patients.",
+    category: "Cardiology NP",
+    difficulty: 2
+  },
+  {
+    id: "np-cardio-q9",
+    type: "question",
+    question: "A patient on amiodarone presents with fatigue, weight gain, cold intolerance, and TSH of 12 mIU/L. What is the most likely etiology?",
+    options: ["Amiodarone-induced hyperthyroidism", "Amiodarone-induced hypothyroidism", "Hashimoto's thyroiditis unrelated to amiodarone", "Pituitary adenoma"],
+    correctIndex: 1,
+    answer: "Amiodarone contains 37% iodine by weight and can cause both hypothyroidism (more common in iodine-sufficient areas) and hyperthyroidism. Elevated TSH with symptoms of hypothyroidism indicates amiodarone-induced hypothyroidism. Treatment is levothyroxine replacement. Thyroid function should be monitored every 6 months while on amiodarone. Amiodarone also requires monitoring of liver function, pulmonary function, and ophthalmologic exams.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q10",
+    type: "question",
+    question: "A patient with a new diagnosis of heart failure has an EF of 55%. Which classification does this represent, and what are the treatment considerations?",
+    options: ["HFrEF; start ARNI and beta-blocker", "HFpEF; focus on managing comorbidities (hypertension, volume status, AF) and consider SGLT2 inhibitor", "Normal cardiac function; no treatment needed", "Systolic heart failure; start digoxin"],
+    correctIndex: 1,
+    answer: "EF ≥50% with symptoms of heart failure is classified as HFpEF (heart failure with preserved ejection fraction). Treatment focuses on managing comorbidities (hypertension, diabetes, obesity, AF), diuretics for volume management, and SGLT2 inhibitors (empagliflozin approved based on EMPEROR-Preserved trial). Unlike HFrEF, ARNI and beta-blockers have not shown mortality benefit in HFpEF.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q11",
+    type: "question",
+    question: "A patient with a mechanical mitral valve replacement asks about anticoagulation. Which is the recommended long-term anticoagulant?",
+    options: ["Apixaban (Eliquis)", "Rivaroxaban (Xarelto)", "Warfarin with target INR 2.5-3.5", "Dabigatran (Pradaxa)"],
+    correctIndex: 2,
+    answer: "Warfarin remains the only recommended anticoagulant for mechanical heart valves. DOACs are contraindicated due to increased thromboembolic events (RE-ALIGN trial with dabigatran was stopped early due to harm). Target INR for mechanical mitral valves is 2.5-3.5. Mechanical aortic valves target INR 2.0-3.0. Bioprosthetic valves may use DOACs after 3-6 months.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  {
+    id: "np-cardio-q12",
+    type: "question",
+    question: "A 65-year-old patient with resistant hypertension (uncontrolled on 3 drugs including a diuretic) should be evaluated for which secondary cause?",
+    options: ["Pheochromocytoma only", "Primary aldosteronism (Conn syndrome)", "Anxiety disorder", "Medication non-adherence only"],
+    correctIndex: 1,
+    answer: "Primary aldosteronism is the most common cause of secondary hypertension and is found in 10-20% of resistant hypertension cases. Screen with aldosterone-to-renin ratio (ARR). Other secondary causes include renal artery stenosis, pheochromocytoma, Cushing syndrome, thyroid disorders, and obstructive sleep apnea. Medication adherence should also be confirmed before diagnosing resistant hypertension.",
+    category: "Cardiology NP",
+    difficulty: 3
+  },
+  // ============================================================
+  // ENDOCRINE NP (12 cards)
+  // ============================================================
+  {
+    id: "np-endo-q1",
+    type: "question",
+    question: "A patient with type 2 diabetes has an A1C of 9.2% on metformin 2000 mg daily. They have established ASCVD. Which second agent provides the greatest cardiovascular benefit?",
+    options: ["Glipizide (sulfonylurea)", "Liraglutide (GLP-1 receptor agonist)", "Pioglitazone (thiazolidinedione)", "Acarbose (alpha-glucosidase inhibitor)"],
+    correctIndex: 1,
+    answer: "GLP-1 receptor agonists (liraglutide, semaglutide, dulaglutide) have demonstrated cardiovascular benefit in patients with established ASCVD (LEADER, SUSTAIN-6, REWIND trials). ADA/EASD guidelines recommend GLP-1 RAs or SGLT2 inhibitors as preferred second-line agents in patients with ASCVD, heart failure, or CKD regardless of A1C. They also promote weight loss and have low hypoglycemia risk.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-endo-q2",
+    type: "question",
+    question: "A patient presents with heat intolerance, weight loss, tremor, exophthalmos, and a diffusely enlarged thyroid. TSH is <0.01, free T4 is 5.8. What is the diagnosis, and what is the initial treatment?",
+    options: ["Hashimoto's thyroiditis; levothyroxine", "Graves' disease; methimazole (preferred) or propylthiouracil", "Toxic multinodular goiter; surgery only", "Subacute thyroiditis; NSAIDs"],
+    correctIndex: 1,
+    answer: "Graves' disease is an autoimmune hyperthyroidism with TSH receptor antibodies (TRAb/TSI). Exophthalmos and pretibial myxedema are unique to Graves'. First-line treatment is methimazole (preferred due to fewer side effects). PTU is preferred in the first trimester of pregnancy and thyroid storm. Beta-blockers (propranolol) for symptomatic relief. Monitor for agranulocytosis (sore throat, fever = stop drug immediately).",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-endo-q3",
+    type: "question",
+    question: "A patient with DKA has a blood glucose of 350 mg/dL, pH 7.18, HCO3 8, and potassium of 5.8. What is the priority intervention before starting insulin?",
+    options: ["Administer IV insulin bolus immediately", "Give IV sodium bicarbonate", "Initiate aggressive IV normal saline resuscitation", "Administer IV potassium"],
+    correctIndex: 2,
+    answer: "The priority in DKA management is aggressive IV fluid resuscitation with 0.9% NS (1-1.5 L/hr initially) to correct dehydration and improve perfusion. Although serum K+ is elevated (5.8), this is due to acidosis-induced transcellular shift; total body potassium is depleted. Once K+ drops below 5.3 and urine output is adequate, add potassium to IV fluids BEFORE or concurrent with insulin to prevent life-threatening hypokalemia as insulin drives K+ intracellularly.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-endo-q4",
+    type: "question",
+    question: "A 55-year-old woman presents with fatigue, constipation, weight gain, and dry skin. TSH is 12 mIU/L, free T4 is 0.4 ng/dL. Anti-TPO antibodies are positive. What is the diagnosis and treatment?",
+    options: ["Subacute thyroiditis; observation", "Hashimoto's thyroiditis; levothyroxine replacement", "Graves' disease; methimazole", "Euthyroid sick syndrome; no treatment"],
+    correctIndex: 1,
+    answer: "Hashimoto's thyroiditis is the most common cause of hypothyroidism in iodine-sufficient areas. Positive anti-TPO antibodies confirm autoimmune etiology. Treatment is levothyroxine (1.6 mcg/kg/day). Start at lower doses in elderly or cardiac patients (25-50 mcg daily). Recheck TSH in 6-8 weeks. Goal TSH is 0.5-2.5 mIU/L. Take on empty stomach, 30-60 minutes before breakfast. Avoid calcium and iron within 4 hours.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-endo-q5",
+    type: "question",
+    question: "A patient with type 2 diabetes and CKD stage 3b (eGFR 35) needs intensification of glycemic control. Which medication should be avoided?",
+    options: ["Insulin glargine", "Empagliflozin (SGLT2i)", "Metformin", "Linagliptin (DPP-4i)"],
+    correctIndex: 2,
+    answer: "Metformin should be avoided when eGFR <30 mL/min and used with caution at eGFR 30-45. Risk of lactic acidosis increases with declining renal function. SGLT2 inhibitors can be initiated if eGFR ≥20 (for cardiorenal benefit per CREDENCE/DAPA-CKD trials). Linagliptin does not require renal dose adjustment. Insulin is safe at any eGFR level.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-endo-q6",
+    type: "question",
+    question: "A patient on long-term prednisone 20 mg daily presents with moon face, central obesity, striae, and a blood glucose of 280 mg/dL. Which test confirms iatrogenic Cushing syndrome?",
+    options: ["Random cortisol level", "24-hour urine free cortisol (will be elevated but diagnosis is clinical in iatrogenic cases)", "ACTH stimulation test", "Dexamethasone suppression test"],
+    correctIndex: 1,
+    answer: "Iatrogenic Cushing syndrome is diagnosed clinically based on exogenous glucocorticoid use and cushingoid features. The 24-hour urine free cortisol and midnight salivary cortisol will be elevated. However, the dexamethasone suppression test is used to diagnose endogenous Cushing syndrome, not iatrogenic. ACTH will be suppressed in iatrogenic cases (exogenous steroids suppress the HPA axis). Management involves gradual taper to prevent adrenal crisis.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-endo-q7",
+    type: "question",
+    question: "A postmenopausal woman with osteoporosis (T-score -3.2) and a history of vertebral fracture asks about treatment options. Which first-line medication reduces both vertebral and hip fracture risk?",
+    options: ["Calcium and vitamin D supplementation alone", "Alendronate (bisphosphonate)", "Calcitonin nasal spray", "Raloxifene"],
+    correctIndex: 1,
+    answer: "Bisphosphonates (alendronate, risedronate, zoledronic acid) are first-line for osteoporosis and reduce both vertebral and hip fracture risk. Take oral bisphosphonates on an empty stomach with a full glass of water, remain upright for 30 minutes to prevent esophageal erosion. For very high fracture risk, anabolic agents (teriparatide, romosozumab) may be considered first. Denosumab is an alternative for bisphosphonate-intolerant patients.",
+    category: "Endocrine NP",
+    difficulty: 2
+  },
+  {
+    id: "np-endo-q8",
+    type: "question",
+    question: "A patient presents with episodic headaches, palpitations, and diaphoresis with severe hypertension (240/130 mmHg). Which condition should be evaluated, and what is the initial diagnostic test?",
+    options: ["Essential hypertension; start lisinopril", "Pheochromocytoma; 24-hour urine fractionated metanephrines or plasma free metanephrines", "Panic disorder; prescribe an SSRI", "Thyroid storm; check TSH"],
+    correctIndex: 1,
+    answer: "The classic triad of headache, palpitations, and diaphoresis with paroxysmal hypertension suggests pheochromocytoma. Initial screening is plasma free metanephrines (highest sensitivity) or 24-hour urine fractionated metanephrines and catecholamines. If positive, localize with CT/MRI of abdomen. Preoperative alpha-blockade (phenoxybenzamine) must be started BEFORE beta-blockade to prevent hypertensive crisis. Surgical resection is definitive treatment.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-endo-q9",
+    type: "question",
+    question: "A patient with Addison's disease presents to the ED with hypotension, severe fatigue, abdominal pain, and hyperpigmentation after abruptly stopping hydrocortisone. What is the immediate treatment?",
+    options: ["Oral hydrocortisone 20 mg", "IV hydrocortisone 100 mg bolus, then 50 mg every 8 hours, plus aggressive IV fluids", "IV dexamethasone and vasopressors only", "Fludrocortisone alone"],
+    correctIndex: 1,
+    answer: "Adrenal crisis (acute adrenal insufficiency) is a life-threatening emergency requiring immediate IV hydrocortisone 100 mg bolus followed by 50 mg q8h, aggressive IV normal saline for volume resuscitation, and dextrose if hypoglycemic. Triggers include abrupt steroid withdrawal, infection, surgery, or trauma in patients with known adrenal insufficiency. Patients should carry emergency injection kits and wear medical alert identification.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-endo-q10",
+    type: "question",
+    question: "A patient with type 1 diabetes on an insulin pump presents with nausea, vomiting, and blood glucose of 420 mg/dL. Urine ketones are large. The pump site appears normal. What is the first action?",
+    options: ["Increase the insulin pump basal rate", "Disconnect the pump and give a correction dose via insulin syringe, then troubleshoot the pump", "Drink fluids and wait for the blood glucose to come down", "Switch to an oral hypoglycemic agent"],
+    correctIndex: 1,
+    answer: "In pump-dependent patients with hyperglycemia and ketones, pump malfunction is suspected even if the site appears normal (kinked cannula, insulin degradation, tubing occlusion). The priority is to give a correction dose of rapid-acting insulin via syringe or pen (not through the pump) to ensure insulin delivery. Then troubleshoot: change infusion set, reservoir, and insulin. If DKA develops, initiate standard DKA protocol.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-endo-q11",
+    type: "question",
+    question: "A patient with a thyroid nodule has fine-needle aspiration (FNA) results classified as Bethesda IV (follicular neoplasm). What is the recommended next step?",
+    options: ["Repeat FNA in 6 months", "Radioactive iodine ablation", "Diagnostic thyroid lobectomy or molecular testing", "Start levothyroxine suppressive therapy"],
+    correctIndex: 2,
+    answer: "Bethesda IV (follicular neoplasm/suspicious for follicular neoplasm) cannot distinguish benign follicular adenoma from follicular carcinoma on cytology alone. Recommended management is diagnostic thyroid lobectomy for histological evaluation or molecular testing (Afirma, ThyroSeq) to guide management. If molecular testing suggests benign, surveillance may be appropriate. If malignant features are found, completion thyroidectomy is performed.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  {
+    id: "np-endo-q12",
+    type: "question",
+    question: "A patient with SIADH has a serum sodium of 118 mEq/L with symptoms of confusion and lethargy. What is the treatment approach?",
+    options: ["Rapid IV normal saline bolus to correct sodium to 140 quickly", "Hypertonic saline (3%) with careful monitoring, correcting sodium no faster than 8-10 mEq/L in 24 hours", "Fluid bolus with D5W", "Oral sodium chloride tablets only"],
+    correctIndex: 1,
+    answer: "Symptomatic severe hyponatremia (Na <120 with neurological symptoms) requires 3% hypertonic saline. Correction must not exceed 8-10 mEq/L in 24 hours to prevent osmotic demyelination syndrome (central pontine myelinolysis). Monitor sodium every 2-4 hours. For chronic SIADH, fluid restriction (800-1000 mL/day), demeclocycline, or vasopressin receptor antagonists (tolvaptan) may be used.",
+    category: "Endocrine NP",
+    difficulty: 3
+  },
+  // ============================================================
+  // ACUTE CARE NP – EXPANDED (12 cards)
+  // ============================================================
+  {
+    id: "np-acute-q17",
+    type: "question",
+    question: "A patient in the ICU develops a sudden increase in peak inspiratory pressure on mechanical ventilation with absent breath sounds on the right and tracheal deviation to the left. What is the immediate intervention?",
+    options: ["Obtain a chest X-ray first", "Needle decompression at the second intercostal space, midclavicular line on the right", "Increase the ventilator tidal volume", "Suction the endotracheal tube"],
+    correctIndex: 1,
+    answer: "This presentation is classic for tension pneumothorax: absent breath sounds on the affected side, tracheal deviation away from the affected side, increased ventilatory pressures, and hemodynamic instability. This is a clinical diagnosis that requires immediate needle decompression at the 2nd ICS midclavicular line, followed by chest tube insertion. Do not delay treatment for imaging.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-acute-q18",
+    type: "question",
+    question: "A patient with acute pancreatitis has a Ranson score of 6 on admission. What does this indicate about prognosis?",
+    options: ["Mild disease with <1% mortality", "Moderate disease with 10% mortality", "Severe disease with approximately 40% mortality", "The Ranson score is not valid for pancreatitis"],
+    correctIndex: 2,
+    answer: "Ranson criteria predict severity and mortality in acute pancreatitis. Score ≥3 indicates severe pancreatitis. Score of 6 carries approximately 40% mortality. On admission criteria: age >55, WBC >16,000, glucose >200, LDH >350, AST >250. At 48 hours: HCT drop >10%, BUN rise >5, Ca <8, PaO2 <60, base deficit >4, fluid sequestration >6L. CT severity index (Balthazar) is also used for prognosis.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-acute-q19",
+    type: "question",
+    question: "A patient post-cardiac surgery develops cardiac tamponade. Which physical finding is most specific?",
+    options: ["Hypertension", "Pulsus paradoxus >10 mmHg", "Bounding pulses", "Wide pulse pressure"],
+    correctIndex: 1,
+    answer: "Pulsus paradoxus (>10 mmHg drop in systolic BP during inspiration) is the most specific clinical finding of cardiac tamponade. Beck's triad (hypotension, muffled heart sounds, JVD) is classic but not always present. Echocardiography confirms the diagnosis showing diastolic chamber collapse. Treatment is emergent pericardiocentesis or surgical pericardial window.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-acute-q20",
+    type: "question",
+    question: "A patient with a massive pulmonary embolism (PE) presents with hypotension (SBP 78 mmHg) and right ventricular strain on echocardiography. What is the recommended treatment?",
+    options: ["Heparin anticoagulation alone", "Systemic thrombolysis with alteplase (tPA)", "Inferior vena cava filter placement", "Observation with serial echocardiography"],
+    correctIndex: 1,
+    answer: "Massive (high-risk) PE with hemodynamic instability (SBP <90 for >15 minutes) is an indication for systemic thrombolysis. Alteplase 100 mg IV over 2 hours is the standard regimen. If thrombolysis is contraindicated, catheter-directed therapy or surgical embolectomy should be considered. Submassive PE (RV strain without hypotension) is a grey area where thrombolysis may be considered on a case-by-case basis.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-acute-q21",
+    type: "question",
+    question: "A critically ill patient develops acute kidney injury with a serum potassium of 7.2 mEq/L and peaked T waves on ECG. What is the order of interventions?",
+    options: ["Kayexalate first, then IV calcium", "IV calcium gluconate first (cardiac membrane stabilization), then insulin/dextrose, then further potassium-lowering measures", "IV sodium bicarbonate only", "Emergent dialysis without any other intervention"],
+    correctIndex: 1,
+    answer: "Severe hyperkalemia (K+ >6.5 with ECG changes) management: (1) IV calcium gluconate 10% (stabilizes cardiac membrane, does NOT lower K+), (2) Regular insulin 10 units + D50 (shifts K+ intracellularly), (3) Albuterol nebulizer (shifts K+ intracellularly), (4) Sodium bicarbonate if acidotic, (5) Kayexalate or patiromer (removes K+ from body), (6) Emergent hemodialysis if refractory. Always continuous cardiac monitoring.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-acute-q22",
+    type: "question",
+    question: "A patient on a ventilator meets criteria for a spontaneous breathing trial (SBT). Which method is most commonly used?",
+    options: ["Increase PEEP to 15 cmH2O", "T-piece trial or pressure support ventilation (PSV) of 5-8 cmH2O for 30-120 minutes", "Switch to SIMV mode with high rate", "Disconnect from ventilator without monitoring"],
+    correctIndex: 1,
+    answer: "SBT is performed using either a T-piece or low-level pressure support (5-8 cmH2O) for 30-120 minutes. Criteria for SBT initiation: FiO2 ≤40%, PEEP ≤5-8, adequate oxygenation, hemodynamically stable, able to initiate inspiratory effort. Failure criteria: RR >35, SpO2 <90%, HR change >20%, SBP >180 or <90, agitation, diaphoresis. Rapid shallow breathing index (RR/VT) <105 predicts extubation success.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-acute-q23",
+    type: "question",
+    question: "A patient in the MICU with septic shock is on norepinephrine at 0.5 mcg/kg/min and MAP remains 58 mmHg after 30 mL/kg fluid resuscitation. What is the next vasopressor to add?",
+    options: ["Dopamine", "Vasopressin 0.03-0.04 units/min", "Phenylephrine", "Dobutamine"],
+    correctIndex: 1,
+    answer: "Per the Surviving Sepsis Campaign guidelines, norepinephrine is the first-line vasopressor for septic shock. If MAP target (≥65 mmHg) is not achieved, vasopressin (up to 0.03-0.04 units/min) should be added as a second agent (not titrated). If cardiac dysfunction is present (low cardiac output), dobutamine may be added. Epinephrine is the preferred second-line catecholamine if vasopressin is not available.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  {
+    id: "np-acute-q24",
+    type: "question",
+    question: "A trauma patient with a GCS of 6 has a CT scan showing an acute epidural hematoma with midline shift. What is the definitive treatment?",
+    options: ["IV mannitol and observation", "Emergent surgical evacuation (craniotomy)", "Lumbar puncture to relieve pressure", "Corticosteroids"],
+    correctIndex: 1,
+    answer: "An acute epidural hematoma (biconvex/lens-shaped on CT) with midline shift and declining neurological status requires emergent surgical evacuation via craniotomy. Epidural hematomas are typically caused by rupture of the middle meningeal artery following temporal bone fracture. The classic 'lucid interval' may occur. Without surgery, uncal herniation and death can occur rapidly. Corticosteroids are not recommended in traumatic brain injury.",
+    category: "Acute Care NP",
+    difficulty: 3
+  },
+  // ============================================================
+  // PSYCHIATRIC NP – EXPANDED (12 cards)
+  // ============================================================
+  {
+    id: "np-psych-q15",
+    type: "question",
+    question: "A patient with treatment-resistant depression (failed 2 adequate SSRI trials) is being evaluated for alternative therapies. Which FDA-approved treatment option has rapid-onset antidepressant effects?",
+    options: ["Switching to another SSRI", "Esketamine (Spravato) nasal spray", "Increasing the current SSRI dose", "Adding buspirone augmentation"],
+    correctIndex: 1,
+    answer: "Esketamine (Spravato) nasal spray is FDA-approved for treatment-resistant depression (in conjunction with an oral antidepressant). It acts on NMDA glutamate receptors and has rapid onset (hours to days vs weeks for SSRIs). Must be administered in a certified healthcare setting with 2-hour monitoring due to dissociative effects, sedation, and blood pressure changes. REMS program required.",
+    category: "Psychiatric NP",
+    difficulty: 3
+  },
+  {
+    id: "np-psych-q16",
+    type: "question",
+    question: "A patient on clozapine for treatment-resistant schizophrenia presents with fever, tachycardia, and a WBC of 1,200/μL with an ANC of 400. What is the immediate action?",
+    options: ["Continue clozapine and recheck labs in a week", "Discontinue clozapine immediately and initiate neutropenic precautions", "Reduce the clozapine dose by 50%", "Add G-CSF and continue clozapine"],
+    correctIndex: 1,
+    answer: "Clozapine-induced agranulocytosis (ANC <500) is a potentially fatal adverse effect occurring in ~1% of patients. ANC <1000 requires immediate discontinuation and the patient should never be rechallenged. ANC <500 is a medical emergency: discontinue clozapine, initiate neutropenic precautions, obtain blood cultures, start broad-spectrum antibiotics if febrile, and consider G-CSF. The Clozapine REMS program mandates regular ANC monitoring.",
+    category: "Psychiatric NP",
+    difficulty: 3
+  },
+  {
+    id: "np-psych-q17",
+    type: "question",
+    question: "A patient with bipolar I disorder is in an acute manic episode with psychotic features. Which medication combination is most appropriate for acute management?",
+    options: ["SSRI plus benzodiazepine", "Lithium or valproate plus an atypical antipsychotic (e.g., quetiapine, olanzapine)", "SSRI monotherapy", "Lamotrigine monotherapy"],
+    correctIndex: 1,
+    answer: "Acute mania with psychotic features requires a mood stabilizer (lithium or valproate) combined with an atypical antipsychotic. SSRIs and antidepressants should be avoided as they can worsen mania or induce rapid cycling. Lamotrigine is effective for bipolar depression prevention but not for acute mania. Lithium requires therapeutic drug monitoring (0.6-1.2 mEq/L) and monitoring of renal, thyroid, and cardiac function.",
+    category: "Psychiatric NP",
+    difficulty: 3
+  },
+  {
+    id: "np-psych-q18",
+    type: "question",
+    question: "A patient on lithium presents with coarse tremor, vomiting, diarrhea, confusion, and a lithium level of 2.4 mEq/L. What is the priority intervention?",
+    options: ["Increase lithium dose for better therapeutic effect", "Hold lithium, administer IV normal saline, and prepare for possible hemodialysis", "Give activated charcoal", "Administer flumazenil"],
+    correctIndex: 1,
+    answer: "Lithium toxicity (level >1.5 mEq/L) manifests as GI symptoms, coarse tremor, confusion, and ataxia. Severe toxicity (>2.5 mEq/L) can cause seizures, coma, and death. Treatment: hold lithium, aggressive IV NS hydration (lithium is renally excreted), and hemodialysis for levels >2.5 or severe symptoms. Avoid NSAIDs, ACEi, ARBs, and dehydration which increase lithium levels. Activated charcoal does not bind lithium.",
+    category: "Psychiatric NP",
+    difficulty: 3
+  },
+  {
+    id: "np-psych-q19",
+    type: "question",
+    question: "A 25-year-old female with PTSD and comorbid generalized anxiety disorder asks about medication options. Which first-line pharmacotherapy is recommended for PTSD?",
+    options: ["Benzodiazepines", "Sertraline or paroxetine (SSRIs)", "Prazosin only", "Propranolol"],
+    correctIndex: 1,
+    answer: "SSRIs (sertraline and paroxetine are FDA-approved for PTSD) are first-line pharmacotherapy. Benzodiazepines are NOT recommended for PTSD (may worsen outcomes, interfere with fear extinction, high abuse potential). Prazosin may be added for PTSD-related nightmares. Venlafaxine (SNRI) is also evidence-based. Trauma-focused psychotherapies (CPT, PE, EMDR) should be offered concurrently.",
+    category: "Psychiatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-psych-q20",
+    type: "question",
+    question: "A patient taking an MAOI (phenelzine) eats aged cheese and develops severe hypertension, headache, and diaphoresis. What is this reaction, and what is the treatment?",
+    options: ["Serotonin syndrome; administer cyproheptadine", "Tyramine-induced hypertensive crisis; administer phentolamine (IV alpha-blocker)", "Neuroleptic malignant syndrome; administer dantrolene", "Allergic reaction; administer epinephrine"],
+    correctIndex: 1,
+    answer: "MAOIs inhibit tyramine metabolism. Tyramine-rich foods (aged cheese, cured meats, red wine, fermented foods) cause a catecholamine surge leading to hypertensive crisis. Treatment is IV phentolamine (alpha-blocker) or nitroprusside. Patients on MAOIs must follow a strict tyramine-restricted diet. Also avoid sympathomimetics, meperidine, SSRIs/SNRIs (risk of serotonin syndrome). Washout period of 14 days before switching medications.",
+    category: "Psychiatric NP",
+    difficulty: 3
+  },
+  {
+    id: "np-psych-q21",
+    type: "question",
+    question: "An NP is evaluating a patient with suspected ADHD. Which standardized rating scale is commonly used for adult ADHD diagnosis?",
+    options: ["PHQ-9", "Adult ADHD Self-Report Scale (ASRS-v1.1)", "GAD-7", "MMSE"],
+    correctIndex: 1,
+    answer: "The ASRS-v1.1 (WHO Adult ADHD Self-Report Scale) is a validated 18-item screening tool based on DSM-5 criteria. The 6-item screener is used for initial screening; the full 18-item version for comprehensive assessment. Diagnosis requires symptoms present before age 12, in 2+ settings, with functional impairment. Additional tools include the Conners Adult ADHD Rating Scales (CAARS) and Wender Utah Rating Scale for childhood symptoms.",
+    category: "Psychiatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-psych-q22",
+    type: "question",
+    question: "A patient with schizophrenia on haloperidol develops sustained muscle contractions of the neck and jaw within 48 hours of starting the medication. What is this reaction and the treatment?",
+    options: ["Tardive dyskinesia; switch to clozapine", "Acute dystonia; administer benztropine (Cogentin) or diphenhydramine IM/IV", "Akathisia; add propranolol", "Neuroleptic malignant syndrome; administer dantrolene"],
+    correctIndex: 1,
+    answer: "Acute dystonia (sustained involuntary muscle contractions) occurs within hours to days of starting or increasing a typical antipsychotic. Risk factors: young age, male sex, high-potency agents (haloperidol). Treatment: IM/IV benztropine 1-2 mg or diphenhydramine 25-50 mg (anticholinergics). Response is usually within minutes. Prophylactic anticholinergics may be given with high-potency antipsychotics. Laryngeal dystonia is a medical emergency.",
+    category: "Psychiatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-psych-q23",
+    type: "question",
+    question: "A 70-year-old patient with major depressive disorder and insomnia asks about mirtazapine. Which pharmacological properties make it suitable for this patient?",
+    options: ["It is a strong CYP3A4 inhibitor", "It increases norepinephrine and serotonin via alpha-2 antagonism, promotes sleep via H1 blockade, and stimulates appetite", "It has strong anticholinergic effects", "It is a serotonin reuptake inhibitor only"],
+    correctIndex: 1,
+    answer: "Mirtazapine is a noradrenergic and specific serotonergic antidepressant (NaSSA). Its H1 antihistamine blockade promotes sleep and appetite at lower doses (7.5-15 mg). At higher doses (30-45 mg), the noradrenergic effect predominates and sedation decreases. It has low drug-drug interaction potential, minimal sexual side effects, and low risk of serotonin syndrome. Ideal for elderly depressed patients with insomnia and poor appetite/weight loss.",
+    category: "Psychiatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-psych-q24",
+    type: "question",
+    question: "A patient on long-acting injectable paliperidone (Invega Sustenna) is due for their monthly injection but missed their appointment by 2 weeks. What is the appropriate action?",
+    options: ["Restart the initiation dosing regimen", "Administer the maintenance dose as soon as possible if within the dosing window, then resume monthly schedule", "Switch to oral risperidone permanently", "Wait until the next scheduled monthly dose"],
+    correctIndex: 1,
+    answer: "For paliperidone palmitate monthly injections, if a dose is missed by <6 weeks (after the first injection) or <7 weeks (after subsequent injections), the maintenance dose can be given as soon as possible, then resume the monthly schedule. If missed beyond these windows, reinitiation may be needed depending on the specific timeframe. Long-acting injectables improve medication adherence in schizophrenia. Each formulation has specific missed-dose protocols.",
+    category: "Psychiatric NP",
+    difficulty: 2
+  },
+  // ============================================================
+  // WOMEN'S HEALTH NP – EXPANDED (10 cards)
+  // ============================================================
+  {
+    id: "np-womens-q11",
+    type: "question",
+    question: "A 28-year-old woman with a BMI of 38 requests hormonal contraception. She has no other risk factors. Which method is contraindicated?",
+    options: ["Copper IUD", "Progestin-only pill", "Combined oral contraceptive (estrogen-containing)", "Etonogestrel implant (Nexplanon)"],
+    correctIndex: 2,
+    answer: "Combined hormonal contraceptives (estrogen-containing pills, patches, rings) are CDC MEC Category 3 (risks outweigh benefits) for BMI ≥35 due to increased risk of venous thromboembolism. Progestin-only methods (POP, implant, hormonal IUD, DMPA) are safer alternatives. The copper IUD is non-hormonal and has no BMI-related contraindications. Always use the CDC MEC criteria for contraceptive counseling.",
+    category: "Women's Health NP",
+    difficulty: 2
+  },
+  {
+    id: "np-womens-q12",
+    type: "question",
+    question: "A 52-year-old menopausal woman with hot flashes, night sweats, and vaginal dryness wants hormone replacement therapy (HRT). She had a hysterectomy 5 years ago. Which HRT regimen is appropriate?",
+    options: ["Estrogen plus progestogen combination", "Estrogen-only therapy", "Progestogen-only therapy", "Testosterone-only therapy"],
+    correctIndex: 1,
+    answer: "Women who have had a hysterectomy can use estrogen-only therapy since the progestogen component is only needed to protect the endometrium from estrogen-induced hyperplasia. The Women's Health Initiative showed that estrogen-only therapy (conjugated equine estrogen) had a more favorable risk profile than combined HRT. Start within 10 years of menopause or before age 60 for cardiovascular benefit window.",
+    category: "Women's Health NP",
+    difficulty: 2
+  },
+  {
+    id: "np-womens-q13",
+    type: "question",
+    question: "A patient presents with painless, profuse bright red vaginal bleeding at 34 weeks gestation. What is the priority nursing/NP action?",
+    options: ["Perform a digital cervical exam", "Obtain an ultrasound to rule out placenta previa before any vaginal examination", "Administer oxytocin", "Rupture membranes to assess fluid color"],
+    correctIndex: 1,
+    answer: "Painless bright red vaginal bleeding in the third trimester is classic for placenta previa (placenta covering the cervical os). NEVER perform a digital cervical exam as this can cause catastrophic hemorrhage. Confirm diagnosis with transabdominal ultrasound. Management includes bed rest, IV access, type and crossmatch, monitoring fetal status, and planning delivery (C-section for complete previa). Betamethasone if <37 weeks.",
+    category: "Women's Health NP",
+    difficulty: 3
+  },
+  {
+    id: "np-womens-q14",
+    type: "question",
+    question: "A patient with PCOS asks about first-line pharmacotherapy for menstrual regulation and hyperandrogenism. What is the recommended treatment?",
+    options: ["Metformin alone", "Combined oral contraceptives (COCs)", "Spironolactone alone", "Clomiphene citrate"],
+    correctIndex: 1,
+    answer: "COCs are first-line for menstrual regulation and treatment of hyperandrogenism (acne, hirsutism) in PCOS. They suppress ovarian androgen production and increase SHBG. Spironolactone can be added for persistent hirsutism (teratogenic, requires contraception). Metformin is used for insulin resistance/prediabetes but is not first-line for menstrual irregularity. Clomiphene or letrozole are used when fertility is desired.",
+    category: "Women's Health NP",
+    difficulty: 2
+  },
+  {
+    id: "np-womens-q15",
+    type: "question",
+    question: "A postpartum patient 3 days after vaginal delivery presents with fever of 38.5°C, uterine tenderness, and foul-smelling lochia. What is the most likely diagnosis?",
+    options: ["Normal postpartum recovery", "Endometritis", "Mastitis", "Urinary tract infection"],
+    correctIndex: 1,
+    answer: "Postpartum endometritis presents with fever (typically >38°C after first 24 hours), uterine tenderness, and foul-smelling lochia. Risk factors include cesarean delivery, prolonged rupture of membranes, prolonged labor, and multiple vaginal exams. Treatment is IV broad-spectrum antibiotics (clindamycin plus gentamicin is standard). Blood cultures should be obtained before starting antibiotics. Most patients improve within 48-72 hours.",
+    category: "Women's Health NP",
+    difficulty: 2
+  },
+  {
+    id: "np-womens-q16",
+    type: "question",
+    question: "A 45-year-old woman has a Pap smear result of HSIL (high-grade squamous intraepithelial lesion). What is the recommended next step?",
+    options: ["Repeat Pap in 1 year", "Colposcopy with biopsy", "Immediate hysterectomy", "HPV testing only"],
+    correctIndex: 1,
+    answer: "HSIL on Pap smear requires immediate colposcopy with directed biopsy regardless of age or HPV status (ASCCP 2019 guidelines). HSIL indicates CIN 2/3 is likely and has significant malignant potential. If biopsy confirms CIN 2/3, treatment options include LEEP (loop electrosurgical excision procedure), cold knife conization, or ablation depending on adequacy of colposcopy and patient factors.",
+    category: "Women's Health NP",
+    difficulty: 2
+  },
+  {
+    id: "np-womens-q17",
+    type: "question",
+    question: "A pregnant patient at 28 weeks gestation has a 1-hour glucose challenge test result of 195 mg/dL. What is the next step?",
+    options: ["The result is normal; no further testing", "Diagnose gestational diabetes based on this result alone (≥190 mg/dL)", "Perform a 3-hour oral glucose tolerance test", "Start insulin immediately"],
+    correctIndex: 1,
+    answer: "A 1-hour glucose challenge test ≥190 mg/dL (some guidelines use ≥200) is diagnostic of gestational diabetes without needing a 3-hour OGTT. Values between 130-189 require confirmation with a 3-hour OGTT. Management starts with dietary modification (carbohydrate counting, medical nutrition therapy), glucose monitoring 4x daily, and insulin if targets are not met. Metformin may be used but insulin is preferred.",
+    category: "Women's Health NP",
+    difficulty: 3
+  },
+  {
+    id: "np-womens-q18",
+    type: "question",
+    question: "A 35-year-old woman with a history of migraines with aura requests an IUD for contraception. Which IUD is most appropriate?",
+    options: ["She cannot use any IUD", "Levonorgestrel IUD (Mirena) or copper IUD (Paragard)", "She must use combined oral contraceptives instead", "Only barrier methods are safe"],
+    correctIndex: 1,
+    answer: "Both levonorgestrel IUDs and copper IUDs are CDC MEC Category 1 (no restriction) for women with migraines with aura. Combined hormonal contraceptives (pills, patch, ring) are Category 4 (unacceptable risk) for migraines with aura due to increased stroke risk. Progestin-only methods (IUD, implant, POP, DMPA) are safe alternatives. The hormonal IUD has minimal systemic absorption.",
+    category: "Women's Health NP",
+    difficulty: 2
+  },
+  // ============================================================
+  // GERIATRIC NP – EXPANDED (10 cards)
+  // ============================================================
+  {
+    id: "np-geri-q11",
+    type: "question",
+    question: "An 82-year-old patient presents with acute confusion, urinary incontinence, and a fall. Lab results show no metabolic abnormalities. Which assessment tool should be used to evaluate delirium?",
+    options: ["Mini-Mental State Exam (MMSE) only", "Confusion Assessment Method (CAM)", "Hamilton Depression Rating Scale", "Glasgow Coma Scale"],
+    correctIndex: 1,
+    answer: "The Confusion Assessment Method (CAM) is the gold standard screening tool for delirium. It evaluates four features: (1) acute onset and fluctuating course, (2) inattention, (3) disorganized thinking, (4) altered level of consciousness. Delirium diagnosis requires features 1+2 plus either 3 or 4. Common causes in elderly: UTI, medications (anticholinergics, benzodiazepines, opioids), dehydration, infection, pain, constipation.",
+    category: "Geriatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-geri-q12",
+    type: "question",
+    question: "An NP is reviewing medications for a 78-year-old patient according to the Beers Criteria. Which medication should be avoided or deprescribed?",
+    options: ["Lisinopril 10 mg daily", "Metformin 500 mg twice daily", "Diphenhydramine 50 mg at bedtime for sleep", "Acetaminophen 650 mg as needed"],
+    correctIndex: 2,
+    answer: "The AGS Beers Criteria identifies potentially inappropriate medications for older adults. First-generation antihistamines (diphenhydramine) are Beers-listed due to strong anticholinergic effects: confusion, urinary retention, constipation, dry mouth, fall risk, and cognitive impairment. Safer sleep alternatives include sleep hygiene, melatonin, or low-dose trazodone. Other Beers-listed drugs include benzodiazepines, long-acting sulfonylureas, and muscle relaxants.",
+    category: "Geriatric NP",
+    difficulty: 1
+  },
+  {
+    id: "np-geri-q13",
+    type: "question",
+    question: "A 75-year-old patient has a blood pressure of 155/78 mmHg. According to the 2017 ACC/AHA guidelines, what is the blood pressure target for this age group?",
+    options: ["<120/80 mmHg for all adults", "<130/80 mmHg if tolerated, considering fall risk and comorbidities", "<160/90 mmHg", "<140/90 mmHg with no further reduction needed"],
+    correctIndex: 1,
+    answer: "The 2017 ACC/AHA guidelines recommend a BP target <130/80 mmHg for adults ≥65 if tolerated. However, clinical judgment is essential in frail elderly patients: consider orthostatic hypotension risk, fall risk, polypharmacy, and functional status. The SPRINT trial showed benefit of intensive BP control (<120 systolic) even in adults ≥75, but with higher rates of hypotension and AKI. Individualize targets.",
+    category: "Geriatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-geri-q14",
+    type: "question",
+    question: "An 80-year-old nursing home resident has a MoCA score of 14/30 and progressive memory decline over 2 years with preserved motor function. Which type of dementia is most likely?",
+    options: ["Lewy body dementia", "Frontotemporal dementia", "Alzheimer's disease", "Vascular dementia"],
+    correctIndex: 2,
+    answer: "Alzheimer's disease is the most common dementia (60-80% of cases), characterized by insidious onset and progressive decline in memory (especially short-term), language, and visuospatial skills. Preserved motor function early in disease differentiates it from Lewy body (visual hallucinations, parkinsonism, fluctuating cognition) and vascular dementia (stepwise decline, focal neurological deficits). Treatment: cholinesterase inhibitors (donepezil, rivastigmine) and memantine for moderate-severe disease.",
+    category: "Geriatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-geri-q15",
+    type: "question",
+    question: "An NP is assessing fall risk in an 85-year-old outpatient. Which validated tool is recommended for fall risk screening?",
+    options: ["Braden Scale", "Timed Up and Go (TUG) test", "Norton Scale", "Morse Fall Scale (inpatient only)"],
+    correctIndex: 1,
+    answer: "The Timed Up and Go (TUG) test is a validated fall risk screening tool for community-dwelling older adults. The patient rises from a chair, walks 3 meters, turns, walks back, and sits down. Time ≥12 seconds suggests increased fall risk. CDC STEADI toolkit recommends: (1) Screen annually, (2) Assess gait/strength/balance, (3) Intervene with exercise, medication review, vitamin D, home safety assessment, and vision correction.",
+    category: "Geriatric NP",
+    difficulty: 1
+  },
+  {
+    id: "np-geri-q16",
+    type: "question",
+    question: "A 90-year-old patient with advanced dementia and recurrent aspiration pneumonia is being considered for a PEG tube. What does the evidence show about feeding tubes in advanced dementia?",
+    options: ["PEG tubes significantly reduce aspiration pneumonia and improve survival", "Evidence shows PEG tubes do NOT reduce aspiration risk, prevent malnutrition-related complications, or improve survival in advanced dementia", "PEG tubes are required by law in nursing home residents", "PEG tubes improve quality of life in all dementia stages"],
+    correctIndex: 1,
+    answer: "Multiple studies and the AGS position statement conclude that feeding tubes in advanced dementia do NOT reduce aspiration pneumonia risk, prevent consequences of malnutrition, improve functional status, or extend survival. Careful hand-feeding is the recommended approach. Goals of care discussions should address comfort-focused care, advance directives, and patient/family values. This is an important palliative care and ethical consideration.",
+    category: "Geriatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-geri-q17",
+    type: "question",
+    question: "An elderly patient on multiple medications develops a new prescription for ciprofloxacin. The NP identifies a significant drug interaction with which existing medication?",
+    options: ["Metoprolol", "Warfarin (increased INR/bleeding risk)", "Levothyroxine", "Omeprazole"],
+    correctIndex: 1,
+    answer: "Ciprofloxacin is a potent CYP1A2 inhibitor that significantly increases warfarin levels and INR, potentially causing life-threatening bleeding. INR should be monitored closely (within 2-3 days of starting ciprofloxacin) and warfarin dose reduced. Other important fluoroquinolone interactions: QT prolongation with other QT-prolonging drugs, theophylline toxicity, and reduced absorption with divalent cations (calcium, magnesium, iron).",
+    category: "Geriatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-geri-q18",
+    type: "question",
+    question: "An NP is managing a 76-year-old patient with type 2 diabetes. What is the recommended A1C target for this patient with multiple comorbidities and limited life expectancy?",
+    options: ["<6.5% to prevent all complications", "<7.0% as for all adults with diabetes", "<8.0-8.5% to avoid hypoglycemia while preventing symptomatic hyperglycemia", "A1C monitoring is not needed in elderly patients"],
+    correctIndex: 2,
+    answer: "ADA guidelines recommend individualized A1C targets for older adults. For patients with multiple comorbidities, cognitive impairment, or limited life expectancy, a less stringent target of <8.0-8.5% is appropriate to avoid hypoglycemia (which increases fall risk, cognitive decline, and cardiovascular events). Avoid sulfonylureas and sliding-scale insulin in elderly due to hypoglycemia risk. Simplify regimens whenever possible.",
+    category: "Geriatric NP",
+    difficulty: 2
+  },
+  // ============================================================
+  // PEDIATRIC NP – EXPANDED (10 cards)
+  // ============================================================
+  {
+    id: "np-peds-q15",
+    type: "question",
+    question: "A 6-month-old infant presents with paroxysmal coughing followed by an inspiratory 'whoop' and post-tussive vomiting. The infant has not received DTaP vaccines. What is the most likely diagnosis?",
+    options: ["Croup", "Pertussis (whooping cough)", "Bronchiolitis", "Foreign body aspiration"],
+    correctIndex: 1,
+    answer: "Pertussis (Bordetella pertussis) presents in three stages: (1) Catarrhal (1-2 weeks, URI-like symptoms, most contagious), (2) Paroxysmal (2-6 weeks, characteristic coughing spasms with inspiratory whoop, post-tussive vomiting, cyanosis), (3) Convalescent (weeks to months, gradual resolution). Treatment: macrolide antibiotics (azithromycin). Post-exposure prophylaxis for close contacts. Most dangerous in infants <6 months. DTaP vaccination prevents disease.",
+    category: "Pediatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-peds-q16",
+    type: "question",
+    question: "A 4-year-old child presents with a barking cough, inspiratory stridor, and a 'steeple sign' on neck X-ray. What is the diagnosis and initial management?",
+    options: ["Epiglottitis; immediate intubation", "Croup (laryngotracheobronchitis); dexamethasone and nebulized racemic epinephrine if moderate-severe", "Bacterial tracheitis; IV antibiotics", "Asthma; albuterol nebulizer"],
+    correctIndex: 1,
+    answer: "Croup (viral laryngotracheobronchitis) is caused most commonly by parainfluenza virus. Characterized by barking/seal-like cough, inspiratory stridor, and hoarseness. The steeple sign on AP neck X-ray shows subglottic narrowing. Management: single dose of dexamethasone 0.6 mg/kg (oral or IM) for all severity levels. Nebulized racemic epinephrine for moderate-severe stridor at rest. Observe for 2-4 hours after epinephrine for rebound.",
+    category: "Pediatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-peds-q17",
+    type: "question",
+    question: "A 3-year-old child presents with high fever (40°C for 5 days), bilateral non-exudative conjunctivitis, strawberry tongue, cervical lymphadenopathy, and a polymorphous rash. What is the priority treatment?",
+    options: ["Antibiotics for streptococcal infection", "IVIG and high-dose aspirin within 10 days of fever onset", "Oral corticosteroids only", "Observation and supportive care"],
+    correctIndex: 1,
+    answer: "This presentation meets criteria for Kawasaki disease (≥5 days fever + 4 of 5 criteria: conjunctivitis, oral changes, rash, extremity changes, cervical lymphadenopathy). Treatment: IVIG 2g/kg single infusion plus high-dose aspirin (80-100 mg/kg/day until afebrile, then low-dose 3-5 mg/kg/day for 6-8 weeks). The major complication is coronary artery aneurysm. Echocardiography is essential at diagnosis, 2 weeks, and 6-8 weeks.",
+    category: "Pediatric NP",
+    difficulty: 3
+  },
+  {
+    id: "np-peds-q18",
+    type: "question",
+    question: "A 10-year-old child with newly diagnosed type 1 diabetes asks about insulin regimen options. Which regimen most closely mimics physiological insulin secretion?",
+    options: ["NPH insulin twice daily only", "Basal-bolus regimen (long-acting basal + rapid-acting at meals) or insulin pump therapy", "Sliding scale regular insulin only", "Oral metformin"],
+    correctIndex: 1,
+    answer: "Basal-bolus therapy (long-acting insulin such as glargine/detemir for basal coverage plus rapid-acting insulin such as lispro/aspart at meals for bolus coverage) best mimics physiological insulin secretion. Insulin pump therapy (continuous subcutaneous insulin infusion) provides the most precise delivery. Automated insulin delivery (hybrid closed-loop) systems are increasingly used in pediatrics. Type 1 diabetes always requires insulin; oral agents are not appropriate.",
+    category: "Pediatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-peds-q19",
+    type: "question",
+    question: "A 2-week-old neonate presents with projectile, non-bilious vomiting after feeds and a palpable 'olive-shaped' mass in the right upper quadrant. What is the most likely diagnosis?",
+    options: ["Intestinal malrotation with volvulus", "Pyloric stenosis", "Hirschsprung's disease", "Gastroesophageal reflux"],
+    correctIndex: 1,
+    answer: "Pyloric stenosis is caused by hypertrophy of the pyloric sphincter muscle. Classic presentation: non-bilious projectile vomiting in a 2-6 week old (firstborn male most common), hungry after vomiting, palpable 'olive' in RUQ, visible peristaltic waves. Diagnosed by ultrasound (pyloric muscle thickness >4mm, length >16mm). Labs show hypochloremic, hypokalemic metabolic alkalosis. Treatment: surgical pyloromyotomy (Ramstedt procedure) after fluid/electrolyte correction.",
+    category: "Pediatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-peds-q20",
+    type: "question",
+    question: "A 15-year-old presents with an insidious onset of fatigue, weight loss, and polyuria/polydipsia. C-peptide is low and GAD65 antibodies are positive. What type of diabetes is this?",
+    options: ["Type 2 diabetes", "Type 1 diabetes (autoimmune, can present in adolescents)", "MODY (maturity-onset diabetes of the young)", "Steroid-induced diabetes"],
+    correctIndex: 1,
+    answer: "Type 1 diabetes can present at any age, including adolescence and adulthood (LADA). Low C-peptide indicates minimal endogenous insulin production, and positive GAD65 antibodies confirm autoimmune destruction of beta cells. Unlike the classic acute DKA presentation in young children, adolescents may have a more gradual onset. Differentiating from type 2 (obesity, acanthosis nigricans, family history, normal/elevated C-peptide) is essential for appropriate management.",
+    category: "Pediatric NP",
+    difficulty: 2
+  },
+  {
+    id: "np-peds-q21",
+    type: "question",
+    question: "An NP is screening a 5-year-old child for developmental delay. According to the AAP, which validated screening tool is recommended for developmental surveillance?",
+    options: ["Denver II only", "Ages and Stages Questionnaire (ASQ-3)", "Apgar scoring", "Bayley Scales (administered only by psychologists)"],
+    correctIndex: 1,
+    answer: "The AAP recommends developmental screening at 9, 18, and 30 months using validated tools such as the ASQ-3 (Ages and Stages Questionnaire). The ASQ-3 is parent-completed, covers communication, gross motor, fine motor, problem-solving, and personal-social domains. Autism-specific screening (M-CHAT-R/F) is recommended at 18 and 24 months. The Denver II is a surveillance tool but less commonly used as a primary screener.",
+    category: "Pediatric NP",
+    difficulty: 1
+  },
+  {
+    id: "np-peds-q22",
+    type: "question",
+    question: "A 7-year-old child with sickle cell disease presents with fever of 39°C. What is the priority action?",
+    options: ["Administer acetaminophen and discharge home", "Obtain blood cultures and administer empiric IV antibiotics (ceftriaxone) immediately", "Schedule a follow-up appointment in 3 days", "Prescribe oral amoxicillin and discharge"],
+    correctIndex: 1,
+    answer: "Fever in sickle cell disease is a medical emergency due to functional asplenia and high risk of overwhelming sepsis (especially encapsulated organisms: S. pneumoniae, H. influenzae, N. meningitidis). Management: immediate blood cultures, CBC with reticulocyte count, and empiric IV antibiotics (ceftriaxone). Admit for observation. Penicillin prophylaxis (until age 5) and pneumococcal vaccination reduce infection risk.",
+    category: "Pediatric NP",
+    difficulty: 3
+  },
+  // ============================================================
+  // RESEARCH & EBP – EXPANDED (8 cards)
+  // ============================================================
+  {
+    id: "np-ebp-q9",
+    type: "question",
+    question: "An NP is critically appraising a randomized controlled trial (RCT). The study reports a number needed to treat (NNT) of 5. What does this mean?",
+    options: ["5 patients must be in each group", "5 patients need to be treated with the intervention for one additional patient to benefit compared to control", "The treatment is effective in 5% of patients", "5 adverse events occurred in the treatment group"],
+    correctIndex: 1,
+    answer: "NNT (Number Needed to Treat) is calculated as 1/ARR (absolute risk reduction). An NNT of 5 means that for every 5 patients treated, 1 additional patient benefits compared to control. Lower NNT indicates more effective treatment. NNT of 1 would be a perfect treatment. NNH (Number Needed to Harm) is similarly calculated for adverse effects. These are clinically meaningful measures that help translate statistical significance into practical clinical decisions.",
+    category: "Research & EBP",
+    difficulty: 2
+  },
+  {
+    id: "np-ebp-q10",
+    type: "question",
+    question: "An NP is evaluating the quality of evidence for a clinical practice guideline. Using the GRADE system, which level represents the highest quality evidence?",
+    options: ["Expert opinion", "Case-control studies", "High quality: further research is very unlikely to change confidence in the estimate of effect (typically from well-designed RCTs)", "Cohort studies"],
+    correctIndex: 2,
+    answer: "The GRADE (Grading of Recommendations Assessment, Development, and Evaluation) system classifies evidence quality as High, Moderate, Low, or Very Low. High-quality evidence comes from well-designed RCTs with consistent results, adequate sample sizes, and minimal bias. Evidence can be downgraded for risk of bias, inconsistency, indirectness, imprecision, or publication bias. Observational studies start as low quality but can be upgraded.",
+    category: "Research & EBP",
+    difficulty: 2
+  },
+  {
+    id: "np-ebp-q11",
+    type: "question",
+    question: "An NP is designing a quality improvement (QI) project to reduce central line-associated bloodstream infections (CLABSI). Which framework is most appropriate?",
+    options: ["Randomized controlled trial design", "Plan-Do-Study-Act (PDSA) cycle", "Grounded theory methodology", "Case-control study design"],
+    correctIndex: 1,
+    answer: "The PDSA cycle is the most widely used framework for quality improvement projects. Plan: identify the problem and develop an intervention. Do: implement on a small scale. Study: analyze results and compare to predictions. Act: adopt, adapt, or abandon based on results. Multiple rapid PDSA cycles allow iterative improvement. QI projects differ from research: they focus on improving local processes, not generating generalizable knowledge.",
+    category: "Research & EBP",
+    difficulty: 1
+  },
+  {
+    id: "np-ebp-q12",
+    type: "question",
+    question: "An NP reads a diagnostic study reporting sensitivity of 95% and specificity of 70% for a screening test. What does high sensitivity mean clinically?",
+    options: ["The test is excellent at confirming disease (few false positives)", "The test is excellent at detecting disease (few false negatives) — good for ruling OUT disease (SnNOut)", "The test has a high positive predictive value", "The test is accurate in all populations"],
+    correctIndex: 1,
+    answer: "High sensitivity means few false negatives — the test catches most true positives. Mnemonic: SnNOut (Sensitivity, Negative result, rules OUT). A negative result on a highly sensitive test effectively excludes the disease. High specificity means few false positives — SpPIn (Specificity, Positive result, rules IN). Ideal screening tests have high sensitivity; confirmatory tests need high specificity. Predictive values depend on disease prevalence.",
+    category: "Research & EBP",
+    difficulty: 2
+  },
+  {
+    id: "np-ebp-q13",
+    type: "question",
+    question: "An NP is conducting a systematic review. What distinguishes a systematic review from a narrative (traditional) literature review?",
+    options: ["Systematic reviews only include RCTs", "Systematic reviews use a predefined, reproducible methodology with explicit search strategies, inclusion/exclusion criteria, and critical appraisal of studies", "Narrative reviews are more rigorous", "There is no difference"],
+    correctIndex: 1,
+    answer: "Systematic reviews follow a rigorous, predefined protocol (often registered on PROSPERO): comprehensive search strategy across multiple databases, explicit inclusion/exclusion criteria, standardized quality assessment of included studies, and transparent reporting (PRISMA guidelines). Meta-analyses add statistical pooling of results. Narrative reviews are subject to author bias in study selection. Systematic reviews are the highest level of evidence in the evidence hierarchy.",
+    category: "Research & EBP",
+    difficulty: 2
+  },
+  {
+    id: "np-ebp-q14",
+    type: "question",
+    question: "An NP reads a study with a p-value of 0.03 and a 95% confidence interval for the odds ratio of 1.2-3.8. How should this be interpreted?",
+    options: ["Not statistically significant because CI includes 1", "Statistically significant; the CI does not cross 1.0, and p<0.05 supports rejecting the null hypothesis", "Clinically significant regardless of the CI", "The study has insufficient power"],
+    correctIndex: 1,
+    answer: "A p-value <0.05 and a 95% CI for odds ratio that does not include 1.0 both indicate statistical significance. The CI of 1.2-3.8 means we are 95% confident the true odds ratio falls between 1.2 and 3.8, suggesting the exposure increases odds of the outcome by 1.2 to 3.8 times. Statistical significance does not automatically imply clinical significance — effect size and clinical context must also be considered.",
+    category: "Research & EBP",
+    difficulty: 2
+  },
+  {
+    id: "np-ebp-q15",
+    type: "question",
+    question: "An NP wants to compare the effectiveness of two wound care protocols in a clinic. Which study design is most feasible and appropriate?",
+    options: ["Randomized controlled trial with blinding", "Quasi-experimental design (pre-post comparison or nonequivalent groups)", "Case report", "Cross-sectional survey"],
+    correctIndex: 1,
+    answer: "Quasi-experimental designs are most feasible in clinical practice settings where true randomization may not be practical or ethical. These designs include pre-post (before and after intervention), nonequivalent control group, and interrupted time series. While they have lower internal validity than RCTs (no randomization), they provide meaningful evidence for practice improvement. They are commonly used for DNP scholarly projects.",
+    category: "Research & EBP",
+    difficulty: 2
+  },
+  {
+    id: "np-ebp-q16",
+    type: "question",
+    question: "An NP is evaluating a study that reports a relative risk reduction (RRR) of 50% for a new medication versus placebo. The absolute risk reduction (ARR) is 2%. Why is the ARR more clinically meaningful?",
+    options: ["ARR is always larger than RRR", "ARR accounts for the baseline event rate, while RRR can be misleading when baseline risk is low (e.g., reducing risk from 4% to 2% = 50% RRR but only 2% ARR)", "ARR is used for marketing purposes", "RRR and ARR always provide the same information"],
+    correctIndex: 1,
+    answer: "RRR can overstate clinical benefit when baseline risk is small. Example: Event rate drops from 4% to 2% = 50% RRR (sounds impressive) but ARR is only 2% (NNT = 50, meaning 50 patients must be treated for 1 to benefit). ARR provides the absolute magnitude of benefit. NNT (1/ARR) translates this into a clinically interpretable number. Always evaluate both relative and absolute measures when appraising treatment studies.",
+    category: "Research & EBP",
+    difficulty: 3
+  },
+  // ============================================================
+  // PRIMARY CARE NP – EXPANDED (9 cards)
+  // ============================================================
+  {
+    id: "np-primary-q19",
+    type: "question",
+    question: "A 50-year-old male with no symptoms asks about colorectal cancer screening. According to current USPSTF guidelines, what is the recommended starting age and preferred methods?",
+    options: ["Screening begins at 50 with colonoscopy only", "Screening begins at 45 with colonoscopy every 10 years, or annual FIT/gFOBT, or stool DNA test every 3 years, or CT colonography every 5 years", "Screening is only needed if there is a family history", "Screening begins at 55 with sigmoidoscopy"],
+    correctIndex: 1,
+    answer: "The USPSTF (2021) lowered colorectal cancer screening initiation to age 45 for average-risk adults (previously 50). Options include: colonoscopy every 10 years, annual high-sensitivity stool tests (FIT or gFOBT), stool DNA-FIT (Cologuard) every 1-3 years, CT colonography every 5 years, or flexible sigmoidoscopy every 5-10 years. Screening continues through age 75. Ages 76-85 is individualized. High-risk patients (family history, IBD, Lynch syndrome) need earlier and more frequent screening.",
+    category: "Primary Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-primary-q20",
+    type: "question",
+    question: "A 45-year-old woman presents with a 2-cm painless, firm, non-mobile breast mass. Mammography shows a BIRADS 5 lesion. What is the next step?",
+    options: ["Repeat mammogram in 6 months", "Ultrasound-guided core needle biopsy", "Reassurance and annual screening", "Start tamoxifen empirically"],
+    correctIndex: 1,
+    answer: "BIRADS 5 indicates highly suggestive of malignancy (≥95% probability). Core needle biopsy is the standard next step for tissue diagnosis. It is preferred over fine-needle aspiration for solid masses as it provides architectural information for histological classification. If biopsy confirms malignancy, staging workup and multidisciplinary oncology referral are needed. Triple assessment (clinical exam + imaging + biopsy) is the gold standard for breast masses.",
+    category: "Primary Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-primary-q21",
+    type: "question",
+    question: "A patient presents with a 3-day history of unilateral facial droop, inability to close the right eye, and loss of taste. There is no arm or leg weakness. What is the most likely diagnosis?",
+    options: ["Stroke (CVA)", "Bell's palsy (idiopathic facial nerve CN VII palsy)", "Trigeminal neuralgia", "Myasthenia gravis"],
+    correctIndex: 1,
+    answer: "Bell's palsy is an acute, idiopathic peripheral CN VII palsy causing unilateral facial paralysis affecting BOTH upper and lower face (cannot wrinkle forehead on affected side). This distinguishes it from stroke (upper motor neuron lesion spares the forehead). Additional features: hyperacusis, loss of taste anterior 2/3 of tongue, decreased lacrimation. Treatment: oral corticosteroids (prednisone) within 72 hours. Most recover within 3-6 months.",
+    category: "Primary Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-primary-q22",
+    type: "question",
+    question: "A patient with chronic low back pain for 8 weeks without red flags (no fever, weight loss, neurological deficits, or history of cancer) asks for imaging. What is the appropriate response?",
+    options: ["Order lumbar MRI immediately", "Imaging is not recommended for non-specific low back pain without red flags in the first 6 weeks; continue conservative management", "Order CT scan of the spine", "Refer for surgical evaluation"],
+    correctIndex: 1,
+    answer: "ACP/AAFP guidelines recommend against routine imaging for acute or subacute low back pain without red flags (cancer history, unexplained weight loss, neurological deficits, fever, trauma, IV drug use, prolonged steroid use). First-line treatment: NSAIDs, muscle relaxants (short-term), physical therapy, and patient education. Imaging is indicated if red flags are present, symptoms persist beyond 6 weeks with no improvement, or progressive neurological deficit develops.",
+    category: "Primary Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-primary-q23",
+    type: "question",
+    question: "A 60-year-old male smoker with a 35-pack-year history asks about lung cancer screening. What does the USPSTF recommend?",
+    options: ["Chest X-ray annually", "Low-dose CT (LDCT) annually for adults aged 50-80 with ≥20 pack-year smoking history who currently smoke or quit within the past 15 years", "No screening is available for lung cancer", "PET scan every 5 years"],
+    correctIndex: 1,
+    answer: "The USPSTF (2021) recommends annual LDCT for adults aged 50-80 with ≥20 pack-year smoking history who currently smoke or quit within the past 15 years. The NELSON and NLST trials demonstrated significant lung cancer mortality reduction with LDCT screening. Screening should be discontinued once the person has not smoked for 15 years, develops a health problem limiting life expectancy, or is unwilling to have curative lung surgery.",
+    category: "Primary Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-primary-q24",
+    type: "question",
+    question: "A patient presents with a painful, vesicular rash in a dermatomal distribution on the right thorax. What is the diagnosis and recommended treatment?",
+    options: ["Contact dermatitis; topical steroids", "Herpes zoster (shingles); antiviral therapy (valacyclovir) within 72 hours of rash onset", "Impetigo; topical mupirocin", "Eczema; emollients and antihistamines"],
+    correctIndex: 1,
+    answer: "Herpes zoster results from reactivation of varicella-zoster virus in dorsal root ganglia. Characterized by painful, vesicular rash in a unilateral dermatomal distribution that does not cross midline. Treatment: valacyclovir 1g TID or acyclovir 800 mg 5x/day for 7 days, ideally within 72 hours. Postherpetic neuralgia (pain persisting >90 days) is the most common complication; treated with gabapentin, pregabalin, or lidocaine patches. Shingrix vaccine recommended for adults ≥50.",
+    category: "Primary Care NP",
+    difficulty: 1
+  },
+  {
+    id: "np-primary-q25",
+    type: "question",
+    question: "A 30-year-old patient presents with recurrent episodes of wheezing, chest tightness, and cough that worsen at night and with exercise. Spirometry shows FEV1/FVC <0.70 with >12% improvement after bronchodilator. What step of asthma therapy should be initiated?",
+    options: ["SABA as needed only (Step 1)", "Low-dose ICS daily plus SABA as needed (Step 2)", "High-dose ICS-LABA plus oral corticosteroids", "No treatment is needed"],
+    correctIndex: 1,
+    answer: "This patient has persistent asthma (symptoms >2 days/week, nighttime awakenings). Per NAEPP/GINA guidelines, Step 2 therapy is appropriate: low-dose inhaled corticosteroid (ICS) daily (e.g., fluticasone 88 mcg BID) plus SABA for rescue. Alternatively, GINA now recommends as-needed low-dose ICS-formoterol as both maintenance and reliever therapy (MART). Step up if not controlled after 2-4 weeks on current step. Assess inhaler technique and adherence before stepping up.",
+    category: "Primary Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-primary-q26",
+    type: "question",
+    question: "A patient with hypothyroidism on levothyroxine 100 mcg daily has a persistently elevated TSH of 8.5 mIU/L despite reported adherence. What should the NP assess?",
+    options: ["Increase levothyroxine without further assessment", "Assess medication timing, concurrent medications (calcium, iron, PPIs), and dietary factors that impair absorption", "Switch to liothyronine (T3)", "Discontinue levothyroxine"],
+    correctIndex: 1,
+    answer: "Before increasing levothyroxine dose, assess absorption factors: timing (should be taken 30-60 minutes before breakfast on empty stomach), concurrent medications (calcium, iron, aluminum antacids, PPIs, cholestyramine reduce absorption — separate by 4 hours), soy products, coffee, and fiber can also impair absorption. Ensure consistency in brand/generic. If true malabsorption (celiac, gastric bypass), higher doses or liquid/gel cap formulations may be needed.",
+    category: "Primary Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-primary-q27",
+    type: "question",
+    question: "A 55-year-old patient presents with a new diagnosis of gout. Serum uric acid is 10.2 mg/dL with tophaceous deposits. Which urate-lowering therapy is first-line for chronic gout management?",
+    options: ["Colchicine alone", "Allopurinol (xanthine oxidase inhibitor), starting at low dose and titrating to target uric acid <6 mg/dL", "Probenecid", "NSAIDs indefinitely"],
+    correctIndex: 1,
+    answer: "Allopurinol is first-line urate-lowering therapy for chronic gout (≥2 flares/year, tophi, CKD, or urolithiasis). Start low (100 mg daily, 50 mg in CKD) and titrate every 2-4 weeks to target serum uric acid <6 mg/dL. Anti-inflammatory prophylaxis (low-dose colchicine or NSAID) should be given for 3-6 months when starting ULT to prevent mobilization flares. Febuxostat is an alternative for allopurinol-intolerant patients. HLA-B*5801 testing recommended in high-risk populations before starting allopurinol.",
+    category: "Primary Care NP",
+    difficulty: 2
+  },
+  {
+    id: "np-family-q13",
+    type: "question",
+    question: "A 14-year-old patient asks the NP for contraception without parental knowledge. In a state with minor consent laws for reproductive health, what is the NP's obligation?",
+    options: ["Refuse to provide care without parental consent", "Provide confidential reproductive health care as permitted by state minor consent laws", "Call the patient's parents immediately", "Refer to a family planning clinic only"],
+    correctIndex: 1,
+    answer: "Most states have minor consent laws allowing adolescents to access reproductive health services (contraception, STI testing/treatment, prenatal care) without parental consent. The NP should provide age-appropriate counseling, assess for coercion or abuse, and maintain confidentiality as permitted by state law. ACOG and AAP support adolescent access to confidential reproductive care. Document the encounter and legal basis for providing care.",
+    category: "Family NP",
+    difficulty: 2
+  },
+  {
+    id: "np-family-q14",
+    type: "question",
+    question: "A patient presents with a sore throat, fever, tonsillar exudates, and anterior cervical lymphadenopathy. The rapid strep test is positive. What is the recommended antibiotic treatment?",
+    options: ["Azithromycin for 5 days", "Penicillin V 500 mg BID for 10 days or amoxicillin 500 mg BID for 10 days", "Ciprofloxacin for 7 days", "Cephalexin for 14 days"],
+    correctIndex: 1,
+    answer: "Penicillin V or amoxicillin for 10 days remains first-line treatment for Group A streptococcal pharyngitis (IDSA guidelines). Single IM benzathine penicillin G is an alternative for adherence concerns. Azithromycin is reserved for penicillin-allergic patients. Treatment prevents rheumatic fever (primary prevention), reduces symptom duration, and decreases transmission. Centor/McIsaac criteria guide testing decisions.",
+    category: "Family NP",
+    difficulty: 1
+  },
+  {
+    id: "np-family-q15",
+    type: "question",
+    question: "A 65-year-old patient presents with sudden onset of painless monocular vision loss described as a 'curtain falling over the eye.' What is the most likely diagnosis and urgent action?",
+    options: ["Glaucoma; prescribe timolol eye drops", "Retinal detachment; emergent ophthalmology referral", "Cataracts; schedule elective surgery", "Conjunctivitis; prescribe antibiotic eye drops"],
+    correctIndex: 1,
+    answer: "Sudden painless monocular vision loss with a 'curtain or shade' sensation is classic for retinal detachment. This is an ophthalmologic emergency requiring immediate referral. Rhegmatogenous retinal detachment (most common) involves a retinal tear allowing vitreous fluid underneath the retina. Risk factors: high myopia, prior cataract surgery, trauma, family history. Preceding symptoms include floaters and photopsia (flashing lights). Delay in treatment leads to permanent vision loss.",
+    category: "Family NP",
+    difficulty: 2
+  },
+  {
+    id: "np-family-q16",
+    type: "question",
+    question: "An NP is managing a patient with chronic kidney disease stage 3 (eGFR 42). Which routine monitoring is essential at this stage?",
+    options: ["Annual creatinine only", "Monitor eGFR, urine albumin-to-creatinine ratio, electrolytes (K+, Ca2+, phosphorus), PTH, hemoglobin, and blood pressure at regular intervals", "No monitoring needed until dialysis", "Weekly urinalysis"],
+    correctIndex: 1,
+    answer: "CKD stage 3 requires comprehensive monitoring: eGFR and UACR every 3-6 months, electrolytes (hyperkalemia risk), calcium/phosphorus/PTH (mineral bone disease), hemoglobin (anemia of CKD from decreased erythropoietin), lipid panel, and blood pressure optimization (<130/80). Refer to nephrology at stage 4 (eGFR <30) or earlier if rapid decline (>5 mL/min/year). Avoid nephrotoxins (NSAIDs, contrast dye, aminoglycosides). SGLT2 inhibitors slow CKD progression.",
+    category: "Family NP",
+    difficulty: 2
+  },
+  {
+    id: "np-diff-q21",
+    type: "question",
+    question: "A 40-year-old patient presents with progressive symmetric joint stiffness and swelling in the hands (MCP and PIP joints) with morning stiffness lasting >1 hour. What is the most likely diagnosis?",
+    options: ["Osteoarthritis", "Rheumatoid arthritis", "Gout", "Psoriatic arthritis"],
+    correctIndex: 1,
+    answer: "Rheumatoid arthritis presents with symmetric inflammatory polyarthritis affecting small joints (MCP, PIP, wrists). Morning stiffness >30-60 minutes (vs <30 minutes in OA) is characteristic. Lab findings: positive RF and anti-CCP antibodies (most specific), elevated ESR/CRP. X-ray: periarticular osteopenia, joint space narrowing, erosions. OA affects DIP joints, is asymmetric, and improves with rest. Early DMARD therapy (methotrexate first-line) prevents joint destruction.",
+    category: "Differential Diagnosis",
+    difficulty: 2
+  },
 ];

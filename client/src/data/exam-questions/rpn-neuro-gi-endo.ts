@@ -819,4 +819,312 @@ export const rpnNeuroGiEndoQuestions: ExamQuestion[] = [
     r: "Competent clients have the right to refuse medication, even on a psychiatric unit. The nurse documents the refusal, notifies the prescriber, and educates the client about the medication's benefits and risks of refusal. Forced medication is only permissible in emergencies where the client is an imminent danger to self or others and less restrictive interventions have failed. Covert medication administration violates autonomy and trust.",
     s: "Mental Health"
   },
+  {
+    q: "A client with multiple sclerosis (MS) reports worsening fatigue, numbness in the legs, and blurred vision. The nurse recognizes these symptoms as a relapse. Which medication is typically administered during an acute MS exacerbation?",
+    o: ["Oral methotrexate", "IV methylprednisolone (Solu-Medrol)", "Subcutaneous interferon beta-1a", "Oral baclofen"],
+    a: 1,
+    r: "Acute MS exacerbations (relapses) are treated with high-dose IV corticosteroids, typically methylprednisolone 1g/day for 3-5 days, to reduce inflammation and shorten the duration of the relapse. Interferon beta-1a is a disease-modifying therapy used for long-term prevention, not acute management. Baclofen treats spasticity but does not address the underlying inflammatory process of a relapse.",
+    s: "Neurological"
+  },
+  {
+    q: "A nurse is caring for a client with epilepsy who begins having a tonic-clonic seizure. Which nursing action is most appropriate during the seizure?",
+    o: ["Insert a padded tongue blade between the teeth", "Turn the client to the side and protect the head from injury", "Restrain the client's extremities to prevent injury", "Administer oral phenytoin immediately"],
+    a: 1,
+    r: "During a tonic-clonic seizure, the nurse should turn the client to the side (recovery position) to maintain airway patency and prevent aspiration, protect the head from injury, and time the seizure. Nothing should be placed in the mouth as this can cause tooth fractures or airway obstruction. Restraining extremities can cause musculoskeletal injuries. Oral medications cannot be given during active seizures; IV lorazepam is the first-line emergent treatment.",
+    s: "Neurological"
+  },
+  {
+    q: "A client post-craniotomy has a Glasgow Coma Scale (GCS) score that drops from 13 to 9 over 2 hours. The nurse notes a unilateral fixed dilated pupil. Which complication does the nurse suspect?",
+    o: ["Cerebral vasospasm", "Uncal herniation from expanding intracranial mass", "Meningitis", "Normal postoperative swelling"],
+    a: 1,
+    r: "A declining GCS with unilateral fixed dilated pupil (ipsilateral to the lesion) strongly suggests uncal herniation, where the temporal lobe herniates through the tentorial notch and compresses cranial nerve III (oculomotor). This is a neurosurgical emergency requiring immediate intervention such as osmotic diuretics (mannitol), hyperventilation, and potential surgical decompression. A decline of 2+ GCS points is clinically significant and requires urgent notification.",
+    s: "Neurological"
+  },
+  {
+    q: "A nurse is performing a neurological assessment on a client admitted with suspected stroke. The client can follow commands but cannot name objects or repeat phrases. Which type of aphasia does this represent?",
+    o: ["Wernicke's (receptive) aphasia", "Broca's (expressive) aphasia", "Global aphasia", "Dysarthria"],
+    a: 1,
+    r: "Broca's aphasia (expressive aphasia) results from damage to Broca's area in the frontal lobe. Clients understand spoken language and can follow commands, but have difficulty producing speech, naming objects, and repeating phrases. Wernicke's aphasia involves fluent but nonsensical speech with impaired comprehension. Global aphasia affects both expression and comprehension. Dysarthria is a motor speech disorder, not a language disorder.",
+    s: "Neurological"
+  },
+  {
+    q: "A client with a subarachnoid hemorrhage from a ruptured cerebral aneurysm is at risk for cerebral vasospasm. The nurse knows this complication most commonly occurs during which timeframe?",
+    o: ["Within the first 6 hours", "Days 4-14 after the hemorrhage", "After 30 days", "Only during the initial bleed"],
+    a: 1,
+    r: "Cerebral vasospasm is the most dangerous complication of subarachnoid hemorrhage (SAH), occurring most commonly between days 4-14 post-bleed, with peak incidence around days 7-10. It causes ischemic neurological deficits due to arterial narrowing. Nimodipine (a calcium channel blocker) is given prophylactically to reduce vasospasm severity. Triple-H therapy (hypertension, hypervolemia, hemodilution) may be used to maintain cerebral perfusion.",
+    s: "Neurological"
+  },
+  {
+    q: "A client with status epilepticus has been seizing for 8 minutes. IV access is established. Which medication does the nurse anticipate administering first?",
+    o: ["IV phenytoin (Dilantin)", "IV lorazepam (Ativan)", "IV phenobarbital", "IV levetiracetam (Keppra)"],
+    a: 1,
+    r: "IV lorazepam (Ativan) is the first-line treatment for status epilepticus. Benzodiazepines act rapidly by enhancing GABA-mediated inhibition to terminate seizure activity. The typical dose is 0.1 mg/kg IV (max 4 mg per dose), which may be repeated once after 5 minutes. If benzodiazepines fail, second-line agents include IV fosphenytoin, valproic acid, or levetiracetam. Status epilepticus (seizure lasting >5 minutes) is a neurological emergency with risks of hypoxia, brain injury, and death.",
+    s: "Neurological"
+  },
+  {
+    q: "A client with hepatic encephalopathy is started on lactulose. The nurse knows the therapeutic goal of lactulose is to achieve which outcome?",
+    o: ["Reduce portal hypertension", "Produce 2-3 soft stools per day to excrete ammonia", "Treat the underlying hepatitis infection", "Increase serum albumin levels"],
+    a: 1,
+    r: "Lactulose is an osmotic laxative that converts ammonia (NH3) to ammonium (NH4+) in the gut, which cannot be reabsorbed and is excreted in stool. The therapeutic goal is 2-3 soft stools per day. More frequent stools may cause dehydration and electrolyte imbalances. Hepatic encephalopathy results from the failing liver's inability to convert ammonia to urea. Rifaximin may be added as adjunctive therapy to reduce ammonia-producing bacteria.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A client presents to the emergency department with acute upper GI bleeding. The nurse notes coffee-ground emesis and melena. Which nursing action takes priority?",
+    o: ["Insert a nasogastric tube for lavage", "Establish two large-bore IV lines and begin fluid resuscitation", "Prepare the client for immediate endoscopy", "Administer oral proton pump inhibitors"],
+    a: 1,
+    r: "The priority in acute upper GI bleeding is hemodynamic stabilization. Establishing two large-bore (16-18 gauge) IV lines allows rapid fluid and blood product administration. The nurse assesses for signs of hemorrhagic shock (tachycardia, hypotension, altered mental status). Type and crossmatch should be sent. IV proton pump inhibitors (not oral) may be started. Endoscopy is performed once the client is stabilized to identify and treat the bleeding source.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A client with acute pancreatitis has a serum lipase level 5 times the upper limit of normal and severe epigastric pain radiating to the back. Which position does the nurse encourage to reduce pain?",
+    o: ["Supine with legs elevated", "Leaning forward with knees drawn up (fetal position)", "Prone position", "Side-lying on the right side"],
+    a: 1,
+    r: "The forward-leaning or fetal position reduces tension on the peritoneum and decreases pancreatic duct pressure, providing pain relief in acute pancreatitis. Lying supine often increases pain. Management includes NPO status, IV fluid resuscitation, IV analgesics (hydromorphone or morphine), and monitoring for complications such as pancreatic necrosis, pseudocyst formation, and multiorgan failure. Serum lipase is the most specific marker for pancreatitis.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A nurse is assessing a client with a suspected small bowel obstruction. Which combination of findings is most consistent with this diagnosis?",
+    o: ["Absent bowel sounds and board-like abdomen", "Colicky abdominal pain, vomiting, abdominal distension, and high-pitched bowel sounds", "Right lower quadrant pain with rebound tenderness", "Painless jaundice with clay-colored stools"],
+    a: 1,
+    r: "Small bowel obstruction (SBO) presents with colicky (intermittent, cramping) abdominal pain, vomiting (often bilious and early in the course), abdominal distension, and high-pitched hyperactive bowel sounds proximal to the obstruction. As obstruction progresses, bowel sounds may become absent, indicating possible strangulation or perforation. Management includes NPO, nasogastric decompression, IV fluids, and surgical consultation. Adhesions from prior surgery are the most common cause.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A client with cirrhosis develops tense ascites. The physician plans to perform a paracentesis. Which nursing intervention is essential during the procedure?",
+    o: ["Position the client prone", "Monitor blood pressure closely and administer IV albumin as ordered", "Encourage the client to drink fluids during the procedure", "Clamp the drainage after 500 mL"],
+    a: 1,
+    r: "During large-volume paracentesis (>5 liters), there is a risk of post-paracentesis circulatory dysfunction (PPCD) due to rapid fluid shifts, causing hypotension. IV albumin (6-8 g per liter removed) is administered to prevent this complication. The client is positioned upright or on the edge of the bed. Vital signs are monitored frequently. Rapid removal of ascitic fluid without albumin replacement can lead to hepatorenal syndrome and cardiovascular collapse.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A client with ulcerative colitis is experiencing a severe flare with bloody diarrhea (10+ stools/day), fever, and tachycardia. The nurse monitors for which life-threatening complication?",
+    o: ["Appendicitis", "Toxic megacolon", "Peptic ulcer perforation", "Diverticulitis"],
+    a: 1,
+    r: "Toxic megacolon is a life-threatening complication of severe ulcerative colitis where the colon dilates massively (>6 cm on X-ray), with risk of perforation, sepsis, and death. Signs include fever, tachycardia, abdominal distension, and decreased bowel sounds. Management includes NPO, nasogastric decompression, IV corticosteroids, broad-spectrum antibiotics, and urgent surgical consultation. If medical management fails within 24-72 hours, colectomy is indicated.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A client with Crohn's disease is prescribed infliximab (Remicade). Before initiating therapy, which screening test is essential?",
+    o: ["Serum ferritin level", "Tuberculosis (TB) screening test", "Fasting blood glucose", "Serum calcium level"],
+    a: 1,
+    r: "Infliximab is a TNF-alpha inhibitor (biologic therapy) that suppresses the immune system. Before initiating treatment, clients must be screened for latent tuberculosis (TB) because TNF-alpha inhibitors can reactivate latent TB, leading to disseminated disease. A tuberculin skin test (TST) or interferon-gamma release assay (IGRA) is required. Clients should also be screened for hepatitis B. During treatment, monitor for serious infections, infusion reactions, and malignancy risk.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A client with thyroid storm presents with a temperature of 40.5°C (105°F), heart rate of 160, agitation, and delirium. Which medication does the nurse anticipate administering first?",
+    o: ["Levothyroxine (Synthroid)", "Propylthiouracil (PTU) followed by iodine solution", "Radioactive iodine (I-131)", "Metformin"],
+    a: 1,
+    r: "Thyroid storm is a life-threatening hypermetabolic crisis. Treatment follows a specific sequence: PTU is given first to block new thyroid hormone synthesis, followed at least 1 hour later by iodine solution (SSKI or Lugol's) to inhibit hormone release. Beta-blockers (propranolol) control sympathetic symptoms. Corticosteroids (hydrocortisone) block peripheral T4 to T3 conversion. Cooling measures address hyperthermia. Levothyroxine would worsen the crisis. Radioactive iodine is contraindicated in acute thyroid storm.",
+    s: "Endocrine"
+  },
+  {
+    q: "A client with Addison's disease is brought to the emergency department in Addisonian crisis. The nurse expects to find which set of clinical findings?",
+    o: ["Hypertension, hyperglycemia, and moon face", "Severe hypotension, hyperkalemia, hyponatremia, and hypoglycemia", "Polyuria, polydipsia, and weight loss", "Exophthalmos and heat intolerance"],
+    a: 1,
+    r: "Addisonian crisis (acute adrenal insufficiency) results from cortisol and aldosterone deficiency. Without aldosterone, sodium and water are lost and potassium is retained, causing severe hypotension, hyponatremia, and hyperkalemia. Without cortisol, hypoglycemia occurs. The client may present with profound weakness, abdominal pain, and altered consciousness. Emergency treatment includes IV hydrocortisone (stress dose), aggressive IV normal saline, and dextrose for hypoglycemia. The crisis may be triggered by infection, surgery, or abrupt steroid withdrawal.",
+    s: "Endocrine"
+  },
+  {
+    q: "A client with SIADH (Syndrome of Inappropriate Antidiuretic Hormone) has a serum sodium of 118 mEq/L. Which intervention does the nurse implement?",
+    o: ["Administer IV hypotonic saline rapidly", "Restrict fluids to 500-1000 mL/day and administer hypertonic saline cautiously", "Encourage increased oral fluid intake", "Administer IV potassium chloride"],
+    a: 1,
+    r: "SIADH causes excessive ADH secretion leading to water retention and dilutional hyponatremia. Management includes strict fluid restriction (500-1000 mL/day), and for severe hyponatremia (<120 mEq/L or symptomatic), cautious administration of 3% hypertonic saline. Sodium must be corrected slowly (no more than 8-10 mEq/L in 24 hours) to prevent osmotic demyelination syndrome (central pontine myelinolysis), which causes irreversible neurological damage. Demeclocycline or tolvaptan may be used for chronic SIADH.",
+    s: "Endocrine"
+  },
+  {
+    q: "A client with diabetes insipidus (DI) is excreting large volumes of dilute urine (8 liters/day). The nurse anticipates which medication to be prescribed?",
+    o: ["Furosemide (Lasix)", "Desmopressin (DDAVP)", "Spironolactone", "Metformin"],
+    a: 1,
+    r: "Central diabetes insipidus is caused by insufficient ADH production from the posterior pituitary. Desmopressin (DDAVP) is a synthetic ADH analog that replaces the missing hormone, reducing urine output and increasing urine concentration. It can be given intranasally, orally, or IV. Without treatment, clients can excrete 5-20 liters of dilute urine daily, leading to severe dehydration and hypernatremia. The nurse monitors daily weights, strict I&O, serum sodium, and urine specific gravity.",
+    s: "Endocrine"
+  },
+  {
+    q: "A client with pheochromocytoma is scheduled for adrenalectomy. The nurse knows which medication must be started preoperatively, and in what order?",
+    o: ["Beta-blocker first, then alpha-blocker", "Alpha-blocker (phenoxybenzamine) first for 10-14 days, then beta-blocker if needed", "ACE inhibitor followed by diuretic", "Calcium channel blocker alone"],
+    a: 1,
+    r: "Pheochromocytoma secretes excessive catecholamines (epinephrine, norepinephrine) causing severe hypertension. Alpha-blockade must be initiated FIRST (phenoxybenzamine for 10-14 days) to prevent hypertensive crisis during tumor manipulation. Beta-blockers are added ONLY AFTER adequate alpha-blockade to control tachycardia. Giving a beta-blocker first causes unopposed alpha-receptor stimulation, leading to potentially fatal hypertensive crisis. The client should also receive liberal salt and fluid intake to expand the contracted intravascular volume.",
+    s: "Endocrine"
+  },
+  {
+    q: "A client with diabetic ketoacidosis (DKA) has a blood glucose of 450 mg/dL, pH 7.18, and serum potassium of 3.2 mEq/L. The nurse knows which action must occur before starting insulin?",
+    o: ["Administer IV sodium bicarbonate", "Replace potassium to at least 3.3 mEq/L before starting insulin", "Give a bolus of D50W", "Administer subcutaneous regular insulin"],
+    a: 1,
+    r: "In DKA, insulin drives potassium from the extracellular space into cells. If the client is already hypokalemic (K+ <3.3 mEq/L), insulin administration can cause life-threatening hypokalemia leading to fatal cardiac arrhythmias. Potassium must be replaced to at least 3.3 mEq/L before insulin infusion begins. IV regular insulin (not subcutaneous) is used for DKA. Bicarbonate is only considered if pH <6.9. Continuous cardiac monitoring is essential during potassium replacement.",
+    s: "Endocrine"
+  },
+  {
+    q: "A client with acute kidney injury (AKI) has a serum potassium of 6.8 mEq/L and peaked T waves on the ECG. Which intervention does the nurse implement first?",
+    o: ["Administer oral kayexalate", "Administer IV calcium gluconate to stabilize the myocardium", "Prepare for hemodialysis", "Restrict dietary potassium"],
+    a: 1,
+    r: "Severe hyperkalemia (>6.5 mEq/L) with ECG changes is a medical emergency. IV calcium gluconate is the first intervention as it stabilizes the cardiac membrane within 1-3 minutes, reducing the risk of fatal arrhythmias. It does not lower potassium levels but provides cardioprotection while other interventions take effect. Subsequently, IV insulin with dextrose shifts potassium intracellularly, and kayexalate or hemodialysis removes potassium from the body. The nurse monitors for cardiac arrest throughout.",
+    s: "Renal"
+  },
+  {
+    q: "A nurse is comparing prerenal, intrarenal, and postrenal causes of acute kidney injury. A client with heart failure who develops oliguria and elevated BUN/creatinine most likely has which type?",
+    o: ["Intrarenal AKI from glomerulonephritis", "Prerenal AKI from decreased renal perfusion", "Postrenal AKI from obstruction", "Chronic kidney disease"],
+    a: 1,
+    r: "Prerenal AKI results from decreased renal perfusion without intrinsic kidney damage. Heart failure reduces cardiac output, decreasing blood flow to the kidneys. Other prerenal causes include hypovolemia, sepsis, and hemorrhage. The BUN:creatinine ratio is typically >20:1 in prerenal AKI. Fractional excretion of sodium (FENa) <1% indicates prerenal etiology. Prerenal AKI is reversible if perfusion is restored promptly. Prolonged ischemia can progress to intrarenal (acute tubular necrosis) damage.",
+    s: "Renal"
+  },
+  {
+    q: "A client on hemodialysis complains of sudden headache, nausea, confusion, and muscle cramps during the procedure. The nurse suspects dialysis disequilibrium syndrome. What is the appropriate action?",
+    o: ["Increase the dialysis flow rate to finish faster", "Slow the dialysis rate and notify the provider", "Discontinue dialysis permanently", "Administer IV heparin"],
+    a: 1,
+    r: "Dialysis disequilibrium syndrome occurs when urea is removed from the blood faster than from the brain, creating an osmotic gradient that pulls water into brain tissue, causing cerebral edema. Symptoms include headache, nausea, vomiting, confusion, and potentially seizures. The nurse slows the dialysis rate to reduce the osmotic shift and notifies the provider. IV mannitol may be administered to counteract cerebral edema. This syndrome is more common in new dialysis clients or those with very high BUN levels.",
+    s: "Renal"
+  },
+  {
+    q: "A client with chronic kidney disease (CKD) stage 5 has a phosphorus level of 7.2 mg/dL and calcium of 7.8 mg/dL. Which medication does the nurse anticipate?",
+    o: ["Calcium supplements to increase calcium", "Phosphate binders (sevelamer or calcium acetate) with meals", "Vitamin D supplements only", "IV normal saline bolus"],
+    a: 1,
+    r: "In CKD, the kidneys cannot excrete phosphorus, leading to hyperphosphatemia. Elevated phosphorus binds to calcium, causing hypocalcemia, which triggers secondary hyperparathyroidism and renal osteodystrophy. Phosphate binders (sevelamer, calcium acetate, lanthanum) are taken WITH meals to bind dietary phosphorus in the GI tract, preventing absorption. Active vitamin D (calcitriol) may also be prescribed to improve calcium absorption. Dietary phosphorus restriction (limiting dairy, processed foods) is also essential.",
+    s: "Renal"
+  },
+  {
+    q: "A client with nephrotic syndrome presents with severe edema, proteinuria (>3.5 g/day), hypoalbuminemia, and hyperlipidemia. Which finding is the hallmark that differentiates nephrotic from nephritic syndrome?",
+    o: ["Hematuria with RBC casts", "Massive proteinuria (>3.5 g/day) with hypoalbuminemia", "Hypertension with oliguria", "Elevated serum creatinine only"],
+    a: 1,
+    r: "Nephrotic syndrome is characterized by massive proteinuria (>3.5 g/day), hypoalbuminemia (albumin <3 g/dL), severe generalized edema, and hyperlipidemia. The glomerular basement membrane becomes permeable to proteins. In contrast, nephritic syndrome presents with hematuria (RBC casts), mild proteinuria, hypertension, and oliguria. Clients with nephrotic syndrome are at increased risk for thromboembolism due to loss of antithrombin III in urine, and infection due to loss of immunoglobulins.",
+    s: "Renal"
+  },
+  {
+    q: "A client with end-stage renal disease on peritoneal dialysis develops cloudy dialysate effluent, abdominal pain, and fever. The nurse suspects which complication?",
+    o: ["Peritoneal dialysis catheter occlusion", "Peritonitis", "Dialysis disequilibrium syndrome", "Uremic pericarditis"],
+    a: 1,
+    r: "Cloudy dialysate effluent is the hallmark sign of peritonitis in peritoneal dialysis clients. Other signs include abdominal pain, fever, and rebound tenderness. The effluent should be sent for culture and cell count (WBC >100 with >50% neutrophils confirms peritonitis). Treatment includes intraperitoneal antibiotics (vancomycin + aminoglycoside or cephalosporin). If peritonitis is recurrent or caused by fungi, the catheter must be removed. Strict aseptic technique during exchanges is the best prevention.",
+    s: "Renal"
+  },
+  {
+    q: "A client at 34 weeks gestation presents with a blood pressure of 168/110, proteinuria (3+), severe headache, visual disturbances, and epigastric pain. The nurse recognizes these findings as which condition?",
+    o: ["Gestational hypertension", "Severe preeclampsia with warning signs of eclampsia", "HELLP syndrome", "Chronic hypertension"],
+    a: 1,
+    r: "Severe preeclampsia is defined by BP ≥160/110 on two occasions, significant proteinuria, and end-organ involvement. Headache, visual disturbances (scotomata, blurred vision), and epigastric/RUQ pain (hepatic capsule distension) are warning signs of impending eclampsia (seizures). Immediate management includes IV magnesium sulfate for seizure prophylaxis, IV antihypertensives (labetalol or hydralazine), continuous fetal monitoring, and evaluation for delivery. Magnesium toxicity is monitored via deep tendon reflexes, respiratory rate, and urine output.",
+    s: "Maternity"
+  },
+  {
+    q: "A client receiving IV magnesium sulfate for preeclampsia has absent deep tendon reflexes, a respiratory rate of 10, and urine output of 15 mL/hour. What should the nurse do immediately?",
+    o: ["Continue the infusion and recheck in 1 hour", "Stop the magnesium sulfate infusion and administer calcium gluconate", "Increase the infusion rate to treat the preeclampsia", "Administer IV furosemide for low urine output"],
+    a: 1,
+    r: "These findings indicate magnesium sulfate toxicity. Therapeutic serum magnesium is 4-7 mEq/L. Toxicity signs progress: loss of DTRs (9-12 mEq/L), respiratory depression (12-15 mEq/L), cardiac arrest (>25 mEq/L). The infusion must be stopped immediately and calcium gluconate (the antidote) administered IV push. Before each dose, the nurse assesses DTRs (must be present), respiratory rate (must be ≥12), and urine output (must be ≥30 mL/hour). Continuous pulse oximetry and cardiac monitoring are essential.",
+    s: "Maternity"
+  },
+  {
+    q: "A client at 32 weeks gestation presents with painless, bright red vaginal bleeding. The nurse suspects placenta previa. Which assessment is contraindicated?",
+    o: ["External fetal monitoring", "Measuring maternal vital signs", "Digital cervical examination", "Ultrasound to confirm placental location"],
+    a: 1,
+    r: "Digital cervical examination is absolutely contraindicated in suspected placenta previa because it can disrupt the placenta and cause massive hemorrhage. Placenta previa occurs when the placenta partially or completely covers the internal cervical os. Diagnosis is confirmed by transabdominal ultrasound. Management depends on severity and gestational age: mild bleeding may be managed with bed rest and observation; severe hemorrhage requires emergency cesarean delivery regardless of gestational age. Rh-negative mothers need RhoGAM.",
+    s: "Maternity"
+  },
+  {
+    q: "A postpartum client 2 hours after vaginal delivery has a boggy uterus, heavy lochia rubra, and blood pressure of 90/58. The nurse suspects uterine atony. What is the priority intervention?",
+    o: ["Administer IV antibiotics", "Perform fundal massage and administer oxytocin (Pitocin)", "Prepare for immediate hysterectomy", "Apply cold packs to the perineum"],
+    a: 1,
+    r: "Uterine atony (failure of the uterus to contract after delivery) is the most common cause of postpartum hemorrhage, responsible for 70-80% of cases. The priority is bimanual fundal massage to stimulate uterine contraction, followed by oxytocin (Pitocin) infusion. If atony persists, methylergonovine (Methergine), carboprost (Hemabate), or misoprostol may be administered. The nurse monitors vital signs, lochia, and fundal firmness every 15 minutes. A full bladder can impede uterine contraction and should be emptied.",
+    s: "Maternity"
+  },
+  {
+    q: "A laboring client at 38 weeks gestation has a fetal heart rate tracing showing late decelerations with each contraction. The nurse interprets this pattern as indicating what?",
+    o: ["Normal fetal response to head compression", "Uteroplacental insufficiency with potential fetal hypoxia", "Umbilical cord compression", "Fetal tachyarrhythmia"],
+    a: 1,
+    r: "Late decelerations begin after the peak of the contraction and return to baseline after the contraction ends. They indicate uteroplacental insufficiency, meaning the placenta cannot adequately oxygenate the fetus during contractions. Causes include maternal hypotension, uterine hyperstimulation, and placental dysfunction. Nursing interventions include repositioning the client to the left lateral position, administering oxygen, increasing IV fluids, discontinuing oxytocin, and notifying the provider. Persistent late decelerations may require emergent delivery.",
+    s: "Maternity"
+  },
+  {
+    q: "A client at 28 weeks gestation is diagnosed with premature rupture of membranes (PPROM). Which intervention does the nurse anticipate to promote fetal lung maturity?",
+    o: ["Immediate induction of labor", "Administration of betamethasone (antenatal corticosteroids)", "Emergency cesarean section", "Oral antibiotics only"],
+    a: 1,
+    r: "Betamethasone (12 mg IM, two doses 24 hours apart) is administered between 24-34 weeks gestation to accelerate fetal lung maturity by stimulating surfactant production. This reduces the incidence and severity of respiratory distress syndrome (RDS) in premature neonates. With PPROM, expectant management also includes antibiotics (ampicillin and azithromycin) to prolong latency and reduce infection risk, bed rest, and monitoring for chorioamnionitis (maternal fever, fetal tachycardia, uterine tenderness, foul-smelling amniotic fluid).",
+    s: "Maternity"
+  },
+  {
+    q: "A postpartum client develops a temperature of 38.5°C, uterine tenderness, and foul-smelling lochia on postpartum day 3. The nurse suspects which complication?",
+    o: ["Normal postpartum diuresis", "Endometritis (postpartum uterine infection)", "Mastitis", "Pulmonary embolism"],
+    a: 1,
+    r: "Endometritis is the most common postpartum infection, presenting with fever (≥38°C on any 2 of the first 10 postpartum days), uterine tenderness, and foul-smelling or purulent lochia. Risk factors include cesarean delivery, prolonged labor, PROM, and multiple vaginal examinations. Treatment includes broad-spectrum IV antibiotics (typically clindamycin plus gentamicin). The nurse monitors vital signs, lochia characteristics, and uterine involution. Blood cultures should be obtained before initiating antibiotics.",
+    s: "Maternity"
+  },
+  {
+    q: "A nurse is caring for a client in the emergency department who discloses suicidal ideation with a specific plan (taking a stockpile of medications at home) and timeline (tonight). Which action is the highest priority?",
+    o: ["Encourage the client to call a friend for support", "Ensure continuous one-to-one observation and initiate safety protocols, including removing access to means", "Schedule a follow-up appointment with a therapist next week", "Discharge the client with a crisis hotline number"],
+    a: 1,
+    r: "A client with suicidal ideation, a specific plan, and access to means is at imminent risk and requires the highest level of intervention. Continuous one-to-one observation prevents self-harm. Restricting access to means (arranging removal of the medication stockpile from the home) is the most effective suicide prevention strategy. The client should not be left alone, should be assessed for involuntary hospitalization if refusing voluntary admission, and the treatment team should be notified immediately. Discharge is contraindicated.",
+    s: "Mental Health"
+  },
+  {
+    q: "A client diagnosed with borderline personality disorder (BPD) alternately praises the nurse as 'the best nurse ever' and the next shift tells another nurse that the previous nurse was 'terrible and incompetent.' The nurse recognizes this behavior as which defense mechanism?",
+    o: ["Projection", "Splitting", "Displacement", "Rationalization"],
+    a: 1,
+    r: "Splitting is a primitive defense mechanism commonly seen in borderline personality disorder where people and situations are viewed as all good or all bad, with no middle ground. This creates staff conflicts and inconsistent care. The nursing approach includes maintaining consistent boundaries, using a unified treatment plan, and regular team communication to prevent staff splitting. The nurse avoids personalizing the behavior and remains therapeutic. Dialectical behavior therapy (DBT) is the evidence-based treatment for BPD.",
+    s: "Mental Health"
+  },
+  {
+    q: "A client prescribed lithium for bipolar disorder has a serum lithium level of 2.1 mEq/L. The nurse assesses the client and expects to find which symptoms?",
+    o: ["No symptoms; this is a therapeutic level", "Severe toxicity symptoms: coarse tremors, confusion, seizures, oliguria, and cardiac dysrhythmias", "Mild fine tremor and mild nausea only", "Euphoria and increased energy"],
+    a: 1,
+    r: "The therapeutic range for lithium is 0.6-1.2 mEq/L. A level of 2.1 mEq/L indicates severe toxicity. Symptoms include coarse tremors, ataxia, confusion, seizures, renal failure (oliguria), and cardiac dysrhythmias. Lithium has a narrow therapeutic index, making toxicity common. Risk factors include dehydration, sodium depletion, NSAIDs, and renal impairment. Treatment includes stopping lithium, aggressive IV hydration with normal saline, and possibly hemodialysis for levels >2.5 mEq/L or severe symptoms. There is no antidote for lithium toxicity.",
+    s: "Mental Health"
+  },
+  {
+    q: "A client with schizophrenia on haloperidol (Haldol) develops a temperature of 41°C, muscle rigidity, altered consciousness, elevated CK, and autonomic instability. The nurse suspects which condition?",
+    o: ["Serotonin syndrome", "Neuroleptic malignant syndrome (NMS)", "Malignant hyperthermia", "Extrapyramidal side effects"],
+    a: 1,
+    r: "Neuroleptic malignant syndrome (NMS) is a life-threatening reaction to antipsychotic medications (especially high-potency typical antipsychotics like haloperidol). Cardinal features include hyperthermia (>40°C), severe muscle rigidity ('lead pipe'), altered mental status, and autonomic instability (tachycardia, labile BP, diaphoresis). Elevated CK (from rhabdomyolysis) is a key lab finding. Treatment includes immediate discontinuation of the antipsychotic, dantrolene (muscle relaxant), bromocriptine (dopamine agonist), cooling measures, and aggressive IV hydration. Mortality is 10-20% without treatment.",
+    s: "Mental Health"
+  },
+  {
+    q: "A nurse is using therapeutic communication with a grieving client. The client says, 'I don't know how I'll go on without my husband.' Which response by the nurse is most therapeutic?",
+    o: ["Don't worry, time heals all wounds", "I know exactly how you feel; my father passed away last year", "It sounds like you're feeling overwhelmed by this loss. Tell me more about what you're experiencing", "You should join a support group; that will help"],
+    a: 1,
+    r: "The most therapeutic response uses empathic reflection to acknowledge the client's feelings and an open-ended invitation to explore further. This validates the client's emotional experience without minimizing it. Saying 'don't worry' or 'time heals' is dismissive and blocks communication. Sharing personal experiences shifts focus to the nurse and is a non-therapeutic technique. Giving advice ('join a support group') takes away the client's autonomy. Therapeutic communication techniques include active listening, reflection, and open-ended questions.",
+    s: "Mental Health"
+  },
+  {
+    q: "A client with alcohol use disorder is admitted with confusion, ataxia, and ophthalmoplegia (paralysis of eye muscles). The nurse anticipates the administration of which medication?",
+    o: ["Oral multivitamin", "IV thiamine (vitamin B1) before any glucose-containing fluids", "IV dextrose 50% immediately", "Oral naltrexone"],
+    a: 1,
+    r: "The triad of confusion, ataxia, and ophthalmoplegia is classic for Wernicke's encephalopathy, caused by thiamine (B1) deficiency in chronic alcohol use. IV thiamine must be administered BEFORE any glucose-containing fluids because glucose metabolism consumes thiamine, potentially precipitating or worsening Wernicke's encephalopathy. If untreated, it can progress to Korsakoff syndrome (irreversible confabulation and memory impairment). High-dose IV thiamine (500 mg TID for 2-3 days) is the standard treatment.",
+    s: "Mental Health"
+  },
+  {
+    q: "A nurse is assessing a client with hepatorenal syndrome (HRS). Which finding distinguishes HRS from other causes of acute kidney injury?",
+    o: ["Proteinuria greater than 3 g/day", "Oliguria with bland urine sediment, low urinary sodium (<10 mEq/L), and no improvement with volume expansion", "Hematuria with red cell casts", "Polyuria with dilute urine"],
+    a: 1,
+    r: "Hepatorenal syndrome (HRS) occurs in clients with advanced liver disease (cirrhosis with ascites). It is characterized by functional renal failure due to intense renal vasoconstriction, NOT structural kidney damage. The urine sediment is bland (no casts, no cells), urinary sodium is very low (<10 mEq/L), and importantly, kidney function does not improve with volume expansion (which differentiates it from prerenal AKI). Treatment includes vasoconstrictors (terlipressin, midodrine/octreotide) plus albumin. Liver transplantation is the definitive treatment.",
+    s: "Renal"
+  },
+  {
+    q: "A client with myxedema coma is found obtunded with a body temperature of 33°C, heart rate of 42, and blood pressure of 80/50. Which intervention does the nurse anticipate?",
+    o: ["Oral levothyroxine and discharge home", "IV levothyroxine, IV hydrocortisone, passive rewarming, and hemodynamic support", "Propylthiouracil and cooling blankets", "IV normal saline only"],
+    a: 1,
+    r: "Myxedema coma is a life-threatening decompensation of severe hypothyroidism presenting with hypothermia, bradycardia, hypotension, hypoventilation, and altered mental status. Treatment includes IV levothyroxine (T4) loading dose, IV hydrocortisone (to prevent adrenal crisis from increased cortisol metabolism as thyroid function is restored), passive rewarming (active rewarming can cause vasodilation and cardiovascular collapse), and hemodynamic support. Oral medications are unreliable due to decreased GI motility. ICU admission is required.",
+    s: "Endocrine"
+  },
+  {
+    q: "A client with rhabdomyolysis has a serum CK of 45,000 U/L and dark brown urine. The nurse knows which renal complication is the greatest concern?",
+    o: ["Nephrotic syndrome", "Acute tubular necrosis from myoglobin precipitation in renal tubules", "Renal artery stenosis", "Polycystic kidney disease"],
+    a: 1,
+    r: "Rhabdomyolysis releases large amounts of myoglobin from damaged skeletal muscle. Myoglobin precipitates in the renal tubules, especially in acidic urine, causing acute tubular necrosis (ATN) and potentially oliguric acute kidney injury. The dark brown urine is myoglobinuria. Management focuses on aggressive IV normal saline (200-300 mL/hr) to maintain high urine output (>200 mL/hr), alkalinization of urine with sodium bicarbonate to prevent myoglobin precipitation, and monitoring for hyperkalemia, hyperphosphatemia, and hypocalcemia.",
+    s: "Renal"
+  },
+  {
+    q: "A client with Guillain-Barré syndrome (GBS) reports progressive ascending weakness that began in the feet and has now reached the thighs. The nurse monitors most closely for which life-threatening complication?",
+    o: ["Deep vein thrombosis", "Respiratory failure from ascending paralysis reaching the diaphragm", "Seizures", "Acute kidney injury"],
+    a: 1,
+    r: "Guillain-Barré syndrome causes ascending demyelinating polyneuropathy. The greatest danger is respiratory failure when paralysis ascends to involve the intercostal muscles and diaphragm. The nurse monitors vital capacity and negative inspiratory force (NIF) every 2-4 hours. Intubation is indicated when vital capacity drops below 15-20 mL/kg or NIF is weaker than -20 to -25 cmH2O. Treatment includes IV immunoglobulin (IVIG) or plasmapheresis. Autonomic dysfunction (labile BP, cardiac dysrhythmias) is another life-threatening complication requiring continuous cardiac monitoring.",
+    s: "Neurological"
+  },
+  {
+    q: "A client with liver cirrhosis has an INR of 4.2, platelet count of 45,000/mm³, and is actively bleeding from esophageal varices. Which blood product does the nurse anticipate administering first?",
+    o: ["Packed red blood cells only", "Fresh frozen plasma (FFP) and platelets, followed by PRBCs", "Albumin only", "Cryoprecipitate only"],
+    a: 1,
+    r: "The client has coagulopathy (elevated INR from impaired hepatic synthesis of clotting factors) and thrombocytopenia, both common in cirrhosis. Active variceal bleeding with these abnormalities requires correction of the coagulopathy: FFP provides clotting factors (corrects INR), platelets address thrombocytopenia (transfuse if <50,000 with active bleeding), and PRBCs replace blood loss. Octreotide (vasoconstrictor) reduces portal pressure, and emergent endoscopic band ligation is the definitive treatment for variceal bleeding.",
+    s: "Gastrointestinal"
+  },
+  {
+    q: "A client with chronic alcohol use presents with asterixis, confusion, and a serum ammonia level of 180 µmol/L. In addition to lactulose, which antibiotic is commonly prescribed to reduce ammonia-producing gut bacteria?",
+    o: ["Metronidazole", "Rifaximin (Xifaxan)", "Ciprofloxacin", "Amoxicillin"],
+    a: 1,
+    r: "Rifaximin is a non-absorbable antibiotic that works locally in the gut to reduce ammonia-producing bacteria, decreasing the ammonia burden in hepatic encephalopathy. It is used as adjunctive therapy with lactulose and has been shown to reduce the recurrence of hepatic encephalopathy episodes. Unlike systemically absorbed antibiotics, rifaximin has minimal side effects and does not contribute to systemic antibiotic resistance. Asterixis (flapping tremor) is a classic sign of hepatic encephalopathy.",
+    s: "Gastrointestinal"
+  },
 ];
