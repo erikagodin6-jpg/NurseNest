@@ -5,26 +5,61 @@ import { useI18n } from "@/lib/i18n";
 export function Footer() {
   const { t } = useI18n();
   return (
-    <footer className="bg-white border-t border-primary/10 py-12 mt-auto text-center">
+    <footer className="bg-white border-t border-primary/10 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">Study Tools</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors" data-testid="link-footer-lessons">Clinical Lessons</LocaleLink></li>
+              <li><LocaleLink href="/flashcards" className="hover:text-primary transition-colors" data-testid="link-footer-flashcards">Flashcards</LocaleLink></li>
+              <li><LocaleLink href="/anatomy" className="hover:text-primary transition-colors" data-testid="link-footer-anatomy">Anatomy Explorer</LocaleLink></li>
+              <li><LocaleLink href="/pre-nursing" className="hover:text-primary transition-colors" data-testid="link-footer-pre-nursing">Pre-Nursing</LocaleLink></li>
+              <li><LocaleLink href="/med-math" className="hover:text-primary transition-colors" data-testid="link-footer-med-math">Med Math</LocaleLink></li>
+              <li><LocaleLink href="/medication-mastery" className="hover:text-primary transition-colors" data-testid="link-footer-medication-mastery">Medication Mastery</LocaleLink></li>
+              <li><LocaleLink href="/clinical-clarity" className="hover:text-primary transition-colors" data-testid="link-footer-clinical-clarity">Clinical Clarity</LocaleLink></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">Exam Prep</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/mock-exams" className="hover:text-primary transition-colors" data-testid="link-footer-mock-exams">Mock Exams</LocaleLink></li>
+              <li><LocaleLink href="/question-bank" className="hover:text-primary transition-colors" data-testid="link-footer-question-bank">Question Bank</LocaleLink></li>
+              <li><LocaleLink href="/question-of-the-day" className="hover:text-primary transition-colors" data-testid="link-footer-qotd">Question of the Day</LocaleLink></li>
+              <li><LocaleLink href="/lab-values" className="hover:text-primary transition-colors" data-testid="link-footer-lab-values">Lab Values</LocaleLink></li>
+              <li><LocaleLink href="/case-simulations" className="hover:text-primary transition-colors" data-testid="link-footer-case-sims">Case Simulations</LocaleLink></li>
+              <li><LocaleLink href="/lectures" className="hover:text-primary transition-colors" data-testid="link-footer-lectures">Video Lectures</LocaleLink></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">Resources</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/blog" className="hover:text-primary transition-colors" data-testid="link-footer-blog">{t("nav.blog")}</LocaleLink></li>
+              <li><LocaleLink href="/faq" className="hover:text-primary transition-colors" data-testid="link-footer-faq">{t("footer.faq")}</LocaleLink></li>
+              <li><LocaleLink href="/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-pricing">Pricing</LocaleLink></li>
+              <li><LocaleLink href="/contact" className="hover:text-primary transition-colors" data-testid="link-footer-contact">{t("footer.contact")}</LocaleLink></li>
+              <li><LocaleLink href="/feedback" className="hover:text-primary transition-colors" data-testid="link-footer-feedback">Feedback</LocaleLink></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">Legal</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/terms" className="hover:text-primary transition-colors" data-testid="link-footer-terms">{t("footer.terms")}</LocaleLink></li>
+              <li><LocaleLink href="/privacy" className="hover:text-primary transition-colors" data-testid="link-footer-privacy">{t("footer.privacy")}</LocaleLink></li>
+              <li><LocaleLink href="/disclaimer" className="hover:text-primary transition-colors" data-testid="link-footer-disclaimer">{t("footer.disclaimer")}</LocaleLink></li>
+              <li><LocaleLink href="/refund-policy" className="hover:text-primary transition-colors" data-testid="link-footer-refund">{t("footer.refundPolicy")}</LocaleLink></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <ThemedLogo width={160} />
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-gray-500">
-            <LocaleLink href="/terms" className="hover:text-primary transition-colors">{t("footer.terms")}</LocaleLink>
-            <LocaleLink href="/privacy" className="hover:text-primary transition-colors">{t("footer.privacy")}</LocaleLink>
-            <LocaleLink href="/disclaimer" className="hover:text-primary transition-colors">{t("footer.disclaimer")}</LocaleLink>
-            <LocaleLink href="/refund-policy" className="hover:text-primary transition-colors">{t("footer.refundPolicy")}</LocaleLink>
-            <LocaleLink href="/faq" className="hover:text-primary transition-colors">{t("footer.faq")}</LocaleLink>
-            <LocaleLink href="/contact" className="hover:text-primary transition-colors">{t("footer.contact")}</LocaleLink>
-            <LocaleLink href="/blog" className="hover:text-primary transition-colors">{t("nav.blog")}</LocaleLink>
           </div>
           <div className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} NurseNest. {t("footer.rights")}
           </div>
         </div>
-        <div className="mt-6 text-center text-xs text-gray-400 max-w-3xl mx-auto leading-relaxed">
+        <div className="mt-4 text-center text-xs text-gray-400 max-w-3xl mx-auto leading-relaxed">
           {t("footer.legalDisclaimer")}
         </div>
       </div>
