@@ -81,6 +81,10 @@ import imgRenalGlomerulus from "@/assets/anatomy-renal-glomerulus.png";
 import imgEndocrineGlands from "@/assets/anatomy-endocrine-glands.png";
 import imgEndocrineThyroid from "@/assets/anatomy-endocrine-thyroid.png";
 import imgEndocrineAdrenal from "@/assets/anatomy-endocrine-adrenal.png";
+import imgIntegSkinLayers from "@/assets/anatomy-integumentary-skin-layers.png";
+import imgIntegEpidermis from "@/assets/anatomy-integumentary-epidermis.png";
+import imgIntegWoundHealing from "@/assets/anatomy-integumentary-wound-healing.png";
+import imgIntegHairFollicle from "@/assets/anatomy-integumentary-hair-follicle.png";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
@@ -274,6 +278,12 @@ const bodySystems = [
     bgAccent: "bg-orange-50",
     image: imgIntegumentary,
     description: "Skin layers, wound healing, and protection",
+    inlineImages: [
+      { src: imgIntegSkinLayers, alt: "Cross-section of human skin showing three layers: thin tan epidermis, thick pink dermis with hair follicles, sweat glands, blood vessels, and nerves, and yellow hypodermis with adipose tissue", afterParagraph: 0 },
+      { src: imgIntegEpidermis, alt: "Five layers of the epidermis from deep to superficial: stratum basale with melanocytes, stratum spinosum, stratum granulosum, stratum lucidum, and stratum corneum of dead keratinized cells", afterParagraph: 0 },
+      { src: imgIntegHairFollicle, alt: "Hair follicle cross-section showing hair shaft, root sheath, sebaceous gland, arrector pili muscle, hair bulb with dermal papilla and blood supply", afterParagraph: 1 },
+      { src: imgIntegWoundHealing, alt: "Four phases of wound healing: hemostasis with platelet plug, inflammation with immune cell migration, proliferation with granulation tissue and new blood vessels, and remodeling with collagen reorganization", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The integumentary system includes the skin, hair, nails, and associated glands. The skin is the body's largest organ, covering approximately 1.5-2 square meters in adults. It consists of three primary layers: the epidermis, dermis, and hypodermis (subcutaneous tissue). The epidermis is the outermost layer, composed of stratified squamous keratinized epithelium. Its layers from deep to superficial are: stratum basale (basal layer with stem cells and melanocytes), stratum spinosum, stratum granulosum, stratum lucidum (only in thick skin like palms and soles), and stratum corneum (20-30 layers of dead keratinized cells providing the primary barrier).",
       "The dermis lies beneath the epidermis and is composed of connective tissue containing collagen and elastin fibers, blood vessels, nerve endings, hair follicles, and glands. The papillary dermis contains dermal papillae that interlock with the epidermis and house Meissner's corpuscles (light touch). The reticular dermis is thicker and contains Pacinian corpuscles (deep pressure/vibration), sebaceous glands (oil), and sudoriferous glands (eccrine for thermoregulation throughout the body; apocrine in axillae and groin). The hypodermis contains adipose tissue for insulation, energy storage, and cushioning.",
