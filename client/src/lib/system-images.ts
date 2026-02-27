@@ -197,6 +197,17 @@ import illustrationDVTPatho from "@/assets/lesson-dvt-patho.png";
 import illustrationNeonatalJaundicePatho from "@/assets/lesson-neonatal-jaundice-patho.png";
 import illustrationBreastCancerPatho from "@/assets/lesson-breast-cancer-patho.png";
 
+import illustrationRhabdomyolysisPatho from "@/assets/lesson-rhabdomyolysis-patho.png";
+import illustrationAVFistulaPatho from "@/assets/lesson-av-fistula-patho.png";
+import illustrationEndocarditisPatho from "@/assets/lesson-endocarditis-patho.png";
+import illustrationGestationalDiabetesPatho from "@/assets/lesson-gestational-diabetes-patho.png";
+import illustrationFetalMonitoringPatho from "@/assets/lesson-fetal-monitoring-patho.png";
+import illustrationMalignantHyperthermia from "@/assets/lesson-malignant-hyperthermia.png";
+import illustrationCardiogenicShockPatho from "@/assets/lesson-cardiogenic-shock-patho.png";
+import illustrationTracheostomyPatho from "@/assets/lesson-tracheostomy-patho.png";
+import illustrationChestTubePatho from "@/assets/lesson-chest-tube-patho.png";
+import illustrationEczemaPatho from "@/assets/lesson-eczema-patho.png";
+
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis": illustrationEndocarditis,
   "peripheral-artery-disease": illustrationPAD,
@@ -723,6 +734,46 @@ const lessonSpecificImages: Record<string, string> = {
 
   "breast-cancer": illustrationBreastCancerPatho,
   "breast-cancer-management": illustrationBreastCancerPatho,
+
+  "rhabdomyolysis": illustrationRhabdomyolysisPatho,
+  "rhabdomyolysis-management": illustrationRhabdomyolysisPatho,
+
+  "av-fistula": illustrationAVFistulaPatho,
+  "dialysis-steal": illustrationAVFistulaPatho,
+  "hemodialysis-basics-rpn": illustrationAVFistulaPatho,
+  "peritoneal-dialysis-basics-rpn": illustrationAVFistulaPatho,
+
+  "infective-endocarditis": illustrationEndocarditisPatho,
+  "endocarditis-basics-rpn": illustrationEndocarditisPatho,
+
+  "gestational-diabetes": illustrationGestationalDiabetesPatho,
+  "gestational-diabetes-management": illustrationGestationalDiabetesPatho,
+
+  "fetal-monitoring-rn": illustrationFetalMonitoringPatho,
+  "fetal-monitoring-basics-rpn": illustrationFetalMonitoringPatho,
+  "fetal-monitoring": illustrationFetalMonitoringPatho,
+
+  "malignant-hyperthermia": illustrationMalignantHyperthermia,
+  "malignant-hyperthermia-management": illustrationMalignantHyperthermia,
+
+  "cardiogenic-shock": illustrationCardiogenicShockPatho,
+  "shock-syndromes": illustrationCardiogenicShockPatho,
+  "shock-types-recognition-rpn": illustrationCardiogenicShockPatho,
+
+  "tracheostomy-care": illustrationTracheostomyPatho,
+  "tracheostomy": illustrationTracheostomyPatho,
+  "tracheostomy-suctioning": illustrationTracheostomyPatho,
+  "tracheostomy-basics-rpn": illustrationTracheostomyPatho,
+  "laryngectomy": illustrationTracheostomyPatho,
+
+  "chest-tube-care": illustrationChestTubePatho,
+  "chest-tube": illustrationChestTubePatho,
+  "pneumothorax": illustrationChestTubePatho,
+
+  "eczema-atopic-dermatitis": illustrationEczemaPatho,
+  "atopic-dermatitis": illustrationEczemaPatho,
+  "eczema": illustrationEczemaPatho,
+  "contact-dermatitis": illustrationEczemaPatho,
 };
 
 const systemImageMap: Record<string, string> = {
