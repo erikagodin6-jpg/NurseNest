@@ -1,0 +1,197 @@
+MASTER PROMPT: Fix “Discovered – currently not indexed” and Maximize Crawl + Indexing for NurseNest (Vite/React + Express)
+
+You are my senior technical SEO engineer working inside my existing NurseNest codebase (Vite + React frontend, Express backend, dynamic routes for lessons/blog/tools). Google Search Console shows many important URLs as “Discovered – currently not indexed” with Last crawled = N/A. Your goal is to make Google reliably crawl and index my PUBLIC pages.
+
+This is a technical + architecture task. Implement changes incrementally, do not break existing paid content gating.
+
+PRIMARY OUTCOME
+Within 2–6 weeks, Google should actively crawl and index:
+- core hub pages: /, /lessons, /blog, /anatomy, /pre-nursing, /pricing, /faq
+- a curated subset of high-value lesson pages
+- “public preview” pages (if any) without login required
+
+DO NOT aim to index:
+- paywalled-only pages with no public content
+- admin pages
+- user dashboards
+- test results
+- highly parameterized URLs
+- duplicates that should canonicalize to a primary URL
+
+────────────────────────────────────────
+SECTION 1 — DIAGNOSE COMMON INDEXING BLOCKERS
+────────────────────────────────────────
+Scan the codebase and production headers for these issues and fix them:
+
+A) robots.txt
+- Ensure robots.txt exists at /robots.txt and is valid.
+- Do NOT disallow /lessons, /blog, /anatomy, /flashcards, /practice if they should be indexable.
+- Ensure sitemap is referenced in robots.txt.
+
+B) Meta robots / X-Robots-Tag
+- Ensure public pages are not accidentally emitting noindex/nofollow.
+- Confirm server does not add X-Robots-Tag: noindex headers on public routes.
+
+C) Canonicals
+- Ensure each public page outputs a correct canonical URL.
+- Fix any bug where all routes share the same canonical (often happens with SPAs).
+- Ensure Google-selected canonical should match user-declared canonical.
+
+D) Status codes and redirects
+- Ensure key URLs return HTTP 200.
+- Avoid redirect chains and 302s on canonical pages.
+- Ensure trailing slash rules are consistent.
+
+E) SPA rendering issues
+- Many React SPAs ship an empty HTML shell. If public routes are not server-rendered or pre-rendered, Google may delay crawling/indexing.
+- Ensure public SEO pages have crawlable HTML content at initial response or via pre-rendered snapshots.
+
+Deliver a short report in code comments or a doc: what was wrong and what you changed.
+
+────────────────────────────────────────
+SECTION 2 — MAKE PUBLIC CONTENT INDEXABLE (SSR / PRERENDER)
+────────────────────────────────────────
+Implement one of these approaches (choose the best fit for the current stack):
+
+Option 1: Pre-render (recommended for scaling)
+- Pre-render static HTML for key public routes:
+  /, /lessons, /blog, /anatomy, /pre-nursing, /pricing, /faq
+- Pre-render top N lesson pages (start with 100 high-value lessons).
+- Ensure pre-render output includes:
+  - full title/meta description
+  - canonical
+  - breadcrumbs
+  - H1 and main content
+  - internal links
+
+Option 2: SSR
+- Add SSR for public routes if feasible in the current architecture.
+- Ensure dynamic meta tags per route.
+
+Minimum acceptable:
+- A server-side “snapshot” renderer for bots (Googlebot) ONLY if it does not violate Google guidelines (no cloaking). The content must match what users get.
+
+────────────────────────────────────────
+SECTION 3 — INTERNAL LINKING FOR CRAWL PRIORITY
+────────────────────────────────────────
+Improve crawlability by strengthening internal linking:
+
+- Homepage must link to /lessons and /blog prominently.
+- /lessons must include crawlable <a href> links to lesson pages (not only JS navigation).
+- Add “Top Lessons” section on homepage linking to 20–50 key lessons.
+- Add breadcrumbs on lesson pages:
+  Home > Lessons > System > Lesson Title
+- Add “Related lessons” links at bottom of each lesson (5–10).
+
+Make sure these links exist in initial HTML (or in prerender output).
+
+────────────────────────────────────────
+SECTION 4 — SITEMAP STRATEGY (PRIORITY + LONG-TAIL)
+────────────────────────────────────────
+Implement a two-sitemap approach:
+
+1) /sitemap_priority.xml
+- only core hubs + top lessons (start 100–300 URLs)
+- include <lastmod> accurately
+- include only indexable URLs
+
+2) /sitemap_all.xml (or split into multiple)
+- remaining indexable lessons/posts
+- exclude:
+  - noindex pages
+  - duplicates/canonicalized variants
+  - paywalled-only pages with no public content
+
+Also implement a sitemap index:
+- /sitemap.xml => references the other sitemaps
+
+Rules:
+- Never include URLs in sitemap that return non-200 status.
+- Never include URLs that require login to view any meaningful content.
+- Never include URL parameters (e.g., ?sort=, ?page=) unless explicitly canonicalized.
+
+────────────────────────────────────────
+SECTION 5 — CANONICALIZATION + DUPLICATES
+────────────────────────────────────────
+Identify duplicate patterns and canonicalize:
+- If you have near-duplicate lessons like /lessons/topic and /lessons/topic-rn, ensure they are truly unique.
+- If not unique, choose a canonical primary and apply rel=canonical properly.
+- Ensure internal links point to canonical URLs.
+- Ensure sitemap includes ONLY canonical URLs.
+
+────────────────────────────────────────
+SECTION 6 — INDEXING CONTROLS (WHAT TO INDEX, WHAT NOT TO INDEX)
+────────────────────────────────────────
+Implement these controls:
+
+A) For public educational content pages:
+- index, follow
+
+B) For private/personalized pages (dashboard, test results, user profiles, admin):
+- noindex, nofollow
+- also remove from sitemap
+
+C) For paywalled pages:
+- If you want SEO traffic, create a public preview version:
+  - 300–800 words public summary + a few sample questions
+  - then paywall deeper content
+  - keep preview indexable
+- If no preview: noindex and remove from sitemap
+
+Implement a consistent rule set in a shared SEO middleware.
+
+────────────────────────────────────────
+SECTION 7 — PERFORMANCE (DO NOT SACRIFICE CWV)
+────────────────────────────────────────
+Because images and content can slow pages:
+- Implement image optimization: serve WebP where possible, responsive sizes, lazy loading.
+- Ensure critical CSS is minimal.
+- Avoid huge JS bundles on public pages; code-split.
+- Add server caching for prerendered HTML.
+- Ensure TTFB reasonable.
+
+Slow pages reduce crawl rate and rankings.
+
+────────────────────────────────────────
+SECTION 8 — SEARCH CONSOLE-FOCUSED DIAGNOSTICS TOOLS (INTERNAL)
+────────────────────────────────────────
+Add an internal admin-only “SEO Debug” tool to quickly check any URL for:
+- status code
+- robots meta
+- canonical
+- presence of H1/content in initial HTML
+- whether it is included in sitemap_priority
+- whether it is marked indexable
+
+This tool is for rapid troubleshooting of “Discovered – not indexed.”
+
+────────────────────────────────────────
+SECTION 9 — IMPLEMENTATION CHECKLIST + TESTS
+────────────────────────────────────────
+Add automated checks (unit/integration):
+- robots.txt contains sitemap directive
+- sitemap endpoints return valid XML and only indexable URLs
+- canonical tags vary by route (not all the same)
+- important routes return 200
+- noindex is set on private routes
+- prerender output contains H1 + main content for selected routes
+
+────────────────────────────────────────
+DELIVERABLES
+────────────────────────────────────────
+1) Fix robots/meta/canonical issues (if present)
+2) Add SSR or pre-rendering for public pages (prefer pre-render)
+3) Implement stronger internal linking and breadcrumbs
+4) Implement priority + long-tail sitemaps with index
+5) Implement index/noindex rules consistently
+6) Add SEO debug panel (admin-only)
+7) Tests for the above
+
+START WORK
+- Inspect current robots.txt, sitemap(s), and meta/canonical logic.
+- Pick 10 representative URLs (home, /lessons, /blog, 5 lessons, /pricing, /faq) and verify:
+  - HTTP 200
+  - indexable
+  - correct canonical
+  - content present in HTML
+- Then implement fixes in the order that most improves crawlability.

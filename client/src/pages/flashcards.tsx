@@ -2917,6 +2917,7 @@ export default function Flashcards() {
             currentDeck={currentDeck}
             setCurrentDeck={setCurrentDeck}
             deckCards={deckCards}
+            setDeckCards={setDeckCards}
             deckLoading={deckLoading}
             entitlement={entitlement}
             deckTab={deckTab}

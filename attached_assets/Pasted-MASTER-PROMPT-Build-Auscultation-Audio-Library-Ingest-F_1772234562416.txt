@@ -1,0 +1,139 @@
+MASTER PROMPT: Build Auscultation Audio Library + Ingest FREE-First Licensed Clips + Attach to Lessons (Heart/Lung/Bowel)
+
+You are my senior engineer + compliance-focused content integrator working on my NurseNest website (Vite + React + Express + DB + existing lessons system).
+
+GOAL
+Add auscultation sound clips (heart, lung, bowel) to the appropriate lessons and create an “Auscultation Practice” section with playback + optional quiz mode.
+
+CRITICAL LEGAL REQUIREMENTS (DO NOT VIOLATE)
+1) Do NOT scrape copyrighted audio or copy from websites/apps that do not grant redistribution rights.
+2) Only ingest audio that is:
+   - CC BY, CC BY-SA, CC0, or Public Domain and explicitly allows commercial use, OR
+   - Purchased with explicit rights to host/stream to subscribers.
+3) Reject any source that is CC BY-NC, “educational use only,” or unclear.
+4) For every audio file stored, record:
+   - license type (CC BY / CC BY-SA / CC0 / Public Domain / Commercial License)
+   - required attribution text
+   - source URL
+   - author/creator if available
+   - whether modifications were made (and if so, keep ShareAlike compliance for CC BY-SA)
+
+FREE-FIRST APPROVED SOURCES (START HERE)
+A) Open.Michigan Heart Sound & Murmur Library (verify page-level license; store CC BY 4.0 if applicable).
+B) Wikimedia Commons medical sound files that are CC BY-SA and explicitly allow commercial reuse.
+   - Examples to include in MVP:
+     - Lung crackles (pneumonia)
+     - Stridor
+     - Tinkly bowel sounds (SBO)
+(Use Wikimedia APIs or page parsing ONLY to download files where license is explicitly listed and acceptable.)
+
+IMPORTANT:
+- Never download from YouTube, streaming-only apps, or sources that require logins or do not provide a clear reuse license.
+
+STEP 1 — BUILD THE AUDIO LIBRARY DATA MODEL
+Add DB tables:
+
+audio_clips:
+- id
+- title
+- category: HEART | LUNG | BOWEL
+- tag_condition (e.g., “Aortic stenosis”, “Stridor”)
+- description_short
+- audio_url_original
+- audio_url_stream
+- duration_seconds
+- license_type
+- attribution_text
+- source_url
+- creator_name
+- is_derivative (boolean)
+- created_at
+
+lesson_audio_links:
+- id
+- lesson_id
+- audio_clip_id
+- display_order
+- quiz_prompt (optional)
+- answer_key (optional)
+
+STEP 2 — ADMIN WORKFLOW
+Create admin UI:
+- Add Clip (Upload)
+- Add Clip (Import From URL)
+Import From URL must:
+- fetch metadata
+- detect license text
+- BLOCK import unless license_type is in ALLOWED_LICENSES = [CC0, CC_BY, CC_BY_SA, PUBLIC_DOMAIN]
+- extract attribution and store it
+- show a preview and require admin confirm
+
+STEP 3 — AUDIO PROCESSING PIPELINE
+On ingest:
+- convert to web stream format (mp3 or aac)
+- normalize loudness for consistent playback
+- trim leading/trailing silence (do not alter clinical characteristics)
+- store original + stream versions
+
+STEP 4 — MVP CLIP CATALOG
+Create a “starter pack” using only licensed sources:
+HEART (target 10+ from Open.Michigan):
+- Normal S1/S2
+- S3
+- S4
+- Aortic stenosis
+- Aortic regurgitation
+- Mitral regurgitation
+- Mitral stenosis
+- VSD
+- PDA
+- Pericardial rub (if available)
+
+LUNG (from Wikimedia Commons where licensed):
+- Crackles (pneumonia)
+- Stridor
+Add more only if licensing supports commercial use.
+
+BOWEL (from Wikimedia Commons where licensed):
+- “Tinkly bowel sounds” obstruction example
+Add more only if licensing supports commercial use.
+
+NOTE:
+If the free sources don’t cover enough bowel/lung variety (normal, hypoactive, hyperactive, absent, wheeze, rhonchi), propose a low-cost paid library option and require explicit distribution/streaming rights before ingestion.
+
+STEP 5 — ATTACH TO LESSONS (AUTO + MANUAL)
+Implement suggested mappings:
+- Heart Sounds lesson: all HEART clips
+- Respiratory Assessment lesson: LUNG clips
+- Abdominal Assessment lesson: BOWEL clips
+- Pneumonia lesson: crackles
+- Airway emergency lesson: stridor
+Admin must be able to override mappings.
+
+STEP 6 — FRONTEND LESSON UI
+Add “Auscultation Audio Practice” section to lesson pages with:
+- play/pause
+- seek bar
+- volume
+- playback speed (0.75x, 1x, 1.25x)
+- loop toggle
+- optional “Test me” mode:
+  - hides the clip label
+  - user selects from 4 options
+  - reveals correct answer + brief explanation already in lesson content (no AI tutoring text)
+
+Always display attribution and license beneath the player (required for CC BY/CC BY-SA).
+
+STEP 7 — COMPLIANCE + AUDIT
+- store an audit log entry for each import/upload
+- ensure attribution is visible wherever the clip is played
+- if license is CC BY-SA and we modify audio, store is_derivative=true and ensure downstream compliance (prefer no modifications beyond normalization/trimming silence)
+
+DELIVERABLES
+- migrations + models
+- admin UI + import guardrails
+- ingestion + processing
+- lesson attachment system
+- frontend audio practice module
+- initial free licensed starter pack imported
+- report listing each clip, license, attribution, and lesson placements

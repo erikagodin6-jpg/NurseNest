@@ -88,8 +88,8 @@ type DeckViewsProps = {
 };
 
 export function DeckHub({
-  user, isPaid, setView, setLocation, myDecks, publicDecks, savedDecksList,
-  currentDeck, setCurrentDeck, deckCards, deckLoading, entitlement,
+  user, isPaid, setView, setLocation, myDecks, setMyDecks, publicDecks, savedDecksList,
+  currentDeck, setCurrentDeck, deckCards, setDeckCards, deckLoading, entitlement,
   deckTab, setDeckTab, deckSearchQuery, setDeckSearchQuery,
   fetchMyDecks, fetchPublicDecks, fetchSavedDecks, fetchDeckCards, fetchEntitlement,
   createDeck, deleteDeck, saveDeck, duplicateDeck,
@@ -97,6 +97,80 @@ export function DeckHub({
   newDeckVisibility, setNewDeckVisibility,
 }: Partial<DeckViewsProps> & { user: any; setView: any; setLocation: any }) {
   const [showCreate, setShowCreate] = useState(false);
+  const [createMode, setCreateMode] = useState<"manual" | "ai">("ai");
+  const [aiTopic, setAiTopic] = useState("");
+  const [aiCardCount, setAiCardCount] = useState(10);
+  const [aiCreating, setAiCreating] = useState(false);
+  const [aiPreviewCards, setAiPreviewCards] = useState<{front: string; back: string; rationale: string}[]>([]);
+  const [aiError, setAiError] = useState("");
+
+  const handleCreateWithAI = async () => {
+    if (!user || !aiTopic.trim()) return;
+    setAiCreating(true);
+    setAiError("");
+    setAiPreviewCards([]);
+    try {
+      const title = aiTopic.trim().length > 60 ? aiTopic.trim().substring(0, 60) : aiTopic.trim();
+      const deckRes = await fetch("/api/decks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, title, description: `AI-generated deck: ${aiTopic}`, visibility: newDeckVisibility || "private" }),
+      });
+      if (!deckRes.ok) { setAiError("Failed to create deck."); return; }
+      const deck = await deckRes.json();
+
+      const genRes = await fetch(`/api/decks/${deck.id}/ai-generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, prompt: aiTopic, count: aiCardCount }),
+      });
+      if (!genRes.ok) {
+        const err = await genRes.json();
+        if (err.upgradeRequired) {
+          setAiError("You've reached the free card limit. Upgrade to create more cards with AI.");
+        } else {
+          setAiError(err.error || "AI generation failed. Try again.");
+        }
+        setMyDecks?.((prev: any) => [deck, ...prev]);
+        setCurrentDeck?.(deck);
+        setDeckCards?.([]);
+        setView("deck-edit");
+        setShowCreate(false);
+        return;
+      }
+      const data = await genRes.json();
+      const cards = data.cards || [];
+
+      if (cards.length > 0) {
+        const bulkRes = await fetch(`/api/decks/${deck.id}/cards/bulk-import`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id, cards }),
+        });
+        if (bulkRes.ok) {
+          const result = await bulkRes.json();
+          setMyDecks?.((prev: any) => [deck, ...prev]);
+          setCurrentDeck?.(deck);
+          fetchDeckCards?.(deck.id);
+          fetchEntitlement?.();
+          setView("deck-view");
+          setShowCreate(false);
+          setAiTopic("");
+        }
+      } else {
+        setAiError("AI didn't generate any cards. Try a more specific topic.");
+        setMyDecks?.((prev: any) => [deck, ...prev]);
+        setCurrentDeck?.(deck);
+        setDeckCards?.([]);
+        setView("deck-edit");
+        setShowCreate(false);
+      }
+    } catch (e: any) {
+      setAiError("Something went wrong. Please try again.");
+    } finally {
+      setAiCreating(false);
+    }
+  };
 
   if (!user) {
     return (
@@ -128,49 +202,161 @@ export function DeckHub({
 
       {showCreate && (
         <Card className="border-2 border-primary/20 shadow-lg">
-          <CardContent className="p-5 space-y-3">
-            <h3 className="text-sm font-bold text-gray-700">Create New Deck</h3>
-            <Input
-              placeholder="Deck title (e.g., Cardiac Medications)"
-              value={newDeckTitle}
-              onChange={(e: any) => setNewDeckTitle!(e.target.value)}
-              className="rounded-xl"
-              data-testid="input-deck-title"
-            />
-            <Textarea
-              placeholder="Description (optional)"
-              value={newDeckDescription}
-              onChange={(e: any) => setNewDeckDescription!(e.target.value)}
-              className="rounded-xl min-h-[60px]"
-              data-testid="input-deck-description"
-            />
-            <div className="flex items-center gap-3">
-              <label className="text-xs text-gray-500">Visibility:</label>
-              <div className="flex rounded-lg border overflow-hidden">
-                {[
-                  { v: "private", icon: EyeOff, label: "Private" },
-                  { v: "unlisted", icon: Eye, label: "Unlisted" },
-                  { v: "public", icon: Globe, label: "Public" },
-                ].map(({ v, icon: Icon, label }) => (
-                  <button
-                    key={v}
-                    onClick={() => setNewDeckVisibility!(v)}
-                    className={cn("px-3 py-1.5 text-xs font-medium flex items-center gap-1.5 transition-colors",
-                      newDeckVisibility === v ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"
-                    )}
-                    data-testid={`button-visibility-${v}`}
+          <CardContent className="p-5 space-y-4">
+            <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
+              <button
+                onClick={() => setCreateMode("ai")}
+                className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
+                  createMode === "ai" ? "bg-purple-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                )}
+                data-testid="button-create-mode-ai"
+              >
+                <Sparkles className="w-3.5 h-3.5" /> AI Generator
+              </button>
+              <button
+                onClick={() => setCreateMode("manual")}
+                className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
+                  createMode === "manual" ? "bg-primary text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                )}
+                data-testid="button-create-mode-manual"
+              >
+                <Plus className="w-3.5 h-3.5" /> Manual
+              </button>
+            </div>
+
+            {createMode === "ai" ? (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-purple-600" />
+                  <h3 className="text-sm font-bold text-purple-800">AI Flashcard Generator</h3>
+                </div>
+                <p className="text-xs text-purple-600">Enter any nursing topic and AI will create a medically verified study deck for you instantly.</p>
+                <Input
+                  placeholder="e.g., Cardiac medications and their side effects"
+                  value={aiTopic}
+                  onChange={(e: any) => setAiTopic(e.target.value)}
+                  className="rounded-xl border-purple-200 focus:border-purple-400"
+                  onKeyDown={(e: any) => { if (e.key === "Enter" && aiTopic.trim() && !aiCreating) handleCreateWithAI(); }}
+                  disabled={aiCreating}
+                  data-testid="input-ai-topic"
+                />
+                <div className="flex items-center gap-3">
+                  <label className="text-xs text-gray-500">Cards:</label>
+                  <select
+                    value={aiCardCount}
+                    onChange={(e: any) => setAiCardCount(parseInt(e.target.value))}
+                    className="text-xs border rounded-lg px-2 py-1.5 bg-white"
+                    data-testid="select-ai-card-count"
                   >
-                    <Icon className="w-3 h-3" /> {label}
-                  </button>
-                ))}
+                    {[5, 10, 15, 20, 25].map(n => <option key={n} value={n}>{n} cards</option>)}
+                  </select>
+                  <div className="flex-1" />
+                  <label className="text-xs text-gray-500">Visibility:</label>
+                  <div className="flex rounded-lg border overflow-hidden">
+                    {[
+                      { v: "private", icon: EyeOff, label: "Private" },
+                      { v: "public", icon: Globe, label: "Public" },
+                    ].map(({ v, icon: Icon, label }) => (
+                      <button
+                        key={v}
+                        onClick={() => setNewDeckVisibility!(v)}
+                        className={cn("px-2.5 py-1 text-xs font-medium flex items-center gap-1 transition-colors",
+                          newDeckVisibility === v ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"
+                        )}
+                        data-testid={`button-ai-visibility-${v}`}
+                      >
+                        <Icon className="w-3 h-3" /> {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {aiError && (
+                  <div className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-3" data-testid="text-ai-error">
+                    {aiError}
+                  </div>
+                )}
+                <div className="flex gap-2 pt-1">
+                  <Button
+                    onClick={handleCreateWithAI}
+                    disabled={!aiTopic.trim() || aiCreating}
+                    className="rounded-xl gap-2 bg-purple-600 hover:bg-purple-700"
+                    data-testid="button-create-ai-deck"
+                  >
+                    {aiCreating ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Generating Deck...</>
+                    ) : (
+                      <><Sparkles className="w-4 h-4" /> Create Deck with AI</>
+                    )}
+                  </Button>
+                  <Button variant="outline" onClick={() => { setShowCreate(false); setAiError(""); }} className="rounded-xl" disabled={aiCreating}>Cancel</Button>
+                </div>
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  {[
+                    "Cardiac Medications & Side Effects",
+                    "Respiratory Assessment Findings",
+                    "Diabetes Management Nursing",
+                    "Electrolyte Imbalances",
+                    "Pediatric Milestones",
+                    "Mental Health Medications",
+                  ].map(topic => (
+                    <button
+                      key={topic}
+                      onClick={() => setAiTopic(topic)}
+                      className="text-[11px] text-left text-purple-600 hover:text-purple-800 hover:bg-purple-50 rounded-lg px-2.5 py-1.5 border border-purple-100 transition-colors"
+                      disabled={aiCreating}
+                      data-testid={`button-topic-${topic.toLowerCase().replace(/\s+/g, "-")}`}
+                    >
+                      {topic}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex gap-2 pt-1">
-              <Button onClick={() => { createDeck!(); setShowCreate(false); }} disabled={!newDeckTitle?.trim()} className="rounded-xl" data-testid="button-create-deck">
-                Create Deck
-              </Button>
-              <Button variant="outline" onClick={() => setShowCreate(false)} className="rounded-xl">Cancel</Button>
-            </div>
+            ) : (
+              <div className="space-y-3">
+                <h3 className="text-sm font-bold text-gray-700">Create Empty Deck</h3>
+                <Input
+                  placeholder="Deck title (e.g., Cardiac Medications)"
+                  value={newDeckTitle}
+                  onChange={(e: any) => setNewDeckTitle!(e.target.value)}
+                  className="rounded-xl"
+                  data-testid="input-deck-title"
+                />
+                <Textarea
+                  placeholder="Description (optional)"
+                  value={newDeckDescription}
+                  onChange={(e: any) => setNewDeckDescription!(e.target.value)}
+                  className="rounded-xl min-h-[60px]"
+                  data-testid="input-deck-description"
+                />
+                <div className="flex items-center gap-3">
+                  <label className="text-xs text-gray-500">Visibility:</label>
+                  <div className="flex rounded-lg border overflow-hidden">
+                    {[
+                      { v: "private", icon: EyeOff, label: "Private" },
+                      { v: "unlisted", icon: Eye, label: "Unlisted" },
+                      { v: "public", icon: Globe, label: "Public" },
+                    ].map(({ v, icon: Icon, label }) => (
+                      <button
+                        key={v}
+                        onClick={() => setNewDeckVisibility!(v)}
+                        className={cn("px-3 py-1.5 text-xs font-medium flex items-center gap-1.5 transition-colors",
+                          newDeckVisibility === v ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"
+                        )}
+                        data-testid={`button-visibility-${v}`}
+                      >
+                        <Icon className="w-3 h-3" /> {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex gap-2 pt-1">
+                  <Button onClick={() => { createDeck!(); setShowCreate(false); }} disabled={!newDeckTitle?.trim()} className="rounded-xl" data-testid="button-create-deck">
+                    Create Deck
+                  </Button>
+                  <Button variant="outline" onClick={() => setShowCreate(false)} className="rounded-xl">Cancel</Button>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
