@@ -5,6 +5,7 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
 import { LessonImageManager } from "@/components/lesson-image-manager";
+import { AdminImageOverlay } from "@/components/admin-image-overlay";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -556,11 +557,13 @@ export default function AnatomyPage() {
                   className="h-40 overflow-hidden bg-gray-50 cursor-pointer"
                   onClick={() => toggleSystem(system.id)}
                 >
-                  <img
+                  <AdminImageOverlay
+                    imageKey={`anatomy-${system.id}`}
                     src={system.image}
                     alt={resolved.name}
-                    className="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-105"
-                    draggable={false}
+                    isAdmin={isAdmin}
+                    className="w-full h-full"
+                    imgClassName="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-105"
                   />
                 </div>
                 <CardHeader
