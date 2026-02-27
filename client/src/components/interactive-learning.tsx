@@ -129,36 +129,48 @@ export function AnatomyLabeling({
                       ✓
                     </text>
                   )}
-                  {isRevealed && (
-                    <g>
-                      <line
-                        x1={point.x}
-                        y1={point.y - 12}
-                        x2={point.x}
-                        y2={point.y - 24}
-                        stroke="currentColor"
-                        className="text-primary/40"
-                        strokeWidth={1}
-                      />
-                      <rect
-                        x={point.x - point.label.length * 3.5 - 8}
-                        y={point.y - 42}
-                        width={point.label.length * 7 + 16}
-                        height={20}
-                        rx={6}
-                        className="fill-white stroke-primary/20"
-                        strokeWidth={1}
-                      />
-                      <text
-                        x={point.x}
-                        y={point.y - 29}
-                        textAnchor="middle"
-                        className="fill-gray-800 text-[10px] font-medium pointer-events-none select-none"
-                      >
-                        {point.label}
-                      </text>
-                    </g>
-                  )}
+                  {isRevealed && (() => {
+                    const showBelow = point.y < 50;
+                    const lineY1 = showBelow ? point.y + 12 : point.y - 12;
+                    const lineY2 = showBelow ? point.y + 24 : point.y - 24;
+                    const rectY = showBelow ? point.y + 22 : point.y - 42;
+                    const textY = showBelow ? point.y + 35 : point.y - 29;
+                    const labelW = point.label.length * 7 + 16;
+                    let rectX = point.x - labelW / 2;
+                    if (rectX < 2) rectX = 2;
+                    if (rectX + labelW > width - 2) rectX = width - 2 - labelW;
+                    const textX = rectX + labelW / 2;
+                    return (
+                      <g>
+                        <line
+                          x1={point.x}
+                          y1={lineY1}
+                          x2={point.x}
+                          y2={lineY2}
+                          stroke="currentColor"
+                          className="text-primary/40"
+                          strokeWidth={1}
+                        />
+                        <rect
+                          x={rectX}
+                          y={rectY}
+                          width={labelW}
+                          height={20}
+                          rx={6}
+                          className="fill-white stroke-primary/20"
+                          strokeWidth={1}
+                        />
+                        <text
+                          x={textX}
+                          y={textY}
+                          textAnchor="middle"
+                          className="fill-gray-800 text-[10px] font-medium pointer-events-none select-none"
+                        >
+                          {point.label}
+                        </text>
+                      </g>
+                    );
+                  })()}
                 </g>
               );
             })}

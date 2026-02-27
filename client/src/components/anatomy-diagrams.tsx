@@ -151,13 +151,15 @@ export function KidneySVG() {
 }
 
 export const kidneyLabels: LabelPoint[] = [
-  { id: "lcortex", x: 130, y: 170, label: "Renal Cortex", hint: "Contains glomeruli for filtration" },
-  { id: "lmedulla", x: 160, y: 260, label: "Renal Medulla", hint: "Contains loops of Henle" },
-  { id: "lpelvis", x: 200, y: 200, label: "Renal Pelvis", hint: "Collects urine from calyces" },
-  { id: "lureter", x: 220, y: 300, label: "Ureter", hint: "Transports urine to bladder" },
-  { id: "renal-artery", x: 250, y: 100, label: "Renal Artery", hint: "Supplies blood for filtration" },
-  { id: "bladder", x: 250, y: 375, label: "Bladder", hint: "Stores urine" },
-  { id: "rcortex", x: 375, y: 170, label: "Right Kidney" },
+  { id: "lcortex", x: 130, y: 140, label: "Renal Cortex", hint: "Outer kidney layer; contains glomeruli and proximal/distal convoluted tubules for filtration and reabsorption" },
+  { id: "lmedulla", x: 170, y: 230, label: "Renal Medulla", hint: "Inner kidney region; contains loops of Henle and collecting ducts; renal pyramids create concentration gradient" },
+  { id: "lpelvis", x: 220, y: 190, label: "Renal Pelvis", hint: "Funnel-shaped cavity collecting urine from calyces before it enters the ureter" },
+  { id: "adrenal", x: 155, y: 55, label: "Adrenal Gland", hint: "Sits atop each kidney; cortex produces cortisol and aldosterone; medulla produces epinephrine and norepinephrine" },
+  { id: "aorta", x: 320, y: 70, label: "Renal Artery (from Aorta)", hint: "Red vessel; branches from abdominal aorta to supply blood to each kidney for filtration" },
+  { id: "ivc", x: 280, y: 100, label: "Renal Vein (to IVC)", hint: "Blue vessel; carries filtered blood from kidney back to inferior vena cava" },
+  { id: "lureter", x: 230, y: 330, label: "Ureter", hint: "Muscular tube transporting urine from renal pelvis to bladder via peristalsis; 25-30 cm long" },
+  { id: "bladder", x: 290, y: 385, label: "Bladder", hint: "Hollow muscular organ storing urine; capacity ~500 mL; detrusor muscle contracts during micturition" },
+  { id: "rcortex", x: 430, y: 140, label: "Right Kidney", hint: "Slightly lower than left kidney due to liver position; each kidney contains ~1 million nephrons" },
 ];
 
 export function DigestiveSVG() {
@@ -182,14 +184,14 @@ export function DigestiveSVG() {
 }
 
 export const digestiveLabels: LabelPoint[] = [
-  { id: "esophagus", x: 250, y: 45, label: "Esophagus", hint: "Transports food via peristalsis" },
-  { id: "stomach", x: 250, y: 120, label: "Stomach", hint: "Mechanical & chemical digestion" },
-  { id: "duodenum", x: 250, y: 190, label: "Duodenum", hint: "First part of small intestine" },
-  { id: "smallintestine", x: 260, y: 250, label: "Small Intestine", hint: "Primary site of nutrient absorption" },
-  { id: "liver", x: 355, y: 130, label: "Liver", hint: "Metabolism, detox, bile production" },
-  { id: "spleen", x: 150, y: 155, label: "Spleen" },
-  { id: "pancreas", x: 350, y: 220, label: "Pancreas", hint: "Produces insulin and digestive enzymes" },
-  { id: "colon", x: 210, y: 330, label: "Large Intestine", hint: "Water absorption, fecal formation" },
+  { id: "esophagus", x: 300, y: 25, label: "Esophagus", hint: "Muscular tube transporting food from pharynx to stomach via peristalsis; ~25 cm long" },
+  { id: "liver", x: 200, y: 90, label: "Liver", hint: "Largest internal organ; metabolism, detoxification, bile production, glycogen storage; receives blood via portal vein and hepatic artery" },
+  { id: "stomach", x: 370, y: 110, label: "Stomach", hint: "J-shaped muscular organ; HCl and pepsin for chemical digestion; churning for mechanical digestion; holds ~1L" },
+  { id: "gallbladder", x: 230, y: 180, label: "Gallbladder", hint: "Green pear-shaped sac; stores and concentrates bile from liver; releases bile via cystic duct for fat emulsification" },
+  { id: "pancreas", x: 330, y: 170, label: "Pancreas", hint: "Produces digestive enzymes (lipase, amylase, trypsin) and bicarbonate; also endocrine function (insulin, glucagon)" },
+  { id: "colon", x: 400, y: 240, label: "Large Intestine", hint: "Ascending, transverse, descending, sigmoid colon; water/electrolyte absorption; bacterial fermentation; fecal formation" },
+  { id: "smallintestine", x: 300, y: 300, label: "Small Intestine", hint: "Primary site of nutrient absorption; duodenum, jejunum, ileum; villi and microvilli increase surface area; ~6 meters long" },
+  { id: "appendix", x: 205, y: 400, label: "Appendix", hint: "Small pouch at cecum junction; lymphoid tissue; appendicitis is inflammation requiring surgical removal" },
 ];
 
 export function EndocrineSVG() {
@@ -222,15 +224,14 @@ export function EndocrineSVG() {
 }
 
 export const endocrineLabels: LabelPoint[] = [
-  { id: "hypothalamus", x: 215, y: 50, label: "Hypothalamus", hint: "Master regulator of hormones" },
-  { id: "pituitary", x: 250, y: 50, label: "Pituitary", hint: "Releases TSH, ACTH, ADH, FSH, LH, GH" },
-  { id: "pineal", x: 285, y: 50, label: "Pineal Gland", hint: "Produces melatonin" },
-  { id: "thyroid", x: 250, y: 115, label: "Thyroid", hint: "T3/T4: controls metabolic rate" },
-  { id: "parathyroid", x: 270, y: 135, label: "Parathyroid", hint: "PTH: regulates calcium" },
-  { id: "thymus", x: 250, y: 200, label: "Thymus", hint: "T-cell maturation" },
-  { id: "adrenal-l", x: 200, y: 260, label: "Adrenal Gland", hint: "Cortisol, aldosterone, epinephrine" },
-  { id: "pancreas-endo", x: 250, y: 310, label: "Pancreas", hint: "Insulin & glucagon" },
-  { id: "gonad-l", x: 220, y: 370, label: "Gonads", hint: "Estrogen/testosterone production" },
+  { id: "hypothalamus", x: 280, y: 30, label: "Hypothalamus", hint: "Master regulator; releases TRH, CRH, GnRH to control pituitary; integrates neural and endocrine signals" },
+  { id: "pituitary", x: 300, y: 65, label: "Pituitary", hint: "Master gland; anterior releases TSH, ACTH, FSH, LH, GH, prolactin; posterior releases ADH, oxytocin" },
+  { id: "thyroid", x: 300, y: 105, label: "Thyroid", hint: "Butterfly-shaped gland in neck; T3/T4 control metabolic rate; calcitonin lowers calcium" },
+  { id: "thymus", x: 280, y: 155, label: "Thymus", hint: "Behind sternum; T-cell maturation and selection; most active in childhood, involutes after puberty" },
+  { id: "adrenal-l", x: 250, y: 230, label: "Adrenal Gland", hint: "Atop kidneys; cortex: cortisol, aldosterone, androgens; medulla: epinephrine, norepinephrine" },
+  { id: "pancreas-endo", x: 330, y: 275, label: "Pancreas", hint: "Islets of Langerhans; beta cells: insulin (lowers glucose); alpha cells: glucagon (raises glucose)" },
+  { id: "gonad-l", x: 300, y: 335, label: "Gonads", hint: "Ovaries produce estrogen/progesterone; testes produce testosterone; regulated by FSH and LH from pituitary" },
+  { id: "pineal", x: 310, y: 20, label: "Pineal Gland", hint: "In brain; produces melatonin to regulate circadian rhythm and sleep-wake cycle" },
 ];
 
 export function CellSVG() {
@@ -405,16 +406,16 @@ export function CellSVG() {
 }
 
 export const musculoskeletalLabels: LabelPoint[] = [
-  { id: "skull", x: 300, y: 30, label: "Skull (Cranium)", hint: "Protects the brain; composed of 22 bones including frontal, parietal, temporal, and occipital bones joined by sutures" },
-  { id: "cervical", x: 300, y: 75, label: "Cervical Spine", hint: "7 vertebrae (C1-C7); C1 (atlas) supports head rotation, C2 (axis) allows head nodding; most mobile spinal region" },
-  { id: "clavicle", x: 220, y: 90, label: "Clavicle", hint: "S-shaped bone connecting sternum to scapula; most commonly fractured bone; protects subclavian vessels and brachial plexus" },
-  { id: "humerus", x: 160, y: 160, label: "Humerus", hint: "Upper arm bone; articulates with scapula (shoulder joint) and radius/ulna (elbow joint); radial nerve wraps around mid-shaft" },
-  { id: "ribcage", x: 300, y: 150, label: "Rib Cage", hint: "12 pairs: 7 true ribs, 3 false ribs, 2 floating ribs; protects heart and lungs; intercostal muscles assist respiration" },
-  { id: "pelvis", x: 300, y: 250, label: "Pelvis", hint: "Formed by ilium, ischium, pubis; female pelvis wider for childbirth; weight-bearing connection between spine and lower extremities" },
-  { id: "femur", x: 250, y: 330, label: "Femur", hint: "Longest and strongest bone; head articulates with acetabulum; fractures common in elderly (osteoporosis); major blood loss risk" },
-  { id: "tibia", x: 270, y: 400, label: "Tibia", hint: "Weight-bearing bone of lower leg; shin bone; tibial plateau fractures affect knee joint; palpable anterior border" },
-  { id: "deltoid", x: 420, y: 110, label: "Deltoid Muscle", hint: "Triangular shoulder muscle; abducts arm past 15°; common IM injection site; innervated by axillary nerve (C5-C6)" },
-  { id: "quadriceps", x: 370, y: 320, label: "Quadriceps", hint: "Four muscles (rectus femoris, 3 vastus); primary knee extensors; vastus lateralis common IM injection site in infants" },
+  { id: "skull", x: 170, y: 25, label: "Skull (Cranium)", hint: "Protects the brain; composed of 22 bones including frontal, parietal, temporal, and occipital bones joined by sutures" },
+  { id: "clavicle", x: 150, y: 80, label: "Clavicle", hint: "S-shaped bone connecting sternum to scapula; most commonly fractured bone; protects subclavian vessels and brachial plexus" },
+  { id: "ribcage", x: 185, y: 140, label: "Rib Cage", hint: "12 pairs: 7 true ribs, 3 false ribs, 2 floating ribs; protects heart and lungs; intercostal muscles assist respiration" },
+  { id: "humerus", x: 85, y: 170, label: "Humerus", hint: "Upper arm bone; articulates with scapula (shoulder joint) and radius/ulna (elbow joint); radial nerve wraps around mid-shaft" },
+  { id: "pelvis", x: 185, y: 240, label: "Pelvis", hint: "Formed by ilium, ischium, pubis; female pelvis wider for childbirth; weight-bearing connection between spine and lower extremities" },
+  { id: "femur", x: 150, y: 320, label: "Femur", hint: "Longest and strongest bone; head articulates with acetabulum; fractures common in elderly (osteoporosis); major blood loss risk" },
+  { id: "tibia", x: 165, y: 400, label: "Tibia & Fibula", hint: "Tibia: weight-bearing shin bone; Fibula: lateral stabilizer; together form ankle mortise joint" },
+  { id: "deltoid", x: 440, y: 90, label: "Deltoid Muscle", hint: "Triangular shoulder muscle; abducts arm past 15°; common IM injection site; innervated by axillary nerve (C5-C6)" },
+  { id: "pectoralis", x: 400, y: 140, label: "Pectoralis Major", hint: "Large chest muscle; adducts and medially rotates arm; origin: clavicle, sternum, ribs; insertion: humerus" },
+  { id: "quadriceps", x: 400, y: 320, label: "Quadriceps", hint: "Four muscles (rectus femoris, 3 vastus); primary knee extensors; vastus lateralis common IM injection site in infants" },
 ];
 
 export const integumentaryLabels: LabelPoint[] = [
@@ -442,40 +443,38 @@ export const lymphaticLabels: LabelPoint[] = [
 ];
 
 export const reproductiveLabels: LabelPoint[] = [
-  { id: "uterus", x: 150, y: 180, label: "Uterus", hint: "Hollow muscular organ; endometrium sheds during menstruation; myometrium contracts during labor; fundus, body, and cervix regions" },
-  { id: "ovary", x: 80, y: 150, label: "Ovary", hint: "Female gonad; produces oocytes and hormones (estrogen, progesterone); follicular development, ovulation, corpus luteum formation" },
-  { id: "fallopian", x: 130, y: 120, label: "Fallopian Tube", hint: "Oviduct connecting ovary to uterus; fimbriae capture ovum; site of fertilization in ampulla; ectopic pregnancy risk if implantation occurs here" },
-  { id: "cervix", x: 150, y: 250, label: "Cervix", hint: "Lower portion of uterus; produces mucus plug in pregnancy; dilates during labor (0-10 cm); Pap smear screening site for cervical cancer" },
-  { id: "vagina", x: 150, y: 310, label: "Vagina", hint: "Muscular canal from cervix to external opening; birth canal; acidic pH (3.8-4.5) maintained by Lactobacillus; elastic during delivery" },
-  { id: "testis", x: 420, y: 320, label: "Testis", hint: "Male gonad; produces sperm (spermatogenesis in seminiferous tubules) and testosterone (Leydig cells); requires temperature below body temp" },
-  { id: "epididymis", x: 450, y: 280, label: "Epididymis", hint: "Coiled tube on posterior testis; sperm maturation and storage (2-3 months); sperm gain motility here; connects to vas deferens" },
-  { id: "prostate", x: 400, y: 200, label: "Prostate Gland", hint: "Walnut-sized gland below bladder; produces alkaline fluid (30% of semen); enlargement (BPH) common in older men; PSA screening" },
-  { id: "vas-deferens", x: 430, y: 240, label: "Vas Deferens", hint: "Muscular duct transporting sperm from epididymis to ejaculatory duct; cut during vasectomy; peristalsis propels sperm during ejaculation" },
-  { id: "seminal-vesicle", x: 380, y: 160, label: "Seminal Vesicles", hint: "Paired glands producing fructose-rich alkaline fluid (60-70% of semen volume); provides energy for sperm motility" },
+  { id: "uterus", x: 185, y: 140, label: "Uterus", hint: "Hollow muscular organ; endometrium sheds during menstruation; myometrium contracts during labor; fundus, body, and cervix regions" },
+  { id: "ovary", x: 130, y: 340, label: "Ovary", hint: "Female gonad; produces oocytes and hormones (estrogen, progesterone); follicular development, ovulation, corpus luteum formation" },
+  { id: "fallopian", x: 100, y: 100, label: "Fallopian Tube", hint: "Oviduct connecting ovary to uterus; fimbriae capture ovum; site of fertilization in ampulla; ectopic pregnancy risk" },
+  { id: "fimbriae", x: 250, y: 85, label: "Fimbriae", hint: "Finger-like projections at end of fallopian tube; sweep ovum into tube after ovulation; ciliated epithelium aids transport" },
+  { id: "cervix", x: 185, y: 230, label: "Cervix", hint: "Lower portion of uterus; produces mucus plug in pregnancy; dilates during labor (0-10 cm); Pap smear screening site" },
+  { id: "bladder", x: 430, y: 60, label: "Bladder", hint: "Stores urine; sits anterior to male reproductive organs; connected to urethra which passes through prostate" },
+  { id: "prostate", x: 420, y: 130, label: "Prostate Gland", hint: "Walnut-sized gland below bladder; produces alkaline fluid (30% of semen); enlargement (BPH) common in older men" },
+  { id: "vas-deferens", x: 420, y: 220, label: "Vas Deferens", hint: "Muscular duct transporting sperm from epididymis to ejaculatory duct; cut during vasectomy; peristalsis propels sperm" },
+  { id: "testis", x: 450, y: 370, label: "Testis", hint: "Male gonad; produces sperm in seminiferous tubules and testosterone via Leydig cells; requires temperature below body temp" },
+  { id: "seminal-vesicle", x: 380, y: 310, label: "Seminal Vesicles", hint: "Paired glands producing fructose-rich alkaline fluid (60-70% of semen volume); provides energy for sperm motility" },
 ];
 
 export const feedbackLoopLabels: LabelPoint[] = [
-  { id: "hypothalamus-fb", x: 300, y: 50, label: "Hypothalamus", hint: "Master control center; releases/inhibits releasing hormones (TRH, CRH, GnRH); integrates neural and endocrine signals; thermoregulation center" },
-  { id: "anterior-pit", x: 300, y: 120, label: "Anterior Pituitary", hint: "Releases tropic hormones (TSH, ACTH, FSH, LH, GH, prolactin) in response to hypothalamic releasing hormones; regulated by negative feedback" },
-  { id: "posterior-pit", x: 200, y: 120, label: "Posterior Pituitary", hint: "Stores and releases ADH (water reabsorption) and oxytocin (labor contractions, milk letdown); hormones made in hypothalamus" },
-  { id: "thyroid-fb", x: 300, y: 200, label: "Thyroid Gland", hint: "Produces T3/T4 (metabolic rate) and calcitonin (lowers Ca²⁺); negative feedback: high T3/T4 suppresses TRH and TSH release" },
-  { id: "adrenal-fb", x: 200, y: 270, label: "Adrenal Cortex", hint: "Produces cortisol (stress response, glucose), aldosterone (Na⁺/K⁺ balance), androgens; HPA axis: CRH→ACTH→cortisol→negative feedback" },
-  { id: "neg-feedback", x: 450, y: 160, label: "Negative Feedback", hint: "Primary homeostatic mechanism; product inhibits its own production pathway; examples: high cortisol suppresses CRH/ACTH, high T4 suppresses TSH" },
-  { id: "pos-feedback", x: 450, y: 300, label: "Positive Feedback", hint: "Product amplifies its own production; rare but important examples: oxytocin during labor, LH surge triggering ovulation, blood clotting cascade" },
-  { id: "target-organ", x: 300, y: 350, label: "Target Organ Response", hint: "End-organ effect of hormone action; receptor binding triggers intracellular signaling; clinical signs reflect hormone excess or deficiency" },
+  { id: "hypothalamus-fb", x: 300, y: 60, label: "Hypothalamus", hint: "Master control center in the brain; releases TRH, CRH, GnRH to stimulate pituitary; integrates neural and endocrine signals" },
+  { id: "pituitary-fb", x: 300, y: 215, label: "Pituitary Gland", hint: "Master gland hanging below hypothalamus; anterior releases TSH, ACTH, FSH, LH, GH; posterior releases ADH, oxytocin" },
+  { id: "blood-vessels", x: 350, y: 280, label: "Blood Vessels", hint: "Hypothalamic-hypophyseal portal system carries releasing hormones to pituitary; systemic circulation carries tropic hormones to target glands" },
+  { id: "thyroid-fb", x: 300, y: 380, label: "Thyroid Gland", hint: "Butterfly-shaped gland; produces T3/T4 (metabolic rate) and calcitonin; negative feedback: high T3/T4 suppresses TRH and TSH release" },
+  { id: "neg-feedback", x: 130, y: 200, label: "Negative Feedback", hint: "Primary homeostatic mechanism; target gland hormone inhibits its own production; high T4 suppresses TSH, high cortisol suppresses ACTH" },
+  { id: "pos-feedback", x: 480, y: 200, label: "Positive Feedback", hint: "Product amplifies its own production; rare but important: oxytocin during labor, LH surge triggering ovulation, blood clotting cascade" },
+  { id: "stim-arrow", x: 480, y: 100, label: "Stimulatory Signal", hint: "Hypothalamus releases TRH which stimulates pituitary to release TSH; TSH stimulates thyroid to produce T3/T4" },
+  { id: "inhib-arrow", x: 130, y: 350, label: "Inhibitory Signal", hint: "Rising T3/T4 levels feed back to hypothalamus and pituitary to reduce TRH and TSH release, completing the feedback loop" },
 ];
 
 export const cellLabels: LabelPoint[] = [
-  { id: "membrane", x: 300, y: 22, label: "Cell Membrane", hint: "Phospholipid bilayer with embedded proteins; selectively permeable barrier controlling ion/molecule transport (Na⁺/K⁺ ATPase, glucose transporters)" },
-  { id: "nucleus", x: 300, y: 210, label: "Nucleus", hint: "Double-membrane organelle housing chromatin (DNA + histones); site of transcription & mRNA processing; nuclear pores regulate macromolecule transport" },
+  { id: "membrane", x: 500, y: 200, label: "Cell Membrane", hint: "Phospholipid bilayer with embedded proteins; selectively permeable barrier controlling ion/molecule transport (Na⁺/K⁺ ATPase, glucose transporters)" },
+  { id: "nucleus", x: 300, y: 230, label: "Nucleus", hint: "Double-membrane organelle housing chromatin (DNA + histones); site of transcription & mRNA processing; nuclear pores regulate macromolecule transport" },
   { id: "nucleolus", x: 310, y: 195, label: "Nucleolus", hint: "Dense region within nucleus; assembles ribosomal subunits (rRNA synthesis); prominent in cells with high protein output" },
-  { id: "mito1", x: 200, y: 140, label: "Mitochondria", hint: "Double-membrane organelle with cristae; oxidative phosphorylation produces ~36 ATP/glucose via electron transport chain; has own mtDNA (maternal inheritance)" },
-  { id: "rer", x: 170, y: 200, label: "Rough ER", hint: "Ribosome-studded membrane network continuous with nuclear envelope; co-translational protein folding & N-linked glycosylation; prominent in secretory cells" },
-  { id: "ser", x: 420, y: 175, label: "Smooth ER", hint: "Lacks ribosomes; lipid/steroid synthesis, Ca²⁺ storage (sarcoplasmic reticulum in muscle), drug detoxification (hepatocytes via cytochrome P450)" },
-  { id: "golgi", x: 340, y: 320, label: "Golgi Apparatus", hint: "Stacked cisternae (cis→trans); post-translational modification (glycosylation, phosphorylation), protein sorting & vesicle packaging for secretion or lysosomal targeting" },
-  { id: "lysosome", x: 460, y: 290, label: "Lysosomes", hint: "Membrane-bound vesicle (pH ~5) with acid hydrolases; autophagy, phagocytosis, apoptosis; deficiency causes lysosomal storage diseases (Tay-Sachs, Gaucher)" },
-  { id: "ribosome", x: 130, y: 330, label: "Ribosomes", hint: "80S particles (40S + 60S subunits); translate mRNA → polypeptide; free ribosomes make cytoplasmic proteins, bound ribosomes make secretory/membrane proteins" },
-  { id: "peroxisome", x: 420, y: 350, label: "Peroxisomes", hint: "Oxidative organelle; fatty acid β-oxidation (very long chain), H₂O₂ detoxification via catalase; critical in hepatocytes and renal tubular cells" },
-  { id: "centriole", x: 300, y: 75, label: "Centrioles", hint: "Paired cylindrical structures (9+0 microtubule triplets); organize mitotic spindle during cell division; form basal bodies of cilia (respiratory epithelium)" },
-  { id: "cytoplasm", x: 200, y: 370, label: "Cytoplasm", hint: "Aqueous cytosol + organelles + cytoskeleton (microfilaments, intermediate filaments, microtubules); site of glycolysis, signal transduction, protein degradation (proteasomes)" },
+  { id: "mito1", x: 430, y: 130, label: "Mitochondria", hint: "Double-membrane organelle with cristae; oxidative phosphorylation produces ~36 ATP/glucose via electron transport chain; has own mtDNA (maternal inheritance)" },
+  { id: "rer", x: 300, y: 140, label: "Rough ER", hint: "Ribosome-studded membrane network continuous with nuclear envelope; co-translational protein folding & N-linked glycosylation; prominent in secretory cells" },
+  { id: "ser", x: 200, y: 170, label: "Smooth ER", hint: "Lacks ribosomes; lipid/steroid synthesis, Ca²⁺ storage (sarcoplasmic reticulum in muscle), drug detoxification (hepatocytes via cytochrome P450)" },
+  { id: "golgi", x: 140, y: 290, label: "Golgi Apparatus", hint: "Stacked cisternae (cis→trans); post-translational modification (glycosylation, phosphorylation), protein sorting & vesicle packaging for secretion or lysosomal targeting" },
+  { id: "lysosome", x: 450, y: 310, label: "Lysosomes", hint: "Membrane-bound vesicle (pH ~5) with acid hydrolases; autophagy, phagocytosis, apoptosis; deficiency causes lysosomal storage diseases (Tay-Sachs, Gaucher)" },
+  { id: "ribosome", x: 100, y: 350, label: "Ribosomes", hint: "80S particles (40S + 60S subunits); translate mRNA → polypeptide; free ribosomes make cytoplasmic proteins, bound ribosomes make secretory/membrane proteins" },
+  { id: "cytoplasm", x: 170, y: 120, label: "Cytoplasm", hint: "Aqueous cytosol + organelles + cytoskeleton (microfilaments, intermediate filaments, microtubules); site of glycolysis, signal transduction, protein degradation" },
 ];
