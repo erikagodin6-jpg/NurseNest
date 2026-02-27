@@ -55,6 +55,19 @@ import imgIntegumentary from "@/assets/anatomy-integumentary.png";
 import imgLymphaticImmune from "@/assets/anatomy-lymphatic-immune.png";
 import imgReproductive from "@/assets/anatomy-reproductive.png";
 
+import imgHeartLayers from "@/assets/anatomy-heart-layers.png";
+import imgVesselLayers from "@/assets/anatomy-vessel-layers.png";
+import imgRespConducting from "@/assets/anatomy-respiratory-conducting.png";
+import imgRespVentilation from "@/assets/anatomy-respiratory-ventilation.png";
+import imgRespAlveoli from "@/assets/anatomy-respiratory-alveoli.png";
+import imgRespGasExchange from "@/assets/anatomy-respiratory-gas-exchange.png";
+import imgRespACM from "@/assets/anatomy-respiratory-acm.png";
+import imgRespBronchi from "@/assets/anatomy-respiratory-bronchi.png";
+import imgRespLungComparison from "@/assets/anatomy-respiratory-lung-comparison.png";
+
+type InlineImage = { src: string; alt: string; afterParagraph: number };
+
+
 const bodySystems = [
   {
     id: "cell-structure",
@@ -99,6 +112,10 @@ const bodySystems = [
     bgAccent: "bg-red-50",
     image: imgCardiovascular,
     description: "Heart, blood vessels, and circulation",
+    inlineImages: [
+      { src: imgHeartLayers, alt: "Cross-section of the heart wall showing the three layers: epicardium, myocardium, and endocardium", afterParagraph: 0 },
+      { src: imgVesselLayers, alt: "Comparison of blood vessel wall layers in arteries, veins, and capillaries showing tunica intima, media, and adventitia", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The cardiovascular system consists of the heart, blood vessels, and approximately 5 liters of blood. The heart is a four-chambered muscular organ divided into the right atrium, right ventricle, left atrium, and left ventricle. Deoxygenated blood returns to the right atrium via the superior and inferior vena cava, passes through the tricuspid valve into the right ventricle, and is pumped through the pulmonary valve into the pulmonary arteries toward the lungs. Oxygenated blood returns from the lungs via the pulmonary veins into the left atrium, passes through the mitral (bicuspid) valve into the left ventricle, and is ejected through the aortic valve into the aorta for systemic circulation.",
       "The cardiac cycle includes two phases: systole (contraction) and diastole (relaxation). During ventricular systole, the AV valves (tricuspid and mitral) close, producing the S1 heart sound ('lub'), while the semilunar valves (pulmonary and aortic) open to allow blood ejection. During diastole, the semilunar valves close (producing S2, the 'dub' sound), and the AV valves open for ventricular filling. The cardiac conduction system: consisting of the SA node, AV node, Bundle of His, bundle branches, and Purkinje fibers: coordinates this electrical activity. The SA node, located in the right atrium, is the natural pacemaker with an intrinsic rate of 60-100 beats per minute.",
@@ -114,6 +131,15 @@ const bodySystems = [
     bgAccent: "bg-sky-50",
     image: imgRespiratory,
     description: "Airways, lungs, and gas exchange",
+    inlineImages: [
+      { src: imgRespLungComparison, alt: "Comparison of left and right lungs showing three lobes on the right (superior, middle, inferior) and two lobes on the left with cardiac notch and lingula", afterParagraph: 0 },
+      { src: imgRespConducting, alt: "Conducting zone of the respiratory system showing trachea branching into bronchi, bronchioles, and terminal bronchioles", afterParagraph: 0 },
+      { src: imgRespBronchi, alt: "Bronchial tree anatomy showing trachea, carina, and branching bronchi with bronchial wall structure", afterParagraph: 0 },
+      { src: imgRespAlveoli, alt: "Alveolar clusters at the end of alveolar ducts with surrounding capillary network and pneumocytes", afterParagraph: 1 },
+      { src: imgRespGasExchange, alt: "Gas exchange at the alveolar-capillary membrane showing oxygen and carbon dioxide diffusion", afterParagraph: 1 },
+      { src: imgRespACM, alt: "Cross-section of the alveolar-capillary membrane showing its three ultra-thin layers for gas diffusion", afterParagraph: 1 },
+      { src: imgRespVentilation, alt: "Mechanics of ventilation showing inspiration with diaphragm contracting and expiration with diaphragm relaxing", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The respiratory system is divided into the upper and lower airways. The upper airway includes the nose, nasal cavity, pharynx (nasopharynx, oropharynx, and laryngopharynx), and larynx. These structures warm, humidify, and filter inspired air. The lower airway begins at the trachea, which bifurcates at the carina into the right and left mainstem bronchi. The right mainstem bronchus is shorter, wider, and more vertical, making it the more common site for aspiration. The bronchi further divide into lobar bronchi, segmental bronchi, bronchioles, terminal bronchioles, and finally respiratory bronchioles that lead to alveolar ducts and alveolar sacs.",
       "Gas exchange occurs at the alveolar-capillary membrane, a thin barrier (0.5 micrometers) composed of the alveolar epithelium, basement membrane, and capillary endothelium. There are approximately 300 million alveoli in the adult lungs, providing a surface area of about 70 square meters. Oxygen diffuses from the alveoli into the pulmonary capillaries along its concentration gradient, while carbon dioxide diffuses in the opposite direction. Type I alveolar cells facilitate gas exchange, while Type II alveolar cells produce surfactant, a phospholipid that reduces surface tension and prevents alveolar collapse (atelectasis).",
