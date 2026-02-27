@@ -1,7 +1,22 @@
 import { useRef, useCallback, useState, useEffect } from "react";
-import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Heading2, RemoveFormatting, ImagePlus, Link } from "lucide-react";
+import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Heading2, RemoveFormatting, ImagePlus, Link, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+const FONT_COLORS = [
+  { label: "Black", value: "#000000" },
+  { label: "Dark Gray", value: "#4b5563" },
+  { label: "Red", value: "#dc2626" },
+  { label: "Orange", value: "#ea580c" },
+  { label: "Amber", value: "#d97706" },
+  { label: "Green", value: "#16a34a" },
+  { label: "Teal", value: "#0d9488" },
+  { label: "Blue", value: "#2563eb" },
+  { label: "Indigo", value: "#4f46e5" },
+  { label: "Purple", value: "#9333ea" },
+  { label: "Pink", value: "#db2777" },
+  { label: "Rose", value: "#e11d48" },
+];
 
 interface RichTextEditorProps {
   value: string;
@@ -31,6 +46,9 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
   const editorRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const savedSelectionRef = useRef<Range | null>(null);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
 
   const lastValueRef = useRef(value);
   const isFocusedRef = useRef(false);
@@ -49,6 +67,48 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
       onChange(html);
     }
   }, [onChange]);
+
+  const saveSelection = useCallback(() => {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0) {
+      savedSelectionRef.current = sel.getRangeAt(0).cloneRange();
+    }
+  }, []);
+
+  const restoreSelection = useCallback(() => {
+    const range = savedSelectionRef.current;
+    if (range) {
+      const sel = window.getSelection();
+      if (sel) {
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    }
+  }, []);
+
+  const applyFontColor = useCallback((color: string) => {
+    restoreSelection();
+    editorRef.current?.focus();
+    requestAnimationFrame(() => {
+      restoreSelection();
+      document.execCommand("styleWithCSS", false, "true");
+      document.execCommand("foreColor", false, color);
+      document.execCommand("styleWithCSS", false, "false");
+      emitChange();
+      setShowColorPicker(false);
+    });
+  }, [restoreSelection, emitChange]);
+
+  useEffect(() => {
+    if (!showColorPicker) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(e.target as Node)) {
+        setShowColorPicker(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showColorPicker]);
 
   const execCommand = useCallback((command: string) => {
     if (command === "insertImage") {
@@ -183,6 +243,45 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
             </Button>
           );
         })}
+        <div className="w-px h-5 bg-gray-200 mx-1" />
+        <div className="relative" ref={colorPickerRef}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 p-0 hover:bg-primary/10 hover:text-primary"
+            onMouseDown={(e) => {
+              e.preventDefault();
+              saveSelection();
+              setShowColorPicker((prev) => !prev);
+            }}
+            title="Font Color"
+            data-testid="button-font-color"
+          >
+            <Palette className="w-3.5 h-3.5" />
+          </Button>
+          {showColorPicker && (
+            <div
+              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 grid grid-cols-4 gap-1"
+              style={{ width: "140px" }}
+              onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              data-testid="font-color-palette"
+            >
+              {FONT_COLORS.map((c) => (
+                <button
+                  key={c.value}
+                  type="button"
+                  className="w-7 h-7 rounded-md border border-gray-200 hover:scale-110 hover:border-gray-400 transition-all cursor-pointer"
+                  style={{ backgroundColor: c.value }}
+                  title={c.label}
+                  onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                  onClick={() => applyFontColor(c.value)}
+                  data-testid={`font-color-${c.label.toLowerCase().replace(/\s/g, "-")}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
       <input
         ref={fileInputRef}
@@ -315,12 +414,13 @@ function ensureBlockSpacing(html: string, plainText: string): string {
 }
 
 function sanitizeHtml(html: string): string {
-  const allowed = ["b", "strong", "i", "em", "u", "s", "strike", "br", "p", "div", "span", "ul", "ol", "li", "h3", "h4", "h2", "h1", "sub", "sup", "img", "a", "blockquote", "pre", "code", "table", "thead", "tbody", "tr", "td", "th", "hr"];
+  const allowed = ["b", "strong", "i", "em", "u", "s", "strike", "br", "p", "div", "span", "font", "ul", "ol", "li", "h3", "h4", "h2", "h1", "sub", "sup", "img", "a", "blockquote", "pre", "code", "table", "thead", "tbody", "tr", "td", "th", "hr"];
   const allowedAttrs: Record<string, string[]> = {
     img: ["src", "alt", "style", "width", "height"],
     a: ["href", "target", "rel"],
     td: ["colspan", "rowspan", "style"],
     th: ["colspan", "rowspan", "style"],
+    font: ["color", "style"],
     span: ["style"],
     p: ["style"],
     div: ["style"],
