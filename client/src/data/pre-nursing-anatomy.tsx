@@ -6,6 +6,7 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import {
   Bone,
   Brain,
@@ -331,13 +332,33 @@ const bodySystemsQuiz: import("@/components/interactive-learning").QuizQuestion[
 ];
 
 export function AnatomyPhysiologyModule() {
+  const levelsOrganizationClinical = useEditableText("preanat-levels-clinical", "Disease can originate at any level and cascade upward. A molecular mutation (chemical level) can impair cell function (cellular), damage tissue, compromise an organ, and ultimately affect the whole organism. Understanding this hierarchy helps you trace symptoms back to root causes.");
+  const directionalClinical = useEditableText("preanat-directional-clinical", "Precise anatomical language prevents medical errors. 'The wound is on the medial aspect of the right lower leg, 3 cm distal to the knee' is far more useful than 'the wound is on the inside of the leg near the knee.' Always use directional terms in documentation.");
+  const homeostasisFeedback = useEditableText("preanat-homeostasis-feedback", "Every feedback loop has three components: (1) Receptor — detects the change (sensor), (2) Control Center — processes information and determines response (often the brain), (3) Effector — carries out the corrective action (muscle, gland). Failure at any component disrupts homeostasis.");
+  const cellularComm = useEditableText("preanat-cellular-comm", "Cells communicate via direct contact (gap junctions), chemical signals (hormones, neurotransmitters, paracrines), and electrical signals (neurons). Autocrine signals act on the same cell; paracrine signals act on nearby cells; endocrine signals travel via blood to distant targets. Understanding communication modes explains how drugs, diseases, and therapies work at the cellular level.");
+  const transportGradient = useEditableText("preanat-transport-gradient", "The electrochemical gradient combines the concentration gradient (chemical) with the electrical gradient (charge difference across the membrane). The Na+/K+ pump creates both: more Na+ outside (chemical) and net negative charge inside (electrical). This stored energy drives nerve impulses, muscle contraction, and secondary active transport (e.g., glucose co-transport in the intestine).");
+  const receptorsDrugs = useEditableText("preanat-receptors-drugs", "Agonists mimic the natural ligand and activate the receptor (e.g., albuterol mimics epinephrine at beta-2 receptors → bronchodilation). Antagonists block the receptor without activating it (e.g., propranolol blocks beta receptors → decreased heart rate). Understanding receptor pharmacology is the foundation of safe medication administration.");
+  const tissueAdaptation = useEditableText("preanat-tissue-adaptation", "Cells respond to stress through adaptive changes: Atrophy (decreased size — muscle wasting from disuse), Hypertrophy (increased size — cardiac enlargement from hypertension), Hyperplasia (increased number — endometrial thickening), Metaplasia (change in type — smoker's bronchial cells). If stress exceeds adaptive capacity, irreversible injury leads to necrosis (pathological death) or apoptosis (programmed death).");
+  const skinTurgor = useEditableText("preanat-skin-turgor", "Skin turgor assesses hydration status. When skin is gently pinched and released, well-hydrated tissue returns immediately to its normal position. Tenting (skin remains raised) indicates dehydration — decreased interstitial fluid reduces skin elasticity. Assess on the sternum or inner forearm; elderly patients' decreased collagen makes extremity turgor unreliable. Insensible water loss through the skin is approximately 300-400 mL/day and increases dramatically with burns, fever, and low humidity.");
+  const boneTypes = useEditableText("preanat-bone-types", "Long bones (femur, humerus) — levers for movement. Short bones (carpals, tarsals) — gliding movements. Flat bones (skull, sternum, pelvis) — protection and hematopoiesis. Irregular bones (vertebrae, facial bones) — complex shapes for specific functions. Sesamoid bones (patella) — develop within tendons to reduce friction.");
+  const skeletonAxial = useEditableText("preanat-skeleton-axial", "The axial skeleton (80 bones) forms the central axis: skull (22), hyoid (1), vertebral column (26), thoracic cage (25). It protects the brain, spinal cord, and thoracic organs. The appendicular skeleton (126 bones) includes the pectoral girdle, upper limbs, pelvic girdle, and lower limbs — designed for movement and manipulation. Total: 206 bones in the adult skeleton.");
+  const muscleFatigue = useEditableText("preanat-muscle-fatigue", "Isotonic contractions: muscle length changes (concentric = shortening, eccentric = lengthening under tension). Isometric contractions: muscle generates force without length change (holding a heavy object). Muscle fatigue occurs from ATP depletion, lactic acid accumulation, electrolyte imbalances (K+, Ca2+, Na+), and CNS fatigue. Creatine phosphate provides immediate ATP for the first 10-15 seconds of intense activity, then aerobic and anaerobic pathways take over.");
+  const synapticTransmission = useEditableText("preanat-synaptic-transmission", "When an action potential reaches the axon terminal: (1) voltage-gated Ca2+ channels open, (2) Ca2+ influx triggers vesicle fusion with the membrane, (3) neurotransmitters are released into the synaptic cleft (exocytosis), (4) neurotransmitters bind postsynaptic receptors, (5) excitatory or inhibitory response generated. The signal is terminated by reuptake, enzymatic breakdown, or diffusion. Most psychiatric and neurological drugs target these synaptic mechanisms.");
+  const neurotransmittersText = useEditableText("preanat-neurotransmitters", "Acetylcholine (ACh): muscle contraction, parasympathetic effects, memory. Norepinephrine: sympathetic 'fight or flight,' alertness. Dopamine: reward, movement (Parkinson's = dopamine deficiency). Serotonin: mood, sleep, appetite (many antidepressants target serotonin). GABA: main inhibitory NT (benzodiazepines enhance GABA). Glutamate: main excitatory NT. Endorphins: natural pain relief. Understanding these helps you predict drug effects and side effects.");
+  const negativeFeedback = useEditableText("preanat-negative-feedback", "Rising hormone levels inhibit further release. Example: Thyroid axis — Hypothalamus releases TRH → Anterior pituitary releases TSH → Thyroid releases T3/T4 → Rising T3/T4 levels inhibit TRH and TSH release (negative feedback). In hypothyroidism, low T3/T4 means TSH is HIGH (no feedback inhibition). In hyperthyroidism, high T3/T4 means TSH is LOW (strong feedback inhibition). This logic applies to most endocrine axes.");
+  const cortisolClinical = useEditableText("preanat-cortisol-clinical", "Chronic cortisol elevation (Cushing syndrome): hyperglycemia, immunosuppression, muscle wasting, central obesity, moon face, thin skin, osteoporosis, poor wound healing. Cortisol deficiency (Addison disease): hypoglycemia, hypotension, hyperkalemia, hyponatremia, hyperpigmentation, fatigue. Exogenous corticosteroids (prednisone) mimic cortisol — never stop abruptly (adrenal suppression → adrenal crisis).");
+  const heartAnatomyText = useEditableText("preanat-heart-anatomy", "The left ventricle wall is approximately 3x thicker than the right because it must generate enough pressure to pump blood through the entire systemic circuit. The coronary arteries (right and left) branch from the base of the aorta and supply the myocardium itself with oxygenated blood. The septum separates left and right sides, preventing mixing of oxygenated and deoxygenated blood.");
+  const cardiacOutputText = useEditableText("preanat-cardiac-output", "Cardiac output (CO) = Heart Rate (HR) × Stroke Volume (SV). Normal resting CO is approximately 5 L/min. Stroke volume is the amount of blood ejected per beat (~70 mL). CO can increase 4-5x during vigorous exercise through increased HR and SV. Blood pressure = CO × peripheral resistance.");
+  const ventilationMechanics = useEditableText("preanat-ventilation", "Inspiration is an ACTIVE process: the diaphragm contracts and flattens, external intercostals elevate the ribs, thoracic volume increases, intrapulmonary pressure drops below atmospheric pressure, and air flows IN (Boyle's law). Quiet expiration is PASSIVE: the diaphragm and intercostals relax, elastic recoil of lungs decreases thoracic volume, intrapulmonary pressure rises above atmospheric pressure, and air flows OUT. Forced expiration recruits internal intercostals and abdominal muscles.");
+  const oxygenTransport = useEditableText("preanat-oxygen-transport", "~98.5% of O₂ is transported bound to hemoglobin (as oxyhemoglobin, HbO₂) within red blood cells. ~1.5% is dissolved in plasma. Each hemoglobin molecule can carry up to 4 O₂ molecules. CO₂ transport: ~70% as bicarbonate (HCO₃⁻) in plasma, ~23% bound to hemoglobin (carbaminohemoglobin), ~7% dissolved in plasma.");
+  const digestionMechanical = useEditableText("preanat-digestion", "Mechanical digestion physically breaks food into smaller pieces without altering chemical composition — includes mastication (chewing), churning in the stomach, and segmentation in the small intestine. Chemical digestion uses enzymes and other chemicals to break covalent bonds in macromolecules: amylase breaks starch into maltose, pepsin/trypsin break proteins into peptides, lipase breaks triglycerides into fatty acids and monoglycerides, and brush border enzymes complete final digestion at the intestinal wall.");
+  const kidneyFunctions = useEditableText("preanat-kidney-functions", "The kidneys do far more than produce urine. They regulate blood volume and pressure (RAAS, ADH), maintain electrolyte balance (Na+, K+, Ca²+, phosphate), regulate acid-base balance (H+ secretion, HCO₃⁻ reabsorption), produce erythropoietin (EPO, stimulates red blood cell production), activate vitamin D (calcitriol, for calcium absorption), and perform gluconeogenesis during prolonged fasting.");
+
   return (
     <div className="space-y-10" data-testid="module-anatomy-physiology">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Anatomy & Physiology</h2>
-        <p className="text-gray-600">
-          Master the structure and function of the human body — from cells and tissues to organ systems — building the foundation for clinical nursing practice.
-        </p>
+        <EditableModuleText sectionKey="preanat-title" defaultText="Anatomy & Physiology" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="preanat-desc" defaultText="Master the structure and function of the human body — from cells and tissues to organ systems — building the foundation for clinical nursing practice." as="p" className="text-gray-600" multiline />
       </div>
 
       <section className="space-y-6">
@@ -353,14 +374,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="From atoms to the complete organism"
           icon={<Layers className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The human body is organized in a hierarchy of increasing complexity. Each{" "}
-            <HoverReveal
-              term="level of organization"
-              definition="Chemical → Cellular → Tissue → Organ → Organ System → Organism. Each level emerges from the one below and contributes to the one above."
-            />{" "}
-            builds upon the previous, with emergent properties at each stage that cannot be predicted from the level below alone.
-          </p>
+          <EditableModuleText sectionKey="preanat-levels-content" defaultText="The human body is organized in a hierarchy of increasing complexity. Each level of organization builds upon the previous, with emergent properties at each stage that cannot be predicted from the level below alone." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="flex flex-col sm:flex-row gap-2 mt-3">
             <div className="flex-1 p-3 bg-blue-50/60 rounded-xl border border-blue-100 text-center">
               <p className="text-[10px] font-bold text-blue-700">Chemical</p>
@@ -395,7 +409,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Clinical Connection"
-            content="Disease can originate at any level and cascade upward. A molecular mutation (chemical level) can impair cell function (cellular), damage tissue, compromise an organ, and ultimately affect the whole organism. Understanding this hierarchy helps you trace symptoms back to root causes."
+            content={levelsOrganizationClinical}
           />
         </MicroLesson>
 
@@ -404,13 +418,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="The universal language of anatomy"
           icon={<Sparkles className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            All anatomical descriptions reference the{" "}
-            <HoverReveal
-              term="anatomical position"
-              definition="Standing upright, facing forward, arms at sides, palms facing anteriorly (forward), feet slightly apart. This is the universal reference position for all directional terms."
-            />. Using standardized directional terms ensures clear communication among healthcare providers.
-          </p>
+          <EditableModuleText sectionKey="preanat-directional-content" defaultText="All anatomical descriptions reference the anatomical position. Using standardized directional terms ensures clear communication among healthcare providers." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
               <p className="text-xs font-semibold text-blue-700 mb-1">Paired Directional Terms</p>
@@ -424,7 +432,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Clinical Communication"
-            content="Precise anatomical language prevents medical errors. 'The wound is on the medial aspect of the right lower leg, 3 cm distal to the knee' is far more useful than 'the wound is on the inside of the leg near the knee.' Always use directional terms in documentation."
+            content={directionalClinical}
           />
         </MicroLesson>
 
@@ -433,13 +441,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="How the body maintains internal stability"
           icon={<Activity className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            <HoverReveal
-              term="Homeostasis"
-              definition="The body's ability to maintain a relatively stable internal environment despite changing external conditions. Variables maintained include temperature (36.1-37.2°C), blood pH (7.35-7.45), blood glucose (70-100 mg/dL), and electrolyte concentrations."
-            />{" "}
-            is the central organizing principle of physiology. Nearly every disease can be understood as a failure of homeostatic mechanisms.
-          </p>
+          <EditableModuleText sectionKey="preanat-homeostasis-content" defaultText="Homeostasis is the central organizing principle of physiology. Nearly every disease can be understood as a failure of homeostatic mechanisms." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
               <p className="text-xs font-semibold text-teal-700 mb-1">Negative Feedback (Most Common)</p>
@@ -453,7 +455,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="warning"
             title="Feedback Components"
-            content="Every feedback loop has three components: (1) Receptor — detects the change (sensor), (2) Control Center — processes information and determines response (often the brain), (3) Effector — carries out the corrective action (muscle, gland). Failure at any component disrupts homeostasis."
+            content={homeostasisFeedback}
           />
         </MicroLesson>
 
@@ -462,14 +464,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="How anatomy dictates physiology"
           icon={<Network className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The principle of{" "}
-            <HoverReveal
-              term="complementarity of structure and function"
-              definition="Structure always dictates function. The shape, size, and composition of a body part determines what it can do. Function, in turn, influences how structures develop and adapt over time."
-            />{" "}
-            is fundamental — you can predict a structure's function by examining its anatomy, and vice versa.
-          </p>
+          <EditableModuleText sectionKey="preanat-structure-function-content" defaultText="The principle of complementarity of structure and function is fundamental — you can predict a structure's function by examining its anatomy, and vice versa." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
             title="11 Organ Systems Overview"
             cards={[
@@ -508,7 +503,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Cellular Communication Basics"
-            content="Cells communicate via direct contact (gap junctions), chemical signals (hormones, neurotransmitters, paracrines), and electrical signals (neurons). Autocrine signals act on the same cell; paracrine signals act on nearby cells; endocrine signals travel via blood to distant targets. Understanding communication modes explains how drugs, diseases, and therapies work at the cellular level."
+            content={cellularComm}
           />
         </MicroLesson>
 
@@ -541,14 +536,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="The phospholipid bilayer and membrane proteins"
           icon={<CircleDot className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The{" "}
-            <HoverReveal
-              term="cell membrane"
-              definition="A selectively permeable phospholipid bilayer embedded with proteins, cholesterol, and carbohydrates. It controls what enters and exits the cell, maintaining the internal environment necessary for cellular function."
-            />{" "}
-            (plasma membrane) is the gatekeeper of every cell, controlling substance movement and enabling cellular communication.
-          </p>
+          <EditableModuleText sectionKey="preanat-cell-membrane-content" defaultText="The cell membrane (plasma membrane) is the gatekeeper of every cell, controlling substance movement and enabling cellular communication." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="space-y-3 mt-3">
             <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
               <p className="text-xs font-semibold text-blue-700 mb-1">Phospholipid Bilayer</p>
@@ -570,14 +558,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Passive vs active transport across the cell membrane"
           icon={<Droplets className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Understanding{" "}
-            <HoverReveal
-              term="membrane transport"
-              definition="The movement of substances across the cell membrane. Passive transport requires no energy (follows concentration gradient). Active transport requires ATP (moves against the gradient). Both are essential for maintaining cellular homeostasis."
-            />{" "}
-            is critical for understanding IV fluid therapy, medication absorption, renal function, and electrolyte balance.
-          </p>
+          <EditableModuleText sectionKey="preanat-membrane-transport-content" defaultText="Understanding membrane transport is critical for understanding IV fluid therapy, medication absorption, renal function, and electrolyte balance." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
             title="Transport Mechanisms"
             cards={[
@@ -616,7 +597,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Electrochemical Gradients"
-            content="The electrochemical gradient combines the concentration gradient (chemical) with the electrical gradient (charge difference across the membrane). The Na+/K+ pump creates both: more Na+ outside (chemical) and net negative charge inside (electrical). This stored energy drives nerve impulses, muscle contraction, and secondary active transport (e.g., glucose co-transport in the intestine)."
+            content={transportGradient}
           />
         </MicroLesson>
 
@@ -625,13 +606,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="How cells receive and respond to chemical messages"
           icon={<Network className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            <HoverReveal
-              term="Cell signaling"
-              definition="The process by which cells communicate using chemical messengers (ligands) that bind to specific receptors, triggering intracellular responses. This is how hormones, neurotransmitters, and drugs exert their effects."
-            />{" "}
-            underlies pharmacology — drugs work by mimicking or blocking natural signaling molecules.
-          </p>
+          <EditableModuleText sectionKey="preanat-cell-signaling-content" defaultText="Cell signaling underlies pharmacology — drugs work by mimicking or blocking natural signaling molecules." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-100">
               <p className="text-xs font-semibold text-indigo-700 mb-1">Receptor Types</p>
@@ -645,7 +620,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Drug-Receptor Interactions"
-            content="Agonists mimic the natural ligand and activate the receptor (e.g., albuterol mimics epinephrine at beta-2 receptors → bronchodilation). Antagonists block the receptor without activating it (e.g., propranolol blocks beta receptors → decreased heart rate). Understanding receptor pharmacology is the foundation of safe medication administration."
+            content={receptorsDrugs}
           />
         </MicroLesson>
 
@@ -686,7 +661,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="warning"
             title="Cellular Injury & Adaptation"
-            content="Cells respond to stress through adaptive changes: Atrophy (decreased size — muscle wasting from disuse), Hypertrophy (increased size — cardiac enlargement from hypertension), Hyperplasia (increased number — endometrial thickening), Metaplasia (change in type — smoker's bronchial cells). If stress exceeds adaptive capacity, irreversible injury leads to necrosis (pathological death) or apoptosis (programmed death)."
+            content={tissueAdaptation}
           />
         </MicroLesson>
 
@@ -719,21 +694,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="The body's largest organ and first line of defense"
           icon={<Shield className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The skin is the body's largest organ, comprising about 16% of body weight. It has three primary layers:{" "}
-            <HoverReveal
-              term="epidermis"
-              definition="The outermost layer of skin, composed of stratified squamous epithelium. Contains keratinocytes (produce keratin for waterproofing), melanocytes (produce melanin for UV protection), Langerhans cells (immune function), and Merkel cells (touch sensation)."
-            />,{" "}
-            <HoverReveal
-              term="dermis"
-              definition="The thick middle layer containing blood vessels, nerve endings, hair follicles, sweat and sebaceous glands. Made of dense irregular connective tissue with collagen and elastin fibers providing strength and elasticity."
-            />, and the{" "}
-            <HoverReveal
-              term="hypodermis"
-              definition="Also called subcutaneous tissue. Primarily adipose tissue providing insulation, cushioning, and energy storage. Contains larger blood vessels. Subcutaneous injection sites utilize this layer."
-            />.
-          </p>
+          <EditableModuleText sectionKey="preanat-skin-structure-content" defaultText="The skin is the body's largest organ, comprising about 16% of body weight. It has three primary layers: epidermis, dermis, and the hypodermis." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-3 gap-3 mt-3">
             <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
               <p className="text-xs font-semibold text-amber-700 mb-1">Protection</p>
@@ -755,9 +716,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Maintaining the body's protective barrier"
           icon={<Droplets className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Skin integrity is a critical nursing assessment. Factors that compromise the skin barrier include age (thinner epidermis, less collagen), nutrition (protein/vitamin C deficiency impairs healing), moisture (incontinence-associated dermatitis), pressure (decubitus ulcers), and disease (diabetes impairs microcirculation).
-          </p>
+          <EditableModuleText sectionKey="preanat-skin-integrity-content" defaultText="Skin integrity is a critical nursing assessment. Factors that compromise the skin barrier include age (thinner epidermis, less collagen), nutrition (protein/vitamin C deficiency impairs healing), moisture (incontinence-associated dermatitis), pressure (decubitus ulcers), and disease (diabetes impairs microcirculation)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
             title="Wound Healing Phases"
             cards={[
@@ -790,7 +749,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Skin Turgor & Fluid Assessment"
-            content="Skin turgor assesses hydration status. When skin is gently pinched and released, well-hydrated tissue returns immediately to its normal position. Tenting (skin remains raised) indicates dehydration — decreased interstitial fluid reduces skin elasticity. Assess on the sternum or inner forearm; elderly patients' decreased collagen makes extremity turgor unreliable. Insensible water loss through the skin is approximately 300-400 mL/day and increases dramatically with burns, fever, and low humidity."
+            content={skinTurgor}
           />
         </MicroLesson>
 
@@ -810,14 +769,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Living tissue that supports, protects, and stores minerals"
           icon={<Bone className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Bones are dynamic living tissue, not static structures. They are continuously{" "}
-            <HoverReveal
-              term="remodeled"
-              definition="Bone remodeling is the continuous process of bone resorption by osteoclasts and new bone formation by osteoblasts. This allows bones to repair microdamage, adapt to mechanical stress, and maintain calcium homeostasis."
-            />{" "}
-            throughout life, responding to mechanical stress, hormonal signals, and nutritional status.
-          </p>
+          <EditableModuleText sectionKey="preanat-bone-structure-content" defaultText="Bones are dynamic living tissue, not static structures. They are continuously remodeled throughout life, responding to mechanical stress, hormonal signals, and nutritional status." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="space-y-3 mt-3">
             <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
               <p className="text-xs font-semibold text-blue-700 mb-1">Bone Cells</p>
@@ -839,13 +791,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Hormonal regulation and skeletal classification"
           icon={<Activity className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            <HoverReveal
-              term="Calcium homeostasis"
-              definition="Blood calcium (8.5-10.5 mg/dL) is tightly regulated by PTH (raises calcium) and calcitonin (lowers calcium). Calcium is critical for muscle contraction, nerve transmission, blood clotting, and cardiac rhythm."
-            />{" "}
-            involves a delicate balance between PTH and calcitonin, with bones serving as the body's calcium reservoir.
-          </p>
+          <EditableModuleText sectionKey="preanat-calcium-content" defaultText="Calcium homeostasis involves a delicate balance between PTH and calcitonin, with bones serving as the body's calcium reservoir." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
               <p className="text-xs font-semibold text-emerald-700 mb-1">PTH (Raises Calcium)</p>
@@ -859,7 +805,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Types of Bones"
-            content="Long bones (femur, humerus) — levers for movement. Short bones (carpals, tarsals) — gliding movements. Flat bones (skull, sternum, pelvis) — protection and hematopoiesis. Irregular bones (vertebrae, facial bones) — complex shapes for specific functions. Sesamoid bones (patella) — develop within tendons to reduce friction."
+            content={boneTypes}
           />
         </MicroLesson>
 
@@ -881,7 +827,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Axial vs Appendicular Skeleton"
-            content="The axial skeleton (80 bones) forms the central axis: skull (22), hyoid (1), vertebral column (26), thoracic cage (25). It protects the brain, spinal cord, and thoracic organs. The appendicular skeleton (126 bones) includes the pectoral girdle, upper limbs, pelvic girdle, and lower limbs — designed for movement and manipulation. Total: 206 bones in the adult skeleton."
+            content={skeletonAxial}
           />
         </MicroLesson>
 
@@ -914,13 +860,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Three types of muscle and their unique properties"
           icon={<Dumbbell className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            All muscle tissue shares four key properties:{" "}
-            <HoverReveal
-              term="excitability"
-              definition="The ability to respond to stimuli (nerve impulses, hormones, stretch). All muscle types are excitable, but they respond to different types of stimulation."
-            />, contractility, extensibility, and elasticity. However, the three muscle types differ significantly in structure, control, and location.
-          </p>
+          <EditableModuleText sectionKey="preanat-muscle-tissue-content" defaultText="All muscle tissue shares four key properties: excitability, contractility, extensibility, and elasticity. However, the three muscle types differ significantly in structure, control, and location." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-3 gap-3 mt-3">
             <div className="p-4 bg-rose-50/60 rounded-xl border border-rose-100">
               <p className="text-xs font-semibold text-rose-700 mb-1">Skeletal Muscle</p>
@@ -942,13 +882,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="How muscles contract at the molecular level"
           icon={<Zap className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Muscle contraction follows the{" "}
-            <HoverReveal
-              term="sliding filament theory"
-              definition="Thin filaments (actin) slide over thick filaments (myosin) within the sarcomere. Myosin heads form cross-bridges with actin and pull the thin filaments toward the center, shortening the sarcomere. Requires calcium (to expose binding sites on actin) and ATP (for cross-bridge cycling and detachment)."
-            />, which begins with a signal at the neuromuscular junction.
-          </p>
+          <EditableModuleText sectionKey="preanat-sliding-filament-content" defaultText="Muscle contraction follows the sliding filament theory, which begins with a signal at the neuromuscular junction." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="space-y-3 mt-3">
             <div className="p-4 bg-violet-50/60 rounded-xl border border-violet-100">
               <p className="text-xs font-semibold text-violet-700 mb-1">Neuromuscular Junction (NMJ)</p>
@@ -962,7 +896,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Types of Contractions & Muscle Fatigue"
-            content="Isotonic contractions: muscle length changes (concentric = shortening, eccentric = lengthening under tension). Isometric contractions: muscle generates force without length change (holding a heavy object). Muscle fatigue occurs from ATP depletion, lactic acid accumulation, electrolyte imbalances (K+, Ca2+, Na+), and CNS fatigue. Creatine phosphate provides immediate ATP for the first 10-15 seconds of intense activity, then aerobic and anaerobic pathways take over."
+            content={muscleFatigue}
           />
         </MicroLesson>
 

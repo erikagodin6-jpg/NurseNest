@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, createContext, useContext } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { AdminImageOverlay, useSiteImages } from "@/components/admin-image-overlay";
 import { RichTextEditor, RichTextDisplay } from "@/components/rich-text-editor";
+import { ModuleEditContext, useModuleEdit, EditableModuleText, type SectionOverride, type ModuleEditContextType } from "@/components/module-edit-context";
 import {
   AnatomyLabeling,
   MatchingExercise,
@@ -374,88 +375,12 @@ const pathoFindings = [
   { id: "f8", text: "Mental status: confused", isAbnormal: true, explanation: "Altered LOC: indicates decreased cerebral perfusion, a late sign of decompensation." },
 ];
 
-type SectionOverride = {
-  title?: string;
-  subtitle?: string;
-  content?: string;
-  items?: string[];
-  color?: string;
-};
-
 type ModuleOverride = {
   title?: string;
   description?: string;
   supplementalContent?: string[];
   sections?: Record<string, SectionOverride>;
 };
-
-type ModuleEditContextType = {
-  isEditing: boolean;
-  sections: Record<string, SectionOverride>;
-  updateSection: (key: string, data: SectionOverride) => void;
-};
-
-const ModuleEditContext = createContext<ModuleEditContextType>({
-  isEditing: false,
-  sections: {},
-  updateSection: () => {},
-});
-
-function useModuleEdit() {
-  return useContext(ModuleEditContext);
-}
-
-
-function EditableModuleText({
-  sectionKey,
-  defaultText,
-  as = "p",
-  className = "",
-  multiline = false,
-}: {
-  sectionKey: string;
-  defaultText: string;
-  as?: "p" | "h2" | "span";
-  className?: string;
-  multiline?: boolean;
-}) {
-  const { isEditing, sections, updateSection } = useModuleEdit();
-  const override = sections[sectionKey];
-  const displayText = override?.content ?? defaultText;
-
-  const editorContainerRef = useRef<HTMLDivElement>(null);
-
-  if (!isEditing) {
-    const Tag = as;
-    const hasHtml = /<[a-z][\s\S]*>/i.test(displayText);
-    if (hasHtml) {
-      return <Tag className={className}><RichTextDisplay html={displayText} /></Tag>;
-    }
-    return <Tag className={className}>{displayText}</Tag>;
-  }
-
-  return (
-    <div className="relative" ref={editorContainerRef}>
-      {multiline ? (
-        <RichTextEditor
-          value={displayText}
-          onChange={(v) => updateSection(sectionKey, { ...override, content: v })}
-          className={className}
-          minHeight="80px"
-          placeholder="Enter content..."
-        />
-      ) : (
-        <input
-          type="text"
-          value={displayText}
-          onChange={(e) => updateSection(sectionKey, { ...override, content: e.target.value })}
-          className={`w-full bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${className}`}
-          data-testid={`editable-text-${sectionKey}`}
-        />
-      )}
-    </div>
-  );
-}
 
 function PreNursingModuleEditor({
   moduleId,

@@ -6,24 +6,22 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import { Scale, Shield, BookOpen, Heart } from "lucide-react";
 
 export function EthicsLegalModule() {
+  const principlesConflict = useEditableText("ethics-principles-conflict", "A competent adult patient refuses a blood transfusion based on religious beliefs, but without it they may die. Autonomy says respect their decision. Beneficence says intervene to save their life. This is an ethical dilemma — and in most legal frameworks, autonomy prevails for competent adults. Recognizing these tensions and reasoning through them is the foundation of ethical practice.");
+  const mandatoryReporting = useEditableText("ethics-mandatory-reporting", "Confidentiality is not absolute. Healthcare providers are legally required to report: suspected child abuse or neglect, suspected elder abuse, certain communicable diseases (to public health), gunshot wounds and stab wounds, threats of harm to self or others (duty to warn/protect). These reporting obligations override patient confidentiality.");
+
   return (
     <div className="space-y-10" data-testid="module-ethics-legal">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Ethical & Legal Foundations</h2>
-        <p className="text-gray-600">
-          Understand the bioethics principles, legal concepts, patient rights, and professional standards that govern healthcare practice — foundational knowledge for safe, ethical nursing.
-        </p>
+        <EditableModuleText sectionKey="ethics-title" defaultText="Ethical & Legal Foundations" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="ethics-desc" defaultText="Understand the bioethics principles, legal concepts, patient rights, and professional standards that govern healthcare practice — foundational knowledge for safe, ethical nursing." as="p" className="text-gray-600" multiline />
       </div>
 
       <MicroLesson title="Bioethics Principles" subtitle="The four pillars of healthcare ethics" icon={<Heart className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Healthcare ethics is built on four core{" "}
-          <HoverReveal term="bioethics principles" definition="Autonomy (patient self-determination), Beneficence (doing good), Nonmaleficence (do no harm), and Justice (fairness in resource allocation). These principles guide decision-making when clinical situations present ethical conflicts." />{" "}
-          established by Beauchamp and Childress. When these principles conflict — and they frequently do — ethical reasoning requires balancing them thoughtfully.
-        </p>
+        <EditableModuleText sectionKey="ethics-bioethics-content" defaultText="Healthcare ethics is built on four core bioethics principles — Autonomy (patient self-determination), Beneficence (doing good), Nonmaleficence (do no harm), and Justice (fairness in resource allocation) — established by Beauchamp and Childress. When these principles conflict — and they frequently do — ethical reasoning requires balancing them thoughtfully." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="The Four Principles"
           cards={[
@@ -56,16 +54,12 @@ export function EthicsLegalModule() {
         <CognitiveCard
           type="concept"
           title="When Principles Conflict"
-          content="A competent adult patient refuses a blood transfusion based on religious beliefs, but without it they may die. Autonomy says respect their decision. Beneficence says intervene to save their life. This is an ethical dilemma — and in most legal frameworks, autonomy prevails for competent adults. Recognizing these tensions and reasoning through them is the foundation of ethical practice."
+          content={principlesConflict}
         />
       </MicroLesson>
 
       <MicroLesson title="Informed Consent" subtitle="More than a signature" icon={<BookOpen className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Informed consent is a{" "}
-          <HoverReveal term="process, not a form" definition="The signed form is documentation that the process occurred. The actual consent process involves a conversation where the provider explains the procedure, its risks, benefits, alternatives, and the right to refuse — and the patient demonstrates understanding before agreeing." />.
-          It is the practical application of the autonomy principle.
-        </p>
+        <EditableModuleText sectionKey="ethics-consent-content" defaultText="Informed consent is a process, not a form. The signed form is documentation that the process occurred. The actual consent process involves a conversation where the provider explains the procedure, its risks, benefits, alternatives, and the right to refuse — and the patient demonstrates understanding before agreeing. It is the practical application of the autonomy principle." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Required Elements</p>
@@ -83,11 +77,7 @@ export function EthicsLegalModule() {
       </MicroLesson>
 
       <MicroLesson title="Patient Rights & Confidentiality" subtitle="HIPAA, privacy, and patient advocacy" icon={<Shield className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Patient rights are legally protected. Understanding these rights and the{" "}
-          <HoverReveal term="duty of confidentiality" definition="Healthcare providers have a legal and ethical obligation to protect patient health information (PHI). This is codified in privacy legislation (e.g., HIPAA in the US, PIPEDA in Canada). Violations can result in fines, license sanctions, and criminal charges." />{" "}
-          is non-negotiable for all healthcare providers.
-        </p>
+        <EditableModuleText sectionKey="ethics-rights-content" defaultText="Patient rights are legally protected. Understanding these rights and the duty of confidentiality — the legal and ethical obligation to protect patient health information (PHI), codified in privacy legislation (e.g., HIPAA in the US, PIPEDA in Canada) — is non-negotiable for all healthcare providers. Violations can result in fines, license sanctions, and criminal charges." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-green-50/60 rounded-xl border border-green-100">
             <p className="text-xs font-semibold text-green-700 mb-1">Core Patient Rights</p>
@@ -101,16 +91,12 @@ export function EthicsLegalModule() {
         <CognitiveCard
           type="warning"
           title="Mandatory Reporting Exceptions"
-          content="Confidentiality is not absolute. Healthcare providers are legally required to report: suspected child abuse or neglect, suspected elder abuse, certain communicable diseases (to public health), gunshot wounds and stab wounds, threats of harm to self or others (duty to warn/protect). These reporting obligations override patient confidentiality."
+          content={mandatoryReporting}
         />
       </MicroLesson>
 
       <MicroLesson title="Scope of Practice & Professional Standards" subtitle="Practicing within legal boundaries" icon={<Scale className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Every regulated healthcare professional has a defined{" "}
-          <HoverReveal term="scope of practice" definition="The range of activities, procedures, and processes that a regulated healthcare professional is legally authorized to perform based on their education, competency, and registration/licensure. Practicing outside scope of practice is illegal and creates liability." />{" "}
-          established by law and regulated by professional licensing bodies.
-        </p>
+        <EditableModuleText sectionKey="ethics-scope-content" defaultText="Every regulated healthcare professional has a defined scope of practice — the range of activities, procedures, and processes that a regulated healthcare professional is legally authorized to perform based on their education, competency, and registration/licensure. Practicing outside scope of practice is illegal and creates liability." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
             <p className="text-xs font-semibold text-teal-700 mb-1">Key Legal Concepts</p>

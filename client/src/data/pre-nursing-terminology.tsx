@@ -6,24 +6,22 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import { BookOpen, Layers, Brain, FileText } from "lucide-react";
 
 export function MedicalTerminologyModule() {
+  const decodingAction = useEditableText("medterm-decoding-action", "Electrocardiography: electr/o (electrical) + cardi/o (heart) + -graphy (process of recording) = the process of recording the electrical activity of the heart. You don't need to memorize this — you can construct the meaning from parts.");
+  const otomyConfusion = useEditableText("medterm-otomy-confusion", "These three sound similar but mean very different things. -Otomy = cutting into (the structure remains). -Ostomy = creating a permanent opening. -Ectomy = removing entirely. A tracheotomy cuts into the trachea; a tracheostomy creates a permanent opening; a tonsillectomy removes the tonsils.");
+
   return (
     <div className="space-y-10" data-testid="module-medical-terminology">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Medical Terminology Mastery</h2>
-        <p className="text-gray-600">
-          Decode medical language logically through word roots, prefixes, and suffixes rather than rote memorization. Build a framework for understanding any medical term you encounter.
-        </p>
+        <EditableModuleText sectionKey="medterm-title" defaultText="Medical Terminology Mastery" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="medterm-desc" defaultText="Decode medical language logically through word roots, prefixes, and suffixes rather than rote memorization. Build a framework for understanding any medical term you encounter." as="p" className="text-gray-600" multiline />
       </div>
 
       <MicroLesson title="How Medical Language Works" subtitle="A systematic approach to decoding medical terms" icon={<BookOpen className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Medical terminology follows a{" "}
-          <HoverReveal term="logical construction system" definition="Medical terms are built from Greek and Latin word parts — roots, prefixes, and suffixes — that combine predictably. Once you learn the parts, you can decode thousands of terms without memorizing each one." />.
-          Every medical term is assembled from building blocks: a <strong>root</strong> (the core meaning, usually an organ or structure), a <strong>prefix</strong> (modifies meaning — location, number, time), and a <strong>suffix</strong> (indicates procedure, condition, or function).
-        </p>
+        <EditableModuleText sectionKey="medterm-how-language-content" defaultText={`Medical terminology follows a logical construction system. Every medical term is assembled from building blocks: a root (the core meaning, usually an organ or structure), a prefix (modifies meaning — location, number, time), and a suffix (indicates procedure, condition, or function).`} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-3 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Root / Combining Form</p>
@@ -41,16 +39,12 @@ export function MedicalTerminologyModule() {
         <CognitiveCard
           type="concept"
           title="Decoding in Action"
-          content="Electrocardiography: electr/o (electrical) + cardi/o (heart) + -graphy (process of recording) = the process of recording the electrical activity of the heart. You don't need to memorize this — you can construct the meaning from parts."
+          content={decodingAction}
         />
       </MicroLesson>
 
       <MicroLesson title="Body System Roots" subtitle="Core word roots organized by organ system" icon={<Layers className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Each body system has characteristic{" "}
-          <HoverReveal term="word roots" definition="The base element of a medical term that identifies the body part or system. Most medical roots derive from Greek (used for diagnosis/disease) or Latin (used for anatomy/structure)." />{" "}
-          that appear repeatedly in clinical vocabulary. Learning these roots gives you a foundation for interpreting terms across all of healthcare.
-        </p>
+        <EditableModuleText sectionKey="medterm-body-roots-content" defaultText="Each body system has characteristic word roots that appear repeatedly in clinical vocabulary. Learning these roots gives you a foundation for interpreting terms across all of healthcare." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="System-by-System Root Words"
           cards={[
@@ -95,9 +89,7 @@ export function MedicalTerminologyModule() {
       </MicroLesson>
 
       <MicroLesson title="Critical Prefixes & Suffixes" subtitle="The modifiers that change meaning" icon={<Brain className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Prefixes and suffixes modify the root to create specific clinical meanings. Learning the most common ones allows you to decode unfamiliar terms by breaking them into recognizable parts.
-        </p>
+        <EditableModuleText sectionKey="medterm-prefixes-suffixes-content" defaultText="Prefixes and suffixes modify the root to create specific clinical meanings. Learning the most common ones allows you to decode unfamiliar terms by breaking them into recognizable parts." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-4 mt-3">
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
             <p className="text-xs font-semibold text-amber-700 mb-2">Location & Direction Prefixes</p>
@@ -142,16 +134,12 @@ export function MedicalTerminologyModule() {
         <CognitiveCard
           type="warning"
           title="Common Confusion: -otomy vs -ostomy vs -ectomy"
-          content="These three sound similar but mean very different things. -Otomy = cutting into (the structure remains). -Ostomy = creating a permanent opening. -Ectomy = removing entirely. A tracheotomy cuts into the trachea; a tracheostomy creates a permanent opening; a tonsillectomy removes the tonsils."
+          content={otomyConfusion}
         />
       </MicroLesson>
 
       <MicroLesson title="Abbreviations & Safety" subtitle="Common abbreviations and dangerous look-alikes" icon={<FileText className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Healthcare abbreviations save time but create risk. The{" "}
-          <HoverReveal term="ISMP Do Not Use List" definition="The Institute for Safe Medication Practices publishes a list of abbreviations that are frequently misread and should be avoided in clinical documentation to prevent medication errors." />{" "}
-          exists because abbreviation misinterpretation causes real patient harm. Understanding which abbreviations are safe and which are dangerous is a foundational competency.
-        </p>
+        <EditableModuleText sectionKey="medterm-abbreviations-content" defaultText="Healthcare abbreviations save time but create risk. The ISMP Do Not Use List exists because abbreviation misinterpretation causes real patient harm. Understanding which abbreviations are safe and which are dangerous is a foundational competency." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-green-50/60 rounded-xl border border-green-100">
             <p className="text-xs font-semibold text-green-700 mb-1">Safe & Common</p>

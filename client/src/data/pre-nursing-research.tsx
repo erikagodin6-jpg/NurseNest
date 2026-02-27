@@ -6,6 +6,7 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import {
   BookOpen,
   BarChart3,
@@ -338,13 +339,29 @@ const appliedQuiz: import("@/components/interactive-learning").QuizQuestion[] = 
 ];
 
 export function ResearchStatisticsModule() {
+  const whyMattersContent = useEditableText("research-why-matters", "On the NCLEX, you'll encounter questions asking you to differentiate research from QI from EBP. Remember: research creates knowledge, EBP applies it, QI improves local processes.");
+  const reliabilityValidityContent = useEditableText("research-reliability-validity", "Reliability = consistency (does it give the same result each time?). Validity = accuracy (does it measure what it claims to?). A bathroom scale that always reads 5 lbs too heavy is reliable but not valid. A tool must be reliable before it can be valid.");
+  const clinicalExampleContent = useEditableText("research-clinical-example", "Hospital length-of-stay data is typically right-skewed (most patients stay a few days, but some stay weeks). The median is a better measure than the mean because it isn't inflated by a few very long stays.");
+  const standardDeviationContent = useEditableText("research-standard-deviation", "SD measures how spread out data is from the mean. Small SD = data points cluster near the mean. Large SD = data is widely scattered. In a normal distribution, ~68% of values fall within ±1 SD, ~95% within ±2 SD, and ~99.7% within ±3 SD.");
+  const pvalueMeaningContent = useEditableText("research-pvalue-meaning", "A p-value is the probability of seeing results as extreme as (or more extreme than) what was observed, IF the null hypothesis were true. p = 0.03 means: 'If there truly were no effect, there's only a 3% chance we'd see results this extreme.' It is NOT the probability the treatment works.");
+  const confidenceIntervalsContent = useEditableText("research-confidence-intervals", "A 95% CI gives a range of plausible values for the true effect. If the CI for a treatment difference does NOT cross zero (for differences) or 1.0 (for ratios), the result is statistically significant. CI width reflects precision: narrow = more precise, wide = less certain.");
+  const whenToUseContent = useEditableText("research-when-to-use", "Quantitative: 'Does hand hygiene education reduce infection rates?' (measurable outcome). Qualitative: 'What barriers do nurses experience with hand hygiene compliance?' (exploring experiences). Mixed methods combines both.");
+  const validityThreatsContent = useEditableText("research-validity-threats", "Internal: selection bias, attrition (dropouts), maturation, history (external events), Hawthorne effect. External: narrow inclusion criteria, single-site study, volunteer bias, artificial lab setting.");
+  const clinicalScenarioContent = useEditableText("research-clinical-scenario", "Research shows compression stockings reduce DVT risk (evidence). You know this patient is post-op day 1 (expertise). But the patient refuses to wear them due to discomfort (preferences). EBP means integrating all three — perhaps exploring alternatives like SCDs or patient education.");
+  const statVsClinicalContent = useEditableText("research-stat-vs-clinical", "Statistical significance means the result is unlikely due to chance (p < 0.05). Clinical significance means the result is large enough to matter in practice. A drug that lowers HbA1c by 0.1% may be statistically significant with a huge sample but clinically meaningless — you wouldn't change treatment for 0.1%.");
+  const snoutSpinContent = useEditableText("research-snout-spin", "SNout: Sensitivity rules OUT — if a highly sensitive test is Negative, you can rule OUT the disease. SPin: Specificity rules IN — if a highly specific test is Positive, you can rule IN the disease. This is a high-yield NCLEX concept.");
+  const nntContent = useEditableText("research-nnt", "NNT = 1 ÷ Absolute Risk Reduction. It tells you how many patients must receive the treatment for ONE additional patient to benefit. NNT of 10 is excellent (treat 10, 1 benefits). NNT of 500 means marginal benefit. Always compare NNT to NNH (Number Needed to Harm).");
+  const sampleSizeContent = useEditableText("research-sample-size", "Larger samples increase statistical power (the ability to detect a real effect) and produce narrower confidence intervals (more precise estimates). Small samples risk Type II errors (missing real effects) and may not capture population variability. Researchers use power analysis before a study to calculate the minimum sample needed.");
+  const samplingBiasContent = useEditableText("research-sampling-bias", "Sampling bias occurs when certain members of the population are systematically more or less likely to be selected. This threatens external validity — your results may not apply to the broader population. Examples: volunteer bias (only motivated people enroll), non-response bias (those who don't respond differ from those who do), and selection bias from convenience sampling.");
+  const vulnerablePopContent = useEditableText("research-vulnerable-populations", "Vulnerable populations require additional ethical protections because they have diminished capacity to give truly voluntary consent. This includes: children (require parental consent plus child assent), pregnant women, prisoners, cognitively impaired individuals, economically disadvantaged persons, and those in dependent relationships (e.g., students, employees). IRBs/REBs apply heightened scrutiny to studies involving these groups.");
+  const interpretingGraphsContent = useEditableText("research-interpreting-graphs", "When reading any graph, systematically ask: (1) What variables are on each axis? (2) What are the units? (3) Does the Y-axis start at 0, or is it truncated? (4) Are the intervals equal? (5) Is the scale linear or logarithmic? (6) What is the sample size? (7) Are error bars or confidence intervals shown? Missing any of these can lead to misinterpretation.");
+  const systematicReviewsPowerContent = useEditableText("research-systematic-reviews-power", "By combining data from multiple studies, systematic reviews and meta-analyses increase statistical power, improve precision of effect estimates, resolve conflicting results from individual studies, and reduce the impact of bias from any single study. They sit at the top of the evidence pyramid and are the foundation of clinical practice guidelines.");
+
   return (
     <div className="space-y-10" data-testid="module-research-statistics">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Nursing Research & Statistics</h2>
-        <p className="text-gray-600">
-          Build the critical thinking skills to read, interpret, and apply research evidence in clinical nursing practice.
-        </p>
+        <EditableModuleText sectionKey="research-title" defaultText="Nursing Research & Statistics" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="research-desc" defaultText="Build the critical thinking skills to read, interpret, and apply research evidence in clinical nursing practice." as="p" className="text-gray-600" multiline />
       </div>
 
       <section className="space-y-6">
@@ -385,7 +402,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="Why This Matters"
-            content="On the NCLEX, you'll encounter questions asking you to differentiate research from QI from EBP. Remember: research creates knowledge, EBP applies it, QI improves local processes."
+            content={whyMattersContent}
           />
         </MicroLesson>
 
@@ -411,7 +428,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="remember"
             title="Reliability vs Validity"
-            content="Reliability = consistency (does it give the same result each time?). Validity = accuracy (does it measure what it claims to?). A bathroom scale that always reads 5 lbs too heavy is reliable but not valid. A tool must be reliable before it can be valid."
+            content={reliabilityValidityContent}
           />
         </MicroLesson>
 
@@ -538,12 +555,12 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="Clinical Example"
-            content="Hospital length-of-stay data is typically right-skewed (most patients stay a few days, but some stay weeks). The median is a better measure than the mean because it isn't inflated by a few very long stays."
+            content={clinicalExampleContent}
           />
           <CognitiveCard
             type="remember"
             title="Standard Deviation (SD)"
-            content="SD measures how spread out data is from the mean. Small SD = data points cluster near the mean. Large SD = data is widely scattered. In a normal distribution, ~68% of values fall within ±1 SD, ~95% within ±2 SD, and ~99.7% within ±3 SD."
+            content={standardDeviationContent}
           />
         </MicroLesson>
 
@@ -555,7 +572,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="What a P-Value Actually Means"
-            content="A p-value is the probability of seeing results as extreme as (or more extreme than) what was observed, IF the null hypothesis were true. p = 0.03 means: 'If there truly were no effect, there's only a 3% chance we'd see results this extreme.' It is NOT the probability the treatment works."
+            content={pvalueMeaningContent}
           />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-green-50/60 rounded-xl border border-green-100">
@@ -570,7 +587,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="remember"
             title="Confidence Intervals"
-            content="A 95% CI gives a range of plausible values for the true effect. If the CI for a treatment difference does NOT cross zero (for differences) or 1.0 (for ratios), the result is statistically significant. CI width reflects precision: narrow = more precise, wide = less certain."
+            content={confidenceIntervalsContent}
           />
         </MicroLesson>
 
@@ -618,7 +635,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="When to Use Each"
-            content="Quantitative: 'Does hand hygiene education reduce infection rates?' (measurable outcome). Qualitative: 'What barriers do nurses experience with hand hygiene compliance?' (exploring experiences). Mixed methods combines both."
+            content={whenToUseContent}
           />
         </MicroLesson>
 
@@ -682,7 +699,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="remember"
             title="Common Threats to Validity"
-            content="Internal: selection bias, attrition (dropouts), maturation, history (external events), Hawthorne effect. External: narrow inclusion criteria, single-site study, volunteer bias, artificial lab setting."
+            content={validityThreatsContent}
           />
         </MicroLesson>
 
@@ -719,7 +736,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="Clinical Scenario"
-            content="Research shows compression stockings reduce DVT risk (evidence). You know this patient is post-op day 1 (expertise). But the patient refuses to wear them due to discomfort (preferences). EBP means integrating all three — perhaps exploring alternatives like SCDs or patient education."
+            content={clinicalScenarioContent}
           />
         </MicroLesson>
 
@@ -731,7 +748,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="The Difference"
-            content="Statistical significance means the result is unlikely due to chance (p < 0.05). Clinical significance means the result is large enough to matter in practice. A drug that lowers HbA1c by 0.1% may be statistically significant with a huge sample but clinically meaningless — you wouldn't change treatment for 0.1%."
+            content={statVsClinicalContent}
           />
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100 mt-3">
             <p className="text-xs font-semibold text-amber-700 mb-1">Absolute vs Relative Risk Reduction</p>
@@ -849,7 +866,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="remember"
             title="SNout & SPin"
-            content="SNout: Sensitivity rules OUT — if a highly sensitive test is Negative, you can rule OUT the disease. SPin: Specificity rules IN — if a highly specific test is Positive, you can rule IN the disease. This is a high-yield NCLEX concept."
+            content={snoutSpinContent}
           />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
@@ -871,7 +888,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="Number Needed to Treat (NNT)"
-            content="NNT = 1 ÷ Absolute Risk Reduction. It tells you how many patients must receive the treatment for ONE additional patient to benefit. NNT of 10 is excellent (treat 10, 1 benefits). NNT of 500 means marginal benefit. Always compare NNT to NNH (Number Needed to Harm)."
+            content={nntContent}
           />
           <div className="space-y-3 mt-3">
             <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
@@ -945,12 +962,12 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="Why Sample Size Matters"
-            content="Larger samples increase statistical power (the ability to detect a real effect) and produce narrower confidence intervals (more precise estimates). Small samples risk Type II errors (missing real effects) and may not capture population variability. Researchers use power analysis before a study to calculate the minimum sample needed."
+            content={sampleSizeContent}
           />
           <CognitiveCard
             type="remember"
             title="Sampling Bias"
-            content="Sampling bias occurs when certain members of the population are systematically more or less likely to be selected. This threatens external validity — your results may not apply to the broader population. Examples: volunteer bias (only motivated people enroll), non-response bias (those who don't respond differ from those who do), and selection bias from convenience sampling."
+            content={samplingBiasContent}
           />
         </MicroLesson>
 
@@ -1005,7 +1022,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="Vulnerable Populations"
-            content="Vulnerable populations require additional ethical protections because they have diminished capacity to give truly voluntary consent. This includes: children (require parental consent plus child assent), pregnant women, prisoners, cognitively impaired individuals, economically disadvantaged persons, and those in dependent relationships (e.g., students, employees). IRBs/REBs apply heightened scrutiny to studies involving these groups."
+            content={vulnerablePopContent}
           />
         </MicroLesson>
 
@@ -1032,7 +1049,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="concept"
             title="Interpreting Graphs: Key Questions"
-            content="When reading any graph, systematically ask: (1) What variables are on each axis? (2) What are the units? (3) Does the Y-axis start at 0, or is it truncated? (4) Are the intervals equal? (5) Is the scale linear or logarithmic? (6) What is the sample size? (7) Are error bars or confidence intervals shown? Missing any of these can lead to misinterpretation."
+            content={interpretingGraphsContent}
           />
 
           <div className="space-y-3 mt-3">
@@ -1123,7 +1140,7 @@ export function ResearchStatisticsModule() {
           <CognitiveCard
             type="remember"
             title="Why Systematic Reviews Are Powerful"
-            content="By combining data from multiple studies, systematic reviews and meta-analyses increase statistical power, improve precision of effect estimates, resolve conflicting results from individual studies, and reduce the impact of bias from any single study. They sit at the top of the evidence pyramid and are the foundation of clinical practice guidelines."
+            content={systematicReviewsPowerContent}
           />
         </MicroLesson>
 

@@ -6,24 +6,23 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import { Droplets, Beaker, Activity, Waves } from "lucide-react";
 
 export function FluidsElectrolytesModule() {
+  const naKGradientContent = useEditableText("fluids-nak-gradient-content", "Na⁺ is concentrated OUTSIDE cells, K⁺ is concentrated INSIDE cells. This gradient is maintained by the Na⁺/K⁺ ATPase pump (3 Na⁺ out, 2 K⁺ in per cycle). This concentration difference is essential for nerve impulse transmission, muscle contraction, and maintaining cell volume. Disrupting this gradient has immediate physiological consequences.");
+  const osmoticOncoticContent = useEditableText("fluids-osmotic-oncotic-content", "Osmotic pressure is created by ALL solutes (electrolytes, glucose, urea). Oncotic (colloid osmotic) pressure is the portion of osmotic pressure created specifically by plasma proteins (mainly albumin). Oncotic pressure keeps fluid inside blood vessels. When albumin is low (malnutrition, liver disease, nephrotic syndrome), oncotic pressure drops and fluid leaks into interstitial spaces → edema.");
+  const bicarbonateContent = useEditableText("fluids-bicarbonate-content", "CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. This single equation is the key to understanding acid-base balance. The left side (CO₂) is controlled by the lungs. The right side (HCO₃⁻) is controlled by the kidneys. Normal ratio of HCO₃⁻ to CO₂ is 20:1 — as long as this ratio is maintained, pH stays normal.");
+
   return (
     <div className="space-y-10" data-testid="module-fluids-electrolytes">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Fluids & Electrolytes Foundations</h2>
-        <p className="text-gray-600">
-          Understand body fluid compartments, osmotic principles, electrolyte roles in normal physiology, fluid shifts, and acid-base foundations — all at the conceptual level without disease states.
-        </p>
+        <EditableModuleText sectionKey="fluids-title" defaultText="Fluids & Electrolytes Foundations" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="fluids-desc" defaultText="Understand body fluid compartments, osmotic principles, electrolyte roles in normal physiology, fluid shifts, and acid-base foundations — all at the conceptual level without disease states." as="p" className="text-gray-600" multiline />
       </div>
 
       <MicroLesson title="Body Fluid Compartments" subtitle="Where the body's water lives" icon={<Droplets className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Approximately 60% of adult body weight is water, distributed between two main{" "}
-          <HoverReveal term="fluid compartments" definition="Intracellular fluid (ICF) — inside cells (~40% body weight, ~2/3 of total body water). Extracellular fluid (ECF) — outside cells (~20% body weight, ~1/3 of total body water). ECF is further divided into intravascular (plasma, ~5%) and interstitial (between cells, ~15%)." />.
-          The distribution matters because each compartment has different electrolyte compositions that must be maintained for normal function.
-        </p>
+        <EditableModuleText sectionKey="fluids-compartments-content" defaultText="Approximately 60% of adult body weight is water, distributed between two main fluid compartments. Intracellular fluid (ICF) is inside cells (~40% body weight, ~2/3 of total body water). Extracellular fluid (ECF) is outside cells (~20% body weight, ~1/3 of total body water). ECF is further divided into intravascular (plasma, ~5%) and interstitial (between cells, ~15%). The distribution matters because each compartment has different electrolyte compositions that must be maintained for normal function." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-3 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Intracellular (ICF)</p>
@@ -41,16 +40,12 @@ export function FluidsElectrolytesModule() {
         <CognitiveCard
           type="concept"
           title="The Na⁺/K⁺ Gradient"
-          content="Na⁺ is concentrated OUTSIDE cells, K⁺ is concentrated INSIDE cells. This gradient is maintained by the Na⁺/K⁺ ATPase pump (3 Na⁺ out, 2 K⁺ in per cycle). This concentration difference is essential for nerve impulse transmission, muscle contraction, and maintaining cell volume. Disrupting this gradient has immediate physiological consequences."
+          content={naKGradientContent}
         />
       </MicroLesson>
 
       <MicroLesson title="Osmosis & Tonicity" subtitle="How water moves between compartments" icon={<Waves className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Water moves by{" "}
-          <HoverReveal term="osmosis" definition="The net movement of water across a semipermeable membrane from an area of lower solute concentration to an area of higher solute concentration. Water follows solute. This is a passive process requiring no energy." />{" "}
-          — it always moves toward higher solute concentration. This principle governs fluid distribution between compartments and is the basis for understanding IV fluid therapy.
-        </p>
+        <EditableModuleText sectionKey="fluids-osmosis-content" defaultText="Water moves by osmosis — the net movement of water across a semipermeable membrane from an area of lower solute concentration to an area of higher solute concentration. Water follows solute. This is a passive process requiring no energy. It always moves toward higher solute concentration. This principle governs fluid distribution between compartments and is the basis for understanding IV fluid therapy." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="Tonicity of Solutions"
           cards={[
@@ -77,14 +72,12 @@ export function FluidsElectrolytesModule() {
         <CognitiveCard
           type="warning"
           title="Osmotic vs Oncotic Pressure"
-          content="Osmotic pressure is created by ALL solutes (electrolytes, glucose, urea). Oncotic (colloid osmotic) pressure is the portion of osmotic pressure created specifically by plasma proteins (mainly albumin). Oncotic pressure keeps fluid inside blood vessels. When albumin is low (malnutrition, liver disease, nephrotic syndrome), oncotic pressure drops and fluid leaks into interstitial spaces → edema."
+          content={osmoticOncoticContent}
         />
       </MicroLesson>
 
       <MicroLesson title="Electrolyte Roles in Normal Function" subtitle="What each major electrolyte does" icon={<Activity className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Each electrolyte has specific physiological roles. Understanding their normal functions helps you appreciate why imbalances cause predictable symptoms.
-        </p>
+        <EditableModuleText sectionKey="fluids-electrolyte-roles-content" defaultText="Each electrolyte has specific physiological roles. Understanding their normal functions helps you appreciate why imbalances cause predictable symptoms." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Sodium (Na⁺) — Normal: 135–145 mEq/L</p>
@@ -106,11 +99,7 @@ export function FluidsElectrolytesModule() {
       </MicroLesson>
 
       <MicroLesson title="Acid-Base Foundations" subtitle="pH regulation at the conceptual level" icon={<Beaker className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          The body maintains blood pH between{" "}
-          <HoverReveal term="7.35 and 7.45" definition="This narrow range is essential for enzyme function, protein structure, and cellular processes. pH below 7.35 = acidosis (excess H⁺). pH above 7.45 = alkalosis (deficit of H⁺). The body uses three systems to maintain this range: buffer systems (immediate), respiratory system (minutes), and renal system (hours to days)." />.
-          Three regulatory systems work together to maintain this balance.
-        </p>
+        <EditableModuleText sectionKey="fluids-acidbase-content" defaultText="The body maintains blood pH between 7.35 and 7.45. This narrow range is essential for enzyme function, protein structure, and cellular processes. pH below 7.35 = acidosis (excess H⁺). pH above 7.45 = alkalosis (deficit of H⁺). The body uses three systems to maintain this range: buffer systems (immediate), respiratory system (minutes), and renal system (hours to days). Three regulatory systems work together to maintain this balance." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-3 gap-3 mt-3">
           <div className="p-4 bg-orange-50/60 rounded-xl border border-orange-100">
             <p className="text-xs font-semibold text-orange-700 mb-1">Buffer Systems</p>
@@ -128,7 +117,7 @@ export function FluidsElectrolytesModule() {
         <CognitiveCard
           type="concept"
           title="The Bicarbonate Equation"
-          content="CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. This single equation is the key to understanding acid-base balance. The left side (CO₂) is controlled by the lungs. The right side (HCO₃⁻) is controlled by the kidneys. Normal ratio of HCO₃⁻ to CO₂ is 20:1 — as long as this ratio is maintained, pH stays normal."
+          content={bicarbonateContent}
         />
       </MicroLesson>
 

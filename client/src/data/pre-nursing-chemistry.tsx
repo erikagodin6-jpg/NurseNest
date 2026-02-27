@@ -6,24 +6,23 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import { Atom, Beaker, Droplets, FlaskConical } from "lucide-react";
 
 export function ChemistryModule() {
+  const bondTypeContent = useEditableText("chem-bond-type-content", "Ionic bonds create electrolytes that dissociate in body fluids — essential for electrical signaling. Covalent bonds create the stable molecules of life. Hydrogen bonds maintain the 3D shapes of proteins and DNA. When a fever denatures enzymes, it's disrupting hydrogen bonds that maintain protein folding.");
+  const waterSolventContent = useEditableText("chem-water-solvent-content", "Water is a polar molecule — the oxygen end is slightly negative, the hydrogen end slightly positive. This polarity allows water to dissolve ionic and polar substances (hydrophilic), making it the universal solvent of the body. Non-polar substances (lipids) do not dissolve in water (hydrophobic) — this is why cell membranes, made of phospholipids, form barriers in an aqueous environment.");
+  const bufferContent = useEditableText("chem-buffer-content", "A buffer resists changes in pH by absorbing excess H⁺ or releasing H⁺ as needed. The bicarbonate buffer system is the most important: CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. The lungs regulate CO₂ (acid side) and the kidneys regulate HCO₃⁻ (base side). This dual regulation is why respiratory and renal function both affect pH.");
+
   return (
     <div className="space-y-10" data-testid="module-chemistry">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Basic Chemistry for Health Sciences</h2>
-        <p className="text-gray-600">
-          Understand the chemical principles that govern biological processes — from atomic structure and bonding to pH, solutions, and the chemistry of life.
-        </p>
+        <EditableModuleText sectionKey="chem-title" defaultText="Basic Chemistry for Health Sciences" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="chem-desc" defaultText="Understand the chemical principles that govern biological processes — from atomic structure and bonding to pH, solutions, and the chemistry of life." as="p" className="text-gray-600" multiline />
       </div>
 
       <MicroLesson title="Atomic Structure & Chemical Bonds" subtitle="Building blocks of all matter" icon={<Atom className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          All matter consists of{" "}
-          <HoverReveal term="atoms" definition="The smallest unit of an element that retains the properties of that element. Composed of protons (positive charge, in nucleus), neutrons (no charge, in nucleus), and electrons (negative charge, orbiting nucleus)." />,
-          and the way atoms interact determines the properties of every substance in the body. Three types of chemical bonds are essential to understand:
-        </p>
+        <EditableModuleText sectionKey="chem-atomic-content" defaultText="All matter consists of atoms, and the way atoms interact determines the properties of every substance in the body. Three types of chemical bonds are essential to understand:" as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="Types of Chemical Bonds"
           cards={[
@@ -50,16 +49,12 @@ export function ChemistryModule() {
         <CognitiveCard
           type="concept"
           title="Why Bond Type Matters in Healthcare"
-          content="Ionic bonds create electrolytes that dissociate in body fluids — essential for electrical signaling. Covalent bonds create the stable molecules of life. Hydrogen bonds maintain the 3D shapes of proteins and DNA. When a fever denatures enzymes, it's disrupting hydrogen bonds that maintain protein folding."
+          content={bondTypeContent}
         />
       </MicroLesson>
 
       <MicroLesson title="Ions, Electrolytes & Water" subtitle="The chemistry of body fluids" icon={<Droplets className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          When ionic compounds dissolve in water, they{" "}
-          <HoverReveal term="dissociate" definition="The process where an ionic compound separates into its individual ions when dissolved in a solvent. NaCl → Na⁺ + Cl⁻. These free ions conduct electrical signals and are called electrolytes." />{" "}
-          into charged particles. These electrolytes are responsible for nerve impulse transmission, muscle contraction, fluid balance, and pH regulation.
-        </p>
+        <EditableModuleText sectionKey="chem-ions-content" defaultText="When ionic compounds dissolve in water, they dissociate into charged particles. These electrolytes are responsible for nerve impulse transmission, muscle contraction, fluid balance, and pH regulation." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Key Cations (+)</p>
@@ -73,16 +68,12 @@ export function ChemistryModule() {
         <CognitiveCard
           type="warning"
           title="Water as a Solvent"
-          content="Water is a polar molecule — the oxygen end is slightly negative, the hydrogen end slightly positive. This polarity allows water to dissolve ionic and polar substances (hydrophilic), making it the universal solvent of the body. Non-polar substances (lipids) do not dissolve in water (hydrophobic) — this is why cell membranes, made of phospholipids, form barriers in an aqueous environment."
+          content={waterSolventContent}
         />
       </MicroLesson>
 
       <MicroLesson title="Acids, Bases & pH" subtitle="The hydrogen ion concentration scale" icon={<Beaker className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          The{" "}
-          <HoverReveal term="pH scale" definition="A logarithmic scale from 0 to 14 measuring hydrogen ion (H⁺) concentration. pH 7 is neutral. Below 7 is acidic (more H⁺). Above 7 is basic/alkaline (fewer H⁺). Each unit represents a 10-fold change in H⁺ concentration." />{" "}
-          is fundamental to understanding how the body maintains the narrow range (7.35–7.45) required for normal enzyme function and cellular processes.
-        </p>
+        <EditableModuleText sectionKey="chem-ph-content" defaultText="The pH scale is fundamental to understanding how the body maintains the narrow range (7.35–7.45) required for normal enzyme function and cellular processes." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="mt-3 p-4 bg-gradient-to-r from-red-50 via-yellow-50 to-blue-50 rounded-xl border">
           <p className="text-xs font-semibold text-gray-700 mb-2">The pH Scale</p>
           <div className="flex justify-between text-xs text-gray-600 mb-1">
@@ -110,16 +101,12 @@ export function ChemistryModule() {
         <CognitiveCard
           type="concept"
           title="Buffer Systems"
-          content="A buffer resists changes in pH by absorbing excess H⁺ or releasing H⁺ as needed. The bicarbonate buffer system is the most important: CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. The lungs regulate CO₂ (acid side) and the kidneys regulate HCO₃⁻ (base side). This dual regulation is why respiratory and renal function both affect pH."
+          content={bufferContent}
         />
       </MicroLesson>
 
       <MicroLesson title="Solutions & Concentrations" subtitle="How substances are measured in clinical practice" icon={<FlaskConical className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          In healthcare, solutions are described by their{" "}
-          <HoverReveal term="concentration" definition="The amount of solute (dissolved substance) per unit of solvent or solution. Expressed as mg/mL, g/L, mEq/L, mmol/L, or percentage depending on the clinical context." />.
-          Understanding concentrations is critical for medication preparation, IV fluid therapy, and lab value interpretation.
-        </p>
+        <EditableModuleText sectionKey="chem-solutions-content" defaultText="In healthcare, solutions are described by their concentration. Understanding concentrations is critical for medication preparation, IV fluid therapy, and lab value interpretation." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100">
             <p className="text-xs font-semibold text-purple-700 mb-1">Concentration Units</p>

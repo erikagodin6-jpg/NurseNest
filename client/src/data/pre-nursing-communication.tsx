@@ -6,24 +6,23 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import { MessageSquare, Users, FileText, Shield } from "lucide-react";
 
 export function CommunicationModule() {
+  const therapeuticWarning = useEditableText("comm-therapeutic-warning", "Giving false reassurance ('Everything will be fine'), being judgmental ('You shouldn't feel that way'), giving advice ('If I were you...'), changing the subject when the patient is expressing concerns, using medical jargon the patient doesn't understand, and asking 'why' questions ('Why didn't you take your medication?') which sound accusatory.");
+  const sbarConcept = useEditableText("comm-sbar-concept", "Without a structure, handoffs often bury the critical information in a sea of background data. SBAR forces the communicator to lead with the most important information (Situation), provide only relevant context (Background), share their clinical reasoning (Assessment), and state a clear ask (Recommendation). This saves time and prevents the receiver from having to extract the key message.");
+  const justCultureConcept = useEditableText("comm-just-culture-concept", "A just culture distinguishes between human error (unintentional — support the person), at-risk behavior (taking shortcuts — coach the person), and reckless behavior (conscious disregard for safety — hold accountable). This distinction encourages reporting of errors and near-misses without fear of punishment, which is essential for learning and prevention.");
+
   return (
     <div className="space-y-10" data-testid="module-communication">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Healthcare Communication Fundamentals</h2>
-        <p className="text-gray-600">
-          Master professional communication, therapeutic techniques, structured handoff methods, documentation principles, and interprofessional collaboration — foundational skills for safe, effective healthcare.
-        </p>
+        <EditableModuleText sectionKey="comm-title" defaultText="Healthcare Communication Fundamentals" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="comm-desc" defaultText="Master professional communication, therapeutic techniques, structured handoff methods, documentation principles, and interprofessional collaboration — foundational skills for safe, effective healthcare." as="p" className="text-gray-600" multiline />
       </div>
 
       <MicroLesson title="Therapeutic Communication" subtitle="Purposeful communication that promotes healing" icon={<MessageSquare className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Therapeutic communication is{" "}
-          <HoverReveal term="goal-directed" definition="Unlike social conversation, therapeutic communication has a specific purpose: gathering assessment data, providing education, offering emotional support, or facilitating decision-making. Every interaction serves the patient's health goals." />{" "}
-          interaction that prioritizes the patient's needs. It requires active listening, empathy, and intentional use of verbal and nonverbal techniques.
-        </p>
+        <EditableModuleText sectionKey="comm-therapeutic-content" defaultText={'Therapeutic communication is <span data-hover-term="goal-directed">goal-directed</span> interaction that prioritizes the patient\'s needs. It requires active listening, empathy, and intentional use of verbal and nonverbal techniques.'} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="Therapeutic Techniques"
           cards={[
@@ -56,16 +55,12 @@ export function CommunicationModule() {
         <CognitiveCard
           type="warning"
           title="Non-Therapeutic Responses to Avoid"
-          content="Giving false reassurance ('Everything will be fine'), being judgmental ('You shouldn't feel that way'), giving advice ('If I were you...'), changing the subject when the patient is expressing concerns, using medical jargon the patient doesn't understand, and asking 'why' questions ('Why didn't you take your medication?') which sound accusatory."
+          content={therapeuticWarning}
         />
       </MicroLesson>
 
       <MicroLesson title="SBAR Communication" subtitle="Structured handoff for patient safety" icon={<Users className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          SBAR is a{" "}
-          <HoverReveal term="standardized communication framework" definition="Situation, Background, Assessment, Recommendation. Originally developed by the US Navy for nuclear submarine communication, SBAR was adapted for healthcare because it provides a predictable structure that reduces miscommunication — a leading cause of sentinel events." />{" "}
-          designed to prevent critical information loss during handoffs, phone calls to providers, and escalation of concerns.
-        </p>
+        <EditableModuleText sectionKey="comm-sbar-content" defaultText={'SBAR is a <span data-hover-term="standardized communication framework">standardized communication framework</span> designed to prevent critical information loss during handoffs, phone calls to providers, and escalation of concerns.'} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-red-50/60 rounded-xl border border-red-100">
             <p className="text-xs font-semibold text-red-700 mb-1">S — Situation</p>
@@ -87,16 +82,12 @@ export function CommunicationModule() {
         <CognitiveCard
           type="concept"
           title="Why SBAR Works"
-          content="Without a structure, handoffs often bury the critical information in a sea of background data. SBAR forces the communicator to lead with the most important information (Situation), provide only relevant context (Background), share their clinical reasoning (Assessment), and state a clear ask (Recommendation). This saves time and prevents the receiver from having to extract the key message."
+          content={sbarConcept}
         />
       </MicroLesson>
 
       <MicroLesson title="Documentation Principles" subtitle="If it wasn't documented, it wasn't done" icon={<FileText className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Healthcare documentation is a{" "}
-          <HoverReveal term="legal record" definition="The medical record is a legal document that can be subpoenaed in court. It serves as the official record of care provided, the patient's response, clinical decision-making, and communication between providers. Accurate, timely documentation protects both the patient and the healthcare provider." />{" "}
-          that serves multiple critical functions: continuity of care, legal protection, communication between providers, quality improvement, and reimbursement.
-        </p>
+        <EditableModuleText sectionKey="comm-documentation-content" defaultText={'Healthcare documentation is a <span data-hover-term="legal record">legal record</span> that serves multiple critical functions: continuity of care, legal protection, communication between providers, quality improvement, and reimbursement.'} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-green-50/60 rounded-xl border border-green-100">
             <p className="text-xs font-semibold text-green-700 mb-1">Documentation Best Practices</p>
@@ -110,11 +101,7 @@ export function CommunicationModule() {
       </MicroLesson>
 
       <MicroLesson title="Error Prevention & Situational Awareness" subtitle="Communication strategies that prevent harm" icon={<Shield className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Most healthcare errors involve{" "}
-          <HoverReveal term="communication failures" definition="Studies consistently show that 60-70% of sentinel events (unexpected events causing death or serious harm) involve communication breakdowns. These occur during handoffs, between disciplines, and when team members hesitate to speak up about concerns." />.
-          A culture of safety requires specific communication strategies.
-        </p>
+        <EditableModuleText sectionKey="comm-error-prevention-content" defaultText={'Most healthcare errors involve <span data-hover-term="communication failures">communication failures</span>. A culture of safety requires specific communication strategies.'} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Read-Back / Repeat-Back</p>
@@ -132,7 +119,7 @@ export function CommunicationModule() {
         <CognitiveCard
           type="concept"
           title="Just Culture"
-          content="A just culture distinguishes between human error (unintentional — support the person), at-risk behavior (taking shortcuts — coach the person), and reckless behavior (conscious disregard for safety — hold accountable). This distinction encourages reporting of errors and near-misses without fear of punishment, which is essential for learning and prevention."
+          content={justCultureConcept}
         />
       </MicroLesson>
 

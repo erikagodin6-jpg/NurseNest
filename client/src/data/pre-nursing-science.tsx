@@ -6,6 +6,7 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import {
   Dna,
   FlaskConical,
@@ -20,13 +21,26 @@ import {
 } from "lucide-react";
 
 export function ScienceFoundationsModule() {
+  const biosystemsConcept = useEditableText("science-biosystems-concept", "When a patient presents with multi-organ dysfunction, you're seeing the levels of organization failing in reverse — from organism-level symptoms traced back to cellular injury. Understanding this hierarchy helps you prioritize assessments.");
+  const biomoleculesRemember = useEditableText("science-biomolecules-remember", "ATP (adenosine triphosphate) is the universal energy currency. Cells generate ATP primarily through aerobic metabolism (oxygen-dependent). When oxygen is unavailable, anaerobic metabolism produces lactic acid — this is why tissue hypoxia leads to metabolic acidosis.");
+  const dnaWarning = useEditableText("science-dna-warning", "A single nucleotide mutation can alter the protein produced. Sickle cell disease results from one amino acid change in hemoglobin (Glu→Val), causing red blood cells to deform under low oxygen conditions. This is a powerful example of how molecular changes manifest as clinical disease.");
+  const celldivConcept = useEditableText("science-celldiv-concept", "Maintaining accurate DNA replication during division is essential. Checkpoints in the cell cycle catch errors. When these checkpoints fail (e.g., p53 tumor suppressor mutation), cells can proliferate uncontrollably — the basis of cancer development.");
+  const microWarning = useEditableText("science-micro-warning", "Antibiotic resistance occurs when bacteria evolve mechanisms to survive antibiotic exposure. Key nursing actions: complete full antibiotic courses, practice meticulous hand hygiene, use contact precautions for resistant organisms (MRSA, VRE, C. diff), and educate patients on proper antibiotic use.");
+  const immunityConcept = useEditableText("science-immunity-concept", "Vaccines work by exposing the immune system to a harmless form of a pathogen (inactivated, attenuated, or mRNA-encoded antigen). This triggers adaptive immunity to produce memory B and T cells WITHOUT causing disease. Upon future exposure, the immune system mounts a rapid, targeted response. This is why booster doses enhance the memory response.");
+  const chemRemember = useEditableText("science-chem-remember", "When salts dissolve in water, they dissociate into ions (ionization). NaCl → Na+ + Cl⁻. These ions conduct electricity in body fluids, enabling nerve impulses and muscle contractions. Electrolyte imbalances directly affect cardiac rhythm, muscle function, and neurological status.");
+  const mathTip = useEditableText("science-math-tip", "Always write out your units and cancel them. Example: Order: 500 mg. Available: 250 mg/tablet. Calculation: 500 mg × (1 tablet / 250 mg) = 2 tablets. The 'mg' units cancel, leaving you with tablets.");
+  const literacyConcept = useEditableText("science-literacy-concept", "Not all evidence is equal. A well-designed randomized controlled trial (RCT) provides stronger evidence than an expert opinion. The hierarchy of evidence helps nurses evaluate which findings should most influence clinical practice. Always ask: 'What is the evidence for this intervention?'");
+  const organelleConcept = useEditableText("science-organelle-concept", "Lysosomal storage diseases (Tay-Sachs, Gaucher disease) occur when enzyme deficiencies prevent lysosomes from breaking down specific substrates. Mitochondrial dysfunction is implicated in neurodegenerative diseases. Understanding organelle function reveals why these conditions manifest the way they do.");
+  const waterRemember = useEditableText("science-water-remember", "Because water is critical for every metabolic process, dehydration impairs cellular function rapidly. Even 2% body water loss affects cognitive function and cardiovascular performance. This is why fluid balance assessment (intake/output, skin turgor, mucous membranes) is a fundamental nursing skill.");
+  const metabolismWarning = useEditableText("science-metabolism-warning", "When cells are deprived of oxygen (ischemia), the electron transport chain halts. Cells revert to anaerobic glycolysis, producing only 2 ATP instead of ~36-38 per glucose. Lactic acid accumulates, pH drops, and cellular enzymes denature. Within minutes, irreversible damage occurs in oxygen-dependent tissues like brain and heart. This is the biochemical basis of stroke and myocardial infarction.");
+  const homeostasisConcept = useEditableText("science-homeostasis-concept", "Diabetes mellitus is a failure of glucose homeostasis — in Type 1, the receptor/effector (beta cells) is destroyed; in Type 2, cells become resistant to the effector (insulin). Fever represents a temporary resetting of the temperature set point by pyrogens. Understanding feedback loops helps you predict how disruptions at any point in the loop will manifest clinically.");
+  const orgchemRemember = useEditableText("science-orgchem-remember", "Large biological molecules are built by dehydration synthesis (removing water to form bonds: amino acids → proteins, monosaccharides → polysaccharides) and broken down by hydrolysis (adding water to break bonds). Digestion is fundamentally hydrolysis — enzymes add water molecules to break food into absorbable units.");
+
   return (
     <div className="space-y-10" data-testid="module-science-foundations">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Science Foundations</h2>
-        <p className="text-gray-600">
-          Build the essential science knowledge that underpins every nursing concept — from biomolecules to microbiology, chemistry to scientific reasoning.
-        </p>
+        <EditableModuleText sectionKey="science-title" defaultText="Science Foundations" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="science-desc" defaultText="Build the essential science knowledge that underpins every nursing concept — from biomolecules to microbiology, chemistry to scientific reasoning." as="p" className="text-gray-600" multiline />
       </div>
 
       <MicroLesson title="Biological Systems" subtitle="Characteristics of life and levels of organization" icon={<Sparkles className="w-5 h-5" />}>
@@ -48,7 +62,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="concept"
           title="Why This Matters for Nursing"
-          content="When a patient presents with multi-organ dysfunction, you're seeing the levels of organization failing in reverse — from organism-level symptoms traced back to cellular injury. Understanding this hierarchy helps you prioritize assessments."
+          content={biosystemsConcept}
         />
       </MicroLesson>
 
@@ -90,7 +104,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="remember"
           title="Energy Transfer"
-          content="ATP (adenosine triphosphate) is the universal energy currency. Cells generate ATP primarily through aerobic metabolism (oxygen-dependent). When oxygen is unavailable, anaerobic metabolism produces lactic acid — this is why tissue hypoxia leads to metabolic acidosis."
+          content={biomoleculesRemember}
         />
       </MicroLesson>
 
@@ -163,7 +177,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="warning"
           title="Mutations & Disease"
-          content="A single nucleotide mutation can alter the protein produced. Sickle cell disease results from one amino acid change in hemoglobin (Glu→Val), causing red blood cells to deform under low oxygen conditions. This is a powerful example of how molecular changes manifest as clinical disease."
+          content={dnaWarning}
         />
       </MicroLesson>
 
@@ -183,7 +197,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="concept"
           title="Chromosomal Integrity"
-          content="Maintaining accurate DNA replication during division is essential. Checkpoints in the cell cycle catch errors. When these checkpoints fail (e.g., p53 tumor suppressor mutation), cells can proliferate uncontrollably — the basis of cancer development."
+          content={celldivConcept}
         />
       </MicroLesson>
 
@@ -253,7 +267,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="warning"
           title="Antimicrobial Resistance"
-          content="Antibiotic resistance occurs when bacteria evolve mechanisms to survive antibiotic exposure. Key nursing actions: complete full antibiotic courses, practice meticulous hand hygiene, use contact precautions for resistant organisms (MRSA, VRE, C. diff), and educate patients on proper antibiotic use."
+          content={microWarning}
         />
       </MicroLesson>
 
@@ -273,7 +287,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="concept"
           title="Antibody Logic & Vaccination"
-          content="Vaccines work by exposing the immune system to a harmless form of a pathogen (inactivated, attenuated, or mRNA-encoded antigen). This triggers adaptive immunity to produce memory B and T cells WITHOUT causing disease. Upon future exposure, the immune system mounts a rapid, targeted response. This is why booster doses enhance the memory response."
+          content={immunityConcept}
         />
       </MicroLesson>
 
@@ -333,7 +347,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="remember"
           title="Electrolytes & Ionization"
-          content="When salts dissolve in water, they dissociate into ions (ionization). NaCl → Na+ + Cl⁻. These ions conduct electricity in body fluids, enabling nerve impulses and muscle contractions. Electrolyte imbalances directly affect cardiac rhythm, muscle function, and neurological status."
+          content={chemRemember}
         />
       </MicroLesson>
 
@@ -379,9 +393,7 @@ export function ScienceFoundationsModule() {
       />
 
       <MicroLesson title="Math Skills for Science" subtitle="Scientific notation, ratios, proportions, and unit conversions" icon={<Calculator className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Quantitative reasoning is essential in nursing. From calculating medication dosages to interpreting lab values, math skills directly affect patient safety.
-        </p>
+        <EditableModuleText sectionKey="science-math-content" defaultText="Quantitative reasoning is essential in nursing. From calculating medication dosages to interpreting lab values, math skills directly affect patient safety." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="Essential Math Concepts"
           cards={[
@@ -408,7 +420,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="tip"
           title="Dimensional Analysis"
-          content="Always write out your units and cancel them. Example: Order: 500 mg. Available: 250 mg/tablet. Calculation: 500 mg × (1 tablet / 250 mg) = 2 tablets. The 'mg' units cancel, leaving you with tablets."
+          content={mathTip}
         />
       </MicroLesson>
 
@@ -451,7 +463,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="concept"
           title="Evidence-Based Thinking"
-          content="Not all evidence is equal. A well-designed randomized controlled trial (RCT) provides stronger evidence than an expert opinion. The hierarchy of evidence helps nurses evaluate which findings should most influence clinical practice. Always ask: 'What is the evidence for this intervention?'"
+          content={literacyConcept}
         />
       </MicroLesson>
 
@@ -532,7 +544,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="concept"
           title="Organelle Dysfunction & Disease"
-          content="Lysosomal storage diseases (Tay-Sachs, Gaucher disease) occur when enzyme deficiencies prevent lysosomes from breaking down specific substrates. Mitochondrial dysfunction is implicated in neurodegenerative diseases. Understanding organelle function reveals why these conditions manifest the way they do."
+          content={organelleConcept}
         />
       </MicroLesson>
 
@@ -605,14 +617,12 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="remember"
           title="Dehydration & Water Balance"
-          content="Because water is critical for every metabolic process, dehydration impairs cellular function rapidly. Even 2% body water loss affects cognitive function and cardiovascular performance. This is why fluid balance assessment (intake/output, skin turgor, mucous membranes) is a fundamental nursing skill."
+          content={waterRemember}
         />
       </MicroLesson>
 
       <MicroLesson title="Cellular Energy Metabolism" subtitle="Glycolysis, Krebs cycle, electron transport chain" icon={<Sparkles className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Cells extract energy from nutrients through a series of metabolic pathways. Understanding these pathways explains why oxygen deprivation is so dangerous and how metabolic diseases affect the body.
-        </p>
+        <EditableModuleText sectionKey="science-metabolism-content" defaultText="Cells extract energy from nutrients through a series of metabolic pathways. Understanding these pathways explains why oxygen deprivation is so dangerous and how metabolic diseases affect the body." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="The Three Stages of Aerobic Respiration"
           cards={[
@@ -639,7 +649,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="warning"
           title="Oxygen Deprivation & Cell Death"
-          content="When cells are deprived of oxygen (ischemia), the electron transport chain halts. Cells revert to anaerobic glycolysis, producing only 2 ATP instead of ~36-38 per glucose. Lactic acid accumulates, pH drops, and cellular enzymes denature. Within minutes, irreversible damage occurs in oxygen-dependent tissues like brain and heart. This is the biochemical basis of stroke and myocardial infarction."
+          content={metabolismWarning}
         />
         <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100 mt-3">
           <p className="text-xs font-semibold text-amber-700 mb-1">Metabolism Summary</p>
@@ -702,7 +712,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="concept"
           title="Disease as Homeostatic Failure"
-          content="Diabetes mellitus is a failure of glucose homeostasis — in Type 1, the receptor/effector (beta cells) is destroyed; in Type 2, cells become resistant to the effector (insulin). Fever represents a temporary resetting of the temperature set point by pyrogens. Understanding feedback loops helps you predict how disruptions at any point in the loop will manifest clinically."
+          content={homeostasisConcept}
         />
       </MicroLesson>
 
@@ -729,7 +739,7 @@ export function ScienceFoundationsModule() {
         <CognitiveCard
           type="remember"
           title="Dehydration Synthesis & Hydrolysis"
-          content="Large biological molecules are built by dehydration synthesis (removing water to form bonds: amino acids → proteins, monosaccharides → polysaccharides) and broken down by hydrolysis (adding water to break bonds). Digestion is fundamentally hydrolysis — enzymes add water molecules to break food into absorbable units."
+          content={orgchemRemember}
         />
       </MicroLesson>
 

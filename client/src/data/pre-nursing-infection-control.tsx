@@ -6,24 +6,22 @@ import {
   SelfCheckQuiz,
   ProgressiveReveal,
 } from "@/components/interactive-learning";
+import { EditableModuleText, useEditableText } from "@/components/module-edit-context";
 import { Shield, AlertTriangle, Hand, Layers } from "lucide-react";
 
 export function InfectionControlModule() {
+  const hygieneContent = useEditableText("infctrl-hygiene-cognitive", "1. BEFORE touching a patient. 2. BEFORE a clean/aseptic procedure. 3. AFTER body fluid exposure risk. 4. AFTER touching a patient. 5. AFTER touching patient surroundings. These moments create a systematic approach to hand hygiene that covers all critical transmission opportunities.");
+  const ppeDoffingContent = useEditableText("infctrl-ppe-doffing-cognitive", "DONNING (putting on): Gown → Mask/Respirator → Goggles/Face shield → Gloves. DOFFING (removing): Gloves → Goggles/Face shield → Gown → Mask/Respirator. The doffing sequence is critical — the most contaminated items (gloves) come off first, and the mask (which protects airways) comes off last, AFTER leaving the patient area. Hand hygiene after each step of doffing.");
+
   return (
     <div className="space-y-10" data-testid="module-infection-control">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Infection Control Foundations</h2>
-        <p className="text-gray-600">
-          Master the chain of infection, standard precautions, hand hygiene, PPE selection, and aseptic technique — the core competencies that prevent healthcare-associated infections.
-        </p>
+        <EditableModuleText sectionKey="infctrl-title" defaultText="Infection Control Foundations" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="infctrl-desc" defaultText="Master the chain of infection, standard precautions, hand hygiene, PPE selection, and aseptic technique — the core competencies that prevent healthcare-associated infections." as="p" className="text-gray-600" multiline />
       </div>
 
       <MicroLesson title="The Chain of Infection" subtitle="Six links that must all be present for infection to occur" icon={<Layers className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Infection requires an unbroken{" "}
-          <HoverReveal term="chain of infection" definition="A conceptual model with six links: (1) infectious agent, (2) reservoir, (3) portal of exit, (4) mode of transmission, (5) portal of entry, (6) susceptible host. Breaking ANY link prevents infection." />.
-          Infection prevention strategies work by targeting the weakest links in this chain.
-        </p>
+        <EditableModuleText sectionKey="infctrl-chain-content" defaultText={`Infection requires an unbroken chain of infection (A conceptual model with six links: (1) infectious agent, (2) reservoir, (3) portal of exit, (4) mode of transmission, (5) portal of entry, (6) susceptible host. Breaking ANY link prevents infection.). Infection prevention strategies work by targeting the weakest links in this chain.`} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
           title="The Six Links"
           cards={[
@@ -68,11 +66,7 @@ export function InfectionControlModule() {
       </MicroLesson>
 
       <MicroLesson title="Hand Hygiene" subtitle="The single most effective infection prevention measure" icon={<Hand className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Hand hygiene prevents transmission by breaking the{" "}
-          <HoverReveal term="mode of transmission" definition="The fourth link in the chain of infection. Contact transmission (direct and indirect via contaminated hands) is the most common mode in healthcare. Hand hygiene directly interrupts this transmission path." />{" "}
-          link. Two methods are available, and the choice depends on the clinical situation.
-        </p>
+        <EditableModuleText sectionKey="infctrl-hygiene-content" defaultText="Hand hygiene prevents transmission by breaking the mode of transmission (The fourth link in the chain of infection. Contact transmission (direct and indirect via contaminated hands) is the most common mode in healthcare. Hand hygiene directly interrupts this transmission path.) link. Two methods are available, and the choice depends on the clinical situation." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Alcohol-Based Hand Rub (ABHR)</p>
@@ -86,15 +80,12 @@ export function InfectionControlModule() {
         <CognitiveCard
           type="concept"
           title="The 5 Moments for Hand Hygiene (WHO)"
-          content="1. BEFORE touching a patient. 2. BEFORE a clean/aseptic procedure. 3. AFTER body fluid exposure risk. 4. AFTER touching a patient. 5. AFTER touching patient surroundings. These moments create a systematic approach to hand hygiene that covers all critical transmission opportunities."
+          content={hygieneContent}
         />
       </MicroLesson>
 
       <MicroLesson title="Personal Protective Equipment (PPE)" subtitle="Barrier protection matched to risk" icon={<Shield className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          PPE creates a barrier between the healthcare worker and infectious material. The critical principle is{" "}
-          <HoverReveal term="risk-based selection" definition="PPE is selected based on the anticipated exposure: what body fluids might be encountered, what transmission route is involved, and what procedures will be performed. Using too little PPE creates risk; using too much wastes resources and creates a false sense of security." />.
-        </p>
+        <EditableModuleText sectionKey="infctrl-ppe-content" defaultText="PPE creates a barrier between the healthcare worker and infectious material. The critical principle is risk-based selection (PPE is selected based on the anticipated exposure: what body fluids might be encountered, what transmission route is involved, and what procedures will be performed. Using too little PPE creates risk; using too much wastes resources and creates a false sense of security.)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Gloves</p>
@@ -112,15 +103,12 @@ export function InfectionControlModule() {
         <CognitiveCard
           type="warning"
           title="PPE Donning & Doffing Order"
-          content="DONNING (putting on): Gown → Mask/Respirator → Goggles/Face shield → Gloves. DOFFING (removing): Gloves → Goggles/Face shield → Gown → Mask/Respirator. The doffing sequence is critical — the most contaminated items (gloves) come off first, and the mask (which protects airways) comes off last, AFTER leaving the patient area. Hand hygiene after each step of doffing."
+          content={ppeDoffingContent}
         />
       </MicroLesson>
 
       <MicroLesson title="Standard & Transmission-Based Precautions" subtitle="The two tiers of isolation precautions" icon={<AlertTriangle className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Infection prevention uses a{" "}
-          <HoverReveal term="two-tier system" definition="Tier 1: Standard Precautions — applied to ALL patients regardless of diagnosis. Tier 2: Transmission-Based Precautions — added on top of standard precautions for patients with known or suspected infections transmitted by specific routes." />.
-        </p>
+        <EditableModuleText sectionKey="infctrl-precautions-content" defaultText="Infection prevention uses a two-tier system (Tier 1: Standard Precautions — applied to ALL patients regardless of diagnosis. Tier 2: Transmission-Based Precautions — added on top of standard precautions for patients with known or suspected infections transmitted by specific routes.)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="space-y-3 mt-3">
           <div className="p-4 bg-green-50/60 rounded-xl border border-green-100">
             <p className="text-xs font-semibold text-green-700 mb-1">Standard Precautions (ALL Patients)</p>
