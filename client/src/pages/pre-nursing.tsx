@@ -500,6 +500,8 @@ function EditableModuleText({
     return <Tag className={appliedClassName}>{displayText}</Tag>;
   }
 
+  const editingColorClass = colorClass ? className.replace(/text-(?:gray|slate|blue|emerald|amber|red|purple|indigo|teal|sky|violet|rose|cyan|lime|orange|pink|primary)[-/]\S*/g, "") + " " + colorClass : className;
+
   return (
     <div className="relative" ref={editorContainerRef}>
       <div className="absolute -top-2 -right-2 z-10">
@@ -509,19 +511,21 @@ function EditableModuleText({
         />
       </div>
       {multiline ? (
-        <RichTextEditor
-          value={displayText}
-          onChange={(v) => updateSection(sectionKey, { ...override, content: v })}
-          className={className}
-          minHeight="80px"
-          placeholder="Enter content..."
-        />
+        <div className={editingColorClass}>
+          <RichTextEditor
+            value={displayText}
+            onChange={(v) => updateSection(sectionKey, { ...override, content: v })}
+            minHeight="80px"
+            placeholder="Enter content..."
+          />
+        </div>
       ) : (
         <input
           type="text"
           value={displayText}
           onChange={(e) => updateSection(sectionKey, { ...override, content: e.target.value })}
-          className={`w-full bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${className}`}
+          className={`w-full bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${editingColorClass}`}
+          style={colorClass ? { color: colorPreviewMap[colorClass] || undefined } : undefined}
           data-testid={`editable-text-${sectionKey}`}
         />
       )}

@@ -70,6 +70,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
 
   useEffect(() => {
     const handler = () => {
+      if (showColorPicker) return;
       const sel = window.getSelection();
       if (sel && sel.rangeCount > 0 && editorRef.current) {
         const range = sel.getRangeAt(0);
@@ -80,7 +81,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     };
     document.addEventListener("selectionchange", handler);
     return () => document.removeEventListener("selectionchange", handler);
-  }, []);
+  }, [showColorPicker]);
 
   const saveSelection = useCallback(() => {
     const sel = window.getSelection();
@@ -92,20 +93,13 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     }
   }, []);
 
-  const restoreSelection = useCallback(() => {
-    const range = savedSelectionRef.current;
-    if (range) {
-      const sel = window.getSelection();
-      if (sel) {
-        sel.removeAllRanges();
-        sel.addRange(range);
-      }
-    }
-  }, []);
-
   const applyFontColor = useCallback((color: string) => {
     const range = savedSelectionRef.current;
     if (!range || !editorRef.current) {
+      setShowColorPicker(false);
+      return;
+    }
+    if (range.collapsed) {
       setShowColorPicker(false);
       return;
     }
