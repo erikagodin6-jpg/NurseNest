@@ -43,7 +43,9 @@ import {
   Upload,
   Download,
   BarChart3,
-  Eye
+  Eye,
+  Wand2,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -1407,6 +1409,68 @@ export default function Flashcards() {
     } catch {}
   };
 
+  const [mycardsAiPrompt, setMycardsAiPrompt] = useState("");
+  const [mycardsAiCount, setMycardsAiCount] = useState(5);
+  const [mycardsAiGenerating, setMycardsAiGenerating] = useState(false);
+  const [mycardsAiCards, setMycardsAiCards] = useState<{question: string; answer: string}[]>([]);
+  const [mycardsShowAi, setMycardsShowAi] = useState(false);
+
+  const mycardsAiGenerate = async () => {
+    if (!user || !mycardsAiPrompt.trim()) return;
+    setMycardsAiGenerating(true);
+    setMycardsAiCards([]);
+    try {
+      const res = await fetch("/api/user-flashcards/ai-generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, prompt: mycardsAiPrompt, count: mycardsAiCount }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error || "AI generation failed");
+        return;
+      }
+      const data = await res.json();
+      setMycardsAiCards(data.cards || []);
+    } catch {
+      alert("AI generation failed. Please try again.");
+    } finally {
+      setMycardsAiGenerating(false);
+    }
+  };
+
+  const mycardsAiAddAll = async () => {
+    if (!user || mycardsAiCards.length === 0) return;
+    let added = 0;
+    for (const card of mycardsAiCards) {
+      try {
+        const res = await fetch("/api/user-flashcards", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id, question: card.question, answer: card.answer, category: "AI Generated" }),
+        });
+        if (res.ok) added++;
+        else {
+          const err = await res.json();
+          if (err.upgradeRequired) {
+            alert(err.error);
+            break;
+          }
+        }
+      } catch {}
+    }
+    if (added > 0) {
+      setMycardsAiCards([]);
+      setMycardsAiPrompt("");
+      fetchCustomCards();
+      alert(`Added ${added} AI-generated cards!`);
+    }
+  };
+
+  const mycardsAiRemove = (index: number) => {
+    setMycardsAiCards(prev => prev.filter((_, i) => i !== index));
+  };
+
   const fetchCustomCards = useCallback(async () => {
     if (!user) return;
     setCustomCardsLoading(true);
@@ -1990,6 +2054,90 @@ export default function Flashcards() {
                 </div>
               )}
             </div>
+          </Card>
+
+          <Card className="border-none shadow-xl bg-white p-8 rounded-3xl mb-8" data-testid="card-ai-generator-mycards">
+            <button
+              className="flex items-center gap-2 w-full text-left"
+              onClick={() => setMycardsShowAi(!mycardsShowAi)}
+              data-testid="button-toggle-ai-generator"
+            >
+              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                <Wand2 className="w-4 h-4 text-purple-600" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-gray-900">AI Flashcard Generator</h3>
+                <p className="text-xs text-gray-500">Describe a topic and let AI create flashcards for you</p>
+              </div>
+              <ChevronRight className={cn("w-5 h-5 text-gray-400 transition-transform", mycardsShowAi && "rotate-90")} />
+            </button>
+
+            {mycardsShowAi && (
+              <div className="mt-6 space-y-4">
+                <div>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Topic or prompt</label>
+                  <Input
+                    placeholder="e.g., Cardiac medications and their side effects"
+                    value={mycardsAiPrompt}
+                    onChange={(e) => setMycardsAiPrompt(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter" && mycardsAiPrompt.trim()) mycardsAiGenerate(); }}
+                    className="rounded-xl"
+                    data-testid="input-ai-prompt-mycards"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Cards</label>
+                  <select
+                    value={mycardsAiCount}
+                    onChange={(e) => setMycardsAiCount(parseInt(e.target.value))}
+                    className="text-sm border rounded-lg px-2 py-1"
+                    data-testid="select-ai-count-mycards"
+                  >
+                    {[3, 5, 10, 15, 20].map(n => <option key={n} value={n}>{n}</option>)}
+                  </select>
+                  <Button
+                    onClick={mycardsAiGenerate}
+                    disabled={mycardsAiGenerating || !mycardsAiPrompt.trim()}
+                    className="rounded-xl gap-2 ml-auto"
+                    data-testid="button-ai-generate-mycards"
+                  >
+                    {mycardsAiGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+                    {mycardsAiGenerating ? "Generating..." : "Generate"}
+                  </Button>
+                </div>
+
+                {mycardsAiCards.length > 0 && (
+                  <div className="space-y-3 mt-4">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-semibold text-purple-700">{mycardsAiCards.length} cards generated — review before adding:</p>
+                      <Button size="sm" className="rounded-xl gap-2" onClick={mycardsAiAddAll} data-testid="button-ai-add-all-mycards">
+                        <Plus className="w-3 h-3" />
+                        Add All to My Cards
+                      </Button>
+                    </div>
+                    <div className="space-y-2 max-h-80 overflow-y-auto">
+                      {mycardsAiCards.map((card, idx) => (
+                        <div key={idx} className="p-3 bg-purple-50/50 border border-purple-100 rounded-xl text-sm" data-testid={`ai-card-preview-${idx}`}>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-gray-900 text-xs mb-1">Q: {card.question}</p>
+                              <p className="text-gray-600 text-xs">A: {card.answer}</p>
+                            </div>
+                            <button
+                              onClick={() => mycardsAiRemove(idx)}
+                              className="text-gray-400 hover:text-red-500 shrink-0 p-1"
+                              data-testid={`button-ai-remove-${idx}`}
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </Card>
 
           {customCards.length > 0 && (

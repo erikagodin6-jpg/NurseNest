@@ -788,6 +788,69 @@ Rules:
     }
   });
 
+  app.post("/api/user-flashcards/ai-generate", async (req, res) => {
+    try {
+      const { userId, prompt, count, category } = req.body;
+      if (!userId || !prompt?.trim()) return res.status(400).json({ error: "userId and prompt required" });
+
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      const existingCards = await storage.getUserFlashcards(userId);
+      const FREE_LIMIT = 50;
+      const isPaid = user.tier !== "free" && user.subscriptionStatus === "active";
+      const remaining = isPaid ? 999 : FREE_LIMIT - existingCards.length;
+
+      if (remaining <= 0) {
+        return res.status(403).json({
+          error: `You've reached the free limit of ${FREE_LIMIT} cards. Upgrade your plan to create unlimited flashcards with AI.`,
+          upgradeRequired: true,
+        });
+      }
+
+      const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
+      const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
+      if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
+
+      const numCards = Math.min(Math.max(parseInt(count) || 5, 1), Math.min(25, remaining));
+      const region = (req as any).region || "US";
+      const regionNote = region === "CA"
+        ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."
+        : "Use American nursing terminology, conventional units, and US exam standards (NCLEX).";
+
+      const { default: OpenAI } = await import("openai");
+      const openai = new OpenAI({ apiKey, baseURL });
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are a nursing education flashcard generator for NurseNest. Generate high-quality, exam-ready flashcards for nursing students. ${regionNote} Each card should have a clear question and concise, accurate answer. Return ONLY valid JSON.`,
+          },
+          {
+            role: "user",
+            content: `Generate exactly ${numCards} nursing flashcards about: ${prompt}\n\nReturn as JSON: {"cards":[{"question":"question text","answer":"answer text"}]}`,
+          },
+        ],
+        response_format: { type: "json_object" },
+        temperature: 0.7,
+        max_tokens: 4096,
+      });
+
+      const text = completion.choices[0]?.message?.content || '{"cards":[]}';
+      const parsed = JSON.parse(text);
+      const cards = (parsed.cards || []).map((c: any) => ({
+        question: c.question || c.front || "",
+        answer: c.answer || c.back || "",
+      })).filter((c: any) => c.question && c.answer);
+
+      res.json({ cards, category: category || "AI Generated" });
+    } catch (e: any) {
+      console.error("AI flashcard generation error:", e);
+      res.status(500).json({ error: "AI generation failed. Please try again." });
+    }
+  });
+
   // --------------------
   // Test results
   // --------------------
