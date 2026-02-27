@@ -30,6 +30,8 @@ import organelleGolgi from "@/assets/organelle-golgi.png";
 import organelleRoughER from "@/assets/organelle-rough-er.png";
 import organelleCellMembrane from "@/assets/organelle-cell-membrane.png";
 import organelleLysosome from "@/assets/organelle-lysosome.png";
+import transportPassive from "@/assets/transport-passive.png";
+import transportActive from "@/assets/transport-active.png";
 import {
   cellLabels,
   HeartSVG,
@@ -1446,10 +1448,16 @@ function CellBiologyModule() {
         )}
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
+            <div className="flex justify-center mb-3">
+              <img src={transportPassive} alt="Passive transport across cell membrane" className="w-full max-w-xs h-auto rounded-lg" data-testid="img-passive-transport" />
+            </div>
             <p className="text-xs font-semibold text-blue-700 mb-1">Passive Transport</p>
             <EditableModuleText sectionKey="cell-bio-passive-transport" defaultText="No energy needed. Moves DOWN concentration gradient. Examples: diffusion, osmosis, facilitated diffusion." as="p" className="text-xs text-blue-600" multiline />
           </div>
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
+            <div className="flex justify-center mb-3">
+              <img src={transportActive} alt="Active transport across cell membrane" className="w-full max-w-xs h-auto rounded-lg" data-testid="img-active-transport" />
+            </div>
             <p className="text-xs font-semibold text-amber-700 mb-1">Active Transport</p>
             <EditableModuleText sectionKey="cell-bio-active-transport" defaultText="Requires ATP energy. Moves AGAINST concentration gradient. Example: Na+/K+ pump (3 Na+ out, 2 K+ in)." as="p" className="text-xs text-amber-600" multiline />
           </div>
