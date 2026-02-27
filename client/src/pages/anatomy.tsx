@@ -606,11 +606,37 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
                 onSave={saveSystemOverride}
               />
             ) : (
-              resolved.content.map((paragraph, idx) => (
-                <p key={idx} className="text-sm md:text-base text-gray-700 leading-relaxed" data-testid={`text-paragraph-${idx}`}>
-                  {paragraph}
-                </p>
-              ))
+              resolved.content.map((paragraph, idx) => {
+                const inlineImgs = (system as any).inlineImages?.filter((img: InlineImage) => img.afterParagraph === idx) || [];
+                const isHtml = /<[a-z][\s\S]*>/i.test(paragraph);
+                return (
+                  <div key={idx}>
+                    {isHtml ? (
+                      <div
+                        className="text-sm md:text-base text-gray-700 leading-relaxed prose prose-sm max-w-none"
+                        dangerouslySetInnerHTML={{ __html: paragraph }}
+                        data-testid={`text-paragraph-${idx}`}
+                      />
+                    ) : (
+                      <p className="text-sm md:text-base text-gray-700 leading-relaxed" data-testid={`text-paragraph-${idx}`}>
+                        {paragraph}
+                      </p>
+                    )}
+                    {inlineImgs.map((img: InlineImage, imgIdx: number) => (
+                      <div key={`img-${idx}-${imgIdx}`} className="my-6 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]"
+                          loading="lazy"
+                          data-testid={`img-inline-${system.id}-${idx}-${imgIdx}`}
+                        />
+                        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">{img.alt}</p>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })
             )}
             {system.id === "cell-structure" && (
               <LocaleLink href="/lectures/cell-anatomy">
