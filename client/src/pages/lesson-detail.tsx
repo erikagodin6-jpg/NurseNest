@@ -528,9 +528,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 data-testid="input-pathophysiology"
               />
             </div>
-            {id && (
-              <LessonImageManager lessonId={id} section="pathophysiology" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="pathophysiology" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="risk-factors" className="space-y-6">
@@ -544,9 +542,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 <ListEditor items={riskFactors} setItems={setRiskFactors} placeholder="Enter risk factor..." />
               </CardContent>
             </Card>
-            {id && (
-              <LessonImageManager lessonId={id} section="risk-factors" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="risk-factors" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="diagnostics" className="space-y-6">
@@ -560,9 +556,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 <ListEditor items={diagnostics} setItems={setDiagnostics} placeholder="Enter diagnostic finding..." />
               </CardContent>
             </Card>
-            {id && (
-              <LessonImageManager lessonId={id} section="diagnostics" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="diagnostics" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="management" className="space-y-6">
@@ -576,9 +570,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 <ListEditor items={management} setItems={setManagement} placeholder="Enter management step..." />
               </CardContent>
             </Card>
-            {id && (
-              <LessonImageManager lessonId={id} section="management" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="management" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="nursing-actions" className="space-y-6">
@@ -592,9 +584,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 <ListEditor items={nursingActions} setItems={setNursingActions} placeholder="Enter nursing action..." />
               </CardContent>
             </Card>
-            {id && (
-              <LessonImageManager lessonId={id} section="nursing-actions" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="nursing-actions" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="assessment-findings" className="space-y-6">
@@ -608,9 +598,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 <ListEditor items={assessmentFindings} setItems={setAssessmentFindings} placeholder="Enter assessment finding..." />
               </CardContent>
             </Card>
-            {id && (
-              <LessonImageManager lessonId={id} section="assessment-findings" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="assessment-findings" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="lifespan" className="space-y-6">
@@ -629,9 +617,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 data-testid="input-lifespan"
               />
             </div>
-            {id && (
-              <LessonImageManager lessonId={id} section="lifespan" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="lifespan" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="clinical-findings" className="space-y-6">
@@ -660,9 +646,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 </CardContent>
               </Card>
             </div>
-            {id && (
-              <LessonImageManager lessonId={id} section="clinical-findings" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="clinical-findings" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="pharmacology" className="space-y-6">
@@ -716,9 +700,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 </Card>
               )}
             </div>
-            {id && (
-              <LessonImageManager lessonId={id} section="pharmacology" isAdmin={true} isEditing={true} />
-            )}
+            <LessonImageManager lessonId={lessonId} section="pharmacology" isAdmin={true} isEditing={true} />
           </section>
 
           <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
