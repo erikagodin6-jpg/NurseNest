@@ -150,6 +150,91 @@ export function MedicalTerminologyModule() {
             <p className="text-xs text-red-600">U (for units — mistaken for 0), QD/QOD (mistaken for each other), trailing zeros (1.0 mg read as 10 mg), MS (morphine sulfate or magnesium sulfate?), IU (mistaken for IV), μg (mistaken for mg)</p>
           </div>
         </div>
+        <div className="mt-3 p-4 bg-indigo-50/60 rounded-xl border border-indigo-100">
+          <p className="text-xs font-semibold text-indigo-700 mb-2">Route & Frequency Abbreviations</p>
+          <div className="grid grid-cols-2 gap-1 text-xs text-indigo-600">
+            <span><strong>PO</strong> = per os (by mouth)</span>
+            <span><strong>SL</strong> = sublingual (under tongue)</span>
+            <span><strong>PR</strong> = per rectum</span>
+            <span><strong>GT</strong> = gastrostomy tube</span>
+            <span><strong>PRN</strong> = as needed</span>
+            <span><strong>AC</strong> = before meals</span>
+            <span><strong>PC</strong> = after meals</span>
+            <span><strong>HS</strong> = at bedtime</span>
+            <span><strong>STAT</strong> = immediately</span>
+            <span><strong>q4h</strong> = every 4 hours</span>
+          </div>
+        </div>
+        <div className="mt-3 p-4 bg-cyan-50/60 rounded-xl border border-cyan-100">
+          <p className="text-xs font-semibold text-cyan-700 mb-2">Assessment & Diagnostic Abbreviations</p>
+          <div className="grid grid-cols-2 gap-1 text-xs text-cyan-600">
+            <span><strong>WBC</strong> = white blood cells</span>
+            <span><strong>RBC</strong> = red blood cells</span>
+            <span><strong>Hgb</strong> = hemoglobin</span>
+            <span><strong>Hct</strong> = hematocrit</span>
+            <span><strong>BUN</strong> = blood urea nitrogen</span>
+            <span><strong>ABG</strong> = arterial blood gas</span>
+            <span><strong>CBC</strong> = complete blood count</span>
+            <span><strong>CMP</strong> = comprehensive metabolic panel</span>
+            <span><strong>PT/INR</strong> = prothrombin time / international normalized ratio</span>
+            <span><strong>ECG/EKG</strong> = electrocardiogram</span>
+          </div>
+        </div>
+      </MicroLesson>
+
+      <MicroLesson title="Clinical Application of Terminology" subtitle="Using medical language in nursing practice" icon={<BookOpen className="w-5 h-5" />}>
+        <EditableModuleText sectionKey="medterm-clinical-application" defaultText="Understanding medical terminology in isolation is not enough. You must be able to apply it in clinical documentation, verbal reports, and patient communication. Clinical application of medical terminology involves translating complex terms for patients, using correct terms in charting, and interpreting orders accurately. When a physician writes an order for a patient with dysphagia to receive a modified diet, you need to immediately understand that the patient has difficulty swallowing and requires food texture modifications to prevent aspiration." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
+        <div className="space-y-3 mt-3">
+          <div className="p-4 bg-violet-50/60 rounded-xl border border-violet-100">
+            <p className="text-xs font-semibold text-violet-700 mb-2">SBAR Communication Using Medical Terms</p>
+            <p className="text-xs text-violet-600">The SBAR framework (Situation, Background, Assessment, Recommendation) requires precise medical terminology. For example: Situation — the patient is experiencing tachycardia with a heart rate of 128 and diaphoresis. Background — the patient has a history of atrial fibrillation and is prescribed metoprolol 25 mg BID. Assessment — the patient may be experiencing breakthrough atrial fibrillation or medication non-adherence. Recommendation — requesting an ECG and cardiac enzyme panel stat. Notice how every medical term carries specific clinical meaning that would be lost with non-medical language.</p>
+          </div>
+          <div className="p-4 bg-orange-50/60 rounded-xl border border-orange-100">
+            <p className="text-xs font-semibold text-orange-700 mb-2">Charting with Precision</p>
+            <p className="text-xs text-orange-600">Documentation in nursing requires exact terminology. Instead of writing that a wound looks bad, a nurse charts that the wound bed demonstrates erythema with serosanguineous drainage and a two-centimeter area of induration at the periwound margin. This language is not just professional — it communicates specific clinical findings that other providers can interpret consistently. Erythema means redness indicating inflammation, serosanguineous describes drainage that is both serous (clear) and bloody, and induration means firmness or hardening of tissue.</p>
+          </div>
+          <div className="p-4 bg-lime-50/60 rounded-xl border border-lime-100">
+            <p className="text-xs font-semibold text-lime-700 mb-2">Patient Education — Translating Terms</p>
+            <p className="text-xs text-lime-600">Nurses bridge the gap between medical terminology and patient understanding. When a patient is told they have peripheral neuropathy, the nurse explains that the nerves in their hands and feet are damaged, which may cause tingling, numbness, or burning sensations. When a patient is diagnosed with cholelithiasis, the nurse explains that they have gallstones. This translation skill requires deep understanding of the medical terms so you can accurately simplify without losing critical meaning.</p>
+          </div>
+        </div>
+      </MicroLesson>
+
+      <MicroLesson title="Directional & Positional Terms" subtitle="Anatomical language for body orientation" icon={<Layers className="w-5 h-5" />}>
+        <EditableModuleText sectionKey="medterm-directional-terms" defaultText="Anatomical directional terms provide a universal language for describing body positions, locations, and movements. These terms are always referenced from the anatomical position: standing upright, facing forward, arms at sides with palms facing forward. Mastery of directional terminology is essential for accurate documentation of assessment findings, wound locations, surgical sites, and patient positioning." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
+        <div className="space-y-3 mt-3">
+          <div className="p-4 bg-sky-50/60 rounded-xl border border-sky-100">
+            <p className="text-xs font-semibold text-sky-700 mb-2">Position Pairs</p>
+            <div className="grid grid-cols-2 gap-1 text-xs text-sky-600">
+              <span><strong>Superior</strong> = above, toward the head</span>
+              <span><strong>Inferior</strong> = below, toward the feet</span>
+              <span><strong>Anterior (ventral)</strong> = front of the body</span>
+              <span><strong>Posterior (dorsal)</strong> = back of the body</span>
+              <span><strong>Medial</strong> = toward the midline</span>
+              <span><strong>Lateral</strong> = away from the midline</span>
+              <span><strong>Proximal</strong> = closer to the trunk</span>
+              <span><strong>Distal</strong> = farther from the trunk</span>
+              <span><strong>Superficial</strong> = near the surface</span>
+              <span><strong>Deep</strong> = farther from the surface</span>
+            </div>
+          </div>
+          <div className="p-4 bg-fuchsia-50/60 rounded-xl border border-fuchsia-100">
+            <p className="text-xs font-semibold text-fuchsia-700 mb-2">Body Planes</p>
+            <div className="grid grid-cols-1 gap-1 text-xs text-fuchsia-600">
+              <span><strong>Sagittal plane</strong> divides the body into left and right halves. A midsagittal cut creates equal halves.</span>
+              <span><strong>Frontal (coronal) plane</strong> divides the body into anterior and posterior sections.</span>
+              <span><strong>Transverse (horizontal) plane</strong> divides the body into superior and inferior sections. CT scans typically produce transverse cross-sections.</span>
+            </div>
+          </div>
+          <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
+            <p className="text-xs font-semibold text-amber-700 mb-2">Body Cavities</p>
+            <p className="text-xs text-amber-600">The dorsal cavity includes the cranial cavity (brain) and the vertebral canal (spinal cord). The ventral cavity is divided by the diaphragm into the thoracic cavity (heart and lungs) and the abdominopelvic cavity. The abdominopelvic cavity is further divided into the abdominal cavity (stomach, liver, intestines, kidneys) and the pelvic cavity (bladder, reproductive organs). Understanding cavity locations helps interpret diagnostic imaging and surgical documentation.</p>
+          </div>
+          <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
+            <p className="text-xs font-semibold text-emerald-700 mb-2">Abdominal Regions</p>
+            <p className="text-xs text-emerald-600">The abdomen is divided into nine regions or four quadrants. The four-quadrant system is most common in clinical practice: right upper quadrant (RUQ) contains the liver and gallbladder, left upper quadrant (LUQ) contains the spleen and stomach, right lower quadrant (RLQ) contains the appendix and cecum, and left lower quadrant (LLQ) contains the sigmoid colon. When documenting abdominal pain, always specify the quadrant — this guides differential diagnosis and further investigation.</p>
+          </div>
+        </div>
       </MicroLesson>
 
       <MatchingExercise
