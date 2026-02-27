@@ -11,7 +11,14 @@ import { storage } from "./storage";
 
 const app = express();
 
+let appReady = false;
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));
+app.use((req, res, next) => {
+  if (!appReady && req.path === "/" && req.method === "GET") {
+    return res.status(200).send("<!DOCTYPE html><html><head><meta http-equiv='refresh' content='2'></head><body>Loading...</body></html>");
+  }
+  next();
+});
 
 app.use(compression());
 
@@ -369,6 +376,8 @@ app.use((req, res, next) => {
     const { setupVite } = await import("./vite");
     await setupVite(httpServer, app);
   }
+
+  appReady = true;
 
   const port = parseInt(process.env.PORT || "5000", 10);
   httpServer.keepAliveTimeout = 65000;
