@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useI18n } from "@/lib/i18n";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -2509,6 +2510,18 @@ export default function Flashcards() {
                   </li>
                 </ul>
               </Card>
+            </div>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-gray-100" data-testid="section-more-study">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">More Ways to Study</p>
+            <div className="flex flex-wrap gap-2">
+              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-lessons">Clinical Lessons</LocaleLink>
+              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-anatomy">Anatomy Explorer</LocaleLink>
+              <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-question-bank">Question Bank</LocaleLink>
+              <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-mock-exams">Mock Exams</LocaleLink>
+              <LocaleLink href="/medication-mastery" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-medication">Medication Mastery</LocaleLink>
+              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-study-med-math">Med Math</LocaleLink>
             </div>
           </div>
         </main>

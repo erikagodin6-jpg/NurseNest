@@ -9,6 +9,7 @@ import { SEO } from "@/components/seo";
 import { buildQuestionPool } from "@/lib/question-pool";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { LocaleLink } from "@/lib/LocaleLink";
 
 export default function QuestionBank() {
   const [tierFilter, setTierFilter] = useState<string>("all");
@@ -252,6 +253,18 @@ export default function QuestionBank() {
               )}
             </>
           ) : null}
+
+          <div className="mt-10 pt-6 border-t border-gray-100" data-testid="section-related-tools">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Related Study Tools</p>
+            <div className="flex flex-wrap gap-2">
+              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-lessons">Clinical Lessons</LocaleLink>
+              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-flashcards">Flashcards</LocaleLink>
+              <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-mock-exams">Mock Exams</LocaleLink>
+              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-anatomy">Anatomy Explorer</LocaleLink>
+              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-med-math">Med Math</LocaleLink>
+              <LocaleLink href="/clinical-clarity" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-clinical-clarity">Clinical Clarity</LocaleLink>
+            </div>
+          </div>
 
           <div className="text-center text-xs text-muted-foreground mt-8 space-y-1">
             <p>NurseNest is an independent educational platform.</p>

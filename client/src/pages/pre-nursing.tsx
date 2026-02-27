@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useI18n } from "@/lib/i18n";
+import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -1474,7 +1475,18 @@ export default function PreNursingPage() {
             )}
           </div>
 
-          <div className="mt-16 text-center">
+          <div className="mt-12 pt-6 border-t border-gray-100" data-testid="section-continue-journey">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Continue Your Journey</p>
+            <div className="flex flex-wrap gap-2">
+              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-anatomy">Anatomy Explorer</LocaleLink>
+              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-lessons">Clinical Lessons</LocaleLink>
+              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-flashcards">Study Flashcards</LocaleLink>
+              <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-questions">Question Bank</LocaleLink>
+              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-med-math">Med Math</LocaleLink>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary/5 rounded-2xl border border-primary/10">
               <Target className="w-5 h-5 text-primary" />
               <span className="text-sm text-gray-700">

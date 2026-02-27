@@ -923,6 +923,17 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
           </div>
         </div>
 
+        <div className="mt-8 pt-6 border-t border-gray-100" data-testid="section-anatomy-related">
+          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Related Resources</p>
+          <div className="flex flex-wrap gap-2">
+            <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lessons">Clinical Lessons</LocaleLink>
+            <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-flashcards">Flashcards</LocaleLink>
+            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-pre-nursing">Pre-Nursing</LocaleLink>
+            <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-questions">Question Bank</LocaleLink>
+            <LocaleLink href="/lectures" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lectures">Video Lectures</LocaleLink>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between mt-8 gap-4">
           {prevSystem ? (
             <LocaleLink href={`/anatomy/${prevSystem.id}`}>
@@ -1078,7 +1089,18 @@ function AnatomyListingPage() {
           })}
         </div>
 
-        <div className="mt-12 text-center" data-testid="section-cta-bottom">
+        <div className="mt-10 pt-6 border-t border-gray-100" data-testid="section-anatomy-list-related">
+          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Explore More</p>
+          <div className="flex flex-wrap gap-2 mb-8">
+            <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-lessons">Clinical Lessons</LocaleLink>
+            <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-flashcards">Flashcards</LocaleLink>
+            <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-question-bank">Question Bank</LocaleLink>
+            <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-mock-exams">Mock Exams</LocaleLink>
+            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-pre-nursing">Pre-Nursing</LocaleLink>
+          </div>
+        </div>
+
+        <div className="mt-4 text-center" data-testid="section-cta-bottom">
           <p className="text-gray-600 mb-4">
             Ready to test your knowledge? Explore our premium study tools.
           </p>
