@@ -17,7 +17,7 @@ export interface ExamQuestion {
 
 export type Difficulty = 1 | 2 | 3;
 export type BloomLevel = "recall" | "understanding" | "application" | "analysis";
-export type BankCourse = "anatomy" | "pre-nursing" | "bls" | "pals" | "acls";
+export type BankCourse = "anatomy" | "pre-nursing" | "bls" | "pals" | "acls" | "rn";
 
 export interface BankQuestion {
   id: string;

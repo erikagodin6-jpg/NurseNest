@@ -976,6 +976,626 @@ const allCards: Flashcard[] = [
     question: "Chain of Command Escalation",
     answer: "Bedside Nurse → Charge Nurse → Nursing Supervisor → Medical Director → Chief of Staff. Nurses are legally obligated to escalate when patient safety is at risk and the initial provider response is inadequate. Using the chain of command is a professional obligation, not insubordination.",
     category: "Delegation"
+  },
+  {
+    id: "resp-1",
+    type: "question",
+    question: "A client with COPD has an oxygen saturation of 88%. Which oxygen delivery device is MOST appropriate?",
+    options: ["Non-rebreather mask at 15 L/min", "Nasal cannula at 2 L/min", "Venturi mask at 60%", "Simple face mask at 10 L/min"],
+    correctIndex: 1,
+    answer: "COPD clients rely on hypoxic drive for breathing. High-flow oxygen suppresses this drive. Target SpO2 88-92% using low-flow nasal cannula (1-3 L/min) to avoid respiratory depression.",
+    category: "Respiratory"
+  },
+  {
+    id: "resp-2",
+    type: "term",
+    question: "Barrel Chest",
+    answer: "An increased anteroposterior (AP) diameter of the chest, characteristic of chronic COPD/emphysema. Caused by air trapping and lung hyperinflation. The AP diameter approaches the lateral diameter (normally AP:lateral is 1:2, in barrel chest approaches 1:1).",
+    category: "Respiratory"
+  },
+  {
+    id: "resp-3",
+    type: "question",
+    question: "A client post-thoracotomy has a chest tube. Continuous bubbling is observed in the water seal chamber. What does this indicate?",
+    options: ["Normal expected finding", "Air leak in the system", "Adequate lung re-expansion", "Need for chest tube removal"],
+    correctIndex: 1,
+    answer: "Continuous bubbling in the water seal chamber indicates an air leak. Check all connections for tightness. If connections are secure, the leak may be at the insertion site or from a bronchopleural fistula. Notify the provider.",
+    category: "Respiratory"
+  },
+  {
+    id: "resp-4",
+    type: "term",
+    question: "Pursed-Lip Breathing",
+    answer: "A technique where the client inhales through the nose and exhales slowly through pursed lips (as if whistling). Creates back-pressure that keeps airways open longer, prevents air trapping, and improves gas exchange. Key intervention for COPD and emphysema patients.",
+    category: "Respiratory"
+  },
+  {
+    id: "resp-5",
+    type: "question",
+    question: "Which ABG values indicate respiratory acidosis?",
+    options: ["pH 7.50, PaCO2 30, HCO3 24", "pH 7.30, PaCO2 55, HCO3 24", "pH 7.30, PaCO2 40, HCO3 18", "pH 7.50, PaCO2 40, HCO3 30"],
+    correctIndex: 1,
+    answer: "Respiratory acidosis: low pH (<7.35) with high PaCO2 (>45). The HCO3 is normal (22-26), indicating uncompensated. Causes include COPD, hypoventilation, airway obstruction, and respiratory depression from opioids.",
+    category: "Respiratory"
+  },
+  {
+    id: "resp-6",
+    type: "question",
+    question: "A nurse auscultates high-pitched wheezing on expiration in a client with asthma. What does this indicate?",
+    options: ["Fluid in the alveoli", "Bronchospasm and airway narrowing", "Pleural friction rub", "Upper airway obstruction"],
+    correctIndex: 1,
+    answer: "Expiratory wheezing indicates bronchospasm and narrowed airways, characteristic of asthma. Administer bronchodilator (albuterol) as ordered. Absence of wheezing in a distressed asthma patient may indicate severe obstruction (silent chest).",
+    category: "Respiratory"
+  },
+  {
+    id: "resp-7",
+    type: "term",
+    question: "Incentive Spirometry",
+    answer: "A device used to encourage deep breathing and prevent atelectasis, especially post-operatively. The client inhales slowly through the mouthpiece, aiming to raise the indicator to the target volume, then holds the breath for 3-5 seconds. Perform 10 times per hour while awake.",
+    category: "Respiratory"
+  },
+  {
+    id: "resp-8",
+    type: "question",
+    question: "A client with a pulmonary embolism suddenly becomes dyspneic and hypotensive. The priority nursing action is:",
+    options: ["Elevate the head of bed and administer oxygen", "Place in left lateral position and prepare heparin", "Position in high Fowler's, administer O2, notify provider STAT", "Encourage coughing and deep breathing"],
+    correctIndex: 2,
+    answer: "PE is a medical emergency. Position in high Fowler's to maximize lung expansion, administer high-flow oxygen, obtain IV access, and notify the provider STAT. Anticipate anticoagulation (heparin) or thrombolytics for massive PE.",
+    category: "Respiratory"
+  },
+  {
+    id: "neuro-1",
+    type: "question",
+    question: "A client presents with sudden unilateral facial drooping, arm weakness, and slurred speech. The nurse should FIRST:",
+    options: ["Administer aspirin 325 mg", "Obtain a CT scan of the head", "Note the time of symptom onset", "Start an IV of normal saline"],
+    correctIndex: 2,
+    answer: "Time of symptom onset (or 'last known well' time) is critical for determining tPA eligibility (within 3-4.5 hours). This must be established FIRST before any intervention. Use the FAST assessment: Face, Arms, Speech, Time.",
+    category: "Neurological"
+  },
+  {
+    id: "neuro-2",
+    type: "term",
+    question: "Cushing's Triad",
+    answer: "Three ominous signs of increased intracranial pressure (ICP): 1) Hypertension (widening pulse pressure), 2) Bradycardia, 3) Irregular respirations. This is a late sign indicating brainstem herniation is imminent. Requires immediate intervention to reduce ICP.",
+    category: "Neurological"
+  },
+  {
+    id: "neuro-3",
+    type: "question",
+    question: "A client with a spinal cord injury at C4 is at HIGHEST risk for which complication?",
+    options: ["Urinary retention", "Autonomic dysreflexia", "Respiratory failure requiring mechanical ventilation", "Paralytic ileus"],
+    correctIndex: 2,
+    answer: "Injuries at C4 and above affect the phrenic nerve (C3-C5), which innervates the diaphragm. Without diaphragm function, the client cannot breathe independently and requires mechanical ventilation. Remember: 'C3, 4, 5 keep the diaphragm alive.'",
+    category: "Neurological"
+  },
+  {
+    id: "neuro-4",
+    type: "term",
+    question: "Decorticate vs Decerebrate Posturing",
+    answer: "DECORTICATE (flexion): Arms flexed, fists clenched, legs extended. Indicates damage above the brainstem (cortical). Think 'COR' = toward the CORE. DECEREBRATE (extension): Arms extended, internally rotated, legs extended. Indicates brainstem damage. Decerebrate is worse than decorticate.",
+    category: "Neurological"
+  },
+  {
+    id: "neuro-5",
+    type: "question",
+    question: "A client is experiencing a tonic-clonic seizure. What is the priority nursing action?",
+    options: ["Insert a padded tongue blade", "Restrain the client to prevent injury", "Turn the client to the side and protect the head", "Administer oral diazepam immediately"],
+    correctIndex: 2,
+    answer: "During a seizure: ensure safety by turning to the side (lateral position) to prevent aspiration, protect the head, remove nearby hazards, note the time. NEVER insert anything into the mouth or restrain the client. Time the seizure duration.",
+    category: "Neurological"
+  },
+  {
+    id: "neuro-6",
+    type: "term",
+    question: "Glasgow Coma Scale (GCS)",
+    answer: "A neurological assessment tool scoring Eye opening (1-4), Verbal response (1-5), and Motor response (1-6). Total range: 3-15. Score ≤8 = severe brain injury (coma, intubation needed). Score 9-12 = moderate. Score 13-15 = mild. Best response is used for scoring.",
+    category: "Neurological"
+  },
+  {
+    id: "neuro-7",
+    type: "question",
+    question: "Which cranial nerve is assessed by asking the client to shrug their shoulders against resistance?",
+    options: ["CN VII (Facial)", "CN X (Vagus)", "CN XI (Accessory)", "CN XII (Hypoglossal)"],
+    correctIndex: 2,
+    answer: "CN XI (Spinal Accessory) innervates the trapezius and sternocleidomastoid muscles. Test by asking the client to shrug shoulders against resistance and turn head against resistance. Weakness may indicate neck surgery damage.",
+    category: "Neurological"
+  },
+  {
+    id: "endo-1",
+    type: "question",
+    question: "A client with DKA presents with Kussmaul respirations. This breathing pattern is the body's attempt to:",
+    options: ["Increase oxygen delivery to tissues", "Compensate for metabolic acidosis by blowing off CO2", "Reduce intracranial pressure", "Increase bicarbonate production"],
+    correctIndex: 1,
+    answer: "Kussmaul respirations (deep, rapid breathing) are a compensatory mechanism in metabolic acidosis (DKA). By increasing respiratory rate and depth, the body exhales more CO2, which raises blood pH toward normal.",
+    category: "Endocrine"
+  },
+  {
+    id: "endo-2",
+    type: "term",
+    question: "Somogyi Effect vs Dawn Phenomenon",
+    answer: "SOMOGYI: Nighttime hypoglycemia triggers counter-regulatory hormones, causing rebound hyperglycemia in the morning. Fix: decrease evening insulin or add bedtime snack. DAWN: Normal early-morning surge of growth hormone and cortisol causes hyperglycemia. Fix: increase insulin or adjust timing.",
+    category: "Endocrine"
+  },
+  {
+    id: "endo-3",
+    type: "question",
+    question: "A client post-thyroidectomy reports tingling around the mouth and fingertips. The nurse should FIRST:",
+    options: ["Administer calcium gluconate IV", "Check serum calcium level and notify the surgeon", "Position the client supine", "Apply warm compresses to the neck"],
+    correctIndex: 1,
+    answer: "Tingling (paresthesia) around the mouth and extremities post-thyroidectomy suggests hypocalcemia from accidental parathyroid removal. Check calcium level immediately and notify the surgeon. Positive Chvostek's and Trousseau's signs confirm hypocalcemia.",
+    category: "Endocrine"
+  },
+  {
+    id: "endo-4",
+    type: "term",
+    question: "Chvostek's Sign vs Trousseau's Sign",
+    answer: "Both indicate hypocalcemia. CHVOSTEK'S: Tapping the facial nerve (anterior to the ear) causes ipsilateral facial muscle twitching. TROUSSEAU'S: Inflating a BP cuff above systolic pressure for 3 minutes causes carpal spasm (hand and wrist flexion). Trousseau's is more specific for hypocalcemia.",
+    category: "Endocrine"
+  },
+  {
+    id: "endo-5",
+    type: "question",
+    question: "A client with Addison's disease is admitted with a crisis. Which finding does the nurse expect?",
+    options: ["Hypertension and hyperglycemia", "Hypotension, hyperkalemia, and hypoglycemia", "Hypertension and hypokalemia", "Weight gain and edema"],
+    correctIndex: 1,
+    answer: "Addisonian crisis: adrenal insufficiency causes decreased cortisol and aldosterone. This leads to severe hypotension (lack of cortisol), hyperkalemia (lack of aldosterone → sodium wasted, potassium retained), and hypoglycemia. Treatment: IV hydrocortisone and fluids.",
+    category: "Endocrine"
+  },
+  {
+    id: "endo-6",
+    type: "term",
+    question: "Insulin Types and Onset",
+    answer: "RAPID-ACTING (lispro/aspart): onset 15 min, peak 1-2 hr, given with meals. SHORT-ACTING (regular): onset 30-60 min, peak 2-4 hr, only insulin given IV. INTERMEDIATE (NPH): onset 1-2 hr, peak 4-12 hr, cloudy appearance. LONG-ACTING (glargine/detemir): onset 1-2 hr, no peak, 24 hr duration, NEVER mix.",
+    category: "Endocrine"
+  },
+  {
+    id: "pharm-1",
+    type: "question",
+    question: "A client on warfarin has an INR of 5.2 with no active bleeding. The nurse should anticipate:",
+    options: ["Administering protamine sulfate", "Holding warfarin and monitoring", "Administering vitamin K and holding warfarin", "Continuing the current dose"],
+    correctIndex: 2,
+    answer: "INR >4 without bleeding: hold warfarin and administer low-dose oral vitamin K. Therapeutic INR is 2-3 (2.5-3.5 for mechanical valves). INR >5 = high bleeding risk. Protamine sulfate reverses heparin, not warfarin.",
+    category: "Pharmacology"
+  },
+  {
+    id: "pharm-2",
+    type: "term",
+    question: "Antidotes for Common Drug Toxicities",
+    answer: "Heparin → Protamine sulfate. Warfarin → Vitamin K (phytonadione). Benzodiazepines → Flumazenil (Romazicon). Opioids → Naloxone (Narcan). Acetaminophen → N-acetylcysteine (Mucomyst). Digoxin → Digoxin immune Fab (Digibind). Magnesium sulfate → Calcium gluconate.",
+    category: "Pharmacology"
+  },
+  {
+    id: "pharm-3",
+    type: "question",
+    question: "A client is prescribed metoprolol (Lopressor). Before administering, the nurse should check:",
+    options: ["Blood glucose level", "Heart rate and blood pressure", "Serum potassium", "Respiratory rate"],
+    correctIndex: 1,
+    answer: "Metoprolol is a beta-blocker. Hold and notify provider if HR <60 bpm or SBP <100 mmHg. Beta-blockers decrease heart rate and blood pressure. Remember: drugs ending in '-olol' are beta-blockers.",
+    category: "Pharmacology"
+  },
+  {
+    id: "pharm-4",
+    type: "term",
+    question: "Drugs That Require Trough Levels",
+    answer: "Trough levels are drawn JUST BEFORE the next dose (at the drug's lowest concentration). Common drugs requiring trough monitoring: Vancomycin (15-20 mcg/mL), Gentamicin (traditional: <2 mcg/mL), Phenytoin (10-20 mcg/mL), Lithium (0.6-1.2 mEq/L), Digoxin (0.5-2.0 ng/mL).",
+    category: "Pharmacology"
+  },
+  {
+    id: "pharm-5",
+    type: "question",
+    question: "Which medication should a nurse question if prescribed to a client with a potassium level of 5.8 mEq/L?",
+    options: ["Furosemide (Lasix)", "Spironolactone (Aldactone)", "Hydrochlorothiazide (HCTZ)", "Mannitol"],
+    correctIndex: 1,
+    answer: "Spironolactone is a potassium-SPARING diuretic. With K+ of 5.8 (hyperkalemia), giving a potassium-sparing drug is dangerous and could cause fatal cardiac arrhythmias. Question the order. Furosemide and HCTZ both waste potassium.",
+    category: "Pharmacology"
+  },
+  {
+    id: "pharm-6",
+    type: "question",
+    question: "A client receiving gentamicin complains of tinnitus and dizziness. The nurse should:",
+    options: ["Continue the medication and reassure the client", "Hold the medication and notify the provider immediately", "Administer diphenhydramine for the dizziness", "Increase the infusion rate"],
+    correctIndex: 1,
+    answer: "Tinnitus and dizziness are signs of ototoxicity, a serious adverse effect of aminoglycosides (gentamicin, tobramycin). Hold the medication immediately and notify the provider. Aminoglycosides are also nephrotoxic — monitor BUN and creatinine.",
+    category: "Pharmacology"
+  },
+  {
+    id: "mh-1",
+    type: "question",
+    question: "A client taking lithium presents with coarse tremors, vomiting, and confusion. The lithium level is 2.5 mEq/L. The nurse should FIRST:",
+    options: ["Give the next scheduled dose", "Hold the lithium and notify the provider STAT", "Administer activated charcoal", "Encourage oral fluid intake"],
+    correctIndex: 1,
+    answer: "Lithium level >1.5 mEq/L is toxic (therapeutic: 0.6-1.2 mEq/L). Signs include coarse tremors, vomiting, diarrhea, confusion, and seizures. Hold the drug, maintain hydration (IV NS), and anticipate hemodialysis for severe toxicity. Lithium has a narrow therapeutic index.",
+    category: "Mental Health"
+  },
+  {
+    id: "mh-2",
+    type: "term",
+    question: "Neuroleptic Malignant Syndrome (NMS)",
+    answer: "A life-threatening reaction to antipsychotic medications characterized by: high Fever (>104°F), severe muscle Rigidity (lead-pipe), Altered mental status, and autonomic instability (tachycardia, diaphoresis, labile BP). Treatment: stop the antipsychotic, IV dantrolene, bromocriptine. Mortality: 10-20%.",
+    category: "Mental Health"
+  },
+  {
+    id: "mh-3",
+    type: "question",
+    question: "A suicidal client suddenly appears calm and gives away personal belongings. The nurse should:",
+    options: ["Consider this improvement and lower the observation level", "Recognize this as increased suicide risk and increase monitoring", "Discharge the client as they seem better", "Document the improved mood"],
+    correctIndex: 1,
+    answer: "A sudden mood improvement in a suicidal client is a RED FLAG — it may indicate the client has made a plan and feels at peace with their decision. This requires INCREASED observation (1:1 monitoring), not decreased. Never lower vigilance based on sudden calmness alone.",
+    category: "Mental Health"
+  },
+  {
+    id: "mh-4",
+    type: "term",
+    question: "Therapeutic Communication Techniques",
+    answer: "EFFECTIVE: Open-ended questions, reflection, restating, silence, focusing, summarizing, offering self. NONTHERAPEUTIC: Giving advice, false reassurance, changing the subject, asking 'why,' belittling feelings, approval/disapproval. The goal is to help the client explore feelings, not to solve their problems.",
+    category: "Mental Health"
+  },
+  {
+    id: "mh-5",
+    type: "question",
+    question: "Which medication requires monitoring for agranulocytosis with weekly blood draws?",
+    options: ["Haloperidol (Haldol)", "Clozapine (Clozaril)", "Risperidone (Risperdal)", "Olanzapine (Zyprexa)"],
+    correctIndex: 1,
+    answer: "Clozapine carries a 1-2% risk of agranulocytosis (dangerously low WBC/ANC). Mandatory monitoring: weekly CBC for first 6 months, then biweekly. If ANC <1500, discontinue immediately. Clozapine is reserved for treatment-resistant schizophrenia.",
+    category: "Mental Health"
+  },
+  {
+    id: "mat-1",
+    type: "question",
+    question: "A laboring client's fetal heart rate tracing shows late decelerations. The nurse should FIRST:",
+    options: ["Prepare for cesarean section", "Turn the client to the left lateral position", "Administer oxytocin to speed delivery", "Apply internal fetal scalp electrode"],
+    correctIndex: 1,
+    answer: "Late decelerations indicate uteroplacental insufficiency (decreased oxygen to fetus). Immediate interventions: turn to left lateral position (improves uterine blood flow), administer oxygen, increase IV fluids, STOP oxytocin if infusing, and notify provider.",
+    category: "Maternity"
+  },
+  {
+    id: "mat-2",
+    type: "term",
+    question: "APGAR Scoring",
+    answer: "Assessed at 1 and 5 minutes after birth. Each category scored 0-2: Appearance (color), Pulse (heart rate), Grimace (reflex irritability), Activity (muscle tone), Respiration (respiratory effort). Score 7-10 = normal. Score 4-6 = moderately depressed, needs stimulation. Score 0-3 = severely depressed, needs resuscitation.",
+    category: "Maternity"
+  },
+  {
+    id: "mat-3",
+    type: "question",
+    question: "A client at 32 weeks gestation presents with painless, bright red vaginal bleeding. The nurse suspects:",
+    options: ["Placental abruption", "Placenta previa", "Bloody show", "Uterine rupture"],
+    correctIndex: 1,
+    answer: "Placenta previa = painless, bright red bleeding (placenta covers cervical os). Placental abruption = painful, dark red bleeding with rigid abdomen. Key: NEVER perform a vaginal exam with suspected placenta previa as it can cause massive hemorrhage.",
+    category: "Maternity"
+  },
+  {
+    id: "mat-4",
+    type: "term",
+    question: "Preeclampsia Warning Signs",
+    answer: "BP ≥140/90 after 20 weeks with proteinuria. Warning signs of progression to eclampsia: severe headache (frontal/occipital), visual disturbances (blurred vision, scotomata), epigastric/RUQ pain (hepatic distension), hyperreflexia with clonus. Treatment: magnesium sulfate (seizure prevention), antihypertensives.",
+    category: "Maternity"
+  },
+  {
+    id: "mat-5",
+    type: "question",
+    question: "During magnesium sulfate infusion for preeclampsia, the nurse assesses respirations at 10/min, absent DTRs, and urine output of 20 mL/hr. The nurse should:",
+    options: ["Continue the infusion and monitor", "Stop the infusion and administer calcium gluconate", "Increase the infusion rate", "Administer naloxone"],
+    correctIndex: 1,
+    answer: "Signs of magnesium toxicity: respiratory depression (<12/min), absent deep tendon reflexes, decreased urine output (<30 mL/hr), cardiac arrest. STOP the infusion immediately and administer the antidote: calcium gluconate 10% IV push.",
+    category: "Maternity"
+  },
+  {
+    id: "renal-1",
+    type: "question",
+    question: "A client with AKI has a potassium level of 6.5 mEq/L. Which ECG change is expected?",
+    options: ["Flattened T waves", "Prolonged QT interval", "Tall, peaked T waves", "ST elevation"],
+    correctIndex: 2,
+    answer: "Hyperkalemia (>5.0 mEq/L) causes tall, peaked T waves on ECG. Progression: peaked T waves → widened QRS → absent P waves → sine wave pattern → ventricular fibrillation. Emergency treatment: IV calcium gluconate (cardiac protection), insulin + glucose, kayexalate, dialysis.",
+    category: "Renal"
+  },
+  {
+    id: "renal-2",
+    type: "term",
+    question: "AV Fistula vs AV Graft",
+    answer: "AV FISTULA: Surgically connects artery to vein (preferred for hemodialysis). Matures in 2-4 months. Feel for thrill (vibration), listen for bruit (whooshing). NEVER take BP, draw blood, or start IVs in that arm. AV GRAFT: Synthetic tube connecting artery to vein. Matures in 2-4 weeks but has higher infection/clotting risk.",
+    category: "Renal"
+  },
+  {
+    id: "renal-3",
+    type: "question",
+    question: "A client on hemodialysis complains of muscle cramps and hypotension during treatment. The nurse should:",
+    options: ["Increase the dialysis flow rate", "Administer normal saline bolus and reduce ultrafiltration rate", "Position the client in Trendelenburg permanently", "Discontinue dialysis immediately"],
+    correctIndex: 1,
+    answer: "Muscle cramps and hypotension during dialysis are caused by rapid fluid removal. Administer NS bolus (100-250 mL), reduce the ultrafiltration rate, and position the client supine. These are common intradialytic complications.",
+    category: "Renal"
+  },
+  {
+    id: "renal-4",
+    type: "term",
+    question: "Stages of Chronic Kidney Disease",
+    answer: "Stage 1: GFR ≥90 (normal function, kidney damage present). Stage 2: GFR 60-89 (mild decrease). Stage 3a: GFR 45-59. Stage 3b: GFR 30-44. Stage 4: GFR 15-29 (severe, prepare for dialysis/transplant). Stage 5: GFR <15 (end-stage, dialysis or transplant required). Monitor with serum creatinine and GFR.",
+    category: "Renal"
+  },
+  {
+    id: "ic-1",
+    type: "question",
+    question: "A client is admitted with suspected tuberculosis. Which type of isolation precautions should the nurse implement?",
+    options: ["Contact precautions", "Droplet precautions", "Airborne precautions with N95 respirator", "Standard precautions only"],
+    correctIndex: 2,
+    answer: "TB requires AIRBORNE precautions: private negative-pressure room, N95 respirator (or PAPR) for staff, surgical mask on patient during transport. TB particles remain suspended in air for hours. Standard surgical masks do NOT protect against airborne pathogens.",
+    category: "Infection Control"
+  },
+  {
+    id: "ic-2",
+    type: "term",
+    question: "Standard vs Transmission-Based Precautions",
+    answer: "STANDARD: Applied to ALL patients regardless of diagnosis. Includes hand hygiene, PPE as needed, sharps disposal, respiratory hygiene. TRANSMISSION-BASED (added to standard): Contact (gown + gloves — MRSA, C. diff), Droplet (surgical mask — influenza, meningitis), Airborne (N95 + negative pressure — TB, measles, varicella).",
+    category: "Infection Control"
+  },
+  {
+    id: "ic-3",
+    type: "question",
+    question: "A nurse sustains a needlestick injury from a patient with unknown HIV status. The FIRST action is to:",
+    options: ["Report to the supervisor immediately", "Wash the site thoroughly with soap and water", "Apply a bandage and continue working", "Start prophylactic antibiotics"],
+    correctIndex: 1,
+    answer: "FIRST: Wash the wound immediately with soap and water (do not squeeze). THEN report to the supervisor and occupational health. Baseline testing and post-exposure prophylaxis (PEP) should begin within 1-2 hours if indicated. Document the incident.",
+    category: "Infection Control"
+  },
+  {
+    id: "ic-4",
+    type: "term",
+    question: "C. difficile Infection Control",
+    answer: "C. difficile forms SPORES that are resistant to alcohol-based hand sanitizers. Requires: SOAP AND WATER hand hygiene (mandatory), contact precautions (gown + gloves), dedicated equipment, bleach-based environmental cleaning. Triggered by antibiotic use (disrupts normal flora). Key symptom: watery, foul-smelling diarrhea.",
+    category: "Infection Control"
+  },
+  {
+    id: "gi-1",
+    type: "question",
+    question: "A client with cirrhosis develops hepatic encephalopathy. Which medication does the nurse expect to administer?",
+    options: ["Furosemide (Lasix)", "Lactulose", "Metoclopramide (Reglan)", "Pantoprazole (Protonix)"],
+    correctIndex: 1,
+    answer: "Lactulose traps ammonia in the gut and promotes its excretion through stool. Hepatic encephalopathy is caused by elevated ammonia (liver can't convert it to urea). Goal: 2-3 soft stools/day. Monitor for dehydration and hypokalemia.",
+    category: "Gastrointestinal"
+  },
+  {
+    id: "gi-2",
+    type: "term",
+    question: "Upper vs Lower GI Bleed",
+    answer: "UPPER GI (above ligament of Treitz): hematemesis (vomiting blood), coffee-ground emesis, melena (black tarry stool). Sources: esophageal varices, peptic ulcer, Mallory-Weiss tear. LOWER GI: hematochezia (bright red blood per rectum). Sources: diverticulosis, hemorrhoids, colorectal cancer, IBD.",
+    category: "Gastrointestinal"
+  },
+  {
+    id: "gi-3",
+    type: "question",
+    question: "A client with a nasogastric tube has 800 mL of green drainage over 8 hours. Which electrolyte imbalance is the nurse most concerned about?",
+    options: ["Hyperkalemia", "Metabolic alkalosis from HCl loss", "Respiratory acidosis", "Hypernatremia"],
+    correctIndex: 1,
+    answer: "NG tube suctioning removes hydrochloric acid (HCl) from the stomach, leading to metabolic alkalosis (loss of H+ and Cl-). Also leads to hypokalemia and hyponatremia. Monitor electrolytes and replace losses as ordered.",
+    category: "Gastrointestinal"
+  },
+  {
+    id: "gi-4",
+    type: "term",
+    question: "Pancreatitis Assessment",
+    answer: "Acute pancreatitis signs: severe epigastric pain radiating to the back, worse after eating. Elevated amylase and lipase (lipase more specific). Grey Turner's sign (flank bruising) and Cullen's sign (periumbilical bruising) indicate hemorrhagic pancreatitis. Treatment: NPO, IV fluids, pain management, NG tube if vomiting.",
+    category: "Gastrointestinal"
+  },
+  {
+    id: "gi-5",
+    type: "question",
+    question: "A client with Crohn's disease is at HIGHEST risk for which nutritional deficiency?",
+    options: ["Vitamin C", "Vitamin B12 and folic acid", "Vitamin A", "Vitamin E"],
+    correctIndex: 1,
+    answer: "Crohn's disease commonly affects the terminal ileum, where vitamin B12 and bile salts are absorbed. Chronic inflammation leads to malabsorption of B12, folic acid, fat-soluble vitamins, and iron. Monitor for anemia and supplementation needs.",
+    category: "Gastrointestinal"
+  },
+  {
+    id: "fe-1",
+    type: "question",
+    question: "A client with hyponatremia (Na+ 118 mEq/L) receives 3% hypertonic saline. The nurse should monitor for:",
+    options: ["Hyperkalemia", "Osmotic demyelination syndrome from too-rapid correction", "Metabolic acidosis", "Pulmonary embolism"],
+    correctIndex: 1,
+    answer: "Sodium must be corrected slowly (no more than 8-12 mEq/L in 24 hours). Too-rapid correction risks osmotic demyelination syndrome (central pontine myelinolysis), causing irreversible brain damage. Monitor sodium levels every 2-4 hours during infusion.",
+    category: "Fluid & Electrolytes"
+  },
+  {
+    id: "fe-2",
+    type: "term",
+    question: "Isotonic vs Hypotonic vs Hypertonic IV Solutions",
+    answer: "ISOTONIC (0.9% NS, LR): Same osmolality as blood. Expands intravascular volume. Used for dehydration, blood loss. HYPOTONIC (0.45% NS): Lower osmolality. Fluid shifts INTO cells. Used for cellular dehydration (DKA after initial NS). HYPERTONIC (3% NS, D10W): Higher osmolality. Pulls fluid OUT of cells. Used for hyponatremia, cerebral edema.",
+    category: "Fluid & Electrolytes"
+  },
+  {
+    id: "fe-3",
+    type: "question",
+    question: "A client with metabolic acidosis has a pH of 7.28, PaCO2 of 28, and HCO3 of 16. What is the respiratory compensation?",
+    options: ["The lungs are not compensating", "Hyperventilation to blow off CO2 (Kussmaul's)", "Hypoventilation to retain CO2", "Increased bicarbonate production"],
+    correctIndex: 1,
+    answer: "In metabolic acidosis (low pH, low HCO3), the respiratory system compensates by increasing rate and depth (Kussmaul's respirations) to blow off CO2 (an acid). The low PaCO2 of 28 confirms partial respiratory compensation. This is seen in DKA, renal failure, and lactic acidosis.",
+    category: "Fluid & Electrolytes"
+  },
+  {
+    id: "fe-4",
+    type: "term",
+    question: "Signs of Fluid Volume Overload",
+    answer: "Bounding pulse, elevated BP, JVD, crackles/rales in lungs, peripheral edema, weight gain (1 kg = 1 L fluid), dyspnea, orthopnea, decreased hematocrit (dilutional). Causes: IV fluid overload, heart failure, renal failure, SIADH. Treatment: restrict fluids and sodium, diuretics, elevate HOB.",
+    category: "Fluid & Electrolytes"
+  },
+  {
+    id: "peds-1",
+    type: "question",
+    question: "A child with epiglottitis presents with drooling, high fever, and tripod positioning. Which action should the nurse AVOID?",
+    options: ["Maintaining the child in an upright position", "Keeping emergency intubation equipment at bedside", "Inspecting the throat with a tongue depressor", "Administering humidified oxygen"],
+    correctIndex: 2,
+    answer: "NEVER examine the throat of a child with suspected epiglottitis (using a tongue depressor or throat culture). This can trigger complete airway obstruction and laryngospasm. Keep the child calm, upright, and have intubation equipment ready. The classic '4 Ds': Drooling, Dysphagia, Dysphonia, Distress.",
+    category: "Pediatrics"
+  },
+  {
+    id: "peds-2",
+    type: "term",
+    question: "Pediatric Dehydration Assessment",
+    answer: "MILD (3-5%): Slightly dry mucous membranes, mildly decreased urine output. MODERATE (6-9%): Sunken fontanelle (infants), absent tears, tachycardia, decreased skin turgor (tenting). SEVERE (≥10%): Lethargy, sunken eyes, very rapid pulse, mottled skin, capillary refill >3 sec, minimal/no urine output. Weight is the most accurate dehydration measure.",
+    category: "Pediatrics"
+  },
+  {
+    id: "peds-3",
+    type: "question",
+    question: "At what age should a nurse expect a child to achieve the milestone of walking independently?",
+    options: ["6 months", "9 months", "12-15 months", "18-24 months"],
+    correctIndex: 2,
+    answer: "Developmental milestones: 2 mo = social smile, 4 mo = rolls over, 6 mo = sits with support, 9 mo = crawls/pulls to stand, 12-15 mo = walks independently, 2 yr = runs/kicks ball, 3 yr = rides tricycle. Report significant delays.",
+    category: "Pediatrics"
+  },
+  {
+    id: "peds-4",
+    type: "term",
+    question: "Tetralogy of Fallot (TOF)",
+    answer: "Four defects: 1) Ventricular Septal Defect, 2) Right ventricular hypertrophy, 3) Overriding aorta, 4) Pulmonary stenosis. Results in cyanotic heart disease. Hypercyanotic ('tet') spells treated by placing child in knee-chest position (increases systemic vascular resistance, forces blood through lungs). Most common cyanotic heart defect.",
+    category: "Pediatrics"
+  },
+  {
+    id: "peds-5",
+    type: "question",
+    question: "A child presents with a characteristic barking, seal-like cough. The nurse suspects:",
+    options: ["Epiglottitis", "Croup (laryngotracheobronchitis)", "Bronchiolitis", "Asthma exacerbation"],
+    correctIndex: 1,
+    answer: "Croup presents with a barking (seal-like) cough, inspiratory stridor, hoarseness, and low-grade fever. Caused by parainfluenza virus. Treatment: cool mist humidifier, racemic epinephrine for moderate-severe cases, dexamethasone. Steeple sign on X-ray.",
+    category: "Pediatrics"
+  },
+  {
+    id: "wound-1",
+    type: "question",
+    question: "A stage 3 pressure injury shows full-thickness skin loss with visible adipose tissue. Which dressing is MOST appropriate?",
+    options: ["Transparent film dressing", "Hydrocolloid dressing", "Foam dressing with wound filler for dead space", "Dry gauze dressing"],
+    correctIndex: 2,
+    answer: "Stage 3 pressure injuries with depth and dead space require moist wound healing with a dressing that manages exudate and fills dead space (alginate or hydrogel filler covered by foam). Dry gauze impedes healing. Transparent films are for superficial wounds only.",
+    category: "Wound Care"
+  },
+  {
+    id: "wound-2",
+    type: "term",
+    question: "Braden Scale",
+    answer: "Assesses pressure injury risk across 6 domains: Sensory perception, Moisture, Activity, Mobility, Nutrition, Friction/Shear. Each scored 1-4 (friction/shear 1-3). Total: 6-23. Score ≤18 = at risk. Score ≤12 = high risk. Lower score = higher risk. Reposition every 2 hours, use pressure-redistribution surfaces.",
+    category: "Wound Care"
+  },
+  {
+    id: "wound-3",
+    type: "question",
+    question: "A wound has yellow, stringy tissue in the wound bed. This tissue is called:",
+    options: ["Granulation tissue", "Epithelial tissue", "Slough", "Eschar"],
+    correctIndex: 2,
+    answer: "Slough is yellow, tan, or gray moist tissue that must be debrided for wound healing. Granulation tissue is healthy (beefy red, bumpy). Eschar is black/brown dry necrotic tissue. Epithelial tissue is new pink skin at wound edges.",
+    category: "Wound Care"
+  },
+  {
+    id: "safety-1",
+    type: "question",
+    question: "A nurse suspects a client is a victim of intimate partner violence. Which approach is MOST appropriate?",
+    options: ["Ask the client in front of the partner", "Interview the client privately using non-judgmental questions", "Confront the partner about the suspicion", "Wait for the client to disclose voluntarily"],
+    correctIndex: 1,
+    answer: "Interview the client ALONE in a private, safe environment using non-judgmental, open-ended questions. Ask directly: 'Do you feel safe at home?' Never interview with the suspected abuser present. Document findings objectively using client's own words and body map.",
+    category: "Safety & Ethics"
+  },
+  {
+    id: "safety-2",
+    type: "term",
+    question: "HIPAA/PHIPA Key Principles",
+    answer: "Protected Health Information (PHI) can only be shared with: the client, those involved in client's care (need-to-know basis), and as required by law (abuse reporting, communicable diseases). Violations include: discussing clients in public areas, leaving charts unattended, sharing PHI on social media, unauthorized access to records.",
+    category: "Safety & Ethics"
+  },
+  {
+    id: "safety-3",
+    type: "question",
+    question: "Informed consent requires which of the following elements?",
+    options: ["Only the client's signature on the form", "Explanation of procedure, risks, benefits, alternatives, and right to refuse", "Verbal agreement witnessed by a family member", "Written consent from the next of kin"],
+    correctIndex: 1,
+    answer: "Informed consent requires: explanation of the procedure, expected risks and benefits, alternatives, right to refuse, and the opportunity to ask questions. The PROVIDER obtains consent; the nurse WITNESSES the signature and ensures client understanding.",
+    category: "Safety & Ethics"
+  },
+  {
+    id: "safety-4",
+    type: "term",
+    question: "Restraint Use Guidelines",
+    answer: "Restraints are a LAST RESORT after all alternatives fail. Require a provider order (renewed every 24 hours for non-violent, every 4 hours for violent/self-destructive). Check circulation/sensation every 2 hours, release every 2 hours for ROM, offer toileting/nutrition. Document behavior necessitating restraint. Knots must be quick-release.",
+    category: "Safety & Ethics"
+  },
+  {
+    id: "onc-1",
+    type: "question",
+    question: "A client receiving chemotherapy has a nadir ANC of 200 cells/mm³. Which precaution is HIGHEST priority?",
+    options: ["Limiting visitors and avoiding fresh flowers/fruit", "Administering aspirin for headache", "Performing a rectal temperature", "Encouraging a high-fiber raw vegetable diet"],
+    correctIndex: 0,
+    answer: "ANC <500 = severe neutropenia. Implement neutropenic precautions: no fresh flowers/fruit/plants (harbor bacteria and molds), limit visitors, strict hand hygiene, no rectal procedures, cooked foods only, private room, mask for patient leaving room.",
+    category: "Oncology"
+  },
+  {
+    id: "onc-2",
+    type: "term",
+    question: "Tumor Lysis Syndrome (TLS)",
+    answer: "Rapid destruction of cancer cells (often after chemo initiation) releases intracellular contents: hyperkalemia, hyperphosphatemia, hyperuricemia, hypocalcemia. Can cause fatal cardiac arrhythmias and acute kidney injury. Prevention: aggressive IV hydration, allopurinol or rasburicase before treatment. Monitor labs q6-8h.",
+    category: "Oncology"
+  },
+  {
+    id: "onc-3",
+    type: "question",
+    question: "A client receiving cisplatin chemotherapy. Which nursing intervention is ESSENTIAL to prevent nephrotoxicity?",
+    options: ["Restrict fluid intake", "Administer aggressive IV hydration before and after treatment", "Hold the antiemetic to reduce medication load", "Give cisplatin via rapid IV push"],
+    correctIndex: 1,
+    answer: "Cisplatin is highly nephrotoxic. Aggressive IV hydration (1-2 L before and after) is essential to maintain renal perfusion and flush the drug through the kidneys. Monitor BUN, creatinine, and urine output. Also ototoxic — assess hearing.",
+    category: "Oncology"
+  },
+  {
+    id: "hem-1",
+    type: "question",
+    question: "A client with sickle cell disease presents with severe chest pain, dyspnea, and fever. The nurse suspects:",
+    options: ["Pneumonia", "Acute chest syndrome", "Myocardial infarction", "Pulmonary embolism"],
+    correctIndex: 1,
+    answer: "Acute chest syndrome is the leading cause of death in sickle cell disease. Presents with chest pain, fever, dyspnea, and new pulmonary infiltrate on chest X-ray. Treatment: O2, IV fluids, broad-spectrum antibiotics, exchange transfusion. Triggers include infection, fat embolism from bone marrow necrosis.",
+    category: "Hematology"
+  },
+  {
+    id: "hem-2",
+    type: "term",
+    question: "DIC (Disseminated Intravascular Coagulation)",
+    answer: "Paradox of simultaneous clotting AND bleeding. Widespread microvascular clotting depletes clotting factors and platelets, leading to hemorrhage. Labs: decreased platelets and fibrinogen, elevated D-dimer, PT/PTT, and fibrin degradation products. Treatment: treat underlying cause, replace clotting factors (FFP, cryoprecipitate, platelets).",
+    category: "Hematology"
+  },
+  {
+    id: "hem-3",
+    type: "question",
+    question: "A client receiving a blood transfusion develops fever, chills, back pain, and dark urine 15 minutes into the transfusion. The nurse should FIRST:",
+    options: ["Slow the transfusion rate and administer Tylenol", "Stop the transfusion immediately and maintain IV access with NS", "Continue the transfusion and monitor closely", "Administer epinephrine"],
+    correctIndex: 1,
+    answer: "These symptoms suggest an acute hemolytic transfusion reaction (ABO incompatibility). STOP the transfusion immediately, maintain IV access with NS, save the blood bag and tubing for the lab, send blood and urine samples, notify provider and blood bank STAT.",
+    category: "Hematology"
+  },
+  {
+    id: "ethics-1",
+    type: "question",
+    question: "A competent adult client refuses a life-saving blood transfusion on religious grounds. The nurse should:",
+    options: ["Override the client's wishes in an emergency", "Respect the client's right to refuse treatment and document", "Contact the hospital ethics committee to override", "Administer the transfusion and explain later"],
+    correctIndex: 1,
+    answer: "Competent adults have the right to refuse any treatment, including life-saving measures, based on autonomy and self-determination. The nurse must respect this decision, ensure the client understands the consequences, and document the refusal and education provided.",
+    category: "Safety & Ethics"
+  },
+  {
+    id: "ethics-2",
+    type: "term",
+    question: "Advance Directives",
+    answer: "Legal documents expressing healthcare wishes when a person cannot communicate. Types: Living Will (specifies treatments wanted/unwanted), Healthcare Power of Attorney/Proxy (designates decision-maker), DNR/DNI (do not resuscitate/intubate). Must be completed while competent. Nurses should assess for their presence on admission.",
+    category: "Safety & Ethics"
+  },
+  {
+    id: "nutrition-1",
+    type: "question",
+    question: "A client with chronic kidney disease (Stage 4) should follow which dietary restriction?",
+    options: ["High-protein, low-sodium diet", "Low-protein, low-phosphorus, low-potassium diet", "High-potassium, high-calcium diet", "Unrestricted diet with extra fluids"],
+    correctIndex: 1,
+    answer: "CKD Stage 4 requires: low protein (reduces urea buildup), low phosphorus (prevents renal osteodystrophy), low potassium (prevents cardiac arrhythmias), low sodium (prevents fluid retention), and fluid restriction. Adequate calories from carbohydrates and fats.",
+    category: "Nutrition"
+  },
+  {
+    id: "nutrition-2",
+    type: "term",
+    question: "Therapeutic Diets",
+    answer: "CARDIAC: low sodium (<2g/day), low saturated fat. RENAL: low protein, phosphorus, potassium, sodium; fluid restricted. DIABETIC: consistent carbohydrate intake, whole grains, fiber. CLEAR LIQUID: broth, Jell-O, apple juice, tea (no pulp, dairy, or residue). FULL LIQUID: adds milk, ice cream, strained soups. NEUTROPENIC: no raw foods.",
+    category: "Nutrition"
   }
 ];
 
