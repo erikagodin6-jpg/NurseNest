@@ -416,8 +416,9 @@ const colorPreviewMap: Record<string, string> = {
 
 function ColorPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [open, setOpen] = useState(false);
+  const prevent = (e: React.MouseEvent) => e.preventDefault();
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" onMouseDown={prevent}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
