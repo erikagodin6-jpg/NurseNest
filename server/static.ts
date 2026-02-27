@@ -1,6 +1,9 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
+import { injectMeta } from "./seo-meta";
+
+let cachedIndexHtml: string | null = null;
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
@@ -9,6 +12,9 @@ export function serveStatic(app: Express) {
       `Could not find the build directory: ${distPath}, make sure to build the client first`,
     );
   }
+
+  const indexHtmlPath = path.resolve(distPath, "index.html");
+  cachedIndexHtml = fs.readFileSync(indexHtmlPath, "utf-8");
 
   app.use(
     "/assets",
@@ -31,9 +37,17 @@ export function serveStatic(app: Express) {
     }),
   );
 
-  // fall through to index.html if the file doesn't exist
-  app.use("/{*path}", (_req, res) => {
-    res.setHeader("Cache-Control", "no-cache");
-    res.sendFile(path.resolve(distPath, "index.html"));
+  app.use("/{*path}", async (req, res) => {
+    try {
+      const html = cachedIndexHtml || fs.readFileSync(indexHtmlPath, "utf-8");
+      const injected = await injectMeta(html, req.path);
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.status(200).send(injected);
+    } catch (err) {
+      console.error("SEO meta injection error:", err);
+      res.setHeader("Cache-Control", "no-cache");
+      res.sendFile(indexHtmlPath);
+    }
   });
 }

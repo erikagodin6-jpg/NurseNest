@@ -13,6 +13,17 @@ const app = express();
 
 let appReady = false;
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));
+
+if (process.env.NODE_ENV === "production") {
+  app.use((req, res, next) => {
+    const host = req.get("host") || "";
+    if (host === "nursenest.ca") {
+      return res.redirect(301, `https://www.nursenest.ca${req.originalUrl}`);
+    }
+    next();
+  });
+}
+
 app.use((req, res, next) => {
   if (!appReady && req.path === "/" && req.method === "GET") {
     return res.status(200).send("<!DOCTYPE html><html><head><meta http-equiv='refresh' content='2'></head><body>Loading...</body></html>");
@@ -146,6 +157,7 @@ app.post("/api/admin/verify", (req, res) => {
 // -------------------------
 app.get("/robots.txt", (_req, res) => {
   const base = getSiteBase();
+  res.setHeader("Cache-Control", "public, max-age=86400");
   res.type("text/plain").send(
     [
       "User-agent: *",
