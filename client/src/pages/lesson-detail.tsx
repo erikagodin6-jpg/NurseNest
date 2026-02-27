@@ -31,7 +31,7 @@ import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStruct
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getLessonImage } from "@/lib/system-images";
 import { ProtectedImage } from "@/components/protected-image";
-import { getImageAltText, getImageTitle, getImageStructuredData } from "@/lib/image-seo";
+import { getImageAltText, getImageTitle, getImageStructuredData, getImageCaption } from "@/lib/image-seo";
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { RichTextEditor, RichTextListEditor, RichTextDisplay } from "@/components/rich-text-editor";
 import { ContentBlockRenderer, LessonObjectives, ClinicalPearlsList } from "@/components/content-block-renderer";
