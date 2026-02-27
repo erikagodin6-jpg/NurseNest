@@ -402,6 +402,67 @@ export function CellSVG() {
   );
 }
 
+export const musculoskeletalLabels: LabelPoint[] = [
+  { id: "skull", x: 300, y: 30, label: "Skull (Cranium)", hint: "Protects the brain; composed of 22 bones including frontal, parietal, temporal, and occipital bones joined by sutures" },
+  { id: "cervical", x: 300, y: 75, label: "Cervical Spine", hint: "7 vertebrae (C1-C7); C1 (atlas) supports head rotation, C2 (axis) allows head nodding; most mobile spinal region" },
+  { id: "clavicle", x: 220, y: 90, label: "Clavicle", hint: "S-shaped bone connecting sternum to scapula; most commonly fractured bone; protects subclavian vessels and brachial plexus" },
+  { id: "humerus", x: 160, y: 160, label: "Humerus", hint: "Upper arm bone; articulates with scapula (shoulder joint) and radius/ulna (elbow joint); radial nerve wraps around mid-shaft" },
+  { id: "ribcage", x: 300, y: 150, label: "Rib Cage", hint: "12 pairs: 7 true ribs, 3 false ribs, 2 floating ribs; protects heart and lungs; intercostal muscles assist respiration" },
+  { id: "pelvis", x: 300, y: 250, label: "Pelvis", hint: "Formed by ilium, ischium, pubis; female pelvis wider for childbirth; weight-bearing connection between spine and lower extremities" },
+  { id: "femur", x: 250, y: 330, label: "Femur", hint: "Longest and strongest bone; head articulates with acetabulum; fractures common in elderly (osteoporosis); major blood loss risk" },
+  { id: "tibia", x: 270, y: 400, label: "Tibia", hint: "Weight-bearing bone of lower leg; shin bone; tibial plateau fractures affect knee joint; palpable anterior border" },
+  { id: "deltoid", x: 420, y: 110, label: "Deltoid Muscle", hint: "Triangular shoulder muscle; abducts arm past 15°; common IM injection site; innervated by axillary nerve (C5-C6)" },
+  { id: "quadriceps", x: 370, y: 320, label: "Quadriceps", hint: "Four muscles (rectus femoris, 3 vastus); primary knee extensors; vastus lateralis common IM injection site in infants" },
+];
+
+export const integumentaryLabels: LabelPoint[] = [
+  { id: "epidermis", x: 300, y: 50, label: "Epidermis", hint: "Outermost skin layer; stratified squamous epithelium; contains keratinocytes, melanocytes, Langerhans cells; avascular — receives nutrients from dermis" },
+  { id: "dermis", x: 300, y: 160, label: "Dermis", hint: "Middle layer with collagen/elastin fibers; contains blood vessels, nerves, hair follicles, sweat glands; papillary and reticular layers" },
+  { id: "hypodermis", x: 300, y: 320, label: "Hypodermis", hint: "Subcutaneous layer; adipose tissue for insulation and energy storage; subcutaneous injection site; anchors skin to underlying fascia" },
+  { id: "hair-follicle", x: 180, y: 130, label: "Hair Follicle", hint: "Invagination of epidermis into dermis; arrector pili muscle causes goosebumps; sebaceous gland opens into follicle" },
+  { id: "sweat-gland", x: 450, y: 250, label: "Sweat Gland (Eccrine)", hint: "Coiled gland in dermis; thermoregulation via evaporative cooling; most numerous on palms, soles, forehead; produces hypotonic sweat" },
+  { id: "sebaceous", x: 150, y: 200, label: "Sebaceous Gland", hint: "Produces sebum (oily secretion); lubricates hair and skin; holocrine secretion; overactivity contributes to acne" },
+  { id: "nerve-ending", x: 420, y: 130, label: "Nerve Endings", hint: "Meissner's corpuscles (light touch), Pacinian corpuscles (deep pressure), free nerve endings (pain/temperature); dermatome distribution" },
+  { id: "blood-vessel", x: 450, y: 170, label: "Blood Vessels", hint: "Dermal plexus supplies nutrients; arterioles regulate skin temperature; vasodilation causes flushing, vasoconstriction causes pallor" },
+  { id: "stratum-corneum", x: 150, y: 30, label: "Stratum Corneum", hint: "Outermost epidermal layer; 15-30 layers of dead keratinized cells; primary barrier against pathogens and water loss" },
+];
+
+export const lymphaticLabels: LabelPoint[] = [
+  { id: "tonsils", x: 300, y: 50, label: "Tonsils", hint: "Palatine, pharyngeal (adenoids), lingual; lymphoid tissue guarding pharyngeal entry; first line defense against inhaled/ingested pathogens" },
+  { id: "thymus", x: 300, y: 120, label: "Thymus", hint: "Primary lymphoid organ; T-cell maturation and selection; most active in childhood; involutes after puberty but remains functional" },
+  { id: "axillary-nodes", x: 180, y: 140, label: "Axillary Lymph Nodes", hint: "Drain upper extremity, breast, chest wall; sentinel node biopsy in breast cancer staging; 20-30 nodes in axillary chain" },
+  { id: "spleen", x: 420, y: 200, label: "Spleen", hint: "Largest lymphoid organ; filters blood (removes old RBCs); stores platelets; white pulp has lymphocytes; rupture risk with mononucleosis" },
+  { id: "inguinal-nodes", x: 230, y: 300, label: "Inguinal Lymph Nodes", hint: "Drain lower extremities, external genitalia, perineum; palpable in many infections; superficial and deep groups" },
+  { id: "thoracic-duct", x: 350, y: 170, label: "Thoracic Duct", hint: "Largest lymphatic vessel; drains left side of body and lower right; empties into left subclavian vein; carries chyle from intestines" },
+  { id: "cervical-nodes", x: 350, y: 60, label: "Cervical Lymph Nodes", hint: "Drain head and neck; commonly enlarged with upper respiratory infections; chains follow internal jugular and accessory nerve" },
+  { id: "peyers-patches", x: 300, y: 260, label: "Peyer's Patches", hint: "Lymphoid aggregates in ileum wall; sample intestinal antigens; contain M cells that transport antigens to immune cells; part of GALT" },
+  { id: "bone-marrow", x: 180, y: 340, label: "Bone Marrow", hint: "Primary lymphoid organ; produces all blood cells (hematopoiesis); B-cells mature here; red marrow in flat bones and epiphyses" },
+];
+
+export const reproductiveLabels: LabelPoint[] = [
+  { id: "uterus", x: 150, y: 180, label: "Uterus", hint: "Hollow muscular organ; endometrium sheds during menstruation; myometrium contracts during labor; fundus, body, and cervix regions" },
+  { id: "ovary", x: 80, y: 150, label: "Ovary", hint: "Female gonad; produces oocytes and hormones (estrogen, progesterone); follicular development, ovulation, corpus luteum formation" },
+  { id: "fallopian", x: 130, y: 120, label: "Fallopian Tube", hint: "Oviduct connecting ovary to uterus; fimbriae capture ovum; site of fertilization in ampulla; ectopic pregnancy risk if implantation occurs here" },
+  { id: "cervix", x: 150, y: 250, label: "Cervix", hint: "Lower portion of uterus; produces mucus plug in pregnancy; dilates during labor (0-10 cm); Pap smear screening site for cervical cancer" },
+  { id: "vagina", x: 150, y: 310, label: "Vagina", hint: "Muscular canal from cervix to external opening; birth canal; acidic pH (3.8-4.5) maintained by Lactobacillus; elastic during delivery" },
+  { id: "testis", x: 420, y: 320, label: "Testis", hint: "Male gonad; produces sperm (spermatogenesis in seminiferous tubules) and testosterone (Leydig cells); requires temperature below body temp" },
+  { id: "epididymis", x: 450, y: 280, label: "Epididymis", hint: "Coiled tube on posterior testis; sperm maturation and storage (2-3 months); sperm gain motility here; connects to vas deferens" },
+  { id: "prostate", x: 400, y: 200, label: "Prostate Gland", hint: "Walnut-sized gland below bladder; produces alkaline fluid (30% of semen); enlargement (BPH) common in older men; PSA screening" },
+  { id: "vas-deferens", x: 430, y: 240, label: "Vas Deferens", hint: "Muscular duct transporting sperm from epididymis to ejaculatory duct; cut during vasectomy; peristalsis propels sperm during ejaculation" },
+  { id: "seminal-vesicle", x: 380, y: 160, label: "Seminal Vesicles", hint: "Paired glands producing fructose-rich alkaline fluid (60-70% of semen volume); provides energy for sperm motility" },
+];
+
+export const feedbackLoopLabels: LabelPoint[] = [
+  { id: "hypothalamus-fb", x: 300, y: 50, label: "Hypothalamus", hint: "Master control center; releases/inhibits releasing hormones (TRH, CRH, GnRH); integrates neural and endocrine signals; thermoregulation center" },
+  { id: "anterior-pit", x: 300, y: 120, label: "Anterior Pituitary", hint: "Releases tropic hormones (TSH, ACTH, FSH, LH, GH, prolactin) in response to hypothalamic releasing hormones; regulated by negative feedback" },
+  { id: "posterior-pit", x: 200, y: 120, label: "Posterior Pituitary", hint: "Stores and releases ADH (water reabsorption) and oxytocin (labor contractions, milk letdown); hormones made in hypothalamus" },
+  { id: "thyroid-fb", x: 300, y: 200, label: "Thyroid Gland", hint: "Produces T3/T4 (metabolic rate) and calcitonin (lowers Ca²⁺); negative feedback: high T3/T4 suppresses TRH and TSH release" },
+  { id: "adrenal-fb", x: 200, y: 270, label: "Adrenal Cortex", hint: "Produces cortisol (stress response, glucose), aldosterone (Na⁺/K⁺ balance), androgens; HPA axis: CRH→ACTH→cortisol→negative feedback" },
+  { id: "neg-feedback", x: 450, y: 160, label: "Negative Feedback", hint: "Primary homeostatic mechanism; product inhibits its own production pathway; examples: high cortisol suppresses CRH/ACTH, high T4 suppresses TSH" },
+  { id: "pos-feedback", x: 450, y: 300, label: "Positive Feedback", hint: "Product amplifies its own production; rare but important examples: oxytocin during labor, LH surge triggering ovulation, blood clotting cascade" },
+  { id: "target-organ", x: 300, y: 350, label: "Target Organ Response", hint: "End-organ effect of hormone action; receptor binding triggers intracellular signaling; clinical signs reflect hormone excess or deficiency" },
+];
+
 export const cellLabels: LabelPoint[] = [
   { id: "membrane", x: 300, y: 22, label: "Cell Membrane", hint: "Phospholipid bilayer with embedded proteins; selectively permeable barrier controlling ion/molecule transport (Na⁺/K⁺ ATPase, glucose transporters)" },
   { id: "nucleus", x: 300, y: 210, label: "Nucleus", hint: "Double-membrane organelle housing chromatin (DNA + histones); site of transcription & mRNA processing; nuclear pores regulate macromolecule transport" },

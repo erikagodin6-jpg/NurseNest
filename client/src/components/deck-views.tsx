@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import {
-  ChevronRight, ChevronLeft, ArrowLeft, Plus, Search, Trash2, Pencil,
+  ChevronRight, ChevronLeft, ArrowLeft, Plus, Search, Trash2, Pencil, Loader2,
   BookOpen, Layers, Copy, Flag, Globe, EyeOff, Eye, Timer, Upload,
   Download, BarChart3, Sparkles, Lock, CreditCard, CheckCircle2,
   XCircle, RefreshCw, Share2
@@ -259,10 +259,14 @@ export function DeckView({
   user, setView, currentDeck, setCurrentDeck, deckCards,
   fetchDeckCards, startDeckStudy, deleteDeck,
   saveDeck, duplicateDeck, reportDeck, entitlement,
+  aiGeneratePrompt, setAiGeneratePrompt, aiGenerateCount, setAiGenerateCount,
+  aiGenerating, aiGeneratedCards, aiGenerateCards, addAiGeneratedCards, removeAiGeneratedCard,
+  aiUpgradeRequired, fetchEntitlement,
 }: Partial<DeckViewsProps> & { user: any; setView: any }) {
   const [reportOpen, setReportOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [showAiPanel, setShowAiPanel] = useState(false);
   const isOwner = currentDeck?.userId === user?.id;
 
   const shareUrl = currentDeck?.slug
@@ -422,6 +426,87 @@ export function DeckView({
         </Card>
       )}
 
+      {isOwner && (
+        <div className="space-y-3">
+          <Button
+            variant="outline"
+            onClick={() => setShowAiPanel(!showAiPanel)}
+            className="w-full rounded-xl gap-2 border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 py-3"
+            data-testid="button-ai-generate-deck-view"
+          >
+            <Sparkles className="w-4 h-4" />
+            {showAiPanel ? "Hide AI Generator" : "Generate Cards with AI"}
+          </Button>
+
+          {showAiPanel && (
+            <Card className="border-purple-200 bg-purple-50/30" data-testid="card-ai-generate-deckview">
+              <CardContent className="p-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm font-semibold text-purple-800">AI Flashcard Generator</span>
+                </div>
+                <p className="text-xs text-purple-600">Enter a nursing topic and AI will create study-ready flashcards for you.</p>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="e.g. Cardiac medications, Diabetes management, Pediatric milestones..."
+                    value={aiGeneratePrompt || ""}
+                    onChange={(e) => setAiGeneratePrompt?.(e.target.value)}
+                    className="text-sm bg-white flex-1"
+                    onKeyDown={(e) => { if (e.key === "Enter" && aiGeneratePrompt?.trim()) aiGenerateCards?.(); }}
+                    data-testid="input-ai-generate-prompt-deckview"
+                  />
+                  <select
+                    value={aiGenerateCount || 10}
+                    onChange={(e) => setAiGenerateCount?.(parseInt(e.target.value))}
+                    className="bg-white border border-gray-200 rounded-lg px-2 text-sm"
+                    data-testid="select-ai-generate-count-deckview"
+                  >
+                    {[5, 10, 15, 20, 25].map(n => <option key={n} value={n}>{n} cards</option>)}
+                  </select>
+                </div>
+                <Button
+                  onClick={aiGenerateCards}
+                  disabled={aiGenerating || !aiGeneratePrompt?.trim()}
+                  className="w-full gap-2 bg-purple-600 hover:bg-purple-700 rounded-xl"
+                  data-testid="button-ai-generate-deckview"
+                >
+                  {aiGenerating ? <><Layers className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Cards</>}
+                </Button>
+                {aiUpgradeRequired && (
+                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">You've reached the free card limit. Upgrade your deck or plan to create more cards with AI.</p>
+                )}
+                {aiGeneratedCards && aiGeneratedCards.length > 0 && (
+                  <div className="space-y-2 mt-2">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-semibold text-purple-700">{aiGeneratedCards.length} cards generated — review before adding:</p>
+                      <Button size="sm" onClick={addAiGeneratedCards} className="gap-1 bg-emerald-600 hover:bg-emerald-700 text-xs rounded-lg" data-testid="button-add-ai-cards-deckview">
+                        <Plus className="w-3 h-3" /> Add All to Deck
+                      </Button>
+                    </div>
+                    <div className="max-h-[400px] overflow-y-auto space-y-2">
+                      {aiGeneratedCards.map((card, idx) => (
+                        <div key={idx} className="bg-white rounded-lg border border-purple-100 p-3 relative group">
+                          <button
+                            onClick={() => removeAiGeneratedCard?.(idx)}
+                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-opacity"
+                            data-testid={`button-remove-ai-card-${idx}`}
+                          >
+                            <XCircle className="w-4 h-4" />
+                          </button>
+                          <p className="text-sm font-medium text-gray-900">{card.front}</p>
+                          <p className="text-xs text-gray-600 mt-1">{card.back}</p>
+                          {card.rationale && <p className="text-[10px] text-gray-400 mt-1 italic">{card.rationale}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
+
       <div className="space-y-2">
         {deckCards?.map((card: any, i: number) => (
           <Card key={card.id} className="border-gray-200" data-testid={`card-deck-card-${card.id}`}>
@@ -438,9 +523,22 @@ export function DeckView({
           </Card>
         ))}
         {(!deckCards || deckCards.length === 0) && (
-          <div className="text-center py-12">
-            <p className="text-gray-400 text-sm">No cards in this deck yet.</p>
-            {isOwner && <Button variant="link" onClick={() => setView("deck-edit")} className="mt-2">Add cards</Button>}
+          <div className="text-center py-12 space-y-4">
+            <Sparkles className="w-10 h-10 text-purple-300 mx-auto" />
+            <p className="text-gray-500 text-sm font-medium">This deck is empty</p>
+            <p className="text-gray-400 text-xs max-w-md mx-auto">Use the AI Generator above to create flashcards on any nursing topic, or add cards manually.</p>
+            <div className="flex gap-3 justify-center">
+              {isOwner && !showAiPanel && (
+                <Button variant="outline" onClick={() => setShowAiPanel(true)} className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50 rounded-xl" data-testid="button-ai-generate-empty">
+                  <Sparkles className="w-4 h-4" /> Generate with AI
+                </Button>
+              )}
+              {isOwner && (
+                <Button variant="outline" onClick={() => setView("deck-edit")} className="gap-2 rounded-xl" data-testid="button-add-cards-manual">
+                  <Plus className="w-4 h-4" /> Add Manually
+                </Button>
+              )}
+            </div>
           </div>
         )}
       </div>

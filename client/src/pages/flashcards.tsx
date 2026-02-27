@@ -2154,6 +2154,17 @@ export default function Flashcards() {
             duplicateDeck={duplicateDeck}
             reportDeck={reportDeck}
             entitlement={entitlement}
+            aiGeneratePrompt={aiGeneratePrompt}
+            setAiGeneratePrompt={setAiGeneratePrompt}
+            aiGenerateCount={aiGenerateCount}
+            setAiGenerateCount={setAiGenerateCount}
+            aiGenerating={aiGenerating}
+            aiGeneratedCards={aiGeneratedCards}
+            aiGenerateCards={aiGenerateCards}
+            addAiGeneratedCards={addAiGeneratedCards}
+            removeAiGeneratedCard={removeAiGeneratedCard}
+            aiUpgradeRequired={aiUpgradeRequired}
+            fetchEntitlement={fetchEntitlement}
           />
         </main>
         <Footer />

@@ -95,8 +95,23 @@ import imgCellDivision from "@/assets/anatomy-cell-division.png";
 import imgReproductiveFemale from "@/assets/anatomy-reproductive-female.png";
 import imgReproductiveMale from "@/assets/anatomy-reproductive-male.png";
 import heartAnatomyImage from "@/assets/heart-anatomy.png";
+import hotspotCellStructure from "@/assets/hotspot-cell-structure.png";
+import hotspotFeedbackLoops from "@/assets/hotspot-feedback-loops.png";
+import hotspotRespiratory from "@/assets/hotspot-respiratory.png";
+import hotspotNervous from "@/assets/hotspot-nervous.png";
+import hotspotMusculoskeletal from "@/assets/hotspot-musculoskeletal.png";
+import hotspotGastrointestinal from "@/assets/hotspot-gastrointestinal.png";
+import hotspotRenal from "@/assets/hotspot-renal.png";
+import hotspotEndocrine from "@/assets/hotspot-endocrine.png";
+import hotspotIntegumentary from "@/assets/hotspot-integumentary.png";
+import hotspotLymphaticImmune from "@/assets/hotspot-lymphatic-immune.png";
+import hotspotReproductive from "@/assets/hotspot-reproductive.png";
 import { AnatomyLabeling } from "@/components/interactive-learning";
-import { heartLabels } from "@/components/anatomy-diagrams";
+import {
+  heartLabels, lungLabels, brainLabels, kidneyLabels, digestiveLabels,
+  endocrineLabels, cellLabels, musculoskeletalLabels, integumentaryLabels,
+  lymphaticLabels, reproductiveLabels, feedbackLoopLabels,
+} from "@/components/anatomy-diagrams";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
