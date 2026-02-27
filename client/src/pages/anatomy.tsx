@@ -64,6 +64,11 @@ import imgRespGasExchange from "@/assets/anatomy-respiratory-gas-exchange.png";
 import imgRespACM from "@/assets/anatomy-respiratory-acm.png";
 import imgRespBronchi from "@/assets/anatomy-respiratory-bronchi.png";
 import imgRespLungComparison from "@/assets/anatomy-respiratory-lung-comparison.png";
+import imgNervousNeuron from "@/assets/anatomy-nervous-neuron.png";
+import imgNervousSynapse from "@/assets/anatomy-nervous-synapse.png";
+import imgNervousBrainLobes from "@/assets/anatomy-nervous-brain-lobes.png";
+import imgNervousANS from "@/assets/anatomy-nervous-ans.png";
+import imgNervousReflexArc from "@/assets/anatomy-nervous-reflex-arc.png";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
@@ -155,6 +160,13 @@ const bodySystems = [
     bgAccent: "bg-purple-50",
     image: imgNervous,
     description: "Brain, spinal cord, and neural pathways",
+    inlineImages: [
+      { src: imgNervousBrainLobes, alt: "Lateral view of the human brain showing the four cerebral lobes: frontal, parietal, temporal, and occipital, with cerebellum and brainstem", afterParagraph: 0 },
+      { src: imgNervousNeuron, alt: "Structure of a neuron showing cell body with nucleus, branching dendrites, myelinated axon with Nodes of Ranvier, and axon terminals", afterParagraph: 1 },
+      { src: imgNervousSynapse, alt: "Chemical synapse showing presynaptic terminal with synaptic vesicles releasing neurotransmitters across the synaptic cleft to postsynaptic receptors", afterParagraph: 1 },
+      { src: imgNervousANS, alt: "Autonomic nervous system comparison showing sympathetic fight-or-flight responses versus parasympathetic rest-and-digest responses on organs", afterParagraph: 2 },
+      { src: imgNervousReflexArc, alt: "Reflex arc pathway showing stimulus detection, sensory neuron to spinal cord, interneuron processing, and motor neuron response", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The nervous system is divided into the central nervous system (CNS): the brain and spinal cord: and the peripheral nervous system (PNS): cranial nerves, spinal nerves, and ganglia. The brain consists of the cerebrum (divided into frontal, parietal, temporal, and occipital lobes), the cerebellum (coordination and balance), the diencephalon (thalamus and hypothalamus), and the brainstem (midbrain, pons, and medulla oblongata). The medulla controls vital functions such as heart rate, blood pressure, and respiration. The spinal cord extends from the foramen magnum to approximately L1-L2 and serves as a conduit for ascending sensory and descending motor pathways.",
       "The fundamental unit of the nervous system is the neuron, composed of a cell body (soma), dendrites (receive signals), and an axon (transmits signals). Neurons communicate via synapses using neurotransmitters. Key neurotransmitters include acetylcholine (muscle contraction, parasympathetic activity), norepinephrine (sympathetic 'fight-or-flight' response), dopamine (reward, motor control), serotonin (mood, sleep regulation), GABA (inhibitory), and glutamate (excitatory). Action potentials propagate along myelinated axons via saltatory conduction, jumping between Nodes of Ranvier for rapid signal transmission.",
