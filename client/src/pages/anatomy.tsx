@@ -42,17 +42,18 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
-import illustrationHomeostasis from "@assets/E9E33423-6365-4686-98CB-3197D14546E5_1771868083264.png";
-import illustrationCardiacCycle from "@assets/C59AF0B3-CD44-43B6-B2D5-D708852AAFA8_1771867744630.png";
-import illustrationCOPD from "@assets/1EDFE7E4-FCC4-4937-B2AC-A6E852F6306A_1771867744630.png";
-import illustrationStroke from "@assets/ABD0FB30-EEF2-4E4F-9EFC-63FF5DD16E97_1771867815027.png";
-import illustrationOsteoporosis from "@assets/FCA45E66-D79A-4B8E-BE56-78FCF54E7DDF_1771876993790.png";
-import illustrationElectrolytes from "@assets/AB6C69A2-A616-4DBF-8567-6990D4260BDE_1771867744630.png";
-import illustrationKidneys from "@assets/BF46940D-B9D9-4006-9ECE-FAA14A1AC986_1771867744630.png";
-import illustrationWound from "@assets/0C0087C1-6D3B-4F00-8750-23E66D85FDE6_1771867669482.png";
-import illustrationInflammatoryResponse from "@assets/046AF766-D3A2-4713-BF5D-BC2AFF8EEA89_1771876993790.png";
-import illustrationInnateImmunity from "@assets/1C466673-4454-450E-AE1C-B74640446346_1771868083264.png";
+import imgCellStructure from "@/assets/anatomy-cell-structure.png";
+import imgFeedbackLoops from "@/assets/anatomy-feedback-loops.png";
+import imgCardiovascular from "@/assets/anatomy-cardiovascular.png";
+import imgRespiratory from "@/assets/anatomy-respiratory.png";
+import imgNervous from "@/assets/anatomy-nervous.png";
+import imgMusculoskeletal from "@/assets/anatomy-musculoskeletal.png";
+import imgGastrointestinal from "@/assets/anatomy-gastrointestinal.png";
+import imgRenal from "@/assets/anatomy-renal.png";
+import imgEndocrine from "@/assets/anatomy-endocrine.png";
+import imgIntegumentary from "@/assets/anatomy-integumentary.png";
+import imgLymphaticImmune from "@/assets/anatomy-lymphatic-immune.png";
+import imgReproductive from "@/assets/anatomy-reproductive.png";
 
 const bodySystems = [
   {
@@ -62,7 +63,7 @@ const bodySystems = [
     color: "text-emerald-500",
     borderColor: "border-emerald-200",
     bgAccent: "bg-emerald-50",
-    image: illustrationCellStructure,
+    image: imgCellStructure,
     description: "The fundamental unit of life: organelles, membranes, and cellular processes",
     content: [
       "The cell is the basic structural and functional unit of all living organisms. Human cells are eukaryotic, meaning they contain a true nucleus enclosed by a nuclear membrane (nuclear envelope). The cell is bounded by the plasma membrane (cell membrane), a phospholipid bilayer with embedded proteins that regulates the passage of substances in and out of the cell. The hydrophilic (water-loving) phosphate heads face outward toward the aqueous environment, while the hydrophobic (water-fearing) lipid tails face inward. Integral proteins span the entire membrane and may serve as channels, carriers, receptors, or enzymes. Peripheral proteins attach to the membrane surface and assist with signaling and structural support. Cholesterol molecules embedded in the bilayer help maintain membrane fluidity across temperature changes.",
@@ -79,7 +80,7 @@ const bodySystems = [
     color: "text-indigo-500",
     borderColor: "border-indigo-200",
     bgAccent: "bg-indigo-50",
-    image: illustrationHomeostasis,
+    image: imgFeedbackLoops,
     description: "Negative and positive feedback mechanisms that maintain internal balance",
     content: [
       "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. This dynamic equilibrium is essential for cellular function and survival. Homeostatic regulation requires three components: a receptor (sensor) that detects changes in the internal or external environment, a control center (integrator, usually the brain or endocrine gland) that processes the information and determines the appropriate response, and an effector (muscle or gland) that carries out the response to restore balance. Most homeostatic mechanisms operate through feedback loops, predominantly negative feedback, which is the primary mechanism for maintaining physiological stability.",
@@ -96,7 +97,7 @@ const bodySystems = [
     color: "text-red-500",
     borderColor: "border-red-200",
     bgAccent: "bg-red-50",
-    image: illustrationCardiacCycle,
+    image: imgCardiovascular,
     description: "Heart, blood vessels, and circulation",
     content: [
       "The cardiovascular system consists of the heart, blood vessels, and approximately 5 liters of blood. The heart is a four-chambered muscular organ divided into the right atrium, right ventricle, left atrium, and left ventricle. Deoxygenated blood returns to the right atrium via the superior and inferior vena cava, passes through the tricuspid valve into the right ventricle, and is pumped through the pulmonary valve into the pulmonary arteries toward the lungs. Oxygenated blood returns from the lungs via the pulmonary veins into the left atrium, passes through the mitral (bicuspid) valve into the left ventricle, and is ejected through the aortic valve into the aorta for systemic circulation.",
@@ -111,7 +112,7 @@ const bodySystems = [
     color: "text-sky-500",
     borderColor: "border-sky-200",
     bgAccent: "bg-sky-50",
-    image: illustrationCOPD,
+    image: imgRespiratory,
     description: "Airways, lungs, and gas exchange",
     content: [
       "The respiratory system is divided into the upper and lower airways. The upper airway includes the nose, nasal cavity, pharynx (nasopharynx, oropharynx, and laryngopharynx), and larynx. These structures warm, humidify, and filter inspired air. The lower airway begins at the trachea, which bifurcates at the carina into the right and left mainstem bronchi. The right mainstem bronchus is shorter, wider, and more vertical, making it the more common site for aspiration. The bronchi further divide into lobar bronchi, segmental bronchi, bronchioles, terminal bronchioles, and finally respiratory bronchioles that lead to alveolar ducts and alveolar sacs.",
@@ -126,7 +127,7 @@ const bodySystems = [
     color: "text-purple-500",
     borderColor: "border-purple-200",
     bgAccent: "bg-purple-50",
-    image: illustrationStroke,
+    image: imgNervous,
     description: "Brain, spinal cord, and neural pathways",
     content: [
       "The nervous system is divided into the central nervous system (CNS): the brain and spinal cord: and the peripheral nervous system (PNS): cranial nerves, spinal nerves, and ganglia. The brain consists of the cerebrum (divided into frontal, parietal, temporal, and occipital lobes), the cerebellum (coordination and balance), the diencephalon (thalamus and hypothalamus), and the brainstem (midbrain, pons, and medulla oblongata). The medulla controls vital functions such as heart rate, blood pressure, and respiration. The spinal cord extends from the foramen magnum to approximately L1-L2 and serves as a conduit for ascending sensory and descending motor pathways.",
@@ -141,7 +142,7 @@ const bodySystems = [
     color: "text-amber-600",
     borderColor: "border-amber-200",
     bgAccent: "bg-amber-50",
-    image: illustrationOsteoporosis,
+    image: imgMusculoskeletal,
     description: "Bones, joints, and skeletal muscles",
     content: [
       "The adult human skeleton consists of 206 bones, classified by shape as long bones (femur, humerus), short bones (carpals, tarsals), flat bones (skull, sternum, scapula), irregular bones (vertebrae, pelvis), and sesamoid bones (patella). Bones serve as the framework for the body, protect internal organs, produce blood cells (hematopoiesis in red marrow), store minerals (calcium and phosphorus), and provide attachment points for muscles. Bone tissue is composed of an organic matrix (collagen for flexibility) and inorganic minerals (hydroxyapatite crystite for hardness). Osteoblasts build new bone, osteoclasts resorb bone, and osteocytes are mature bone cells that maintain the bone matrix.",
@@ -156,7 +157,7 @@ const bodySystems = [
     color: "text-green-600",
     borderColor: "border-green-200",
     bgAccent: "bg-green-50",
-    image: illustrationElectrolytes,
+    image: imgGastrointestinal,
     description: "Digestive organs and nutrient absorption",
     content: [
       "The gastrointestinal (GI) tract is a continuous tube from the mouth to the anus, consisting of the oral cavity, pharynx, esophagus, stomach, small intestine (duodenum, jejunum, ileum), large intestine (cecum, ascending, transverse, descending, and sigmoid colon), rectum, and anal canal. Digestion begins in the mouth with mechanical breakdown by teeth and chemical digestion by salivary amylase (starch) and lingual lipase (fats). The bolus travels through the esophagus via peristalsis, passing through the lower esophageal sphincter (cardiac sphincter) into the stomach. The stomach secretes hydrochloric acid (HCl) from parietal cells, pepsinogen from chief cells (activated to pepsin by HCl), and intrinsic factor (essential for vitamin B12 absorption in the ileum).",
@@ -171,7 +172,7 @@ const bodySystems = [
     color: "text-blue-500",
     borderColor: "border-blue-200",
     bgAccent: "bg-blue-50",
-    image: illustrationKidneys,
+    image: imgRenal,
     description: "Kidneys, nephrons, and fluid balance",
     content: [
       "The urinary system consists of two kidneys, two ureters, the urinary bladder, and the urethra. The kidneys are retroperitoneal organs located at T12-L3, with the right kidney slightly lower due to the liver. Each kidney contains approximately one million nephrons: the functional units responsible for urine formation. A nephron consists of the glomerulus (a capillary tuft enclosed by Bowman's capsule), the proximal convoluted tubule (PCT), the loop of Henle (descending and ascending limbs), the distal convoluted tubule (DCT), and the collecting duct. The kidneys receive about 20-25% of cardiac output, filtering approximately 180 liters of plasma daily, yet producing only 1-2 liters of urine.",
@@ -186,7 +187,7 @@ const bodySystems = [
     color: "text-yellow-500",
     borderColor: "border-yellow-200",
     bgAccent: "bg-yellow-50",
-    image: illustrationHomeostasis,
+    image: imgEndocrine,
     description: "Hormones, glands, and feedback loops",
     content: [
       "The endocrine system consists of glands that produce hormones: chemical messengers transported via the bloodstream to target organs. Major endocrine glands include the hypothalamus, pituitary (anterior and posterior), thyroid, parathyroid, adrenal glands (cortex and medulla), pancreatic islets of Langerhans, ovaries, and testes. The hypothalamus links the nervous and endocrine systems by producing releasing and inhibiting hormones that control the anterior pituitary. The anterior pituitary secretes growth hormone (GH), thyroid-stimulating hormone (TSH), adrenocorticotropic hormone (ACTH), follicle-stimulating hormone (FSH), luteinizing hormone (LH), and prolactin.",
@@ -201,7 +202,7 @@ const bodySystems = [
     color: "text-orange-500",
     borderColor: "border-orange-200",
     bgAccent: "bg-orange-50",
-    image: illustrationWound,
+    image: imgIntegumentary,
     description: "Skin layers, wound healing, and protection",
     content: [
       "The integumentary system includes the skin, hair, nails, and associated glands. The skin is the body's largest organ, covering approximately 1.5-2 square meters in adults. It consists of three primary layers: the epidermis, dermis, and hypodermis (subcutaneous tissue). The epidermis is the outermost layer, composed of stratified squamous keratinized epithelium. Its layers from deep to superficial are: stratum basale (basal layer with stem cells and melanocytes), stratum spinosum, stratum granulosum, stratum lucidum (only in thick skin like palms and soles), and stratum corneum (20-30 layers of dead keratinized cells providing the primary barrier).",
@@ -216,7 +217,7 @@ const bodySystems = [
     color: "text-teal-500",
     borderColor: "border-teal-200",
     bgAccent: "bg-teal-50",
-    image: illustrationInnateImmunity,
+    image: imgLymphaticImmune,
     description: "Immune defense, lymph nodes, and antibodies",
     content: [
       "The immune system provides defense against pathogens through innate (nonspecific) and adaptive (specific) immunity. Innate immunity is the first line of defense, including physical barriers (skin, mucous membranes), chemical barriers (stomach acid, lysozyme in tears), cellular components (neutrophils, macrophages, natural killer cells, dendritic cells), and the inflammatory response. Phagocytic cells recognize pathogen-associated molecular patterns (PAMPs) via toll-like receptors (TLRs). The complement cascade is a group of ~30 plasma proteins that, when activated, promote opsonization (coating pathogens for phagocytosis), chemotaxis (attracting immune cells), and formation of the membrane attack complex (MAC) that creates pores in pathogen cell membranes.",
@@ -231,7 +232,7 @@ const bodySystems = [
     color: "text-pink-500",
     borderColor: "border-pink-200",
     bgAccent: "bg-pink-50",
-    image: illustrationInflammatoryResponse,
+    image: imgReproductive,
     description: "Male and female reproductive anatomy",
     content: [
       "The female reproductive system includes the ovaries, fallopian tubes (oviducts), uterus, cervix, vagina, and external genitalia (vulva). The ovaries produce oocytes (eggs) and secrete estrogen and progesterone. Each month, one dominant follicle matures and releases an oocyte during ovulation, typically around day 14 of a 28-day cycle. The fallopian tubes transport the oocyte toward the uterus; fertilization typically occurs in the ampulla of the fallopian tube. The uterus has three layers: the perimetrium (outer serous layer), myometrium (thick muscular layer responsible for labor contractions), and endometrium (inner lining that thickens in preparation for implantation and is shed during menstruation).",

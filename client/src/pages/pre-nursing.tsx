@@ -90,11 +90,22 @@ import { CommunicationModule } from "@/data/pre-nursing-communication";
 import { EthicsLegalModule } from "@/data/pre-nursing-ethics-legal";
 import { StudyStrategiesModule } from "@/data/pre-nursing-study-strategies";
 
-import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
-import illustrationHomeostasis from "@assets/E9E33423-6365-4686-98CB-3197D14546E5_1771868083264.png";
-import illustrationCranialNerves from "@assets/119BE6D3-7233-475C-883A-BA86F5BAE1E9_1771867815027.png";
-import illustrationElectrolytes from "@assets/AB6C69A2-A616-4DBF-8567-6990D4260BDE_1771867744630.png";
-import illustrationInflammatoryResponse from "@assets/046AF766-D3A2-4713-BF5D-BC2AFF8EEA89_1771876993790.png";
+import imgCellBiology from "@/assets/prenursing-cell-biology.png";
+import imgPhysiology from "@/assets/prenursing-physiology.png";
+import imgTerminology from "@/assets/prenursing-terminology.png";
+import imgPharmacology from "@/assets/prenursing-pharmacology.png";
+import imgPathophysiology from "@/assets/prenursing-pathophysiology.png";
+import imgScienceFoundations from "@/assets/prenursing-science-foundations.png";
+import imgAnatomyPhysiology from "@/assets/prenursing-anatomy-physiology.png";
+import imgResearchStatistics from "@/assets/prenursing-research-statistics.png";
+import imgMedicalTerminology from "@/assets/prenursing-medical-terminology.png";
+import imgChemistry from "@/assets/prenursing-chemistry.png";
+import imgMicrobiology from "@/assets/prenursing-microbiology.png";
+import imgInfectionControl from "@/assets/prenursing-infection-control.png";
+import imgFluidsElectrolytes from "@/assets/prenursing-fluids-electrolytes.png";
+import imgCommunication from "@/assets/prenursing-communication.png";
+import imgEthicsLegal from "@/assets/prenursing-ethics-legal.png";
+import imgStudyStrategies from "@/assets/prenursing-study-strategies.png";
 
 function cn(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
@@ -120,7 +131,7 @@ const modules: {
     color: "text-blue-600",
     bg: "bg-blue-50",
     lessons: 4,
-    image: illustrationCellStructure,
+    image: imgCellBiology,
   },
   {
     id: "physiology",
@@ -130,7 +141,7 @@ const modules: {
     color: "text-emerald-600",
     bg: "bg-emerald-50",
     lessons: 4,
-    image: illustrationHomeostasis,
+    image: imgPhysiology,
   },
   {
     id: "terminology",
@@ -140,7 +151,7 @@ const modules: {
     color: "text-purple-600",
     bg: "bg-purple-50",
     lessons: 3,
-    image: illustrationCranialNerves,
+    image: imgTerminology,
   },
   {
     id: "pharmacology",
@@ -150,7 +161,7 @@ const modules: {
     color: "text-amber-600",
     bg: "bg-amber-50",
     lessons: 3,
-    image: illustrationElectrolytes,
+    image: imgPharmacology,
   },
   {
     id: "pathophysiology",
@@ -160,7 +171,7 @@ const modules: {
     color: "text-rose-600",
     bg: "bg-rose-50/80",
     lessons: 3,
-    image: illustrationInflammatoryResponse,
+    image: imgPathophysiology,
   },
   {
     id: "science-foundations",
@@ -170,7 +181,7 @@ const modules: {
     color: "text-teal-600",
     bg: "bg-teal-50/80",
     lessons: 6,
-    image: illustrationCellStructure,
+    image: imgScienceFoundations,
   },
   {
     id: "anatomy-physiology",
@@ -180,7 +191,7 @@ const modules: {
     color: "text-red-600",
     bg: "bg-red-50",
     lessons: 7,
-    image: illustrationHomeostasis,
+    image: imgAnatomyPhysiology,
   },
   {
     id: "research-statistics",
@@ -190,7 +201,7 @@ const modules: {
     color: "text-indigo-600",
     bg: "bg-indigo-50",
     lessons: 5,
-    image: illustrationCranialNerves,
+    image: imgResearchStatistics,
   },
   {
     id: "medical-terminology",
@@ -200,7 +211,7 @@ const modules: {
     color: "text-cyan-600",
     bg: "bg-cyan-50",
     lessons: 4,
-    image: illustrationCranialNerves,
+    image: imgMedicalTerminology,
   },
   {
     id: "chemistry",
@@ -210,7 +221,7 @@ const modules: {
     color: "text-orange-600",
     bg: "bg-orange-50",
     lessons: 4,
-    image: illustrationElectrolytes,
+    image: imgChemistry,
   },
   {
     id: "microbiology",
@@ -220,7 +231,7 @@ const modules: {
     color: "text-lime-600",
     bg: "bg-lime-50",
     lessons: 4,
-    image: illustrationCellStructure,
+    image: imgMicrobiology,
   },
   {
     id: "infection-control",
@@ -230,7 +241,7 @@ const modules: {
     color: "text-rose-600",
     bg: "bg-rose-50",
     lessons: 4,
-    image: illustrationInflammatoryResponse,
+    image: imgInfectionControl,
   },
   {
     id: "fluids-electrolytes",
@@ -240,7 +251,7 @@ const modules: {
     color: "text-sky-600",
     bg: "bg-sky-50",
     lessons: 4,
-    image: illustrationElectrolytes,
+    image: imgFluidsElectrolytes,
   },
   {
     id: "communication",
@@ -250,7 +261,7 @@ const modules: {
     color: "text-violet-600",
     bg: "bg-violet-50",
     lessons: 4,
-    image: illustrationHomeostasis,
+    image: imgCommunication,
   },
   {
     id: "ethics-legal",
@@ -260,7 +271,7 @@ const modules: {
     color: "text-amber-600",
     bg: "bg-amber-50",
     lessons: 4,
-    image: illustrationCranialNerves,
+    image: imgEthicsLegal,
   },
   {
     id: "study-strategies",
@@ -270,7 +281,7 @@ const modules: {
     color: "text-pink-600",
     bg: "bg-pink-50",
     lessons: 4,
-    image: illustrationHomeostasis,
+    image: imgStudyStrategies,
   },
 ];
 
