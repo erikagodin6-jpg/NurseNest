@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { ProtectedImage } from "@/components/protected-image";
+import { getCategoryImage } from "@/lib/system-images";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
@@ -2829,9 +2830,9 @@ export default function Flashcards() {
               <Card className="border-none shadow-xl bg-white overflow-hidden rounded-3xl min-h-[500px] flex flex-col animate-in slide-in-from-right-4 duration-300">
                 <div className="grid md:grid-cols-2 flex-1">
                   <div className="bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100 relative overflow-hidden">
-                    {currentCard.image ? (
+                    {(currentCard.image || getCategoryImage(currentCard.category || "")) ? (
                       <ProtectedImage 
-                        src={currentCard.image} 
+                        src={currentCard.image || getCategoryImage(currentCard.category || "") || ""} 
                         alt={`Clinical flashcard illustration for ${catLabel(currentCard.category || "nursing")}  -  NurseNest`}
                         title={`NurseNest ${catLabel(currentCard.category || "Nursing")} Flashcard`}
                         className="w-64 h-64 object-contain rounded-2xl shadow-sm"
@@ -2896,6 +2897,14 @@ export default function Flashcards() {
                   {/* Front: Term */}
                   <Card className="absolute inset-0 w-full h-full backface-hidden bg-white border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-6 sm:p-12 text-center overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-2 bg-primary/20" />
+                    {(currentCard.image || getCategoryImage(currentCard.category || "")) && (
+                      <ProtectedImage
+                        src={currentCard.image || getCategoryImage(currentCard.category || "") || ""}
+                        alt={`${currentCard.category} illustration`}
+                        className="w-20 h-20 object-contain rounded-xl mb-4 opacity-60"
+                        data-testid={`img-term-${currentCard.id}`}
+                      />
+                    )}
                     <span className="text-[10px] font-bold text-primary uppercase tracking-widest mb-8">{t("flashcards.clinicalTerminology")}</span>
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 leading-tight">{currentCard.question}</h2>
                     <div className="mt-12 flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest animate-pulse">

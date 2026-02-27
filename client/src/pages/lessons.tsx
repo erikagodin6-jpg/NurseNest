@@ -71,7 +71,7 @@ import {
 
 import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/difficulty";
 import { useAuth } from "@/lib/auth";
-import { getSystemImage } from "@/lib/system-images";
+import { getSystemImage, getSystemPreviewImage } from "@/lib/system-images";
 
 const fundamentalsSystems = [
   {
@@ -3233,7 +3233,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
   const { t } = useI18n();
   const { user } = useAuth();
   const { getImageUrl, refresh: refreshImages } = useSiteImages();
-  const systemImg = getSystemImage(system.id);
+  const systemImg = getSystemPreviewImage(system.id) || getSystemImage(system.id);
   const isAdmin = user?.tier === "admin";
   const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");

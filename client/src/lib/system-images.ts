@@ -82,6 +82,37 @@ import illustrationPharmacology from "@/assets/lesson-pharmacology.png";
 import illustrationEmergency from "@/assets/lesson-emergency.png";
 import illustrationAssessment from "@/assets/lesson-assessment.png";
 import illustrationPainManagement from "@/assets/lesson-pain-management.png";
+
+import previewCardiovascular from "@/assets/preview-cardiovascular.png";
+import previewRespiratory from "@/assets/preview-respiratory.png";
+import previewNeurological from "@/assets/preview-neurological.png";
+import previewGastrointestinal from "@/assets/preview-gastrointestinal.png";
+import previewRenal from "@/assets/preview-renal.png";
+import previewEndocrine from "@/assets/preview-endocrine.png";
+import previewHematology from "@/assets/preview-hematology.png";
+import previewMusculoskeletal from "@/assets/preview-musculoskeletal.png";
+import previewImmune from "@/assets/preview-immune.png";
+import previewMaternity from "@/assets/preview-maternity.png";
+import previewPediatrics from "@/assets/preview-pediatrics.png";
+import previewMentalHealth from "@/assets/preview-mental-health.png";
+import previewOncology from "@/assets/preview-oncology.png";
+import previewPharmacology from "@/assets/preview-pharmacology.png";
+import previewFundamentals from "@/assets/preview-fundamentals.png";
+import previewEmergency from "@/assets/preview-emergency.png";
+import previewEyeEar from "@/assets/preview-eye-ear.png";
+import previewWoundCare from "@/assets/preview-wound-care.png";
+import previewSkin from "@/assets/preview-skin.png";
+import previewInfectionControl from "@/assets/preview-infection-control.png";
+import previewPainManagement from "@/assets/preview-pain-management.png";
+import previewPalliative from "@/assets/preview-palliative.png";
+import previewCommunityHealth from "@/assets/preview-community-health.png";
+import previewAssessment from "@/assets/preview-assessment.png";
+import previewNutrition from "@/assets/preview-nutrition.png";
+import previewLab from "@/assets/preview-lab.png";
+import previewVaccines from "@/assets/preview-vaccines.png";
+import previewGenetics from "@/assets/preview-genetics.png";
+import previewToxicology from "@/assets/preview-toxicology.png";
+import previewReproductive from "@/assets/preview-reproductive.png";
 import illustrationPalliative from "@/assets/lesson-palliative.png";
 import illustrationCommunityHealth from "@/assets/lesson-community-health.png";
 import illustrationNutrition from "@/assets/lesson-nutrition.png";
@@ -527,5 +558,218 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("palliat") || lessonId.includes("end-of-life") || lessonId.includes("hospice")) return illustrationPalliative;
   if (lessonId.includes("communit") || lessonId.includes("public-health")) return illustrationCommunityHealth;
   if (lessonId.includes("nutrit") || lessonId.includes("diet")) return illustrationNutrition;
+  return undefined;
+}
+
+const systemPreviewMap: Record<string, string> = {
+  "cardiovascular": previewCardiovascular,
+  "cardiovascular-rn": previewCardiovascular,
+  "cardiovascular-np": previewCardiovascular,
+  "cardiovascular-rpn": previewCardiovascular,
+  "cardiovascular-pharmacology-rpn": previewCardiovascular,
+  "cardiovascular-pharmacology-rn": previewCardiovascular,
+  "cardiovascular-pharmacology-np": previewCardiovascular,
+
+  "respiratory": previewRespiratory,
+  "respiratory-rn": previewRespiratory,
+  "respiratory-np": previewRespiratory,
+  "respiratory-rpn": previewRespiratory,
+  "respiratory-pharmacology-rpn": previewRespiratory,
+  "respiratory-pharmacology-rn": previewRespiratory,
+  "respiratory-pharmacology-np": previewRespiratory,
+
+  "neurological": previewNeurological,
+  "neurological-rn": previewNeurological,
+  "neurological-np": previewNeurological,
+  "neurological-rpn": previewNeurological,
+  "neuro-basics": previewNeurological,
+  "neurological-pharmacology-rpn": previewNeurological,
+  "neurological-pharmacology-rn": previewNeurological,
+  "neurological-pharmacology-np": previewNeurological,
+
+  "gastrointestinal": previewGastrointestinal,
+  "gastrointestinal-rn": previewGastrointestinal,
+  "gastrointestinal-np": previewGastrointestinal,
+  "gastrointestinal-rpn": previewGastrointestinal,
+  "gi-advanced": previewGastrointestinal,
+  "gi-pharmacology-rpn": previewGastrointestinal,
+  "gi-pharmacology-rn": previewGastrointestinal,
+  "gi-pharmacology-np": previewGastrointestinal,
+
+  "renal": previewRenal,
+  "renal-rpn": previewRenal,
+  "renal-metabolic-rn": previewRenal,
+  "renal-np": previewRenal,
+  "renal-pharmacology-rpn": previewRenal,
+  "renal-pharmacology-rn": previewRenal,
+  "renal-pharmacology-np": previewRenal,
+
+  "endocrine": previewEndocrine,
+  "endocrine-rpn": previewEndocrine,
+  "endocrine-rn": previewEndocrine,
+  "endocrine-np": previewEndocrine,
+  "endocrine-pharmacology-rpn": previewEndocrine,
+  "endocrine-pharmacology-rn": previewEndocrine,
+  "endocrine-pharmacology-np": previewEndocrine,
+
+  "hematology": previewHematology,
+  "hematology-rpn": previewHematology,
+  "hematology-rn": previewHematology,
+  "hematology-np": previewHematology,
+  "hematology-oncology-rpn": previewHematology,
+  "hematology-pharmacology-rpn": previewHematology,
+
+  "musculoskeletal": previewMusculoskeletal,
+  "musculoskeletal-rpn": previewMusculoskeletal,
+  "musculoskeletal-rn": previewMusculoskeletal,
+  "musculoskeletal-np": previewMusculoskeletal,
+  "orthopedic-rpn": previewMusculoskeletal,
+
+  "immune": previewImmune,
+  "immune-system": previewImmune,
+  "immune-system-rpn": previewImmune,
+  "immune-rn": previewImmune,
+  "immune-np": previewImmune,
+  "autoimmune-rheumatology-np": previewImmune,
+
+  "maternity": previewMaternity,
+  "maternity-rn": previewMaternity,
+  "maternity-np": previewMaternity,
+  "maternity-rpn": previewMaternity,
+  "maternity-pharmacology-rpn": previewMaternity,
+  "maternity-pharmacology-rn": previewMaternity,
+  "maternity-pharmacology-np": previewMaternity,
+  "postpartum-neonatal-rpn": previewMaternity,
+
+  "pediatrics": previewPediatrics,
+  "pediatrics-rn": previewPediatrics,
+  "pediatrics-np": previewPediatrics,
+  "pediatrics-rpn": previewPediatrics,
+  "pediatric-pharmacology-rpn": previewPediatrics,
+  "pediatric-pharmacology-rn": previewPediatrics,
+  "pediatric-pharmacology-np": previewPediatrics,
+  "neonatal-rpn": previewPediatrics,
+
+  "mental-health": previewMentalHealth,
+  "mental-health-rn": previewMentalHealth,
+  "mental-health-np": previewMentalHealth,
+  "mental-health-rpn": previewMentalHealth,
+  "psychiatric-pharmacology-rpn": previewMentalHealth,
+  "psychiatric-pharmacology-rn": previewMentalHealth,
+  "psychiatric-pharmacology-np": previewMentalHealth,
+
+  "oncology": previewOncology,
+  "oncology-rn": previewOncology,
+  "oncology-np": previewOncology,
+  "oncology-rpn": previewOncology,
+  "oncology-pharmacology-rpn": previewOncology,
+  "oncology-pharmacology-rn": previewOncology,
+  "oncology-pharmacology-np": previewOncology,
+
+  "pharmacology": previewPharmacology,
+  "pharmacology-core-rpn": previewPharmacology,
+  "pharmacology-core-rn": previewPharmacology,
+  "pharmacology-core-np": previewPharmacology,
+  "analgesic-pharmacology-rpn": previewPharmacology,
+
+  "fundamentals-core": previewFundamentals,
+  "fundamentals": previewFundamentals,
+  "nursing-fundamentals-rpn": previewFundamentals,
+
+  "emergency": previewEmergency,
+  "emergency-rn": previewEmergency,
+  "emergency-np": previewEmergency,
+  "emergency-rpn": previewEmergency,
+  "clinical-scenarios": previewEmergency,
+  "clinical-scenarios-rpn": previewEmergency,
+  "critical-care-advanced-np": previewEmergency,
+
+  "heent-skin-rpn": previewSkin,
+  "eye-ear": previewEyeEar,
+  "eye-ear-rpn": previewEyeEar,
+  "sensory-np": previewEyeEar,
+
+  "wound-care-rpn": previewWoundCare,
+  "skin-infections-rpn": previewSkin,
+
+  "delegation-core": previewAssessment,
+  "delegation": previewAssessment,
+
+  "infection-control-rpn": previewInfectionControl,
+  "infection-control": previewInfectionControl,
+
+  "pain-management-rpn": previewPainManagement,
+  "pain-management": previewPainManagement,
+
+  "palliative-eol-rpn": previewPalliative,
+  "palliative": previewPalliative,
+
+  "community-health-rpn": previewCommunityHealth,
+  "community": previewCommunityHealth,
+
+  "cell-structure": previewGenetics,
+  "cell-biology": previewGenetics,
+  "feedback-loops": previewEndocrine,
+  "homeostasis": previewEndocrine,
+
+  "reproductive": previewReproductive,
+
+  "assessment-rpn": previewAssessment,
+  "assessment": previewAssessment,
+
+  "nutrition-rpn": previewNutrition,
+  "lab-fundamentals-rpn": previewLab,
+  "vaccines-rpn": previewVaccines,
+
+  "rare-genetic-disorders-np": previewGenetics,
+  "toxicology-np": previewToxicology,
+  "advanced-diagnostics-np": previewLab,
+  "advanced-pharmacology-np": previewPharmacology,
+};
+
+export function getSystemPreviewImage(systemId: string): string | undefined {
+  if (systemPreviewMap[systemId]) return systemPreviewMap[systemId];
+
+  for (const [key, value] of Object.entries(systemPreviewMap)) {
+    if (systemId.includes(key) || key.includes(systemId)) {
+      return value;
+    }
+  }
+
+  return undefined;
+}
+
+const categoryImageMap: Record<string, string> = {
+  "Cardiovascular": illustrationCardiacCycle,
+  "Respiratory": illustrationCOPD,
+  "Neurological": illustrationStroke,
+  "GI": illustrationElectrolytes,
+  "GU / Renal": illustrationKidneys,
+  "Endocrine": illustrationHomeostasis,
+  "Hematology": illustrationHematology,
+  "Musculoskeletal": illustrationOsteoporosis,
+  "Skin": illustrationWound,
+  "Infection": illustrationBacteria,
+  "Pharmacology": illustrationPharmacology,
+  "Pediatrics": illustrationPediatrics,
+  "Neonatal": illustrationMaternity,
+  "Maternal": illustrationMaternity,
+  "Psychiatry": illustrationMentalHealth,
+  "Oncology": illustrationTumor,
+  "Procedures": illustrationAssessment,
+  "Emergency": illustrationEmergency,
+  "Immune": illustrationInflammatoryResponse,
+};
+
+export function getCategoryImage(category: string): string | undefined {
+  if (categoryImageMap[category]) return categoryImageMap[category];
+
+  const lc = category.toLowerCase();
+  for (const [key, value] of Object.entries(categoryImageMap)) {
+    if (lc.includes(key.toLowerCase()) || key.toLowerCase().includes(lc)) {
+      return value;
+    }
+  }
+
   return undefined;
 }
