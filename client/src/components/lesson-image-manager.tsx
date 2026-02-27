@@ -204,11 +204,22 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
         const err = await res.json();
         throw new Error(err.error || "Generation failed");
       }
+      const newImage = await res.json();
+      if (newImage && newImage.id) {
+        setImages((prev) => [...prev, {
+          id: newImage.id,
+          lesson_id: newImage.lesson_id,
+          object_path: newImage.object_path,
+          file_name: newImage.file_name,
+          section: newImage.section,
+          caption: newImage.caption,
+          position: newImage.position,
+        }]);
+      }
       toast({ title: "AI image generated", description: "Image has been added to this section" });
       setAiPrompt("");
       setAiCaption("");
       setShowAiGenerator(false);
-      fetchImages();
     } catch (e: any) {
       toast({ title: "AI Generation Error", description: e.message, variant: "destructive" });
     } finally {
