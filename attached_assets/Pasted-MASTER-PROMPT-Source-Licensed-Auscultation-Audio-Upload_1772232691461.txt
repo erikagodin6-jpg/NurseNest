@@ -1,0 +1,173 @@
+MASTER PROMPT: Source Licensed Auscultation Audio + Upload + Attach to Lessons (Heart/Lung/Bowel)
+
+You are my senior engineer + content integrator working on my NurseNest website. Implement an audio library feature for auscultation sounds (heart sounds, lung sounds, bowel sounds) and attach the correct clips to the appropriate lessons/pages.
+
+CRITICAL LEGAL REQUIREMENT (DO NOT VIOLATE)
+- Do NOT scrape or download audio from random websites, YouTube, or copyrighted sources.
+- Only use audio that is:
+  (A) Public domain, OR
+  (B) Creative Commons licensed for commercial use (CC0 / CC BY; CC BY-SA acceptable if we can comply), OR
+  (C) Purchased/licensed for commercial use from a reputable vendor/library with explicit permission.
+- For every audio file stored, save license details, attribution requirements, and the source URL or purchase record.
+- If an audio source is “free for education” but not explicitly commercial, treat it as NOT permitted.
+
+PROJECT GOAL
+1) Build an “Auscultation Audio Library” in the admin
+2) Ingest approved heart, lung, and bowel sounds
+3) Assign each audio clip to the appropriate lesson(s) and flashcard sets
+4) Render an “Audio practice” section inside those lessons with:
+   - play/pause
+   - scrub bar
+   - repeat
+   - volume
+   - playback speed (0.75x, 1x, 1.25x)
+   - optional quiz prompt (identify the sound)
+
+STEP 1 — DEFINE THE AUDIO CATALOG (TARGET LIST)
+Create a starting catalog (minimum viable library):
+
+HEART SOUNDS (at least 10):
+- Normal S1/S2
+- S3 gallop
+- S4 gallop
+- Aortic stenosis murmur
+- Aortic regurgitation murmur
+- Mitral regurgitation murmur
+- Mitral stenosis murmur
+- Ventricular septal defect murmur
+- Pericardial friction rub
+
+LUNG SOUNDS (at least 10):
+- Normal vesicular breath sounds
+- Fine crackles
+- Coarse crackles
+- Wheeze (expiratory)
+- Wheeze (inspiratory)
+- Rhonchi
+- Stridor
+- Pleural friction rub
+- Diminished breath sounds
+- Absent breath sounds (simulation clip acceptable if clearly labeled)
+
+BOWEL SOUNDS (at least 5):
+- Normal active
+- Hypoactive
+- Hyperactive
+- High-pitched tinkling (obstruction pattern)
+- Absent (simulation clip acceptable if clearly labeled)
+
+STEP 2 — SOURCE ACQUISITION WORKFLOW (SAFE + AUDITABLE)
+Implement an admin workflow that supports two acquisition methods:
+
+A) Upload from licensed vendor package (preferred)
+- Admin uploads audio files (wav/mp3) + enters metadata manually.
+- Store license type, attribution text, and proof of license (file or link).
+
+B) Import from approved open-license sources (only if license is compliant)
+- Admin enters a source URL and confirms license type in a form.
+- System fetches ONLY if:
+  - license is verified as CC0/CC BY/CC BY-SA or public domain
+  - and terms allow commercial use
+- If license cannot be automatically verified, block import and require manual admin confirmation.
+
+Never auto-import from unknown sources.
+Always log source URL and license metadata.
+
+STEP 3 — AUDIO PROCESSING + STORAGE
+- Store original audio and generate web-optimized versions:
+  - MP3/AAC for streaming
+  - normalize loudness (LUFS target consistent across clips)
+  - trim leading/trailing silence
+- Keep clip length 8–25 seconds where possible (loopable for certain sounds).
+- Store waveform peaks for UI waveform display (optional).
+
+STEP 4 — DATABASE SCHEMA
+Add tables:
+
+audio_clips:
+- id
+- title
+- category: "HEART"|"LUNG"|"BOWEL"
+- subcategory (e.g., “Murmur”, “Crackles”, “Normal”)
+- condition_tag (e.g., “Aortic stenosis”)
+- description_short (1–2 sentences)
+- body_site (e.g., “apex”, “RUSB”, “bases” optional)
+- audio_url_original
+- audio_url_stream
+- duration_seconds
+- license_type ("CC0"|"CC_BY"|"CC_BY_SA"|"PUBLIC_DOMAIN"|"COMMERCIAL_LICENSE")
+- attribution_text
+- source_url
+- proof_of_license_url_or_file
+- created_by_admin_id
+- created_at
+
+lesson_audio_links:
+- id
+- lesson_id
+- audio_clip_id
+- display_order
+- quiz_prompt (optional)
+- answer_key (optional)
+- created_at
+
+flashcard_audio_links (optional):
+- flashcard_id
+- audio_clip_id
+
+STEP 5 — LESSON ATTACHMENT RULES (AUTO + MANUAL)
+Implement mapping so audio appears on the correct lessons automatically, but admin can override.
+
+Auto-map suggestions:
+- Heart sounds lesson → all HEART clips
+- Cardiac assessment lesson → normal + murmurs
+- COPD/asthma lessons → wheeze, diminished, rhonchi
+- Pneumonia lesson → crackles
+- Airway emergency lesson → stridor
+- GI assessment lesson → bowel sounds set
+
+Add an admin UI:
+- Select a lesson
+- Add audio clips (search by tag)
+- Reorder
+- Add quiz prompt/answer
+
+STEP 6 — FRONTEND UI (IN LESSONS)
+In each lesson page, add a section titled “Auscultation Audio Practice” with:
+- List of clips with:
+  - title
+  - short description
+  - play controls
+  - “Test me” toggle: hides label, plays clip, user selects answer
+- If “Test me” is on:
+  - show multiple-choice options pulled from same category (distractors)
+  - show rationale text from lesson (not AI-generated)
+- Show attribution + license link in a subtle footer for each clip (required for CC BY).
+
+STEP 7 — SEO + INDEXING RULES
+- Public lesson pages may include an audio player and still be indexed.
+- Do NOT expose direct downloadable links publicly if the license restricts redistribution.
+- Add structured data where appropriate (e.g., “LearningResource” metadata on lesson pages).
+
+STEP 8 — QUALITY CHECKS
+Before publishing any clip:
+- Confirm it matches the label (e.g., “aortic stenosis” is truly crescendo-decrescendo systolic)
+- Confirm volume normalization
+- Confirm licensing is recorded and compliant
+- Confirm the clip is assigned to at least one lesson
+
+DELIVERABLES
+1) Admin audio library + upload/import workflow with strict license compliance
+2) DB migrations + models
+3) Lesson attachment UI + auto-mapping suggestions
+4) Frontend lesson audio practice module with quiz mode
+5) Attribution display system
+6) Audit logs for all imports/uploads and license fields
+
+Start by scanning the current codebase for:
+- lesson schema
+- admin dashboard patterns
+- existing file upload storage
+- role/auth middleware
+
+Implement incrementally and do not break existing paid tier logic.

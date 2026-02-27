@@ -1,0 +1,257 @@
+MASTER PROMPT: Build SEO → Free Practice → Subscription Conversion Funnel for Test Mode
+
+You are a senior full-stack engineer working inside my existing NurseNest codebase (Vite + React frontend, Express backend, existing subscription system, flashcards, AI verification, study modes).
+
+Your goal is to implement an SEO-driven acquisition and conversion system that:
+
+1) Ranks for nursing exam practice keywords
+2) Provides limited free interactive practice
+3) Converts users into paid subscriptions for full test mode access
+4) Preserves my premium features and paid value
+
+This is NOT a rebuild of the exam engine.
+This is a funnel layer on top of existing functionality.
+
+────────────────────────────────────────
+SECTION 1 — SEO PRACTICE LANDING PAGE FRAMEWORK
+────────────────────────────────────────
+
+Create a reusable dynamic page template:
+
+Route:
+  /practice/[exam-type]/[topic-slug]
+
+Examples:
+  /practice/nclex/hyperkalemia
+  /practice/rexpn/prioritization
+  /practice/np/dka
+  /practice/nclex-nextgen/cardiac-case-study
+
+Each practice page must contain:
+
+1) SEO-optimized long-form content (1500–3000 words)
+   - H1 targeting primary keyword
+   - H2/H3 structured headings
+   - Internal links to related lessons
+   - FAQ section
+   - Schema markup (FAQ + Article)
+
+2) Embedded interactive practice questions (limited free access)
+   - Pull 5–10 sample questions from the test bank
+   - Question types: multiple choice minimum
+   - Optional: SATA and case-based if supported
+
+3) Performance feedback block
+   - Score summary
+   - “Passing likelihood indicator”
+   - Visual progress bar
+   - Weak topic suggestions
+
+4) Conversion block
+   - CTA section:
+     “Unlock 300+ practice questions”
+     “Access full adaptive mock exams”
+     “Track your performance analytics”
+   - Subscription plan comparison
+   - Upgrade button integrated with existing billing
+
+IMPORTANT:
+Only allow 5–10 free questions per topic per day for non-subscribers.
+Subscribers get unlimited practice.
+
+────────────────────────────────────────
+SECTION 2 — FREE LIMIT ENFORCEMENT
+────────────────────────────────────────
+
+Implement server-side limits:
+
+Free users:
+- 5–10 questions per topic per day
+- Limited performance breakdown
+- No adaptive exam simulation
+- No detailed analytics
+
+Paid users:
+- Unlimited questions
+- Adaptive exam mode
+- Detailed analytics
+- Save exam history
+- Performance prediction tools
+
+Add:
+POST /api/practice/session
+POST /api/practice/submit-answer
+GET  /api/practice/results
+
+Track:
+- daily_question_attempt_count per user per topic
+- enforce limit server-side
+
+Return error:
+"FREE_LIMIT_REACHED"
+
+Trigger upgrade modal automatically.
+
+────────────────────────────────────────
+SECTION 3 — CONVERSION PSYCHOLOGY ENGINE
+────────────────────────────────────────
+
+After user completes free practice:
+
+Display:
+- Score (e.g., 3/5 correct)
+- “Estimated NCLEX readiness: 62%”
+- Red/Yellow/Green performance badge
+- Weak topic breakdown
+
+Then show:
+
+Upgrade CTA:
+“Students who score below 75% typically struggle on prioritization questions.”
+“Unlock full adaptive exam mode to improve your score.”
+
+Do NOT auto-generate rationales beyond what question bank includes.
+Do NOT provide full tutoring (protect premium AI tutor feature).
+
+────────────────────────────────────────
+SECTION 4 — TOPIC CLUSTER INTERNAL LINKING
+────────────────────────────────────────
+
+For each practice page:
+
+Automatically include:
+- Links to related lessons
+- Links to related flashcard sets
+- Links to related practice topics
+- Link to full mock exam page
+
+Implement dynamic “Related Topics” component using tag overlap.
+
+This strengthens SEO authority.
+
+────────────────────────────────────────
+SECTION 5 — MOCK EXAM LANDING PAGE
+────────────────────────────────────────
+
+Create high-converting page:
+
+Route:
+  /mock-exam/[exam-type]
+
+Content includes:
+- What to expect on exam
+- Adaptive simulation description
+- Passing benchmarks
+- Sample question preview (2–3)
+- Testimonials section (placeholder)
+- Upgrade CTA
+
+Free users:
+- Allow 3–5 preview questions only
+- Then lock
+
+Paid users:
+- Full-length timed exam simulation
+
+────────────────────────────────────────
+SECTION 6 — EMAIL CAPTURE INTEGRATION
+────────────────────────────────────────
+
+On high-traffic practice pages:
+
+If user not logged in:
+Show:
+“Get 7 Days of Free NCLEX Practice”
+
+Collect email.
+Create:
+POST /api/leads
+
+Add:
+Tag user as “practice-lead”
+
+Trigger email automation externally.
+
+────────────────────────────────────────
+SECTION 7 — SEO TECHNICAL REQUIREMENTS
+────────────────────────────────────────
+
+Each practice page must:
+
+- Be indexable
+- Not require login to view content
+- Only gate interactive features
+- Include canonical tags
+- Include structured schema (FAQ + Educational content)
+- Load fast
+- Lazy-load question engine
+- Not index test result URLs
+- Not index duplicate filter variants
+
+Only index:
+Public educational content + preview questions
+
+Do NOT index:
+- Paid-only full question banks
+- Dynamic test result pages
+- Filtered duplicates
+
+────────────────────────────────────────
+SECTION 8 — ANALYTICS TRACKING
+────────────────────────────────────────
+
+Track:
+
+- SEO page views
+- Practice attempts
+- Free limit reached events
+- Upgrade clicks
+- Conversion rate per topic
+- Most converting keywords
+
+Create dashboard:
+- Top converting practice pages
+- Revenue by topic cluster
+- Free-to-paid conversion %
+
+────────────────────────────────────────
+SECTION 9 — DIFFERENTIATION POSITIONING
+────────────────────────────────────────
+
+Ensure messaging emphasizes:
+
+- AI-Verified questions
+- Clinically accurate content
+- Built for serious nursing students
+- NGN-style cases
+- Adaptive exam simulation
+
+Never position as simple flashcards.
+Position as exam mastery system.
+
+────────────────────────────────────────
+DELIVERABLES
+────────────────────────────────────────
+
+1) Reusable dynamic SEO practice page template
+2) Free question limit enforcement
+3) Conversion CTA integration
+4) Mock exam preview page
+5) Email capture integration
+6) Analytics tracking for funnel
+7) Internal linking engine
+8) Publish-ready SEO structure
+
+Start by analyzing existing:
+- Question bank models
+- Subscription middleware
+- Flashcard/lesson linking logic
+- Current routing
+
+Then implement incrementally.
+
+This system must:
+- Increase organic traffic
+- Convert high-intent users
+- Protect premium features
+- Scale to 100+ topic pages
