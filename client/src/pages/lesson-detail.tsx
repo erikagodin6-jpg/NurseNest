@@ -17,9 +17,10 @@ import {
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
   ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil, X, Plus, Trash2,
-  PlayCircle, Clock, ChevronRight, Sparkles, Loader2, Wand2
+  PlayCircle, Clock, ChevronRight, ChevronLeft, Sparkles, Loader2, Wand2
 } from "lucide-react";
 import { getLecturesForLesson } from "@/data/micro-lectures";
+import { getLessonNavigation } from "@/lib/lesson-navigation";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { contentMap } from "@/data/lessons";
@@ -3136,6 +3137,41 @@ export default function LessonDetail() {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          );
+        })()}
+
+        {(() => {
+          const nav = getLessonNavigation(id || "");
+          if (!nav) return null;
+          return (
+            <div className="mt-8 flex items-stretch gap-4" data-testid="lesson-navigation">
+              {nav.prev ? (
+                <LocaleLink href={`/lessons/${nav.prev.id}`} className="flex-1">
+                  <div className="h-full flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all group cursor-pointer" data-testid="button-prev-lesson">
+                    <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs text-gray-500 block">Previous Lesson</span>
+                      <span className="text-sm font-medium text-gray-900 block truncate">{nav.prev.name}</span>
+                    </div>
+                  </div>
+                </LocaleLink>
+              ) : (
+                <div className="flex-1" />
+              )}
+              {nav.next ? (
+                <LocaleLink href={`/lessons/${nav.next.id}`} className="flex-1">
+                  <div className="h-full flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all group cursor-pointer text-right" data-testid="button-next-lesson">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs text-gray-500 block">Next Lesson</span>
+                      <span className="text-sm font-medium text-gray-900 block truncate">{nav.next.name}</span>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors flex-shrink-0" />
+                  </div>
+                </LocaleLink>
+              ) : (
+                <div className="flex-1" />
+              )}
             </div>
           );
         })()}

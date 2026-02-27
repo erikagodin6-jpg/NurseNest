@@ -73,7 +73,7 @@ import { type DifficultyLevel, difficultyConfig, getDifficulty } from "@/lib/dif
 import { useAuth } from "@/lib/auth";
 import { getSystemImage, getSystemPreviewImage } from "@/lib/system-images";
 
-const fundamentalsSystems = [
+export const fundamentalsSystems = [
   {
     id: "fundamentals-core",
     title: "Nursing Fundamentals",
@@ -91,7 +91,7 @@ const fundamentalsSystems = [
   }
 ];
 
-const delegationSystems = [
+export const delegationSystems = [
   {
     id: "delegation-core",
     title: "Delegation & Prioritization",
@@ -109,7 +109,7 @@ const delegationSystems = [
   }
 ];
 
-const clinicalScenariosSystems = [
+export const clinicalScenariosSystems = [
   {
     id: "clinical-scenarios",
     title: "Clinical Scenarios & Prioritization",
@@ -131,7 +131,7 @@ const clinicalScenariosSystems = [
   }
 ];
 
-const medMathSystems = [
+export const medMathSystems = [
   {
     id: "med-math-core",
     title: "Med Math & Calculations",
@@ -152,7 +152,7 @@ const medMathSystems = [
   }
 ];
 
-const preNursingSystems = [
+export const preNursingSystems = [
   {
     id: "pre-nursing-foundations",
     title: "Pre-Nursing Foundations",
@@ -175,7 +175,7 @@ const preNursingSystems = [
   }
 ];
 
-const rpnSystems = [
+export const rpnSystems = [
   {
     id: "cardiovascular-rpn",
     title: "Cardiovascular",
@@ -903,7 +903,7 @@ const rpnSystems = [
   }
 ];
 
-const rnSystems = [
+export const rnSystems = [
   {
     id: "cardiovascular-rn",
     title: "Cardiovascular",
@@ -1348,7 +1348,7 @@ const rnSystems = [
   }
 ];
 
-const npSystems = [
+export const npSystems = [
   {
     id: "cardiovascular-np",
     title: "Cardiovascular",
