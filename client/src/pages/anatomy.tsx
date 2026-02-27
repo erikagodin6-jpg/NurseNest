@@ -75,6 +75,9 @@ import imgMuskSarcomere from "@/assets/anatomy-musculoskeletal-sarcomere.png";
 import imgGiTractOverview from "@/assets/anatomy-gi-tract-overview.png";
 import imgGiVilli from "@/assets/anatomy-gi-villi.png";
 import imgGiHepatobiliary from "@/assets/anatomy-gi-hepatobiliary.png";
+import imgRenalSystem from "@/assets/anatomy-renal-system.png";
+import imgRenalNephron from "@/assets/anatomy-renal-nephron.png";
+import imgRenalGlomerulus from "@/assets/anatomy-renal-glomerulus.png";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
@@ -208,6 +211,11 @@ const bodySystems = [
     bgAccent: "bg-green-50",
     image: imgGastrointestinal,
     description: "Digestive organs and nutrient absorption",
+    inlineImages: [
+      { src: imgGiTractOverview, alt: "Complete gastrointestinal tract from mouth to anus showing esophagus, stomach, small intestine, large intestine with cecum, ascending, transverse, descending, and sigmoid colon", afterParagraph: 0 },
+      { src: imgGiVilli, alt: "Cross-section of small intestine wall showing finger-like villi with internal capillary networks and central lacteals, microvilli brush border, and intestinal wall layers", afterParagraph: 1 },
+      { src: imgGiHepatobiliary, alt: "Hepatobiliary system showing liver with lobes, gallbladder, bile ducts, common bile duct connecting to duodenum, and pancreas with pancreatic duct", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The gastrointestinal (GI) tract is a continuous tube from the mouth to the anus, consisting of the oral cavity, pharynx, esophagus, stomach, small intestine (duodenum, jejunum, ileum), large intestine (cecum, ascending, transverse, descending, and sigmoid colon), rectum, and anal canal. Digestion begins in the mouth with mechanical breakdown by teeth and chemical digestion by salivary amylase (starch) and lingual lipase (fats). The bolus travels through the esophagus via peristalsis, passing through the lower esophageal sphincter (cardiac sphincter) into the stomach. The stomach secretes hydrochloric acid (HCl) from parietal cells, pepsinogen from chief cells (activated to pepsin by HCl), and intrinsic factor (essential for vitamin B12 absorption in the ileum).",
       "The small intestine is the primary site of chemical digestion and nutrient absorption. The duodenum receives pancreatic enzymes (trypsin, lipase, amylase) and bile from the liver via the common bile duct at the ampulla of Vater (sphincter of Oddi). Bile salts emulsify fats into smaller droplets, increasing the surface area for lipase activity. The jejunum is the main site for absorption of carbohydrates, proteins, and water-soluble vitamins. The ileum absorbs bile salts, vitamin B12, and remaining nutrients. The intestinal mucosa is covered with villi and microvilli (brush border), dramatically increasing the absorptive surface area to approximately 200 square meters.",
@@ -223,6 +231,11 @@ const bodySystems = [
     bgAccent: "bg-blue-50",
     image: imgRenal,
     description: "Kidneys, nephrons, and fluid balance",
+    inlineImages: [
+      { src: imgRenalSystem, alt: "Complete urinary system showing two kidneys with one in cross-section revealing cortex, medulla pyramids, and renal pelvis, ureters connecting to the urinary bladder, and urethra", afterParagraph: 0 },
+      { src: imgRenalNephron, alt: "Single nephron showing Bowman's capsule with glomerulus, proximal convoluted tubule, loop of Henle, distal convoluted tubule, and collecting duct in distinct colors", afterParagraph: 0 },
+      { src: imgRenalGlomerulus, alt: "Close-up of glomerular filtration showing Bowman's capsule containing capillary tuft with afferent and efferent arterioles and filtrate flowing into the proximal tubule", afterParagraph: 1 },
+    ] as InlineImage[],
     content: [
       "The urinary system consists of two kidneys, two ureters, the urinary bladder, and the urethra. The kidneys are retroperitoneal organs located at T12-L3, with the right kidney slightly lower due to the liver. Each kidney contains approximately one million nephrons: the functional units responsible for urine formation. A nephron consists of the glomerulus (a capillary tuft enclosed by Bowman's capsule), the proximal convoluted tubule (PCT), the loop of Henle (descending and ascending limbs), the distal convoluted tubule (DCT), and the collecting duct. The kidneys receive about 20-25% of cardiac output, filtering approximately 180 liters of plasma daily, yet producing only 1-2 liters of urine.",
       "Urine formation involves three processes: glomerular filtration, tubular reabsorption, and tubular secretion. Filtration occurs at the glomerulus, where hydrostatic pressure forces water, electrolytes, glucose, amino acids, and waste products through the filtration membrane into Bowman's capsule. The glomerular filtration rate (GFR) is approximately 125 mL/min and is a key indicator of renal function. Tubular reabsorption occurs primarily in the PCT, where 65% of filtered sodium, water, glucose, and amino acids are reabsorbed. The loop of Henle establishes the osmotic gradient in the renal medulla via countercurrent multiplication. The DCT and collecting duct fine-tune reabsorption under the influence of aldosterone (sodium retention) and antidiuretic hormone (ADH/vasopressin, water reabsorption).",
