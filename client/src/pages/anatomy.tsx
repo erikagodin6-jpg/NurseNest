@@ -630,11 +630,29 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
       <section className="relative overflow-hidden py-10 md:py-14">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-foreground/5" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 relative">
-          <LocaleLink href="/anatomy">
-            <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer mb-6 block" data-testid="button-back-anatomy">
-              <ArrowLeft className="w-4 h-4" /> Back to Anatomy & Physiology
-            </span>
-          </LocaleLink>
+          <div className="flex items-center justify-between mb-6">
+            <LocaleLink href="/anatomy">
+              <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="button-back-anatomy">
+                <ArrowLeft className="w-4 h-4" /> Back to Anatomy & Physiology
+              </span>
+            </LocaleLink>
+            <div className="flex items-center gap-4">
+              {prevSystem && (
+                <LocaleLink href={`/anatomy/${prevSystem.id}`}>
+                  <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-system-top">
+                    <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{prevSystem.name}</span><span className="sm:hidden">Prev</span>
+                  </span>
+                </LocaleLink>
+              )}
+              {nextSystem && (
+                <LocaleLink href={`/anatomy/${nextSystem.id}`}>
+                  <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-system-top">
+                    <span className="hidden sm:inline">{nextSystem.name}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </LocaleLink>
+              )}
+            </div>
+          </div>
           <div className="flex items-center gap-4 mb-4">
             <div className={`w-14 h-14 rounded-2xl ${system.bgAccent} flex items-center justify-center`}>
               <IconComponent className={`w-7 h-7 ${system.color}`} />

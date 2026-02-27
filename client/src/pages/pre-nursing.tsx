@@ -1065,6 +1065,35 @@ export default function PreNursingPage() {
             >
               <ArrowLeft className="w-4 h-4" /> {t("preNursing.backToModules")}
             </button>
+            <div className="flex items-center gap-4">
+              {(() => {
+                const currentIdx = modules.findIndex((m) => m.id === activeModule);
+                const prevMod = currentIdx > 0 ? modules[currentIdx - 1] : null;
+                const nextMod = currentIdx < modules.length - 1 ? modules[currentIdx + 1] : null;
+                return (
+                  <>
+                    {prevMod && (
+                      <button
+                        onClick={() => { setActiveModule(prevMod.id); window.scrollTo(0, 0); }}
+                        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors"
+                        data-testid="button-prev-module-top"
+                      >
+                        <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t(prevMod.titleKey)}</span><span className="sm:hidden">Prev</span>
+                      </button>
+                    )}
+                    {nextMod && (
+                      <button
+                        onClick={() => { setActiveModule(nextMod.id); window.scrollTo(0, 0); }}
+                        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors"
+                        data-testid="button-next-module-top"
+                      >
+                        <span className="hidden sm:inline">{t(nextMod.titleKey)}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
             {isAdmin && (
               <button
                 onClick={() => setIsContentEditing(!isContentEditing)}

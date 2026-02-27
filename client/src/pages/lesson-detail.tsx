@@ -2495,22 +2495,46 @@ export default function LessonDetail() {
             <li className="text-gray-900 font-medium">{lessonContent.title}</li>
           </ol>
         </nav>
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 flex-wrap gap-2">
           <LocaleLink href="/lessons">
             <Button variant="ghost" className="group">
               <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Overview
             </Button>
           </LocaleLink>
-          <Button 
-            variant={showNotes ? "default" : "outline"} 
-            onClick={() => setShowNotes(!showNotes)}
-            className="gap-2"
-            data-testid="button-toggle-notes"
-          >
-            <StickyNote className="w-4 h-4" />
-            {showNotes ? "Hide Notes" : "My Notes"}
-          </Button>
+          <div className="flex items-center gap-3">
+            {(() => {
+              const nav = getLessonNavigation(id || "");
+              if (!nav) return null;
+              return (
+                <>
+                  {nav.prev && (
+                    <LocaleLink href={`/lessons/${nav.prev.id}`}>
+                      <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-lesson-top">
+                        <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{nav.prev.name}</span><span className="sm:hidden">Prev</span>
+                      </span>
+                    </LocaleLink>
+                  )}
+                  {nav.next && (
+                    <LocaleLink href={`/lessons/${nav.next.id}`}>
+                      <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-lesson-top">
+                        <span className="hidden sm:inline">{nav.next.name}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
+                      </span>
+                    </LocaleLink>
+                  )}
+                </>
+              );
+            })()}
+            <Button 
+              variant={showNotes ? "default" : "outline"} 
+              onClick={() => setShowNotes(!showNotes)}
+              className="gap-2"
+              data-testid="button-toggle-notes"
+            >
+              <StickyNote className="w-4 h-4" />
+              {showNotes ? "Hide Notes" : "My Notes"}
+            </Button>
+          </div>
         </div>
 
         {showNotes && (
