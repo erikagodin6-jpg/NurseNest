@@ -1913,6 +1913,9 @@ export default function LessonDetail() {
                         <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: pathophysiologyText }} />
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="pathophysiology" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -1935,6 +1938,9 @@ export default function LessonDetail() {
                         </div>
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="risk-factors" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -1957,6 +1963,9 @@ export default function LessonDetail() {
                         </div>
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="diagnostics" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -1981,6 +1990,9 @@ export default function LessonDetail() {
                         </ul>
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="management" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -2003,6 +2015,9 @@ export default function LessonDetail() {
                         </ul>
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="nursing-actions" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -2025,6 +2040,9 @@ export default function LessonDetail() {
                         </div>
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="assessment-findings" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -2038,6 +2056,9 @@ export default function LessonDetail() {
                     <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900">
                       <span className="italic" dangerouslySetInnerHTML={{ __html: lifespanText }} />
                     </div>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="lifespan" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -2086,6 +2107,9 @@ export default function LessonDetail() {
                         </Card>
                       )}
                     </div>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="clinical-findings" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -2123,6 +2147,9 @@ export default function LessonDetail() {
                         </Card>
                       ))}
                     </div>
+                    {id && (
+                      <LessonImageManager lessonId={id} section="pharmacology" isAdmin={user?.tier === "admin"} isEditing={false} />
+                    )}
                   </section>
                 )}
 
@@ -2817,6 +2844,14 @@ export default function LessonDetail() {
                         )}
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager
+                        lessonId={id}
+                        section="risk-factors"
+                        isAdmin={user?.tier === "admin"}
+                        isEditing={isEditing}
+                      />
+                    )}
                   </section>
                 ) : null}
 
@@ -2844,6 +2879,14 @@ export default function LessonDetail() {
                         )}
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager
+                        lessonId={id}
+                        section="diagnostics"
+                        isAdmin={user?.tier === "admin"}
+                        isEditing={isEditing}
+                      />
+                    )}
                   </section>
                 ) : null}
 
@@ -2873,6 +2916,14 @@ export default function LessonDetail() {
                         )}
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager
+                        lessonId={id}
+                        section="management"
+                        isAdmin={user?.tier === "admin"}
+                        isEditing={isEditing}
+                      />
+                    )}
                   </section>
                 ) : null}
 
@@ -2900,6 +2951,14 @@ export default function LessonDetail() {
                         )}
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager
+                        lessonId={id}
+                        section="nursing-actions"
+                        isAdmin={user?.tier === "admin"}
+                        isEditing={isEditing}
+                      />
+                    )}
                   </section>
                 ) : null}
 
@@ -2927,6 +2986,14 @@ export default function LessonDetail() {
                         )}
                       </CardContent>
                     </Card>
+                    {id && (
+                      <LessonImageManager
+                        lessonId={id}
+                        section="assessment-findings"
+                        isAdmin={user?.tier === "admin"}
+                        isEditing={isEditing}
+                      />
+                    )}
                   </section>
                 ) : null}
 
@@ -2945,6 +3012,14 @@ export default function LessonDetail() {
                         <span className="italic"><RichTextDisplay html={lessonContent.lifespan!.content} /></span>
                       )}
                     </div>
+                    {id && (
+                      <LessonImageManager
+                        lessonId={id}
+                        section="lifespan"
+                        isAdmin={user?.tier === "admin"}
+                        isEditing={isEditing}
+                      />
+                    )}
                   </section>
                 )}
 
@@ -3075,6 +3150,14 @@ export default function LessonDetail() {
                       </Button>
                     )}
                   </div>
+                  {id && (
+                    <LessonImageManager
+                      lessonId={id}
+                      section="pharmacology"
+                      isAdmin={user?.tier === "admin"}
+                      isEditing={isEditing}
+                    />
+                  )}
                 </section>
 
                 <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
