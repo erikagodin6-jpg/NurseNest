@@ -132,9 +132,18 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     e.preventDefault();
     const html = e.clipboardData.getData("text/html");
     const text = e.clipboardData.getData("text/plain");
-    const content = html || text;
-    const clean = sanitizeHtml(content);
-    document.execCommand("insertHTML", false, clean);
+    let content: string;
+    if (html) {
+      content = sanitizeHtml(html);
+    } else if (text) {
+      content = text
+        .split(/\n\n+/)
+        .map((para) => `<p>${para.replace(/\n/g, "<br>")}</p>`)
+        .join("");
+    } else {
+      return;
+    }
+    document.execCommand("insertHTML", false, content);
     if (editorRef.current) {
       onChange(editorRef.current.innerHTML);
     }
@@ -184,7 +193,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
-          className="px-3 py-2 outline-none text-sm leading-relaxed prose prose-sm max-w-none [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_img]:max-w-full [&_img]:rounded-lg [&_img]:my-2 [&_a]:text-primary [&_a]:underline"
+          className="px-3 py-2 outline-none text-sm leading-relaxed prose prose-sm max-w-none [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:mt-3 [&_h2]:mb-1 [&_h1]:text-xl [&_h1]:font-bold [&_h1]:mt-4 [&_h1]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_img]:max-w-full [&_img]:rounded-lg [&_img]:my-2 [&_a]:text-primary [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-2 [&_pre]:bg-gray-100 [&_pre]:p-2 [&_pre]:rounded [&_pre]:my-2 [&_code]:bg-gray-100 [&_code]:px-1 [&_code]:rounded [&_table]:border-collapse [&_table]:w-full [&_table]:my-2 [&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1 [&_th]:border [&_th]:border-gray-300 [&_th]:px-2 [&_th]:py-1 [&_th]:font-semibold [&_th]:bg-gray-50 [&_hr]:border-gray-300 [&_hr]:my-3 [&_p]:my-1"
           style={{ minHeight }}
           onInput={handleInput}
           onFocus={() => setIsFocused(true)}
@@ -243,14 +252,34 @@ export function RichTextDisplay({ html, className }: { html: string; className?:
   if (!html) return null;
   return (
     <span
-      className={cn("inline [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5", className)}
+      className={cn("inline [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_h3]:text-base [&_h3]:font-semibold [&_h2]:text-lg [&_h2]:font-semibold [&_h1]:text-xl [&_h1]:font-bold [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_img]:max-w-full [&_img]:rounded-lg [&_img]:my-2 [&_a]:text-primary [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_pre]:bg-gray-100 [&_pre]:p-2 [&_pre]:rounded [&_code]:bg-gray-100 [&_code]:px-1 [&_code]:rounded [&_table]:border-collapse [&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1 [&_th]:border [&_th]:border-gray-300 [&_th]:px-2 [&_th]:py-1 [&_th]:font-semibold [&_hr]:border-gray-300 [&_hr]:my-2", className)}
       dangerouslySetInnerHTML={{ __html: sanitizeHtml(html) }}
     />
   );
 }
 
 function sanitizeHtml(html: string): string {
-  const allowed = ["b", "strong", "i", "em", "u", "s", "strike", "br", "p", "div", "span", "ul", "ol", "li", "h3", "h4", "sub", "sup"];
+  const allowed = ["b", "strong", "i", "em", "u", "s", "strike", "br", "p", "div", "span", "ul", "ol", "li", "h3", "h4", "h2", "h1", "sub", "sup", "img", "a", "blockquote", "pre", "code", "table", "thead", "tbody", "tr", "td", "th", "hr"];
+  const allowedAttrs: Record<string, string[]> = {
+    img: ["src", "alt", "style", "width", "height"],
+    a: ["href", "target", "rel"],
+    td: ["colspan", "rowspan", "style"],
+    th: ["colspan", "rowspan", "style"],
+    span: ["style"],
+    p: ["style"],
+    div: ["style"],
+    blockquote: ["style"],
+    li: ["style"],
+    ul: ["style"],
+    ol: ["style", "start", "type"],
+    h1: ["style"],
+    h2: ["style"],
+    h3: ["style"],
+    h4: ["style"],
+    table: ["style"],
+    tr: ["style"],
+    pre: ["style"],
+  };
   const temp = document.createElement("div");
   temp.innerHTML = html;
 
@@ -271,6 +300,17 @@ function sanitizeHtml(html: string): string {
     }
 
     const newEl = document.createElement(tag);
+    const safeAttrs = allowedAttrs[tag] || [];
+    for (const attrName of safeAttrs) {
+      const attrVal = el.getAttribute(attrName);
+      if (attrVal !== null) {
+        newEl.setAttribute(attrName, attrVal);
+      }
+    }
+    if (tag === "a" && !newEl.getAttribute("target")) {
+      newEl.setAttribute("target", "_blank");
+      newEl.setAttribute("rel", "noopener noreferrer");
+    }
     for (const child of Array.from(el.childNodes)) {
       const cleaned = clean(child);
       if (cleaned) newEl.appendChild(cleaned);
