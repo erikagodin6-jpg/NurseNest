@@ -916,13 +916,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="How nerve cells generate and transmit impulses"
           icon={<Brain className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Neurons are the functional units of the nervous system, specialized for rapid{" "}
-            <HoverReveal
-              term="electrochemical communication"
-              definition="Neurons communicate using electrical signals (action potentials) along their length and chemical signals (neurotransmitters) across synapses. This combination allows for both speed (electrical) and specificity (chemical)."
-            />.
-          </p>
+          <EditableModuleText sectionKey="preanat-neuron-content" defaultText="Neurons are the functional units of the nervous system, specialized for rapid electrochemical communication." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="space-y-3 mt-3">
             <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100">
               <p className="text-xs font-semibold text-purple-700 mb-1">Neuron Anatomy</p>
@@ -972,7 +966,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Synaptic Transmission"
-            content="When an action potential reaches the axon terminal: (1) voltage-gated Ca2+ channels open, (2) Ca2+ influx triggers vesicle fusion with the membrane, (3) neurotransmitters are released into the synaptic cleft (exocytosis), (4) neurotransmitters bind postsynaptic receptors, (5) excitatory or inhibitory response generated. The signal is terminated by reuptake, enzymatic breakdown, or diffusion. Most psychiatric and neurological drugs target these synaptic mechanisms."
+            content={synapticTransmission}
           />
         </MicroLesson>
 
@@ -1004,7 +998,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Key Neurotransmitters"
-            content="Acetylcholine (ACh): muscle contraction, parasympathetic effects, memory. Norepinephrine: sympathetic 'fight or flight,' alertness. Dopamine: reward, movement (Parkinson's = dopamine deficiency). Serotonin: mood, sleep, appetite (many antidepressants target serotonin). GABA: main inhibitory NT (benzodiazepines enhance GABA). Glutamate: main excitatory NT. Endorphins: natural pain relief. Understanding these helps you predict drug effects and side effects."
+            content={neurotransmittersText}
           />
         </MicroLesson>
 
@@ -1037,14 +1031,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Chemical messengers and how the body regulates them"
           icon={<Heart className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The endocrine system uses{" "}
-            <HoverReveal
-              term="hormones"
-              definition="Chemical messengers secreted by endocrine glands into the bloodstream. They travel to distant target cells with specific receptors. Hormones regulate metabolism, growth, reproduction, mood, and homeostasis. Two main types: water-soluble (peptide/protein — bind membrane receptors) and lipid-soluble (steroid/thyroid — enter cells and bind intracellular receptors)."
-            />{" "}
-            for slower but longer-lasting communication compared to the nervous system.
-          </p>
+          <EditableModuleText sectionKey="preanat-hormone-signaling-content" defaultText="The endocrine system uses hormones for slower but longer-lasting communication compared to the nervous system." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
               <p className="text-xs font-semibold text-teal-700 mb-1">Water-Soluble Hormones</p>
@@ -1058,7 +1045,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="warning"
             title="Negative Feedback Controls Most Hormones"
-            content="Rising hormone levels inhibit further release. Example: Thyroid axis — Hypothalamus releases TRH → Anterior pituitary releases TSH → Thyroid releases T3/T4 → Rising T3/T4 levels inhibit TRH and TSH release (negative feedback). In hypothyroidism, low T3/T4 means TSH is HIGH (no feedback inhibition). In hyperthyroidism, high T3/T4 means TSH is LOW (strong feedback inhibition). This logic applies to most endocrine axes."
+            content={negativeFeedback}
           />
         </MicroLesson>
 
@@ -1067,14 +1054,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="The master gland controlling other endocrine organs"
           icon={<Sparkles className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The{" "}
-            <HoverReveal
-              term="pituitary gland"
-              definition="A pea-sized gland at the base of the brain, connected to the hypothalamus. Has two lobes: anterior (adenohypophysis) secretes six major hormones, posterior (neurohypophysis) stores and releases two hormones made by the hypothalamus."
-            />{" "}
-            is controlled by the hypothalamus and regulates thyroid, adrenals, gonads, growth, and more.
-          </p>
+          <EditableModuleText sectionKey="preanat-pituitary-content" defaultText="The pituitary gland is controlled by the hypothalamus and regulates thyroid, adrenals, gonads, growth, and more." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-100">
               <p className="text-xs font-semibold text-indigo-700 mb-1">Anterior Pituitary Hormones</p>
@@ -1105,7 +1085,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Clinical Implications of Cortisol"
-            content="Chronic cortisol elevation (Cushing syndrome): hyperglycemia, immunosuppression, muscle wasting, central obesity, moon face, thin skin, osteoporosis, poor wound healing. Cortisol deficiency (Addison disease): hypoglycemia, hypotension, hyperkalemia, hyponatremia, hyperpigmentation, fatigue. Exogenous corticosteroids (prednisone) mimic cortisol — never stop abruptly (adrenal suppression → adrenal crisis)."
+            content={cortisolClinical}
           />
         </MicroLesson>
 
@@ -1138,14 +1118,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Four chambers, four valves, two circuits"
           icon={<Heart className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The heart is a muscular pump approximately the size of a fist, located in the{" "}
-            <HoverReveal
-              term="mediastinum"
-              definition="The central compartment of the thoracic cavity between the two pleural cavities. The heart sits within the pericardial sac in the middle mediastinum, slightly left of the midline."
-            />{" "}
-            of the thoracic cavity. It has four chambers that work in coordinated pairs to maintain two distinct circulatory loops.
-          </p>
+          <EditableModuleText sectionKey="preanat-heart-content" defaultText="The heart is a muscular pump approximately the size of a fist, located in the mediastinum of the thoracic cavity. It has four chambers that work in coordinated pairs to maintain two distinct circulatory loops." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
             <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
               <p className="text-xs font-semibold text-blue-700 mb-1">Right Side (Pulmonary Circuit)</p>
@@ -1168,7 +1141,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Key Anatomical Facts"
-            content="The left ventricle wall is approximately 3x thicker than the right because it must generate enough pressure to pump blood through the entire systemic circuit. The coronary arteries (right and left) branch from the base of the aorta and supply the myocardium itself with oxygenated blood. The septum separates left and right sides, preventing mixing of oxygenated and deoxygenated blood."
+            content={heartAnatomyText}
           />
         </MicroLesson>
 
@@ -1177,14 +1150,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Systole, diastole, and the vascular tree"
           icon={<Activity className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The{" "}
-            <HoverReveal
-              term="cardiac cycle"
-              definition="One complete heartbeat consisting of atrial systole, ventricular systole, and a relaxation period (diastole). At a resting heart rate of 75 bpm, each cycle lasts approximately 0.8 seconds."
-            />{" "}
-            includes all events from one heartbeat to the next. The heart&apos;s intrinsic conduction system coordinates the rhythmic contractions without requiring external neural input.
-          </p>
+          <EditableModuleText sectionKey="preanat-cardiac-cycle-content" defaultText="The cardiac cycle includes all events from one heartbeat to the next. The heart's intrinsic conduction system coordinates the rhythmic contractions without requiring external neural input." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <div className="grid sm:grid-cols-3 gap-3 mt-3">
             <div className="p-4 bg-rose-50/60 rounded-xl border border-rose-100">
               <p className="text-xs font-semibold text-rose-700 mb-1">Systole (Contraction)</p>
@@ -1216,7 +1182,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Cardiac Output"
-            content="Cardiac output (CO) = Heart Rate (HR) × Stroke Volume (SV). Normal resting CO is approximately 5 L/min. Stroke volume is the amount of blood ejected per beat (~70 mL). CO can increase 4-5x during vigorous exercise through increased HR and SV. Blood pressure = CO × peripheral resistance."
+            content={cardiacOutputText}
           />
         </MicroLesson>
       </section>
@@ -1234,18 +1200,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="From nasal cavity to alveolar diffusion"
           icon={<Wind className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The respiratory system is divided into the{" "}
-            <HoverReveal
-              term="upper respiratory tract"
-              definition="Includes the nose, nasal cavity, paranasal sinuses, pharynx (nasopharynx, oropharynx, laryngopharynx), and larynx. Functions include warming, humidifying, and filtering inspired air before it reaches the lower airways."
-            />{" "}
-            and the{" "}
-            <HoverReveal
-              term="lower respiratory tract"
-              definition="Includes the trachea, bronchi (primary, secondary, tertiary), bronchioles, terminal bronchioles, respiratory bronchioles, alveolar ducts, and alveoli. The lower tract is the site of gas conduction and exchange."
-            />.
-          </p>
+          <EditableModuleText sectionKey="preanat-airways-content" defaultText="The respiratory system is divided into the upper respiratory tract and the lower respiratory tract." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
             title="Airway Branching (Conducting Zone → Respiratory Zone)"
             cards={[
@@ -1268,12 +1223,12 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Ventilation Mechanics"
-            content="Inspiration is an ACTIVE process: the diaphragm contracts and flattens, external intercostals elevate the ribs, thoracic volume increases, intrapulmonary pressure drops below atmospheric pressure, and air flows IN (Boyle's law). Quiet expiration is PASSIVE: the diaphragm and intercostals relax, elastic recoil of lungs decreases thoracic volume, intrapulmonary pressure rises above atmospheric pressure, and air flows OUT. Forced expiration recruits internal intercostals and abdominal muscles."
+            content={ventilationMechanics}
           />
           <CognitiveCard
             type="remember"
             title="Oxygen Transport"
-            content="~98.5% of O₂ is transported bound to hemoglobin (as oxyhemoglobin, HbO₂) within red blood cells. ~1.5% is dissolved in plasma. Each hemoglobin molecule can carry up to 4 O₂ molecules. CO₂ transport: ~70% as bicarbonate (HCO₃⁻) in plasma, ~23% bound to hemoglobin (carbaminohemoglobin), ~7% dissolved in plasma."
+            content={oxygenTransport}
           />
         </MicroLesson>
       </section>
@@ -1291,13 +1246,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="From mouth to anus — mechanical and chemical breakdown"
           icon={<Utensils className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The gastrointestinal (GI) tract is a continuous muscular tube approximately 9 meters long, extending from the mouth to the anus. The wall of the GI tract has four basic layers:{" "}
-            <HoverReveal
-              term="mucosa"
-              definition="The innermost layer, consisting of epithelium, lamina propria (connective tissue), and muscularis mucosae. The mucosa has direct contact with the lumen contents and varies in structure along the GI tract based on function (secretion, absorption, or protection)."
-            />, submucosa, muscularis externa (smooth muscle for peristalsis), and serosa (outermost protective layer).
-          </p>
+          <EditableModuleText sectionKey="preanat-gi-tract-content" defaultText="The gastrointestinal (GI) tract is a continuous muscular tube approximately 9 meters long, extending from the mouth to the anus. The wall of the GI tract has four basic layers: mucosa, submucosa, muscularis externa (smooth muscle for peristalsis), and serosa (outermost protective layer)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
             title="GI Tract Organs in Sequence"
             cards={[
@@ -1325,7 +1274,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="concept"
             title="Mechanical vs. Chemical Digestion"
-            content="Mechanical digestion physically breaks food into smaller pieces without altering chemical composition — includes mastication (chewing), churning in the stomach, and segmentation in the small intestine. Chemical digestion uses enzymes and other chemicals to break covalent bonds in macromolecules: amylase breaks starch into maltose, pepsin/trypsin break proteins into peptides, lipase breaks triglycerides into fatty acids and monoglycerides, and brush border enzymes complete final digestion at the intestinal wall."
+            content={digestionMechanical}
           />
         </MicroLesson>
       </section>
@@ -1343,18 +1292,7 @@ export function AnatomyPhysiologyModule() {
           subtitle="Nephron physiology — filtration, reabsorption, secretion"
           icon={<Droplet className="w-5 h-5" />}
         >
-          <p className="text-sm text-gray-600 leading-relaxed">
-            The urinary system consists of two kidneys, two ureters, the urinary bladder, and the urethra. The kidneys are retroperitoneal organs located against the posterior abdominal wall. Each kidney has an outer{" "}
-            <HoverReveal
-              term="renal cortex"
-              definition="The outer region of the kidney containing the glomeruli, Bowman's capsules, proximal and distal convoluted tubules, and cortical collecting ducts. Most nephron structures reside here."
-            />{" "}
-            and an inner{" "}
-            <HoverReveal
-              term="renal medulla"
-              definition="The inner region containing the loops of Henle and medullary collecting ducts, organized into renal pyramids. The medulla maintains the osmotic gradient essential for concentrating urine."
-            />.
-          </p>
+          <EditableModuleText sectionKey="preanat-kidney-content" defaultText="The urinary system consists of two kidneys, two ureters, the urinary bladder, and the urethra. The kidneys are retroperitoneal organs located against the posterior abdominal wall. Each kidney has an outer renal cortex and an inner renal medulla." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
             title="Three Processes of Urine Formation"
             cards={[
@@ -1376,7 +1314,7 @@ export function AnatomyPhysiologyModule() {
           <CognitiveCard
             type="remember"
             title="Kidney Functions Beyond Urine Formation"
-            content="The kidneys do far more than produce urine. They regulate blood volume and pressure (RAAS, ADH), maintain electrolyte balance (Na+, K+, Ca²+, phosphate), regulate acid-base balance (H+ secretion, HCO₃⁻ reabsorption), produce erythropoietin (EPO, stimulates red blood cell production), activate vitamin D (calcitriol, for calcium absorption), and perform gluconeogenesis during prolonged fasting."
+            content={kidneyFunctions}
           />
         </MicroLesson>
       </section>
