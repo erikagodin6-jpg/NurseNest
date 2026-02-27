@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, createContext, useContext } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -348,22 +348,88 @@ const pathoFindings = [
   { id: "f8", text: "Mental status: confused", isAbnormal: true, explanation: "Altered LOC: indicates decreased cerebral perfusion, a late sign of decompensation." },
 ];
 
+type SectionOverride = {
+  title?: string;
+  subtitle?: string;
+  content?: string;
+  items?: string[];
+};
+
 type ModuleOverride = {
   title?: string;
   description?: string;
   supplementalContent?: string[];
+  sections?: Record<string, SectionOverride>;
 };
+
+type ModuleEditContextType = {
+  isEditing: boolean;
+  sections: Record<string, SectionOverride>;
+  updateSection: (key: string, data: SectionOverride) => void;
+};
+
+const ModuleEditContext = createContext<ModuleEditContextType>({
+  isEditing: false,
+  sections: {},
+  updateSection: () => {},
+});
+
+function useModuleEdit() {
+  return useContext(ModuleEditContext);
+}
+
+function EditableModuleText({
+  sectionKey,
+  defaultText,
+  as = "p",
+  className = "",
+  multiline = false,
+}: {
+  sectionKey: string;
+  defaultText: string;
+  as?: "p" | "h2" | "span";
+  className?: string;
+  multiline?: boolean;
+}) {
+  const { isEditing, sections, updateSection } = useModuleEdit();
+  const override = sections[sectionKey];
+  const displayText = override?.content ?? defaultText;
+
+  if (!isEditing) {
+    const Tag = as;
+    return <Tag className={className}>{displayText}</Tag>;
+  }
+
+  return multiline ? (
+    <textarea
+      value={displayText}
+      onChange={(e) => updateSection(sectionKey, { ...override, content: e.target.value })}
+      className={`w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-sm resize-y min-h-[80px] focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${className}`}
+      data-testid={`editable-text-${sectionKey}`}
+    />
+  ) : (
+    <input
+      type="text"
+      value={displayText}
+      onChange={(e) => updateSection(sectionKey, { ...override, content: e.target.value })}
+      className={`w-full bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${className}`}
+      data-testid={`editable-text-${sectionKey}`}
+    />
+  );
+}
 
 function PreNursingModuleEditor({
   moduleId,
   moduleName,
   overrides,
   onSave,
+  sectionOverrides,
 }: {
   moduleId: string;
   moduleName: string;
   overrides: ModuleOverride;
   onSave: (data: ModuleOverride) => Promise<void>;
+  sectionOverrides?: Record<string, SectionOverride>;
 }) {
   const [editTitle, setEditTitle] = useState(overrides.title || "");
   const [editDesc, setEditDesc] = useState(overrides.description || "");
@@ -380,6 +446,7 @@ function PreNursingModuleEditor({
       if (editTitle.trim()) data.title = editTitle;
       if (editDesc.trim()) data.description = editDesc;
       if (editContent.length > 0 && editContent.some((c) => c.trim())) data.supplementalContent = editContent.filter((c) => c.trim());
+      if (sectionOverrides && Object.keys(sectionOverrides).length > 0) data.sections = sectionOverrides;
       await onSave(data);
       toast({ title: "Saved", description: `${moduleName} content updated` });
     } catch (e: any) {
@@ -797,10 +864,30 @@ export default function PreNursingPage() {
               moduleName={mc.name}
               overrides={moduleOverrides[activeModule] || {}}
               onSave={(data) => saveModuleOverride(activeModule, data)}
+              sectionOverrides={(moduleOverrides[activeModule] || {}).sections}
             />
           )}
 
-          {mc?.component}
+          <ModuleEditContext.Provider
+            value={{
+              isEditing: isContentEditing && isAdmin,
+              sections: (moduleOverrides[activeModule] || {}).sections || {},
+              updateSection: (key, data) => {
+                setModuleOverrides((prev) => {
+                  const current = prev[activeModule] || {};
+                  return {
+                    ...prev,
+                    [activeModule]: {
+                      ...current,
+                      sections: { ...(current.sections || {}), [key]: data },
+                    },
+                  };
+                });
+              },
+            }}
+          >
+            {mc?.component}
+          </ModuleEditContext.Provider>
           <SupplementalContent moduleId={activeModule} />
         </main>
         <AdminEditButton pageName="pre-nursing" defaultTier="prenursing" defaultCategory="pre-nursing" />
@@ -1232,24 +1319,32 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
 }
 
 function CellBiologyModule() {
+  const { isEditing, sections, updateSection } = useModuleEdit();
   return (
     <div className="space-y-8" data-testid="module-cell-biology">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Cell Biology</h2>
-        <p className="text-gray-600">Explore the building blocks of the human body through interactive diagrams and concept checks.</p>
+        <EditableModuleText sectionKey="cell-bio-title" defaultText="Cell Biology" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="cell-bio-desc" defaultText="Explore the building blocks of the human body through interactive diagrams and concept checks." as="p" className="text-gray-600" multiline />
       </div>
 
-      <MicroLesson title="The Human Cell" subtitle="Identify key organelles and their functions" icon={<Dna className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Every cell contains specialized structures called{" "}
-          <HoverReveal term="organelles" definition="Membrane-bound structures within cells that perform specific functions, like tiny organs inside each cell." />{" "}
-          that work together to maintain life. Understanding cell structure is the foundation for understanding how diseases affect the body at the cellular level.
-        </p>
+      <MicroLesson title={sections["cell-bio-human-cell-title"]?.content || "The Human Cell"} subtitle={sections["cell-bio-human-cell-subtitle"]?.content || "Identify key organelles and their functions"} icon={<Dna className="w-5 h-5" />}>
+        {isEditing ? (
+          <>
+            <div className="flex gap-2 mb-2">
+              <input value={sections["cell-bio-human-cell-title"]?.content || "The Human Cell"} onChange={(e) => updateSection("cell-bio-human-cell-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
+              <input value={sections["cell-bio-human-cell-subtitle"]?.content || "Identify key organelles and their functions"} onChange={(e) => updateSection("cell-bio-human-cell-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+            </div>
+          </>
+        ) : null}
+        <EditableModuleText sectionKey="cell-bio-human-cell-content" defaultText="Every cell contains specialized structures called organelles that work together to maintain life. Understanding cell structure is the foundation for understanding how diseases affect the body at the cellular level." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <CognitiveCard
           type="concept"
           title="Why This Matters for Nursing"
-          content="When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."
+          content={sections["cell-bio-nursing-concept"]?.content || "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."}
         />
+        {isEditing && (
+          <textarea value={sections["cell-bio-nursing-concept"]?.content || "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."} onChange={(e) => updateSection("cell-bio-nursing-concept", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Cognitive card content..." />
+        )}
       </MicroLesson>
 
       <AnatomyLabeling
@@ -1272,20 +1367,29 @@ function CellBiologyModule() {
         ]}
       />
 
-      <MicroLesson title="Membrane Transport" subtitle="How substances move in and out of cells" icon={<Layers className="w-5 h-5" />}>
+      <MicroLesson title={sections["cell-bio-transport-title"]?.content || "Membrane Transport"} subtitle={sections["cell-bio-transport-subtitle"]?.content || "How substances move in and out of cells"} icon={<Layers className="w-5 h-5" />}>
+        {isEditing ? (
+          <div className="flex gap-2 mb-2">
+            <input value={sections["cell-bio-transport-title"]?.content || "Membrane Transport"} onChange={(e) => updateSection("cell-bio-transport-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
+            <input value={sections["cell-bio-transport-subtitle"]?.content || "How substances move in and out of cells"} onChange={(e) => updateSection("cell-bio-transport-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+          </div>
+        ) : null}
         <CognitiveCard
           type="remember"
           title="Key Principle"
-          content="'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."
+          content={sections["cell-bio-transport-principle"]?.content || "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."}
         />
+        {isEditing && (
+          <textarea value={sections["cell-bio-transport-principle"]?.content || "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."} onChange={(e) => updateSection("cell-bio-transport-principle", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Key principle content..." />
+        )}
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-1">Passive Transport</p>
-            <p className="text-xs text-blue-600">No energy needed. Moves DOWN concentration gradient. Examples: diffusion, osmosis, facilitated diffusion.</p>
+            <EditableModuleText sectionKey="cell-bio-passive-transport" defaultText="No energy needed. Moves DOWN concentration gradient. Examples: diffusion, osmosis, facilitated diffusion." as="p" className="text-xs text-blue-600" multiline />
           </div>
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
             <p className="text-xs font-semibold text-amber-700 mb-1">Active Transport</p>
-            <p className="text-xs text-amber-600">Requires ATP energy. Moves AGAINST concentration gradient. Example: Na+/K+ pump (3 Na+ out, 2 K+ in).</p>
+            <EditableModuleText sectionKey="cell-bio-active-transport" defaultText="Requires ATP energy. Moves AGAINST concentration gradient. Example: Na+/K+ pump (3 Na+ out, 2 K+ in)." as="p" className="text-xs text-amber-600" multiline />
           </div>
         </div>
       </MicroLesson>
@@ -1296,24 +1400,30 @@ function CellBiologyModule() {
 }
 
 function PhysiologyModule() {
+  const { isEditing, sections, updateSection } = useModuleEdit();
   return (
     <div className="space-y-8" data-testid="module-physiology">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Physiology Principles</h2>
-        <p className="text-gray-600">Understand how the body maintains balance through feedback loops, fluid management, and acid-base regulation.</p>
+        <EditableModuleText sectionKey="phys-title" defaultText="Physiology Principles" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="phys-desc" defaultText="Understand how the body maintains balance through feedback loops, fluid management, and acid-base regulation." as="p" className="text-gray-600" multiline />
       </div>
 
-      <MicroLesson title="Negative Feedback Loops" subtitle="The body's primary regulatory mechanism" icon={<Activity className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Most physiological regulation uses{" "}
-          <HoverReveal term="negative feedback" definition="A regulatory mechanism where the output of a system reduces or inhibits the original stimulus, maintaining stability (homeostasis)." />.
-          The body detects a change, activates a response, and reverses the change to restore balance.
-        </p>
+      <MicroLesson title={sections["phys-feedback-title"]?.content || "Negative Feedback Loops"} subtitle={sections["phys-feedback-subtitle"]?.content || "The body's primary regulatory mechanism"} icon={<Activity className="w-5 h-5" />}>
+        {isEditing && (
+          <div className="flex gap-2 mb-2">
+            <input value={sections["phys-feedback-title"]?.content || "Negative Feedback Loops"} onChange={(e) => updateSection("phys-feedback-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
+            <input value={sections["phys-feedback-subtitle"]?.content || "The body's primary regulatory mechanism"} onChange={(e) => updateSection("phys-feedback-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+          </div>
+        )}
+        <EditableModuleText sectionKey="phys-feedback-content" defaultText="Most physiological regulation uses negative feedback. The body detects a change, activates a response, and reverses the change to restore balance." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <CognitiveCard
           type="concept"
           title="Clinical Connection"
-          content="When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."
+          content={sections["phys-feedback-concept"]?.content || "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."}
         />
+        {isEditing && (
+          <textarea value={sections["phys-feedback-concept"]?.content || "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."} onChange={(e) => updateSection("phys-feedback-concept", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Cognitive card content..." />
+        )}
       </MicroLesson>
 
       <StepSequencing
@@ -1322,28 +1432,37 @@ function PhysiologyModule() {
         steps={physiologySequence}
       />
 
-      <MicroLesson title="Fluid Compartments" subtitle="Where body water is distributed" icon={<Droplets className="w-5 h-5" />}>
+      <MicroLesson title={sections["phys-fluid-title"]?.content || "Fluid Compartments"} subtitle={sections["phys-fluid-subtitle"]?.content || "Where body water is distributed"} icon={<Droplets className="w-5 h-5" />}>
+        {isEditing && (
+          <div className="flex gap-2 mb-2">
+            <input value={sections["phys-fluid-title"]?.content || "Fluid Compartments"} onChange={(e) => updateSection("phys-fluid-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
+            <input value={sections["phys-fluid-subtitle"]?.content || "Where body water is distributed"} onChange={(e) => updateSection("phys-fluid-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+          </div>
+        )}
         <div className="space-y-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm font-semibold text-blue-700">Intracellular Fluid (ICF)</p>
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">~67%</span>
             </div>
-            <p className="text-xs text-blue-600">Inside cells. Contains K+, Mg2+, PO4³⁻. The largest fluid compartment.</p>
+            <EditableModuleText sectionKey="phys-icf" defaultText="Inside cells. Contains K+, Mg2+, PO4³⁻. The largest fluid compartment." as="p" className="text-xs text-blue-600" multiline />
           </div>
           <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm font-semibold text-emerald-700">Extracellular Fluid (ECF)</p>
               <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">~33%</span>
             </div>
-            <p className="text-xs text-emerald-600">Outside cells. Includes intravascular (plasma) and interstitial (between cells). Contains Na+, Cl⁻, HCO3⁻.</p>
+            <EditableModuleText sectionKey="phys-ecf" defaultText="Outside cells. Includes intravascular (plasma) and interstitial (between cells). Contains Na+, Cl⁻, HCO3⁻." as="p" className="text-xs text-emerald-600" multiline />
           </div>
         </div>
         <CognitiveCard
           type="remember"
           title="Memory Aid"
-          content="'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."
+          content={sections["phys-fluid-memory"]?.content || "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."}
         />
+        {isEditing && (
+          <textarea value={sections["phys-fluid-memory"]?.content || "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."} onChange={(e) => updateSection("phys-fluid-memory", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Memory aid content..." />
+        )}
       </MicroLesson>
 
       <AnatomyLabeling
@@ -1378,19 +1497,22 @@ function PhysiologyModule() {
 }
 
 function TerminologyModule() {
+  const { isEditing, sections, updateSection } = useModuleEdit();
   return (
     <div className="space-y-8" data-testid="module-terminology">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Medical Terminology</h2>
-        <p className="text-gray-600">Decode clinical language by mastering the building blocks: prefixes, suffixes, and root words.</p>
+        <EditableModuleText sectionKey="term-title" defaultText="Medical Terminology" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="term-desc" defaultText="Decode clinical language by mastering the building blocks: prefixes, suffixes, and root words." as="p" className="text-gray-600" multiline />
       </div>
 
-      <MicroLesson title="How Medical Terms Work" subtitle="Breaking down clinical vocabulary" icon={<BookOpen className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Most medical terms are combinations of <HoverReveal term="prefixes" definition="Word parts added to the beginning that modify meaning (e.g., hyper- = above, hypo- = below)." />,{" "}
-          <HoverReveal term="root words" definition="The core part of the term that identifies the body part or system (e.g., cardi = heart, hepat = liver)." />, and{" "}
-          <HoverReveal term="suffixes" definition="Word endings that indicate a condition, procedure, or state (e.g., -itis = inflammation, -ectomy = surgical removal)." />.
-        </p>
+      <MicroLesson title={sections["term-how-title"]?.content || "How Medical Terms Work"} subtitle={sections["term-how-subtitle"]?.content || "Breaking down clinical vocabulary"} icon={<BookOpen className="w-5 h-5" />}>
+        {isEditing && (
+          <div className="flex gap-2 mb-2">
+            <input value={sections["term-how-title"]?.content || "How Medical Terms Work"} onChange={(e) => updateSection("term-how-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
+            <input value={sections["term-how-subtitle"]?.content || "Breaking down clinical vocabulary"} onChange={(e) => updateSection("term-how-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+          </div>
+        )}
+        <EditableModuleText sectionKey="term-how-content" defaultText="Most medical terms are combinations of prefixes (word parts added to the beginning), root words (the core identifying the body part), and suffixes (word endings indicating a condition or procedure)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="p-4 bg-primary/5 rounded-xl border border-primary/10 mt-3">
           <p className="text-sm font-semibold text-gray-800 mb-2">Example Breakdown</p>
           <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -1454,35 +1576,40 @@ function TerminologyModule() {
 }
 
 function PharmacologyModule() {
+  const { isEditing, sections, updateSection } = useModuleEdit();
   return (
     <div className="space-y-8" data-testid="module-pharmacology">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Intro Pharmacology</h2>
-        <p className="text-gray-600">Understand how drugs interact with the body at the receptor level: the foundation for medication safety.</p>
+        <EditableModuleText sectionKey="pharm-title" defaultText="Intro Pharmacology" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="pharm-desc" defaultText="Understand how drugs interact with the body at the receptor level: the foundation for medication safety." as="p" className="text-gray-600" multiline />
       </div>
 
-      <MicroLesson title="Drug-Receptor Basics" subtitle="How medications produce their effects" icon={<Pill className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Most drugs work by binding to <HoverReveal term="receptors" definition="Specialized protein molecules on or inside cells that drugs bind to in order to produce an effect. Think of them as locks that drugs (keys) activate or block." /> on cells.
-          The drug-receptor interaction determines whether the drug activates or blocks a cellular response.
-        </p>
+      <MicroLesson title={sections["pharm-receptor-title"]?.content || "Drug-Receptor Basics"} subtitle={sections["pharm-receptor-subtitle"]?.content || "How medications produce their effects"} icon={<Pill className="w-5 h-5" />}>
+        {isEditing && (
+          <div className="flex gap-2 mb-2">
+            <input value={sections["pharm-receptor-title"]?.content || "Drug-Receptor Basics"} onChange={(e) => updateSection("pharm-receptor-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
+            <input value={sections["pharm-receptor-subtitle"]?.content || "How medications produce their effects"} onChange={(e) => updateSection("pharm-receptor-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+          </div>
+        )}
+        <EditableModuleText sectionKey="pharm-receptor-content" defaultText="Most drugs work by binding to receptors on cells. The drug-receptor interaction determines whether the drug activates or blocks a cellular response." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
             <p className="text-sm font-semibold text-emerald-700 mb-1">Agonist</p>
-            <p className="text-xs text-emerald-600">Binds to receptor and ACTIVATES it. Mimics the natural ligand.</p>
-            <p className="text-xs text-emerald-500 mt-1 italic">Example: Morphine (opioid agonist)</p>
+            <EditableModuleText sectionKey="pharm-agonist" defaultText="Binds to receptor and ACTIVATES it. Mimics the natural ligand. Example: Morphine (opioid agonist)" as="p" className="text-xs text-emerald-600" multiline />
           </div>
           <div className="p-4 bg-red-50/60 rounded-xl border border-red-100">
             <p className="text-sm font-semibold text-red-700 mb-1">Antagonist</p>
-            <p className="text-xs text-red-600">Binds to receptor and BLOCKS it. Prevents the natural ligand from activating.</p>
-            <p className="text-xs text-red-500 mt-1 italic">Example: Naloxone (opioid antagonist)</p>
+            <EditableModuleText sectionKey="pharm-antagonist" defaultText="Binds to receptor and BLOCKS it. Prevents the natural ligand from activating. Example: Naloxone (opioid antagonist)" as="p" className="text-xs text-red-600" multiline />
           </div>
         </div>
         <CognitiveCard
           type="tip"
           title="Clinical Connection"
-          content="Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."
+          content={sections["pharm-receptor-clinical"]?.content || "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."}
         />
+        {isEditing && (
+          <textarea value={sections["pharm-receptor-clinical"]?.content || "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."} onChange={(e) => updateSection("pharm-receptor-clinical", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Clinical connection..." />
+        )}
       </MicroLesson>
 
       <MicroLesson title="Pharmacokinetics Overview" subtitle="What the body does to the drug" icon={<FlaskConical className="w-5 h-5" />}>
@@ -1503,19 +1630,22 @@ function PharmacologyModule() {
 }
 
 function PathophysiologyModule() {
+  const { isEditing, sections, updateSection } = useModuleEdit();
   return (
     <div className="space-y-8" data-testid="module-pathophysiology">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Intro Pathophysiology</h2>
-        <p className="text-gray-600">Learn to think like a clinician: trace disease mechanisms, recognize compensation, and differentiate early from late signs.</p>
+        <EditableModuleText sectionKey="patho-title" defaultText="Intro Pathophysiology" as="h2" className="text-2xl font-bold text-gray-900 mb-2" />
+        <EditableModuleText sectionKey="patho-desc" defaultText="Learn to think like a clinician: trace disease mechanisms, recognize compensation, and differentiate early from late signs." as="p" className="text-gray-600" multiline />
       </div>
 
-      <MicroLesson title="Disease = Disrupted Homeostasis" subtitle="Understanding why symptoms happen" icon={<Stethoscope className="w-5 h-5" />}>
-        <p className="text-sm text-gray-600 leading-relaxed">
-          Every disease is a story of{" "}
-          <HoverReveal term="homeostasis" definition="The body's ability to maintain stable internal conditions (temperature, pH, blood glucose, etc.) despite changes in the external environment." />{" "}
-          being disrupted. The body compensates to maintain function, but eventually those mechanisms fail. Understanding this progression is the key to clinical reasoning.
-        </p>
+      <MicroLesson title={sections["patho-disease-title"]?.content || "Disease = Disrupted Homeostasis"} subtitle={sections["patho-disease-subtitle"]?.content || "Understanding why symptoms happen"} icon={<Stethoscope className="w-5 h-5" />}>
+        {isEditing && (
+          <div className="flex gap-2 mb-2">
+            <input value={sections["patho-disease-title"]?.content || "Disease = Disrupted Homeostasis"} onChange={(e) => updateSection("patho-disease-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
+            <input value={sections["patho-disease-subtitle"]?.content || "Understanding why symptoms happen"} onChange={(e) => updateSection("patho-disease-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+          </div>
+        )}
+        <EditableModuleText sectionKey="patho-disease-content" defaultText="Every disease is a story of homeostasis being disrupted. The body compensates to maintain function, but eventually those mechanisms fail. Understanding this progression is the key to clinical reasoning." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <div className="flex flex-col sm:flex-row gap-3 mt-3">
           <div className="flex-1 p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 text-center">
             <p className="text-xs font-bold text-emerald-700 mb-1">Early Signs</p>
@@ -1538,8 +1668,11 @@ function PathophysiologyModule() {
         <CognitiveCard
           type="warning"
           title="Exam Trap"
-          content="Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."
+          content={sections["patho-exam-trap"]?.content || "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."}
         />
+        {isEditing && (
+          <textarea value={sections["patho-exam-trap"]?.content || "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."} onChange={(e) => updateSection("patho-exam-trap", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Exam trap content..." />
+        )}
       </MicroLesson>
 
       <SpotAbnormality
