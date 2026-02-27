@@ -32,6 +32,12 @@ import organelleCellMembrane from "@/assets/organelle-cell-membrane.png";
 import organelleLysosome from "@/assets/organelle-lysosome.png";
 import transportPassive from "@/assets/transport-passive.png";
 import transportActive from "@/assets/transport-active.png";
+import heartAnatomyImage from "@/assets/heart-anatomy.png";
+import lungsAnatomyImage from "@/assets/lungs-anatomy.png";
+import feedbackLoopImage from "@/assets/feedback-loop.png";
+import fluidCompartmentsImage from "@/assets/fluid-compartments.png";
+import brainAnatomyImage from "@/assets/brain-anatomy.png";
+import kidneyAnatomyImage from "@/assets/kidney-anatomy.png";
 import {
   cellLabels,
   HeartSVG,
@@ -1486,6 +1492,9 @@ function PhysiologyModule() {
           </div>
         )}
         <EditableModuleText sectionKey="phys-feedback-content" defaultText="Most physiological regulation uses negative feedback. The body detects a change, activates a response, and reverses the change to restore balance." as="p" className="text-sm text-slate-600 leading-relaxed" multiline />
+        <div className="flex justify-center my-4">
+          <img src={feedbackLoopImage} alt="Negative feedback loop for thermoregulation" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" data-testid="img-feedback-loop" />
+        </div>
         <CognitiveCard
           type="concept"
           title="Clinical Connection"
@@ -1509,6 +1518,9 @@ function PhysiologyModule() {
             <input value={sections["phys-fluid-subtitle"]?.content || "Where body water is distributed"} onChange={(e) => updateSection("phys-fluid-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
           </div>
         )}
+        <div className="flex justify-center my-4">
+          <img src={fluidCompartmentsImage} alt="Body fluid compartments showing intracellular, interstitial, and intravascular fluids" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" data-testid="img-fluid-compartments" />
+        </div>
         <div className="space-y-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <div className="flex items-center justify-between mb-2">
@@ -1538,8 +1550,10 @@ function PhysiologyModule() {
       <AnatomyLabeling
         title="Heart Anatomy: Click to Identify"
         description="Identify the major structures of the heart"
-        svgContent={<HeartSVG />}
+        backgroundImage={heartAnatomyImage}
         labels={heartLabels}
+        width={600}
+        height={450}
       />
 
       <SelfCheckQuiz
@@ -1754,11 +1768,29 @@ function PathophysiologyModule() {
       <AnatomyLabeling
         title="Respiratory Anatomy: Click to Identify"
         description="Identify the major respiratory structures"
-        svgContent={<LungsSVG />}
+        backgroundImage={lungsAnatomyImage}
         labels={lungLabels}
+        width={600}
+        height={450}
       />
 
       <MicroLesson title="Compensation Mechanisms" subtitle="How the body buys time" icon={<Lightbulb className="w-5 h-5" />}>
+        <div className="grid sm:grid-cols-2 gap-4 mb-4">
+          <div className="bg-purple-50/60 rounded-xl border border-purple-200 p-4">
+            <div className="flex justify-center mb-3">
+              <img src={brainAnatomyImage} alt="Brain sagittal cross-section" className="w-full max-w-[200px] h-auto rounded-lg" data-testid="img-brain-anatomy" />
+            </div>
+            <h4 className="font-semibold text-sm text-purple-800 mb-1">Brain (Medulla Oblongata)</h4>
+            <p className="text-xs text-slate-600">The brainstem controls autonomic cardiovascular and respiratory responses. The medulla detects changes in blood pH and CO₂ levels, triggering compensatory breathing adjustments.</p>
+          </div>
+          <div className="bg-amber-50/60 rounded-xl border border-amber-200 p-4">
+            <div className="flex justify-center mb-3">
+              <img src={kidneyAnatomyImage} alt="Kidney cross-section" className="w-full max-w-[200px] h-auto rounded-lg" data-testid="img-kidney-anatomy" />
+            </div>
+            <h4 className="font-semibold text-sm text-amber-800 mb-1">Kidney</h4>
+            <p className="text-xs text-slate-600">The kidneys regulate fluid balance, electrolytes, and acid-base status by adjusting reabsorption and secretion in the nephrons. Renal compensation takes 24-48 hours to take full effect.</p>
+          </div>
+        </div>
         <ProgressiveReveal
           title=""
           cards={[

@@ -35,15 +35,17 @@ export function HeartSVG() {
 }
 
 export const heartLabels: LabelPoint[] = [
-  { id: "ra", x: 165, y: 195, label: "Right Atrium", hint: "Receives deoxygenated blood from the body" },
-  { id: "la", x: 285, y: 195, label: "Left Atrium", hint: "Receives oxygenated blood from the lungs" },
-  { id: "rv", x: 165, y: 275, label: "Right Ventricle", hint: "Pumps blood to the pulmonary artery" },
-  { id: "lv", x: 285, y: 275, label: "Left Ventricle", hint: "Pumps oxygenated blood to the aorta" },
-  { id: "aorta", x: 245, y: 25, label: "Aorta", hint: "Largest artery: carries oxygenated blood" },
-  { id: "svc", x: 155, y: 40, label: "Superior Vena Cava", hint: "Returns blood from upper body" },
-  { id: "pa", x: 310, y: 45, label: "Pulmonary Artery", hint: "Carries deoxygenated blood to lungs" },
-  { id: "mv", x: 190, y: 225, label: "Tricuspid Valve" },
-  { id: "tv", x: 270, y: 225, label: "Mitral Valve" },
+  { id: "ra", x: 230, y: 200, label: "Right Atrium", hint: "Receives deoxygenated blood from the body via the superior and inferior vena cava" },
+  { id: "la", x: 380, y: 180, label: "Left Atrium", hint: "Receives oxygenated blood from the lungs via the pulmonary veins" },
+  { id: "rv", x: 240, y: 310, label: "Right Ventricle", hint: "Pumps deoxygenated blood to the lungs via the pulmonary artery" },
+  { id: "lv", x: 380, y: 300, label: "Left Ventricle", hint: "Thickest chamber wall; pumps oxygenated blood to the entire body via the aorta" },
+  { id: "aorta", x: 330, y: 45, label: "Aorta", hint: "Largest artery in the body; carries oxygenated blood from the left ventricle to systemic circulation" },
+  { id: "svc", x: 190, y: 55, label: "Superior Vena Cava", hint: "Returns deoxygenated blood from the head, neck, and upper extremities to the right atrium" },
+  { id: "ivc", x: 220, y: 410, label: "Inferior Vena Cava", hint: "Returns deoxygenated blood from the lower body to the right atrium" },
+  { id: "pa", x: 400, y: 70, label: "Pulmonary Artery", hint: "Carries deoxygenated blood from the right ventricle to the lungs for gas exchange" },
+  { id: "tv", x: 260, y: 245, label: "Tricuspid Valve", hint: "Three-leaflet valve between right atrium and right ventricle; prevents backflow during ventricular contraction" },
+  { id: "mv", x: 360, y: 240, label: "Mitral Valve", hint: "Bicuspid valve between left atrium and left ventricle; also called the bicuspid valve" },
+  { id: "coronary", x: 150, y: 250, label: "Coronary Arteries", hint: "Supply oxygenated blood to the heart muscle itself; blockage causes myocardial infarction (heart attack)" },
 ];
 
 export function LungsSVG() {
@@ -77,14 +79,16 @@ export function LungsSVG() {
 }
 
 export const lungLabels: LabelPoint[] = [
-  { id: "trachea", x: 250, y: 30, label: "Trachea", hint: "Main airway connecting larynx to bronchi" },
-  { id: "rbronchus", x: 180, y: 100, label: "Right Bronchus", hint: "Wider and more vertical than the left" },
-  { id: "lbronchus", x: 320, y: 100, label: "Left Bronchus", hint: "Longer and more horizontal" },
-  { id: "rlung", x: 130, y: 200, label: "Right Lung", hint: "Has 3 lobes" },
-  { id: "llung", x: 370, y: 200, label: "Left Lung", hint: "Has 2 lobes (cardiac notch)" },
-  { id: "alveoli-r", x: 85, y: 200, label: "Alveoli", hint: "Site of gas exchange" },
-  { id: "diaphragm", x: 250, y: 320, label: "Diaphragm", hint: "Primary muscle of respiration" },
-  { id: "carina", x: 250, y: 75, label: "Carina", hint: "Where trachea bifurcates" },
+  { id: "nasal", x: 210, y: 40, label: "Nasal Cavity", hint: "Warms, humidifies, and filters inhaled air; lined with ciliated mucous membrane" },
+  { id: "pharynx", x: 240, y: 85, label: "Pharynx", hint: "Shared passageway for air and food; connects nasal cavity to larynx" },
+  { id: "trachea", x: 290, y: 155, label: "Trachea", hint: "Cartilage-ringed airway (C-shaped rings); connects larynx to bronchi; lined with ciliated epithelium" },
+  { id: "rbronchus", x: 220, y: 210, label: "Right Main Bronchus", hint: "Wider, shorter, and more vertical than the left; aspirated objects more likely to enter here" },
+  { id: "lbronchus", x: 370, y: 220, label: "Left Main Bronchus", hint: "Narrower and longer; angles more horizontally due to heart position" },
+  { id: "rlung", x: 140, y: 280, label: "Right Lung", hint: "Has 3 lobes (superior, middle, inferior); slightly larger than the left lung" },
+  { id: "llung", x: 430, y: 260, label: "Left Lung", hint: "Has 2 lobes (superior, inferior); smaller due to cardiac notch accommodating the heart" },
+  { id: "alveoli", x: 530, y: 100, label: "Alveoli", hint: "Tiny air sacs where gas exchange occurs; surrounded by capillary networks; surfactant prevents collapse" },
+  { id: "diaphragm", x: 300, y: 410, label: "Diaphragm", hint: "Primary muscle of respiration; contracts and flattens during inhalation to expand thoracic cavity" },
+  { id: "bronchioles", x: 170, y: 230, label: "Bronchioles", hint: "Smallest airways without cartilage; smooth muscle controls diameter; site of bronchoconstriction in asthma" },
 ];
 
 export function BrainSVG() {
