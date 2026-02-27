@@ -69,6 +69,12 @@ import imgNervousSynapse from "@/assets/anatomy-nervous-synapse.png";
 import imgNervousBrainLobes from "@/assets/anatomy-nervous-brain-lobes.png";
 import imgNervousANS from "@/assets/anatomy-nervous-ans.png";
 import imgNervousReflexArc from "@/assets/anatomy-nervous-reflex-arc.png";
+import imgMuskBoneTypes from "@/assets/anatomy-musculoskeletal-bone-types.png";
+import imgMuskSynovialJoint from "@/assets/anatomy-musculoskeletal-synovial-joint.png";
+import imgMuskSarcomere from "@/assets/anatomy-musculoskeletal-sarcomere.png";
+import imgGiTractOverview from "@/assets/anatomy-gi-tract-overview.png";
+import imgGiVilli from "@/assets/anatomy-gi-villi.png";
+import imgGiHepatobiliary from "@/assets/anatomy-gi-hepatobiliary.png";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
@@ -182,6 +188,11 @@ const bodySystems = [
     bgAccent: "bg-amber-50",
     image: imgMusculoskeletal,
     description: "Bones, joints, and skeletal muscles",
+    inlineImages: [
+      { src: imgMuskBoneTypes, alt: "Five types of human bones: long bone (femur) with internal cross-section showing compact bone, marrow cavity, and spongy bone; short bone (carpal); flat bone (scapula); irregular bone (vertebra); sesamoid bone (patella)", afterParagraph: 0 },
+      { src: imgMuskSynovialJoint, alt: "Cross-section of a synovial joint showing articular cartilage on bone ends, joint capsule, synovial membrane, synovial fluid in the joint cavity, and supporting ligaments", afterParagraph: 1 },
+      { src: imgMuskSarcomere, alt: "Actin and myosin protein filaments forming cross-bridges within a sarcomere, illustrating the sliding filament mechanism of muscle contraction", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The adult human skeleton consists of 206 bones, classified by shape as long bones (femur, humerus), short bones (carpals, tarsals), flat bones (skull, sternum, scapula), irregular bones (vertebrae, pelvis), and sesamoid bones (patella). Bones serve as the framework for the body, protect internal organs, produce blood cells (hematopoiesis in red marrow), store minerals (calcium and phosphorus), and provide attachment points for muscles. Bone tissue is composed of an organic matrix (collagen for flexibility) and inorganic minerals (hydroxyapatite crystite for hardness). Osteoblasts build new bone, osteoclasts resorb bone, and osteocytes are mature bone cells that maintain the bone matrix.",
       "Joints (articulations) are classified structurally as fibrous (sutures, syndesmoses: immovable or slightly movable), cartilaginous (symphysis pubis, intervertebral discs: limited movement), and synovial (freely movable). Synovial joints include hinge (elbow, knee), ball-and-socket (shoulder, hip), pivot (atlantoaxial), saddle (carpometacarpal of thumb), condyloid (wrist), and gliding (intercarpal) types. Synovial joints are enclosed by a joint capsule lined with synovial membrane that secretes synovial fluid for lubrication and nourishment of articular cartilage.",
