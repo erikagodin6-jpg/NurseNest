@@ -872,7 +872,7 @@ export function CognitiveCard({
         <div>
           <p className="text-sm font-semibold mb-1">{title}</p>
           {hasHtml ? (
-            <div className="text-sm opacity-80 leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: content }} />
+            <div className="text-sm opacity-80 leading-relaxed whitespace-pre-wrap [&_p]:mb-2 [&_p:last-child]:mb-0 [&_div]:mb-1" dangerouslySetInnerHTML={{ __html: content }} />
           ) : (
             <p className="text-sm opacity-80 leading-relaxed whitespace-pre-wrap">{content}</p>
           )}
