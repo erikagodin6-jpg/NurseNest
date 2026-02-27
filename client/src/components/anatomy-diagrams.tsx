@@ -418,15 +418,15 @@ export const musculoskeletalLabels: LabelPoint[] = [
 ];
 
 export const integumentaryLabels: LabelPoint[] = [
-  { id: "epidermis", x: 300, y: 50, label: "Epidermis", hint: "Outermost skin layer; stratified squamous epithelium; contains keratinocytes, melanocytes, Langerhans cells; avascular — receives nutrients from dermis" },
-  { id: "dermis", x: 300, y: 160, label: "Dermis", hint: "Middle layer with collagen/elastin fibers; contains blood vessels, nerves, hair follicles, sweat glands; papillary and reticular layers" },
-  { id: "hypodermis", x: 300, y: 320, label: "Hypodermis", hint: "Subcutaneous layer; adipose tissue for insulation and energy storage; subcutaneous injection site; anchors skin to underlying fascia" },
-  { id: "hair-follicle", x: 180, y: 130, label: "Hair Follicle", hint: "Invagination of epidermis into dermis; arrector pili muscle causes goosebumps; sebaceous gland opens into follicle" },
-  { id: "sweat-gland", x: 450, y: 250, label: "Sweat Gland (Eccrine)", hint: "Coiled gland in dermis; thermoregulation via evaporative cooling; most numerous on palms, soles, forehead; produces hypotonic sweat" },
-  { id: "sebaceous", x: 150, y: 200, label: "Sebaceous Gland", hint: "Produces sebum (oily secretion); lubricates hair and skin; holocrine secretion; overactivity contributes to acne" },
-  { id: "nerve-ending", x: 420, y: 130, label: "Nerve Endings", hint: "Meissner's corpuscles (light touch), Pacinian corpuscles (deep pressure), free nerve endings (pain/temperature); dermatome distribution" },
-  { id: "blood-vessel", x: 450, y: 170, label: "Blood Vessels", hint: "Dermal plexus supplies nutrients; arterioles regulate skin temperature; vasodilation causes flushing, vasoconstriction causes pallor" },
-  { id: "stratum-corneum", x: 150, y: 30, label: "Stratum Corneum", hint: "Outermost epidermal layer; 15-30 layers of dead keratinized cells; primary barrier against pathogens and water loss" },
+  { id: "epidermis", x: 350, y: 75, label: "Epidermis", hint: "Outermost skin layer; stratified squamous epithelium; contains keratinocytes, melanocytes, Langerhans cells; avascular — receives nutrients from dermis" },
+  { id: "dermis", x: 150, y: 190, label: "Dermis", hint: "Middle layer with collagen/elastin fibers; contains blood vessels, nerves, hair follicles, sweat glands; papillary and reticular layers" },
+  { id: "hypodermis", x: 350, y: 340, label: "Hypodermis", hint: "Subcutaneous layer; adipose tissue for insulation and energy storage; subcutaneous injection site; anchors skin to underlying fascia" },
+  { id: "hair-follicle", x: 240, y: 170, label: "Hair Follicle", hint: "Invagination of epidermis into dermis; arrector pili muscle causes goosebumps; sebaceous gland opens into follicle" },
+  { id: "sweat-gland", x: 130, y: 240, label: "Sweat Gland (Eccrine)", hint: "Coiled gland in dermis; thermoregulation via evaporative cooling; most numerous on palms, soles, forehead; produces hypotonic sweat" },
+  { id: "sebaceous", x: 430, y: 200, label: "Sebaceous Gland", hint: "Produces sebum (oily secretion); lubricates hair and skin; holocrine secretion; overactivity contributes to acne" },
+  { id: "blood-vessel", x: 300, y: 310, label: "Blood Vessels", hint: "Dermal plexus supplies nutrients; arterioles regulate skin temperature; vasodilation causes flushing, vasoconstriction causes pallor" },
+  { id: "stratum-corneum", x: 200, y: 50, label: "Stratum Corneum", hint: "Outermost epidermal layer; 15-30 layers of dead keratinized cells; primary barrier against pathogens and water loss" },
+  { id: "adipose", x: 200, y: 360, label: "Adipose Tissue", hint: "Fat cells in hypodermis; energy storage, insulation, cushioning; subcutaneous fat distribution varies by sex and age" },
 ];
 
 export const lymphaticLabels: LabelPoint[] = [
