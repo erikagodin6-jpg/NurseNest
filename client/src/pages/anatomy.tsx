@@ -85,6 +85,10 @@ import imgIntegSkinLayers from "@/assets/anatomy-integumentary-skin-layers.png";
 import imgIntegEpidermis from "@/assets/anatomy-integumentary-epidermis.png";
 import imgIntegWoundHealing from "@/assets/anatomy-integumentary-wound-healing.png";
 import imgIntegHairFollicle from "@/assets/anatomy-integumentary-hair-follicle.png";
+import imgLymphInnate from "@/assets/anatomy-lymphatic-innate.png";
+import imgLymphAdaptive from "@/assets/anatomy-lymphatic-adaptive.png";
+import imgLymphSystem from "@/assets/anatomy-lymphatic-system.png";
+import imgLymphNode from "@/assets/anatomy-lymphatic-node.png";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
@@ -299,6 +303,12 @@ const bodySystems = [
     bgAccent: "bg-teal-50",
     image: imgLymphaticImmune,
     description: "Immune defense, lymph nodes, and antibodies",
+    inlineImages: [
+      { src: imgLymphInnate, alt: "Innate immune cells in action: large macrophage engulfing bacteria via phagocytosis, neutrophils migrating toward pathogens, natural killer cells, and complement proteins attacking bacterial membranes", afterParagraph: 0 },
+      { src: imgLymphAdaptive, alt: "Adaptive immune cells: B lymphocyte releasing Y-shaped antibodies, helper T cell coordinating the response, and cytotoxic T cell attacking an infected cell", afterParagraph: 1 },
+      { src: imgLymphSystem, alt: "Human lymphatic system showing network of lymph vessels, lymph node clusters in neck, axillae, and groin, spleen, thymus gland, tonsils, and thoracic duct", afterParagraph: 2 },
+      { src: imgLymphNode, alt: "Cross-section of a lymph node showing outer capsule, cortical follicles with germinal centers, medullary cords, afferent and efferent lymph vessels, and hilum with blood vessels", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The immune system provides defense against pathogens through innate (nonspecific) and adaptive (specific) immunity. Innate immunity is the first line of defense, including physical barriers (skin, mucous membranes), chemical barriers (stomach acid, lysozyme in tears), cellular components (neutrophils, macrophages, natural killer cells, dendritic cells), and the inflammatory response. Phagocytic cells recognize pathogen-associated molecular patterns (PAMPs) via toll-like receptors (TLRs). The complement cascade is a group of ~30 plasma proteins that, when activated, promote opsonization (coating pathogens for phagocytosis), chemotaxis (attracting immune cells), and formation of the membrane attack complex (MAC) that creates pores in pathogen cell membranes.",
       "Adaptive immunity is specific, has memory, and involves lymphocytes. B lymphocytes (humoral immunity) mature in the bone marrow and, when activated by antigen and helper T cells, differentiate into plasma cells that produce antibodies (immunoglobulins). The five antibody classes are: IgG (most abundant, crosses placenta, provides passive immunity to newborns), IgA (found in secretions: saliva, breast milk, GI tract), IgM (first antibody produced in primary immune response, largest), IgE (allergic reactions and parasitic infections, triggers mast cell degranulation), and IgD (B cell activation). T lymphocytes mature in the thymus and include CD4+ helper T cells (coordinate immune response), CD8+ cytotoxic T cells (kill infected cells), and regulatory T cells (suppress immune response to prevent autoimmunity).",
