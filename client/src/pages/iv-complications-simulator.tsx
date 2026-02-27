@@ -20,6 +20,37 @@ import {
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 
+import imgInfiltration from "@/assets/images/iv-complication-infiltration.png";
+import imgExtravasation from "@/assets/images/iv-complication-extravasation.png";
+import imgPhlebitis from "@/assets/images/iv-complication-phlebitis.png";
+import imgClabsi from "@/assets/images/iv-complication-clabsi.png";
+import imgAirEmbolism from "@/assets/images/iv-complication-air-embolism.png";
+import imgFluidOverload from "@/assets/images/iv-complication-fluid-overload.png";
+import imgPiccOcclusion from "@/assets/images/iv-complication-picc-occlusion.png";
+import imgSpeedShock from "@/assets/images/iv-complication-speed-shock.png";
+
+const scenarioImages: Record<string, string> = {
+  infiltration: imgInfiltration,
+  extravasation: imgExtravasation,
+  phlebitis: imgPhlebitis,
+  "catheter-infection": imgClabsi,
+  "air-embolism": imgAirEmbolism,
+  "fluid-overload": imgFluidOverload,
+  "catheter-occlusion": imgPiccOcclusion,
+  "speed-shock": imgSpeedShock,
+};
+
+const scenarioImageAlt: Record<string, string> = {
+  infiltration: "IV infiltration showing swelling and pallor at the catheter insertion site",
+  extravasation: "IV extravasation with blistering and erythema from vesicant drug leakage",
+  phlebitis: "Phlebitis showing redness and inflammation tracking along the vein path",
+  "catheter-infection": "Central line associated bloodstream infection with purulent drainage at exit site",
+  "air-embolism": "Venous air embolism anatomical illustration showing air bubble trapped in vessel",
+  "fluid-overload": "Bilateral pitting edema in lower extremities from IV fluid overload",
+  "catheter-occlusion": "PICC line catheter in upper arm showing occluded catheter setup",
+  "speed-shock": "Speed shock from rapid IV push medication illustrating drug concentration in vein",
+};
+
 interface AnswerOption {
   id: string;
   text: string;
@@ -460,6 +491,21 @@ export default function IVComplicationsSimulatorPage() {
               <Activity className="w-5 h-5 text-teal-600" />
               {scenario.title}
             </h2>
+
+            {scenarioImages[scenario.id] && (
+              <div className="mb-4 rounded-xl overflow-hidden border border-gray-100">
+                <img
+                  src={scenarioImages[scenario.id]}
+                  alt={scenarioImageAlt[scenario.id] || `Clinical image for ${scenario.title}`}
+                  className="w-full h-48 sm:h-56 object-cover"
+                  loading="lazy"
+                  data-testid={`img-scenario-${scenario.id}`}
+                />
+                <p className="text-[10px] text-gray-400 italic px-3 py-1.5 bg-gray-50">
+                  Clinical reference image for educational purposes
+                </p>
+              </div>
+            )}
 
             <div className="bg-gray-50 rounded-xl p-4 mb-4">
               <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">Patient Description</p>

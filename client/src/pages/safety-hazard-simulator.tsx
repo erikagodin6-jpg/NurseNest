@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Footer } from "@/components/footer";
@@ -28,8 +28,53 @@ import {
   Baby,
   DoorOpen,
   Siren,
+  Heart,
+  Brain,
+  MousePointerClick,
+  Crosshair,
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+
+import imgMedSurg from "@/assets/images/safety-medsurg-room.png";
+import imgMedPrep from "@/assets/images/safety-med-prep-area.png";
+import imgPostOp from "@/assets/images/safety-post-op-room.png";
+import imgPeds from "@/assets/images/safety-peds-room.png";
+import imgIsolation from "@/assets/images/safety-isolation-room.png";
+import imgED from "@/assets/images/safety-ed-bay.png";
+import imgLaborDelivery from "@/assets/images/safety-labor-delivery.png";
+import imgICU from "@/assets/images/safety-icu-room.png";
+import imgORSuite from "@/assets/images/safety-or-suite.png";
+import imgLTC from "@/assets/images/safety-ltc-room.png";
+import imgPsychUnit from "@/assets/images/safety-psych-unit.png";
+import imgHotspotRoom from "@/assets/images/safety-hotspot-room.png";
+
+const scenarioImages: Record<string, string> = {
+  "med-surg": imgMedSurg,
+  "med-prep": imgMedPrep,
+  "post-op": imgPostOp,
+  peds: imgPeds,
+  isolation: imgIsolation,
+  ed: imgED,
+  "labor-delivery": imgLaborDelivery,
+  icu: imgICU,
+  "or-suite": imgORSuite,
+  ltc: imgLTC,
+  "psych-unit": imgPsychUnit,
+};
+
+const scenarioImageAlt: Record<string, string> = {
+  "med-surg": "Hospital medical surgical patient room with bed, IV pole, oxygen equipment and bedside table",
+  "med-prep": "Hospital medication preparation area with Pyxis machine, medication vials and computer workstation",
+  "post-op": "Post-operative recovery room with PCA pump, compression devices and surgical wound care equipment",
+  peds: "Pediatric hospital room with crib, cardiac monitor, toys and child-appropriate medical equipment",
+  isolation: "Hospital isolation room entrance with PPE cart, biohazard waste bin and infection control supplies",
+  ed: "Emergency department bay with crash cart, cardiac monitor, IV pumps and stretcher",
+  "labor-delivery": "Labor and delivery room with fetal heart monitor, infant warmer and birthing bed",
+  icu: "Intensive care unit room with ventilator, multiple IV pumps, arterial line and cardiac monitors",
+  "or-suite": "Operating room suite entrance with scrub station, sterile supply storage and surgical instruments",
+  ltc: "Long-term care facility room with adjustable bed, wheelchair, walker and grab bars",
+  "psych-unit": "Psychiatric unit dayroom with observation station, seating area and safety considerations",
+};
 
 type HazardItem = {
   id: string;
