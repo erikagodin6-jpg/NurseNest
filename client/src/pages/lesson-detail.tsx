@@ -2356,10 +2356,13 @@ export default function LessonDetail() {
       }
 
       const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+      const adminId = user?.id || "";
+      const headers: Record<string, string> = { "Content-Type": "application/json", "x-user-tier": user?.tier || "" };
+      if (adminId) headers["x-admin-id"] = adminId;
       const res = await fetch(`/api/lesson-overrides/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json", "x-user-tier": user?.tier || "" },
-        body: JSON.stringify({ ...diff, username: creds.username, password: creds.password }),
+        headers,
+        body: JSON.stringify({ ...diff, ...(creds.username ? { username: creds.username, password: creds.password } : { adminId }) }),
       });
       if (!res.ok) {
         const err = await res.json();
