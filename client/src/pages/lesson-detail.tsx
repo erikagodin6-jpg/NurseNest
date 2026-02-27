@@ -511,6 +511,8 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           </CardContent>
         </Card>
 
+        <LessonImageManager lessonId={lessonId} section="header" isAdmin={true} isEditing={true} />
+
         <div className="space-y-12">
           <section id="pathophysiology" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
@@ -1909,6 +1911,8 @@ export default function LessonDetail() {
 
               {objectives.length > 0 && <LessonObjectives objectives={objectives} />}
 
+              {id && <LessonImageManager lessonId={id} section="header" isAdmin={user?.tier === "admin"} isEditing={false} />}
+
               <div className="space-y-12">
                 {pathophysiologyText && (
                   <section id="pathophysiology" className="space-y-6">
@@ -2639,6 +2643,7 @@ export default function LessonDetail() {
             </figure>
           ) : null;
         })()}
+        <LessonImageManager lessonId={id || ""} section="header" isAdmin={user?.tier === "admin"} isEditing={isEditing} />
         <div className="space-y-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
