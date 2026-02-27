@@ -68,10 +68,27 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     }
   }, [onChange]);
 
+  useEffect(() => {
+    const handler = () => {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount > 0 && editorRef.current) {
+        const range = sel.getRangeAt(0);
+        if (editorRef.current.contains(range.commonAncestorContainer)) {
+          savedSelectionRef.current = range.cloneRange();
+        }
+      }
+    };
+    document.addEventListener("selectionchange", handler);
+    return () => document.removeEventListener("selectionchange", handler);
+  }, []);
+
   const saveSelection = useCallback(() => {
     const sel = window.getSelection();
-    if (sel && sel.rangeCount > 0) {
-      savedSelectionRef.current = sel.getRangeAt(0).cloneRange();
+    if (sel && sel.rangeCount > 0 && editorRef.current) {
+      const range = sel.getRangeAt(0);
+      if (editorRef.current.contains(range.commonAncestorContainer)) {
+        savedSelectionRef.current = range.cloneRange();
+      }
     }
   }, []);
 
@@ -87,17 +104,23 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
   }, []);
 
   const applyFontColor = useCallback((color: string) => {
-    restoreSelection();
-    editorRef.current?.focus();
-    requestAnimationFrame(() => {
-      restoreSelection();
-      document.execCommand("styleWithCSS", false, "true");
-      document.execCommand("foreColor", false, color);
-      document.execCommand("styleWithCSS", false, "false");
-      emitChange();
+    const range = savedSelectionRef.current;
+    if (!range || !editorRef.current) {
       setShowColorPicker(false);
-    });
-  }, [restoreSelection, emitChange]);
+      return;
+    }
+    editorRef.current.focus();
+    const sel = window.getSelection();
+    if (sel) {
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    document.execCommand("styleWithCSS", false, "true");
+    document.execCommand("foreColor", false, color);
+    document.execCommand("styleWithCSS", false, "false");
+    emitChange();
+    setShowColorPicker(false);
+  }, [emitChange]);
 
   useEffect(() => {
     if (!showColorPicker) return;
@@ -305,7 +328,10 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           style={{ minHeight }}
           onInput={emitChange}
           onFocus={() => { setIsFocused(true); isFocusedRef.current = true; }}
-          onBlur={() => { setIsFocused(false); isFocusedRef.current = false; lastValueRef.current = editorRef.current?.innerHTML || ""; }}
+          onBlur={() => {
+            if (showColorPicker) return;
+            setIsFocused(false); isFocusedRef.current = false; lastValueRef.current = editorRef.current?.innerHTML || "";
+          }}
           onPaste={handlePaste}
           dangerouslySetInnerHTML={{ __html: value }}
           data-testid="rich-text-content"
