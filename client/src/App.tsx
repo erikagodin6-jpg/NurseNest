@@ -243,6 +243,7 @@ function AppRoutes() {
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
         <Route path="/blog" component={BlogPage} />
         <Route path="/learn/:slug" component={ContentPage} />
+        <Route path="/anatomy/:systemId" component={AnatomyPage} />
         <Route path="/anatomy" component={AnatomyPage} />
         <Route path="/lessons" component={Lessons} />
         <Route path="/lectures" component={LecturesPage} />

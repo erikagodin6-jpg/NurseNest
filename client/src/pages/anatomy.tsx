@@ -1,5 +1,6 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect, useCallback } from "react";
+import { useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
@@ -37,6 +38,8 @@ import {
   Loader2,
   Plus,
   Trash2,
+  ArrowLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import illustrationCellStructure from "@assets/CC5529CB-1C54-4D82-9872-BF7B2A519E53_1771868083264.png";
@@ -430,13 +433,220 @@ function AnatomySystemEditor({
   );
 }
 
-export default function AnatomyPage() {
-  const [expandedSystems, setExpandedSystems] = useState<Set<string>>(new Set());
+function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
+  const system = bodySystems.find((s) => s.id === systemId);
   const [isEditing, setIsEditing] = useState(false);
   const [isContentEditing, setIsContentEditing] = useState(false);
-  const [overrides, setOverrides] = useState<Record<string, SystemOverride>>({});
+  const [overrides, setOverrides] = useState<SystemOverride>({});
   const { user } = useAuth();
   const { toast } = useToast();
+  const isAdmin = user?.tier === "admin";
+
+  useEffect(() => {
+    if (system) {
+      fetch(`/api/lesson-overrides/anatomy-${system.id}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data && Object.keys(data).length > 0) {
+            setOverrides(data);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [systemId]);
+
+  if (!system) {
+    return (
+      <div className="min-h-screen bg-warmwhite flex flex-col">
+        <Navigation />
+        <main className="flex-grow flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">System Not Found</h2>
+            <p className="text-gray-500 mb-4">The anatomy topic you're looking for doesn't exist.</p>
+            <LocaleLink href="/anatomy">
+              <span className="inline-flex items-center gap-2 text-primary hover:underline cursor-pointer">
+                <ArrowLeft className="w-4 h-4" /> Back to Anatomy & Physiology
+              </span>
+            </LocaleLink>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const IconComponent = system.icon;
+  const resolved = {
+    name: overrides.name || system.name,
+    description: overrides.description || system.description,
+    content: overrides.content || system.content,
+  };
+
+  const saveSystemOverride = async (data: SystemOverride) => {
+    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+    const res = await fetch(`/api/lesson-overrides/anatomy-${system.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "x-user-tier": user?.tier || "" },
+      body: JSON.stringify({ ...data, username: creds.username, password: creds.password }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Save failed");
+    }
+    setOverrides((prev) => ({ ...prev, ...data }));
+  };
+
+  const systemIdx = bodySystems.findIndex((s) => s.id === systemId);
+  const prevSystem = systemIdx > 0 ? bodySystems[systemIdx - 1] : null;
+  const nextSystem = systemIdx < bodySystems.length - 1 ? bodySystems[systemIdx + 1] : null;
+
+  return (
+    <div className="min-h-screen bg-warmwhite flex flex-col" data-testid={`page-anatomy-${system.id}`}>
+      <Navigation />
+
+      <section className="relative overflow-hidden py-10 md:py-14">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-foreground/5" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative">
+          <LocaleLink href="/anatomy">
+            <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer mb-6 block" data-testid="button-back-anatomy">
+              <ArrowLeft className="w-4 h-4" /> Back to Anatomy & Physiology
+            </span>
+          </LocaleLink>
+          <div className="flex items-center gap-4 mb-4">
+            <div className={`w-14 h-14 rounded-2xl ${system.bgAccent} flex items-center justify-center`}>
+              <IconComponent className={`w-7 h-7 ${system.color}`} />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900" data-testid="heading-system-detail">
+                {resolved.name}
+              </h1>
+              <p className="text-gray-600 mt-1" data-testid="text-system-description">{resolved.description}</p>
+            </div>
+          </div>
+          {isAdmin && (
+            <div className="flex items-center gap-3 mt-4">
+              <button
+                onClick={() => setIsEditing(!isEditing)}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  isEditing
+                    ? "bg-amber-100 text-amber-800 border border-amber-300"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+                data-testid="button-toggle-anatomy-edit"
+              >
+                {isEditing ? "Exit Image Editing" : "Manage Images"}
+              </button>
+              <button
+                onClick={() => setIsContentEditing(!isContentEditing)}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  isContentEditing
+                    ? "bg-purple-100 text-purple-800 border border-purple-300"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+                data-testid="button-toggle-anatomy-content-edit"
+              >
+                <Pencil className="w-3.5 h-3.5" />
+                {isContentEditing ? "Exit Content Editing" : "Edit Content"}
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-16 w-full">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="h-56 md:h-72 overflow-hidden bg-gray-50">
+            <AdminImageOverlay
+              imageKey={`anatomy-${system.id}`}
+              src={system.image}
+              alt={resolved.name}
+              isAdmin={isAdmin}
+              className="w-full h-full"
+              imgClassName="w-full h-full object-contain p-4"
+            />
+          </div>
+          <div className="p-6 md:p-8 space-y-5">
+            <LessonImageManager
+              lessonId={`anatomy-${system.id}`}
+              section="anatomy"
+              isAdmin={isAdmin}
+              isEditing={isEditing}
+            />
+            {isContentEditing && isAdmin ? (
+              <AnatomySystemEditor
+                system={system}
+                overrides={overrides}
+                onSave={saveSystemOverride}
+              />
+            ) : (
+              resolved.content.map((paragraph, idx) => (
+                <p key={idx} className="text-sm md:text-base text-gray-700 leading-relaxed" data-testid={`text-paragraph-${idx}`}>
+                  {paragraph}
+                </p>
+              ))
+            )}
+            {system.id === "cell-structure" && (
+              <LocaleLink href="/lectures/cell-anatomy">
+                <div
+                  className="flex items-center gap-3 p-4 mt-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 hover:border-emerald-300 cursor-pointer transition-all group hover:shadow-md"
+                  data-testid="link-cell-anatomy-lecture"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 transition-colors">
+                    <PlayCircle className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology - Video Lecture</span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">Free</span>
+                    </div>
+                    <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                      <Video className="w-3 h-3" />Watch the full video lecture on cell biology foundations
+                    </span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-emerald-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                </div>
+              </LocaleLink>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between mt-8 gap-4">
+          {prevSystem ? (
+            <LocaleLink href={`/anatomy/${prevSystem.id}`}>
+              <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-system">
+                <ArrowLeft className="w-4 h-4" /> {prevSystem.name}
+              </span>
+            </LocaleLink>
+          ) : <div />}
+          {nextSystem ? (
+            <LocaleLink href={`/anatomy/${nextSystem.id}`}>
+              <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-system">
+                {nextSystem.name} <ChevronRight className="w-4 h-4" />
+              </span>
+            </LocaleLink>
+          ) : <div />}
+        </div>
+      </main>
+      <AdminEditButton pageName="anatomy" defaultTier="free" defaultCategory="anatomy" />
+      <Footer />
+    </div>
+  );
+}
+
+export default function AnatomyPage() {
+  const params = useParams<{ systemId?: string }>();
+
+  if (params.systemId) {
+    return <AnatomySystemDetailPage systemId={params.systemId} />;
+  }
+
+  return <AnatomyListingPage />;
+}
+
+function AnatomyListingPage() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [overrides, setOverrides] = useState<Record<string, SystemOverride>>({});
+  const { user } = useAuth();
   const isAdmin = user?.tier === "admin";
 
   useEffect(() => {
@@ -452,38 +662,11 @@ export default function AnatomyPage() {
     });
   }, []);
 
-  const toggleSystem = (id: string) => {
-    setExpandedSystems((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  };
-
-  const saveSystemOverride = useCallback(async (systemId: string, data: SystemOverride) => {
-    const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
-    const res = await fetch(`/api/lesson-overrides/anatomy-${systemId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", "x-user-tier": user?.tier || "" },
-      body: JSON.stringify({ ...data, username: creds.username, password: creds.password }),
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || "Save failed");
-    }
-    setOverrides((prev) => ({ ...prev, [systemId]: { ...prev[systemId], ...data } }));
-  }, [user]);
-
   const getSystemContent = (system: typeof bodySystems[0]) => {
     const ov = overrides[system.id];
     return {
       name: ov?.name || system.name,
       description: ov?.description || system.description,
-      content: ov?.content || system.content,
     };
   };
 
@@ -522,18 +705,6 @@ export default function AnatomyPage() {
                 >
                   {isEditing ? "Exit Image Editing" : "Manage Images"}
                 </button>
-                <button
-                  onClick={() => setIsContentEditing(!isContentEditing)}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    isContentEditing
-                      ? "bg-purple-100 text-purple-800 border border-purple-300"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                  data-testid="button-toggle-anatomy-content-edit"
-                >
-                  <Pencil className="w-3.5 h-3.5" />
-                  {isContentEditing ? "Exit Content Editing" : "Edit Content"}
-                </button>
               </div>
             )}
           </div>
@@ -541,104 +712,55 @@ export default function AnatomyPage() {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20" data-testid="section-body-systems">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {bodySystems.map((system) => {
-            const isExpanded = expandedSystems.has(system.id);
             const IconComponent = system.icon;
             const resolved = getSystemContent(system);
 
             return (
-              <Card
-                key={system.id}
-                className={`transition-all duration-300 border-2 ${isExpanded ? system.borderColor : "border-transparent"} hover:shadow-lg overflow-hidden`}
-                data-testid={`card-system-${system.id}`}
-              >
-                <div
-                  className="h-40 overflow-hidden bg-gray-50 cursor-pointer"
-                  onClick={() => toggleSystem(system.id)}
+              <LocaleLink key={system.id} href={`/anatomy/${system.id}`}>
+                <Card
+                  className="transition-all duration-300 border-2 border-transparent hover:shadow-lg hover:border-gray-200 overflow-hidden cursor-pointer group h-full"
+                  data-testid={`card-system-${system.id}`}
                 >
-                  <AdminImageOverlay
-                    imageKey={`anatomy-${system.id}`}
-                    src={system.image}
-                    alt={resolved.name}
-                    isAdmin={isAdmin}
-                    className="w-full h-full"
-                    imgClassName="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <CardHeader
-                  className="cursor-pointer select-none"
-                  onClick={() => toggleSystem(system.id)}
-                  data-testid={`button-toggle-${system.id}`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl ${system.bgAccent} flex items-center justify-center`}>
-                        <IconComponent className={`w-5 h-5 ${system.color}`} />
-                      </div>
-                      <div>
-                        <CardTitle className="text-lg" data-testid={`title-system-${system.id}`}>
-                          {resolved.name}
-                        </CardTitle>
-                        <CardDescription data-testid={`desc-system-${system.id}`}>
-                          {resolved.description}
-                        </CardDescription>
-                      </div>
-                    </div>
-                    <div className={`mt-1 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}>
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    </div>
-                  </div>
-                </CardHeader>
-
-                {isExpanded && (
-                  <CardContent className="pt-0 animate-in fade-in-0 slide-in-from-top-2 duration-300" data-testid={`content-system-${system.id}`}>
-                    <div className={`border-t ${system.borderColor} pt-4 space-y-4`}>
-                      <LessonImageManager
-                        lessonId={`anatomy-${system.id}`}
-                        section="anatomy"
+                  <div className="h-40 overflow-hidden bg-gray-50">
+                    {isEditing && isAdmin ? (
+                      <AdminImageOverlay
+                        imageKey={`anatomy-${system.id}`}
+                        src={system.image}
+                        alt={resolved.name}
                         isAdmin={isAdmin}
-                        isEditing={isEditing}
+                        className="w-full h-full"
+                        imgClassName="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                       />
-                      {isContentEditing && isAdmin ? (
-                        <AnatomySystemEditor
-                          system={system}
-                          overrides={overrides[system.id] || {}}
-                          onSave={(data) => saveSystemOverride(system.id, data)}
-                        />
-                      ) : (
-                        resolved.content.map((paragraph, idx) => (
-                          <p key={idx} className="text-sm text-gray-700 leading-relaxed">
-                            {paragraph}
-                          </p>
-                        ))
-                      )}
-                      {system.id === "cell-structure" && (
-                        <LocaleLink href="/lectures/cell-anatomy">
-                          <div
-                            className="flex items-center gap-3 p-4 mt-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 hover:border-emerald-300 cursor-pointer transition-all group hover:shadow-md"
-                            data-testid="link-cell-anatomy-lecture"
-                          >
-                            <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 transition-colors">
-                              <PlayCircle className="w-5 h-5 text-emerald-600" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology - Video Lecture</span>
-                                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">Free</span>
-                              </div>
-                              <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
-                                <Video className="w-3 h-3" />Watch the full video lecture on cell biology foundations
-                              </span>
-                            </div>
-                            <ChevronDown className="w-4 h-4 text-emerald-500 -rotate-90 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                          </div>
-                        </LocaleLink>
-                      )}
+                    ) : (
+                      <img
+                        src={system.image}
+                        alt={resolved.name}
+                        className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
+                  </div>
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-xl ${system.bgAccent} flex items-center justify-center`}>
+                          <IconComponent className={`w-5 h-5 ${system.color}`} />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg" data-testid={`title-system-${system.id}`}>
+                            {resolved.name}
+                          </CardTitle>
+                          <CardDescription data-testid={`desc-system-${system.id}`}>
+                            {resolved.description}
+                          </CardDescription>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-gray-400 mt-1 group-hover:translate-x-1 transition-transform" />
                     </div>
-                  </CardContent>
-                )}
-              </Card>
+                  </CardHeader>
+                </Card>
+              </LocaleLink>
             );
           })}
         </div>
