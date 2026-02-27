@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Heading2, RemoveFormatting, ImagePlus, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -32,6 +32,25 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
 
+  const lastValueRef = useRef(value);
+
+  useEffect(() => {
+    if (editorRef.current && value !== lastValueRef.current) {
+      if (editorRef.current.innerHTML !== value) {
+        editorRef.current.innerHTML = value;
+      }
+      lastValueRef.current = value;
+    }
+  }, [value]);
+
+  const emitChange = useCallback(() => {
+    if (editorRef.current) {
+      const html = editorRef.current.innerHTML;
+      lastValueRef.current = html;
+      onChange(html);
+    }
+  }, [onChange]);
+
   const execCommand = useCallback((command: string) => {
     if (command === "insertImage") {
       fileInputRef.current?.click();
@@ -47,7 +66,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
             a.setAttribute("target", "_blank");
             a.setAttribute("rel", "noopener noreferrer");
           });
-          onChange(editorRef.current.innerHTML);
+          emitChange();
         }
       }
       editorRef.current?.focus();
@@ -59,11 +78,9 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     } else {
       document.execCommand(command, false);
     }
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
-    }
+    emitChange();
     editorRef.current?.focus();
-  }, [onChange]);
+  }, [emitChange]);
 
   const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -86,28 +103,18 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
       const publicUrl = `/api/uploads/${objectPath}`;
       editorRef.current?.focus();
       document.execCommand("insertHTML", false, `<img src="${publicUrl}" alt="${file.name}" style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
-      if (editorRef.current) {
-        onChange(editorRef.current.innerHTML);
-      }
+      emitChange();
     } catch {
       const reader = new FileReader();
       reader.onload = () => {
         editorRef.current?.focus();
         document.execCommand("insertHTML", false, `<img src="${reader.result}" alt="${file.name}" style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
-        if (editorRef.current) {
-          onChange(editorRef.current.innerHTML);
-        }
+        emitChange();
       };
       reader.readAsDataURL(file);
     }
     if (fileInputRef.current) fileInputRef.current.value = "";
-  }, [onChange]);
-
-  const handleInput = useCallback(() => {
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
-    }
-  }, [onChange]);
+  }, [emitChange]);
 
   const handlePaste = useCallback((e: React.ClipboardEvent) => {
     const items = e.clipboardData.items;
@@ -120,9 +127,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           reader.onload = () => {
             editorRef.current?.focus();
             document.execCommand("insertHTML", false, `<img src="${reader.result}" alt="Pasted image" style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
-            if (editorRef.current) {
-              onChange(editorRef.current.innerHTML);
-            }
+            emitChange();
           };
           reader.readAsDataURL(file);
         }
@@ -151,10 +156,8 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
       return;
     }
     document.execCommand("insertHTML", false, content);
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
-    }
-  }, [onChange]);
+    emitChange();
+  }, [emitChange]);
 
   const isEmpty = !value || value === "<br>" || value === "<div><br></div>" || value.replace(/<[^>]*>/g, "").trim() === "";
 
@@ -202,7 +205,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           suppressContentEditableWarning
           className="px-3 py-2 outline-none text-sm leading-relaxed whitespace-pre-wrap [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:mt-3 [&_h2]:mb-1 [&_h1]:text-xl [&_h1]:font-bold [&_h1]:mt-4 [&_h1]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_img]:max-w-full [&_img]:rounded-lg [&_img]:my-2 [&_a]:text-primary [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-2 [&_pre]:bg-gray-100 [&_pre]:p-2 [&_pre]:rounded [&_pre]:my-2 [&_code]:bg-gray-100 [&_code]:px-1 [&_code]:rounded [&_table]:border-collapse [&_table]:w-full [&_table]:my-2 [&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1 [&_th]:border [&_th]:border-gray-300 [&_th]:px-2 [&_th]:py-1 [&_th]:font-semibold [&_th]:bg-gray-50 [&_hr]:border-gray-300 [&_hr]:my-3 [&_p]:mb-3 [&_p:empty]:h-4 [&_div]:mb-1 [&_br]:block [&_br]:content-[''] [&_br]:mt-1"
           style={{ minHeight }}
-          onInput={handleInput}
+          onInput={emitChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onPaste={handlePaste}

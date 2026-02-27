@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -863,13 +863,19 @@ export function CognitiveCard({
     remember: <CheckCircle2 className="w-4 h-4" />,
   };
 
+  const hasHtml = /<[a-z][\s\S]*>/i.test(content);
+
   return (
     <div className={cn("p-4 rounded-xl border", styles[type])} data-testid={`cognitive-card-${type}`}>
       <div className="flex items-start gap-3">
         <div className="shrink-0 mt-0.5">{icon || defaultIcons[type]}</div>
         <div>
           <p className="text-sm font-semibold mb-1">{title}</p>
-          <p className="text-sm opacity-80 leading-relaxed">{content}</p>
+          {hasHtml ? (
+            <div className="text-sm opacity-80 leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: content }} />
+          ) : (
+            <p className="text-sm opacity-80 leading-relaxed whitespace-pre-wrap">{content}</p>
+          )}
         </div>
       </div>
     </div>
