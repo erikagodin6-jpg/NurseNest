@@ -1,0 +1,123 @@
+You are working on my live production education platform (NurseNest).
+
+OBJECTIVE:
+Increase Google indexing from ~23 indexed pages toward 75–150 indexed over 30–60 days by strengthening authority signals, internal linking, structured data, and crawl prioritization.
+
+STRICT CONSTRAINTS:
+- DO NOT change layout, UI, styling, or design.
+- DO NOT rename URLs or modify slugs.
+- DO NOT change routing.
+- DO NOT modify paywall logic.
+- DO NOT alter admin tools.
+- DO NOT remove any existing content.
+- DO NOT modify blog generator.
+- Only implement backend SEO logic, internal linking enhancements, and structured data additions.
+- All changes must be reversible and isolated.
+
+--------------------------------------------------
+PHASE 1 — CORNERSTONE PAGE IDENTIFICATION
+--------------------------------------------------
+
+1. Automatically analyze existing lessons and identify top 12–20 cornerstone candidates based on:
+   - Word count
+   - Internal link count
+   - Tier relevance (RPN, RN, NP)
+   - Topic breadth (high-yield exam topics)
+
+2. Generate a report listing:
+   - URL
+   - Word count
+   - Internal link count
+   - Suggested authority score
+
+Do NOT modify content yet.
+Only report.
+
+--------------------------------------------------
+PHASE 2 — INTERNAL LINK DENSITY IMPROVEMENT
+--------------------------------------------------
+
+Without changing layout:
+
+1. Add a backend-generated "Related Learning" section at the bottom of lesson pages that:
+   - Dynamically pulls 4–8 semantically related lessons
+   - Links to pathophysiology, pharmacology, diagnostics, and exam strategy pages
+   - Does NOT alter visual structure significantly
+   - Uses existing styling classes
+
+2. Ensure:
+   - Minimum 5 internal links per lesson
+   - No orphan pages
+   - Cross-tier linking (RPN ↔ RN ↔ NP versions where applicable)
+
+3. Generate a crawl map showing:
+   - Orphan pages
+   - Low-link-density pages (<3 internal links)
+
+--------------------------------------------------
+PHASE 3 — STRUCTURED DATA (SERVER-SIDE ONLY)
+--------------------------------------------------
+
+Add JSON-LD structured data to appropriate pages:
+
+1. EducationalArticle schema for lessons
+2. Article schema for blog posts
+3. FAQ schema if page contains Q&A
+4. BreadcrumbList schema
+5. Organization schema (site-wide)
+
+Requirements:
+- Must render server-side
+- Must not change UI
+- Must not affect performance negatively
+- Must validate via Google Rich Results Test
+
+--------------------------------------------------
+PHASE 4 — INDEX PRIORITY OPTIMIZATION
+--------------------------------------------------
+
+1. Ensure sitemap.xml:
+   - Includes ONLY high-value lesson and blog pages
+   - Excludes thin, parameterized, preview, and draft pages
+   - Uses canonical www host only
+
+2. Confirm all indexable pages:
+   - Have self-referencing canonical
+   - Return 200
+   - Have server-rendered title + meta description
+
+3. Identify pages under 600 words and generate a report for manual expansion.
+
+--------------------------------------------------
+PHASE 5 — REPORTING OUTPUT
+--------------------------------------------------
+
+After implementation, generate:
+
+1. Total URLs
+2. Indexable URLs
+3. Noindex URLs
+4. Pages with <5 internal links
+5. Pages under 600 words
+6. Estimated crawl pathway depth (click depth from homepage)
+
+Provide exact code diffs or file modifications made.
+
+Confirm:
+- No layout changes occurred.
+- No routing changes occurred.
+- No paywall logic changed.
+- Admin functionality unchanged.
+
+--------------------------------------------------
+VALIDATION CHECKLIST
+--------------------------------------------------
+
+Provide commands to test:
+
+curl -I https://www.nursenest.ca/sitemap.xml
+curl -I https://www.nursenest.ca/sample-lesson
+Check canonical consistency
+Validate structured data examples
+
+All changes must be minimal, modular, and safe for production.

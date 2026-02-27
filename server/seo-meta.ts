@@ -23,6 +23,59 @@ interface PageMeta {
   canonical: string;
   jsonLd?: string;
   noscriptContent?: string;
+  noindex?: boolean;
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const NOINDEX_PATHS = new Set([
+  "/admin",
+  "/content-editor",
+  "/login",
+  "/profile",
+  "/reports",
+  "/subscription/success",
+  "/subscription/cancel",
+]);
+
+function isNoindexPath(path: string): boolean {
+  if (NOINDEX_PATHS.has(path)) return true;
+  if (path.startsWith("/admin")) return true;
+  if (path.startsWith("/content-editor")) return true;
+  return false;
+}
+
+function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
+  const crumbs: { name: string; url: string }[] = [
+    { name: "Home", url: `${SITE_BASE}/` },
+  ];
+
+  const lessonMatch = pathname.match(/^\/lessons\/(.+)$/);
+  if (lessonMatch) {
+    crumbs.push({ name: "Lessons", url: `${SITE_BASE}/lessons` });
+    crumbs.push({ name: slugToTitle(lessonMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const clarityMatch = pathname.match(/^\/clinical-clarity\/(.+)$/);
+  if (clarityMatch) {
+    crumbs.push({ name: "Clinical Clarity", url: `${SITE_BASE}/clinical-clarity` });
+    crumbs.push({ name: slugToTitle(clarityMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  const learnMatch = pathname.match(/^\/learn\/(.+)$/);
+  if (learnMatch) {
+    crumbs.push({ name: "Blog", url: `${SITE_BASE}/blog` });
+    crumbs.push({ name: slugToTitle(learnMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
+  if (pathname !== "/") {
+    const pageName = staticPages[pathname]?.title?.split(" | ")[0]?.split(" - ")[0] || slugToTitle(pathname.replace(/^\//, ""));
+    crumbs.push({ name: pageName, url: `${SITE_BASE}${pathname}` });
+  }
+
+  return crumbs;
 }
 
 function slugToTitle(slug: string): string {
@@ -360,14 +413,21 @@ async function fetchContentForPath(pathname: string): Promise<{ title: string; c
 }
 
 export function getPageMeta(pathname: string): PageMeta {
-  const cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
-  const canonical = cleanPath === "/" ? `${SITE_BASE}/` : `${SITE_BASE}${cleanPath}`;
+  let cleanPath = pathname.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+  const localeMatch = cleanPath.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)(\/.*|$)/);
+  const strippedPath = localeMatch ? (localeMatch[2] || "/") : cleanPath;
+  const canonical = strippedPath === "/" ? `${SITE_BASE}/` : `${SITE_BASE}${strippedPath}`;
+  const noindex = isNoindexPath(strippedPath);
+  const breadcrumbs = buildBreadcrumbs(strippedPath);
+  cleanPath = strippedPath;
 
   if (staticPages[cleanPath]) {
     return {
       title: staticPages[cleanPath].title,
       description: staticPages[cleanPath].description,
       canonical,
+      noindex,
+      breadcrumbs,
     };
   }
 
@@ -383,6 +443,8 @@ export function getPageMeta(pathname: string): PageMeta {
       title: `${readable}${tier} - Nursing Lesson | NurseNest`,
       description: `Learn about ${readable} with detailed pathophysiology, clinical findings, nursing interventions, and exam pearls. Evidence-based nursing education for NCLEX and REX-PN preparation.`,
       canonical,
+      noindex,
+      breadcrumbs,
     };
   }
 
@@ -394,6 +456,8 @@ export function getPageMeta(pathname: string): PageMeta {
       title: `${readable} - Clinical Clarity | NurseNest`,
       description: `Understand ${readable.toLowerCase()}. Evidence-based pathophysiology explanation for nursing students preparing for NCLEX and REX-PN exams.`,
       canonical,
+      noindex,
+      breadcrumbs,
     };
   }
 
@@ -405,6 +469,8 @@ export function getPageMeta(pathname: string): PageMeta {
       title: `${readable} | NurseNest`,
       description: `${readable} - nursing education content on NurseNest. Evidence-based learning for RPN/LVN, RN, and NP students.`,
       canonical,
+      noindex,
+      breadcrumbs,
     };
   }
 
@@ -412,20 +478,25 @@ export function getPageMeta(pathname: string): PageMeta {
     title: "NurseNest - NCLEX & REX-PN Exam Prep | Nursing Education Platform",
     description: "Prepare for NCLEX and REX-PN with NurseNest. 1,200+ practice questions, 200+ clinical lessons, pharmacology flashcards, and case simulations for nursing students. New content added weekly.",
     canonical,
+    noindex,
+    breadcrumbs,
   };
 }
 
 export async function injectMeta(html: string, pathname: string): Promise<string> {
+  const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa)(\/.*|$)/);
+  const strippedPath = localeMatch ? (localeMatch[2] || "/") : pathname;
   const meta = getPageMeta(pathname);
 
-  const contentData = await fetchContentForPath(pathname);
+  const contentData = await fetchContentForPath(strippedPath);
   if (contentData) {
     if (contentData.summary) {
       meta.description = contentData.summary.substring(0, 300);
     }
 
-    const isLesson = pathname.startsWith("/lessons/");
-    const isBlog = pathname.startsWith("/blog/") && pathname !== "/blog";
+    const isLesson = strippedPath.startsWith("/lessons/");
+    const isBlog = (strippedPath.startsWith("/blog/") && strippedPath !== "/blog") || (strippedPath.startsWith("/learn/") && strippedPath !== "/learn");
+    const isClarity = strippedPath.startsWith("/clinical-clarity/") && strippedPath !== "/clinical-clarity";
     const textContent = extractTextFromContent(contentData.content);
     const wordCount = textContent.split(/\s+/).length;
 
@@ -463,7 +534,7 @@ export async function injectMeta(html: string, pathname: string): Promise<string
       };
     }
 
-    if (isBlog) {
+    if (isBlog || isClarity) {
       jsonLd["@type"] = "Article";
       jsonLd["author"] = { "@type": "Organization", "name": "NurseNest" };
       jsonLd["wordCount"] = wordCount;
@@ -484,6 +555,25 @@ export async function injectMeta(html: string, pathname: string): Promise<string
     meta.noscriptContent = buildNoscriptHtml(contentData.content, contentData.title);
   }
 
+  const allJsonLd: string[] = [];
+  if (meta.jsonLd) {
+    allJsonLd.push(meta.jsonLd);
+  }
+
+  if (meta.breadcrumbs && meta.breadcrumbs.length > 1) {
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": meta.breadcrumbs.map((crumb, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "name": crumb.name,
+        "item": crumb.url,
+      })),
+    };
+    allJsonLd.push(JSON.stringify(breadcrumbLd));
+  }
+
   html = html.replace(
     /<!--SEO_TITLE-->.*?<!--\/SEO_TITLE-->/s,
     `<!--SEO_TITLE--><title>${meta.title}</title><!--/SEO_TITLE-->`
@@ -498,6 +588,13 @@ export async function injectMeta(html: string, pathname: string): Promise<string
     /<!--SEO_CANONICAL-->.*?<!--\/SEO_CANONICAL-->/s,
     `<!--SEO_CANONICAL--><link rel="canonical" href="${meta.canonical}" /><!--/SEO_CANONICAL-->`
   );
+
+  if (meta.noindex) {
+    html = html.replace(
+      '<meta name="robots" content="index, follow" />',
+      '<meta name="robots" content="noindex, follow" />'
+    );
+  }
 
   html = html.replace(
     /<!--SEO_OG_TITLE-->.*?<!--\/SEO_OG_TITLE-->/s,
@@ -519,10 +616,11 @@ export async function injectMeta(html: string, pathname: string): Promise<string
     `<!--SEO_TW_DESC--><meta name="twitter:description" content="${escapeHtml(meta.description)}" /><!--/SEO_TW_DESC-->`
   );
 
-  if (meta.jsonLd) {
+  if (allJsonLd.length > 0) {
+    const jsonLdTags = allJsonLd.map(ld => `<script type="application/ld+json">${ld}</script>`).join("\n");
     html = html.replace(
       "</head>",
-      `<script type="application/ld+json">${meta.jsonLd}</script>\n</head>`
+      `${jsonLdTags}\n</head>`
     );
   }
 
