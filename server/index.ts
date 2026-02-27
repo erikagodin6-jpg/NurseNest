@@ -11,6 +11,8 @@ import { storage } from "./storage";
 
 const app = express();
 
+app.get("/healthz", (_req, res) => res.status(200).send("ok"));
+
 app.use(compression());
 
 app.use((_req, res, next) => {
@@ -369,6 +371,9 @@ app.use((req, res, next) => {
   }
 
   const port = parseInt(process.env.PORT || "5000", 10);
+  httpServer.keepAliveTimeout = 65000;
+  httpServer.headersTimeout = 66000;
+  httpServer.timeout = 30000;
   httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
     log(`serving on port ${port}`);
   });
