@@ -765,26 +765,158 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
               </div>
             )}
             {system.id === "cell-structure" && (
-              <LocaleLink href="/lectures/cell-anatomy">
-                <div
-                  className="flex items-center gap-3 p-4 mt-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 hover:border-emerald-300 cursor-pointer transition-all group hover:shadow-md"
-                  data-testid="link-cell-anatomy-lecture"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 transition-colors">
-                    <PlayCircle className="w-5 h-5 text-emerald-600" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology - Video Lecture</span>
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">Free</span>
-                    </div>
-                    <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
-                      <Video className="w-3 h-3" />Watch the full video lecture on cell biology foundations
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-emerald-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+              <>
+                <div className="mt-6">
+                  <AnatomyLabeling
+                    title="Cell Structure: Click to Identify"
+                    description="Identify the major organelles and structures of the cell"
+                    backgroundImage={hotspotCellStructure}
+                    labels={cellLabels}
+                    width={600}
+                    height={450}
+                  />
                 </div>
-              </LocaleLink>
+                <LocaleLink href="/lectures/cell-anatomy">
+                  <div
+                    className="flex items-center gap-3 p-4 mt-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 hover:border-emerald-300 cursor-pointer transition-all group hover:shadow-md"
+                    data-testid="link-cell-anatomy-lecture"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 transition-colors">
+                      <PlayCircle className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology - Video Lecture</span>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">Free</span>
+                      </div>
+                      <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                        <Video className="w-3 h-3" />Watch the full video lecture on cell biology foundations
+                      </span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-emerald-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                  </div>
+                </LocaleLink>
+              </>
+            )}
+            {system.id === "feedback-loops" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Feedback Loops: Click to Identify"
+                  description="Identify the components of homeostatic feedback mechanisms"
+                  backgroundImage={hotspotFeedbackLoops}
+                  labels={feedbackLoopLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "respiratory" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Respiratory System: Click to Identify"
+                  description="Identify the major structures of the respiratory system"
+                  backgroundImage={hotspotRespiratory}
+                  labels={lungLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "nervous" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Nervous System: Click to Identify"
+                  description="Identify the major structures of the brain and nervous system"
+                  backgroundImage={hotspotNervous}
+                  labels={brainLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "musculoskeletal" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Musculoskeletal System: Click to Identify"
+                  description="Identify the major bones and muscle groups"
+                  backgroundImage={hotspotMusculoskeletal}
+                  labels={musculoskeletalLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "gastrointestinal" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Digestive System: Click to Identify"
+                  description="Identify the major organs of the gastrointestinal tract"
+                  backgroundImage={hotspotGastrointestinal}
+                  labels={digestiveLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "renal" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Renal System: Click to Identify"
+                  description="Identify the major structures of the kidney and urinary system"
+                  backgroundImage={hotspotRenal}
+                  labels={kidneyLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "endocrine" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Endocrine System: Click to Identify"
+                  description="Identify the major endocrine glands and their locations"
+                  backgroundImage={hotspotEndocrine}
+                  labels={endocrineLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "integumentary" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Integumentary System: Click to Identify"
+                  description="Identify the layers and structures of the skin"
+                  backgroundImage={hotspotIntegumentary}
+                  labels={integumentaryLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "lymphatic-immune" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Lymphatic & Immune System: Click to Identify"
+                  description="Identify the major lymphatic organs and immune structures"
+                  backgroundImage={hotspotLymphaticImmune}
+                  labels={lymphaticLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
+            )}
+            {system.id === "reproductive" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Reproductive System: Click to Identify"
+                  description="Identify the major structures of the reproductive system"
+                  backgroundImage={hotspotReproductive}
+                  labels={reproductiveLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
             )}
           </div>
         </div>
