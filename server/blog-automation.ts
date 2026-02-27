@@ -262,23 +262,24 @@ The article MUST be at least 2000 words of body content (not counting references
     const paragraphs = parsed.content.filter((b: any) => b.type === "paragraph");
     if (paragraphs.length < 3) return "too few paragraphs";
     const wordCount = allText.split(/\s+/).length;
-    if (wordCount < 1500) return `too short (${wordCount} words, minimum 1500)`;
+    if (wordCount < 2000) return `too short (${wordCount} words, minimum 2000)`;
     return null;
   }
 
-  const MAX_ATTEMPTS = 2;
+  const MAX_ATTEMPTS = 3;
   let parsed: any = null;
   let lastError = "";
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const retryPrompt = attempt === 2
+      ? `Your previous attempt was too short. You MUST write at least 2000 words of body content. Write the complete, detailed JSON blog post about: "${selectedTopic}". Include 8+ sections. Respond with ONLY the JSON.`
+      : `FINAL ATTEMPT. The article MUST exceed 2000 words. Write an extremely detailed, comprehensive nursing education article about: "${selectedTopic}". Include 10+ sections with deep clinical detail. Respond with ONLY the JSON.`;
+
     const response = await openai.chat.completions.create({
       model: "gpt-5-mini",
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: attempt === 1
-          ? userPrompt
-          : `You MUST write the complete article now. Do not ask for clarification, do not add disclaimers, do not refuse. Just output the full JSON blog post about: "${selectedTopic}". Respond with ONLY the JSON.`
-        }
+        { role: "user", content: attempt === 1 ? userPrompt : retryPrompt }
       ],
       response_format: { type: "json_object" },
       max_completion_tokens: 16384,
@@ -442,8 +443,8 @@ OUTPUT FORMAT: Respond with ONLY a JSON object:
       return acc + (text + " " + itemsText).split(/\s+/).filter(Boolean).length;
     }, 0);
 
-    if (wordCount < 1800) {
-      throw new Error(`Expanded content only ${wordCount} words, need 1800+`);
+    if (wordCount < 2000) {
+      throw new Error(`Expanded content only ${wordCount} words, need 2000+`);
     }
 
     return parsed.content;
