@@ -927,6 +927,27 @@ export const rnSystems = [
     ]
   },
   {
+    id: "arrhythmias-rn",
+    title: "Arrhythmias & ECG",
+    icon: Heart,
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+    diseases: [
+      { id: "normal-sinus-rhythm", name: "Normal Sinus Rhythm", status: "Available" },
+      { id: "sinus-bradycardia", name: "Sinus Bradycardia", status: "Available" },
+      { id: "sinus-tachycardia", name: "Sinus Tachycardia", status: "Available" },
+      { id: "atrial-fibrillation-rn", name: "Atrial Fibrillation", status: "Available" },
+      { id: "atrial-flutter-rn", name: "Atrial Flutter", status: "Available" },
+      { id: "svt-recognition", name: "Supraventricular Tachycardia", status: "Available" },
+      { id: "pvc-recognition", name: "Premature Ventricular Contractions", status: "Available" },
+      { id: "vtach-management", name: "Ventricular Tachycardia", status: "Available" },
+      { id: "vfib-management", name: "Ventricular Fibrillation", status: "Available" },
+      { id: "heart-block-complete", name: "Complete Heart Block", status: "Available" },
+      { id: "torsades-management", name: "Torsades de Pointes", status: "Available" },
+      { id: "asystole-pea", name: "Asystole & PEA", status: "Available" }
+    ]
+  },
+  {
     id: "respiratory-rn",
     title: "Respiratory",
     icon: Wind,

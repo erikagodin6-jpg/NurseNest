@@ -42,6 +42,7 @@ import { medMathLessons } from "./med-math-lessons";
 import { reproductiveLessons } from "./reproductive";
 import { reproductiveRpnLessons } from "./reproductive-rpn";
 import { reproductiveNpLessons } from "./reproductive-np";
+import { arrhythmiaLessons } from "./arrhythmias";
 
 export type { LessonContent } from "./types";
 
@@ -99,6 +100,7 @@ export const contentMap: Record<string, LessonContent> = {
   ...reproductiveLessons,
   ...reproductiveRpnLessons,
   ...reproductiveNpLessons,
+  ...arrhythmiaLessons,
 };
 
 export const lessonCount = Object.keys(contentMap).length;

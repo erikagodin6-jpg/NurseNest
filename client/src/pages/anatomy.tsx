@@ -89,6 +89,14 @@ import imgLymphInnate from "@/assets/anatomy-lymphatic-innate.png";
 import imgLymphAdaptive from "@/assets/anatomy-lymphatic-adaptive.png";
 import imgLymphSystem from "@/assets/anatomy-lymphatic-system.png";
 import imgLymphNode from "@/assets/anatomy-lymphatic-node.png";
+import imgCellOrganelles from "@/assets/anatomy-cell-organelles.png";
+import imgCellMembrane from "@/assets/anatomy-cell-membrane.png";
+import imgCellDivision from "@/assets/anatomy-cell-division.png";
+import imgReproductiveFemale from "@/assets/anatomy-reproductive-female.png";
+import imgReproductiveMale from "@/assets/anatomy-reproductive-male.png";
+import heartAnatomyImage from "@/assets/heart-anatomy.png";
+import { AnatomyLabeling } from "@/components/interactive-learning";
+import { heartLabels } from "@/components/anatomy-diagrams";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
@@ -103,6 +111,11 @@ const bodySystems = [
     bgAccent: "bg-emerald-50",
     image: imgCellStructure,
     description: "The fundamental unit of life: organelles, membranes, and cellular processes",
+    inlineImages: [
+      { src: imgCellMembrane, alt: "Cell membrane phospholipid bilayer showing hydrophilic heads, hydrophobic tails, integral and peripheral proteins, cholesterol, and glycoproteins — the fluid mosaic model", afterParagraph: 0 },
+      { src: imgCellOrganelles, alt: "Detailed animal cell showing all major organelles: nucleus with nucleolus, rough and smooth endoplasmic reticulum, Golgi apparatus, mitochondria, lysosomes, ribosomes, and cytoskeleton", afterParagraph: 2 },
+      { src: imgCellDivision, alt: "Stages of mitosis: prophase (chromosomes condense), metaphase (align at equator), anaphase (chromosomes separate), telophase and cytokinesis (two daughter cells form)", afterParagraph: 3 },
+    ] as InlineImage[],
     content: [
       "The cell is the basic structural and functional unit of all living organisms. Human cells are eukaryotic, meaning they contain a true nucleus enclosed by a nuclear membrane (nuclear envelope). The cell is bounded by the plasma membrane (cell membrane), a phospholipid bilayer with embedded proteins that regulates the passage of substances in and out of the cell. The hydrophilic (water-loving) phosphate heads face outward toward the aqueous environment, while the hydrophobic (water-fearing) lipid tails face inward. Integral proteins span the entire membrane and may serve as channels, carriers, receptors, or enzymes. Peripheral proteins attach to the membrane surface and assist with signaling and structural support. Cholesterol molecules embedded in the bilayer help maintain membrane fluidity across temperature changes.",
       "The nucleus is the control center of the cell, containing the cell's genetic material (DNA) organized into 46 chromosomes (23 pairs). The nuclear envelope has nuclear pores that regulate the transport of mRNA and ribosomal subunits between the nucleus and cytoplasm. The nucleolus, found within the nucleus, is the site of ribosomal RNA (rRNA) synthesis. DNA replication occurs during the S (synthesis) phase of the cell cycle, producing identical copies of chromosomes before cell division. Transcription (DNA to mRNA) occurs in the nucleus, while translation (mRNA to protein) occurs at ribosomes in the cytoplasm.",
@@ -324,6 +337,10 @@ const bodySystems = [
     bgAccent: "bg-pink-50",
     image: imgReproductive,
     description: "Male and female reproductive anatomy",
+    inlineImages: [
+      { src: imgReproductiveFemale, alt: "Female reproductive anatomy: uterus with endometrium layers, fallopian tubes with fimbriae, ovaries showing follicles at various developmental stages, cervix, and vaginal canal", afterParagraph: 0 },
+      { src: imgReproductiveMale, alt: "Male reproductive anatomy: testes with seminiferous tubules, epididymis, vas deferens, seminal vesicles, prostate gland, and urethra", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The female reproductive system includes the ovaries, fallopian tubes (oviducts), uterus, cervix, vagina, and external genitalia (vulva). The ovaries produce oocytes (eggs) and secrete estrogen and progesterone. Each month, one dominant follicle matures and releases an oocyte during ovulation, typically around day 14 of a 28-day cycle. The fallopian tubes transport the oocyte toward the uterus; fertilization typically occurs in the ampulla of the fallopian tube. The uterus has three layers: the perimetrium (outer serous layer), myometrium (thick muscular layer responsible for labor contractions), and endometrium (inner lining that thickens in preparation for implantation and is shed during menstruation).",
       "The menstrual cycle is regulated by the hypothalamic-pituitary-ovarian axis and consists of three phases. The follicular phase (days 1-13): FSH from the anterior pituitary stimulates follicular development; the growing follicle secretes increasing amounts of estrogen, which causes endometrial proliferation. Ovulation (day 14): a surge in LH triggers the release of the mature oocyte. The luteal phase (days 15-28): the ruptured follicle becomes the corpus luteum, secreting progesterone (and some estrogen) to maintain the secretory endometrium. If fertilization does not occur, the corpus luteum degenerates, progesterone drops, and the endometrium is shed (menstruation). If fertilization occurs, human chorionic gonadotropin (hCG) from the developing embryo maintains the corpus luteum.",
@@ -701,6 +718,18 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
                   </div>
                 );
               })
+            )}
+            {system.id === "cardiovascular" && (
+              <div className="mt-6">
+                <AnatomyLabeling
+                  title="Heart Anatomy: Click to Identify"
+                  description="Identify the major structures of the heart"
+                  backgroundImage={heartAnatomyImage}
+                  labels={heartLabels}
+                  width={600}
+                  height={450}
+                />
+              </div>
             )}
             {system.id === "cell-structure" && (
               <LocaleLink href="/lectures/cell-anatomy">

@@ -95,6 +95,8 @@ import imgCellBiology from "@/assets/prenursing-cell-biology.png";
 import imgPhysiology from "@/assets/prenursing-physiology.png";
 import imgTerminology from "@/assets/prenursing-terminology.png";
 import imgPharmacology from "@/assets/prenursing-pharmacology.png";
+import imgPharmAbsorption from "@/assets/pharm-absorption-routes.png";
+import imgPharmPK from "@/assets/pharm-pharmacokinetics.png";
 import imgPathophysiology from "@/assets/prenursing-pathophysiology.png";
 import imgScienceFoundations from "@/assets/prenursing-science-foundations.png";
 import imgAnatomyPhysiology from "@/assets/prenursing-anatomy-physiology.png";
@@ -125,24 +127,14 @@ const modules: {
   image: string;
 }[] = [
   {
-    id: "cell-biology",
-    titleKey: "preNursing.mod.cellBiology",
-    subtitleKey: "preNursing.mod.cellBiologyDesc",
-    icon: Dna,
-    color: "text-blue-600",
-    bg: "bg-blue-50",
+    id: "study-strategies",
+    titleKey: "preNursing.mod.studyStrategies",
+    subtitleKey: "preNursing.mod.studyStrategiesDesc",
+    icon: Brain,
+    color: "text-pink-600",
+    bg: "bg-pink-50",
     lessons: 4,
-    image: imgCellBiology,
-  },
-  {
-    id: "physiology",
-    titleKey: "preNursing.mod.physiology",
-    subtitleKey: "preNursing.mod.physiologyDesc",
-    icon: Activity,
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
-    lessons: 4,
-    image: imgPhysiology,
+    image: imgStudyStrategies,
   },
   {
     id: "terminology",
@@ -153,56 +145,6 @@ const modules: {
     bg: "bg-purple-50",
     lessons: 3,
     image: imgTerminology,
-  },
-  {
-    id: "pharmacology",
-    titleKey: "preNursing.mod.pharmacology",
-    subtitleKey: "preNursing.mod.pharmacologyDesc",
-    icon: Pill,
-    color: "text-amber-600",
-    bg: "bg-amber-50",
-    lessons: 3,
-    image: imgPharmacology,
-  },
-  {
-    id: "pathophysiology",
-    titleKey: "preNursing.mod.pathophysiology",
-    subtitleKey: "preNursing.mod.pathophysiologyDesc",
-    icon: Stethoscope,
-    color: "text-rose-600",
-    bg: "bg-rose-50/80",
-    lessons: 3,
-    image: imgPathophysiology,
-  },
-  {
-    id: "science-foundations",
-    titleKey: "preNursing.mod.scienceFoundations",
-    subtitleKey: "preNursing.mod.scienceFoundationsDesc",
-    icon: FlaskConical,
-    color: "text-teal-600",
-    bg: "bg-teal-50/80",
-    lessons: 6,
-    image: imgScienceFoundations,
-  },
-  {
-    id: "anatomy-physiology",
-    titleKey: "preNursing.mod.anatomyPhysiology",
-    subtitleKey: "preNursing.mod.anatomyPhysiologyDesc",
-    icon: Heart,
-    color: "text-red-600",
-    bg: "bg-red-50",
-    lessons: 7,
-    image: imgAnatomyPhysiology,
-  },
-  {
-    id: "research-statistics",
-    titleKey: "preNursing.mod.researchStatistics",
-    subtitleKey: "preNursing.mod.researchStatisticsDesc",
-    icon: GraduationCap,
-    color: "text-indigo-600",
-    bg: "bg-indigo-50",
-    lessons: 5,
-    image: imgResearchStatistics,
   },
   {
     id: "medical-terminology",
@@ -225,6 +167,26 @@ const modules: {
     image: imgChemistry,
   },
   {
+    id: "cell-biology",
+    titleKey: "preNursing.mod.cellBiology",
+    subtitleKey: "preNursing.mod.cellBiologyDesc",
+    icon: Dna,
+    color: "text-blue-600",
+    bg: "bg-blue-50",
+    lessons: 4,
+    image: imgCellBiology,
+  },
+  {
+    id: "science-foundations",
+    titleKey: "preNursing.mod.scienceFoundations",
+    subtitleKey: "preNursing.mod.scienceFoundationsDesc",
+    icon: FlaskConical,
+    color: "text-teal-600",
+    bg: "bg-teal-50/80",
+    lessons: 6,
+    image: imgScienceFoundations,
+  },
+  {
     id: "microbiology",
     titleKey: "preNursing.mod.microbiology",
     subtitleKey: "preNursing.mod.microbiologyDesc",
@@ -233,6 +195,36 @@ const modules: {
     bg: "bg-lime-50",
     lessons: 4,
     image: imgMicrobiology,
+  },
+  {
+    id: "anatomy-physiology",
+    titleKey: "preNursing.mod.anatomyPhysiology",
+    subtitleKey: "preNursing.mod.anatomyPhysiologyDesc",
+    icon: Heart,
+    color: "text-red-600",
+    bg: "bg-red-50",
+    lessons: 7,
+    image: imgAnatomyPhysiology,
+  },
+  {
+    id: "physiology",
+    titleKey: "preNursing.mod.physiology",
+    subtitleKey: "preNursing.mod.physiologyDesc",
+    icon: Activity,
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
+    lessons: 4,
+    image: imgPhysiology,
+  },
+  {
+    id: "pathophysiology",
+    titleKey: "preNursing.mod.pathophysiology",
+    subtitleKey: "preNursing.mod.pathophysiologyDesc",
+    icon: Stethoscope,
+    color: "text-rose-600",
+    bg: "bg-rose-50/80",
+    lessons: 3,
+    image: imgPathophysiology,
   },
   {
     id: "infection-control",
@@ -255,6 +247,16 @@ const modules: {
     image: imgFluidsElectrolytes,
   },
   {
+    id: "pharmacology",
+    titleKey: "preNursing.mod.pharmacology",
+    subtitleKey: "preNursing.mod.pharmacologyDesc",
+    icon: Pill,
+    color: "text-amber-600",
+    bg: "bg-amber-50",
+    lessons: 3,
+    image: imgPharmacology,
+  },
+  {
     id: "communication",
     titleKey: "preNursing.mod.communication",
     subtitleKey: "preNursing.mod.communicationDesc",
@@ -275,14 +277,14 @@ const modules: {
     image: imgEthicsLegal,
   },
   {
-    id: "study-strategies",
-    titleKey: "preNursing.mod.studyStrategies",
-    subtitleKey: "preNursing.mod.studyStrategiesDesc",
-    icon: Brain,
-    color: "text-pink-600",
-    bg: "bg-pink-50",
-    lessons: 4,
-    image: imgStudyStrategies,
+    id: "research-statistics",
+    titleKey: "preNursing.mod.researchStatistics",
+    subtitleKey: "preNursing.mod.researchStatisticsDesc",
+    icon: GraduationCap,
+    color: "text-indigo-600",
+    bg: "bg-indigo-50",
+    lessons: 5,
+    image: imgResearchStatistics,
   },
 ];
 
@@ -857,10 +859,21 @@ function SupplementalContent({ moduleId }: { moduleId: string }) {
   if (content.length === 0) return null;
 
   return (
-    <div className="space-y-3 mt-6 pt-4 border-t border-gray-200" data-testid={`supplemental-${moduleId}`}>
-      {content.map((p, idx) => (
-        <p key={idx} className="text-sm text-gray-700 leading-relaxed">{p}</p>
-      ))}
+    <div className="rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-white to-accent-foreground/5 p-5 shadow-sm mb-6" data-testid={`supplemental-${moduleId}`}>
+      <div className="flex items-center gap-2 mb-3">
+        <BookOpen className="w-4 h-4 text-primary" />
+        <span className="text-sm font-semibold text-primary">Supplemental Content</span>
+      </div>
+      <div className="space-y-3">
+        {content.map((p, idx) => {
+          const isHtml = /<[a-z][\s\S]*>/i.test(p);
+          return isHtml ? (
+            <div key={idx} className="text-sm text-gray-700 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: p }} />
+          ) : (
+            <p key={idx} className="text-sm text-gray-700 leading-relaxed">{p}</p>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -1078,6 +1091,7 @@ export default function PreNursingPage() {
             />
           )}
 
+          <SupplementalContent moduleId={activeModule} />
           <ModuleEditContext.Provider
             value={{
               isEditing: isContentEditing && isAdmin,
@@ -1098,8 +1112,35 @@ export default function PreNursingPage() {
           >
             {mc?.component}
           </ModuleEditContext.Provider>
-          <SupplementalContent moduleId={activeModule} />
           <SelfCheckQuiz title="Pre-Nursing Comprehensive Review" questions={preNursingComprehensiveQuiz} />
+
+          {(() => {
+            const currentIdx = modules.findIndex((m) => m.id === activeModule);
+            const prevMod = currentIdx > 0 ? modules[currentIdx - 1] : null;
+            const nextMod = currentIdx < modules.length - 1 ? modules[currentIdx + 1] : null;
+            return (
+              <div className="flex items-center justify-between mt-10 pt-6 border-t border-gray-200 gap-4">
+                {prevMod ? (
+                  <button
+                    onClick={() => { setActiveModule(prevMod.id); window.scrollTo(0, 0); }}
+                    className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors"
+                    data-testid="button-prev-module"
+                  >
+                    <ArrowLeft className="w-4 h-4" /> {t(prevMod.titleKey)}
+                  </button>
+                ) : <div />}
+                {nextMod ? (
+                  <button
+                    onClick={() => { setActiveModule(nextMod.id); window.scrollTo(0, 0); }}
+                    className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors"
+                    data-testid="button-next-module"
+                  >
+                    {t(nextMod.titleKey)} <ChevronRight className="w-4 h-4" />
+                  </button>
+                ) : <div />}
+              </div>
+            );
+          })()}
         </main>
         <AdminEditButton pageName="pre-nursing" defaultTier="prenursing" defaultCategory="pre-nursing" />
         <Footer />
@@ -1731,15 +1772,6 @@ function PhysiologyModule() {
         )}
       </MicroLesson>
 
-      <AnatomyLabeling
-        title="Heart Anatomy: Click to Identify"
-        description="Identify the major structures of the heart"
-        backgroundImage={heartAnatomyImage}
-        labels={heartLabels}
-        width={600}
-        height={450}
-      />
-
       <SelfCheckQuiz
         title="Physiology Check"
         questions={[
@@ -1880,6 +1912,11 @@ function PharmacologyModule() {
         )}
       </MicroLesson>
 
+      <div className="my-6 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
+        <img src={imgPharmAbsorption} alt="Drug absorption routes: oral, intravenous, intramuscular, subcutaneous, and topical pathways showing drug molecules entering systemic circulation" className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]" loading="lazy" data-testid="img-pharm-absorption" />
+        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">Drug absorption routes showing how medications enter systemic circulation through different pathways</p>
+      </div>
+
       <MicroLesson title="Pharmacokinetics Overview" subtitle="What the body does to the drug" icon={<FlaskConical className="w-5 h-5" />}>
         <ProgressiveReveal
           title=""
@@ -1891,6 +1928,11 @@ function PharmacologyModule() {
           ]}
         />
       </MicroLesson>
+
+      <div className="my-6 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
+        <img src={imgPharmPK} alt="Pharmacokinetics pathway: drug journey through absorption from GI tract, distribution via bloodstream, metabolism in the liver, and excretion through kidneys" className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]" loading="lazy" data-testid="img-pharm-pk" />
+        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">Pharmacokinetics: the four-step journey of a drug through absorption, distribution, metabolism, and excretion</p>
+      </div>
 
       <SelfCheckQuiz title="Pharmacology Check" questions={pharmQuiz} />
     </div>

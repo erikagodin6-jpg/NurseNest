@@ -710,6 +710,26 @@ export function DeckStudyLearn({
   const card = deckStudyQueue?.[deckStudyIndex!];
   const total = deckStudyQueue?.length || 0;
   const progress = total > 0 ? ((deckStudyIndex! + 1) / total) * 100 : 0;
+  const [aiVerifyResult, setAiVerifyResult] = useState<{status: string; explanation: string; confidence: number; suggestedCorrection?: string} | null>(null);
+  const [aiVerifying, setAiVerifying] = useState(false);
+
+  useEffect(() => {
+    setAiVerifyResult(null);
+    setAiVerifying(false);
+  }, [deckStudyIndex]);
+
+  const verifyCardAccuracy = async () => {
+    if (!card || !currentDeck) return;
+    setAiVerifying(true);
+    try {
+      const res = await fetch(`/api/decks/${currentDeck.id}/ai-check`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ front: card.front, back: card.back, rationale: card.rationale }),
+      });
+      if (res.ok) setAiVerifyResult(await res.json());
+    } catch {} finally { setAiVerifying(false); }
+  };
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -778,22 +798,57 @@ export function DeckStudyLearn({
       </div>
 
       {deckStudyFlipped && (
-        <div className="flex gap-4 justify-center">
-          <Button
-            onClick={() => handleDeckStudyAnswer!(false)}
-            variant="outline"
-            className="rounded-xl gap-2 px-8 py-6 border-red-200 text-red-600 hover:bg-red-50"
-            data-testid="button-missed"
-          >
-            <XCircle className="w-5 h-5" /> Missed It
-          </Button>
-          <Button
-            onClick={() => handleDeckStudyAnswer!(true)}
-            className="rounded-xl gap-2 px-8 py-6 bg-emerald-600 hover:bg-emerald-700"
-            data-testid="button-got-it"
-          >
-            <CheckCircle2 className="w-5 h-5" /> Got It
-          </Button>
+        <div className="space-y-3">
+          <div className="flex gap-4 justify-center">
+            <Button
+              onClick={() => handleDeckStudyAnswer!(false)}
+              variant="outline"
+              className="rounded-xl gap-2 px-8 py-6 border-red-200 text-red-600 hover:bg-red-50"
+              data-testid="button-missed"
+            >
+              <XCircle className="w-5 h-5" /> Missed It
+            </Button>
+            <Button
+              onClick={() => handleDeckStudyAnswer!(true)}
+              className="rounded-xl gap-2 px-8 py-6 bg-emerald-600 hover:bg-emerald-700"
+              data-testid="button-got-it"
+            >
+              <CheckCircle2 className="w-5 h-5" /> Got It
+            </Button>
+          </div>
+          <div className="flex justify-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={verifyCardAccuracy}
+              disabled={aiVerifying}
+              className="text-xs text-gray-400 hover:text-primary gap-1.5"
+              data-testid="button-verify-accuracy"
+            >
+              <Sparkles className="w-3 h-3" />
+              {aiVerifying ? "Checking..." : "Verify Medical Accuracy"}
+            </Button>
+          </div>
+          {aiVerifyResult && (
+            <div className={cn(
+              "rounded-xl border p-4 text-sm",
+              aiVerifyResult.status === "pass" ? "bg-emerald-50 border-emerald-200 text-emerald-800" :
+              aiVerifyResult.status === "flag" ? "bg-red-50 border-red-200 text-red-800" :
+              "bg-amber-50 border-amber-200 text-amber-800"
+            )} data-testid="ai-verify-result">
+              <div className="flex items-center gap-2 mb-1">
+                {aiVerifyResult.status === "pass" ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> :
+                 aiVerifyResult.status === "flag" ? <Flag className="w-4 h-4 text-red-600" /> :
+                 <Sparkles className="w-4 h-4 text-amber-600" />}
+                <span className="font-semibold capitalize">{aiVerifyResult.status === "pass" ? "Medically Accurate" : aiVerifyResult.status === "flag" ? "Accuracy Concern" : "Uncertain"}</span>
+                <span className="text-xs opacity-60 ml-auto">{Math.round(aiVerifyResult.confidence * 100)}% confidence</span>
+              </div>
+              <p className="text-xs leading-relaxed">{aiVerifyResult.explanation}</p>
+              {aiVerifyResult.suggestedCorrection && (
+                <p className="text-xs mt-2 font-medium">Suggested: {aiVerifyResult.suggestedCorrection}</p>
+              )}
+            </div>
+          )}
         </div>
       )}
 
