@@ -2436,6 +2436,55 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  app.post("/api/ai/generate-lesson-image", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { lessonId, section, prompt, caption } = req.body;
+      if (!lessonId || !prompt) {
+        return res.status(400).json({ error: "lessonId and prompt are required" });
+      }
+
+      const negativePrefix = "Do NOT include any text, words, labels, letters, numbers, annotations, captions, titles, watermarks, or writing of any kind in this image. ";
+      const fullPrompt = negativePrefix + prompt;
+
+      const { generateImageBuffer } = await import("./replit_integrations/image/client");
+      const imageBuffer = await generateImageBuffer(fullPrompt, "1024x1024");
+
+      const objectStorageService = new (await import("./replit_integrations/object_storage/objectStorage")).ObjectStorageService();
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+
+      const uploadRes = await fetch(uploadURL, {
+        method: "PUT",
+        headers: { "Content-Type": "image/png" },
+        body: imageBuffer,
+      });
+      if (!uploadRes.ok) {
+        throw new Error("Failed to upload AI image to storage");
+      }
+
+      const objectPath = objectStorageService.normalizeObjectEntityPath(uploadURL);
+
+      const countResult = await pool.query(
+        `SELECT COUNT(*) as cnt FROM lesson_images WHERE lesson_id = $1 AND section = $2`,
+        [lessonId, section || "general"]
+      );
+      const position = parseInt(countResult.rows[0]?.cnt || "0");
+
+      const result = await pool.query(
+        `INSERT INTO lesson_images (lesson_id, object_path, file_name, section, caption, position)
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+        [lessonId, objectPath, `ai-generated-${Date.now()}.png`, section || "general", caption || null, position]
+      );
+
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      console.error("AI image generation error:", e);
+      res.status(500).json({ error: e.message || "Failed to generate image" });
+    }
+  });
+
   // --------------------
   // Feature usage (unchanged)
   // --------------------

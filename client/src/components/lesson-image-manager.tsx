@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import { ObjectUploader } from "@/components/ObjectUploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ImagePlus, Trash2, Pencil, Check, X } from "lucide-react";
+import { ImagePlus, Trash2, Pencil, Check, X, Sparkles, Loader2 } from "lucide-react";
 import type { UppyFile } from "@uppy/core";
 
 interface LessonImage {
@@ -39,6 +40,10 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
   const [loading, setLoading] = useState(true);
   const [editingCaption, setEditingCaption] = useState<number | null>(null);
   const [captionText, setCaptionText] = useState("");
+  const [showAiGenerator, setShowAiGenerator] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiCaption, setAiCaption] = useState("");
+  const [aiGenerating, setAiGenerating] = useState(false);
   const { toast } = useToast();
 
   const fetchImages = useCallback(async () => {
@@ -152,6 +157,46 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
     }
   };
 
+  const generateAiImage = async () => {
+    if (!aiPrompt.trim()) {
+      toast({ title: "Enter a prompt", description: "Describe the clinical image you want to generate", variant: "destructive" });
+      return;
+    }
+    const creds = getAdminCredentials();
+    if (!creds) {
+      toast({ title: "Not authenticated", variant: "destructive" });
+      return;
+    }
+    setAiGenerating(true);
+    try {
+      const res = await fetch("/api/ai/generate-lesson-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lessonId,
+          section,
+          prompt: aiPrompt.trim(),
+          caption: aiCaption.trim() || null,
+          username: creds.username,
+          password: creds.password,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Generation failed");
+      }
+      toast({ title: "AI image generated", description: "Image has been added to this section" });
+      setAiPrompt("");
+      setAiCaption("");
+      setShowAiGenerator(false);
+      fetchImages();
+    } catch (e: any) {
+      toast({ title: "AI Generation Error", description: e.message, variant: "destructive" });
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
   if (loading) return null;
 
   if (!isAdmin && images.length === 0) return null;
@@ -161,7 +206,7 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
       {images.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {images.map((img) => (
-            <div key={img.id} className="relative group rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm">
+            <figure key={img.id} className="relative group rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm">
               <img
                 src={img.object_path}
                 alt={img.caption || img.file_name}
@@ -170,9 +215,9 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
                 data-testid={`img-lesson-${img.id}`}
               />
               {img.caption && editingCaption !== img.id && (
-                <div className="px-3 py-2 text-sm text-gray-600 italic bg-gray-50 border-t border-gray-100">
+                <figcaption className="px-3 py-2 text-sm text-gray-600 italic bg-gray-50 border-t border-gray-100">
                   {img.caption}
-                </div>
+                </figcaption>
               )}
               {isAdmin && isEditing && (
                 <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -213,22 +258,93 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
                   </Button>
                 </div>
               )}
-            </div>
+            </figure>
           ))}
         </div>
       )}
 
       {isAdmin && isEditing && (
-        <ObjectUploader
-          maxNumberOfFiles={5}
-          maxFileSize={15728640}
-          onGetUploadParameters={handleGetUploadParameters}
-          onComplete={handleUploadComplete}
-          buttonClassName="gap-2 text-sm"
-        >
-          <ImagePlus className="w-4 h-4" />
-          Add Image{images.length > 0 ? "s" : ""}
-        </ObjectUploader>
+        <div className="space-y-3">
+          <div className="flex gap-2 flex-wrap">
+            <ObjectUploader
+              maxNumberOfFiles={5}
+              maxFileSize={15728640}
+              onGetUploadParameters={handleGetUploadParameters}
+              onComplete={handleUploadComplete}
+              buttonClassName="gap-2 text-sm"
+            >
+              <ImagePlus className="w-4 h-4" />
+              Upload Image{images.length > 0 ? "s" : ""}
+            </ObjectUploader>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 text-sm border-violet-200 text-violet-700 hover:bg-violet-50"
+              onClick={() => setShowAiGenerator(!showAiGenerator)}
+              data-testid={`button-ai-generate-${section}`}
+            >
+              <Sparkles className="w-4 h-4" />
+              AI Generate Image
+            </Button>
+          </div>
+
+          {showAiGenerator && (
+            <div className="border border-violet-200 rounded-xl p-4 bg-violet-50/50 space-y-3" data-testid={`ai-generator-${section}`}>
+              <div className="flex items-center gap-2 text-sm font-semibold text-violet-800">
+                <Sparkles className="w-4 h-4" />
+                AI Image Generator
+              </div>
+              <Textarea
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                placeholder="Describe the clinical image you want (e.g., 'Cross-section of the heart showing the four chambers, valves, and major vessels with realistic anatomical coloring')"
+                className="min-h-[80px] text-sm bg-white"
+                data-testid={`input-ai-prompt-${section}`}
+              />
+              <Input
+                value={aiCaption}
+                onChange={(e) => setAiCaption(e.target.value)}
+                placeholder="Caption to display under the image (optional)"
+                className="text-sm bg-white"
+                data-testid={`input-ai-caption-${section}`}
+              />
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  className="gap-2 bg-violet-600 hover:bg-violet-700"
+                  onClick={generateAiImage}
+                  disabled={aiGenerating || !aiPrompt.trim()}
+                  data-testid={`button-ai-submit-${section}`}
+                >
+                  {aiGenerating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      Generate
+                    </>
+                  )}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => { setShowAiGenerator(false); setAiPrompt(""); setAiCaption(""); }}
+                >
+                  Cancel
+                </Button>
+              </div>
+              {aiGenerating && (
+                <p className="text-xs text-violet-600 italic">
+                  Generating your clinical image... this may take 15-30 seconds.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

@@ -2577,19 +2577,27 @@ export default function LessonDetail() {
         {(() => {
           const lessonImg = getLessonImage(id || "");
           const lessonId = id || "";
+          const caption = getImageCaption(lessonId);
           return lessonImg ? (
-            <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-6 shadow-md">
-              <ProtectedImage
-                src={lessonImg}
-                alt={getImageAltText(lessonId, lessonContent.title)}
-                title={getImageTitle(lessonId, lessonContent.title)}
-                className="w-full h-full object-cover"
-                loading="lazy"
-                data-testid={`img-lesson-${lessonId}`}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/30 to-transparent pointer-events-none" style={{ zIndex: 3 }} />
-              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getImageStructuredData(lessonId, lessonImg, lessonContent.title)) }} />
-            </div>
+            <figure className="mb-6" data-testid={`figure-lesson-${lessonId}`}>
+              <div className="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden shadow-md">
+                <ProtectedImage
+                  src={lessonImg}
+                  alt={getImageAltText(lessonId, lessonContent.title)}
+                  title={getImageTitle(lessonId, lessonContent.title)}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  data-testid={`img-lesson-${lessonId}`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/30 to-transparent pointer-events-none" style={{ zIndex: 3 }} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getImageStructuredData(lessonId, lessonImg, lessonContent.title)) }} />
+              </div>
+              {caption && (
+                <figcaption className="mt-2 text-sm text-gray-500 italic text-center px-4" data-testid={`caption-lesson-${lessonId}`}>
+                  {caption}
+                </figcaption>
+              )}
+            </figure>
           ) : null;
         })()}
         <div className="space-y-8">
