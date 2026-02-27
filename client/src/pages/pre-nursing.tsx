@@ -416,26 +416,36 @@ const colorPreviewMap: Record<string, string> = {
 
 function ColorPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [open, setOpen] = useState(false);
-  const prevent = (e: React.MouseEvent) => e.preventDefault();
   return (
-    <div className="relative inline-block" onMouseDown={prevent}>
+    <div
+      className="relative inline-block"
+      onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+      onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+      onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
+    >
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpen(!open); }}
         className="w-5 h-5 rounded-full border-2 border-white shadow-sm ring-1 ring-gray-200 hover:ring-purple-400 transition-all"
         style={{ backgroundColor: colorPreviewMap[value] || "#6b7280" }}
         title="Change text color"
         data-testid="button-color-picker"
       />
       {open && (
-        <div className="absolute top-7 left-0 z-50 bg-white rounded-lg shadow-lg border border-gray-200 p-2 w-[200px]" data-testid="color-picker-dropdown">
+        <div
+          className="absolute top-7 left-0 z-50 bg-white rounded-lg shadow-lg border border-gray-200 p-2 w-[200px]"
+          data-testid="color-picker-dropdown"
+          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+        >
           <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider mb-1.5 px-1">Text Color</p>
           <div className="grid grid-cols-7 gap-1">
             {TEXT_COLOR_PRESETS.map((preset) => (
               <button
                 key={preset.value || "default"}
                 type="button"
-                onClick={() => { onChange(preset.value); setOpen(false); }}
+                onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onChange(preset.value); setOpen(false); }}
                 className={cn(
                   "w-6 h-6 rounded-full border-2 transition-all hover:scale-110",
                   value === preset.value ? "border-purple-500 ring-2 ring-purple-200" : "border-gray-200"
@@ -470,6 +480,16 @@ function EditableModuleText({
   const displayText = override?.content ?? defaultText;
   const colorClass = override?.color || "";
 
+  const editorContainerRef = useRef<HTMLDivElement>(null);
+  const refocusEditor = useCallback(() => {
+    const el = editorContainerRef.current;
+    if (!el) return;
+    const ce = el.querySelector<HTMLElement>("[contenteditable]");
+    if (ce) { ce.focus(); return; }
+    const inp = el.querySelector<HTMLInputElement>("input");
+    if (inp) inp.focus();
+  }, []);
+
   if (!isEditing) {
     const Tag = as;
     const appliedClassName = colorClass ? className.replace(/text-(?:gray|slate|blue|emerald|amber|red|purple|indigo|teal|sky|violet|rose|cyan|lime|orange|pink|primary)[-/]\S*/g, "") + " " + colorClass : className;
@@ -481,11 +501,11 @@ function EditableModuleText({
   }
 
   return (
-    <div className="relative">
+    <div className="relative" ref={editorContainerRef}>
       <div className="absolute -top-2 -right-2 z-10">
         <ColorPicker
           value={colorClass}
-          onChange={(c) => updateSection(sectionKey, { ...override, color: c })}
+          onChange={(c) => { updateSection(sectionKey, { ...override, color: c }); requestAnimationFrame(refocusEditor); }}
         />
       </div>
       {multiline ? (
