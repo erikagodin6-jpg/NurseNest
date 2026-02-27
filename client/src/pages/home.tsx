@@ -60,6 +60,7 @@ import {
   CircleCheck
 } from "lucide-react";
 
+import { LocaleLink } from "@/lib/LocaleLink";
 import { lessonCount, questionCount } from "@/data/lesson-counts";
 
 function formatCount(n: number): string {
