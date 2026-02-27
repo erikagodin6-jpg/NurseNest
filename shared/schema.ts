@@ -532,3 +532,147 @@ export const insertCustomPageModuleSchema = createInsertSchema(customPageModules
 });
 export type CustomPageModule = typeof customPageModules.$inferSelect;
 export type InsertCustomPageModule = z.infer<typeof insertCustomPageModuleSchema>;
+
+export const audioClips = pgTable("audio_clips", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  category: text("category").notNull(),
+  subcategory: text("subcategory"),
+  conditionTag: text("condition_tag"),
+  descriptionShort: text("description_short"),
+  bodySite: text("body_site"),
+  audioUrlOriginal: text("audio_url_original"),
+  audioUrlStream: text("audio_url_stream"),
+  durationSeconds: integer("duration_seconds"),
+  licenseType: text("license_type").notNull(),
+  attributionText: text("attribution_text"),
+  sourceUrl: text("source_url"),
+  creatorName: text("creator_name"),
+  proofOfLicenseUrl: text("proof_of_license_url"),
+  isDerivative: boolean("is_derivative").default(false),
+  isPublished: boolean("is_published").default(false),
+  createdByAdminId: varchar("created_by_admin_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAudioClipSchema = createInsertSchema(audioClips).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type AudioClip = typeof audioClips.$inferSelect;
+export type InsertAudioClip = z.infer<typeof insertAudioClipSchema>;
+
+export const lessonAudioLinks = pgTable("lesson_audio_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  lessonId: text("lesson_id").notNull(),
+  audioClipId: varchar("audio_clip_id").notNull(),
+  displayOrder: integer("display_order").default(0),
+  quizPrompt: text("quiz_prompt"),
+  answerKey: text("answer_key"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertLessonAudioLinkSchema = createInsertSchema(lessonAudioLinks).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type LessonAudioLink = typeof lessonAudioLinks.$inferSelect;
+export type InsertLessonAudioLink = z.infer<typeof insertLessonAudioLinkSchema>;
+
+export const examQuestions = pgTable("exam_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  tier: text("tier").notNull(),
+  exam: text("exam").notNull(),
+  questionType: text("question_type").notNull(),
+  status: text("status").default("draft"),
+  publishAt: timestamp("publish_at"),
+  stem: text("stem").notNull(),
+  options: jsonb("options").default(sql`'[]'::jsonb`),
+  correctAnswer: jsonb("correct_answer").default(sql`'[]'::jsonb`),
+  rationale: text("rationale"),
+  difficulty: integer("difficulty").default(3),
+  tags: text("tags").array().default(sql`'{}'::text[]`),
+  bodySystem: text("body_system"),
+  topic: text("topic"),
+  subtopic: text("subtopic"),
+  caseId: varchar("case_id"),
+  exhibitData: jsonb("exhibit_data"),
+  regionScope: text("region_scope").default("BOTH"),
+  stemHash: text("stem_hash"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const insertExamQuestionSchema = createInsertSchema(examQuestions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ExamQuestion = typeof examQuestions.$inferSelect;
+export type InsertExamQuestion = z.infer<typeof insertExamQuestionSchema>;
+
+export const questionTypeRegistry = pgTable("question_type_registry", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  exam: text("exam").notNull(),
+  questionType: text("question_type").notNull(),
+  displayName: text("display_name").notNull(),
+  isEnabled: boolean("is_enabled").default(true),
+  defaultTargetCount: integer("default_target_count").default(100),
+  validationRules: jsonb("validation_rules").default(sql`'{}'::jsonb`),
+  weightPercent: integer("weight_percent"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQuestionTypeRegistrySchema = createInsertSchema(questionTypeRegistry).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type QuestionTypeRegistryEntry = typeof questionTypeRegistry.$inferSelect;
+export type InsertQuestionTypeRegistryEntry = z.infer<typeof insertQuestionTypeRegistrySchema>;
+
+export const questionScheduleLog = pgTable("question_schedule_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  questionId: varchar("question_id").notNull(),
+  action: text("action").notNull(),
+  previousStatus: text("previous_status"),
+  newStatus: text("new_status"),
+  actorId: varchar("actor_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type QuestionScheduleLog = typeof questionScheduleLog.$inferSelect;
+
+export const userPerformanceSummary = pgTable("user_performance_summary", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  readinessScore: integer("readiness_score").default(0),
+  projectedPassProbability: integer("projected_pass_probability").default(0),
+  weaknessVector: jsonb("weakness_vector").default(sql`'{}'::jsonb`),
+  strengthsVector: jsonb("strengths_vector").default(sql`'{}'::jsonb`),
+  topWeakDomains: jsonb("top_weak_domains").default(sql`'[]'::jsonb`),
+  topWeakQuestionTypes: jsonb("top_weak_question_types").default(sql`'[]'::jsonb`),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type UserPerformanceSummary = typeof userPerformanceSummary.$inferSelect;
+
+export const recommendationLog = pgTable("recommendation_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  sessionType: text("session_type"),
+  sessionId: varchar("session_id"),
+  recommendedCourses: jsonb("recommended_courses").default(sql`'[]'::jsonb`),
+  weaknessSnapshot: jsonb("weakness_snapshot").default(sql`'{}'::jsonb`),
+  clicked: boolean("clicked").default(false),
+  addedToPlan: boolean("added_to_plan").default(false),
+  completed: boolean("completed").default(false),
+  performanceChangeAfter: jsonb("performance_change_after"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type RecommendationLog = typeof recommendationLog.$inferSelect;

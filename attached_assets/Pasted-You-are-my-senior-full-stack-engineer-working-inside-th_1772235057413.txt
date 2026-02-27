@@ -1,0 +1,255 @@
+You are my senior full-stack engineer working inside the existing NurseNest architecture (Vite + React + Express + database + performance tracking + question bank + flashcards + mock exams + study plan system).
+
+I want to build an INTELLIGENT PERFORMANCE-BASED COURSE RECOMMENDATION ENGINE that automatically recommends and LINKS users to specific courses after they complete:
+
+- Flashcard sessions
+- Question bank quizzes
+- Case sets
+- Mock exams (fixed length or CAT)
+
+This must feel clinically intelligent, exam-focused, and personalized — not generic.
+
+====================================================
+OBJECTIVE
+====================================================
+
+After each completed session, the system must:
+
+1. Analyze performance in depth
+2. Identify measurable weaknesses
+3. Select the most relevant courses
+4. Display clickable course links
+5. Allow one-click add to study plan
+6. Log recommendation acceptance + improvement over time
+
+====================================================
+PART 1 — PERFORMANCE ANALYSIS ENGINE
+====================================================
+
+After session completion calculate:
+
+- Overall score
+- Score by:
+  - Body system
+  - Topic
+  - Subtopic
+  - Question type
+  - Clinical priority category (ABCs, safety, pharm, delegation, etc.)
+  - Client needs category (if mapped)
+- Difficulty-weighted performance
+- Time per question
+- Confidence rating (if available)
+- Missed concept frequency
+
+Create a Weakness Index formula:
+
+Weakness Index =
+(Low Accuracy Score × Exam Weight Multiplier × Recency Factor × Difficulty Factor)
+
+Categorize:
+- Critical Weakness (Red)
+- Moderate Weakness (Yellow)
+- Stable (Green)
+
+Identify:
+- Top 3 weak domains
+- Top 2 weak question types
+- Top recurring conceptual errors
+
+====================================================
+PART 2 — COURSE DATABASE WITH DIRECT LINKS
+====================================================
+
+Extend or create the "courses" table:
+
+courses
+- id
+- title
+- slug
+- full_url (absolute URL to lesson page)
+- tier (RPN, RN, NP)
+- exam_type
+- body_system
+- topic
+- subtopic
+- difficulty_level
+- is_micro_course (boolean)
+- estimated_minutes
+- priority_weight (admin adjustable)
+- is_active (boolean)
+
+Example full_url:
+https://nursenest.com/rn/cardiac/shock-hemodynamics
+https://nursenest.com/rpn/delegation/scope-rules
+https://nursenest.com/np/endocrine/diabetes-insulin-management
+
+Create topic_to_course_map:
+
+- topic_id
+- course_id
+- relevance_weight
+
+Multiple courses can map to one topic.
+
+====================================================
+PART 3 — SMART RECOMMENDATION LOGIC
+====================================================
+
+After analysis:
+
+Select:
+
+PRIMARY RECOMMENDATIONS (1–2)
+- Highest weakness index
+- High exam weight topics
+- Not recently completed
+- Within appropriate difficulty range
+
+SECONDARY RECOMMENDATIONS (3–5)
+- Supporting micro-courses
+- Question type mastery modules (e.g., SATA mastery)
+- Reinforcement content
+
+ADVANCED TRACK (if user >85%):
+- Higher difficulty case simulations
+- Full-length mock exam
+- Adaptive challenge set
+
+FOUNDATIONAL TRACK (if user <60%):
+- Core concept rebuild modules
+- Lower difficulty review set
+- Flashcard reinforcement bundle
+
+====================================================
+PART 4 — POST-SESSION UI WITH CLICKABLE LINKS
+====================================================
+
+After session completion display:
+
+-----------------------------------
+Your Performance Summary
+-----------------------------------
+Readiness Score: XX%
+Projected Pass Probability: XX%
+
+Critical Gaps Identified:
+• Shock Recognition
+• Delegation Rules
+• SATA Accuracy
+
+-----------------------------------
+Recommended Next Steps
+-----------------------------------
+
+1. Shock & Hemodynamic Instability
+   45 min • Cardiac
+   [Start Now] (link to course.full_url)
+   [Add to Study Plan]
+
+2. Delegation & Scope Deep Dive
+   30 min • Leadership
+   [Start Now] (link)
+   [Add to Study Plan]
+
+3. SATA Mastery Practice Module
+   20 min • Exam Strategy
+   [Start Now]
+   [Add to Study Plan]
+
+Each course title must be clickable using full_url.
+Open in same tab unless user chooses new tab.
+
+====================================================
+PART 5 — STUDY PLAN INTEGRATION
+====================================================
+
+If user is enrolled in a study plan:
+
+- Allow “Add to Plan”
+- Auto-place into next available day
+- Balance daily workload
+- Prevent overload (max minutes/day threshold)
+
+If no study plan:
+- Offer “Create 4-Week Plan Based on Weaknesses”
+
+====================================================
+PART 6 — ADMIN CONTROL PANEL
+====================================================
+
+Add “Recommendation Engine Settings” in Admin:
+
+Admin can:
+- Adjust exam weight multipliers
+- Adjust recency bias
+- Set minimum weakness threshold
+- Override course priority weight
+- Enable/disable certain courses from recommendation pool
+- Choose how many primary/secondary courses show
+- Configure advanced vs foundational logic thresholds
+
+====================================================
+PART 7 — TRACKING & FEEDBACK LOOP
+====================================================
+
+Create:
+
+user_performance_summary
+- user_id
+- readiness_score
+- projected_pass_probability
+- weakness_vector (json)
+- strengths_vector (json)
+- last_updated
+
+recommendation_log
+- user_id
+- session_id
+- recommended_courses (json)
+- clicked (boolean)
+- added_to_plan (boolean)
+- completed (boolean)
+- performance_change_after (json)
+
+Future-ready architecture:
+Track whether completing recommended courses improves weakness scores.
+
+====================================================
+PART 8 — API ENDPOINTS
+====================================================
+
+POST /api/recommendations/generate
+GET /api/recommendations/latest
+POST /api/recommendations/:id/accept
+POST /api/recommendations/:id/add-to-plan
+
+====================================================
+PART 9 — UX DETAILS
+====================================================
+
+- Clean, clinical, performance-focused design
+- No clutter
+- Show course duration
+- Show difficulty level
+- Show tier alignment
+- Mobile responsive
+- Fast loading
+- Graceful error handling
+
+====================================================
+DELIVERABLES
+====================================================
+
+1. DB schema updates
+2. Server-side recommendation engine logic
+3. Course link integration
+4. Post-session recommendation UI
+5. Admin configuration panel
+6. Logging + analytics tracking
+7. Short in-dashboard help guide explaining logic
+
+Start by:
+- Reviewing existing course routing system
+- Reusing blog scheduling pattern where possible
+- Implementing weakness index logic first
+- Then linking courses via slug/full_url

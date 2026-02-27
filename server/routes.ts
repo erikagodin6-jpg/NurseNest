@@ -3740,6 +3740,351 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  // ====== AUSCULTATION AUDIO LIBRARY ======
+  app.get("/api/audio-clips", async (req, res) => {
+    try {
+      const { category } = req.query;
+      const clips = category ? await storage.getAudioClipsByCategory(category as string) : await storage.getAllAudioClips();
+      res.json(clips);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/audio-clips/:id", async (req, res) => {
+    try {
+      const clip = await storage.getAudioClip(req.params.id);
+      if (!clip) return res.status(404).json({ error: "Clip not found" });
+      res.json(clip);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/audio-clips", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const ALLOWED_LICENSES = ["CC0", "CC_BY", "CC_BY_SA", "PUBLIC_DOMAIN", "COMMERCIAL_LICENSE"];
+      const { title, category, subcategory, conditionTag, descriptionShort, bodySite, audioUrlOriginal, audioUrlStream, durationSeconds, licenseType, attributionText, sourceUrl, creatorName, proofOfLicenseUrl, isDerivative } = req.body;
+      if (!title || !category || !licenseType) return res.status(400).json({ error: "title, category, and licenseType are required" });
+      if (!ALLOWED_LICENSES.includes(licenseType)) return res.status(400).json({ error: `License must be one of: ${ALLOWED_LICENSES.join(", ")}` });
+      const clip = await storage.createAudioClip({
+        title, category, subcategory, conditionTag, descriptionShort, bodySite,
+        audioUrlOriginal, audioUrlStream, durationSeconds, licenseType, attributionText,
+        sourceUrl, creatorName, proofOfLicenseUrl, isDerivative: isDerivative || false,
+        isPublished: false, createdByAdminId: admin.id,
+      });
+      await logAudit(req, admin, "audio_clip", clip.id, "create", null, clip);
+      res.json(clip);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/audio-clips/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const before = await storage.getAudioClip(req.params.id);
+      if (!before) return res.status(404).json({ error: "Clip not found" });
+      const clip = await storage.updateAudioClip(req.params.id, req.body);
+      await logAudit(req, admin, "audio_clip", clip.id, "update", before, clip);
+      res.json(clip);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/audio-clips/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await logAudit(req, admin, "audio_clip", req.params.id, "delete");
+      await storage.deleteAudioClip(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/lesson-audio/:lessonId", async (req, res) => {
+    try {
+      const links = await storage.getLessonAudioLinks(req.params.lessonId);
+      res.json(links);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/lesson-audio", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { lessonId, audioClipId, displayOrder, quizPrompt, answerKey } = req.body;
+      if (!lessonId || !audioClipId) return res.status(400).json({ error: "lessonId and audioClipId required" });
+      const link = await storage.createLessonAudioLink({ lessonId, audioClipId, displayOrder: displayOrder || 0, quizPrompt, answerKey });
+      await logAudit(req, admin, "lesson_audio_link", link.id, "create", null, link);
+      res.json(link);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/lesson-audio/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await storage.deleteLessonAudioLink(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== EXAM QUESTIONS SCHEDULER ======
+  app.get("/api/admin/exam-questions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { tier, exam, questionType, status, bodySystem } = req.query;
+      const questions = await storage.getAllExamQuestions({
+        tier: tier as string, exam: exam as string,
+        questionType: questionType as string, status: status as string,
+        bodySystem: bodySystem as string,
+      });
+      res.json(questions);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/exam-questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const q = await storage.getExamQuestion(req.params.id);
+      if (!q) return res.status(404).json({ error: "Question not found" });
+      res.json(q);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/exam-questions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { tier, exam, questionType, stem, options, correctAnswer, rationale, difficulty, tags, bodySystem, topic, subtopic, regionScope, status, publishAt } = req.body;
+      if (!tier || !exam || !questionType || !stem) return res.status(400).json({ error: "tier, exam, questionType, and stem are required" });
+      const q = await storage.createExamQuestion({
+        tier, exam, questionType, stem, options, correctAnswer, rationale,
+        difficulty, tags, bodySystem, topic, subtopic, regionScope,
+        status: status || "draft", publishAt: publishAt ? new Date(publishAt) : undefined,
+        stemHash: require("crypto").createHash("md5").update(stem).digest("hex"),
+      });
+      await logAudit(req, admin, "exam_question", q.id, "create", null, { tier, exam, questionType, stem: stem.substring(0, 100) });
+      res.json(q);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/exam-questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const before = await storage.getExamQuestion(req.params.id);
+      if (!before) return res.status(404).json({ error: "Question not found" });
+      const updates: any = { ...req.body };
+      if (updates.publishAt) updates.publishAt = new Date(updates.publishAt);
+      if (updates.stem) updates.stemHash = require("crypto").createHash("md5").update(updates.stem).digest("hex");
+      const q = await storage.updateExamQuestion(req.params.id, updates);
+      if (before.status !== q.status) {
+        await storage.createQuestionScheduleLog({ questionId: q.id, action: "status_change", previousStatus: before.status || undefined, newStatus: q.status || undefined, actorId: admin.id });
+      }
+      await logAudit(req, admin, "exam_question", q.id, "update", { status: before.status }, { status: q.status });
+      res.json(q);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/exam-questions/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await logAudit(req, admin, "exam_question", req.params.id, "delete");
+      await storage.deleteExamQuestion(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/exam-questions/bulk-generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { tier, exam, questionType, count = 10, bodySystem, topic, difficulty, status = "draft", publishCadence, scheduleStart } = req.body;
+      if (!tier || !exam || !questionType) return res.status(400).json({ error: "tier, exam, and questionType required" });
+
+      const bodySystems = ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "renal", "endocrine", "hematology", "musculoskeletal", "immune", "maternity", "pediatrics", "mental-health", "pharmacology", "fundamentals"];
+      const difficultyLevels = [1, 2, 3, 4, 5];
+      const questions: any[] = [];
+      const startDate = scheduleStart ? new Date(scheduleStart) : new Date();
+      const cadenceHours = publishCadence || 24;
+
+      for (let i = 0; i < count; i++) {
+        const sys = bodySystem || bodySystems[i % bodySystems.length];
+        const diff = difficulty || difficultyLevels[i % difficultyLevels.length];
+        const stemText = `[${tier.toUpperCase()}] ${exam} - ${questionType} - ${sys} - Question ${i + 1}: A patient presents with...`;
+        let publishAt: Date | undefined;
+        if (status === "scheduled") {
+          publishAt = new Date(startDate.getTime() + i * cadenceHours * 60 * 60 * 1000);
+        }
+        questions.push({
+          tier, exam, questionType, stem: stemText,
+          options: JSON.stringify([{ text: "Option A", isCorrect: false }, { text: "Option B", isCorrect: true }, { text: "Option C", isCorrect: false }, { text: "Option D", isCorrect: false }]),
+          correctAnswer: JSON.stringify([1]),
+          rationale: `This is a placeholder rationale for ${sys} question ${i + 1}. Replace with evidence-based clinical reasoning.`,
+          difficulty: diff, bodySystem: sys, topic: topic || sys,
+          regionScope: tier.includes("rpn") || tier.includes("rn-ca") ? "CA" : tier.includes("lvn") ? "US" : "BOTH",
+          status, publishAt,
+          stemHash: require("crypto").createHash("md5").update(stemText).digest("hex"),
+        });
+      }
+
+      const created = await storage.createExamQuestionsBulk(questions);
+      await logAudit(req, admin, "exam_question", null, "bulk_generate", null, { tier, exam, questionType, count: created.length });
+      res.json({ created: created.length, questions: created.slice(0, 5) });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/exam-questions/bulk-schedule", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { questionIds, scheduleStart, cadenceHours = 24 } = req.body;
+      if (!questionIds?.length || !scheduleStart) return res.status(400).json({ error: "questionIds and scheduleStart required" });
+      const startDate = new Date(scheduleStart);
+      let scheduled = 0;
+      for (let i = 0; i < questionIds.length; i++) {
+        const publishAt = new Date(startDate.getTime() + i * cadenceHours * 60 * 60 * 1000);
+        await storage.updateExamQuestion(questionIds[i], { status: "scheduled", publishAt } as any);
+        await storage.createQuestionScheduleLog({ questionId: questionIds[i], action: "schedule", previousStatus: "draft", newStatus: "scheduled", actorId: admin.id });
+        scheduled++;
+      }
+      res.json({ scheduled });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/exam-questions/bulk-import", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { questions } = req.body;
+      if (!questions?.length) return res.status(400).json({ error: "questions array required" });
+      const prepared = questions.map((q: any) => ({
+        ...q,
+        stemHash: require("crypto").createHash("md5").update(q.stem || "").digest("hex"),
+        status: q.status || "draft",
+      }));
+      const created = await storage.createExamQuestionsBulk(prepared);
+      await logAudit(req, admin, "exam_question", null, "bulk_import", null, { count: created.length });
+      res.json({ imported: created.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/question-types/registry", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { exam } = req.query;
+      const registry = await storage.getQuestionTypeRegistry(exam as string);
+      res.json(registry);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/admin/question-types/registry", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { exam, questionType, displayName, isEnabled, defaultTargetCount, weightPercent } = req.body;
+      if (!exam || !questionType || !displayName) return res.status(400).json({ error: "exam, questionType, displayName required" });
+      const entry = await storage.upsertQuestionTypeRegistry({ exam, questionType, displayName, isEnabled, defaultTargetCount, weightPercent });
+      res.json(entry);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/exam-questions/run-scheduler", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const count = await storage.publishScheduledQuestions();
+      res.json({ published: count });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // Seed default question type registry
+  (async () => {
+    try {
+      const existing = await storage.getQuestionTypeRegistry();
+      if (existing.length === 0) {
+        const exams = [
+          { exam: "rex-pn", types: ["mcq", "sata", "ordered-response", "case-study"] },
+          { exam: "nclex-rn", types: ["mcq", "sata", "ordered-response", "case-study", "fill-in", "hotspot", "exhibit", "bowtie"] },
+          { exam: "np-canada", types: ["mcq", "sata", "case-study", "exhibit"] },
+          { exam: "nclex-pn", types: ["mcq", "sata", "ordered-response", "case-study", "fill-in"] },
+          { exam: "aanp", types: ["mcq", "case-study", "exhibit"] },
+          { exam: "ancc", types: ["mcq", "case-study", "exhibit"] },
+        ];
+        const displayNames: Record<string, string> = {
+          mcq: "Single Best Answer MCQ",
+          sata: "Select All That Apply (SATA)",
+          "ordered-response": "Ordered Response / Prioritization",
+          "case-study": "Case Study / Vignette",
+          "fill-in": "Fill-in / Short Answer",
+          hotspot: "Hotspot / Image-Based",
+          exhibit: "Exhibit / Chart Interpretation",
+          bowtie: "Bow-Tie / Triage",
+          matrix: "Matrix / Grid",
+        };
+        for (const { exam, types } of exams) {
+          for (const qt of types) {
+            await storage.upsertQuestionTypeRegistry({
+              exam, questionType: qt, displayName: displayNames[qt] || qt,
+              isEnabled: true, defaultTargetCount: 100,
+            });
+          }
+        }
+        console.log("Seeded question type registry");
+      }
+    } catch (e: any) {
+      console.error("Registry seed error:", e?.message);
+    }
+  })();
+
+  // Question scheduler interval (check every 5 minutes)
+  setInterval(async () => {
+    try {
+      const count = await storage.publishScheduledQuestions();
+      if (count > 0) console.log(`Auto-published ${count} scheduled questions`);
+    } catch (e) {}
+  }, 5 * 60 * 1000);
+
   return httpServer;
 }
 

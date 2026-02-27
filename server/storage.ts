@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -74,6 +74,25 @@ export interface IStorage {
   createCustomModule(data: InsertCustomPageModule): Promise<CustomPageModule>;
   updateCustomModule(id: string, updates: Partial<InsertCustomPageModule>): Promise<CustomPageModule>;
   deleteCustomModule(id: string): Promise<void>;
+  getAllAudioClips(): Promise<AudioClip[]>;
+  getAudioClip(id: string): Promise<AudioClip | undefined>;
+  getAudioClipsByCategory(category: string): Promise<AudioClip[]>;
+  createAudioClip(clip: InsertAudioClip): Promise<AudioClip>;
+  updateAudioClip(id: string, updates: Partial<InsertAudioClip>): Promise<AudioClip>;
+  deleteAudioClip(id: string): Promise<void>;
+  getLessonAudioLinks(lessonId: string): Promise<(LessonAudioLink & { clip: AudioClip })[]>;
+  createLessonAudioLink(link: InsertLessonAudioLink): Promise<LessonAudioLink>;
+  deleteLessonAudioLink(id: string): Promise<void>;
+  getAllExamQuestions(filters?: { tier?: string; exam?: string; questionType?: string; status?: string; bodySystem?: string }): Promise<ExamQuestion[]>;
+  getExamQuestion(id: string): Promise<ExamQuestion | undefined>;
+  createExamQuestion(q: InsertExamQuestion): Promise<ExamQuestion>;
+  createExamQuestionsBulk(questions: InsertExamQuestion[]): Promise<ExamQuestion[]>;
+  updateExamQuestion(id: string, updates: Partial<InsertExamQuestion>): Promise<ExamQuestion>;
+  deleteExamQuestion(id: string): Promise<void>;
+  publishScheduledQuestions(): Promise<number>;
+  getQuestionTypeRegistry(exam?: string): Promise<QuestionTypeRegistryEntry[]>;
+  upsertQuestionTypeRegistry(entry: InsertQuestionTypeRegistryEntry): Promise<QuestionTypeRegistryEntry>;
+  createQuestionScheduleLog(log: { questionId: string; action: string; previousStatus?: string; newStatus?: string; actorId?: string }): Promise<QuestionScheduleLog>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -617,6 +636,132 @@ export class DatabaseStorage implements IStorage {
 
   async deleteCustomModule(id: string): Promise<void> {
     await db.delete(customPageModules).where(eq(customPageModules.id, id));
+  }
+
+  async getAllAudioClips(): Promise<AudioClip[]> {
+    return db.select().from(audioClips).orderBy(desc(audioClips.createdAt));
+  }
+
+  async getAudioClip(id: string): Promise<AudioClip | undefined> {
+    const [clip] = await db.select().from(audioClips).where(eq(audioClips.id, id));
+    return clip;
+  }
+
+  async getAudioClipsByCategory(category: string): Promise<AudioClip[]> {
+    return db.select().from(audioClips).where(eq(audioClips.category, category)).orderBy(audioClips.title);
+  }
+
+  async createAudioClip(clip: InsertAudioClip): Promise<AudioClip> {
+    const [created] = await db.insert(audioClips).values(clip).returning();
+    return created;
+  }
+
+  async updateAudioClip(id: string, updates: Partial<InsertAudioClip>): Promise<AudioClip> {
+    const [updated] = await db.update(audioClips).set(updates).where(eq(audioClips.id, id)).returning();
+    return updated;
+  }
+
+  async deleteAudioClip(id: string): Promise<void> {
+    await db.delete(lessonAudioLinks).where(eq(lessonAudioLinks.audioClipId, id));
+    await db.delete(audioClips).where(eq(audioClips.id, id));
+  }
+
+  async getLessonAudioLinks(lessonId: string): Promise<(LessonAudioLink & { clip: AudioClip })[]> {
+    const links = await db.select().from(lessonAudioLinks).where(eq(lessonAudioLinks.lessonId, lessonId)).orderBy(lessonAudioLinks.displayOrder);
+    const results: (LessonAudioLink & { clip: AudioClip })[] = [];
+    for (const link of links) {
+      const [clip] = await db.select().from(audioClips).where(eq(audioClips.id, link.audioClipId));
+      if (clip) results.push({ ...link, clip });
+    }
+    return results;
+  }
+
+  async createLessonAudioLink(link: InsertLessonAudioLink): Promise<LessonAudioLink> {
+    const [created] = await db.insert(lessonAudioLinks).values(link).returning();
+    return created;
+  }
+
+  async deleteLessonAudioLink(id: string): Promise<void> {
+    await db.delete(lessonAudioLinks).where(eq(lessonAudioLinks.id, id));
+  }
+
+  async getAllExamQuestions(filters?: { tier?: string; exam?: string; questionType?: string; status?: string; bodySystem?: string }): Promise<ExamQuestion[]> {
+    let query = db.select().from(examQuestions);
+    const conditions: any[] = [];
+    if (filters?.tier) conditions.push(eq(examQuestions.tier, filters.tier));
+    if (filters?.exam) conditions.push(eq(examQuestions.exam, filters.exam));
+    if (filters?.questionType) conditions.push(eq(examQuestions.questionType, filters.questionType));
+    if (filters?.status) conditions.push(eq(examQuestions.status, filters.status));
+    if (filters?.bodySystem) conditions.push(eq(examQuestions.bodySystem, filters.bodySystem));
+    if (conditions.length > 0) {
+      return (query as any).where(and(...conditions)).orderBy(desc(examQuestions.createdAt));
+    }
+    return query.orderBy(desc(examQuestions.createdAt));
+  }
+
+  async getExamQuestion(id: string): Promise<ExamQuestion | undefined> {
+    const [q] = await db.select().from(examQuestions).where(eq(examQuestions.id, id));
+    return q;
+  }
+
+  async createExamQuestion(q: InsertExamQuestion): Promise<ExamQuestion> {
+    const [created] = await db.insert(examQuestions).values(q).returning();
+    return created;
+  }
+
+  async createExamQuestionsBulk(questions: InsertExamQuestion[]): Promise<ExamQuestion[]> {
+    if (questions.length === 0) return [];
+    const batchSize = 50;
+    const results: ExamQuestion[] = [];
+    for (let i = 0; i < questions.length; i += batchSize) {
+      const batch = questions.slice(i, i + batchSize);
+      const created = await db.insert(examQuestions).values(batch).returning();
+      results.push(...created);
+    }
+    return results;
+  }
+
+  async updateExamQuestion(id: string, updates: Partial<InsertExamQuestion>): Promise<ExamQuestion> {
+    const [updated] = await db.update(examQuestions).set({ ...updates, updatedAt: new Date() }).where(eq(examQuestions.id, id)).returning();
+    return updated;
+  }
+
+  async deleteExamQuestion(id: string): Promise<void> {
+    await db.delete(examQuestions).where(eq(examQuestions.id, id));
+  }
+
+  async publishScheduledQuestions(): Promise<number> {
+    const now = new Date();
+    const due = await db.select().from(examQuestions).where(and(eq(examQuestions.status, "scheduled"), lte(examQuestions.publishAt!, now)));
+    let count = 0;
+    for (const q of due) {
+      await db.update(examQuestions).set({ status: "published", publishedAt: now, updatedAt: now }).where(eq(examQuestions.id, q.id));
+      await db.insert(questionScheduleLog).values({ questionId: q.id, action: "auto_publish", previousStatus: "scheduled", newStatus: "published" });
+      count++;
+    }
+    return count;
+  }
+
+  async getQuestionTypeRegistry(exam?: string): Promise<QuestionTypeRegistryEntry[]> {
+    if (exam) {
+      return db.select().from(questionTypeRegistry).where(eq(questionTypeRegistry.exam, exam)).orderBy(questionTypeRegistry.displayName);
+    }
+    return db.select().from(questionTypeRegistry).orderBy(questionTypeRegistry.exam, questionTypeRegistry.displayName);
+  }
+
+  async upsertQuestionTypeRegistry(entry: InsertQuestionTypeRegistryEntry): Promise<QuestionTypeRegistryEntry> {
+    const existing = await db.select().from(questionTypeRegistry).where(and(eq(questionTypeRegistry.exam, entry.exam), eq(questionTypeRegistry.questionType, entry.questionType)));
+    if (existing.length > 0) {
+      const [updated] = await db.update(questionTypeRegistry).set(entry).where(eq(questionTypeRegistry.id, existing[0].id)).returning();
+      return updated;
+    }
+    const [created] = await db.insert(questionTypeRegistry).values(entry).returning();
+    return created;
+  }
+
+  async createQuestionScheduleLog(log: { questionId: string; action: string; previousStatus?: string; newStatus?: string; actorId?: string }): Promise<QuestionScheduleLog> {
+    const [created] = await db.insert(questionScheduleLog).values(log).returning();
+    return created;
   }
 }
 
