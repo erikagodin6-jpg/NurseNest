@@ -61,6 +61,13 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     }
   }, [value]);
 
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.innerHTML = value;
+      lastValueRef.current = value;
+    }
+  }, []);
+
   const emitChange = useCallback(() => {
     if (editorRef.current) {
       const html = editorRef.current.innerHTML;
@@ -342,7 +349,6 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
             setIsFocused(false); isFocusedRef.current = false; lastValueRef.current = editorRef.current?.innerHTML || "";
           }}
           onPaste={handlePaste}
-          dangerouslySetInnerHTML={{ __html: value }}
           data-testid="rich-text-content"
         />
       </div>
