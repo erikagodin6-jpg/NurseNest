@@ -141,8 +141,8 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
       const sanitized = html ? sanitizeHtml(html) : "";
       const temp = document.createElement("div");
       temp.innerHTML = sanitized;
-      const hasFormattedTags = temp.querySelector("b, strong, i, em, u, s, ul, ol, h1, h2, h3, h4, a, img, table, blockquote, pre");
-      if (hasFormattedTags) {
+      const hasBlockOrFormattedTags = temp.querySelector("p, div, br, b, strong, i, em, u, s, ul, ol, h1, h2, h3, h4, a, img, table, blockquote, pre");
+      if (hasBlockOrFormattedTags && sanitized.trim()) {
         content = ensureBlockSpacing(sanitized, text);
       } else {
         content = textToHtml(text);
@@ -291,45 +291,27 @@ function textToHtml(text: string): string {
 function ensureBlockSpacing(html: string, plainText: string): string {
   const temp = document.createElement("div");
   temp.innerHTML = html;
-  const extractedText = temp.textContent || temp.innerText || "";
-  const plainLines = plainText.split("\n");
-  const htmlLines = extractedText.split("\n");
-  if (plainLines.length > htmlLines.length * 1.5) {
-    const walker = document.createTreeWalker(temp, NodeFilter.SHOW_TEXT);
-    const textNodes: Text[] = [];
-    let tNode: Text | null;
-    while ((tNode = walker.nextNode() as Text | null)) {
-      textNodes.push(tNode);
-    }
-    let plainPos = 0;
-    for (const textNode of textNodes) {
-      const nodeText = textNode.textContent || "";
-      const idx = plainText.indexOf(nodeText.trim(), plainPos);
-      if (idx >= 0) {
-        const before = plainText.substring(plainPos, idx);
-        const newlineCount = (before.match(/\n/g) || []).length;
-        if (newlineCount > 0) {
-          const br = document.createElement("span");
-          let brHtml = "";
-          for (let j = 0; j < newlineCount; j++) brHtml += "<br>";
-          br.innerHTML = brHtml;
-          const frag = document.createDocumentFragment();
-          while (br.firstChild) frag.appendChild(br.firstChild);
-          textNode.parentNode?.insertBefore(frag, textNode);
+  const hasBlocks = temp.querySelector("p, div, li, h1, h2, h3, h4, blockquote");
+  if (hasBlocks) {
+    const plainLines = plainText.split("\n");
+    const plainBlankLineCount = plainLines.filter(l => l.trim() === "").length;
+    const pTags = temp.querySelectorAll("p, div");
+    if (plainBlankLineCount > 0 && pTags.length > 0) {
+      let result = "";
+      const blocks = plainText.split(/\n\s*\n/);
+      if (blocks.length > 1) {
+        for (const block of blocks) {
+          const trimmed = block.trim();
+          if (trimmed) {
+            result += `<p>${trimmed.replace(/\n/g, "<br>")}</p>`;
+          }
         }
-        plainPos = idx + nodeText.trim().length;
+        return result;
       }
     }
-    return temp.innerHTML;
+    return html;
   }
-  const topChildren = Array.from(temp.children);
-  for (const child of topChildren) {
-    const el = child as HTMLElement;
-    if (el.style && !el.style.marginBottom) {
-      el.style.marginBottom = "0.75em";
-    }
-  }
-  return temp.innerHTML;
+  return textToHtml(plainText);
 }
 
 function sanitizeHtml(html: string): string {
