@@ -78,6 +78,9 @@ import imgGiHepatobiliary from "@/assets/anatomy-gi-hepatobiliary.png";
 import imgRenalSystem from "@/assets/anatomy-renal-system.png";
 import imgRenalNephron from "@/assets/anatomy-renal-nephron.png";
 import imgRenalGlomerulus from "@/assets/anatomy-renal-glomerulus.png";
+import imgEndocrineGlands from "@/assets/anatomy-endocrine-glands.png";
+import imgEndocrineThyroid from "@/assets/anatomy-endocrine-thyroid.png";
+import imgEndocrineAdrenal from "@/assets/anatomy-endocrine-adrenal.png";
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
@@ -251,6 +254,11 @@ const bodySystems = [
     bgAccent: "bg-yellow-50",
     image: imgEndocrine,
     description: "Hormones, glands, and feedback loops",
+    inlineImages: [
+      { src: imgEndocrineGlands, alt: "Human body showing all major endocrine glands: hypothalamus, pituitary, thyroid, parathyroids, adrenals on kidneys, pancreas, ovaries, and testes", afterParagraph: 0 },
+      { src: imgEndocrineThyroid, alt: "Butterfly-shaped thyroid gland with two lobes and isthmus, showing four small yellow parathyroid glands on the posterior surface and trachea behind", afterParagraph: 1 },
+      { src: imgEndocrineAdrenal, alt: "Cross-section of adrenal gland on top of kidney showing three cortex zones in graduated yellow-orange layers and dark reddish-purple medulla at center", afterParagraph: 2 },
+    ] as InlineImage[],
     content: [
       "The endocrine system consists of glands that produce hormones: chemical messengers transported via the bloodstream to target organs. Major endocrine glands include the hypothalamus, pituitary (anterior and posterior), thyroid, parathyroid, adrenal glands (cortex and medulla), pancreatic islets of Langerhans, ovaries, and testes. The hypothalamus links the nervous and endocrine systems by producing releasing and inhibiting hormones that control the anterior pituitary. The anterior pituitary secretes growth hormone (GH), thyroid-stimulating hormone (TSH), adrenocorticotropic hormone (ACTH), follicle-stimulating hormone (FSH), luteinizing hormone (LH), and prolactin.",
       "Hormone regulation primarily operates through negative feedback mechanisms. For example, the hypothalamic-pituitary-thyroid axis: the hypothalamus releases thyrotropin-releasing hormone (TRH), which stimulates the anterior pituitary to release TSH, which stimulates the thyroid to produce T3 and T4. When thyroid hormone levels are sufficient, they inhibit further TRH and TSH release. The thyroid hormones regulate metabolism, heat production, and growth. The parathyroid glands secrete parathyroid hormone (PTH) in response to low serum calcium, promoting calcium release from bones, calcium reabsorption in the kidneys, and activation of vitamin D. Calcitonin from the thyroid has the opposite effect, lowering blood calcium.",
