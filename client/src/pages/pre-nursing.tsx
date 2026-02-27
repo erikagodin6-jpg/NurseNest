@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { AdminImageOverlay, useSiteImages } from "@/components/admin-image-overlay";
+import { RichTextEditor, RichTextDisplay } from "@/components/rich-text-editor";
 import {
   AnatomyLabeling,
   MatchingExercise,
@@ -397,15 +398,20 @@ function EditableModuleText({
 
   if (!isEditing) {
     const Tag = as;
+    const hasHtml = /<[a-z][\s\S]*>/i.test(displayText);
+    if (hasHtml) {
+      return <Tag className={className}><RichTextDisplay html={displayText} /></Tag>;
+    }
     return <Tag className={className}>{displayText}</Tag>;
   }
 
   return multiline ? (
-    <textarea
+    <RichTextEditor
       value={displayText}
-      onChange={(e) => updateSection(sectionKey, { ...override, content: e.target.value })}
-      className={`w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-sm resize-y min-h-[80px] focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${className}`}
-      data-testid={`editable-text-${sectionKey}`}
+      onChange={(v) => updateSection(sectionKey, { ...override, content: v })}
+      className={className}
+      minHeight="80px"
+      placeholder="Enter content..."
     />
   ) : (
     <input
@@ -577,16 +583,15 @@ function PreNursingModuleEditor({
           {editContent.map((p, idx) => (
             <div key={idx} className="relative group">
               <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                <textarea
+                <RichTextEditor
                   value={p}
-                  onChange={(e) => {
+                  onChange={(v) => {
                     const updated = [...editContent];
-                    updated[idx] = e.target.value;
+                    updated[idx] = v;
                     setEditContent(updated);
                   }}
-                  className="w-full text-sm p-5 min-h-[100px] resize-y text-gray-700 leading-relaxed border-none focus:ring-0 focus:outline-none"
+                  minHeight="100px"
                   placeholder="Educational content paragraph..."
-                  data-testid={`textarea-prenursing-content-${moduleId}-${idx}`}
                 />
               </div>
               <Button
@@ -1343,7 +1348,7 @@ function CellBiologyModule() {
           content={sections["cell-bio-nursing-concept"]?.content || "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."}
         />
         {isEditing && (
-          <textarea value={sections["cell-bio-nursing-concept"]?.content || "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."} onChange={(e) => updateSection("cell-bio-nursing-concept", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Cognitive card content..." />
+          <RichTextEditor value={sections["cell-bio-nursing-concept"]?.content || "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."} onChange={(v) => updateSection("cell-bio-nursing-concept", { content: v })} className="mt-2" minHeight="60px" placeholder="Cognitive card content..." />
         )}
       </MicroLesson>
 
@@ -1380,7 +1385,7 @@ function CellBiologyModule() {
           content={sections["cell-bio-transport-principle"]?.content || "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."}
         />
         {isEditing && (
-          <textarea value={sections["cell-bio-transport-principle"]?.content || "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."} onChange={(e) => updateSection("cell-bio-transport-principle", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Key principle content..." />
+          <RichTextEditor value={sections["cell-bio-transport-principle"]?.content || "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."} onChange={(v) => updateSection("cell-bio-transport-principle", { content: v })} className="mt-2" minHeight="60px" placeholder="Key principle content..." />
         )}
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
@@ -1422,7 +1427,7 @@ function PhysiologyModule() {
           content={sections["phys-feedback-concept"]?.content || "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."}
         />
         {isEditing && (
-          <textarea value={sections["phys-feedback-concept"]?.content || "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."} onChange={(e) => updateSection("phys-feedback-concept", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Cognitive card content..." />
+          <RichTextEditor value={sections["phys-feedback-concept"]?.content || "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."} onChange={(v) => updateSection("phys-feedback-concept", { content: v })} className="mt-2" minHeight="60px" placeholder="Cognitive card content..." />
         )}
       </MicroLesson>
 
@@ -1461,7 +1466,7 @@ function PhysiologyModule() {
           content={sections["phys-fluid-memory"]?.content || "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."}
         />
         {isEditing && (
-          <textarea value={sections["phys-fluid-memory"]?.content || "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."} onChange={(e) => updateSection("phys-fluid-memory", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Memory aid content..." />
+          <RichTextEditor value={sections["phys-fluid-memory"]?.content || "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."} onChange={(v) => updateSection("phys-fluid-memory", { content: v })} className="mt-2" minHeight="60px" placeholder="Memory aid content..." />
         )}
       </MicroLesson>
 
@@ -1608,7 +1613,7 @@ function PharmacologyModule() {
           content={sections["pharm-receptor-clinical"]?.content || "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."}
         />
         {isEditing && (
-          <textarea value={sections["pharm-receptor-clinical"]?.content || "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."} onChange={(e) => updateSection("pharm-receptor-clinical", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Clinical connection..." />
+          <RichTextEditor value={sections["pharm-receptor-clinical"]?.content || "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."} onChange={(v) => updateSection("pharm-receptor-clinical", { content: v })} className="mt-2" minHeight="60px" placeholder="Clinical connection..." />
         )}
       </MicroLesson>
 
@@ -1671,7 +1676,7 @@ function PathophysiologyModule() {
           content={sections["patho-exam-trap"]?.content || "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."}
         />
         {isEditing && (
-          <textarea value={sections["patho-exam-trap"]?.content || "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."} onChange={(e) => updateSection("patho-exam-trap", { content: e.target.value })} className="w-full bg-white/80 border border-purple-200 rounded-lg p-3 text-xs resize-y min-h-[60px] focus:ring-2 focus:ring-purple-300 focus:outline-none mt-2" placeholder="Exam trap content..." />
+          <RichTextEditor value={sections["patho-exam-trap"]?.content || "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."} onChange={(v) => updateSection("patho-exam-trap", { content: v })} className="mt-2" minHeight="60px" placeholder="Exam trap content..." />
         )}
       </MicroLesson>
 

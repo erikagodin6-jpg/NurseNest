@@ -133,27 +133,20 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     const html = e.clipboardData.getData("text/html");
     const text = e.clipboardData.getData("text/plain");
     let content: string;
-    if (html) {
+    if (text && text.includes("\n")) {
+      const sanitized = html ? sanitizeHtml(html) : "";
+      const temp = document.createElement("div");
+      temp.innerHTML = sanitized;
+      const hasFormattedTags = temp.querySelector("b, strong, i, em, u, s, ul, ol, h1, h2, h3, h4, a, img, table, blockquote, pre");
+      if (hasFormattedTags) {
+        content = ensureBlockSpacing(sanitized, text);
+      } else {
+        content = textToHtml(text);
+      }
+    } else if (html) {
       content = sanitizeHtml(html);
     } else if (text) {
-      const lines = text.split(/\n/);
-      const blocks: string[] = [];
-      let currentBlock: string[] = [];
-      for (const line of lines) {
-        if (line.trim() === "") {
-          if (currentBlock.length > 0) {
-            blocks.push(`<p>${currentBlock.join("<br>")}</p>`);
-            currentBlock = [];
-          }
-          blocks.push("<p><br></p>");
-        } else {
-          currentBlock.push(line);
-        }
-      }
-      if (currentBlock.length > 0) {
-        blocks.push(`<p>${currentBlock.join("<br>")}</p>`);
-      }
-      content = blocks.join("");
+      content = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     } else {
       return;
     }
@@ -270,6 +263,71 @@ export function RichTextDisplay({ html, className }: { html: string; className?:
       dangerouslySetInnerHTML={{ __html: sanitizeHtml(html) }}
     />
   );
+}
+
+function textToHtml(text: string): string {
+  const lines = text.split(/\n/);
+  const blocks: string[] = [];
+  let currentBlock: string[] = [];
+  for (const line of lines) {
+    if (line.trim() === "") {
+      if (currentBlock.length > 0) {
+        blocks.push(`<p>${currentBlock.join("<br>")}</p>`);
+        currentBlock = [];
+      }
+      blocks.push("<p><br></p>");
+    } else {
+      currentBlock.push(line.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+    }
+  }
+  if (currentBlock.length > 0) {
+    blocks.push(`<p>${currentBlock.join("<br>")}</p>`);
+  }
+  return blocks.join("");
+}
+
+function ensureBlockSpacing(html: string, plainText: string): string {
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  const extractedText = temp.textContent || temp.innerText || "";
+  const plainLines = plainText.split("\n");
+  const htmlLines = extractedText.split("\n");
+  if (plainLines.length > htmlLines.length * 1.5) {
+    const walker = document.createTreeWalker(temp, NodeFilter.SHOW_TEXT);
+    const textNodes: Text[] = [];
+    let tNode: Text | null;
+    while ((tNode = walker.nextNode() as Text | null)) {
+      textNodes.push(tNode);
+    }
+    let plainPos = 0;
+    for (const textNode of textNodes) {
+      const nodeText = textNode.textContent || "";
+      const idx = plainText.indexOf(nodeText.trim(), plainPos);
+      if (idx >= 0) {
+        const before = plainText.substring(plainPos, idx);
+        const newlineCount = (before.match(/\n/g) || []).length;
+        if (newlineCount > 0) {
+          const br = document.createElement("span");
+          let brHtml = "";
+          for (let j = 0; j < newlineCount; j++) brHtml += "<br>";
+          br.innerHTML = brHtml;
+          const frag = document.createDocumentFragment();
+          while (br.firstChild) frag.appendChild(br.firstChild);
+          textNode.parentNode?.insertBefore(frag, textNode);
+        }
+        plainPos = idx + nodeText.trim().length;
+      }
+    }
+    return temp.innerHTML;
+  }
+  const topChildren = Array.from(temp.children);
+  for (const child of topChildren) {
+    const el = child as HTMLElement;
+    if (el.style && !el.style.marginBottom) {
+      el.style.marginBottom = "0.75em";
+    }
+  }
+  return temp.innerHTML;
 }
 
 function sanitizeHtml(html: string): string {

@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { AdminImageOverlay } from "@/components/admin-image-overlay";
+import { RichTextEditor } from "@/components/rich-text-editor";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -381,16 +382,15 @@ function AnatomySystemEditor({
         {editContent.map((p, idx) => (
           <div key={idx} className="relative group">
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-              <textarea
+              <RichTextEditor
                 value={p}
-                onChange={(e) => {
+                onChange={(v) => {
                   const updated = [...editContent];
-                  updated[idx] = e.target.value;
+                  updated[idx] = v;
                   setEditContent(updated);
                 }}
-                className="w-full text-sm p-5 min-h-[120px] resize-y text-gray-700 leading-relaxed border-none focus:ring-0 focus:outline-none"
+                minHeight="120px"
                 placeholder="Enter educational content..."
-                data-testid={`textarea-anatomy-paragraph-${system.id}-${idx}`}
               />
             </div>
             <Button
