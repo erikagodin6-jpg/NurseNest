@@ -24,6 +24,12 @@ import {
   HoverReveal,
 } from "@/components/interactive-learning";
 import cellStructureImage from "@/assets/cell-structure-diagram.png";
+import organelleMitochondria from "@/assets/organelle-mitochondria.png";
+import organelleNucleus from "@/assets/organelle-nucleus.png";
+import organelleGolgi from "@/assets/organelle-golgi.png";
+import organelleRoughER from "@/assets/organelle-rough-er.png";
+import organelleCellMembrane from "@/assets/organelle-cell-membrane.png";
+import organelleLysosome from "@/assets/organelle-lysosome.png";
 import {
   cellLabels,
   HeartSVG,
@@ -1368,6 +1374,43 @@ function CellBiologyModule() {
         width={600}
         height={450}
       />
+
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm" data-testid="organelle-gallery">
+        <h3 className="text-lg font-bold text-slate-800 mb-1">Organelle Deep Dive</h3>
+        <p className="text-sm text-slate-500 mb-5">Explore each organelle's structure and clinical significance</p>
+        <div className="grid sm:grid-cols-2 gap-5">
+          {[
+            { img: organelleCellMembrane, name: "Cell Membrane", color: "teal", desc: "The phospholipid bilayer forms a selectively permeable barrier with embedded integral proteins, channel proteins, and cholesterol. It controls ion and molecule transport through passive diffusion, facilitated diffusion, and active transport (Na⁺/K⁺ ATPase). Glycoprotein receptors on the surface mediate cell signaling and immune recognition.", clinical: "Defects in membrane transport proteins cause cystic fibrosis (CFTR channel) and familial hypercholesterolemia (LDL receptor)." },
+            { img: organelleNucleus, name: "Nucleus", color: "purple", desc: "The command center of the cell, enclosed by a double nuclear envelope with nuclear pores that regulate macromolecule transport. Contains chromatin (DNA wound around histone proteins) that condenses into chromosomes during division. The nucleolus inside assembles ribosomal subunits from rRNA.", clinical: "Cancer often involves mutations in nuclear DNA repair mechanisms (BRCA1/2, p53). The nucleolus enlarges in rapidly dividing cancer cells." },
+            { img: organelleMitochondria, name: "Mitochondria", color: "green", desc: "The powerhouse of the cell with a double membrane — the inner membrane folds into cristae to maximize surface area for the electron transport chain. Produces ~36 ATP per glucose molecule through oxidative phosphorylation. Contains its own circular mtDNA inherited exclusively from the mother.", clinical: "Mitochondrial dysfunction contributes to heart failure, neurodegenerative diseases, and aging. Cyanide poisoning works by blocking Complex IV of the electron transport chain." },
+            { img: organelleRoughER, name: "Rough Endoplasmic Reticulum", color: "blue", desc: "An extensive folded membrane network studded with ribosomes, continuous with the nuclear envelope. Responsible for co-translational protein folding, N-linked glycosylation, and quality control of newly synthesized proteins. Especially prominent in cells with high secretory output like plasma cells and pancreatic acinar cells.", clinical: "ER stress from misfolded proteins triggers the unfolded protein response (UPR), implicated in diabetes, Alzheimer's, and Parkinson's disease." },
+            { img: organelleGolgi, name: "Golgi Apparatus", color: "amber", desc: "Stacked flattened membrane cisternae that receive proteins from the ER at the cis face and process them through post-translational modifications including glycosylation, phosphorylation, and sulfation. The trans face sorts and packages proteins into vesicles for secretion, lysosomal targeting, or membrane insertion.", clinical: "I-cell disease (mucolipidosis II) results from failure to add mannose-6-phosphate tags in the Golgi, causing enzymes to be secreted instead of delivered to lysosomes." },
+            { img: organelleLysosome, name: "Lysosomes", color: "red", desc: "Membrane-bound vesicles maintaining an acidic interior (pH ~5) filled with over 50 types of acid hydrolase enzymes. They digest materials from autophagy (recycling old organelles), phagocytosis (destroying pathogens), and endocytosis. Essential for cellular housekeeping and programmed cell death.", clinical: "Lysosomal storage diseases (Tay-Sachs, Gaucher, Pompe) result from deficiency of specific hydrolases, causing toxic accumulation of undigested substrates." },
+          ].map((organelle, idx) => {
+            const colorMap: Record<string, { bg: string; border: string; title: string; badge: string }> = {
+              teal: { bg: "bg-teal-50/60", border: "border-teal-200", title: "text-teal-800", badge: "bg-teal-100 text-teal-700" },
+              purple: { bg: "bg-purple-50/60", border: "border-purple-200", title: "text-purple-800", badge: "bg-purple-100 text-purple-700" },
+              green: { bg: "bg-green-50/60", border: "border-green-200", title: "text-green-800", badge: "bg-green-100 text-green-700" },
+              blue: { bg: "bg-blue-50/60", border: "border-blue-200", title: "text-blue-800", badge: "bg-blue-100 text-blue-700" },
+              amber: { bg: "bg-amber-50/60", border: "border-amber-200", title: "text-amber-800", badge: "bg-amber-100 text-amber-700" },
+              red: { bg: "bg-red-50/60", border: "border-red-200", title: "text-red-800", badge: "bg-red-100 text-red-700" },
+            };
+            const c = colorMap[organelle.color];
+            return (
+              <div key={idx} className={`rounded-xl ${c.bg} ${c.border} border p-4`} data-testid={`organelle-card-${idx}`}>
+                <div className="flex justify-center mb-3">
+                  <img src={organelle.img} alt={organelle.name} className="w-40 h-40 object-contain rounded-lg" />
+                </div>
+                <h4 className={`font-semibold text-sm ${c.title} mb-1`}>{organelle.name}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed mb-2">{organelle.desc}</p>
+                <div className={`text-xs ${c.badge} rounded-lg px-2.5 py-1.5 inline-block`}>
+                  <span className="font-semibold">Clinical:</span> {organelle.clinical}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       <MatchingExercise
         title="Organelle Function Matching"
