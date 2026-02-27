@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { AdminImageOverlay, useSiteImages } from "@/components/admin-image-overlay";
 import { RichTextEditor, RichTextDisplay } from "@/components/rich-text-editor";
+import { StudyNotes } from "@/components/study-notes";
 import { ModuleEditContext, useModuleEdit, EditableModuleText, type SectionOverride, type ModuleEditContextType } from "@/components/module-edit-context";
 import {
   AnatomyLabeling,
@@ -1093,6 +1094,7 @@ export default function PreNursingPage() {
                   </>
                 );
               })()}
+              <StudyNotes noteId={`prenursing-${activeModule}`} title={activeModuleData ? t(activeModuleData.titleKey) : ''} />
             </div>
             {isAdmin && (
               <button

@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/auth";
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { AdminImageOverlay } from "@/components/admin-image-overlay";
 import { RichTextEditor } from "@/components/rich-text-editor";
+import { StudyNotes } from "@/components/study-notes";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -651,6 +652,7 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
                   </span>
                 </LocaleLink>
               )}
+              <StudyNotes noteId={`anatomy-${system.id}`} title={resolved.name} />
             </div>
           </div>
           <div className="flex items-center gap-4 mb-4">

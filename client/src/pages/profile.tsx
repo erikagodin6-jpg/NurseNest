@@ -11,6 +11,18 @@ import { useToast } from "@/hooks/use-toast";
 import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail } from "lucide-react";
 import { contentMap } from "@/data/lessons";
 
+function formatNoteTitle(lessonId: string): string {
+  const lesson = contentMap[lessonId];
+  if (lesson?.title) return lesson.title;
+  if (lessonId.startsWith("anatomy-")) {
+    return "Anatomy: " + lessonId.replace("anatomy-", "").split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  }
+  if (lessonId.startsWith("prenursing-")) {
+    return "Pre-Nursing: " + lessonId.replace("prenursing-", "").split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  }
+  return lessonId.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 export default function ProfilePage() {
   const { user, logout } = useAuth();
   const [, navigate] = useLocation();
@@ -119,13 +131,13 @@ export default function ProfilePage() {
   }
 
   function handlePrint(note: any) {
-    const lesson = contentMap[note.lessonId];
+    const title = formatNoteTitle(note.lessonId);
     const w = window.open("", "_blank");
     if (w) {
       w.document.write(`
-        <html><head><title>${lesson?.title || note.lessonId} - Notes</title>
+        <html><head><title>${title} - Notes</title>
         <style>body{font-family:sans-serif;padding:40px;max-width:800px;margin:auto;line-height:1.6}h1{color:#333}pre{white-space:pre-wrap;font-family:inherit}</style>
-        </head><body><h1>${lesson?.title || note.lessonId} - My Notes</h1><pre>${note.content}</pre></body></html>
+        </head><body><h1>${title} - My Notes</h1><pre>${note.content}</pre></body></html>
       `);
       w.document.close();
       w.print();
@@ -407,11 +419,10 @@ export default function ProfilePage() {
             ) : (
               <div className="space-y-4">
                 {notes.map((note) => {
-                  const lesson = contentMap[note.lessonId];
                   return (
                     <div key={note.id} className="border rounded-xl p-4 space-y-2" data-testid={`note-item-${note.id}`}>
                       <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-gray-900">{lesson?.title || note.lessonId}</h3>
+                        <h3 className="font-bold text-gray-900">{formatNoteTitle(note.lessonId)}</h3>
                         <div className="flex gap-2">
                           <Button variant="ghost" size="sm" onClick={() => handlePrint(note)} data-testid={`button-print-note-${note.id}`}>
                             <Printer className="w-4 h-4" />
