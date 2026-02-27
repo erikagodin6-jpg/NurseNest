@@ -327,11 +327,35 @@
   color: var(--color-foreground) !important;
 }
 
+[data-theme="dark-clinical"] .text-slate-900,
+[data-theme="dark-clinical"] .text-slate-800,
+[data-theme="dark-clinical"] .text-slate-700,
+[data-theme="dark-academia"] .text-slate-900,
+[data-theme="dark-academia"] .text-slate-800,
+[data-theme="dark-academia"] .text-slate-700 {
+  color: var(--color-foreground) !important;
+}
+
 [data-theme="dark-clinical"] .text-gray-600,
 [data-theme="dark-clinical"] .text-gray-500,
+[data-theme="dark-clinical"] .text-gray-400,
+[data-theme="dark-clinical"] .text-slate-600,
+[data-theme="dark-clinical"] .text-slate-500,
+[data-theme="dark-clinical"] .text-slate-400,
 [data-theme="dark-academia"] .text-gray-600,
-[data-theme="dark-academia"] .text-gray-500 {
+[data-theme="dark-academia"] .text-gray-500,
+[data-theme="dark-academia"] .text-gray-400,
+[data-theme="dark-academia"] .text-slate-600,
+[data-theme="dark-academia"] .text-slate-500,
+[data-theme="dark-academia"] .text-slate-400 {
   color: var(--color-softgray) !important;
+}
+
+[data-theme="dark-clinical"] .text-gray-300,
+[data-theme="dark-clinical"] .text-slate-300,
+[data-theme="dark-academia"] .text-gray-300,
+[data-theme="dark-academia"] .text-slate-300 {
+  color: color-mix(in srgb, var(--color-softgray) 70%, transparent) !important;
 }
 
 [data-theme="dark-clinical"] .border-gray-100,
@@ -410,19 +434,120 @@
   background-color: var(--color-card) !important;
 }
 
+[data-theme="dark-clinical"] .bg-amber-50\/60,
+[data-theme="dark-clinical"] .bg-blue-50\/60,
+[data-theme="dark-clinical"] .bg-purple-50\/60,
+[data-theme="dark-clinical"] .bg-red-50\/60,
+[data-theme="dark-clinical"] .bg-green-50\/60,
+[data-theme="dark-clinical"] .bg-teal-50\/60,
+[data-theme="dark-academia"] .bg-amber-50\/60,
+[data-theme="dark-academia"] .bg-blue-50\/60,
+[data-theme="dark-academia"] .bg-purple-50\/60,
+[data-theme="dark-academia"] .bg-red-50\/60,
+[data-theme="dark-academia"] .bg-green-50\/60,
+[data-theme="dark-academia"] .bg-teal-50\/60 {
+  background-color: var(--color-card) !important;
+}
+
 [data-theme="dark-clinical"] .text-emerald-800,
 [data-theme="dark-clinical"] .text-emerald-900,
+[data-theme="dark-clinical"] .text-emerald-700,
 [data-theme="dark-clinical"] .text-red-800,
 [data-theme="dark-clinical"] .text-red-900,
+[data-theme="dark-clinical"] .text-red-700,
 [data-theme="dark-clinical"] .text-indigo-900,
+[data-theme="dark-clinical"] .text-indigo-800,
 [data-theme="dark-clinical"] .text-yellow-800,
+[data-theme="dark-clinical"] .text-amber-700,
+[data-theme="dark-clinical"] .text-amber-800,
+[data-theme="dark-clinical"] .text-purple-800,
+[data-theme="dark-clinical"] .text-purple-700,
+[data-theme="dark-clinical"] .text-blue-800,
+[data-theme="dark-clinical"] .text-blue-700,
+[data-theme="dark-clinical"] .text-cyan-800,
+[data-theme="dark-clinical"] .text-cyan-700,
+[data-theme="dark-clinical"] .text-orange-800,
+[data-theme="dark-clinical"] .text-orange-700,
+[data-theme="dark-clinical"] .text-teal-800,
+[data-theme="dark-clinical"] .text-teal-700,
+[data-theme="dark-clinical"] .text-pink-800,
+[data-theme="dark-clinical"] .text-pink-700,
 [data-theme="dark-academia"] .text-emerald-800,
 [data-theme="dark-academia"] .text-emerald-900,
+[data-theme="dark-academia"] .text-emerald-700,
 [data-theme="dark-academia"] .text-red-800,
 [data-theme="dark-academia"] .text-red-900,
+[data-theme="dark-academia"] .text-red-700,
 [data-theme="dark-academia"] .text-indigo-900,
-[data-theme="dark-academia"] .text-yellow-800 {
+[data-theme="dark-academia"] .text-indigo-800,
+[data-theme="dark-academia"] .text-yellow-800,
+[data-theme="dark-academia"] .text-amber-700,
+[data-theme="dark-academia"] .text-amber-800,
+[data-theme="dark-academia"] .text-purple-800,
+[data-theme="dark-academia"] .text-purple-700,
+[data-theme="dark-academia"] .text-blue-800,
+[data-theme="dark-academia"] .text-blue-700,
+[data-theme="dark-academia"] .text-cyan-800,
+[data-theme="dark-academia"] .text-cyan-700,
+[data-theme="dark-academia"] .text-orange-800,
+[data-theme="dark-academia"] .text-orange-700,
+[data-theme="dark-academia"] .text-teal-800,
+[data-theme="dark-academia"] .text-teal-700,
+[data-theme="dark-academia"] .text-pink-800,
+[data-theme="dark-academia"] .text-pink-700 {
   color: var(--color-foreground) !important;
+}
+
+[data-theme="dark-clinical"] .text-emerald-600,
+[data-theme="dark-clinical"] .text-emerald-500,
+[data-theme="dark-clinical"] .text-red-600,
+[data-theme="dark-clinical"] .text-red-500,
+[data-theme="dark-clinical"] .text-amber-600,
+[data-theme="dark-clinical"] .text-amber-500,
+[data-theme="dark-clinical"] .text-purple-600,
+[data-theme="dark-clinical"] .text-purple-500,
+[data-theme="dark-clinical"] .text-blue-600,
+[data-theme="dark-clinical"] .text-blue-500,
+[data-theme="dark-clinical"] .text-cyan-600,
+[data-theme="dark-clinical"] .text-orange-600,
+[data-theme="dark-clinical"] .text-teal-600,
+[data-theme="dark-clinical"] .text-pink-600,
+[data-theme="dark-academia"] .text-emerald-600,
+[data-theme="dark-academia"] .text-emerald-500,
+[data-theme="dark-academia"] .text-red-600,
+[data-theme="dark-academia"] .text-red-500,
+[data-theme="dark-academia"] .text-amber-600,
+[data-theme="dark-academia"] .text-amber-500,
+[data-theme="dark-academia"] .text-purple-600,
+[data-theme="dark-academia"] .text-purple-500,
+[data-theme="dark-academia"] .text-blue-600,
+[data-theme="dark-academia"] .text-blue-500,
+[data-theme="dark-academia"] .text-cyan-600,
+[data-theme="dark-academia"] .text-orange-600,
+[data-theme="dark-academia"] .text-teal-600,
+[data-theme="dark-academia"] .text-pink-600 {
+  color: var(--color-softgray) !important;
+}
+
+[data-theme="dark-clinical"] .bg-slate-50,
+[data-theme="dark-clinical"] .bg-slate-100,
+[data-theme="dark-academia"] .bg-slate-50,
+[data-theme="dark-academia"] .bg-slate-100 {
+  background-color: var(--color-card) !important;
+}
+
+[data-theme="dark-clinical"] .border-slate-100,
+[data-theme="dark-clinical"] .border-slate-200,
+[data-theme="dark-clinical"] .border-slate-300,
+[data-theme="dark-academia"] .border-slate-100,
+[data-theme="dark-academia"] .border-slate-200,
+[data-theme="dark-academia"] .border-slate-300 {
+  border-color: var(--theme-border) !important;
+}
+
+[data-theme="dark-clinical"] .border-gray-300,
+[data-theme="dark-academia"] .border-gray-300 {
+  border-color: var(--theme-border) !important;
 }
 
 /* Image Copy Protection */
