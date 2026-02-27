@@ -23,8 +23,8 @@ import {
   CognitiveCard,
   HoverReveal,
 } from "@/components/interactive-learning";
+import cellStructureImage from "@/assets/cell-structure-diagram.png";
 import {
-  CellSVG,
   cellLabels,
   HeartSVG,
   heartLabels,
@@ -1362,21 +1362,27 @@ function CellBiologyModule() {
 
       <AnatomyLabeling
         title="Cell Structure: Click to Identify"
-        description="Click each point to reveal the organelle name. Can you identify all 9?"
-        svgContent={<CellSVG />}
+        description="Click each point to reveal the organelle name. Can you identify all 12?"
+        backgroundImage={cellStructureImage}
         labels={cellLabels}
+        width={600}
+        height={450}
       />
 
       <MatchingExercise
         title="Organelle Function Matching"
         description="Match each organelle to its primary function"
         pairs={[
-          { id: "m1", term: "Mitochondria", definition: "ATP production (cellular energy)" },
-          { id: "m2", term: "Nucleus", definition: "Contains DNA, controls cell activity" },
-          { id: "m3", term: "Ribosome", definition: "Protein synthesis from mRNA" },
-          { id: "m4", term: "Golgi Apparatus", definition: "Packages and ships proteins" },
-          { id: "m5", term: "Lysosome", definition: "Digests cellular waste" },
-          { id: "m6", term: "Cell Membrane", definition: "Selectively permeable barrier" },
+          { id: "m1", term: "Mitochondria", definition: "Oxidative phosphorylation — ATP production via electron transport chain" },
+          { id: "m2", term: "Nucleus", definition: "Houses chromatin (DNA); controls transcription & mRNA processing" },
+          { id: "m3", term: "Ribosomes", definition: "Translate mRNA into polypeptide chains (protein synthesis)" },
+          { id: "m4", term: "Golgi Apparatus", definition: "Post-translational modification, protein sorting & vesicle packaging" },
+          { id: "m5", term: "Lysosomes", definition: "Acid hydrolase vesicles — autophagy & intracellular digestion" },
+          { id: "m6", term: "Cell Membrane", definition: "Phospholipid bilayer — selective permeability & signal transduction" },
+          { id: "m7", term: "Rough ER", definition: "Ribosome-studded — co-translational protein folding & glycosylation" },
+          { id: "m8", term: "Smooth ER", definition: "Lipid/steroid synthesis, Ca²⁺ storage, drug detoxification" },
+          { id: "m9", term: "Peroxisomes", definition: "Fatty acid β-oxidation & H₂O₂ detoxification via catalase" },
+          { id: "m10", term: "Centrioles", definition: "Organize mitotic spindle; form basal bodies of cilia" },
         ]}
       />
 

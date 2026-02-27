@@ -231,42 +231,184 @@ export function CellSVG() {
   return (
     <g>
       <defs>
-        <radialGradient id="cellGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="hsl(200, 50%, 92%)" />
-          <stop offset="100%" stopColor="hsl(200, 40%, 82%)" />
+        <radialGradient id="cellCytoGrad" cx="45%" cy="45%" r="55%">
+          <stop offset="0%" stopColor="#e8f4f8" />
+          <stop offset="40%" stopColor="#d4ecf4" />
+          <stop offset="100%" stopColor="#b8dce8" />
         </radialGradient>
-        <radialGradient id="nucleusGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="hsl(260, 50%, 85%)" />
-          <stop offset="100%" stopColor="hsl(260, 40%, 70%)" />
+        <radialGradient id="cellNucGrad" cx="40%" cy="40%" r="50%">
+          <stop offset="0%" stopColor="#c5b3e6" />
+          <stop offset="60%" stopColor="#9b82c7" />
+          <stop offset="100%" stopColor="#7a5fb0" />
         </radialGradient>
+        <radialGradient id="cellNucleolusGrad" cx="40%" cy="40%" r="50%">
+          <stop offset="0%" stopColor="#8b6db5" />
+          <stop offset="100%" stopColor="#5e3d8f" />
+        </radialGradient>
+        <linearGradient id="cellMitoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#a8d8a0" />
+          <stop offset="50%" stopColor="#7bc46e" />
+          <stop offset="100%" stopColor="#5aad4e" />
+        </linearGradient>
+        <linearGradient id="cellGolgiGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f5d89a" />
+          <stop offset="100%" stopColor="#e6b84d" />
+        </linearGradient>
+        <linearGradient id="cellRERGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#a0c4e8" />
+          <stop offset="100%" stopColor="#7badd4" />
+        </linearGradient>
+        <linearGradient id="cellSERGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#b8d4ec" />
+          <stop offset="100%" stopColor="#94bfdd" />
+        </linearGradient>
+        <radialGradient id="cellLysoGrad" cx="40%" cy="35%" r="50%">
+          <stop offset="0%" stopColor="#f0a8a8" />
+          <stop offset="100%" stopColor="#d46a6a" />
+        </radialGradient>
+        <radialGradient id="cellVesicleGrad" cx="35%" cy="35%" r="50%">
+          <stop offset="0%" stopColor="#f5e0b0" />
+          <stop offset="100%" stopColor="#dbc07a" />
+        </radialGradient>
+        <radialGradient id="cellPeroxGrad" cx="40%" cy="40%" r="50%">
+          <stop offset="0%" stopColor="#c8e0b0" />
+          <stop offset="100%" stopColor="#8fba6e" />
+        </radialGradient>
+        <radialGradient id="cellCentrioleGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#d4b8e0" />
+          <stop offset="100%" stopColor="#a88cc0" />
+        </radialGradient>
+        <pattern id="membranePattern" x="0" y="0" width="14" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(0)">
+          <rect width="14" height="30" fill="#b8dce8" />
+          <circle cx="7" cy="5" r="3.5" fill="#5a9ab5" opacity="0.7" />
+          <line x1="7" y1="8" x2="7" y2="16" stroke="#5a9ab5" strokeWidth="1.2" opacity="0.5" />
+          <circle cx="7" cy="25" r="3.5" fill="#5a9ab5" opacity="0.7" />
+          <line x1="7" y1="22" x2="7" y2="14" stroke="#5a9ab5" strokeWidth="1.2" opacity="0.5" />
+        </pattern>
       </defs>
-      <ellipse cx="250" cy="200" rx="200" ry="160" fill="url(#cellGrad)" stroke="hsl(200,40%,60%)" strokeWidth="3" />
-      <ellipse cx="250" cy="200" rx="200" ry="160" fill="none" stroke="hsl(200,50%,70%)" strokeWidth="6" opacity="0.3" />
-      <ellipse cx="250" cy="180" rx="60" ry="50" fill="url(#nucleusGrad)" stroke="hsl(260,35%,55%)" strokeWidth="2" />
-      <ellipse cx="250" cy="180" rx="15" ry="12" fill="hsl(260,45%,65%)" stroke="hsl(260,35%,50%)" strokeWidth="1" />
-      <path d="M130,140 C120,120 140,100 160,110 C180,120 170,140 150,150 C130,160 120,150 130,140 Z" fill="hsl(160,40%,75%)" stroke="hsl(160,30%,55%)" strokeWidth="1" />
-      <path d="M340,250 C330,230 350,210 370,220 C390,230 380,250 360,260 C340,270 330,260 340,250 Z" fill="hsl(160,40%,75%)" stroke="hsl(160,30%,55%)" strokeWidth="1" />
-      <path d="M100,220 C90,210 95,195 110,200 L150,220 L130,240 C115,245 105,235 100,220 Z" fill="hsl(40,50%,80%)" stroke="hsl(40,35%,55%)" strokeWidth="1" />
-      <path d="M350,140 C360,130 375,135 380,145 L370,170 L345,160 C335,155 340,145 350,140 Z" fill="hsl(40,50%,80%)" stroke="hsl(40,35%,55%)" strokeWidth="1" />
-      <path d="M170,280 C190,270 200,290 190,300 C180,310 170,300 170,280 Z" fill="hsl(0,45%,80%)" stroke="hsl(0,35%,60%)" strokeWidth="1" />
-      <circle cx="180" cy="290" r="5" fill="hsl(0,50%,75%)" stroke="hsl(0,35%,55%)" strokeWidth="0.5" />
-      <path d="M320,300 Q340,280 360,300 Q340,320 320,300" fill="none" stroke="hsl(200,30%,65%)" strokeWidth="2" opacity="0.6" />
-      <path d="M290,280 Q310,260 330,280 Q310,300 290,280" fill="none" stroke="hsl(200,30%,65%)" strokeWidth="2" opacity="0.6" />
-      <circle cx="400" cy="180" r="8" fill="hsl(120,35%,75%)" stroke="hsl(120,30%,55%)" strokeWidth="1" />
-      <circle cx="120" cy="280" r="6" fill="hsl(120,35%,75%)" stroke="hsl(120,30%,55%)" strokeWidth="1" />
-      <circle cx="380" cy="290" r="7" fill="hsl(120,35%,75%)" stroke="hsl(120,30%,55%)" strokeWidth="1" />
+
+      <ellipse cx="250" cy="200" rx="210" ry="170" fill="url(#cellCytoGrad)" stroke="none" />
+      <ellipse cx="250" cy="200" rx="210" ry="170" fill="url(#membranePattern)" opacity="0.15" />
+      <ellipse cx="250" cy="200" rx="210" ry="170" fill="none" stroke="#4a8ea8" strokeWidth="5" />
+      <ellipse cx="250" cy="200" rx="207" ry="167" fill="none" stroke="#6bacc4" strokeWidth="1.5" opacity="0.6" />
+      <ellipse cx="250" cy="200" rx="213" ry="173" fill="none" stroke="#3a7e98" strokeWidth="1.5" opacity="0.4" />
+
+      <ellipse cx="250" cy="185" rx="68" ry="58" fill="url(#cellNucGrad)" stroke="#5e3d8f" strokeWidth="2" />
+      <ellipse cx="250" cy="185" rx="68" ry="58" fill="none" stroke="#7a5fb0" strokeWidth="1" strokeDasharray="3,4" opacity="0.5" />
+      <path d="M195,175 Q210,165 230,170 Q245,175 260,168 Q280,160 300,172 Q310,178 305,185" fill="none" stroke="#5e3d8f" strokeWidth="0.8" opacity="0.4" />
+      <path d="M200,195 Q220,188 240,192 Q260,196 280,190 Q295,185 310,192" fill="none" stroke="#5e3d8f" strokeWidth="0.8" opacity="0.4" />
+      <path d="M210,205 Q230,210 250,205 Q270,200 290,207" fill="none" stroke="#5e3d8f" strokeWidth="0.6" opacity="0.3" />
+      <ellipse cx="255" cy="182" rx="18" ry="15" fill="url(#cellNucleolusGrad)" stroke="#4a2d78" strokeWidth="1.5" />
+      <ellipse cx="258" cy="179" rx="6" ry="5" fill="#7a5fb0" opacity="0.4" />
+
+      <g transform="translate(120,110) rotate(-25)">
+        <ellipse cx="30" cy="15" rx="30" ry="15" fill="url(#cellMitoGrad)" stroke="#3d8a35" strokeWidth="1.5" />
+        <path d="M8,15 L15,5 L15,25 L22,8 L22,22 L30,5 L30,25 L38,8 L38,22 L45,10 L48,15" fill="none" stroke="#2d6a28" strokeWidth="1.2" opacity="0.6" />
+        <ellipse cx="30" cy="15" rx="30" ry="15" fill="none" stroke="#4a9a42" strokeWidth="0.5" />
+      </g>
+      <g transform="translate(340,240) rotate(15)">
+        <ellipse cx="28" cy="13" rx="28" ry="13" fill="url(#cellMitoGrad)" stroke="#3d8a35" strokeWidth="1.5" />
+        <path d="M6,13 L12,4 L12,22 L20,6 L20,20 L28,4 L28,22 L36,6 L36,20 L42,8 L46,13" fill="none" stroke="#2d6a28" strokeWidth="1.2" opacity="0.6" />
+      </g>
+      <g transform="translate(150,280) rotate(40)">
+        <ellipse cx="22" cy="10" rx="22" ry="10" fill="url(#cellMitoGrad)" stroke="#3d8a35" strokeWidth="1.2" />
+        <path d="M5,10 L10,3 L10,17 L17,4 L17,16 L24,3 L24,17 L31,5 L35,10" fill="none" stroke="#2d6a28" strokeWidth="1" opacity="0.5" />
+      </g>
+
+      <g transform="translate(310,125)">
+        <path d="M0,0 C15,-5 35,-5 50,0 C55,2 55,8 50,10 C35,15 15,15 0,10 C-5,8 -5,2 0,0 Z" fill="url(#cellRERGrad)" stroke="#5a8aad" strokeWidth="1.2" />
+        <path d="M0,16 C15,11 35,11 50,16 C55,18 55,24 50,26 C35,31 15,31 0,26 C-5,24 -5,18 0,16 Z" fill="url(#cellRERGrad)" stroke="#5a8aad" strokeWidth="1.2" />
+        <path d="M0,32 C15,27 35,27 50,32 C55,34 55,40 50,42 C35,47 15,47 0,42 C-5,40 -5,34 0,32 Z" fill="url(#cellRERGrad)" stroke="#5a8aad" strokeWidth="1.2" />
+        <circle cx="5" cy="3" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="15" cy="1" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="25" cy="3" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="35" cy="1" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="45" cy="3" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="8" cy="19" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="18" cy="17" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="28" cy="19" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="38" cy="17" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="48" cy="19" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="5" cy="35" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="15" cy="33" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="25" cy="35" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="35" cy="33" r="1.5" fill="#3a6a8a" opacity="0.7" />
+        <circle cx="45" cy="35" r="1.5" fill="#3a6a8a" opacity="0.7" />
+      </g>
+
+      <g transform="translate(370,165)">
+        <path d="M0,0 C20,-3 40,3 50,0 C52,8 48,14 40,16 C20,20 5,15 0,10 Z" fill="url(#cellSERGrad)" stroke="#6a9ab8" strokeWidth="1" />
+        <path d="M5,20 C25,17 42,22 52,18 C54,26 48,32 38,34 C18,38 3,33 0,28 Z" fill="url(#cellSERGrad)" stroke="#6a9ab8" strokeWidth="1" />
+        <path d="M8,38 C28,35 45,40 55,36 C57,44 50,50 40,52 C20,56 5,51 2,46 Z" fill="url(#cellSERGrad)" stroke="#6a9ab8" strokeWidth="1" />
+      </g>
+
+      <g transform="translate(90,220)">
+        <path d="M5,0 C25,-4 45,-4 55,0 C60,2 58,10 52,12 C32,16 12,16 5,12 C0,10 0,2 5,0 Z" fill="url(#cellGolgiGrad)" stroke="#c49a30" strokeWidth="1.2" />
+        <path d="M8,16 C28,12 48,12 58,16 C63,18 61,26 55,28 C35,32 15,32 8,28 C3,26 3,18 8,16 Z" fill="url(#cellGolgiGrad)" stroke="#c49a30" strokeWidth="1.2" />
+        <path d="M12,32 C32,28 52,28 62,32 C67,34 65,42 58,44 C38,48 18,48 12,44 C7,42 7,34 12,32 Z" fill="url(#cellGolgiGrad)" stroke="#c49a30" strokeWidth="1.2" />
+        <path d="M16,48 C36,44 56,44 66,48 C71,50 69,58 62,60 C42,64 22,64 16,60 C11,58 11,50 16,48 Z" fill="url(#cellGolgiGrad)" stroke="#c49a30" strokeWidth="1.2" />
+        <circle cx="68" cy="22" r="5" fill="#f0d070" stroke="#c49a30" strokeWidth="0.8" />
+        <circle cx="72" cy="38" r="4" fill="#f0d070" stroke="#c49a30" strokeWidth="0.8" />
+        <circle cx="75" cy="52" r="3.5" fill="#f0d070" stroke="#c49a30" strokeWidth="0.8" />
+      </g>
+
+      <circle cx="200" cy="300" r="12" fill="url(#cellLysoGrad)" stroke="#b04040" strokeWidth="1.5" />
+      <circle cx="200" cy="300" r="6" fill="#c05858" opacity="0.4" />
+      <path d="M194,296 L198,300 L194,304" fill="none" stroke="#8a2a2a" strokeWidth="0.8" opacity="0.5" />
+      <path d="M202,294 L206,300 L202,306" fill="none" stroke="#8a2a2a" strokeWidth="0.8" opacity="0.5" />
+
+      <circle cx="280" cy="310" r="9" fill="url(#cellLysoGrad)" stroke="#b04040" strokeWidth="1.2" />
+      <circle cx="280" cy="310" r="4.5" fill="#c05858" opacity="0.3" />
+
+      <circle cx="430" cy="175" r="3" fill="#3a6a8a" />
+      <circle cx="420" cy="165" r="2.5" fill="#3a6a8a" />
+      <circle cx="415" cy="185" r="2.5" fill="#3a6a8a" />
+      <circle cx="100" cy="170" r="3" fill="#3a6a8a" />
+      <circle cx="110" cy="155" r="2.5" fill="#3a6a8a" />
+      <circle cx="90" cy="185" r="2.5" fill="#3a6a8a" />
+      <circle cx="200" cy="130" r="2.5" fill="#3a6a8a" />
+      <circle cx="310" cy="280" r="2.5" fill="#3a6a8a" />
+      <circle cx="380" cy="300" r="3" fill="#3a6a8a" />
+      <circle cx="150" cy="230" r="2.5" fill="#3a6a8a" />
+
+      <circle cx="82" cy="130" r="8" fill="url(#cellPeroxGrad)" stroke="#5a8a48" strokeWidth="1" />
+      <circle cx="82" cy="130" r="3.5" fill="#6a9a58" opacity="0.4" />
+
+      <g transform="translate(395,125)">
+        <rect x="-3" y="-12" width="6" height="24" rx="2" fill="url(#cellCentrioleGrad)" stroke="#7a5fa0" strokeWidth="1" />
+        <line x1="-3" y1="-6" x2="3" y2="-6" stroke="#6a4f90" strokeWidth="0.6" />
+        <line x1="-3" y1="0" x2="3" y2="0" stroke="#6a4f90" strokeWidth="0.6" />
+        <line x1="-3" y1="6" x2="3" y2="6" stroke="#6a4f90" strokeWidth="0.6" />
+        <rect x="4" y="-8" width="6" height="20" rx="2" fill="url(#cellCentrioleGrad)" stroke="#7a5fa0" strokeWidth="1" transform="rotate(90,7,2)" />
+        <line x1="4" y1="-3" x2="10" y2="-3" stroke="#6a4f90" strokeWidth="0.6" transform="rotate(90,7,2)" />
+        <line x1="4" y1="3" x2="10" y2="3" stroke="#6a4f90" strokeWidth="0.6" transform="rotate(90,7,2)" />
+      </g>
+
+      <circle cx="330" cy="85" r="6" fill="url(#cellVesicleGrad)" stroke="#b8a060" strokeWidth="1" />
+      <circle cx="410" cy="260" r="5" fill="url(#cellVesicleGrad)" stroke="#b8a060" strokeWidth="1" />
+      <circle cx="170" cy="95" r="5.5" fill="url(#cellVesicleGrad)" stroke="#b8a060" strokeWidth="1" />
+
+      <path d="M190,155 Q180,140 175,155 Q170,165 180,170" fill="none" stroke="#7a5fb0" strokeWidth="0.8" opacity="0.3" />
+      <path d="M310,195 Q320,180 325,195 Q330,205 320,210" fill="none" stroke="#7a5fb0" strokeWidth="0.8" opacity="0.3" />
+      <path d="M230,230 Q240,245 250,235 Q260,225 255,240" fill="none" stroke="#7a5fb0" strokeWidth="0.8" opacity="0.3" />
+      <line x1="200" y1="150" x2="180" y2="135" stroke="#8a8aaa" strokeWidth="0.5" opacity="0.3" strokeDasharray="2,3" />
+      <line x1="300" y1="160" x2="320" y2="140" stroke="#8a8aaa" strokeWidth="0.5" opacity="0.3" strokeDasharray="2,3" />
+      <line x1="250" y1="240" x2="250" y2="270" stroke="#8a8aaa" strokeWidth="0.5" opacity="0.3" strokeDasharray="2,3" />
     </g>
   );
 }
 
 export const cellLabels: LabelPoint[] = [
-  { id: "membrane", x: 250, y: 42, label: "Cell Membrane", hint: "Selectively permeable phospholipid bilayer" },
-  { id: "nucleus", x: 250, y: 180, label: "Nucleus", hint: "Contains DNA, controls cell activity" },
-  { id: "nucleolus", x: 250, y: 170, label: "Nucleolus", hint: "Makes ribosomal RNA" },
-  { id: "mito1", x: 145, y: 130, label: "Mitochondria", hint: "ATP production: powerhouse of the cell" },
-  { id: "golgi", x: 110, y: 220, label: "Golgi Apparatus", hint: "Packages and ships proteins" },
-  { id: "er", x: 360, y: 145, label: "Endoplasmic Reticulum", hint: "Protein synthesis (rough) & lipid synthesis (smooth)" },
-  { id: "lysosome", x: 180, y: 290, label: "Lysosome", hint: "Digests cellular waste" },
-  { id: "ribosome", x: 400, y: 180, label: "Ribosomes", hint: "Synthesize proteins from mRNA" },
-  { id: "cytoplasm", x: 330, y: 310, label: "Cytoplasm", hint: "Gel-like fluid filling the cell" },
+  { id: "membrane", x: 300, y: 22, label: "Cell Membrane", hint: "Phospholipid bilayer with embedded proteins; selectively permeable barrier controlling ion/molecule transport (Na⁺/K⁺ ATPase, glucose transporters)" },
+  { id: "nucleus", x: 300, y: 210, label: "Nucleus", hint: "Double-membrane organelle housing chromatin (DNA + histones); site of transcription & mRNA processing; nuclear pores regulate macromolecule transport" },
+  { id: "nucleolus", x: 310, y: 195, label: "Nucleolus", hint: "Dense region within nucleus; assembles ribosomal subunits (rRNA synthesis); prominent in cells with high protein output" },
+  { id: "mito1", x: 200, y: 140, label: "Mitochondria", hint: "Double-membrane organelle with cristae; oxidative phosphorylation produces ~36 ATP/glucose via electron transport chain; has own mtDNA (maternal inheritance)" },
+  { id: "rer", x: 170, y: 200, label: "Rough ER", hint: "Ribosome-studded membrane network continuous with nuclear envelope; co-translational protein folding & N-linked glycosylation; prominent in secretory cells" },
+  { id: "ser", x: 420, y: 175, label: "Smooth ER", hint: "Lacks ribosomes; lipid/steroid synthesis, Ca²⁺ storage (sarcoplasmic reticulum in muscle), drug detoxification (hepatocytes via cytochrome P450)" },
+  { id: "golgi", x: 340, y: 320, label: "Golgi Apparatus", hint: "Stacked cisternae (cis→trans); post-translational modification (glycosylation, phosphorylation), protein sorting & vesicle packaging for secretion or lysosomal targeting" },
+  { id: "lysosome", x: 460, y: 290, label: "Lysosomes", hint: "Membrane-bound vesicle (pH ~5) with acid hydrolases; autophagy, phagocytosis, apoptosis; deficiency causes lysosomal storage diseases (Tay-Sachs, Gaucher)" },
+  { id: "ribosome", x: 130, y: 330, label: "Ribosomes", hint: "80S particles (40S + 60S subunits); translate mRNA → polypeptide; free ribosomes make cytoplasmic proteins, bound ribosomes make secretory/membrane proteins" },
+  { id: "peroxisome", x: 420, y: 350, label: "Peroxisomes", hint: "Oxidative organelle; fatty acid β-oxidation (very long chain), H₂O₂ detoxification via catalase; critical in hepatocytes and renal tubular cells" },
+  { id: "centriole", x: 300, y: 75, label: "Centrioles", hint: "Paired cylindrical structures (9+0 microtubule triplets); organize mitotic spindle during cell division; form basal bodies of cilia (respiratory epithelium)" },
+  { id: "cytoplasm", x: 200, y: 370, label: "Cytoplasm", hint: "Aqueous cytosol + organelles + cytoskeleton (microfilaments, intermediate filaments, microtubules); site of glycolysis, signal transduction, protein degradation (proteasomes)" },
 ];

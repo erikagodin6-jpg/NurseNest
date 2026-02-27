@@ -33,13 +33,15 @@ export function AnatomyLabeling({
   title,
   description,
   svgContent,
+  backgroundImage,
   labels,
   width = 500,
   height = 400,
 }: {
   title: string;
   description?: string;
-  svgContent: React.ReactNode;
+  svgContent?: React.ReactNode;
+  backgroundImage?: string;
   labels: LabelPoint[];
   width?: number;
   height?: number;
@@ -84,6 +86,9 @@ export function AnatomyLabeling({
       <CardContent className="p-6">
         <div className="relative mx-auto" style={{ maxWidth: width }}>
           <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+            {backgroundImage && (
+              <image href={backgroundImage} x="0" y="0" width={width} height={height} preserveAspectRatio="xMidYMid meet" />
+            )}
             {svgContent}
             {labels.map((point) => {
               const isRevealed = revealed.has(point.id) || showAll;
