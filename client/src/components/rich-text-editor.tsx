@@ -1,5 +1,5 @@
 import { useRef, useCallback, useState } from "react";
-import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Heading2, RemoveFormatting } from "lucide-react";
+import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Heading2, RemoveFormatting, ImagePlus, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -22,13 +22,37 @@ const toolbarButtons = [
   { separator: true },
   { command: "formatBlock:H3", icon: Heading2, label: "Subheading" },
   { command: "removeFormat", icon: RemoveFormatting, label: "Clear Formatting" },
+  { separator: true },
+  { command: "insertLink", icon: Link, label: "Insert Link" },
+  { command: "insertImage", icon: ImagePlus, label: "Insert Image" },
 ] as const;
 
 export function RichTextEditor({ value, onChange, className, placeholder = "Start typing...", minHeight = "120px" }: RichTextEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
 
   const execCommand = useCallback((command: string) => {
+    if (command === "insertImage") {
+      fileInputRef.current?.click();
+      return;
+    }
+    if (command === "insertLink") {
+      const url = prompt("Enter URL:");
+      if (url) {
+        document.execCommand("createLink", false, url);
+        if (editorRef.current) {
+          const links = editorRef.current.querySelectorAll("a");
+          links.forEach((a) => {
+            a.setAttribute("target", "_blank");
+            a.setAttribute("rel", "noopener noreferrer");
+          });
+          onChange(editorRef.current.innerHTML);
+        }
+      }
+      editorRef.current?.focus();
+      return;
+    }
     if (command.startsWith("formatBlock:")) {
       const tag = command.split(":")[1];
       document.execCommand("formatBlock", false, tag);
@@ -41,6 +65,44 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     editorRef.current?.focus();
   }, [onChange]);
 
+  const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+      const reqRes = await fetch("/api/uploads/request-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          filename: file.name,
+          contentType: file.type,
+        }),
+      });
+      if (!reqRes.ok) throw new Error("Upload request failed");
+      const { uploadURL, objectPath } = await reqRes.json();
+      await fetch(uploadURL, { method: "PUT", body: file, headers: { "Content-Type": file.type } });
+      const publicUrl = `/api/uploads/${objectPath}`;
+      editorRef.current?.focus();
+      document.execCommand("insertHTML", false, `<img src="${publicUrl}" alt="${file.name}" style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
+      if (editorRef.current) {
+        onChange(editorRef.current.innerHTML);
+      }
+    } catch {
+      const reader = new FileReader();
+      reader.onload = () => {
+        editorRef.current?.focus();
+        document.execCommand("insertHTML", false, `<img src="${reader.result}" alt="${file.name}" style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
+        if (editorRef.current) {
+          onChange(editorRef.current.innerHTML);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }, [onChange]);
+
   const handleInput = useCallback(() => {
     if (editorRef.current) {
       onChange(editorRef.current.innerHTML);
@@ -48,9 +110,30 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
   }, [onChange]);
 
   const handlePaste = useCallback((e: React.ClipboardEvent) => {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.startsWith("image/")) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            editorRef.current?.focus();
+            document.execCommand("insertHTML", false, `<img src="${reader.result}" alt="Pasted image" style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
+            if (editorRef.current) {
+              onChange(editorRef.current.innerHTML);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+        return;
+      }
+    }
     e.preventDefault();
-    const text = e.clipboardData.getData("text/html") || e.clipboardData.getData("text/plain");
-    const clean = sanitizeHtml(text);
+    const html = e.clipboardData.getData("text/html");
+    const text = e.clipboardData.getData("text/plain");
+    const content = html || text;
+    const clean = sanitizeHtml(content);
     document.execCommand("insertHTML", false, clean);
     if (editorRef.current) {
       onChange(editorRef.current.innerHTML);
@@ -83,6 +166,14 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           );
         })}
       </div>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleImageUpload}
+        data-testid="input-image-upload"
+      />
       <div className="relative">
         {isEmpty && !isFocused && (
           <div className="absolute inset-0 px-3 py-2 text-gray-400 pointer-events-none text-sm">
@@ -93,7 +184,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
-          className="px-3 py-2 outline-none text-sm leading-relaxed prose prose-sm max-w-none [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5"
+          className="px-3 py-2 outline-none text-sm leading-relaxed prose prose-sm max-w-none [&_b]:font-bold [&_strong]:font-bold [&_i]:italic [&_em]:italic [&_u]:underline [&_s]:line-through [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_img]:max-w-full [&_img]:rounded-lg [&_img]:my-2 [&_a]:text-primary [&_a]:underline"
           style={{ minHeight }}
           onInput={handleInput}
           onFocus={() => setIsFocused(true)}
