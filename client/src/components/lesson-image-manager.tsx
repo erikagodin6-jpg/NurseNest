@@ -28,6 +28,17 @@ function getAdminCredentials(): { username: string; password: string } | null {
   return null;
 }
 
+function getAdminId(): string | null {
+  try {
+    const stored = localStorage.getItem("nursenest-user");
+    if (stored) {
+      const user = JSON.parse(stored);
+      if (user?.id && user?.tier === "admin") return user.id;
+    }
+  } catch {}
+  return null;
+}
+
 interface LessonImageManagerProps {
   lessonId: string;
   section?: string;
@@ -86,14 +97,17 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
 
   const handleUploadComplete = async (result: any) => {
     const creds = getAdminCredentials();
+    const adminId = getAdminId();
     const successfulFiles = result.successful || [];
     for (const file of successfulFiles) {
       const objectPath = (file as any)._objectPath;
       if (!objectPath) continue;
       try {
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        if (adminId) headers["x-admin-id"] = adminId;
         const res = await fetch("/api/lesson-images", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({
             lessonId,
             objectPath,
@@ -101,8 +115,7 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
             section,
             caption: "",
             position: images.length,
-            username: creds?.username,
-            password: creds?.password,
+            ...(creds ? { username: creds.username, password: creds.password } : { adminId }),
           }),
         });
         if (!res.ok) {
@@ -119,13 +132,15 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
 
   const deleteImage = async (imageId: number) => {
     const creds = getAdminCredentials();
+    const adminId = getAdminId();
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (adminId) headers["x-admin-id"] = adminId;
       const res = await fetch(`/api/lesson-images/${imageId}`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
-          username: creds?.username,
-          password: creds?.password,
+          ...(creds ? { username: creds.username, password: creds.password } : { adminId }),
         }),
       });
       if (!res.ok) throw new Error("Delete failed");
@@ -138,14 +153,16 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
 
   const saveCaption = async (imageId: number) => {
     const creds = getAdminCredentials();
+    const adminId = getAdminId();
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (adminId) headers["x-admin-id"] = adminId;
       const res = await fetch(`/api/lesson-images/${imageId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           caption: captionText,
-          username: creds?.username,
-          password: creds?.password,
+          ...(creds ? { username: creds.username, password: creds.password } : { adminId }),
         }),
       });
       if (!res.ok) throw new Error("Update failed");
@@ -163,22 +180,24 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
       return;
     }
     const creds = getAdminCredentials();
-    if (!creds) {
-      toast({ title: "Not authenticated", variant: "destructive" });
+    const adminId = getAdminId();
+    if (!creds && !adminId) {
+      toast({ title: "Not authenticated", description: "Please log out and log back in", variant: "destructive" });
       return;
     }
     setAiGenerating(true);
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (adminId) headers["x-admin-id"] = adminId;
       const res = await fetch("/api/ai/generate-lesson-image", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           lessonId,
           section,
           prompt: aiPrompt.trim(),
           caption: aiCaption.trim() || null,
-          username: creds.username,
-          password: creds.password,
+          ...(creds ? { username: creds.username, password: creds.password } : { adminId }),
         }),
       });
       if (!res.ok) {

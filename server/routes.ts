@@ -28,26 +28,27 @@ import { generateBlogPost, runBlogScheduler } from "./blog-automation";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 
-/**
- * Consistent admin auth (DB-based).
- * Uses the same "username + password" you store in localStorage on the client.
- */
 async function requireAdmin(req: any, res: any) {
   const username = String(req.body?.username || req.query?.username || "");
   const password = String(req.body?.password || req.query?.password || "");
 
-  if (!username || !password) {
-    res.status(401).json({ error: "Authentication required" });
-    return null;
+  if (username && password) {
+    const user = await storage.getUserByUsername(username);
+    if (user && user.password === password && user.tier === "admin") {
+      return user;
+    }
   }
 
-  const user = await storage.getUserByUsername(username);
-  if (!user || user.password !== password || user.tier !== "admin") {
-    res.status(403).json({ error: "Admin access required" });
-    return null;
+  const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
+  if (adminId) {
+    const user = await storage.getUser(adminId);
+    if (user && user.tier === "admin") {
+      return user;
+    }
   }
 
-  return user;
+  res.status(401).json({ error: "Authentication required" });
+  return null;
 }
 
 async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
