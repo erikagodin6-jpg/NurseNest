@@ -33,6 +33,7 @@ const NOINDEX_PATHS = new Set([
   "/login",
   "/profile",
   "/reports",
+  "/dashboard",
   "/subscription/success",
   "/subscription/cancel",
 ]);
@@ -41,6 +42,9 @@ function isNoindexPath(path: string): boolean {
   if (NOINDEX_PATHS.has(path)) return true;
   if (path.startsWith("/admin")) return true;
   if (path.startsWith("/content-editor")) return true;
+  if (/^\/mock-exams\/[^/]+/.test(path)) return true;
+  if (path.startsWith("/dashboard")) return true;
+  if (path.startsWith("/flashcards/deck/")) return true;
   return false;
 }
 
@@ -244,6 +248,26 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/feedback": {
     title: "Feedback & Suggestions | NurseNest",
     description: "Share your feedback, feature requests, or report issues. Help us improve NurseNest for nursing students.",
+  },
+  "/lectures": {
+    title: "Video Lectures - Nursing Education | NurseNest",
+    description: "Watch free nursing video lectures covering pathophysiology, pharmacology, and clinical skills. Visual learning for NCLEX and REX-PN exam preparation.",
+  },
+  "/simulators/clinical-skills": {
+    title: "Clinical Skills Simulators - Nursing Practice | NurseNest",
+    description: "Practice clinical nursing skills with interactive simulators. IV therapy, patient safety, medication administration, and clinical decision-making for nursing students.",
+  },
+  "/simulators/osce": {
+    title: "OSCE Preparation Simulators | NurseNest",
+    description: "Prepare for Objective Structured Clinical Examinations (OSCE) with interactive nursing simulators. Practice clinical competencies and assessment skills.",
+  },
+  "/simulators/clinical-lab": {
+    title: "Clinical Lab Simulators - Lab Interpretation | NurseNest",
+    description: "Practice clinical lab value interpretation with interactive simulators. ABG analysis, electrolyte interpretation, and diagnostic reasoning for nursing students.",
+  },
+  "/dashboard": {
+    title: "Dashboard | NurseNest",
+    description: "Your NurseNest learning dashboard. Track progress, view study analytics, and access your personalized learning path.",
   },
   "/question-of-the-day": {
     title: "Nursing Question of the Day - Free NCLEX Practice | NurseNest",

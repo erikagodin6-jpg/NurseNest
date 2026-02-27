@@ -226,6 +226,12 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/medication-mastery", "0.7", "monthly", locales, today));
   entries.push(sitemapUrl(base, "/blog", "0.7", "daily", locales, today));
   entries.push(sitemapUrl(base, "/pre-nursing", "0.6", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/question-of-the-day", "0.9", "daily", locales, today));
+  entries.push(sitemapUrl(base, "/question-bank", "0.8", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/lectures", "0.7", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/simulators/clinical-skills", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/simulators/osce", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/simulators/clinical-lab", "0.7", "monthly", locales, today));
   entries.push(sitemapUrl(base, "/contact", "0.4", "yearly", locales));
   entries.push(sitemapUrl(base, "/faq", "0.5", "monthly", locales));
   entries.push(sitemapUrl(base, "/terms", "0.3", "yearly", locales));
