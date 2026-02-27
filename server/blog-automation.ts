@@ -137,9 +137,9 @@ JSON FORMAT (respond with ONLY this JSON, nothing else):
   ]
 }`;
 
-  const userPrompt = `Write a 1000-1500 word nursing education blog post about: "${selectedTopic}".
+  const userPrompt = `Write a 2000-2500 word nursing education blog post about: "${selectedTopic}".
 
-Include multiple sections, clinical pearls, an Adult vs Pediatric section, and 4-8 APA 7 references. Respond with ONLY the JSON object.`;
+The article MUST be at least 2000 words of body content (not counting references). Include at least 8 detailed sections, clinical pearls, an Adult vs Pediatric section, a Nursing Interventions section, a Common Exam Questions section with 3-4 typical exam scenarios, and 4-8 APA 7 references. Respond with ONLY the JSON object.`;
 
   function stripDashes(str: string): string {
     let s = str
@@ -262,7 +262,7 @@ Include multiple sections, clinical pearls, an Adult vs Pediatric section, and 4
     const paragraphs = parsed.content.filter((b: any) => b.type === "paragraph");
     if (paragraphs.length < 3) return "too few paragraphs";
     const wordCount = allText.split(/\s+/).length;
-    if (wordCount < 400) return `too short (${wordCount} words)`;
+    if (wordCount < 1500) return `too short (${wordCount} words, minimum 1500)`;
     return null;
   }
 
@@ -281,7 +281,7 @@ Include multiple sections, clinical pearls, an Adult vs Pediatric section, and 4
         }
       ],
       response_format: { type: "json_object" },
-      max_completion_tokens: 8192,
+      max_completion_tokens: 16384,
     });
 
     try {
@@ -347,6 +347,151 @@ Include multiple sections, clinical pearls, an Adult vs Pediatric section, and 4
     primaryKeyword: parsed.primaryKeyword || "",
     citations: formattedCitations,
   };
+}
+
+export async function expandBlogPost(existingContent: any[], existingTitle: string, citationStyle: "apa7" | "mla" = "apa7"): Promise<any[]> {
+  const existingText = existingContent
+    .map((block: any) => {
+      const parts: string[] = [];
+      if (block.type === "heading") parts.push(`## ${block.text}`);
+      else if (block.type === "paragraph") parts.push(block.text || block.content || "");
+      else if (block.type === "list" && block.items) parts.push(block.items.join("\n"));
+      else if (block.type === "callout") parts.push(`[CALLOUT] ${block.text}`);
+      return parts.join("\n");
+    })
+    .join("\n\n");
+
+  const expandPrompt = `You are expanding an existing nursing education blog post to meet a 2000-2500 word minimum. The original article is below. Your job is to:
+
+1. Keep ALL existing content and sections intact (do not remove or shorten anything)
+2. Add depth to existing sections with more clinical detail, pathophysiology, and nursing interventions
+3. Add 2-3 NEW sections that are clinically relevant to the topic
+4. Add a "Common Exam Questions" section with 3-4 NCLEX-style scenarios if one does not exist
+5. Add a "Nursing Interventions" section with specific actions if one does not exist
+6. Ensure the final output is at least 2000 words of body content
+7. Maintain the same professional tone and APA 7 citation style
+
+WRITING RULES:
+- NO em dashes, en dashes, or long dashes. Use commas, semicolons, colons, or periods.
+- NO emojis, checkmarks, or unicode special characters
+- NO exclamation marks
+- NO phrases: "In conclusion", "Let's explore", "dive into", "In this article", "Furthermore", "Moreover", "Additionally"
+
+EXISTING ARTICLE TITLE: "${existingTitle}"
+
+EXISTING CONTENT:
+${existingText}
+
+OUTPUT FORMAT: Respond with ONLY a JSON object:
+{
+  "content": [
+    {"type": "heading", "text": "Section heading"},
+    {"type": "paragraph", "text": "Paragraph text..."},
+    {"type": "list", "items": ["item1", "item2"]},
+    {"type": "callout", "text": "Clinical pearl or tip"},
+    {"type": "references", "items": ["formatted reference"]}
+  ]
+}`;
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-5-mini",
+    messages: [
+      { role: "system", content: "You are a nursing education content writer. Output ONLY valid JSON. Never refuse. Never add disclaimers." },
+      { role: "user", content: expandPrompt },
+    ],
+    response_format: { type: "json_object" },
+    max_completion_tokens: 16384,
+  });
+
+  try {
+    const parsed = JSON.parse(response.choices[0]?.message?.content || "{}");
+    if (!parsed.content || !Array.isArray(parsed.content) || parsed.content.length < 5) {
+      throw new Error("Expanded content too short or invalid");
+    }
+
+    function stripDashes(str: string): string {
+      return str
+        .replace(/\u2014/g, ", ")
+        .replace(/\u2013/g, " to ")
+        .replace(/\u2015/g, ", ")
+        .replace(/\u2012/g, "-")
+        .replace(/ - /g, ", ")
+        .replace(/\u2018/g, "'")
+        .replace(/\u2019/g, "'")
+        .replace(/\u201C/g, '"')
+        .replace(/\u201D/g, '"')
+        .replace(/\u2026/g, "...")
+        .replace(/\u00A0/g, " ")
+        .replace(/\u2013/g, " to ")
+        .replace(/\u2014/g, ", ")
+        .replace(/\s*--\s*/g, ", ");
+    }
+
+    parsed.content = parsed.content.map((block: any) => {
+      if (block.text) block.text = stripDashes(block.text);
+      if (block.content) block.content = stripDashes(block.content);
+      if (block.items && Array.isArray(block.items)) {
+        block.items = block.items.map((item: string) => stripDashes(item));
+      }
+      return block;
+    });
+
+    const wordCount = parsed.content.reduce((acc: number, block: any) => {
+      const text = block.text || block.content || "";
+      const itemsText = (block.items || []).join(" ");
+      return acc + (text + " " + itemsText).split(/\s+/).filter(Boolean).length;
+    }, 0);
+
+    if (wordCount < 1800) {
+      throw new Error(`Expanded content only ${wordCount} words, need 1800+`);
+    }
+
+    return parsed.content;
+  } catch (e) {
+    throw new Error(`Blog expansion failed: ${(e as Error).message}`);
+  }
+}
+
+export async function expandAllShortPosts(minWords: number = 2000): Promise<{ expanded: number; skipped: number; failed: number; details: string[] }> {
+  const allItems = await storage.getAllContentItems();
+  const blogPosts = allItems.filter(i => i.type === "blog");
+
+  let expanded = 0;
+  let skipped = 0;
+  let failed = 0;
+  const details: string[] = [];
+
+  for (const post of blogPosts) {
+    const content = (post.content as any[]) || [];
+    const wordCount = content.reduce((acc: number, block: any) => {
+      const text = block.text || block.content || "";
+      const itemsText = (block.items || []).join(" ");
+      return acc + (text + " " + itemsText).split(/\s+/).filter(Boolean).length;
+    }, 0);
+
+    if (wordCount >= minWords) {
+      skipped++;
+      details.push(`SKIP: ${post.slug} (${wordCount} words)`);
+      continue;
+    }
+
+    try {
+      const expandedContent = await expandBlogPost(content, post.title || post.slug);
+      await storage.updateContentItem(post.id, { content: expandedContent });
+      const newWordCount = expandedContent.reduce((acc: number, block: any) => {
+        const text = block.text || block.content || "";
+        const itemsText = (block.items || []).join(" ");
+        return acc + (text + " " + itemsText).split(/\s+/).filter(Boolean).length;
+      }, 0);
+      expanded++;
+      details.push(`EXPANDED: ${post.slug} (${wordCount} -> ${newWordCount} words)`);
+    } catch (e) {
+      failed++;
+      details.push(`FAILED: ${post.slug} - ${(e as Error).message}`);
+    }
+  }
+
+  return { expanded, skipped, failed, details };
 }
 
 export async function runBlogScheduler(): Promise<{ generated: number; message: string }> {

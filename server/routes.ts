@@ -24,7 +24,7 @@ import {
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
-import { generateBlogPost, runBlogScheduler } from "./blog-automation";
+import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-automation";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 
@@ -2803,6 +2803,24 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
 
       const result = await runBlogScheduler();
       res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/blog/expand-all", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const minWords = req.body.minWords || 2000;
+      res.json({ status: "started", message: "Blog expansion started in background" });
+
+      expandAllShortPosts(minWords).then(result => {
+        console.log("Blog expansion complete:", JSON.stringify(result));
+      }).catch(err => {
+        console.error("Blog expansion error:", err);
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
