@@ -78,6 +78,15 @@ import {
   Upload,
   ImagePlus,
   Camera,
+  Flame,
+  AlertTriangle,
+  Microscope,
+  Building2,
+  FileText,
+  ShieldAlert,
+  Zap,
+  UtensilsCrossed,
+  Users,
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { ScienceFoundationsModule } from "@/data/pre-nursing-science";
@@ -91,6 +100,17 @@ import { FluidsElectrolytesModule } from "@/data/pre-nursing-fluids-electrolytes
 import { CommunicationModule } from "@/data/pre-nursing-communication";
 import { EthicsLegalModule } from "@/data/pre-nursing-ethics-legal";
 import { StudyStrategiesModule } from "@/data/pre-nursing-study-strategies";
+import { HealthAssessmentModule } from "@/data/pre-nursing-health-assessment";
+import { NutritionFoundationsModule } from "@/data/pre-nursing-nutrition-foundations";
+import { CulturalCompetencyModule } from "@/data/pre-nursing-cultural-competency";
+import { InflammationModule } from "@/data/pre-nursing-inflammation";
+import { CellularInjuryModule } from "@/data/pre-nursing-cellular-injury";
+import { OxygenationModule } from "@/data/pre-nursing-oxygenation";
+import { DiagnosticsModule } from "@/data/pre-nursing-diagnostics";
+import { HealthcareStructureModule } from "@/data/pre-nursing-healthcare-structure";
+import { ResearchReadingModule } from "@/data/pre-nursing-research-reading";
+import { HumanFactorsModule } from "@/data/pre-nursing-human-factors";
+import { ATPPathwayModule } from "@/data/pre-nursing-atp-pathway";
 
 import imgCellBiology from "@/assets/prenursing-cell-biology.png";
 import imgPhysiology from "@/assets/prenursing-physiology.png";
@@ -110,12 +130,23 @@ import imgFluidsElectrolytes from "@/assets/prenursing-fluids-electrolytes.png";
 import imgCommunication from "@/assets/prenursing-communication.png";
 import imgEthicsLegal from "@/assets/prenursing-ethics-legal.png";
 import imgStudyStrategies from "@/assets/prenursing-study-strategies.png";
+import imgHealthAssessment from "@/assets/prenursing-health-assessment.png";
+import imgNutrition from "@/assets/prenursing-nutrition.png";
+import imgCulturalCompetency from "@/assets/prenursing-cultural-competency.png";
+import imgInflammation from "@/assets/prenursing-inflammation.png";
+import imgCellularInjury from "@/assets/prenursing-cellular-injury.png";
+import imgOxygenation from "@/assets/prenursing-oxygenation.png";
+import imgDiagnostics from "@/assets/prenursing-diagnostics.png";
+import imgHealthcareStructure from "@/assets/prenursing-healthcare-structure.png";
+import imgResearchReading from "@/assets/prenursing-research-reading.png";
+import imgHumanFactors from "@/assets/prenursing-human-factors.png";
+import imgAtpPathway from "@/assets/prenursing-atp-pathway.png";
 
 function cn(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-type ModuleId = "cell-biology" | "physiology" | "terminology" | "pharmacology" | "pathophysiology" | "science-foundations" | "anatomy-physiology" | "research-statistics" | "medical-terminology" | "chemistry" | "microbiology" | "infection-control" | "fluids-electrolytes" | "communication" | "ethics-legal" | "study-strategies";
+type ModuleId = "cell-biology" | "physiology" | "terminology" | "pharmacology" | "pathophysiology" | "science-foundations" | "anatomy-physiology" | "research-statistics" | "medical-terminology" | "chemistry" | "microbiology" | "infection-control" | "fluids-electrolytes" | "communication" | "ethics-legal" | "study-strategies" | "health-assessment" | "nutrition-foundations" | "cultural-competency" | "inflammation" | "cellular-injury" | "oxygenation" | "diagnostics" | "healthcare-structure" | "research-reading" | "human-factors" | "atp-pathway";
 
 const modules: {
   id: ModuleId;
@@ -286,6 +317,116 @@ const modules: {
     bg: "bg-indigo-50",
     lessons: 5,
     image: imgResearchStatistics,
+  },
+  {
+    id: "health-assessment",
+    titleKey: "preNursing.mod.healthAssessment",
+    subtitleKey: "preNursing.mod.healthAssessmentDesc",
+    icon: Stethoscope,
+    color: "text-teal-600",
+    bg: "bg-teal-50",
+    lessons: 4,
+    image: imgHealthAssessment,
+  },
+  {
+    id: "nutrition-foundations",
+    titleKey: "preNursing.mod.nutritionFoundations",
+    subtitleKey: "preNursing.mod.nutritionFoundationsDesc",
+    icon: UtensilsCrossed,
+    color: "text-green-600",
+    bg: "bg-green-50",
+    lessons: 4,
+    image: imgNutrition,
+  },
+  {
+    id: "cultural-competency",
+    titleKey: "preNursing.mod.culturalCompetency",
+    subtitleKey: "preNursing.mod.culturalCompetencyDesc",
+    icon: Users,
+    color: "text-purple-600",
+    bg: "bg-purple-50",
+    lessons: 4,
+    image: imgCulturalCompetency,
+  },
+  {
+    id: "inflammation",
+    titleKey: "preNursing.mod.inflammation",
+    subtitleKey: "preNursing.mod.inflammationDesc",
+    icon: Flame,
+    color: "text-orange-600",
+    bg: "bg-orange-50",
+    lessons: 4,
+    image: imgInflammation,
+  },
+  {
+    id: "cellular-injury",
+    titleKey: "preNursing.mod.cellularInjury",
+    subtitleKey: "preNursing.mod.cellularInjuryDesc",
+    icon: AlertTriangle,
+    color: "text-red-600",
+    bg: "bg-red-50",
+    lessons: 5,
+    image: imgCellularInjury,
+  },
+  {
+    id: "oxygenation",
+    titleKey: "preNursing.mod.oxygenation",
+    subtitleKey: "preNursing.mod.oxygenationDesc",
+    icon: Wind,
+    color: "text-sky-600",
+    bg: "bg-sky-50",
+    lessons: 5,
+    image: imgOxygenation,
+  },
+  {
+    id: "diagnostics",
+    titleKey: "preNursing.mod.diagnostics",
+    subtitleKey: "preNursing.mod.diagnosticsDesc",
+    icon: Microscope,
+    color: "text-indigo-600",
+    bg: "bg-indigo-50",
+    lessons: 4,
+    image: imgDiagnostics,
+  },
+  {
+    id: "healthcare-structure",
+    titleKey: "preNursing.mod.healthcareStructure",
+    subtitleKey: "preNursing.mod.healthcareStructureDesc",
+    icon: Building2,
+    color: "text-slate-600",
+    bg: "bg-slate-50",
+    lessons: 4,
+    image: imgHealthcareStructure,
+  },
+  {
+    id: "research-reading",
+    titleKey: "preNursing.mod.researchReading",
+    subtitleKey: "preNursing.mod.researchReadingDesc",
+    icon: FileText,
+    color: "text-cyan-600",
+    bg: "bg-cyan-50",
+    lessons: 4,
+    image: imgResearchReading,
+  },
+  {
+    id: "human-factors",
+    titleKey: "preNursing.mod.humanFactors",
+    subtitleKey: "preNursing.mod.humanFactorsDesc",
+    icon: ShieldAlert,
+    color: "text-amber-600",
+    bg: "bg-amber-50",
+    lessons: 4,
+    image: imgHumanFactors,
+  },
+  {
+    id: "atp-pathway",
+    titleKey: "preNursing.mod.atpPathway",
+    subtitleKey: "preNursing.mod.atpPathwayDesc",
+    icon: Zap,
+    color: "text-yellow-600",
+    bg: "bg-yellow-50",
+    lessons: 5,
+    image: imgAtpPathway,
   },
 ];
 
@@ -953,6 +1094,17 @@ export default function PreNursingPage() {
     "communication": { component: <CommunicationModule />, name: "Communication" },
     "ethics-legal": { component: <EthicsLegalModule />, name: "Ethics & Legal" },
     "study-strategies": { component: <StudyStrategiesModule />, name: "Study Strategies" },
+    "health-assessment": { component: <HealthAssessmentModule />, name: "Health Assessment" },
+    "nutrition-foundations": { component: <NutritionFoundationsModule />, name: "Nutrition Foundations" },
+    "cultural-competency": { component: <CulturalCompetencyModule />, name: "Cultural Competency" },
+    "inflammation": { component: <InflammationModule />, name: "Inflammation" },
+    "cellular-injury": { component: <CellularInjuryModule />, name: "Cellular Injury" },
+    "oxygenation": { component: <OxygenationModule />, name: "Oxygenation" },
+    "diagnostics": { component: <DiagnosticsModule />, name: "Diagnostics" },
+    "healthcare-structure": { component: <HealthcareStructureModule />, name: "Healthcare Structure" },
+    "research-reading": { component: <ResearchReadingModule />, name: "Research Reading" },
+    "human-factors": { component: <HumanFactorsModule />, name: "Human Factors" },
+    "atp-pathway": { component: <ATPPathwayModule />, name: "ATP Pathway" },
   };
 
   const deleteCustomModule = async (id: string) => {
@@ -973,7 +1125,8 @@ export default function PreNursingPage() {
 
   const iconMap: Record<string, any> = {
     BookOpen, Heart, Brain, Dna, Activity, Pill, Stethoscope, Beaker, FlaskConical, Lightbulb,
-    Droplets, Wind, Sparkles, GraduationCap, Target, Layers,
+    Droplets, Wind, Sparkles, GraduationCap, Target, Layers, Flame, AlertTriangle, Microscope,
+    Building2, FileText, ShieldAlert, Zap, UtensilsCrossed, Users,
   };
 
   if (activeCustomModule) {
