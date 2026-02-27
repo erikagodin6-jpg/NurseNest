@@ -49,6 +49,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
   const [showColorPicker, setShowColorPicker] = useState(false);
   const savedSelectionRef = useRef<Range | null>(null);
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const freezeSelectionRef = useRef(false);
 
   const lastValueRef = useRef(value);
   const isFocusedRef = useRef(false);
@@ -70,50 +71,61 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
 
   useEffect(() => {
     const handler = () => {
-      if (showColorPicker) return;
+      if (freezeSelectionRef.current) return;
       const sel = window.getSelection();
       if (sel && sel.rangeCount > 0 && editorRef.current) {
         const range = sel.getRangeAt(0);
-        if (editorRef.current.contains(range.commonAncestorContainer)) {
+        if (editorRef.current.contains(range.commonAncestorContainer) && !range.collapsed) {
           savedSelectionRef.current = range.cloneRange();
         }
       }
     };
     document.addEventListener("selectionchange", handler);
     return () => document.removeEventListener("selectionchange", handler);
-  }, [showColorPicker]);
-
-  const saveSelection = useCallback(() => {
-    const sel = window.getSelection();
-    if (sel && sel.rangeCount > 0 && editorRef.current) {
-      const range = sel.getRangeAt(0);
-      if (editorRef.current.contains(range.commonAncestorContainer)) {
-        savedSelectionRef.current = range.cloneRange();
-      }
-    }
   }, []);
 
   const applyFontColor = useCallback((color: string) => {
-    const range = savedSelectionRef.current;
-    if (!range || !editorRef.current) {
+    if (!editorRef.current) {
       setShowColorPicker(false);
+      freezeSelectionRef.current = false;
       return;
     }
-    if (range.collapsed) {
-      setShowColorPicker(false);
-      return;
-    }
+
     editorRef.current.focus();
+
     const sel = window.getSelection();
-    if (sel) {
-      sel.removeAllRanges();
-      sel.addRange(range);
+    let hasValidSelection = false;
+
+    if (sel && sel.rangeCount > 0) {
+      const liveRange = sel.getRangeAt(0);
+      if (editorRef.current.contains(liveRange.commonAncestorContainer) && !liveRange.collapsed) {
+        hasValidSelection = true;
+      }
     }
+
+    if (!hasValidSelection && savedSelectionRef.current && !savedSelectionRef.current.collapsed) {
+      if (sel) {
+        sel.removeAllRanges();
+        try {
+          sel.addRange(savedSelectionRef.current);
+          hasValidSelection = true;
+        } catch { /* range may be detached */ }
+      }
+    }
+
+    if (!hasValidSelection) {
+      setShowColorPicker(false);
+      freezeSelectionRef.current = false;
+      return;
+    }
+
     document.execCommand("styleWithCSS", false, "true");
     document.execCommand("foreColor", false, color);
     document.execCommand("styleWithCSS", false, "false");
     emitChange();
     setShowColorPicker(false);
+    freezeSelectionRef.current = false;
+    savedSelectionRef.current = null;
   }, [emitChange]);
 
   useEffect(() => {
@@ -121,6 +133,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
     const handleClickOutside = (e: MouseEvent) => {
       if (colorPickerRef.current && !colorPickerRef.current.contains(e.target as Node)) {
         setShowColorPicker(false);
+        freezeSelectionRef.current = false;
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -262,21 +275,23 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
         })}
         <div className="w-px h-5 bg-gray-200 mx-1" />
         <div className="relative" ref={colorPickerRef}>
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
-            className="h-7 w-7 p-0 hover:bg-primary/10 hover:text-primary"
+            className="h-7 w-7 p-0 inline-flex items-center justify-center rounded-md text-sm font-medium hover:bg-primary/10 hover:text-primary"
             onMouseDown={(e) => {
               e.preventDefault();
-              saveSelection();
-              setShowColorPicker((prev) => !prev);
+              e.stopPropagation();
+              freezeSelectionRef.current = true;
+              setShowColorPicker((prev) => {
+                if (prev) { freezeSelectionRef.current = false; }
+                return !prev;
+              });
             }}
             title="Font Color"
             data-testid="button-font-color"
           >
             <Palette className="w-3.5 h-3.5" />
-          </Button>
+          </button>
           {showColorPicker && (
             <div
               className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 grid grid-cols-4 gap-1"
@@ -323,7 +338,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           onInput={emitChange}
           onFocus={() => { setIsFocused(true); isFocusedRef.current = true; }}
           onBlur={() => {
-            if (showColorPicker) return;
+            if (freezeSelectionRef.current) return;
             setIsFocused(false); isFocusedRef.current = false; lastValueRef.current = editorRef.current?.innerHTML || "";
           }}
           onPaste={handlePaste}

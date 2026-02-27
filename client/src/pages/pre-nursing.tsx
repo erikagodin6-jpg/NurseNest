@@ -380,87 +380,6 @@ function useModuleEdit() {
   return useContext(ModuleEditContext);
 }
 
-const TEXT_COLOR_PRESETS = [
-  { label: "Default", value: "" },
-  { label: "Slate", value: "text-slate-700" },
-  { label: "Gray", value: "text-gray-600" },
-  { label: "Dark", value: "text-gray-900" },
-  { label: "Blue", value: "text-blue-700" },
-  { label: "Sky", value: "text-sky-600" },
-  { label: "Indigo", value: "text-indigo-700" },
-  { label: "Violet", value: "text-violet-700" },
-  { label: "Purple", value: "text-purple-700" },
-  { label: "Teal", value: "text-teal-700" },
-  { label: "Emerald", value: "text-emerald-700" },
-  { label: "Amber", value: "text-amber-700" },
-  { label: "Rose", value: "text-rose-700" },
-  { label: "Primary", value: "text-primary" },
-];
-
-const colorPreviewMap: Record<string, string> = {
-  "": "#6b7280",
-  "text-slate-700": "#334155",
-  "text-gray-600": "#4b5563",
-  "text-gray-900": "#111827",
-  "text-blue-700": "#1d4ed8",
-  "text-sky-600": "#0284c7",
-  "text-indigo-700": "#4338ca",
-  "text-violet-700": "#6d28d9",
-  "text-purple-700": "#7e22ce",
-  "text-teal-700": "#0f766e",
-  "text-emerald-700": "#047857",
-  "text-amber-700": "#b45309",
-  "text-rose-700": "#be123c",
-  "text-primary": "hsl(var(--primary))",
-};
-
-function ColorPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div
-      className="relative inline-block"
-      onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-      onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-      onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
-    >
-      <button
-        type="button"
-        onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpen(!open); }}
-        className="w-5 h-5 rounded-full border-2 border-white shadow-sm ring-1 ring-gray-200 hover:ring-purple-400 transition-all"
-        style={{ backgroundColor: colorPreviewMap[value] || "#6b7280" }}
-        title="Change text color"
-        data-testid="button-color-picker"
-      />
-      {open && (
-        <div
-          className="absolute top-7 left-0 z-50 bg-white rounded-lg shadow-lg border border-gray-200 p-2 w-[200px]"
-          data-testid="color-picker-dropdown"
-          onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-        >
-          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider mb-1.5 px-1">Text Color</p>
-          <div className="grid grid-cols-7 gap-1">
-            {TEXT_COLOR_PRESETS.map((preset) => (
-              <button
-                key={preset.value || "default"}
-                type="button"
-                onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onChange(preset.value); setOpen(false); }}
-                className={cn(
-                  "w-6 h-6 rounded-full border-2 transition-all hover:scale-110",
-                  value === preset.value ? "border-purple-500 ring-2 ring-purple-200" : "border-gray-200"
-                )}
-                style={{ backgroundColor: colorPreviewMap[preset.value] || "#6b7280" }}
-                title={preset.label}
-                data-testid={`color-option-${preset.label.toLowerCase()}`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 function EditableModuleText({
   sectionKey,
@@ -478,54 +397,34 @@ function EditableModuleText({
   const { isEditing, sections, updateSection } = useModuleEdit();
   const override = sections[sectionKey];
   const displayText = override?.content ?? defaultText;
-  const colorClass = override?.color || "";
 
   const editorContainerRef = useRef<HTMLDivElement>(null);
-  const refocusEditor = useCallback(() => {
-    const el = editorContainerRef.current;
-    if (!el) return;
-    const ce = el.querySelector<HTMLElement>("[contenteditable]");
-    if (ce) { ce.focus(); return; }
-    const inp = el.querySelector<HTMLInputElement>("input");
-    if (inp) inp.focus();
-  }, []);
 
   if (!isEditing) {
     const Tag = as;
-    const appliedClassName = colorClass ? className.replace(/text-(?:gray|slate|blue|emerald|amber|red|purple|indigo|teal|sky|violet|rose|cyan|lime|orange|pink|primary)[-/]\S*/g, "") + " " + colorClass : className;
     const hasHtml = /<[a-z][\s\S]*>/i.test(displayText);
     if (hasHtml) {
-      return <Tag className={appliedClassName}><RichTextDisplay html={displayText} /></Tag>;
+      return <Tag className={className}><RichTextDisplay html={displayText} /></Tag>;
     }
-    return <Tag className={appliedClassName}>{displayText}</Tag>;
+    return <Tag className={className}>{displayText}</Tag>;
   }
-
-  const editingColorClass = colorClass ? className.replace(/text-(?:gray|slate|blue|emerald|amber|red|purple|indigo|teal|sky|violet|rose|cyan|lime|orange|pink|primary)[-/]\S*/g, "") + " " + colorClass : className;
 
   return (
     <div className="relative" ref={editorContainerRef}>
-      <div className="absolute -top-2 -right-2 z-10">
-        <ColorPicker
-          value={colorClass}
-          onChange={(c) => { updateSection(sectionKey, { ...override, color: c }); requestAnimationFrame(refocusEditor); }}
-        />
-      </div>
       {multiline ? (
-        <div className={editingColorClass}>
-          <RichTextEditor
-            value={displayText}
-            onChange={(v) => updateSection(sectionKey, { ...override, content: v })}
-            minHeight="80px"
-            placeholder="Enter content..."
-          />
-        </div>
+        <RichTextEditor
+          value={displayText}
+          onChange={(v) => updateSection(sectionKey, { ...override, content: v })}
+          className={className}
+          minHeight="80px"
+          placeholder="Enter content..."
+        />
       ) : (
         <input
           type="text"
           value={displayText}
           onChange={(e) => updateSection(sectionKey, { ...override, content: e.target.value })}
-          className={`w-full bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${editingColorClass}`}
-          style={colorClass ? { color: colorPreviewMap[colorClass] || undefined } : undefined}
+          className={`w-full bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-purple-300 focus:border-purple-400 focus:outline-none ${className}`}
           data-testid={`editable-text-${sectionKey}`}
         />
       )}
