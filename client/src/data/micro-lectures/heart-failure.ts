@@ -1,3 +1,6 @@
+import heartFailureAnatomyImg from "@/assets/lesson-heart-failure-anatomy.png";
+import heartFailureCellImg from "@/assets/lesson-heart-failure-cell-hypertrophy.png";
+
 export const heartFailureLecture = {
   title: "Heart Failure: Pathophysiology to Practice",
   duration: "20 minutes",
@@ -161,6 +164,7 @@ Always check potassium before giving digoxin. Always check the apical pulse befo
     {
       number: 1,
       title: "Heart Failure: Definition and Classification",
+      image: heartFailureAnatomyImg,
       bullets: [
         "Clinical syndrome: heart cannot meet metabolic demands or does so only at elevated filling pressures",
         "HFrEF (systolic failure): EF < 40%, weakened contractile force",
@@ -189,6 +193,7 @@ Always check potassium before giving digoxin. Always check the apical pulse befo
     {
       number: 3,
       title: "Cellular Pathophysiology",
+      image: heartFailureCellImg,
       bullets: [
         "HFrEF: damaged sarcomeres lose organized structure",
         "Impaired sarcoplasmic reticulum calcium release and reuptake",

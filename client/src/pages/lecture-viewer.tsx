@@ -25,6 +25,7 @@ import {
 import { lectureData, lectureRegistry, getLecturesForLesson } from "@/data/micro-lectures";
 import { Video } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { ProtectedImage } from "@/components/protected-image";
 
 export default function LectureViewer() {
   const [, params] = useRoute("/lectures/:slug");
@@ -285,6 +286,16 @@ export default function LectureViewer() {
                 <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: "var(--text-primary)" }} data-testid="text-slide-title">
                   {slide.title}
                 </h2>
+                {slide.image && (
+                  <div className="mb-6 flex justify-center">
+                    <ProtectedImage
+                      src={slide.image}
+                      alt={slide.title}
+                      className="rounded-xl shadow-md max-h-64 w-auto object-contain"
+                      data-testid={`img-slide-${slide.number}`}
+                    />
+                  </div>
+                )}
                 <ul className="space-y-3">
                   {slide.bullets.map((bullet, i) => {
                     const isIndented = bullet.startsWith("   ");

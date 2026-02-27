@@ -67,6 +67,8 @@ import illustrationHomeostasis from "@/assets/anatomy-feedback-loops.png";
 
 import illustrationPinworms from "@/assets/lesson-pinworms.png";
 import illustrationHeadLice from "@/assets/lesson-head-lice.png";
+import illustrationHeartFailureAnatomy from "@/assets/lesson-heart-failure-anatomy.png";
+import illustrationHeartFailureCell from "@/assets/lesson-heart-failure-cell-hypertrophy.png";
 import illustrationImpetigo from "@/assets/lesson-impetigo.png";
 import illustrationVaricellaStages from "@/assets/lesson-varicella-stages.png";
 import illustrationVaricella from "@/assets/lesson-varicella.png";
@@ -128,8 +130,10 @@ const lessonSpecificImages: Record<string, string> = {
   "cardiovascular-rpn": illustrationCardiacCycle,
   "cardiovascular-rn": illustrationCardiacCycle,
   "cardiovascular-np": illustrationCardiacCycle,
-  "chf-basics": illustrationCardiacCycle,
-  "hf-advanced": illustrationCardiacCycle,
+  "chf-basics": illustrationHeartFailureAnatomy,
+  "hf-advanced": illustrationHeartFailureAnatomy,
+  "heart-failure": illustrationHeartFailureAnatomy,
+  "hf-cell-pathology": illustrationHeartFailureCell,
   "copd-exacerbation": illustrationCOPD,
   "asthma-emergency": illustrationAsthma,
   "asthma-copd": illustrationCOPD,
