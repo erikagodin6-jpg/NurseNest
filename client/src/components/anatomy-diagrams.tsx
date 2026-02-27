@@ -79,16 +79,16 @@ export function LungsSVG() {
 }
 
 export const lungLabels: LabelPoint[] = [
-  { id: "nasal", x: 210, y: 40, label: "Nasal Cavity", hint: "Warms, humidifies, and filters inhaled air; lined with ciliated mucous membrane" },
-  { id: "pharynx", x: 240, y: 85, label: "Pharynx", hint: "Shared passageway for air and food; connects nasal cavity to larynx" },
-  { id: "trachea", x: 290, y: 155, label: "Trachea", hint: "Cartilage-ringed airway (C-shaped rings); connects larynx to bronchi; lined with ciliated epithelium" },
-  { id: "rbronchus", x: 220, y: 210, label: "Right Main Bronchus", hint: "Wider, shorter, and more vertical than the left; aspirated objects more likely to enter here" },
-  { id: "lbronchus", x: 370, y: 220, label: "Left Main Bronchus", hint: "Narrower and longer; angles more horizontally due to heart position" },
-  { id: "rlung", x: 140, y: 280, label: "Right Lung", hint: "Has 3 lobes (superior, middle, inferior); slightly larger than the left lung" },
-  { id: "llung", x: 430, y: 260, label: "Left Lung", hint: "Has 2 lobes (superior, inferior); smaller due to cardiac notch accommodating the heart" },
-  { id: "alveoli", x: 530, y: 100, label: "Alveoli", hint: "Tiny air sacs where gas exchange occurs; surrounded by capillary networks; surfactant prevents collapse" },
-  { id: "diaphragm", x: 300, y: 410, label: "Diaphragm", hint: "Primary muscle of respiration; contracts and flattens during inhalation to expand thoracic cavity" },
-  { id: "bronchioles", x: 170, y: 230, label: "Bronchioles", hint: "Smallest airways without cartilage; smooth muscle controls diameter; site of bronchoconstriction in asthma" },
+  { id: "trachea", x: 300, y: 50, label: "Trachea", hint: "Cartilage-ringed airway (C-shaped rings); connects larynx to bronchi; lined with ciliated epithelium" },
+  { id: "rbronchus", x: 220, y: 175, label: "Right Main Bronchus", hint: "Wider, shorter, and more vertical than the left; aspirated objects more likely to enter here" },
+  { id: "lbronchus", x: 380, y: 175, label: "Left Main Bronchus", hint: "Narrower and longer; angles more horizontally due to heart position" },
+  { id: "rlung", x: 145, y: 225, label: "Right Lung", hint: "Has 3 lobes (superior, middle, inferior); slightly larger than the left lung" },
+  { id: "llung", x: 455, y: 225, label: "Left Lung", hint: "Has 2 lobes (superior, inferior); smaller due to cardiac notch accommodating the heart" },
+  { id: "bronchioles", x: 195, y: 270, label: "Bronchioles", hint: "Smallest airways without cartilage; smooth muscle controls diameter; site of bronchoconstriction in asthma" },
+  { id: "alveoli", x: 410, y: 145, label: "Alveoli", hint: "Tiny air sacs where gas exchange occurs; surrounded by capillary networks; surfactant prevents collapse" },
+  { id: "pulmonary-artery", x: 265, y: 125, label: "Pulmonary Artery", hint: "Carries deoxygenated blood from the right ventricle to the lungs for gas exchange" },
+  { id: "pulmonary-vein", x: 340, y: 125, label: "Pulmonary Vein", hint: "Returns oxygenated blood from the lungs to the left atrium of the heart" },
+  { id: "diaphragm", x: 300, y: 395, label: "Diaphragm", hint: "Primary muscle of respiration; contracts and flattens during inhalation to expand thoracic cavity" },
 ];
 
 export function BrainSVG() {
@@ -115,12 +115,14 @@ export function BrainSVG() {
 }
 
 export const brainLabels: LabelPoint[] = [
-  { id: "frontal", x: 140, y: 120, label: "Frontal Lobe", hint: "Reasoning, planning, motor function" },
-  { id: "parietal", x: 280, y: 110, label: "Parietal Lobe", hint: "Sensory processing, spatial awareness" },
-  { id: "temporal", x: 120, y: 230, label: "Temporal Lobe", hint: "Hearing, memory, language" },
-  { id: "occipital", x: 350, y: 200, label: "Occipital Lobe", hint: "Visual processing" },
-  { id: "cerebellum", x: 190, y: 340, label: "Cerebellum", hint: "Coordination and balance" },
-  { id: "brainstem", x: 230, y: 380, label: "Brainstem", hint: "Vital functions: breathing, heart rate" },
+  { id: "cerebral-cortex", x: 270, y: 80, label: "Cerebral Cortex", hint: "Outer layer of the cerebrum; responsible for higher-order functions including reasoning, sensation, and voluntary movement" },
+  { id: "corpus-callosum", x: 305, y: 155, label: "Corpus Callosum", hint: "Thick band of nerve fibers connecting the left and right cerebral hemispheres; enables communication between brain halves" },
+  { id: "thalamus", x: 335, y: 210, label: "Thalamus", hint: "Relay station for sensory information; routes signals to the appropriate cortical area for processing" },
+  { id: "hypothalamus", x: 275, y: 245, label: "Hypothalamus", hint: "Controls homeostasis: body temperature, hunger, thirst, circadian rhythms; links nervous and endocrine systems" },
+  { id: "pituitary", x: 330, y: 280, label: "Pituitary Gland", hint: "Master endocrine gland; secretes hormones that regulate growth, metabolism, and reproduction" },
+  { id: "cerebellum", x: 185, y: 300, label: "Cerebellum", hint: "Coordinates voluntary movement, balance, and motor learning; contains more neurons than the rest of the brain" },
+  { id: "brainstem", x: 290, y: 370, label: "Brainstem", hint: "Controls vital autonomic functions: breathing, heart rate, blood pressure; includes midbrain, pons, and medulla oblongata" },
+  { id: "spinal-cord", x: 270, y: 430, label: "Spinal Cord", hint: "Extension of the brainstem; carries motor and sensory signals between the brain and the rest of the body" },
 ];
 
 export function KidneySVG() {
