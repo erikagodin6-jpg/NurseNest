@@ -56,6 +56,8 @@ import { getCategoryImage } from "@/lib/system-images";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
+import { rnFlashcards } from "@/data/flashcards-rn";
+import { npFlashcards } from "@/data/flashcards-np";
 
 type CardType = "question" | "term";
 
@@ -70,7 +72,7 @@ type Flashcard = {
   image?: string;
 };
 
-const allCards: Flashcard[] = [
+const baseCards: Flashcard[] = [
   // Questions (from previous turns)
   { 
     id: "q1",
@@ -1646,6 +1648,34 @@ export default function Flashcards() {
 
   const isPaid = user && (user as any).tier !== "free" && (user as any).subscriptionStatus === "active";
 
+  const allCards = useMemo(() => {
+    const userTier = user ? (user as any).tier : "free";
+    const cards: Flashcard[] = [...baseCards];
+    if (userTier === "rn" || userTier === "np" || userTier === "admin") {
+      cards.push(...rnFlashcards.map(fc => ({
+        id: fc.id,
+        type: fc.type as CardType,
+        question: fc.question,
+        options: fc.options,
+        correctIndex: fc.correctIndex,
+        answer: fc.answer,
+        category: fc.category,
+      })));
+    }
+    if (userTier === "np" || userTier === "admin") {
+      cards.push(...npFlashcards.map(fc => ({
+        id: fc.id,
+        type: fc.type as CardType,
+        question: fc.question,
+        options: fc.options,
+        correctIndex: fc.correctIndex,
+        answer: fc.answer,
+        category: fc.category,
+      })));
+    }
+    return cards;
+  }, [user]);
+
   const [myDecks, setMyDecks] = useState<any[]>([]);
   const [publicDecks, setPublicDecks] = useState<any[]>([]);
   const [savedDecksList, setSavedDecksList] = useState<any[]>([]);
@@ -2198,7 +2228,7 @@ export default function Flashcards() {
     setRegion((localStorage.getItem("nursenest-region") as "US" | "CA") || "US");
   }, []);
 
-  const categories = useMemo(() => Array.from(new Set(allCards.map(c => c.category))), []);
+  const categories = useMemo(() => Array.from(new Set(allCards.map(c => c.category))), [allCards]);
   const categoryLabelMap: Record<string, string> = {
     "Cardiovascular": t("flashcards.categoryCardiovascular"),
     "Pediatrics": t("flashcards.categoryPediatrics"),
@@ -2229,15 +2259,15 @@ export default function Flashcards() {
       filtered = filtered.filter(c => selectedCategories.includes(c.category));
     }
     return filtered;
-  }, [selectedType, selectedCategories, mastered, includeMastered]);
+  }, [allCards, selectedType, selectedCategories, mastered, includeMastered]);
 
   const bookmarkedCards = useMemo(() => {
     return allCards.filter(c => bookmarks.includes(c.id));
-  }, [bookmarks]);
+  }, [allCards, bookmarks]);
 
   const masteredCards = useMemo(() => {
     return allCards.filter(c => mastered.includes(c.id));
-  }, [mastered]);
+  }, [allCards, mastered]);
 
   const toggleBookmark = (id: string) => {
     const newBookmarks = bookmarks.includes(id) 

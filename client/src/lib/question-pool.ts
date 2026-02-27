@@ -1,6 +1,11 @@
 import { contentMap } from "@/data/lessons";
 import type { QuizQuestion } from "@/data/lessons/types";
 import { getLessonBodySystem } from "@/lib/seo-utils";
+import { rpnCardiovascularQuestions } from "@/data/exam-questions/rpn-cardiovascular";
+import { rpnRespiratoryQuestions } from "@/data/exam-questions/rpn-respiratory";
+import { rpnNeuroGiEndoQuestions } from "@/data/exam-questions/rpn-neuro-gi-endo";
+import { rpnPedsHemePharmQuestions } from "@/data/exam-questions/rpn-peds-heme-pharm";
+import type { ExamQuestion } from "@/data/exam-questions/types";
 
 export interface PooledQuestion {
   id: string;
@@ -52,6 +57,29 @@ export function buildQuestionPool(): PooledQuestion[] {
     if (lesson.quiz) addQuestions(lesson.quiz, "quiz");
     if (lesson.preTest) addQuestions(lesson.preTest, "preTest");
     if (lesson.postTest) addQuestions(lesson.postTest, "postTest");
+  }
+
+  const examBanks: { questions: ExamQuestion[]; tier: string }[] = [
+    { questions: rpnCardiovascularQuestions, tier: "rpn" },
+    { questions: rpnRespiratoryQuestions, tier: "rpn" },
+    { questions: rpnNeuroGiEndoQuestions, tier: "rpn" },
+    { questions: rpnPedsHemePharmQuestions, tier: "rpn" },
+  ];
+
+  for (const bank of examBanks) {
+    for (const eq of bank.questions) {
+      pool.push({
+        id: `eq_${counter++}`,
+        lessonId: "exam-bank",
+        bodySystem: eq.s,
+        tier: bank.tier,
+        question: eq.q,
+        options: eq.o,
+        correct: eq.a,
+        rationale: eq.r,
+        source: "quiz",
+      });
+    }
   }
 
   cachedPool = pool;

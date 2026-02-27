@@ -1,0 +1,255 @@
+MASTER PROMPT: Expand Existing Flashcards Into a Quizlet-Plus Experience WITH AI Accuracy Verification (Non-Tiered by Scope, Revenue-Protective)
+
+You are my senior full-stack engineer working inside my existing NurseNest codebase (Vite + React frontend, Express backend, existing DB supports flashcards/sets/users). Implement the features below as an EXPANSION of my current flashcard system, not a rebuild.
+
+NON-NEGOTIABLE REQUIREMENTS
+1) Non-tiered by scope: Do NOT apply RPN/RN/NP scope logic to user-generated flashcards. Users can create cards on any body system/topic.
+2) Revenue-protective: Do NOT replace or undermine existing paid tier features (scope-tiered lessons, exam simulator, AI tutor, etc.). This feature set is for user-generated cards and study tools. Only apply gating to verification volume + advanced exports if needed, but keep core study tools usable.
+3) Safety-first + trust: AI verification is an accuracy filter. Unsafe cards cannot be publicly searchable/shareable.
+4) No long-form teaching: AI output must be concise. No full lessons, no exam coaching.
+5) SEO indexing policy: Only AI-Verified PUBLIC sets are indexable and discoverable. Private/unverified/flagged content must not be indexed.
+
+GOALS
+A) Create a Quizlet-like study experience for user-generated flashcards:
+   - upload images
+   - choose study direction (term → definition OR definition → term)
+   - Learn mode vs Test mode
+   - Matching games
+   - Set-based tests (generate tests from chosen sets)
+   - Printing flashcards and tests (with my logo)
+   - Star/save other users’ sets and cards
+   - Shareable links with publication controls
+   - Personal stats dashboards
+B) Add AI medical accuracy verification layer that prevents misinformation and builds trust.
+
+────────────────────────────────────────────────────────────
+SECTION 1 — DATA MODEL & ENTITIES (Extend Existing DB)
+Ensure the DB supports:
+- flashcards: id, owner_user_id, set_id, front_text, back_text, front_image_url?, back_image_url?, tags_json?, created_at, updated_at
+- flashcard_sets: id, owner_user_id, title, description, visibility: "PRIVATE"|"UNLISTED"|"PUBLIC", publish_status: "DRAFT"|"PENDING_VERIFY"|"PUBLIC_OK"|"BLOCKED", created_at
+- flashcard_verifications: flashcard_id, user_id, status, confidence, issues_json, corrected_json, publish_eligibility, safety_flags_json, model_name, created_at
+- set_verification_summary: set_id, verified_count, total_count, blocked_count, last_verified_at, publish_eligibility
+- starred_sets: user_id, set_id, created_at
+- saved_cards (optional): user_id, flashcard_id, created_at (if you support saving individual cards, not just sets)
+- study_sessions: user_id, set_id, mode: "LEARN"|"TEST"|"MATCH"|"REVIEW", direction: "TERM_TO_DEF"|"DEF_TO_TERM", started_at, ended_at
+- study_events: session_id, flashcard_id, result: "CORRECT"|"INCORRECT"|"SKIPPED", response_time_ms, attempt_no, created_at
+- user_flashcard_stats (materialized or computed): accuracy %, streaks, due counts (if spaced repetition exists), weakest tags
+- generated_tests: id, user_id, set_ids_json, settings_json, test_items_json, created_at
+- printed_exports: id, user_id, type: "FLASHCARDS"|"TEST", set_id? / test_id?, file_url, created_at
+
+All public visibility must respect verification policy (see below).
+
+────────────────────────────────────────────────────────────
+SECTION 2 — AI ACCURACY VERIFICATION (Must-Have)
+Implement an AI verification workflow for user-created flashcards.
+
+When a user creates or edits a flashcard:
+1) Backend endpoint verifies content (front/back text + optional image metadata + tags).
+2) AI returns ONLY STRUCTURED JSON in this schema:
+{
+  "status": "VERIFIED"|"PARTIALLY_ACCURATE"|"INACCURATE"|"UNSAFE",
+  "confidence": 0-100,
+  "issues": [
+    { "field":"front"|"back"|"both",
+      "type":"FACT_ERROR"|"OUTDATED"|"AMBIGUOUS"|"MISSING_CONTEXT"|"UNSAFE"|"IMAGE_ACCURACY",
+      "snippet":"...",
+      "explanation_short":"(2-4 sentences max)",
+      "suggested_fix":"(short correction, not a lesson)"
+    }
+  ],
+  "corrected_version": { "front":"...", "back":"..." },
+  "safety_flags": [
+    { "category":"DOSING"|"CONTRAINDICATION"|"EMERGENCY_ACTION"|"CRITICAL_VALUE"|"ACID_BASE"|"OTHER",
+      "severity":"HIGH"|"MED"|"LOW",
+      "note_short":"..."
+    }
+  ],
+  "publish_eligibility":"PUBLIC_OK"|"PRIVATE_ONLY"|"ADMIN_REVIEW_REQUIRED",
+  "disclaimer_short":"One sentence safety disclaimer."
+}
+
+Rules:
+- If status is UNSAFE or publish_eligibility is ADMIN_REVIEW_REQUIRED => card cannot be public; route to admin queue.
+- Store verification results with model name/version and timestamps.
+- Show badges:
+  "AI Verified", "AI Flagged (Private)", "Not Verified"
+- Only VERIFIED + PUBLIC_OK cards may be included in PUBLIC sets that are indexed.
+
+Free vs Paid gating (Revenue-protective, but keep core usable):
+- Free: limited verification per day (configurable 5–10/day). Show status + minimal issue summary only.
+- Paid: unlimited verification, full concise fix suggestions, and bulk set verification.
+
+IMAGE VERIFICATION:
+- Users can upload images for flashcards (front/back). For paid users, run additional AI image-accuracy check (lightweight). If fails => PRIVATE_ONLY.
+- Do NOT embed text in generated images. (For user uploads, allow text but do not generate text-in-image.)
+
+────────────────────────────────────────────────────────────
+SECTION 3 — FLASHCARD CREATION + IMAGE UPLOAD
+Implement image upload support:
+- Front image and/or back image per card.
+- Accept png/jpg/webp; enforce file size limits; virus scan or basic content checks if available; store in S3-like storage or existing asset storage.
+- Provide cropping/aspect options: square (1:1) and card (4:3). Store original + optimized sizes.
+- Accessibility: alt text field (optional) for screen readers.
+
+AI Verification must evaluate text regardless of images; image check is an extra paid step.
+
+────────────────────────────────────────────────────────────
+SECTION 4 — STUDY MODES (Quizlet-like)
+Implement study direction toggle for all modes:
+- TERM_TO_DEF: prompt shows front; answer expects back.
+- DEF_TO_TERM: prompt shows back; answer expects front.
+
+A) LEARN MODE (Adaptive but lightweight)
+- Goal: mastery-based review with immediate feedback and repeated exposure to missed cards.
+- Minimal algorithm is acceptable: keep incorrect cards in rotation; track streak per card; mark “mastered” after N correct in a row (configurable).
+- Show concise feedback; allow “I was correct” override toggle (optional).
+- Track stats events.
+
+B) TEST MODE
+- Generate a test from a chosen set (or multiple sets):
+  - question types: written (free response), multiple choice, true/false (optional), matching section (optional)
+  - allow user to choose number of questions, include images yes/no, shuffle, include starred-only (optional)
+  - immediate feedback option or end-of-test scoring
+- Provide rationales ONLY if the flashcard includes rationale text; do not auto-generate rationales in this feature (protect premium AI tutor).
+- Save generated tests to user account.
+
+C) MATCHING GAME MODE
+- Implement a timed matching game:
+  - display terms and definitions as tiles
+  - match pairs; track time, accuracy, best scores
+  - allow difficulty options: include images as tiles (optional), limit to subset size (e.g., 10/20/30)
+- Track stats events.
+
+D) REVIEW MODE (Optional simple)
+- Quick flip-through with star/unstar and mark difficult.
+
+────────────────────────────────────────────────────────────
+SECTION 5 — STAR, SAVE, SHARE, DISCOVER
+A) Star / Save
+- Users can star (bookmark) other users’ PUBLIC sets into their profile (“My Library”).
+- Optional: allow saving individual cards to a “Saved Cards” collection.
+- Respect visibility:
+  - Only PUBLIC sets can be starred globally.
+  - UNLISTED sets can be saved if user has the link.
+  - PRIVATE sets cannot be saved by others.
+
+B) Share links
+- Each set has a shareable URL:
+  - PUBLIC: accessible to anyone; indexable only if verification policy met.
+  - UNLISTED: accessible by link but not discoverable/searchable; not indexed.
+  - PRIVATE: owner only.
+- Block sharing if the set contains any UNSAFE or unverified cards and is set to PUBLIC. Provide UI that lists blocking cards.
+
+C) Public browsing/search
+- Create a public directory/search page for PUBLIC_OK sets only.
+- Add filters by tag/system/topic and search by title.
+- Important: ONLY include sets where all cards are VERIFIED and publish_eligibility is PUBLIC_OK.
+- Add schema markup for public set pages (Educational / Q&A style).
+- Add canonical tags + breadcrumbs.
+
+────────────────────────────────────────────────────────────
+SECTION 6 — STATS & ANALYTICS (User-Level)
+Provide a “Flashcard Stats” dashboard with:
+- overall accuracy % by set
+- time spent studying
+- cards mastered vs learning
+- weakest tags/topics based on incorrect rate
+- fastest/slowest response times
+- streaks (daily study streak optional)
+- match game best times per set
+- test scores history
+
+All stats must be derived from study_sessions + study_events.
+
+────────────────────────────────────────────────────────────
+SECTION 7 — PRINTING & EXPORTS (With NurseNest Logo)
+Implement printable exports:
+A) Print Flashcards
+- Allow user to print a selected set as:
+  - cut-out flashcards (grid layout) OR
+  - full-page cards
+- Must include NurseNest logo on every page (use my existing logo asset; do not invent a new one).
+- Must support images if present, but ensure layout remains clean and not cluttered.
+- Provide options:
+  - include term only, definition only, or both
+  - include star icons or difficulty markers (optional)
+- Generate PDF server-side (recommended) for consistent output.
+
+B) Print Tests
+- Allow user to print a generated test:
+  - include answer key as separate pages (toggle)
+  - include header with NurseNest logo
+  - include set sources and date generated
+- Generate PDF server-side.
+- Ensure no private/unverified/unsafe content is printed for public sharing; printing is allowed for personal use, but include a small footer disclaimer.
+
+Do not embed text inside images; all text must be in PDF text for accessibility and clarity.
+
+────────────────────────────────────────────────────────────
+SECTION 8 — ADMIN MODERATION (Safety Queue)
+Add admin panel:
+- list flagged cards requiring review (UNSAFE or ADMIN_REVIEW_REQUIRED)
+- filters: severity, category, date, user
+- view: original text, AI issues, suggested correction
+- actions:
+  - approve public (force VERIFIED) only if admin edits content to be safe/accurate
+  - keep private
+  - request user edit (send message template)
+  - delete for policy violations
+- audit logs for admin actions
+
+────────────────────────────────────────────────────────────
+SECTION 9 — API ENDPOINTS
+Backend routes (Express):
+POST /api/flashcards/:id/verify
+POST /api/flashcard-sets/:id/verify-bulk (paid only; rate limited)
+GET  /api/flashcard-sets/:id (respect visibility)
+POST /api/flashcard-sets/:id/publish (enforce verified-only policy)
+POST /api/flashcard-sets/:id/star
+GET  /api/me/starred-sets
+POST /api/study/session/start
+POST /api/study/session/event
+POST /api/tests/generate
+GET  /api/tests/:id
+POST /api/print/flashcards (returns PDF)
+POST /api/print/test (returns PDF)
+
+Admin:
+GET  /api/admin/verification-queue
+POST /api/admin/verification-action
+
+Add:
+- auth middleware
+- subscription checks for unlimited verification/bulk/image-check
+- rate limiting + daily quota for free verification
+- content-hash caching of verification responses to reduce AI calls
+- robust schema validation for AI JSON output
+
+────────────────────────────────────────────────────────────
+SECTION 10 — UX REQUIREMENTS
+- Verification badge visible on each card.
+- Clear publishing banner: “This set can be public once all cards are AI Verified.”
+- If publish blocked: list cards blocking publication with quick links to fix/re-verify.
+- Study mode selector on each set page: Learn / Test / Match.
+- Direction toggle: Term → Definition or Definition → Term.
+- Star button on set cards; “Saved to My Library.”
+- Share modal with visibility settings and copy link.
+- Stats tab: set-level and user-level.
+
+────────────────────────────────────────────────────────────
+SECTION 11 — DELIVERABLES
+1) Brief implementation plan (phased rollout)
+2) DB migrations
+3) Backend services + endpoints + caching + rate limiting + audit logs
+4) Frontend UI: create/edit, set page with modes, sharing, starring, stats, admin queue
+5) PDF printing implementation with NurseNest logo
+6) Minimal tests: publish gating, verification schema parsing, quota enforcement, visibility rules
+
+Start by scanning the existing codebase for:
+- current flashcard models/routes/components
+- authentication + roles
+- subscription system
+- existing assets upload pipeline
+- existing PDF generation utilities (if any)
+
+Implement incrementally with production-ready code and keep my existing paid tier logic intact.

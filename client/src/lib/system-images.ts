@@ -207,6 +207,11 @@ import illustrationCardiogenicShockPatho from "@/assets/lesson-cardiogenic-shock
 import illustrationTracheostomyPatho from "@/assets/lesson-tracheostomy-patho.png";
 import illustrationChestTubePatho from "@/assets/lesson-chest-tube-patho.png";
 import illustrationEczemaPatho from "@/assets/lesson-eczema-patho.png";
+import illustrationATPMitochondria from "@/assets/images/atp-mitochondria-structure.png";
+import illustrationATPElectronTransport from "@/assets/images/atp-electron-transport-chain.png";
+import illustrationATPKrebsCycle from "@/assets/images/atp-krebs-cycle.png";
+import illustrationATPGlycolysis from "@/assets/images/atp-glycolysis.png";
+import illustrationATPMolecule from "@/assets/images/atp-molecule-structure.png";
 
 const lessonSpecificImages: Record<string, string> = {
   "infective-endocarditis": illustrationEndocarditis,
@@ -371,6 +376,19 @@ const lessonSpecificImages: Record<string, string> = {
   "glaucoma-management": illustrationGlaucoma,
   "cell-structure": illustrationCellStructure,
   "cell-biology": illustrationCellStructure,
+  "atp-cellular-energy": illustrationATPMitochondria,
+  "atp-energy-pathways": illustrationATPMitochondria,
+  "cellular-energy": illustrationATPMitochondria,
+  "cellular-respiration": illustrationATPMitochondria,
+  "electron-transport-chain": illustrationATPElectronTransport,
+  "oxidative-phosphorylation": illustrationATPElectronTransport,
+  "krebs-cycle": illustrationATPKrebsCycle,
+  "citric-acid-cycle": illustrationATPKrebsCycle,
+  "tca-cycle": illustrationATPKrebsCycle,
+  "glycolysis": illustrationATPGlycolysis,
+  "glucose-metabolism": illustrationATPGlycolysis,
+  "atp-molecule": illustrationATPMolecule,
+  "atp-synthesis": illustrationATPMolecule,
   "vitiligo": illustrationVitiligo,
   "herpes-zoster": illustrationShingles,
   "shingles": illustrationShingles,
