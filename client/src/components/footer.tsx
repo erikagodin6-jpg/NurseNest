@@ -34,6 +34,7 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Resources</h3>
             <ul className="space-y-2 text-sm text-gray-500">
+              <li><LocaleLink href="/shop" className="hover:text-primary transition-colors" data-testid="link-footer-store">{t("nav.store")}</LocaleLink></li>
               <li><LocaleLink href="/blog" className="hover:text-primary transition-colors" data-testid="link-footer-blog">{t("nav.blog")}</LocaleLink></li>
               <li><LocaleLink href="/faq" className="hover:text-primary transition-colors" data-testid="link-footer-faq">{t("footer.faq")}</LocaleLink></li>
               <li><LocaleLink href="/pricing" className="hover:text-primary transition-colors" data-testid="link-footer-pricing">Pricing</LocaleLink></li>

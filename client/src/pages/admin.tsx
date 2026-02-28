@@ -202,6 +202,13 @@ export default function AdminPage() {
   const [aiConfigLoading, setAiConfigLoading] = useState(false);
   const [aiConfigSaving, setAiConfigSaving] = useState(false);
 
+  const [imageGenPrompt, setImageGenPrompt] = useState("");
+  const [imageGenFilename, setImageGenFilename] = useState("");
+  const [imageGenSize, setImageGenSize] = useState<"1024x1024" | "512x512">("1024x1024");
+  const [imageGenLoading, setImageGenLoading] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState<{ filename: string; url: string; size: number; createdAt: string }[]>([]);
+  const [showImageLibrary, setShowImageLibrary] = useState(false);
+
   const [batchExamTier, setBatchExamTier] = useState("rn");
   const [batchExamTopic, setBatchExamTopic] = useState("");
   const [batchExamQty, setBatchExamQty] = useState(10);
@@ -1683,6 +1690,180 @@ export default function AdminPage() {
                                   )}
                                   <span className="truncate">{r.title || r.topic || `Topic ${r.index + 1}`}</span>
                                   {r.scheduledAt && <span className="text-gray-400 shrink-0">({new Date(r.scheduledAt).toLocaleDateString()})</span>}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-primary/10 mb-4" data-testid="card-image-generator">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Zap className="w-4 h-4 text-primary" />
+                          <span className="text-sm font-semibold text-gray-700">Medical Image Generator</span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">AI Powered</span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setShowImageLibrary(!showImageLibrary);
+                            if (!showImageLibrary) {
+                              const stored = localStorage.getItem("nursenest-credentials");
+                              if (stored) {
+                                const { username, password } = JSON.parse(stored);
+                                fetch(`/api/admin/generated-images?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+                                  .then(r => r.json()).then(setGeneratedImages).catch(() => {});
+                              }
+                            }
+                          }}
+                          className={`text-xs px-3 py-1 rounded-full border transition-colors ${showImageLibrary ? "bg-primary text-white border-primary" : "bg-white text-gray-600 border-gray-200 hover:border-primary"}`}
+                          data-testid="button-toggle-image-library"
+                        >
+                          {showImageLibrary ? "Hide Library" : "Image Library"}
+                        </button>
+                      </div>
+
+                      <div className="space-y-3">
+                        <Textarea
+                          placeholder="Describe the medical image you want to generate (e.g., 'Cross-section of a human heart showing the four chambers, pulmonary arteries, and aorta')"
+                          value={imageGenPrompt}
+                          onChange={(e) => setImageGenPrompt(e.target.value)}
+                          rows={3}
+                          className="text-sm"
+                          data-testid="input-image-prompt"
+                        />
+                        <div className="flex gap-2 items-end">
+                          <div className="flex-1">
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Filename (optional)</label>
+                            <Input
+                              placeholder="e.g., barrel-chest-comparison"
+                              value={imageGenFilename}
+                              onChange={(e) => setImageGenFilename(e.target.value)}
+                              className="text-sm"
+                              data-testid="input-image-filename"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Size</label>
+                            <div className="flex rounded-md border overflow-hidden">
+                              {(["1024x1024", "512x512"] as const).map((s) => (
+                                <button
+                                  key={s}
+                                  onClick={() => setImageGenSize(s)}
+                                  className={`px-3 py-1.5 text-xs font-medium transition-colors ${imageGenSize === s ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
+                                  data-testid={`button-image-size-${s}`}
+                                >
+                                  {s}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          <Button
+                            onClick={async () => {
+                              if (!imageGenPrompt.trim()) return;
+                              setImageGenLoading(true);
+                              try {
+                                const stored = localStorage.getItem("nursenest-credentials");
+                                const creds = stored ? JSON.parse(stored) : {};
+                                const res = await fetch("/api/admin/generate-image", {
+                                  method: "POST",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify({
+                                    prompt: imageGenPrompt,
+                                    size: imageGenSize,
+                                    filename: imageGenFilename || undefined,
+                                    username: creds.username,
+                                    password: creds.password,
+                                  }),
+                                });
+                                if (!res.ok) {
+                                  const err = await res.json();
+                                  alert("Error: " + (err.error || "Failed to generate image"));
+                                } else {
+                                  const data = await res.json();
+                                  setGeneratedImages(prev => [{ filename: data.filename, url: data.url, size: data.size, createdAt: new Date().toISOString() }, ...prev]);
+                                  setShowImageLibrary(true);
+                                  setImageGenPrompt("");
+                                  setImageGenFilename("");
+                                }
+                              } catch (e: any) {
+                                alert("Error: " + e.message);
+                              } finally {
+                                setImageGenLoading(false);
+                              }
+                            }}
+                            disabled={imageGenLoading || !imageGenPrompt.trim()}
+                            className="shrink-0 gap-1.5"
+                            data-testid="button-generate-image"
+                          >
+                            <Zap className="w-3.5 h-3.5" />
+                            {imageGenLoading ? "Generating..." : "Generate"}
+                          </Button>
+                        </div>
+                        <p className="text-[10px] text-gray-400">Images are auto-prefixed with "Medical illustration, no text/labels/watermarks". Saved to attached_assets/generated_images/.</p>
+                      </div>
+
+                      {showImageLibrary && (
+                        <div className="mt-4 border-t pt-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-xs font-semibold text-gray-600">Generated Images ({generatedImages.length})</span>
+                            <button
+                              onClick={() => {
+                                const stored = localStorage.getItem("nursenest-credentials");
+                                if (stored) {
+                                  const { username, password } = JSON.parse(stored);
+                                  fetch(`/api/admin/generated-images?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+                                    .then(r => r.json()).then(setGeneratedImages).catch(() => {});
+                                }
+                              }}
+                              className="text-[10px] text-primary hover:underline"
+                              data-testid="button-refresh-images"
+                            >
+                              Refresh
+                            </button>
+                          </div>
+                          {generatedImages.length === 0 ? (
+                            <p className="text-xs text-gray-400 text-center py-4">No generated images yet. Generate your first one above!</p>
+                          ) : (
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-80 overflow-y-auto">
+                              {generatedImages.map((img) => (
+                                <div key={img.filename} className="group relative rounded-lg overflow-hidden border border-gray-200 bg-gray-50" data-testid={`image-library-item-${img.filename}`}>
+                                  <img src={img.url} alt={img.filename} className="w-full aspect-square object-cover" loading="lazy" />
+                                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 p-2">
+                                    <button
+                                      onClick={() => { navigator.clipboard.writeText(img.url); alert("URL copied: " + img.url); }}
+                                      className="text-[10px] bg-white text-gray-800 px-2 py-1 rounded shadow hover:bg-gray-100"
+                                      data-testid={`button-copy-url-${img.filename}`}
+                                    >
+                                      Copy URL
+                                    </button>
+                                    <button
+                                      onClick={() => { setImageGenPrompt("Variation of: "); setShowImageLibrary(false); }}
+                                      className="text-[10px] bg-primary text-white px-2 py-1 rounded shadow hover:bg-primary/90"
+                                      data-testid={`button-regenerate-${img.filename}`}
+                                    >
+                                      Regenerate
+                                    </button>
+                                    <button
+                                      onClick={async () => {
+                                        if (!confirm("Delete this image?")) return;
+                                        const stored = localStorage.getItem("nursenest-credentials");
+                                        const creds = stored ? JSON.parse(stored) : {};
+                                        await fetch(`/api/admin/generated-images/${img.filename}?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`, { method: "DELETE" });
+                                        setGeneratedImages(prev => prev.filter(i => i.filename !== img.filename));
+                                      }}
+                                      className="text-[10px] bg-red-500 text-white px-2 py-1 rounded shadow hover:bg-red-600"
+                                      data-testid={`button-delete-image-${img.filename}`}
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                  <div className="px-2 py-1.5">
+                                    <p className="text-[9px] text-gray-500 truncate" title={img.filename}>{img.filename}</p>
+                                  </div>
                                 </div>
                               ))}
                             </div>

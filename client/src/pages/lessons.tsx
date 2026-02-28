@@ -3530,10 +3530,20 @@ export default function Lessons() {
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-white to-blue-50 border-b border-gray-100" data-testid="section-lessons-hero">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="text-center max-w-4xl mx-auto">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6" data-testid="badge-lessons-hero">
-              <BookOpen className="w-4 h-4" />
-              {t("lessons.hero.badge")}
-            </span>
+            <div className="flex items-center justify-center gap-2 flex-wrap mb-6">
+              <span className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold" data-testid="badge-lessons-pill1">
+                <Stethoscope className="w-3.5 h-3.5" />
+                {t("lessons.hero.pill1")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold" data-testid="badge-lessons-pill2">
+                <BarChart3 className="w-3.5 h-3.5" />
+                {t("lessons.hero.pill2")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold" data-testid="badge-lessons-pill3">
+                <GraduationCap className="w-3.5 h-3.5" />
+                {t("lessons.hero.pill3")}
+              </span>
+            </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-lessons-hero-title">
               {t("lessons.hero.title")}
             </h1>
@@ -3565,6 +3575,10 @@ export default function Lessons() {
               <div className="text-center" data-testid="stat-exam-tiers">
                 <div className="text-2xl sm:text-3xl font-bold text-primary">{t("lessons.hero.stat3")}</div>
                 <div className="text-sm text-gray-500 font-medium">{t("lessons.hero.stat3Label")}</div>
+              </div>
+              <div className="text-center" data-testid="stat-languages">
+                <div className="text-2xl sm:text-3xl font-bold text-primary">{t("lessons.hero.stat4")}</div>
+                <div className="text-sm text-gray-500 font-medium">{t("lessons.hero.stat4Label")}</div>
               </div>
             </div>
           </div>
@@ -3768,6 +3782,7 @@ export default function Lessons() {
                   { key: "rationales", nn: "yes", tb: "limited", yt: "varies" },
                   { key: "multiLang", nn: "yes", tb: "no", yt: "limited" },
                   { key: "updated", nn: "yes", tb: "no", yt: "varies" },
+                  { key: "mobileFirst", nn: "yes", tb: "no", yt: "yes" },
                 ].map((row, idx) => (
                   <tr key={row.key} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                     <td className="px-6 py-3.5 font-medium text-gray-700">{t(`lessons.competitor.${row.key}`)}</td>
@@ -3800,6 +3815,14 @@ export default function Lessons() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8" data-testid="text-lessons-conversion-subtitle">
             {t("lessons.conversion.subtitle")}
           </p>
+          <div className="flex flex-col items-center gap-3 mb-8 max-w-md mx-auto text-left">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex items-start gap-3" data-testid={`text-lessons-conversion-feature-${i}`}>
+                <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                <span className="text-sm text-gray-700">{t(`lessons.conversion.feature${i}`)}</span>
+              </div>
+            ))}
+          </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
             <LocaleLink href="/register">
               <span className="inline-flex items-center gap-2 bg-primary hover:brightness-110 text-white rounded-full px-8 py-3.5 font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer text-base" data-testid="link-lessons-conversion-cta">

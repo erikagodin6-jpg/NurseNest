@@ -3449,6 +3449,78 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
     }
   });
 
+  app.post("/api/admin/generate-image", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { prompt, size = "1024x1024", filename } = req.body;
+      if (!prompt) return res.status(400).json({ error: "Prompt is required" });
+      if (prompt.length > 2000) return res.status(400).json({ error: "Prompt too long (max 2000 chars)" });
+      const validSizes = ["1024x1024", "512x512", "256x256"];
+      const safeSize = validSizes.includes(size) ? size : "1024x1024";
+
+      const { generateImageBuffer } = await import("./replit_integrations/image/client");
+      const medicalPrompt = `Medical illustration, clean white background, no text, no labels, no letters, no numbers, no watermarks, no annotations. ${prompt}`;
+      const buffer = await generateImageBuffer(medicalPrompt, safeSize as any);
+
+      const fs = await import("fs");
+      const pathMod = await import("path");
+      const dir = pathMod.default.resolve(process.cwd(), "attached_assets", "generated_images");
+      if (!fs.default.existsSync(dir)) fs.default.mkdirSync(dir, { recursive: true });
+
+      const safeName = (filename || prompt.slice(0, 40)).replace(/[^a-zA-Z0-9-_]/g, "-").toLowerCase().replace(/-+/g, "-");
+      const finalName = `${safeName}-${Date.now()}.png`;
+      const filePath = pathMod.default.join(dir, finalName);
+      fs.default.writeFileSync(filePath, buffer);
+
+      const url = `/attached_assets/generated_images/${finalName}`;
+      res.json({ url, filename: finalName, size: buffer.length });
+    } catch (e: any) {
+      console.error("[ImageGen] Error:", e.message);
+      res.status(500).json({ error: e.message || "Image generation failed" });
+    }
+  });
+
+  app.get("/api/admin/generated-images", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const fs = await import("fs");
+      const pathMod = await import("path");
+      const dir = pathMod.default.resolve(process.cwd(), "attached_assets", "generated_images");
+      if (!fs.default.existsSync(dir)) return res.json([]);
+
+      const files = fs.default.readdirSync(dir)
+        .filter((f: string) => f.endsWith(".png") || f.endsWith(".jpg") || f.endsWith(".webp"))
+        .map((f: string) => {
+          const stat = fs.default.statSync(pathMod.default.join(dir, f));
+          return { filename: f, url: `/attached_assets/generated_images/${f}`, size: stat.size, createdAt: stat.mtime.toISOString() };
+        })
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+      res.json(files);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/generated-images/:filename", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const fs = await import("fs");
+      const pathMod = await import("path");
+      const filePath = pathMod.default.resolve(process.cwd(), "attached_assets", "generated_images", req.params.filename);
+      if (fs.default.existsSync(filePath)) fs.default.unlinkSync(filePath);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/blog/generate", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

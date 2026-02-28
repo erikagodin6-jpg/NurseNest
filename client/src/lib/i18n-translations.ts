@@ -1872,6 +1872,7 @@ const nonEnTranslations: Partial<Record<LanguageCode, Record<string, string>>> =
     "nav.blog": "Blog",
     "nav.blogManager": "Gestionnaire de blog",
     "nav.bloodTransfusion": "Transfusion Sanguine",
+    "nav.store": "Boutique",
     "nav.caseSimulations": "Simulations de Cas",
     "nav.clinicalClarity": "Clarté Clinique",
     "nav.clinicalSimulators": "Simulateurs Cliniques",

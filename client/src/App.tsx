@@ -101,6 +101,8 @@ const AdminRevenueDashboard = lazy(() => import("@/pages/admin-revenue-dashboard
 const AdminPipelineDashboard = lazy(() => import("@/pages/admin-pipeline-dashboard"));
 const ComparePage = lazy(() => import("@/pages/compare"));
 const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
+const ShopPage = lazy(() => import("@/pages/shop"));
+const ShopProductPage = lazy(() => import("@/pages/shop-product"));
 
 function PageTracker() {
   usePageTracker();
@@ -250,6 +252,8 @@ function AppRoutes() {
         <Route path="/mock-exams/:id" component={MockExamSession} />
         <Route path="/mock-exams" component={MockExamsPage} />
         <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
+        <Route path="/shop/:slug" component={ShopProductPage} />
+        <Route path="/shop" component={ShopPage} />
         <Route path="/compare/:slug" component={ComparePage} />
         <Route path="/np-exam-guide/:slug" component={NpExamHub} />
         <Route path="/np-exam-guide" component={NpExamHub} />

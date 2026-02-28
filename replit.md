@@ -116,3 +116,16 @@ NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, 
 
 ### AI Batch Generation System
 - Admin endpoints for generating exam questions and flashcards in batches.
+
+### Digital Study Marketplace
+- **DB Tables**: `digital_products`, `product_purchases`, `coupon_codes` in `shared/schema.ts`.
+- **Public Pages**: `/shop` (product listing with filters), `/shop/:slug` (product detail).
+- **API**: Public product listing, Stripe checkout, fulfillment, secure downloads, coupon validation.
+- **Admin**: Full CRUD for products, sales data at `/api/admin/shop/*`.
+- **Store Nav**: Added to desktop nav, mobile nav, and footer with i18n key `nav.store`.
+
+### AI Medical Image Generator
+- **Admin UI**: In Content Engine tab of admin page, generates medical illustrations via `gpt-image-1`.
+- **API**: `POST /api/admin/generate-image`, `GET /api/admin/generated-images`, `DELETE /api/admin/generated-images/:filename`.
+- **Storage**: Images saved to `attached_assets/generated_images/`, served via static route.
+- **Image Library**: Browse, copy URL, regenerate, delete generated images.

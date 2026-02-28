@@ -56,7 +56,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag } from "lucide-react";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { t } = useI18n();
@@ -515,6 +515,12 @@ export function Navigation() {
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.resources")}</p>
             <SheetClose asChild>
+              <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "mobile_nav" }) }).catch(() => {}); } catch {} }} data-testid="button-store-mobile">
+                <ShoppingBag className="w-4 h-4" />
+                {t("nav.store")}
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/pricing")}>
                 <Tag className="w-4 h-4" />
                 {t("nav.pricing")}
@@ -726,6 +732,9 @@ export function Navigation() {
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2 relative" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-nav">
                 {t("nav.flashcards")}
                 <span className="absolute -top-0.5 -right-0.5 flex h-4 px-1 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">{t("common.free")}</span>
+              </Button>
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "desktop_nav" }) }).catch(() => {}); } catch {} }} data-testid="button-store-nav">
+                {t("nav.store")}
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

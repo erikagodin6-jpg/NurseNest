@@ -75,6 +75,13 @@ function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {
     return crumbs;
   }
 
+  const shopMatch = pathname.match(/^\/shop\/(.+)$/);
+  if (shopMatch) {
+    crumbs.push({ name: "Store", url: `${SITE_BASE}/shop` });
+    crumbs.push({ name: slugToTitle(shopMatch[1]), url: `${SITE_BASE}${pathname}` });
+    return crumbs;
+  }
+
   if (pathname !== "/") {
     const pageName = staticPages[pathname]?.title?.split(" | ")[0]?.split(" - ")[0] || slugToTitle(pathname.replace(/^\//, ""));
     crumbs.push({ name: pageName, url: `${SITE_BASE}${pathname}` });
@@ -213,6 +220,10 @@ const staticPages: Record<string, { title: string; description: string }> = {
   "/medication-mastery": {
     title: "Medication Mastery - Drug Mechanisms & Safety | NurseNest",
     description: "Explore medication mechanisms of action at the receptor level. Pharmacology mastery for nursing students with safety considerations.",
+  },
+  "/shop": {
+    title: "Nursing Study Guides & Cram Booklets | NurseNest Store",
+    description: "Download professional nursing cram guides, quick reference sheets, and study bundles. REx-PN, NCLEX, and NP exam prep materials from $19. Instant PDF download.",
   },
   "/blog": {
     title: "Nursing Blog - Evidence-Based Articles | NurseNest",
