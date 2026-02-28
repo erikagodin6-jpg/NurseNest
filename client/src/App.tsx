@@ -91,6 +91,8 @@ const LectureViewer = lazy(() => import("@/pages/lecture-viewer"));
 const LecturesPage = lazy(() => import("@/pages/lectures"));
 const DeckPage = lazy(() => import("@/pages/deck-page"));
 const ProbabilitySimulatorPage = lazy(() => import("@/pages/probability-simulator"));
+const SeoPage = lazy(() => import("@/pages/seo-page"));
+const AdminSeoDashboard = lazy(() => import("@/pages/admin-seo-dashboard"));
 
 function PageTracker() {
   usePageTracker();
@@ -240,6 +242,8 @@ function AppRoutes() {
         <Route path="/mock-exams/:id" component={MockExamSession} />
         <Route path="/mock-exams" component={MockExamsPage} />
         <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
+        <Route path="/study-guide/:slug" component={SeoPage} />
+        <Route path="/admin/seo" component={AdminSeoDashboard} />
         <Route path="/medication-mastery" component={MedicationMasteryPage} />
         <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />

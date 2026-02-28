@@ -125,6 +125,10 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
               <BookOpen className="w-4 h-4" />
               {t("nav.blogManager")}
             </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/seo")} data-testid="menu-seo-dashboard">
+              <Globe className="w-4 h-4" />
+              SEO Dashboard
+            </DropdownMenuItem>
           </>
         )}
         <DropdownMenuSeparator />
@@ -576,6 +580,12 @@ export function Navigation() {
                       <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/content-editor")} data-testid="button-content-editor-mobile">
                         <FileText className="w-4 h-4" />
                         {t("nav.contentEditor")}
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin/seo")} data-testid="button-seo-dashboard-mobile">
+                        <Globe className="w-4 h-4" />
+                        SEO Dashboard
                       </Button>
                     </SheetClose>
                   </>

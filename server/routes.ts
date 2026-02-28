@@ -5340,13 +5340,15 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
   app.get("/api/seo-pages/:slug", async (req, res) => {
     try {
       const lang = req.query.language || "en";
+      const isAdminPreview = req.query.preview === "true";
+      const publicFilter = isAdminPreview ? "" : " AND is_public = true";
       const result = await pool.query(
-        `SELECT * FROM seo_pages WHERE slug = $1 AND language_code = $2 AND is_public = true`,
+        `SELECT * FROM seo_pages WHERE slug = $1 AND language_code = $2${publicFilter}`,
         [req.params.slug, lang]
       );
       if (result.rows.length === 0) {
         const fallback = await pool.query(
-          `SELECT * FROM seo_pages WHERE slug = $1 AND language_code = 'en' AND is_public = true`,
+          `SELECT * FROM seo_pages WHERE slug = $1 AND language_code = 'en'${publicFilter}`,
           [req.params.slug]
         );
         if (fallback.rows.length === 0) return res.status(404).json({ error: "Page not found" });
@@ -5526,6 +5528,223 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
          FROM content_translations GROUP BY content_type, language_code, translation_status ORDER BY content_type, language_code`
       );
       res.json(coverage.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== SEO DASHBOARD ======
+  app.get("/api/admin/seo-dashboard", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const [pagesByLang, pagesByStatus, wordCountFlags, missingMeta, orphanPages, needsReview] = await Promise.all([
+        pool.query(`SELECT language_code, page_type, COUNT(*)::int as count FROM seo_pages GROUP BY language_code, page_type ORDER BY language_code`),
+        pool.query(`SELECT language_code, translation_status, COUNT(*)::int as count FROM seo_pages GROUP BY language_code, translation_status ORDER BY language_code`),
+        pool.query(`SELECT id, title, slug, language_code, page_type, LENGTH(COALESCE(content_html,'')) as char_count FROM seo_pages WHERE (page_type = 'pillar' AND LENGTH(COALESCE(content_html,'')) < 15000) OR (page_type = 'cluster' AND LENGTH(COALESCE(content_html,'')) < 7200) ORDER BY char_count ASC LIMIT 50`),
+        pool.query(`SELECT id, title, slug, language_code, page_type FROM seo_pages WHERE meta_description IS NULL OR meta_description = '' ORDER BY language_code LIMIT 100`),
+        pool.query(`SELECT id, title, slug, language_code FROM seo_pages WHERE page_group_id IS NULL AND language_code != 'en' LIMIT 50`),
+        pool.query(`SELECT id, title, slug, language_code, translation_status FROM seo_pages WHERE translation_status = 'needs_review' ORDER BY last_updated DESC LIMIT 50`),
+      ]);
+
+      const coverageMatrix = await pool.query(
+        `SELECT page_group_id, array_agg(json_build_object('lang', language_code, 'status', translation_status, 'id', id)) as langs
+         FROM seo_pages WHERE page_group_id IS NOT NULL GROUP BY page_group_id`
+      );
+
+      res.json({
+        pagesByLanguage: pagesByLang.rows.map(snakeToCamel),
+        pagesByStatus: pagesByStatus.rows.map(snakeToCamel),
+        wordCountFlags: wordCountFlags.rows.map(snakeToCamel),
+        missingMeta: missingMeta.rows.map(snakeToCamel),
+        orphanPages: orphanPages.rows.map(snakeToCamel),
+        needsReview: needsReview.rows.map(snakeToCamel),
+        coverageMatrix: coverageMatrix.rows.map(snakeToCamel),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/seo-pages-all", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const lang = req.query.language || "en";
+      const pageType = req.query.pageType;
+      let query = `SELECT id, page_type, exam, language_code, title, slug, meta_title, meta_description, translation_status, is_public, is_indexable, page_group_id, LENGTH(COALESCE(content_html,'')) as content_length, last_updated FROM seo_pages WHERE language_code = $1`;
+      const params: any[] = [lang];
+      if (pageType) { query += ` AND page_type = $${params.length + 1}`; params.push(pageType); }
+      query += ` ORDER BY page_type DESC, title`;
+      const result = await pool.query(query, params);
+      res.json(result.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== AI LOCALIZATION GENERATOR ======
+  app.post("/api/ai/generate-localized-seo", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { sourcePageId, targetLanguage } = req.body;
+      if (!sourcePageId || !targetLanguage) return res.status(400).json({ error: "sourcePageId and targetLanguage required" });
+
+      const source = await pool.query(`SELECT * FROM seo_pages WHERE id = $1`, [sourcePageId]);
+      if (source.rows.length === 0) return res.status(404).json({ error: "Source page not found" });
+      const srcPage = source.rows[0];
+
+      const langNames: Record<string, string> = {
+        fr: "French", es: "Spanish", fil: "Filipino (Tagalog)", hi: "Hindi", zh: "Chinese (Simplified)",
+        ar: "Arabic", ko: "Korean", pt: "Portuguese", pa: "Punjabi", vi: "Vietnamese",
+        ht: "Haitian Creole", ur: "Urdu", ja: "Japanese", fa: "Farsi (Persian)"
+      };
+      const langName = langNames[targetLanguage] || targetLanguage;
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const prompt = `You are a professional medical content localizer specializing in nursing education. Localize the following SEO page metadata from English to ${langName}.
+
+CRITICAL RULES:
+- Do NOT literally translate. Adapt to how native ${langName} speakers search for nursing exam prep content.
+- Use natural nursing terminology in ${langName}.
+- Preserve medical accuracy and clinical authority tone.
+- Optimize meta title/description for search queries native speakers would use.
+- Adapt FAQ questions to natural search phrasing in ${langName}.
+- Keep all medical terms accurate (some may stay in English if that's standard in ${langName}-speaking countries).
+
+Source page:
+Title: ${srcPage.title}
+Meta Title: ${srcPage.meta_title || srcPage.title}
+Meta Description: ${srcPage.meta_description || ""}
+Page Type: ${srcPage.page_type}
+Exam: ${srcPage.exam || "general"}
+
+${srcPage.faq_json ? `FAQs (localize questions and answers naturally):\n${srcPage.faq_json}` : ""}
+
+Return ONLY valid JSON with this exact structure:
+{
+  "title": "Localized title",
+  "metaTitle": "SEO-optimized localized meta title (max 60 chars)",
+  "metaDescription": "SEO-optimized localized meta description (max 160 chars)",
+  "slug": "url-slug-in-target-language",
+  "faqs": [{"q": "localized question", "a": "localized answer"}]
+}`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.6,
+        max_tokens: 4096,
+      });
+
+      const text = response.choices[0]?.message?.content || "{}";
+      let localized;
+      try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        localized = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+      } catch {
+        return res.status(500).json({ error: "Failed to parse AI response" });
+      }
+
+      const targetSlug = `${targetLanguage}/${localized.slug || srcPage.slug}`;
+
+      const existing = await pool.query(
+        `SELECT id, translation_status FROM seo_pages WHERE page_group_id = $1 AND language_code = $2`,
+        [srcPage.page_group_id, targetLanguage]
+      );
+
+      if (existing.rows.length > 0) {
+        if (existing.rows[0].translation_status === "human_reviewed") {
+          return res.status(409).json({ error: "Cannot overwrite human-reviewed translation. Edit manually instead." });
+        }
+        await pool.query(
+          `UPDATE seo_pages SET title = $1, slug = $2, meta_title = $3, meta_description = $4, faq_json = $5, translation_status = 'auto', last_updated = NOW() WHERE id = $6`,
+          [localized.title, targetSlug, localized.metaTitle, localized.metaDescription, JSON.stringify(localized.faqs || []), existing.rows[0].id]
+        );
+      } else {
+        await pool.query(
+          `INSERT INTO seo_pages (id, page_type, exam, language_code, title, slug, meta_title, meta_description, faq_json, toc_json, internal_links_json, is_public, is_indexable, canonical_url, translation_status, page_group_id, last_updated)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, false, false, $11, 'auto', $12, NOW())`,
+          [srcPage.page_type, srcPage.exam, targetLanguage, localized.title, targetSlug, localized.metaTitle, localized.metaDescription,
+           JSON.stringify(localized.faqs || []), srcPage.toc_json, srcPage.internal_links_json,
+           `/${targetSlug}`, srcPage.page_group_id]
+        );
+      }
+
+      await logAudit(req, admin, "seo_page", sourcePageId, "ai-localize", null, { targetLanguage, title: localized.title });
+      res.json({ success: true, localized });
+    } catch (e: any) {
+      console.error("AI localization error:", e);
+      res.status(500).json({ error: e.message || "AI localization failed" });
+    }
+  });
+
+  // ====== SEO KEYWORD TARGETS ======
+  app.get("/api/admin/seo-keywords", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const lang = req.query.language;
+      let query = `SELECT * FROM seo_keyword_targets`;
+      const params: any[] = [];
+      if (lang) { query += ` WHERE language_code = $1`; params.push(lang); }
+      query += ` ORDER BY language_code, keyword`;
+      const result = await pool.query(query, params);
+      res.json(result.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/seo-keywords", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { languageCode, keyword, intent, pageTargetSlug, searchVolume, difficulty } = req.body;
+      if (!languageCode || !keyword) return res.status(400).json({ error: "languageCode and keyword required" });
+      const result = await pool.query(
+        `INSERT INTO seo_keyword_targets (id, language_code, keyword, intent, page_target_slug, search_volume, difficulty, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW()) RETURNING *`,
+        [languageCode, keyword, intent || "informational", pageTargetSlug || null, searchVolume || null, difficulty || null]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/seo-keywords/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await pool.query(`DELETE FROM seo_keyword_targets WHERE id = $1`, [req.params.id]);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  // ====== FLAG TRANSLATIONS NEEDING REVIEW ======
+  app.post("/api/admin/flag-stale-translations", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(
+        `UPDATE seo_pages SET translation_status = 'needs_review'
+         WHERE language_code != 'en' AND translation_status = 'auto'
+         AND page_group_id IN (
+           SELECT page_group_id FROM seo_pages WHERE language_code = 'en' AND last_updated > (NOW() - INTERVAL '7 days')
+         ) RETURNING id`
+      );
+      res.json({ flagged: result.rowCount });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

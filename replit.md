@@ -41,7 +41,10 @@ NurseNest is an interactive nursing education platform for RPN/LVN, RN, and NP s
 - **Admin Features**: Dashboard for analytics, subscriptions, activity, and a unified Content Engine. Admin preview mode allows viewing as different user tiers.
 - **Blog Automation**: OpenAI-powered blog post generation with scholarly sources and scheduled publishing.
 - **Custom Flashcards**: Users can create, edit, and study personal flashcards, with CSV import and AI accuracy checks. Features AI Flashcard Generator.
-- **Internationalization (i18n)**: Custom system supporting 15 languages, with full UI translation for French and Spanish.
+- **Internationalization (i18n)**: Custom system supporting 15 languages (en, fr, es, fil, hi, zh, ar, ko, pt, pa, vi, ht, ur, ja, fa), with full UI translation for French and Spanish. Language-prefixed URL routing (`/{lang}/...`), hreflang alternate links on all pages, RTL support for Arabic/Urdu/Farsi.
+- **Multilingual SEO System**: 1,170 SEO pages (6 pillars + 72 clusters + 1,092 translation placeholders across 14 non-English languages). Admin SEO Dashboard (`/admin/seo`) with coverage matrix, word count flags, missing meta detection, orphan page tracking, and translation review flagging. AI-powered "Generate Localized Version" button for natural localization (not literal translation). Per-language sitemaps (`/sitemap-{lang}.xml`), sitemap index (`/sitemap_index.xml`). Article, FAQPage, and BreadcrumbList JSON-LD schemas on study guide pages. SEO keyword targeting table (`seo_keyword_targets`) with CRUD endpoints.
+- **SEO Page Rendering**: `/study-guide/:slug` route renders pillar/cluster pages with TOC sidebar, FAQ accordion, internal linking, CTA sections, and admin draft preview mode.
+- **Content Translations**: `content_translations` table tracks per-field translations with status (auto/localized/human_reviewed), source update reference, and protection against overwriting human-reviewed content.
 - **Tier Isolation**: Access is exclusive per tier (RPN, RN, NP), while free users see all tabs.
 - **SEO**: Per-route meta tags injected via Vite `transformIndexHtml` hook, sitemap.xml, robots.txt, structured data (JSON-LD).
 - **Question of the Day (QOTD)**: Server-side engine for daily questions with an SEO-optimized landing page.

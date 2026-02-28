@@ -770,6 +770,8 @@ export const seoPages = pgTable("seo_pages", {
 });
 
 export type SeoPage = typeof seoPages.$inferSelect;
+export const insertSeoPageSchema = createInsertSchema(seoPages).omit({ id: true, lastUpdated: true });
+export type InsertSeoPage = z.infer<typeof insertSeoPageSchema>;
 
 export const contentTranslations = pgTable("content_translations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -784,3 +786,16 @@ export const contentTranslations = pgTable("content_translations", {
 });
 
 export type ContentTranslation = typeof contentTranslations.$inferSelect;
+
+export const seoKeywordTargets = pgTable("seo_keyword_targets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  languageCode: text("language_code").notNull(),
+  keyword: text("keyword").notNull(),
+  intent: text("intent").default("informational"),
+  pageTargetSlug: text("page_target_slug"),
+  searchVolume: integer("search_volume"),
+  difficulty: integer("difficulty"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type SeoKeywordTarget = typeof seoKeywordTargets.$inferSelect;

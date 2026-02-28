@@ -171,6 +171,7 @@ app.get("/robots.txt", (_req, res) => {
       "Disallow: /subscription/success",
       "",
       `Sitemap: ${base}/sitemap.xml`,
+      `Sitemap: ${base}/sitemap_index.xml`,
       "",
     ].join("\n"),
   );
@@ -306,12 +307,74 @@ app.get("/sitemap.xml", async (_req, res) => {
     }
   } catch {}
 
+  try {
+    const { pool: dbPool } = await import("./storage");
+    const seoPages = await dbPool.query(
+      `SELECT slug, language_code, page_type, last_updated FROM seo_pages WHERE is_public = true AND is_indexable = true ORDER BY language_code, page_type DESC`
+    );
+    for (const page of seoPages.rows) {
+      const priority = page.page_type === "pillar" ? "0.9" : "0.7";
+      const lastmod = page.last_updated ? new Date(page.last_updated).toISOString().split("T")[0] : today;
+      const pagePath = `/study-guide/${page.slug}`;
+      entries.push(`<url>`);
+      entries.push(`<loc>${base}/${page.language_code}${pagePath}</loc>`);
+      entries.push(`<priority>${priority}</priority>`);
+      entries.push(`<changefreq>weekly</changefreq>`);
+      entries.push(`<lastmod>${lastmod}</lastmod>`);
+      entries.push(`</url>`);
+    }
+  } catch {}
+
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n` +
     entries.join("\n") +
     `\n</urlset>`;
 
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(xml);
+});
+
+app.get("/sitemap_index.xml", async (_req, res) => {
+  const base = getSiteBase();
+  const today = new Date().toISOString().split("T")[0];
+  const sitemaps = SUPPORTED_LOCALES.map(locale =>
+    `<sitemap><loc>${base}/sitemap-${locale}.xml</loc><lastmod>${today}</lastmod></sitemap>`
+  );
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join("\n")}\n</sitemapindex>`;
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(xml);
+});
+
+app.get("/sitemap-:lang.xml", async (req, res) => {
+  const lang = req.params.lang;
+  if (!SUPPORTED_LOCALES.includes(lang)) return res.status(404).send("Not found");
+  const base = getSiteBase();
+  const today = new Date().toISOString().split("T")[0];
+  const entries: string[] = [];
+
+  const coreRoutes = ["/", "/lessons", "/flashcards", "/pricing", "/start-free", "/mock-exams", "/clinical-clarity", "/blog", "/question-of-the-day", "/question-bank", "/faq", "/contact"];
+  for (const route of coreRoutes) {
+    const loc = `${base}/${lang}${route === "/" ? "" : route}`;
+    entries.push(`<url><loc>${loc}</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${today}</lastmod></url>`);
+  }
+
+  try {
+    const { pool: dbPool } = await import("./storage");
+    const seoPages = await dbPool.query(
+      `SELECT slug, page_type, last_updated FROM seo_pages WHERE language_code = $1 AND is_public = true AND is_indexable = true ORDER BY page_type DESC`,
+      [lang]
+    );
+    for (const page of seoPages.rows) {
+      const priority = page.page_type === "pillar" ? "0.9" : "0.7";
+      const lastmod = page.last_updated ? new Date(page.last_updated).toISOString().split("T")[0] : today;
+      entries.push(`<url><loc>${base}/${lang}/study-guide/${page.slug}</loc><changefreq>weekly</changefreq><priority>${priority}</priority><lastmod>${lastmod}</lastmod></url>`);
+    }
+  } catch {}
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</urlset>`;
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600");
   res.status(200).send(xml);
