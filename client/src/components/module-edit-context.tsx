@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef } from "react";
 import { RichTextEditor, RichTextDisplay } from "@/components/rich-text-editor";
+import { useI18n } from "@/lib/i18n";
 
 export type SectionOverride = {
   title?: string;
@@ -27,8 +28,15 @@ export function useModuleEdit() {
 
 export function useEditableText(sectionKey: string, defaultText: string): string {
   const { sections } = useModuleEdit();
+  const { t, language } = useI18n();
   const override = sections[sectionKey];
-  return override?.content ?? defaultText;
+  if (override?.content) return override.content;
+  if (language !== "en") {
+    const i18nKey = `prenursing.${sectionKey}`;
+    const translated = t(i18nKey);
+    if (translated !== i18nKey) return translated;
+  }
+  return defaultText;
 }
 
 export function EditableModuleText({
@@ -45,8 +53,14 @@ export function EditableModuleText({
   multiline?: boolean;
 }) {
   const { isEditing, sections, updateSection } = useModuleEdit();
+  const { t, language } = useI18n();
   const override = sections[sectionKey];
-  const displayText = override?.content ?? defaultText;
+  let displayText = override?.content ?? defaultText;
+  if (!override?.content && language !== "en") {
+    const i18nKey = `prenursing.${sectionKey}`;
+    const translated = t(i18nKey);
+    if (translated !== i18nKey) displayText = translated;
+  }
 
   const editorContainerRef = useRef<HTMLDivElement>(null);
 
