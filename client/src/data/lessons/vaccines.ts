@@ -6,6 +6,43 @@ const childhoodVaccines: LessonContent = {
     title: "Vaccine Immunology & Schedule Rationale",
     content: "Immunizations are one of the most heavily tested topics in nursing licensure examinations because they integrate immunology, safety, patient education, and public health priorities. Vaccines stimulate active immunity by exposing the immune system to antigens (attenuated, inactivated, or component-based) without causing disease. The immune system produces memory B and T cells that provide rapid response upon future exposure. The immunization schedule is designed around developmental immunology: vaccines are timed when maternal antibody protection wanes and immune system maturity allows adequate response. Key vaccines include: Hepatitis B (given at birth: prevents chronic liver disease and hepatocellular carcinoma), Rotavirus (oral, live vaccine: prevents severe gastroenteritis and dehydration), Haemophilus influenzae type b (Hib: prevents meningitis, epiglottitis, and invasive disease in young children), MMR (measles, mumps, rubella: live vaccine given after 12 months when maternal antibodies decline), Meningococcal (MCV: prevents Neisseria meningitidis meningitis, given to adolescents), Pneumococcal (PCV: prevents Streptococcus pneumoniae invasive disease), and HPV (prevents human papillomavirus-related cancers, given in adolescence). Vaccine reactions range from mild (fever, injection site soreness, irritability) to rare severe reactions (anaphylaxis)."
   },
+  riskFactors: [
+    "Unvaccinated or under-vaccinated children",
+    "Immunocompromised patients (contraindication for live vaccines)",
+    "Premature infants (may need adjusted schedules)",
+    "Children with egg allergy (specific vaccines: influenza)",
+    "History of severe allergic reaction to vaccine component",
+    "Household contacts of immunocompromised individuals",
+    "International travel to endemic regions",
+    "Daycare or school attendance without up-to-date immunizations"
+  ],
+  diagnostics: [
+    "Review immunization records for completeness and catch-up needs",
+    "Assess contraindications and precautions before each vaccine administration",
+    "Screen for immunodeficiency before administering live vaccines",
+    "Monitor for adverse reactions for minimum 15 minutes post-vaccination",
+    "Document vaccine name, lot number, manufacturer, site, route, date, and administrator",
+    "Report adverse events through the Vaccine Adverse Event Reporting System (VAERS)"
+  ],
+  management: [
+    "Follow current immunization schedule for age-appropriate vaccine administration",
+    "Catch-up scheduling for missed or delayed vaccines",
+    "Acetaminophen or ibuprofen for post-vaccination fever and discomfort (reactive, not prophylactic)",
+    "Cold compress to injection site for local reactions",
+    "Epinephrine immediately available at all vaccination sites for anaphylaxis",
+    "Contraindication documentation and alternative vaccine planning when needed",
+    "Education on expected reactions vs reportable adverse events"
+  ],
+  nursingActions: [
+    "Verify vaccine schedule and assess for contraindications before administration",
+    "Obtain informed consent and provide Vaccine Information Statements (VIS)",
+    "Use correct route, site, and needle length for patient age and vaccine type",
+    "Observe patient for minimum 15 minutes post-vaccination for adverse reactions",
+    "Document all required information: vaccine, lot number, site, route, VIS date provided",
+    "Educate parents on expected mild reactions and when to seek medical attention",
+    "Maintain cold chain and proper vaccine storage and handling",
+    "Report serious adverse events through VAERS"
+  ],
   signs: {
     left: [
       "Expected mild reactions: low-grade fever, injection site redness/swelling, irritability",
@@ -53,6 +90,43 @@ const vaccineReactions: LessonContent = {
     title: "Immune Response & Adverse Event Recognition",
     content: "Understanding vaccine reactions is essential for nursing practice because vaccines are administered across all clinical settings. Reactions range from expected immune responses to rare serious adverse events. Local reactions (injection site redness, swelling, pain) are the most common and reflect the immune system's inflammatory response to the antigen. Systemic reactions include low-grade fever, irritability, fatigue, and malaise: these indicate immune activation and are generally self-limiting. Febrile seizures may occur in children with fever following vaccination but are typically benign and do not indicate epilepsy. Anaphylaxis is the most serious vaccine reaction: it is rare but potentially fatal, occurring within minutes to hours of administration. Signs include urticaria, angioedema, bronchospasm, hypotension, and cardiovascular collapse. Epinephrine is the first-line treatment and must be immediately available whenever vaccines are given. Contraindications vs precautions is a critical distinction: a true contraindication (severe allergic reaction to previous dose or component) means the vaccine should NOT be given; a precaution (moderate illness, recent blood product) means the provider weighs risks and benefits. Mild illness, low-grade fever, current antibiotic use, and previous mild reactions are NOT contraindications."
   },
+  riskFactors: [
+    "History of anaphylaxis to previous vaccine dose or component",
+    "Known allergy to vaccine components (gelatin, neomycin, yeast)",
+    "Immunocompromised state (risk with live vaccines)",
+    "History of Guillain-Barre syndrome within 6 weeks of prior vaccination",
+    "Encephalopathy within 7 days of pertussis-containing vaccine",
+    "Adolescent age group (higher syncope risk)",
+    "History of febrile seizures (precaution, not contraindication)",
+    "Concurrent moderate-to-severe acute illness (precaution)"
+  ],
+  diagnostics: [
+    "Assess for signs of anaphylaxis: urticaria, angioedema, bronchospasm, hypotension",
+    "Monitor temperature for post-vaccination fever",
+    "Assess injection site for excessive swelling, redness, or induration",
+    "Differentiate expected mild reactions from reportable adverse events",
+    "Document timing and severity of any adverse reaction",
+    "Report serious adverse events through VAERS within required timeframe"
+  ],
+  management: [
+    "Epinephrine IM for anaphylaxis: first-line treatment without delay",
+    "Supportive care for anaphylaxis: airway management, IV fluids, oxygen",
+    "Acetaminophen or ibuprofen for fever and pain (reactive treatment only)",
+    "Cold compress for local injection site reactions",
+    "Observation and supportive care for febrile seizures",
+    "Documentation and evaluation of serious reactions for future vaccine decisions",
+    "Referral to allergist for evaluation after severe reactions"
+  ],
+  nursingActions: [
+    "Have emergency equipment and epinephrine immediately available at all vaccination sites",
+    "Observe all patients for minimum 15 minutes post-vaccination",
+    "Observe adolescents in seated or supine position to prevent syncope-related injury",
+    "Assess for early signs of anaphylaxis and initiate treatment immediately",
+    "Educate caregivers on expected mild reactions and when to seek emergency care",
+    "Document vaccine adverse events accurately with timing, severity, and interventions",
+    "Report serious adverse events through VAERS as required",
+    "Differentiate true contraindications from precautions and invalid contraindications"
+  ],
   signs: {
     left: [
       "Expected local: redness, swelling, tenderness at injection site",

@@ -31,6 +31,7 @@ import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData, buildFaqFromQuizQuestions } from "@/lib/seo-utils";
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getInternalLinksForLesson } from "@/data/internal-links";
+import { LessonQuizEmbed } from "@/components/lesson-quiz-embed";
 import { getLessonImage } from "@/lib/system-images";
 import { ProtectedImage } from "@/components/protected-image";
 import { getImageAltText, getImageTitle, getImageStructuredData, getImageCaption } from "@/lib/image-seo";
@@ -3308,6 +3309,8 @@ export default function LessonDetail() {
             </div>
           );
         })()}
+
+        <LessonQuizEmbed lessonSlug={id || ""} />
 
         {(() => {
           const contextualLinks = getInternalLinksForLesson(id || "");

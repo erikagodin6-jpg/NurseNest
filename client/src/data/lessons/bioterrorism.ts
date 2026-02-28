@@ -6,6 +6,42 @@ const smallpox: LessonContent = {
     title: "Virology & Pathophysiology",
     content: "Smallpox is caused by the variola virus, a DNA virus of the orthopoxvirus family with a human-only reservoir. Although naturally occurring smallpox has been eradicated, it remains heavily tested because it represents a high-consequence infectious disease, a model for outbreak recognition, a public health emergency scenario, and a bioterrorism-relevant pathogen. Transmission occurs primarily via respiratory droplets during prolonged face-to-face exposure and through contaminated materials. Patients become most contagious with rash onset. After entry, viral replication occurs in respiratory mucosa, followed by systemic dissemination via bloodstream producing widespread endothelial and dermal involvement with characteristic rash formation. The disease begins with a prodromal phase of sudden onset high fever, severe malaise, prostration, headache, and body aches before rash development. The rash follows a highly characteristic centrifugal distribution pattern: beginning on the face and extremities, then spreading centrally. Lesions evolve synchronously: macules → papules → vesicles → pustules → scabs, with ALL lesions at the SAME stage. This synchronous evolution is the crucial differentiator from chickenpox (varicella), where lesions appear in successive crops at DIFFERENT stages simultaneously."
   },
+  riskFactors: [
+    "Bioterrorism exposure or deliberate release event",
+    "Unvaccinated individuals (routine vaccination ceased after eradication)",
+    "Close prolonged face-to-face contact with infected person",
+    "Contact with contaminated materials (clothing, bedding)",
+    "Immunocompromised individuals (higher mortality)",
+    "Healthcare workers without appropriate PPE",
+    "Laboratory personnel handling orthopoxviruses"
+  ],
+  diagnostics: [
+    "Clinical presentation: centrifugal rash with synchronous lesion evolution",
+    "Electron microscopy of vesicular fluid for orthopoxvirus particles",
+    "PCR testing of lesion specimens at designated reference laboratories",
+    "Viral culture performed ONLY in BSL-4 laboratories",
+    "Differentiate from chickenpox: synchronous vs asynchronous lesions",
+    "Report suspected cases IMMEDIATELY to public health authorities"
+  ],
+  management: [
+    "Strict airborne and contact isolation in negative pressure room",
+    "Immediate public health notification and emergency response activation",
+    "Post-exposure vaccination within 3-4 days of exposure",
+    "Supportive care: hydration, pain management, wound care",
+    "Tecovirimat (TPOXX) antiviral if available through strategic national stockpile",
+    "Contact tracing and ring vaccination strategy",
+    "Quarantine of exposed individuals for 17-day observation period"
+  ],
+  nursingActions: [
+    "Implement strict airborne and contact precautions immediately",
+    "Notify infection control and public health authorities without delay",
+    "Don appropriate PPE: N95 respirator, gown, gloves, eye protection",
+    "Assess and document rash characteristics: distribution, stage, progression",
+    "Monitor vital signs and hydration status frequently",
+    "Provide comfort measures for pain and pruritus",
+    "Educate patient on isolation requirements and expected disease course",
+    "Document all contacts for public health tracing"
+  ],
   signs: {
     left: [
       "Prodrome: sudden high fever, severe malaise, prostration, headache",
@@ -47,6 +83,43 @@ const anthrax: LessonContent = {
     title: "Microbiology & Toxin-Mediated Pathology",
     content: "Anthrax is caused by Bacillus anthracis, a gram-positive, spore-forming bacterium. Spores are extremely durable in the environment, found naturally in soil, associated with zoonotic origins (animal products like hides and wool), and produce powerful exotoxins. Anthrax is NOT spread person-to-person: transmission occurs via spore entry through skin (most common), inhalation (most dangerous), or gastrointestinal route (rare). Disease severity is largely toxin-mediated, not simply bacterial invasion. Bacillus anthracis produces edema toxin (causing tissue swelling) and lethal toxin (causing cell death and systemic injury), which disrupt immune response, vascular integrity, and cellular survival. Cutaneous anthrax presents as a painless papule progressing to a vesicle and then ulcer with a classic black necrotic center (eschar): the painlessness differentiates it from many other infections. Inhalational anthrax is the most dangerous form: early symptoms resemble viral illness (fever, malaise, non-productive cough), then rapidly progresses to severe respiratory distress, hypoxia, shock, and widened mediastinum on imaging (from hemorrhagic mediastinal lymphadenitis). Gastrointestinal anthrax follows ingestion of contaminated material with GI hemorrhage and necrosis."
   },
+  riskFactors: [
+    "Bioterrorism exposure (suspicious powder, mail handling)",
+    "Agricultural workers handling animal hides, wool, or bone meal",
+    "Veterinarians working with livestock in endemic regions",
+    "Laboratory workers handling Bacillus anthracis specimens",
+    "Military personnel in endemic or conflict zones",
+    "Contact with contaminated soil in endemic areas",
+    "Injection drug use (injection anthrax reported in Europe)"
+  ],
+  diagnostics: [
+    "Blood cultures for Bacillus anthracis (gram-positive rods in chains)",
+    "Chest X-ray showing widened mediastinum (inhalational form)",
+    "CT chest demonstrating mediastinal lymphadenopathy and pleural effusions",
+    "Skin lesion culture or biopsy for cutaneous form",
+    "PCR testing for rapid identification of B. anthracis DNA",
+    "Nasal swabs for epidemiologic screening in exposure events",
+    "Report to public health authorities immediately"
+  ],
+  management: [
+    "Ciprofloxacin or doxycycline as first-line antibiotic therapy",
+    "Combination IV antibiotics for inhalational and systemic anthrax",
+    "Anthrax antitoxin (raxibacumab or obiltoxaximab) for inhalational anthrax",
+    "Post-exposure prophylaxis: 60 days of antibiotics + vaccination",
+    "Supportive care: hemodynamic support, mechanical ventilation as needed",
+    "Surgical debridement for severe cutaneous lesions if indicated",
+    "Standard precautions sufficient (NOT airborne: not person-to-person)"
+  ],
+  nursingActions: [
+    "Implement standard precautions (anthrax is NOT spread person-to-person)",
+    "Administer prescribed antibiotics promptly: early treatment is critical",
+    "Monitor respiratory status closely for inhalational anthrax patients",
+    "Assess and document skin lesion characteristics and progression",
+    "Monitor hemodynamic status and report signs of septic shock",
+    "Notify public health authorities and infection control immediately",
+    "Educate patient that anthrax cannot be transmitted to family members",
+    "Support adherence to full 60-day antibiotic course for post-exposure prophylaxis"
+  ],
   signs: {
     left: [
       "Cutaneous: painless papule → vesicle → ulcer with BLACK eschar",
