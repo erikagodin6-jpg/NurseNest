@@ -1258,6 +1258,7 @@ function QuizReport({
   preTestScore: { percentage: number; score: number; total: number } | null;
   onRetake: () => void;
 }) {
+  const { t } = useI18n();
   const [showReview, setShowReview] = useState(false);
   const derivedScore = answers.filter((a) => a.isCorrect).length;
   const percentage = Math.round((derivedScore / questions.length) * 100);
@@ -1269,7 +1270,7 @@ function QuizReport({
       <div className="text-center space-y-4">
         <ScoreRing percentage={percentage} size={140} />
         <h2 className="text-2xl sm:text-3xl font-bold" data-testid={`text-${testType}-result`}>
-          {testType === "pretest" ? "Pre-Test Complete" : "Post-Test Complete"}
+          {testType === "pretest" ? t("lesson.preTestComplete") : t("lesson.postTestComplete")}
         </h2>
         <p className="text-lg text-gray-600" data-testid={`text-${testType}-score`}>
           {derivedScore} of {questions.length} correct
@@ -1321,7 +1322,7 @@ function QuizReport({
         <Card className="border-none shadow-sm bg-emerald-50">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-emerald-600">{answers.filter((a) => a.isCorrect).length}</p>
-            <p className="text-xs text-emerald-600 font-medium mt-1">Correct</p>
+            <p className="text-xs text-emerald-600 font-medium mt-1">{t("lesson.correct")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm bg-red-50">
@@ -1345,11 +1346,11 @@ function QuizReport({
               <Lightbulb className="w-5 h-5 text-amber-500" /> Areas to Review
             </h3>
             <p className="text-sm text-gray-600">
-              You missed {missed.length} question{missed.length > 1 ? "s" : ""}. Focus on understanding the rationale for each missed question below.
+              {t("lesson.youMissed")} {missed.length} {t("lesson.questions")}. {t("lesson.focusOnRationale")}
             </p>
             {testType === "pretest" && (
               <p className="text-sm text-primary font-medium">
-                Proceed to the Clinical Content tab to study these topics before taking the Post-Test.
+                {t("lesson.proceedToClinical")}
               </p>
             )}
           </CardContent>
@@ -1414,7 +1415,7 @@ function QuizReport({
 
       <div className="flex gap-3 justify-center pt-4">
         <Button variant="outline" onClick={onRetake} className="gap-2" data-testid={`button-retake-${testType}`}>
-          <Activity className="w-4 h-4" /> Retake {testType === "pretest" ? "Pre-Test" : "Post-Test"}
+          <Activity className="w-4 h-4" /> {testType === "pretest" ? t("lesson.retakePreTest") : t("lesson.retakePostTest")}
         </Button>
         {testType === "pretest" && (
           <p className="text-sm text-gray-500 self-center">or continue to Clinical Content →</p>
@@ -1435,6 +1436,7 @@ function QuizSection({
   testType: "pretest" | "posttest";
   onComplete: (score: number, total: number) => void;
 }) {
+  const { t } = useI18n();
   const [started, setStarted] = useState(false);
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
@@ -1519,7 +1521,7 @@ function QuizSection({
           className="rounded-full px-12 bg-primary hover:brightness-110 h-14 text-lg text-white"
           data-testid={`button-start-${testType}`}
         >
-          {testType === "pretest" ? "Start Pre-Test" : "Start Post-Test"}
+          {testType === "pretest" ? t("lesson.startPreTest") : t("lesson.startPostTest")}
         </Button>
       </div>
     );
@@ -1545,7 +1547,7 @@ function QuizSection({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <p className="text-sm font-bold text-primary uppercase tracking-wider" data-testid={`text-${testType}-progress`}>
-            Question {currentQ + 1} of {questions.length}
+            {t("lesson.question")} {currentQ + 1} {t("lesson.of")} {questions.length}
           </p>
           <span className="text-sm text-gray-400">{Math.round(progressPercent)}%</span>
         </div>
@@ -1607,7 +1609,7 @@ export default function LessonDetail() {
   const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
   const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
   const { user, hasAccess } = useAuth();
-  const { language } = useI18n();
+  const { language, t } = useI18n();
   const isAdmin = user?.tier === "admin";
   
   const tierFromId = id?.split('-')[0];

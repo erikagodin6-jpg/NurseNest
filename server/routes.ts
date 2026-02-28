@@ -6109,18 +6109,36 @@ Return ONLY valid JSON with this exact structure:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const blueprints = await pool.query(`SELECT * FROM exam_blueprints WHERE active = true`);
+      const questionCounts = await pool.query(
+        `SELECT exam, body_system, COUNT(*) as count FROM exam_questions WHERE status = 'published' GROUP BY exam, body_system`
+      );
+      const qMap = new Map<string, Map<string, number>>();
+      for (const row of questionCounts.rows) {
+        if (!qMap.has(row.exam)) qMap.set(row.exam, new Map());
+        qMap.get(row.exam)!.set((row.body_system || "").toLowerCase(), Number(row.count));
+      }
+
       const coverage = [];
       for (const bp of blueprints.rows) {
         const domains = Array.isArray(bp.domains) ? bp.domains : [];
-        const domainCoverage = domains.map((d: any) => ({
-          domain: d.name || d.domain || "Unknown",
-          targetWeight: d.weight || d.percentage || 0,
-          questionCount: 0,
-          currentPercent: 0,
-          status: "unknown",
-          recommendedToAdd: 0,
-        }));
-        coverage.push({ examCode: bp.exam_code, examName: bp.exam_name, totalQuestions: bp.total_questions, domains: domainCoverage });
+        const examQuestions = qMap.get(bp.exam_code) || new Map();
+        const totalExamQuestions = Array.from(examQuestions.values()).reduce((a, b) => a + b, 0);
+
+        const domainCoverage = domains.map((d: any) => {
+          const domainName = d.name || d.domain || "Unknown";
+          const targetWeight = d.weight || d.percentage || 0;
+          const questionCount = examQuestions.get(domainName.toLowerCase()) || 0;
+          const currentPercent = totalExamQuestions > 0 ? Math.round((questionCount / totalExamQuestions) * 100) : 0;
+          const targetQuestions = Math.ceil((targetWeight / 100) * (bp.total_questions || 100));
+          const gap = Math.max(0, targetQuestions - questionCount);
+          let status = "adequate";
+          if (questionCount === 0) status = "empty";
+          else if (currentPercent < targetWeight * 0.5) status = "critical";
+          else if (currentPercent < targetWeight * 0.8) status = "low";
+
+          return { domain: domainName, targetWeight, questionCount, currentPercent, status, recommendedToAdd: gap };
+        });
+        coverage.push({ examCode: bp.exam_code, examName: bp.exam_name, totalQuestions: bp.total_questions, actualQuestionCount: totalExamQuestions, domains: domainCoverage });
       }
       res.json(coverage);
     } catch (e: any) { res.status(500).json({ error: e.message }); }

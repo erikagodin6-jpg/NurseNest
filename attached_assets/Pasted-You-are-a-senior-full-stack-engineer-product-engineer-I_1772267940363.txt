@@ -1,0 +1,126 @@
+You are a senior full-stack engineer + product engineer. Implement the following end-to-end features for the PUBLIC website (not admin-only). Do not work on unrelated SEO/CAT/dashboard tasks. Provide working code + proof.
+
+PART A — Inline AI on Free Flashcards (Public)
+Goal:
+- On the free flashcards pages, users can:
+  1) Ask AI to generate a new deck by topic + audience + exam (REx-PN/NCLEX-RN).
+  2) Ask AI to add cards to an existing deck.
+  3) Ask AI to rewrite/clean up cards the user typed.
+
+UI requirements:
+- Add an “AI Assist” panel inline on flashcard pages (not admin).
+- Inputs:
+  - deck topic/title
+  - audience (RPN/RN/NP)
+  - exam (REx-PN / NCLEX-RN / NCLEX-PN)
+  - card count
+  - optional focus areas
+- Output preview:
+  - generated cards appear in a preview state (not published) until verification passes.
+- Provide “Insert into deck” button only after verification status = PASS (or PASS with minor edits accepted).
+
+PART B — Clinical Verification + Safety Gate (Public + Admin)
+Non-negotiable:
+- AI should NOT directly publish content.
+- Every deck/card must be checked before it can be posted publicly.
+- If content is unsafe/incorrect/low-confidence, the user must be warned and blocked from posting unless they revise.
+
+Implement a verification pipeline with these constraints:
+1) Data model changes
+- decks table: id, owner_user_id, title, description, status (draft/pending_review/published/rejected), created_at
+- cards table: id, deck_id, front, back, tags, created_at
+- ai_jobs table: id, user_id, job_type (generate_deck/add_cards/rewrite/verify), input_json, output_json, status, created_at
+- verification_reports table:
+  - id, entity_type (deck/card), entity_id
+  - verdict (pass / pass_with_edits / fail / needs_human_review)
+  - issues_json (array of issues with severity)
+  - citations_json (sources used)
+  - confidence_score (0-1)
+  - checked_at, model_version
+
+2) Verification logic
+Create a server-side “VerifyClinicalContent” function that:
+- Checks for:
+  - unsafe dosing, contraindications, wrong lab ranges, wrong triage priority, outdated guideline claims
+  - hallucinated facts, made-up drugs, incorrect definitions
+  - scope-of-practice errors (UAP/LPN/RN/NP)
+- Returns:
+  - verdict + confidence
+  - list of issues with categories: “incorrect”, “unsafe”, “unclear”, “needs_source”, “scope”
+  - required edits (if pass_with_edits)
+  - citations list (guidelines/textbook-level sources)
+
+Important:
+- “Verified” must mean: passed checks with citations and acceptable confidence.
+- If confidence < threshold OR issues include “unsafe/incorrect”, block publishing and show a warning.
+
+3) User experience (gating)
+- When user tries to create or edit a deck:
+  - Run verification automatically on save (server-side).
+  - If FAIL: show a modal warning:
+    “This content appears medically incorrect or unsafe. Please revise before posting.”
+    Provide issue list and highlight problematic cards.
+    Disable “Publish” button.
+  - If PASS_WITH_EDITS: show required edits checklist and allow publishing only after edits applied.
+  - If NEEDS_HUMAN_REVIEW: allow saving as draft but block publish unless admin approves.
+
+4) Admin override
+- Admin dashboard page to review flagged decks and approve/reject.
+- Audit log for any override.
+
+PART C — AI Deck Generation (User-identified decks)
+User-facing flow:
+- Users type a custom request:
+  “Make me a deck on pediatric sepsis prioritization for NCLEX-RN, 40 cards, high difficulty.”
+- System generates draft deck + runs verification.
+- If PASS: user can publish.
+- If FAIL: user sees issues and can ask AI:
+  “Fix the deck based on the verification report” (iterative loop).
+- Save all iterations with versioning.
+
+PART D — Store for Cheat Guides + Drag-and-Drop Templates (Public + Admin)
+Goal:
+- Build a store where I can sell:
+  - cheat guides, quick study guides, printable PDFs
+- Include “template builder” with drag-and-drop and my logo on templates.
+
+1) Store MVP
+- Products table: id, slug, title, description, price_cents, stripe_price_id, preview_html, status
+- Purchases/entitlements as standard Stripe webhook flow.
+- Public:
+  /store (grid)
+  /store/:slug (preview + buy)
+  /library (purchased downloads)
+
+2) Template builder (MVP scope)
+- Admin creates a template with:
+  - preset layouts (1-page cheat sheet, 2-page quick guide, med card, lab reference)
+  - drag/drop blocks: Title, Section Header, Bullet List, Table, “Clinical Pearl”, “Red Flags”
+  - logo placement (top-left default) and locked brand styling (pastel, rounded, clean)
+- Export:
+  - PDF generation server-side
+  - store generated PDF as a product asset
+- User does NOT need template builder initially (admin-only builder is OK for MVP), but purchased output is user-downloadable.
+
+3) Brand aesthetics
+- Enforce consistent styling:
+  - limited font choices
+  - pastel accents
+  - whitespace
+  - rounded containers
+  - logo always present on exported PDFs
+
+Constraints / Important:
+- No AI calls on public page load.
+- AI generation happens only when a user clicks generate OR save; verification runs server-side.
+- Provide full working wiring: UI -> API -> DB -> verification -> gating.
+- Provide a test checklist and proof screenshots.
+- Do not change blog generator.
+- Do not touch unrelated SEO/CAT/dashboard tickets.
+
+Deliverables:
+- DB migrations
+- API endpoints list and contracts
+- Frontend pages/components added
+- Verification rules + thresholds
+- Proof: demonstrate creating a deck, failing verification, fixing it, passing, publishing, and buying a product from the store.
