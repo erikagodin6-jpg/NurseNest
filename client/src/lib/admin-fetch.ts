@@ -1,77 +1,74 @@
-const CREDS_KEY = "nursenest-credentials";
+type StoredCreds = { username: string; password: string };
 
-interface StoredCredentials {
-  username: string;
-  password: string;
-}
-
-export function getStoredCredentials(): StoredCredentials | null {
+function getStoredCredentials(): StoredCreds | null {
+  if (typeof window === "undefined") return null;
   try {
-    const stored = localStorage.getItem(CREDS_KEY);
-    if (!stored) return null;
-    const parsed = JSON.parse(stored);
-    if (parsed.username && parsed.password) return parsed;
-    return null;
+    const raw = localStorage.getItem("nursenest-credentials");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed?.username || !parsed?.password) return null;
+    return { username: String(parsed.username), password: String(parsed.password) };
   } catch {
     return null;
   }
 }
 
-export function getAdminParams(extra?: Record<string, string>): string {
+export function getAdminParams(): string {
   const creds = getStoredCredentials();
-  const params = new URLSearchParams();
-  if (creds) {
-    params.set("username", creds.username);
-    params.set("password", creds.password);
-  }
-  if (extra) {
-    Object.entries(extra).forEach(([k, v]) => params.set(k, v));
-  }
-  const str = params.toString();
-  return str ? `?${str}` : "";
+  if (!creds) return "";
+  const sp = new URLSearchParams();
+  sp.set("username", creds.username);
+  sp.set("password", creds.password);
+  return sp.toString();
 }
 
-export async function adminFetch(url: string, init: RequestInit & { body?: any } = {}): Promise<Response> {
+export async function adminFetch(
+  url: string,
+  init: (RequestInit & { body?: any }) = {}
+): Promise<Response> {
+  const method = (init.method ?? "GET").toUpperCase();
   const creds = getStoredCredentials();
-  const method = (init.method || "GET").toUpperCase();
-  const headers = new Headers(init.headers || {});
 
-  const out: RequestInit = {
-    ...init,
-    method,
-    credentials: "include",
-    headers,
-  };
+  const isAbsolute = /^https?:\/\//i.test(url);
+  const base =
+    typeof window !== "undefined" ? window.location.origin : "http://localhost";
+  const u = new URL(url, isAbsolute ? undefined : base);
+
+  const headers = new Headers(init.headers ?? {});
+  const out: RequestInit = { ...init, method, headers };
 
   if (method === "GET" || method === "HEAD") {
+    if (creds) {
+      u.searchParams.set("username", creds.username);
+      u.searchParams.set("password", creds.password);
+    }
     delete (out as any).body;
-    if (creds) {
-      const separator = url.includes("?") ? "&" : "?";
-      url = `${url}${separator}username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`;
-    }
-  } else if (init.body !== undefined) {
-    let bodyObj: any;
-    if (typeof init.body === "string") {
-      try {
-        bodyObj = JSON.parse(init.body);
-      } catch {
-        bodyObj = {};
+  } else {
+    let bodyObj: any = {};
+
+    if (init.body !== undefined && init.body !== null) {
+      if (typeof init.body === "string") {
+        try {
+          bodyObj = JSON.parse(init.body);
+        } catch {
+          bodyObj = { payload: init.body };
+        }
+      } else if (typeof init.body === "object") {
+        bodyObj = init.body;
+      } else {
+        bodyObj = { payload: init.body };
       }
-    } else {
-      bodyObj = init.body;
     }
+
     if (creds) {
-      bodyObj.username = bodyObj.username || creds.username;
-      bodyObj.password = bodyObj.password || creds.password;
+      if (bodyObj.username === undefined) bodyObj.username = creds.username;
+      if (bodyObj.password === undefined) bodyObj.password = creds.password;
     }
+
+    if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");
     out.body = JSON.stringify(bodyObj);
-    if (!headers.has("Content-Type")) {
-      headers.set("Content-Type", "application/json");
-    }
-  } else if (creds) {
-    out.body = JSON.stringify({ username: creds.username, password: creds.password });
-    headers.set("Content-Type", "application/json");
   }
 
-  return fetch(url, out);
+  const finalUrl = isAbsolute ? u.toString() : `${u.pathname}${u.search}`;
+  return fetch(finalUrl, out);
 }

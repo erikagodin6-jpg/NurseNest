@@ -1,0 +1,164 @@
+1) admin-fetch.ts canonical URL-constructor version (safest)
+
+If you haven’t already, your final adminFetch must do all 5:
+
+new URL(url, window.location.origin) for relative URLs
+
+inject creds into query for GET/HEAD
+
+inject creds into body for non-GET
+
+never send body on GET
+
+accept body as object or string
+
+If you want to sanity check quickly: search inside admin-fetch.ts for these red flags:
+
+❌ url + "?" + ... string concatenation (replace with URL object)
+
+❌ if (method === "GET") out.body = ... (must never happen)
+
+❌ JSON.stringify(init.body) without first parsing strings (causes double stringify)
+
+2) Call site cleanup rules (this is where most bugs remain)
+Rule A — no getAdminParams() anywhere except legacy code
+
+Run a grep:
+
+getAdminParams(
+
+?${getAdminParams()}
+
+Expected result: 0 matches in product-builder + shop.
+
+If you still need it for a direct <a href> link download, you can keep it only there. But ideally even downloads use adminFetch + blob.
+
+Rule B — no raw fetch("/api/admin/...")
+
+Grep:
+
+fetch("/api/admin
+
+fetch(\/api/admin`
+
+fetch(/api/admin
+
+Expected result: 0 in all client admin screens.
+
+If there’s still raw fetch, convert to adminFetch.
+
+Rule C — don’t JSON.stringify bodies passed to adminFetch
+
+Grep:
+
+adminFetch(.*JSON.stringify
+
+body:\s*JSON.stringify
+
+Expected result: 0 (or only if you intentionally pass a pre-stringified body).
+
+Correct pattern:
+
+adminFetch("/api/admin/x", { method: "POST", body: { a: 1 } })
+3) Product Builder: specific lines from your pasted file that must change
+
+In your product-builder.tsx, you still had these patterns:
+
+✅ Fix GET list
+
+Before
+
+fetch(`/api/admin/design-projects?${getAdminParams()}`)
+
+After
+
+adminFetch(`/api/admin/design-projects`)
+✅ Fix GET project load
+
+Before
+
+fetch(`/api/admin/design-projects/${projectId}?${getAdminParams()}`)
+
+After
+
+adminFetch(`/api/admin/design-projects/${projectId}`)
+✅ Fix DELETE page/project
+
+Before
+
+fetch(`/api/admin/design-pages/${pageId}?${getAdminParams()}`, { method: "DELETE" })
+
+After
+
+adminFetch(`/api/admin/design-pages/${pageId}`, { method: "DELETE" })
+✅ Remove unused import
+
+Once you remove those, you can remove:
+
+import { getAdminParams, adminFetch } from "@/lib/admin-fetch";
+
+➡️
+
+import { adminFetch } from "@/lib/admin-fetch";
+4) Shop: download & preview gotchas (critical)
+A) Admin download must be blob(), not json()
+
+If your shop download button currently does something like res.json(), it will break.
+
+Use:
+
+const res = await adminFetch(`/api/admin/shop/products/${id}/download`);
+if (!res.ok) throw new Error("Download failed");
+const blob = await res.blob();
+
+const url = URL.createObjectURL(blob);
+const a = document.createElement("a");
+a.href = url;
+
+// Try to respect server filename if set
+const cd = res.headers.get("Content-Disposition") || "";
+const match = cd.match(/filename\*?=(?:UTF-8''|")?([^";]+)"?/i);
+a.download = match ? decodeURIComponent(match[1]) : `product-${id}.pdf`;
+
+a.click();
+URL.revokeObjectURL(url);
+B) If you use admin creds in query for GET, don’t use it on POST
+
+If you had anything like:
+
+POST /api/admin/...?...username=...
+replace with adminFetch body auth.
+
+5) Final verification checklist (the “done” test)
+
+Open DevTools → Network and verify:
+
+Admin GET request
+
+Request URL contains username= and password= ✅
+
+Request has no payload ✅
+
+Server returns 200 ✅
+
+Admin POST/PUT/DELETE
+
+Request URL does not contain creds ✅
+
+Request payload includes { username, password, ... } ✅
+
+Downloads
+
+Response type is application/pdf ✅
+
+You’re calling blob() ✅
+
+6) One more “silent fail” you should check
+
+If nursenest-credentials isn’t present (e.g., you refreshed and lost it, or stored under a locale variant), your adminFetch will send no creds.
+
+Add a guard once (optional but helpful):
+
+If creds missing, toast “Admin credentials missing—log in again.”
+
+If you paste your current admin-fetch.ts and the shop download handler snippet, I’ll point out the exact remaining issues in ~30 seconds.

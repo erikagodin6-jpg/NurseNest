@@ -1,0 +1,392 @@
+Below is a step-by-step implementation plan + copy/paste code blocks for the top 5 Canva-style upgrades you said you want. These are designed to drop into your current product-builder.tsx with minimal refactoring.
+
+0) Goal: “Canva feel” without rewriting the app
+
+We’ll keep your current architecture (objects array + canvas renderer + panels), but change:
+
+Canvas stage + zoom bar (biggest perceived upgrade)
+
+Pages = thumbnail cards (instant Canva vibes)
+
+Left rail = labeled tabs (Templates / Elements / AI / Image Lab / Brand)
+
+Brand Kit panel (theme + typography styles + palette chips)
+
+Multi-select + group / arrange (optional MVP: multi-select + align + bring forward/back)
+
+1) Canvas stage + zoom controls (drop-in)
+A) Add zoom state + helpers (near your CANVAS constants)
+const [zoom, setZoom] = useState(0.85); // replaces SCALE for runtime scaling
+const ZOOM_LEVELS = [0.25, 0.35, 0.5, 0.65, 0.75, 0.85, 1, 1.25, 1.5, 2];
+
+const clampZoom = (z: number) => Math.max(0.25, Math.min(2, z));
+const zoomIn = () => setZoom(z => clampZoom(Number((z + 0.1).toFixed(2))));
+const zoomOut = () => setZoom(z => clampZoom(Number((z - 0.1).toFixed(2))));
+const zoomTo = (z: number) => setZoom(clampZoom(z));
+
+const zoomFit = () => {
+  // Fit into viewport: approximate available size
+  const pad = 160; // stage padding
+  const vw = window.innerWidth - 12 - 56 - 260 - 240; // rail + leftpanel + rightpanel (tweak)
+  const vh = window.innerHeight - 48 - 120; // top bar + bottom bar (tweak)
+  const z = Math.min((vw - pad) / CANVAS_WIDTH, (vh - pad) / CANVAS_HEIGHT);
+  setZoom(clampZoom(Number((z).toFixed(2))));
+};
+B) Replace all SCALE usage with zoom
+
+Search/replace:
+
+SCALE → zoom
+
+keep SCALE const removed
+
+Example edits:
+
+setDragOffset({ x: e.clientX / zoom - obj.x, y: e.clientY / zoom - obj.y });
+const snappedX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
+...
+style={{ width: CANVAS_WIDTH * zoom, height: CANVAS_HEIGHT * zoom }}
+C) Upgrade the stage container (replace your stage div)
+
+Replace:
+
+<div className="flex-1 overflow-auto flex items-center justify-center p-8 relative">
+
+With:
+
+<div className="flex-1 overflow-auto relative">
+  <div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-[#f6f7fb]">
+    <div className="relative">
+      {/* subtle desk grid */}
+      <div
+        className="absolute -inset-10 rounded-3xl opacity-60"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 1px 1px, rgba(124,58,237,0.08) 1px, transparent 0)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+      {/* canvas wrapper */}
+      <div className="relative rounded-2xl shadow-2xl ring-1 ring-black/5 bg-white">
+        {/* your canvas goes here */}
+      </div>
+    </div>
+  </div>
+</div>
+
+Then move your <div ref={canvasRef} ...> inside that white wrapper.
+
+D) Add a bottom zoom bar (just below canvas wrapper)
+
+Drop this under the canvas:
+
+<div className="mt-3 flex items-center justify-between rounded-2xl bg-white/70 backdrop-blur border border-gray-200 px-3 py-2 shadow-sm">
+  <div className="flex items-center gap-2">
+    <button onClick={zoomOut} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50">–</button>
+    <select
+      value={zoom}
+      onChange={(e) => zoomTo(Number(e.target.value))}
+      className="h-8 rounded-xl border px-2 text-xs"
+    >
+      {ZOOM_LEVELS.map(z => (
+        <option key={z} value={z}>{Math.round(z * 100)}%</option>
+      ))}
+    </select>
+    <button onClick={zoomIn} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50">+</button>
+  </div>
+
+  <div className="flex items-center gap-2">
+    <button onClick={zoomFit} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50">Fit</button>
+    <button onClick={() => zoomTo(1)} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50">100%</button>
+  </div>
+</div>
+
+Impact: immediately looks/feels like a design app.
+
+2) Pages thumbnail panel (Canva-style)
+
+You already have renderPageToCanvas. Use it to generate thumbnails.
+
+A) Add thumbnail cache state in CanvasEditorView
+const [pageThumbs, setPageThumbs] = useState<Record<string, string>>({});
+B) Helper to create thumbnail dataURL
+const makeThumb = useCallback((pageObjects: CanvasObject[], bg: string) => {
+  const c = renderPageToCanvas(pageObjects, bg);
+  // Create a smaller canvas
+  const targetW = 160;
+  const targetH = 210;
+  const t = document.createElement("canvas");
+  t.width = targetW * 2;
+  t.height = targetH * 2;
+  const ctx = t.getContext("2d")!;
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, t.width, t.height);
+
+  const scale = Math.min(t.width / c.width, t.height / c.height);
+  const dx = (t.width - c.width * scale) / 2;
+  const dy = (t.height - c.height * scale) / 2;
+  ctx.drawImage(c, dx, dy, c.width * scale, c.height * scale);
+  return t.toDataURL("image/png");
+}, [renderPageToCanvas]);
+C) Generate thumbs when pages/objects change (lightweight)
+useEffect(() => {
+  // Update current page thumb on change (debounced feel)
+  const page = pages[currentPageIndex];
+  if (!page) return;
+  const bg = page.backgroundColor || "#fff";
+  const dataUrl = makeThumb(objects, bg);
+  setPageThumbs(prev => ({ ...prev, [page.id]: dataUrl }));
+}, [objects, currentPageIndex, pages, makeThumb]);
+D) Replace the “Pages” section UI with cards
+
+Replace your page number buttons with:
+
+<div className="p-3 border-b">
+  <div className="flex items-center justify-between mb-2">
+    <div className="flex items-center gap-1.5">
+      <Layers className="w-3.5 h-3.5 text-gray-400" />
+      <span className="text-xs font-semibold text-gray-600">Pages</span>
+    </div>
+    <button onClick={addPage} className="text-[11px] px-2 py-1 rounded-lg border hover:bg-gray-50">
+      + Add
+    </button>
+  </div>
+
+  <div className="space-y-2">
+    {pages.map((page, i) => {
+      const isActive = i === currentPageIndex;
+      const thumbSrc =
+        pageThumbs[page.id] ||
+        (i === currentPageIndex ? makeThumb(objects, page.backgroundColor || "#fff") : "");
+
+      return (
+        <button
+          key={page.id}
+          onClick={() => switchPage(i)}
+          className={`w-full text-left rounded-2xl border p-2 flex gap-2 hover:border-primary/40 transition
+            ${isActive ? "border-primary bg-primary/5" : "border-gray-200 bg-white"}`}
+        >
+          <div className="w-[72px] h-[96px] rounded-xl overflow-hidden border bg-white shrink-0">
+            {thumbSrc ? (
+              <img src={thumbSrc} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full bg-gray-50" />
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-gray-700">Page {i + 1}</span>
+              {pages.length > 1 && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); deletePage(page.id, i); }}
+                  className="text-[11px] text-gray-400 hover:text-red-500 px-2 py-1 rounded-lg hover:bg-red-50"
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+            <p className="text-[10px] text-gray-400 mt-1">Click to edit</p>
+          </div>
+        </button>
+      );
+    })}
+  </div>
+</div>
+
+Impact: “Canva” instantly.
+
+3) Left rail tabs (with labels)
+
+Replace your left icon strip with a labeled rail. Minimal change: keep leftPanel but make the UI nicer.
+
+Replace your left strip block with:
+<div className="w-[84px] bg-white border-r flex flex-col items-center py-3 gap-2 shrink-0">
+  <div className="text-[10px] font-semibold text-gray-400 mb-1">TOOLS</div>
+
+  {[
+    { id: "templates", label: "Templates", icon: LayoutTemplate },
+    { id: "components", label: "Elements", icon: Sparkles },
+    { id: "ai", label: "AI", icon: Brain },
+    { id: "imagelab", label: "Images", icon: ImagePlus },
+    { id: "brand", label: "Brand", icon: SwatchBook },
+  ].map(({ id, label, icon: Icon }) => {
+    const active = leftPanel === (id as any);
+    return (
+      <button
+        key={id}
+        onClick={() => setLeftPanel(active ? null : (id as any))}
+        className={`w-[68px] rounded-2xl px-2 py-2 flex flex-col items-center gap-1 transition
+          ${active ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-gray-50"}`}
+      >
+        <Icon className="w-5 h-5" />
+        <span className="text-[10px] font-medium">{label}</span>
+      </button>
+    );
+  })}
+
+  <div className="mt-auto pt-2 w-full flex flex-col items-center gap-2">
+    <button onClick={undo} className="w-[68px] h-9 rounded-2xl border text-xs hover:bg-gray-50">Undo</button>
+    <button onClick={redo} className="w-[68px] h-9 rounded-2xl border text-xs hover:bg-gray-50">Redo</button>
+  </div>
+</div>
+
+Then add a new leftPanel === "brand" render branch (next section).
+
+4) Brand Kit panel (the NurseNest aesthetic control center)
+
+Add this inside renderLeftPanel():
+
+if (leftPanel === "brand") {
+  return (
+    <div className="w-72 bg-white border-r overflow-y-auto shrink-0">
+      <div className="p-4 border-b">
+        <div className="flex items-center gap-2">
+          <SwatchBook className="w-4 h-4 text-primary" />
+          <span className="text-sm font-semibold text-gray-800">Brand Kit</span>
+        </div>
+        <p className="text-[11px] text-gray-500 mt-1">
+          Keep your designs consistent and store-ready.
+        </p>
+      </div>
+
+      <div className="p-4 space-y-4">
+        <div className="rounded-2xl border p-3">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-gray-700">Theme</span>
+            <span className="text-[10px] text-gray-400">{getTheme(activeThemeId).name}</span>
+          </div>
+          <select
+            value={activeThemeId}
+            onChange={(e) => switchTheme(e.target.value)}
+            className="w-full h-10 rounded-xl border px-3 text-sm"
+          >
+            {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+          </select>
+
+          <div className="flex gap-2 mt-3">
+            {[theme.primaryColor, theme.secondaryColor, theme.accentColor, theme.dangerColor, theme.successColor].map((c, i) => (
+              <div key={i} className="w-7 h-7 rounded-full border" style={{ backgroundColor: c }} />
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border p-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-gray-700">Brand Lock</span>
+            <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
+              <input type="checkbox" checked={brandLock} onChange={e => setBrandLock(e.target.checked)} />
+              {brandLock ? "On" : "Off"}
+            </label>
+          </div>
+          <p className="text-[11px] text-gray-500">
+            When on: protects logo, limits colors/fonts, helps keep Canva-quality output.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border p-3">
+          <span className="text-xs font-semibold text-gray-700 block mb-2">Text Styles</span>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              className="h-10 rounded-xl border hover:bg-gray-50 text-xs"
+              onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 24, fontWeight: "bold", fontFamily: theme.headingFont }))}
+              disabled={!selectedId}
+            >
+              Heading
+            </button>
+            <button
+              className="h-10 rounded-xl border hover:bg-gray-50 text-xs"
+              onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 14, fontWeight: "600", fontFamily: theme.headingFont }))}
+              disabled={!selectedId}
+            >
+              Subheading
+            </button>
+            <button
+              className="h-10 rounded-xl border hover:bg-gray-50 text-xs"
+              onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 11, fontWeight: "normal", fontFamily: theme.bodyFont }))}
+              disabled={!selectedId}
+            >
+              Body
+            </button>
+            <button
+              className="h-10 rounded-xl border hover:bg-gray-50 text-xs"
+              onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 9, fontWeight: "600", opacity: 0.6, fontFamily: theme.bodyFont }))}
+              disabled={!selectedId}
+            >
+              Caption
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border p-3">
+          <span className="text-xs font-semibold text-gray-700 block mb-2">Quick Actions</span>
+          <div className="space-y-2">
+            <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={beautifyPage}>
+              Beautify Layout
+            </button>
+            <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={runDesignAudit}>
+              Run Design Audit
+            </button>
+            <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyBrandTypography}>
+              Apply Theme Fonts
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Impact: makes it look like a real branded editor, not a dev canvas.
+
+5) Multi-select MVP (without rewriting the world)
+
+Full grouping is more work; start with multi-select + move together.
+
+A) Replace selectedId with selectedIds
+const [selectedIds, setSelectedIds] = useState<string[]>([]);
+const primarySelectedId = selectedIds[0] || null;
+const selectedObj = objects.find(o => o.id === primarySelectedId);
+B) Update click handler for shift-select
+
+In handleCanvasMouseDown:
+
+const handleCanvasMouseDown = (e: React.MouseEvent, objId?: string) => {
+  if (objId) {
+    if (e.shiftKey) {
+      setSelectedIds(prev => prev.includes(objId) ? prev.filter(id => id !== objId) : [objId, ...prev]);
+    } else {
+      setSelectedIds([objId]);
+    }
+    ...
+C) Drag moves all selected objects
+
+When dragging, instead of updating one id:
+
+store starting positions for all selected at drag start:
+
+Add:
+
+const [dragStartMap, setDragStartMap] = useState<Record<string, { x: number; y: number }>>({});
+
+On drag start:
+
+setDragStartMap(Object.fromEntries(selectedIds.map(id => {
+  const o = objects.find(x => x.id === id)!;
+  return [id, { x: o.x, y: o.y }];
+})));
+
+On move:
+
+if (isDragging && primarySelectedId) {
+  const dx = (e.clientX / zoom - dragOffset.x) - dragStartMap[primarySelectedId].x;
+  const dy = (e.clientY / zoom - dragOffset.y) - dragStartMap[primarySelectedId].y;
+
+  setObjects(prev => prev.map(o => {
+    if (!selectedIds.includes(o.id)) return o;
+    const start = dragStartMap[o.id];
+    if (!start) return o;
+    return { ...o, x: Math.round((start.x + dx)/GRID_SIZE)*GRID_SIZE, y: Math.round((start.y + dy)/GRID_SIZE)*GRID_SIZE };
+  }));
+}
+
+That gives you a solid Canva expectation: shift-select and drag as a group.

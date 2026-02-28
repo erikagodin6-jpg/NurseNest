@@ -11,10 +11,12 @@ import {
   AlignLeft, AlignCenter, AlignRight, AlignVerticalJustifyCenter,
   Wand2, Shield, AlertTriangle, CheckCircle, LayoutTemplate, Palette,
   Crown, BookOpen, Zap, Target, Brain, ChevronDown, ChevronRight as ChevronR,
-  ImagePlus, Star, Award, ClipboardCheck, Lock, Unlock, SwatchBook
+  ImagePlus, Star, Award, ClipboardCheck, Lock, Unlock, SwatchBook,
+  ZoomIn, ZoomOut, Maximize, Minimize, Move, Group, Ungroup,
+  ArrowUp, ArrowDown, ChevronsUp, ChevronsDown, Paintbrush
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getAdminParams, adminFetch } from "@/lib/admin-fetch";
+import { adminFetch } from "@/lib/admin-fetch";
 
 interface DesignProject {
   id: string;
@@ -459,7 +461,7 @@ function ProjectListView({ onOpenProject }: { onOpenProject: (id: string) => voi
     if (!newTitle.trim()) return;
     const res = await adminFetch("/api/admin/design-projects", {
       method: "POST",
-      body: JSON.stringify({ title: newTitle, type: newType, pageSize: newPageSize, orientation: newOrientation }),
+      body: { title: newTitle, type: newType, pageSize: newPageSize, orientation: newOrientation },
     });
     if (res.ok) {
       const project = await res.json();
@@ -574,7 +576,9 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [brandLock, setBrandLock] = useState(true);
   const [activeThemeId, setActiveThemeId] = useState("soft-clinical");
   const [showLogo, setShowLogo] = useState(true);
-  const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | "imagelab" | null>("tools");
+  const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | "imagelab" | "brand" | null>("tools");
+  const [zoom, setZoom] = useState(85);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [aiTopic, setAiTopic] = useState("");
   const [aiTier, setAiTier] = useState("rn");
   const [aiExamTarget, setAiExamTarget] = useState("nclex-rn");
@@ -601,9 +605,60 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
 
   const CANVAS_WIDTH = 612;
   const CANVAS_HEIGHT = 792;
-  const SCALE = 0.85;
+  const SCALE = zoom / 100;
   const MARGIN = 46;
   const GRID_SIZE = 20;
+
+  const zoomIn = () => setZoom(z => Math.min(200, z + 10));
+  const zoomOut = () => setZoom(z => Math.max(25, z - 10));
+  const zoomFit = () => setZoom(85);
+  const zoomActual = () => setZoom(100);
+
+  const selectedId = selectedIds.length === 1 ? selectedIds[0] : null;
+  const setSelectedId = (id: string | null) => setSelectedIds(id ? [id] : []);
+
+  const toggleSelect = (id: string, shift: boolean) => {
+    if (shift) {
+      setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+    } else {
+      setSelectedIds([id]);
+    }
+  };
+
+  const bringForward = () => {
+    if (selectedIds.length === 0) return;
+    pushUndo();
+    const maxZ = Math.max(...objects.map(o => o.zIndex));
+    setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, zIndex: Math.min(maxZ + 1, o.zIndex + 1) } : o));
+  };
+
+  const sendBackward = () => {
+    if (selectedIds.length === 0) return;
+    pushUndo();
+    setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, zIndex: Math.max(0, o.zIndex - 1) } : o));
+  };
+
+  const bringToFront = () => {
+    if (selectedIds.length === 0) return;
+    pushUndo();
+    const maxZ = Math.max(...objects.map(o => o.zIndex));
+    setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, zIndex: maxZ + 1 } : o));
+  };
+
+  const sendToBack = () => {
+    if (selectedIds.length === 0) return;
+    pushUndo();
+    setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, zIndex: 0 } : o));
+  };
+
+  const toggleLockSelected = () => {
+    if (selectedIds.length === 0) return;
+    pushUndo();
+    const firstObj = objects.find(o => o.id === selectedIds[0]);
+    const newLocked = !firstObj?.locked;
+    setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, locked: newLocked } : o));
+    toast({ title: newLocked ? "Locked" : "Unlocked" });
+  };
 
   useEffect(() => {
     adminFetch(`/api/admin/design-projects/${projectId}`)
@@ -625,7 +680,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     try {
       await adminFetch(`/api/admin/design-pages/${pages[currentPageIndex].id}`, {
         method: "PUT",
-        body: JSON.stringify({ canvasJson: { objects, version: "1.0" }, backgroundColor: pages[currentPageIndex].backgroundColor }),
+        body: { canvasJson: { objects, version: "1.0" }, backgroundColor: pages[currentPageIndex].backgroundColor },
       });
     } catch (e) {}
     setSaving(false);
@@ -795,7 +850,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
       try {
         await adminFetch(`/api/admin/design-pages/${pages[i].id}`, {
           method: "PUT",
-          body: JSON.stringify({ canvasJson: { objects: themed, version: "1.0" }, backgroundColor: pages[i].backgroundColor }),
+          body: { canvasJson: { objects: themed, version: "1.0" }, backgroundColor: pages[i].backgroundColor },
         });
         const updatedPages = [...pages];
         updatedPages[i] = { ...updatedPages[i], canvasJson: { objects: themed, version: "1.0" } };
@@ -954,7 +1009,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
 
       const res = await adminFetch("/api/ai/generate-content", {
         method: "POST",
-        body: JSON.stringify({ prompt, mode: "generate", examTarget: aiExamTarget }),
+        body: { prompt, mode: "generate", examTarget: aiExamTarget },
       });
 
       if (!res.ok) {
@@ -1023,7 +1078,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
 
   const handleCanvasMouseDown = (e: React.MouseEvent, objId?: string) => {
     if (objId) {
-      setSelectedId(objId);
+      toggleSelect(objId, e.shiftKey);
       const obj = objects.find(o => o.id === objId);
       if (!obj || obj.locked) return;
       const canvasRect = canvasRef.current?.getBoundingClientRect();
@@ -1032,17 +1087,22 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       setDragOffset({ x: e.clientX / SCALE - obj.x, y: e.clientY / SCALE - obj.y });
       e.stopPropagation();
     } else {
-      setSelectedId(null);
+      setSelectedIds([]);
     }
   };
 
   const handleCanvasMouseMove = (e: React.MouseEvent) => {
-    if (isDragging && selectedId) {
+    if (isDragging && selectedIds.length > 0) {
+      const primaryId = selectedIds[selectedIds.length - 1];
+      const primaryObj = objects.find(o => o.id === primaryId);
+      if (!primaryObj) return;
       const newX = e.clientX / SCALE - dragOffset.x;
       const newY = e.clientY / SCALE - dragOffset.y;
       const snappedX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
       const snappedY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
-      updateObject(selectedId, { x: snappedX, y: snappedY });
+      const dx = snappedX - primaryObj.x;
+      const dy = snappedY - primaryObj.y;
+      setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, x: o.x + dx, y: o.y + dy } : o));
     }
     if (isResizing && selectedId) {
       const dx = (e.clientX - resizeStart.x) / SCALE;
@@ -1078,7 +1138,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
   const addPage = async () => {
     const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
       method: "POST",
-      body: JSON.stringify({}),
+      body: {},
     });
     if (res.ok) {
       const page = await res.json();
@@ -1261,7 +1321,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       await saveCanvas();
       const res = await adminFetch("/api/admin/shop/products", {
         method: "POST",
-        body: JSON.stringify({
+        body: {
           title: publishForm.title,
           slug: publishForm.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
           description: publishForm.description || publishForm.title,
@@ -1269,7 +1329,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
           category: publishForm.category,
           coverImageUrl: null,
           featured: false,
-        }),
+        },
       });
       if (res.ok) {
         toast({ title: "Published to marketplace!", description: "Your product is now in the store as a draft." });
@@ -1394,13 +1454,13 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
         try {
           const res = await adminFetch("/api/admin/images/generate", {
             method: "POST",
-            body: JSON.stringify({
+            body: {
               prompt: imgPrompt,
               negativePrompt: imgNegative,
               size: imgSize,
               n: imgCount,
               textFree: imgTextFree,
-            }),
+            },
           });
           if (!res.ok) {
             const err = await res.json().catch(() => ({}));

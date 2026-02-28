@@ -17,7 +17,7 @@ import {
   ArrowRight, Plus, Edit, Trash2, X, Sparkles, Crown, Filter,
 } from "lucide-react";
 import type { DigitalProduct } from "@shared/schema";
-import { getAdminParams, adminFetch } from "@/lib/admin-fetch";
+import { adminFetch } from "@/lib/admin-fetch";
 
 function formatPrice(cents: number) {
   return `$${(cents / 100).toFixed(2)}`;
@@ -105,14 +105,13 @@ function AdminProductManager() {
       const method = editingId ? "PUT" : "POST";
       const res = await adminFetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           ...form,
           price: Math.round(parseFloat(form.priceDollars) * 100) || 0,
           compareAtPrice: form.compareAtDollars ? Math.round(parseFloat(form.compareAtDollars) * 100) : null,
           priceDollars: undefined,
           compareAtDollars: undefined,
-        }),
+        },
       });
       if (res.ok) {
         toast({ title: editingId ? "Product updated" : "Product created" });
@@ -244,7 +243,7 @@ function AdminProductManager() {
                     try {
                       const res = await adminFetch(`/api/admin/shop/products/${p.id}/generate-preview`, {
                         method: "POST",
-                        body: JSON.stringify({ pageCount: 3 }),
+                        body: { pageCount: 3 },
                       });
                       if (res.ok) {
                         toast({ title: "Preview generated" });

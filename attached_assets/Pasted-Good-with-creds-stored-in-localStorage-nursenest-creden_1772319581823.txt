@@ -1,0 +1,196 @@
+Good — with creds stored in localStorage["nursenest-credentials"] = {"username":"…","password":"…"}, you’re in a stable spot as long as three things are true:
+
+adminFetch does not double-encode creds (no body stringify inside stringify)
+
+adminFetch never sends a body on GET
+
+every admin call site uses adminFetch, not raw fetch + getAdminParams
+
+Below is the exact “gold” implementation for your setup + the exact conversions you should confirm in your files.
+
+1) Canonical admin-fetch.ts for nursenest-credentials storage (Response-returning)
+
+Paste this (or diff against yours). This matches your current calling style (res.ok, res.json()).
+
+// src/lib/admin-fetch.ts
+type StoredCreds = { username: string; password: string };
+
+function getStoredCredentials(): StoredCreds | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem("nursenest-credentials");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed?.username || !parsed?.password) return null;
+    return { username: String(parsed.username), password: String(parsed.password) };
+  } catch {
+    return null;
+  }
+}
+
+export function getAdminParams(): string {
+  const creds = getStoredCredentials();
+  if (!creds) return "";
+  const sp = new URLSearchParams();
+  sp.set("username", creds.username);
+  sp.set("password", creds.password);
+  return sp.toString();
+}
+
+export async function adminFetch(
+  url: string,
+  init: (RequestInit & { body?: any }) = {}
+): Promise<Response> {
+  const method = (init.method ?? "GET").toUpperCase();
+  const creds = getStoredCredentials();
+
+  // Make relative URLs safe to manipulate
+  const isAbsolute = /^https?:\/\//i.test(url);
+  const base =
+    typeof window !== "undefined" ? window.location.origin : "http://localhost";
+  const u = new URL(url, isAbsolute ? undefined : base);
+
+  const headers = new Headers(init.headers ?? {});
+  const out: RequestInit = { ...init, method, headers };
+
+  // GET/HEAD -> creds in query, no body
+  if (method === "GET" || method === "HEAD") {
+    if (creds) {
+      u.searchParams.set("username", creds.username);
+      u.searchParams.set("password", creds.password);
+    }
+    delete (out as any).body;
+  } else {
+    // Non-GET -> creds in JSON body
+    let bodyObj: any = {};
+
+    if (init.body !== undefined && init.body !== null) {
+      if (typeof init.body === "string") {
+        try {
+          bodyObj = JSON.parse(init.body);
+        } catch {
+          // If caller passed a non-JSON string, wrap it
+          bodyObj = { payload: init.body };
+        }
+      } else if (typeof init.body === "object") {
+        bodyObj = init.body;
+      } else {
+        bodyObj = { payload: init.body };
+      }
+    }
+
+    if (creds) {
+      if (bodyObj.username === undefined) bodyObj.username = creds.username;
+      if (bodyObj.password === undefined) bodyObj.password = creds.password;
+    }
+
+    if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");
+    out.body = JSON.stringify(bodyObj);
+  }
+
+  const finalUrl = isAbsolute ? u.toString() : `${u.pathname}${u.search}`;
+  return fetch(finalUrl, out);
+}
+Non-negotiables this enforces
+
+✅ GET never includes a body
+
+✅ creds injected exactly once
+
+✅ callers can pass body as object OR JSON string
+
+✅ returns Response (so your current code doesn’t break)
+
+2) Required conversion patterns (what “done” looks like)
+In product-builder.tsx
+
+You still had these in your pasted file:
+
+fetch(...?${getAdminParams()}) for GET list
+
+fetch(...?${getAdminParams()}) for DELETE
+
+fetch(...?${getAdminParams()}) for load project
+
+All of these must become adminFetch(url) with no manual params.
+
+Examples:
+
+// ✅ GET
+adminFetch("/api/admin/design-projects")
+
+// ✅ DELETE
+adminFetch(`/api/admin/design-pages/${pageId}`, { method: "DELETE" })
+
+// ✅ GET project
+adminFetch(`/api/admin/design-projects/${projectId}`)
+
+And you should gradually remove direct JSON.stringify at call sites (optional but recommended), e.g.:
+
+adminFetch("/api/admin/design-pages/123", {
+  method: "PUT",
+  body: { canvasJson: { objects, version: "1.0" }, backgroundColor },
+});
+3) Shop fixes (two specific pitfalls)
+A) Admin list fetch
+
+Use adminFetch for the admin product list GET.
+
+B) Download button
+
+If admin download is a GET that returns a file, do NOT use res.json().
+Do this:
+
+const res = await adminFetch(`/api/admin/shop/products/${id}/download`);
+if (!res.ok) throw new Error("Download failed");
+const blob = await res.blob();
+const url = URL.createObjectURL(blob);
+const a = document.createElement("a");
+a.href = url;
+a.download = `product-${id}.pdf`; // or filename from headers
+a.click();
+URL.revokeObjectURL(url);
+
+If you want the actual filename from the server:
+
+read Content-Disposition header and parse filename=...
+
+4) Verification checklist (fast + definitive)
+
+Open DevTools → Network and confirm:
+
+For any admin GET (like /api/admin/design-projects)
+
+URL includes ?username=…&password=… (expected in your model)
+
+Request has no request payload (no “Request Payload” tab)
+
+For admin POST/PUT/DELETE
+
+URL does not include creds
+
+Request payload JSON includes {username,password,...}
+
+If these three are true, your unification is correct:
+
+Project list loads
+
+Create project works
+
+Delete project works
+
+5) One improvement you should strongly consider (but optional)
+
+Your current model forces creds into GET URLs, which can leak into logs. The easiest upgrade without full sessions:
+
+Update requireAdmin to also accept credentials via header (e.g. Authorization: Basic … or X-Admin-Creds)
+
+Then change adminFetch to always send header creds for GET, no query params
+
+But your current approach is fine for “make it work now.”
+
+If you paste your current admin-fetch.ts (the actual file you wrote) I’ll sanity-check it for the two common mistakes I see:
+
+double stringify (body becomes a string inside JSON)
+
+GET accidentally sending a body (browser strips it, server reads empty body, auth fails intermittently)
