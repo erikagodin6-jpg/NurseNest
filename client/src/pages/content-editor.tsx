@@ -47,6 +47,9 @@ import {
   ExternalLink,
   Copy,
   CheckCircle2,
+  Image as ImageIcon,
+  Zap,
+  Loader2,
 } from "lucide-react";
 
 type ContentBlock = {
@@ -179,6 +182,7 @@ const BLOCK_TYPES = [
   "callout",
   "flashcard",
   "question",
+  "image",
 ];
 
 const statusColors: Record<string, string> = {
@@ -267,6 +271,8 @@ export default function ContentEditorPage() {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [imageGenPrompt, setImageGenPrompt] = useState<Record<number, string>>({});
+  const [imageGenLoading, setImageGenLoading] = useState<Record<number, boolean>>({});
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
@@ -454,6 +460,38 @@ export default function ContentEditorPage() {
     const swapIndex = direction === "up" ? index - 1 : index + 1;
     [updated[index], updated[swapIndex]] = [updated[swapIndex], updated[index]];
     setBlocks(updated);
+  }
+
+  async function generateImageForBlock(index: number) {
+    const prompt = imageGenPrompt[index];
+    if (!prompt?.trim()) return;
+    setImageGenLoading(prev => ({ ...prev, [index]: true }));
+    try {
+      const creds = getCredentials();
+      if (!creds) throw new Error("Admin credentials required");
+      const res = await fetch("/api/admin/generate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt,
+          size: "1024x1024",
+          username: creds.username,
+          password: creds.password,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert("Error: " + (err.error || "Failed to generate image"));
+        return;
+      }
+      const data = await res.json();
+      updateBlock(index, data.url);
+      setImageGenPrompt(prev => ({ ...prev, [index]: "" }));
+    } catch (e: any) {
+      alert("Error: " + e.message);
+    } finally {
+      setImageGenLoading(prev => ({ ...prev, [index]: false }));
+    }
   }
 
   async function autoGenerateSeo() {
@@ -1242,22 +1280,62 @@ export default function ContentEditorPage() {
                               </SelectContent>
                             </Select>
                           </div>
-                          <Textarea
-                            value={block.content}
-                            onChange={(e) =>
-                              updateBlock(index, e.target.value)
-                            }
-                            placeholder={`Enter ${block.type} content...`}
-                            rows={
-                              block.type === "heading"
-                                ? 1
-                                : block.type === "quiz-question"
-                                  ? 6
-                                  : 4
-                            }
-                            className="allow-select font-mono text-sm"
-                            data-testid={`textarea-block-${index}`}
-                          />
+                          {block.type === "image" ? (
+                            <div className="space-y-3" data-testid={`image-block-${index}`}>
+                              {block.content && (
+                                <div className="border rounded-lg overflow-hidden bg-gray-50">
+                                  <img src={block.content} alt="Generated" className="max-h-48 mx-auto object-contain" />
+                                </div>
+                              )}
+                              <Input
+                                value={block.content}
+                                onChange={(e) => updateBlock(index, e.target.value)}
+                                placeholder="Image URL (paste or generate with AI below)"
+                                className="text-sm font-mono"
+                                data-testid={`input-image-url-${index}`}
+                              />
+                              <div className="flex gap-2 items-end">
+                                <div className="flex-1">
+                                  <Textarea
+                                    value={imageGenPrompt[index] || ""}
+                                    onChange={(e) => setImageGenPrompt(prev => ({ ...prev, [index]: e.target.value }))}
+                                    placeholder="Describe the medical image to generate (e.g., 'Cross-section of a human heart showing four chambers')"
+                                    rows={2}
+                                    className="text-sm"
+                                    data-testid={`textarea-image-prompt-${index}`}
+                                  />
+                                </div>
+                                <Button
+                                  onClick={() => generateImageForBlock(index)}
+                                  disabled={imageGenLoading[index] || !(imageGenPrompt[index]?.trim())}
+                                  size="sm"
+                                  className="shrink-0 gap-1.5"
+                                  data-testid={`button-generate-image-${index}`}
+                                >
+                                  {imageGenLoading[index] ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5" />}
+                                  {imageGenLoading[index] ? "Generating..." : "AI Generate"}
+                                </Button>
+                              </div>
+                              <p className="text-[10px] text-gray-400">AI-generated images are saved to your asset library automatically.</p>
+                            </div>
+                          ) : (
+                            <Textarea
+                              value={block.content}
+                              onChange={(e) =>
+                                updateBlock(index, e.target.value)
+                              }
+                              placeholder={`Enter ${block.type} content...`}
+                              rows={
+                                block.type === "heading"
+                                  ? 1
+                                  : block.type === "quiz-question"
+                                    ? 6
+                                    : 4
+                              }
+                              className="allow-select font-mono text-sm"
+                              data-testid={`textarea-block-${index}`}
+                            />
+                          )}
                         </div>
                       ))}
                     </CardContent>
@@ -1448,6 +1526,17 @@ export default function ContentEditorPage() {
                                     <p className="text-amber-700 whitespace-pre-wrap">
                                       {block.content}
                                     </p>
+                                  </div>
+                                );
+                              case "image":
+                                return block.content ? (
+                                  <div key={i} className="mb-4">
+                                    <img src={block.content} alt="Content image" className="max-w-full rounded-lg shadow-sm" />
+                                  </div>
+                                ) : (
+                                  <div key={i} className="mb-4 p-8 bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg text-center text-gray-400">
+                                    <ImageIcon className="w-8 h-8 mx-auto mb-2" />
+                                    <p>No image set</p>
                                   </div>
                                 );
                               default:

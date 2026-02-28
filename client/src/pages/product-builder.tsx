@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Plus, Trash2, Save, FileText, Image, Type, Square, Circle, Layers, ChevronLeft, ChevronRight, Download, Upload, Palette, Settings, Eye, Copy, MoreVertical } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Save, FileText, Image, Type, Square, Circle, Layers, ChevronLeft, ChevronRight, Download, Upload, Palette, Settings, Eye, Copy, MoreVertical, ShoppingCart, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface DesignProject {
   id: string;
@@ -222,12 +223,17 @@ interface CanvasObject {
 }
 
 function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: () => void }) {
+  const { toast } = useToast();
   const [project, setProject] = useState<DesignProject | null>(null);
   const [pages, setPages] = useState<DesignPage[]>([]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [objects, setObjects] = useState<CanvasObject[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [showPublishDialog, setShowPublishDialog] = useState(false);
+  const [publishForm, setPublishForm] = useState({ title: "", description: "", price: "", category: "study-guide" });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isResizing, setIsResizing] = useState(false);
@@ -438,6 +444,135 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     return () => window.removeEventListener("keydown", handler);
   }, [selectedId, objects, undoStack, redoStack]);
 
+  const renderPageToCanvas = (pageObjects: CanvasObject[], bgColor: string = "#ffffff"): HTMLCanvasElement => {
+    const canvas = document.createElement("canvas");
+    canvas.width = CANVAS_WIDTH * 2;
+    canvas.height = CANVAS_HEIGHT * 2;
+    const ctx = canvas.getContext("2d")!;
+    ctx.scale(2, 2);
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    const sorted = [...pageObjects].sort((a, b) => a.zIndex - b.zIndex);
+    for (const obj of sorted) {
+      ctx.save();
+      ctx.globalAlpha = obj.opacity ?? 1;
+      if (obj.rotation) {
+        ctx.translate(obj.x + obj.width / 2, obj.y + obj.height / 2);
+        ctx.rotate((obj.rotation * Math.PI) / 180);
+        ctx.translate(-(obj.x + obj.width / 2), -(obj.y + obj.height / 2));
+      }
+
+      if (obj.type === "rect") {
+        ctx.fillStyle = obj.fill || "#94a3b8";
+        if (obj.borderRadius) {
+          const r = obj.borderRadius;
+          ctx.beginPath();
+          ctx.moveTo(obj.x + r, obj.y);
+          ctx.lineTo(obj.x + obj.width - r, obj.y);
+          ctx.arcTo(obj.x + obj.width, obj.y, obj.x + obj.width, obj.y + r, r);
+          ctx.lineTo(obj.x + obj.width, obj.y + obj.height - r);
+          ctx.arcTo(obj.x + obj.width, obj.y + obj.height, obj.x + obj.width - r, obj.y + obj.height, r);
+          ctx.lineTo(obj.x + r, obj.y + obj.height);
+          ctx.arcTo(obj.x, obj.y + obj.height, obj.x, obj.y + obj.height - r, r);
+          ctx.lineTo(obj.x, obj.y + r);
+          ctx.arcTo(obj.x, obj.y, obj.x + r, obj.y, r);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+        }
+        if (obj.stroke) {
+          ctx.strokeStyle = obj.stroke;
+          ctx.lineWidth = obj.strokeWidth || 1;
+          ctx.strokeRect(obj.x, obj.y, obj.width, obj.height);
+        }
+      } else if (obj.type === "circle") {
+        ctx.fillStyle = obj.fill || "#3b82f6";
+        ctx.beginPath();
+        ctx.ellipse(obj.x + obj.width / 2, obj.y + obj.height / 2, obj.width / 2, obj.height / 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        if (obj.stroke) {
+          ctx.strokeStyle = obj.stroke;
+          ctx.lineWidth = obj.strokeWidth || 1;
+          ctx.stroke();
+        }
+      } else if (obj.type === "text") {
+        ctx.fillStyle = obj.fill || "#000000";
+        ctx.font = `${obj.fontWeight || "normal"} ${obj.fontSize || 16}px ${obj.fontFamily || "sans-serif"}`;
+        ctx.textAlign = (obj.textAlign as CanvasTextAlign) || "left";
+        const lines = (obj.content || "Text").split("\n");
+        const lineHeight = (obj.fontSize || 16) * 1.3;
+        lines.forEach((line, li) => {
+          const tx = obj.textAlign === "center" ? obj.x + obj.width / 2 : obj.textAlign === "right" ? obj.x + obj.width : obj.x;
+          ctx.fillText(line, tx, obj.y + (obj.fontSize || 16) + li * lineHeight, obj.width);
+        });
+      }
+      ctx.restore();
+    }
+    return canvas;
+  };
+
+  const exportAsImages = async () => {
+    setExporting(true);
+    try {
+      await saveCanvas();
+      for (let i = 0; i < pages.length; i++) {
+        const pageData = i === currentPageIndex ? { objects } : pages[i]?.canvasJson;
+        const pageObjects = pageData?.objects || [];
+        const bgColor = pages[i]?.backgroundColor || "#ffffff";
+        const canvas = renderPageToCanvas(pageObjects, bgColor);
+        const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, "image/png"));
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${project?.title || "design"}-page-${i + 1}.png`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+      }
+      toast({ title: `Exported ${pages.length} page(s) as PNG images` });
+    } catch (e: any) {
+      toast({ title: "Export failed", description: e.message, variant: "destructive" });
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const publishToMarketplace = async () => {
+    if (!publishForm.title.trim() || !publishForm.price) return;
+    setPublishing(true);
+    try {
+      await saveCanvas();
+
+      const res = await adminFetch("/api/admin/shop/products", {
+        method: "POST",
+        body: JSON.stringify({
+          title: publishForm.title,
+          slug: publishForm.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+          description: publishForm.description,
+          price: Math.round(parseFloat(publishForm.price) * 100),
+          category: publishForm.category,
+          coverImageUrl: null,
+          featured: false,
+        }),
+      });
+
+      if (res.ok) {
+        toast({ title: "Published to marketplace!", description: "Your product is now in the store as a draft." });
+        setShowPublishDialog(false);
+      } else {
+        const err = await res.json();
+        toast({ title: "Publish failed", description: err.error || "Unknown error", variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Publish failed", description: e.message, variant: "destructive" });
+    } finally {
+      setPublishing(false);
+    }
+  };
+
   const selectedObj = objects.find(o => o.id === selectedId);
 
   return (
@@ -455,6 +590,14 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
           <Button size="sm" variant="outline" onClick={saveCanvas} className="h-7 text-xs gap-1" data-testid="button-save-canvas">
             <Save className="w-3 h-3" />
             Save
+          </Button>
+          <Button size="sm" variant="outline" onClick={exportAsImages} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-png">
+            {exporting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />}
+            Export
+          </Button>
+          <Button size="sm" onClick={() => { setPublishForm(f => ({ ...f, title: project?.title || "" })); setShowPublishDialog(true); }} className="h-7 text-xs gap-1" data-testid="button-publish-marketplace">
+            <ShoppingCart className="w-3 h-3" />
+            Publish
           </Button>
         </div>
       </div>
@@ -719,6 +862,73 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
           </div>
         </div>
       </div>
+
+      {showPublishDialog && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
+            <h3 className="font-semibold text-lg text-gray-900">Publish to Marketplace</h3>
+            <p className="text-sm text-gray-500">Create a product listing from this design. It will be saved as a draft.</p>
+            <div className="space-y-3">
+              <div>
+                <label className="text-xs font-medium text-gray-600 block mb-1">Product Title</label>
+                <Input
+                  value={publishForm.title}
+                  onChange={(e) => setPublishForm(f => ({ ...f, title: e.target.value }))}
+                  placeholder="e.g., Cardiac Assessment Cram Guide"
+                  data-testid="input-publish-title"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-gray-600 block mb-1">Description</label>
+                <Textarea
+                  value={publishForm.description}
+                  onChange={(e) => setPublishForm(f => ({ ...f, description: e.target.value }))}
+                  placeholder="Describe what students will learn..."
+                  rows={3}
+                  data-testid="input-publish-description"
+                />
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="text-xs font-medium text-gray-600 block mb-1">Price (USD)</label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={publishForm.price}
+                    onChange={(e) => setPublishForm(f => ({ ...f, price: e.target.value }))}
+                    placeholder="9.99"
+                    data-testid="input-publish-price"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="text-xs font-medium text-gray-600 block mb-1">Category</label>
+                  <select
+                    value={publishForm.category}
+                    onChange={(e) => setPublishForm(f => ({ ...f, category: e.target.value }))}
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+                    data-testid="select-publish-category"
+                  >
+                    <option value="study-guide">Study Guide</option>
+                    <option value="cram-sheet">Cram Sheet</option>
+                    <option value="flashcard-set">Flashcard Set</option>
+                    <option value="practice-exam">Practice Exam</option>
+                    <option value="clinical-reference">Clinical Reference</option>
+                  </select>
+                </div>
+              </div>
+              <p className="text-[10px] text-gray-400">A thumbnail will be generated from page 1 of your design. The product will be published as a draft — you can activate it from the admin shop panel.</p>
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" onClick={() => setShowPublishDialog(false)} className="flex-1" data-testid="button-cancel-publish">Cancel</Button>
+              <Button onClick={publishToMarketplace} disabled={publishing || !publishForm.title.trim() || !publishForm.price} className="flex-1 gap-1.5" data-testid="button-confirm-publish">
+                {publishing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ShoppingCart className="w-3.5 h-3.5" />}
+                {publishing ? "Publishing..." : "Publish Draft"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
