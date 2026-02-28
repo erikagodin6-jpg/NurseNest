@@ -1,0 +1,242 @@
+1) Admin shop CRUD (edit/delete/price in dollars/admin download)
+Data model requirements (minimum)
+
+products.price_cents (int) stays canonical
+
+Add products.is_deleted (bool default false)
+
+Add products.updated_at
+
+(Optional) products.status = draft|published|archived
+
+Admin API (must exist)
+
+GET /api/admin/products?includeDeleted=0|1
+
+POST /api/admin/products
+
+PUT /api/admin/products/:id
+
+DELETE /api/admin/products/:id (soft delete: set is_deleted=true)
+
+POST /api/admin/products/:id/restore
+
+POST /api/admin/products/:id/price body: { "priceDollars": 19.99, "compareAtDollars": 29.99 }
+
+server converts to cents with correct rounding:
+
+priceCents = Math.round(priceDollars * 100)
+
+GET /api/admin/products/:id/download (admin-only; streams full PDF)
+
+GET /api/admin/products/:id/open (admin-only; inline PDF preview stream)
+
+Admin UI
+
+On the admin store page, every product row/card has:
+
+Edit (opens existing builder with product loaded)
+
+Price input in dollars (shows $19.99, never cents)
+
+Save
+
+Delete
+
+Download
+
+Open Preview
+
+Acceptance criteria
+
+You can edit title/slug/description and see it update on public page after publish.
+
+You can change price in dollars and checkout uses the updated price.
+
+You can delete a product (it disappears publicly, stays in admin with “deleted” state).
+
+You can download/open the full PDF as admin.
+
+2) Watermarked public preview system (sample pages)
+Storage fields
+
+products.pdf_storage_key (private full PDF)
+
+products.preview_storage_key (public preview PDF)
+
+products.preview_page_count (int default 3)
+
+products.preview_updated_at
+
+Admin API
+
+POST /api/admin/products/:id/generate-preview body: { "pageCount": 3 }
+
+Generates a new PDF using first N pages of the full PDF
+
+Applies watermark on every page:
+
+diagonal, repeated or single large
+
+text: NURSENEST PREVIEW • DO NOT DISTRIBUTE
+
+opacity: ~0.12–0.18
+
+GET /api/products/:slug/preview (public; streams preview PDF)
+
+Public product page behavior
+
+Show embedded preview viewer using /api/products/:slug/preview
+
+Do not expose pdf_storage_key or any direct full-PDF URL
+
+Acceptance criteria
+
+Public preview always shows watermark.
+
+Only first N pages are visible.
+
+There is no way to access the full PDF without purchase entitlement.
+
+3) Image generator inside Product Builder (long prompts, no text)
+
+You already have 14 AI tools. Add Image Lab as one more tool.
+
+UI requirements
+
+Big prompt textarea (supports long prompts)
+
+Negative prompt textarea
+
+“Text-free mode” toggle:
+
+When ON, automatically appends to negative prompt:
+
+no text, no letters, no words, no numbers, no watermark, no labels, no typography
+
+Size presets:
+
+Square (1024x1024)
+
+Portrait (1024x1536)
+
+Landscape (1536x1024)
+
+Banner (1792x1024) (or closest supported)
+
+Generate 1–4 variations
+
+Results grid with:
+
+Save to Assets
+
+Insert into Canvas
+
+Regenerate
+
+Backend API (provider-agnostic)
+
+POST /api/admin/images/generate body:
+
+{
+  "prompt": "...",
+  "negativePrompt": "...",
+  "size": "1024x1024",
+  "n": 4,
+  "textFree": true
+}
+
+Returns asset records:
+
+{ "assets": [{ "id": "...", "url": "...", "storageKey": "..." }] }
+Optional (strongly recommended): “text detection warning”
+
+After generation, run a lightweight detection step (best-effort):
+
+If likely text detected → show warning + “Regenerate” button
+(Doesn’t need to be perfect; it’s a guardrail.)
+
+Acceptance criteria
+
+You can paste long prompts, generate images, save them, and place them into your PDF canvas.
+
+“Text-free mode” materially reduces text generation.
+
+Generated images are stored in your asset library and reusable.
+
+4) Store product management improvements (high impact, minimal scope)
+Admin list improvements
+
+Search
+
+Filters: type, exam target, status, featured, deleted
+
+Sorting: newest, price, featured
+
+Publishing controls
+
+Toggle publish/unpublish
+
+“Duplicate product” (copies metadata + design JSON; does not copy entitlements)
+
+Preview/thumbnail automation
+
+On publish or export:
+
+auto-generate thumbnail from page 1
+
+ensure marketplace card always looks good
+
+Acceptance criteria
+
+Managing 50+ products is fast (search/filter/sort).
+
+Thumbnails look consistent and premium.
+
+Paste-this prompt to your dev AI (forces execution)
+Stop “taking stock” and implement the 4 missing gaps now. Do not spend time exploring routes beyond what is required to ship working code.
+
+GAP 1: Admin shop CRUD
+- Add admin endpoints: GET/POST/PUT/DELETE (soft delete), restore, price-in-dollars endpoint, admin download/open PDF streaming.
+- Update admin UI to show Edit, Delete, Price($), Save, Download, Open Preview.
+- Price must be entered/displayed as dollars; server converts to cents.
+
+GAP 2: Watermarked public preview
+- Add previewStorageKey fields to product.
+- Implement POST /api/admin/products/:id/generate-preview {pageCount}
+- Implement GET /api/products/:slug/preview (public) to stream preview PDF only.
+- Watermark every page: “NURSENEST PREVIEW • DO NOT DISTRIBUTE”, diagonal, low opacity.
+- Preview contains first N pages only.
+- Ensure full PDF is never publicly accessible.
+
+GAP 3: Image generator in Product Builder
+- Add “Image Lab” tool with large prompt + negative prompt + Text-Free mode toggle.
+- Add POST /api/admin/images/generate endpoint (provider-agnostic) that returns stored assets.
+- Allow “Save to Assets” and “Insert into Canvas”.
+- Enforce text-free by appending negative prompt when enabled.
+
+GAP 4: Store management improvements
+- Add search/filter/sort to admin products list.
+- Add publish/unpublish toggle and duplicate product.
+- Auto-generate thumbnail on export/publish.
+
+Deliverables required:
+1) DB migrations
+2) Backend routes + auth guards
+3) Frontend UI changes (admin list + builder Image Lab)
+4) Watermark preview generation implementation
+5) End-to-end manual QA checklist and results after running locally
+Do not leave TODOs; code must be runnable.
+If you want the fastest path to “it all works”
+
+Tell your dev AI to implement in this order:
+
+Admin CRUD + price dollars
+
+Secure preview watermark pipeline
+
+Image Lab
+
+Filters/sort/duplicate/publish polish
+
+That sequence gets you selling with confidence immediately.
