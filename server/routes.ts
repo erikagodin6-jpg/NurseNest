@@ -28,6 +28,7 @@ import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfi
 import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-automation";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
+import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
 
 async function requireAdmin(req: any, res: any) {
   const username = String(req.body?.username || req.query?.username || "");
@@ -111,6 +112,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerObjectStorageRoutes(app);
 
   app.use(regionMiddleware);
+  app.use(languageMiddleware);
 
   app.get("/api/region", (req, res) => {
     const region = req.region || "US";
@@ -1294,6 +1296,22 @@ Rules:
         console.error("[Content API] SQL error:", sqlErr.message);
       }
 
+      const lang = req.lang || "en";
+      if (lang !== "en" && items.length > 0) {
+        const contentIds = items.map((item: any) => item.id);
+        const translatedTitles = await getBulkTranslatedTitles("content_item", contentIds, lang);
+        for (const item of items) {
+          const translatedTitle = translatedTitles.get(item.id);
+          if (translatedTitle) {
+            item._originalTitle = item.title;
+            item.title = translatedTitle;
+            item._translationStatus = "translated";
+          } else {
+            item._translationStatus = "missing";
+          }
+        }
+      }
+
       res.json(items);
     } catch (e: any) {
       console.error("Content API error:", e.message);
@@ -1378,6 +1396,47 @@ Rules:
         if (!canAccessTier(requestingUserTier, item.tier)) {
           return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
         }
+      }
+
+      const lang = req.lang || "en";
+      if (lang !== "en") {
+        const contentId = item.id;
+        const translations = await getTranslatedFields("content_item", contentId, lang);
+
+        if (translations.title) item.title = translations.title.text;
+        if (translations.summary) item.summary = translations.summary.text;
+        if (translations.seoTitle) item.seoTitle = translations.seoTitle.text;
+        if (translations.seoDescription) item.seoDescription = translations.seoDescription.text;
+        if (translations.content) {
+          try {
+            item.content = JSON.parse(translations.content.text);
+          } catch {}
+        }
+
+        const sourceFields: Record<string, string | null | undefined> = {
+          title: item.title,
+          summary: item.summary,
+          seoTitle: item.seoTitle,
+          seoDescription: item.seoDescription,
+        };
+        const translationStatusInfo = await getTranslationStatus("content_item", contentId, lang, sourceFields);
+        const availableLanguages = await getAvailableLanguages("content_item", contentId);
+
+        item._translation = {
+          lang,
+          status: translationStatusInfo.status,
+          missingFields: translationStatusInfo.missing,
+          staleFields: translationStatusInfo.stale,
+          availableLanguages,
+        };
+      } else {
+        item._translation = {
+          lang: "en",
+          status: "complete",
+          missingFields: [],
+          staleFields: [],
+          availableLanguages: await getAvailableLanguages("content_item", item.id),
+        };
       }
 
       res.json(item);
@@ -5750,7 +5809,446 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  // --------------------
+  // SEO Health Check Engine + Content Depth Enforcement
+  // --------------------
+
+  app.post("/api/admin/seo-health-check", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const issues: Array<{ checkType: string; severity: string; pageSlug: string | null; languageCode: string | null; details: string }> = [];
+
+      const contentResult = await pool.query(
+        `SELECT id, slug, title, seo_title, seo_description, seo_keywords, summary, content, status, tier, tags FROM content_items WHERE status = 'published'`
+      );
+      const publishedItems = contentResult.rows;
+
+      const translationResult = await pool.query(
+        `SELECT DISTINCT content_id, language_code FROM content_translations WHERE content_type = 'content_item'`
+      );
+      const translationMap = new Map<string, Set<string>>();
+      for (const row of translationResult.rows) {
+        if (!translationMap.has(row.content_id)) translationMap.set(row.content_id, new Set());
+        translationMap.get(row.content_id)!.add(row.language_code);
+      }
+
+      const PILLAR_WORD_THRESHOLD = 2500;
+      const PILLAR_FAQ_THRESHOLD = 12;
+      const PILLAR_LINK_THRESHOLD = 10;
+      const CLUSTER_WORD_THRESHOLD = 1200;
+      const CLUSTER_FAQ_THRESHOLD = 6;
+      const CLUSTER_LINK_THRESHOLD = 6;
+
+      for (const item of publishedItems) {
+        const slug = item.slug;
+
+        if (!item.seo_description || item.seo_description.trim().length === 0) {
+          issues.push({ checkType: "missing_meta_description", severity: "error", pageSlug: slug, languageCode: "en", details: `Page "${item.title}" is missing a meta description` });
+        } else if (item.seo_description.length < 50) {
+          issues.push({ checkType: "short_meta_description", severity: "warning", pageSlug: slug, languageCode: "en", details: `Meta description for "${item.title}" is too short (${item.seo_description.length} chars, recommended 150-160)` });
+        }
+
+        if (!item.seo_title || item.seo_title.trim().length === 0) {
+          issues.push({ checkType: "missing_seo_title", severity: "warning", pageSlug: slug, languageCode: "en", details: `Page "${item.title}" is missing an SEO title` });
+        }
+
+        let wordCount = 0;
+        let faqCount = 0;
+        let linkCount = 0;
+        if (Array.isArray(item.content)) {
+          for (const block of item.content as any[]) {
+            const text = typeof block.content === "string" ? block.content : "";
+            wordCount += text.split(/\s+/).filter(Boolean).length;
+            if (block.type === "faq" || block.type === "quiz-question") faqCount++;
+            const linkMatches = text.match(/https?:\/\/[^\s]+/g);
+            if (linkMatches) linkCount += linkMatches.length;
+          }
+        }
+        if (item.summary) {
+          wordCount += item.summary.split(/\s+/).filter(Boolean).length;
+        }
+
+        const isPillar = (item.tags && Array.isArray(item.tags) && item.tags.includes("pillar")) || item.tier === "free";
+        const wordThreshold = isPillar ? PILLAR_WORD_THRESHOLD : CLUSTER_WORD_THRESHOLD;
+        const faqThreshold = isPillar ? PILLAR_FAQ_THRESHOLD : CLUSTER_FAQ_THRESHOLD;
+        const linkThreshold = isPillar ? PILLAR_LINK_THRESHOLD : CLUSTER_LINK_THRESHOLD;
+        const contentType = isPillar ? "pillar" : "cluster";
+
+        if (wordCount < wordThreshold) {
+          issues.push({ checkType: "low_word_count", severity: "error", pageSlug: slug, languageCode: "en", details: `${contentType} page "${item.title}" has ${wordCount} words (minimum: ${wordThreshold})` });
+        }
+
+        if (faqCount < faqThreshold) {
+          issues.push({ checkType: "low_faq_count", severity: "warning", pageSlug: slug, languageCode: "en", details: `${contentType} page "${item.title}" has ${faqCount} FAQ/quiz blocks (minimum: ${faqThreshold})` });
+        }
+
+        if (linkCount < linkThreshold) {
+          issues.push({ checkType: "low_link_count", severity: "warning", pageSlug: slug, languageCode: "en", details: `${contentType} page "${item.title}" has ${linkCount} links (minimum: ${linkThreshold})` });
+        }
+
+        const translatedLangs = translationMap.get(item.id);
+        if (!translatedLangs || translatedLangs.size === 0) {
+          issues.push({ checkType: "missing_hreflang", severity: "warning", pageSlug: slug, languageCode: null, details: `Page "${item.title}" has no translations — missing hreflang tags for alternate languages` });
+        }
+
+        if (!item.seo_keywords || (Array.isArray(item.seo_keywords) && item.seo_keywords.length === 0)) {
+          issues.push({ checkType: "missing_seo_keywords", severity: "warning", pageSlug: slug, languageCode: "en", details: `Page "${item.title}" has no SEO keywords defined` });
+        }
+      }
+
+      const allSlugs = new Set(publishedItems.map((i: any) => i.slug));
+      for (const item of publishedItems) {
+        if (!Array.isArray(item.content)) continue;
+        let hasInternalLink = false;
+        for (const block of item.content as any[]) {
+          const text = typeof block.content === "string" ? block.content : "";
+          for (const s of allSlugs) {
+            if (s !== item.slug && text.includes(s)) {
+              hasInternalLink = true;
+              break;
+            }
+          }
+          if (hasInternalLink) break;
+        }
+        if (!hasInternalLink) {
+          issues.push({ checkType: "orphan_page", severity: "warning", pageSlug: item.slug, languageCode: null, details: `Page "${item.title}" appears to be an orphan page (no internal links from other content)` });
+        }
+      }
+
+      let seoPageResult;
+      try {
+        seoPageResult = await pool.query(`SELECT slug, language_code FROM seo_pages`);
+      } catch { seoPageResult = { rows: [] }; }
+      const sitemapSlugs = new Set(seoPageResult.rows.map((r: any) => r.slug));
+      for (const item of publishedItems) {
+        if (!sitemapSlugs.has(item.slug)) {
+          issues.push({ checkType: "missing_from_sitemap", severity: "error", pageSlug: item.slug, languageCode: "en", details: `Published page "${item.title}" is not included in the sitemap/SEO pages table` });
+        }
+      }
+
+      await pool.query(`UPDATE seo_health_checks SET resolved = true WHERE resolved = false`);
+
+      for (const issue of issues) {
+        await pool.query(
+          `INSERT INTO seo_health_checks (id, check_type, severity, page_slug, language_code, details, resolved, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, false, NOW())`,
+          [issue.checkType, issue.severity, issue.pageSlug, issue.languageCode, issue.details]
+        );
+      }
+
+      await logAudit(req, admin, "seo", null, "health-check-run", null, { issueCount: issues.length });
+
+      const errorCount = issues.filter(i => i.severity === "error").length;
+      const warningCount = issues.filter(i => i.severity === "warning").length;
+
+      res.json({
+        totalIssues: issues.length,
+        errors: errorCount,
+        warnings: warningCount,
+        issues,
+        pagesScanned: publishedItems.length,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      console.error("SEO health check error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/seo-health-issues", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const resolved = req.query.resolved === "true";
+      const checkType = req.query.checkType as string | undefined;
+      const severity = req.query.severity as string | undefined;
+
+      let query = `SELECT * FROM seo_health_checks WHERE resolved = $1`;
+      const params: any[] = [resolved];
+      let paramIdx = 2;
+
+      if (checkType) {
+        query += ` AND check_type = $${paramIdx}`;
+        params.push(checkType);
+        paramIdx++;
+      }
+
+      if (severity) {
+        query += ` AND severity = $${paramIdx}`;
+        params.push(severity);
+        paramIdx++;
+      }
+
+      query += ` ORDER BY created_at DESC LIMIT 500`;
+
+      const result = await pool.query(query, params);
+      const issues = result.rows.map(snakeToCamel);
+
+      res.json({ issues, total: issues.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // Language ROI Scoring Engine + 6-Month Roadmap (T003)
+  // --------------------
+
+  app.get("/api/admin/language-priority", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const result = await pool.query(
+        `SELECT * FROM language_priority ORDER BY roi_score DESC`
+      );
+
+      if (result.rows.length === 0) {
+        await seedLanguagePriority();
+        const seeded = await pool.query(
+          `SELECT * FROM language_priority ORDER BY roi_score DESC`
+        );
+        return res.json(seeded.rows.map(snakeToCamel));
+      }
+
+      res.json(result.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/language-priority", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { id, nursingPopulation, immigrationPatterns, searchDemand, competitionStrength, monetizationPotential, productionDifficulty, tier, rolloutMonth } = req.body;
+      if (!id) return res.status(400).json({ error: "ID is required" });
+
+      const np = Number(nursingPopulation) || 3;
+      const ip = Number(immigrationPatterns) || 3;
+      const sd = Number(searchDemand) || 3;
+      const cs = Number(competitionStrength) || 3;
+      const mp = Number(monetizationPotential) || 3;
+      const pd = Number(productionDifficulty) || 3;
+
+      const roiScore = computeLanguageRoiScore(np, ip, sd, cs, mp, pd);
+
+      const result = await pool.query(
+        `UPDATE language_priority
+         SET nursing_population = $1, immigration_patterns = $2, search_demand = $3,
+             competition_strength = $4, monetization_potential = $5, production_difficulty = $6,
+             roi_score = $7, tier = $8, rollout_month = $9, updated_at = NOW()
+         WHERE id = $10 RETURNING *`,
+        [np, ip, sd, cs, mp, pd, roiScore, tier || "tier_3", rolloutMonth || null, id]
+      );
+
+      if (result.rows.length === 0) return res.status(404).json({ error: "Language not found" });
+
+      await logAudit(req, admin, "language_priority", id, "update", null, { roiScore, tier });
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/seo-roadmap", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const langResult = await pool.query(
+        `SELECT * FROM language_priority ORDER BY roi_score DESC`
+      );
+
+      if (langResult.rows.length === 0) {
+        await seedLanguagePriority();
+        const seeded = await pool.query(
+          `SELECT * FROM language_priority ORDER BY roi_score DESC`
+        );
+        langResult.rows = seeded.rows;
+      }
+
+      const languages = langResult.rows.map(snakeToCamel);
+
+      const contentDepthRules = {
+        pillar: { minWordCount: 2500, minFaqCount: 12, minInternalLinks: 10 },
+        cluster: { minWordCount: 1200, minFaqCount: 6, minInternalLinks: 6 },
+      };
+
+      const roadmap = generateSixMonthRoadmap(languages);
+
+      res.json({
+        roadmap,
+        contentDepthRules,
+        languages,
+        generatedAt: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
+}
+
+function computeLanguageRoiScore(
+  nursingPopulation: number,
+  immigrationPatterns: number,
+  searchDemand: number,
+  competitionStrength: number,
+  monetizationPotential: number,
+  productionDifficulty: number
+): number {
+  const weights = {
+    nursingPopulation: 0.25,
+    immigrationPatterns: 0.15,
+    searchDemand: 0.20,
+    competitionStrength: 0.10,
+    monetizationPotential: 0.20,
+    productionDifficulty: 0.10,
+  };
+
+  const competitionInverted = 6 - competitionStrength;
+  const difficultyInverted = 6 - productionDifficulty;
+
+  const score =
+    nursingPopulation * weights.nursingPopulation +
+    immigrationPatterns * weights.immigrationPatterns +
+    searchDemand * weights.searchDemand +
+    competitionInverted * weights.competitionStrength +
+    monetizationPotential * weights.monetizationPotential +
+    difficultyInverted * weights.productionDifficulty;
+
+  return Math.round(score * 100) / 100;
+}
+
+function generateSixMonthRoadmap(languages: any[]): any[] {
+  const sorted = [...languages].sort((a, b) => (b.roiScore || 0) - (a.roiScore || 0));
+  const roadmap: any[] = [];
+
+  const monthNames = ["Month 1", "Month 2", "Month 3", "Month 4", "Month 5", "Month 6"];
+
+  const tier1 = sorted.filter(l => l.tier === "tier_1" || (l.roiScore || 0) >= 4.0);
+  const tier2 = sorted.filter(l => l.tier === "tier_2" || ((l.roiScore || 0) >= 3.0 && (l.roiScore || 0) < 4.0 && !tier1.includes(l)));
+  const tier3 = sorted.filter(l => !tier1.includes(l) && !tier2.includes(l));
+
+  roadmap.push({
+    month: 1,
+    label: monthNames[0],
+    phase: "Foundation",
+    tasks: [
+      "Set up translation infrastructure and workflows",
+      "Begin pillar content creation for Tier 1 languages",
+      ...tier1.slice(0, 3).map(l => `Start ${l.languageName}: Core navigation + 5 pillar pages`),
+    ],
+    languages: tier1.slice(0, 3).map(l => l.languageCode),
+    contentTargets: { pillarPages: 5, clusterPages: 0 },
+  });
+
+  roadmap.push({
+    month: 2,
+    label: monthNames[1],
+    phase: "Tier 1 Expansion",
+    tasks: [
+      "Complete Tier 1 pillar content",
+      "Begin cluster content for Tier 1 languages",
+      ...tier1.slice(0, 3).map(l => `${l.languageName}: 10 cluster pages + FAQ sections`),
+    ],
+    languages: tier1.slice(0, 3).map(l => l.languageCode),
+    contentTargets: { pillarPages: 5, clusterPages: 10 },
+  });
+
+  roadmap.push({
+    month: 3,
+    label: monthNames[2],
+    phase: "Tier 2 Launch",
+    tasks: [
+      "Launch remaining Tier 1 languages if any",
+      "Begin Tier 2 language pillar content",
+      ...tier1.slice(3).map(l => `${l.languageName}: Core navigation + 5 pillar pages`),
+      ...tier2.slice(0, 3).map(l => `Start ${l.languageName}: Core navigation + 3 pillar pages`),
+    ],
+    languages: [...tier1.slice(3), ...tier2.slice(0, 3)].map(l => l.languageCode),
+    contentTargets: { pillarPages: 8, clusterPages: 15 },
+  });
+
+  roadmap.push({
+    month: 4,
+    label: monthNames[3],
+    phase: "Tier 2 Expansion",
+    tasks: [
+      "Expand Tier 2 cluster content",
+      "SEO optimization for all launched languages",
+      ...tier2.slice(0, 3).map(l => `${l.languageName}: 8 cluster pages + internal linking`),
+    ],
+    languages: tier2.slice(0, 3).map(l => l.languageCode),
+    contentTargets: { pillarPages: 3, clusterPages: 20 },
+  });
+
+  roadmap.push({
+    month: 5,
+    label: monthNames[4],
+    phase: "Tier 3 Launch + Optimization",
+    tasks: [
+      "Begin Tier 3 language content",
+      "Performance review and ROI recalculation for Tier 1 & 2",
+      ...tier2.slice(3).map(l => `${l.languageName}: 3 pillar pages`),
+      ...tier3.slice(0, 4).map(l => `Start ${l.languageName}: Core navigation + 2 pillar pages`),
+    ],
+    languages: [...tier2.slice(3), ...tier3.slice(0, 4)].map(l => l.languageCode),
+    contentTargets: { pillarPages: 6, clusterPages: 10 },
+  });
+
+  roadmap.push({
+    month: 6,
+    label: monthNames[5],
+    phase: "Full Coverage + Review",
+    tasks: [
+      "Complete remaining Tier 3 languages",
+      "Content audit across all languages",
+      "Enforce content depth rules (pillar: 2500w/12FAQ/10links, cluster: 1200w/6FAQ/6links)",
+      ...tier3.slice(4).map(l => `Start ${l.languageName}: Core navigation + 2 pillar pages`),
+      "Generate comprehensive coverage report",
+    ],
+    languages: tier3.slice(4).map(l => l.languageCode),
+    contentTargets: { pillarPages: 4, clusterPages: 8 },
+  });
+
+  return roadmap;
+}
+
+async function seedLanguagePriority() {
+  const languages = [
+    { code: "fr", name: "French", np: 5, ip: 5, sd: 5, cs: 3, mp: 5, pd: 2, tier: "tier_1", month: 1 },
+    { code: "tl", name: "Tagalog (Filipino)", np: 5, ip: 5, sd: 4, cs: 1, mp: 4, pd: 2, tier: "tier_1", month: 1 },
+    { code: "hi", name: "Hindi", np: 5, ip: 4, sd: 4, cs: 2, mp: 4, pd: 3, tier: "tier_1", month: 1 },
+    { code: "es", name: "Spanish", np: 4, ip: 4, sd: 5, cs: 4, mp: 5, pd: 2, tier: "tier_1", month: 2 },
+    { code: "zh", name: "Chinese (Simplified)", np: 4, ip: 4, sd: 4, cs: 3, mp: 4, pd: 4, tier: "tier_1", month: 2 },
+    { code: "ar", name: "Arabic", np: 4, ip: 4, sd: 3, cs: 2, mp: 3, pd: 4, tier: "tier_2", month: 3 },
+    { code: "pt", name: "Portuguese", np: 3, ip: 3, sd: 4, cs: 2, mp: 4, pd: 2, tier: "tier_2", month: 3 },
+    { code: "ko", name: "Korean", np: 3, ip: 3, sd: 3, cs: 2, mp: 4, pd: 3, tier: "tier_2", month: 3 },
+    { code: "pa", name: "Punjabi", np: 3, ip: 4, sd: 3, cs: 1, mp: 3, pd: 3, tier: "tier_2", month: 4 },
+    { code: "vi", name: "Vietnamese", np: 3, ip: 3, sd: 3, cs: 1, mp: 3, pd: 3, tier: "tier_2", month: 4 },
+    { code: "ja", name: "Japanese", np: 3, ip: 2, sd: 3, cs: 3, mp: 4, pd: 4, tier: "tier_3", month: 5 },
+    { code: "de", name: "German", np: 3, ip: 2, sd: 3, cs: 3, mp: 3, pd: 2, tier: "tier_3", month: 5 },
+    { code: "ha", name: "Haitian Creole", np: 2, ip: 3, sd: 2, cs: 1, mp: 2, pd: 3, tier: "tier_3", month: 5 },
+    { code: "ur", name: "Urdu", np: 3, ip: 3, sd: 2, cs: 1, mp: 2, pd: 3, tier: "tier_3", month: 6 },
+    { code: "sw", name: "Swahili", np: 2, ip: 2, sd: 2, cs: 1, mp: 2, pd: 3, tier: "tier_3", month: 6 },
+  ];
+
+  for (const lang of languages) {
+    const roiScore = computeLanguageRoiScore(lang.np, lang.ip, lang.sd, lang.cs, lang.mp, lang.pd);
+    await pool.query(
+      `INSERT INTO language_priority (id, language_code, language_name, nursing_population, immigration_patterns, search_demand, competition_strength, monetization_potential, production_difficulty, roi_score, tier, rollout_month, updated_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())
+       ON CONFLICT (language_code) DO NOTHING`,
+      [lang.code, lang.name, lang.np, lang.ip, lang.sd, lang.cs, lang.mp, lang.pd, roiScore, lang.tier, lang.month]
+    );
+  }
 }
 
 async function seedExamBlueprints() {

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, jsonb, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, timestamp, jsonb, boolean, doublePrecision } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -781,11 +781,14 @@ export const contentTranslations = pgTable("content_translations", {
   fieldName: text("field_name").notNull(),
   translatedText: text("translated_text").notNull(),
   translationStatus: text("translation_status").default("auto"),
+  sourceHash: text("source_hash"),
   sourceLastUpdatedReference: timestamp("source_last_updated_reference"),
   lastUpdated: timestamp("last_updated").defaultNow().notNull(),
 });
 
 export type ContentTranslation = typeof contentTranslations.$inferSelect;
+export const insertContentTranslationSchema = createInsertSchema(contentTranslations).omit({ id: true, lastUpdated: true });
+export type InsertContentTranslation = z.infer<typeof insertContentTranslationSchema>;
 
 export const seoKeywordTargets = pgTable("seo_keyword_targets", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -795,7 +798,143 @@ export const seoKeywordTargets = pgTable("seo_keyword_targets", {
   pageTargetSlug: text("page_target_slug"),
   searchVolume: integer("search_volume"),
   difficulty: integer("difficulty"),
+  coverageStatus: text("coverage_status").default("unmapped"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export type SeoKeywordTarget = typeof seoKeywordTargets.$inferSelect;
+export const insertSeoKeywordTargetSchema = createInsertSchema(seoKeywordTargets).omit({ id: true, createdAt: true });
+export type InsertSeoKeywordTarget = z.infer<typeof insertSeoKeywordTargetSchema>;
+
+export const translationJobs = pgTable("translation_jobs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentType: text("content_type").notNull(),
+  contentId: text("content_id").notNull(),
+  targetLanguage: text("target_language").notNull(),
+  fieldsToTranslate: jsonb("fields_to_translate").notNull().default(sql`'[]'::jsonb`),
+  status: text("status").default("pending"),
+  progress: integer("progress").default(0),
+  error: text("error"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export type TranslationJob = typeof translationJobs.$inferSelect;
+export const insertTranslationJobSchema = createInsertSchema(translationJobs).omit({ id: true, createdAt: true, completedAt: true });
+export type InsertTranslationJob = z.infer<typeof insertTranslationJobSchema>;
+
+export const languagePriority = pgTable("language_priority", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  languageCode: text("language_code").notNull().unique(),
+  languageName: text("language_name").notNull(),
+  nursingPopulation: integer("nursing_population").default(3),
+  immigrationPatterns: integer("immigration_patterns").default(3),
+  searchDemand: integer("search_demand").default(3),
+  competitionStrength: integer("competition_strength").default(3),
+  monetizationPotential: integer("monetization_potential").default(3),
+  productionDifficulty: integer("production_difficulty").default(3),
+  roiScore: doublePrecision("roi_score").default(0),
+  tier: text("tier").default("tier_3"),
+  rolloutMonth: integer("rollout_month"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type LanguagePriority = typeof languagePriority.$inferSelect;
+export const insertLanguagePrioritySchema = createInsertSchema(languagePriority).omit({ id: true, updatedAt: true });
+export type InsertLanguagePriority = z.infer<typeof insertLanguagePrioritySchema>;
+
+export const contentIntelligenceReports = pgTable("content_intelligence_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  reportType: text("report_type").notNull(),
+  reportData: jsonb("report_data").notNull(),
+  summary: text("summary"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ContentIntelligenceReport = typeof contentIntelligenceReports.$inferSelect;
+
+export const seoHealthChecks = pgTable("seo_health_checks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  checkType: text("check_type").notNull(),
+  severity: text("severity").default("warning"),
+  pageSlug: text("page_slug"),
+  languageCode: text("language_code"),
+  details: text("details").notNull(),
+  resolved: boolean("resolved").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type SeoHealthCheck = typeof seoHealthChecks.$inferSelect;
+
+export const userAbilitySessions = pgTable("user_ability_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  sessionId: varchar("session_id").notNull(),
+  finalAbility: doublePrecision("final_ability").default(0),
+  confidenceInterval: doublePrecision("confidence_interval"),
+  stabilityIndex: doublePrecision("stability_index"),
+  earlyStop: boolean("early_stop").default(false),
+  questionCount: integer("question_count").default(0),
+  abilityTrajectory: jsonb("ability_trajectory").default(sql`'[]'::jsonb`),
+  antiGamingFlags: jsonb("anti_gaming_flags").default(sql`'[]'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type UserAbilitySession = typeof userAbilitySessions.$inferSelect;
+export const insertUserAbilitySessionSchema = createInsertSchema(userAbilitySessions).omit({ id: true, createdAt: true });
+export type InsertUserAbilitySession = z.infer<typeof insertUserAbilitySessionSchema>;
+
+export const difficultyAdjustmentLog = pgTable("difficulty_adjustment_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  difficultyLevel: integer("difficulty_level").notNull(),
+  oldScaling: doublePrecision("old_scaling").notNull(),
+  newScaling: doublePrecision("new_scaling").notNull(),
+  actualPercent: doublePrecision("actual_percent"),
+  expectedRange: text("expected_range"),
+  reason: text("reason").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type DifficultyAdjustmentLog = typeof difficultyAdjustmentLog.$inferSelect;
+
+export const contentRoiScores = pgTable("content_roi_scores", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  proposedTitle: text("proposed_title").notNull(),
+  languageCode: text("language_code").notNull().default("en"),
+  examCode: text("exam_code"),
+  contentType: text("content_type").notNull(),
+  primaryKeyword: text("primary_keyword"),
+  secondaryKeywords: jsonb("secondary_keywords").default(sql`'[]'::jsonb`),
+  blueprintCategory: text("blueprint_category"),
+  seoDemandScore: integer("seo_demand_score").default(0),
+  blueprintStrategicScore: integer("blueprint_strategic_score").default(0),
+  conversionPotentialScore: integer("conversion_potential_score").default(0),
+  authorityMultiplierScore: integer("authority_multiplier_score").default(0),
+  monetizationFitScore: integer("monetization_fit_score").default(0),
+  roiScore: doublePrecision("roi_score").default(0),
+  priorityTier: text("priority_tier").default("deprioritize"),
+  similarityFlag: boolean("similarity_flag").default(false),
+  similarPageSlug: text("similar_page_slug"),
+  pipelineStatus: text("pipeline_status").default("idea"),
+  projectedMonthlyTraffic: integer("projected_monthly_traffic"),
+  projectedDiagnosticStarts: integer("projected_diagnostic_starts"),
+  projectedRevenue: doublePrecision("projected_revenue"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type ContentRoiScore = typeof contentRoiScores.$inferSelect;
+export const insertContentRoiScoreSchema = createInsertSchema(contentRoiScores).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertContentRoiScore = z.infer<typeof insertContentRoiScoreSchema>;
+
+export const aiUsageBudget = pgTable("ai_usage_budget", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  monthYear: text("month_year").notNull(),
+  tokensUsed: integer("tokens_used").default(0),
+  tokenBudget: integer("token_budget").default(500000),
+  requestCount: integer("request_count").default(0),
+  lastRequestAt: timestamp("last_request_at"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type AiUsageBudget = typeof aiUsageBudget.$inferSelect;

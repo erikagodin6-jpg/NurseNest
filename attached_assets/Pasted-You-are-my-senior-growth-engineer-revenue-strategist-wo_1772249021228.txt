@@ -1,0 +1,297 @@
+You are my senior growth engineer + revenue strategist working inside NurseNest (Vite + React + Express + DB + Stripe + multilingual + analytics).
+
+Build a Dynamic Revenue Optimization Engine that increases conversion rate, retention, and lifetime value by adapting upgrade prompts, offers, and feature gates based on user behavior and language—ethically and transparently.
+
+IMPORTANT:
+- No fear-based copy.
+- No deceptive pricing.
+- No dark patterns.
+- Always clearly label trials, discounts, and renewals.
+- Do not change prices mid-checkout.
+- Do not claim to replicate official exam scoring.
+
+SUPPORTED LANGUAGES:
+en, fr, es, fil, hi, ar, fa, zh-Hans, ja, ko, ur, pa, pt, vi, ht
+
+====================================================
+PART 1 — REVENUE METRICS + DATA MODEL
+====================================================
+
+Create tables:
+
+user_funnel_events
+- user_id
+- language_code
+- event_name
+- event_value (json)
+- timestamp
+Examples:
+landing_view, diagnostic_start, diagnostic_complete, plan_created,
+mock_start, mock_complete, simulator_open, upgrade_modal_shown,
+upgrade_clicked, checkout_started, purchase_completed, churned, renewed
+
+user_revenue_profile
+- user_id
+- language_code
+- segment (enum)
+- propensity_score (0–1)
+- price_sensitivity_score (0–1)
+- time_to_exam_days
+- last_offer_shown
+- last_offer_result
+- created_at, updated_at
+
+pricing_offers
+- offer_id
+- offer_type (trial|bundle|annual|student_discount|winback)
+- tier (core|premium|np)
+- price
+- currency
+- duration_days (for trials)
+- discount_percent
+- eligibility_rules_json
+- localized_copy_json
+- enabled (bool)
+
+====================================================
+PART 2 — USER SEGMENTATION (RULE-BASED FIRST)
+====================================================
+
+Segment users using deterministic rules (no ML required initially):
+
+Segments:
+A) Exam Soon High Intent
+- time_to_exam_days <= 30
+- diagnostic_complete = true
+
+B) Moderate Risk Strivers
+- pass_probability between 60–75 OR readiness band borderline
+- completed >= 200 questions
+
+C) Content Explorers
+- reading lessons, low qbank usage
+
+D) Heavy Practicers
+- high question volume + mocks completed
+
+E) Returning / At-risk
+- inactivity > 7 days
+- previously engaged
+
+Store segment in user_revenue_profile and update daily.
+
+====================================================
+PART 3 — PROPENSITY + PRICE SENSITIVITY SCORES
+====================================================
+
+Compute two scores (0–1), simple and explainable:
+
+propensity_score (likelihood to upgrade)
+Signals:
+- diagnostic completion
+- study plan created
+- mock exams taken
+- simulator clicks (locked)
+- time_to_exam proximity
+- repeated sessions over 7 days
+
+price_sensitivity_score (likelihood to respond to discounts)
+Signals:
+- multiple upgrade modal dismissals
+- low income region indicator (optional; do not infer sensitive traits)
+- prefers monthly over annual historically
+- time spent on pricing page without converting
+
+No personal attribute inference. Use only behavioral signals.
+
+====================================================
+PART 4 — OFFER DECISION ENGINE
+====================================================
+
+Create a centralized service:
+getBestOffer(user_id, context)
+
+Contexts:
+- after_diagnostic
+- after_first_mock
+- when_prob_moderate_risk
+- when_exam_soon
+- winback_after_inactivity
+- after_simulator_click_locked
+
+Decision rules:
+
+1) If segment=Exam Soon High Intent AND propensity high:
+   show premium monthly + optional 7-day trial
+
+2) If propensity medium AND price_sensitivity high:
+   show 3-month bundle discount (paid up front) OR first-month discount
+
+3) If user is Heavy Practicer but not converting:
+   emphasize premium features:
+   - strict CAT simulator
+   - probability confidence band
+   - improvement simulator
+
+4) If user is Content Explorer:
+   show Core tier first, then Premium upsell after first mock
+
+5) Winback:
+   if inactive 7–14 days:
+     show “come back plan” + small limited-time discount (optional)
+
+Guardrails:
+- Max 1 modal/day
+- Max 3 offer impressions/week
+- Respect “don’t show again for 7 days” option
+
+Return:
+- offer_id
+- tier emphasized
+- localized copy keys
+- CTA targets
+
+====================================================
+PART 5 — FEATURE GATING THAT DRIVES VALUE (NOT FRUSTRATION)
+====================================================
+
+Gate Premium features at “aha moments”:
+
+Locked previews:
+- pass probability %
+- confidence band
+- probability improvement simulator
+- strict CAT mode
+- advanced analytics (error patterns)
+- personalized lifts (“+2.1% if you do X”)
+
+Free/Core users should still receive value:
+- readiness trend (no numeric probability)
+- basic next-best actions (no lift %)
+- limited mocks
+
+Make locked areas feel aspirational, not broken.
+
+====================================================
+PART 6 — MULTILINGUAL OFFER LOCALIZATION
+====================================================
+
+Create localized_offer_copy:
+- title
+- body
+- bullets
+- CTA
+- disclaimer
+
+Rules:
+- Do not literal-translate sales copy.
+- Keep tone clinical, calm, confidence-building.
+- Ensure right-to-left layout support for Arabic/Urdu (rtl).
+- Ensure currencies and pricing display match locale (CAD vs USD if applicable).
+
+====================================================
+PART 7 — PRICING PACKAGING RECOMMENDATIONS
+====================================================
+
+Implement default packages:
+
+Free:
+- Diagnostic + limited daily practice + public pillars
+
+Core:
+- Full Qbank + study plan + basic mocks
+
+Premium:
+- Strict CAT + pass probability + simulator + advanced analytics + remediation packs
+
+NP Premium+:
+- CNPLE/AANP/ANCC advanced cases + prescribing safety modules + guideline-based sets
+
+Add option:
+- Study Packs (one-time purchase) as a mid-tier monetization for price-sensitive users.
+
+====================================================
+PART 8 — A/B TESTING HARNESS
+====================================================
+
+Implement A/B framework:
+
+ab_tests
+- test_id
+- name
+- variants_json
+- allocation
+- enabled
+
+Examples:
+- Trial vs Bundle offer
+- Copy Variant A vs B
+- CTA placement variants
+- Price anchor variations (show annual savings)
+
+Track:
+- conversion rate
+- retention at 30 days
+- churn rate
+- revenue per visitor
+- revenue per subscriber
+
+====================================================
+PART 9 — RETENTION + CHURN PREVENTION AUTOMATIONS
+====================================================
+
+Add non-AI automation triggers:
+
+1) Weekly progress email:
+- “This week: readiness up 4%, next steps…”
+
+2) Exam countdown nudges:
+- if behind schedule, show plan adjustment prompt
+
+3) Streak recovery:
+- “Resume your plan today: 20 Q + 10 cards”
+
+4) Before renewal:
+- show usage summary + achievements
+
+5) Churn survey + downgrade:
+- offer downgrade to Core instead of cancel
+
+====================================================
+PART 10 — ADMIN DASHBOARDS
+====================================================
+
+Add “Revenue Intelligence” admin dashboards:
+
+- Conversion funnel by language
+- Offer performance (impressions → clicks → purchases)
+- Segment performance
+- ARPU/LTV by language and tier
+- Trial → paid conversion
+- Churn reasons distribution
+- Top converting pages and CTAs
+
+====================================================
+PART 11 — ETHICS + COMPLIANCE
+====================================================
+
+- Always show pricing clearly.
+- Always show renewal terms.
+- Provide easy cancel flow.
+- Store user consent for marketing emails.
+- Do not personalize based on sensitive traits.
+- Provide clear disclaimer: coaching predictions only.
+
+====================================================
+DELIVERABLES
+====================================================
+
+- DB migrations
+- Offer decision service
+- Segmentation service + daily update job
+- A/B test framework
+- Localized offer copy store
+- UI components for upgrade prompts
+- Analytics event pipeline
+- Admin revenue dashboards
+- Documentation
