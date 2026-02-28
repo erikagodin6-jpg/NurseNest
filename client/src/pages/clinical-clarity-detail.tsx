@@ -273,6 +273,8 @@ export default function ClinicalClarityDetail() {
                 </Card>
               ))}
             </div>
+
+            <ClinicalImageBlock images={confusion.images} placement="after-misconceptions" />
           </section>
 
           <section className="mb-12" data-testid="section-clinical-relevance">
@@ -293,6 +295,8 @@ export default function ClinicalClarityDetail() {
                 </div>
               ))}
             </div>
+
+            <ClinicalImageBlock images={confusion.images} placement="after-relevance" />
           </section>
 
           <section className="mb-12" data-testid="section-pause-think">
