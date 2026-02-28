@@ -1,0 +1,208 @@
+You are a senior full-stack engineer and nurse-educator item-writer. Implement an AI-powered “Exam + Flashcards Generator” section inside my Admin panel that generates extremely high-quality, licensing-exam style content for PAID banks. This must integrate with my existing admin patterns (blog editor + scheduler) and must NOT break the blog generator/scheduler.
+
+CORE GOALS
+1) Admin can generate, preview, edit, approve, schedule, and publish AI-generated:
+   A) Exam questions (test bank)
+   B) Flashcards
+2) Quality must be very high—indistinguishable from real licensing exam items.
+3) Minimum generation target: 100 NEW questions per tier per day (RPN/LVN, RN, NP). (Total ≥ 300/day across tiers.)
+4) Items must be saved as drafts first, never auto-published.
+5) Admin must be able to preview even if tier-gated or draft (adminView).
+6) Public users only see published + entitled content.
+
+NON-NEGOTIABLE SAFETY + COST CONTROLS
+- AI generation tools must be OFF by default behind a feature flag: ENABLE_AI_ADMIN_TOOLS=false
+- Add hard caps to prevent runaway spend:
+  MAX_AI_QUESTIONS_PER_DAY_PER_TIER=150
+  MAX_AI_FLASHCARDS_PER_DAY_PER_TIER=250
+  MAX_AI_TOKENS_PER_DAY=300000 (adjustable)
+  MAX_AI_COST_PER_DAY=15.00 (if cost tracked)
+- Generation is allowed ONLY when an authenticated admin triggers it (manual or scheduled).
+- Never auto-publish. Publishing requires explicit approval or explicit schedule.
+
+PART 1 — ADMIN UI (NEW SECTION)
+Add a new Admin page/tab: “AI Content Studio”
+Tabs:
+1) Exam Questions Generator
+2) Flashcards Generator
+3) Batches & Review Queue
+4) AI Logs & Costs
+
+UI REQUIREMENTS
+A) Generator Form (Exam Questions)
+- Tier: RPN/LVN, RN, NP (multi-select)
+- Exam targets: REx-PN, NCLEX-PN, NCLEX-RN, AANP, ANCC, Canadian NP
+- Locale targeting: CA, US, BOTH
+- Topics: multi-select from existing taxonomy + free text
+- Difficulty mix: sliders or percentages (easy/moderate/hard)
+- Question type distribution: MCQ, SATA, prioritization, pharm, labs, delegation, diagnostic reasoning (NP)
+- Quantity per tier (default 100/day)
+- Output format: “Full rationale” (default on)
+Buttons:
+- Generate Draft Batch
+- Generate + Schedule (creates drafts and schedules publishing cadence)
+- Save as Template (reusable generation settings)
+
+B) Generator Form (Flashcards)
+- Tier(s), exam targets, locale
+- Deck selection or “Create new deck”
+- Topic(s)
+- Card type: Basic vs Cloze
+- Quantity per tier (default 100/day if desired)
+Buttons:
+- Generate Draft Batch
+- Generate + Schedule
+- Save as Template
+
+C) Preview & Review Queue
+- After generation, show batch summary:
+  - batchId, counts by tier, topics, tokens, estimated cost
+- Provide a reviewer UI:
+  - Preview question exactly as learners see it (stem, choices, correct answer hidden until reveal, rationale)
+  - Inline edit with validation
+  - Buttons: Approve, Reject, Needs Revision
+  - Bulk actions: Approve all, Schedule publish, Archive rejected
+- Quality gating:
+  - Only “Approved” items can be scheduled/published (configurable but recommended).
+
+D) Scheduling UI (like Blog)
+- One-off publish datetime
+- Batch cadence:
+  - Publish N per day per tier at a chosen time (e.g., 100/day at 09:00 America/Toronto)
+  - Or publish evenly spaced across the day
+- Must reuse existing scheduler architecture where possible.
+
+PART 2 — SERVER-SIDE AI GENERATION SERVICE
+Create: services/aiItemWriter.ts (or similar)
+
+A) Two-stage generation for higher quality (required)
+Stage 1: Create a blueprint per item (structured JSON)
+- For exam questions:
+  - learningObjective
+  - patient vignette key facts
+  - what is being tested (concept)
+  - distractor logic
+  - correct answer reasoning
+  - tier/exam alignment notes
+Stage 2: Expand into final exam-ready item
+- stem, choices, correct answer, rationales, clinical pearl, tags, difficulty
+
+B) Use strict JSON schema validation (required)
+Use zod (or existing validator) to enforce output structure.
+If invalid JSON:
+- One repair attempt only
+- If still invalid, fail batch item and log.
+
+C) Add “Quality Rubric” scoring (required)
+Before saving, score each question against rubric (0–100):
+- Clarity of stem
+- Single best answer
+- Distractors plausible and tier-appropriate
+- Rationale quality
+- Safety/clinical accuracy flags
+- No ambiguity
+Reject or mark “Needs Revision” automatically if score < 85.
+Store score and rubric breakdown in DB.
+
+D) Duplicates prevention
+- Generate a stable hash for each item (tier + stem normalized + correctAnswer + key concepts).
+- If duplicate detected vs last 90 days, discard and regenerate replacement.
+
+E) Topic distribution + exam realism
+- Ensure the batch includes realistic exam mix:
+  RPN/LVN: safety, infection control, basic pharm, stable clients, data collection
+  RN: prioritization, unstable clients, labs, delegation, acute deterioration, med-surg breadth
+  NP: differential diagnosis, diagnostics, prescribing, red flags, referral thresholds, guideline-based management
+- SATA frequency realistic (e.g., 15–25% RN, 10–20% PN, 10–15% NP depending on blueprint)
+- Include “who do you see first” and “first action” items.
+
+F) Do NOT use real patient identifiers or PHI.
+
+PART 3 — DATABASE + API
+A) DB tables
+Create or extend:
+- exam_questions table with:
+  status: draft | in_review | approved | scheduled | published | rejected | archived
+  qualityScore (int)
+  qualityFlags (json)
+  batchId (string)
+  source: "ai" | "manual"
+  promptVersion
+  localeTarget, examTarget, tier
+- flashcards table with similar fields
+- ai_generation_batches table:
+  batchId, adminId, createdAt, contentType, tiers, topics, counts, tokens, costEstimate, status
+- ai_generation_logs table:
+  batchId, itemId, tier, errors, retries, tokens, rubric results
+
+B) API endpoints (admin protected)
+POST /api/admin/ai/generate/exam-questions
+POST /api/admin/ai/generate/flashcards
+GET  /api/admin/ai/batches
+GET  /api/admin/ai/batches/:batchId
+POST /api/admin/ai/items/:id/approve
+POST /api/admin/ai/items/:id/reject
+POST /api/admin/ai/items/bulk-approve
+POST /api/admin/ai/schedule (schedule approved items)
+GET  /api/exam-questions/slug/:slug (public + adminView consistent)
+GET  /api/flashcards/deck/:deckSlug (public + adminView consistent)
+
+All admin fetch must include credentials and support adminView=true.
+
+PART 4 — SCHEDULER INTEGRATION
+- Reuse existing scheduler runner.
+- Add job types:
+  - publish_exam_question
+  - publish_flashcard
+- Batch cadence scheduler:
+  - For each day and tier, schedule at least 100 items if approved items exist.
+  - If fewer than 100 approved exist, schedule what’s available and log a warning.
+- Idempotent publishing and strong logs.
+
+PART 5 — DAILY MINIMUM 100 PER TIER REQUIREMENT
+Implement “Daily Quota” automation:
+- Admin can enable “Maintain daily minimum” per tier:
+  - targetQuestionsPerDayPerTier = 100 (default)
+  - targetFlashcardsPerDayPerTier = optional
+- Each morning at a configured time (e.g., 06:00 America/Toronto), a job runs:
+  1) counts how many APPROVED+SCHEDULED items exist for that tier for today
+  2) if below target, generates additional drafts to fill the gap
+  3) sends them to review queue (does NOT auto-approve)
+- Provide a dashboard widget showing:
+  - Today’s quota per tier
+  - Generated / Approved / Scheduled counts
+  - Remaining to hit 100
+- Note: If you want fully automated publishing without review, add a second toggle “Auto-approve if qualityScore >= 92” (default OFF). Implement but keep OFF.
+
+PART 6 — QUALITY GUARANTEE MECHANISMS (must implement)
+1) Two-stage blueprint + expansion prompting
+2) Rubric scoring and auto-reject under threshold
+3) Duplicate detection with regeneration
+4) “Exam realism” distribution constraints
+5) Admin review queue required by default
+6) Content validation:
+   - Exactly one correct answer (unless SATA)
+   - No ambiguous wording (“best” without criteria)
+   - Plausible distractors
+   - Rationales explain why incorrect options are wrong
+   - Medication safety: avoid unsafe dosing specifics unless NP guideline-level; if dosing included, validate ranges or omit dosing.
+
+PART 7 — PROMPT TEMPLATES (embed on server)
+Use these base templates (do NOT output prose outside JSON):
+- Exam questions: licensing-style, scenario-based, with rationales + clinical pearl + CA/US units when relevant.
+- Flashcards: high-yield, concise, exam-aligned.
+
+PART 8 — DELIVERABLES
+After implementation, output:
+1) Files changed/added
+2) DB migrations
+3) New endpoints
+4) Feature flags + caps + where enforced
+5) Screenshots are not required, but describe new Admin UI sections and flow
+6) Manual regression checklist:
+   - Generate 100 questions per tier -> drafts saved -> review -> approve -> schedule -> publish
+   - Public gating correct
+   - Admin preview works
+   - Blog unaffected
+
+Proceed now. First locate the existing blog editor + scheduler architecture and replicate patterns for the AI Content Studio. Then implement the generator service with rubric scoring and batch review queue.

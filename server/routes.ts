@@ -1783,6 +1783,22 @@ Rules:
         }
       }
 
+      const isBlogType = (contentData.type || existing?.type || "").includes("blog");
+      const isPublishing = contentData.status === "published" && existing?.status !== "published";
+      if (isBlogType && isPublishing && !contentData.forcePublish) {
+        const blogMinWords = parseInt(process.env.BLOG_MIN_WORDS || "1500", 10);
+        const bodyText = extractTextFromContent(contentData.body || contentData.content || existing?.body || existing?.content);
+        const wc = countWords(bodyText);
+        if (wc < blogMinWords) {
+          return res.status(422).json({
+            error: `Blog post has ${wc} words, minimum ${blogMinWords} required for publishing. Save as draft or use forcePublish to bypass.`,
+            wordCount: wc,
+            minimum: blogMinWords,
+            code: "POST_TOO_SHORT",
+          });
+        }
+      }
+
       const item = await storage.updateContentItem(req.params.id, contentData);
       await logAudit(req, admin, "content", req.params.id, "update",
         existing ? { title: existing.title, status: existing.status } : null,
@@ -3645,13 +3661,33 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const now = new Date();
-      const result = await pool.query(`
-        UPDATE content_items
-        SET status = 'published', published_at = NOW(), scheduled_at = NULL, updated_at = NOW()
+      const blogMinWords = parseInt(process.env.BLOG_MIN_WORDS || "1500", 10);
+      
+      const candidates = await pool.query(`
+        SELECT id, title, body, content FROM content_items
         WHERE status = 'scheduled' AND scheduled_at <= $1 AND type = 'blog'
-        RETURNING id, title
       `, [now]);
-      res.json({ published: result.rows.length, posts: snakeToCamel(result.rows) });
+      
+      const published: any[] = [];
+      const skipped: any[] = [];
+      
+      for (const row of candidates.rows) {
+        const bodyText = extractTextFromContent(row.body || row.content);
+        const wc = countWords(bodyText);
+        if (wc < blogMinWords) {
+          skipped.push({ id: row.id, title: row.title, wordCount: wc, reason: "POST_TOO_SHORT" });
+          console.log(`[Blog Scheduler] Skipping "${row.title}" (${wc} words < ${blogMinWords} minimum) — POST_TOO_SHORT`);
+          continue;
+        }
+        await pool.query(`
+          UPDATE content_items
+          SET status = 'published', published_at = NOW(), scheduled_at = NULL, updated_at = NOW()
+          WHERE id = $1
+        `, [row.id]);
+        published.push({ id: row.id, title: row.title });
+      }
+      
+      res.json({ published: published.length, posts: published, skipped });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

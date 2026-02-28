@@ -44,7 +44,7 @@ export function SEO({ title, description, keywords, canonicalPath, ogType = "web
       const { locale: currentLocale, pathWithoutLocale } = getLocaleFromPath(canonicalPath);
       const basePath = pathWithoutLocale === "/" ? "" : pathWithoutLocale;
 
-      const canonicalUrl = `${SITE_DOMAIN}/${currentLocale}${basePath}`;
+      const canonicalUrl = basePath ? `${SITE_DOMAIN}${basePath}` : `${SITE_DOMAIN}/`;
       setMeta("og:url", canonicalUrl, true);
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
       if (!link) {

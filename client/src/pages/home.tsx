@@ -58,7 +58,9 @@ import {
   ShieldCheck,
   AlertTriangle,
   XCircle,
-  CircleCheck
+  CircleCheck,
+  Trophy,
+  BadgeCheck
 } from "lucide-react";
 
 import { LocaleLink } from "@/lib/LocaleLink";
@@ -242,6 +244,82 @@ export default function Home() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* 3-Step How It Works */}
+        <section className="py-16 bg-gradient-to-b from-primary/5 to-white relative z-10 border-t border-primary/10" data-testid="section-how-it-works">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                <Zap className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.howItWorks.badge")}</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-how-it-works-heading">{t("home.howItWorks.heading")}</h2>
+              <p className="text-lg text-gray-600">{t("home.howItWorks.subtitle")}</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { step: "1", icon: BookOpen, title: t("home.howItWorks.step1.title"), desc: t("home.howItWorks.step1.desc"), color: "from-blue-500 to-indigo-600" },
+                { step: "2", icon: Target, title: t("home.howItWorks.step2.title"), desc: t("home.howItWorks.step2.desc"), color: "from-purple-500 to-violet-600" },
+                { step: "3", icon: Trophy, title: t("home.howItWorks.step3.title"), desc: t("home.howItWorks.step3.desc"), color: "from-emerald-500 to-teal-600" },
+              ].map((item, i) => (
+                <div key={i} className="relative text-center" data-testid={`step-how-it-works-${i}`}>
+                  {i < 2 && (
+                    <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-gray-300 to-transparent z-0" />
+                  )}
+                  <div className="relative z-10">
+                    <div className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-5 shadow-lg`}>
+                      <item.icon className="w-9 h-9 text-white" />
+                    </div>
+                    <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold mb-3">{item.step}</div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Social Proof Section */}
+        <section className="py-14 bg-white border-y border-gray-100" data-testid="section-social-proof">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
+                <Star className="w-3.5 h-3.5 text-amber-500" />
+                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("home.socialProof.badge")}</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900" data-testid="text-social-proof-heading">{t("home.socialProof.heading")}</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-blue-50 to-white border border-blue-100" data-testid="stat-social-students">
+                <Users className="w-7 h-7 text-blue-600 mx-auto mb-2" />
+                <div className="text-3xl font-extrabold text-gray-900">5,000+</div>
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.students")}</div>
+              </div>
+              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-emerald-50 to-white border border-emerald-100" data-testid="stat-social-pass-rate">
+                <BadgeCheck className="w-7 h-7 text-emerald-600 mx-auto mb-2" />
+                <div className="text-3xl font-extrabold text-gray-900">{t("home.socialProof.passRateValue")}</div>
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.passRate")}</div>
+              </div>
+              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-purple-50 to-white border border-purple-100" data-testid="stat-social-questions">
+                <Target className="w-7 h-7 text-purple-600 mx-auto mb-2" />
+                <div className="text-3xl font-extrabold text-gray-900">{formatCount(questionCount)}</div>
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.questions")}</div>
+              </div>
+              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-amber-50 to-white border border-amber-100" data-testid="stat-social-lessons">
+                <BookOpen className="w-7 h-7 text-amber-600 mx-auto mb-2" />
+                <div className="text-3xl font-extrabold text-gray-900">{formatCount(lessonCount)}</div>
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.lessons")}</div>
+              </div>
+            </div>
+            <div className="text-center mt-6">
+              <div className="inline-flex items-center gap-2 text-sm text-gray-500">
+                <TrendingUp className="w-4 h-4 text-emerald-500" />
+                <span>{t("home.socialProof.updatedDesc")}</span>
+              </div>
             </div>
           </div>
         </section>
@@ -902,6 +980,66 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Competitive Positioning */}
+        <section className="py-20 bg-gradient-to-b from-gray-50 to-white" data-testid="section-competitive">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 mb-4">
+                <BarChart3 className="w-3.5 h-3.5 text-indigo-600" />
+                <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider">{t("home.competitive.badge")}</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-competitive-heading">{t("home.competitive.heading")}</h2>
+              <p className="text-lg text-gray-600">{t("home.competitive.subtitle")}</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden" data-testid="table-competitive">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-4 px-5 text-sm font-semibold text-gray-500">{t("home.competitive.feature")}</th>
+                    <th className="text-center py-4 px-5 text-sm font-bold text-primary bg-primary/5">{t("home.competitive.nursenest")}</th>
+                    <th className="text-center py-4 px-5 text-sm font-semibold text-gray-500">{t("home.competitive.uworld")}</th>
+                    <th className="text-center py-4 px-5 text-sm font-semibold text-gray-500">{t("home.competitive.archer")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {([
+                    { feature: t("home.competitive.price"), nn: t("home.competitive.priceNN"), uw: t("home.competitive.priceUW"), ar: t("home.competitive.priceAR"), isPrice: true as const },
+                    { feature: t("home.competitive.clinicalSims"), nn: "yes", uw: "no", ar: "no" },
+                    { feature: t("home.competitive.flashcards"), nn: "yes", uw: "no", ar: "no" },
+                    { feature: t("home.competitive.deepPatho"), nn: "yes", uw: "limited", ar: "no" },
+                    { feature: t("home.competitive.multiLang"), nn: "yes", uw: "no", ar: "no" },
+                    { feature: t("home.competitive.npContent"), nn: "yes", uw: "no", ar: "no" },
+                    { feature: t("home.competitive.caContent"), nn: "yes", uw: "limited", ar: "no" },
+                    { feature: t("home.competitive.freeContent"), nn: "yes", uw: "no", ar: "no" },
+                  ] as Array<{ feature: string; nn: string; uw: string; ar: string; isPrice?: true }>).map((row, i) => {
+                    const renderCell = (val: string, highlight?: boolean) => {
+                      if (row.isPrice) return <span className={`text-sm ${highlight ? "font-bold text-primary" : "text-gray-600"}`}>{val}</span>;
+                      if (val === "yes") return <CircleCheck className="w-5 h-5 text-emerald-500 mx-auto" />;
+                      if (val === "limited") return <span className="text-xs text-gray-400">{t("home.competitive.limited")}</span>;
+                      return <XCircle className="w-5 h-5 text-gray-300 mx-auto" />;
+                    };
+                    return (
+                    <tr key={i} className="border-b border-gray-100 last:border-0" data-testid={`row-competitive-${i}`}>
+                      <td className="py-3.5 px-5 text-sm font-medium text-gray-700">{row.feature}</td>
+                      <td className="py-3.5 px-5 text-center bg-primary/5">{renderCell(row.nn, true)}</td>
+                      <td className="py-3.5 px-5 text-center">{renderCell(row.uw)}</td>
+                      <td className="py-3.5 px-5 text-center">{renderCell(row.ar)}</td>
+                    </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="text-center mt-8 space-y-4">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-50 border border-emerald-200 shadow-sm" data-testid="badge-guarantee">
+                <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                <span className="text-sm font-bold text-emerald-700">{t("home.guarantee.badge")}</span>
+              </div>
+              <p className="text-sm text-gray-500">{t("home.guarantee.desc")}</p>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section className="py-24 bg-gradient-to-b from-white to-gray-50" data-testid="section-faq-home">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1113,7 +1251,11 @@ export default function Home() {
                 {t("home.hero.cta2")}
               </Button>
             </div>
-            <p className="text-sm text-gray-400 mt-6">{t("home.cta.disclaimer")}</p>
+            <div className="flex items-center justify-center gap-2 mt-6 mb-2">
+              <ShieldCheck className="w-5 h-5 text-emerald-600" />
+              <span className="text-sm font-semibold text-emerald-700">{t("home.guarantee.badge")}</span>
+            </div>
+            <p className="text-sm text-gray-400">{t("home.cta.disclaimer")}</p>
           </div>
           
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent-foreground/5 rounded-full blur-3xl -z-10 opacity-40" />

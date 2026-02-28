@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard, Calculator, Beaker, Zap } from "lucide-react";
+import { Check, Shield, HelpCircle, Star, Clock, X, CreditCard, Calculator, Beaker, Zap, Award, Trophy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import PayPalButton from "@/components/PayPalButton";
 
@@ -48,6 +48,7 @@ const tiers = [
       "6-month": { CAD: 134.99, USD: 99.99 },
       yearly: { CAD: 239.99, USD: 179.99 },
     },
+    whoForKey: "pricing.rpn.whoFor",
     featureKeys: [
       "pricing.rpn.feature1",
       "pricing.rpn.feature2",
@@ -68,6 +69,7 @@ const tiers = [
       "6-month": { CAD: 179.99, USD: 134.99 },
       yearly: { CAD: 319.99, USD: 239.99 },
     },
+    whoForKey: "pricing.rn.whoFor",
     featureKeys: [
       "pricing.rn.feature1",
       "pricing.rn.feature2",
@@ -88,6 +90,7 @@ const tiers = [
       "6-month": { CAD: 224.99, USD: 169.99 },
       yearly: { CAD: 399.99, USD: 299.99 },
     },
+    whoForKey: "pricing.np.whoFor",
     featureKeys: [
       "pricing.np.feature1",
       "pricing.np.feature2",
@@ -276,6 +279,22 @@ export default function PricingPage() {
             </div>
           )}
 
+          {duration === "yearly" && (
+            <div className="text-center mb-6">
+              <Badge className="bg-gradient-to-r from-amber-400 to-amber-500 text-white px-6 py-2 text-sm font-bold shadow-lg border-0" data-testid="badge-best-value-annual">
+                <Award className="w-4 h-4 mr-2" />
+                {t("pricing.bestValueAnnual")}
+              </Badge>
+            </div>
+          )}
+
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200/60 rounded-full px-5 py-2.5" data-testid="badge-guarantee-top">
+              <Shield className="w-5 h-5 text-green-600" />
+              <span className="text-sm font-semibold text-green-700">{t("pricing.guaranteeBadge")}</span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
             {tiers.map((tier) => {
               const name = isCAD ? tier.nameCA : tier.nameUS;
@@ -293,9 +312,9 @@ export default function PricingPage() {
                   data-testid={`card-tier-${tier.id}`}
                 >
                   {tier.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <Badge className="bg-primary text-white px-4 py-1 text-xs font-semibold shadow-md" data-testid="badge-most-popular">
-                        <Star className="w-3 h-3 mr-1 fill-white" />
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                      <Badge className="bg-primary text-white px-5 py-1.5 text-sm font-bold shadow-lg animate-pulse" data-testid="badge-most-popular">
+                        <Trophy className="w-4 h-4 mr-1.5 fill-white" />
                         {t("pricing.mostPopular")}
                       </Badge>
                     </div>
@@ -311,6 +330,9 @@ export default function PricingPage() {
                     <CardTitle className="text-xl font-bold" data-testid={`text-tier-name-${tier.id}`}>
                       {name}
                     </CardTitle>
+                    <p className="text-xs text-gray-500 mt-1" data-testid={`text-tier-whofor-${tier.id}`}>
+                      {t(tier.whoForKey)}
+                    </p>
                     <div className="mt-4 mb-2">
                       <span className="text-4xl font-bold text-primary" data-testid={`text-tier-price-${tier.id}`}>
                         ${price.toFixed(2)}
@@ -419,6 +441,76 @@ export default function PricingPage() {
                 </Card>
               );
             })}
+          </div>
+
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-competitor-title">
+                {t("pricing.competitorTitle")}
+              </h2>
+              <p className="text-gray-500 text-base max-w-xl mx-auto" data-testid="text-competitor-subtitle">
+                {t("pricing.competitorSubtitle")}
+              </p>
+            </div>
+            <div className="max-w-3xl mx-auto overflow-x-auto">
+              <table className="w-full text-sm border-collapse" data-testid="table-competitor-comparison">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-700">{t("pricing.competitorFeature")}</th>
+                    <th className="text-center py-3 px-4 font-bold text-primary bg-primary/5 rounded-t-lg">{t("pricing.competitorNurseNest")}</th>
+                    <th className="text-center py-3 px-4 font-semibold text-gray-500">{t("pricing.competitorUWorld")}</th>
+                    <th className="text-center py-3 px-4 font-semibold text-gray-500">{t("pricing.competitorArcher")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { featureKey: "pricing.competitorPrice", nn: "pricing.competitorNurseNestPrice", uw: "pricing.competitorUWorldPrice", ar: "pricing.competitorArcherPrice", isPrice: true },
+                    { featureKey: "pricing.competitorClinicalLessons", nn: true, uw: false, ar: false },
+                    { featureKey: "pricing.competitorCaseSims", nn: true, uw: false, ar: false },
+                    { featureKey: "pricing.competitorFlashcards", nn: true, uw: false, ar: "pricing.competitorLimited" },
+                    { featureKey: "pricing.competitorAnalytics", nn: true, uw: true, ar: true },
+                    { featureKey: "pricing.competitorCanadian", nn: true, uw: false, ar: false },
+                    { featureKey: "pricing.competitorMultilingual", nn: true, uw: false, ar: false },
+                    { featureKey: "pricing.competitorGuarantee", nn: true, uw: false, ar: false },
+                  ].map((row, idx) => (
+                    <tr key={idx} className="border-b border-gray-100 last:border-0">
+                      <td className="py-3 px-4 text-gray-700 font-medium">{t(row.featureKey)}</td>
+                      <td className="py-3 px-4 text-center bg-primary/5">
+                        {"isPrice" in row && row.isPrice ? (
+                          <span className="font-bold text-primary">{t(row.nn as string)}</span>
+                        ) : row.nn === true ? (
+                          <Check className="w-5 h-5 text-green-500 mx-auto" />
+                        ) : (
+                          <span className="text-gray-500 text-xs">{t(row.nn as string)}</span>
+                        )}
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {"isPrice" in row && row.isPrice ? (
+                          <span className="text-gray-600">{t(row.uw as string)}</span>
+                        ) : row.uw === true ? (
+                          <Check className="w-5 h-5 text-green-500 mx-auto" />
+                        ) : row.uw === false ? (
+                          <X className="w-5 h-5 text-gray-300 mx-auto" />
+                        ) : (
+                          <span className="text-gray-500 text-xs">{t(row.uw as string)}</span>
+                        )}
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {"isPrice" in row && row.isPrice ? (
+                          <span className="text-gray-600">{t(row.ar as string)}</span>
+                        ) : row.ar === true ? (
+                          <Check className="w-5 h-5 text-green-500 mx-auto" />
+                        ) : row.ar === false ? (
+                          <X className="w-5 h-5 text-gray-300 mx-auto" />
+                        ) : (
+                          <span className="text-gray-500 text-xs">{t(row.ar as string)}</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="mb-16">
@@ -618,9 +710,12 @@ export default function PricingPage() {
           </div>
 
           <div className="flex flex-col items-center gap-6 text-center">
-            <div className="flex items-center gap-3 bg-white rounded-full px-6 py-3 shadow-sm border border-primary/10" data-testid="badge-money-back">
-              <Shield className="w-5 h-5 text-primary" />
-              <span className="text-sm font-medium text-gray-700">{t("pricing.moneyBack")}</span>
+            <div className="flex flex-col items-center gap-2 bg-green-50 border border-green-200/60 rounded-2xl px-8 py-5 shadow-sm max-w-md" data-testid="badge-money-back">
+              <div className="flex items-center gap-3">
+                <Shield className="w-6 h-6 text-green-600" />
+                <span className="text-base font-bold text-green-700">{t("pricing.guaranteeBadge")}</span>
+              </div>
+              <p className="text-sm text-green-600/80">{t("pricing.guaranteeDesc")}</p>
             </div>
             <LocaleLink
               href="/faq"

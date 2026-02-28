@@ -1648,6 +1648,7 @@ export default function LessonDetail() {
   const [dbContent, setDbContent] = useState<any>(null);
   const [dbLoading, setDbLoading] = useState(true);
   const [dbEditMode, setDbEditMode] = useState(false);
+  const [showAdminCreator, setShowAdminCreator] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -2225,6 +2226,23 @@ export default function LessonDetail() {
                 {remainingBlocks.length > 0 && (
                   <ContentBlockRenderer blocks={remainingBlocks} />
                 )}
+
+                {!isAdmin && (!user || user.tier === "free") && (
+                  <div className="mt-10 rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border border-primary/20 p-8 text-center space-y-4" data-testid="lesson-conversion-cta">
+                    <div className="flex items-center justify-center gap-2">
+                      <TrendingUp className="w-6 h-6 text-primary" />
+                      <h3 className="text-xl font-bold text-gray-900">{t("lesson.conversionCta.title")}</h3>
+                    </div>
+                    <p className="text-gray-600 max-w-lg mx-auto">{t("lesson.conversionCta.subtitle")}</p>
+                    <p className="text-sm text-primary font-medium italic">{t("lesson.conversionCta.socialProof")}</p>
+                    <LocaleLink href="/pricing">
+                      <Button className="mt-2 bg-primary hover:bg-primary/90 text-white px-8 py-3 text-base font-semibold gap-2" data-testid="button-lesson-upgrade-cta">
+                        <Crown className="w-5 h-5" />
+                        {t("lesson.conversionCta.button")}
+                      </Button>
+                    </LocaleLink>
+                  </div>
+                )}
               </div>
             </div>
           </main>
@@ -2234,7 +2252,32 @@ export default function LessonDetail() {
     }
 
     if (isAdmin && id) {
-      return <AdminLessonCreator lessonId={id} onPublished={() => fetchDbLesson(id)} />;
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+            <LocaleLink href="/lessons">
+              <Button variant="ghost" className="mb-4 group">
+                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                Back to Lessons
+              </Button>
+            </LocaleLink>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-not-found-admin">Lesson Not Found</h1>
+            <p className="text-gray-600">This lesson does not exist yet. You can create it as a new lesson.</p>
+            <Button
+              className="mt-4"
+              onClick={() => setShowAdminCreator(true)}
+              data-testid="button-create-lesson"
+            >
+              Create New Lesson: {id}
+            </Button>
+            {showAdminCreator && (
+              <AdminLessonCreator lessonId={id} onPublished={() => fetchDbLesson(id)} />
+            )}
+          </main>
+          <Footer />
+        </div>
+      );
     }
 
     return (
@@ -3388,6 +3431,23 @@ export default function LessonDetail() {
             )}
           </div>
         </div>
+
+        {!isAdmin && (!user || user.tier === "free") && (
+          <div className="mt-10 rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border border-primary/20 p-8 text-center space-y-4" data-testid="lesson-conversion-cta">
+            <div className="flex items-center justify-center gap-2">
+              <TrendingUp className="w-6 h-6 text-primary" />
+              <h3 className="text-xl font-bold text-gray-900">{t("lesson.conversionCta.title")}</h3>
+            </div>
+            <p className="text-gray-600 max-w-lg mx-auto">{t("lesson.conversionCta.subtitle")}</p>
+            <p className="text-sm text-primary font-medium italic">{t("lesson.conversionCta.socialProof")}</p>
+            <LocaleLink href="/pricing">
+              <Button className="mt-2 bg-primary hover:bg-primary/90 text-white px-8 py-3 text-base font-semibold gap-2" data-testid="button-lesson-upgrade-cta">
+                <Crown className="w-5 h-5" />
+                {t("lesson.conversionCta.button")}
+              </Button>
+            </LocaleLink>
+          </div>
+        )}
 
         {(() => {
           const nav = getLessonNavigation(id || "");
