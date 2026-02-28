@@ -1659,6 +1659,8 @@ export default function LessonDetail() {
   }, [id]);
 
   const [overrides, setOverrides] = useState<Partial<LessonContent> | null>(null);
+  const [lessonTranslations, setLessonTranslations] = useState<Record<string, string>>({});
+  const [translating, setTranslating] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -1672,6 +1674,27 @@ export default function LessonDetail() {
         .catch(() => {});
     }
   }, [id]);
+
+  useEffect(() => {
+    if (!id || !baseLesson) {
+      setLessonTranslations({});
+      return;
+    }
+    if (language === "en") {
+      setLessonTranslations({});
+      return;
+    }
+    fetch(`/api/lesson-translations/${encodeURIComponent(id)}?lang=${encodeURIComponent(language)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && data.translations && Object.keys(data.translations).length > 0) {
+          setLessonTranslations(data.translations);
+        } else {
+          setLessonTranslations({});
+        }
+      })
+      .catch(() => setLessonTranslations({}));
+  }, [id, language, baseLesson]);
 
   const fetchDbLesson = useCallback((slug: string) => {
     setDbLoading(true);
@@ -1715,9 +1738,46 @@ export default function LessonDetail() {
 
   const lessonContent = useMemo(() => {
     if (!baseLesson) return null;
-    if (!overrides) return baseLesson;
-    return { ...baseLesson, ...overrides } as LessonContent;
-  }, [baseLesson, overrides]);
+    let content = overrides ? { ...baseLesson, ...overrides } as LessonContent : baseLesson;
+
+    if (Object.keys(lessonTranslations).length > 0) {
+      const translated = { ...content };
+      if (lessonTranslations.title) translated.title = lessonTranslations.title;
+      if (lessonTranslations.overview) translated.overview = lessonTranslations.overview;
+      if (lessonTranslations.pathophysiology) translated.pathophysiology = lessonTranslations.pathophysiology;
+      if (lessonTranslations.lifespan) translated.lifespan = lessonTranslations.lifespan;
+      if (lessonTranslations.objectives) {
+        try { translated.objectives = JSON.parse(lessonTranslations.objectives); } catch {}
+      }
+      if (lessonTranslations.clinicalPearls) {
+        try { translated.clinicalPearls = JSON.parse(lessonTranslations.clinicalPearls); } catch {}
+      }
+      if (lessonTranslations.riskFactors) {
+        try { translated.riskFactors = JSON.parse(lessonTranslations.riskFactors); } catch {}
+      }
+      if (lessonTranslations.diagnostics) {
+        try { translated.diagnostics = JSON.parse(lessonTranslations.diagnostics); } catch {}
+      }
+      if (lessonTranslations.management) {
+        try { translated.management = JSON.parse(lessonTranslations.management); } catch {}
+      }
+      if (lessonTranslations.nursingActions) {
+        try { translated.nursingActions = JSON.parse(lessonTranslations.nursingActions); } catch {}
+      }
+      if (lessonTranslations.assessmentFindings) {
+        try { translated.assessmentFindings = JSON.parse(lessonTranslations.assessmentFindings); } catch {}
+      }
+      if (lessonTranslations.medications) {
+        try { translated.medications = JSON.parse(lessonTranslations.medications); } catch {}
+      }
+      if (lessonTranslations.quiz) {
+        try { translated.quiz = JSON.parse(lessonTranslations.quiz); } catch {}
+      }
+      content = translated as LessonContent;
+    }
+
+    return content;
+  }, [baseLesson, overrides, lessonTranslations]);
 
   if (!baseLesson || !lessonContent) {
     if (dbLoading) {
@@ -3352,6 +3412,65 @@ export default function LessonDetail() {
           .select-none { user-select: text !important; -webkit-user-select: text !important; }
         }
       `}</style>
+      {isAdmin && language !== "en" && baseLesson && lessonContent && (
+        <div className="fixed bottom-20 right-4 z-40" data-testid="admin-translate-panel">
+          {Object.keys(lessonTranslations).length > 0 ? (
+            <div className="bg-green-100 text-green-800 text-xs px-3 py-2 rounded-lg shadow-lg border border-green-200 mb-2 max-w-[200px]">
+              Translated ({language.toUpperCase()})
+            </div>
+          ) : null}
+          <Button
+            data-testid="button-generate-translation"
+            size="sm"
+            disabled={translating}
+            className="shadow-lg gap-2"
+            onClick={async () => {
+              if (!id || !lessonContent) return;
+              setTranslating(true);
+              try {
+                const creds = getCredentials();
+                const fields: Record<string, any> = {
+                  title: lessonContent.title,
+                  overview: lessonContent.overview || "",
+                  pathophysiology: lessonContent.pathophysiology || "",
+                  lifespan: lessonContent.lifespan || "",
+                };
+                if (lessonContent.objectives?.length) fields.objectives = JSON.stringify(lessonContent.objectives);
+                if (lessonContent.clinicalPearls?.length) fields.clinicalPearls = JSON.stringify(lessonContent.clinicalPearls);
+                if (lessonContent.riskFactors?.length) fields.riskFactors = JSON.stringify(lessonContent.riskFactors);
+                if (lessonContent.diagnostics?.length) fields.diagnostics = JSON.stringify(lessonContent.diagnostics);
+                if (lessonContent.management?.length) fields.management = JSON.stringify(lessonContent.management);
+                if (lessonContent.nursingActions?.length) fields.nursingActions = JSON.stringify(lessonContent.nursingActions);
+
+                const res = await fetch(`/api/lesson-translations/${encodeURIComponent(id)}/generate`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    lang: language,
+                    fields,
+                    ...(creds ? { username: creds.username, password: creds.password } : {}),
+                  }),
+                });
+                if (res.ok) {
+                  const data = await res.json();
+                  if (data.translations) {
+                    setLessonTranslations(data.translations);
+                    toast({ title: "Translation generated", description: `Lesson translated to ${language.toUpperCase()}` });
+                  }
+                } else {
+                  toast({ title: "Translation failed", description: "Could not generate translation", variant: "destructive" });
+                }
+              } catch {
+                toast({ title: "Translation failed", description: "Network error", variant: "destructive" });
+              }
+              setTranslating(false);
+            }}
+          >
+            {translating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {translating ? "Translating..." : `Translate to ${language.toUpperCase()}`}
+          </Button>
+        </div>
+      )}
       <AdminEditButton />
       <Footer />
     </div>

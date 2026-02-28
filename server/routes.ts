@@ -2588,6 +2588,141 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  app.get("/api/lesson-translations/:lessonId", async (req, res) => {
+    try {
+      const { lessonId } = req.params;
+      const lang = (req.query.lang as string) || req.lang || "en";
+      if (lang === "en") {
+        return res.json({ lang: "en", translations: {}, availableLanguages: ["en"] });
+      }
+
+      const translations = await getTranslatedFields("lesson", lessonId, lang);
+      const availableLanguages = await getAvailableLanguages("lesson", lessonId);
+
+      const mapped: Record<string, string> = {};
+      for (const [field, data] of Object.entries(translations)) {
+        mapped[field] = data.text;
+      }
+
+      res.json({ lang, translations: mapped, availableLanguages });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/lesson-translations/:lessonId", async (req, res) => {
+    try {
+      const requestingUserTier = await extractUserTier(req);
+      if (requestingUserTier !== "admin") {
+        return res.status(403).json({ error: "Admin only" });
+      }
+
+      const { lessonId } = req.params;
+      const { lang, translations } = req.body;
+      if (!lang || !translations || typeof translations !== "object") {
+        return res.status(400).json({ error: "lang and translations object required" });
+      }
+
+      for (const [fieldName, translatedText] of Object.entries(translations)) {
+        if (typeof translatedText !== "string" || !translatedText.trim()) continue;
+
+        await pool.query(
+          `INSERT INTO content_translations (content_type, content_id, field_name, language_code, translated_text, translation_status, source_hash)
+           VALUES ('lesson', $1, $2, $3, $4, 'auto', '')
+           ON CONFLICT (content_type, content_id, field_name, language_code)
+           DO UPDATE SET translated_text = $4, updated_at = NOW()`,
+          [lessonId, fieldName, lang, translatedText]
+        );
+      }
+
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/lesson-translations/:lessonId/generate", async (req, res) => {
+    try {
+      const requestingUserTier = await extractUserTier(req);
+      if (requestingUserTier !== "admin") {
+        return res.status(403).json({ error: "Admin only" });
+      }
+
+      const { lessonId } = req.params;
+      const { lang, fields } = req.body;
+      if (!lang || !fields || typeof fields !== "object") {
+        return res.status(400).json({ error: "lang and fields object required" });
+      }
+
+      const LANG_NAMES: Record<string, string> = {
+        fr: "French", es: "Spanish", zh: "Chinese (Simplified)", ar: "Arabic",
+        hi: "Hindi", pt: "Portuguese", tl: "Filipino/Tagalog", ko: "Korean",
+        ja: "Japanese", de: "German", vi: "Vietnamese", pa: "Punjabi",
+        ur: "Urdu", fa: "Farsi/Persian"
+      };
+      const langName = LANG_NAMES[lang] || lang;
+
+      const fieldsToTranslate = Object.entries(fields)
+        .filter(([_, v]) => v != null && String(v).trim().length > 0)
+        .map(([k, v]) => ({ field: k, text: typeof v === "string" ? v : JSON.stringify(v) }));
+
+      if (fieldsToTranslate.length === 0) {
+        return res.json({ success: true, translations: {} });
+      }
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const prompt = `You are a professional medical/nursing translator. Translate the following nursing education content fields from English to ${langName}. 
+Maintain clinical accuracy and use proper medical terminology in ${langName}.
+Keep the same structure (if a field is a JSON array, return a JSON array in ${langName}).
+Do NOT translate medical abbreviations (ECG, IV, NCLEX, etc.).
+Return a JSON object where each key is the field name and each value is the translated text.
+
+Fields to translate:
+${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\n")}`;
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: "You are a medical content translator. Return ONLY valid JSON." },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.3,
+        max_tokens: 4096,
+      });
+
+      const raw = completion.choices[0]?.message?.content || "{}";
+      let parsed: Record<string, string> = {};
+      try {
+        const cleaned = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+        parsed = JSON.parse(cleaned);
+      } catch {
+        return res.status(500).json({ error: "Failed to parse AI response" });
+      }
+
+      for (const [fieldName, translatedText] of Object.entries(parsed)) {
+        if (typeof translatedText !== "string" || !translatedText.trim()) continue;
+
+        await pool.query(
+          `INSERT INTO content_translations (content_type, content_id, field_name, language_code, translated_text, translation_status, source_hash)
+           VALUES ('lesson', $1, $2, $3, $4, 'auto', $5)
+           ON CONFLICT (content_type, content_id, field_name, language_code)
+           DO UPDATE SET translated_text = $4, translation_status = 'auto', source_hash = $5, updated_at = NOW()`,
+          [lessonId, fieldName, lang, translatedText, simpleHash(String(fields[fieldName] || ""))]
+        );
+      }
+
+      res.json({ success: true, translations: parsed });
+    } catch (e: any) {
+      console.error("AI translation error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   /**
    * IMPORTANT: This endpoint now expects admin credentials.
    * Send:
