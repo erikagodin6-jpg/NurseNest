@@ -1,0 +1,49 @@
+You are a senior nursing curriculum architect with expertise in RPN (practical nurse), RN (registered nurse), and NP (nurse practitioner) education frameworks in Canada and the United States.
+
+Task:
+Categorize the following list of pathologies into the appropriate tier(s):
+
+- RPN Tier (foundational recognition, monitoring, stable patient management, scope-limited decision-making)
+- RN Tier (complex clinical reasoning, unstable patients, advanced assessment, interpretation of labs/ECG/imaging)
+- NP Tier (advanced diagnostics, prescribing, pathophysiology depth, differential diagnosis, treatment algorithms)
+
+IMPORTANT RULES:
+1. Do NOT duplicate diseases across tiers unless justified.
+2. If a disease belongs in more than one tier, explain the difference in depth (e.g., RPN = recognition, RN = management, NP = diagnostics/prescribing).
+3. Do NOT use “vs” comparisons.
+4. Focus on pathology lessons only (not blog ideas).
+5. Output must be structured and clean (no emojis, no fluff).
+6. Identify any pathologies that are inappropriate for a tier and explain why.
+
+Decision Criteria:
+- RPN: Stable or early recognition conditions, common chronic diseases, foundational pathophysiology, monitoring.
+- RN: High-acuity conditions, unstable states, complex multi-system disorders, advanced complications.
+- NP: Rare diseases, complex endocrine/rheumatologic disorders, diagnostic workups, algorithm-driven management, prescribing decisions.
+
+Output Format:
+
+SECTION 1 — RPN Tier
+(List diseases alphabetically)
+For each:
+- Why it belongs here (1–2 sentences)
+
+SECTION 2 — RN Tier
+(List diseases alphabetically)
+For each:
+- Why it belongs here
+- If also appropriate for RPN, clarify distinction
+
+SECTION 3 — NP Tier
+(List diseases alphabetically)
+For each:
+- Why it belongs here
+- Clarify diagnostic/prescriptive depth
+
+SECTION 4 — Reassignments or Notes
+- Any diseases that need reframing
+- Any diseases better as sub-lessons under broader topics
+- Any diseases that should be combined
+
+Now categorize the following diseases:
+
+[PASTE YOUR EXPANSION LIST HERE]

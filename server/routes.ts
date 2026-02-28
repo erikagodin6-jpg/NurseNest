@@ -119,6 +119,72 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     res.json({ region });
   });
 
+  let heroStatsCache: { data: any; timestamp: number } | null = null;
+  const HERO_CACHE_TTL = 10 * 60 * 1000;
+
+  app.get("/api/hero-stats", async (_req, res) => {
+    try {
+      if (heroStatsCache && Date.now() - heroStatsCache.timestamp < HERO_CACHE_TTL) {
+        return res.json(heroStatsCache.data);
+      }
+
+      const { tierCounts } = await import("@shared/tier-counts");
+
+      const dbResult = await pool.query(`
+        SELECT
+          COALESCE(SUM(CASE WHEN tier = 'rpn' THEN 1 ELSE 0 END), 0) AS rpn_db,
+          COALESCE(SUM(CASE WHEN tier = 'rn' THEN 1 ELSE 0 END), 0) AS rn_db,
+          COALESCE(SUM(CASE WHEN tier = 'np' THEN 1 ELSE 0 END), 0) AS np_db,
+          COALESCE(SUM(CASE WHEN tier = 'free' OR tier IS NULL THEN 1 ELSE 0 END), 0) AS free_db,
+          COUNT(*) AS total_db
+        FROM content_items WHERE status = 'published'
+      `);
+
+      const db = dbResult.rows[0] || { rpn_db: 0, rn_db: 0, np_db: 0, free_db: 0, total_db: 0 };
+
+      const rpnLessons = tierCounts.rpn + Number(db.rpn_db);
+      const rnLessons = tierCounts.rn + Number(db.rn_db);
+      const npLessons = tierCounts.np + Number(db.np_db);
+      const freeLessons = tierCounts.free + Number(db.free_db);
+      const totalLessons = rpnLessons + rnLessons + npLessons + freeLessons;
+      const paidLessons = rpnLessons + rnLessons + npLessons;
+
+      const stats = {
+        rpnLessons,
+        rnLessons,
+        npLessons,
+        freeLessons,
+        totalLessons,
+        paidLessons,
+        questionCount: tierCounts.questionCount,
+        lastUpdatedISO: new Date().toISOString(),
+        breakdown: {
+          rpnStatic: tierCounts.rpn,
+          rnStatic: tierCounts.rn,
+          npStatic: tierCounts.np,
+          freeStatic: tierCounts.free,
+          rpnDb: Number(db.rpn_db),
+          rnDb: Number(db.rn_db),
+          npDb: Number(db.np_db),
+          freeDb: Number(db.free_db),
+        },
+      };
+
+      heroStatsCache = { data: stats, timestamp: Date.now() };
+      res.json(stats);
+    } catch (error: any) {
+      console.error("Hero stats error:", error);
+      res.status(500).json({ error: "Failed to compute stats" });
+    }
+  });
+
+  app.post("/api/admin/invalidate-hero-cache", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    heroStatsCache = null;
+    res.json({ ok: true });
+  });
+
   // --------------------
   // AI Content Generation (admin-only)
   // --------------------

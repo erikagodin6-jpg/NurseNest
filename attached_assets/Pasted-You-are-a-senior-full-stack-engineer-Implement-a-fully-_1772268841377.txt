@@ -1,0 +1,70 @@
+You are a senior full-stack engineer. Implement a fully automated daily pipeline that generates 100 new exam-style questions per tier per day (RPN, RN, NP) and stores them in the database for review/publishing.
+
+Goal:
+- Every day: 100 RPN + 100 RN + 100 NP questions = 300/day
+- Questions are NOT auto-published.
+- Questions must be verified for clinical correctness before they can be published.
+- Must be cost-controlled and idempotent (no duplicates if the job reruns).
+
+Requirements:
+
+1) Data model
+Create/confirm tables:
+- question_bank:
+  id, tier (rpn|rn|np), topic_tag, difficulty (easy|med|hard),
+  question_type (mcq|sata|priority|ordering),
+  stem, options_json, correct_json, rationale, references_json,
+  status (draft|needs_review|approved|rejected),
+  created_at
+- generation_jobs:
+  id, run_date (YYYY-MM-DD), tier, target_count,
+  generated_count, status (queued|running|done|failed),
+  cost_estimate, created_at
+- verification_reports:
+  id, question_id, verdict (pass|pass_with_edits|fail|needs_human_review),
+  confidence_score, issues_json, checked_at, model_version
+
+2) Scheduler
+Implement a daily scheduler in the runtime environment:
+- If hosted on Replit: use Replit Scheduled Deployments / Cron (or an internal cron-like scheduler).
+- If hosted elsewhere: standard cron or server scheduler.
+Schedule: daily at a fixed time (e.g., 02:00 America/Toronto).
+
+3) Job logic (must be idempotent)
+- If a generation_job exists for (run_date, tier) with status done, do nothing.
+- Generate in batches (e.g., 20 questions per API call) until target_count reached.
+- Deduplicate: hash (tier + stem + correct + key tags) and skip if already exists.
+- Insert questions as status = needs_review.
+
+4) Topic coverage strategy (to avoid 100 questions all on one disease)
+- Define a rotating topic pool per tier (e.g., cardio/resp/neuro/endo/renal/OB/peds/mental health/pharm/etc.)
+- Each daily run pulls from the pool with balanced distribution.
+- Store the selected topic plan in generation_jobs for traceability.
+
+5) Clinical verification gate (server-side)
+- After generation, run verification for each question:
+  - check unsafe dosing, incorrect priorities, wrong lab ranges, scope errors, hallucinations
+  - require references_json (guideline/textbook-level)
+- If fail or confidence < 0.75 -> status stays needs_review and is flagged.
+- If pass -> status becomes draft (or approved if you want auto-approve; default is NOT auto-approve).
+
+6) Admin review UI
+- Add an admin page to review today’s generated questions:
+  - filter by tier, topic, verdict
+  - approve/reject/edit
+  - bulk actions (approve all pass, reject all fail)
+- Provide export options (JSON/CSV).
+
+7) Cost controls
+- Add per-day budget cap.
+- If cap reached, stop generation and mark job partial.
+- Log token usage/cost estimate per job.
+
+Deliverables:
+- Scheduler setup instructions for our hosting
+- Code changes: migrations, routes, job runner, verification function, admin UI
+- Test steps:
+  - run job manually for one tier with 5 questions
+  - verify dedupe works
+  - verify verification blocks unsafe content
+  - verify admin queue shows results

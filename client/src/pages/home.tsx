@@ -3,6 +3,7 @@ import { getExamConstants, type Region as ConstRegion } from "@shared/constants"
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { useAuth } from "@/lib/auth";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,9 +62,11 @@ import {
 } from "lucide-react";
 
 import { LocaleLink } from "@/lib/LocaleLink";
-import { lessonCount, questionCount } from "@/data/lesson-counts";
+import { useQuery } from "@tanstack/react-query";
+import type { HeroStats } from "@shared/lesson-stats";
 
-function formatCount(n: number): string {
+function formatCount(n: number | undefined): string {
+  if (n === undefined || n === 0) return "—";
   if (n >= 1000) {
     const hundreds = Math.floor(n / 100) * 100;
     return `${hundreds.toLocaleString()}+`;
@@ -77,6 +80,17 @@ export default function Home() {
   const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [emailFrequency, setEmailFrequency] = useState("weekly");
+
+  const { user } = useAuth();
+  const isAdmin = user?.tier === "admin";
+
+  const { data: heroStats } = useQuery<HeroStats>({
+    queryKey: ["/api/hero-stats"],
+    staleTime: 10 * 60 * 1000,
+  });
+
+  const lessonCount = heroStats?.totalLessons ?? 0;
+  const questionCount = heroStats?.questionCount ?? 0;
   const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [emailMessage, setEmailMessage] = useState("");
   const [region, setRegion] = useState<"US" | "CA">(() => {
@@ -1063,6 +1077,25 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent-foreground/5 rounded-full blur-3xl -z-10 opacity-40" />
         </section>
       </main>
+
+      {isAdmin && heroStats?.breakdown && (
+        <div className="max-w-4xl mx-auto px-4 py-6" data-testid="section-admin-hero-debug">
+          <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <summary className="text-sm font-bold text-gray-600 cursor-pointer">Admin: Lesson Count Breakdown</summary>
+            <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+              {(["rpn", "rn", "np", "free"] as const).map(tier => (
+                <div key={tier} className="bg-white p-3 rounded border">
+                  <p className="font-bold text-gray-900 uppercase">{tier}</p>
+                  <p>Static: {heroStats.breakdown![`${tier}Static` as keyof typeof heroStats.breakdown]}</p>
+                  <p>DB: {heroStats.breakdown![`${tier}Db` as keyof typeof heroStats.breakdown]}</p>
+                  <p className="font-bold mt-1">Total: {heroStats[`${tier}Lessons` as keyof typeof heroStats]}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-gray-400 mt-2">Last updated: {heroStats.lastUpdatedISO}</p>
+          </details>
+        </div>
+      )}
 
       <Footer />
       <AdminEditButton />
