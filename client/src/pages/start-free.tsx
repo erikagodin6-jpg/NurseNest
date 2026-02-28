@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { useLocation } from "wouter";
 import {
   ArrowRight,
@@ -130,6 +131,7 @@ export default function StartFreePage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
+      <AdminEditButton />
       <SEO
         title="Start Learning Free - NurseNest | Clinical Nursing Education"
         description="Explore NurseNest's clinical nursing education platform. Free anatomy and physiology content, pathophysiology previews, and exam preparation tools for RPN, RN, and NP students."

@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { MessageSquare, ThumbsUp, Lightbulb, Bug, HelpCircle, Send, CheckCircle } from "lucide-react";
 
 type FeedbackItem = {
@@ -109,6 +110,7 @@ export default function FeedbackPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
+      <AdminEditButton />
       <SEO
         title="Feedback & Feature Requests - NurseNest"
         description="Share your feedback and feature requests to help improve NurseNest."

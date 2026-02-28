@@ -4,6 +4,7 @@ import { useParams } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { SEO } from "@/components/seo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -762,6 +763,7 @@ export default function ContentPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+      <AdminEditButton />
       <SEO
         title={`${title} - NurseNest`}
         description={description}

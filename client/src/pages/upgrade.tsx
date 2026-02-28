@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -246,6 +247,7 @@ export default function UpgradePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-gray-50">
+      <AdminEditButton />
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <Badge className="bg-purple-100 text-purple-700 mb-4" data-testid="badge-upgrade-header">

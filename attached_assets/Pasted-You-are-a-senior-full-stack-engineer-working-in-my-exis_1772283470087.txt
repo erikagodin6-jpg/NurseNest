@@ -1,0 +1,177 @@
+You are a senior full-stack engineer working in my existing codebase. I need you to extend my proven Admin Blog Editor + Scheduler architecture to TWO additional content systems: (1) Exam Questions and (2) Paid Flashcards. Do NOT break the blog generator; replicate the same patterns and reuse shared components/services where possible.
+
+Context / Constraints
+- I already have an Admin Blog Editor and a Scheduler that works well (drafts, publish, scheduling, background jobs/cron/queue, status states, admin-only previews, and credentialed fetch).
+- I have tier gating (free vs paid) and admin must always be able to view/edit any content regardless of tier/status.
+- Public users must only access published content they’re entitled to.
+- I want automation: ability to schedule creation/publishing and optionally generate content using AI, but do NOT touch or alter the blog generator because it is perfect.
+- Make minimal, safe changes; build new modules by copying the blog system’s proven structure and abstracting shared logic carefully.
+
+High-Level Goal
+Implement the same end-to-end “admin create/edit/schedule/publish/preview” workflow used for Blog Posts for:
+A) Exam Questions system
+B) Paid Flashcards system
+
+Deliverables
+1) Data model parity: drafts, published, scheduled, archived, versioning (optional), tier, locale/exam targeting
+2) Admin UI parity: list view, editor, preview, scheduler controls, status badges, filters, bulk actions
+3) API parity: create/update/upsert, get by slug/id (public vs adminView), list endpoints, schedule endpoints, publish endpoints
+4) Scheduler parity: recurring schedule rules, one-off schedules, job runner, logs, retries, idempotency
+5) Automation parity: optional AI generation hooks using the same safe interface pattern as blog (feature-flagged), with rate limiting and cost controls
+
+Step-by-Step Implementation Requirements
+
+PART 1 — Identify and extract the working Blog architecture
+1) Locate the existing Blog Admin Editor + Scheduler implementation:
+   - Admin routes/pages/components
+   - API routes/controllers
+   - DB schema/models
+   - Scheduler/job runner files (cron/queue worker)
+   - Any status/tier gating middleware
+2) Document the exact patterns used:
+   - statuses (draft/published/scheduled/etc)
+   - “adminView” credentialed fetch pattern
+   - publish flow (no reload, set state from response)
+   - scheduler storage (table/fields) and runner cadence
+   - logs and failure handling
+
+PART 2 — Build Exam Questions system using the same pattern
+A) Data model
+Create or extend tables/models for exam questions:
+- question_id (uuid/int)
+- slug (unique, stable)
+- title (optional) or “stemSummary”
+- stem (question text)
+- choices (A–D/E)
+- correctAnswer
+- rationale (with references optional)
+- category/topic/subtopic
+- examTarget: REx-PN, NCLEX-PN, (and allow RN/NP later)
+- localeTarget: CA/US or “both”
+- difficulty
+- tags
+- tier: free/paid (or plan level)
+- status: draft | scheduled | published | archived
+- publishAt (nullable)
+- createdAt/updatedAt
+- author/adminId
+- version (optional)
+- source (manual/ai/import)
+
+B) API endpoints (mirror Blog behavior)
+- POST /api/exam-questions (upsert draft)
+- POST /api/exam-questions/publish (set status published)
+- POST /api/exam-questions/schedule (set status scheduled + publishAt)
+- GET  /api/exam-questions/slug/:slug
+   - Public: only published + tier allowed
+   - Admin: allow all statuses/tier when authenticated with adminView=true
+- GET  /api/exam-questions (list with filters: status, tier, examTarget, topic, date)
+- DELETE/ARCHIVE endpoint if blog has it (match pattern)
+Important:
+- Every admin GET must pass credentials and support adminView=true.
+- Return consistent JSON shape.
+
+C) Admin UI (mirror Blog)
+- AdminExamQuestions page:
+   - list with filters, status badges, bulk actions (publish, schedule, archive)
+- AdminExamQuestionEditor:
+   - inline editor
+   - Save Draft, Publish, Schedule
+   - Preview view
+   - After Save/Publish: set local state from API response (NO reload)
+- Add Scheduler UI:
+   - pick one-off datetime
+   - or recurring rules (daily/weekly) if blog supports
+   - show upcoming scheduled runs and history
+
+D) Scheduler runner jobs (mirror Blog)
+- Implement “publish scheduled exam questions” job:
+   - runs every minute or same cadence as blog scheduler
+   - finds scheduled items where publishAt <= now AND status == scheduled
+   - publishes them idempotently (safe to re-run)
+   - logs success/failures to the same logging system as blog scheduler
+- Implement optional “generate daily exam questions” automation:
+   - feature-flag (OFF by default)
+   - if enabled: creates N draft questions per day per examTarget/topic and schedules them
+   - must have rate limit and cost guardrails
+   - store prompt metadata + token/cost summary if you track it
+
+PART 3 — Build Paid Flashcards system using the same pattern
+A) Data model
+Create or extend flashcards:
+- card_id
+- deck_id / deckSlug
+- front
+- back
+- cloze (optional)
+- tags, topic/subtopic
+- examTarget and localeTarget
+- tier: free/paid
+- status: draft/scheduled/published/archived
+- publishAt
+- createdAt/updatedAt
+- author/adminId
+- source (manual/ai/import)
+
+B) API endpoints (mirror Blog)
+- POST /api/flashcards (upsert)
+- POST /api/flashcards/publish
+- POST /api/flashcards/schedule
+- GET  /api/flashcards/deck/:deckSlug (public vs adminView)
+- GET  /api/flashcards/card/:id or /slug/:slug
+- GET  /api/flashcards (list with filters)
+Key:
+- credentialed fetch for admin views
+- tier gating for public
+
+C) Admin UI (mirror Blog)
+- AdminDeckList + AdminDeckEditor
+- AdminFlashcardEditor with bulk add/edit:
+   - add multiple cards quickly
+   - validate required fields
+- Publish flow:
+   - set state from response, no reload
+- Scheduler controls:
+   - schedule deck publish
+   - schedule batches (e.g., publish 25 cards/day)
+
+D) Scheduler runner jobs (mirror Blog)
+- publish scheduled flashcards/decks
+- optional “generate batch flashcards” automation (feature-flagged)
+- ensure idempotency, logging, retries
+
+PART 4 — Shared logic and safeguards
+1) Create shared utilities used by Blog and new systems (only if it doesn’t risk breaking Blog):
+- Status enum
+- Tier gating middleware
+- adminView permission helper
+- schedule runner helper
+- consistent API response helper
+2) Authentication:
+- Ensure all admin endpoints require credentials (cookies/sessions/JWT)
+- Ensure fetch from admin UI includes credentials: fetch(..., { credentials: "include" })
+3) No auto-editor redirect:
+- If content fetch fails or returns null, show NotFound / Access UI, NOT editor.
+- Editor only opens when user clicks Edit or uses ?edit=true.
+4) Performance:
+- Pagination for lists
+- Avoid N+1 DB queries
+5) Testing:
+- Add regression tests similar to blog:
+   - Admin can view/edit tier-gated drafts
+   - Public cannot view drafts and cannot view paid without entitlement
+   - Scheduled publish works
+   - Bulk flashcard publish works
+
+Acceptance Criteria
+- I can create exam questions, save drafts, publish, schedule, and preview exactly like blog posts.
+- I can create paid flashcards/decks, save drafts, publish, schedule batch publishing, and preview exactly like blog posts.
+- Admin credentialed fetch works for tier-gated/draft content.
+- Public access is correctly gated by published status and tier.
+- The blog editor and scheduler remains unchanged and continues working exactly as before.
+
+Proceed now:
+1) Identify the blog modules/files and list them.
+2) Implement Exam Questions end-to-end.
+3) Implement Paid Flashcards end-to-end.
+4) Provide a summary of files changed and a minimal manual test plan.

@@ -1,0 +1,116 @@
+You are a senior full-stack engineer in my existing NurseNest codebase. Fix my French translation coverage so that switching languages reliably translates EVERY page, including Anatomy and Physiology (A&P), not just Pre-Nursing. Do NOT break SEO, routing, or existing content. Make minimal, safe changes.
+
+Problem
+- Pre-Nursing pages translate correctly into French.
+- Anatomy and Physiology pages (and possibly other lesson categories) do NOT translate fully.
+- When I switch languages, parts of the site remain in English or fall back incorrectly.
+Goal
+- When a user switches to French, ALL UI strings and ALL lesson/module content that is meant to be localized must render in French consistently across:
+  - Pre-Nursing
+  - Anatomy
+  - Physiology
+  - All lesson detail pages
+  - Menus, breadcrumbs, buttons, CTAs, banners, footers, login, pricing, etc.
+- If translated content is missing for a given lesson, the page must not partially break. It should:
+  - show a controlled fallback (English) AND
+  - log missing translation keys AND
+  - optionally show an admin warning (not visible to public users)
+
+Implementation Requirements (Do in this order)
+
+1) Identify the i18n architecture currently used
+- Determine whether we use: i18next, react-i18next, next-intl, custom dictionaries, or server-side translation injection.
+- List exactly where translation dictionaries live and how they are loaded per locale.
+- Identify how lesson content is stored:
+  - Is lesson body stored as plain HTML/markdown in DB?
+  - Is it generated on the fly?
+  - Do we store per-locale variants?
+- Identify how routing determines locale (subpath /fr/..., query param, cookie, localStorage, or domain).
+
+2) Fix the language switcher so locale is a single source of truth
+- Ensure switching languages updates:
+  - router locale (or /fr path)
+  - persisted preference (cookie preferred: `NEXT_LOCALE` or `locale=fr`)
+  - server-side render locale (so first paint is correct)
+- Remove any competing locale sources (e.g., cookie says fr but store says en).
+- Ensure hydration does not flip languages after load (no “flash of English”).
+
+3) Ensure A&P pages have complete translation coverage
+- Find why A&P doesn’t translate:
+  Common causes to check:
+  - A&P routes are not wrapped with the i18n provider or are using a different layout
+  - A&P strings are hard-coded (not using t("key"))
+  - The dictionary namespace for A&P is not loaded
+  - A&P pages fetch content without passing locale
+  - SSR route handler doesn’t inject hreflang/locale correctly for those pages
+- Fix by:
+  - Wrapping A&P route/layout in the same translation provider used by Pre-Nursing
+  - Converting hard-coded UI strings into translation keys
+  - Adding missing dictionary entries for fr
+  - Ensuring any server/API content fetch includes locale or returns localized content
+
+4) Localize lesson content (not just UI chrome)
+If lesson bodies are stored in DB:
+- Add localized fields if not present:
+  - title_en, title_fr
+  - body_en, body_fr
+  - excerpt_en, excerpt_fr
+  - seoTitle_en, seoTitle_fr
+  - seoDescription_en, seoDescription_fr
+- OR store translations in a related table:
+  content_translations(content_id, locale, title, body, excerpt, seoTitle, seoDescription)
+- Update the lesson fetch API to:
+  - accept locale
+  - return the localized version when available
+  - fall back to English if missing (controlled fallback)
+
+If lesson bodies are generated from static files:
+- Ensure we have fr versions of those files for A&P content and that the loader selects by locale.
+
+5) Add a Missing Translation Detector (dev + admin)
+- Whenever a translation key is missing in French:
+  - log it in console in dev
+  - send a lightweight server log event in production (optional)
+- For lesson content missing a fr variant:
+  - show English fallback
+  - add an admin-only banner:
+    "French translation missing for this lesson. Click to add."
+  - Provide a link/action to create the fr translation record in admin.
+
+6) Make sure “Everything is translated when I switch languages”
+- Audit major components:
+  - Navbar, hero sections, sidebars, search, filters, sorting labels, pagination
+  - Lesson cards, lesson menus, topic lists, category titles (A&P)
+  - Lesson detail page sections (Objectives, Pathophysiology, Medications, etc.)
+  - Buttons: Start, Continue, Publish, Save Draft, Upgrade, Login, Signup
+  - Pricing/Upgrade tables
+  - Footer, Terms, Privacy, About
+- Replace any remaining hard-coded strings with translation keys.
+- Ensure the same namespaces are loaded on all routes.
+
+7) SEO correctness
+- Do not break:
+  - canonical tags
+  - hreflang tags
+  - localized slugs if you use them
+- If you keep English slugs but translate content: that’s fine, but ensure hreflang points to /fr version.
+- If you use localized slugs:
+  - ensure switcher navigates to the correct localized slug mapping.
+
+8) Deliverables
+- Report exactly which pages/components were not localized and why.
+- List dictionary keys added for French.
+- Show code diffs for:
+  - language switcher
+  - A&P layout/provider wrapping
+  - content fetch locale support
+  - missing translation detector
+- Provide a regression checklist:
+  - Switch EN→FR on Pre-Nursing: 100% FR
+  - Switch EN→FR on Anatomy: 100% FR
+  - Switch EN→FR on Physiology: 100% FR
+  - Refresh page in FR: remains FR on first paint
+  - Navigate between categories in FR: remains FR
+  - Lesson detail in FR: content in FR or controlled fallback + admin warning
+
+Proceed to implement now. Start by locating the A&P routes and confirming whether they are using the same i18n provider and dictionary namespaces as Pre-Nursing.

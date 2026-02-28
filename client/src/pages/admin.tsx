@@ -41,6 +41,7 @@ import {
   Plus,
   CheckCircle2,
   XCircle,
+  Zap,
 } from "lucide-react";
 
 type AdminData = {
@@ -128,7 +129,7 @@ export default function AdminPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation"].includes(tab)) {
+    if (tab && ["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety"].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, []);
@@ -145,7 +146,7 @@ export default function AdminPage() {
   const [sortField, setSortField] = useState<string>("lastActivity");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeTab, setActiveTab] = useState<
-    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation"
+    "overview" | "users" | "activity" | "content-engine" | "analytics" | "promotions" | "feedback" | "social" | "audit" | "deck-moderation" | "ai-safety"
   >("overview");
 
   const [blogConfig, setBlogConfig] = useState<any>(null);
@@ -196,6 +197,23 @@ export default function AdminPage() {
 
   const [deckReports, setDeckReports] = useState<any[]>([]);
   const [deckReportsLoading, setDeckReportsLoading] = useState(false);
+
+  const [aiConfig, setAiConfig] = useState<any>(null);
+  const [aiConfigLoading, setAiConfigLoading] = useState(false);
+  const [aiConfigSaving, setAiConfigSaving] = useState(false);
+
+  const [batchExamTier, setBatchExamTier] = useState("rn");
+  const [batchExamTopic, setBatchExamTopic] = useState("");
+  const [batchExamQty, setBatchExamQty] = useState(10);
+  const [batchExamLoading, setBatchExamLoading] = useState(false);
+  const [batchExamResult, setBatchExamResult] = useState<any>(null);
+
+  const [batchFcTopic, setBatchFcTopic] = useState("");
+  const [batchFcQty, setBatchFcQty] = useState(20);
+  const [batchFcTier, setBatchFcTier] = useState("rn");
+  const [batchFcDeck, setBatchFcDeck] = useState("");
+  const [batchFcLoading, setBatchFcLoading] = useState(false);
+  const [batchFcResult, setBatchFcResult] = useState<any>(null);
 
   // -------------------------------
   // ✅ ADMIN VERIFY (FIXED)
@@ -325,6 +343,9 @@ export default function AdminPage() {
     }
     if (activeTab === "deck-moderation" && deckReports.length === 0 && !deckReportsLoading) {
       fetchDeckReports();
+    }
+    if (activeTab === "ai-safety" && !aiConfig && !aiConfigLoading) {
+      fetchAiConfig();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
@@ -512,6 +533,36 @@ export default function AdminPage() {
         setDeckReports((prev) => prev.map((r) => r.id === reportId ? { ...r, status } : r));
       }
     } catch {}
+  }
+
+  async function fetchAiConfig() {
+    setAiConfigLoading(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) { setAiConfigLoading(false); return; }
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch(`/api/admin/ai-config?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+      if (res.ok) setAiConfig(await res.json());
+    } catch {} finally {
+      setAiConfigLoading(false);
+    }
+  }
+
+  async function updateAiConfig(updates: any) {
+    setAiConfigSaving(true);
+    try {
+      const stored = localStorage.getItem("nursenest-credentials");
+      if (!stored) { setAiConfigSaving(false); return; }
+      const { username, password } = JSON.parse(stored);
+      const res = await fetch("/api/admin/ai-config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, ...updates }),
+      });
+      if (res.ok) setAiConfig(await res.json());
+    } catch {} finally {
+      setAiConfigSaving(false);
+    }
   }
 
   async function fetchPromotions() {
@@ -1164,7 +1215,7 @@ export default function AdminPage() {
             <>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
-                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation"] as const).map((tab) => (
+                {(["overview", "users", "activity", "content-engine", "analytics", "promotions", "feedback", "social", "audit", "deck-moderation", "ai-safety"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -1183,6 +1234,7 @@ export default function AdminPage() {
                     {tab === "social" && "Social Scheduler"}
                     {tab === "audit" && "Audit Log"}
                     {tab === "deck-moderation" && "Deck Reports"}
+                    {tab === "ai-safety" && "AI Safety"}
                   </button>
                 ))}
               </div>
@@ -3158,6 +3210,386 @@ export default function AdminPage() {
                           ))}
                         </div>
                       )}
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {activeTab === "ai-safety" && (
+                <div className="space-y-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Shield className="w-5 h-5" />
+                        AI Generation Safety Controls
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {aiConfigLoading ? (
+                        <div className="flex items-center justify-center py-8">
+                          <RefreshCw className="w-6 h-6 animate-spin text-primary" />
+                        </div>
+                      ) : aiConfig ? (
+                        <div className="space-y-6">
+                          <div className="flex items-center justify-between p-4 rounded-lg border border-primary/10 bg-gray-50">
+                            <div>
+                              <p className="font-semibold text-lg" data-testid="text-ai-status">
+                                AI Generation: {aiConfig.enabled ? (
+                                  <span className="text-green-600">Enabled</span>
+                                ) : (
+                                  <span className="text-red-600">Disabled</span>
+                                )}
+                              </p>
+                              <p className="text-sm text-gray-500 mt-1">
+                                {aiConfig.enabled
+                                  ? "AI endpoints are active. Content is generated only on admin action."
+                                  : "All AI generation endpoints are blocked. Enable to allow content generation."}
+                              </p>
+                            </div>
+                            <Button
+                              onClick={() => updateAiConfig({ enabled: !aiConfig.enabled })}
+                              disabled={aiConfigSaving}
+                              className={aiConfig.enabled ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}
+                              data-testid="button-toggle-ai"
+                            >
+                              {aiConfigSaving ? (
+                                <RefreshCw className="w-4 h-4 animate-spin mr-2" />
+                              ) : null}
+                              {aiConfig.enabled ? "Disable AI" : "Enable AI"}
+                            </Button>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="p-4 rounded-lg border">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Max Items Per Day</label>
+                              <div className="flex gap-2">
+                                <Input
+                                  type="number"
+                                  value={aiConfig.maxItemsPerDay}
+                                  onChange={(e) => setAiConfig({ ...aiConfig, maxItemsPerDay: parseInt(e.target.value) || 200 })}
+                                  min={1}
+                                  data-testid="input-max-items"
+                                />
+                                <Button
+                                  size="sm"
+                                  onClick={() => updateAiConfig({ maxItemsPerDay: aiConfig.maxItemsPerDay })}
+                                  disabled={aiConfigSaving}
+                                  data-testid="button-save-max-items"
+                                >
+                                  <Save className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="p-4 rounded-lg border">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Max Tokens Per Day</label>
+                              <div className="flex gap-2">
+                                <Input
+                                  type="number"
+                                  value={aiConfig.maxTokensPerDay}
+                                  onChange={(e) => setAiConfig({ ...aiConfig, maxTokensPerDay: parseInt(e.target.value) || 300000 })}
+                                  min={1}
+                                  data-testid="input-max-tokens"
+                                />
+                                <Button
+                                  size="sm"
+                                  onClick={() => updateAiConfig({ maxTokensPerDay: aiConfig.maxTokensPerDay })}
+                                  disabled={aiConfigSaving}
+                                  data-testid="button-save-max-tokens"
+                                >
+                                  <Save className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="text-base flex items-center gap-2">
+                                <BarChart3 className="w-4 h-4" />
+                                Today's Usage ({aiConfig.usage?.date || "N/A"})
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                                  <p className="text-2xl font-bold text-blue-700" data-testid="text-items-used">
+                                    {aiConfig.usage?.itemsGenerated || 0}
+                                  </p>
+                                  <p className="text-sm text-blue-600">
+                                    / {aiConfig.maxItemsPerDay} items
+                                  </p>
+                                  <div className="mt-2 h-2 bg-blue-200 rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-blue-600 rounded-full transition-all"
+                                      style={{ width: `${Math.min(100, ((aiConfig.usage?.itemsGenerated || 0) / aiConfig.maxItemsPerDay) * 100)}%` }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="text-center p-4 bg-purple-50 rounded-lg">
+                                  <p className="text-2xl font-bold text-purple-700" data-testid="text-tokens-used">
+                                    {(aiConfig.usage?.tokensUsed || 0).toLocaleString()}
+                                  </p>
+                                  <p className="text-sm text-purple-600">
+                                    / {aiConfig.maxTokensPerDay.toLocaleString()} tokens
+                                  </p>
+                                  <div className="mt-2 h-2 bg-purple-200 rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-purple-600 rounded-full transition-all"
+                                      style={{ width: `${Math.min(100, ((aiConfig.usage?.tokensUsed || 0) / aiConfig.maxTokensPerDay) * 100)}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mt-4 flex justify-end">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => fetchAiConfig()}
+                                  disabled={aiConfigLoading}
+                                  data-testid="button-refresh-ai-usage"
+                                >
+                                  <RefreshCw className={`w-4 h-4 mr-1 ${aiConfigLoading ? "animate-spin" : ""}`} />
+                                  Refresh
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+
+                          <div className="p-4 rounded-lg border border-amber-200 bg-amber-50">
+                            <p className="text-sm text-amber-800 font-medium">Safety Policy</p>
+                            <ul className="text-sm text-amber-700 mt-2 space-y-1 list-disc list-inside">
+                              <li>AI generation is disabled by default (ENABLE_AI_AUTOGEN=false)</li>
+                              <li>All AI endpoints require admin authentication</li>
+                              <li>Daily caps reset at midnight UTC</li>
+                              <li>Content is never auto-published without explicit admin action</li>
+                              <li>All AI usage is logged in the Audit Log tab</li>
+                            </ul>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-gray-500">Failed to load AI configuration.</p>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Zap className="w-5 h-5 text-blue-600" />
+                        AI Exam Question Generator
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                            <select
+                              value={batchExamTier}
+                              onChange={(e) => setBatchExamTier(e.target.value)}
+                              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                              data-testid="select-batch-exam-tier"
+                            >
+                              <option value="free">Free</option>
+                              <option value="rpn">RPN</option>
+                              <option value="rn">RN</option>
+                              <option value="np">NP</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                            <Input
+                              value={batchExamTopic}
+                              onChange={(e) => setBatchExamTopic(e.target.value)}
+                              placeholder="e.g., Pharmacology, Cardiac Care"
+                              data-testid="input-batch-exam-topic"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity (1-50)</label>
+                            <Input
+                              type="number"
+                              value={batchExamQty}
+                              onChange={(e) => setBatchExamQty(Math.min(50, Math.max(1, parseInt(e.target.value) || 1)))}
+                              min={1}
+                              max={50}
+                              data-testid="input-batch-exam-qty"
+                            />
+                          </div>
+                        </div>
+                        <Button
+                          onClick={async () => {
+                            if (!batchExamTopic.trim()) return;
+                            setBatchExamLoading(true);
+                            setBatchExamResult(null);
+                            try {
+                              const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+                              const res = await fetch("/api/admin/ai/exam-questions/generate", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ tier: batchExamTier, topic: batchExamTopic, quantity: batchExamQty, username: creds.username, password: creds.password }),
+                              });
+                              const data = await res.json();
+                              if (!res.ok) throw new Error(data.error);
+                              setBatchExamResult(data);
+                              fetchAiConfig();
+                            } catch (err: any) {
+                              setBatchExamResult({ error: err.message });
+                            } finally {
+                              setBatchExamLoading(false);
+                            }
+                          }}
+                          disabled={batchExamLoading || !batchExamTopic.trim()}
+                          className="w-full"
+                          data-testid="button-generate-exam-batch"
+                        >
+                          {batchExamLoading ? (
+                            <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> Generating...</>
+                          ) : (
+                            <>Generate {batchExamQty} Exam Questions (Draft)</>
+                          )}
+                        </Button>
+                        {batchExamResult && (
+                          <div className={`p-4 rounded-lg border ${batchExamResult.error ? "border-red-200 bg-red-50" : "border-green-200 bg-green-50"}`}>
+                            {batchExamResult.error ? (
+                              <p className="text-sm text-red-700" data-testid="text-batch-exam-error">{batchExamResult.error}</p>
+                            ) : (
+                              <div>
+                                <p className="text-sm font-medium text-green-800" data-testid="text-batch-exam-success">
+                                  Generated {batchExamResult.count} questions as drafts
+                                </p>
+                                <p className="text-xs text-green-600 mt-1">Batch ID: {batchExamResult.batchId} | Tokens: {batchExamResult.tokensUsed}</p>
+                                <div className="mt-3 max-h-60 overflow-y-auto space-y-2">
+                                  {batchExamResult.drafts?.slice(0, 5).map((q: any, i: number) => (
+                                    <div key={i} className="p-2 bg-white rounded border text-xs">
+                                      <p className="font-medium">{i + 1}. {q.question?.slice(0, 120)}...</p>
+                                      <p className="text-gray-500 mt-1">Type: {q.type} | Difficulty: {q.difficulty}</p>
+                                    </div>
+                                  ))}
+                                  {(batchExamResult.drafts?.length || 0) > 5 && (
+                                    <p className="text-xs text-gray-500">...and {batchExamResult.drafts.length - 5} more</p>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Layers className="w-5 h-5 text-purple-600" />
+                        AI Flashcard Generator
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                            <Input
+                              value={batchFcTopic}
+                              onChange={(e) => setBatchFcTopic(e.target.value)}
+                              placeholder="e.g., Lab Values, Electrolytes"
+                              data-testid="input-batch-fc-topic"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Deck Title</label>
+                            <Input
+                              value={batchFcDeck}
+                              onChange={(e) => setBatchFcDeck(e.target.value)}
+                              placeholder="Optional deck name"
+                              data-testid="input-batch-fc-deck"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                            <select
+                              value={batchFcTier}
+                              onChange={(e) => setBatchFcTier(e.target.value)}
+                              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                              data-testid="select-batch-fc-tier"
+                            >
+                              <option value="free">Free</option>
+                              <option value="rpn">RPN</option>
+                              <option value="rn">RN</option>
+                              <option value="np">NP</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity (1-100)</label>
+                            <Input
+                              type="number"
+                              value={batchFcQty}
+                              onChange={(e) => setBatchFcQty(Math.min(100, Math.max(1, parseInt(e.target.value) || 1)))}
+                              min={1}
+                              max={100}
+                              data-testid="input-batch-fc-qty"
+                            />
+                          </div>
+                        </div>
+                        <Button
+                          onClick={async () => {
+                            if (!batchFcTopic.trim()) return;
+                            setBatchFcLoading(true);
+                            setBatchFcResult(null);
+                            try {
+                              const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+                              const res = await fetch("/api/admin/ai/flashcards/generate", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ topic: batchFcTopic, quantity: batchFcQty, tier: batchFcTier, deckTitle: batchFcDeck || batchFcTopic, username: creds.username, password: creds.password }),
+                              });
+                              const data = await res.json();
+                              if (!res.ok) throw new Error(data.error);
+                              setBatchFcResult(data);
+                              fetchAiConfig();
+                            } catch (err: any) {
+                              setBatchFcResult({ error: err.message });
+                            } finally {
+                              setBatchFcLoading(false);
+                            }
+                          }}
+                          disabled={batchFcLoading || !batchFcTopic.trim()}
+                          className="w-full"
+                          data-testid="button-generate-fc-batch"
+                        >
+                          {batchFcLoading ? (
+                            <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> Generating...</>
+                          ) : (
+                            <>Generate {batchFcQty} Flashcards (Draft)</>
+                          )}
+                        </Button>
+                        {batchFcResult && (
+                          <div className={`p-4 rounded-lg border ${batchFcResult.error ? "border-red-200 bg-red-50" : "border-green-200 bg-green-50"}`}>
+                            {batchFcResult.error ? (
+                              <p className="text-sm text-red-700" data-testid="text-batch-fc-error">{batchFcResult.error}</p>
+                            ) : (
+                              <div>
+                                <p className="text-sm font-medium text-green-800" data-testid="text-batch-fc-success">
+                                  Generated {batchFcResult.count} flashcards as drafts
+                                </p>
+                                <p className="text-xs text-green-600 mt-1">Batch ID: {batchFcResult.batchId} | Tokens: {batchFcResult.tokensUsed}</p>
+                                <div className="mt-3 max-h-60 overflow-y-auto space-y-2">
+                                  {batchFcResult.drafts?.slice(0, 5).map((c: any, i: number) => (
+                                    <div key={i} className="p-2 bg-white rounded border text-xs">
+                                      <p className="font-medium">Q: {c.front?.slice(0, 100)}</p>
+                                      <p className="text-gray-600 mt-1">A: {c.back?.slice(0, 100)}</p>
+                                    </div>
+                                  ))}
+                                  {(batchFcResult.drafts?.length || 0) > 5 && (
+                                    <p className="text-xs text-gray-500">...and {batchFcResult.drafts.length - 5} more</p>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 </div>

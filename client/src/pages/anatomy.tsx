@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { AdminImageOverlay } from "@/components/admin-image-overlay";
 import { RichTextEditor } from "@/components/rich-text-editor";
@@ -116,6 +117,20 @@ import {
 
 type InlineImage = { src: string; alt: string; afterParagraph: number };
 
+const systemTranslationKeys: Record<string, string> = {
+  "cell-structure": "cellStructure",
+  "feedback-loops": "feedbackLoops",
+  "cardiovascular": "cardiovascular",
+  "respiratory": "respiratory",
+  "nervous": "nervous",
+  "musculoskeletal": "musculoskeletal",
+  "gastrointestinal": "gastrointestinal",
+  "renal": "renal",
+  "endocrine": "endocrine",
+  "integumentary": "integumentary",
+  "lymphatic-immune": "lymphaticImmune",
+  "reproductive": "reproductive",
+};
 
 const bodySystems = [
   {
@@ -564,6 +579,7 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
   const [overrides, setOverrides] = useState<SystemOverride>({});
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useI18n();
   const isAdmin = user?.tier === "admin";
 
   useEffect(() => {
@@ -585,11 +601,11 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
         <Navigation />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">System Not Found</h2>
-            <p className="text-gray-500 mb-4">The anatomy topic you're looking for doesn't exist.</p>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">{t("anatomy.systemNotFound")}</h2>
+            <p className="text-gray-500 mb-4">{t("anatomy.systemNotFoundDesc")}</p>
             <LocaleLink href="/anatomy">
               <span className="inline-flex items-center gap-2 text-primary hover:underline cursor-pointer">
-                <ArrowLeft className="w-4 h-4" /> Back to Anatomy & Physiology
+                <ArrowLeft className="w-4 h-4" /> {t("anatomy.backToAnatomy")}
               </span>
             </LocaleLink>
           </div>
@@ -600,9 +616,16 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
   }
 
   const IconComponent = system.icon;
+  const translatedSys = (() => {
+    const key = systemTranslationKeys[system.id];
+    return {
+      name: key ? t(`anatomy.sys.${key}`) : system.name,
+      description: key ? t(`anatomy.sys.${key}Desc`) : system.description,
+    };
+  })();
   const resolved = {
-    name: overrides.name || system.name,
-    description: overrides.description || system.description,
+    name: overrides.name || translatedSys.name,
+    description: overrides.description || translatedSys.description,
     content: overrides.content || system.content,
   };
 
@@ -634,21 +657,21 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
           <div className="flex items-center justify-between mb-6">
             <LocaleLink href="/anatomy">
               <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="button-back-anatomy">
-                <ArrowLeft className="w-4 h-4" /> Back to Anatomy & Physiology
+                <ArrowLeft className="w-4 h-4" /> {t("anatomy.backToAnatomy")}
               </span>
             </LocaleLink>
             <div className="flex items-center gap-4">
               {prevSystem && (
                 <LocaleLink href={`/anatomy/${prevSystem.id}`}>
                   <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-system-top">
-                    <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{prevSystem.name}</span><span className="sm:hidden">Prev</span>
+                    <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t(`anatomy.sys.${systemTranslationKeys[prevSystem.id]}`)}</span><span className="sm:hidden">{t("anatomy.prev")}</span>
                   </span>
                 </LocaleLink>
               )}
               {nextSystem && (
                 <LocaleLink href={`/anatomy/${nextSystem.id}`}>
                   <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-system-top">
-                    <span className="hidden sm:inline">{nextSystem.name}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">{t(`anatomy.sys.${systemTranslationKeys[nextSystem.id]}`)}</span><span className="sm:hidden">{t("anatomy.next")}</span> <ChevronRight className="w-3.5 h-3.5" />
                   </span>
                 </LocaleLink>
               )}
@@ -677,7 +700,7 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
                 }`}
                 data-testid="button-toggle-anatomy-edit"
               >
-                {isEditing ? "Exit Image Editing" : "Manage Images"}
+                {isEditing ? t("anatomy.exitImageEditing") : t("anatomy.manageImages")}
               </button>
               <button
                 onClick={() => setIsContentEditing(!isContentEditing)}
@@ -689,7 +712,7 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
                 data-testid="button-toggle-anatomy-content-edit"
               >
                 <Pencil className="w-3.5 h-3.5" />
-                {isContentEditing ? "Exit Content Editing" : "Edit Content"}
+                {isContentEditing ? t("anatomy.exitContentEditing") : t("anatomy.editContent")}
               </button>
             </div>
           )}
@@ -788,11 +811,11 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-gray-900">Cell Anatomy & Cellular Biology - Video Lecture</span>
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">Free</span>
+                        <span className="text-sm font-semibold text-gray-900">{t("anatomy.cellLectureTitle")}</span>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700 uppercase">{t("anatomy.free")}</span>
                       </div>
                       <span className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
-                        <Video className="w-3 h-3" />Watch the full video lecture on cell biology foundations
+                        <Video className="w-3 h-3" />{t("anatomy.cellLectureDesc")}
                       </span>
                     </div>
                     <ChevronRight className="w-4 h-4 text-emerald-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
@@ -924,13 +947,13 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
         </div>
 
         <div className="mt-8 pt-6 border-t border-gray-100" data-testid="section-anatomy-related">
-          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Related Resources</p>
+          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">{t("anatomy.relatedResources")}</p>
           <div className="flex flex-wrap gap-2">
-            <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lessons">Clinical Lessons</LocaleLink>
-            <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-flashcards">Flashcards</LocaleLink>
-            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-pre-nursing">Pre-Nursing</LocaleLink>
-            <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-questions">Question Bank</LocaleLink>
-            <LocaleLink href="/lectures" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lectures">Video Lectures</LocaleLink>
+            <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lessons">{t("anatomy.clinicalLessons")}</LocaleLink>
+            <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-flashcards">{t("anatomy.flashcards")}</LocaleLink>
+            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-pre-nursing">{t("anatomy.preNursing")}</LocaleLink>
+            <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-questions">{t("anatomy.questionBank")}</LocaleLink>
+            <LocaleLink href="/lectures" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-anatomy-lectures">{t("anatomy.videoLectures")}</LocaleLink>
           </div>
         </div>
 
@@ -938,14 +961,14 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
           {prevSystem ? (
             <LocaleLink href={`/anatomy/${prevSystem.id}`}>
               <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-prev-system">
-                <ArrowLeft className="w-4 h-4" /> {prevSystem.name}
+                <ArrowLeft className="w-4 h-4" /> {t(`anatomy.sys.${systemTranslationKeys[prevSystem.id]}`)}
               </span>
             </LocaleLink>
           ) : <div />}
           {nextSystem ? (
             <LocaleLink href={`/anatomy/${nextSystem.id}`}>
               <span className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer" data-testid="link-next-system">
-                {nextSystem.name} <ChevronRight className="w-4 h-4" />
+                {t(`anatomy.sys.${systemTranslationKeys[nextSystem.id]}`)} <ChevronRight className="w-4 h-4" />
               </span>
             </LocaleLink>
           ) : <div />}
@@ -971,6 +994,7 @@ function AnatomyListingPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [overrides, setOverrides] = useState<Record<string, SystemOverride>>({});
   const { user } = useAuth();
+  const { t } = useI18n();
   const isAdmin = user?.tier === "admin";
 
   useEffect(() => {
@@ -988,9 +1012,12 @@ function AnatomyListingPage() {
 
   const getSystemContent = (system: typeof bodySystems[0]) => {
     const ov = overrides[system.id];
+    const key = systemTranslationKeys[system.id];
+    const translatedName = key ? t(`anatomy.sys.${key}`) : system.name;
+    const translatedDesc = key ? t(`anatomy.sys.${key}Desc`) : system.description;
     return {
-      name: ov?.name || system.name,
-      description: ov?.description || system.description,
+      name: ov?.name || translatedName,
+      description: ov?.description || translatedDesc,
     };
   };
 
@@ -1004,17 +1031,17 @@ function AnatomyListingPage() {
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6" data-testid="badge-free">
               <Sparkles className="w-4 h-4" />
-              100% Free Content
+              {t("anatomy.badge")}
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" data-testid="heading-anatomy">
-              Anatomy & Physiology
+              {t("anatomy.pageTitle")}
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-6" data-testid="text-anatomy-description">
-              Master the foundations of nursing with our comprehensive A&P review. Each body system includes detailed educational content covering structure, function, and key clinical concepts: completely free, no subscription required.
+              {t("anatomy.pageSubtitle")}
             </p>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
               <BookOpen className="w-4 h-4" />
-              <span>12 topics · Cell biology to organ systems · Exam-ready review</span>
+              <span>{t("anatomy.topicCount")}</span>
             </div>
             {isAdmin && (
               <div className="flex items-center justify-center gap-3 mt-4">
@@ -1027,7 +1054,7 @@ function AnatomyListingPage() {
                   }`}
                   data-testid="button-toggle-anatomy-edit"
                 >
-                  {isEditing ? "Exit Image Editing" : "Manage Images"}
+                  {isEditing ? t("anatomy.exitImageEditing") : t("anatomy.manageImages")}
                 </button>
               </div>
             )}
@@ -1090,23 +1117,23 @@ function AnatomyListingPage() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-gray-100" data-testid="section-anatomy-list-related">
-          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Explore More</p>
+          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">{t("anatomy.exploreMore")}</p>
           <div className="flex flex-wrap gap-2 mb-8">
-            <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-lessons">Clinical Lessons</LocaleLink>
-            <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-flashcards">Flashcards</LocaleLink>
-            <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-question-bank">Question Bank</LocaleLink>
-            <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-mock-exams">Mock Exams</LocaleLink>
-            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-pre-nursing">Pre-Nursing</LocaleLink>
+            <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-lessons">{t("anatomy.clinicalLessons")}</LocaleLink>
+            <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-flashcards">{t("anatomy.flashcards")}</LocaleLink>
+            <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-question-bank">{t("anatomy.questionBank")}</LocaleLink>
+            <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-mock-exams">{t("anatomy.mockExams")}</LocaleLink>
+            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-pre-nursing">{t("anatomy.preNursing")}</LocaleLink>
           </div>
         </div>
 
         <div className="mt-4 text-center" data-testid="section-cta-bottom">
           <p className="text-gray-600 mb-4">
-            Ready to test your knowledge? Explore our premium study tools.
+            {t("anatomy.readyToTest")}
           </p>
           <LocaleLink href="/pricing">
             <span className="inline-flex items-center gap-2 bg-primary hover:brightness-110 text-white rounded-full px-6 py-3 font-semibold shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer" data-testid="link-pricing-cta">
-              View Study Plans
+              {t("anatomy.viewStudyPlans")}
             </span>
           </LocaleLink>
         </div>

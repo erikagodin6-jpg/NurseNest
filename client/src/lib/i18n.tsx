@@ -116,7 +116,13 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, [language]);
 
   const t = (key: string): string => {
-    return translations[language]?.[key] || translations.en[key] || key;
+    const val = translations[language]?.[key] || translations.en[key];
+    if (!val && typeof window !== "undefined" && (window as any).__DEV_MODE !== false) {
+      if (process.env.NODE_ENV === "development" || import.meta.env?.DEV) {
+        console.warn(`[i18n] Missing translation key: "${key}" for language "${language}"`);
+      }
+    }
+    return val || key;
   };
 
   if (!ready) return null;

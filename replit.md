@@ -2,7 +2,7 @@
 
 ## Overview
 
-NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP students, offering comprehensive resources like lessons, flashcards, performance analytics, and exam preparation for NCLEX and REX-PN. It supports both US and Canadian nursing standards, with a strong focus on clinical pathophysiology, medication safety, and condition recognition to improve clinical reasoning. The platform aims to be a leading educational tool for nursing professionals, enhancing their knowledge and ultimately improving patient care outcomes.
+NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, offering comprehensive resources like lessons, flashcards, performance analytics, and exam preparation for NCLEX and REX-PN. It supports both US and Canadian nursing standards, focusing on clinical pathophysiology, medication safety, and condition recognition to improve clinical reasoning. The platform aims to be a leading educational tool for nursing professionals, enhancing their knowledge and ultimately improving patient care outcomes.
 
 ## User Preferences
 
@@ -19,40 +19,38 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 ## System Architecture
 
 ### UI/UX Decisions
-- **Framework & Styling**: React with TypeScript, Wouter for routing, shadcn/ui with Radix UI primitives, Tailwind CSS v4, `next-themes` for 20 themes, and DM Sans typography.
-- **Content Engagement**: `ContentGate` for access control, interactive components like `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, `KnowledgeCheck`.
+- **Framework & Styling**: React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, Tailwind CSS v4, `next-themes` (20 themes), and DM Sans typography.
+- **Content Engagement**: `ContentGate` for access control, interactive components (`PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, `KnowledgeCheck`).
 
 ### Technical Implementations
-- **Frontend & Backend**: Vite with React for frontend, Express 5 on Node.js with TypeScript for backend.
+- **Frontend & Backend**: Vite with React, Express 5 on Node.js with TypeScript.
 - **State Management**: TanStack React Query for server state.
 - **API**: RESTful API.
 - **Authentication**: Username/password with session management.
-- **Content Engine**: Admin-only editor with AI generation for structured, SEO-optimized lessons, anatomy, and pre-nursing modules. Includes internal linking suggestions.
-- **Publishing**: Admins can publish lessons with immediate visibility.
+- **Content Engine**: Admin-only editor with AI generation for structured, SEO-optimized lessons, anatomy, and pre-nursing modules. Includes internal linking.
+- **Publishing**: Admins can publish lessons immediately.
 - **Subscription System**: Multiple tiers with regional pricing.
-- **Interactive Learning**: Features Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Case Simulation, Medication Mastery Engine, and six clinical simulators.
-- **Region-Aware Content**: Server-side hostname detection filters content by `region_scope` (BOTH, US_ONLY, CA_ONLY) and supports regional AI content generation and unit conversion.
-- **Mock Exam Engine**: Timed exams with configurable parameters, question flagging, auto-save, detailed reports, and stratified random sampling.
-- **Admin Features**: Dashboard for analytics, subscriptions, content management, and preview modes.
+- **Interactive Learning**: Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Case Simulation, Medication Mastery Engine, and six clinical simulators.
+- **Region-Aware Content**: Server-side detection filters content by `region_scope` (BOTH, US_ONLY, CA_ONLY) and supports regional AI content generation and unit conversion.
+- **Mock Exam Engine**: Timed exams with configurable parameters, question flagging, auto-save, detailed reports, and stratified random sampling. Includes a Strict Exam Mode.
+- **Admin Features**: Dashboard for analytics, subscriptions, content management, and preview modes. QC Dashboard.
 - **Blog Automation**: OpenAI-powered blog post generation with scholarly sources and scheduled publishing.
-- **Custom Flashcards**: User-creatable flashcards with CSV import, AI accuracy checks, and AI generation.
-- **Internationalization (i18n)**: Custom system for 15 languages, including language-prefixed URL routing, hreflang, RTL support, and browser language detection. Static lesson translations are managed via committed JSON files.
-- **Multilingual SEO**: 1,170 SEO pages, Admin SEO Dashboard for coverage and localization, AI-powered localization, per-language sitemaps, and JSON-LD schemas.
-- **Dynamic Content Translation**: Language middleware, `getTranslatedFields()` helper for content API responses, and source hash comparison for stale translations.
-- **Admin Translation Dashboard**: Coverage matrix, detection of missing/stale translations, bulk actions, and side-by-side editor.
-- **Content Intelligence Dashboard**: Blueprint coverage heatmap, difficulty calibration, SEO keyword gaps, and content ROI.
-- **Adaptive CAT Engine**: IRT-style ability estimation, composite item selection, and confidence interval stop rule.
-- **Pass Probability Projection Engine**: Composite scoring model with logistic transform, anti-gaming protections, confidence bands, risk categories, and an improvement simulator.
+- **Custom Flashcards**: User-creatable with CSV import, AI accuracy checks, and AI generation.
+- **Internationalization (i18n)**: Custom system for 15 languages, including language-prefixed URL routing, hreflang, RTL support, and browser detection.
+- **Multilingual SEO**: 1,170 SEO pages, Admin SEO Dashboard, AI-powered localization, per-language sitemaps, and JSON-LD schemas.
+- **Dynamic Content Translation**: Language middleware, `getTranslatedFields()` helper, source hash comparison for stale translations.
+- **Admin Translation Dashboard**: Coverage matrix, missing/stale translation detection, bulk actions, side-by-side editor.
+- **Content Intelligence Dashboard**: Blueprint coverage heatmap, difficulty calibration, SEO keyword gaps, content ROI.
+- **Adaptive CAT Engine**: IRT-style ability estimation, composite item selection, confidence interval stop rule.
+- **Pass Probability Projection Engine**: Composite scoring model with logistic transform, anti-gaming, confidence bands, risk categories, and improvement simulator.
 - **Next Best Action Engine**: Recommends top 3 actions with estimated probability lift.
-- **Upgrade Funnel**: Event logging, admin metrics, and rate-limited upgrade modals at high-intent trigger points.
+- **Upgrade Funnel**: Event logging, admin metrics, rate-limited upgrade modals at high-intent trigger points.
 - **Exam Blueprints**: Database-driven blueprints for various nursing exams.
 - **Free Diagnostic SEO Funnel**: Public SEO-optimized landing pages with CTA to diagnostic exams.
-- **Admin QC Dashboard**: Monitors content quality, meta descriptions, and orphan pages.
-- **Study Workload Calculator**: Dashboard widget for projected completion date based on daily targets.
-- **Revenue Intelligence Dashboard**: Conversion funnels, study pack revenue, and pricing offers.
-- **Language ROI Scoring Engine**: Scores languages for prioritization based on nursing population, immigration, search demand, competition, and monetization.
-- **SEO Health Check Engine**: Audits for hreflang, meta descriptions, word count, orphan pages, and sitemap completeness.
-- **Strict Exam Mode**: Mock exam toggle enforcing no backtracking, no answer changes, unpausable timer, and tab switch tracking.
+- **Study Workload Calculator**: Dashboard widget for projected completion date.
+- **Revenue Intelligence Dashboard**: Conversion funnels, study pack revenue, pricing offers.
+- **Language ROI Scoring Engine**: Scores languages for prioritization.
+- **SEO Health Check Engine**: Audits for hreflang, meta descriptions, word count, orphan pages, sitemap completeness.
 - **Public Diagnostic Exam**: 25-question free diagnostic exam with anonymous attempts and topic breakdowns.
 - **Auscultation Audio Library**: Manages audio clips with licensing and quiz modes.
 
@@ -62,7 +60,7 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 - **Validation**: Zod schemas.
 
 ### Content Architecture
-- Lessons are organized by body system, supporting pre/post-test questions, and categorized into RPN/LVN, RN, NP, and Pharmacology tabs.
+- Lessons organized by body system, supporting pre/post-test questions, categorized into RPN/LVN, RN, NP, and Pharmacology.
 - Each lesson includes 10 content sections (Pathophysiology, Risk Factors, Diagnostics, Management, Nursing Actions, Assessment Findings, Lifespan, Clinical Findings & Red Flags, Pharmacology, Exam Readiness) with inline admin editing and AI generation.
 - Flashcard system with bookmarking and mastery tracking.
 - Anatomy & Physiology detail pages for 12 body systems.
@@ -72,78 +70,49 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 ## External Dependencies
 
 ### Database
-- **PostgreSQL**: Primary database.
-- **Drizzle ORM**: For database interactions.
-- **Stripe**: For subscription management.
+- **PostgreSQL**
+- **Drizzle ORM**
+
+### Payment Processing
+- **Stripe**
+- **PayPal SDK**
 
 ### Key npm Dependencies
 - **UI**: shadcn/ui, Radix UI primitives, Lucide icons.
 - **Forms**: `react-hook-form`, `@hookform/resolvers`, Zod.
 - **Dates**: `date-fns`.
-- **Payments**: Stripe SDK, @paypal/paypal-server-sdk.
 
 ### Interactive Learning Data Modules
-- `client/src/data/clinical-confusions.ts`: Clinical Clarity topics.
-- `client/src/data/clinical-cases.ts`: Clinical case simulations.
-- `client/src/data/medications.ts`: Medication profiles.
+- `client/src/data/clinical-confusions.ts`
+- `client/src/data/clinical-cases.ts`
+- `client/src/data/medications.ts`
 
 ### Site Analytics & Feedback System
-- **Page View Tracker**: Custom hook for analytics.
-- **Analytics API**: For site metrics.
-- **Feedback System**: User feedback and bug reporting.
+- **Custom Page View Tracker**
+- **Analytics API**
+- **Feedback System**
+
+### AI/Content Generation
+- **OpenAI**: For blog posts, AI flashcards, and lesson content generation.
 - **Meta Graph API**: For social media scheduling.
-- **OpenAI**: For blog post generation, AI flashcards, and content generation.
 
 ### Daily Content Generation Pipeline
-- **Engine**: `server/content-pipeline.ts` — AI-powered exam question and flashcard generation with clinical verification.
-- **Scheduler**: `server/content-scheduler.ts` — Runs daily at 02:00 America/Toronto.
-- **6 Banks**: RPN/RN/NP × exam_questions/flashcards. Threshold: 4,000 per bank. High rate (100/day) below threshold, low rate (25/day) above.
-- **Topic Distribution**: Weighted rotation across 14 body systems, max 15% per topic per run.
-- **Clinical Verification Gate**: AI checks for unsafe dosing, wrong ranges, scope errors, hallucinations. Items go to `needs_review` status.
-- **Admin Dashboard**: `/admin/pipeline` — Overview, question/flashcard review with approve/reject/bulk actions, job history.
-- **Schema Tables**: `flashcard_bank`, `generation_jobs`, `verification_reports`, `ai_cache`.
-- **API Endpoints**: `/api/admin/pipeline/*`, `/api/admin/qbank/*`, `/api/admin/flashcard-bank/*`.
+- **Engine**: `server/content-pipeline.ts` for AI-powered exam question and flashcard generation with clinical verification.
+- **Scheduler**: `server/content-scheduler.ts` runs daily.
 
 ### Freemium Flashcard System
-- **Free limit**: 300 cards (configurable via `FREE_FLASHCARD_LIMIT` env var). Admin override via `flashcard_limit` column.
-- **Pro Plan**: $4.99/month or $39/year via Stripe Checkout. Region-aware pricing (CAD for CA users).
-- **Enforcement**: `getUserCardEntitlement()` in `server/routes.ts` checks tier, subscription status, and custom limits.
-- **Usage API**: `GET /api/flashcard-usage/:userId` returns used/limit/percentage/remaining.
-- **Checkout**: `POST /api/flashcard-upgrade/checkout` creates Stripe session; `POST /api/flashcard-upgrade/verify` activates Pro.
-- **Admin Controls**: `POST /api/admin/users/:id/override-limit` (custom limit), `POST /api/admin/users/:id/comp-pro` (comp Pro).
-- **UI**: Usage progress bar on flashcards page (shows at 80%+ with soft CTA, 90%+ with warning, 100% hard-stop modal with pricing). Upgrade page at `/upgrade`.
-- **Hard-Stop Modal**: At 100% usage, a `Dialog` modal blocks further card creation with pricing comparison ($4.99/mo vs $39/yr) and direct upgrade link.
+- **Stripe Checkout**: For Pro Plan upgrades.
 
-### Seed Study Decks
-- **File**: `server/seed-study-decks.ts` — Auto-seeds 27 public flashcard decks on startup across 4 categories.
-- **Pre-Nursing (10 decks)**: Medical Terminology, Cell Biology, pH & Buffers, Vital Signs, ADPIE, Infection Control, Patient Safety, Documentation, Nutrition, Pharmacology Foundations.
-- **A&P (10 decks)**: Cardiovascular, Respiratory, Renal, Nervous, Endocrine, GI, Musculoskeletal, Immune/Lymphatic, Integumentary, Reproductive.
-- **Electrolytes (7 decks)**: Sodium, Potassium, Calcium, Magnesium, Phosphorus, ABG Interpretation, IV Fluids, Fluid Volume Disorders.
-- **Clinical (5 decks)**: Heart Failure, Diabetes Management, Sepsis & Shock, Blood Transfusion, Delegation & Prioritization.
-- **Total**: ~250+ clinically accurate cards with rationales.
+### Seed Data
+- `server/seed-study-decks.ts`: Auto-seeds public flashcard decks.
+- `server/seed-seo-clusters.ts`: Auto-seeds pillar hub pages.
 
-### SEO Cluster Hub Pages
-- **File**: `server/seed-seo-clusters.ts` — Auto-seeds 8 pillar hub pages into `seo_pages` table.
-- **Clusters**: Electrolytes & Acid-Base, Cardiac Emergencies, Respiratory Emergencies, Sepsis & Shock, OB Emergencies, Pre-Nursing Foundations, Anatomy & Physiology, Pharmacology High-Yield.
-- **Features**: Each hub has FAQ schema, TOC, internal links to child lessons, exam trap sections, and meta optimization.
-- **URL Pattern**: `/study-guide/{cluster-slug}` (e.g., `/study-guide/electrolytes-acid-base-nursing-guide`).
+### SEO Configuration
+- `server/seo-title-map.ts` and `client/src/data/seo-title-map.ts`: Optimized meta titles/descriptions.
+- `client/src/data/internal-links.ts`: Contextual internal link map.
 
-### SEO Title Map & Optimized Meta
-- **Server file**: `server/seo-title-map.ts` — 111 optimized lesson meta titles/descriptions with intent-targeted keywords.
-- **Integration**: `server/seo-meta.ts` imports map; lesson pages use optimized titles over generic fallback.
-- **Client file**: `client/src/data/seo-title-map.ts` — Mirror for client-side rendering.
-- **Hreflang**: Dynamic injection of 16 hreflang tags (15 languages + x-default) on every page via `seo-meta.ts`.
+### AI Safety System
+- `server/ai-safety.ts`: Runtime safety controls for AI generation.
 
-### Internal Linking System
-- **File**: `client/src/data/internal-links.ts` — Contextual internal link map for 25+ high-traffic lessons.
-- **Per lesson**: 5-6 semantically relevant links (complications, labs, pharmacology, emergencies).
-- **Display**: "Related Topics" section rendered below lesson content on lesson-detail pages.
-
-### Lesson Funnel Module ("Next Action")
-- **Location**: Bottom of every lesson page in `lesson-detail.tsx`.
-- **CTAs**: Practice Questions → Flashcards → Mock Exams → Start Free / Dashboard.
-- **Logic**: Shows "Start Free" for anonymous users, "View Dashboard" for logged-in users.
-
-### Homepage "Most Tested Topics" Section
-- Links 6 high-yield exam categories to mega hubs and high-priority lessons.
-- Topics: Electrolytes & Acid-Base, ECG & Cardiac, Sepsis & Shock, OB Emergencies, Pharm Safety, Neuro Emergencies.
+### AI Batch Generation System
+- Admin endpoints for generating exam questions and flashcards in batches.

@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -319,6 +320,7 @@ export default function ComparePage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+      <AdminEditButton />
       <SEO
         title={data.seoTitle}
         description={data.seoDescription}

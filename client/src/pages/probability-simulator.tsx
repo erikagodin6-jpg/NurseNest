@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -170,6 +171,7 @@ export default function ProbabilitySimulatorPage() {
   return (
     <div className="min-h-screen bg-background" data-testid="probability-simulator-page">
       <Navigation />
+      <AdminEditButton />
       <main className="container mx-auto px-4 py-6 sm:py-8 max-w-4xl">
         <header className="mb-6">
           <div className="flex items-center gap-3 mb-2">

@@ -4,6 +4,7 @@ import { useParams, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
+import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -140,6 +141,7 @@ export default function DeckPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-white">
       <Navigation />
+      <AdminEditButton />
       <SEO
         title={`${deck.title} - Free Nursing Flashcards | NurseNest`}
         description={deck.description || `Study ${deck.title} with ${cards.length} free nursing flashcards. Learn and test mode available. Perfect for NCLEX and REX-PN exam preparation.`}

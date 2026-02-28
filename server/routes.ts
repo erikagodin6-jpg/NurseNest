@@ -29,6 +29,7 @@ import { generateBlogPost, runBlogScheduler, expandAllShortPosts } from "./blog-
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedTitles, getAvailableLanguages, simpleHash } from "./translation-helpers";
+import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig } from "./ai-safety";
 
 async function requireAdmin(req: any, res: any) {
   const username = String(req.body?.username || req.query?.username || "");
@@ -193,6 +194,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+
       const { prompt, context, mode, contentId } = req.body;
       if (!prompt) return res.status(400).json({ error: "Prompt is required" });
 
@@ -271,6 +275,8 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
         blocks = [{ type: "paragraph", content: text }];
       }
 
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
       await logAudit(req, admin, "ai", null, "generate-content", null, { mode, prompt: prompt.substring(0, 200) });
       res.json({ blocks });
     } catch (e: any) {
@@ -283,6 +289,9 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
 
       const { title, summary, content, tier, category } = req.body;
       if (!title) return res.status(400).json({ error: "Title is required" });
@@ -323,6 +332,8 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
         seo = {};
       }
 
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
       await logAudit(req, admin, "ai", null, "generate-seo", null, { title });
       res.json(seo);
     } catch (e: any) {
@@ -335,6 +346,9 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
 
       const { message, contentContext } = req.body;
       if (!message) return res.status(400).json({ error: "Message is required" });
@@ -366,6 +380,8 @@ Keep responses concise and actionable.`
       });
 
       const reply = response.choices[0]?.message?.content || "I couldn't generate a response.";
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
       res.json({ reply });
     } catch (e: any) {
       console.error("AI chat error:", e);
@@ -387,6 +403,185 @@ Keep responses concise and actionable.`
       res.json({ isAdmin: ok });
     } catch {
       res.json({ isAdmin: false });
+    }
+  });
+
+  // --------------------
+  // AI Safety Config (admin-only)
+  // --------------------
+  app.get("/api/admin/ai-config", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      res.json(getAiConfig());
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/ai-config", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { enabled, maxItemsPerDay, maxTokensPerDay } = req.body;
+      setAiConfig({ enabled, maxItemsPerDay, maxTokensPerDay });
+      await logAudit(req, admin, "ai-config", null, "update", null, { enabled, maxItemsPerDay, maxTokensPerDay });
+      res.json(getAiConfig());
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
+  // AI Batch Generation (admin-only, draft-only)
+  // --------------------
+  app.post("/api/admin/ai/exam-questions/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+
+      const { tier, topic, quantity, questionTypes } = req.body;
+      if (!tier || !topic || !quantity || quantity < 1 || quantity > 50) {
+        return res.status(400).json({ error: "Invalid parameters. tier, topic required, quantity 1-50." });
+      }
+
+      const validTiers = ["free", "rpn", "rn", "np"];
+      if (!validTiers.includes(tier)) return res.status(400).json({ error: "Invalid tier" });
+
+      const types = questionTypes || ["mcq", "sata", "prioritization", "pharmacology", "lab-values"];
+      const batchId = `batch-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const prompt = `Generate ${quantity} nursing exam questions for the "${topic}" topic at the ${tier.toUpperCase()} level.
+Mix question types from: ${types.join(", ")}.
+For each question, return a JSON array of objects with these fields:
+- "question": the question stem (scenario-based, clinical, 2-4 sentences)
+- "type": one of ${types.map((t: string) => `"${t}"`).join(", ")}
+- "options": array of 4 answer choices (strings)
+- "correctIndex": 0-based index of the correct answer
+- "rationale": detailed explanation (2-3 sentences) of why the correct answer is right and why the distractors are wrong
+- "difficulty": "easy", "medium", or "hard"
+- "tags": array of 2-3 relevant tags
+
+Return ONLY the JSON array, no other text.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: "You are a nursing exam question writer specializing in NCLEX-style questions for Canadian nursing students. Create clinically accurate, scenario-based questions." },
+          { role: "user", content: prompt },
+        ],
+        temperature: 0.8,
+        max_tokens: 4000,
+      });
+
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(quantity, totalTokens);
+      await logAudit(req, admin, "ai-batch-exam", null, "generate", null, { batchId, tier, topic, quantity, totalTokens });
+
+      let questions: any[] = [];
+      try {
+        const raw = response.choices[0]?.message?.content || "[]";
+        const cleaned = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+        questions = JSON.parse(cleaned);
+      } catch {
+        return res.status(500).json({ error: "Failed to parse AI response" });
+      }
+
+      const drafts = questions.map((q: any, i: number) => ({
+        ...q,
+        id: `${batchId}-q${i}`,
+        batchId,
+        tier,
+        topic,
+        status: "draft",
+        source: "ai",
+        promptVersion: "v1",
+        createdAt: new Date().toISOString(),
+      }));
+
+      res.json({ batchId, count: drafts.length, drafts, tokensUsed: totalTokens });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/ai/flashcards/generate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+
+      const { topic, quantity, tier, deckTitle } = req.body;
+      if (!topic || !quantity || quantity < 1 || quantity > 100) {
+        return res.status(400).json({ error: "Invalid parameters. topic required, quantity 1-100." });
+      }
+
+      const batchId = `batch-fc-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const prompt = `Generate ${quantity} nursing flashcards for the topic "${topic}" at the ${(tier || "rn").toUpperCase()} level.
+Each flashcard should be a JSON object with:
+- "front": a concise clinical question or concept (1-2 sentences)
+- "back": a clear, accurate answer with key details (2-4 sentences)
+- "tags": array of 2-3 relevant tags
+- "difficulty": "easy", "medium", or "hard"
+
+Focus on high-yield exam content. Include drug names, lab values, clinical signs, and nursing interventions where relevant.
+Return ONLY a JSON array of flashcard objects, no other text.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: "You are a nursing education expert creating flashcards for Canadian nursing exam preparation. Focus on clinically relevant, exam-ready content." },
+          { role: "user", content: prompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 4000,
+      });
+
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(quantity, totalTokens);
+      await logAudit(req, admin, "ai-batch-flashcards", null, "generate", null, { batchId, topic, quantity, tier, totalTokens });
+
+      let cards: any[] = [];
+      try {
+        const raw = response.choices[0]?.message?.content || "[]";
+        const cleaned = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+        cards = JSON.parse(cleaned);
+      } catch {
+        return res.status(500).json({ error: "Failed to parse AI response" });
+      }
+
+      const drafts = cards.map((c: any, i: number) => ({
+        ...c,
+        id: `${batchId}-fc${i}`,
+        batchId,
+        topic,
+        tier: tier || "rn",
+        deckTitle: deckTitle || topic,
+        status: "draft",
+        source: "ai",
+        promptVersion: "v1",
+        createdAt: new Date().toISOString(),
+      }));
+
+      res.json({ batchId, count: drafts.length, drafts, tokensUsed: totalTokens });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 
@@ -3104,6 +3299,9 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+
       const { lessonId, section, prompt, caption } = req.body;
       if (!lessonId || !prompt) {
         return res.status(400).json({ error: "lessonId and prompt are required" });
@@ -3141,6 +3339,7 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
         [lessonId, objectPath, `ai-generated-${Date.now()}.png`, section || "general", caption || null, position]
       );
 
+      recordAiUsage(1, 0);
       res.json(result.rows[0]);
     } catch (e: any) {
       console.error("AI image generation error:", e);
@@ -6258,6 +6457,9 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+
       const { sourcePageId, targetLanguage } = req.body;
       if (!sourcePageId || !targetLanguage) return res.status(400).json({ error: "sourcePageId and targetLanguage required" });
 
@@ -6314,6 +6516,8 @@ Return ONLY valid JSON with this exact structure:
       });
 
       const text = response.choices[0]?.message?.content || "{}";
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
       let localized;
       try {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
