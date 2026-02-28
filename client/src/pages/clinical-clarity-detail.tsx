@@ -30,7 +30,32 @@ import {
   ShieldAlert,
   Sparkles,
 } from "lucide-react";
-import { clinicalConfusions, type ClinicalConfusion } from "@/data/clinical-confusions";
+import { clinicalConfusions, type ClinicalConfusion, type ClinicalImage } from "@/data/clinical-confusions";
+
+function ClinicalImageBlock({ images, placement }: { images?: ClinicalImage[]; placement: ClinicalImage["placement"] }) {
+  if (!images) return null;
+  const filtered = images.filter((img) => img.placement === placement);
+  if (filtered.length === 0) return null;
+  return (
+    <div className="my-8 space-y-6">
+      {filtered.map((img, i) => (
+        <figure key={i} className="rounded-xl overflow-hidden border border-gray-100 bg-white shadow-sm" data-testid={`figure-clinical-image-${placement}-${i}`}>
+          <div className="bg-gray-50 p-2">
+            <img
+              src={img.src}
+              alt={img.alt}
+              className="w-full rounded-lg object-contain max-h-[500px]"
+              loading="lazy"
+            />
+          </div>
+          <figcaption className="px-5 py-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-gray-50/50">
+            {img.caption}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+}
 
 const systemIcons: Record<string, any> = {
   Cardiovascular: Heart,
@@ -177,6 +202,8 @@ export default function ClinicalClarityDetail() {
             </div>
           </header>
 
+          <ClinicalImageBlock images={confusion.images} placement="top" />
+
           <section className="mb-12" data-testid="section-mechanism">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -190,6 +217,8 @@ export default function ClinicalClarityDetail() {
                 {confusion.mechanism.content}
               </p>
             </div>
+
+            <ClinicalImageBlock images={confusion.images} placement="after-mechanism" />
 
             <div className="mt-8 bg-gray-50 rounded-xl p-5 sm:p-6">
               <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">
@@ -206,6 +235,8 @@ export default function ClinicalClarityDetail() {
                 ))}
               </div>
             </div>
+
+            <ClinicalImageBlock images={confusion.images} placement="after-chain" />
           </section>
 
           <section className="mb-12" data-testid="section-misconceptions">
