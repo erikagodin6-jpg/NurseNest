@@ -715,3 +715,25 @@ export const diagnosticAttempts = pgTable("diagnostic_attempts", {
 });
 
 export type DiagnosticAttempt = typeof diagnosticAttempts.$inferSelect;
+
+export const examBlueprints = pgTable("exam_blueprints", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  examCode: text("exam_code").notNull().unique(),
+  examName: text("exam_name").notNull(),
+  tier: text("tier").notNull(),
+  region: text("region").default("ALL"),
+  totalQuestions: integer("total_questions").notNull(),
+  passingStandard: text("passing_standard").notNull(),
+  timeLimit: integer("time_limit").notNull(),
+  domains: jsonb("domains").notNull().default(sql`'[]'::jsonb`),
+  questionTypeWeights: jsonb("question_type_weights").default(sql`'{}'::jsonb`),
+  catEnabled: boolean("cat_enabled").default(false),
+  catMinQuestions: integer("cat_min_questions"),
+  catMaxQuestions: integer("cat_max_questions"),
+  active: boolean("active").default(true),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertExamBlueprintSchema = createInsertSchema(examBlueprints).omit({ id: true, updatedAt: true });
+export type InsertExamBlueprint = z.infer<typeof insertExamBlueprintSchema>;
+export type ExamBlueprint = typeof examBlueprints.$inferSelect;

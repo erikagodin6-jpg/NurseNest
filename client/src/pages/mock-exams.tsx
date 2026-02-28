@@ -10,9 +10,11 @@ import { useAuth } from "@/lib/auth";
 import { getExamQuestions, getPoolStats, getAvailableBodySystems } from "@/lib/question-pool";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   GraduationCap, Clock, FileText, BarChart3, ChevronRight,
-  Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert
+  Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert, Shield
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 
@@ -46,6 +48,7 @@ export default function MockExamsPage() {
   const [selectedTier, setSelectedTier] = useState(allowedTiers[0] || "rpn");
   const [selectedLength, setSelectedLength] = useState(75);
   const [selectedSystems, setSelectedSystems] = useState<string[]>([]);
+  const [strictMode, setStrictMode] = useState(false);
   const [starting, setStarting] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
 
@@ -103,6 +106,9 @@ export default function MockExamsPage() {
       });
       const data = await res.json();
       if (data.attemptId) {
+        if (strictMode) {
+          localStorage.setItem(`strict-mode-${data.attemptId}`, "true");
+        }
         navigate(`/mock-exams/${data.attemptId}`);
       }
     } catch {
@@ -275,6 +281,41 @@ export default function MockExamsPage() {
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Exam Mode</p>
+              <Card className="border-none shadow-sm">
+                <CardContent className="p-4 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Shield className="w-5 h-5 text-red-500" />
+                      <div>
+                        <Label htmlFor="strict-mode" className="font-bold text-gray-900 cursor-pointer">Strict Mode</Label>
+                        <p className="text-xs text-gray-500 mt-0.5">Simulates real exam conditions</p>
+                      </div>
+                    </div>
+                    <Switch
+                      id="strict-mode"
+                      checked={strictMode}
+                      onCheckedChange={setStrictMode}
+                      data-testid="toggle-strict-mode"
+                    />
+                  </div>
+                  {strictMode && (
+                    <div className="bg-red-50 rounded-lg p-3 space-y-1.5">
+                      <p className="text-xs font-semibold text-red-700">Strict mode enforces:</p>
+                      <ul className="text-xs text-red-600 space-y-1 list-disc list-inside">
+                        <li>No going back to previous questions</li>
+                        <li>Answers lock once selected — no changes</li>
+                        <li>Timer cannot be paused</li>
+                        <li>Tab switching is tracked</li>
+                        <li>Scheduled break prompts</li>
+                      </ul>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </div>
 
             <Button

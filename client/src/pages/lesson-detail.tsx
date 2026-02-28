@@ -27,7 +27,7 @@ import { contentMap } from "@/data/lessons";
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
-import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem } from "@/lib/seo-utils";
+import { generateLessonSeoDescription, generateLessonKeywords, buildLessonStructuredData, buildBreadcrumbStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData, buildFaqFromQuizQuestions } from "@/lib/seo-utils";
 import { trackMilestone } from "@/components/upgrade-prompt";
 import { getLessonImage } from "@/lib/system-images";
 import { ProtectedImage } from "@/components/protected-image";
@@ -2522,6 +2522,9 @@ export default function LessonDetail() {
             { name: getLessonBodySystem(id || ""), url: "https://www.nursenest.ca/lessons" },
             { name: lessonContent.title, url: `https://www.nursenest.ca/lessons/${id}` },
           ]),
+          buildArticleStructuredData(id || "", lessonContent),
+          buildCourseStructuredData(id || "", lessonContent),
+          ...(lessonContent.quiz && lessonContent.quiz.length > 0 ? [buildFaqFromQuizQuestions(lessonContent.quiz)] : []),
         ]}
       />
       <Navigation />

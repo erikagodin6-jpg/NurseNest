@@ -136,6 +136,75 @@ export function buildFaqStructuredData(faqs: { question: string; answer: string 
   };
 }
 
+export function buildArticleStructuredData(lessonId: string, lesson: LessonContent) {
+  const description = generateLessonSeoDescription(lessonId, lesson);
+  const bodySystem = getLessonBodySystem(lessonId);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": lesson.title,
+    "description": description,
+    "author": {
+      "@type": "Organization",
+      "name": "NurseNest",
+      "url": "https://www.nursenest.ca",
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "NurseNest",
+      "url": "https://www.nursenest.ca",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.nursenest.ca/brand-logo.gif",
+      },
+    },
+    "datePublished": "2025-01-15",
+    "dateModified": new Date().toISOString().split("T")[0],
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://www.nursenest.ca/lessons/${lessonId}`,
+    },
+    "articleSection": bodySystem,
+    "inLanguage": "en",
+  };
+}
+
+export function buildCourseStructuredData(lessonId: string, lesson: LessonContent) {
+  const description = generateLessonSeoDescription(lessonId, lesson);
+  const tierLabel = getLessonTierLabel(lessonId);
+  const bodySystem = getLessonBodySystem(lessonId);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": lesson.title,
+    "description": description,
+    "provider": {
+      "@type": "Organization",
+      "name": "NurseNest",
+      "url": "https://www.nursenest.ca",
+    },
+    "educationalLevel": tierLabel,
+    "about": bodySystem,
+    "inLanguage": "en",
+    "url": `https://www.nursenest.ca/lessons/${lessonId}`,
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT30M",
+    },
+  };
+}
+
+export function buildFaqFromQuizQuestions(questions: { question: string; options: string[]; correct: number; rationale: string }[]) {
+  const faqs = questions.slice(0, 10).map((q) => ({
+    question: q.question,
+    answer: `${q.options[q.correct]}. ${q.rationale}`,
+  }));
+  return buildFaqStructuredData(faqs);
+}
+
 export function buildCatalogStructuredData(lessons: { id: string; name: string }[]) {
   return {
     "@context": "https://schema.org",

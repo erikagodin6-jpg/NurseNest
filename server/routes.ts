@@ -21,6 +21,7 @@ import {
   insertContentItemSchema,
   insertAuditLogSchema,
   insertContentRevisionSchema,
+  insertExamBlueprintSchema,
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
@@ -4857,7 +4858,236 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  app.get("/api/exam-blueprints", async (_req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT * FROM exam_blueprints WHERE active = true ORDER BY exam_name`
+      );
+      res.json(result.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/exam-blueprints/:id", async (req, res) => {
+    try {
+      const result = await pool.query(`SELECT * FROM exam_blueprints WHERE id = $1`, [req.params.id]);
+      if (result.rows.length === 0) return res.status(404).json({ error: "Blueprint not found" });
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/exam-blueprints", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = insertExamBlueprintSchema.parse(req.body);
+      const result = await pool.query(
+        `INSERT INTO exam_blueprints (id, exam_code, exam_name, tier, region, total_questions, passing_standard, time_limit, domains, question_type_weights, cat_enabled, cat_min_questions, cat_max_questions, active, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW()) RETURNING *`,
+        [parsed.examCode, parsed.examName, parsed.tier, parsed.region || "ALL", parsed.totalQuestions, parsed.passingStandard, parsed.timeLimit,
+         JSON.stringify(parsed.domains), JSON.stringify(parsed.questionTypeWeights || {}), parsed.catEnabled ?? false,
+         parsed.catMinQuestions || null, parsed.catMaxQuestions || null, parsed.active ?? true]
+      );
+      await logAudit(req, admin, "exam_blueprint", result.rows[0].id, "create", null, result.rows[0]);
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/exam-blueprints/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const before = await pool.query(`SELECT * FROM exam_blueprints WHERE id = $1`, [req.params.id]);
+      if (before.rows.length === 0) return res.status(404).json({ error: "Blueprint not found" });
+      const { examCode, examName, tier, region, totalQuestions, passingStandard, timeLimit, domains, questionTypeWeights, catEnabled, catMinQuestions, catMaxQuestions, active } = req.body;
+      const result = await pool.query(
+        `UPDATE exam_blueprints SET exam_code = COALESCE($1, exam_code), exam_name = COALESCE($2, exam_name), tier = COALESCE($3, tier),
+         region = COALESCE($4, region), total_questions = COALESCE($5, total_questions), passing_standard = COALESCE($6, passing_standard),
+         time_limit = COALESCE($7, time_limit), domains = COALESCE($8, domains), question_type_weights = COALESCE($9, question_type_weights),
+         cat_enabled = COALESCE($10, cat_enabled), cat_min_questions = COALESCE($11, cat_min_questions), cat_max_questions = COALESCE($12, cat_max_questions),
+         active = COALESCE($13, active), updated_at = NOW() WHERE id = $14 RETURNING *`,
+        [examCode, examName, tier, region, totalQuestions, passingStandard, timeLimit,
+         domains ? JSON.stringify(domains) : null, questionTypeWeights ? JSON.stringify(questionTypeWeights) : null,
+         catEnabled, catMinQuestions, catMaxQuestions, active, req.params.id]
+      );
+      await logAudit(req, admin, "exam_blueprint", req.params.id, "update", before.rows[0], result.rows[0]);
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/exam-blueprints/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const before = await pool.query(`SELECT * FROM exam_blueprints WHERE id = $1`, [req.params.id]);
+      if (before.rows.length === 0) return res.status(404).json({ error: "Blueprint not found" });
+      await pool.query(`UPDATE exam_blueprints SET active = false, updated_at = NOW() WHERE id = $1`, [req.params.id]);
+      await logAudit(req, admin, "exam_blueprint", req.params.id, "soft_delete", before.rows[0], null);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/exam-blueprints/seed", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      await seedExamBlueprints();
+      res.json({ success: true, message: "Exam blueprints seeded" });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
+}
+
+async function seedExamBlueprints() {
+  const existing = await pool.query(`SELECT exam_code FROM exam_blueprints`);
+  const existingCodes = new Set(existing.rows.map((r: any) => r.exam_code));
+
+  const blueprints = [
+    {
+      examCode: "NCLEX-RN",
+      examName: "NCLEX-RN (Next Generation)",
+      tier: "rn",
+      region: "US",
+      totalQuestions: 145,
+      passingStandard: "CAT-based logit above passing standard",
+      timeLimit: 300,
+      domains: [
+        { name: "Management of Care", weight: 0.19, questionRange: [15, 21] },
+        { name: "Safety and Infection Control", weight: 0.12, questionRange: [10, 14] },
+        { name: "Health Promotion and Maintenance", weight: 0.09, questionRange: [7, 11] },
+        { name: "Psychosocial Integrity", weight: 0.09, questionRange: [7, 11] },
+        { name: "Basic Care and Comfort", weight: 0.09, questionRange: [7, 11] },
+        { name: "Pharmacological Therapies", weight: 0.15, questionRange: [12, 18] },
+        { name: "Reduction of Risk Potential", weight: 0.12, questionRange: [10, 14] },
+        { name: "Physiological Adaptation", weight: 0.14, questionRange: [11, 17] },
+      ],
+      questionTypeWeights: { sata: 0.25, "bow-tie": 0.10, "drag-drop": 0.10, "cloze": 0.10, "highlight-text": 0.10, mcq: 0.35 },
+      catEnabled: true,
+      catMinQuestions: 85,
+      catMaxQuestions: 150,
+    },
+    {
+      examCode: "NCLEX-PN",
+      examName: "NCLEX-PN (Next Generation)",
+      tier: "rpn",
+      region: "US",
+      totalQuestions: 135,
+      passingStandard: "CAT-based logit above passing standard",
+      timeLimit: 300,
+      domains: [
+        { name: "Safe and Effective Care Environment", weight: 0.23, questionRange: [19, 25] },
+        { name: "Health Promotion and Maintenance", weight: 0.12, questionRange: [10, 14] },
+        { name: "Psychosocial Integrity", weight: 0.11, questionRange: [9, 13] },
+        { name: "Physiological Integrity", weight: 0.54, questionRange: [44, 58] },
+      ],
+      questionTypeWeights: { sata: 0.20, "drag-drop": 0.10, "cloze": 0.08, mcq: 0.52, "highlight-text": 0.10 },
+      catEnabled: true,
+      catMinQuestions: 85,
+      catMaxQuestions: 150,
+    },
+    {
+      examCode: "REX-PN",
+      examName: "REx-PN (Regulatory Exam - Practical Nurse)",
+      tier: "rpn",
+      region: "CA",
+      totalQuestions: 170,
+      passingStandard: "CAT-based competency threshold",
+      timeLimit: 300,
+      domains: [
+        { name: "Professional Practice", weight: 0.16, questionRange: [22, 30] },
+        { name: "Ethical Practice", weight: 0.10, questionRange: [14, 20] },
+        { name: "Legal Practice", weight: 0.08, questionRange: [11, 16] },
+        { name: "Foundations of Practice", weight: 0.36, questionRange: [49, 66] },
+        { name: "Collaborative Practice", weight: 0.30, questionRange: [41, 55] },
+      ],
+      questionTypeWeights: { sata: 0.15, mcq: 0.55, "drag-drop": 0.10, "cloze": 0.10, "highlight-text": 0.10 },
+      catEnabled: true,
+      catMinQuestions: 90,
+      catMaxQuestions: 170,
+    },
+    {
+      examCode: "CNPLE",
+      examName: "CNPLE (Canadian Nurse Practitioner Licensure Exam)",
+      tier: "np",
+      region: "CA",
+      totalQuestions: 170,
+      passingStandard: "Criterion-referenced pass mark",
+      timeLimit: 240,
+      domains: [
+        { name: "Health Assessment", weight: 0.25, questionRange: [38, 48] },
+        { name: "Diagnosis", weight: 0.20, questionRange: [30, 38] },
+        { name: "Therapeutics", weight: 0.25, questionRange: [38, 48] },
+        { name: "Health Promotion & Disease Prevention", weight: 0.15, questionRange: [23, 28] },
+        { name: "Professional Role & Responsibility", weight: 0.15, questionRange: [23, 28] },
+      ],
+      questionTypeWeights: { mcq: 0.65, sata: 0.15, "drag-drop": 0.10, "cloze": 0.10 },
+      catEnabled: false,
+      catMinQuestions: null,
+      catMaxQuestions: null,
+    },
+    {
+      examCode: "AANP-FNP",
+      examName: "AANP Family Nurse Practitioner Certification",
+      tier: "np",
+      region: "US",
+      totalQuestions: 150,
+      passingStandard: "Scaled score of 500+",
+      timeLimit: 180,
+      domains: [
+        { name: "Assessment", weight: 0.26, questionRange: [35, 43] },
+        { name: "Diagnosis", weight: 0.26, questionRange: [35, 43] },
+        { name: "Planning", weight: 0.22, questionRange: [29, 37] },
+        { name: "Evaluation", weight: 0.16, questionRange: [20, 28] },
+        { name: "Professional Role", weight: 0.10, questionRange: [13, 18] },
+      ],
+      questionTypeWeights: { mcq: 0.85, sata: 0.10, "drag-drop": 0.05 },
+      catEnabled: false,
+      catMinQuestions: null,
+      catMaxQuestions: null,
+    },
+    {
+      examCode: "ANCC-FNP",
+      examName: "ANCC Family Nurse Practitioner Board Certification",
+      tier: "np",
+      region: "US",
+      totalQuestions: 175,
+      passingStandard: "Criterion-referenced scaled score",
+      timeLimit: 210,
+      domains: [
+        { name: "Foundations of Advanced Practice", weight: 0.15, questionRange: [23, 30] },
+        { name: "Professional Practice", weight: 0.15, questionRange: [23, 30] },
+        { name: "Independent Practice Assessment", weight: 0.25, questionRange: [38, 48] },
+        { name: "Independent Practice Diagnosis", weight: 0.20, questionRange: [30, 40] },
+        { name: "Independent Practice Planning & Treatment", weight: 0.25, questionRange: [38, 48] },
+      ],
+      questionTypeWeights: { mcq: 0.80, sata: 0.12, "drag-drop": 0.08 },
+      catEnabled: false,
+      catMinQuestions: null,
+      catMaxQuestions: null,
+    },
+  ];
+
+  for (const bp of blueprints) {
+    if (existingCodes.has(bp.examCode)) continue;
+    await pool.query(
+      `INSERT INTO exam_blueprints (id, exam_code, exam_name, tier, region, total_questions, passing_standard, time_limit, domains, question_type_weights, cat_enabled, cat_min_questions, cat_max_questions, active, updated_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, true, NOW())`,
+      [bp.examCode, bp.examName, bp.tier, bp.region, bp.totalQuestions, bp.passingStandard, bp.timeLimit,
+       JSON.stringify(bp.domains), JSON.stringify(bp.questionTypeWeights), bp.catEnabled, bp.catMinQuestions, bp.catMaxQuestions]
+    );
+  }
 }
 
 function calculatePassProbability(readinessScore: number, totalQuestions: number, trend: number, mockAvg: number) {

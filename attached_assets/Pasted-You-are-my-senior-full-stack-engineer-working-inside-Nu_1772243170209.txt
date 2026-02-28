@@ -1,0 +1,239 @@
+You are my senior full-stack engineer working inside NurseNest (Vite + React + Express + DB + analytics engine).
+
+Build a statistically defensible Pass Probability Projection Engine that predicts a user’s likelihood of passing their nursing exam based on performance trends.
+
+IMPORTANT:
+- This is a predictive coaching model.
+- It must NOT claim to replicate official NCLEX, REx-PN, CNPLE, AANP, or ANCC scoring.
+- It must resist gaming.
+- It must scale across RN, PN, and NP tiers.
+
+====================================================
+SECTION 1 — DATA INPUTS
+====================================================
+
+Collect the following inputs per user:
+
+1) readiness_score
+   - Weighted average accuracy
+   - Difficulty-adjusted
+   - Last 30 days weighted 1.5×
+
+2) mock_exam_avg
+   - Only strict-mode mocks count 100%
+   - Tutor-mode mocks count 80%
+   - Cap benefit after 5 full mocks
+
+3) weakness_index
+   For each domain:
+      (1 − domain_accuracy) × domain_weight × exposure_factor
+   Use top 3 worst domains averaged.
+
+4) total_questions_completed
+
+5) 30_day_accuracy_trend
+   - Linear regression slope
+   - Positive slope = boost
+   - Flat = neutral
+   - Negative = penalty
+
+6) consistency_index
+   - Measure variance in performance
+   - High variance reduces score
+
+7) time_management_index
+   - Penalize consistent time-outs
+   - Penalize extreme time-per-question variance
+
+====================================================
+SECTION 2 — NORMALIZATION
+====================================================
+
+Normalize all components to 0–1 range.
+
+For volume:
+   V = log(total_questions_completed) / log(target_volume)
+   target_volume defaults:
+      RN = 2000
+      PN = 1500
+      NP = 1800
+
+Cap at 1.0.
+
+For slope:
+   Normalize regression output to 0–1 band.
+
+For weakness_index:
+   Scale so 1 = severe weakness.
+
+====================================================
+SECTION 3 — COMPOSITE SCORE
+====================================================
+
+Compute:
+
+C_raw =
+0.35 * R +
+0.20 * M +
+0.10 * V +
+0.10 * S +
+0.05 * Cns +
+0.05 * T
+− 0.15 * W
+
+Clamp C_raw between 0 and 1.
+
+====================================================
+SECTION 4 — LOGISTIC TRANSFORMATION
+====================================================
+
+Apply logistic transformation:
+
+theta = 0.65
+k = 9
+
+P = 1 / (1 + exp(−k * (C_raw − theta)))
+
+Return P as 0–100%.
+
+This prevents linear inflation and creates realistic plateau behavior.
+
+====================================================
+SECTION 5 — CONFIDENCE BAND
+====================================================
+
+Compute confidence_band based on:
+
+1) total_questions_completed
+2) number_of_strict_mocks
+3) consistency_index
+
+Rules:
+- <500 questions → ±10%
+- 500–1000 → ±7%
+- >1500 + 3 strict mocks → ±4%
+- Low consistency widens band by +2%
+
+Return:
+lower_bound = P − band
+upper_bound = P + band
+
+====================================================
+SECTION 6 — RISK CATEGORIES
+====================================================
+
+If P < 60% → High Risk
+60–75% → Moderate Risk
+>75% → Likely Ready
+
+If NurseNest category minimum coaching gate fails:
+   Cap at Moderate Risk.
+
+====================================================
+SECTION 7 — ANTI-GAMING PROTECTION
+====================================================
+
+Prevent inflation from:
+
+1) Repeating same questions:
+   - Reduce weight for repeated exposure >2 attempts.
+
+2) Tutor-mode overuse:
+   - Apply 0.8 multiplier to tutor-mode performance.
+
+3) Low difficulty concentration:
+   - If >70% of questions are difficulty level 1–2,
+     reduce readiness contribution by 10%.
+
+4) Short quiz farming:
+   - Do not update probability for sessions <10 questions.
+
+====================================================
+SECTION 8 — IMPROVEMENT PROJECTION ENGINE
+====================================================
+
+Build function:
+
+simulate_improvement(domain, delta_accuracy)
+
+Recalculate projected probability if:
+- domain accuracy improves by X%
+- 1 additional strict mock completed
+- 200 more mixed-difficulty questions completed
+
+Return:
+“To reach 85% probability, improve:
+ - Pharmacology by 6%
+ - SATA accuracy by 8%
+ - Complete 2 strict CAT simulations.”
+
+Premium users only see projection simulation.
+
+====================================================
+SECTION 9 — RECALCULATION TRIGGERS
+====================================================
+
+Recalculate probability:
+
+- After every strict mock exam
+- After every 200 new questions
+- Weekly scheduled background job
+
+Cache results but invalidate on major performance change.
+
+====================================================
+SECTION 10 — UI OUTPUT
+====================================================
+
+Display on dashboard:
+
+- Pass Probability %
+- Confidence range
+- Risk category
+- Weakest 3 domains
+- “What moves the needle most” section
+
+Add tooltip:
+
+“This is a predictive coaching model based on your performance trends and does not represent official exam scoring.”
+
+====================================================
+SECTION 11 — PREMIUM GATING
+====================================================
+
+Free users:
+- See readiness score only
+- See limited probability preview (“You are trending toward readiness.”)
+
+Premium users:
+- See full probability %
+- Confidence band
+- Projection simulator
+- Domain-level impact model
+
+====================================================
+SECTION 12 — ADMIN CONTROLS
+====================================================
+
+Add admin settings:
+
+- Adjust theta
+- Adjust k
+- Adjust weight coefficients
+- Adjust category minimum threshold
+- Toggle anti-gaming penalties
+
+Add calibration dashboard to simulate cohorts.
+
+====================================================
+DELIVERABLES
+====================================================
+
+- Database schema updates
+- Probability calculation service
+- Anti-gaming middleware
+- Projection simulator function
+- Dashboard UI
+- Admin calibration controls
+- Unit tests for edge cases
+- Clear documentation
