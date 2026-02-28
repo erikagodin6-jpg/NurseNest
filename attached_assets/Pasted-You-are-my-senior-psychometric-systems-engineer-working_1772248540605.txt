@@ -1,0 +1,190 @@
+You are my senior psychometric systems engineer working inside NurseNest (Vite + React + Express + DB + calibration engine + probability engine).
+
+Build an Adaptive CAT Difficulty Learning Model.
+
+GOAL:
+Continuously adjust item difficulty weighting and CAT behavior using real performance data.
+
+This is a coaching simulator, not official exam replication.
+
+====================================================
+PART 1 — ABILITY ESTIMATION MODEL
+====================================================
+
+Implement simplified IRT-style ability estimation.
+
+For each user session in strict CAT mode:
+
+Track:
+- question_id
+- calibrated_difficulty (1–5)
+- correct/incorrect
+- time_spent
+
+Initialize:
+user_ability_score = 0 (center)
+
+After each question:
+
+If correct:
+  user_ability_score += f(difficulty_level)
+If incorrect:
+  user_ability_score -= f(difficulty_level)
+
+Where f(difficulty_level) scales:
+Level 1: ±0.5
+Level 2: ±0.8
+Level 3: ±1.0
+Level 4: ±1.3
+Level 5: ±1.6
+
+Store ability trajectory over session.
+
+====================================================
+PART 2 — ADAPTIVE ITEM SELECTION
+====================================================
+
+Next item selection rules:
+
+1) Match difficulty near current ability.
+2) Avoid repeating blueprint categories excessively.
+3) Respect blueprint exposure quotas.
+4) Ensure case sets inserted at realistic intervals.
+5) Avoid overexposing low-discrimination items.
+6) Exclude items with attempt_count < calibration threshold unless needed.
+
+Item selection priority formula:
+
+selection_score =
+  proximity_to_user_ability * 0.4
+  + blueprint_balance_score * 0.3
+  + discrimination_weight * 0.2
+  + exposure_penalty * (-0.1)
+
+Choose highest score.
+
+====================================================
+PART 3 — CONFIDENCE INTERVAL STOP RULE
+====================================================
+
+Simulate CAT stop behavior:
+
+Track:
+- running ability estimate
+- variance (based on difficulty spread + response pattern)
+
+If confidence interval narrow enough:
+- allow early stop (simulate abrupt ending)
+- within exam min/max limits
+
+Never reveal this logic to user.
+
+====================================================
+PART 4 — GLOBAL DIFFICULTY ADJUSTMENT LOOP
+====================================================
+
+Weekly recalibration:
+
+For each difficulty level (1–5):
+- Measure real percent correct.
+- Compare against expected percent bands:
+
+Expected:
+Level 1: 80–90%
+Level 2: 65–80%
+Level 3: 50–65%
+Level 4: 35–50%
+Level 5: 20–35%
+
+If actual deviates:
+- Adjust global difficulty scaling coefficient.
+- Update probability model weight calibration.
+- Log adjustment event.
+
+====================================================
+PART 5 — FEED INTO PASS PROBABILITY ENGINE
+====================================================
+
+Replace mock_exam_avg input with:
+
+ability_estimate_final
+confidence_interval_width
+stability_index (variance of trajectory)
+
+Higher stability + high ability:
+  increases probability weight.
+
+Low stability:
+  widen confidence band.
+
+====================================================
+PART 6 — ADMIN CALIBRATION DASHBOARD
+====================================================
+
+Create “Adaptive CAT Dashboard” with:
+
+- Ability distribution histogram
+- Difficulty-level accuracy chart
+- Discrimination index scatterplot
+- Stop rule frequency chart
+- Early termination rates
+- Mock realism confidence metric
+
+Add controls:
+- adjust difficulty scaling multipliers
+- adjust stop confidence threshold
+- toggle experimental weighting
+
+====================================================
+PART 7 — ANTI-GAMING
+====================================================
+
+Exclude:
+- Tutor mode attempts
+- Repeated question attempts
+- Sessions < 50 items from ability recalibration
+
+Detect abnormal response times:
+- extremely fast guessing pattern
+- time variance anomalies
+
+Flag suspicious sessions.
+
+====================================================
+PART 8 — DATA STORAGE
+====================================================
+
+Add tables:
+
+user_ability_sessions
+- user_id
+- session_id
+- final_ability
+- confidence_interval
+- stability_index
+- early_stop (bool)
+- timestamp
+
+difficulty_adjustment_log
+- old_scaling
+- new_scaling
+- reason
+- date
+
+====================================================
+PART 9 — DELIVERABLES
+====================================================
+
+- Ability estimation service
+- Adaptive item selector
+- Stop-rule simulation
+- Weekly recalibration cron
+- Admin dashboard visualizations
+- Integration into probability engine
+- Logging + documentation
+
+Constraints:
+- Must not claim official scoring replication.
+- Must use calibrated difficulty.
+- Must maintain blueprint balance.
+- Must not degrade performance.
