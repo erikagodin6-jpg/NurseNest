@@ -1,0 +1,213 @@
+You are a senior SaaS product architect, conversion specialist, and full-stack engineer.
+
+Goal:
+Transform the flashcard system into a high-converting freemium SaaS model that:
+
+- Allows 300 free flashcards per user
+- Requires upgrade after 300 cards
+- Is cheaper than Quizlet+
+- Maximizes upgrade conversion
+- Increases retention
+- Is technically secure and scalable
+
+--------------------------------------------------
+PART 1 — PLAN STRUCTURE
+--------------------------------------------------
+
+Implement two plans:
+
+FREE PLAN
+- 300 total flashcards across all decks
+- Can edit/view/delete existing cards
+- Cannot create card #301
+- Show progress counter (e.g. 247 / 300)
+- Show soft upgrade prompts at:
+    240 cards (80%)
+    275 cards (90%)
+- Hard stop modal at 300
+
+PRO PLAN
+- Unlimited flashcards
+- AI flashcard generation
+- Spaced repetition system
+- Exam-mode testing
+- Export to PDF
+- Priority content indexing
+- No ads (if ads ever exist)
+
+--------------------------------------------------
+PART 2 — PRICING STRATEGY
+--------------------------------------------------
+
+Pricing must be cheaper than Quizlet+.
+
+Implement:
+
+Option A:
+$4.99/month
+
+Option B:
+$39/year (recommended, marked “Best Value”)
+
+Add psychological pricing:
+
+- Show crossed-out comparison:
+   “Quizlet+ $7.99/month”
+- Show:
+   “Nearly 50% cheaper”
+
+Add pricing comparison table.
+
+--------------------------------------------------
+PART 3 — DATABASE + ENFORCEMENT
+--------------------------------------------------
+
+Add to users table:
+- plan_type (free|pro)
+- flashcard_limit (default 300)
+- stripe_customer_id
+- stripe_subscription_id
+- subscription_status
+- plan_expires_at
+
+Server-side enforcement only:
+- On flashcard creation:
+   Count total user cards.
+   If free AND >= 300:
+       return 403 with upgrade message.
+- Do not rely on client.
+
+Deletion must recalculate count dynamically.
+
+--------------------------------------------------
+PART 4 — STRIPE INTEGRATION
+--------------------------------------------------
+
+Implement:
+- Stripe Checkout
+- Webhook listener
+- Subscription status sync
+- Cancel at period end
+- Failed payment handling
+
+Upgrade flow:
+- User clicks upgrade
+- Redirect to Stripe Checkout
+- On success:
+   plan_type = pro
+   flashcard_limit = null
+   subscription_status = active
+
+--------------------------------------------------
+PART 5 — CONVERSION OPTIMIZATION
+--------------------------------------------------
+
+Upgrade page must include:
+
+1. Social proof section:
+   “Built for serious nursing students”
+   “Thousands of cards created weekly”
+
+2. Urgency messaging:
+   “Don’t lose your momentum at 300 cards”
+
+3. Feature comparison:
+   Free vs Pro side-by-side
+
+4. Sticky upgrade button.
+
+5. 30-day money-back guarantee badge.
+
+--------------------------------------------------
+PART 6 — GAMIFICATION SYSTEM
+--------------------------------------------------
+
+Implement:
+
+- Flashcard streak tracking
+- Weekly usage badge
+- “300 Club” badge at free limit
+- Upgrade badge after subscription
+- Progress bar visual
+
+Optional:
+- XP points per card created
+- Milestone rewards (100, 200, 300 cards)
+
+--------------------------------------------------
+PART 7 — RETENTION SYSTEM
+--------------------------------------------------
+
+Implement:
+
+- Email reminder at 80% limit
+- Email reminder at 95% limit
+- Win-back email if subscription cancelled
+- Weekly progress email
+
+--------------------------------------------------
+PART 8 — A/B TESTING
+--------------------------------------------------
+
+Implement pricing A/B test:
+
+Group A:
+$4.99/month
+
+Group B:
+$5.99/month with “Pro Plus” positioning
+
+Track:
+- Conversion rate
+- Revenue per user
+- Retention rate
+
+Random assignment on signup.
+
+--------------------------------------------------
+PART 9 — ANALYTICS
+--------------------------------------------------
+
+Track:
+- Card creation velocity
+- Upgrade conversion %
+- Time to upgrade
+- Cards created before upgrade
+- Drop-off at 300 limit
+
+--------------------------------------------------
+PART 10 — ADMIN CONTROLS
+--------------------------------------------------
+
+Admin can:
+- Change free limit
+- Comp users
+- Override plan
+- Adjust pricing
+- View conversion dashboard
+
+--------------------------------------------------
+PART 11 — SECURITY
+--------------------------------------------------
+
+- Rate limit card creation endpoint
+- Email verification required
+- Prevent multi-account abuse
+- Prevent API bypass of limits
+
+--------------------------------------------------
+DELIVERABLES
+--------------------------------------------------
+
+- DB migration scripts
+- Backend enforcement logic
+- Stripe integration
+- Upgrade UI
+- Gamification components
+- A/B testing logic
+- Analytics dashboard
+- Testing checklist
+
+Do not modify blog generator.
+Do not allow AI calls on public page load.
+All limits must be enforced server-side.
