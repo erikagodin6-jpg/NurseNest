@@ -1475,6 +1475,76 @@ export default function PreNursingPage() {
             )}
           </div>
 
+          <section className="mt-16 pt-10 border-t border-gray-100" data-testid="section-competitor-comparison">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 mb-4">
+                <Target className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-medium text-primary">{t("preNursing.compare.badge")}</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3" data-testid="text-comparison-heading">
+                {t("preNursing.compare.heading")}
+              </h2>
+              <p className="text-sm text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                {t("preNursing.compare.subtitle")}
+              </p>
+            </div>
+
+            <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+              <table className="w-full text-sm" data-testid="table-competitor-comparison">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    <th className="text-left px-4 py-3 font-semibold text-gray-700">{t("preNursing.compare.feature")}</th>
+                    <th className="text-center px-4 py-3 font-semibold text-primary">{t("preNursing.compare.nursenest")}</th>
+                    <th className="text-center px-4 py-3 font-semibold text-gray-500">{t("preNursing.compare.uworld")}</th>
+                    <th className="text-center px-4 py-3 font-semibold text-gray-500">{t("preNursing.compare.archer")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { key: "preNursing.compare.row.freeFoundations", nn: "✅", uw: "❌", ar: "❌" },
+                    { key: "preNursing.compare.row.interactiveAnatomy", nn: "✅", uw: "❌", ar: "❌" },
+                    { key: "preNursing.compare.row.deepPatho", nn: "✅", uw: "✅", ar: t("preNursing.compare.limited") },
+                    { key: "preNursing.compare.row.clinicalSims", nn: "✅", uw: "❌", ar: "❌" },
+                    { key: "preNursing.compare.row.multiLang", nn: "✅", uw: "❌", ar: "❌" },
+                    { key: "preNursing.compare.row.flashcards", nn: "✅", uw: "❌", ar: t("preNursing.compare.limited") },
+                    { key: "preNursing.compare.row.price", nn: t("preNursing.compare.priceNN"), uw: t("preNursing.compare.priceUW"), ar: t("preNursing.compare.priceAR") },
+                  ].map((row, idx) => (
+                    <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+                      <td className="px-4 py-3 text-gray-700 font-medium">{t(row.key)}</td>
+                      <td className="px-4 py-3 text-center">{row.nn}</td>
+                      <td className="px-4 py-3 text-center">{row.uw}</td>
+                      <td className="px-4 py-3 text-center">{row.ar}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <LocaleLink
+                href="/compare/nursenest-vs-uworld"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary/5 border border-primary/15 text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
+                data-testid="link-compare-uworld"
+              >
+                {t("preNursing.compare.linkUworld")} <ChevronRight className="w-3.5 h-3.5" />
+              </LocaleLink>
+              <LocaleLink
+                href="/compare/nursenest-vs-archer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary/5 border border-primary/15 text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
+                data-testid="link-compare-archer"
+              >
+                {t("preNursing.compare.linkArcher")} <ChevronRight className="w-3.5 h-3.5" />
+              </LocaleLink>
+              <LocaleLink
+                href="/compare/uworld-vs-archer-vs-nursenest"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary/5 border border-primary/15 text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
+                data-testid="link-compare-all"
+              >
+                {t("preNursing.compare.linkFullComparison")} <ChevronRight className="w-3.5 h-3.5" />
+              </LocaleLink>
+            </div>
+          </section>
+
           <div className="mt-12 pt-6 border-t border-gray-100" data-testid="section-continue-journey">
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Continue Your Journey</p>
             <div className="flex flex-wrap gap-2">

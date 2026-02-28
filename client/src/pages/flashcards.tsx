@@ -2340,23 +2340,89 @@ export default function Flashcards() {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <Navigation />
-        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight" data-testid="text-flashcard-heading">{t("flashcards.title")}</h1>
-            <p className="text-gray-600" data-testid="text-flashcard-subheading">{t("flashcards.subtitle")}</p>
-            {user?.tier === "admin" && (
+
+        <section className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white overflow-hidden" data-testid="section-flashcards-hero">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
+          <div className="max-w-5xl mx-auto px-4 py-16 sm:py-20 relative z-10">
+            <div className="flex flex-wrap gap-2 justify-center mb-6">
+              {["flashcards.hero.pill1", "flashcards.hero.pill2", "flashcards.hero.pill3"].map((key) => (
+                <span key={key} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-xs font-medium text-white/90 border border-white/10">
+                  <CheckCircle2 className="w-3 h-3" />
+                  {t(key)}
+                </span>
+              ))}
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-center leading-tight mb-4 tracking-tight" data-testid="text-flashcard-heading">
+              {t("flashcards.hero.title")}
+            </h1>
+            <p className="text-center text-white/80 text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" data-testid="text-flashcard-subheading">
+              {t("flashcards.hero.subtitle")}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button
-                variant="outline"
-                size="sm"
-                className="gap-2 text-xs mt-3"
-                onClick={() => setLocation("/content-editor")}
-                data-testid="button-admin-manage-flashcards"
+                size="lg"
+                className="rounded-xl bg-white text-indigo-700 hover:bg-white/90 font-bold shadow-lg px-8 h-12"
+                onClick={() => {
+                  const configEl = document.getElementById("flashcard-config");
+                  configEl?.scrollIntoView({ behavior: "smooth" });
+                }}
+                data-testid="button-hero-start-studying"
               >
-                <Pencil className="w-3 h-3" />
-                {t("flashcards.manageContent")}
+                {t("flashcards.hero.cta")}
               </Button>
+              <LocaleLink href="/pricing">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="rounded-xl border-white/30 text-white hover:bg-white/10 font-medium px-8 h-12"
+                  data-testid="button-hero-see-pricing"
+                >
+                  {t("flashcards.hero.ctaSecondary")}
+                </Button>
+              </LocaleLink>
+            </div>
+            <p className="text-center text-white/50 text-xs mt-4" data-testid="text-hero-free-desc">{t("flashcards.startFreeDesc")}</p>
+            {user?.tier === "admin" && (
+              <div className="flex justify-center mt-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-xs border-white/20 text-white/70 hover:bg-white/10"
+                  onClick={() => setLocation("/content-editor")}
+                  data-testid="button-admin-manage-flashcards"
+                >
+                  <Pencil className="w-3 h-3" />
+                  {t("flashcards.manageContent")}
+                </Button>
+              </div>
             )}
           </div>
+        </section>
+
+        <section className="bg-white border-b border-gray-100 py-8" data-testid="section-flashcards-social-proof">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              <div>
+                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-cards">{allCards.length}+</p>
+                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat1Label")}</p>
+              </div>
+              <div>
+                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-systems">{categories.length}+</p>
+                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat2Label")}</p>
+              </div>
+              <div>
+                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-verified">{t("flashcards.socialProof.stat3Value")}</p>
+                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat3Label")}</p>
+              </div>
+              <div>
+                <p className="text-2xl sm:text-3xl font-black text-indigo-600" data-testid="text-stat-modes">{t("flashcards.socialProof.stat4Value")}</p>
+                <p className="text-xs text-gray-500 font-medium mt-1">{t("flashcards.socialProof.stat4Label")}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1" id="flashcard-config">
 
           {user && !entitlement.isPremium && (
             <div className="mb-8 bg-white rounded-2xl shadow-md p-4 border" data-testid="flashcard-usage-counter">
@@ -2580,10 +2646,16 @@ export default function Flashcards() {
               </Card>
 
               <Card 
-                className="border-none shadow-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group"
+                className="border-none shadow-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-8 rounded-3xl cursor-pointer hover:scale-[1.02] transition-transform group relative overflow-hidden"
                 onClick={() => { setView("decks"); fetchMyDecks(); fetchPublicDecks(); fetchEntitlement(); }}
                 data-testid="card-study-decks"
               >
+                {!isPaid && (
+                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-amber-400/90 text-amber-900 px-2 py-0.5 rounded-full text-[10px] font-bold">
+                    <Lock className="w-2.5 h-2.5" />
+                    {t("flashcards.premiumDeck")}
+                  </div>
+                )}
                 <div className="flex justify-between items-start mb-6">
                   <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center">
                     <Layers className="w-6 h-6 text-white/80" />
@@ -2647,6 +2719,68 @@ export default function Flashcards() {
               </Card>
             </div>
           </div>
+
+          <section className="mt-12 bg-white rounded-3xl shadow-xl p-8 border border-gray-100" data-testid="section-flashcards-compare">
+            <div className="text-center mb-8">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-xs font-semibold text-indigo-600 mb-3">
+                <ShieldAlert className="w-3 h-3" />
+                {t("flashcards.compare.badge")}
+              </span>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-compare-heading">{t("flashcards.compare.heading")}</h2>
+              <p className="text-gray-500 text-sm max-w-xl mx-auto">{t("flashcards.compare.subtitle")}</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm" data-testid="table-compare">
+                <thead>
+                  <tr className="border-b border-gray-100">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-600">{t("flashcards.compare.feature")}</th>
+                    <th className="text-center py-3 px-4 font-bold text-indigo-600">{t("flashcards.compare.nursenest")}</th>
+                    <th className="text-center py-3 px-4 font-medium text-gray-400">{t("flashcards.compare.generic")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { key: "row1", nn: true, other: false },
+                    { key: "row2", nn: true, other: false },
+                    { key: "row3", nn: true, other: false },
+                    { key: "row4", nn: true, other: "limited" },
+                    { key: "row5", nn: true, other: true },
+                    { key: "row6", nn: true, other: false },
+                    { key: "row7", nn: true, other: true },
+                  ].map((row) => (
+                    <tr key={row.key} className="border-b border-gray-50 hover:bg-gray-50/50">
+                      <td className="py-3 px-4 text-gray-700 font-medium">{t(`flashcards.compare.${row.key}`)}</td>
+                      <td className="py-3 px-4 text-center">
+                        <span className="text-emerald-500 font-bold text-lg">{t("flashcards.compare.yes")}</span>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {row.other === true ? (
+                          <span className="text-emerald-500 font-bold text-lg">{t("flashcards.compare.yes")}</span>
+                        ) : row.other === "limited" ? (
+                          <span className="text-amber-500 text-xs font-medium">{t("flashcards.compare.limited")}</span>
+                        ) : (
+                          <span className="text-red-400 font-bold text-lg">{t("flashcards.compare.no")}</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          {!isPaid && (
+            <section className="mt-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-8 text-white text-center shadow-xl" data-testid="section-flashcards-upgrade-cta">
+              <Crown className="w-10 h-10 mx-auto mb-4 text-amber-300" />
+              <h2 className="text-2xl font-bold mb-2" data-testid="text-upgrade-title">{t("flashcards.upgradeCta.title")}</h2>
+              <p className="text-white/80 text-sm max-w-lg mx-auto mb-6">{t("flashcards.upgradeCta.subtitle")}</p>
+              <LocaleLink href="/pricing">
+                <Button size="lg" className="rounded-xl bg-white text-indigo-700 hover:bg-white/90 font-bold shadow-lg px-8 h-12" data-testid="button-bottom-upgrade">
+                  {t("flashcards.upgradeCta.button")}
+                </Button>
+              </LocaleLink>
+            </section>
+          )}
 
           <div className="mt-8 pt-6 border-t border-gray-100" data-testid="section-more-study">
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">More Ways to Study</p>

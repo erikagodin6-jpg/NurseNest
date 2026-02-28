@@ -1,0 +1,194 @@
+You are a senior SaaS growth strategist, CRO expert, and SEO authority builder.
+
+Restructure and optimize the entire NurseNest website to position it as:
+
+1) The Canadian REx-PN Authority (Primary)
+2) The Tier-Specific Clinical Reasoning Platform (Secondary)
+3) The Affordable Alternative to UWorld (Tertiary)
+
+Preserve brand aesthetic.
+Do not remove SEO content.
+Enhance clarity, authority, and conversion.
+
+==================================================
+PHASE 1 — CORE POSITIONING SHIFT
+==================================================
+
+Rewrite homepage hero:
+
+Headline:
+Canada’s Tier-Specific Nursing Question Bank for REx-PN, NCLEX & NP Success
+
+Subheadline:
+Deep rationales. Real clinical reasoning. Designed separately for RPN, RN & NP students.
+
+Primary CTA:
+Start Free REx-PN Practice
+
+Secondary CTA:
+Explore All Tiers
+
+Add trust line:
+Built for Canadian nursing students. Aligned to REx-PN standards.
+
+==================================================
+PHASE 2 — REx-PN DOMINATION HUB
+==================================================
+
+Create a flagship pillar page:
+
+URL:
+ /rex-pn-question-bank-canada
+
+Title:
+Best REx-PN Question Bank in Canada (2026 Guide)
+
+Include:
+- How REx-PN differs from NCLEX
+- Why generic question banks fall short
+- Comparison vs UWorld & Archer
+- Sample REx-style questions
+- Internal links to flashcards and lessons
+- FAQ schema
+
+This becomes the authority anchor page.
+
+==================================================
+PHASE 3 — TIER DIFFERENTIATION
+==================================================
+
+Create a visible Tier Selector block on homepage:
+
+RPN
+Focus: Stable clients, safety, medication basics.
+
+RN
+Focus: Prioritization, unstable patients, lab interpretation.
+
+NP
+Focus: Differential diagnosis, prescribing, red flags.
+
+Each tier must:
+- Have a dedicated landing page
+- Have messaging tailored to scope of practice
+- Have distinct question bank sections
+
+==================================================
+PHASE 4 — COMPETITOR CAPTURE
+==================================================
+
+Create comparison pages:
+
+1) NurseNest vs UWorld
+2) NurseNest vs Archer
+3) Best UWorld Alternatives
+4) Archer vs UWorld vs NurseNest
+
+Each must:
+- Include comparison tables
+- Use brand names naturally
+- Highlight Canadian alignment
+- Emphasize affordability
+- Include strong CTA blocks
+
+Internal link from:
+- Homepage
+- Pricing
+- Pre-Nursing
+- REx hub
+
+==================================================
+PHASE 5 — CONVERSION ENGINE
+==================================================
+
+Implement:
+
+1) Free usage progress bar
+2) Locked premium decks visible
+3) Soft CTA at 70%
+4) Hard upgrade trigger at 100%
+5) Exam countdown module
+6) Bottom-of-lesson practice CTA
+
+Replace weak CTAs with:
+Unlock Full Question Bank
+Start Passing Faster
+Practice Without Limits
+
+==================================================
+PHASE 6 — AUTHORITY CONTENT STRATEGY
+==================================================
+
+Build clusters:
+
+Electrolytes
+Shock
+Cardiac Emergencies
+Respiratory Failure
+Endocrine
+Pharmacology
+
+Each cluster:
+- Pillar page 2000+ words
+- 5–8 support articles
+- Flashcard link
+- Question link
+- REx angle included
+
+==================================================
+PHASE 7 — NP PREMIUM POSITIONING
+==================================================
+
+Create NP landing page:
+
+Headline:
+Advanced Clinical Reasoning for NP Certification Success
+
+Highlight:
+- Diagnostic decision-making
+- Prescribing algorithms
+- Case-based exams
+
+Position NP tier as premium product.
+
+==================================================
+PHASE 8 — RETENTION ENGINE
+==================================================
+
+Add:
+
+- Study streak tracker
+- Topic mastery heatmap
+- Weekly performance summary email
+- Continue where you left off
+- “Recommended next topic”
+
+==================================================
+PHASE 9 — ANALYTICS + TESTING
+==================================================
+
+Track:
+- CTA clicks
+- Upgrade triggers
+- Pricing page scroll
+- Comparison page engagement
+- Tier-specific conversion rate
+
+Create A/B tests for:
+- Hero headline
+- CTA wording
+- Free limit visibility
+- Comparison prominence
+
+==================================================
+DELIVERABLES
+==================================================
+
+1) Updated homepage copy
+2) REx hub page structure
+3) Tier landing page outlines
+4) Comparison page structure
+5) Internal linking map
+6) 90-day SEO content roadmap
+7) 30-day conversion sprint plan
+8) Revenue growth hypothesis summary
