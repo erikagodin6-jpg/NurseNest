@@ -1682,18 +1682,53 @@ export default function LessonDetail() {
     }
     if (language === "en") {
       setLessonTranslations({});
+      setTranslating(false);
       return;
     }
-    fetch(`/api/lesson-translations/${encodeURIComponent(id)}?lang=${encodeURIComponent(language)}`)
-      .then((r) => r.json())
-      .then((data) => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/lesson-translations/${encodeURIComponent(id)}?lang=${encodeURIComponent(language)}`);
+        const data = await res.json();
+        if (cancelled) return;
         if (data && data.translations && Object.keys(data.translations).length > 0) {
           setLessonTranslations(data.translations);
+          setTranslating(false);
+          return;
+        }
+        setTranslating(true);
+        const fields: Record<string, any> = {};
+        if (baseLesson.title) fields.title = baseLesson.title;
+        if ((baseLesson as any).cellular?.content) fields.overview = (baseLesson as any).cellular.content;
+        if (baseLesson.riskFactors?.length) fields.riskFactors = baseLesson.riskFactors;
+        if (baseLesson.diagnostics?.length) fields.diagnostics = baseLesson.diagnostics;
+        if (baseLesson.management?.length) fields.management = baseLesson.management;
+        if (baseLesson.nursingActions?.length) fields.nursingActions = baseLesson.nursingActions;
+        if (baseLesson.assessmentFindings?.length) fields.assessmentFindings = baseLesson.assessmentFindings;
+        if (baseLesson.pearls?.length) fields.clinicalPearls = baseLesson.pearls;
+        if (baseLesson.medications?.length) fields.medications = baseLesson.medications;
+        if ((baseLesson as any).lifespan?.content) fields.lifespan = (baseLesson as any).lifespan.content;
+        if (baseLesson.signs) fields.signs = baseLesson.signs;
+        if (baseLesson.quiz?.length) fields.quiz = baseLesson.quiz;
+        const genRes = await fetch(`/api/lesson-translations/${encodeURIComponent(id)}/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lang: language, fields }),
+        });
+        const genData = await genRes.json();
+        if (cancelled) return;
+        if (genData && genData.translations && Object.keys(genData.translations).length > 0) {
+          setLessonTranslations(genData.translations);
         } else {
           setLessonTranslations({});
         }
-      })
-      .catch(() => setLessonTranslations({}));
+      } catch {
+        if (!cancelled) setLessonTranslations({});
+      } finally {
+        if (!cancelled) setTranslating(false);
+      }
+    })();
+    return () => { cancelled = true; };
   }, [id, language, baseLesson]);
 
   const fetchDbLesson = useCallback((slug: string) => {
