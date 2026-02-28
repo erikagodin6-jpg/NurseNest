@@ -1,0 +1,95 @@
+Implement official-length/timing defaults for ALL exams + category coverage quotas + optional NurseNest “minimum competency per category” gating (coaching standard, not official scoring).
+
+1) EXAM BLUEPRINT DEFAULTS (seed)
+
+NCLEX-RN and NCLEX-PN:
+- is_cat=true
+- min_items=85
+- max_items=150
+- time_limit_minutes=300
+- required_case_study_sets=3
+- case_items_per_set=6 (18 total)
+- pretest_items=15 (unscored, hidden)
+
+REx-PN:
+- is_cat=true
+- min_items=90
+- max_items=150
+- time_limit_minutes=240
+- breaks_optional=true (timer never pauses)
+- include intro + breaks in time limit
+- include pretest/unscored items per official guidance (hidden)
+
+CNPLE (Canadian NP Licensure Exam):
+- is_cat=false (fixed length)
+- total_items=180–185 (configurable; default 185)
+- scored_items=160–165 (configurable; default 165)
+- unscored_items=20–25 (configurable; default 20)
+- time_limit_minutes=240 (configurable; if jurisdiction varies, allow admin to change)
+- question_presentation_mix:
+  - case_based=30–35%
+  - independent=65–70%
+- domain_weights (seed from blueprint):
+  Domain I Clinician 60–80%
+    Assessment 25–35%
+    Diagnosis 8–12%
+    Management 20–30%
+    Counselling 5–10%
+    Transitions/Discharge/Documentation 5–10%
+  Domain II QI/Research 5–10%
+  Domain III Leader 5–10%
+  Domain IV Educator 3–7%
+  Domain V Advocate 7–12%
+
+AANP FNP:
+- is_cat=false
+- total_items=150
+- scored_items=135
+- unscored_items=15
+- time_limit_minutes=180
+
+ANCC FNP-BC:
+- is_cat=false
+- total_items=175
+- scored_items=150
+- unscored_items=25
+- time_limit_minutes=210
+
+2) CATEGORY COVERAGE QUOTAS (must enforce)
+For each blueprint category/subcategory store:
+- weight_min_percent
+- weight_max_percent
+- min_sample_before_classification (e.g., 10–12)
+
+During exam assembly:
+- required_min = floor(weight_min * total_items)
+- required_max = ceil(weight_max * total_items)
+Ensure delivered exam stays within min/max count for each category (both fixed exams and CAT exams, adapting to final length).
+
+3) “MINIMUM CORRECT PER CATEGORY” REQUIREMENT (NurseNest coaching rule, optional)
+Add blueprint setting: nurseNest_category_minimums_enabled=true/false
+
+If enabled:
+- For any category with sampled_items >= min_sample_before_classification:
+   require accuracy >= category_min_accuracy (e.g., 60%)
+- If user fails any “critical categories” minimums, cap result at:
+   readiness_band = "Borderline" (or "Not Ready" if very low)
+- UI disclaimer:
+   “Category minimums are a NurseNest coaching standard and not the official exam scoring rule.”
+
+4) RESULTS OUTPUT (must show both)
+- Official-style simulation result:
+   - CAT/fixed scoring outcome + pass-likelihood band
+- NurseNest readiness gate result:
+   - category minimum compliance summary + required next steps
+
+5) ADMIN UI
+- Exam Blueprint editor (min/max items, time, pretest counts, required case sets, category weights)
+- Coverage report: tier × category × question_type counts, flags gaps
+- Validation: block publishing if any activity rationale below minimum word count (configurable per question type)
+
+Deliver with migrations, seeds, tests for:
+- quota enforcement
+- category minimum gating
+- timing and length rules
+- pretest item hiding
