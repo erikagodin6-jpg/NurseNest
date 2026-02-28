@@ -1,0 +1,485 @@
+Perfect — then implement them as three atomic modules you can wire into your existing panels without refactoring the whole editor:
+
+Listing Media Pack Builder (cover/thumb/IG/mockups/grid)
+
+Canvas → QBank + Flashcards Generator (deterministic extraction → AI → bundle)
+
+Pre-Publish Quality Gate (brand + overflow + missing metadata + optional clinical check)
+
+Below is an implementation blueprint you can paste into your codebase in the same “helpers” area you’ve been working in, plus exactly where to hook UI.
+
+0) Minimal shared types (add near your canvas models)
+type CanvasPage = {
+  id: string;
+  width: number;
+  height: number;
+  elements: CanvasElement[];
+};
+
+type CanvasElement =
+  | { id: string; type: "text"; x: number; y: number; w: number; h: number; text: string; fontFamily: string; fontSize: number; fontWeight?: number; color?: string; align?: "left"|"center"|"right"; tag?: string; locked?: boolean; }
+  | { id: string; type: "image"; x: number; y: number; w: number; h: number; src: string; tag?: string; locked?: boolean; }
+  | { id: string; type: "shape"; x: number; y: number; w: number; h: number; fill?: string; stroke?: string; radius?: number; tag?: string; locked?: boolean; };
+
+type BrandKit = {
+  fonts: { heading: string; body: string; mono?: string };
+  colors: { primary: string; secondary: string; accent: string; text: string; mutedText: string; bg: string; surface: string };
+  logo?: { src: string; placement: "top-left"|"top-right"|"bottom-left"|"bottom-right"; size: number; padding: number };
+  margins: { top: number; right: number; bottom: number; left: number };
+  allowOffBrand?: boolean; // design time only
+};
+
+type MediaAsset = { name: string; mime: "image/png"|"image/jpeg"; blob: Blob; width: number; height: number };
+type MediaPack = { assets: MediaAsset[] };
+1) Listing Media Pack Builder (one click → all images)
+A) Core rendering helper
+
+You likely already have some version of this. The important part: render a page to an offscreen canvas at arbitrary size with either “contain” or “cover” crop.
+
+async function renderPageToCanvas(
+  page: CanvasPage,
+  opts: { outW: number; outH: number; mode: "contain"|"cover"; background?: string },
+  drawPage: (ctx: CanvasRenderingContext2D, scale: number, offsetX: number, offsetY: number) => Promise<void>
+): Promise<HTMLCanvasElement> {
+  const c = document.createElement("canvas");
+  c.width = opts.outW;
+  c.height = opts.outH;
+  const ctx = c.getContext("2d")!;
+
+  // background
+  ctx.fillStyle = opts.background ?? "#ffffff";
+  ctx.fillRect(0, 0, c.width, c.height);
+
+  const sx = opts.outW / page.width;
+  const sy = opts.outH / page.height;
+  const scale = opts.mode === "contain" ? Math.min(sx, sy) : Math.max(sx, sy);
+
+  const drawW = page.width * scale;
+  const drawH = page.height * scale;
+  const offsetX = Math.round((opts.outW - drawW) / 2);
+  const offsetY = Math.round((opts.outH - drawH) / 2);
+
+  await drawPage(ctx, scale, offsetX, offsetY);
+  return c;
+}
+
+async function canvasToAsset(canvas: HTMLCanvasElement, name: string, mime: MediaAsset["mime"] = "image/png"): Promise<MediaAsset> {
+  const blob: Blob = await new Promise((resolve) => canvas.toBlob((b) => resolve(b!), mime, 0.92));
+  return { name, mime, blob, width: canvas.width, height: canvas.height };
+}
+B) Grid collage builder (preview 6 pages in one image)
+async function buildPreviewGrid(
+  pages: CanvasPage[],
+  opts: { outW: number; outH: number; cols: number; rows: number; gap: number; pad: number; bg?: string },
+  renderThumb: (page: CanvasPage, w: number, h: number) => Promise<HTMLCanvasElement>
+): Promise<HTMLCanvasElement> {
+  const c = document.createElement("canvas");
+  c.width = opts.outW; c.height = opts.outH;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = opts.bg ?? "#ffffff";
+  ctx.fillRect(0, 0, c.width, c.height);
+
+  const cellW = Math.floor((opts.outW - opts.pad*2 - opts.gap*(opts.cols-1)) / opts.cols);
+  const cellH = Math.floor((opts.outH - opts.pad*2 - opts.gap*(opts.rows-1)) / opts.rows);
+
+  const max = opts.cols * opts.rows;
+  const slice = pages.slice(0, max);
+
+  for (let i = 0; i < slice.length; i++) {
+    const col = i % opts.cols;
+    const row = Math.floor(i / opts.cols);
+    const x = opts.pad + col*(cellW + opts.gap);
+    const y = opts.pad + row*(cellH + opts.gap);
+
+    const thumb = await renderThumb(slice[i], cellW, cellH);
+    ctx.drawImage(thumb, x, y, cellW, cellH);
+  }
+  return c;
+}
+C) The one-button pack generator
+
+This is what your “Store-Ready Pipeline” will call.
+
+async function generateListingMediaPack(
+  pages: CanvasPage[],
+  opts: {
+    coverPageIndex?: number;
+    drawPage: (ctx: CanvasRenderingContext2D, page: CanvasPage, scale: number, ox: number, oy: number) => Promise<void>;
+    brandBg?: string;
+  }
+): Promise<MediaPack> {
+  const coverIdx = opts.coverPageIndex ?? 0;
+  const cover = pages[coverIdx] ?? pages[0];
+
+  const assets: MediaAsset[] = [];
+
+  // Etsy/Shopify style squares
+  {
+    const sq = await renderPageToCanvas(
+      cover, { outW: 2000, outH: 2000, mode: "cover", background: opts.brandBg },
+      (ctx, scale, ox, oy) => opts.drawPage(ctx, cover, scale, ox, oy)
+    );
+    assets.push(await canvasToAsset(sq, "cover-square-2000.png"));
+  }
+
+  // Social share
+  {
+    const og = await renderPageToCanvas(
+      cover, { outW: 1200, outH: 630, mode: "cover", background: opts.brandBg },
+      (ctx, scale, ox, oy) => opts.drawPage(ctx, cover, scale, ox, oy)
+    );
+    assets.push(await canvasToAsset(og, "og-1200x630.png"));
+  }
+
+  // IG carousel vertical
+  {
+    const ig = await renderPageToCanvas(
+      cover, { outW: 1080, outH: 1350, mode: "cover", background: opts.brandBg },
+      (ctx, scale, ox, oy) => opts.drawPage(ctx, cover, scale, ox, oy)
+    );
+    assets.push(await canvasToAsset(ig, "ig-1080x1350.png"));
+  }
+
+  // Preview grid of first 6 pages
+  {
+    const grid = await buildPreviewGrid(
+      pages, { outW: 2000, outH: 2000, cols: 3, rows: 2, gap: 24, pad: 32, bg: opts.brandBg },
+      async (p, w, h) =>
+        renderPageToCanvas(p, { outW: w, outH: h, mode: "contain", background: opts.brandBg },
+          (ctx, scale, ox, oy) => opts.drawPage(ctx, p, scale, ox, oy))
+    );
+    assets.push(await canvasToAsset(grid, "preview-grid-6up-2000.png"));
+  }
+
+  // (Optional) mockups if you already have frames
+  // assets.push(... await generateMockupsFromCover(cover))
+
+  return { assets };
+}
+
+Where to wire it
+
+Store-Ready button should call generateListingMediaPack() and then:
+
+save assets to your storage (S3/R2) OR
+
+zip them client-side and download OR
+
+attach to product draft record
+
+2) Canvas → QBank + Flashcards Generator (deterministic → AI → bundle)
+A) Deterministic extraction (no prompt guessing)
+
+Extract only “content” elements; ignore logos/footers via tags.
+
+function extractStudyTextFromCanvas(pages: CanvasPage[]): string {
+  const lines: string[] = [];
+
+  for (const [pi, page] of pages.entries()) {
+    const texts = page.elements
+      .filter(e => e.type === "text")
+      .filter(e => !["logo","footer","page-number","watermark"].includes((e as any).tag ?? ""))
+      .map(e => e as Extract<CanvasElement, {type:"text"}>)
+      .sort((a,b) => (a.y - b.y) || (a.x - b.x));
+
+    if (!texts.length) continue;
+
+    lines.push(`PAGE ${pi+1}`);
+    for (const t of texts) {
+      const clean = (t.text ?? "").trim();
+      if (clean) lines.push(clean);
+    }
+    lines.push(""); // spacer
+  }
+
+  return lines.join("\n");
+}
+B) AI request → strict JSON output
+
+Make the model return exact JSON so your importer is stable.
+
+Prompt shape (server-side is best):
+
+input: extracted text
+
+output: { flashcards: [...], questions: [...] }
+
+type Flashcard = { front: string; back: string; tags?: string[]; difficulty?: "easy"|"medium"|"hard" };
+type QItem = { stem: string; options: string[]; answerIndex: number; rationale: string; tags?: string[]; difficulty?: "easy"|"medium"|"hard" };
+
+type StudyBundle = { flashcards: Flashcard[]; questions: QItem[] };
+
+async function generateStudyBundleFromCanvasText(params: {
+  text: string;
+  countFlashcards: number;
+  countQuestions: number;
+  examTarget: "REX-PN"|"NCLEX-PN"|"NCLEX-RN"|"NP";
+  locale: "CA"|"US"|"Mixed";
+}): Promise<StudyBundle> {
+  // call your existing AI endpoint /server route
+  // IMPORTANT: enforce JSON schema and validate server-side
+  const res = await fetch("/api/ai/study-bundle-from-text", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+  if (!res.ok) throw new Error("AI bundle generation failed");
+  return await res.json();
+}
+C) Import bundle into your app
+
+Flashcards: append to deck, respecting limits (free vs paid)
+
+Questions: create/update an “Exam Pack” linked to the product
+
+You likely already have deck + exam APIs; this is the glue:
+
+async function applyStudyBundle(bundle: StudyBundle, opts: { deckId: string; examId: string }) {
+  await fetch(`/api/decks/${opts.deckId}/flashcards/bulk`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ flashcards: bundle.flashcards }),
+  });
+
+  await fetch(`/api/exams/${opts.examId}/questions/bulk`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ questions: bundle.questions }),
+  });
+}
+
+Where to wire it
+
+Add a button in Brand Kit panel: “Generate QBank + Flashcards from Canvas”
+
+On click:
+
+text = extractStudyTextFromCanvas(pages)
+
+bundle = await generateStudyBundleFromCanvasText(...)
+
+await applyStudyBundle(bundle, {deckId, examId})
+
+toast success + show counts
+
+3) Pre-Publish Quality Gate (block publish until clean)
+A) Checks you should enforce
+
+Hard fail (block publish):
+
+Overflow exists (text or AI blocks)
+
+Missing required metadata (title, exam target, page count, level, locale)
+
+Missing logo/footer if brand enforcement is on
+
+Export pipeline not run (optional if you need store-ready assets)
+
+Soft fail (warn, allow override):
+
+Off-brand colors/fonts (if allowOffBrand is true)
+
+Low contrast warnings
+
+Possible medical inaccuracies (AI “review” pass)
+
+B) Overflow scan (fast)
+
+If you already have overflow detection for your existing “Overflow” button, reuse it. Otherwise:
+
+type GateIssue = { severity: "error"|"warn"; code: string; message: string; pageId?: string; elementId?: string };
+
+function scanOverflow(pages: CanvasPage[], measureText: (t: Extract<CanvasElement,{type:"text"}>) => { overflow: boolean }): GateIssue[] {
+  const issues: GateIssue[] = [];
+  for (const page of pages) {
+    for (const el of page.elements) {
+      if (el.type !== "text") continue;
+      if (["footer","page-number","logo"].includes(el.tag ?? "")) continue;
+
+      const r = measureText(el);
+      if (r.overflow) {
+        issues.push({
+          severity: "error",
+          code: "OVERFLOW_TEXT",
+          message: "Text overflows its box. Autofit, expand, or paginate before publishing.",
+          pageId: page.id,
+          elementId: el.id
+        });
+      }
+    }
+  }
+  return issues;
+}
+C) Brand enforcement scan
+function scanBrandCompliance(pages: CanvasPage[], brand: BrandKit): GateIssue[] {
+  const issues: GateIssue[] = [];
+
+  const allowedFonts = new Set([brand.fonts.heading, brand.fonts.body, brand.fonts.mono].filter(Boolean) as string[]);
+  const allowedColors = new Set(Object.values(brand.colors));
+
+  for (const page of pages) {
+    for (const el of page.elements) {
+      if (el.type === "text") {
+        if (!allowedFonts.has(el.fontFamily)) {
+          issues.push({ severity: "warn", code: "FONT_OFF_BRAND", message: "Non-brand font detected.", pageId: page.id, elementId: el.id });
+        }
+        if (el.color && !allowedColors.has(el.color)) {
+          issues.push({ severity: "warn", code: "COLOR_OFF_BRAND", message: "Non-brand text color detected.", pageId: page.id, elementId: el.id });
+        }
+      }
+      if (el.type === "shape") {
+        if (el.fill && !allowedColors.has(el.fill)) {
+          issues.push({ severity: "warn", code: "COLOR_OFF_BRAND", message: "Non-brand shape color detected.", pageId: page.id, elementId: el.id });
+        }
+      }
+    }
+  }
+
+  // Required logo/footer if strict:
+  if (!brand.allowOffBrand) {
+    const hasLogo = pages.some(p => p.elements.some(e => e.tag === "logo"));
+    if (!hasLogo) issues.push({ severity: "error", code: "MISSING_LOGO", message: "Logo is required in strict brand mode." });
+
+    const hasFooter = pages.some(p => p.elements.some(e => e.tag === "footer"));
+    if (!hasFooter) issues.push({ severity: "error", code: "MISSING_FOOTER", message: "Footer is required in strict brand mode." });
+  }
+
+  return issues;
+}
+D) Gate runner (single entry point)
+async function runPrePublishGate(params: {
+  pages: CanvasPage[];
+  brand: BrandKit;
+  metadata: { title?: string; examTarget?: string; locale?: string; level?: string; };
+  measureText: (t: Extract<CanvasElement,{type:"text"}>) => { overflow: boolean };
+  requireStoreReadyAssets?: boolean;
+  hasStoreReadyAssets?: boolean;
+  clinicalReview?: boolean;
+}): Promise<{ ok: boolean; issues: GateIssue[] }> {
+  const issues: GateIssue[] = [];
+
+  // metadata
+  if (!params.metadata.title) issues.push({ severity: "error", code: "MISSING_TITLE", message: "Title is required." });
+  if (!params.metadata.examTarget) issues.push({ severity: "error", code: "MISSING_EXAM", message: "Exam target is required." });
+  if (!params.metadata.locale) issues.push({ severity: "error", code: "MISSING_LOCALE", message: "Locale is required." });
+  if (!params.metadata.level) issues.push({ severity: "error", code: "MISSING_LEVEL", message: "Level is required." });
+
+  // overflow
+  issues.push(...scanOverflow(params.pages, params.measureText));
+
+  // brand
+  issues.push(...scanBrandCompliance(params.pages, params.brand));
+
+  // store assets requirement
+  if (params.requireStoreReadyAssets && !params.hasStoreReadyAssets) {
+    issues.push({ severity: "error", code: "MISSING_MEDIA_PACK", message: "Store-ready media pack has not been generated." });
+  }
+
+  // optional clinical review (soft -> warn or hard -> error depending on your preference)
+  if (params.clinicalReview) {
+    const text = extractStudyTextFromCanvas(params.pages);
+    const res = await fetch("/api/ai/clinical-review", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, examTarget: params.metadata.examTarget, locale: params.metadata.locale }),
+    });
+    if (res.ok) {
+      const out = await res.json() as { flags: { severity:"warn"|"error"; message:string }[] };
+      for (const f of out.flags ?? []) {
+        issues.push({ severity: f.severity, code: "CLINICAL_FLAG", message: f.message });
+      }
+    } else {
+      issues.push({ severity: "warn", code: "CLINICAL_REVIEW_FAILED", message: "Clinical review could not run. You can retry or publish without it." });
+    }
+  }
+
+  const ok = !issues.some(i => i.severity === "error");
+  return { ok, issues };
+}
+
+Where to wire it
+
+In your Publish modal:
+
+Before enabling “Publish”, call runPrePublishGate().
+
+If ok=false, show an issues list with “Jump to” actions.
+
+4) The “Store-Ready Pipeline” button (orchestrator)
+
+This should do exactly what you want: one button → clean → paginate → autofit → generate assets → pass gate.
+
+async function runStoreReadyPipeline(params: {
+  pages: CanvasPage[];
+  brand: BrandKit;
+  // your existing helpers:
+  applyAutofitToPage: (pageId?: string) => Promise<void>;
+  fixOverflowWithPagination: () => Promise<void>; // your new multi-page AI pagination + continuation logic
+  enforceBrandOnExport: () => Promise<void>; // normalize fonts/colors/logo/footer
+  generateMediaPack: () => Promise<MediaPack>;
+  saveMediaPack: (pack: MediaPack) => Promise<void>;
+  gate: () => Promise<{ ok: boolean; issues: GateIssue[] }>;
+}): Promise<{ ok: boolean; issues?: GateIssue[] }> {
+  // 1) Autofit everything
+  await params.applyAutofitToPage(undefined);
+
+  // 2) Multi-page pagination/fix overflow
+  await params.fixOverflowWithPagination();
+
+  // 3) Enforce brand at export time (even if allowOffBrand during design)
+  await params.enforceBrandOnExport();
+
+  // 4) Generate + persist listing assets
+  const pack = await params.generateMediaPack();
+  await params.saveMediaPack(pack);
+
+  // 5) Gate check
+  const g = await params.gate();
+  return g.ok ? { ok: true } : { ok: false, issues: g.issues };
+}
+5) UI wiring (exact placement)
+AI Results Panel
+
+Next to Insert into Canvas add:
+
+Insert Multi-Page (you already planned this)
+
+Brand Kit Panel
+
+Add a “Store-Ready” section with 3 buttons:
+
+Run Store-Ready Pipeline
+
+Generate Listing Media Pack
+
+Pre-Publish Check (shows issues list; also used automatically in Publish)
+
+Add a “Study Bundle” section:
+
+Generate QBank + Flashcards from Canvas
+
+with inputs: # flashcards, # questions, exam target, locale
+
+6) Update replit.md (so future you doesn’t forget)
+
+Include:
+
+What each new button does
+
+Where the logic lives (helpers file paths)
+
+The JSON contract for /api/ai/study-bundle-from-text and /api/ai/clinical-review
+
+Tag conventions: logo, footer, page-number, watermark, content
+
+If you want to move fast, implement in this order (zero backtracking):
+
+generateListingMediaPack() + UI “Generate Media Pack”
+
+extractStudyTextFromCanvas() + server endpoint + UI “Generate QBank + Flashcards”
+
+runPrePublishGate() + Publish modal blocking + issues “Jump to”
+
+Wrap all three under runStoreReadyPipeline() button
+
+If you paste your drawPage() function signature (or the file where you render elements), I’ll adapt the media pack generator to match your exact render pipeline (images, shapes, shadows, rounded rects, etc.) so it’s drop-in.
