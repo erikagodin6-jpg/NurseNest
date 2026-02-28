@@ -1,0 +1,203 @@
+Yep — there are two real bugs/gaps in what you pasted:
+
+applyThemeToAllPages is currently a no-op (it maps oldTheme → oldTheme), so other pages never change.
+
+pageThumbs exists but nothing ever populates it, and switching pages doesn’t refresh thumbs.
+
+Below are surgical patches you can drop into your exact file to fix both.
+
+1) Fix applyThemeToAllPages no-op (and make it correct after a theme switch)
+Add this ref near your other refs/state (inside CanvasEditorView)
+
+Put it near autoSaveTimer:
+
+const lastThemeIdRef = useRef(activeThemeId);
+Update switchTheme to remember the previous theme
+
+Replace your current switchTheme with this:
+
+const switchTheme = (newThemeId: string) => {
+  const oldTheme = getTheme(activeThemeId);
+  const newTheme = getTheme(newThemeId);
+  if (oldTheme.id === newTheme.id) return;
+
+  // remember what we are converting FROM
+  lastThemeIdRef.current = oldTheme.id;
+
+  pushUndo();
+  setObjects(prev => applyThemeToObjects(prev, oldTheme, newTheme));
+  setActiveThemeId(newThemeId);
+
+  toast({ title: `Theme: ${newTheme.name}`, description: "Colors and fonts updated" });
+};
+Fix applyThemeToAllPages
+
+Replace your whole applyThemeToAllPages with this:
+
+const applyThemeToAllPages = async () => {
+  // We convert from the last theme to the current active theme.
+  const fromTheme = getTheme(lastThemeIdRef.current || activeThemeId);
+  const toTheme = getTheme(activeThemeId);
+
+  await saveCanvas();
+
+  let updatedCount = 0;
+
+  for (let i = 0; i < pages.length; i++) {
+    // build the correct source objects for each page
+    const isCurrent = i === currentPageIndex;
+    const pageObjects: CanvasObject[] = isCurrent
+      ? objects
+      : (pages[i]?.canvasJson?.objects || []);
+
+    if (!pageObjects || pageObjects.length === 0) continue;
+
+    const themed = applyThemeToObjects(pageObjects, fromTheme, toTheme);
+
+    try {
+      await adminFetch(`/api/admin/design-pages/${pages[i].id}`, {
+        method: "PUT",
+        body: {
+          canvasJson: { objects: themed, version: "1.0" },
+          backgroundColor: pages[i].backgroundColor,
+        },
+      });
+
+      // update local pages cache
+      setPages(prev => {
+        const next = [...prev];
+        next[i] = { ...next[i], canvasJson: { objects: themed, version: "1.0" } };
+        return next;
+      });
+
+      // if current page, also update live canvas
+      if (isCurrent) setObjects(themed);
+
+      updatedCount++;
+    } catch {
+      // ignore per-page failures
+    }
+  }
+
+  toast({ title: "Theme applied to all pages", description: `${updatedCount} page(s) updated` });
+};
+
+Why this works:
+
+switchTheme() converts the current page and records the “from theme”.
+
+applyThemeToAllPages() applies the same conversion (fromTheme → toTheme) to every other page’s stored JSON.
+
+2) Generate thumbnails (initial load + on page switch + on edits)
+
+Right now pageThumbs exists but nothing sets it. Let’s fix that.
+
+Add a thumbnail helper right after renderPageToCanvas
+
+Drop this below renderPageToCanvas:
+
+const makeThumb = (pageObjects: CanvasObject[], bgColor: string, maxW = 160, maxH = 210) => {
+  try {
+    const src = renderPageToCanvas(pageObjects, bgColor);
+    const thumb = document.createElement("canvas");
+
+    // draw at 1x for UI speed; renderPageToCanvas already does 2x internally
+    const scale = Math.min(maxW / CANVAS_WIDTH, maxH / CANVAS_HEIGHT);
+    thumb.width = Math.max(1, Math.round(CANVAS_WIDTH * scale));
+    thumb.height = Math.max(1, Math.round(CANVAS_HEIGHT * scale));
+
+    const ctx = thumb.getContext("2d");
+    if (!ctx) return "";
+
+    ctx.fillStyle = bgColor || "#ffffff";
+    ctx.fillRect(0, 0, thumb.width, thumb.height);
+    ctx.drawImage(src, 0, 0, thumb.width, thumb.height);
+
+    return thumb.toDataURL("image/png");
+  } catch {
+    return "";
+  }
+};
+Create thumbs for all pages when pages first load
+
+Add this useEffect anywhere after pages state exists:
+
+useEffect(() => {
+  if (!pages.length) return;
+
+  // Generate thumbs from stored canvasJson (fast path)
+  setPageThumbs(prev => {
+    const next = { ...prev };
+    for (const p of pages) {
+      if (next[p.id]) continue;
+      const objs: CanvasObject[] = p.canvasJson?.objects || [];
+      const bg = p.backgroundColor || "#ffffff";
+      const url = makeThumb(objs, bg);
+      if (url) next[p.id] = url;
+    }
+    return next;
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [pages.length]);
+Update the current page thumbnail while you edit (debounced-ish)
+
+Add this effect:
+
+useEffect(() => {
+  const p = pages[currentPageIndex];
+  if (!p) return;
+
+  const id = p.id;
+  const bg = p.backgroundColor || "#ffffff";
+
+  const t = window.setTimeout(() => {
+    const url = makeThumb(objects, bg);
+    if (!url) return;
+    setPageThumbs(prev => (prev[id] === url ? prev : { ...prev, [id]: url }));
+  }, 250);
+
+  return () => window.clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [objects, currentPageIndex, pages]);
+Update thumbs when switching pages (so the page you leave gets captured)
+
+Modify your switchPage to capture before switching:
+
+const switchPage = (index: number) => {
+  // capture thumb for page we are leaving
+  const leaving = pages[currentPageIndex];
+  if (leaving) {
+    const bg = leaving.backgroundColor || "#ffffff";
+    const url = makeThumb(objects, bg);
+    if (url) setPageThumbs(prev => ({ ...prev, [leaving.id]: url }));
+  }
+
+  saveCanvas();
+  setCurrentPageIndex(index);
+
+  const pageData = pages[index]?.canvasJson;
+  setObjects(pageData?.objects || []);
+  setSelectedId(null);
+  setUndoStack([]);
+  setRedoStack([]);
+};
+
+Now thumbs will exist for your Pages panel to display.
+
+3) (Quick bonus) Multi-select highlight is currently wrong in UI
+
+You already have selectedIds, but the canvas outline checks only selectedId.
+
+Change the canvas object wrapper styling from:
+
+outline: selectedId === obj.id ? "2px solid #6366f1" : "none",
+
+to:
+
+outline: selectedIds.includes(obj.id)
+  ? (selectedId === obj.id ? "2px solid #6366f1" : "2px solid rgba(99,102,241,0.35)")
+  : "none",
+
+That makes multi-select visibly work.
+
+If you paste the right panel “Pages” UI you want (thumbnail grid vs list) I can give you the exact JSX swap to render pageThumbs[page.id] with a Canva-style page strip (thumb + page number + delete/duplicate on hover).

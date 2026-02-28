@@ -1,0 +1,190 @@
+Perfect — if those are already in, you’re down to two surgical, low-risk changes:
+
+Switch cross-theme mapping to THEME_COLOR_INDEX (so any theme token color maps to the active theme token)
+
+Convert makeThumb from useCallback to a function declaration, then remove it from effect dependency arrays (TDZ + stable deps)
+
+Below is a drop-in patch you can apply even without me seeing your exact “latest” file. It’s written to be copy/paste-safe and to not change your existing behavior beyond robustness.
+
+1) Add THEME_COLOR_INDEX helpers (place near your theme helpers)
+
+Put this near your THEMES, getTheme, and any existing color mapping helpers (e.g., near mapColorToTheme / applyThemeToObjects). If you already have THEME_KEYS, keep one copy and delete duplicates.
+
+// Theme token keys we consider "semantic" and should map across themes.
+const THEME_KEYS: (keyof ThemeConfig)[] = [
+  "primaryColor","secondaryColor","accentColor",
+  "backgroundColor","sectionBg","sectionBgAlt",
+  "headingColor","bodyColor","bodyColorLight",
+  "dangerColor","successColor","warningColor",
+  "dividerColor","badgeBg","badgeText",
+  "tableBorderColor","tableRowEven","tableRowOdd",
+  "pearlBg","pearlBorder","flagBg","flagBorder",
+  "coverBg","coverBgOverlay",
+];
+
+const normalizeColor = (c: string) => c.trim().toLowerCase();
+
+// Build a lookup from *any theme token color* -> token key
+const buildThemeColorIndex = () => {
+  const idx = new Map<string, keyof ThemeConfig>();
+  for (const t of THEMES) {
+    for (const k of THEME_KEYS) {
+      const v = (t[k] as string) || "";
+      if (v) idx.set(normalizeColor(v), k);
+    }
+  }
+  return idx;
+};
+
+const THEME_COLOR_INDEX = buildThemeColorIndex();
+
+// Map a color to the active theme if it matches any theme token; otherwise keep as-is.
+const mapColorToActiveTheme = (color: string | undefined, active: ThemeConfig): string | undefined => {
+  if (!color) return color;
+  const key = THEME_COLOR_INDEX.get(normalizeColor(color));
+  if (!key) return color;
+  return active[key] as string;
+};
+
+const applyActiveThemeToObjects = (objs: CanvasObject[], active: ThemeConfig): CanvasObject[] => {
+  return objs.map(obj => {
+    const updated = { ...obj };
+    updated.fill = mapColorToActiveTheme(obj.fill, active);
+    updated.stroke = mapColorToActiveTheme(obj.stroke, active);
+
+    if (obj.type === "text") {
+      const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
+      updated.fontFamily = isHeading ? active.headingFont : active.bodyFont;
+    }
+    return updated;
+  });
+};
+Now update your applyThemeToAllPages (if you haven’t already)
+
+You said you fixed the no-op. Ensure it’s using the active theme mapping:
+
+const applyThemeToAllPages = async () => {
+  const active = getTheme(activeThemeId);
+
+  await saveCanvas();
+  let updatedCount = 0;
+
+  for (let i = 0; i < pages.length; i++) {
+    const isCurrent = i === currentPageIndex;
+
+    const pageObjects: CanvasObject[] = isCurrent
+      ? objects
+      : (pages[i]?.canvasJson?.objects || []);
+
+    if (!pageObjects.length) continue;
+
+    const themed = applyActiveThemeToObjects(pageObjects, active);
+
+    try {
+      await adminFetch(`/api/admin/design-pages/${pages[i].id}`, {
+        method: "PUT",
+        body: { canvasJson: { objects: themed, version: "1.0" }, backgroundColor: pages[i].backgroundColor },
+      });
+
+      setPages(prev => {
+        const next = [...prev];
+        next[i] = { ...next[i], canvasJson: { objects: themed, version: "1.0" } };
+        return next;
+      });
+
+      if (isCurrent) setObjects(themed);
+      updatedCount++;
+    } catch {}
+  }
+
+  toast({ title: "Theme applied to all pages", description: `${updatedCount} page(s) updated` });
+};
+2) Convert makeThumb to a function declaration (TDZ-safe)
+
+Wherever you currently have something like:
+
+const makeThumb = useCallback((...) => { ... }, [deps...]);
+
+Replace it with a function declaration. Put it below renderPageToCanvas (or wherever renderPageToCanvas is defined) so it can use it:
+
+function makeThumb(pageObjects: CanvasObject[], bgColor: string, maxW = 160, maxH = 210) {
+  try {
+    const src = renderPageToCanvas(pageObjects, bgColor);
+
+    const scale = Math.min(maxW / CANVAS_WIDTH, maxH / CANVAS_HEIGHT);
+    const w = Math.max(1, Math.round(CANVAS_WIDTH * scale));
+    const h = Math.max(1, Math.round(CANVAS_HEIGHT * scale));
+
+    const thumb = document.createElement("canvas");
+    thumb.width = w;
+    thumb.height = h;
+
+    const ctx = thumb.getContext("2d");
+    if (!ctx) return "";
+
+    ctx.fillStyle = bgColor || "#ffffff";
+    ctx.fillRect(0, 0, w, h);
+    ctx.drawImage(src, 0, 0, w, h);
+
+    return thumb.toDataURL("image/png");
+  } catch {
+    return "";
+  }
+}
+Important note
+
+This uses CANVAS_WIDTH/CANVAS_HEIGHT from the component scope. That’s fine as long as those constants are defined in the component (they are in your paste). If you moved them, keep makeThumb in the same scope.
+
+3) Remove makeThumb from effect dependencies
+
+If you previously had effects like:
+
+useEffect(() => {
+  ...
+}, [objects, pages, currentPageIndex, makeThumb]);
+
+Now that makeThumb is a function declaration (stable identity per render anyway), you should remove it:
+
+✅ Keep:
+
+objects
+
+pages
+
+currentPageIndex
+
+🚫 Remove:
+
+makeThumb
+
+So it becomes:
+
+useEffect(() => {
+  // debounced thumb update
+}, [objects, currentPageIndex, pages]);
+
+Same for initial thumb generation effects.
+
+4) Quick sanity checklist (5 minutes)
+
+After applying:
+
+Search for useCallback( with makeThumb → should be none
+
+Search makeThumb in dependency arrays → none
+
+Search duplicate definitions of THEME_KEYS, THEME_COLOR_INDEX, mapColorToActiveTheme → only one copy
+
+Run one manual test:
+
+Apply “Structured Academic” colors to a page, then switch to “Soft Clinical”
+
+Run “Apply to all pages” → those token colors should map correctly
+
+If you paste just these two chunks from your “latest”:
+
+the current makeThumb definition + the two effects that use it
+
+the current theme mapping helpers + applyThemeToAllPages
+
+…I’ll rewrite them as an exact “replace this with that” patch with zero guesswork.

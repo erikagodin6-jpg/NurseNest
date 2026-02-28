@@ -136,10 +136,17 @@ NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, 
 - **DB Table**: `generated_micro_lectures` in `shared/schema.ts`.
 - **Tier-scoped**: Generates RPN/RN/NP-specific content with appropriate scope depth.
 
-### Digital Product Builder (Admin)
+### Digital Product Builder (Admin) — Canva-Style Editor
 - **Route**: `/admin/product-builder` and `/admin/product-builder/:id`.
 - **DB Tables**: `design_projects`, `design_pages`, `design_assets`, `exported_files` in `shared/schema.ts`.
 - **Canvas Editor**: Drag-and-drop designer with text, shapes, images; snap-to-grid, undo/redo, layers panel, multi-page support.
+- **Zoom System**: Stateful `zoom` (25%–200%, default 85%), zoom bar with slider/Fit/100% buttons, `SCALE = zoom / 100`.
+- **Canvas Stage**: Soft `#f6f7fb` background, radial dot backdrop, `shadow-2xl rounded-2xl` canvas.
+- **Left Rail**: 84px wide with icon+label buttons; groups: Text/Rect/Circle/Image (direct add), Templates/Elements/AI/Images/Brand panels.
+- **Brand Kit Panel**: Theme selector, palette swatches, Brand Lock toggle, text style presets (Heading/Subheading/Body/Caption), quick actions (Beautify, Audit, Apply Theme Fonts, Apply to All Pages), display toggles.
+- **Theme System**: `THEME_COLOR_INDEX` maps any theme token color to active theme's equivalent for robust cross-theme mapping. `applyThemeToAllPages` uses `applyActiveThemeToObjects(objs, activeTheme)`.
+- **Multi-Select**: `selectedIds: string[]` with shift-click toggle; drag moves all selected; multi-select properties panel with Fwd/Back/Lock/Del commands; differentiated outline (solid for primary, transparent for secondary selections).
+- **Page Thumbnails**: `makeThumb()` function declaration (TDZ-safe) renders mini canvas previews; initial generation on pages load, debounced 250ms live update during editing, capture on page switch. Thumbnails shown in right panel with duplicate/delete actions.
 - **Image Lab Panel**: AI image generation via DALL-E 3 with text-free mode, size presets, insert-to-canvas.
 - **Exam Context Switcher**: `aiExamTarget` dropdown (rex-pn/nclex-pn/nclex-rn/np) with EXAM_CONTEXT_MAP driving AI prompts.
 - **API**: Full CRUD for design projects, pages, and assets at `/api/admin/design-*`.

@@ -1,0 +1,167 @@
+1) 🚨 You have a hard compile error: selectedId is declared twice
+
+You currently have:
+
+const [selectedId, setSelectedId] = useState<string | null>(null);
+...
+const selectedId = selectedIds.length === 1 ? selectedIds[0] : null;
+const setSelectedId = (id: string | null) => setSelectedIds(id ? [id] : []);
+
+That’s a redeclare → TypeScript crash.
+
+✅ Fix (recommended): delete the old single-select state entirely
+
+Remove these two lines:
+
+const [selectedId, setSelectedId] = useState<string | null>(null);
+
+Keep your multi-select version:
+
+const selectedId = selectedIds.length === 1 ? selectedIds[0] : null;
+const setSelectedId = (id: string | null) => setSelectedIds(id ? [id] : []);
+
+That makes your editor consistently multi-select, and fixes the redeclare error.
+
+2) 🧠 applyThemeToAllPages() is currently a no-op
+
+Right now:
+
+const themed = applyThemeToObjects(pageObjects, oldTheme, oldTheme);
+
+That maps old → old (no changes).
+
+✅ Fix option A (simple + practical)
+
+If your goal is: “force everything into the current theme palette/fonts”, then change this function signature to explicitly apply the active theme to anything that looks like a theme color from any theme.
+
+Add this helper:
+
+const mapColorToActiveTheme = (color?: string) => {
+  if (!color) return color;
+  const c = color.toLowerCase();
+
+  for (const t of THEMES) {
+    const mapping: [string, keyof ThemeConfig][] = [
+      [t.primaryColor, "primaryColor"],
+      [t.secondaryColor, "secondaryColor"],
+      [t.accentColor, "accentColor"],
+      [t.backgroundColor, "backgroundColor"],
+      [t.sectionBg, "sectionBg"],
+      [t.sectionBgAlt, "sectionBgAlt"],
+      [t.headingColor, "headingColor"],
+      [t.bodyColor, "bodyColor"],
+      [t.bodyColorLight, "bodyColorLight"],
+      [t.dangerColor, "dangerColor"],
+      [t.successColor, "successColor"],
+      [t.warningColor, "warningColor"],
+      [t.badgeBg, "badgeBg"],
+      [t.badgeText, "badgeText"],
+      [t.pearlBg, "pearlBg"],
+      [t.pearlBorder, "pearlBorder"],
+      [t.flagBg, "flagBg"],
+      [t.flagBorder, "flagBorder"],
+      [t.coverBg, "coverBg"],
+      [t.coverBgOverlay, "coverBgOverlay"],
+      [t.dividerColor, "dividerColor"],
+      [t.tableBorderColor, "tableBorderColor"],
+      [t.tableRowEven, "tableRowEven"],
+      [t.tableRowOdd, "tableRowOdd"],
+    ];
+    for (const [oldColor, key] of mapping) {
+      if (c === oldColor.toLowerCase()) return theme[key] as string;
+    }
+  }
+  return color;
+};
+
+Then replace applyThemeToObjects usage for the “all pages” case:
+
+const applyActiveThemeToObjects = (objs: CanvasObject[]): CanvasObject[] => {
+  return objs.map(obj => {
+    const updated = { ...obj };
+    updated.fill = mapColorToActiveTheme(obj.fill);
+    updated.stroke = mapColorToActiveTheme(obj.stroke);
+    if (obj.type === "text") {
+      const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
+      updated.fontFamily = isHeading ? theme.headingFont : theme.bodyFont;
+    }
+    return updated;
+  });
+};
+
+And in applyThemeToAllPages:
+
+const themed = applyActiveThemeToObjects(pageObjects);
+
+Now it actually enforces your active theme everywhere.
+
+3) 🖼️ You declared pageThumbs but never generate thumbnails
+
+You already have renderPageToCanvas(). Perfect. You just need a tiny “makeThumb” + effect.
+
+✅ Add these helpers below renderPageToCanvas:
+const makeThumb = useCallback((pageObjects: CanvasObject[], bg: string) => {
+  const c = renderPageToCanvas(pageObjects, bg);
+  // Small thumbnail canvas
+  const tw = 140;
+  const th = 180;
+  const out = document.createElement("canvas");
+  out.width = tw;
+  out.height = th;
+  const ctx = out.getContext("2d")!;
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, tw, th);
+
+  const scale = Math.min(tw / c.width, th / c.height);
+  const dx = (tw - c.width * scale) / 2;
+  const dy = (th - c.height * scale) / 2;
+  ctx.drawImage(c, dx, dy, c.width * scale, c.height * scale);
+
+  return out.toDataURL("image/png");
+}, [renderPageToCanvas]);
+✅ Add a thumbnail refresh effect:
+useEffect(() => {
+  if (!pages.length) return;
+
+  // Only regenerate the current page thumb when objects change (fast)
+  const p = pages[currentPageIndex];
+  if (!p) return;
+
+  const bg = p.backgroundColor || "#ffffff";
+  const dataUrl = makeThumb(objects, bg);
+
+  setPageThumbs(prev => ({ ...prev, [p.id]: dataUrl }));
+}, [objects, pages, currentPageIndex, makeThumb]);
+✅ Generate thumbs for other pages when switching page
+
+Inside switchPage after setObjects(...) add:
+
+const p = pages[index];
+if (p?.canvasJson?.objects) {
+  const bg = p.backgroundColor || "#ffffff";
+  const thumb = makeThumb(p.canvasJson.objects || [], bg);
+  setPageThumbs(prev => ({ ...prev, [p.id]: thumb }));
+}
+
+Now your Pages panel can show actual previews.
+
+4) (Optional but important) Your Canva-style rail upgrade is half-done
+
+Right now you still have the skinny w-12 rail with icon-only buttons. If you want true Canva-feel:
+
+make it w-[84px]
+
+show icon + label
+
+use “active pill” styling
+
+You already have the structure from earlier—your current one just needs to be swapped.
+
+If you tell me one thing, I’ll patch it precisely
+
+Do you want the right panel to become:
+
+A) Pages + Properties (Canva-like, thumbnails on top, properties below), or
+B) Properties only, and pages moved to a bottom filmstrip like Canva?
+
+Either way I’ll give you an exact drop-in JSX replacement for that section using your existing state/handlers.

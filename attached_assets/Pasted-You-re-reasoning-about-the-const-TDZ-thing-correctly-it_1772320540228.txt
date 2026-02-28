@@ -1,0 +1,229 @@
+You’re reasoning about the const/TDZ thing correctly: it’s safe if switchPage isn’t invoked before makeThumb is initialized, but it’s also the kind of “works until it doesn’t” pattern that becomes brittle during refactors/tests. The clean fix is: define makeThumb before switchPage or make makeThumb a function declaration (hoisted).
+
+Below is the final patch set you need for the remaining gaps you listed:
+
+✅ applyThemeToAllPages no-op fix (and make it robust “from any theme → active theme”)
+
+✅ thumbnails on page switch (capture leaving page)
+
+✅ initial thumbs generation
+
+✅ debounced live thumb update for the current page
+
+✅ makeThumb placement/hoisting: no TDZ footguns
+
+A) Fix: applyThemeToAllPages should map “whatever is on the page” → active theme
+
+Right now your mapping only works when elements still use exact oldTheme colors. In practice you want:
+
+if a color equals any known theme token, map it to the active theme’s equivalent token
+
+otherwise leave it alone (respect custom colors when Brand Lock is off; or optionally clamp when Brand Lock is on)
+
+1) Add this helper near mapColorToTheme (same area)
+const THEME_KEYS: (keyof ThemeConfig)[] = [
+  "primaryColor","secondaryColor","accentColor",
+  "backgroundColor","sectionBg","sectionBgAlt",
+  "headingColor","bodyColor","bodyColorLight",
+  "dangerColor","successColor","warningColor",
+  "dividerColor","badgeBg","badgeText",
+  "tableBorderColor","tableRowEven","tableRowOdd",
+  "pearlBg","pearlBorder","flagBg","flagBorder",
+  "coverBg","coverBgOverlay",
+];
+
+const normalizeHex = (c: string) => c.trim().toLowerCase();
+
+// Build a lookup of ANY theme color -> { key } so we can map from any theme to the active theme.
+const buildThemeColorIndex = () => {
+  const idx = new Map<string, keyof ThemeConfig>();
+  for (const t of THEMES) {
+    for (const k of THEME_KEYS) {
+      const v = (t[k] as string) || "";
+      if (v) idx.set(normalizeHex(v), k);
+    }
+  }
+  return idx;
+};
+
+const THEME_COLOR_INDEX = buildThemeColorIndex();
+
+const mapColorToActiveTheme = (color: string | undefined, active: ThemeConfig): string | undefined => {
+  if (!color) return color;
+  const key = THEME_COLOR_INDEX.get(normalizeHex(color));
+  if (!key) return color;              // not a theme token color, keep as-is
+  return active[key] as string;        // map token to active theme’s equivalent
+};
+2) Add a “map to active” object transformer
+const applyActiveThemeToObjects = (objs: CanvasObject[], active: ThemeConfig): CanvasObject[] => {
+  return objs.map(obj => {
+    const updated = { ...obj };
+
+    updated.fill = mapColorToActiveTheme(obj.fill, active);
+    updated.stroke = mapColorToActiveTheme(obj.stroke, active);
+
+    if (obj.type === "text") {
+      const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
+      updated.fontFamily = isHeading ? active.headingFont : active.bodyFont;
+    }
+
+    return updated;
+  });
+};
+3) Replace your applyThemeToAllPages with this robust version
+const applyThemeToAllPages = async () => {
+  const active = getTheme(activeThemeId);
+
+  await saveCanvas();
+
+  let updatedCount = 0;
+
+  for (let i = 0; i < pages.length; i++) {
+    const isCurrent = i === currentPageIndex;
+
+    const pageObjects: CanvasObject[] = isCurrent
+      ? objects
+      : (pages[i]?.canvasJson?.objects || []);
+
+    if (!pageObjects || pageObjects.length === 0) continue;
+
+    const themed = applyActiveThemeToObjects(pageObjects, active);
+
+    try {
+      await adminFetch(`/api/admin/design-pages/${pages[i].id}`, {
+        method: "PUT",
+        body: {
+          canvasJson: { objects: themed, version: "1.0" },
+          backgroundColor: pages[i].backgroundColor,
+        },
+      });
+
+      setPages(prev => {
+        const next = [...prev];
+        next[i] = { ...next[i], canvasJson: { objects: themed, version: "1.0" } };
+        return next;
+      });
+
+      if (isCurrent) setObjects(themed);
+
+      updatedCount++;
+    } catch {}
+  }
+
+  toast({ title: "Theme applied to all pages", description: `${updatedCount} page(s) updated` });
+};
+
+What this gives you: even if page 7 was built with “Structured Academic” and you’re now on “Soft Clinical”, it will still convert theme token colors correctly.
+
+B) Thumbnails: initial generation + live updates + capture on page switch
+1) Make makeThumb hoist-safe
+
+Convert it to a function declaration (not const makeThumb = () => {}) so you never have TDZ issues.
+
+Put this right after renderPageToCanvas:
+
+function makeThumb(pageObjects: CanvasObject[], bgColor: string, maxW = 160, maxH = 210) {
+  try {
+    const src = renderPageToCanvas(pageObjects, bgColor);
+    const thumb = document.createElement("canvas");
+
+    const scale = Math.min(maxW / CANVAS_WIDTH, maxH / CANVAS_HEIGHT);
+    thumb.width = Math.max(1, Math.round(CANVAS_WIDTH * scale));
+    thumb.height = Math.max(1, Math.round(CANVAS_HEIGHT * scale));
+
+    const ctx = thumb.getContext("2d");
+    if (!ctx) return "";
+
+    ctx.fillStyle = bgColor || "#ffffff";
+    ctx.fillRect(0, 0, thumb.width, thumb.height);
+    ctx.drawImage(src, 0, 0, thumb.width, thumb.height);
+
+    return thumb.toDataURL("image/png");
+  } catch {
+    return "";
+  }
+}
+2) Initial thumbs generation (once pages load)
+
+Add:
+
+useEffect(() => {
+  if (!pages.length) return;
+
+  setPageThumbs(prev => {
+    const next = { ...prev };
+    for (const p of pages) {
+      if (next[p.id]) continue;
+      const objs: CanvasObject[] = p.canvasJson?.objects || [];
+      const bg = p.backgroundColor || "#ffffff";
+      const url = makeThumb(objs, bg);
+      if (url) next[p.id] = url;
+    }
+    return next;
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [pages.length]);
+3) Debounced live thumb for the current page while editing
+
+Add:
+
+useEffect(() => {
+  const p = pages[currentPageIndex];
+  if (!p) return;
+
+  const id = p.id;
+  const bg = p.backgroundColor || "#ffffff";
+
+  const t = window.setTimeout(() => {
+    const url = makeThumb(objects, bg);
+    if (!url) return;
+    setPageThumbs(prev => (prev[id] === url ? prev : { ...prev, [id]: url }));
+  }, 250);
+
+  return () => window.clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [objects, currentPageIndex, pages]);
+4) Capture leaving page thumbnail on switchPage
+
+Modify switchPage like this:
+
+const switchPage = (index: number) => {
+  // Capture thumb for the page we're leaving
+  const leaving = pages[currentPageIndex];
+  if (leaving) {
+    const bg = leaving.backgroundColor || "#ffffff";
+    const url = makeThumb(objects, bg);
+    if (url) setPageThumbs(prev => ({ ...prev, [leaving.id]: url }));
+  }
+
+  saveCanvas();
+  setCurrentPageIndex(index);
+
+  const pageData = pages[index]?.canvasJson;
+  setObjects(pageData?.objects || []);
+  setSelectedId(null);
+  setUndoStack([]);
+  setRedoStack([]);
+};
+C) (Optional but recommended) Multi-select outline to actually show
+
+Change your outline styling to:
+
+outline: selectedIds.includes(obj.id)
+  ? (selectedId === obj.id ? "2px solid #6366f1" : "2px solid rgba(99,102,241,0.35)")
+  : "none",
+D) Update replit.md (what to write)
+
+Add a short section like:
+
+Product Builder: Canva-style UI updates
+
+Added page thumbnail generation (initial + live debounced + on page switch)
+
+Theme system: “Apply to all pages” now maps any theme tokens to the active theme
+
+Admin fetch unified credential pattern already applied
+
+If you paste your current replit.md (or the relevant section), I’ll rewrite the exact diff text to drop in.
+
+If you want the Pages panel to actually look Canva-like (thumbnail strip with hover actions + drag reorder), paste your current “Pages” JSX chunk and I’ll give you a drop-in replacement that uses pageThumbs[page.id] and matches your NurseNest pastel/rounded style.

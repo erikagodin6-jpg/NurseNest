@@ -556,7 +556,6 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [pages, setPages] = useState<DesignPage[]>([]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [objects, setObjects] = useState<CanvasObject[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [publishing, setPublishing] = useState(false);
@@ -570,6 +569,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [redoStack, setRedoStack] = useState<CanvasObject[][]>([]);
   const canvasRef = useRef<HTMLDivElement>(null);
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastThemeIdRef = useRef("soft-clinical");
 
   const [showGrid, setShowGrid] = useState(false);
   const [showMargins, setShowMargins] = useState(true);
@@ -591,6 +591,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [imgCount, setImgCount] = useState(1);
   const [imgLoading, setImgLoading] = useState(false);
   const [imgResults, setImgResults] = useState<{ id: string; url: string }[]>([]);
+  const [pageThumbs, setPageThumbs] = useState<Record<string, string>>({});
 
   const theme = getTheme(activeThemeId);
   const themePalette = [
@@ -658,6 +659,27 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     const newLocked = !firstObj?.locked;
     setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, locked: newLocked } : o));
     toast({ title: newLocked ? "Locked" : "Unlocked" });
+  };
+
+  const duplicatePage = async (index: number) => {
+    const srcPage = pages[index];
+    if (!srcPage) return;
+    const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+      method: "POST",
+      body: {},
+    });
+    if (res.ok) {
+      const newPage = await res.json();
+      const srcData = index === currentPageIndex ? { objects } : srcPage.canvasJson;
+      await adminFetch(`/api/admin/design-pages/${newPage.id}`, {
+        method: "PUT",
+        body: { canvasJson: srcData || { objects: [], version: "1.0" }, backgroundColor: srcPage.backgroundColor },
+      });
+      newPage.canvasJson = srcData;
+      newPage.backgroundColor = srcPage.backgroundColor;
+      setPages(prev => [...prev, newPage]);
+      toast({ title: "Page duplicated" });
+    }
   };
 
   useEffect(() => {
@@ -740,19 +762,19 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   };
 
   const deleteSelected = () => {
-    if (!selectedId) return;
-    const obj = objects.find(o => o.id === selectedId);
-    if (obj?.locked) {
-      toast({ title: "Locked element", description: "Disable Brand Lock to modify this element", variant: "destructive" });
+    if (selectedIds.length === 0) return;
+    const lockedObj = objects.find(o => selectedIds.includes(o.id) && o.locked);
+    if (lockedObj) {
+      toast({ title: "Locked element", description: "Unlock elements before deleting", variant: "destructive" });
       return;
     }
-    if (obj?.tag === "brand-logo" && brandLock) {
+    if (brandLock && objects.some(o => selectedIds.includes(o.id) && o.tag === "brand-logo")) {
       toast({ title: "Logo protected", description: "Disable Brand Lock to remove the logo", variant: "destructive" });
       return;
     }
     pushUndo();
-    setObjects(prev => prev.filter(o => o.id !== selectedId));
-    setSelectedId(null);
+    setObjects(prev => prev.filter(o => !selectedIds.includes(o.id)));
+    setSelectedIds([]);
   };
 
   const duplicateSelected = () => {
@@ -831,34 +853,84 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     const oldTheme = getTheme(activeThemeId);
     const newTheme = getTheme(newThemeId);
     if (oldTheme.id === newTheme.id) return;
+    lastThemeIdRef.current = oldTheme.id;
     pushUndo();
     setObjects(prev => applyThemeToObjects(prev, oldTheme, newTheme));
     setActiveThemeId(newThemeId);
     toast({ title: `Theme: ${newTheme.name}`, description: "Colors and fonts updated" });
   };
 
+  const THEME_KEYS: (keyof ThemeConfig)[] = [
+    "primaryColor","secondaryColor","accentColor",
+    "backgroundColor","sectionBg","sectionBgAlt",
+    "headingColor","bodyColor","bodyColorLight",
+    "dangerColor","successColor","warningColor",
+    "dividerColor","badgeBg","badgeText",
+    "tableBorderColor","tableRowEven","tableRowOdd",
+    "pearlBg","pearlBorder","flagBg","flagBorder",
+    "coverBg","coverBgOverlay",
+  ];
+
+  const themeColorIndex = (() => {
+    const idx = new Map<string, keyof ThemeConfig>();
+    for (const t of THEMES) {
+      for (const k of THEME_KEYS) {
+        const v = (t[k] as string) || "";
+        if (v) idx.set(v.trim().toLowerCase(), k);
+      }
+    }
+    return idx;
+  })();
+
+  const mapColorToActiveTheme = (color: string | undefined, active: ThemeConfig): string | undefined => {
+    if (!color) return color;
+    const key = themeColorIndex.get(color.trim().toLowerCase());
+    if (!key) return color;
+    return active[key] as string;
+  };
+
+  const applyActiveThemeToObjects = (objs: CanvasObject[], active: ThemeConfig): CanvasObject[] => {
+    return objs.map(obj => {
+      const updated = { ...obj };
+      updated.fill = mapColorToActiveTheme(obj.fill, active);
+      updated.stroke = mapColorToActiveTheme(obj.stroke, active);
+      if (obj.type === "text") {
+        const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
+        updated.fontFamily = isHeading ? active.headingFont : active.bodyFont;
+      }
+      return updated;
+    });
+  };
+
   const applyThemeToAllPages = async () => {
-    const oldTheme = getTheme(activeThemeId);
+    const active = getTheme(activeThemeId);
     await saveCanvas();
     let updatedCount = 0;
     for (let i = 0; i < pages.length; i++) {
-      if (i === currentPageIndex) continue;
-      const pageData = pages[i]?.canvasJson;
-      const pageObjects: CanvasObject[] = pageData?.objects || [];
-      if (pageObjects.length === 0) continue;
-      const themed = applyThemeToObjects(pageObjects, oldTheme, oldTheme);
+      const isCurrent = i === currentPageIndex;
+      const pageObjects: CanvasObject[] = isCurrent
+        ? objects
+        : (pages[i]?.canvasJson?.objects || []);
+      if (!pageObjects || pageObjects.length === 0) continue;
+      const themed = applyActiveThemeToObjects(pageObjects, active);
+      if (isCurrent) {
+        pushUndo();
+        setObjects(themed);
+      }
       try {
         await adminFetch(`/api/admin/design-pages/${pages[i].id}`, {
           method: "PUT",
           body: { canvasJson: { objects: themed, version: "1.0" }, backgroundColor: pages[i].backgroundColor },
         });
-        const updatedPages = [...pages];
-        updatedPages[i] = { ...updatedPages[i], canvasJson: { objects: themed, version: "1.0" } };
-        setPages(updatedPages);
+        setPages(prev => {
+          const next = [...prev];
+          next[i] = { ...next[i], canvasJson: { objects: themed, version: "1.0" } };
+          return next;
+        });
         updatedCount++;
       } catch {}
     }
-    toast({ title: "Theme applied to all pages", description: `${updatedCount + 1} page(s) updated` });
+    toast({ title: "Theme applied to all pages", description: `${updatedCount} page(s) updated` });
   };
 
   const insertLogoFooter = () => {
@@ -1126,10 +1198,19 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
   };
 
   const switchPage = (index: number) => {
+    const leaving = pages[currentPageIndex];
+    if (leaving) {
+      try {
+        const bg = leaving.backgroundColor || "#ffffff";
+        const url = makeThumb(objects, bg);
+        if (url) setPageThumbs(prev => ({ ...prev, [leaving.id]: url }));
+      } catch {}
+    }
     saveCanvas();
     setCurrentPageIndex(index);
     const pageData = pages[index]?.canvasJson;
-    setObjects(pageData?.objects || []);
+    const pageObjects = pageData?.objects || [];
+    setObjects(pageObjects);
     setSelectedId(null);
     setUndoStack([]);
     setRedoStack([]);
@@ -1159,7 +1240,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Delete" || e.key === "Backspace") {
-        if (selectedId && document.activeElement?.tagName !== "INPUT" && document.activeElement?.tagName !== "TEXTAREA") deleteSelected();
+        if (selectedIds.length > 0 && document.activeElement?.tagName !== "INPUT" && document.activeElement?.tagName !== "TEXTAREA") deleteSelected();
       }
       if ((e.ctrlKey || e.metaKey) && e.key === "z") { e.preventDefault(); undo(); }
       if ((e.ctrlKey || e.metaKey) && e.key === "y") { e.preventDefault(); redo(); }
@@ -1168,7 +1249,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [selectedId, objects, undoStack, redoStack]);
+  }, [selectedIds, objects, undoStack, redoStack]);
 
   const renderPageToCanvas = (pageObjects: CanvasObject[], bgColor: string = "#ffffff"): HTMLCanvasElement => {
     const canvas = document.createElement("canvas");
@@ -1233,6 +1314,56 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
     }
     return canvas;
   };
+
+  function makeThumb(pageObjects: CanvasObject[], bgColor: string, maxW = 160, maxH = 210): string {
+    try {
+      const src = renderPageToCanvas(pageObjects, bgColor);
+      const thumb = document.createElement("canvas");
+      const scale = Math.min(maxW / CANVAS_WIDTH, maxH / CANVAS_HEIGHT);
+      thumb.width = Math.max(1, Math.round(CANVAS_WIDTH * scale));
+      thumb.height = Math.max(1, Math.round(CANVAS_HEIGHT * scale));
+      const ctx = thumb.getContext("2d");
+      if (!ctx) return "";
+      ctx.fillStyle = bgColor || "#ffffff";
+      ctx.fillRect(0, 0, thumb.width, thumb.height);
+      ctx.drawImage(src, 0, 0, thumb.width, thumb.height);
+      return thumb.toDataURL("image/png");
+    } catch {
+      return "";
+    }
+  }
+
+  useEffect(() => {
+    const page = pages[currentPageIndex];
+    if (!page) return;
+    const id = page.id;
+    const bg = page.backgroundColor || "#ffffff";
+    const t = window.setTimeout(() => {
+      try {
+        const url = makeThumb(objects, bg);
+        if (url) setPageThumbs(prev => (prev[id] === url ? prev : { ...prev, [id]: url }));
+      } catch {}
+    }, 250);
+    return () => window.clearTimeout(t);
+  }, [objects, currentPageIndex, pages]);
+
+  useEffect(() => {
+    if (!pages.length) return;
+    setPageThumbs(prev => {
+      const next = { ...prev };
+      let changed = false;
+      for (const p of pages) {
+        if (next[p.id]) continue;
+        const objs: CanvasObject[] = p.canvasJson?.objects || [];
+        const bg = p.backgroundColor || "#ffffff";
+        try {
+          const url = makeThumb(objs, bg);
+          if (url) { next[p.id] = url; changed = true; }
+        } catch {}
+      }
+      return changed ? next : prev;
+    });
+  }, [pages.length]);
 
   const exportAsImages = async () => {
     setExporting(true);
@@ -1581,6 +1712,79 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       );
     }
 
+    if (leftPanel === "brand") {
+      return (
+        <div className="w-72 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-brand">
+          <div className="p-4 border-b">
+            <div className="flex items-center gap-2">
+              <SwatchBook className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-gray-800">Brand Kit</span>
+            </div>
+            <p className="text-[11px] text-gray-500 mt-1">Keep designs consistent and store-ready.</p>
+          </div>
+          <div className="p-4 space-y-4">
+            <div className="rounded-2xl border p-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-semibold text-gray-700">Theme</span>
+                <span className="text-[10px] text-gray-400">{theme.name}</span>
+              </div>
+              <select value={activeThemeId} onChange={e => switchTheme(e.target.value)} className="w-full h-10 rounded-xl border px-3 text-sm" data-testid="select-brand-theme">
+                {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+              <div className="flex gap-2 mt-3">
+                {[theme.primaryColor, theme.secondaryColor, theme.accentColor, theme.dangerColor, theme.successColor].map((c, i) => (
+                  <div key={i} className="w-7 h-7 rounded-full border" style={{ backgroundColor: c }} title={c} />
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border p-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-gray-700">Brand Lock</span>
+                <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
+                  <input type="checkbox" checked={brandLock} onChange={e => setBrandLock(e.target.checked)} className="rounded" data-testid="checkbox-brand-lock-panel" />
+                  {brandLock ? "On" : "Off"}
+                </label>
+              </div>
+              <p className="text-[11px] text-gray-500">Protects logo, limits colors/fonts for consistent output.</p>
+            </div>
+            <div className="rounded-2xl border p-3">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Text Styles</span>
+              <div className="grid grid-cols-2 gap-2">
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 24, fontWeight: "bold", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-heading">Heading</button>
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 14, fontWeight: "600", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-subheading">Subheading</button>
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 11, fontWeight: "normal", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-body">Body</button>
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 9, fontWeight: "600", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-caption">Caption</button>
+              </div>
+            </div>
+            <div className="rounded-2xl border p-3">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Quick Actions</span>
+              <div className="space-y-2">
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={beautifyPage} data-testid="button-brand-beautify">Beautify Layout</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={runDesignAudit} data-testid="button-brand-audit">Run Design Audit</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyBrandTypography} data-testid="button-brand-fonts">Apply Theme Fonts</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyThemeToAllPages} data-testid="button-brand-apply-all">Apply to All Pages</button>
+              </div>
+            </div>
+            <div className="rounded-2xl border p-3 space-y-2">
+              <span className="text-xs font-semibold text-gray-700 block">Display</span>
+              <label className="flex items-center gap-2 text-[11px] text-gray-600 cursor-pointer">
+                <input type="checkbox" checked={showLogo} onChange={e => { setShowLogo(e.target.checked); if (e.target.checked) insertLogoFooter(); }} className="rounded" />
+                Include logo on pages
+              </label>
+              <label className="flex items-center gap-2 text-[11px] text-gray-600 cursor-pointer">
+                <input type="checkbox" checked={showMargins} onChange={e => setShowMargins(e.target.checked)} className="rounded" />
+                Margin guides
+              </label>
+              <label className="flex items-center gap-2 text-[11px] text-gray-600 cursor-pointer">
+                <input type="checkbox" checked={showGrid} onChange={e => setShowGrid(e.target.checked)} className="rounded" />
+                Grid overlay
+              </label>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return null;
   };
 
@@ -1613,167 +1817,193 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-12 bg-white border-r flex flex-col items-center py-2 gap-0.5 shrink-0">
+        <div className="w-[84px] bg-white border-r flex flex-col items-center py-3 gap-1 shrink-0">
+          <div className="flex flex-col items-center gap-0.5 mb-1">
+            {[
+              { icon: Type, action: () => addObject("text"), label: "Text", testId: "button-add-text" },
+              { icon: Square, action: () => addObject("rect"), label: "Rect", testId: "button-add-rect" },
+              { icon: Circle, action: () => addObject("circle"), label: "Circle", testId: "button-add-circle" },
+              { icon: Image, action: () => addObject("image"), label: "Image", testId: "button-add-image" },
+            ].map(({ icon: Icon, action, label, testId }) => (
+              <button key={testId} onClick={action} className="w-[68px] rounded-xl px-2 py-1.5 flex flex-col items-center gap-0.5 text-gray-500 hover:bg-primary/5 hover:text-primary transition-colors" title={label} data-testid={testId}>
+                <Icon className="w-4 h-4" />
+                <span className="text-[9px] font-medium">{label}</span>
+              </button>
+            ))}
+          </div>
+          <div className="w-12 h-px bg-gray-100" />
+          <div className="text-[9px] font-semibold text-gray-400 mt-1 mb-0.5">PANELS</div>
           {[
-            { icon: Type, action: () => addObject("text"), label: "Text", testId: "button-add-text" },
-            { icon: Square, action: () => addObject("rect"), label: "Rect", testId: "button-add-rect" },
-            { icon: Circle, action: () => addObject("circle"), label: "Circle", testId: "button-add-circle" },
-            { icon: Image, action: () => addObject("image"), label: "Image", testId: "button-add-image" },
-          ].map(({ icon: Icon, action, label, testId }) => (
-            <button key={testId} onClick={action} className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-primary/10 text-gray-500 hover:text-primary transition-colors" title={label} data-testid={testId}>
-              <Icon className="w-4 h-4" />
-            </button>
-          ))}
-          <div className="my-1 w-5 border-t" />
-          <button onClick={() => setLeftPanel(leftPanel === "components" ? null : "components")} className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${leftPanel === "components" ? "bg-primary/10 text-primary" : "text-gray-400 hover:text-primary hover:bg-primary/5"}`} title="Components" data-testid="button-panel-components">
-            <Sparkles className="w-4 h-4" />
-          </button>
-          <button onClick={() => setLeftPanel(leftPanel === "templates" ? null : "templates")} className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${leftPanel === "templates" ? "bg-primary/10 text-primary" : "text-gray-400 hover:text-primary hover:bg-primary/5"}`} title="Templates" data-testid="button-panel-templates">
-            <LayoutTemplate className="w-4 h-4" />
-          </button>
-          <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai")} className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${leftPanel === "ai" ? "bg-primary/10 text-primary" : "text-gray-400 hover:text-primary hover:bg-primary/5"}`} title="AI Tools" data-testid="button-panel-ai">
-            <Brain className="w-4 h-4" />
-          </button>
-          <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab")} className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${leftPanel === "imagelab" ? "bg-primary/10 text-primary" : "text-gray-400 hover:text-primary hover:bg-primary/5"}`} title="Image Lab" data-testid="button-panel-imagelab">
-            <ImagePlus className="w-4 h-4" />
-          </button>
-          <div className="my-1 w-5 border-t" />
-          <button onClick={undo} className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400 text-xs" title="Undo" data-testid="button-undo">↩</button>
-          <button onClick={redo} className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400 text-xs" title="Redo" data-testid="button-redo">↪</button>
-          <div className="my-1 w-5 border-t" />
-          <button onClick={() => setShowGrid(!showGrid)} className={`w-9 h-9 flex items-center justify-center rounded-lg text-xs ${showGrid ? "bg-primary/10 text-primary" : "text-gray-400 hover:text-primary"}`} title="Grid" data-testid="button-toggle-grid">
-            <Grid3X3 className="w-3.5 h-3.5" />
-          </button>
-          <button onClick={beautifyPage} className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5" title="Beautify Page" data-testid="button-beautify">
-            <Wand2 className="w-3.5 h-3.5" />
-          </button>
-          <button onClick={runDesignAudit} className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5" title="Design Audit" data-testid="button-audit">
-            <CheckCircle className="w-3.5 h-3.5" />
-          </button>
+            { id: "templates", label: "Templates", icon: LayoutTemplate },
+            { id: "components", label: "Elements", icon: Sparkles },
+            { id: "ai", label: "AI", icon: Brain },
+            { id: "imagelab", label: "Images", icon: ImagePlus },
+            { id: "brand", label: "Brand", icon: SwatchBook },
+          ].map(({ id, label, icon: Icon }) => {
+            const active = leftPanel === (id as any);
+            return (
+              <button
+                key={id}
+                onClick={() => setLeftPanel(active ? null : (id as any))}
+                className={`w-[68px] rounded-2xl px-2 py-2 flex flex-col items-center gap-1 transition ${active ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-gray-50"}`}
+                data-testid={`button-panel-${id}`}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="text-[10px] font-medium">{label}</span>
+              </button>
+            );
+          })}
+          <div className="mt-auto pt-2 w-full flex flex-col items-center gap-1.5">
+            <button onClick={undo} className="w-[68px] h-8 rounded-xl border text-[10px] hover:bg-gray-50" title="Undo" data-testid="button-undo">Undo</button>
+            <button onClick={redo} className="w-[68px] h-8 rounded-xl border text-[10px] hover:bg-gray-50" title="Redo" data-testid="button-redo">Redo</button>
+          </div>
         </div>
 
         {renderLeftPanel()}
 
-        <div className="flex-1 overflow-auto flex items-center justify-center p-8 relative">
-          <div
-            ref={canvasRef}
-            className="bg-white shadow-xl relative select-none"
-            style={{ width: CANVAS_WIDTH * SCALE, height: CANVAS_HEIGHT * SCALE }}
-            onMouseDown={(e) => handleCanvasMouseDown(e)}
-            onMouseMove={handleCanvasMouseMove}
-            onMouseUp={handleCanvasMouseUp}
-            data-testid="canvas-area"
-          >
-            {showGrid && (
-              <svg className="absolute inset-0 pointer-events-none" width={CANVAS_WIDTH * SCALE} height={CANVAS_HEIGHT * SCALE} style={{ opacity: 0.08 }}>
-                {Array.from({ length: Math.floor(CANVAS_WIDTH / GRID_SIZE) + 1 }).map((_, i) => (
-                  <line key={`v${i}`} x1={i * GRID_SIZE * SCALE} y1={0} x2={i * GRID_SIZE * SCALE} y2={CANVAS_HEIGHT * SCALE} stroke="#000" strokeWidth={0.5} />
-                ))}
-                {Array.from({ length: Math.floor(CANVAS_HEIGHT / GRID_SIZE) + 1 }).map((_, i) => (
-                  <line key={`h${i}`} x1={0} y1={i * GRID_SIZE * SCALE} x2={CANVAS_WIDTH * SCALE} y2={i * GRID_SIZE * SCALE} stroke="#000" strokeWidth={0.5} />
-                ))}
-              </svg>
-            )}
-            {showMargins && (
-              <div className="absolute pointer-events-none" style={{ left: MARGIN * SCALE, top: MARGIN * SCALE, right: MARGIN * SCALE, bottom: MARGIN * SCALE, border: "1px dashed rgba(124,58,237,0.15)" }} />
-            )}
+        <div className="flex-1 overflow-auto relative">
+          <div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-[#f6f7fb]">
+            <div className="relative">
+              <div className="absolute -inset-10 rounded-3xl opacity-60" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(124,58,237,0.08) 1px, transparent 0)", backgroundSize: "22px 22px" }} />
+              <div className="relative rounded-2xl shadow-2xl ring-1 ring-black/5 bg-white">
+                <div
+                  ref={canvasRef}
+                  className="bg-white relative select-none rounded-2xl"
+                  style={{ width: CANVAS_WIDTH * SCALE, height: CANVAS_HEIGHT * SCALE }}
+                  onMouseDown={(e) => handleCanvasMouseDown(e)}
+                  onMouseMove={handleCanvasMouseMove}
+                  onMouseUp={handleCanvasMouseUp}
+                  data-testid="canvas-area"
+                >
+                  {showGrid && (
+                    <svg className="absolute inset-0 pointer-events-none" width={CANVAS_WIDTH * SCALE} height={CANVAS_HEIGHT * SCALE} style={{ opacity: 0.08 }}>
+                      {Array.from({ length: Math.floor(CANVAS_WIDTH / GRID_SIZE) + 1 }).map((_, i) => (
+                        <line key={`v${i}`} x1={i * GRID_SIZE * SCALE} y1={0} x2={i * GRID_SIZE * SCALE} y2={CANVAS_HEIGHT * SCALE} stroke="#000" strokeWidth={0.5} />
+                      ))}
+                      {Array.from({ length: Math.floor(CANVAS_HEIGHT / GRID_SIZE) + 1 }).map((_, i) => (
+                        <line key={`h${i}`} x1={0} y1={i * GRID_SIZE * SCALE} x2={CANVAS_WIDTH * SCALE} y2={i * GRID_SIZE * SCALE} stroke="#000" strokeWidth={0.5} />
+                      ))}
+                    </svg>
+                  )}
+                  {showMargins && (
+                    <div className="absolute pointer-events-none" style={{ left: MARGIN * SCALE, top: MARGIN * SCALE, right: MARGIN * SCALE, bottom: MARGIN * SCALE, border: "1px dashed rgba(124,58,237,0.15)" }} />
+                  )}
 
-            {objects.sort((a, b) => a.zIndex - b.zIndex).map(obj => (
-              <div
-                key={obj.id}
-                style={{
-                  position: "absolute",
-                  left: obj.x * SCALE,
-                  top: obj.y * SCALE,
-                  width: obj.width * SCALE,
-                  height: obj.height * SCALE,
-                  transform: `rotate(${obj.rotation || 0}deg)`,
-                  opacity: obj.opacity ?? 1,
-                  cursor: obj.locked ? "default" : (isDragging && selectedId === obj.id ? "grabbing" : "grab"),
-                  outline: selectedId === obj.id ? "2px solid #6366f1" : "none",
-                  outlineOffset: "2px",
-                  zIndex: obj.zIndex,
-                }}
-                onMouseDown={(e) => handleCanvasMouseDown(e, obj.id)}
-                data-testid={`canvas-object-${obj.id}`}
-              >
-                {obj.type === "text" && (
-                  <div style={{ width: "100%", height: "100%", fontSize: (obj.fontSize || 16) * SCALE, fontFamily: obj.fontFamily || "Inter", fontWeight: obj.fontWeight || "normal", color: obj.fill || "#333", textAlign: (obj.textAlign as any) || "left", display: "flex", alignItems: "flex-start", padding: "2px", overflow: "hidden", userSelect: "none", lineHeight: 1.3, whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                    {obj.content}
-                  </div>
-                )}
-                {obj.type === "rect" && (
-                  <div style={{ width: "100%", height: "100%", backgroundColor: obj.fill || "#e2e8f0", border: obj.stroke ? `${(obj.strokeWidth || 1) * SCALE}px solid ${obj.stroke}` : "none", borderRadius: (obj.borderRadius || 0) * SCALE }} />
-                )}
-                {obj.type === "circle" && (
-                  <div style={{ width: "100%", height: "100%", backgroundColor: obj.fill || "#e2e8f0", border: obj.stroke ? `${(obj.strokeWidth || 1) * SCALE}px solid ${obj.stroke}` : "none", borderRadius: "50%" }} />
-                )}
-                {obj.type === "image" && (
-                  <div style={{ width: "100%", height: "100%", backgroundColor: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {obj.src ? <img src={obj.src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <Image className="w-8 h-8 text-gray-300" />}
-                  </div>
-                )}
-                {selectedId === obj.id && !obj.locked && (
-                  <div className="absolute -right-1.5 -bottom-1.5 w-3 h-3 bg-primary rounded-full cursor-se-resize border-2 border-white shadow" onMouseDown={handleResizeStart} data-testid="resize-handle" />
-                )}
+                  {objects.sort((a, b) => a.zIndex - b.zIndex).map(obj => {
+                    const isSelected = selectedIds.includes(obj.id);
+                    return (
+                      <div
+                        key={obj.id}
+                        style={{
+                          position: "absolute",
+                          left: obj.x * SCALE,
+                          top: obj.y * SCALE,
+                          width: obj.width * SCALE,
+                          height: obj.height * SCALE,
+                          transform: `rotate(${obj.rotation || 0}deg)`,
+                          opacity: obj.opacity ?? 1,
+                          cursor: obj.locked ? "default" : (isDragging && isSelected ? "grabbing" : "grab"),
+                          outline: isSelected ? (selectedId === obj.id ? "2px solid #6366f1" : "2px solid rgba(99,102,241,0.35)") : "none",
+                          outlineOffset: "2px",
+                          zIndex: obj.zIndex,
+                        }}
+                        onMouseDown={(e) => handleCanvasMouseDown(e, obj.id)}
+                        data-testid={`canvas-object-${obj.id}`}
+                      >
+                        {obj.type === "text" && (
+                          <div style={{ width: "100%", height: "100%", fontSize: (obj.fontSize || 16) * SCALE, fontFamily: obj.fontFamily || "Inter", fontWeight: obj.fontWeight || "normal", color: obj.fill || "#333", textAlign: (obj.textAlign as any) || "left", display: "flex", alignItems: "flex-start", padding: "2px", overflow: "hidden", userSelect: "none", lineHeight: 1.3, whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                            {obj.content}
+                          </div>
+                        )}
+                        {obj.type === "rect" && (
+                          <div style={{ width: "100%", height: "100%", backgroundColor: obj.fill || "#e2e8f0", border: obj.stroke ? `${(obj.strokeWidth || 1) * SCALE}px solid ${obj.stroke}` : "none", borderRadius: (obj.borderRadius || 0) * SCALE }} />
+                        )}
+                        {obj.type === "circle" && (
+                          <div style={{ width: "100%", height: "100%", backgroundColor: obj.fill || "#e2e8f0", border: obj.stroke ? `${(obj.strokeWidth || 1) * SCALE}px solid ${obj.stroke}` : "none", borderRadius: "50%" }} />
+                        )}
+                        {obj.type === "image" && (
+                          <div style={{ width: "100%", height: "100%", backgroundColor: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            {obj.src ? <img src={obj.src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <Image className="w-8 h-8 text-gray-300" />}
+                          </div>
+                        )}
+                        {isSelected && !obj.locked && selectedIds.length === 1 && (
+                          <div className="absolute -right-1.5 -bottom-1.5 w-3 h-3 bg-primary rounded-full cursor-se-resize border-2 border-white shadow" onMouseDown={handleResizeStart} data-testid="resize-handle" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            ))}
+
+              <div className="mt-3 flex items-center justify-between rounded-2xl bg-white/70 backdrop-blur border border-gray-200 px-3 py-2 shadow-sm">
+                <div className="flex items-center gap-2">
+                  <button onClick={zoomOut} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-out">–</button>
+                  <select value={zoom} onChange={(e) => setZoom(Number(e.target.value))} className="h-8 rounded-xl border px-2 text-xs" data-testid="select-zoom">
+                    {[25, 35, 50, 65, 75, 85, 100, 125, 150, 200].map(z => <option key={z} value={z}>{z}%</option>)}
+                  </select>
+                  <button onClick={zoomIn} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-in">+</button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button onClick={zoomFit} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-fit">Fit</button>
+                  <button onClick={zoomActual} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-100">100%</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="w-56 bg-white border-l overflow-y-auto shrink-0">
+        <div className="w-60 bg-white border-l overflow-y-auto shrink-0">
           <div className="p-3 border-b">
-            <div className="flex items-center gap-1.5 mb-2">
-              <Layers className="w-3.5 h-3.5 text-gray-400" />
-              <span className="text-xs font-semibold text-gray-600">Pages</span>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-gray-400" />
+                <span className="text-xs font-semibold text-gray-600">Pages</span>
+              </div>
+              <button onClick={addPage} className="text-[11px] px-2 py-1 rounded-lg border hover:bg-gray-50" data-testid="button-add-page">+ Add</button>
             </div>
-            <div className="flex gap-1.5 flex-wrap">
-              {pages.map((page, i) => (
-                <button key={page.id} onClick={() => switchPage(i)} className={`w-8 h-10 rounded border text-[10px] font-medium flex items-center justify-center ${i === currentPageIndex ? "bg-primary text-white border-primary" : "bg-gray-50 text-gray-500 border-gray-200 hover:border-primary"}`} data-testid={`button-page-${i + 1}`}>
-                  {i + 1}
-                </button>
-              ))}
-              <button onClick={addPage} className="w-8 h-10 rounded border border-dashed border-gray-300 text-gray-400 hover:text-primary hover:border-primary flex items-center justify-center" data-testid="button-add-page">
-                <Plus className="w-3 h-3" />
-              </button>
+            <div className="space-y-2">
+              {pages.map((page, i) => {
+                const isActive = i === currentPageIndex;
+                const bg = page.backgroundColor || "#ffffff";
+                const thumbSrc = pageThumbs[page.id] || "";
+                return (
+                  <button
+                    key={page.id}
+                    onClick={() => switchPage(i)}
+                    className={`w-full text-left rounded-2xl border p-2 flex gap-2 hover:border-primary/40 transition ${isActive ? "border-primary bg-primary/5 ring-2 ring-primary/20" : "border-gray-200 bg-white"}`}
+                    data-testid={`button-page-${i + 1}`}
+                  >
+                    <div className="w-[60px] h-[78px] rounded-xl overflow-hidden border bg-white shrink-0">
+                      {thumbSrc ? (
+                        <img src={thumbSrc} className="w-full h-full object-cover" alt={`Page ${i + 1}`} />
+                      ) : (
+                        <div className="w-full h-full bg-gray-50 flex items-center justify-center text-[10px] text-gray-300">{i + 1}</div>
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-gray-700">Page {i + 1}</span>
+                        <div className="flex items-center gap-0.5">
+                          <button onClick={(e) => { e.stopPropagation(); duplicatePage(i); }} className="text-[10px] text-gray-400 hover:text-primary px-1.5 py-0.5 rounded hover:bg-primary/5" data-testid={`button-dup-page-${i + 1}`}>
+                            <Copy className="w-3 h-3" />
+                          </button>
+                          {pages.length > 1 && (
+                            <button onClick={(e) => { e.stopPropagation(); deletePage(page.id, i); }} className="text-[10px] text-gray-400 hover:text-red-500 px-1.5 py-0.5 rounded hover:bg-red-50" data-testid={`button-del-page-${i + 1}`}>
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-0.5">{isActive ? "Editing" : "Click to edit"}</p>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           <div className="p-3 border-b">
             <div className="flex items-center gap-1.5 mb-2">
-              <SwatchBook className="w-3.5 h-3.5 text-gray-400" />
-              <span className="text-[10px] font-semibold text-gray-500">Theme</span>
-            </div>
-            <select value={activeThemeId} onChange={e => switchTheme(e.target.value)} className="w-full text-[10px] border rounded-md px-2 py-1.5 mb-2" data-testid="select-theme">
-              {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-            </select>
-            <div className="flex gap-1 mb-2">
-              {[theme.primaryColor, theme.secondaryColor, theme.accentColor, theme.dangerColor, theme.successColor].map((c, i) => (
-                <div key={i} className="w-5 h-5 rounded-full border border-gray-200" style={{ backgroundColor: c }} title={c} />
-              ))}
-            </div>
-            <Button size="sm" variant="outline" onClick={applyThemeToAllPages} className="w-full h-6 text-[10px] gap-1 mb-1.5" data-testid="button-apply-all-pages">
-              <Palette className="w-3 h-3" /> Apply to All Pages
-            </Button>
-            <div className="space-y-1.5">
-              <label className="flex items-center gap-2 text-[10px] text-gray-600 cursor-pointer">
-                <input type="checkbox" checked={brandLock} onChange={e => setBrandLock(e.target.checked)} className="rounded" data-testid="checkbox-brand-lock" />
-                {brandLock ? <Lock className="w-3 h-3 text-primary" /> : <Unlock className="w-3 h-3 text-gray-400" />}
-                Lock to Brand System
-              </label>
-              <label className="flex items-center gap-2 text-[10px] text-gray-600 cursor-pointer">
-                <input type="checkbox" checked={showLogo} onChange={e => { setShowLogo(e.target.checked); if (e.target.checked) insertLogoFooter(); }} className="rounded" data-testid="checkbox-logo" />
-                Include logo on pages
-              </label>
-              <label className="flex items-center gap-2 text-[10px] text-gray-600 cursor-pointer">
-                <input type="checkbox" checked={showMargins} onChange={e => setShowMargins(e.target.checked)} className="rounded" />
-                Margin guides
-              </label>
-            </div>
-            <Button size="sm" variant="outline" onClick={applyBrandTypography} className="w-full h-6 text-[10px] gap-1 mt-1.5" data-testid="button-apply-brand">
-              <Type className="w-3 h-3" /> Apply Theme Fonts
-            </Button>
-            <div className="mt-2 space-y-1">
               <span className="text-[10px] text-gray-400">Align:</span>
               <div className="flex gap-1">
                 <button onClick={() => alignSelected("left")} className="p-1 rounded hover:bg-gray-100" title="Align left" data-testid="button-align-left"><AlignLeft className="w-3.5 h-3.5 text-gray-500" /></button>
@@ -1782,6 +2012,17 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                 <button onClick={() => alignSelected("distribute")} className="p-1 rounded hover:bg-gray-100" title="Distribute" data-testid="button-distribute"><AlignVerticalJustifyCenter className="w-3.5 h-3.5 text-gray-500" /></button>
               </div>
             </div>
+            {selectedIds.length > 1 && (
+              <div className="space-y-1.5 mt-2">
+                <span className="text-[10px] font-semibold text-gray-600">{selectedIds.length} selected</span>
+                <div className="flex gap-1 flex-wrap">
+                  <button onClick={bringForward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-bring-forward"><ArrowUp className="w-3 h-3" />Fwd</button>
+                  <button onClick={sendBackward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-send-backward"><ArrowDown className="w-3 h-3" />Back</button>
+                  <button onClick={toggleLockSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-lock-toggle"><Lock className="w-3 h-3" />Lock</button>
+                  <Button size="sm" variant="destructive" onClick={deleteSelected} className="h-7 text-[10px] gap-1" data-testid="button-delete-multi"><Trash2 className="w-3 h-3" />Del</Button>
+                </div>
+              </div>
+            )}
           </div>
 
           {selectedObj && (
@@ -1843,6 +2084,13 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                   <label className="text-[9px] text-gray-400">Opacity</label>
                   <input type="range" min={0} max={1} step={0.05} value={selectedObj.opacity ?? 1} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { opacity: Number(e.target.value) }); }} className="w-full h-1.5" data-testid="input-opacity" />
                 </div>
+                <div className="flex gap-1 flex-wrap pt-1">
+                  <button onClick={bringForward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-bring-forward-single"><ArrowUp className="w-3 h-3" /></button>
+                  <button onClick={sendBackward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-send-backward-single"><ArrowDown className="w-3 h-3" /></button>
+                  <button onClick={bringToFront} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-bring-front"><ChevronsUp className="w-3 h-3" /></button>
+                  <button onClick={sendToBack} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-send-back"><ChevronsDown className="w-3 h-3" /></button>
+                  <button onClick={toggleLockSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-lock-single">{selectedObj.locked ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}</button>
+                </div>
                 <div className="flex gap-1.5 pt-1">
                   <Button size="sm" variant="outline" onClick={duplicateSelected} className="h-7 text-[10px] flex-1 gap-1" data-testid="button-duplicate"><Copy className="w-3 h-3" /> Dup</Button>
                   <Button size="sm" variant="destructive" onClick={deleteSelected} className="h-7 text-[10px] flex-1 gap-1" data-testid="button-delete-object"><Trash2 className="w-3 h-3" /> Del</Button>
@@ -1855,13 +2103,13 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
             <span className="text-xs font-semibold text-gray-600 mb-2 block">Layers ({objects.length})</span>
             <div className="space-y-0.5 max-h-40 overflow-y-auto">
               {[...objects].reverse().map(obj => (
-                <button key={obj.id} onClick={() => setSelectedId(obj.id)} className={`w-full text-left px-2 py-1 rounded text-[10px] flex items-center gap-2 ${selectedId === obj.id ? "bg-primary/10 text-primary" : "hover:bg-gray-50 text-gray-600"}`} data-testid={`layer-${obj.id}`}>
+                <button key={obj.id} onClick={() => setSelectedId(obj.id)} className={`w-full text-left px-2 py-1 rounded text-[10px] flex items-center gap-2 ${selectedIds.includes(obj.id) ? "bg-primary/10 text-primary" : "hover:bg-gray-50 text-gray-600"}`} data-testid={`layer-${obj.id}`}>
                   {obj.type === "text" && <Type className="w-3 h-3" />}
                   {obj.type === "rect" && <Square className="w-3 h-3" />}
                   {obj.type === "circle" && <Circle className="w-3 h-3" />}
                   {obj.type === "image" && <Image className="w-3 h-3" />}
                   <span className="truncate">{obj.type === "text" ? (obj.content || "Text").slice(0, 20) : obj.tag || obj.type}</span>
-                  {obj.locked && <span className="text-[8px] text-gray-400 ml-auto">locked</span>}
+                  {obj.locked && <Lock className="w-2.5 h-2.5 text-gray-400 ml-auto" />}
                 </button>
               ))}
             </div>
