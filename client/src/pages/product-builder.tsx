@@ -11,7 +11,7 @@ import {
   AlignLeft, AlignCenter, AlignRight, AlignVerticalJustifyCenter,
   Wand2, Shield, AlertTriangle, CheckCircle, LayoutTemplate, Palette,
   Crown, BookOpen, Zap, Target, Brain, ChevronDown, ChevronRight as ChevronR,
-  ImagePlus, Star, Award, ClipboardCheck
+  ImagePlus, Star, Award, ClipboardCheck, Lock, Unlock, SwatchBook
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -61,6 +61,164 @@ function adminFetch(url: string, options?: RequestInit) {
     headers: { "Content-Type": "application/json", ...options?.headers },
     body: JSON.stringify({ ...body, username: creds.username, password: creds.password }),
   });
+}
+
+interface ThemeConfig {
+  id: string;
+  name: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  backgroundColor: string;
+  sectionBg: string;
+  sectionBgAlt: string;
+  headingFont: string;
+  bodyFont: string;
+  headingColor: string;
+  bodyColor: string;
+  bodyColorLight: string;
+  dangerColor: string;
+  successColor: string;
+  warningColor: string;
+  dividerColor: string;
+  badgeBg: string;
+  badgeText: string;
+  tableBorderColor: string;
+  tableRowEven: string;
+  tableRowOdd: string;
+  pearlBg: string;
+  pearlBorder: string;
+  flagBg: string;
+  flagBorder: string;
+  coverBg: string;
+  coverBgOverlay: string;
+}
+
+const THEMES: ThemeConfig[] = [
+  {
+    id: "soft-clinical",
+    name: "Soft Clinical",
+    primaryColor: "#7c3aed",
+    secondaryColor: "#06b6d4",
+    accentColor: "#f59e0b",
+    backgroundColor: "#ffffff",
+    sectionBg: "#f8fafc",
+    sectionBgAlt: "#f1f5f9",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#1e293b",
+    bodyColor: "#334155",
+    bodyColorLight: "#64748b",
+    dangerColor: "#ef4444",
+    successColor: "#10b981",
+    warningColor: "#ca8a04",
+    dividerColor: "#e2e8f0",
+    badgeBg: "#7c3aed",
+    badgeText: "#ffffff",
+    tableBorderColor: "#e2e8f0",
+    tableRowEven: "#f8fafc",
+    tableRowOdd: "#f1f5f9",
+    pearlBg: "#ede9fe",
+    pearlBorder: "#7c3aed",
+    flagBg: "#fef2f2",
+    flagBorder: "#ef4444",
+    coverBg: "#7c3aed",
+    coverBgOverlay: "#6d28d9",
+  },
+  {
+    id: "structured-academic",
+    name: "Structured Academic",
+    primaryColor: "#1e40af",
+    secondaryColor: "#0f766e",
+    accentColor: "#b45309",
+    backgroundColor: "#ffffff",
+    sectionBg: "#f0f4f8",
+    sectionBgAlt: "#e8edf2",
+    headingFont: "Georgia",
+    bodyFont: "Inter",
+    headingColor: "#0f172a",
+    bodyColor: "#1e293b",
+    bodyColorLight: "#475569",
+    dangerColor: "#b91c1c",
+    successColor: "#047857",
+    warningColor: "#92400e",
+    dividerColor: "#cbd5e1",
+    badgeBg: "#1e40af",
+    badgeText: "#ffffff",
+    tableBorderColor: "#cbd5e1",
+    tableRowEven: "#f0f4f8",
+    tableRowOdd: "#e2e8f0",
+    pearlBg: "#dbeafe",
+    pearlBorder: "#1e40af",
+    flagBg: "#fef2f2",
+    flagBorder: "#b91c1c",
+    coverBg: "#1e40af",
+    coverBgOverlay: "#1e3a8a",
+  },
+  {
+    id: "bold-modern",
+    name: "Bold Modern",
+    primaryColor: "#dc2626",
+    secondaryColor: "#7c3aed",
+    accentColor: "#eab308",
+    backgroundColor: "#fafafa",
+    sectionBg: "#f5f5f5",
+    sectionBgAlt: "#e5e5e5",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#171717",
+    bodyColor: "#262626",
+    bodyColorLight: "#525252",
+    dangerColor: "#dc2626",
+    successColor: "#16a34a",
+    warningColor: "#d97706",
+    dividerColor: "#d4d4d4",
+    badgeBg: "#dc2626",
+    badgeText: "#ffffff",
+    tableBorderColor: "#d4d4d4",
+    tableRowEven: "#fafafa",
+    tableRowOdd: "#f5f5f5",
+    pearlBg: "#fef2f2",
+    pearlBorder: "#dc2626",
+    flagBg: "#fef9c3",
+    flagBorder: "#d97706",
+    coverBg: "#171717",
+    coverBgOverlay: "#dc2626",
+  },
+  {
+    id: "minimal-clean",
+    name: "Minimal Clean",
+    primaryColor: "#0f172a",
+    secondaryColor: "#64748b",
+    accentColor: "#0ea5e9",
+    backgroundColor: "#ffffff",
+    sectionBg: "#fafafa",
+    sectionBgAlt: "#f5f5f5",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#0f172a",
+    bodyColor: "#374151",
+    bodyColorLight: "#6b7280",
+    dangerColor: "#dc2626",
+    successColor: "#059669",
+    warningColor: "#d97706",
+    dividerColor: "#e5e7eb",
+    badgeBg: "#0f172a",
+    badgeText: "#ffffff",
+    tableBorderColor: "#e5e7eb",
+    tableRowEven: "#fafafa",
+    tableRowOdd: "#f5f5f5",
+    pearlBg: "#f0f9ff",
+    pearlBorder: "#0ea5e9",
+    flagBg: "#fef2f2",
+    flagBorder: "#dc2626",
+    coverBg: "#0f172a",
+    coverBgOverlay: "#1e293b",
+  },
+];
+
+function getTheme(id: string): ThemeConfig {
+  return THEMES.find(t => t.id === id) || THEMES[0];
 }
 
 const BRAND = {
@@ -430,11 +588,24 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [showGrid, setShowGrid] = useState(false);
   const [showMargins, setShowMargins] = useState(true);
   const [brandLock, setBrandLock] = useState(true);
+  const [activeThemeId, setActiveThemeId] = useState("soft-clinical");
+  const [showLogo, setShowLogo] = useState(true);
   const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | null>("tools");
   const [aiTopic, setAiTopic] = useState("");
   const [aiTier, setAiTier] = useState("rn");
   const [aiLoading, setAiLoading] = useState<string | null>(null);
   const [aiResult, setAiResult] = useState<any>(null);
+
+  const theme = getTheme(activeThemeId);
+  const themePalette = [
+    theme.primaryColor, theme.secondaryColor, theme.accentColor,
+    theme.backgroundColor, theme.sectionBg, theme.sectionBgAlt,
+    theme.headingColor, theme.bodyColor, theme.bodyColorLight,
+    theme.dangerColor, theme.successColor, theme.warningColor,
+    theme.badgeBg, theme.badgeText, theme.pearlBg, theme.pearlBorder,
+    theme.flagBg, theme.flagBorder, theme.coverBg, theme.coverBgOverlay,
+    "#ffffff", "#fff", "#000", "#000000",
+  ];
 
   const CANVAS_WIDTH = 612;
   const CANVAS_HEIGHT = 792;
@@ -524,7 +695,14 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const deleteSelected = () => {
     if (!selectedId) return;
     const obj = objects.find(o => o.id === selectedId);
-    if (obj?.locked) return;
+    if (obj?.locked) {
+      toast({ title: "Locked element", description: "Disable Brand Lock to modify this element", variant: "destructive" });
+      return;
+    }
+    if (obj?.tag === "brand-logo" && brandLock) {
+      toast({ title: "Logo protected", description: "Disable Brand Lock to remove the logo", variant: "destructive" });
+      return;
+    }
     pushUndo();
     setObjects(prev => prev.filter(o => o.id !== selectedId));
     setSelectedId(null);
@@ -566,6 +744,90 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     toast({ title: `${template.label} template applied` });
   };
 
+  const mapColorToTheme = (color: string | undefined, oldTheme: ThemeConfig, newTheme: ThemeConfig): string | undefined => {
+    if (!color) return color;
+    const c = color.toLowerCase();
+    const mapping: [string, keyof ThemeConfig][] = [
+      [oldTheme.primaryColor, "primaryColor"], [oldTheme.secondaryColor, "secondaryColor"],
+      [oldTheme.accentColor, "accentColor"], [oldTheme.backgroundColor, "backgroundColor"],
+      [oldTheme.sectionBg, "sectionBg"], [oldTheme.sectionBgAlt, "sectionBgAlt"],
+      [oldTheme.headingColor, "headingColor"], [oldTheme.bodyColor, "bodyColor"],
+      [oldTheme.bodyColorLight, "bodyColorLight"], [oldTheme.dangerColor, "dangerColor"],
+      [oldTheme.successColor, "successColor"], [oldTheme.warningColor, "warningColor"],
+      [oldTheme.badgeBg, "badgeBg"], [oldTheme.badgeText, "badgeText"],
+      [oldTheme.pearlBg, "pearlBg"], [oldTheme.pearlBorder, "pearlBorder"],
+      [oldTheme.flagBg, "flagBg"], [oldTheme.flagBorder, "flagBorder"],
+      [oldTheme.coverBg, "coverBg"], [oldTheme.coverBgOverlay, "coverBgOverlay"],
+      [oldTheme.dividerColor, "dividerColor"], [oldTheme.tableBorderColor, "tableBorderColor"],
+      [oldTheme.tableRowEven, "tableRowEven"], [oldTheme.tableRowOdd, "tableRowOdd"],
+    ];
+    for (const [oldColor, key] of mapping) {
+      if (c === oldColor.toLowerCase()) return newTheme[key] as string;
+    }
+    return color;
+  };
+
+  const applyThemeToObjects = (objs: CanvasObject[], oldTheme: ThemeConfig, newTheme: ThemeConfig): CanvasObject[] => {
+    return objs.map(obj => {
+      const updated = { ...obj };
+      updated.fill = mapColorToTheme(obj.fill, oldTheme, newTheme);
+      updated.stroke = mapColorToTheme(obj.stroke, oldTheme, newTheme);
+      if (obj.type === "text") {
+        const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
+        updated.fontFamily = isHeading ? newTheme.headingFont : newTheme.bodyFont;
+      }
+      return updated;
+    });
+  };
+
+  const switchTheme = (newThemeId: string) => {
+    const oldTheme = getTheme(activeThemeId);
+    const newTheme = getTheme(newThemeId);
+    if (oldTheme.id === newTheme.id) return;
+    pushUndo();
+    setObjects(prev => applyThemeToObjects(prev, oldTheme, newTheme));
+    setActiveThemeId(newThemeId);
+    toast({ title: `Theme: ${newTheme.name}`, description: "Colors and fonts updated" });
+  };
+
+  const applyThemeToAllPages = async () => {
+    const oldTheme = getTheme(activeThemeId);
+    await saveCanvas();
+    let updatedCount = 0;
+    for (let i = 0; i < pages.length; i++) {
+      if (i === currentPageIndex) continue;
+      const pageData = pages[i]?.canvasJson;
+      const pageObjects: CanvasObject[] = pageData?.objects || [];
+      if (pageObjects.length === 0) continue;
+      const themed = applyThemeToObjects(pageObjects, oldTheme, oldTheme);
+      try {
+        await adminFetch(`/api/admin/design-pages/${pages[i].id}`, {
+          method: "PUT",
+          body: JSON.stringify({ canvasJson: { objects: themed, version: "1.0" }, backgroundColor: pages[i].backgroundColor }),
+        });
+        const updatedPages = [...pages];
+        updatedPages[i] = { ...updatedPages[i], canvasJson: { objects: themed, version: "1.0" } };
+        setPages(updatedPages);
+        updatedCount++;
+      } catch {}
+    }
+    toast({ title: "Theme applied to all pages", description: `${updatedCount + 1} page(s) updated` });
+  };
+
+  const insertLogoFooter = () => {
+    pushUndo();
+    const logoExists = objects.some(o => o.tag === "brand-logo");
+    if (logoExists) return;
+    const logoObj: CanvasObject = {
+      id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
+      width: 120, height: 16, content: "NurseNest", fontSize: 9,
+      fontWeight: "600", fill: theme.bodyColorLight, fontFamily: theme.bodyFont,
+      rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
+      tag: "brand-logo", locked: brandLock,
+    };
+    setObjects(prev => [...prev, logoObj]);
+  };
+
   const beautifyPage = () => {
     pushUndo();
     const sorted = [...objects].sort((a, b) => a.y - b.y);
@@ -579,23 +841,24 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
         y: curY,
         width: clampedW,
         zIndex: i,
-        fontFamily: obj.type === "text" ? BRAND.fontBody : obj.fontFamily,
+        fontFamily: obj.type === "text" ? (((obj.fontSize || 0) >= 18 || obj.fontWeight === "bold") ? theme.headingFont : theme.bodyFont) : obj.fontFamily,
       };
       curY += obj.height + 12;
       return newObj;
     });
     setObjects(updated);
-    toast({ title: "Page beautified", description: "Elements aligned, spaced, and snapped to grid" });
+    toast({ title: "Page beautified", description: "Aligned, spaced, and themed" });
   };
 
   const runDesignAudit = () => {
     const issues: string[] = [];
     objects.forEach(obj => {
       if (obj.x < MARGIN - 5 || obj.x + obj.width > CANVAS_WIDTH - MARGIN + 5) issues.push(`"${obj.content?.slice(0, 20) || obj.type}" outside margins`);
-      if (obj.type === "text" && obj.fontFamily && obj.fontFamily !== BRAND.fontBody && obj.fontFamily !== BRAND.fontHeading) issues.push(`Off-brand font: ${obj.fontFamily}`);
-      if (obj.type === "text" && obj.fill && ![BRAND.textDark, BRAND.textLight, BRAND.primary, BRAND.danger, BRAND.success, BRAND.accent, "#ffffff", "#fff", "#000", "#000000"].includes(obj.fill)) issues.push(`Off-brand color on "${obj.content?.slice(0, 15) || "text"}"`);
+      if (obj.type === "text" && obj.fontFamily && obj.fontFamily !== theme.bodyFont && obj.fontFamily !== theme.headingFont) issues.push(`Off-theme font: ${obj.fontFamily}`);
+      if (brandLock && obj.type === "text" && obj.fill && !themePalette.includes(obj.fill.toLowerCase())) issues.push(`Off-palette color on "${obj.content?.slice(0, 15) || "text"}"`);
       if (obj.type === "text" && obj.fontSize && obj.fontSize < 8) issues.push(`Very small text: ${obj.fontSize}px`);
     });
+    if (showLogo && !objects.some(o => o.tag === "brand-logo")) issues.push("Missing brand logo footer");
     if (issues.length === 0) {
       toast({ title: "Design Audit Passed", description: "No issues found" });
     } else {
@@ -608,9 +871,9 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     setObjects(prev => prev.map(obj => {
       if (obj.type !== "text") return obj;
       const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
-      return { ...obj, fontFamily: isHeading ? BRAND.fontHeading : BRAND.fontBody };
+      return { ...obj, fontFamily: isHeading ? theme.headingFont : theme.bodyFont };
     }));
-    toast({ title: "Brand typography applied" });
+    toast({ title: "Theme typography applied" });
   };
 
   const alignSelected = (dir: "left" | "center" | "right" | "distribute") => {
@@ -1238,22 +1501,41 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
           </div>
 
           <div className="p-3 border-b">
-            <span className="text-[10px] font-semibold text-gray-500 mb-2 block">Brand & Layout</span>
+            <div className="flex items-center gap-1.5 mb-2">
+              <SwatchBook className="w-3.5 h-3.5 text-gray-400" />
+              <span className="text-[10px] font-semibold text-gray-500">Theme</span>
+            </div>
+            <select value={activeThemeId} onChange={e => switchTheme(e.target.value)} className="w-full text-[10px] border rounded-md px-2 py-1.5 mb-2" data-testid="select-theme">
+              {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+            </select>
+            <div className="flex gap-1 mb-2">
+              {[theme.primaryColor, theme.secondaryColor, theme.accentColor, theme.dangerColor, theme.successColor].map((c, i) => (
+                <div key={i} className="w-5 h-5 rounded-full border border-gray-200" style={{ backgroundColor: c }} title={c} />
+              ))}
+            </div>
+            <Button size="sm" variant="outline" onClick={applyThemeToAllPages} className="w-full h-6 text-[10px] gap-1 mb-1.5" data-testid="button-apply-all-pages">
+              <Palette className="w-3 h-3" /> Apply to All Pages
+            </Button>
             <div className="space-y-1.5">
               <label className="flex items-center gap-2 text-[10px] text-gray-600 cursor-pointer">
-                <input type="checkbox" checked={showMargins} onChange={e => setShowMargins(e.target.checked)} className="rounded" />
-                Show margin guides
+                <input type="checkbox" checked={brandLock} onChange={e => setBrandLock(e.target.checked)} className="rounded" data-testid="checkbox-brand-lock" />
+                {brandLock ? <Lock className="w-3 h-3 text-primary" /> : <Unlock className="w-3 h-3 text-gray-400" />}
+                Lock to Brand System
               </label>
               <label className="flex items-center gap-2 text-[10px] text-gray-600 cursor-pointer">
-                <input type="checkbox" checked={brandLock} onChange={e => setBrandLock(e.target.checked)} className="rounded" />
-                Brand palette lock
+                <input type="checkbox" checked={showLogo} onChange={e => { setShowLogo(e.target.checked); if (e.target.checked) insertLogoFooter(); }} className="rounded" data-testid="checkbox-logo" />
+                Include logo on pages
               </label>
-              <Button size="sm" variant="outline" onClick={applyBrandTypography} className="w-full h-6 text-[10px] gap-1" data-testid="button-apply-brand">
-                <Palette className="w-3 h-3" /> Apply Brand Fonts
-              </Button>
+              <label className="flex items-center gap-2 text-[10px] text-gray-600 cursor-pointer">
+                <input type="checkbox" checked={showMargins} onChange={e => setShowMargins(e.target.checked)} className="rounded" />
+                Margin guides
+              </label>
             </div>
+            <Button size="sm" variant="outline" onClick={applyBrandTypography} className="w-full h-6 text-[10px] gap-1 mt-1.5" data-testid="button-apply-brand">
+              <Type className="w-3 h-3" /> Apply Theme Fonts
+            </Button>
             <div className="mt-2 space-y-1">
-              <span className="text-[10px] text-gray-400">Align selected:</span>
+              <span className="text-[10px] text-gray-400">Align:</span>
               <div className="flex gap-1">
                 <button onClick={() => alignSelected("left")} className="p-1 rounded hover:bg-gray-100" title="Align left" data-testid="button-align-left"><AlignLeft className="w-3.5 h-3.5 text-gray-500" /></button>
                 <button onClick={() => alignSelected("center")} className="p-1 rounded hover:bg-gray-100" title="Align center" data-testid="button-align-center"><AlignCenter className="w-3.5 h-3.5 text-gray-500" /></button>
