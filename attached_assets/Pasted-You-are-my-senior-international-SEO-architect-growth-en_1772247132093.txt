@@ -1,0 +1,153 @@
+You are my senior international SEO architect + growth engineer working inside NurseNest (Vite + React + Express + DB + i18n + Stripe).
+
+Build a Geo-Targeted Multilingual SEO + Conversion Funnel system for NurseNest.
+
+SUPPORTED LANGUAGES:
+en, fr, es, fil, hi, ar, fa, zh-Hans, ja, ko, ur, pa, pt, vi, ht
+
+GOAL:
+1) Capture international nursing candidates studying for US and Canadian exams.
+2) Rank for country + exam search queries.
+3) Convert traffic into free diagnostic → premium subscription.
+4) Avoid duplicate content penalties.
+
+====================================================
+PART 1 — COUNTRY-SPECIFIC LANDING PAGES
+====================================================
+
+Create localized landing pages targeting:
+
+Examples:
+- /fr/nclex-etudiants-canada
+- /es/nclex-para-enfermeras-internacionales
+- /vi/nclex-danh-cho-y-ta-quoc-te
+- /ar/nclex-للتمريض-الدولي
+- /pt/nclex-para-enfermeiros-internacionais
+- /ht/nclex-pou-enfimyè-entènasyonal
+
+Structure:
+
+H1: NCLEX for International Nurses ({Language})
+H2: Can You Take the NCLEX from {Region}?
+H2: What Documents You Need
+H2: How to Study in {Language}
+H2: Free Diagnostic Test
+H2: Personalized Study Plan
+H2: Frequently Asked Questions
+
+Each page must:
+- Be 1500–2500 words
+- Use region-specific phrasing
+- Avoid copying English phrasing directly
+- Link to language-specific pillar pages
+- Link to free diagnostic page in same language
+
+====================================================
+PART 2 — KEYWORD LOCALIZATION STRATEGY
+====================================================
+
+For each language:
+
+Research and generate:
+- 20 high-intent keywords for:
+   “NCLEX practice”
+   “nursing exam study guide”
+   “free nursing questions”
+   “nurse practitioner exam”
+- 10 question-style keywords
+- 10 long-tail queries
+
+Store in:
+seo_keyword_targets table:
+- language_code
+- keyword
+- intent (informational|transactional)
+- page_target_slug
+
+Admin dashboard:
+- show keyword coverage
+- show which keywords lack pages
+
+====================================================
+PART 3 — GEO-SIGNAL SEO
+====================================================
+
+Add:
+
+- Language-specific meta descriptions with natural phrasing.
+- hreflang implemented for all versions.
+- Add structured data:
+   - Article
+   - FAQ
+   - BreadcrumbList
+
+Add optional region schema:
+- inLanguage
+- audience
+
+====================================================
+PART 4 — CONVERSION FLOW FOR INTERNATIONAL USERS
+====================================================
+
+If user lands on:
+- Any /{lang}/ page
+Then:
+
+1) Offer free diagnostic in same language.
+2) After diagnostic:
+   - Ask exam type.
+   - Ask exam date.
+   - Ask country.
+3) Generate localized study plan.
+4) Show upgrade modal in same language.
+
+Upgrade copy must be localized (not literal translation).
+
+====================================================
+PART 5 — TRUST SIGNALS
+====================================================
+
+Add localized trust sections:
+- “Built by nurses”
+- “Used by international candidates”
+- “Exam-date adaptive plan”
+
+Allow localized testimonials by language.
+
+====================================================
+PART 6 — PERFORMANCE + INDEXING
+====================================================
+
+- Generate language-specific sitemaps.
+- Ensure each page canonicalizes to itself.
+- Prevent thin content publishing (<1200 words).
+- Auto-flag duplicate content similarity >85%.
+
+====================================================
+PART 7 — ANALYTICS
+====================================================
+
+Track:
+- Traffic by language
+- Conversion rate by language
+- Diagnostic completion rate by language
+- Upgrade rate by language
+- Bounce rate by country
+
+Add admin dashboard:
+- Revenue by language
+- Top converting language funnels
+- SEO performance per language
+
+====================================================
+DELIVERABLES
+====================================================
+
+- DB migrations
+- New SEO landing page templates
+- Keyword targeting module
+- Geo analytics dashboard
+- Localized upgrade modal
+- Localized diagnostic flow
+- Updated sitemaps
+- Documentation

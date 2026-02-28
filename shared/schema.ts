@@ -779,6 +779,7 @@ export const contentTranslations = pgTable("content_translations", {
   fieldName: text("field_name").notNull(),
   translatedText: text("translated_text").notNull(),
   translationStatus: text("translation_status").default("auto"),
+  sourceLastUpdatedReference: timestamp("source_last_updated_reference"),
   lastUpdated: timestamp("last_updated").defaultNow().notNull(),
 });
 
