@@ -540,6 +540,68 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     }
   };
 
+  const exportAsPDF = async () => {
+    setExporting(true);
+    try {
+      await saveCanvas();
+      const { jsPDF } = await import("jspdf");
+      const orientation = project?.orientation === "landscape" ? "landscape" : "portrait";
+      const pdf = new jsPDF({
+        orientation: orientation as any,
+        unit: "pt",
+        format: [CANVAS_WIDTH, CANVAS_HEIGHT],
+      });
+
+      for (let i = 0; i < pages.length; i++) {
+        if (i > 0) pdf.addPage([CANVAS_WIDTH, CANVAS_HEIGHT], orientation);
+        const pageData = i === currentPageIndex ? { objects } : pages[i]?.canvasJson;
+        const pageObjects = pageData?.objects || [];
+        const bgColor = pages[i]?.backgroundColor || "#ffffff";
+        const canvas = renderPageToCanvas(pageObjects, bgColor);
+        const dataUrl = canvas.toDataURL("image/png");
+        pdf.addImage(dataUrl, "PNG", 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      }
+
+      pdf.save(`${(project?.title || "design").replace(/[^a-zA-Z0-9]/g, "-")}.pdf`);
+      toast({ title: `Exported ${pages.length} page(s) as PDF` });
+    } catch (e: any) {
+      toast({ title: "PDF export failed", description: e.message, variant: "destructive" });
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const exportThumbnail = (width: number, height: number) => {
+    const pageData = pages[0]?.canvasJson;
+    const pageObjects = currentPageIndex === 0 ? objects : (pageData?.objects || []);
+    const bgColor = pages[0]?.backgroundColor || "#ffffff";
+    const srcCanvas = renderPageToCanvas(pageObjects, bgColor);
+
+    const thumbCanvas = document.createElement("canvas");
+    thumbCanvas.width = width * 2;
+    thumbCanvas.height = height * 2;
+    const ctx = thumbCanvas.getContext("2d")!;
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, thumbCanvas.width, thumbCanvas.height);
+
+    const scale = Math.min((width * 2) / srcCanvas.width, (height * 2) / srcCanvas.height);
+    const dx = (width * 2 - srcCanvas.width * scale) / 2;
+    const dy = (height * 2 - srcCanvas.height * scale) / 2;
+    ctx.drawImage(srcCanvas, dx, dy, srcCanvas.width * scale, srcCanvas.height * scale);
+
+    thumbCanvas.toBlob((blob) => {
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `thumbnail-${width}x${height}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    }, "image/png");
+    toast({ title: `Thumbnail ${width}×${height} exported` });
+  };
+
   const publishToMarketplace = async () => {
     if (!publishForm.title.trim() || !publishForm.price) return;
     setPublishing(true);
