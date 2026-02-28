@@ -1,0 +1,96 @@
+Upgrade the NurseNest Product Builder to position it as:
+
+1) The Canadian REx authority
+2) The tier-specific intelligence system
+3) The most structured exam prep ecosystem
+
+Implement the following:
+
+====================================================
+CANADIAN AUTHORITY LAYER
+====================================================
+
+- REx Alignment badge
+- Canadian Practice Context mode
+- Automatic Canadian terminology enforcement
+- REx-focused AI prompting
+
+====================================================
+TIER-SPECIFIC INTELLIGENCE ENGINE
+====================================================
+
+When RPN selected:
+- Stable care emphasis
+- Scope reminders
+- Basic labs
+- Medication safety
+
+When RN selected:
+- Deterioration recognition
+- Delegation logic
+- Complex lab interpretation
+
+When NP selected:
+- Differential diagnosis
+- Prescribing logic
+- Case-based reasoning
+
+This must affect AI outputs and template suggestions.
+
+====================================================
+STRUCTURED EXAM FRAMEWORK
+====================================================
+
+Auto-generate consistent section structure:
+1) Pathophysiology
+2) Early vs Late Signs
+3) Diagnostics
+4) Management
+5) Nursing Priorities
+6) Red Flags
+7) Exam Traps
+8) Practice Questions
+
+====================================================
+INSTITUTIONAL FORMATTING
+====================================================
+
+- Auto Table of Contents
+- Section numbering
+- Page numbering
+- Version control
+- Update badge
+- Professional footer
+
+====================================================
+EXAM LOGIC BLOCKS
+====================================================
+
+Add structured blocks:
+- Stable vs Unstable grid
+- ABC decision tree
+- Hyper vs Hypo comparison
+- Delegation hierarchy chart
+- Differential diagnosis algorithm
+
+====================================================
+QUALITY SAFEGUARDS
+====================================================
+
+- Clinical accuracy review pass
+- Scope enforcement check
+- Exam relevance filter
+
+====================================================
+VALUE INDICATORS
+====================================================
+
+Auto-calculate:
+- Page count
+- Framework count
+- Question count
+- Estimated review time
+
+Ensure brand system and logo placement always enforced.
+
+Implement immediately.
