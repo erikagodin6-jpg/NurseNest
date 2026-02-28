@@ -140,8 +140,25 @@ NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, 
 - **Route**: `/admin/product-builder` and `/admin/product-builder/:id`.
 - **DB Tables**: `design_projects`, `design_pages`, `design_assets`, `exported_files` in `shared/schema.ts`.
 - **Canvas Editor**: Drag-and-drop designer with text, shapes, images; snap-to-grid, undo/redo, layers panel, multi-page support.
+- **Image Lab Panel**: AI image generation via DALL-E 3 with text-free mode, size presets, insert-to-canvas.
+- **Exam Context Switcher**: `aiExamTarget` dropdown (rex-pn/nclex-pn/nclex-rn/np) with EXAM_CONTEXT_MAP driving AI prompts.
 - **API**: Full CRUD for design projects, pages, and assets at `/api/admin/design-*`.
+- **Image Gen API**: `POST /api/admin/images/generate` with prompt, negative prompt, text-free toggle, size, count.
 - **Autosave**: Canvas state auto-saved every 2 seconds.
+
+### Watermarked Preview System
+- **Schema**: `digital_products.previewUrl` (object storage key), `digital_products.previewPageCount`.
+- **Admin Endpoint**: `POST /api/admin/shop/products/:id/generate-preview` — fetches full PDF, generates watermarked preview (pdf-lib), stores in object storage.
+- **Public Endpoint**: `GET /api/products/:slug/preview` — streams watermarked preview PDF (inline, cached). No auth required. Never exposes full PDF.
+- **Admin Download**: `GET /api/admin/shop/products/:id/download` — admin-only, streams full PDF with `Content-Disposition: attachment`.
+- **Price Endpoint**: `POST /api/admin/shop/products/:id/price` — accepts `priceDollars`, converts to cents server-side.
+- **UI**: Product detail page shows iframe preview when previewUrl exists. Admin row has Download, Regenerate Preview, and Delete buttons.
+- **Storage**: Preview PDFs stored in object storage private directory (`PRIVATE_OBJECT_DIR/previews/`).
+
+### Dual-Path Exam System
+- **Homepage Section**: "Choose Your Exam Path" with CA (REx-PN) and US (NCLEX-RN) cards, region highlighting.
+- **Hub Pages**: `/rex-pn-guide` (Canadian REx-PN authority page), `/nclex-rn-guide` (US NCLEX-RN authority page).
+- **Cluster Sub-pages**: Both hubs support /:slug sub-routes for deep content clusters.
 
 ### My Downloads / Post-Purchase Flow
 - **Profile**: "My Purchases" section shows purchased products with download buttons and remaining count.

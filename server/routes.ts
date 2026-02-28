@@ -3,6 +3,13 @@ import type { Server } from "http";
 import { sql } from "drizzle-orm";
 import { storage, DatabaseStorage, pool } from "./storage";
 
+function parseStoragePath(path: string): { bucketName: string; objectName: string } {
+  if (!path.startsWith("/")) path = `/${path}`;
+  const parts = path.split("/");
+  if (parts.length < 3) throw new Error("Invalid storage path");
+  return { bucketName: parts[1], objectName: parts.slice(2).join("/") };
+}
+
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
   if (obj === null || typeof obj !== "object") return obj;
@@ -7914,6 +7921,106 @@ Return ONLY valid JSON with this exact structure:
       if (!fileRes.ok) return res.status(502).json({ error: "Failed to fetch file" });
       const buffer = await fileRes.buffer();
       res.send(buffer);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/shop/products/:id/generate-preview", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const product = await storage.getDigitalProduct(req.params.id);
+      if (!product) return res.status(404).json({ error: "Product not found" });
+      if (!product.fileUrl) return res.status(400).json({ error: "No full PDF attached to this product" });
+
+      const pageCount = Math.max(1, Math.min(10, Number(req.body?.pageCount ?? 3)));
+
+      const { default: nodeFetch } = await import("node-fetch");
+      const fileRes = await nodeFetch(product.fileUrl);
+      if (!fileRes.ok) return res.status(502).json({ error: "Failed to fetch source PDF" });
+      const fullPdfBytes = new Uint8Array(await fileRes.arrayBuffer());
+
+      const { PDFDocument, StandardFonts, rgb, degrees } = await import("pdf-lib");
+      const src = await PDFDocument.load(fullPdfBytes);
+      const dst = await PDFDocument.create();
+      const font = await dst.embedFont(StandardFonts.HelveticaBold);
+      const pagesToCopy = Math.min(pageCount, src.getPageCount());
+      const copied = await dst.copyPages(src, [...Array(pagesToCopy)].map((_, i) => i));
+      const watermarkText = "NURSENEST PREVIEW \u2022 DO NOT DISTRIBUTE";
+
+      for (const page of copied) {
+        dst.addPage(page);
+        const { width, height } = page.getSize();
+        const fontSize = Math.max(28, Math.min(56, Math.floor(width / 18)));
+        page.drawText(watermarkText, {
+          x: width * 0.08,
+          y: height * 0.45,
+          size: fontSize,
+          font,
+          color: rgb(0, 0, 0),
+          rotate: degrees(-32),
+          opacity: 0.14,
+        });
+        page.drawText(watermarkText, {
+          x: width * 0.08,
+          y: height * 0.25,
+          size: fontSize,
+          font,
+          color: rgb(0, 0, 0),
+          rotate: degrees(-32),
+          opacity: 0.10,
+        });
+      }
+
+      const previewBytes = await dst.save();
+
+      const privateDir = process.env.PRIVATE_OBJECT_DIR || "";
+      if (!privateDir) return res.status(500).json({ error: "Object storage not configured" });
+
+      const previewKey = `${privateDir}/previews/preview-${req.params.id}-${pagesToCopy}.pdf`;
+      const { bucketName: pvBucket, objectName: pvObject } = parseStoragePath(previewKey);
+
+      const { objectStorageClient } = await import("./replit_integrations/object_storage/objectStorage");
+      const bucket = objectStorageClient.bucket(pvBucket);
+      const file = bucket.file(pvObject);
+      await file.save(Buffer.from(previewBytes), { contentType: "application/pdf" });
+
+      await storage.updateDigitalProduct(req.params.id, {
+        previewUrl: previewKey,
+        previewPageCount: pagesToCopy,
+      });
+
+      await logAudit(req, admin, "digital_product", req.params.id, "generate-preview", null, { pageCount: pagesToCopy });
+      res.json({ ok: true, pageCount: pagesToCopy, totalSourcePages: src.getPageCount() });
+    } catch (e: any) {
+      console.error("Preview generation error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/products/:slug/preview", async (req, res) => {
+    try {
+      const product = await storage.getDigitalProductBySlug(req.params.slug);
+      if (!product || !product.isActive) return res.status(404).json({ error: "Product not found" });
+      if (!product.previewUrl) return res.status(404).json({ error: "No preview available" });
+
+      const { bucketName: pvBucket, objectName: pvObject } = parseStoragePath(product.previewUrl);
+      const { objectStorageClient } = await import("./replit_integrations/object_storage/objectStorage");
+      const bucket = objectStorageClient.bucket(pvBucket);
+      const file = bucket.file(pvObject);
+      const [exists] = await file.exists();
+      if (!exists) return res.status(404).json({ error: "Preview file not found" });
+
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", "inline");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      const stream = file.createReadStream();
+      stream.on("error", (err) => {
+        console.error("Preview stream error:", err);
+        if (!res.headersSent) res.status(500).json({ error: "Error streaming preview" });
+      });
+      stream.pipe(res);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

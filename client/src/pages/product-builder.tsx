@@ -14,6 +14,7 @@ import {
   ImagePlus, Star, Award, ClipboardCheck, Lock, Unlock, SwatchBook
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { getAdminParams, adminFetch } from "@/lib/admin-fetch";
 
 interface DesignProject {
   id: string;
@@ -45,23 +46,6 @@ interface DesignAsset {
   height?: number;
 }
 
-function getAdminParams() {
-  const stored = localStorage.getItem("nursenest-credentials");
-  if (!stored) return "";
-  const { username, password } = JSON.parse(stored);
-  return `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-}
-
-function adminFetch(url: string, options?: RequestInit) {
-  const stored = localStorage.getItem("nursenest-credentials");
-  const creds = stored ? JSON.parse(stored) : {};
-  const body = options?.body ? JSON.parse(options.body as string) : {};
-  return fetch(url, {
-    ...options,
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify({ ...body, username: creds.username, password: creds.password }),
-  });
-}
 
 interface ThemeConfig {
   id: string;
@@ -464,7 +448,7 @@ function ProjectListView({ onOpenProject }: { onOpenProject: (id: string) => voi
   const [newOrientation, setNewOrientation] = useState("portrait");
 
   useEffect(() => {
-    fetch(`/api/admin/design-projects?${getAdminParams()}`)
+    adminFetch(`/api/admin/design-projects`)
       .then(r => { if (!r.ok) throw new Error("Unauthorized"); return r.json(); })
       .then(data => { if (Array.isArray(data)) setProjects(data); })
       .catch(() => {})
@@ -485,7 +469,7 @@ function ProjectListView({ onOpenProject }: { onOpenProject: (id: string) => voi
 
   const deleteProject = async (id: string) => {
     if (!confirm("Delete this project and all its pages?")) return;
-    await fetch(`/api/admin/design-projects/${id}?${getAdminParams()}`, { method: "DELETE" });
+    await adminFetch(`/api/admin/design-projects/${id}`, { method: "DELETE" });
     setProjects(prev => prev.filter(p => p.id !== id));
   };
 
@@ -622,7 +606,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const GRID_SIZE = 20;
 
   useEffect(() => {
-    fetch(`/api/admin/design-projects/${projectId}?${getAdminParams()}`)
+    adminFetch(`/api/admin/design-projects/${projectId}`)
       .then(r => { if (!r.ok) throw new Error("Failed to load"); return r.json(); })
       .then(data => {
         setProject(data);
@@ -1106,7 +1090,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
   const deletePage = async (pageId: string, index: number) => {
     if (pages.length <= 1) return;
     if (!confirm("Delete this page?")) return;
-    await fetch(`/api/admin/design-pages/${pageId}?${getAdminParams()}`, { method: "DELETE" });
+    await adminFetch(`/api/admin/design-pages/${pageId}`, { method: "DELETE" });
     const newPages = pages.filter(p => p.id !== pageId);
     setPages(newPages);
     if (currentPageIndex >= newPages.length) switchPage(newPages.length - 1);

@@ -31,27 +31,47 @@ export function getAdminParams(extra?: Record<string, string>): string {
   return str ? `?${str}` : "";
 }
 
-export async function adminFetch(url: string, options?: RequestInit): Promise<Response> {
+export async function adminFetch(url: string, init: RequestInit & { body?: any } = {}): Promise<Response> {
   const creds = getStoredCredentials();
-  const headers: Record<string, string> = {
-    ...(options?.headers as Record<string, string> || {}),
+  const method = (init.method || "GET").toUpperCase();
+  const headers = new Headers(init.headers || {});
+
+  const out: RequestInit = {
+    ...init,
+    method,
+    credentials: "include",
+    headers,
   };
 
-  if (options?.method && options.method !== "GET" && creds) {
-    headers["Content-Type"] = headers["Content-Type"] || "application/json";
-    if (options.body && typeof options.body === "string") {
-      try {
-        const body = JSON.parse(options.body);
-        body.username = body.username || creds.username;
-        body.password = body.password || creds.password;
-        options = { ...options, body: JSON.stringify(body) };
-      } catch {}
+  if (method === "GET" || method === "HEAD") {
+    delete (out as any).body;
+    if (creds) {
+      const separator = url.includes("?") ? "&" : "?";
+      url = `${url}${separator}username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`;
     }
+  } else if (init.body !== undefined) {
+    let bodyObj: any;
+    if (typeof init.body === "string") {
+      try {
+        bodyObj = JSON.parse(init.body);
+      } catch {
+        bodyObj = {};
+      }
+    } else {
+      bodyObj = init.body;
+    }
+    if (creds) {
+      bodyObj.username = bodyObj.username || creds.username;
+      bodyObj.password = bodyObj.password || creds.password;
+    }
+    out.body = JSON.stringify(bodyObj);
+    if (!headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+  } else if (creds) {
+    out.body = JSON.stringify({ username: creds.username, password: creds.password });
+    headers.set("Content-Type", "application/json");
   }
 
-  return fetch(url, {
-    ...options,
-    headers,
-    credentials: "include",
-  });
+  return fetch(url, out);
 }

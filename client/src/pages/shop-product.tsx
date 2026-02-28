@@ -287,6 +287,27 @@ export default function ShopProductPage() {
             </div>
           </div>
 
+          {product.previewUrl && (
+            <section className="mt-10" data-testid="section-preview">
+              <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-primary" /> Preview
+              </h2>
+              <p className="text-sm text-gray-500 mb-4">Browse a sample of this study guide before purchasing.</p>
+              <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                <iframe
+                  src={`/api/products/${product.slug}/preview`}
+                  className="w-full border-0"
+                  style={{ height: 700, borderRadius: 12 }}
+                  title={`${product.title} Preview`}
+                  data-testid="iframe-product-preview"
+                />
+              </div>
+              <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+                <Shield className="w-3 h-3" /> Watermarked preview — {product.previewPageCount || 3} of total pages shown
+              </p>
+            </section>
+          )}
+
           {product.description && (
             <section className="mt-12" data-testid="section-product-description">
               <h2 className="text-xl font-bold mb-4">What's Included</h2>

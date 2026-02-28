@@ -90,8 +90,7 @@ function AdminProductManager() {
 
   const loadProducts = async () => {
     try {
-      const params = getAdminParams();
-      const res = await fetch(`/api/admin/shop/products?${params}`);
+      const res = await adminFetch(`/api/admin/shop/products`);
       if (res.ok) setProducts(await res.json());
     } catch (e) {
       console.error(e);
@@ -217,9 +216,22 @@ function AdminProductManager() {
                 <Button onClick={() => startEdit(p)} variant="ghost" size="sm" data-testid={`button-edit-${p.slug}`}><Edit className="w-4 h-4" /></Button>
                 {p.fileUrl && (
                   <Button
-                    onClick={() => {
-                      const params = getAdminParams();
-                      window.open(`/api/admin/shop/products/${p.id}/download${params}`, "_blank");
+                    onClick={async () => {
+                      try {
+                        const res = await adminFetch(`/api/admin/shop/products/${p.id}/download`);
+                        if (!res.ok) { toast({ title: "Download failed", variant: "destructive" }); return; }
+                        const blob = await res.blob();
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `${p.slug || "product"}.pdf`;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        URL.revokeObjectURL(url);
+                      } catch (e: any) {
+                        toast({ title: "Download error", description: e.message, variant: "destructive" });
+                      }
                     }}
                     variant="ghost" size="sm" data-testid={`button-download-${p.slug}`}
                     title="Download full PDF"
@@ -229,14 +241,20 @@ function AdminProductManager() {
                 )}
                 <Button
                   onClick={async () => {
-                    const params = getAdminParams();
-                    const res = await fetch(`/api/admin/shop/products/${p.id}/generate-preview${params}`, { method: "POST" });
-                    if (res.ok) {
-                      toast({ title: "Preview generated" });
-                      loadProducts();
-                    } else {
-                      const err = await res.json().catch(() => ({}));
-                      toast({ title: "Preview Error", description: err.error || "Failed", variant: "destructive" });
+                    try {
+                      const res = await adminFetch(`/api/admin/shop/products/${p.id}/generate-preview`, {
+                        method: "POST",
+                        body: JSON.stringify({ pageCount: 3 }),
+                      });
+                      if (res.ok) {
+                        toast({ title: "Preview generated" });
+                        loadProducts();
+                      } else {
+                        const err = await res.json().catch(() => ({}));
+                        toast({ title: "Preview Error", description: err.error || "Failed", variant: "destructive" });
+                      }
+                    } catch (e: any) {
+                      toast({ title: "Error", description: e.message, variant: "destructive" });
                     }
                   }}
                   variant="ghost" size="sm" data-testid={`button-gen-preview-${p.slug}`}

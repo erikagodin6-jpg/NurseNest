@@ -1,0 +1,165 @@
+Perfect. Now finish this cleanly—there are only two things that can still bite you:
+
+GET requests that previously relied on query-param “admin creds” must now work with the unified auth model
+
+Your shared adminFetch must behave correctly for GET/POST and never stringify bodies on GET
+
+Here’s the exact end-state you want, plus the fixes to apply immediately.
+
+1) Shared adminFetch must have one contract (use this contract everywhere)
+Required behavior
+
+Always send credentials: "include" (cookies) for admin routes
+
+Never attach a request body for GET/HEAD
+
+If body is an object, JSON stringify it
+
+Set Content-Type: application/json only when a JSON body exists
+
+Throw on non-2xx with the server’s message
+
+Reference implementation (drop-in)
+
+Use this as the only adminFetch in src/lib/adminFetch.ts:
+
+type AdminFetchOptions = Omit<RequestInit, "body"> & {
+  body?: any;
+};
+
+export async function adminFetch<T = any>(url: string, opts: AdminFetchOptions = {}): Promise<T> {
+  const method = (opts.method ?? "GET").toUpperCase();
+  const headers = new Headers(opts.headers ?? {});
+
+  const init: RequestInit = {
+    ...opts,
+    method,
+    credentials: "include",
+    headers,
+  };
+
+  // Never send a body on GET/HEAD
+  if (method !== "GET" && method !== "HEAD" && opts.body !== undefined) {
+    if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");
+    init.body = typeof opts.body === "string" ? opts.body : JSON.stringify(opts.body);
+  } else {
+    delete (init as any).body;
+  }
+
+  const res = await fetch(url, init);
+
+  const contentType = res.headers.get("content-type") || "";
+  const isJson = contentType.includes("application/json");
+
+  if (!res.ok) {
+    const err = isJson ? await res.json().catch(() => null) : await res.text().catch(() => "");
+    const msg =
+      (err && (err.error || err.message)) ||
+      (typeof err === "string" && err) ||
+      `${res.status} ${res.statusText}`;
+    throw new Error(msg);
+  }
+
+  if (res.status === 204) return undefined as T;
+  return (isJson ? await res.json() : (await res.text() as any)) as T;
+}
+
+✅ Acceptance check: no body is ever sent for GET, and cookies are always included.
+
+2) Replace getAdminParams usage correctly
+
+If getAdminParams() was building ?username=...&password=... for GETs, you must delete that pattern. It’s insecure and it will break once you unify.
+
+What to do instead
+
+GET admin endpoints must rely on the same auth as POST:
+
+cookie session via credentials: include, OR
+
+bearer token (if that’s your auth model)
+
+So in Product Builder where you had:
+
+const url = `/api/admin/projects${getAdminParams()}`
+
+Replace with:
+
+const url = `/api/admin/projects`
+const projects = await adminFetch(url)
+
+If those GET endpoints were previously “public but protected by query params,” you must now protect them using requireAdmin.
+
+✅ Acceptance check: open devtools → network → admin GET requests have no credentials in URL and return 200 only when logged in as admin.
+
+3) Fix any GET calls that previously passed body
+
+Your note is important: the local version “merged body with credentials even for GET.”
+
+After swapping to the shared version, any code like:
+
+adminFetch("/api/admin/something", { method: "GET", body: { ... } })
+
+will now silently drop the body (correct behavior), which may change server behavior.
+
+How to fix those calls
+
+Convert to query params:
+
+const qs = new URLSearchParams({ foo: "bar" }).toString();
+adminFetch(`/api/admin/something?${qs}`)
+
+Or change the endpoint to POST if it’s truly a search.
+
+✅ Acceptance check: grep for method: "GET" with body: usage and eliminate it.
+
+4) Storage key pattern: lock it to “key only,” no parsing
+
+Since you’re using object storage properly now, make previewUrl store the key only:
+
+Example:
+
+previewUrl = "products/<id>/preview-3.pdf"
+
+Then your preview endpoint does:
+
+objectStorageClient.get(previewUrl) (using known bucket)
+
+streams bytes
+
+This eliminates parseStoragePath entirely.
+
+✅ Acceptance check: database previewUrl never starts with http, never contains base64, never contains gs://.
+
+5) Final QA checklist (run after your adminFetch swap)
+
+This is the exact set of tests that will catch every remaining regression caused by unifying adminFetch:
+
+Admin list loads (GET /api/admin/products)
+
+Edit product saves (PUT)
+
+Generate preview works (POST /generate-preview)
+
+Admin download works (GET download)
+
+Preview loads logged out (GET /api/products/:slug/preview)
+
+Product Builder admin-loaded data still loads (projects/templates/etc.)
+
+If any of these fail, the failure will almost always be:
+
+missing credentials: include (fixed above)
+
+endpoint still expecting query params (remove it, protect with requireAdmin)
+
+GET previously sent a body (convert to query params)
+
+What I need from you to be 100% exact (paste-only, no explanations)
+
+Paste the code for:
+
+getAdminParams() (if it still exists anywhere)
+
+one failing request URL + response status (if something breaks after swap)
+
+…and I’ll tell you the exact route/client change in one step.
