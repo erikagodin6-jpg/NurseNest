@@ -493,6 +493,8 @@ app.use((req, res, next) => {
   httpServer.timeout = 30000;
   httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
     log(`serving on port ${port}`);
+
+    import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
   });
 
   // Scheduler loop

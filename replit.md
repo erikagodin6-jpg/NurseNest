@@ -93,3 +93,13 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 - **Feedback System**: User feedback and bug reporting.
 - **Meta Graph API**: For social media scheduling.
 - **OpenAI**: For blog post generation, AI flashcards, and content generation.
+
+### Daily Content Generation Pipeline
+- **Engine**: `server/content-pipeline.ts` — AI-powered exam question and flashcard generation with clinical verification.
+- **Scheduler**: `server/content-scheduler.ts` — Runs daily at 02:00 America/Toronto.
+- **6 Banks**: RPN/RN/NP × exam_questions/flashcards. Threshold: 4,000 per bank. High rate (100/day) below threshold, low rate (25/day) above.
+- **Topic Distribution**: Weighted rotation across 14 body systems, max 15% per topic per run.
+- **Clinical Verification Gate**: AI checks for unsafe dosing, wrong ranges, scope errors, hallucinations. Items go to `needs_review` status.
+- **Admin Dashboard**: `/admin/pipeline` — Overview, question/flashcard review with approve/reject/bulk actions, job history.
+- **Schema Tables**: `flashcard_bank`, `generation_jobs`, `verification_reports`, `ai_cache`.
+- **API Endpoints**: `/api/admin/pipeline/*`, `/api/admin/qbank/*`, `/api/admin/flashcard-bank/*`.

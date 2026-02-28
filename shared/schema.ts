@@ -1035,3 +1035,61 @@ export const studyPackPurchases = pgTable("study_pack_purchases", {
 });
 
 export type StudyPackPurchase = typeof studyPackPurchases.$inferSelect;
+
+export const flashcardBank = pgTable("flashcard_bank", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  tier: text("tier").notNull(),
+  topicTag: text("topic_tag"),
+  front: text("front").notNull(),
+  back: text("back").notNull(),
+  tagsJson: jsonb("tags_json").default(sql`'[]'::jsonb`),
+  referencesJson: jsonb("references_json").default(sql`'[]'::jsonb`),
+  status: text("status").default("draft").notNull(),
+  contentHash: text("content_hash").unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertFlashcardBankSchema = createInsertSchema(flashcardBank).omit({ id: true, createdAt: true });
+export type InsertFlashcardBank = z.infer<typeof insertFlashcardBankSchema>;
+export type FlashcardBank = typeof flashcardBank.$inferSelect;
+
+export const generationJobs = pgTable("generation_jobs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  runDate: text("run_date").notNull(),
+  contentType: text("content_type").notNull(),
+  tier: text("tier").notNull(),
+  targetCount: integer("target_count").notNull(),
+  generatedCount: integer("generated_count").default(0),
+  mode: text("mode").notNull(),
+  topicPlanJson: jsonb("topic_plan_json").default(sql`'[]'::jsonb`),
+  status: text("status").default("queued").notNull(),
+  costEstimateJson: jsonb("cost_estimate_json"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertGenerationJobSchema = createInsertSchema(generationJobs).omit({ id: true, createdAt: true, completedAt: true });
+export type InsertGenerationJob = z.infer<typeof insertGenerationJobSchema>;
+export type GenerationJob = typeof generationJobs.$inferSelect;
+
+export const verificationReports = pgTable("verification_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  entityType: text("entity_type").notNull(),
+  entityId: varchar("entity_id").notNull(),
+  verdict: text("verdict").notNull(),
+  confidenceScore: doublePrecision("confidence_score"),
+  issuesJson: jsonb("issues_json").default(sql`'[]'::jsonb`),
+  citationsJson: jsonb("citations_json").default(sql`'[]'::jsonb`),
+  checkedAt: timestamp("checked_at").defaultNow().notNull(),
+  modelVersion: text("model_version"),
+});
+
+export const insertVerificationReportSchema = createInsertSchema(verificationReports).omit({ id: true, checkedAt: true });
+export type InsertVerificationReport = z.infer<typeof insertVerificationReportSchema>;
+export type VerificationReport = typeof verificationReports.$inferSelect;
+
+export const aiCache = pgTable("ai_cache", {
+  cacheKey: text("cache_key").primaryKey(),
+  outputJson: jsonb("output_json").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
