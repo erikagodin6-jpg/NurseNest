@@ -1,0 +1,67 @@
+You are upgrading NurseNest’s Store Admin + Product Delivery system.
+
+GOALS
+1) Admin can CREATE, EDIT, DELETE, CHANGE PRICE (in dollars), DOWNLOAD full PDFs, and PREVIEW full PDFs.
+2) Public users can VIEW a WATERMARKED PREVIEW (sample pages) but cannot access full PDF.
+3) Purchasers can securely DOWNLOAD the full PDF (authorization required).
+
+CURRENT PROBLEM
+The store page is read-only and uses a basic “create product” form. There are no edit/delete actions, no admin download/preview, and public pages likely point to direct file URLs.
+
+REQUIREMENTS (IMPLEMENT ALL)
+A) ADMIN CRUD UI
+- In /admin/store (or existing admin products page), list products with actions:
+  - Edit button opens modal or routed edit page prefilled with product data
+  - Update button saves changes
+  - Delete button (soft delete: set isDeleted=true)
+  - Restore button (optional)
+  - Change price input in DOLLARS (e.g., 19.99) — convert to cents server-side
+  - Download full PDF button (admin-only) streams the stored full PDF
+  - Preview full PDF button (admin-only) opens a viewer
+  - Regenerate Preview button: creates/updates watermarked preview PDF
+
+B) BACKEND ENDPOINTS (Express)
+- GET /api/admin/products (include isDeleted filter)
+- POST /api/admin/products
+- PUT /api/admin/products/:id
+- DELETE /api/admin/products/:id (soft delete)
+- POST /api/admin/products/:id/price (accept dollars, store cents)
+- GET /api/admin/products/:id/download (admin-only, streams full PDF)
+- GET /api/admin/products/:id/preview-full (admin-only, streams full PDF for viewing)
+- POST /api/admin/products/:id/generate-preview (admin-only)
+
+C) PUBLIC PREVIEW
+- GET /api/products/:slug returns product metadata + preview url (watermarked)
+- GET /api/products/:slug/preview streams the WATERMARKED preview PDF
+- Preview should show only first N pages (default 3) OR render low-res pages.
+- Add watermark text diagonally across each page: “NURSENEST PREVIEW • DO NOT DISTRIBUTE”
+- Watermark opacity ~0.12–0.18 and large font.
+- Store preview in a separate storage key and never expose full PDF storage key.
+
+D) SECURE DOWNLOAD AFTER PURCHASE
+- Create entitlements table: userId, productId, purchasedAt, stripeSessionId/paymentIntentId
+- On Stripe webhook payment success: insert entitlement
+- Implement GET /api/products/:slug/download:
+  - Requires authenticated user
+  - Checks entitlement exists for user+product
+  - Streams full PDF if entitled, else 403
+- Do NOT ever return direct permanent URLs to full PDFs.
+
+E) STORAGE
+- Use private storage (local server storage folder or S3-like bucket abstraction).
+- Save full PDFs as pdfStorageKey.
+- Save previews as previewStorageKey.
+- Ensure admin download/preview streams from storage, not public URLs.
+
+F) STRIPE PRICE SYNC (if you have Stripe Products/Prices)
+- When admin changes price:
+  - Update local priceCents
+  - Create a new Stripe Price and set it active for checkout (Stripe best practice)
+  - Store stripePriceId on product
+- Display price in dollars everywhere in admin.
+
+OUTPUT
+- Provide the exact React components structure changes, API routes, middleware checks (admin/auth), and the PDF watermarking implementation.
+- Include server-side watermarking code using a Node library (pdf-lib preferred) OR a reliable alternative.
+- Add guards so admin-only endpoints cannot be hit by public users.
+- Ensure the store page updates reflect immediately after edit/delete.
