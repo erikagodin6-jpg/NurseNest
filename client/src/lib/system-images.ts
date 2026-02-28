@@ -418,7 +418,6 @@ const lessonSpecificImages: Record<string, string> = {
   "cardiac-assessment-ecg": illustrationCardiovascularAnatomy,
   "cardioversion-defib": illustrationCardiovascularAnatomy,
   "dvt-management": illustrationCardiovascularAnatomy,
-  "polycythemia": illustrationCardiovascularAnatomy,
   "respiratory-assessment": illustrationRespiratoryAnatomy,
   "lung-auscultation": illustrationRespiratoryAnatomy,
   "oxygen-therapy-basics": illustrationRespiratoryAnatomy,
@@ -513,17 +512,14 @@ const lessonSpecificImages: Record<string, string> = {
   "heart-block-complete": illustrationEcgRhythm,
   "torsades-management": illustrationEcgRhythm,
   "asystole-pea": illustrationEcgRhythm,
-  "cardiac-rhythm-rn": illustrationEcgRhythm,
 
   "liver-cirrhosis": illustrationLiverCirrhosis,
-  "cirrhosis-management": illustrationCirrhosisPatho,
   "cirrhosis-advanced": illustrationCirrhosisPatho,
 
   "cholecystectomy": illustrationGallbladder,
   "cholecystitis": illustrationGallbladder,
   "cholelithiasis": illustrationGallbladder,
 
-  "spinal-cord-injury": illustrationSpinalCord,
   "spinal-cord-basics": illustrationSpinalCord,
 
   "wound-care": illustrationWoundHealing,
@@ -532,18 +528,11 @@ const lessonSpecificImages: Record<string, string> = {
   "skin-integrity": illustrationWoundHealing,
 
   "blood-transfusion-rpn": illustrationBloodTyping,
-  "blood-products": illustrationBloodTyping,
   "blood-typing": illustrationBloodTyping,
 
   "insulin-safety": illustrationPancreasInsulin,
-  "dm-type1": illustrationPancreasInsulin,
-  "dm-type2": illustrationPancreasInsulin,
-  "diabetes-lifespan": illustrationPancreasInsulin,
   "hypoglycemia-vs-dka-rpn": illustrationPancreasInsulin,
 
-  "fracture-types": illustrationFractureTypes,
-  "fracture-sprain-care": illustrationFractureTypes,
-  "cast-care": illustrationFractureTypes,
 
   "sle-autoimmune": illustrationAutoimmune,
   "autoimmune-disorders": illustrationAutoimmune,
@@ -555,165 +544,97 @@ const lessonSpecificImages: Record<string, string> = {
   "antidepressant-safety": illustrationNeurotransmitters,
 
   "mi-pathophysiology": illustrationMIPatho,
-  "mi-acute": illustrationMIPatho,
-  "mi-management": illustrationMIPatho,
   "acute-coronary-syndrome": illustrationMIPatho,
 
-  "hf-cell-pathology": illustrationHFPatho,
-  "hf-advanced": illustrationHFPatho,
-  "heart-failure": illustrationHFPatho,
-  "chf-basics": illustrationHFPatho,
 
-  "copd-exacerbation": illustrationCOPDPatho,
   "copd-basics-rpn": illustrationCOPDPatho,
 
-  "asthma-emergency": illustrationAsthmaPatho,
   "asthma-basics-rpn": illustrationAsthmaPatho,
-  "asthma-copd": illustrationAsthmaPatho,
 
-  "stroke-advanced": illustrationStrokePatho,
-  "stroke": illustrationStrokePatho,
   "stroke-basics": illustrationStrokePatho,
 
-  "aki-management": illustrationAKIPatho,
   "aki-basics": illustrationAKIPatho,
-  "ckd-management": illustrationAKIPatho,
 
-  "dka-hhns": illustrationDKAPatho,
   "dka-management": illustrationDKAPatho,
 
-  "sepsis-mastery": illustrationSepsisPatho,
   "sepsis-basics": illustrationSepsisPatho,
   "septic-shock": illustrationSepsisPatho,
 
-  "pe-recognition": illustrationPEPatho,
-  "pe-dvt": illustrationPEPatho,
   "pulmonary-embolism": illustrationPEPatho,
 
-  "increased-icp": illustrationICPPatho,
-  "increased-icp-np": illustrationICPPatho,
   "icp-basics": illustrationICPPatho,
 
-  "preeclampsia": illustrationPreeclampsiaPatho,
   "preeclampsia-eclampsia": illustrationPreeclampsiaPatho,
   "gestational-hypertension": illustrationPreeclampsiaPatho,
 
-  "sickle-cell": illustrationSickleCellPatho,
   "sickle-cell-disease": illustrationSickleCellPatho,
   "sickle-cell-crisis": illustrationSickleCellPatho,
 
-  "stevens-johnson-syndrome": illustrationSJSSkin,
   "stevens-johnson-basics-rpn": illustrationSJSSkin,
-  "toxic-epidermal-necrolysis": illustrationSJSSkin,
 
-  "pressure-injuries": illustrationPressureInjuryStages,
-  "pressure-ulcers": illustrationPressureInjuryStages,
-  "pressure-injury-staging": illustrationPressureInjuryStages,
-  "bedsores": illustrationPressureInjuryStages,
 
-  "burn-management": illustrationBurnDepth,
   "burn-care": illustrationBurnDepth,
   "burns-classification": illustrationBurnDepth,
 
-  "psoriasis": illustrationPsoriasisPatho,
   "psoriasis-management": illustrationPsoriasisPatho,
 
-  "herpes-zoster": illustrationShinglesDermatome,
-  "herpes-zoster-shingles": illustrationShinglesDermatome,
-  "shingles": illustrationShinglesDermatome,
   "shingles-herpes-zoster-rpn": illustrationShinglesDermatome,
-  "varicella-zoster": illustrationShinglesDermatome,
 
-  "cellulitis": illustrationCellulitisPatho,
   "cellulitis-management": illustrationCellulitisPatho,
 
-  "compartment-syndrome": illustrationCompartmentSyndrome,
   "compartment-syndrome-management": illustrationCompartmentSyndrome,
 
-  "guillain-barre": illustrationGBSPatho,
   "guillain-barre-syndrome": illustrationGBSPatho,
   "gbs-management": illustrationGBSPatho,
 
-  "ards-management": illustrationARDSPatho,
   "ards-basics": illustrationARDSPatho,
 
-  "pneumonia-basics": illustrationPneumoniaPatho,
-  "pneumonia-management": illustrationPneumoniaPatho,
-  "pneumonia-community": illustrationPneumoniaPatho,
-  "pneumonia-hospital": illustrationPneumoniaPatho,
-  "pneumonia-aspiration": illustrationPneumoniaPatho,
   "pneumonia-basics-rpn": illustrationPneumoniaPatho,
 
-  "myasthenia-gravis": illustrationMGPatho,
   "myasthenia-management": illustrationMGPatho,
 
-  "dic-basics": illustrationDICPatho,
   "dic-management": illustrationDICPatho,
-  "coagulation-cascade": illustrationDICPatho,
 
   "cirrhosis-pathophysiology": illustrationCirrhosisPatho,
   "hepatic-encephalopathy": illustrationCirrhosisPatho,
 
-  "acute-pancreatitis": illustrationPancreatitisPatho,
   "pancreatitis-management": illustrationPancreatitisPatho,
   "chronic-pancreatitis": illustrationPancreatitisPatho,
 
-  "parkinsons-disease": illustrationParkinsonsPatho,
-  "parkinsons": illustrationParkinsonsPatho,
   "parkinsons-management": illustrationParkinsonsPatho,
 
-  "multiple-sclerosis": illustrationMSPatho,
-  "ms-management": illustrationMSPatho,
   "ms-basics": illustrationMSPatho,
 
-  "thyroid-function": illustrationThyroidPatho,
   "hypothyroidism-basics": illustrationThyroidPatho,
   "hyperthyroidism-basics": illustrationThyroidPatho,
-  "thyroidectomy": illustrationThyroidPatho,
   "thyroid-disorders": illustrationThyroidPatho,
 
-  "adrenal-insufficiency": illustrationAddisonsPatho,
   "adrenal-crisis": illustrationAddisonsPatho,
   "addisons-disease": illustrationAddisonsPatho,
-  "adrenal-function": illustrationAddisonsPatho,
 
-  "electrolyte-safety": illustrationElectrolyteCardiac,
   "electrolyte-imbalance": illustrationElectrolyteCardiac,
   "hyperkalemia": illustrationElectrolyteCardiac,
   "hypokalemia": illustrationElectrolyteCardiac,
 
-  "gi-bleed": illustrationGIBleedPatho,
   "gi-bleed-basics-rpn": illustrationGIBleedPatho,
   "upper-gi-bleed": illustrationGIBleedPatho,
   "lower-gi-bleed": illustrationGIBleedPatho,
 
   "sle-lupus": illustrationLupusPatho,
 
-  "anaphylaxis": illustrationAnaphylaxisPatho,
   "anaphylaxis-management": illustrationAnaphylaxisPatho,
 
-  "active-tb": illustrationTBPatho,
-  "tuberculosis": illustrationTBPatho,
-  "latent-tb": illustrationTBPatho,
-  "tb-screening": illustrationTBPatho,
   "tb-basics-rpn": illustrationTBPatho,
 
-  "seizure-safety": illustrationSeizurePatho,
   "seizure-types-priorities-rpn": illustrationSeizurePatho,
-  "status-epilepticus": illustrationSeizurePatho,
 
-  "placenta-previa-abruption": illustrationPlacentaPatho,
   "placenta-previa": illustrationPlacentaPatho,
   "placental-abruption": illustrationPlacentaPatho,
 
-  "meningitis": illustrationMeningitisPatho,
   "meningitis-management": illustrationMeningitisPatho,
 
-  "glaucoma": illustrationGlaucomaPatho,
-  "glaucoma-management": illustrationGlaucomaPatho,
   "glaucoma-rpn": illustrationGlaucomaPatho,
 
-  "postpartum-hemorrhage": illustrationPPHPatho,
   "postpartum-hemorrhage-basics-rpn": illustrationPPHPatho,
 
   "ulcerative-colitis": illustrationUCPatho,
@@ -721,77 +642,49 @@ const lessonSpecificImages: Record<string, string> = {
   "crohns-disease": illustrationUCPatho,
   "ibd-management": illustrationUCPatho,
 
-  "peptic-ulcer": illustrationPepticUlcerPatho,
   "peptic-ulcer-basics-rpn": illustrationPepticUlcerPatho,
   "gastric-ulcer": illustrationPepticUlcerPatho,
 
-  "bowel-obstruction": illustrationBowelObstructionPatho,
   "bowel-obstruction-management": illustrationBowelObstructionPatho,
   "acute-abdomen": illustrationBowelObstructionPatho,
 
-  "cushing-syndrome": illustrationCushingsPatho,
   "cushings-management": illustrationCushingsPatho,
 
-  "siadh-di": illustrationSIADHDIPatho,
   "siadh-basics-rpn": illustrationSIADHDIPatho,
   "diabetes-insipidus-basics-rpn": illustrationSIADHDIPatho,
 
-  "retinal-detachment": illustrationRetinalDetachmentPatho,
   "retinal-detachment-rpn": illustrationRetinalDetachmentPatho,
 
-  "aortic-dissection": illustrationAorticDissectionPatho,
   "aortic-dissection-management": illustrationAorticDissectionPatho,
 
-  "dvt-management": illustrationDVTPatho,
   "dvt-basics": illustrationDVTPatho,
   "pad-claudication": illustrationDVTPatho,
 
-  "neonatal-jaundice-basics": illustrationNeonatalJaundicePatho,
-  "hyperbilirubinemia": illustrationNeonatalJaundicePatho,
   "neonatal-jaundice": illustrationNeonatalJaundicePatho,
 
-  "breast-cancer": illustrationBreastCancerPatho,
   "breast-cancer-management": illustrationBreastCancerPatho,
 
-  "rhabdomyolysis": illustrationRhabdomyolysisPatho,
   "rhabdomyolysis-management": illustrationRhabdomyolysisPatho,
 
-  "av-fistula": illustrationAVFistulaPatho,
-  "dialysis-steal": illustrationAVFistulaPatho,
   "hemodialysis-basics-rpn": illustrationAVFistulaPatho,
   "peritoneal-dialysis-basics-rpn": illustrationAVFistulaPatho,
 
-  "infective-endocarditis": illustrationEndocarditisPatho,
   "endocarditis-basics-rpn": illustrationEndocarditisPatho,
 
-  "gestational-diabetes": illustrationGestationalDiabetesPatho,
   "gestational-diabetes-management": illustrationGestationalDiabetesPatho,
 
-  "fetal-monitoring-rn": illustrationFetalMonitoringPatho,
   "fetal-monitoring-basics-rpn": illustrationFetalMonitoringPatho,
   "fetal-monitoring": illustrationFetalMonitoringPatho,
 
-  "malignant-hyperthermia": illustrationMalignantHyperthermia,
   "malignant-hyperthermia-management": illustrationMalignantHyperthermia,
 
-  "cardiogenic-shock": illustrationCardiogenicShockPatho,
-  "shock-syndromes": illustrationCardiogenicShockPatho,
   "shock-types-recognition-rpn": illustrationCardiogenicShockPatho,
 
-  "tracheostomy-care": illustrationTracheostomyPatho,
-  "tracheostomy": illustrationTracheostomyPatho,
-  "tracheostomy-suctioning": illustrationTracheostomyPatho,
   "tracheostomy-basics-rpn": illustrationTracheostomyPatho,
-  "laryngectomy": illustrationTracheostomyPatho,
 
-  "chest-tube-care": illustrationChestTubePatho,
   "chest-tube": illustrationChestTubePatho,
   "pneumothorax": illustrationChestTubePatho,
 
-  "eczema-atopic-dermatitis": illustrationEczemaPatho,
-  "atopic-dermatitis": illustrationEczemaPatho,
-  "eczema": illustrationEczemaPatho,
-  "contact-dermatitis": illustrationEczemaPatho,
 };
 
 const systemImageMap: Record<string, string> = {
