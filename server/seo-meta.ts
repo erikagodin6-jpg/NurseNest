@@ -1,6 +1,7 @@
 import { pool } from "./storage";
 import * as fs from "fs";
 import * as path from "path";
+import { seoTitleMap } from "./seo-title-map";
 
 const SITE_BASE = "https://www.nursenest.ca";
 
@@ -458,6 +459,16 @@ export function getPageMeta(pathname: string): PageMeta {
   const lessonMatch = cleanPath.match(/^\/lessons\/(.+)$/);
   if (lessonMatch) {
     const slug = lessonMatch[1];
+    const seoEntry = seoTitleMap[slug];
+    if (seoEntry) {
+      return {
+        title: `${seoEntry.title} | NurseNest`,
+        description: seoEntry.description,
+        canonical,
+        noindex,
+        breadcrumbs,
+      };
+    }
     const readable = slugToTitle(slug);
     let tier = "";
     if (slug.endsWith("-np")) tier = " (NP)";
@@ -647,6 +658,23 @@ export async function injectMeta(html: string, pathname: string): Promise<string
       `${jsonLdTags}\n</head>`
     );
   }
+
+  const SUPPORTED_LANGS = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa"];
+  const HREFLANG_MAP: Record<string, string> = {
+    en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
+    zh: "zh", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
+    vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
+  };
+  const hreflangTags = SUPPORTED_LANGS.map(lang => {
+    const hreflang = HREFLANG_MAP[lang] || lang;
+    const langUrl = lang === "en" ? `${SITE_BASE}${strippedPath || "/"}` : `${SITE_BASE}/${lang}${strippedPath || "/"}`;
+    return `<link rel="alternate" hreflang="${hreflang}" href="${langUrl}" />`;
+  });
+  hreflangTags.push(`<link rel="alternate" hreflang="x-default" href="${SITE_BASE}${strippedPath || "/"}" />`);
+  html = html.replace(
+    "</head>",
+    `${hreflangTags.join("\n")}\n</head>`
+  );
 
   if (meta.noscriptContent) {
     html = html.replace(

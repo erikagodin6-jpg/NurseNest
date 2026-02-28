@@ -123,3 +123,23 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 - **Clusters**: Electrolytes & Acid-Base, Cardiac Emergencies, Respiratory Emergencies, Sepsis & Shock, OB Emergencies, Pre-Nursing Foundations, Anatomy & Physiology, Pharmacology High-Yield.
 - **Features**: Each hub has FAQ schema, TOC, internal links to child lessons, exam trap sections, and meta optimization.
 - **URL Pattern**: `/study-guide/{cluster-slug}` (e.g., `/study-guide/electrolytes-acid-base-nursing-guide`).
+
+### SEO Title Map & Optimized Meta
+- **Server file**: `server/seo-title-map.ts` — 111 optimized lesson meta titles/descriptions with intent-targeted keywords.
+- **Integration**: `server/seo-meta.ts` imports map; lesson pages use optimized titles over generic fallback.
+- **Client file**: `client/src/data/seo-title-map.ts` — Mirror for client-side rendering.
+- **Hreflang**: Dynamic injection of 16 hreflang tags (15 languages + x-default) on every page via `seo-meta.ts`.
+
+### Internal Linking System
+- **File**: `client/src/data/internal-links.ts` — Contextual internal link map for 25+ high-traffic lessons.
+- **Per lesson**: 5-6 semantically relevant links (complications, labs, pharmacology, emergencies).
+- **Display**: "Related Topics" section rendered below lesson content on lesson-detail pages.
+
+### Lesson Funnel Module ("Next Action")
+- **Location**: Bottom of every lesson page in `lesson-detail.tsx`.
+- **CTAs**: Practice Questions → Flashcards → Mock Exams → Start Free / Dashboard.
+- **Logic**: Shows "Start Free" for anonymous users, "View Dashboard" for logged-in users.
+
+### Homepage "Most Tested Topics" Section
+- Links 6 high-yield exam categories to mega hubs and high-priority lessons.
+- Topics: Electrolytes & Acid-Base, ECG & Cardiac, Sepsis & Shock, OB Emergencies, Pharm Safety, Neuro Emergencies.

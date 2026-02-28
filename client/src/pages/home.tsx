@@ -666,6 +666,48 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="py-16 bg-white border-b border-gray-100" data-testid="section-most-tested">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 border border-red-100 shadow-sm mb-4">
+                <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
+                <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">High Yield</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-most-tested-heading">Most Tested Exam Topics</h2>
+              <p className="text-gray-600">These topics appear on virtually every nursing licensure exam. Master them first.</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { icon: Droplets, title: "Electrolytes & Acid-Base", desc: "Na, K, Ca, Mg, ABG interpretation, anion gap, DKA vs HHS", href: "/study-guide/electrolytes-acid-base-nursing-guide", color: "bg-blue-50 text-blue-600" },
+                { icon: HeartPulse, title: "ECG & Cardiac Emergencies", desc: "Lethal rhythms, STEMI vs NSTEMI, troponin, shock states", href: "/study-guide/ecg-cardiac-emergencies-nursing-guide", color: "bg-red-50 text-red-600" },
+                { icon: Thermometer, title: "Sepsis & Shock", desc: "Hour-1 bundle, qSOFA, vasopressors, fluid resuscitation", href: "/lessons/sepsis", color: "bg-orange-50 text-orange-600" },
+                { icon: Baby, title: "OB Emergencies", desc: "Preeclampsia, placental abruption, PPH, eclampsia", href: "/lessons/preeclampsia-management", color: "bg-pink-50 text-pink-600" },
+                { icon: FlaskConical, title: "Pharmacology Safety", desc: "High-alert meds, drug interactions, toxicity, antidotes", href: "/lessons/medication-administration-safety", color: "bg-emerald-50 text-emerald-600" },
+                { icon: Brain, title: "Neuro Emergencies", desc: "Stroke, increased ICP, seizures, spinal cord injury", href: "/lessons/stroke", color: "bg-purple-50 text-purple-600" },
+              ].map((topic, i) => (
+                <Card 
+                  key={i} 
+                  className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" 
+                  onClick={() => setLocation(topic.href)} 
+                  data-testid={`card-most-tested-${i}`}
+                >
+                  <CardContent className="p-5">
+                    <div className="flex items-start gap-4">
+                      <div className={`w-11 h-11 ${topic.color} rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                        <topic.icon className="w-5 h-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm mb-1">{topic.title}</h3>
+                        <p className="text-xs text-gray-500 leading-relaxed">{topic.desc}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* For New Nurses & Floor Specialties */}
         <section className="py-20 bg-primary/5 border-y border-primary/10" data-testid="section-new-nurses">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
