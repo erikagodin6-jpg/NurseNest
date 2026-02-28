@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, jsonb, boolean, doublePrecision } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, timestamp, jsonb, boolean, doublePrecision, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -784,7 +784,9 @@ export const contentTranslations = pgTable("content_translations", {
   sourceHash: text("source_hash"),
   sourceLastUpdatedReference: timestamp("source_last_updated_reference"),
   lastUpdated: timestamp("last_updated").defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex("content_translations_unique_idx").on(table.contentType, table.contentId, table.fieldName, table.languageCode),
+]);
 
 export type ContentTranslation = typeof contentTranslations.$inferSelect;
 export const insertContentTranslationSchema = createInsertSchema(contentTranslations).omit({ id: true, lastUpdated: true });

@@ -923,7 +923,8 @@ export default function ContentPage() {
           onClose={() => setShowEditor(false)}
           onSaved={() => {
             setShowEditor(false);
-            queryClient.invalidateQueries({ queryKey: ["content-slug", slug] });
+            queryClient.invalidateQueries({ queryKey: ["content-slug", slug, language] });
+            queryClient.invalidateQueries({ queryKey: ["content-slug"] });
           }}
         />
       )}
