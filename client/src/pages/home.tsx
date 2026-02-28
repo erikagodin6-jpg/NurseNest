@@ -259,6 +259,88 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Choose Your Exam Path */}
+        <section className="py-16 bg-gradient-to-b from-white to-primary/5 relative z-10 border-t border-gray-100" data-testid="section-exam-path">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                <Globe className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.examPath.badge")}</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-exam-path-heading">{t("home.examPath.heading")}</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("home.examPath.subtitle")}</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <Card 
+                className={`relative overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group ${region === "CA" ? "ring-2 ring-red-400 shadow-lg" : "border-gray-200 hover:border-red-300"}`}
+                onClick={() => setLocation("/rex-pn-guide")}
+                data-testid="card-exam-path-ca"
+              >
+                {region === "CA" && (
+                  <div className="absolute top-3 right-3">
+                    <Badge className="bg-red-500 text-white text-[10px]">Your Region</Badge>
+                  </div>
+                )}
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center">
+                      <span className="text-2xl" role="img" aria-label="Canada">🍁</span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-lg" data-testid="text-exam-path-ca-title">{t("home.examPath.ca.title")}</h3>
+                      <p className="text-xs text-gray-500 font-medium">{t("home.examPath.ca.subtitle")}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed mb-4" data-testid="text-exam-path-ca-desc">{t("home.examPath.ca.desc")}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">{t("home.examPath.ca.pill1")}</span>
+                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">{t("home.examPath.ca.pill2")}</span>
+                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">{t("home.examPath.ca.pill3")}</span>
+                  </div>
+                  <Button variant="outline" className="w-full rounded-full border-red-200 text-red-700 hover:bg-red-50 group-hover:border-red-400" data-testid="button-exam-path-ca">
+                    {t("home.examPath.ca.cta")}
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card 
+                className={`relative overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group ${region === "US" ? "ring-2 ring-blue-400 shadow-lg" : "border-gray-200 hover:border-blue-300"}`}
+                onClick={() => setLocation("/nclex-rn-guide")}
+                data-testid="card-exam-path-us"
+              >
+                {region === "US" && (
+                  <div className="absolute top-3 right-3">
+                    <Badge className="bg-blue-500 text-white text-[10px]">Your Region</Badge>
+                  </div>
+                )}
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                      <span className="text-2xl" role="img" aria-label="United States">🇺🇸</span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-lg" data-testid="text-exam-path-us-title">{t("home.examPath.us.title")}</h3>
+                      <p className="text-xs text-gray-500 font-medium">{t("home.examPath.us.subtitle")}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed mb-4" data-testid="text-exam-path-us-desc">{t("home.examPath.us.desc")}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">{t("home.examPath.us.pill1")}</span>
+                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">{t("home.examPath.us.pill2")}</span>
+                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">{t("home.examPath.us.pill3")}</span>
+                  </div>
+                  <Button variant="outline" className="w-full rounded-full border-blue-200 text-blue-700 hover:bg-blue-50 group-hover:border-blue-400" data-testid="button-exam-path-us">
+                    {t("home.examPath.us.cta")}
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+            <p className="text-center text-xs text-gray-400 mt-6">{t("home.examPath.bothNote")}</p>
+          </div>
+        </section>
+
         {/* 3-Step How It Works */}
         <section className="py-16 bg-gradient-to-b from-primary/5 to-white relative z-10 border-t border-primary/10" data-testid="section-how-it-works">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

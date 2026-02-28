@@ -2647,6 +2647,25 @@ const enTranslations: Record<string, string> = {
     "startFree.pathways.title": "Choose Your Learning Pathway",
     "startFree.pathways.subtitle": "Not sure where to start? Follow a structured pathway designed for your level.",
     "startFree.pathways.cta": "Find Your Pathway",
+
+    "home.examPath.badge": "Exam-Specific Prep",
+    "home.examPath.heading": "Choose Your Exam Path",
+    "home.examPath.subtitle": "NurseNest delivers targeted preparation for both Canadian and American nursing exams. Select your path for content aligned to your specific exam.",
+    "home.examPath.ca.title": "Canada — REX-PN",
+    "home.examPath.ca.subtitle": "Registered Practical Nurse",
+    "home.examPath.ca.desc": "Prepare for the Regulatory Exam–Practical Nurse with Canadian-specific content: RPN scope of practice, CNO standards, metric units, and SI lab values.",
+    "home.examPath.ca.cta": "REX-PN Prep Guide",
+    "home.examPath.ca.pill1": "CAT-Based Exam",
+    "home.examPath.ca.pill2": "CNO Standards",
+    "home.examPath.ca.pill3": "SI Units & Metric",
+    "home.examPath.us.title": "United States — NCLEX",
+    "home.examPath.us.subtitle": "RN & PN Licensure",
+    "home.examPath.us.desc": "Master the NCLEX-RN and NCLEX-PN with Next Generation NCLEX question types, clinical judgment measurement model, and US scope of practice content.",
+    "home.examPath.us.cta": "NCLEX-RN Prep Guide",
+    "home.examPath.us.pill1": "NGN Question Types",
+    "home.examPath.us.pill2": "Clinical Judgment Model",
+    "home.examPath.us.pill3": "NCSBN Standards",
+    "home.examPath.bothNote": "All content is available regardless of region. Choose your primary exam to get personalized recommendations.",
   };
 
 export default enTranslations;

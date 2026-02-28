@@ -105,6 +105,8 @@ const ShopPage = lazy(() => import("@/pages/shop"));
 const ShopProductPage = lazy(() => import("@/pages/shop-product"));
 const ProductBuilderPage = lazy(() => import("@/pages/product-builder"));
 const PathwaysPage = lazy(() => import("@/pages/pathways"));
+const RexPnGuide = lazy(() => import("@/pages/rex-pn-guide"));
+const NclexRnGuide = lazy(() => import("@/pages/nclex-rn-guide"));
 
 function PageTracker() {
   usePageTracker();
@@ -260,6 +262,10 @@ function AppRoutes() {
         <Route path="/compare/:slug" component={ComparePage} />
         <Route path="/np-exam-guide/:slug" component={NpExamHub} />
         <Route path="/np-exam-guide" component={NpExamHub} />
+        <Route path="/rex-pn-guide/:slug" component={RexPnGuide} />
+        <Route path="/rex-pn-guide" component={RexPnGuide} />
+        <Route path="/nclex-rn-guide/:slug" component={NclexRnGuide} />
+        <Route path="/nclex-rn-guide" component={NclexRnGuide} />
         <Route path="/study-guide/:slug" component={SeoPage} />
         <Route path="/admin/seo" component={AdminSeoDashboard} />
         <Route path="/admin/translations" component={AdminTranslationDashboard} />

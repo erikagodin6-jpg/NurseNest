@@ -197,7 +197,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const aiCheck = checkAiLimits();
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
 
-      const { prompt, context, mode, contentId } = req.body;
+      const { prompt, context, mode, contentId, examTarget } = req.body;
       if (!prompt) return res.status(400).json({ error: "Prompt is required" });
 
       if (contentId) {
@@ -246,9 +246,19 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
 
       const systemPrompt = systemPrompts[mode] || systemPrompts["generate"];
       const region = req.region || "US";
-      const regionNote = region === "CA"
-        ? "\nIMPORTANT: This is for the CANADIAN nursing audience. Use Canadian terminology: RPN (Registered Practical Nurse), REX-PN exam, CNO (College of Nurses of Ontario), SI units for lab values (mmol/L, µmol/L, g/L), temperatures in °C."
-        : "\nIMPORTANT: This is for the AMERICAN nursing audience. Use American terminology: LPN/LVN, NCLEX-PN exam, State Board of Nursing, conventional units for lab values (mEq/L, mg/dL, g/dL), temperatures in °F.";
+
+      const examTargetNotes: Record<string, string> = {
+        "rex-pn": "\nEXAM CONTEXT: REX-PN (Regulatory Exam – Practical Nurse, Canada). Use CANADIAN terminology: RPN (Registered Practical Nurse), CNO (College of Nurses of Ontario), SI units (mmol/L, µmol/L, g/L), temperatures in °C, weights in kg. Focus on patient safety priority framework, RPN scope of practice, CAT-based exam strategies. Emphasize safe medication administration, infection prevention (IPAC), harm reduction, and delegation FROM RN to RPN.",
+        "nclex-pn": "\nEXAM CONTEXT: NCLEX-PN (National Council Licensure Examination – Practical Nurse, US). Use AMERICAN terminology: LPN/LVN, State Board of Nursing, conventional units (mEq/L, mg/dL, g/dL), temperatures in °F, weights in lbs. Focus on ABCs framework, Maslow's hierarchy, safety/infection control, nursing process. Emphasize SATA questions, prioritization, stable patient assignments, and LPN/LVN scope under RN supervision.",
+        "nclex-rn": "\nEXAM CONTEXT: NCLEX-RN (National Council Licensure Examination – Registered Nurse). Use NCSBN terminology and Clinical Judgment Measurement Model (CJMM). Include Next Generation NCLEX (NGN) question types: extended drag-and-drop, cloze, enhanced hotspot, matrix/grid, trend items, bowtie, case studies. Focus on clinical judgment, evidence-based practice, full RN scope including IV therapy, delegation to LPN/UAP, patient education, and discharge planning. Use conventional units (mEq/L, mg/dL, °F).",
+        "np": "\nEXAM CONTEXT: NP Certification (AANP/ANCC). Content must be at advanced practice level. Focus on differential diagnosis, evidence-based prescribing, advanced health assessment, pharmacological mechanisms, treatment planning, and autonomous/collaborative practice models. Include DEA prescriptive authority considerations, referral criteria, and NP-specific clinical decision-making frameworks."
+      };
+
+      const regionNote = examTarget && examTargetNotes[examTarget]
+        ? examTargetNotes[examTarget]
+        : region === "CA"
+          ? "\nIMPORTANT: This is for the CANADIAN nursing audience. Use Canadian terminology: RPN (Registered Practical Nurse), REX-PN exam, CNO (College of Nurses of Ontario), SI units for lab values (mmol/L, µmol/L, g/L), temperatures in °C."
+          : "\nIMPORTANT: This is for the AMERICAN nursing audience. Use American terminology: LPN/LVN, NCLEX-PN exam, State Board of Nursing, conventional units for lab values (mEq/L, mg/dL, g/dL), temperatures in °F.";
 
       const messages: any[] = [
         { role: "system", content: systemPrompt + regionNote },

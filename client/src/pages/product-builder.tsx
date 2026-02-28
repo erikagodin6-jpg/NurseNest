@@ -593,6 +593,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | null>("tools");
   const [aiTopic, setAiTopic] = useState("");
   const [aiTier, setAiTier] = useState("rn");
+  const [aiExamTarget, setAiExamTarget] = useState("nclex-rn");
   const [aiLoading, setAiLoading] = useState<string | null>(null);
   const [aiResult, setAiResult] = useState<any>(null);
 
@@ -903,6 +904,45 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     }
   };
 
+  const EXAM_CONTEXT_MAP: Record<string, { label: string; tier: string; region: string; frameworks: string; questionStyle: string; terminology: string; scope: string }> = {
+    "rex-pn": {
+      label: "REX-PN (Canada)",
+      tier: "RPN",
+      region: "CA",
+      frameworks: "Patient safety priority framework, RPN scope of practice, CNO practice standards, harm reduction, infection control (IPAC)",
+      questionStyle: "Computer Adaptive Testing (CAT), case-based clinical scenarios, safety-focused decision making",
+      terminology: "RPN (Registered Practical Nurse), CNO, metric units (°C, kg, cm), SI lab values (mmol/L, µmol/L, g/L)",
+      scope: "RPN scope: medication administration (excluding IV initiation in some jurisdictions), wound care, patient assessment within scope, delegation from RN"
+    },
+    "nclex-pn": {
+      label: "NCLEX-PN (US)",
+      tier: "LPN/LVN",
+      region: "US",
+      frameworks: "ABCs (Airway-Breathing-Circulation), Maslow's hierarchy, safety and infection control, nursing process",
+      questionStyle: "Computer Adaptive Testing (CAT), SATA (select all that apply), prioritization and delegation, fill-in-the-blank calculations",
+      terminology: "LPN/LVN (Licensed Practical/Vocational Nurse), State Board of Nursing, imperial units (°F, lbs, in), conventional lab values (mEq/L, mg/dL)",
+      scope: "LPN/LVN scope: basic patient care, data collection, medication administration under RN supervision, stable patient assignments"
+    },
+    "nclex-rn": {
+      label: "NCLEX-RN",
+      tier: "RN",
+      region: "US",
+      frameworks: "Clinical Judgment Measurement Model (CJMM), NCSBN Clinical Judgment, ABCs, safety and infection control, evidence-based practice",
+      questionStyle: "Next Generation NCLEX (NGN): extended drag-and-drop, cloze, enhanced hotspot, matrix/grid, trend items, case studies with 6 questions each",
+      terminology: "RN, NCSBN, State Board of Nursing, imperial units (°F, lbs), conventional lab values (mEq/L, mg/dL, g/dL)",
+      scope: "Full RN scope: comprehensive assessment, care planning, IV therapy, delegation to LPN/UAP, patient education, discharge planning"
+    },
+    "np": {
+      label: "NP (AANP/ANCC)",
+      tier: "NP",
+      region: "US",
+      frameworks: "Differential diagnosis, evidence-based prescribing, advanced health assessment, pharmacological and non-pharmacological management",
+      questionStyle: "Multiple-choice with complex clinical scenarios, differential diagnosis reasoning, treatment planning, prescription writing",
+      terminology: "NP, AANP, ANCC, FNP-BC, autonomous practice vs collaborative practice, DEA prescriptive authority",
+      scope: "NP scope: independent assessment, diagnosis, prescribing, referral, advanced procedures, health promotion"
+    },
+  };
+
   const runAiTool = async (toolId: string) => {
     if (!aiTopic.trim()) {
       toast({ title: "Enter a topic first", variant: "destructive" });
@@ -912,12 +952,18 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     setAiResult(null);
     try {
       const tool = AI_TOOLS.find(t => t.id === toolId);
-      const tierLabel = aiTier === "rpn" ? "RPN/LPN" : aiTier === "rn" ? "RN" : "NP";
-      const prompt = `${tool?.prompt || "Generate content"} for: ${aiTopic}. Tier: ${tierLabel}. Return structured JSON array of canvas objects with types: heading, paragraph, list, clinical-pearl, warning, callout.`;
+      const examCtx = EXAM_CONTEXT_MAP[aiExamTarget] || EXAM_CONTEXT_MAP["nclex-rn"];
+      const prompt = `${tool?.prompt || "Generate content"} for: ${aiTopic}.
+Exam Target: ${examCtx.label} | Tier: ${examCtx.tier}
+Frameworks: ${examCtx.frameworks}
+Question Style: ${examCtx.questionStyle}
+Terminology: ${examCtx.terminology}
+Scope: ${examCtx.scope}
+Return structured JSON array of canvas objects with types: heading, paragraph, list, clinical-pearl, warning, callout.`;
 
       const res = await adminFetch("/api/ai/generate-content", {
         method: "POST",
-        body: JSON.stringify({ prompt, mode: "generate" }),
+        body: JSON.stringify({ prompt, mode: "generate", examTarget: aiExamTarget }),
       });
 
       if (!res.ok) {
@@ -1303,11 +1349,12 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
               <Input value={aiTopic} onChange={e => setAiTopic(e.target.value)} placeholder="e.g., Heart Failure" className="text-xs h-8" data-testid="input-ai-topic" />
             </div>
             <div>
-              <label className="text-[10px] font-medium text-gray-500 block mb-1">Tier</label>
-              <select value={aiTier} onChange={e => setAiTier(e.target.value)} className="w-full text-xs border rounded-md px-2 py-1.5" data-testid="select-ai-tier">
-                <option value="rpn">RPN / LPN</option>
-                <option value="rn">RN</option>
-                <option value="np">NP</option>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">Exam Target</label>
+              <select value={aiExamTarget} onChange={e => setAiExamTarget(e.target.value)} className="w-full text-xs border rounded-md px-2 py-1.5" data-testid="select-ai-exam-target">
+                <option value="rex-pn">REX-PN (Canada - RPN)</option>
+                <option value="nclex-pn">NCLEX-PN (US - LPN/LVN)</option>
+                <option value="nclex-rn">NCLEX-RN (US/CA - RN)</option>
+                <option value="np">NP (AANP/ANCC)</option>
               </select>
             </div>
             <div className="border-t pt-2 space-y-0.5">
