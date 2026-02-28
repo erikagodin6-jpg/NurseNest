@@ -7882,6 +7882,92 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.post("/api/admin/shop/products/:id/price", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const existing = await storage.getDigitalProduct(req.params.id);
+      if (!existing) return res.status(404).json({ error: "Product not found" });
+      const { priceDollars, compareAtDollars } = req.body;
+      if (priceDollars === undefined) return res.status(400).json({ error: "priceDollars is required" });
+      const priceCents = Math.round(parseFloat(priceDollars) * 100);
+      const compareAtCents = compareAtDollars ? Math.round(parseFloat(compareAtDollars) * 100) : null;
+      const updated = await storage.updateDigitalProduct(req.params.id, { price: priceCents, compareAtPrice: compareAtCents });
+      await logAudit(req, admin, "digital_product", req.params.id, "price-change", { price: existing.price }, { price: priceCents });
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/shop/products/:id/download", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const product = await storage.getDigitalProduct(req.params.id);
+      if (!product) return res.status(404).json({ error: "Product not found" });
+      if (!product.fileUrl) return res.status(404).json({ error: "No file attached to this product" });
+      res.setHeader("Content-Disposition", `attachment; filename="${product.slug || "product"}.pdf"`);
+      res.setHeader("Content-Type", "application/pdf");
+      const { default: fetch } = await import("node-fetch");
+      const fileRes = await fetch(product.fileUrl);
+      if (!fileRes.ok) return res.status(502).json({ error: "Failed to fetch file" });
+      const buffer = await fileRes.buffer();
+      res.send(buffer);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/images/generate", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const aiCheck = checkAiLimits();
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+
+      const { prompt, negativePrompt, size, n, textFree } = req.body;
+      if (!prompt) return res.status(400).json({ error: "Prompt is required" });
+
+      let finalPrompt = prompt;
+      if (textFree) {
+        finalPrompt += ". The image must not contain any text, letters, words, numbers, watermarks, labels, or typography.";
+      }
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const validSizes = ["1024x1024", "1024x1792", "1792x1024"] as const;
+      const resolvedSize = validSizes.includes(size) ? size : "1024x1024";
+      const count = Math.min(Math.max(parseInt(n) || 1, 1), 4);
+
+      const assets: { id: string; url: string }[] = [];
+      for (let i = 0; i < count; i++) {
+        const response = await openai.images.generate({
+          model: "dall-e-3",
+          prompt: finalPrompt,
+          n: 1,
+          size: resolvedSize,
+          quality: "standard",
+        });
+        const imageUrl = response.data?.[0]?.url;
+        if (imageUrl) {
+          assets.push({ id: `img-${Date.now()}-${i}`, url: imageUrl });
+        }
+      }
+
+      recordAiUsage(count, 0);
+      await logAudit(req, admin, "ai", null, "image-generate", null, { prompt: prompt.substring(0, 200), count, textFree });
+      res.json({ assets });
+    } catch (e: any) {
+      console.error("Image generate error:", e);
+      res.status(500).json({ error: e.message || "Image generation failed" });
+    }
+  });
+
   app.get("/api/admin/shop/sales", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;

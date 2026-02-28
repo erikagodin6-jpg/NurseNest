@@ -590,12 +590,19 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [brandLock, setBrandLock] = useState(true);
   const [activeThemeId, setActiveThemeId] = useState("soft-clinical");
   const [showLogo, setShowLogo] = useState(true);
-  const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | null>("tools");
+  const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | "imagelab" | null>("tools");
   const [aiTopic, setAiTopic] = useState("");
   const [aiTier, setAiTier] = useState("rn");
   const [aiExamTarget, setAiExamTarget] = useState("nclex-rn");
   const [aiLoading, setAiLoading] = useState<string | null>(null);
   const [aiResult, setAiResult] = useState<any>(null);
+  const [imgPrompt, setImgPrompt] = useState("");
+  const [imgNegative, setImgNegative] = useState("");
+  const [imgTextFree, setImgTextFree] = useState(true);
+  const [imgSize, setImgSize] = useState("1024x1024");
+  const [imgCount, setImgCount] = useState(1);
+  const [imgLoading, setImgLoading] = useState(false);
+  const [imgResults, setImgResults] = useState<{ id: string; url: string }[]>([]);
 
   const theme = getTheme(activeThemeId);
   const themePalette = [
@@ -1392,6 +1399,144 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       );
     }
 
+    if (leftPanel === "imagelab") {
+      const generateImages = async () => {
+        if (!imgPrompt.trim()) {
+          toast({ title: "Enter a prompt", variant: "destructive" });
+          return;
+        }
+        setImgLoading(true);
+        setImgResults([]);
+        try {
+          const res = await adminFetch("/api/admin/images/generate", {
+            method: "POST",
+            body: JSON.stringify({
+              prompt: imgPrompt,
+              negativePrompt: imgNegative,
+              size: imgSize,
+              n: imgCount,
+              textFree: imgTextFree,
+            }),
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error || "Generation failed");
+          }
+          const data = await res.json();
+          setImgResults(data.assets || []);
+          toast({ title: "Images generated", description: `${(data.assets || []).length} image(s) ready` });
+        } catch (e: any) {
+          toast({ title: "Image Error", description: e.message, variant: "destructive" });
+        } finally {
+          setImgLoading(false);
+        }
+      };
+
+      const insertImageToCanvas = (url: string) => {
+        pushUndo();
+        const newObj: CanvasObject = {
+          id: uid(),
+          type: "image" as const,
+          x: MARGIN,
+          y: MARGIN,
+          width: CANVAS_WIDTH - MARGIN * 2,
+          height: 300,
+          src: url,
+          rotation: 0,
+          opacity: 1,
+          zIndex: objects.length,
+        };
+        setObjects(prev => [...prev, newObj]);
+        setSelectedId(newObj.id);
+        toast({ title: "Image inserted into canvas" });
+      };
+
+      return (
+        <div className="w-64 bg-white border-r overflow-y-auto shrink-0">
+          <div className="p-3 border-b">
+            <span className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+              <ImagePlus className="w-3.5 h-3.5 text-primary" /> Image Lab
+            </span>
+          </div>
+          <div className="p-3 space-y-3">
+            <div>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">Prompt</label>
+              <textarea
+                value={imgPrompt}
+                onChange={e => setImgPrompt(e.target.value)}
+                placeholder="A warm, pastel illustration of a nurse checking vital signs on a patient in a modern hospital room, soft lighting, educational style..."
+                className="w-full text-xs border rounded-md px-2 py-1.5 h-24 resize-none"
+                data-testid="textarea-img-prompt"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">Negative Prompt</label>
+              <textarea
+                value={imgNegative}
+                onChange={e => setImgNegative(e.target.value)}
+                placeholder="blurry, low quality, distorted..."
+                className="w-full text-xs border rounded-md px-2 py-1.5 h-12 resize-none"
+                data-testid="textarea-img-negative"
+              />
+            </div>
+            <label className="flex items-center gap-2 text-[10px] font-medium text-gray-600 cursor-pointer">
+              <input type="checkbox" checked={imgTextFree} onChange={e => setImgTextFree(e.target.checked)} className="rounded" data-testid="checkbox-img-textfree" />
+              Text-Free Mode
+              <span className="text-gray-400">(no words/labels)</span>
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-[10px] font-medium text-gray-500 block mb-1">Size</label>
+                <select value={imgSize} onChange={e => setImgSize(e.target.value)} className="w-full text-[10px] border rounded-md px-2 py-1" data-testid="select-img-size">
+                  <option value="1024x1024">Square 1024x1024</option>
+                  <option value="1024x1792">Portrait 1024x1792</option>
+                  <option value="1792x1024">Landscape 1792x1024</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-[10px] font-medium text-gray-500 block mb-1">Count</label>
+                <select value={imgCount} onChange={e => setImgCount(Number(e.target.value))} className="w-full text-[10px] border rounded-md px-2 py-1" data-testid="select-img-count">
+                  <option value={1}>1 image</option>
+                  <option value={2}>2 images</option>
+                  <option value={3}>3 images</option>
+                  <option value={4}>4 images</option>
+                </select>
+              </div>
+            </div>
+            <Button
+              size="sm"
+              onClick={generateImages}
+              disabled={imgLoading || !imgPrompt.trim()}
+              className="w-full h-8 text-[11px] gap-1"
+              data-testid="button-generate-images"
+            >
+              {imgLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <ImagePlus className="w-3 h-3" />}
+              {imgLoading ? "Generating..." : "Generate Images"}
+            </Button>
+            {imgResults.length > 0 && (
+              <div className="border-t pt-3 space-y-2">
+                <p className="text-[10px] font-semibold text-gray-600">{imgResults.length} image(s) ready</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {imgResults.map((img) => (
+                    <div key={img.id} className="relative group">
+                      <img src={img.url} alt="Generated" className="w-full aspect-square object-cover rounded-lg border" />
+                      <button
+                        onClick={() => insertImageToCanvas(img.url)}
+                        className="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                        data-testid={`button-insert-img-${img.id}`}
+                      >
+                        <span className="text-white text-[10px] font-medium bg-primary px-2 py-1 rounded">Insert</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
     return null;
   };
 
@@ -1444,6 +1589,9 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
           </button>
           <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai")} className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${leftPanel === "ai" ? "bg-primary/10 text-primary" : "text-gray-400 hover:text-primary hover:bg-primary/5"}`} title="AI Tools" data-testid="button-panel-ai">
             <Brain className="w-4 h-4" />
+          </button>
+          <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab")} className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${leftPanel === "imagelab" ? "bg-primary/10 text-primary" : "text-gray-400 hover:text-primary hover:bg-primary/5"}`} title="Image Lab" data-testid="button-panel-imagelab">
+            <ImagePlus className="w-4 h-4" />
           </button>
           <div className="my-1 w-5 border-t" />
           <button onClick={undo} className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400 text-xs" title="Undo" data-testid="button-undo">↩</button>

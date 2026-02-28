@@ -83,8 +83,8 @@ function AdminProductManager() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({
-    title: "", slug: "", description: "", shortDescription: "", price: "1999",
-    compareAtPrice: "", fileUrl: "", coverImageUrl: "", category: "Cram Guide",
+    title: "", slug: "", description: "", shortDescription: "", priceDollars: "19.99",
+    compareAtDollars: "", fileUrl: "", coverImageUrl: "", category: "Cram Guide",
     tierTarget: "all", examTarget: "", featured: false,
   });
 
@@ -109,15 +109,17 @@ function AdminProductManager() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          price: parseInt(form.price) || 0,
-          compareAtPrice: form.compareAtPrice ? parseInt(form.compareAtPrice) : null,
+          price: Math.round(parseFloat(form.priceDollars) * 100) || 0,
+          compareAtPrice: form.compareAtDollars ? Math.round(parseFloat(form.compareAtDollars) * 100) : null,
+          priceDollars: undefined,
+          compareAtDollars: undefined,
         }),
       });
       if (res.ok) {
         toast({ title: editingId ? "Product updated" : "Product created" });
         setShowForm(false);
         setEditingId(null);
-        setForm({ title: "", slug: "", description: "", shortDescription: "", price: "1999", compareAtPrice: "", fileUrl: "", coverImageUrl: "", category: "Cram Guide", tierTarget: "all", examTarget: "", featured: false });
+        setForm({ title: "", slug: "", description: "", shortDescription: "", priceDollars: "19.99", compareAtDollars: "", fileUrl: "", coverImageUrl: "", category: "Cram Guide", tierTarget: "all", examTarget: "", featured: false });
         loadProducts();
       } else {
         const err = await res.json();
@@ -141,7 +143,7 @@ function AdminProductManager() {
     setEditingId(p.id);
     setForm({
       title: p.title, slug: p.slug, description: p.description, shortDescription: p.shortDescription || "",
-      price: String(p.price), compareAtPrice: p.compareAtPrice ? String(p.compareAtPrice) : "",
+      priceDollars: (p.price / 100).toFixed(2), compareAtDollars: p.compareAtPrice ? (p.compareAtPrice / 100).toFixed(2) : "",
       fileUrl: p.fileUrl || "", coverImageUrl: p.coverImageUrl || "", category: p.category,
       tierTarget: p.tierTarget || "all", examTarget: p.examTarget || "", featured: p.featured || false,
     });
@@ -168,8 +170,8 @@ function AdminProductManager() {
           <Textarea placeholder="Full description" value={form.description} onChange={e => setForm({...form, description: e.target.value})} data-testid="input-product-description" />
           <Input placeholder="Short description" value={form.shortDescription} onChange={e => setForm({...form, shortDescription: e.target.value})} data-testid="input-product-short-desc" />
           <div className="grid grid-cols-3 gap-3">
-            <Input placeholder="Price (cents)" value={form.price} onChange={e => setForm({...form, price: e.target.value})} data-testid="input-product-price" />
-            <Input placeholder="Compare-at price (cents)" value={form.compareAtPrice} onChange={e => setForm({...form, compareAtPrice: e.target.value})} data-testid="input-product-compare-price" />
+            <Input placeholder="Price ($)" value={form.priceDollars} onChange={e => setForm({...form, priceDollars: e.target.value})} data-testid="input-product-price" />
+            <Input placeholder="Compare-at price ($)" value={form.compareAtDollars} onChange={e => setForm({...form, compareAtDollars: e.target.value})} data-testid="input-product-compare-price" />
             <select className="border rounded px-3 py-2 text-sm" value={form.category} onChange={e => setForm({...form, category: e.target.value})} data-testid="select-product-category">
               <option>Cram Guide</option>
               <option>Flashcard Pack</option>

@@ -66,6 +66,7 @@ import {
 
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useQuery } from "@tanstack/react-query";
+import { Badge } from "@/components/ui/badge";
 import type { HeroStats } from "@shared/lesson-stats";
 import type { DigitalProduct } from "@shared/schema";
 

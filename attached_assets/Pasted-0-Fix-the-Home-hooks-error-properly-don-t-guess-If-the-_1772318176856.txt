@@ -1,0 +1,186 @@
+0) Fix the Home hooks error properly (don’t guess)
+
+If the app compiles but you’re seeing a “React hooks error” in Home, it’s almost never the Badge import itself. Missing imports usually throw a reference error, not a hooks rule error.
+
+The two common causes after adding a “dual-path” section:
+
+A hook is being called conditionally (inside an if, inside a ternary, inside a map callback, etc.)
+
+You accidentally created a nested component/function that uses hooks and is invoked conditionally
+
+Quick checklist in Home.tsx
+
+Ensure all hooks (useState, useEffect, useMemo, useTranslation, etc.) are at the top level of the component, before any returns/conditionals.
+
+If you added something like:
+
+if (something) {
+  const { t } = useTranslation()
+}
+
+move it to the top.
+
+If you wrote:
+
+const DualPath = () => {
+  const [x, setX] = useState(...)
+  ...
+}
+if (show) return <DualPath />
+
+That’s OK. But if you call it like DualPath() anywhere, not OK.
+
+Fix the Badge import (still do it)
+
+If you are using shadcn/ui style imports, add:
+
+import { Badge } from "@/components/ui/badge";
+
+If your project uses a different path, match your existing import patterns.
+
+✅ After these two checks, the hooks error should disappear. If not, paste the exact hooks error text (it usually names the file/line and “Rendered fewer hooks than expected” / “Invalid hook call”) and I’ll tell you the exact edit.
+
+1) Admin CRUD: implement the minimum that makes you operational
+
+Do this before more UX.
+
+Schema changes (minimum)
+
+Add columns if missing:
+
+price_cents INT NOT NULL
+
+is_deleted BOOLEAN NOT NULL DEFAULT FALSE
+
+updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+
+Optional but helpful:
+
+status TEXT NOT NULL DEFAULT 'draft' (draft|published|archived)
+
+pdf_storage_key TEXT (private full pdf)
+
+preview_storage_key TEXT (public preview pdf)
+
+Admin routes (must exist)
+
+Implement these server endpoints with admin auth middleware:
+
+GET /api/admin/products?includeDeleted=1
+
+PUT /api/admin/products/:id (metadata updates)
+
+DELETE /api/admin/products/:id (soft delete → is_deleted=true)
+
+POST /api/admin/products/:id/price body { priceDollars: number }
+
+server: priceCents = Math.round(priceDollars * 100)
+
+GET /api/admin/products/:id/download (stream full PDF, admin-only)
+
+Admin UI requirements (non-negotiable)
+
+On admin store list row/card:
+
+Edit (opens builder)
+
+Price input in dollars
+
+Save
+
+Delete
+
+Download full PDF (admin-only)
+
+Acceptance test:
+
+Change price to 24.99 → product page and checkout display 24.99 → purchase works.
+
+Delete → disappears publicly, still visible in admin if includeDeleted is on.
+
+2) Watermarked public preview: implement this next (fast, huge impact)
+
+You already export PDFs. Now add “preview generation.”
+
+Preview generation endpoint (admin-only)
+
+POST /api/admin/products/:id/generate-preview body { pageCount: 3 }
+
+Implementation requirements:
+
+Load full PDF from pdf_storage_key
+
+Create a new PDF containing only the first pageCount pages
+
+Watermark each page:
+
+text: NURSENEST PREVIEW • DO NOT DISTRIBUTE
+
+diagonal rotation ~ -30° to -35°
+
+opacity ~0.12–0.18
+
+Save as preview_storage_key
+
+Public preview streaming endpoint
+
+GET /api/products/:slug/preview
+
+streams ONLY the preview PDF
+
+never exposes full PDF
+
+Product page
+
+Embed preview using /api/products/:slug/preview
+
+Keep it separate from the post-purchase download endpoint
+
+Acceptance test:
+
+Open product page logged out → preview displays with watermark.
+
+Attempt to access full pdf → impossible without entitlement.
+
+3) Image Lab inside builder: ship a minimal working version
+
+Don’t build Photoshop. Build “generate → store → insert to canvas.”
+
+UI
+
+Prompt textarea (long)
+
+Negative prompt textarea
+
+Text-free toggle (appends to negative prompt):
+no text, no letters, no words, no numbers, no watermark, no labels
+
+Size presets
+
+Generate 1–4
+
+Buttons: Save to Assets, Insert into Canvas
+
+Backend route (admin-only)
+
+POST /api/admin/images/generate
+
+returns stored asset URLs/keys
+
+Acceptance test:
+
+Generate → appears in asset library → insert into PDF → export looks premium.
+
+Your next move (do not “check routes” for long)
+
+When you say “let me check the current shop admin routes and schema,” do it with a hard timebox:
+
+Locate current admin list component + existing endpoints.
+
+If endpoints don’t exist, implement exactly the 5 endpoints above.
+
+Wire the admin UI actions.
+
+Then do preview generation.
+
+If you paste your existing product schema (the fields/columns) and the current admin routes list (even just filenames or route names), I’ll map precisely which ones to add/modify so you don’t duplicate anything.
