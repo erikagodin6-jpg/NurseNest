@@ -1,0 +1,176 @@
+You are an international SEO director + nursing exam content strategist + information architect.
+
+Site: https://www.nursenest.ca
+Business: nursing exam prep + lessons + flashcards + question bank
+Primary exams: REx-PN (Canada), NCLEX (US/Canada), NP prep
+Primary conversion action: create account → use flashcards/questions → upgrade
+Languages supported (planned): en, fr-CA, es, pt, hi, ar, zh, ko, vi, ur, fa, pa, tl, ht, ja
+Rollout policy:
+- English publishes first
+- fr-CA publishes 7 days after EN
+- es publishes 14 days after EN
+- pt publishes 21 days after EN
+- hi publishes 28 days after EN
+- Any language version <80% translated must be published as NOINDEX (or delayed) until complete
+- Do not mix languages on a page; if translation missing, fallback the entire section to English and set NOINDEX for that language page
+
+You must produce ALL outputs below in ONE response, clearly labeled and spreadsheet-friendly.
+
+========================================================
+PART A — NON-ENGLISH KEYWORD OPPORTUNITY (fr-CA, es, pt, hi)
+========================================================
+For EACH language (fr-CA, es, pt, hi) output:
+
+A1) Top 40 keyword themes (not just single keywords) that nursing students and exam candidates search for.
+Themes must include:
+- electrolytes + acid-base
+- ECG interpretation
+- sepsis/shock
+- pharmacology/high-alert meds
+- OB/neonatal/peds emergencies
+- A&P/pre-nursing foundations
+- prioritization/delegation/NGN case studies
+- labs and interpretation
+
+A2) Localized phrasing map for 30 high-value English queries.
+Important: do NOT do literal translations; use natural phrasing people actually search.
+Format as:
+English query → localized phrasing → notes (regional spelling, synonyms, abbreviations)
+
+Use these English queries (and add more as needed):
+- hyperkalemia ECG changes
+- hypokalemia ECG changes
+- hyponatremia symptoms
+- hypernatremia nursing interventions
+- ABG interpretation step by step
+- anion gap explained
+- metabolic acidosis vs respiratory acidosis
+- DKA vs HHS differences
+- SIADH vs DI
+- sepsis bundle 1 hour
+- shock types nursing
+- STEMI vs NSTEMI
+- troponin timing
+- pacemaker failure to capture
+- chest tube bubbling water seal
+- blood transfusion reaction what to do first
+- magnesium toxicity preeclampsia
+- postpartum hemorrhage management
+- preeclampsia severe features
+- neonatal respiratory distress syndrome
+- RSV nursing care
+- asthma exacerbation nursing priorities
+- COPD oxygen therapy target saturation
+- medication rights nursing
+- delegation to UAP examples
+- NGN case study practice
+- fluid overload vs dehydration
+- IV fluids lactated ringer vs normal saline
+- insulin drip DKA protocol nursing
+- heparin drip PTT titration nursing
+
+A3) “First 50 pages to translate” recommendation for each language, ranked by ROI.
+You must propose page titles (EN) and indicate if they should be:
+- Lesson page
+- Hub page
+- Blog page
+- Question landing page
+- Flashcard landing page
+And WHY each is in the top 50 (traffic potential, conversion potential, internal linking value).
+
+A4) NOINDEX rules by language:
+- which page types should remain noindex until complete
+- completeness thresholds and how to compute them (title/body/meta/FAQ/questions)
+- when to remove noindex
+
+========================================================
+PART B — SEO CLUSTER + MEGA HUB ARCHITECTURE (English-first, multilingual-ready)
+========================================================
+Create 10 SEO clusters.
+
+For each cluster provide:
+- Cluster name
+- Hub page title (EN) + recommended slug
+- 15–30 child pages (titles) split into:
+  (1) lesson pages
+  (2) blog posts
+  (3) practice/question pages
+  (4) flashcard decks
+- internal linking plan:
+  - hub → all children
+  - children → hub
+  - children → 3–5 sibling pages
+- 10 anchor text suggestions
+- 5 FAQ schema questions (EN)
+- “Most tested concepts” bullet list (8–12 bullets)
+- translation notes: which parts must be localized (terms, units, exam names) for fr-CA/es/pt/hi
+
+Mandatory clusters:
+- Electrolytes + Acid–Base
+- ECG + Cardiac Emergencies
+- Sepsis + Shock
+- OB + Neonatal Emergencies
+- Respiratory Emergencies
+- Renal + Fluids + IV Therapy
+- Pharm Safety + High-Alert Meds
+- Pre-Nursing Foundations (A&P)
+- Prioritization + Delegation + NGN
+- Labs + Diagnostics for Nurses
+
+========================================================
+PART C — 12-WEEK MULTILINGUAL CONTENT CALENDAR
+========================================================
+Create a 12-week calendar with 3 posts per week (36 total) in English.
+
+For EACH post provide:
+- Title (EN)
+- slug_base
+- primary keyword
+- 3–6 secondary keywords
+- intent (top funnel A&P / exam-prep / comparison-checklist)
+- target length (word count)
+- suggested internal links (3–6) to hubs/lessons/questions/flashcards
+- CTA plan (where to place “Test yourself” and “Create account” and “Unlock more questions”)
+- Publish dates:
+  - EN publish date
+  - fr-CA publish date (EN+7d)
+  - es publish date (EN+14d)
+  - pt publish date (EN+21d)
+  - hi publish date (EN+28d)
+- Indexing rule: index/noindex based on translation completeness
+
+Mix requirements:
+- 30% Pre-Nursing/A&P
+- 40% high-yield exam topics (electrolytes, ABG, ECG, sepsis, shock, OB emergencies, pharm safety)
+- 30% comparisons/checklists (DKA vs HHS, SIADH vs DI, STEMI vs NSTEMI, etc.)
+Include at least:
+- 6 posts focused on electrolytes/acid-base
+- 4 posts focused on ECG/cardiac
+- 4 posts focused on sepsis/shock
+- 4 posts focused on OB/neonatal
+- 6 posts focused on A&P/pre-nursing
+
+Use a spreadsheet-friendly format with one row per post.
+
+========================================================
+PART D — IMPLEMENTATION INSTRUCTIONS FOR DEV AI
+========================================================
+Provide an implementation checklist (not code) that describes how to integrate:
+- language-based URLs (/en/, /fr/, etc.)
+- hreflang and canonicals
+- language sitemaps
+- translation completeness gating + noindex
+- translation job queue
+- admin coverage dashboard
+- ensuring blog scheduler publishes language versions at offsets
+
+Keep it concise but unambiguous.
+
+========================================================
+OUTPUT FORMAT RULES
+========================================================
+- No filler text.
+- Use clear headings “PART A/B/C/D”.
+- Make Parts A3, B children lists, and the 12-week calendar as table-like lists that can be pasted into a spreadsheet.
+- Ensure all language recommendations reference exam intent and nursing student search behavior.
+- Ensure the plan emphasizes that most competitors are English-only, so localized SEO clusters are an advantage if executed with high quality.
