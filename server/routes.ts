@@ -1215,7 +1215,21 @@ Rules:
       const result = await pool.query(
         `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'lesson' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
       );
-      res.json(snakeToCamel(result.rows));
+      const items = snakeToCamel(result.rows);
+
+      const lang = (req.query.lang as string) || req.lang || "en";
+      if (lang !== "en" && items.length > 0) {
+        const contentIds = items.map((item: any) => item.id);
+        const translatedTitles = await getBulkTranslatedTitles("content_item", contentIds, lang);
+        for (const item of items) {
+          const translatedTitle = translatedTitles.get(item.id);
+          if (translatedTitle) {
+            item.title = translatedTitle;
+          }
+        }
+      }
+
+      res.json(items);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

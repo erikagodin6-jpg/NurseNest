@@ -2996,7 +2996,7 @@ function DbLessonsSection({ lessons }: { lessons: DbLesson[] }) {
 export default function Lessons() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const userTier = user?.tier || "free";
   const isAdmin = userTier === "admin";
   const previewTier = isAdmin ? (localStorage.getItem("nursenest-admin-preview") || null) : null;
@@ -3049,11 +3049,12 @@ export default function Lessons() {
   };
 
   useEffect(() => {
-    fetch("/api/content/lessons")
+    const langParam = language && language !== "en" ? `?lang=${encodeURIComponent(language)}` : "";
+    fetch(`/api/content/lessons${langParam}`)
       .then((r) => r.ok ? r.json() : [])
       .then((data) => setDbLessons(Array.isArray(data) ? data : []))
       .catch(() => setDbLessons([]));
-  }, []);
+  }, [language]);
 
   const rpnNonPharm = rpnSystems.filter(s => !s.id.includes("pharmacology"));
   const rnNonPharm = rnSystems.filter(s => !s.id.includes("pharmacology"));

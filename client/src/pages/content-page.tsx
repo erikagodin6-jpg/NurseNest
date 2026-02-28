@@ -43,6 +43,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
 import type { ContentItem } from "@shared/schema";
 
@@ -615,13 +616,15 @@ function formatDate(dateStr: string | null | undefined): string {
 export default function ContentPage() {
   const { slug } = useParams<{ slug: string }>();
   const { user, isAdmin } = useAuth();
+  const { language } = useI18n();
   const queryClient = useQueryClient();
   const [showEditor, setShowEditor] = useState(false);
 
   const { data: contentItem, isLoading, error } = useQuery<ContentItem>({
-    queryKey: ["content-slug", slug],
+    queryKey: ["content-slug", slug, language],
     queryFn: async () => {
-      const res = await fetch(`/api/content/slug/${slug}`);
+      const langParam = language && language !== "en" ? `?lang=${encodeURIComponent(language)}` : "";
+      const res = await fetch(`/api/content/slug/${slug}${langParam}`);
       if (!res.ok) throw new Error("Not found");
       return res.json();
     },

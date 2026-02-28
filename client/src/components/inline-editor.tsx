@@ -12,9 +12,27 @@ import {
 } from "@/components/ui/select";
 import {
   Save, X, Plus, Trash2, ChevronUp, ChevronDown,
-  GripVertical, Loader2, Pencil, Eye, EyeOff, Globe, Rocket,
+  GripVertical, Loader2, Pencil, Eye, EyeOff, Globe, Rocket, Languages, Sparkles,
 } from "lucide-react";
 import { AIAssistant } from "@/components/ai-assistant";
+
+const TRANSLATION_LANGS = [
+  { code: "en", label: "English (Source)" },
+  { code: "fr", label: "French" },
+  { code: "es", label: "Spanish" },
+  { code: "zh", label: "Chinese" },
+  { code: "ar", label: "Arabic" },
+  { code: "hi", label: "Hindi" },
+  { code: "pt", label: "Portuguese" },
+  { code: "tl", label: "Filipino" },
+  { code: "ko", label: "Korean" },
+  { code: "ja", label: "Japanese" },
+  { code: "de", label: "German" },
+  { code: "vi", label: "Vietnamese" },
+  { code: "pa", label: "Punjabi" },
+  { code: "ur", label: "Urdu" },
+  { code: "fa", label: "Farsi" },
+];
 
 const BLOCK_TYPES = [
   "heading", "paragraph", "list", "clinical-pearl", "medication",
@@ -87,6 +105,91 @@ export function InlineEditorPanel({ contentItem, onClose, onSaved }: InlineEdito
   const [success, setSuccess] = useState(false);
   const [showAI, setShowAI] = useState(false);
 
+  const [editLang, setEditLang] = useState("en");
+  const [transTitle, setTransTitle] = useState("");
+  const [transSummary, setTransSummary] = useState("");
+  const [transBlocks, setTransBlocks] = useState<EditableBlock[]>([]);
+  const [transLoading, setTransLoading] = useState(false);
+  const [generating, setGenerating] = useState(false);
+
+  const sourceTitle = contentItem.title;
+  const sourceSummary = contentItem.summary || "";
+  const sourceBlocks = rawBlocks;
+
+  useEffect(() => {
+    if (editLang === "en") {
+      setTransTitle("");
+      setTransSummary("");
+      setTransBlocks([]);
+      return;
+    }
+    setTransLoading(true);
+    const creds = getCredentials();
+    const credParams = creds ? `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}&` : "";
+    fetch(`/api/content/slug/${contentItem.slug}?${credParams}lang=${encodeURIComponent(editLang)}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data._translation && data._translation.status !== "missing") {
+          setTransTitle(data.title !== sourceTitle ? data.title : "");
+          setTransSummary(data.summary !== sourceSummary ? (data.summary || "") : "");
+          if (data.content && JSON.stringify(data.content) !== JSON.stringify(sourceBlocks)) {
+            setTransBlocks((data.content as any[]).map(blockToEditable));
+          } else {
+            setTransBlocks([]);
+          }
+        } else {
+          setTransTitle("");
+          setTransSummary("");
+          setTransBlocks([]);
+        }
+      })
+      .catch(() => {
+        setTransTitle("");
+        setTransSummary("");
+        setTransBlocks([]);
+      })
+      .finally(() => setTransLoading(false));
+  }, [editLang]);
+
+  const handleGenerateAITranslation = async () => {
+    const creds = getCredentials();
+    if (!creds) return;
+    setGenerating(true);
+    setError("");
+    try {
+      const fields: Record<string, any> = { title: sourceTitle, summary: sourceSummary };
+      if (sourceBlocks.length > 0) {
+        fields.content = JSON.stringify(sourceBlocks);
+      }
+      const res = await fetch(`/api/content-translations/${contentItem.id}/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lang: editLang, fields, username: creds.username, password: creds.password }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.translations) {
+          if (data.translations.title) setTransTitle(data.translations.title);
+          if (data.translations.summary) setTransSummary(data.translations.summary);
+          if (data.translations.content) {
+            try {
+              const parsed = JSON.parse(data.translations.content);
+              if (Array.isArray(parsed)) setTransBlocks(parsed.map(blockToEditable));
+            } catch {}
+          }
+          setSuccess(true);
+          setTimeout(() => setSuccess(false), 2000);
+        }
+      } else {
+        const err = await res.json();
+        setError(err.error || "AI translation failed");
+      }
+    } catch (e: any) {
+      setError(e.message);
+    }
+    setGenerating(false);
+  };
+
   const handleSave = async () => {
     const creds = getCredentials();
     if (!creds) {
@@ -97,27 +200,57 @@ export function InlineEditorPanel({ contentItem, onClose, onSaved }: InlineEdito
     setError("");
     setSuccess(false);
     try {
-      const outputBlocks = blocks.map(editableToBlock);
-      const res = await fetch(`/api/content/${contentItem.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: creds.username,
-          password: creds.password,
-          title,
-          summary: summary || null,
-          tier,
-          status,
-          tags: tagsStr.split(",").map((t: string) => t.trim()).filter(Boolean),
-          content: outputBlocks,
-        }),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to save");
+      if (editLang !== "en") {
+        const translations: Record<string, string> = {};
+        if (transTitle.trim()) translations.title = transTitle;
+        if (transSummary.trim()) translations.summary = transSummary;
+        if (transBlocks.length > 0) {
+          translations.content = JSON.stringify(transBlocks.map(editableToBlock));
+        }
+        if (Object.keys(translations).length === 0) {
+          setError("No translated content to save. Enter translations first.");
+          setSaving(false);
+          return;
+        }
+        const res = await fetch(`/api/content-translations/${contentItem.id}/save`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            lang: editLang,
+            translations,
+            username: creds.username,
+            password: creds.password,
+          }),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Failed to save translation");
+        }
+        setSuccess(true);
+        setTimeout(() => onSaved(), 800);
+      } else {
+        const outputBlocks = blocks.map(editableToBlock);
+        const res = await fetch(`/api/content/${contentItem.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: creds.username,
+            password: creds.password,
+            title,
+            summary: summary || null,
+            tier,
+            status,
+            tags: tagsStr.split(",").map((t: string) => t.trim()).filter(Boolean),
+            content: outputBlocks,
+          }),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Failed to save");
+        }
+        setSuccess(true);
+        setTimeout(() => onSaved(), 800);
       }
-      setSuccess(true);
-      setTimeout(() => onSaved(), 800);
     } catch (e: any) {
       setError(e.message);
     } finally {
