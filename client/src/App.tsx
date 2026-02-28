@@ -49,6 +49,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 const Lessons = lazy(() => import("@/pages/lessons"));
 const LessonDetail = lazy(() => import("@/pages/lesson-detail"));
 const Flashcards = lazy(() => import("@/pages/flashcards"));
+const UpgradePage = lazy(() => import("@/pages/upgrade"));
 const Reports = lazy(() => import("@/pages/reports"));
 const LoginPage = lazy(() => import("@/pages/login"));
 const ProfilePage = lazy(() => import("@/pages/profile"));
@@ -267,6 +268,8 @@ function AppRoutes() {
         <Route path="/lessons/:id" component={LessonDetail} />
         <Route path="/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/flashcards" component={Flashcards} />
+        <Route path="/upgrade" component={UpgradePage} />
+        <Route path="/upgrade/success" component={UpgradePage} />
         <Route path="/reports" component={Reports} />
         <Route path="/login" component={LoginPage} />
         <Route path="/profile" component={ProfilePage} />

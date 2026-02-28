@@ -47,6 +47,8 @@ import {
   Eye,
   Wand2,
   Loader2,
+  Crown,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
@@ -1644,7 +1646,7 @@ export default function Flashcards() {
   const [editingCard, setEditingCard] = useState<CustomCard | null>(null);
   const [myCardsStudyIndex, setMyCardsStudyIndex] = useState(0);
   const [myCardsFlipped, setMyCardsFlipped] = useState(false);
-  const FREE_LIMIT = 50;
+  const FREE_LIMIT = 300;
 
   const isPaid = user && (user as any).tier !== "free" && (user as any).subscriptionStatus === "active";
 
@@ -1693,7 +1695,7 @@ export default function Flashcards() {
   const [aiChecking, setAiChecking] = useState(false);
   const [csvImportText, setCsvImportText] = useState("");
   const [showCsvImport, setShowCsvImport] = useState(false);
-  const [entitlement, setEntitlement] = useState<any>({ isPremium: false, totalFreeCards: 0, limit: 50 });
+  const [entitlement, setEntitlement] = useState<any>({ isPremium: false, totalFreeCards: 0, limit: 300, percentage: 0 });
   const [deckStudyIndex, setDeckStudyIndex] = useState(0);
   const [deckStudyFlipped, setDeckStudyFlipped] = useState(false);
   const [deckStudyCorrect, setDeckStudyCorrect] = useState(0);
@@ -1740,8 +1742,17 @@ export default function Flashcards() {
   const fetchEntitlement = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await fetch(`/api/user-entitlement?userId=${user.id}`);
-      if (res.ok) setEntitlement(await res.json());
+      const res = await fetch(`/api/flashcard-usage/${user.id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setEntitlement({
+          isPremium: data.isPremium,
+          totalFreeCards: data.used,
+          limit: data.limit,
+          percentage: data.percentage,
+          remaining: data.remaining,
+        });
+      }
     } catch {}
   }, [user]);
 
@@ -1760,6 +1771,10 @@ export default function Flashcards() {
       fetchEntitlement();
     }
   }, [view, fetchMyDecks, fetchPublicDecks, fetchSavedDecks, fetchEntitlement]);
+
+  useEffect(() => {
+    fetchEntitlement();
+  }, [fetchEntitlement]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -2334,6 +2349,42 @@ export default function Flashcards() {
               </Button>
             )}
           </div>
+
+          {user && !entitlement.isPremium && (
+            <div className="mb-8 bg-white rounded-2xl shadow-md p-4 border" data-testid="flashcard-usage-counter">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-purple-500" />
+                  <span className="text-sm font-medium text-gray-700" data-testid="text-usage-count">
+                    {entitlement.totalFreeCards} / {entitlement.limit} free cards used
+                  </span>
+                </div>
+                {entitlement.percentage >= 80 && (
+                  <a href="/upgrade" className="text-xs font-semibold text-purple-600 hover:text-purple-700 flex items-center gap-1" data-testid="link-upgrade-cta">
+                    <Crown className="w-3 h-3" /> Upgrade to Pro
+                  </a>
+                )}
+              </div>
+              <div className="w-full bg-gray-100 rounded-full h-2.5">
+                <div
+                  className={cn(
+                    "h-2.5 rounded-full transition-all",
+                    entitlement.percentage >= 90 ? "bg-red-500" :
+                    entitlement.percentage >= 80 ? "bg-amber-500" :
+                    "bg-purple-500"
+                  )}
+                  style={{ width: `${Math.min(entitlement.percentage, 100)}%` }}
+                  data-testid="progress-usage-bar"
+                />
+              </div>
+              {entitlement.percentage >= 90 && (
+                <div className="mt-2 flex items-center gap-2 text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-1.5" data-testid="text-usage-warning">
+                  <Zap className="w-3 h-3" />
+                  <span>You're almost at your limit! <a href="/upgrade" className="font-semibold underline">Upgrade to Pro</a> for unlimited flashcards.</span>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="border-none shadow-xl bg-white p-8 rounded-3xl">
@@ -3026,7 +3077,6 @@ export default function Flashcards() {
             addAiGeneratedCards={addAiGeneratedCards}
             removeAiGeneratedCard={removeAiGeneratedCard}
             aiUpgradeRequired={aiUpgradeRequired}
-            isPaid={!!isPaid}
           />
         </main>
         <Footer />

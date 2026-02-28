@@ -1907,26 +1907,120 @@ Rules:
   // Flashcard Decks API
   // --------------------
 
-  const FREE_GLOBAL_MAX = 50;
-  const DECK_UPGRADED_MAX = 300;
-  const PREMIUM_MAX = 5000;
+  const FREE_GLOBAL_MAX = parseInt(process.env.FREE_FLASHCARD_LIMIT || "300");
+  const DECK_UPGRADED_MAX = 500;
+  const PREMIUM_MAX = 999999;
 
   async function getUserCardEntitlement(userId: string) {
-    const userResult = await pool.query(`SELECT tier, subscription_status FROM users WHERE id = $1`, [userId]);
+    const userResult = await pool.query(`SELECT tier, subscription_status, flashcard_limit FROM users WHERE id = $1`, [userId]);
     const u = userResult.rows[0];
-    if (!u) return { isPremium: false, totalFreeCards: 0, limit: FREE_GLOBAL_MAX };
-    const isPremium = u.tier !== "free" && u.subscription_status === "active";
-    if (isPremium) return { isPremium: true, totalFreeCards: 0, limit: PREMIUM_MAX };
+    if (!u) return { isPremium: false, totalFreeCards: 0, limit: FREE_GLOBAL_MAX, percentage: 0 };
+    const isPremium = (u.tier !== "free" && u.subscription_status === "active") || u.tier === "admin";
+    if (isPremium) return { isPremium: true, totalFreeCards: 0, limit: PREMIUM_MAX, percentage: 0 };
+    const userLimit = u.flashcard_limit ?? FREE_GLOBAL_MAX;
     const countResult = await pool.query(
-      `SELECT COALESCE(SUM(
-        (SELECT COUNT(*) FROM deck_flashcards WHERE deck_id = d.id)
-      ), 0) as total
-      FROM flashcard_decks d WHERE d.owner_id = $1 AND d.is_upgraded = false`,
+      `SELECT COUNT(*)::int as total FROM deck_flashcards df
+       JOIN flashcard_decks d ON df.deck_id = d.id WHERE d.owner_id = $1`,
       [userId]
     );
-    const totalFreeCards = parseInt(countResult.rows[0]?.total || "0");
-    return { isPremium: false, totalFreeCards, limit: FREE_GLOBAL_MAX };
+    const totalFreeCards = countResult.rows[0]?.total || 0;
+    return { isPremium: false, totalFreeCards, limit: userLimit, percentage: Math.round((totalFreeCards / userLimit) * 100) };
   }
+
+  app.get("/api/flashcard-usage/:userId", async (req, res) => {
+    try {
+      const entitlement = await getUserCardEntitlement(req.params.userId);
+      res.json({
+        used: entitlement.totalFreeCards,
+        limit: entitlement.limit,
+        isPremium: entitlement.isPremium,
+        percentage: entitlement.percentage,
+        remaining: Math.max(0, entitlement.limit - entitlement.totalFreeCards),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/flashcard-upgrade/checkout", async (req, res) => {
+    try {
+      const { userId, plan } = req.body;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const userResult = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
+      if (userResult.rows.length === 0) return res.status(404).json({ error: "User not found" });
+      const user = userResult.rows[0];
+      const region = user.region || "US";
+      const isCAD = region === "CA";
+
+      const prices: Record<string, { amount: number; interval: string; name: string }> = {
+        monthly: { amount: isCAD ? 649 : 499, interval: "month", name: "NurseNest Pro Monthly" },
+        yearly: { amount: isCAD ? 4999 : 3900, interval: "year", name: "NurseNest Pro Yearly (Best Value)" },
+      };
+      const selected = prices[plan || "monthly"];
+      if (!selected) return res.status(400).json({ error: "Invalid plan. Use 'monthly' or 'yearly'" });
+
+      const { getUncachableStripeClient } = await import("./stripeClient");
+      const stripe = await getUncachableStripeClient();
+      let customerId = user.stripe_customer_id;
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          metadata: { userId: user.id, username: user.username },
+          email: user.email || undefined,
+        });
+        customerId = customer.id;
+        await pool.query(`UPDATE users SET stripe_customer_id = $1 WHERE id = $2`, [customerId, userId]);
+      }
+
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        mode: "subscription",
+        line_items: [{
+          price_data: {
+            currency: isCAD ? "cad" : "usd",
+            product_data: { name: selected.name },
+            unit_amount: selected.amount,
+            recurring: { interval: selected.interval as any },
+          },
+          quantity: 1,
+        }],
+        success_url: `${baseUrl}/upgrade/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${baseUrl}/upgrade`,
+        metadata: { userId: user.id, upgradeType: "flashcard_pro", plan: plan || "monthly" },
+      });
+
+      res.json({ url: session.url });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/flashcard-upgrade/verify", async (req, res) => {
+    try {
+      const { sessionId, userId } = req.body;
+      if (!sessionId || !userId) return res.status(400).json({ error: "sessionId and userId required" });
+
+      const { getUncachableStripeClient } = await import("./stripeClient");
+      const stripe = await getUncachableStripeClient();
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+      if (session.payment_status === "paid") {
+        await pool.query(
+          `UPDATE users SET tier = CASE WHEN tier = 'free' THEN 'pro' ELSE tier END,
+           subscription_status = 'active',
+           flashcard_limit = NULL,
+           stripe_subscription_id = $1
+           WHERE id = $2`,
+          [session.subscription, userId]
+        );
+        res.json({ success: true, tier: "pro" });
+      } else {
+        res.status(400).json({ error: "Payment not completed" });
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
 
   app.get("/api/decks", async (req, res) => {
     try {
@@ -5896,6 +5990,37 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
          FROM content_translations GROUP BY content_type, language_code, translation_status ORDER BY content_type, language_code`
       );
       res.json(coverage.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== ADMIN FLASHCARD CONTROLS ======
+  app.post("/api/admin/users/:id/override-limit", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { limit } = req.body;
+      if (limit === undefined) return res.status(400).json({ error: "limit required (number or null for unlimited)" });
+      await pool.query(`UPDATE users SET flashcard_limit = $1 WHERE id = $2`, [limit, req.params.id]);
+      res.json({ success: true, flashcardLimit: limit });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/users/:id/comp-pro", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { duration } = req.body;
+      const expiresAt = duration ? new Date(Date.now() + parseInt(duration) * 86400000) : null;
+      await pool.query(
+        `UPDATE users SET tier = CASE WHEN tier = 'free' THEN 'pro' ELSE tier END,
+         subscription_status = 'active', flashcard_limit = NULL, plan_expires_at = $1 WHERE id = $2`,
+        [expiresAt, req.params.id]
+      );
+      res.json({ success: true, expiresAt });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

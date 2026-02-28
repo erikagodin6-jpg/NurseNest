@@ -13,6 +13,8 @@ export const users = pgTable("users", {
   stripeSubscriptionId: text("stripe_subscription_id"),
   subscriptionStatus: text("subscription_status").default("inactive"),
   region: text("region").default("US"),
+  flashcardLimit: integer("flashcard_limit").default(300),
+  planExpiresAt: timestamp("plan_expires_at"),
 });
 
 export const notes = pgTable("notes", {
