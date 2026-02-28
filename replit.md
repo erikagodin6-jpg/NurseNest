@@ -49,7 +49,14 @@ NurseNest is an interactive nursing education platform for RPN/LVN, RN, and NP s
 - **Customizable Learning Dashboard**: User-facing dashboard with draggable, configurable widgets.
 - **Exam Date Study Plan Engine**: Backward planning algorithm generates personalized study schedules based on exam date, type, and readiness.
 - **Study Workload Calculator**: Dashboard widget showing remaining questions ÷ daily target = projected completion date relative to exam. Displays pace message ("At your current pace, you will complete preparation X days before your exam"), progress bar, remaining/daily target/buffer day stats. Caches in localStorage for weekly recalculation. Backend: `GET /api/study-workload/:userId`.
-- **Pass Probability Projection**: Logistic-scaled pass probability calculation based on readiness, question volume, and mock exam averages.
+- **Pass Probability Projection Engine**: Full composite scoring model (C_raw = 0.35R + 0.20M + 0.10V + 0.10S + 0.05Cns + 0.05T − 0.15W) with logistic transform (θ=0.65, k=9). Includes anti-gaming protections (short quiz filtering, repeat question dampening, tutor-mode multiplier, low-difficulty penalty), confidence bands (±4% to ±10%), risk categories (High Risk / Moderate Risk / Likely Ready), and improvement projection simulator. Premium users get full probability %, confidence band, and interactive simulator.
+- **Probability Improvement Simulator**: Interactive premium page (`/probability-simulator`) with sliders for domain accuracy, SATA accuracy, mock exams, question volume, consistency, and time management. Backend: `POST /api/probability/simulate` computes projected probability with ranked impact levers.
+- **Next Best Action Engine**: `GET /api/actions/next-best/:userId` returns top 3 recommended actions with estimated probability lift (premium) or generic recommendations (free). Maps actions to delta bundles for ethical lift computation.
+- **Upgrade Funnel**: Event logging (`POST /api/upgrade/events`), admin funnel metrics (`GET /api/admin/funnel-metrics`), rate-limited upgrade modal component, high-intent trigger points (diagnostic completed, mock completed, moderate risk, exam approaching).
+- **Exam Blueprints**: Database table with seeded blueprints for NCLEX-RN, NCLEX-PN, REx-PN, CNPLE, AANP FNP, ANCC FNP-BC. Admin CRUD endpoints. Blueprint-enforced domain weights and question type distributions.
+- **Free Diagnostic SEO Funnel**: 5 public SEO-optimized landing pages (`/free-nclex-diagnostic`, `/free-rexpn-diagnostic`, `/free-cnple-diagnostic`, `/free-aanp-fnp-diagnostic`, `/free-ancc-fnp-diagnostic`) with 1500+ word evergreen content, FAQ schema, JSON-LD structured data, and CTA to diagnostic exam.
+- **Admin QC Dashboard**: `GET /api/admin/content-qc` for low word count pages, missing meta descriptions, and orphan pages.
+- **Strict Exam Mode**: Mock exam toggle that enforces no backtracking, no answer changes, unpausable timer, tab switch tracking, and timed break prompts.
 - **Public Diagnostic Exam**: 25-question free diagnostic exam with anonymous attempts and topic breakdowns for registered users.
 - **Auscultation Audio Library**: Audio clip management with license enforcement and a quiz mode.
 
@@ -59,7 +66,7 @@ NurseNest is an interactive nursing education platform for RPN/LVN, RN, and NP s
 - **Validation**: Zod schemas generated from Drizzle.
 
 ### Content Architecture
-- Lesson content is organized into TypeScript modules by body system, supporting pre/post-test questions. 25 core lessons across cardiovascular (10), respiratory (8), and neurological (7) have been expanded to 2000+ words of detailed cellular pathophysiology content.
+- Lesson content is organized into TypeScript modules by body system, supporting pre/post-test questions. 45+ core lessons across cardiovascular (10), respiratory (8), neurological (7), gastrointestinal (8), renal (6), and endocrine (6) have been expanded to 2000+ words of detailed cellular pathophysiology content.
 - Lessons are categorized into RPN/LVN, RN, NP, and Pharmacology tabs.
 - Each lesson has 10 content sections: Pathophysiology, Risk Factors, Diagnostics, Management, Nursing Actions, Assessment Findings, Lifespan, Clinical Findings & Red Flags, Pharmacology, and Exam Readiness, all supporting inline admin editing with AI generation.
 - Flashcard system includes bookmarking and mastery tracking.

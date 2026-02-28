@@ -90,6 +90,7 @@ const BloodTransfusionSimulatorPage = lazy(() => import("@/pages/blood-transfusi
 const LectureViewer = lazy(() => import("@/pages/lecture-viewer"));
 const LecturesPage = lazy(() => import("@/pages/lectures"));
 const DeckPage = lazy(() => import("@/pages/deck-page"));
+const ProbabilitySimulatorPage = lazy(() => import("@/pages/probability-simulator"));
 
 function PageTracker() {
   usePageTracker();
@@ -238,6 +239,7 @@ function AppRoutes() {
         <Route path="/mock-exams/:id/report" component={MockExamReport} />
         <Route path="/mock-exams/:id" component={MockExamSession} />
         <Route path="/mock-exams" component={MockExamsPage} />
+        <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
         <Route path="/medication-mastery" component={MedicationMasteryPage} />
         <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />

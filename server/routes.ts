@@ -4905,6 +4905,268 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  // ====== PROBABILITY SIMULATOR ======
+  app.post("/api/probability/simulate", async (req, res) => {
+    try {
+      const { userId, deltas } = req.body;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+
+      const user = await storage.getUser(userId);
+      const tier = user?.tier || "rn";
+      const isPremium = tier === "rpn" || tier === "rn" || tier === "np" || tier === "admin";
+      if (!isPremium) return res.status(403).json({ error: "Premium feature" });
+
+      const testResults = await storage.getTestResults(userId);
+      let totalCorrect = 0, totalQuestions = 0;
+      const last30: number[] = [];
+      const now = Date.now();
+      for (const r of testResults) {
+        if (r.totalQuestions < 10) continue;
+        totalCorrect += r.score;
+        totalQuestions += r.totalQuestions;
+        if (r.completedAt && now - r.completedAt.getTime() < 30 * 86400000) {
+          last30.push(r.totalQuestions > 0 ? (r.score / r.totalQuestions) * 100 : 0);
+        }
+      }
+      const overallAccuracy = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+      let trend = 0;
+      if (last30.length >= 2) {
+        trend = (last30[last30.length - 1] - last30[0]) / last30.length;
+      }
+      const mockResults = await pool.query(
+        `SELECT score, total_questions, config FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed'`,
+        [userId]
+      ).catch(() => ({ rows: [] }));
+      let mockAvg = 0, strictMockCount = 0;
+      if (mockResults.rows.length > 0) {
+        mockAvg = mockResults.rows.reduce((s: number, r: any) => s + (r.total_questions > 0 ? (r.score / r.total_questions) * 100 : 0), 0) / mockResults.rows.length;
+        for (const r of mockResults.rows) {
+          const config = typeof r.config === "string" ? JSON.parse(r.config) : r.config;
+          if (config?.strictMode) strictMockCount++;
+        }
+      }
+
+      const effectiveTier = tier === "admin" ? "rn" : tier;
+      const baseline = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount });
+
+      const d = deltas || {};
+      const simReadiness = Math.min(100, overallAccuracy + (d.domainAccuracyDelta || 0) + (d.sataAccuracyDelta || 0));
+      const simQuestions = totalQuestions + (d.questionsAdded || 0);
+      const simMocks = strictMockCount + (d.strictMocksAdded || 0);
+      const simConsistency = Math.max(0, 0.3 - (d.consistencyDelta || 0) * 0.05);
+      const simPacing = Math.max(0, 0.3 - (d.pacingDelta || 0) * 0.05);
+
+      const projected = calculatePassProbability(simReadiness, simQuestions, trend, mockAvg, {
+        tier: effectiveTier,
+        strictMockCount: simMocks,
+        consistencyIndex: simConsistency,
+        timeManagementIndex: simPacing,
+      });
+
+      const lift = projected.probability - baseline.probability;
+      const clampedLift = Math.min(lift, 6 + (totalQuestions < 200 ? 4 : 0));
+
+      const levers: { lever: string; impact: number }[] = [];
+      if (d.domainAccuracyDelta) {
+        const p = calculatePassProbability(Math.min(100, overallAccuracy + d.domainAccuracyDelta), totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount });
+        levers.push({ lever: "Domain accuracy improvement", impact: p.probability - baseline.probability });
+      }
+      if (d.sataAccuracyDelta) {
+        const p = calculatePassProbability(Math.min(100, overallAccuracy + d.sataAccuracyDelta * 0.5), totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount });
+        levers.push({ lever: "SATA accuracy improvement", impact: p.probability - baseline.probability });
+      }
+      if (d.strictMocksAdded) {
+        const p = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount: strictMockCount + d.strictMocksAdded });
+        levers.push({ lever: "Strict mock exams", impact: p.probability - baseline.probability });
+      }
+      if (d.questionsAdded) {
+        const p = calculatePassProbability(overallAccuracy, totalQuestions + d.questionsAdded, trend, mockAvg, { tier: effectiveTier, strictMockCount });
+        levers.push({ lever: "Additional questions", impact: p.probability - baseline.probability });
+      }
+      if (d.consistencyDelta) {
+        const p = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount, consistencyIndex: Math.max(0, 0.3 - d.consistencyDelta * 0.05) });
+        levers.push({ lever: "Consistency improvement", impact: p.probability - baseline.probability });
+      }
+      if (d.pacingDelta) {
+        const p = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount, timeManagementIndex: Math.max(0, 0.3 - d.pacingDelta * 0.05) });
+        levers.push({ lever: "Time management improvement", impact: p.probability - baseline.probability });
+      }
+
+      levers.sort((a, b) => b.impact - a.impact);
+
+      res.json({
+        baseline: { probability: baseline.probability, confidenceBand: baseline.confidenceBand, riskCategory: baseline.riskCategory },
+        projected: { probability: projected.probability, confidenceBand: projected.confidenceBand, riskCategory: projected.riskCategory, lowerBound: projected.lowerBound, upperBound: projected.upperBound },
+        lift: Math.min(clampedLift, projected.probability - baseline.probability),
+        topImpactLevers: levers.slice(0, 5),
+        disclaimer: "Predictions are coaching estimates based on your performance and do not represent official exam scoring.",
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== NEXT BEST ACTION ======
+  app.get("/api/actions/next-best/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const user = await storage.getUser(userId);
+      const tier = user?.tier || "free";
+      const isPremium = tier === "rpn" || tier === "rn" || tier === "np" || tier === "admin";
+      const effectiveTier = tier === "admin" ? "rn" : tier;
+
+      const testResults = await storage.getTestResults(userId);
+      let totalCorrect = 0, totalQuestions = 0;
+      const domainStats: Record<string, { correct: number; total: number }> = {};
+      const now = Date.now();
+      const last30: number[] = [];
+
+      for (const r of testResults) {
+        if (r.totalQuestions < 10) continue;
+        totalCorrect += r.score;
+        totalQuestions += r.totalQuestions;
+        if (r.completedAt && now - r.completedAt.getTime() < 30 * 86400000) {
+          last30.push(r.totalQuestions > 0 ? (r.score / r.totalQuestions) * 100 : 0);
+        }
+      }
+      const overallAccuracy = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+      let trend = 0;
+      if (last30.length >= 2) { trend = (last30[last30.length - 1] - last30[0]) / last30.length; }
+
+      const mockResults = await pool.query(
+        `SELECT score, total_questions, config FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed'`,
+        [userId]
+      ).catch(() => ({ rows: [] }));
+      let mockAvg = 0, strictMockCount = 0;
+      if (mockResults.rows.length > 0) {
+        mockAvg = mockResults.rows.reduce((s: number, r: any) => s + (r.total_questions > 0 ? (r.score / r.total_questions) * 100 : 0), 0) / mockResults.rows.length;
+        for (const r of mockResults.rows) {
+          const config = typeof r.config === "string" ? JSON.parse(r.config) : r.config;
+          if (config?.strictMode) strictMockCount++;
+        }
+      }
+
+      const baseline = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount });
+
+      const actionCandidates = [
+        { action: "Complete a strict CAT simulation", link: "/mock-exams", deltaFn: () => calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, { tier: effectiveTier, strictMockCount: strictMockCount + 1 }) },
+        { action: "Practice 20 SATA questions", link: "/lessons", deltaFn: () => calculatePassProbability(Math.min(100, overallAccuracy + 2), totalQuestions + 20, trend, mockAvg, { tier: effectiveTier, strictMockCount }) },
+        { action: "Complete 50 mixed-difficulty questions", link: "/lessons", deltaFn: () => calculatePassProbability(overallAccuracy, totalQuestions + 50, trend, mockAvg, { tier: effectiveTier, strictMockCount }) },
+        { action: "Review pharmacology flashcards", link: "/flashcard-study", deltaFn: () => calculatePassProbability(Math.min(100, overallAccuracy + 1.5), totalQuestions + 25, trend, mockAvg, { tier: effectiveTier, strictMockCount }) },
+        { action: "Study clinical case simulations", link: "/case-simulation", deltaFn: () => calculatePassProbability(Math.min(100, overallAccuracy + 2), totalQuestions + 15, trend, mockAvg, { tier: effectiveTier, strictMockCount }) },
+        { action: "Complete safety hazard practice", link: "/safety-hazard-simulator", deltaFn: () => calculatePassProbability(Math.min(100, overallAccuracy + 1), totalQuestions + 10, trend, mockAvg, { tier: effectiveTier, strictMockCount }) },
+      ];
+
+      const rankedActions = actionCandidates.map(a => {
+        const projected = a.deltaFn();
+        const lift = Math.min(6, projected.probability - baseline.probability);
+        return { action: a.action, link: a.link, estimatedLift: Math.round(lift * 10) / 10 };
+      }).sort((a, b) => b.estimatedLift - a.estimatedLift).slice(0, 3);
+
+      if (isPremium) {
+        res.json({ actions: rankedActions, baseline: baseline.probability, riskCategory: baseline.riskCategory });
+      } else {
+        res.json({
+          actions: rankedActions.map(a => ({ action: a.action, link: a.link })),
+          riskCategory: baseline.riskCategory,
+          upgradeHint: "Upgrade to see estimated probability lift for each action.",
+        });
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== UPGRADE FUNNEL EVENTS ======
+  app.post("/api/upgrade/events", async (req, res) => {
+    try {
+      const { userId, eventType, metadata } = req.body;
+      if (!eventType) return res.status(400).json({ error: "eventType required" });
+      const validEvents = ["upgrade_modal_shown", "upgrade_clicked", "upgrade_dismissed", "purchase_completed", "simulator_opened", "diagnostic_completed", "first_mock_completed", "exam_date_set", "action_added_to_plan"];
+      if (!validEvents.includes(eventType)) return res.status(400).json({ error: "Invalid event type" });
+      await pool.query(
+        `INSERT INTO upgrade_funnel_events (id, user_id, event_type, metadata, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+        [userId || null, eventType, metadata ? JSON.stringify(metadata) : null]
+      );
+      res.json({ success: true });
+    } catch (e: any) {
+      if (e.message?.includes('relation "upgrade_funnel_events" does not exist')) {
+        await pool.query(`CREATE TABLE IF NOT EXISTS upgrade_funnel_events (
+          id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id VARCHAR,
+          event_type TEXT NOT NULL,
+          metadata JSONB,
+          created_at TIMESTAMP DEFAULT NOW()
+        )`);
+        await pool.query(
+          `INSERT INTO upgrade_funnel_events (id, user_id, event_type, metadata, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, NOW())`,
+          [req.body.userId || null, req.body.eventType, req.body.metadata ? JSON.stringify(req.body.metadata) : null]
+        );
+        res.json({ success: true });
+      } else {
+        res.status(500).json({ error: e.message });
+      }
+    }
+  });
+
+  app.get("/api/admin/funnel-metrics", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const metrics = await pool.query(
+        `SELECT event_type, COUNT(*)::int as count, COUNT(DISTINCT user_id)::int as unique_users
+         FROM upgrade_funnel_events
+         WHERE created_at > NOW() - INTERVAL '30 days'
+         GROUP BY event_type ORDER BY count DESC`
+      ).catch(() => ({ rows: [] }));
+
+      const daily = await pool.query(
+        `SELECT DATE(created_at) as date, event_type, COUNT(*)::int as count
+         FROM upgrade_funnel_events
+         WHERE created_at > NOW() - INTERVAL '30 days'
+         GROUP BY DATE(created_at), event_type ORDER BY date DESC`
+      ).catch(() => ({ rows: [] }));
+
+      res.json({ summary: metrics.rows, daily: daily.rows });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== ADMIN QC DASHBOARD ======
+  app.get("/api/admin/content-qc", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const lowWordCount = await pool.query(
+        `SELECT id, title, slug, LENGTH(body) as body_length FROM content_items
+         WHERE LENGTH(body) < 500 AND status = 'published' ORDER BY body_length ASC LIMIT 50`
+      ).catch(() => ({ rows: [] }));
+
+      const missingMeta = await pool.query(
+        `SELECT id, title, slug FROM content_items
+         WHERE (meta_description IS NULL OR meta_description = '') AND status = 'published' LIMIT 50`
+      ).catch(() => ({ rows: [] }));
+
+      const orphanPages = await pool.query(
+        `SELECT id, title, slug FROM content_items
+         WHERE status = 'published' AND body NOT LIKE '%](/lessons/%' AND body NOT LIKE '%](/glossary/%'
+         ORDER BY title LIMIT 50`
+      ).catch(() => ({ rows: [] }));
+
+      res.json({
+        lowWordCount: lowWordCount.rows.map(snakeToCamel),
+        missingMeta: missingMeta.rows.map(snakeToCamel),
+        orphanPages: orphanPages.rows.map(snakeToCamel),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== DIAGNOSTIC EXAM ======
   app.get("/api/diagnostic-exam", async (_req, res) => {
     try {
@@ -5052,6 +5314,218 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       if (!admin) return;
       await seedExamBlueprints();
       res.json({ success: true, message: "Exam blueprints seeded" });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== SEO PAGES ======
+  app.get("/api/seo-pages", async (req, res) => {
+    try {
+      const lang = req.query.language || "en";
+      const pageType = req.query.pageType;
+      const exam = req.query.exam;
+      let query = `SELECT * FROM seo_pages WHERE is_public = true AND language_code = $1`;
+      const params: any[] = [lang];
+      if (pageType) { query += ` AND page_type = $${params.length + 1}`; params.push(pageType); }
+      if (exam) { query += ` AND exam = $${params.length + 1}`; params.push(exam); }
+      query += ` ORDER BY title`;
+      const result = await pool.query(query, params);
+      res.json(result.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/seo-pages/:slug", async (req, res) => {
+    try {
+      const lang = req.query.language || "en";
+      const result = await pool.query(
+        `SELECT * FROM seo_pages WHERE slug = $1 AND language_code = $2 AND is_public = true`,
+        [req.params.slug, lang]
+      );
+      if (result.rows.length === 0) {
+        const fallback = await pool.query(
+          `SELECT * FROM seo_pages WHERE slug = $1 AND language_code = 'en' AND is_public = true`,
+          [req.params.slug]
+        );
+        if (fallback.rows.length === 0) return res.status(404).json({ error: "Page not found" });
+        return res.json({ ...snakeToCamel(fallback.rows[0]), fallbackToEnglish: true });
+      }
+      const page = snakeToCamel(result.rows[0]);
+      if (page.pageGroupId) {
+        const hreflang = await pool.query(
+          `SELECT language_code, slug FROM seo_pages WHERE page_group_id = $1 AND is_public = true`,
+          [page.pageGroupId]
+        );
+        page.hreflangLinks = hreflang.rows.map((r: any) => ({ lang: r.language_code, slug: r.slug }));
+      }
+      res.json(page);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/seo-pages", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { pageType, exam, languageCode, title, slug, metaTitle, metaDescription, contentHtml, tocJson, faqJson, internalLinksJson, isPublic, isIndexable, canonicalUrl, translationStatus, pageGroupId } = req.body;
+      const result = await pool.query(
+        `INSERT INTO seo_pages (id, page_type, exam, language_code, title, slug, meta_title, meta_description, content_html, toc_json, faq_json, internal_links_json, is_public, is_indexable, canonical_url, translation_status, page_group_id, last_updated)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, NOW()) RETURNING *`,
+        [pageType, exam || null, languageCode || "en", title, slug, metaTitle || null, metaDescription || null,
+         contentHtml || null, tocJson ? JSON.stringify(tocJson) : null, faqJson ? JSON.stringify(faqJson) : null,
+         internalLinksJson ? JSON.stringify(internalLinksJson) : null, isPublic ?? true, isIndexable ?? true,
+         canonicalUrl || null, translationStatus || "en_source", pageGroupId || null]
+      );
+      await logAudit(req, admin, "seo_page", result.rows[0].id, "create", null, result.rows[0]);
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/seo-pages/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const fields = req.body;
+      const setClauses: string[] = [];
+      const params: any[] = [];
+      const allowedFields = ["page_type", "exam", "language_code", "title", "slug", "meta_title", "meta_description", "content_html", "toc_json", "faq_json", "internal_links_json", "is_public", "is_indexable", "canonical_url", "translation_status", "page_group_id"];
+      const fieldMap: Record<string, string> = { pageType: "page_type", exam: "exam", languageCode: "language_code", title: "title", slug: "slug", metaTitle: "meta_title", metaDescription: "meta_description", contentHtml: "content_html", tocJson: "toc_json", faqJson: "faq_json", internalLinksJson: "internal_links_json", isPublic: "is_public", isIndexable: "is_indexable", canonicalUrl: "canonical_url", translationStatus: "translation_status", pageGroupId: "page_group_id" };
+      for (const [camel, snake] of Object.entries(fieldMap)) {
+        if (fields[camel] !== undefined && allowedFields.includes(snake)) {
+          params.push(typeof fields[camel] === "object" && fields[camel] !== null ? JSON.stringify(fields[camel]) : fields[camel]);
+          setClauses.push(`${snake} = $${params.length}`);
+        }
+      }
+      if (setClauses.length === 0) return res.status(400).json({ error: "No fields to update" });
+      params.push(req.params.id);
+      const result = await pool.query(
+        `UPDATE seo_pages SET ${setClauses.join(", ")}, last_updated = NOW() WHERE id = $${params.length} RETURNING *`,
+        params
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Not found" });
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  // ====== CONTENT TRANSLATIONS ======
+  app.get("/api/translations/:contentType/:contentId", async (req, res) => {
+    try {
+      const { contentType, contentId } = req.params;
+      const lang = req.query.language as string;
+      let query = `SELECT * FROM content_translations WHERE content_type = $1 AND content_id = $2`;
+      const params: any[] = [contentType, contentId];
+      if (lang) { query += ` AND language_code = $3`; params.push(lang); }
+      const result = await pool.query(query, params);
+      res.json(result.rows.map(snakeToCamel));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/translations/batch/:contentType", async (req, res) => {
+    try {
+      const lang = req.query.language as string || "fr";
+      const result = await pool.query(
+        `SELECT * FROM content_translations WHERE content_type = $1 AND language_code = $2 ORDER BY content_id`,
+        [req.params.contentType, lang]
+      );
+      const grouped: Record<string, Record<string, string>> = {};
+      for (const row of result.rows) {
+        if (!grouped[row.content_id]) grouped[row.content_id] = {};
+        grouped[row.content_id][row.field_name] = row.translated_text;
+      }
+      res.json(grouped);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/translations", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { contentType, contentId, languageCode, fieldName, translatedText, translationStatus } = req.body;
+      if (!contentType || !contentId || !languageCode || !fieldName || !translatedText) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      const existing = await pool.query(
+        `SELECT id, translation_status FROM content_translations WHERE content_type = $1 AND content_id = $2 AND language_code = $3 AND field_name = $4`,
+        [contentType, contentId, languageCode, fieldName]
+      );
+      if (existing.rows.length > 0) {
+        if (existing.rows[0].translation_status === "human_reviewed" && translationStatus !== "human_reviewed") {
+          return res.status(409).json({ error: "Cannot overwrite human-reviewed translation with auto translation" });
+        }
+        await pool.query(
+          `UPDATE content_translations SET translated_text = $1, translation_status = $2, last_updated = NOW() WHERE id = $3`,
+          [translatedText, translationStatus || "auto", existing.rows[0].id]
+        );
+      } else {
+        await pool.query(
+          `INSERT INTO content_translations (id, content_type, content_id, language_code, field_name, translated_text, translation_status, last_updated)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW())`,
+          [contentType, contentId, languageCode, fieldName, translatedText, translationStatus || "auto"]
+        );
+      }
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/translations/bulk", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { translations } = req.body;
+      if (!Array.isArray(translations)) return res.status(400).json({ error: "translations must be an array" });
+      let inserted = 0, updated = 0, skipped = 0;
+      for (const t of translations) {
+        const existing = await pool.query(
+          `SELECT id, translation_status FROM content_translations WHERE content_type = $1 AND content_id = $2 AND language_code = $3 AND field_name = $4`,
+          [t.contentType, t.contentId, t.languageCode, t.fieldName]
+        );
+        if (existing.rows.length > 0) {
+          if (existing.rows[0].translation_status === "human_reviewed" && t.translationStatus !== "human_reviewed") {
+            skipped++;
+            continue;
+          }
+          await pool.query(
+            `UPDATE content_translations SET translated_text = $1, translation_status = $2, last_updated = NOW() WHERE id = $3`,
+            [t.translatedText, t.translationStatus || "auto", existing.rows[0].id]
+          );
+          updated++;
+        } else {
+          await pool.query(
+            `INSERT INTO content_translations (id, content_type, content_id, language_code, field_name, translated_text, translation_status, last_updated)
+             VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW())`,
+            [t.contentType, t.contentId, t.languageCode, t.fieldName, t.translatedText, t.translationStatus || "auto"]
+          );
+          inserted++;
+        }
+      }
+      res.json({ success: true, inserted, updated, skipped });
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/translation-coverage", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const coverage = await pool.query(
+        `SELECT content_type, language_code, translation_status, COUNT(*)::int as count
+         FROM content_translations GROUP BY content_type, language_code, translation_status ORDER BY content_type, language_code`
+      );
+      res.json(coverage.rows.map(snakeToCamel));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

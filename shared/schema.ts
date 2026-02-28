@@ -737,3 +737,49 @@ export const examBlueprints = pgTable("exam_blueprints", {
 export const insertExamBlueprintSchema = createInsertSchema(examBlueprints).omit({ id: true, updatedAt: true });
 export type InsertExamBlueprint = z.infer<typeof insertExamBlueprintSchema>;
 export type ExamBlueprint = typeof examBlueprints.$inferSelect;
+
+export const upgradeFunnelEvents = pgTable("upgrade_funnel_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  eventType: text("event_type").notNull(),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type UpgradeFunnelEvent = typeof upgradeFunnelEvents.$inferSelect;
+
+export const seoPages = pgTable("seo_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageType: text("page_type").notNull(),
+  exam: text("exam"),
+  languageCode: text("language_code").notNull().default("en"),
+  title: text("title").notNull(),
+  slug: text("slug").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  contentHtml: text("content_html"),
+  tocJson: jsonb("toc_json"),
+  faqJson: jsonb("faq_json"),
+  internalLinksJson: jsonb("internal_links_json"),
+  isPublic: boolean("is_public").default(true),
+  isIndexable: boolean("is_indexable").default(true),
+  canonicalUrl: text("canonical_url"),
+  translationStatus: text("translation_status").default("en_source"),
+  pageGroupId: varchar("page_group_id"),
+  lastUpdated: timestamp("last_updated").defaultNow().notNull(),
+});
+
+export type SeoPage = typeof seoPages.$inferSelect;
+
+export const contentTranslations = pgTable("content_translations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentType: text("content_type").notNull(),
+  contentId: text("content_id").notNull(),
+  languageCode: text("language_code").notNull(),
+  fieldName: text("field_name").notNull(),
+  translatedText: text("translated_text").notNull(),
+  translationStatus: text("translation_status").default("auto"),
+  lastUpdated: timestamp("last_updated").defaultNow().notNull(),
+});
+
+export type ContentTranslation = typeof contentTranslations.$inferSelect;
