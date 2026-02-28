@@ -69,6 +69,10 @@ function getInitialLanguage(): LanguageCode {
   if (saved && LANGUAGES.some(l => l.code === saved)) {
     return saved as LanguageCode;
   }
+  const browserLang = navigator.language?.split("-")[0]?.toLowerCase();
+  if (browserLang && LANGUAGES.some(l => l.code === browserLang)) {
+    return browserLang as LanguageCode;
+  }
   return "en";
 }
 

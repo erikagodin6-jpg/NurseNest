@@ -1,0 +1,67 @@
+Do not do more exploratory searching. You already identified the sources and render points:
+- Static list names: lessons.tsx uses rpnSystems/rnSystems/npSystems with diseases[].name hardcoded strings.
+- Static lesson detail: lesson-detail.tsx loads baseLesson from contentMap[id].
+
+Now implement the fix. No further “let me look” steps.
+
+GOAL (non-negotiable):
+When the user changes language with the top button, ALL of the following must change immediately without refresh:
+1) Static lesson list card titles
+2) Static lesson detail title + body
+3) Static activity text (prompts/buttons/feedback) wherever applicable
+If a translation is missing, fall back to English. Never show blanks.
+
+IMPLEMENTATION PLAN (Path A):
+A) Create translation store:
+- Create client/src/data/translations/lessons.<lang>.json files (one per language) OR one combined JSON keyed by lessonId with per-language values.
+- Structure must support:
+  - title
+  - summary/description (if used in cards)
+  - body (or sections)
+  - activities (any user-facing strings)
+Example:
+{
+  "sepsis-prioritization": {
+    "title": {"en":"...", "fr":"..."},
+    "body": {"en":"...", "fr":"..."},
+    "activities": {"en":{...}, "fr":{...}}
+  }
+}
+
+B) Create helper:
+- Add a single helper (e.g., client/src/lib/getI18n.ts):
+  getI18n(obj, lang, fallback="en") => obj?.[lang] ?? obj?.[fallback] ?? ""
+- Add getLessonI18n(lessonId, lang) that merges:
+  - base lesson from contentMap (English)
+  - overrides from translations JSON for lang
+So English always exists.
+
+C) Fix static lesson LIST titles (lessons.tsx):
+- Remove reliance on diseases[].name hardcoded strings.
+- Change the list arrays to store ONLY ids (and optional metadata that is language-neutral).
+- Render display name via getLessonI18n(id, lang).title.
+This is required; do not translate the hardcoded strings at runtime.
+
+D) Fix static lesson DETAIL (lesson-detail.tsx):
+- When loading baseLesson = contentMap[id], immediately wrap it with getLessonI18n(id, lang) so the page reads localized title/body/activities.
+- Ensure the component rerenders on language change (use i18n language state as dependency).
+
+E) Translation generation workflow (Admin-only; NO public auto-translation):
+- Do NOT call AI on public GET requests.
+- Provide an admin utility script or admin page action:
+  - Generate missing translations for selected language(s)
+  - Save output into JSON files in client/src/data/translations/
+- The public site reads committed JSON only.
+
+F) Acceptance proof required:
+- Provide before/after screenshots or console logs showing:
+  - A static lesson list card title changes when switching language
+  - A static lesson page title + a paragraph of body changes when switching language
+  - At least one activity prompt/button text changes when switching language
+- Provide a list of files changed.
+
+DO NOT:
+- Add AI calls on GET endpoints
+- Modify hero/nav
+- Leave diseases[].name as the source of truth
+- Implement “translate at render time” on the client

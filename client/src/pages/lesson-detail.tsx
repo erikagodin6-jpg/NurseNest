@@ -24,6 +24,7 @@ import { getLessonNavigation } from "@/lib/lesson-navigation";
 import { useToast } from "@/hooks/use-toast";
 import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { contentMap } from "@/data/lessons";
+import { getLessonI18n, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
@@ -1659,8 +1660,8 @@ export default function LessonDetail() {
   }, [id]);
 
   const [overrides, setOverrides] = useState<Partial<LessonContent> | null>(null);
-  const [lessonTranslations, setLessonTranslations] = useState<Record<string, string>>({});
   const [translating, setTranslating] = useState(false);
+  const [translationsReady, setTranslationsReady] = useState(isTranslationLoaded(language));
 
   useEffect(() => {
     if (id) {
@@ -1676,60 +1677,16 @@ export default function LessonDetail() {
   }, [id]);
 
   useEffect(() => {
-    if (!id || !baseLesson) {
-      setLessonTranslations({});
-      return;
-    }
-    if (language === "en") {
-      setLessonTranslations({});
-      setTranslating(false);
-      return;
-    }
+    if (language === "en") { setTranslationsReady(true); setTranslating(false); return; }
+    if (isTranslationLoaded(language)) { setTranslationsReady(true); setTranslating(false); return; }
+    setTranslationsReady(false);
+    setTranslating(true);
     let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(`/api/lesson-translations/${encodeURIComponent(id)}?lang=${encodeURIComponent(language)}`);
-        const data = await res.json();
-        if (cancelled) return;
-        if (data && data.translations && Object.keys(data.translations).length > 0) {
-          setLessonTranslations(data.translations);
-          setTranslating(false);
-          return;
-        }
-        setTranslating(true);
-        const fields: Record<string, any> = {};
-        if (baseLesson.title) fields.title = baseLesson.title;
-        if ((baseLesson as any).cellular?.content) fields.overview = (baseLesson as any).cellular.content;
-        if (baseLesson.riskFactors?.length) fields.riskFactors = baseLesson.riskFactors;
-        if (baseLesson.diagnostics?.length) fields.diagnostics = baseLesson.diagnostics;
-        if (baseLesson.management?.length) fields.management = baseLesson.management;
-        if (baseLesson.nursingActions?.length) fields.nursingActions = baseLesson.nursingActions;
-        if (baseLesson.assessmentFindings?.length) fields.assessmentFindings = baseLesson.assessmentFindings;
-        if (baseLesson.pearls?.length) fields.clinicalPearls = baseLesson.pearls;
-        if (baseLesson.medications?.length) fields.medications = baseLesson.medications;
-        if ((baseLesson as any).lifespan?.content) fields.lifespan = (baseLesson as any).lifespan.content;
-        if (baseLesson.signs) fields.signs = baseLesson.signs;
-        if (baseLesson.quiz?.length) fields.quiz = baseLesson.quiz;
-        const genRes = await fetch(`/api/lesson-translations/${encodeURIComponent(id)}/generate`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lang: language, fields }),
-        });
-        const genData = await genRes.json();
-        if (cancelled) return;
-        if (genData && genData.translations && Object.keys(genData.translations).length > 0) {
-          setLessonTranslations(genData.translations);
-        } else {
-          setLessonTranslations({});
-        }
-      } catch {
-        if (!cancelled) setLessonTranslations({});
-      } finally {
-        if (!cancelled) setTranslating(false);
-      }
-    })();
+    loadTranslationLanguage(language).then(() => {
+      if (!cancelled) { setTranslationsReady(true); setTranslating(false); }
+    });
     return () => { cancelled = true; };
-  }, [id, language, baseLesson]);
+  }, [language]);
 
   const fetchDbLesson = useCallback((slug: string) => {
     setDbLoading(true);
@@ -1772,47 +1729,16 @@ export default function LessonDetail() {
   }, [baseLesson, id, fetchDbLesson, language]);
 
   const lessonContent = useMemo(() => {
-    if (!baseLesson) return null;
+    if (!baseLesson || !id) return null;
     let content = overrides ? { ...baseLesson, ...overrides } as LessonContent : baseLesson;
-
-    if (Object.keys(lessonTranslations).length > 0) {
-      const translated = { ...content };
-      if (lessonTranslations.title) translated.title = lessonTranslations.title;
-      if (lessonTranslations.overview) translated.overview = lessonTranslations.overview;
-      if (lessonTranslations.pathophysiology) translated.pathophysiology = lessonTranslations.pathophysiology;
-      if (lessonTranslations.lifespan) translated.lifespan = lessonTranslations.lifespan;
-      if (lessonTranslations.objectives) {
-        try { translated.objectives = JSON.parse(lessonTranslations.objectives); } catch {}
+    if (language !== "en" && translationsReady) {
+      const localized = getLessonI18n(id, language);
+      if (localized && localized !== baseLesson) {
+        content = overrides ? { ...localized, ...overrides } as LessonContent : localized;
       }
-      if (lessonTranslations.clinicalPearls) {
-        try { translated.clinicalPearls = JSON.parse(lessonTranslations.clinicalPearls); } catch {}
-      }
-      if (lessonTranslations.riskFactors) {
-        try { translated.riskFactors = JSON.parse(lessonTranslations.riskFactors); } catch {}
-      }
-      if (lessonTranslations.diagnostics) {
-        try { translated.diagnostics = JSON.parse(lessonTranslations.diagnostics); } catch {}
-      }
-      if (lessonTranslations.management) {
-        try { translated.management = JSON.parse(lessonTranslations.management); } catch {}
-      }
-      if (lessonTranslations.nursingActions) {
-        try { translated.nursingActions = JSON.parse(lessonTranslations.nursingActions); } catch {}
-      }
-      if (lessonTranslations.assessmentFindings) {
-        try { translated.assessmentFindings = JSON.parse(lessonTranslations.assessmentFindings); } catch {}
-      }
-      if (lessonTranslations.medications) {
-        try { translated.medications = JSON.parse(lessonTranslations.medications); } catch {}
-      }
-      if (lessonTranslations.quiz) {
-        try { translated.quiz = JSON.parse(lessonTranslations.quiz); } catch {}
-      }
-      content = translated as LessonContent;
     }
-
     return content;
-  }, [baseLesson, overrides, lessonTranslations]);
+  }, [baseLesson, overrides, language, translationsReady, id]);
 
   if (!baseLesson || !lessonContent) {
     if (dbLoading) {

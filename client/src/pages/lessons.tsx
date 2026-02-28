@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { useI18n } from "@/lib/i18n";
+import { getLessonTitle, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { Footer } from "@/components/footer";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildBreadcrumbStructuredData, buildCatalogStructuredData } from "@/lib/seo-utils";
@@ -2997,11 +2998,21 @@ export default function Lessons() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
   const { t, language } = useI18n();
+  const [translationsReady, setTranslationsReady] = useState(isTranslationLoaded(language));
   const userTier = user?.tier || "free";
   const isAdmin = userTier === "admin";
   const previewTier = isAdmin ? (localStorage.getItem("nursenest-admin-preview") || null) : null;
   const effectiveTier = previewTier || userTier;
   const showAllTabs = effectiveTier === "free" || effectiveTier === "admin" || !user;
+
+  useEffect(() => {
+    if (language === "en") { setTranslationsReady(true); return; }
+    let cancelled = false;
+    loadTranslationLanguage(language).then(() => {
+      if (!cancelled) setTranslationsReady(true);
+    });
+    return () => { cancelled = true; };
+  }, [language]);
 
   const defaultTab = showAllTabs ? "rpn" : effectiveTier;
   const [activeTab, setActiveTab] = useState(defaultTab);
@@ -3252,7 +3263,7 @@ function DifficultyBadge({ level }: { level: DifficultyLevel }) {
 }
 
 function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverridesChange }: { system: any, onSelect: (id: string) => void, tier: string, lessonOverrides?: Record<string, any>, onOverridesChange?: () => void }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { user } = useAuth();
   const { getImageUrl, refresh: refreshImages } = useSiteImages();
   const systemImg = getSystemPreviewImage(system.id) || getSystemImage(system.id);
@@ -3354,7 +3365,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
           {system.diseases.map((disease: any) => {
             const difficulty = getDifficulty(disease.id, tier);
             const overrideName = lessonOverrides?.[disease.id]?.title;
-            const displayName = overrideName || disease.name;
+            const displayName = overrideName || getLessonTitle(disease.id, language) || disease.name;
             const lessonImgUrl = getImageUrl(`lesson-${disease.id}`, "");
             const isEditingThis = editingLessonId === disease.id;
             return (
@@ -3459,6 +3470,7 @@ const LESSON_ICON_MAP: Record<string, any> = {
 function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, lessonOverrides, onOverridesChange }: {
   system: any; tier: string; isAdmin: boolean; onSelect: (id: string) => void; onEdit: () => void; onDelete: () => void; lessonOverrides?: Record<string, any>; onOverridesChange?: () => void;
 }) {
+  const { language } = useI18n();
   const lessons = (system.lessons || []) as { id: string; name: string; status?: string }[];
   const IconComp = LESSON_ICON_MAP[system.icon] || BookOpen;
   const { getImageUrl, refresh: refreshImages } = useSiteImages();
@@ -3551,7 +3563,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
         <div className="space-y-3">
           {lessons.map((disease, idx) => {
             const overrideName = lessonOverrides?.[disease.id]?.title;
-            const displayName = overrideName || disease.name;
+            const displayName = overrideName || getLessonTitle(disease.id, language) || disease.name;
             const lessonImgUrl = disease.id ? getImageUrl(`lesson-${disease.id}`, "") : "";
             const isEditingThis = editingLessonId === disease.id;
             return (

@@ -1,0 +1,45 @@
+{
+  "heart-failure": {
+    "title": "Insuffisance cardiaque",
+    "overview": "L'insuffisance cardiaque est une condition chronique et progressive dans laquelle le muscle cardiaque est incapable de pomper suffisamment de sang pour répondre aux besoins du corps en sang et en oxygène. Le cœur tente de compenser par la dilatation, l'hypertrophie et l'augmentation de la fréquence cardiaque, mais ces mécanismes finissent par échouer.",
+    "riskFactors": ["Maladie coronarienne", "Hypertension", "Diabète sucré", "Cardiomyopathie", "Maladie valvulaire", "Obésité", "Tabagisme"],
+    "clinicalPearls": ["Pesez le patient quotidiennement à la même heure", "Surveillez l'apport et l'élimination avec précision", "Éduquez sur le régime pauvre en sodium", "La digoxine nécessite une surveillance du pouls avant administration", "Élevez la tête du lit à 45 degrés pour l'orthopnée"]
+  },
+  "hypertension": {
+    "title": "Hypertension",
+    "overview": "L'hypertension est une élévation persistante de la pression artérielle systémique. C'est un facteur de risque majeur pour les maladies cardiovasculaires, les AVC et les maladies rénales. La plupart des patients sont asymptomatiques, d'où son surnom de 'tueur silencieux'.",
+    "clinicalPearls": ["Enseignez la technique correcte de mesure de la PA", "Les médicaments doivent être pris de manière constante", "Surveillez les effets secondaires des antihypertenseurs", "Encouragez les modifications du mode de vie"]
+  },
+  "respiratory-assessment": {
+    "title": "Évaluation respiratoire",
+    "overview": "L'évaluation respiratoire est une compétence fondamentale en soins infirmiers qui comprend l'inspection, la palpation, la percussion et l'auscultation. Une évaluation respiratoire approfondie est essentielle pour identifier les problèmes respiratoires et intervenir de manière appropriée."
+  },
+  "copd-basics-rpn": {
+    "title": "Bases de la MPOC",
+    "overview": "La maladie pulmonaire obstructive chronique (MPOC) est un groupe de maladies pulmonaires progressives qui obstruent le flux d'air et rendent la respiration difficile. Les deux formes principales sont la bronchite chronique et l'emphysème."
+  },
+  "asthma-basics-rpn": {
+    "title": "Bases de l'asthme",
+    "overview": "L'asthme est une maladie inflammatoire chronique des voies respiratoires caractérisée par une hyperréactivité bronchique, un bronchospasme, un œdème des muqueuses et une production excessive de mucus."
+  },
+  "diabetes-type-1": {
+    "title": "Diabète de type 1",
+    "overview": "Le diabète de type 1 est une maladie auto-immune dans laquelle le système immunitaire détruit les cellules bêta productrices d'insuline du pancréas. Cela entraîne une carence absolue en insuline nécessitant une insulinothérapie à vie."
+  },
+  "diabetes-type-2": {
+    "title": "Diabète de type 2",
+    "overview": "Le diabète de type 2 est un trouble métabolique caractérisé par une résistance à l'insuline et un déficit relatif en insuline. C'est la forme la plus courante de diabète et est fortement associé à l'obésité et au mode de vie sédentaire."
+  },
+  "pneumonia-basics-rpn": {
+    "title": "Bases de la pneumonie",
+    "overview": "La pneumonie est une infection inflammatoire des poumons affectant principalement les alvéoles. Elle peut être causée par des bactéries, des virus ou des champignons et est classée comme communautaire ou nosocomiale."
+  },
+  "sepsis-prioritization": {
+    "title": "Priorisation du sepsis",
+    "overview": "Le sepsis est une réponse systémique potentiellement mortelle à l'infection qui peut entraîner une défaillance d'organes et la mort si elle n'est pas traitée rapidement. La reconnaissance précoce et l'intervention rapide sont essentielles."
+  },
+  "iv-therapy-basics": {
+    "title": "Bases de la thérapie IV",
+    "overview": "La thérapie intraveineuse (IV) est l'administration de liquides, de médicaments ou de nutrition directement dans la circulation sanguine par une veine. C'est l'une des procédures invasives les plus courantes en milieu hospitalier."
+  }
+}
