@@ -438,6 +438,7 @@ const AI_TOOLS = [
   { id: "flashcards", label: "Convert to Flashcards", icon: Layers, prompt: "Convert content to flashcard format" },
   { id: "question-bank", label: "Convert to Q-Bank", icon: FileText, prompt: "Convert to structured question bank" },
   { id: "suggest-diagrams", label: "Suggest Diagrams", icon: ImagePlus, prompt: "Suggest medical diagrams to include" },
+  { id: "bundle-generator", label: "Bundle: Cram + QBank + Flash + Listing", icon: Crown, prompt: "Generate a full product bundle" },
 ];
 
 function ProjectListView({ onOpenProject }: { onOpenProject: (id: string) => void }) {
@@ -560,7 +561,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [exporting, setExporting] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [showPublishDialog, setShowPublishDialog] = useState(false);
-  const [publishForm, setPublishForm] = useState({ title: "", description: "", price: "", category: "study-guide" });
+  const [publishForm, setPublishForm] = useState({ title: "", description: "", price: "", category: "Cram Guide" });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isResizing, setIsResizing] = useState(false);
@@ -1143,17 +1144,31 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     try {
       const tool = AI_TOOLS.find(t => t.id === toolId);
       const examCtx = EXAM_CONTEXT_MAP[aiExamTarget] || EXAM_CONTEXT_MAP["nclex-rn"];
+      const mode = toolId === "bundle-generator" ? "bundle" : "generate";
+
       const prompt = `${tool?.prompt || "Generate content"} for: ${aiTopic}.
 Exam Target: ${examCtx.label} | Tier: ${examCtx.tier}
 Frameworks: ${examCtx.frameworks}
 Question Style: ${examCtx.questionStyle}
 Terminology: ${examCtx.terminology}
 Scope: ${examCtx.scope}
-Return structured JSON array of canvas objects with types: heading, paragraph, list, clinical-pearl, warning, callout.`;
+
+Return ONLY valid JSON in this exact schema:
+{
+  "blocks": [
+    { "type": "heading", "content": "..." },
+    { "type": "paragraph", "content": "..." },
+    { "type": "list", "content": "item 1\\nitem 2\\nitem 3" },
+    { "type": "clinical-pearl", "content": "..." },
+    { "type": "warning", "content": "..." },
+    { "type": "callout", "content": "..." }
+  ]
+}
+Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists must be newline separated.`;
 
       const res = await adminFetch("/api/ai/generate-content", {
         method: "POST",
-        body: { prompt, mode: "generate", examTarget: aiExamTarget },
+        body: { prompt, mode, examTarget: aiExamTarget, topic: aiTopic },
       });
 
       if (!res.ok) {
@@ -1162,8 +1177,14 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       }
 
       const data = await res.json();
-      setAiResult(data.blocks || []);
-      toast({ title: "Content generated", description: `${(data.blocks || []).length} blocks ready to insert` });
+
+      if (mode === "bundle") {
+        setAiResult(data);
+        toast({ title: "Bundle generated", description: "Canvas + flashcards + qbank + listing ready" });
+      } else {
+        setAiResult(data.blocks || []);
+        toast({ title: "Content generated", description: `${(data.blocks || []).length} blocks ready to insert` });
+      }
     } catch (e: any) {
       toast({ title: "AI Error", description: e.message, variant: "destructive" });
     } finally {
@@ -1522,6 +1543,190 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
     toast({ title: `Thumbnail ${width}x${height} exported` });
   };
 
+  const downloadBlob = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const canvasToBlob = (canvas: HTMLCanvasElement, type = "image/png", quality?: number) =>
+    new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob(b => (b ? resolve(b) : reject(new Error("Failed to create blob"))), type, quality);
+    });
+
+  const renderPageToSize = (
+    pageObjects: CanvasObject[], bgColor: string,
+    targetW: number, targetH: number, fit: "contain" | "cover" = "contain"
+  ) => {
+    const src = renderPageToCanvas(pageObjects, bgColor);
+    const out = document.createElement("canvas");
+    out.width = targetW * 2;
+    out.height = targetH * 2;
+    const ctx = out.getContext("2d")!;
+    ctx.fillStyle = bgColor || "#ffffff";
+    ctx.fillRect(0, 0, out.width, out.height);
+    const scaleX = out.width / src.width;
+    const scaleY = out.height / src.height;
+    const scale = fit === "cover" ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
+    const drawW = src.width * scale;
+    const drawH = src.height * scale;
+    const dx = (out.width - drawW) / 2;
+    const dy = (out.height - drawH) / 2;
+    ctx.drawImage(src, dx, dy, drawW, drawH);
+    return out;
+  };
+
+  const drawMockupFrame = (pageCanvas: HTMLCanvasElement, _bgColor: string, targetW: number, targetH: number, label: string) => {
+    const out = document.createElement("canvas");
+    out.width = targetW * 2;
+    out.height = targetH * 2;
+    const ctx = out.getContext("2d")!;
+    const g = ctx.createLinearGradient(0, 0, out.width, out.height);
+    g.addColorStop(0, "#f8f7ff");
+    g.addColorStop(0.5, "#f5fbff");
+    g.addColorStop(1, "#fffdf7");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, out.width, out.height);
+
+    const cardX = Math.round(out.width * 0.12);
+    const cardY = Math.round(out.height * 0.10);
+    const cardW = Math.round(out.width * 0.76);
+    const cardH = Math.round(out.height * 0.80);
+    const radius = Math.round(out.width * 0.03);
+
+    const roundRect = (c: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) => {
+      const rr = Math.min(r, w / 2, h / 2);
+      c.beginPath();
+      c.moveTo(x + rr, y);
+      c.lineTo(x + w - rr, y);
+      c.arcTo(x + w, y, x + w, y + rr, rr);
+      c.lineTo(x + w, y + h - rr);
+      c.arcTo(x + w, y + h, x + w - rr, y + h, rr);
+      c.lineTo(x + rr, y + h);
+      c.arcTo(x, y + h, x, y + h - rr, rr);
+      c.lineTo(x, y + rr);
+      c.arcTo(x, y, x + rr, y, rr);
+      c.closePath();
+    };
+
+    ctx.save();
+    ctx.shadowColor = "rgba(124,58,237,0.22)";
+    ctx.shadowBlur = 60;
+    ctx.shadowOffsetY = 20;
+    ctx.fillStyle = "#ffffff";
+    roundRect(ctx, cardX, cardY, cardW, cardH, radius);
+    ctx.fill();
+    ctx.restore();
+
+    const framePad = Math.round(cardW * 0.06);
+    const frameX = cardX + framePad;
+    const frameY = cardY + Math.round(cardH * 0.10);
+    const frameW = cardW - framePad * 2;
+    const frameH = cardH - Math.round(cardH * 0.18);
+    const frameR = Math.round(radius * 0.8);
+    ctx.fillStyle = "#0f172a";
+    roundRect(ctx, frameX, frameY, frameW, frameH, frameR);
+    ctx.fill();
+
+    const inset = Math.round(frameW * 0.03);
+    const screenX = frameX + inset;
+    const screenY = frameY + inset;
+    const screenW = frameW - inset * 2;
+    const screenH = frameH - inset * 2;
+    ctx.fillStyle = "#ffffff";
+    roundRect(ctx, screenX, screenY, screenW, screenH, Math.round(frameR * 0.7));
+    ctx.fill();
+
+    const scaleX = screenW / pageCanvas.width;
+    const scaleY = screenH / pageCanvas.height;
+    const scale = Math.min(scaleX, scaleY);
+    const drawW = pageCanvas.width * scale;
+    const drawH = pageCanvas.height * scale;
+    const dx = screenX + (screenW - drawW) / 2;
+    const dy = screenY + (screenH - drawH) / 2;
+    ctx.drawImage(pageCanvas, dx, dy, drawW, drawH);
+
+    ctx.fillStyle = "#1e293b";
+    ctx.font = `700 ${Math.round(out.width * 0.022)}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = "center";
+    ctx.fillText(label, out.width / 2, Math.round(cardY + cardH * 0.07));
+
+    ctx.fillStyle = "rgba(30,41,59,0.55)";
+    ctx.font = `600 ${Math.round(out.width * 0.016)}px Inter, system-ui, sans-serif`;
+    ctx.fillText("NurseNest \u2022 Instant Download", out.width / 2, Math.round(cardY + cardH * 0.94));
+
+    return out;
+  };
+
+  const exportInstagramCarousel = async () => {
+    setExporting(true);
+    try {
+      await saveCanvas();
+      const title = (project?.title || "design").replace(/[^a-zA-Z0-9]/g, "-");
+      for (let i = 0; i < pages.length; i++) {
+        const pageData = i === currentPageIndex ? { objects } : pages[i]?.canvasJson;
+        const pageObjects = pageData?.objects || [];
+        const bgColor = pages[i]?.backgroundColor || "#ffffff";
+        const c = renderPageToSize(pageObjects, bgColor, 1080, 1350, "contain");
+        const blob = await canvasToBlob(c);
+        downloadBlob(blob, `${title}-IG-${String(i + 1).padStart(2, "0")}.png`);
+      }
+      toast({ title: "Exported Instagram carousel", description: `${pages.length} image(s) 1080x1350` });
+    } catch (e: any) {
+      toast({ title: "IG export failed", description: e.message, variant: "destructive" });
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const exportEtsyStorePack = async () => {
+    setExporting(true);
+    try {
+      await saveCanvas();
+      const title = (project?.title || "design").replace(/[^a-zA-Z0-9]/g, "-");
+      const heroPageData = currentPageIndex === 0 ? { objects } : pages[0]?.canvasJson;
+      const heroObjects = heroPageData?.objects || [];
+      const heroBg = pages[0]?.backgroundColor || "#ffffff";
+
+      const sq = renderPageToSize(heroObjects, heroBg, 600, 600, "cover");
+      downloadBlob(await canvasToBlob(sq), `${title}-thumb-600x600.png`);
+
+      const banner = renderPageToSize(heroObjects, heroBg, 1200, 630, "cover");
+      downloadBlob(await canvasToBlob(banner), `${title}-banner-1200x630.png`);
+
+      const page1 = renderPageToSize(heroObjects, heroBg, 900, 1200, "contain");
+      const mock1 = drawMockupFrame(page1, heroBg, 2000, 2000, "Study Guide Preview");
+      downloadBlob(await canvasToBlob(mock1), `${title}-mockup-1.png`);
+
+      const page2Data = pages[1] ? (currentPageIndex === 1 ? { objects } : pages[1]?.canvasJson) : heroPageData;
+      const page3Data = pages[2] ? (currentPageIndex === 2 ? { objects } : pages[2]?.canvasJson) : heroPageData;
+      const p2Objs = page2Data?.objects || heroObjects;
+      const p3Objs = page3Data?.objects || heroObjects;
+
+      const p2 = renderPageToSize(p2Objs, heroBg, 900, 1200, "contain");
+      const p3 = renderPageToSize(p3Objs, heroBg, 900, 1200, "contain");
+      const mock2 = drawMockupFrame(p2, heroBg, 2000, 2000, "High-Yield Layout");
+      const mock3 = drawMockupFrame(p3, heroBg, 2000, 2000, "Exam-Ready Format");
+      downloadBlob(await canvasToBlob(mock2), `${title}-mockup-2.png`);
+      downloadBlob(await canvasToBlob(mock3), `${title}-mockup-3.png`);
+
+      toast({ title: "Exported Etsy store pack", description: "Thumb + banner + 3 mockups created" });
+    } catch (e: any) {
+      toast({ title: "Etsy export failed", description: e.message, variant: "destructive" });
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const dollarsToCents = (v: string): number => {
+    const n = Number(String(v).replace(/[^0-9.]/g, ""));
+    if (!isFinite(n)) return 0;
+    return Math.round(n * 100);
+  };
+
   const publishToMarketplace = async () => {
     if (!publishForm.title.trim() || !publishForm.price) return;
     setPublishing(true);
@@ -1533,7 +1738,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
           title: publishForm.title,
           slug: publishForm.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
           description: publishForm.description || publishForm.title,
-          price: Math.round(parseFloat(publishForm.price) * 100),
+          price: dollarsToCents(publishForm.price),
           category: publishForm.category,
           coverImageUrl: null,
           featured: false,
@@ -1630,7 +1835,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                 </button>
               ))}
             </div>
-            {aiResult && aiResult.length > 0 && (
+            {aiResult && Array.isArray(aiResult) && aiResult.length > 0 && (
               <div className="border-t pt-3">
                 <div className="bg-primary/5 rounded-lg p-2.5">
                   <p className="text-[10px] font-semibold text-primary mb-1">{aiResult.length} blocks generated</p>
@@ -1643,6 +1848,52 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                   <Button size="sm" onClick={insertAiBlocks} className="w-full h-7 text-[10px] gap-1" data-testid="button-insert-ai">
                     <Plus className="w-3 h-3" /> Insert into Canvas
                   </Button>
+                </div>
+              </div>
+            )}
+            {aiResult && aiResult.bundle === true && (
+              <div className="border-t pt-3 space-y-2">
+                <div className="bg-primary/5 rounded-lg p-2.5">
+                  <p className="text-[10px] font-semibold text-primary mb-1">Bundle ready</p>
+                  <div className="text-[10px] text-gray-600 space-y-1">
+                    <p>Pages: {(aiResult.pages || []).length}</p>
+                    <p>Flashcards: {(aiResult.flashcards || []).length}</p>
+                    <p>QBank: {(aiResult.qbank || []).length}</p>
+                    <p>Listing: {aiResult.listing?.title ? "Yes" : "No"}</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <Button size="sm" className="h-7 text-[10px]" data-testid="button-insert-bundle-pages" onClick={() => {
+                      const pagesPayload = aiResult.pages || [];
+                      if (pagesPayload.length === 0) return;
+                      pushUndo();
+                      setObjects(pagesPayload[0]?.objects || []);
+                      toast({ title: "Inserted bundle page 1", description: `${pagesPayload.length} page(s) in bundle` });
+                    }}>Insert Pages</Button>
+                    <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-copy-listing" onClick={() => {
+                      const listing = aiResult.listing;
+                      if (!listing) return;
+                      const text = `${listing.title}\n\n${listing.description}\n\n${(listing.bullets || []).join("\n")}`;
+                      navigator.clipboard.writeText(text);
+                      toast({ title: "Listing copied to clipboard" });
+                    }}>Copy Listing</Button>
+                    <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-export-flashcards" onClick={() => {
+                      const cards = aiResult.flashcards || [];
+                      const csv = "Front,Back\n" + cards.map((c: any) => `"${(c.front || "").replace(/"/g, '""')}","${(c.back || "").replace(/"/g, '""')}"`).join("\n");
+                      const blob = new Blob([csv], { type: "text/csv" });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement("a"); a.href = url; a.download = "flashcards.csv"; a.click();
+                      URL.revokeObjectURL(url);
+                      toast({ title: `Exported ${cards.length} flashcards` });
+                    }}>Export Flash</Button>
+                    <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-export-qbank" onClick={() => {
+                      const qbank = aiResult.qbank || [];
+                      const blob = new Blob([JSON.stringify(qbank, null, 2)], { type: "application/json" });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement("a"); a.href = url; a.download = "qbank.json"; a.click();
+                      URL.revokeObjectURL(url);
+                      toast({ title: `Exported ${qbank.length} questions` });
+                    }}>Export QBank</Button>
+                  </div>
                 </div>
               </div>
             )}
@@ -1898,8 +2149,12 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
           <Button size="sm" variant="outline" onClick={exportAsImages} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-png">
             <Image className="w-3 h-3" /> PNG
           </Button>
-          <Button size="sm" variant="outline" onClick={() => exportThumbnail(600, 600)} className="h-7 text-xs" data-testid="button-thumb-600">600x600</Button>
-          <Button size="sm" variant="outline" onClick={() => exportThumbnail(1200, 630)} className="h-7 text-xs" data-testid="button-thumb-1200">1200x630</Button>
+          <Button size="sm" variant="outline" onClick={exportInstagramCarousel} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-ig">
+            <ImagePlus className="w-3 h-3" /> IG
+          </Button>
+          <Button size="sm" variant="outline" onClick={exportEtsyStorePack} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-etsy">
+            <ShoppingCart className="w-3 h-3" /> Etsy Pack
+          </Button>
           <Button size="sm" onClick={() => { setPublishForm(f => ({ ...f, title: project?.title || "" })); setShowPublishDialog(true); }} className="h-7 text-xs gap-1" data-testid="button-publish-marketplace">
             <ShoppingCart className="w-3 h-3" /> Publish
           </Button>

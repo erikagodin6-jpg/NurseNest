@@ -141,17 +141,22 @@ NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, 
 - **DB Tables**: `design_projects`, `design_pages`, `design_assets`, `exported_files` in `shared/schema.ts`.
 - **Canvas Editor**: Drag-and-drop designer with text, shapes, images; snap-to-grid, undo/redo, layers panel, multi-page support.
 - **Zoom System**: Stateful `zoom` (25%–200%, default 85%), zoom bar with slider/Fit/100% buttons, `SCALE = zoom / 100`.
-- **Canvas Stage**: Soft `#f6f7fb` background, radial dot backdrop, `shadow-2xl rounded-2xl` canvas.
-- **Left Rail**: 84px wide with icon+label buttons; groups: Text/Rect/Circle/Image (direct add), Templates/Elements/AI/Images/Brand panels.
-- **Brand Kit Panel**: Theme selector, palette swatches, Brand Lock toggle, text style presets (Heading/Subheading/Body/Caption), quick actions (Beautify, Audit, Apply Theme Fonts, Apply to All Pages), display toggles.
-- **Theme System**: `THEME_COLOR_INDEX` maps any theme token color to active theme's equivalent for robust cross-theme mapping. `applyThemeToAllPages` uses `applyActiveThemeToObjects(objs, activeTheme)`.
-- **Multi-Select**: `selectedIds: string[]` with shift-click toggle; drag moves all selected; multi-select properties panel with Fwd/Back/Lock/Del commands; differentiated outline (solid for primary, transparent for secondary selections).
-- **Page Thumbnails**: `makeThumb()` function declaration (TDZ-safe) renders mini canvas previews; initial generation on pages load, debounced 250ms live update during editing, capture on page switch. Thumbnails shown in right panel with duplicate/delete actions.
-- **Image Lab Panel**: AI image generation via DALL-E 3 with text-free mode, size presets, insert-to-canvas.
+- **Canvas Stage**: Pastel gradient background (`from-[#f8f7ff] via-[#f5fbff] to-[#fffdf7]`), radial dot backdrop, floating canvas shadow with `ring-primary/10`.
+- **Left Rail**: 84px wide with gradient (`from-white to-gray-50`), icon+label buttons; groups: Text/Rect/Circle/Image (direct add), Templates/Elements/AI/Images/Brand panels.
+- **Brand Kit Panel**: Theme selector, palette swatches, Brand Lock toggle, text style presets (Heading/Subheading/Body/Caption), layout presets (Stack/Two-Column/Hero+Cards), quick actions (Beautify, Audit + Brand Verified badge, Apply Theme Fonts, Apply to All Pages), display toggles. Cards use `bg-gradient-to-br from-white to-primary/5 border-primary/10 shadow-sm`.
+- **Brand Verified Badge**: `runDesignAudit` auto-inserts locked "BRAND VERIFIED" badge on pass, removes on fail. `brandVerified` state tracks status.
+- **Theme System**: `THEME_COLOR_INDEX` maps any theme token color to active theme's equivalent for robust cross-theme mapping. `applyThemeToAllPages` uses `applyActiveThemeToObjects(objs, activeTheme)`. Theme-aware selection outlines.
+- **Multi-Select**: `selectedIds: string[]` with shift-click toggle; drag moves all selected with canvas bounds clamping; multi-select properties panel with Fwd/Back/Lock/Del commands; differentiated outline (solid primary for selected, transparent for secondary).
+- **Undo/Redo**: `deepCloneObjects` for safe snapshotting; atomic state updates via functional `setUndoStack`/`setRedoStack` to prevent race conditions.
+- **Page Thumbnails**: `makeThumb()` function declaration (TDZ-safe) renders mini canvas previews; initial generation on pages load, debounced 250ms live update during editing, capture on page switch. Thumbnails with `shadow-sm hover:shadow-md`.
+- **Image Lab Panel**: AI image generation via DALL-E 3 with text-free mode, size presets, insert-to-canvas. Text-Free Mode badge when active.
+- **Export System**: PDF, PNG, 600x600/1200x630 thumbnails, IG carousel (1080x1350 portrait), Etsy Store Pack (thumb + banner + 3 device mockups via `drawMockupFrame`). Helpers: `renderPageToSize` (contain/cover), `canvasToBlob`, `downloadBlob`.
+- **AI Bundle Generator**: `bundle-generator` AI tool generates full product bundle (canvas pages + flashcards + qbank + listing). Bundle UI shows counts and action buttons (Insert Pages, Copy Listing, Export Flashcards CSV, Export QBank JSON).
 - **Exam Context Switcher**: `aiExamTarget` dropdown (rex-pn/nclex-pn/nclex-rn/np) with EXAM_CONTEXT_MAP driving AI prompts.
+- **Price Handling**: `dollarsToCents()` helper for clean conversion; `publishForm.category` default matches `<option>` values ("Cram Guide").
 - **API**: Full CRUD for design projects, pages, and assets at `/api/admin/design-*`.
 - **Image Gen API**: `POST /api/admin/images/generate` with prompt, negative prompt, text-free toggle, size, count.
-- **Autosave**: Canvas state auto-saved every 2 seconds.
+- **Autosave**: Canvas state auto-saved every 2 seconds. Resize bounds clamping prevents objects from exceeding canvas.
 
 ### Watermarked Preview System
 - **Schema**: `digital_products.previewUrl` (object storage key), `digital_products.previewPageCount`.

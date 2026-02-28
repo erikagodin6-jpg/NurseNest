@@ -1,0 +1,320 @@
+Got it — here are the 3 fixes you’re asking for, mapped directly to your current code:
+
+“Generate” (AI tools) doesn’t insert / doesn’t produce
+
+Image generation / “Canva-quality” design workflow
+
+Stop dealing with prices in cents + add bulk price editing in admin
+
+Below are concrete code patches + backend contracts that will make this work reliably.
+
+1) Fix the AI “Generate” flow (your prompt/response shape is mismatched)
+What’s wrong right now
+
+In runAiTool() your prompt says:
+
+“Return structured JSON array of canvas objects…”
+
+…but your UI expects:
+
+setAiResult(data.blocks || []);
+
+and insertAiBlocks() expects aiResult items to look like:
+
+{ type: "heading" | "paragraph" | "list" | "clinical-pearl" | "warning" | "callout", content: string }
+
+So even when the API returns “canvas objects”, your UI won’t insert correctly.
+
+Fix option A (recommended): make AI return blocks[]
+
+Change the prompt to explicitly return blocks with the types your UI supports.
+
+Patch runAiTool() prompt (frontend):
+
+const prompt = `
+You are generating content blocks for a nursing study product.
+
+Topic: ${aiTopic}
+Exam Target: ${examCtx.label} | Tier: ${examCtx.tier}
+Frameworks: ${examCtx.frameworks}
+Question Style: ${examCtx.questionStyle}
+Terminology: ${examCtx.terminology}
+Scope: ${examCtx.scope}
+
+Return ONLY valid JSON in this exact schema:
+
+{
+  "blocks": [
+    { "type": "heading", "content": "..." },
+    { "type": "paragraph", "content": "..." },
+    { "type": "list", "content": "item 1\\nitem 2\\nitem 3" },
+    { "type": "clinical-pearl", "content": "..." },
+    { "type": "warning", "content": "..." },
+    { "type": "callout", "content": "..." }
+  ]
+}
+
+Rules:
+- No markdown.
+- No extra keys.
+- Keep paragraphs short (1–4 sentences).
+- Lists must be newline separated (no bullets).
+`;
+Backend contract (what /api/ai/generate-content must return)
+
+Make your server return exactly:
+
+{ "blocks": [ { "type": "heading", "content": "..." } ] }
+
+Also: add a debug fallback so you can see why it failed.
+
+Express example:
+
+app.post("/api/ai/generate-content", requireAdmin, async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    // call your LLM here...
+    const raw = await generateWithYourModel(prompt);
+
+    // Try parse JSON
+    let parsed: any;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return res.status(200).json({
+        blocks: [
+          { type: "heading", content: "AI Output (Parse Failed)" },
+          { type: "paragraph", content: String(raw).slice(0, 2000) }
+        ]
+      });
+    }
+
+    if (!parsed?.blocks || !Array.isArray(parsed.blocks)) {
+      return res.status(200).json({
+        blocks: [
+          { type: "heading", content: "AI Output (Bad Schema)" },
+          { type: "paragraph", content: JSON.stringify(parsed).slice(0, 2000) }
+        ]
+      });
+    }
+
+    return res.json({ blocks: parsed.blocks });
+  } catch (e: any) {
+    return res.status(500).json({ error: e.message || "AI generation failed" });
+  }
+});
+2) Fix Image Lab generation + make it “Canva-like” (templates + style system + local assets)
+What’s likely failing right now
+
+Your Image Lab calls:
+
+POST /api/admin/images/generate
+
+and expects:
+
+{ assets: [{ id, url }] }
+
+If you don’t have that endpoint implemented (or it isn’t returning {assets}), your UI will show “Image Error”.
+
+Backend endpoint you need (contract must match your UI)
+
+Return:
+
+{ "assets": [{ "id": "xxx", "url": "https://..." }] }
+
+Express example:
+
+app.post("/api/admin/images/generate", requireAdmin, async (req, res) => {
+  try {
+    const { prompt, negativePrompt, size, n, textFree } = req.body;
+
+    // Call your image model/provider here
+    // Ensure you pass textFree intent to prompt (no labels).
+    const finalPrompt = `
+${prompt}
+Style: clean pastel clinical illustration, vector-like, high clarity, minimal noise.
+${textFree ? "No text, no labels, no letters." : ""}
+Avoid: ${negativePrompt || "blurry, distorted, watermark, text"}
+`.trim();
+
+    const results = await generateImages(finalPrompt, { size, n }); // implement this
+
+    return res.json({
+      assets: results.map((r: any) => ({ id: r.id, url: r.url })),
+    });
+  } catch (e: any) {
+    return res.status(500).json({ error: e.message || "Generation failed" });
+  }
+});
+Make it “Canva quality” without relying only on AI images
+
+AI images alone won’t feel like Canva unless you add layout systems + brand asset library:
+
+Add “Brand Asset Library” (logos, icons, backgrounds)
+
+You already have DesignAsset in types but you’re not using it in UI.
+
+Add endpoints:
+
+GET /api/admin/design-projects/:id/assets
+
+POST /api/admin/design-projects/:id/assets (upload/select)
+
+plus a reusable “Insert Asset” panel
+
+Then in the editor, allow inserting from stored assets (not only URL paste).
+
+Add “Smart Templates” (you already started—expand it)
+
+You already have PAGE_TEMPLATES. Add:
+
+“Lesson Page (2 column + pearl + red flag)”
+
+“Flowchart Page (algorithm + decision nodes)”
+
+“Lab Values Sheet”
+
+“Med Cards (3 per page)”
+
+“Case Study (NGN style)”
+
+That’s what makes it feel like Canva: consistent, repeatable, fast.
+
+Add “Auto Layout for selected” (true Canva behavior)
+
+You have beautifyPage() but it just stacks everything by y.
+Add “Auto layout selection” (stack, grid, equal heights, spacing).
+
+Minimal version:
+
+Compute bounding box of selected objects
+
+Snap widths to column width
+
+Standardize padding
+
+Distribute vertical spacing
+
+If you want, I can give you the exact utility function—your object model is already perfect for it.
+
+3) Prices: stop “cents” pain + add bulk price editing
+
+You have two separate problems:
+
+A) Your publish code always converts dollars → cents
+price: Math.round(parseFloat(publishForm.price) * 100),
+
+If you truly want to store dollars as decimals in DB, you can. But best practice is still store cents as integer, and always show dollars in UI.
+
+Recommended (keep cents in DB, never show cents in UI)
+
+Keep DB integer cents
+
+Make ALL admin inputs show dollars
+
+Create helpers for formatting/parsing
+
+Frontend helper:
+
+function dollarsToCents(v: string): number {
+  const n = Number(String(v).replace(/[^0-9.]/g, ""));
+  if (!isFinite(n)) return 0;
+  return Math.round(n * 100);
+}
+
+function centsToDollars(cents: number): string {
+  const n = Number(cents || 0) / 100;
+  return n.toFixed(2);
+}
+
+Patch your publish:
+
+price: dollarsToCents(publishForm.price),
+
+And everywhere you display price in admin: use centsToDollars(product.price).
+
+If your complaint is “the admin panel forces cents”, that’s usually because somewhere else (product editor/listing) you’re binding directly to cents and not converting.
+
+B) Your category defaults are mismatched (this can break publish validation)
+
+You initialize:
+
+const [publishForm, setPublishForm] = useState({ ..., category: "study-guide" });
+
+…but your <select> options are:
+
+<option value="Cram Guide">Cram Guide</option>
+...
+
+So you’re sending "study-guide" sometimes, and sometimes "Cram Guide".
+Pick one schema.
+
+Fix the default to match your option values:
+
+const [publishForm, setPublishForm] = useState({
+  title: "",
+  description: "",
+  price: "",
+  category: "Cram Guide",
+});
+C) Bulk price editing in admin (what you asked for)
+
+Add an admin page/tool that:
+
+lists products with current prices (dollars)
+
+lets you edit multiple rows
+
+supports “increase all by X%” or “set category to $Y”
+
+posts a single bulk update request
+
+Backend endpoint
+
+PUT /api/admin/shop/products/bulk-pricing
+
+app.put("/api/admin/shop/products/bulk-pricing", requireAdmin, async (req, res) => {
+  const { updates, percentChange, category, setPriceCents } = req.body;
+
+  // Option 1: explicit row updates
+  // updates: [{ id, priceCents }]
+  if (Array.isArray(updates) && updates.length) {
+    // validate + write to DB
+    return res.json({ ok: true, updated: updates.length });
+  }
+
+  // Option 2: apply rule
+  // percentChange: 10 (means +10%), category: "Cram Guide"
+  // or setPriceCents: 1999
+  // implement accordingly
+
+  return res.json({ ok: true });
+});
+Frontend (quick inline tool pattern)
+
+You can add a simple admin panel route like /admin/pricing.
+
+At minimum, you need:
+
+table of products
+
+editable price inputs (dollars)
+
+“Save All” button → posts updates with cents
+
+If you want, paste your existing product admin list component and I’ll give you the exact drop-in UI.
+
+Quick checklist to confirm everything works
+
+✅ /api/ai/generate-content returns { blocks: [...] }
+
+✅ runAiTool() prompt demands that exact schema
+
+✅ /api/admin/images/generate returns { assets: [{id,url}] }
+
+✅ publishForm.category default matches <option value=...>
+
+✅ You convert dollars↔cents only via helpers, never manually
+
+✅ Add bulk pricing endpoint + admin UI
