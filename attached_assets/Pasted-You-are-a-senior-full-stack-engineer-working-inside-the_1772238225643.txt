@@ -1,0 +1,341 @@
+You are a senior full-stack engineer working inside the NurseNest codebase (Vite + React + Express + relational DB).
+
+Build a comprehensive Assessment, Scheduling, Exam Simulation, Study Planning, Recommendation, and SEO Engine.
+
+Business objectives:
+- Increase paid subscriptions through adaptive, exam-realistic prep.
+- Increase retention through personalized study planning.
+- Improve Google indexing via structured content architecture.
+- Preserve existing blog generator functionality.
+- Never misrepresent official exam scoring.
+
+====================================================
+PART 1 — EXAM BLUEPRINT REGISTRY
+====================================================
+
+Create table: exam_blueprints
+
+Fields:
+- exam_id
+- tier (RPN, RN, PN, NP)
+- is_cat (boolean)
+- min_items
+- max_items
+- time_limit_minutes
+- break_prompts_minutes (array)
+- category_weight_ranges (json)
+- scoring_rules (json)
+- pretest_item_count
+- readiness_gate_enabled (boolean)
+- critical_threshold_percent
+- min_items_per_category_for_evaluation
+
+Seed defaults:
+
+NCLEX-RN / NCLEX-PN:
+- is_cat = true
+- min_items = 85
+- max_items = 150
+- time_limit_minutes = 300
+- break_prompts_minutes = [120,210]
+- pretest_item_count = 15
+- scoring supports 0/1, +/-, rationale scoring
+- enforce category exposure quotas using official test plan ranges
+
+REx-PN:
+- is_cat = true
+- min_items = 90
+- max_items = 150
+- time_limit_minutes = 240
+- pretest_item_count = 30
+- SATA partial credit enabled
+
+NP Tier:
+- fixed-length exam mode
+- configurable item count
+- no CAT
+
+IMPORTANT:
+Do NOT implement “minimum correct per category to pass” for NCLEX or REx-PN.
+Implement category exposure quotas and optional NurseNest Readiness Gate instead.
+
+====================================================
+PART 2 — QUESTION TYPES
+====================================================
+
+Create canonical question_types table.
+
+Support:
+- Single best answer
+- Multiple response (SATA)
+- Select N
+- Matrix / grid
+- Drop-down cloze
+- Drop-down table
+- Bow-tie
+- Highlight text
+- Highlight table
+- Drag-and-drop ordering
+- Trend items
+- Paired rationale scoring items
+
+Each question must include:
+- tier
+- category
+- subcategory
+- body system
+- difficulty 1–5
+- cognitive level
+- NGN clinical judgment tag
+- scoring model type
+- full rationale
+- teaching pearl
+- distractor explanations
+
+====================================================
+PART 3 — GENERATE 100 PER TIER PER QUESTION TYPE
+====================================================
+
+Build admin bulk generator:
+
+Input:
+- tiers selected
+- question types selected
+- quantity (default 100 each)
+
+Pipeline:
+Generate → validate schema → duplication check → tag → QA queue → publish.
+
+Minimum rationale word counts (configurable):
+- Flashcards: 80 words
+- QBank: 150 words
+- Mock exam: 200 words
+- Case study: 250 words
+
+Block publishing if below minimum.
+
+====================================================
+PART 4 — MOCK EXAMS (REALISTIC MODE)
+====================================================
+
+Modes:
+- Tutor Mode
+- Realistic Exam Mode
+
+Realistic Mode must:
+- Enforce time limit
+- Enforce min/max items
+- Enforce category coverage quotas
+- Hide pretest items
+- Implement CAT-style ability estimate for CAT exams
+- End exam when confidence threshold met or max reached
+- Simulate break prompts
+- Prevent backtracking if realistic mode enabled
+
+SCORING:
+Implement:
+- 0/1 model
+- +/- model
+- Rationale paired model
+
+For CAT:
+- Stop rules:
+  - confidence rule
+  - max length rule
+  - run-out-of-time rule
+
+Output:
+- Simulated pass/fail
+- Readiness band (Not Ready / Borderline / Likely Ready)
+- Weakness profile
+
+Readiness Gate (optional):
+If category accuracy < critical_threshold AND min_items sampled:
+Cap readiness to Borderline.
+
+Display disclaimer:
+“This readiness label is a NurseNest coaching metric and not an official exam score.”
+
+====================================================
+PART 5 — CATEGORY EXPOSURE QUOTAS
+====================================================
+
+During exam assembly:
+
+For each category:
+min_count = floor(weight_min × exam_length)
+max_count = ceil(weight_max × exam_length)
+
+Guarantee coverage within ranges.
+
+Add admin report:
+Tier × Category × Question Type coverage grid.
+
+====================================================
+PART 6 — STUDY PLAN FROM EXAM DATE
+====================================================
+
+Create user_exam_profile:
+- exam_type
+- exam_date
+- available_days_per_week
+- minutes_per_day
+
+Algorithm:
+Backward plan from exam_date.
+
+Phases based on days remaining:
+>60 days → foundation → application → mocks
+30–60 days → remediation → mixed timed → mocks
+<30 days → high-yield + daily timed sets
+
+Daily schedule:
+- questions per day
+- flashcards
+- weekly mock
+- spaced repetition blocks
+
+Auto-adjust weekly based on performance.
+
+Calendar integration:
+- reschedule drag/drop
+- auto-carry forward missed days
+
+====================================================
+PART 7 — COURSE RECOMMENDATION ENGINE
+====================================================
+
+After every session:
+Compute weakness profile:
+- weakest categories
+- weakest systems
+- weak question types
+- pacing issues
+
+Recommend:
+1. Internal NurseNest lessons (deep links)
+2. Optional external prep resources
+
+Create course_catalog table:
+- provider
+- title
+- tier_supported
+- focus_areas
+- URL
+- affiliate_placeholder
+
+Display:
+“Recommended Next Steps”
+Include explanation tied to weakness profile.
+
+====================================================
+PART 8 — SCHEDULING SYSTEM
+====================================================
+
+Admin can:
+- schedule release date
+- drip release
+- cohort release
+- bulk reschedule
+- view calendar of releases
+
+Create audit log.
+
+Admin bypasses copy/paste restrictions.
+
+====================================================
+PART 9 — PASS PROBABILITY MODEL
+====================================================
+
+Inputs:
+- readiness score
+- question volume
+- improvement slope
+- difficulty exposure
+- mock average
+- study consistency
+
+Output:
+- Pass Probability %
+- Confidence band
+- Risk category
+
+Use logistic scaling.
+Do not expose formula.
+
+====================================================
+PART 10 — SEO + INDEXING STRUCTURE
+====================================================
+
+Public pages:
+- Free diagnostic exam
+- Study plan generator landing page
+- Topic pillar pages (2000+ words)
+- FAQ sections per lesson
+- Glossary A–Z
+
+Add JSON-LD schema:
+- Article
+- FAQ
+- Course
+- Breadcrumb
+
+Add internal linking automation.
+Add sitemap auto-refresh.
+Ensure preview content only (no premium leaks).
+
+====================================================
+PART 11 — ADMIN QA TOOLS
+====================================================
+
+Dashboard sections:
+- Question Type Coverage
+- Category Coverage
+- Rationale Word Count Compliance
+- Duplicate Similarity Alerts
+- Difficulty Distribution
+
+Bulk edit tools:
+- retier
+- retag
+- reschedule
+- archive
+
+====================================================
+PART 12 — PREMIUM FEATURE GATING
+====================================================
+
+Feature flags:
+- adaptive CAT engine
+- pass probability model
+- unlimited mocks
+- AI study coach
+- advanced analytics
+- delegation simulator
+
+Free tier:
+- limited questions/day
+- diagnostic preview
+
+Premium:
+- full adaptive + analytics
+
+====================================================
+DELIVERABLES
+====================================================
+
+1. DB schema
+2. Admin UI
+3. Mock engine
+4. CAT simulator
+5. Study plan engine
+6. Recommendation engine
+7. Scheduling system
+8. SEO enhancements
+9. QA tests
+10. Documentation
+
+Do not break blog generator.
+Do not copy copyrighted exam content.
+All questions must be original.
+Implement in modular phases.

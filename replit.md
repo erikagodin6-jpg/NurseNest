@@ -2,7 +2,7 @@
 
 ## Overview
 
-NurseNest is an interactive nursing education platform designed for RPN/LVN, RN, and NP students. It provides comprehensive learning resources, including lessons, flashcards, performance analytics, and exam preparation for NCLEX/REX-PN. The platform supports both US and Canadian nursing standards, with a strong focus on clinical pathophysiology, medication safety, and condition recognition. Its core purpose is to serve as a complete educational tool for current and aspiring nurses, enhancing their knowledge and clinical reasoning skills.
+NurseNest is an interactive nursing education platform for RPN/LVN, RN, and NP students, offering comprehensive learning resources like lessons, flashcards, performance analytics, and NCLEX/REX-PN exam preparation. It supports both US and Canadian nursing standards, focusing on clinical pathophysiology, medication safety, and condition recognition to enhance nurses' knowledge and clinical reasoning.
 
 ## User Preferences
 
@@ -31,79 +31,51 @@ NurseNest is an interactive nursing education platform designed for RPN/LVN, RN,
 - **Backend**: Express 5 on Node.js with TypeScript, featuring gzip compression and robust security headers.
 - **API Pattern**: RESTful API using `/api` prefix.
 - **Authentication**: Username/password, session management in localStorage, server-side admin verification.
-- **Content Engine**: Admin-only editor for structured content, dynamic SEO-optimized pages. Inline lesson editing for admin users on lesson-detail, anatomy, and pre-nursing pages. Admin lesson creator template for uncreated lessons (shows instead of "Lesson Not Found" for admins) with AI content generation and SEO metadata generation. Anatomy page: admin can edit system name, description, and content paragraphs per body system with AI generation (`anatomy-{systemId}` override keys). Pre-nursing page: admin can edit module title/description overrides and add supplemental content paragraphs with AI generation (`prenursing-{moduleId}` override keys). All overrides stored via `/api/lesson-overrides/:id` endpoint. **Admin Custom Modules**: Admin can create new modules/systems on pre-nursing and lessons pages with matching UI structure — stored in `custom_page_modules` table via `/api/custom-modules` endpoints. Each module has title, description, icon, color, image, lessons list, and content paragraphs. **Admin Image Management**: Site-wide image override system — `site_images` table stores `imageKey → url` mappings. `AdminImageOverlay` component wraps images, showing a camera icon on hover for admins. Admins can upload replacement images via object storage or paste URLs. `SiteImagesProvider` context provides `getImageUrl(key, default)` globally. Pre-nursing module card images use key `prenursing-module-{id}`, lesson system card images use `lesson-system-{id}`.
-- **Lesson Publish Flow**: After admin publishes via AdminLessonCreator, `onPublished` callback re-fetches the lesson via `fetchDbLesson(slug)` (passes admin credentials as query params) to show the published view immediately — no `window.location.reload()`. The "Edit Lesson" button sets `dbEditMode=true` (renders AdminLessonCreator with `existingContent`) instead of clearing `dbContent`. `GET /api/content/slug/:slug` allows admins to bypass status/tier/region checks so they can always view their own content.
+- **Content Engine**: Admin-only editor for structured content, dynamic SEO-optimized pages. Supports inline lesson editing, template-based lesson creation with AI content generation and SEO metadata. Admin can manage pre-nursing modules and anatomy content with AI assistance and site-wide image overrides.
+- **Lesson Publish Flow**: Admins can publish lessons directly, with immediate view of published content and a dedicated "Edit Lesson" mode.
 - **Subscription System**: Multiple tiers (Free, RPN/LVN, RN/NCLEX, NP Advanced) with regional pricing.
-- **Interactive Labs**: Med Math & Clinical Calculations, Abnormal Lab Interpretation, Clinical Clarity, Clinical Case Simulation, and Medication Mastery Engine.
-- **Interactive Clinical Simulators**: Six modules covering First Action Prioritization, Safety & Hazard Detection, IV Complications, Electrolyte & ABG Interpretation, Deteriorating Patient, and Blood Transfusion.
-- **Region-Aware Content**: Server-side hostname-based region detection (`server/region.ts`). Content items have `region_scope` field (BOTH, US_ONLY, CA_ONLY). All public content endpoints filter by region. AI content generation is region-aware (uses appropriate terminology/units). Region constants in `shared/constants/` with CA/US exam names and lab values. Protected fields validation blocks AI from modifying exam names/lab values on protected content. RPN/RN content region scope is locked to domain region and cannot be changed after publishing. Admin can create CA/US variants of content using version_key linking. Client pages (home, pricing, navigation) use centralized `shared/constants` for region-specific exam names and designations.
+- **Interactive Learning**: Includes Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Clarity, Clinical Case Simulation, Medication Mastery Engine, and six interactive clinical simulators.
+- **Region-Aware Content**: Server-side hostname-based region detection. Content is filtered by `region_scope` (BOTH, US_ONLY, CA_ONLY). AI content generation is region-aware.
 - **Unit Conversion**: Centralized system for CA metric / US imperial switching.
-- **Mock Exam Engine**: Timed exams with configurable parameters, question flagging, auto-save, and detailed post-exam reports. Features stratified random sampling from a question pool.
-- **Admin Features**: Dashboard for analytics, subscriptions, activity, and a unified Content Engine tab. Admin page layout is locked. Admin preview mode allows viewing as different user tiers.
-- **Blog Automation**: OpenAI-powered blog post generation with scholarly source requirements, APA7/MLA citation support, and scheduled publishing.
-- **Custom Flashcards**: Users can create, edit, and study personal flashcards, including CSV import and AI accuracy checks. Supports public/private/unlisted visibility, and features starter decks and shareable deck pages. **AI Flashcard Generator** on My Flashcards page (`/api/user-flashcards/ai-generate`) lets users describe a topic and auto-generate cards with OpenAI.
-- **Internationalization (i18n)**: Custom system supporting 15 languages (including RTL), with fallback to English. French and Spanish are fully translated (2,035 keys each) via OpenAI-powered batch translation. UI chrome is fully translated, while educational content remains in English.
-- **Tier Isolation**: Access is exclusive per tier (RPN, RN, NP); free users see all tabs.
-- **CMS Templates**: Quick-create templates for various content types.
-- **SEO**: Per-route meta tags injected via Vite `transformIndexHtml` hook in `vite-plugin-meta-images.ts` (calls `injectMeta` from `server/seo-meta.ts`). Includes sitemap.xml, robots.txt, structured data (JSON-LD), and noscript fallback content for crawlers.
+- **Mock Exam Engine**: Timed exams with configurable parameters, question flagging, auto-save, detailed reports, and stratified random sampling.
+- **Admin Features**: Dashboard for analytics, subscriptions, activity, and a unified Content Engine. Admin preview mode allows viewing as different user tiers.
+- **Blog Automation**: OpenAI-powered blog post generation with scholarly sources and scheduled publishing.
+- **Custom Flashcards**: Users can create, edit, and study personal flashcards, with CSV import and AI accuracy checks. Features AI Flashcard Generator.
+- **Internationalization (i18n)**: Custom system supporting 15 languages, with full UI translation for French and Spanish.
+- **Tier Isolation**: Access is exclusive per tier (RPN, RN, NP), while free users see all tabs.
+- **SEO**: Per-route meta tags injected via Vite `transformIndexHtml` hook, sitemap.xml, robots.txt, structured data (JSON-LD).
 - **Question of the Day (QOTD)**: Server-side engine for daily questions with an SEO-optimized landing page.
 - **Question Bank**: Filterable practice questions with instant rationale and progress tracking.
-- **Social Media Scheduler**: Admin-managed scheduling for Facebook and Instagram via Meta Graph API.
-- **Customizable Learning Dashboard**: User-facing dashboard with draggable, configurable widgets for personalized learning.
-- **Exam Date Study Plan Engine**: Backward planning algorithm generates personalized study schedules based on exam date, type, and readiness score. Phases auto-adjust based on days remaining (>60, 30-60, <30 days). Daily targets include questions, flashcards, focus modules. Stored in `user_exam_profile` and `study_plan_schedule` tables. API: `POST /api/study-plan/generate`, `GET /api/study-plan`, `POST /api/study-plan/update`.
-- **Pass Probability Projection**: Logistic-scaled pass probability calculation using readiness score, question volume, improvement trend, and mock exam averages. Risk categories: High Risk (<60%), Moderate Risk (60-75%), Low Risk (>75%). API: `GET /api/pass-probability/:userId`.
-- **Public Diagnostic Exam**: 25-question free diagnostic exam covering all body systems. Anonymous attempts allowed (score only). Registered users get topic breakdown and recommendations. API: `GET /api/diagnostic-exam`, `POST /api/diagnostic-exam/submit`. Stored in `diagnostic_attempts` table.
-- **Auscultation Audio Library**: Audio clip management with license enforcement (CC0/CC_BY/CC_BY_SA/PUBLIC_DOMAIN/COMMERCIAL_LICENSE). Quiz mode for sound identification. Components: `AuscultationPracticeSection` in lesson-detail pages.
+- **Customizable Learning Dashboard**: User-facing dashboard with draggable, configurable widgets.
+- **Exam Date Study Plan Engine**: Backward planning algorithm generates personalized study schedules based on exam date, type, and readiness.
+- **Pass Probability Projection**: Logistic-scaled pass probability calculation based on readiness, question volume, and mock exam averages.
+- **Public Diagnostic Exam**: 25-question free diagnostic exam with anonymous attempts and topic breakdowns for registered users.
+- **Auscultation Audio Library**: Audio clip management with license enforcement and a quiz mode.
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL.
-- **Schema**: Defined in `shared/schema.ts` for various entities like users, notes, progress, content items, and user-generated content.
+- **Schema**: Defined in `shared/schema.ts` for various entities.
 - **Validation**: Zod schemas generated from Drizzle.
 
 ### Content Architecture
-- Lesson content is organized into TypeScript modules by body system, supporting pre/post-test questions.
+- Lesson content is organized into TypeScript modules by body system, supporting pre/post-test questions. 25 core lessons across cardiovascular (10), respiratory (8), and neurological (7) have been expanded to 2000+ words of detailed cellular pathophysiology content.
 - Lessons are categorized into RPN/LVN, RN, NP, and Pharmacology tabs.
-- **Lesson Sections**: Each lesson has 10 content sections: Pathophysiology, Risk Factors, Diagnostics, Management, Nursing Actions, Assessment Findings (vital signs, labs, inspection/auscultation/palpation findings), Lifespan, Clinical Findings & Red Flags, Pharmacology, and Exam Readiness. All sections support inline admin editing with AI generation.
-- **Save & Publish**: Admin edit toolbar shows "Save & Publish" button. DB-stored lessons have Publish/Edit buttons visible to admin. Admin can edit DB lessons by clicking "Edit Lesson" which opens the lesson creator form.
+- Each lesson has 10 content sections: Pathophysiology, Risk Factors, Diagnostics, Management, Nursing Actions, Assessment Findings, Lifespan, Clinical Findings & Red Flags, Pharmacology, and Exam Readiness, all supporting inline admin editing with AI generation.
 - Flashcard system includes bookmarking and mastery tracking.
-- **Anatomy & Physiology**: Route-based navigation — `/anatomy` shows a card grid of 12 body systems, `/anatomy/:systemId` shows a dedicated detail page with full content, admin image/content editing, and prev/next navigation. System IDs: cell-structure, feedback-loops, cardiovascular, respiratory, nervous, musculoskeletal, digestive, renal, endocrine, integumentary, immune, reproductive. Anatomy images use `AdminImageOverlay` with key `anatomy-{systemId}`.
-- **Pre-Nursing Foundations Program**: 27 interactive modules (cell biology, physiology, terminology, pharmacology intro, pathophysiology intro, science foundations, anatomy & physiology, research & statistics, medical terminology, chemistry, microbiology, infection control, fluids & electrolytes, healthcare communication, ethics & legal, study strategies, health assessment, nutrition foundations, cultural competency, inflammation, cellular injury, oxygenation, diagnostics, healthcare structure, research reading, human factors, ATP pathway). Data files in `client/src/data/pre-nursing-*.tsx`, rendered in `client/src/pages/pre-nursing.tsx`.
-- **CMS Content Integration**: DB-stored lessons (`/api/content/lessons`) appear on the Lessons page as "Additional Lessons" section. Lesson-detail page falls back to DB content when no static content exists. Flashcards page fetches DB flashcard sets from `/api/content/flashcard-sets`.
+- **Anatomy & Physiology**: Route-based navigation with detail pages for 12 body systems, supporting admin image/content editing.
+- **Pre-Nursing Foundations Program**: 27 interactive modules covering foundational nursing science.
+- **CMS Content Integration**: DB-stored lessons and flashcard sets are dynamically integrated into the platform.
 
-## Vite Dev Server & SEO — Critical Invariants
-
-### Root Cause (Blank Screen Fix)
-Global `res.write`/`res.end` wrapping in Express (the SEO meta interceptor) interfered with Vite's streamed module responses. `/@vite/client` and `/src/*.tsx` were returned as corrupted HTML instead of JS modules, causing every React component import to fail silently.
-
-### Fix
-- Removed the global response-wrapping SEO interceptor from `server/index.ts`.
-- Moved SEO meta injection into `vite-plugin-meta-images.ts` using Vite's `transformIndexHtml` hook, which only touches HTML responses.
-- `main.tsx` uses clean static imports only (no dynamic `import()` wrappers).
-
-### Invariant Rules (DO NOT VIOLATE)
-1. **Never intercept/wrap responses** for `/@*`, `/src/*`, `/.vite/*`, `/node_modules/*`, `/vite-hmr`, `/__vite_ping` in dev.
-2. **Never globally wrap `res.write`/`res.end`** — this breaks Vite module streaming.
-3. In dev, **SEO/meta injection must be HTML-only** via `transformIndexHtml` (string transform, no response monkey-patching).
-4. `/@vite/client` must always return `200 text/javascript` — never served by Express SPA fallback.
-5. `main.tsx` must use **static imports only** — no dynamic `import("./App")` wrappers.
-
-### Health Check (run if blank screen returns)
-- `GET /@vite/client` → should be `200 text/javascript`
-- `GET /src/App.tsx` → should be `200 text/javascript` (module)
-- If either returns HTML, check middleware ordering or response-wrapping code in `server/index.ts`.
-- If "Failed to fetch dynamically imported module" errors appear in console, a middleware is intercepting Vite paths.
-
-### Production SEO
-- `transformIndexHtml` runs during dev and at build time, but NOT at runtime in production (Vite is not running).
-- Production serves static `dist/` files via Express (`server/static.ts`).
-- If per-route dynamic meta is needed in production, add an Express HTML injection step that runs ONLY on HTML navigations with guards: `Accept: text/html` + `Sec-Fetch-Dest: document`, and NEVER wraps module/static file responses.
+### Vite Dev Server & SEO — Critical Invariants
+- SEO meta injection occurs via Vite's `transformIndexHtml` hook, only affecting HTML responses.
+- Critical invariant rules prevent global response wrapping in dev to ensure Vite module streaming functions correctly.
 
 ## External Dependencies
 
 ### Database
 - **PostgreSQL**: Primary database.
 - **Drizzle ORM**: Used for database interactions.
-- **Stripe**: Schema includes `stripe.products`, `stripe.prices`, `stripe.subscriptions` tables.
+- **Stripe**: Integrated for subscription management with corresponding tables.
 
 ### Key npm Dependencies
 - **UI**: shadcn/ui, Radix UI primitives, Lucide icons.
@@ -117,8 +89,8 @@ Global `res.write`/`res.end` wrapping in Express (the SEO meta interceptor) inte
 - `client/src/data/medications.ts`: Medication profiles.
 
 ### Site Analytics & Feedback System
-- **Page View Tracker**: Custom hook `use-page-tracker.ts` for comprehensive analytics.
+- **Page View Tracker**: Custom hook for analytics.
 - **Analytics API**: Provides site metrics for admin dashboard.
-- **Feedback System**: User-facing page and admin management for feedback, feature requests, and bug reports.
+- **Feedback System**: User-facing feedback and bug reporting.
 - **Meta Graph API**: Used for social media scheduling (Facebook, Instagram).
-- **OpenAI**: Powers blog post generation.
+- **OpenAI**: Powers blog post generation and AI flashcard/content generation.
