@@ -1,0 +1,391 @@
+1) Stability Fixes (Must-Do)
+✅ Fix #1: objects.sort() mutates React state
+
+Change this:
+
+{objects.sort((a, b) => a.zIndex - b.zIndex).map(obj => {
+
+To this:
+
+{[...objects].sort((a, b) => a.zIndex - b.zIndex).map(obj => {
+
+This prevents undo/redo glitches and subtle re-render bugs.
+
+✅ Fix #2: Undo/Redo reliability (safer snapshotting)
+
+Right now you push [...]objects which is a shallow copy; if any objects get mutated in the future you can leak references.
+
+Add this helper near your functions:
+
+const deepCloneObjects = (arr: CanvasObject[]) => arr.map(o => ({ ...o }));
+
+Update pushUndo:
+
+const pushUndo = () => {
+  setUndoStack(prev => [...prev.slice(-20), deepCloneObjects(objects)]);
+  setRedoStack([]);
+};
+
+Update undo/redo (safer):
+
+const undo = () => {
+  setUndoStack(prev => {
+    if (prev.length === 0) return prev;
+    const next = [...prev];
+    const last = next.pop()!;
+    setRedoStack(r => [...r, deepCloneObjects(objects)]);
+    setObjects(last);
+    return next;
+  });
+};
+
+const redo = () => {
+  setRedoStack(prev => {
+    if (prev.length === 0) return prev;
+    const next = [...prev];
+    const last = next.pop()!;
+    setUndoStack(u => [...u, deepCloneObjects(objects)]);
+    setObjects(last);
+    return next;
+  });
+};
+✅ Fix #3: Make selection outline theme-aware (premium polish)
+
+Replace hardcoded selection outline:
+
+outline: isSelected ? "2px solid #6366f1" : "none",
+
+With:
+
+outline: isSelected ? `2px solid ${theme.primaryColor}` : "none",
+2) Canva-Grade UX & Aesthetic Upgrades
+A) Make the workspace feel premium (background + canvas shadow)
+
+Replace your outer workspace container background:
+
+<div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-[#f6f7fb]">
+
+With:
+
+<div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-gradient-to-br from-[#f8f7ff] via-[#f5fbff] to-[#fffdf7]">
+
+And upgrade canvas wrapper:
+
+<div className="relative rounded-2xl shadow-2xl ring-1 ring-black/5 bg-white">
+
+To:
+
+<div className="relative rounded-3xl bg-white ring-1 ring-primary/10 shadow-[0_30px_60px_-15px_rgba(124,58,237,0.22)]">
+B) Add snap guides + smart alignment (true Canva vibe)
+
+Add these constants:
+
+const SNAP_THRESHOLD = 6;
+
+Add helper:
+
+const snap = (value: number, grid: number) => Math.round(value / grid) * grid;
+
+const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+In dragging, clamp to canvas bounds and apply threshold snap:
+
+const rawX = e.clientX / SCALE - dragOffset.x;
+const rawY = e.clientY / SCALE - dragOffset.y;
+
+let snappedX = snap(rawX, GRID_SIZE);
+let snappedY = snap(rawY, GRID_SIZE);
+
+snappedX = clamp(snappedX, 0, CANVAS_WIDTH - primaryObj.width);
+snappedY = clamp(snappedY, 0, CANVAS_HEIGHT - primaryObj.height);
+
+Then compute dx/dy from that.
+
+C) Add “Auto Layout” presets (stack / two-column / hero+cards)
+
+Add a new function:
+
+type LayoutPreset = "stack" | "two-col" | "hero-cards";
+
+const applyLayoutPreset = (preset: LayoutPreset) => {
+  if (objects.length === 0) return;
+  pushUndo();
+
+  const contentW = CANVAS_WIDTH - MARGIN * 2;
+  const leftX = MARGIN;
+  const rightX = MARGIN + contentW / 2 + 8;
+  const colW = contentW / 2 - 8;
+
+  const sorted = [...objects].sort((a, b) => a.y - b.y);
+
+  let y = MARGIN;
+  const updated = sorted.map((o, i) => {
+    const isWide = o.width > contentW * 0.7;
+
+    if (preset === "stack") {
+      const w = Math.min(contentW, o.width);
+      const x = MARGIN;
+      const next = { ...o, x, y, width: w, zIndex: i };
+      y += next.height + 12;
+      return next;
+    }
+
+    if (preset === "two-col") {
+      const col = i % 2 === 0 ? "left" : "right";
+      const x = col === "left" ? leftX : rightX;
+      const w = Math.min(colW, o.width);
+      const next = { ...o, x, y, width: w, zIndex: i };
+      if (col === "right") y += next.height + 12;
+      return next;
+    }
+
+    // hero-cards
+    if (i === 0 && o.type === "text") {
+      const next = { ...o, x: MARGIN, y, width: contentW, fontSize: Math.max(o.fontSize || 18, 26), fontWeight: "bold", zIndex: i };
+      y += next.height + 16;
+      return next;
+    }
+
+    const col = i % 2 === 0 ? "left" : "right";
+    const x = col === "left" ? leftX : rightX;
+    const w = Math.min(colW, o.width);
+    const next = { ...o, x, y, width: w, zIndex: i };
+    if (col === "right") y += next.height + 12;
+    return next;
+  });
+
+  setObjects(updated);
+  toast({ title: "Layout applied", description: preset });
+};
+
+Then add 3 buttons in Brand Kit “Quick Actions”:
+
+Stack Layout
+
+Two Column Layout
+
+Hero + Cards Layout
+
+3) Automation (Mass Production + Social + Mockups)
+A) Auto-generate a full product bundle (Cram + Flashcards + Qbank + Listing)
+
+You already have AI tools — now add a Bundle Tool that triggers your backend multiple times in one click.
+
+Add a new AI tool:
+
+{ id: "bundle-generator", label: "Bundle: Cram + QBank + Flashcards + Listing", icon: Crown, prompt: "Generate a full product bundle" },
+
+Then in runAiTool, detect bundle and send a different payload:
+
+const mode = toolId === "bundle-generator" ? "bundle" : "generate";
+...
+body: { prompt, mode, examTarget: aiExamTarget },
+
+Backend expectation: mode="bundle" returns:
+
+canvasBlocks (for pages)
+
+flashcards
+
+qbank
+
+listing
+
+Then in UI show tabs:
+
+Insert to Canvas
+
+Export Flashcards
+
+Export Qbank
+
+Copy Listing
+
+This is the “end-all be-all” one-click generator.
+
+B) Auto-create store images + social carousels (no extra work for you)
+
+Add two exports:
+
+Instagram Carousel Export
+
+Render each page as 1080x1350 (portrait)
+
+Or scale the PDF pages into that canvas
+
+Etsy Listing Mockups
+
+Produce:
+
+cover thumbnail 600x600
+
+cover 1200x630
+
+3 “flat-lay” frames (page screenshot inside a device frame)
+
+You can do mockup frames without AI: just draw white rounded rectangles + shadow and place page inside.
+
+If you want, I’ll give you the exact canvas drawing code next—your renderer already exists, so this is straightforward.
+
+C) Auto-create “SEO Product Listing” from Page 1 content
+
+You already have product-listing AI tool.
+
+Upgrade prompt to include:
+
+audience (RPN/RN/NP)
+
+exam target
+
+outcomes
+
+what’s included
+
+page count
+
+downloadable formats
+
+disclaimer
+
+Example prompt fragment:
+
+Return:
+1) Title (<=70 chars)
+2) Meta description (<=155 chars)
+3) 5 bullet value props
+4) What's included list
+5) Tags/keywords (20)
+6) FAQ (5)
+7) Disclaimer
+4) Monetization Systems (Real Money)
+A) Templates Marketplace (Paid + Locked)
+
+You already have templates arrays.
+
+Add a field:
+
+type TemplateTier = "free" | "pro";
+
+Extend template:
+
+{ label, icon, tier: "pro", generate }
+
+In UI, if template is pro and user not subscribed:
+
+show lock
+
+CTA upgrade
+
+You already have Stripe/subscriptions elsewhere — this is plug-and-play.
+
+B) “Brand Verified” watermark logic (huge conversion boost)
+
+Add a state:
+
+const [brandVerified, setBrandVerified] = useState(false);
+
+Modify runDesignAudit:
+
+if issues.length === 0 → setBrandVerified(true)
+
+else → setBrandVerified(false)
+
+If verified, auto-insert a small badge:
+
+const insertVerifiedBadge = () => {
+  if (objects.some(o => o.tag === "brand-verified")) return;
+  pushUndo();
+  setObjects(prev => [
+    ...prev,
+    {
+      id: uid(),
+      type: "rect",
+      x: CANVAS_WIDTH - MARGIN - 110,
+      y: MARGIN - 10,
+      width: 110,
+      height: 22,
+      fill: theme.successColor,
+      borderRadius: 11,
+      rotation: 0,
+      opacity: 0.9,
+      zIndex: 999,
+      tag: "brand-verified",
+      locked: true
+    },
+    {
+      id: uid(),
+      type: "text",
+      x: CANVAS_WIDTH - MARGIN - 105,
+      y: MARGIN - 6,
+      width: 100,
+      height: 16,
+      content: "BRAND VERIFIED",
+      fontSize: 9,
+      fontWeight: "bold",
+      fill: "#ffffff",
+      fontFamily: theme.bodyFont,
+      rotation: 0,
+      opacity: 1,
+      zIndex: 1000,
+      textAlign: "center",
+      tag: "brand-verified",
+      locked: true
+    }
+  ]);
+};
+
+Call it after a pass.
+
+This is perceived value.
+
+C) Licensing + Anti-Resell (without annoying legit buyers)
+
+When exporting:
+
+Add a subtle footer line:
+
+“Licensed to: {customer email} • Order: {id}”
+
+If free export, watermark large diagonal “SAMPLE”.
+
+You can do this in your PDF export by drawing text over the canvas render before saving the image.
+
+D) Price in dollars (you requested this)
+
+You currently do:
+
+price: Math.round(parseFloat(publishForm.price) * 100),
+
+That’s correct for Stripe storage, but the UX should never show cents.
+
+Make sure everywhere in admin you store priceCents, but display:
+
+const dollars = (priceCents / 100).toFixed(2);
+
+If your admin table shows cents, fix it in the listing UI, not the backend.
+
+“End All Be All” Buttons You Should Add (Top Bar)
+
+Add these actions:
+
+Generate Full Bundle (AI)
+
+Beautify All Pages
+
+Audit + Brand Verify
+
+Export Store Pack
+
+PDF
+
+PNG pages
+
+600x600 thumb
+
+1200x630 banner
+
+IG carousel sizes
+
+Publish Draft + Create Listing
+
+That’s literally a product factory.

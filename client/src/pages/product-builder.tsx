@@ -574,6 +574,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [showGrid, setShowGrid] = useState(false);
   const [showMargins, setShowMargins] = useState(true);
   const [brandLock, setBrandLock] = useState(true);
+  const [brandVerified, setBrandVerified] = useState(false);
   const [activeThemeId, setActiveThemeId] = useState("soft-clinical");
   const [showLogo, setShowLogo] = useState(true);
   const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | "imagelab" | "brand" | null>("tools");
@@ -714,23 +715,33 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
   }, [objects, saveCanvas]);
 
+  const deepCloneObjects = (arr: CanvasObject[]) => arr.map(o => ({ ...o }));
+
   const pushUndo = () => {
-    setUndoStack(prev => [...prev.slice(-20), [...objects]]);
+    setUndoStack(prev => [...prev.slice(-20), deepCloneObjects(objects)]);
     setRedoStack([]);
   };
 
   const undo = () => {
-    if (undoStack.length === 0) return;
-    setRedoStack(r => [...r, [...objects]]);
-    setUndoStack(u => u.slice(0, -1));
-    setObjects(undoStack[undoStack.length - 1]);
+    setUndoStack(prev => {
+      if (prev.length === 0) return prev;
+      const next = [...prev];
+      const last = next.pop()!;
+      setRedoStack(r => [...r, deepCloneObjects(objects)]);
+      setObjects(last);
+      return next;
+    });
   };
 
   const redo = () => {
-    if (redoStack.length === 0) return;
-    setUndoStack(u => [...u, [...objects]]);
-    setRedoStack(r => r.slice(0, -1));
-    setObjects(redoStack[redoStack.length - 1]);
+    setRedoStack(prev => {
+      if (prev.length === 0) return prev;
+      const next = [...prev];
+      const last = next.pop()!;
+      setUndoStack(u => [...u, deepCloneObjects(objects)]);
+      setObjects(last);
+      return next;
+    });
   };
 
   const addObject = (type: CanvasObject["type"]) => {
@@ -979,8 +990,12 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     });
     if (showLogo && !objects.some(o => o.tag === "brand-logo")) issues.push("Missing brand logo footer");
     if (issues.length === 0) {
-      toast({ title: "Design Audit Passed", description: "No issues found" });
+      setBrandVerified(true);
+      insertVerifiedBadge();
+      toast({ title: "Design Audit Passed", description: "Brand verified badge added" });
     } else {
+      setBrandVerified(false);
+      setObjects(prev => prev.filter(o => o.tag !== "brand-verified"));
       toast({ title: `Design Audit: ${issues.length} issue(s)`, description: issues.slice(0, 3).join("; "), variant: "destructive" });
     }
   };
@@ -995,6 +1010,66 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     toast({ title: "Theme typography applied" });
   };
 
+  type LayoutPreset = "stack" | "two-col" | "hero-cards";
+  const applyLayoutPreset = (preset: LayoutPreset) => {
+    if (objects.length === 0) return;
+    pushUndo();
+    const contentW = CANVAS_WIDTH - MARGIN * 2;
+    const leftX = MARGIN;
+    const rightX = MARGIN + contentW / 2 + 8;
+    const colW = contentW / 2 - 8;
+    const sorted = [...objects].sort((a, b) => a.y - b.y);
+    let y = MARGIN;
+    const updated = sorted.map((o, i) => {
+      if (preset === "stack") {
+        const w = Math.min(contentW, o.width);
+        const next = { ...o, x: MARGIN, y, width: w, zIndex: i };
+        y += next.height + 12;
+        return next;
+      }
+      if (preset === "two-col") {
+        const col = i % 2 === 0 ? "left" : "right";
+        const x = col === "left" ? leftX : rightX;
+        const w = Math.min(colW, o.width);
+        const next = { ...o, x, y, width: w, zIndex: i };
+        if (col === "right") y += next.height + 12;
+        return next;
+      }
+      if (i === 0 && o.type === "text") {
+        const next = { ...o, x: MARGIN, y, width: contentW, fontSize: Math.max(o.fontSize || 18, 26), fontWeight: "bold" as string, zIndex: i };
+        y += next.height + 16;
+        return next;
+      }
+      const col = i % 2 === 0 ? "left" : "right";
+      const x = col === "left" ? leftX : rightX;
+      const w = Math.min(colW, o.width);
+      const next = { ...o, x, y, width: w, zIndex: i };
+      if (col === "right") y += next.height + 12;
+      return next;
+    });
+    setObjects(updated);
+    toast({ title: "Layout applied", description: preset === "stack" ? "Stacked" : preset === "two-col" ? "Two columns" : "Hero + cards" });
+  };
+
+  const insertVerifiedBadge = () => {
+    if (objects.some(o => o.tag === "brand-verified")) return;
+    pushUndo();
+    setObjects(prev => [
+      ...prev,
+      {
+        id: uid(), type: "rect" as const, x: CANVAS_WIDTH - MARGIN - 110, y: MARGIN,
+        width: 110, height: 22, fill: theme.successColor, borderRadius: 11,
+        rotation: 0, opacity: 0.9, zIndex: 999, tag: "brand-verified", locked: true,
+      },
+      {
+        id: uid(), type: "text" as const, x: CANVAS_WIDTH - MARGIN - 105, y: MARGIN + 3,
+        width: 100, height: 16, content: "BRAND VERIFIED", fontSize: 9, fontWeight: "bold",
+        fill: "#ffffff", fontFamily: theme.bodyFont, rotation: 0, opacity: 1,
+        zIndex: 1000, textAlign: "center", tag: "brand-verified", locked: true,
+      },
+    ]);
+  };
+
   const alignSelected = (dir: "left" | "center" | "right" | "distribute") => {
     if (dir === "distribute") {
       pushUndo();
@@ -1002,9 +1077,6 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
       if (sorted.length < 2) return;
       const totalH = sorted.reduce((s, o) => s + o.height, 0);
       const gap = (CANVAS_HEIGHT - MARGIN * 2 - totalH) / (sorted.length - 1);
-      let curY = MARGIN;
-      const ids = new Map(sorted.map(o => [o.id, curY += 0]));
-      sorted.forEach((o, i) => { ids.set(o.id, MARGIN + i * (gap + (totalH / sorted.length))); });
       let y = MARGIN;
       setObjects(sorted.map(o => { const newO = { ...o, y }; y += o.height + Math.max(8, gap); return newO; }));
       return;
@@ -1168,18 +1240,23 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       const primaryId = selectedIds[selectedIds.length - 1];
       const primaryObj = objects.find(o => o.id === primaryId);
       if (!primaryObj) return;
-      const newX = e.clientX / SCALE - dragOffset.x;
-      const newY = e.clientY / SCALE - dragOffset.y;
-      const snappedX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
-      const snappedY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
-      const dx = snappedX - primaryObj.x;
-      const dy = snappedY - primaryObj.y;
+      const rawX = e.clientX / SCALE - dragOffset.x;
+      const rawY = e.clientY / SCALE - dragOffset.y;
+      const snappedX = Math.round(rawX / GRID_SIZE) * GRID_SIZE;
+      const snappedY = Math.round(rawY / GRID_SIZE) * GRID_SIZE;
+      const clampedX = Math.max(0, Math.min(snappedX, CANVAS_WIDTH - primaryObj.width));
+      const clampedY = Math.max(0, Math.min(snappedY, CANVAS_HEIGHT - primaryObj.height));
+      const dx = clampedX - primaryObj.x;
+      const dy = clampedY - primaryObj.y;
       setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, x: o.x + dx, y: o.y + dy } : o));
     }
     if (isResizing && selectedId) {
+      const obj = objects.find(o => o.id === selectedId);
       const dx = (e.clientX - resizeStart.x) / SCALE;
       const dy = (e.clientY - resizeStart.y) / SCALE;
-      updateObject(selectedId, { width: Math.max(20, resizeStart.w + dx), height: Math.max(20, resizeStart.h + dy) });
+      const newW = Math.max(20, Math.min(resizeStart.w + dx, CANVAS_WIDTH - (obj?.x || 0)));
+      const newH = Math.max(20, Math.min(resizeStart.h + dy, CANVAS_HEIGHT - (obj?.y || 0)));
+      updateObject(selectedId, { width: newW, height: newH });
     }
   };
 
@@ -1659,6 +1736,11 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
               Text-Free Mode
               <span className="text-gray-400">(no words/labels)</span>
             </label>
+            {imgTextFree && (
+              <span className="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full" data-testid="badge-text-free">
+                Text-Free Mode Active
+              </span>
+            )}
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="text-[10px] font-medium text-gray-500 block mb-1">Size</label>
@@ -1723,7 +1805,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
             <p className="text-[11px] text-gray-500 mt-1">Keep designs consistent and store-ready.</p>
           </div>
           <div className="p-4 space-y-4">
-            <div className="rounded-2xl border p-3">
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-gray-700">Theme</span>
                 <span className="text-[10px] text-gray-400">{theme.name}</span>
@@ -1737,7 +1819,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                 ))}
               </div>
             </div>
-            <div className="rounded-2xl border p-3 space-y-2">
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-gray-700">Brand Lock</span>
                 <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
@@ -1747,7 +1829,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
               </div>
               <p className="text-[11px] text-gray-500">Protects logo, limits colors/fonts for consistent output.</p>
             </div>
-            <div className="rounded-2xl border p-3">
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Text Styles</span>
               <div className="grid grid-cols-2 gap-2">
                 <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 24, fontWeight: "bold", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-heading">Heading</button>
@@ -1756,16 +1838,24 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                 <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 9, fontWeight: "600", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-caption">Caption</button>
               </div>
             </div>
-            <div className="rounded-2xl border p-3">
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Quick Actions</span>
               <div className="space-y-2">
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={beautifyPage} data-testid="button-brand-beautify">Beautify Layout</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={runDesignAudit} data-testid="button-brand-audit">Run Design Audit</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={runDesignAudit} data-testid="button-brand-audit">{brandVerified ? "Re-Audit (Verified)" : "Run Design Audit"}</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyBrandTypography} data-testid="button-brand-fonts">Apply Theme Fonts</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyThemeToAllPages} data-testid="button-brand-apply-all">Apply to All Pages</button>
               </div>
             </div>
-            <div className="rounded-2xl border p-3 space-y-2">
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Layout Presets</span>
+              <div className="space-y-2">
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("stack")} data-testid="button-layout-stack">Stack Layout</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("two-col")} data-testid="button-layout-two-col">Two Column Layout</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("hero-cards")} data-testid="button-layout-hero">Hero + Cards Layout</button>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
               <span className="text-xs font-semibold text-gray-700 block">Display</span>
               <label className="flex items-center gap-2 text-[11px] text-gray-600 cursor-pointer">
                 <input type="checkbox" checked={showLogo} onChange={e => { setShowLogo(e.target.checked); if (e.target.checked) insertLogoFooter(); }} className="rounded" />
@@ -1817,7 +1907,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-[84px] bg-white border-r flex flex-col items-center py-3 gap-1 shrink-0">
+        <div className="w-[84px] bg-gradient-to-b from-white to-gray-50 border-r flex flex-col items-center py-3 gap-1 shrink-0">
           <div className="flex flex-col items-center gap-0.5 mb-1">
             {[
               { icon: Type, action: () => addObject("text"), label: "Text", testId: "button-add-text" },
@@ -1862,10 +1952,10 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
         {renderLeftPanel()}
 
         <div className="flex-1 overflow-auto relative">
-          <div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-[#f6f7fb]">
+          <div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-gradient-to-br from-[#f8f7ff] via-[#f5fbff] to-[#fffdf7]">
             <div className="relative">
               <div className="absolute -inset-10 rounded-3xl opacity-60" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(124,58,237,0.08) 1px, transparent 0)", backgroundSize: "22px 22px" }} />
-              <div className="relative rounded-2xl shadow-2xl ring-1 ring-black/5 bg-white">
+              <div className="relative rounded-3xl shadow-[0_30px_60px_-15px_rgba(124,58,237,0.25)] ring-1 ring-primary/10 bg-white transition-all duration-300">
                 <div
                   ref={canvasRef}
                   className="bg-white relative select-none rounded-2xl"
@@ -1889,7 +1979,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                     <div className="absolute pointer-events-none" style={{ left: MARGIN * SCALE, top: MARGIN * SCALE, right: MARGIN * SCALE, bottom: MARGIN * SCALE, border: "1px dashed rgba(124,58,237,0.15)" }} />
                   )}
 
-                  {objects.sort((a, b) => a.zIndex - b.zIndex).map(obj => {
+                  {[...objects].sort((a, b) => a.zIndex - b.zIndex).map(obj => {
                     const isSelected = selectedIds.includes(obj.id);
                     return (
                       <div
@@ -1903,9 +1993,11 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                           transform: `rotate(${obj.rotation || 0}deg)`,
                           opacity: obj.opacity ?? 1,
                           cursor: obj.locked ? "default" : (isDragging && isSelected ? "grabbing" : "grab"),
-                          outline: isSelected ? (selectedId === obj.id ? "2px solid #6366f1" : "2px solid rgba(99,102,241,0.35)") : "none",
+                          outline: isSelected ? (selectedId === obj.id ? `2px solid ${theme.primaryColor}` : `2px solid ${theme.primaryColor}59`) : "none",
                           outlineOffset: "2px",
                           zIndex: obj.zIndex,
+                          transition: "box-shadow 0.15s ease",
+                          boxShadow: isSelected ? `0 0 0 2px ${theme.primaryColor}33` : "none",
                         }}
                         onMouseDown={(e) => handleCanvasMouseDown(e, obj.id)}
                         data-testid={`canvas-object-${obj.id}`}
@@ -1973,7 +2065,7 @@ Return structured JSON array of canvas objects with types: heading, paragraph, l
                     className={`w-full text-left rounded-2xl border p-2 flex gap-2 hover:border-primary/40 transition ${isActive ? "border-primary bg-primary/5 ring-2 ring-primary/20" : "border-gray-200 bg-white"}`}
                     data-testid={`button-page-${i + 1}`}
                   >
-                    <div className="w-[60px] h-[78px] rounded-xl overflow-hidden border bg-white shrink-0">
+                    <div className="w-[60px] h-[78px] rounded-xl overflow-hidden border bg-white shrink-0 shadow-sm hover:shadow-md transition">
                       {thumbSrc ? (
                         <img src={thumbSrc} className="w-full h-full object-cover" alt={`Page ${i + 1}`} />
                       ) : (

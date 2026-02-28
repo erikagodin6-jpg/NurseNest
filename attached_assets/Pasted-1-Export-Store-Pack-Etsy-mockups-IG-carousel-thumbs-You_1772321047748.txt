@@ -1,0 +1,567 @@
+1) Export Store Pack (Etsy mockups + IG carousel + thumbs)
+
+You already have a solid renderer (renderPageToCanvas, makeThumb). We’ll add:
+
+IG Carousel export (1080×1350 per page)
+
+Etsy store pack export:
+
+600×600 square
+
+1200×630 banner
+
+3 mockups (simple “device frame” without external assets)
+
+optional: page PNGs
+
+✅ Add these helpers inside CanvasEditorView (near exportThumbnail)
+const downloadBlob = (blob: Blob, filename: string) => {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+const canvasToBlob = (canvas: HTMLCanvasElement, type: string = "image/png", quality?: number) =>
+  new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Failed to create blob"))), type, quality);
+  });
+
+/**
+ * Renders a page to a target size (px) with cover/contain control.
+ * - "contain": letterboxed to fit within target (keeps full page)
+ * - "cover": fills target, may crop
+ */
+const renderPageToSize = (
+  pageObjects: CanvasObject[],
+  bgColor: string,
+  targetW: number,
+  targetH: number,
+  fit: "contain" | "cover" = "contain"
+) => {
+  const src = renderPageToCanvas(pageObjects, bgColor); // 2x internal
+  const out = document.createElement("canvas");
+  out.width = targetW * 2;
+  out.height = targetH * 2;
+  const ctx = out.getContext("2d")!;
+  ctx.fillStyle = bgColor || "#ffffff";
+  ctx.fillRect(0, 0, out.width, out.height);
+
+  const scaleX = out.width / src.width;
+  const scaleY = out.height / src.height;
+  const scale = fit === "cover" ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
+
+  const drawW = src.width * scale;
+  const drawH = src.height * scale;
+  const dx = (out.width - drawW) / 2;
+  const dy = (out.height - drawH) / 2;
+
+  ctx.drawImage(src, dx, dy, drawW, drawH);
+  return out;
+};
+
+const drawMockupFrame = (
+  pageCanvas: HTMLCanvasElement,
+  bgColor: string,
+  targetW: number,
+  targetH: number,
+  label: string
+) => {
+  const out = document.createElement("canvas");
+  out.width = targetW * 2;
+  out.height = targetH * 2;
+  const ctx = out.getContext("2d")!;
+  // soft gradient background
+  const g = ctx.createLinearGradient(0, 0, out.width, out.height);
+  g.addColorStop(0, "#f8f7ff");
+  g.addColorStop(0.5, "#f5fbff");
+  g.addColorStop(1, "#fffdf7");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, out.width, out.height);
+
+  // card shadow
+  const cardX = Math.round(out.width * 0.12);
+  const cardY = Math.round(out.height * 0.10);
+  const cardW = Math.round(out.width * 0.76);
+  const cardH = Math.round(out.height * 0.80);
+  const radius = Math.round(out.width * 0.03);
+
+  ctx.save();
+  ctx.shadowColor = "rgba(124,58,237,0.22)";
+  ctx.shadowBlur = 60;
+  ctx.shadowOffsetY = 20;
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, cardX, cardY, cardW, cardH, radius);
+  ctx.fill();
+  ctx.restore();
+
+  // "device" frame
+  const framePad = Math.round(cardW * 0.06);
+  const frameX = cardX + framePad;
+  const frameY = cardY + Math.round(cardH * 0.10);
+  const frameW = cardW - framePad * 2;
+  const frameH = cardH - Math.round(cardH * 0.18);
+  const frameR = Math.round(radius * 0.8);
+
+  ctx.fillStyle = "#0f172a";
+  roundRect(ctx, frameX, frameY, frameW, frameH, frameR);
+  ctx.fill();
+
+  // screen inset
+  const inset = Math.round(frameW * 0.03);
+  const screenX = frameX + inset;
+  const screenY = frameY + inset;
+  const screenW = frameW - inset * 2;
+  const screenH = frameH - inset * 2;
+
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, screenX, screenY, screenW, screenH, Math.round(frameR * 0.7));
+  ctx.fill();
+
+  // draw page into screen (contain)
+  const scaleX = screenW / pageCanvas.width;
+  const scaleY = screenH / pageCanvas.height;
+  const scale = Math.min(scaleX, scaleY);
+  const drawW = pageCanvas.width * scale;
+  const drawH = pageCanvas.height * scale;
+  const dx = screenX + (screenW - drawW) / 2;
+  const dy = screenY + (screenH - drawH) / 2;
+  ctx.drawImage(pageCanvas, dx, dy, drawW, drawH);
+
+  // label
+  ctx.fillStyle = "#1e293b";
+  ctx.font = `700 ${Math.round(out.width * 0.022)}px Inter, system-ui, sans-serif`;
+  ctx.textAlign = "center";
+  ctx.fillText(label, out.width / 2, Math.round(cardY + cardH * 0.07));
+
+  // small brand footer
+  ctx.fillStyle = "rgba(30,41,59,0.55)";
+  ctx.font = `600 ${Math.round(out.width * 0.016)}px Inter, system-ui, sans-serif`;
+  ctx.fillText("NurseNest • Instant Download", out.width / 2, Math.round(cardY + cardH * 0.94));
+
+  return out;
+
+  function roundRect(c: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+    const rr = Math.min(r, w / 2, h / 2);
+    c.beginPath();
+    c.moveTo(x + rr, y);
+    c.lineTo(x + w - rr, y);
+    c.arcTo(x + w, y, x + w, y + rr, rr);
+    c.lineTo(x + w, y + h - rr);
+    c.arcTo(x + w, y + h, x + w - rr, y + h, rr);
+    c.lineTo(x + rr, y + h);
+    c.arcTo(x, y + h, x, y + h - rr, rr);
+    c.lineTo(x, y + rr);
+    c.arcTo(x, y, x + rr, y, rr);
+    c.closePath();
+  }
+};
+✅ Add Export functions (inside CanvasEditorView)
+const exportInstagramCarousel = async () => {
+  setExporting(true);
+  try {
+    await saveCanvas();
+    const title = (project?.title || "design").replace(/[^a-zA-Z0-9]/g, "-");
+
+    for (let i = 0; i < pages.length; i++) {
+      const pageData = i === currentPageIndex ? { objects } : pages[i]?.canvasJson;
+      const pageObjects = pageData?.objects || [];
+      const bgColor = pages[i]?.backgroundColor || "#ffffff";
+
+      // IG portrait 1080x1350
+      const c = renderPageToSize(pageObjects, bgColor, 1080, 1350, "contain");
+      const blob = await canvasToBlob(c, "image/png");
+      downloadBlob(blob, `${title}-IG-${String(i + 1).padStart(2, "0")}.png`);
+    }
+    toast({ title: "Exported Instagram carousel", description: `${pages.length} image(s) 1080x1350` });
+  } catch (e: any) {
+    toast({ title: "IG export failed", description: e.message, variant: "destructive" });
+  } finally {
+    setExporting(false);
+  }
+};
+
+const exportEtsyStorePack = async () => {
+  setExporting(true);
+  try {
+    await saveCanvas();
+    const title = (project?.title || "design").replace(/[^a-zA-Z0-9]/g, "-");
+
+    // Use page 1 as hero
+    const heroPageData = currentPageIndex === 0 ? { objects } : pages[0]?.canvasJson;
+    const heroObjects = heroPageData?.objects || [];
+    const heroBg = pages[0]?.backgroundColor || "#ffffff";
+
+    // 600x600 square (cover)
+    const sq = renderPageToSize(heroObjects, heroBg, 600, 600, "cover");
+    downloadBlob(await canvasToBlob(sq), `${title}-thumb-600x600.png`);
+
+    // 1200x630 banner (cover)
+    const banner = renderPageToSize(heroObjects, heroBg, 1200, 630, "cover");
+    downloadBlob(await canvasToBlob(banner), `${title}-banner-1200x630.png`);
+
+    // mockups (contain)
+    const page1 = renderPageToSize(heroObjects, heroBg, 900, 1200, "contain");
+    const mock1 = drawMockupFrame(page1, heroBg, 2000, 2000, "Study Guide Preview");
+    downloadBlob(await canvasToBlob(mock1), `${title}-mockup-1.png`);
+
+    // Page 2 and 3 if available, else repeat page 1
+    const page2Data = pages[1] ? (currentPageIndex === 1 ? { objects } : pages[1]?.canvasJson) : heroPageData;
+    const page3Data = pages[2] ? (currentPageIndex === 2 ? { objects } : pages[2]?.canvasJson) : heroPageData;
+
+    const p2Objs = page2Data?.objects || heroObjects;
+    const p3Objs = page3Data?.objects || heroObjects;
+
+    const p2 = renderPageToSize(p2Objs, heroBg, 900, 1200, "contain");
+    const p3 = renderPageToSize(p3Objs, heroBg, 900, 1200, "contain");
+
+    const mock2 = drawMockupFrame(p2, heroBg, 2000, 2000, "High-Yield Layout");
+    const mock3 = drawMockupFrame(p3, heroBg, 2000, 2000, "Exam-Ready Format");
+
+    downloadBlob(await canvasToBlob(mock2), `${title}-mockup-2.png`);
+    downloadBlob(await canvasToBlob(mock3), `${title}-mockup-3.png`);
+
+    toast({ title: "Exported Etsy store pack", description: "Thumb + banner + 3 mockups created" });
+  } catch (e: any) {
+    toast({ title: "Etsy export failed", description: e.message, variant: "destructive" });
+  } finally {
+    setExporting(false);
+  }
+};
+✅ Add two buttons to the top bar (where your PDF/PNG buttons are)
+
+Find the top bar block:
+
+<Button size="sm" variant="outline" onClick={exportAsImages} ...
+
+Add after PNG:
+
+<Button size="sm" variant="outline" onClick={exportInstagramCarousel} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-ig">
+  <ImagePlus className="w-3 h-3" /> IG
+</Button>
+<Button size="sm" variant="outline" onClick={exportEtsyStorePack} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-etsy">
+  <ShoppingCart className="w-3 h-3" /> Etsy Pack
+</Button>
+
+That’s your Store Pack factory button.
+
+2) Bundle Generator (UI + backend contract)
+
+Goal: one click produces:
+
+canvas blocks (multi-page ready)
+
+flashcards JSON/CSV
+
+qbank JSON
+
+product listing copy
+
+✅ Step A — Add AI tool
+
+In AI_TOOLS array, add:
+
+{ id: "bundle-generator", label: "Bundle: Cram + QBank + Flashcards + Listing", icon: Crown, prompt: "Generate a full product bundle" },
+✅ Step B — Extend runAiTool to support bundle mode
+
+Replace this:
+
+const res = await adminFetch("/api/ai/generate-content", {
+  method: "POST",
+  body: { prompt, mode: "generate", examTarget: aiExamTarget },
+});
+
+With this:
+
+const mode = toolId === "bundle-generator" ? "bundle" : "generate";
+
+const res = await adminFetch("/api/ai/generate-content", {
+  method: "POST",
+  body: { prompt, mode, examTarget: aiExamTarget, topic: aiTopic },
+});
+✅ Step C — Allow aiResult to hold bundle payload
+
+Change aiResult type to something flexible (you already have any, keep it), but update the success handler:
+
+Replace:
+
+const data = await res.json();
+setAiResult(data.blocks || []);
+toast({ title: "Content generated", description: `${(data.blocks || []).length} blocks ready to insert` });
+
+With:
+
+const data = await res.json();
+
+if (mode === "bundle") {
+  setAiResult(data);
+  toast({ title: "Bundle generated", description: "Canvas + flashcards + qbank + listing ready" });
+} else {
+  setAiResult(data.blocks || []);
+  toast({ title: "Content generated", description: `${(data.blocks || []).length} blocks ready to insert` });
+}
+✅ Step D — Add “Bundle Actions” UI (inside AI panel)
+
+In renderLeftPanel when leftPanel === "ai", right under the existing “Insert into Canvas” block, add:
+
+{aiResult && aiResult.bundle === true && (
+  <div className="border-t pt-3 space-y-2">
+    <div className="bg-primary/5 rounded-lg p-2.5">
+      <p className="text-[10px] font-semibold text-primary mb-1">Bundle ready</p>
+      <div className="text-[10px] text-gray-600 space-y-1">
+        <p>• Pages: {(aiResult.pages || []).length}</p>
+        <p>• Flashcards: {(aiResult.flashcards || []).length}</p>
+        <p>• QBank: {(aiResult.qbank || []).length}</p>
+        <p>• Listing: {aiResult.listing?.title ? "Yes" : "No"}</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 mt-2">
+        <Button
+          size="sm"
+          className="h-7 text-[10px]"
+          onClick={() => {
+            // Insert pages: replace current page with page1 and create additional pages
+            (async () => {
+              pushUndo();
+              const pagesPayload = aiResult.pages || [];
+              if (pagesPayload.length === 0) return;
+
+              // page 1 -> current page objects
+              const page1 = pagesPayload[0]?.objects || [];
+              setObjects(page1);
+
+              // create extra pages in backend and save objects
+              for (let i = 1; i < pagesPayload.length; i++) {
+                const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, { method: "POST", body: {} });
+                if (!res.ok) continue;
+                const newPage = await res.json();
+                await adminFetch(`/api/admin/design-pages/${newPage.id}`, {
+                  method: "PUT",
+                  body: { canvasJson: { objects: pagesPayload[i]?.objects || [], version: "1.0" }, backgroundColor: "#ffffff" },
+                });
+                setPages(prev => [...prev, { ...newPage, canvasJson: { objects: pagesPayload[i]?.objects || [], version: "1.0" }, backgroundColor: "#ffffff" }]);
+              }
+
+              toast({ title: "Inserted bundle pages", description: `${pagesPayload.length} page(s) prepared` });
+            })();
+          }}
+        >
+          Insert Pages
+        </Button>
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="h-7 text-[10px]"
+          onClick={() => {
+            const listing = aiResult.listing;
+            if (!listing) return;
+            const text =
+              `TITLE:\n${listing.title}\n\nMETA:\n${listing.meta}\n\nBULLETS:\n${(listing.bullets || []).join("\n")}\n\nINCLUDES:\n${(listing.includes || []).join("\n")}\n\nFAQ:\n${(listing.faq || []).map((f: any) => `Q: ${f.q}\nA: ${f.a}`).join("\n\n")}\n\nDISCLAIMER:\n${listing.disclaimer || ""}\n\nTAGS:\n${(listing.tags || []).join(", ")}`;
+            navigator.clipboard.writeText(text);
+            toast({ title: "Listing copied" });
+          }}
+        >
+          Copy Listing
+        </Button>
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="h-7 text-[10px]"
+          onClick={() => {
+            const cards = aiResult.flashcards || [];
+            const json = JSON.stringify(cards, null, 2);
+            const blob = new Blob([json], { type: "application/json" });
+            downloadBlob(blob, `${(project?.title || "bundle").replace(/[^a-zA-Z0-9]/g, "-")}-flashcards.json`);
+            toast({ title: "Flashcards exported" });
+          }}
+        >
+          Export Cards
+        </Button>
+
+        <Button
+          size="sm"
+          variant="outline"
+          className="h-7 text-[10px]"
+          onClick={() => {
+            const qbank = aiResult.qbank || [];
+            const json = JSON.stringify(qbank, null, 2);
+            const blob = new Blob([json], { type: "application/json" });
+            downloadBlob(blob, `${(project?.title || "bundle").replace(/[^a-zA-Z0-9]/g, "-")}-qbank.json`);
+            toast({ title: "QBank exported" });
+          }}
+        >
+          Export QBank
+        </Button>
+      </div>
+    </div>
+  </div>
+)}
+✅ Add this tiny change so your old insert still works
+
+Your current insert UI checks:
+
+{aiResult && aiResult.length > 0 && ( ... )}
+
+That breaks for bundle (aiResult is an object). Change it to:
+
+{Array.isArray(aiResult) && aiResult.length > 0 && ( ...existing insert block... )}
+✅ Backend contract for /api/ai/generate-content bundle mode
+
+When mode === "bundle", your API should return:
+
+{
+  "bundle": true,
+  "topic": "Heart Failure",
+  "examTarget": "nclex-rn",
+  "pages": [
+    { "title": "Cover", "objects": [/* CanvasObject[] */] },
+    { "title": "Patho", "objects": [/* CanvasObject[] */] }
+  ],
+  "flashcards": [
+    { "front": "What is...", "back": "..." }
+  ],
+  "qbank": [
+    { "stem": "...", "choices": ["A","B","C","D"], "answerIndex": 1, "rationale": "..." }
+  ],
+  "listing": {
+    "title": "...",
+    "meta": "...",
+    "bullets": ["..."],
+    "includes": ["..."],
+    "tags": ["..."],
+    "faq": [{ "q": "...", "a": "..." }],
+    "disclaimer": "..."
+  }
+}
+
+Important: pages[].objects must be in your existing CanvasObject schema (text/rect/circle/image) so you can render/export instantly.
+
+3) Template Paywall (Locked templates + Upgrade CTA)
+
+You likely already have subscription logic elsewhere. In this file, we’ll implement the UX gate and a single boolean hook you can wire to your real billing state.
+
+✅ Step A — Add isPro state (temporary; wire later)
+
+Inside CanvasEditorView state declarations:
+
+const [isPro, setIsPro] = useState(false); // TODO: wire to your Stripe subscription status
+
+If you already have useAuth() returning plan, replace this with that value.
+
+✅ Step B — Add a tier field to templates
+
+Update PAGE_TEMPLATES type:
+
+const PAGE_TEMPLATES: { label: string; icon: any; tier?: "free" | "pro"; generate: (w: number, h: number) => CanvasObject[] }[] = [
+
+Then set tiers on the templates. Example:
+
+{ label: "Cover Page", icon: BookOpen, tier: "pro", generate: ... },
+{ label: "Section Divider", icon: LayoutTemplate, tier: "free", generate: ... },
+{ label: "Comparison Grid", icon: Grid3X3, tier: "pro", generate: ... },
+{ label: "Medication Table", icon: FileText, tier: "pro", generate: ... },
+{ label: "Algorithm Flow", icon: Zap, tier: "pro", generate: ... },
+{ label: "Checklist Page", icon: ClipboardCheck, tier: "free", generate: ... },
+
+(You can choose which are free/pro; this setup sells well: cover + tables + algorithms = pro.)
+
+✅ Step C — Enforce the gate inside applyPageTemplate
+
+Replace:
+
+const applyPageTemplate = (template: typeof PAGE_TEMPLATES[0]) => {
+
+With:
+
+const applyPageTemplate = (template: typeof PAGE_TEMPLATES[0]) => {
+  if ((template.tier || "free") === "pro" && !isPro) {
+    toast({
+      title: "Pro template",
+      description: "Upgrade to unlock premium templates (covers, tables, algorithms, mockups).",
+      variant: "destructive",
+    });
+    return;
+  }
+
+(Keep the rest of your function the same.)
+
+✅ Step D — Show “LOCK” UI in the Templates panel
+
+In renderLeftPanel under leftPanel === "templates" where you map templates, replace the button body with:
+
+{PAGE_TEMPLATES.map(tmpl => {
+  const locked = (tmpl.tier || "free") === "pro" && !isPro;
+  return (
+    <button
+      key={tmpl.label}
+      onClick={() => applyPageTemplate(tmpl)}
+      className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center gap-2 transition-colors
+        ${locked ? "bg-gray-50 text-gray-400 cursor-not-allowed" : "hover:bg-primary/5 text-gray-700 hover:text-primary"}`}
+      data-testid={`button-template-${tmpl.label.replace(/\s/g, "-").toLowerCase()}`}
+      disabled={locked}
+    >
+      <tmpl.icon className="w-3.5 h-3.5 shrink-0" />
+      <span className="flex-1">{tmpl.label}</span>
+      {(tmpl.tier || "free") === "pro" && (
+        <span className={`text-[9px] px-2 py-0.5 rounded-full border ${locked ? "border-gray-200" : "border-primary/20 text-primary"}`}>
+          {locked ? "LOCKED" : "PRO"}
+        </span>
+      )}
+    </button>
+  );
+})}
+✅ Step E — Add a visible Upgrade CTA (Templates panel footer)
+
+At bottom of templates panel (after list), add:
+
+{!isPro && (
+  <div className="p-3 border-t">
+    <Button
+      className="w-full h-9 text-xs gap-1"
+      onClick={() => toast({ title: "Upgrade", description: "Wire this button to your /upgrade page or Stripe portal." })}
+      data-testid="button-upgrade-templates"
+    >
+      <Crown className="w-4 h-4" /> Upgrade to Pro Templates
+    </Button>
+    <p className="text-[10px] text-gray-400 mt-2">
+      Unlock covers, algorithms, medication tables, comparison layouts, and store-ready mockups.
+    </p>
+  </div>
+)}
+
+Later, swap the toast for navigate("/upgrade") or your Stripe portal link.
+
+Quick “Must Fix” you should do immediately (prevents bugs)
+
+You have at least one state mutation:
+
+Replace:
+
+{objects.sort((a, b) => a.zIndex - b.zIndex).map(obj => {
+
+With:
+
+{[...objects].sort((a, b) => a.zIndex - b.zIndex).map(obj => {
+
+Do that now—undo/redo gets cleaner.
+
+What you’ll have after these 3 additions
+
+✅ One-click Etsy Pack (thumb + banner + 3 mockups)
+✅ One-click IG Carousel (1080×1350 per page)
+✅ One-click Bundle Generator (pages + flashcards + qbank + listing)
+✅ Pro template paywall with locked UI + upgrade CTA
+
+If you paste these in and hit any compile errors, it’ll almost always be one of:
+
+missing Crown icon import (you already import it)
+
+TypeScript complaining about aiResult.bundle (keep aiResult: any)
+
+missing downloadBlob in scope (it must live inside CanvasEditorView)
+
+If you want the “Upgrade” button to actually work, tell me what your upgrade URL/route is (/upgrade, /pricing, or Stripe portal route), and I’ll make it navigate properly in this file.

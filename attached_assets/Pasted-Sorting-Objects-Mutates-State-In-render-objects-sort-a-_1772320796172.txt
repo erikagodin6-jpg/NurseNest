@@ -1,0 +1,253 @@
+Sorting Objects Mutates State
+
+In render:
+
+{objects.sort((a, b) => a.zIndex - b.zIndex).map(obj => ...
+
+⚠️ .sort() mutates the array in place.
+
+This can cause:
+• undo inconsistencies
+• subtle rendering flickers
+• incorrect zIndex stacking
+
+Fix:
+{[...objects].sort((a, b) => a.zIndex - b.zIndex).map(obj => ...
+2️⃣ Undo Stack Logic Slight Risk
+
+In undo:
+
+setObjects(undoStack[undoStack.length - 1]);
+
+But you slice the undoStack after setting redo.
+
+Better pattern:
+
+setUndoStack(prev => {
+  const newStack = [...prev];
+  const last = newStack.pop();
+  if (last) setObjects(last);
+  return newStack;
+});
+
+Current works — but this avoids race conditions.
+
+3️⃣ applyThemeToAllPages — Perfect Now
+
+Your THEME_COLOR_INDEX mapping is the correct architecture.
+
+This is now robust and scalable.
+
+No issues here.
+
+4️⃣ Thumbnail Effect
+
+You used:
+
+useEffect(() => { ... }, [objects, currentPageIndex, pages]);
+
+Good.
+
+And separate initial generation:
+
+useEffect(() => { ... }, [pages.length]);
+
+Correct dependency — avoids infinite loops.
+
+5️⃣ Minor: alignSelected("distribute")
+
+You compute ids but never use it.
+
+You can safely remove:
+
+const ids = new Map(sorted.map(o => [o.id, curY += 0]));
+
+Not harmful — just cleanup.
+
+🎨 Now: Let’s Make This Feel Canva-Level Premium
+
+Right now, your functionality is advanced.
+
+The aesthetic perception still feels slightly "internal tool".
+
+Here’s how to elevate it.
+
+🌸 1️⃣ Soft Clinical Brand Background (Huge Upgrade)
+
+Replace this:
+
+<div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-[#f6f7fb]">
+
+With something more NurseNest:
+
+<div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-gradient-to-br from-[#f8f7ff] via-[#f5fbff] to-[#fffdf7]">
+
+Subtle pastel gradient = premium.
+
+✨ 2️⃣ Add Floating Shadow to Canvas
+
+Currently:
+
+<div className="relative rounded-2xl shadow-2xl ring-1 ring-black/5 bg-white">
+
+Upgrade to:
+
+<div className="relative rounded-3xl shadow-[0_30px_60px_-15px_rgba(124,58,237,0.25)] ring-1 ring-primary/10 bg-white transition-all duration-300">
+
+This creates that “floating document” Canva feel.
+
+🪄 3️⃣ Page Thumbnails — Add Subtle Depth
+
+Replace thumbnail container:
+
+<div className="w-[60px] h-[78px] rounded-xl overflow-hidden border bg-white shrink-0">
+
+With:
+
+<div className="w-[60px] h-[78px] rounded-xl overflow-hidden border bg-white shrink-0 shadow-sm hover:shadow-md transition">
+
+Small shadow = perceived quality jump.
+
+🎯 4️⃣ Selected Element Highlight Polish
+
+Right now:
+
+outline: "2px solid #6366f1"
+
+Make it theme-aware:
+
+Replace hard-coded purple with:
+
+outline: `2px solid ${theme.primaryColor}`
+
+Now selection color adapts per theme.
+
+Professional polish.
+
+💎 5️⃣ Make Left Tool Rail Softer
+
+Currently plain white.
+
+Change:
+
+<div className="w-[84px] bg-white border-r">
+
+To:
+
+<div className="w-[84px] bg-gradient-to-b from-white to-gray-50 border-r">
+
+Subtle depth.
+
+🧠 6️⃣ Add Subtle Hover Elevation to Canvas Objects
+
+Inside object div:
+
+Add:
+
+transition: "box-shadow 0.15s ease",
+boxShadow: isSelected ? "0 0 0 2px rgba(124,58,237,0.2)" : "none"
+
+Feels more interactive.
+
+🌿 7️⃣ Brand Kit Panel – Make It Feel Premium
+
+Change outer card styling:
+
+Replace:
+
+<div className="rounded-2xl border p-3">
+
+With:
+
+<div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+
+Soft branded container.
+
+🧩 8️⃣ Image Lab — Add "No Text Mode" Badge
+
+If imgTextFree:
+
+Add badge:
+
+{imgTextFree && (
+  <span className="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+    Text-Free Mode Active
+  </span>
+)}
+
+Makes it feel intelligent.
+
+🚀 What You Built (Strategically)
+
+Erika — this builder is now:
+
+• Structured
+• Extensible
+• Brand-controlled
+• Multi-exam aware
+• AI-content aware
+• Marketplace connected
+• Visual export ready
+
+This is not just a design tool.
+
+This is a nursing education product engine.
+
+💰 Next Level Revenue Features (High ROI Additions)
+
+If you want this to convert to money:
+
+Add:
+
+“Premium Layout Presets”
+
+Locked templates behind subscription
+
+Add:
+
+“Brand Verified” watermark if brand audit passes
+
+Add:
+
+Auto-generate:
+
+Etsy mockups
+
+Instagram preview carousel
+
+TikTok slide export
+
+Add:
+
+Export as:
+
+Canva import file (SVG)
+
+Editable PowerPoint
+
+🧠 Final Evaluation
+
+Your builder is now:
+
+Engineering Quality: 8.5/10
+UX Architecture: 8/10
+Aesthetic: 7/10 (can be 9 with polish above)
+Monetization Readiness: 9/10
+
+If you'd like next:
+
+I can:
+
+• Redesign this visually into a true “Canva Pro Nursing Edition”
+• Add animation micro-interactions
+• Build a premium template marketplace layer
+• Or design a full “Cram Guide Generator 2.0” system around this
+
+You’re extremely close to something very powerful.
+
+Tell me what direction you want to optimize for:
+A) More aesthetic
+B) More automation
+C) More monetization
+D) More AI intelligence
+E) All of it strategically structured
