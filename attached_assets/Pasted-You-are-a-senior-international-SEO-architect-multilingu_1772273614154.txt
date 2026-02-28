@@ -1,0 +1,180 @@
+You are a senior international SEO architect, multilingual SaaS engineer, and medical education platform designer.
+
+Website: https://www.nursenest.ca
+
+GOAL:
+Fix multilingual implementation permanently.
+All language versions must fully translate lessons/modules/titles/activities/flashcards/questions/meta/schema.
+Implement international SEO correctly (hreflang, canonicals, sitemaps).
+Prevent low-quality partial translations from being indexed.
+
+NON-NEGOTIABLES:
+- Language must be URL-based: /en/, /fr/, /es/, etc.
+- All content must be served through a single i18n resolver pipeline.
+- No mixed-language pages.
+- Fallback to English if translation missing (and log it).
+- If language coverage <80% for a page, keep it noindex until complete.
+- Keep changes incremental with a rollout plan.
+- Do not touch blog generator.
+
+====================================================
+PHASE 1 — URL ROUTING + DEFAULT LANGUAGE DETECTION
+====================================================
+Implement routes:
+ /en/
+ /fr/
+ /es/
+ /pt/
+ /hi/
+ /ar/
+ /zh/
+ /ko/
+ /vi/
+ /ur/
+ /fa/
+ /pa/
+ /tl/
+ /ht/
+ /ja/
+
+Language derivation priority:
+1) URL segment
+2) user saved preference
+3) browser language
+4) English fallback
+
+Language switcher must update URL and trigger full content re-render.
+
+====================================================
+PHASE 2 — DATABASE SCHEMA FOR I18N (SINGLE SOURCE OF TRUTH)
+====================================================
+Refactor static TypeScript lessons so they no longer bypass i18n.
+
+Update schema:
+
+content_items:
+- title_i18n jsonb
+- description_i18n jsonb
+- body_i18n jsonb
+- meta_i18n jsonb
+- faq_i18n jsonb
+- slug_i18n jsonb (optional)
+- translation_status jsonb
+
+flashcards:
+- front_i18n jsonb
+- back_i18n jsonb
+- explanation_i18n jsonb
+- deck_title_i18n jsonb
+
+questions:
+- stem_i18n jsonb
+- choices_i18n jsonb
+- rationale_i18n jsonb
+- exam_trap_i18n jsonb
+
+Create translation_jobs table to batch and track translation generation and completeness.
+
+====================================================
+PHASE 3 — SINGLE I18N RESOLVER FUNCTION USED EVERYWHERE
+====================================================
+Create:
+resolveI18n(obj, lang, fallback="en")
+
+Rules:
+- never mix languages mid-page
+- if missing, fallback entire section to English
+- log missing keys to translation_status
+
+Replace all hardcoded display strings for:
+- lesson list cards
+- lesson detail
+- activities
+- quizzes
+- flashcards
+- question bank
+- meta and schema generators
+
+====================================================
+PHASE 4 — META, CANONICALS, AND HREFLANG
+====================================================
+For every page:
+- Meta title in language
+- Meta description in language
+- Open Graph + Twitter tags in language
+- Self-referencing canonical for that language URL
+
+Add hreflang tags:
+- one per supported language per page
+- include x-default
+- reciprocal correctness required
+
+====================================================
+PHASE 5 — TRANSLATION COVERAGE AUDIT + ADMIN DASHBOARD
+====================================================
+Create a translation coverage report:
+Language | % title | % body | % meta | % FAQ | % flashcards | % questions
+
+Expose admin UI:
+- filter by language
+- list missing fields
+- queue translation job
+
+Enforce SEO rule:
+If translation completeness < 80% for that page → add noindex.
+
+====================================================
+PHASE 6 — SITEMAPS BY LANGUAGE
+====================================================
+Generate separate sitemaps:
+- /sitemap-en.xml
+- /sitemap-fr.xml
+etc.
+
+Only include:
+- indexed pages (>=80% complete)
+Exclude:
+- noindex pages
+
+====================================================
+PHASE 7 — FRENCH (FR-CA) MVP ROLLOUT
+====================================================
+Implement French first, correctly:
+
+- Build French versions of the 3 mega hubs
+- Translate 100–150 highest-ROI pages first (based on impressions and position)
+- Translate titles + body + meta + FAQ schema
+- Ensure internal links are French-to-French
+
+Use fr-CA phrasing appropriate to Canadian nursing context.
+
+====================================================
+PHASE 8 — TESTING + DEPLOYMENT CHECKLIST
+====================================================
+Verify:
+- switching language changes entire content, not just nav
+- lesson titles change
+- lesson body changes
+- activities change
+- flashcards change
+- questions change
+- meta changes
+- schema changes
+- canonical correct
+- hreflang correct
+- no mixed-language pages
+- all language URLs return 200
+- no redirect chains
+
+DELIVERABLES:
+- migration scripts
+- resolver implementation
+- hreflang generator
+- admin coverage dashboard
+- translation job queue system
+- French MVP translation plan
+- language sitemaps
+- QA checklist
+- rollout calendar with safe sequencing
+
+Do not provide generic advice. Provide implementation-ready steps and code-level guidance.

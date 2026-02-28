@@ -1,0 +1,334 @@
+You are a senior multilingual SaaS architect, international SEO engineer, and medical education platform designer. You will audit and then refactor NurseNest’s multilingual system end-to-end.
+
+Website: https://www.nursenest.ca
+
+GOAL:
+Make every language version fully functional for users (not admin-only), SEO-safe, consistent, and scalable:
+- Lessons/modules/titles/body/activities translate correctly
+- Flashcards and exam questions translate correctly
+- Meta, schema, canonicals, hreflang, and sitemaps are correct
+- No partial broken translations are indexed
+- Default language is detected correctly at first landing
+- All rendering uses a single translation resolution pipeline
+- Admin can track translation coverage and queue translations efficiently
+
+HARD CONSTRAINTS:
+- No shallow patching. Fix architecture.
+- Do NOT touch the blog generator.
+- Do NOT build community features.
+- Do NOT redesign the whole UI.
+- Enforce all logic server-side (limits, permissions, language resolution).
+- Never mix languages on the same page.
+- All changes are phased, measurable, and reversible.
+- If translation coverage is incomplete (<80% for a page), that page must be NOINDEX until complete.
+
+SUPPORTED LANGUAGES:
+en, fr, es, pt, hi, ar, zh, ko, vi, ur, fa, pa, tl, ht, ja
+Primary initial rollout languages: en + fr-CA
+
+========================================================
+PHASE 0 — CURRENT STATE AUDIT (MANDATORY OUTPUT)
+========================================================
+Perform a full audit of the current multilingual implementation and output a concise report:
+
+A) ROUTING
+- Current URL structure for language (path segment, query param, subdomain, etc.)
+- Whether Google can crawl separate URLs per language
+
+B) CONTENT SOURCES
+Identify where strings come from:
+- i18n dictionary keys (nav/hero)
+- TypeScript static lesson maps/contentMap
+- Database content_items
+- Any translation JSON files
+- Any API translation endpoints
+
+C) WHAT IS NOT TRANSLATING
+List exactly which page types do not translate:
+- lesson list cards
+- lesson detail body sections
+- activities/quizzes
+- flashcards
+- question bank
+- meta and schema
+
+D) SEO SIGNALS
+Check if these exist and are correct per language:
+- canonical tags
+- hreflang tags
+- sitemap per language
+- robots meta tags
+- status codes (200, redirect chains)
+
+E) DIAGNOSIS
+Summarize the root cause(s) of multilingual failure in 3–7 bullet points.
+
+========================================================
+PHASE 1 — CANONICAL MULTILINGUAL URL ARCHITECTURE
+========================================================
+Implement URL-based language routing using first path segment:
+
+/en/...
+/fr/...
+/es/...
+etc.
+
+Rules:
+1) Language is derived ONLY from the URL segment once present.
+2) If user visits a URL without a language segment, redirect to best match:
+   - Saved user preference (if exists)
+   - Browser language (if supported)
+   - Default English (/en/)
+3) Language switcher must update the URL segment and trigger full re-render.
+4) No ?lang= query parameters for canonical pages.
+
+Deliverables:
+- Routing implementation plan
+- Redirect logic plan
+- Examples for each major route: lessons, flashcards, questions, store pages, hubs
+
+========================================================
+PHASE 2 — SINGLE TRANSLATION PIPELINE (NO MORE HARD-CODED STRINGS)
+========================================================
+Eliminate hardcoded strings that bypass translation (especially static TS lesson titles/content).
+
+Implement one resolver used across the entire app:
+
+resolveI18n(i18nObjectOrKey, lang, fallback="en") -> string/object
+
+Resolution rules:
+- If translation exists in requested lang, use it.
+- Else use English.
+- Never mix languages mid-page: if a structured object (lesson body) is missing in requested language, fallback the entire object to English.
+- Log missing translation fields for coverage tracking.
+
+Apply resolver to:
+- Lesson list titles and cards
+- Lesson detail sections (overview, patho, S&S, diagnostics, management, nursing actions, etc.)
+- Activities, quizzes, interactive tools
+- Flashcards and decks
+- Exam question stem/choices/rationales/exam traps
+- UI microcopy relevant to learning flows
+- Meta title/meta description/OG/Twitter
+- FAQ schema and structured data
+
+Deliverables:
+- A list of files/components to refactor (with patterns to replace)
+- A shared i18n utility module
+- A policy for structured content fallback
+
+========================================================
+PHASE 3 — DATABASE SCHEMA (SINGLE SOURCE OF TRUTH FOR TRANSLATABLE CONTENT)
+========================================================
+Refactor to store translatable content in DB using JSONB i18n columns (recommended). Migrate static TypeScript lesson content into DB (or into a translation store that is still resolved by resolveI18n, but DB is preferred).
+
+Schema changes:
+
+content_items:
+- title_i18n jsonb
+- description_i18n jsonb
+- body_i18n jsonb (structured lesson body)
+- meta_i18n jsonb (meta title/description/og)
+- faq_i18n jsonb (FAQ blocks)
+- slug_i18n jsonb (optional but ideal for localized slugs)
+- translation_status jsonb (coverage + missing fields)
+
+flashcards:
+- deck_title_i18n jsonb
+- front_i18n jsonb
+- back_i18n jsonb
+- explanation_i18n jsonb
+
+questions:
+- stem_i18n jsonb
+- choices_i18n jsonb
+- rationale_i18n jsonb
+- exam_trap_i18n jsonb
+
+Add translation_jobs table:
+- id
+- content_type (lesson/question/flashcard/meta/faq/slug)
+- content_id
+- language
+- status (queued/running/done/failed)
+- error
+- timestamps
+
+Deliverables:
+- SQL migrations
+- Data migration plan from TS -> DB
+- Backfill strategy for English baseline
+- Safe rollback plan
+
+========================================================
+PHASE 4 — TRANSLATION GENERATION + COVERAGE AUDIT (ADMIN)
+========================================================
+Implement a translation coverage system and admin dashboard:
+
+Coverage requirements per page/language:
+- Title translated
+- Body translated (all required fields)
+- Meta translated
+- FAQ translated
+- (If applicable) embedded questions translated
+- (If applicable) flashcards translated
+
+Admin dashboard features:
+- Coverage % by language
+- Missing field listing by content item
+- Queue translation job button (bulk and per item)
+- Error logs and retry controls
+- “Noindex until complete” visibility
+
+Implement logging:
+- Any missing translation field is logged into translation_status
+- A daily summary report can be generated
+
+Deliverables:
+- Admin UI spec + routes + API endpoints
+- Coverage calculation rules
+- Bulk queue endpoints
+
+========================================================
+PHASE 5 — INTERNATIONAL SEO: HREFLANG + CANONICAL + META + SCHEMA
+========================================================
+Implement correct SEO signals for every language URL:
+
+A) Canonical
+- Each language page must self-canonicalize to its own language URL.
+- Never canonicalize a French page to the English page.
+
+B) hreflang
+- Add hreflang alternates for every language version of the page.
+- Include x-default pointing to /en/.
+- Ensure reciprocal correctness.
+
+Example structure:
+<link rel="alternate" hreflang="en-ca" href=".../en/...">
+<link rel="alternate" hreflang="fr-ca" href=".../fr/...">
+<link rel="alternate" hreflang="es" href=".../es/...">
+<link rel="alternate" hreflang="x-default" href=".../en/...">
+
+C) Meta tags
+- Translate meta title and description via meta_i18n.
+- Translate OG + Twitter tags.
+- Ensure language attribute in HTML is set correctly.
+
+D) Schema
+- FAQ schema must be language-specific.
+- JSON-LD must include correct inLanguage.
+
+Deliverables:
+- hreflang generator implementation
+- canonical rules implementation
+- meta generator implementation
+- schema translation implementation
+
+========================================================
+PHASE 6 — SITEMAPS + NOINDEX GATING (SEO SAFETY)
+========================================================
+Generate separate sitemaps per language:
+- /sitemap-en.xml
+- /sitemap-fr.xml
+- etc.
+
+Rules:
+- Only include pages that meet translation completeness threshold (>=80% for that language).
+- Exclude pages marked noindex.
+
+Noindex gating:
+- If page coverage <80% in that language: add meta robots noindex,follow.
+- When threshold is met: remove noindex automatically.
+
+Deliverables:
+- Sitemap generator
+- Coverage filter integration
+- Instructions for GSC submission per language property/folder
+
+========================================================
+PHASE 7 — LANGUAGE ROLLOUT STRATEGY (ROI-FIRST)
+========================================================
+Do NOT launch 15 languages partially indexed.
+
+Rollout order:
+Tier 1: en + fr-CA (complete first)
+Tier 2: es, pt, hi
+Tier 3: remaining languages
+
+Within each language, translate in this priority:
+1) Pages already getting impressions (GSC-driven)
+2) Mega hubs (Electrolytes/ABG, ECG/Cardiac, Pre-Nursing)
+3) Highest conversion pages (flashcards + question bank landing pages)
+4) Long tail expansion
+
+Rules:
+- Do not index a language until its hubs + top pages are complete.
+- Prefer fully translating fewer pages over partially translating many.
+
+Deliverables:
+- A 12-week rollout calendar for en/fr first
+- A translation batch plan (e.g., top 150 pages first)
+- A language ROI plan for next 6 months
+
+========================================================
+PHASE 8 — FRENCH (fr-CA) SEO QUALITY (NOT LITERAL TRANSLATION)
+========================================================
+French must be localized for Canadian usage:
+- Use fr-CA in language tags where relevant.
+- Adapt titles to French search intent (not direct translation).
+- Ensure internal links stay within French URLs.
+- Ensure French meta and FAQ schema exist.
+
+Deliverables:
+- French title template guidelines
+- Top 50 French keyword phrasing adaptations for nursing topics
+- French mega hub outlines and internal link maps
+
+========================================================
+PHASE 9 — TESTING + QA + MONITORING
+========================================================
+Create an automated test checklist:
+
+Functional:
+- Language switch updates titles, body, activities, flashcards, questions
+- Default language detection works on first visit
+- No mixed-language rendering
+- Correct fallback to English when missing translations
+
+SEO:
+- Each language page returns 200
+- No redirect chains
+- Canonicals correct
+- hreflang correct + reciprocal
+- Sitemaps valid + only indexed pages included
+- Noindex gating works
+
+Monitoring:
+- Log missing translation keys
+- Weekly coverage report
+- GSC indexing and impressions by language folder
+
+Deliverables:
+- QA checklist
+- Automated test plan (unit + e2e suggestions)
+- Monitoring plan + alert thresholds
+
+========================================================
+FINAL OUTPUT REQUIRED
+========================================================
+You must produce:
+
+1) Audit report (Phase 0)
+2) Refactor plan with file-by-file changes
+3) DB schema migrations + data migration plan
+4) Resolver function and integration plan
+5) hreflang/canonical/meta/schema implementation plan
+6) Sitemap + noindex gating plan
+7) Admin coverage dashboard plan
+8) French-first rollout plan (12 weeks)
+9) Full QA + monitoring checklist
+10) A “Do Not Do” list to prevent regressions and scope creep
+
+Do not provide generic advice. Provide implementation-ready steps and patterns.
+If any current implementation conflicts with this architecture, refactor it.
+No partial translations should remain indexed.

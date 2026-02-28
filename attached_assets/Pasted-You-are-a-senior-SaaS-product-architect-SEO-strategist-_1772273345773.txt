@@ -1,0 +1,304 @@
+You are a senior SaaS product architect, SEO strategist, psychometric exam designer, and medical content systems engineer.
+
+Website: https://www.nursenest.ca
+
+Mission:
+Transform NurseNest from a large educational resource into a dominant nursing exam-prep platform that compounds SEO, increases session depth, and converts engaged users into paid subscribers — without adding unnecessary features.
+
+Non-negotiables:
+- Preserve medical accuracy.
+- Enforce limits server-side.
+- No feature creep.
+- No community features.
+- No gamification.
+- No redesigning the entire UI at once.
+- Implement changes in phases with measurable KPIs.
+
+========================================================
+SECTION 1 — HOMEPAGE REWRITE (Authority + Funnel)
+========================================================
+
+Rewrite homepage with:
+
+HERO SECTION:
+Headline: Position NurseNest as a serious exam weapon.
+Subheadline:
+- RPN | RN | NP
+- Canada + US support
+- Question bank + flashcards + adaptive testing
+Primary CTA: Start Free
+Secondary CTA: Take 10-Question Readiness Quiz
+
+Add:
+- Trust signals (“Built by nurses”, “Evidence-based rationales”, “Aligned with exam blueprints”)
+- Real-time metrics pulled from DB (total lessons, total questions, flashcards created)
+- “Learn → Test → Track → Improve” visual loop
+
+Add 4 core feature blocks:
+1. Structured Lessons
+2. Exam-Level Question Bank
+3. Smart Flashcards (300 free)
+4. Performance Tracking
+
+Add “Most Tested Topics” section:
+- Electrolytes
+- ECG & Cardiac
+- Sepsis & Shock
+- OB Emergencies
+- Acid–Base
+- Pharmacology High Yield
+
+Each links to a mega hub.
+
+Tone:
+Professional.
+Authoritative.
+Exam-focused.
+Not hype.
+
+========================================================
+SECTION 2 — BUILD 3 MEGA HUBS (Topical Authority)
+========================================================
+
+Create 3 flagship hub pages:
+
+1) Electrolytes & Acid-Base Disorders for Nursing
+Include:
+- Sodium, potassium, calcium, magnesium, phosphorus
+- ABG interpretation
+- Anion gap
+- Osmolality
+- DKA vs HHS
+- SIADH vs DI
+- IV fluids
+- “Most Tested Concepts” section
+- 5 embedded exam questions
+- 3 FAQ schema blocks
+- Internal links to every related lesson
+
+2) ECG Interpretation & Cardiac Emergencies
+Include:
+- ECG basics
+- Lethal rhythms
+- STEMI/NSTEMI
+- Troponin timing
+- Hyperkalemia ECG changes
+- Pacemaker failure
+- Shock states
+- 5 embedded exam questions
+- FAQ schema
+- Internal linking cluster
+
+3) Pre-Nursing Foundations
+Include:
+- Cell biology
+- Homeostasis
+- Diffusion/osmosis
+- RAAS
+- Intro pharmacology
+- Medical terminology roots
+- 5 embedded questions
+- FAQ schema
+- Internal linking
+
+Each hub:
+- 2,000–4,000 words
+- Structured H1/H2/H3
+- Links bidirectionally with child pages
+- Meta title ≤ 60 chars
+- Meta description ≤ 155 chars
+
+========================================================
+SECTION 3 — INTERNAL LINKING MATRIX SYSTEM
+========================================================
+
+Create an internal linking blueprint:
+
+For every pathology page:
+- 5–8 contextual links
+- Anchor text optimized but natural
+- Links to:
+   - Complications
+   - Labs
+   - Pharmacology
+   - Related emergencies
+   - Mega hub
+
+Ensure:
+- No orphan pages
+- No excessive link spam
+- Hub ↔ child bidirectional linking
+
+Output:
+Page | Anchor Text | Target | Purpose
+
+========================================================
+SECTION 4 — PRACTICE LAYER EVERYWHERE
+========================================================
+
+On every high-traffic lesson:
+
+Embed:
+- 5 exam-style questions
+- Full rationales
+- “Exam Trap” explanation
+- Link to related flashcards
+- CTA: “Unlock 10 more with free account”
+
+Questions must:
+- Mimic NGN logic
+- Include priority frameworks
+- Include distractor breakdown
+- Be medically accurate
+
+Tag each question:
+- Topic
+- System
+- Difficulty
+- Exam (RPN/RN/NP)
+- Question type (SATA, prioritization, case study)
+
+========================================================
+SECTION 5 — FLASHCARD FREEMIUM SYSTEM
+========================================================
+
+FREE:
+- 300 total flashcards
+- Editable
+- Viewable
+
+PRO:
+- Unlimited flashcards
+- AI deck generation (rate limited)
+- AI medical accuracy validator
+- Basic spaced repetition
+
+UI:
+- “X / 300 used”
+- Progress bar
+- Soft prompts at 80% and 90%
+- Hard stop modal at 300
+
+Upgrade page:
+- $4.99/mo
+- $39/year (Best Value badge)
+- Comparison vs Quizlet+
+- Feature table
+- 30-day money-back badge
+
+Server:
+- Enforce limit server-side
+- Stripe + webhook validation
+- Subscription status stored securely
+
+========================================================
+SECTION 6 — AI MEDICAL VALIDATION SYSTEM
+========================================================
+
+When:
+- User generates deck via AI
+- User manually enters deck content
+
+Run:
+- Clinical accuracy validation
+- Check for:
+   - Incorrect pathophysiology
+   - Unsafe dosing
+   - Contraindications
+   - Unit errors
+   - Red-flag misinformation
+
+If inaccurate:
+- Block posting
+- Display correction guidance
+- Offer “Fix with AI”
+
+========================================================
+SECTION 7 — TRANSLATION SYSTEM FIX
+========================================================
+
+Fix language architecture:
+
+Problems:
+- Static lesson data bypasses i18n
+- Only hero/nav translates
+- contentMap uses hardcoded strings
+
+Solution:
+- All display strings go through single i18n resolver
+- Add JSON translation files or DB storage for lesson titles + body
+- Remove hardcoded TS strings
+- Fallback logic:
+   requested language →
+   saved preference →
+   browser language →
+   English fallback
+
+Language change must update:
+- Lesson titles
+- Lesson body
+- Activities
+- Flashcards
+- Practice questions
+
+Output:
+- Required file changes
+- Replacement patterns
+- Migration strategy
+- Test plan
+
+========================================================
+SECTION 8 — INTERNAL SEARCH UPGRADE
+========================================================
+
+Upgrade search:
+
+Add:
+- Auto-suggestions
+- Synonym mapping (MI = myocardial infarction, hyperK, DKA)
+- Tabs: Lessons | Questions | Flashcards
+- “Most searched this week”
+- “Trending topics” widget
+
+========================================================
+SECTION 9 — 8-WEEK EXECUTION ROADMAP
+========================================================
+
+Week 1–2:
+- Optimize top 20 ranking pages
+- Add next-action module
+- Homepage rewrite
+
+Week 3–4:
+- Build mega hubs
+- Implement linking matrix
+
+Week 5–6:
+- Embed practice layer
+- Add readiness widget (v1)
+
+Week 7–8:
+- Flashcard freemium
+- Upgrade page psychology
+- Translation fix
+- Search upgrade
+
+========================================================
+SECTION 10 — KPI TRACKING
+========================================================
+
+Track weekly:
+- Impressions
+- CTR
+- Average position
+- Pages ranking 8–20
+- Session depth
+- Questions attempted/session
+- Flashcards created/user
+- Free → Paid conversion rate
+
+Generate weekly dashboard summary.
+
+========================================================
+END OF INSTRUCTIONS
+========================================================
