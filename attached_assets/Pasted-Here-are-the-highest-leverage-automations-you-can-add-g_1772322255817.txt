@@ -1,0 +1,202 @@
+Here are the highest-leverage automations you can add, grouped by outcome:
+
+1) Store conversion automations (sell-ready in 1 click)
+A) Auto cover + thumbnail + gallery builder (zero manual)
+
+One button: generates the full product media set from your pages:
+
+Cover (600×600), Etsy thumb, Etsy banner (1200×630)
+
+IG carousel (1080×1350)
+
+3–6 mockups (you already have 3; extend to “phone”, “tablet”, “stacked pages”, “desk flatlay”)
+
+Optional “page preview grid” (2×3 collage)
+
+Why it matters: store listings convert on visuals. This removes Canva dependency.
+
+Implementation: you already have renderPageToSize() + drawMockupFrame(). Add a generateListingMediaPack() that outputs:
+
+Square cover: cover/crop
+
+Poster preview: contain
+
+Grid collage: drawImage into a single canvas with padding + rounded rect
+
+B) Auto product listing generator (title/SEO/bullets/policies)
+
+When publishing, generate:
+
+SEO title variants (3)
+
+Short description + long description
+
+Bullet features
+
+“What you get” section (page count, formats, sizes)
+
+“Who it’s for” (RPN/RN/NP + exam target)
+
+FAQ snippet (instant download, printing, iPad apps, etc.)
+
+You already have the AI bundle tool returning listing. Extend your marketplace publish dialog to:
+
+“Generate Listing” → populates fields
+
+“Regenerate bullets” / “Regenerate description”
+
+C) Auto “contents page” + page numbering
+
+One click:
+
+Inserts a TOC page after cover
+
+Adds page numbers footer on all pages (skip cover)
+
+Adds a consistent header style (topic, section)
+
+Implementation: add an object tag like tag: "page-number" so it’s idempotent.
+
+2) Layout/typography automations (Canva-like polish)
+D) Smart text reflow (not just autofit)
+
+Autofit is great; the next step is reflow:
+
+If paragraph exceeds box height, automatically:
+
+reduce font to min threshold
+
+then increase box height
+
+if still overflow → split into continuation block (“Continued…”) and push overflow into a new text object below (or next page)
+
+This pairs perfectly with your multi-page AI pagination.
+
+E) Auto “section card” styling for headings
+
+Whenever a text block is a heading, auto-wrap it in a themed header bar:
+
+rectangle behind heading (theme primary/sectionBg)
+
+consistent padding/radius
+
+optional “Most Tested” badge
+
+Implementation: detect headings by fontSize/weight or by AI block type "heading".
+
+F) Snap-to-guides + smart alignment helpers
+
+You have grid snapping; add:
+
+smart guides (snap to edges/centers of nearby objects)
+
+distribute horizontally for multi-selection
+
+equalize widths for selected objects
+
+These are “pro” editor features that reduce friction.
+
+G) Component constraints (lock spacing + styles)
+
+Introduce “component mode”:
+
+a grouped component remembers internal spacing and styles
+
+scaling preserves padding (like Figma constraints)
+
+“Update all instances” (apply a change to every component with same tag)
+
+3) AI automations (less prompting, more consistent output)
+H) AI “Outline → Pages” generator (structure first)
+
+Instead of generating blocks directly, do:
+
+AI returns outline JSON (sections + estimated length)
+
+you render pages using templates
+
+then AI fills each section to match the target space
+
+This produces way more predictable layouts.
+
+I) “Exam-target normalizer” (CA vs US units/terms)
+
+Before insertion, run a normalizer pass that:
+
+converts units (°F↔°C, lbs↔kg) depending on target
+
+swaps terminology (RPN vs LPN, CNO vs State Board)
+
+lab units (mmol/L vs mg/dL) where appropriate
+
+You already have EXAM_CONTEXT_MAP. This is a deterministic post-processor + optional AI verification.
+
+J) Auto-generate “Practice pack” from content
+
+One click:
+
+reads current canvas text
+
+generates 10–25 questions + rationales
+
+generates matching flashcards
+
+exports as CSV/JSON
+
+optionally inserts a “QBank” section divider page
+
+You have bundle support; add a “From Canvas → Qbank/Flashcards” pipeline so you don’t rely on topic prompts.
+
+4) Workflow automations (admin productivity + pricing)
+K) Price editor: dollars everywhere + bulk update rules
+
+You already convert dollars→cents at publish, but you can add:
+
+a universal MoneyInput component showing dollars
+
+bulk adjust in admin (“+10% across Cram Guides”, “set all Quick Reference to 9.99”)
+
+“psych pricing” toggle (ends in .99)
+
+L) Versioning + “Save as Template”
+
+Allow:
+
+“Save page as template”
+
+“Save component as preset”
+
+“Duplicate project as starting point”
+
+“Template library” per product type (Cram Guide, Poster, One-pager)
+
+M) Autosave indicators + recovery
+
+You have autosave; add:
+
+save state machine: idle/saving/saved/error
+
+retry queue
+
+“Restore last saved” vs “Restore local edits”
+
+5) Quality gates (brand + safety + accuracy)
+N) Clinical accuracy gate (pre-publish)
+
+Before publishing:
+
+run “accuracy-review” AI tool
+
+if flags are found → block publish and show issues list with jump-to element
+
+store an audit log on the product (timestamp, exam target)
+
+O) Brand lock enforcement at export time
+
+Even if brand lock is off while designing, enforce it when exporting/publishing:
+
+normalize fonts/colors to theme
+
+ensure logo/footer exists
+
+ensure margins aren’t violated (auto-nudge inside)

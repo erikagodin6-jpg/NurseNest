@@ -1,0 +1,207 @@
+Yes — you already have a lot of leverage in this builder (templates, brand kit, audit, AI blocks/bundle, exports). The next “automation” wins are the ones that remove repetitive layout + formatting work and reduce QA mistakes before you export/publish.
+
+Here are the highest-impact automations to add next, grouped by outcome.
+
+1) One-click “Make This Page Store-Ready”
+
+A single button that runs a pipeline in a safe order (with undo snapshot):
+
+Insert logo (if enabled + missing)
+
+Apply theme typography (headings/body fonts)
+
+Normalize colors to theme palette (optional if brandLock)
+
+Snap to grid + clamp to margins
+
+Auto-fix text overflow (shrink-to-fit or increase box height)
+
+Auto spacing (consistent vertical rhythm)
+
+Run audit + add verified badge if passes
+
+Why it matters: removes 10 manual steps and makes your output consistent across products.
+
+2) Smart Text Autofit + Overflow Detection
+
+Right now, text blocks can silently overflow because you estimate height. Add:
+
+Measure text using an offscreen canvas and compute required height for given width/font.
+
+Modes:
+
+“Expand box height to fit”
+
+“Shrink font to fit (min 8px)”
+
+“Clamp + show overflow warning badge”
+
+Also add a “Find Overflows” scan that highlights offenders in the Layers list.
+
+3) Auto Layout Engine for Common Patterns
+
+You already have presets. Extend with smarter layout primitives:
+
+Auto Two-Column Flow: fills left column top→bottom then right column.
+
+Card Grid: converts selected objects into equally sized “cards” with padding.
+
+Section Builder: given a heading + paragraph + list, auto creates a themed section block (background + divider + spacing).
+
+Auto Table Builder: paste CSV → creates table rectangles + text with alternating row colors.
+
+This makes “Canva-ish” structure happen instantly.
+
+4) Auto Style from Semantic Tags
+
+You already tag components (clinical-pearl, red-flag, etc.). Add a command:
+
+“Restyle by Tag”:
+
+clinical-pearl → pearl colors/border
+
+red-flag → flag colors/border
+
+exam-trap → warning palette
+
+most-tested/high-yield badges → proper pill sizing and centered text
+
+Bonus: if brandLock is on, force tag styles to theme equivalents.
+
+5) AI → Multi-Page Pagination (Automatic Splitting)
+
+Currently AI blocks insert into one page. Add:
+
+“Insert AI blocks as multi-page layout”
+
+Tracks curY, when exceeds CANVAS_HEIGHT - MARGIN, it:
+
+creates a new page (API POST)
+
+continues inserting on next page
+
+Adds “continued…” micro-footer if desired
+
+This turns “Full cram section” into an actual booklet automatically.
+
+6) Batch Operations Across Pages
+
+You have Apply Theme to All Pages. Add more batch automations:
+
+“Add/Remove logo on all pages”
+
+“Run audit on all pages” and show summary (pages failing + why)
+
+“Normalize zIndex” per page (remove weird stacking)
+
+“Fix margins on all pages” (auto-shift offending elements inward)
+
+7) Auto Cover Generator (From Project Metadata)
+
+A dedicated “Generate Cover” button that:
+
+pulls title/subtitle/exam target
+
+adds “Updated 2026”, “RN/PN/NP”, “Canada/US”
+
+adds “Includes: QBank + Flashcards” chips if bundle exists
+
+applies your theme and puts logo footer automatically
+
+This makes your first page always sales-ready.
+
+8) Product Listing + Publish Automation
+
+You already generate listing text and publish as draft. Next steps:
+
+Auto-fill publish form from AI listing (title, description, bullets)
+
+Auto-generate slug + collision handling (-2, -3)
+
+Auto-generate coverImageUrl by exporting 600x600 (upload asset, store URL)
+
+Add “Publish + Attach Assets” flow:
+
+export PDF
+
+export thumbnail(s)
+
+upload to your storage
+
+create product draft with attachments
+
+This removes friction from “finished design” → “live product”.
+
+9) Template Packs + Favorites
+
+Your templates/components are good; add:
+
+“Favorite” templates/components for fast access
+
+“My Presets” saved per admin:
+
+preferred theme
+
+showLogo/showGrid/showMargins
+
+default exam target
+
+default export pack (IG/Etsy/PDF)
+
+This makes you faster every session.
+
+10) Keyboard / Workflow Automations
+
+You already added group/ungroup. Next keyboard wins:
+
+Ctrl+Shift+L: lock/unlock
+
+Ctrl+Alt+Arrow: nudge 1px (Shift for 10px)
+
+Ctrl+Shift+]: bring to front, Ctrl+Shift+[: send to back
+
+Double-click text object to edit inline (contenteditable overlay)
+
+“Hold Space” for pan (if you add pan/zoom later)
+
+11) “Quality Gate” Before Export
+
+Before exporting PDF/IG/Etsy:
+
+if audit fails, show modal: “Export anyway / Auto-fix / Cancel”
+
+checks:
+
+missing logo (if showLogo)
+
+off margins
+
+too-small text
+
+off-palette colors (if brandLock)
+
+missing cover/section structure (optional heuristics)
+
+This prevents bad exports that look “cheap.”
+
+12) Auto Create Marketing Carousel (Not Just Resizing Pages)
+
+Your IG export resizes pages. Add an automation that generates marketing slides:
+
+Slide 1: “What you get” (title, benefits)
+
+Slide 2: “Inside preview” (mockup of page 1)
+
+Slide 3: “Most tested topics included” (chips list)
+
+Slide 4: “Bonus: QBank + flashcards” (if bundle)
+
+Slide 5: CTA + link/QR (optional)
+
+All theme-consistent, auto-generated from project metadata + AI listing.
+
+If you want the single biggest upgrade next
+
+Implement Store-Ready Pipeline + Text Autofit + Multi-page AI pagination. Those three will make your output look dramatically more “Canva quality” with almost no manual cleanup.
+
+If you tell me which one you want first (pipeline vs autofit vs pagination), I’ll map it into exact functions/state changes in your current file structure (where to put it, what helpers to create, what UI buttons/shortcuts to add).

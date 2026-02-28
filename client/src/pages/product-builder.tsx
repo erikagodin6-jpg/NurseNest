@@ -1121,6 +1121,149 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     ]);
   };
 
+  const measureTextHeight = (text: string, width: number, fontSize: number, fontFamily: string, fontWeight: string = "normal"): number => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d")!;
+    ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}, Inter, sans-serif`;
+    const words = text.split(/\s+/);
+    let line = "";
+    let lines = 1;
+    const maxW = width - 4;
+    for (const word of words) {
+      const test = line ? `${line} ${word}` : word;
+      if (ctx.measureText(test).width > maxW && line) {
+        lines++;
+        line = word;
+      } else {
+        line = test;
+      }
+    }
+    const newlines = (text.match(/\n/g) || []).length;
+    return Math.max(lines + newlines, 1) * fontSize * 1.35 + 4;
+  };
+
+  const autofitText = (mode: "expand" | "shrink" = "expand") => {
+    pushUndo();
+    let fixCount = 0;
+    setObjects(prev => prev.map(obj => {
+      if (obj.type !== "text" || !obj.content) return obj;
+      const needed = measureTextHeight(obj.content, obj.width, obj.fontSize || 16, obj.fontFamily || "Inter", obj.fontWeight || "normal");
+      if (needed <= obj.height + 2) return obj;
+      fixCount++;
+      if (mode === "expand") {
+        return { ...obj, height: Math.min(needed, CANVAS_HEIGHT - obj.y) };
+      }
+      let fs = obj.fontSize || 16;
+      while (fs > 8) {
+        const h = measureTextHeight(obj.content, obj.width, fs, obj.fontFamily || "Inter", obj.fontWeight || "normal");
+        if (h <= obj.height + 2) break;
+        fs--;
+      }
+      return { ...obj, fontSize: fs };
+    }));
+    toast({ title: mode === "expand" ? "Boxes expanded to fit" : "Font shrunk to fit", description: `${fixCount} text element(s) adjusted` });
+  };
+
+  const findOverflows = (): string[] => {
+    const ids: string[] = [];
+    for (const obj of objects) {
+      if (obj.type !== "text" || !obj.content) continue;
+      const needed = measureTextHeight(obj.content, obj.width, obj.fontSize || 16, obj.fontFamily || "Inter", obj.fontWeight || "normal");
+      if (needed > obj.height + 2) ids.push(obj.id);
+    }
+    return ids;
+  };
+
+  const highlightOverflows = () => {
+    const ids = findOverflows();
+    if (ids.length === 0) {
+      toast({ title: "No overflows found" });
+      return;
+    }
+    setSelectedIds(ids);
+    toast({ title: `${ids.length} overflowing text element(s)`, description: "Selected for review", variant: "destructive" });
+  };
+
+  const makeStoreReady = () => {
+    pushUndo();
+    const steps: string[] = [];
+
+    setObjects(prev => {
+      let arr = [...prev];
+
+      if (showLogo && !arr.some(o => o.tag === "brand-logo")) {
+        arr.push({
+          id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
+          width: 120, height: 16, content: "NurseNest", fontSize: 9,
+          fontWeight: "600", fill: theme.bodyColorLight, fontFamily: theme.bodyFont,
+          rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
+          tag: "brand-logo", locked: brandLock,
+        });
+        steps.push("Logo");
+      }
+
+      arr = arr.map(obj => {
+        if (obj.type !== "text") return obj;
+        const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
+        return { ...obj, fontFamily: isHeading ? theme.headingFont : theme.bodyFont };
+      });
+      steps.push("Typography");
+
+      if (brandLock) {
+        arr = arr.map(obj => {
+          if (obj.type !== "text" || !obj.fill || obj.tag === "brand-verified" || obj.tag === "brand-logo") return obj;
+          if (themePalette.includes(obj.fill.toLowerCase())) return obj;
+          return { ...obj, fill: theme.headingColor };
+        });
+        steps.push("Colors");
+      }
+
+      const sorted = [...arr].sort((a, b) => a.y - b.y);
+      let curY = MARGIN;
+      arr = sorted.map((obj, i) => {
+        const snappedX = Math.max(MARGIN, Math.round(obj.x / GRID_SIZE) * GRID_SIZE);
+        const clampedW = Math.min(obj.width, CANVAS_WIDTH - MARGIN * 2);
+        const clampedX = Math.min(snappedX, CANVAS_WIDTH - MARGIN - clampedW);
+        const newObj = { ...obj, x: Math.max(MARGIN, clampedX), y: curY, width: clampedW, zIndex: i };
+        curY += obj.height + 12;
+        return newObj;
+      });
+      steps.push("Grid + margins");
+
+      arr = arr.map(obj => {
+        if (obj.type !== "text" || !obj.content) return obj;
+        const needed = measureTextHeight(obj.content, obj.width, obj.fontSize || 16, obj.fontFamily || "Inter", obj.fontWeight || "normal");
+        if (needed <= obj.height + 2) return obj;
+        return { ...obj, height: Math.min(needed, CANVAS_HEIGHT - obj.y) };
+      });
+      steps.push("Autofit");
+
+      const issues: string[] = [];
+      arr.forEach(obj => {
+        if (obj.x < MARGIN - 5 || obj.x + obj.width > CANVAS_WIDTH - MARGIN + 5) issues.push("margin");
+        if (obj.type === "text" && obj.fontSize && obj.fontSize < 8) issues.push("small-text");
+      });
+
+      arr = arr.filter(o => o.tag !== "brand-verified");
+
+      if (issues.length === 0) {
+        setBrandVerified(true);
+        arr.push(
+          { id: uid(), type: "rect" as const, x: CANVAS_WIDTH - MARGIN - 110, y: MARGIN, width: 110, height: 22, fill: theme.successColor, borderRadius: 11, rotation: 0, opacity: 0.9, zIndex: 999, tag: "brand-verified", locked: true },
+          { id: uid(), type: "text" as const, x: CANVAS_WIDTH - MARGIN - 105, y: MARGIN + 3, width: 100, height: 16, content: "BRAND VERIFIED", fontSize: 9, fontWeight: "bold", fill: "#ffffff", fontFamily: theme.bodyFont, rotation: 0, opacity: 1, zIndex: 1000, textAlign: "center", tag: "brand-verified", locked: true },
+        );
+        steps.push("Verified ✓");
+      } else {
+        setBrandVerified(false);
+        steps.push(`${issues.length} issue(s)`);
+      }
+
+      return arr;
+    });
+
+    toast({ title: "Store-Ready Pipeline Complete", description: steps.join(" → ") });
+  };
+
   const alignSelected = (dir: "left" | "center" | "right" | "distribute") => {
     if (dir === "distribute") {
       pushUndo();
@@ -1242,6 +1385,41 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
   };
 
+  const buildBlockObjects = (block: any, curY: number, baseZIndex: number, contentWidth: number): { objs: CanvasObject[]; height: number } => {
+    const blockType = block.type || "paragraph";
+    const content = block.content || "";
+    const objs: CanvasObject[] = [];
+
+    if (blockType === "heading") {
+      objs.push({ id: uid(), type: "text", x: MARGIN, y: curY, width: contentWidth, height: 30, content, fontSize: 18, fontWeight: "bold", fill: BRAND.textDark, fontFamily: BRAND.fontHeading, rotation: 0, opacity: 1, zIndex: baseZIndex, textAlign: "left" });
+      return { objs, height: 38 };
+    } else if (blockType === "clinical-pearl") {
+      objs.push({ id: uid(), type: "rect", x: MARGIN, y: curY, width: contentWidth, height: 70, fill: "#ede9fe", stroke: BRAND.primary, strokeWidth: 2, borderRadius: 10, rotation: 0, opacity: 1, zIndex: baseZIndex });
+      objs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 6, width: contentWidth - 24, height: 16, content: "Clinical Pearl", fontSize: 11, fontWeight: "bold", fill: BRAND.primary, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 1 });
+      objs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 24, width: contentWidth - 24, height: 40, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 2 });
+      return { objs, height: 80 };
+    } else if (blockType === "warning") {
+      objs.push({ id: uid(), type: "rect", x: MARGIN, y: curY, width: contentWidth, height: 70, fill: "#fef2f2", stroke: BRAND.danger, strokeWidth: 2, borderRadius: 10, rotation: 0, opacity: 1, zIndex: baseZIndex });
+      objs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 6, width: contentWidth - 24, height: 16, content: "Red Flag", fontSize: 11, fontWeight: "bold", fill: BRAND.danger, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 1 });
+      objs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 24, width: contentWidth - 24, height: 40, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 2 });
+      return { objs, height: 80 };
+    } else if (blockType === "callout") {
+      objs.push({ id: uid(), type: "rect", x: MARGIN, y: curY, width: contentWidth, height: 50, fill: "#f0fdf4", stroke: BRAND.success, strokeWidth: 1, borderRadius: 8, rotation: 0, opacity: 1, zIndex: baseZIndex });
+      objs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 8, width: contentWidth - 24, height: 34, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 1 });
+      return { objs, height: 58 };
+    } else if (blockType === "list") {
+      const lines = content.split("\n").filter((l: string) => l.trim());
+      const h = Math.max(40, lines.length * 16);
+      objs.push({ id: uid(), type: "text", x: MARGIN, y: curY, width: contentWidth, height: h, content: lines.map((l: string) => `• ${l.replace(/^[-•]\s*/, "")}`).join("\n"), fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex, textAlign: "left" });
+      return { objs, height: h + 10 };
+    } else {
+      const estLines = Math.ceil(content.length / 70);
+      const h = Math.max(30, estLines * 14);
+      objs.push({ id: uid(), type: "text", x: MARGIN, y: curY, width: contentWidth, height: h, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex, textAlign: "left" });
+      return { objs, height: h + 8 };
+    }
+  };
+
   const insertAiBlocks = () => {
     if (!aiResult || aiResult.length === 0) return;
     pushUndo();
@@ -1253,42 +1431,82 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     const contentWidth = CANVAS_WIDTH - MARGIN * 2;
 
     for (const block of aiResult) {
-      const blockType = block.type || "paragraph";
-      const content = block.content || "";
-
-      if (blockType === "heading") {
-        newObjs.push({ id: uid(), type: "text", x: MARGIN, y: curY, width: contentWidth, height: 30, content, fontSize: 18, fontWeight: "bold", fill: BRAND.textDark, fontFamily: BRAND.fontHeading, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length, textAlign: "left" });
-        curY += 38;
-      } else if (blockType === "clinical-pearl") {
-        newObjs.push({ id: uid(), type: "rect", x: MARGIN, y: curY, width: contentWidth, height: 70, fill: "#ede9fe", stroke: BRAND.primary, strokeWidth: 2, borderRadius: 10, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length });
-        newObjs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 6, width: contentWidth - 24, height: 16, content: "Clinical Pearl", fontSize: 11, fontWeight: "bold", fill: BRAND.primary, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length + 1 });
-        newObjs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 24, width: contentWidth - 24, height: 40, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length + 2 });
-        curY += 80;
-      } else if (blockType === "warning") {
-        newObjs.push({ id: uid(), type: "rect", x: MARGIN, y: curY, width: contentWidth, height: 70, fill: "#fef2f2", stroke: BRAND.danger, strokeWidth: 2, borderRadius: 10, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length });
-        newObjs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 6, width: contentWidth - 24, height: 16, content: "Red Flag", fontSize: 11, fontWeight: "bold", fill: BRAND.danger, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length + 1 });
-        newObjs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 24, width: contentWidth - 24, height: 40, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length + 2 });
-        curY += 80;
-      } else if (blockType === "callout") {
-        newObjs.push({ id: uid(), type: "rect", x: MARGIN, y: curY, width: contentWidth, height: 50, fill: "#f0fdf4", stroke: BRAND.success, strokeWidth: 1, borderRadius: 8, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length });
-        newObjs.push({ id: uid(), type: "text", x: MARGIN + 12, y: curY + 8, width: contentWidth - 24, height: 34, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length + 1 });
-        curY += 58;
-      } else if (blockType === "list") {
-        const lines = content.split("\n").filter((l: string) => l.trim());
-        const h = Math.max(40, lines.length * 16);
-        newObjs.push({ id: uid(), type: "text", x: MARGIN, y: curY, width: contentWidth, height: h, content: lines.map((l: string) => `• ${l.replace(/^[-•]\s*/, "")}`).join("\n"), fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length, textAlign: "left" });
-        curY += h + 10;
-      } else {
-        const estLines = Math.ceil(content.length / 70);
-        const h = Math.max(30, estLines * 14);
-        newObjs.push({ id: uid(), type: "text", x: MARGIN, y: curY, width: contentWidth, height: h, content, fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: objects.length + newObjs.length, textAlign: "left" });
-        curY += h + 8;
-      }
+      const { objs, height } = buildBlockObjects(block, curY, objects.length + newObjs.length, contentWidth);
+      newObjs.push(...objs);
+      curY += height;
     }
 
     setObjects(prev => [...prev, ...newObjs]);
     setAiResult(null);
     toast({ title: `${newObjs.length} elements inserted` });
+  };
+
+  const insertAiBlocksMultiPage = async () => {
+    if (!aiResult || aiResult.length === 0) return;
+    pushUndo();
+    const contentWidth = CANVAS_WIDTH - MARGIN * 2;
+    const maxY = CANVAS_HEIGHT - MARGIN;
+    const bgColor = pages[currentPageIndex]?.backgroundColor || "#ffffff";
+
+    const pageChunks: CanvasObject[][] = [[]];
+    let curY = MARGIN;
+    const existingMaxY = objects.reduce((m, o) => Math.max(m, o.y + o.height), 0);
+    if (existingMaxY > MARGIN) curY = existingMaxY + 20;
+
+    if (curY >= maxY) {
+      pageChunks.push([]);
+      curY = MARGIN;
+    }
+
+    let zBase = objects.length;
+
+    for (const block of aiResult) {
+      const { objs, height } = buildBlockObjects(block, curY, zBase, contentWidth);
+
+      if (curY + height > maxY) {
+        if (pageChunks[pageChunks.length - 1].length > 0) {
+          pageChunks[pageChunks.length - 1].push({
+            id: uid(), type: "text", x: MARGIN, y: CANVAS_HEIGHT - MARGIN - 12,
+            width: contentWidth, height: 12, content: "continued…", fontSize: 8,
+            fontWeight: "normal", fill: theme.bodyColorLight, fontFamily: theme.bodyFont,
+            rotation: 0, opacity: 0.6, zIndex: zBase++, textAlign: "right",
+          });
+        }
+        pageChunks.push([]);
+        curY = MARGIN;
+        const rebased = buildBlockObjects(block, curY, zBase, contentWidth);
+        pageChunks[pageChunks.length - 1].push(...rebased.objs);
+        curY += rebased.height;
+        zBase += rebased.objs.length;
+      } else {
+        pageChunks[pageChunks.length - 1].push(...objs);
+        curY += height;
+        zBase += objs.length;
+      }
+    }
+
+    setObjects(prev => [...prev, ...pageChunks[0]]);
+
+    let createdPages = 0;
+    for (let i = 1; i < pageChunks.length; i++) {
+      try {
+        const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+          method: "POST",
+          body: { title: `AI Page ${pages.length + i}`, backgroundColor: bgColor, canvasJson: { objects: pageChunks[i], version: "1.0" } },
+        });
+        if (res.ok) {
+          const newPage = await res.json();
+          setPages(prev => [...prev, newPage]);
+          createdPages++;
+        }
+      } catch {}
+    }
+
+    setAiResult(null);
+    toast({
+      title: `AI content paginated`,
+      description: `Page 1 updated + ${createdPages} new page(s) created`,
+    });
   };
 
   const handleCanvasMouseDown = (e: React.MouseEvent, objId?: string) => {
@@ -1911,9 +2129,14 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                     ))}
                     {aiResult.length > 5 && <p>...and {aiResult.length - 5} more</p>}
                   </div>
-                  <Button size="sm" onClick={insertAiBlocks} className="w-full h-7 text-[10px] gap-1" data-testid="button-insert-ai">
-                    <Plus className="w-3 h-3" /> Insert into Canvas
-                  </Button>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <Button size="sm" onClick={insertAiBlocks} className="h-7 text-[10px] gap-1" data-testid="button-insert-ai">
+                      <Plus className="w-3 h-3" /> Insert
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={insertAiBlocksMultiPage} className="h-7 text-[10px] gap-1" data-testid="button-insert-ai-multipage">
+                      <Layers className="w-3 h-3" /> Multi-Page
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
@@ -2158,6 +2381,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Quick Actions</span>
               <div className="space-y-2">
+                <button className="w-full h-10 rounded-xl bg-primary text-white hover:bg-primary/90 text-xs font-semibold" onClick={makeStoreReady} data-testid="button-store-ready">Make Store-Ready</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={beautifyPage} data-testid="button-brand-beautify">Beautify Layout</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={runDesignAudit} data-testid="button-brand-audit">{brandVerified ? "Re-Audit (Verified)" : "Run Design Audit"}</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyBrandTypography} data-testid="button-brand-fonts">Apply Theme Fonts</button>
@@ -2170,6 +2394,14 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("stack")} data-testid="button-layout-stack">Stack Layout</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("two-col")} data-testid="button-layout-two-col">Two Column Layout</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("hero-cards")} data-testid="button-layout-hero">Hero + Cards Layout</button>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Text Autofit</span>
+              <div className="space-y-2">
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => autofitText("expand")} data-testid="button-autofit-expand">Expand Boxes to Fit</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => autofitText("shrink")} data-testid="button-autofit-shrink">Shrink Font to Fit</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={highlightOverflows} data-testid="button-find-overflows">Find Overflows</button>
               </div>
             </div>
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
