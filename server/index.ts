@@ -495,10 +495,13 @@ app.use((req, res, next) => {
     log(`serving on port ${port}`);
 
     import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
-    import("./seed-study-decks").then(({ seedStudyDecks }) => {
-      const { Pool } = require("pg");
-      const p = new Pool({ connectionString: process.env.DATABASE_URL });
+    import("./seed-study-decks").then(async ({ seedStudyDecks }) => {
+      const pg = await import("pg");
+      const p = new pg.Pool({ connectionString: process.env.DATABASE_URL });
       seedStudyDecks(p).catch((e: any) => console.error("[Seed] Failed:", e.message));
+      import("./seed-seo-clusters").then(({ seedSEOClusters }) => {
+        seedSEOClusters(p).catch((e: any) => console.error("[SEO Seed] Failed:", e.message));
+      });
     });
   });
 

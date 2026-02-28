@@ -103,3 +103,23 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 - **Admin Dashboard**: `/admin/pipeline` — Overview, question/flashcard review with approve/reject/bulk actions, job history.
 - **Schema Tables**: `flashcard_bank`, `generation_jobs`, `verification_reports`, `ai_cache`.
 - **API Endpoints**: `/api/admin/pipeline/*`, `/api/admin/qbank/*`, `/api/admin/flashcard-bank/*`.
+
+### Freemium Flashcard System
+- **Free limit**: 300 cards (configurable via `FREE_FLASHCARD_LIMIT` env var). Admin override via `flashcard_limit` column.
+- **Pro Plan**: $4.99/month or $39/year via Stripe Checkout. Region-aware pricing (CAD for CA users).
+- **Enforcement**: `getUserCardEntitlement()` in `server/routes.ts` checks tier, subscription status, and custom limits.
+- **Usage API**: `GET /api/flashcard-usage/:userId` returns used/limit/percentage/remaining.
+- **Checkout**: `POST /api/flashcard-upgrade/checkout` creates Stripe session; `POST /api/flashcard-upgrade/verify` activates Pro.
+- **Admin Controls**: `POST /api/admin/users/:id/override-limit` (custom limit), `POST /api/admin/users/:id/comp-pro` (comp Pro).
+- **UI**: Usage progress bar on flashcards page (shows at 80%+ with soft CTA, 90%+ with warning). Upgrade page at `/upgrade`.
+
+### Seed Study Decks
+- **File**: `server/seed-study-decks.ts` — Auto-seeds 15 public flashcard decks on startup (Pre-Nursing, A&P, Electrolytes).
+- **Categories**: Medical Terminology, Cell Biology, pH & Buffers, Vital Signs, Cardiovascular, Respiratory, Renal, Nervous, Endocrine, GI, Sodium, Potassium, Calcium/Magnesium, ABG, IV Fluids.
+- **Total**: ~160 clinically accurate cards with rationales.
+
+### SEO Cluster Hub Pages
+- **File**: `server/seed-seo-clusters.ts` — Auto-seeds 8 pillar hub pages into `seo_pages` table.
+- **Clusters**: Electrolytes & Acid-Base, Cardiac Emergencies, Respiratory Emergencies, Sepsis & Shock, OB Emergencies, Pre-Nursing Foundations, Anatomy & Physiology, Pharmacology High-Yield.
+- **Features**: Each hub has FAQ schema, TOC, internal links to child lessons, exam trap sections, and meta optimization.
+- **URL Pattern**: `/study-guide/{cluster-slug}` (e.g., `/study-guide/electrolytes-acid-base-nursing-guide`).

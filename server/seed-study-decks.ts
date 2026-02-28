@@ -324,10 +324,42 @@ export async function seedStudyDecks(pool: Pool) {
 
     let systemUser = await pool.query(`SELECT id FROM users WHERE id = $1`, [SYSTEM_USER_ID]);
     if (systemUser.rows.length === 0) {
+      const existingByName = await pool.query(`SELECT id FROM users WHERE username = $1`, ["NurseNest"]);
+      if (existingByName.rows.length > 0) {
+        const realId = existingByName.rows[0].id;
+        console.log(`[Seed] Using existing NurseNest user: ${realId}`);
+        const deckCount = await pool.query(
+          `SELECT COUNT(*)::int as count FROM flashcard_decks WHERE owner_id = $1`,
+          [realId]
+        );
+        if (deckCount.rows[0].count >= allDecks.length) {
+          console.log(`[Seed] ${deckCount.rows[0].count} decks already exist for NurseNest, skipping`);
+          return;
+        }
+        for (const deck of allDecks) {
+          const ed = await pool.query(`SELECT id FROM flashcard_decks WHERE slug = $1`, [deck.slug]);
+          if (ed.rows.length > 0) continue;
+          const dr = await pool.query(
+            `INSERT INTO flashcard_decks (title, slug, description, owner_id, visibility, tags, is_upgraded, upgraded_limit)
+             VALUES ($1, $2, $3, $4, $5, $6::jsonb, true, 500) RETURNING id`,
+            [deck.title, deck.slug, deck.description, realId, "public", JSON.stringify(deck.tags)]
+          );
+          for (let i = 0; i < deck.cards.length; i++) {
+            const c = deck.cards[i];
+            await pool.query(
+              `INSERT INTO deck_flashcards (deck_id, front, back, rationale) VALUES ($1, $2, $3, $4)`,
+              [dr.rows[0].id, c.front, c.back, c.rationale || null]
+            );
+          }
+          console.log(`[Seed] Created deck: ${deck.title} (${deck.cards.length} cards)`);
+        }
+        console.log(`[Seed] Study deck seeding complete.`);
+        return;
+      }
       await pool.query(
         `INSERT INTO users (id, username, password, tier, subscription_status)
-         VALUES ($1, $2, $3, $4, $5) ON CONFLICT (id) DO NOTHING`,
-        [SYSTEM_USER_ID, "NurseNest", "system-no-login", "admin", "active"]
+         VALUES ($1, $2, $3, $4, $5)`,
+        [SYSTEM_USER_ID, "NurseNest-System", "system-no-login", "admin", "active"]
       );
     }
 
@@ -340,18 +372,18 @@ export async function seedStudyDecks(pool: Pool) {
 
       const deckResult = await pool.query(
         `INSERT INTO flashcard_decks (title, slug, description, owner_id, visibility, tags, is_upgraded, upgraded_limit)
-         VALUES ($1, $2, $3, $4, $5, $6, true, 500)
+         VALUES ($1, $2, $3, $4, $5, $6::jsonb, true, 500)
          RETURNING id`,
-        [deck.title, deck.slug, deck.description, SYSTEM_USER_ID, "public", deck.tags]
+        [deck.title, deck.slug, deck.description, SYSTEM_USER_ID, "public", JSON.stringify(deck.tags)]
       );
       const deckId = deckResult.rows[0].id;
 
       for (let i = 0; i < deck.cards.length; i++) {
         const card = deck.cards[i];
         await pool.query(
-          `INSERT INTO deck_flashcards (deck_id, front, back, rationale, position)
-           VALUES ($1, $2, $3, $4, $5)`,
-          [deckId, card.front, card.back, card.rationale || null, i]
+          `INSERT INTO deck_flashcards (deck_id, front, back, rationale)
+           VALUES ($1, $2, $3, $4)`,
+          [deckId, card.front, card.back, card.rationale || null]
         );
       }
 
