@@ -1106,6 +1106,8 @@ export const digitalProducts = pgTable("digital_products", {
   compareAtPrice: integer("compare_at_price"),
   fileUrl: text("file_url"),
   coverImageUrl: text("cover_image_url"),
+  previewUrl: text("preview_url"),
+  previewPageCount: integer("preview_page_count").default(3),
   category: text("category").notNull(),
   tierTarget: text("tier_target").default("all"),
   examTarget: text("exam_target"),

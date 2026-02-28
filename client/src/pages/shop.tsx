@@ -214,8 +214,37 @@ function AdminProductManager() {
                 {!p.isActive && <Badge variant="outline" className="ml-2 text-xs text-red-500">Inactive</Badge>}
               </div>
               <div className="flex gap-1">
-                <Button onClick={() => startEdit(p)} variant="ghost" size="sm"><Edit className="w-4 h-4" /></Button>
-                <Button onClick={() => handleDelete(p.id)} variant="ghost" size="sm"><Trash2 className="w-4 h-4 text-red-400" /></Button>
+                <Button onClick={() => startEdit(p)} variant="ghost" size="sm" data-testid={`button-edit-${p.slug}`}><Edit className="w-4 h-4" /></Button>
+                {p.fileUrl && (
+                  <Button
+                    onClick={() => {
+                      const params = getAdminParams();
+                      window.open(`/api/admin/shop/products/${p.id}/download${params}`, "_blank");
+                    }}
+                    variant="ghost" size="sm" data-testid={`button-download-${p.slug}`}
+                    title="Download full PDF"
+                  >
+                    <Download className="w-4 h-4 text-blue-500" />
+                  </Button>
+                )}
+                <Button
+                  onClick={async () => {
+                    const params = getAdminParams();
+                    const res = await fetch(`/api/admin/shop/products/${p.id}/generate-preview${params}`, { method: "POST" });
+                    if (res.ok) {
+                      toast({ title: "Preview generated" });
+                      loadProducts();
+                    } else {
+                      const err = await res.json().catch(() => ({}));
+                      toast({ title: "Preview Error", description: err.error || "Failed", variant: "destructive" });
+                    }
+                  }}
+                  variant="ghost" size="sm" data-testid={`button-gen-preview-${p.slug}`}
+                  title="Generate watermarked preview"
+                >
+                  <Shield className="w-4 h-4 text-amber-500" />
+                </Button>
+                <Button onClick={() => handleDelete(p.id)} variant="ghost" size="sm" data-testid={`button-delete-${p.slug}`}><Trash2 className="w-4 h-4 text-red-400" /></Button>
               </div>
             </div>
           ))}
