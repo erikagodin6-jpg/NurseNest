@@ -145,6 +145,10 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
               <DollarSign className="w-4 h-4" />
               Revenue Intelligence
             </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/product-builder")} data-testid="menu-product-builder">
+              <Palette className="w-4 h-4" />
+              Product Builder
+            </DropdownMenuItem>
           </>
         )}
         <DropdownMenuSeparator />
