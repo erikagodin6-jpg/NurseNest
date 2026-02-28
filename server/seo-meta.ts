@@ -220,7 +220,43 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
   "/pre-nursing": {
     title: "Pre-Nursing Resources - Get Started | NurseNest",
-    description: "Resources for pre-nursing students considering a career in nursing. Program information, prerequisites, and study tips.",
+    description: "Resources for pre-nursing students considering a career in nursing. Program information, prerequisites, and study tips. Compare NurseNest vs UWorld and Archer for your prep journey.",
+  },
+  "/compare/uworld-vs-archer-vs-nursenest": {
+    title: "UWorld vs Archer vs NurseNest: 3-Way NCLEX Prep Comparison (2025)",
+    description: "Compare UWorld ($69/mo), Archer ($59/quarter), and NurseNest ($4.99/mo) side by side. Features, pricing, Canadian REx-PN support, and which NCLEX prep platform is best for you.",
+  },
+  "/compare/best-uworld-alternatives-nclex": {
+    title: "Best UWorld Alternatives for NCLEX Prep 2025 | NurseNest",
+    description: "Looking for cheaper UWorld alternatives? Compare NurseNest, Archer, and other NCLEX prep options. 4,000+ questions, adaptive testing, and flashcards from $4.99/month.",
+  },
+  "/compare/best-rex-pn-question-bank-canada": {
+    title: "Best REx-PN Question Bank in Canada 2025 | NurseNest",
+    description: "Find the best REx-PN question bank for Canadian practical nursing students. NurseNest offers dedicated REx-PN content, CAD pricing, and French language support.",
+  },
+  "/compare/nursenest-vs-uworld": {
+    title: "NurseNest vs UWorld NCLEX: Compare Features & Pricing (2025)",
+    description: "Compare NurseNest ($4.99/mo) vs UWorld ($69/mo) for NCLEX prep. Feature-by-feature comparison of question banks, adaptive testing, flashcards, and Canada REx-PN support.",
+  },
+  "/compare/nursenest-vs-archer": {
+    title: "NurseNest vs Archer NCLEX Review: Features & Pricing (2025)",
+    description: "Compare NurseNest ($4.99/mo) vs Archer ($59/quarter) for NCLEX prep. Feature comparison of question banks, flashcards, adaptive testing, and Canadian exam support.",
+  },
+  "/compare/nursenest-vs-quizlet": {
+    title: "NurseNest vs Quizlet for Nursing: Compare Features (2025)",
+    description: "Compare NurseNest ($4.99/mo) vs Quizlet+ ($7.99/mo) for nursing exam prep. Purpose-built nursing tools vs generic flashcard apps.",
+  },
+  "/compare/best-nclex-prep-canada": {
+    title: "Best NCLEX & REx-PN Prep in Canada (2025) | NurseNest",
+    description: "Find the best NCLEX and REx-PN prep for Canadian nursing students. Compare features, CAD pricing, and Canadian exam-specific content.",
+  },
+  "/compare/cheapest-nclex-prep": {
+    title: "Cheapest NCLEX Prep 2025: Affordable Study Tools Compared",
+    description: "Find the most affordable NCLEX prep in 2025. Compare NurseNest ($4.99/mo) vs UWorld ($69/mo) vs Archer ($59/quarter) vs Quizlet+ ($7.99/mo).",
+  },
+  "/compare/rex-pn-practice-questions-free": {
+    title: "Free REx-PN Practice Questions 2025 | NurseNest Canada",
+    description: "Access free REx-PN practice questions for Canadian practical nursing exam prep. Daily questions, detailed rationales, and full mock exams.",
   },
   "/contact": {
     title: "Contact Us | NurseNest",

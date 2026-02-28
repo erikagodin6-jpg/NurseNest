@@ -14,6 +14,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { SEO } from "@/components/seo";
 import {
   Heart,
   Wind,
@@ -42,6 +43,12 @@ import {
   Trash2,
   ArrowLeft,
   ChevronRight,
+  GraduationCap,
+  Stethoscope,
+  Award,
+  CheckCircle2,
+  HelpCircle,
+  ArrowRight,
 } from "lucide-react";
 
 import imgCellStructure from "@/assets/anatomy-cell-structure.png";
@@ -1021,24 +1028,76 @@ function AnatomyListingPage() {
     };
   };
 
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const faqItems = [
+    { q: t("anatomy.faq.q1"), a: t("anatomy.faq.a1") },
+    { q: t("anatomy.faq.q2"), a: t("anatomy.faq.a2") },
+    { q: t("anatomy.faq.q3"), a: t("anatomy.faq.a3") },
+    { q: t("anatomy.faq.q4"), a: t("anatomy.faq.a4") },
+    { q: t("anatomy.faq.q5"), a: t("anatomy.faq.a5") },
+  ];
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="page-anatomy">
+      <SEO
+        title="Anatomy & Physiology Review — Free A&P for Nursing Students | NurseNest"
+        description="Free interactive anatomy and physiology review for nursing students. 12 body system modules with diagrams, click-to-label exercises, and exam-relevant clinical connections. No account required."
+        keywords="anatomy and physiology for nursing, free A&P review, nursing anatomy, body systems nursing, NCLEX anatomy, nursing exam preparation"
+        canonicalPath="/anatomy"
+        additionalStructuredData={[faqSchema]}
+      />
       <Navigation />
 
       <section className="relative overflow-hidden py-16 md:py-24" data-testid="section-hero-anatomy">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-foreground/5" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6" data-testid="badge-free">
-              <Sparkles className="w-4 h-4" />
-              {t("anatomy.badge")}
+            <div className="flex items-center justify-center gap-2 flex-wrap mb-6">
+              <span className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold" data-testid="badge-free">
+                <Sparkles className="w-3.5 h-3.5" />
+                {t("anatomy.hero.pill1")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                <Stethoscope className="w-3.5 h-3.5" />
+                {t("anatomy.hero.pill2")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+                <Microscope className="w-3.5 h-3.5" />
+                {t("anatomy.hero.pill3")}
+              </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" data-testid="heading-anatomy">
               {t("anatomy.pageTitle")}
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-6" data-testid="text-anatomy-description">
+            <p className="text-lg md:text-xl text-gray-600 mb-8" data-testid="text-anatomy-description">
               {t("anatomy.pageSubtitle")}
             </p>
+            <div className="flex items-center justify-center gap-4 flex-wrap mb-4">
+              <a href="#body-systems" className="inline-flex items-center gap-2 bg-primary hover:brightness-110 text-white rounded-full px-6 py-3 font-semibold shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5" data-testid="cta-start-studying">
+                <BookOpen className="w-4 h-4" />
+                {t("anatomy.hero.cta1")}
+              </a>
+              <LocaleLink href="/pricing">
+                <span className="inline-flex items-center gap-2 bg-white border-2 border-gray-200 hover:border-primary/30 text-gray-700 hover:text-primary rounded-full px-6 py-3 font-semibold transition-all" data-testid="cta-premium-plans">
+                  {t("anatomy.hero.cta2")}
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </LocaleLink>
+            </div>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
               <BookOpen className="w-4 h-4" />
               <span>{t("anatomy.topicCount")}</span>
@@ -1062,7 +1121,57 @@ function AnatomyListingPage() {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20" data-testid="section-body-systems">
+      <section className="py-12 bg-gradient-to-b from-white to-gray-50/50" data-testid="section-exam-context">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold mb-4" data-testid="badge-exam-focus">
+              <GraduationCap className="w-3.5 h-3.5" />
+              {t("anatomy.examContext.badge")}
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="heading-exam-context">
+              {t("anatomy.examContext.heading")}
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("anatomy.examContext.subtitle")}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="border-2 border-blue-100 bg-blue-50/30" data-testid="card-exam-rpn">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center mb-2">
+                  <Shield className="w-5 h-5 text-blue-600" />
+                </div>
+                <CardTitle className="text-lg">{t("anatomy.examContext.rpn.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">{t("anatomy.examContext.rpn.desc")}</p>
+              </CardContent>
+            </Card>
+            <Card className="border-2 border-emerald-100 bg-emerald-50/30" data-testid="card-exam-rn">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-2">
+                  <Stethoscope className="w-5 h-5 text-emerald-600" />
+                </div>
+                <CardTitle className="text-lg">{t("anatomy.examContext.rn.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">{t("anatomy.examContext.rn.desc")}</p>
+              </CardContent>
+            </Card>
+            <Card className="border-2 border-purple-100 bg-purple-50/30" data-testid="card-exam-np">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center mb-2">
+                  <Award className="w-5 h-5 text-purple-600" />
+                </div>
+                <CardTitle className="text-lg">{t("anatomy.examContext.np.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">{t("anatomy.examContext.np.desc")}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section id="body-systems" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="section-body-systems">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {bodySystems.map((system) => {
             const IconComponent = system.icon;
@@ -1116,26 +1225,109 @@ function AnatomyListingPage() {
           })}
         </div>
 
-        <div className="mt-10 pt-6 border-t border-gray-100" data-testid="section-anatomy-list-related">
-          <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">{t("anatomy.exploreMore")}</p>
-          <div className="flex flex-wrap gap-2 mb-8">
-            <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-lessons">{t("anatomy.clinicalLessons")}</LocaleLink>
-            <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-flashcards">{t("anatomy.flashcards")}</LocaleLink>
-            <LocaleLink href="/question-bank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-question-bank">{t("anatomy.questionBank")}</LocaleLink>
-            <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-mock-exams">{t("anatomy.mockExams")}</LocaleLink>
-            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-list-pre-nursing">{t("anatomy.preNursing")}</LocaleLink>
+      </section>
+
+      <section className="py-16 bg-white" data-testid="section-anatomy-faq">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-semibold mb-4">
+              <HelpCircle className="w-3.5 h-3.5" />
+              FAQ
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="heading-anatomy-faq">
+              {t("anatomy.faq.heading")}
+            </h2>
+            <p className="text-gray-600">{t("anatomy.faq.subtitle")}</p>
+          </div>
+          <div className="space-y-3">
+            {faqItems.map((item, i) => (
+              <div
+                key={i}
+                className="border border-gray-200 rounded-xl overflow-hidden"
+                data-testid={`faq-item-${i}`}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+                  data-testid={`faq-toggle-${i}`}
+                >
+                  <span className="font-medium text-gray-900 pr-4">{item.q}</span>
+                  {openFaq === i ? (
+                    <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                  )}
+                </button>
+                {openFaq === i && (
+                  <div className="px-5 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
+      </section>
 
-        <div className="mt-4 text-center" data-testid="section-cta-bottom">
-          <p className="text-gray-600 mb-4">
-            {t("anatomy.readyToTest")}
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white" data-testid="section-internal-links">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-2">{t("anatomy.links.heading")}</h2>
+            <p className="text-sm text-gray-500">{t("anatomy.links.subtitle")}</p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <LocaleLink href="/lessons" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all text-sm font-medium text-gray-600 hover:text-primary" data-testid="link-list-lessons">
+              <BookOpen className="w-4 h-4" />
+              {t("anatomy.clinicalLessons")}
+            </LocaleLink>
+            <LocaleLink href="/flashcards" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all text-sm font-medium text-gray-600 hover:text-primary" data-testid="link-list-flashcards">
+              <Zap className="w-4 h-4" />
+              {t("anatomy.flashcards")}
+            </LocaleLink>
+            <LocaleLink href="/question-bank" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all text-sm font-medium text-gray-600 hover:text-primary" data-testid="link-list-question-bank">
+              <CheckCircle2 className="w-4 h-4" />
+              {t("anatomy.questionBank")}
+            </LocaleLink>
+            <LocaleLink href="/mock-exams" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all text-sm font-medium text-gray-600 hover:text-primary" data-testid="link-list-mock-exams">
+              <GraduationCap className="w-4 h-4" />
+              {t("anatomy.mockExams")}
+            </LocaleLink>
+            <LocaleLink href="/pre-nursing" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all text-sm font-medium text-gray-600 hover:text-primary" data-testid="link-list-pre-nursing">
+              <Microscope className="w-4 h-4" />
+              {t("anatomy.preNursing")}
+            </LocaleLink>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gradient-to-br from-primary/5 via-white to-accent-foreground/5" data-testid="section-conversion-bottom">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4" data-testid="heading-conversion">
+            {t("anatomy.conversion.heading")}
+          </h2>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            {t("anatomy.conversion.subtitle")}
           </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto mb-8">
+            {[
+              t("anatomy.conversion.feature1"),
+              t("anatomy.conversion.feature2"),
+              t("anatomy.conversion.feature3"),
+              t("anatomy.conversion.feature4"),
+            ].map((feature, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-gray-700" data-testid={`conversion-feature-${i}`}>
+                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span>{feature}</span>
+              </div>
+            ))}
+          </div>
           <LocaleLink href="/pricing">
-            <span className="inline-flex items-center gap-2 bg-primary hover:brightness-110 text-white rounded-full px-6 py-3 font-semibold shadow-md shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer" data-testid="link-pricing-cta">
-              {t("anatomy.viewStudyPlans")}
+            <span className="inline-flex items-center gap-2 bg-primary hover:brightness-110 text-white rounded-full px-8 py-3.5 font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer text-lg" data-testid="link-pricing-cta">
+              {t("anatomy.conversion.cta")}
+              <ArrowRight className="w-5 h-5" />
             </span>
           </LocaleLink>
+          <p className="mt-4 text-sm text-gray-500">{t("anatomy.conversion.free")}</p>
         </div>
       </section>
       <AdminEditButton pageName="anatomy" defaultTier="free" defaultCategory="anatomy" />

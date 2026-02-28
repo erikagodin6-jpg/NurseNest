@@ -7292,6 +7292,263 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  // ─── Digital Marketplace Routes ───────────────────────────────
+
+  app.get("/api/shop/products", async (_req, res) => {
+    try {
+      const products = await storage.listDigitalProducts(true);
+      res.json(products);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/shop/products/:slug", async (req, res) => {
+    try {
+      const product = await storage.getDigitalProductBySlug(req.params.slug);
+      if (!product || !product.isActive) return res.status(404).json({ error: "Product not found" });
+      res.json(product);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/shop/checkout", async (req, res) => {
+    try {
+      const { productId, userId, couponCode } = req.body;
+      if (!productId || !userId) return res.status(400).json({ error: "Missing productId or userId" });
+
+      const product = await storage.getDigitalProduct(productId);
+      if (!product || !product.isActive) return res.status(404).json({ error: "Product not found" });
+
+      let finalPrice = product.price;
+      if (couponCode) {
+        const coupon = await storage.validateCoupon(couponCode);
+        if (coupon.valid && coupon.discountType && coupon.discountValue) {
+          if (coupon.discountType === "percent") {
+            finalPrice = Math.round(product.price * (1 - coupon.discountValue / 100));
+          } else {
+            finalPrice = Math.max(0, product.price - coupon.discountValue);
+          }
+        }
+      }
+
+      const stripe = await getUncachableStripeClient();
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        line_items: [{
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: product.title,
+              description: product.shortDescription || product.description?.substring(0, 200),
+            },
+            unit_amount: finalPrice,
+          },
+          quantity: 1,
+        }],
+        success_url: `${req.headers.origin || "https://www.nursenest.ca"}/shop/${product.slug}?purchased=true`,
+        cancel_url: `${req.headers.origin || "https://www.nursenest.ca"}/shop/${product.slug}`,
+        metadata: {
+          productId: product.id,
+          userId,
+          couponCode: couponCode || "",
+          type: "digital_product",
+        },
+      });
+
+      res.json({ url: session.url, sessionId: session.id });
+    } catch (e: any) {
+      console.error("Shop checkout error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/shop/fulfill", async (req, res) => {
+    try {
+      const { sessionId } = req.body;
+      if (!sessionId) return res.status(400).json({ error: "Missing sessionId" });
+
+      const stripe = await getUncachableStripeClient();
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (session.payment_status !== "paid") return res.status(400).json({ error: "Payment not completed" });
+
+      const { productId, userId, couponCode } = session.metadata || {};
+      if (!productId || !userId) return res.status(400).json({ error: "Invalid session metadata" });
+
+      const existing = await pool.query(`SELECT id FROM product_purchases WHERE stripe_session_id = $1`, [sessionId]);
+      if (existing.rows.length > 0) return res.json({ purchase: existing.rows[0] });
+
+      const purchase = await storage.createProductPurchase({
+        userId,
+        productId,
+        stripeSessionId: sessionId,
+        downloadCount: 0,
+        maxDownloads: 5,
+      });
+
+      if (couponCode) await storage.useCoupon(couponCode);
+      res.json({ purchase });
+    } catch (e: any) {
+      console.error("Shop fulfill error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/shop/my-purchases", async (req, res) => {
+    try {
+      const userId = String(req.query.userId || "");
+      if (!userId) return res.status(400).json({ error: "Missing userId" });
+      const purchases = await storage.getUserPurchases(userId);
+      res.json(purchases);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/shop/download/:purchaseId", async (req, res) => {
+    try {
+      const userId = String(req.query.userId || "");
+      const purchase = await storage.getPurchase(req.params.purchaseId);
+      if (!purchase) return res.status(404).json({ error: "Purchase not found" });
+      if (purchase.userId !== userId) return res.status(403).json({ error: "Unauthorized" });
+      if ((purchase.downloadCount || 0) >= (purchase.maxDownloads || 5)) {
+        return res.status(403).json({ error: "Download limit reached" });
+      }
+
+      const product = await storage.getDigitalProduct(purchase.productId);
+      if (!product || !product.fileUrl) return res.status(404).json({ error: "File not available" });
+
+      await storage.incrementDownloadCount(purchase.id);
+      res.json({ downloadUrl: product.fileUrl, downloadsRemaining: (purchase.maxDownloads || 5) - (purchase.downloadCount || 0) - 1 });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/shop/validate-coupon", async (req, res) => {
+    try {
+      const { code } = req.body;
+      if (!code) return res.status(400).json({ valid: false });
+      const result = await storage.validateCoupon(code);
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // Admin marketplace routes
+  app.get("/api/admin/shop/products", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const products = await storage.listDigitalProducts(false);
+      res.json(products);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/shop/products", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { title, slug, description, shortDescription, price, compareAtPrice, fileUrl, coverImageUrl, category, tierTarget, examTarget, featured } = req.body;
+      if (!title || !slug || !description || !price || !category) {
+        return res.status(400).json({ error: "Missing required fields: title, slug, description, price, category" });
+      }
+      const product = await storage.createDigitalProduct({
+        title, slug, description, shortDescription: shortDescription || null, price: parseInt(price),
+        compareAtPrice: compareAtPrice ? parseInt(compareAtPrice) : null,
+        fileUrl: fileUrl || null, coverImageUrl: coverImageUrl || null,
+        category, tierTarget: tierTarget || "all", examTarget: examTarget || null,
+        featured: featured || false, isActive: true,
+      });
+      await logAudit(req, admin, "digital_product", product.id, "create", null, product);
+      res.json(product);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/shop/products/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const existing = await storage.getDigitalProduct(req.params.id);
+      if (!existing) return res.status(404).json({ error: "Product not found" });
+      const updates: any = {};
+      for (const key of ["title", "slug", "description", "shortDescription", "fileUrl", "coverImageUrl", "category", "tierTarget", "examTarget"]) {
+        if (req.body[key] !== undefined) updates[key] = req.body[key];
+      }
+      if (req.body.price !== undefined) updates.price = parseInt(req.body.price);
+      if (req.body.compareAtPrice !== undefined) updates.compareAtPrice = req.body.compareAtPrice ? parseInt(req.body.compareAtPrice) : null;
+      if (req.body.featured !== undefined) updates.featured = req.body.featured;
+      if (req.body.isActive !== undefined) updates.isActive = req.body.isActive;
+      const updated = await storage.updateDigitalProduct(req.params.id, updates);
+      await logAudit(req, admin, "digital_product", req.params.id, "update", existing, updated);
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/shop/products/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const existing = await storage.getDigitalProduct(req.params.id);
+      if (!existing) return res.status(404).json({ error: "Product not found" });
+      await storage.deleteDigitalProduct(req.params.id);
+      await logAudit(req, admin, "digital_product", req.params.id, "delete", existing, null);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/shop/sales", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const sales = await storage.getProductSales();
+      res.json(sales);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // Admin coupon management
+  app.get("/api/admin/shop/coupons", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const coupons = await pool.query(`SELECT * FROM coupon_codes ORDER BY created_at DESC`);
+      res.json(coupons.rows);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/shop/coupons", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { code, discountType, discountValue, expiresAt, usageLimit } = req.body;
+      if (!code || !discountType || !discountValue) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      const result = await pool.query(
+        `INSERT INTO coupon_codes (id, code, discount_type, discount_value, expires_at, usage_limit, is_active)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, true) RETURNING *`,
+        [code.toUpperCase(), discountType, parseInt(discountValue), expiresAt || null, usageLimit ? parseInt(usageLimit) : null]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 

@@ -1,0 +1,158 @@
+You are a SaaS revenue strategist and CRO specialist.
+
+Restructure NurseNest to prioritize income generation and clarity over feature expansion.
+
+Primary Objective:
+Recover $1,500 in revenue as fast as possible.
+Increase conversion rate before adding new complexity.
+
+Remove clutter.
+Simplify navigation.
+Focus on revenue-driving pathways.
+
+=================================================
+PHASE 1 — SIMPLIFY NAVIGATION
+=================================================
+
+Top nav must contain ONLY:
+
+- Home
+- REx-PN
+- Question Bank
+- Flashcards
+- Store
+- Pricing
+
+Remove or hide secondary distractions from primary nav.
+
+=================================================
+PHASE 2 — CLEAR PATH HOMEPAGE
+=================================================
+
+Replace homepage messaging with:
+
+Headline:
+Pass Your Nursing Exam with a Clear, Proven Study Path
+
+Subheadline:
+Stop guessing what to study. Follow the plan. Practice daily. Walk in confident.
+
+Add 3-step structure:
+
+1) Learn the high-yield concepts
+2) Practice realistic exam questions
+3) Track progress and close gaps
+
+Primary CTA:
+Start Free Practice
+
+Secondary CTA:
+See Study Plan
+
+=================================================
+PHASE 3 — REx-PN AUTHORITY PAGE
+=================================================
+
+Create a dominant REx-PN landing page that:
+
+- Explains REx-PN differences
+- Shows sample questions
+- Explains why Canadian alignment matters
+- Links to cram guide
+- Links to subscription
+
+This is the revenue magnet.
+
+=================================================
+PHASE 4 — MARKETPLACE PRIORITY
+=================================================
+
+Move Store higher in visibility.
+
+Add:
+
+- Featured Cram Guides section on homepage
+- “Most Popular” badge
+- Bundle discount
+
+Highlight:
+REx-PN Rapid Review Guide
+Prioritization Mini Guide
+Electrolytes Cheat Sheet
+
+=================================================
+PHASE 5 — URGENCY ENGINE
+=================================================
+
+Add exam countdown feature.
+
+Add messaging:
+“You have 42 days left. Most students start too late.”
+
+Add CTA:
+Start Today.
+
+=================================================
+PHASE 6 — UPGRADE TENSION
+=================================================
+
+Implement:
+
+- Visible locked premium analytics
+- Usage progress bar
+- Soft CTA at 70%
+- Hard CTA at 100%
+
+Do not allow unlimited free usage without upgrade prompts.
+
+=================================================
+PHASE 7 — EMOTIONAL POSITIONING
+=================================================
+
+Rewrite copy to focus on:
+
+- Confidence
+- Clarity
+- Reduced anxiety
+- Feeling prepared
+- Structured study
+
+Avoid academic tone.
+Use supportive but direct tone.
+
+=================================================
+PHASE 8 — REMOVE DISTRACTIONS
+=================================================
+
+Audit pages and identify:
+
+- Low-traffic pages
+- Non-converting pages
+- Overlapping features
+
+De-emphasize or move to footer.
+
+=================================================
+PHASE 9 — QUICK REVENUE STRATEGY
+=================================================
+
+Add:
+
+- Limited Launch Price badge
+- Bundle & Save 20%
+- Countdown on new products
+- Email capture for free 7-day plan
+
+=================================================
+DELIVERABLES
+=================================================
+
+1) Simplified nav structure
+2) New homepage copy
+3) REx-PN landing page draft
+4) Store prominence improvements
+5) Conversion block placements
+6) 30-day revenue recovery plan
+7) Clear list of removed or de-emphasized features
+
+Implement now.

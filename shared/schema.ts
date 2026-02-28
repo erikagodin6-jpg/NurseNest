@@ -1095,3 +1095,51 @@ export const aiCache = pgTable("ai_cache", {
   outputJson: jsonb("output_json").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const digitalProducts = pgTable("digital_products", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  shortDescription: text("short_description"),
+  price: integer("price").notNull(),
+  compareAtPrice: integer("compare_at_price"),
+  fileUrl: text("file_url"),
+  coverImageUrl: text("cover_image_url"),
+  category: text("category").notNull(),
+  tierTarget: text("tier_target").default("all"),
+  examTarget: text("exam_target"),
+  featured: boolean("featured").default(false),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertDigitalProductSchema = createInsertSchema(digitalProducts).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertDigitalProduct = z.infer<typeof insertDigitalProductSchema>;
+export type DigitalProduct = typeof digitalProducts.$inferSelect;
+
+export const productPurchases = pgTable("product_purchases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productId: varchar("product_id").notNull(),
+  stripeSessionId: text("stripe_session_id"),
+  purchaseDate: timestamp("purchase_date").defaultNow().notNull(),
+  downloadCount: integer("download_count").default(0),
+  maxDownloads: integer("max_downloads").default(5),
+});
+
+export const insertProductPurchaseSchema = createInsertSchema(productPurchases).omit({ id: true, purchaseDate: true });
+export type InsertProductPurchase = z.infer<typeof insertProductPurchaseSchema>;
+export type ProductPurchase = typeof productPurchases.$inferSelect;
+
+export const couponCodes = pgTable("coupon_codes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  code: text("code").notNull().unique(),
+  discountType: text("discount_type").notNull(),
+  discountValue: integer("discount_value").notNull(),
+  expiresAt: timestamp("expires_at"),
+  usageLimit: integer("usage_limit"),
+  usageCount: integer("usage_count").default(0),
+  isActive: boolean("is_active").default(true),
+});

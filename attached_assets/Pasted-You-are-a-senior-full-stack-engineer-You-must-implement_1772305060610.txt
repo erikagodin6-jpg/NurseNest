@@ -1,0 +1,155 @@
+You are a senior full-stack engineer. You must implement ALL items below in this SAME session. You are NOT allowed to defer the Product Builder (“Canva thing”) to a future session. Build it as an MVP today after completing the other tasks.
+
+Hard Constraints
+- Do NOT break the existing blog generator/scheduler.
+- Keep changes minimal and additive.
+- All admin fetches must use credentials and support adminView.
+- All new pages must work in EN and FR routing patterns (use translation keys where applicable).
+- Deliver working features, not plans.
+
+Work Order (must follow this order, but all must be completed today)
+1) T011 — SEO meta for competitor comparison pages
+2) /en/anatomy optimization (hero, clusters, exam context, conversion blocks, FAQ)
+3) /en/lessons optimization (hero, filtering improvements if present, feature block, conversion blocks)
+4) Digital Study Marketplace (DB, Stripe, admin upload, /shop, product detail, secure downloads, sales tracking)
+5) Add Store link to top nav, tier nav, mobile nav, footer
+6) Product Builder (Canva-like) — MUST be built today as an MVP (spec below)
+
+=========================================================
+DELIVERABLE FORMAT (required)
+=========================================================
+At the end, output:
+- Files changed/added
+- New routes/endpoints
+- DB migrations
+- Manual test checklist with pass/fail results for each task
+
+=========================================================
+TASK 1 — T011 SEO META (COMPETITOR PAGES)
+=========================================================
+- Ensure each comparison page has:
+  - unique title tag
+  - meta description
+  - canonical
+  - hreflang
+  - OG tags
+- Verify these pages exist and are indexed-ready:
+  - NurseNest vs UWorld
+  - NurseNest vs Archer
+  - UWorld vs Archer vs NurseNest
+  - Best UWorld Alternatives
+  - Best REx-PN Question Bank Canada
+- Add structured FAQ schema where relevant.
+
+=========================================================
+TASK 2 — /en/anatomy PAGE OPTIMIZATION
+=========================================================
+Implement:
+- Outcome-driven hero + CTAs
+- System cluster cards (CV/Resp/Neuro/GI/Renal/Endo/MSK/Repro)
+- “How Anatomy Appears on Exams” section (RPN vs RN vs NP)
+- Internal links to flashcards + questions + lessons
+- Bottom conversion block
+- FAQ section (5–7 Qs) + FAQ schema
+
+=========================================================
+TASK 3 — /en/lessons PAGE OPTIMIZATION
+=========================================================
+Implement:
+- Outcome-driven hero + CTAs
+- Feature differentiation block
+- Strong conversion blocks
+- Improve discoverability:
+  - Tier filter (RPN/RN/NP) if possible
+  - System filter
+- Add “Study Path” / “What’s next” block to guide users
+
+=========================================================
+TASK 4 — DIGITAL STUDY MARKETPLACE (MUST SHIP)
+=========================================================
+Implement a production-ready marketplace:
+- DB tables: digital_products, product_purchases, coupons (optional)
+- Admin UI: upload product, price, description, tier/exam tags, cover image, enable/disable, sales metrics
+- Public pages:
+  - /shop listing with filters
+  - /shop/:slug product page
+- Stripe checkout:
+  - create session
+  - webhook fulfillment
+- Secure downloads:
+  - user must be logged in
+  - signed URLs or gated endpoint
+  - download limits
+- “My Downloads” user page/section
+
+=========================================================
+TASK 5 — STORE LINK IN NAV (AFTER MARKETPLACE EXISTS)
+=========================================================
+Add “Store” nav item:
+- Desktop top nav, tier nav, mobile nav, footer
+- EN Store / FR Boutique
+- active state on /shop and subroutes
+- tracking event nav_store_click
+
+=========================================================
+TASK 6 — PRODUCT BUILDER “CANVA THING” (MVP MUST BE BUILT TODAY)
+=========================================================
+This MUST be implemented today as an MVP. Do not defer.
+
+MVP Scope (must-have; do not overbuild)
+A) Admin route: /admin/product-builder
+B) Project list:
+  - Create new project
+  - Duplicate
+  - Edit
+  - Export
+C) Editor:
+  - Canvas with drag/drop + resize + rotate
+  - Add Text (editable)
+  - Add Shapes (rectangle, rounded rectangle, line)
+  - Add Images (upload + place)
+  - Add Icons (small built-in set is fine)
+  - Insert NurseNest logo (from stored assets)
+  - Layers panel (bring forward/back, lock)
+  - Snap-to-grid toggle
+  - Undo/redo (basic)
+  - Autosave
+D) Multi-page support (minimum: create 1–10 pages, navigate between pages)
+E) Image Generator (medical, NO TEXT):
+  - Admin can enter prompt
+  - System generates a medical illustration with explicit “no text/labels/letters/watermark”
+  - Saves to assets library and inserts into canvas
+  - Variation/regenerate button
+F) Export:
+  - Export PDF (all pages)
+  - Export thumbnail images:
+     - 1200x630
+     - 600x600
+  - Choose cover page for thumbnail
+G) Save format:
+  - Persist project JSON per page (canvas state)
+  - Re-open projects with full fidelity
+H) Marketplace integration:
+  - “Create Marketplace Product from Project”
+  - Uses exported PDF as file and thumbnail as cover image
+
+Implementation guidance
+- Use a proven canvas library (Fabric.js or Konva). Choose one and implement cleanly.
+- Export must be WYSIWYG with what is shown in editor.
+- Use existing storage strategy for uploads and generated images.
+- Keep the UI consistent with current admin style.
+
+Quality requirements
+- No broken states where users lose work.
+- If export fails, show a useful error.
+- Generated medical images must default to “no text”.
+
+=========================================================
+STOP CONDITIONS (how you know you’re done)
+=========================================================
+You are done only when:
+- All 6 tasks are implemented and working locally.
+- There is no “future session” deferral for the Product Builder.
+- The manual test checklist is completed and passes.
+
+Proceed now. Start with T011, then anatomy/lessons, then marketplace + nav link, then build the Product Builder MVP today.

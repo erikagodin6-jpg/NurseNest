@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -93,6 +93,19 @@ export interface IStorage {
   getQuestionTypeRegistry(exam?: string): Promise<QuestionTypeRegistryEntry[]>;
   upsertQuestionTypeRegistry(entry: InsertQuestionTypeRegistryEntry): Promise<QuestionTypeRegistryEntry>;
   createQuestionScheduleLog(log: { questionId: string; action: string; previousStatus?: string; newStatus?: string; actorId?: string }): Promise<QuestionScheduleLog>;
+  listDigitalProducts(activeOnly?: boolean): Promise<DigitalProduct[]>;
+  getDigitalProduct(id: string): Promise<DigitalProduct | undefined>;
+  getDigitalProductBySlug(slug: string): Promise<DigitalProduct | undefined>;
+  createDigitalProduct(product: InsertDigitalProduct): Promise<DigitalProduct>;
+  updateDigitalProduct(id: string, updates: Partial<InsertDigitalProduct>): Promise<DigitalProduct>;
+  deleteDigitalProduct(id: string): Promise<void>;
+  createProductPurchase(purchase: InsertProductPurchase): Promise<ProductPurchase>;
+  getUserPurchases(userId: string): Promise<(ProductPurchase & { product: DigitalProduct })[]>;
+  getPurchase(id: string): Promise<ProductPurchase | undefined>;
+  incrementDownloadCount(purchaseId: string): Promise<void>;
+  getProductSales(): Promise<{ productId: string; title: string; totalSales: number; totalRevenue: number }[]>;
+  validateCoupon(code: string): Promise<{ valid: boolean; discountType?: string; discountValue?: number }>;
+  useCoupon(code: string): Promise<void>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -762,6 +775,88 @@ export class DatabaseStorage implements IStorage {
   async createQuestionScheduleLog(log: { questionId: string; action: string; previousStatus?: string; newStatus?: string; actorId?: string }): Promise<QuestionScheduleLog> {
     const [created] = await db.insert(questionScheduleLog).values(log).returning();
     return created;
+  }
+
+  async listDigitalProducts(activeOnly = true): Promise<DigitalProduct[]> {
+    if (activeOnly) {
+      return db.select().from(digitalProducts).where(eq(digitalProducts.isActive, true)).orderBy(desc(digitalProducts.featured), desc(digitalProducts.createdAt));
+    }
+    return db.select().from(digitalProducts).orderBy(desc(digitalProducts.createdAt));
+  }
+
+  async getDigitalProduct(id: string): Promise<DigitalProduct | undefined> {
+    const [p] = await db.select().from(digitalProducts).where(eq(digitalProducts.id, id));
+    return p;
+  }
+
+  async getDigitalProductBySlug(slug: string): Promise<DigitalProduct | undefined> {
+    const [p] = await db.select().from(digitalProducts).where(eq(digitalProducts.slug, slug));
+    return p;
+  }
+
+  async createDigitalProduct(product: InsertDigitalProduct): Promise<DigitalProduct> {
+    const [created] = await db.insert(digitalProducts).values(product).returning();
+    return created;
+  }
+
+  async updateDigitalProduct(id: string, updates: Partial<InsertDigitalProduct>): Promise<DigitalProduct> {
+    const [updated] = await db.update(digitalProducts).set({ ...updates, updatedAt: new Date() }).where(eq(digitalProducts.id, id)).returning();
+    return updated;
+  }
+
+  async deleteDigitalProduct(id: string): Promise<void> {
+    await db.delete(digitalProducts).where(eq(digitalProducts.id, id));
+  }
+
+  async createProductPurchase(purchase: InsertProductPurchase): Promise<ProductPurchase> {
+    const [created] = await db.insert(productPurchases).values(purchase).returning();
+    return created;
+  }
+
+  async getUserPurchases(userId: string): Promise<(ProductPurchase & { product: DigitalProduct })[]> {
+    const purchases = await db.select().from(productPurchases).where(eq(productPurchases.userId, userId)).orderBy(desc(productPurchases.purchaseDate));
+    const results: (ProductPurchase & { product: DigitalProduct })[] = [];
+    for (const p of purchases) {
+      const [product] = await db.select().from(digitalProducts).where(eq(digitalProducts.id, p.productId));
+      if (product) results.push({ ...p, product });
+    }
+    return results;
+  }
+
+  async getPurchase(id: string): Promise<ProductPurchase | undefined> {
+    const [p] = await db.select().from(productPurchases).where(eq(productPurchases.id, id));
+    return p;
+  }
+
+  async incrementDownloadCount(purchaseId: string): Promise<void> {
+    await db.update(productPurchases).set({ downloadCount: sql`${productPurchases.downloadCount} + 1` }).where(eq(productPurchases.id, purchaseId));
+  }
+
+  async getProductSales(): Promise<{ productId: string; title: string; totalSales: number; totalRevenue: number }[]> {
+    const products = await db.select().from(digitalProducts).orderBy(desc(digitalProducts.createdAt));
+    const results: { productId: string; title: string; totalSales: number; totalRevenue: number }[] = [];
+    for (const p of products) {
+      const [salesCount] = await db.select({ count: count() }).from(productPurchases).where(eq(productPurchases.productId, p.id));
+      results.push({
+        productId: p.id,
+        title: p.title,
+        totalSales: salesCount?.count || 0,
+        totalRevenue: (salesCount?.count || 0) * p.price,
+      });
+    }
+    return results;
+  }
+
+  async validateCoupon(code: string): Promise<{ valid: boolean; discountType?: string; discountValue?: number }> {
+    const [coupon] = await db.select().from(couponCodes).where(and(eq(couponCodes.code, code.toUpperCase()), eq(couponCodes.isActive, true)));
+    if (!coupon) return { valid: false };
+    if (coupon.expiresAt && coupon.expiresAt < new Date()) return { valid: false };
+    if (coupon.usageLimit && (coupon.usageCount || 0) >= coupon.usageLimit) return { valid: false };
+    return { valid: true, discountType: coupon.discountType, discountValue: coupon.discountValue };
+  }
+
+  async useCoupon(code: string): Promise<void> {
+    await db.update(couponCodes).set({ usageCount: sql`${couponCodes.usageCount} + 1` }).where(eq(couponCodes.code, code.toUpperCase()));
   }
 }
 
