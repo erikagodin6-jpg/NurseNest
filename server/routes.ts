@@ -4453,6 +4453,105 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
+  // ====== STUDY WORKLOAD CALCULATOR ======
+  app.get("/api/study-workload/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+
+      const authUser = (req as any).user;
+      if (authUser && String(authUser.id) !== userId) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const profileRes = await pool.query(
+        `SELECT exam_type, exam_date, hours_per_day, days_per_week FROM user_exam_profile WHERE user_id = $1`,
+        [userId]
+      );
+      if (!profileRes.rows.length) {
+        return res.json({ hasProfile: false, message: "Set your exam date to see your study workload estimate." });
+      }
+      const profile = profileRes.rows[0];
+      const examDate = new Date(profile.exam_date);
+      const now = new Date();
+      if (examDate <= now) {
+        return res.json({ hasProfile: true, examPassed: true, message: "Your exam date has passed." });
+      }
+
+      const questionTargets: Record<string, number> = {
+        "rex-pn": 1500, "nclex-rn": 2150, "nclex-pn": 1500,
+        "np-canada": 1850, "aanp": 1850, "ancc": 1850,
+      };
+      const totalRecommended = questionTargets[profile.exam_type] || 1750;
+
+      const testResults = await storage.getTestResults(userId);
+      let questionsCompleted = 0;
+      for (const r of testResults) {
+        questionsCompleted += r.totalQuestions;
+      }
+
+      const mockRes = await pool.query(
+        `SELECT COALESCE(SUM(total_questions), 0) AS total FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed'`,
+        [userId]
+      ).catch(() => ({ rows: [{ total: 0 }] }));
+      questionsCompleted += parseInt(mockRes.rows[0]?.total || "0", 10);
+
+      const remaining = Math.max(0, totalRecommended - questionsCompleted);
+
+      const daysPerWeek = Math.max(1, profile.days_per_week || 5);
+      const hoursPerDay = Math.max(1, profile.hours_per_day || 2);
+      const questionsPerHour = 30;
+      const dailyTarget = hoursPerDay * questionsPerHour;
+
+      const effectiveStudyDaysPerWeek = Math.min(7, daysPerWeek);
+      const weekFraction = effectiveStudyDaysPerWeek / 7;
+      const daysNeeded = remaining > 0 && dailyTarget > 0 && weekFraction > 0
+        ? Math.ceil(remaining / dailyTarget / weekFraction)
+        : 0;
+
+      const daysUntilExam = Math.ceil((examDate.getTime() - now.getTime()) / 86400000);
+      const projectedCompletionDate = new Date(now.getTime() + daysNeeded * 86400000);
+      const bufferDays = daysUntilExam - daysNeeded;
+
+      let message: string;
+      let status: "ahead" | "on_track" | "behind" | "completed";
+      if (remaining === 0) {
+        message = "You have completed your recommended question target. Focus on review and mock exams.";
+        status = "completed";
+      } else if (bufferDays >= 7) {
+        message = `At your current pace, you will complete preparation ${bufferDays} days before your exam.`;
+        status = "ahead";
+      } else if (bufferDays >= 0) {
+        message = `You are on track to finish ${bufferDays === 0 ? "right on" : bufferDays + " days before"} your exam date. Keep it up!`;
+        status = "on_track";
+      } else {
+        message = `At your current pace, you may need ${Math.abs(bufferDays)} more days beyond your exam date. Consider increasing your daily study time.`;
+        status = "behind";
+      }
+
+      res.json({
+        hasProfile: true,
+        examPassed: false,
+        examDate: examDate.toISOString(),
+        examType: profile.exam_type,
+        totalRecommended,
+        questionsCompleted,
+        remaining,
+        dailyTarget,
+        daysPerWeek: effectiveStudyDaysPerWeek,
+        daysNeeded,
+        daysUntilExam,
+        bufferDays,
+        projectedCompletionDate: projectedCompletionDate.toISOString(),
+        percentComplete: totalRecommended > 0 ? Math.round((questionsCompleted / totalRecommended) * 100) : 0,
+        message,
+        status,
+        calculatedAt: now.toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // ====== PASS PROBABILITY + RISK SCORE ======
   app.get("/api/pass-probability/:userId", async (req, res) => {
     try {

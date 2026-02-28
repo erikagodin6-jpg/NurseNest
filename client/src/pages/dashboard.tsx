@@ -16,7 +16,7 @@ import {
   Stethoscope, Pill, Activity, ClipboardList, Award, Target,
   ChevronUp, ChevronDown, BarChart3, Bookmark, Clock,
   Sparkles, ArrowRight, CheckCircle2, PlayCircle, Flame,
-  RotateCcw, Lock, Bot, Gauge, Lightbulb
+  RotateCcw, Lock, Bot, Gauge, Lightbulb, CalendarClock, AlertTriangle
 } from "lucide-react";
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
 
@@ -41,6 +41,7 @@ const WIDGET_ICONS: Record<string, any> = {
   adaptive_engine: Brain,
   ai_study_coach: Bot,
   intelligent_recommendations: Lightbulb,
+  study_workload: CalendarClock,
 };
 
 const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
@@ -57,6 +58,7 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   adaptive_engine: AdaptiveEngineWidget,
   ai_study_coach: AiStudyCoachWidget,
   intelligent_recommendations: IntelligentRecommendationsWidget,
+  study_workload: StudyWorkloadWidget,
 };
 
 const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
@@ -73,6 +75,7 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   adaptive_engine: { label: "Adaptive Engine", desc: "AI-powered learning path" },
   ai_study_coach: { label: "AI Study Coach", desc: "Personal AI study assistant" },
   intelligent_recommendations: { label: "Smart Recommendations", desc: "Personalized study suggestions" },
+  study_workload: { label: "Study Workload", desc: "Remaining prep time estimate" },
 };
 
 const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
@@ -103,6 +106,7 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "clinical_tools", position: 10, visible: true },
   { widgetType: "ai_study_coach", position: 11, visible: true },
   { widgetType: "intelligent_recommendations", position: 12, visible: true },
+  { widgetType: "study_workload", position: 13, visible: true },
 ];
 
 const breadcrumbData = buildBreadcrumbStructuredData([
@@ -136,12 +140,21 @@ export default function DashboardPage() {
       .then((data: any[]) => {
         if (Array.isArray(data) && data.length > 0) {
           const sorted = [...data].sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
-          setWidgets(sorted.map((d) => ({
+          const loaded = sorted.map((d) => ({
             widgetType: d.widgetType,
             position: d.position,
             visible: d.visible,
             config: d.config,
-          })));
+          }));
+          const existingTypes = new Set(loaded.map((w) => w.widgetType));
+          const missing = DEFAULT_WIDGETS.filter((dw) => !existingTypes.has(dw.widgetType));
+          if (missing.length > 0) {
+            const maxPos = Math.max(...loaded.map((w) => w.position), -1);
+            missing.forEach((m, i) => {
+              loaded.push({ ...m, position: maxPos + 1 + i });
+            });
+          }
+          setWidgets(loaded);
         }
       })
       .catch(() => {})
@@ -1009,6 +1022,171 @@ function IntelligentRecommendationsWidget({ user }: { user: any }) {
         <Button size="sm" variant="link" className="w-full" onClick={() => navigate("/lessons")} data-testid="button-smart-recommendations">
           View Recommendations <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
+      </div>
+    </div>
+  );
+}
+
+interface WorkloadData {
+  hasProfile: boolean;
+  examPassed?: boolean;
+  message: string;
+  examDate?: string;
+  examType?: string;
+  totalRecommended?: number;
+  questionsCompleted?: number;
+  remaining?: number;
+  dailyTarget?: number;
+  daysPerWeek?: number;
+  daysNeeded?: number;
+  daysUntilExam?: number;
+  bufferDays?: number;
+  projectedCompletionDate?: string;
+  percentComplete?: number;
+  status?: "ahead" | "on_track" | "behind" | "completed";
+  calculatedAt?: string;
+}
+
+function StudyWorkloadWidget({ user }: { user: any }) {
+  const [data, setData] = useState<WorkloadData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  const CACHE_KEY = `study_workload_${user.id}`;
+  const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000;
+
+  useEffect(() => {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.fetchedAt < CACHE_DURATION) {
+          setData(parsed.data);
+          setLoading(false);
+          return;
+        }
+      } catch {}
+    }
+
+    fetch(`/api/study-workload/${user.id}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => {
+        if (d) {
+          setData(d);
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ data: d, fetchedAt: Date.now() }));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [user.id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6" data-testid="widget-content-study-workload-loading">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!data || !data.hasProfile) {
+    return (
+      <div className="text-center py-4" data-testid="widget-content-study-workload-empty">
+        <CalendarClock className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+        <p className="text-sm text-muted-foreground mb-2">No exam profile set</p>
+        <p className="text-xs text-muted-foreground mb-3">Set your exam date to see your projected preparation timeline.</p>
+        <Button size="sm" variant="outline" onClick={() => navigate("/study-plan")} data-testid="button-set-exam-date">
+          Set Exam Date
+        </Button>
+      </div>
+    );
+  }
+
+  if (data.examPassed) {
+    return (
+      <div className="text-center py-4" data-testid="widget-content-study-workload-passed">
+        <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
+        <p className="text-sm font-medium">Exam date has passed</p>
+        <p className="text-xs text-muted-foreground">Update your profile if you have a new exam date.</p>
+      </div>
+    );
+  }
+
+  const statusColors: Record<string, string> = {
+    ahead: "text-emerald-600",
+    on_track: "text-blue-600",
+    behind: "text-red-600",
+    completed: "text-emerald-600",
+  };
+
+  const statusBg: Record<string, string> = {
+    ahead: "bg-emerald-50 border-emerald-100",
+    on_track: "bg-blue-50 border-blue-100",
+    behind: "bg-red-50 border-red-100",
+    completed: "bg-emerald-50 border-emerald-100",
+  };
+
+  const statusIcon: Record<string, any> = {
+    ahead: CheckCircle2,
+    on_track: CalendarClock,
+    behind: AlertTriangle,
+    completed: CheckCircle2,
+  };
+
+  const StatusIcon = statusIcon[data.status || "on_track"] || CalendarClock;
+  const pct = data.percentComplete || 0;
+
+  return (
+    <div data-testid="widget-content-study-workload">
+      <div className="space-y-4">
+        <div className={`flex items-start gap-3 p-3 rounded-lg border ${statusBg[data.status || "on_track"]}`}>
+          <StatusIcon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${statusColors[data.status || "on_track"]}`} />
+          <p className={`text-sm font-medium leading-relaxed ${statusColors[data.status || "on_track"]}`} data-testid="text-workload-message">
+            {data.message}
+          </p>
+        </div>
+
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs">
+            <span className="text-muted-foreground">Questions completed</span>
+            <span className="font-medium">{data.questionsCompleted?.toLocaleString()} / {data.totalRecommended?.toLocaleString()}</span>
+          </div>
+          <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ${pct >= 100 ? "bg-emerald-500" : pct >= 50 ? "bg-primary" : "bg-amber-500"}`}
+              style={{ width: `${Math.min(100, pct)}%` }}
+              data-testid="progress-workload-bar"
+            />
+          </div>
+          <p className="text-[10px] text-muted-foreground text-right">{pct}% complete</p>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2">
+          <div className="p-2 rounded-lg bg-muted/50 text-center">
+            <p className="text-lg font-bold text-primary" data-testid="text-remaining-questions">{data.remaining?.toLocaleString()}</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Remaining</p>
+          </div>
+          <div className="p-2 rounded-lg bg-muted/50 text-center">
+            <p className="text-lg font-bold" data-testid="text-daily-target">{data.dailyTarget}</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Daily Target</p>
+          </div>
+          <div className="p-2 rounded-lg bg-muted/50 text-center">
+            <p className={`text-lg font-bold ${(data.bufferDays || 0) >= 0 ? "text-emerald-600" : "text-red-600"}`} data-testid="text-buffer-days">
+              {(data.bufferDays || 0) >= 0 ? `+${data.bufferDays}` : data.bufferDays}
+            </p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Buffer Days</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t">
+          <span>Exam: {data.examDate ? new Date(data.examDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" }) : "—"}</span>
+          <span>{data.daysUntilExam} days away</span>
+        </div>
+
+        {data.calculatedAt && (
+          <p className="text-[10px] text-muted-foreground text-center">
+            Recalculated weekly · Last: {new Date(data.calculatedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric" })}
+          </p>
+        )}
       </div>
     </div>
   );

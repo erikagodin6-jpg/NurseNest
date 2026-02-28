@@ -48,6 +48,7 @@ NurseNest is an interactive nursing education platform for RPN/LVN, RN, and NP s
 - **Question Bank**: Filterable practice questions with instant rationale and progress tracking.
 - **Customizable Learning Dashboard**: User-facing dashboard with draggable, configurable widgets.
 - **Exam Date Study Plan Engine**: Backward planning algorithm generates personalized study schedules based on exam date, type, and readiness.
+- **Study Workload Calculator**: Dashboard widget showing remaining questions ÷ daily target = projected completion date relative to exam. Displays pace message ("At your current pace, you will complete preparation X days before your exam"), progress bar, remaining/daily target/buffer day stats. Caches in localStorage for weekly recalculation. Backend: `GET /api/study-workload/:userId`.
 - **Pass Probability Projection**: Logistic-scaled pass probability calculation based on readiness, question volume, and mock exam averages.
 - **Public Diagnostic Exam**: 25-question free diagnostic exam with anonymous attempts and topic breakdowns for registered users.
 - **Auscultation Audio Library**: Audio clip management with license enforcement and a quiz mode.
