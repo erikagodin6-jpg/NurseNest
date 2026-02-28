@@ -1,0 +1,55 @@
+You are a senior full-stack engineer working in our existing Vite + React + Express + Postgres codebase. Implement a digital product store for NurseNest.
+
+Goal:
+- Sell digital study packs (PDF + interactive Qbank JSON) through our website.
+- Secure access control: only purchasers can download/view full content.
+- Keep brand aesthetic: clean, modern, minimal UI; no clutter.
+
+Must-have features:
+1) Database + migrations
+- Create tables: products, packs, purchases, entitlements (optional but preferred).
+- Use JSON i18n fields for product title/description: title_i18n, description_i18n.
+- Products have slug, status (draft/active/archived), price_cents, stripe_price_id, preview_html.
+- Packs attach to product_id and store: content_html, questions_json, pdf_file_url, version.
+
+2) API
+- Public:
+  - GET /api/store/products (only active)
+  - GET /api/store/products/:slug
+- Auth required:
+  - POST /api/store/checkout (creates Stripe Checkout session for product_id)
+  - GET /api/library (returns entitled products for user)
+  - GET /api/library/:slug (returns pack + download links if entitled)
+- Admin required:
+  - CRUD /api/admin/store/products
+  - CRUD /api/admin/store/packs
+- Ensure all endpoints validate input, sanitize HTML, and include proper error handling.
+
+3) Stripe
+- Use Stripe Checkout.
+- Implement webhook endpoint with signature verification.
+- On checkout.session.completed:
+  - insert purchase
+  - grant entitlement
+- Never grant access based solely on client redirect.
+
+4) Frontend
+- /store product grid (clean cards)
+- /store/:slug product page with preview + Buy button
+- /library page showing purchased items + Download/View
+- Gate content: if not entitled, show preview + buy CTA
+- Keep styling on brand: pastel accents, lots of whitespace, rounded corners, clean typography.
+
+5) Security
+- Downloads must require entitlement check.
+- If using S3/Cloud storage, generate signed URLs per request (recommended).
+- Prevent direct public URLs to paid PDFs if possible.
+
+Deliverables:
+- Migrations SQL
+- Server route code
+- Stripe integration code
+- Frontend pages/components
+- Brief explanation of how entitlement gating works
+- Manual test checklist
+Do not change the blog generator or existing lesson tier gating.

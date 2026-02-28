@@ -2618,7 +2618,11 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         mapped[field] = data.text;
       }
 
-      res.json({ lang, translations: mapped, availableLanguages });
+      if (Object.keys(mapped).length > 0) {
+        return res.json({ lang, translations: mapped, availableLanguages });
+      }
+
+      res.json({ lang, translations: {}, availableLanguages, needsTranslation: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -2657,11 +2661,6 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
 
   app.post("/api/lesson-translations/:lessonId/generate", async (req, res) => {
     try {
-      const requestingUserTier = await extractUserTier(req);
-      if (requestingUserTier !== "admin") {
-        return res.status(403).json({ error: "Admin only" });
-      }
-
       const { lessonId } = req.params;
       const { lang, fields } = req.body;
       if (!lang || !fields || typeof fields !== "object") {

@@ -1,0 +1,66 @@
+You are a senior full-stack engineer. Do NOT modify any UI components until you identify the root cause of the language issue.
+
+Current problem:
+- Language toggle updates hero and navigation (static i18n keys).
+- Lesson titles, lesson bodies, flashcards, activities, and dynamic content do NOT change language.
+- The site uses Vite + React frontend and Express + Postgres backend.
+- Lessons and activities are stored in the database and fetched via API.
+
+Your task:
+1) Diagnose why dynamic content is not changing when language is switched.
+2) Determine whether:
+   a) The API does not accept a `lang` parameter
+   b) The database does not store per-language fields
+   c) The frontend does not refetch data when language changes
+   d) The language state is not globally propagated
+3) Print a short root cause analysis BEFORE writing code.
+
+Then implement the correct solution using this architecture:
+
+ARCHITECTURE REQUIREMENTS:
+
+A) Single source of truth for language
+- Use the existing i18n language state.
+- Persist language to localStorage.
+- On language change, trigger refetch of all dynamic data.
+
+B) API must accept a `lang` query param:
+   GET /api/content?lang=fr
+   GET /api/content/slug/:slug?lang=fr
+- The API must return localized fields only.
+
+C) Database must support localization:
+Preferred:
+- title_i18n JSON
+- body_i18n JSON
+Structure example:
+{
+  "en": "...",
+  "fr": "...",
+  "es": "..."
+}
+
+If localized fields do not exist, create migration but do NOT auto-translate existing content.
+
+D) Fallback logic:
+- If selected language not available, return English.
+- Do not return null.
+
+E) Frontend:
+- On language change:
+   - Clear cached lesson data
+   - Refetch using new lang param
+   - Re-render page
+- Ensure activities and flashcards use localized content.
+
+F) Do NOT:
+- Hardcode translations
+- Auto-translate on every request
+- Modify hero component again
+- Duplicate lessons per language
+- Break existing slugs or SEO
+
+After implementing:
+- Provide list of modified files
+- Provide DB migration if created
+- Provide test checklist
