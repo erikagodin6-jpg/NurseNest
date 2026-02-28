@@ -1,0 +1,131 @@
+Upgrade the NurseNest Product Builder to Canva-level aesthetic quality while enforcing brand consistency.
+
+Implement the following:
+
+====================================================
+1) TRUE LAYOUT SYSTEM
+====================================================
+
+Add:
+- Grid toggle
+- Snap to grid
+- Margin safety guides
+- Column presets (1, 2, 3, 60/40)
+- Padding presets
+- Auto alignment tools
+- Distribute evenly tool
+
+====================================================
+2) PAGE TEMPLATE LIBRARY
+====================================================
+
+Add full-page templates:
+- Cover page (multiple styles)
+- Section divider
+- Pathophysiology layout
+- Comparison grid
+- Algorithm layout
+- Case scenario layout
+- Lab table layout
+- Medication summary layout
+- Final checklist page
+
+Templates must auto-apply brand fonts and colors.
+
+====================================================
+3) BRAND LOCK SYSTEM
+====================================================
+
+Create a global brand configuration:
+- Primary color
+- Secondary color
+- Accent color
+- Neutral background
+- Typography hierarchy
+
+Add toggle:
+“Restrict to Brand Palette”
+
+Add:
+“Apply Brand Typography to All Pages”
+
+====================================================
+4) LOGO SYSTEM
+====================================================
+
+Auto-insert NurseNest logo:
+
+- Default position on cover page
+- Subtle footer logo on all pages
+- Optional watermark mode
+- Auto copyright footer
+
+Add toggle:
+“Include logo on every page” (default ON)
+
+====================================================
+5) AESTHETIC ENHANCERS
+====================================================
+
+Add:
+- Rounded container presets
+- Accent divider lines
+- Badge components
+- Ribbon corner labels
+- Soft drop shadows
+- White space optimization
+- Section background presets
+
+====================================================
+6) AUTO BEAUTIFY FUNCTION
+====================================================
+
+Add button:
+“Beautify Page”
+
+It must:
+- Normalize spacing
+- Align elements
+- Snap to grid
+- Adjust font sizes proportionally
+- Ensure margins respected
+- Apply brand palette
+
+====================================================
+7) DESIGN AUDIT TOOL
+====================================================
+
+Add:
+“Run Design Audit”
+
+Check for:
+- Inconsistent fonts
+- Off-brand colors
+- Misalignment
+- Margin violations
+- Low contrast text
+
+====================================================
+8) COVER GENERATOR
+====================================================
+
+Add:
+- Multiple cover layout presets
+- Tier badge
+- Exam badge
+- Year auto-update
+- Edition label
+- 3D mockup thumbnail export
+
+====================================================
+REQUIREMENTS
+====================================================
+
+- Keep UI clean
+- Maintain performance
+- Preserve autosave
+- All features optional but default to brand consistency
+- Exports must reflect WYSIWYG
+- Logo must always be included unless manually toggled off
+
+Implement immediately.
