@@ -4755,11 +4755,115 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
   // ====== PASS PROBABILITY + RISK SCORE ======
   app.get("/api/pass-probability/:userId", async (req, res) => {
     try {
-      const testResults = await storage.getTestResults(req.params.userId);
+      const userId = req.params.userId;
+      const user = await storage.getUser(userId);
+      const tier = user?.tier || "rn";
+
+      const testResults = await storage.getTestResults(userId);
+      let totalCorrect = 0, totalQuestions = 0;
+      const last30: number[] = [];
+      const allAccuracies: number[] = [];
+      const domainStats: Record<string, { correct: number; total: number }> = {};
+      const now = Date.now();
+      let shortSessionCount = 0;
+      let repeatCount = 0;
+      let lowDiffCount = 0;
+
+      for (const r of testResults) {
+        if (r.totalQuestions < 10) { shortSessionCount++; continue; }
+        totalCorrect += r.score;
+        totalQuestions += r.totalQuestions;
+        const acc = r.totalQuestions > 0 ? (r.score / r.totalQuestions) * 100 : 0;
+        allAccuracies.push(acc);
+        if (r.completedAt && now - r.completedAt.getTime() < 30 * 86400000) {
+          last30.push(acc);
+        }
+      }
+      const overallAccuracy = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+
+      let trend = 0;
+      if (last30.length >= 2) {
+        const n = last30.length;
+        const xMean = (n - 1) / 2;
+        const yMean = last30.reduce((s, v) => s + v, 0) / n;
+        let num = 0, den = 0;
+        for (let i = 0; i < n; i++) {
+          num += (i - xMean) * (last30[i] - yMean);
+          den += (i - xMean) ** 2;
+        }
+        trend = den > 0 ? num / den : 0;
+      }
+
+      let consistencyIndex = 0.3;
+      if (allAccuracies.length >= 3) {
+        const mean = allAccuracies.reduce((s, v) => s + v, 0) / allAccuracies.length;
+        const variance = allAccuracies.reduce((s, v) => s + (v - mean) ** 2, 0) / allAccuracies.length;
+        consistencyIndex = Math.min(1, Math.sqrt(variance) / 30);
+      }
+
+      const mockResults = await pool.query(
+        `SELECT score, total_questions, config FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed'`,
+        [userId]
+      ).catch(() => ({ rows: [] }));
+
+      let mockAvg = 0;
+      let strictMockCount = 0;
+      let tutorMocks = 0;
+      if (mockResults.rows.length > 0) {
+        mockAvg = mockResults.rows.reduce((s: number, r: any) => s + (r.total_questions > 0 ? (r.score / r.total_questions) * 100 : 0), 0) / mockResults.rows.length;
+        for (const r of mockResults.rows) {
+          const config = typeof r.config === "string" ? JSON.parse(r.config) : r.config;
+          if (config?.strictMode) strictMockCount++;
+          else tutorMocks++;
+        }
+      }
+      const tutorModeRatio = mockResults.rows.length > 0 ? tutorMocks / mockResults.rows.length : 0;
+
+      const result = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, {
+        tier,
+        strictMockCount,
+        tutorModeRatio,
+        consistencyIndex,
+        lowDifficultyRatio: totalQuestions > 0 ? lowDiffCount / totalQuestions : 0,
+        repeatQuestionRatio: totalQuestions > 0 ? repeatCount / totalQuestions : 0,
+        domainAccuracies: Object.fromEntries(Object.entries(domainStats).map(([d, s]) => [d, s.total > 0 ? (s.correct / s.total) * 100 : 0])),
+      });
+
+      const weakDomains = Object.entries(domainStats)
+        .map(([d, s]) => ({ domain: d, accuracy: s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0, total: s.total }))
+        .sort((a, b) => a.accuracy - b.accuracy)
+        .slice(0, 3);
+
+      res.json({
+        ...result,
+        overallAccuracy: Math.round(overallAccuracy),
+        totalQuestions,
+        trend: Math.round(trend * 10) / 10,
+        mockAvg: Math.round(mockAvg),
+        strictMockCount,
+        weakDomains,
+        disclaimer: "This is a predictive coaching model based on your performance trends and does not represent official exam scoring.",
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/pass-probability/:userId/improvement", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const user = await storage.getUser(userId);
+      if (!user || (user.tier !== "rpn" && user.tier !== "rn" && user.tier !== "np" && user.tier !== "admin")) {
+        return res.status(403).json({ error: "Premium feature" });
+      }
+      const tier = user.tier === "admin" ? "rn" : user.tier;
+
+      const testResults = await storage.getTestResults(userId);
       let totalCorrect = 0, totalQuestions = 0;
       const last30: number[] = [];
       const now = Date.now();
       for (const r of testResults) {
+        if (r.totalQuestions < 10) continue;
         totalCorrect += r.score;
         totalQuestions += r.totalQuestions;
         if (r.completedAt && now - r.completedAt.getTime() < 30 * 86400000) {
@@ -4773,23 +4877,29 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       }
 
       const mockResults = await pool.query(
-        `SELECT score, total_questions FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed'`,
-        [req.params.userId]
+        `SELECT score, total_questions, config FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed'`,
+        [userId]
       ).catch(() => ({ rows: [] }));
-      let mockAvg = 0;
+      let mockAvg = 0, strictMockCount = 0;
       if (mockResults.rows.length > 0) {
         mockAvg = mockResults.rows.reduce((s: number, r: any) => s + (r.total_questions > 0 ? (r.score / r.total_questions) * 100 : 0), 0) / mockResults.rows.length;
+        for (const r of mockResults.rows) {
+          const config = typeof r.config === "string" ? JSON.parse(r.config) : r.config;
+          if (config?.strictMode) strictMockCount++;
+        }
       }
 
-      const result = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg);
-
-      res.json({
-        ...result,
-        overallAccuracy: Math.round(overallAccuracy),
+      const current = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg, { tier, strictMockCount });
+      const improvement = simulateImprovement(current, {
+        readinessScore: overallAccuracy,
         totalQuestions,
-        trend: Math.round(trend * 10) / 10,
-        mockAvg: Math.round(mockAvg),
+        trend,
+        mockAvg,
+        tier,
+        strictMockCount,
       });
+
+      res.json(improvement);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -5090,19 +5200,171 @@ async function seedExamBlueprints() {
   }
 }
 
-function calculatePassProbability(readinessScore: number, totalQuestions: number, trend: number, mockAvg: number) {
-  const volumeScore = Math.min(1, totalQuestions / 1500);
-  const trendFactor = Math.max(-0.1, Math.min(0.1, trend / 100));
-  const mockFactor = mockAvg > 0 ? (mockAvg / 100) * 0.3 : 0;
-  const readinessFactor = (readinessScore / 100) * 0.4;
-  const rawScore = readinessFactor + volumeScore * 0.2 + trendFactor + mockFactor + 0.1;
-  const logistic = 1 / (1 + Math.exp(-8 * (rawScore - 0.5)));
-  const probability = Math.round(Math.min(99, Math.max(5, logistic * 100)));
-  const confidenceBand = totalQuestions < 200 ? 12 : totalQuestions < 500 ? 8 : 5;
-  let riskCategory = "Low Risk";
+function calculatePassProbability(readinessScore: number, totalQuestions: number, trend: number, mockAvg: number, opts?: {
+  tier?: string;
+  weaknessIndex?: number;
+  consistencyIndex?: number;
+  timeManagementIndex?: number;
+  strictMockCount?: number;
+  tutorModeRatio?: number;
+  lowDifficultyRatio?: number;
+  repeatQuestionRatio?: number;
+  domainAccuracies?: Record<string, number>;
+  domainWeights?: Record<string, number>;
+}) {
+  const tier = opts?.tier || "rn";
+  const targetVolume = tier === "rn" ? 2000 : tier === "np" ? 1800 : 1500;
+
+  let R = Math.min(1, Math.max(0, readinessScore / 100));
+  if ((opts?.lowDifficultyRatio ?? 0) > 0.7) {
+    R *= 0.90;
+  }
+
+  let M = mockAvg > 0 ? Math.min(1, mockAvg / 100) : 0;
+  if ((opts?.tutorModeRatio ?? 0) > 0.5) {
+    M *= 0.8 + 0.2 * (1 - (opts?.tutorModeRatio ?? 0));
+  }
+  const mockCap = Math.min(1, (opts?.strictMockCount ?? 0) / 5);
+  M = M * (0.7 + 0.3 * mockCap);
+
+  const V = Math.min(1, Math.log(Math.max(1, totalQuestions)) / Math.log(targetVolume));
+
+  let S = 0.5;
+  if (trend !== 0) {
+    S = Math.min(1, Math.max(0, 0.5 + trend / 20));
+  }
+
+  const Cns = 1 - Math.min(1, opts?.consistencyIndex ?? 0.3);
+  const T = 1 - Math.min(1, opts?.timeManagementIndex ?? 0.3);
+
+  let W = 0;
+  if (opts?.domainAccuracies && opts?.domainWeights) {
+    const domainWeaknesses: number[] = [];
+    for (const [domain, acc] of Object.entries(opts.domainAccuracies)) {
+      const weight = opts.domainWeights[domain] ?? 0.1;
+      const exposure = 1;
+      domainWeaknesses.push((1 - Math.min(1, acc / 100)) * weight * exposure);
+    }
+    domainWeaknesses.sort((a, b) => b - a);
+    const top3 = domainWeaknesses.slice(0, 3);
+    W = top3.length > 0 ? top3.reduce((s, v) => s + v, 0) / top3.length : 0;
+  } else {
+    W = opts?.weaknessIndex ?? 0;
+  }
+
+  if ((opts?.repeatQuestionRatio ?? 0) > 0.3) {
+    R *= 0.85 + 0.15 * (1 - (opts?.repeatQuestionRatio ?? 0));
+  }
+
+  let C_raw = 0.35 * R + 0.20 * M + 0.10 * V + 0.10 * S + 0.05 * Cns + 0.05 * T - 0.15 * W;
+  C_raw = Math.max(0, Math.min(1, C_raw));
+
+  const theta = 0.65;
+  const k = 9;
+  const P_raw = 1 / (1 + Math.exp(-k * (C_raw - theta)));
+  const probability = Math.round(Math.min(99, Math.max(1, P_raw * 100)));
+
+  let band = 10;
+  if (totalQuestions >= 1500 && (opts?.strictMockCount ?? 0) >= 3) {
+    band = 4;
+  } else if (totalQuestions >= 500) {
+    band = 7;
+  }
+  if (Cns < 0.5) band += 2;
+
+  const lowerBound = Math.max(0, probability - band);
+  const upperBound = Math.min(100, probability + band);
+
+  let riskCategory = "Likely Ready";
   if (probability < 60) riskCategory = "High Risk";
   else if (probability < 75) riskCategory = "Moderate Risk";
-  return { probability, confidenceBand, riskCategory };
+
+  return {
+    probability,
+    confidenceBand: band,
+    lowerBound,
+    upperBound,
+    riskCategory,
+    composite: Math.round(C_raw * 100) / 100,
+    components: {
+      readiness: Math.round(R * 100) / 100,
+      mockExam: Math.round(M * 100) / 100,
+      volume: Math.round(V * 100) / 100,
+      trend: Math.round(S * 100) / 100,
+      consistency: Math.round(Cns * 100) / 100,
+      timeManagement: Math.round(T * 100) / 100,
+      weakness: Math.round(W * 100) / 100,
+    },
+  };
+}
+
+function simulateImprovement(current: ReturnType<typeof calculatePassProbability>, opts: {
+  domainImprovements?: Record<string, number>;
+  additionalMocks?: number;
+  additionalQuestions?: number;
+  tier?: string;
+  readinessScore: number;
+  totalQuestions: number;
+  trend: number;
+  mockAvg: number;
+  strictMockCount?: number;
+  domainAccuracies?: Record<string, number>;
+  domainWeights?: Record<string, number>;
+}) {
+  const suggestions: string[] = [];
+  const simulated: { action: string; projectedProbability: number }[] = [];
+
+  if (opts.domainAccuracies && opts.domainWeights) {
+    const weakDomains = Object.entries(opts.domainAccuracies)
+      .map(([d, acc]) => ({ domain: d, accuracy: acc, weight: opts.domainWeights?.[d] ?? 0.1 }))
+      .sort((a, b) => (a.accuracy * a.weight) - (b.accuracy * b.weight))
+      .slice(0, 3);
+
+    for (const wd of weakDomains) {
+      const improved = { ...opts.domainAccuracies, [wd.domain]: Math.min(100, wd.accuracy + 10) };
+      const proj = calculatePassProbability(opts.readinessScore, opts.totalQuestions, opts.trend, opts.mockAvg, {
+        tier: opts.tier,
+        strictMockCount: opts.strictMockCount,
+        domainAccuracies: improved,
+        domainWeights: opts.domainWeights,
+      });
+      const delta = proj.probability - current.probability;
+      if (delta > 0) {
+        suggestions.push(`Improve ${wd.domain} accuracy by 10% → +${delta}% probability`);
+        simulated.push({ action: `${wd.domain} +10%`, projectedProbability: proj.probability });
+      }
+    }
+  }
+
+  if ((opts.strictMockCount ?? 0) < 5) {
+    const proj = calculatePassProbability(opts.readinessScore, opts.totalQuestions, opts.trend, opts.mockAvg, {
+      tier: opts.tier,
+      strictMockCount: (opts.strictMockCount ?? 0) + 2,
+      domainAccuracies: opts.domainAccuracies,
+      domainWeights: opts.domainWeights,
+    });
+    const delta = proj.probability - current.probability;
+    if (delta > 0) {
+      suggestions.push(`Complete 2 strict CAT simulations → +${delta}% probability`);
+      simulated.push({ action: "2 strict mocks", projectedProbability: proj.probability });
+    }
+  }
+
+  {
+    const proj = calculatePassProbability(opts.readinessScore, opts.totalQuestions + 200, opts.trend, opts.mockAvg, {
+      tier: opts.tier,
+      strictMockCount: opts.strictMockCount,
+      domainAccuracies: opts.domainAccuracies,
+      domainWeights: opts.domainWeights,
+    });
+    const delta = proj.probability - current.probability;
+    if (delta > 0) {
+      suggestions.push(`Complete 200 more mixed-difficulty questions → +${delta}% probability`);
+      simulated.push({ action: "200 questions", projectedProbability: proj.probability });
+    }
+  }
+
+  return { suggestions, simulated, targetProbability: 85, currentProbability: current.probability };
 }
 
 function getDiagnosticQuestions() {

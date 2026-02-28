@@ -1,0 +1,95 @@
+You are my senior full-stack engineer + SEO engineer working inside NurseNest (Vite + React + Express + DB + Stripe + Admin Dashboard).
+
+Build a public, crawlable “Free Diagnostic” funnel that ranks on Google and converts to paid subscriptions, without leaking premium content.
+
+GOALS
+1) Create SEO ranking pages for high-intent terms:
+   - “Free NCLEX practice test”
+   - “Free REx-PN practice questions”
+   - “CNPLE practice questions”
+   - “AANP FNP practice test”
+   - “ANCC FNP practice test”
+2) Convert visitors into account signups and upgrades using the readiness model + locked premium previews.
+3) Keep the diagnostic page crawlable while protecting premium question bank content.
+
+PAGES TO BUILD (PUBLIC)
+A) /free-nclex-diagnostic
+B) /free-rexpn-diagnostic
+C) /free-cnple-diagnostic
+D) /free-aanp-fnp-diagnostic
+E) /free-ancc-fnp-diagnostic
+
+Each page must include:
+- 1500–2500 words of evergreen, original content:
+  - What the exam is
+  - What diagnostic tells you
+  - How to interpret results
+  - How NurseNest plans study schedule by exam date
+- FAQ section (8–12 questions)
+- Internal links to:
+  - relevant pillar pages
+  - glossary terms
+  - “study plan generator”
+- JSON-LD schema:
+  - Article
+  - FAQPage
+  - BreadcrumbList
+  - (Optional) HowTo schema for “How to use diagnostic”
+
+DIAGNOSTIC EXAM EXPERIENCE (PUBLIC)
+- 25 questions total (configurable)
+- Must be mixed difficulty and cover key categories using blueprint weights
+- Allow anonymous attempt
+- Show only basic outcome to anonymous:
+  - overall % and “Readiness Trend”
+- Require account signup to unlock:
+  - category breakdown
+  - recommended courses (internal links)
+  - pass probability (premium preview only)
+- Require premium upgrade to unlock:
+  - full probability %
+  - confidence band
+  - improvement simulator
+  - strict CAT simulator
+
+LEAD CAPTURE FLOW
+- Mid-diagnostic gate at question 12:
+  - “Enter email to save progress and see your detailed breakdown.”
+  - Allow continue without signup but hide detailed results until signup
+- End-of-diagnostic:
+  - show a clean results screen with:
+    - readiness band
+    - top 3 weaknesses (general for anonymous, detailed for logged-in)
+    - CTA: “Build my exam-date plan”
+    - CTA: “Unlock predictive analytics”
+
+TECHNICAL SEO REQUIREMENTS
+- Must be crawlable:
+  - No auth required to view landing content
+- But question bank content must not be indexed:
+  - Add noindex for any paid-only question pages
+  - Only index the 25 diagnostic questions (public pool)
+- Add canonical tags
+- Add sitemap entries for these pages
+- Add OpenGraph and meta descriptions
+
+ANALYTICS
+Track:
+- landing page visits
+- diagnostic starts
+- diagnostic completions
+- email capture conversions
+- signup conversions
+- upgrade conversions
+
+Add admin dashboard:
+- funnel metrics by page
+- top keyword landing pages
+- conversion rate by exam type
+
+DELIVERABLES
+- Public landing pages + schema
+- Diagnostic engine using public question pool
+- Signup gate + results gating
+- Analytics + admin funnel dashboard
+- QA tests for indexing rules + gating rules
