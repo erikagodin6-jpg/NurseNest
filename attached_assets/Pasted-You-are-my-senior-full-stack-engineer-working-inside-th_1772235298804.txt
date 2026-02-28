@@ -1,0 +1,229 @@
+You are my senior full-stack engineer working inside the NurseNest architecture (Vite + React + Express + DB + question bank + flashcards + courses + recommendation engine + scheduling system).
+
+I want to build an EXAM DATE–DRIVEN INTELLIGENT STUDY PLAN ENGINE.
+
+====================================================
+PART 1 — USER INPUT
+====================================================
+
+Add a required field in user onboarding and dashboard:
+
+“What is your exam date?”
+
+Fields:
+- exam_type (REx-PN, NCLEX-RN, NCLEX-PN, Canadian NP, US NP variants)
+- exam_date (date picker)
+- hours_available_per_day (optional)
+- days_per_week_studying (optional)
+- current readiness_score (auto-detected if available)
+
+Store in:
+user_exam_profile
+- user_id
+- exam_type
+- exam_date
+- hours_available_per_day
+- days_per_week
+- created_at
+- updated_at
+
+====================================================
+PART 2 — BACKWARD STUDY PLAN GENERATOR
+====================================================
+
+When exam_date is entered:
+
+1. Calculate total days remaining
+2. Subtract buffer days:
+   - 2 days before exam (light review only)
+3. Create study phases:
+
+If >60 days:
+  Phase 1: Foundation reinforcement (40%)
+  Phase 2: Application & mixed sets (40%)
+  Phase 3: Full mock exams + remediation (20%)
+
+If 30–60 days:
+  Phase 1: Targeted remediation (35%)
+  Phase 2: Mixed timed sets (40%)
+  Phase 3: Mock exams weekly (25%)
+
+If <30 days:
+  Phase 1: High-yield weak areas
+  Phase 2: Daily timed sets
+  Phase 3: 2–3 full mocks minimum
+
+====================================================
+PART 3 — DAILY PLAN LOGIC
+====================================================
+
+Generate daily schedule including:
+
+- # of questions per day
+- # of flashcards
+- 1 recommended course (if weakness detected)
+- Weekly full mock exam (if within 6 weeks of exam)
+- Spaced repetition review blocks
+
+Use formula:
+
+Daily Question Target =
+(Recommended total question exposure ÷ days remaining)
+
+Recommended total exposure:
+RPN: 1,200–1,800 questions
+RN: 1,800–2,500 questions
+NP: 1,500–2,200 case-based weighted
+
+Adjust:
++20% if readiness_score <60%
+-15% if readiness_score >80%
+
+====================================================
+PART 4 — PERSONALIZATION LAYER
+====================================================
+
+If weakness_vector exists:
+- Weight daily topic distribution toward weakest domains
+- Increase exposure to weak question types (SATA, prioritization)
+
+If no performance data:
+- Evenly distribute across body systems
+- Emphasize high-weight exam topics
+
+====================================================
+PART 5 — OUTPUT UI
+====================================================
+
+Display:
+
+----------------------------------------
+Your Personalized Exam Plan
+----------------------------------------
+Exam Date: [date]
+Days Remaining: [X]
+
+Daily Target:
+• 45 Questions
+• 20 Flashcards
+• 1 Focus Module (30 min)
+
+Weekly:
+• 1 Timed Mixed Set
+• 1 Full Mock (starting 4 weeks out)
+
+High Priority This Week:
+• Shock Recognition
+• Delegation Rules
+• SATA Mastery
+
+Buttons:
+[Add to My Calendar]
+[Adjust Plan]
+[Download PDF Version]
+
+====================================================
+PART 6 — AUTO-ADJUSTMENT ENGINE
+====================================================
+
+Every 7 days:
+
+Recalculate:
+- Readiness score
+- Improvement slope
+- Remaining days
+- Uncompleted tasks
+
+Adjust:
+- Increase or decrease daily question count
+- Shift focus areas
+- Add additional mock exams if low progress
+
+Log changes in:
+study_plan_adjustment_log
+
+====================================================
+PART 7 — CALENDAR INTEGRATION
+====================================================
+
+Create:
+
+study_plan_schedule
+- user_id
+- date
+- tasks (json)
+- completed (boolean)
+- completion_rate
+
+Allow:
+- Drag and drop reschedule
+- Mark complete
+- Auto-carry forward missed tasks
+
+====================================================
+PART 8 — MINIMUM RATIONALE WORD COUNT ENFORCEMENT
+====================================================
+
+For ALL questions, flashcards, case activities, and mock exams:
+
+Enforce minimum rationale word count.
+
+Requirements:
+- Single MCQ: minimum 120 words rationale
+- SATA: minimum 150 words rationale
+- Case question: minimum 200 words rationale
+- Mock exam overall review summary: minimum 300 words
+
+Implement validation:
+
+If rationale word count < required:
+- Block publish in admin
+- Display warning: “Rationale below required depth threshold.”
+
+Add word counter in admin editor.
+
+Ensure rationale includes:
+- Why correct answer is correct
+- Why distractors are wrong
+- Clinical reasoning explanation
+- Priority framework reference (if applicable)
+
+====================================================
+PART 9 — SEO BENEFITS
+====================================================
+
+Ensure:
+- Study plan pages are indexable (overview only, not user data)
+- Create public landing page:
+  “NCLEX Study Plan Generator”
+  “REx-PN Study Schedule Based on Your Exam Date”
+
+Add schema:
+- EducationalCourse
+- FAQ
+- HowTo structured data
+
+====================================================
+PART 10 — API ENDPOINTS
+====================================================
+
+POST /api/study-plan/generate
+GET /api/study-plan
+POST /api/study-plan/update
+POST /api/study-plan/recalculate
+
+====================================================
+DELIVERABLES
+====================================================
+
+1. Database schema updates
+2. Backward planning algorithm
+3. Adaptive recalculation engine
+4. UI calendar integration
+5. Admin rationale word-count enforcement
+6. Public SEO landing page for plan generator
+
+Start by:
+- Building backward calculation engine
+- Then task generator
+- Then rationale validator middleware

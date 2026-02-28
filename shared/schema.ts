@@ -676,3 +676,42 @@ export const recommendationLog = pgTable("recommendation_log", {
 });
 
 export type RecommendationLog = typeof recommendationLog.$inferSelect;
+
+export const userExamProfile = pgTable("user_exam_profile", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  examType: text("exam_type").notNull(),
+  examDate: timestamp("exam_date"),
+  hoursPerDay: integer("hours_per_day").default(2),
+  daysPerWeek: integer("days_per_week").default(5),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type UserExamProfile = typeof userExamProfile.$inferSelect;
+
+export const studyPlanSchedule = pgTable("study_plan_schedule", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  date: text("date").notNull(),
+  phase: text("phase"),
+  tasks: jsonb("tasks").default(sql`'[]'::jsonb`),
+  completed: boolean("completed").default(false),
+  completionRate: integer("completion_rate").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type StudyPlanSchedule = typeof studyPlanSchedule.$inferSelect;
+
+export const diagnosticAttempts = pgTable("diagnostic_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  sessionId: text("session_id"),
+  score: integer("score").notNull(),
+  totalQuestions: integer("total_questions").notNull(),
+  answers: jsonb("answers").default(sql`'[]'::jsonb`),
+  topicBreakdown: jsonb("topic_breakdown").default(sql`'{}'::jsonb`),
+  completedAt: timestamp("completed_at").defaultNow().notNull(),
+});
+
+export type DiagnosticAttempt = typeof diagnosticAttempts.$inferSelect;

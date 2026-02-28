@@ -4085,7 +4085,526 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     } catch (e) {}
   }, 5 * 60 * 1000);
 
+  // ====== PERFORMANCE RECOMMENDATIONS + TIME-TO-MASTERY ======
+  app.post("/api/recommendations/generate", async (req, res) => {
+    try {
+      const { userId, sessionType, sessionId, scores } = req.body;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+
+      const testResults = await storage.getTestResults(userId);
+      const progress = await storage.getUserProgress(userId);
+
+      const topicScores: Record<string, { correct: number; total: number; sessions: { score: number; date: string }[] }> = {};
+      for (const r of testResults) {
+        const topic = r.lessonId || "general";
+        if (!topicScores[topic]) topicScores[topic] = { correct: 0, total: 0, sessions: [] };
+        topicScores[topic].correct += r.score;
+        topicScores[topic].total += r.totalQuestions;
+        topicScores[topic].sessions.push({ score: (r.score / r.totalQuestions) * 100, date: r.completedAt?.toISOString() || "" });
+      }
+
+      if (scores) {
+        for (const [topic, data] of Object.entries(scores as Record<string, { correct: number; total: number }>)) {
+          if (!topicScores[topic]) topicScores[topic] = { correct: 0, total: 0, sessions: [] };
+          topicScores[topic].correct += data.correct;
+          topicScores[topic].total += data.total;
+          topicScores[topic].sessions.push({ score: (data.correct / data.total) * 100, date: new Date().toISOString() });
+        }
+      }
+
+      const weaknesses: { topic: string; accuracy: number; weaknessIndex: number; exposureCount: number; masteryEstimateHours: number }[] = [];
+      const strengths: { topic: string; accuracy: number }[] = [];
+
+      for (const [topic, data] of Object.entries(topicScores)) {
+        const accuracy = data.total > 0 ? (data.correct / data.total) * 100 : 0;
+        const recentSessions = data.sessions.slice(-5);
+        let improvementSlope = 0;
+        if (recentSessions.length >= 2) {
+          const first = recentSessions[0].score;
+          const last = recentSessions[recentSessions.length - 1].score;
+          improvementSlope = (last - first) / recentSessions.length;
+        }
+
+        const exposureCount = data.total;
+        const recencyFactor = 1.0;
+        const weaknessIndex = Math.max(0, ((100 - accuracy) * 1.5 * recencyFactor) / 100);
+
+        let masteryEstimateHours = 0;
+        if (accuracy < 80) {
+          const gap = 80 - accuracy;
+          const slopePerHour = improvementSlope > 0 ? improvementSlope * 2 : 2;
+          masteryEstimateHours = Math.max(0.5, Math.round((gap / slopePerHour) * 10) / 10);
+          if (exposureCount < 10) masteryEstimateHours *= 1.5;
+        }
+
+        if (accuracy < 70) {
+          weaknesses.push({ topic, accuracy: Math.round(accuracy), weaknessIndex: Math.round(weaknessIndex * 100) / 100, exposureCount, masteryEstimateHours });
+        } else {
+          strengths.push({ topic, accuracy: Math.round(accuracy) });
+        }
+      }
+
+      weaknesses.sort((a, b) => b.weaknessIndex - a.weaknessIndex);
+      strengths.sort((a, b) => b.accuracy - a.accuracy);
+
+      const totalAccuracy = Object.values(topicScores).reduce((sum, d) => sum + d.correct, 0) / Math.max(1, Object.values(topicScores).reduce((sum, d) => sum + d.total, 0)) * 100;
+      const readinessScore = Math.round(Math.min(100, totalAccuracy * 1.1));
+      const projectedPassProbability = Math.round(Math.min(99, totalAccuracy * 0.95 + (weaknesses.length < 3 ? 10 : 0)));
+
+      const recommendations: { type: string; topic: string; title: string; slug: string; estimatedMinutes: number; difficulty: string; reason: string; masteryEstimateHours?: number }[] = [];
+
+      const topWeak = weaknesses.slice(0, 3);
+      for (const w of topWeak) {
+        const displayTitle = w.topic.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        recommendations.push({
+          type: w.weaknessIndex > 0.5 ? "primary" : "secondary",
+          topic: w.topic,
+          title: `${displayTitle} Deep Dive`,
+          slug: `/lessons/${w.topic}`,
+          estimatedMinutes: Math.round(w.masteryEstimateHours * 60),
+          difficulty: w.accuracy < 40 ? "foundational" : w.accuracy < 60 ? "intermediate" : "advanced",
+          reason: `${w.accuracy}% accuracy across ${w.exposureCount} questions`,
+          masteryEstimateHours: w.masteryEstimateHours,
+        });
+      }
+
+      if (totalAccuracy >= 85) {
+        recommendations.push({
+          type: "advanced",
+          topic: "mock-exam",
+          title: "Full-Length Mock Exam Challenge",
+          slug: "/practice-exam",
+          estimatedMinutes: 90,
+          difficulty: "advanced",
+          reason: "You're performing well — test yourself under exam conditions",
+        });
+      }
+
+      if (totalAccuracy < 60) {
+        recommendations.push({
+          type: "foundational",
+          topic: "flashcards",
+          title: "Core Concept Flashcard Review",
+          slug: "/flashcards",
+          estimatedMinutes: 20,
+          difficulty: "foundational",
+          reason: "Build strong foundations before advancing",
+        });
+      }
+
+      try {
+        await pool.query(
+          `INSERT INTO user_performance_summary (id, user_id, readiness_score, projected_pass_probability, weakness_vector, strengths_vector, top_weak_domains, top_weak_question_types, updated_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW())
+           ON CONFLICT (user_id) DO UPDATE SET readiness_score=$2, projected_pass_probability=$3, weakness_vector=$4, strengths_vector=$5, top_weak_domains=$6, top_weak_question_types=$7, updated_at=NOW()`,
+          [userId, readinessScore, projectedPassProbability, JSON.stringify(weaknesses), JSON.stringify(strengths),
+           JSON.stringify(topWeak.map(w => w.topic)), JSON.stringify([])]
+        );
+      } catch (e: any) {
+        if (e.message?.includes("unique constraint") || e.message?.includes("ON CONFLICT")) {
+          await pool.query(
+            `INSERT INTO user_performance_summary (id, user_id, readiness_score, projected_pass_probability, weakness_vector, strengths_vector, top_weak_domains, updated_at)
+             VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW())`,
+            [userId, readinessScore, projectedPassProbability, JSON.stringify(weaknesses), JSON.stringify(strengths), JSON.stringify(topWeak.map(w => w.topic))]
+          );
+        }
+      }
+
+      await pool.query(
+        `INSERT INTO recommendation_log (id, user_id, session_type, session_id, recommended_courses, weakness_snapshot, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, NOW())`,
+        [userId, sessionType || "manual", sessionId || null, JSON.stringify(recommendations), JSON.stringify(weaknesses)]
+      );
+
+      res.json({
+        readinessScore,
+        projectedPassProbability,
+        weaknesses: weaknesses.slice(0, 5),
+        strengths: strengths.slice(0, 5),
+        recommendations,
+        masteryProgress: Object.entries(topicScores).map(([topic, data]) => {
+          const accuracy = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+          const recentSessions = data.sessions.slice(-5);
+          let slope = 0;
+          if (recentSessions.length >= 2) {
+            slope = Math.round(((recentSessions[recentSessions.length - 1].score - recentSessions[0].score) / recentSessions.length) * 10) / 10;
+          }
+          const gap = Math.max(0, 80 - accuracy);
+          const hoursToMastery = gap > 0 ? Math.max(0.5, Math.round((gap / Math.max(slope > 0 ? slope * 2 : 2, 0.5)) * 10) / 10) : 0;
+          return { topic, accuracy, exposureCount: data.total, improvementSlope: slope, estimatedHoursToMastery: hoursToMastery, mastered: accuracy >= 80 };
+        }),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/recommendations/latest", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const result = await pool.query(
+        `SELECT * FROM recommendation_log WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1`,
+        [userId]
+      );
+      if (result.rows.length === 0) return res.json(null);
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/recommendations/:id/accept", async (req, res) => {
+    try {
+      await pool.query(`UPDATE recommendation_log SET clicked = true WHERE id = $1`, [req.params.id]);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/mastery-progress/:userId", async (req, res) => {
+    try {
+      const testResults = await storage.getTestResults(req.params.userId);
+      const topicData: Record<string, { correct: number; total: number; sessions: { score: number; date: string }[] }> = {};
+      for (const r of testResults) {
+        const topic = r.lessonId || "general";
+        if (!topicData[topic]) topicData[topic] = { correct: 0, total: 0, sessions: [] };
+        topicData[topic].correct += r.score;
+        topicData[topic].total += r.totalQuestions;
+        topicData[topic].sessions.push({ score: (r.score / r.totalQuestions) * 100, date: r.completedAt?.toISOString() || "" });
+      }
+
+      const progress = Object.entries(topicData).map(([topic, data]) => {
+        const accuracy = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+        const recent = data.sessions.slice(-5);
+        let slope = 0;
+        if (recent.length >= 2) {
+          slope = Math.round(((recent[recent.length - 1].score - recent[0].score) / recent.length) * 10) / 10;
+        }
+        const gap = Math.max(0, 80 - accuracy);
+        const hoursToMastery = gap > 0 ? Math.max(0.5, Math.round((gap / Math.max(slope > 0 ? slope * 2 : 2, 0.5)) * 10) / 10) : 0;
+        return {
+          topic,
+          accuracy,
+          exposureCount: data.total,
+          improvementSlope: slope,
+          estimatedHoursToMastery: hoursToMastery,
+          mastered: accuracy >= 80,
+          displayTitle: topic.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+        };
+      });
+
+      progress.sort((a, b) => b.exposureCount - a.exposureCount);
+      res.json(progress);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== STUDY PLAN ENGINE ======
+  app.post("/api/study-plan/generate", async (req, res) => {
+    try {
+      const { userId, examType, examDate, hoursPerDay = 2, daysPerWeek = 5 } = req.body;
+      if (!userId || !examType || !examDate) return res.status(400).json({ error: "userId, examType, examDate required" });
+
+      await pool.query(
+        `INSERT INTO user_exam_profile (id, user_id, exam_type, exam_date, hours_per_day, days_per_week, created_at, updated_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, NOW(), NOW())
+         ON CONFLICT (user_id) DO UPDATE SET exam_type=$2, exam_date=$3, hours_per_day=$4, days_per_week=$5, updated_at=NOW()`,
+        [userId, examType, new Date(examDate), hoursPerDay, daysPerWeek]
+      ).catch(() => {
+        return pool.query(
+          `INSERT INTO user_exam_profile (id, user_id, exam_type, exam_date, hours_per_day, days_per_week, created_at, updated_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, NOW(), NOW())`,
+          [userId, examType, new Date(examDate), hoursPerDay, daysPerWeek]
+        );
+      });
+
+      const now = new Date();
+      const examDateObj = new Date(examDate);
+      const totalDays = Math.max(1, Math.ceil((examDateObj.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+      const studyDays = totalDays - 2;
+
+      const questionTargets: Record<string, { min: number; max: number }> = {
+        "rex-pn": { min: 1200, max: 1800 },
+        "nclex-rn": { min: 1800, max: 2500 },
+        "nclex-pn": { min: 1200, max: 1800 },
+        "np-canada": { min: 1500, max: 2200 },
+        "aanp": { min: 1500, max: 2200 },
+        "ancc": { min: 1500, max: 2200 },
+      };
+      const target = questionTargets[examType] || { min: 1500, max: 2000 };
+      const totalQuestionTarget = Math.round((target.min + target.max) / 2);
+
+      let performanceResult;
+      try {
+        performanceResult = await pool.query(
+          `SELECT readiness_score FROM user_performance_summary WHERE user_id = $1`, [userId]
+        );
+      } catch (e) {}
+      const readinessScore = performanceResult?.rows?.[0]?.readiness_score || 50;
+
+      let adjustedTarget = totalQuestionTarget;
+      if (readinessScore < 60) adjustedTarget = Math.round(adjustedTarget * 1.2);
+      else if (readinessScore > 80) adjustedTarget = Math.round(adjustedTarget * 0.85);
+
+      const dailyQuestions = Math.max(10, Math.round(adjustedTarget / Math.max(1, studyDays * (daysPerWeek / 7))));
+      const dailyFlashcards = Math.round(dailyQuestions * 0.5);
+
+      let phases: { name: string; pct: number; focus: string }[];
+      if (totalDays > 60) {
+        phases = [
+          { name: "Foundation", pct: 40, focus: "Core concepts, body system review, fundamentals" },
+          { name: "Application", pct: 40, focus: "Mixed timed sets, clinical reasoning, case studies" },
+          { name: "Mock Exams", pct: 20, focus: "Full-length mock exams, remediation, final review" },
+        ];
+      } else if (totalDays > 30) {
+        phases = [
+          { name: "Targeted Remediation", pct: 35, focus: "Weak areas, high-yield topics, gap closure" },
+          { name: "Mixed Timed Sets", pct: 40, focus: "Exam-style practice, time management" },
+          { name: "Mock Exams", pct: 25, focus: "Weekly full mocks, score analysis, weak spot review" },
+        ];
+      } else {
+        phases = [
+          { name: "High-Yield Focus", pct: 40, focus: "Weakest areas only, rapid review" },
+          { name: "Daily Timed Sets", pct: 35, focus: "Exam simulation, speed drills" },
+          { name: "Final Mocks", pct: 25, focus: "2-3 full mock exams minimum" },
+        ];
+      }
+
+      const bodySystems = ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "renal", "endocrine", "pharmacology", "maternity", "pediatrics", "mental-health", "fundamentals", "leadership"];
+      const schedule: any[] = [];
+      let dayIdx = 0;
+
+      for (const phase of phases) {
+        const phaseDays = Math.max(1, Math.round(studyDays * phase.pct / 100));
+        for (let d = 0; d < phaseDays && dayIdx < studyDays; d++) {
+          const dateStr = new Date(now.getTime() + (dayIdx + 1) * 86400000).toISOString().split("T")[0];
+          const dayOfWeek = new Date(now.getTime() + (dayIdx + 1) * 86400000).getDay();
+          const isStudyDay = dayOfWeek !== 0;
+
+          if (isStudyDay) {
+            const topic = bodySystems[dayIdx % bodySystems.length];
+            schedule.push({
+              date: dateStr,
+              phase: phase.name,
+              tasks: [
+                { type: "questions", count: dailyQuestions, topic, description: `${dailyQuestions} ${topic} questions` },
+                { type: "flashcards", count: dailyFlashcards, topic, description: `${dailyFlashcards} flashcard review` },
+                ...(dayIdx % 3 === 0 ? [{ type: "course", topic, description: `${topic.replace(/-/g, " ")} focus module (30 min)` }] : []),
+                ...(phase.name.includes("Mock") && dayIdx % 7 === 0 ? [{ type: "mock_exam", description: "Full-length mock exam" }] : []),
+              ],
+            });
+          }
+          dayIdx++;
+        }
+      }
+
+      for (const day of schedule.slice(0, 90)) {
+        await pool.query(
+          `INSERT INTO study_plan_schedule (id, user_id, date, phase, tasks, completed, completion_rate, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, false, 0, NOW())
+           ON CONFLICT DO NOTHING`,
+          [userId, day.date, day.phase, JSON.stringify(day.tasks)]
+        ).catch(() => {});
+      }
+
+      const passProbability = calculatePassProbability(readinessScore, adjustedTarget, 0, 50);
+
+      res.json({
+        examType, examDate, totalDays, studyDays,
+        dailyQuestions, dailyFlashcards, totalQuestionTarget: adjustedTarget,
+        readinessScore, phases, schedule: schedule.slice(0, 14),
+        passProbability: passProbability.probability,
+        confidenceBand: passProbability.confidenceBand,
+        riskCategory: passProbability.riskCategory,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/study-plan", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const profile = await pool.query(`SELECT * FROM user_exam_profile WHERE user_id = $1`, [userId]);
+      const schedule = await pool.query(
+        `SELECT * FROM study_plan_schedule WHERE user_id = $1 ORDER BY date ASC LIMIT 30`, [userId]
+      );
+      res.json({ profile: profile.rows[0] || null, schedule: schedule.rows });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/study-plan/update", async (req, res) => {
+    try {
+      const { scheduleId, completed, completionRate } = req.body;
+      if (!scheduleId) return res.status(400).json({ error: "scheduleId required" });
+      await pool.query(
+        `UPDATE study_plan_schedule SET completed = $1, completion_rate = $2 WHERE id = $3`,
+        [completed || false, completionRate || 0, scheduleId]
+      );
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== PASS PROBABILITY + RISK SCORE ======
+  app.get("/api/pass-probability/:userId", async (req, res) => {
+    try {
+      const testResults = await storage.getTestResults(req.params.userId);
+      let totalCorrect = 0, totalQuestions = 0;
+      const last30: number[] = [];
+      const now = Date.now();
+      for (const r of testResults) {
+        totalCorrect += r.score;
+        totalQuestions += r.totalQuestions;
+        if (r.completedAt && now - r.completedAt.getTime() < 30 * 86400000) {
+          last30.push(r.totalQuestions > 0 ? (r.score / r.totalQuestions) * 100 : 0);
+        }
+      }
+      const overallAccuracy = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : 0;
+      let trend = 0;
+      if (last30.length >= 2) {
+        trend = (last30[last30.length - 1] - last30[0]) / last30.length;
+      }
+
+      const mockResults = await pool.query(
+        `SELECT score, total_questions FROM mock_exam_attempts WHERE user_id = $1 AND status = 'completed'`,
+        [req.params.userId]
+      ).catch(() => ({ rows: [] }));
+      let mockAvg = 0;
+      if (mockResults.rows.length > 0) {
+        mockAvg = mockResults.rows.reduce((s: number, r: any) => s + (r.total_questions > 0 ? (r.score / r.total_questions) * 100 : 0), 0) / mockResults.rows.length;
+      }
+
+      const result = calculatePassProbability(overallAccuracy, totalQuestions, trend, mockAvg);
+
+      res.json({
+        ...result,
+        overallAccuracy: Math.round(overallAccuracy),
+        totalQuestions,
+        trend: Math.round(trend * 10) / 10,
+        mockAvg: Math.round(mockAvg),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // ====== DIAGNOSTIC EXAM ======
+  app.get("/api/diagnostic-exam", async (_req, res) => {
+    try {
+      const questions = getDiagnosticQuestions();
+      res.json(questions.map((q: any, i: number) => ({
+        id: i,
+        stem: q.stem,
+        options: q.options,
+        bodySystem: q.bodySystem,
+        difficulty: q.difficulty,
+      })));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/diagnostic-exam/submit", async (req, res) => {
+    try {
+      const { answers, userId, sessionId } = req.body;
+      if (!answers || !Array.isArray(answers)) return res.status(400).json({ error: "answers array required" });
+      const questions = getDiagnosticQuestions();
+      let score = 0;
+      const topicBreakdown: Record<string, { correct: number; total: number }> = {};
+      for (let i = 0; i < Math.min(answers.length, questions.length); i++) {
+        const q = questions[i];
+        const sys = q.bodySystem || "general";
+        if (!topicBreakdown[sys]) topicBreakdown[sys] = { correct: 0, total: 0 };
+        topicBreakdown[sys].total++;
+        if (answers[i] === q.correct) {
+          score++;
+          topicBreakdown[sys].correct++;
+        }
+      }
+
+      await pool.query(
+        `INSERT INTO diagnostic_attempts (id, user_id, session_id, score, total_questions, answers, topic_breakdown, completed_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW())`,
+        [userId || null, sessionId || null, score, questions.length, JSON.stringify(answers), JSON.stringify(topicBreakdown)]
+      ).catch(() => {});
+
+      const result: any = {
+        score,
+        totalQuestions: questions.length,
+        percentage: Math.round((score / questions.length) * 100),
+      };
+
+      if (userId) {
+        result.topicBreakdown = topicBreakdown;
+        result.recommendations = Object.entries(topicBreakdown)
+          .filter(([_, d]) => d.total > 0 && (d.correct / d.total) < 0.7)
+          .map(([topic, d]) => ({
+            topic,
+            accuracy: Math.round((d.correct / d.total) * 100),
+            link: `/lessons/${topic}`,
+          }));
+      }
+
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
+}
+
+function calculatePassProbability(readinessScore: number, totalQuestions: number, trend: number, mockAvg: number) {
+  const volumeScore = Math.min(1, totalQuestions / 1500);
+  const trendFactor = Math.max(-0.1, Math.min(0.1, trend / 100));
+  const mockFactor = mockAvg > 0 ? (mockAvg / 100) * 0.3 : 0;
+  const readinessFactor = (readinessScore / 100) * 0.4;
+  const rawScore = readinessFactor + volumeScore * 0.2 + trendFactor + mockFactor + 0.1;
+  const logistic = 1 / (1 + Math.exp(-8 * (rawScore - 0.5)));
+  const probability = Math.round(Math.min(99, Math.max(5, logistic * 100)));
+  const confidenceBand = totalQuestions < 200 ? 12 : totalQuestions < 500 ? 8 : 5;
+  let riskCategory = "Low Risk";
+  if (probability < 60) riskCategory = "High Risk";
+  else if (probability < 75) riskCategory = "Moderate Risk";
+  return { probability, confidenceBand, riskCategory };
+}
+
+function getDiagnosticQuestions() {
+  return [
+    { stem: "A client with heart failure reports increased shortness of breath when lying flat. Which position should the nurse prioritize?", options: ["Supine", "High-Fowler's", "Prone", "Left lateral"], correct: 1, bodySystem: "cardiovascular", difficulty: 2 },
+    { stem: "Which lab value should the nurse monitor most closely for a client receiving furosemide (Lasix)?", options: ["Sodium", "Potassium", "Calcium", "Magnesium"], correct: 1, bodySystem: "pharmacology", difficulty: 2 },
+    { stem: "A client with COPD is on 2L O2 via nasal cannula. The SpO2 reads 89%. What is the most appropriate nursing action?", options: ["Increase O2 to 6L", "Maintain current settings", "Notify the provider", "Place on non-rebreather"], correct: 1, bodySystem: "respiratory", difficulty: 3 },
+    { stem: "Which assessment finding indicates a complication of a blood transfusion?", options: ["Temperature 37.2°C", "Back pain and chills", "Slight headache", "Mild itching at IV site"], correct: 1, bodySystem: "hematology", difficulty: 2 },
+    { stem: "A client on heparin has an aPTT of 120 seconds (therapeutic range 60-80). What should the nurse do first?", options: ["Continue the infusion", "Stop the heparin infusion", "Administer protamine sulfate", "Increase the rate"], correct: 1, bodySystem: "pharmacology", difficulty: 3 },
+    { stem: "Which finding in a newborn requires immediate intervention?", options: ["Acrocyanosis", "Respiratory rate of 70/min", "Milia on nose", "Caput succedaneum"], correct: 1, bodySystem: "maternity", difficulty: 3 },
+    { stem: "A client with diabetes has a blood glucose of 45 mg/dL and is alert. What is the priority nursing action?", options: ["Administer insulin", "Give 4 oz orange juice", "Start an IV", "Obtain a stat glucose"], correct: 1, bodySystem: "endocrine", difficulty: 2 },
+    { stem: "Which client should the nurse see first?", options: ["Post-op day 1 with pain 4/10", "Client with chest pain and diaphoresis", "Diabetic client with glucose of 180", "Post-fall client with bruised knee"], correct: 1, bodySystem: "fundamentals", difficulty: 4 },
+    { stem: "A client with suspected stroke arrives at the ED. What is the priority assessment?", options: ["Blood pressure", "Time of symptom onset", "Medication history", "Family history"], correct: 1, bodySystem: "neurological", difficulty: 3 },
+    { stem: "Which nursing intervention is appropriate for a client in seizure activity?", options: ["Insert a padded tongue blade", "Restrain the client", "Turn client to side", "Hold the jaw open"], correct: 2, bodySystem: "neurological", difficulty: 2 },
+    { stem: "A client with pneumonia has a productive cough with green sputum. Which nursing action is most important?", options: ["Administer cough suppressant", "Encourage deep breathing and fluids", "Position supine", "Restrict oral intake"], correct: 1, bodySystem: "respiratory", difficulty: 2 },
+    { stem: "Which assessment finding is most concerning in a client with preeclampsia?", options: ["Blood pressure 140/90", "Proteinuria +1", "Headache and visual changes", "Edema in ankles"], correct: 2, bodySystem: "maternity", difficulty: 3 },
+    { stem: "A nurse is caring for a client with increased intracranial pressure. Which position is most appropriate?", options: ["Flat supine", "Head of bed elevated 30 degrees", "Trendelenburg", "Right lateral"], correct: 1, bodySystem: "neurological", difficulty: 2 },
+    { stem: "Which dietary instruction is appropriate for a client with chronic kidney disease?", options: ["Increase protein intake", "Restrict potassium and phosphorus", "Increase sodium intake", "Drink 3L fluid daily"], correct: 1, bodySystem: "renal", difficulty: 2 },
+    { stem: "A client develops chest pain after a central line insertion. The nurse suspects pneumothorax. What finding supports this?", options: ["Bilateral crackles", "Absent breath sounds on affected side", "Jugular vein distension only", "Productive cough"], correct: 1, bodySystem: "respiratory", difficulty: 3 },
+    { stem: "Which task can the nurse delegate to unlicensed assistive personnel (UAP)?", options: ["Initial assessment", "Measuring vital signs", "Administering medications", "Teaching discharge care"], correct: 1, bodySystem: "fundamentals", difficulty: 2 },
+    { stem: "A client receiving digoxin has a heart rate of 54 bpm. What should the nurse do?", options: ["Administer the medication", "Hold the medication and notify provider", "Give half the dose", "Recheck in 30 minutes"], correct: 1, bodySystem: "pharmacology", difficulty: 2 },
+    { stem: "Which clinical finding is characteristic of right-sided heart failure?", options: ["Pulmonary edema", "Peripheral edema and JVD", "Pink frothy sputum", "Orthopnea"], correct: 1, bodySystem: "cardiovascular", difficulty: 2 },
+    { stem: "A child is admitted with suspected epiglottitis. Which action should the nurse avoid?", options: ["Keeping the child calm", "Inspecting the throat with a tongue blade", "Having emergency equipment nearby", "Allowing the parent to stay"], correct: 1, bodySystem: "pediatrics", difficulty: 3 },
+    { stem: "A client with burns covering 40% TBSA is in the emergent phase. What is the priority nursing assessment?", options: ["Pain level", "Wound appearance", "Airway and breathing", "Urine output"], correct: 2, bodySystem: "emergency", difficulty: 3 },
+    { stem: "Which electrolyte imbalance is most commonly associated with loop diuretics?", options: ["Hyperkalemia", "Hypokalemia", "Hypernatremia", "Hypercalcemia"], correct: 1, bodySystem: "pharmacology", difficulty: 1 },
+    { stem: "A client with Addison's disease is at risk for which emergency?", options: ["Thyroid storm", "Addisonian crisis", "Myxedema coma", "DKA"], correct: 1, bodySystem: "endocrine", difficulty: 2 },
+    { stem: "Which nursing intervention is most important for a client in contact isolation?", options: ["Wearing N95 respirator", "Gown and gloves on entry", "Negative pressure room", "Face shield only"], correct: 1, bodySystem: "fundamentals", difficulty: 1 },
+    { stem: "A postpartum client reports a gush of dark red blood 2 hours after delivery. The fundus is boggy. What is the first action?", options: ["Call the provider", "Massage the fundus", "Start oxytocin", "Prepare for surgery"], correct: 1, bodySystem: "maternity", difficulty: 3 },
+    { stem: "Which finding requires immediate nursing intervention in a client receiving a blood transfusion?", options: ["Mild headache", "Urticaria on arm", "Fever, chills, and flank pain", "Anxiety"], correct: 2, bodySystem: "hematology", difficulty: 3 },
+  ];
 }
 
 async function seedStarterDecks() {

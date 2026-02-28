@@ -50,6 +50,10 @@ NurseNest is an interactive nursing education platform designed for RPN/LVN, RN,
 - **Question Bank**: Filterable practice questions with instant rationale and progress tracking.
 - **Social Media Scheduler**: Admin-managed scheduling for Facebook and Instagram via Meta Graph API.
 - **Customizable Learning Dashboard**: User-facing dashboard with draggable, configurable widgets for personalized learning.
+- **Exam Date Study Plan Engine**: Backward planning algorithm generates personalized study schedules based on exam date, type, and readiness score. Phases auto-adjust based on days remaining (>60, 30-60, <30 days). Daily targets include questions, flashcards, focus modules. Stored in `user_exam_profile` and `study_plan_schedule` tables. API: `POST /api/study-plan/generate`, `GET /api/study-plan`, `POST /api/study-plan/update`.
+- **Pass Probability Projection**: Logistic-scaled pass probability calculation using readiness score, question volume, improvement trend, and mock exam averages. Risk categories: High Risk (<60%), Moderate Risk (60-75%), Low Risk (>75%). API: `GET /api/pass-probability/:userId`.
+- **Public Diagnostic Exam**: 25-question free diagnostic exam covering all body systems. Anonymous attempts allowed (score only). Registered users get topic breakdown and recommendations. API: `GET /api/diagnostic-exam`, `POST /api/diagnostic-exam/submit`. Stored in `diagnostic_attempts` table.
+- **Auscultation Audio Library**: Audio clip management with license enforcement (CC0/CC_BY/CC_BY_SA/PUBLIC_DOMAIN/COMMERCIAL_LICENSE). Quiz mode for sound identification. Components: `AuscultationPracticeSection` in lesson-detail pages.
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL.
