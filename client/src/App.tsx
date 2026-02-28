@@ -93,6 +93,10 @@ const DeckPage = lazy(() => import("@/pages/deck-page"));
 const ProbabilitySimulatorPage = lazy(() => import("@/pages/probability-simulator"));
 const SeoPage = lazy(() => import("@/pages/seo-page"));
 const AdminSeoDashboard = lazy(() => import("@/pages/admin-seo-dashboard"));
+const AdminTranslationDashboard = lazy(() => import("@/pages/admin-translation-dashboard"));
+const AdminContentIntelligence = lazy(() => import("@/pages/admin-content-intelligence"));
+const AdminCatDashboard = lazy(() => import("@/pages/admin-cat-dashboard"));
+const AdminRevenueDashboard = lazy(() => import("@/pages/admin-revenue-dashboard"));
 
 function PageTracker() {
   usePageTracker();
@@ -244,6 +248,10 @@ function AppRoutes() {
         <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
         <Route path="/study-guide/:slug" component={SeoPage} />
         <Route path="/admin/seo" component={AdminSeoDashboard} />
+        <Route path="/admin/translations" component={AdminTranslationDashboard} />
+        <Route path="/admin/content-intelligence" component={AdminContentIntelligence} />
+        <Route path="/admin/cat" component={AdminCatDashboard} />
+        <Route path="/admin/revenue" component={AdminRevenueDashboard} />
         <Route path="/medication-mastery" component={MedicationMasteryPage} />
         <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />

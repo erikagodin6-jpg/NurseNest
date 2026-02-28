@@ -35,6 +35,7 @@ import { getImageAltText, getImageTitle, getImageStructuredData, getImageCaption
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { RichTextEditor, RichTextListEditor, RichTextDisplay } from "@/components/rich-text-editor";
 import { ContentBlockRenderer, LessonObjectives, ClinicalPearlsList } from "@/components/content-block-renderer";
+import { useI18n } from "@/lib/i18n";
 
 function getCredentials() {
   try {
@@ -1605,6 +1606,7 @@ export default function LessonDetail() {
   const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
   const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
   const { user, hasAccess } = useAuth();
+  const { language } = useI18n();
   const isAdmin = user?.tier === "admin";
   
   const tierFromId = id?.split('-')[0];
@@ -1674,7 +1676,14 @@ export default function LessonDetail() {
   const fetchDbLesson = useCallback((slug: string) => {
     setDbLoading(true);
     const creds = getCredentials();
-    const params = creds ? `?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}` : "";
+    const queryParts: string[] = [];
+    if (creds) {
+      queryParts.push(`username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`);
+    }
+    if (language && language !== "en") {
+      queryParts.push(`lang=${encodeURIComponent(language)}`);
+    }
+    const params = queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
     fetch(`/api/content/slug/${slug}${params}`)
       .then((r) => {
         if (!r.ok) throw new Error("Not found");
@@ -1690,7 +1699,7 @@ export default function LessonDetail() {
       .finally(() => {
         setDbLoading(false);
       });
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     if (baseLesson) {
@@ -1702,7 +1711,7 @@ export default function LessonDetail() {
       return;
     }
     fetchDbLesson(id);
-  }, [baseLesson, id, fetchDbLesson]);
+  }, [baseLesson, id, fetchDbLesson, language]);
 
   const lessonContent = useMemo(() => {
     if (!baseLesson) return null;

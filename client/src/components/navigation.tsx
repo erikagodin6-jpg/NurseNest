@@ -56,7 +56,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign } from "lucide-react";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { t } = useI18n();
@@ -128,6 +128,22 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/seo")} data-testid="menu-seo-dashboard">
               <Globe className="w-4 h-4" />
               SEO Dashboard
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/translations")} data-testid="menu-translations">
+              <Languages className="w-4 h-4" />
+              Translations
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/content-intelligence")} data-testid="menu-content-intelligence">
+              <BarChart3 className="w-4 h-4" />
+              Content Intelligence
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/cat")} data-testid="menu-cat-dashboard">
+              <Activity className="w-4 h-4" />
+              CAT Analytics
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/revenue")} data-testid="menu-revenue">
+              <DollarSign className="w-4 h-4" />
+              Revenue Intelligence
             </DropdownMenuItem>
           </>
         )}
@@ -586,6 +602,30 @@ export function Navigation() {
                       <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin/seo")} data-testid="button-seo-dashboard-mobile">
                         <Globe className="w-4 h-4" />
                         SEO Dashboard
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin/translations")} data-testid="button-translations-mobile">
+                        <Languages className="w-4 h-4" />
+                        Translations
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin/content-intelligence")} data-testid="button-content-intel-mobile">
+                        <BarChart3 className="w-4 h-4" />
+                        Content Intelligence
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin/cat")} data-testid="button-cat-mobile">
+                        <Activity className="w-4 h-4" />
+                        CAT Analytics
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => setLocation("/admin/revenue")} data-testid="button-revenue-mobile">
+                        <DollarSign className="w-4 h-4" />
+                        Revenue Intelligence
                       </Button>
                     </SheetClose>
                   </>
