@@ -5,7 +5,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Crown, Zap, Shield, Sparkles, BookOpen, Brain, FileText, Loader2 } from "lucide-react";
+import { Check, X, Crown, Zap, Shield, Sparkles, BookOpen, Brain, FileText, Loader2, TrendingUp, Clock, Award } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
 function PricingCard({ plan, price, period, isPopular, features, onSelect, loading }: {
@@ -64,6 +64,7 @@ function ComparisonTable() {
     { feature: "Browse Public Decks", free: true, pro: true },
     { feature: "Study Modes", free: "Basic", pro: "All Modes" },
     { feature: "Priority Support", free: false, pro: true },
+    { feature: "Competitor Context", free: "—", pro: "40% cheaper than Quizlet+" },
   ];
 
   return (
@@ -90,6 +91,57 @@ function ComparisonTable() {
                   row.pro ? <Check className="h-4 w-4 text-green-500 mx-auto" /> : <X className="h-4 w-4 text-gray-300 mx-auto" />
                 ) : <span className="font-medium text-purple-700">{row.pro}</span>}
               </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function CompetitorComparisonTable() {
+  type CompetitorRow = {
+    feature: string;
+    nursenest: string;
+    uworld: string;
+    archer: string;
+    quizlet: string;
+    highlight?: boolean;
+  };
+
+  const rows: CompetitorRow[] = [
+    { feature: "Monthly Price", nursenest: "$4.99/mo", uworld: "$69/mo", archer: "$59/quarter", quizlet: "$7.99/mo", highlight: true },
+    { feature: "Question Count", nursenest: "4,000+", uworld: "2,300+", archer: "1,700+", quizlet: "User-generated" },
+    { feature: "Flashcards", nursenest: "Unlimited", uworld: "Limited", archer: "None", quizlet: "Unlimited" },
+    { feature: "Adaptive Testing", nursenest: "Yes", uworld: "Yes", archer: "Yes", quizlet: "No" },
+    { feature: "Canada / REx-PN Support", nursenest: "Yes", uworld: "Limited", archer: "Limited", quizlet: "No" },
+    { feature: "Money-Back Guarantee", nursenest: "30 days", uworld: "None", archer: "None", quizlet: "None" },
+  ];
+
+  return (
+    <div className="overflow-x-auto" data-testid="competitor-comparison-table">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b bg-gray-50">
+            <th className="text-left py-3 px-3 font-semibold">Feature</th>
+            <th className="text-center py-3 px-3 bg-purple-50 font-semibold">
+              <span className="flex items-center justify-center gap-1">
+                <Crown className="h-4 w-4 text-purple-600" /> NurseNest Pro
+              </span>
+            </th>
+            <th className="text-center py-3 px-3 font-semibold text-gray-600">UWorld</th>
+            <th className="text-center py-3 px-3 font-semibold text-gray-600">Archer</th>
+            <th className="text-center py-3 px-3 font-semibold text-gray-600">Quizlet+</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} className={`border-b ${row.highlight ? "bg-green-50/50" : ""}`} data-testid={`row-competitor-${i}`}>
+              <td className="py-3 px-3 font-medium">{row.feature}</td>
+              <td className="text-center py-3 px-3 bg-purple-50 font-semibold text-purple-700">{row.nursenest}</td>
+              <td className="text-center py-3 px-3 text-gray-600">{row.uworld}</td>
+              <td className="text-center py-3 px-3 text-gray-600">{row.archer}</td>
+              <td className="text-center py-3 px-3 text-gray-600">{row.quizlet}</td>
             </tr>
           ))}
         </tbody>
@@ -200,10 +252,10 @@ export default function UpgradePage() {
             <Sparkles className="h-3 w-3 mr-1" /> Upgrade to Pro
           </Badge>
           <h1 className="text-4xl font-bold mb-3" data-testid="text-upgrade-title">
-            Unlock Unlimited Flashcards
+            Pass Your NCLEX or REx-PN With Structured Exam-Level Practice
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Don't let a card limit slow your studying. Upgrade to Pro and create as many flashcards as you need to ace your exams.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-upgrade-subtitle">
+            4,000+ questions, unlimited flashcards, adaptive testing — for less than Quizlet+.
           </p>
 
           {usage && !usage.isPremium && (
@@ -214,6 +266,11 @@ export default function UpgradePage() {
               </span>
             </div>
           )}
+
+          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-purple-700 font-medium" data-testid="text-urgency">
+            <Clock className="h-4 w-4" />
+            Start studying in 60 seconds
+          </div>
         </div>
 
         <div className="mb-6 text-center">
@@ -248,18 +305,61 @@ export default function UpgradePage() {
           <ComparisonTable />
         </div>
 
+        <div className="max-w-4xl mx-auto mb-16">
+          <h2 className="text-2xl font-bold text-center mb-2" data-testid="text-competitor-heading">How NurseNest Pro Stacks Up</h2>
+          <p className="text-center text-muted-foreground mb-6">See how we compare to the most popular NCLEX prep platforms.</p>
+          <Card>
+            <CardContent className="p-0">
+              <CompetitorComparisonTable />
+            </CardContent>
+          </Card>
+          <div className="flex justify-center mt-4">
+            <Badge className="bg-green-100 text-green-700 px-3 py-1" data-testid="badge-guarantee">
+              <Shield className="h-3 w-3 mr-1" /> 30-day money-back guarantee
+            </Badge>
+          </div>
+        </div>
+
+        <div className="max-w-3xl mx-auto mb-16 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-8" data-testid="section-outcome">
+          <div className="flex items-start gap-4">
+            <div className="bg-purple-100 rounded-full p-3 shrink-0">
+              <TrendingUp className="h-6 w-6 text-purple-600" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold mb-2" data-testid="text-outcome-heading">Practice More, Pass With Confidence</h2>
+              <p className="text-muted-foreground mb-3">
+                Students who complete 500+ practice questions improve pass probability significantly. NurseNest Pro gives you 4,000+ exam-aligned questions with detailed rationales so you can build the clinical judgment skills tested on the NCLEX and REx-PN.
+              </p>
+              <div className="flex flex-wrap gap-4 mt-4">
+                <div className="flex items-center gap-2">
+                  <Award className="h-5 w-5 text-purple-500" />
+                  <span className="text-sm font-medium">4,000+ NCLEX-style questions</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Brain className="h-5 w-5 text-purple-500" />
+                  <span className="text-sm font-medium">Adaptive difficulty engine</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <BookOpen className="h-5 w-5 text-purple-500" />
+                  <span className="text-sm font-medium">Detailed rationales for every answer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <Card className="text-center p-6">
+          <Card className="text-center p-6" data-testid="card-feature-nursing">
             <BookOpen className="h-8 w-8 text-purple-500 mx-auto mb-3" />
             <h3 className="font-semibold mb-1">Built for Nursing Students</h3>
             <p className="text-sm text-muted-foreground">Thousands of cards created weekly by nursing students preparing for NCLEX and REX-PN.</p>
           </Card>
-          <Card className="text-center p-6">
+          <Card className="text-center p-6" data-testid="card-feature-ai">
             <Brain className="h-8 w-8 text-purple-500 mx-auto mb-3" />
             <h3 className="font-semibold mb-1">AI-Powered Learning</h3>
             <p className="text-sm text-muted-foreground">Generate clinically accurate flashcards instantly with our AI trained on nursing content.</p>
           </Card>
-          <Card className="text-center p-6">
+          <Card className="text-center p-6" data-testid="card-feature-guarantee">
             <Shield className="h-8 w-8 text-purple-500 mx-auto mb-3" />
             <h3 className="font-semibold mb-1">30-Day Guarantee</h3>
             <p className="text-sm text-muted-foreground">Not satisfied? Get a full refund within 30 days, no questions asked.</p>

@@ -176,4 +176,11 @@ export const seoTitleMap: Record<string, { title: string; keyword: string; inten
   "nursing-process-adpie": { title: "Nursing Process ADPIE: Steps & NCLEX Review", keyword: "nursing process ADPIE NCLEX", intent: "exam prep" },
   "medication-administration-safety": { title: "Medication Safety: Rights & NCLEX Review", keyword: "medication administration rights nursing", intent: "exam prep" },
   "documentation-sbar-dar": { title: "SBAR & DAR Documentation: Nursing Guide", keyword: "SBAR documentation nursing", intent: "exam prep" },
+
+  "compare/nursenest-vs-uworld": { title: "NurseNest vs UWorld NCLEX: Compare Features & Pricing (2025)", keyword: "nursenest vs uworld nclex prep comparison", intent: "comparison" },
+  "compare/nursenest-vs-archer": { title: "NurseNest vs Archer NCLEX Review: Features & Pricing (2025)", keyword: "nursenest vs archer nclex review comparison", intent: "comparison" },
+  "compare/nursenest-vs-quizlet": { title: "NurseNest vs Quizlet for Nursing: Compare Features (2025)", keyword: "nursenest vs quizlet nursing flashcards comparison", intent: "comparison" },
+  "compare/best-nclex-prep-canada": { title: "Best NCLEX & REx-PN Prep in Canada (2025) | NurseNest", keyword: "best nclex prep canada rex-pn study guide", intent: "comparison" },
+  "compare/cheapest-nclex-prep": { title: "Cheapest NCLEX Prep 2025: Affordable Study Tools Compared", keyword: "cheapest nclex prep affordable nursing exam study", intent: "comparison" },
+  "compare/rex-pn-practice-questions-free": { title: "Free REx-PN Practice Questions 2025 | NurseNest Canada", keyword: "free rex-pn practice questions canada nursing exam", intent: "comparison" },
 };
