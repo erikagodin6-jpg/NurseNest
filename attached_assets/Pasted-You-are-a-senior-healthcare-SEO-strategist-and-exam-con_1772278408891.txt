@@ -1,0 +1,161 @@
+You are a senior healthcare SEO strategist and exam content architect.
+
+Platform: https://www.nursenest.ca
+Objective: Dominate SEO rankings for the new upcoming Canadian Nurse Practitioner licensing exam before competitors establish authority.
+
+Do NOT:
+- Publish speculative or inaccurate information
+- Copy official exam content
+- Misrepresent regulatory bodies
+- Use unverified details
+
+Do:
+- Structure content around search intent
+- Build early authority hubs
+- Create cluster architecture
+- Capture high-intent exam prep traffic
+
+========================================================
+PHASE 1 — BUILD AUTHORITY HUB
+========================================================
+
+Create primary hub page:
+
+Title:
+Canadian NP Licensing Exam 202X: Complete Guide, Format & Prep Strategy
+
+Must include:
+
+- Overview of the new NP exam
+- Regulatory body explanation (verified source)
+- Exam format (if available)
+- Blueprint overview
+- Competency domains
+- Exam timeline
+- Application process
+- Scoring method (if known)
+- Differences from previous exams
+- How to prepare effectively
+- Recommended study strategy
+- FAQ section (8–12 high-intent questions)
+
+Add:
+- Internal links to NP pathophysiology lessons
+- Links to diagnostic reasoning lessons
+- Links to prescribing modules
+- Links to clinical decision-making topics
+
+Deliver:
+- Structured outline
+- SEO-optimized title
+- Meta description
+- FAQ schema content
+- Internal link map
+
+========================================================
+PHASE 2 — CREATE SUPPORTING CLUSTER PAGES
+========================================================
+
+Create 10–15 cluster pages targeting:
+
+- “Canadian NP exam format”
+- “Canadian NP exam blueprint”
+- “Canadian NP exam passing score”
+- “Canadian NP exam study plan”
+- “How to prepare for Canadian NP exam”
+- “Canadian NP prescribing exam”
+- “Canadian NP clinical decision exam”
+- “Canadian NP exam practice questions”
+- “Canadian NP exam eligibility requirements”
+- “Canadian NP exam cost”
+- “Canadian NP exam registration”
+- “Canadian NP exam vs US NP exam”
+
+Each page must:
+- Be 1,200–2,000 words
+- Link to main hub
+- Include FAQ schema
+- Include “Practice Questions” CTA
+- Include flashcard CTA
+
+Deliver:
+- Page titles
+- Meta descriptions
+- H2/H3 structure
+- Internal linking plan
+- Schema-ready FAQs
+
+========================================================
+PHASE 3 — HIGH-INTENT PRACTICE PAGE
+========================================================
+
+Create:
+
+“Canadian NP Exam Practice Questions (Free Sample)”
+
+Include:
+- 10 NP-level clinical reasoning questions
+- Rationales
+- “Unlock 100 more questions” CTA
+- Free account capture
+- Links back to hub
+
+Deliver:
+- Question structure
+- Capture CTA logic
+- SEO optimization
+
+========================================================
+PHASE 4 — EARLY RANKING ADVANTAGE STRATEGY
+========================================================
+
+Implement:
+
+- Exact-match keyword targeting
+- Long-tail variations
+- Regional phrasing (Canada-specific)
+- FAQ schema for featured snippets
+- Internal linking from homepage
+- Inclusion in sitemap
+- Noindex if incomplete
+- Structured H1/H2 hierarchy
+
+Provide:
+- Keyword list (primary + long-tail)
+- Anchor text plan
+- Internal link expansion map
+- Recommended publishing order
+
+========================================================
+PHASE 5 — TRAFFIC CAPTURE STRATEGY
+========================================================
+
+Add to every NP exam page:
+
+- “Start Free NP Practice Questions” CTA
+- Embedded 5-question mini quiz
+- Upgrade prompt after question 2
+- “Compare to US NP Exams” internal link
+
+Provide:
+- Conversion funnel layout
+- Event tracking recommendations
+- Free → paid pathway logic
+
+========================================================
+FINAL OUTPUT REQUIRED
+========================================================
+
+Provide:
+
+1) Full hub page outline
+2) 10–15 cluster page structures
+3) Practice page blueprint
+4) Keyword map
+5) Internal linking plan
+6) Publishing sequence
+7) 90-day ranking acceleration plan
+8) Risk mitigation checklist
+
+All recommendations must be structured, accurate, and defensible.
+Avoid speculation or misinformation.
