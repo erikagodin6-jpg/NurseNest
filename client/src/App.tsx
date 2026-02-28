@@ -104,6 +104,7 @@ const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
 const ShopPage = lazy(() => import("@/pages/shop"));
 const ShopProductPage = lazy(() => import("@/pages/shop-product"));
 const ProductBuilderPage = lazy(() => import("@/pages/product-builder"));
+const PathwaysPage = lazy(() => import("@/pages/pathways"));
 
 function PageTracker() {
   usePageTracker();
@@ -234,6 +235,7 @@ function AppRoutes() {
         <Route path="/" component={Home} />
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/start-free" component={StartFreePage} />
+        <Route path="/pathways" component={PathwaysPage} />
         <Route path="/med-math" component={MedMathPage} />
         <Route path="/lab-values" component={LabValuesPage} />
         <Route path="/admin" component={AdminPage} />

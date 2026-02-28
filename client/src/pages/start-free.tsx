@@ -4,9 +4,11 @@ import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { useI18n } from "@/lib/i18n";
 import { useLocation } from "wouter";
 import {
   ArrowRight,
+  Compass,
   Heart,
   Brain,
   Wind,
@@ -127,6 +129,7 @@ const premiumPreview = [
 ];
 
 export default function StartFreePage() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
 
   return (
@@ -399,6 +402,52 @@ export default function StartFreePage() {
                   data-testid="button-start-anatomy"
                 >
                   Start Learning Free
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Choose Your Pathway */}
+        <section className="py-16" data-testid="section-choose-pathway">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-gradient-to-br from-primary/5 to-secondary/10 rounded-2xl border border-primary/15 shadow-lg overflow-hidden">
+              <div className="p-8 lg:p-10">
+                <div className="flex items-center gap-2 mb-4">
+                  <Compass className="w-6 h-6 text-primary" />
+                  <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                    {t("pathways.badge")}
+                  </span>
+                </div>
+                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                  {t("startFree.pathways.title")}
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-6 max-w-xl">
+                  {t("startFree.pathways.subtitle")}
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+                  {[
+                    { label: t("pathways.card.preNursing.title"), icon: BookOpen, color: "text-emerald-600", bg: "bg-emerald-50" },
+                    { label: t("pathways.card.rpn.title"), icon: Shield, color: "text-blue-600", bg: "bg-blue-50" },
+                    { label: t("pathways.card.rn.title"), icon: Stethoscope, color: "text-purple-600", bg: "bg-purple-50" },
+                    { label: t("pathways.card.np.title"), icon: Brain, color: "text-amber-600", bg: "bg-amber-50" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 bg-white/80 rounded-lg p-3 border border-white">
+                      <div className={`w-8 h-8 ${item.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                        <item.icon className={`w-4 h-4 ${item.color}`} />
+                      </div>
+                      <span className="text-xs font-medium text-gray-700 leading-tight">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <Button
+                  size="lg"
+                  className="rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 text-white transition-all hover:-translate-y-1"
+                  onClick={() => setLocation("/pathways")}
+                  data-testid="button-find-pathway"
+                >
+                  {t("startFree.pathways.cta")}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>

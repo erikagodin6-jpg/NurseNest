@@ -151,3 +151,12 @@ NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, 
 ### Featured Study Resources (Homepage)
 - Fetches featured products from `/api/shop/products` and displays up to 4 on homepage.
 - Only shows section when products exist.
+
+### Education Pathways ("Choose Your Path to Success")
+- **Route**: `/pathways` — new page at `client/src/pages/pathways.tsx`.
+- **Four pathway cards**: Pre-Nursing, RPN/LPN, RN, NP with expandable step-by-step curricula.
+- **Detailed roadmaps**: Each pathway has 4-7 steps with modules, question targets, exam alignment badges, capstone exam info, and weekly study plans.
+- **Exam alignment labels**: REx-PN, NCLEX-PN, NCLEX-RN, Canadian RN, CNPE, CNPLE (Coming Soon), AANP, ANCC.
+- **Smart progression section**: Start Here, Track Progress, Confidence Checks, Exam Ready indicators.
+- **Fully i18n**: All 15 languages translated (i18n-en.ts + i18n-translations.ts).
+- **Start Free integration**: "Choose Your Learning Pathway" card added to `/start-free` page linking to `/pathways`.
