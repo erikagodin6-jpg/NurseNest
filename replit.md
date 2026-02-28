@@ -31,7 +31,7 @@ NurseNest is an interactive nursing education platform for RPN/LVN, RN, and NP s
 - **Backend**: Express 5 on Node.js with TypeScript, featuring gzip compression and robust security headers.
 - **API Pattern**: RESTful API using `/api` prefix.
 - **Authentication**: Username/password, session management in localStorage, server-side admin verification.
-- **Content Engine**: Admin-only editor for structured content, dynamic SEO-optimized pages. Supports inline lesson editing, template-based lesson creation with AI content generation and SEO metadata. Admin can manage pre-nursing modules and anatomy content with AI assistance and site-wide image overrides.
+- **Content Engine**: Admin-only editor for structured content, dynamic SEO-optimized pages. Supports inline lesson editing, template-based lesson creation with AI content generation and SEO metadata. Admin can manage pre-nursing modules and anatomy content with AI assistance and site-wide image overrides. Includes internal linking suggestion engine that scans content for keyword matches against published lesson slugs, enforces max 1 link per 200 words, prevents duplicate page links, and tracks link density.
 - **Lesson Publish Flow**: Admins can publish lessons directly, with immediate view of published content and a dedicated "Edit Lesson" mode.
 - **Subscription System**: Multiple tiers (Free, RPN/LVN, RN/NCLEX, NP Advanced) with regional pricing.
 - **Interactive Learning**: Includes Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Clarity, Clinical Case Simulation, Medication Mastery Engine, and six interactive clinical simulators.

@@ -1473,6 +1473,205 @@ Rules:
     }
   });
 
+  // ====== INTERNAL LINKING SUGGESTION ENGINE ======
+  function extractTextFromContent(content: any): string {
+    if (!content) return "";
+    if (typeof content === "string") return content;
+    if (Array.isArray(content)) {
+      return content
+        .map((block: any) => {
+          if (typeof block === "string") return block;
+          if (block && typeof block.content === "string") return block.content;
+          return "";
+        })
+        .join(" ");
+    }
+    return "";
+  }
+
+  function countWords(text: string): number {
+    return text.replace(/\s+/g, " ").trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  function computeLinkDensity(text: string, linkCount: number): { density: number; wordsPerLink: number; withinLimit: boolean } {
+    const words = countWords(text);
+    if (words === 0) return { density: 0, wordsPerLink: 0, withinLimit: true };
+    const maxLinks = Math.floor(words / 200);
+    return {
+      density: linkCount / Math.max(1, words) * 1000,
+      wordsPerLink: linkCount > 0 ? Math.round(words / linkCount) : words,
+      withinLimit: linkCount <= Math.max(1, maxLinks),
+    };
+  }
+
+  app.post("/api/content/internal-link-suggestions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { content, title, slug: currentSlug, summary } = req.body;
+      if (!content && !summary) return res.status(400).json({ error: "content or summary required" });
+
+      const fullText = [title || "", summary || "", extractTextFromContent(content)].join(" ");
+      const textLower = fullText.toLowerCase();
+      const wordCount = countWords(fullText);
+      const maxLinks = Math.floor(wordCount / 200);
+
+      const existingLinkPattern = /\[([^\]]+)\]\(([^)]+)\)|href=["']([^"']+)["']/gi;
+      const alreadyLinkedUrls = new Set<string>();
+      let existingMatch;
+      while ((existingMatch = existingLinkPattern.exec(fullText)) !== null) {
+        const url = existingMatch[2] || existingMatch[3] || "";
+        alreadyLinkedUrls.add(url);
+        const slugMatch = url.match(/\/lessons\/([^/?#]+)/);
+        if (slugMatch) alreadyLinkedUrls.add(slugMatch[1]);
+      }
+
+      const remainingLinkBudget = Math.max(0, maxLinks - alreadyLinkedUrls.size);
+
+      const cmsItems = await pool.query(
+        `SELECT slug, title, tags, body_system, category, tier FROM content_items WHERE status = 'published' AND type = 'lesson' ORDER BY title`
+      );
+
+      const candidates: Array<{
+        slug: string;
+        title: string;
+        url: string;
+        matchType: "slug" | "title" | "tag" | "body_system";
+        matchedKeyword: string;
+        position: number;
+        contextSnippet: string;
+      }> = [];
+
+      const seenSlugs = new Set<string>();
+      if (currentSlug) seenSlugs.add(currentSlug);
+      for (const linkedUrl of alreadyLinkedUrls) {
+        seenSlugs.add(linkedUrl);
+      }
+
+      for (const item of cmsItems.rows) {
+        if (seenSlugs.has(item.slug)) continue;
+
+        const slugWords = item.slug.replace(/-/g, " ");
+        const titleLower = (item.title || "").toLowerCase();
+
+        const checks: Array<{ keyword: string; type: "slug" | "title" | "tag" | "body_system" }> = [
+          { keyword: titleLower, type: "title" },
+          { keyword: slugWords, type: "slug" },
+        ];
+
+        if (item.tags && Array.isArray(item.tags)) {
+          for (const tag of item.tags) {
+            if (tag && tag.length > 2) {
+              checks.push({ keyword: tag.toLowerCase(), type: "tag" });
+            }
+          }
+        }
+        if (item.body_system) {
+          checks.push({ keyword: item.body_system.toLowerCase().replace(/-/g, " "), type: "body_system" });
+        }
+
+        for (const check of checks) {
+          if (check.keyword.length < 3) continue;
+          const pos = textLower.indexOf(check.keyword);
+          if (pos !== -1 && !seenSlugs.has(item.slug)) {
+            const snippetStart = Math.max(0, pos - 40);
+            const snippetEnd = Math.min(fullText.length, pos + check.keyword.length + 40);
+            const contextSnippet = (snippetStart > 0 ? "..." : "") +
+              fullText.slice(snippetStart, snippetEnd).replace(/\n/g, " ") +
+              (snippetEnd < fullText.length ? "..." : "");
+
+            candidates.push({
+              slug: item.slug,
+              title: item.title,
+              url: `/lessons/${item.slug}`,
+              matchType: check.type,
+              matchedKeyword: check.keyword,
+              position: pos,
+              contextSnippet,
+            });
+            seenSlugs.add(item.slug);
+            break;
+          }
+        }
+      }
+
+      candidates.sort((a, b) => {
+        const priority: Record<string, number> = { title: 0, slug: 1, tag: 2, body_system: 3 };
+        return (priority[a.matchType] ?? 4) - (priority[b.matchType] ?? 4);
+      });
+
+      const suggestions = candidates.slice(0, remainingLinkBudget);
+
+      const existingInternalLinks = [...alreadyLinkedUrls].filter((l) => l.startsWith("/lessons/"));
+      const existingExternalLinks = [...alreadyLinkedUrls].filter((l) => l.startsWith("http"));
+      const density = computeLinkDensity(fullText, existingInternalLinks.length);
+
+      res.json({
+        suggestions,
+        meta: {
+          wordCount,
+          maxLinksAllowed: maxLinks,
+          remainingLinkBudget,
+          existingInternalLinks: existingInternalLinks.length,
+          existingExternalLinks: existingExternalLinks.length,
+          totalCandidatesFound: candidates.length,
+          density,
+        },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/content/:id/link-density", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const item = await storage.getContentItem(req.params.id);
+      if (!item) return res.status(404).json({ error: "Content not found" });
+
+      const fullText = [item.title || "", item.summary || "", extractTextFromContent(item.content)].join(" ");
+      const wordCount = countWords(fullText);
+
+      const linkPattern = /\[([^\]]+)\]\(([^)]+)\)|href=["']([^"']+)["']/gi;
+      const links: Array<{ url: string; text: string; isInternal: boolean }> = [];
+      let match;
+      while ((match = linkPattern.exec(fullText)) !== null) {
+        const url = match[2] || match[3] || "";
+        links.push({
+          url,
+          text: match[1] || "",
+          isInternal: url.startsWith("/"),
+        });
+      }
+
+      const internalLinks = links.filter((l) => l.isInternal);
+      const duplicateLinks = internalLinks
+        .map((l) => l.url)
+        .filter((url, i, arr) => arr.indexOf(url) !== i);
+
+      const density = computeLinkDensity(fullText, internalLinks.length);
+
+      res.json({
+        contentId: req.params.id,
+        slug: item.slug,
+        title: item.title,
+        wordCount,
+        internalLinkCount: internalLinks.length,
+        externalLinkCount: links.filter((l) => !l.isInternal).length,
+        density,
+        maxLinksAllowed: Math.max(1, Math.floor(wordCount / 200)),
+        duplicateLinks: [...new Set(duplicateLinks)],
+        hasDuplicates: duplicateLinks.length > 0,
+        links: internalLinks,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/audit-logs", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

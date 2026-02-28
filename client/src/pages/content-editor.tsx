@@ -43,6 +43,10 @@ import {
   HelpCircle,
   CreditCard,
   Heading,
+  Link2,
+  ExternalLink,
+  Copy,
+  CheckCircle2,
 } from "lucide-react";
 
 type ContentBlock = {
@@ -227,6 +231,10 @@ export default function ContentEditorPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [linkSuggestions, setLinkSuggestions] = useState<any>(null);
+  const [linkSuggestionsOpen, setLinkSuggestionsOpen] = useState(false);
+  const [linkSuggestionsLoading, setLinkSuggestionsLoading] = useState(false);
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -542,11 +550,47 @@ export default function ContentEditorPage() {
       }
       await fetchItems();
       setError(null);
+      fetchLinkSuggestions();
     } catch (e: any) {
       setError(e.message);
     } finally {
       setSaving(false);
     }
+  }
+
+  async function fetchLinkSuggestions() {
+    const creds = getCredentials();
+    if (!creds) return;
+    setLinkSuggestionsLoading(true);
+    try {
+      const res = await fetch("/api/content/internal-link-suggestions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: creds.username,
+          password: creds.password,
+          content: blocks,
+          title,
+          slug,
+          summary,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setLinkSuggestions(data);
+        if (data.suggestions && data.suggestions.length > 0) {
+          setLinkSuggestionsOpen(true);
+        }
+      }
+    } catch {}
+    setLinkSuggestionsLoading(false);
+  }
+
+  function copyLinkMarkdown(suggestion: any) {
+    const md = `[${suggestion.title}](${suggestion.url})`;
+    navigator.clipboard.writeText(md);
+    setCopiedLink(suggestion.slug);
+    setTimeout(() => setCopiedLink(null), 2000);
   }
 
   async function handlePublish() {
@@ -1710,6 +1754,110 @@ export default function ContentEditorPage() {
                           </>
                         )}
                       </div>
+
+                      <div className="pt-3 border-t">
+                        <Button
+                          onClick={fetchLinkSuggestions}
+                          disabled={linkSuggestionsLoading || !blocks.length}
+                          variant="outline"
+                          className="w-full gap-2"
+                          size="sm"
+                          data-testid="button-scan-links"
+                        >
+                          {linkSuggestionsLoading ? (
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <Link2 className="w-3.5 h-3.5" />
+                          )}
+                          Scan for Internal Links
+                        </Button>
+                      </div>
+
+                      {linkSuggestions && (
+                        <div className="pt-3 border-t" data-testid="panel-link-suggestions">
+                          <button
+                            className="flex items-center justify-between w-full text-left text-sm font-medium mb-2"
+                            onClick={() => setLinkSuggestionsOpen(!linkSuggestionsOpen)}
+                            data-testid="button-toggle-link-suggestions"
+                          >
+                            <span className="flex items-center gap-1.5">
+                              <Link2 className="w-3.5 h-3.5" />
+                              Internal Links
+                              {linkSuggestions.suggestions?.length > 0 && (
+                                <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                                  {linkSuggestions.suggestions.length}
+                                </Badge>
+                              )}
+                            </span>
+                            {linkSuggestionsOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                          </button>
+
+                          {linkSuggestionsOpen && (
+                            <div className="space-y-2">
+                              {linkSuggestions.meta && (
+                                <div className="text-[10px] text-muted-foreground space-y-0.5 p-2 bg-muted/50 rounded" data-testid="text-link-density-info">
+                                  <p>{linkSuggestions.meta.wordCount} words · Max {linkSuggestions.meta.maxLinksAllowed} links allowed</p>
+                                  <p>
+                                    Existing: {linkSuggestions.meta.existingInternalLinks} internal, {linkSuggestions.meta.existingExternalLinks} external
+                                  </p>
+                                  {linkSuggestions.meta.density && (
+                                    <p className={linkSuggestions.meta.density.withinLimit ? "text-emerald-600" : "text-red-600"}>
+                                      Density: {linkSuggestions.meta.density.withinLimit ? "Within limit" : "Over limit"} ({linkSuggestions.meta.density.wordsPerLink} words/link)
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+
+                              {linkSuggestions.suggestions?.length === 0 && (
+                                <p className="text-xs text-muted-foreground italic py-1">No internal link opportunities found.</p>
+                              )}
+
+                              {linkSuggestions.suggestions?.map((s: any, i: number) => (
+                                <div
+                                  key={s.slug}
+                                  className="p-2 rounded border bg-card text-xs space-y-1"
+                                  data-testid={`link-suggestion-${i}`}
+                                >
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="font-medium truncate flex-1">{s.title}</span>
+                                    <Badge variant="outline" className="text-[9px] px-1 shrink-0">
+                                      {s.matchType}
+                                    </Badge>
+                                  </div>
+                                  <p className="text-[10px] text-muted-foreground leading-relaxed break-words">
+                                    ...{s.contextSnippet}...
+                                  </p>
+                                  <div className="flex items-center gap-1 pt-0.5">
+                                    <code className="text-[9px] bg-muted px-1 py-0.5 rounded flex-1 truncate">{s.url}</code>
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      className="h-6 w-6 p-0 shrink-0"
+                                      onClick={() => copyLinkMarkdown(s)}
+                                      data-testid={`button-copy-link-${i}`}
+                                    >
+                                      {copiedLink === s.slug ? (
+                                        <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                                      ) : (
+                                        <Copy className="w-3 h-3" />
+                                      )}
+                                    </Button>
+                                    <a
+                                      href={s.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center justify-center h-6 w-6 rounded hover:bg-muted shrink-0"
+                                      data-testid={`link-preview-${i}`}
+                                    >
+                                      <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </div>
