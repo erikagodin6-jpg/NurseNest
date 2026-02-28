@@ -60,12 +60,14 @@ import {
   XCircle,
   CircleCheck,
   Trophy,
-  BadgeCheck
+  BadgeCheck,
+  ShoppingBag
 } from "lucide-react";
 
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useQuery } from "@tanstack/react-query";
 import type { HeroStats } from "@shared/lesson-stats";
+import type { DigitalProduct } from "@shared/schema";
 
 function formatCount(n: number | undefined): string {
   if (n === undefined || n === 0) return "—";
@@ -90,6 +92,15 @@ export default function Home() {
     queryKey: ["/api/hero-stats"],
     staleTime: 10 * 60 * 1000,
   });
+
+  const { data: shopProducts } = useQuery<DigitalProduct[]>({
+    queryKey: ["/api/shop/products"],
+    staleTime: 10 * 60 * 1000,
+  });
+
+  const featuredProducts = (shopProducts || [])
+    .filter(p => p.featured && p.isActive)
+    .slice(0, 4);
 
   const lessonCount = heroStats?.totalLessons ?? 0;
   const questionCount = heroStats?.questionCount ?? 0;
@@ -1039,6 +1050,70 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Featured Study Resources */}
+        {featuredProducts.length > 0 && (
+          <section className="py-20 bg-gradient-to-b from-white to-primary/5 border-t border-gray-100" data-testid="section-featured-resources">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                  <ShoppingBag className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.featured.badge")}</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-featured-heading">{t("home.featured.heading")}</h2>
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t("home.featured.subtitle")}</p>
+              </div>
+              <div className={`grid gap-6 ${featuredProducts.length === 1 ? 'max-w-sm mx-auto' : featuredProducts.length === 2 ? 'md:grid-cols-2 max-w-2xl mx-auto' : featuredProducts.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
+                {featuredProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden cursor-pointer group"
+                    onClick={() => setLocation(`/shop/${product.slug}`)}
+                    data-testid={`card-featured-product-${product.slug}`}
+                  >
+                    {product.coverImageUrl && (
+                      <div className="aspect-[4/3] overflow-hidden bg-gray-50">
+                        <img
+                          src={product.coverImageUrl}
+                          alt={product.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                    <div className="p-5">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">{product.category}</span>
+                        {product.tierTarget && product.tierTarget !== "all" && (
+                          <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{product.tierTarget}</span>
+                        )}
+                      </div>
+                      <h3 className="text-base font-bold text-gray-900 mb-1.5 line-clamp-2 group-hover:text-primary transition-colors">{product.title}</h3>
+                      <p className="text-sm text-gray-600 line-clamp-2 mb-3">{product.shortDescription || product.description}</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-extrabold text-primary">${(product.price / 100).toFixed(2)}</span>
+                        {product.compareAtPrice && product.compareAtPrice > product.price && (
+                          <span className="text-sm text-gray-400 line-through">${(product.compareAtPrice / 100).toFixed(2)}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-10">
+                <Button
+                  variant="outline"
+                  className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-gray-700"
+                  onClick={() => setLocation("/shop")}
+                  data-testid="button-view-all-resources"
+                >
+                  {t("home.featured.viewAll")}
+                  <ChevronRight className="ml-1 w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FAQ Section */}
         <section className="py-24 bg-gradient-to-b from-white to-gray-50" data-testid="section-faq-home">

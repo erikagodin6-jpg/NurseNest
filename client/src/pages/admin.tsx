@@ -209,6 +209,13 @@ export default function AdminPage() {
   const [generatedImages, setGeneratedImages] = useState<{ filename: string; url: string; size: number; createdAt: string }[]>([]);
   const [showImageLibrary, setShowImageLibrary] = useState(false);
 
+  const [mlTopic, setMlTopic] = useState("");
+  const [mlTier, setMlTier] = useState<"RPN" | "RN" | "NP">("RN");
+  const [mlFocus, setMlFocus] = useState("");
+  const [mlLoading, setMlLoading] = useState(false);
+  const [mlGenerated, setMlGenerated] = useState<any[]>([]);
+  const [showMlLibrary, setShowMlLibrary] = useState(false);
+
   const [batchExamTier, setBatchExamTier] = useState("rn");
   const [batchExamTopic, setBatchExamTopic] = useState("");
   const [batchExamQty, setBatchExamQty] = useState(10);
@@ -1863,6 +1870,182 @@ export default function AdminPage() {
                                   </div>
                                   <div className="px-2 py-1.5">
                                     <p className="text-[9px] text-gray-500 truncate" title={img.filename}>{img.filename}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border border-primary/10 mb-4" data-testid="card-microlecture-generator">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Zap className="w-4 h-4 text-primary" />
+                          <span className="text-sm font-semibold text-gray-700">MicroLecture Generator</span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">AI Powered</span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setShowMlLibrary(!showMlLibrary);
+                            if (!showMlLibrary) {
+                              const stored = localStorage.getItem("nursenest-credentials");
+                              if (stored) {
+                                const { username, password } = JSON.parse(stored);
+                                fetch(`/api/admin/microlectures?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+                                  .then(r => r.json()).then(setMlGenerated).catch(() => {});
+                              }
+                            }
+                          }}
+                          className={`text-xs px-3 py-1 rounded-full border transition-colors ${showMlLibrary ? "bg-primary text-white border-primary" : "bg-white text-gray-600 border-gray-200 hover:border-primary"}`}
+                          data-testid="button-toggle-ml-library"
+                        >
+                          {showMlLibrary ? "Hide Library" : "Generated Lectures"}
+                        </button>
+                      </div>
+
+                      <div className="space-y-3">
+                        <Input
+                          placeholder="Topic (e.g., Heart Failure, Hyperkalemia, Sepsis)"
+                          value={mlTopic}
+                          onChange={(e) => setMlTopic(e.target.value)}
+                          className="text-sm"
+                          data-testid="input-ml-topic"
+                        />
+                        <div className="flex gap-2 items-end">
+                          <div className="flex-1">
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Focus (optional)</label>
+                            <Input
+                              placeholder="e.g., ECG interpretation, medication safety"
+                              value={mlFocus}
+                              onChange={(e) => setMlFocus(e.target.value)}
+                              className="text-sm"
+                              data-testid="input-ml-focus"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Tier</label>
+                            <div className="flex rounded-md border overflow-hidden">
+                              {(["RPN", "RN", "NP"] as const).map((t) => (
+                                <button
+                                  key={t}
+                                  onClick={() => setMlTier(t)}
+                                  className={`px-3 py-1.5 text-xs font-medium transition-colors ${mlTier === t ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}
+                                  data-testid={`button-ml-tier-${t}`}
+                                >
+                                  {t}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          <Button
+                            onClick={async () => {
+                              if (!mlTopic.trim()) return;
+                              setMlLoading(true);
+                              try {
+                                const stored = localStorage.getItem("nursenest-credentials");
+                                const creds = stored ? JSON.parse(stored) : {};
+                                const res = await fetch("/api/admin/generate-microlecture", {
+                                  method: "POST",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify({ topic: mlTopic, tier: mlTier, focus: mlFocus || undefined, username: creds.username, password: creds.password }),
+                                });
+                                if (!res.ok) {
+                                  const err = await res.json();
+                                  alert("Error: " + (err.error || "Failed to generate lecture"));
+                                } else {
+                                  const data = await res.json();
+                                  setMlGenerated(prev => [data.lecture, ...prev]);
+                                  setShowMlLibrary(true);
+                                  setMlTopic("");
+                                  setMlFocus("");
+                                }
+                              } catch (e: any) {
+                                alert("Error: " + e.message);
+                              } finally {
+                                setMlLoading(false);
+                              }
+                            }}
+                            disabled={mlLoading || !mlTopic.trim()}
+                            className="shrink-0 gap-1.5"
+                            data-testid="button-generate-ml"
+                          >
+                            <Zap className="w-3.5 h-3.5" />
+                            {mlLoading ? "Generating..." : "Generate"}
+                          </Button>
+                        </div>
+                        <p className="text-[10px] text-gray-400">Generates 8-15 slide lecture with narration script, flashcards, and clinical pearls. Tier-scoped for RPN/RN/NP.</p>
+                      </div>
+
+                      {showMlLibrary && (
+                        <div className="mt-4 border-t pt-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-xs font-semibold text-gray-600">Generated Lectures ({mlGenerated.length})</span>
+                            <button
+                              onClick={() => {
+                                const stored = localStorage.getItem("nursenest-credentials");
+                                if (stored) {
+                                  const { username, password } = JSON.parse(stored);
+                                  fetch(`/api/admin/microlectures?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+                                    .then(r => r.json()).then(setMlGenerated).catch(() => {});
+                                }
+                              }}
+                              className="text-[10px] text-primary hover:underline"
+                              data-testid="button-refresh-ml"
+                            >
+                              Refresh
+                            </button>
+                          </div>
+                          {mlGenerated.length === 0 ? (
+                            <p className="text-xs text-gray-400 text-center py-4">No generated lectures yet. Create your first one above!</p>
+                          ) : (
+                            <div className="space-y-2 max-h-80 overflow-y-auto">
+                              {mlGenerated.map((ml: any) => (
+                                <div key={ml.id} className="flex items-center justify-between p-3 rounded-lg border border-gray-200 bg-gray-50" data-testid={`ml-item-${ml.id}`}>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-gray-800 truncate">{ml.title}</p>
+                                    <div className="flex items-center gap-2 mt-1">
+                                      <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{ml.tier}</span>
+                                      <span className="text-[10px] text-gray-400">{ml.durationEstimate}</span>
+                                      <span className={`text-[10px] px-2 py-0.5 rounded-full ${ml.isPublished ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
+                                        {ml.isPublished ? "Published" : "Draft"}
+                                      </span>
+                                      {ml.slidesJson && <span className="text-[10px] text-gray-400">{Array.isArray(ml.slidesJson) ? ml.slidesJson.length : 0} slides</span>}
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-1.5 ml-2">
+                                    <button
+                                      onClick={async () => {
+                                        const stored = localStorage.getItem("nursenest-credentials");
+                                        const creds = stored ? JSON.parse(stored) : {};
+                                        await fetch(`/api/admin/microlectures/${ml.id}/publish`, {
+                                          method: "PUT",
+                                          headers: { "Content-Type": "application/json" },
+                                          body: JSON.stringify({ publish: !ml.isPublished, username: creds.username, password: creds.password }),
+                                        });
+                                        setMlGenerated(prev => prev.map(m => m.id === ml.id ? { ...m, isPublished: !m.isPublished } : m));
+                                      }}
+                                      className="text-[10px] bg-white border border-gray-200 text-gray-600 px-2 py-1 rounded hover:border-primary"
+                                      data-testid={`button-publish-ml-${ml.id}`}
+                                    >
+                                      {ml.isPublished ? "Unpublish" : "Publish"}
+                                    </button>
+                                    <button
+                                      onClick={async () => {
+                                        if (!confirm("Delete this lecture?")) return;
+                                        const stored = localStorage.getItem("nursenest-credentials");
+                                        const creds = stored ? JSON.parse(stored) : {};
+                                        await fetch(`/api/admin/microlectures/${ml.id}?username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`, { method: "DELETE" });
+                                        setMlGenerated(prev => prev.filter(m => m.id !== ml.id));
+                                      }}
+                                      className="text-[10px] bg-red-50 border border-red-200 text-red-600 px-2 py-1 rounded hover:bg-red-100"
+                                      data-testid={`button-delete-ml-${ml.id}`}
+                                    >
+                                      Delete
+                                    </button>
                                   </div>
                                 </div>
                               ))}

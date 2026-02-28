@@ -103,6 +103,7 @@ const ComparePage = lazy(() => import("@/pages/compare"));
 const NpExamHub = lazy(() => import("@/pages/np-exam-hub"));
 const ShopPage = lazy(() => import("@/pages/shop"));
 const ShopProductPage = lazy(() => import("@/pages/shop-product"));
+const ProductBuilderPage = lazy(() => import("@/pages/product-builder"));
 
 function PageTracker() {
   usePageTracker();
@@ -264,6 +265,8 @@ function AppRoutes() {
         <Route path="/admin/cat" component={AdminCatDashboard} />
         <Route path="/admin/revenue" component={AdminRevenueDashboard} />
         <Route path="/admin/pipeline" component={AdminPipelineDashboard} />
+        <Route path="/admin/product-builder" component={ProductBuilderPage} />
+        <Route path="/admin/product-builder/:id" component={ProductBuilderPage} />
         <Route path="/medication-mastery" component={MedicationMasteryPage} />
         <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />

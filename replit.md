@@ -129,3 +129,25 @@ NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, 
 - **API**: `POST /api/admin/generate-image`, `GET /api/admin/generated-images`, `DELETE /api/admin/generated-images/:filename`.
 - **Storage**: Images saved to `attached_assets/generated_images/`, served via static route.
 - **Image Library**: Browse, copy URL, regenerate, delete generated images.
+
+### MicroLecture Generator
+- **Admin UI**: In Content Engine tab, generates AI-powered micro-lectures with narration script, 8-15 slides, and flashcards.
+- **API**: `POST /api/admin/generate-microlecture`, `GET /api/admin/microlectures`, `DELETE /api/admin/microlectures/:id`, `PUT /api/admin/microlectures/:id/publish`.
+- **DB Table**: `generated_micro_lectures` in `shared/schema.ts`.
+- **Tier-scoped**: Generates RPN/RN/NP-specific content with appropriate scope depth.
+
+### Digital Product Builder (Admin)
+- **Route**: `/admin/product-builder` and `/admin/product-builder/:id`.
+- **DB Tables**: `design_projects`, `design_pages`, `design_assets`, `exported_files` in `shared/schema.ts`.
+- **Canvas Editor**: Drag-and-drop designer with text, shapes, images; snap-to-grid, undo/redo, layers panel, multi-page support.
+- **API**: Full CRUD for design projects, pages, and assets at `/api/admin/design-*`.
+- **Autosave**: Canvas state auto-saved every 2 seconds.
+
+### My Downloads / Post-Purchase Flow
+- **Profile**: "My Purchases" section shows purchased products with download buttons and remaining count.
+- **Shop Product**: Detects `?purchased=true` and shows download button instead of Buy Now.
+- **API**: `GET /api/shop/my-purchases`, `GET /api/shop/download/:purchaseId`.
+
+### Featured Study Resources (Homepage)
+- Fetches featured products from `/api/shop/products` and displays up to 4 on homepage.
+- Only shows section when products exist.

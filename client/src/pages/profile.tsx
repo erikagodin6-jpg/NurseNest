@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
-import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail } from "lucide-react";
+import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail, ShoppingBag, Download, AlertCircle } from "lucide-react";
 import { contentMap } from "@/data/lessons";
+import { LocaleLink } from "@/lib/LocaleLink";
 
 function formatNoteTitle(lessonId: string): string {
   const lesson = contentMap[lessonId];
@@ -39,6 +40,9 @@ export default function ProfilePage() {
   const [studyMode, setStudyMode] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [purchases, setPurchases] = useState<any[]>([]);
+  const [purchasesLoading, setPurchasesLoading] = useState(true);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [emailSub, setEmailSub] = useState<any>(null);
   const [emailSubLoading, setEmailSubLoading] = useState(true);
   const [emailSubFreq, setEmailSubFreq] = useState("weekly");
@@ -69,6 +73,11 @@ export default function ProfilePage() {
       .then(setFlashcards)
       .catch(() => {})
       .finally(() => setFlashcardsLoading(false));
+    fetch(`/api/shop/my-purchases?userId=${user.id}`)
+      .then((r) => r.json())
+      .then((data) => setPurchases(Array.isArray(data) ? data : []))
+      .catch(() => {})
+      .finally(() => setPurchasesLoading(false));
     if (user.email) {
       fetch(`/api/subscribe/${encodeURIComponent(user.email)}`)
         .then((r) => r.ok ? r.json() : null)
@@ -199,6 +208,33 @@ export default function ProfilePage() {
       });
   }
 
+  async function handleDownload(purchaseId: string) {
+    if (!user) return;
+    setDownloadingId(purchaseId);
+    try {
+      const res = await fetch(`/api/shop/download/${purchaseId}?userId=${user.id}`);
+      if (!res.ok) {
+        const err = await res.json();
+        toast({ title: "Download Error", description: err.error, variant: "destructive" });
+        return;
+      }
+      const { downloadUrl, downloadsRemaining } = await res.json();
+      setPurchases(purchases.map(p =>
+        p.id === purchaseId
+          ? { ...p, downloadCount: (p.downloadCount || 0) + 1 }
+          : p
+      ));
+      if (downloadUrl) {
+        window.open(downloadUrl, "_blank");
+      }
+      toast({ title: `Download started. ${downloadsRemaining} downloads remaining.` });
+    } catch {
+      toast({ title: "Download failed", variant: "destructive" });
+    } finally {
+      setDownloadingId(null);
+    }
+  }
+
   if (!user) return null;
 
   const tierLabels: Record<string, string> = { rpn: "RPN/LVN", rn: "RN/NCLEX", np: "NP Advanced", free: "Free" };
@@ -248,6 +284,78 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         </div>
+
+        <Card className="border-none shadow-sm" data-testid="card-my-purchases">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ShoppingBag className="w-5 h-5 text-emerald-500" /> My Purchases
+              <span className="text-sm font-normal text-gray-400 ml-2">{purchases.length} items</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {purchasesLoading ? (
+              <p className="text-gray-500 text-sm" data-testid="text-purchases-loading">Loading purchases...</p>
+            ) : purchases.length === 0 ? (
+              <div className="text-center py-6 space-y-3">
+                <ShoppingBag className="w-10 h-10 text-gray-300 mx-auto" />
+                <p className="text-gray-500" data-testid="text-purchases-empty">No purchases yet. Browse the store to find study materials.</p>
+                <LocaleLink href="/shop">
+                  <Button variant="outline" size="sm" data-testid="button-browse-store">
+                    Browse Store
+                  </Button>
+                </LocaleLink>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {purchases.map((purchase: any) => {
+                  const product = purchase.product;
+                  const downloadsUsed = purchase.downloadCount || 0;
+                  const maxDownloads = purchase.maxDownloads || 5;
+                  const remaining = maxDownloads - downloadsUsed;
+                  const limitReached = remaining <= 0;
+                  return (
+                    <div key={purchase.id} className="border rounded-xl p-4 flex items-start gap-4" data-testid={`purchase-item-${purchase.id}`}>
+                      {product?.coverImageUrl && (
+                        <img src={product.coverImageUrl} alt={product.title} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <LocaleLink href={`/shop/${product?.slug}`}>
+                          <h3 className="font-semibold text-gray-900 hover:text-primary transition-colors truncate" data-testid={`text-purchase-title-${purchase.id}`}>
+                            {product?.title || "Product"}
+                          </h3>
+                        </LocaleLink>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          Purchased {new Date(purchase.purchaseDate).toLocaleDateString()}
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          {limitReached ? (
+                            <span className="text-xs text-red-500 flex items-center gap-1" data-testid={`text-limit-reached-${purchase.id}`}>
+                              <AlertCircle className="w-3 h-3" /> Download limit reached
+                            </span>
+                          ) : (
+                            <span className="text-xs text-gray-500" data-testid={`text-downloads-remaining-${purchase.id}`}>
+                              {remaining} of {maxDownloads} downloads remaining
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant={limitReached ? "outline" : "default"}
+                        disabled={limitReached || downloadingId === purchase.id}
+                        onClick={() => handleDownload(purchase.id)}
+                        data-testid={`button-download-${purchase.id}`}
+                      >
+                        <Download className="w-4 h-4 mr-1" />
+                        {downloadingId === purchase.id ? "..." : "Download"}
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         <Card className="border-none shadow-sm" data-testid="card-email-subscription">
           <CardHeader className="pb-2">

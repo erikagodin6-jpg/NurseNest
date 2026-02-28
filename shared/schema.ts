@@ -1143,3 +1143,82 @@ export const couponCodes = pgTable("coupon_codes", {
   usageCount: integer("usage_count").default(0),
   isActive: boolean("is_active").default(true),
 });
+
+export const generatedMicroLectures = pgTable("generated_micro_lectures", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  topic: text("topic").notNull(),
+  tier: text("tier").notNull(),
+  focus: text("focus"),
+  durationEstimate: text("duration_estimate"),
+  scriptJson: jsonb("script_json"),
+  slidesJson: jsonb("slides_json"),
+  flashcardsJson: jsonb("flashcards_json"),
+  keywords: text("keywords").array(),
+  isPublished: boolean("is_published").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertGeneratedMicroLectureSchema = createInsertSchema(generatedMicroLectures).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertGeneratedMicroLecture = z.infer<typeof insertGeneratedMicroLectureSchema>;
+export type GeneratedMicroLecture = typeof generatedMicroLectures.$inferSelect;
+
+export const designProjects = pgTable("design_projects", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  type: text("type").notNull(),
+  pageSize: text("page_size").default("Letter"),
+  orientation: text("orientation").default("portrait"),
+  createdByAdminId: varchar("created_by_admin_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertDesignProjectSchema = createInsertSchema(designProjects).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertDesignProject = z.infer<typeof insertDesignProjectSchema>;
+export type DesignProject = typeof designProjects.$inferSelect;
+
+export const designPages = pgTable("design_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").notNull(),
+  pageNumber: integer("page_number").notNull(),
+  canvasJson: jsonb("canvas_json"),
+  backgroundColor: text("background_color").default("#ffffff"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertDesignPageSchema = createInsertSchema(designPages).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertDesignPage = z.infer<typeof insertDesignPageSchema>;
+export type DesignPage = typeof designPages.$inferSelect;
+
+export const designAssets = pgTable("design_assets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").notNull(),
+  assetType: text("asset_type").notNull(),
+  url: text("url").notNull(),
+  width: integer("width"),
+  height: integer("height"),
+  tags: text("tags").array(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertDesignAssetSchema = createInsertSchema(designAssets).omit({ id: true, createdAt: true });
+export type InsertDesignAsset = z.infer<typeof insertDesignAssetSchema>;
+export type DesignAsset = typeof designAssets.$inferSelect;
+
+export const exportedFiles = pgTable("exported_files", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").notNull(),
+  exportType: text("export_type").notNull(),
+  url: text("url").notNull(),
+  settingsJson: jsonb("settings_json"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertExportedFileSchema = createInsertSchema(exportedFiles).omit({ id: true, createdAt: true });
+export type InsertExportedFile = z.infer<typeof insertExportedFileSchema>;
+export type ExportedFile = typeof exportedFiles.$inferSelect;

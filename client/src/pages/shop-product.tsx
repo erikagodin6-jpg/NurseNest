@@ -30,6 +30,8 @@ export default function ShopProductPage() {
   const [loading, setLoading] = useState(true);
   const [checkingOut, setCheckingOut] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState<DigitalProduct[]>([]);
+  const [purchase, setPurchase] = useState<any>(null);
+  const [downloadingFile, setDownloadingFile] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -47,6 +49,46 @@ export default function ShopProductPage() {
       })
       .catch(() => {});
   }, [slug]);
+
+  useEffect(() => {
+    if (!user) return;
+    const params = new URLSearchParams(window.location.search);
+    const justPurchased = params.get("purchased") === "true";
+    if (justPurchased || user) {
+      fetch(`/api/shop/my-purchases?userId=${user.id}`)
+        .then(r => r.json())
+        .then((data: any[]) => {
+          if (product) {
+            const found = data.find((p: any) => p.productId === product.id);
+            if (found) setPurchase(found);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user, product]);
+
+  const handleDownloadFile = async () => {
+    if (!purchase || !user) return;
+    setDownloadingFile(true);
+    try {
+      const res = await fetch(`/api/shop/download/${purchase.id}?userId=${user.id}`);
+      if (!res.ok) {
+        const err = await res.json();
+        toast({ title: "Download Error", description: err.error, variant: "destructive" });
+        return;
+      }
+      const { downloadUrl, downloadsRemaining } = await res.json();
+      setPurchase({ ...purchase, downloadCount: (purchase.downloadCount || 0) + 1 });
+      if (downloadUrl) {
+        window.open(downloadUrl, "_blank");
+      }
+      toast({ title: `Download started. ${downloadsRemaining} downloads remaining.` });
+    } catch {
+      toast({ title: "Download failed", variant: "destructive" });
+    } finally {
+      setDownloadingFile(false);
+    }
+  };
 
   const handleCheckout = async () => {
     if (!product) return;
@@ -192,20 +234,56 @@ export default function ShopProductPage() {
                 </div>
               </div>
 
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-10 py-3 text-base gap-2"
-                onClick={handleCheckout}
-                disabled={checkingOut}
-                data-testid="button-buy-now"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                {checkingOut ? "Processing..." : `Buy Now — ${formatPrice(product.price)}`}
-              </Button>
+              {purchase ? (() => {
+                const downloadsUsed = purchase.downloadCount || 0;
+                const maxDl = purchase.maxDownloads || 5;
+                const remaining = maxDl - downloadsUsed;
+                const limitReached = remaining <= 0;
+                return (
+                  <div className="space-y-3" data-testid="div-purchased-section">
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5 text-emerald-600" />
+                        <span className="font-semibold text-emerald-700" data-testid="text-purchased-badge">Purchased</span>
+                      </div>
+                      <p className="text-sm text-emerald-600">Thank you for your purchase! Your file is ready to download.</p>
+                    </div>
+                    <Button
+                      size="lg"
+                      className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-10 py-3 text-base gap-2"
+                      onClick={handleDownloadFile}
+                      disabled={limitReached || downloadingFile}
+                      data-testid="button-download-file"
+                    >
+                      <Download className="w-5 h-5" />
+                      {downloadingFile ? "Downloading..." : limitReached ? "Download Limit Reached" : "Download Your File"}
+                    </Button>
+                    <p className="text-xs text-gray-500 flex items-center gap-1" data-testid="text-downloads-info">
+                      <FileText className="w-3 h-3" />
+                      {limitReached
+                        ? "Download limit reached. Contact support for assistance."
+                        : `${remaining} of ${maxDl} downloads remaining`}
+                    </p>
+                  </div>
+                );
+              })() : (
+                <>
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-10 py-3 text-base gap-2"
+                    onClick={handleCheckout}
+                    disabled={checkingOut}
+                    data-testid="button-buy-now"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    {checkingOut ? "Processing..." : `Buy Now — ${formatPrice(product.price)}`}
+                  </Button>
 
-              <p className="text-xs text-gray-400 mt-3 flex items-center gap-1">
-                <Clock className="w-3 h-3" /> Secure checkout powered by Stripe
-              </p>
+                  <p className="text-xs text-gray-400 mt-3 flex items-center gap-1">
+                    <Clock className="w-3 h-3" /> Secure checkout powered by Stripe
+                  </p>
+                </>
+              )}
             </div>
           </div>
 

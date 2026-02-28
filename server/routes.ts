@@ -858,7 +858,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       if (user.stripeSubscriptionId) {
         try {
-          const { db: pgPool } = await import("./db");
+          const { db: pgPool } = await import("./storage");
           const result = await pgPool.execute(
             sql`SELECT current_period_end, status FROM stripe.subscriptions WHERE id = ${user.stripeSubscriptionId} LIMIT 1`,
           );
@@ -3515,6 +3515,299 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
       const pathMod = await import("path");
       const filePath = pathMod.default.resolve(process.cwd(), "attached_assets", "generated_images", req.params.filename);
       if (fs.default.existsSync(filePath)) fs.default.unlinkSync(filePath);
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/generate-microlecture", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { topic, tier, focus } = req.body;
+      if (!topic || !tier) return res.status(400).json({ error: "Topic and tier are required" });
+      if (!["RPN", "RN", "NP"].includes(tier)) return res.status(400).json({ error: "Tier must be RPN, RN, or NP" });
+
+      const tierScope: Record<string, string> = {
+        RPN: "Practical nursing scope (LPN/RPN). Focus on foundational pathophysiology, safe medication administration, patient monitoring, and delegation awareness.",
+        RN: "Registered Nurse scope. Include cellular-level pathophysiology, pharmacokinetics, advanced assessments, and clinical decision-making.",
+        NP: "Nurse Practitioner scope. Cover advanced pathophysiology at molecular level, differential diagnosis, prescribing rationale, and evidence-based treatment protocols."
+      };
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const systemPrompt = `You are a senior nurse educator creating a micro-lecture for ${tier} students. ${tierScope[tier]}
+Generate a comprehensive, mechanism-driven micro-lecture. Do NOT give shallow summaries — explain WHY signs/symptoms happen and what treatments target at the cellular level.
+${focus ? `Special focus: ${focus}` : ""}
+
+Return valid JSON with this exact structure:
+{
+  "title": "string",
+  "durationEstimate": "string (e.g. '15-20 minutes')",
+  "keywords": ["string array"],
+  "script": {
+    "introduction": "string (2-3 paragraphs)",
+    "sections": [
+      {
+        "heading": "string",
+        "content": "string (detailed narration, 3-5 paragraphs)",
+        "clinicalPearl": "string (exam tip)"
+      }
+    ],
+    "summary": "string (key takeaways)"
+  },
+  "slides": [
+    {
+      "title": "string",
+      "bullets": ["string array, 4-6 points"],
+      "speakerNotes": "string",
+      "visualPrompt": "string (image description for AI generation)"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "string (question)",
+      "back": "string (answer)"
+    }
+  ]
+}
+
+Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: `Create a micro-lecture on: ${topic}` }
+        ],
+        temperature: 0.7,
+        max_tokens: 8000,
+        response_format: { type: "json_object" },
+      });
+      const result = response.choices[0]?.message?.content || "";
+      
+      let parsed;
+      try {
+        const jsonMatch = result.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error("No JSON found in response");
+        parsed = JSON.parse(jsonMatch[0]);
+      } catch (parseErr) {
+        return res.status(500).json({ error: "Failed to parse AI response as JSON" });
+      }
+
+      const slug = (parsed.title || topic).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const { db } = await import("./storage");
+      const { generatedMicroLectures } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+
+      const existing = await db.select().from(generatedMicroLectures).where(eq(generatedMicroLectures.slug, slug)).limit(1);
+      const finalSlug = existing.length > 0 ? `${slug}-${Date.now()}` : slug;
+
+      const [lecture] = await db.insert(generatedMicroLectures).values({
+        title: parsed.title || topic,
+        slug: finalSlug,
+        topic,
+        tier,
+        focus: focus || null,
+        durationEstimate: parsed.durationEstimate || "15-20 minutes",
+        scriptJson: parsed.script,
+        slidesJson: parsed.slides,
+        flashcardsJson: parsed.flashcards,
+        keywords: parsed.keywords || [],
+        isPublished: false,
+      }).returning();
+
+      res.json({ success: true, lecture });
+    } catch (e: any) {
+      console.error("[MicroLecture Gen Error]", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/microlectures", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { generatedMicroLectures } = await import("@shared/schema");
+      const lectures = await db.select().from(generatedMicroLectures).orderBy(generatedMicroLectures.createdAt);
+      res.json(lectures);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/microlectures/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { generatedMicroLectures } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      await db.delete(generatedMicroLectures).where(eq(generatedMicroLectures.id, req.params.id));
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/microlectures/:id/publish", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { generatedMicroLectures } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      const [updated] = await db.update(generatedMicroLectures)
+        .set({ isPublished: req.body.publish !== false })
+        .where(eq(generatedMicroLectures.id, req.params.id))
+        .returning();
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/design-projects", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { designProjects } = await import("@shared/schema");
+      const projects = await db.select().from(designProjects).orderBy(designProjects.updatedAt);
+      res.json(projects);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/design-projects", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { title, type, pageSize, orientation } = req.body;
+      if (!title || !type) return res.status(400).json({ error: "Title and type are required" });
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + Date.now();
+      const { db } = await import("./storage");
+      const { designProjects, designPages } = await import("@shared/schema");
+      const [project] = await db.insert(designProjects).values({
+        title,
+        slug,
+        type,
+        pageSize: pageSize || "Letter",
+        orientation: orientation || "portrait",
+        createdByAdminId: admin.id,
+      }).returning();
+      await db.insert(designPages).values({
+        projectId: project.id,
+        pageNumber: 1,
+        canvasJson: { objects: [], version: "5.3.0" },
+        backgroundColor: "#ffffff",
+      });
+      res.json(project);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/design-projects/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { designProjects, designPages, designAssets } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      const [project] = await db.select().from(designProjects).where(eq(designProjects.id, req.params.id)).limit(1);
+      if (!project) return res.status(404).json({ error: "Project not found" });
+      const pages = await db.select().from(designPages).where(eq(designPages.projectId, req.params.id)).orderBy(designPages.pageNumber);
+      const assets = await db.select().from(designAssets).where(eq(designAssets.projectId, req.params.id));
+      res.json({ ...project, pages, assets });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/design-projects/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { designProjects } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      const [updated] = await db.update(designProjects)
+        .set({ ...req.body, updatedAt: new Date() })
+        .where(eq(designProjects.id, req.params.id))
+        .returning();
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/design-projects/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { designProjects, designPages, designAssets, exportedFiles } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      await db.delete(designPages).where(eq(designPages.projectId, req.params.id));
+      await db.delete(designAssets).where(eq(designAssets.projectId, req.params.id));
+      await db.delete(exportedFiles).where(eq(exportedFiles.projectId, req.params.id));
+      await db.delete(designProjects).where(eq(designProjects.id, req.params.id));
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/design-pages/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { designPages } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      const [updated] = await db.update(designPages)
+        .set({ canvasJson: req.body.canvasJson, backgroundColor: req.body.backgroundColor, updatedAt: new Date() })
+        .where(eq(designPages.id, req.params.id))
+        .returning();
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/design-projects/:projectId/pages", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { designPages } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      const existing = await db.select().from(designPages).where(eq(designPages.projectId, req.params.projectId));
+      const [page] = await db.insert(designPages).values({
+        projectId: req.params.projectId,
+        pageNumber: existing.length + 1,
+        canvasJson: { objects: [], version: "5.3.0" },
+        backgroundColor: req.body.backgroundColor || "#ffffff",
+      }).returning();
+      res.json(page);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/design-pages/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { db } = await import("./storage");
+      const { designPages } = await import("@shared/schema");
+      const { eq } = await import("drizzle-orm");
+      await db.delete(designPages).where(eq(designPages.id, req.params.id));
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
