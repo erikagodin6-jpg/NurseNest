@@ -242,10 +242,15 @@ interface CanvasObject {
   zIndex: number;
   locked?: boolean;
   tag?: string;
+  groupId?: string;
 }
 
 function uid() {
   return `obj-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+}
+
+function gid() {
+  return `grp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Partial<CanvasObject>[] }[] = [
@@ -661,6 +666,51 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     const newLocked = !firstObj?.locked;
     setObjects(prev => prev.map(o => selectedIds.includes(o.id) ? { ...o, locked: newLocked } : o));
     toast({ title: newLocked ? "Locked" : "Unlocked" });
+  };
+
+  const selectGroupOfObject = (objId: string): string[] => {
+    const obj = objects.find(o => o.id === objId);
+    if (!obj?.groupId) return [objId];
+    return objects.filter(o => o.groupId === obj.groupId).map(o => o.id);
+  };
+
+  const getGroupIdsFromSelection = (): Set<string> => {
+    const ids = new Set<string>();
+    for (const o of objects) {
+      if (selectedIds.includes(o.id) && o.groupId) ids.add(o.groupId);
+    }
+    return ids;
+  };
+
+  const groupSelected = () => {
+    if (selectedIds.length < 2) {
+      toast({ title: "Select 2+ elements to group", variant: "destructive" });
+      return;
+    }
+    const locked = objects.find(o => selectedIds.includes(o.id) && o.locked);
+    if (locked) {
+      toast({ title: "Locked element", description: "Unlock before grouping", variant: "destructive" });
+      return;
+    }
+    pushUndo();
+    const newGroupId = gid();
+    setObjects(prev => prev.map(o =>
+      selectedIds.includes(o.id) ? { ...o, groupId: newGroupId } : o
+    ));
+    toast({ title: "Grouped" });
+  };
+
+  const ungroupSelected = () => {
+    const groupIds = getGroupIdsFromSelection();
+    if (groupIds.size === 0) {
+      toast({ title: "No groups selected", variant: "destructive" });
+      return;
+    }
+    pushUndo();
+    setObjects(prev => prev.map(o =>
+      o.groupId && groupIds.has(o.groupId) ? { ...o, groupId: undefined } : o
+    ));
+    toast({ title: "Ungrouped" });
   };
 
   const duplicatePage = async (index: number) => {
@@ -1243,9 +1293,20 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
 
   const handleCanvasMouseDown = (e: React.MouseEvent, objId?: string) => {
     if (objId) {
-      toggleSelect(objId, e.shiftKey);
       const obj = objects.find(o => o.id === objId);
-      if (!obj || obj.locked) return;
+      if (!obj) return;
+
+      if (e.shiftKey) {
+        toggleSelect(objId, true);
+      } else {
+        if (obj.groupId) {
+          setSelectedIds(selectGroupOfObject(objId));
+        } else {
+          setSelectedIds([objId]);
+        }
+      }
+
+      if (obj.locked) return;
       const canvasRect = canvasRef.current?.getBoundingClientRect();
       if (!canvasRect) return;
       setIsDragging(true);
@@ -1344,6 +1405,11 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       if ((e.ctrlKey || e.metaKey) && e.key === "y") { e.preventDefault(); redo(); }
       if ((e.ctrlKey || e.metaKey) && e.key === "d") { e.preventDefault(); duplicateSelected(); }
       if ((e.ctrlKey || e.metaKey) && e.key === "s") { e.preventDefault(); saveCanvas(); }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "g") {
+        e.preventDefault();
+        if (e.shiftKey) ungroupSelected();
+        else groupSelected();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -2366,6 +2432,8 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   <button onClick={bringForward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-bring-forward"><ArrowUp className="w-3 h-3" />Fwd</button>
                   <button onClick={sendBackward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-send-backward"><ArrowDown className="w-3 h-3" />Back</button>
                   <button onClick={toggleLockSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-lock-toggle"><Lock className="w-3 h-3" />Lock</button>
+                  <button onClick={groupSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-group"><Group className="w-3 h-3" />Group</button>
+                  <button onClick={ungroupSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-ungroup"><Ungroup className="w-3 h-3" />Ungroup</button>
                   <Button size="sm" variant="destructive" onClick={deleteSelected} className="h-7 text-[10px] gap-1" data-testid="button-delete-multi"><Trash2 className="w-3 h-3" />Del</Button>
                 </div>
               </div>
@@ -2455,7 +2523,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   {obj.type === "rect" && <Square className="w-3 h-3" />}
                   {obj.type === "circle" && <Circle className="w-3 h-3" />}
                   {obj.type === "image" && <Image className="w-3 h-3" />}
-                  <span className="truncate">{obj.type === "text" ? (obj.content || "Text").slice(0, 20) : obj.tag || obj.type}</span>
+                  <span className="truncate">{obj.groupId ? "[Group] " : ""}{obj.type === "text" ? (obj.content || "Text").slice(0, 20) : obj.tag || obj.type}</span>
                   {obj.locked && <Lock className="w-2.5 h-2.5 text-gray-400 ml-auto" />}
                 </button>
               ))}

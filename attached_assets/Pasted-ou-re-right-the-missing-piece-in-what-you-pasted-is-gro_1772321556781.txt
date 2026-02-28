@@ -1,0 +1,241 @@
+ou’re right: the missing piece in what you pasted is group semantics. In your current editor you already have:
+
+multi-select (shift-click)
+
+multi-drag (dx/dy applied to all selectedIds)
+
+keyboard handler scaffold
+
+…but there is no persistent “group” concept in CanvasObject, so Ctrl+G / Ctrl+Shift+G can’t work yet.
+
+Below is a systematic, drop-in implementation that matches your existing architecture and keeps changes localized.
+
+0) Design choice (simple + robust)
+
+Implement grouping as:
+
+add groupId?: string on CanvasObject
+
+Ctrl/Cmd+G: assign a new groupId to all currently selected objects
+
+Ctrl/Cmd+Shift+G: remove groupId from all objects in any selected group(s) (even if only 1 object from that group is selected)
+
+selection behavior: clicking any object that has groupId selects the entire group (unless shift-click is used, which toggles that object)
+
+This is the minimum to feel like Canva grouping without rewriting your engine.
+
+1) Add groupId to CanvasObject
+
+Find your interface:
+
+interface CanvasObject {
+  id: string;
+  type: "text" | "rect" | "circle" | "image";
+  ...
+  tag?: string;
+}
+
+Patch:
+
+interface CanvasObject {
+  id: string;
+  type: "text" | "rect" | "circle" | "image";
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
+  content?: string;
+  fontSize?: number;
+  fontFamily?: string;
+  fontWeight?: string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  opacity?: number;
+  src?: string;
+  borderRadius?: number;
+  textAlign?: string;
+  zIndex: number;
+  locked?: boolean;
+  tag?: string;
+
+  // ✅ add this
+  groupId?: string;
+}
+2) Add a group id helper
+
+Near uid() add:
+
+function gid() {
+  return `grp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+}
+3) Group/ungroup functions (CanvasEditorView)
+
+Add these inside CanvasEditorView (near other actions like bringForward, toggleLockSelected, etc.):
+
+const getGroupIdsFromSelection = () => {
+  const ids = new Set<string>();
+  for (const o of objects) {
+    if (selectedIds.includes(o.id) && o.groupId) ids.add(o.groupId);
+  }
+  return ids;
+};
+
+const selectGroupOfObject = (objId: string) => {
+  const obj = objects.find(o => o.id === objId);
+  if (!obj?.groupId) return [objId];
+  return objects.filter(o => o.groupId === obj.groupId).map(o => o.id);
+};
+
+const groupSelected = () => {
+  if (selectedIds.length < 2) {
+    toast({ title: "Select 2+ elements to group", variant: "destructive" });
+    return;
+  }
+
+  // Don’t allow grouping locked elements (optional but sensible)
+  const locked = objects.find(o => selectedIds.includes(o.id) && o.locked);
+  if (locked) {
+    toast({ title: "Locked element", description: "Unlock before grouping", variant: "destructive" });
+    return;
+  }
+
+  pushUndo();
+  const newGroupId = gid();
+
+  setObjects(prev => prev.map(o => (
+    selectedIds.includes(o.id) ? { ...o, groupId: newGroupId } : o
+  )));
+
+  toast({ title: "Grouped" });
+};
+
+const ungroupSelected = () => {
+  const groupIds = getGroupIdsFromSelection();
+  if (groupIds.size === 0) {
+    toast({ title: "No groups selected", variant: "destructive" });
+    return;
+  }
+
+  pushUndo();
+  setObjects(prev => prev.map(o => (
+    o.groupId && groupIds.has(o.groupId) ? { ...o, groupId: undefined } : o
+  )));
+
+  toast({ title: "Ungrouped" });
+};
+4) Update click selection to select whole group
+
+Right now your handleCanvasMouseDown does:
+
+toggleSelect(objId, e.shiftKey);
+
+Replace selection logic with:
+
+const handleCanvasMouseDown = (e: React.MouseEvent, objId?: string) => {
+  if (objId) {
+    const obj = objects.find(o => o.id === objId);
+    if (!obj) return;
+
+    if (e.shiftKey) {
+      // keep your existing toggle behavior for shift-click
+      toggleSelect(objId, true);
+    } else {
+      // ✅ if grouped, select whole group
+      if (obj.groupId) {
+        setSelectedIds(selectGroupOfObject(objId));
+      } else {
+        setSelectedIds([objId]);
+      }
+    }
+
+    if (obj.locked) return;
+
+    const canvasRect = canvasRef.current?.getBoundingClientRect();
+    if (!canvasRect) return;
+
+    setIsDragging(true);
+
+    // dragOffset should anchor to the *primary* object (clicked)
+    setDragOffset({ x: e.clientX / SCALE - obj.x, y: e.clientY / SCALE - obj.y });
+
+    e.stopPropagation();
+  } else {
+    setSelectedIds([]);
+  }
+};
+
+This makes grouped objects behave like Canva: click one, move all.
+
+5) Add keyboard shortcuts Ctrl/Cmd+G and Ctrl/Cmd+Shift+G
+
+In your keyboard handler useEffect, add:
+
+if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "g") {
+  e.preventDefault();
+
+  // Ctrl+Shift+G => ungroup
+  if (e.shiftKey) ungroupSelected();
+  else groupSelected();
+}
+
+So your handler block becomes (showing only the relevant part):
+
+const handler = (e: KeyboardEvent) => {
+  if (e.key === "Delete" || e.key === "Backspace") { ... }
+
+  if ((e.ctrlKey || e.metaKey) && e.key === "z") { ... }
+  if ((e.ctrlKey || e.metaKey) && e.key === "y") { ... }
+  if ((e.ctrlKey || e.metaKey) && e.key === "d") { ... }
+  if ((e.ctrlKey || e.metaKey) && e.key === "s") { ... }
+
+  // ✅ Group/Ungroup
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "g") {
+    e.preventDefault();
+    if (e.shiftKey) ungroupSelected();
+    else groupSelected();
+  }
+};
+
+Make sure the useEffect dependency list includes groupSelected/ungroupSelected or just keep them inline/stable. Easiest: define them with useCallback OR accept them as dependencies (your handler already rebinds).
+
+6) Make Layers panel show “Group” context (optional but helpful)
+
+In your layers list:
+
+<span className="truncate">
+  {obj.type === "text" ? (obj.content || "Text").slice(0, 20) : obj.tag || obj.type}
+</span>
+
+Patch:
+
+<span className="truncate">
+  {obj.groupId ? "[Group] " : ""}
+  {obj.type === "text" ? (obj.content || "Text").slice(0, 20) : obj.tag || obj.type}
+</span>
+7) Known limitations (fine for v1)
+
+This implementation does not yet add:
+
+group bounding box resize handles (Canva-style)
+
+“edit group contents without selecting whole group” (requires modifier like Alt-click)
+
+grouped duplicate as a unit (your duplicateSelected is single-item only)
+
+But for your stated goal (Ctrl+G / Ctrl+Shift+G) this is complete and stable, and it works with your existing multi-drag and z-index actions.
+
+If you want the next “Canva step”
+
+Tell me “add group resize + Alt-click to select single within group” and I’ll give you the exact patch:
+
+compute group bounding box
+
+show one resize handle for the group
+
+on resize, proportionally scale children positions/sizes
+
+Alt-click bypasses group selection logic
+
+For now, the code above is the cleanest minimal grouping feature that fits your current architecture.
