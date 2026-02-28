@@ -1,0 +1,124 @@
+You are my senior product + monetization engineer working inside NurseNest (Vite + React + Express + Stripe + multilingual + adaptive engine).
+
+Build a Study Pack Marketplace that allows one-time purchases of high-value exam bundles.
+
+GOAL:
+Generate immediate revenue from users unwilling to subscribe.
+
+====================================================
+PART 1 — STUDY PACK TYPES
+====================================================
+
+Allow creation of:
+
+1) Topic Packs
+   Example:
+   - Cardiac Mastery Pack (RN)
+   - Electrolytes Rapid Review Pack
+   - NP Prescribing Safety Pack
+
+2) Blueprint Domain Packs
+   - Safe & Effective Care RN Pack
+   - CNPLE Leadership Pack
+
+3) Difficulty Packs
+   - High-Difficulty RN Set
+   - SATA Mastery Pack
+
+4) Language-Specific Packs
+   - NCLEX Spanish Rapid Review
+   - NCLEX Hindi Practice Pack
+
+5) Exam-Countdown Packs
+   - 7-Day Intensive Crash Pack
+   - 14-Day Final Review Pack
+
+====================================================
+PART 2 — PACK CONTENT STRUCTURE
+====================================================
+
+Each pack includes:
+
+- 200–600 calibrated questions
+- Full rationales (min word count enforced)
+- 1–3 mini-case sets
+- 1 rapid sheet PDF
+- 1 performance report
+- Optional flashcard deck
+
+====================================================
+PART 3 — PRICING STRATEGY
+====================================================
+
+Suggested price ranges:
+
+Topic Packs:
+$19–$39
+
+Large Blueprint Packs:
+$39–$79
+
+Intensive Crash Packs:
+$29–$59
+
+NP Advanced Packs:
+$49–$99
+
+Rules:
+- Must not undercut subscription long term.
+- Show comparison:
+   “Equivalent to 2 months premium access”
+
+====================================================
+PART 4 — PACK LANDING PAGES (SEO OPTIMIZED)
+====================================================
+
+Each pack must have:
+
+- 1,500+ word landing page
+- FAQ block (min 6)
+- Internal links
+- Schema markup
+- Language-specific version
+
+====================================================
+PART 5 — CHECKOUT FLOW
+====================================================
+
+- Stripe one-time purchase
+- Immediate access
+- Optional upsell to subscription after purchase:
+   “Unlock full adaptive system”
+
+====================================================
+PART 6 — ADMIN PACK BUILDER
+====================================================
+
+Allow Erika to:
+
+- Select questions by tag/blueprint/difficulty
+- Auto-generate PDF from structured content
+- Set language availability
+- Schedule launch
+- Track revenue per pack
+
+====================================================
+PART 7 — ANALYTICS
+====================================================
+
+Track:
+- Pack conversion rate
+- Revenue per language
+- Upsell conversion after pack purchase
+- Most purchased topic packs
+
+====================================================
+DELIVERABLES
+====================================================
+
+- Pack builder UI
+- Pack landing template
+- Stripe one-time flow
+- Access control middleware
+- Revenue tracking dashboard
+- Documentation

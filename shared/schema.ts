@@ -938,3 +938,98 @@ export const aiUsageBudget = pgTable("ai_usage_budget", {
 });
 
 export type AiUsageBudget = typeof aiUsageBudget.$inferSelect;
+
+export const userFunnelEvents = pgTable("user_funnel_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  languageCode: text("language_code").default("en"),
+  eventName: text("event_name").notNull(),
+  eventValue: jsonb("event_value"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type UserFunnelEvent = typeof userFunnelEvents.$inferSelect;
+
+export const userRevenueProfile = pgTable("user_revenue_profile", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  languageCode: text("language_code").default("en"),
+  segment: text("segment").default("content_explorer"),
+  propensityScore: doublePrecision("propensity_score").default(0),
+  priceSensitivityScore: doublePrecision("price_sensitivity_score").default(0),
+  timeToExamDays: integer("time_to_exam_days"),
+  lastOfferShown: text("last_offer_shown"),
+  lastOfferResult: text("last_offer_result"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type UserRevenueProfile = typeof userRevenueProfile.$inferSelect;
+
+export const pricingOffers = pgTable("pricing_offers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  offerType: text("offer_type").notNull(),
+  tier: text("tier").notNull(),
+  price: doublePrecision("price").notNull(),
+  currency: text("currency").default("USD"),
+  durationDays: integer("duration_days"),
+  discountPercent: integer("discount_percent").default(0),
+  eligibilityRules: jsonb("eligibility_rules").default(sql`'{}'::jsonb`),
+  localizedCopy: jsonb("localized_copy").default(sql`'{}'::jsonb`),
+  enabled: boolean("enabled").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type PricingOffer = typeof pricingOffers.$inferSelect;
+
+export const abTests = pgTable("ab_tests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  variantsJson: jsonb("variants_json").notNull().default(sql`'[]'::jsonb`),
+  allocation: doublePrecision("allocation").default(0.5),
+  enabled: boolean("enabled").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type AbTest = typeof abTests.$inferSelect;
+
+export const studyPacks = pgTable("study_packs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  packType: text("pack_type").notNull(),
+  examCode: text("exam_code"),
+  tier: text("tier").default("rn"),
+  description: text("description"),
+  contentHtml: text("content_html"),
+  price: doublePrecision("price").notNull(),
+  currency: text("currency").default("USD"),
+  questionCount: integer("question_count").default(0),
+  questionTags: jsonb("question_tags").default(sql`'[]'::jsonb`),
+  difficultyRange: text("difficulty_range"),
+  languageCode: text("language_code").default("en"),
+  faqJson: jsonb("faq_json").default(sql`'[]'::jsonb`),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  isPublished: boolean("is_published").default(false),
+  stripePriceId: text("stripe_price_id"),
+  purchaseCount: integer("purchase_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type StudyPack = typeof studyPacks.$inferSelect;
+export const insertStudyPackSchema = createInsertSchema(studyPacks).omit({ id: true, createdAt: true, updatedAt: true, purchaseCount: true });
+export type InsertStudyPack = z.infer<typeof insertStudyPackSchema>;
+
+export const studyPackPurchases = pgTable("study_pack_purchases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  packId: varchar("pack_id").notNull(),
+  stripePaymentId: text("stripe_payment_id"),
+  amount: doublePrecision("amount").notNull(),
+  currency: text("currency").default("USD"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type StudyPackPurchase = typeof studyPackPurchases.$inferSelect;
