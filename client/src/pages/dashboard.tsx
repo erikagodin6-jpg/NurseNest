@@ -16,8 +16,9 @@ import {
   Stethoscope, Pill, Activity, ClipboardList, Award, Target,
   ChevronUp, ChevronDown, BarChart3, Bookmark, Clock,
   Sparkles, ArrowRight, CheckCircle2, PlayCircle, Flame,
-  RotateCcw
+  RotateCcw, Lock, Bot, Gauge, Lightbulb
 } from "lucide-react";
+import { canAccessFeature, type Feature } from "@/lib/entitlements";
 
 type WidgetConfig = {
   widgetType: string;
@@ -36,6 +37,10 @@ const WIDGET_ICONS: Record<string, any> = {
   flashcard_review: Brain,
   clinical_tools: Stethoscope,
   recommended: Sparkles,
+  pass_probability: Gauge,
+  adaptive_engine: Brain,
+  ai_study_coach: Bot,
+  intelligent_recommendations: Lightbulb,
 };
 
 const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
@@ -48,6 +53,10 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   flashcard_review: FlashcardReviewWidget,
   clinical_tools: ClinicalToolsWidget,
   recommended: RecommendedWidget,
+  pass_probability: PassProbabilityWidget,
+  adaptive_engine: AdaptiveEngineWidget,
+  ai_study_coach: AiStudyCoachWidget,
+  intelligent_recommendations: IntelligentRecommendationsWidget,
 };
 
 const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
@@ -60,18 +69,40 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   flashcard_review: { label: "dashboard.widget.flashcardReview", desc: "dashboard.widget.flashcardReviewDesc" },
   clinical_tools: { label: "dashboard.widget.clinicalTools", desc: "dashboard.widget.clinicalToolsDesc" },
   recommended: { label: "dashboard.widget.recommended", desc: "dashboard.widget.recommendedDesc" },
+  pass_probability: { label: "Pass Probability", desc: "Predictive exam readiness analytics" },
+  adaptive_engine: { label: "Adaptive Engine", desc: "AI-powered learning path" },
+  ai_study_coach: { label: "AI Study Coach", desc: "Personal AI study assistant" },
+  intelligent_recommendations: { label: "Smart Recommendations", desc: "Personalized study suggestions" },
+};
+
+const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
+  pass_probability: "pass_probability_model",
+  adaptive_engine: "adaptive_engine",
+  ai_study_coach: "ai_study_coach",
+  intelligent_recommendations: "intelligent_recommendations",
+};
+
+const PREMIUM_WIDGET_MESSAGES: Record<string, string> = {
+  pass_probability: "Upgrade to unlock predictive analytics.",
+  adaptive_engine: "Upgrade to unlock adaptive learning that adjusts to your performance in real time.",
+  ai_study_coach: "Upgrade to unlock your AI-powered study coach.",
+  intelligent_recommendations: "Upgrade to unlock personalized study recommendations powered by AI.",
 };
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "welcome", position: 0, visible: true },
   { widgetType: "progress", position: 1, visible: true },
   { widgetType: "recommended", position: 2, visible: true },
-  { widgetType: "recent_lessons", position: 3, visible: true },
-  { widgetType: "quick_links", position: 4, visible: true },
-  { widgetType: "exam_stats", position: 5, visible: true },
-  { widgetType: "study_streak", position: 6, visible: true },
-  { widgetType: "flashcard_review", position: 7, visible: true },
-  { widgetType: "clinical_tools", position: 8, visible: true },
+  { widgetType: "pass_probability", position: 3, visible: true },
+  { widgetType: "adaptive_engine", position: 4, visible: true },
+  { widgetType: "recent_lessons", position: 5, visible: true },
+  { widgetType: "quick_links", position: 6, visible: true },
+  { widgetType: "exam_stats", position: 7, visible: true },
+  { widgetType: "study_streak", position: 8, visible: true },
+  { widgetType: "flashcard_review", position: 9, visible: true },
+  { widgetType: "clinical_tools", position: 10, visible: true },
+  { widgetType: "ai_study_coach", position: 11, visible: true },
+  { widgetType: "intelligent_recommendations", position: 12, visible: true },
 ];
 
 const breadcrumbData = buildBreadcrumbStructuredData([
@@ -80,7 +111,7 @@ const breadcrumbData = buildBreadcrumbStructuredData([
 ]);
 
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
   const { t } = useI18n();
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -382,7 +413,13 @@ export default function DashboardPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      {widget.visible ? <WidgetComponent user={user} /> : (
+                      {widget.visible ? (
+                        PREMIUM_WIDGET_FEATURES[widget.widgetType] && !canAccessFeature(effectiveTier, PREMIUM_WIDGET_FEATURES[widget.widgetType]) ? (
+                          <PremiumLockedWidget widgetType={widget.widgetType} />
+                        ) : (
+                          <WidgetComponent user={user} />
+                        )
+                      ) : (
                         <p className="text-xs text-muted-foreground italic">{t("dashboard.widgetHidden")}</p>
                       )}
                     </CardContent>
@@ -823,6 +860,155 @@ function RecommendedWidget({ user }: { user: any }) {
             </button>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+function PremiumLockedWidget({ widgetType }: { widgetType: string }) {
+  const [, navigate] = useLocation();
+  const Icon = WIDGET_ICONS[widgetType] || Lock;
+  const message = PREMIUM_WIDGET_MESSAGES[widgetType] || "Upgrade to unlock this premium feature.";
+
+  return (
+    <div className="text-center py-4 space-y-3" data-testid={`widget-locked-${widgetType}`}>
+      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mx-auto">
+        <Icon className="w-6 h-6 text-muted-foreground" />
+      </div>
+      <div className="space-y-1">
+        <div className="flex items-center justify-center gap-1.5">
+          <Lock className="w-3.5 h-3.5 text-muted-foreground" />
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Premium</span>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">{message}</p>
+      </div>
+      <Button
+        size="sm"
+        variant="outline"
+        className="rounded-full px-4 gap-1.5"
+        onClick={() => navigate("/pricing")}
+        data-testid={`button-upgrade-widget-${widgetType}`}
+      >
+        <Sparkles className="w-3.5 h-3.5" />
+        View Plans
+      </Button>
+    </div>
+  );
+}
+
+function PassProbabilityWidget({ user }: { user: any }) {
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    fetch(`/api/pass-probability/${user.id}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then(setData)
+      .catch(() => {});
+  }, [user.id]);
+
+  if (!data) {
+    return (
+      <div className="text-center py-4" data-testid="widget-content-pass-probability-empty">
+        <Gauge className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+        <p className="text-sm text-muted-foreground mb-1">No prediction data yet</p>
+        <p className="text-xs text-muted-foreground">Complete mock exams and lessons to generate your pass probability estimate.</p>
+      </div>
+    );
+  }
+
+  const probability = data.probability || 0;
+  const risk = data.riskTier || "Unknown";
+  const riskColors: Record<string, string> = {
+    "Low Risk": "text-emerald-600",
+    "Moderate Risk": "text-amber-600",
+    "High Risk": "text-red-600",
+  };
+
+  return (
+    <div data-testid="widget-content-pass-probability">
+      <div className="flex items-center gap-4 mb-3">
+        <div className="relative h-16 w-16 flex-shrink-0">
+          <svg viewBox="0 0 36 36" className="h-16 w-16 -rotate-90">
+            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" className="text-muted" />
+            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray={`${probability}, 100`} className={`${probability >= 75 ? "text-emerald-500" : probability >= 60 ? "text-amber-500" : "text-red-500"} transition-all duration-700`} />
+          </svg>
+          <span className="absolute inset-0 flex items-center justify-center text-sm font-bold">{probability}%</span>
+        </div>
+        <div>
+          <p className={`text-lg font-bold ${riskColors[risk] || "text-gray-600"}`} data-testid="text-risk-tier">{risk}</p>
+          <p className="text-xs text-muted-foreground">Estimated pass probability</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdaptiveEngineWidget({ user }: { user: any }) {
+  const [, navigate] = useLocation();
+
+  return (
+    <div data-testid="widget-content-adaptive-engine">
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+          <Brain className="w-5 h-5 text-primary flex-shrink-0" />
+          <div>
+            <p className="text-sm font-medium">Adaptive Learning Active</p>
+            <p className="text-xs text-muted-foreground">Content difficulty adjusts based on your performance patterns.</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="p-2.5 rounded-lg bg-muted/50 text-center">
+            <p className="text-lg font-bold text-primary">--</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Weak Areas</p>
+          </div>
+          <div className="p-2.5 rounded-lg bg-muted/50 text-center">
+            <p className="text-lg font-bold text-emerald-600">--</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Mastered</p>
+          </div>
+        </div>
+        <Button size="sm" variant="link" className="w-full" onClick={() => navigate("/lessons")} data-testid="button-adaptive-lessons">
+          View Personalized Path <ArrowRight className="h-3 w-3 ml-1" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function AiStudyCoachWidget({ user }: { user: any }) {
+  return (
+    <div data-testid="widget-content-ai-study-coach">
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-violet-50 border border-violet-100">
+          <Bot className="w-5 h-5 text-violet-600 flex-shrink-0" />
+          <div>
+            <p className="text-sm font-medium">AI Study Coach</p>
+            <p className="text-xs text-muted-foreground">Your personal AI assistant for exam preparation and study planning.</p>
+          </div>
+        </div>
+        <div className="text-center py-2">
+          <p className="text-xs text-muted-foreground">Ask questions, get explanations, and receive personalized study guidance.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IntelligentRecommendationsWidget({ user }: { user: any }) {
+  const [, navigate] = useLocation();
+
+  return (
+    <div data-testid="widget-content-intelligent-recommendations">
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-amber-50 border border-amber-100">
+          <Lightbulb className="w-5 h-5 text-amber-600 flex-shrink-0" />
+          <div>
+            <p className="text-sm font-medium">Smart Study Suggestions</p>
+            <p className="text-xs text-muted-foreground">AI-powered recommendations based on your performance data and study patterns.</p>
+          </div>
+        </div>
+        <Button size="sm" variant="link" className="w-full" onClick={() => navigate("/lessons")} data-testid="button-smart-recommendations">
+          View Recommendations <ArrowRight className="h-3 w-3 ml-1" />
+        </Button>
       </div>
     </div>
   );

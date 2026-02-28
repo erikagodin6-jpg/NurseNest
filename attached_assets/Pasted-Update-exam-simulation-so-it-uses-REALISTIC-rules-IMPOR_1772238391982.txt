@@ -1,0 +1,58 @@
+Update exam simulation so it uses REALISTIC rules.
+
+IMPORTANT SCORING TRUTH
+- Do NOT implement “minimum correct per category to pass” for NCLEX or REx-PN.
+- NCLEX is not graded in sections; overall performance determines pass/fail.
+- Instead implement:
+  (1) category exposure quotas (blueprint coverage)
+  (2) optional NurseNest Readiness Gate thresholds (clearly labeled as platform criteria)
+
+EXAM BLUEPRINT DEFAULTS
+
+NCLEX-RN / NCLEX-PN:
+- is_cat=true
+- min_items=85
+- max_items=150
+- time_limit_minutes=300 (includes intro + breaks)
+- break_prompts_minutes=[120,210] (optional; timer continues)
+- use test plan category weights (ranges) to enforce coverage quotas:
+  - Convert ranges into min/max item counts based on final exam length.
+  - Guarantee coverage across all Client Needs categories/subcategories.
+
+REx-PN:
+- is_cat=true
+- min_items=90
+- max_items=150
+- time_limit_minutes=240
+- pretest_items=30 (unscored, hidden)
+- operational_items=60–120 (scored, hidden)
+
+CATEGORY COVERAGE QUOTAS
+Implement:
+- For each blueprint category/subcategory, define weight_range_min/max (percent).
+- During exam assembly (and during CAT selection), enforce:
+  - min_count = floor(weight_min * final_length)
+  - max_count = ceil(weight_max * final_length)
+- Ensure no category is under-sampled.
+
+PASS/FAIL OUTPUT
+For CAT simulations:
+- Provide two outputs:
+  1) “CAT-style outcome” (pass/fail simulation) based on ability estimate vs passing standard (internal, not exposed math)
+  2) “NurseNest Readiness” band (Not Ready / Borderline / Likely Ready)
+
+OPTIONAL: NURSENEST READINESS GATE (admin toggle)
+Rules (configurable per exam):
+- For any category with >=10 items sampled:
+  - if accuracy < 55% => Critical Weakness
+- If any Critical Weakness exists in high-risk categories (Safety, Pharm, Infection Control):
+  - cap readiness at “Borderline” regardless of overall score
+- Display disclaimer:
+  “This readiness label is a NurseNest coaching metric and not an official exam score.”
+
+ADMIN UI
+Add blueprint settings:
+- category weight ranges (percent)
+- critical weakness thresholds
+- minimum sampled items per category before classification
+- enable/disable readiness gate
