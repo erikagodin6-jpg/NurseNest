@@ -1,0 +1,209 @@
+You are a senior full-stack SaaS engineer and e-commerce architect.
+
+Build a fully functional Digital Study Marketplace inside NurseNest to sell:
+
+- Nursing cram booklets (PDF)
+- Study guides
+- Printable sheets
+- Quick reference guides
+- Exam review bundles
+
+This must be production-ready and allow immediate monetization.
+
+====================================================
+GOAL
+====================================================
+
+Create a clean, simple, revenue-focused marketplace that allows:
+
+1) Admin to upload and sell digital products
+2) Users to securely purchase and download
+3) Stripe payment integration
+4) Automatic access delivery
+5) Sales tracking
+6) Coupon code support
+
+====================================================
+PHASE 1 — DATABASE STRUCTURE
+====================================================
+
+Create table: digital_products
+
+Fields:
+- id
+- slug
+- title
+- description
+- shortDescription
+- price
+- compareAtPrice (optional)
+- fileUrl (secure storage link)
+- coverImageUrl
+- category (Cram Guide, Flashcard Pack, Printable, Bundle)
+- tierTarget (RPN/RN/NP/All)
+- examTarget (REx-PN, NCLEX, NP)
+- featured (boolean)
+- createdAt
+- updatedAt
+- isActive
+
+Create table: product_purchases
+
+Fields:
+- id
+- userId
+- productId
+- stripeSessionId
+- purchaseDate
+- downloadCount
+- maxDownloads (default 5)
+
+====================================================
+PHASE 2 — ADMIN PANEL
+====================================================
+
+Create Admin Marketplace Manager page:
+
+Features:
+- Add product
+- Upload PDF
+- Set price
+- Add description
+- Assign tier
+- Upload cover image
+- Toggle featured
+- View sales count
+- View revenue per product
+- Disable product
+
+Include bulk upload option.
+
+====================================================
+PHASE 3 — FRONTEND MARKETPLACE PAGE
+====================================================
+
+Create new route:
+
+/shop
+/en/shop
+
+Layout:
+
+Hero:
+Nursing Cram Guides & Study Bundles
+
+Grid of product cards:
+- Cover image
+- Title
+- Short description
+- Price
+- Compare price (if discount)
+- “Buy Now” button
+
+Add filter by:
+- Tier
+- Exam
+- Category
+
+Add Featured section at top.
+
+====================================================
+PHASE 4 — PRODUCT DETAIL PAGE
+====================================================
+
+Route:
+/shop/[slug]
+
+Include:
+- Large cover image
+- Full description
+- What’s included section
+- Who this is for section
+- Price
+- Buy button
+- Testimonials (placeholder)
+- Related products
+
+====================================================
+PHASE 5 — STRIPE INTEGRATION
+====================================================
+
+Use Stripe Checkout.
+
+Flow:
+1) User clicks Buy
+2) Stripe session created
+3) On successful payment:
+   - Create product_purchases record
+   - Send confirmation email
+   - Add to user account downloads
+
+====================================================
+PHASE 6 — USER DOWNLOAD AREA
+====================================================
+
+Add section in dashboard:
+
+“My Downloads”
+
+- List purchased products
+- Secure download links
+- Download limit enforcement
+- Download counter
+
+====================================================
+PHASE 7 — COUPONS & DISCOUNTS
+====================================================
+
+Add:
+- Coupon codes
+- % or fixed discount
+- Expiration date
+- Usage limit
+
+====================================================
+PHASE 8 — SECURITY
+====================================================
+
+- Files must not be publicly accessible via static link.
+- Downloads must require authentication.
+- Use signed URLs if possible.
+- Prevent unlimited sharing.
+
+====================================================
+PHASE 9 — CONVERSION OPTIMIZATION
+====================================================
+
+Add:
+
+- “Limited Time Launch Price”
+- Bundle pricing (Buy 3 Save 20%)
+- “Most Popular” badge
+- Countdown timer (optional)
+
+====================================================
+PHASE 10 — IMMEDIATE PRODUCTS TO CREATE
+====================================================
+
+Create starter products:
+
+1) REx-PN Rapid Review Cram Booklet (PDF)
+2) NCLEX Prioritization Mini Guide
+3) Electrolytes Quick Reference Sheet
+4) Shock & Emergency Nursing Cram Guide
+5) Top 100 Must-Know Medications Sheet
+
+Each priced $19–$39.
+
+====================================================
+DELIVERABLES
+====================================================
+
+1) Fully functional marketplace
+2) Stripe integrated checkout
+3) Admin upload capability
+4) Download protection
+5) Sales tracking dashboard
+6) Coupon support
+7) Clean UI matching NurseNest design
+8) Production-ready deployment

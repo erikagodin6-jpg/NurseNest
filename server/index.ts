@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import compression from "compression";
+import path from "path";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
@@ -476,6 +477,14 @@ app.use((req, res, next) => {
     if (res.headersSent) return next(err);
     return res.status(status).json({ message });
   });
+
+  app.use(
+    "/attached_assets",
+    express.static(path.resolve(process.cwd(), "attached_assets"), {
+      maxAge: "7d",
+      immutable: true,
+    }),
+  );
 
   // Vite dev / static prod
   if (process.env.NODE_ENV === "production") {
