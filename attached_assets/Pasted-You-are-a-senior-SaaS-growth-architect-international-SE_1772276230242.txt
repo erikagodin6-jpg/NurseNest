@@ -1,0 +1,223 @@
+You are a senior SaaS growth architect, international SEO strategist, behavioral conversion expert, and exam-platform product designer.
+
+Platform: https://www.nursenest.ca
+
+Mission:
+Evolve NurseNest into the dominant multilingual nursing exam platform through structured SEO authority, conversion psychology, analytics-driven optimization, and competitive moat development.
+
+Do NOT:
+- Add community features
+- Add gamification
+- Redesign the entire UI
+- Touch the blog generator
+- Create feature bloat
+
+Do:
+- Strengthen authority
+- Increase dwell time
+- Increase CTR
+- Increase free → paid conversion
+- Build defensible differentiation
+- Compound SEO long-term
+
+========================================================
+PART 1 — MULTILINGUAL CLUSTER DOMINATION STRATEGY
+========================================================
+
+Goal:
+Own topical authority in 5 high-yield domains across English + French first.
+
+Priority clusters:
+1. Electrolytes + Acid–Base
+2. ECG + Cardiac Emergencies
+3. Sepsis + Shock
+4. OB + Neonatal Emergencies
+5. Pharmacology Safety + High-Alert Meds
+
+For EACH cluster:
+- Build 1 mega hub (3,000+ words)
+- Link to 25–40 child pages
+- Add FAQ schema (5–8 questions)
+- Add “Most Tested Concepts” section
+- Add 5 embedded exam-style questions
+- Add flashcard CTA
+- Ensure bidirectional internal linking
+
+Multilingual rule:
+- English first
+- French fully complete next
+- Noindex other languages until >=80% complete
+
+Deliver:
+- Cluster map
+- Internal link matrix
+- Anchor text map
+- Hreflang structure
+- Index gating logic
+
+========================================================
+PART 2 — CONVERSION PSYCHOLOGY SYSTEM
+========================================================
+
+Goal:
+Increase engaged user → paid conversion without aggressive popups.
+
+Implement:
+
+A) Funnel Upgrade Layer
+- After lesson scroll depth 60% → show “Test Yourself” CTA
+- After 2 quiz questions → show “Unlock 10 more”
+- After 200 flashcards → show “You’re building momentum”
+- After 300 flashcards → hard stop upgrade modal
+
+B) Upgrade Page Optimization
+Include:
+- Clear value statement
+- Price anchoring ($4.99/month, $39/year Best Value)
+- Comparison vs Quizlet+
+- Feature comparison table
+- 30-day money-back reassurance
+- Visual “Exam readiness progression” graphic
+
+C) CTA Optimization
+Test variants:
+- “Get 50 Free NCLEX-Level Questions”
+- “Start Your REx-PN Practice Free”
+- “Build 300 Flashcards Free”
+
+Deliver:
+- Funnel trigger logic
+- Copy variants
+- A/B testing plan
+- Conversion tracking plan
+
+========================================================
+PART 3 — ANALYTICS-DRIVEN FUNNEL OPTIMIZATION
+========================================================
+
+Implement tracking for:
+
+- CTA impressions
+- CTA clicks
+- Scroll depth
+- Questions started per session
+- Flashcards created per session
+- Lesson → question transition rate
+- Anonymous → account conversion rate
+- Free → paid conversion rate
+
+Create weekly dashboard report including:
+- Impressions (GSC)
+- CTR
+- Avg position
+- Top 20 page ranking movement
+- Funnel conversion rate
+- Flashcard usage rate
+- Question attempts/user
+
+Deliver:
+- Event tracking map
+- KPI definitions
+- Dashboard schema
+- Weekly reporting format
+
+========================================================
+PART 4 — 6-MONTH SEO COMPOUNDING ROADMAP
+========================================================
+
+Phase 1 (Month 1–2):
+- Optimize 50 ranking pages (positions 8–20)
+- Expand internal links to 100+ lessons
+- Build 3 mega hubs
+- Add 5-question embeds to 20 high-traffic lessons
+
+Phase 2 (Month 3–4):
+- Expand French cluster dominance
+- Translate hubs + top 150 pages
+- Launch language sitemaps
+- Improve schema coverage
+- Add comparison pages (NurseNest vs UWorld, Archer, Quizlet)
+
+Phase 3 (Month 5–6):
+- Expand Spanish + Portuguese MVP clusters
+- Build 2 new mega hubs
+- Publish 24 high-intent blog posts
+- Strengthen internal link density
+
+Deliver:
+- Monthly execution milestones
+- Traffic expectation ranges
+- Index growth targets
+- Ranking growth targets
+
+========================================================
+PART 5 — COMPETITOR DEFENSIVE MOAT STRATEGY
+========================================================
+
+Goal:
+Make NurseNest structurally hard to copy.
+
+Moats to strengthen:
+
+1) Multilingual depth (competitors mostly English-only)
+2) Canada-first REx-PN alignment
+3) Structured internal linking clusters
+4) Embedded exam rationales with exam-trap breakdowns
+5) Flashcard + lesson + question integration loop
+
+Build:
+- “UWorld Alternative” comparison page
+- “Best NCLEX Prep for Canada” page
+- “Cheaper than Quizlet+” positioning page
+
+Add:
+- Exam blueprint alignment section on homepage
+- “Most Tested Topics” persistent module
+- Structured study pathways (Beginner, RPN, RN, NP)
+
+Deliver:
+- Defensive content plan
+- Differentiation statement
+- Strategic positioning copy
+- Authority-building page list
+
+========================================================
+PART 6 — QUALITY CONTROL + SEO SAFETY
+========================================================
+
+Ensure:
+- No mixed-language pages
+- No thin translated content indexed
+- All pages self-canonicalize
+- hreflang reciprocal
+- No redirect chains
+- Sitemap per language
+- No orphan pages
+
+Add:
+- Translation coverage dashboard
+- Index gating rule (>=80% to index)
+- Missing translation logger
+
+Deliver:
+- QA checklist
+- Regression prevention list
+- Deployment safety sequence
+
+========================================================
+FINAL OUTPUT REQUIRED
+========================================================
+
+Provide:
+
+1) Cluster domination blueprint
+2) Funnel optimization system
+3) Analytics implementation plan
+4) 6-month roadmap
+5) Competitor moat plan
+6) KPI dashboard framework
+7) QA checklist
+8) Implementation priority sequence
+
+Avoid generic advice.
+Provide structured, actionable, and measurable strategy.

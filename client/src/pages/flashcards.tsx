@@ -50,6 +50,7 @@ import {
   Crown,
   Zap,
 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
@@ -1696,6 +1697,7 @@ export default function Flashcards() {
   const [csvImportText, setCsvImportText] = useState("");
   const [showCsvImport, setShowCsvImport] = useState(false);
   const [entitlement, setEntitlement] = useState<any>({ isPremium: false, totalFreeCards: 0, limit: 300, percentage: 0 });
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const [deckStudyIndex, setDeckStudyIndex] = useState(0);
   const [deckStudyFlipped, setDeckStudyFlipped] = useState(false);
   const [deckStudyCorrect, setDeckStudyCorrect] = useState(0);
@@ -1775,6 +1777,12 @@ export default function Flashcards() {
   useEffect(() => {
     fetchEntitlement();
   }, [fetchEntitlement]);
+
+  useEffect(() => {
+    if (!entitlement.isPremium && entitlement.percentage >= 100) {
+      setShowLimitModal(true);
+    }
+  }, [entitlement.isPremium, entitlement.percentage]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -2377,14 +2385,60 @@ export default function Flashcards() {
                   data-testid="progress-usage-bar"
                 />
               </div>
-              {entitlement.percentage >= 90 && (
+              {entitlement.percentage >= 90 && entitlement.percentage < 100 && (
                 <div className="mt-2 flex items-center gap-2 text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-1.5" data-testid="text-usage-warning">
                   <Zap className="w-3 h-3" />
                   <span>You're almost at your limit! <a href="/upgrade" className="font-semibold underline">Upgrade to Pro</a> for unlimited flashcards.</span>
                 </div>
               )}
+              {entitlement.percentage >= 100 && (
+                <div className="mt-2 flex items-center gap-2 text-xs text-red-700 bg-red-50 rounded-lg px-3 py-2" data-testid="text-limit-reached">
+                  <Lock className="w-3 h-3" />
+                  <span>You've reached your free card limit. <a href="/upgrade" className="font-semibold underline">Upgrade to Pro</a> to continue creating flashcards.</span>
+                </div>
+              )}
             </div>
           )}
+
+          <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
+            <DialogContent className="sm:max-w-md" data-testid="modal-limit-reached">
+              <DialogHeader>
+                <div className="mx-auto mb-2 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                  <Lock className="w-6 h-6 text-red-600" />
+                </div>
+                <DialogTitle className="text-center text-xl">Free Card Limit Reached</DialogTitle>
+                <DialogDescription className="text-center">
+                  You've used all {entitlement.limit} free flashcards. Upgrade to Pro for unlimited cards, AI generation, spaced repetition, and exam-mode testing.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-3 py-4">
+                <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg border border-purple-100">
+                  <div>
+                    <p className="font-semibold text-sm">Pro Monthly</p>
+                    <p className="text-xs text-muted-foreground">Billed monthly</p>
+                  </div>
+                  <span className="font-bold text-purple-700">$4.99/mo</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg border-2 border-purple-300">
+                  <div>
+                    <p className="font-semibold text-sm">Pro Yearly <span className="text-xs text-green-600 ml-1">Best Value</span></p>
+                    <p className="text-xs text-muted-foreground">Save $20.88/year</p>
+                  </div>
+                  <span className="font-bold text-purple-700">$39/yr</span>
+                </div>
+              </div>
+              <DialogFooter className="flex-col gap-2 sm:flex-col">
+                <a href="/upgrade" className="w-full">
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700" size="lg" data-testid="button-modal-upgrade">
+                    <Crown className="mr-2 h-4 w-4" /> Upgrade to Pro
+                  </Button>
+                </a>
+                <Button variant="ghost" size="sm" onClick={() => setShowLimitModal(false)} className="text-muted-foreground" data-testid="button-modal-dismiss">
+                  Maybe later
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="border-none shadow-xl bg-white p-8 rounded-3xl">

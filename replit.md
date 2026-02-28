@@ -111,12 +111,16 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 - **Usage API**: `GET /api/flashcard-usage/:userId` returns used/limit/percentage/remaining.
 - **Checkout**: `POST /api/flashcard-upgrade/checkout` creates Stripe session; `POST /api/flashcard-upgrade/verify` activates Pro.
 - **Admin Controls**: `POST /api/admin/users/:id/override-limit` (custom limit), `POST /api/admin/users/:id/comp-pro` (comp Pro).
-- **UI**: Usage progress bar on flashcards page (shows at 80%+ with soft CTA, 90%+ with warning). Upgrade page at `/upgrade`.
+- **UI**: Usage progress bar on flashcards page (shows at 80%+ with soft CTA, 90%+ with warning, 100% hard-stop modal with pricing). Upgrade page at `/upgrade`.
+- **Hard-Stop Modal**: At 100% usage, a `Dialog` modal blocks further card creation with pricing comparison ($4.99/mo vs $39/yr) and direct upgrade link.
 
 ### Seed Study Decks
-- **File**: `server/seed-study-decks.ts` — Auto-seeds 15 public flashcard decks on startup (Pre-Nursing, A&P, Electrolytes).
-- **Categories**: Medical Terminology, Cell Biology, pH & Buffers, Vital Signs, Cardiovascular, Respiratory, Renal, Nervous, Endocrine, GI, Sodium, Potassium, Calcium/Magnesium, ABG, IV Fluids.
-- **Total**: ~160 clinically accurate cards with rationales.
+- **File**: `server/seed-study-decks.ts` — Auto-seeds 27 public flashcard decks on startup across 4 categories.
+- **Pre-Nursing (10 decks)**: Medical Terminology, Cell Biology, pH & Buffers, Vital Signs, ADPIE, Infection Control, Patient Safety, Documentation, Nutrition, Pharmacology Foundations.
+- **A&P (10 decks)**: Cardiovascular, Respiratory, Renal, Nervous, Endocrine, GI, Musculoskeletal, Immune/Lymphatic, Integumentary, Reproductive.
+- **Electrolytes (7 decks)**: Sodium, Potassium, Calcium, Magnesium, Phosphorus, ABG Interpretation, IV Fluids, Fluid Volume Disorders.
+- **Clinical (5 decks)**: Heart Failure, Diabetes Management, Sepsis & Shock, Blood Transfusion, Delegation & Prioritization.
+- **Total**: ~250+ clinically accurate cards with rationales.
 
 ### SEO Cluster Hub Pages
 - **File**: `server/seed-seo-clusters.ts` — Auto-seeds 8 pillar hub pages into `seo_pages` table.
