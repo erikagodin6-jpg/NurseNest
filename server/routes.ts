@@ -5809,6 +5809,339 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  // ====== CAT ENGINE ENDPOINTS ======
+  app.post("/api/cat/estimate-ability", async (req, res) => {
+    try {
+      const { computeAbilityEstimate } = await import("./cat-engine");
+      const { responses, userId, sessionId } = req.body;
+      if (!responses || !Array.isArray(responses)) return res.status(400).json({ error: "responses array required" });
+      const estimate = computeAbilityEstimate(responses);
+      if (userId && sessionId) {
+        await pool.query(
+          `INSERT INTO user_ability_sessions (id, user_id, session_id, final_ability, confidence_interval, stability_index, early_stop, question_count, ability_trajectory, anti_gaming_flags, created_at)
+           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
+           ON CONFLICT DO NOTHING`,
+          [userId, sessionId, estimate.ability, estimate.confidenceInterval, estimate.stabilityIndex, estimate.earlyStop, estimate.questionCount, JSON.stringify(estimate.trajectory), JSON.stringify(estimate.antiGamingFlags)]
+        );
+      }
+      res.json(estimate);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/cat/select-next-item", async (req, res) => {
+    try {
+      const { selectNextItem } = await import("./cat-engine");
+      const { currentAbility, candidates, answeredCategories, blueprintWeights, totalAnswered, lastCaseSetIndex } = req.body;
+      const item = selectNextItem(currentAbility || 0, candidates || [], answeredCategories || {}, blueprintWeights || {}, totalAnswered || 0, lastCaseSetIndex || 0);
+      res.json({ selectedItem: item });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/cat/session/:sessionId", async (req, res) => {
+    try {
+      const result = await pool.query(`SELECT * FROM user_ability_sessions WHERE session_id = $1`, [req.params.sessionId]);
+      res.json(result.rows[0] || null);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/admin/cat-analytics", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const sessions = await pool.query(`SELECT final_ability, confidence_interval, stability_index, early_stop, question_count, created_at FROM user_ability_sessions ORDER BY created_at DESC LIMIT 500`);
+      const adjustments = await pool.query(`SELECT * FROM difficulty_adjustment_log ORDER BY created_at DESC LIMIT 50`);
+      const abilityDistribution = [0, 0, 0, 0, 0, 0, 0];
+      sessions.rows.forEach((s: any) => {
+        const bucket = Math.min(6, Math.max(0, Math.floor((s.final_ability + 9) / 3)));
+        abilityDistribution[bucket]++;
+      });
+      const earlyStopCount = sessions.rows.filter((s: any) => s.early_stop).length;
+      res.json({ totalSessions: sessions.rows.length, abilityDistribution, earlyStopRate: sessions.rows.length > 0 ? (earlyStopCount / sessions.rows.length * 100).toFixed(1) : 0, avgQuestionCount: sessions.rows.length > 0 ? Math.round(sessions.rows.reduce((a: number, s: any) => a + s.question_count, 0) / sessions.rows.length) : 0, recentSessions: sessions.rows.slice(0, 20), adjustmentLog: adjustments.rows });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  // ====== BLUEPRINT COVERAGE + DIFFICULTY DISTRIBUTION ======
+  app.get("/api/admin/blueprint-coverage", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const blueprints = await pool.query(`SELECT * FROM exam_blueprints WHERE active = true`);
+      const coverage = [];
+      for (const bp of blueprints.rows) {
+        const domains = Array.isArray(bp.domains) ? bp.domains : [];
+        const domainCoverage = domains.map((d: any) => ({
+          domain: d.name || d.domain || "Unknown",
+          targetWeight: d.weight || d.percentage || 0,
+          questionCount: 0,
+          currentPercent: 0,
+          status: "unknown",
+          recommendedToAdd: 0,
+        }));
+        coverage.push({ examCode: bp.exam_code, examName: bp.exam_name, totalQuestions: bp.total_questions, domains: domainCoverage });
+      }
+      res.json(coverage);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/admin/difficulty-distribution", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { checkDifficultyCalibration } = await import("./cat-engine");
+      const stats = [];
+      for (let level = 1; level <= 5; level++) {
+        stats.push({ level, correct: 0, total: 0 });
+      }
+      const calibration = checkDifficultyCalibration(stats);
+      const targetDistribution = { 1: 10, 2: 20, 3: 30, 4: 25, 5: 15 };
+      res.json({ calibration, targetDistribution, actualDistribution: stats });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/admin/language-coverage-matrix", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const seoPages = await pool.query(`SELECT language_code, page_type, COUNT(*) as count, AVG(LENGTH(COALESCE(content_html, ''))) as avg_chars FROM seo_pages GROUP BY language_code, page_type`);
+      const translations = await pool.query(`SELECT language_code, content_type, COUNT(*) as count FROM content_translations GROUP BY language_code, content_type`);
+      res.json({ seoPages: seoPages.rows, translations: translations.rows });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/admin/keyword-gaps", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gaps = await pool.query(
+        `SELECT k.*, CASE WHEN s.id IS NOT NULL THEN true ELSE false END as has_page
+         FROM seo_keyword_targets k
+         LEFT JOIN seo_pages s ON s.slug = k.page_target_slug AND s.language_code = k.language_code
+         WHERE k.page_target_slug IS NULL OR s.id IS NULL
+         ORDER BY k.search_volume DESC NULLS LAST LIMIT 100`
+      );
+      res.json(gaps.rows);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  // ====== REVENUE + FUNNEL EVENTS ======
+  app.post("/api/funnel/event", async (req, res) => {
+    try {
+      const { userId, languageCode, eventName, eventValue } = req.body;
+      if (!eventName) return res.status(400).json({ error: "eventName required" });
+      await pool.query(
+        `INSERT INTO user_funnel_events (id, user_id, language_code, event_name, event_value, created_at) VALUES (gen_random_uuid(), $1, $2, $3, $4, NOW())`,
+        [userId || null, languageCode || "en", eventName, eventValue ? JSON.stringify(eventValue) : null]
+      );
+      res.json({ success: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/admin/revenue-analytics", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const funnelByLang = await pool.query(`SELECT language_code, event_name, COUNT(*) as count FROM user_funnel_events GROUP BY language_code, event_name ORDER BY language_code, count DESC`);
+      const segments = await pool.query(`SELECT segment, COUNT(*) as count, AVG(propensity_score) as avg_propensity, AVG(price_sensitivity_score) as avg_sensitivity FROM user_revenue_profile GROUP BY segment`);
+      const offers = await pool.query(`SELECT * FROM pricing_offers WHERE enabled = true ORDER BY created_at DESC`);
+      const packRevenue = await pool.query(`SELECT p.title, p.pack_type, COUNT(sp.id) as purchases, SUM(sp.amount) as revenue FROM study_packs p LEFT JOIN study_pack_purchases sp ON sp.pack_id = p.id GROUP BY p.id, p.title, p.pack_type`);
+      res.json({ funnelByLanguage: funnelByLang.rows, segments: segments.rows, offers: offers.rows, packRevenue: packRevenue.rows });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/offers/best", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      const context = req.query.context as string || "general";
+      let profile = null;
+      if (userId) {
+        const result = await pool.query(`SELECT * FROM user_revenue_profile WHERE user_id = $1`, [userId]);
+        profile = result.rows[0] || null;
+      }
+      const segment = profile?.segment || "content_explorer";
+      const propensity = profile?.propensity_score || 0.3;
+      const sensitivity = profile?.price_sensitivity_score || 0.5;
+      let offerType = "trial";
+      let tier = "premium";
+      if (segment === "exam_soon_high_intent" && propensity > 0.6) {
+        offerType = "trial"; tier = "premium";
+      } else if (propensity > 0.4 && sensitivity > 0.6) {
+        offerType = "bundle"; tier = "core";
+      } else if (segment === "heavy_practicer") {
+        offerType = "annual"; tier = "premium";
+      } else if (segment === "content_explorer") {
+        offerType = "trial"; tier = "core";
+      } else if (segment === "returning_at_risk") {
+        offerType = "winback"; tier = "premium";
+      }
+      const offer = await pool.query(`SELECT * FROM pricing_offers WHERE offer_type = $1 AND tier = $2 AND enabled = true LIMIT 1`, [offerType, tier]);
+      res.json({ offer: offer.rows[0] || null, segment, context });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  // ====== STUDY PACKS ======
+  app.get("/api/study-packs", async (req, res) => {
+    try {
+      const lang = req.query.lang as string || "en";
+      const result = await pool.query(`SELECT id, title, slug, pack_type, exam_code, tier, description, price, currency, question_count, difficulty_range, language_code, meta_title, meta_description, is_published FROM study_packs WHERE is_published = true AND language_code = $1 ORDER BY created_at DESC`, [lang]);
+      res.json(result.rows);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/study-packs/:slug", async (req, res) => {
+    try {
+      const result = await pool.query(`SELECT * FROM study_packs WHERE slug = $1`, [req.params.slug]);
+      if (result.rows.length === 0) return res.status(404).json({ error: "Pack not found" });
+      res.json(result.rows[0]);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/admin/study-packs", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { title, slug, packType, examCode, tier, description, contentHtml, price, currency, questionCount, questionTags, difficultyRange, languageCode, faqJson, metaTitle, metaDescription, isPublished } = req.body;
+      const result = await pool.query(
+        `INSERT INTO study_packs (id, title, slug, pack_type, exam_code, tier, description, content_html, price, currency, question_count, question_tags, difficulty_range, language_code, faq_json, meta_title, meta_description, is_published, created_at, updated_at) VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, NOW(), NOW()) RETURNING *`,
+        [title, slug, packType, examCode || null, tier || "rn", description || null, contentHtml || null, price, currency || "USD", questionCount || 0, JSON.stringify(questionTags || []), difficultyRange || null, languageCode || "en", JSON.stringify(faqJson || []), metaTitle || null, metaDescription || null, isPublished || false]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.put("/api/admin/study-packs/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const fields = req.body;
+      const sets = Object.keys(fields).filter(k => k !== "id").map((k, i) => `${k.replace(/[A-Z]/g, (m: string) => '_' + m.toLowerCase())} = $${i + 2}`).join(", ");
+      const values = Object.keys(fields).filter(k => k !== "id").map(k => typeof fields[k] === "object" ? JSON.stringify(fields[k]) : fields[k]);
+      await pool.query(`UPDATE study_packs SET ${sets}, updated_at = NOW() WHERE id = $1`, [req.params.id, ...values]);
+      res.json({ success: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  // ====== CONTENT ROI SCORING ======
+  app.post("/api/admin/content-roi/evaluate", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { proposedTitle, languageCode, examCode, contentType, primaryKeyword, secondaryKeywords, blueprintCategory } = req.body;
+      let seoDemand = 50, blueprintStrategic = 50, conversionPotential = 50, authorityMultiplier = 50, monetizationFit = 50;
+      if (primaryKeyword) {
+        const existing = await pool.query(`SELECT * FROM seo_keyword_targets WHERE keyword ILIKE $1 AND language_code = $2`, [`%${primaryKeyword}%`, languageCode || "en"]);
+        if (existing.rows.length > 0) {
+          seoDemand = Math.min(100, 40 + (existing.rows[0].search_volume || 0) / 100);
+        }
+      }
+      const overlap = await pool.query(`SELECT slug, title FROM seo_pages WHERE title ILIKE $1 AND language_code = $2 LIMIT 5`, [`%${proposedTitle?.split(" ").slice(0, 3).join("%")}%`, languageCode || "en"]);
+      const similarityFlag = overlap.rows.length > 0;
+      if (contentType === "pillar") { authorityMultiplier += 15; seoDemand += 10; }
+      if (examCode) { blueprintStrategic += 10; }
+      if (["nclex-rn", "nclex-pn"].includes(examCode?.toLowerCase() || "")) { monetizationFit += 15; }
+      const langPriority = await pool.query(`SELECT tier FROM language_priority WHERE language_code = $1`, [languageCode || "en"]);
+      if (langPriority.rows[0]?.tier === "tier_1") { seoDemand += 10; conversionPotential += 10; }
+      else if (langPriority.rows[0]?.tier === "tier_3") { seoDemand -= 5; }
+      seoDemand = Math.min(100, Math.max(0, seoDemand));
+      blueprintStrategic = Math.min(100, Math.max(0, blueprintStrategic));
+      conversionPotential = Math.min(100, Math.max(0, conversionPotential));
+      authorityMultiplier = Math.min(100, Math.max(0, authorityMultiplier));
+      monetizationFit = Math.min(100, Math.max(0, monetizationFit));
+      const roiScore = seoDemand * 0.30 + blueprintStrategic * 0.20 + conversionPotential * 0.20 + authorityMultiplier * 0.15 + monetizationFit * 0.15;
+      let priorityTier = "deprioritize";
+      if (roiScore >= 80) priorityTier = "build_immediately";
+      else if (roiScore >= 65) priorityTier = "high_priority";
+      else if (roiScore >= 50) priorityTier = "if_time_permits";
+      const result = await pool.query(
+        `INSERT INTO content_roi_scores (id, proposed_title, language_code, exam_code, content_type, primary_keyword, secondary_keywords, blueprint_category, seo_demand_score, blueprint_strategic_score, conversion_potential_score, authority_multiplier_score, monetization_fit_score, roi_score, priority_tier, similarity_flag, similar_page_slug, pipeline_status, created_at, updated_at) VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 'idea', NOW(), NOW()) RETURNING *`,
+        [proposedTitle, languageCode || "en", examCode || null, contentType, primaryKeyword || null, JSON.stringify(secondaryKeywords || []), blueprintCategory || null, seoDemand, blueprintStrategic, conversionPotential, authorityMultiplier, monetizationFit, roiScore, priorityTier, similarityFlag, overlap.rows[0]?.slug || null]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/admin/content-roi/pipeline", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`SELECT * FROM content_roi_scores ORDER BY roi_score DESC`);
+      res.json(result.rows);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.put("/api/admin/content-roi/:id/status", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { pipelineStatus } = req.body;
+      await pool.query(`UPDATE content_roi_scores SET pipeline_status = $1, updated_at = NOW() WHERE id = $2`, [pipelineStatus, req.params.id]);
+      res.json({ success: true });
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  // ====== AI USAGE BUDGET ======
+  app.get("/api/admin/ai-budget", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const monthYear = new Date().toISOString().slice(0, 7);
+      let result = await pool.query(`SELECT * FROM ai_usage_budget WHERE month_year = $1`, [monthYear]);
+      if (result.rows.length === 0) {
+        result = await pool.query(`INSERT INTO ai_usage_budget (id, month_year, tokens_used, token_budget, request_count, updated_at) VALUES (gen_random_uuid(), $1, 0, 500000, 0, NOW()) RETURNING *`, [monthYear]);
+      }
+      res.json(result.rows[0]);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  // ====== A/B TESTS ======
+  app.get("/api/admin/ab-tests", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`SELECT * FROM ab_tests ORDER BY created_at DESC`);
+      res.json(result.rows);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/admin/ab-tests", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { name, variantsJson, allocation, enabled } = req.body;
+      const result = await pool.query(
+        `INSERT INTO ab_tests (id, name, variants_json, allocation, enabled, created_at) VALUES (gen_random_uuid(), $1, $2, $3, $4, NOW()) RETURNING *`,
+        [name, JSON.stringify(variantsJson || []), allocation || 0.5, enabled || false]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  // ====== WEEKLY INTELLIGENCE REPORT ======
+  app.post("/api/admin/generate-intelligence-report", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const seoHealthIssues = await pool.query(`SELECT check_type, COUNT(*) as count FROM seo_health_checks WHERE resolved = false GROUP BY check_type`);
+      const translationCoverage = await pool.query(`SELECT language_code, COUNT(*) as total, COUNT(*) FILTER (WHERE translated_text != '') as translated FROM content_translations GROUP BY language_code`);
+      const keywordGaps = await pool.query(`SELECT COUNT(*) as gap_count FROM seo_keyword_targets WHERE page_target_slug IS NULL OR coverage_status = 'unmapped'`);
+      const reportData = { seoHealthSummary: seoHealthIssues.rows, translationCoverage: translationCoverage.rows, keywordGapCount: keywordGaps.rows[0]?.gap_count || 0, generatedAt: new Date().toISOString() };
+      const summary = `Weekly Report: ${seoHealthIssues.rows.length} SEO issue types, ${keywordGaps.rows[0]?.gap_count || 0} keyword gaps`;
+      const result = await pool.query(
+        `INSERT INTO content_intelligence_reports (id, report_type, report_data, summary, created_at) VALUES (gen_random_uuid(), 'weekly', $1, $2, NOW()) RETURNING *`,
+        [JSON.stringify(reportData), summary]
+      );
+      res.json(result.rows[0]);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.get("/api/admin/intelligence-reports", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`SELECT * FROM content_intelligence_reports ORDER BY created_at DESC LIMIT 20`);
+      res.json(result.rows);
+    } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
   // --------------------
   // SEO Health Check Engine + Content Depth Enforcement
   // --------------------
