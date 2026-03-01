@@ -1,0 +1,74 @@
+1) Put this at the very top of your Express app setup
+Before any middleware (including compression, static, sessions, routes):
+// MUST be before any middleware that depends on req.ip/req.protocol/req.hostname
+// If you're behind a single proxy (common), use 1.
+// If you're behind multiple (Cloudflare -> Replit -> Node), `true` is acceptable too.
+// I usually start with 1; if protocol still wrong, switch to true.
+app.set("trust proxy", 1);
+If you still see req.protocol coming through as http in prod when you know it’s HTTPS, switch to:
+app.set("trust proxy", true);
+2) Add canonical host + https redirect middleware (production-only)
+This handles:
+nursenest.ca → www.nursenest.ca
+preserves path + query (req.originalUrl)
+avoids redirect loops
+avoids port issues
+optionally forces HTTPS (recommended)
+const CANONICAL_HOST = "www.nursenest.ca";
+const BARE_HOST = "nursenest.ca";
+
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV !== "production") return next();
+
+  // hostname strips port already when trust proxy is set
+  const hostname = req.hostname;
+
+  // If trust proxy is set, req.protocol should reflect x-forwarded-proto
+  // Otherwise you can check req.get('x-forwarded-proto')
+  const proto = req.protocol;
+
+  const needsWww = hostname === BARE_HOST;
+  const needsHttps = proto !== "https";
+
+  // If you only want www redirect and NOT https forcing, set needsHttps = false
+  if (!needsWww && !needsHttps) return next();
+
+  // Determine target host
+  const targetHost = needsWww ? CANONICAL_HOST : hostname;
+
+  // Build redirect URL preserving path + query
+  const redirectUrl = `https://${targetHost}${req.originalUrl}`;
+
+  // Use 301 for canonicalization (SEO)
+  return res.redirect(301, redirectUrl);
+});
+Notes
+This will also redirect http://www.nursenest.ca/... to https://www.nursenest.ca/...
+If your reverse proxy already forces HTTPS, this is still safe.
+3) Where this must live
+Order matters:
+app.set("trust proxy", 1); // or true
+
+app.use(canonicalRedirectMiddleware); // FIRST middleware
+
+// THEN all other middleware
+app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// THEN routes
+app.use("/api", apiRouter);
+app.use(frontendHandler);
+If you put it after routes, you’ll get mixed behavior or missed redirects.
+4) Quick production verification checklist
+After deploy, test these:
+https://nursenest.ca → 301 → https://www.nursenest.ca
+https://nursenest.ca/en/shop?x=1 → 301 → https://www.nursenest.ca/en/shop?x=1
+https://www.nursenest.ca → 200 (no redirect)
+http://www.nursenest.ca → 301 → https://www.nursenest.ca (if you keep HTTPS forcing)
+5) If you have multiple domains/environments
+If you run staging like staging.nursenest.ca or Replit preview hosts, you should scope the redirect to only your real domain(s):
+const ALLOWED_HOSTS = new Set([BARE_HOST, CANONICAL_HOST]);
+
+if (!ALLOWED_HOSTS.has(hostname)) return next();
+Put that just after const hostname = req.hostname;.
