@@ -1,0 +1,87 @@
+You are a senior engineer. My product/question generator keeps producing ONLY 5 questions even when I request more. I have asked to fix this many times. Implement a robust fix that enforces counts server-side and retries until the requested number is produced.
+
+STACK: Vite + React + Express + Postgres.
+
+GOAL:
+When admin requests N questions (e.g., 50, 100), the system MUST return exactly N valid questions, or throw a clear error. Under-generation is not acceptable.
+
+1) FIND THE ROOT CAUSE
+Search the codebase for any default limits of 5:
+- query params default (e.g., limit || 5)
+- array slicing (slice(0,5))
+- pagination defaults
+- LLM prompt instructions that mention 5
+- max_tokens too low causing truncation
+- JSON parsing that truncates after 5 objects
+Log where the 5 is coming from and remove/replace it.
+
+2) SERVER-SIDE ENFORCEMENT
+Add a required request field:
+POST /api/admin/generate-questions
+Body: { count: number, topic: string, level: 'RPN'|'RN'|'NP', format: 'mcq'|'sata'|'mixed', ... }
+
+Validate:
+- count must be integer 1–200 (or reasonable max)
+- If client sends nothing, DO NOT default to 5. Force a default like 25 or require explicit input.
+
+3) STRUCTURED OUTPUT CONTRACT (JSON ONLY)
+The LLM MUST return JSON with this exact schema:
+{
+  "items": [
+    {
+      "stem": "string",
+      "type": "mcq|sata",
+      "choices": [{"text":"string"}, ...],
+      "correctIndexes": [0,2],
+      "rationale": "string",
+      "difficulty": "easy|moderate|hard",
+      "subject": "string",
+      "clientNeedCategory": "string",
+      "clientNeedTopic": "string"
+    }
+  ]
+}
+No markdown. No commentary. No extra keys.
+
+4) RETRY + FILL LOOP UNTIL EXACT COUNT
+Implement generation as a loop:
+- Request batchSize = min(25, remainingNeeded)
+- Call LLM for batchSize items
+- Parse and validate each item
+- Deduplicate (by normalized stem text hash)
+- Append valid items
+- Continue until items.length === requested count OR maxAttempts reached (e.g., 8)
+If maxAttempts reached, throw a clear error:
+"Only generated X/Y after retries. Increase maxTokens or fix prompt."
+
+5) HARD VALIDATION
+Reject any item that:
+- has <4 choices for MCQ
+- has <5 choices for SATA (or your rule)
+- missing rationale
+- correctIndexes out of range
+- duplicate stem
+Return a report: accepted/rejected counts + reasons.
+
+6) TOKEN / MODEL SAFETY
+Increase maxTokens and/or split into multiple calls to avoid truncation.
+Never try to generate 100 items in one LLM call.
+
+7) FRONTEND FIXES
+Admin UI must:
+- include a numeric count input with min/max
+- show progress ("Generated 40/100…")
+- show a final summary report
+- never silently display only first 5 items; remove any UI pagination defaulting to 5.
+Make sure the request body is actually sending count.
+
+8) TESTS
+Add at least:
+- unit test: requesting 20 returns exactly 20
+- test: requesting 50 retries and still returns exactly 50
+- test: no default-to-5 exists anywhere
+
+DELIVERABLE:
+- Provide code changes
+- List files modified
+- Explain where the "5" limit was coming from and how it’s fixed.

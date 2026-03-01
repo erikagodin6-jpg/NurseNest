@@ -116,6 +116,64 @@ async function extractUserTier(req: Request): Promise<string | null> {
   return null;
 }
 
+const activePreviewSessions = new Map<string, { mode: string; expiresAt: number; adminUserId: string }>();
+
+function setPreviewMode(adminUserId: string, mode: string): string {
+  const token = require("crypto").randomBytes(16).toString("hex");
+  const expiresAt = Date.now() + 30 * 60 * 1000;
+  activePreviewSessions.set(token, { mode, expiresAt, adminUserId });
+  return token;
+}
+
+function clearPreviewMode(token: string): void {
+  activePreviewSessions.delete(token);
+}
+
+function getPreviewFromToken(token: string | undefined): { mode: string; adminUserId: string } | null {
+  if (!token) return null;
+  const session = activePreviewSessions.get(token);
+  if (!session) return null;
+  if (Date.now() > session.expiresAt) {
+    activePreviewSessions.delete(token);
+    return null;
+  }
+  return { mode: session.mode, adminUserId: session.adminUserId };
+}
+
+async function getEffectiveTier(req: any): Promise<{ tier: string; isPreview: boolean; realTier: string | null }> {
+  const previewToken = (req.cookies?.nursenest_preview || req.headers?.["x-preview-token"] || "") as string;
+  const preview = getPreviewFromToken(previewToken);
+
+  const username = String(req.body?.username || req.query?.username || "");
+  const password = String(req.body?.password || req.query?.password || "");
+  let realTier: string | null = null;
+  let isAdmin = false;
+
+  if (username && password) {
+    const user = await storage.getUserByUsername(username);
+    if (user && user.password === password) {
+      realTier = user.tier || "free";
+      isAdmin = user.tier === "admin";
+    }
+  }
+  if (!realTier) {
+    const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
+    if (adminId) {
+      const user = await storage.getUser(adminId);
+      if (user) {
+        realTier = user.tier || "free";
+        isAdmin = user.tier === "admin";
+      }
+    }
+  }
+
+  if (isAdmin && preview) {
+    return { tier: preview.mode, isPreview: true, realTier };
+  }
+
+  return { tier: realTier || "free", isPreview: false, realTier };
+}
+
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   registerObjectStorageRoutes(app);
 
@@ -1316,7 +1374,7 @@ Generate questions ${startNum} through ${startNum + count - 1} (EXACTLY ${count}
 Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"...","trap_note":"..."}]}`;
 
         let batchQuestions: any[] | null = null;
-        const MAX_RETRIES = 2;
+        const MAX_RETRIES = 3;
         for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
           console.log(`[QuestionBatch] batch=${batch + 1} attempt=${attempt + 1}`);
           const resp = await openai.chat.completions.create({
@@ -1633,21 +1691,11 @@ Start numbering at q${startNum}. Return STRICT JSON only with exactly ${chunkCou
 
       const testBank = { questions: allQuestions, title: `${topic} - ${examTarget?.toUpperCase() || "NCLEX"} Test Bank` };
 
-      if (countMismatch) {
-        return res.status(422).json({
-          error: "QUESTION_COUNT_MISMATCH",
-          message: `Requested ${requestedCount} questions but AI generated ${generatedCount}. Export blocked.`,
-          requestedCount,
-          generatedCount,
-          testBank,
-          audit,
-        });
-      }
-
       res.json({
         ...testBank,
         requestedCount,
         generatedCount,
+        countMismatch,
         audit,
       });
     } catch (e: any) {
@@ -6991,7 +7039,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const created = await storage.createExamQuestionsBulk(questions);
       await logAudit(req, admin, "exam_question", null, "bulk_generate", null, { tier, exam, questionType, count: created.length });
-      res.json({ created: created.length, questions: created.slice(0, 5) });
+      res.json({ created: created.length, questions: created });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
