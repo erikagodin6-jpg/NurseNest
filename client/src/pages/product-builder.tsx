@@ -2029,7 +2029,7 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
         setStepLabel(`Compiling... ${pagesCreated} pages`);
       };
 
-      let savedLogoUrl: string | undefined;
+      let savedLogoUrl: string | undefined = "/brand-logo.gif";
       try {
         const savedLogos = JSON.parse(localStorage.getItem("nursenest-brand-logos") || "[]");
         if (savedLogos.length > 0) savedLogoUrl = savedLogos[0].url;
@@ -2154,6 +2154,144 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
       setStepLabel("");
     } finally {
       setGenerating(false);
+    }
+  };
+
+  const loadImage = (src: string): Promise<HTMLImageElement> => {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+      img.src = src;
+    });
+  };
+
+  const renderPageToCanvas = async (pageData: { objects: CanvasObject[]; backgroundColor: string }, w: number, h: number): Promise<HTMLCanvasElement> => {
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = pageData.backgroundColor || "#ffffff";
+    ctx.fillRect(0, 0, w, h);
+    const sorted = [...pageData.objects].sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0));
+    for (const obj of sorted) {
+      ctx.save();
+      ctx.globalAlpha = obj.opacity ?? 1;
+      if (obj.rotation) {
+        ctx.translate(obj.x + obj.width / 2, obj.y + obj.height / 2);
+        ctx.rotate((obj.rotation * Math.PI) / 180);
+        ctx.translate(-(obj.x + obj.width / 2), -(obj.y + obj.height / 2));
+      }
+      if (obj.type === "rect") {
+        ctx.fillStyle = obj.fill || "transparent";
+        if (obj.borderRadius) {
+          const r = Math.min(obj.borderRadius, obj.width / 2, obj.height / 2);
+          ctx.beginPath();
+          ctx.roundRect(obj.x, obj.y, obj.width, obj.height, r);
+          ctx.fill();
+          if (obj.stroke) { ctx.strokeStyle = obj.stroke; ctx.lineWidth = obj.strokeWidth || 1; ctx.stroke(); }
+        } else {
+          if (obj.fill && obj.fill !== "transparent") ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+          if (obj.stroke) { ctx.strokeStyle = obj.stroke; ctx.lineWidth = obj.strokeWidth || 1; ctx.strokeRect(obj.x, obj.y, obj.width, obj.height); }
+        }
+      } else if (obj.type === "circle") {
+        ctx.fillStyle = obj.fill || "transparent";
+        ctx.beginPath();
+        ctx.ellipse(obj.x + obj.width / 2, obj.y + obj.height / 2, obj.width / 2, obj.height / 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        if (obj.stroke) { ctx.strokeStyle = obj.stroke; ctx.lineWidth = obj.strokeWidth || 1; ctx.stroke(); }
+      } else if (obj.type === "text") {
+        ctx.fillStyle = obj.fill || "#000000";
+        const weight = obj.fontWeight || "normal";
+        const size = obj.fontSize || 14;
+        const family = obj.fontFamily || "Inter";
+        ctx.font = `${weight} ${size}px "${family}", sans-serif`;
+        ctx.textAlign = (obj.textAlign as CanvasTextAlign) || "left";
+        ctx.textBaseline = "top";
+        const textX = obj.textAlign === "center" ? obj.x + obj.width / 2 : obj.textAlign === "right" ? obj.x + obj.width : obj.x;
+        const content = obj.content || "";
+        const lines = content.split("\n");
+        const lineHeight = size * 1.3;
+        lines.forEach((line, li) => {
+          if (obj.y + li * lineHeight < obj.y + obj.height) {
+            ctx.fillText(line, textX, obj.y + li * lineHeight, obj.width);
+          }
+        });
+      } else if (obj.type === "image" && obj.src) {
+        try {
+          const img = await loadImage(obj.src);
+          const fit = obj.tag === "brand-logo" ? "contain" : "cover";
+          let sx = 0, sy = 0, sw = img.width, sh = img.height;
+          if (fit === "cover") {
+            const scale = Math.max(obj.width / img.width, obj.height / img.height);
+            sw = obj.width / scale;
+            sh = obj.height / scale;
+            sx = (img.width - sw) / 2;
+            sy = (img.height - sh) / 2;
+          }
+          ctx.drawImage(img, sx, sy, sw, sh, obj.x, obj.y, obj.width, obj.height);
+        } catch {}
+      }
+      ctx.restore();
+    }
+    return canvas;
+  };
+
+  const downloadGuidedPages = async () => {
+    if (previewPages.length === 0) return;
+    setGuidedExporting(true);
+    try {
+      const W = 612, H = 792;
+      for (let i = 0; i < previewPages.length; i++) {
+        const pg = previewPages[i];
+        const canvas = await renderPageToCanvas(pg, W, H);
+        const blob = await new Promise<Blob>((resolve) => canvas.toBlob(b => resolve(b!), "image/png"));
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${project?.title || "document"}-page-${String(i + 1).padStart(2, "0")}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        await new Promise(r => setTimeout(r, 200));
+      }
+      toast({ title: "Download complete", description: `${previewPages.length} pages downloaded as PNG` });
+    } catch (e: any) {
+      toast({ title: "Download failed", description: e.message, variant: "destructive" });
+    } finally {
+      setGuidedExporting(false);
+    }
+  };
+
+  const publishGuidedToStore = async () => {
+    if (!guidedPublishForm.title.trim() || !guidedPublishForm.price) return;
+    setGuidedPublishing(true);
+    try {
+      const priceNum = Number(String(guidedPublishForm.price).replace(/[^0-9.]/g, ""));
+      const priceCents = Math.round(priceNum * 100);
+      const res = await adminFetch("/api/admin/shop/products", {
+        method: "POST",
+        body: {
+          title: guidedPublishForm.title,
+          slug: guidedPublishForm.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+          description: guidedPublishForm.description || guidedPublishForm.title,
+          price: priceCents,
+          category: guidedPublishForm.category,
+          coverImageUrl: null,
+          featured: false,
+        },
+      });
+      if (res.ok) {
+        toast({ title: "Published to marketplace!", description: "Your product is now listed in the store as a draft." });
+        setShowGuidedPublish(false);
+      } else {
+        const err = await res.json();
+        toast({ title: "Publish failed", description: err.error || "Unknown error", variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Publish failed", description: e.message, variant: "destructive" });
+    } finally {
+      setGuidedPublishing(false);
     }
   };
 
@@ -2650,6 +2788,79 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
       </div>
         )}
       </div>
+
+      {showGuidedPublish && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowGuidedPublish(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4" onClick={e => e.stopPropagation()} data-testid="dialog-guided-publish">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-bold text-gray-900">Publish to Store</h3>
+              <button onClick={() => setShowGuidedPublish(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+            </div>
+            <div className="space-y-3">
+              <div>
+                <label className="text-xs font-semibold text-gray-600 block mb-1">Product Title</label>
+                <Input
+                  value={guidedPublishForm.title}
+                  onChange={e => setGuidedPublishForm(f => ({ ...f, title: e.target.value }))}
+                  placeholder={project?.title || "Enter product title"}
+                  data-testid="input-guided-publish-title"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-gray-600 block mb-1">Description</label>
+                <Textarea
+                  value={guidedPublishForm.description}
+                  onChange={e => setGuidedPublishForm(f => ({ ...f, description: e.target.value }))}
+                  placeholder="Short description of the product..."
+                  rows={3}
+                  data-testid="input-guided-publish-desc"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">Price (USD)</label>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={guidedPublishForm.price}
+                    onChange={e => setGuidedPublishForm(f => ({ ...f, price: e.target.value }))}
+                    placeholder="9.99"
+                    data-testid="input-guided-publish-price"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">Category</label>
+                  <select
+                    value={guidedPublishForm.category}
+                    onChange={e => setGuidedPublishForm(f => ({ ...f, category: e.target.value }))}
+                    className="w-full h-9 rounded-lg border px-2 text-sm"
+                    data-testid="select-guided-publish-category"
+                  >
+                    <option>Cram Guide</option>
+                    <option>Study Bundle</option>
+                    <option>Flashcard Deck</option>
+                    <option>Question Bank</option>
+                    <option>Review Sheet</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" onClick={() => setShowGuidedPublish(false)} className="flex-1">Cancel</Button>
+              <Button
+                onClick={publishGuidedToStore}
+                disabled={guidedPublishing || !guidedPublishForm.title.trim() || !guidedPublishForm.price}
+                className="flex-1 bg-green-600 hover:bg-green-700 gap-1.5"
+                data-testid="button-guided-publish-confirm"
+              >
+                {guidedPublishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
+                Publish
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -3304,7 +3515,7 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
       examTarget: EXAM_CONTEXT_MAP[aiExamTarget]?.label || "",
       badges: EXAM_CONTEXT_MAP[aiExamTarget]?.region === "CA" ? ["Canada"] : EXAM_CONTEXT_MAP[aiExamTarget]?.region === "US" ? ["USA"] : [],
       pageCount: pages.length,
-      logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
+      logoUrl: brandLogos.length > 0 ? brandLogos[0].url : "/brand-logo.gif",
     });
     setObjects(coverObjs);
     toast({ title: "Cover page generated", description: `${preset.name} preset applied` });
@@ -3717,7 +3928,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           includesFlashcards: (data.flashcards || []).length > 0,
           includesQbank: (data.qbank || []).length > 0,
           pageCount: pagesPayload.length + 1,
-          logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
+          logoUrl: brandLogos.length > 0 ? brandLogos[0].url : "/brand-logo.gif",
         });
         setObjects(coverObjs);
         const bgColor = pages[currentPageIndex]?.backgroundColor || "#ffffff";
