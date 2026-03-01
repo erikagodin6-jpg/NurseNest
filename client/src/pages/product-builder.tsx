@@ -3441,11 +3441,6 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
   const [tbRenderMode, setTbRenderMode] = useState<"full" | "questions-only">("full");
   const [tbExportingPdf, setTbExportingPdf] = useState(false);
   const [tbAudit, setTbAudit] = useState<{ ok: boolean; requestedCount: number; generatedCount: number; countMatch: boolean; byType: Record<string, number>; byCategory: Record<string, number>; errors: string[] } | null>(null);
-  const [tbCompletingMissing, setTbCompletingMissing] = useState(false);
-  const [tbPatches, setTbPatches] = useState<{ id: string; label: string; prompt: string; scope: string; strength: string; enabled: boolean }[]>([]);
-  const [tbVersions, setTbVersions] = useState<{ id: string; createdAt: string; tbResult: any; notes: string }[]>([]);
-  const [tbBasePrompt, setTbBasePrompt] = useState("");
-  const [tbPatchApplying, setTbPatchApplying] = useState(false);
   const [bundleTargetPages, setBundleTargetPages] = useState(30);
   const [bundleProgress, setBundleProgress] = useState<{ step: string; current: number; total: number } | null>(null);
   const [brandLogos, setBrandLogos] = useState<{ url: string; fileName: string }[]>(() => {
@@ -4630,8 +4625,6 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
     setTbLoading(true);
     setTbAudit(null);
-    const promptUsed = aiPromptCanvas.trim() || `Generate a ${tbQuestionCount}-question test bank on: ${aiTopic}`;
-    setTbBasePrompt(promptUsed);
     try {
       const res = await adminFetch("/api/ai/generate-test-bank", {
         method: "POST",
@@ -4665,7 +4658,6 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       const audit = validateTestBankForExport(data, tbQuestionCount);
       setTbAudit(audit);
       setTbResult({ ...data, _auditedCount: tbQuestionCount });
-      setTbVersions([{ id: "v1", createdAt: new Date().toISOString(), tbResult: data, notes: "Initial generation" }]);
       if (audit.ok) {
         toast({ title: "Test Bank Generated", description: `${audit.generatedCount}/${audit.requestedCount} questions - audit PASSED` });
       } else {
@@ -4763,318 +4755,17 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
   };
 
-  const completeMissingQuestions = async () => {
-    if (!tbResult?.questions) return;
-    setTbCompletingMissing(true);
-    try {
-      const expected = tbResult._auditedCount || tbResult.requestedCount || tbQuestionCount;
-      const res = await adminFetch("/api/ai/complete-missing-test-bank", {
-        method: "POST",
-        body: {
-          topic: aiTopic,
-          customPrompt: tbBasePrompt || undefined,
-          examTarget: aiExamTarget,
-          requestedCount: expected,
-          existingQuestions: tbResult.questions,
-          difficulty: tbDifficulty,
-          questionTypes: tbQuestionTypes,
-        },
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        toast({ title: "Complete Missing failed", description: data.error || data.message || "Unknown error", variant: "destructive" });
-        if (data.audit) {
-          const audit = validateTestBankForExport(data.testBank || data, expected);
-          setTbAudit(audit);
-        }
-        return;
-      }
-      const audit = validateTestBankForExport(data, expected);
-      setTbAudit(audit);
-      setTbResult({ ...data, _auditedCount: expected });
-      if (audit.ok) {
-        const vId = `v${tbVersions.length + 1}`;
-        setTbVersions(prev => [...prev, { id: vId, createdAt: new Date().toISOString(), tbResult: data, notes: "Completed missing questions" }]);
-        toast({ title: "Questions completed!", description: `${audit.generatedCount}/${audit.requestedCount} - audit PASSED` });
-      } else {
-        toast({ title: `Completed: ${audit.generatedCount}/${audit.requestedCount}`, description: `${audit.errors.length} issues remain`, variant: "destructive" });
-      }
-    } catch (e: any) {
-      toast({ title: "Complete Missing failed", description: e.message, variant: "destructive" });
-    } finally {
-      setTbCompletingMissing(false);
-    }
-  };
-
-  const exportTestBankPDF = async () => {
-    if (!tbAuditGate()) return;
-    setTbExportingPdf(true);
-    try {
-      const { jsPDF } = await import("jspdf");
-      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "letter" });
-      const W = 612;
-      const H = 792;
-      const M = 54;
-      const CW = W - M * 2;
-      let curY = M;
-      let pageNum = 1;
-      const questions = tbResult.questions || [];
-      const mode = tbRenderMode;
-      const topic = aiTopic || "General";
-
-      const addHeader = () => {
-        pdf.setFontSize(8);
-        pdf.setTextColor(124, 58, 237);
-        pdf.text(`NurseNest REx-PN QBank | ${topic} | ${mode === "full" ? "Full" : "Questions Only"}`, M, 30);
-        pdf.setDrawColor(124, 58, 237);
-        pdf.setLineWidth(0.5);
-        pdf.line(M, 36, W - M, 36);
-      };
-
-      const addFooter = () => {
-        pdf.setFontSize(7);
-        pdf.setTextColor(150, 150, 150);
-        pdf.text(`Page ${pageNum}`, W / 2, H - 20, { align: "center" });
-        pdf.text("For educational use only. NurseNest.", M, H - 20);
-      };
-
-      const newPage = () => {
-        addFooter();
-        pdf.addPage("letter", "portrait");
-        pageNum++;
-        curY = M;
-        addHeader();
-        curY = 44;
-      };
-
-      const ensureSpace = (needed: number) => {
-        if (curY + needed > H - M - 20) {
-          newPage();
-        }
-      };
-
-      const wrapText = (text: string, maxWidth: number, fontSize: number): string[] => {
-        pdf.setFontSize(fontSize);
-        const words = text.split(/\s+/);
-        const lines: string[] = [];
-        let currentLine = "";
-        for (const word of words) {
-          const testLine = currentLine ? currentLine + " " + word : word;
-          if (pdf.getTextWidth(testLine) > maxWidth && currentLine) {
-            lines.push(currentLine);
-            currentLine = word;
-          } else {
-            currentLine = testLine;
-          }
-        }
-        if (currentLine) lines.push(currentLine);
-        return lines.length > 0 ? lines : [""];
-      };
-
-      const drawWrapped = (text: string, x: number, fontSize: number, color: [number, number, number], bold?: boolean, maxW?: number): number => {
-        const mw = maxW || CW;
-        const lines = wrapText(text, mw, fontSize);
-        const lineH = fontSize * 1.4;
-        for (const line of lines) {
-          ensureSpace(lineH);
-          pdf.setFontSize(fontSize);
-          pdf.setTextColor(...color);
-          pdf.setFont("helvetica", bold ? "bold" : "normal");
-          pdf.text(line, x, curY);
-          curY += lineH;
-        }
-        return lines.length * lineH;
-      };
-
-      addHeader();
-      curY = 44;
-
-      pdf.setFontSize(22);
-      pdf.setTextColor(124, 58, 237);
-      pdf.setFont("helvetica", "bold");
-      pdf.text("NurseNest REx-PN QBank", W / 2, curY + 40, { align: "center" });
-      curY += 60;
-      pdf.setFontSize(14);
-      pdf.setTextColor(30, 41, 59);
-      pdf.text(topic, W / 2, curY, { align: "center" });
-      curY += 25;
-      pdf.setFontSize(10);
-      pdf.setTextColor(100, 116, 139);
-      pdf.text(`${questions.length} Questions | ${mode === "full" ? "Full with Rationales" : "Questions Only"} | ${aiExamTarget.toUpperCase()}`, W / 2, curY, { align: "center" });
-      curY += 15;
-      pdf.text(`Generated: ${new Date().toLocaleDateString()}`, W / 2, curY, { align: "center" });
-      curY += 40;
-
-      for (let i = 0; i < questions.length; i++) {
-        const q = questions[i];
-        const qType = (q.type || "MCQ").toUpperCase();
-
-        ensureSpace(80);
-
-        drawWrapped(`Question ${i + 1}  [${qType}] [${q.category || ""}]`, M, 11, [124, 58, 237], true);
-        curY += 4;
-
-        if (q.scenario) {
-          drawWrapped(q.scenario, M, 10, [71, 85, 105]);
-          curY += 4;
-        }
-
-        drawWrapped(q.stem, M, 11, [30, 41, 59], true);
-        curY += 4;
-
-        const opts = q.options || [];
-        for (const opt of opts) {
-          drawWrapped(opt, M + 12, 10, [51, 65, 85]);
-          curY += 2;
-        }
-        curY += 4;
-
-        if (mode === "full") {
-          const correctLabel = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(", ") : q.correctAnswer;
-          drawWrapped(`Correct Answer: ${correctLabel}`, M, 10, [16, 185, 129], true);
-          curY += 2;
-
-          if (q.rationaleCorrect) {
-            drawWrapped(`Rationale: ${q.rationaleCorrect}`, M, 9, [51, 65, 85]);
-            curY += 2;
-          }
-          if (Array.isArray(q.rationaleIncorrect) && q.rationaleIncorrect.length > 0) {
-            drawWrapped("Why others are wrong:", M, 9, [100, 116, 139], true);
-            for (const ri of q.rationaleIncorrect) {
-              drawWrapped(`- ${ri}`, M + 8, 9, [100, 116, 139]);
-            }
-            curY += 2;
-          }
-          if (q.clinicalPearl) {
-            drawWrapped(`Clinical Pearl: ${q.clinicalPearl}`, M, 9, [124, 58, 237]);
-            curY += 2;
-          }
-        }
-
-        pdf.setDrawColor(226, 232, 240);
-        pdf.setLineWidth(0.3);
-        ensureSpace(6);
-        pdf.line(M, curY, W - M, curY);
-        curY += 10;
-      }
-
-      if (mode === "questions-only") {
-        newPage();
-        drawWrapped("Answer Key", M, 16, [124, 58, 237], true);
-        curY += 10;
-        for (let i = 0; i < questions.length; i++) {
-          const q = questions[i];
-          const ans = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(", ") : q.correctAnswer;
-          ensureSpace(14);
-          drawWrapped(`Q${i + 1}: ${ans}`, M, 10, [30, 41, 59]);
-        }
-      }
-
-      newPage();
-      drawWrapped("Audit Summary", M, 16, [124, 58, 237], true);
-      curY += 12;
-      const auditData = tbAudit || validateTestBankForExport(tbResult, tbResult._auditedCount || tbQuestionCount);
-      drawWrapped(`Requested: ${auditData.requestedCount}`, M, 10, [30, 41, 59]);
-      drawWrapped(`Generated: ${auditData.generatedCount}`, M, 10, [30, 41, 59]);
-      drawWrapped(`Count Match: ${auditData.countMatch ? "PASS" : "FAIL"}`, M, 10, auditData.countMatch ? [16, 185, 129] : [239, 68, 68], true);
-      drawWrapped(`Render Mode: ${mode}`, M, 10, [30, 41, 59]);
-      drawWrapped(`Exam Target: ${aiExamTarget.toUpperCase()}`, M, 10, [30, 41, 59]);
-      drawWrapped(`Timestamp: ${new Date().toISOString()}`, M, 10, [100, 116, 139]);
-      curY += 10;
-      drawWrapped("By Type:", M, 10, [30, 41, 59], true);
-      for (const [t, c] of Object.entries(auditData.byType)) {
-        drawWrapped(`  ${t}: ${c}`, M + 8, 10, [51, 65, 85]);
-      }
-      curY += 6;
-      drawWrapped("By Category:", M, 10, [30, 41, 59], true);
-      for (const [cat, c] of Object.entries(auditData.byCategory)) {
-        drawWrapped(`  ${cat}: ${c}`, M + 8, 10, [51, 65, 85]);
-      }
-      curY += 12;
-      pdf.setFontSize(8);
-      pdf.setTextColor(124, 58, 237);
-      pdf.text("NurseNest - Exam Prep that Works", W / 2, curY, { align: "center" });
-
-      addFooter();
-
-      const safeTopic = topic.replace(/[^a-zA-Z0-9]+/g, "-").substring(0, 30);
-      pdf.save(`NurseNest-RExPN-QBank-${safeTopic}-${questions.length}Q-${mode}.pdf`);
-      toast({ title: `PDF exported: ${questions.length} questions (${mode})` });
-    } catch (e: any) {
-      toast({ title: "PDF export failed", description: e.message, variant: "destructive" });
-    } finally {
-      setTbExportingPdf(false);
-    }
-  };
-
-  const applyTbPatches = async () => {
-    if (!tbResult?.questions || tbPatches.filter(p => p.enabled).length === 0) {
-      toast({ title: "No patches to apply", variant: "destructive" });
+  const simulateMissingQuestion = () => {
+    if (!tbResult?.questions || tbResult.questions.length < 2) {
+      toast({ title: "Need at least 2 questions to simulate", variant: "destructive" });
       return;
     }
-    setTbPatchApplying(true);
-    try {
-      const expected = tbResult._auditedCount || tbResult.requestedCount || tbQuestionCount;
-      const enabledPatches = tbPatches.filter(p => p.enabled);
-      const res = await adminFetch("/api/ai/patch-test-bank", {
-        method: "POST",
-        body: {
-          requestedCount: expected,
-          tbResult: { questions: tbResult.questions },
-          topic: aiTopic,
-          examTarget: aiExamTarget,
-          patches: enabledPatches.map(p => ({ prompt: p.prompt, scope: p.scope, strength: p.strength })),
-        },
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        toast({ title: "Patch failed", description: data.error || data.message || "Unknown error", variant: "destructive" });
-        return;
-      }
-      const audit = validateTestBankForExport(data, expected);
-      setTbAudit(audit);
-      setTbResult({ ...data, _auditedCount: expected });
-      const vId = `v${tbVersions.length + 1}`;
-      setTbVersions(prev => [...prev, { id: vId, createdAt: new Date().toISOString(), tbResult: data, notes: `Patched: ${enabledPatches.map(p => p.label).join(", ")}` }]);
-      if (audit.ok) {
-        toast({ title: "Patches applied", description: `${audit.generatedCount} questions - audit PASSED` });
-      } else {
-        toast({ title: "Patches applied with issues", description: `${audit.errors.length} validation errors`, variant: "destructive" });
-      }
-    } catch (e: any) {
-      toast({ title: "Patch failed", description: e.message, variant: "destructive" });
-    } finally {
-      setTbPatchApplying(false);
-    }
-  };
-
-  const revertTbVersion = (versionId: string) => {
-    const version = tbVersions.find(v => v.id === versionId);
-    if (!version) return;
-    const expected = tbResult?._auditedCount || tbQuestionCount;
-    setTbResult({ ...version.tbResult, _auditedCount: expected });
-    const audit = validateTestBankForExport(version.tbResult, expected);
+    const trimmed = { ...tbResult, questions: tbResult.questions.slice(0, -1) };
+    setTbResult(trimmed);
+    const expected = tbResult._auditedCount || tbResult.requestedCount || tbQuestionCount;
+    const audit = validateTestBankForExport(trimmed, expected);
     setTbAudit(audit);
-    toast({ title: `Reverted to ${versionId}`, description: version.notes });
-  };
-
-  const addTbPatch = () => {
-    setTbPatches(prev => [...prev, {
-      id: `p${Date.now()}`,
-      label: `Patch ${prev.length + 1}`,
-      prompt: "",
-      scope: "all",
-      strength: "medium",
-      enabled: true,
-    }]);
-  };
-
-  const removeTbPatch = (id: string) => {
-    setTbPatches(prev => prev.filter(p => p.id !== id));
-  };
-
-  const updateTbPatch = (id: string, field: string, value: any) => {
-    setTbPatches(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
+    toast({ title: "Simulated: removed last question", description: `Now ${audit.generatedCount}/${audit.requestedCount}` });
   };
 
   const toggleTbQuestionType = (type: string) => {
@@ -6042,70 +5733,106 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 </Button>
               </div>
 
+              {tbAudit && (
+                <div className={`mt-3 rounded-lg border p-2.5 ${tbAudit.ok ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`} data-testid="panel-tb-audit">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[11px] font-semibold" style={{ color: tbAudit.ok ? "#166534" : "#991b1b" }}>
+                      Audit: {tbAudit.ok ? "PASS" : "FAIL"}
+                    </span>
+                    <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${tbAudit.countMatch ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`} data-testid="text-tb-count-match">
+                      {tbAudit.generatedCount}/{tbAudit.requestedCount}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-[9px] mb-1.5">
+                    <span className="text-gray-500">Requested:</span>
+                    <span className="font-medium text-gray-700" data-testid="text-tb-requested">{tbAudit.requestedCount}</span>
+                    <span className="text-gray-500">Generated:</span>
+                    <span className="font-medium text-gray-700" data-testid="text-tb-generated">{tbAudit.generatedCount}</span>
+                    <span className="text-gray-500">Count Match:</span>
+                    <span className={`font-medium ${tbAudit.countMatch ? "text-green-700" : "text-red-700"}`} data-testid="text-tb-match">{tbAudit.countMatch ? "true" : "false"}</span>
+                  </div>
+                  {Object.keys(tbAudit.byType).length > 0 && (
+                    <div className="mb-1">
+                      <span className="text-[8px] font-semibold text-gray-500 block mb-0.5">By Type:</span>
+                      <div className="flex gap-1 flex-wrap">
+                        {Object.entries(tbAudit.byType).map(([t, c]) => (
+                          <span key={t} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full text-[8px]" data-testid={`badge-type-${t}`}>{t}: {c}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {Object.keys(tbAudit.byCategory).length > 0 && (
+                    <div className="mb-1">
+                      <span className="text-[8px] font-semibold text-gray-500 block mb-0.5">By Category:</span>
+                      <div className="flex gap-1 flex-wrap">
+                        {Object.entries(tbAudit.byCategory).map(([cat, c]) => (
+                          <span key={cat} className="bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full text-[8px]" data-testid={`badge-cat-${cat}`}>{cat}: {c}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {tbAudit.errors.length > 0 && (
+                    <div className="mt-1.5">
+                      <span className="text-[8px] font-semibold text-red-600 block mb-0.5">Errors ({tbAudit.errors.length}):</span>
+                      <div className="max-h-20 overflow-y-auto space-y-0.5">
+                        {tbAudit.errors.slice(0, 10).map((err, i) => (
+                          <p key={i} className="text-[8px] text-red-600" data-testid={`text-tb-error-${i}`}>{err}</p>
+                        ))}
+                        {tbAudit.errors.length > 10 && <p className="text-[8px] text-red-400">+{tbAudit.errors.length - 10} more</p>}
+                      </div>
+                    </div>
+                  )}
+                  <span className={`block text-[8px] mt-1 font-semibold ${tbAudit.ok ? "text-green-600" : "text-red-600"}`} data-testid="text-tb-export-blocked">
+                    Export: {tbAudit.ok ? "ENABLED" : "BLOCKED"}
+                  </span>
+                </div>
+              )}
+
               {tbResult && (
                 <div className="mt-3 space-y-2">
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-2.5">
-                    <p className="text-[11px] font-semibold text-green-800 mb-0.5">{tbResult.title || "Test Bank"}</p>
-                    <p className="text-[9px] text-green-600 mb-1.5">{(tbResult.questions || []).length} questions generated</p>
-                    <div className="flex gap-1 flex-wrap text-[8px] mb-2">
-                      {(() => {
-                        const qs = tbResult.questions || [];
-                        const mc = qs.filter((q: any) => q.type === "multiple-choice").length;
-                        const sa = qs.filter((q: any) => q.type === "select-all").length;
-                        const or = qs.filter((q: any) => q.type === "ordered-response").length;
-                        const easy = qs.filter((q: any) => q.difficulty === "easy").length;
-                        const mod = qs.filter((q: any) => q.difficulty === "moderate").length;
-                        const hard = qs.filter((q: any) => q.difficulty === "hard").length;
-                        return (
-                          <>
-                            {mc > 0 && <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full">{mc} MC</span>}
-                            {sa > 0 && <span className="bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">{sa} SATA</span>}
-                            {or > 0 && <span className="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full">{or} Ordered</span>}
-                            {easy > 0 && <span className="bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">{easy} Easy</span>}
-                            {mod > 0 && <span className="bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-full">{mod} Med</span>}
-                            {hard > 0 && <span className="bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full">{hard} Hard</span>}
-                          </>
-                        );
-                      })()}
-                    </div>
+                  <div className="bg-white border border-gray-200 rounded-lg p-2.5">
+                    <p className="text-[11px] font-semibold text-gray-800 mb-0.5">{tbResult.title || "Test Bank"}</p>
+                    <p className="text-[9px] text-gray-500 mb-1.5">{(tbResult.questions || []).length} questions generated</p>
 
-                    <button onClick={() => setTbPreviewOpen(!tbPreviewOpen)} className="text-[9px] text-green-700 hover:text-green-900 underline mb-1.5 block" data-testid="button-tb-preview-toggle">
+                    <button onClick={() => setTbPreviewOpen(!tbPreviewOpen)} className="text-[9px] text-primary hover:text-primary/80 underline mb-1.5 block" data-testid="button-tb-preview-toggle">
                       {tbPreviewOpen ? "Hide Preview" : "Preview Questions"}
                     </button>
                     {tbPreviewOpen && (
                       <div className="max-h-48 overflow-y-auto space-y-2 mb-2">
                         {(tbResult.questions || []).slice(0, 10).map((q: any, i: number) => (
-                          <div key={i} className="bg-white rounded-lg p-2 border border-green-100 text-[9px]">
+                          <div key={i} className="bg-gray-50 rounded-lg p-2 border border-gray-100 text-[9px]">
                             <div className="flex items-center gap-1 mb-1">
                               <span className="bg-gray-100 text-gray-600 px-1 rounded text-[8px] font-mono">Q{q.id || i + 1}</span>
-                              <span className={`px-1 rounded text-[8px] ${q.difficulty === "easy" ? "bg-green-50 text-green-600" : q.difficulty === "hard" ? "bg-red-50 text-red-600" : "bg-yellow-50 text-yellow-600"}`}>{q.difficulty}</span>
-                              <span className="bg-blue-50 text-blue-600 px-1 rounded text-[8px]">{q.type}</span>
+                              <span className="bg-blue-50 text-blue-600 px-1 rounded text-[8px]">{(q.type || "").toUpperCase()}</span>
                             </div>
                             <p className="text-gray-800 font-medium mb-1">{q.stem}</p>
                             <div className="space-y-0.5 text-gray-600">
                               {(q.options || []).map((opt: string, oi: number) => {
                                 const letter = opt.charAt(0);
-                                const isCorrect = (q.correctAnswer || "").includes(letter);
+                                const isCorrect = Array.isArray(q.correctAnswer) ? q.correctAnswer.includes(letter) : (q.correctAnswer || "").includes(letter);
                                 return (
-                                  <p key={oi} className={isCorrect ? "text-green-700 font-medium" : ""}>{isCorrect ? "✓ " : "  "}{opt}</p>
+                                  <p key={oi} className={isCorrect ? "text-green-700 font-medium" : ""}>{opt}</p>
                                 );
                               })}
                             </div>
-                            <p className="text-gray-400 mt-1 italic">{(q.rationale || "").slice(0, 100)}...</p>
                           </div>
                         ))}
                         {(tbResult.questions || []).length > 10 && <p className="text-[8px] text-gray-400 text-center">+{(tbResult.questions || []).length - 10} more questions</p>}
                       </div>
                     )}
 
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <Button size="sm" variant="outline" onClick={exportTestBankJSON} className="h-7 text-[10px] gap-1" data-testid="button-tb-export-json">
+                    <div className="grid grid-cols-2 gap-1.5 mb-2">
+                      <Button size="sm" variant="outline" onClick={exportTestBankJSON} disabled={!tbExportAllowed()} className="h-7 text-[10px] gap-1" data-testid="button-tb-export-json">
                         <Download className="w-3 h-3" /> JSON
                       </Button>
-                      <Button size="sm" variant="outline" onClick={exportTestBankCSV} className="h-7 text-[10px] gap-1" data-testid="button-tb-export-csv">
+                      <Button size="sm" variant="outline" onClick={exportTestBankCSV} disabled={!tbExportAllowed()} className="h-7 text-[10px] gap-1" data-testid="button-tb-export-csv">
                         <Download className="w-3 h-3" /> CSV
                       </Button>
                     </div>
+
+                    <button onClick={simulateMissingQuestion} className="text-[8px] text-gray-400 hover:text-red-500 underline block mb-1" data-testid="button-tb-simulate-missing">
+                      [Dev] Simulate Missing Question
+                    </button>
                   </div>
 
                   <div className="bg-primary/5 border border-primary/20 rounded-lg p-2.5">
@@ -6119,7 +5846,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                         <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Price (CAD)</label>
                         <Input type="number" step="0.01" min="0" value={tbPrice} onChange={e => setTbPrice(e.target.value)} className="text-xs h-7" placeholder="14.99" data-testid="input-tb-price" />
                       </div>
-                      <Button size="sm" onClick={publishTestBankToMarketplace} disabled={tbPublishing || !tbPrice} className="w-full h-8 text-[11px] gap-1.5" data-testid="button-tb-publish">
+                      <Button size="sm" onClick={publishTestBankToMarketplace} disabled={tbPublishing || !tbPrice || !tbExportAllowed()} className="w-full h-8 text-[11px] gap-1.5" data-testid="button-tb-publish">
                         {tbPublishing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ShoppingCart className="w-3.5 h-3.5" />}
                         {tbPublishing ? "Publishing..." : "Publish to Marketplace"}
                       </Button>
