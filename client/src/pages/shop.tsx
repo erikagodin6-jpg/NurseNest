@@ -12,9 +12,10 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 import {
   ShoppingBag, Star, Tag, Download, Package, BookOpen, Shield,
-  ArrowRight, Plus, Edit, Trash2, X, Sparkles, Crown, Filter,
+  ArrowRight, Plus, Edit, Trash2, X, Sparkles, Crown, Filter, Palette,
 } from "lucide-react";
 import type { DigitalProduct } from "@shared/schema";
 import { adminFetch } from "@/lib/admin-fetch";
@@ -79,6 +80,7 @@ function ProductCard({ product }: { product: DigitalProduct }) {
 
 function AdminProductManager() {
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [products, setProducts] = useState<DigitalProduct[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -154,9 +156,14 @@ function AdminProductManager() {
         <h3 className="font-bold text-lg flex items-center gap-2">
           <Package className="w-5 h-5 text-primary" /> Manage Products ({products.length})
         </h3>
-        <Button onClick={() => { setShowForm(!showForm); setEditingId(null); }} size="sm" data-testid="button-add-product">
-          <Plus className="w-4 h-4 mr-1" /> Add Product
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={() => setLocation("/admin/product-builder")} size="sm" variant="outline" data-testid="button-open-builder">
+            <Palette className="w-4 h-4 mr-1" /> Product Builder
+          </Button>
+          <Button onClick={() => { setShowForm(!showForm); setEditingId(null); }} size="sm" data-testid="button-add-product">
+            <Plus className="w-4 h-4 mr-1" /> Add Product
+          </Button>
+        </div>
       </div>
 
       {showForm && (
