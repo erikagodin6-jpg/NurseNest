@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { adminFetch } from "@/lib/admin-fetch";
+import JSZip from "jszip";
 
 interface DesignProject {
   id: string;
@@ -2243,19 +2244,26 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
     setGuidedExporting(true);
     try {
       const W = 612, H = 792;
+      const zip = new JSZip();
+      const folder = zip.folder(project?.title || "document")!;
       for (let i = 0; i < previewPages.length; i++) {
+        setStepLabel(`Rendering page ${i + 1} of ${previewPages.length}...`);
         const pg = previewPages[i];
         const canvas = await renderPageToCanvas(pg, W, H);
         const blob = await new Promise<Blob>((resolve) => canvas.toBlob(b => resolve(b!), "image/png"));
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${project?.title || "document"}-page-${String(i + 1).padStart(2, "0")}.png`;
-        a.click();
-        URL.revokeObjectURL(url);
-        await new Promise(r => setTimeout(r, 200));
+        const arrayBuf = await blob.arrayBuffer();
+        folder.file(`page-${String(i + 1).padStart(2, "0")}.png`, arrayBuf);
       }
-      toast({ title: "Download complete", description: `${previewPages.length} pages downloaded as PNG` });
+      setStepLabel("Creating ZIP file...");
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(zipBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${(project?.title || "document").replace(/\s+/g, "-").toLowerCase()}-pages.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStepLabel(`Complete! ${previewPages.length} pages exported`);
+      toast({ title: "Download complete", description: `${previewPages.length} pages bundled into ZIP` });
     } catch (e: any) {
       toast({ title: "Download failed", description: e.message, variant: "destructive" });
     } finally {
@@ -2422,7 +2430,7 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
                     <ShoppingCart className="w-3.5 h-3.5" /> Publish to Store
                   </Button>
                   <Button size="sm" variant="outline" onClick={downloadGuidedPages} disabled={guidedExporting} className="w-full h-8 text-xs gap-1.5" data-testid="button-guided-download">
-                    {guidedExporting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />} Download Pages (PNG)
+                    {guidedExporting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />} {guidedExporting ? "Exporting..." : "Download All Pages (ZIP)"}
                   </Button>
                   <Button size="sm" onClick={onSwitchToCanvas} className="w-full h-8 text-xs gap-1.5" data-testid="button-edit-in-canvas">
                     <Grid3X3 className="w-3.5 h-3.5" /> Edit in Canvas Editor
