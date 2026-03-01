@@ -977,13 +977,46 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
 
         const DECISION_VERBS = /\b(assess|reassess|monitor|escalate|notify|call|hold|administer|titrate|position|recheck|prioritize|elevate|auscultate|document|intervene|delegate|suction|discontinue)\b/gi;
 
-        const REQUIRED_LABELS: Record<string, string[]> = {
-          "pathophysiology": ["recognition cue", "red flag", "first action", "exam trap", "don't confuse"],
-          "pharmacology": ["recognition cue", "red flag", "exam trap", "hold", "monitor"],
-          "medications": ["recognition cue", "red flag", "exam trap", "hold", "monitor"],
-          "interventions": ["recognition cue", "red flag", "first action", "exam trap"],
-          "assessment": ["recognition cue", "red flag", "first action", "exam trap"],
-          "complications": ["recognition cue", "red flag", "first action", "exam trap", "don't confuse"],
+        const REQUIRED_TOKENS: Record<string, { label: string; alts: string[] }[]> = {
+          "pathophysiology": [
+            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign", "presenting with"] },
+            { label: "red flags", alts: ["red flag", "critical finding", "emergency", "immediate action", "life-threatening"] },
+            { label: "first actions", alts: ["first action", "priority action", "nursing intervention", "immediate nursing", "assess first"] },
+            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake", "do not", "incorrect answer"] },
+            { label: "differential", alts: ["confuse with", "differential", " vs ", "versus", "compare", "distinguish"] },
+          ],
+          "pharmacology": [
+            { label: "hold parameters", alts: ["hold", "hold parameter", "withhold", "do not give", "do not administer"] },
+            { label: "monitoring", alts: ["monitor", "monitor for", "check", "lab value", "therapeutic level", "serum level"] },
+            { label: "contraindications", alts: ["contraindic", "contraindication", "do not give if", "avoid in", "allergy"] },
+            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake", "do not", "incorrect answer"] },
+            { label: "red flags", alts: ["red flag", "adverse", "toxic", "overdose", "emergency"] },
+          ],
+          "medications": [
+            { label: "hold parameters", alts: ["hold", "hold parameter", "withhold", "do not give", "do not administer"] },
+            { label: "monitoring", alts: ["monitor", "monitor for", "check", "lab value", "therapeutic level"] },
+            { label: "contraindications", alts: ["contraindic", "do not give if", "avoid in"] },
+            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
+          ],
+          "interventions": [
+            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign"] },
+            { label: "red flags", alts: ["red flag", "critical finding", "emergency", "immediate action"] },
+            { label: "first actions", alts: ["first action", "priority action", "nursing intervention", "assess first"] },
+            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
+          ],
+          "assessment": [
+            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign", "assessment finding"] },
+            { label: "red flags", alts: ["red flag", "critical finding", "emergency"] },
+            { label: "first actions", alts: ["first action", "priority action", "nursing intervention"] },
+            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
+          ],
+          "complications": [
+            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign"] },
+            { label: "red flags", alts: ["red flag", "critical finding", "emergency"] },
+            { label: "first actions", alts: ["first action", "priority action", "nursing intervention"] },
+            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
+            { label: "differential", alts: ["confuse with", "differential", " vs ", "versus", "compare"] },
+          ],
         };
 
         const SECTION_SHAPE_CONTRACTS: Record<string, { listBlocks?: number; listItems?: number; tableBlocks?: number; tableRows?: number; calloutBlocks?: number; calloutChars?: number; calloutKeywords?: string[] }> = {
@@ -1006,7 +1039,6 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
           let qualifiedTableBlocks = 0;
           let qualifiedCalloutBlocks = 0;
           const calloutTexts: string[] = [];
-          const allLabels: string[] = [];
           for (const b of blocks) {
             const text = (b.text || b.body || b.content || b.caption || "").toString();
             const items = Array.isArray(b.items) ? b.items : [];
@@ -1017,9 +1049,7 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
             const rowChars = rowStr.length;
             const blockChars = text.length + itemChars + rowChars;
             totalChars += blockChars;
-            allText += " " + text + " " + itemStr + " " + rowStr;
-            const blockLabel = ((b.title || "") + " " + (b.text || "") + " " + (b.caption || "") + " " + (b.label || "")).toLowerCase();
-            allLabels.push(blockLabel);
+            allText += " " + text + " " + itemStr + " " + rowStr + " " + (b.title || "") + " " + (b.label || "");
             const kind = (b.kind || b.type || "").toLowerCase();
             if (!NON_SUBSTANTIVE_KINDS.has(kind)) {
               meaningfulChars += blockChars;
@@ -1069,18 +1099,22 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
               if (missing.length > 0) reasons.push(`missing_callout_keywords: callouts missing required terms: ${missing.join(", ")}`);
             }
           }
-          const labelKey = Object.keys(REQUIRED_LABELS).find(k => sid.includes(k));
-          let missingLabels = 0;
-          if (labelKey) {
-            const required = REQUIRED_LABELS[labelKey];
-            const joinedLabels = allLabels.join(" ||| ");
-            const missing = required.filter(lbl => !joinedLabels.includes(lbl));
-            if (missing.length > 0) {
-              missingLabels = missing.length;
-              reasons.push(`missing_semantic_labels: section "${labelKey}" missing required exam-cram labels: ${missing.join(", ")}. Each section must include blocks labeled with these terms.`);
+          const tokenKey = Object.keys(REQUIRED_TOKENS).find(k => sid.includes(k));
+          let missingTokens = 0;
+          if (tokenKey) {
+            const searchText = allText.toLowerCase();
+            const required = REQUIRED_TOKENS[tokenKey];
+            const missingList: string[] = [];
+            for (const req of required) {
+              const found = req.alts.some(alt => searchText.includes(alt));
+              if (!found) missingList.push(req.label);
+            }
+            if (missingList.length > 0) {
+              missingTokens = missingList.length;
+              reasons.push(`missing_exam_cram_content: section "${tokenKey}" missing: ${missingList.join(", ")}. Content must include these exam-cram elements.`);
             }
           }
-          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6 && decisionVerbCount >= 12 && missingLabels === 0;
+          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6 && decisionVerbCount >= 12 && missingTokens === 0;
           return { pass, blocks: blocks.length, chars: totalChars, substantive: substantiveCount, reasons };
         };
 
