@@ -1,0 +1,96 @@
+Yes—if it’s implemented as “structured generation + layout controls + validation,” not as one big free-text blob. That would directly fix the problems you’re seeing (missing questions, wrong formatting, page order weirdness) and it would make the bundles feel designable like Canva instead of “AI dumped text somewhere.”
+What will help your program most is this combo:
+AI per section (modular content blocks)
+You choose pages + what goes where (layout planning)
+Hard validation gates (can’t export unless it meets the contract)
+Auto-pagination that never drops content
+If they only add “more AI buttons” without structure/validation, you’ll just get more inconsistent output faster.
+What “AI for every section” should look like (the right way)
+A) Bundle = a set of sections (each section is a block type)
+Example block types:
+Cover
+Instructions / How to Use This QBank
+Blueprint Mix (counts by category/type)
+Questions (the actual QBank)
+Answer Key (optional)
+Rationales (optional, workbook mode)
+Study Plan (optional)
+Quick Sheets / Clinical Pearls (optional)
+Each block has:
+aiEnabled: true/false
+pageBudget (how many pages it’s allowed to take)
+includeInExport: true/false
+stylePreset (your NurseNest brand preset)
+content (stored JSON)
+B) You control output before export
+You should be able to:
+toggle blocks on/off
+set how many pages each block gets
+choose “Questions only” vs “Questions + Rationales”
+drag/reorder blocks (and it reflows pagination)
+preview and approve before export
+C) Enforcement
+If “Questions” block is set to 50 → the system must not export unless it truly contains 50 validated questions.
+If “Blueprint Mix” doesn’t match actual question distribution → it regenerates or updates.
+Why this helps conversions (real business reason)
+People searching “question banks” want:
+predictable quantity (50/100/500)
+consistent formatting (like UWorld/Archer)
+printable + studyable layouts
+answer/rationale options
+brand consistency
+A section-based system lets you ship a product that looks intentional, not AI-random.
+Replit prompt: implement “AI per section + page controls” (copy/paste)
+Use this when it’s ready:
+Implement AI generation for every section of the bundle builder using a structured block system.
+
+GOAL:
+In the bundle selection UI, each section (Cover, Instructions, QBank Questions, Answer Key, Rationales, Blueprint Mix, Study Plan, Quick Sheets) has:
+- Generate button (AI)
+- Include toggle
+- Page count selector (pageBudget)
+- Reorder control (drag/drop)
+- Preview
+
+DATA MODEL:
+Create a BundleSpec object stored with the product draft:
+
+BundleSpec = {
+  requestedQuestionCount: number,
+  blocks: [
+    {
+      id: string,
+      type: "cover"|"instructions"|"blueprintMix"|"questions"|"answerKey"|"rationales"|"studyPlan"|"quickSheets",
+      includeInExport: boolean,
+      aiEnabled: boolean,
+      pageBudget: number,
+      stylePresetId: string,
+      contentJson: any
+    }
+  ]
+}
+
+GENERATION RULES:
+- Each block generation returns STRICT JSON matching its schema (use Zod).
+- The "questions" block MUST output exactly requestedQuestionCount questions and pass validation.
+- Add retry/completeMissing for the questions block only.
+- Store generated JSON on the server so exports do not depend on re-calling AI.
+
+LAYOUT:
+- Implement page planning and pagination so each block respects pageBudget.
+- If content exceeds pageBudget, show overflow warning and allow:
+  - increase pageBudget OR
+  - auto-condense OR
+  - split into additional pages if user allows.
+
+EXPORT GATES:
+- Block export if questions.length !== requestedQuestionCount.
+- Block export if any included block fails schema validation.
+- Show an Audit Panel with counts and validation errors.
+
+DELIVERABLE:
+End-to-end implementation with:
+- UI controls for each block
+- server endpoints for generating each block
+- schema validation
+- export preflight audit that prevents broken products.

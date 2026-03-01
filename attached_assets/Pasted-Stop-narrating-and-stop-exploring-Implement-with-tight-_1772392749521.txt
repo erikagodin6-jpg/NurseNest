@@ -1,0 +1,62 @@
+Stop narrating and stop exploring. Implement with tight scope and proofs.
+
+RULES:
+- Do NOT rewrite entire files. Make surgical diffs only.
+- Implement in this order: (1) validator + audit panel, (2) 422 handling + complete-missing, (3) PDF export, (4) prompt tweaking/patch prompts.
+- After each step, run the app and demonstrate it in the UI (not curl). Add console logs only if needed.
+- For every change, output file path + function name + unified diff.
+
+STEP 1 — Single validator + visible Audit Panel (must work before anything else)
+- Implement validateTestBankForExport(tbResult, requestedCount) that returns {ok, audit, errors}.
+- Add a visible Audit Panel that always shows:
+  requestedCount, generatedCount, countMatch, byType, byCategory, errors (if any).
+- Export buttons (JSON/CSV/PDF/Publish) must be DISABLED when ok=false.
+
+Acceptance:
+- Generate success -> audit shows PASS and export buttons enabled.
+- If tbResult is missing 1 question -> audit FAIL and ALL exports disabled.
+
+STEP 2 — Handle 422 properly + Complete Missing
+- Update generateTestBank:
+  - If 422: display audit and errors in panel and keep partial results if provided.
+  - Show "Complete Missing" button when generatedCount < requestedCount.
+- Implement POST /api/ai/complete-missing-test-bank:
+  - Input: {requestedCount, existingQuestions, topic, basePrompt}
+  - Generate only missing questions, dedupe by hash(scenario+stem), validate final count exactly.
+  - Return merged validated set + audit.
+
+Acceptance:
+- Request 5, simulate 4 -> Complete Missing returns 5/5 and enables exports.
+
+STEP 3 — exportTestBankPDF using jsPDF with true auto-pagination
+- Implement exportTestBankPDF(tbResult, mode):
+  - mode="questions-only" or "full"
+  - questions-only omits rationales and includes an Answer Key at the end
+  - full includes answer + rationales + clinical pearl per question
+  - Add an Audit Summary final page (counts, timestamp, mode)
+- Auto-wrap text and paginate; never truncate.
+- Filename: NurseNest-RExPN-QBank-{topic}-{count}Q-{mode}.pdf
+
+Acceptance:
+- Export 50Q full -> no cutoffs, page numbers correct.
+- Export questions-only -> no rationales; answer key present.
+
+STEP 4 — Prompt tweaking after generation (patch prompts)
+- Add a “Prompt Tweaks” section:
+  - Base Prompt textarea
+  - Patch Prompts list with: label, prompt, scope (all/selected/options-only/rationales-only), strength
+  - Button: Preview Changes (shows diff summary)
+  - Button: Apply Patches (creates new version)
+  - Version history (revert)
+- Implement POST /api/ai/patch-test-bank:
+  - Must preserve question count and ids
+  - Must return strict JSON
+  - Must validate schema; 422 with errors if invalid
+
+Acceptance:
+- Apply patch “tighten rationales to 100 words” -> rationales change, count unchanged, exports enabled.
+
+DELIVERABLES:
+- Diffs for each step
+- “How to test” checklist with exact clicks
+- No claims without UI proof

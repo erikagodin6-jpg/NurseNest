@@ -1,0 +1,118 @@
+ntrusted until it proves the things that matter to you commercially:
+Does the UI actually show you what went wrong (422 audit) in a way you can act on?
+Is export/publish truly impossible when the QBank is incomplete?
+Did they accidentally mix “question blocks” into the canvas flow and create new bugs?
+Did they fix the real “cover is page 2” issue (stable ordering) or just add a client-side sort that can still be wrong if pageNumber isn’t reliable?
+Below are the exact next instructions you should give Replit so you get hard proof + a sellable workflow and don’t end up with “it compiles” but still broken UX.
+1) Demand acceptance tests that mirror your real workflow (not curl)
+Paste this:
+Do not summarize. Prove it in the UI.
+
+Create a “Test Bank QA” checklist and implement instrumentation to show PASS/FAIL.
+
+Add a QA panel (dev-only is fine) that shows:
+- requestedCount
+- generatedCount
+- countMatch
+- attempts
+- byType
+- byCategory
+- lastValidationErrors
+- exportBlocked (boolean)
+
+Now demonstrate these three scenarios end-to-end (screenshots/log output ok):
+1) Generate 50 questions -> audit PASS -> export JSON/CSV enabled -> publish enabled
+2) Force a mismatch (simulate server returning 422) -> audit FAIL visible -> export buttons disabled -> publish disabled
+3) Manually delete 1 question from tbResult in state (or simulate) -> audit FAIL -> export blocked
+
+Deliverable: show the QA panel output for each scenario and the exact UI states of the buttons.
+Why: curl proof is not what sells your product; your UI flow is.
+2) Add the “Complete Missing” feature (this is what you actually need)
+Right now, blocking export is good — but you’ll still be stuck regenerating full sets if something goes wrong.
+Paste this:
+Implement “Complete Missing” (must be one-click).
+
+If generation fails validation or returns 422, show:
+- “Generated X/Y questions”
+- Button: “Complete Missing”
+
+Complete Missing behavior:
+- Sends existingQuestions + requestedCount to server
+- Server generates ONLY the missing questions (Y - X)
+- Server merges + de-dupes by (scenario+stem hash)
+- Server validates final set equals requestedCount
+- Client replaces tbResult with merged validated set
+- Audit panel updates to PASS
+
+Deliverable: demo generating 5 questions, simulate 4 returned, then Complete Missing results in 5/5 and exports become enabled.
+This is the difference between “developer tool” and “product you can scale.”
+3) Fix page ordering properly (client sort is not enough)
+Sorting by pageNumber in the client is only safe if pageNumber is guaranteed correct and updated on every insert/duplicate/delete.
+Paste this:
+Make page ordering deterministic across DB + client.
+
+Requirements:
+- Add a stable pageIndex integer stored in DB for each page.
+- All project page queries must ORDER BY pageIndex ASC.
+- On duplicate/delete/reorder, update pageIndex to remain contiguous (0..n-1).
+- Cover must be pageIndex=0 and type="cover".
+- Add server assertion: exactly one cover page per project.
+
+Export preflight:
+- Abort if first page is not cover.
+- Log ordered pages: [{id,type,pageIndex,title}...]
+
+Deliverable: demonstrate:
+- duplicate a page
+- delete a page
+- refresh
+- export PDF
+and show the order remains correct with cover always first.
+This prevents the “title page is on page 2” bug from resurfacing.
+4) Separate QBank PDF rendering from canvas blocks (avoid new regressions)
+They mentioned adding a question block type in buildBlockObjects. That can be okay only if you’re intentionally building printable QBank PDFs via the canvas engine. If not, it can introduce weird behavior.
+Paste this:
+Clarify architecture and avoid regressions:
+
+- Keep test bank export flow separate from canvas editor unless explicitly creating “Printable QBank PDF.”
+- If you added blockType==="question" to buildBlockObjects, gate it behind a feature flag:
+  FEATURE_QBANK_CANVAS_RENDERING=false by default.
+- Ensure insertAiBlocksMultiPage changes do not affect normal canvas AI blocks.
+
+Deliverable:
+- confirm existing canvas AI insertion behaves exactly the same as before for non-question blocks.
+- confirm test bank generation/export works without needing canvas rendering.
+You don’t want a fix for QBank breaking Canva-style designs.
+5) Make it sellable: bundle sections with AI per section (YES, do this)
+Your earlier idea is solid if implemented as structured blocks. Here’s the prompt that turns it into a product feature, not a gimmick:
+Implement bundle “Sections” with AI per section and page budgeting.
+
+Sections:
+- Cover
+- Instructions
+- Blueprint Summary
+- Questions
+- Answer Key
+- Rationales (optional)
+- Study Plan (optional)
+- Quick Sheets (optional)
+
+Each section has:
+- Include toggle
+- Generate AI button
+- Page budget selector
+- Reorder control
+
+Rules:
+- Questions section is contract-validated (must equal requestedCount).
+- Export is blocked unless Questions PASS audit.
+- Layout engine paginates per-section and never drops content. If overflow beyond page budget, show warning with options.
+
+Deliverable:
+- A new “Bundle Builder” UI that can generate each section independently.
+This lets you pick “how many pages and what to post,” exactly like you asked.
+What I’d do right now (your practical next step)
+Paste #1 (UI proof) and #2 (Complete Missing).
+Those two immediately fix your day-to-day pain and prevent broken products.
+Then paste #3 (DB pageIndex ordering) to permanently solve the cover/page order issue.
+Only after that, do the “AI per section” bundle builder.

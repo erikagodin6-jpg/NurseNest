@@ -1,0 +1,87 @@
+Implement a dedicated Test Bank PDF export (not the canvas renderer), with a render mode toggle and a validated pre-export audit gate.
+
+Scope:
+- This is for Test Bank results (tbResult), not the canvas editor pages.
+- Do NOT reuse renderPageToCanvas or canvas page export code unless strictly necessary.
+- Implement a standalone PDF builder for test banks.
+
+UI Changes (client/src/pages/product-builder.tsx or wherever Test Bank UI lives):
+1) Add state:
+   const [tbRenderMode, setTbRenderMode] = useState<"questions-only"|"full">("full");
+
+2) Add controls in the Test Bank panel:
+   - Toggle: Questions Only / Full (with rationales)
+   - Button: Export PDF
+
+3) Update question type badge mapping to EXACTLY:
+   - MCQ
+   - SATA
+   - PRIORITY
+   - DELEGATION
+   Ensure UI uses these types consistently everywhere.
+
+Export Gate:
+4) Before exporting PDF, run the existing audit validator (same used for JSON/CSV/publish).
+   - If audit fails, block export and show the audit panel/toast.
+   - Never create a PDF when generatedCount !== requestedCount.
+
+PDF Export Implementation:
+5) Add exportTestBankPDF(tbResult, tbRenderMode, audit):
+   - Use a real PDF generation library already in the project (e.g., pdf-lib or jsPDF). Pick ONE used elsewhere; if none exists, add pdf-lib.
+   - Use consistent NurseNest brand header/footer:
+     Header: "NurseNest REx-PN QBank" + optional topic + mode label
+     Footer: page number + small disclaimer
+
+6) Content layout requirements:
+   - Page size: Letter (8.5x11) or A4; choose one and keep consistent (prefer Letter for Canada).
+   - Margins: 0.75"
+   - Typography: readable (11–12pt body, 14–16pt question heading)
+   - Each question must include:
+     - Q number
+     - Category + Type badge text
+     - Scenario
+     - Stem
+     - Options (A–D for MCQ/PRIORITY/DELEGATION; 6–8 for SATA)
+   - In FULL mode, include after options:
+     - Correct Answer
+     - Rationale (correct + why others are wrong)
+     - Clinical Pearl
+   - In QUESTIONS-ONLY mode:
+     - Do NOT include answers/rationales.
+     - Add Answer Key section at end (optional toggle is okay; default ON).
+
+Auto-pagination (critical):
+7) Implement a text measurement + flow layout so content never overflows or gets dropped.
+   - Build a simple layout engine:
+     - Keep cursorY
+     - Before drawing each paragraph/list, compute height needed
+     - If neededHeight > remainingSpace: addPage() and reset cursorY
+     - For long paragraphs, split by words into lines (wrap) and spill over pages
+   - Ensure nothing is truncated.
+
+Audit Summary Page:
+8) Append a final “Audit Summary” page that includes:
+   - requestedCount
+   - generatedCount
+   - renderMode
+   - By Type counts
+   - By Category counts
+   - Timestamp
+   - NurseNest branding
+
+Output:
+9) Save the PDF file and download it in the browser with a stable filename:
+   NurseNest-RExPN-QBank-{topic}-{count}Q-{mode}.pdf
+
+Testing / Proof:
+10) Add a dev test command or button to export a small set (e.g., 5 questions) and a large set (e.g., 50 questions) and confirm:
+    - No cut-off content
+    - Page numbers correct
+    - Questions-only mode omits rationales
+    - Full mode includes rationales
+    - Audit summary page always present
+
+Deliverables:
+- List exact files modified
+- Provide diffs for exportTestBankPDF + UI controls
+- Provide console logs showing audit PASS before PDF export

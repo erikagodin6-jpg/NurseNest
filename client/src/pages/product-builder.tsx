@@ -3438,6 +3438,14 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
   const [tbPreviewOpen, setTbPreviewOpen] = useState(false);
   const [tbPublishing, setTbPublishing] = useState(false);
   const [tbPrice, setTbPrice] = useState("14.99");
+  const [tbRenderMode, setTbRenderMode] = useState<"full" | "questions-only">("full");
+  const [tbExportingPdf, setTbExportingPdf] = useState(false);
+  const [tbAudit, setTbAudit] = useState<{ ok: boolean; requestedCount: number; generatedCount: number; countMatch: boolean; byType: Record<string, number>; byCategory: Record<string, number>; errors: string[] } | null>(null);
+  const [tbCompletingMissing, setTbCompletingMissing] = useState(false);
+  const [tbPatches, setTbPatches] = useState<{ id: string; label: string; prompt: string; scope: string; strength: string; enabled: boolean }[]>([]);
+  const [tbVersions, setTbVersions] = useState<{ id: string; createdAt: string; tbResult: any; notes: string }[]>([]);
+  const [tbBasePrompt, setTbBasePrompt] = useState("");
+  const [tbPatchApplying, setTbPatchApplying] = useState(false);
   const [bundleTargetPages, setBundleTargetPages] = useState(30);
   const [bundleProgress, setBundleProgress] = useState<{ step: string; current: number; total: number } | null>(null);
   const [brandLogos, setBrandLogos] = useState<{ url: string; fileName: string }[]>(() => {
@@ -4578,29 +4586,41 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
   };
 
-  const runTestBankAudit = (data: any, requested: number): { pass: boolean; report: string; errors: string[] } => {
+  const validateTestBankForExport = (data: any, requested: number): { ok: boolean; requestedCount: number; generatedCount: number; countMatch: boolean; byType: Record<string, number>; byCategory: Record<string, number>; errors: string[] } => {
     const questions = Array.isArray(data?.questions) ? data.questions : [];
     const generated = questions.length;
     const byType: Record<string, number> = {};
-    const byCat: Record<string, number> = {};
+    const byCategory: Record<string, number> = {};
     const errors: string[] = [];
-    for (const q of questions) {
-      const t = (q.type || "unknown").toUpperCase();
+    const VALID_CATS = ["Professional, Ethical & Legal Practice", "Foundations of Practice", "Collaborative Practice", "Nursing Care"];
+    const VALID_TYPES = ["MCQ", "SATA", "PRIORITY", "DELEGATION"];
+    if (generated !== requested) errors.push(`COUNT MISMATCH: requested ${requested}, got ${generated}`);
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      const label = `Q${i + 1}`;
+      if (!q || typeof q !== "object") { errors.push(`${label}: not a valid object`); continue; }
+      if (!q.id) errors.push(`${label}: missing id`);
+      if (!q.category || !VALID_CATS.includes(q.category)) errors.push(`${label}: invalid category`);
+      const qType = (q.type || "").toUpperCase();
+      if (!VALID_TYPES.includes(qType)) errors.push(`${label}: invalid type "${q.type}"`);
+      if (!q.scenario || q.scenario.length < 20) errors.push(`${label}: scenario missing/short`);
+      if (!q.stem || q.stem.length < 10) errors.push(`${label}: stem missing/short`);
+      if (!Array.isArray(q.options) || q.options.length < 4) errors.push(`${label}: options invalid`);
+      if ((qType === "MCQ" || qType === "PRIORITY" || qType === "DELEGATION") && (typeof q.correctAnswer !== "string" || q.correctAnswer.length !== 1)) errors.push(`${label}: ${qType} needs single-letter correctAnswer`);
+      if (qType === "SATA" && (!Array.isArray(q.correctAnswer) || q.correctAnswer.length < 2)) errors.push(`${label}: SATA needs array correctAnswer`);
+      if (!q.rationaleCorrect || q.rationaleCorrect.length < 20) errors.push(`${label}: rationaleCorrect missing/short`);
+      if (!Array.isArray(q.rationaleIncorrect) || q.rationaleIncorrect.length < 1) errors.push(`${label}: rationaleIncorrect missing`);
+      if (!q.clinicalPearl || q.clinicalPearl.length < 10) errors.push(`${label}: clinicalPearl missing/short`);
+      const t = qType || "UNKNOWN";
       const c = q.category || "Uncategorized";
       byType[t] = (byType[t] || 0) + 1;
-      byCat[c] = (byCat[c] || 0) + 1;
+      byCategory[c] = (byCategory[c] || 0) + 1;
     }
-    if (generated !== requested) errors.push(`COUNT MISMATCH: requested ${requested}, got ${generated}`);
-    const report = [
-      `[Pre-Export Audit]`,
-      `  Requested: ${requested}`,
-      `  Generated: ${generated}`,
-      `  Match: ${generated === requested ? "PASS" : "FAIL"}`,
-      `  By Type: ${Object.entries(byType).map(([k, v]) => `${k}=${v}`).join(", ") || "none"}`,
-      `  By Category: ${Object.entries(byCat).map(([k, v]) => `${k}=${v}`).join(", ") || "none"}`,
-    ].join("\n");
-    console.log(report);
-    return { pass: errors.length === 0, report, errors };
+    const countMatch = generated === requested;
+    const ok = errors.length === 0;
+    console.log(`[TestBank Audit] requested=${requested} generated=${generated} match=${countMatch} ok=${ok} errors=${errors.length}`);
+    if (errors.length > 0) console.warn(`[TestBank Audit] Errors:`, errors.slice(0, 10));
+    return { ok, requestedCount: requested, generatedCount: generated, countMatch, byType, byCategory, errors };
   };
 
   const generateTestBank = async () => {
@@ -4609,7 +4629,9 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       return;
     }
     setTbLoading(true);
-    setTbResult(null);
+    setTbAudit(null);
+    const promptUsed = aiPromptCanvas.trim() || `Generate a ${tbQuestionCount}-question test bank on: ${aiTopic}`;
+    setTbBasePrompt(promptUsed);
     try {
       const res = await adminFetch("/api/ai/generate-test-bank", {
         method: "POST",
@@ -4624,18 +4646,15 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       });
       const data = await res.json().catch(() => ({}));
       if (res.status === 422) {
-        const msg = data.message || "Generation failed: incomplete output";
-        const audit = data.audit;
-        console.error("[TestBank] Server returned 422:", msg);
-        if (audit) {
-          console.error("[TestBank] Audit:", JSON.stringify(audit, null, 2));
+        const partialResult = data.testBank || (data.questions ? data : null);
+        if (partialResult && Array.isArray(partialResult.questions) && partialResult.questions.length > 0) {
+          setTbResult({ ...partialResult, _auditedCount: tbQuestionCount });
         }
-        if (data.validationErrors?.length) {
-          console.error("[TestBank] Validation errors:", data.validationErrors);
-        }
+        const audit = validateTestBankForExport(partialResult || { questions: [] }, tbQuestionCount);
+        setTbAudit(audit);
         toast({
-          title: "Generation failed: incomplete output",
-          description: `Requested ${data.requestedCount || tbQuestionCount} questions but got ${data.generatedCount ?? "?"}.  Export blocked.`,
+          title: `Generated ${data.generatedCount ?? 0}/${data.requestedCount || tbQuestionCount} questions`,
+          description: "Incomplete output. Use Complete Missing to finish.",
           variant: "destructive",
         });
         return;
@@ -4643,18 +4662,19 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       if (!res.ok) {
         throw new Error(data.error || "Test bank generation failed");
       }
-      const audit = runTestBankAudit(data, tbQuestionCount);
-      if (!audit.pass) {
-        console.error("[TestBank] Client-side audit FAILED:", audit.errors);
+      const audit = validateTestBankForExport(data, tbQuestionCount);
+      setTbAudit(audit);
+      setTbResult({ ...data, _auditedCount: tbQuestionCount });
+      setTbVersions([{ id: "v1", createdAt: new Date().toISOString(), tbResult: data, notes: "Initial generation" }]);
+      if (audit.ok) {
+        toast({ title: "Test Bank Generated", description: `${audit.generatedCount}/${audit.requestedCount} questions - audit PASSED` });
+      } else {
         toast({
-          title: "Generation failed: incomplete output",
-          description: audit.errors.join("; "),
+          title: `Generated ${audit.generatedCount}/${audit.requestedCount} questions`,
+          description: `Audit: ${audit.errors.length} issue(s). Fix before export.`,
           variant: "destructive",
         });
-        return;
       }
-      setTbResult({ ...data, _auditedCount: tbQuestionCount });
-      toast({ title: "Test Bank Generated", description: `${(data.questions || []).length}/${tbQuestionCount} questions - audit PASSED` });
     } catch (e: any) {
       toast({ title: "Generation Failed", description: e.message, variant: "destructive" });
     } finally {
@@ -4662,25 +4682,27 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
   };
 
+  const tbExportAllowed = (): boolean => {
+    if (!tbResult?.questions || !tbAudit) return false;
+    return tbAudit.ok;
+  };
+
   const tbAuditGate = (): boolean => {
     if (!tbResult?.questions) {
       toast({ title: "No test bank to export", variant: "destructive" });
       return false;
     }
-    const expected = tbResult._auditedCount || tbResult.requestedCount;
-    const actual = tbResult.questions.length;
-    if (expected && actual !== expected) {
-      console.error(`[TestBank Export BLOCKED] requestedCount=${expected} generatedCount=${actual}`);
+    const expected = tbResult._auditedCount || tbResult.requestedCount || tbQuestionCount;
+    const audit = validateTestBankForExport(tbResult, expected);
+    setTbAudit(audit);
+    if (!audit.ok) {
       toast({
-        title: "Export blocked: incomplete question bank",
-        description: `Expected ${expected} questions but have ${actual}. Regenerate to fix.`,
+        title: "Export blocked",
+        description: audit.errors.length > 0 ? audit.errors[0] : "Validation failed",
         variant: "destructive",
       });
-      return false;
     }
-    const audit = runTestBankAudit(tbResult, expected || actual);
-    console.log("[TestBank] Pre-export audit:", audit.pass ? "PASS" : "FAIL");
-    return audit.pass;
+    return audit.ok;
   };
 
   const exportTestBankJSON = () => {
@@ -4739,6 +4761,320 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     } finally {
       setTbPublishing(false);
     }
+  };
+
+  const completeMissingQuestions = async () => {
+    if (!tbResult?.questions) return;
+    setTbCompletingMissing(true);
+    try {
+      const expected = tbResult._auditedCount || tbResult.requestedCount || tbQuestionCount;
+      const res = await adminFetch("/api/ai/complete-missing-test-bank", {
+        method: "POST",
+        body: {
+          topic: aiTopic,
+          customPrompt: tbBasePrompt || undefined,
+          examTarget: aiExamTarget,
+          requestedCount: expected,
+          existingQuestions: tbResult.questions,
+          difficulty: tbDifficulty,
+          questionTypes: tbQuestionTypes,
+        },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        toast({ title: "Complete Missing failed", description: data.error || data.message || "Unknown error", variant: "destructive" });
+        if (data.audit) {
+          const audit = validateTestBankForExport(data.testBank || data, expected);
+          setTbAudit(audit);
+        }
+        return;
+      }
+      const audit = validateTestBankForExport(data, expected);
+      setTbAudit(audit);
+      setTbResult({ ...data, _auditedCount: expected });
+      if (audit.ok) {
+        const vId = `v${tbVersions.length + 1}`;
+        setTbVersions(prev => [...prev, { id: vId, createdAt: new Date().toISOString(), tbResult: data, notes: "Completed missing questions" }]);
+        toast({ title: "Questions completed!", description: `${audit.generatedCount}/${audit.requestedCount} - audit PASSED` });
+      } else {
+        toast({ title: `Completed: ${audit.generatedCount}/${audit.requestedCount}`, description: `${audit.errors.length} issues remain`, variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Complete Missing failed", description: e.message, variant: "destructive" });
+    } finally {
+      setTbCompletingMissing(false);
+    }
+  };
+
+  const exportTestBankPDF = async () => {
+    if (!tbAuditGate()) return;
+    setTbExportingPdf(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "letter" });
+      const W = 612;
+      const H = 792;
+      const M = 54;
+      const CW = W - M * 2;
+      let curY = M;
+      let pageNum = 1;
+      const questions = tbResult.questions || [];
+      const mode = tbRenderMode;
+      const topic = aiTopic || "General";
+
+      const addHeader = () => {
+        pdf.setFontSize(8);
+        pdf.setTextColor(124, 58, 237);
+        pdf.text(`NurseNest REx-PN QBank | ${topic} | ${mode === "full" ? "Full" : "Questions Only"}`, M, 30);
+        pdf.setDrawColor(124, 58, 237);
+        pdf.setLineWidth(0.5);
+        pdf.line(M, 36, W - M, 36);
+      };
+
+      const addFooter = () => {
+        pdf.setFontSize(7);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text(`Page ${pageNum}`, W / 2, H - 20, { align: "center" });
+        pdf.text("For educational use only. NurseNest.", M, H - 20);
+      };
+
+      const newPage = () => {
+        addFooter();
+        pdf.addPage("letter", "portrait");
+        pageNum++;
+        curY = M;
+        addHeader();
+        curY = 44;
+      };
+
+      const ensureSpace = (needed: number) => {
+        if (curY + needed > H - M - 20) {
+          newPage();
+        }
+      };
+
+      const wrapText = (text: string, maxWidth: number, fontSize: number): string[] => {
+        pdf.setFontSize(fontSize);
+        const words = text.split(/\s+/);
+        const lines: string[] = [];
+        let currentLine = "";
+        for (const word of words) {
+          const testLine = currentLine ? currentLine + " " + word : word;
+          if (pdf.getTextWidth(testLine) > maxWidth && currentLine) {
+            lines.push(currentLine);
+            currentLine = word;
+          } else {
+            currentLine = testLine;
+          }
+        }
+        if (currentLine) lines.push(currentLine);
+        return lines.length > 0 ? lines : [""];
+      };
+
+      const drawWrapped = (text: string, x: number, fontSize: number, color: [number, number, number], bold?: boolean, maxW?: number): number => {
+        const mw = maxW || CW;
+        const lines = wrapText(text, mw, fontSize);
+        const lineH = fontSize * 1.4;
+        for (const line of lines) {
+          ensureSpace(lineH);
+          pdf.setFontSize(fontSize);
+          pdf.setTextColor(...color);
+          pdf.setFont("helvetica", bold ? "bold" : "normal");
+          pdf.text(line, x, curY);
+          curY += lineH;
+        }
+        return lines.length * lineH;
+      };
+
+      addHeader();
+      curY = 44;
+
+      pdf.setFontSize(22);
+      pdf.setTextColor(124, 58, 237);
+      pdf.setFont("helvetica", "bold");
+      pdf.text("NurseNest REx-PN QBank", W / 2, curY + 40, { align: "center" });
+      curY += 60;
+      pdf.setFontSize(14);
+      pdf.setTextColor(30, 41, 59);
+      pdf.text(topic, W / 2, curY, { align: "center" });
+      curY += 25;
+      pdf.setFontSize(10);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text(`${questions.length} Questions | ${mode === "full" ? "Full with Rationales" : "Questions Only"} | ${aiExamTarget.toUpperCase()}`, W / 2, curY, { align: "center" });
+      curY += 15;
+      pdf.text(`Generated: ${new Date().toLocaleDateString()}`, W / 2, curY, { align: "center" });
+      curY += 40;
+
+      for (let i = 0; i < questions.length; i++) {
+        const q = questions[i];
+        const qType = (q.type || "MCQ").toUpperCase();
+
+        ensureSpace(80);
+
+        drawWrapped(`Question ${i + 1}  [${qType}] [${q.category || ""}]`, M, 11, [124, 58, 237], true);
+        curY += 4;
+
+        if (q.scenario) {
+          drawWrapped(q.scenario, M, 10, [71, 85, 105]);
+          curY += 4;
+        }
+
+        drawWrapped(q.stem, M, 11, [30, 41, 59], true);
+        curY += 4;
+
+        const opts = q.options || [];
+        for (const opt of opts) {
+          drawWrapped(opt, M + 12, 10, [51, 65, 85]);
+          curY += 2;
+        }
+        curY += 4;
+
+        if (mode === "full") {
+          const correctLabel = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(", ") : q.correctAnswer;
+          drawWrapped(`Correct Answer: ${correctLabel}`, M, 10, [16, 185, 129], true);
+          curY += 2;
+
+          if (q.rationaleCorrect) {
+            drawWrapped(`Rationale: ${q.rationaleCorrect}`, M, 9, [51, 65, 85]);
+            curY += 2;
+          }
+          if (Array.isArray(q.rationaleIncorrect) && q.rationaleIncorrect.length > 0) {
+            drawWrapped("Why others are wrong:", M, 9, [100, 116, 139], true);
+            for (const ri of q.rationaleIncorrect) {
+              drawWrapped(`- ${ri}`, M + 8, 9, [100, 116, 139]);
+            }
+            curY += 2;
+          }
+          if (q.clinicalPearl) {
+            drawWrapped(`Clinical Pearl: ${q.clinicalPearl}`, M, 9, [124, 58, 237]);
+            curY += 2;
+          }
+        }
+
+        pdf.setDrawColor(226, 232, 240);
+        pdf.setLineWidth(0.3);
+        ensureSpace(6);
+        pdf.line(M, curY, W - M, curY);
+        curY += 10;
+      }
+
+      if (mode === "questions-only") {
+        newPage();
+        drawWrapped("Answer Key", M, 16, [124, 58, 237], true);
+        curY += 10;
+        for (let i = 0; i < questions.length; i++) {
+          const q = questions[i];
+          const ans = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(", ") : q.correctAnswer;
+          ensureSpace(14);
+          drawWrapped(`Q${i + 1}: ${ans}`, M, 10, [30, 41, 59]);
+        }
+      }
+
+      newPage();
+      drawWrapped("Audit Summary", M, 16, [124, 58, 237], true);
+      curY += 12;
+      const auditData = tbAudit || validateTestBankForExport(tbResult, tbResult._auditedCount || tbQuestionCount);
+      drawWrapped(`Requested: ${auditData.requestedCount}`, M, 10, [30, 41, 59]);
+      drawWrapped(`Generated: ${auditData.generatedCount}`, M, 10, [30, 41, 59]);
+      drawWrapped(`Count Match: ${auditData.countMatch ? "PASS" : "FAIL"}`, M, 10, auditData.countMatch ? [16, 185, 129] : [239, 68, 68], true);
+      drawWrapped(`Render Mode: ${mode}`, M, 10, [30, 41, 59]);
+      drawWrapped(`Exam Target: ${aiExamTarget.toUpperCase()}`, M, 10, [30, 41, 59]);
+      drawWrapped(`Timestamp: ${new Date().toISOString()}`, M, 10, [100, 116, 139]);
+      curY += 10;
+      drawWrapped("By Type:", M, 10, [30, 41, 59], true);
+      for (const [t, c] of Object.entries(auditData.byType)) {
+        drawWrapped(`  ${t}: ${c}`, M + 8, 10, [51, 65, 85]);
+      }
+      curY += 6;
+      drawWrapped("By Category:", M, 10, [30, 41, 59], true);
+      for (const [cat, c] of Object.entries(auditData.byCategory)) {
+        drawWrapped(`  ${cat}: ${c}`, M + 8, 10, [51, 65, 85]);
+      }
+      curY += 12;
+      pdf.setFontSize(8);
+      pdf.setTextColor(124, 58, 237);
+      pdf.text("NurseNest - Exam Prep that Works", W / 2, curY, { align: "center" });
+
+      addFooter();
+
+      const safeTopic = topic.replace(/[^a-zA-Z0-9]+/g, "-").substring(0, 30);
+      pdf.save(`NurseNest-RExPN-QBank-${safeTopic}-${questions.length}Q-${mode}.pdf`);
+      toast({ title: `PDF exported: ${questions.length} questions (${mode})` });
+    } catch (e: any) {
+      toast({ title: "PDF export failed", description: e.message, variant: "destructive" });
+    } finally {
+      setTbExportingPdf(false);
+    }
+  };
+
+  const applyTbPatches = async () => {
+    if (!tbResult?.questions || tbPatches.filter(p => p.enabled).length === 0) {
+      toast({ title: "No patches to apply", variant: "destructive" });
+      return;
+    }
+    setTbPatchApplying(true);
+    try {
+      const expected = tbResult._auditedCount || tbResult.requestedCount || tbQuestionCount;
+      const enabledPatches = tbPatches.filter(p => p.enabled);
+      const res = await adminFetch("/api/ai/patch-test-bank", {
+        method: "POST",
+        body: {
+          requestedCount: expected,
+          tbResult: { questions: tbResult.questions },
+          topic: aiTopic,
+          examTarget: aiExamTarget,
+          patches: enabledPatches.map(p => ({ prompt: p.prompt, scope: p.scope, strength: p.strength })),
+        },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        toast({ title: "Patch failed", description: data.error || data.message || "Unknown error", variant: "destructive" });
+        return;
+      }
+      const audit = validateTestBankForExport(data, expected);
+      setTbAudit(audit);
+      setTbResult({ ...data, _auditedCount: expected });
+      const vId = `v${tbVersions.length + 1}`;
+      setTbVersions(prev => [...prev, { id: vId, createdAt: new Date().toISOString(), tbResult: data, notes: `Patched: ${enabledPatches.map(p => p.label).join(", ")}` }]);
+      if (audit.ok) {
+        toast({ title: "Patches applied", description: `${audit.generatedCount} questions - audit PASSED` });
+      } else {
+        toast({ title: "Patches applied with issues", description: `${audit.errors.length} validation errors`, variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Patch failed", description: e.message, variant: "destructive" });
+    } finally {
+      setTbPatchApplying(false);
+    }
+  };
+
+  const revertTbVersion = (versionId: string) => {
+    const version = tbVersions.find(v => v.id === versionId);
+    if (!version) return;
+    const expected = tbResult?._auditedCount || tbQuestionCount;
+    setTbResult({ ...version.tbResult, _auditedCount: expected });
+    const audit = validateTestBankForExport(version.tbResult, expected);
+    setTbAudit(audit);
+    toast({ title: `Reverted to ${versionId}`, description: version.notes });
+  };
+
+  const addTbPatch = () => {
+    setTbPatches(prev => [...prev, {
+      id: `p${Date.now()}`,
+      label: `Patch ${prev.length + 1}`,
+      prompt: "",
+      scope: "all",
+      strength: "medium",
+      enabled: true,
+    }]);
+  };
+
+  const removeTbPatch = (id: string) => {
+    setTbPatches(prev => prev.filter(p => p.id !== id));
+  };
+
+  const updateTbPatch = (id: string, field: string, value: any) => {
+    setTbPatches(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
   };
 
   const toggleTbQuestionType = (type: string) => {

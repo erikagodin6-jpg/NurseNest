@@ -1,0 +1,130 @@
+1) Store the original generation prompt + parameters
+When you generate a test bank, save:
+basePrompt (the prompt you used)
+systemPromptVersion
+topic
+requestedCount
+seed (optional)
+model
+temperature
+generationTimestamp
+tbResult (validated JSON)
+This lets you rerun or fork later.
+2) Add “Patch Prompts” (additional prompts you can stack)
+After generation, you can add one or more patch prompts like:
+“Make distractors more plausible and less obviously wrong”
+“Increase prioritization/safety emphasis”
+“Use more Canadian terminology and settings”
+“Tighten rationales: max 120 words, bullet format”
+“Add more mental health + community scenarios”
+“Reduce medication brand names; prefer class-based reasoning”
+Each patch prompt should have:
+scope: (all questions / selected questions / only rationales / only options / only categories)
+mode: (rewrite / augment / tighten / re-style)
+strength: (low/med/high)
+target: fields to change (scenario/stem/options/rationales/pearls)
+3) Apply patches deterministically (no free-text chaos)
+The patch step should:
+Take the existing validated JSON
+Apply the patch to the chosen scope
+Re-validate schema
+Show a diff preview (what changed)
+Let you “Apply” or “Discard”
+This becomes your “Canva-like” iterative editing flow.
+4) Prevent degradation: keep an audit + version history
+Store versions:
+v1 = initial generation
+v2 = after patch 1
+v3 = after patch 2
+…so you can revert.
+Replit Prompt: Add “tweak prompts + patch prompts” feature (copy/paste)
+Implement a post-generation “Prompt Tweaks / Patch Prompts” system for the Test Bank generator.
+
+Goal:
+After AI produces a validated tbResult, the UI should allow me to:
+- edit the base prompt
+- add additional patch prompts
+- apply those prompts to refine the existing question bank
+- preview diffs
+- keep version history and revert
+
+Data Model:
+Add to TestBankDraft:
+{
+  id,
+  topic,
+  requestedCount,
+  basePrompt: string,
+  systemPromptVersion: string,
+  model: string,
+  temperature: number,
+  tbResult: ValidatedQuestionSet,
+  versions: [
+    { versionId, createdAt, tbResult, notes, appliedPatches: Patch[] }
+  ],
+  patches: Patch[]
+}
+
+Patch schema:
+Patch = {
+  id: string,
+  label: string,
+  prompt: string,
+  scope: "all" | "selected" | "byType" | "byCategory" | "rationalesOnly" | "optionsOnly",
+  strength: "low" | "medium" | "high",
+  enabled: boolean
+}
+
+UI:
+1) Add a “Prompt Builder” section to Test Bank UI:
+   - Base Prompt textarea (editable)
+   - Patch Prompts list:
+     - Add Patch button
+     - Each patch: label, textarea, scope dropdown, strength dropdown, enable toggle
+   - Buttons:
+     - Apply Patches (creates a new version)
+     - Preview Changes (diff)
+     - Revert to Version (dropdown)
+
+Server:
+2) Add endpoint POST /api/ai/patch-test-bank
+Input: { tbResult, requestedCount, basePrompt, patches, selectionIds? }
+Output: { patchedTbResult, audit, diffSummary }
+
+Patch behavior:
+- Patch operation must preserve contract:
+  - questions.length must remain requestedCount
+  - question ids remain stable unless explicitly regenerated
+- Strict JSON only.
+- Revalidate with the same Zod schema.
+- If patch causes schema failure, reject with 422 and return validation errors.
+
+Diff Preview:
+3) Implement a simple diff:
+   - show changed fields per question (scenario/stem/options/correctAnswer/rationales/pearl)
+   - show before/after for the changed parts only
+
+Export Gating:
+4) Exports remain gated by validator. A patch must pass validation before it can be exported/published.
+
+Deliverable:
+- End-to-end patch flow working with version history + diff preview.
+The “best” patch prompt template (so results are predictable)
+In your patch endpoint, use a dedicated patch system prompt like:
+Patch system instruction (you’ll embed in server):
+“You are editing an existing REx-PN question set. Output JSON only. Do not change question count. Do not remove required fields. Preserve ids. Only modify fields allowed by scope.”
+Patch user prompt example:
+Provide tbResult + list of patch prompts + scope/strength + allowed fields.
+This keeps edits controlled.
+Ultra-practical: patch prompts you’ll use constantly
+Here are “starter patches” that will make your QBank more sellable fast:
+Make distractors UWorld-level
+“Rewrite incorrect options so they are plausible, evidence-based, and reflect common student misconceptions. Remove obviously wrong distractors.”
+REx-PN scope + Canadian context
+“Ensure RPN scope: emphasize assessments, escalation, collaboration, documentation, safety. Use Canadian spelling/terms and metric units.”
+Rationales that teach
+“Rewrite rationales to include: key cue → rule → action → why. Keep under 130 words. Add one ‘trap’ explanation.”
+Increase prioritization
+“Increase the proportion of questions that require prioritization, safety, ABCs, infection control, and delegation decisions.”
+Style tightening
+“Make stems shorter, remove fluff, ensure every scenario includes at least one actionable cue.”
