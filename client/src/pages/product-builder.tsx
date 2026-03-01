@@ -120,8 +120,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#ffffff",
     sectionBg: "#f0f4f8",
     sectionBgAlt: "#e8edf2",
-    headingFont: "Georgia",
-    bodyFont: "Inter",
+    headingFont: "Playfair Display",
+    bodyFont: "Lora",
     headingColor: "#0f172a",
     bodyColor: "#1e293b",
     bodyColorLight: "#475569",
@@ -150,8 +150,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#fafafa",
     sectionBg: "#f5f5f5",
     sectionBgAlt: "#e5e5e5",
-    headingFont: "Inter",
-    bodyFont: "Inter",
+    headingFont: "Montserrat",
+    bodyFont: "Open Sans",
     headingColor: "#171717",
     bodyColor: "#262626",
     bodyColorLight: "#525252",
@@ -180,8 +180,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#ffffff",
     sectionBg: "#fafafa",
     sectionBgAlt: "#f5f5f5",
-    headingFont: "Inter",
-    bodyFont: "Inter",
+    headingFont: "Space Grotesk",
+    bodyFont: "DM Sans",
     headingColor: "#0f172a",
     bodyColor: "#374151",
     bodyColorLight: "#6b7280",
@@ -210,8 +210,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#fffbfc",
     sectionBg: "#fdf2f8",
     sectionBgAlt: "#fce7f3",
-    headingFont: "Inter",
-    bodyFont: "Inter",
+    headingFont: "Quicksand",
+    bodyFont: "Nunito",
     headingColor: "#831843",
     bodyColor: "#4a044e",
     bodyColorLight: "#9d4e8a",
@@ -240,8 +240,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#fdfcff",
     sectionBg: "#f5f3ff",
     sectionBgAlt: "#ede9fe",
-    headingFont: "Inter",
-    bodyFont: "Inter",
+    headingFont: "Sora",
+    bodyFont: "Outfit",
     headingColor: "#581c87",
     bodyColor: "#3b0764",
     bodyColorLight: "#7c3aed",
@@ -270,8 +270,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#fcfefb",
     sectionBg: "#f0fdf4",
     sectionBgAlt: "#dcfce7",
-    headingFont: "Inter",
-    bodyFont: "Inter",
+    headingFont: "Raleway",
+    bodyFont: "Nunito",
     headingColor: "#14532d",
     bodyColor: "#1a3c24",
     bodyColorLight: "#4ade80",
@@ -297,10 +297,11 @@ const THEMES: ThemeConfig[] = [
     primaryColor: "#0369a1",
     secondaryColor: "#7dd3fc",
     accentColor: "#bae6fd",
+
     backgroundColor: "#fcfeff",
     sectionBg: "#f0f9ff",
     sectionBgAlt: "#e0f2fe",
-    headingFont: "Inter",
+    headingFont: "Poppins",
     bodyFont: "Inter",
     headingColor: "#0c4a6e",
     bodyColor: "#0e3654",
@@ -330,8 +331,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#fffcfa",
     sectionBg: "#fff7ed",
     sectionBgAlt: "#ffedd5",
-    headingFont: "Inter",
-    bodyFont: "Inter",
+    headingFont: "Crimson Pro",
+    bodyFont: "Source Serif 4",
     headingColor: "#7c2d12",
     bodyColor: "#431407",
     bodyColorLight: "#ea580c",
@@ -360,8 +361,8 @@ const THEMES: ThemeConfig[] = [
     backgroundColor: "#fefcff",
     sectionBg: "#fdf4ff",
     sectionBgAlt: "#fae8ff",
-    headingFont: "Inter",
-    bodyFont: "Inter",
+    headingFont: "Quicksand",
+    bodyFont: "Poppins",
     headingColor: "#701a75",
     bodyColor: "#4a044e",
     bodyColorLight: "#c026d3",
@@ -831,6 +832,55 @@ const BRAND = {
   fontHeading: "Inter",
   fontBody: "Inter",
 };
+
+const FONT_FAMILIES: { label: string; value: string; category: "sans" | "serif" | "display" | "hand" }[] = [
+  { label: "Inter", value: "Inter", category: "sans" },
+  { label: "DM Sans", value: "DM Sans", category: "sans" },
+  { label: "Poppins", value: "Poppins", category: "sans" },
+  { label: "Montserrat", value: "Montserrat", category: "sans" },
+  { label: "Raleway", value: "Raleway", category: "sans" },
+  { label: "Open Sans", value: "Open Sans", category: "sans" },
+  { label: "Nunito", value: "Nunito", category: "sans" },
+  { label: "Quicksand", value: "Quicksand", category: "sans" },
+  { label: "Outfit", value: "Outfit", category: "sans" },
+  { label: "Space Grotesk", value: "Space Grotesk", category: "sans" },
+  { label: "Sora", value: "Sora", category: "sans" },
+  { label: "Oswald", value: "Oswald", category: "sans" },
+  { label: "Georgia", value: "Georgia", category: "serif" },
+  { label: "Playfair Display", value: "Playfair Display", category: "serif" },
+  { label: "Lora", value: "Lora", category: "serif" },
+  { label: "Merriweather", value: "Merriweather", category: "serif" },
+  { label: "Crimson Pro", value: "Crimson Pro", category: "serif" },
+  { label: "Source Serif 4", value: "Source Serif 4", category: "serif" },
+  { label: "Libre Baskerville", value: "Libre Baskerville", category: "serif" },
+  { label: "Caveat", value: "Caveat", category: "hand" },
+  { label: "Dancing Script", value: "Dancing Script", category: "hand" },
+  { label: "Pacifico", value: "Pacifico", category: "hand" },
+];
+
+const STOCK_ILLUSTRATIONS: { id: string; label: string; category: string; svg: string }[] = [
+  { id: "heart", label: "Heart", category: "anatomy", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 100C60 100 15 70 15 40C15 25 25 15 40 15C50 15 57 22 60 28C63 22 70 15 80 15C95 15 105 25 105 40C105 70 60 100 60 100Z" fill="#ef4444" opacity="0.85"/><path d="M45 35C42 35 38 38 38 42" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/></svg>` },
+  { id: "lungs", label: "Lungs", category: "anatomy", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 20V55" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/><path d="M55 30H65" stroke="#6366f1" stroke-width="2.5"/><path d="M52 38H68" stroke="#6366f1" stroke-width="2.5"/><path d="M52 38C40 42 22 55 22 75C22 92 32 100 45 100C55 100 58 90 58 80V55" fill="#a5b4fc" opacity="0.7"/><path d="M68 38C80 42 98 55 98 75C98 92 88 100 75 100C65 100 62 90 62 80V55" fill="#a5b4fc" opacity="0.7"/></svg>` },
+  { id: "brain", label: "Brain", category: "anatomy", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 100V70" stroke="#d946ef" stroke-width="2.5"/><ellipse cx="60" cy="55" rx="38" ry="35" fill="#f0abfc" opacity="0.6"/><path d="M60 20C60 20 45 25 42 35C39 45 45 50 50 52C40 55 35 62 38 72C41 82 52 85 60 82C68 85 79 82 82 72C85 62 80 55 70 52C75 50 81 45 78 35C75 25 60 20 60 20Z" fill="#d946ef" opacity="0.5"/><path d="M60 25V82" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/></svg>` },
+  { id: "kidney", label: "Kidney", category: "anatomy", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 15C75 15 90 30 90 50C90 65 80 75 75 80C85 90 80 105 65 105C55 105 48 95 50 85C45 90 35 88 30 80C25 72 30 60 40 55C30 50 25 35 35 25C45 15 55 15 60 15Z" fill="#f97316" opacity="0.6"/><path d="M55 40C50 50 50 65 58 75" stroke="#ea580c" stroke-width="2" stroke-linecap="round" opacity="0.7"/></svg>` },
+  { id: "stethoscope", label: "Stethoscope", category: "tools", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 15C30 15 25 25 25 35V65C25 80 35 90 50 90H55" stroke="#6366f1" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M80 15C90 15 95 25 95 35V50" stroke="#6366f1" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="70" cy="85" r="12" stroke="#6366f1" stroke-width="3" fill="#e0e7ff"/><circle cx="95" cy="55" r="6" fill="#6366f1"/><circle cx="40" cy="15" r="4" fill="#6366f1"/><circle cx="80" cy="15" r="4" fill="#6366f1"/></svg>` },
+  { id: "syringe", label: "Syringe", category: "tools", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="35" y="25" width="30" height="60" rx="4" stroke="#0ea5e9" stroke-width="2.5" fill="#e0f2fe"/><rect x="42" y="85" width="16" height="20" rx="2" fill="#0ea5e9" opacity="0.7"/><line x1="50" y1="105" x2="50" y2="115" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round"/><rect x="40" y="15" width="20" height="10" rx="2" stroke="#0ea5e9" stroke-width="2" fill="none"/><line x1="42" y1="45" x2="58" y2="45" stroke="#0ea5e9" stroke-width="1.5" opacity="0.4"/><line x1="42" y1="55" x2="58" y2="55" stroke="#0ea5e9" stroke-width="1.5" opacity="0.4"/><line x1="42" y1="65" x2="58" y2="65" stroke="#0ea5e9" stroke-width="1.5" opacity="0.4"/></svg>` },
+  { id: "pill", label: "Pill / Capsule", category: "tools", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="40" width="60" height="35" rx="17.5" fill="#10b981" opacity="0.8"/><rect x="60" y="40" width="30" height="35" rx="5" fill="#059669" opacity="0.8"/><line x1="60" y1="42" x2="60" y2="73" stroke="white" stroke-width="1" opacity="0.4"/></svg>` },
+  { id: "iv-bag", label: "IV Bag", category: "tools", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="35" y="15" width="50" height="65" rx="8" stroke="#7c3aed" stroke-width="2.5" fill="#ede9fe"/><circle cx="45" cy="12" r="3" fill="#7c3aed"/><circle cx="75" cy="12" r="3" fill="#7c3aed"/><rect x="55" y="80" width="10" height="15" rx="2" fill="#7c3aed" opacity="0.6"/><line x1="60" y1="95" x2="60" y2="110" stroke="#7c3aed" stroke-width="2" stroke-dasharray="3 3"/><rect x="42" y="30" width="36" height="8" rx="2" fill="#7c3aed" opacity="0.15"/><rect x="42" y="45" width="36" height="8" rx="2" fill="#7c3aed" opacity="0.1"/></svg>` },
+  { id: "clipboard", label: "Clipboard", category: "tools", svg: `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="25" y="25" width="70" height="85" rx="6" stroke="#475569" stroke-width="2.5" fill="#f8fafc"/><rect x="42" y="15" width="36" height="16" rx="4" fill="#475569"/><line x1="38" y1="50" x2="82" y2="50" stroke="#cbd5e1" stroke-width="2"/><line x1="38" y1="62" x2="72" y2="62" stroke="#cbd5e1" stroke-width="2"/><line x1="38" y1="74" x2="78" y2="74" stroke="#cbd5e1" stroke-width="2"/><line x1="38" y1="86" x2="65" y2="86" stroke="#cbd5e1" stroke-width="2"/></svg>` },
+  { id: "ecg-wave", label: "ECG Wave", category: "clinical", svg: `<svg viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="0,25 15,25 20,25 25,20 30,25 35,25 40,25 45,5 50,45 55,25 60,25 65,25 70,25 75,20 80,25 85,25 90,25 95,5 100,45 105,25 110,25 120,25" stroke="#ef4444" stroke-width="2" fill="none"/></svg>` },
+  { id: "dna", label: "DNA Helix", category: "clinical", svg: `<svg viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 10C25 10 55 25 55 40C55 55 25 55 25 70C25 85 55 85 55 100" stroke="#7c3aed" stroke-width="2.5" fill="none"/><path d="M55 10C55 10 25 25 25 40C25 55 55 55 55 70C55 85 25 85 25 100" stroke="#06b6d4" stroke-width="2.5" fill="none"/><line x1="30" y1="25" x2="50" y2="25" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/><line x1="28" y1="40" x2="52" y2="40" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/><line x1="28" y1="55" x2="52" y2="55" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/><line x1="28" y1="70" x2="52" y2="70" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/><line x1="30" y1="85" x2="50" y2="85" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/></svg>` },
+  { id: "blood-drop", label: "Blood Drop", category: "clinical", svg: `<svg viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 10C40 10 15 50 15 72C15 90 26 105 40 105C54 105 65 90 65 72C65 50 40 10 40 10Z" fill="#ef4444" opacity="0.75"/><ellipse cx="35" cy="62" rx="6" ry="10" fill="white" opacity="0.2" transform="rotate(-15 35 62)"/></svg>` },
+  { id: "thermometer", label: "Thermometer", category: "tools", svg: `<svg viewBox="0 0 60 120" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="10" width="16" height="75" rx="8" stroke="#ef4444" stroke-width="2" fill="#fef2f2"/><circle cx="30" cy="95" r="14" stroke="#ef4444" stroke-width="2" fill="#ef4444" opacity="0.7"/><rect x="27" y="40" width="6" height="45" rx="3" fill="#ef4444" opacity="0.6"/><line x1="38" y1="30" x2="44" y2="30" stroke="#94a3b8" stroke-width="1.5"/><line x1="38" y1="42" x2="44" y2="42" stroke="#94a3b8" stroke-width="1.5"/><line x1="38" y1="54" x2="44" y2="54" stroke="#94a3b8" stroke-width="1.5"/></svg>` },
+  { id: "bandage", label: "Bandage / Cross", category: "clinical", svg: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="35" y="10" width="30" height="80" rx="6" fill="#ef4444" opacity="0.8"/><rect x="10" y="35" width="80" height="30" rx="6" fill="#ef4444" opacity="0.8"/></svg>` },
+  { id: "shield-check", label: "Safety Shield", category: "clinical", svg: `<svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 10L15 28V58C15 82 30 100 50 110C70 100 85 82 85 58V28L50 10Z" fill="#10b981" opacity="0.2" stroke="#10b981" stroke-width="2.5"/><polyline points="35,60 45,72 65,48" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+  { id: "star-badge", label: "Star Badge", category: "decoration", svg: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="50,8 61,35 90,38 68,58 74,88 50,74 26,88 32,58 10,38 39,35" fill="#f59e0b" opacity="0.8"/></svg>` },
+  { id: "arrow-right", label: "Arrow Right", category: "decoration", svg: `<svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="30" x2="95" y2="30" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/><polyline points="85,18 100,30 85,42" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>` },
+  { id: "checkmark-circle", label: "Checkmark", category: "decoration", svg: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="2.5"/><polyline points="32,52 44,64 68,38" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+  { id: "warning-triangle", label: "Warning", category: "decoration", svg: `<svg viewBox="0 0 110 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M55 10L5 95H105L55 10Z" fill="#f59e0b" opacity="0.2" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"/><line x1="55" y1="40" x2="55" y2="65" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round"/><circle cx="55" cy="78" r="3" fill="#f59e0b"/></svg>` },
+  { id: "divider-wave", label: "Wave Divider", category: "decoration", svg: `<svg viewBox="0 0 400 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 20Q50 0 100 20Q150 40 200 20Q250 0 300 20Q350 40 400 20" stroke="#7c3aed" stroke-width="2" fill="none" opacity="0.4"/></svg>` },
+  { id: "divider-dots", label: "Dot Divider", category: "decoration", svg: `<svg viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="10" r="3" fill="#94a3b8" opacity="0.4"/><circle cx="100" cy="10" r="3" fill="#94a3b8" opacity="0.4"/><circle cx="150" cy="10" r="3" fill="#94a3b8" opacity="0.4"/><circle cx="200" cy="10" r="3" fill="#94a3b8" opacity="0.4"/><circle cx="250" cy="10" r="3" fill="#94a3b8" opacity="0.4"/><circle cx="300" cy="10" r="3" fill="#94a3b8" opacity="0.4"/><circle cx="350" cy="10" r="3" fill="#94a3b8" opacity="0.4"/></svg>` },
+];
 
 interface CanvasObject {
   id: string;
@@ -2496,6 +2546,30 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
     toast({ title: `${comp.label} added` });
   };
 
+  const insertStockIllustration = (illust: typeof STOCK_ILLUSTRATIONS[0]) => {
+    pushUndo();
+    const svgBlob = new Blob([illust.svg], { type: "image/svg+xml" });
+    const svgUrl = URL.createObjectURL(svgBlob);
+    const viewBoxMatch = illust.svg.match(/viewBox="([^"]+)"/);
+    let w = 100, h = 100;
+    if (viewBoxMatch) {
+      const parts = viewBoxMatch[1].split(/\s+/).map(Number);
+      if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) {
+        const aspect = parts[2] / parts[3];
+        w = aspect >= 1 ? 120 : Math.round(120 * aspect);
+        h = aspect >= 1 ? Math.round(120 / aspect) : 120;
+      }
+    }
+    const obj: CanvasObject = {
+      id: uid(), type: "image", x: CANVAS_WIDTH / 2 - w / 2, y: CANVAS_HEIGHT / 2 - h / 2,
+      width: w, height: h, src: svgUrl, rotation: 0, opacity: 1, zIndex: objects.length,
+      tag: `illust-${illust.id}`,
+    };
+    setObjects(prev => [...prev, obj]);
+    setSelectedId(obj.id);
+    toast({ title: `${illust.label} added` });
+  };
+
   const applyPageTemplate = (template: typeof PAGE_TEMPLATES[0]) => {
     if (objects.length > 0 && !confirm("Replace current page content with this template?")) return;
     pushUndo();
@@ -3994,17 +4068,50 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     if (!leftPanel) return null;
 
     if (leftPanel === "components") {
+      const illustCategories = [...new Set(STOCK_ILLUSTRATIONS.map(i => i.category))];
       return (
-        <div className="w-52 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-components">
+        <div className="w-60 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-components">
           <div className="p-3 border-b">
-            <span className="text-xs font-semibold text-gray-600">Design Components</span>
+            <span className="text-xs font-semibold text-gray-600">Elements</span>
           </div>
-          <div className="p-2 space-y-1">
-            {DESIGN_COMPONENTS.map(comp => (
-              <button key={comp.tag} onClick={() => insertDesignComponent(comp)} className="w-full text-left px-3 py-2 rounded-lg hover:bg-primary/5 text-xs flex items-center gap-2 text-gray-700 hover:text-primary transition-colors" data-testid={`button-comp-${comp.tag}`}>
-                <comp.icon className="w-3.5 h-3.5 shrink-0" />
-                <span>{comp.label}</span>
-              </button>
+          <div className="p-3">
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Shapes</span>
+            <div className="grid grid-cols-3 gap-1.5 mt-1.5 mb-3">
+              <button onClick={() => addObject("rect")} className="aspect-square rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 flex items-center justify-center hover:bg-primary/5 transition" data-testid="button-shape-rect"><Square className="w-5 h-5 text-gray-400" /></button>
+              <button onClick={() => addObject("circle")} className="aspect-square rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 flex items-center justify-center hover:bg-primary/5 transition" data-testid="button-shape-circle"><Circle className="w-5 h-5 text-gray-400" /></button>
+              <button onClick={() => { pushUndo(); const id = uid(); setObjects(prev => [...prev, { id, type: "rect" as const, x: MARGIN, y: 50, width: CANVAS_WIDTH - MARGIN * 2, height: 3, fill: theme.dividerColor, rotation: 0, opacity: 1, zIndex: objects.length, borderRadius: 0 }]); setSelectedId(id); }} className="aspect-square rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 flex items-center justify-center hover:bg-primary/5 transition" data-testid="button-shape-line"><div className="w-6 h-0.5 bg-gray-400 rounded" /></button>
+            </div>
+          </div>
+          <div className="p-3 pt-0">
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Design Components</span>
+            <div className="space-y-1 mt-1.5 mb-3">
+              {DESIGN_COMPONENTS.map(comp => (
+                <button key={comp.tag} onClick={() => insertDesignComponent(comp)} className="w-full text-left px-3 py-2 rounded-lg hover:bg-primary/5 text-xs flex items-center gap-2 text-gray-700 hover:text-primary transition-colors" data-testid={`button-comp-${comp.tag}`}>
+                  <comp.icon className="w-3.5 h-3.5 shrink-0" />
+                  <span>{comp.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="p-3 pt-0">
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Illustrations</span>
+            {illustCategories.map(cat => (
+              <div key={cat} className="mt-2">
+                <span className="text-[9px] font-medium text-gray-400 capitalize">{cat}</span>
+                <div className="grid grid-cols-4 gap-1.5 mt-1">
+                  {STOCK_ILLUSTRATIONS.filter(i => i.category === cat).map(illust => (
+                    <button
+                      key={illust.id}
+                      onClick={() => insertStockIllustration(illust)}
+                      className="aspect-square rounded-lg border border-gray-100 hover:border-primary/40 hover:bg-primary/5 p-1.5 transition flex items-center justify-center group"
+                      title={illust.label}
+                      data-testid={`button-illust-${illust.id}`}
+                    >
+                      <div className="w-full h-full" dangerouslySetInnerHTML={{ __html: illust.svg }} />
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -5059,10 +5166,38 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 {selectedObj.type === "text" && (
                   <>
                     <Textarea value={selectedObj.content || ""} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { content: e.target.value }); }} className="text-xs" rows={2} data-testid="input-text-content" />
+                    <div>
+                      <label className="text-[9px] text-gray-400 block mb-0.5">Font</label>
+                      <select
+                        value={selectedObj.fontFamily || "Inter"}
+                        onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { fontFamily: e.target.value }); }}
+                        className="w-full text-xs border rounded px-2 h-8"
+                        style={{ fontFamily: selectedObj.fontFamily || "Inter" }}
+                        data-testid="select-font-family"
+                      >
+                        <optgroup label="Sans-Serif">
+                          {FONT_FAMILIES.filter(f => f.category === "sans").map(f => (
+                            <option key={f.value} value={f.value} style={{ fontFamily: f.value }}>{f.label}</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Serif">
+                          {FONT_FAMILIES.filter(f => f.category === "serif").map(f => (
+                            <option key={f.value} value={f.value} style={{ fontFamily: f.value }}>{f.label}</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Handwriting">
+                          {FONT_FAMILIES.filter(f => f.category === "hand").map(f => (
+                            <option key={f.value} value={f.value} style={{ fontFamily: f.value }}>{f.label}</option>
+                          ))}
+                        </optgroup>
+                      </select>
+                    </div>
                     <div className="flex gap-1.5">
                       <Input type="number" value={selectedObj.fontSize || 16} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { fontSize: Number(e.target.value) }); }} className="text-xs w-16" data-testid="input-font-size" />
                       <select value={selectedObj.fontWeight || "normal"} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { fontWeight: e.target.value }); }} className="text-xs border rounded px-2 flex-1" data-testid="select-font-weight">
+                        <option value="300">Light</option>
                         <option value="normal">Regular</option>
+                        <option value="500">Medium</option>
                         <option value="600">Semi-Bold</option>
                         <option value="bold">Bold</option>
                       </select>
