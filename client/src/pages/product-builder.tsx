@@ -1817,14 +1817,9 @@ const AI_TOOLS = [
   { id: "bundle-generator", label: "Bundle: Cram + QBank + Flash + Listing", icon: Crown, prompt: "Generate a full product bundle" },
 ];
 
-function ProjectListView({ onOpenProject, presetType }: { onOpenProject: (id: string) => void; presetType?: string | null }) {
+function ProjectListView({ onOpenProject, onCreateNew }: { onOpenProject: (id: string) => void; onCreateNew: () => void }) {
   const [projects, setProjects] = useState<DesignProject[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showCreate, setShowCreate] = useState(!!presetType);
-  const [newTitle, setNewTitle] = useState("");
-  const [newType, setNewType] = useState(presetType || "booklet");
-  const [newPageSize, setNewPageSize] = useState("Letter");
-  const [newOrientation, setNewOrientation] = useState("portrait");
 
   useEffect(() => {
     adminFetch(`/api/admin/design-projects`)
@@ -1833,18 +1828,6 @@ function ProjectListView({ onOpenProject, presetType }: { onOpenProject: (id: st
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
-
-  const createProject = async () => {
-    if (!newTitle.trim()) return;
-    const res = await adminFetch("/api/admin/design-projects", {
-      method: "POST",
-      body: { title: newTitle, type: newType, pageSize: newPageSize, orientation: newOrientation },
-    });
-    if (res.ok) {
-      const project = await res.json();
-      onOpenProject(project.id);
-    }
-  };
 
   const deleteProject = async (id: string) => {
     if (!confirm("Delete this project and all its pages?")) return;
@@ -1859,45 +1842,18 @@ function ProjectListView({ onOpenProject, presetType }: { onOpenProject: (id: st
           <h1 className="text-2xl font-bold text-gray-900" data-testid="text-builder-title">Digital Product Builder</h1>
           <p className="text-sm text-gray-500 mt-1">Create professional study materials for your marketplace</p>
         </div>
-        <Button onClick={() => setShowCreate(!showCreate)} className="gap-2" data-testid="button-new-project">
+        <Button onClick={onCreateNew} className="gap-2" data-testid="button-new-project">
           <Plus className="w-4 h-4" />
-          New Project
+          New Product
         </Button>
       </div>
-
-      {showCreate && (
-        <Card className="mb-6 border-primary/20" data-testid="card-create-project">
-          <CardContent className="p-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-              <Input placeholder="Project title" value={newTitle} onChange={e => setNewTitle(e.target.value)} className="text-sm" data-testid="input-project-title" />
-              <select value={newType} onChange={e => setNewType(e.target.value)} className="text-sm border rounded-md px-3 py-2" data-testid="select-project-type">
-                <option value="booklet">Booklet</option>
-                <option value="one-pager">One-Pager</option>
-                <option value="poster">Poster</option>
-                <option value="cheat-sheet">Cheat Sheet</option>
-                <option value="bundle">Bundle</option>
-              </select>
-              <select value={newPageSize} onChange={e => setNewPageSize(e.target.value)} className="text-sm border rounded-md px-3 py-2" data-testid="select-page-size">
-                <option value="Letter">Letter (8.5x11)</option>
-                <option value="A4">A4</option>
-                <option value="5x7">5x7</option>
-              </select>
-              <select value={newOrientation} onChange={e => setNewOrientation(e.target.value)} className="text-sm border rounded-md px-3 py-2" data-testid="select-orientation">
-                <option value="portrait">Portrait</option>
-                <option value="landscape">Landscape</option>
-              </select>
-              <Button onClick={createProject} disabled={!newTitle.trim()} data-testid="button-create-project">Create</Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       {loading ? (
         <div className="text-center py-16 text-gray-400">Loading projects...</div>
       ) : projects.length === 0 ? (
         <div className="text-center py-16" data-testid="text-no-projects">
           <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500">No design projects yet. Create your first one!</p>
+          <p className="text-gray-500">No design projects yet. Click "New Product" to get started.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1927,8 +1883,9 @@ function ProjectListView({ onOpenProject, presetType }: { onOpenProject: (id: st
   );
 }
 
-function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: string; onBack: () => void; onSwitchToCanvas: () => void }) {
+function GuidedModeView({ projectId: initialProjectId, onBack, onSwitchToCanvas, onProjectCreated }: { projectId: string | null; onBack: () => void; onSwitchToCanvas: () => void; onProjectCreated?: (id: string) => void }) {
   const { toast } = useToast();
+  const [projectId, setProjectId] = useState<string | null>(initialProjectId);
   const [project, setProject] = useState<DesignProject | null>(null);
   const [template, setTemplate] = useState<string>("cram");
   const [topic, setTopic] = useState("");
@@ -1943,6 +1900,7 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
   const [includeImages, setIncludeImages] = useState(true);
   const [imageIntensity, setImageIntensity] = useState<"low" | "medium">("low");
   const [autoStoreReady, setAutoStoreReady] = useState(true);
+  const titleSyncRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [compileStep, setCompileStep] = useState<CompileStep>("plan");
   const [generating, setGenerating] = useState(false);
@@ -1960,6 +1918,43 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
   const [guidedPublishing, setGuidedPublishing] = useState(false);
   const [guidedPublishForm, setGuidedPublishForm] = useState({ title: "", description: "", price: "", category: "Cram Guide" });
 
+  const ensureProject = async (title: string): Promise<string> => {
+    if (projectId) {
+      if (titleSyncRef.current) clearTimeout(titleSyncRef.current);
+      titleSyncRef.current = setTimeout(async () => {
+        await adminFetch(`/api/admin/design-projects/${projectId}`, {
+          method: "PUT",
+          body: { title },
+        }).catch(() => {});
+      }, 800);
+      return projectId;
+    }
+    const res = await adminFetch("/api/admin/design-projects", {
+      method: "POST",
+      body: { title, type: "booklet", pageSize: "Letter", orientation: "portrait" },
+    });
+    if (!res.ok) throw new Error("Failed to create project");
+    const created = await res.json();
+    setProjectId(created.id);
+    setProject(created);
+    onProjectCreated?.(created.id);
+    return created.id;
+  };
+
+  const handleTopicChange = (val: string) => {
+    setTopic(val);
+    if (val.trim() && projectId) {
+      if (titleSyncRef.current) clearTimeout(titleSyncRef.current);
+      titleSyncRef.current = setTimeout(async () => {
+        await adminFetch(`/api/admin/design-projects/${projectId}`, {
+          method: "PUT",
+          body: { title: val.trim() },
+        }).catch(() => {});
+        setProject(prev => prev ? { ...prev, title: val.trim() } : prev);
+      }, 800);
+    }
+  };
+
   const bp = TEMPLATE_BLUEPRINTS.find(t => t.id === template) || TEMPLATE_BLUEPRINTS[0];
   const theme = getTheme(themeId);
   const preset = COVER_PRESETS.find(p => p.id === coverPreset) || COVER_PRESETS[0];
@@ -1974,9 +1969,15 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
   }, [template]);
 
   useEffect(() => {
+    if (!projectId) return;
     adminFetch(`/api/admin/design-projects/${projectId}`)
       .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data) setProject(data); })
+      .then(data => {
+        if (data) {
+          setProject(data);
+          if (data.title && !topic) setTopic(data.title);
+        }
+      })
       .catch(() => {});
   }, [projectId]);
 
@@ -2374,6 +2375,8 @@ RETURN THIS EXACT STRUCTURE:
     const startTime = Date.now();
 
     try {
+      const activeProjectId = await ensureProject(topic.trim());
+
       setCompileStep("plan");
       setStepLabel("Building content plan from blueprint...");
       const examCtx = GUIDED_EXAM_OPTIONS.find(e => e.id === examTier);
@@ -2402,7 +2405,7 @@ RETURN THIS EXACT STRUCTURE:
             body: { canvasJson: { objects, version: "1.0" }, backgroundColor: "#ffffff" },
           });
         } else {
-          await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+          await adminFetch(`/api/admin/design-projects/${activeProjectId}/pages`, {
             method: "POST",
             body: { title, backgroundColor: "#ffffff", canvasJson: { objects, version: "1.0" } },
           });
@@ -2517,7 +2520,7 @@ RETURN THIS EXACT STRUCTURE:
       setStepLabel(`Complete! ${pagesCreated} pages compiled in ${elapsed}s`);
       setIsComplete(true);
       try {
-        const projRes = await adminFetch(`/api/admin/design-projects/${projectId}`);
+        const projRes = await adminFetch(`/api/admin/design-projects/${activeProjectId}`);
         if (projRes.ok) {
           const projData = await projRes.json();
           const loadedPages = (projData.pages || []).map((p: any) => ({
@@ -2741,7 +2744,7 @@ RETURN THIS EXACT STRUCTURE:
           <div className="flex items-center gap-1.5 text-sm">
             <button onClick={onBack} className="text-gray-400 hover:text-primary transition text-xs font-medium" data-testid="link-guided-drafts">Drafts</button>
             <span className="text-gray-300">/</span>
-            <span className="font-semibold text-gray-800" data-testid="text-guided-title">{project?.title || "Product Generator"}</span>
+            <span className="font-semibold text-gray-800" data-testid="text-guided-title">{topic || project?.title || "New Product"}</span>
             <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full ml-1 font-medium">Guided Mode</span>
           </div>
         </div>
@@ -2761,7 +2764,7 @@ RETURN THIS EXACT STRUCTURE:
               {switchingTheme && <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />}
             </div>
           )}
-          <Button size="sm" variant="outline" onClick={onSwitchToCanvas} className="h-8 text-xs gap-1.5" data-testid="button-switch-canvas">
+          <Button size="sm" variant="outline" onClick={onSwitchToCanvas} disabled={!projectId} className="h-8 text-xs gap-1.5" data-testid="button-switch-canvas">
             <Grid3X3 className="w-3.5 h-3.5" /> Advanced Canvas
           </Button>
         </div>
@@ -2808,7 +2811,7 @@ RETURN THIS EXACT STRUCTURE:
               <div className="space-y-2 border-t pt-3">
                 <label className="text-xs font-semibold text-gray-700 block">Actions</label>
                 <div className="space-y-1.5">
-                  <Button size="sm" onClick={() => setShowGuidedPublish(true)} className="w-full h-8 text-xs gap-1.5 bg-green-600 hover:bg-green-700" data-testid="button-guided-publish">
+                  <Button size="sm" onClick={() => { setGuidedPublishForm(f => ({ ...f, title: f.title || topic, description: f.description || `${bp.label}: ${topic}` })); setShowGuidedPublish(true); }} className="w-full h-8 text-xs gap-1.5 bg-green-600 hover:bg-green-700" data-testid="button-guided-publish">
                     <ShoppingCart className="w-3.5 h-3.5" /> Publish to Store
                   </Button>
                   <Button size="sm" variant="outline" onClick={downloadGuidedPages} disabled={guidedExporting} className="w-full h-8 text-xs gap-1.5" data-testid="button-guided-download">
@@ -2988,7 +2991,7 @@ RETURN THIS EXACT STRUCTURE:
                 <label className="text-sm font-semibold text-gray-700 block">Document Title</label>
                 <Input
                   value={topic}
-                  onChange={e => setTopic(e.target.value)}
+                  onChange={e => handleTopicChange(e.target.value)}
                   placeholder="e.g., Electrolyte Imbalances, Cardiac Assessment"
                   className="h-10 text-sm"
                   disabled={generating}
@@ -6503,7 +6506,7 @@ export default function ProductBuilderPage() {
   const [, params] = useRoute("/admin/product-builder/:id");
   const [, paramsLocale] = useRoute("/:locale/admin/product-builder/:id");
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [presetType, setPresetType] = useState<string | null>(null);
+  const [creatingNew, setCreatingNew] = useState(false);
   const [editorMode, setEditorMode] = useState<"guided" | "canvas">("guided");
 
   useEffect(() => {
@@ -6512,10 +6515,10 @@ export default function ProductBuilderPage() {
   }, [params?.id, paramsLocale?.id]);
 
   useEffect(() => {
-    const type = getQueryParam("type");
-    if (type) setPresetType(type);
     const mode = getQueryParam("mode");
     if (mode === "canvas") setEditorMode("canvas");
+    const isNew = getQueryParam("new");
+    if (isNew === "1") setCreatingNew(true);
   }, []);
 
   if (!isAdmin) {
@@ -6528,18 +6531,23 @@ export default function ProductBuilderPage() {
 
   const handleBack = () => {
     setEditingProjectId(null);
-    setPresetType(null);
+    setCreatingNew(false);
     setEditorMode("guided");
     navigate("/admin/product-builder");
   };
 
-  if (editingProjectId) {
-    if (editorMode === "guided") {
+  if (editingProjectId || creatingNew) {
+    if (editorMode === "guided" || !editingProjectId) {
       return (
         <GuidedModeView
           projectId={editingProjectId}
           onBack={handleBack}
           onSwitchToCanvas={() => setEditorMode("canvas")}
+          onProjectCreated={(id) => {
+            setEditingProjectId(id);
+            setCreatingNew(false);
+            navigate(`/admin/product-builder/${id}`);
+          }}
         />
       );
     }
@@ -6547,10 +6555,14 @@ export default function ProductBuilderPage() {
       <CanvasEditorView
         projectId={editingProjectId}
         onBack={handleBack}
-        initialPresetType={presetType}
       />
     );
   }
 
-  return <ProjectListView onOpenProject={(id) => { setEditingProjectId(id); navigate(`/admin/product-builder/${id}`); }} presetType={presetType} />;
+  return (
+    <ProjectListView
+      onOpenProject={(id) => { setEditingProjectId(id); navigate(`/admin/product-builder/${id}`); }}
+      onCreateNew={() => setCreatingNew(true)}
+    />
+  );
 }

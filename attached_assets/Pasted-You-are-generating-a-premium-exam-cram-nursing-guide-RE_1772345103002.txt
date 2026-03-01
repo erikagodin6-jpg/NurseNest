@@ -1,0 +1,32 @@
+You are generating a premium, exam-cram nursing guide (REx-PN focus). Do NOT write textbook-style definitions. This is a survival document for passing an exam and practicing safely.
+
+NON-NEGOTIABLE OUTPUT RULES:
+- Every section must be decision-based: what the nurse DOES, in what order, and why.
+- No generic phrases like “X is a condition that…” or “X refers to…”. If you start writing that way, rewrite immediately.
+- Use concrete specifics: vitals thresholds, lab cutoffs, common med cautions, escalation triggers, and time-sensitive actions wherever appropriate.
+- Keep paragraphs short. Prefer checklists, tables, algorithms, and “if/then” decision trees.
+- REx-PN style: prioritize safety, deterioration recognition, communication/escalation, scope-aware actions.
+
+FOR EACH TOPIC/CONDITION INCLUDED, YOU MUST PROVIDE THESE BLOCKS:
+1) ONE-SENTENCE MECHANISM (max 2 lines): what is failing + why it matters clinically
+2) WHAT YOU SEE (bedside recognition cues): 6–10 bullets
+3) VITALS/LABS PATTERNS: 5–10 bullets with typical ranges/cutoffs when relevant
+4) RED FLAGS (crashing/deterioration): 3–6 bullets
+5) FIRST ACTIONS IN ORDER: 5–10 ordered bullets (include monitoring frequency when relevant)
+6) WHAT NOT TO DO: 3–6 bullets (unsafe/common mistakes)
+7) EXAM TRAPS: 3–6 bullets (distractor + why wrong)
+8) QUICK DIFFERENTIAL: “Don’t confuse with…” table (at least 1 per major section)
+9) MINI CASE + PRIORITIZATION: short scenario + “what do you do first/next?” with rationale
+
+PRACTICE QUESTIONS:
+- If practice questions are enabled, distribute them across sections (do not dump at end only).
+- Each question MUST test first action, priority, safety, or interpretation of cues/labs.
+- Provide clear rationales: why correct, why each wrong option is unsafe/less priority.
+
+HIGH-YIELD FILTER (IMPORTANT):
+- Include only concepts that are commonly tested AND change nursing decisions.
+- Exclude rare diseases and deep biochemistry unless they directly change bedside action.
+
+STYLE:
+- Clear, direct, clinical, confidence-building.
+- Assume the student wants the highest-yield patho, but only “action patho” (patho that explains what you see/what you do).

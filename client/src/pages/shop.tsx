@@ -160,11 +160,8 @@ function AdminProductManager() {
           <Button onClick={() => setLocation("/admin/product-builder")} size="sm" variant="outline" data-testid="button-open-builder">
             <Palette className="w-4 h-4 mr-1" /> Product Builder
           </Button>
-          <Button onClick={() => setLocation("/admin/product-builder?type=bundle")} size="sm" variant="outline" data-testid="button-create-bundle">
-            <Package className="w-4 h-4 mr-1" /> Create Bundle
-          </Button>
-          <Button onClick={() => setLocation("/admin/product-builder?type=cram-guide")} size="sm" variant="outline" data-testid="button-create-cram">
-            <BookOpen className="w-4 h-4 mr-1" /> Cram Guide
+          <Button onClick={() => setLocation("/admin/product-builder?new=1")} size="sm" variant="outline" data-testid="button-create-product">
+            <Plus className="w-4 h-4 mr-1" /> Create Product
           </Button>
           <Button onClick={() => { setShowForm(!showForm); setEditingId(null); }} size="sm" data-testid="button-add-product">
             <Plus className="w-4 h-4 mr-1" /> Add Product
