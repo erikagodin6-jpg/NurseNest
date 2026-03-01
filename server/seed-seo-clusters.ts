@@ -24,7 +24,7 @@ const clusters: ClusterHub[] = [
   {
     slug: "electrolytes-acid-base-nursing-guide",
     title: "Electrolytes & Acid-Base Balance: Complete Nursing Study Guide",
-    metaTitle: "Electrolytes & Acid-Base Nursing Guide | NCLEX Prep",
+    metaTitle: "Electrolytes & Acid-Base Nursing Guide (NCLEX & REx-PN Prep) | NurseNest",
     metaDescription: "Master electrolyte imbalances, ABG interpretation, and acid-base balance. Comprehensive nursing study guide with Na, K, Ca, Mg disorders and IV fluids.",
     pageType: "pillar",
     exam: "NCLEX-RN",
@@ -527,6 +527,253 @@ const clusters: ClusterHub[] = [
       { url: "/lessons/antibiotics", anchor: "Antibiotic therapy guide", context: "pharmacology" },
       { url: "/study-guide/cardiac-emergencies-nursing-guide", anchor: "Cardiac emergencies guide", context: "related" },
       { url: "/study-guide/electrolytes-acid-base-nursing-guide", anchor: "Electrolytes guide", context: "related" },
+    ],
+    children: [],
+  },
+  {
+    slug: "hyperkalemia-effects-on-heart-nursing",
+    title: "Hyperkalemia Effects on the Heart: NCLEX & REx-PN Exam Review",
+    metaTitle: "Hyperkalemia Effects on the Heart (NCLEX & REx-PN Review) | NurseNest",
+    metaDescription: "Learn how hyperkalemia affects the heart, why burns cause hyperkalemia, ECG changes from peaked T waves to sine wave, and emergency nursing interventions for the NCLEX and REx-PN.",
+    pageType: "pillar",
+    exam: "NCLEX-RN",
+    contentHtml: `<article>
+<h1>Hyperkalemia Effects on the Heart: NCLEX & REx-PN Exam Review</h1>
+<p class="lead">Hyperkalemia (serum K⁺ >5.0 mEq/L) is one of the most dangerous electrolyte emergencies tested on nursing exams. Its effects on cardiac conduction can progress from subtle ECG changes to fatal cardiac arrest within minutes. This guide covers exactly how elevated potassium disrupts heart function — a must-know topic for NCLEX-RN, NCLEX-PN, and REx-PN.</p>
+
+<section id="how-hyperkalemia-affects-heart">
+<h2>How Does Hyperkalemia Affect the Heart?</h2>
+<p>Potassium is the primary intracellular cation responsible for maintaining the resting membrane potential of cardiac myocytes (~-90 mV). When extracellular K⁺ rises, the resting membrane potential becomes less negative (partially depolarized). This has two critical consequences:</p>
+<p><strong>1. Decreased conduction velocity:</strong> Partial depolarization inactivates sodium channels, slowing Phase 0 of the cardiac action potential. This manifests as widened QRS complexes on ECG.</p>
+<p><strong>2. Altered repolarization:</strong> Elevated K⁺ increases membrane permeability to potassium, accelerating Phase 3 repolarization. This produces the hallmark tall, peaked T waves — the earliest ECG sign of hyperkalemia.</p>
+<div class="clinical-pearl"><strong>Clinical Pearl:</strong> The heart becomes progressively more irritable as K⁺ rises. Above 6.5 mEq/L, life-threatening dysrhythmias can occur at any moment. Above 8.0 mEq/L, cardiac arrest is imminent.</div>
+</section>
+
+<section id="hyperkalemia-hypokalemia-heart">
+<h2>Hyperkalemia and Hypokalemia Effects on the Heart</h2>
+<p>Both extremes of potassium disrupt cardiac conduction, but through opposite mechanisms:</p>
+<p><strong>Hyperkalemia (K⁺ >5.0 mEq/L):</strong> Depolarizes the resting membrane → slowed conduction → peaked T waves → widened QRS → sine wave → V-fib/asystole.</p>
+<p><strong>Hypokalemia (K⁺ <3.5 mEq/L):</strong> Hyperpolarizes the resting membrane → prolonged repolarization → flattened T waves → prominent U waves → ST depression → torsades de pointes.</p>
+<div class="exam-trap"><strong>Exam Trap:</strong> Both hypokalemia AND hyperkalemia increase the risk of digoxin toxicity. Always check potassium levels before administering digoxin. Hold digoxin if K⁺ is <3.5 mEq/L.</div>
+</section>
+
+<section id="ecg-progression">
+<h2>ECG Changes in Hyperkalemia: Step-by-Step Progression</h2>
+<p>Memorize this sequence — it appears frequently on NCLEX and REx-PN exams:</p>
+<p><strong>Mild (5.5-6.0 mEq/L):</strong> Tall, peaked, narrow-based T waves (earliest sign). The T wave becomes taller than normal and "tented."</p>
+<p><strong>Moderate (6.0-7.0 mEq/L):</strong> Prolonged PR interval, flattened P waves, widened QRS complex. AV conduction begins to slow.</p>
+<p><strong>Severe (7.0-8.0 mEq/L):</strong> Loss of P waves (atrial standstill), markedly widened QRS that merges with T waves → classic "sine wave" pattern.</p>
+<p><strong>Critical (>8.0 mEq/L):</strong> Ventricular fibrillation, asystole, and cardiac arrest.</p>
+<div class="clinical-pearl"><strong>Clinical Pearl:</strong> The speed of K⁺ rise matters more than the absolute level. A patient whose K⁺ jumps from 4.0 to 6.5 rapidly is at higher risk than someone who has been chronically at 5.8 mEq/L.</div>
+</section>
+
+<section id="why-burns-cause-hyperkalemia">
+<h2>Why Do Burns Cause Hyperkalemia?</h2>
+<p>Burns are one of the most common causes of acute hyperkalemia tested on nursing exams. There are three mechanisms:</p>
+<p><strong>1. Massive cellular destruction:</strong> Thermal injury destroys cells, releasing intracellular potassium into the bloodstream. Since cells contain ~150 mEq/L of K⁺ (compared to 3.5-5.0 mEq/L in serum), even moderate cell death dramatically raises serum potassium.</p>
+<p><strong>2. Rhabdomyolysis:</strong> Muscle tissue breakdown from deep burns releases potassium, myoglobin, and creatine kinase (CK) into circulation. This is especially significant in electrical burns and deep thermal burns.</p>
+<p><strong>3. Metabolic acidosis:</strong> Burns trigger a systemic inflammatory response with lactic acidosis. In acidosis, hydrogen ions (H⁺) move into cells while potassium moves out to maintain electroneutrality — this transcellular shift raises serum K⁺ by approximately 0.6 mEq/L for each 0.1 decrease in pH.</p>
+<div class="exam-trap"><strong>Exam Trap:</strong> In the first 24-48 hours post-burn, hyperkalemia is the primary electrolyte concern. After 48 hours, as fluid shifts reverse and diuresis begins, hypokalemia becomes the risk. Know this timeline for NCLEX prioritization questions.</div>
+</section>
+
+<section id="how-burns-cause-hyperkalemia">
+<h2>How Does Burns Cause Hyperkalemia?</h2>
+<p>The pathophysiology follows a clear sequence that nursing students must understand:</p>
+<p><strong>Step 1 — Thermal injury:</strong> Heat denatures cell membrane proteins, creating pores that allow potassium to leak out of damaged cells.</p>
+<p><strong>Step 2 — Inflammatory cascade:</strong> Burn injury triggers a massive inflammatory response. Cytokines and reactive oxygen species cause additional cellular damage beyond the initial burn zone (the "zone of stasis").</p>
+<p><strong>Step 3 — Fluid shifts:</strong> Capillary permeability increases dramatically in the first 24 hours. Plasma shifts to the interstitium (third-spacing), concentrating electrolytes in the remaining intravascular volume.</p>
+<p><strong>Step 4 — Renal impairment:</strong> Hypovolemia from fluid loss reduces renal perfusion, impairing the kidneys' ability to excrete excess potassium. If myoglobin from rhabdomyolysis clogs renal tubules, acute kidney injury (AKI) further worsens potassium clearance.</p>
+<div class="clinical-pearl"><strong>Clinical Pearl:</strong> Monitor potassium levels every 4-6 hours in major burn patients during the first 48 hours. Continuous cardiac monitoring is mandatory. Have calcium gluconate and insulin/dextrose at bedside for emergency treatment.</div>
+</section>
+
+<section id="emergency-treatment">
+<h2>Hyperkalemia Emergency Treatment: Nursing Priority Actions</h2>
+<p>The treatment protocol follows three priorities — <strong>Stabilize → Shift → Remove:</strong></p>
+<p><strong>1. Stabilize the heart:</strong> IV calcium gluconate (10 mL of 10%) over 2-3 minutes. This does NOT lower K⁺ but protects the myocardium by stabilizing the cardiac membrane. Effect lasts 30-60 minutes.</p>
+<p><strong>2. Shift K⁺ into cells:</strong> Regular insulin (10 units IV) with D50W (to prevent hypoglycemia). Also: sodium bicarbonate (if acidotic), inhaled albuterol (beta-2 agonist stimulates Na⁺/K⁺-ATPase).</p>
+<p><strong>3. Remove K⁺ from body:</strong> Kayexalate (sodium polystyrene sulfonate) orally or rectally, loop diuretics (furosemide), or hemodialysis for severe/refractory cases.</p>
+<div class="exam-trap"><strong>Exam Trap:</strong> Calcium gluconate is the FIRST medication given — not to lower potassium, but to protect the heart. NCLEX loves to test this priority.</div>
+</section>
+
+<section id="nursing-question-bank">
+<h2>Practice Questions: Hyperkalemia</h2>
+<p>Test your knowledge with NCLEX-style practice questions on hyperkalemia, ECG interpretation, and emergency management. Our question bank includes rationales for every option.</p>
+</section>
+</article>`,
+    toc: [
+      { id: "how-hyperkalemia-affects-heart", label: "How Hyperkalemia Affects the Heart", level: 2 },
+      { id: "hyperkalemia-hypokalemia-heart", label: "Hyperkalemia vs Hypokalemia", level: 2 },
+      { id: "ecg-progression", label: "ECG Changes Progression", level: 2 },
+      { id: "why-burns-cause-hyperkalemia", label: "Why Burns Cause Hyperkalemia", level: 2 },
+      { id: "how-burns-cause-hyperkalemia", label: "How Burns Cause Hyperkalemia", level: 2 },
+      { id: "emergency-treatment", label: "Emergency Treatment", level: 2 },
+      { id: "nursing-question-bank", label: "Practice Questions", level: 2 },
+    ],
+    faq: [
+      { question: "How does hyperkalemia affect the heart?", answer: "Hyperkalemia raises the resting membrane potential of cardiac cells, slowing conduction velocity and altering repolarization. This causes peaked T waves, widened QRS, loss of P waves, and eventually sine wave pattern leading to V-fib or asystole." },
+      { question: "Why do burns cause hyperkalemia?", answer: "Burns cause massive cellular destruction that releases intracellular potassium into the bloodstream. Additional mechanisms include rhabdomyolysis from deep tissue damage and metabolic acidosis that shifts potassium out of cells. Renal impairment from hypovolemia further prevents potassium excretion." },
+      { question: "How does burns cause hyperkalemia?", answer: "Thermal injury denatures cell membranes, releasing stored potassium. The inflammatory cascade damages additional cells, fluid shifts concentrate electrolytes, and reduced renal perfusion impairs K⁺ clearance. Acidosis causes further transcellular K⁺ shift out of cells." },
+      { question: "What is the first medication given for hyperkalemia?", answer: "Calcium gluconate is the first medication administered. It does not lower potassium levels but stabilizes the cardiac membrane to prevent lethal dysrhythmias. Onset is 1-3 minutes, duration 30-60 minutes." },
+      { question: "What are the ECG changes in hyperkalemia?", answer: "Progressive ECG changes: peaked T waves (earliest, at K⁺ 5.5-6.0), prolonged PR interval, flattened P waves, widened QRS (K⁺ 6.0-7.0), sine wave pattern (K⁺ >7.0), and ventricular fibrillation or asystole (K⁺ >8.0)." },
+      { question: "Why does hyperkalemia cause peaked T waves?", answer: "Elevated extracellular potassium increases membrane permeability to K⁺ ions, accelerating Phase 3 repolarization of the cardiac action potential. This faster repolarization creates taller, narrower, peaked T waves on the ECG." },
+      { question: "What is the hyperkalemia physiology of the heart?", answer: "Elevated K⁺ partially depolarizes the cardiac cell resting membrane potential (from -90 mV toward -80 mV). This inactivates fast sodium channels, slowing conduction (widened QRS), while increased K⁺ conductance accelerates repolarization (peaked T waves). At critically high levels, conduction fails completely." },
+      { question: "Does hyperkalemia or hypokalemia cause peaked T waves?", answer: "Hyperkalemia causes tall, peaked, narrow-based T waves. Hypokalemia causes the opposite: flattened T waves, prominent U waves, and ST segment depression. This distinction is a common NCLEX question." },
+    ],
+    internalLinks: [
+      { url: "/lessons/hyperkalemia", anchor: "Hyperkalemia detailed nursing guide", context: "electrolytes" },
+      { url: "/lessons/hypokalemia", anchor: "Hypokalemia signs & management", context: "electrolytes" },
+      { url: "/lessons/burns", anchor: "Burns nursing assessment & care", context: "related" },
+      { url: "/study-guide/electrolytes-acid-base-nursing-guide", anchor: "Complete electrolytes study guide", context: "related" },
+      { url: "/study-guide/cardiac-emergencies-nursing-guide", anchor: "Cardiac emergencies guide", context: "related" },
+      { url: "/flashcards?view=decks", anchor: "Electrolyte flashcard decks", context: "practice" },
+    ],
+    children: [],
+  },
+  {
+    slug: "copd-barrel-chest-nursing-exam",
+    title: "Why COPD Causes Barrel Chest: Nursing Exam Explanation",
+    metaTitle: "Why COPD Causes Barrel Chest (NCLEX & REx-PN Exam Explanation) | NurseNest",
+    metaDescription: "Understand why COPD causes barrel chest, the pathophysiology of air trapping and hyperinflation, assessment findings, and nursing interventions for NCLEX and REx-PN exams.",
+    pageType: "pillar",
+    exam: "NCLEX-RN",
+    contentHtml: `<article>
+<h1>Why COPD Causes Barrel Chest: Nursing Exam Explanation</h1>
+<p class="lead">Barrel chest is one of the most recognizable physical assessment findings in advanced COPD. Understanding the pathophysiology behind this structural change — from cellular destruction to thoracic remodeling — is essential for NCLEX-RN, NCLEX-PN, and REx-PN exams. This guide explains the mechanism clearly and covers the assessment skills you need.</p>
+
+<section id="what-is-barrel-chest">
+<h2>What Is Barrel Chest?</h2>
+<p>Barrel chest describes an increased anteroposterior (AP) diameter of the thorax, making it appear rounded or "barrel-shaped." In a normal adult, the AP diameter is approximately half the transverse (lateral) diameter, giving a ratio of about 1:2. In barrel chest, this ratio approaches 1:1.</p>
+<p><strong>Assessment finding:</strong> When you observe the patient from the side, the chest appears as deep as it is wide. The ribs become more horizontal (instead of their normal downward slope), and the sternum pushes forward.</p>
+<div class="clinical-pearl"><strong>Clinical Pearl:</strong> Barrel chest is a late finding in COPD — it develops over years of chronic air trapping. Its presence on an exam question signals advanced/severe COPD. It can also be a normal finding in elderly patients due to age-related skeletal changes.</div>
+</section>
+
+<section id="why-copd-causes-barrel-chest">
+<h2>Why Does COPD Cause Barrel Chest?</h2>
+<p>The mechanism follows a clear pathophysiological sequence that nursing students must understand:</p>
+<p><strong>Step 1 — Alveolar destruction (Emphysema):</strong> Chronic exposure to irritants (primarily cigarette smoke) triggers an imbalance between proteases (neutrophil elastase) and antiproteases (alpha-1 antitrypsin). Elastase destroys alveolar walls, creating enlarged, non-functional air spaces called blebs or bullae.</p>
+<p><strong>Step 2 — Loss of elastic recoil:</strong> Normal lungs snap back during exhalation like a stretched rubber band. When elastin fibers are destroyed, the lungs lose their ability to passively recoil, making exhalation incomplete and requiring active muscular effort.</p>
+<p><strong>Step 3 — Air trapping:</strong> During exhalation, small airways (bronchioles) collapse prematurely because they've lost the structural support from surrounding alveoli. Air becomes trapped in the distal lung, increasing residual volume (RV) and functional residual capacity (FRC).</p>
+<p><strong>Step 4 — Chronic hyperinflation:</strong> Over months and years, persistently trapped air keeps the lungs in a state of hyperinflation. The diaphragm flattens from its normal dome shape, and the thoracic cage gradually remodels to accommodate the expanded lungs.</p>
+<p><strong>Step 5 — Barrel chest:</strong> The ribs become fixed in an inspiratory position (more horizontal), the AP diameter increases, and the sternum pushes anteriorly. This structural change is irreversible.</p>
+<div class="exam-trap"><strong>Exam Trap:</strong> Barrel chest is characteristic of emphysema (a type of COPD), NOT chronic bronchitis. If an NCLEX question describes a "pink puffer" with barrel chest, it's pointing to emphysema. "Blue bloater" with chronic productive cough points to chronic bronchitis.</div>
+</section>
+
+<section id="barrel-chest-in-copd">
+<h2>Barrel Chest in COPD: Clinical Assessment</h2>
+<p>When assessing a patient with suspected barrel chest:</p>
+<p><strong>Inspection:</strong> Increased AP diameter (1:1 ratio), use of accessory muscles (sternocleidomastoid, intercostals), pursed-lip breathing, tripod position, and prolonged expiratory phase.</p>
+<p><strong>Palpation:</strong> Decreased tactile fremitus (vibrations are dampened by trapped air). Reduced chest expansion bilaterally.</p>
+<p><strong>Percussion:</strong> Hyperresonance throughout lung fields (trapped air creates a hollow, drum-like sound). Diaphragm excursion is diminished.</p>
+<p><strong>Auscultation:</strong> Diminished breath sounds, distant heart sounds, prolonged expiratory phase. Wheezing may be present during exacerbations.</p>
+<div class="clinical-pearl"><strong>Clinical Pearl:</strong> If an exam question asks you to differentiate barrel chest from other causes of increased AP diameter (kyphosis, normal aging), look for the combination of barrel chest + diminished breath sounds + hyperresonance + smoking history = COPD/emphysema.</div>
+</section>
+
+<section id="copd-nursing-interventions">
+<h2>COPD Nursing Interventions for Barrel Chest Patients</h2>
+<p><strong>Oxygen therapy:</strong> Low-flow oxygen targeting SpO2 88-92%. COPD patients with chronic CO2 retention rely on hypoxic drive — high-flow O2 can suppress respiratory effort.</p>
+<p><strong>Breathing techniques:</strong> Teach pursed-lip breathing (extends exhalation time, prevents airway collapse, improves gas exchange) and diaphragmatic breathing.</p>
+<p><strong>Positioning:</strong> High Fowler's or tripod position to maximize lung expansion. Leaning forward reduces the work of accessory muscles.</p>
+<p><strong>Medications:</strong> Bronchodilators (albuterol, ipratropium), inhaled corticosteroids for maintenance, and anticholinergics. Teach proper inhaler technique with spacer.</p>
+<p><strong>Nutrition:</strong> High-calorie, high-protein, small frequent meals. Avoid gas-producing foods that can distend the abdomen and impair diaphragm movement.</p>
+<div class="exam-trap"><strong>Exam Trap:</strong> For a COPD patient with barrel chest and acute exacerbation, the priority nursing intervention is positioning (high Fowler's) and administering prescribed bronchodilators — NOT high-flow oxygen. Oxygen is titrated carefully to 88-92% SpO2.</div>
+</section>
+
+<section id="practice-questions-copd">
+<h2>Practice Questions: COPD & Barrel Chest</h2>
+<p>Test your knowledge with NCLEX-style practice questions on COPD assessment, pathophysiology, and nursing interventions. Our question bank includes detailed rationales for every answer option.</p>
+</section>
+</article>`,
+    toc: [
+      { id: "what-is-barrel-chest", label: "What Is Barrel Chest?", level: 2 },
+      { id: "why-copd-causes-barrel-chest", label: "Why COPD Causes Barrel Chest", level: 2 },
+      { id: "barrel-chest-in-copd", label: "Clinical Assessment", level: 2 },
+      { id: "copd-nursing-interventions", label: "Nursing Interventions", level: 2 },
+      { id: "practice-questions-copd", label: "Practice Questions", level: 2 },
+    ],
+    faq: [
+      { question: "What is barrel chest in COPD?", answer: "Barrel chest is an increase in the anteroposterior diameter of the thorax (approaching a 1:1 ratio with transverse diameter) caused by chronic air trapping and lung hyperinflation in advanced COPD/emphysema. The ribs become more horizontal and the sternum pushes forward." },
+      { question: "Why does COPD cause barrel chest?", answer: "COPD (specifically emphysema) destroys alveolar walls and elastin fibers, causing loss of elastic recoil. This leads to air trapping during exhalation, chronic lung hyperinflation, and gradual remodeling of the thoracic cage into a barrel shape over years." },
+      { question: "How does COPD cause barrel chest?", answer: "The sequence is: alveolar destruction → loss of elastic recoil → incomplete exhalation → air trapping → chronic hyperinflation → diaphragm flattening → thoracic cage remodeling → increased AP diameter (barrel chest). This process takes years of progressive disease." },
+      { question: "Is barrel chest reversible in COPD?", answer: "No. Barrel chest represents permanent structural remodeling of the thoracic cage. While bronchodilators and pulmonary rehabilitation can improve airflow and symptoms, the skeletal changes are irreversible. This is why COPD prevention (smoking cessation) is so critical." },
+      { question: "What is the normal AP to transverse chest ratio?", answer: "The normal AP:transverse ratio is approximately 1:2 in adults. In barrel chest from COPD, this ratio approaches 1:1 as the AP diameter increases. Note: newborns normally have a 1:1 ratio, and elderly patients may develop increased AP diameter from kyphosis." },
+      { question: "What is the difference between barrel chest and normal aging?", answer: "Barrel chest from COPD presents with hyperresonance on percussion, diminished breath sounds, smoking history, and dyspnea. Age-related AP diameter increase shows normal breath sounds, normal resonance, and may be associated with kyphosis. COPD barrel chest has accompanying respiratory symptoms." },
+      { question: "What oxygen level should COPD patients with barrel chest receive?", answer: "Target SpO2 88-92% using low-flow oxygen (1-2 L/min nasal cannula). COPD patients with chronic CO2 retention depend on hypoxic drive for breathing. High-flow oxygen can suppress this drive and cause respiratory depression — a critical safety concept for NCLEX." },
+      { question: "Is barrel chest seen in emphysema or chronic bronchitis?", answer: "Barrel chest is characteristic of emphysema, not chronic bronchitis. Emphysema causes alveolar destruction and air trapping. Chronic bronchitis causes excess mucus production and airway inflammation without the same degree of air trapping and thoracic remodeling." },
+    ],
+    internalLinks: [
+      { url: "/lessons/copd", anchor: "COPD comprehensive nursing guide", context: "respiratory" },
+      { url: "/lessons/emphysema", anchor: "Emphysema pathophysiology", context: "respiratory" },
+      { url: "/study-guide/respiratory-emergencies-nursing-guide", anchor: "Respiratory emergencies guide", context: "related" },
+      { url: "/study-guide/electrolytes-acid-base-nursing-guide", anchor: "Electrolytes & acid-base guide", context: "related" },
+      { url: "/flashcards?view=decks", anchor: "Respiratory flashcard decks", context: "practice" },
+    ],
+    children: [],
+  },
+  {
+    slug: "nursing-question-bank-free-practice",
+    title: "Nursing Question Bank: Free NCLEX & REx-PN Practice Questions",
+    metaTitle: "Nursing Question Bank – Free NCLEX & REx-PN Practice Questions | NurseNest",
+    metaDescription: "Access free nursing exam practice questions for NCLEX-RN, NCLEX-PN, and REx-PN. Includes multiple-choice, select-all-that-apply, and clinical judgment questions with detailed rationales.",
+    pageType: "pillar",
+    exam: "NCLEX-RN",
+    contentHtml: `<article>
+<h1>Nursing Question Bank: Free NCLEX & REx-PN Practice Questions</h1>
+<p class="lead">NurseNest's question bank provides exam-style practice questions designed by nursing educators. Practice with multiple-choice, select-all-that-apply (SATA), ordered response, and Next Generation NCLEX (NGN) question types — all with detailed rationales explaining why each option is correct or incorrect.</p>
+
+<section id="question-bank-nursing">
+<h2>Question Bank Nursing: What's Included</h2>
+<p>Our nursing question bank covers every major content area tested on NCLEX-RN, NCLEX-PN, and REx-PN exams. Questions are written at application and analysis levels — the same cognitive levels used on the actual exams.</p>
+<p><strong>Content areas:</strong> Medical-surgical nursing, pharmacology, maternal-newborn, pediatrics, mental health, leadership & management, fundamentals, and community health.</p>
+<p><strong>Question types:</strong> Traditional multiple-choice (4 options), SATA (select all that apply), ordered response (drag-and-drop priority), hot spot, fill-in-the-blank calculations, and NGN case studies.</p>
+</section>
+
+<section id="nclex-question-bank">
+<h2>NCLEX Question Bank</h2>
+<p>Our NCLEX question bank aligns with the current NCSBN test plan and incorporates Next Generation NCLEX (NGN) item types. Every question is mapped to the Clinical Judgment Measurement Model (CJMM) framework used in the actual exam.</p>
+<p><strong>Key features:</strong> Questions are stratified by difficulty (easy, moderate, hard), tagged by clinical system, and include comprehensive rationales that explain the nursing process behind each correct answer.</p>
+<div class="clinical-pearl"><strong>Clinical Pearl:</strong> The real NCLEX uses Computer Adaptive Testing (CAT), meaning question difficulty adjusts based on your performance. Our question bank simulates this by offering mixed-difficulty sets that mirror actual exam conditions.</div>
+</section>
+
+<section id="rexpn-question-bank">
+<h2>REx-PN Question Bank Canada</h2>
+<p>Preparing for the Regulatory Exam for Practical Nurses (REx-PN)? Our Canadian-focused question bank uses Canadian terminology (RPN, CNO standards), metric units (°C, kg, mmol/L), and reflects the RPN scope of practice defined by the College of Nurses of Ontario.</p>
+<p><strong>Canadian-specific content:</strong> SI units for lab values, Canadian drug names, provincial scope of practice, IPAC protocols, and patient safety frameworks aligned with Canadian nursing standards.</p>
+</section>
+
+<section id="how-to-use">
+<h2>How to Use the Question Bank Effectively</h2>
+<p><strong>1. Content review first:</strong> Study the topic using our study guides before attempting questions. This builds the foundation for clinical reasoning.</p>
+<p><strong>2. Timed practice:</strong> Set a timer for ~1.5 minutes per question to simulate exam pacing. The real NCLEX allows approximately 1 minute per question.</p>
+<p><strong>3. Review rationales:</strong> Always read the rationale for EVERY option — including the ones you got right. Understanding why wrong answers are wrong builds deeper clinical judgment.</p>
+<p><strong>4. Track weak areas:</strong> Use our analytics to identify content areas where you score below 65% and focus your review there.</p>
+</section>
+
+<section id="free-practice">
+<h2>Free NCLEX Practice Questions</h2>
+<p>Start with our free practice questions to experience the format and difficulty level. Each free question includes a full rationale and maps to specific nursing content areas. Upgrade to premium for unlimited access to the complete question bank.</p>
+</section>
+</article>`,
+    toc: [
+      { id: "question-bank-nursing", label: "What's Included", level: 2 },
+      { id: "nclex-question-bank", label: "NCLEX Question Bank", level: 2 },
+      { id: "rexpn-question-bank", label: "REx-PN Question Bank", level: 2 },
+      { id: "how-to-use", label: "How to Use Effectively", level: 2 },
+      { id: "free-practice", label: "Free Practice Questions", level: 2 },
+    ],
+    faq: [
+      { question: "How many questions are in the nursing question bank?", answer: "NurseNest's question bank contains over 1,000 exam-style questions across all major nursing content areas. New questions are added regularly, and each includes detailed rationales for every option." },
+      { question: "Is the question bank aligned with NCLEX or REx-PN?", answer: "Yes. Questions are aligned with both the NCSBN NCLEX test plan (US) and the REx-PN blueprint (Canada). Canadian-specific questions use metric units, SI lab values, and reflect RPN scope of practice." },
+      { question: "Are there free nursing practice questions?", answer: "Yes. NurseNest offers free practice questions across multiple content areas. Free users can access a limited number of questions daily, with full rationales. Premium subscribers get unlimited access to the complete question bank." },
+      { question: "What question types are included?", answer: "Multiple-choice (4 options), select-all-that-apply (SATA), ordered response (prioritization), fill-in-the-blank calculations, and Next Generation NCLEX (NGN) case studies with clinical judgment items." },
+      { question: "How do I use the question bank to study for NCLEX?", answer: "Study the content area first, then practice questions in timed mode (1-1.5 minutes per question). Always read all rationales, track your weak areas, and focus review on topics where you score below 65%. Aim for 75%+ consistently before your exam date." },
+      { question: "Can I use this for NCLEX-PN preparation?", answer: "Yes. The question bank includes questions at the LPN/LVN scope of practice level. Filter by exam type to see only NCLEX-PN relevant questions covering fundamental nursing care, data collection, and medication administration within LPN scope." },
+    ],
+    internalLinks: [
+      { url: "/flashcards?view=decks", anchor: "Free nursing flashcard decks", context: "practice" },
+      { url: "/study-guide/electrolytes-acid-base-nursing-guide", anchor: "Electrolytes study guide", context: "related" },
+      { url: "/study-guide/cardiac-emergencies-nursing-guide", anchor: "Cardiac emergencies guide", context: "related" },
+      { url: "/study-guide/respiratory-emergencies-nursing-guide", anchor: "Respiratory emergencies guide", context: "related" },
+      { url: "/shop", anchor: "NurseNest marketplace", context: "commercial" },
     ],
     children: [],
   },
