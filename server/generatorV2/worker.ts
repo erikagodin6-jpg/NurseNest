@@ -6,16 +6,34 @@ const VALID_SYSTEMS = [
   "Hematology", "Immune", "Integumentary", "MSK", "Reproductive", "Multi-system",
 ];
 
-const DEFAULT_PROMPT_BASE = `You are a senior REx-PN (Canadian Practical Nurse Registration Exam) item writer for NurseNest.
+const TIER_PROMPT_BASES: Record<string, string> = {
+  rpn: `You are a senior REx-PN (Canadian Practical Nurse Registration Exam) item writer for NurseNest.
 Your questions must use Canadian terminology, SI units (mmol/L, umol/L, degrees Celsius, kg), and reflect RPN scope of practice.
+RPN scope - monitor, report, administer as ordered, basic assessments. RPNs do NOT independently prescribe, diagnose, or initiate treatment plans.
 Questions should test clinical judgment at the application/analysis level. Focus on patient safety, priority setting, and delegation within RPN scope.
 All lab values must use SI/Canadian reference ranges. Drug names should use Canadian generic names.
-Each question must include a detailed clinical scenario with specific patient data.`;
+Each question must include a detailed clinical scenario with specific patient data.`,
+
+  rn: `You are a senior NCLEX-RN / Canadian RN Registration Exam item writer for NurseNest.
+Your questions must reflect RN scope of practice with protocol-based interventions, complex assessments, and delegation decisions.
+RN scope - protocol-based interventions, complex assessments, delegation, care coordination, patient education, critical thinking in acute and chronic settings.
+Questions should test clinical judgment at the application/analysis level with emphasis on prioritization, delegation, and complex patient scenarios.
+Each question must include a detailed clinical scenario with specific patient data.`,
+
+  np: `You are a senior Nurse Practitioner certification exam item writer for NurseNest.
+Your questions must reflect NP scope of advanced practice including ordering, prescribing, diagnosing, and autonomous clinical decision-making.
+NP scope - order, prescribe, diagnose, advanced practice. NPs independently manage patient care, interpret diagnostics, prescribe pharmacotherapy, and make differential diagnoses.
+Questions should test advanced clinical reasoning at the synthesis/evaluation level with emphasis on differential diagnosis, prescribing decisions, and evidence-based management.
+Each question must include a detailed clinical scenario with specific patient data, lab results, and diagnostic findings.`,
+};
+
+const DEFAULT_PROMPT_BASE = TIER_PROMPT_BASES.rpn;
 
 interface PromptState {
   byType: Record<string, number>;
   byDifficulty: Record<string, number>;
   bySystem: Record<string, number>;
+  byTopic: Record<string, number>;
   lastStems: string[];
   lastHashes: string[];
 }
@@ -25,9 +43,54 @@ function getDefaultPromptState(): PromptState {
     byType: { MCQ: 0, SATA: 0 },
     byDifficulty: { moderate: 0, hard: 0, very_challenging: 0 },
     bySystem: {},
+    byTopic: {},
     lastStems: [],
     lastHashes: [],
   };
+}
+
+function parseTopics(topicStr: string | null | undefined): string[] {
+  if (!topicStr) return [];
+  return topicStr
+    .split(/[,;\n]+/)
+    .map(t => t.trim())
+    .filter(t => t.length > 0);
+}
+
+function getTierPromptBase(tier: string | null | undefined): string {
+  const key = (tier || "rpn").toLowerCase();
+  return TIER_PROMPT_BASES[key] || TIER_PROMPT_BASES.rpn;
+}
+
+function computeTopicDistribution(topics: string[], targetCount: number): Record<string, number> {
+  if (topics.length === 0) return {};
+  const perTopic = Math.floor(targetCount / topics.length);
+  const remainder = targetCount % topics.length;
+  const dist: Record<string, number> = {};
+  topics.forEach((t, i) => {
+    dist[t] = perTopic + (i < remainder ? 1 : 0);
+  });
+  return dist;
+}
+
+function getTopicNeedsBlock(topics: string[], state: PromptState, targetCount: number): string {
+  if (topics.length === 0) return "";
+  const dist = computeTopicDistribution(topics, targetCount);
+  const lines = [`Topic distribution targets:`];
+  for (const [topic, target] of Object.entries(dist)) {
+    const done = state.byTopic[topic] || 0;
+    const need = Math.max(0, target - done);
+    lines.push(`- ${topic}: need ~${need} more (${done}/${target} done)`);
+  }
+  const underrep = topics.filter(t => {
+    const target = dist[t] || 0;
+    const done = state.byTopic[t] || 0;
+    return done < target;
+  });
+  if (underrep.length > 0) {
+    lines.push(`Focus this chunk on: ${underrep.slice(0, 3).join(", ")}`);
+  }
+  return lines.join("\n");
 }
 
 function computeDistributionNeeds(state: PromptState, remaining: number, targetCount: number): string {
@@ -63,8 +126,10 @@ function buildChunkPrompt(
   state: PromptState,
   targetCount: number,
   region: string,
+  topics: string[] = [],
 ): { system: string; user: string } {
   const distributionBlock = computeDistributionNeeds(state, targetCount - (state.byType.MCQ || 0) - (state.byType.SATA || 0), targetCount);
+  const topicBlock = getTopicNeedsBlock(topics, state, targetCount);
   const antiDupe = state.lastStems.length > 0
     ? `\nAvoid duplicating these recent stems:\n${state.lastStems.slice(-20).map((s, i) => `${i + 1}. ${s.substring(0, 80)}...`).join("\n")}`
     : "";
@@ -75,9 +140,14 @@ function buildChunkPrompt(
     ? "Use US context: conventional units (mEq/L, mg/dL, Fahrenheit, lbs), LPN/LVN scope."
     : "Include both CA and US reference values where applicable.";
 
+  const topicInstruction = topics.length > 0
+    ? `\nYou MUST generate questions covering these topics: ${topics.join(", ")}. Distribute questions proportionally across all listed topics. Each question's "topic" field must match one of the specified topics exactly.`
+    : "";
+
   const system = `${promptBase}
 
 ${regionNote}
+${topicInstruction}
 
 You will be called multiple times to generate questions in chunks. This is chunk starting at item ${startIdx}.
 You MUST output EXACTLY ${chunkSize} items in strict JSON format.
@@ -89,6 +159,7 @@ Output format (JSON only, no markdown):
       "type": "MCQ",
       "difficulty": "hard",
       "system": "Cardiac",
+      "topic": "${topics.length > 0 ? topics[0] : "General"}",
       "stem": "A 68-year-old patient with a history of atrial fibrillation...",
       "scenario": "Clinical scenario here...",
       "choices": [
@@ -115,6 +186,7 @@ Question type rules:
 - SATA: 5-8 choices labeled A through E/F/G/H, 2-5 correct answer letters as array
 
 ${distributionBlock}
+${topicBlock ? "\n" + topicBlock : ""}
 ${antiDupe}
 
 CRITICAL: Do NOT use any emoji characters anywhere in the output. No unicode emoji symbols. Plain text only.
@@ -207,11 +279,15 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
     payload: { resumeFrom: gen.createdCount },
   });
 
-  const promptBase = gen.promptBase || DEFAULT_PROMPT_BASE;
+  const settings = (gen.settings as Record<string, any>) || {};
+  const tier = settings.tier || "rpn";
+  const topics = parseTopics(gen.topic);
+  const promptBase = gen.promptBase || getTierPromptBase(tier);
   const chunkSize = gen.chunkSize || 15;
   const targetCount = gen.targetCount;
   const region = gen.region || "BOTH";
   let state: PromptState = (gen.promptState as PromptState) || getDefaultPromptState();
+  if (!state.byTopic) state.byTopic = {};
 
   const existingQuestions = await storage.getGeneratedQuestions(generationId);
   const existingHashes = new Set(existingQuestions.map(q => q.hash).filter(Boolean) as string[]);
@@ -220,7 +296,7 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
   let consecutiveFailures = 0;
   const MAX_CONSECUTIVE_FAILURES = 3;
 
-  console.log(`[GenV2] Starting worker for ${generationId}: ${currentCount}/${targetCount} done`);
+  console.log(`[GenV2] Starting worker for ${generationId}: ${currentCount}/${targetCount} done, tier=${tier}, topics=[${topics.join(", ")}]`);
 
   while (currentCount < targetCount) {
     gen = await storage.getProductGeneration(generationId);
@@ -244,7 +320,7 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
     let chunkContent: string;
     let tokens = 0;
     try {
-      const { system, user } = buildChunkPrompt(promptBase, startIdx, thisChunkSize, state, targetCount, region);
+      const { system, user } = buildChunkPrompt(promptBase, startIdx, thisChunkSize, state, targetCount, region, topics);
       const maxTokens = Math.min(thisChunkSize * 500 + 500, 16384);
       const result = await callModel(system, user, maxTokens);
       chunkContent = result.content;
@@ -324,11 +400,15 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
 
       await storage.createGeneratedQuestionsBulk(toSave);
 
-      for (const v of valid) {
+      for (let vi = 0; vi < valid.length; vi++) {
+        const v = valid[vi];
         existingHashes.add(v.normalized!.hash);
         state.byType[v.normalized!.type] = (state.byType[v.normalized!.type] || 0) + 1;
         state.byDifficulty[v.normalized!.difficulty] = (state.byDifficulty[v.normalized!.difficulty] || 0) + 1;
         state.bySystem[v.normalized!.system] = (state.bySystem[v.normalized!.system] || 0) + 1;
+        const rawItem = items[vi];
+        const itemTopic = rawItem?.topic || v.normalized!.system;
+        state.byTopic[itemTopic] = (state.byTopic[itemTopic] || 0) + 1;
         state.lastStems.push(v.normalized!.stem.substring(0, 100));
         if (state.lastStems.length > 30) state.lastStems = state.lastStems.slice(-20);
         state.lastHashes.push(v.normalized!.hash);
@@ -342,7 +422,7 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
       await storage.createGenerationEvent({
         generationId,
         eventType: "chunk_saved",
-        payload: { savedCount: valid.length, invalidCount: invalid.length, totalCount: currentCount },
+        payload: { savedCount: valid.length, invalidCount: invalid.length, totalCount: currentCount, topicDistribution: state.byTopic },
       });
 
       await storage.updateProductGeneration(generationId, {
@@ -436,4 +516,4 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
   console.log(`[GenV2] Generation ${generationId} complete: ${currentCount}/${targetCount}`);
 }
 
-export { DEFAULT_PROMPT_BASE };
+export { DEFAULT_PROMPT_BASE, TIER_PROMPT_BASES, parseTopics, getTierPromptBase };
