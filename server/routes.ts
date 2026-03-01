@@ -839,104 +839,210 @@ Return the corrected content in the same JSON structure:
         return { result, raw, tokens, finishReason };
       };
 
+      // ── CHUNKED SECTION-BY-SECTION generation for content steps ──
+      const contentSteps = new Set(["content", "survival-content"]);
+      const reqSections: { id: string; label: string; budget: number }[] = (sections || []).filter((s: any) => s.id !== "practice-questions" && s.id !== "rationales");
+
+      if (contentSteps.has(step) && reqSections.length > 0) {
+        const isSurvival = step === "survival-content";
+        const allSections: any[] = [];
+        let totalTokens = 0;
+        const sectionReport: Record<string, { blocks: number; chars: number; status: string; score: number; attempts: number }> = {};
+        const failedSections: string[] = [];
+
+        const callLLMJson = async (sys: string, usr: string, maxTok: number, temp: number) => {
+          console.log(`[LLM-JSON] step=${step} prompt_chars=${sys.length + usr.length} max_tokens=${maxTok}`);
+          const resp = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [{ role: "system", content: sys }, { role: "user", content: usr }],
+            temperature: temp,
+            max_tokens: maxTok,
+            response_format: { type: "json_object" },
+          });
+          const raw = resp.choices[0]?.message?.content || "{}";
+          const finishReason = resp.choices[0]?.finish_reason || "unknown";
+          const tokens = resp.usage?.total_tokens || 0;
+          recordAiUsage(1, tokens);
+          console.log(`[LLM-JSON] output_chars=${raw.length} finish=${finishReason} tokens=${tokens}`);
+          if (finishReason === "length") {
+            console.warn(`[LLM-JSON] WARNING: output truncated`);
+          }
+          let result;
+          try {
+            result = JSON.parse(raw);
+          } catch (e: any) {
+            console.error(`[LLM-JSON] parse error: ${e.message}. First 300 chars: ${raw.substring(0, 300)}`);
+            result = null;
+          }
+          return { result, raw, tokens, finishReason };
+        };
+
+        const sectionSysPrompt = isSurvival ? pipeline.system : pipeline.system;
+
+        const buildSectionUserPrompt = (sec: { id: string; label: string; budget: number }) => {
+          const blockTypes = `BLOCK TYPES:
+- {"kind":"heading","text":"...","level":1|2|3}
+- {"kind":"paragraph","text":"..."} (MAX 2-3 sentences, must contain specific clinical fact)
+- {"kind":"bullets","items":["item1","item2"]} (4-8 items, each substantive)
+- {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"]],"caption":"..."} (real clinical data)
+- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"SPECIFIC TITLE","body":"..."}`;
+
+          if (isSurvival) {
+            return `Generate ONE section of a Survival Guide.
+
+TOPIC: "${topic}"
+SECTION: id="${sec.id}", title="${sec.label}"
+EXAM: ${examContext}
+REGION: ${regionContext}
+STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
+
+${blockTypes}
+
+REQUIRED BLOCKS FOR THIS SECTION (include ALL):
+1. heading (level 1) with section title
+2. mechanism_one_liner: 1-2 sentence paragraph
+3. recognition_cues: bullets with 5-8 clinical signs
+4. vitals_labs_patterns: bullets with 3-6 specific values (include numbers)
+5. red_flags: warning callout titled "Red Flags - ${sec.label}" with 3 critical findings
+6. first_actions_in_order: ordered bullets (3-7 priority nursing actions)
+7. do_not_do: trap callout titled "Do NOT Do - ${sec.label}" with 2-4 mistakes
+8. common_exam_traps: trap callout titled "Exam Traps - ${sec.label}" with 2-4 distractors
+9. micro_case: clinical_pearl callout with 4-6 line patient scenario
+10. At least 1 comparison table with real clinical data
+
+Target: ${sec.budget} characters minimum, 8-15 blocks.
+
+Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
+          }
+
+          return `Generate ONE section of a Cram Guide.
+
+TOPIC: "${topic}"
+SECTION: id="${sec.id}", title="${sec.label}"
+EXAM: ${examContext}
+REGION: ${regionContext}
+STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
+PAGE BLUEPRINT: ${JSON.stringify(previousStepData?.pages || [])}
+
+${blockTypes}
+
+REQUIRED for this section (7-12 blocks minimum):
+1. Level-1 heading with section title
+2. At least 1 clinical_pearl callout with specific exam-tested fact
+3. At least 1 trap callout explaining a common distractor
+4. At least 1 comparison table with real clinical data
+5. At least 1 exam_tip callout with prioritization rule
+6. Specific lab values, vital sign thresholds, or drug doses
+7. "If you see X, think Y" clinical decision cues
+
+Target: ${sec.budget} characters minimum, 7-12 blocks.
+
+Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
+        };
+
+        const validateSection = (sec: any): { pass: boolean; blocks: number; chars: number; reasons: string[] } => {
+          const blocks = sec?.blocks || [];
+          const reasons: string[] = [];
+          let totalChars = 0;
+          let totalItems = 0;
+          for (const b of blocks) {
+            const txt = (b.text || b.body || b.content || "").toString();
+            const items = b.items || [];
+            totalChars += txt.length + items.join(" ").length;
+            totalItems += items.length;
+          }
+          if (blocks.length < 3) reasons.push(`Only ${blocks.length} blocks (need >= 3)`);
+          if (totalChars < 400) reasons.push(`Only ${totalChars} chars (need >= 400)`);
+          const hasCallout = blocks.some((b: any) => b.kind === "callout" || b.flavor);
+          if (!hasCallout) reasons.push("No callout blocks found");
+          const pass = blocks.length >= 3 && totalChars >= 400;
+          return { pass, blocks: blocks.length, chars: totalChars, reasons };
+        };
+
+        const MAX_SECTION_RETRIES = 2;
+        const repairSysPrompt = `You are a content repair engine for NurseNest. The previous generation for one section was insufficient. Regenerate ONLY this section with complete, exam-grade content. Return ONLY valid JSON with the structure: {"id":"...","title":"...","blocks":[...]}. Every block must contain specific clinical facts. Include at least 8 blocks.`;
+
+        await logAudit(req, admin, "ai", null, `pipeline-${step}-chunked`, null, { step, topic: topic.substring(0, 100), sectionCount: reqSections.length });
+
+        for (let si = 0; si < reqSections.length; si++) {
+          const sec = reqSections[si];
+          console.log(`[Chunked] Generating section ${si + 1}/${reqSections.length}: "${sec.id}" (${sec.label})`);
+
+          let sectionData: any = null;
+          let attempts = 0;
+          let lastRaw = "";
+          let validation = { pass: false, blocks: 0, chars: 0, reasons: ["Not generated"] };
+
+          for (attempts = 1; attempts <= 1 + MAX_SECTION_RETRIES; attempts++) {
+            const isRetry = attempts > 1;
+            const sys = isRetry ? repairSysPrompt : sectionSysPrompt;
+            const usr = isRetry
+              ? `Regenerate this section that failed validation.\n\nTOPIC: "${topic}"\nSECTION: id="${sec.id}", title="${sec.label}"\nEXAM: ${examContext}\nFAILURES: ${JSON.stringify(validation.reasons)}\n\nPrevious output had ${validation.blocks} blocks, ${validation.chars} chars.\n\nReturn JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]} with >= 8 blocks and >= 600 chars of clinical content.`
+              : buildSectionUserPrompt(sec);
+
+            const { result, raw, tokens } = await callLLMJson(sys, usr, 4096, isRetry ? 0.6 : 0.7);
+            totalTokens += tokens;
+            lastRaw = raw;
+
+            if (result) {
+              const secResult = result.blocks ? result : (result.sections?.[0] || result);
+              if (secResult.blocks) {
+                if (!secResult.id) secResult.id = sec.id;
+                if (!secResult.title) secResult.title = sec.label;
+                validation = validateSection(secResult);
+                if (validation.pass) {
+                  sectionData = secResult;
+                  console.log(`[Chunked] OK section "${sec.id}": ${validation.blocks} blocks, ${validation.chars} chars (attempt ${attempts})`);
+                  break;
+                }
+                console.warn(`[Chunked] FAIL section "${sec.id}" attempt ${attempts}: ${validation.reasons.join("; ")}`);
+                sectionData = secResult;
+              } else {
+                console.warn(`[Chunked] section "${sec.id}" attempt ${attempts}: no blocks in response`);
+              }
+            } else {
+              console.error(`[Chunked] section "${sec.id}" attempt ${attempts}: JSON parse failed`);
+            }
+          }
+
+          if (sectionData) {
+            allSections.push(sectionData);
+            sectionReport[sec.id] = { blocks: validation.blocks, chars: validation.chars, status: validation.pass ? "ok" : "weak", score: validation.pass ? 85 : 50, attempts };
+          } else {
+            failedSections.push(sec.id);
+            sectionReport[sec.id] = { blocks: 0, chars: 0, status: "FAILED", score: 0, attempts };
+            console.error(`[Chunked] FAILED section "${sec.id}" after ${attempts - 1} attempts. Last raw (300 chars): ${lastRaw.substring(0, 300)}`);
+          }
+        }
+
+        if (failedSections.length > 0) {
+          console.error(`[Chunked] ${failedSections.length} sections FAILED: ${failedSections.join(", ")}`);
+          return res.status(422).json({
+            error: "EMPTY_SECTION",
+            section: failedSections[0],
+            emptySections: failedSections,
+            sectionReport,
+            details: `Failed to generate content for: ${failedSections.join(", ")}. Each section was attempted ${1 + MAX_SECTION_RETRIES} times.`,
+            rawPreview: "",
+          });
+        }
+
+        const assembled: any = { sections: allSections };
+
+        const quality = scoreContentQuality(allSections);
+        console.log(`[Chunked] Aggregate quality: ${quality.score}/100 pass=${quality.pass} (${allSections.length} sections, ${totalTokens} tokens)`);
+
+        return res.json({
+          step, data: assembled, tokens: totalTokens,
+          quality: { score: quality.score, pass: quality.pass, reasons: quality.reasons, retries: 0 },
+          sectionReport,
+        });
+      }
+
+      // ── Non-content steps: strategy, blueprint, enhance, qa, fix ──
       const temp = step === "strategy" || step === "blueprint" ? 0.8 : 0.7;
       let { result: parsed, raw: text, tokens: totalTokens } = await callLLM(pipeline.system, pipeline.user, pipeline.maxTokens, temp);
       await logAudit(req, admin, "ai", null, `pipeline-${step}`, null, { step, topic: topic.substring(0, 100) });
-
-      // Quality gate + auto-fix loop for content steps
-      const contentSteps = new Set(["content", "survival-content"]);
-      if (contentSteps.has(step) && parsed?.sections) {
-        const MAX_FIX_RETRIES = 3;
-        let quality = scoreContentQuality(parsed.sections);
-        let retries = 0;
-
-        while (!quality.pass && retries < MAX_FIX_RETRIES) {
-          retries++;
-          console.log(`[Pipeline QA] ${step} quality score: ${quality.score}/100 (attempt ${retries}/${MAX_FIX_RETRIES}) - ${quality.reasons.join("; ")}`);
-
-          const fixPrompt = pipelinePrompts["fix"];
-          if (!fixPrompt) break;
-
-          const fixSystem = fixPrompt.system;
-          const fixUser = `Fix this content that failed quality scoring.
-
-TOPIC: "${topic}"
-EXAM: ${examContext}
-QUALITY FAILURES: ${JSON.stringify(quality.reasons)}
-QUALITY SCORE: ${quality.score}/100 (need >= 80)
-
-CURRENT CONTENT TO FIX:
-${JSON.stringify(parsed.sections)}
-
-Return the fixed content in the same JSON structure:
-{"sections":[{"id":"...","title":"...","blocks":[...]}]${parsed.questions ? ',"questions":' + JSON.stringify(parsed.questions) : ""}}`;
-
-          const fixResult = await callLLM(fixSystem, fixUser, 16384, 0.6);
-          totalTokens += fixResult.tokens;
-
-          if (fixResult.result?.sections?.length > 0) {
-            parsed = fixResult.result;
-            quality = scoreContentQuality(parsed.sections);
-          } else {
-            break;
-          }
-        }
-
-        // --- HARD VALIDATION: per-section empty check ---
-        if (parsed?.sections) {
-          const reqSections: string[] = (sections || []).filter((s: any) => s.id !== "practice-questions" && s.id !== "rationales").map((s: any) => s.id);
-          const sectionMap = new Map<string, any>();
-          for (const sec of parsed.sections) {
-            sectionMap.set(sec.id, sec);
-            const titleNorm = (sec.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
-            if (!sectionMap.has(titleNorm)) sectionMap.set(titleNorm, sec);
-          }
-
-          const emptySections: string[] = [];
-          const sectionReport: Record<string, { blocks: number; chars: number; status: string }> = {};
-
-          for (const reqId of reqSections) {
-            const sec = sectionMap.get(reqId);
-            const blocks = sec?.blocks || [];
-            let totalChars = 0;
-            let totalItems = 0;
-            for (const b of blocks) {
-              const txt = (b.text || b.body || b.content || "").toString();
-              const items = b.items || [];
-              totalChars += txt.length + items.join(" ").length;
-              totalItems += items.length;
-            }
-            const pass = blocks.length >= 3 || totalChars >= 800 || totalItems >= 6;
-            sectionReport[reqId] = { blocks: blocks.length, chars: totalChars, status: pass ? "ok" : "EMPTY" };
-            if (!pass) {
-              emptySections.push(reqId);
-              console.error(`[Section Validation] EMPTY section "${reqId}": blocks=${blocks.length} chars=${totalChars} items=${totalItems}`);
-            } else {
-              console.log(`[Section Validation] OK section "${reqId}": blocks=${blocks.length} chars=${totalChars}`);
-            }
-          }
-
-          if (emptySections.length > 0) {
-            console.error(`[Section Validation] ${emptySections.length} empty sections: ${emptySections.join(", ")}`);
-            return res.status(422).json({
-              error: "EMPTY_SECTION",
-              section: emptySections[0],
-              emptySections,
-              sectionReport,
-              details: `Sections with insufficient content: ${emptySections.join(", ")}. Each section needs >= 3 blocks or >= 800 chars.`,
-              rawPreview: text.substring(0, 1500),
-              quality: { score: quality.score, pass: quality.pass, reasons: quality.reasons, retries },
-            });
-          }
-        }
-
-        if (parsed) {
-          return res.json({
-            step, data: parsed, tokens: totalTokens,
-            quality: { score: quality.score, pass: quality.pass, reasons: quality.reasons, retries },
-          });
-        }
-      }
 
       if (parsed) {
         return res.json({ step, data: parsed, tokens: totalTokens });

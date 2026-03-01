@@ -1,0 +1,148 @@
+That’s the right direction. If you do only two things—section-by-section calls + response_format: { type: "json_object" }—you’ll eliminate 90% of the “empty guide” failure mode.
+Here’s how to implement it so it’s actually robust (and doesn’t introduce new bugs).
+1) The shape of the change (server/routes.ts)
+Inside your existing pipeline endpoint, when step === "content" or "survival-content":
+build the list of required section IDs from the blueprint
+for each section:
+call the model with a section-specific prompt
+response_format: json_object
+validate output is non-empty + meets required block structure
+retry with a repair prompt if needed
+merge into one sectionMap and return it
+Pseudocode structure (what you want your code to look like)
+const requiredSections = blueprint.sections.filter(s => s.required);
+const sectionsOut: Record<string, any> = {};
+const sectionReport: Record<string, any> = {};
+
+for (const section of requiredSections) {
+  const sectionId = section.id;
+
+  let attempt = 0;
+  let ok = false;
+  let lastRawPreview = "";
+
+  while (attempt < 3 && !ok) {
+    attempt++;
+
+    const prompt = buildSectionPrompt({
+      section,
+      docTitle,
+      examTier,
+      region,
+      // IMPORTANT: include the topic inventory if title is generic
+      topicInventory,
+      // include already-generated context if you want cohesion
+      priorSectionsSummary: summarizePriorSections(sectionsOut),
+      // optional: section budget
+      targetChars: sectionBudget[sectionId],
+    });
+
+    const llm = await callLLMJsonObject(prompt, { /* model params */ });
+
+    lastRawPreview = JSON.stringify(llm).slice(0, 1500);
+
+    const validation = validateSection(llm, section); // chars/items/blocks + required block types
+    sectionReport[sectionId] = { attempt, validation };
+
+    if (validation.pass) {
+      sectionsOut[sectionId] = llm;
+      ok = true;
+    } else {
+      // next attempt uses a repair prompt
+      continue;
+    }
+  }
+
+  if (!ok) {
+    return res.status(422).json({
+      error: "EMPTY_SECTION",
+      section: sectionId,
+      report: sectionReport[sectionId],
+      rawPreview: lastRawPreview
+    });
+  }
+}
+
+// after loop
+return res.json({
+  sections: sectionsOut,
+  sectionReport,
+  // optionally include overall quality score
+});
+2) Critical: do NOT let each section invent the whole document structure
+If you ask “generate the Pathophysiology section for the survival guide” the model will sometimes return a narrative blob that doesn’t match your compiler expectations.
+You need a section schema contract.
+Strong approach: one consistent JSON contract across all sections
+For each section call, force:
+{
+  "sectionId": "pathophysiology",
+  "blocks": [
+    { "type": "subheading", "text": "..." },
+    { "type": "bullets", "items": ["...", "..."] },
+    { "type": "table", "title": "...", "columns": ["..."], "rows": [["..."]] }
+  ]
+}
+Then your compiler only ever consumes blocks.
+This prevents “empty pages” caused by mismatched keys.
+3) The prompt per section must be different
+If you reuse the same big prompt and just swap the section name, you’ll still get generic content.
+Each section must demand different “exam outputs”:
+Pathophysiology: mechanism → what you see → what it causes → why it matters
+Signs & Symptoms: pattern recognition clusters + differentiators
+Assessment: focused assessment + red flags + escalation triggers
+Labs/Diagnostics: expected changes + what’s urgent + what to recheck
+Medications: classes + nursing considerations + contraindications + monitoring
+Interventions: first actions in order + priority ladder + what not to do
+Complications: fast killers + prevention + early warning signs
+Teaching: what patients must know + safety + return precautions
+Make those non-negotiable.
+4) Add response_format: json_object correctly
+When using json_object, your prompt must still say: “Return only JSON. No markdown. No prose.”
+Also, guard against this common failure:
+the model returns JSON but with missing keys / empty arrays
+So you still need validation.
+5) Don’t run 10 section calls fully sequential if latency hurts — but don’t parallelize blindly
+Two safe options:
+Sequential (simplest, safest)
+Limited concurrency (2–3 at a time)
+Parallelizing all sections at once can:
+cause rate limits
+make logs unreadable
+make cohesion worse (no shared context)
+6) Cohesion without mega-prompts
+You can preserve “cohesion” without generating the whole guide in one call by passing a rolling summary:
+After each section is generated, compute a short 10–15 line summary:
+included conditions/topics
+recurring frameworks used (priority ladder, escalation thresholds)
+any terms to keep consistent
+Then include that summary in the next section prompt.
+That’s how you avoid “section voice drift.”
+7) Questions must remain separate (you already discovered why)
+Keep questions in a separate endpoint or separate internal loop.
+Also enforce an explicit packing policy:
+If template = Cram Guide and questions > 60, either:
+warn + auto-increase pages, or
+switch to Question Pack template, or
+shorten rationales (“short rationale mode”)
+Otherwise you’ll “succeed” but output will look unusable.
+8) One more landmine: section IDs must match EXACTLY
+Even with json_object, you need to ensure each call returns sectionId that matches the blueprint. Do not rely on fuzzy matching for normal operation.
+Validation should fail if:
+sectionId !== expectedSectionId
+or blocks.length === 0
+Use fuzzy matching only as a last-ditch repair path, and log it loudly.
+What to tell Replit AI so it actually implements (and stops narrating)
+Paste this:
+Implement section-by-section generation inside the existing pipeline endpoint for step === "content" and "survival-content".
+
+- Use response_format: { type: "json_object" }.
+- Each section call must return JSON: { sectionId: "<expected>", blocks: [...] }.
+- Add validateSection() that enforces: non-empty blocks, minimum size, and required block types per section.
+- Retry section generation up to 2 times with a repair prompt if validation fails.
+- If still failing, return HTTP 422 with error EMPTY_SECTION and rawPreview.
+- Do not compile if any required section fails.
+- Keep questions in a separate batching endpoint; do not generate questions in the section calls.
+
+Show code diffs for server/routes.ts and any helper files.
+No narration.
+If you paste the actual updated callLLM / OpenAI client invocation you’re using, I can sanity-check that you’re applying response_format in the right place and that you’re reading the correct field (a lot of implementations accidentally log the raw message but parse the wrong property).
