@@ -48,6 +48,13 @@ Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/po
 - **5-Step Content Pipeline**: A multi-step AI pipeline (`/api/ai/generate-pipeline`) for cohesive content generation in Guided Mode, covering strategy, page architecture, structured content generation, exam authority enhancement, and QA. Includes section validation with retry logic.
 - **Test Bank Generator**: (`/api/ai/generate-test-bank`) ensures strict question count and JSON schema validation, with retry logic and audit checks before export or publishing.
 
+### Admin Preview Mode
+- Server-enforced cookie-based preview mode allows admins to view the site as any user tier (Free/RPN/RN/NP).
+- Endpoints: POST/DELETE/GET `/api/admin/preview-mode` with httpOnly cookie `nursenest_preview`, 30min expiry.
+- `extractUserTier` and `getEffectiveTier` in routes.ts check preview cookie for admin users only.
+- Frontend: `PreviewBanner` in App.tsx shows amber banner when preview active; admin dashboard has "View site as" dropdown.
+- Auth context (`auth.tsx`) syncs preview state with server; only sets local state on server confirmation.
+
 ### QBank Factory + Exam Factory (Admin)
 - Admin QBank Factory (`/admin/qbank-factory`) allows creating, managing, and publishing question banks with configurable parameters like topic mix, difficulty, and question types. It includes a persistent audit panel and export gates. The Exam Factory tab enables generating multiple exam forms with specific lengths and rationales.
 

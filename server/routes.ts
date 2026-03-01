@@ -1,6 +1,7 @@
 import type { Express, Request } from "express";
 import type { Server } from "http";
 import { sql } from "drizzle-orm";
+import crypto from "crypto";
 import { storage, DatabaseStorage, pool } from "./storage";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
@@ -110,6 +111,11 @@ async function extractUserTier(req: Request): Promise<string | null> {
   if (username && password) {
     const user = await storage.getUserByUsername(username);
     if (user && user.password === password) {
+      if (user.tier === "admin") {
+        const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+        const preview = getPreviewFromToken(previewToken);
+        if (preview) return preview.mode;
+      }
       return user.tier || "free";
     }
   }
@@ -119,7 +125,7 @@ async function extractUserTier(req: Request): Promise<string | null> {
 const activePreviewSessions = new Map<string, { mode: string; expiresAt: number; adminUserId: string }>();
 
 function setPreviewMode(adminUserId: string, mode: string): string {
-  const token = require("crypto").randomBytes(16).toString("hex");
+  const token = crypto.randomBytes(16).toString("hex");
   const expiresAt = Date.now() + 30 * 60 * 1000;
   activePreviewSessions.set(token, { mode, expiresAt, adminUserId });
   return token;
@@ -183,6 +189,58 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   app.get("/api/region", (req, res) => {
     const region = req.region || "US";
     res.json({ region });
+  });
+
+  app.post("/api/admin/preview-mode", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { mode } = req.body;
+      const validModes = ["free", "rpn", "rn", "np"];
+      if (!mode || !validModes.includes(mode)) {
+        return res.status(400).json({ error: `Invalid mode. Must be one of: ${validModes.join(", ")}` });
+      }
+      const token = setPreviewMode(admin.id, mode);
+      await logAudit(req, admin, "admin_preview", null, "set_preview_mode", null, { mode });
+      res.cookie("nursenest_preview", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 30 * 60 * 1000,
+        path: "/",
+      });
+      res.json({ ok: true, mode, expiresIn: "30 minutes" });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/preview-mode", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const token = req.cookies?.nursenest_preview;
+      if (token) clearPreviewMode(token);
+      await logAudit(req, admin, "admin_preview", null, "clear_preview_mode", null, {});
+      res.clearCookie("nursenest_preview", { path: "/" });
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/preview-mode", async (req, res) => {
+    try {
+      const token = req.cookies?.nursenest_preview;
+      const preview = getPreviewFromToken(token);
+      if (preview) {
+        res.json({ active: true, mode: preview.mode });
+      } else {
+        res.json({ active: false, mode: null });
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
   });
 
   let heroStatsCache: { data: any; timestamp: number } | null = null;
@@ -1564,7 +1622,7 @@ The "questions" array length MUST equal ${requestedCount}.`;
       };
 
       const CHUNK_SIZE = Math.min(requestedCount, 25);
-      const MAX_COMPLETION_PASSES = Math.ceil(requestedCount / CHUNK_SIZE) + 3;
+      const MAX_COMPLETION_PASSES = Math.ceil(requestedCount / CHUNK_SIZE) + 5;
       const allQuestions: any[] = [];
       const seenHashes = new Set<string>();
       let totalTokensUsed = 0;
@@ -1657,6 +1715,68 @@ Start numbering at q${startNum}. Return STRICT JSON only with exactly ${chunkCou
 
         allQuestions.push(...chunkQuestions);
         console.log(`[TestBank] Progress: ${allQuestions.length}/${requestedCount} questions`);
+      }
+
+      if (allQuestions.length < requestedCount) {
+        const FILL_PASSES = 5;
+        for (let fill = 0; fill < FILL_PASSES && allQuestions.length < requestedCount; fill++) {
+          const missing = requestedCount - allQuestions.length;
+          const fillCount = Math.min(missing, CHUNK_SIZE);
+          const startNum = allQuestions.length + 1;
+          console.log(`[TestBank] Fill pass ${fill + 1}/${FILL_PASSES}: need ${missing} more questions`);
+
+          const fillSystemPrompt = `You are an expert nursing exam question writer for NurseNest. Generate EXACTLY ${fillCount} questions.
+
+${examNote}
+
+You MUST output EXACTLY ${fillCount} questions. Output JSON only with: {"requestedCount":${fillCount},"questions":[...]}
+
+Each question MUST have ALL fields: id, category (one of: ${VALID_CATEGORIES.join(" | ")}), type (one of: ${VALID_TYPES.join(" | ")}), scenario (>=50 chars), stem (>=20 chars), options, correctAnswer, rationaleCorrect (>=50 chars), rationaleIncorrect (array for each wrong option), clinicalPearl (>=30 chars).
+
+Do not include cover pages, section dividers, TOC, or headings. Output JSON only.`;
+
+          const fillUserContent = `Generate questions ${startNum} through ${startNum + fillCount - 1} for: ${topic}${customPrompt ? `\n\nAdditional instructions: ${customPrompt}` : ""}
+
+Start numbering at q${startNum}. Return STRICT JSON only with exactly ${fillCount} questions.`;
+
+          try {
+            totalAttempts++;
+            const response = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              messages: [
+                { role: "system", content: fillSystemPrompt },
+                { role: "user", content: fillUserContent },
+              ],
+              temperature: 0.5,
+              max_tokens: Math.min(fillCount * 400 + 500, 16384),
+              response_format: { type: "json_object" },
+            });
+
+            totalTokensUsed += response.usage?.total_tokens || 0;
+            const text = response.choices[0]?.message?.content || "{}";
+            const parsed = JSON.parse(text);
+            const qs = Array.isArray(parsed.questions) ? parsed.questions : Array.isArray(parsed) ? parsed : [];
+
+            for (const q of qs) {
+              if (allQuestions.length >= requestedCount) break;
+              if (!q || typeof q !== "object") continue;
+              if (!q.stem || !q.scenario || !Array.isArray(q.options) || q.options.length < 4) continue;
+              if (!q.rationaleCorrect || !Array.isArray(q.rationaleIncorrect)) continue;
+              if (!q.clinicalPearl) continue;
+              const qType = (q.type || "").toUpperCase();
+              if (!VALID_TYPES.includes(qType)) q.type = "MCQ";
+              if (!q.category || !VALID_CATEGORIES.includes(q.category)) q.category = VALID_CATEGORIES[Math.floor(Math.random() * VALID_CATEGORIES.length)];
+              const hash = hashQuestion(q);
+              if (seenHashes.has(hash)) continue;
+              seenHashes.add(hash);
+              q.id = `q${allQuestions.length + 1}`;
+              allQuestions.push(q);
+            }
+            console.log(`[TestBank] Fill pass ${fill + 1} complete: ${allQuestions.length}/${requestedCount} questions`);
+          } catch (fillErr: any) {
+            console.error(`[TestBank] Fill pass ${fill + 1} error: ${fillErr.message}`);
+          }
+        }
       }
 
       recordAiUsage(totalAttempts, totalTokensUsed);
@@ -6963,7 +7083,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         tier, exam, questionType, stem, options, correctAnswer, rationale,
         difficulty, tags, bodySystem, topic, subtopic, regionScope,
         status: status || "draft", publishAt: publishAt ? new Date(publishAt) : undefined,
-        stemHash: require("crypto").createHash("md5").update(stem).digest("hex"),
+        stemHash: crypto.createHash("md5").update(stem).digest("hex"),
       });
       await logAudit(req, admin, "exam_question", q.id, "create", null, { tier, exam, questionType, stem: stem.substring(0, 100) });
       res.json(q);
@@ -6980,7 +7100,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!before) return res.status(404).json({ error: "Question not found" });
       const updates: any = { ...req.body };
       if (updates.publishAt) updates.publishAt = new Date(updates.publishAt);
-      if (updates.stem) updates.stemHash = require("crypto").createHash("md5").update(updates.stem).digest("hex");
+      if (updates.stem) updates.stemHash = crypto.createHash("md5").update(updates.stem).digest("hex");
       const q = await storage.updateExamQuestion(req.params.id, updates);
       if (before.status !== q.status) {
         await storage.createQuestionScheduleLog({ questionId: q.id, action: "status_change", previousStatus: before.status || undefined, newStatus: q.status || undefined, actorId: admin.id });
@@ -7033,7 +7153,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           difficulty: diff, bodySystem: sys, topic: topic || sys,
           regionScope: tier.includes("rpn") || tier.includes("rn-ca") ? "CA" : tier.includes("lvn") ? "US" : "BOTH",
           status, publishAt,
-          stemHash: require("crypto").createHash("md5").update(stemText).digest("hex"),
+          stemHash: crypto.createHash("md5").update(stemText).digest("hex"),
         });
       }
 
@@ -7073,7 +7193,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!questions?.length) return res.status(400).json({ error: "questions array required" });
       const prepared = questions.map((q: any) => ({
         ...q,
-        stemHash: require("crypto").createHash("md5").update(q.stem || "").digest("hex"),
+        stemHash: crypto.createHash("md5").update(q.stem || "").digest("hex"),
         status: q.status || "draft",
       }));
       const created = await storage.createExamQuestionsBulk(prepared);

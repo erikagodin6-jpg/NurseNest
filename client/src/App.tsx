@@ -10,6 +10,24 @@ import { I18nProvider } from "@/lib/i18n";
 import { SiteImagesProvider } from "@/components/admin-image-overlay";
 import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE } from "@/lib/locale-utils";
 
+function PreviewBanner() {
+  const { previewTier, setPreviewTier, isAdmin } = useAuth();
+  if (!isAdmin || !previewTier) return null;
+  const tierLabels: Record<string, string> = { free: "Free", rpn: "RPN Paid", rn: "RN Paid", np: "NP Paid" };
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[9999] bg-amber-500 text-white text-center py-1.5 px-4 text-sm font-semibold shadow-md flex items-center justify-center gap-3" data-testid="banner-preview-mode">
+      <span>Preview Mode: {tierLabels[previewTier] || previewTier}</span>
+      <button
+        onClick={() => setPreviewTier(null)}
+        className="bg-white text-amber-700 px-3 py-0.5 rounded-full text-xs font-bold hover:bg-amber-50 transition-colors"
+        data-testid="button-exit-preview"
+      >
+        Exit Preview
+      </button>
+    </div>
+  );
+}
+
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
   constructor(props: { children: ReactNode }) {
     super(props);
@@ -344,6 +362,7 @@ function App() {
               <SiteImagesProvider>
                 <TooltipProvider>
                   <Toaster />
+                  <PreviewBanner />
                   <PageTracker />
                   <CopyProtection />
                   <LocaleRouter />

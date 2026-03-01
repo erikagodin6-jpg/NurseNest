@@ -1303,6 +1303,7 @@ type TemplateBlueprint = {
   imageSlots: { id: string; label: string; promptHint: string }[];
   includesQuestions: boolean;
   defaultQuestionCount: number;
+  minQuestionCount?: number;
 };
 
 function buildCramPageFlow(): PageFlowStep[] {
@@ -1341,7 +1342,7 @@ const TEMPLATE_BLUEPRINTS: TemplateBlueprint[] = [
   },
   {
     id: "questions", label: "Question Pack", description: "Focused practice questions with detailed rationales", icon: "📝",
-    minPages: 15, maxPages: 60, defaultPages: 30, charsPerPage: 1600,
+    minPages: 15, maxPages: 200, defaultPages: 30, charsPerPage: 1600,
     sections: [
       { id: "practice-questions", label: "Practice Questions", weight: 0.65, required: true },
       { id: "rationales", label: "Rationales", weight: 0.35, required: true },
@@ -1350,7 +1351,7 @@ const TEMPLATE_BLUEPRINTS: TemplateBlueprint[] = [
     imageSlots: [
       { id: "cover-hero", label: "Cover Illustration", promptHint: "exam practice question book cover illustration" },
     ],
-    includesQuestions: true, defaultQuestionCount: 50,
+    includesQuestions: true, defaultQuestionCount: 300, minQuestionCount: 300,
   },
   {
     id: "cheatsheet", label: "Cheat Sheet", description: "Quick-reference card with key facts, tables, and algorithms", icon: "⚡",
@@ -2528,15 +2529,16 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
       if (qa?.sections?.length > 0) contentData = qa;
     } catch {}
 
-    if (includeQuestions && questionCount > 0) {
-      setStepLabel(`Generating ${questionCount} validated questions...`);
+    const effectiveQCount = includeQuestions ? Math.max(questionCount, bp.minQuestionCount || 5) : 0;
+    if (includeQuestions && effectiveQCount > 0) {
+      setStepLabel(`Generating ${effectiveQCount} validated questions...`);
       try {
         const tbRes = await adminFetch("/api/ai/generate-test-bank", {
           method: "POST",
           body: {
             topic,
             examTarget: examTier,
-            questionCount,
+            questionCount: effectiveQCount,
             difficulty: "mixed",
             questionTypes: ["multiple-choice", "select-all", "ordered-response"],
           },
@@ -2544,27 +2546,30 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
         const tbData = await tbRes.json().catch(() => ({}));
         if (tbRes.ok && tbData.questions?.length > 0) {
           contentData.questions = tbData.questions;
-          if (tbData.questions.length < questionCount) {
-            toast({ title: `Generated ${tbData.questions.length}/${questionCount} questions`, description: "Some questions could not be generated. The available set has been included.", variant: "destructive" });
+          if (tbData.countMismatch || tbData.questions.length < effectiveQCount) {
+            setStepLabel(`Generated ${tbData.questions.length}/${effectiveQCount} questions`);
+            toast({ title: `Generated ${tbData.questions.length}/${effectiveQCount} questions`, description: "Some questions could not be generated. The available set has been included.", variant: "destructive" });
+          } else {
+            setStepLabel(`Generated ${tbData.questions.length} questions successfully`);
           }
-        } else if (tbRes.status === 422 && tbData.testBank?.questions?.length > 0) {
-          contentData.questions = tbData.testBank.questions;
-          toast({ title: `Partial: ${tbData.generatedCount || tbData.testBank.questions.length}/${questionCount} questions`, variant: "destructive" });
+        } else if (tbData.questions?.length > 0 || (tbData.testBank?.questions?.length > 0)) {
+          contentData.questions = tbData.questions || tbData.testBank.questions;
+          toast({ title: `Partial: ${contentData.questions.length}/${effectiveQCount} questions`, variant: "destructive" });
         } else {
-          setStepLabel(`Fallback: generating ${questionCount} questions in batches...`);
-          const batchedQs = await fetchQuestionsBatched(questionCount);
+          setStepLabel(`Fallback: generating ${effectiveQCount} questions in batches...`);
+          const batchedQs = await fetchQuestionsBatched(effectiveQCount);
           if (batchedQs.length > 0) {
             contentData.questions = batchedQs;
-            if (batchedQs.length < questionCount) {
-              toast({ title: `Generated ${batchedQs.length}/${questionCount} questions via batch`, variant: "destructive" });
+            if (batchedQs.length < effectiveQCount) {
+              toast({ title: `Generated ${batchedQs.length}/${effectiveQCount} questions via batch`, variant: "destructive" });
             }
           }
         }
       } catch (e: any) {
         toast({ title: "Question generation issue", description: e.message, variant: "destructive" });
         try {
-          setStepLabel(`Retry: generating ${questionCount} questions in batches...`);
-          const batchedQs = await fetchQuestionsBatched(questionCount);
+          setStepLabel(`Retry: generating ${effectiveQCount} questions in batches...`);
+          const batchedQs = await fetchQuestionsBatched(effectiveQCount);
           if (batchedQs.length > 0) contentData.questions = batchedQs;
         } catch {}
       }
@@ -3359,7 +3364,23 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                   {includeQuestions && (
                     <div className="flex items-center gap-3 mt-2">
                       <span className="text-xs text-gray-500">Count:</span>
-                      <Input type="number" min={5} max={500} value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} disabled={generating} className="w-20 h-8 text-xs" data-testid="input-question-count" />
+                      <Input
+                        type="number"
+                        min={bp.minQuestionCount || 5}
+                        max={5000}
+                        value={questionCount}
+                        onChange={e => {
+                          const val = Number(e.target.value);
+                          const minQ = bp.minQuestionCount || 5;
+                          setQuestionCount(val < minQ ? minQ : val);
+                        }}
+                        disabled={generating}
+                        className="w-24 h-8 text-xs"
+                        data-testid="input-question-count"
+                      />
+                      {bp.minQuestionCount && bp.minQuestionCount > 5 && (
+                        <span className="text-[10px] text-amber-600 font-medium">Min {bp.minQuestionCount} for {bp.label}</span>
+                      )}
                     </div>
                   )}
                 </div>

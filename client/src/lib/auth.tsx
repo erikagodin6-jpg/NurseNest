@@ -25,21 +25,66 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+function getStoredCredentials(): { username: string; password: string } | null {
+  try {
+    const raw = localStorage.getItem("nursenest-credentials");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed.username && parsed.password) return parsed;
+  } catch {}
+  return null;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [previewTier, setPreviewTierState] = useState<string | null>(null);
 
-  // Preview tier is meant for admins to test paywalls.
-  // But if it gets stuck in localStorage, it makes you "look free".
-  const [previewTier, setPreviewTierState] = useState<string | null>(() => {
-    return localStorage.getItem("nursenest-preview-tier");
-  });
+  async function syncPreviewFromServer() {
+    try {
+      const res = await fetch("/api/admin/preview-mode", { credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.active && data.mode) {
+          setPreviewTierState(data.mode);
+          localStorage.setItem("nursenest-preview-tier", data.mode);
+        } else {
+          setPreviewTierState(null);
+          localStorage.removeItem("nursenest-preview-tier");
+        }
+      }
+    } catch {}
+  }
 
-  function setPreviewTier(tier: string | null) {
-    setPreviewTierState(tier);
+  async function setPreviewTier(tier: string | null) {
+    const creds = getStoredCredentials();
     if (tier) {
-      localStorage.setItem("nursenest-preview-tier", tier);
+      try {
+        const res = await fetch("/api/admin/preview-mode", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ mode: tier, ...(creds || {}) }),
+        });
+        if (res.ok) {
+          setPreviewTierState(tier);
+          localStorage.setItem("nursenest-preview-tier", tier);
+        }
+      } catch {
+        console.warn("[Preview] Failed to set preview mode on server");
+      }
     } else {
+      try {
+        const bodyData: any = {};
+        if (creds) { bodyData.username = creds.username; bodyData.password = creds.password; }
+        await fetch("/api/admin/preview-mode", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(bodyData),
+        });
+      } catch {}
+      setPreviewTierState(null);
       localStorage.removeItem("nursenest-preview-tier");
     }
   }
@@ -48,20 +93,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const res = await fetch(`/api/user/${userId}`);
       if (!res.ok) return;
-
       const data = await res.json();
-
-      // ✅ If you are admin, never allow a stale preview tier to keep you "free"
       if (data?.tier === "admin") {
-        localStorage.removeItem("nursenest-preview-tier");
-        setPreviewTierState(null);
+        await syncPreviewFromServer();
       }
-
       setUser(data);
       localStorage.setItem("nursenest-user", JSON.stringify(data));
-    } catch {
-      // ignore
-    }
+    } catch {}
   }
 
   useEffect(() => {
@@ -70,11 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (stored) {
         try {
           const parsed = JSON.parse(stored) as User;
-
-          // Set immediately for UI responsiveness
           setUser(parsed);
-
-          // Refresh from server (source of truth)
           await refreshUserData(parsed.id);
         } catch {
           localStorage.removeItem("nursenest-user");
@@ -82,7 +116,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       setIsLoading(false);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function login(username: string, password: string) {
@@ -98,13 +131,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const data = (await res.json()) as User;
-
-    // ✅ If you log in as admin, clear preview tier so you stop "looking free"
     if (data?.tier === "admin") {
-      localStorage.removeItem("nursenest-preview-tier");
-      setPreviewTierState(null);
+      await syncPreviewFromServer();
     }
-
     setUser(data);
     localStorage.setItem("nursenest-user", JSON.stringify(data));
     localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
@@ -139,17 +168,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const isAdmin = user?.tier === "admin";
-
-  // ✅ Only use previewTier if it exists; otherwise reflect real tier.
-  // Admins still have admin status (isAdmin), but previewTier can simulate paywalls.
   const effectiveTier = previewTier ?? (user?.tier || "free");
 
   function hasAccess(requiredTier: string): boolean {
     if (!user) return false;
-
-    // ✅ Admin has full access unless they intentionally set a previewTier
     if (isAdmin && !previewTier) return true;
-
     const hierarchy: Record<string, number> = { free: 0, rpn: 1, rn: 2, np: 3, admin: 4 };
     const userLevel = hierarchy[effectiveTier] ?? 0;
     const requiredLevel = hierarchy[requiredTier] ?? 0;

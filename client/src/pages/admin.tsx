@@ -123,7 +123,7 @@ function formatLessonId(id: string) {
 }
 
 export default function AdminPage() {
-  const { user } = useAuth();
+  const { user, previewTier, setPreviewTier, isAdmin: authIsAdmin } = useAuth();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -1158,6 +1158,35 @@ export default function AdminPage() {
                 Admin Dashboard
               </h1>
               <p className="text-gray-500 mt-1">Platform analytics and user management</p>
+              {(authIsAdmin || isAdmin) && (
+                <div className="flex items-center gap-2 mt-2 p-2 bg-gray-50 rounded-lg border" data-testid="section-preview-mode">
+                  <span className="text-xs font-medium text-gray-600">View site as:</span>
+                  <select
+                    value={previewTier || "admin"}
+                    onChange={e => {
+                      const val = e.target.value;
+                      setPreviewTier(val === "admin" ? null : val);
+                    }}
+                    className="text-xs border rounded px-2 py-1 bg-white cursor-pointer"
+                    data-testid="select-preview-tier"
+                  >
+                    <option value="admin">Admin (default)</option>
+                    <option value="free">Free User</option>
+                    <option value="rpn">RPN Paid</option>
+                    <option value="rn">RN Paid</option>
+                    <option value="np">NP Paid</option>
+                  </select>
+                  {previewTier && (
+                    <button
+                      onClick={() => setPreviewTier(null)}
+                      className="text-xs text-amber-600 hover:text-amber-800 font-medium underline"
+                      data-testid="button-clear-preview"
+                    >
+                      Clear Preview
+                    </button>
+                  )}
+                </div>
+              )}
               <div className="flex flex-wrap gap-2 mt-3">
                 <Button
                   variant="outline"

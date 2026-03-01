@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import compression from "compression";
+import cookieParser from "cookie-parser";
 import path from "path";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 });
 
 app.use(compression());
+app.use(cookieParser());
 
 app.use((_req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
