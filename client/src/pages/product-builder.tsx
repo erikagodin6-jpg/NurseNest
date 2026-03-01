@@ -390,6 +390,7 @@ function getTheme(id: string): ThemeConfig {
 function generateCoverPage(w: number, h: number, t: ThemeConfig, opts: {
   title?: string; subtitle?: string; examTarget?: string; badges?: string[];
   includesFlashcards?: boolean; includesQbank?: boolean; pageCount?: number;
+  logoUrl?: string;
 } = {}): CanvasObject[] {
   const title = opts.title || "STUDY GUIDE";
   const subtitle = opts.subtitle || "High-Yield Review";
@@ -407,7 +408,11 @@ function generateCoverPage(w: number, h: number, t: ThemeConfig, opts: {
 
   objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.06, width: w * 0.84, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.15, zIndex: z++, borderRadius: 16, stroke: "#ffffff", strokeWidth: 1 });
 
-  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.12, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+  if (opts.logoUrl) {
+    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.08, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.accentColor)}` });
+  } else {
+    objs.push({ id: uid(), type: "text", x: 46, y: h * 0.12, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+  }
 
   objs.push({ id: uid(), type: "text", x: 36, y: h * 0.22, width: w - 72, height: 60, content: title.toUpperCase(), fontSize: 36, fontWeight: "bold", fill: "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
 
@@ -464,6 +469,7 @@ const COVER_PRESETS: CoverPreset[] = [
 function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: CoverPreset, opts: {
   title?: string; subtitle?: string; examTarget?: string; badges?: string[];
   includesFlashcards?: boolean; includesQbank?: boolean; pageCount?: number;
+  logoUrl?: string;
 } = {}): CanvasObject[] {
   const title = opts.title || "STUDY GUIDE";
   const subtitle = opts.subtitle || "High-Yield Review";
@@ -497,7 +503,11 @@ function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: C
 
   objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.06, width: w * 0.84, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.12, zIndex: z++, borderRadius: 16, stroke: "#ffffff", strokeWidth: 1 });
 
-  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.10, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+  if (opts.logoUrl) {
+    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.06, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.accentColor)}` });
+  } else {
+    objs.push({ id: uid(), type: "text", x: 46, y: h * 0.10, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+  }
 
   const titleY = preset.bgStyle === "split" ? h * 0.18 : h * 0.20;
   objs.push({ id: uid(), type: "text", x: 36, y: titleY, width: w - 72, height: 60, content: title.toUpperCase(), fontSize: preset.bgStyle === "bold-exam" ? 40 : 34, fontWeight: preset.titleWeight, fill: "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
@@ -1511,6 +1521,7 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
             includesFlashcards: false,
             includesQbank: includeQuestions,
             pageCount: targetPages,
+            logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
           });
           await savePage("Cover", coverObjs);
         } else if (step.type === "toc") {
@@ -2344,6 +2355,12 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
         const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
         updated.fontFamily = isHeading ? newTheme.headingFont : newTheme.bodyFont;
       }
+      if (obj.tag === "brand-logo" && obj.type === "image" && obj.filter) {
+        updated.filter = `brightness(0) saturate(100%) ${hexToCssFilter(newTheme.accentColor)}`;
+      }
+      if (obj.tag === "brand-logo" && obj.type === "text") {
+        updated.fill = newTheme.accentColor;
+      }
       return updated;
     });
   };
@@ -2397,6 +2414,12 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
         const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
         updated.fontFamily = isHeading ? active.headingFont : active.bodyFont;
       }
+      if (obj.tag === "brand-logo" && obj.type === "image" && obj.filter) {
+        updated.filter = `brightness(0) saturate(100%) ${hexToCssFilter(active.accentColor)}`;
+      }
+      if (obj.tag === "brand-logo" && obj.type === "text") {
+        updated.fill = active.accentColor;
+      }
       return updated;
     });
   };
@@ -2436,14 +2459,28 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
     pushUndo();
     const logoExists = objects.some(o => o.tag === "brand-logo");
     if (logoExists) return;
-    const logoObj: CanvasObject = {
-      id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
-      width: 120, height: 16, content: "NurseNest", fontSize: 9,
-      fontWeight: "600", fill: theme.bodyColorLight, fontFamily: theme.bodyFont,
-      rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
-      tag: "brand-logo", locked: brandLock,
-    };
-    setObjects(prev => [...prev, logoObj]);
+    const uploadedLogo = brandLogos.length > 0 ? brandLogos[0] : null;
+    if (uploadedLogo) {
+      const logoObj: CanvasObject = {
+        id: uid(), type: "image" as const,
+        x: CANVAS_WIDTH / 2 - 80, y: CANVAS_HEIGHT - 60,
+        width: 160, height: 50,
+        src: uploadedLogo.url,
+        rotation: 0, opacity: 0.7, zIndex: 999,
+        tag: "brand-logo", locked: brandLock,
+        filter: `brightness(0) saturate(100%) ${hexToCssFilter(theme.accentColor)}`,
+      };
+      setObjects(prev => [...prev, logoObj]);
+    } else {
+      const logoObj: CanvasObject = {
+        id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
+        width: 120, height: 16, content: "NurseNest", fontSize: 9,
+        fontWeight: "600", fill: theme.accentColor, fontFamily: theme.bodyFont,
+        rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
+        tag: "brand-logo", locked: brandLock,
+      };
+      setObjects(prev => [...prev, logoObj]);
+    }
   };
 
   const uploadBrandLogo = async (file: File) => {
@@ -2546,6 +2583,7 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
       examTarget: EXAM_CONTEXT_MAP[aiExamTarget]?.label || "",
       badges: EXAM_CONTEXT_MAP[aiExamTarget]?.region === "CA" ? ["Canada"] : EXAM_CONTEXT_MAP[aiExamTarget]?.region === "US" ? ["USA"] : [],
       pageCount: pages.length,
+      logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
     });
     setObjects(coverObjs);
     toast({ title: "Cover page generated", description: `${preset.name} preset applied` });
@@ -2738,13 +2776,25 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
       let arr = [...prev];
 
       if (showLogo && !arr.some(o => o.tag === "brand-logo")) {
-        arr.push({
-          id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
-          width: 120, height: 16, content: "NurseNest", fontSize: 9,
-          fontWeight: "600", fill: theme.bodyColorLight, fontFamily: theme.bodyFont,
-          rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
-          tag: "brand-logo", locked: brandLock,
-        });
+        const uploadedLogo = brandLogos.length > 0 ? brandLogos[0] : null;
+        if (uploadedLogo) {
+          arr.push({
+            id: uid(), type: "image" as const,
+            x: CANVAS_WIDTH / 2 - 80, y: CANVAS_HEIGHT - 60,
+            width: 160, height: 50, src: uploadedLogo.url,
+            rotation: 0, opacity: 0.7, zIndex: 999,
+            tag: "brand-logo", locked: brandLock,
+            filter: `brightness(0) saturate(100%) ${hexToCssFilter(theme.accentColor)}`,
+          });
+        } else {
+          arr.push({
+            id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
+            width: 120, height: 16, content: "NurseNest", fontSize: 9,
+            fontWeight: "600", fill: theme.accentColor, fontFamily: theme.bodyFont,
+            rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
+            tag: "brand-logo", locked: brandLock,
+          });
+        }
         steps.push("Logo");
       }
 
@@ -3829,6 +3879,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                         includesFlashcards: (aiResult.flashcards || []).length > 0,
                         includesQbank: (aiResult.qbank || []).length > 0,
                         pageCount: pagesPayload.length + 1,
+                        logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
                       });
                       setObjects(coverObjs);
                       const bgColor = pages[currentPageIndex]?.backgroundColor || "#ffffff";
@@ -4340,7 +4391,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-[10px] font-medium text-gray-600 truncate">{logo.fileName}</p>
-                            <p className="text-[8px] text-gray-400">Click a colour to insert</p>
+                            <p className="text-[8px] text-gray-400">Auto-tints with theme changes</p>
                           </div>
                           <button onClick={() => setBrandLogos(prev => prev.filter((_, i) => i !== li))} className="p-1 hover:bg-red-50 rounded text-gray-300 hover:text-red-400" data-testid={`button-remove-logo-${li}`}>
                             <Trash2 className="w-3 h-3" />
