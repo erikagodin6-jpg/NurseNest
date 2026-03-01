@@ -741,7 +741,8 @@ function generateCoverPage(w: number, h: number, t: ThemeConfig, opts: {
   objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.06, width: w * 0.84, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.15, zIndex: z++, borderRadius: 16, stroke: "#ffffff", strokeWidth: 1 });
 
   if (opts.logoUrl) {
-    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.08, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.accentColor)}` });
+    objs.push({ id: uid(), type: "rect", x: w / 2 - 90, y: h * 0.07, width: 180, height: 60, fill: t.backgroundColor, borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.08, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.primaryColor)}` });
   } else {
     objs.push({ id: uid(), type: "text", x: 46, y: h * 0.12, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
   }
@@ -849,7 +850,8 @@ function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: C
   objs.push({ id: uid(), type: "rect", x: w * 0.10, y: h * 0.06, width: w * 0.80, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.05, zIndex: z++, borderRadius: 14, stroke: "#ffffff", strokeWidth: 0.5 });
 
   if (opts.logoUrl) {
-    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.07, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.accentColor)}` });
+    objs.push({ id: uid(), type: "rect", x: w / 2 - 90, y: h * 0.06, width: 180, height: 60, fill: t.backgroundColor, borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.07, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.primaryColor)}` });
   } else {
     objs.push({ id: uid(), type: "text", x: 46, y: h * 0.09, width: w - 92, height: 16, content: "NurseNest", fontSize: 13, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.85, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
     objs.push({ id: uid(), type: "rect", x: w / 2 - 30, y: h * 0.09 + 20, width: 60, height: 1.5, fill: t.accentColor, rotation: 0, opacity: 0.4, zIndex: z++ });
@@ -3326,7 +3328,7 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
         updated.fontFamily = isHeading ? newTheme.headingFont : newTheme.bodyFont;
       }
       if (obj.tag === "brand-logo" && obj.type === "image" && obj.filter) {
-        updated.filter = `brightness(0) saturate(100%) ${hexToCssFilter(newTheme.accentColor)}`;
+        updated.filter = `brightness(0) saturate(100%) ${hexToCssFilter(newTheme.primaryColor)}`;
       }
       if (obj.tag === "brand-logo" && obj.type === "text") {
         updated.fill = newTheme.accentColor;
@@ -3385,10 +3387,10 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
         updated.fontFamily = isHeading ? active.headingFont : active.bodyFont;
       }
       if (obj.tag === "brand-logo" && obj.type === "image" && obj.filter) {
-        updated.filter = `brightness(0) saturate(100%) ${hexToCssFilter(active.accentColor)}`;
+        updated.filter = `brightness(0) saturate(100%) ${hexToCssFilter(active.primaryColor)}`;
       }
       if (obj.tag === "brand-logo" && obj.type === "text") {
-        updated.fill = active.accentColor;
+        updated.fill = active.primaryColor;
       }
       return updated;
     });
@@ -3438,14 +3440,14 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
         src: uploadedLogo.url,
         rotation: 0, opacity: 0.7, zIndex: 999,
         tag: "brand-logo", locked: brandLock,
-        filter: `brightness(0) saturate(100%) ${hexToCssFilter(theme.accentColor)}`,
+        filter: `brightness(0) saturate(100%) ${hexToCssFilter(theme.primaryColor)}`,
       };
       setObjects(prev => [...prev, logoObj]);
     } else {
       const logoObj: CanvasObject = {
         id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
         width: 120, height: 16, content: "NurseNest", fontSize: 9,
-        fontWeight: "600", fill: theme.accentColor, fontFamily: theme.bodyFont,
+        fontWeight: "600", fill: theme.primaryColor, fontFamily: theme.bodyFont,
         rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
         tag: "brand-logo", locked: brandLock,
       };
@@ -3754,13 +3756,13 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
             width: 160, height: 50, src: uploadedLogo.url,
             rotation: 0, opacity: 0.7, zIndex: 999,
             tag: "brand-logo", locked: brandLock,
-            filter: `brightness(0) saturate(100%) ${hexToCssFilter(theme.accentColor)}`,
+            filter: `brightness(0) saturate(100%) ${hexToCssFilter(theme.primaryColor)}`,
           });
         } else {
           arr.push({
             id: uid(), type: "text", x: CANVAS_WIDTH / 2 - 60, y: CANVAS_HEIGHT - 30,
             width: 120, height: 16, content: "NurseNest", fontSize: 9,
-            fontWeight: "600", fill: theme.accentColor, fontFamily: theme.bodyFont,
+            fontWeight: "600", fill: theme.primaryColor, fontFamily: theme.bodyFont,
             rotation: 0, opacity: 0.5, zIndex: 999, textAlign: "center",
             tag: "brand-logo", locked: brandLock,
           });
