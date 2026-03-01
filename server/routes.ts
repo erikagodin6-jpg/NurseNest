@@ -180,11 +180,73 @@ async function getEffectiveTier(req: any): Promise<{ tier: string; isPreview: bo
   return { tier: realTier || "free", isPreview: false, realTier };
 }
 
+const PREMIUM_ROUTES: { method: string; pattern: RegExp }[] = [
+  { method: "POST", pattern: /^\/api\/probability\/simulate$/ },
+  { method: "GET",  pattern: /^\/api\/actions\/next-best\// },
+  { method: "POST", pattern: /^\/api\/user-flashcards\/ai-generate$/ },
+  { method: "POST", pattern: /^\/api\/user-flashcards\/ai-generate-from-notes$/ },
+  { method: "POST", pattern: /^\/api\/mock-exams\/start$/ },
+  { method: "POST", pattern: /^\/api\/decks\/[^/]+\/ai-generate$/ },
+  { method: "POST", pattern: /^\/api\/decks\/[^/]+\/ai-generate-from-notes$/ },
+];
+
+const PAID_TIERS = new Set(["rpn", "rn", "np", "admin", "all_access"]);
+
+async function resolveTierFromRequest(req: any): Promise<string> {
+  const previewToken = (req.cookies?.nursenest_preview || "") as string;
+  const preview = getPreviewFromToken(previewToken);
+
+  let userId = req.body?.userId || req.params?.userId || req.query?.userId;
+  if (!userId) {
+    const username = String(req.body?.username || req.query?.username || "");
+    const password = String(req.body?.password || req.query?.password || "");
+    if (username && password) {
+      const u = await storage.getUserByUsername(username);
+      if (u && u.password === password) {
+        if (u.tier === "admin" && preview) return preview.mode;
+        return u.tier || "free";
+      }
+    }
+    const headerUser = req.headers?.["x-username"] as string;
+    const headerPass = req.headers?.["x-password"] as string;
+    if (headerUser && headerPass) {
+      const u = await storage.getUserByUsername(headerUser);
+      if (u && u.password === headerPass) {
+        if (u.tier === "admin" && preview) return preview.mode;
+        return u.tier || "free";
+      }
+    }
+    return "free";
+  }
+
+  const user = await storage.getUser(userId);
+  if (!user) return "free";
+  if (user.tier === "admin" && preview) return preview.mode;
+  return user.tier || "free";
+}
+
+function premiumRouteGuard(req: any, res: any, next: any) {
+  const match = PREMIUM_ROUTES.find(
+    (r) => r.method === req.method && r.pattern.test(req.path)
+  );
+  if (!match) return next();
+
+  resolveTierFromRequest(req)
+    .then((tier) => {
+      if (PAID_TIERS.has(tier)) return next();
+      res.status(403).json({ error: "Premium feature - upgrade required", upgradeRequired: true });
+    })
+    .catch(() => {
+      res.status(403).json({ error: "Premium feature - upgrade required", upgradeRequired: true });
+    });
+}
+
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   registerObjectStorageRoutes(app);
 
   app.use(regionMiddleware);
   app.use(languageMiddleware);
+  app.use(premiumRouteGuard);
 
   app.get("/api/region", (req, res) => {
     const region = req.region || "US";
