@@ -339,7 +339,7 @@ CRITICAL RULES:
         model: "gpt-4o-mini",
         messages,
         temperature: 0.7,
-        max_tokens: mode === "bundle" ? 8192 : 4096,
+        max_tokens: mode === "bundle" ? 8192 : mode === "guided" ? 16384 : 4096,
       });
 
       const text = response.choices[0]?.message?.content || "[]";
@@ -375,7 +375,7 @@ CRITICAL RULES:
         if (guidedData?.sections && Array.isArray(guidedData.sections)) {
           return res.json(guidedData);
         }
-        return res.json({ sections: [], _raw: text.slice(0, 4000) });
+        return res.json({ sections: [], _raw: text.slice(0, 20000) });
       }
 
       let blocks;
@@ -4391,7 +4391,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const [page] = await db.insert(designPages).values({
         projectId: req.params.projectId,
         pageNumber: existing.length + 1,
-        canvasJson: { objects: [], version: "5.3.0" },
+        canvasJson: req.body.canvasJson || { objects: [], version: "5.3.0" },
         backgroundColor: req.body.backgroundColor || "#ffffff",
       }).returning();
       res.json(page);
