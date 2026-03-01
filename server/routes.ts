@@ -969,12 +969,28 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
         const LISTLIKE_KINDS = new Set(["bullets", "checklist", "steps"]);
         const TEXTLIKE_KINDS = new Set(["callout", "paragraph", "case", "qa", "algorithm", "flowchart", "decisiontree", "comparisongrid", "chart"]);
 
-        const validateSection = (sec: any): { pass: boolean; blocks: number; chars: number; substantive: number; reasons: string[] } => {
+        const DECISION_VERBS = /\b(assess|reassess|monitor|escalate|notify|call|hold|administer|titrate|position|recheck|prioritize|elevate|auscultate|document|intervene|delegate|suction|discontinue)\b/gi;
+
+        const SECTION_SHAPE_CONTRACTS: Record<string, { listBlocks?: number; listItems?: number; tableBlocks?: number; tableRows?: number; calloutBlocks?: number; calloutChars?: number; calloutKeywords?: string[] }> = {
+          "pathophysiology": { listBlocks: 2, listItems: 5, tableBlocks: 1, tableRows: 3, calloutBlocks: 2, calloutChars: 80 },
+          "pharmacology": { listBlocks: 1, listItems: 6, tableBlocks: 1, tableRows: 4, calloutBlocks: 1, calloutChars: 80, calloutKeywords: ["hold", "monitor", "contraindic"] },
+          "medications": { listBlocks: 1, listItems: 6, tableBlocks: 1, tableRows: 4, calloutBlocks: 1, calloutChars: 80, calloutKeywords: ["hold", "monitor", "contraindic"] },
+          "interventions": { listBlocks: 2, listItems: 5, tableBlocks: 1, tableRows: 3, calloutBlocks: 1, calloutChars: 80 },
+          "assessment": { listBlocks: 2, listItems: 5, calloutBlocks: 2, calloutChars: 80 },
+          "complications": { listBlocks: 1, listItems: 5, tableBlocks: 1, tableRows: 3, calloutBlocks: 2, calloutChars: 80 },
+        };
+
+        const validateSection = (sec: any, sectionId?: string): { pass: boolean; blocks: number; chars: number; substantive: number; reasons: string[] } => {
           const blocks = sec?.blocks || [];
           const reasons: string[] = [];
           let totalChars = 0;
           let meaningfulChars = 0;
           let substantiveCount = 0;
+          let allText = "";
+          let qualifiedListBlocks = 0;
+          let qualifiedTableBlocks = 0;
+          let qualifiedCalloutBlocks = 0;
+          const calloutTexts: string[] = [];
           for (const b of blocks) {
             const text = (b.text || b.body || b.content || b.caption || "").toString();
             const items = Array.isArray(b.items) ? b.items : [];
@@ -983,16 +999,23 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
             const rowChars = rows.map((r: any) => (Array.isArray(r) ? r : []).map(String).join(" ")).join(" ").length;
             const blockChars = text.length + itemChars + rowChars;
             totalChars += blockChars;
+            allText += " " + text + " " + items.map(String).join(" ");
             const kind = (b.kind || b.type || "").toLowerCase();
             if (!NON_SUBSTANTIVE_KINDS.has(kind)) {
               meaningfulChars += blockChars;
             }
             if (LISTLIKE_KINDS.has(kind) && (items.length >= 5 || itemChars >= 150)) {
               substantiveCount++;
+              qualifiedListBlocks++;
             } else if (kind === "table" && rows.length >= 3) {
               substantiveCount++;
+              qualifiedTableBlocks++;
             } else if (TEXTLIKE_KINDS.has(kind) && text.length >= 80) {
               substantiveCount++;
+              if (kind === "callout") {
+                qualifiedCalloutBlocks++;
+                calloutTexts.push(text.toLowerCase() + " " + (b.title || "").toLowerCase());
+              }
             } else if (!NON_SUBSTANTIVE_KINDS.has(kind) && !LISTLIKE_KINDS.has(kind) && kind !== "table" && !TEXTLIKE_KINDS.has(kind) && blockChars >= 120) {
               substantiveCount++;
             }
@@ -1006,21 +1029,48 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
           if (!hasCallout) reasons.push("missing_callout: No callout blocks found");
           const hasTable = blocks.some((b: any) => (b.kind || b.type || "").toLowerCase() === "table" && (Array.isArray(b.rows) ? b.rows : []).length > 0);
           if (!hasTable) reasons.push("missing_table: No table blocks found");
-          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6;
+          const decisionMatches = allText.match(DECISION_VERBS) || [];
+          const decisionVerbCount = decisionMatches.length;
+          if (decisionVerbCount < 12) reasons.push(`low_decision_density: ${decisionVerbCount} decision verbs found (need >= 12 -- assess/monitor/hold/administer/prioritize etc.)`);
+          const sid = (sectionId || sec?.id || "").toLowerCase().replace(/[-_\s]+/g, "");
+          const contractKey = Object.keys(SECTION_SHAPE_CONTRACTS).find(k => sid.includes(k));
+          if (contractKey) {
+            const contract = SECTION_SHAPE_CONTRACTS[contractKey];
+            if (contract.listBlocks && qualifiedListBlocks < contract.listBlocks) reasons.push(`missing_required_lists: ${qualifiedListBlocks} qualified list blocks (need >= ${contract.listBlocks} with >= ${contract.listItems || 5} items each)`);
+            if (contract.tableBlocks && qualifiedTableBlocks < contract.tableBlocks) reasons.push(`missing_required_table: ${qualifiedTableBlocks} qualified tables (need >= ${contract.tableBlocks} with >= ${contract.tableRows || 3} rows)`);
+            if (contract.calloutBlocks && qualifiedCalloutBlocks < contract.calloutBlocks) reasons.push(`missing_required_callouts: ${qualifiedCalloutBlocks} qualified callouts (need >= ${contract.calloutBlocks} with >= ${contract.calloutChars || 80} chars)`);
+            if (contract.calloutKeywords && contract.calloutKeywords.length > 0) {
+              const missing = contract.calloutKeywords.filter(kw => !calloutTexts.some(ct => ct.includes(kw)));
+              if (missing.length > 0) reasons.push(`missing_callout_keywords: callouts missing required terms: ${missing.join(", ")}`);
+            }
+          }
+          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6 && decisionVerbCount >= 12;
           return { pass, blocks: blocks.length, chars: totalChars, substantive: substantiveCount, reasons };
         };
 
         const MAX_SECTION_RETRIES = 2;
-        const repairSysPrompt = `You are a content repair engine for NurseNest. The previous generation was INVALID because it contained headings/dividers only and no real clinical content.
+        const repairSysPrompt = `You are a content repair engine for NurseNest. The previous generation was INVALID -- it lacked exam-cram usefulness.
 
 RULES FOR REPAIR:
-- Rewrite the section with >= 8 blocks total and >= 6 substantive blocks (bullets, tables, callouts, paragraphs with clinical facts).
-- NO cover pages. NO filler. NO title-only sections. NO placeholder text.
+- Rewrite the section with >= 8 blocks total and >= 6 substantive blocks.
+- NO cover pages. NO filler. NO title-only sections. NO placeholder text. NO sectionTitle/divider/spacer blocks.
 - Every block must contain specific clinical information: drug names, lab values, nursing interventions, assessment findings.
 - Include at least 1 table with 3+ rows and 3+ columns of real clinical data.
-- Include at least 2 callout blocks (exam_tip, trap, clinical_pearl, or warning) with specific content.
-- Include at least 1 bullets block with 4+ specific items.
+- Include at least 2 callout blocks (exam_tip, trap, clinical_pearl, or warning) with specific content (>= 80 chars each).
+- Include at least 2 bullets/checklist blocks with >= 5 specific items each.
 - Total character count must be >= 800.
+
+EXAM-CRAM REQUIRED CONTENT (include ALL):
+- Recognition cues: "If you see X -> think Y" (bullets with specific signs/labs -> condition)
+- Red flags: warning callout with critical findings requiring immediate action
+- First actions in order: steps/bullets with prioritized nursing interventions (ABCs, then...)
+- Exam traps: trap callout with common distractors and why they are wrong
+- At least 1 comparison table ("Don't confuse X with Y")
+- Mini case: clinical_pearl callout with 4-6 line patient scenario (age, vitals, labs, question)
+
+USE DECISION VERBS: assess, monitor, hold, administer, titrate, position, prioritize, escalate, notify, auscultate, intervene, delegate, document, recheck, discontinue.
+Target: >= 12 decision verbs across the section.
+
 - Return ONLY valid JSON: {"id":"...","title":"...","blocks":[...]}`;
 
         await logAudit(req, admin, "ai", null, `pipeline-${step}-chunked`, null, { step, topic: topic.substring(0, 100), sectionCount: reqSections.length });
@@ -1068,7 +1118,7 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
               if (secResult.blocks) {
                 if (!secResult.id) secResult.id = sec.id;
                 if (!secResult.title) secResult.title = sec.label;
-                validation = validateSection(secResult);
+                validation = validateSection(secResult, sec.id);
                 if (validation.pass) {
                   sectionData = secResult;
                   console.log(`[Chunked] OK section "${sec.id}": ${validation.blocks} blocks, ${validation.chars} chars (attempt ${attempts})`);

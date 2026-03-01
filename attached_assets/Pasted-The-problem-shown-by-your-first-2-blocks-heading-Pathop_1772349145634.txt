@@ -1,0 +1,76 @@
+The problem shown by your first 2 blocks
+heading: "Pathophysiology of Heart Failure"
+paragraph: ... RAAS ... fluid retention ...
+This is accurate, but a survival guide needs action patho:
+“If you see X, think HF”
+“First action”
+“Red flags”
+“Do not do”
+“Exam traps”
+“Mini case”
+tables/comparisons
+You can force this without a huge refactor by adding per-section required block types (a “shape contract”) + a decision-density check.
+A minimal upgrade that will make pages actually exam-cram
+1) Add REQUIRED BLOCKS for each section (Patho, Pharm, Interventions, etc.)
+For Pathophysiology, require the presence of these block kinds (by kind/type):
+bullets with label “If you see this → think this” (or Recognition Cues)
+callout labeled “Why this is tested”
+table labeled “Don’t confuse with…” (differential)
+bullets labeled “Exam traps”
+steps labeled “Clinical priority chain” (ABCs/perfusion)
+For Pharmacology, require:
+table (med class / example / nursing considerations / hold parameters)
+bullets “High-risk meds + monitoring”
+callout “Common contraindications / interactions”
+bullets “Exam traps”
+These are format requirements that directly translate into useful pages.
+2) Add a “decision density” gate
+Count words like:
+assess, reassess, monitor, escalate, notify, hold, administer, position, recheck, prioritize
+Require at least 12–20 across a major section.
+This forces the model to write like a nurse taking an exam, not like a textbook.
+Exactly what to tell Replit AI next (small, surgical)
+Copy/paste:
+No narration. Output diffs.
+
+In server/routes.ts, enhance validateSection() for Survival/Cram guides to enforce “exam-cram usefulness”, not just non-empty content.
+
+Add two new checks:
+
+1) Required block-shape checks by sectionId:
+   - For sectionId "pathophysiology": require at least:
+     * >= 2 bullets/checklist/steps blocks with >=5 items each
+     * >= 1 table block with >=3 rows
+     * >= 2 callout blocks with >=80 chars
+   - For sectionId "pharmacology"/"medications": require at least:
+     * >= 1 table block with >=4 rows
+     * >= 1 bullets/checklist block with >=6 items
+     * >= 1 callout block that includes "hold", "monitor", or "contraindication"
+
+If missing, add reasons like "missing_required_table" etc and fail validation.
+
+2) Decision-density check:
+   - Compute decisionVerbCount across all block text/items.
+   - Use verbs: assess, reassess, monitor, escalate, notify, call, hold, administer, titrate, position, recheck, prioritize.
+   - Require decisionVerbCount >= 12 for major sections; if not, fail with reason "low_decision_density".
+
+Keep existing thresholds (blocks>=8, chars>=800, substantive>=6).
+
+Update the repair prompt to explicitly instruct the model to include:
+- Recognition cues (“If you see this → think this”)
+- Red flags
+- First actions in order
+- Exam traps
+- At least one table
+
+Return unified diffs for server/routes.ts only and a 3-step test checklist.
+This will transform the output style without risking the pipeline.
+One more note about the specific HF paragraph you showed
+“Cardiac output < 4 L/min” is not consistently used as a bedside exam threshold and may vary by source/context. It’s not dangerous, but it’s not very testable compared to:
+orthopnea, crackles, JVD, edema
+SpO₂ changes
+weight gain thresholds
+diuretic monitoring (K+, BP)
+when to hold beta blockers/ACEi
+red flags: pink frothy sputum, new confusion, hypotension
+So you’re better off forcing the model away from “numbers it invents” and toward “exam-usable thresholds” (e.g., “weight gain 2–3 lb/day or 5 lb/week”, “SpO₂ target range per COPD status”, etc.). The decision-density gate helps with that.
