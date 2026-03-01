@@ -3595,6 +3595,24 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
     toast({ title: `${template.label} template applied` });
   };
 
+  const globalThemeColorIndex = (() => {
+    const idx = new Map<string, keyof ThemeConfig>();
+    const colorKeys: (keyof ThemeConfig)[] = [
+      "primaryColor","secondaryColor","accentColor","backgroundColor","sectionBg","sectionBgAlt",
+      "headingColor","bodyColor","bodyColorLight","dangerColor","successColor","warningColor",
+      "dividerColor","badgeBg","badgeText","tableBorderColor","tableRowEven","tableRowOdd",
+      "pearlBg","pearlBorder","flagBg","flagBorder","coverBg","coverBgOverlay",
+    ];
+    const skip = new Set(["#ffffff","#fff","#000","#000000","transparent"]);
+    for (const t of THEMES) {
+      for (const k of colorKeys) {
+        const v = (t[k] as string) || "";
+        if (v && !skip.has(v.trim().toLowerCase())) idx.set(v.trim().toLowerCase(), k);
+      }
+    }
+    return idx;
+  })();
+
   const mapColorToTheme = (color: string | undefined, oldTheme: ThemeConfig, newTheme: ThemeConfig): string | undefined => {
     if (!color) return color;
     const c = color.toLowerCase();
@@ -3615,6 +3633,8 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
     for (const [oldColor, key] of mapping) {
       if (c === oldColor.toLowerCase()) return newTheme[key] as string;
     }
+    const globalKey = globalThemeColorIndex.get(c);
+    if (globalKey) return newTheme[globalKey] as string;
     return color;
   };
 
@@ -3637,15 +3657,46 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
     });
   };
 
-  const switchTheme = (newThemeId: string) => {
+  const switchTheme = async (newThemeId: string) => {
     const oldTheme = getTheme(activeThemeId);
     const newTheme = getTheme(newThemeId);
     if (oldTheme.id === newTheme.id) return;
     lastThemeIdRef.current = oldTheme.id;
     pushUndo();
-    setObjects(prev => applyThemeToObjects(prev, oldTheme, newTheme));
+    const themedCurrent = applyThemeToObjects(objects, oldTheme, newTheme);
+    setObjects(themedCurrent);
     setActiveThemeId(newThemeId);
-    toast({ title: `Theme: ${newTheme.name}`, description: "Colors and fonts updated" });
+
+    try {
+      const curPage = pages[currentPageIndex];
+      if (curPage) {
+        await adminFetch(`/api/admin/design-pages/${curPage.id}`, {
+          method: "PUT",
+          body: { canvasJson: { objects: themedCurrent, version: "1.0" }, backgroundColor: curPage.backgroundColor },
+        });
+      }
+    } catch {}
+
+    let updatedOther = 0;
+    for (let i = 0; i < pages.length; i++) {
+      if (i === currentPageIndex) continue;
+      const pageObjects: CanvasObject[] = pages[i]?.canvasJson?.objects || [];
+      if (pageObjects.length === 0) continue;
+      const themed = applyThemeToObjects(pageObjects, oldTheme, newTheme);
+      try {
+        await adminFetch(`/api/admin/design-pages/${pages[i].id}`, {
+          method: "PUT",
+          body: { canvasJson: { objects: themed, version: "1.0" }, backgroundColor: pages[i].backgroundColor },
+        });
+        setPages(prev => {
+          const next = [...prev];
+          next[i] = { ...next[i], canvasJson: { objects: themed, version: "1.0" } };
+          return next;
+        });
+        updatedOther++;
+      } catch {}
+    }
+    toast({ title: `Theme: ${newTheme.name}`, description: `All ${pages.length} page(s) updated` });
   };
 
   const THEME_KEYS: (keyof ThemeConfig)[] = [
@@ -3706,7 +3757,7 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
         ? objects
         : (pages[i]?.canvasJson?.objects || []);
       if (!pageObjects || pageObjects.length === 0) continue;
-      const themed = applyActiveThemeToObjects(pageObjects, active);
+      const themed = forceApplyTheme(pageObjects, active);
       if (isCurrent) {
         pushUndo();
         setObjects(themed);
