@@ -12,13 +12,25 @@ import { storage } from "./storage";
 
 const app = express();
 
+// Trust proxy headers so req.hostname and req.protocol work behind
+// reverse proxies (Replit, Cloudflare, load balancers, etc.)
+app.set("trust proxy", true);
+
 let appReady = false;
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));
 
+// Permanent 301 redirect from bare domain (nursenest.ca) to www.nursenest.ca.
+// - Only runs in production so localhost/dev is never affected.
+// - Uses req.hostname (excludes port) to avoid false matches on "nursenest.ca:3000".
+// - Checks the host does NOT already start with "www." to prevent redirect loops.
+// - Preserves the full original path and query string via req.originalUrl.
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
-    const host = req.get("host") || "";
-    if (host === "nursenest.ca") {
+    const hostname = req.hostname; // excludes port, e.g. "nursenest.ca"
+    if (
+      hostname === "nursenest.ca" &&
+      !hostname.startsWith("www.")
+    ) {
       return res.redirect(301, `https://www.nursenest.ca${req.originalUrl}`);
     }
     next();
