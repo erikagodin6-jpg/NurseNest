@@ -2981,7 +2981,51 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
 
       if (mode === "bundle") {
         setAiResult(data);
-        toast({ title: "Bundle generated", description: "Canvas + flashcards + qbank + listing ready" });
+        const pagesPayload = data.pages || [];
+        const listing = data.listing;
+        pushUndo();
+        const preset = COVER_PRESETS.find(p => p.id === coverPresetId) || COVER_PRESETS[0];
+        const coverObjs = generateStyledCoverPage(CANVAS_WIDTH, CANVAS_HEIGHT, theme, preset, {
+          title: listing?.title || project?.title || "Study Guide",
+          subtitle: `${examCtx.label || "Nursing"} Review`,
+          examTarget: examCtx.label || "",
+          includesFlashcards: (data.flashcards || []).length > 0,
+          includesQbank: (data.qbank || []).length > 0,
+          pageCount: pagesPayload.length + 1,
+          logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
+        });
+        setObjects(coverObjs);
+        const bgColor = pages[currentPageIndex]?.backgroundColor || "#ffffff";
+        let created = 0;
+        for (let pi = 0; pi < pagesPayload.length; pi++) {
+          const p = pagesPayload[pi];
+          try {
+            const chapterTitle = p.title || `Section ${pi + 1}`;
+            if (pagesPayload.length > 1) {
+              const chapterObjs = generateChapterCoverPage(CANVAS_WIDTH, CANVAS_HEIGHT, theme, preset, {
+                chapterTitle,
+                chapterNumber: pi + 1,
+                totalChapters: pagesPayload.length,
+              });
+              const chRes = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+                method: "POST",
+                body: { title: chapterTitle, backgroundColor: bgColor, canvasJson: { objects: chapterObjs, version: "1.0" } },
+              });
+              if (chRes.ok) { const cp = await chRes.json(); setPages(prev => [...prev, cp]); }
+            }
+            const contentObjs = p.objects || [];
+            const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+              method: "POST",
+              body: { title: `Content Page ${created + 1}`, backgroundColor: bgColor, canvasJson: { objects: contentObjs, version: "1.0" } },
+            });
+            if (res.ok) {
+              const np = await res.json();
+              setPages(prev => [...prev, np]);
+              created++;
+            }
+          } catch {}
+        }
+        toast({ title: "Bundle auto-populated", description: `Cover + ${pagesPayload.length > 1 ? pagesPayload.length + " chapters + " : ""}${created} content page(s) added — click pages to review, use AI to refine` });
       } else {
         const blocks = data.blocks || [];
         setAiResult(blocks);
@@ -3858,58 +3902,19 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             )}
             {aiResult && aiResult.bundle === true && (
               <div className="border-t pt-3 space-y-2">
-                <div className="bg-primary/5 rounded-lg p-2.5">
-                  <p className="text-[10px] font-semibold text-primary mb-1">Bundle ready</p>
+                <div className="bg-green-50 rounded-lg p-2.5 border border-green-200">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <CheckCircle className="w-3.5 h-3.5 text-green-600" />
+                    <p className="text-[10px] font-semibold text-green-700">Bundle on canvas</p>
+                  </div>
                   <div className="text-[10px] text-gray-600 space-y-1">
-                    <p>Pages: {(aiResult.pages || []).length}</p>
+                    <p>Pages: {(aiResult.pages || []).length} content + cover</p>
                     <p>Flashcards: {(aiResult.flashcards || []).length}</p>
                     <p>QBank: {(aiResult.qbank || []).length}</p>
-                    <p>Listing: {aiResult.listing?.title ? "Yes" : "No"}</p>
+                    {aiResult.listing?.title && <p>Listing: {aiResult.listing.title}</p>}
                   </div>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <Button size="sm" className="h-7 text-[10px]" data-testid="button-insert-bundle-pages" onClick={async () => {
-                      const pagesPayload = aiResult.pages || [];
-                      const listing = aiResult.listing;
-                      pushUndo();
-                      const preset = COVER_PRESETS.find(p => p.id === coverPresetId) || COVER_PRESETS[0];
-                      const coverObjs = generateStyledCoverPage(CANVAS_WIDTH, CANVAS_HEIGHT, theme, preset, {
-                        title: listing?.title || project?.title || "Study Guide",
-                        subtitle: `${EXAM_CONTEXT_MAP[aiExamTarget]?.label || "Nursing"} Review`,
-                        examTarget: EXAM_CONTEXT_MAP[aiExamTarget]?.label || "",
-                        includesFlashcards: (aiResult.flashcards || []).length > 0,
-                        includesQbank: (aiResult.qbank || []).length > 0,
-                        pageCount: pagesPayload.length + 1,
-                        logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
-                      });
-                      setObjects(coverObjs);
-                      const bgColor = pages[currentPageIndex]?.backgroundColor || "#ffffff";
-                      let created = 0;
-                      const totalSections = pagesPayload.length;
-                      for (let pi = 0; pi < pagesPayload.length; pi++) {
-                        const p = pagesPayload[pi];
-                        try {
-                          const chapterTitle = p.title || `Section ${pi + 1}`;
-                          if (totalSections > 1) {
-                            const chapterObjs = generateChapterCoverPage(CANVAS_WIDTH, CANVAS_HEIGHT, theme, preset, {
-                              chapterTitle,
-                              chapterNumber: pi + 1,
-                              totalChapters: totalSections,
-                            });
-                            const chRes = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
-                              method: "POST",
-                              body: { title: chapterTitle, backgroundColor: bgColor, canvasJson: { objects: chapterObjs, version: "1.0" } },
-                            });
-                            if (chRes.ok) { const cp = await chRes.json(); setPages(prev => [...prev, cp]); }
-                          }
-                          const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
-                            method: "POST",
-                            body: { title: `Content Page ${created + 1}`, backgroundColor: bgColor, canvasJson: { objects: p.objects || [], version: "1.0" } },
-                          });
-                          if (res.ok) { const np = await res.json(); setPages(prev => [...prev, np]); created++; }
-                        } catch {}
-                      }
-                      toast({ title: "Bundle inserted with cover", description: `Cover + ${totalSections > 1 ? totalSections + " chapter covers + " : ""}${created} content page(s) created` });
-                    }}>Insert + Cover</Button>
+                  <p className="text-[9px] text-gray-400 mt-1.5">Browse pages on the right panel. Use AI prompts above to refine any page.</p>
+                  <div className="grid grid-cols-3 gap-2 mt-2">
                     <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-copy-listing" onClick={() => {
                       const listing = aiResult.listing;
                       if (!listing) return;
