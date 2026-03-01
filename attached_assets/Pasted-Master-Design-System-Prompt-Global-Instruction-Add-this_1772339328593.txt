@@ -1,0 +1,173 @@
+Master Design System Prompt (Global Instruction)
+Add this as a persistent system instruction to your bundle generator:
+You are not generating flat text. You are generating a fully designed, Canva-quality digital nursing study bundle.
+Every page must include:
+Visual hierarchy (headline, subheading, body, callout boxes)
+Icons or illustrations relevant to the topic
+Section dividers
+Branded color palette (soft pastel clinical aesthetic)
+Rounded corner content blocks
+Visual spacing and white space
+NurseNest logo watermark in footer
+At least one visual diagram or infographic per page
+Output must be structured as DESIGN BLOCKS, not paragraphs.
+This alone will dramatically change output.
+2️⃣ Structured Layout Output Prompt
+Instead of asking for “create a lesson,” use:
+Create a 12–20 page premium nursing study bundle.
+Each page must be returned in this structured format:
+PAGE TITLE
+Page Goal
+Visual Style Recommendation
+Layout Type (Infographic / Two Column / Diagram Focus / Flashcard Grid / Case Study Panel)
+Design Blocks:
+Hero Header Block
+Clinical Callout Box
+Diagram Placeholder
+Icon Row
+Mini Practice Question
+Visual Summary Grid
+Include image generation prompts for each diagram.
+Now your program can parse blocks and render them visually.
+3️⃣ Automatic Diagram Injection Prompt
+Add a sub-generator that runs after content is created:
+For each major concept, generate:
+1 labeled infographic diagram description
+1 minimal icon set (5 icons)
+1 comparison chart
+1 flowchart
+1 visual memory aid
+All designs must match a soft pastel clinical aesthetic with rounded shapes and modern typography.
+Then connect that to your image generator.
+4️⃣ Brand Logo Auto-Insertion Prompt
+You want logo on everything automatically.
+Add:
+Automatically insert the NurseNest logo in:
+Footer of every page
+Top right corner of cover page
+Watermark at 8% opacity behind summary pages
+Use brand color variants based on selected aesthetic theme.
+5️⃣ Aesthetic Theme Selector Prompt
+Give yourself theme control.
+Add a dropdown with:
+Soft Pastel Clinical
+Dark Mode Modern
+Minimal Scandinavian
+Bold Study Highlighter
+Pediatric Cute
+Cardiac Red & Teal
+Monochrome Exam Mode
+Then prompt AI:
+Apply the selected aesthetic theme consistently across:
+Color palette
+Icon style
+Typography
+Diagram style
+Section dividers
+Background textures
+Now your products feel premium.
+6️⃣ Cover Page Designer Prompt
+Right now your bundles likely lack strong covers.
+Add:
+Generate a premium cover page layout including:
+Large topic headline
+Subheadline optimized for SEO
+Decorative medical line art background
+3 icon badges (Exam Ready, Quick Review, Visual Learning)
+“Created by Nurses, for Nurses” tag
+Logo placement
+Subtle pattern background
+Covers sell bundles.
+7️⃣ Section Divider Design Prompt
+Flat bundles don’t have visual transitions.
+Add:
+After each major section, generate:
+A visual divider page
+Large section title
+Minimal quote or clinical pearl
+Background accent design
+Small thematic icon
+This makes bundles feel like books.
+8️⃣ Auto-Generated Visual Study Tools
+Make it smarter:
+At the end of each bundle automatically include:
+Concept map page
+Drug comparison table page
+Pathophysiology flow diagram
+10-question mini exam
+“Last-Minute Rapid Review” one-page infographic
+Now the product feels worth paying for.
+9️⃣ Infographic-First Mode Prompt
+You need an option that prioritizes visuals over text.
+Add toggle:
+“Infographic-Heavy Mode”
+Prompt:
+Reduce paragraph text.
+Increase visual blocks.
+Convert explanations into:
+Diagrams
+Comparison grids
+Timelines
+Stepwise flowcharts
+Color-coded tables
+That fixes the “flat paper” look instantly.
+🔟 Bundle Value Amplifier Prompt
+To increase perceived value:
+Automatically add:
+Printable version
+iPad note-friendly version
+Flashcard export version
+Exam-only condensed version
+Bonus memory tricks page
+More formats = higher conversion.
+11️⃣ AI Layout Engine Upgrade Prompt (Very Important)
+Right now your AI is outputting content.
+You want layout metadata.
+Use this:
+Return layout instructions in JSON format including:
+block_type
+font_size
+color_variant
+alignment
+image_placeholder
+icon_set
+spacing_level
+border_style
+background_style
+Then your React front-end can render actual designs.
+This is how you move from “text generator” to “Canva competitor.”
+12️⃣ Image Generation Integration Prompt
+Have AI generate image prompts automatically:
+For every diagram or illustration, return a detailed AI image prompt including:
+Style
+Color palette
+Layout
+Labels
+Intended placement on page
+Background style
+Aspect ratio
+Then auto-send to your image model.
+13️⃣ Clinical Icon Pack Generator
+Add this:
+Generate a consistent icon pack for this bundle including:
+Heart
+Lungs
+Electrolyte symbol
+ECG strip
+Medication bottle
+Nurse badge
+Style: Rounded pastel line art, soft shadows.
+Now your brand becomes visually cohesive.
+14️⃣ Automatic White Space Correction Prompt
+To prevent clutter:
+Ensure no page exceeds 65% visual density.
+Add padding around blocks.
+Maintain clear margins.
+Enforce visual hierarchy.
+This is critical for premium feel.
+Strategic Upgrade Path
+Right now your generator is:
+Text → Export
+You want:
+Topic → Structured Layout Blocks → Visual Metadata → Auto Image Injection → Branded Rendering → Multi-format Export
+That’s the shift.

@@ -479,43 +479,59 @@ function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: C
   const objs: CanvasObject[] = [];
   let z = 0;
 
+  objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+
   if (preset.bgStyle === "gradient") {
-    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
-    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h * 0.55, fill: t.coverBgOverlay, rotation: 0, opacity: 0.25, zIndex: z++, borderRadius: 0 });
-    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.55, width: w, height: h * 0.45, fill: t.primaryColor, rotation: 0, opacity: 0.15, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h * 0.6, fill: t.coverBgOverlay, rotation: 0, opacity: 0.3, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.55, width: w, height: h * 0.45, fill: t.primaryColor, rotation: 0, opacity: 0.18, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.78, width: w, height: h * 0.22, fill: "#000000", rotation: 0, opacity: 0.12, zIndex: z++, borderRadius: 0 });
   } else if (preset.bgStyle === "split") {
-    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h * 0.45, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
-    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.45, width: w, height: h * 0.55, fill: t.accentColor, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
-    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.44, width: w, height: 6, fill: "#ffffff", rotation: 0, opacity: 0.3, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h * 0.42, fill: t.coverBgOverlay, rotation: 0, opacity: 0.2, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.42, width: w, height: h * 0.58, fill: t.accentColor, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.41, width: w, height: 5, fill: "#ffffff", rotation: 0, opacity: 0.35, zIndex: z++ });
   } else {
-    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.82, width: w, height: h * 0.18, fill: "#000000", rotation: 0, opacity: 0.08, zIndex: z++, borderRadius: 0 });
   }
 
-  for (let s = 0; s < preset.shapesDensity; s++) {
-    const shapeX = Math.random() * w * 0.6 + w * 0.2;
-    const shapeY = Math.random() * h * 0.4;
-    const shapeSize = 40 + Math.random() * 80;
-    objs.push({ id: uid(), type: "circle", x: shapeX, y: shapeY, width: shapeSize, height: shapeSize, fill: t.accentColor, rotation: 0, opacity: 0.06 + Math.random() * 0.06, zIndex: z++, borderRadius: 0 });
+  for (let s = 0; s < preset.shapesDensity + 3; s++) {
+    const shapeX = Math.random() * w * 0.8 + w * 0.1;
+    const shapeY = Math.random() * h * 0.35;
+    const shapeSize = 30 + Math.random() * 100;
+    objs.push({ id: uid(), type: "circle", x: shapeX, y: shapeY, width: shapeSize, height: shapeSize, fill: "#ffffff", rotation: 0, opacity: 0.04 + Math.random() * 0.05, zIndex: z++, borderRadius: 0 });
   }
+  for (let s = 0; s < 2; s++) {
+    const shapeX = Math.random() * w * 0.4 + w * 0.5;
+    const shapeY = h * 0.5 + Math.random() * h * 0.3;
+    const shapeSize = 50 + Math.random() * 120;
+    objs.push({ id: uid(), type: "circle", x: shapeX, y: shapeY, width: shapeSize, height: shapeSize, fill: t.accentColor, rotation: 0, opacity: 0.06 + Math.random() * 0.04, zIndex: z++, borderRadius: 0 });
+  }
+
+  objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: 5, height: h, fill: t.accentColor, rotation: 0, opacity: 0.7, zIndex: z++ });
+  objs.push({ id: uid(), type: "rect", x: w - 5, y: 0, width: 5, height: h, fill: t.accentColor, rotation: 0, opacity: 0.7, zIndex: z++ });
 
   if (preset.bgStyle !== "split") {
-    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.42, width: w, height: 3, fill: t.accentColor, rotation: 0, opacity: 0.7, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: w * 0.06, y: h * 0.40, width: w * 0.88, height: 2, fill: t.accentColor, rotation: 0, opacity: 0.5, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: w * 0.10, y: h * 0.405, width: w * 0.80, height: 1, fill: "#ffffff", rotation: 0, opacity: 0.2, zIndex: z++ });
   }
 
-  objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.06, width: w * 0.84, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.12, zIndex: z++, borderRadius: 16, stroke: "#ffffff", strokeWidth: 1 });
+  objs.push({ id: uid(), type: "rect", x: w * 0.06, y: h * 0.04, width: w * 0.88, height: h * 0.92, fill: "transparent", rotation: 0, opacity: 0.10, zIndex: z++, borderRadius: 20, stroke: "#ffffff", strokeWidth: 1.5 });
+  objs.push({ id: uid(), type: "rect", x: w * 0.10, y: h * 0.06, width: w * 0.80, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.05, zIndex: z++, borderRadius: 14, stroke: "#ffffff", strokeWidth: 0.5 });
 
   if (opts.logoUrl) {
-    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.06, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.accentColor)}` });
+    objs.push({ id: uid(), type: "image" as const, x: w / 2 - 80, y: h * 0.07, width: 160, height: 50, src: opts.logoUrl, rotation: 0, opacity: 0.9, zIndex: z++, tag: "brand-logo", locked: true, filter: `brightness(0) saturate(100%) ${hexToCssFilter(t.accentColor)}` });
   } else {
-    objs.push({ id: uid(), type: "text", x: 46, y: h * 0.10, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+    objs.push({ id: uid(), type: "text", x: 46, y: h * 0.09, width: w - 92, height: 16, content: "NurseNest", fontSize: 13, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.85, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+    objs.push({ id: uid(), type: "rect", x: w / 2 - 30, y: h * 0.09 + 20, width: 60, height: 1.5, fill: t.accentColor, rotation: 0, opacity: 0.4, zIndex: z++ });
   }
 
-  const titleY = preset.bgStyle === "split" ? h * 0.18 : h * 0.20;
-  objs.push({ id: uid(), type: "text", x: 36, y: titleY, width: w - 72, height: 60, content: title.toUpperCase(), fontSize: preset.bgStyle === "bold-exam" ? 40 : 34, fontWeight: preset.titleWeight, fill: "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+  const titleY = preset.bgStyle === "split" ? h * 0.17 : h * 0.19;
+  objs.push({ id: uid(), type: "text", x: 32, y: titleY, width: w - 64, height: 60, content: title.toUpperCase(), fontSize: preset.bgStyle === "bold-exam" ? 42 : 36, fontWeight: preset.titleWeight, fill: "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
 
-  objs.push({ id: uid(), type: "text", x: 46, y: titleY + 65, width: w - 92, height: 24, content: subtitle, fontSize: 15, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.75, zIndex: z++, textAlign: "center" });
+  objs.push({ id: uid(), type: "rect", x: w / 2 - 40, y: titleY + 62, width: 80, height: 2.5, fill: t.accentColor, rotation: 0, opacity: 0.8, zIndex: z++ });
 
-  const chipY = preset.bgStyle === "split" ? h * 0.50 : h * 0.46;
+  objs.push({ id: uid(), type: "text", x: 46, y: titleY + 72, width: w - 92, height: 24, content: subtitle, fontSize: 14, fontWeight: "300", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.8, zIndex: z++, textAlign: "center" });
+
+  const chipY = preset.bgStyle === "split" ? h * 0.48 : h * 0.46;
   const allChips = [];
   if (exam) allChips.push(exam);
   allChips.push(`Updated ${year}`);
@@ -524,34 +540,36 @@ function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: C
   if (opts.pageCount) allChips.push(`${opts.pageCount} Pages`);
   if (opts.badges) allChips.push(...opts.badges);
 
-  const chipW = 95;
-  const chipGap = 6;
+  const chipW = 90;
+  const chipGap = 8;
   const totalChipW = allChips.length * chipW + (allChips.length - 1) * chipGap;
   const chipStartX = (w - totalChipW) / 2;
 
   allChips.forEach((label, i) => {
     const cx = chipStartX + i * (chipW + chipGap);
-    const chipFill = i === 0 ? t.accentColor : (preset.bgStyle === "split" ? "#ffffff33" : t.primaryColor + "33");
-    objs.push({ id: uid(), type: "rect", x: cx, y: chipY, width: chipW, height: 24, fill: chipFill, borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
-    objs.push({ id: uid(), type: "text", x: cx + 4, y: chipY + 4, width: chipW - 8, height: 16, content: label, fontSize: 9, fontWeight: "bold", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center" });
+    const chipFill = i === 0 ? t.accentColor : "#ffffff18";
+    objs.push({ id: uid(), type: "rect", x: cx, y: chipY, width: chipW, height: 26, fill: chipFill, borderRadius: 13, rotation: 0, opacity: 1, zIndex: z++, stroke: i === 0 ? "transparent" : "#ffffff22", strokeWidth: 1 });
+    objs.push({ id: uid(), type: "text", x: cx + 4, y: chipY + 5, width: chipW - 8, height: 16, content: label, fontSize: 8.5, fontWeight: "bold", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: i === 0 ? 1 : 0.85, zIndex: z++, textAlign: "center" });
   });
 
-  const featureY = preset.bgStyle === "split" ? h * 0.58 : h * 0.56;
+  const featureY = preset.bgStyle === "split" ? h * 0.57 : h * 0.55;
   const features = [
     "High-yield content mapped to exam blueprints",
     "Clinical pearls and red flags highlighted",
     "Nursing-first language and prioritization focus",
     "Designed for quick review before the exam",
   ];
-  const featureColor = preset.bgStyle === "split" ? "#ffffff" : "#ffffff";
   features.forEach((f, i) => {
-    objs.push({ id: uid(), type: "text", x: w * 0.12, y: featureY + i * 22, width: w * 0.76, height: 18, content: `✦  ${f}`, fontSize: 10, fontWeight: "normal", fill: featureColor, fontFamily: t.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "center" });
+    objs.push({ id: uid(), type: "rect", x: w * 0.15, y: featureY + i * 24 + 5, width: 4, height: 4, fill: t.accentColor, borderRadius: 2, rotation: 0, opacity: 0.6, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: w * 0.15 + 12, y: featureY + i * 24, width: w * 0.70 - 12, height: 18, content: f, fontSize: 10, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.65, zIndex: z++, textAlign: "left" });
   });
 
-  objs.push({ id: uid(), type: "rect", x: w * 0.25, y: h * 0.80, width: w * 0.5, height: 36, fill: preset.bgStyle === "split" ? "#ffffff" : t.accentColor, borderRadius: 18, rotation: 0, opacity: 1, zIndex: z++ });
-  objs.push({ id: uid(), type: "text", x: w * 0.25, y: h * 0.80 + 8, width: w * 0.5, height: 20, content: "INSTANT DOWNLOAD", fontSize: 12, fontWeight: "bold", fill: preset.bgStyle === "split" ? t.coverBg : "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+  objs.push({ id: uid(), type: "rect", x: w * 0.22, y: h * 0.80, width: w * 0.56, height: 38, fill: preset.bgStyle === "split" ? "#ffffff" : t.accentColor, borderRadius: 19, rotation: 0, opacity: 1, zIndex: z++ });
+  objs.push({ id: uid(), type: "rect", x: w * 0.22 + 2, y: h * 0.80 + 2, width: w * 0.56 - 4, height: 34, fill: "transparent", borderRadius: 17, rotation: 0, opacity: 0.15, zIndex: z++, stroke: "#ffffff", strokeWidth: 1 });
+  objs.push({ id: uid(), type: "text", x: w * 0.22, y: h * 0.80 + 9, width: w * 0.56, height: 20, content: "INSTANT DOWNLOAD", fontSize: 12, fontWeight: "bold", fill: preset.bgStyle === "split" ? t.coverBg : "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
 
-  objs.push({ id: uid(), type: "text", x: 46, y: h - 46, width: w - 92, height: 14, content: `© ${year} NurseNest  •  For personal study use only`, fontSize: 8, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "center" });
+  objs.push({ id: uid(), type: "rect", x: w * 0.15, y: h - 54, width: w * 0.70, height: 1, fill: "#ffffff", rotation: 0, opacity: 0.15, zIndex: z++ });
+  objs.push({ id: uid(), type: "text", x: 46, y: h - 44, width: w - 92, height: 14, content: `${year} NurseNest  |  For personal study use only`, fontSize: 8, fontWeight: "300", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "center" });
 
   return objs;
 }
@@ -561,20 +579,43 @@ function generateChapterCoverPage(w: number, h: number, t: ThemeConfig, preset: 
 }): CanvasObject[] {
   const objs: CanvasObject[] = [];
   let z = 0;
-  const bgFill = preset.bgStyle === "gradient" ? t.coverBgOverlay : preset.bgStyle === "split" ? t.accentColor : t.sectionBg;
+  const useDark = preset.bgStyle === "gradient" || preset.bgStyle === "split";
+  const bgFill = useDark ? t.coverBg : t.backgroundColor;
   objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: bgFill, rotation: 0, opacity: 1, zIndex: z++ });
-  objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.35, width: w, height: h * 0.30, fill: t.primaryColor, rotation: 0, opacity: 0.12, zIndex: z++ });
-  for (let s = 0; s < Math.min(preset.shapesDensity, 2); s++) {
-    const sx = w * 0.3 + Math.random() * w * 0.4;
-    const sy = h * 0.1 + Math.random() * h * 0.2;
-    const sz = 30 + Math.random() * 60;
-    objs.push({ id: uid(), type: "circle", x: sx, y: sy, width: sz, height: sz, fill: t.accentColor, rotation: 0, opacity: 0.06, zIndex: z++ });
+
+  if (useDark) {
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.3, width: w, height: h * 0.40, fill: t.coverBgOverlay, rotation: 0, opacity: 0.2, zIndex: z++ });
+  } else {
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.28, width: w, height: h * 0.44, fill: t.sectionBg, rotation: 0, opacity: 1, zIndex: z++ });
   }
-  objs.push({ id: uid(), type: "rect", x: w * 0.1, y: h * 0.38, width: w * 0.8, height: 3, fill: t.accentColor, rotation: 0, opacity: 0.5, zIndex: z++ });
-  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.28, width: w - 92, height: 20, content: `SECTION ${opts.chapterNumber} OF ${opts.totalChapters}`, fontSize: 11, fontWeight: "bold", fill: t.primaryColor, fontFamily: t.bodyFont, rotation: 0, opacity: 0.6, zIndex: z++, textAlign: "center" });
-  objs.push({ id: uid(), type: "text", x: 36, y: h * 0.40, width: w - 72, height: 50, content: opts.chapterTitle.toUpperCase(), fontSize: 28, fontWeight: preset.titleWeight, fill: t.headingColor, fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
-  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.55, width: w - 92, height: 18, content: "NurseNest  •  Exam Prep", fontSize: 10, fontWeight: "normal", fill: t.bodyColorLight, fontFamily: t.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "center" });
-  objs.push({ id: uid(), type: "rect", x: w * 0.15, y: h * 0.90, width: w * 0.7, height: 2, fill: t.dividerColor, rotation: 0, opacity: 0.3, zIndex: z++ });
+
+  objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: 5, height: h, fill: t.primaryColor, rotation: 0, opacity: useDark ? 0.5 : 0.8, zIndex: z++ });
+
+  for (let s = 0; s < 3; s++) {
+    const sx = w * 0.5 + Math.random() * w * 0.4;
+    const sy = h * 0.05 + Math.random() * h * 0.2;
+    const sz = 40 + Math.random() * 70;
+    objs.push({ id: uid(), type: "circle", x: sx, y: sy, width: sz, height: sz, fill: useDark ? "#ffffff" : t.primaryColor, rotation: 0, opacity: 0.04, zIndex: z++ });
+  }
+  for (let s = 0; s < 2; s++) {
+    const sx = Math.random() * w * 0.3 + w * 0.1;
+    const sy = h * 0.65 + Math.random() * h * 0.25;
+    const sz = 30 + Math.random() * 50;
+    objs.push({ id: uid(), type: "circle", x: sx, y: sy, width: sz, height: sz, fill: t.accentColor, rotation: 0, opacity: 0.05, zIndex: z++ });
+  }
+
+  const numStr = opts.chapterNumber.toString().padStart(2, "0");
+  objs.push({ id: uid(), type: "text", x: w * 0.62, y: h * 0.08, width: w * 0.32, height: 120, content: numStr, fontSize: 96, fontWeight: "bold", fill: useDark ? "#ffffff" : t.primaryColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.06, zIndex: z++, textAlign: "right" });
+
+  objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.32, width: 50, height: 2.5, fill: t.accentColor, rotation: 0, opacity: 0.7, zIndex: z++ });
+  objs.push({ id: uid(), type: "text", x: w * 0.08, y: h * 0.28, width: w * 0.84, height: 16, content: `SECTION ${opts.chapterNumber} OF ${opts.totalChapters}`, fontSize: 10, fontWeight: "bold", fill: useDark ? t.accentColor : t.primaryColor, fontFamily: t.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "left" });
+
+  objs.push({ id: uid(), type: "text", x: w * 0.08, y: h * 0.37, width: w * 0.84, height: 60, content: opts.chapterTitle.toUpperCase(), fontSize: 30, fontWeight: preset.titleWeight, fill: useDark ? "#ffffff" : t.headingColor, fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+
+  objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.52, width: w * 0.40, height: 1.5, fill: useDark ? "#ffffff" : t.dividerColor, rotation: 0, opacity: 0.25, zIndex: z++ });
+  objs.push({ id: uid(), type: "text", x: w * 0.08, y: h * 0.55, width: w * 0.84, height: 18, content: "NurseNest  |  Exam Prep", fontSize: 10, fontWeight: "300", fill: useDark ? "#ffffff" : t.bodyColorLight, fontFamily: t.bodyFont, rotation: 0, opacity: 0.45, zIndex: z++, textAlign: "left" });
+
+  objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.88, width: w * 0.84, height: 1, fill: useDark ? "#ffffff" : t.dividerColor, rotation: 0, opacity: 0.15, zIndex: z++ });
   return objs;
 }
 
@@ -939,9 +980,11 @@ const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Parti
     icon: Sparkles,
     tag: "clinical-pearl",
     objects: [
-      { type: "rect", width: 520, height: 90, fill: "#ede9fe", stroke: "#7c3aed", strokeWidth: 2, borderRadius: 10 },
-      { type: "text", x: 14, y: 8, width: 492, height: 20, content: "Clinical Pearl", fontSize: 13, fontWeight: "bold", fill: "#7c3aed", fontFamily: "Inter" },
-      { type: "text", x: 14, y: 32, width: 492, height: 48, content: "Key insight goes here...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
+      { type: "rect", width: 500, height: 100, fill: "#ede9fe", borderRadius: 12 },
+      { type: "rect", x: 0, y: 0, width: 5, height: 100, fill: "#7c3aed", borderRadius: 2 },
+      { type: "rect", x: 14, y: 10, width: 110, height: 20, fill: "#7c3aed", borderRadius: 10, opacity: 0.12 },
+      { type: "text", x: 22, y: 12, width: 94, height: 16, content: "CLINICAL PEARL", fontSize: 8, fontWeight: "bold", fill: "#7c3aed", fontFamily: "Inter" },
+      { type: "text", x: 14, y: 38, width: 472, height: 50, content: "Key insight goes here...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
     ],
   },
   {
@@ -949,9 +992,11 @@ const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Parti
     icon: AlertTriangle,
     tag: "red-flag",
     objects: [
-      { type: "rect", width: 520, height: 90, fill: "#fef2f2", stroke: "#ef4444", strokeWidth: 2, borderRadius: 10 },
-      { type: "text", x: 14, y: 8, width: 492, height: 20, content: "Red Flag", fontSize: 13, fontWeight: "bold", fill: "#dc2626", fontFamily: "Inter" },
-      { type: "text", x: 14, y: 32, width: 492, height: 48, content: "Critical warning...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
+      { type: "rect", width: 500, height: 100, fill: "#fef2f2", borderRadius: 12 },
+      { type: "rect", x: 0, y: 0, width: 5, height: 100, fill: "#ef4444", borderRadius: 2 },
+      { type: "rect", x: 14, y: 10, width: 72, height: 20, fill: "#ef4444", borderRadius: 10, opacity: 0.12 },
+      { type: "text", x: 22, y: 12, width: 56, height: 16, content: "RED FLAG", fontSize: 8, fontWeight: "bold", fill: "#dc2626", fontFamily: "Inter" },
+      { type: "text", x: 14, y: 38, width: 472, height: 50, content: "Critical warning...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
     ],
   },
   {
@@ -959,9 +1004,11 @@ const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Parti
     icon: Target,
     tag: "exam-trap",
     objects: [
-      { type: "rect", width: 520, height: 90, fill: "#fef9c3", stroke: "#ca8a04", strokeWidth: 2, borderRadius: 10 },
-      { type: "text", x: 14, y: 8, width: 492, height: 20, content: "Exam Trap", fontSize: 13, fontWeight: "bold", fill: "#a16207", fontFamily: "Inter" },
-      { type: "text", x: 14, y: 32, width: 492, height: 48, content: "Common test pitfall...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
+      { type: "rect", width: 500, height: 100, fill: "#fef9c3", borderRadius: 12 },
+      { type: "rect", x: 0, y: 0, width: 5, height: 100, fill: "#ca8a04", borderRadius: 2 },
+      { type: "rect", x: 14, y: 10, width: 82, height: 20, fill: "#ca8a04", borderRadius: 10, opacity: 0.12 },
+      { type: "text", x: 22, y: 12, width: 66, height: 16, content: "EXAM TRAP", fontSize: 8, fontWeight: "bold", fill: "#a16207", fontFamily: "Inter" },
+      { type: "text", x: 14, y: 38, width: 472, height: 50, content: "Common test pitfall...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
     ],
   },
   {
@@ -969,8 +1016,9 @@ const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Parti
     icon: Star,
     tag: "most-tested",
     objects: [
-      { type: "rect", width: 180, height: 28, fill: "#7c3aed", borderRadius: 14 },
-      { type: "text", x: 10, y: 4, width: 160, height: 20, content: "Most Tested Concept", fontSize: 11, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", textAlign: "center" },
+      { type: "rect", width: 180, height: 30, fill: "#7c3aed", borderRadius: 15 },
+      { type: "rect", x: 2, y: 2, width: 176, height: 26, fill: "transparent", borderRadius: 13, stroke: "#ffffff", strokeWidth: 1, opacity: 0.2 },
+      { type: "text", x: 10, y: 6, width: 160, height: 18, content: "MOST TESTED", fontSize: 10, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", textAlign: "center" },
     ],
   },
   {
@@ -978,9 +1026,11 @@ const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Parti
     icon: Shield,
     tag: "common-mistake",
     objects: [
-      { type: "rect", width: 520, height: 90, fill: "#fff7ed", stroke: "#ea580c", strokeWidth: 2, borderRadius: 10 },
-      { type: "text", x: 14, y: 8, width: 492, height: 20, content: "Common Mistake", fontSize: 13, fontWeight: "bold", fill: "#ea580c", fontFamily: "Inter" },
-      { type: "text", x: 14, y: 32, width: 492, height: 48, content: "Students often confuse...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
+      { type: "rect", width: 500, height: 100, fill: "#fff7ed", borderRadius: 12 },
+      { type: "rect", x: 0, y: 0, width: 5, height: 100, fill: "#ea580c", borderRadius: 2 },
+      { type: "rect", x: 14, y: 10, width: 120, height: 20, fill: "#ea580c", borderRadius: 10, opacity: 0.12 },
+      { type: "text", x: 22, y: 12, width: 104, height: 16, content: "COMMON MISTAKE", fontSize: 8, fontWeight: "bold", fill: "#ea580c", fontFamily: "Inter" },
+      { type: "text", x: 14, y: 38, width: 472, height: 50, content: "Students often confuse...", fontSize: 11, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
     ],
   },
   {
@@ -988,8 +1038,9 @@ const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Parti
     icon: Award,
     tag: "high-yield",
     objects: [
-      { type: "rect", width: 150, height: 28, fill: "#10b981", borderRadius: 14 },
-      { type: "text", x: 8, y: 4, width: 134, height: 20, content: "HIGH-YIELD ONLY", fontSize: 10, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", textAlign: "center" },
+      { type: "rect", width: 150, height: 30, fill: "#10b981", borderRadius: 15 },
+      { type: "rect", x: 2, y: 2, width: 146, height: 26, fill: "transparent", borderRadius: 13, stroke: "#ffffff", strokeWidth: 1, opacity: 0.2 },
+      { type: "text", x: 8, y: 6, width: 134, height: 18, content: "HIGH-YIELD", fontSize: 10, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", textAlign: "center" },
     ],
   },
   {
@@ -997,9 +1048,11 @@ const DESIGN_COMPONENTS: { label: string; icon: any; tag: string; objects: Parti
     icon: ClipboardCheck,
     tag: "confidence-check",
     objects: [
-      { type: "rect", width: 520, height: 140, fill: "#f0fdf4", stroke: "#22c55e", strokeWidth: 2, borderRadius: 10 },
-      { type: "text", x: 14, y: 8, width: 492, height: 20, content: "Confidence Checklist", fontSize: 13, fontWeight: "bold", fill: "#15803d", fontFamily: "Inter" },
-      { type: "text", x: 14, y: 32, width: 492, height: 96, content: "[ ] I can explain the pathophysiology\n[ ] I know the priority assessments\n[ ] I can identify key medications\n[ ] I recognize red flags\n[ ] I understand the nursing priorities", fontSize: 10, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
+      { type: "rect", width: 500, height: 160, fill: "#f0fdf4", borderRadius: 12 },
+      { type: "rect", x: 0, y: 0, width: 5, height: 160, fill: "#22c55e", borderRadius: 2 },
+      { type: "rect", x: 14, y: 10, width: 140, height: 20, fill: "#22c55e", borderRadius: 10, opacity: 0.12 },
+      { type: "text", x: 22, y: 12, width: 124, height: 16, content: "CONFIDENCE CHECK", fontSize: 8, fontWeight: "bold", fill: "#15803d", fontFamily: "Inter" },
+      { type: "text", x: 14, y: 40, width: 472, height: 108, content: "[ ] I can explain the pathophysiology\n[ ] I know the priority assessments\n[ ] I can identify key medications\n[ ] I recognize red flags\n[ ] I understand the nursing priorities", fontSize: 10, fontWeight: "normal", fill: "#1e293b", fontFamily: "Inter" },
     ],
   },
 ];
@@ -1015,9 +1068,14 @@ const PAGE_TEMPLATES: { label: string; icon: any; generate: (w: number, h: numbe
     icon: LayoutTemplate,
     generate: (w, h) => [
       { id: uid(), type: "rect" as const, x: 0, y: 0, width: w, height: h, fill: "#f8fafc", rotation: 0, opacity: 1, zIndex: 0, borderRadius: 0 },
-      { id: uid(), type: "rect" as const, x: 0, y: h / 2 - 80, width: w, height: 160, fill: "#7c3aed", rotation: 0, opacity: 1, zIndex: 1, borderRadius: 0 },
-      { id: uid(), type: "text" as const, x: 46, y: h / 2 - 40, width: w - 92, height: 40, content: "SECTION TITLE", fontSize: 32, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", rotation: 0, opacity: 1, zIndex: 2, textAlign: "center" },
-      { id: uid(), type: "text" as const, x: 46, y: h / 2 + 10, width: w - 92, height: 24, content: "Subsection description", fontSize: 14, fontWeight: "normal", fill: "#e0d5f5", fontFamily: "Inter", rotation: 0, opacity: 1, zIndex: 3, textAlign: "center" },
+      { id: uid(), type: "rect" as const, x: 0, y: h * 0.28, width: w, height: h * 0.44, fill: "#7c3aed", rotation: 0, opacity: 0.06, zIndex: 1, borderRadius: 0 },
+      { id: uid(), type: "rect" as const, x: 0, y: 0, width: 5, height: h, fill: "#7c3aed", rotation: 0, opacity: 0.7, zIndex: 2, borderRadius: 0 },
+      { id: uid(), type: "circle" as const, x: w - 60, y: h * 0.1, width: 100, height: 100, fill: "#7c3aed", rotation: 0, opacity: 0.04, zIndex: 2 },
+      { id: uid(), type: "rect" as const, x: w * 0.08, y: h * 0.41, width: 50, height: 2.5, fill: "#f59e0b", rotation: 0, opacity: 0.7, zIndex: 3 },
+      { id: uid(), type: "text" as const, x: w * 0.08, y: h * 0.37, width: w * 0.84, height: 16, content: "SECTION", fontSize: 10, fontWeight: "bold", fill: "#7c3aed", fontFamily: "Inter", rotation: 0, opacity: 0.6, zIndex: 3 },
+      { id: uid(), type: "text" as const, x: w * 0.08, y: h * 0.45, width: w * 0.84, height: 50, content: "SECTION TITLE", fontSize: 30, fontWeight: "bold", fill: "#1e293b", fontFamily: "Inter", rotation: 0, opacity: 1, zIndex: 4, textAlign: "left" },
+      { id: uid(), type: "rect" as const, x: w * 0.08, y: h * 0.57, width: w * 0.40, height: 1, fill: "#e2e8f0", rotation: 0, opacity: 0.3, zIndex: 4 },
+      { id: uid(), type: "text" as const, x: w * 0.08, y: h * 0.59, width: w * 0.84, height: 20, content: "Subsection description", fontSize: 11, fontWeight: "300", fill: "#64748b", fontFamily: "Inter", rotation: 0, opacity: 0.7, zIndex: 5, textAlign: "left" },
     ],
   },
   {
@@ -1286,33 +1344,75 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
     const objs: CanvasObject[] = [];
     let z = 0;
     objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.backgroundColor, rotation: 0, opacity: 1, zIndex: z++ });
-    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 6, fill: th.primaryColor, rotation: 0, opacity: 0.8, zIndex: z++ });
-    objs.push({ id: uid(), type: "text", x: M, y: M, width: contentW, height: 36, content: "TABLE OF CONTENTS", fontSize: 22, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
-    objs.push({ id: uid(), type: "rect", x: M, y: M + 42, width: 80, height: 3, fill: th.primaryColor, rotation: 0, opacity: 0.4, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 5, fill: th.primaryColor, rotation: 0, opacity: 0.8, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 5, width: W, height: 2, fill: th.accentColor, rotation: 0, opacity: 0.5, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: 4, height: H, fill: th.primaryColor, rotation: 0, opacity: 0.06, zIndex: z++ });
+    objs.push({ id: uid(), type: "circle", x: W - 50, y: -30, width: 140, height: 140, fill: th.primaryColor, rotation: 0, opacity: 0.03, zIndex: z++ });
+    objs.push({ id: uid(), type: "circle", x: -20, y: H - 80, width: 100, height: 100, fill: th.accentColor, rotation: 0, opacity: 0.03, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: M, y: M, width: contentW, height: 60, fill: th.sectionBg, borderRadius: 10, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: M, y: M, width: 4, height: 60, fill: th.primaryColor, borderRadius: 2, rotation: 0, opacity: 0.9, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M + 18, y: M + 8, width: contentW - 36, height: 18, content: "CONTENTS", fontSize: 10, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M + 18, y: M + 26, width: contentW - 36, height: 28, content: "Table of Contents", fontSize: 22, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
     let pgNum = startPage;
+    const rowH = 42;
     sectionTitles.forEach((title, i) => {
-      const yPos = M + 64 + i * 30;
-      if (yPos < H - M - 20) {
-        objs.push({ id: uid(), type: "text", x: M + 4, y: yPos, width: 22, height: 20, content: `${i + 1}.`, fontSize: 11, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "right" });
-        objs.push({ id: uid(), type: "text", x: M + 30, y: yPos, width: contentW - 80, height: 20, content: title, fontSize: 12, fontWeight: "600", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
-        objs.push({ id: uid(), type: "rect", x: M + 30, y: yPos + 18, width: contentW - 80, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.3, zIndex: z++ });
-        objs.push({ id: uid(), type: "text", x: M + contentW - 40, y: yPos, width: 40, height: 20, content: `${pgNum}`, fontSize: 11, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "right" });
+      const yPos = M + 80 + i * rowH;
+      if (yPos + rowH < H - M - 30) {
+        const numStr = (i + 1).toString().padStart(2, "0");
+        objs.push({ id: uid(), type: "rect", x: M, y: yPos, width: 34, height: 34, fill: th.primaryColor, borderRadius: 8, rotation: 0, opacity: 0.08, zIndex: z++ });
+        objs.push({ id: uid(), type: "text", x: M, y: yPos + 7, width: 34, height: 20, content: numStr, fontSize: 14, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.6, zIndex: z++, textAlign: "center" });
+        objs.push({ id: uid(), type: "text", x: M + 44, y: yPos + 4, width: contentW - 100, height: 18, content: title, fontSize: 12, fontWeight: "600", fill: th.bodyColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        objs.push({ id: uid(), type: "rect", x: M + 44, y: yPos + 26, width: contentW - 100, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.2, zIndex: z++ });
+        objs.push({ id: uid(), type: "text", x: M + contentW - 40, y: yPos + 6, width: 40, height: 18, content: `${pgNum}`, fontSize: 11, fontWeight: "600", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "right" });
       }
       pgNum += 2;
     });
-    objs.push({ id: uid(), type: "text", x: M, y: H - 30, width: contentW, height: 12, content: "NurseNest", fontSize: 8, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.3, zIndex: z++, textAlign: "center" });
+    objs.push({ id: uid(), type: "rect", x: M, y: H - 38, width: contentW, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.2, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M, y: H - 28, width: 80, height: 12, content: "NurseNest", fontSize: 7, fontWeight: "600", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.25, zIndex: z++, textAlign: "left" });
     return objs;
   };
 
   const renderSummaryPage = (th: ThemeConfig, topicStr: string): CanvasObject[] => {
     const objs: CanvasObject[] = [];
     let z = 0;
-    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.sectionBg, rotation: 0, opacity: 1, zIndex: z++ });
-    objs.push({ id: uid(), type: "rect", x: M, y: M, width: contentW, height: 70, fill: th.primaryColor, borderRadius: 14, rotation: 0, opacity: 1, zIndex: z++ });
-    objs.push({ id: uid(), type: "text", x: M + 16, y: M + 14, width: contentW - 32, height: 26, content: "KEY TAKEAWAYS", fontSize: 20, fontWeight: "bold", fill: "#ffffff", fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
-    objs.push({ id: uid(), type: "text", x: M + 16, y: M + 42, width: contentW - 32, height: 16, content: topicStr, fontSize: 11, fontWeight: "normal", fill: "#ffffffcc", fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
-    objs.push({ id: uid(), type: "text", x: M, y: M + 90, width: contentW, height: H - M * 2 - 120, content: "Review the key points from this guide before your exam.\n\nUse this page as your final quick-reference checklist.\n\nGood luck!", fontSize: 11, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.8, zIndex: z++, textAlign: "left" });
-    objs.push({ id: uid(), type: "text", x: M, y: H - 30, width: contentW, height: 12, content: `\u00A9 ${new Date().getFullYear()} NurseNest  \u2022  ${topicStr}`, fontSize: 8, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "center" });
+    const year = new Date().getFullYear();
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.backgroundColor, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 5, fill: th.primaryColor, rotation: 0, opacity: 0.8, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 5, width: W, height: 2, fill: th.accentColor, rotation: 0, opacity: 0.5, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: 4, height: H, fill: th.primaryColor, rotation: 0, opacity: 0.06, zIndex: z++ });
+    objs.push({ id: uid(), type: "circle", x: W - 80, y: -40, width: 180, height: 180, fill: th.primaryColor, rotation: 0, opacity: 0.03, zIndex: z++ });
+    objs.push({ id: uid(), type: "circle", x: -30, y: H - 100, width: 140, height: 140, fill: th.accentColor, rotation: 0, opacity: 0.03, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: M, y: M, width: contentW, height: 80, fill: th.primaryColor, borderRadius: 14, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: M + 3, y: M + 3, width: contentW - 6, height: 74, fill: "transparent", borderRadius: 12, rotation: 0, opacity: 0.15, zIndex: z++, stroke: "#ffffff", strokeWidth: 1 });
+    objs.push({ id: uid(), type: "text", x: M + 20, y: M + 10, width: contentW - 40, height: 14, content: "RAPID REVIEW", fontSize: 9, fontWeight: "bold", fill: th.accentColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.8, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M + 20, y: M + 28, width: contentW - 40, height: 26, content: "Key Takeaways", fontSize: 22, fontWeight: "bold", fill: "#ffffff", fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+    objs.push({ id: uid(), type: "text", x: M + 20, y: M + 56, width: contentW - 40, height: 14, content: topicStr, fontSize: 10, fontWeight: "300", fill: "#ffffff", fontFamily: th.bodyFont, rotation: 0, opacity: 0.65, zIndex: z++, textAlign: "left" });
+
+    const tips = [
+      "Review each section heading -- can you explain the key concept?",
+      "Identify the priority nursing interventions for this topic",
+      "Know which assessment findings are critical vs. expected",
+      "Understand the medications, their actions, and nursing considerations",
+      "Recognize the red flags that require immediate intervention",
+      "Practice applying clinical judgment to case-based scenarios",
+    ];
+    let curY = M + 100;
+    tips.forEach((tip, i) => {
+      objs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: 36, fill: i % 2 === 0 ? th.sectionBg : th.backgroundColor, borderRadius: 8, rotation: 0, opacity: 1, zIndex: z++ });
+      objs.push({ id: uid(), type: "rect", x: M + 12, y: curY + 12, width: 12, height: 12, fill: "transparent", borderRadius: 3, rotation: 0, opacity: 1, zIndex: z++, stroke: th.primaryColor, strokeWidth: 1.5 });
+      objs.push({ id: uid(), type: "text", x: M + 32, y: curY + 8, width: contentW - 48, height: 20, content: tip, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
+      curY += 42;
+    });
+
+    curY += 12;
+    objs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: 80, fill: th.sectionBg, borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: M, y: curY, width: 4, height: 80, fill: th.accentColor, borderRadius: 2, rotation: 0, opacity: 0.8, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M + 18, y: curY + 12, width: contentW - 36, height: 18, content: "LAST-MINUTE CONFIDENCE CHECK", fontSize: 9, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M + 18, y: curY + 34, width: contentW - 36, height: 36, content: "If you can explain the pathophysiology, identify priority assessments, name key medications, and recognize red flags -- you are ready.", fontSize: 11, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.8, zIndex: z++, textAlign: "left" });
+
+    objs.push({ id: uid(), type: "rect", x: M, y: H - 38, width: contentW, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.2, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M, y: H - 28, width: 80, height: 12, content: "NurseNest", fontSize: 7, fontWeight: "600", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.25, zIndex: z++, textAlign: "left" });
+    objs.push({ id: uid(), type: "text", x: M + 80, y: H - 28, width: contentW - 120, height: 12, content: `${year}  |  ${topicStr}`, fontSize: 7, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.25, zIndex: z++, textAlign: "center" });
     return objs;
   };
 
@@ -1322,23 +1422,33 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
     let curY = M;
     let z = 0;
     let pageCount = 0;
+    const bodyIndent = 12;
+    const contentStart = M + bodyIndent;
+    const contentInner = contentW - bodyIndent;
 
     const initPage = () => {
       pageObjs = [];
       z = 0;
-      curY = M;
+      curY = M + 10;
       pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.backgroundColor, rotation: 0, opacity: 1, zIndex: z++ });
-      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 4, fill: th.primaryColor, rotation: 0, opacity: 0.15, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 5, fill: th.primaryColor, rotation: 0, opacity: 0.8, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 5, width: W, height: 2, fill: th.accentColor, rotation: 0, opacity: 0.5, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: 4, height: H, fill: th.primaryColor, rotation: 0, opacity: 0.06, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "circle", x: W - 60, y: H - 60, width: 120, height: 120, fill: th.primaryColor, rotation: 0, opacity: 0.02, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "text", x: M, y: 14, width: contentW, height: 12, content: sectionTitle, fontSize: 7, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.35, zIndex: z++, textAlign: "right" });
     };
 
     const flushPage = () => {
       pageCount++;
-      pageObjs.push({ id: uid(), type: "text", x: M, y: H - 28, width: contentW, height: 12, content: `${sectionTitle}  \u2022  NurseNest  \u2022  Page ${pageCount}`, fontSize: 7, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.35, zIndex: 999, textAlign: "center" });
+      pageObjs.push({ id: uid(), type: "rect", x: M, y: H - 36, width: contentW, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.2, zIndex: 998 });
+      pageObjs.push({ id: uid(), type: "text", x: M, y: H - 28, width: 80, height: 12, content: "NurseNest", fontSize: 7, fontWeight: "600", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.25, zIndex: 999, textAlign: "left" });
+      pageObjs.push({ id: uid(), type: "text", x: M + contentW - 40, y: H - 28, width: 40, height: 12, content: `${pageCount}`, fontSize: 8, fontWeight: "600", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.3, zIndex: 999, textAlign: "right" });
+      pageObjs.push({ id: uid(), type: "text", x: M + 80, y: H - 28, width: contentW - 120, height: 12, content: sectionTitle, fontSize: 7, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.25, zIndex: 999, textAlign: "center" });
       pages.push([...pageObjs]);
       initPage();
     };
 
-    const maxY = H - M - 34;
+    const maxY = H - M - 40;
 
     const ensureSpace = (needed: number) => {
       if (curY + needed > maxY) flushPage();
@@ -1353,86 +1463,116 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
 
       if (kind === "heading") {
         const level = block.level || 1;
-        const fs = level === 1 ? 17 : level === 2 ? 14 : 12;
-        const bh = level === 1 ? 38 : level === 2 ? 32 : 28;
-        ensureSpace(bh);
-        if (level <= 2) {
-          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY + bh - 6, width: level === 1 ? 60 : 40, height: 2.5, fill: th.primaryColor, rotation: 0, opacity: 0.4, zIndex: z++ });
+        if (level === 1) {
+          const bh = 48;
+          ensureSpace(bh + 4);
+          if (curY > M + 20) curY += 8;
+          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: bh, fill: th.sectionBg, borderRadius: 8, rotation: 0, opacity: 1, zIndex: z++ });
+          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: 4, height: bh, fill: th.primaryColor, borderRadius: 2, rotation: 0, opacity: 0.9, zIndex: z++ });
+          pageObjs.push({ id: uid(), type: "text", x: M + 16, y: curY + 10, width: contentW - 28, height: 28, content: text, fontSize: 18, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+          curY += bh + 8;
+        } else if (level === 2) {
+          const bh = 36;
+          ensureSpace(bh);
+          if (curY > M + 20) curY += 6;
+          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY + bh - 3, width: 50, height: 2, fill: th.accentColor, rotation: 0, opacity: 0.5, zIndex: z++ });
+          pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: bh - 6, content: text, fontSize: 14, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+          curY += bh + 4;
+        } else {
+          const bh = 28;
+          ensureSpace(bh);
+          curY += 4;
+          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY + 3, width: 3, height: 14, fill: th.secondaryColor, borderRadius: 1, rotation: 0, opacity: 0.5, zIndex: z++ });
+          pageObjs.push({ id: uid(), type: "text", x: M + 10, y: curY, width: contentW - 10, height: bh - 6, content: text, fontSize: 12, fontWeight: "600", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
+          curY += bh;
         }
-        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: bh - 8, content: text, fontSize: fs, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
-        curY += bh;
       } else if (kind === "paragraph") {
-        const lines = Math.max(1, Math.ceil(text.length / 78));
-        const bh = Math.max(18, lines * 14 + 6);
+        const lines = Math.max(1, Math.ceil(text.length / 72));
+        const bh = Math.max(18, lines * 15 + 6);
         ensureSpace(bh);
-        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: bh, content: text, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
-        curY += bh + 4;
+        pageObjs.push({ id: uid(), type: "text", x: contentStart, y: curY, width: contentInner, height: bh, content: text, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
+        curY += bh + 6;
       } else if (kind === "bullets" || kind === "list") {
         const items = block.items || (typeof text === "string" ? text.split("\n").filter((s: string) => s.trim()) : []);
-        const bh = items.length * 17 + 6;
-        ensureSpace(Math.min(bh, 200));
-        items.forEach((item: string, idx: number) => {
-          if (curY + 17 > maxY) flushPage();
-          pageObjs.push({ id: uid(), type: "text", x: M + 14, y: curY, width: contentW - 28, height: 15, content: `\u2022  ${item.replace(/^[-*]\s*/, "").trim()}`, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
-          curY += 17;
-        });
+        ensureSpace(Math.min(items.length * 20 + 12, 200));
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart, y: curY, width: contentInner, height: Math.min(items.length * 20 + 8, maxY - curY), fill: th.sectionBg, borderRadius: 8, rotation: 0, opacity: 0.5, zIndex: z++ });
         curY += 6;
+        items.forEach((item: string, idx: number) => {
+          if (curY + 20 > maxY) flushPage();
+          pageObjs.push({ id: uid(), type: "rect", x: contentStart + 10, y: curY + 5, width: 5, height: 5, fill: th.primaryColor, borderRadius: 3, rotation: 0, opacity: 0.5, zIndex: z++ });
+          pageObjs.push({ id: uid(), type: "text", x: contentStart + 22, y: curY, width: contentInner - 36, height: 16, content: item.replace(/^[-*]\s*/, "").trim(), fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+          curY += 20;
+        });
+        curY += 8;
       } else if (kind === "table") {
         const cols: string[] = block.columns || [];
         const rows: string[][] = block.rows || [];
         const caption = block.caption || "";
-        const colW = cols.length > 0 ? (contentW - 4) / cols.length : contentW;
-        const headerH = 24;
-        const rowH = 22;
-        const totalH = headerH + rows.length * rowH + (caption ? 18 : 0) + 8;
-        ensureSpace(Math.min(totalH, 200));
+        const tblInset = 4;
+        const tblW = contentInner - tblInset * 2;
+        const colW = cols.length > 0 ? tblW / cols.length : tblW;
+        const headerH = 28;
+        const rowH = 24;
+        const totalH = headerH + rows.length * rowH + (caption ? 20 : 0) + 16;
+        ensureSpace(Math.min(totalH, 220));
         if (caption) {
-          pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: 14, content: caption, fontSize: 9, fontWeight: "bold", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "left" });
-          curY += 16;
+          pageObjs.push({ id: uid(), type: "text", x: contentStart, y: curY, width: contentInner, height: 14, content: caption.toUpperCase(), fontSize: 8, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "left" });
+          curY += 18;
         }
-        pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: headerH, fill: th.primaryColor, borderRadius: 4, rotation: 0, opacity: 0.9, zIndex: z++ });
+        const tblX = contentStart + tblInset;
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart, y: curY - 2, width: contentInner, height: headerH + rows.length * rowH + 6, fill: th.backgroundColor, borderRadius: 10, rotation: 0, opacity: 1, zIndex: z++, stroke: th.tableBorderColor, strokeWidth: 1 });
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart, y: curY - 2, width: contentInner, height: headerH + 2, fill: th.primaryColor, borderRadius: 0, rotation: 0, opacity: 0.9, zIndex: z++ });
         cols.forEach((col, ci) => {
-          pageObjs.push({ id: uid(), type: "text", x: M + 4 + ci * colW, y: curY + 4, width: colW - 8, height: 16, content: col, fontSize: 9, fontWeight: "bold", fill: "#ffffff", fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+          pageObjs.push({ id: uid(), type: "text", x: tblX + ci * colW + 6, y: curY + 5, width: colW - 12, height: 18, content: col, fontSize: 9, fontWeight: "bold", fill: "#ffffff", fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
         });
         curY += headerH;
         rows.forEach((row, ri) => {
           if (curY + rowH > maxY) flushPage();
           const bg = ri % 2 === 0 ? th.tableRowEven : th.tableRowOdd;
-          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: rowH, fill: bg, rotation: 0, opacity: 1, zIndex: z++, stroke: th.tableBorderColor, strokeWidth: 0.5 });
+          pageObjs.push({ id: uid(), type: "rect", x: contentStart + 1, y: curY, width: contentInner - 2, height: rowH, fill: bg, rotation: 0, opacity: 1, zIndex: z++ });
           row.forEach((cell, ci) => {
             if (ci < cols.length) {
-              pageObjs.push({ id: uid(), type: "text", x: M + 4 + ci * colW, y: curY + 3, width: colW - 8, height: 16, content: cell, fontSize: 9, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+              pageObjs.push({ id: uid(), type: "text", x: tblX + ci * colW + 6, y: curY + 4, width: colW - 12, height: 16, content: cell, fontSize: 9, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
             }
           });
           curY += rowH;
         });
-        curY += 8;
+        curY += 12;
       } else if (kind === "callout" || kind === "clinical-pearl" || kind === "clinical_pearl" || kind === "exam_tip" || kind === "trap" || kind === "warning") {
         const flavor = block.flavor || kind;
-        let bg = th.pearlBg, border = th.pearlBorder, label = "CLINICAL PEARL", labelColor = th.primaryColor;
-        if (flavor === "exam_tip" || flavor === "exam-tip") { bg = th.sectionBg; border = th.secondaryColor; label = "EXAM TIP"; labelColor = th.secondaryColor; }
-        else if (flavor === "trap" || flavor === "exam-trap") { bg = th.flagBg; border = th.warningColor; label = "EXAM TRAP"; labelColor = th.warningColor; }
-        else if (flavor === "warning") { bg = th.flagBg; border = th.flagBorder; label = "\u26A0 WARNING"; labelColor = th.dangerColor; }
+        let bg = th.pearlBg, accentBar = th.pearlBorder, label = "CLINICAL PEARL", labelColor = th.primaryColor, labelBg = th.pearlBorder;
+        if (flavor === "exam_tip" || flavor === "exam-tip") { bg = th.sectionBg; accentBar = th.secondaryColor; label = "EXAM TIP"; labelColor = th.secondaryColor; labelBg = th.secondaryColor; }
+        else if (flavor === "trap" || flavor === "exam-trap") { bg = th.flagBg; accentBar = th.warningColor; label = "EXAM TRAP"; labelColor = th.warningColor; labelBg = th.warningColor; }
+        else if (flavor === "warning") { bg = th.flagBg; accentBar = th.flagBorder; label = "WARNING"; labelColor = th.dangerColor; labelBg = th.dangerColor; }
         const bodyText = text || block.body || "";
-        const titleText = title || block.title || label;
-        const bh = Math.max(58, Math.ceil(bodyText.length / 68) * 14 + 34);
-        ensureSpace(bh + 8);
-        pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: bh, fill: bg, stroke: border, strokeWidth: 2, borderRadius: 10, rotation: 0, opacity: 1, zIndex: z++ });
-        pageObjs.push({ id: uid(), type: "text", x: M + 14, y: curY + 8, width: contentW - 28, height: 14, content: titleText.toUpperCase(), fontSize: 8, fontWeight: "bold", fill: labelColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
-        pageObjs.push({ id: uid(), type: "text", x: M + 14, y: curY + 26, width: contentW - 28, height: bh - 34, content: bodyText, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
-        curY += bh + 10;
+        const titleText = title || block.title || "";
+        const bodyLines = Math.max(1, Math.ceil(bodyText.length / 62));
+        const bh = Math.max(66, bodyLines * 15 + 46);
+        ensureSpace(bh + 12);
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart, y: curY, width: contentInner, height: bh, fill: bg, borderRadius: 10, rotation: 0, opacity: 1, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart, y: curY, width: 5, height: bh, fill: accentBar, borderRadius: 2, rotation: 0, opacity: 0.9, zIndex: z++ });
+        const badgeW = label.length * 6.5 + 16;
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart + 14, y: curY + 8, width: badgeW, height: 18, fill: labelBg, borderRadius: 9, rotation: 0, opacity: 0.15, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "text", x: contentStart + 14 + 8, y: curY + 10, width: badgeW - 16, height: 14, content: label, fontSize: 7, fontWeight: "bold", fill: labelColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
+        if (titleText && titleText.toUpperCase() !== label) {
+          pageObjs.push({ id: uid(), type: "text", x: contentStart + 14 + badgeW + 6, y: curY + 10, width: contentInner - badgeW - 40, height: 14, content: titleText, fontSize: 9, fontWeight: "600", fill: labelColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.8, zIndex: z++, textAlign: "left" });
+        }
+        pageObjs.push({ id: uid(), type: "text", x: contentStart + 16, y: curY + 32, width: contentInner - 32, height: bh - 40, content: bodyText, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.95, zIndex: z++, textAlign: "left" });
+        curY += bh + 12;
       } else if (kind === "image") {
-        const bh = 120;
-        ensureSpace(bh + 8);
-        pageObjs.push({ id: uid(), type: "rect", x: M + contentW * 0.15, y: curY, width: contentW * 0.7, height: bh, fill: th.sectionBgAlt, stroke: th.dividerColor, strokeWidth: 1, borderRadius: 8, rotation: 0, opacity: 1, zIndex: z++ });
-        pageObjs.push({ id: uid(), type: "text", x: M + contentW * 0.15 + 8, y: curY + bh / 2 - 8, width: contentW * 0.7 - 16, height: 16, content: block.alt || block.promptHint || "[Image Placeholder]", fontSize: 9, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "center" });
-        curY += bh + 8;
+        const bh = 130;
+        ensureSpace(bh + 12);
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart + contentInner * 0.1, y: curY, width: contentInner * 0.8, height: bh, fill: th.sectionBg, borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart + contentInner * 0.1, y: curY, width: contentInner * 0.8, height: bh, fill: "transparent", borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++, stroke: th.dividerColor, strokeWidth: 1 });
+        pageObjs.push({ id: uid(), type: "rect", x: contentStart + contentInner * 0.5 - 20, y: curY + bh / 2 - 20, width: 40, height: 40, fill: th.primaryColor, borderRadius: 20, rotation: 0, opacity: 0.08, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "text", x: contentStart + contentInner * 0.1 + 12, y: curY + bh / 2 - 6, width: contentInner * 0.8 - 24, height: 14, content: block.alt || block.promptHint || "Illustration", fontSize: 9, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "center" });
+        curY += bh + 12;
       } else {
-        const lines = Math.max(1, Math.ceil(text.length / 78));
-        const bh = Math.max(18, lines * 14 + 6);
+        const lines = Math.max(1, Math.ceil(text.length / 72));
+        const bh = Math.max(18, lines * 15 + 6);
         ensureSpace(bh);
-        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: bh, content: text, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
-        curY += bh + 4;
+        pageObjs.push({ id: uid(), type: "text", x: contentStart, y: curY, width: contentInner, height: bh, content: text, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
+        curY += bh + 6;
       }
     }
 
@@ -1451,7 +1591,7 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
       ? `\nUSER INSTRUCTIONS: ${aiPrompt.trim()}\nUse these instructions to guide the depth, focus, and style of the content. Do NOT echo the user's words — generate original, structured academic content based on their request.`
       : "";
 
-    return `You are a nursing exam content expert. Generate structured study content as valid JSON.
+    return `You are a nursing exam content expert and visual study-material designer. Generate structured, design-block-oriented study content as valid JSON. Your output will be rendered as a premium Canva-quality study bundle -- NOT a text document.
 
 TOPIC: "${topic}"${userInstructions}
 TEMPLATE: ${bp.label}
@@ -1464,19 +1604,25 @@ ${sectionList}
 
 ${includeQuestions ? `QUESTIONS: Generate ${questionCount} exam-style multiple-choice questions (4 options each) with rationales for EACH option.` : "NO QUESTIONS."}
 
-BLOCK TYPES YOU MUST USE (mix them for variety):
+BLOCK TYPES YOU MUST USE (mix liberally for visual variety):
 - {"kind":"heading","text":"...","level":1|2|3}
 - {"kind":"paragraph","text":"..."}
 - {"kind":"bullets","items":["item1","item2","item3"]}
 - {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"],["c","d"]],"caption":"optional"}
-- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl","title":"...","body":"..."}
+- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"...","body":"..."}
 
-RULES:
+DESIGN RULES (critical for visual quality):
 - Return ONLY valid JSON, no markdown, no trailing commas, no comments
-- Every section must have at least 3 blocks
-- Include at least 1 callout per section (clinical_pearl, exam_tip, or trap)
-- Keep paragraphs concise (2-4 sentences)
-- Include at least 1 table per major section where appropriate
+- Every section MUST have at least 5-7 blocks for visual density
+- Start each section with a level-1 heading, then mix block types aggressively
+- Use level-2 and level-3 headings to create visual hierarchy within sections
+- Include at least 2 callouts per section (mix clinical_pearl, exam_tip, and trap)
+- Include at least 1 table per major section -- tables are high-impact visual blocks
+- Keep paragraphs SHORT (2-3 sentences max). Break long text into bullets
+- Use bullets for lists of 3+ items. Each bullet should be concise (one key point)
+- Tables should have 2-4 columns and 3-6 rows. Use comparison tables where relevant
+- Callout titles should be specific to the content, not generic
+- Callout bodies should be 1-3 sentences of focused, actionable clinical insight
 - Do NOT include keys not listed above
 
 RETURN THIS EXACT STRUCTURE:
@@ -1621,10 +1767,11 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
           if (includeQuestions && questions.length > 0) {
             const qBlocks: any[] = [{ kind: "heading", text: "Practice Questions", level: 1 }];
             questions.forEach((q: any, i: number) => {
-              qBlocks.push({ kind: "heading", text: `Question ${i + 1}`, level: 3 });
+              const num = (i + 1).toString().padStart(2, "0");
+              qBlocks.push({ kind: "heading", text: `Question ${num}`, level: 2 });
               qBlocks.push({ kind: "paragraph", text: q.stem || q.question || "" });
               if (q.options) {
-                qBlocks.push({ kind: "bullets", items: q.options });
+                qBlocks.push({ kind: "bullets", items: q.options.map((o: string) => o.trim()) });
               }
             });
             const qPages = renderBlocksToPages(qBlocks, "Practice Questions", theme);
@@ -1634,8 +1781,9 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
           if (includeQuestions && questions.length > 0) {
             const rBlocks: any[] = [{ kind: "heading", text: "Answer Rationales", level: 1 }];
             questions.forEach((q: any, i: number) => {
-              rBlocks.push({ kind: "heading", text: `Q${i + 1}: ${q.correct || ""}`, level: 3 });
-              rBlocks.push({ kind: "callout", flavor: "exam_tip", title: "Rationale", body: q.rationale || "See explanation above." });
+              const num = (i + 1).toString().padStart(2, "0");
+              rBlocks.push({ kind: "heading", text: `Q${num}  --  Answer: ${q.correct || ""}`, level: 2 });
+              rBlocks.push({ kind: "callout", flavor: "exam_tip", title: `Rationale for Q${num}`, body: q.rationale || "See explanation above." });
             });
             const rPages = renderBlocksToPages(rBlocks, "Rationales", theme);
             for (const pg of rPages) await savePage("Rationales", pg);
