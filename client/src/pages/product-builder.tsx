@@ -2298,6 +2298,12 @@ RETURN THIS EXACT STRUCTURE:
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
+      if (res.status === 422 && err.error === "EMPTY_SECTION") {
+        const emptyList = (err.emptySections || [err.section]).join(", ");
+        const report = err.sectionReport ? "\n\nSection report:\n" + Object.entries(err.sectionReport).map(([k, v]: any) => `  ${k}: ${v.status} (${v.blocks} blocks, ${v.chars} chars)`).join("\n") : "";
+        const rawSnippet = err.rawPreview ? "\n\nRaw model output (first 1500 chars):\n" + err.rawPreview : "";
+        throw new Error(`EMPTY_SECTION: Sections with no content: ${emptyList}${report}${rawSnippet}`);
+      }
       throw new Error(err.error || err.message || `Pipeline step "${step}" failed`);
     }
     const result = await res.json();
@@ -2308,6 +2314,35 @@ RETURN THIS EXACT STRUCTURE:
       if (parsed) return parsed;
     }
     throw new Error(`Pipeline step "${step}" returned invalid data`);
+  };
+
+  const fetchQuestionsBatched = async (total: number): Promise<any[]> => {
+    if (total <= 50) return [];
+    setStepLabel(`Generating ${total} questions in batches...`);
+    const res = await adminFetch("/api/ai/generate-questions-batch", {
+      method: "POST",
+      body: {
+        topic,
+        examTarget: examTier,
+        region,
+        totalCount: total,
+        batchSize: 25,
+      },
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      if (err.error === "QUESTION_BATCH_FAILED") {
+        const partial = err.partialQuestions || [];
+        if (partial.length > 0) {
+          toast({ title: `Question generation partially failed`, description: `${partial.length}/${total} questions generated. Continuing with partial set.`, variant: "destructive" });
+          return partial;
+        }
+        throw new Error(`Question batch generation failed: ${err.details || "Unknown error"}`);
+      }
+      throw new Error(err.error || "Question batch generation failed");
+    }
+    const data = await res.json();
+    return data.questions || [];
   };
 
   const fetchAIContent = async (examCtx: any): Promise<any> => {
@@ -2333,13 +2368,13 @@ RETURN THIS EXACT STRUCTURE:
     let contentData = await callPipelineStep("content", accumulated);
 
     if (!contentData?.sections || contentData.sections.length === 0) {
-      setStepLabel("Retrying content generation...");
+      setStepLabel("Retrying content generation (fallback)...");
       const prompt = buildAIPrompt(examCtx);
       const res = await adminFetch("/api/ai/generate-content", {
         method: "POST",
         body: { prompt, mode: "guided", examTarget: examTier, topic },
       });
-      if (!res.ok) throw new Error("Content generation failed");
+      if (!res.ok) throw new Error("Content generation failed on both pipeline and fallback");
       const data = await res.json();
       if (data.sections?.length > 0) {
         contentData = data;
@@ -2347,7 +2382,7 @@ RETURN THIS EXACT STRUCTURE:
         const raw = data._raw || JSON.stringify(data);
         const parsed = parseAIJsonResponse(raw);
         if (parsed?.sections?.length > 0) contentData = parsed;
-        else throw new Error("Could not generate valid content after multiple attempts");
+        else throw new Error("Could not generate valid content after multiple attempts. The model returned no parseable sections.");
       }
     }
 
@@ -2362,6 +2397,18 @@ RETURN THIS EXACT STRUCTURE:
       const qa = await callPipelineStep("qa", contentData);
       if (qa?.sections?.length > 0) contentData = qa;
     } catch {}
+
+    if (includeQuestions && questionCount > 50) {
+      setStepLabel(`Generating ${questionCount} questions in batches...`);
+      try {
+        const batchedQs = await fetchQuestionsBatched(questionCount);
+        if (batchedQs.length > 0) {
+          contentData.questions = batchedQs;
+        }
+      } catch (e: any) {
+        toast({ title: "Question batching failed", description: e.message, variant: "destructive" });
+      }
+    }
 
     return contentData;
   };
@@ -2955,13 +3002,35 @@ RETURN THIS EXACT STRUCTURE:
           )}
 
           {lastError && !generating && (
-            <div className="rounded-2xl border border-red-200 bg-red-50 p-4 flex items-start gap-3" data-testid="section-error">
-              <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <span className="text-sm font-semibold text-red-700 block">Compilation Error</span>
-                <span className="text-xs text-red-600 block mt-1">{lastError}</span>
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-4 space-y-3" data-testid="section-error">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm font-semibold text-red-700 block">
+                    {lastError.startsWith("EMPTY_SECTION") ? "Empty Section Detected" : lastError.startsWith("QUESTION_BATCH") ? "Question Generation Failed" : "Compilation Error"}
+                  </span>
+                  <span className="text-xs text-red-600 block mt-1">
+                    {lastError.startsWith("EMPTY_SECTION") ? lastError.split("\n\n")[0].replace("EMPTY_SECTION: ", "") : lastError.substring(0, 300)}
+                  </span>
+                </div>
+                <Button size="sm" variant="outline" onClick={compileDocument} className="shrink-0 text-xs" data-testid="button-retry">Retry</Button>
               </div>
-              <Button size="sm" variant="outline" onClick={compileDocument} className="shrink-0 text-xs" data-testid="button-retry">Retry</Button>
+              {lastError.includes("Section report:") && (
+                <div className="bg-white/60 rounded-lg p-3 border border-red-100">
+                  <span className="text-[10px] font-semibold text-red-700 block mb-1.5">Section Validation Report</span>
+                  <pre className="text-[10px] text-red-600 whitespace-pre-wrap font-mono leading-relaxed" data-testid="text-section-report">
+                    {lastError.split("Section report:")[1]?.split("\n\nRaw model")[0] || ""}
+                  </pre>
+                </div>
+              )}
+              {lastError.includes("Raw model output") && (
+                <details className="bg-white/60 rounded-lg p-3 border border-red-100">
+                  <summary className="text-[10px] font-semibold text-red-700 cursor-pointer">Raw Model Output (debug)</summary>
+                  <pre className="text-[9px] text-gray-600 whitespace-pre-wrap font-mono mt-2 max-h-[200px] overflow-auto leading-relaxed" data-testid="text-raw-preview">
+                    {lastError.split("Raw model output (first 1500 chars):")[1]?.substring(0, 1500) || ""}
+                  </pre>
+                </details>
+              )}
             </div>
           )}
 

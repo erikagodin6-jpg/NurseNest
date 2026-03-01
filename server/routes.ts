@@ -806,6 +806,7 @@ Return the corrected content in the same JSON structure:
       if (!pipeline) return res.status(400).json({ error: `Unknown pipeline step: ${step}` });
 
       const callLLM = async (sysPrompt: string, userPrompt: string, maxTok: number, temp: number) => {
+        console.log(`[LLM] model=gpt-4o-mini step=${step} prompt_chars=${sysPrompt.length + userPrompt.length} max_tokens=${maxTok} temp=${temp}`);
         const resp = await openai.chat.completions.create({
           model: "gpt-4o-mini",
           messages: [
@@ -816,17 +817,26 @@ Return the corrected content in the same JSON structure:
           max_tokens: maxTok,
         });
         const raw = resp.choices[0]?.message?.content || "{}";
+        const finishReason = resp.choices[0]?.finish_reason || "unknown";
         const tokens = resp.usage?.total_tokens || 0;
         recordAiUsage(1, tokens);
+        console.log(`[LLM] output_chars=${raw.length} finish_reason=${finishReason} tokens=${tokens}`);
+        if (finishReason === "length") {
+          console.warn(`[LLM] WARNING: output truncated (finish_reason=length). Increase max_tokens or reduce prompt.`);
+        }
         let result;
         try {
           const clean = raw.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
           const match = clean.match(/\{[\s\S]*\}/);
           result = match ? JSON.parse(match[0]) : null;
-        } catch {
+          if (!result) {
+            console.error(`[LLM] JSON parse: no JSON object found in output. First 500 chars: ${raw.substring(0, 500)}`);
+          }
+        } catch (parseErr: any) {
+          console.error(`[LLM] JSON parse error: ${parseErr.message}. First 500 chars: ${raw.substring(0, 500)}`);
           result = null;
         }
-        return { result, raw, tokens };
+        return { result, raw, tokens, finishReason };
       };
 
       const temp = step === "strategy" || step === "blueprint" ? 0.8 : 0.7;
@@ -846,14 +856,6 @@ Return the corrected content in the same JSON structure:
 
           const fixPrompt = pipelinePrompts["fix"];
           if (!fixPrompt) break;
-
-          const fixData = {
-            ...previousStepData,
-            sections: parsed.sections,
-            questions: parsed.questions,
-            qualityScore: quality.score,
-            qualityReasons: quality.reasons,
-          };
 
           const fixSystem = fixPrompt.system;
           const fixUser = `Fix this content that failed quality scoring.
@@ -880,6 +882,54 @@ Return the fixed content in the same JSON structure:
           }
         }
 
+        // --- HARD VALIDATION: per-section empty check ---
+        if (parsed?.sections) {
+          const reqSections: string[] = (sections || []).filter((s: any) => s.id !== "practice-questions" && s.id !== "rationales").map((s: any) => s.id);
+          const sectionMap = new Map<string, any>();
+          for (const sec of parsed.sections) {
+            sectionMap.set(sec.id, sec);
+            const titleNorm = (sec.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+            if (!sectionMap.has(titleNorm)) sectionMap.set(titleNorm, sec);
+          }
+
+          const emptySections: string[] = [];
+          const sectionReport: Record<string, { blocks: number; chars: number; status: string }> = {};
+
+          for (const reqId of reqSections) {
+            const sec = sectionMap.get(reqId);
+            const blocks = sec?.blocks || [];
+            let totalChars = 0;
+            let totalItems = 0;
+            for (const b of blocks) {
+              const txt = (b.text || b.body || b.content || "").toString();
+              const items = b.items || [];
+              totalChars += txt.length + items.join(" ").length;
+              totalItems += items.length;
+            }
+            const pass = blocks.length >= 3 || totalChars >= 800 || totalItems >= 6;
+            sectionReport[reqId] = { blocks: blocks.length, chars: totalChars, status: pass ? "ok" : "EMPTY" };
+            if (!pass) {
+              emptySections.push(reqId);
+              console.error(`[Section Validation] EMPTY section "${reqId}": blocks=${blocks.length} chars=${totalChars} items=${totalItems}`);
+            } else {
+              console.log(`[Section Validation] OK section "${reqId}": blocks=${blocks.length} chars=${totalChars}`);
+            }
+          }
+
+          if (emptySections.length > 0) {
+            console.error(`[Section Validation] ${emptySections.length} empty sections: ${emptySections.join(", ")}`);
+            return res.status(422).json({
+              error: "EMPTY_SECTION",
+              section: emptySections[0],
+              emptySections,
+              sectionReport,
+              details: `Sections with insufficient content: ${emptySections.join(", ")}. Each section needs >= 3 blocks or >= 800 chars.`,
+              rawPreview: text.substring(0, 1500),
+              quality: { score: quality.score, pass: quality.pass, reasons: quality.reasons, retries },
+            });
+          }
+        }
+
         if (parsed) {
           return res.json({
             step, data: parsed, tokens: totalTokens,
@@ -895,6 +945,120 @@ Return the fixed content in the same JSON structure:
     } catch (e: any) {
       console.error(`Pipeline step error:`, e);
       res.status(500).json({ error: e.message || "Pipeline step failed" });
+    }
+  });
+
+  // --- Question batch endpoint for large question counts ---
+  app.post("/api/ai/generate-questions-batch", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
+
+      const { topic, examTarget, region: reqRegion, totalCount, batchSize: reqBatchSize } = req.body;
+      if (!topic) return res.status(400).json({ error: "topic is required" });
+
+      const region = reqRegion || "US";
+      const examNotes: Record<string, string> = {
+        "rex-pn": "REX-PN (Canada). Canadian terminology: RPN, CNO, SI units.",
+        "nclex-pn": "NCLEX-PN (US). American terminology: LPN/LVN, conventional units.",
+        "nclex-rn": "NCLEX-RN. NCSBN CJMM. NGN question types. Full RN scope.",
+        "np": "NP Certification. Advanced practice. Differential diagnosis, prescribing.",
+      };
+      const examContext = examNotes[examTarget] || "General nursing exam preparation.";
+      const regionContext = region === "CA" ? "Canadian context (metric, SI)" : region === "BOTH" ? "Both Canadian and US values" : "US context (imperial, conventional units)";
+
+      const total = Math.min(Math.max(parseInt(totalCount) || 25, 5), 500);
+      const batchSize = Math.min(Math.max(parseInt(reqBatchSize) || 25, 10), 50);
+      const batches = Math.ceil(total / batchSize);
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const allQuestions: any[] = [];
+      let totalTokens = 0;
+
+      for (let batch = 0; batch < batches; batch++) {
+        const count = Math.min(batchSize, total - allQuestions.length);
+        const startNum = allQuestions.length + 1;
+        console.log(`[QuestionBatch] Generating batch ${batch + 1}/${batches}: questions ${startNum}-${startNum + count - 1} (${allQuestions.length}/${total} done)`);
+
+        const sysPrompt = `You are a senior NCLEX item writer for NurseNest. Generate ${count} professional-quality exam questions that test clinical judgment. Return ONLY a valid JSON array of question objects.
+
+Each question MUST have: stem (clinical scenario with specific values), options (array of exactly 4 strings: "A) ...", "B) ...", "C) ...", "D) ..."), correct (letter A-D), rationale (why correct is right AND why each wrong option is wrong), trap_note (common exam mistake for this question).
+
+RULES: Focus on priority/delegation/safety. Include specific lab values, vitals, and drug names in stems. All 4 options must be plausible nursing actions.`;
+
+        const userPrompt = `TOPIC: "${topic}"
+EXAM: ${examContext}
+REGION: ${regionContext}
+Generate questions ${startNum} through ${startNum + count - 1} (${count} questions).
+Return JSON: [{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"...","trap_note":"..."}]`;
+
+        let batchQuestions: any[] | null = null;
+        const MAX_RETRIES = 2;
+        for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+          console.log(`[QuestionBatch] batch=${batch + 1} attempt=${attempt + 1}`);
+          const resp = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: sysPrompt },
+              { role: "user", content: userPrompt },
+            ],
+            temperature: 0.7,
+            max_tokens: 8192,
+          });
+          const raw = resp.choices[0]?.message?.content || "[]";
+          totalTokens += resp.usage?.total_tokens || 0;
+          recordAiUsage(1, resp.usage?.total_tokens || 0);
+          console.log(`[QuestionBatch] output_chars=${raw.length} finish_reason=${resp.choices[0]?.finish_reason}`);
+
+          try {
+            const clean = raw.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+            const arrMatch = clean.match(/\[[\s\S]*\]/);
+            if (arrMatch) {
+              const arr = JSON.parse(arrMatch[0]);
+              if (Array.isArray(arr) && arr.length > 0) {
+                const valid = arr.filter((q: any) => q.stem && Array.isArray(q.options) && q.options.length >= 4 && q.correct && q.rationale);
+                if (valid.length >= Math.floor(count * 0.5)) {
+                  batchQuestions = valid;
+                  console.log(`[QuestionBatch] batch=${batch + 1} success: ${valid.length}/${count} valid questions`);
+                  break;
+                }
+                console.warn(`[QuestionBatch] batch=${batch + 1} only ${valid.length}/${count} valid questions, retrying...`);
+              }
+            }
+          } catch (parseErr: any) {
+            console.error(`[QuestionBatch] JSON parse error: ${parseErr.message}`);
+          }
+        }
+
+        if (!batchQuestions) {
+          console.error(`[QuestionBatch] batch=${batch + 1} FAILED after ${MAX_RETRIES + 1} attempts`);
+          return res.status(422).json({
+            error: "QUESTION_BATCH_FAILED",
+            batch: batch + 1,
+            totalBatches: batches,
+            questionsGenerated: allQuestions.length,
+            questionsRequested: total,
+            details: `Question batch ${batch + 1} failed after ${MAX_RETRIES + 1} attempts. ${allQuestions.length} questions generated so far.`,
+            partialQuestions: allQuestions,
+          });
+        }
+
+        allQuestions.push(...batchQuestions);
+      }
+
+      console.log(`[QuestionBatch] Complete: ${allQuestions.length}/${total} questions, ${totalTokens} tokens`);
+      return res.json({ questions: allQuestions, total: allQuestions.length, requested: total, tokens: totalTokens });
+    } catch (e: any) {
+      console.error(`[QuestionBatch] error:`, e);
+      res.status(500).json({ error: e.message || "Question batch generation failed" });
     }
   });
 

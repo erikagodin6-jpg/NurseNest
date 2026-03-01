@@ -1,0 +1,39 @@
+Stop narrating. Do not say “Let me…”. Only do concrete edits.
+
+I need a MINIMUM VIABLE FIX FIRST (not a giant refactor):
+Goal: prevent the document creator from compiling empty section pages and from silently dropping content.
+
+Implement the following in the EXISTING survival/cram guide generation endpoint (do not create new endpoints yet unless necessary):
+
+1) Add hard validation after LLM generation:
+   - The blueprint expects sections: Learning Objectives, Pathophysiology, Signs & Symptoms, Assessment Findings, Labs & Diagnostics, Medications, Nursing Interventions, Complications, Patient Teaching, Practice Questions.
+   - After parsing model output, verify each required section has at least:
+     - >= 800 characters OR >= 6 bullet items OR >= 3 blocks (whichever your internal representation uses).
+   - If any required section is missing/empty, return HTTP 422 with JSON:
+     { error: "EMPTY_SECTION", section: "...", details: "...", rawPreview: "first 1500 chars of model output" }
+   - Do NOT proceed to compile if validation fails.
+
+2) Add question batching inside the same endpoint:
+   - If requested questions > 60, generate in batches of 25 (or 30).
+   - Append batches until the total count is reached.
+   - Validate each question has stem, 4 options, correct answer, and rationale.
+   - If a batch fails, retry up to 2 times; if still failing, return HTTP 422 with error "QUESTION_BATCH_FAILED".
+
+3) Add server logs (console) for:
+   - model name
+   - prompt size (chars)
+   - output size (chars)
+   - parse errors
+   - which section failed validation
+   - question progress (e.g., 50/300)
+
+4) Client/UI changes:
+   - In Guided Mode compile progress UI, show hard errors instead of “success”.
+   - If API returns 422, display the section name and the rawPreview so I can debug prompts.
+
+Constraints:
+- Do NOT touch the blog generator.
+- Keep changes isolated to cram/survival document generator codepath.
+- After changes, provide: (a) list of files changed (b) code diffs (c) how to test.
+
+Start by locating the current endpoint and parsing/compile function and implement these steps there.
