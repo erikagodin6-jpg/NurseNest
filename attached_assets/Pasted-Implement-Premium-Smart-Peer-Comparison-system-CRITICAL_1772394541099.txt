@@ -1,0 +1,128 @@
+Implement Premium Smart Peer Comparison system.
+
+CRITICAL:
+- Fully opt-in.
+- No public leaderboards.
+- Normalize comparison by experience bracket.
+- Hide stats if insufficient data.
+
+========================================
+PART 1 — FRIEND SYSTEM
+========================================
+
+Create models:
+
+FriendRequest:
+- id
+- requesterId
+- receiverId
+- status (pending/accepted/declined)
+
+FriendConnection:
+- userAId
+- userBId
+- createdAt
+
+Rules:
+- Mutual acceptance required.
+- Premium users only.
+- Free users see upgrade prompt.
+
+========================================
+PART 2 — PRACTICE DURATION TRACKING
+========================================
+
+Track per user:
+- firstQuestionAnsweredAt
+- totalQuestionsAnswered
+- totalExamsCompleted
+- totalStudyMinutes
+
+Compute:
+practiceDurationDays = now - firstQuestionAnsweredAt
+
+ExperienceBracket:
+- 0–7 days
+- 8–30 days
+- 31–90 days
+- 90+ days
+
+========================================
+PART 3 — FRIEND COMPARISON DASHBOARD
+========================================
+
+For each accepted friend show:
+- Readiness Score
+- Avg Exam Score (last 3)
+- Improvement trend (last 2 weeks)
+- Questions completed
+- Practice duration
+- Experience bracket
+
+Only show if:
+- Both users opted-in
+- Both have >= 50 questions answered
+
+If not:
+Display:
+"Not enough activity to compare yet."
+
+========================================
+PART 4 — BRACKET PERCENTILE
+========================================
+
+Within same ExperienceBracket:
+Compute percentile based on:
+- Avg exam score
+- Exclude users:
+   - < 1 exam
+   - < 50 questions
+
+Hide percentile if:
+- < 30 qualified users in bracket
+
+Show:
+"You are in the 68th percentile among students practicing 30–90 days."
+
+========================================
+PART 5 — PRIVACY CONTROLS
+========================================
+
+User settings:
+- Enable friend comparison (default OFF)
+- Enable bracket comparison (default OFF)
+- Enable shareable stats (default OFF)
+
+========================================
+PART 6 — PREMIUM GATING
+========================================
+
+If user.subscription != premium:
+- Hide friend system
+- Hide bracket percentile
+- Hide readiness comparison
+- Show upgrade CTA
+
+========================================
+PART 7 — PSYCHOLOGICAL SAFETY RULES
+========================================
+
+Never show:
+- "You are last"
+- Exact ranking numbers (1/37)
+
+Always show:
+- Percentile
+- Improvement trend
+- Growth metrics
+
+========================================
+PART 8 — ACCEPTANCE TEST
+========================================
+
+1. User A + User B both premium.
+2. Both answer >50 questions.
+3. Both opt-in.
+4. Dashboard shows comparison.
+5. Bracket percentile shown only if >=30 qualified users.
+6. Free user cannot access comparison.

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -118,6 +118,21 @@ export interface IStorage {
   createQbankRecipe(recipe: InsertQbankRecipe): Promise<QbankRecipe>;
   updateQbankRecipe(id: string, updates: Partial<InsertQbankRecipe>): Promise<QbankRecipe>;
   deleteQbankRecipe(id: string): Promise<void>;
+
+  createDiagnosticAssessment(data: InsertDiagnosticAssessment): Promise<DiagnosticAssessment>;
+  getDiagnosticAssessment(id: string): Promise<DiagnosticAssessment | undefined>;
+  getUserDiagnostics(userId: string): Promise<DiagnosticAssessment[]>;
+
+  getUserStats(userId: string): Promise<UserStats | undefined>;
+  upsertUserStats(userId: string, updates: Partial<InsertUserStats>): Promise<UserStats>;
+
+  createStudyGroup(data: InsertStudyGroup): Promise<StudyGroup>;
+  getStudyGroup(id: string): Promise<StudyGroup | undefined>;
+  getStudyGroupByCode(code: string): Promise<StudyGroup | undefined>;
+  getUserStudyGroups(userId: string): Promise<StudyGroup[]>;
+  addStudyGroupMember(data: InsertStudyGroupMember): Promise<StudyGroupMember>;
+  getStudyGroupMembers(groupId: string): Promise<(StudyGroupMember & { username: string; stats?: UserStats })[]>;
+  removeStudyGroupMember(groupId: string, userId: string): Promise<void>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -907,6 +922,72 @@ export class DatabaseStorage implements IStorage {
   }
   async deleteQbankRecipe(id: string): Promise<void> {
     await db.delete(qbankRecipes).where(eq(qbankRecipes.id, id));
+  }
+
+  async createDiagnosticAssessment(data: InsertDiagnosticAssessment): Promise<DiagnosticAssessment> {
+    const [d] = await db.insert(diagnosticAssessments).values(data).returning();
+    return d;
+  }
+  async getDiagnosticAssessment(id: string): Promise<DiagnosticAssessment | undefined> {
+    const [d] = await db.select().from(diagnosticAssessments).where(eq(diagnosticAssessments.id, id));
+    return d;
+  }
+  async getUserDiagnostics(userId: string): Promise<DiagnosticAssessment[]> {
+    return db.select().from(diagnosticAssessments).where(eq(diagnosticAssessments.userId, userId)).orderBy(desc(diagnosticAssessments.completedAt));
+  }
+
+  async getUserStats(userId: string): Promise<UserStats | undefined> {
+    const [s] = await db.select().from(userStats).where(eq(userStats.userId, userId));
+    return s;
+  }
+  async upsertUserStats(userId: string, updates: Partial<InsertUserStats>): Promise<UserStats> {
+    const existing = await this.getUserStats(userId);
+    if (existing) {
+      const [s] = await db.update(userStats).set({ ...updates, updatedAt: new Date() }).where(eq(userStats.userId, userId)).returning();
+      return s;
+    }
+    const [s] = await db.insert(userStats).values({ userId, ...updates }).returning();
+    return s;
+  }
+
+  async createStudyGroup(data: InsertStudyGroup): Promise<StudyGroup> {
+    const [g] = await db.insert(studyGroups).values(data).returning();
+    return g;
+  }
+  async getStudyGroup(id: string): Promise<StudyGroup | undefined> {
+    const [g] = await db.select().from(studyGroups).where(eq(studyGroups.id, id));
+    return g;
+  }
+  async getStudyGroupByCode(code: string): Promise<StudyGroup | undefined> {
+    const [g] = await db.select().from(studyGroups).where(eq(studyGroups.inviteCode, code));
+    return g;
+  }
+  async getUserStudyGroups(userId: string): Promise<StudyGroup[]> {
+    const memberships = await db.select().from(studyGroupMembers).where(eq(studyGroupMembers.userId, userId));
+    if (memberships.length === 0) return [];
+    const groups: StudyGroup[] = [];
+    for (const m of memberships) {
+      const g = await this.getStudyGroup(m.groupId);
+      if (g) groups.push(g);
+    }
+    return groups;
+  }
+  async addStudyGroupMember(data: InsertStudyGroupMember): Promise<StudyGroupMember> {
+    const [m] = await db.insert(studyGroupMembers).values(data).returning();
+    return m;
+  }
+  async getStudyGroupMembers(groupId: string): Promise<(StudyGroupMember & { username: string; stats?: UserStats })[]> {
+    const members = await db.select().from(studyGroupMembers).where(eq(studyGroupMembers.groupId, groupId));
+    const result: (StudyGroupMember & { username: string; stats?: UserStats })[] = [];
+    for (const m of members) {
+      const user = await this.getUser(m.userId);
+      const stats = await this.getUserStats(m.userId);
+      result.push({ ...m, username: user?.username || "Unknown", stats: stats || undefined });
+    }
+    return result;
+  }
+  async removeStudyGroupMember(groupId: string, userId: string): Promise<void> {
+    await db.delete(studyGroupMembers).where(and(eq(studyGroupMembers.groupId, groupId), eq(studyGroupMembers.userId, userId)));
   }
 }
 

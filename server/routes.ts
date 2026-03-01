@@ -10016,10 +10016,46 @@ Return ONLY valid JSON with this exact structure:
       const contextLabel = draft.canadianContext ? "Canadian REx-PN" : "US NCLEX";
       const topicLabel = draft.mixedBlueprint ? "mixed clinical blueprint" : draft.topic;
 
+      const distJson = (draft.distributionJson || {}) as any;
+      const topicMix: { topic: string; weightPercent: number }[] = distJson.topicMix || [];
+      const typeMix: { type: string; weightPercent: number }[] = distJson.typeMix || [];
+
+      let topicInstruction = "";
+      if (topicMix.length > 0) {
+        const topicLines = topicMix.map(t => `  - ${t.topic}: ${t.weightPercent}% (~${Math.round(requested * t.weightPercent / 100)} questions)`).join("\n");
+        topicInstruction = `\nDistribute questions across these clinical topics:\n${topicLines}\nEach question must include a topicTag field matching one of these topics exactly.`;
+      }
+
+      let typeInstruction = "";
+      if (typeMix.length > 0) {
+        const typeLines = typeMix.map(t => `  - ${t.type}: ${t.weightPercent}%`).join("\n");
+        typeInstruction = `\nQuestion type distribution:\n${typeLines}`;
+      }
+
       for (let pass = 0; pass < maxPasses && allQuestions.length < requested; pass++) {
         const remaining = requested - allQuestions.length;
         const batchSize = Math.min(CHUNK_SIZE, remaining);
         console.log(`[QBank ${draft.id}] Chunk ${pass + 1}: generating ${batchSize}, have ${allQuestions.length}/${requested}`);
+
+        let chunkTopicHint = "";
+        if (topicMix.length > 0 && allQuestions.length > 0) {
+          const currentTopicCounts: Record<string, number> = {};
+          for (const q of allQuestions) {
+            const tag = q.topicTag || q.topic || "Unknown";
+            currentTopicCounts[tag] = (currentTopicCounts[tag] || 0) + 1;
+          }
+          const deficits: string[] = [];
+          for (const tm of topicMix) {
+            const target = Math.round(requested * tm.weightPercent / 100);
+            const actual = currentTopicCounts[tm.topic] || 0;
+            if (actual < target) {
+              deficits.push(`${tm.topic} (need ${target - actual} more)`);
+            }
+          }
+          if (deficits.length > 0) {
+            chunkTopicHint = ` Focus on these deficit topics: ${deficits.join(", ")}.`;
+          }
+        }
 
         try {
           const openai = (await import("./openai-client")).getOpenAIClient();
@@ -10031,11 +10067,11 @@ Return ONLY valid JSON with this exact structure:
             messages: [
               {
                 role: "system",
-                content: `You are a ${contextLabel} exam item writer. Generate exactly ${batchSize} unique clinical nursing questions in JSON format. Output: {"questions":[...]}. Each question must have: id (number), category (one of: ${VALID_CATS.join(", ")}), type (MCQ or SATA or PRIORITY or DELEGATION), scenario (2-3 sentence clinical vignette), stem (the question), options (array of strings, A-D for MCQ/PRIORITY/DELEGATION, A-H for SATA), correctAnswer (single letter for MCQ/PRIORITY/DELEGATION, array of letters for SATA), rationaleCorrect (why correct answer is right), rationaleIncorrect (array of strings explaining why each wrong option is wrong), clinicalPearl (key takeaway). Difficulty: ${draft.difficulty}. Every scenario must be unique. No duplicate clinical situations.`
+                content: `You are a ${contextLabel} exam item writer. Generate exactly ${batchSize} unique clinical nursing questions in JSON format. Output: {"questions":[...]}. Each question must have: id (number), category (one of: ${VALID_CATS.join(", ")}), type (MCQ or SATA or PRIORITY or DELEGATION), topicTag (clinical topic string), scenario (2-3 sentence clinical vignette), stem (the question), options (array of strings, A-D for MCQ/PRIORITY/DELEGATION, A-H for SATA), correctAnswer (single letter for MCQ/PRIORITY/DELEGATION, array of letters for SATA), rationaleCorrect (why correct answer is right), rationaleIncorrect (array of strings explaining why each wrong option is wrong), clinicalPearl (key takeaway). Difficulty: ${draft.difficulty}. Every scenario must be unique.${topicInstruction}${typeInstruction}`
               },
               {
                 role: "user",
-                content: `Generate ${batchSize} ${contextLabel} practice questions on: ${topicLabel}. Starting from question ID ${allQuestions.length + 1}. Ensure each question has a unique clinical scenario. ${draft.canadianContext ? "Use Canadian nursing context, units (mmol/L, celsius), and healthcare system references." : ""}`
+                content: `Generate ${batchSize} ${contextLabel} practice questions on: ${topicLabel}. Starting from question ID ${allQuestions.length + 1}. Ensure each question has a unique clinical scenario. ${draft.canadianContext ? "Use Canadian nursing context, units (mmol/L, celsius), and healthcare system references." : ""}${chunkTopicHint}`
               }
             ]
           });
@@ -10052,6 +10088,9 @@ Return ONLY valid JSON with this exact structure:
             seenHashes.add(h);
             q.id = allQuestions.length + 1;
             q.type = (q.type || "MCQ").toUpperCase();
+            if (!q.topicTag && topicMix.length > 0) {
+              q.topicTag = topicMix[allQuestions.length % topicMix.length].topic;
+            }
             allQuestions.push(q);
             if (allQuestions.length >= requested) break;
           }
@@ -10062,10 +10101,31 @@ Return ONLY valid JSON with this exact structure:
 
       const byType: Record<string, number> = {};
       const byCategory: Record<string, number> = {};
+      const byTopic: Record<string, number> = {};
       for (const q of allQuestions) {
         byType[q.type] = (byType[q.type] || 0) + 1;
         const catKey = (q.category || "Unknown").split(" ").slice(0, 3).join(" ");
         byCategory[catKey] = (byCategory[catKey] || 0) + 1;
+        const topicKey = q.topicTag || q.topic || "Unknown";
+        byTopic[topicKey] = (byTopic[topicKey] || 0) + 1;
+      }
+
+      let topicDistribution: any = null;
+      if (topicMix.length > 0) {
+        topicDistribution = topicMix.map(tm => {
+          const actual = byTopic[tm.topic] || 0;
+          const target = Math.round(requested * tm.weightPercent / 100);
+          const actualPct = allQuestions.length > 0 ? Math.round((actual / allQuestions.length) * 100) : 0;
+          const diff = Math.abs(actualPct - tm.weightPercent);
+          return {
+            topic: tm.topic,
+            requestedPct: tm.weightPercent,
+            actualPct,
+            targetCount: target,
+            actualCount: actual,
+            withinTolerance: diff <= 2 || Math.abs(actual - target) <= 2,
+          };
+        });
       }
 
       const audit = {
@@ -10075,6 +10135,8 @@ Return ONLY valid JSON with this exact structure:
         countMatch: allQuestions.length === requested,
         byType,
         byCategory,
+        byTopic,
+        topicDistribution,
         errors,
         timestamp: new Date().toISOString(),
       };
@@ -10311,6 +10373,295 @@ Return ONLY valid JSON with this exact structure:
       } as any);
 
       res.json({ draft, message: "Draft created from recipe. Use /generate to start generation." });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/diagnostic-assessment/start", async (req, res) => {
+    try {
+      const { userId, examTarget } = req.body;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const exam = examTarget || "rex-pn";
+      const publishedQs = await pool.query(
+        `SELECT * FROM exam_questions WHERE status = 'published' AND exam = $1 ORDER BY random() LIMIT 30`,
+        [exam === "rex-pn" ? "rex-pn" : "nclex-rn"]
+      );
+      let questions = publishedQs.rows;
+      if (questions.length < 30) {
+        const fallbackQs = await pool.query(
+          `SELECT * FROM exam_questions WHERE status = 'published' ORDER BY random() LIMIT 30`
+        );
+        questions = fallbackQs.rows;
+      }
+      if (questions.length < 10) {
+        const DOMAINS = ["Safe and Effective Care Environment", "Health Promotion and Maintenance", "Psychosocial Integrity", "Physiological Integrity"];
+        const TOPICS = ["Cardiac", "Respiratory", "Neurological", "Pharmacology", "Mental Health", "Pediatrics", "Maternal-Newborn", "Infection Control", "Fluid & Electrolytes", "Diabetes"];
+        questions = Array.from({ length: 30 }, (_, i) => ({
+          id: `diag-${i + 1}`,
+          stem: `A nurse is caring for a patient with ${TOPICS[i % TOPICS.length].toLowerCase()} concerns. Which action should the nurse take first?`,
+          options: JSON.stringify(["Assess the patient's vital signs", "Administer prescribed medication", "Document the findings", "Notify the healthcare provider"]),
+          correct_answer: JSON.stringify("A"),
+          body_system: TOPICS[i % TOPICS.length],
+          topic: TOPICS[i % TOPICS.length],
+          question_type: "multiple-choice",
+          tier: "rpn",
+          exam: exam,
+          rationale: "Assessment is the first step in the nursing process.",
+        }));
+      }
+      const formatted = questions.map((q: any, i: number) => ({
+        id: q.id,
+        number: i + 1,
+        stem: q.stem,
+        options: typeof q.options === "string" ? JSON.parse(q.options) : q.options,
+        correctAnswer: typeof q.correct_answer === "string" ? JSON.parse(q.correct_answer) : q.correct_answer,
+        domain: q.body_system || "General",
+        topic: q.topic || q.body_system || "General",
+        rationale: q.rationale || "",
+      }));
+      res.json({ questions: formatted, examTarget: exam, totalQuestions: formatted.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/diagnostic-assessment/submit", async (req, res) => {
+    try {
+      const { userId, examTarget, answers, questions } = req.body;
+      if (!userId || !answers || !questions) return res.status(400).json({ error: "Missing required fields" });
+
+      let correct = 0;
+      const domainScores: Record<string, { correct: number; total: number }> = {};
+      const topicScores: Record<string, { correct: number; total: number }> = {};
+
+      for (const q of questions) {
+        const userAnswer = answers[q.id];
+        const isCorrect = JSON.stringify(userAnswer) === JSON.stringify(q.correctAnswer);
+        if (isCorrect) correct++;
+
+        const domain = q.domain || "General";
+        if (!domainScores[domain]) domainScores[domain] = { correct: 0, total: 0 };
+        domainScores[domain].total++;
+        if (isCorrect) domainScores[domain].correct++;
+
+        const topic = q.topic || domain;
+        if (!topicScores[topic]) topicScores[topic] = { correct: 0, total: 0 };
+        topicScores[topic].total++;
+        if (isCorrect) topicScores[topic].correct++;
+      }
+
+      const score = Math.round((correct / questions.length) * 100);
+
+      const weakTopics = Object.entries(topicScores)
+        .map(([t, s]) => ({ topic: t, pct: Math.round((s.correct / s.total) * 100) }))
+        .sort((a, b) => a.pct - b.pct)
+        .slice(0, 3);
+      const strongTopics = Object.entries(topicScores)
+        .map(([t, s]) => ({ topic: t, pct: Math.round((s.correct / s.total) * 100) }))
+        .sort((a, b) => b.pct - a.pct)
+        .slice(0, 3);
+
+      let weaknessSummary = `Areas needing focus: ${weakTopics.map(t => `${t.topic} (${t.pct}%)`).join(", ")}.`;
+      let strengthSummary = `Strong areas: ${strongTopics.map(t => `${t.topic} (${t.pct}%)`).join(", ")}.`;
+      let studyPlan: any = null;
+      let recommendedQbanks: any = null;
+
+      try {
+        const openai = (await import("./openai-client")).getOpenAIClient();
+        const aiResp = await openai.chat.completions.create({
+          model: "gpt-4o",
+          temperature: 0.7,
+          max_tokens: 3000,
+          response_format: { type: "json_object" },
+          messages: [
+            { role: "system", content: `You are a nursing exam prep coach. Generate a personalized study plan based on diagnostic results. Output JSON: {"weaknessSummary":"...","strengthSummary":"...","studyPlan":{"weeks":[{"week":1,"focus":"...","activities":["..."],"hours":10},...]},"recommendedQbanks":[{"title":"...","topic":"...","count":100,"reason":"..."}]}` },
+            { role: "user", content: `Diagnostic results for ${examTarget || "REx-PN"}: Score ${score}%. Weak areas: ${weakTopics.map(t => `${t.topic} (${t.pct}%)`).join(", ")}. Strong areas: ${strongTopics.map(t => `${t.topic} (${t.pct}%)`).join(", ")}. Domain scores: ${JSON.stringify(domainScores)}.` }
+          ]
+        });
+        const aiData = JSON.parse(aiResp.choices[0]?.message?.content || "{}");
+        if (aiData.weaknessSummary) weaknessSummary = aiData.weaknessSummary;
+        if (aiData.strengthSummary) strengthSummary = aiData.strengthSummary;
+        if (aiData.studyPlan) studyPlan = aiData.studyPlan;
+        if (aiData.recommendedQbanks) recommendedQbanks = aiData.recommendedQbanks;
+      } catch {}
+
+      const assessment = await storage.createDiagnosticAssessment({
+        userId,
+        examTarget: examTarget || "rex-pn",
+        totalQuestions: questions.length,
+        score,
+        domainScores,
+        topicScores,
+        answers,
+        weaknessSummary,
+        strengthSummary,
+        studyPlan,
+        recommendedQbanks,
+      });
+
+      const today = new Date().toISOString().split("T")[0];
+      const existingStats = await storage.getUserStats(userId);
+      const prevAnswered = existingStats?.totalQuestionsAnswered || 0;
+      const prevCorrect = existingStats?.totalCorrect || 0;
+      const prevDomain = (existingStats?.domainBreakdown as any) || {};
+      const prevExams = (existingStats?.examScores as any[]) || [];
+      const prevStreak = existingStats?.studyStreak || 0;
+      const prevDate = existingStats?.lastStudyDate || "";
+
+      const newDomain = { ...prevDomain };
+      for (const [d, s] of Object.entries(domainScores)) {
+        if (!newDomain[d]) newDomain[d] = { correct: 0, total: 0 };
+        newDomain[d].correct += (s as any).correct;
+        newDomain[d].total += (s as any).total;
+      }
+
+      let newStreak = prevStreak;
+      if (prevDate === today) { /* same day */ }
+      else {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (prevDate === yesterday.toISOString().split("T")[0]) newStreak++;
+        else newStreak = 1;
+      }
+
+      await storage.upsertUserStats(userId, {
+        totalQuestionsAnswered: prevAnswered + questions.length,
+        totalCorrect: prevCorrect + correct,
+        domainBreakdown: newDomain,
+        examScores: [...prevExams, { type: "diagnostic", score, date: today, examTarget }],
+        studyStreak: newStreak,
+        lastStudyDate: today,
+      });
+
+      res.json(assessment);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/diagnostic-assessment/history/:userId", async (req, res) => {
+    try {
+      const diagnostics = await storage.getUserDiagnostics(req.params.userId);
+      res.json(diagnostics);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/diagnostic-assessment/:id", async (req, res) => {
+    try {
+      const d = await storage.getDiagnosticAssessment(req.params.id);
+      if (!d) return res.status(404).json({ error: "Not found" });
+      res.json(d);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/user-stats/:userId", async (req, res) => {
+    try {
+      const stats = await storage.getUserStats(req.params.userId);
+      if (!stats) return res.json({ totalQuestionsAnswered: 0, totalCorrect: 0, domainBreakdown: {}, examScores: [], studyStreak: 0, publicProfile: false, leaderboardVisible: false });
+      res.json(stats);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/user-stats/:userId/privacy", async (req, res) => {
+    try {
+      const { publicProfile, leaderboardVisible } = req.body;
+      const stats = await storage.upsertUserStats(req.params.userId, { publicProfile, leaderboardVisible });
+      res.json(stats);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/study-groups", async (req, res) => {
+    try {
+      const { name, userId } = req.body;
+      if (!name || !userId) return res.status(400).json({ error: "name and userId required" });
+      const inviteCode = Math.random().toString(36).slice(2, 8).toUpperCase();
+      const group = await storage.createStudyGroup({ name, inviteCode, createdBy: userId });
+      await storage.addStudyGroupMember({ groupId: group.id, userId });
+      res.json(group);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/study-groups/join", async (req, res) => {
+    try {
+      const { inviteCode, userId } = req.body;
+      if (!inviteCode || !userId) return res.status(400).json({ error: "inviteCode and userId required" });
+      const group = await storage.getStudyGroupByCode(inviteCode.toUpperCase());
+      if (!group) return res.status(404).json({ error: "Group not found" });
+      const members = await storage.getStudyGroupMembers(group.id);
+      if (members.some(m => m.userId === userId)) return res.status(400).json({ error: "Already a member" });
+      await storage.addStudyGroupMember({ groupId: group.id, userId });
+      res.json(group);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/study-groups/user/:userId", async (req, res) => {
+    try {
+      const groups = await storage.getUserStudyGroups(req.params.userId);
+      res.json(groups);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/study-groups/:id/members", async (req, res) => {
+    try {
+      const members = await storage.getStudyGroupMembers(req.params.id);
+      res.json(members);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/study-groups/:groupId/members/:userId", async (req, res) => {
+    try {
+      await storage.removeStudyGroupMember(req.params.groupId, req.params.userId);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/diagnostic-assessment/:id/generate-remediation", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const assessment = await storage.getDiagnosticAssessment(req.params.id);
+      if (!assessment) return res.status(404).json({ error: "Not found" });
+      const topicScores = assessment.topicScores as Record<string, { correct: number; total: number }>;
+      const weakTopics = Object.entries(topicScores)
+        .map(([t, s]) => ({ topic: t, pct: Math.round((s.correct / s.total) * 100) }))
+        .sort((a, b) => a.pct - b.pct)
+        .slice(0, 3)
+        .map(t => t.topic);
+      const topicLabel = weakTopics.join(", ");
+      const slug = `remediation-${assessment.id.slice(0, 8)}-${Date.now().toString(36)}`;
+      const draft = await storage.createQbankDraft({
+        title: `Remediation: ${topicLabel}`,
+        slug,
+        exam: assessment.examTarget,
+        topic: topicLabel,
+        mixedBlueprint: false,
+        requestedCount: 100,
+        difficulty: "medium",
+        canadianContext: assessment.examTarget === "rex-pn",
+        editionsJson: { questionsOnly: true, studyEdition: true },
+        status: "draft",
+      });
+      await storage.updateQbankDraft(assessment.id, { remediationBankId: draft.id } as any).catch(() => {});
+      res.json({ draft, weakTopics });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

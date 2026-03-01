@@ -1,0 +1,169 @@
+Now we build this properly.
+You are no longer selling PDFs.
+You are selling:
+• Readiness
+• Performance intelligence
+• Adaptive preparation
+• Competitive advantage
+Let’s structure your Premium ecosystem cleanly.
+🎯 Premium Smart Prep Architecture
+This will be your core positioning:
+Intelligent Canadian REx-PN Preparation
+Not just more questions — smarter practice.
+🏗 PREMIUM FEATURE STACK (Tiered Properly)
+🟢 Free Tier (Lead Magnet)
+Purpose: attract traffic + build email list.
+Includes:
+• 25 free practice questions
+• 1 mini diagnostic (15Q)
+• Basic score breakdown
+• Limited flashcards (20 max)
+• No peer stats
+• No readiness score
+CTA everywhere:
+Upgrade to Premium for full analytics + unlimited banks.
+🔵 Premium Smart Prep ($29/month)
+Includes:
+1. 300Q Master Banks
+• Unlimited access to released banks
+• Questions Only + Study Edition
+• Instant unlock
+2. Full-Length Practice Exams
+• 90Q exams
+• Timed simulation
+• Forms A/B/C
+3. AI Diagnostic Engine
+• 30Q diagnostic
+• Weakness analysis
+• 4-week study plan
+• Auto remediation packs
+4. Advanced Analytics
+• % of users who answered correctly
+• Difficulty indicator
+• Domain accuracy breakdown
+• Trend graphs
+• Percentile ranking
+• Readiness score
+5. Smart Flashcards
+• AI-generated flashcards
+• Weak-topic auto flashcards
+• Spaced repetition
+6. Study Groups + Shareable Stats
+• Create group
+• Invite friends
+• Compare improvement
+• Share exam score cards
+🧠 Premium Positioning Copy
+Use this.
+Hero Section (Premium Angle)
+Headline:
+Pass the REx-PN with Intelligent Practice
+Subheadline:
+Adaptive question banks. Real exam simulations. Canadian-focused analytics.
+CTA:
+Upgrade to Premium
+💎 Premium Page Structure
+Section 1 – Why Smart Prep Wins
+Instead of just doing more questions:
+• Identify weak domains
+• Target your weakest topics
+• Track percentile growth
+• Predict readiness
+Section 2 – What You Unlock
+300+ Questions
+Full-Length Exams
+AI Study Plan
+Peer Comparison
+Advanced Analytics
+Section 3 – Pricing
+Premium Smart Prep
+$29/month
+Cancel anytime
+🛠 Implementation Prompt (Premium System)
+Paste into Replit:
+Implement Premium Smart Prep system.
+
+SubscriptionPlan:
+- name: Premium Smart Prep
+- priceMonthly: 29 CAD
+- unlockAllowancePerPeriod: unlimited access to active banks
+- includesStudyEdition: true
+- includesDiagnostics: true
+- includesAnalytics: true
+
+Feature gating:
+If user.subscription != premium:
+  - Hide readiness score
+  - Hide percentile comparison
+  - Hide user % correct stats
+  - Limit flashcards to 20
+  - Limit practice exams to 1 preview
+
+If user.subscription == premium:
+  - Full access
+  - Unlock banks instantly
+  - Full analytics dashboard
+  - Study groups enabled
+
+Add:
+- Premium badge on navbar
+- Upgrade prompts on locked features
+- Inline “Upgrade to Premium to unlock this” banners
+🧮 Readiness Score Logic (Simple Version)
+Start with something transparent:
+Readiness Score =
+(Recent Exam Average * 0.6) +
+(Domain Balance Score * 0.2) +
+(Improvement Trend Score * 0.2)
+Display as:
+• Not Ready (<65)
+• Developing (65–75)
+• On Track (75–85)
+• Exam Ready (85+)
+Never promise pass.
+Always say:
+“Based on NurseNest performance data.”
+📊 Analytics Dashboard Layout
+Premium Dashboard:
+Top:
+Readiness Score (big number)
+Below:
+• Recent Exam Scores graph
+• Domain breakdown bars
+• Weakest 3 topics
+• Suggested next bank
+• Percentile comparison
+Right column:
+• Study streak
+• Questions completed
+• Flashcards due
+🏆 Competitive Edge Over UWorld
+You add:
+• Canadian REx-PN focus
+• AI remediation
+• Shareable stats
+• Subscription unlock model
+• Adaptive topic mix
+UWorld does not do all of that combined for REx-PN specifically.
+🚀 Next Step (Most Important)
+Implement in this order:
+Premium gating system
+Analytics dashboard
+Diagnostic engine
+Flashcards
+Peer comparison
+Do not build everything at once.
+💰 Long-Term Upsell
+Later you can add:
+Premium Pro ($49/month)
+• Personalized tutoring chatbot
+• AI answer explanation generator
+• Unlimited exam attempts
+• Advanced percentile analytics
+But not yet.
+🧭 Final Strategic Advice
+You are not building:
+“More questions than everyone else.”
+You are building:
+“Smarter exam preparation for Canadian nurses.”
+That is premium positioning.

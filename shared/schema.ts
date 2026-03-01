@@ -1235,6 +1235,7 @@ export const qbankDrafts = pgTable("qbank_drafts", {
   requestedCount: integer("requested_count").notNull().default(300),
   difficulty: text("difficulty").notNull().default("medium"),
   distributionJson: jsonb("distribution_json"),
+  topicMix: jsonb("topic_mix"),
   canadianContext: boolean("canadian_context").default(true),
   outputLanguage: text("output_language").default("en"),
   editionsJson: jsonb("editions_json"),
@@ -1280,3 +1281,105 @@ export const qbankRecipes = pgTable("qbank_recipes", {
 export const insertQbankRecipeSchema = createInsertSchema(qbankRecipes).omit({ id: true, createdAt: true });
 export type InsertQbankRecipe = z.infer<typeof insertQbankRecipeSchema>;
 export type QbankRecipe = typeof qbankRecipes.$inferSelect;
+
+export const diagnosticAssessments = pgTable("diagnostic_assessments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  examTarget: text("exam_target").notNull().default("rex-pn"),
+  totalQuestions: integer("total_questions").notNull().default(30),
+  score: integer("score").notNull(),
+  domainScores: jsonb("domain_scores").default(sql`'{}'::jsonb`),
+  topicScores: jsonb("topic_scores").default(sql`'{}'::jsonb`),
+  answers: jsonb("answers").default(sql`'[]'::jsonb`),
+  weaknessSummary: text("weakness_summary"),
+  strengthSummary: text("strength_summary"),
+  studyPlan: jsonb("study_plan"),
+  recommendedQbanks: jsonb("recommended_qbanks"),
+  remediationBankId: varchar("remediation_bank_id"),
+  completedAt: timestamp("completed_at").defaultNow().notNull(),
+});
+
+export const insertDiagnosticAssessmentSchema = createInsertSchema(diagnosticAssessments).omit({ id: true, completedAt: true });
+export type InsertDiagnosticAssessment = z.infer<typeof insertDiagnosticAssessmentSchema>;
+export type DiagnosticAssessment = typeof diagnosticAssessments.$inferSelect;
+
+export const userStats = pgTable("user_stats", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().unique(),
+  totalQuestionsAnswered: integer("total_questions_answered").default(0),
+  totalCorrect: integer("total_correct").default(0),
+  domainBreakdown: jsonb("domain_breakdown").default(sql`'{}'::jsonb`),
+  examScores: jsonb("exam_scores").default(sql`'[]'::jsonb`),
+  studyStreak: integer("study_streak").default(0),
+  lastStudyDate: text("last_study_date"),
+  weeklyHistory: jsonb("weekly_history").default(sql`'[]'::jsonb`),
+  publicProfile: boolean("public_profile").default(false),
+  leaderboardVisible: boolean("leaderboard_visible").default(false),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertUserStatsSchema = createInsertSchema(userStats).omit({ id: true, updatedAt: true });
+export type InsertUserStats = z.infer<typeof insertUserStatsSchema>;
+export type UserStats = typeof userStats.$inferSelect;
+
+export const studyGroups = pgTable("study_groups", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  inviteCode: text("invite_code").notNull().unique(),
+  createdBy: varchar("created_by").notNull(),
+  showRanking: boolean("show_ranking").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertStudyGroupSchema = createInsertSchema(studyGroups).omit({ id: true, createdAt: true });
+export type InsertStudyGroup = z.infer<typeof insertStudyGroupSchema>;
+export type StudyGroup = typeof studyGroups.$inferSelect;
+
+export const studyGroupMembers = pgTable("study_group_members", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  groupId: varchar("group_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
+});
+
+export const insertStudyGroupMemberSchema = createInsertSchema(studyGroupMembers).omit({ id: true, joinedAt: true });
+export type InsertStudyGroupMember = z.infer<typeof insertStudyGroupMemberSchema>;
+export type StudyGroupMember = typeof studyGroupMembers.$inferSelect;
+
+export const questionAnalytics = pgTable("question_analytics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  questionId: varchar("question_id").notNull(),
+  totalAttempts: integer("total_attempts").default(0),
+  totalCorrect: integer("total_correct").default(0),
+  percentCorrect: doublePrecision("percent_correct").default(0),
+  uniqueUserCount: integer("unique_user_count").default(0),
+  difficulty: text("difficulty"),
+  lastUpdated: timestamp("last_updated").defaultNow().notNull(),
+});
+
+export const insertQuestionAnalyticsSchema = createInsertSchema(questionAnalytics).omit({ id: true, lastUpdated: true });
+export type InsertQuestionAnalytics = z.infer<typeof insertQuestionAnalyticsSchema>;
+export type QuestionAnalytics = typeof questionAnalytics.$inferSelect;
+
+export const friendRequests = pgTable("friend_requests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  requesterId: varchar("requester_id").notNull(),
+  receiverId: varchar("receiver_id").notNull(),
+  status: text("status").default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertFriendRequestSchema = createInsertSchema(friendRequests).omit({ id: true, createdAt: true });
+export type InsertFriendRequest = z.infer<typeof insertFriendRequestSchema>;
+export type FriendRequest = typeof friendRequests.$inferSelect;
+
+export const friendConnections = pgTable("friend_connections", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userAId: varchar("user_a_id").notNull(),
+  userBId: varchar("user_b_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertFriendConnectionSchema = createInsertSchema(friendConnections).omit({ id: true, createdAt: true });
+export type InsertFriendConnection = z.infer<typeof insertFriendConnectionSchema>;
+export type FriendConnection = typeof friendConnections.$inferSelect;

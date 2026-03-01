@@ -1,0 +1,288 @@
+Implement Premium Smart Prep system with advanced analytics, peer comparison, gated features, and performance intelligence.
+
+CRITICAL RULES:
+- No feature is visible without passing data integrity checks.
+- Peer statistics must be hidden until minimum sample size reached.
+- All analytics must be derived from real stored attempt data.
+- No fabricated percentages.
+- All premium features must be properly gated.
+
+================================================
+PART 1 — SUBSCRIPTION STRUCTURE
+================================================
+
+Create SubscriptionPlan model:
+- id
+- name
+- priceMonthly
+- includesDiagnostics (bool)
+- includesAdvancedAnalytics (bool)
+- includesPeerStats (bool)
+- includesFlashcards (bool)
+- flashcardLimit (int)
+- includesStudyGroups (bool)
+- includesReadinessScore (bool)
+
+Create Premium Smart Prep plan:
+- priceMonthly: 29 CAD
+- unlimited active QBank access
+- includesDiagnostics: true
+- includesAdvancedAnalytics: true
+- includesPeerStats: true
+- includesFlashcards: true
+- flashcardLimit: unlimited
+- includesStudyGroups: true
+- includesReadinessScore: true
+
+Free tier:
+- flashcardLimit: 20
+- no peer stats
+- no readiness score
+- no percentile ranking
+- no diagnostic retakes
+
+All premium-only UI elements must show:
+"Upgrade to Premium to unlock this feature."
+
+================================================
+PART 2 — QUESTION ANALYTICS ENGINE
+================================================
+
+For each question track:
+- totalAttempts
+- totalCorrect
+- percentCorrect
+- lastUpdated
+- uniqueUserCount
+
+Update stats on every submission.
+
+Compute:
+percentCorrect = (totalCorrect / totalAttempts) * 100
+
+Difficulty classification:
+- Easy: >70%
+- Moderate: 40–70%
+- Difficult: <40%
+
+================================================
+PART 3 — MINIMUM SAMPLE SIZE GATE (CRITICAL)
+================================================
+
+Peer stats must NOT be shown unless:
+- totalAttempts >= 30
+- uniqueUserCount >= 15
+
+If below threshold:
+Display:
+"Peer performance data available once more students answer this question."
+
+This prevents misleading early percentages.
+
+================================================
+PART 4 — DISPLAY LOGIC (POST-ANSWER ONLY)
+================================================
+
+After user submits answer:
+Show:
+- Correct / Incorrect
+- Rationale
+- Clinical pearl
+
+If premium AND sample size threshold met:
+- Show: "43% of users answered this correctly"
+- Show difficulty badge
+- Show topic percentile
+
+If free user:
+- Blur peer stats
+- Show upgrade prompt
+
+Do NOT show peer stats before answer submission.
+
+================================================
+PART 5 — PERCENTILE RANKING SYSTEM
+================================================
+
+After full-length exam:
+
+Store:
+- examScore
+- domainScores
+- timestamp
+
+Compute percentile:
+percentile = rank among users with >= 1 completed exam
+Exclude:
+- users with < 50 total answered questions
+
+Premium users see:
+- Percentile rank
+- Domain percentile
+- Trend over time
+
+Free users see:
+- Raw score only
+- Upgrade prompt for percentile insight
+
+================================================
+PART 6 — READINESS SCORE (PREMIUM ONLY)
+================================================
+
+Compute Readiness Score:
+
+readinessScore =
+(RecentExamAverage * 0.6) +
+(DomainBalanceScore * 0.2) +
+(ImprovementTrendScore * 0.2)
+
+Display levels:
+- <65: Not Ready
+- 65–75: Developing
+- 75–85: On Track
+- >85: Exam Ready
+
+Always include disclaimer:
+"Readiness score is an internal performance estimate, not a guarantee of exam outcome."
+
+================================================
+PART 7 — SMART FLASHCARDS (PREMIUM FEATURE)
+================================================
+
+After question review:
+Add button:
+"Create Smart Flashcard"
+
+AI generates:
+Front:
+- Concept question (active recall style)
+
+Back:
+- Rule summary
+- Key rationale
+- Clinical pearl
+
+Store:
+- topic
+- difficulty
+- sourceQuestionId
+
+Spaced repetition scheduling:
+- 1 day
+- 3 days
+- 7 days
+- 14 days
+- 30 days
+
+Premium only:
+- Weak-topic auto-flashcard generation
+- Performance-based flashcard suggestions
+
+Free users limited to 20 flashcards total.
+
+================================================
+PART 8 — STUDY GROUPS + COMPARISON
+================================================
+
+Users can:
+- Create group
+- Join via invite link
+- Leave group
+
+Group dashboard shows:
+- Weekly improvement %
+- Questions completed
+- Exam scores
+- Optional ranking toggle
+
+Privacy:
+- Default private
+- Must opt-in to:
+   - Public stats
+   - Leaderboard visibility
+   - Shareable stats cards
+
+================================================
+PART 9 — SHAREABLE PERFORMANCE CARD
+================================================
+
+After exam:
+Generate PNG share card with:
+- Score
+- Percentile (if threshold met)
+- Strongest domain
+- Weakest domain
+- Readiness level
+- NurseNest branding
+
+Hide percentile if:
+- totalUsersWithExamData < 25
+
+Export options:
+- Download PNG
+- Copy summary text
+- Share link
+
+================================================
+PART 10 — DATA INTEGRITY RULES
+================================================
+
+Never compute:
+- percentCorrect
+- percentile
+- readiness
+
+If:
+- insufficient sample size
+- user below participation threshold
+- dataset below 30 exam completions
+
+Always show fallback message instead of fake data.
+
+================================================
+PART 11 — PREMIUM DASHBOARD
+================================================
+
+Premium dashboard layout:
+
+Top:
+- Readiness Score (large display)
+
+Below:
+- Recent Exam Scores graph
+- Domain Accuracy bars
+- Weakest 3 topics
+- Suggested remediation bank
+
+Right column:
+- Study streak
+- Questions answered
+- Flashcards due
+- Percentile rank
+
+================================================
+PART 12 — ADAPTIVE REMEDIATION
+================================================
+
+If user diagnostic or exam shows:
+- <60% in topic
+
+Allow:
+"Generate 100Q Remediation Pack"
+
+Premium only.
+
+================================================
+FINAL ACCEPTANCE TEST
+================================================
+
+1. User answers question.
+2. If totalAttempts < threshold → no peer stats shown.
+3. After threshold reached → percentCorrect visible.
+4. Free user sees blurred stats.
+5. Premium user sees full analytics.
+6. Exam completed → percentile computed only if enough users.
+7. Share card generated correctly.
+8. Readiness score updates after 3 exams.
+9. Flashcards saved + scheduled correctly.
+10. Study group comparison works with opt-in privacy.

@@ -107,6 +107,9 @@ const ProductBuilderPage = lazy(() => import("@/pages/product-builder"));
 const PathwaysPage = lazy(() => import("@/pages/pathways"));
 const RexPnGuide = lazy(() => import("@/pages/rex-pn-guide"));
 const NclexRnGuide = lazy(() => import("@/pages/nclex-rn-guide"));
+const DiagnosticAssessmentPage = lazy(() => import("@/pages/diagnostic-assessment"));
+const QBankFactoryPage = lazy(() => import("@/pages/qbank-factory"));
+const AccountLibraryPage = lazy(() => import("@/pages/account-library"));
 
 function PageTracker() {
   usePageTracker();
@@ -273,6 +276,9 @@ function AppRoutes() {
         <Route path="/admin/cat" component={AdminCatDashboard} />
         <Route path="/admin/revenue" component={AdminRevenueDashboard} />
         <Route path="/admin/pipeline" component={AdminPipelineDashboard} />
+        <Route path="/diagnostic-assessment" component={DiagnosticAssessmentPage} />
+        <Route path="/admin/qbank-factory" component={QBankFactoryPage} />
+        <Route path="/account/library" component={AccountLibraryPage} />
         <Route path="/admin/product-builder" component={ProductBuilderPage} />
         <Route path="/admin/product-builder/:id" component={ProductBuilderPage} />
         <Route path="/medication-mastery" component={MedicationMasteryPage} />
