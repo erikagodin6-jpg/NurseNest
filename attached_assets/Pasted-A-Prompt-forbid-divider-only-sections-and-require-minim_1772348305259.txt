@@ -1,0 +1,69 @@
+A) Prompt: forbid “divider-only sections” and require minimum blocks
+Use this exact language in your section generation prompt (the one your server uses when generating pathophysiology, medications, etc.):
+Drop-in prompt clause (add to your per-section prompt)
+IMPORTANT:
+Do NOT output a title-only section or a section cover page.
+This section must contain CONTENT blocks.
+
+Minimum requirement:
+- blocks.length MUST be >= 8
+- At least 6 blocks must be substantive (bullets/table/algorithm/case/questions), not headings.
+- Any response with only headings or empty blocks is invalid.
+
+This is a content section, not a divider page.
+Return JSON only.
+Also: force it to write about a fixed topic inventory
+If the document title is generic (“REx-PN Survival Guide”), the section prompt MUST include:
+Write ONLY about these high-yield conditions (use them as the anchors throughout the section):
+Heart failure, ACS/MI, COPD exacerbation vs asthma, pneumonia, sepsis, hypo/hyperkalemia, hypo/hyperglycemia, stroke, AKI vs CKD, GI bleed, fluid volume deficit vs overload, anaphylaxis, dysrhythmias, DKA vs HHS recognition, UTI→sepsis.
+Without this, you’ll get headings again.
+B) Code: hard-fail if a section is “title-only”
+In the pipeline, before compile, treat these as failures:
+blocks.length < 3
+OR substantiveBlocks < 6
+OR content-only character count < 800
+Substantive block types = bullets, table, flowchart, decisionTree, case, questions, callout
+Non-substantive = sectionTitle, divider, heading
+If a section fails, retry that section with a repair prompt.
+Repair prompt (for retries)
+Your previous output was invalid because it contained headings/divider only and no content.
+Rewrite the section with >= 8 blocks and >= 6 substantive blocks (bullets/tables/algorithms/cases).
+No cover pages. No filler. Use the required topic inventory.
+Return JSON only.
+The single best Replit AI instruction to fix this permanently
+Paste this into Replit AI:
+Stop narrating. Output diffs.
+
+Bug: AI returns section titles/divider pages but blocks are empty or non-substantive, so compiled guides contain headings but no content.
+
+Implement in the existing section-by-section generation step:
+
+1) Update the section prompt builder to explicitly forbid title-only/divider-only output and require:
+   - blocks.length >= 8
+   - >= 6 substantive blocks (bullets/table/algorithm/case/questions/callout)
+   - include a fixed high-yield topic inventory when the document title is generic.
+
+2) Add validateSectionContent(sectionJson) that fails if:
+   - blocks.length < 3 OR substantiveBlocks < 6 OR totalContentChars < 800
+   - or blocks contain only headings/dividers.
+
+3) On validation fail: retry the SAME section up to 2 times using a repair prompt that states exactly why it failed (e.g., “You returned headings only; add bullets/tables/algorithms/cases.”).
+
+4) If still failing: return HTTP 422 with error EMPTY_SECTION and include the sectionId + rawPreview.
+
+Do not compile if any required section fails.
+
+Provide unified diffs and test steps.
+That specifically fixes your symptom (title-only sections).
+One more important note: your “Pathophysiology” blueprint chunk
+Your blueprint preview shows Pathophysiology is ~7 pages (12,150 chars). If your per-section budget is too low (or you asked for 300 questions and starved the content budget), the model may be “economizing” by outputting headings only.
+So also enforce this policy:
+Cram Guide questions cap (e.g., 60–100)
+If user asks 300, auto-switch to Question Pack template OR auto-increase pages
+Otherwise you’ll keep starving content sections.
+If you want, I can make this surgical
+Paste one real example of what your server receives for the failed section (the JSON for pathophysiology), even if it’s just:
+sectionId
+title
+blocks array
+…and I’ll tell you exactly which validation rule to implement and what prompt language will prevent that exact failure.

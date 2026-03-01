@@ -2237,18 +2237,30 @@ function GuidedModeView({ projectId: initialProjectId, onBack, onSwitchToCanvas,
       ? `\nUSER INSTRUCTIONS: ${aiPrompt.trim()}\nUse these instructions to guide the depth, focus, and style of the content. Do NOT echo the user's words — generate original, structured academic content based on their request.`
       : "";
 
+    const requiredIds = bp.sections
+      .filter(s => s.id !== "practice-questions" && s.id !== "rationales")
+      .map(s => s.id);
+
+    const skeleton = requiredIds.map(id => {
+      const label = bp.sections.find(s => s.id === id)?.label || id;
+      return `{"id":"${id}","title":"${label}","blocks":[/* FILL */]}`;
+    }).join(",\n    ");
+
     return `You are a nursing exam content expert and visual study-material designer. Generate structured, design-block-oriented study content as valid JSON. Your output will be rendered as a premium Canva-quality study bundle -- NOT a text document.
 
 TOPIC: "${topic}"${userInstructions}
 TEMPLATE: ${bp.label}
 AUDIENCE: ${examCtx?.label || "Nursing"} students
-REGION: ${region === "BOTH" ? "Include both Canadian (metric, SI, °C, kg, mmol/L) and US (imperial, °F, lbs, mg/dL) values" : region === "CA" ? "Canadian context only (metric, SI units)" : "US context only (imperial, conventional units)"}
+REGION: ${region === "BOTH" ? "Include both Canadian (metric, SI, C, kg, mmol/L) and US (imperial, F, lbs, mg/dL) values" : region === "CA" ? "Canadian context only (metric, SI units)" : "US context only (imperial, conventional units)"}
 TARGET LENGTH: ~${totalChars} total characters across all sections
 
-SECTIONS TO GENERATE:
+REQUIRED SECTION IDS (use these EXACT ids -- no renaming, no extra sections):
+${requiredIds.map(id => `  - "${id}"`).join("\n")}
+
+SECTION BUDGETS:
 ${sectionList}
 
-${includeQuestions ? `QUESTIONS: Generate ${questionCount} exam-style multiple-choice questions (4 options each) with rationales for EACH option.` : "NO QUESTIONS."}
+${includeQuestions ? `QUESTIONS: Generate ${questionCount} exam-style multiple-choice questions (4 options each). Each question MUST include: stem, options (A-D), correct (letter), rationale (explain why correct AND why each wrong option is wrong).` : "NO QUESTIONS."}
 
 BLOCK TYPES YOU MUST USE (mix liberally for visual variety):
 - {"kind":"heading","text":"...","level":1|2|3}
@@ -2271,8 +2283,12 @@ DESIGN RULES (critical for visual quality):
 - Callout bodies should be 1-3 sentences of focused, actionable clinical insight
 - Do NOT include keys not listed above
 
-RETURN THIS EXACT STRUCTURE:
-{"sections":[{"id":"section-id","title":"Section Title","blocks":[...]}]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"..."}]' : ""}}`;
+SECTION ID CONTRACT: Each section.id MUST match one of the required IDs listed above EXACTLY. Do NOT invent new IDs, do NOT use spaces, do NOT use CamelCase. Use the hyphenated lowercase IDs as given.
+
+RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
+{"sections":[
+    ${skeleton}
+  ]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"Why A is correct. B is wrong because... C is wrong because... D is wrong because..."}]' : ""}}`;
   };
 
   const callPipelineStep = async (step: string, previousStepData: any): Promise<any> => {
@@ -2435,13 +2451,17 @@ RETURN THIS EXACT STRUCTURE:
       const sections: any[] = aiData.sections || [];
       const questions: any[] = aiData.questions || [];
 
+      const normId = (s: string) => (s || "").toLowerCase().trim().replace(/[\s_]+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/^-+|-+$/g, "");
+
       const sectionMap: Record<string, any> = {};
       for (const sec of sections) {
         if (sec.id) sectionMap[sec.id] = sec;
-        const titleNorm = (sec.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-        if (titleNorm && !sectionMap[titleNorm]) sectionMap[titleNorm] = sec;
-        const idNorm = (sec.id || "").toLowerCase().replace(/_/g, "-");
+        const idNorm = normId(sec.id);
         if (idNorm && !sectionMap[idNorm]) sectionMap[idNorm] = sec;
+        const titleNorm = normId(sec.title);
+        if (titleNorm && !sectionMap[titleNorm]) sectionMap[titleNorm] = sec;
+        const idUnderscore = (sec.id || "").replace(/_/g, "-");
+        if (idUnderscore && !sectionMap[idUnderscore]) sectionMap[idUnderscore] = sec;
       }
 
       const requiredSectionIds = bp.sections
