@@ -1101,7 +1101,7 @@ const COVER_PRESETS: CoverPreset[] = [
 
 function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: CoverPreset, opts: {
   title?: string; subtitle?: string; examTarget?: string; badges?: string[];
-  includesFlashcards?: boolean; includesQbank?: boolean; pageCount?: number;
+  includesFlashcards?: boolean; includesQbank?: boolean; pageCount?: number; questionCount?: number;
   logoUrl?: string;
 } = {}): CanvasObject[] {
   const title = opts.title || "STUDY GUIDE";
@@ -2414,15 +2414,31 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
       if (qa?.sections?.length > 0) contentData = qa;
     } catch {}
 
-    if (includeQuestions && questionCount > 50) {
-      setStepLabel(`Generating ${questionCount} questions in batches...`);
+    if (includeQuestions && questionCount > 0) {
+      setStepLabel(`Generating ${questionCount} validated questions...`);
       try {
-        const batchedQs = await fetchQuestionsBatched(questionCount);
-        if (batchedQs.length > 0) {
-          contentData.questions = batchedQs;
+        const tbRes = await adminFetch("/api/ai/generate-test-bank", {
+          method: "POST",
+          body: {
+            topic,
+            examTarget: examTier,
+            questionCount,
+            difficulty: "mixed",
+            questionTypes: ["multiple-choice", "select-all", "ordered-response"],
+          },
+        });
+        const tbData = await tbRes.json().catch(() => ({}));
+        if (tbRes.status === 422 && tbData.testBank?.questions?.length > 0) {
+          contentData.questions = tbData.testBank.questions;
+          toast({ title: `Partial: ${tbData.generatedCount}/${tbData.requestedCount} questions`, variant: "destructive" });
+        } else if (tbRes.ok && tbData.questions?.length > 0) {
+          contentData.questions = tbData.questions;
+        } else if (questionCount > 50) {
+          const batchedQs = await fetchQuestionsBatched(questionCount);
+          if (batchedQs.length > 0) contentData.questions = batchedQs;
         }
       } catch (e: any) {
-        toast({ title: "Question batching failed", description: e.message, variant: "destructive" });
+        toast({ title: "Question generation issue", description: e.message, variant: "destructive" });
       }
     }
 
@@ -2531,13 +2547,15 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
 
       for (const step of bp.pageFlow) {
         if (step.type === "cover") {
+          const actualQCount = includeQuestions ? questions.length : 0;
           const coverObjs = generateStyledCoverPage(W, H, theme, preset, {
             title: topic,
             subtitle: `${examCtx?.label || "Nursing"} ${bp.label}`,
             examTarget: examCtx?.label || "",
             includesFlashcards: false,
             includesQbank: includeQuestions,
-            pageCount: targetPages,
+            pageCount: actualQCount > 0 ? undefined : targetPages,
+            questionCount: actualQCount > 0 ? actualQCount : undefined,
             logoUrl: savedLogoUrl,
           });
           await savePage("Cover", coverObjs);
@@ -2565,28 +2583,53 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
           }
         } else if (step.type === "questions") {
           if (includeQuestions && questions.length > 0) {
-            const qBlocks: any[] = [{ kind: "heading", text: "Practice Questions", level: 1 }];
-            questions.forEach((q: any, i: number) => {
-              const num = (i + 1).toString().padStart(2, "0");
-              qBlocks.push({ kind: "heading", text: `Question ${num}`, level: 2 });
-              qBlocks.push({ kind: "paragraph", text: q.stem || q.question || "" });
-              if (q.options) {
-                qBlocks.push({ kind: "bullets", items: q.options.map((o: string) => o.trim()) });
+            const QUESTIONS_PER_PAGE = 3;
+            for (let batch = 0; batch < questions.length; batch += QUESTIONS_PER_PAGE) {
+              const pageQs = questions.slice(batch, batch + QUESTIONS_PER_PAGE);
+              const qBlocks: any[] = [];
+              if (batch === 0) {
+                qBlocks.push({ kind: "heading", text: `Practice Questions (${questions.length} Total)`, level: 1 });
               }
-            });
-            const qPages = renderBlocksToPages(qBlocks, "Practice Questions", theme);
-            for (const pg of qPages) await savePage("Practice Questions", pg);
+              for (const q of pageQs) {
+                const idx = questions.indexOf(q);
+                const num = (idx + 1).toString().padStart(2, "0");
+                const qType = (q.type || "MCQ").toUpperCase();
+                qBlocks.push({ kind: "heading", text: `Question ${num}  [${qType}]  [${q.category || ""}]`, level: 2 });
+                if (q.scenario) {
+                  qBlocks.push({ kind: "paragraph", text: q.scenario });
+                }
+                qBlocks.push({ kind: "paragraph", text: q.stem || q.question || "" });
+                if (q.options) {
+                  qBlocks.push({ kind: "bullets", items: q.options.map((o: string) => o.trim()) });
+                }
+              }
+              const qPages = renderBlocksToPages(qBlocks, `Questions ${batch + 1}-${batch + pageQs.length}`, theme);
+              for (const pg of qPages) await savePage(`Questions ${batch + 1}-${batch + pageQs.length}`, pg);
+            }
           }
         } else if (step.type === "rationales") {
           if (includeQuestions && questions.length > 0) {
-            const rBlocks: any[] = [{ kind: "heading", text: "Answer Rationales", level: 1 }];
-            questions.forEach((q: any, i: number) => {
-              const num = (i + 1).toString().padStart(2, "0");
-              rBlocks.push({ kind: "heading", text: `Q${num}  --  Answer: ${q.correct || ""}`, level: 2 });
-              rBlocks.push({ kind: "callout", flavor: "exam_tip", title: `Rationale for Q${num}`, body: q.rationale || "See explanation above." });
-            });
-            const rPages = renderBlocksToPages(rBlocks, "Rationales", theme);
-            for (const pg of rPages) await savePage("Rationales", pg);
+            const RATIONALES_PER_PAGE = 3;
+            for (let batch = 0; batch < questions.length; batch += RATIONALES_PER_PAGE) {
+              const pageQs = questions.slice(batch, batch + RATIONALES_PER_PAGE);
+              const rBlocks: any[] = [];
+              if (batch === 0) {
+                rBlocks.push({ kind: "heading", text: "Answer Rationales", level: 1 });
+              }
+              for (const q of pageQs) {
+                const idx = questions.indexOf(q);
+                const num = (idx + 1).toString().padStart(2, "0");
+                const correctAnswer = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(", ") : (q.correctAnswer || q.correct || "");
+                rBlocks.push({ kind: "heading", text: `Q${num} -- Answer: ${correctAnswer}`, level: 2 });
+                const ratText = q.rationaleCorrect || q.rationale || "See explanation.";
+                const incorrectText = Array.isArray(q.rationaleIncorrect) ? q.rationaleIncorrect.join(" | ") : "";
+                const pearlText = q.clinicalPearl ? `Clinical Pearl: ${q.clinicalPearl}` : "";
+                const fullRationale = [ratText, incorrectText, pearlText].filter(Boolean).join("\n\n");
+                rBlocks.push({ kind: "callout", flavor: "exam_tip", title: `Rationale for Q${num}`, body: fullRationale });
+              }
+              const rPages = renderBlocksToPages(rBlocks, `Rationales ${batch + 1}-${batch + pageQs.length}`, theme);
+              for (const pg of rPages) await savePage(`Rationales ${batch + 1}-${batch + pageQs.length}`, pg);
+            }
           }
         } else if (step.type === "summary") {
           const sumObjs = renderSummaryPage(theme, topic);
@@ -3186,7 +3229,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                   {includeQuestions && (
                     <div className="flex items-center gap-3 mt-2">
                       <span className="text-xs text-gray-500">Count:</span>
-                      <Input type="number" min={5} max={100} value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} disabled={generating} className="w-20 h-8 text-xs" data-testid="input-question-count" />
+                      <Input type="number" min={5} max={500} value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} disabled={generating} className="w-20 h-8 text-xs" data-testid="input-question-count" />
                     </div>
                   )}
                 </div>

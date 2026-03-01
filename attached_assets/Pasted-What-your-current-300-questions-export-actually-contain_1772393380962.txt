@@ -1,0 +1,72 @@
+What your current “300 questions” export actually contains
+From rex-pn-practice-question-bundle-1-pages-2.zip, there are only 10 PNG pages total.
+What’s on those pages:
+Page 1: Cover page “REx-PN Practice Question Bundle 1” and it even claims “40 Pages” (hardcoded/templated metadata).
+Page 2: A second cover page for NCLEX-RN (US) with “30 Pages” (wrong exam + wrong region).
+Pages 3–6: A tiny QBank: Questions 01–05 and then Answer Rationales Q01–Q05.
+Question 4 is split badly: it starts at the bottom of Page 3 as “Question 04” with no content, then Page 4 begins mid-stem (so the renderer is not handling page breaks properly).
+“Select all that apply” items are wrong: they have only 4 options, not 6–8.
+Pages 7–10: It restarts at Question 01 again with another mini-set and repeats the same truncation pattern.
+So the export is behaving like:
+“render a couple of fixed template sections + a tiny sample set” rather than “render tbResult with requestedCount questions.”
+What this implies about your code (the real bug)
+You likely have two separate issues happening at once:
+1) The export renderer is NOT using the generated tbResult array
+Instead, it’s pulling from:
+a hardcoded demo dataset (5 questions), or
+a “bundle preset” cap (like 5), or
+a canvas/template page set that is not tied to the generation count.
+That’s why it restarts at Question 01 and why the cover metadata shows “40 pages / 30 pages”.
+2) Pagination is not “flow layout”
+Your current renderer is doing something like:
+“draw block at fixed y positions”
+without measuring text height
+and without splitting blocks cleanly across pages
+That’s why Question 04 is broken across pages.
+The exact Replit prompt to fix THIS (tie export to tbResult + enforce 300)
+Paste this to Replit:
+The current exported test bank does NOT reflect requestedCount (e.g., I asked for 300, but the ZIP has 10 pages and only ~5 questions, plus it restarts Question 01 and includes an NCLEX-RN US cover).
+
+Fix the export pipeline so it renders tbResult.questions (validated) end-to-end.
+
+REQUIREMENTS (non-negotiable):
+1) Rendering must be driven ONLY by tbResult.questions length.
+   - Never use template/demo question arrays.
+   - Never restart numbering unless explicitly starting a new set.
+2) Cover page must reflect the selected exam/region (REx-PN Canada) and the correct question count (e.g., 300 questions).
+   - Remove hardcoded “40 pages / 30 pages” chips unless computed from actual pagination.
+   - Remove any NCLEX-RN US cover from REx-PN exports.
+3) Implement strict pre-export gate:
+   - Block export unless tbResult.questions.length === requestedCount.
+   - Show visible audit panel with requestedCount vs generatedCount.
+4) Implement flow pagination:
+   - Use text measurement and line-wrapping.
+   - If a question block does not fit, continue it on the next page WITHOUT losing the “Question XX” label.
+   - Never truncate content.
+5) SATA rules:
+   - SATA must have 6–8 options and 2–5 correct answers.
+   - Validate this server-side and again client-side before export.
+6) For large sets (e.g., 300), generation must be chunked:
+   - Generate in batches (e.g., 50 at a time) with dedupe by scenario+stem hash.
+   - Continue until exactly requestedCount.
+   - Store the final merged validated set and render that.
+
+DELIVERABLES:
+- File paths + diffs for:
+  a) the export function using tbResult.questions
+  b) pagination/layout engine
+  c) removal of any demo/sample questions from export
+- A proof run:
+  Generate 30 (for speed) and export PDF and confirm:
+  - Questions are numbered 1..30 continuously
+  - No restart
+  - No truncation
+  - SATA has 6–8 options
+Then scale to 300.
+If you want the “fastest” engineering win (what to tell them next)
+Before even touching “prompt tweaking,” make them do these in order:
+Audit gate: export disabled unless generatedCount === requestedCount
+Renderer uses tbResult.questions (no demo arrays)
+Flow pagination so question blocks don’t split incorrectly
+Chunked generation for 300 questions
+Otherwise you’ll keep getting “pretty covers + 5 questions.”

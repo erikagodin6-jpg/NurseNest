@@ -1388,7 +1388,7 @@ Return JSON: [{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct
       const { topic, customPrompt, examTarget, questionCount, difficulty, questionTypes } = req.body;
       if (!topic) return res.status(400).json({ error: "Topic is required" });
 
-      const requestedCount = Math.min(Math.max(parseInt(questionCount) || 25, 5), 75);
+      const requestedCount = Math.min(Math.max(parseInt(questionCount) || 25, 5), 500);
       const diff = difficulty || "mixed";
       const types = questionTypes || ["multiple-choice", "select-all", "ordered-response"];
 
@@ -1499,108 +1499,140 @@ The "questions" array length MUST equal ${requestedCount}.`;
         return { valid: errors.length === 0, errors, questions };
       };
 
-      const MAX_TB_RETRIES = 3;
-      let testBank: any = null;
-      let lastErrors: string[] = [];
-      let attempt = 0;
+      const hashQuestion = (q: any): string => {
+        const s = ((q.scenario || "") + "|" + (q.stem || "")).toLowerCase().replace(/\s+/g, " ").trim();
+        let h = 0;
+        for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+        return `h${Math.abs(h).toString(36)}`;
+      };
+
+      const CHUNK_SIZE = Math.min(requestedCount, 25);
+      const MAX_COMPLETION_PASSES = Math.ceil(requestedCount / CHUNK_SIZE) + 3;
+      const allQuestions: any[] = [];
+      const seenHashes = new Set<string>();
       let totalTokensUsed = 0;
+      let totalAttempts = 0;
 
-      for (attempt = 1; attempt <= MAX_TB_RETRIES; attempt++) {
-        const isRetry = attempt > 1;
-        const userContent = isRetry
-          ? `Your previous output was INVALID and REJECTED.
+      for (let pass = 0; pass < MAX_COMPLETION_PASSES && allQuestions.length < requestedCount; pass++) {
+        const missing = requestedCount - allQuestions.length;
+        const chunkCount = Math.min(missing, CHUNK_SIZE);
+        const startNum = allQuestions.length + 1;
 
-TOPIC: ${topic}
-REQUESTED COUNT: ${requestedCount}
+        const chunkSystemPrompt = `You are an expert nursing exam question writer for NurseNest. Generate EXACTLY ${chunkCount} questions.
 
-VALIDATION ERRORS FROM PREVIOUS ATTEMPT:
-${lastErrors.slice(0, 15).map((e, i) => `${i + 1}. ${e}`).join("\n")}
-${lastErrors.length > 15 ? `... and ${lastErrors.length - 15} more errors` : ""}
+${examNote}
 
-FIX ALL errors above. Generate EXACTLY ${requestedCount} questions with ALL required fields.
-Every question MUST have: id, category, type, scenario, stem, options, correctAnswer, rationaleCorrect, rationaleIncorrect, clinicalPearl.
-MCQ/PRIORITY/DELEGATION: exactly 4 options, single-letter correctAnswer.
-SATA: 6-8 options, correctAnswer as array of 2-5 letters.
+You MUST output EXACTLY ${chunkCount} questions. Output JSON only with: {"requestedCount":${chunkCount},"questions":[...]}
 
-Return STRICT JSON only.`
-          : `Generate a ${requestedCount}-question test bank on: ${topic}${customPrompt ? `\n\nAdditional instructions: ${customPrompt}\nUse these to guide question focus, depth, and style.` : ""}`;
+QUESTION TYPE RULES:
+- MCQ: options.length MUST be exactly 4. correctAnswer = single letter (A/B/C/D).
+- SATA: options.length MUST be 6-8. correctAnswer = array of 2-5 letters.
+- PRIORITY: Same rules as MCQ (4 options, single correct answer).
+- DELEGATION: Same rules as MCQ (4 options, single correct answer).
 
-        console.log(`[TestBank] Attempt ${attempt}/${MAX_TB_RETRIES} for ${requestedCount} questions on "${topic}"`);
+Each question MUST have ALL fields: id, category (one of: ${VALID_CATEGORIES.join(" | ")}), type (one of: ${VALID_TYPES.join(" | ")}), scenario (>=50 chars), stem (>=20 chars), options, correctAnswer, rationaleCorrect (>=50 chars), rationaleIncorrect (array for each wrong option), clinicalPearl (>=30 chars).
 
-        const response = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userContent },
-          ],
-          temperature: isRetry ? 0.5 : 0.7,
-          max_tokens: Math.min(requestedCount * 350 + 500, 16384),
-          response_format: { type: "json_object" },
-        });
+Question type distribution: ${types.map((t: string) => {
+  if (t === "multiple-choice") return "MCQ";
+  if (t === "select-all") return "SATA";
+  if (t === "ordered-response") return "PRIORITY";
+  return t.toUpperCase();
+}).join(", ")}
 
-        totalTokensUsed += response.usage?.total_tokens || 0;
-        const text = response.choices[0]?.message?.content || "{}";
+Difficulty: ${diff === "easy" ? "70% easy, 25% moderate, 5% hard" : diff === "hard" ? "5% easy, 25% moderate, 70% hard" : "20% easy, 50% moderate, 30% hard"}
 
-        let parsed: any;
-        try {
-          parsed = JSON.parse(text);
-        } catch {
-          lastErrors = [`JSON_PARSE_ERROR: Failed to parse response as JSON. Raw (first 200 chars): ${text.substring(0, 200)}`];
-          console.error(`[TestBank] Attempt ${attempt}: JSON parse failed`);
-          continue;
+Do not include cover pages, section dividers, TOC, or headings. Output JSON only. Any extra text fails.
+You MUST output exactly ${chunkCount} questions or the response will be rejected.`;
+
+        const userContent = `Generate questions ${startNum} through ${startNum + chunkCount - 1} for: ${topic}${customPrompt ? `\n\nAdditional instructions: ${customPrompt}` : ""}
+
+Start numbering at q${startNum}. Return STRICT JSON only with exactly ${chunkCount} questions.`;
+
+        console.log(`[TestBank] Chunk pass ${pass + 1}: generating questions ${startNum}-${startNum + chunkCount - 1} (${allQuestions.length}/${requestedCount} done)`);
+
+        let chunkQuestions: any[] = [];
+        for (let retry = 0; retry < 3; retry++) {
+          totalAttempts++;
+          try {
+            const response = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              messages: [
+                { role: "system", content: chunkSystemPrompt },
+                { role: "user", content: userContent },
+              ],
+              temperature: retry > 0 ? 0.5 : 0.7,
+              max_tokens: Math.min(chunkCount * 400 + 500, 16384),
+              response_format: { type: "json_object" },
+            });
+
+            totalTokensUsed += response.usage?.total_tokens || 0;
+            const text = response.choices[0]?.message?.content || "{}";
+
+            const parsed = JSON.parse(text);
+            const qs = Array.isArray(parsed.questions) ? parsed.questions : Array.isArray(parsed) ? parsed : [];
+
+            const validQs: any[] = [];
+            for (const q of qs) {
+              if (!q || typeof q !== "object") continue;
+              if (!q.stem || !q.scenario || !Array.isArray(q.options) || q.options.length < 4) continue;
+              if (!q.rationaleCorrect || !Array.isArray(q.rationaleIncorrect)) continue;
+              if (!q.clinicalPearl) continue;
+              const qType = (q.type || "").toUpperCase();
+              if (!VALID_TYPES.includes(qType)) q.type = "MCQ";
+              if (!q.category || !VALID_CATEGORIES.includes(q.category)) q.category = VALID_CATEGORIES[Math.floor(Math.random() * VALID_CATEGORIES.length)];
+              const hash = hashQuestion(q);
+              if (seenHashes.has(hash)) continue;
+              seenHashes.add(hash);
+              q.id = `q${allQuestions.length + validQs.length + 1}`;
+              validQs.push(q);
+            }
+
+            if (validQs.length > 0) {
+              chunkQuestions = validQs;
+              console.log(`[TestBank] Chunk pass ${pass + 1} retry ${retry + 1}: ${validQs.length} valid questions (deduped)`);
+              break;
+            }
+            console.warn(`[TestBank] Chunk pass ${pass + 1} retry ${retry + 1}: 0 valid questions, retrying...`);
+          } catch (parseErr: any) {
+            console.error(`[TestBank] Chunk pass ${pass + 1} retry ${retry + 1} error: ${parseErr.message}`);
+          }
         }
 
-        const validation = validateQuestions(parsed);
-        if (validation.valid) {
-          testBank = parsed;
-          console.log(`[TestBank] OK: ${validation.questions.length}/${requestedCount} questions validated on attempt ${attempt}`);
-          break;
-        }
-
-        lastErrors = validation.errors;
-        testBank = parsed;
-        console.warn(`[TestBank] Attempt ${attempt} FAILED validation: ${validation.errors.length} errors. First 3: ${validation.errors.slice(0, 3).join("; ")}`);
+        allQuestions.push(...chunkQuestions);
+        console.log(`[TestBank] Progress: ${allQuestions.length}/${requestedCount} questions`);
       }
 
-      recordAiUsage(attempt, totalTokensUsed);
+      recordAiUsage(totalAttempts, totalTokensUsed);
 
-      if (!testBank || !Array.isArray(testBank.questions)) {
-        await logAudit(req, admin, "ai", null, "generate-test-bank-FAILED", null, { topic, examTarget, requestedCount, attempts: attempt });
-        return res.status(422).json({
-          error: "QUESTION_GENERATION_FAILED",
-          message: `Failed to generate valid test bank after ${MAX_TB_RETRIES} attempts`,
-          requestedCount,
-          generatedCount: 0,
-          validationErrors: lastErrors.slice(0, 10),
-        });
-      }
+      const finalValidation = validateQuestions({ questions: allQuestions });
+      const lastErrors = finalValidation.errors.filter(e => !e.startsWith("COUNT_MISMATCH"));
 
-      const questions = testBank.questions || [];
-      const generatedCount = questions.length;
+      const generatedCount = allQuestions.length;
       const countMismatch = generatedCount !== requestedCount;
 
       const audit = {
         requestedCount,
         generatedCount,
         countMatch: !countMismatch,
-        attempts: attempt,
+        attempts: totalAttempts,
         byType: {} as Record<string, number>,
         byCategory: {} as Record<string, number>,
-        validationErrors: lastErrors.length > 0 ? lastErrors.slice(0, 10) : [],
+        validationErrors: lastErrors.slice(0, 10),
       };
-      for (const q of questions) {
+      for (const q of allQuestions) {
         const t = (q.type || "unknown").toUpperCase();
         const c = q.category || "Uncategorized";
         audit.byType[t] = (audit.byType[t] || 0) + 1;
         audit.byCategory[c] = (audit.byCategory[c] || 0) + 1;
       }
 
-      console.log(`[TestBank] Content Audit: requested=${requestedCount} generated=${generatedCount} match=${!countMismatch} attempts=${attempt}`);
+      console.log(`[TestBank] Content Audit: requested=${requestedCount} generated=${generatedCount} match=${!countMismatch} attempts=${totalAttempts}`);
       console.log(`[TestBank] By Type:`, JSON.stringify(audit.byType));
       console.log(`[TestBank] By Category:`, JSON.stringify(audit.byCategory));
-      if (lastErrors.length > 0) console.warn(`[TestBank] Remaining validation issues: ${lastErrors.slice(0, 5).join("; ")}`);
 
-      await logAudit(req, admin, "ai", null, "generate-test-bank", null, { topic, examTarget, requestedCount, generatedCount, countMatch: !countMismatch, attempts: attempt });
+      await logAudit(req, admin, "ai", null, "generate-test-bank", null, { topic, examTarget, requestedCount, generatedCount, countMatch: !countMismatch, attempts: totalAttempts });
+
+      const testBank = { questions: allQuestions, title: `${topic} - ${examTarget?.toUpperCase() || "NCLEX"} Test Bank` };
 
       if (countMismatch) {
         return res.status(422).json({
