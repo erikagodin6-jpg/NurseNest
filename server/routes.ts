@@ -9904,6 +9904,418 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/admin/qbank-drafts", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const drafts = await storage.listQbankDrafts();
+      res.json(drafts);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-drafts", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { title, exam, topic, mixedBlueprint, requestedCount, difficulty, distributionJson, canadianContext, editionsJson, price, studyEditionPrice } = req.body;
+      if (!title || !topic) return res.status(400).json({ error: "title and topic required" });
+      const slug = (title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 80) + "-" + Date.now().toString(36);
+      const draft = await storage.createQbankDraft({
+        title, slug, exam: exam || "rex-pn", topic, mixedBlueprint: mixedBlueprint || false,
+        requestedCount: requestedCount || 300, difficulty: difficulty || "medium",
+        distributionJson: distributionJson || null, canadianContext: canadianContext !== false,
+        editionsJson: editionsJson || { questionsOnly: true, studyEdition: false },
+        price: price || 1499, studyEditionPrice: studyEditionPrice || 2499,
+        status: "draft",
+      });
+      res.json(draft);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/qbank-drafts/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const draft = await storage.getQbankDraft(req.params.id);
+      if (!draft) return res.status(404).json({ error: "Not found" });
+      res.json(draft);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/qbank-drafts/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const draft = await storage.updateQbankDraft(req.params.id, req.body);
+      res.json(draft);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/qbank-drafts/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      await storage.deleteQbankDraft(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-drafts/:id/generate", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const draft = await storage.getQbankDraft(req.params.id);
+      if (!draft) return res.status(404).json({ error: "Not found" });
+
+      await storage.updateQbankDraft(draft.id, { status: "generating" } as any);
+
+      const CHUNK_SIZE = 25;
+      const requested = draft.requestedCount;
+      const maxPasses = Math.ceil(requested / CHUNK_SIZE) + 5;
+      const allQuestions: any[] = [];
+      const seenHashes = new Set<string>();
+      const errors: string[] = [];
+
+      const hashQ = (q: any) => {
+        const s = ((q.scenario || "") + (q.stem || "")).toLowerCase().replace(/\s+/g, " ").trim();
+        let h = 0;
+        for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+        return h.toString(36);
+      };
+
+      const VALID_CATS = ["Safe and Effective Care Environment", "Health Promotion and Maintenance", "Psychosocial Integrity", "Physiological Integrity"];
+      const VALID_TYPES = ["MCQ", "SATA", "PRIORITY", "DELEGATION"];
+
+      const validateQ = (q: any): string | null => {
+        if (!q.stem || !q.options || !q.correctAnswer) return "missing required fields";
+        const t = (q.type || "MCQ").toUpperCase();
+        if (!VALID_TYPES.includes(t)) return `invalid type: ${t}`;
+        if (!VALID_CATS.some(c => (q.category || "").includes(c.split(" ")[0]))) {
+          q.category = VALID_CATS[Math.floor(Math.random() * VALID_CATS.length)];
+        }
+        if (t === "SATA") {
+          if (q.options.length < 6) return "SATA needs 6+ options";
+          if (!Array.isArray(q.correctAnswer) || q.correctAnswer.length < 2) return "SATA needs array of 2+ answers";
+        } else {
+          if (q.options.length < 4) return "needs 4 options";
+          if (Array.isArray(q.correctAnswer)) q.correctAnswer = q.correctAnswer[0];
+        }
+        return null;
+      };
+
+      const contextLabel = draft.canadianContext ? "Canadian REx-PN" : "US NCLEX";
+      const topicLabel = draft.mixedBlueprint ? "mixed clinical blueprint" : draft.topic;
+
+      for (let pass = 0; pass < maxPasses && allQuestions.length < requested; pass++) {
+        const remaining = requested - allQuestions.length;
+        const batchSize = Math.min(CHUNK_SIZE, remaining);
+        console.log(`[QBank ${draft.id}] Chunk ${pass + 1}: generating ${batchSize}, have ${allQuestions.length}/${requested}`);
+
+        try {
+          const openai = (await import("./openai-client")).getOpenAIClient();
+          const resp = await openai.chat.completions.create({
+            model: "gpt-4o",
+            temperature: 0.85,
+            max_tokens: 16000,
+            response_format: { type: "json_object" },
+            messages: [
+              {
+                role: "system",
+                content: `You are a ${contextLabel} exam item writer. Generate exactly ${batchSize} unique clinical nursing questions in JSON format. Output: {"questions":[...]}. Each question must have: id (number), category (one of: ${VALID_CATS.join(", ")}), type (MCQ or SATA or PRIORITY or DELEGATION), scenario (2-3 sentence clinical vignette), stem (the question), options (array of strings, A-D for MCQ/PRIORITY/DELEGATION, A-H for SATA), correctAnswer (single letter for MCQ/PRIORITY/DELEGATION, array of letters for SATA), rationaleCorrect (why correct answer is right), rationaleIncorrect (array of strings explaining why each wrong option is wrong), clinicalPearl (key takeaway). Difficulty: ${draft.difficulty}. Every scenario must be unique. No duplicate clinical situations.`
+              },
+              {
+                role: "user",
+                content: `Generate ${batchSize} ${contextLabel} practice questions on: ${topicLabel}. Starting from question ID ${allQuestions.length + 1}. Ensure each question has a unique clinical scenario. ${draft.canadianContext ? "Use Canadian nursing context, units (mmol/L, celsius), and healthcare system references." : ""}`
+              }
+            ]
+          });
+
+          const raw = resp.choices[0]?.message?.content || "{}";
+          const parsed = JSON.parse(raw);
+          const qs = parsed.questions || [];
+
+          for (const q of qs) {
+            const h = hashQ(q);
+            if (seenHashes.has(h)) continue;
+            const err = validateQ(q);
+            if (err) { errors.push(`Q${q.id}: ${err}`); continue; }
+            seenHashes.add(h);
+            q.id = allQuestions.length + 1;
+            q.type = (q.type || "MCQ").toUpperCase();
+            allQuestions.push(q);
+            if (allQuestions.length >= requested) break;
+          }
+        } catch (chunkErr: any) {
+          errors.push(`Chunk ${pass + 1} error: ${chunkErr.message}`);
+        }
+      }
+
+      const byType: Record<string, number> = {};
+      const byCategory: Record<string, number> = {};
+      for (const q of allQuestions) {
+        byType[q.type] = (byType[q.type] || 0) + 1;
+        const catKey = (q.category || "Unknown").split(" ").slice(0, 3).join(" ");
+        byCategory[catKey] = (byCategory[catKey] || 0) + 1;
+      }
+
+      const audit = {
+        ok: allQuestions.length === requested,
+        requestedCount: requested,
+        generatedCount: allQuestions.length,
+        countMatch: allQuestions.length === requested,
+        byType,
+        byCategory,
+        errors,
+        timestamp: new Date().toISOString(),
+      };
+
+      await storage.updateQbankDraft(draft.id, {
+        questionsJson: allQuestions,
+        auditJson: audit,
+        status: audit.ok ? "validated" : "partial",
+      } as any);
+
+      res.json({ audit, questionCount: allQuestions.length });
+    } catch (e: any) {
+      await storage.updateQbankDraft(req.params.id, { status: "error" } as any).catch(() => {});
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-drafts/:id/complete-missing", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const draft = await storage.getQbankDraft(req.params.id);
+      if (!draft) return res.status(404).json({ error: "Not found" });
+      const existing: any[] = (draft.questionsJson as any[]) || [];
+      const requested = draft.requestedCount;
+      if (existing.length >= requested) return res.json({ message: "Already complete", count: existing.length });
+
+      const missing = requested - existing.length;
+      await storage.updateQbankDraft(draft.id, { status: "completing" } as any);
+
+      const seenHashes = new Set<string>();
+      const hashQ = (q: any) => {
+        const s = ((q.scenario || "") + (q.stem || "")).toLowerCase().replace(/\s+/g, " ").trim();
+        let h = 0;
+        for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+        return h.toString(36);
+      };
+      for (const q of existing) seenHashes.add(hashQ(q));
+
+      const VALID_CATS = ["Safe and Effective Care Environment", "Health Promotion and Maintenance", "Psychosocial Integrity", "Physiological Integrity"];
+      const VALID_TYPES = ["MCQ", "SATA", "PRIORITY", "DELEGATION"];
+      const contextLabel = draft.canadianContext ? "Canadian REx-PN" : "US NCLEX";
+      const topicLabel = draft.mixedBlueprint ? "mixed clinical blueprint" : draft.topic;
+      const newQs: any[] = [];
+      const errors: string[] = [];
+
+      for (let pass = 0; pass < missing + 5 && newQs.length < missing; pass++) {
+        const batchSize = Math.min(25, missing - newQs.length);
+        try {
+          const openai = (await import("./openai-client")).getOpenAIClient();
+          const resp = await openai.chat.completions.create({
+            model: "gpt-4o", temperature: 0.9, max_tokens: 16000,
+            response_format: { type: "json_object" },
+            messages: [
+              { role: "system", content: `Generate exactly ${batchSize} unique ${contextLabel} nursing questions in JSON. Output: {"questions":[...]}. Categories: ${VALID_CATS.join(", ")}. Types: MCQ/SATA/PRIORITY/DELEGATION. Each needs: id, category, type, scenario, stem, options, correctAnswer, rationaleCorrect, rationaleIncorrect, clinicalPearl.` },
+              { role: "user", content: `Generate ${batchSize} questions on ${topicLabel}. Starting ID ${existing.length + newQs.length + 1}. Must be completely different from previous questions.` }
+            ]
+          });
+          const parsed = JSON.parse(resp.choices[0]?.message?.content || "{}");
+          for (const q of (parsed.questions || [])) {
+            const h = hashQ(q);
+            if (seenHashes.has(h)) continue;
+            seenHashes.add(h);
+            q.id = existing.length + newQs.length + 1;
+            q.type = (q.type || "MCQ").toUpperCase();
+            if (!VALID_TYPES.includes(q.type)) continue;
+            newQs.push(q);
+            if (newQs.length >= missing) break;
+          }
+        } catch (err: any) {
+          errors.push(err.message);
+        }
+      }
+
+      const merged = [...existing, ...newQs];
+      const byType: Record<string, number> = {};
+      const byCategory: Record<string, number> = {};
+      for (const q of merged) {
+        byType[q.type] = (byType[q.type] || 0) + 1;
+        const catKey = (q.category || "").split(" ").slice(0, 3).join(" ");
+        byCategory[catKey] = (byCategory[catKey] || 0) + 1;
+      }
+
+      const audit = {
+        ok: merged.length === requested,
+        requestedCount: requested,
+        generatedCount: merged.length,
+        countMatch: merged.length === requested,
+        byType, byCategory, errors,
+        timestamp: new Date().toISOString(),
+      };
+
+      await storage.updateQbankDraft(draft.id, {
+        questionsJson: merged,
+        auditJson: audit,
+        status: audit.ok ? "validated" : "partial",
+      } as any);
+
+      res.json({ audit, added: newQs.length, total: merged.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-drafts/:id/publish", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const draft = await storage.getQbankDraft(req.params.id);
+      if (!draft) return res.status(404).json({ error: "Not found" });
+      const audit = draft.auditJson as any;
+      if (!audit?.ok) return res.status(400).json({ error: "Cannot publish: audit not passed. generatedCount must equal requestedCount." });
+      const questions = (draft.questionsJson as any[]) || [];
+      if (questions.length !== draft.requestedCount) return res.status(400).json({ error: "Question count mismatch" });
+
+      const editions = (draft.editionsJson as any) || { questionsOnly: true, studyEdition: false };
+      const baseSlug = draft.slug;
+      const results: any = {};
+
+      if (editions.questionsOnly) {
+        const product = await storage.createDigitalProduct({
+          title: draft.title,
+          slug: baseSlug,
+          description: `${draft.requestedCount} ${draft.exam.toUpperCase()} practice questions with answer key. ${draft.canadianContext ? "Canadian-focused." : ""} Exam-style formatting, continuous numbering, printable.`,
+          shortDescription: `${draft.requestedCount} practice questions + answer key`,
+          price: draft.price || 1499,
+          category: "qbank",
+          tierTarget: "all",
+          examTarget: draft.exam,
+          featured: false,
+          isActive: true,
+        });
+        await storage.updateQbankDraft(draft.id, { publishedProductId: product.id } as any);
+        results.questionsOnly = product;
+      }
+
+      if (editions.studyEdition) {
+        const studyProduct = await storage.createDigitalProduct({
+          title: `${draft.title} - Study Edition`,
+          slug: `${baseSlug}-study-edition`,
+          description: `${draft.requestedCount} ${draft.exam.toUpperCase()} practice questions with full rationales, clinical pearls, and answer explanations. ${draft.canadianContext ? "Canadian-focused." : ""} Premium study resource.`,
+          shortDescription: `${draft.requestedCount} questions + rationales + clinical pearls`,
+          price: draft.studyEditionPrice || 2499,
+          category: "qbank",
+          tierTarget: "all",
+          examTarget: draft.exam,
+          featured: false,
+          isActive: true,
+        });
+        await storage.updateQbankDraft(draft.id, { publishedStudyProductId: studyProduct.id } as any);
+        results.studyEdition = studyProduct;
+      }
+
+      await storage.updateQbankDraft(draft.id, { status: "published" } as any);
+      res.json({ published: true, products: results });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/qbank-recipes", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const recipes = await storage.listQbankRecipes();
+      res.json(recipes);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-recipes", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const recipe = await storage.createQbankRecipe(req.body);
+      res.json(recipe);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/qbank-recipes/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const recipe = await storage.updateQbankRecipe(req.params.id, req.body);
+      res.json(recipe);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.delete("/api/admin/qbank-recipes/:id", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      await storage.deleteQbankRecipe(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-recipes/:id/run", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const recipe = await storage.getQbankRecipe(req.params.id);
+      if (!recipe) return res.status(404).json({ error: "Not found" });
+
+      const title = `${recipe.exam.toUpperCase()} ${recipe.topic} ${recipe.requestedCount}Q`;
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 80) + "-" + Date.now().toString(36);
+      const draft = await storage.createQbankDraft({
+        title,
+        slug,
+        exam: recipe.exam,
+        topic: recipe.topic,
+        mixedBlueprint: recipe.mixedBlueprint || false,
+        requestedCount: recipe.requestedCount,
+        difficulty: recipe.difficulty,
+        distributionJson: recipe.distributionJson,
+        canadianContext: recipe.canadianContext !== false,
+        editionsJson: recipe.editionsJson || { questionsOnly: true, studyEdition: false },
+        price: recipe.price || 1499,
+        studyEditionPrice: recipe.studyEditionPrice || 2499,
+        status: "draft",
+      });
+
+      await storage.updateQbankRecipe(recipe.id, {
+        lastRunAt: new Date(),
+        lastRunStatus: "started",
+        runCount: (recipe.runCount || 0) + 1,
+      } as any);
+
+      res.json({ draft, message: "Draft created from recipe. Use /generate to start generation." });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -106,6 +106,18 @@ export interface IStorage {
   getProductSales(): Promise<{ productId: string; title: string; totalSales: number; totalRevenue: number }[]>;
   validateCoupon(code: string): Promise<{ valid: boolean; discountType?: string; discountValue?: number }>;
   useCoupon(code: string): Promise<void>;
+
+  listQbankDrafts(): Promise<QbankDraft[]>;
+  getQbankDraft(id: string): Promise<QbankDraft | undefined>;
+  createQbankDraft(draft: InsertQbankDraft): Promise<QbankDraft>;
+  updateQbankDraft(id: string, updates: Partial<InsertQbankDraft>): Promise<QbankDraft>;
+  deleteQbankDraft(id: string): Promise<void>;
+
+  listQbankRecipes(): Promise<QbankRecipe[]>;
+  getQbankRecipe(id: string): Promise<QbankRecipe | undefined>;
+  createQbankRecipe(recipe: InsertQbankRecipe): Promise<QbankRecipe>;
+  updateQbankRecipe(id: string, updates: Partial<InsertQbankRecipe>): Promise<QbankRecipe>;
+  deleteQbankRecipe(id: string): Promise<void>;
 }
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -857,6 +869,44 @@ export class DatabaseStorage implements IStorage {
 
   async useCoupon(code: string): Promise<void> {
     await db.update(couponCodes).set({ usageCount: sql`${couponCodes.usageCount} + 1` }).where(eq(couponCodes.code, code.toUpperCase()));
+  }
+
+  async listQbankDrafts(): Promise<QbankDraft[]> {
+    return db.select().from(qbankDrafts).orderBy(desc(qbankDrafts.createdAt));
+  }
+  async getQbankDraft(id: string): Promise<QbankDraft | undefined> {
+    const [d] = await db.select().from(qbankDrafts).where(eq(qbankDrafts.id, id));
+    return d;
+  }
+  async createQbankDraft(draft: InsertQbankDraft): Promise<QbankDraft> {
+    const [d] = await db.insert(qbankDrafts).values(draft).returning();
+    return d;
+  }
+  async updateQbankDraft(id: string, updates: Partial<InsertQbankDraft>): Promise<QbankDraft> {
+    const [d] = await db.update(qbankDrafts).set({ ...updates, updatedAt: new Date() }).where(eq(qbankDrafts.id, id)).returning();
+    return d;
+  }
+  async deleteQbankDraft(id: string): Promise<void> {
+    await db.delete(qbankDrafts).where(eq(qbankDrafts.id, id));
+  }
+
+  async listQbankRecipes(): Promise<QbankRecipe[]> {
+    return db.select().from(qbankRecipes).orderBy(desc(qbankRecipes.createdAt));
+  }
+  async getQbankRecipe(id: string): Promise<QbankRecipe | undefined> {
+    const [r] = await db.select().from(qbankRecipes).where(eq(qbankRecipes.id, id));
+    return r;
+  }
+  async createQbankRecipe(recipe: InsertQbankRecipe): Promise<QbankRecipe> {
+    const [r] = await db.insert(qbankRecipes).values(recipe).returning();
+    return r;
+  }
+  async updateQbankRecipe(id: string, updates: Partial<InsertQbankRecipe>): Promise<QbankRecipe> {
+    const [r] = await db.update(qbankRecipes).set(updates).where(eq(qbankRecipes.id, id)).returning();
+    return r;
+  }
+  async deleteQbankRecipe(id: string): Promise<void> {
+    await db.delete(qbankRecipes).where(eq(qbankRecipes.id, id));
   }
 }
 

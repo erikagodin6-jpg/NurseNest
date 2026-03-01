@@ -1224,3 +1224,59 @@ export const exportedFiles = pgTable("exported_files", {
 export const insertExportedFileSchema = createInsertSchema(exportedFiles).omit({ id: true, createdAt: true });
 export type InsertExportedFile = z.infer<typeof insertExportedFileSchema>;
 export type ExportedFile = typeof exportedFiles.$inferSelect;
+
+export const qbankDrafts = pgTable("qbank_drafts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  exam: text("exam").notNull().default("rex-pn"),
+  topic: text("topic").notNull(),
+  mixedBlueprint: boolean("mixed_blueprint").default(false),
+  requestedCount: integer("requested_count").notNull().default(300),
+  difficulty: text("difficulty").notNull().default("medium"),
+  distributionJson: jsonb("distribution_json"),
+  canadianContext: boolean("canadian_context").default(true),
+  outputLanguage: text("output_language").default("en"),
+  editionsJson: jsonb("editions_json"),
+  questionsJson: jsonb("questions_json"),
+  auditJson: jsonb("audit_json"),
+  basePrompt: text("base_prompt"),
+  patchPrompts: jsonb("patch_prompts"),
+  version: integer("version").default(1),
+  status: text("status").notNull().default("draft"),
+  price: integer("price").default(1499),
+  studyEditionPrice: integer("study_edition_price").default(2499),
+  publishedProductId: varchar("published_product_id"),
+  publishedStudyProductId: varchar("published_study_product_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertQbankDraftSchema = createInsertSchema(qbankDrafts).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertQbankDraft = z.infer<typeof insertQbankDraftSchema>;
+export type QbankDraft = typeof qbankDrafts.$inferSelect;
+
+export const qbankRecipes = pgTable("qbank_recipes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  exam: text("exam").notNull().default("rex-pn"),
+  topic: text("topic").notNull(),
+  mixedBlueprint: boolean("mixed_blueprint").default(false),
+  requestedCount: integer("requested_count").notNull().default(300),
+  difficulty: text("difficulty").notNull().default("medium"),
+  distributionJson: jsonb("distribution_json"),
+  canadianContext: boolean("canadian_context").default(true),
+  editionsJson: jsonb("editions_json"),
+  price: integer("price").default(1499),
+  studyEditionPrice: integer("study_edition_price").default(2499),
+  autoPublish: boolean("auto_publish").default(false),
+  isActive: boolean("is_active").default(true),
+  lastRunAt: timestamp("last_run_at"),
+  lastRunStatus: text("last_run_status"),
+  runCount: integer("run_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQbankRecipeSchema = createInsertSchema(qbankRecipes).omit({ id: true, createdAt: true });
+export type InsertQbankRecipe = z.infer<typeof insertQbankRecipeSchema>;
+export type QbankRecipe = typeof qbankRecipes.$inferSelect;

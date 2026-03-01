@@ -1,0 +1,315 @@
+Implement a complete QBank + Practice Exam Factory + Store + Premium Unlock + AI Marketing system inside NurseNest.
+
+CRITICAL RULES:
+- Do NOT rewrite entire files. Use surgical diffs.
+- Separate QBank renderer from Canvas editor.
+- All exports must be gated by strict validation.
+- It must be impossible to export or publish incomplete banks.
+- Never silently truncate questions.
+- All generation must be strict JSON only.
+
+========================================
+PART 1 — QBANK FACTORY (ADMIN)
+========================================
+
+Create /admin/qbank-factory with:
+
+Fields:
+- Title (auto-suggest)
+- Exam: REx-PN
+- Topic (text)
+- Mixed Blueprint toggle
+- requestedCount (default 300)
+- Difficulty slider
+- Topic Mix Selector (see Part 2)
+- Editions:
+  [x] Questions Only + Answer Key
+  [ ] Study Edition (Rationales + Clinical Pearls)
+- Distribution preset (MCQ/SATA/PRIORITY/DELEGATION mix)
+- Canadian context toggle (default ON)
+- Output language (future-ready)
+
+Buttons:
+- Generate
+- Complete Missing
+- Preview
+- Export JSON
+- Export CSV
+- Export Questions-Only PDF
+- Export Study Edition PDF
+- Publish to Store
+
+Persistent Audit Panel must show:
+- requestedCount
+- generatedCount
+- countMatch
+- byType
+- byCategory
+- topicDistribution
+- attempts
+- validationErrors
+
+Disable ALL exports + publish unless:
+generatedCount === requestedCount AND schema validation passes.
+
+========================================
+PART 2 — TOPIC MIX SELECTOR
+========================================
+
+Add weighted topic mix:
+[{topic, weightPercent}]
+
+Topics:
+Cardio, Resp, Neuro, Endocrine, Renal, GI, Mental Health,
+Maternal/Child, Med-Surg, Geriatrics/LTC, Infection Control,
+Pharmacology, Ethics/Legal, Community/Home Care
+
+Total weight must equal 100%.
+
+Backend:
+- Generate in chunks (50 per batch)
+- Enforce topic distribution with tolerance (+/- 2%)
+- Dedupe via normalized hash(scenario + stem)
+- Regenerate missing topics until distribution satisfied
+
+========================================
+PART 3 — FULL-LENGTH PRACTICE EXAMS
+========================================
+
+Create practice_exam product type.
+
+Admin Exam Factory:
+- Length: 85 or 90 (default 90)
+- Form count: 1, 2, or 3
+- Topic mix selector
+- Include rationales toggle
+
+Rules:
+- 1..90 continuous numbering
+- No duplicates
+- No section headings
+- Exam-like format
+- Output answer key
+- Optional rationales section
+
+========================================
+PART 4 — RANDOMIZED FORMS A/B/C
+========================================
+
+From master bank:
+- Generate Forms A/B/C via sampling + shuffle
+- Deterministic seed
+- Store formQuestionIds
+- Separate answer keys per form
+- Export each form as PDF
+
+========================================
+PART 5 — STRICT GENERATION ENGINE
+========================================
+
+Chunked generation:
+- Generate 50 at a time
+- Validate each chunk
+- Merge
+- Dedupe
+- Repeat until requestedCount exact
+
+Schema rules:
+- Category ∈ 4 REx-PN domains
+- Type ∈ MCQ/SATA/PRIORITY/DELEGATION
+- MCQ/PRIORITY/DELEGATION:
+  4 options, 1 correct
+- SATA:
+  6–8 options, 2–5 correct
+- No forbidden headings
+- qbank_only mode
+
+Complete Missing endpoint:
+- Input: existingQuestions + requestedCount
+- Generate only missing
+- Merge + dedupe + validate
+
+========================================
+PART 6 — PDF EXPORT ENGINE (jsPDF)
+========================================
+
+Separate from Canvas.
+
+Export Modes:
+1) Questions Only + Answer Key
+2) Study Edition (Rationales section)
+
+Layout:
+- High-density academic format
+- 0.6" margins
+- 11pt font
+- 1.15 line height
+- Minimal header/footer
+- Auto-pagination with text measurement
+- Never truncate content
+- If question spills, continue on next page
+
+Append:
+- Answer Key section
+- Audit Summary page (counts, timestamp, topic mix)
+
+Filename:
+NurseNest-RExPN-{topic}-{count}Q-{mode}.pdf
+
+========================================
+PART 7 — STORE INTEGRATION
+========================================
+
+Product types:
+- qbank
+- practice_exam
+
+Each product stores:
+- priceOneTime
+- eligibleForPremiumUnlock
+- files[]
+- previewImages[]
+- variants (Form A/B/C if applicable)
+
+Publishing:
+- Must pass audit before publish
+- Auto-generate slug
+- Generate preview thumbnails from PDF
+
+========================================
+PART 8 — DUAL FULFILLMENT MODEL
+========================================
+
+Allow:
+A) Instant one-time purchase
+B) Premium subscription unlock
+
+SubscriptionPlan:
+- name
+- priceMonthly
+- unlockAllowancePerPeriod
+- period (month/week)
+- unlockCostMap (qbank=1 credit, exam=2 credits)
+
+UserEntitlement:
+- subscriptionPlanId
+- unlocksUsedThisPeriod
+- reset date
+
+UserUnlock:
+- productId
+- source (purchase/subscription)
+
+Store Page CTA:
+- Buy Instant Download
+- Unlock with Premium (if eligible)
+- Upgrade to Premium (if no subscription)
+
+Never expose raw file URLs.
+Use authenticated or signed download endpoints.
+
+========================================
+PART 9 — ACCOUNT LIBRARY PAGE
+========================================
+
+Create /account/library:
+- Purchased products
+- Unlocked products
+- Download buttons
+- Unlock meter:
+  “Unlocks remaining this period: X”
+- Reset date
+
+========================================
+PART 10 — HERO PAGE MARKETING ENGINE
+========================================
+
+Dynamic hero campaigns:
+
+Campaign 1:
+“Pass the REx-PN with 300 Exam-Style Questions”
+
+Campaign 2:
+“Simulate the Real REx-PN Exam — Forms A, B & C”
+
+Campaign 3:
+“Unlimited Practice. One Monthly Plan.”
+
+Rotate based on:
+- login state
+- subscription state
+- product availability
+
+Add dynamic badges:
+- 300 Questions
+- 3 Full-Length Exams
+- Canadian Blueprint Aligned
+- Updated 2026
+
+========================================
+PART 11 — PAID PLAN CONVERSION BLOCK
+========================================
+
+Add:
+- Feature comparison table
+- Savings highlight
+- Unlock psychology messaging
+- Inline upgrade banners when viewing products
+
+========================================
+PART 12 — AI MARKETING CONTENT GENERATOR
+========================================
+
+When publishing product:
+Auto-generate:
+- SEO title
+- Meta description
+- Structured product description
+- 5 bullet selling points
+- 3 FAQs
+- Hero tagline
+- 1200-word blog post
+- 3 Instagram captions
+- 1 TikTok script (faceless)
+- 1 Email campaign draft
+- FAQ schema JSON-LD
+
+Store in admin for editing.
+
+========================================
+PART 13 — PROMPT TWEAKING SYSTEM
+========================================
+
+After generation:
+Allow:
+- Edit basePrompt
+- Add patch prompts
+- Scope selection (all / selected / rationalesOnly / optionsOnly)
+- Preview diff
+- Apply patch
+- Version history
+- Revert
+
+Patching must:
+- Preserve question count
+- Preserve IDs
+- Pass validation
+
+========================================
+FINAL ACCEPTANCE TEST
+========================================
+
+1) Generate 300Q mixed blueprint
+2) Audit shows 300/300
+3) Export Questions-Only PDF → continuous 1..300 numbering
+4) Export Study Edition → rationales section present
+5) Publish to Store
+6) Buy one-time → download available
+7) Upgrade to Premium → unlock works
+8) Library shows entitlements
+9) Hero page updates marketing dynamically
+10) Topic mix distribution within tolerance
+
+No feature is complete unless proven in UI.
+
+Deliver surgical diffs + proof steps.
