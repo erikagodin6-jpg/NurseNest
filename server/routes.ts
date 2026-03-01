@@ -249,6 +249,25 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
 
         "quiz": `You are a nursing exam question writer. Generate NCLEX-style questions based on the provided topic/content. Return ONLY valid JSON array of content blocks where each question uses this format:
 [{"type":"quiz-question","content":"Q: Question text\\nA) Option A\\nB) Option B\\nC) Option C\\nD) Option D\\nCorrect: B\\nRationale: Explanation of why B is correct and why others are wrong"}]`,
+
+        "bundle": `You are a nursing education product creator for NurseNest. Generate a COMPLETE sellable study bundle for the given topic. Return ONLY valid JSON object (NOT an array) with this exact structure:
+{
+  "pages": [
+    { "title": "Section Title", "objects": [{"type":"heading","content":"..."},{"type":"paragraph","content":"..."},{"type":"list","content":"Item 1\\nItem 2"},{"type":"clinical-pearl","content":"..."},{"type":"warning","content":"..."}] }
+  ],
+  "flashcards": [
+    { "front": "Question/term", "back": "Answer/definition" }
+  ],
+  "qbank": [
+    { "stem": "Question text...", "options": ["A) ...", "B) ...", "C) ...", "D) ..."], "correctAnswer": "B", "rationale": "Why B is correct..." }
+  ],
+  "listing": {
+    "title": "Product title for marketplace",
+    "description": "SEO product description (2-3 sentences)",
+    "bullets": ["Key feature 1", "Key feature 2", "Key feature 3", "Key feature 4"]
+  }
+}
+Generate 3-5 content pages with comprehensive study content (each page should have 5-10 blocks), 15-20 flashcards, 10-15 practice questions, and a compelling product listing. Content must be clinically accurate and exam-focused.`,
       };
 
       const systemPrompt = systemPrompts[mode] || systemPrompts["generate"];
@@ -280,10 +299,30 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
         model: "gpt-4o-mini",
         messages,
         temperature: 0.7,
-        max_tokens: 4096,
+        max_tokens: mode === "bundle" ? 8192 : 4096,
       });
 
       const text = response.choices[0]?.message?.content || "[]";
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
+      await logAudit(req, admin, "ai", null, "generate-content", null, { mode, prompt: prompt.substring(0, 200) });
+
+      if (mode === "bundle") {
+        let bundleData;
+        try {
+          const jsonMatch = text.match(/\{[\s\S]*\}/);
+          bundleData = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+        } catch {
+          bundleData = {};
+        }
+        bundleData.bundle = true;
+        if (!bundleData.pages) bundleData.pages = [];
+        if (!bundleData.flashcards) bundleData.flashcards = [];
+        if (!bundleData.qbank) bundleData.qbank = [];
+        if (!bundleData.listing) bundleData.listing = { title: "", description: "", bullets: [] };
+        return res.json(bundleData);
+      }
+
       let blocks;
       try {
         const jsonMatch = text.match(/\[[\s\S]*\]/);
@@ -291,10 +330,6 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
       } catch {
         blocks = [{ type: "paragraph", content: text }];
       }
-
-      const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
-      await logAudit(req, admin, "ai", null, "generate-content", null, { mode, prompt: prompt.substring(0, 200) });
       res.json({ blocks });
     } catch (e: any) {
       console.error("AI generate error:", e);

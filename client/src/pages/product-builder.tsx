@@ -2801,7 +2801,18 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
       const examCtx = EXAM_CONTEXT_MAP[aiExamTarget] || EXAM_CONTEXT_MAP["nclex-rn"];
       const mode = toolId === "bundle-generator" ? "bundle" : "generate";
 
-      const prompt = `${tool?.prompt || "Generate content"} for: ${aiTopic}.
+      let prompt: string;
+      if (mode === "bundle") {
+        prompt = `Generate a complete sellable study bundle for: ${aiTopic}.
+Exam Target: ${examCtx.label} | Tier: ${examCtx.tier}
+Frameworks: ${examCtx.frameworks}
+Question Style: ${examCtx.questionStyle}
+Terminology: ${examCtx.terminology}
+Scope: ${examCtx.scope}
+
+Include comprehensive content pages, flashcards, practice questions, and a marketplace listing.`;
+      } else {
+        prompt = `${tool?.prompt || "Generate content"} for: ${aiTopic}.
 Exam Target: ${examCtx.label} | Tier: ${examCtx.tier}
 Frameworks: ${examCtx.frameworks}
 Question Style: ${examCtx.questionStyle}
@@ -2820,6 +2831,7 @@ Return ONLY valid JSON in this exact schema:
   ]
 }
 Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists must be newline separated.`;
+      }
 
       const res = await adminFetch("/api/ai/generate-content", {
         method: "POST",
@@ -3791,6 +3803,133 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 </div>
               </div>
             )}
+
+            <div className="border-t pt-3">
+              <div className="flex items-center gap-1.5 mb-2">
+                <ClipboardCheck className="w-3.5 h-3.5 text-primary" />
+                <span className="text-[11px] font-semibold text-gray-700">Test Bank Generator</span>
+              </div>
+              <p className="text-[9px] text-gray-400 mb-2">Generate exam-style question banks to sell in your marketplace. Uses the topic and exam target above.</p>
+              <div className="space-y-2">
+                <div>
+                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Questions</label>
+                  <div className="flex gap-1">
+                    {[10, 25, 50, 75].map(n => (
+                      <button key={n} onClick={() => setTbQuestionCount(n)} className={`flex-1 h-6 rounded text-[9px] font-medium border transition ${tbQuestionCount === n ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500 hover:border-primary/30"}`} data-testid={`button-tb-count-${n}`}>{n}</button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Difficulty</label>
+                  <div className="flex gap-1">
+                    {[{v:"easy",l:"Easy"},{v:"mixed",l:"Mixed"},{v:"hard",l:"Hard"}].map(d => (
+                      <button key={d.v} onClick={() => setTbDifficulty(d.v)} className={`flex-1 h-6 rounded text-[9px] font-medium border transition ${tbDifficulty === d.v ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500 hover:border-primary/30"}`} data-testid={`button-tb-diff-${d.v}`}>{d.l}</button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Question Types</label>
+                  <div className="flex flex-col gap-1">
+                    {[{v:"multiple-choice",l:"Multiple Choice"},{v:"select-all",l:"Select All (SATA)"},{v:"ordered-response",l:"Ordered Response"}].map(qt => (
+                      <label key={qt.v} className="flex items-center gap-1.5 text-[9px] text-gray-600 cursor-pointer">
+                        <input type="checkbox" checked={tbQuestionTypes.includes(qt.v)} onChange={() => toggleTbQuestionType(qt.v)} className="rounded border-gray-300 w-3 h-3 accent-primary" />
+                        {qt.l}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <Button size="sm" onClick={generateTestBank} disabled={tbLoading || !aiTopic.trim() || tbQuestionTypes.length === 0} className="w-full h-8 text-[11px] gap-1.5" data-testid="button-generate-test-bank">
+                  {tbLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ClipboardCheck className="w-3.5 h-3.5" />}
+                  {tbLoading ? "Generating..." : "Generate Test Bank"}
+                </Button>
+              </div>
+
+              {tbResult && (
+                <div className="mt-3 space-y-2">
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-2.5">
+                    <p className="text-[11px] font-semibold text-green-800 mb-0.5">{tbResult.title || "Test Bank"}</p>
+                    <p className="text-[9px] text-green-600 mb-1.5">{(tbResult.questions || []).length} questions generated</p>
+                    <div className="flex gap-1 flex-wrap text-[8px] mb-2">
+                      {(() => {
+                        const qs = tbResult.questions || [];
+                        const mc = qs.filter((q: any) => q.type === "multiple-choice").length;
+                        const sa = qs.filter((q: any) => q.type === "select-all").length;
+                        const or = qs.filter((q: any) => q.type === "ordered-response").length;
+                        const easy = qs.filter((q: any) => q.difficulty === "easy").length;
+                        const mod = qs.filter((q: any) => q.difficulty === "moderate").length;
+                        const hard = qs.filter((q: any) => q.difficulty === "hard").length;
+                        return (
+                          <>
+                            {mc > 0 && <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full">{mc} MC</span>}
+                            {sa > 0 && <span className="bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">{sa} SATA</span>}
+                            {or > 0 && <span className="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full">{or} Ordered</span>}
+                            {easy > 0 && <span className="bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">{easy} Easy</span>}
+                            {mod > 0 && <span className="bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-full">{mod} Med</span>}
+                            {hard > 0 && <span className="bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full">{hard} Hard</span>}
+                          </>
+                        );
+                      })()}
+                    </div>
+
+                    <button onClick={() => setTbPreviewOpen(!tbPreviewOpen)} className="text-[9px] text-green-700 hover:text-green-900 underline mb-1.5 block" data-testid="button-tb-preview-toggle">
+                      {tbPreviewOpen ? "Hide Preview" : "Preview Questions"}
+                    </button>
+                    {tbPreviewOpen && (
+                      <div className="max-h-48 overflow-y-auto space-y-2 mb-2">
+                        {(tbResult.questions || []).slice(0, 10).map((q: any, i: number) => (
+                          <div key={i} className="bg-white rounded-lg p-2 border border-green-100 text-[9px]">
+                            <div className="flex items-center gap-1 mb-1">
+                              <span className="bg-gray-100 text-gray-600 px-1 rounded text-[8px] font-mono">Q{q.id || i + 1}</span>
+                              <span className={`px-1 rounded text-[8px] ${q.difficulty === "easy" ? "bg-green-50 text-green-600" : q.difficulty === "hard" ? "bg-red-50 text-red-600" : "bg-yellow-50 text-yellow-600"}`}>{q.difficulty}</span>
+                              <span className="bg-blue-50 text-blue-600 px-1 rounded text-[8px]">{q.type}</span>
+                            </div>
+                            <p className="text-gray-800 font-medium mb-1">{q.stem}</p>
+                            <div className="space-y-0.5 text-gray-600">
+                              {(q.options || []).map((opt: string, oi: number) => {
+                                const letter = opt.charAt(0);
+                                const isCorrect = (q.correctAnswer || "").includes(letter);
+                                return (
+                                  <p key={oi} className={isCorrect ? "text-green-700 font-medium" : ""}>{isCorrect ? "✓ " : "  "}{opt}</p>
+                                );
+                              })}
+                            </div>
+                            <p className="text-gray-400 mt-1 italic">{(q.rationale || "").slice(0, 100)}...</p>
+                          </div>
+                        ))}
+                        {(tbResult.questions || []).length > 10 && <p className="text-[8px] text-gray-400 text-center">+{(tbResult.questions || []).length - 10} more questions</p>}
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <Button size="sm" variant="outline" onClick={exportTestBankJSON} className="h-7 text-[10px] gap-1" data-testid="button-tb-export-json">
+                        <Download className="w-3 h-3" /> JSON
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={exportTestBankCSV} className="h-7 text-[10px] gap-1" data-testid="button-tb-export-csv">
+                        <Download className="w-3 h-3" /> CSV
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-2.5">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <ShoppingCart className="w-3.5 h-3.5 text-primary" />
+                      <span className="text-[11px] font-semibold text-gray-700">Sell This Test Bank</span>
+                    </div>
+                    <p className="text-[9px] text-gray-500 mb-2">Publish directly to your marketplace as a digital product.</p>
+                    <div className="space-y-1.5">
+                      <div>
+                        <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Price (CAD)</label>
+                        <Input type="number" step="0.01" min="0" value={tbPrice} onChange={e => setTbPrice(e.target.value)} className="text-xs h-7" placeholder="14.99" data-testid="input-tb-price" />
+                      </div>
+                      <Button size="sm" onClick={publishTestBankToMarketplace} disabled={tbPublishing || !tbPrice} className="w-full h-8 text-[11px] gap-1.5" data-testid="button-tb-publish">
+                        {tbPublishing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ShoppingCart className="w-3.5 h-3.5" />}
+                        {tbPublishing ? "Publishing..." : "Publish to Marketplace"}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       );

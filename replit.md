@@ -21,7 +21,7 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 ### UI/UX Decisions
 - **Framework & Styling**: React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, Tailwind CSS v4, `next-themes` (20 themes), and DM Sans typography.
 - **Content Engagement**: Utilizes `ContentGate` for access control and interactive components like `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`.
-- **Digital Product Builder**: Canva-style editor with drag-and-drop, multi-select, undo/redo, brand kit (10 themes: Soft Clinical, Structured Academic, Bold Modern, Minimal Clean, Blush Rose, Lavender Dream, Sage Wellness, Sky Breeze, Peach Glow, Cotton Candy), AI image lab, and various export formats. Includes multi-page AI content pagination and object grouping.
+- **Digital Product Builder**: Canva-style editor with drag-and-drop, multi-select, undo/redo, brand kit (10 themes: Soft Clinical, Structured Academic, Bold Modern, Minimal Clean, Blush Rose, Lavender Dream, Sage Wellness, Sky Breeze, Peach Glow, Cotton Candy), AI image lab, and various export formats. Includes multi-page AI content pagination, object grouping, AI bundle generator (cram+qbank+flashcards+listing in one click), and AI test bank generator with configurable question counts (10-75), difficulty levels, question types (MC/SATA/ordered-response), preview, JSON/CSV export, and direct marketplace publishing.
 - **Watermarked Preview System**: Generates and streams watermarked PDF previews for digital products.
 
 ### Technical Implementations
