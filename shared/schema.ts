@@ -1383,3 +1383,60 @@ export const friendConnections = pgTable("friend_connections", {
 export const insertFriendConnectionSchema = createInsertSchema(friendConnections).omit({ id: true, createdAt: true });
 export type InsertFriendConnection = z.infer<typeof insertFriendConnectionSchema>;
 export type FriendConnection = typeof friendConnections.$inferSelect;
+
+export const productGenerations = pgTable("product_generations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  template: text("template").notNull(),
+  status: text("status").default("queued").notNull(),
+  targetCount: integer("target_count").notNull(),
+  createdCount: integer("created_count").default(0).notNull(),
+  chunkSize: integer("chunk_size").default(15).notNull(),
+  model: text("model").default("gpt-4o-mini"),
+  promptBase: text("prompt_base"),
+  promptState: jsonb("prompt_state"),
+  topic: text("topic"),
+  examTarget: text("exam_target"),
+  difficulty: text("difficulty").default("mixed"),
+  questionTypes: jsonb("question_types"),
+  region: text("region").default("BOTH"),
+  lastError: text("last_error"),
+  startedAt: timestamp("started_at"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertProductGenerationSchema = createInsertSchema(productGenerations).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertProductGeneration = z.infer<typeof insertProductGenerationSchema>;
+export type ProductGeneration = typeof productGenerations.$inferSelect;
+
+export const generatedQuestions = pgTable("generated_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  generationId: varchar("generation_id").notNull(),
+  idx: integer("idx").notNull(),
+  type: text("type").notNull(),
+  difficulty: text("difficulty"),
+  system: text("system"),
+  category: text("category"),
+  stem: text("stem").notNull(),
+  scenario: text("scenario"),
+  choices: jsonb("choices").notNull(),
+  correctAnswers: jsonb("correct_answers").notNull(),
+  rationale: jsonb("rationale"),
+  examPearl: text("exam_pearl"),
+  hash: text("hash"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertGeneratedQuestionSchema = createInsertSchema(generatedQuestions).omit({ id: true, createdAt: true });
+export type InsertGeneratedQuestion = z.infer<typeof insertGeneratedQuestionSchema>;
+export type GeneratedQuestion = typeof generatedQuestions.$inferSelect;
+
+export const generationEvents = pgTable("generation_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  generationId: varchar("generation_id").notNull(),
+  eventType: text("event_type").notNull(),
+  payload: jsonb("payload"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
