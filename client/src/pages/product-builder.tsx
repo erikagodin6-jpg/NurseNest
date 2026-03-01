@@ -1981,6 +1981,8 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
   const [tbPreviewOpen, setTbPreviewOpen] = useState(false);
   const [tbPublishing, setTbPublishing] = useState(false);
   const [tbPrice, setTbPrice] = useState("14.99");
+  const [bundleTargetPages, setBundleTargetPages] = useState(30);
+  const [bundleProgress, setBundleProgress] = useState<{ step: string; current: number; total: number } | null>(null);
 
   const theme = getTheme(activeThemeId);
   const themePalette = [

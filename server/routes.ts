@@ -268,6 +268,34 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
   }
 }
 Generate 3-5 content pages with comprehensive study content (each page should have 5-10 blocks), 15-20 flashcards, 10-15 practice questions, and a compelling product listing. Content must be clinically accurate and exam-focused.`,
+
+        "bundle-chapter": `You are an expert nursing education content writer for NurseNest. Generate ONE detailed chapter/section for a nursing cram guide. Return ONLY valid JSON object:
+{
+  "title": "Chapter Title",
+  "objects": [
+    {"type":"heading","content":"Main heading"},
+    {"type":"paragraph","content":"Detailed multi-sentence explanation with clinical depth..."},
+    {"type":"list","content":"Point 1\\nPoint 2\\nPoint 3\\nPoint 4\\nPoint 5"},
+    {"type":"clinical-pearl","content":"Important clinical pearl with evidence-based reasoning..."},
+    {"type":"paragraph","content":"More detailed pathophysiology or nursing interventions..."},
+    {"type":"warning","content":"Critical safety alert or red flag..."},
+    {"type":"list","content":"Assessment finding 1\\nAssessment finding 2\\nAssessment finding 3"},
+    {"type":"callout","content":"Key takeaway with mnemonic or memory aid..."},
+    {"type":"heading","content":"Sub-section heading"},
+    {"type":"paragraph","content":"Additional depth..."},
+    {"type":"list","content":"Drug 1 - dose, route, considerations\\nDrug 2 - dose, route, considerations"},
+    {"type":"clinical-pearl","content":"Another clinical pearl..."},
+    {"type":"paragraph","content":"Patient education and discharge teaching points..."},
+    {"type":"warning","content":"Common exam trap or distractor explanation..."}
+  ]
+}
+CRITICAL RULES:
+- Generate at MINIMUM 15-25 content blocks per chapter (more is better). Fill every section thoroughly.
+- Paragraphs must be 3-6 sentences each with specific clinical detail (lab values, drug doses, assessment findings).
+- Lists must have 4-8 items each with substantive detail, not single words.
+- Include at least 2 clinical-pearls and 1 warning per chapter.
+- Cover: pathophysiology, assessment/diagnostics, management/treatment, nursing priorities, patient education, and exam strategies.
+- Write at university textbook depth — include mechanisms of action, compensatory responses, and evidence-based rationale.`,
       };
 
       const systemPrompt = systemPrompts[mode] || systemPrompts["generate"];
@@ -429,6 +457,172 @@ Generate exactly ${count} questions. Each must be clinically accurate, relevant 
     } catch (e: any) {
       console.error("AI test bank error:", e);
       res.status(500).json({ error: e.message || "AI test bank generation failed" });
+    }
+  });
+
+  app.post("/api/ai/generate-bundle-chapter", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
+
+      const { topic, examTarget, chapterTitle, chapterNumber, totalChapters, previousChapters } = req.body;
+      if (!topic || !chapterTitle) return res.status(400).json({ error: "Topic and chapterTitle required" });
+
+      const examTargetNotes: Record<string, string> = {
+        "rex-pn": "REX-PN (Canada). Use Canadian terminology: RPN, CNO, SI units (mmol/L, µmol/L), °C, kg. CAT-based exam, RPN scope.",
+        "nclex-pn": "NCLEX-PN (US). Use American terminology: LPN/LVN, conventional units (mEq/L, mg/dL), °F, lbs. LPN scope under RN supervision.",
+        "nclex-rn": "NCLEX-RN. Use NCSBN CJMM. Include NGN question types. Full RN scope, clinical judgment focus. Conventional units.",
+        "np": "NP Certification (AANP/ANCC). Advanced practice level. Differential diagnosis, prescribing, autonomous practice.",
+      };
+      const examNote = examTargetNotes[examTarget || "nclex-rn"] || examTargetNotes["nclex-rn"];
+
+      const systemPrompts: Record<string, string> = {};
+      const bundleChapterPrompt = `You are an expert nursing education content writer for NurseNest. Generate ONE detailed chapter/section for a nursing cram guide. Return ONLY valid JSON object:
+{
+  "title": "Chapter Title",
+  "objects": [
+    {"type":"heading","content":"Main heading"},
+    {"type":"paragraph","content":"Detailed multi-sentence explanation with clinical depth..."},
+    {"type":"list","content":"Point 1\\nPoint 2\\nPoint 3\\nPoint 4\\nPoint 5"},
+    {"type":"clinical-pearl","content":"Important clinical pearl with evidence-based reasoning..."},
+    {"type":"paragraph","content":"More detailed pathophysiology or nursing interventions..."},
+    {"type":"warning","content":"Critical safety alert or red flag..."},
+    {"type":"list","content":"Assessment finding 1\\nAssessment finding 2\\nAssessment finding 3"},
+    {"type":"callout","content":"Key takeaway with mnemonic or memory aid..."},
+    {"type":"heading","content":"Sub-section heading"},
+    {"type":"paragraph","content":"Additional depth..."},
+    {"type":"list","content":"Drug 1 - dose, route, considerations\\nDrug 2 - dose, route, considerations"},
+    {"type":"clinical-pearl","content":"Another clinical pearl..."},
+    {"type":"paragraph","content":"Patient education and discharge teaching points..."},
+    {"type":"warning","content":"Common exam trap or distractor explanation..."}
+  ]
+}
+CRITICAL RULES:
+- Generate at MINIMUM 20-30 content blocks for this chapter. MORE is better. Fill every section thoroughly.
+- Paragraphs must be 3-6 sentences each with specific clinical detail (lab values, drug doses, assessment findings).
+- Lists must have 5-8 items each with substantive detail, not single words.
+- Include at least 3 clinical-pearls and 2 warnings per chapter.
+- Cover: pathophysiology, assessment/diagnostics, management/treatment, nursing priorities, patient education, and exam strategies.
+- Write at university textbook depth — include mechanisms of action, compensatory responses, and evidence-based rationale.
+- DO NOT repeat content from previous chapters.
+
+Exam context: ${examNote}`;
+
+      const prevContext = previousChapters && previousChapters.length > 0
+        ? `\n\nPrevious chapters already covered (DO NOT repeat this content): ${previousChapters.join(", ")}`
+        : "";
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: bundleChapterPrompt },
+          { role: "user", content: `Topic: ${topic}\nChapter ${chapterNumber} of ${totalChapters}: "${chapterTitle}"${prevContext}\n\nGenerate comprehensive, dense content for this chapter. This should fill multiple printed pages.` }
+        ],
+        temperature: 0.7,
+        max_tokens: 4096,
+      });
+
+      const text = response.choices[0]?.message?.content || "{}";
+      let chapter;
+      try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        chapter = jsonMatch ? JSON.parse(jsonMatch[0]) : { title: chapterTitle, objects: [] };
+      } catch {
+        chapter = { title: chapterTitle, objects: [] };
+      }
+
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
+      await logAudit(req, admin, "ai", null, "generate-bundle-chapter", null, { topic, chapterTitle, chapterNumber });
+      res.json(chapter);
+    } catch (e: any) {
+      console.error("AI bundle chapter error:", e);
+      res.status(500).json({ error: e.message || "Chapter generation failed" });
+    }
+  });
+
+  app.post("/api/ai/generate-bundle-outline", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
+
+      const { topic, examTarget, targetPages, includeFlashcards, includeQbank } = req.body;
+      if (!topic) return res.status(400).json({ error: "Topic is required" });
+
+      const pages = Math.min(Math.max(parseInt(targetPages) || 30, 5), 100);
+      const chaptersNeeded = Math.max(3, Math.ceil(pages / 4));
+
+      const examTargetNotes: Record<string, string> = {
+        "rex-pn": "REX-PN (Canada). Canadian nursing terminology.",
+        "nclex-pn": "NCLEX-PN (US). American nursing terminology, LPN/LVN scope.",
+        "nclex-rn": "NCLEX-RN. Full RN scope, clinical judgment, NGN question types.",
+        "np": "NP Certification (AANP/ANCC). Advanced practice level.",
+      };
+      const examNote = examTargetNotes[examTarget || "nclex-rn"] || examTargetNotes["nclex-rn"];
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are a nursing education curriculum designer. Create a detailed chapter outline for a comprehensive study guide.
+Return ONLY valid JSON:
+{
+  "title": "Product title for the complete guide",
+  "description": "2-3 sentence description for marketplace listing",
+  "chapters": [
+    { "title": "Chapter title", "subtopics": ["subtopic1", "subtopic2", "subtopic3"] }
+  ],
+  "listing": {
+    "title": "SEO marketplace title",
+    "description": "Compelling product description (2-3 sentences)",
+    "bullets": ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+  }
+}
+Generate exactly ${chaptersNeeded} chapters. Each chapter should have 3-5 specific subtopics.
+Exam context: ${examNote}
+The guide should be comprehensive enough to fill approximately ${pages} printed pages.`
+          },
+          { role: "user", content: `Create a ${chaptersNeeded}-chapter outline for a comprehensive study guide on: ${topic}` }
+        ],
+        temperature: 0.5,
+        max_tokens: 2048,
+      });
+
+      const text = response.choices[0]?.message?.content || "{}";
+      let outline;
+      try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        outline = jsonMatch ? JSON.parse(jsonMatch[0]) : { title: topic, chapters: [], listing: {} };
+      } catch {
+        outline = { title: topic, chapters: [], listing: {} };
+      }
+
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
+      await logAudit(req, admin, "ai", null, "generate-bundle-outline", null, { topic, targetPages: pages, chapters: chaptersNeeded });
+      res.json(outline);
+    } catch (e: any) {
+      console.error("AI bundle outline error:", e);
+      res.status(500).json({ error: e.message || "Outline generation failed" });
     }
   });
 
