@@ -2469,8 +2469,8 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
         .map(s => s.id);
       const emptySections: string[] = [];
       const sectionValidation: string[] = [];
-      const substantiveKinds = new Set(["bullets", "table", "callout", "paragraph"]);
-      const nonSubstantiveKinds = new Set(["heading", "sectionTitle", "divider"]);
+      const substantiveKinds = new Set(["bullets", "table", "callout", "paragraph", "checklist", "steps", "flowchart", "decisiontree", "case", "qa", "comparisongrid", "algorithm", "chart"]);
+      const nonSubstantiveKinds = new Set(["heading", "sectionTitle", "divider", "spacer"]);
       for (const reqId of requiredSectionIds) {
         const sec = sectionMap[reqId] || sectionMap[normId(reqId)];
         const blocks = sec?.blocks || [];

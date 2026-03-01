@@ -902,7 +902,7 @@ Return JSON only. No markdown.`;
 - {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"]],"caption":"..."} (real clinical data)
 - {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"SPECIFIC TITLE","body":"..."}`;
 
-          const topicInventory = isGenericTitle ? `\n${HIGH_YIELD_INVENTORY}\n` : "";
+          const topicInventory = isGenericTitle ? `\n${HIGH_YIELD_INVENTORY}\nIMPORTANT: Each section MUST reference at least 8 of the anchor conditions above with specific clinical details (labs, vitals, interventions). Do NOT just list them -- explain the nursing-relevant facts for each.\n` : "";
 
           if (isSurvival) {
             return `Generate ONE section of a Survival Guide.
@@ -962,8 +962,8 @@ Target: ${Math.max(sec.budget, 800)} characters minimum, 8-12 blocks.
 Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
         };
 
-        const SUBSTANTIVE_KINDS = new Set(["bullets", "table", "callout", "paragraph"]);
-        const NON_SUBSTANTIVE_KINDS = new Set(["heading", "sectionTitle", "divider"]);
+        const SUBSTANTIVE_KINDS = new Set(["bullets", "table", "callout", "paragraph", "checklist", "steps", "flowchart", "decisiontree", "case", "qa", "comparisongrid", "algorithm", "chart"]);
+        const NON_SUBSTANTIVE_KINDS = new Set(["heading", "sectionTitle", "divider", "spacer"]);
 
         const validateSection = (sec: any): { pass: boolean; blocks: number; chars: number; substantive: number; reasons: string[] } => {
           const blocks = sec?.blocks || [];
@@ -983,15 +983,16 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
               substantiveCount++;
             }
           }
-          if (blocks.length < 3) reasons.push(`Only ${blocks.length} blocks (need >= 3)`);
-          if (blocks.length < 8) reasons.push(`Only ${blocks.length} blocks (need >= 8 for quality)`);
-          if (substantiveCount < 6) reasons.push(`Only ${substantiveCount} substantive blocks (need >= 6 -- bullets/table/callout/paragraph with content)`);
-          if (totalChars < 800) reasons.push(`Only ${totalChars} chars (need >= 800)`);
+          const allNonSubstantive = blocks.length > 0 && substantiveCount === 0;
+          if (allNonSubstantive) reasons.push("title_only: ALL blocks are heading/divider/spacer with no real content");
+          if (blocks.length < 8) reasons.push(`insufficient_blocks: ${blocks.length} blocks (need >= 8)`);
+          if (substantiveCount < 6) reasons.push(`insufficient_substantive_blocks: ${substantiveCount} substantive (need >= 6 -- bullets/table/callout/paragraph/checklist/steps/case/qa with content)`);
+          if (totalChars < 800) reasons.push(`insufficient_chars: ${totalChars} chars (need >= 800)`);
           const hasCallout = blocks.some((b: any) => b.kind === "callout" || b.flavor);
-          if (!hasCallout) reasons.push("No callout blocks found");
+          if (!hasCallout) reasons.push("missing_callout: No callout blocks found");
           const hasTable = blocks.some((b: any) => b.kind === "table" && (b.rows || []).length > 0);
-          if (!hasTable) reasons.push("No table blocks found");
-          const pass = blocks.length >= 3 && totalChars >= 400 && substantiveCount >= 4;
+          if (!hasTable) reasons.push("missing_table: No table blocks found");
+          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6;
           return { pass, blocks: blocks.length, chars: totalChars, substantive: substantiveCount, reasons };
         };
 
