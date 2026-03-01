@@ -1176,12 +1176,12 @@ const AI_TOOLS = [
   { id: "bundle-generator", label: "Bundle: Cram + QBank + Flash + Listing", icon: Crown, prompt: "Generate a full product bundle" },
 ];
 
-function ProjectListView({ onOpenProject }: { onOpenProject: (id: string) => void }) {
+function ProjectListView({ onOpenProject, presetType }: { onOpenProject: (id: string) => void; presetType?: string | null }) {
   const [projects, setProjects] = useState<DesignProject[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showCreate, setShowCreate] = useState(false);
+  const [showCreate, setShowCreate] = useState(!!presetType);
   const [newTitle, setNewTitle] = useState("");
-  const [newType, setNewType] = useState("booklet");
+  const [newType, setNewType] = useState(presetType || "booklet");
   const [newPageSize, setNewPageSize] = useState("Letter");
   const [newOrientation, setNewOrientation] = useState("portrait");
 
@@ -5557,5 +5557,5 @@ export default function ProductBuilderPage() {
     );
   }
 
-  return <ProjectListView onOpenProject={(id) => { setEditingProjectId(id); navigate(`/admin/product-builder/${id}`); }} />;
+  return <ProjectListView onOpenProject={(id) => { setEditingProjectId(id); navigate(`/admin/product-builder/${id}`); }} presetType={presetType} />;
 }
