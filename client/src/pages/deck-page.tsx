@@ -8,19 +8,25 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Copy, Check, ArrowLeft, Layers, Share2, Globe, Lock } from "lucide-react";
+import { BookOpen, Copy, Check, ArrowLeft, Layers, Share2, Globe, Lock, Crown } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
 export default function DeckPage() {
   const params = useParams<{ slug: string }>();
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
   const { toast } = useToast();
   const [deck, setDeck] = useState<any>(null);
   const [cards, setCards] = useState<any[]>([]);
+  const [totalCardCount, setTotalCardCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+
+  const isOwner = deck && user && deck.ownerId === user.id;
+  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || (user as any).tier === "admin");
+  const hasFullAccess = isOwner || isPaid;
+  const FREE_PREVIEW = 5;
 
   useEffect(() => {
     async function load() {
@@ -30,13 +36,15 @@ export default function DeckPage() {
         if (!res.ok) { setLoading(false); return; }
         const d = await res.json();
         setDeck(d);
-        const cardsRes = await fetch(`/api/decks/${d.id}/cards`);
+        setTotalCardCount(d.cardCount || 0);
+        const uid = user?.id || "";
+        const cardsRes = await fetch(`/api/decks/${d.id}/cards?userId=${uid}`);
         if (cardsRes.ok) setCards(await cardsRes.json());
       } catch {}
       setLoading(false);
     }
     if (params.slug) load();
-  }, [params.slug]);
+  }, [params.slug, user?.id]);
 
   const shareUrl = `${window.location.origin}/flashcards/deck/${params.slug}`;
 
@@ -121,7 +129,7 @@ export default function DeckPage() {
     },
     "url": shareUrl,
     "inLanguage": "en",
-    "isAccessibleForFree": true,
+    "isAccessibleForFree": false,
     "audience": {
       "@type": "EducationalAudience",
       "educationalRole": "student"
@@ -195,8 +203,12 @@ export default function DeckPage() {
         {cards.length > 0 && (
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-6 mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900">Preview Cards</h2>
-              <span className="text-sm text-gray-400">{cards.length} total</span>
+              <h2 className="text-lg font-bold text-gray-900">
+                {hasFullAccess ? "All Cards" : "Preview Cards"}
+              </h2>
+              <span className="text-sm text-gray-400">
+                {hasFullAccess ? `${cards.length} cards` : `${cards.length} of ${totalCardCount || cards.length} cards`}
+              </span>
             </div>
             <div className="space-y-3">
               {cards.map((card: any, i: number) => (
@@ -216,6 +228,53 @@ export default function DeckPage() {
                 </Card>
               ))}
             </div>
+
+            {!hasFullAccess && totalCardCount > FREE_PREVIEW && (
+              <div className="mt-4 relative">
+                <div className="space-y-3 opacity-30 pointer-events-none select-none" aria-hidden="true">
+                  {[1, 2, 3].map(i => (
+                    <Card key={`blur-${i}`} className="border-gray-100">
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <span className="text-xs text-gray-400 font-mono mt-0.5 shrink-0">{cards.length + i}.</span>
+                          <div className="flex-1 space-y-2">
+                            <div className="h-4 bg-gray-200 rounded w-3/4" />
+                            <div className="h-3 bg-gray-100 rounded w-full" />
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-white/95 backdrop-blur-sm rounded-2xl border border-primary/20 shadow-lg p-6 text-center max-w-sm mx-4">
+                    <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">
+                      {totalCardCount - cards.length} more cards
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-4">
+                      {user ? "Upgrade your plan to access the full deck with all cards, study modes, and progress tracking." : "Sign up for free to preview more, or upgrade for full access to all study cards."}
+                    </p>
+                    <div className="flex flex-col gap-2">
+                      {user ? (
+                        <Button onClick={() => setLocation("/pricing")} className="rounded-xl gap-2 w-full" data-testid="button-upgrade-full-deck">
+                          <Crown className="w-4 h-4" /> Upgrade for Full Access
+                        </Button>
+                      ) : (
+                        <>
+                          <Button onClick={() => setLocation("/login")} className="rounded-xl gap-2 w-full" data-testid="button-signup-full-deck">
+                            Start Free - See More Cards
+                          </Button>
+                          <Button variant="outline" onClick={() => setLocation("/pricing")} className="rounded-xl gap-2 w-full text-xs" data-testid="button-pricing-full-deck">
+                            <Crown className="w-3.5 h-3.5" /> View Premium Plans
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

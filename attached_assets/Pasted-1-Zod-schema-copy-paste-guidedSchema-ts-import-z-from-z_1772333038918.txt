@@ -1,0 +1,217 @@
+1) Zod schema (copy/paste)
+// guidedSchema.ts
+import { z } from "zod";
+
+/**
+ * Block schema (rich structured blocks)
+ */
+export const BlockSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("heading"),
+    text: z.string().min(1),
+    level: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  }),
+  z.object({
+    kind: z.literal("paragraph"),
+    text: z.string().min(1),
+  }),
+  z.object({
+    kind: z.literal("bullets"),
+    items: z.array(z.string().min(1)).min(1),
+  }),
+  z.object({
+    kind: z.literal("table"),
+    columns: z.array(z.string().min(1)).min(1),
+    rows: z.array(z.array(z.string())).min(1),
+    caption: z.string().optional(),
+  }),
+  z.object({
+    kind: z.literal("callout"),
+    flavor: z.union([z.literal("exam_tip"), z.literal("trap"), z.literal("clinical_pearl")]),
+    title: z.string().min(1),
+    body: z.string().min(1),
+  }),
+  z.object({
+    kind: z.literal("image"),
+    alt: z.string().min(1),
+    assetId: z.string().optional(),
+    promptHint: z.string().optional(),
+    aspect: z.union([z.literal("1:1"), z.literal("4:5"), z.literal("16:9"), z.literal("9:16")]).optional(),
+  }),
+]);
+
+/**
+ * Sections schema
+ */
+export const SectionSchema = z.object({
+  sectionId: z.string().min(1),
+  title: z.string().min(1),
+  blocks: z.array(BlockSchema).min(1),
+});
+
+/**
+ * Questions schema
+ * - whyWrong length should match choices length, but optional to enforce strictly.
+ */
+export const QuestionSchema = z.object({
+  id: z.string().min(1),
+  stem: z.string().min(1),
+  choices: z.array(z.string().min(1)).min(2),
+  answerIndex: z.number().int().nonnegative(),
+  rationale: z.string().min(1),
+  whyWrong: z.array(z.string().min(1)).optional(),
+}).superRefine((q, ctx) => {
+  if (q.answerIndex >= q.choices.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `answerIndex (${q.answerIndex}) must be < choices.length (${q.choices.length})`,
+      path: ["answerIndex"],
+    });
+  }
+  if (q.whyWrong && q.whyWrong.length !== q.choices.length) {
+    // Optional: enforce exact alignment; if you want it strict, keep this.
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `whyWrong length (${q.whyWrong.length}) should equal choices length (${q.choices.length})`,
+      path: ["whyWrong"],
+    });
+  }
+});
+
+/**
+ * Root schema
+ */
+export const GuidedDocSchema = z.object({
+  meta: z.object({
+    topic: z.string().min(1),
+    tier: z.string().min(1),
+    region: z.string().min(1),
+  }),
+  sections: z.array(SectionSchema).min(1),
+  questions: z.array(QuestionSchema).optional().default([]),
+});
+
+export type GuidedDoc = z.infer<typeof GuidedDocSchema>;
+export type GuidedBlock = z.infer<typeof BlockSchema>;
+2) Safe parse helper + one-retry logic (copy/paste)
+import { GuidedDocSchema, type GuidedDoc } from "./guidedSchema";
+
+type AiCallResult = { raw: string };
+
+function tryParseGuidedDoc(raw: string): { ok: true; value: GuidedDoc } | { ok: false; error: string } {
+  try {
+    const json = JSON.parse(raw);
+    const parsed = GuidedDocSchema.safeParse(json);
+    if (!parsed.success) {
+      return { ok: false, error: parsed.error.issues.map(i => `${i.path.join(".")}: ${i.message}`).join("\n") };
+    }
+    return { ok: true, value: parsed.data };
+  } catch (e: any) {
+    return { ok: false, error: `JSON.parse failed: ${e?.message ?? String(e)}` };
+  }
+}
+
+export async function getStructuredContentWithRetry(opts: {
+  basePrompt: string;
+  runAi: (prompt: string) => Promise<AiCallResult>;
+}): Promise<GuidedDoc> {
+  const res1 = await opts.runAi(opts.basePrompt);
+  const p1 = tryParseGuidedDoc(res1.raw);
+  if (p1.ok) return p1.value;
+
+  const fixPrompt = buildFixJsonPrompt({
+    originalPrompt: opts.basePrompt,
+    badOutput: res1.raw,
+    error: p1.error,
+  });
+
+  const res2 = await opts.runAi(fixPrompt);
+  const p2 = tryParseGuidedDoc(res2.raw);
+  if (p2.ok) return p2.value;
+
+  // If still failing, throw a clean error for UI
+  throw new Error(`AI_JSON_PARSE_FAILED\nFirst error:\n${p1.error}\n\nSecond error:\n${p2.error}`);
+}
+
+function buildFixJsonPrompt(args: { originalPrompt: string; badOutput: string; error: string }) {
+  return `
+You are fixing an invalid JSON response so it EXACTLY matches the required schema.
+
+RULES:
+- Output VALID JSON ONLY (no markdown, no explanations, no backticks).
+- Do not add keys not in schema.
+- Ensure all required fields exist.
+- Ensure answerIndex is within choices length.
+- Keep content semantically the same as the bad output; just correct structure/format.
+
+SCHEMA (informal):
+{
+  "meta": { "topic": string, "tier": string, "region": string },
+  "sections": [
+    { "sectionId": string, "title": string, "blocks": Block[] }
+  ],
+  "questions": [
+    { "id": string, "stem": string, "choices": string[], "answerIndex": number, "rationale": string, "whyWrong": string[] }
+  ]
+}
+
+Block:
+- heading: { kind:"heading", text:string, level:1|2|3 }
+- paragraph: { kind:"paragraph", text:string }
+- bullets: { kind:"bullets", items:string[] }
+- table: { kind:"table", columns:string[], rows:string[][], caption?:string }
+- callout: { kind:"callout", flavor:"exam_tip"|"trap"|"clinical_pearl", title:string, body:string }
+- image: { kind:"image", alt:string, assetId?:string, promptHint?:string, aspect?:"1:1"|"4:5"|"16:9"|"9:16" }
+
+VALIDATION ERROR(S) TO FIX:
+${args.error}
+
+ORIGINAL PROMPT:
+${args.originalPrompt}
+
+BAD OUTPUT (fix this into valid JSON):
+${args.badOutput}
+`.trim();
+}
+3) One strict “base prompt” template (so output matches schema)
+Use this as the basePrompt you pass into runAi():
+Return VALID JSON ONLY that matches the schema below. Do NOT output markdown or commentary.
+
+Schema:
+{
+  "meta": { "topic": string, "tier": string, "region": string },
+  "sections": [
+    { "sectionId": string, "title": string, "blocks": Block[] }
+  ],
+  "questions": [
+    { "id": string, "stem": string, "choices": string[], "answerIndex": number, "rationale": string, "whyWrong": string[] }
+  ]
+}
+
+Block variants:
+- heading: { "kind":"heading", "text":string, "level":1|2|3 }
+- paragraph: { "kind":"paragraph", "text":string }
+- bullets: { "kind":"bullets", "items":string[] }
+- table: { "kind":"table", "columns":string[], "rows":string[][], "caption"?:string }
+- callout: { "kind":"callout", "flavor":"exam_tip"|"trap"|"clinical_pearl", "title":string, "body":string }
+- image: { "kind":"image", "alt":string, "assetId"?:string, "promptHint"?:string, "aspect"?: "1:1"|"4:5"|"16:9"|"9:16" }
+
+Constraints:
+- No extra keys anywhere.
+- No trailing commas.
+- answerIndex must be within choices length.
+- Include at least:
+  - 1 table block
+  - 2 callout blocks (at least one "trap")
+  - 2 image blocks with promptHint (no assetId required)
+
+Input:
+Topic: {{TOPIC}}
+Tier: {{TIER}}
+Region: {{REGION}}
+Target sections (sectionId list): {{SECTION_IDS}}
+Character budgets per section: {{BUDGETS_JSON}}
+Question count: {{Q_COUNT}}
+
+Now generate the JSON.
+If you want, paste your current runAiTool / AI endpoint signature (just the function shape, not secrets) and I’ll adapt the helper so it plugs into your existing code with minimal changes.

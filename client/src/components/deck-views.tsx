@@ -8,7 +8,7 @@ import {
   ChevronRight, ChevronLeft, ArrowLeft, Plus, Search, Trash2, Pencil, Loader2,
   BookOpen, Layers, Copy, Flag, Globe, EyeOff, Eye, Timer, Upload,
   Download, BarChart3, Sparkles, Lock, CreditCard, CheckCircle2,
-  XCircle, RefreshCw, Share2
+  XCircle, RefreshCw, Share2, Home
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -117,7 +117,7 @@ export function DeckHub({
       const deckRes = await fetch("/api/decks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id, title, description: `AI-generated deck: ${aiTopic}`, visibility: newDeckVisibility || "private" }),
+        body: JSON.stringify({ userId: user.id, title, description: aiTopic, visibility: newDeckVisibility || "private" }),
       });
       if (!deckRes.ok) { setAiError("Failed to create deck."); return; }
       const deck = await deckRes.json();
@@ -186,7 +186,7 @@ export function DeckHub({
       const deckRes = await fetch("/api/decks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id, title, description: "Created from uploaded notes", visibility: newDeckVisibility || "private" }),
+        body: JSON.stringify({ userId: user.id, title, description: `Study notes: ${notesFileName || "pasted content"}`, visibility: newDeckVisibility || "private" }),
       });
       if (!deckRes.ok) { setAiError("Failed to create deck."); return; }
       const deck = await deckRes.json();
@@ -650,7 +650,21 @@ export function DeckView({
   const [reportReason, setReportReason] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
   const [showAiPanel, setShowAiPanel] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [deckStats, setDeckStats] = useState<any>(null);
   const isOwner = currentDeck?.userId === user?.id;
+  const isAdmin = user?.tier === "admin";
+
+  useEffect(() => {
+    if (currentDeck?.id && user?.id) {
+      fetch(`/api/decks/${currentDeck.id}/stats?userId=${user.id}`)
+        .then(r => r.ok ? r.json() : null)
+        .then(data => { if (data) setDeckStats(data); })
+        .catch(() => {});
+    }
+  }, [currentDeck?.id, user?.id]);
 
   const shareUrl = currentDeck?.slug
     ? `${window.location.origin}/flashcards/deck/${currentDeck.slug}`
@@ -690,10 +704,18 @@ export function DeckView({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" onClick={() => setView("decks")} className="gap-2" data-testid="button-back-decks">
-          <ArrowLeft className="w-4 h-4" /> Back
-        </Button>
+      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm">
+        <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks">
+          <Home className="w-4 h-4" />
+          <span>My Flashcards</span>
+        </button>
+        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <span className="text-sm font-semibold text-gray-700 truncate max-w-[280px]">{currentDeck.title}</span>
+        <div className="ml-auto flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-back-library">
+            <ArrowLeft className="w-3.5 h-3.5" /> All Decks
+          </Button>
+        </div>
       </div>
 
       <div className="flex items-start justify-between flex-wrap gap-4">
@@ -760,13 +782,68 @@ export function DeckView({
               <CreditCard className="w-4 h-4" /> Upgrade ($2.99 CAD)
             </Button>
           )}
-          {isOwner && (
-            <Button variant="ghost" onClick={() => deleteDeck!(currentDeck.id)} className="text-red-400 hover:text-red-600" data-testid="button-delete-deck">
+          {(isOwner || isAdmin) && (
+            <Button variant="ghost" onClick={() => { setDeleteConfirmOpen(true); setDeleteConfirmText(""); }} className="text-red-400 hover:text-red-600" data-testid="button-delete-deck">
               <Trash2 className="w-4 h-4" />
             </Button>
           )}
         </div>
       </div>
+
+      {deleteConfirmOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setDeleteConfirmOpen(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 p-6 space-y-4" onClick={e => e.stopPropagation()} data-testid="modal-delete-deck">
+            <div className="text-center">
+              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-3">
+                <Trash2 className="w-6 h-6 text-red-500" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900">Delete Deck</h3>
+              <p className="text-sm text-gray-500 mt-1">
+                This will permanently delete <strong>{currentDeck?.title}</strong> and all its cards and study history.
+              </p>
+            </div>
+            {currentDeck?.visibility === "public" ? (
+              <div className="space-y-2">
+                <p className="text-xs text-red-600 font-medium">This is a public deck. Type DELETE to confirm.</p>
+                <Input
+                  value={deleteConfirmText}
+                  onChange={(e: any) => setDeleteConfirmText(e.target.value)}
+                  placeholder="Type DELETE"
+                  className="text-center"
+                  data-testid="input-delete-confirm"
+                />
+              </div>
+            ) : null}
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setDeleteConfirmOpen(false)}
+                className="flex-1 rounded-xl"
+                data-testid="button-cancel-delete"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={async () => {
+                  if (currentDeck?.visibility === "public" && deleteConfirmText !== "DELETE") return;
+                  setDeleting(true);
+                  try {
+                    await deleteDeck!(currentDeck.id);
+                    setDeleteConfirmOpen(false);
+                  } catch {} finally {
+                    setDeleting(false);
+                  }
+                }}
+                disabled={deleting || (currentDeck?.visibility === "public" && deleteConfirmText !== "DELETE")}
+                className="flex-1 rounded-xl bg-red-600 hover:bg-red-700 text-white"
+                data-testid="button-confirm-delete"
+              >
+                {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Delete"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {shareUrl && (
         <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-xl border border-gray-200">
@@ -805,6 +882,49 @@ export function DeckView({
               </Button>
               <Button size="sm" variant="outline" onClick={() => setReportOpen(false)}>Cancel</Button>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {deckStats && deckStats.totalSessions > 0 && (
+        <Card className="border-none bg-gradient-to-br from-indigo-50 to-purple-50" data-testid="card-deck-progress">
+          <CardContent className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-semibold text-gray-800">Your Progress</span>
+              <span className="text-[10px] text-gray-400">{deckStats.totalSessions} session{deckStats.totalSessions !== 1 ? "s" : ""}</span>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              <div className="text-center">
+                <p className="text-lg font-bold text-indigo-600" data-testid="text-accuracy">{deckStats.accuracy}%</p>
+                <p className="text-[9px] text-gray-500">Accuracy</p>
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-bold text-emerald-600" data-testid="text-mastered">{deckStats.masteredCount}</p>
+                <p className="text-[9px] text-gray-500">Mastered</p>
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-bold text-amber-600" data-testid="text-learning">{deckStats.learningCount}</p>
+                <p className="text-[9px] text-gray-500">Learning</p>
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-bold text-purple-600" data-testid="text-streak">{deckStats.streak}</p>
+                <p className="text-[9px] text-gray-500">Day Streak</p>
+              </div>
+            </div>
+            {deckStats.totalCards > 0 && (
+              <div className="space-y-1">
+                <div className="flex justify-between text-[10px] text-gray-500">
+                  <span>Mastery</span>
+                  <span>{Math.round((deckStats.masteredCount / deckStats.totalCards) * 100)}%</span>
+                </div>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full transition-all duration-500" style={{ width: `${Math.round((deckStats.masteredCount / deckStats.totalCards) * 100)}%` }} data-testid="progress-mastery" />
+                </div>
+              </div>
+            )}
+            {deckStats.lastStudiedAt && (
+              <p className="text-[10px] text-gray-400">Last studied {new Date(deckStats.lastStudiedAt).toLocaleDateString()}</p>
+            )}
           </CardContent>
         </Card>
       )}
@@ -953,11 +1073,25 @@ export function DeckEditor({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" onClick={() => { setView("deck-view"); }} className="gap-2" data-testid="button-back-deck-view">
-          <ArrowLeft className="w-4 h-4" /> Back to Deck
-        </Button>
-        <h2 className="text-lg font-bold text-gray-900">Edit: {currentDeck.title}</h2>
+      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm flex-wrap">
+        <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks-from-edit">
+          <Home className="w-4 h-4" />
+          <span>My Flashcards</span>
+        </button>
+        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[200px]" data-testid="button-back-deck-view">
+          {currentDeck.title}
+        </button>
+        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <span className="text-sm font-semibold text-gray-700">Edit</span>
+        <div className="ml-auto flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => setView("deck-view")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-back-to-deck">
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to Deck
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-back-library-from-edit">
+            <Home className="w-3.5 h-3.5" /> All Decks
+          </Button>
+        </div>
       </div>
 
       <div className="flex items-center gap-3 text-xs text-gray-500 flex-wrap">
@@ -1232,11 +1366,18 @@ export function DeckStudyLearn({
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" onClick={() => setView("deck-view")} className="gap-2" data-testid="button-exit-learn">
-          <ArrowLeft className="w-4 h-4" /> Exit
-        </Button>
-        <div className="flex items-center gap-4 text-sm">
+      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm flex-wrap">
+        <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks">
+          <Home className="w-4 h-4" />
+          <span className="hidden sm:inline">My Flashcards</span>
+        </button>
+        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[160px]" data-testid="button-exit-learn">
+          {currentDeck?.title || "Deck"}
+        </button>
+        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <span className="text-sm font-semibold text-gray-700">Learn</span>
+        <div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-emerald-600 font-medium">{deckStudyCorrect} correct</span>
           <span className="text-red-500 font-medium">{deckStudyIncorrect} missed</span>
           <span className="text-gray-400">{deckStudyIndex! + 1} / {total}</span>
@@ -1379,11 +1520,18 @@ export function DeckStudyTest({
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" onClick={() => setView("deck-view")} className="gap-2" data-testid="button-exit-test">
-          <ArrowLeft className="w-4 h-4" /> Exit
-        </Button>
-        <div className="flex items-center gap-4 text-sm">
+      <div className="flex items-center gap-2 bg-white border rounded-xl px-4 py-2.5 shadow-sm flex-wrap">
+        <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks-test">
+          <Home className="w-4 h-4" />
+          <span className="hidden sm:inline">My Flashcards</span>
+        </button>
+        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[160px]" data-testid="button-exit-test">
+          {currentDeck?.title || "Deck"}
+        </button>
+        <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+        <span className="text-sm font-semibold text-gray-700">Test</span>
+        <div className="ml-auto flex items-center gap-4 text-sm">
           <span className="flex items-center gap-1 text-gray-500"><Timer className="w-4 h-4" /> {formatTime(elapsed)}</span>
           <span className="text-gray-400">{deckStudyIndex! + 1} / {total}</span>
         </div>

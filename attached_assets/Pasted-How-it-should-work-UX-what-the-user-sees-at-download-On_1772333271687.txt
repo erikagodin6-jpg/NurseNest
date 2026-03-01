@@ -1,0 +1,68 @@
+How it should work
+UX (what the user sees at download)
+On the download modal/page:
+Choose theme: (tiles)
+Soft Pastel (Pink / Lavender / Mint / Sky)
+Clinical Minimal
+Bold Exam Focus
+Neutral Academic
+Format: Web PDF / Print PDF
+Button: Download
+When they pick a theme, you generate the PDF using:
+the same content
+the same template
+a different theme config
+No manual redesign, no duplicate listings.
+Implementation approach (recommended)
+1) Store content separately from styling
+Your compiled document should keep:
+content blocks (text/table/question data)
+layout/template IDs
+a default themeId
+At export time, you apply:
+applyThemeToDocument(doc, selectedThemeId) → exportPDF(themedDoc)
+2) Add an export endpoint that accepts themeId
+Example:
+POST /api/products/:id/export
+Body:
+{
+  "format": "pdf_web",
+  "themeId": "pastel_mint"
+}
+Server does:
+Load product doc
+Apply theme override
+Generate PDF
+Return a signed download URL (or stream the file)
+3) Cache exports
+So you don’t regenerate every time.
+Cache key:
+productId + themeId + format + versionHash
+If the product changes, versionHash changes, cache invalidates.
+What to avoid
+Creating separate products per theme (messy store, SEO duplication, admin pain)
+Generating themes on the client only (PDF export usually server-side and more reliable)
+Replit AI prompt (copy/paste)
+Add "Choose Theme on Download" to store downloads.
+
+Requirements:
+1) On the product download modal/page, add a Theme selector (tiles) with:
+   - pastel_pink, pastel_lavender, pastel_mint, pastel_sky
+   - clinical_minimal
+   - bold_exam
+   - neutral_academic
+2) Add format selector: Web PDF and Print PDF.
+3) Implement export endpoint:
+   POST /api/products/:id/export
+   Body: { format: "pdf_web"|"pdf_print", themeId: string }
+4) Server behavior:
+   - Load product document/content
+   - Apply theme override: applyThemeToDocument(doc, themeId)
+   - Generate PDF (web/print settings)
+   - Cache result by key: productId+themeId+format+docVersionHash
+   - Return download URL (or stream)
+5) Ensure export uses deterministic theming; no AI calls.
+6) If export fails, show user-friendly error and allow retry.
+Nice add-on (boosts conversions)
+Let users preview the theme before downloading:
+small “Cover preview” thumbnail updates when theme changes.

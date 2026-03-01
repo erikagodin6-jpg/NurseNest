@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
-import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail, ShoppingBag, Download, AlertCircle } from "lucide-react";
+import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil, X, RotateCcw, ChevronLeft, ChevronRight, Layers, Mail, ShoppingBag, Download, AlertCircle, Eye } from "lucide-react";
 import { contentMap } from "@/data/lessons";
 import { LocaleLink } from "@/lib/LocaleLink";
 
@@ -25,7 +25,7 @@ function formatNoteTitle(lessonId: string): string {
 }
 
 export default function ProfilePage() {
-  const { user, logout } = useAuth();
+  const { user, logout, previewTier, setPreviewTier, effectiveTier, isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [notes, setNotes] = useState<any[]>([]);
@@ -284,6 +284,55 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         </div>
+
+        {isAdmin && (
+          <Card className="border-none shadow-sm bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200" data-testid="card-tier-preview">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Eye className="w-5 h-5 text-amber-600" /> View As Different Tier
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-xs text-gray-500">Preview the app as a different user tier to see exactly what free and paid users experience. This affects paywalls, limits, and feature access across all pages.</p>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { id: null, label: "Admin (Default)", desc: "Full access", color: "bg-purple-600" },
+                  { id: "free", label: "Free", desc: "Basic access", color: "bg-gray-500" },
+                  { id: "rpn", label: "RPN/LVN", desc: "Practical nurse tier", color: "bg-blue-500" },
+                  { id: "rn", label: "RN/NCLEX", desc: "Registered nurse tier", color: "bg-emerald-500" },
+                  { id: "np", label: "NP Advanced", desc: "Nurse practitioner", color: "bg-amber-500" },
+                ].map(t => {
+                  const isActive = previewTier === t.id || (!previewTier && t.id === null);
+                  return (
+                    <button
+                      key={t.id || "admin"}
+                      onClick={() => {
+                        setPreviewTier(t.id);
+                        toast({ title: t.id ? `Viewing as ${t.label}` : "Restored admin view", description: t.desc });
+                      }}
+                      className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 transition text-left ${isActive ? "border-amber-500 bg-white shadow-sm ring-1 ring-amber-200" : "border-gray-200 bg-white/60 hover:border-gray-300"}`}
+                      data-testid={`button-preview-tier-${t.id || "admin"}`}
+                    >
+                      <div className={`w-3 h-3 rounded-full ${t.color}`} />
+                      <div>
+                        <span className="text-sm font-semibold text-gray-800 block">{t.label}</span>
+                        <span className="text-[10px] text-gray-400">{t.desc}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+              {previewTier && (
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-100 border border-amber-200">
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                  <p className="text-xs text-amber-800">
+                    You are currently viewing as <strong>{previewTier.toUpperCase()}</strong>. Paywalls and feature limits are active. Click "Admin (Default)" to restore full access.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         <Card className="border-none shadow-sm" data-testid="card-my-purchases">
           <CardHeader>

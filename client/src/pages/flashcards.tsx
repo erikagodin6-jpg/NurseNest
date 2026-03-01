@@ -1615,7 +1615,7 @@ type CustomCard = {
 };
 
 export default function Flashcards() {
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
   const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study">("setup");
@@ -1649,10 +1649,10 @@ export default function Flashcards() {
   const [myCardsFlipped, setMyCardsFlipped] = useState(false);
   const FREE_LIMIT = 300;
 
-  const isPaid = user && (user as any).tier !== "free" && (user as any).subscriptionStatus === "active";
+  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || (user as any).tier === "admin");
 
   const allCards = useMemo(() => {
-    const userTier = user ? (user as any).tier : "free";
+    const userTier = effectiveTier;
     const cards: Flashcard[] = [...baseCards];
     if (userTier === "rn" || userTier === "np" || userTier === "admin") {
       cards.push(...rnFlashcards.map(fc => ({
@@ -1760,10 +1760,11 @@ export default function Flashcards() {
 
   const fetchDeckCards = useCallback(async (deckId: string) => {
     try {
-      const res = await fetch(`/api/decks/${deckId}/cards`);
+      const uid = user?.id || "";
+      const res = await fetch(`/api/decks/${deckId}/cards?userId=${uid}`);
       if (res.ok) setDeckCards(await res.json());
     } catch {}
-  }, []);
+  }, [user?.id]);
 
   useEffect(() => {
     if (view === "decks" || view === "browse-decks") {
@@ -2158,7 +2159,7 @@ export default function Flashcards() {
         const res = await fetch("/api/user-flashcards", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: user.id, question: card.question, answer: card.answer, category: "AI Generated" }),
+          body: JSON.stringify({ userId: user.id, question: card.question, answer: card.answer, category: "Study Cards" }),
         });
         if (res.ok) added++;
         else {

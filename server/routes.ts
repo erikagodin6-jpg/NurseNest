@@ -302,6 +302,101 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
     }
   });
 
+  app.post("/api/ai/generate-test-bank", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
+
+      const { topic, examTarget, questionCount, difficulty, questionTypes } = req.body;
+      if (!topic) return res.status(400).json({ error: "Topic is required" });
+
+      const count = Math.min(Math.max(parseInt(questionCount) || 25, 5), 75);
+      const diff = difficulty || "mixed";
+      const types = questionTypes || ["multiple-choice", "select-all", "ordered-response"];
+
+      const examTargetNotes: Record<string, string> = {
+        "rex-pn": "REX-PN (Canada). Use Canadian terminology: RPN, CNO, SI units (mmol/L, µmol/L), °C, kg. CAT-based exam, RPN scope.",
+        "nclex-pn": "NCLEX-PN (US). Use American terminology: LPN/LVN, conventional units (mEq/L, mg/dL), °F, lbs. LPN scope under RN supervision.",
+        "nclex-rn": "NCLEX-RN. Use NCSBN CJMM. Include NGN question types. Full RN scope, clinical judgment focus. Conventional units.",
+        "np": "NP Certification (AANP/ANCC). Advanced practice level. Differential diagnosis, prescribing, autonomous practice.",
+      };
+
+      const examNote = examTargetNotes[examTarget || "nclex-rn"] || examTargetNotes["nclex-rn"];
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are an expert nursing exam question writer for NurseNest. Generate a professional test bank with clinically accurate, exam-style questions.
+
+Exam context: ${examNote}
+
+Return ONLY valid JSON with this exact structure:
+{
+  "title": "Test Bank: [Topic Name]",
+  "description": "A brief 1-2 sentence description of what this test bank covers.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "difficulty": "moderate",
+      "stem": "The question stem text...",
+      "options": ["A) Option text", "B) Option text", "C) Option text", "D) Option text"],
+      "correctAnswer": "B",
+      "rationale": "Explanation of why B is correct and why other options are wrong.",
+      "category": "Category/System",
+      "tags": ["tag1", "tag2"]
+    }
+  ]
+}
+
+Question types to include: ${types.join(", ")}
+- multiple-choice: 4 options, 1 correct
+- select-all: 5-6 options, 2-4 correct (correctAnswer as comma-separated like "A,C,D")
+- ordered-response: 4-6 steps to arrange in order (correctAnswer as ordered like "C,A,D,B")
+
+Difficulty distribution for "${diff}": ${diff === "easy" ? "70% easy, 25% moderate, 5% hard" : diff === "hard" ? "5% easy, 25% moderate, 70% hard" : "20% easy, 50% moderate, 30% hard"}
+
+Generate exactly ${count} questions. Each must be clinically accurate, relevant to the topic, and match exam-level rigor.`
+          },
+          {
+            role: "user",
+            content: `Generate a ${count}-question test bank on: ${topic}`
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 8192,
+      });
+
+      const text = response.choices[0]?.message?.content || "{}";
+      let testBank;
+      try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        testBank = jsonMatch ? JSON.parse(jsonMatch[0]) : { title: `Test Bank: ${topic}`, description: "", questions: [] };
+      } catch {
+        testBank = { title: `Test Bank: ${topic}`, description: "Generated test bank", questions: [] };
+      }
+
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
+      await logAudit(req, admin, "ai", null, "generate-test-bank", null, { topic, examTarget, questionCount: count });
+      res.json(testBank);
+    } catch (e: any) {
+      console.error("AI test bank error:", e);
+      res.status(500).json({ error: e.message || "AI test bank generation failed" });
+    }
+  });
+
   app.post("/api/ai/generate-seo", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -1128,7 +1223,7 @@ Rules:
         answer: c.answer || c.back || "",
       })).filter((c: any) => c.question && c.answer);
 
-      res.json({ cards, category: category || "AI Generated" });
+      res.json({ cards, category: category || "Study Cards" });
     } catch (e: any) {
       console.error("AI flashcard generation error:", e);
       res.status(500).json({ error: "AI generation failed. Please try again." });
@@ -2431,12 +2526,17 @@ Rules:
   app.delete("/api/decks/:id", async (req, res) => {
     try {
       const userId = req.query.userId as string;
-      const deckCheck = await pool.query(`SELECT owner_id FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+      const deckCheck = await pool.query(`SELECT owner_id, title, visibility FROM flashcard_decks WHERE id = $1`, [req.params.id]);
       if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
-      if (deckCheck.rows[0].owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      const deck = deckCheck.rows[0];
+      const userCheck = await pool.query(`SELECT tier FROM users WHERE id = $1`, [userId]);
+      const isAdmin = userCheck.rows[0]?.tier === "admin";
+      if (deck.owner_id !== userId && !isAdmin) return res.status(403).json({ error: "Not your deck" });
+      await pool.query(`DELETE FROM study_sessions WHERE deck_id = $1`, [req.params.id]);
+      await pool.query(`DELETE FROM saved_decks WHERE deck_id = $1`, [req.params.id]);
       await pool.query(`DELETE FROM deck_flashcards WHERE deck_id = $1`, [req.params.id]);
       await pool.query(`DELETE FROM flashcard_decks WHERE id = $1`, [req.params.id]);
-      res.json({ success: true });
+      res.json({ success: true, title: deck.title });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -2444,11 +2544,30 @@ Rules:
 
   app.get("/api/decks/:id/cards", async (req, res) => {
     try {
+      const userId = req.query.userId as string;
       const result = await pool.query(
         `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC`,
         [req.params.id]
       );
-      res.json(snakeToCamel(result.rows));
+      const allCards = snakeToCamel(result.rows);
+
+      if (userId) {
+        const deckCheck = await pool.query(`SELECT owner_id, tier FROM flashcard_decks WHERE id = $1`, [req.params.id]);
+        const deck = deckCheck.rows[0];
+        if (deck && deck.owner_id === userId) {
+          return res.json(allCards);
+        }
+        const userCheck = await pool.query(`SELECT tier, subscription_status FROM users WHERE id = $1`, [userId]);
+        const userRow = userCheck.rows[0];
+        if (userRow && (userRow.tier === "admin" || (userRow.tier !== "free" && userRow.subscription_status === "active"))) {
+          return res.json(allCards);
+        }
+      }
+
+      const FREE_PREVIEW_LIMIT = 5;
+      const limited = allCards.slice(0, FREE_PREVIEW_LIMIT);
+      res.json(limited);
+      return;
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -2824,6 +2943,60 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       query += ` ORDER BY started_at DESC LIMIT 20`;
       const result = await pool.query(query, params);
       res.json(snakeToCamel(result.rows));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/decks/:id/stats", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) return res.status(400).json({ error: "userId required" });
+      const sessions = await pool.query(
+        `SELECT * FROM study_sessions WHERE user_id = $1 AND deck_id = $2 ORDER BY started_at DESC`,
+        [userId, req.params.id]
+      );
+      const rows = sessions.rows;
+      const totalSessions = rows.length;
+      const completedSessions = rows.filter((r: any) => r.ended_at);
+      const totalReviews = completedSessions.reduce((sum: number, r: any) => sum + (r.total_cards || 0), 0);
+      const totalCorrect = completedSessions.reduce((sum: number, r: any) => sum + (r.correct_count || 0), 0);
+      const totalIncorrect = completedSessions.reduce((sum: number, r: any) => sum + (r.incorrect_count || 0), 0);
+      const accuracy = totalReviews > 0 ? Math.round((totalCorrect / totalReviews) * 100) : 0;
+      const totalTimeSeconds = completedSessions.reduce((sum: number, r: any) => sum + (r.time_seconds || 0), 0);
+      const lastStudiedAt = completedSessions.length > 0 ? completedSessions[0].ended_at || completedSessions[0].started_at : null;
+      let streak = 0;
+      if (completedSessions.length > 0) {
+        const dates = completedSessions.map((r: any) => new Date(r.started_at).toDateString());
+        const uniqueDates = [...new Set(dates)];
+        const today = new Date().toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+        if (uniqueDates[0] === today || uniqueDates[0] === yesterday) {
+          streak = 1;
+          for (let i = 1; i < uniqueDates.length; i++) {
+            const prev = new Date(uniqueDates[i - 1]);
+            const curr = new Date(uniqueDates[i]);
+            const diff = Math.abs(prev.getTime() - curr.getTime()) / 86400000;
+            if (diff <= 1.5) streak++;
+            else break;
+          }
+        }
+      }
+      const allMissedIds: string[] = [];
+      completedSessions.forEach((r: any) => {
+        const missed = Array.isArray(r.missed_card_ids) ? r.missed_card_ids : [];
+        missed.forEach((id: string) => { if (!allMissedIds.includes(id)) allMissedIds.push(id); });
+      });
+      const cardCountRes = await pool.query(`SELECT COUNT(*) as cnt FROM deck_flashcards WHERE deck_id = $1`, [req.params.id]);
+      const totalCards = parseInt(cardCountRes.rows[0]?.cnt || "0");
+      const masteredCount = Math.max(0, totalCards - allMissedIds.length);
+
+      res.json({
+        totalSessions, totalReviews, totalCorrect, totalIncorrect, accuracy,
+        totalTimeSeconds, streak, masteredCount, learningCount: allMissedIds.length,
+        totalCards, lastStudiedAt,
+        recentSessions: snakeToCamel(completedSessions.slice(0, 5)),
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

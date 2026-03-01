@@ -201,6 +201,186 @@ const THEMES: ThemeConfig[] = [
     coverBg: "#0f172a",
     coverBgOverlay: "#1e293b",
   },
+  {
+    id: "blush-rose",
+    name: "Blush Rose",
+    primaryColor: "#be185d",
+    secondaryColor: "#e879a0",
+    accentColor: "#f9a8d4",
+    backgroundColor: "#fffbfc",
+    sectionBg: "#fdf2f8",
+    sectionBgAlt: "#fce7f3",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#831843",
+    bodyColor: "#4a044e",
+    bodyColorLight: "#9d4e8a",
+    dangerColor: "#e11d48",
+    successColor: "#059669",
+    warningColor: "#d97706",
+    dividerColor: "#fbcfe8",
+    badgeBg: "#be185d",
+    badgeText: "#ffffff",
+    tableBorderColor: "#fbcfe8",
+    tableRowEven: "#fdf2f8",
+    tableRowOdd: "#fce7f3",
+    pearlBg: "#fdf2f8",
+    pearlBorder: "#e879a0",
+    flagBg: "#fff1f2",
+    flagBorder: "#e11d48",
+    coverBg: "#9d174d",
+    coverBgOverlay: "#be185d",
+  },
+  {
+    id: "lavender-dream",
+    name: "Lavender Dream",
+    primaryColor: "#7e22ce",
+    secondaryColor: "#a78bfa",
+    accentColor: "#c4b5fd",
+    backgroundColor: "#fdfcff",
+    sectionBg: "#f5f3ff",
+    sectionBgAlt: "#ede9fe",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#581c87",
+    bodyColor: "#3b0764",
+    bodyColorLight: "#7c3aed",
+    dangerColor: "#dc2626",
+    successColor: "#059669",
+    warningColor: "#d97706",
+    dividerColor: "#ddd6fe",
+    badgeBg: "#7e22ce",
+    badgeText: "#ffffff",
+    tableBorderColor: "#ddd6fe",
+    tableRowEven: "#f5f3ff",
+    tableRowOdd: "#ede9fe",
+    pearlBg: "#f5f3ff",
+    pearlBorder: "#a78bfa",
+    flagBg: "#fef2f2",
+    flagBorder: "#dc2626",
+    coverBg: "#6b21a8",
+    coverBgOverlay: "#7e22ce",
+  },
+  {
+    id: "sage-wellness",
+    name: "Sage Wellness",
+    primaryColor: "#166534",
+    secondaryColor: "#6ee7b7",
+    accentColor: "#a7f3d0",
+    backgroundColor: "#fcfefb",
+    sectionBg: "#f0fdf4",
+    sectionBgAlt: "#dcfce7",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#14532d",
+    bodyColor: "#1a3c24",
+    bodyColorLight: "#4ade80",
+    dangerColor: "#dc2626",
+    successColor: "#059669",
+    warningColor: "#d97706",
+    dividerColor: "#bbf7d0",
+    badgeBg: "#166534",
+    badgeText: "#ffffff",
+    tableBorderColor: "#bbf7d0",
+    tableRowEven: "#f0fdf4",
+    tableRowOdd: "#dcfce7",
+    pearlBg: "#ecfdf5",
+    pearlBorder: "#6ee7b7",
+    flagBg: "#fef2f2",
+    flagBorder: "#dc2626",
+    coverBg: "#15803d",
+    coverBgOverlay: "#166534",
+  },
+  {
+    id: "sky-breeze",
+    name: "Sky Breeze",
+    primaryColor: "#0369a1",
+    secondaryColor: "#7dd3fc",
+    accentColor: "#bae6fd",
+    backgroundColor: "#fcfeff",
+    sectionBg: "#f0f9ff",
+    sectionBgAlt: "#e0f2fe",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#0c4a6e",
+    bodyColor: "#0e3654",
+    bodyColorLight: "#38bdf8",
+    dangerColor: "#dc2626",
+    successColor: "#059669",
+    warningColor: "#d97706",
+    dividerColor: "#bae6fd",
+    badgeBg: "#0369a1",
+    badgeText: "#ffffff",
+    tableBorderColor: "#bae6fd",
+    tableRowEven: "#f0f9ff",
+    tableRowOdd: "#e0f2fe",
+    pearlBg: "#f0f9ff",
+    pearlBorder: "#7dd3fc",
+    flagBg: "#fef2f2",
+    flagBorder: "#dc2626",
+    coverBg: "#075985",
+    coverBgOverlay: "#0369a1",
+  },
+  {
+    id: "peach-glow",
+    name: "Peach Glow",
+    primaryColor: "#c2410c",
+    secondaryColor: "#fdba74",
+    accentColor: "#fed7aa",
+    backgroundColor: "#fffcfa",
+    sectionBg: "#fff7ed",
+    sectionBgAlt: "#ffedd5",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#7c2d12",
+    bodyColor: "#431407",
+    bodyColorLight: "#ea580c",
+    dangerColor: "#dc2626",
+    successColor: "#059669",
+    warningColor: "#d97706",
+    dividerColor: "#fed7aa",
+    badgeBg: "#c2410c",
+    badgeText: "#ffffff",
+    tableBorderColor: "#fed7aa",
+    tableRowEven: "#fff7ed",
+    tableRowOdd: "#ffedd5",
+    pearlBg: "#fff7ed",
+    pearlBorder: "#fdba74",
+    flagBg: "#fef2f2",
+    flagBorder: "#dc2626",
+    coverBg: "#9a3412",
+    coverBgOverlay: "#c2410c",
+  },
+  {
+    id: "cotton-candy",
+    name: "Cotton Candy",
+    primaryColor: "#a21caf",
+    secondaryColor: "#f0abfc",
+    accentColor: "#e9d5ff",
+    backgroundColor: "#fefcff",
+    sectionBg: "#fdf4ff",
+    sectionBgAlt: "#fae8ff",
+    headingFont: "Inter",
+    bodyFont: "Inter",
+    headingColor: "#701a75",
+    bodyColor: "#4a044e",
+    bodyColorLight: "#c026d3",
+    dangerColor: "#dc2626",
+    successColor: "#059669",
+    warningColor: "#d97706",
+    dividerColor: "#f5d0fe",
+    badgeBg: "#a21caf",
+    badgeText: "#ffffff",
+    tableBorderColor: "#f5d0fe",
+    tableRowEven: "#fdf4ff",
+    tableRowOdd: "#fae8ff",
+    pearlBg: "#fdf4ff",
+    pearlBorder: "#f0abfc",
+    flagBg: "#fef2f2",
+    flagBorder: "#dc2626",
+    coverBg: "#86198f",
+    coverBgOverlay: "#a21caf",
+  },
 ];
 
 function getTheme(id: string): ThemeConfig {
@@ -1793,6 +1973,14 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
   const [coverPresetId, setCoverPresetId] = useState("soft-pastel");
   const [autoStoreReady, setAutoStoreReady] = useState(true);
   const [aiStatus, setAiStatus] = useState<{ enabled: boolean; usage: { itemsGenerated: number; tokensUsed: number }; model: string } | null>(null);
+  const [tbQuestionCount, setTbQuestionCount] = useState(25);
+  const [tbDifficulty, setTbDifficulty] = useState("mixed");
+  const [tbQuestionTypes, setTbQuestionTypes] = useState<string[]>(["multiple-choice", "select-all", "ordered-response"]);
+  const [tbLoading, setTbLoading] = useState(false);
+  const [tbResult, setTbResult] = useState<any>(null);
+  const [tbPreviewOpen, setTbPreviewOpen] = useState(false);
+  const [tbPublishing, setTbPublishing] = useState(false);
+  const [tbPrice, setTbPrice] = useState("14.99");
 
   const theme = getTheme(activeThemeId);
   const themePalette = [
@@ -2669,6 +2857,102 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     } finally {
       setAiLoading(null);
     }
+  };
+
+  const generateTestBank = async () => {
+    if (!aiTopic.trim()) {
+      toast({ title: "Enter a topic first", variant: "destructive" });
+      return;
+    }
+    setTbLoading(true);
+    setTbResult(null);
+    try {
+      const res = await adminFetch("/api/ai/generate-test-bank", {
+        method: "POST",
+        body: {
+          topic: aiTopic,
+          examTarget: aiExamTarget,
+          questionCount: tbQuestionCount,
+          difficulty: tbDifficulty,
+          questionTypes: tbQuestionTypes,
+        },
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Test bank generation failed");
+      }
+      const data = await res.json();
+      setTbResult(data);
+      toast({ title: "Test Bank Generated", description: `${(data.questions || []).length} questions ready` });
+    } catch (e: any) {
+      toast({ title: "Generation Failed", description: e.message, variant: "destructive" });
+    } finally {
+      setTbLoading(false);
+    }
+  };
+
+  const exportTestBankJSON = () => {
+    if (!tbResult) return;
+    const blob = new Blob([JSON.stringify(tbResult, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = `${(tbResult.title || "test-bank").replace(/\s+/g, "-").toLowerCase()}.json`; a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: "Exported as JSON" });
+  };
+
+  const exportTestBankCSV = () => {
+    if (!tbResult?.questions) return;
+    const header = "ID,Type,Difficulty,Stem,Options,CorrectAnswer,Rationale,Category,Tags";
+    const rows = tbResult.questions.map((q: any) =>
+      `${q.id},"${q.type}","${q.difficulty}","${(q.stem || "").replace(/"/g, '""')}","${(q.options || []).join(" | ").replace(/"/g, '""')}","${q.correctAnswer}","${(q.rationale || "").replace(/"/g, '""')}","${q.category || ""}","${(q.tags || []).join(", ")}"`
+    );
+    const csv = header + "\n" + rows.join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = `${(tbResult.title || "test-bank").replace(/\s+/g, "-").toLowerCase()}.csv`; a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: `Exported ${tbResult.questions.length} questions as CSV` });
+  };
+
+  const publishTestBankToMarketplace = async () => {
+    if (!tbResult || !tbPrice) return;
+    setTbPublishing(true);
+    try {
+      const title = tbResult.title || `Test Bank: ${aiTopic}`;
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const qCount = (tbResult.questions || []).length;
+      const description = `${tbResult.description || ""}\n\n${qCount} exam-style questions with detailed rationales. Includes multiple-choice, select-all-that-apply, and ordered-response formats. Mapped to ${aiExamTarget.toUpperCase()} exam blueprint.`;
+
+      const res = await adminFetch("/api/admin/shop/products", {
+        method: "POST",
+        body: {
+          title,
+          slug,
+          description: description.trim(),
+          shortDescription: `${qCount} ${aiExamTarget.toUpperCase()} practice questions with rationales`,
+          price: Math.round(parseFloat(tbPrice) * 100),
+          category: "Question Pack",
+          examTarget: aiExamTarget,
+          featured: false,
+        },
+      });
+      if (res.ok) {
+        toast({ title: "Test Bank Published!", description: "Product listed in marketplace as draft." });
+      } else {
+        const err = await res.json();
+        toast({ title: "Publish failed", description: err.error || "Unknown error", variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Publish failed", description: e.message, variant: "destructive" });
+    } finally {
+      setTbPublishing(false);
+    }
+  };
+
+  const toggleTbQuestionType = (type: string) => {
+    setTbQuestionTypes(prev =>
+      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
+    );
   };
 
   const buildBlockObjects = (block: any, curY: number, baseZIndex: number, contentWidth: number): { objs: CanvasObject[]; height: number } => {
@@ -3746,9 +4030,22 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <span className="text-xs font-semibold text-gray-700">Theme</span>
                 <span className="text-[10px] text-gray-400">{theme.name}</span>
               </div>
-              <select value={activeThemeId} onChange={e => switchTheme(e.target.value)} className="w-full h-10 rounded-xl border px-3 text-sm" data-testid="select-brand-theme">
-                {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-              </select>
+              <div className="grid grid-cols-2 gap-1.5" data-testid="select-brand-theme">
+                {THEMES.map(t => (
+                  <button
+                    key={t.id}
+                    onClick={() => switchTheme(t.id)}
+                    className={`p-2 rounded-xl border-2 flex items-center gap-2 transition text-left ${activeThemeId === t.id ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-gray-200 hover:border-gray-300"}`}
+                    data-testid={`button-canvas-theme-${t.id}`}
+                  >
+                    <div className="flex gap-0.5 shrink-0">
+                      <div className="w-4 h-4 rounded-full border border-white/50" style={{ backgroundColor: t.primaryColor }} />
+                      <div className="w-4 h-4 rounded-full border border-white/50" style={{ backgroundColor: t.accentColor }} />
+                    </div>
+                    <span className="text-[9px] font-medium text-gray-600 truncate">{t.name}</span>
+                  </button>
+                ))}
+              </div>
               <div className="mt-3">
                 <span className="text-[10px] text-gray-400 block mb-1.5">Palette</span>
                 <div className="grid grid-cols-5 gap-1.5">

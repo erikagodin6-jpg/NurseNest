@@ -856,7 +856,7 @@ function PreNursingModuleEditor({
         }
       }
       if (found) {
-        toast({ title: "AI Generated", description: "Content generated. Review and save." });
+        toast({ title: "Content Ready", description: "Content generated. Review and save." });
       } else {
         toast({ title: "No content", description: "AI did not return usable content. Try a different prompt.", variant: "destructive" });
       }
