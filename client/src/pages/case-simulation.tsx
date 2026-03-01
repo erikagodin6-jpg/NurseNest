@@ -430,9 +430,9 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 export default function CaseSimulationPage() {
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
   const [activeCase, setActiveCase] = useState<ClinicalCase | null>(null);
-  const hasPaidAccess = user && paidTiers.includes(user.tier);
+  const hasPaidAccess = paidTiers.includes(effectiveTier);
 
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>

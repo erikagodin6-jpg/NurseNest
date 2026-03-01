@@ -2766,9 +2766,13 @@ Rules:
       const user = await storage.getUser(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
 
+      const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+      const preview = getPreviewFromToken(previewToken);
+      const userTier = (user.tier === "admin" && preview) ? preview.mode : user.tier;
+
       const existingCards = await storage.getUserFlashcards(userId);
       const FREE_LIMIT = 50;
-      const isPaid = user.tier !== "free" && user.subscriptionStatus === "active";
+      const isPaid = userTier !== "free" && user.subscriptionStatus === "active";
       const remaining = isPaid ? 999 : FREE_LIMIT - existingCards.length;
 
       if (remaining <= 0) {
@@ -2832,9 +2836,13 @@ Rules:
       const user = await storage.getUser(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
 
+      const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+      const preview = getPreviewFromToken(previewToken);
+      const userTier = (user.tier === "admin" && preview) ? preview.mode : user.tier;
+
       const existingCards = await storage.getUserFlashcards(userId);
       const FREE_LIMIT = 50;
-      const isPaid = user.tier !== "free" && user.subscriptionStatus === "active";
+      const isPaid = userTier !== "free" && user.subscriptionStatus === "active";
       const remaining = isPaid ? 999 : FREE_LIMIT - existingCards.length;
 
       if (remaining <= 0) {
@@ -7947,7 +7955,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!userId) return res.status(400).json({ error: "userId required" });
 
       const user = await storage.getUser(userId);
-      const tier = user?.tier || "rn";
+      const rawTier = user?.tier || "rn";
+      const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+      const preview = getPreviewFromToken(previewToken);
+      const tier = (rawTier === "admin" && preview) ? preview.mode : rawTier;
       const isPremium = tier === "rpn" || tier === "rn" || tier === "np" || tier === "admin";
       if (!isPremium) return res.status(403).json({ error: "Premium feature" });
 
@@ -8046,7 +8057,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const userId = req.params.userId;
       const user = await storage.getUser(userId);
-      const tier = user?.tier || "free";
+      const rawTier = user?.tier || "free";
+      const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+      const preview = getPreviewFromToken(previewToken);
+      const tier = (rawTier === "admin" && preview) ? preview.mode : rawTier;
       const isPremium = tier === "rpn" || tier === "rn" || tier === "np" || tier === "admin";
       const effectiveTier = tier === "admin" ? "rn" : tier;
 
@@ -11006,8 +11020,8 @@ Return ONLY valid JSON with this exact structure:
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { template = "question_pack", exam, region = "BOTH", targetCount = 50, chunkSize = 15, promptBase, settings, topic, difficulty = "mixed", questionTypes } = req.body;
-      if (!targetCount || targetCount < 5) return res.status(400).json({ error: "targetCount must be >= 5" });
+      const { template = "question_pack", exam, region = "BOTH", targetCount = 250, chunkSize = 15, promptBase, settings, topic, difficulty = "mixed", questionTypes } = req.body;
+      if (!targetCount || targetCount < 250) return res.status(400).json({ error: "targetCount must be >= 250" });
       const gen = await storage.createProductGeneration({
         userId: admin.id,
         template,
@@ -11149,6 +11163,98 @@ Return ONLY valid JSON with this exact structure:
       const { compileGeneration } = await import("./generatorV2/compiler");
       const pages = await compileGeneration(req.params.id);
       res.json({ pages, totalPages: pages.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/generations/:id/export-pdf", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+
+      const { themeId } = req.body;
+      const { compileGeneration, COMPILER_THEMES } = await import("./generatorV2/compiler");
+      const validThemeId = themeId && COMPILER_THEMES.some((t: any) => t.id === themeId) ? themeId : undefined;
+      const pages = await compileGeneration(req.params.id, validThemeId);
+
+      const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
+
+      const hexToRgb = (hex: string) => {
+        const h = hex.replace("#", "");
+        const r = parseInt(h.substring(0, 2), 16) / 255;
+        const g = parseInt(h.substring(2, 4), 16) / 255;
+        const b = parseInt(h.substring(4, 6), 16) / 255;
+        return rgb(r, g, b);
+      };
+
+      const doc = await PDFDocument.create();
+      const fontRegular = await doc.embedFont(StandardFonts.Helvetica);
+      const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
+
+      for (const compiledPage of pages) {
+        const page = doc.addPage([612, 792]);
+
+        if (compiledPage.backgroundColor) {
+          page.drawRectangle({
+            x: 0, y: 0, width: 612, height: 792,
+            color: hexToRgb(compiledPage.backgroundColor),
+          });
+        }
+
+        const sorted = [...compiledPage.objects].sort((a: any, b: any) => (a.zIndex || 0) - (b.zIndex || 0));
+
+        for (const obj of sorted) {
+          const opacity = obj.opacity ?? 1;
+          if (obj.type === "rect") {
+            page.drawRectangle({
+              x: obj.x,
+              y: 792 - obj.y - obj.height,
+              width: obj.width,
+              height: obj.height,
+              color: hexToRgb(obj.fill || "#000000"),
+              opacity,
+            });
+          } else if (obj.type === "text" && obj.content) {
+            const font = (obj.fontWeight === "bold" || obj.fontWeight === "700" || obj.fontWeight === "800") ? fontBold : fontRegular;
+            const fontSize = Math.min(obj.fontSize || 10, 24);
+            const color = hexToRgb(obj.fill || "#000000");
+            const textY = 792 - obj.y - (fontSize * 1.2);
+            const lines = obj.content.split("\n");
+            let lineY = textY;
+            for (const line of lines) {
+              if (lineY < 0) break;
+              const maxChars = Math.floor(obj.width / (fontSize * 0.5)) || 80;
+              let remaining = line;
+              while (remaining.length > 0 && lineY > 0) {
+                const chunk = remaining.substring(0, maxChars);
+                remaining = remaining.substring(maxChars);
+                try {
+                  page.drawText(chunk, {
+                    x: obj.x,
+                    y: lineY,
+                    size: fontSize,
+                    font,
+                    color,
+                    opacity,
+                  });
+                } catch (_e) {}
+                lineY -= fontSize * 1.4;
+              }
+            }
+          }
+        }
+      }
+
+      const pdfBytes = await doc.save();
+      const filename = `nursenest-${(gen as any).title || "export"}-${Date.now()}.pdf`
+        .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+      res.send(Buffer.from(pdfBytes));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

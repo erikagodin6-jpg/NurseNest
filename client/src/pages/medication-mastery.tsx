@@ -228,12 +228,12 @@ function MedCard({ med, isExpanded, onToggle }: { med: Medication; isExpanded: b
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 export default function MedicationMasteryPage() {
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMOA, setSelectedMOA] = useState<string | null>(null);
   const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
   const [expandedMed, setExpandedMed] = useState<string | null>(null);
-  const hasPaidAccess = user && paidTiers.includes(user.tier);
+  const hasPaidAccess = paidTiers.includes(effectiveTier);
 
   const filteredMeds = useMemo(() => {
     return medications.filter((m) => {

@@ -500,10 +500,10 @@ export default function SimulatorsPage() {
   const simulatorType = params?.type || "osce";
   const isOsce = simulatorType === "osce";
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
 
   const isLoggedIn = !!user;
-  const hasPaidAccess = isLoggedIn && paidTiers.includes(user!.tier);
+  const hasPaidAccess = isLoggedIn && paidTiers.includes(effectiveTier);
 
   const stations = isOsce ? osceStations : clinicalLabStations;
 

@@ -813,8 +813,8 @@ function SummaryScreen({
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 export default function FirstActionSimulatorPage() {
-  const { user } = useAuth();
-  const hasPaidAccess = user && paidTiers.includes(user.tier);
+  const { user, effectiveTier } = useAuth();
+  const hasPaidAccess = paidTiers.includes(effectiveTier);
 
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [country, setCountry] = useState<CountryMode>(() => {

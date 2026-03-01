@@ -924,8 +924,8 @@ function InterventionDecision() {
 }
 
 export default function BloodTransfusionSimulatorPage() {
-  const { user } = useAuth();
-  const hasPaidAccess = user && paidTiers.includes(user.tier);
+  const { user, effectiveTier } = useAuth();
+  const hasPaidAccess = paidTiers.includes(effectiveTier);
   const [activeTab, setActiveTab] = useState<TabId>("compatibility");
 
   return (

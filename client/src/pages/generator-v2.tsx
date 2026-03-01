@@ -3,7 +3,18 @@ import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Play, Pause, FileDown, ArrowLeft, RefreshCw, Loader2, ShoppingBag, DollarSign, Trash2, Plus, Package, X, Store, Tag, Eye, EyeOff } from "lucide-react";
+import { Play, Pause, FileDown, ArrowLeft, RefreshCw, Loader2, ShoppingBag, DollarSign, Trash2, Plus, Package, X, Store, Tag, Eye, EyeOff, Download } from "lucide-react";
+
+const THEMES = [
+  { id: "soft-clinical", name: "Soft Clinical", primaryColor: "#7c3aed", secondaryColor: "#06b6d4", accentColor: "#f59e0b", coverBg: "#7c3aed" },
+  { id: "structured-academic", name: "Structured Academic", primaryColor: "#1e40af", secondaryColor: "#0f766e", accentColor: "#b45309", coverBg: "#1e40af" },
+  { id: "bold-modern", name: "Bold Modern", primaryColor: "#dc2626", secondaryColor: "#7c3aed", accentColor: "#eab308", coverBg: "#171717" },
+  { id: "minimal-clean", name: "Minimal Clean", primaryColor: "#0f172a", secondaryColor: "#64748b", accentColor: "#0ea5e9", coverBg: "#0f172a" },
+  { id: "navy-medical", name: "Navy Medical", primaryColor: "#1e3a5f", secondaryColor: "#2563eb", accentColor: "#10b981", coverBg: "#1e3a5f" },
+  { id: "blush-rose", name: "Blush Rose", primaryColor: "#be185d", secondaryColor: "#9333ea", accentColor: "#f59e0b", coverBg: "#be185d" },
+  { id: "paper-ink", name: "Paper & Ink", primaryColor: "#292524", secondaryColor: "#57534e", accentColor: "#a16207", coverBg: "#292524" },
+  { id: "charcoal-clinical", name: "Charcoal Clinical", primaryColor: "#374151", secondaryColor: "#3b82f6", accentColor: "#14b8a6", coverBg: "#374151" },
+];
 
 function adminFetch(url: string, options?: RequestInit) {
   const creds = JSON.parse(localStorage.getItem("nursenest-auth") || "{}");
@@ -81,10 +92,13 @@ export default function GeneratorV2Page() {
   const [template, setTemplate] = useState("question_pack");
   const [exam, setExam] = useState("rex-pn");
   const [region, setRegion] = useState("CA");
-  const [targetCount, setTargetCount] = useState(50);
+  const [targetCount, setTargetCount] = useState(250);
   const [chunkSize, setChunkSize] = useState(15);
   const [topic, setTopic] = useState("Cardiac Pathophysiology");
   const [difficulty, setDifficulty] = useState("mixed");
+  const [tier, setTier] = useState("all");
+  const [selectedTheme, setSelectedTheme] = useState("soft-clinical");
+  const [exportingPdf, setExportingPdf] = useState<string | null>(null);
 
   const [generations, setGenerations] = useState<any[]>([]);
   const [activeGenId, setActiveGenId] = useState<string | null>(null);
@@ -207,7 +221,7 @@ export default function GeneratorV2Page() {
     try {
       const res = await adminFetch("/api/generator-v2/generations", {
         method: "POST",
-        body: JSON.stringify({ template, exam, region, targetCount, chunkSize, topic, difficulty }),
+        body: JSON.stringify({ template, exam, region, targetCount, chunkSize, topic, difficulty, tier, themeId: selectedTheme }),
       });
       if (res.ok) {
         const gen = await res.json();
@@ -282,6 +296,37 @@ export default function GeneratorV2Page() {
       toast({ title: "Error", description: e.message, variant: "destructive" });
     }
     setCompiling(false);
+  };
+
+  const exportPdf = async (genId: string) => {
+    setExportingPdf(genId);
+    try {
+      const creds = JSON.parse(localStorage.getItem("nursenest-auth") || "{}");
+      const res = await fetch(`/api/generator-v2/generations/${genId}/export-pdf`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ themeId: selectedTheme, username: creds.username || "", password: creds.password || "" }),
+      });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `generation-${genId.substring(0, 8)}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        toast({ title: "PDF exported" });
+      } else {
+        const err = await res.json().catch(() => ({ error: "Export failed" }));
+        toast({ title: "Export Error", description: err.error, variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+    setExportingPdf(null);
   };
 
   const openPublishDialog = () => {
@@ -472,8 +517,24 @@ export default function GeneratorV2Page() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Topic</label>
-                  <Input value={topic} onChange={e => setTopic(e.target.value)} className="h-9 text-sm" data-testid="input-topic" />
+                  <label className="text-xs font-medium text-gray-500 block mb-1">Topics</label>
+                  <textarea
+                    value={topic}
+                    onChange={e => setTopic(e.target.value)}
+                    rows={3}
+                    className="w-full rounded-lg border px-3 py-2 text-sm resize-none"
+                    placeholder="Enter topics separated by commas (e.g., Cardiac, Respiratory, Neuro)"
+                    data-testid="topics-input"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">Tier</label>
+                  <select value={tier} onChange={e => setTier(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-sm" data-testid="tier-select">
+                    <option value="all">All Tiers</option>
+                    <option value="rpn">RPN - Practical Nurse</option>
+                    <option value="rn">RN - Registered Nurse</option>
+                    <option value="np">NP - Nurse Practitioner</option>
+                  </select>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
@@ -497,7 +558,7 @@ export default function GeneratorV2Page() {
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-xs font-medium text-gray-500 block mb-1">Target Count</label>
-                    <Input type="number" min={5} max={1000} value={targetCount} onChange={e => setTargetCount(Number(e.target.value))} className="h-9 text-sm" data-testid="input-target-count" />
+                    <Input type="number" min={250} max={1000} value={targetCount} onChange={e => setTargetCount(Number(e.target.value))} className="h-9 text-sm" data-testid="question-count-input" />
                   </div>
                   <div>
                     <label className="text-xs font-medium text-gray-500 block mb-1">Chunk Size</label>
@@ -512,6 +573,26 @@ export default function GeneratorV2Page() {
                     <option value="hard">Mostly Hard</option>
                     <option value="very_challenging">Very Challenging</option>
                   </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">Theme</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {THEMES.map((t) => (
+                      <button
+                        key={t.id}
+                        onClick={() => setSelectedTheme(t.id)}
+                        className={`p-2 rounded-lg border-2 transition text-center ${selectedTheme === t.id ? "border-blue-500 ring-2 ring-blue-200" : "border-gray-200 hover:border-gray-300"}`}
+                        data-testid={`theme-picker-${t.id}`}
+                      >
+                        <div className="flex justify-center gap-1 mb-1">
+                          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: t.primaryColor }} />
+                          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: t.secondaryColor }} />
+                          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: t.accentColor }} />
+                        </div>
+                        <span className="text-[10px] text-gray-600 font-medium">{t.name}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <Button onClick={createGeneration} disabled={creating || !topic} className="w-full" data-testid="button-create">
                   {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Create Generation Job"}
@@ -577,6 +658,10 @@ export default function GeneratorV2Page() {
                       <Button size="sm" variant="outline" onClick={compileGeneration} disabled={compiling || status.createdCount === 0} className="gap-1" data-testid="button-compile">
                         {compiling ? <Loader2 className="w-3 h-3 animate-spin" /> : <FileDown className="w-3 h-3" />}
                         Compile
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => activeGenId && exportPdf(activeGenId)} disabled={exportingPdf !== null || status.createdCount === 0} className="gap-1" data-testid={`export-pdf-button-${activeGenId}`}>
+                        {exportingPdf === activeGenId ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />}
+                        Export PDF
                       </Button>
                       <Button size="sm" variant="outline" onClick={openPublishDialog} disabled={status.createdCount === 0} className="gap-1 text-green-700 border-green-200 hover:bg-green-50" data-testid="button-publish">
                         <ShoppingBag className="w-3 h-3" />

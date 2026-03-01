@@ -982,11 +982,11 @@ function ABGSection({ country }: { country: CountryMode }) {
 }
 
 export default function ElectrolyteABGSimulatorPage() {
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
   const [activeTab, setActiveTab] = useState<"electrolyte" | "abg">("electrolyte");
   const [country, setCountry] = useState<CountryMode>("US");
 
-  const hasPaidAccess = user && paidTiers.includes(user.tier);
+  const hasPaidAccess = paidTiers.includes(effectiveTier);
 
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>

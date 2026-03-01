@@ -434,8 +434,8 @@ function statusLabel(status: LabStatus): string {
 }
 
 export default function LabValuesPage() {
-  const { user } = useAuth();
-  const hasPaidAccess = user && paidTiers.includes(user.tier);
+  const { user, effectiveTier } = useAuth();
+  const hasPaidAccess = paidTiers.includes(effectiveTier);
   const [activeCategory, setActiveCategory] = useState("cardiac");
   const [scenarioIndex, setScenarioIndex] = useState<Record<string, number>>({});
   const [showInterpretation, setShowInterpretation] = useState<Record<string, boolean>>({});

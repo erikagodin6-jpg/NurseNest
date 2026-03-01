@@ -1507,8 +1507,8 @@ function ScenarioSelector({
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 export default function DeterioratingPatientSimulatorPage() {
-  const { user } = useAuth();
-  const hasPaidAccess = user && paidTiers.includes(user.tier);
+  const { user, effectiveTier } = useAuth();
+  const hasPaidAccess = paidTiers.includes(effectiveTier);
 
   const [country, setCountry] = useState<CountryMode>("CA");
   const [unitMode, setUnitMode] = useState<UnitMode>("metric");

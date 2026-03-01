@@ -54,11 +54,22 @@ Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/po
 - `extractUserTier` and `getEffectiveTier` in routes.ts check preview cookie for admin users only.
 - Frontend: `PreviewBanner` in App.tsx shows amber banner when preview active; admin dashboard has "View site as" dropdown.
 - Auth context (`auth.tsx`) syncs preview state with server; only sets local state on server confirmation.
-- Content gating enforced across all endpoints: flashcard cards, mock exam start, content slug, pass-probability stats, ContentGate component, lesson-detail, flashcards page, deck-page, and mock-exams page all respect preview tier.
+- Content gating enforced across all endpoints: flashcard cards, mock exam start, content slug, pass-probability stats, ContentGate component, lesson-detail, flashcards page, deck-page, mock-exams page, all 8 simulators (case-simulation, medication-mastery, first-action-simulator, lab-values, blood-transfusion-simulator, deteriorating-patient-simulator, electrolyte-abg-simulator, simulators), and AI flashcard generation endpoints all respect preview tier via `effectiveTier`.
 - Frontend `isAdmin` checks in lesson-detail/flashcards/mock-exams use `previewTier` to disable admin bypass when preview is active.
+- Server-side endpoints (probability/simulate, next-best, ai-generate, ai-generate-from-notes) check preview cookie to respect admin preview mode.
 
 ### QBank Factory + Exam Factory (Admin)
 - Admin QBank Factory (`/admin/qbank-factory`) allows creating, managing, and publishing question banks with configurable parameters like topic mix, difficulty, and question types. It includes a persistent audit panel and export gates. The Exam Factory tab enables generating multiple exam forms with specific lengths and rationales.
+
+### Product Generator V2 (Admin)
+- Isolated chunked/resumable question generation pipeline at `/admin/generator-v2`.
+- Minimum 250 questions per generation (server-enforced).
+- Multi-topic support: comma-separated topics distributed proportionally across generation.
+- Tier-aware prompts: RPN (monitor/report/administer), RN (protocol-based/delegation), NP (order/prescribe/diagnose).
+- 8 print-ready PDF themes: soft-clinical, structured-academic, bold-modern, minimal-clean, navy-medical, blush-rose, paper-ink, charcoal-clinical.
+- PDF export via `POST /api/generator-v2/generations/:id/export-pdf` using pdf-lib with themed cover page, TOC, section dividers, answer key.
+- Store publishing and bundle creation integrated into admin UI.
+- Worker: `server/generatorV2/worker.ts`, Validator: `server/generatorV2/validator.ts`, Compiler: `server/generatorV2/compiler.ts`.
 
 ### Diagnostic Assessment System
 - A 30-question mixed blueprint diagnostic exam (`/diagnostic-assessment`) provides AI-powered results, study plans, and domain/topic breakdown charts.
