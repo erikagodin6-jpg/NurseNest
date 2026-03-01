@@ -1,11 +1,9 @@
 # NurseNest - Complete Nursing Learning Platform
 
 ## Overview
-
-NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP students. It provides comprehensive learning resources, including lessons, flashcards, performance analytics, and exam preparation for NCLEX and REX-PN. The platform supports both US and Canadian nursing standards, with a strong focus on clinical pathophysiology, medication safety, and condition recognition to enhance clinical reasoning. NurseNest aims to be a leading educational tool, improving nursing knowledge and ultimately contributing to better patient care outcomes. It includes features like a digital study marketplace, AI-powered content generation for medical images and micro-lectures, and a dual-path exam system for REx-PN and NCLEX-RN.
+NurseNest is an interactive learning platform for RPN/LVN, RN, and NP students, offering comprehensive resources like lessons, flashcards, performance analytics, and exam preparation for NCLEX and REX-PN. It supports both US and Canadian nursing standards, focusing on clinical pathophysiology, medication safety, and condition recognition to enhance clinical reasoning. The platform features a digital study marketplace, AI-powered content generation for medical images and micro-lectures, and a dual-path exam system, aiming to improve nursing knowledge and patient care outcomes.
 
 ## User Preferences
-
 - Preferred communication style: Simple, everyday language.
 - Admin account: user "erikanim" has tier="admin" with full content access bypass.
 - Copyright must show current year dynamically (uses `new Date().getFullYear()`).
@@ -19,95 +17,51 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 ## System Architecture
 
 ### UI/UX Decisions
-- **Framework & Styling**: React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, Tailwind CSS v4, `next-themes` (20 themes), and DM Sans typography.
-- **Content Engagement**: Utilizes `ContentGate` for access control and interactive components like `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`.
-- **Digital Product Builder**: Streamlined single-flow creation (Store "Create Product" -> Guided Mode form -> auto-creates project on compile, topic auto-syncs to project title and publish form). Canva-style editor with drag-and-drop, multi-select, undo/redo, brand kit (30 themes -- 15 original bright: Soft Clinical, Structured Academic, Bold Modern, Minimal Clean, Blush Rose, Lavender Dream, Sage Wellness, Sky Breeze, Peach Glow, Cotton Candy, Ivory Clinical, Mint Ward, Snow Minimal, Blush Academic, Nordic Frost; 5 dark: Charcoal Clinical, Navy Medical, Deep Teal, Neon Contrast, Matte Scholar; Paper & Ink; 6 pastel-on-white: Pastel Lilac, Pastel Mint, Pastel Blush, Pastel Sky, Pastel Peach, Pastel Lemon; 4 color-on-white: Coral on White, Ocean on White, Emerald on White, Indigo on White), AI image lab, and various export formats. Includes multi-page AI content pagination, object grouping, AI bundle generator (cram+qbank+flashcards+listing in one click), and AI test bank generator with configurable question counts (10-75), difficulty levels, question types (MC/SATA/ordered-response), preview, JSON/CSV export, and direct marketplace publishing. **AI Prompt fields** in both Guided Mode and Canvas Mode allow users to write detailed natural-language instructions (not just a topic name) — the AI uses these as custom instructions alongside exam tier/region/template settings. Server uses dedicated `"guided"` mode with matching system prompt for Guided Mode compilation. **Premium Design System**: All compiled pages feature a Canva-quality visual language — dual-tone top bars (primary + accent), left sidebar accent strips, decorative corner circles, branded footers with page numbers. Headings use 3 visual styles (L1: card with accent bar, L2: accent underline, L3: vertical bar). Callout boxes use left accent bars with badge labels. Bullet lists have rounded dot indicators with subtle backgrounds. Tables have rounded container borders. Cover pages feature layered backgrounds, double-border frames, scattered decorations, and edge accent strips. Chapter dividers show ghost section numbers. TOC uses numbered cards. Summary pages include checklist items with a confidence-check block. 20+ Google Fonts with per-theme font pairings (Playfair Display, Montserrat, Space Grotesk, Quicksand, Sora, etc.).
-- **Watermarked Preview System**: Generates and streams watermarked PDF previews for digital products.
+The platform uses React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, supporting 20 themes with DM Sans typography. Content engagement is enhanced through `ContentGate` and interactive components like `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`. A digital product builder offers a Canva-style editor with drag-and-drop, multi-select, undo/redo, 30 brand kit themes, AI image lab, multi-page AI content pagination, object grouping, and AI bundle/test bank generators. The platform incorporates a premium design system with Canva-quality visuals, dual-tone top bars, accent strips, decorative elements, and 20+ Google Fonts. A watermarked preview system generates PDF previews for digital products.
 
 ### Technical Implementations
-- **Frontend & Backend**: Vite with React, Express 5 on Node.js with TypeScript.
-- **State Management**: TanStack React Query for server state.
-- **API**: RESTful API for all functionalities.
-- **Authentication**: Username/password with session management.
-- **Content Engine**: Admin-only editor supporting AI generation for lessons, anatomy, and pre-nursing modules, with internal linking and immediate publishing.
-- **Subscription System**: Multiple tiers with regional pricing.
-- **Interactive Learning**: Includes Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Case Simulation, Medication Mastery Engine, and six clinical simulators.
-- **Region-Aware Content**: Server-side detection and filtering by `region_scope` (BOTH, US_ONLY, CA_ONLY), supporting regional AI content generation and unit conversion.
-- **Mock Exam Engine**: Timed exams with configurable parameters, question flagging, auto-save, detailed reports, and stratified random sampling, including a Strict Exam Mode.
-- **Admin Features**: Dashboard for analytics, subscriptions, content management, QC, and content intelligence (blueprint coverage, difficulty calibration, SEO keyword gaps).
-- **Blog Automation**: OpenAI-powered blog post generation with scholarly sources and scheduled publishing.
-- **Custom Flashcards**: User-creatable with CSV import, AI accuracy checks, and AI generation.
-- **Internationalization (i18n)**: Custom system for 15 languages, including language-prefixed URL routing, hreflang, RTL support, and browser detection.
-- **Multilingual SEO**: 1,170 SEO pages, Admin SEO Dashboard, AI-powered localization, per-language sitemaps, and JSON-LD schemas.
-- **Dynamic Content Translation**: Language middleware and `getTranslatedFields()` for managing translations.
-- **Adaptive CAT Engine**: IRT-style ability estimation, composite item selection, and confidence interval stop rule.
-- **Pass Probability Projection Engine**: Composite scoring model with logistic transform, anti-gaming, and improvement simulator.
-- **Next Best Action Engine**: Recommends top 3 actions with estimated probability lift.
-- **Upgrade Funnel**: Event logging and rate-limited upgrade modals.
-- **Exam Blueprints**: Database-driven blueprints for various nursing exams.
-- **Free Diagnostic SEO Funnel**: Public SEO-optimized landing pages with CTA to diagnostic exams.
-- **Study Workload Calculator**: Dashboard widget for projected completion date.
-- **Revenue Intelligence Dashboard**: Conversion funnels and study pack revenue.
-- **Language ROI Scoring Engine**: Scores languages for prioritization.
-- **SEO Health Check Engine**: Audits for hreflang, meta descriptions, word count, orphan pages, and sitemap completeness.
-- **Public Diagnostic Exam**: 25-question free diagnostic exam with anonymous attempts and topic breakdowns.
-- **Auscultation Audio Library**: Manages audio clips with licensing and quiz modes.
-- **AI Medical Image Generator**: Admin UI for generating medical illustrations via `gpt-image-1`, with image storage and library management.
-- **MicroLecture Generator**: Admin UI for generating AI-powered micro-lectures with narration scripts and slides, supporting tier-scoped content.
-- **Dual-Path Exam System**: Dedicated sections and hub pages for CA (REx-PN) and US (NCLEX-RN) exam preparations.
-- **My Downloads / Post-Purchase Flow**: User profile section for purchased digital products with download capabilities.
-- **Education Pathways**: `/pathways` page detailing step-by-step curricula for Pre-Nursing, RPN/LPN, RN, and NP, with smart progression indicators and exam alignment.
+The frontend and backend are built with Vite, React, and Express 5 on Node.js with TypeScript. TanStack React Query manages server state via a RESTful API. Authentication uses username/password with session management. An admin-only content engine supports AI generation and internal linking. A subscription system includes regional pricing. Interactive learning modules cover Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Case Simulation, Medication Mastery Engine, and six clinical simulators. Content is region-aware, with server-side detection and filtering. A mock exam engine provides timed exams with detailed reports and stratified random sampling, including a Strict Exam Mode. Admin features include a dashboard for analytics, content management, QC, and content intelligence. Other features include OpenAI-powered blog automation, custom flashcards with AI checks, a custom i18n system for 15 languages with multilingual SEO (1,170 pages), an Adaptive CAT Engine for ability estimation, a Pass Probability Projection Engine, and a Next Best Action Engine. Exam blueprints are database-driven. The system also includes a free diagnostic SEO funnel, a study workload calculator, revenue intelligence, language ROI scoring, SEO health checks, a public diagnostic exam, an auscultation audio library, an AI Medical Image Generator, and a MicroLecture Generator. A dual-path exam system supports REx-PN and NCLEX-RN, with user downloads and education pathways.
 
 ### Data Storage
-- **ORM**: Drizzle ORM with PostgreSQL.
-- **Schema**: Defined in `shared/schema.ts`.
-- **Validation**: Zod schemas.
+The system uses Drizzle ORM with PostgreSQL, with schemas defined in `shared/schema.ts` and Zod for validation.
 
 ### Content Architecture
-- Lessons organized by body system, categorized by RPN/LVN, RN, NP, and Pharmacology, with pre/post-test questions.
-- Each lesson includes 10 content sections (e.g., Pathophysiology, Pharmacology, Exam Readiness) with inline admin editing and AI generation.
-- Flashcard system with bookmarking and mastery tracking.
-- Anatomy & Physiology detail pages for 12 body systems.
-- 27 interactive Pre-Nursing Foundations Program modules.
-- CMS content dynamically integrated.
+Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/post-test questions. Each lesson contains 10 content sections with inline admin editing and AI generation. A flashcard system includes bookmarking and mastery tracking. Anatomy & Physiology detail pages cover 12 body systems. There are 27 interactive Pre-Nursing Foundations Program modules.
 
 ## External Dependencies
 
 ### Database
-- **PostgreSQL**
-- **Drizzle ORM**
+- PostgreSQL
+- Drizzle ORM
 
 ### Payment Processing
-- **Stripe** (including Stripe Checkout for upgrades)
-- **PayPal SDK**
+- Stripe (including Stripe Checkout)
+- PayPal SDK
 
 ### Key npm Dependencies
-- **UI**: shadcn/ui, Radix UI primitives, Lucide icons.
-- **Forms**: `react-hook-form`, `@hookform/resolvers`, Zod.
-- **Dates**: `date-fns`.
+- **UI**: shadcn/ui, Radix UI primitives, Lucide icons
+- **Forms**: `react-hook-form`, `@hookform/resolvers`, Zod
+- **Dates**: `date-fns`
 
 ### AI/Content Generation
-- **OpenAI**: For blog posts, AI flashcards, lesson content, AI medical images (gpt-image-1), and micro-lectures.
-- **5-Step Content Pipeline** (`/api/ai/generate-pipeline`): Guided Mode uses a multi-step AI pipeline for cohesive bundle generation (visual cohesion is handled by the theme/rendering system):
-  1. **Strategy Controller** - Defines target audience, pain points, transformation, narrative arc, clinical priority framework, visual motif
-  2. **Page Architect** - Creates structured page map with objectives, exam takeaways, visual emphasis, reasoning focus
-  3. **Structured Content Engine** - Generates design-block content (headings, bullets, tables, callouts) with clinical pearls, exam traps, rapid recall. Section prompts enforce minimum 8 blocks with 6+ substantive (bullets/table/callout/paragraph). Generic titles auto-inject high-yield condition inventory. Title-only/divider-only output explicitly forbidden.
-  4. **Exam Authority Enhancer** - Injects exam-specific framing: priority ladders, decision algorithms, "If you see X think Y" statements
-  5. **QA Flow Check** - Audits for redundancy, logical flow, difficulty escalation, tone consistency, clinical accuracy
-  - **Section validation**: Server counts substantive vs non-substantive blocks; pass requires blocks>=3, chars>=400, substantive>=4. Client mirrors this with same logic before compile. Failed sections retry up to 2x with repair prompt that includes specific failure reasons.
-  - Falls back to single-prompt generation (`/api/ai/generate-content` with mode "guided") if pipeline content step fails
-- **Test Bank Generator** (`/api/ai/generate-test-bank`): Strict question count contract with:
-  - Server-side validation: JSON schema enforced via `response_format: { type: "json_object" }`, validates category (4 NCLEX categories), type (MCQ/SATA/PRIORITY/DELEGATION), field presence (id/scenario/stem/options/correctAnswer/rationaleCorrect/rationaleIncorrect/clinicalPearl), option count rules (MCQ=4, SATA=6-8), answer format (MCQ=single letter, SATA=array of 2-5)
-  - Retry logic: Up to 3 attempts with repair prompt listing specific validation errors
-  - Pre-export audit: `runTestBankAudit()` logs requestedCount vs generatedCount, counts by type/category
-  - Export gate: `tbAuditGate()` blocks JSON/CSV/marketplace export if questions.length !== requestedCount
-  - Server returns 422 with audit data on count mismatch after exhausting retries
-  - PDF export uses deterministic page ordering via `pageNumber` sort
+- **OpenAI**: Used for blog posts, AI flashcards, lesson content, AI medical images (gpt-image-1), and micro-lectures.
+- **5-Step Content Pipeline**: A multi-step AI pipeline (`/api/ai/generate-pipeline`) for cohesive content generation in Guided Mode, covering strategy, page architecture, structured content generation, exam authority enhancement, and QA. Includes section validation with retry logic.
+- **Test Bank Generator**: (`/api/ai/generate-test-bank`) ensures strict question count and JSON schema validation, with retry logic and audit checks before export or publishing.
+
+### QBank Factory + Exam Factory (Admin)
+- Admin QBank Factory (`/admin/qbank-factory`) allows creating, managing, and publishing question banks with configurable parameters like topic mix, difficulty, and question types. It includes a persistent audit panel and export gates. The Exam Factory tab enables generating multiple exam forms with specific lengths and rationales.
+
+### Diagnostic Assessment System
+- A 30-question mixed blueprint diagnostic exam (`/diagnostic-assessment`) provides AI-powered results, study plans, and domain/topic breakdown charts.
+
+### User Stats + Study Groups
+- User statistics (`/api/user-stats/:userId`) track progress and domain breakdown. Study groups can be created/joined, and remediation banks can be generated from weak topics.
+
+### Friend System + Peer Comparison
+- Includes tables for friend requests and connections, with per-question analytics for difficulty and user performance.
 
 ### Site Analytics & Feedback System
-- **Custom Page View Tracker**
-- **Analytics API**
-- **Feedback System**
+- Custom page view tracker, analytics API, and a feedback system.
 
 ### Social Media
-- **Meta Graph API**: For social media scheduling.
+- Meta Graph API: For social media scheduling.

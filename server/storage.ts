@@ -1001,6 +1001,48 @@ export class DatabaseStorage implements IStorage {
   async removeStudyGroupMember(groupId: string, userId: string): Promise<void> {
     await db.delete(studyGroupMembers).where(and(eq(studyGroupMembers.groupId, groupId), eq(studyGroupMembers.userId, userId)));
   }
+
+  async getQuestionAnalytics(questionId: string): Promise<QuestionAnalytics | undefined> {
+    const [a] = await db.select().from(questionAnalytics).where(eq(questionAnalytics.questionId, questionId));
+    return a;
+  }
+  async upsertQuestionAnalytics(data: InsertQuestionAnalytics): Promise<QuestionAnalytics> {
+    const existing = await this.getQuestionAnalytics(data.questionId);
+    if (existing) {
+      const [updated] = await db.update(questionAnalytics).set({ ...data, lastUpdated: new Date() }).where(eq(questionAnalytics.id, existing.id)).returning();
+      return updated;
+    }
+    const [created] = await db.insert(questionAnalytics).values(data).returning();
+    return created;
+  }
+
+  async createFriendRequest(data: InsertFriendRequest): Promise<FriendRequest> {
+    const [r] = await db.insert(friendRequests).values(data).returning();
+    return r;
+  }
+  async getFriendRequest(id: string): Promise<FriendRequest | undefined> {
+    const [r] = await db.select().from(friendRequests).where(eq(friendRequests.id, id));
+    return r;
+  }
+  async getPendingFriendRequests(userId: string): Promise<FriendRequest[]> {
+    return db.select().from(friendRequests).where(and(eq(friendRequests.receiverId, userId), eq(friendRequests.status, "pending"))).orderBy(desc(friendRequests.createdAt));
+  }
+  async updateFriendRequestStatus(id: string, status: string): Promise<FriendRequest> {
+    const [r] = await db.update(friendRequests).set({ status }).where(eq(friendRequests.id, id)).returning();
+    return r;
+  }
+
+  async createFriendConnection(data: InsertFriendConnection): Promise<FriendConnection> {
+    const [c] = await db.insert(friendConnections).values(data).returning();
+    return c;
+  }
+  async getUserFriendConnections(userId: string): Promise<FriendConnection[]> {
+    const result = await db.execute(sql`SELECT * FROM friend_connections WHERE user_a_id = ${userId} OR user_b_id = ${userId} ORDER BY created_at DESC`);
+    return result.rows as unknown as FriendConnection[];
+  }
+  async removeFriendConnection(id: string): Promise<void> {
+    await db.delete(friendConnections).where(eq(friendConnections.id, id));
+  }
 }
 
 export const storage = new DatabaseStorage();

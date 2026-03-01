@@ -10297,6 +10297,135 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.post("/api/admin/qbank-drafts/:id/generate-forms", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const draft = await storage.getQbankDraft(req.params.id);
+      if (!draft) return res.status(404).json({ error: "Not found" });
+      const questions = (draft.questionsJson as any[]) || [];
+      if (questions.length < 10) return res.status(400).json({ error: "Master bank needs at least 10 questions" });
+
+      const { formCount = 1, formSize = 90, seed, includeRationales = false, topicMix: reqTopicMix, difficultyTarget } = req.body;
+      const formSeed = seed || Date.now();
+
+      function seededRandom(s: number) {
+        let x = s;
+        return () => { x = (x * 1103515245 + 12345) & 0x7fffffff; return x / 0x7fffffff; };
+      }
+
+      const forms: any[] = [];
+      const usedIds = new Set<number>();
+
+      for (let f = 0; f < Math.min(formCount, 3); f++) {
+        const rng = seededRandom(formSeed + f * 1000);
+        let available = questions.filter(q => !usedIds.has(q.id) || formCount === 1);
+
+        if (difficultyTarget && difficultyTarget !== "mixed") {
+          const diffFiltered = available.filter(q => (q.difficulty || "medium") === difficultyTarget);
+          if (diffFiltered.length >= formSize) available = diffFiltered;
+        }
+
+        let formQs: any[] = [];
+        if (reqTopicMix && Array.isArray(reqTopicMix) && reqTopicMix.length > 0) {
+          const byTopicPool: Record<string, any[]> = {};
+          for (const q of available) {
+            const tag = q.topicTag || q.topic || "General";
+            if (!byTopicPool[tag]) byTopicPool[tag] = [];
+            byTopicPool[tag].push(q);
+          }
+          for (const tm of reqTopicMix) {
+            const count = Math.round(formSize * tm.weightPercent / 100);
+            const pool = byTopicPool[tm.topic] || [];
+            const shuffledPool = [...pool].sort(() => rng() - 0.5);
+            formQs.push(...shuffledPool.slice(0, count));
+          }
+          if (formQs.length < formSize) {
+            const usedInForm = new Set(formQs.map(q => q.id));
+            const remaining = available.filter(q => !usedInForm.has(q.id));
+            const shuffledRemaining = [...remaining].sort(() => rng() - 0.5);
+            formQs.push(...shuffledRemaining.slice(0, formSize - formQs.length));
+          }
+          formQs = formQs.sort(() => rng() - 0.5).slice(0, formSize);
+        } else {
+          const shuffled = [...available].sort(() => rng() - 0.5);
+          formQs = shuffled.slice(0, Math.min(formSize, shuffled.length));
+        }
+        formQs.forEach(q => usedIds.add(q.id));
+
+        const formLabel = String.fromCharCode(65 + f);
+        const answerKey = formQs.map((q: any, i: number) => ({
+          number: i + 1,
+          correctAnswer: q.correctAnswer,
+          type: q.type,
+          topic: q.topicTag || q.topic || "",
+        }));
+
+        const formData: any = {
+          formId: formLabel,
+          seed: formSeed + f * 1000,
+          questionCount: formQs.length,
+          questionIds: formQs.map((q: any) => q.id),
+          questions: formQs.map((q: any, i: number) => ({ ...q, id: i + 1 })),
+          answerKey,
+        };
+
+        if (includeRationales) {
+          formData.rationales = formQs.map((q: any, i: number) => ({
+            number: i + 1,
+            rationaleCorrect: q.rationaleCorrect || "",
+            rationaleIncorrect: q.rationaleIncorrect || [],
+            clinicalPearl: q.clinicalPearl || "",
+          }));
+        }
+
+        forms.push(formData);
+      }
+
+      const updatedDist = { ...(draft.distributionJson as any || {}), forms };
+      await storage.updateQbankDraft(draft.id, { distributionJson: updatedDist } as any);
+
+      res.json({ forms: forms.map(f => ({ formId: f.formId, questionCount: f.questionCount, seed: f.seed })), totalForms: forms.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/qbank-drafts/:id/generate-listing", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const draft = await storage.getQbankDraft(req.params.id);
+      if (!draft) return res.status(404).json({ error: "Not found" });
+
+      const qCount = ((draft.questionsJson as any[]) || []).length;
+      const editions = (draft.editionsJson as any) || {};
+
+      const openai = (await import("./openai-client")).getOpenAIClient();
+      const resp = await openai.chat.completions.create({
+        model: "gpt-4o",
+        temperature: 0.7,
+        max_tokens: 4000,
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content: `You are a marketing copywriter for NurseNest, a Canadian nursing exam prep platform. Generate store listing copy for a question bank product. Output JSON: {"headline":"...","description":"...","whatYouGet":"...","whoItsFor":"...","howToUse":"...","editionComparison":"...","faqs":[{"q":"...","a":"..."},...],"sellingBullets":["..."],"seoTitle":"...","metaDescription":"...","heroTagline":"..."}`
+          },
+          {
+            role: "user",
+            content: `Product: ${draft.title}. ${qCount} questions on ${draft.topic}. Exam: ${draft.exam}. Difficulty: ${draft.difficulty}. ${draft.canadianContext ? "Canadian context." : "US context."} Editions: ${editions.questionsOnly ? "Questions Only + Answer Key" : ""}${editions.studyEdition ? ", Study Edition with rationales and clinical pearls" : ""}. Generate compelling store listing copy with all required fields. Make the headline 8-12 words. Meta description 150-160 chars. 5 selling bullets. 3 FAQs. Include edition comparison if both editions exist.`
+          }
+        ]
+      });
+
+      const listing = JSON.parse(resp.choices[0]?.message?.content || "{}");
+      res.json(listing);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/qbank-recipes", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
