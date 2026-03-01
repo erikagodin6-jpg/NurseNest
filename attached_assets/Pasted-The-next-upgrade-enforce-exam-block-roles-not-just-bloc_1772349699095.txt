@@ -1,0 +1,61 @@
+The next upgrade: enforce exam block roles, not just block kinds
+You already started down this path with shape contracts and decision-density. Good.
+To make it reliably exam-cram, enforce required semantic blocks per section:
+Pathophysiology section must include, in the blocks themselves:
+Recognition Cues (list)
+Red Flags (callout/list)
+First Actions (steps)
+Exam Traps (callout/list)
+Differential Table (table)
+Not optional, not “maybe present.” Required.
+How to enforce this without NLP
+Use required headings / labels in blocks:
+bullets/callout must contain one of:
+“Recognition cues”
+“Red flags”
+“First actions”
+“Exam traps”
+“Don’t confuse with”
+Then validate that those labels exist somewhere in that section’s blocks.
+This is a cheap and extremely effective contract.
+Prompt fix (most important)
+Right now your prompts allow “Pathophysiology of HF” as a heading and then a paragraph. That will pass every structural validator.
+Add this to CONTENT_RULES (top of every section prompt):
+This section MUST include the following labeled blocks (use these exact labels):
+- Recognition cues:
+- Red flags:
+- First actions (in order):
+- Exam traps:
+- Don’t confuse with: (table)
+
+If any label is missing, the output is invalid.
+Now you’ll stop getting “textbook paragraph” as the main output.
+Validation fix (second)
+Add checks like:
+hasLabel("Recognition cues")
+hasLabel("Red flags")
+hasLabel("First actions")
+hasLabel("Exam traps")
+hasTableLabel("Don’t confuse with")
+Fail the section if missing any label.
+This makes “exam cram” deterministic.
+Quick assessment of the “gotcha fixes” you claimed
+You said:
+list detection items-based ✅ (good)
+table qualification adds cell char minimum ✅ (good)
+decision verb counting scans all text ✅ (good)
+pharmacology keywords expanded ✅ (fine)
+Those are all correct design choices. The only thing missing is: show the actual diff, because “Above” isn’t verifiable.
+What I need from you (minimum) to confirm code correctness
+Paste the actual diff hunk for validateSection (just that function) from server/routes.ts. Nothing else.
+If you can’t easily get it, paste the function body as plain text.
+Then I can tell you:
+whether your counting logic will miscount tables/lists
+whether rows.flat() will explode if rows are objects
+whether decision verb matching is too permissive or too strict
+whether your “shape contract” can be bypassed
+Bottom line
+You’re past the “no information appears” phase. The system is now producing content.
+The new problem is: it’s producing content the student won’t pay for.
+The fastest way to fix that is not more thresholds; it’s semantic block requirements (Recognition cues / Red flags / First actions / Exam traps / Differential).
+If you want, I can write the exact prompt + validator rules for each section type (Patho / Pharm / Assessment / Interventions) so every generated section looks like an exam cram sheet by default.

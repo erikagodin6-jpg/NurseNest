@@ -893,6 +893,12 @@ Heart failure, ACS/MI, COPD exacerbation vs asthma, pneumonia, sepsis, hypo/hype
 - Any response with only headings, empty blocks, or placeholder text is INVALID and will be rejected.
 - Every paragraph must contain a specific clinical fact, lab value, drug name, or nursing action.
 - Do NOT use filler phrases like "further assessment needed" or "consult physician" without specifics.
+- This section MUST include blocks with these EXACT labels (in heading text, callout title, or table caption). Missing any = INVALID:
+  * "Recognition Cues" (bullets/checklist: "If you see X, think Y")
+  * "Red Flags" (callout with critical findings requiring immediate action)
+  * "First Actions" (steps/bullets: prioritized nursing interventions)
+  * "Exam Traps" (callout/bullets: common distractors and why they are wrong)
+  * "Don't Confuse With" or a differential/comparison table
 Return JSON only. No markdown.`;
 
         const buildSectionUserPrompt = (sec: { id: string; label: string; budget: number }) => {
@@ -971,6 +977,15 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
 
         const DECISION_VERBS = /\b(assess|reassess|monitor|escalate|notify|call|hold|administer|titrate|position|recheck|prioritize|elevate|auscultate|document|intervene|delegate|suction|discontinue)\b/gi;
 
+        const REQUIRED_LABELS: Record<string, string[]> = {
+          "pathophysiology": ["recognition cue", "red flag", "first action", "exam trap", "don't confuse"],
+          "pharmacology": ["recognition cue", "red flag", "exam trap", "hold", "monitor"],
+          "medications": ["recognition cue", "red flag", "exam trap", "hold", "monitor"],
+          "interventions": ["recognition cue", "red flag", "first action", "exam trap"],
+          "assessment": ["recognition cue", "red flag", "first action", "exam trap"],
+          "complications": ["recognition cue", "red flag", "first action", "exam trap", "don't confuse"],
+        };
+
         const SECTION_SHAPE_CONTRACTS: Record<string, { listBlocks?: number; listItems?: number; tableBlocks?: number; tableRows?: number; calloutBlocks?: number; calloutChars?: number; calloutKeywords?: string[] }> = {
           "pathophysiology": { listBlocks: 2, listItems: 5, tableBlocks: 1, tableRows: 3, calloutBlocks: 2, calloutChars: 80 },
           "pharmacology": { listBlocks: 1, listItems: 6, tableBlocks: 1, tableRows: 4, calloutBlocks: 1, calloutChars: 80, calloutKeywords: ["hold", "monitor", "contraindic", "do not give"] },
@@ -991,6 +1006,7 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
           let qualifiedTableBlocks = 0;
           let qualifiedCalloutBlocks = 0;
           const calloutTexts: string[] = [];
+          const allLabels: string[] = [];
           for (const b of blocks) {
             const text = (b.text || b.body || b.content || b.caption || "").toString();
             const items = Array.isArray(b.items) ? b.items : [];
@@ -1002,6 +1018,8 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
             const blockChars = text.length + itemChars + rowChars;
             totalChars += blockChars;
             allText += " " + text + " " + itemStr + " " + rowStr;
+            const blockLabel = ((b.title || "") + " " + (b.text || "") + " " + (b.caption || "") + " " + (b.label || "")).toLowerCase();
+            allLabels.push(blockLabel);
             const kind = (b.kind || b.type || "").toLowerCase();
             if (!NON_SUBSTANTIVE_KINDS.has(kind)) {
               meaningfulChars += blockChars;
@@ -1051,7 +1069,18 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
               if (missing.length > 0) reasons.push(`missing_callout_keywords: callouts missing required terms: ${missing.join(", ")}`);
             }
           }
-          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6 && decisionVerbCount >= 12;
+          const labelKey = Object.keys(REQUIRED_LABELS).find(k => sid.includes(k));
+          let missingLabels = 0;
+          if (labelKey) {
+            const required = REQUIRED_LABELS[labelKey];
+            const joinedLabels = allLabels.join(" ||| ");
+            const missing = required.filter(lbl => !joinedLabels.includes(lbl));
+            if (missing.length > 0) {
+              missingLabels = missing.length;
+              reasons.push(`missing_semantic_labels: section "${labelKey}" missing required exam-cram labels: ${missing.join(", ")}. Each section must include blocks labeled with these terms.`);
+            }
+          }
+          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6 && decisionVerbCount >= 12 && missingLabels === 0;
           return { pass, blocks: blocks.length, chars: totalChars, substantive: substantiveCount, reasons };
         };
 
@@ -1067,12 +1096,12 @@ RULES FOR REPAIR:
 - Include at least 2 bullets/checklist blocks with >= 5 specific items each.
 - Total character count must be >= 800.
 
-EXAM-CRAM REQUIRED CONTENT (include ALL):
-- Recognition cues: "If you see X -> think Y" (bullets with specific signs/labs -> condition)
-- Red flags: warning callout with critical findings requiring immediate action
-- First actions in order: steps/bullets with prioritized nursing interventions (ABCs, then...)
-- Exam traps: trap callout with common distractors and why they are wrong
-- At least 1 comparison table ("Don't confuse X with Y")
+EXAM-CRAM REQUIRED LABELED BLOCKS (use these EXACT labels in heading text, callout title, or table caption -- ALL are mandatory):
+- "Recognition Cues": bullets/checklist "If you see X -> think Y" (specific signs/labs -> condition)
+- "Red Flags": warning callout with critical findings requiring immediate action
+- "First Actions": steps/bullets with prioritized nursing interventions (ABCs, then...)
+- "Exam Traps": trap callout with common distractors and why they are wrong
+- "Don't Confuse With": comparison table with differential diagnosis (>= 3 rows)
 - Mini case: clinical_pearl callout with 4-6 line patient scenario (age, vitals, labs, question)
 
 USE DECISION VERBS: assess, monitor, hold, administer, titrate, position, prioritize, escalate, notify, auscultate, intervene, delegate, document, recheck, discontinue.
