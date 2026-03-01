@@ -52,3 +52,4 @@ integrations = ["stripe:2.0.0", "javascript_openai_ai_integrations:2.0.0", "java
 
 [userenv.shared]
 SITE_URL = "https://www.nursenest.ca"
+ENABLE_AI_AUTOGEN = "true"

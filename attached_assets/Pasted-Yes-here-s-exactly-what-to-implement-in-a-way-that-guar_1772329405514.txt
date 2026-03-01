@@ -1,0 +1,151 @@
+Yes — here’s exactly what to implement, in a way that guarantees:
+The Store page has a clear “Open Product Generator” link/button
+The Create Product button routes into the generator (instead of a form flow)
+The AI Safety toggle no longer blocks admins (and gives a real error reason if blocked)
+Bundles automatically get beautiful, brand-safe default title pages (cover + chapter covers)
+Below are two options: a single Replit-AI prompt (recommended), plus backup code snippets you can paste if needed.
+1) One Replit AI Prompt to Implement Everything
+Copy/paste this as-is:
+Implement the following UX + generator fixes:
+
+A) Add navigation links to Product Generator
+1) On the public Store page, add a prominent button near the top: "Create a Product" (admin-only) and "Open Product Generator" (admin-only).
+   - If user is not admin, do not show these buttons.
+2) On the admin Store/Product management page, make the existing "Create Product" button route to the Product Generator instead of the old create form.
+3) Add deep-link support:
+   - /admin/product-generator
+   - /admin/product-generator?type=bundle
+   - /admin/product-generator?type=cram
+   - /admin/product-generator?type=question-pack
+   - /admin/product-generator?type=cheat-sheet
+   When these query params exist, the generator should preselect the correct template/preset.
+
+B) Fix AI Error: "AI generation is disabled. Enable it from Admin > AI Safety."
+1) Locate the server-side guard that returns this error.
+2) Change the logic so:
+   - Admins ALWAYS bypass the AI disabled toggle (admins can generate even if disabled).
+   - Non-admin users respect the toggle and quotas.
+3) Update responses to return structured errors:
+   { code: "AI_DISABLED" | "AI_QUOTA" | "AI_RATE_LIMIT", message: "...", details: {...} }
+4) Update the generator UI to show AI status and reason if blocked.
+   - Show: enabled true/false, daily usage, quota remaining, model name
+
+C) Default beautiful title pages for bundles (brand appropriate)
+1) Implement a reusable "generateStyledCoverPage" function using Brand Kit:
+   - gradient background (2-3 stops)
+   - subtle rounded abstract shapes layer
+   - optional leaf watermark with opacity (default 10-15%)
+   - logo placement toggle
+   - title + subtitle auto-fit (no overflow)
+2) When creating a bundle product:
+   - Always prepend a Cover Page using generateStyledCoverPage
+   - Auto-insert chapter title pages before each bundle item (mini covers)
+   - Auto-generate a Table of Contents page with clickable internal links in exported PDF (if supported)
+3) Add cover presets in Brand Kit:
+   - Soft Pastel
+   - Clinical Minimal
+   - Bold Exam Focus
+   - Neutral Academic
+   Each preset maps to template settings: gradients, shape density, typography scale.
+
+D) Quality-of-life
+1) If autoStoreReady is enabled, automatically run makeStoreReady after successful AI generation.
+2) Ensure the Store-Ready pipeline runs without requiring manual drag/drop.
+
+Deliverables:
+- routing changes complete
+- UI buttons added
+- generator deep-link preselect works
+- AI error fixed for admin + better error reporting
+- bundle cover pages + chapter covers generated automatically using Brand Kit presets
+That one prompt covers everything you asked.
+2) Backup: Exact Code Patterns (if Replit AI needs help)
+A) Add “Open Product Generator” from Store + Create Product button
+If you’re using Wouter (you mentioned it previously), this is the common pattern:
+Store page (admin-only button)
+import { Link } from "wouter";
+import { useAuth } from "@/hooks/useAuth"; // whatever your auth hook is
+
+export function StorePage() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
+
+  return (
+    <div>
+      {/* existing store UI */}
+
+      {isAdmin && (
+        <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+          <Link href="/admin/product-generator">
+            <button>Open Product Generator</button>
+          </Link>
+
+          <Link href="/admin/product-generator?type=bundle">
+            <button>Create Product</button>
+          </Link>
+        </div>
+      )}
+
+      {/* rest of page */}
+    </div>
+  );
+}
+“Create Product” button in admin store/product list
+Wherever you currently do “Create Product”, replace the handler with:
+import { Link } from "wouter";
+
+<Link href="/admin/product-generator">
+  <button>Create Product</button>
+</Link>
+B) Generator deep-link preselect via query param
+In your generator page:
+import { useLocation } from "wouter";
+
+function getQueryType(search: string) {
+  const params = new URLSearchParams(search || "");
+  return params.get("type"); // bundle / cram / question-pack / cheat-sheet
+}
+
+export function ProductGeneratorPage() {
+  const [location] = useLocation();
+  const search = location.includes("?") ? location.split("?")[1] : "";
+  const type = getQueryType(search);
+
+  // on mount, preselect template
+  useEffect(() => {
+    if (!type) return;
+    setSelectedTemplate(type);
+  }, [type]);
+
+  // ...
+}
+C) Fix AI disabled so admins bypass
+On your server AI route guard, change from:
+if (!aiEnabled) return res.status(403).json({ error: "AI generation is disabled..." });
+To:
+const isAdmin = req.user?.role === "admin";
+
+if (!isAdmin && !aiEnabled) {
+  return res.status(403).json({
+    code: "AI_DISABLED",
+    message: "AI generation is currently disabled.",
+    details: { aiEnabled }
+  });
+}
+Also make sure the UI reads /api/admin/ai-config (or equivalent) and shows status.
+D) Default bundle cover pages
+When “Create bundle” happens, do:
+pages.unshift(generateStyledCoverPage(...))
+For each bundle chapter: insert generateStyledCoverPage({ variant: "chapter", ... })
+Even if your internal model isn’t “pages”, the key is: always inject the cover blocks before export/store-ready.
+What you should see after this is done
+Store page (admin) shows:
+Open Product Generator
+Create Product (deep-links to bundle or last-used type)
+“Create Product” everywhere routes into the generator
+AI error disappears for you as admin; if blocked for non-admin, it explains why
+Bundles always look premium:
+Cover page
+Chapter mini-covers
+Consistent brand preset
+If you want, paste your current routes file (the one that defines /store, /admin/store, /admin/products, /admin/product-generator) and I’ll give you the exact diff-style changes tailored to your structure.

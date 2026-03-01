@@ -1,0 +1,223 @@
+Perfect — here’s the fully-automated “store-ready publishing engine” plan, with copy/paste prompts you can give Replit AI to implement it end-to-end.
+What you’re building
+A pipeline where you click Generate → Store-Ready → Publish, and the system automatically:
+Generates content (AI or template)
+Auto-paginates across pages
+Auto-applies brand layout (cover + section dividers + footer)
+Auto-resizes text (no overflow)
+Exports:
+Print PDF
+Web PDF
+Store thumbnail(s)
+3D mockup image
+Social promo images (IG square + story)
+Creates a polished store listing (title, description, bullets, SEO tags)
+1) Immediate Fix: AI Disabled (Admin > AI Safety)
+Replit AI prompt (copy/paste)
+Fix AI generation being blocked by Admin > AI Safety.
+
+Requirements:
+1) Find the check that returns: "AI generation is disabled. Enable it from Admin > AI Safety."
+2) Change it from a hard global disable into role-based + quota-based controls:
+   - Admin role: always allowed (bypasses quotas and safety disable).
+   - Non-admin: respects AI enabled toggle + daily quota + per-minute rate limit.
+3) In Admin > AI Safety, implement:
+   - Toggle: AI Enabled (default true for admins)
+   - Daily token budget (default 200k)
+   - Per-user daily generations (default 10)
+   - Per-minute rate limit (default 3/min)
+   - Logging: store each AI call with userId, endpoint, tokens, timestamp, success/failure
+4) Update the backend to return descriptive JSON errors with a code field:
+   { code: "AI_DISABLED" | "AI_QUOTA_EXCEEDED" | "AI_RATE_LIMIT", message: "...", details: {...} }
+5) Update the UI to show current AI status and usage so the admin can see why something is blocked.
+6) Ensure the Product Generator uses the correct AI endpoint and does not silently fail.
+2) Add Default Beautiful Title Pages for Each Bundle (Brand Templates)
+You want automatic cover pages that look premium without any manual effort.
+Core feature
+A Cover Page Generator that runs every time a bundle is created.
+Uses your Brand Kit: logo, fonts, color palette, gradient presets.
+Has preset styles you can switch in one click.
+Replit AI prompt (copy/paste)
+Implement automatic brand-appropriate cover/title pages for bundles and all multi-page products.
+
+Requirements:
+1) On bundle creation, automatically prepend a Cover Page (Page 1).
+2) Cover Page layout must be generated from a template system:
+   - background: soft gradient from Brand Kit (2-3 stops)
+   - layered abstract rounded shapes (3-6 shapes) with low opacity
+   - optional leaf watermark layer with opacity slider (default 10-15%)
+   - logo placement: top center or bottom center (toggle)
+   - title: large bold, auto-fit
+   - subtitle: smaller, auto-fit
+   - footer: "NurseNest" + URL + edition date (auto)
+3) Add preset selector (per product):
+   - Soft Pastel
+   - Clinical Minimal
+   - Bold Exam Focus
+   - Neutral Academic
+Each preset maps to a template config: colors, shapes density, fonts, spacing.
+4) Cover page should pull:
+   - productTitle
+   - tier tags: REx-PN / NCLEX-PN / RN / NP / Pre-Nursing
+   - region tag: CA / US
+   - optional course tag: Anatomy, Cardiac, Respiratory, etc.
+5) The cover page is locked structurally, but title/subtitle text is editable.
+6) Store the cover template config in the product record so it reproduces consistently.
+3) The “Store-Ready One Click Pipeline” Button
+This is the single best automation lever. One button runs cleanup + polish + export.
+What it should do (in order)
+Normalize spacing/margins
+Apply brand header/footer on each page
+Auto-paginate overflowing blocks
+Auto-fit text
+Insert section divider pages
+Generate thumbnails + mockups
+Build store listing copy
+Export files and attach to product
+Replit AI prompt (copy/paste)
+Add a "Store-Ready" one-click pipeline for the Product Generator.
+
+Add a button: "Make Store-Ready" that runs this pipeline:
+
+Pipeline steps:
+1) Audit:
+   - detect overflow blocks
+   - detect missing cover page
+   - detect missing headers/footers
+   - detect inconsistent fonts/colors
+2) Fix:
+   - ensure cover page exists (generate if missing)
+   - add page header/footer template to all pages (except cover)
+   - apply consistent margins and baseline grid spacing
+   - run auto-pagination: if content block overflows, split across pages automatically
+   - run text autofit: reduce font size down to min, or expand box; never overflow
+3) Beautify:
+   - insert "Section Divider" pages between major sections (auto)
+   - add subtle background pattern/watermark to internal pages (optional)
+   - ensure consistent typography scale (H1/H2/body/caption)
+4) Outputs:
+   - export Print PDF (300dpi, margins, bleed optional)
+   - export Web PDF (optimized)
+   - generate store thumbnail (square 1:1)
+   - generate cover image (portrait 4:5)
+   - generate IG story promo (9:16)
+   - generate 3D book mockup image from cover
+5) Listing:
+   - auto-generate store title, subtitle, short description, long description, bullet features, what's included, and SEO keywords/tags
+6) Save:
+   - attach generated assets to product record
+   - show a results panel with links to downloads and preview
+
+All steps must be deterministic and repeatable, and should complete without manual drag/drop.
+4) Make It “Atomized” Instead of Asking You to Type Everything
+You said earlier you hate the “fill a form” vibe. You want drag/drop + building blocks.
+The right approach
+Turn your generator into a block-based system:
+Cover Block
+Learning Objectives Block
+Quick Concepts Block
+Pathophysiology Block
+Labs & Diagnostics Block
+Medications Block
+Nursing Interventions Block
+Clinical Pearls Block
+Practice Questions Block
+Answer Key + Rationales Block
+You choose blocks → AI fills content → layout engine styles it → pipeline exports it.
+Replit AI prompt (copy/paste)
+Refactor the Product Generator to be block-based and atomized.
+
+Requirements:
+1) Replace the "input everything" workflow with a drag-and-drop block library:
+   Blocks:
+   - Cover Page
+   - Table of Contents
+   - Learning Objectives
+   - Key Concepts / Quick Hits
+   - Pathophysiology
+   - Signs & Symptoms
+   - Assessment Findings
+   - Labs/Diagnostics
+   - Treatment & Medications
+   - Nursing Interventions
+   - Complications
+   - Patient Teaching
+   - Clinical Pearls
+   - Exam Tips (REx-PN/NCLEX)
+   - Practice Questions
+   - Rationales
+   - Summary One-Pager
+2) Each block has:
+   - structured fields (topic, audience, region, tier, length)
+   - "Generate with AI" button (per-block)
+   - "Regenerate" + "Tone" + "Depth" controls
+3) Layout engine should automatically style blocks using Brand Kit typography and spacing.
+4) Add block presets for common products:
+   - Cram Guide preset (default blocks)
+   - Question Pack preset
+   - Study Plan preset
+5) Blocks must auto-paginate when they exceed page bounds.
+5) Automatic Bundles + Default Title Pages for Each Bundle Item
+When you sell bundles, every included item should look consistent.
+Example: “Electrolytes Bundle”
+Cover
+Hyperkalemia sheet
+Hypokalemia sheet
+ABG guide
+Practice pack
+Each should get a mini-cover automatically.
+Replit AI prompt (copy/paste)
+Implement bundle structure with automatic mini-title pages per included item.
+
+Requirements:
+1) A bundle contains multiple "chapters/items" (PDF sections).
+2) Each chapter begins with an auto-generated mini-cover page:
+   - chapter title
+   - 1-line purpose
+   - icon/shape accent
+   - consistent branding
+3) Bundle TOC is auto-generated and clickable in exported PDFs.
+4) Chapter pages inherit the same header/footer template.
+6) Auto-Generated Store Copy That Converts
+Your store listings should write themselves (consistent voice, exam-focused).
+Replit AI prompt (copy/paste)
+Auto-generate store listing copy for each product (and allow editing).
+
+Fields to generate:
+- Product title (SEO optimized, not spammy)
+- Subtitle
+- Short description (1-2 lines)
+- Long description (sections: Who it's for, What's inside, Why it works, How to use)
+- Feature bullets (6-10)
+- What's included (page count estimate, sections, question count)
+- Tags/keywords (15-25)
+- FAQ (5 questions)
+- Disclaimer
+
+Use tier + region rules:
+- CA products emphasize REx-PN/RN Canadian context
+- US products emphasize NCLEX context
+- NP can include both
+What you’ll end up with (your workflow)
+You’ll be able to:
+Pick product type (Cram Guide / Cheat Sheet / Question Pack / Study Plan)
+Pick topic + tier + region
+Blocks auto-load
+Click “Generate”
+Click “Make Store-Ready”
+Click “Publish”
+And it produces a polished, branded, sellable product every time.
+If you want the “maximum automation” mode
+Add a toggle:
+Auto-Run Store-Ready After Generate ✅
+So generating instantly outputs the final assets without extra clicks.
+If you want that, use this prompt too:
+Add an option: "Auto-run Store-Ready after Generate" (default ON for admin).
+When AI generation completes, automatically run the Store-Ready pipeline and attach exports.
+If you paste these prompts into Replit AI in this order:
+AI Safety fix
+Cover template system
+Store-ready pipeline
+Block-based atomization
+Bundle mini-covers + TOC
+Store listing generator

@@ -207,6 +207,192 @@ function getTheme(id: string): ThemeConfig {
   return THEMES.find(t => t.id === id) || THEMES[0];
 }
 
+function generateCoverPage(w: number, h: number, t: ThemeConfig, opts: {
+  title?: string; subtitle?: string; examTarget?: string; badges?: string[];
+  includesFlashcards?: boolean; includesQbank?: boolean; pageCount?: number;
+} = {}): CanvasObject[] {
+  const title = opts.title || "STUDY GUIDE";
+  const subtitle = opts.subtitle || "High-Yield Review";
+  const exam = opts.examTarget || "";
+  const badges = opts.badges || [];
+  const year = new Date().getFullYear();
+  const objs: CanvasObject[] = [];
+  let z = 0;
+
+  objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+
+  objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h * 0.4, fill: t.coverBgOverlay, rotation: 0, opacity: 0.3, zIndex: z++, borderRadius: 0 });
+
+  objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.38, width: w, height: 3, fill: t.accentColor, rotation: 0, opacity: 0.8, zIndex: z++ });
+
+  objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.06, width: w * 0.84, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.15, zIndex: z++, borderRadius: 16, stroke: "#ffffff", strokeWidth: 1 });
+
+  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.12, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+
+  objs.push({ id: uid(), type: "text", x: 36, y: h * 0.22, width: w - 72, height: 60, content: title.toUpperCase(), fontSize: 36, fontWeight: "bold", fill: "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+
+  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.33, width: w - 92, height: 24, content: subtitle, fontSize: 15, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.75, zIndex: z++, textAlign: "center" });
+
+  const chipY = h * 0.44;
+  const allChips = [];
+  if (exam) allChips.push(exam);
+  allChips.push(`Updated ${year}`);
+  if (opts.includesFlashcards) allChips.push("Flashcards");
+  if (opts.includesQbank) allChips.push("QBank");
+  if (opts.pageCount) allChips.push(`${opts.pageCount} Pages`);
+  allChips.push(...badges);
+
+  const chipW = 100;
+  const chipGap = 8;
+  const totalChipW = allChips.length * chipW + (allChips.length - 1) * chipGap;
+  const chipStartX = (w - totalChipW) / 2;
+
+  allChips.forEach((label, i) => {
+    const cx = chipStartX + i * (chipW + chipGap);
+    objs.push({ id: uid(), type: "rect", x: cx, y: chipY, width: chipW, height: 24, fill: i === 0 ? t.accentColor : t.primaryColor + "33", borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: cx + 4, y: chipY + 4, width: chipW - 8, height: 16, content: label, fontSize: 9, fontWeight: "bold", fill: i === 0 ? "#ffffff" : "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: i === 0 ? 1 : 0.85, zIndex: z++, textAlign: "center" });
+  });
+
+  const featureY = h * 0.56;
+  const features = [
+    "High-yield content mapped to exam blueprints",
+    "Clinical pearls and red flags highlighted",
+    "Nursing-first language and prioritization focus",
+    "Designed for quick review before the exam",
+  ];
+  features.forEach((f, i) => {
+    objs.push({ id: uid(), type: "text", x: w * 0.15, y: featureY + i * 22, width: w * 0.7, height: 18, content: `✦  ${f}`, fontSize: 10, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "center" });
+  });
+
+  objs.push({ id: uid(), type: "rect", x: w * 0.25, y: h * 0.78, width: w * 0.5, height: 36, fill: t.accentColor, borderRadius: 18, rotation: 0, opacity: 1, zIndex: z++ });
+  objs.push({ id: uid(), type: "text", x: w * 0.25, y: h * 0.78 + 8, width: w * 0.5, height: 20, content: "INSTANT DOWNLOAD", fontSize: 12, fontWeight: "bold", fill: "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+
+  objs.push({ id: uid(), type: "text", x: 46, y: h - 50, width: w - 92, height: 14, content: `© ${year} NurseNest  •  For personal study use only`, fontSize: 8, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "center" });
+
+  return objs;
+}
+
+type CoverPreset = { id: string; name: string; bgStyle: "gradient" | "solid" | "split"; shapesDensity: number; titleWeight: string; };
+
+const COVER_PRESETS: CoverPreset[] = [
+  { id: "soft-pastel", name: "Soft Pastel", bgStyle: "gradient", shapesDensity: 4, titleWeight: "bold" },
+  { id: "clinical-minimal", name: "Clinical Minimal", bgStyle: "solid", shapesDensity: 1, titleWeight: "bold" },
+  { id: "bold-exam", name: "Bold Exam Focus", bgStyle: "split", shapesDensity: 2, titleWeight: "bold" },
+  { id: "neutral-academic", name: "Neutral Academic", bgStyle: "solid", shapesDensity: 0, titleWeight: "600" },
+];
+
+function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: CoverPreset, opts: {
+  title?: string; subtitle?: string; examTarget?: string; badges?: string[];
+  includesFlashcards?: boolean; includesQbank?: boolean; pageCount?: number;
+} = {}): CanvasObject[] {
+  const title = opts.title || "STUDY GUIDE";
+  const subtitle = opts.subtitle || "High-Yield Review";
+  const exam = opts.examTarget || "";
+  const year = new Date().getFullYear();
+  const objs: CanvasObject[] = [];
+  let z = 0;
+
+  if (preset.bgStyle === "gradient") {
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h * 0.55, fill: t.coverBgOverlay, rotation: 0, opacity: 0.25, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.55, width: w, height: h * 0.45, fill: t.primaryColor, rotation: 0, opacity: 0.15, zIndex: z++, borderRadius: 0 });
+  } else if (preset.bgStyle === "split") {
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h * 0.45, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.45, width: w, height: h * 0.55, fill: t.accentColor, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.44, width: w, height: 6, fill: "#ffffff", rotation: 0, opacity: 0.3, zIndex: z++ });
+  } else {
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: t.coverBg, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+  }
+
+  for (let s = 0; s < preset.shapesDensity; s++) {
+    const shapeX = Math.random() * w * 0.6 + w * 0.2;
+    const shapeY = Math.random() * h * 0.4;
+    const shapeSize = 40 + Math.random() * 80;
+    objs.push({ id: uid(), type: "circle", x: shapeX, y: shapeY, width: shapeSize, height: shapeSize, fill: t.accentColor, rotation: 0, opacity: 0.06 + Math.random() * 0.06, zIndex: z++, borderRadius: 0 });
+  }
+
+  if (preset.bgStyle !== "split") {
+    objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.42, width: w, height: 3, fill: t.accentColor, rotation: 0, opacity: 0.7, zIndex: z++ });
+  }
+
+  objs.push({ id: uid(), type: "rect", x: w * 0.08, y: h * 0.06, width: w * 0.84, height: h * 0.88, fill: "transparent", rotation: 0, opacity: 0.12, zIndex: z++, borderRadius: 16, stroke: "#ffffff", strokeWidth: 1 });
+
+  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.10, width: w - 92, height: 16, content: "NurseNest", fontSize: 12, fontWeight: "bold", fill: t.accentColor, fontFamily: t.headingFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center", tag: "brand-logo", locked: true });
+
+  const titleY = preset.bgStyle === "split" ? h * 0.18 : h * 0.20;
+  objs.push({ id: uid(), type: "text", x: 36, y: titleY, width: w - 72, height: 60, content: title.toUpperCase(), fontSize: preset.bgStyle === "bold-exam" ? 40 : 34, fontWeight: preset.titleWeight, fill: "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+
+  objs.push({ id: uid(), type: "text", x: 46, y: titleY + 65, width: w - 92, height: 24, content: subtitle, fontSize: 15, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.75, zIndex: z++, textAlign: "center" });
+
+  const chipY = preset.bgStyle === "split" ? h * 0.50 : h * 0.46;
+  const allChips = [];
+  if (exam) allChips.push(exam);
+  allChips.push(`Updated ${year}`);
+  if (opts.includesFlashcards) allChips.push("Flashcards");
+  if (opts.includesQbank) allChips.push("QBank");
+  if (opts.pageCount) allChips.push(`${opts.pageCount} Pages`);
+  if (opts.badges) allChips.push(...opts.badges);
+
+  const chipW = 95;
+  const chipGap = 6;
+  const totalChipW = allChips.length * chipW + (allChips.length - 1) * chipGap;
+  const chipStartX = (w - totalChipW) / 2;
+
+  allChips.forEach((label, i) => {
+    const cx = chipStartX + i * (chipW + chipGap);
+    const chipFill = i === 0 ? t.accentColor : (preset.bgStyle === "split" ? "#ffffff33" : t.primaryColor + "33");
+    objs.push({ id: uid(), type: "rect", x: cx, y: chipY, width: chipW, height: 24, fill: chipFill, borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: cx + 4, y: chipY + 4, width: chipW - 8, height: 16, content: label, fontSize: 9, fontWeight: "bold", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "center" });
+  });
+
+  const featureY = preset.bgStyle === "split" ? h * 0.58 : h * 0.56;
+  const features = [
+    "High-yield content mapped to exam blueprints",
+    "Clinical pearls and red flags highlighted",
+    "Nursing-first language and prioritization focus",
+    "Designed for quick review before the exam",
+  ];
+  const featureColor = preset.bgStyle === "split" ? "#ffffff" : "#ffffff";
+  features.forEach((f, i) => {
+    objs.push({ id: uid(), type: "text", x: w * 0.12, y: featureY + i * 22, width: w * 0.76, height: 18, content: `✦  ${f}`, fontSize: 10, fontWeight: "normal", fill: featureColor, fontFamily: t.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "center" });
+  });
+
+  objs.push({ id: uid(), type: "rect", x: w * 0.25, y: h * 0.80, width: w * 0.5, height: 36, fill: preset.bgStyle === "split" ? "#ffffff" : t.accentColor, borderRadius: 18, rotation: 0, opacity: 1, zIndex: z++ });
+  objs.push({ id: uid(), type: "text", x: w * 0.25, y: h * 0.80 + 8, width: w * 0.5, height: 20, content: "INSTANT DOWNLOAD", fontSize: 12, fontWeight: "bold", fill: preset.bgStyle === "split" ? t.coverBg : "#ffffff", fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+
+  objs.push({ id: uid(), type: "text", x: 46, y: h - 46, width: w - 92, height: 14, content: `© ${year} NurseNest  •  For personal study use only`, fontSize: 8, fontWeight: "normal", fill: "#ffffff", fontFamily: t.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "center" });
+
+  return objs;
+}
+
+const CONTENT_BLOCK_LIBRARY = [
+  { id: "cover", label: "Cover Page", icon: "BookOpen", category: "structure" },
+  { id: "toc", label: "Table of Contents", icon: "FileText", category: "structure" },
+  { id: "section-divider", label: "Section Divider", icon: "LayoutTemplate", category: "structure" },
+  { id: "learning-objectives", label: "Learning Objectives", icon: "Target", category: "content" },
+  { id: "key-concepts", label: "Key Concepts / Quick Hits", icon: "Zap", category: "content" },
+  { id: "pathophysiology", label: "Pathophysiology", icon: "Brain", category: "content" },
+  { id: "signs-symptoms", label: "Signs & Symptoms", icon: "AlertTriangle", category: "content" },
+  { id: "assessment", label: "Assessment Findings", icon: "ClipboardCheck", category: "content" },
+  { id: "labs-diagnostics", label: "Labs / Diagnostics", icon: "Grid3X3", category: "content" },
+  { id: "medications", label: "Treatment & Medications", icon: "Sparkles", category: "content" },
+  { id: "nursing-interventions", label: "Nursing Interventions", icon: "Shield", category: "content" },
+  { id: "complications", label: "Complications", icon: "AlertTriangle", category: "clinical" },
+  { id: "patient-teaching", label: "Patient Teaching", icon: "BookOpen", category: "clinical" },
+  { id: "clinical-pearls", label: "Clinical Pearls", icon: "Star", category: "clinical" },
+  { id: "exam-tips", label: "Exam Tips", icon: "Award", category: "clinical" },
+  { id: "practice-questions", label: "Practice Questions", icon: "ClipboardCheck", category: "assessment" },
+  { id: "rationales", label: "Rationales", icon: "Brain", category: "assessment" },
+  { id: "summary", label: "Summary One-Pager", icon: "FileText", category: "assessment" },
+];
+
+const PRODUCT_PRESETS: { id: string; label: string; blocks: string[] }[] = [
+  { id: "cram-guide", label: "Cram Guide", blocks: ["cover", "toc", "learning-objectives", "key-concepts", "pathophysiology", "signs-symptoms", "medications", "nursing-interventions", "clinical-pearls", "exam-tips", "practice-questions", "rationales", "summary"] },
+  { id: "question-pack", label: "Question Pack", blocks: ["cover", "practice-questions", "rationales"] },
+  { id: "study-plan", label: "Study Plan", blocks: ["cover", "toc", "learning-objectives", "key-concepts", "assessment", "labs-diagnostics", "medications", "clinical-pearls", "summary"] },
+  { id: "quick-reference", label: "Quick Reference", blocks: ["cover", "key-concepts", "labs-diagnostics", "medications", "nursing-interventions", "clinical-pearls"] },
+];
+
 const BRAND = {
   primary: "#7c3aed",
   secondary: "#06b6d4",
@@ -328,15 +514,7 @@ const PAGE_TEMPLATES: { label: string; icon: any; generate: (w: number, h: numbe
   {
     label: "Cover Page",
     icon: BookOpen,
-    generate: (w, h) => [
-      { id: uid(), type: "rect" as const, x: 0, y: 0, width: w, height: h, fill: "#7c3aed", rotation: 0, opacity: 1, zIndex: 0, borderRadius: 0 },
-      { id: uid(), type: "rect" as const, x: 0, y: h * 0.65, width: w, height: h * 0.35, fill: "#6d28d9", rotation: 0, opacity: 0.6, zIndex: 1, borderRadius: 0 },
-      { id: uid(), type: "text" as const, x: 46, y: 180, width: w - 92, height: 60, content: "CRAM GUIDE", fontSize: 42, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", rotation: 0, opacity: 1, zIndex: 2, textAlign: "center" },
-      { id: uid(), type: "text" as const, x: 46, y: 260, width: w - 92, height: 30, content: "Subtitle Goes Here", fontSize: 18, fontWeight: "normal", fill: "#e0d5f5", fontFamily: "Inter", rotation: 0, opacity: 1, zIndex: 3, textAlign: "center" },
-      { id: uid(), type: "rect" as const, x: w / 2 - 90, y: 320, width: 180, height: 28, fill: "#f59e0b", borderRadius: 14, rotation: 0, opacity: 1, zIndex: 4 },
-      { id: uid(), type: "text" as const, x: w / 2 - 80, y: 324, width: 160, height: 20, content: `Updated ${new Date().getFullYear()}`, fontSize: 11, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", rotation: 0, opacity: 1, zIndex: 5, textAlign: "center" },
-      { id: uid(), type: "text" as const, x: 46, y: h - 100, width: w - 92, height: 20, content: "NurseNest", fontSize: 14, fontWeight: "bold", fill: "#ffffff", fontFamily: "Inter", rotation: 0, opacity: 0.7, zIndex: 6, textAlign: "center" },
-    ],
+    generate: (w, h) => generateCoverPage(w, h, getTheme("soft-clinical")),
   },
   {
     label: "Section Divider",
@@ -583,7 +761,7 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [brandVerified, setBrandVerified] = useState(false);
   const [activeThemeId, setActiveThemeId] = useState("soft-clinical");
   const [showLogo, setShowLogo] = useState(true);
-  const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | "imagelab" | "brand" | null>("tools");
+  const [leftPanel, setLeftPanel] = useState<"tools" | "components" | "templates" | "ai" | "imagelab" | "brand" | "blocks" | null>("tools");
   const [zoom, setZoom] = useState(85);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [aiTopic, setAiTopic] = useState("");
@@ -599,6 +777,9 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
   const [imgLoading, setImgLoading] = useState(false);
   const [imgResults, setImgResults] = useState<{ id: string; url: string }[]>([]);
   const [pageThumbs, setPageThumbs] = useState<Record<string, string>>({});
+  const [coverPresetId, setCoverPresetId] = useState("soft-pastel");
+  const [autoStoreReady, setAutoStoreReady] = useState(true);
+  const [aiStatus, setAiStatus] = useState<{ enabled: boolean; usage: { itemsGenerated: number; tokensUsed: number }; model: string } | null>(null);
 
   const theme = getTheme(activeThemeId);
   const themePalette = [
@@ -1051,6 +1232,67 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
     }
   };
 
+  const generateCoverForCurrentProject = (presetOverride?: string) => {
+    pushUndo();
+    const pid = presetOverride || coverPresetId;
+    const preset = COVER_PRESETS.find(p => p.id === pid) || COVER_PRESETS[0];
+    const coverObjs = generateStyledCoverPage(CANVAS_WIDTH, CANVAS_HEIGHT, theme, preset, {
+      title: project?.title || "Study Guide",
+      subtitle: `${EXAM_CONTEXT_MAP[aiExamTarget]?.label || "Nursing"} Review`,
+      examTarget: EXAM_CONTEXT_MAP[aiExamTarget]?.label || "",
+      badges: EXAM_CONTEXT_MAP[aiExamTarget]?.region === "CA" ? ["Canada"] : EXAM_CONTEXT_MAP[aiExamTarget]?.region === "US" ? ["USA"] : [],
+      pageCount: pages.length,
+    });
+    setObjects(coverObjs);
+    toast({ title: "Cover page generated", description: `${preset.name} preset applied` });
+  };
+
+  const insertBlockToCanvas = (blockId: string) => {
+    const block = CONTENT_BLOCK_LIBRARY.find(b => b.id === blockId);
+    if (!block) return;
+    if (blockId === "cover") {
+      generateCoverForCurrentProject();
+      return;
+    }
+    pushUndo();
+    const baseY = objects.length > 0 ? Math.max(...objects.map(o => o.y + o.height)) + 16 : MARGIN;
+    const contentWidth = CANVAS_WIDTH - MARGIN * 2;
+    const newObjs: CanvasObject[] = [];
+    let z = objects.length;
+
+    if (blockId === "section-divider") {
+      newObjs.push({ id: uid(), type: "rect", x: 0, y: baseY, width: CANVAS_WIDTH, height: 80, fill: theme.primaryColor, rotation: 0, opacity: 1, zIndex: z++, borderRadius: 0 });
+      newObjs.push({ id: uid(), type: "text", x: MARGIN, y: baseY + 20, width: contentWidth, height: 28, content: "SECTION TITLE", fontSize: 22, fontWeight: "bold", fill: "#ffffff", fontFamily: theme.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+      newObjs.push({ id: uid(), type: "text", x: MARGIN, y: baseY + 50, width: contentWidth, height: 18, content: "Subsection description", fontSize: 12, fontWeight: "normal", fill: "#ffffffcc", fontFamily: theme.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+    } else if (blockId === "toc") {
+      newObjs.push({ id: uid(), type: "rect", x: MARGIN, y: baseY, width: contentWidth, height: 200, fill: theme.sectionBg, stroke: theme.dividerColor, strokeWidth: 1, borderRadius: 12, rotation: 0, opacity: 1, zIndex: z++ });
+      newObjs.push({ id: uid(), type: "text", x: MARGIN + 16, y: baseY + 12, width: contentWidth - 32, height: 24, content: "TABLE OF CONTENTS", fontSize: 16, fontWeight: "bold", fill: theme.headingColor, fontFamily: theme.headingFont, rotation: 0, opacity: 1, zIndex: z++ });
+      newObjs.push({ id: uid(), type: "text", x: MARGIN + 16, y: baseY + 44, width: contentWidth - 32, height: 140, content: "1. Learning Objectives ........................ 3\n2. Key Concepts ............................... 5\n3. Pathophysiology ............................. 7\n4. Signs & Symptoms .......................... 9\n5. Medications ................................ 11\n6. Nursing Interventions ....................... 13\n7. Practice Questions ......................... 15", fontSize: 11, fontWeight: "normal", fill: theme.bodyColor, fontFamily: theme.bodyFont, rotation: 0, opacity: 1, zIndex: z++ });
+    } else {
+      newObjs.push({ id: uid(), type: "rect", x: MARGIN, y: baseY, width: contentWidth, height: 32, fill: theme.primaryColor, borderRadius: 8, rotation: 0, opacity: 1, zIndex: z++ });
+      newObjs.push({ id: uid(), type: "text", x: MARGIN + 12, y: baseY + 6, width: contentWidth - 24, height: 20, content: block.label.toUpperCase(), fontSize: 13, fontWeight: "bold", fill: "#ffffff", fontFamily: theme.headingFont, rotation: 0, opacity: 1, zIndex: z++ });
+      newObjs.push({ id: uid(), type: "rect", x: MARGIN, y: baseY + 40, width: contentWidth, height: 100, fill: theme.sectionBg, stroke: theme.dividerColor, strokeWidth: 1, borderRadius: 8, rotation: 0, opacity: 1, zIndex: z++ });
+      newObjs.push({ id: uid(), type: "text", x: MARGIN + 12, y: baseY + 50, width: contentWidth - 24, height: 80, content: `Content for ${block.label} will appear here.\nUse "Generate with AI" to auto-fill this section.`, fontSize: 11, fontWeight: "normal", fill: theme.bodyColor, fontFamily: theme.bodyFont, rotation: 0, opacity: 1, zIndex: z++ });
+    }
+
+    setObjects(prev => [...prev, ...newObjs]);
+    toast({ title: `${block.label} block added` });
+  };
+
+  const loadProductPreset = (presetId: string) => {
+    const preset = PRODUCT_PRESETS.find(p => p.id === presetId);
+    if (!preset) return;
+    if (objects.length > 0 && !confirm(`Replace current content with ${preset.label} preset? This loads ${preset.blocks.length} blocks.`)) return;
+    pushUndo();
+    setObjects([]);
+    setTimeout(() => {
+      preset.blocks.forEach((blockId, i) => {
+        setTimeout(() => insertBlockToCanvas(blockId), i * 50);
+      });
+    }, 100);
+    toast({ title: `${preset.label} preset loaded`, description: `${preset.blocks.length} blocks queued` });
+  };
+
   const applyBrandTypography = () => {
     pushUndo();
     setObjects(prev => prev.map(obj => {
@@ -1375,11 +1617,23 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
         setAiResult(data);
         toast({ title: "Bundle generated", description: "Canvas + flashcards + qbank + listing ready" });
       } else {
-        setAiResult(data.blocks || []);
-        toast({ title: "Content generated", description: `${(data.blocks || []).length} blocks ready to insert` });
+        const blocks = data.blocks || [];
+        setAiResult(blocks);
+        toast({ title: "Content generated", description: `${blocks.length} blocks ready to insert` });
+
+        if (autoStoreReady && blocks.length > 0) {
+          setTimeout(() => {
+            makeStoreReady();
+            toast({ title: "Auto Store-Ready complete", description: "Pipeline ran automatically after generation" });
+          }, 300);
+        }
       }
     } catch (e: any) {
-      toast({ title: "AI Error", description: e.message, variant: "destructive" });
+      const code = (e as any).code;
+      const desc = code === "AI_RATE_LIMIT" ? "Please wait a moment and try again."
+        : code === "AI_QUOTA_EXCEEDED" ? "Daily budget reached. Resets at midnight UTC."
+        : e.message;
+      toast({ title: "AI Error", description: desc, variant: "destructive" });
     } finally {
       setAiLoading(null);
     }
@@ -2151,13 +2405,33 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                     <p>Listing: {aiResult.listing?.title ? "Yes" : "No"}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-2 mt-2">
-                    <Button size="sm" className="h-7 text-[10px]" data-testid="button-insert-bundle-pages" onClick={() => {
+                    <Button size="sm" className="h-7 text-[10px]" data-testid="button-insert-bundle-pages" onClick={async () => {
                       const pagesPayload = aiResult.pages || [];
-                      if (pagesPayload.length === 0) return;
+                      const listing = aiResult.listing;
                       pushUndo();
-                      setObjects(pagesPayload[0]?.objects || []);
-                      toast({ title: "Inserted bundle page 1", description: `${pagesPayload.length} page(s) in bundle` });
-                    }}>Insert Pages</Button>
+                      const preset = COVER_PRESETS.find(p => p.id === coverPresetId) || COVER_PRESETS[0];
+                      const coverObjs = generateStyledCoverPage(CANVAS_WIDTH, CANVAS_HEIGHT, theme, preset, {
+                        title: listing?.title || project?.title || "Study Guide",
+                        subtitle: `${EXAM_CONTEXT_MAP[aiExamTarget]?.label || "Nursing"} Review`,
+                        examTarget: EXAM_CONTEXT_MAP[aiExamTarget]?.label || "",
+                        includesFlashcards: (aiResult.flashcards || []).length > 0,
+                        includesQbank: (aiResult.qbank || []).length > 0,
+                        pageCount: pagesPayload.length + 1,
+                      });
+                      setObjects(coverObjs);
+                      const bgColor = pages[currentPageIndex]?.backgroundColor || "#ffffff";
+                      let created = 0;
+                      for (const p of pagesPayload) {
+                        try {
+                          const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+                            method: "POST",
+                            body: { title: `Content Page ${created + 1}`, backgroundColor: bgColor, canvasJson: { objects: p.objects || [], version: "1.0" } },
+                          });
+                          if (res.ok) { const np = await res.json(); setPages(prev => [...prev, np]); created++; }
+                        } catch {}
+                      }
+                      toast({ title: "Bundle inserted with cover", description: `Cover + ${created} content page(s) created` });
+                    }}>Insert + Cover</Button>
                     <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-copy-listing" onClick={() => {
                       const listing = aiResult.listing;
                       if (!listing) return;
@@ -2334,6 +2608,59 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       );
     }
 
+    if (leftPanel === "blocks") {
+      const categories = [...new Set(CONTENT_BLOCK_LIBRARY.map(b => b.category))];
+      return (
+        <div className="w-72 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-blocks">
+          <div className="p-4 border-b">
+            <div className="flex items-center gap-2">
+              <Grid3X3 className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-gray-800">Content Blocks</span>
+            </div>
+            <p className="text-[11px] text-gray-500 mt-1">Click blocks to add structured sections to your page.</p>
+          </div>
+          <div className="p-4 space-y-4">
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Product Presets</span>
+              <div className="grid grid-cols-2 gap-2">
+                {PRODUCT_PRESETS.map(p => (
+                  <button
+                    key={p.id}
+                    onClick={() => loadProductPreset(p.id)}
+                    className="h-12 rounded-xl border hover:bg-primary/5 hover:border-primary/20 text-[10px] font-medium text-gray-600 transition flex flex-col items-center justify-center"
+                    data-testid={`button-preset-panel-${p.id}`}
+                  >
+                    <span className="font-semibold">{p.label}</span>
+                    <span className="text-[9px] text-gray-400">{p.blocks.length} blocks</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            {categories.map(cat => (
+              <div key={cat} className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+                <span className="text-xs font-semibold text-gray-700 block mb-2 capitalize">{cat}</span>
+                <div className="space-y-1">
+                  {CONTENT_BLOCK_LIBRARY.filter(b => b.category === cat).map(block => (
+                    <button
+                      key={block.id}
+                      onClick={() => insertBlockToCanvas(block.id)}
+                      className="w-full text-left px-3 py-2.5 rounded-xl border hover:bg-primary/5 hover:border-primary/20 text-[11px] font-medium text-gray-600 transition flex items-center gap-2.5"
+                      data-testid={`button-block-panel-${block.id}`}
+                    >
+                      <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                        <span className="text-[9px] text-primary font-bold">{block.label.charAt(0)}</span>
+                      </div>
+                      {block.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     if (leftPanel === "brand") {
       return (
         <div className="w-72 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-brand">
@@ -2359,6 +2686,24 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 ))}
               </div>
             </div>
+
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Cover Preset</span>
+              <div className="grid grid-cols-2 gap-2">
+                {COVER_PRESETS.map(p => (
+                  <button
+                    key={p.id}
+                    onClick={() => { setCoverPresetId(p.id); generateCoverForCurrentProject(p.id); }}
+                    className={`h-14 rounded-xl border text-[10px] font-medium transition flex flex-col items-center justify-center gap-1 ${coverPresetId === p.id ? "bg-primary/10 border-primary text-primary ring-1 ring-primary/20" : "hover:bg-gray-50 text-gray-600"}`}
+                    data-testid={`button-cover-preset-${p.id}`}
+                  >
+                    <div className="w-6 h-3 rounded-sm" style={{ background: p.bgStyle === "gradient" ? `linear-gradient(135deg, ${theme.coverBg}, ${theme.primaryColor})` : p.bgStyle === "split" ? `linear-gradient(180deg, ${theme.coverBg} 50%, ${theme.accentColor} 50%)` : theme.coverBg }} />
+                    {p.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-gray-700">Brand Lock</span>
@@ -2369,25 +2714,79 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
               </div>
               <p className="text-[11px] text-gray-500">Protects logo, limits colors/fonts for consistent output.</p>
             </div>
+
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Text Styles</span>
               <div className="grid grid-cols-2 gap-2">
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 24, fontWeight: "bold", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-heading">Heading</button>
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 14, fontWeight: "600", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-subheading">Subheading</button>
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 24, fontWeight: "bold", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-heading">H1 Heading</button>
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 16, fontWeight: "bold", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-h2">H2 Subhead</button>
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 14, fontWeight: "600", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-subheading">H3 Section</button>
                 <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 11, fontWeight: "normal", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-body">Body</button>
                 <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 9, fontWeight: "600", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-caption">Caption</button>
+                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 8, fontWeight: "normal", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-footnote">Footnote</button>
               </div>
             </div>
+
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Quick Actions</span>
               <div className="space-y-2">
                 <button className="w-full h-10 rounded-xl bg-primary text-white hover:bg-primary/90 text-xs font-semibold" onClick={makeStoreReady} data-testid="button-store-ready">Make Store-Ready</button>
+                <button className="w-full h-10 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 text-xs font-medium text-primary" onClick={() => generateCoverForCurrentProject()} data-testid="button-generate-cover">Generate Cover Page</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={beautifyPage} data-testid="button-brand-beautify">Beautify Layout</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={runDesignAudit} data-testid="button-brand-audit">{brandVerified ? "Re-Audit (Verified)" : "Run Design Audit"}</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyBrandTypography} data-testid="button-brand-fonts">Apply Theme Fonts</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyThemeToAllPages} data-testid="button-brand-apply-all">Apply to All Pages</button>
               </div>
             </div>
+
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-gray-700">Auto Store-Ready</span>
+                <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
+                  <input type="checkbox" checked={autoStoreReady} onChange={e => setAutoStoreReady(e.target.checked)} className="rounded" data-testid="checkbox-auto-store-ready" />
+                  {autoStoreReady ? "On" : "Off"}
+                </label>
+              </div>
+              <p className="text-[11px] text-gray-500">Auto-run Store-Ready after AI generation completes.</p>
+            </div>
+
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Block Library</span>
+              <p className="text-[10px] text-gray-400 mb-2">Click to add content blocks to your page.</p>
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {CONTENT_BLOCK_LIBRARY.map(block => (
+                  <button
+                    key={block.id}
+                    onClick={() => insertBlockToCanvas(block.id)}
+                    className="w-full text-left px-3 py-2 rounded-xl border hover:bg-primary/5 hover:border-primary/20 text-[10px] font-medium text-gray-600 transition flex items-center gap-2"
+                    data-testid={`button-block-${block.id}`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 shrink-0" />
+                    {block.label}
+                    <span className="ml-auto text-[9px] text-gray-300">{block.category}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
+              <span className="text-xs font-semibold text-gray-700 block mb-2">Product Presets</span>
+              <p className="text-[10px] text-gray-400 mb-2">One-click preset loads all blocks for a product type.</p>
+              <div className="space-y-1.5">
+                {PRODUCT_PRESETS.map(p => (
+                  <button
+                    key={p.id}
+                    onClick={() => loadProductPreset(p.id)}
+                    className="w-full h-9 rounded-xl border hover:bg-gray-50 text-[10px] font-medium text-gray-600 flex items-center justify-between px-3"
+                    data-testid={`button-preset-${p.id}`}
+                  >
+                    {p.label}
+                    <span className="text-[9px] text-gray-300">{p.blocks.length} blocks</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Layout Presets</span>
               <div className="space-y-2">
@@ -2396,6 +2795,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("hero-cards")} data-testid="button-layout-hero">Hero + Cards Layout</button>
               </div>
             </div>
+
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Text Autofit</span>
               <div className="space-y-2">
@@ -2404,6 +2804,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={highlightOverflows} data-testid="button-find-overflows">Find Overflows</button>
               </div>
             </div>
+
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
               <span className="text-xs font-semibold text-gray-700 block">Display</span>
               <label className="flex items-center gap-2 text-[11px] text-gray-600 cursor-pointer">
@@ -2418,6 +2819,27 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <input type="checkbox" checked={showGrid} onChange={e => setShowGrid(e.target.checked)} className="rounded" />
                 Grid overlay
               </label>
+            </div>
+
+            <div className="rounded-2xl border border-green-200 bg-gradient-to-br from-white to-green-50 p-4 shadow-sm space-y-1.5">
+              <span className="text-xs font-semibold text-gray-700 block">AI Status</span>
+              {aiStatus ? (
+                <>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${aiStatus.enabled ? "bg-green-500" : "bg-red-500"}`} />
+                    <span className="text-[10px] text-gray-600">{aiStatus.enabled ? "AI Enabled" : "AI Disabled"}</span>
+                  </div>
+                  <p className="text-[10px] text-gray-400">Model: {aiStatus.model}</p>
+                  <p className="text-[10px] text-gray-400">Today: {aiStatus.usage.itemsGenerated} items, {aiStatus.usage.tokensUsed.toLocaleString()} tokens</p>
+                </>
+              ) : (
+                <button onClick={async () => {
+                  try {
+                    const r = await adminFetch("/api/admin/ai-config");
+                    if (r.ok) setAiStatus(await r.json());
+                  } catch {}
+                }} className="text-[10px] text-primary hover:underline" data-testid="button-load-ai-status">Load AI status</button>
+              )}
             </div>
           </div>
         </div>
@@ -2479,6 +2901,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           {[
             { id: "templates", label: "Templates", icon: LayoutTemplate },
             { id: "components", label: "Elements", icon: Sparkles },
+            { id: "blocks", label: "Blocks", icon: Grid3X3 },
             { id: "ai", label: "AI", icon: Brain },
             { id: "imagelab", label: "Images", icon: ImagePlus },
             { id: "brand", label: "Brand", icon: SwatchBook },

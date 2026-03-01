@@ -201,8 +201,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { prompt, context, mode, contentId, examTarget } = req.body;
       if (!prompt) return res.status(400).json({ error: "Prompt is required" });
@@ -307,8 +307,8 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { title, summary, content, tier, category } = req.body;
       if (!title) return res.status(400).json({ error: "Title is required" });
@@ -364,8 +364,8 @@ Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medicat
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { message, contentContext } = req.body;
       if (!message) return res.status(400).json({ error: "Message is required" });
@@ -440,9 +440,9 @@ Keep responses concise and actionable.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { enabled, maxItemsPerDay, maxTokensPerDay } = req.body;
-      setAiConfig({ enabled, maxItemsPerDay, maxTokensPerDay });
-      await logAudit(req, admin, "ai-config", null, "update", null, { enabled, maxItemsPerDay, maxTokensPerDay });
+      const { enabled, maxItemsPerDay, maxTokensPerDay, freeTierDailyLimit, rateLimitPerMinute } = req.body;
+      setAiConfig({ enabled, maxItemsPerDay, maxTokensPerDay, freeTierDailyLimit, rateLimitPerMinute });
+      await logAudit(req, admin, "ai-config", null, "update", null, { enabled, maxItemsPerDay, maxTokensPerDay, freeTierDailyLimit, rateLimitPerMinute });
       res.json(getAiConfig());
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -456,8 +456,8 @@ Keep responses concise and actionable.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { tier, topic, quantity, questionTypes } = req.body;
       if (!tier || !topic || !quantity || quantity < 1 || quantity > 50) {
@@ -534,8 +534,8 @@ Return ONLY the JSON array, no other text.`;
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { topic, quantity, tier, deckTitle } = req.body;
       if (!topic || !quantity || quantity < 1 || quantity > 100) {
@@ -3332,8 +3332,8 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { lessonId, section, prompt, caption } = req.body;
       if (!lessonId || !prompt) {
@@ -6875,8 +6875,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { sourcePageId, targetLanguage } = req.body;
       if (!sourcePageId || !targetLanguage) return res.status(400).json({ error: "sourcePageId and targetLanguage required" });
@@ -8030,8 +8030,8 @@ Return ONLY valid JSON with this exact structure:
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const aiCheck = checkAiLimits();
-      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason });
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { prompt, negativePrompt, size, n, textFree } = req.body;
       if (!prompt) return res.status(400).json({ error: "Prompt is required" });
