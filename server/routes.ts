@@ -392,6 +392,123 @@ CRITICAL RULES:
     }
   });
 
+  // -------------------------------------------------------
+  // Quality scoring for survival guide content
+  // -------------------------------------------------------
+  function scoreContentQuality(sections: any[]): { score: number; pass: boolean; reasons: string[] } {
+    const reasons: string[] = [];
+    let score = 100;
+
+    if (!sections || !Array.isArray(sections) || sections.length === 0) {
+      return { score: 0, pass: false, reasons: ["No sections generated"] };
+    }
+
+    const genericPhrases = ["is a condition that", "refers to", "involves the", "characterized by", "is defined as", "can be described as"];
+    const decisionVerbs = ["assess", "monitor", "escalate", "call", "hold", "recheck", "administer", "position", "elevate", "notify", "document", "intervene", "prioritize", "delegate"];
+    const requiredBlockFlavors = new Set(["clinical_pearl", "trap", "exam_tip", "warning"]);
+
+    let totalBlocks = 0;
+    let totalDecisionVerbs = 0;
+    let genericHits = 0;
+    let longBlocks = 0;
+    let foundFlavors = new Set<string>();
+    let hasRedFlags = false;
+    let hasFirstActions = false;
+    let hasQuestions = false;
+    let hasSpecifics = 0;
+
+    const specificPatterns = [
+      /\d+\s*(mm\s*Hg|bpm|mg|mEq|mmol|mcg|units|ml|L|°[CF]|%)/i,
+      /\b(K\+|Na\+|Ca2\+|Mg2\+|pH|pCO2|HCO3|BUN|creatinine|troponin|BNP|INR|PT|aPTT|WBC|Hgb|Hct|platelets)\b/i,
+      /\b\d+\s*(-|to)\s*\d+/,
+      /within\s+\d+\s*(minutes|hours|seconds)/i,
+      /\b(contraindicated|black box|hold if|do not give|monitor for)\b/i,
+    ];
+
+    for (const sec of sections) {
+      const blocks = sec.blocks || [];
+      totalBlocks += blocks.length;
+
+      for (const block of blocks) {
+        const text = (block.text || block.body || block.content || "").toString();
+        const items = block.items || [];
+        const allText = text + " " + items.join(" ");
+
+        for (const phrase of genericPhrases) {
+          if (allText.toLowerCase().includes(phrase)) {
+            genericHits++;
+          }
+        }
+
+        const wordCount = allText.split(/\s+/).filter(Boolean).length;
+        if (wordCount > 120) longBlocks++;
+
+        for (const v of decisionVerbs) {
+          const regex = new RegExp(`\\b${v}\\b`, "gi");
+          const matches = allText.match(regex);
+          if (matches) totalDecisionVerbs += matches.length;
+        }
+
+        if (block.flavor) foundFlavors.add(block.flavor);
+        if (block.kind === "callout") {
+          if (block.flavor) foundFlavors.add(block.flavor);
+        }
+
+        const titleLower = (block.title || block.text || "").toLowerCase();
+        if (titleLower.includes("red flag")) hasRedFlags = true;
+        if (titleLower.includes("first action") || titleLower.includes("priority action")) hasFirstActions = true;
+
+        for (const pat of specificPatterns) {
+          if (pat.test(allText)) hasSpecifics++;
+        }
+      }
+    }
+
+    if (genericHits > 3) {
+      score -= Math.min(25, genericHits * 5);
+      reasons.push(`${genericHits} generic phrases detected (e.g. "is a condition that")`);
+    }
+
+    if (longBlocks > 0) {
+      score -= Math.min(15, longBlocks * 5);
+      reasons.push(`${longBlocks} text blocks exceed 120 words`);
+    }
+
+    if (totalDecisionVerbs < 3) {
+      score -= 20;
+      reasons.push(`Only ${totalDecisionVerbs} decision verbs found (need >= 3: assess, monitor, escalate, etc.)`);
+    }
+
+    const missingFlavors = [...requiredBlockFlavors].filter(f => !foundFlavors.has(f));
+    if (missingFlavors.length > 0) {
+      score -= missingFlavors.length * 5;
+      reasons.push(`Missing callout types: ${missingFlavors.join(", ")}`);
+    }
+
+    if (!hasRedFlags) {
+      score -= 5;
+      reasons.push("No red flags section found");
+    }
+
+    if (!hasFirstActions) {
+      score -= 5;
+      reasons.push("No first/priority actions section found");
+    }
+
+    if (hasSpecifics < 3) {
+      score -= 15;
+      reasons.push(`Only ${hasSpecifics} specific clinical values found (need vitals, labs, thresholds)`);
+    }
+
+    if (totalBlocks < 15) {
+      score -= 10;
+      reasons.push(`Only ${totalBlocks} total blocks (need >= 15 for visual density)`);
+    }
+
+    score = Math.max(0, Math.min(100, score));
+    return { score, pass: score >= 80, reasons };
+  }
+
   app.post("/api/ai/generate-pipeline", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -507,6 +624,77 @@ Return JSON: {"sections":[{"id":"...","title":"...","blocks":[...]}]${includeQue
           maxTokens: 16384,
         },
 
+        "survival-content": {
+          system: `You are a high-yield exam-cram content engine for NurseNest Survival Guides. You generate decision-dense, action-oriented nursing content. NEVER produce textbook summaries or generic descriptions. Every output must be structured for rapid clinical decision-making and exam scoring.
+
+ABSOLUTE BANS:
+- Do NOT start any block with "is a condition that", "refers to", "involves", "characterized by", "is defined as"
+- Do NOT write paragraphs longer than 3 sentences (50 words max per paragraph)
+- Do NOT use generic callout titles like "Clinical Pearl" or "Important Note" -- make them specific
+
+REQUIRED STRUCTURE PER TOPIC SECTION:
+Every topic section MUST include ALL of these block types:
+1. mechanism_one_liner: A heading (level 2) + 1-2 sentence paragraph explaining the core mechanism
+2. recognition_cues: Bullets with 5-8 clinical signs/symptoms students must recognize
+3. vitals_labs_patterns: Bullets with 3-6 specific vital sign and lab patterns (include numbers: "K+ > 5.5 mEq/L", "HR > 100 bpm", "BP < 90/60")
+4. red_flags: A "warning" callout titled "Red Flags - [Topic]" with 3 bullets of critical findings requiring immediate action
+5. first_actions_in_order: Ordered bullets (3-7 items) of what to do FIRST, SECOND, THIRD -- priority nursing actions
+6. do_not_do: A "trap" callout titled "Do NOT Do - [Topic]" with 2-4 common mistakes to avoid
+7. common_exam_traps: A "trap" callout titled "Exam Traps - [Topic]" with 2-4 distractor explanations ("why wrong")
+8. micro_case: A "clinical_pearl" callout with a 4-6 line scenario (patient presentation -> what do you do?)
+9. exam_questions: 3 MCQs focusing on "first action / priority / safety" with rationales
+
+BLOCK TYPES:
+- {"kind":"heading","text":"...","level":1|2|3}
+- {"kind":"paragraph","text":"..."} (MAX 50 words)
+- {"kind":"bullets","items":["item1","item2"]}
+- {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"]],"caption":"..."}
+- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"SPECIFIC TITLE","body":"..."}
+
+Return ONLY valid JSON.`,
+          user: `Generate high-yield Survival Guide content for this nursing exam bundle.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+REGION: ${regionContext}
+STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
+SECTIONS: ${JSON.stringify(sections || [])}
+
+For EACH section, generate blocks following the required structure (mechanism_one_liner, recognition_cues, vitals_labs_patterns, red_flags, first_actions_in_order, do_not_do, common_exam_traps, micro_case, exam_questions).
+
+Include at least 5 concrete clinical specifics per section: vital sign thresholds, lab value cutoffs, time windows, medication contraindications, and escalation triggers.
+
+${includeQuestions ? `Also generate ${questionCount || 10} additional NCLEX-style MCQs prioritizing "first action", "priority", and "safety" questions. Each with 4 options and full rationales.` : ""}
+
+Return JSON: {"sections":[{"id":"...","title":"...","blocks":[...]}]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"..."}]' : ""}}`,
+          maxTokens: 16384,
+        },
+
+        "fix": {
+          system: `You are a content repair engine for NurseNest Survival Guides. You take generated content that failed quality checks and fix it to be exam-cram quality. You eliminate generic language and increase decision-density. Return ONLY valid JSON with the same section/block structure.
+
+FIX RULES:
+- Replace any paragraph longer than 50 words with checklists, tables, or if-then steps
+- Add missing required blocks: red_flags (warning callout), first_actions_in_order (ordered bullets), do_not_do (trap callout), common_exam_traps (trap callout), micro_case (clinical_pearl callout), and 3 exam questions with rationales
+- Add at least 5 concrete specifics: vital sign thresholds (e.g. "HR > 100 bpm"), lab cutoffs (e.g. "K+ > 5.5 mEq/L"), time windows (e.g. "within 30 minutes"), medication safety notes, or escalation triggers
+- Replace generic openings ("is a condition that", "refers to") with action statements ("Assess for", "Monitor", "Intervene when")
+- Make every callout title specific to the clinical content, not generic
+- Ensure at least 5 decision verbs appear: assess, monitor, escalate, hold, administer, notify, position, etc.`,
+          user: `Fix this content that failed quality scoring.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+QUALITY FAILURES: ${JSON.stringify(previousStepData?.qualityReasons || [])}
+QUALITY SCORE: ${previousStepData?.qualityScore || 0}/100 (need >= 80)
+
+CURRENT CONTENT TO FIX:
+${JSON.stringify(previousStepData?.sections || [])}
+
+Return the fixed content in the same JSON structure:
+{"sections":[{"id":"...","title":"...","blocks":[...]}]${previousStepData?.questions ? ',"questions":' + JSON.stringify(previousStepData.questions) : ""}}`,
+          maxTokens: 16384,
+        },
+
         "enhance": {
           system: `You are an exam authority enhancer for NurseNest. You take existing nursing content and inject exam-specific framing that makes it feel exam-ready rather than textbook-generic. You add priority ladders, decision algorithms, "If you see X think Y" statements, and high-yield mnemonics. Return ONLY valid JSON with the same structure as input.`,
           user: `Enhance this content with exam-specific authority framing.
@@ -561,28 +749,87 @@ Return the corrected content in the same JSON structure:
       const pipeline = pipelinePrompts[step];
       if (!pipeline) return res.status(400).json({ error: `Unknown pipeline step: ${step}` });
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: pipeline.system },
-          { role: "user", content: pipeline.user },
-        ],
-        temperature: step === "strategy" || step === "blueprint" ? 0.8 : 0.7,
-        max_tokens: pipeline.maxTokens,
-      });
+      const callLLM = async (sysPrompt: string, userPrompt: string, maxTok: number, temp: number) => {
+        const resp = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: sysPrompt },
+            { role: "user", content: userPrompt },
+          ],
+          temperature: temp,
+          max_tokens: maxTok,
+        });
+        const raw = resp.choices[0]?.message?.content || "{}";
+        const tokens = resp.usage?.total_tokens || 0;
+        recordAiUsage(1, tokens);
+        let result;
+        try {
+          const clean = raw.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+          const match = clean.match(/\{[\s\S]*\}/);
+          result = match ? JSON.parse(match[0]) : null;
+        } catch {
+          result = null;
+        }
+        return { result, raw, tokens };
+      };
 
-      const text = response.choices[0]?.message?.content || "{}";
-      const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
+      const temp = step === "strategy" || step === "blueprint" ? 0.8 : 0.7;
+      let { result: parsed, raw: text, tokens: totalTokens } = await callLLM(pipeline.system, pipeline.user, pipeline.maxTokens, temp);
       await logAudit(req, admin, "ai", null, `pipeline-${step}`, null, { step, topic: topic.substring(0, 100) });
 
-      let parsed;
-      try {
-        let cleanText = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-        const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
-        parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
-      } catch {
-        parsed = null;
+      // Quality gate + auto-fix loop for content steps
+      const contentSteps = new Set(["content", "survival-content"]);
+      if (contentSteps.has(step) && parsed?.sections) {
+        const MAX_FIX_RETRIES = 3;
+        let quality = scoreContentQuality(parsed.sections);
+        let retries = 0;
+
+        while (!quality.pass && retries < MAX_FIX_RETRIES) {
+          retries++;
+          console.log(`[Pipeline QA] ${step} quality score: ${quality.score}/100 (attempt ${retries}/${MAX_FIX_RETRIES}) - ${quality.reasons.join("; ")}`);
+
+          const fixPrompt = pipelinePrompts["fix"];
+          if (!fixPrompt) break;
+
+          const fixData = {
+            ...previousStepData,
+            sections: parsed.sections,
+            questions: parsed.questions,
+            qualityScore: quality.score,
+            qualityReasons: quality.reasons,
+          };
+
+          const fixSystem = fixPrompt.system;
+          const fixUser = `Fix this content that failed quality scoring.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+QUALITY FAILURES: ${JSON.stringify(quality.reasons)}
+QUALITY SCORE: ${quality.score}/100 (need >= 80)
+
+CURRENT CONTENT TO FIX:
+${JSON.stringify(parsed.sections)}
+
+Return the fixed content in the same JSON structure:
+{"sections":[{"id":"...","title":"...","blocks":[...]}]${parsed.questions ? ',"questions":' + JSON.stringify(parsed.questions) : ""}}`;
+
+          const fixResult = await callLLM(fixSystem, fixUser, 16384, 0.6);
+          totalTokens += fixResult.tokens;
+
+          if (fixResult.result?.sections?.length > 0) {
+            parsed = fixResult.result;
+            quality = scoreContentQuality(parsed.sections);
+          } else {
+            break;
+          }
+        }
+
+        if (parsed) {
+          return res.json({
+            step, data: parsed, tokens: totalTokens,
+            quality: { score: quality.score, pass: quality.pass, reasons: quality.reasons, retries },
+          });
+        }
       }
 
       if (parsed) {

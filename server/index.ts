@@ -13,27 +13,41 @@ import { storage } from "./storage";
 const app = express();
 
 // Trust proxy headers so req.hostname and req.protocol work behind
-// reverse proxies (Replit, Cloudflare, load balancers, etc.)
-app.set("trust proxy", true);
+// reverse proxies (Replit, Cloudflare, load balancers, etc.).
+// Using 1 = trust first proxy hop. Switch to true if protocol still wrong.
+app.set("trust proxy", 1);
 
 let appReady = false;
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));
 
-// Permanent 301 redirect from bare domain (nursenest.ca) to www.nursenest.ca.
-// - Only runs in production so localhost/dev is never affected.
-// - Uses req.hostname (excludes port) to avoid false matches on "nursenest.ca:3000".
-// - Checks the host does NOT already start with "www." to prevent redirect loops.
-// - Preserves the full original path and query string via req.originalUrl.
+// Canonical host + HTTPS redirect middleware (production only).
+// Handles:
+//   nursenest.ca       -> 301 -> https://www.nursenest.ca (bare domain -> www)
+//   http://www.*        -> 301 -> https://www.* (force HTTPS)
+// Protections:
+//   - Only runs in production; localhost/dev unaffected
+//   - req.hostname strips port, avoiding "nursenest.ca:3000" false matches
+//   - Skips hosts not in ALLOWED_HOSTS (staging, Replit preview, etc.)
+//   - No redirect loops: only redirects when host or protocol needs fixing
+//   - Preserves full path + query string via req.originalUrl
+//   - Always 301 permanent for SEO canonicalization
+const CANONICAL_HOST = "www.nursenest.ca";
+const BARE_HOST = "nursenest.ca";
+const ALLOWED_HOSTS = new Set([BARE_HOST, CANONICAL_HOST]);
+
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
-    const hostname = req.hostname; // excludes port, e.g. "nursenest.ca"
-    if (
-      hostname === "nursenest.ca" &&
-      !hostname.startsWith("www.")
-    ) {
-      return res.redirect(301, `https://www.nursenest.ca${req.originalUrl}`);
-    }
-    next();
+    const hostname = req.hostname;
+    if (!ALLOWED_HOSTS.has(hostname)) return next();
+
+    const proto = req.protocol;
+    const needsWww = hostname === BARE_HOST;
+    const needsHttps = proto !== "https";
+
+    if (!needsWww && !needsHttps) return next();
+
+    const targetHost = needsWww ? CANONICAL_HOST : hostname;
+    return res.redirect(301, `https://${targetHost}${req.originalUrl}`);
   });
 }
 

@@ -1,0 +1,99 @@
+You want Replit AI to change the generator code, not just “try harder” with prompts. So the prompt you give Replit has to describe a new pipeline with:
+an exam-yield filter
+role-based page templates
+a generic-output detector
+an auto-regeneration loop
+a REx-PN survival schema (action-patho, red flags, first actions, traps, questions)
+Below is a Replit AI prompt you can paste as-is. It’s written to force a real refactor.
+Replit AI Prompt (copy/paste)
+TASK: Refactor the document/page generator so it stops producing generic “textbook” pages and instead generates high-yield, exam-cram REx-PN Survival Guide pages automatically.
+
+CONTEXT:
+The current generator produces generic summaries (e.g., “X is a condition that…”) with low decision-density. I need a deterministic, exam-aware generation pipeline with strict schemas, quality gates, and auto-regeneration when output is generic.
+
+GOALS:
+1) Implement a multi-stage generation pipeline for “Survival Guide” mode:
+   Stage A: Exam Yield Filter (pre-pass)
+   Stage B: Page Role + Block Template selection (deterministic)
+   Stage C: Content generation in strict structured blocks (no long paragraphs)
+   Stage D: Quality Gate (detect generic output)
+   Stage E: Auto-regenerate/fix pass if quality gate fails (max retries)
+
+2) Enforce REx-PN exam-cram structure per topic:
+   Each topic/page MUST include these sections (as blocks):
+   - mechanism_one_liner (max 2 lines)
+   - recognition_cues (5–8 bullets)
+   - vitals_labs_patterns (3–6 bullets)
+   - red_flags (3 bullets)
+   - first_actions_in_order (3–7 ordered bullets)
+   - do_not_do (2–4 bullets)
+   - common_exam_traps (2–4 bullets with “why wrong”)
+   - micro_case (4–6 lines)
+   - exam_questions (3 questions with rationales; prioritize “first action / priority / safety”)
+
+3) Add a “generic content detector”:
+   Reject output if ANY of the following are true:
+   - contains phrases like “is a condition that”, “refers to”, “involves”, “characterized by” in the first 2 lines
+   - any single text block exceeds 120 words
+   - missing “first action”, “red flags”, “exam traps”, or “questions”
+   - fewer than 3 decision verbs across the page (“assess”, “monitor”, “escalate/call”, “hold”, “recheck”, “administer”, “position”, etc.)
+   - too few specifics: no vitals, labs, time thresholds, medication safety notes, or escalation triggers
+
+   Implement this as a scoring function that returns PASS/FAIL + reasons and a numeric score 0–100. Require >= 80.
+
+4) Add auto-fix/regeneration:
+   If FAIL:
+   - run a “fix prompt” that converts generic paragraphs into checklists/flow/tables, adds missing required blocks, injects decision points, and adds exam traps
+   - if still FAIL after 2 fix attempts, regenerate the page from scratch with stronger constraints
+   - cap at 3 total retries to avoid runaway cost
+
+5) Add “Page Role Templates” to improve cohesion:
+   The Survival Guide is not just repeated text pages.
+   Create role templates and rotate them:
+   - cover
+   - orientation (how to use the guide + prioritization rules)
+   - mechanism_core (patho → what you see → what you do)
+   - comparison_grid (e.g., COPD vs asthma, hypoK vs hyperK)
+   - algorithm/decision_tree (what to do first, escalation)
+   - rapid_review (cheat sheet)
+   - mini_exam (question set + rationales)
+
+   Each role has required block types; the generator must adhere to them.
+
+6) Update the generator prompts used by the LLM:
+   - Add a strict “Survival Guide Mode” system instruction that bans textbook paragraphs and requires decision-based blocks.
+   - Use structured JSON output so the renderer can place blocks reliably.
+   - Add explicit “do not be generic” constraints and examples.
+
+DELIVERABLES:
+- Implement new pipeline code (server-side) that produces structured JSON pages with the above schema.
+- Add quality scoring + logs so I can see why pages failed.
+- Update the UI / admin generator to show: quality score, failure reasons, retry count.
+- Ensure existing rendering still works; if needed, add a mapper from the new JSON schema to the current canvas/page blocks.
+
+FILES:
+Locate and update the existing generator entrypoints:
+- Where the “Generate” button calls the API
+- The server route/controller that calls the LLM
+- Any “insertAiBlocks” or page assembly logic
+- Any brandkit/store-ready/autofit/pagination hooks should remain compatible
+
+IMPORTANT:
+- Do not change the blog generator.
+- Apply changes only to the cram/survival bundle generator.
+- Keep it production-safe; avoid infinite loops.
+- Add unit-like tests or simple test harness to run 5 sample topics and print PASS/FAIL + score.
+
+OUTPUT:
+Provide:
+1) The updated code
+2) A short explanation of where changes were made
+3) How to test locally
+Add this short “Fix Prompt” (Replit should wire it into the fail loop)
+If your generator uses separate prompts, tell Replit to add this as the repair pass:
+FIX PASS INSTRUCTION:
+Rewrite the page to eliminate generic language and increase exam decision-density.
+- Replace paragraphs with checklists, tables, or flow/if-then steps.
+- Add missing required blocks: red_flags, first_actions_in_order, do_not_do, common_exam_traps, and 3 exam questions with rationales.
+- Add at least 5 concrete specifics (vitals thresholds, lab cutoffs, time windows, medication safety contraindications, escalation triggers).
+Return structured JSON only.
