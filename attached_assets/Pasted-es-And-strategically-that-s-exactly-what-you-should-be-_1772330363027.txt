@@ -1,0 +1,118 @@
+es. And strategically, that’s exactly what you should be doing.
+For NurseNest, the smartest workflow is:
+AI = structured first draft engine
+You = clinical editor + exam strategist + brand voice
+That combination gives you speed without sacrificing credibility.
+Why This Works (Especially for You)
+As an RN in grad school building exam-focused products, your advantage is:
+Clinical reasoning
+Understanding of REx-PN vs NCLEX differences
+Knowing what students actually struggle with
+Knowing how exam questions are written
+AI can generate:
+Structured pathophysiology explanations
+Organized medication tables
+Basic assessment lists
+Draft rationales
+Question stems
+But AI cannot reliably:
+Prioritize content by exam weight
+Identify high-yield distractors
+Catch subtle Canadian vs U.S. practice differences
+Apply true clinical nuance
+That’s your layer.
+The Ideal AI → Edit Workflow for Study Guides
+Step 1: AI Generates Structured Skeleton
+Have AI generate in sections:
+Learning Objectives
+Pathophysiology
+Signs & Symptoms
+Assessment Findings
+Labs & Diagnostics
+Medications (with mechanism)
+Nursing Interventions
+Complications
+Patient Teaching
+15–30 Practice Questions
+Rationales
+Keep it modular so you can regenerate sections without rewriting everything.
+Step 2: You Do High-Level Editing
+You should edit for:
+Exam relevance
+Remove low-yield textbook fluff.
+Canadian vs U.S. clarity
+Separate:
+REx-PN terminology
+NCLEX terminology
+Lab value differences
+Clinical prioritization
+Add:
+“Most tested concept”
+“Classic exam trap”
+“If you see this, think this”
+Tone tightening
+Remove generic phrases:
+“It is important to note…”
+“This condition may present with…”
+Replace with:
+“On exams, hyperkalemia = peaked T waves first.”
+“Priority: airway before glucose.”
+Step 3: You Add Value AI Cannot Replicate
+This is critical for monetization.
+Add:
+Clinical pearls from practice
+“Common student mistake” callouts
+Exam-style decision trees
+Prioritization flowcharts
+Comparison tables (e.g., DKA vs HHS)
+That’s what makes it sellable instead of generic.
+How to Prompt AI Properly for Rough Drafts
+Here’s a prompt structure that works extremely well:
+Create a structured rough draft study guide for [topic].
+
+Audience:
+- REx-PN and NCLEX-PN students
+- Canadian and U.S. context separated clearly
+
+Include:
+- Learning objectives
+- Pathophysiology (concise but exam-focused)
+- Classic signs and symptoms
+- Assessment findings
+- Labs and diagnostics (include normal ranges CA and US)
+- First-line medications with mechanism
+- Nursing interventions
+- Complications
+- 20 exam-style multiple choice questions
+- Detailed rationales explaining why each distractor is wrong
+
+Write in clear, direct, exam-prep tone.
+Avoid textbook filler language.
+Prioritize high-yield concepts.
+This produces something usable.
+Quality Control Rule
+Before publishing, ask yourself:
+Would this compete with:
+UWorld-style explanations?
+Archer rationales?
+A structured nursing textbook?
+If not, refine.
+What You Should NOT Let AI Fully Control
+Avoid fully auto-publishing:
+Drug dosages without verification
+Canadian scope-specific practice statements
+Policy-based recommendations
+Legal/ethics content
+MAiD or regulatory guidance
+Always fact-check anything that could vary by jurisdiction.
+This Is Actually a Scalable Strategy
+You can:
+Use AI to generate 10 rough guides in a week
+Edit 2 per week deeply
+Publish gradually
+Build a consistent premium library
+That’s far faster than writing from scratch.
+If you want, I can now:
+Design a “NurseNest Study Guide Editing Checklist” so you don’t miss high-yield upgrades
+Create a standardized AI draft template for all product tiers
+Build a 30-day production plan so you can launch 3 sellable products q

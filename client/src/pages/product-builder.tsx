@@ -365,6 +365,28 @@ function generateStyledCoverPage(w: number, h: number, t: ThemeConfig, preset: C
   return objs;
 }
 
+function generateChapterCoverPage(w: number, h: number, t: ThemeConfig, preset: CoverPreset, opts: {
+  chapterTitle: string; chapterNumber: number; totalChapters: number;
+}): CanvasObject[] {
+  const objs: CanvasObject[] = [];
+  let z = 0;
+  const bgFill = preset.bgStyle === "gradient" ? t.coverBgOverlay : preset.bgStyle === "split" ? t.accentColor : t.sectionBg;
+  objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: w, height: h, fill: bgFill, rotation: 0, opacity: 1, zIndex: z++ });
+  objs.push({ id: uid(), type: "rect", x: 0, y: h * 0.35, width: w, height: h * 0.30, fill: t.primaryColor, rotation: 0, opacity: 0.12, zIndex: z++ });
+  for (let s = 0; s < Math.min(preset.shapesDensity, 2); s++) {
+    const sx = w * 0.3 + Math.random() * w * 0.4;
+    const sy = h * 0.1 + Math.random() * h * 0.2;
+    const sz = 30 + Math.random() * 60;
+    objs.push({ id: uid(), type: "circle", x: sx, y: sy, width: sz, height: sz, fill: t.accentColor, rotation: 0, opacity: 0.06, zIndex: z++ });
+  }
+  objs.push({ id: uid(), type: "rect", x: w * 0.1, y: h * 0.38, width: w * 0.8, height: 3, fill: t.accentColor, rotation: 0, opacity: 0.5, zIndex: z++ });
+  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.28, width: w - 92, height: 20, content: `SECTION ${opts.chapterNumber} OF ${opts.totalChapters}`, fontSize: 11, fontWeight: "bold", fill: t.primaryColor, fontFamily: t.bodyFont, rotation: 0, opacity: 0.6, zIndex: z++, textAlign: "center" });
+  objs.push({ id: uid(), type: "text", x: 36, y: h * 0.40, width: w - 72, height: 50, content: opts.chapterTitle.toUpperCase(), fontSize: 28, fontWeight: preset.titleWeight, fill: t.headingColor, fontFamily: t.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+  objs.push({ id: uid(), type: "text", x: 46, y: h * 0.55, width: w - 92, height: 18, content: "NurseNest  •  Exam Prep", fontSize: 10, fontWeight: "normal", fill: t.bodyColorLight, fontFamily: t.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "center" });
+  objs.push({ id: uid(), type: "rect", x: w * 0.15, y: h * 0.90, width: w * 0.7, height: 2, fill: t.dividerColor, rotation: 0, opacity: 0.3, zIndex: z++ });
+  return objs;
+}
+
 const CONTENT_BLOCK_LIBRARY = [
   { id: "cover", label: "Cover Page", icon: "BookOpen", category: "structure" },
   { id: "toc", label: "Table of Contents", icon: "FileText", category: "structure" },
@@ -734,7 +756,7 @@ function ProjectListView({ onOpenProject }: { onOpenProject: (id: string) => voi
   );
 }
 
-function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: () => void }) {
+function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId: string; onBack: () => void; initialPresetType?: string | null }) {
   const { toast } = useToast();
   const [project, setProject] = useState<DesignProject | null>(null);
   const [pages, setPages] = useState<DesignPage[]>([]);
@@ -928,6 +950,25 @@ function CanvasEditorView({ projectId, onBack }: { projectId: string; onBack: ()
       })
       .catch(() => {});
   }, [projectId]);
+
+  const presetAppliedRef = useRef(false);
+  useEffect(() => {
+    if (!initialPresetType || !project || presetAppliedRef.current) return;
+    const presetMap: Record<string, string> = {
+      "bundle": "cram-guide",
+      "cram": "cram-guide",
+      "cram-guide": "cram-guide",
+      "question-pack": "question-pack",
+      "cheat-sheet": "quick-reference",
+      "study-plan": "study-plan",
+      "quick-reference": "quick-reference",
+    };
+    const presetId = presetMap[initialPresetType];
+    if (presetId && objects.length === 0) {
+      presetAppliedRef.current = true;
+      loadProductPreset(presetId);
+    }
+  }, [initialPresetType, project]);
 
   const saveCanvas = useCallback(async () => {
     if (!pages[currentPageIndex]) return;
@@ -2421,8 +2462,23 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                       setObjects(coverObjs);
                       const bgColor = pages[currentPageIndex]?.backgroundColor || "#ffffff";
                       let created = 0;
-                      for (const p of pagesPayload) {
+                      const totalSections = pagesPayload.length;
+                      for (let pi = 0; pi < pagesPayload.length; pi++) {
+                        const p = pagesPayload[pi];
                         try {
+                          const chapterTitle = p.title || `Section ${pi + 1}`;
+                          if (totalSections > 1) {
+                            const chapterObjs = generateChapterCoverPage(CANVAS_WIDTH, CANVAS_HEIGHT, theme, preset, {
+                              chapterTitle,
+                              chapterNumber: pi + 1,
+                              totalChapters: totalSections,
+                            });
+                            const chRes = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+                              method: "POST",
+                              body: { title: chapterTitle, backgroundColor: bgColor, canvasJson: { objects: chapterObjs, version: "1.0" } },
+                            });
+                            if (chRes.ok) { const cp = await chRes.json(); setPages(prev => [...prev, cp]); }
+                          }
                           const res = await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
                             method: "POST",
                             body: { title: `Content Page ${created + 1}`, backgroundColor: bgColor, canvasJson: { objects: p.objects || [], version: "1.0" } },
@@ -2430,7 +2486,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                           if (res.ok) { const np = await res.json(); setPages(prev => [...prev, np]); created++; }
                         } catch {}
                       }
-                      toast({ title: "Bundle inserted with cover", description: `Cover + ${created} content page(s) created` });
+                      toast({ title: "Bundle inserted with cover", description: `Cover + ${totalSections > 1 ? totalSections + " chapter covers + " : ""}${created} content page(s) created` });
                     }}>Insert + Cover</Button>
                     <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-copy-listing" onClick={() => {
                       const listing = aiResult.listing;
@@ -3233,17 +3289,30 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
   );
 }
 
+function getQueryParam(key: string): string | null {
+  try {
+    const search = window.location.search;
+    return new URLSearchParams(search).get(key);
+  } catch { return null; }
+}
+
 export default function ProductBuilderPage() {
   const { isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const [, params] = useRoute("/admin/product-builder/:id");
   const [, paramsLocale] = useRoute("/:locale/admin/product-builder/:id");
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
+  const [presetType, setPresetType] = useState<string | null>(null);
 
   useEffect(() => {
     const id = params?.id || paramsLocale?.id;
     if (id) setEditingProjectId(id);
   }, [params?.id, paramsLocale?.id]);
+
+  useEffect(() => {
+    const type = getQueryParam("type");
+    if (type) setPresetType(type);
+  }, []);
 
   if (!isAdmin) {
     return (
@@ -3257,7 +3326,8 @@ export default function ProductBuilderPage() {
     return (
       <CanvasEditorView
         projectId={editingProjectId}
-        onBack={() => { setEditingProjectId(null); navigate("/admin/product-builder"); }}
+        onBack={() => { setEditingProjectId(null); setPresetType(null); navigate("/admin/product-builder"); }}
+        initialPresetType={presetType}
       />
     );
   }

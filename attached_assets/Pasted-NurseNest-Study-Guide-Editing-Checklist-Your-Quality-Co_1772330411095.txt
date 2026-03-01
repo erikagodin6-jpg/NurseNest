@@ -1,0 +1,146 @@
+NurseNest Study Guide Editing Checklist
+(Your Quality Control System Before Publishing)
+Use this every time before clicking “Store-Ready.”
+A. Clinical Accuracy Pass (Non-Negotiable)
+Confirm lab values (separate CA vs US ranges clearly)
+Confirm medication mechanisms (no vague statements)
+Confirm scope differences (RPN vs RN vs NP)
+Remove outdated guidelines
+Ensure contraindications are correct
+If any of these are wrong → product credibility collapses.
+B. Exam Relevance Pass
+Delete:
+Long textbook-style definitions
+Rare complications unlikely to be tested
+Patho deep dives that don’t change nursing care
+Add:
+“Most Tested Concept”
+“Classic Exam Trap”
+“If you see this, think this”
+Prioritization cues
+Example:
+Instead of:
+“Hyperkalemia can affect cardiac conduction.”
+Write:
+“On exams: hyperkalemia → peaked T waves FIRST.”
+C. Prioritization Upgrade Pass
+Add:
+ABC prioritization statements
+What is the FIRST action?
+What is most concerning?
+What requires immediate provider notification?
+Students pay for clinical reasoning — not summaries.
+D. Differentiation Upgrade
+Add comparison tables:
+DKA vs HHS
+Left vs Right Heart Failure
+COPD vs Asthma
+Hypo vs Hyperthyroidism
+Comparison tables increase perceived value dramatically.
+E. Monetization Layer
+Before publishing, ask:
+Would a student screenshot this?
+If yes → good.
+If no → add:
+Clean visual table
+Flowchart
+Step-by-step algorithm
+Quick-reference summary page
+2️⃣ Standardized AI Draft Template (By Tier)
+You should not use one generic prompt. Use tier-optimized prompts.
+🔹 REx-PN / NCLEX-PN Version
+Create a structured exam-focused study guide for [TOPIC].
+
+Audience:
+- REx-PN (Canada)
+- NCLEX-PN (US)
+
+Requirements:
+- Clear separation between Canadian and US terminology where relevant
+- Prioritize high-yield exam content
+- Avoid textbook filler
+- Focus on nursing actions and prioritization
+
+Include:
+1. Learning objectives
+2. Pathophysiology (concise, clinically relevant)
+3. Classic signs and symptoms
+4. Assessment findings
+5. Labs (include Canadian and US normal ranges if different)
+6. First-line medications with mechanism
+7. Nursing interventions (prioritized)
+8. Complications
+9. Patient teaching
+10. 20 exam-style multiple choice questions
+11. Detailed rationales explaining why each distractor is incorrect
+
+Tone: Direct, exam-focused, high-yield.
+🔹 RN / NCLEX-RN Version
+Add deeper clinical reasoning + delegation content.
+🔹 NP Version
+Add:
+Diagnostic criteria
+Prescribing considerations
+Red flags
+Differential diagnosis
+Referral criteria
+3️⃣ 30-Day Revenue Production Plan
+This is focused on making money quickly — not building 2000 pages.
+You need:
+1 flagship guide
+1 mini question pack
+2 low-cost cheat sheets
+That’s enough to start testing conversions.
+Week 1: Flagship Cram Guide
+Topic: Electrolytes Mastery
+Why? Students fear electrolytes.
+Deliverable:
+40–60 pages
+25–40 questions
+Comparison tables
+ECG visuals (you can add later)
+CA + US separated clearly
+Price:
+$24–29
+Week 2: Question Pack
+“Electrolytes Practice Pack – 100 Questions”
+Separate printable + interactive version
+Strong rationales
+High-yield traps explained
+Price:
+$14–19
+Week 3: Two Cheat Sheets
+ABG Interpretation One-Page
+Cardiac Medications Quick Guide
+Price:
+$5–9 each
+These are impulse buys.
+Week 4: Bundle
+Bundle:
+Electrolytes + Question Pack + Cheat Sheets
+Bundle price:
+$39–49
+Now you have:
+Entry product ($5–9)
+Mid-tier ($14–29)
+Bundle anchor ($49)
+That’s a real store.
+Automation Strategy
+Once you build 1 properly:
+Duplicate template
+Change topic
+Regenerate rough draft
+Edit with checklist
+Store-Ready
+Publish
+You could realistically produce 2–3 products per month sustainably.
+Important Strategic Advice
+Do NOT:
+Build massive all-topic guides yet
+Create 300-page textbooks
+Auto-publish AI content without editing
+Do:
+Build narrow, premium, exam-targeted products
+Use AI for 70%
+You refine 30%
+Focus on conversion, not content volume
