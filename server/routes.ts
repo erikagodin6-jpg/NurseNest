@@ -237,77 +237,81 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       });
 
       const systemPrompts: Record<string, string> = {
-        "guided": `You are a nursing education content writer for NurseNest. Generate detailed, university-level study content as a VALID JSON object. The user will tell you which sections to generate and the expected structure. Follow their instructions exactly. Return ONLY the JSON — no markdown, no code fences, no explanation.
+        "guided": `You are a clinical content engine for NurseNest producing exam-grade nursing content at Saunders/UWorld commercial quality. Generate content as a VALID JSON object. Follow the user's structural instructions exactly. Return ONLY the JSON -- no markdown, no code fences, no explanation.
 
-CRITICAL RULES:
+QUALITY IMPERATIVES:
 - Return exactly the JSON structure the user's prompt specifies
 - Use the block types the user requests (kind: heading, paragraph, bullets, table, callout)
-- Every section MUST have at least 5-10 blocks of substantive content
-- Paragraphs must be 2-4 sentences with specific clinical detail
-- Bullet lists must have 4-8 items
-- Include clinical pearls, exam tips, and warnings
-- Content must be clinically accurate, evidence-based, and at university textbook depth
+- Every section MUST have at least 7-12 blocks of substantive content
+- Every paragraph must contain at least ONE specific clinical fact (lab value, drug dose, vital sign threshold, or physiological measurement)
+- NEVER write filler: "is a condition that", "refers to", "is defined as", "involves the", "is important because" are BANNED
+- Lead every topic with clinical significance and exam relevance, not definitions
+- Bullet lists must have 4-8 items each with substantive clinical detail
+- Tables must contain REAL clinical data (actual drug names with doses, actual lab ranges, actual assessment findings)
+- Callout titles must be specific and clinical (e.g. "Peaked T-Waves Signal K+ > 6.0 mEq/L" not "Clinical Pearl")
+- Include at least 1 comparison/differential table per section
+- Include "If you see X, think Y" clinical decision cues
+- Include specific drug doses, onset/peak/duration, and contraindications
+- Content depth: cellular/molecular pathophysiology, evidence-based interventions sequenced by priority, exact lab critical values with nursing actions
 - Do NOT wrap the output in code fences or markdown`,
 
-        "generate": `You are a nursing education content writer for NurseNest, a professional nursing exam prep platform. Generate comprehensive, university-level clinical nursing content. Use evidence-based medical information. Structure content with clear headings, clinical pearls, and practical nursing interventions. Return ONLY valid JSON array of content blocks in this format:
-[{"type":"heading","content":"Section Title"},{"type":"paragraph","content":"Detailed content..."},{"type":"list","content":"Item 1\\nItem 2\\nItem 3"},{"type":"clinical-pearl","content":"Important clinical insight..."},{"type":"warning","content":"Critical safety warning..."},{"type":"callout","content":"Key takeaway..."}]
-Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medication, quiz-question, flashcard, references`,
+        "generate": `You are a clinical content engine for NurseNest, writing at Saunders/UWorld depth. Generate exam-grade nursing content with professional-level specificity. Every paragraph must contain specific clinical facts (lab values, drug doses, thresholds). NEVER write filler like "is a condition that" or "refers to". Lead with clinical significance and exam relevance. Return ONLY valid JSON array of content blocks:
+[{"type":"heading","content":"Section Title"},{"type":"paragraph","content":"Specific clinical content with values..."},{"type":"list","content":"Item 1 with detail\\nItem 2 with detail"},{"type":"clinical-pearl","content":"Specific exam-tested fact with clinical values..."},{"type":"warning","content":"Critical safety alert with specific parameters..."},{"type":"callout","content":"Decision cue: If you see X, think Y, do Z..."}]
+Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medication, quiz-question, flashcard, references.
+Include: pathophysiology at cellular level, drug MOA with doses/onset/peak/duration, exact lab ranges with critical values and nursing actions, specific assessment findings, and prioritized intervention sequences with rationale.`,
 
-        "improve": `You are a nursing education editor for NurseNest. Improve the provided content by making it more comprehensive, clinically accurate, and engaging for nursing students. Maintain the same structure but enhance the quality. Return ONLY valid JSON array of content blocks in the same format as the input.`,
+        "improve": `You are a clinical content editor for NurseNest. Upgrade content from textbook level to professional exam-prep quality (Saunders/UWorld standard). Add specific lab values, drug doses with onset/peak/duration, clinical thresholds, and decision algorithms. Replace every generic statement ("monitor the patient") with specific actions ("monitor BP q15min, target MAP > 65 mmHg"). Remove filler. Return ONLY valid JSON array of content blocks in the same format as the input.`,
 
-        "expand": `You are a nursing education content expert. Take the provided content and significantly expand it with more detail, clinical examples, nursing interventions, patient teaching points, and evidence-based rationale. Return ONLY valid JSON array of content blocks.`,
+        "expand": `You are a clinical depth specialist for NurseNest. Expand content with professional-grade specifics: cellular/molecular pathophysiology with compensatory mechanisms, drug MOA with key doses and onset/peak/duration, exact lab ranges with critical values and nursing actions, specific physical assessment findings with clinical significance, and evidence-based intervention sequences with rationale for priority ordering. Every added sentence must contain a concrete clinical fact. Return ONLY valid JSON array of content blocks.`,
 
-        "simplify": `You are a nursing education writer. Simplify the provided content to make it more accessible while keeping clinical accuracy. Use plain language, analogies, and clear explanations. Return ONLY valid JSON array of content blocks.`,
+        "simplify": `You are a nursing education writer for NurseNest. Simplify content for accessibility while KEEPING all specific clinical values (lab ranges, drug doses, vital sign thresholds, time windows). Use plain language and analogies but never remove the specific numbers and facts that make content exam-grade. Return ONLY valid JSON array of content blocks.`,
 
-        "quiz": `You are a nursing exam question writer. Generate NCLEX-style questions based on the provided topic/content. Return ONLY valid JSON array of content blocks where each question uses this format:
-[{"type":"quiz-question","content":"Q: Question text\\nA) Option A\\nB) Option B\\nC) Option C\\nD) Option D\\nCorrect: B\\nRationale: Explanation of why B is correct and why others are wrong"}]`,
+        "quiz": `You are a senior NCLEX item writer for NurseNest. Generate professional-quality exam questions that test clinical judgment, not memorization. Return ONLY valid JSON array:
+[{"type":"quiz-question","content":"Q: [Clinical scenario with specific patient findings, vitals, and labs]\\nA) [Plausible nursing action]\\nB) [Plausible nursing action]\\nC) [Correct nursing action]\\nD) [Plausible nursing action]\\nCorrect: C\\nRationale: C is correct because [specific clinical reasoning with evidence]. A is wrong because [specific reason]. B is wrong because [specific reason]. D is wrong because [specific reason]."}]
+RULES: Focus on priority/delegation/safety. Include specific values in stems (K+ 6.2, HR 112, BP 88/54). All 4 options must be plausible nursing actions. Rationales must explain ALL options. Include at least 1 SATA-format question.`,
 
-        "bundle": `You are a nursing education product creator for NurseNest. Generate a COMPLETE sellable study bundle for the given topic. Return ONLY valid JSON object (NOT an array) with this exact structure:
+        "bundle": `You are a premium nursing exam product creator for NurseNest, producing content at Saunders/UWorld commercial quality. Generate a COMPLETE sellable study bundle. Return ONLY valid JSON object (NOT an array) with this exact structure:
 {
   "pages": [
-    { "title": "Section Title", "objects": [{"type":"heading","content":"..."},{"type":"paragraph","content":"..."},{"type":"list","content":"Item 1\\nItem 2"},{"type":"clinical-pearl","content":"..."},{"type":"warning","content":"..."}] }
+    { "title": "Section Title", "objects": [{"type":"heading","content":"..."},{"type":"paragraph","content":"Specific clinical content with lab values, drug doses..."},{"type":"list","content":"Specific item 1\\nSpecific item 2"},{"type":"clinical-pearl","content":"Exam-tested fact with clinical values..."},{"type":"warning","content":"Safety alert with specific parameters..."}] }
   ],
   "flashcards": [
-    { "front": "Question/term", "back": "Answer/definition" }
+    { "front": "Clinical question with specific scenario", "back": "Answer with specific values and rationale" }
   ],
   "qbank": [
-    { "stem": "Question text...", "options": ["A) ...", "B) ...", "C) ...", "D) ..."], "correctAnswer": "B", "rationale": "Why B is correct..." }
+    { "stem": "Clinical scenario with specific patient data...", "options": ["A) Plausible action", "B) Plausible action", "C) Correct action", "D) Plausible action"], "correctAnswer": "C", "rationale": "C is correct because [specific reasoning]. A is wrong because [reason]. B is wrong because [reason]. D is wrong because [reason]." }
   ],
   "listing": {
     "title": "Product title for marketplace",
-    "description": "SEO product description (2-3 sentences)",
-    "bullets": ["Key feature 1", "Key feature 2", "Key feature 3", "Key feature 4"]
+    "description": "SEO product description highlighting clinical depth and exam specificity",
+    "bullets": ["Specific feature with clinical value", "Feature 2", "Feature 3", "Feature 4"]
   }
 }
-Generate 3-5 content pages with comprehensive study content (each page should have 5-10 blocks), 15-20 flashcards, 10-15 practice questions, and a compelling product listing. Content must be clinically accurate and exam-focused.`,
+Generate 3-5 content pages (5-10 blocks each with SPECIFIC clinical facts in every block), 15-20 flashcards (with clinical scenarios, not just definitions), 10-15 exam questions (testing clinical judgment with rationales for ALL options), and a compelling listing. NEVER use filler or generic statements.`,
 
-        "bundle-chapter": `You are an expert nursing education content writer for NurseNest. Generate ONE detailed chapter/section for a nursing cram guide. Return ONLY valid JSON object:
+        "bundle-chapter": `You are an expert clinical content writer for NurseNest producing exam-prep content at Saunders/UWorld commercial quality. Generate ONE detailed chapter for a nursing cram guide. Return ONLY valid JSON object:
 {
   "title": "Chapter Title",
   "objects": [
-    {"type":"heading","content":"Main heading"},
-    {"type":"paragraph","content":"Detailed multi-sentence explanation with clinical depth..."},
-    {"type":"list","content":"Point 1\\nPoint 2\\nPoint 3\\nPoint 4\\nPoint 5"},
-    {"type":"clinical-pearl","content":"Important clinical pearl with evidence-based reasoning..."},
-    {"type":"paragraph","content":"More detailed pathophysiology or nursing interventions..."},
-    {"type":"warning","content":"Critical safety alert or red flag..."},
-    {"type":"list","content":"Assessment finding 1\\nAssessment finding 2\\nAssessment finding 3"},
-    {"type":"callout","content":"Key takeaway with mnemonic or memory aid..."},
-    {"type":"heading","content":"Sub-section heading"},
-    {"type":"paragraph","content":"Additional depth..."},
-    {"type":"list","content":"Drug 1 - dose, route, considerations\\nDrug 2 - dose, route, considerations"},
-    {"type":"clinical-pearl","content":"Another clinical pearl..."},
-    {"type":"paragraph","content":"Patient education and discharge teaching points..."},
-    {"type":"warning","content":"Common exam trap or distractor explanation..."}
+    {"type":"heading","content":"Clinical topic heading"},
+    {"type":"paragraph","content":"2-3 sentences with specific pathophysiology at cellular/molecular level, including compensatory mechanisms..."},
+    {"type":"list","content":"Assessment finding 1 with clinical significance\\nFinding 2 with threshold values\\nFinding 3 with associated labs"},
+    {"type":"clinical-pearl","content":"Specific exam-tested fact: e.g. 'Troponin I rises 4-6h post-MI, peaks at 12-24h. If negative at 6h, repeat at 12h before ruling out ACS.'"},
+    {"type":"paragraph","content":"Drug MOA with specific doses, onset, peak, duration, and key nursing considerations..."},
+    {"type":"warning","content":"Red flag with specific parameters: e.g. 'K+ > 6.5 mEq/L with peaked T-waves = STAT IV calcium gluconate 1g over 10 min. Hold all K+-sparing drugs.'"},
+    {"type":"list","content":"Priority action 1 with rationale\\nAction 2\\nAction 3 - explain WHY this order"},
+    {"type":"callout","content":"Decision cue: If you see [specific finding], think [condition], do [specific action with parameters]..."}
   ]
 }
 CRITICAL RULES:
-- Generate at MINIMUM 15-25 content blocks per chapter (more is better). Fill every section thoroughly.
-- Paragraphs must be 3-6 sentences each with specific clinical detail (lab values, drug doses, assessment findings).
-- Lists must have 4-8 items each with substantive detail, not single words.
-- Include at least 2 clinical-pearls and 1 warning per chapter.
-- Cover: pathophysiology, assessment/diagnostics, management/treatment, nursing priorities, patient education, and exam strategies.
-- Write at university textbook depth — include mechanisms of action, compensatory responses, and evidence-based rationale.`,
+- Generate at MINIMUM 15-25 content blocks per chapter
+- Every paragraph must contain at least ONE specific clinical fact (lab value, drug dose, vital sign threshold, time window)
+- NEVER write filler ("is a condition that", "refers to", "is important because"). Lead with the clinical fact.
+- Lists must have 4-8 items each with substantive clinical detail (not single words)
+- Include at least 2 clinical-pearls with SPECIFIC exam-tested facts and 2 warnings with SPECIFIC clinical parameters
+- Cover: pathophysiology (cellular level), assessment with exact findings, drug management with doses, prioritized interventions with rationale, and exam-specific decision cues
+- Include "If you see X, think Y" clinical reasoning statements
+- Include at least one comparison (differential diagnosis or similar conditions)`,
       };
 
       const systemPrompt = systemPrompts[mode] || systemPrompts["generate"];
@@ -403,8 +407,8 @@ CRITICAL RULES:
       return { score: 0, pass: false, reasons: ["No sections generated"] };
     }
 
-    const genericPhrases = ["is a condition that", "refers to", "involves the", "characterized by", "is defined as", "can be described as"];
-    const decisionVerbs = ["assess", "monitor", "escalate", "call", "hold", "recheck", "administer", "position", "elevate", "notify", "document", "intervene", "prioritize", "delegate"];
+    const genericPhrases = ["is a condition that", "refers to", "involves the", "characterized by", "is defined as", "can be described as", "is important because", "plays a vital role", "is essential for", "is a common", "it is important to", "nurses should be aware", "is a serious condition", "can lead to complications", "requires careful monitoring", "should be monitored closely"];
+    const decisionVerbs = ["assess", "monitor", "escalate", "call", "hold", "recheck", "administer", "position", "elevate", "notify", "document", "intervene", "prioritize", "delegate", "titrate", "discontinue", "verify", "initiate", "withhold"];
     const requiredBlockFlavors = new Set(["clinical_pearl", "trap", "exam_tip", "warning"]);
 
     let totalBlocks = 0;
@@ -464,9 +468,9 @@ CRITICAL RULES:
       }
     }
 
-    if (genericHits > 3) {
-      score -= Math.min(25, genericHits * 5);
-      reasons.push(`${genericHits} generic phrases detected (e.g. "is a condition that")`);
+    if (genericHits > 1) {
+      score -= Math.min(35, genericHits * 7);
+      reasons.push(`${genericHits} generic/filler phrases detected (e.g. "is a condition that", "should be monitored closely") -- replace with specific clinical actions`);
     }
 
     if (longBlocks > 0) {
@@ -495,9 +499,9 @@ CRITICAL RULES:
       reasons.push("No first/priority actions section found");
     }
 
-    if (hasSpecifics < 3) {
-      score -= 15;
-      reasons.push(`Only ${hasSpecifics} specific clinical values found (need vitals, labs, thresholds)`);
+    if (hasSpecifics < 5) {
+      score -= Math.min(25, (5 - hasSpecifics) * 5);
+      reasons.push(`Only ${hasSpecifics} specific clinical values found (need >= 5: vital sign thresholds, lab cutoffs, drug doses, time windows)`);
     }
 
     if (totalBlocks < 15) {
@@ -538,7 +542,9 @@ CRITICAL RULES:
 
       const pipelinePrompts: Record<string, { system: string; user: string; maxTokens: number }> = {
         "strategy": {
-          system: `You are a premium nursing exam content strategist for NurseNest. You design cohesive, transformative study bundles that guide students from confusion to exam confidence. Return ONLY valid JSON.`,
+          system: `You are a senior nursing exam strategist with 15+ years of NCLEX/REX-PN item writing experience for NurseNest. You design exam prep materials that match the rigor and depth of Saunders, Hurst Review, and UWorld. Your strategy must reflect real exam blueprint weighting, evidence-based clinical guidelines, and measurable student outcomes. Return ONLY valid JSON.
+
+QUALITY STANDARD: Every recommendation must be traceable to current clinical practice guidelines (AHA, ANA, NCSBN, CNO, CMS). Never suggest generic study advice. Every element must be specifically tied to how this topic is tested on the target exam.`,
           user: `Design a strategic blueprint for a premium exam survival bundle.
 
 TOPIC: "${topic}"
@@ -549,60 +555,83 @@ TARGET PAGES: ${targetPages || 20}
 
 Define:
 1. target_level: "weak" | "average" | "high-performing"
-2. pain_points: string[] (3-5 primary student struggles with this topic)
-3. transformation: string (what they will be able to do after studying this bundle)
+2. pain_points: string[] (3-5 SPECIFIC student struggles with this topic -- e.g. "confuses hypokalemia ECG changes with hyperkalemia", not "struggles with electrolytes")
+3. transformation: string (measurable outcome -- e.g. "correctly triage 3 electrolyte emergencies and identify the priority intervention within 30 seconds")
 4. narrative_arc: { orientation: string, system_mastery: string, exam_execution: string }
-5. clinical_priority_framework: string[] (what matters most for exam scoring, ranked)
-6. visual_motif: string (recurring visual concept e.g. "shield", "checklist", "lifeline")
-7. tone: string (the emotional quality of the writing)
-8. difficulty_escalation: string (how complexity builds across pages)
+5. clinical_priority_framework: string[] (exam-scoring priorities ranked by NCSBN blueprint weight and real test frequency -- cite specific competency domains)
+6. high_yield_statistics: string[] (3-5 real clinical statistics relevant to this topic -- e.g. "mortality rate doubles for every hour delay in sepsis antibiotics", "hyperkalemia above 6.5 mEq/L requires emergency treatment")
+7. visual_motif: string (recurring visual concept e.g. "shield", "checklist", "lifeline")
+8. tone: string (the emotional quality of the writing)
+9. difficulty_escalation: string (how complexity builds across pages -- must include applied clinical scenarios by page 3)
+10. must_include_specifics: string[] (5-8 concrete clinical facts that MUST appear -- drug names with doses, lab value thresholds, time-critical interventions, contraindications)
 
-Return JSON: {"strategy": { target_level, pain_points, transformation, narrative_arc, clinical_priority_framework, visual_motif, tone, difficulty_escalation }}`,
+Return JSON: {"strategy": { target_level, pain_points, transformation, narrative_arc, clinical_priority_framework, high_yield_statistics, visual_motif, tone, difficulty_escalation, must_include_specifics }}`,
           maxTokens: 2048,
         },
 
         "blueprint": {
-          system: `You are a nursing education page architect for NurseNest. You design intentional, progressive page maps where every page has a specific purpose and connects logically to the next. Return ONLY valid JSON.`,
+          system: `You are a nursing education architect for NurseNest with deep knowledge of exam blueprint weighting and cognitive load theory. You design page-by-page learning progressions that mirror how expert clinicians build decision frameworks. Each page must earn its place -- no filler pages, no redundant summaries, no generic introductions. Return ONLY valid JSON.
+
+ANTI-FILLER RULES:
+- No pages titled "Introduction to..." or "Overview of..." -- start with actionable content
+- No pages that just list definitions without clinical application
+- Every content page must include at least one clinical decision point, lab threshold, or intervention sequence
+- Question pages must include distractor analysis (why each wrong answer is wrong)`,
           user: `Using this strategic blueprint, create a ${targetPages || 20}-page bundle map.
 
 TOPIC: "${topic}"
 EXAM: ${examContext}
 STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
 SECTIONS AVAILABLE: ${JSON.stringify(sections || [])}
-INCLUDE QUESTIONS: ${includeQuestions ? `Yes, ${questionCount || 10} questions` : "No"}
+INCLUDE QUESTIONS: ${includeQuestions ? `Yes, ${questionCount || 10} questions with full rationales for ALL options (correct AND incorrect)` : "No"}
 
 Rules:
-- Each page must have a specific purpose (no duplicate content themes)
-- Each page must connect logically to the next
-- Every 3-4 pages must escalate complexity
-- ${includeQuestions ? "Include practice question pages and rationale pages" : "Focus on content mastery pages"}
+- Each page must have a specific, unique purpose (no duplicate content themes)
+- Page 1 should start with the highest-yield content (what gets tested most), not background
+- Every 3-4 pages must escalate from recognition -> analysis -> clinical judgment -> exam application
+- Include comparison pages (differentials, similar conditions) -- these are the highest-yield exam pages
+- ${includeQuestions ? "Question pages must focus on priority/delegation/safety (most-tested question types)" : "Focus on clinical decision-making mastery pages"}
 
 For each page define:
 - id: string (e.g. "p01")
 - type: "cover" | "content" | "questions" | "rationales" | "toc" | "divider" | "summary"
 - section_id: string (matching section IDs if content type)
-- objective: string (what this page teaches)
-- exam_takeaways: string[] (1-3 key exam points)
+- objective: string (specific measurable learning objective -- e.g. "identify 4 ECG changes in hyperkalemia and state the K+ threshold for each")
+- exam_takeaways: string[] (1-3 key exam points with SPECIFICS -- include numbers, drug names, or clinical criteria)
 - visual_emphasis: "diagram-heavy" | "grid" | "checklist" | "algorithm" | "flowchart" | "mixed"
-- reasoning_focus: string (clinical reasoning angle)
+- reasoning_focus: string (clinical reasoning angle -- e.g. "why this intervention BEFORE that one")
 - emotional_tone: "confidence-building" | "urgency" | "clarity" | "reassurance"
+- clinical_specifics: string[] (2-3 concrete facts this page MUST contain -- lab values, drug doses, time thresholds)
 
 Return JSON: {"pages": [...]}`,
           maxTokens: 4096,
         },
 
         "content": {
-          system: `You are a structured content engine for NurseNest nursing exam bundles. You generate content in design blocks optimized for visual rendering. NEVER produce long paragraphs. Convert mechanisms into flowcharts, comparisons into grids, priorities into checklists, exam traps into warning callouts. Return ONLY valid JSON.
+          system: `You are a clinical content engine for NurseNest, writing at the level of Saunders Comprehensive Review and UWorld rationales. You generate exam-grade nursing content in structured design blocks. Your output must match the depth and specificity that nursing students pay $50+ for in commercial study guides. Return ONLY valid JSON.
 
-CRITICAL CONTENT RULES:
-- Every page must include at least 1 Clinical Pearl callout and 1 Exam Trap callout
-- Include Rapid Recall boxes (use callout with flavor "exam_tip")
-- Paragraphs must be 2-3 sentences MAX
-- Break long text into bullets
-- Use tables for comparisons (2-4 columns, 3-6 rows)
-- Callout titles must be specific to content, not generic
-- Content must be clinically accurate, evidence-based, at university textbook depth`,
-          user: `Generate structured content blocks for this nursing bundle.
+QUALITY IMPERATIVES:
+- Every paragraph must contain at least ONE specific clinical fact (a lab value, drug dose, time threshold, or physiological measurement)
+- NEVER write "is a condition that", "refers to", "is defined as", "involves the" -- these are textbook filler. Instead, lead with the clinical significance or exam relevance
+- Tables MUST contain real clinical data (actual drug names with doses, actual lab ranges, actual assessment findings) -- never placeholder text
+- Callout titles must be specific and clinical (e.g. "Peaked T-Waves Signal K+ > 6.0 mEq/L" not "Clinical Pearl")
+- Include at least 2 comparison/differential tables per bundle (these are the highest-yield exam content)
+- Every section must include: (1) how this is tested on the exam, (2) what the priority nursing action is, (3) at least one "if you see X, think Y" clinical decision cue
+
+CONTENT DEPTH REQUIREMENTS:
+- Pathophysiology: cellular/molecular level with compensatory mechanisms (e.g. "aldosterone increases K+ excretion via Na+/K+ ATPase in the collecting duct")
+- Medications: drug class, mechanism of action, key doses, onset/peak/duration, contraindications, nursing considerations, and patient teaching
+- Lab values: exact normal ranges AND critical values with nursing actions for each
+- Assessment: specific physical findings with clinical significance (e.g. "JVD indicates right-sided heart failure with CVP > 8 mmHg")
+- Interventions: sequenced by priority with rationale for the order
+
+ABSOLUTE BANS:
+- No filler paragraphs that state the obvious ("Electrolytes are important for body function")
+- No generic nursing advice ("Monitor the patient closely")
+- No undefined acronyms
+- No content that lacks clinical specificity
+- Paragraphs must be 2-3 sentences MAX`,
+          user: `Generate exam-grade structured content blocks for this nursing bundle.
 
 TOPIC: "${topic}"
 EXAM: ${examContext}
@@ -612,15 +641,26 @@ PAGE BLUEPRINT: ${JSON.stringify(previousStepData?.pages || [])}
 
 BLOCK TYPES TO USE:
 - {"kind":"heading","text":"...","level":1|2|3}
-- {"kind":"paragraph","text":"..."}
-- {"kind":"bullets","items":["item1","item2","item3"]}
-- {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"]],"caption":"..."}
-- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"...","body":"..."}
+- {"kind":"paragraph","text":"..."} (MAX 2-3 sentences, must contain specific clinical facts)
+- {"kind":"bullets","items":["item1","item2","item3"]} (each item must be substantive, not single words)
+- {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"]],"caption":"..."} (MUST contain real clinical data)
+- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"SPECIFIC CLINICAL TITLE","body":"..."}
 
-Generate content organized by section. Each section must have 7-12 blocks minimum.
-${includeQuestions ? `Also generate ${questionCount || 10} NCLEX-style MCQs with 4 options and rationales for EACH option.` : ""}
+REQUIRED per section (7-12 blocks minimum):
+1. At least 1 callout with flavor "clinical_pearl" containing a specific exam-tested fact
+2. At least 1 callout with flavor "trap" explaining a common exam distractor and why it is wrong
+3. At least 1 comparison table with real clinical data
+4. At least 1 "exam_tip" callout with a prioritization rule or decision cue
+5. Specific lab values, vital sign thresholds, or drug doses in bullets or tables
 
-Return JSON: {"sections":[{"id":"...","title":"...","blocks":[...]}]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"..."}]' : ""}}`,
+${includeQuestions ? `Also generate ${questionCount || 10} NCLEX-style MCQs. Questions MUST:
+- Focus on priority actions, delegation, and safety (most-tested question types)
+- Include 4 options where ALL options are plausible (no obvious distractors)
+- Provide rationales explaining why EACH option is correct or incorrect
+- Include at least 3 "Select All That Apply" (SATA) questions
+- Reference specific clinical values, medications, or assessment findings in stems` : ""}
+
+Return JSON: {"sections":[{"id":"...","title":"...","blocks":[...]}]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"...","type":"mcq"|"sata"}]' : ""}}`,
           maxTokens: 16384,
         },
 
@@ -696,21 +736,31 @@ Return the fixed content in the same JSON structure:
         },
 
         "enhance": {
-          system: `You are an exam authority enhancer for NurseNest. You take existing nursing content and inject exam-specific framing that makes it feel exam-ready rather than textbook-generic. You add priority ladders, decision algorithms, "If you see X think Y" statements, and high-yield mnemonics. Return ONLY valid JSON with the same structure as input.`,
-          user: `Enhance this content with exam-specific authority framing.
+          system: `You are a senior NCLEX item writer and clinical educator enhancing NurseNest content to professional exam-prep quality. Your job is to transform content from "textbook level" to "UWorld/Saunders level" by adding clinical decision frameworks, real exam patterns, and professional-grade specificity. Return ONLY valid JSON with the same structure as input.
+
+ENHANCEMENT STANDARDS:
+- Every enhancement must add CONCRETE clinical value (a number, a drug name, a clinical threshold, a decision rule)
+- Never add generic advice like "always assess first" or "prioritize patient safety" -- be specific about WHAT to assess and WHICH safety concern
+- Mnemonics must be well-known and evidence-tested (e.g. MONA for MI, MUDPILES for metabolic acidosis) -- do not invent new mnemonics
+- Priority ladders must include the rationale for ordering (WHY this action before that one)`,
+          user: `Enhance this content to professional exam-prep authority level.
 
 TOPIC: "${topic}"
 EXAM: ${examContext}
 
-For each section, add or improve:
-- What is most tested about this topic?
-- What distractors commonly appear?
-- What answer patterns students miss?
-- How exam writers phrase this concept?
-- Add "If you see X, think Y" decision statements where useful
-- Add mnemonics ONLY if high-yield
-- Add priority ladders for interventions
+For each section, apply these specific upgrades:
+1. EXAM PATTERN ANALYSIS: Add a callout explaining exactly how this topic appears on the exam (question stem patterns, common item types, distractor strategies)
+2. DECISION ALGORITHMS: Convert any "assess and intervene" content into specific if-then decision trees with thresholds (e.g. "If K+ 5.5-6.0: PO Kayexalate 15g + recheck in 2h. If K+ > 6.0: IV calcium gluconate 1g over 10 min STAT")
+3. CLINICAL REASONING CUES: Add "If you see [finding], think [condition], do [action]" statements with specific findings
+4. DISTRACTOR ANALYSIS: For each exam trap callout, explain WHY each wrong answer looks right and the key differentiating factor
+5. PRIORITY LADDERS: Sequence interventions with clinical rationale (not just "ABCs" but specific to this condition)
+6. HIGH-YIELD STATISTICS: Add real clinical statistics where relevant (incidence rates, mortality without treatment, time-to-treatment windows)
+
+QUALITY GATES:
 - Do NOT add fluff or generic advice
+- Do NOT add content that lacks a specific clinical fact
+- Do NOT create new sections -- only enhance existing blocks or add targeted callouts
+- Every added callout must have a specific, clinical title (not "Important Note")
 
 CURRENT CONTENT: ${JSON.stringify(previousStepData?.sections || [])}
 
@@ -720,23 +770,29 @@ Return the enhanced sections in the same JSON structure:
         },
 
         "qa": {
-          system: `You are a QA editor for NurseNest nursing exam bundles. You audit content for quality, flow, and coherence. You fix issues but preserve the block structure. Return ONLY valid JSON with the corrected content.`,
-          user: `Audit and correct this nursing bundle content.
+          system: `You are a clinical accuracy reviewer and content quality auditor for NurseNest. You have the standards of a nursing textbook editor combined with an NCLEX item writer. You catch clinical errors, weak content, and filler. You fix issues but preserve the block structure. Return ONLY valid JSON with the corrected content.
+
+QA STANDARDS:
+- Clinical accuracy: All lab values, drug doses, vital sign ranges, and interventions must be current and evidence-based
+- Specificity check: Flag and fix any paragraph that lacks a concrete clinical fact
+- Exam relevance: Every section must clearly connect to how it is tested
+- No filler tolerance: Remove or replace any content that states the obvious without clinical value`,
+          user: `Perform professional-grade quality audit on this nursing bundle content.
 
 TOPIC: "${topic}"
 EXAM: ${examContext}
 
-Check and fix:
-- Remove redundant content across sections
-- Ensure logical flow between sections
-- Ensure difficulty escalates progressively
-- Ensure tone consistency throughout
-- Ensure no isolated/disconnected sections
-- Ensure exam framing appears throughout (not just in one section)
-- Ensure each section references or builds on previous knowledge
-- Fix any clinically inaccurate statements
-- Ensure callout titles are specific (not "Clinical Pearl" but "Potassium and Cardiac Rhythm")
-- Ensure tables have meaningful data, not placeholders
+AUDIT CHECKLIST -- check and fix each:
+1. CLINICAL ACCURACY: Verify all lab values match current reference ranges, drug doses are correct, and interventions follow current guidelines (AHA, ANA, NCSBN)
+2. FILLER DETECTION: Remove or replace any sentence that starts with "is a condition", "refers to", "involves the", "is important because" with specific clinical content
+3. SPECIFICITY AUDIT: Every paragraph must contain at least one specific fact. Replace "Monitor vital signs" with "Monitor BP q15min, target MAP > 65 mmHg"
+4. REDUNDANCY: Remove duplicate content across sections. If two sections cover the same concept, merge or differentiate them
+5. FLOW: Ensure progressive complexity (recognition -> analysis -> clinical judgment -> application)
+6. EXAM FRAMING: Ensure exam-specific language appears throughout, not just in one section
+7. TABLE QUALITY: Tables must contain real clinical data with specific values -- no generic placeholders
+8. CALLOUT SPECIFICITY: Replace generic titles ("Clinical Pearl", "Important") with specific clinical titles ("Digoxin Toxicity: Check K+ Before Each Dose")
+9. QUESTION QUALITY: If questions exist, verify all 4 options are plausible, rationales explain ALL options, and stems test clinical judgment (not recall)
+10. COMPLETENESS: Ensure each section has the required block types (at least 1 clinical pearl, 1 exam trap, specific clinical values)
 
 CURRENT CONTENT: ${JSON.stringify(previousStepData?.sections || [])}
 
