@@ -1135,6 +1135,73 @@ Rules:
     }
   });
 
+  app.post("/api/user-flashcards/ai-generate-from-notes", async (req, res) => {
+    try {
+      const { userId, notes, count, category } = req.body;
+      if (!userId || !notes?.trim()) return res.status(400).json({ error: "userId and notes text required" });
+      if (notes.length > 50000) return res.status(400).json({ error: "Notes too long. Please limit to 50,000 characters." });
+
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      const existingCards = await storage.getUserFlashcards(userId);
+      const FREE_LIMIT = 50;
+      const isPaid = user.tier !== "free" && user.subscriptionStatus === "active";
+      const remaining = isPaid ? 999 : FREE_LIMIT - existingCards.length;
+
+      if (remaining <= 0) {
+        return res.status(403).json({
+          error: `You've reached the free limit of ${FREE_LIMIT} cards. Upgrade your plan to create unlimited flashcards with AI.`,
+          upgradeRequired: true,
+        });
+      }
+
+      const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
+      const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
+      if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
+
+      const perGenMax = isPaid ? 50 : 25;
+      const numCards = Math.min(Math.max(parseInt(count) || 10, 1), Math.min(perGenMax, remaining));
+      const region = (req as any).region || "US";
+      const regionNote = region === "CA"
+        ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."
+        : "Use American nursing terminology, conventional units, and US exam standards (NCLEX).";
+
+      const truncatedNotes = notes.length > 30000 ? notes.substring(0, 30000) + "\n[Notes truncated...]" : notes;
+      const maxTokens = numCards > 25 ? 8192 : 4096;
+      const { default: OpenAI } = await import("openai");
+      const openai = new OpenAI({ apiKey, baseURL });
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are a nursing education flashcard generator for NurseNest. You will be given a student's study notes and must convert them into high-quality, exam-ready flashcards. ${regionNote} Extract the most important concepts, facts, and clinical details from the notes. Each card should have a clear question and concise, accurate answer. Return ONLY valid JSON.`,
+          },
+          {
+            role: "user",
+            content: `Convert the following study notes into exactly ${numCards} flashcards. Focus on the most testable and clinically important content:\n\n---\n${truncatedNotes}\n---\n\nReturn as JSON: {"cards":[{"question":"question text","answer":"answer text"}]}`,
+          },
+        ],
+        response_format: { type: "json_object" },
+        temperature: 0.6,
+        max_tokens: maxTokens,
+      });
+
+      const text = completion.choices[0]?.message?.content || '{"cards":[]}';
+      const parsed = JSON.parse(text);
+      const cards = (parsed.cards || []).map((c: any) => ({
+        question: c.question || c.front || "",
+        answer: c.answer || c.back || "",
+      })).filter((c: any) => c.question && c.answer);
+
+      res.json({ cards, category: category || "From Notes" });
+    } catch (e: any) {
+      console.error("AI notes-to-flashcard generation error:", e);
+      res.status(500).json({ error: "AI generation failed. Please try again." });
+    }
+  });
+
   // --------------------
   // Test results
   // --------------------
@@ -2619,6 +2686,88 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       res.json({ cards });
     } catch (e: any) {
       console.error("AI flashcard generation error:", e);
+      res.status(500).json({ error: e.message || "AI generation failed" });
+    }
+  });
+
+  app.post("/api/decks/:id/ai-generate-from-notes", async (req, res) => {
+    try {
+      const { userId, notes, count } = req.body;
+      if (!userId || !notes?.trim()) return res.status(400).json({ error: "userId and notes text required" });
+      if (notes.length > 50000) return res.status(400).json({ error: "Notes too long. Please limit to 50,000 characters." });
+      const deckId = req.params.id;
+      const deckResult = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
+      if (deckResult.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
+      const deck = deckResult.rows[0];
+
+      const entitlement = await getUserCardEntitlement(userId);
+      if (!entitlement.isPremium) {
+        let remaining: number;
+        if (deck.is_upgraded) {
+          const deckCardCount = await pool.query(`SELECT COUNT(*) as cnt FROM deck_flashcards WHERE deck_id = $1`, [deckId]);
+          const current = parseInt(deckCardCount.rows[0]?.cnt || "0");
+          remaining = (deck.upgraded_limit || DECK_UPGRADED_MAX) - current;
+        } else {
+          remaining = FREE_GLOBAL_MAX - entitlement.totalFreeCards;
+        }
+        if (remaining <= 0) {
+          return res.status(403).json({
+            error: `You've reached the free limit of ${FREE_GLOBAL_MAX} cards. Upgrade your plan to create unlimited flashcards with AI.`,
+            upgradeRequired: true,
+            limit: FREE_GLOBAL_MAX,
+            current: entitlement.totalFreeCards,
+          });
+        }
+      }
+
+      const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
+      const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
+      if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
+
+      const PREMIUM_MAX = 50;
+      const FREE_MAX_PER_GEN = 25;
+      const maxAllowed = entitlement.isPremium ? PREMIUM_MAX : Math.min(FREE_MAX_PER_GEN, (deck.is_upgraded ? ((deck.upgraded_limit || DECK_UPGRADED_MAX) - entitlement.totalFreeCards) : (FREE_GLOBAL_MAX - entitlement.totalFreeCards)));
+      const numCards = Math.min(Math.max(parseInt(count) || 15, 1), Math.max(maxAllowed, 1));
+      const region = req.region || "US";
+      const regionNote = region === "CA"
+        ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."
+        : "Use American nursing terminology, conventional units, and US exam standards (NCLEX).";
+
+      const truncatedNotes = notes.length > 30000 ? notes.substring(0, 30000) + "\n[Notes truncated...]" : notes;
+      const maxTokens = numCards > 25 ? 8192 : 4096;
+      const { default: OpenAI } = await import("openai");
+      const openai = new OpenAI({ apiKey, baseURL });
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are a nursing education flashcard generator for NurseNest. You will be given a student's study notes and must convert them into high-quality, exam-ready flashcards. ${regionNote} Extract the most important concepts, facts, and clinical details from the notes. Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale. Return ONLY valid JSON.`,
+          },
+          {
+            role: "user",
+            content: `Convert the following study notes into exactly ${numCards} flashcards. Focus on the most testable and clinically important content:\n\n---\n${truncatedNotes}\n---\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation"}]}`,
+          },
+        ],
+        response_format: { type: "json_object" },
+        temperature: 0.6,
+        max_tokens: maxTokens,
+      });
+
+      const text = completion.choices[0]?.message?.content || '{"cards":[]}';
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        return res.status(500).json({ error: "Failed to parse AI response" });
+      }
+
+      const cards = (parsed.cards || []).filter((c: any) => c.front?.trim() && c.back?.trim());
+      if (cards.length === 0) return res.status(400).json({ error: "AI could not generate cards from your notes. Try adding more detailed content." });
+
+      res.json({ cards });
+    } catch (e: any) {
+      console.error("AI notes-to-flashcard generation error:", e);
       res.status(500).json({ error: e.message || "AI generation failed" });
     }
   });

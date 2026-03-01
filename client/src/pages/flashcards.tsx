@@ -2088,6 +2088,9 @@ export default function Flashcards() {
   const [mycardsAiGenerating, setMycardsAiGenerating] = useState(false);
   const [mycardsAiCards, setMycardsAiCards] = useState<{question: string; answer: string}[]>([]);
   const [mycardsShowAi, setMycardsShowAi] = useState(false);
+  const [mycardsAiMode, setMycardsAiMode] = useState<"topic" | "notes">("topic");
+  const [mycardsNotesText, setMycardsNotesText] = useState("");
+  const [mycardsNotesFileName, setMycardsNotesFileName] = useState("");
 
   const mycardsAiGenerate = async () => {
     if (!user || !mycardsAiPrompt.trim()) return;
@@ -2111,6 +2114,40 @@ export default function Flashcards() {
     } finally {
       setMycardsAiGenerating(false);
     }
+  };
+
+  const mycardsNotesGenerate = async () => {
+    if (!user || !mycardsNotesText.trim()) return;
+    setMycardsAiGenerating(true);
+    setMycardsAiCards([]);
+    try {
+      const res = await fetch("/api/user-flashcards/ai-generate-from-notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, notes: mycardsNotesText, count: mycardsAiCount }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error || "AI generation from notes failed");
+        return;
+      }
+      const data = await res.json();
+      setMycardsAiCards(data.cards || []);
+    } catch {
+      alert("AI generation from notes failed. Please try again.");
+    } finally {
+      setMycardsAiGenerating(false);
+    }
+  };
+
+  const handleMycardsNotesFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert("File too large. Please limit to 5 MB."); return; }
+    setMycardsNotesFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (ev) => { if (ev.target?.result) setMycardsNotesText(ev.target.result as string); };
+    reader.readAsText(file);
   };
 
   const mycardsAiAddAll = async () => {
@@ -2969,44 +3006,123 @@ export default function Flashcards() {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-bold text-gray-900">AI Flashcard Generator</h3>
-                <p className="text-xs text-gray-500">Describe a topic and let AI create flashcards for you</p>
+                <p className="text-xs text-gray-500">Generate flashcards from a topic or your study notes</p>
               </div>
               <ChevronRight className={cn("w-5 h-5 text-gray-400 transition-transform", mycardsShowAi && "rotate-90")} />
             </button>
 
             {mycardsShowAi && (
               <div className="mt-6 space-y-4">
-                <div>
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Topic or prompt</label>
-                  <Input
-                    placeholder="e.g., Cardiac medications and their side effects"
-                    value={mycardsAiPrompt}
-                    onChange={(e) => setMycardsAiPrompt(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === "Enter" && mycardsAiPrompt.trim()) mycardsAiGenerate(); }}
-                    className="rounded-xl"
-                    data-testid="input-ai-prompt-mycards"
-                  />
-                </div>
-                <div className="flex items-center gap-3">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Cards</label>
-                  <select
-                    value={mycardsAiCount}
-                    onChange={(e) => setMycardsAiCount(parseInt(e.target.value))}
-                    className="text-sm border rounded-lg px-2 py-1"
-                    data-testid="select-ai-count-mycards"
+                <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
+                  <button
+                    onClick={() => setMycardsAiMode("topic")}
+                    className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
+                      mycardsAiMode === "topic" ? "bg-purple-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                    )}
+                    data-testid="button-mycards-mode-topic"
                   >
-                    {[3, 5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""}</option>)}
-                  </select>
-                  <Button
-                    onClick={mycardsAiGenerate}
-                    disabled={mycardsAiGenerating || !mycardsAiPrompt.trim()}
-                    className="rounded-xl gap-2 ml-auto"
-                    data-testid="button-ai-generate-mycards"
+                    <Sparkles className="w-3.5 h-3.5" /> From Topic
+                  </button>
+                  <button
+                    onClick={() => setMycardsAiMode("notes")}
+                    className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
+                      mycardsAiMode === "notes" ? "bg-blue-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                    )}
+                    data-testid="button-mycards-mode-notes"
                   >
-                    {mycardsAiGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-                    {mycardsAiGenerating ? "Generating..." : "Generate"}
-                  </Button>
+                    <Upload className="w-3.5 h-3.5" /> From Notes
+                  </button>
                 </div>
+
+                {mycardsAiMode === "topic" ? (
+                  <>
+                    <div>
+                      <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Topic or prompt</label>
+                      <Input
+                        placeholder="e.g., Cardiac medications and their side effects"
+                        value={mycardsAiPrompt}
+                        onChange={(e) => setMycardsAiPrompt(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter" && mycardsAiPrompt.trim()) mycardsAiGenerate(); }}
+                        className="rounded-xl"
+                        data-testid="input-ai-prompt-mycards"
+                      />
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Cards</label>
+                      <select
+                        value={mycardsAiCount}
+                        onChange={(e) => setMycardsAiCount(parseInt(e.target.value))}
+                        className="text-sm border rounded-lg px-2 py-1"
+                        data-testid="select-ai-count-mycards"
+                      >
+                        {[3, 5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""}</option>)}
+                      </select>
+                      <Button
+                        onClick={mycardsAiGenerate}
+                        disabled={mycardsAiGenerating || !mycardsAiPrompt.trim()}
+                        className="rounded-xl gap-2 ml-auto"
+                        data-testid="button-ai-generate-mycards"
+                      >
+                        {mycardsAiGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
+                        {mycardsAiGenerating ? "Generating..." : "Generate"}
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="border-2 border-dashed border-blue-200 rounded-xl p-4 text-center hover:border-blue-400 transition-colors">
+                      <input
+                        type="file"
+                        accept=".txt,.md,.csv,.rtf,text/*"
+                        onChange={handleMycardsNotesFile}
+                        className="hidden"
+                        id="mycards-notes-file"
+                        data-testid="input-mycards-notes-file"
+                      />
+                      <label htmlFor="mycards-notes-file" className="cursor-pointer flex flex-col items-center gap-2">
+                        <Upload className="w-8 h-8 text-blue-300" />
+                        <span className="text-xs text-blue-600 font-medium">Click to upload a text file</span>
+                        <span className="text-[10px] text-gray-400">.txt, .md, .csv, .rtf (max 5 MB)</span>
+                      </label>
+                      {mycardsNotesFileName && (
+                        <div className="mt-2 inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-lg" data-testid="text-mycards-notes-filename">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          {mycardsNotesFileName}
+                        </div>
+                      )}
+                    </div>
+                    <Textarea
+                      placeholder="Or paste your study notes here... e.g., lecture notes, textbook summaries, clinical observations"
+                      value={mycardsNotesText}
+                      onChange={(e) => setMycardsNotesText(e.target.value)}
+                      className="rounded-xl min-h-[120px] border-blue-200 focus:border-blue-400 text-sm"
+                      data-testid="textarea-mycards-notes"
+                    />
+                    {mycardsNotesText && (
+                      <p className="text-[10px] text-gray-400">{mycardsNotesText.length.toLocaleString()} characters</p>
+                    )}
+                    <div className="flex items-center gap-3">
+                      <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Cards</label>
+                      <select
+                        value={mycardsAiCount}
+                        onChange={(e) => setMycardsAiCount(parseInt(e.target.value))}
+                        className="text-sm border rounded-lg px-2 py-1"
+                        data-testid="select-notes-count-mycards"
+                      >
+                        {[3, 5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""}</option>)}
+                      </select>
+                      <Button
+                        onClick={mycardsNotesGenerate}
+                        disabled={mycardsAiGenerating || !mycardsNotesText.trim()}
+                        className="rounded-xl gap-2 ml-auto bg-blue-600 hover:bg-blue-700"
+                        data-testid="button-notes-generate-mycards"
+                      >
+                        {mycardsAiGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                        {mycardsAiGenerating ? "Converting..." : "Convert Notes"}
+                      </Button>
+                    </div>
+                  </>
+                )}
 
                 {mycardsAiCards.length > 0 && (
                   <div className="space-y-3 mt-4">

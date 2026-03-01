@@ -97,12 +97,15 @@ export function DeckHub({
   newDeckVisibility, setNewDeckVisibility,
 }: Partial<DeckViewsProps> & { user: any; setView: any; setLocation: any }) {
   const [showCreate, setShowCreate] = useState(false);
-  const [createMode, setCreateMode] = useState<"manual" | "ai">("ai");
+  const [createMode, setCreateMode] = useState<"manual" | "ai" | "notes">("ai");
   const [aiTopic, setAiTopic] = useState("");
   const [aiCardCount, setAiCardCount] = useState(10);
   const [aiCreating, setAiCreating] = useState(false);
   const [aiPreviewCards, setAiPreviewCards] = useState<{front: string; back: string; rationale: string}[]>([]);
   const [aiError, setAiError] = useState("");
+  const [notesText, setNotesText] = useState("");
+  const [notesCardCount, setNotesCardCount] = useState(15);
+  const [notesFileName, setNotesFileName] = useState("");
 
   const handleCreateWithAI = async () => {
     if (!user || !aiTopic.trim()) return;
@@ -172,6 +175,97 @@ export function DeckHub({
     }
   };
 
+  const handleCreateFromNotes = async () => {
+    if (!user || !notesText.trim()) return;
+    setAiCreating(true);
+    setAiError("");
+    try {
+      const title = notesFileName
+        ? notesFileName.replace(/\.[^.]+$/, "").substring(0, 60)
+        : `Notes Deck - ${new Date().toLocaleDateString()}`;
+      const deckRes = await fetch("/api/decks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, title, description: "Created from uploaded notes", visibility: newDeckVisibility || "private" }),
+      });
+      if (!deckRes.ok) { setAiError("Failed to create deck."); return; }
+      const deck = await deckRes.json();
+
+      const genRes = await fetch(`/api/decks/${deck.id}/ai-generate-from-notes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, notes: notesText, count: notesCardCount }),
+      });
+      if (!genRes.ok) {
+        const err = await genRes.json();
+        if (err.upgradeRequired) {
+          setAiError("You've reached the free card limit. Upgrade to create more cards with AI.");
+        } else {
+          setAiError(err.error || "AI generation from notes failed. Try again.");
+        }
+        setMyDecks?.((prev: any) => [deck, ...prev]);
+        setCurrentDeck?.(deck);
+        setDeckCards?.([]);
+        setView("deck-edit");
+        setShowCreate(false);
+        return;
+      }
+      const data = await genRes.json();
+      const cards = data.cards || [];
+
+      if (cards.length > 0) {
+        const bulkRes = await fetch(`/api/decks/${deck.id}/cards/bulk-import`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id, cards }),
+        });
+        if (bulkRes.ok) {
+          setMyDecks?.((prev: any) => [deck, ...prev]);
+          setCurrentDeck?.(deck);
+          fetchDeckCards?.(deck.id);
+          fetchEntitlement?.();
+          setView("deck-view");
+          setShowCreate(false);
+          setNotesText("");
+          setNotesFileName("");
+        }
+      } else {
+        setAiError("AI couldn't extract flashcards from your notes. Try adding more detailed content.");
+        setMyDecks?.((prev: any) => [deck, ...prev]);
+        setCurrentDeck?.(deck);
+        setDeckCards?.([]);
+        setView("deck-edit");
+        setShowCreate(false);
+      }
+    } catch (e: any) {
+      setAiError("Something went wrong. Please try again.");
+    } finally {
+      setAiCreating(false);
+    }
+  };
+
+  const handleNotesFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setAiError("File too large. Please limit to 5 MB.");
+      return;
+    }
+    const validTypes = [".txt", ".md", ".csv", ".rtf"];
+    const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+    if (!validTypes.includes(ext) && !file.type.startsWith("text/")) {
+      setAiError("Please upload a text file (.txt, .md, .csv, or .rtf).");
+      return;
+    }
+    setNotesFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const text = ev.target?.result as string;
+      if (text) setNotesText(text);
+    };
+    reader.readAsText(file);
+  };
+
   if (!user) {
     return (
       <div className="text-center py-16">
@@ -212,6 +306,15 @@ export function DeckHub({
                 data-testid="button-create-mode-ai"
               >
                 <Sparkles className="w-3.5 h-3.5" /> AI Generator
+              </button>
+              <button
+                onClick={() => setCreateMode("notes")}
+                className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
+                  createMode === "notes" ? "bg-blue-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                )}
+                data-testid="button-create-mode-notes"
+              >
+                <Upload className="w-3.5 h-3.5" /> From Notes
               </button>
               <button
                 onClick={() => setCreateMode("manual")}
@@ -309,6 +412,100 @@ export function DeckHub({
                       {topic}
                     </button>
                   ))}
+                </div>
+              </div>
+            ) : createMode === "notes" ? (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Upload className="w-4 h-4 text-blue-600" />
+                  <h3 className="text-sm font-bold text-blue-800">Create Deck from Your Notes</h3>
+                </div>
+                <p className="text-xs text-blue-600">Paste your study notes or upload a text file and AI will extract key concepts into flashcards.</p>
+                <div className="border-2 border-dashed border-blue-200 rounded-xl p-4 text-center hover:border-blue-400 transition-colors">
+                  <input
+                    type="file"
+                    accept=".txt,.md,.csv,.rtf,text/*"
+                    onChange={handleNotesFileUpload}
+                    className="hidden"
+                    id="notes-file-upload"
+                    data-testid="input-notes-file"
+                  />
+                  <label htmlFor="notes-file-upload" className="cursor-pointer flex flex-col items-center gap-2">
+                    <Upload className="w-8 h-8 text-blue-300" />
+                    <span className="text-xs text-blue-600 font-medium">Click to upload a text file</span>
+                    <span className="text-[10px] text-gray-400">.txt, .md, .csv, .rtf (max 5 MB)</span>
+                  </label>
+                  {notesFileName && (
+                    <div className="mt-2 inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-lg" data-testid="text-notes-filename">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      {notesFileName}
+                    </div>
+                  )}
+                </div>
+                <div className="relative">
+                  <div className="absolute inset-x-0 top-0 flex items-center justify-center -translate-y-1/2">
+                    <span className="bg-white px-2 text-[10px] text-gray-400">or paste your notes below</span>
+                  </div>
+                </div>
+                <Textarea
+                  placeholder="Paste your study notes here... e.g., lecture notes, textbook summaries, clinical observations"
+                  value={notesText}
+                  onChange={(e: any) => setNotesText(e.target.value)}
+                  className="rounded-xl min-h-[120px] border-blue-200 focus:border-blue-400 text-sm"
+                  data-testid="textarea-notes-content"
+                />
+                {notesText && (
+                  <p className="text-[10px] text-gray-400" data-testid="text-notes-char-count">{notesText.length.toLocaleString()} characters</p>
+                )}
+                <div className="flex items-center gap-3">
+                  <label className="text-xs text-gray-500">Cards:</label>
+                  <select
+                    value={notesCardCount}
+                    onChange={(e: any) => setNotesCardCount(parseInt(e.target.value))}
+                    className="text-xs border rounded-lg px-2 py-1.5 bg-white"
+                    data-testid="select-notes-card-count"
+                  >
+                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""} cards</option>)}
+                  </select>
+                  <div className="flex-1" />
+                  <label className="text-xs text-gray-500">Visibility:</label>
+                  <div className="flex rounded-lg border overflow-hidden">
+                    {[
+                      { v: "private", icon: EyeOff, label: "Private" },
+                      { v: "public", icon: Globe, label: "Public" },
+                    ].map(({ v, icon: Icon, label }) => (
+                      <button
+                        key={v}
+                        onClick={() => setNewDeckVisibility!(v)}
+                        className={cn("px-2.5 py-1 text-xs font-medium flex items-center gap-1 transition-colors",
+                          newDeckVisibility === v ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-50"
+                        )}
+                        data-testid={`button-notes-visibility-${v}`}
+                      >
+                        <Icon className="w-3 h-3" /> {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {aiError && (
+                  <div className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg p-3" data-testid="text-notes-error">
+                    {aiError}
+                  </div>
+                )}
+                <div className="flex gap-2 pt-1">
+                  <Button
+                    onClick={handleCreateFromNotes}
+                    disabled={!notesText.trim() || aiCreating}
+                    className="rounded-xl gap-2 bg-blue-600 hover:bg-blue-700"
+                    data-testid="button-create-from-notes"
+                  >
+                    {aiCreating ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Converting Notes...</>
+                    ) : (
+                      <><Upload className="w-4 h-4" /> Create Deck from Notes</>
+                    )}
+                  </Button>
+                  <Button variant="outline" onClick={() => { setShowCreate(false); setAiError(""); setNotesText(""); setNotesFileName(""); }} className="rounded-xl" disabled={aiCreating}>Cancel</Button>
                 </div>
               </div>
             ) : (
