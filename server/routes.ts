@@ -1388,13 +1388,13 @@ Return JSON: [{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct
       const { topic, customPrompt, examTarget, questionCount, difficulty, questionTypes } = req.body;
       if (!topic) return res.status(400).json({ error: "Topic is required" });
 
-      const count = Math.min(Math.max(parseInt(questionCount) || 25, 5), 75);
+      const requestedCount = Math.min(Math.max(parseInt(questionCount) || 25, 5), 75);
       const diff = difficulty || "mixed";
       const types = questionTypes || ["multiple-choice", "select-all", "ordered-response"];
 
       const examTargetNotes: Record<string, string> = {
-        "rex-pn": "REX-PN (Canada). Use Canadian terminology: RPN, CNO, SI units (mmol/L, µmol/L), °C, kg. CAT-based exam, RPN scope.",
-        "nclex-pn": "NCLEX-PN (US). Use American terminology: LPN/LVN, conventional units (mEq/L, mg/dL), °F, lbs. LPN scope under RN supervision.",
+        "rex-pn": "REX-PN (Canada). Use Canadian terminology: RPN, CNO, SI units (mmol/L, umol/L), C, kg. CAT-based exam, RPN scope.",
+        "nclex-pn": "NCLEX-PN (US). Use American terminology: LPN/LVN, conventional units (mEq/L, mg/dL), F, lbs. LPN scope under RN supervision.",
         "nclex-rn": "NCLEX-RN. Use NCSBN CJMM. Include NGN question types. Full RN scope, clinical judgment focus. Conventional units.",
         "np": "NP Certification (AANP/ANCC). Advanced practice level. Differential diagnosis, prescribing, autonomous practice.",
       };
@@ -1407,65 +1407,218 @@ Return JSON: [{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct
         baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
       });
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "system",
-            content: `You are an expert nursing exam question writer for NurseNest. Generate a professional test bank with clinically accurate, exam-style questions.
+      const VALID_CATEGORIES = ["Professional, Ethical & Legal Practice", "Foundations of Practice", "Collaborative Practice", "Nursing Care"];
+      const VALID_TYPES = ["MCQ", "SATA", "PRIORITY", "DELEGATION"];
+
+      const systemPrompt = `You are an expert nursing exam question writer for NurseNest. Generate a professional test bank with clinically accurate, exam-style questions.
 
 Exam context: ${examNote}
 
-Return ONLY valid JSON with this exact structure:
+You MUST return STRICT JSON (no markdown, no code fences) with this EXACT structure:
 {
-  "title": "Test Bank: [Topic Name]",
-  "description": "A brief 1-2 sentence description of what this test bank covers.",
+  "requestedCount": ${requestedCount},
   "questions": [
     {
-      "id": 1,
-      "type": "multiple-choice",
-      "difficulty": "moderate",
-      "stem": "The question stem text...",
-      "options": ["A) Option text", "B) Option text", "C) Option text", "D) Option text"],
+      "id": "q1",
+      "category": "one of: Professional, Ethical & Legal Practice | Foundations of Practice | Collaborative Practice | Nursing Care",
+      "type": "MCQ",
+      "scenario": "A 72-year-old patient with a history of CHF presents to the ED...",
+      "stem": "The nurse should prioritize which action?",
+      "options": ["A) ...", "B) ...", "C) ...", "D) ..."],
       "correctAnswer": "B",
-      "rationale": "Explanation of why B is correct and why other options are wrong.",
-      "category": "Category/System",
-      "tags": ["tag1", "tag2"]
+      "rationaleCorrect": "Why B is correct with clinical reasoning...",
+      "rationaleIncorrect": ["Why A is wrong...", "Why C is wrong...", "Why D is wrong..."],
+      "clinicalPearl": "A concise exam-relevant takeaway..."
     }
   ]
 }
 
-Question types to include: ${types.join(", ")}
-- multiple-choice: 4 options, 1 correct
-- select-all: 5-6 options, 2-4 correct (correctAnswer as comma-separated like "A,C,D")
-- ordered-response: 4-6 steps to arrange in order (correctAnswer as ordered like "C,A,D,B")
+QUESTION TYPE RULES:
+- MCQ: options.length MUST be exactly 4. correctAnswer = single letter (A/B/C/D).
+- SATA: options.length MUST be 6-8. correctAnswer = array of 2-5 letters (e.g. ["A","C","E"]).
+- PRIORITY: Same rules as MCQ (4 options, single correct answer).
+- DELEGATION: Same rules as MCQ (4 options, single correct answer).
+
+FIELD REQUIREMENTS (every question MUST have ALL fields):
+- id: unique string like "q1", "q2", etc.
+- category: MUST be exactly one of: ${VALID_CATEGORIES.join(" | ")}
+- type: MUST be exactly one of: ${VALID_TYPES.join(" | ")}
+- scenario: clinical patient scenario (>= 50 chars)
+- stem: the actual question (>= 20 chars)
+- options: array of labeled options
+- correctAnswer: letter(s) matching correct option(s)
+- rationaleCorrect: why the correct answer is right (>= 50 chars)
+- rationaleIncorrect: array of rationales for EACH incorrect option
+- clinicalPearl: exam-relevant clinical takeaway (>= 30 chars)
+
+Question type distribution: ${types.map((t: string) => {
+  if (t === "multiple-choice") return "MCQ";
+  if (t === "select-all") return "SATA";
+  if (t === "ordered-response") return "PRIORITY";
+  return t.toUpperCase();
+}).join(", ")}
 
 Difficulty distribution for "${diff}": ${diff === "easy" ? "70% easy, 25% moderate, 5% hard" : diff === "hard" ? "5% easy, 25% moderate, 70% hard" : "20% easy, 50% moderate, 30% hard"}
 
-Generate exactly ${count} questions. Each must be clinically accurate, relevant to the topic, and match exam-level rigor.`
-          },
-          {
-            role: "user",
-            content: `Generate a ${count}-question test bank on: ${topic}${customPrompt ? `\n\nAdditional instructions from the user: ${customPrompt}\nUse these instructions to guide question focus, depth, and style. Do NOT echo the user's words verbatim.` : ""}`
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 8192,
-      });
+CRITICAL: You MUST generate EXACTLY ${requestedCount} questions. Not ${requestedCount - 1}, not ${requestedCount + 1}. EXACTLY ${requestedCount}.
+The "requestedCount" field in the JSON MUST equal ${requestedCount}.
+The "questions" array length MUST equal ${requestedCount}.`;
 
-      const text = response.choices[0]?.message?.content || "{}";
-      let testBank;
-      try {
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        testBank = jsonMatch ? JSON.parse(jsonMatch[0]) : { title: `Test Bank: ${topic}`, description: "", questions: [] };
-      } catch {
-        testBank = { title: `Test Bank: ${topic}`, description: "Generated test bank", questions: [] };
+      const validateQuestions = (data: any): { valid: boolean; errors: string[]; questions: any[] } => {
+        const errors: string[] = [];
+        if (!data || typeof data !== "object") {
+          return { valid: false, errors: ["Response is not a valid JSON object"], questions: [] };
+        }
+        const questions = Array.isArray(data.questions) ? data.questions : [];
+        if (questions.length !== requestedCount) {
+          errors.push(`COUNT_MISMATCH: Expected ${requestedCount} questions, got ${questions.length}`);
+        }
+        for (let i = 0; i < questions.length; i++) {
+          const q = questions[i];
+          const qLabel = `Q${i + 1} (id=${q?.id || "?"})`;
+          if (!q || typeof q !== "object") { errors.push(`${qLabel}: not an object`); continue; }
+          if (!q.id) errors.push(`${qLabel}: missing id`);
+          if (!q.category || !VALID_CATEGORIES.includes(q.category)) errors.push(`${qLabel}: invalid category "${q.category}"`);
+          const qType = (q.type || "").toUpperCase();
+          if (!VALID_TYPES.includes(qType)) errors.push(`${qLabel}: invalid type "${q.type}"`);
+          if (!q.scenario || q.scenario.length < 30) errors.push(`${qLabel}: scenario too short or missing`);
+          if (!q.stem || q.stem.length < 15) errors.push(`${qLabel}: stem too short or missing`);
+          if (!Array.isArray(q.options) || q.options.length < 4) errors.push(`${qLabel}: options must be array with >= 4 items`);
+          if (qType === "MCQ" || qType === "PRIORITY" || qType === "DELEGATION") {
+            if (Array.isArray(q.options) && q.options.length !== 4) errors.push(`${qLabel}: ${qType} must have exactly 4 options, got ${q.options.length}`);
+            if (typeof q.correctAnswer !== "string" || q.correctAnswer.length !== 1) errors.push(`${qLabel}: ${qType} correctAnswer must be single letter`);
+          }
+          if (qType === "SATA") {
+            if (Array.isArray(q.options) && (q.options.length < 6 || q.options.length > 8)) errors.push(`${qLabel}: SATA must have 6-8 options, got ${q.options?.length}`);
+            if (!Array.isArray(q.correctAnswer) || q.correctAnswer.length < 2 || q.correctAnswer.length > 5) errors.push(`${qLabel}: SATA correctAnswer must be array of 2-5 letters`);
+          }
+          if (!q.rationaleCorrect || q.rationaleCorrect.length < 30) errors.push(`${qLabel}: rationaleCorrect too short or missing`);
+          if (!Array.isArray(q.rationaleIncorrect) || q.rationaleIncorrect.length < 1) errors.push(`${qLabel}: rationaleIncorrect must be non-empty array`);
+          if (!q.clinicalPearl || q.clinicalPearl.length < 20) errors.push(`${qLabel}: clinicalPearl too short or missing`);
+        }
+        return { valid: errors.length === 0, errors, questions };
+      };
+
+      const MAX_TB_RETRIES = 3;
+      let testBank: any = null;
+      let lastErrors: string[] = [];
+      let attempt = 0;
+      let totalTokensUsed = 0;
+
+      for (attempt = 1; attempt <= MAX_TB_RETRIES; attempt++) {
+        const isRetry = attempt > 1;
+        const userContent = isRetry
+          ? `Your previous output was INVALID and REJECTED.
+
+TOPIC: ${topic}
+REQUESTED COUNT: ${requestedCount}
+
+VALIDATION ERRORS FROM PREVIOUS ATTEMPT:
+${lastErrors.slice(0, 15).map((e, i) => `${i + 1}. ${e}`).join("\n")}
+${lastErrors.length > 15 ? `... and ${lastErrors.length - 15} more errors` : ""}
+
+FIX ALL errors above. Generate EXACTLY ${requestedCount} questions with ALL required fields.
+Every question MUST have: id, category, type, scenario, stem, options, correctAnswer, rationaleCorrect, rationaleIncorrect, clinicalPearl.
+MCQ/PRIORITY/DELEGATION: exactly 4 options, single-letter correctAnswer.
+SATA: 6-8 options, correctAnswer as array of 2-5 letters.
+
+Return STRICT JSON only.`
+          : `Generate a ${requestedCount}-question test bank on: ${topic}${customPrompt ? `\n\nAdditional instructions: ${customPrompt}\nUse these to guide question focus, depth, and style.` : ""}`;
+
+        console.log(`[TestBank] Attempt ${attempt}/${MAX_TB_RETRIES} for ${requestedCount} questions on "${topic}"`);
+
+        const response = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userContent },
+          ],
+          temperature: isRetry ? 0.5 : 0.7,
+          max_tokens: Math.min(requestedCount * 350 + 500, 16384),
+          response_format: { type: "json_object" },
+        });
+
+        totalTokensUsed += response.usage?.total_tokens || 0;
+        const text = response.choices[0]?.message?.content || "{}";
+
+        let parsed: any;
+        try {
+          parsed = JSON.parse(text);
+        } catch {
+          lastErrors = [`JSON_PARSE_ERROR: Failed to parse response as JSON. Raw (first 200 chars): ${text.substring(0, 200)}`];
+          console.error(`[TestBank] Attempt ${attempt}: JSON parse failed`);
+          continue;
+        }
+
+        const validation = validateQuestions(parsed);
+        if (validation.valid) {
+          testBank = parsed;
+          console.log(`[TestBank] OK: ${validation.questions.length}/${requestedCount} questions validated on attempt ${attempt}`);
+          break;
+        }
+
+        lastErrors = validation.errors;
+        testBank = parsed;
+        console.warn(`[TestBank] Attempt ${attempt} FAILED validation: ${validation.errors.length} errors. First 3: ${validation.errors.slice(0, 3).join("; ")}`);
       }
 
-      const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
-      await logAudit(req, admin, "ai", null, "generate-test-bank", null, { topic, examTarget, questionCount: count });
-      res.json(testBank);
+      recordAiUsage(attempt, totalTokensUsed);
+
+      if (!testBank || !Array.isArray(testBank.questions)) {
+        await logAudit(req, admin, "ai", null, "generate-test-bank-FAILED", null, { topic, examTarget, requestedCount, attempts: attempt });
+        return res.status(422).json({
+          error: "QUESTION_GENERATION_FAILED",
+          message: `Failed to generate valid test bank after ${MAX_TB_RETRIES} attempts`,
+          requestedCount,
+          generatedCount: 0,
+          validationErrors: lastErrors.slice(0, 10),
+        });
+      }
+
+      const questions = testBank.questions || [];
+      const generatedCount = questions.length;
+      const countMismatch = generatedCount !== requestedCount;
+
+      const audit = {
+        requestedCount,
+        generatedCount,
+        countMatch: !countMismatch,
+        attempts: attempt,
+        byType: {} as Record<string, number>,
+        byCategory: {} as Record<string, number>,
+        validationErrors: lastErrors.length > 0 ? lastErrors.slice(0, 10) : [],
+      };
+      for (const q of questions) {
+        const t = (q.type || "unknown").toUpperCase();
+        const c = q.category || "Uncategorized";
+        audit.byType[t] = (audit.byType[t] || 0) + 1;
+        audit.byCategory[c] = (audit.byCategory[c] || 0) + 1;
+      }
+
+      console.log(`[TestBank] Content Audit: requested=${requestedCount} generated=${generatedCount} match=${!countMismatch} attempts=${attempt}`);
+      console.log(`[TestBank] By Type:`, JSON.stringify(audit.byType));
+      console.log(`[TestBank] By Category:`, JSON.stringify(audit.byCategory));
+      if (lastErrors.length > 0) console.warn(`[TestBank] Remaining validation issues: ${lastErrors.slice(0, 5).join("; ")}`);
+
+      await logAudit(req, admin, "ai", null, "generate-test-bank", null, { topic, examTarget, requestedCount, generatedCount, countMatch: !countMismatch, attempts: attempt });
+
+      if (countMismatch) {
+        return res.status(422).json({
+          error: "QUESTION_COUNT_MISMATCH",
+          message: `Requested ${requestedCount} questions but AI generated ${generatedCount}. Export blocked.`,
+          requestedCount,
+          generatedCount,
+          testBank,
+          audit,
+        });
+      }
+
+      res.json({
+        ...testBank,
+        requestedCount,
+        generatedCount,
+        audit,
+      });
     } catch (e: any) {
       console.error("AI test bank error:", e);
       res.status(500).json({ error: e.message || "AI test bank generation failed" });
