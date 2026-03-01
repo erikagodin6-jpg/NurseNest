@@ -886,6 +886,7 @@ Heart failure, ACS/MI, COPD exacerbation vs asthma, pneumonia, sepsis, hypo/hype
 
         const CONTENT_RULES = `CRITICAL RULES (violations = invalid output):
 - Do NOT output a title-only section or a section cover/divider page.
+- Do NOT include sectionTitle/divider/spacer/heading-only blocks inside the section content; the compiler already creates section cover/divider pages. Focus on substantive blocks.
 - This section must contain CONTENT blocks with real clinical information.
 - blocks.length MUST be >= 8.
 - At least 6 blocks must be substantive (bullets, table, callout, paragraph with clinical facts), NOT headings.
@@ -965,32 +966,45 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
         const SUBSTANTIVE_KINDS = new Set(["bullets", "table", "callout", "paragraph", "checklist", "steps", "flowchart", "decisiontree", "case", "qa", "comparisongrid", "algorithm", "chart"]);
         const NON_SUBSTANTIVE_KINDS = new Set(["heading", "sectionTitle", "divider", "spacer"]);
 
+        const LISTLIKE_KINDS = new Set(["bullets", "checklist", "steps"]);
+        const TEXTLIKE_KINDS = new Set(["callout", "paragraph", "case", "qa", "algorithm", "flowchart", "decisiontree", "comparisongrid", "chart"]);
+
         const validateSection = (sec: any): { pass: boolean; blocks: number; chars: number; substantive: number; reasons: string[] } => {
           const blocks = sec?.blocks || [];
           const reasons: string[] = [];
           let totalChars = 0;
+          let meaningfulChars = 0;
           let substantiveCount = 0;
           for (const b of blocks) {
-            const txt = (b.text || b.body || b.content || b.caption || "").toString();
-            const items = b.items || [];
-            const rows = b.rows || [];
-            const blockChars = txt.length + items.join(" ").length + rows.map((r: any[]) => (r || []).join(" ")).join(" ").length;
+            const text = (b.text || b.body || b.content || b.caption || "").toString();
+            const items = Array.isArray(b.items) ? b.items : [];
+            const rows = Array.isArray(b.rows) ? b.rows : [];
+            const itemChars = items.map(String).join(" ").length;
+            const rowChars = rows.map((r: any) => (Array.isArray(r) ? r : []).map(String).join(" ")).join(" ").length;
+            const blockChars = text.length + itemChars + rowChars;
             totalChars += blockChars;
             const kind = (b.kind || b.type || "").toLowerCase();
-            if (SUBSTANTIVE_KINDS.has(kind) && blockChars > 10) {
+            if (!NON_SUBSTANTIVE_KINDS.has(kind)) {
+              meaningfulChars += blockChars;
+            }
+            if (LISTLIKE_KINDS.has(kind) && (items.length >= 5 || itemChars >= 150)) {
               substantiveCount++;
-            } else if (!NON_SUBSTANTIVE_KINDS.has(kind) && blockChars > 20) {
+            } else if (kind === "table" && rows.length >= 3) {
+              substantiveCount++;
+            } else if (TEXTLIKE_KINDS.has(kind) && text.length >= 80) {
+              substantiveCount++;
+            } else if (!NON_SUBSTANTIVE_KINDS.has(kind) && !LISTLIKE_KINDS.has(kind) && kind !== "table" && !TEXTLIKE_KINDS.has(kind) && blockChars >= 120) {
               substantiveCount++;
             }
           }
-          const allNonSubstantive = blocks.length > 0 && substantiveCount === 0;
-          if (allNonSubstantive) reasons.push("title_only: ALL blocks are heading/divider/spacer with no real content");
+          const titleOnly = substantiveCount === 0 || meaningfulChars < 300;
+          if (titleOnly) reasons.push(`title_only: insufficient meaningful content (${substantiveCount} substantive, ${meaningfulChars} meaningful chars)`);
           if (blocks.length < 8) reasons.push(`insufficient_blocks: ${blocks.length} blocks (need >= 8)`);
-          if (substantiveCount < 6) reasons.push(`insufficient_substantive_blocks: ${substantiveCount} substantive (need >= 6 -- bullets/table/callout/paragraph/checklist/steps/case/qa with content)`);
+          if (substantiveCount < 6) reasons.push(`insufficient_substantive_blocks: ${substantiveCount} substantive (need >= 6 -- bullets>=5items/table>=3rows/callout>=80chars/paragraph>=80chars)`);
           if (totalChars < 800) reasons.push(`insufficient_chars: ${totalChars} chars (need >= 800)`);
-          const hasCallout = blocks.some((b: any) => b.kind === "callout" || b.flavor);
+          const hasCallout = blocks.some((b: any) => (b.kind || b.type || "").toLowerCase() === "callout" || b.flavor);
           if (!hasCallout) reasons.push("missing_callout: No callout blocks found");
-          const hasTable = blocks.some((b: any) => b.kind === "table" && (b.rows || []).length > 0);
+          const hasTable = blocks.some((b: any) => (b.kind || b.type || "").toLowerCase() === "table" && (Array.isArray(b.rows) ? b.rows : []).length > 0);
           if (!hasTable) reasons.push("missing_table: No table blocks found");
           const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6;
           return { pass, blocks: blocks.length, chars: totalChars, substantive: substantiveCount, reasons };
