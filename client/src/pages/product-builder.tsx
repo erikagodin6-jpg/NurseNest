@@ -1512,6 +1512,12 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
         setStepLabel(`Compiling... ${pagesCreated} pages`);
       };
 
+      let savedLogoUrl: string | undefined;
+      try {
+        const savedLogos = JSON.parse(localStorage.getItem("nursenest-brand-logos") || "[]");
+        if (savedLogos.length > 0) savedLogoUrl = savedLogos[0].url;
+      } catch {}
+
       for (const step of bp.pageFlow) {
         if (step.type === "cover") {
           const coverObjs = generateStyledCoverPage(W, H, theme, preset, {
@@ -1521,7 +1527,7 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
             includesFlashcards: false,
             includesQbank: includeQuestions,
             pageCount: targetPages,
-            logoUrl: brandLogos.length > 0 ? brandLogos[0].url : undefined,
+            logoUrl: savedLogoUrl,
           });
           await savePage("Cover", coverObjs);
         } else if (step.type === "toc") {
