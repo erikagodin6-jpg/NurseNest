@@ -54,6 +54,8 @@ Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/po
 - `extractUserTier` and `getEffectiveTier` in routes.ts check preview cookie for admin users only.
 - Frontend: `PreviewBanner` in App.tsx shows amber banner when preview active; admin dashboard has "View site as" dropdown.
 - Auth context (`auth.tsx`) syncs preview state with server; only sets local state on server confirmation.
+- Content gating enforced across all endpoints: flashcard cards, mock exam start, content slug, pass-probability stats, ContentGate component, lesson-detail, flashcards page, deck-page, and mock-exams page all respect preview tier.
+- Frontend `isAdmin` checks in lesson-detail/flashcards/mock-exams use `previewTier` to disable admin bypass when preview is active.
 
 ### QBank Factory + Exam Factory (Admin)
 - Admin QBank Factory (`/admin/qbank-factory`) allows creating, managing, and publishing question banks with configurable parameters like topic mix, difficulty, and question types. It includes a persistent audit panel and export gates. The Exam Factory tab enables generating multiple exam forms with specific lengths and rationales.

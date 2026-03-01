@@ -1650,7 +1650,7 @@ export default function Flashcards() {
   const [myCardsFlipped, setMyCardsFlipped] = useState(false);
   const FREE_LIMIT = 300;
 
-  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || (user as any).tier === "admin");
+  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || ((user as any).tier === "admin" && effectiveTier !== "free"));
 
   const allCards = useMemo(() => {
     const userTier = effectiveTier;

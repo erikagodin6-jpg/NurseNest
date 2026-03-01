@@ -3430,19 +3430,21 @@ Rules:
       if (!item) return res.status(404).json({ error: "Content not found" });
 
       const requestingUserTier = await extractUserTier(req);
-      const isRequestingAdmin = requestingUserTier === "admin";
+      const { isPreview: isInPreview, realTier } = await getEffectiveTier(req);
+      const isRealAdmin = realTier === "admin";
 
-      if (item.status !== "published" && !isRequestingAdmin) {
+      if (item.status !== "published" && !isRealAdmin) {
         return res.status(404).json({ error: "Content not found" });
       }
 
       const region = req.region || "US";
-      if (!isRequestingAdmin && !isRegionAllowed(item.regionScope || item.region_scope, region)) {
+      if (!isRealAdmin && !isRegionAllowed(item.regionScope || item.region_scope, region)) {
         return res.status(404).json({ error: "Content not found" });
       }
 
-      if (!isRequestingAdmin && item.tier && item.tier !== "free") {
-        if (!canAccessTier(requestingUserTier, item.tier)) {
+      if (item.tier && item.tier !== "free") {
+        const tierToCheck = isInPreview ? requestingUserTier : (isRealAdmin ? "admin" : requestingUserTier);
+        if (!canAccessTier(tierToCheck, item.tier)) {
           return res.status(403).json({ error: "Upgrade required", requiredTier: item.tier });
         }
       }
@@ -4152,8 +4154,23 @@ Rules:
         }
         const userCheck = await pool.query(`SELECT tier, subscription_status FROM users WHERE id = $1`, [userId]);
         const userRow = userCheck.rows[0];
-        if (userRow && (userRow.tier === "admin" || (userRow.tier !== "free" && userRow.subscription_status === "active"))) {
-          return res.json(allCards);
+        if (userRow) {
+          let effectiveTier = userRow.tier || "free";
+          if (userRow.tier === "admin") {
+            const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+            const preview = getPreviewFromToken(previewToken);
+            if (preview) {
+              effectiveTier = preview.mode;
+            } else {
+              return res.json(allCards);
+            }
+          }
+          if (effectiveTier !== "free" && userRow.subscription_status === "active") {
+            return res.json(allCards);
+          }
+          if (effectiveTier !== "free" && userRow.tier === "admin") {
+            return res.json(allCards);
+          }
         }
       }
 
@@ -6049,7 +6066,13 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!tier || !totalQuestions || !questions || !Array.isArray(questions)) {
         return res.status(400).json({ error: "Missing required fields" });
       }
-      if (authUser.tier !== "admin" && authUser.tier !== tier) {
+      let effectiveExamTier = authUser.tier || "free";
+      if (authUser.tier === "admin") {
+        const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+        const preview = getPreviewFromToken(previewToken);
+        effectiveExamTier = preview ? preview.mode : "admin";
+      }
+      if (effectiveExamTier !== "admin" && effectiveExamTier !== tier) {
         return res.status(403).json({ error: "You can only access exams matching your subscription tier" });
       }
 
@@ -7858,7 +7881,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!user || (user.tier !== "rpn" && user.tier !== "rn" && user.tier !== "np" && user.tier !== "admin")) {
         return res.status(403).json({ error: "Premium feature" });
       }
-      const tier = user.tier === "admin" ? "rn" : user.tier;
+      let tier = user.tier === "admin" ? "rn" : user.tier;
+      if (user.tier === "admin") {
+        const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+        const preview = getPreviewFromToken(previewToken);
+        if (preview && preview.mode === "free") {
+          return res.status(403).json({ error: "Premium feature" });
+        }
+        if (preview && preview.mode !== "free") {
+          tier = preview.mode;
+        }
+      }
 
       const testResults = await storage.getTestResults(userId);
       let totalCorrect = 0, totalQuestions = 0;

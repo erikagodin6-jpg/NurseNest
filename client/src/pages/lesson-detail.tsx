@@ -1610,21 +1610,22 @@ export default function LessonDetail() {
   const [, setLocation] = useLocation();
   const [hidePreTest, setHidePreTest] = useState(() => localStorage.getItem("nursenest-hide-pretest") === "true");
   const [hidePostTest, setHidePostTest] = useState(() => localStorage.getItem("nursenest-hide-posttest") === "true");
-  const { user, hasAccess } = useAuth();
+  const { user, hasAccess, effectiveTier, previewTier } = useAuth();
   const { language, t } = useI18n();
-  const isAdmin = user?.tier === "admin";
+  const isAdmin = user?.tier === "admin" && !previewTier;
   
   const tierFromId = id?.split('-')[0];
   const slugFromId = id?.split('-').slice(1).join('-');
 
   useEffect(() => {
-    if (user && user.tier !== 'admin' && tierFromId && tierFromId !== user.tier) {
-      const targetId = `${user.tier}-${slugFromId}`;
+    const activeTier = previewTier || user?.tier || "free";
+    if (user && activeTier !== 'admin' && tierFromId && tierFromId !== activeTier) {
+      const targetId = `${activeTier}-${slugFromId}`;
       if (contentMap[targetId]) {
         setLocation(`/lessons/${targetId}`);
       }
     }
-  }, [user, id, tierFromId, slugFromId, setLocation]);
+  }, [user, id, tierFromId, slugFromId, setLocation, previewTier]);
 
   const [activeTab, setActiveTab] = useState(() => {
     const hidePre = localStorage.getItem("nursenest-hide-pretest") === "true";
@@ -2227,7 +2228,7 @@ export default function LessonDetail() {
                   <ContentBlockRenderer blocks={remainingBlocks} />
                 )}
 
-                {!isAdmin && (!user || user.tier === "free") && (
+                {!isAdmin && (!user || effectiveTier === "free") && (
                   <div className="mt-10 rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border border-primary/20 p-8 text-center space-y-4" data-testid="lesson-conversion-cta">
                     <div className="flex items-center justify-center gap-2">
                       <TrendingUp className="w-6 h-6 text-primary" />
@@ -3432,7 +3433,7 @@ export default function LessonDetail() {
           </div>
         </div>
 
-        {!isAdmin && (!user || user.tier === "free") && (
+        {!isAdmin && (!user || effectiveTier === "free") && (
           <div className="mt-10 rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border border-primary/20 p-8 text-center space-y-4" data-testid="lesson-conversion-cta">
             <div className="flex items-center justify-center gap-2">
               <TrendingUp className="w-6 h-6 text-primary" />

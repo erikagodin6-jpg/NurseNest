@@ -29,9 +29,10 @@ function getAuthHeaders(): Record<string, string> {
   return {};
 }
 
-function getAllowedTiers(userTier: string | undefined, isAdmin: boolean): string[] {
-  if (isAdmin) return ["rpn", "rn", "np"];
+function getAllowedTiers(userTier: string | undefined, isAdmin: boolean, previewActive: boolean): string[] {
+  if (isAdmin && !previewActive) return ["rpn", "rn", "np"];
   if (!userTier || userTier === "free") return [];
+  if (userTier === "admin") return ["rpn", "rn", "np"];
   const tierMap: Record<string, string[]> = {
     rpn: ["rpn"],
     rn: ["rn"],
@@ -41,10 +42,10 @@ function getAllowedTiers(userTier: string | undefined, isAdmin: boolean): string
 }
 
 export default function MockExamsPage() {
-  const { user, effectiveTier, isAdmin } = useAuth();
+  const { user, effectiveTier, isAdmin, previewTier } = useAuth();
   const { t } = useI18n();
   const [, navigate] = useLocation();
-  const allowedTiers = getAllowedTiers(effectiveTier, isAdmin);
+  const allowedTiers = getAllowedTiers(effectiveTier, isAdmin, !!previewTier);
   const [selectedTier, setSelectedTier] = useState(allowedTiers[0] || "rpn");
   const [selectedLength, setSelectedLength] = useState(75);
   const [selectedSystems, setSelectedSystems] = useState<string[]>([]);

@@ -24,7 +24,7 @@ export default function DeckPage() {
   const [copied, setCopied] = useState(false);
 
   const isOwner = deck && user && deck.ownerId === user.id;
-  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || (user as any).tier === "admin");
+  const isPaid = user && effectiveTier !== "free" && ((user as any).subscriptionStatus === "active" || ((user as any).tier === "admin" && effectiveTier !== "free"));
   const hasFullAccess = isOwner || isPaid;
   const FREE_PREVIEW = 5;
 

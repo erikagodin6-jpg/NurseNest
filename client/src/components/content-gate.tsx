@@ -22,7 +22,7 @@ export function ContentGate({
   children,
   featureName = "this content",
 }: ContentGateProps) {
-  const { user } = useAuth();
+  const { user, effectiveTier } = useAuth();
 
   const tierHierarchy: Record<string, number> = {
     free: 0,
@@ -32,7 +32,8 @@ export function ContentGate({
     admin: 99,
   };
 
-  const userTierLevel = user ? tierHierarchy[user.tier || "free"] || 0 : 0;
+  const activeTier = effectiveTier || user?.tier || "free";
+  const userTierLevel = tierHierarchy[activeTier] || 0;
   const requiredLevel = tierHierarchy[requiredTier] || 1;
   const hasAccess = userTierLevel >= requiredLevel;
 
