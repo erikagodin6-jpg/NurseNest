@@ -2274,45 +2274,95 @@ RETURN THIS EXACT STRUCTURE:
 {"sections":[{"id":"section-id","title":"Section Title","blocks":[...]}]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"..."}]' : ""}}`;
   };
 
-  const fetchAIContent = async (examCtx: any): Promise<any> => {
-    const prompt = buildAIPrompt(examCtx);
+  const callPipelineStep = async (step: string, previousStepData: any): Promise<any> => {
+    const examCtx = GUIDED_EXAM_OPTIONS.find(e => e.id === examTier);
+    const sectionDefs = bp.sections
+      .filter(s => s.id !== "practice-questions" && s.id !== "rationales")
+      .map(s => ({ id: s.id, label: s.label, budget: budgets[s.id] || 800 }));
 
-    const res = await adminFetch("/api/ai/generate-content", {
+    const res = await adminFetch("/api/ai/generate-pipeline", {
       method: "POST",
-      body: { prompt, mode: "guided", examTarget: examTier, topic },
+      body: {
+        step,
+        topic,
+        examTarget: examTier,
+        region,
+        templateLabel: bp.label,
+        sections: sectionDefs,
+        targetPages,
+        includeQuestions,
+        questionCount,
+        previousStepData,
+      },
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || err.message || "AI generation failed");
+      throw new Error(err.error || err.message || `Pipeline step "${step}" failed`);
     }
-    const data = await res.json();
+    const result = await res.json();
+    if (result.data) return result.data;
 
-    if (data.sections && Array.isArray(data.sections) && data.sections.length > 0) return data;
+    if (result._raw) {
+      const parsed = parseAIJsonResponse(result._raw);
+      if (parsed) return parsed;
+    }
+    throw new Error(`Pipeline step "${step}" returned invalid data`);
+  };
 
-    const rawText = data._raw || (typeof data === "string" ? data : JSON.stringify(data));
-    const parsed = parseAIJsonResponse(rawText);
-    if (parsed?.sections && parsed.sections.length > 0) return parsed;
+  const fetchAIContent = async (examCtx: any): Promise<any> => {
+    setStepLabel("Step 1/5: Building content strategy...");
+    let strategyData: any;
+    try {
+      strategyData = await callPipelineStep("strategy", {});
+    } catch {
+      strategyData = { strategy: { target_level: "average", pain_points: [], transformation: "Master this topic for exam success", narrative_arc: { orientation: "Introduction", system_mastery: "Deep learning", exam_execution: "Apply knowledge" }, clinical_priority_framework: [], visual_motif: "checklist", tone: "clear and confident", difficulty_escalation: "progressive" } };
+    }
 
-    setStepLabel("Retrying AI generation...");
-    const retryPrompt = `${prompt}
+    setStepLabel("Step 2/5: Designing page blueprint...");
+    let blueprintData: any;
+    try {
+      blueprintData = await callPipelineStep("blueprint", strategyData);
+    } catch {
+      blueprintData = { pages: [] };
+    }
 
-IMPORTANT: Your previous response was not valid JSON or did not contain the required "sections" array. You MUST return a valid JSON object with this structure:
-{"sections":[{"id":"section-id","title":"Section Title","blocks":[{"kind":"heading","text":"...","level":1},{"kind":"paragraph","text":"..."}]}]}
-Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
+    const accumulated = { ...strategyData, ...blueprintData };
 
-    const res2 = await adminFetch("/api/ai/generate-content", {
-      method: "POST",
-      body: { prompt: retryPrompt, mode: "guided", examTarget: examTier, topic },
-    });
-    if (!res2.ok) throw new Error("AI retry failed");
-    const data2 = await res2.json();
-    if (data2.sections && Array.isArray(data2.sections) && data2.sections.length > 0) return data2;
+    setStepLabel("Step 3/5: Generating structured content...");
+    let contentData = await callPipelineStep("content", accumulated);
 
-    const raw2 = data2._raw || (typeof data2 === "string" ? data2 : JSON.stringify(data2));
-    const parsed2 = parseAIJsonResponse(raw2);
-    if (parsed2?.sections && parsed2.sections.length > 0) return parsed2;
+    if (!contentData?.sections || contentData.sections.length === 0) {
+      setStepLabel("Retrying content generation...");
+      const prompt = buildAIPrompt(examCtx);
+      const res = await adminFetch("/api/ai/generate-content", {
+        method: "POST",
+        body: { prompt, mode: "guided", examTarget: examTier, topic },
+      });
+      if (!res.ok) throw new Error("Content generation failed");
+      const data = await res.json();
+      if (data.sections?.length > 0) {
+        contentData = data;
+      } else {
+        const raw = data._raw || JSON.stringify(data);
+        const parsed = parseAIJsonResponse(raw);
+        if (parsed?.sections?.length > 0) contentData = parsed;
+        else throw new Error("Could not generate valid content after multiple attempts");
+      }
+    }
 
-    throw new Error("AI could not generate valid structured content after 2 attempts. Try a more specific topic or shorter page count.");
+    setStepLabel("Step 4/5: Adding exam authority framing...");
+    try {
+      const enhanced = await callPipelineStep("enhance", contentData);
+      if (enhanced?.sections?.length > 0) contentData = enhanced;
+    } catch {}
+
+    setStepLabel("Step 5/5: Quality assurance pass...");
+    try {
+      const qa = await callPipelineStep("qa", contentData);
+      if (qa?.sections?.length > 0) contentData = qa;
+    } catch {}
+
+    return contentData;
   };
 
   const compileDocument = async () => {
@@ -3742,6 +3792,31 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
       }
       if (obj.tag === "brand-logo" && obj.type === "text") {
         updated.fill = active.primaryColor;
+      }
+      return updated;
+    });
+  };
+
+  const forceApplyTheme = (objs: CanvasObject[], target: ThemeConfig): CanvasObject[] => {
+    return objs.map(obj => {
+      const updated = { ...obj };
+      if (updated.fill) {
+        const key = globalThemeColorIndex.get(updated.fill.trim().toLowerCase());
+        if (key) updated.fill = target[key] as string;
+      }
+      if (updated.stroke) {
+        const key = globalThemeColorIndex.get(updated.stroke.trim().toLowerCase());
+        if (key) updated.stroke = target[key] as string;
+      }
+      if (obj.type === "text") {
+        const isHeading = (obj.fontSize || 0) >= 18 || obj.fontWeight === "bold";
+        updated.fontFamily = isHeading ? target.headingFont : target.bodyFont;
+      }
+      if (obj.tag === "brand-logo" && obj.type === "image" && obj.filter) {
+        updated.filter = `brightness(0) saturate(100%) ${hexToCssFilter(target.primaryColor)}`;
+      }
+      if (obj.tag === "brand-logo" && obj.type === "text") {
+        updated.fill = target.primaryColor;
       }
       return updated;
     });

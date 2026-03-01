@@ -392,6 +392,209 @@ CRITICAL RULES:
     }
   });
 
+  app.post("/api/ai/generate-pipeline", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const aiCheck = checkAiLimits({ role: "admin" });
+      if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
+
+      const { step, topic, examTarget, region: reqRegion, templateLabel, sections, targetPages, includeQuestions, questionCount, previousStepData } = req.body;
+      if (!step || !topic) return res.status(400).json({ error: "step and topic are required" });
+
+      const region = reqRegion || req.region || "US";
+      const examNotes: Record<string, string> = {
+        "rex-pn": "REX-PN (Canada). Canadian terminology: RPN, CNO, SI units (mmol/L), C, kg.",
+        "nclex-pn": "NCLEX-PN (US). American terminology: LPN/LVN, conventional units (mEq/L, mg/dL), F, lbs.",
+        "nclex-rn": "NCLEX-RN. NCSBN CJMM. NGN question types. Full RN scope. Conventional units.",
+        "np": "NP Certification (AANP/ANCC). Advanced practice. Differential diagnosis, prescribing.",
+      };
+      const examContext = examNotes[examTarget] || "General nursing exam preparation.";
+      const regionContext = region === "CA" ? "Canadian context (metric, SI, C, kg, mmol/L)" : region === "BOTH" ? "Both Canadian and US values" : "US context (imperial, conventional units, F, lbs, mg/dL)";
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const pipelinePrompts: Record<string, { system: string; user: string; maxTokens: number }> = {
+        "strategy": {
+          system: `You are a premium nursing exam content strategist for NurseNest. You design cohesive, transformative study bundles that guide students from confusion to exam confidence. Return ONLY valid JSON.`,
+          user: `Design a strategic blueprint for a premium exam survival bundle.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+REGION: ${regionContext}
+TEMPLATE: ${templateLabel || "Cram Guide"}
+TARGET PAGES: ${targetPages || 20}
+
+Define:
+1. target_level: "weak" | "average" | "high-performing"
+2. pain_points: string[] (3-5 primary student struggles with this topic)
+3. transformation: string (what they will be able to do after studying this bundle)
+4. narrative_arc: { orientation: string, system_mastery: string, exam_execution: string }
+5. clinical_priority_framework: string[] (what matters most for exam scoring, ranked)
+6. visual_motif: string (recurring visual concept e.g. "shield", "checklist", "lifeline")
+7. tone: string (the emotional quality of the writing)
+8. difficulty_escalation: string (how complexity builds across pages)
+
+Return JSON: {"strategy": { target_level, pain_points, transformation, narrative_arc, clinical_priority_framework, visual_motif, tone, difficulty_escalation }}`,
+          maxTokens: 2048,
+        },
+
+        "blueprint": {
+          system: `You are a nursing education page architect for NurseNest. You design intentional, progressive page maps where every page has a specific purpose and connects logically to the next. Return ONLY valid JSON.`,
+          user: `Using this strategic blueprint, create a ${targetPages || 20}-page bundle map.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
+SECTIONS AVAILABLE: ${JSON.stringify(sections || [])}
+INCLUDE QUESTIONS: ${includeQuestions ? `Yes, ${questionCount || 10} questions` : "No"}
+
+Rules:
+- Each page must have a specific purpose (no duplicate content themes)
+- Each page must connect logically to the next
+- Every 3-4 pages must escalate complexity
+- ${includeQuestions ? "Include practice question pages and rationale pages" : "Focus on content mastery pages"}
+
+For each page define:
+- id: string (e.g. "p01")
+- type: "cover" | "content" | "questions" | "rationales" | "toc" | "divider" | "summary"
+- section_id: string (matching section IDs if content type)
+- objective: string (what this page teaches)
+- exam_takeaways: string[] (1-3 key exam points)
+- visual_emphasis: "diagram-heavy" | "grid" | "checklist" | "algorithm" | "flowchart" | "mixed"
+- reasoning_focus: string (clinical reasoning angle)
+- emotional_tone: "confidence-building" | "urgency" | "clarity" | "reassurance"
+
+Return JSON: {"pages": [...]}`,
+          maxTokens: 4096,
+        },
+
+        "content": {
+          system: `You are a structured content engine for NurseNest nursing exam bundles. You generate content in design blocks optimized for visual rendering. NEVER produce long paragraphs. Convert mechanisms into flowcharts, comparisons into grids, priorities into checklists, exam traps into warning callouts. Return ONLY valid JSON.
+
+CRITICAL CONTENT RULES:
+- Every page must include at least 1 Clinical Pearl callout and 1 Exam Trap callout
+- Include Rapid Recall boxes (use callout with flavor "exam_tip")
+- Paragraphs must be 2-3 sentences MAX
+- Break long text into bullets
+- Use tables for comparisons (2-4 columns, 3-6 rows)
+- Callout titles must be specific to content, not generic
+- Content must be clinically accurate, evidence-based, at university textbook depth`,
+          user: `Generate structured content blocks for this nursing bundle.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+REGION: ${regionContext}
+STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
+PAGE BLUEPRINT: ${JSON.stringify(previousStepData?.pages || [])}
+
+BLOCK TYPES TO USE:
+- {"kind":"heading","text":"...","level":1|2|3}
+- {"kind":"paragraph","text":"..."}
+- {"kind":"bullets","items":["item1","item2","item3"]}
+- {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"]],"caption":"..."}
+- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"...","body":"..."}
+
+Generate content organized by section. Each section must have 7-12 blocks minimum.
+${includeQuestions ? `Also generate ${questionCount || 10} NCLEX-style MCQs with 4 options and rationales for EACH option.` : ""}
+
+Return JSON: {"sections":[{"id":"...","title":"...","blocks":[...]}]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"..."}]' : ""}}`,
+          maxTokens: 16384,
+        },
+
+        "enhance": {
+          system: `You are an exam authority enhancer for NurseNest. You take existing nursing content and inject exam-specific framing that makes it feel exam-ready rather than textbook-generic. You add priority ladders, decision algorithms, "If you see X think Y" statements, and high-yield mnemonics. Return ONLY valid JSON with the same structure as input.`,
+          user: `Enhance this content with exam-specific authority framing.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+
+For each section, add or improve:
+- What is most tested about this topic?
+- What distractors commonly appear?
+- What answer patterns students miss?
+- How exam writers phrase this concept?
+- Add "If you see X, think Y" decision statements where useful
+- Add mnemonics ONLY if high-yield
+- Add priority ladders for interventions
+- Do NOT add fluff or generic advice
+
+CURRENT CONTENT: ${JSON.stringify(previousStepData?.sections || [])}
+
+Return the enhanced sections in the same JSON structure:
+{"sections":[{"id":"...","title":"...","blocks":[...]}]${previousStepData?.questions ? ',"questions":' + JSON.stringify(previousStepData.questions) : ""}}`,
+          maxTokens: 16384,
+        },
+
+        "qa": {
+          system: `You are a QA editor for NurseNest nursing exam bundles. You audit content for quality, flow, and coherence. You fix issues but preserve the block structure. Return ONLY valid JSON with the corrected content.`,
+          user: `Audit and correct this nursing bundle content.
+
+TOPIC: "${topic}"
+EXAM: ${examContext}
+
+Check and fix:
+- Remove redundant content across sections
+- Ensure logical flow between sections
+- Ensure difficulty escalates progressively
+- Ensure tone consistency throughout
+- Ensure no isolated/disconnected sections
+- Ensure exam framing appears throughout (not just in one section)
+- Ensure each section references or builds on previous knowledge
+- Fix any clinically inaccurate statements
+- Ensure callout titles are specific (not "Clinical Pearl" but "Potassium and Cardiac Rhythm")
+- Ensure tables have meaningful data, not placeholders
+
+CURRENT CONTENT: ${JSON.stringify(previousStepData?.sections || [])}
+
+Return the corrected content in the same JSON structure:
+{"sections":[{"id":"...","title":"...","blocks":[...]}]${previousStepData?.questions ? ',"questions":' + JSON.stringify(previousStepData.questions) : ""}}`,
+          maxTokens: 16384,
+        },
+      };
+
+      const pipeline = pipelinePrompts[step];
+      if (!pipeline) return res.status(400).json({ error: `Unknown pipeline step: ${step}` });
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: pipeline.system },
+          { role: "user", content: pipeline.user },
+        ],
+        temperature: step === "strategy" || step === "blueprint" ? 0.8 : 0.7,
+        max_tokens: pipeline.maxTokens,
+      });
+
+      const text = response.choices[0]?.message?.content || "{}";
+      const totalTokens = response.usage?.total_tokens || 0;
+      recordAiUsage(1, totalTokens);
+      await logAudit(req, admin, "ai", null, `pipeline-${step}`, null, { step, topic: topic.substring(0, 100) });
+
+      let parsed;
+      try {
+        let cleanText = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+        const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
+        parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+      } catch {
+        parsed = null;
+      }
+
+      if (parsed) {
+        return res.json({ step, data: parsed, tokens: totalTokens });
+      }
+      return res.json({ step, data: null, _raw: text.slice(0, 20000), tokens: totalTokens });
+    } catch (e: any) {
+      console.error(`Pipeline step error:`, e);
+      res.status(500).json({ error: e.message || "Pipeline step failed" });
+    }
+  });
+
   app.post("/api/ai/generate-test-bank", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
