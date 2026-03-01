@@ -1622,6 +1622,10 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
   const [previewPages, setPreviewPages] = useState<{ id: string; title: string; objects: CanvasObject[]; backgroundColor: string }[]>([]);
   const [previewPageIndex, setPreviewPageIndex] = useState(0);
   const previewScrollRef = useRef<HTMLDivElement>(null);
+  const [guidedExporting, setGuidedExporting] = useState(false);
+  const [showGuidedPublish, setShowGuidedPublish] = useState(false);
+  const [guidedPublishing, setGuidedPublishing] = useState(false);
+  const [guidedPublishForm, setGuidedPublishForm] = useState({ title: "", description: "", price: "", category: "Cram Guide" });
 
   const bp = TEMPLATE_BLUEPRINTS.find(t => t.id === template) || TEMPLATE_BLUEPRINTS[0];
   const theme = getTheme(themeId);
@@ -2276,6 +2280,12 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
               <div className="space-y-2 border-t pt-3">
                 <label className="text-xs font-semibold text-gray-700 block">Actions</label>
                 <div className="space-y-1.5">
+                  <Button size="sm" onClick={() => setShowGuidedPublish(true)} className="w-full h-8 text-xs gap-1.5 bg-green-600 hover:bg-green-700" data-testid="button-guided-publish">
+                    <ShoppingCart className="w-3.5 h-3.5" /> Publish to Store
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={downloadGuidedPages} disabled={guidedExporting} className="w-full h-8 text-xs gap-1.5" data-testid="button-guided-download">
+                    {guidedExporting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />} Download Pages (PNG)
+                  </Button>
                   <Button size="sm" onClick={onSwitchToCanvas} className="w-full h-8 text-xs gap-1.5" data-testid="button-edit-in-canvas">
                     <Grid3X3 className="w-3.5 h-3.5" /> Edit in Canvas Editor
                   </Button>
