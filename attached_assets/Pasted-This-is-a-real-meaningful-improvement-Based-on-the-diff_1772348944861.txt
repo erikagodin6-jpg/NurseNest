@@ -1,0 +1,79 @@
+This is a real, meaningful improvement. Based on the diff you pasted, you’ve now closed the biggest loopholes that were causing “section title but no content”:
+Server pass threshold is now strict: blocks>=8 && chars>=800 && substantive>=6
+You added a title-only detector (all non-substantive) and labeled it explicitly (title_only:)
+You expanded substantive kinds (good)
+You added “reference at least 8 anchors” to the injected inventory text (good)
+That should stop the “empty section” compile and force retries / 422 instead of silently compiling.
+That said: there are two remaining gotchas that can still make your output look like “no information” even when validation passes.
+1) Your title_only detection is still too weak
+You currently have:
+const allNonSubstantive = blocks.length > 0 && substantiveCount === 0;
+This fails to catch the common failure mode where the model outputs one tiny paragraph plus 7 headings/dividers.
+That would produce:
+substantiveCount = 1
+blocks = 8
+chars might exceed 800 if it babbles
+✅ it passes, but it’s still garbage.
+Fix: detect “mostly non-substantive”
+Add a ratio gate:
+fail if substantiveCount / blocks.length < 0.6 (or just enforce substantive>=6 which you already do) — but the model can satisfy 6 by outputting 6 tiny paragraphs with no real info.
+So add min chars per substantive block:
+Count a block as substantive only if it has >= 60–100 chars (or has a table with >= 3 rows, bullets with >= 5 items).
+Right now you count substantive if kind is in the set — regardless of how empty it is.
+What to change
+When you compute substantiveCount, only increment if:
+bullets: items.length >= 5
+table: rows.length >= 3
+paragraph/callout: text.length >= 80
+This single change eliminates “fake substantive” blocks.
+2) Your substantive kind list might not match your actual renderer output
+You’re using kinds like decisiontree, comparisongrid. Your renderer might be emitting:
+decisionTree (camelCase)
+comparisonGrid
+flowChart
+qaBlock
+calloutBox
+list instead of bullets
+You lowercased kind, which helps, but the string still must match.
+Fix
+Add a normalization map:
+decisiontree should match decision_tree, decision-tree, decisionTree
+same for comparison grid, flow chart, etc.
+Or simplest: treat unknown kinds as substantive if:
+they contain meaningful content (chars/items/rows thresholds)
+You already have a fallback in the client side (else if (!nonSubstantiveKinds.has(kind) && bChars > 20) substantive++). You should mirror that logic on the server too, otherwise good blocks can fail server validation and burn retries.
+3) Inventory injection: make sure HIGH_YIELD_INVENTORY is explicit
+Your diff shows the rule is injected, but it doesn’t show that HIGH_YIELD_INVENTORY contains the explicit anchor list (HF, ACS, COPD, etc.). If it’s still placeholder text, the model will comply with “8 anchors” by making them up or staying vague.
+Sanity check: open server/routes.ts and make sure HIGH_YIELD_INVENTORY is a literal, explicit list.
+If it is not, replace it with the explicit anchors (you already know the set).
+4) Your prompt must also forbid “TOC/Divider duplication”
+Some models, when asked for a section, will still include a “Section Title” block and divider blocks inside the section. That wastes block count.
+Add one line to CONTENT_RULES:
+“Do not include divider/sectionTitle blocks inside the section content; the document builder already creates section covers.”
+This increases real information density.
+The next minimal Replit change request (high impact, low scope)
+Paste this to Replit AI:
+No narration. Output diff only for server/routes.ts.
+
+Improve validateSection substantive counting so “fake content” can’t pass:
+- Only count a bullets block as substantive if items.length >= 5 OR total item chars >= 150
+- Only count a table block as substantive if rows.length >= 3
+- Only count paragraph/callout as substantive if text chars >= 80
+- For unknown block kinds: if not in NON_SUBSTANTIVE_KINDS and blockChars >= 120, count as substantive
+
+Also change title_only detection to:
+- title_only if substantiveCount === 0 OR totalMeaningfulChars < 300
+
+Add rule in CONTENT_RULES:
+- Do not include sectionTitle/divider blocks inside section content (the builder creates those pages).
+
+Return the unified diff.
+This prevents the “passes validation but still useless” outcome.
+What you should see after this fix
+When generation fails, you should now get:
+a 422 EMPTY_SECTION with reasons like:
+insufficient_substantive_blocks
+title_only
+insufficient_chars
+Instead of a PDF with empty pages.
+And when it succeeds, your pathophysiology section will actually contain bullets/tables/callouts about your anchor conditions.
