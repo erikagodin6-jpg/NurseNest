@@ -6154,25 +6154,25 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
 
   return (
     <div className="h-screen flex flex-col" style={{ backgroundColor: "#f6f7fb" }}>
-      <div className="h-12 bg-white border-b flex items-center justify-between px-4 shrink-0 shadow-sm">
+      <div className="h-13 bg-white border-b flex items-center justify-between px-4 shrink-0" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
         <div className="flex items-center gap-3">
-          <button onClick={() => { saveCanvas(); onBack(); }} className="p-1.5 hover:bg-gray-100 rounded-lg transition" data-testid="button-back-to-projects">
-            <ArrowLeft className="w-4 h-4" />
+          <button onClick={() => { saveCanvas(); onBack(); }} className="p-2 hover:bg-gray-100 rounded-lg transition-colors" data-testid="button-back-to-projects">
+            <ArrowLeft className="w-4 h-4 text-gray-600" />
           </button>
-          <div className="flex items-center gap-1.5 text-sm">
-            <button onClick={() => { saveCanvas(); onBack(); }} className="text-gray-400 hover:text-primary transition text-xs font-medium" data-testid="link-drafts">Drafts</button>
-            <span className="text-gray-300">/</span>
-            <span className="font-semibold text-gray-800">{project?.title || "Loading..."}</span>
+          <div className="flex items-center gap-2 text-sm">
+            <button onClick={() => { saveCanvas(); onBack(); }} className="text-gray-400 hover:text-primary transition-colors text-xs font-medium" data-testid="link-drafts">Drafts</button>
+            <span className="text-gray-200">/</span>
+            <span className="font-semibold text-gray-800 text-sm">{project?.title || "Loading..."}</span>
           </div>
-          <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{project?.type}</span>
-          <span className="text-[10px] text-gray-400">{pages.length} page(s)</span>
+          <span className="text-[10px] bg-gray-100 text-gray-500 px-2.5 py-0.5 rounded-full font-medium">{project?.type}</span>
+          <span className="text-[10px] text-gray-400 tabular-nums">{pages.length} page{pages.length !== 1 ? "s" : ""}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="flex items-center gap-1.5 mr-1">
+          <div className="flex items-center gap-1.5 mr-2 pr-2 border-r border-gray-100">
             {saving ? (
-              <span className="flex items-center gap-1 text-[10px] text-gray-400"><Loader2 className="w-3 h-3 animate-spin" />Saving...</span>
+              <span className="flex items-center gap-1.5 text-[10px] text-gray-400"><Loader2 className="w-3 h-3 animate-spin" />Saving...</span>
             ) : lastSavedAt ? (
-              <span className="flex items-center gap-1 text-[10px] text-green-500" title={`Last saved at ${lastSavedAt.toLocaleTimeString()}`}>
+              <span className="flex items-center gap-1.5 text-[10px] text-green-600 font-medium" title={`Last saved at ${lastSavedAt.toLocaleTimeString()}`}>
                 <CheckCircle className="w-3 h-3" />
                 Saved {lastSavedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
               </span>
@@ -6180,58 +6180,61 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
               <span className="text-[10px] text-gray-400">Auto-save on</span>
             )}
           </div>
-          <Button size="sm" variant="outline" onClick={saveCanvas} className="h-7 text-xs gap-1" data-testid="button-save-canvas"><Save className="w-3 h-3" /> Save</Button>
-          <Button size="sm" variant="outline" onClick={exportAsPDF} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-pdf">
-            {exporting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />} PDF
-          </Button>
-          <Button size="sm" variant="outline" onClick={exportAsImages} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-png">
-            <Image className="w-3 h-3" /> PNG
-          </Button>
-          <Button size="sm" variant="outline" onClick={exportInstagramCarousel} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-ig">
-            <ImagePlus className="w-3 h-3" /> IG
-          </Button>
-          <Button size="sm" variant="outline" onClick={exportEtsyStorePack} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-etsy">
-            <ShoppingCart className="w-3 h-3" /> Etsy Pack
-          </Button>
-          <Button size="sm" onClick={() => { setPublishForm(f => ({ ...f, title: project?.title || "" })); setShowPublishDialog(true); }} className="h-7 text-xs gap-1" data-testid="button-publish-marketplace">
-            <ShoppingCart className="w-3 h-3" /> Publish
+          <Button size="sm" variant="outline" onClick={saveCanvas} className="h-8 text-xs gap-1.5 rounded-lg font-medium border-gray-200 hover:bg-gray-50" data-testid="button-save-canvas"><Save className="w-3.5 h-3.5" /> Save</Button>
+          <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-0.5">
+            <Button size="sm" variant="ghost" onClick={exportAsPDF} disabled={exporting} className="h-7 text-[11px] gap-1 rounded-md px-2.5 hover:bg-white hover:shadow-sm font-medium" data-testid="button-export-pdf">
+              {exporting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />} PDF
+            </Button>
+            <Button size="sm" variant="ghost" onClick={exportAsImages} disabled={exporting} className="h-7 text-[11px] gap-1 rounded-md px-2.5 hover:bg-white hover:shadow-sm font-medium" data-testid="button-export-png">
+              <Image className="w-3 h-3" /> PNG
+            </Button>
+            <Button size="sm" variant="ghost" onClick={exportInstagramCarousel} disabled={exporting} className="h-7 text-[11px] gap-1 rounded-md px-2.5 hover:bg-white hover:shadow-sm font-medium" data-testid="button-export-ig">
+              <ImagePlus className="w-3 h-3" /> IG
+            </Button>
+            <Button size="sm" variant="ghost" onClick={exportEtsyStorePack} disabled={exporting} className="h-7 text-[11px] gap-1 rounded-md px-2.5 hover:bg-white hover:shadow-sm font-medium" data-testid="button-export-etsy">
+              <ShoppingCart className="w-3 h-3" /> Etsy
+            </Button>
+          </div>
+          <Button size="sm" onClick={() => { setPublishForm(f => ({ ...f, title: project?.title || "" })); setShowPublishDialog(true); }} className="h-8 text-xs gap-1.5 rounded-lg font-semibold shadow-sm" data-testid="button-publish-marketplace">
+            <ShoppingCart className="w-3.5 h-3.5" /> Publish
           </Button>
         </div>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-[72px] bg-white border-r flex flex-col items-center py-2 gap-0.5 shrink-0">
-          <button onClick={() => setLeftPanel(leftPanel === "templates" ? null : "templates" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "templates" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-templates">
-            <LayoutTemplate className="w-4.5 h-4.5" />
-            <span className="text-[9px] font-medium leading-tight">Templates</span>
+        <div className="w-[72px] bg-white border-r flex flex-col items-center py-3 gap-1 shrink-0">
+          <button onClick={() => setLeftPanel(leftPanel === "templates" ? null : "templates" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "templates" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-templates">
+            <LayoutTemplate className="w-5 h-5" />
+            <span className="text-[9px] font-semibold leading-tight">Templates</span>
           </button>
-          <button onClick={() => setLeftPanel(leftPanel === "components" ? null : "components" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "components" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-components">
-            <Sparkles className="w-4.5 h-4.5" />
-            <span className="text-[9px] font-medium leading-tight">Elements</span>
+          <button onClick={() => setLeftPanel(leftPanel === "components" ? null : "components" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "components" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-components">
+            <Sparkles className="w-5 h-5" />
+            <span className="text-[9px] font-semibold leading-tight">Elements</span>
           </button>
-          <button onClick={() => addObject("text")} className="w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 text-gray-500 hover:bg-primary/5 hover:text-primary transition" data-testid="button-add-text">
-            <Type className="w-4.5 h-4.5" />
-            <span className="text-[9px] font-medium leading-tight">Text</span>
+          <button onClick={() => addObject("text")} className="w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 text-gray-500 hover:bg-primary/5 hover:text-primary transition-all duration-150" data-testid="button-add-text">
+            <Type className="w-5 h-5" />
+            <span className="text-[9px] font-semibold leading-tight">Text</span>
           </button>
-          <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "imagelab" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-imagelab">
-            <ImagePlus className="w-4.5 h-4.5" />
-            <span className="text-[9px] font-medium leading-tight">Images</span>
+          <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "imagelab" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-imagelab">
+            <ImagePlus className="w-5 h-5" />
+            <span className="text-[9px] font-semibold leading-tight">Images</span>
           </button>
-          <button onClick={() => setLeftPanel(leftPanel === "brand" ? null : "brand" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "brand" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-brand">
-            <SwatchBook className="w-4.5 h-4.5" />
-            <span className="text-[9px] font-medium leading-tight">Brand</span>
+          <div className="w-12 border-t border-gray-100 my-1" />
+          <button onClick={() => setLeftPanel(leftPanel === "brand" ? null : "brand" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "brand" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-brand">
+            <SwatchBook className="w-5 h-5" />
+            <span className="text-[9px] font-semibold leading-tight">Brand</span>
           </button>
-          <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "ai" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-ai">
-            <Brain className="w-4.5 h-4.5" />
-            <span className="text-[9px] font-medium leading-tight">AI</span>
+          <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "ai" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-ai">
+            <Brain className="w-5 h-5" />
+            <span className="text-[9px] font-semibold leading-tight">AI</span>
           </button>
-          <button onClick={() => setLeftPanel(leftPanel === "blocks" ? null : "blocks" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "blocks" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-blocks">
-            <Grid3X3 className="w-4.5 h-4.5" />
-            <span className="text-[9px] font-medium leading-tight">Blocks</span>
+          <button onClick={() => setLeftPanel(leftPanel === "blocks" ? null : "blocks" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "blocks" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-blocks">
+            <Grid3X3 className="w-5 h-5" />
+            <span className="text-[9px] font-semibold leading-tight">Blocks</span>
           </button>
-          <div className="mt-auto pt-2 w-full flex flex-col items-center gap-1">
-            <button onClick={undo} className="w-[56px] h-7 rounded-lg border text-[9px] hover:bg-gray-50 text-gray-500" title="Undo (Ctrl+Z)" data-testid="button-undo">Undo</button>
-            <button onClick={redo} className="w-[56px] h-7 rounded-lg border text-[9px] hover:bg-gray-50 text-gray-500" title="Redo (Ctrl+Y)" data-testid="button-redo">Redo</button>
+          <div className="mt-auto pt-3 w-full flex flex-col items-center gap-1.5">
+            <button onClick={undo} className="w-[56px] h-7 rounded-lg border border-gray-200 text-[9px] font-medium hover:bg-gray-50 text-gray-500 transition" title="Undo (Ctrl+Z)" data-testid="button-undo">Undo</button>
+            <button onClick={redo} className="w-[56px] h-7 rounded-lg border border-gray-200 text-[9px] font-medium hover:bg-gray-50 text-gray-500 transition" title="Redo (Ctrl+Y)" data-testid="button-redo">Redo</button>
           </div>
         </div>
 
@@ -6240,7 +6243,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
         <div className="flex-1 overflow-auto relative" style={{ backgroundColor: "#f6f7fb" }}>
           <div className="min-h-full w-full flex items-center justify-center px-10 py-10">
             <div className="relative">
-              <div className="relative rounded-lg bg-white transition-all duration-200" style={{ boxShadow: "0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)" }}>
+              <div className="relative rounded-lg bg-white transition-all duration-200" style={{ boxShadow: "0 25px 60px -10px rgba(0,0,0,0.22), 0 10px 20px -6px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.04)" }}>
                 <div
                   ref={canvasRef}
                   className="bg-white relative select-none rounded-lg"
