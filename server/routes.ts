@@ -11121,6 +11121,114 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.post("/api/generator-v2/generations/:id/publish", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      if (gen.createdCount === 0) return res.status(400).json({ error: "No questions generated yet" });
+
+      const { title, description, priceDollars, compareAtDollars, category, tierTarget, examTarget, featured } = req.body;
+      if (!title || !description || priceDollars === undefined || !category) {
+        return res.status(400).json({ error: "Missing required fields: title, description, priceDollars, category" });
+      }
+
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .substring(0, 80) + "-" + Date.now().toString(36);
+
+      const priceCents = Math.round(parseFloat(priceDollars) * 100);
+      const compareAtCents = compareAtDollars ? Math.round(parseFloat(compareAtDollars) * 100) : null;
+
+      const product = await storage.createDigitalProduct({
+        title,
+        slug,
+        description,
+        shortDescription: `${gen.createdCount} ${gen.examTarget?.toUpperCase() || "REx-PN"} practice questions - ${gen.topic}`,
+        price: priceCents,
+        compareAtPrice: compareAtCents,
+        fileUrl: null,
+        coverImageUrl: null,
+        category,
+        tierTarget: tierTarget || "all",
+        examTarget: examTarget || gen.examTarget || null,
+        featured: featured || false,
+        isActive: true,
+      });
+
+      await storage.updateProductGeneration(req.params.id, {
+        settings: { ...(gen.settings as any || {}), publishedProductId: product.id },
+      });
+
+      await storage.createGenerationEvent({
+        generationId: req.params.id,
+        eventType: "published_to_store",
+        payload: { productId: product.id, title, priceCents },
+      });
+
+      await logAudit(req, admin, "digital_product", product.id, "create_from_generator_v2", null, { generationId: req.params.id, title, priceCents });
+      res.json(product);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/bundles", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { title, description, priceDollars, compareAtDollars, category, tierTarget, examTarget, featured, generationIds } = req.body;
+      if (!title || !description || priceDollars === undefined || !category) {
+        return res.status(400).json({ error: "Missing required fields: title, description, priceDollars, category" });
+      }
+
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .substring(0, 80) + "-bundle-" + Date.now().toString(36);
+
+      const priceCents = Math.round(parseFloat(priceDollars) * 100);
+      const compareAtCents = compareAtDollars ? Math.round(parseFloat(compareAtDollars) * 100) : null;
+
+      let totalQuestions = 0;
+      const topics: string[] = [];
+      if (Array.isArray(generationIds)) {
+        for (const gid of generationIds) {
+          const g = await storage.getProductGeneration(gid);
+          if (g) {
+            totalQuestions += g.createdCount;
+            if (g.topic) topics.push(g.topic);
+          }
+        }
+      }
+
+      const product = await storage.createDigitalProduct({
+        title,
+        slug,
+        description,
+        shortDescription: `Bundle: ${totalQuestions} questions across ${topics.length} topics`,
+        price: priceCents,
+        compareAtPrice: compareAtCents,
+        fileUrl: null,
+        coverImageUrl: null,
+        category,
+        tierTarget: tierTarget || "all",
+        examTarget: examTarget || null,
+        featured: featured || false,
+        isActive: true,
+      });
+
+      await logAudit(req, admin, "digital_product", product.id, "create_bundle", null, { generationIds, title, priceCents, totalQuestions });
+      res.json({ ...product, totalQuestions, topics });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 
