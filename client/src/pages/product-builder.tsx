@@ -1304,6 +1304,7 @@ type TemplateBlueprint = {
   includesQuestions: boolean;
   defaultQuestionCount: number;
   minQuestionCount?: number;
+  questionPrimary?: boolean;
 };
 
 function buildCramPageFlow(): PageFlowStep[] {
@@ -1351,7 +1352,7 @@ const TEMPLATE_BLUEPRINTS: TemplateBlueprint[] = [
     imageSlots: [
       { id: "cover-hero", label: "Cover Illustration", promptHint: "exam practice question book cover illustration" },
     ],
-    includesQuestions: true, defaultQuestionCount: 300, minQuestionCount: 300,
+    includesQuestions: true, defaultQuestionCount: 300, minQuestionCount: 300, questionPrimary: true,
   },
   {
     id: "cheatsheet", label: "Cheat Sheet", description: "Quick-reference card with key facts, tables, and algorithms", icon: "⚡",
@@ -1966,7 +1967,7 @@ function GuidedModeView({ projectId: initialProjectId, onBack, onSwitchToCanvas,
   useEffect(() => {
     setTargetPages(bp.defaultPages);
     setQuestionCount(bp.defaultQuestionCount);
-    setIncludeQuestions(bp.includesQuestions);
+    setIncludeQuestions(bp.questionPrimary ? true : bp.includesQuestions);
   }, [template]);
 
   useEffect(() => {
@@ -3333,57 +3334,88 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                 </div>
               </div>
 
-              <div className="space-y-2" data-testid="section-pages">
-                <label className="text-sm font-semibold text-gray-700 flex items-center justify-between">
-                  <span>Target Pages</span>
-                  <span className="text-primary font-bold">{targetPages}</span>
-                </label>
-                <input
-                  type="range"
-                  min={bp.minPages}
-                  max={bp.maxPages}
-                  value={targetPages}
-                  onChange={e => setTargetPages(Number(e.target.value))}
-                  disabled={generating}
-                  className="w-full h-2 accent-primary"
-                  data-testid="slider-guided-pages"
-                />
-                <div className="flex justify-between text-[10px] text-gray-400">
-                  <span>{bp.minPages} min</span>
-                  <span>~{totalChars.toLocaleString()} chars budget</span>
-                  <span>{bp.maxPages} max</span>
-                </div>
-              </div>
-
-              {bp.includesQuestions && (
+              {bp.questionPrimary ? (
                 <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-questions">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" checked={includeQuestions} onChange={e => setIncludeQuestions(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-include-questions" />
-                    <span className="text-sm font-medium text-gray-700">Include Practice Questions</span>
+                  <label className="text-sm font-semibold text-gray-700 flex items-center justify-between">
+                    <span>Number of Questions</span>
+                    <span className="text-primary font-bold">{questionCount}</span>
                   </label>
-                  {includeQuestions && (
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="text-xs text-gray-500">Count:</span>
-                      <Input
-                        type="number"
-                        min={bp.minQuestionCount || 5}
-                        max={5000}
-                        value={questionCount}
-                        onChange={e => {
-                          const val = Number(e.target.value);
-                          const minQ = bp.minQuestionCount || 5;
-                          setQuestionCount(val < minQ ? minQ : val);
-                        }}
-                        disabled={generating}
-                        className="w-24 h-8 text-xs"
-                        data-testid="input-question-count"
-                      />
-                      {bp.minQuestionCount && bp.minQuestionCount > 5 && (
-                        <span className="text-[10px] text-amber-600 font-medium">Min {bp.minQuestionCount} for {bp.label}</span>
+                  <div className="flex items-center gap-3 mt-1">
+                    <Input
+                      type="number"
+                      min={bp.minQuestionCount || 5}
+                      max={5000}
+                      value={questionCount}
+                      onChange={e => {
+                        const val = Number(e.target.value);
+                        const minQ = bp.minQuestionCount || 5;
+                        setQuestionCount(val < minQ ? minQ : val);
+                      }}
+                      disabled={generating}
+                      className="w-28 h-8 text-xs"
+                      data-testid="input-question-count"
+                    />
+                    {bp.minQuestionCount && bp.minQuestionCount > 5 && (
+                      <span className="text-[10px] text-amber-600 font-medium">Min {bp.minQuestionCount} for {bp.label}</span>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-1">Pages are calculated automatically from question count</p>
+                </div>
+              ) : (
+                <>
+                  <div className="space-y-2" data-testid="section-pages">
+                    <label className="text-sm font-semibold text-gray-700 flex items-center justify-between">
+                      <span>Target Pages</span>
+                      <span className="text-primary font-bold">{targetPages}</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={bp.minPages}
+                      max={bp.maxPages}
+                      value={targetPages}
+                      onChange={e => setTargetPages(Number(e.target.value))}
+                      disabled={generating}
+                      className="w-full h-2 accent-primary"
+                      data-testid="slider-guided-pages"
+                    />
+                    <div className="flex justify-between text-[10px] text-gray-400">
+                      <span>{bp.minPages} min</span>
+                      <span>~{totalChars.toLocaleString()} chars budget</span>
+                      <span>{bp.maxPages} max</span>
+                    </div>
+                  </div>
+
+                  {bp.includesQuestions && (
+                    <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-questions">
+                      <label className="flex items-center gap-2">
+                        <input type="checkbox" checked={includeQuestions} onChange={e => setIncludeQuestions(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-include-questions" />
+                        <span className="text-sm font-medium text-gray-700">Include Practice Questions</span>
+                      </label>
+                      {includeQuestions && (
+                        <div className="flex items-center gap-3 mt-2">
+                          <span className="text-xs text-gray-500">Count:</span>
+                          <Input
+                            type="number"
+                            min={bp.minQuestionCount || 5}
+                            max={5000}
+                            value={questionCount}
+                            onChange={e => {
+                              const val = Number(e.target.value);
+                              const minQ = bp.minQuestionCount || 5;
+                              setQuestionCount(val < minQ ? minQ : val);
+                            }}
+                            disabled={generating}
+                            className="w-24 h-8 text-xs"
+                            data-testid="input-question-count"
+                          />
+                          {bp.minQuestionCount && bp.minQuestionCount > 5 && (
+                            <span className="text-[10px] text-amber-600 font-medium">Min {bp.minQuestionCount} for {bp.label}</span>
+                          )}
+                        </div>
                       )}
                     </div>
                   )}
-                </div>
+                </>
               )}
 
               <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-images">
