@@ -5306,7 +5306,10 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
       };
 
       const OpenAI = (await import("openai")).default;
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
       const systemPrompt = `You are a senior nurse educator creating a micro-lecture for ${tier} students. ${tierScope[tier]}
 Generate a comprehensive, mechanism-driven micro-lecture. Do NOT give shallow summaries — explain WHY signs/symptoms happen and what treatments target at the cellular level.
 ${focus ? `Special focus: ${focus}` : ""}

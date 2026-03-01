@@ -1621,6 +1621,7 @@ export default function Flashcards() {
   const [view, setView] = useState<"setup" | "study" | "report" | "bookmarks" | "mastered" | "mycards" | "mycards-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report" | "browse-decks" | "admin-sets" | "admin-set-study">("setup");
   const [selectedType, setSelectedType] = useState<CardType | "all">("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [cardSortBy, setCardSortBy] = useState<"default" | "alpha-asc" | "alpha-desc" | "category" | "shuffle">("default");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
@@ -2319,8 +2320,15 @@ export default function Flashcards() {
     if (selectedCategories.length > 0) {
       filtered = filtered.filter(c => selectedCategories.includes(c.category));
     }
+    switch (cardSortBy) {
+      case "alpha-asc": filtered = [...filtered].sort((a, b) => (a.front || "").localeCompare(b.front || "")); break;
+      case "alpha-desc": filtered = [...filtered].sort((a, b) => (b.front || "").localeCompare(a.front || "")); break;
+      case "category": filtered = [...filtered].sort((a, b) => (a.category || "").localeCompare(b.category || "")); break;
+      case "shuffle": filtered = [...filtered].sort(() => Math.random() - 0.5); break;
+      default: break;
+    }
     return filtered;
-  }, [allCards, selectedType, selectedCategories, mastered, includeMastered]);
+  }, [allCards, selectedType, selectedCategories, mastered, includeMastered, cardSortBy]);
 
   const bookmarkedCards = useMemo(() => {
     return allCards.filter(c => bookmarks.includes(c.id));
@@ -2597,6 +2605,30 @@ export default function Flashcards() {
                     >
                       {t("flashcards.clearAll")}
                     </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-3">Sort Order</label>
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {([
+                      { value: "default", label: "Default" },
+                      { value: "alpha-asc", label: "A-Z" },
+                      { value: "alpha-desc", label: "Z-A" },
+                      { value: "category", label: "Topic" },
+                      { value: "shuffle", label: "Shuffle" },
+                    ] as const).map(opt => (
+                      <Button
+                        key={opt.value}
+                        variant={cardSortBy === opt.value ? "default" : "outline"}
+                        onClick={() => setCardSortBy(opt.value)}
+                        className="rounded-xl text-xs"
+                        size="sm"
+                        data-testid={`button-sort-${opt.value}`}
+                      >
+                        {opt.label}
+                      </Button>
+                    ))}
                   </div>
                 </div>
 
@@ -3161,8 +3193,8 @@ export default function Flashcards() {
 
           {customCards.length > 0 && (
             <>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="relative flex-1 max-w-sm">
+              <div className="flex items-center gap-3 mb-4 flex-wrap">
+                <div className="relative flex-1 min-w-[200px] max-w-sm">
                   <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                   <Input
                     placeholder={t("flashcards.searchCards")}
@@ -3172,6 +3204,17 @@ export default function Flashcards() {
                     data-testid="input-search-mycards"
                   />
                 </div>
+                <select
+                  value={cardSortBy}
+                  onChange={(e) => setCardSortBy(e.target.value as any)}
+                  className="text-xs border rounded-lg px-2 py-1.5 bg-white text-gray-700 cursor-pointer"
+                  data-testid="select-mycards-sort"
+                >
+                  <option value="default">Default Order</option>
+                  <option value="alpha-asc">A to Z</option>
+                  <option value="alpha-desc">Z to A</option>
+                  <option value="category">By Topic</option>
+                </select>
                 {customCategories.length > 1 && (
                   <div className="flex gap-1 flex-wrap">
                     {customCategories.map(cat => (

@@ -8,7 +8,8 @@ import {
   ChevronRight, ChevronLeft, ArrowLeft, Plus, Search, Trash2, Pencil, Loader2,
   BookOpen, Layers, Copy, Flag, Globe, EyeOff, Eye, Timer, Upload,
   Download, BarChart3, Sparkles, Lock, CreditCard, CheckCircle2,
-  XCircle, RefreshCw, Share2, Home
+  XCircle, RefreshCw, Share2, Home, ArrowUpDown, Users, Link2,
+  SortAsc, SortDesc, Clock, Hash, AlignLeft
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -87,6 +88,30 @@ type DeckViewsProps = {
   deckStudyMissed: string[];
 };
 
+type DeckSortOption = "newest" | "oldest" | "alpha-asc" | "alpha-desc" | "cards-most" | "cards-least";
+
+function sortDecks(decks: any[], sortBy: DeckSortOption): any[] {
+  const sorted = [...decks];
+  switch (sortBy) {
+    case "newest": return sorted.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+    case "oldest": return sorted.sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime());
+    case "alpha-asc": return sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+    case "alpha-desc": return sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+    case "cards-most": return sorted.sort((a, b) => (b.cardCount || 0) - (a.cardCount || 0));
+    case "cards-least": return sorted.sort((a, b) => (a.cardCount || 0) - (b.cardCount || 0));
+    default: return sorted;
+  }
+}
+
+const SORT_OPTIONS: { value: DeckSortOption; label: string }[] = [
+  { value: "newest", label: "Newest First" },
+  { value: "oldest", label: "Oldest First" },
+  { value: "alpha-asc", label: "A to Z" },
+  { value: "alpha-desc", label: "Z to A" },
+  { value: "cards-most", label: "Most Cards" },
+  { value: "cards-least", label: "Fewest Cards" },
+];
+
 export function DeckHub({
   user, isPaid, setView, setLocation, myDecks, setMyDecks, publicDecks, savedDecksList,
   currentDeck, setCurrentDeck, deckCards, setDeckCards, deckLoading, entitlement,
@@ -98,6 +123,69 @@ export function DeckHub({
 }: Partial<DeckViewsProps> & { user: any; setView: any; setLocation: any }) {
   const [showCreate, setShowCreate] = useState(false);
   const [createMode, setCreateMode] = useState<"manual" | "ai" | "notes">("ai");
+  const [deckSortBy, setDeckSortBy] = useState<DeckSortOption>("newest");
+  const [showStudyGroupPanel, setShowStudyGroupPanel] = useState(false);
+  const [studyGroups, setStudyGroups] = useState<any[]>([]);
+  const [newGroupName, setNewGroupName] = useState("");
+  const [joinCode, setJoinCode] = useState("");
+  const [groupLoading, setGroupLoading] = useState(false);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [groupMembers, setGroupMembers] = useState<Record<string, any[]>>({});
+  const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
+
+  const fetchStudyGroups = useCallback(async () => {
+    if (!user?.id) return;
+    try {
+      const res = await fetch(`/api/study-groups/user/${user.id}`);
+      if (res.ok) { const data = await res.json(); setStudyGroups(data); }
+    } catch {}
+  }, [user?.id]);
+
+  const fetchGroupMembers = async (groupId: string) => {
+    try {
+      const res = await fetch(`/api/study-groups/${groupId}/members`);
+      if (res.ok) { const data = await res.json(); setGroupMembers(prev => ({ ...prev, [groupId]: data })); }
+    } catch {}
+  };
+
+  const createStudyGroup = async () => {
+    if (!newGroupName.trim() || !user?.id) return;
+    setGroupLoading(true);
+    try {
+      const res = await fetch("/api/study-groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newGroupName.trim(), userId: user.id }),
+      });
+      if (res.ok) { setNewGroupName(""); fetchStudyGroups(); }
+    } catch {}
+    setGroupLoading(false);
+  };
+
+  const joinStudyGroup = async () => {
+    if (!joinCode.trim() || !user?.id) return;
+    setGroupLoading(true);
+    try {
+      const res = await fetch("/api/study-groups/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ inviteCode: joinCode.trim().toUpperCase(), userId: user.id }),
+      });
+      if (res.ok) { setJoinCode(""); fetchStudyGroups(); }
+    } catch {}
+    setGroupLoading(false);
+  };
+
+  const copyInviteLink = (code: string) => {
+    const url = `${window.location.origin}/en/flashcards?join=${code}`;
+    navigator.clipboard.writeText(url).then(() => { setCopiedCode(code); setTimeout(() => setCopiedCode(null), 2000); });
+  };
+
+  const copyInviteCode = (code: string) => {
+    navigator.clipboard.writeText(code).then(() => { setCopiedCode(code); setTimeout(() => setCopiedCode(null), 2000); });
+  };
+
+  useEffect(() => { if (showStudyGroupPanel && user?.id) fetchStudyGroups(); }, [showStudyGroupPanel, user?.id]);
   const [aiTopic, setAiTopic] = useState("");
   const [aiCardCount, setAiCardCount] = useState(10);
   const [aiCreating, setAiCreating] = useState(false);
@@ -577,25 +665,173 @@ export function DeckHub({
         ))}
       </div>
 
-      {deckTab === "browse" && (
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <Input
-            placeholder="Search public decks..."
-            value={deckSearchQuery}
-            onChange={(e: any) => setDeckSearchQuery!(e.target.value)}
-            onKeyDown={(e: any) => e.key === "Enter" && fetchPublicDecks!()}
-            className="pl-10 rounded-xl"
-            data-testid="input-search-decks"
-          />
+      <div className="flex items-center gap-2 flex-wrap">
+        {deckTab === "browse" && (
+          <div className="relative flex-1 min-w-[200px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Input
+              placeholder="Search public decks..."
+              value={deckSearchQuery}
+              onChange={(e: any) => setDeckSearchQuery!(e.target.value)}
+              onKeyDown={(e: any) => e.key === "Enter" && fetchPublicDecks!()}
+              className="pl-10 rounded-xl"
+              data-testid="input-search-decks"
+            />
+          </div>
+        )}
+        <div className="flex items-center gap-1.5 ml-auto">
+          <ArrowUpDown className="w-3.5 h-3.5 text-gray-400" />
+          <select
+            value={deckSortBy}
+            onChange={(e) => setDeckSortBy(e.target.value as DeckSortOption)}
+            className="text-xs border rounded-lg px-2 py-1.5 bg-white text-gray-700 cursor-pointer"
+            data-testid="select-deck-sort"
+          >
+            {SORT_OPTIONS.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+          {user && (
+            <Button
+              variant={showStudyGroupPanel ? "default" : "outline"}
+              size="sm"
+              className="rounded-lg gap-1.5 text-xs h-8"
+              onClick={() => setShowStudyGroupPanel(!showStudyGroupPanel)}
+              data-testid="button-toggle-study-groups"
+            >
+              <Users className="w-3.5 h-3.5" />
+              Study Groups
+              {studyGroups.length > 0 && (
+                <Badge className="bg-primary/20 text-primary text-[10px] px-1.5 py-0 border-none ml-0.5">{studyGroups.length}</Badge>
+              )}
+            </Button>
+          )}
         </div>
+      </div>
+
+      {showStudyGroupPanel && user && (
+        <Card className="border-2 border-blue-100 shadow-md">
+          <CardContent className="p-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-blue-600" />
+                <h3 className="text-sm font-bold text-blue-900">Study Groups</h3>
+              </div>
+              <span className="text-[10px] text-gray-400">Invite friends to study together</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-gray-500">Create New Group</label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Group name..."
+                    value={newGroupName}
+                    onChange={(e: any) => setNewGroupName(e.target.value)}
+                    onKeyDown={(e: any) => e.key === "Enter" && createStudyGroup()}
+                    className="rounded-lg text-xs h-8 flex-1"
+                    disabled={groupLoading}
+                    data-testid="input-group-name"
+                  />
+                  <Button size="sm" className="rounded-lg h-8 text-xs" onClick={createStudyGroup} disabled={!newGroupName.trim() || groupLoading} data-testid="button-create-group">
+                    {groupLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
+                  </Button>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-gray-500">Join with Invite Code</label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Enter code (e.g. B4X9KL)"
+                    value={joinCode}
+                    onChange={(e: any) => setJoinCode(e.target.value.toUpperCase())}
+                    onKeyDown={(e: any) => e.key === "Enter" && joinStudyGroup()}
+                    className="rounded-lg text-xs h-8 flex-1 uppercase tracking-widest"
+                    maxLength={6}
+                    disabled={groupLoading}
+                    data-testid="input-join-code"
+                  />
+                  <Button size="sm" variant="secondary" className="rounded-lg h-8 text-xs" onClick={joinStudyGroup} disabled={!joinCode.trim() || groupLoading} data-testid="button-join-group">
+                    Join
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {studyGroups.length > 0 && (
+              <div className="space-y-2 pt-2 border-t border-gray-100">
+                <label className="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Your Groups</label>
+                {studyGroups.map((group: any) => (
+                  <div key={group.id} className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
+                    <div
+                      className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-100 transition-colors"
+                      onClick={() => {
+                        const newId = expandedGroup === group.id ? null : group.id;
+                        setExpandedGroup(newId);
+                        if (newId && !groupMembers[newId]) fetchGroupMembers(newId);
+                      }}
+                      data-testid={`group-row-${group.id}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Users className="w-3.5 h-3.5 text-blue-500" />
+                        <span className="text-sm font-medium text-gray-800">{group.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); copyInviteCode(group.inviteCode); }}
+                          className="flex items-center gap-1 px-2 py-0.5 bg-white rounded border text-[10px] font-mono text-gray-600 hover:border-blue-300 transition-colors"
+                          data-testid={`button-copy-code-${group.id}`}
+                        >
+                          {copiedCode === group.inviteCode ? "Copied!" : group.inviteCode}
+                          <Copy className="w-2.5 h-2.5" />
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); copyInviteLink(group.inviteCode); }}
+                          className="flex items-center gap-1 px-2 py-0.5 bg-blue-50 rounded border border-blue-200 text-[10px] text-blue-600 hover:bg-blue-100 transition-colors"
+                          data-testid={`button-share-link-${group.id}`}
+                        >
+                          <Link2 className="w-2.5 h-2.5" />
+                          Share Link
+                        </button>
+                        <ChevronRight className={cn("w-3.5 h-3.5 text-gray-400 transition-transform", expandedGroup === group.id && "rotate-90")} />
+                      </div>
+                    </div>
+                    {expandedGroup === group.id && (
+                      <div className="px-3 pb-3 border-t border-gray-100">
+                        <div className="pt-2 space-y-1">
+                          {groupMembers[group.id]?.length > 0 ? (
+                            groupMembers[group.id].map((member: any, i: number) => (
+                              <div key={member.userId || i} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white text-xs">
+                                <span className="font-medium text-gray-700">{member.username || `Member ${i + 1}`}</span>
+                                <div className="flex items-center gap-3 text-gray-400">
+                                  {member.accuracy != null && <span>{Math.round(member.accuracy)}% accuracy</span>}
+                                  {member.questionsAnswered != null && <span>{member.questionsAnswered} Qs</span>}
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <p className="text-xs text-gray-400 py-2">Loading members...</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {studyGroups.length === 0 && (
+              <p className="text-xs text-gray-400 text-center py-2">No study groups yet. Create one or join with an invite code to study with friends.</p>
+            )}
+          </CardContent>
+        </Card>
       )}
 
       {deckLoading ? (
         <div className="text-center py-12 text-gray-400">Loading decks...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {(deckTab === "my" ? myDecks : deckTab === "browse" ? publicDecks : savedDecksList)?.map((deck: any) => (
+          {sortDecks(deckTab === "my" ? myDecks : deckTab === "browse" ? publicDecks : savedDecksList, deckSortBy)?.map((deck: any) => (
             <Card
               key={deck.id}
               className="border border-gray-200 hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group"
