@@ -400,7 +400,7 @@ CRITICAL RULES:
       const aiCheck = checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
-      const { topic, examTarget, questionCount, difficulty, questionTypes } = req.body;
+      const { topic, customPrompt, examTarget, questionCount, difficulty, questionTypes } = req.body;
       if (!topic) return res.status(400).json({ error: "Topic is required" });
 
       const count = Math.min(Math.max(parseInt(questionCount) || 25, 5), 75);
@@ -461,7 +461,7 @@ Generate exactly ${count} questions. Each must be clinically accurate, relevant 
           },
           {
             role: "user",
-            content: `Generate a ${count}-question test bank on: ${topic}`
+            content: `Generate a ${count}-question test bank on: ${topic}${customPrompt ? `\n\nAdditional instructions from the user: ${customPrompt}\nUse these instructions to guide question focus, depth, and style. Do NOT echo the user's words verbatim.` : ""}`
           }
         ],
         temperature: 0.7,

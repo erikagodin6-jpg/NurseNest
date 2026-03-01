@@ -1183,6 +1183,7 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
   const [project, setProject] = useState<DesignProject | null>(null);
   const [template, setTemplate] = useState<string>("cram");
   const [topic, setTopic] = useState("");
+  const [aiPrompt, setAiPrompt] = useState("");
   const [examTier, setExamTier] = useState("nclex-rn");
   const [region, setRegion] = useState("BOTH");
   const [targetPages, setTargetPages] = useState(45);
@@ -1396,9 +1397,13 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
       .map(s => `  - id: "${s.id}", title: "${s.label}", budget: ~${budgets[s.id] || 800} characters`)
       .join("\n");
 
+    const userInstructions = aiPrompt.trim()
+      ? `\nUSER INSTRUCTIONS: ${aiPrompt.trim()}\nUse these instructions to guide the depth, focus, and style of the content. Do NOT echo the user's words — generate original, structured academic content based on their request.`
+      : "";
+
     return `You are a nursing exam content expert. Generate structured study content as valid JSON.
 
-TOPIC: "${topic}"
+TOPIC: "${topic}"${userInstructions}
 TEMPLATE: ${bp.label}
 AUDIENCE: ${examCtx?.label || "Nursing"} students
 REGION: ${region === "BOTH" ? "Include both Canadian (metric, SI, °C, kg, mmol/L) and US (imperial, °F, lbs, mg/dL) values" : region === "CA" ? "Canadian context only (metric, SI units)" : "US context only (imperial, conventional units)"}
@@ -1936,15 +1941,30 @@ Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-5">
               <div className="space-y-2" data-testid="section-topic">
-                <label className="text-sm font-semibold text-gray-700 block">Topic</label>
+                <label className="text-sm font-semibold text-gray-700 block">Document Title</label>
                 <Input
                   value={topic}
                   onChange={e => setTopic(e.target.value)}
-                  placeholder="e.g., Electrolyte Imbalances, Cardiac Assessment, Diabetes Management"
-                  className="h-12 text-sm"
+                  placeholder="e.g., Electrolyte Imbalances, Cardiac Assessment"
+                  className="h-10 text-sm"
                   disabled={generating}
                   data-testid="input-guided-topic"
                 />
+              </div>
+              <div className="space-y-2" data-testid="section-ai-prompt">
+                <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <Wand2 className="w-4 h-4 text-primary" />
+                  AI Prompt
+                </label>
+                <Textarea
+                  value={aiPrompt}
+                  onChange={e => setAiPrompt(e.target.value)}
+                  placeholder={"Describe what you want the AI to generate. Be as specific as you like.\n\nExamples:\n• \"Create a comprehensive study guide about shock types for NCLEX-RN with emphasis on pathophysiology, nursing interventions, and medication management\"\n• \"Explain the differences between Type 1 and Type 2 diabetes including labs, meds, patient teaching, and common NCLEX traps\"\n• \"Build a cardiac assessment review covering heart sounds, ECG interpretation, and emergency interventions\""}
+                  className="text-sm min-h-[120px] resize-y"
+                  disabled={generating}
+                  data-testid="input-guided-prompt"
+                />
+                <p className="text-[11px] text-gray-400">The AI will use your prompt along with the selected template, exam tier, and region settings to generate structured content. Leave blank to generate based on the document title alone.</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -2150,6 +2170,7 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
   const [zoom, setZoom] = useState(85);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [aiTopic, setAiTopic] = useState("");
+  const [aiPromptCanvas, setAiPromptCanvas] = useState("");
   const [aiTier, setAiTier] = useState("rn");
   const [aiExamTarget, setAiExamTarget] = useState("nclex-rn");
   const [aiLoading, setAiLoading] = useState<string | null>(null);
@@ -3095,9 +3116,13 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
       const examCtx = EXAM_CONTEXT_MAP[aiExamTarget] || EXAM_CONTEXT_MAP["nclex-rn"];
       const mode = toolId === "bundle-generator" ? "bundle" : "generate";
 
+      const userInstr = aiPromptCanvas.trim()
+        ? `\nUSER INSTRUCTIONS: ${aiPromptCanvas.trim()}\nUse these instructions to guide the depth, focus, and style of the content. Do NOT echo the user's words — generate original, structured academic content based on their request.`
+        : "";
+
       let prompt: string;
       if (mode === "bundle") {
-        prompt = `Generate a complete sellable study bundle for: ${aiTopic}.
+        prompt = `Generate a complete sellable study bundle for: ${aiTopic}.${userInstr}
 Exam Target: ${examCtx.label} | Tier: ${examCtx.tier}
 Frameworks: ${examCtx.frameworks}
 Question Style: ${examCtx.questionStyle}
@@ -3106,7 +3131,7 @@ Scope: ${examCtx.scope}
 
 Include comprehensive content pages, flashcards, practice questions, and a marketplace listing.`;
       } else {
-        prompt = `${tool?.prompt || "Generate content"} for: ${aiTopic}.
+        prompt = `${tool?.prompt || "Generate content"} for: ${aiTopic}.${userInstr}
 Exam Target: ${examCtx.label} | Tier: ${examCtx.tier}
 Frameworks: ${examCtx.frameworks}
 Question Style: ${examCtx.questionStyle}
@@ -3221,6 +3246,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
         method: "POST",
         body: {
           topic: aiTopic,
+          customPrompt: aiPromptCanvas.trim() || undefined,
           examTarget: aiExamTarget,
           questionCount: tbQuestionCount,
           difficulty: tbDifficulty,
@@ -4013,8 +4039,21 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           </div>
           <div className="p-3 space-y-3">
             <div>
-              <label className="text-[10px] font-medium text-gray-500 block mb-1">Topic</label>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">Topic / Title</label>
               <Input value={aiTopic} onChange={e => setAiTopic(e.target.value)} placeholder="e.g., Heart Failure" className="text-xs h-8" data-testid="input-ai-topic" />
+            </div>
+            <div>
+              <label className="text-[10px] font-medium text-gray-500 flex items-center gap-1 mb-1">
+                <Wand2 className="w-3 h-3 text-primary" /> AI Prompt
+              </label>
+              <Textarea
+                value={aiPromptCanvas}
+                onChange={e => setAiPromptCanvas(e.target.value)}
+                placeholder="Describe what you want generated, e.g.: 'Create a detailed review of shock types including pathophysiology, labs, nursing interventions, and NCLEX traps'"
+                className="text-xs min-h-[72px] resize-y"
+                data-testid="input-ai-prompt-canvas"
+              />
+              <p className="text-[8px] text-gray-400 mt-0.5">Optional — adds custom instructions to the AI</p>
             </div>
             <div>
               <label className="text-[10px] font-medium text-gray-500 block mb-1">Exam Target</label>
