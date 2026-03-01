@@ -1400,6 +1400,7 @@ export const productGenerations = pgTable("product_generations", {
   difficulty: text("difficulty").default("mixed"),
   questionTypes: jsonb("question_types"),
   region: text("region").default("BOTH"),
+  settings: jsonb("settings"),
   lastError: text("last_error"),
   startedAt: timestamp("started_at"),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -1438,5 +1439,13 @@ export const generationEvents = pgTable("generation_events", {
   generationId: varchar("generation_id").notNull(),
   eventType: text("event_type").notNull(),
   payload: jsonb("payload"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const v2ContentBlocks = pgTable("v2_content_blocks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  generationId: varchar("generation_id").notNull(),
+  sectionKey: text("section_key").notNull(),
+  blocks: jsonb("blocks").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

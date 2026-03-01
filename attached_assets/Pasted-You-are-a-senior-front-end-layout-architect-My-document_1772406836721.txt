@@ -1,0 +1,270 @@
+You are a senior front-end layout architect.
+
+My document generator is mixing AI content with layout styling, causing:
+
+Clinical Pearls and Rationales to appear after every 2 questions
+
+Title page appearing as page 2 instead of page 1
+
+Logo rendering as blank image
+
+Layout and colors changing when AI modifies content
+
+Inability to create white background with accent color template
+
+Inability to reposition sections
+
+AI overwriting typography styles
+
+This must be fixed by separating CONTENT from LAYOUT.
+
+1️⃣ IMPLEMENT A LOCKED TEMPLATE SYSTEM
+
+Refactor generator architecture into:
+
+A. Layout Template Layer (locked)
+Controls:
+
+Page order
+
+Background color
+
+Accent colors
+
+Typography
+
+Logo placement
+
+Section order
+
+B. Content Layer (AI-generated only text)
+AI is ONLY allowed to generate:
+
+Questions
+
+Rationales
+
+Clinical Pearls
+
+Red Flags
+
+Decision Cues
+
+AI must NOT:
+
+Inject inline styling
+
+Define background colors
+
+Insert section layout components
+
+Control section placement
+
+2️⃣ FIX SECTION ORDERING (CRITICAL)
+
+For Question Pack template:
+
+Page Order MUST be:
+
+Cover Page
+
+Instructions Page
+
+Practice Questions Section (ALL questions)
+
+Page Break
+
+Answer Key Section
+
+Page Break
+
+Rationales Section
+
+Clinical Pearls Summary (grouped, NOT inline)
+
+Red Flags Summary (grouped, NOT inline)
+
+Remove inline pearls and red flags between questions.
+
+Instead:
+
+Collect pearls during generation
+
+Render them in summary sections AFTER rationales
+
+3️⃣ PREVENT TITLE PAGE FROM MOVING
+
+Implement:
+
+const TEMPLATE_STRUCTURE = [
+  "cover",
+  "instructions",
+  "questions",
+  "answers",
+  "rationales",
+  "pearls_summary",
+  "red_flags_summary"
+];
+
+Rendering engine must follow this order strictly.
+
+No dynamic insertion before index 0.
+
+Cover page must always be index 0.
+
+4️⃣ FIX LOGO RENDERING
+
+Do NOT generate logo with AI.
+
+Instead:
+
+Load static NurseNest logo asset
+
+Apply color via CSS filter or SVG fill override
+
+Never regenerate logo image
+
+If theme changes, only adjust logo accent color, not file source
+
+If logo fails to load:
+
+Fallback to default brand logo
+
+Never render blank image
+
+5️⃣ ADD WHITE BACKGROUND + ACCENT TEMPLATE OPTION
+
+Add new theme type:
+
+Theme type: "light-accent"
+
+Structure:
+
+White background (#FFFFFF)
+
+Accent color used for:
+
+Section headers
+
+Borders
+
+Buttons
+
+Clinical Pearl box outline
+
+Red Flag box outline
+
+Implement:
+
+theme: {
+  baseBackground: "#FFFFFF",
+  accent: selectedColor,
+  headerText: accent,
+  bodyText: "#1F2937",
+  boxStyles: {
+    pearl: { borderColor: accent, background: accent + "10" },
+    redFlag: { borderColor: "#DC2626", background: "#FEE2E2" }
+  }
+}
+
+Allow user to choose:
+
+Dark full-color theme
+
+Light accent theme
+
+6️⃣ STOP AI FROM OVERRIDING STYLING
+
+Strip any inline HTML styles from AI output.
+
+Sanitize content:
+
+Remove <style>
+
+Remove inline color tags
+
+Remove layout div wrappers
+
+Keep only semantic content
+
+7️⃣ FIX “ADD MORE WITH AI” FUNCTION
+
+When user clicks “Add More Content”:
+
+Append questions to questions section
+
+Append rationales to rationales section
+
+Append pearls to pearls array
+
+Append red flags to red flags array
+
+Never insert content mid-page.
+
+Never regenerate layout.
+
+8️⃣ ENSURE FULL DOCUMENT SAVES
+
+Before rendering:
+
+Confirm totalQuestions count
+
+Confirm rationales count matches questions
+
+Confirm pearls are grouped
+
+Confirm no blank pages
+
+Confirm page count matches expected
+
+Throw error if mismatch.
+
+9️⃣ DELIVERABLES REQUIRED
+
+Provide:
+
+Updated layout renderer code
+
+Section order implementation
+
+Theme configuration system
+
+Logo rendering fix
+
+Sanitization middleware
+
+Explanation of previous bug source
+
+END PROMPT
+
+Now let me explain what actually happened in your current system:
+
+Your generator likely:
+
+Treats pearls/red flags as “blocks”
+
+Inserts them after every N questions
+
+Renders in the order returned by AI
+
+Uses a generic page composer
+
+Regenerates cover separately
+
+Uses an image generation function for logos
+
+Applies theme globally after generation, overriding some blocks
+
+That’s why everything feels chaotic.
+
+If you want this to feel like Canva:
+
+You need:
+
+• Layout locked
+• Content injected
+• Theme tokenized
+• Section index fixed
+• Asset controlled
+
+Not AI controlling structure.

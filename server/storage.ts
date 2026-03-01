@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generationEvents } from "@shared/schema";
+import { type User, type InsertUser, type Note, type InsertNote, type TestResult, type InsertTestResult, type UserProgress, type InsertUserProgress, type ContentItem, type InsertContentItem, type FeatureUsage, type UserFlashcard, type InsertUserFlashcard, type BlogConfig, type PageView, type InsertPageView, type UserFeedback, type InsertUserFeedback, type QotdHistory, type EmailSubscriber, type InsertEmailSubscriber, type SocialPost, type InsertSocialPost, type DashboardWidget, type InsertDashboardWidget, type SiteImage, type InsertSiteImage, type CustomPageModule, type InsertCustomPageModule, type AudioClip, type InsertAudioClip, type LessonAudioLink, type InsertLessonAudioLink, type ExamQuestion, type InsertExamQuestion, type QuestionTypeRegistryEntry, type InsertQuestionTypeRegistryEntry, type QuestionScheduleLog, type DigitalProduct, type InsertDigitalProduct, type ProductPurchase, type InsertProductPurchase, type QbankDraft, type InsertQbankDraft, type QbankRecipe, type InsertQbankRecipe, type DiagnosticAssessment, type InsertDiagnosticAssessment, type UserStats, type InsertUserStats, type StudyGroup, type InsertStudyGroup, type StudyGroupMember, type InsertStudyGroupMember, type QuestionAnalytics, type InsertQuestionAnalytics, type FriendRequest, type InsertFriendRequest, type FriendConnection, type InsertFriendConnection, type ProductGeneration, type InsertProductGeneration, type GeneratedQuestion, type InsertGeneratedQuestion, users, notes, testResults, userProgress, contentItems, featureUsage, userFlashcards, blogConfig, pageViews, userFeedback, qotdHistory, emailSubscribers, socialPosts, dashboardWidgets, siteImages, customPageModules, audioClips, lessonAudioLinks, examQuestions, questionTypeRegistry, questionScheduleLog, digitalProducts, productPurchases, couponCodes, qbankDrafts, qbankRecipes, diagnosticAssessments, userStats, studyGroups, studyGroupMembers, questionAnalytics, friendRequests, friendConnections, productGenerations, generatedQuestions, generationEvents, v2ContentBlocks } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
@@ -1056,6 +1056,56 @@ export class DatabaseStorage implements IStorage {
   }
   async removeFriendConnection(id: string): Promise<void> {
     await db.delete(friendConnections).where(eq(friendConnections.id, id));
+  }
+
+  async createProductGeneration(data: InsertProductGeneration): Promise<ProductGeneration> {
+    const [r] = await db.insert(productGenerations).values(data).returning();
+    return r;
+  }
+  async getProductGeneration(id: string): Promise<ProductGeneration | undefined> {
+    const [r] = await db.select().from(productGenerations).where(eq(productGenerations.id, id));
+    return r;
+  }
+  async updateProductGeneration(id: string, updates: any): Promise<ProductGeneration> {
+    const [r] = await db.update(productGenerations).set({ ...updates, updatedAt: new Date() }).where(eq(productGenerations.id, id)).returning();
+    return r;
+  }
+  async listProductGenerations(): Promise<ProductGeneration[]> {
+    return db.select().from(productGenerations).orderBy(desc(productGenerations.createdAt));
+  }
+
+  async createGeneratedQuestion(data: InsertGeneratedQuestion): Promise<GeneratedQuestion> {
+    const [r] = await db.insert(generatedQuestions).values(data).returning();
+    return r;
+  }
+  async createGeneratedQuestionsBulk(data: InsertGeneratedQuestion[]): Promise<GeneratedQuestion[]> {
+    if (!data.length) return [];
+    return db.insert(generatedQuestions).values(data).returning();
+  }
+  async getGeneratedQuestions(generationId: string): Promise<GeneratedQuestion[]> {
+    return db.select().from(generatedQuestions).where(eq(generatedQuestions.generationId, generationId)).orderBy(generatedQuestions.idx);
+  }
+  async getGeneratedQuestionCount(generationId: string): Promise<number> {
+    const [r] = await db.select({ count: count() }).from(generatedQuestions).where(eq(generatedQuestions.generationId, generationId));
+    return r?.count || 0;
+  }
+  async deleteGeneratedQuestion(id: string): Promise<void> {
+    await db.delete(generatedQuestions).where(eq(generatedQuestions.id, id));
+  }
+
+  async createGenerationEvent(data: { generationId: string; eventType: string; payload?: any }): Promise<void> {
+    await db.insert(generationEvents).values(data);
+  }
+  async getGenerationEvents(generationId: string): Promise<any[]> {
+    return db.select().from(generationEvents).where(eq(generationEvents.generationId, generationId)).orderBy(desc(generationEvents.createdAt));
+  }
+
+  async createContentBlock(data: { generationId: string; sectionKey: string; blocks: any }): Promise<any> {
+    const [r] = await db.insert(v2ContentBlocks).values(data).returning();
+    return r;
+  }
+  async getContentBlocks(generationId: string): Promise<any[]> {
+    return db.select().from(v2ContentBlocks).where(eq(v2ContentBlocks.generationId, generationId));
   }
 }
 

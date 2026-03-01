@@ -81,6 +81,7 @@ const DisclaimerPage = lazy(() => import("@/pages/disclaimer"));
 const RefundPolicyPage = lazy(() => import("@/pages/refund-policy"));
 const StartFreePage = lazy(() => import("@/pages/start-free"));
 const AdminPage = lazy(() => import("@/pages/admin"));
+const GeneratorV2Page = lazy(() => import("@/pages/generator-v2"));
 const DashboardPage = lazy(() => import("@/pages/dashboard"));
 const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
 const MedMathPage = lazy(() => import("@/pages/med-math"));
@@ -262,6 +263,8 @@ function AppRoutes() {
         <Route path="/med-math" component={MedMathPage} />
         <Route path="/lab-values" component={LabValuesPage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/admin/generator-v2" component={GeneratorV2Page} />
+        <Route path="/:locale/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/content-editor" component={ContentEditorPage} />
         <Route path="/case-simulations" component={CaseSimulationPage} />
         <Route path="/first-action-simulator" component={FirstActionSimulatorPage} />

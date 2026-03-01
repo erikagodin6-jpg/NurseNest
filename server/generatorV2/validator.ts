@@ -1,0 +1,247 @@
+const VALID_SYSTEMS = [
+  "Cardiac", "Respiratory", "Neuro", "Renal", "Endocrine", "GI",
+  "Hematology", "Immune", "Integumentary", "MSK", "Reproductive", "Multi-system",
+];
+
+const VALID_DIFFICULTIES = ["moderate", "hard", "very_challenging"];
+
+const EMOJI_REGEX = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{200D}\u{20E3}\u{231A}-\u{231B}\u{23E9}-\u{23F3}\u{23F8}-\u{23FA}\u{25AA}-\u{25AB}\u{25B6}\u{25C0}\u{25FB}-\u{25FE}\u{2614}-\u{2615}\u{2648}-\u{2653}\u{267F}\u{2693}\u{26A1}\u{26AA}-\u{26AB}\u{26BD}-\u{26BE}\u{26C4}-\u{26C5}\u{26CE}\u{26D4}\u{26EA}\u{26F2}-\u{26F3}\u{26F5}\u{26FA}\u{26FD}\u{2702}\u{2705}\u{2708}-\u{270D}\u{270F}]/gu;
+
+function stripEmoji(text: string): string {
+  return text.replace(EMOJI_REGEX, "").replace(/\s{2,}/g, " ").trim();
+}
+
+export interface RawQuestion {
+  id?: string;
+  idx?: number;
+  type?: string;
+  difficulty?: string;
+  system?: string;
+  stem?: string;
+  scenario?: string;
+  choices?: any[];
+  correct_answers?: any;
+  correctAnswers?: any;
+  rationale?: any;
+  exam_pearl?: string;
+  examPearl?: string;
+  [key: string]: any;
+}
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: string[];
+  normalized: {
+    idx: number;
+    type: string;
+    difficulty: string;
+    system: string;
+    stem: string;
+    scenario: string;
+    choices: { label: string; text: string }[];
+    correctAnswers: string[];
+    rationale: {
+      correctReasoning: string;
+      incorrectBreakdown: Record<string, string>;
+      keyPathophysiology: string;
+      nursingImplication: string;
+    };
+    examPearl: string;
+    hash: string;
+  } | null;
+}
+
+function normalizeHash(stem: string): string {
+  return stem
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split("")
+    .reduce((h, c) => ((h << 5) - h + c.charCodeAt(0)) | 0, 0)
+    .toString(36);
+}
+
+function normalizeChoices(raw: any[]): { label: string; text: string }[] {
+  return raw.map((c, i) => {
+    if (typeof c === "string") {
+      const match = c.match(/^([A-H])\)\s*(.+)/);
+      if (match) return { label: match[1], text: match[2] };
+      const letter = String.fromCharCode(65 + i);
+      return { label: letter, text: c };
+    }
+    if (c && typeof c === "object") {
+      return {
+        label: c.label || String.fromCharCode(65 + i),
+        text: c.text || c.content || String(c),
+      };
+    }
+    return { label: String.fromCharCode(65 + i), text: String(c) };
+  });
+}
+
+function normalizeCorrectAnswers(raw: any): string[] {
+  if (typeof raw === "string") return [raw.toUpperCase()];
+  if (Array.isArray(raw)) return raw.map((a: any) => String(a).toUpperCase());
+  return [];
+}
+
+function normalizeRationale(raw: any): {
+  correctReasoning: string;
+  incorrectBreakdown: Record<string, string>;
+  keyPathophysiology: string;
+  nursingImplication: string;
+} {
+  if (!raw || typeof raw !== "object") {
+    return {
+      correctReasoning: typeof raw === "string" ? raw : "",
+      incorrectBreakdown: {},
+      keyPathophysiology: "",
+      nursingImplication: "",
+    };
+  }
+  return {
+    correctReasoning: raw.correctReasoning || raw.correct_reasoning || raw.rationaleCorrect || "",
+    incorrectBreakdown: raw.incorrectBreakdown || raw.incorrect_breakdown || raw.rationaleIncorrect || {},
+    keyPathophysiology: raw.keyPathophysiology || raw.key_pathophysiology || "",
+    nursingImplication: raw.nursingImplication || raw.nursing_implication || "",
+  };
+}
+
+export function validateQuestion(
+  raw: RawQuestion,
+  idx: number,
+  existingHashes: Set<string>,
+): ValidationResult {
+  const errors: string[] = [];
+
+  const type = (raw.type || "").toLowerCase();
+  if (type !== "mcq" && type !== "sata") {
+    errors.push(`Invalid type "${raw.type}", must be mcq or sata`);
+  }
+
+  const stem = (raw.stem || "").trim();
+  if (!stem || stem.length < 40) {
+    errors.push(`Stem too short (${stem.length} chars, min 40)`);
+  }
+
+  const scenario = (raw.scenario || stem).trim();
+
+  const difficulty = (raw.difficulty || "moderate").toLowerCase();
+  if (!VALID_DIFFICULTIES.includes(difficulty)) {
+    errors.push(`Invalid difficulty "${raw.difficulty}"`);
+  }
+
+  let system = raw.system || "Multi-system";
+  if (!VALID_SYSTEMS.includes(system)) {
+    const match = VALID_SYSTEMS.find(
+      (s) => s.toLowerCase() === system.toLowerCase(),
+    );
+    system = match || "Multi-system";
+  }
+
+  if (!Array.isArray(raw.choices) || raw.choices.length < 4) {
+    errors.push(`Choices must be an array with >= 4 items, got ${Array.isArray(raw.choices) ? raw.choices.length : "none"}`);
+    return { valid: false, errors, normalized: null };
+  }
+
+  const choices = normalizeChoices(raw.choices);
+  const correctAnswers = normalizeCorrectAnswers(raw.correct_answers || raw.correctAnswers);
+  const choiceLabels = new Set(choices.map((c) => c.label));
+
+  if (type === "mcq") {
+    if (choices.length !== 4) {
+      errors.push(`MCQ must have exactly 4 choices, got ${choices.length}`);
+    }
+    if (correctAnswers.length !== 1) {
+      errors.push(`MCQ must have exactly 1 correct answer, got ${correctAnswers.length}`);
+    }
+  }
+
+  if (type === "sata") {
+    if (choices.length < 5) {
+      errors.push(`SATA must have >= 5 choices, got ${choices.length}`);
+    }
+    if (correctAnswers.length < 2 || correctAnswers.length > 5) {
+      errors.push(`SATA must have 2-5 correct answers, got ${correctAnswers.length}`);
+    }
+  }
+
+  for (const ans of correctAnswers) {
+    if (!choiceLabels.has(ans)) {
+      errors.push(`Correct answer "${ans}" not found in choice labels`);
+    }
+  }
+
+  const choiceTexts = choices.map((c) => c.text.toLowerCase().trim());
+  const uniqueTexts = new Set(choiceTexts);
+  if (uniqueTexts.size !== choiceTexts.length) {
+    errors.push("Duplicate choice texts detected");
+  }
+  if (choiceTexts.some((t) => !t || t.length < 3)) {
+    errors.push("Empty or very short choice text detected");
+  }
+
+  const rationale = normalizeRationale(raw.rationale);
+  if (!rationale.correctReasoning || rationale.correctReasoning.length < 10) {
+    errors.push("correctReasoning missing or too short");
+  }
+
+  const examPearl = raw.exam_pearl || raw.examPearl || "";
+
+  const hash = "h" + Math.abs(parseInt(normalizeHash(stem), 36) || 0).toString(36);
+  if (existingHashes.has(hash)) {
+    errors.push("Duplicate question (stem hash collision)");
+  }
+
+  if (errors.length > 0) {
+    return { valid: false, errors, normalized: null };
+  }
+
+  return {
+    valid: true,
+    errors: [],
+    normalized: {
+      idx,
+      type: type.toUpperCase() as string,
+      difficulty,
+      system,
+      stem: stripEmoji(stem),
+      scenario: stripEmoji(scenario),
+      choices: choices.map(c => ({ label: c.label, text: stripEmoji(c.text) })),
+      correctAnswers,
+      rationale: {
+        correctReasoning: stripEmoji(rationale.correctReasoning),
+        incorrectBreakdown: Object.fromEntries(Object.entries(rationale.incorrectBreakdown).map(([k, v]) => [k, stripEmoji(String(v))])),
+        keyPathophysiology: stripEmoji(rationale.keyPathophysiology),
+        nursingImplication: stripEmoji(rationale.nursingImplication),
+      },
+      examPearl: stripEmoji(examPearl),
+      hash,
+    },
+  };
+}
+
+export function validateChunk(
+  items: RawQuestion[],
+  startIdx: number,
+  existingHashes: Set<string>,
+): { valid: ValidationResult[]; invalid: { idx: number; errors: string[] }[] } {
+  const valid: ValidationResult[] = [];
+  const invalid: { idx: number; errors: string[] }[] = [];
+  const localHashes = new Set(existingHashes);
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const idx = startIdx + i;
+    const result = validateQuestion(item, idx, localHashes);
+    if (result.valid && result.normalized) {
+      localHashes.add(result.normalized.hash);
+      valid.push(result);
+    } else {
+      invalid.push({ idx, errors: result.errors });
+    }
+  }
+
+  return { valid, invalid };
+}

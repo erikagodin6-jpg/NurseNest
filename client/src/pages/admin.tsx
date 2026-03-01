@@ -1321,6 +1321,17 @@ export default function AdminPage() {
                     ))}
                   </div>
 
+                  <div className="flex gap-3 flex-wrap" data-testid="section-quick-tools">
+                    <a
+                      href="/admin/generator-v2"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium hover:bg-blue-100 transition"
+                      data-testid="link-generator-v2"
+                    >
+                      <Zap className="w-4 h-4" />
+                      Generator V2 (Chunked Pipeline)
+                    </a>
+                  </div>
+
                   <div className="grid md:grid-cols-3 gap-6">
                     <Card className="border border-primary/10" data-testid="card-tier-distribution">
                       <CardHeader className="pb-3">

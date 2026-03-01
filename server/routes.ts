@@ -10966,6 +10966,161 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  // ==================== GENERATOR V2 ROUTES ====================
+  const activeV2Runs = new Map<string, boolean>();
+
+  app.post("/api/generator-v2/generations", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { template = "question_pack", exam, region = "BOTH", targetCount = 50, chunkSize = 15, promptBase, settings, topic, difficulty = "mixed", questionTypes } = req.body;
+      if (!targetCount || targetCount < 5) return res.status(400).json({ error: "targetCount must be >= 5" });
+      const gen = await storage.createProductGeneration({
+        userId: admin.id,
+        template,
+        status: "queued",
+        targetCount: Math.min(targetCount, 1000),
+        createdCount: 0,
+        chunkSize: Math.min(Math.max(chunkSize, 5), 25),
+        promptBase: promptBase || null,
+        topic: topic || "Nursing Pathophysiology",
+        examTarget: exam || "rex-pn",
+        difficulty,
+        questionTypes: questionTypes || ["MCQ", "SATA"],
+        region,
+        settings: settings || {},
+      });
+      await logAudit(req, admin, "generator_v2", gen.id, "create", null, { template, targetCount, chunkSize });
+      res.json(gen);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/generations/:id/run", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { id } = req.params;
+      const gen = await storage.getProductGeneration(id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      if (activeV2Runs.has(id)) return res.status(409).json({ error: "Generation already running" });
+
+      activeV2Runs.set(id, true);
+      res.json({ ok: true, message: "Generation started" });
+
+      (async () => {
+        try {
+          const template = gen.template;
+          if (template === "cram_guide" || template === "hybrid") {
+            const { generateContentBlocks } = await import("./generatorV2/contentWorker");
+            await generateContentBlocks(id, gen.topic || "Nursing", gen.examTarget || "rex-pn", gen.region || "BOTH");
+          }
+          if (template === "question_pack" || template === "hybrid") {
+            const { runGenerationWorker } = await import("./generatorV2/worker");
+            await runGenerationWorker(id);
+          }
+        } catch (err: any) {
+          console.error(`[GenV2] Worker error for ${id}:`, err.message);
+          await storage.updateProductGeneration(id, { status: "failed", lastError: err.message });
+        } finally {
+          activeV2Runs.delete(id);
+        }
+      })();
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/generations/:id/pause", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { id } = req.params;
+      const gen = await storage.getProductGeneration(id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      await storage.updateProductGeneration(id, { status: "paused" });
+      await storage.createGenerationEvent({ generationId: id, eventType: "paused", payload: { createdCount: gen.createdCount } });
+      res.json({ ok: true, status: "paused" });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/generator-v2/generations/:id/status", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      const events = await storage.getGenerationEvents(req.params.id);
+      const recentEvents = events.slice(0, 10);
+      const state = gen.promptState as any;
+      res.json({
+        id: gen.id,
+        status: gen.status,
+        template: gen.template,
+        topic: gen.topic,
+        examTarget: gen.examTarget,
+        region: gen.region,
+        targetCount: gen.targetCount,
+        createdCount: gen.createdCount,
+        chunkSize: gen.chunkSize,
+        lastError: gen.lastError,
+        distributions: state ? { byType: state.byType, byDifficulty: state.byDifficulty, bySystem: state.bySystem } : null,
+        recentEvents,
+        isRunning: activeV2Runs.has(req.params.id),
+        startedAt: gen.startedAt,
+        completedAt: gen.completedAt,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/generator-v2/generations/:id/questions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const questions = await storage.getGeneratedQuestions(req.params.id);
+      const offset = parseInt(req.query.offset as string) || 0;
+      const limit = parseInt(req.query.limit as string) || 25;
+      res.json({
+        questions: questions.slice(offset, offset + limit),
+        total: questions.length,
+        offset,
+        limit,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/generator-v2/generations", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gens = await storage.listProductGenerations();
+      res.json(gens);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/generations/:id/compile", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      const { compileGeneration } = await import("./generatorV2/compiler");
+      const pages = await compileGeneration(req.params.id);
+      res.json({ pages, totalPages: pages.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   return httpServer;
 }
 
