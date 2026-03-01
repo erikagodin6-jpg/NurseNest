@@ -8582,6 +8582,40 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.post("/api/admin/brand-logos", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { imageData, fileName } = req.body;
+      if (!imageData) return res.status(400).json({ error: "imageData (base64) required" });
+
+      const matches = imageData.match(/^data:image\/(png|jpeg|jpg|svg\+xml|webp);base64,(.+)$/);
+      if (!matches) return res.status(400).json({ error: "Invalid image data format" });
+
+      const mimeType = `image/${matches[1]}`;
+      const buffer = Buffer.from(matches[2], "base64");
+
+      const objectStorageService = new (await import("./replit_integrations/object_storage/objectStorage")).ObjectStorageService();
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+
+      const uploadRes = await fetch(uploadURL, {
+        method: "PUT",
+        headers: { "Content-Type": mimeType },
+        body: buffer,
+      });
+      if (!uploadRes.ok) throw new Error("Failed to upload logo to storage");
+
+      const objectPath = objectStorageService.normalizeObjectEntityPath(uploadURL);
+      const safeName = (fileName || `logo-${Date.now()}`).replace(/[^a-zA-Z0-9._-]/g, "_");
+
+      await logAudit(req, admin, "brand", null, "upload-logo", null, { fileName: safeName });
+      res.json({ url: objectPath, fileName: safeName });
+    } catch (e: any) {
+      console.error("Logo upload error:", e);
+      res.status(500).json({ error: e.message || "Logo upload failed" });
+    }
+  });
+
   app.post("/api/admin/images/generate", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;

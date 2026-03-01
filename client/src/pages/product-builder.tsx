@@ -845,10 +845,28 @@ interface CanvasObject {
   locked?: boolean;
   tag?: string;
   groupId?: string;
+  filter?: string;
 }
 
 function uid() {
   return `obj-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+}
+
+function hexToCssFilter(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0;
+  if (max !== min) {
+    const d = max - min;
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) * 60;
+    else if (max === g) h = ((b - r) / d + 2) * 60;
+    else h = ((r - g) / d + 4) * 60;
+  }
+  const l = (max + min) / 2;
+  const s = max === min ? 0 : l > 0.5 ? (max - min) / (2 - max - min) : (max - min) / (max + min);
+  return `invert(${Math.round(l * 100)}%) sepia(100%) saturate(${Math.round(s * 1000)}%) hue-rotate(${Math.round(h)}deg)`;
 }
 
 function gid() {
@@ -1986,6 +2004,14 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
   const [tbPrice, setTbPrice] = useState("14.99");
   const [bundleTargetPages, setBundleTargetPages] = useState(30);
   const [bundleProgress, setBundleProgress] = useState<{ step: string; current: number; total: number } | null>(null);
+  const [brandLogos, setBrandLogos] = useState<{ url: string; fileName: string }[]>(() => {
+    try {
+      const saved = localStorage.getItem("nursenest-brand-logos");
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [logoColor, setLogoColor] = useState<string>("original");
 
   const theme = getTheme(activeThemeId);
   const themePalette = [
@@ -2166,6 +2192,10 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
     } catch (e) {}
     setSaving(false);
   }, [objects, pages, currentPageIndex]);
+
+  useEffect(() => {
+    try { localStorage.setItem("nursenest-brand-logos", JSON.stringify(brandLogos)); } catch {}
+  }, [brandLogos]);
 
   useEffect(() => {
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
@@ -2414,6 +2444,54 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
       tag: "brand-logo", locked: brandLock,
     };
     setObjects(prev => [...prev, logoObj]);
+  };
+
+  const uploadBrandLogo = async (file: File) => {
+    setLogoUploading(true);
+    try {
+      const reader = new FileReader();
+      const imageData = await new Promise<string>((resolve, reject) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const res = await adminFetch("/api/admin/brand-logos", {
+        method: "POST",
+        body: { imageData, fileName: file.name },
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Upload failed");
+      }
+      const data = await res.json();
+      setBrandLogos(prev => [...prev, data]);
+      toast({ title: "Logo uploaded", description: data.fileName });
+    } catch (e: any) {
+      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
+    } finally {
+      setLogoUploading(false);
+    }
+  };
+
+  const insertBrandLogo = (logoUrl: string, color: string) => {
+    pushUndo();
+    const tintFilter = color === "original" ? undefined
+      : color === "white" ? "brightness(0) invert(1)"
+      : color === "black" ? "brightness(0)"
+      : `brightness(0) saturate(100%) ${hexToCssFilter(color)}`;
+    const newObj: CanvasObject = {
+      id: uid(), type: "image" as const,
+      x: CANVAS_WIDTH / 2 - 80, y: CANVAS_HEIGHT - 60,
+      width: 160, height: 50,
+      src: logoUrl,
+      rotation: 0, opacity: color === "white" ? 0.9 : 0.7,
+      zIndex: 998,
+      tag: "brand-logo", locked: brandLock,
+      filter: tintFilter,
+    };
+    setObjects(prev => [...prev, newObj]);
+    setSelectedId(newObj.id);
+    toast({ title: "Logo inserted" });
   };
 
   const beautifyPage = () => {
@@ -4228,6 +4306,93 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
               </div>
             </div>
 
+            <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-3">
+              <span className="text-xs font-semibold text-gray-700 block">Your Logo</span>
+              <div className="space-y-2">
+                <label className="flex items-center justify-center w-full h-20 rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 cursor-pointer transition-colors bg-gray-50/50" data-testid="label-upload-logo">
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    className="hidden"
+                    onChange={e => { const f = e.target.files?.[0]; if (f) uploadBrandLogo(f); e.target.value = ""; }}
+                    data-testid="input-upload-logo"
+                  />
+                  {logoUploading ? (
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-[10px]">Uploading...</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-1 text-gray-400">
+                      <ImagePlus className="w-5 h-5" />
+                      <span className="text-[10px] font-medium">Upload Logo</span>
+                      <span className="text-[8px]">PNG, SVG, JPG, WebP</span>
+                    </div>
+                  )}
+                </label>
+                {brandLogos.length > 0 && (
+                  <div className="space-y-2">
+                    {brandLogos.map((logo, li) => (
+                      <div key={li} className="rounded-xl border border-gray-100 bg-white p-2 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 h-10 rounded-lg border bg-gray-50 flex items-center justify-center overflow-hidden">
+                            <img src={logo.url} alt={logo.fileName} className="max-w-full max-h-full object-contain" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[10px] font-medium text-gray-600 truncate">{logo.fileName}</p>
+                            <p className="text-[8px] text-gray-400">Click a colour to insert</p>
+                          </div>
+                          <button onClick={() => setBrandLogos(prev => prev.filter((_, i) => i !== li))} className="p-1 hover:bg-red-50 rounded text-gray-300 hover:text-red-400" data-testid={`button-remove-logo-${li}`}>
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-1 flex-wrap">
+                          <button
+                            onClick={() => insertBrandLogo(logo.url, "original")}
+                            className="h-7 px-2 rounded-lg border text-[9px] font-medium hover:bg-gray-50 flex items-center gap-1 text-gray-600"
+                            title="Original colours"
+                            data-testid={`button-logo-original-${li}`}
+                          >
+                            <div className="w-3.5 h-3.5 rounded-full border border-gray-300 bg-gradient-to-br from-red-300 via-blue-300 to-green-300" />
+                            Original
+                          </button>
+                          <button
+                            onClick={() => insertBrandLogo(logo.url, "black")}
+                            className="h-7 px-2 rounded-lg border text-[9px] font-medium hover:bg-gray-50 flex items-center gap-1 text-gray-600"
+                            title="Black"
+                            data-testid={`button-logo-black-${li}`}
+                          >
+                            <div className="w-3.5 h-3.5 rounded-full bg-black border border-gray-300" />
+                            Black
+                          </button>
+                          <button
+                            onClick={() => insertBrandLogo(logo.url, "white")}
+                            className="h-7 px-2 rounded-lg border text-[9px] font-medium hover:bg-gray-50 flex items-center gap-1 text-gray-600"
+                            title="White (for dark backgrounds)"
+                            data-testid={`button-logo-white-${li}`}
+                          >
+                            <div className="w-3.5 h-3.5 rounded-full bg-white border border-gray-300" />
+                            White
+                          </button>
+                          {[theme.primaryColor, theme.secondaryColor, theme.accentColor].map((c, ci) => (
+                            <button
+                              key={ci}
+                              onClick={() => insertBrandLogo(logo.url, c)}
+                              className="h-7 w-7 rounded-lg border hover:ring-2 hover:ring-primary/30 flex items-center justify-center"
+                              title={`Tint: ${c}`}
+                              data-testid={`button-logo-tint-${li}-${ci}`}
+                            >
+                              <div className="w-3.5 h-3.5 rounded-full border border-white/50" style={{ backgroundColor: c }} />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-gray-700">Brand Lock</span>
@@ -4529,7 +4694,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                         )}
                         {obj.type === "image" && (
                           <div style={{ width: "100%", height: "100%", backgroundColor: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            {obj.src ? <img src={obj.src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <Image className="w-8 h-8 text-gray-300" />}
+                            {obj.src ? <img src={obj.src} alt="" style={{ width: "100%", height: "100%", objectFit: obj.tag === "brand-logo" ? "contain" : "cover", filter: obj.filter || undefined }} /> : <Image className="w-8 h-8 text-gray-300" />}
                           </div>
                         )}
                         {isSelected && !obj.locked && selectedIds.length === 1 && (
@@ -4657,7 +4822,29 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   </>
                 )}
                 {selectedObj.type === "image" && (
-                  <Input placeholder="Image URL" value={selectedObj.src || ""} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { src: e.target.value }); }} className="text-xs" data-testid="input-image-url" />
+                  <>
+                    <Input placeholder="Image URL" value={selectedObj.src || ""} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { src: e.target.value }); }} className="text-xs" data-testid="input-image-url" />
+                    <div>
+                      <label className="text-[9px] text-gray-400 block mb-1">Color Tint</label>
+                      <div className="flex items-center gap-1 flex-wrap">
+                        <button onClick={() => { pushUndo(); updateObject(selectedObj.id, { filter: undefined }); }} className={`h-6 px-2 rounded text-[9px] border ${!selectedObj.filter ? "bg-primary/10 border-primary text-primary" : "text-gray-500"}`} data-testid="button-tint-original">Original</button>
+                        <button onClick={() => { pushUndo(); updateObject(selectedObj.id, { filter: "brightness(0)" }); }} className={`h-6 px-2 rounded text-[9px] border ${selectedObj.filter === "brightness(0)" ? "bg-primary/10 border-primary text-primary" : "text-gray-500"}`} data-testid="button-tint-black">
+                          <div className="w-3 h-3 rounded-full bg-black border border-gray-300 inline-block align-middle mr-1" />Blk
+                        </button>
+                        <button onClick={() => { pushUndo(); updateObject(selectedObj.id, { filter: "brightness(0) invert(1)" }); }} className={`h-6 px-2 rounded text-[9px] border ${selectedObj.filter === "brightness(0) invert(1)" ? "bg-primary/10 border-primary text-primary" : "text-gray-500"}`} data-testid="button-tint-white">
+                          <div className="w-3 h-3 rounded-full bg-white border border-gray-300 inline-block align-middle mr-1" />Wht
+                        </button>
+                        {[theme.primaryColor, theme.secondaryColor, theme.accentColor].map((c, ci) => {
+                          const f = `brightness(0) saturate(100%) ${hexToCssFilter(c)}`;
+                          return (
+                            <button key={ci} onClick={() => { pushUndo(); updateObject(selectedObj.id, { filter: f }); }} className={`h-6 w-6 rounded border flex items-center justify-center ${selectedObj.filter === f ? "ring-2 ring-primary" : ""}`} title={c} data-testid={`button-tint-theme-${ci}`}>
+                              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: c }} />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </>
                 )}
                 <div className="flex gap-1.5">
                   <div>
