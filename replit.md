@@ -96,6 +96,13 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
   5. **QA Flow Check** - Audits for redundancy, logical flow, difficulty escalation, tone consistency, clinical accuracy
   - **Section validation**: Server counts substantive vs non-substantive blocks; pass requires blocks>=3, chars>=400, substantive>=4. Client mirrors this with same logic before compile. Failed sections retry up to 2x with repair prompt that includes specific failure reasons.
   - Falls back to single-prompt generation (`/api/ai/generate-content` with mode "guided") if pipeline content step fails
+- **Test Bank Generator** (`/api/ai/generate-test-bank`): Strict question count contract with:
+  - Server-side validation: JSON schema enforced via `response_format: { type: "json_object" }`, validates category (4 NCLEX categories), type (MCQ/SATA/PRIORITY/DELEGATION), field presence (id/scenario/stem/options/correctAnswer/rationaleCorrect/rationaleIncorrect/clinicalPearl), option count rules (MCQ=4, SATA=6-8), answer format (MCQ=single letter, SATA=array of 2-5)
+  - Retry logic: Up to 3 attempts with repair prompt listing specific validation errors
+  - Pre-export audit: `runTestBankAudit()` logs requestedCount vs generatedCount, counts by type/category
+  - Export gate: `tbAuditGate()` blocks JSON/CSV/marketplace export if questions.length !== requestedCount
+  - Server returns 422 with audit data on count mismatch after exhausting retries
+  - PDF export uses deterministic page ordering via `pageNumber` sort
 
 ### Site Analytics & Feedback System
 - **Custom Page View Tracker**

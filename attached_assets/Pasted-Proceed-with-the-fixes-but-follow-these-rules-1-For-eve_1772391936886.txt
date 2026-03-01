@@ -1,0 +1,94 @@
+Proceed with the fixes, but follow these rules:
+
+1) For every change: provide file path + function name + a unified diff.
+2) After changes: show exactly what the UI does in 3 scenarios:
+   A) AI returns fewer than requestedCount -> 422 -> UI displays audit details and blocks export
+   B) AI returns exact requestedCount -> UI enables export
+   C) tbResult is edited/filtered to reduce question count -> export is blocked by pre-export audit
+
+3) Add a visible “Audit Panel” UI section that shows:
+   - requestedCount
+   - generatedCount
+   - missingCount
+   - counts by type + category
+   - lastValidationErrors (if any)
+
+Do not summarize. Implement and output diffs + a short “How to test” checklist.
+This prevents “I implemented it” with nothing tangible.
+2) Make the client gate impossible to bypass
+Right now it sounds like the server rejects with 422 but client exports still run on stale tbResult. You need a single central guard used by every export.
+Implement a single client-side function:
+
+validateTestBankForExport(tbResult, requestedCount) -> { ok: boolean, audit: {...} }
+
+Rules:
+- ok = true ONLY if generatedCount === requestedCount AND required fields exist per question
+- otherwise ok=false and include validationErrors (human-readable)
+
+Then:
+- exportTestBankJSON, exportTestBankCSV, publishTestBankToMarketplace MUST call this validator and abort if ok=false.
+- exportAsPDF MUST also call it if the PDF includes questions.
+
+Also:
+- disable Export buttons in UI when ok=false.
+- show toast + audit panel when blocked.
+
+Deliverables:
+- diff with this validator and all exports calling it
+- confirm there is no export path that doesn’t call the validator.
+This is the key business protection: you cannot accidentally sell an incomplete product.
+3) Fix the 422 UX (your current pain)
+You want the user to see why generation failed, and ideally auto-complete missing questions.
+Update generateTestBank:
+
+- If response.status === 422:
+  - parse JSON body: {audit, errors}
+  - show the audit panel populated
+  - show a clear UI message: "Generated 37/50 questions. Click 'Complete Missing' to finish."
+  - do NOT clear existing tbResult if partial generation exists
+
+Add "Complete Missing" button:
+- Calls /api/generate-test-bank with a new mode=completeMissing
+- Sends existingQuestions and requestedCount
+- Server generates only missing questions and returns merged validated output
+
+Deliverables:
+- diff for UI + endpoint usage
+- confirm the normal “Generate” still works
+Even if you don’t implement “completeMissing” today, the audit display is mandatory.
+4) Page ordering: make it deterministic (DB index is not enough)
+You mentioned PDF ordering relies on array order from DB. That’s fragile.
+Make page ordering deterministic:
+
+- Add an explicit "pageIndex" (integer) to pages in DB OR ensure ordering query uses a stable field (createdAt is not safe).
+- On load: sort pages by pageIndex ascending.
+- On insert/duplicate/delete: update pageIndex values to remain contiguous (0..n-1).
+- In exportAsPDF: assert pageIndex sorting is applied and log the ordered list.
+
+Also add content type markers:
+- cover page: type="cover"
+- toc page: type="toc"
+- others: type="content"
+
+Export assertion:
+- pages[0].type === "cover" OR pages[0].isCover === true
+- If not, block export and show error "Cover must be page 1".
+
+Deliverables:
+- DB migration (if needed) OR query ordering fix
+- diffs + how to test by duplicating/deleting pages.
+This prevents “title is page 2” forever.
+5) Don’t mix canvas blocks with test bank questions (unless you truly want that)
+Replit noted: “canvas editor and test bank generator are separate flows.” Good. Keep them separate unless you’re building a printable workbook.
+So your prompt to Replit should be explicit:
+Do NOT add a question block type to buildBlockObjects unless we are intentionally rendering questions into the canvas PDF.
+
+For now, focus on:
+- test bank JSON/CSV/marketplace exports being complete + validated
+- PDF export ordering for canvas projects
+
+If we later add printable QBank PDFs, we will design a separate renderer for questions.
+That stops feature creep.
+The single most important acceptance criteria
+Tell Replit this sentence verbatim:
+“It must be impossible to export/publish a test bank unless generatedCount === requestedCount; all export buttons must be disabled when invalid, and any attempt must show an audit report.”

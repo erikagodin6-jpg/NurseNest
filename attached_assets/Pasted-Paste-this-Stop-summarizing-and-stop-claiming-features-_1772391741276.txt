@@ -1,0 +1,108 @@
+Paste this:
+Stop summarizing and stop claiming features are “already implemented” without proof.
+
+New rule: Evidence-based engineering only.
+
+For each claim you make, you must provide:
+1) File path(s) + exact function/component name(s)
+2) A short code excerpt (10–30 lines) showing the relevant logic
+3) A reproduction step or test that demonstrates the feature works
+
+If you cannot provide (1)-(3), you must label it as UNKNOWN and investigate.
+
+TASK:
+I am seeing incorrect bundle outputs (wrong page order, missing question pages, formatting wrong). You previously claimed everything is already implemented. That is not acceptable.
+
+Do the following:
+A) Reproduce the bug locally by running the app and generating a bundle (same settings I used).
+B) Identify where generation output is parsed and transformed into “pages/blocks.”
+C) Identify where page ordering is determined for export.
+D) Identify why the question blocks are missing/dropped.
+E) Fix it, and add a pre-export audit gate that blocks export if questionCount != requestedCount.
+
+DELIVERABLE:
+- List the exact files you modified
+- Provide diffs for each
+- Show the validation logs proving the final export has the correct order and exact question count
+This stops Replit from “storytelling” and forces it to behave like a real dev.
+Prompt 2 — “Implement a hard contract: exact question count or fail”
+Paste this:
+Implement strict enforcement for “requested question count”.
+
+Requirements:
+- requestedCount is collected in UI; it must be passed to the server generator.
+- AI output MUST be strict JSON only, validated server-side.
+- Block export unless questions.length === requestedCount.
+
+Implementation details:
+1) Add Zod schema for the generated JSON.
+2) Validate:
+   - questions.length === requestedCount
+   - each question has required fields
+3) Add retry/completion:
+   - If fewer than requestedCount, generate ONLY missing questions and append
+   - Deduplicate by (scenario+stem) hash
+4) Add a “pre-export audit” that prints:
+   - requestedCount, actualCount
+   - counts by type and category
+   - page order summary
+5) If audit fails: throw error and show UI toast “Generation failed: incomplete output”.
+
+Deliverables:
+- Code changes + file paths
+- Console log sample showing audit PASS
+This is the engineering fix for “it asks me how many but doesn’t follow it.”
+Prompt 3 — “Fix export ordering: cover must be page 1”
+Paste this:
+Fix PDF export ordering deterministically.
+
+Problem:
+Sometimes the title/cover appears on page 2.
+
+Tasks:
+1) Find where pages are collected for export (array build, filesystem glob, sort).
+2) Remove reliance on filename sort unless numeric sort is guaranteed.
+3) Enforce an explicit page model:
+   - pages: [{index: 1, type: "cover"}, {index: 2, type:"toc"}, ...]
+4) Add an assertion:
+   - pages[0].type === "cover"
+   - pages[1].type === "toc"
+If assertion fails, abort export and log the actual page sequence.
+
+Deliverables:
+- Exact file paths changed
+- Before/after page sequence logs
+Prompt 4 — “Stop dropping content: implement true overflow pagination”
+Paste this:
+Implement overflow-safe pagination for question blocks.
+
+Currently, content is being truncated or never rendered when it overflows.
+Requirement: Never drop question content.
+
+Tasks:
+1) Identify the layout engine function that places blocks onto pages.
+2) If a question block does not fit, split it across pages:
+   - scenario + stem + options can be on page A
+   - answer + rationales can flow to page B
+3) Add a debug mode that draws bounding boxes and prints remaining space.
+
+Deliverables:
+- The updated pagination function
+- A sample export proving a long rationale splits cleanly across pages
+Prompt 5 — “Make the AI output match your renderer”
+This is important: if your renderer expects blocks, but AI returns sectioned text, it will “render dividers” and skip questions.
+Align the AI output format to what the renderer actually consumes.
+
+1) Inspect the renderer input type (blocks/pages/questions).
+2) Update the generator to output exactly that structure (JSON).
+3) Add a transform layer only if needed, and test it with a fixture.
+
+Deliverable:
+- A saved JSON fixture (golden file) that, when rendered, produces N questions every time.
+Why Replit keeps saying “already implemented”
+Because it’s “reading code” superficially and assuming intent equals behavior. The cure is tests + hard gates.
+The minimum gate you need:
+if (questions.length !== requestedCount) throw new Error("Incomplete QBank")
+and do not export.
+If you paste one thing only, paste this (highest ROI)
+Do not claim anything is implemented unless you can reproduce it and show file paths + code excerpts. Add a pre-export audit that blocks export unless questions.length === requestedCount and cover is page 1. Implement server-side Zod validation + retry/complete-missing until exact.

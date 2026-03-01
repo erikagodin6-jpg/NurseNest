@@ -4578,6 +4578,31 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
   };
 
+  const runTestBankAudit = (data: any, requested: number): { pass: boolean; report: string; errors: string[] } => {
+    const questions = Array.isArray(data?.questions) ? data.questions : [];
+    const generated = questions.length;
+    const byType: Record<string, number> = {};
+    const byCat: Record<string, number> = {};
+    const errors: string[] = [];
+    for (const q of questions) {
+      const t = (q.type || "unknown").toUpperCase();
+      const c = q.category || "Uncategorized";
+      byType[t] = (byType[t] || 0) + 1;
+      byCat[c] = (byCat[c] || 0) + 1;
+    }
+    if (generated !== requested) errors.push(`COUNT MISMATCH: requested ${requested}, got ${generated}`);
+    const report = [
+      `[Pre-Export Audit]`,
+      `  Requested: ${requested}`,
+      `  Generated: ${generated}`,
+      `  Match: ${generated === requested ? "PASS" : "FAIL"}`,
+      `  By Type: ${Object.entries(byType).map(([k, v]) => `${k}=${v}`).join(", ") || "none"}`,
+      `  By Category: ${Object.entries(byCat).map(([k, v]) => `${k}=${v}`).join(", ") || "none"}`,
+    ].join("\n");
+    console.log(report);
+    return { pass: errors.length === 0, report, errors };
+  };
+
   const generateTestBank = async () => {
     if (!aiTopic.trim()) {
       toast({ title: "Enter a topic first", variant: "destructive" });
@@ -4597,13 +4622,39 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           questionTypes: tbQuestionTypes,
         },
       });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || "Test bank generation failed");
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 422) {
+        const msg = data.message || "Generation failed: incomplete output";
+        const audit = data.audit;
+        console.error("[TestBank] Server returned 422:", msg);
+        if (audit) {
+          console.error("[TestBank] Audit:", JSON.stringify(audit, null, 2));
+        }
+        if (data.validationErrors?.length) {
+          console.error("[TestBank] Validation errors:", data.validationErrors);
+        }
+        toast({
+          title: "Generation failed: incomplete output",
+          description: `Requested ${data.requestedCount || tbQuestionCount} questions but got ${data.generatedCount ?? "?"}.  Export blocked.`,
+          variant: "destructive",
+        });
+        return;
       }
-      const data = await res.json();
-      setTbResult(data);
-      toast({ title: "Test Bank Generated", description: `${(data.questions || []).length} questions ready` });
+      if (!res.ok) {
+        throw new Error(data.error || "Test bank generation failed");
+      }
+      const audit = runTestBankAudit(data, tbQuestionCount);
+      if (!audit.pass) {
+        console.error("[TestBank] Client-side audit FAILED:", audit.errors);
+        toast({
+          title: "Generation failed: incomplete output",
+          description: audit.errors.join("; "),
+          variant: "destructive",
+        });
+        return;
+      }
+      setTbResult({ ...data, _auditedCount: tbQuestionCount });
+      toast({ title: "Test Bank Generated", description: `${(data.questions || []).length}/${tbQuestionCount} questions - audit PASSED` });
     } catch (e: any) {
       toast({ title: "Generation Failed", description: e.message, variant: "destructive" });
     } finally {
@@ -4611,8 +4662,29 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
   };
 
+  const tbAuditGate = (): boolean => {
+    if (!tbResult?.questions) {
+      toast({ title: "No test bank to export", variant: "destructive" });
+      return false;
+    }
+    const expected = tbResult._auditedCount || tbResult.requestedCount;
+    const actual = tbResult.questions.length;
+    if (expected && actual !== expected) {
+      console.error(`[TestBank Export BLOCKED] requestedCount=${expected} generatedCount=${actual}`);
+      toast({
+        title: "Export blocked: incomplete question bank",
+        description: `Expected ${expected} questions but have ${actual}. Regenerate to fix.`,
+        variant: "destructive",
+      });
+      return false;
+    }
+    const audit = runTestBankAudit(tbResult, expected || actual);
+    console.log("[TestBank] Pre-export audit:", audit.pass ? "PASS" : "FAIL");
+    return audit.pass;
+  };
+
   const exportTestBankJSON = () => {
-    if (!tbResult) return;
+    if (!tbAuditGate()) return;
     const blob = new Blob([JSON.stringify(tbResult, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a"); a.href = url; a.download = `${(tbResult.title || "test-bank").replace(/\s+/g, "-").toLowerCase()}.json`; a.click();
@@ -4621,10 +4693,10 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
   };
 
   const exportTestBankCSV = () => {
-    if (!tbResult?.questions) return;
-    const header = "ID,Type,Difficulty,Stem,Options,CorrectAnswer,Rationale,Category,Tags";
+    if (!tbAuditGate()) return;
+    const header = "ID,Type,Scenario,Stem,Options,CorrectAnswer,RationaleCorrect,RationaleIncorrect,ClinicalPearl,Category";
     const rows = tbResult.questions.map((q: any) =>
-      `${q.id},"${q.type}","${q.difficulty}","${(q.stem || "").replace(/"/g, '""')}","${(q.options || []).join(" | ").replace(/"/g, '""')}","${q.correctAnswer}","${(q.rationale || "").replace(/"/g, '""')}","${q.category || ""}","${(q.tags || []).join(", ")}"`
+      `${q.id},"${(q.type || "").replace(/"/g, '""')}","${(q.scenario || "").replace(/"/g, '""')}","${(q.stem || "").replace(/"/g, '""')}","${(q.options || []).join(" | ").replace(/"/g, '""')}","${Array.isArray(q.correctAnswer) ? q.correctAnswer.join(",") : q.correctAnswer}","${(q.rationaleCorrect || q.rationale || "").replace(/"/g, '""')}","${(Array.isArray(q.rationaleIncorrect) ? q.rationaleIncorrect.join(" | ") : "").replace(/"/g, '""')}","${(q.clinicalPearl || "").replace(/"/g, '""')}","${q.category || ""}"`
     );
     const csv = header + "\n" + rows.join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
@@ -4635,7 +4707,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
   };
 
   const publishTestBankToMarketplace = async () => {
-    if (!tbResult || !tbPrice) return;
+    if (!tbAuditGate() || !tbPrice) return;
     setTbPublishing(true);
     try {
       const title = tbResult.title || `Test Bank: ${aiTopic}`;
@@ -4702,6 +4774,61 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       const h = Math.max(40, lines.length * 16);
       objs.push({ id: uid(), type: "text", x: MARGIN, y: curY, width: contentWidth, height: h, content: lines.map((l: string) => `• ${l.replace(/^[-•]\s*/, "")}`).join("\n"), fontSize: 10, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex, textAlign: "left" });
       return { objs, height: h + 10 };
+    } else if (blockType === "question") {
+      const q = block.question || {};
+      const qNum = block.questionNumber || "?";
+      const qType = (q.type || "MCQ").toUpperCase();
+      const scenario = q.scenario || "";
+      const stem = q.stem || "";
+      const options = Array.isArray(q.options) ? q.options : [];
+      const correct = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(", ") : (q.correctAnswer || "");
+      const rationale = q.rationaleCorrect || q.rationale || "";
+      const pearl = q.clinicalPearl || "";
+
+      let totalH = 0;
+      objs.push({ id: uid(), type: "rect", x: MARGIN, y: curY, width: contentWidth, height: 0, fill: "#f8fafc", stroke: "#e2e8f0", strokeWidth: 1, borderRadius: 8, rotation: 0, opacity: 1, zIndex: baseZIndex });
+      const bgIdx = objs.length - 1;
+
+      totalH += 4;
+      objs.push({ id: uid(), type: "text", x: MARGIN + 10, y: curY + totalH, width: contentWidth - 20, height: 16, content: `Q${qNum} [${qType}] - ${q.category || ""}`, fontSize: 9, fontWeight: "bold", fill: BRAND.primary, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 1, textAlign: "left" });
+      totalH += 18;
+
+      if (scenario) {
+        const scenarioLines = Math.ceil(scenario.length / 75);
+        const sH = Math.max(14, scenarioLines * 13);
+        objs.push({ id: uid(), type: "text", x: MARGIN + 10, y: curY + totalH, width: contentWidth - 20, height: sH, content: scenario, fontSize: 9, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 2, textAlign: "left" });
+        totalH += sH + 4;
+      }
+
+      const stemLines = Math.ceil(stem.length / 75);
+      const stemH = Math.max(14, stemLines * 13);
+      objs.push({ id: uid(), type: "text", x: MARGIN + 10, y: curY + totalH, width: contentWidth - 20, height: stemH, content: stem, fontSize: 10, fontWeight: "600", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 3, textAlign: "left" });
+      totalH += stemH + 4;
+
+      const optText = options.join("\n");
+      const optH = Math.max(14, options.length * 14);
+      objs.push({ id: uid(), type: "text", x: MARGIN + 16, y: curY + totalH, width: contentWidth - 32, height: optH, content: optText, fontSize: 9, fontWeight: "normal", fill: BRAND.textDark, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 4, textAlign: "left" });
+      totalH += optH + 6;
+
+      objs.push({ id: uid(), type: "text", x: MARGIN + 10, y: curY + totalH, width: contentWidth - 20, height: 14, content: `Answer: ${correct}`, fontSize: 9, fontWeight: "bold", fill: BRAND.success || "#16a34a", fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 5, textAlign: "left" });
+      totalH += 16;
+
+      if (rationale) {
+        const ratLines = Math.ceil(rationale.length / 75);
+        const rH = Math.max(14, ratLines * 12);
+        objs.push({ id: uid(), type: "text", x: MARGIN + 10, y: curY + totalH, width: contentWidth - 20, height: rH, content: rationale, fontSize: 8, fontWeight: "normal", fill: "#64748b", fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 6, textAlign: "left" });
+        totalH += rH + 4;
+      }
+
+      if (pearl) {
+        objs.push({ id: uid(), type: "rect", x: MARGIN + 10, y: curY + totalH, width: contentWidth - 20, height: 24, fill: "#ede9fe", stroke: BRAND.primary, strokeWidth: 1, borderRadius: 6, rotation: 0, opacity: 1, zIndex: baseZIndex + 7 });
+        objs.push({ id: uid(), type: "text", x: MARGIN + 16, y: curY + totalH + 4, width: contentWidth - 32, height: 16, content: `Pearl: ${pearl}`, fontSize: 8, fontWeight: "600", fill: BRAND.primary, fontFamily: BRAND.fontBody, rotation: 0, opacity: 1, zIndex: baseZIndex + 8, textAlign: "left" });
+        totalH += 28;
+      }
+
+      totalH += 8;
+      objs[bgIdx].height = totalH;
+      return { objs, height: totalH + 10 };
     } else {
       const estLines = Math.ceil(content.length / 70);
       const h = Math.max(30, estLines * 14);
@@ -5068,20 +5195,39 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     setExporting(true);
     try {
       await saveCanvas();
+
+      const sortedPages = [...pages].sort((a, b) => (a.pageNumber || 0) - (b.pageNumber || 0));
+
+      const pageSequence = sortedPages.map((p, i) => ({
+        index: i,
+        pageNumber: p.pageNumber,
+        id: p.id,
+        hasContent: ((i === currentPageIndex ? objects : (p.canvasJson?.objects || [])) as CanvasObject[]).length > 0,
+      }));
+      console.log("[PDF Export] Page sequence:", JSON.stringify(pageSequence));
+      console.log(`[PDF Export] Total pages: ${sortedPages.length}, page[0].pageNumber=${sortedPages[0]?.pageNumber}`);
+
+      if (sortedPages.length === 0) {
+        toast({ title: "No pages to export", variant: "destructive" });
+        setExporting(false);
+        return;
+      }
+
       const { jsPDF } = await import("jspdf");
       const orientation = project?.orientation === "landscape" ? "landscape" : "portrait";
       const pdf = new jsPDF({ orientation: orientation as any, unit: "pt", format: [CANVAS_WIDTH, CANVAS_HEIGHT] });
-      for (let i = 0; i < pages.length; i++) {
+      for (let i = 0; i < sortedPages.length; i++) {
         if (i > 0) pdf.addPage([CANVAS_WIDTH, CANVAS_HEIGHT], orientation);
-        const pageData = i === currentPageIndex ? { objects } : pages[i]?.canvasJson;
+        const originalIndex = pages.indexOf(sortedPages[i]);
+        const pageData = originalIndex === currentPageIndex ? { objects } : sortedPages[i]?.canvasJson;
         const pageObjects = pageData?.objects || [];
-        const bgColor = pages[i]?.backgroundColor || "#ffffff";
+        const bgColor = sortedPages[i]?.backgroundColor || "#ffffff";
         const canvas = renderPageToCanvas(pageObjects, bgColor);
         const dataUrl = canvas.toDataURL("image/png");
         pdf.addImage(dataUrl, "PNG", 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       }
       pdf.save(`${(project?.title || "design").replace(/[^a-zA-Z0-9]/g, "-")}.pdf`);
-      toast({ title: `Exported ${pages.length} page(s) as PDF` });
+      toast({ title: `Exported ${sortedPages.length} page(s) as PDF` });
     } catch (e: any) {
       toast({ title: "PDF export failed", description: e.message, variant: "destructive" });
     } finally {
