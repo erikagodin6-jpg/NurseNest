@@ -1,0 +1,275 @@
+You’re essentially looking to replicate three high-converting mechanisms:
+
+SATAs with scoring + peer comparison
+
+Difficulty tagging + client need breakdown
+
+Community + engagement psychology
+
+This is smart. These elements increase time-on-site, perceived rigor, and conversion.
+
+Below is a structured master prompt you can send to Replit AI to implement this properly in your NurseNest stack (Vite + React + Express + Stripe).
+
+MASTER PROMPT — Implement NCLEX-Style Question Analytics System
+
+You are a senior full-stack engineer.
+Upgrade my nursing exam platform to include a high-engagement NCLEX-style analytics and peer comparison system.
+
+Tech stack:
+
+Vite + React (client)
+
+Express (server)
+
+PostgreSQL
+
+Stripe subscriptions (free + premium tiers)
+
+The goal is to replicate UWorld/Bootcamp-style question analytics and engagement mechanics.
+
+1️⃣ Question UI Upgrade (Frontend)
+
+Upgrade the Question Component to include:
+
+A. SATAs (Select All That Apply)
+
+Multiple correct answers
+
+Partial scoring system
+
+Configurable scoring rule:
+
+Full credit only if all correct selected and no incorrect selected
+
+OR weighted scoring (admin toggle)
+
+Display:
+
+“Your Score: X/Y”
+
+“Scoring Rule” info tooltip
+
+B. Difficulty + Metadata Display
+
+Under each question display:
+
+Difficulty Level (Easy / Moderate / Hard)
+
+Subject (e.g., Maternal & Newborn Health)
+
+Client Need Category (NCLEX categories)
+
+Client Need Topic (sub-category)
+
+These fields must be stored in database and editable in admin panel.
+
+C. Peer Comparison System (Premium Feature)
+
+After answering:
+
+Display:
+
+% of users who answered correctly
+
+% who selected each answer choice
+
+Average time taken
+
+Your percentile ranking
+
+IMPORTANT:
+
+Do NOT show stats until minimum 25 users have answered
+
+Hide stats for free users
+
+Store stats aggregated in database
+
+2️⃣ Database Changes
+
+Add tables:
+
+questions
+
+id
+
+stem
+
+type (mcq / sata)
+
+difficulty
+
+subject
+
+client_need_category
+
+client_need_topic
+
+explanation
+
+created_at
+
+answers
+
+id
+
+question_id
+
+text
+
+is_correct
+
+user_responses
+
+id
+
+user_id
+
+question_id
+
+selected_answers (array)
+
+is_correct
+
+time_taken
+
+created_at
+
+question_stats (cached aggregate table)
+
+question_id
+
+total_attempts
+
+correct_attempts
+
+avg_time
+
+answer_distribution (json)
+
+Stats update automatically on submission.
+
+3️⃣ Admin Panel Enhancements
+
+Admin must be able to:
+
+Set difficulty
+
+Assign subject + category
+
+Toggle “Most Tested” badge
+
+Toggle “High Yield” badge
+
+Toggle “Priority Alert” badge
+
+Choose scoring rule
+
+Set minimum response count before stats show
+
+4️⃣ Gamification System
+
+Implement:
+
+Question streak counter
+
+Performance trend graph (last 30 days)
+
+Rank tiers (Top 10%, Top 25%, etc.)
+
+“You’re above 68% of users practicing for 2+ weeks”
+
+Friend comparison (Premium only):
+
+Add friend by email
+
+Compare:
+
+Accuracy
+
+Questions completed
+
+Study streak
+
+Category breakdown
+
+5️⃣ UX Requirements
+
+Match NurseNest brand:
+
+Pastel UI
+
+Rounded cards
+
+Clean modern aesthetic
+
+Badge-style tags:
+
+Most Tested (soft coral)
+
+High Yield (pastel yellow)
+
+Priority Alert (muted red)
+
+Must be mobile responsive.
+
+6️⃣ Security & Monetization Controls
+
+Ensure:
+
+Peer stats only accessible via authenticated API
+
+Premium middleware blocks stats route
+
+Question API does not expose correct answers until submission
+
+Stripe webhook enforces subscription state
+
+7️⃣ Performance Optimization
+
+Cache question_stats table
+
+Update stats asynchronously
+
+Do not recalculate on every load
+
+Use indexed queries
+
+8️⃣ Advanced Add-On (Optional)
+
+Implement:
+
+AI-generated rationales expansion (premium)
+
+“Why I got this wrong” auto-analysis
+
+Adaptive question recommendations based on weak categories
+
+Now implement in logical order:
+
+Database migration
+
+Backend routes
+
+Middleware
+
+Frontend UI
+
+Admin panel
+
+Stripe gating
+
+Produce clean modular code.
+
+Why This Matters for You
+
+Erika, this does three critical things:
+
+Increases perceived authority
+
+Increases retention
+
+Justifies premium pricing
+
+You’re no longer “practice questions.”
+You’re an analytics-driven exam intelligence platform.

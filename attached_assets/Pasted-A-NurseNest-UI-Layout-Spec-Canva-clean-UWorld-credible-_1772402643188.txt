@@ -1,0 +1,423 @@
+A) NurseNest UI Layout Spec (Canva-clean, UWorld-credible)
+1) Question Screen Layout (Mobile-first)
+
+Top bar
+
+Back arrow
+
+Progress: Question 12 / 75
+
+Timer chip (optional): 00:43
+
+Bookmark icon
+
+Question Card
+
+Subject chip: Maternal & Newborn
+
+Difficulty chip: Hard
+
+Badges (optional): Most Tested, High Yield, Priority Alert
+
+Question stem (large, readable)
+
+Answer Area
+
+MCQ: radio list
+
+SATA: checkbox list
+
+“Eliminate” mode toggle (optional): greys out options the user marks as eliminated
+
+“Confidence” toggle (optional): Low / Medium / High (saved per question)
+
+Primary CTA row
+
+Left: “Mark for Later”
+
+Right: “Submit”
+
+After Submit → Results Panel (accordion style)
+
+Result header: Correct / Incorrect
+
+“Your Score: X/Y” (SATA)
+
+“Scoring Rule” info tooltip
+
+Explanation (clean, structured):
+
+Key concept
+
+Why correct options are correct
+
+Why incorrect are incorrect
+
+Nursing actions / priorities
+
+Safety “red flag” callout
+
+Premium Stats Panel (locked for free)
+
+If total attempts < threshold: show “Stats available after 25 attempts”
+
+If eligible:
+
+% correct
+
+option heatmap (% selected each choice)
+
+avg time
+
+percentile + rank tier
+
+Bottom: Next actions
+
+“Next Question”
+
+“Add to Flashcards” (premium)
+
+“Review similar questions” (adaptive recommendations)
+
+2) Visual Style Tokens (your pastel “clinical-cute”)
+
+Use these as theme variables (so users can download in themes later too):
+
+Radius: 16–24px (cards)
+
+Shadow: soft (no harsh borders)
+
+Spacing: generous padding (16–24)
+
+Typography:
+
+Headline: 18–22
+
+Body: 14–16
+
+Chips: 12–13
+
+Badge design
+
+“Most Tested” = pill chip + tiny icon
+
+“High Yield” = pill chip
+
+“Priority Alert” = pill chip + subtle warning icon
+
+No loud colors, no heavy red. Keep it calm but clear.
+
+B) Premium Conversion Copy (what to write on upgrade gates)
+1) Lock Screen (when free user taps stats)
+
+Title: See how you compare
+Body: Unlock peer stats, percentile ranking, and category breakdowns once you submit.
+Bullets:
+
+Percent correct by question + by category
+
+Answer choice heatmaps (what others picked)
+
+Your rank vs learners at your stage
+
+Adaptive recommendations
+
+CTA: Unlock Premium
+Secondary: Not now
+
+2) Post-Answer Nudge (80% / 90% usage triggers)
+
+At 80% limit:
+You’re crushing it. Premium unlocks peer stats + more questions to keep momentum.
+
+At 90% limit:
+You’re almost at today’s free limit. Upgrade to keep practicing without interruptions.
+
+At 100%: hard stop modal
+You’ve reached your free limit. Upgrade to continue + access stats and rankings.
+
+3) Pricing page positioning (short)
+
+Headline: Practice like it’s test day.
+Subhead: NCLEX-style analytics, rankings, and targeted practice built for real results.
+
+C) Premium Conversion Flow (the psychology that works)
+Funnel you should implement
+
+Google visitor lands on free question set
+
+They answer 3–5 questions → feel invested
+
+They submit → see “Stats locked” panel
+
+Curiosity trigger: “You’re missing the pattern”
+
+Upgrade page shows exactly what they’d get for the question they just answered
+
+Checkout
+
+After payment → instantly unlock stats + “Welcome: your current percentile is X”
+
+Key triggers
+
+Curiosity (“How do I compare?”)
+
+Credibility (difficulty/category breakdown)
+
+Personalization (“Based on your weakest area…”)
+
+Momentum (streak + daily goal)
+
+D) Database Schema (clean + scalable)
+Core tables
+
+questions
+
+id (uuid)
+
+stem (text)
+
+type (mcq | sata)
+
+difficulty (easy|moderate|hard)
+
+subject (text)
+
+client_need_category (text)
+
+client_need_topic (text)
+
+explanation (text/markdown)
+
+badges (jsonb) → { mostTested: true, highYield: false, priorityAlert: false }
+
+scoring_rule (all_or_nothing | partial_credit)
+
+created_at
+
+answers
+
+id
+
+question_id
+
+text
+
+is_correct (bool)
+
+order_index (int)
+
+user_responses
+
+id
+
+user_id
+
+question_id
+
+selected_answer_ids (uuid[])
+
+is_correct (bool)
+
+score (numeric) // for partial credit
+
+time_taken_ms (int)
+
+confidence (low|med|high, nullable)
+
+created_at
+
+question_stats (cached aggregates)
+
+question_id
+
+total_attempts (int)
+
+correct_attempts (int)
+
+avg_time_ms (int)
+
+answer_distribution (jsonb) // { answerId: percentSelected }
+
+updated_at
+
+friendships (premium)
+
+id
+
+user_id
+
+friend_user_id
+
+status (pending|accepted|blocked)
+
+created_at
+
+user_daily_stats (for streaks & graphs)
+
+user_id
+
+date
+
+questions_done
+
+correct
+
+time_spent_ms
+
+streak_count
+
+Critical rule
+
+Correct answers should never be exposed in the question fetch payload for non-admin users. Only reveal correctness AFTER submission.
+
+E) MVP in 7 Days (ship-fast plan that still converts)
+Day 1: Data + migrations
+
+Add questions/answers/user_responses tables
+
+Seed 200–500 questions (even if rough)
+
+Day 2: Submission + scoring
+
+MCQ + SATA scoring
+
+Store time_taken + selected answers
+
+Return result + explanation
+
+Day 3: Stats aggregation (cache table)
+
+Update question_stats on submission
+
+Add minimum threshold (25 attempts)
+
+Add API routes:
+
+GET /questions/:id
+
+POST /responses
+
+GET /questions/:id/stats (premium gated)
+
+Day 4: UI polish
+
+Chips, badges, after-submit panels
+
+Locked stats panel for free users
+
+Upgrade modal
+
+Day 5: Stripe enforcement
+
+Middleware checks subscription
+
+Webhooks update user entitlements
+
+Day 6: Analytics + profile
+
+User dashboard:
+
+accuracy %
+
+streak
+
+category breakdown (simple bars)
+
+“Weak areas” list
+
+Day 7: Conversion pass
+
+Upgrade page copy + social proof placeholders
+
+Triggers at 80/90/100% usage
+
+QA mobile responsiveness
+
+This MVP alone is enough to start converting.
+
+F) SINGLE “DO IT ALL” Replit AI Prompt (copy/paste)
+
+Use this as your one-shot build prompt:
+
+You are a senior full-stack engineer. Implement an NCLEX-style question analytics system on my NurseNest app.
+
+Stack: Vite + React (client), Express (server), PostgreSQL, Stripe subscriptions (free + premium).
+
+GOAL: Replicate UWorld-like question experience:
+- MCQ + SATA with scoring (all-or-nothing + partial credit toggle per question)
+- Difficulty + subject + client need category/topic displayed under each question
+- After-submit explanation panel
+- Premium peer stats: % correct, answer choice distribution, avg time, percentile ranking
+- Do NOT show peer stats until minimum 25 total attempts per question
+- Peer stats are premium-only and must be enforced server-side
+- Do NOT expose correct answers on GET /question payloads
+
+DATABASE:
+Create migrations and models:
+questions(id, stem, type, difficulty, subject, client_need_category, client_need_topic, explanation, badges jsonb, scoring_rule, created_at)
+answers(id, question_id, text, is_correct, order_index)
+user_responses(id, user_id, question_id, selected_answer_ids uuid[], is_correct, score numeric, time_taken_ms int, confidence nullable, created_at)
+question_stats(question_id, total_attempts, correct_attempts, avg_time_ms, answer_distribution jsonb, updated_at)
+user_daily_stats(user_id, date, questions_done, correct, time_spent_ms, streak_count)
+friendships(id, user_id, friend_user_id, status, created_at)
+
+BACKEND:
+Routes:
+GET /api/questions/:id  -> returns question + answers WITHOUT is_correct fields
+POST /api/responses     -> accepts selected answers + time_taken + confidence, computes scoring, stores response, returns correctness + explanation + score
+GET /api/questions/:id/stats -> premium-only; returns stats if total_attempts >= 25 else returns { lockedUntil: 25, current: n }
+Add premium middleware using Stripe subscription state.
+
+STATS:
+On every POST /responses:
+- Update question_stats: total_attempts, correct_attempts, avg_time_ms (incremental), answer_distribution (increment counts then compute percents)
+- Use indexed queries; do not recompute from scratch on read.
+
+FRONTEND:
+Build QuestionPage:
+- chips for difficulty, subject, category/topic
+- SATA checkboxes; MCQ radios
+- submit button
+- after submit: show score X/Y + scoring rule tooltip + explanation
+- stats panel: if free -> locked premium component; if premium -> fetch stats and render distribution + percentile
+- show “Stats available after 25 attempts” if below threshold.
+
+ADMIN:
+Add admin UI to create/edit questions:
+- set difficulty/subject/category/topic
+- toggle badges
+- choose scoring_rule
+- edit explanation
+- add answers and mark correct
+
+UX:
+Pastel modern NurseNest styling, rounded cards, clean spacing, mobile responsive. Badge chips: Most Tested, High Yield, Priority Alert.
+
+Deliver clean modular code, and list the files changed + brief setup instructions.
+G) Two extra upgrades that will make this feel “premium premium”
+1) Answer-choice heatmap (the “wow” moment)
+
+A small bar next to each option showing % selected. It’s insanely sticky.
+
+2) “Compare to learners like you”
+
+Percentile not just global — but also:
+
+“Practicing < 2 weeks”
+
+“Practicing 2–4 weeks”
+
+“Practicing 1+ month”
+
+This is a huge conversion lever.
+
+If you want, paste me:
+
+the route/file structure for your current questions feature (or the repo tree), and
+
+what your subscription roles are called (e.g., FREE, PREMIUM)
+
+…and I’ll rewrite the prompt to match your exact filenames and minimize Replit AI mistakes (so it actually implements cleanly the first pass).
+
+also add paypal integration
