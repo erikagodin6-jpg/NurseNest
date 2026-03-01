@@ -973,8 +973,8 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
 
         const SECTION_SHAPE_CONTRACTS: Record<string, { listBlocks?: number; listItems?: number; tableBlocks?: number; tableRows?: number; calloutBlocks?: number; calloutChars?: number; calloutKeywords?: string[] }> = {
           "pathophysiology": { listBlocks: 2, listItems: 5, tableBlocks: 1, tableRows: 3, calloutBlocks: 2, calloutChars: 80 },
-          "pharmacology": { listBlocks: 1, listItems: 6, tableBlocks: 1, tableRows: 4, calloutBlocks: 1, calloutChars: 80, calloutKeywords: ["hold", "monitor", "contraindic"] },
-          "medications": { listBlocks: 1, listItems: 6, tableBlocks: 1, tableRows: 4, calloutBlocks: 1, calloutChars: 80, calloutKeywords: ["hold", "monitor", "contraindic"] },
+          "pharmacology": { listBlocks: 1, listItems: 6, tableBlocks: 1, tableRows: 4, calloutBlocks: 1, calloutChars: 80, calloutKeywords: ["hold", "monitor", "contraindic", "do not give"] },
+          "medications": { listBlocks: 1, listItems: 6, tableBlocks: 1, tableRows: 4, calloutBlocks: 1, calloutChars: 80, calloutKeywords: ["hold", "monitor", "contraindic", "do not give"] },
           "interventions": { listBlocks: 2, listItems: 5, tableBlocks: 1, tableRows: 3, calloutBlocks: 1, calloutChars: 80 },
           "assessment": { listBlocks: 2, listItems: 5, calloutBlocks: 2, calloutChars: 80 },
           "complications": { listBlocks: 1, listItems: 5, tableBlocks: 1, tableRows: 3, calloutBlocks: 2, calloutChars: 80 },
@@ -995,39 +995,46 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
             const text = (b.text || b.body || b.content || b.caption || "").toString();
             const items = Array.isArray(b.items) ? b.items : [];
             const rows = Array.isArray(b.rows) ? b.rows : [];
-            const itemChars = items.map(String).join(" ").length;
-            const rowChars = rows.map((r: any) => (Array.isArray(r) ? r : []).map(String).join(" ")).join(" ").length;
+            const itemStr = items.map(String).join(" ");
+            const itemChars = itemStr.length;
+            const rowStr = rows.map((r: any) => (Array.isArray(r) ? r : []).map(String).join(" ")).join(" ");
+            const rowChars = rowStr.length;
             const blockChars = text.length + itemChars + rowChars;
             totalChars += blockChars;
-            allText += " " + text + " " + items.map(String).join(" ");
+            allText += " " + text + " " + itemStr + " " + rowStr;
             const kind = (b.kind || b.type || "").toLowerCase();
             if (!NON_SUBSTANTIVE_KINDS.has(kind)) {
               meaningfulChars += blockChars;
             }
-            if (LISTLIKE_KINDS.has(kind) && (items.length >= 5 || itemChars >= 150)) {
+            const hasItems = items.length > 0;
+            const hasRows = rows.length > 0;
+            if (hasItems && (items.length >= 5 || itemChars >= 150)) {
               substantiveCount++;
               qualifiedListBlocks++;
-            } else if (kind === "table" && rows.length >= 3) {
+            } else if ((kind === "table" || hasRows) && rows.length >= 3 && rowChars >= 200) {
               substantiveCount++;
               qualifiedTableBlocks++;
-            } else if (TEXTLIKE_KINDS.has(kind) && text.length >= 80) {
+            } else if (kind === "callout" && text.length >= 80) {
               substantiveCount++;
-              if (kind === "callout") {
-                qualifiedCalloutBlocks++;
-                calloutTexts.push(text.toLowerCase() + " " + (b.title || "").toLowerCase());
-              }
-            } else if (!NON_SUBSTANTIVE_KINDS.has(kind) && !LISTLIKE_KINDS.has(kind) && kind !== "table" && !TEXTLIKE_KINDS.has(kind) && blockChars >= 120) {
+              qualifiedCalloutBlocks++;
+              calloutTexts.push(text.toLowerCase() + " " + (b.title || "").toLowerCase());
+            } else if (TEXTLIKE_KINDS.has(kind) && kind !== "callout" && text.length >= 80) {
+              substantiveCount++;
+            } else if (!NON_SUBSTANTIVE_KINDS.has(kind) && !hasItems && !hasRows && blockChars >= 120) {
               substantiveCount++;
             }
           }
           const titleOnly = substantiveCount === 0 || meaningfulChars < 300;
           if (titleOnly) reasons.push(`title_only: insufficient meaningful content (${substantiveCount} substantive, ${meaningfulChars} meaningful chars)`);
           if (blocks.length < 8) reasons.push(`insufficient_blocks: ${blocks.length} blocks (need >= 8)`);
-          if (substantiveCount < 6) reasons.push(`insufficient_substantive_blocks: ${substantiveCount} substantive (need >= 6 -- bullets>=5items/table>=3rows/callout>=80chars/paragraph>=80chars)`);
+          if (substantiveCount < 6) reasons.push(`insufficient_substantive_blocks: ${substantiveCount} substantive (need >= 6 -- lists>=5items/table>=3rows+200chars/callout>=80chars/paragraph>=80chars)`);
           if (totalChars < 800) reasons.push(`insufficient_chars: ${totalChars} chars (need >= 800)`);
           const hasCallout = blocks.some((b: any) => (b.kind || b.type || "").toLowerCase() === "callout" || b.flavor);
           if (!hasCallout) reasons.push("missing_callout: No callout blocks found");
-          const hasTable = blocks.some((b: any) => (b.kind || b.type || "").toLowerCase() === "table" && (Array.isArray(b.rows) ? b.rows : []).length > 0);
+          const hasTable = blocks.some((b: any) => {
+            const r = Array.isArray(b.rows) ? b.rows : [];
+            return r.length > 0;
+          });
           if (!hasTable) reasons.push("missing_table: No table blocks found");
           const decisionMatches = allText.match(DECISION_VERBS) || [];
           const decisionVerbCount = decisionMatches.length;
@@ -1037,7 +1044,7 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
           if (contractKey) {
             const contract = SECTION_SHAPE_CONTRACTS[contractKey];
             if (contract.listBlocks && qualifiedListBlocks < contract.listBlocks) reasons.push(`missing_required_lists: ${qualifiedListBlocks} qualified list blocks (need >= ${contract.listBlocks} with >= ${contract.listItems || 5} items each)`);
-            if (contract.tableBlocks && qualifiedTableBlocks < contract.tableBlocks) reasons.push(`missing_required_table: ${qualifiedTableBlocks} qualified tables (need >= ${contract.tableBlocks} with >= ${contract.tableRows || 3} rows)`);
+            if (contract.tableBlocks && qualifiedTableBlocks < contract.tableBlocks) reasons.push(`missing_required_table: ${qualifiedTableBlocks} qualified tables (need >= ${contract.tableBlocks} with >= ${contract.tableRows || 3} rows + 200 cell chars)`);
             if (contract.calloutBlocks && qualifiedCalloutBlocks < contract.calloutBlocks) reasons.push(`missing_required_callouts: ${qualifiedCalloutBlocks} qualified callouts (need >= ${contract.calloutBlocks} with >= ${contract.calloutChars || 80} chars)`);
             if (contract.calloutKeywords && contract.calloutKeywords.length > 0) {
               const missing = contract.calloutKeywords.filter(kw => !calloutTexts.some(ct => ct.includes(kw)));
