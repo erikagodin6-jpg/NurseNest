@@ -91,9 +91,10 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP s
 - **5-Step Content Pipeline** (`/api/ai/generate-pipeline`): Guided Mode uses a multi-step AI pipeline for cohesive bundle generation (visual cohesion is handled by the theme/rendering system):
   1. **Strategy Controller** - Defines target audience, pain points, transformation, narrative arc, clinical priority framework, visual motif
   2. **Page Architect** - Creates structured page map with objectives, exam takeaways, visual emphasis, reasoning focus
-  3. **Structured Content Engine** - Generates design-block content (headings, bullets, tables, callouts) with clinical pearls, exam traps, rapid recall
+  3. **Structured Content Engine** - Generates design-block content (headings, bullets, tables, callouts) with clinical pearls, exam traps, rapid recall. Section prompts enforce minimum 8 blocks with 6+ substantive (bullets/table/callout/paragraph). Generic titles auto-inject high-yield condition inventory. Title-only/divider-only output explicitly forbidden.
   4. **Exam Authority Enhancer** - Injects exam-specific framing: priority ladders, decision algorithms, "If you see X think Y" statements
   5. **QA Flow Check** - Audits for redundancy, logical flow, difficulty escalation, tone consistency, clinical accuracy
+  - **Section validation**: Server counts substantive vs non-substantive blocks; pass requires blocks>=3, chars>=400, substantive>=4. Client mirrors this with same logic before compile. Failed sections retry up to 2x with repair prompt that includes specific failure reasons.
   - Falls back to single-prompt generation (`/api/ai/generate-content` with mode "guided") if pipeline content step fails
 
 ### Site Analytics & Feedback System

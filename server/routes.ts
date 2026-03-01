@@ -879,6 +879,21 @@ Return the corrected content in the same JSON structure:
 
         const sectionSysPrompt = isSurvival ? pipeline.system : pipeline.system;
 
+        const GENERIC_TITLE_PATTERNS = /^(survival|cram|study|exam|review|nursing|nclex|rex|guide|prep)/i;
+        const HIGH_YIELD_INVENTORY = `Use these high-yield conditions as anchors throughout the section (reference whichever are relevant):
+Heart failure, ACS/MI, COPD exacerbation vs asthma, pneumonia, sepsis, hypo/hyperkalemia, hypo/hyperglycemia, stroke (ischemic vs hemorrhagic), AKI vs CKD, GI bleed, fluid volume deficit vs overload, anaphylaxis, dysrhythmias, DKA vs HHS recognition, UTI progressing to sepsis, DVT/PE, preeclampsia/eclampsia, burns (Parkland formula), compartment syndrome.`;
+        const isGenericTitle = GENERIC_TITLE_PATTERNS.test(topic.trim());
+
+        const CONTENT_RULES = `CRITICAL RULES (violations = invalid output):
+- Do NOT output a title-only section or a section cover/divider page.
+- This section must contain CONTENT blocks with real clinical information.
+- blocks.length MUST be >= 8.
+- At least 6 blocks must be substantive (bullets, table, callout, paragraph with clinical facts), NOT headings.
+- Any response with only headings, empty blocks, or placeholder text is INVALID and will be rejected.
+- Every paragraph must contain a specific clinical fact, lab value, drug name, or nursing action.
+- Do NOT use filler phrases like "further assessment needed" or "consult physician" without specifics.
+Return JSON only. No markdown.`;
+
         const buildSectionUserPrompt = (sec: { id: string; label: string; budget: number }) => {
           const blockTypes = `BLOCK TYPES:
 - {"kind":"heading","text":"...","level":1|2|3}
@@ -886,6 +901,8 @@ Return the corrected content in the same JSON structure:
 - {"kind":"bullets","items":["item1","item2"]} (4-8 items, each substantive)
 - {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"]],"caption":"..."} (real clinical data)
 - {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl"|"warning","title":"SPECIFIC TITLE","body":"..."}`;
+
+          const topicInventory = isGenericTitle ? `\n${HIGH_YIELD_INVENTORY}\n` : "";
 
           if (isSurvival) {
             return `Generate ONE section of a Survival Guide.
@@ -895,22 +912,24 @@ SECTION: id="${sec.id}", title="${sec.label}"
 EXAM: ${examContext}
 REGION: ${regionContext}
 STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
-
+${topicInventory}
 ${blockTypes}
+
+${CONTENT_RULES}
 
 REQUIRED BLOCKS FOR THIS SECTION (include ALL):
 1. heading (level 1) with section title
-2. mechanism_one_liner: 1-2 sentence paragraph
-3. recognition_cues: bullets with 5-8 clinical signs
-4. vitals_labs_patterns: bullets with 3-6 specific values (include numbers)
+2. mechanism_one_liner: 1-2 sentence paragraph with pathophysiology
+3. recognition_cues: bullets with 5-8 clinical signs (specific vitals/labs)
+4. vitals_labs_patterns: bullets with 3-6 specific values (include numbers, units, ranges)
 5. red_flags: warning callout titled "Red Flags - ${sec.label}" with 3 critical findings
-6. first_actions_in_order: ordered bullets (3-7 priority nursing actions)
+6. first_actions_in_order: ordered bullets (3-7 priority nursing actions with rationale)
 7. do_not_do: trap callout titled "Do NOT Do - ${sec.label}" with 2-4 mistakes
 8. common_exam_traps: trap callout titled "Exam Traps - ${sec.label}" with 2-4 distractors
-9. micro_case: clinical_pearl callout with 4-6 line patient scenario
-10. At least 1 comparison table with real clinical data
+9. micro_case: clinical_pearl callout with 4-6 line patient scenario (age, vitals, labs, question)
+10. At least 1 comparison table with real clinical data (3+ rows, 3+ columns)
 
-Target: ${sec.budget} characters minimum, 8-15 blocks.
+Target: ${Math.max(sec.budget, 800)} characters minimum, 8-15 blocks.
 
 Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
           }
@@ -923,44 +942,71 @@ EXAM: ${examContext}
 REGION: ${regionContext}
 STRATEGY: ${JSON.stringify(previousStepData?.strategy || {})}
 PAGE BLUEPRINT: ${JSON.stringify(previousStepData?.pages || [])}
-
+${topicInventory}
 ${blockTypes}
 
-REQUIRED for this section (7-12 blocks minimum):
-1. Level-1 heading with section title
-2. At least 1 clinical_pearl callout with specific exam-tested fact
-3. At least 1 trap callout explaining a common distractor
-4. At least 1 comparison table with real clinical data
-5. At least 1 exam_tip callout with prioritization rule
-6. Specific lab values, vital sign thresholds, or drug doses
-7. "If you see X, think Y" clinical decision cues
+${CONTENT_RULES}
 
-Target: ${sec.budget} characters minimum, 7-12 blocks.
+REQUIRED for this section (8-12 blocks minimum):
+1. Level-1 heading with section title
+2. At least 2 paragraph blocks with specific clinical facts (drug names, lab values, thresholds)
+3. At least 1 clinical_pearl callout with specific exam-tested fact
+4. At least 1 trap callout explaining a common distractor with correct reasoning
+5. At least 1 comparison table with real clinical data (3+ rows, 3+ columns)
+6. At least 1 exam_tip callout with prioritization rule or mnemonic
+7. At least 1 bullets block with 4+ specific clinical signs, labs, or interventions
+8. "If you see X, think Y" clinical decision cues in callouts or bullets
+
+Target: ${Math.max(sec.budget, 800)} characters minimum, 8-12 blocks.
 
 Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
         };
 
-        const validateSection = (sec: any): { pass: boolean; blocks: number; chars: number; reasons: string[] } => {
+        const SUBSTANTIVE_KINDS = new Set(["bullets", "table", "callout", "paragraph"]);
+        const NON_SUBSTANTIVE_KINDS = new Set(["heading", "sectionTitle", "divider"]);
+
+        const validateSection = (sec: any): { pass: boolean; blocks: number; chars: number; substantive: number; reasons: string[] } => {
           const blocks = sec?.blocks || [];
           const reasons: string[] = [];
           let totalChars = 0;
-          let totalItems = 0;
+          let substantiveCount = 0;
           for (const b of blocks) {
-            const txt = (b.text || b.body || b.content || "").toString();
+            const txt = (b.text || b.body || b.content || b.caption || "").toString();
             const items = b.items || [];
-            totalChars += txt.length + items.join(" ").length;
-            totalItems += items.length;
+            const rows = b.rows || [];
+            const blockChars = txt.length + items.join(" ").length + rows.map((r: any[]) => (r || []).join(" ")).join(" ").length;
+            totalChars += blockChars;
+            const kind = (b.kind || b.type || "").toLowerCase();
+            if (SUBSTANTIVE_KINDS.has(kind) && blockChars > 10) {
+              substantiveCount++;
+            } else if (!NON_SUBSTANTIVE_KINDS.has(kind) && blockChars > 20) {
+              substantiveCount++;
+            }
           }
           if (blocks.length < 3) reasons.push(`Only ${blocks.length} blocks (need >= 3)`);
-          if (totalChars < 400) reasons.push(`Only ${totalChars} chars (need >= 400)`);
+          if (blocks.length < 8) reasons.push(`Only ${blocks.length} blocks (need >= 8 for quality)`);
+          if (substantiveCount < 6) reasons.push(`Only ${substantiveCount} substantive blocks (need >= 6 -- bullets/table/callout/paragraph with content)`);
+          if (totalChars < 800) reasons.push(`Only ${totalChars} chars (need >= 800)`);
           const hasCallout = blocks.some((b: any) => b.kind === "callout" || b.flavor);
           if (!hasCallout) reasons.push("No callout blocks found");
-          const pass = blocks.length >= 3 && totalChars >= 400;
-          return { pass, blocks: blocks.length, chars: totalChars, reasons };
+          const hasTable = blocks.some((b: any) => b.kind === "table" && (b.rows || []).length > 0);
+          if (!hasTable) reasons.push("No table blocks found");
+          const pass = blocks.length >= 3 && totalChars >= 400 && substantiveCount >= 4;
+          return { pass, blocks: blocks.length, chars: totalChars, substantive: substantiveCount, reasons };
         };
 
         const MAX_SECTION_RETRIES = 2;
-        const repairSysPrompt = `You are a content repair engine for NurseNest. The previous generation for one section was insufficient. Regenerate ONLY this section with complete, exam-grade content. Return ONLY valid JSON with the structure: {"id":"...","title":"...","blocks":[...]}. Every block must contain specific clinical facts. Include at least 8 blocks.`;
+        const repairSysPrompt = `You are a content repair engine for NurseNest. The previous generation was INVALID because it contained headings/dividers only and no real clinical content.
+
+RULES FOR REPAIR:
+- Rewrite the section with >= 8 blocks total and >= 6 substantive blocks (bullets, tables, callouts, paragraphs with clinical facts).
+- NO cover pages. NO filler. NO title-only sections. NO placeholder text.
+- Every block must contain specific clinical information: drug names, lab values, nursing interventions, assessment findings.
+- Include at least 1 table with 3+ rows and 3+ columns of real clinical data.
+- Include at least 2 callout blocks (exam_tip, trap, clinical_pearl, or warning) with specific content.
+- Include at least 1 bullets block with 4+ specific items.
+- Total character count must be >= 800.
+- Return ONLY valid JSON: {"id":"...","title":"...","blocks":[...]}`;
 
         await logAudit(req, admin, "ai", null, `pipeline-${step}-chunked`, null, { step, topic: topic.substring(0, 100), sectionCount: reqSections.length });
 
@@ -971,13 +1017,31 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
           let sectionData: any = null;
           let attempts = 0;
           let lastRaw = "";
-          let validation = { pass: false, blocks: 0, chars: 0, reasons: ["Not generated"] };
+          let validation = { pass: false, blocks: 0, chars: 0, substantive: 0, reasons: ["Not generated"] };
 
           for (attempts = 1; attempts <= 1 + MAX_SECTION_RETRIES; attempts++) {
             const isRetry = attempts > 1;
             const sys = isRetry ? repairSysPrompt : sectionSysPrompt;
+            const topicInventoryRepair = isGenericTitle ? `\n${HIGH_YIELD_INVENTORY}\n` : "";
             const usr = isRetry
-              ? `Regenerate this section that failed validation.\n\nTOPIC: "${topic}"\nSECTION: id="${sec.id}", title="${sec.label}"\nEXAM: ${examContext}\nFAILURES: ${JSON.stringify(validation.reasons)}\n\nPrevious output had ${validation.blocks} blocks, ${validation.chars} chars.\n\nReturn JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]} with >= 8 blocks and >= 600 chars of clinical content.`
+              ? `Your previous output for this section was INVALID and REJECTED.
+
+TOPIC: "${topic}"
+SECTION: id="${sec.id}", title="${sec.label}"
+EXAM: ${examContext}
+REGION: ${regionContext}
+${topicInventoryRepair}
+FAILURES: ${validation.reasons.join("; ")}
+
+Previous output had ${validation.blocks} blocks (${validation.substantive} substantive), ${validation.chars} chars.
+
+You MUST fix ALL failures listed above. Generate a COMPLETE content section with:
+- >= 8 blocks total
+- >= 6 substantive blocks (bullets with 4+ items, tables with 3+ rows, callouts with specific clinical content, paragraphs with clinical facts)
+- >= 800 characters of clinical content
+- At least 1 table, 2 callouts, 1 bullets block
+
+Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
               : buildSectionUserPrompt(sec);
 
             const { result, raw, tokens } = await callLLMJson(sys, usr, 4096, isRetry ? 0.6 : 0.7);
@@ -1007,7 +1071,7 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
 
           if (sectionData) {
             allSections.push(sectionData);
-            sectionReport[sec.id] = { blocks: validation.blocks, chars: validation.chars, status: validation.pass ? "ok" : "weak", score: validation.pass ? 85 : 50, attempts };
+            sectionReport[sec.id] = { blocks: validation.blocks, chars: validation.chars, substantive: validation.substantive, status: validation.pass ? "ok" : "weak", score: validation.pass ? 85 : 50, attempts };
           } else {
             failedSections.push(sec.id);
             sectionReport[sec.id] = { blocks: 0, chars: 0, status: "FAILED", score: 0, attempts };

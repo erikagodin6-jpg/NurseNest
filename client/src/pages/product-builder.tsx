@@ -2469,20 +2469,26 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
         .map(s => s.id);
       const emptySections: string[] = [];
       const sectionValidation: string[] = [];
+      const substantiveKinds = new Set(["bullets", "table", "callout", "paragraph"]);
+      const nonSubstantiveKinds = new Set(["heading", "sectionTitle", "divider"]);
       for (const reqId of requiredSectionIds) {
-        const sec = sectionMap[reqId];
+        const sec = sectionMap[reqId] || sectionMap[normId(reqId)];
         const blocks = sec?.blocks || [];
         let charCount = 0;
-        let itemCount = 0;
+        let substantive = 0;
         for (const b of blocks) {
-          const txt = (b.text || b.body || b.content || "").toString();
+          const txt = (b.text || b.body || b.content || b.caption || "").toString();
           const items = b.items || [];
-          charCount += txt.length + items.join(" ").length;
-          itemCount += items.length;
+          const rows = b.rows || [];
+          const bChars = txt.length + items.join(" ").length + rows.map((r: any[]) => (r || []).join(" ")).join(" ").length;
+          charCount += bChars;
+          const kind = (b.kind || b.type || "").toLowerCase();
+          if (substantiveKinds.has(kind) && bChars > 10) substantive++;
+          else if (!nonSubstantiveKinds.has(kind) && bChars > 20) substantive++;
         }
-        const ok = blocks.length >= 3 || charCount >= 800 || itemCount >= 6;
+        const ok = blocks.length >= 3 && charCount >= 400 && substantive >= 4;
         const label = bp.sections.find(s => s.id === reqId)?.label || reqId;
-        sectionValidation.push(`${label}: ${ok ? "OK" : "EMPTY"} (${blocks.length} blocks, ${charCount} chars)`);
+        sectionValidation.push(`${label}: ${ok ? "OK" : "EMPTY"} (${blocks.length} blocks, ${substantive} substantive, ${charCount} chars)`);
         if (!ok) emptySections.push(label);
       }
 
