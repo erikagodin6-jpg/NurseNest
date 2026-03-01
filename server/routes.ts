@@ -237,6 +237,18 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       });
 
       const systemPrompts: Record<string, string> = {
+        "guided": `You are a nursing education content writer for NurseNest. Generate detailed, university-level study content as a VALID JSON object. The user will tell you which sections to generate and the expected structure. Follow their instructions exactly. Return ONLY the JSON — no markdown, no code fences, no explanation.
+
+CRITICAL RULES:
+- Return exactly the JSON structure the user's prompt specifies
+- Use the block types the user requests (kind: heading, paragraph, bullets, table, callout)
+- Every section MUST have at least 5-10 blocks of substantive content
+- Paragraphs must be 2-4 sentences with specific clinical detail
+- Bullet lists must have 4-8 items
+- Include clinical pearls, exam tips, and warnings
+- Content must be clinically accurate, evidence-based, and at university textbook depth
+- Do NOT wrap the output in code fences or markdown`,
+
         "generate": `You are a nursing education content writer for NurseNest, a professional nursing exam prep platform. Generate comprehensive, university-level clinical nursing content. Use evidence-based medical information. Structure content with clear headings, clinical pearls, and practical nursing interventions. Return ONLY valid JSON array of content blocks in this format:
 [{"type":"heading","content":"Section Title"},{"type":"paragraph","content":"Detailed content..."},{"type":"list","content":"Item 1\\nItem 2\\nItem 3"},{"type":"clinical-pearl","content":"Important clinical insight..."},{"type":"warning","content":"Critical safety warning..."},{"type":"callout","content":"Key takeaway..."}]
 Valid types: heading, paragraph, list, clinical-pearl, warning, callout, medication, quiz-question, flashcard, references`,
@@ -349,6 +361,21 @@ CRITICAL RULES:
         if (!bundleData.qbank) bundleData.qbank = [];
         if (!bundleData.listing) bundleData.listing = { title: "", description: "", bullets: [] };
         return res.json(bundleData);
+      }
+
+      if (mode === "guided") {
+        let guidedData;
+        try {
+          let cleanText = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+          const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
+          guidedData = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+        } catch {
+          guidedData = null;
+        }
+        if (guidedData?.sections && Array.isArray(guidedData.sections)) {
+          return res.json(guidedData);
+        }
+        return res.json({ sections: [], _raw: text.slice(0, 4000) });
       }
 
       let blocks;

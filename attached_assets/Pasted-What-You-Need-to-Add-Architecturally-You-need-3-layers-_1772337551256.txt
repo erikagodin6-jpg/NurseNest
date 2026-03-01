@@ -1,0 +1,78 @@
+What You Need to Add Architecturally
+You need 3 layers:
+1️⃣ Prompt Interpreter Layer
+This wraps the user text into a structured AI instruction.
+Example:
+System prompt:
+"You are NurseNest’s academic content generator. Produce structured, exam-ready nursing study guides in Markdown format with headings, bullet lists, clinical pearls, and high-yield exam insights."
+User prompt:
+${userInput}
+2️⃣ AI Generation Endpoint
+Your backend should call OpenAI like this:
+const response = await openai.chat.completions.create({
+  model: "gpt-4o-mini",
+  messages: [
+    { role: "system", content: SYSTEM_PROMPT },
+    { role: "user", content: userPrompt }
+  ],
+  temperature: 0.7
+})
+Then:
+return response.choices[0].message.content
+3️⃣ Canvas Formatter
+After receiving AI output:
+Convert Markdown → styled blocks
+Apply brand typography
+Apply NurseNest headers
+Add section dividers
+Insert into canvas
+NOT raw insertion.
+Why It’s Echoing Your Words
+Common causes:
+• You’re sending the wrong field to the AI
+• The API call failed and fallback returns prompt
+• You never await the AI response
+• You’re using a mock function during dev
+• The system role is empty
+What To Tell Replit AI (Copy This Prompt)
+Paste this into your AI developer tool:
+I need to modify my cram guide generator so that user input is treated as a prompt to the AI, not as direct document content.
+Current issue:
+When a user types into the prompt field and clicks generate, the exact text they typed is inserted into the document instead of AI-generated content.
+What I need:
+Create a backend function generateCramGuide(promptText) that:
+Sends the promptText to OpenAI using chat.completions
+Uses a structured system prompt defining NurseNest academic formatting
+Returns generated structured Markdown content
+Replace direct canvas insertion with:
+const aiContent = await generateCramGuide(userInput)
+insertFormattedContent(aiContent)
+Ensure:
+Proper async/await handling
+No fallback returning userInput
+Proper error handling if API fails
+Logging of AI response for debugging
+The system prompt should instruct the AI to:
+Create structured headings
+Include pathophysiology, assessment, labs, meds, clinical pearls
+Format in Markdown
+Avoid copying user prompt verbatim
+Implement this cleanly and refactor the generator to use this pipeline.
+If You Want It To Feel EXACTLY Like ChatGPT
+You should also:
+• Add streaming responses
+• Add temperature control
+• Add length control (short / medium / long)
+• Add “regenerate” button
+• Add “expand this section” button
+Quick Test To See If It’s Fixed
+Type:
+“Explain shock types for NCLEX.”
+If it:
+Echoes your words → broken
+Generates structured content → fixed
+If you want, next I can:
+• Design the ideal AI architecture for all your generators
+• Help you reduce token cost
+• Add structured prompt templates (RPN vs RN vs NP)
+• Create a modular AI block system (auto sections instead of one big blob)

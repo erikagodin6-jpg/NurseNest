@@ -1433,7 +1433,7 @@ RETURN THIS EXACT STRUCTURE:
 
     const res = await adminFetch("/api/ai/generate-content", {
       method: "POST",
-      body: { prompt, mode: "generate", examTarget: examTier, topic },
+      body: { prompt, mode: "guided", examTarget: examTier, topic },
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
@@ -1441,31 +1441,32 @@ RETURN THIS EXACT STRUCTURE:
     }
     const data = await res.json();
 
-    if (data.sections && Array.isArray(data.sections)) return data;
+    if (data.sections && Array.isArray(data.sections) && data.sections.length > 0) return data;
 
-    const raw = typeof data === "string" ? data : JSON.stringify(data);
-    const parsed = parseAIJsonResponse(raw);
-    if (parsed?.sections) return parsed;
+    const rawText = data._raw || (typeof data === "string" ? data : JSON.stringify(data));
+    const parsed = parseAIJsonResponse(rawText);
+    if (parsed?.sections && parsed.sections.length > 0) return parsed;
 
-    setStepLabel("Retrying with JSON fix...");
-    const fixPrompt = `The following AI output was not valid JSON or did not match the expected schema. Fix it and return ONLY valid JSON matching the original schema. Do not add explanation.
+    setStepLabel("Retrying AI generation...");
+    const retryPrompt = `${prompt}
 
-Original output:
-${raw.slice(0, 3000)}
-
-Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
+IMPORTANT: Your previous response was not valid JSON or did not contain the required "sections" array. You MUST return a valid JSON object with this structure:
+{"sections":[{"id":"section-id","title":"Section Title","blocks":[{"kind":"heading","text":"...","level":1},{"kind":"paragraph","text":"..."}]}]}
+Return ONLY the JSON object. No markdown, no code fences, no explanation.`;
 
     const res2 = await adminFetch("/api/ai/generate-content", {
       method: "POST",
-      body: { prompt: fixPrompt, mode: "generate", examTarget: examTier, topic },
+      body: { prompt: retryPrompt, mode: "guided", examTarget: examTier, topic },
     });
     if (!res2.ok) throw new Error("AI retry failed");
     const data2 = await res2.json();
-    if (data2.sections) return data2;
-    const parsed2 = parseAIJsonResponse(typeof data2 === "string" ? data2 : JSON.stringify(data2));
-    if (parsed2?.sections) return parsed2;
+    if (data2.sections && Array.isArray(data2.sections) && data2.sections.length > 0) return data2;
 
-    return { sections: [{ id: "content", title: topic, blocks: [{ kind: "paragraph", text: raw.slice(0, 2000) }] }] };
+    const raw2 = data2._raw || (typeof data2 === "string" ? data2 : JSON.stringify(data2));
+    const parsed2 = parseAIJsonResponse(raw2);
+    if (parsed2?.sections && parsed2.sections.length > 0) return parsed2;
+
+    throw new Error("AI could not generate valid structured content after 2 attempts. Try a more specific topic or shorter page count.");
   };
 
   const compileDocument = async () => {
