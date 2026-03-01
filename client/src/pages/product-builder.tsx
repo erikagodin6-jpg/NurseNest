@@ -6202,39 +6202,45 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-[72px] bg-white border-r flex flex-col items-center py-3 gap-1 shrink-0">
-          <button onClick={() => setLeftPanel(leftPanel === "templates" ? null : "templates" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "templates" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-templates">
-            <LayoutTemplate className="w-5 h-5" />
-            <span className="text-[9px] font-semibold leading-tight">Templates</span>
-          </button>
-          <button onClick={() => setLeftPanel(leftPanel === "components" ? null : "components" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "components" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-components">
-            <Sparkles className="w-5 h-5" />
-            <span className="text-[9px] font-semibold leading-tight">Elements</span>
-          </button>
-          <button onClick={() => addObject("text")} className="w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 text-gray-500 hover:bg-primary/5 hover:text-primary transition-all duration-150" data-testid="button-add-text">
-            <Type className="w-5 h-5" />
-            <span className="text-[9px] font-semibold leading-tight">Text</span>
-          </button>
-          <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "imagelab" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-imagelab">
-            <ImagePlus className="w-5 h-5" />
-            <span className="text-[9px] font-semibold leading-tight">Images</span>
-          </button>
-          <div className="w-12 border-t border-gray-100 my-1" />
-          <button onClick={() => setLeftPanel(leftPanel === "brand" ? null : "brand" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "brand" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-brand">
-            <SwatchBook className="w-5 h-5" />
-            <span className="text-[9px] font-semibold leading-tight">Brand</span>
-          </button>
-          <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "ai" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-ai">
-            <Brain className="w-5 h-5" />
-            <span className="text-[9px] font-semibold leading-tight">AI</span>
-          </button>
-          <button onClick={() => setLeftPanel(leftPanel === "blocks" ? null : "blocks" as any)} className={`w-[62px] rounded-xl px-1 py-2.5 flex flex-col items-center gap-1 transition-all duration-150 ${leftPanel === "blocks" ? "bg-primary/10 text-primary shadow-sm" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"}`} data-testid="button-panel-blocks">
-            <Grid3X3 className="w-5 h-5" />
-            <span className="text-[9px] font-semibold leading-tight">Blocks</span>
-          </button>
-          <div className="mt-auto pt-3 w-full flex flex-col items-center gap-1.5">
-            <button onClick={undo} className="w-[56px] h-7 rounded-lg border border-gray-200 text-[9px] font-medium hover:bg-gray-50 text-gray-500 transition" title="Undo (Ctrl+Z)" data-testid="button-undo">Undo</button>
-            <button onClick={redo} className="w-[56px] h-7 rounded-lg border border-gray-200 text-[9px] font-medium hover:bg-gray-50 text-gray-500 transition" title="Redo (Ctrl+Y)" data-testid="button-redo">Redo</button>
+        <div className="w-[72px] border-r flex flex-col items-center py-3 shrink-0" style={{ backgroundColor: "#fafafa" }}>
+          <div className="flex flex-col items-center gap-0.5 w-full px-[5px]">
+            <span className="text-[8px] font-semibold text-gray-400 uppercase tracking-wider mb-1 self-start pl-2">Create</span>
+            <button onClick={() => setLeftPanel(leftPanel === "templates" ? null : "templates" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "templates" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-templates">
+              <LayoutTemplate className="w-[18px] h-[18px]" />
+              <span className="text-[9px] font-semibold leading-none">Templates</span>
+            </button>
+            <button onClick={() => setLeftPanel(leftPanel === "components" ? null : "components" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "components" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-components">
+              <Sparkles className="w-[18px] h-[18px]" />
+              <span className="text-[9px] font-semibold leading-none">Elements</span>
+            </button>
+            <button onClick={() => addObject("text")} className="w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 text-gray-500 hover:bg-white hover:text-primary hover:shadow-sm transition-all duration-150" data-testid="button-add-text">
+              <Type className="w-[18px] h-[18px]" />
+              <span className="text-[9px] font-semibold leading-none">Text</span>
+            </button>
+            <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "imagelab" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-imagelab">
+              <ImagePlus className="w-[18px] h-[18px]" />
+              <span className="text-[9px] font-semibold leading-none">Images</span>
+            </button>
+          </div>
+          <div className="w-10 my-2" style={{ borderTop: "1px solid #e5e7eb" }} />
+          <div className="flex flex-col items-center gap-0.5 w-full px-[5px]">
+            <span className="text-[8px] font-semibold text-gray-400 uppercase tracking-wider mb-1 self-start pl-2">Tools</span>
+            <button onClick={() => setLeftPanel(leftPanel === "brand" ? null : "brand" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "brand" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-brand">
+              <SwatchBook className="w-[18px] h-[18px]" />
+              <span className="text-[9px] font-semibold leading-none">Brand</span>
+            </button>
+            <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "ai" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-ai">
+              <Brain className="w-[18px] h-[18px]" />
+              <span className="text-[9px] font-semibold leading-none">AI</span>
+            </button>
+            <button onClick={() => setLeftPanel(leftPanel === "blocks" ? null : "blocks" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "blocks" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-blocks">
+              <Grid3X3 className="w-[18px] h-[18px]" />
+              <span className="text-[9px] font-semibold leading-none">Blocks</span>
+            </button>
+          </div>
+          <div className="mt-auto pt-3 w-full flex flex-col items-center gap-1 px-[5px]">
+            <button onClick={undo} className="w-full h-7 rounded-lg text-[9px] font-medium hover:bg-white hover:shadow-sm text-gray-400 hover:text-gray-600 transition-all" title="Undo (Ctrl+Z)" data-testid="button-undo">Undo</button>
+            <button onClick={redo} className="w-full h-7 rounded-lg text-[9px] font-medium hover:bg-white hover:shadow-sm text-gray-400 hover:text-gray-600 transition-all" title="Redo (Ctrl+Y)" data-testid="button-redo">Redo</button>
           </div>
         </div>
 
@@ -6315,17 +6321,17 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-between rounded-xl bg-white border border-gray-200 px-3 py-2 shadow-sm" style={{ minWidth: CANVAS_WIDTH * SCALE }}>
-                <div className="flex items-center gap-2">
-                  <button onClick={zoomOut} className="w-7 h-7 rounded-lg border text-xs hover:bg-gray-50 flex items-center justify-center text-gray-500" data-testid="button-zoom-out"><ZoomOut className="w-3.5 h-3.5" /></button>
-                  <input type="range" min={25} max={200} step={5} value={zoom} onChange={e => setZoom(Number(e.target.value))} className="w-28 h-1.5 accent-primary" data-testid="slider-zoom" />
-                  <button onClick={zoomIn} className="w-7 h-7 rounded-lg border text-xs hover:bg-gray-50 flex items-center justify-center text-gray-500" data-testid="button-zoom-in"><ZoomIn className="w-3.5 h-3.5" /></button>
-                  <span className="text-[11px] font-medium text-gray-600 w-10 text-center tabular-nums" data-testid="text-zoom-level">{zoom}%</span>
+              <div className="mt-4 flex items-center justify-between rounded-xl bg-white/90 backdrop-blur-sm px-4 py-2.5" style={{ minWidth: CANVAS_WIDTH * SCALE, boxShadow: "0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)" }}>
+                <div className="flex items-center gap-2.5">
+                  <button onClick={zoomOut} className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors" data-testid="button-zoom-out"><ZoomOut className="w-4 h-4" /></button>
+                  <input type="range" min={25} max={200} step={5} value={zoom} onChange={e => setZoom(Number(e.target.value))} className="w-32 h-1 accent-primary" data-testid="slider-zoom" />
+                  <button onClick={zoomIn} className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors" data-testid="button-zoom-in"><ZoomIn className="w-4 h-4" /></button>
+                  <span className="text-[11px] font-semibold text-gray-500 w-10 text-center tabular-nums" data-testid="text-zoom-level">{zoom}%</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <button onClick={zoomFit} className="h-7 px-2.5 rounded-lg border text-[10px] hover:bg-gray-50 text-gray-500 font-medium" data-testid="button-zoom-fit">Fit</button>
-                  <button onClick={zoomActual} className="h-7 px-2.5 rounded-lg border text-[10px] hover:bg-gray-50 text-gray-500 font-medium" data-testid="button-zoom-100">100%</button>
-                  <button onClick={() => setZoom(Math.min(200, Math.round((window.innerHeight - 200) / CANVAS_HEIGHT * 100)))} className="h-7 px-2.5 rounded-lg border text-[10px] hover:bg-gray-50 text-gray-500 font-medium" data-testid="button-zoom-fill">Fill</button>
+                <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-0.5">
+                  <button onClick={zoomFit} className={`h-7 px-3 rounded-md text-[10px] font-semibold transition-all ${zoom === 85 ? "bg-white shadow-sm text-gray-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="button-zoom-fit">Fit</button>
+                  <button onClick={zoomActual} className={`h-7 px-3 rounded-md text-[10px] font-semibold transition-all ${zoom === 100 ? "bg-white shadow-sm text-gray-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="button-zoom-100">100%</button>
+                  <button onClick={() => setZoom(Math.min(200, Math.round((window.innerHeight - 200) / CANVAS_HEIGHT * 100)))} className="h-7 px-3 rounded-md text-[10px] font-semibold text-gray-500 hover:text-gray-700 transition-all" data-testid="button-zoom-fill">Fill</button>
                 </div>
               </div>
             </div>
