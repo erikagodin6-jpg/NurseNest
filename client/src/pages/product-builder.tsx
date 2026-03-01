@@ -2227,6 +2227,121 @@ function GuidedModeView({ projectId: initialProjectId, onBack, onSwitchToCanvas,
     return pages;
   };
 
+  const renderQuestionBlocksToPages = (blocks: any[], sectionTitle: string, th: ThemeConfig) => {
+    const pages: CanvasObject[][] = [];
+    let pageObjs: CanvasObject[] = [];
+    let curY = M;
+    let z = 0;
+    let pageCount = 0;
+    const maxY = H - M - 36;
+
+    const initPage = () => {
+      pageObjs = [];
+      z = 0;
+      curY = M + 10;
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.backgroundColor, rotation: 0, opacity: 1, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 4, fill: th.primaryColor, rotation: 0, opacity: 0.8, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "text", x: M, y: 10, width: contentW, height: 10, content: sectionTitle, fontSize: 6, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.3, zIndex: z++, textAlign: "right" });
+    };
+
+    const flushPage = () => {
+      pageCount++;
+      pageObjs.push({ id: uid(), type: "rect", x: M, y: H - 30, width: contentW, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.15, zIndex: 998 });
+      pageObjs.push({ id: uid(), type: "text", x: M, y: H - 24, width: 60, height: 10, content: "NurseNest", fontSize: 6, fontWeight: "600", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.2, zIndex: 999, textAlign: "left" });
+      pageObjs.push({ id: uid(), type: "text", x: M + contentW - 30, y: H - 24, width: 30, height: 10, content: `${pageCount}`, fontSize: 7, fontWeight: "600", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.25, zIndex: 999, textAlign: "right" });
+      pages.push([...pageObjs]);
+      initPage();
+    };
+
+    initPage();
+
+    for (const block of blocks) {
+      if (block.kind === "heading") {
+        const bh = 28;
+        if (curY + bh > maxY) flushPage();
+        pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: bh, fill: th.sectionBg, borderRadius: 4, rotation: 0, opacity: 1, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "text", x: M + 8, y: curY + 6, width: contentW - 16, height: 16, content: block.text, fontSize: 11, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        curY += bh + 4;
+      } else if (block.kind === "question-compact") {
+        const stemLines = Math.max(1, Math.ceil((block.scenario.length + block.stem.length) / 90));
+        const optLines = Math.max(1, Math.ceil(block.options.length / 90));
+        const qHeight = 8 + stemLines * 9 + optLines * 9 + 4;
+        if (curY + qHeight > maxY) flushPage();
+        const numW = 28;
+        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: numW, height: 8, content: `${block.num}.`, fontSize: 7, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.8, zIndex: z++, textAlign: "left" });
+        const tagText = `[${block.qType}]`;
+        pageObjs.push({ id: uid(), type: "text", x: M + numW, y: curY, width: 40, height: 8, content: tagText, fontSize: 6, fontWeight: "600", fill: th.secondaryColor || th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "left" });
+        curY += 9;
+        const combinedStem = (block.scenario + " " + block.stem).trim();
+        const stemH = Math.max(9, stemLines * 9);
+        pageObjs.push({ id: uid(), type: "text", x: M + 6, y: curY, width: contentW - 12, height: stemH, content: combinedStem, fontSize: 8, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
+        curY += stemH + 2;
+        const optH = Math.max(9, optLines * 9);
+        pageObjs.push({ id: uid(), type: "text", x: M + 10, y: curY, width: contentW - 20, height: optH, content: block.options, fontSize: 7.5, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.75, zIndex: z++, textAlign: "left" });
+        curY += optH + 3;
+        pageObjs.push({ id: uid(), type: "rect", x: M + 20, y: curY, width: contentW - 40, height: 0.5, fill: th.dividerColor, rotation: 0, opacity: 0.15, zIndex: z++ });
+        curY += 3;
+      }
+    }
+
+    if (pageObjs.length > 3) flushPage();
+    return pages;
+  };
+
+  const renderRationaleBlocksToPages = (blocks: any[], sectionTitle: string, th: ThemeConfig) => {
+    const pages: CanvasObject[][] = [];
+    let pageObjs: CanvasObject[] = [];
+    let curY = M;
+    let z = 0;
+    let pageCount = 0;
+    const maxY = H - M - 36;
+
+    const initPage = () => {
+      pageObjs = [];
+      z = 0;
+      curY = M + 10;
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.backgroundColor, rotation: 0, opacity: 1, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 4, fill: th.accentColor || th.primaryColor, rotation: 0, opacity: 0.7, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "text", x: M, y: 10, width: contentW, height: 10, content: sectionTitle, fontSize: 6, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.3, zIndex: z++, textAlign: "right" });
+    };
+
+    const flushPage = () => {
+      pageCount++;
+      pageObjs.push({ id: uid(), type: "rect", x: M, y: H - 30, width: contentW, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.15, zIndex: 998 });
+      pageObjs.push({ id: uid(), type: "text", x: M, y: H - 24, width: 60, height: 10, content: "NurseNest", fontSize: 6, fontWeight: "600", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.2, zIndex: 999, textAlign: "left" });
+      pageObjs.push({ id: uid(), type: "text", x: M + contentW - 30, y: H - 24, width: 30, height: 10, content: `${pageCount}`, fontSize: 7, fontWeight: "600", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.25, zIndex: 999, textAlign: "right" });
+      pages.push([...pageObjs]);
+      initPage();
+    };
+
+    initPage();
+
+    for (const block of blocks) {
+      if (block.kind === "heading") {
+        const bh = 26;
+        if (curY + bh > maxY) flushPage();
+        pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: bh, fill: th.sectionBg, borderRadius: 4, rotation: 0, opacity: 1, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "text", x: M + 8, y: curY + 5, width: contentW - 16, height: 14, content: block.text, fontSize: 11, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        curY += bh + 4;
+      } else if (block.kind === "rationale-compact") {
+        const ratLines = Math.max(1, Math.ceil(block.rationale.length / 95));
+        const rHeight = 10 + ratLines * 8 + 4;
+        if (curY + rHeight > maxY) flushPage();
+        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: 28, height: 9, content: `Q${block.num}`, fontSize: 7, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.headingFont, rotation: 0, opacity: 0.85, zIndex: z++, textAlign: "left" });
+        pageObjs.push({ id: uid(), type: "text", x: M + 28, y: curY, width: 60, height: 9, content: `Ans: ${block.correctAnswer}`, fontSize: 7, fontWeight: "bold", fill: th.accentColor || th.secondaryColor || th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.8, zIndex: z++, textAlign: "left" });
+        curY += 10;
+        const ratH = Math.max(8, ratLines * 8);
+        pageObjs.push({ id: uid(), type: "text", x: M + 6, y: curY, width: contentW - 12, height: ratH, content: block.rationale, fontSize: 7, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.85, zIndex: z++, textAlign: "left" });
+        curY += ratH + 3;
+        pageObjs.push({ id: uid(), type: "rect", x: M + 20, y: curY, width: contentW - 40, height: 0.5, fill: th.dividerColor, rotation: 0, opacity: 0.12, zIndex: z++ });
+        curY += 4;
+      }
+    }
+
+    if (pageObjs.length > 3) flushPage();
+    return pages;
+  };
+
   const buildAIPrompt = (examCtx: any) => {
     const sectionList = bp.sections
       .filter(s => s.id !== "practice-questions" && s.id !== "rationales")
@@ -2260,7 +2375,7 @@ ${requiredIds.map(id => `  - "${id}"`).join("\n")}
 SECTION BUDGETS:
 ${sectionList}
 
-${includeQuestions ? `QUESTIONS: Generate ${questionCount} exam-style multiple-choice questions (4 options each). Each question MUST include: stem, options (A-D), correct (letter), rationale (explain why correct AND why each wrong option is wrong).` : "NO QUESTIONS."}
+QUESTIONS: Do NOT generate practice questions in this response. Questions are generated separately via a dedicated endpoint. Focus only on the content sections listed above.
 
 BLOCK TYPES YOU MUST USE (mix liberally for visual variety):
 - {"kind":"heading","text":"...","level":1|2|3}
@@ -2333,7 +2448,6 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
   };
 
   const fetchQuestionsBatched = async (total: number): Promise<any[]> => {
-    if (total <= 50) return [];
     setStepLabel(`Generating ${total} questions in batches...`);
     const res = await adminFetch("/api/ai/generate-questions-batch", {
       method: "POST",
@@ -2428,17 +2542,31 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
           },
         });
         const tbData = await tbRes.json().catch(() => ({}));
-        if (tbRes.status === 422 && tbData.testBank?.questions?.length > 0) {
-          contentData.questions = tbData.testBank.questions;
-          toast({ title: `Partial: ${tbData.generatedCount}/${tbData.requestedCount} questions`, variant: "destructive" });
-        } else if (tbRes.ok && tbData.questions?.length > 0) {
+        if (tbRes.ok && tbData.questions?.length > 0) {
           contentData.questions = tbData.questions;
-        } else if (questionCount > 50) {
+          if (tbData.questions.length < questionCount) {
+            toast({ title: `Generated ${tbData.questions.length}/${questionCount} questions`, description: "Some questions could not be generated. The available set has been included.", variant: "destructive" });
+          }
+        } else if (tbRes.status === 422 && tbData.testBank?.questions?.length > 0) {
+          contentData.questions = tbData.testBank.questions;
+          toast({ title: `Partial: ${tbData.generatedCount || tbData.testBank.questions.length}/${questionCount} questions`, variant: "destructive" });
+        } else {
+          setStepLabel(`Fallback: generating ${questionCount} questions in batches...`);
           const batchedQs = await fetchQuestionsBatched(questionCount);
-          if (batchedQs.length > 0) contentData.questions = batchedQs;
+          if (batchedQs.length > 0) {
+            contentData.questions = batchedQs;
+            if (batchedQs.length < questionCount) {
+              toast({ title: `Generated ${batchedQs.length}/${questionCount} questions via batch`, variant: "destructive" });
+            }
+          }
         }
       } catch (e: any) {
         toast({ title: "Question generation issue", description: e.message, variant: "destructive" });
+        try {
+          setStepLabel(`Retry: generating ${questionCount} questions in batches...`);
+          const batchedQs = await fetchQuestionsBatched(questionCount);
+          if (batchedQs.length > 0) contentData.questions = batchedQs;
+        } catch {}
       }
     }
 
@@ -2522,11 +2650,18 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
       let pagesCreated = 0;
       let dividerIndex = 0;
 
+      if (project?.pages && project.pages.length > 1) {
+        setStepLabel("Clearing existing pages...");
+        for (let i = project.pages.length - 1; i >= 1; i--) {
+          await adminFetch(`/api/admin/design-pages/${project.pages[i].id}`, { method: "DELETE" }).catch(() => {});
+        }
+      }
+
       const savePage = async (title: string, objects: CanvasObject[]) => {
         if (pagesCreated === 0 && project?.pages?.[0]) {
           await adminFetch(`/api/admin/design-pages/${project.pages[0].id}`, {
             method: "PUT",
-            body: { canvasJson: { objects, version: "1.0" }, backgroundColor: "#ffffff" },
+            body: { canvasJson: { objects, version: "1.0" }, backgroundColor: "#ffffff", title },
           });
         } else {
           await adminFetch(`/api/admin/design-projects/${activeProjectId}/pages`, {
@@ -2583,7 +2718,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
           }
         } else if (step.type === "questions") {
           if (includeQuestions && questions.length > 0) {
-            const QUESTIONS_PER_PAGE = 3;
+            const QUESTIONS_PER_PAGE = 25;
             for (let batch = 0; batch < questions.length; batch += QUESTIONS_PER_PAGE) {
               const pageQs = questions.slice(batch, batch + QUESTIONS_PER_PAGE);
               const qBlocks: any[] = [];
@@ -2592,24 +2727,20 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               }
               for (const q of pageQs) {
                 const idx = questions.indexOf(q);
-                const num = (idx + 1).toString().padStart(2, "0");
+                const num = (idx + 1).toString().padStart(3, "0");
                 const qType = (q.type || "MCQ").toUpperCase();
-                qBlocks.push({ kind: "heading", text: `Question ${num}  [${qType}]  [${q.category || ""}]`, level: 2 });
-                if (q.scenario) {
-                  qBlocks.push({ kind: "paragraph", text: q.scenario });
-                }
-                qBlocks.push({ kind: "paragraph", text: q.stem || q.question || "" });
-                if (q.options) {
-                  qBlocks.push({ kind: "bullets", items: q.options.map((o: string) => o.trim()) });
-                }
+                const scenarioText = q.scenario ? ` ${q.scenario}` : "";
+                const stemText = q.stem || q.question || "";
+                const optionsText = q.options ? q.options.map((o: string) => o.trim()).join("  |  ") : "";
+                qBlocks.push({ kind: "question-compact", num, qType, category: q.category || "", scenario: scenarioText, stem: stemText, options: optionsText });
               }
-              const qPages = renderBlocksToPages(qBlocks, `Questions ${batch + 1}-${batch + pageQs.length}`, theme);
-              for (const pg of qPages) await savePage(`Questions ${batch + 1}-${batch + pageQs.length}`, pg);
+              const qPages = renderQuestionBlocksToPages(qBlocks, `Questions ${batch + 1}-${Math.min(batch + QUESTIONS_PER_PAGE, questions.length)}`, theme);
+              for (const pg of qPages) await savePage(`Questions ${batch + 1}-${Math.min(batch + QUESTIONS_PER_PAGE, questions.length)}`, pg);
             }
           }
         } else if (step.type === "rationales") {
           if (includeQuestions && questions.length > 0) {
-            const RATIONALES_PER_PAGE = 3;
+            const RATIONALES_PER_PAGE = 10;
             for (let batch = 0; batch < questions.length; batch += RATIONALES_PER_PAGE) {
               const pageQs = questions.slice(batch, batch + RATIONALES_PER_PAGE);
               const rBlocks: any[] = [];
@@ -2618,17 +2749,16 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               }
               for (const q of pageQs) {
                 const idx = questions.indexOf(q);
-                const num = (idx + 1).toString().padStart(2, "0");
+                const num = (idx + 1).toString().padStart(3, "0");
                 const correctAnswer = Array.isArray(q.correctAnswer) ? q.correctAnswer.join(", ") : (q.correctAnswer || q.correct || "");
-                rBlocks.push({ kind: "heading", text: `Q${num} -- Answer: ${correctAnswer}`, level: 2 });
                 const ratText = q.rationaleCorrect || q.rationale || "See explanation.";
                 const incorrectText = Array.isArray(q.rationaleIncorrect) ? q.rationaleIncorrect.join(" | ") : "";
                 const pearlText = q.clinicalPearl ? `Clinical Pearl: ${q.clinicalPearl}` : "";
-                const fullRationale = [ratText, incorrectText, pearlText].filter(Boolean).join("\n\n");
-                rBlocks.push({ kind: "callout", flavor: "exam_tip", title: `Rationale for Q${num}`, body: fullRationale });
+                const fullRationale = [ratText, incorrectText, pearlText].filter(Boolean).join(" -- ");
+                rBlocks.push({ kind: "rationale-compact", num, correctAnswer, rationale: fullRationale });
               }
-              const rPages = renderBlocksToPages(rBlocks, `Rationales ${batch + 1}-${batch + pageQs.length}`, theme);
-              for (const pg of rPages) await savePage(`Rationales ${batch + 1}-${batch + pageQs.length}`, pg);
+              const rPages = renderRationaleBlocksToPages(rBlocks, `Rationales ${batch + 1}-${Math.min(batch + RATIONALES_PER_PAGE, questions.length)}`, theme);
+              for (const pg of rPages) await savePage(`Rationales ${batch + 1}-${Math.min(batch + RATIONALES_PER_PAGE, questions.length)}`, pg);
             }
           }
         } else if (step.type === "summary") {

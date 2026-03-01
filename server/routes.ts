@@ -1303,17 +1303,17 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
         const startNum = allQuestions.length + 1;
         console.log(`[QuestionBatch] Generating batch ${batch + 1}/${batches}: questions ${startNum}-${startNum + count - 1} (${allQuestions.length}/${total} done)`);
 
-        const sysPrompt = `You are a senior NCLEX item writer for NurseNest. Generate ${count} professional-quality exam questions that test clinical judgment. Return ONLY a valid JSON array of question objects.
+        const sysPrompt = `You are a senior NCLEX item writer for NurseNest. Generate EXACTLY ${count} professional-quality exam questions that test clinical judgment. Return valid JSON with: {"questions":[...]}
 
 Each question MUST have: stem (clinical scenario with specific values), options (array of exactly 4 strings: "A) ...", "B) ...", "C) ...", "D) ..."), correct (letter A-D), rationale (why correct is right AND why each wrong option is wrong), trap_note (common exam mistake for this question).
 
-RULES: Focus on priority/delegation/safety. Include specific lab values, vitals, and drug names in stems. All 4 options must be plausible nursing actions.`;
+RULES: Focus on priority/delegation/safety. Include specific lab values, vitals, and drug names in stems. All 4 options must be plausible nursing actions. You MUST output EXACTLY ${count} questions.`;
 
         const userPrompt = `TOPIC: "${topic}"
 EXAM: ${examContext}
 REGION: ${regionContext}
-Generate questions ${startNum} through ${startNum + count - 1} (${count} questions).
-Return JSON: [{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"...","trap_note":"..."}]`;
+Generate questions ${startNum} through ${startNum + count - 1} (EXACTLY ${count} questions).
+Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"...","trap_note":"..."}]}`;
 
         let batchQuestions: any[] | null = null;
         const MAX_RETRIES = 2;
@@ -1326,7 +1326,8 @@ Return JSON: [{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct
               { role: "user", content: userPrompt },
             ],
             temperature: 0.7,
-            max_tokens: 8192,
+            max_tokens: Math.min(count * 500 + 500, 16384),
+            response_format: { type: "json_object" },
           });
           const raw = resp.choices[0]?.message?.content || "[]";
           totalTokens += resp.usage?.total_tokens || 0;
@@ -1335,18 +1336,16 @@ Return JSON: [{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct
 
           try {
             const clean = raw.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-            const arrMatch = clean.match(/\[[\s\S]*\]/);
-            if (arrMatch) {
-              const arr = JSON.parse(arrMatch[0]);
-              if (Array.isArray(arr) && arr.length > 0) {
-                const valid = arr.filter((q: any) => q.stem && Array.isArray(q.options) && q.options.length >= 4 && q.correct && q.rationale);
-                if (valid.length >= Math.floor(count * 0.5)) {
-                  batchQuestions = valid;
-                  console.log(`[QuestionBatch] batch=${batch + 1} success: ${valid.length}/${count} valid questions`);
-                  break;
-                }
-                console.warn(`[QuestionBatch] batch=${batch + 1} only ${valid.length}/${count} valid questions, retrying...`);
+            const parsed = JSON.parse(clean);
+            const arr = Array.isArray(parsed) ? parsed : Array.isArray(parsed.questions) ? parsed.questions : null;
+            if (arr && arr.length > 0) {
+              const valid = arr.filter((q: any) => q.stem && Array.isArray(q.options) && q.options.length >= 4 && (q.correct || q.correctAnswer) && (q.rationale || q.rationaleCorrect));
+              if (valid.length >= Math.floor(count * 0.5)) {
+                batchQuestions = valid;
+                console.log(`[QuestionBatch] batch=${batch + 1} success: ${valid.length}/${count} valid questions`);
+                break;
               }
+              console.warn(`[QuestionBatch] batch=${batch + 1} only ${valid.length}/${count} valid questions, retrying...`);
             }
           } catch (parseErr: any) {
             console.error(`[QuestionBatch] JSON parse error: ${parseErr.message}`);
