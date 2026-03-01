@@ -1630,9 +1630,11 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
           <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-lg transition" data-testid="button-guided-back">
             <ArrowLeft className="w-4 h-4" />
           </button>
-          <div>
-            <span className="font-semibold text-sm text-gray-800" data-testid="text-guided-title">{project?.title || "Product Generator"}</span>
-            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full ml-2 font-medium">Guided Mode</span>
+          <div className="flex items-center gap-1.5 text-sm">
+            <button onClick={onBack} className="text-gray-400 hover:text-primary transition text-xs font-medium" data-testid="link-guided-drafts">Drafts</button>
+            <span className="text-gray-300">/</span>
+            <span className="font-semibold text-gray-800" data-testid="text-guided-title">{project?.title || "Product Generator"}</span>
+            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full ml-1 font-medium">Guided Mode</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -1934,6 +1936,7 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [objects, setObjects] = useState<CanvasObject[]>([]);
   const [saving, setSaving] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [exporting, setExporting] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [showPublishDialog, setShowPublishDialog] = useState(false);
@@ -2159,6 +2162,7 @@ function CanvasEditorView({ projectId, onBack, initialPresetType }: { projectId:
         method: "PUT",
         body: { canvasJson: { objects, version: "1.0" }, backgroundColor: pages[currentPageIndex].backgroundColor },
       });
+      setLastSavedAt(new Date());
     } catch (e) {}
     setSaving(false);
   }, [objects, pages, currentPageIndex]);
@@ -4384,12 +4388,27 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           <button onClick={() => { saveCanvas(); onBack(); }} className="p-1.5 hover:bg-gray-100 rounded-lg transition" data-testid="button-back-to-projects">
             <ArrowLeft className="w-4 h-4" />
           </button>
-          <span className="font-semibold text-sm text-gray-800">{project?.title || "Loading..."}</span>
+          <div className="flex items-center gap-1.5 text-sm">
+            <button onClick={() => { saveCanvas(); onBack(); }} className="text-gray-400 hover:text-primary transition text-xs font-medium" data-testid="link-drafts">Drafts</button>
+            <span className="text-gray-300">/</span>
+            <span className="font-semibold text-gray-800">{project?.title || "Loading..."}</span>
+          </div>
           <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{project?.type}</span>
           <span className="text-[10px] text-gray-400">{pages.length} page(s)</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] text-gray-400 mr-1">{saving ? "Saving..." : "Auto-saved"}</span>
+          <div className="flex items-center gap-1.5 mr-1">
+            {saving ? (
+              <span className="flex items-center gap-1 text-[10px] text-gray-400"><Loader2 className="w-3 h-3 animate-spin" />Saving...</span>
+            ) : lastSavedAt ? (
+              <span className="flex items-center gap-1 text-[10px] text-green-500" title={`Last saved at ${lastSavedAt.toLocaleTimeString()}`}>
+                <CheckCircle className="w-3 h-3" />
+                Saved {lastSavedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              </span>
+            ) : (
+              <span className="text-[10px] text-gray-400">Auto-save on</span>
+            )}
+          </div>
           <Button size="sm" variant="outline" onClick={saveCanvas} className="h-7 text-xs gap-1" data-testid="button-save-canvas"><Save className="w-3 h-3" /> Save</Button>
           <Button size="sm" variant="outline" onClick={exportAsPDF} disabled={exporting} className="h-7 text-xs gap-1" data-testid="button-export-pdf">
             {exporting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />} PDF
