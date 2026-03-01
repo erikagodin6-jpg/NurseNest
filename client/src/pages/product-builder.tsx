@@ -1202,6 +1202,9 @@ function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: st
   const [lastError, setLastError] = useState<string | null>(null);
   const [compiledThemeId, setCompiledThemeId] = useState<string | null>(null);
   const [switchingTheme, setSwitchingTheme] = useState(false);
+  const [previewPages, setPreviewPages] = useState<{ id: string; title: string; objects: CanvasObject[]; backgroundColor: string }[]>([]);
+  const [previewPageIndex, setPreviewPageIndex] = useState(0);
+  const previewScrollRef = useRef<HTMLDivElement>(null);
 
   const bp = TEMPLATE_BLUEPRINTS.find(t => t.id === template) || TEMPLATE_BLUEPRINTS[0];
   const theme = getTheme(themeId);
@@ -1614,6 +1617,20 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
       const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
       setStepLabel(`Complete! ${pagesCreated} pages compiled in ${elapsed}s`);
       setIsComplete(true);
+      try {
+        const projRes = await adminFetch(`/api/admin/design-projects/${projectId}`);
+        if (projRes.ok) {
+          const projData = await projRes.json();
+          const loadedPages = (projData.pages || []).map((p: any) => ({
+            id: p.id,
+            title: p.title || `Page ${p.pageNumber}`,
+            objects: p.canvasJson?.objects || [],
+            backgroundColor: p.backgroundColor || "#ffffff",
+          }));
+          setPreviewPages(loadedPages);
+          setPreviewPageIndex(0);
+        }
+      } catch {}
       toast({ title: "Draft compiled", description: `${pagesCreated} pages generated for "${topic}" ${bp.label}` });
     } catch (e: any) {
       setLastError(e.message);
@@ -1648,6 +1665,18 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
 
       setCompiledThemeId(newThemeId);
       setThemeId(newThemeId);
+      try {
+        const projRes = await adminFetch(`/api/admin/design-projects/${projectId}`);
+        if (projRes.ok) {
+          const projData = await projRes.json();
+          setPreviewPages((projData.pages || []).map((p: any) => ({
+            id: p.id,
+            title: p.title || `Page ${p.pageNumber}`,
+            objects: p.canvasJson?.objects || [],
+            backgroundColor: p.backgroundColor || "#ffffff",
+          })));
+        }
+      } catch {}
       toast({ title: "Theme applied", description: `Switched to ${newTheme.name} across all pages` });
     } catch (e: any) {
       toast({ title: "Theme switch failed", description: e.message, variant: "destructive" });
@@ -1694,7 +1723,145 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-hidden flex">
+        {isComplete && previewPages.length > 0 ? (
+          <div className="flex flex-1 overflow-hidden">
+            <div className="w-[340px] shrink-0 border-r bg-white overflow-y-auto p-4 space-y-4" data-testid="section-guided-sidebar">
+              <div className="flex items-center gap-2 text-green-600 bg-green-50 rounded-xl p-3 border border-green-200">
+                <CheckCircle className="w-4 h-4 shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-semibold">{stepLabel}</p>
+                  <p className="text-[10px] text-green-600/70 mt-0.5">Page {previewPageIndex + 1} of {previewPages.length}</p>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-gray-700 block">Re-skin Theme</label>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {THEMES.map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => switchThemeAfterCompile(t.id)}
+                      disabled={switchingTheme || compiledThemeId === t.id}
+                      className={`p-2 rounded-lg border text-left transition flex items-center gap-2 ${compiledThemeId === t.id ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-gray-200 hover:border-gray-300"}`}
+                      data-testid={`button-reskin-${t.id}`}
+                    >
+                      <div className="flex gap-0.5">
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: t.primaryColor }} />
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: t.accentColor }} />
+                      </div>
+                      <span className="text-[10px] font-medium text-gray-600 truncate">{t.name}</span>
+                    </button>
+                  ))}
+                </div>
+                {switchingTheme && (
+                  <div className="flex items-center gap-2 text-xs text-primary">
+                    <Loader2 className="w-3 h-3 animate-spin" /> Applying theme...
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2 border-t pt-3">
+                <label className="text-xs font-semibold text-gray-700 block">Actions</label>
+                <div className="space-y-1.5">
+                  <Button size="sm" onClick={onSwitchToCanvas} className="w-full h-8 text-xs gap-1.5" data-testid="button-edit-in-canvas">
+                    <Grid3X3 className="w-3.5 h-3.5" /> Edit in Canvas Editor
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => { setIsComplete(false); setPreviewPages([]); setStepLabel(""); setCompiledPages(0); setLastError(null); setCompileStep("plan"); }} className="w-full h-8 text-xs gap-1.5" data-testid="button-regenerate">
+                    <Wand2 className="w-3.5 h-3.5" /> Regenerate
+                  </Button>
+                </div>
+              </div>
+
+              <div className="border-t pt-3 space-y-2">
+                <label className="text-xs font-semibold text-gray-700 block">Pages</label>
+                <div className="space-y-1 max-h-[300px] overflow-y-auto" ref={previewScrollRef}>
+                  {previewPages.map((pg, i) => (
+                    <button
+                      key={pg.id}
+                      onClick={() => setPreviewPageIndex(i)}
+                      className={`w-full text-left px-2.5 py-1.5 rounded-lg text-[11px] transition flex items-center gap-2 ${previewPageIndex === i ? "bg-primary/10 text-primary font-semibold" : "text-gray-600 hover:bg-gray-100"}`}
+                      data-testid={`button-preview-page-${i}`}
+                    >
+                      <span className="w-5 h-5 rounded bg-gray-200 flex items-center justify-center text-[9px] font-bold text-gray-500 shrink-0">{i + 1}</span>
+                      <span className="truncate">{pg.title}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-auto bg-[#f0f1f5] flex items-start justify-center p-8" data-testid="section-guided-preview">
+              {previewPages[previewPageIndex] && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setPreviewPageIndex(i => Math.max(0, i - 1))}
+                        disabled={previewPageIndex === 0}
+                        className="h-8 w-8 rounded-lg bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-30"
+                        data-testid="button-preview-prev"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                      </button>
+                      <span className="text-sm font-medium text-gray-700">{previewPages[previewPageIndex].title}</span>
+                      <button
+                        onClick={() => setPreviewPageIndex(i => Math.min(previewPages.length - 1, i + 1))}
+                        disabled={previewPageIndex === previewPages.length - 1}
+                        className="h-8 w-8 rounded-lg bg-white border flex items-center justify-center hover:bg-gray-50 disabled:opacity-30"
+                        data-testid="button-preview-next"
+                      >
+                        <ChevronR className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <span className="text-xs text-gray-400">{previewPageIndex + 1} / {previewPages.length}</span>
+                  </div>
+                  <div
+                    className="bg-white rounded-lg shadow-2xl relative overflow-hidden"
+                    style={{ width: 612 * 0.85, height: 792 * 0.85, backgroundColor: previewPages[previewPageIndex].backgroundColor }}
+                    data-testid="preview-canvas"
+                  >
+                    <div style={{ transform: "scale(0.85)", transformOrigin: "top left", width: 612, height: 792, position: "relative" }}>
+                      {previewPages[previewPageIndex].objects
+                        .slice()
+                        .sort((a: CanvasObject, b: CanvasObject) => (a.zIndex || 0) - (b.zIndex || 0))
+                        .map((obj: CanvasObject) => (
+                          <div
+                            key={obj.id}
+                            style={{
+                              position: "absolute",
+                              left: obj.x,
+                              top: obj.y,
+                              width: obj.width,
+                              height: obj.height,
+                              opacity: obj.opacity ?? 1,
+                              transform: obj.rotation ? `rotate(${obj.rotation}deg)` : undefined,
+                            }}
+                          >
+                            {obj.type === "rect" && (
+                              <div style={{ width: "100%", height: "100%", backgroundColor: obj.fill || "transparent", borderRadius: obj.borderRadius || 0, border: obj.stroke ? `${obj.strokeWidth || 1}px solid ${obj.stroke}` : undefined }} />
+                            )}
+                            {obj.type === "circle" && (
+                              <div style={{ width: "100%", height: "100%", backgroundColor: obj.fill || "transparent", borderRadius: "50%", border: obj.stroke ? `${obj.strokeWidth || 1}px solid ${obj.stroke}` : undefined }} />
+                            )}
+                            {obj.type === "text" && (
+                              <div style={{ fontSize: obj.fontSize || 14, fontWeight: obj.fontWeight || "normal", color: obj.fill || "#000", fontFamily: obj.fontFamily || "Inter", textAlign: (obj.textAlign as any) || "left", lineHeight: 1.4, overflow: "hidden", wordBreak: "break-word" }}>
+                                {obj.content}
+                              </div>
+                            )}
+                            {obj.type === "image" && obj.src && (
+                              <img src={obj.src} alt="" style={{ width: "100%", height: "100%", objectFit: obj.tag === "brand-logo" ? "contain" : "cover", filter: obj.filter || undefined }} />
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+        <div className="flex-1 overflow-auto">
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-8">
 
           <div className="text-center space-y-2">
@@ -1940,25 +2107,11 @@ Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
               {generating ? "Compiling..." : `Generate ${bp.label} Draft`}
             </Button>
 
-            {isComplete && (
-              <div className="flex flex-col items-center gap-3 mt-2" data-testid="section-post-generate">
-                <div className="flex items-center gap-2 text-sm text-green-600">
-                  <CheckCircle className="w-4 h-4" />
-                  <span>{stepLabel}</span>
-                </div>
-                <div className="flex gap-3">
-                  <Button variant="outline" onClick={onSwitchToCanvas} className="gap-1.5" data-testid="button-edit-in-canvas">
-                    <Grid3X3 className="w-4 h-4" /> Edit in Canvas
-                  </Button>
-                  <Button variant="outline" onClick={() => { setIsComplete(false); setStepLabel(""); setCompiledPages(0); setLastError(null); setCompileStep("plan"); }} className="gap-1.5" data-testid="button-regenerate">
-                    <Wand2 className="w-4 h-4" /> Regenerate
-                  </Button>
-                </div>
-              </div>
-            )}
           </div>
 
         </div>
+      </div>
+        )}
       </div>
     </div>
   );
