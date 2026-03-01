@@ -977,46 +977,27 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
 
         const DECISION_VERBS = /\b(assess|reassess|monitor|escalate|notify|call|hold|administer|titrate|position|recheck|prioritize|elevate|auscultate|document|intervene|delegate|suction|discontinue)\b/gi;
 
-        const REQUIRED_TOKENS: Record<string, { label: string; alts: string[] }[]> = {
-          "pathophysiology": [
-            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign", "presenting with"] },
-            { label: "red flags", alts: ["red flag", "critical finding", "emergency", "immediate action", "life-threatening"] },
-            { label: "first actions", alts: ["first action", "priority action", "nursing intervention", "immediate nursing", "assess first"] },
-            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake", "do not", "incorrect answer"] },
-            { label: "differential", alts: ["confuse with", "differential", " vs ", "versus", "compare", "distinguish"] },
-          ],
-          "pharmacology": [
-            { label: "hold parameters", alts: ["hold", "hold parameter", "withhold", "do not give", "do not administer"] },
-            { label: "monitoring", alts: ["monitor", "monitor for", "check", "lab value", "therapeutic level", "serum level"] },
-            { label: "contraindications", alts: ["contraindic", "contraindication", "do not give if", "avoid in", "allergy"] },
-            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake", "do not", "incorrect answer"] },
-            { label: "red flags", alts: ["red flag", "adverse", "toxic", "overdose", "emergency"] },
-          ],
-          "medications": [
-            { label: "hold parameters", alts: ["hold", "hold parameter", "withhold", "do not give", "do not administer"] },
-            { label: "monitoring", alts: ["monitor", "monitor for", "check", "lab value", "therapeutic level"] },
-            { label: "contraindications", alts: ["contraindic", "do not give if", "avoid in"] },
-            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
-          ],
-          "interventions": [
-            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign"] },
-            { label: "red flags", alts: ["red flag", "critical finding", "emergency", "immediate action"] },
-            { label: "first actions", alts: ["first action", "priority action", "nursing intervention", "assess first"] },
-            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
-          ],
-          "assessment": [
-            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign", "assessment finding"] },
-            { label: "red flags", alts: ["red flag", "critical finding", "emergency"] },
-            { label: "first actions", alts: ["first action", "priority action", "nursing intervention"] },
-            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
-          ],
-          "complications": [
-            { label: "recognition cues", alts: ["recognition cue", "if you see", "clinical sign"] },
-            { label: "red flags", alts: ["red flag", "critical finding", "emergency"] },
-            { label: "first actions", alts: ["first action", "priority action", "nursing intervention"] },
-            { label: "exam traps", alts: ["exam trap", "distractor", "common mistake"] },
-            { label: "differential", alts: ["confuse with", "differential", " vs ", "versus", "compare"] },
-          ],
+        const DIFFERENTIAL_RE = /\bvs\.?\b|differential|don'?t confuse|do not confuse|distinguish|compared? to/i;
+
+        type TokenReq = { label: string; alts: string[]; regex?: RegExp };
+        const EXAM_TOKEN_CATEGORIES: Record<string, TokenReq[]> = {
+          recognitionCues: [{ label: "recognitionCues", alts: ["recognition cue", "if you see", "clinical sign", "presenting with", "suspect when"] }],
+          redFlags: [{ label: "redFlags", alts: ["red flag", "critical finding", "life-threatening", "notify provider", "call rapid response"] }],
+          firstActions: [{ label: "firstActions", alts: ["first action", "priority action", "nursing intervention", "assess first", "immediate nursing"] }],
+          examTraps: [{ label: "examTraps", alts: ["exam trap", "distractor", "common mistake", "incorrect answer", "students often choose"] }],
+          differential: [{ label: "differential", alts: [], regex: DIFFERENTIAL_RE }],
+          holdParams: [{ label: "holdParams", alts: ["hold parameter", "withhold if", "do not give", "do not administer", "hold if"] }],
+          monitoring: [{ label: "monitoring", alts: ["monitor for", "lab value", "therapeutic level", "serum level", "check level"] }],
+          contraindications: [{ label: "contraindications", alts: ["contraindic", "avoid in", "do not give if", "allergy to"] }],
+        };
+
+        const REQUIRED_TOKENS: Record<string, string[]> = {
+          "pathophysiology": ["recognitionCues", "redFlags", "firstActions", "examTraps", "differential"],
+          "pharmacology": ["holdParams", "monitoring", "contraindications", "examTraps", "redFlags"],
+          "medications": ["holdParams", "monitoring", "contraindications", "examTraps"],
+          "interventions": ["recognitionCues", "redFlags", "firstActions", "examTraps"],
+          "assessment": ["recognitionCues", "redFlags", "firstActions", "examTraps"],
+          "complications": ["recognitionCues", "redFlags", "firstActions", "examTraps", "differential"],
         };
 
         const SECTION_SHAPE_CONTRACTS: Record<string, { listBlocks?: number; listItems?: number; tableBlocks?: number; tableRows?: number; calloutBlocks?: number; calloutChars?: number; calloutKeywords?: string[] }> = {
@@ -1101,20 +1082,49 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`;
           }
           const tokenKey = Object.keys(REQUIRED_TOKENS).find(k => sid.includes(k));
           let missingTokens = 0;
+          let tokenDistributionOk = true;
           if (tokenKey) {
-            const searchText = allText.toLowerCase();
-            const required = REQUIRED_TOKENS[tokenKey];
+            const requiredCats = REQUIRED_TOKENS[tokenKey];
             const missingList: string[] = [];
-            for (const req of required) {
-              const found = req.alts.some(alt => searchText.includes(alt));
-              if (!found) missingList.push(req.label);
+            const matchedBlockIndices = new Set<number>();
+            let anyMatchInListOrTable = false;
+            for (const catName of requiredCats) {
+              const catDefs = EXAM_TOKEN_CATEGORIES[catName] || [];
+              let catFound = false;
+              for (let bi = 0; bi < blocks.length; bi++) {
+                const b = blocks[bi];
+                const bText = ((b.text || b.body || b.content || b.caption || "") + " " + (b.title || "") + " " + (b.label || "")).toLowerCase();
+                const bItems = (Array.isArray(b.items) ? b.items : []).map(String).join(" ").toLowerCase();
+                const bRows = (Array.isArray(b.rows) ? b.rows : []).map((r: any) => (Array.isArray(r) ? r : []).map(String).join(" ")).join(" ").toLowerCase();
+                const bFull = bText + " " + bItems + " " + bRows;
+                for (const def of catDefs) {
+                  const matched = def.regex ? def.regex.test(bFull) : def.alts.some(alt => bFull.includes(alt));
+                  if (matched) {
+                    catFound = true;
+                    matchedBlockIndices.add(bi);
+                    const bHasItems = (Array.isArray(b.items) ? b.items : []).length > 0;
+                    const bHasRows = (Array.isArray(b.rows) ? b.rows : []).length > 0;
+                    if (bHasItems || bHasRows) anyMatchInListOrTable = true;
+                    break;
+                  }
+                }
+                if (catFound) break;
+              }
+              if (!catFound) missingList.push(catName);
             }
             if (missingList.length > 0) {
               missingTokens = missingList.length;
               reasons.push(`missing_exam_cram_content: section "${tokenKey}" missing: ${missingList.join(", ")}. Content must include these exam-cram elements.`);
             }
+            if (matchedBlockIndices.size < 3 && requiredCats.length >= 3) {
+              tokenDistributionOk = false;
+              reasons.push(`poor_token_distribution: exam-cram categories found in only ${matchedBlockIndices.size} distinct blocks (need >= 3). Spread content across different block types.`);
+            }
+            if (!anyMatchInListOrTable && requiredCats.length >= 3) {
+              reasons.push(`no_token_in_list_or_table: required exam-cram content only appears in paragraph/callout text, not in any list or table block. Include recognition cues / exam traps / differentials in bullets or tables.`);
+            }
           }
-          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6 && decisionVerbCount >= 12 && missingTokens === 0;
+          const pass = blocks.length >= 8 && totalChars >= 800 && substantiveCount >= 6 && decisionVerbCount >= 12 && missingTokens === 0 && tokenDistributionOk;
           return { pass, blocks: blocks.length, chars: totalChars, substantive: substantiveCount, reasons };
         };
 
