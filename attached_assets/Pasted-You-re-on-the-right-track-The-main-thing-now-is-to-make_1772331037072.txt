@@ -1,0 +1,187 @@
+You’re on the right track. The main thing now is to make sure your GuidedModeView isn’t just a form UI, but a real compiler that outputs a complete document using:
+Template blueprint (page types + section weights + layout rules)
+Theme (colors/gradients/callouts/tables)
+Page-length budget (character/token targets per section)
+Pagination + autofit (no overflow)
+Optional post-pass (Store-Ready pipeline)
+Below is the exact implementation structure I’d use so your “major component” doesn’t turn into a brittle one-off.
+1) Required data structures
+A. Template blueprints (deterministic document plan)
+Define these next to PRODUCT_PRESETS (as you planned):
+type TemplateId = "cram" | "questions" | "cheatsheet" | "studyplan" | "bundle";
+type ThemeId = "pastel" | "minimal" | "bold" | "neutral";
+
+type SectionId =
+  | "toc"
+  | "core_concepts"
+  | "disorders"
+  | "algorithms"
+  | "questions"
+  | "rationales"
+  | "summary"
+  | "bundle_overview"
+  | "chapters";
+
+type TemplateBlueprint = {
+  id: TemplateId;
+  label: string;
+  minPages: number;
+  maxPages: number;
+
+  // budget model
+  estCharsPerPage: number; // ex: 1400–2200 depending on typography
+  sectionWeights: Partial<Record<SectionId, number>>; // must sum ~1.0 for main content
+
+  // page types to generate in order (compiler uses this)
+  pageFlow: Array<
+    | { type: "cover" }
+    | { type: "toc" }
+    | { type: "divider"; section: SectionId; title: string }
+    | { type: "section"; section: SectionId }
+    | { type: "questions" }
+    | { type: "rationales" }
+    | { type: "summary" }
+    | { type: "bundle" }
+  >;
+
+  // optional: repeated items for disorders, chapters etc.
+  defaults?: {
+    includeQuestions?: boolean;
+    defaultQuestionCount?: number;
+  };
+};
+You want pageFlow because it keeps generation deterministic and stops “AI decides layout.”
+B. Themes registry (color templates)
+Themes should be just config (no AI), so switching theme is instant.
+type ThemeConfig = {
+  id: ThemeId;
+  name: string;
+  cover: {
+    gradient: string[]; // ["#...", "#..."]
+    shapesDensity: number; // 0–1
+    watermarkOpacity: number; // 0–1
+    titleColor: string;
+    subtitleColor: string;
+  };
+  page: {
+    background: string;
+    headerColor: string;
+    footerColor: string;
+    accentColor: string;
+    callout: { bg: string; border: string; title: string };
+    table: { headerBg: string; headerText: string; grid: string };
+  };
+};
+2) The compiler pipeline (the part that matters)
+Compiler entrypoint
+Your Guided Mode button should call one function:
+async function compileGuidedDocument(input: {
+  templateId: TemplateId;
+  themeId: ThemeId;
+  topic: string;
+  tier: "rexpn" | "nclexpn" | "rn" | "np";
+  region: "CA" | "US" | "BOTH";
+  targetPages: number;
+  includeQuestions: boolean;
+  questionCount: number;
+}) {
+  // 1) build plan (sections + char budgets)
+  // 2) request AI content per section (structured JSON)
+  // 3) render pages from blueprint + theme (no drag/drop)
+  // 4) paginate + autofit
+  // 5) optionally run Store-Ready pipeline
+  // 6) return compiled document model
+}
+Step 1: Build plan + budgets
+This is how you enforce “45 pages” in a predictable way.
+function computeSectionBudgets(blueprint: TemplateBlueprint, targetPages: number) {
+  const totalChars = targetPages * blueprint.estCharsPerPage;
+
+  const weights = blueprint.sectionWeights;
+  const budgets: Record<string, number> = {};
+
+  let weightSum = 0;
+  for (const w of Object.values(weights)) weightSum += (w ?? 0);
+
+  for (const [section, w] of Object.entries(weights)) {
+    budgets[section] = Math.round((totalChars * (w ?? 0)) / (weightSum || 1));
+  }
+
+  return { totalChars, budgets };
+}
+Step 2: AI output MUST be structured JSON
+Do not let AI return prose blobs. Require JSON so you can render reliably.
+Example schema:
+type SectionContent = {
+  title: string;
+  blocks: Array<
+    | { kind: "heading"; text: string; level: 1 | 2 | 3 }
+    | { kind: "paragraph"; text: string }
+    | { kind: "bullets"; items: string[] }
+    | { kind: "table"; columns: string[]; rows: string[][] }
+    | { kind: "callout"; title: string; body: string; flavor: "exam_tip" | "clinical_pearl" | "trap" }
+  >;
+};
+Your AI call should say: “Return valid JSON only matching this schema.”
+Step 3: Render pages using locked layouts
+You should have page constructors:
+renderCoverPage(theme, meta)
+renderTOCPage(theme, toc)
+renderDividerPage(theme, title)
+renderSectionPages(theme, sectionContent, layoutVariants)
+renderQuestionsPages(theme, questions)
+renderRationalesPages(theme, rationales)
+renderSummaryPage(theme, summary)
+Each renderer returns your internal “elements” model.
+Step 4: Auto-pagination + autofit (no overflow)
+You already started this earlier (pagination + autofit). The compiler should run:
+place elements in a flow container (known width/height minus margins)
+if overflow, split remaining content into next page
+for text blocks, autofit within bounds (shrink to min font or split)
+Key rule: Never overflow in Guided Mode.
+Step 5: Theme switching after compile
+This is important for “different colour templates.”
+Implement applyThemeToDocument(doc, themeId) that:
+updates fills/strokes/text colors based on theme map
+re-renders cover/dividers
+preserves text content and page order
+This way theme switching is instant and doesn’t rerun AI.
+3) UI integration you must do (so it feels real)
+A. Modes
+In your editor state, add:
+type EditorMode = "guided" | "canvas" | "templateEdit";
+Default should be guided (as you wanted). Keep canvas mode intact.
+B. GuidedModeView should output a compiled doc and then open it
+Flow:
+user clicks Generate
+show progress steps (Plan → Generate → Compile → Store-Ready)
+load compiled pages into the existing editor canvas (read-only layout unless Advanced enabled)
+switch mode to canvas only if they toggle Advanced
+C. Lock editing in Guided Mode
+In Guided Mode:
+text is editable
+layout is locked (no dragging/resizing)
+add a “Switch to Advanced Canvas” toggle
+4) Bundle title pages (brand-beautiful) in compiler terms
+For bundle template blueprint:
+cover page
+bundle overview
+TOC
+For each chapter:
+mini-cover page (chapter title + subtitle)
+chapter content pages
+Mini cover pages are rendered using the same renderCoverPage but with a variant: "chapter" and different typography scale.
+5) The one thing that causes 80% of failures
+If your AI returns non-JSON or partially structured text, your compiler will degrade into “manual design again.”
+So enforce:
+strict JSON
+server-side validation (zod or equivalent)
+retry once with “fix JSON” prompt if parse fails
+6) Quick “definition of done” checklist
+When you run the app after adding GuidedModeView, confirm:
+✅ You can generate a 45-page cram guide without touching canvas
+✅ No overflows anywhere
+✅ Theme switching re-skins the entire doc instantly
+✅ Advanced mode allows drag/drop on top of compiled output
+✅ Bundles auto-create a cover + mini chapter covers
+✅ Store-Ready pipeline runs automatically after compile (if enabled)

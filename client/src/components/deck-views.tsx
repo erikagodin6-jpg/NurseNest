@@ -248,7 +248,7 @@ export function DeckHub({
                     className="text-xs border rounded-lg px-2 py-1.5 bg-white"
                     data-testid="select-ai-card-count"
                   >
-                    {[5, 10, 15, 20, 25].map(n => <option key={n} value={n}>{n} cards</option>)}
+                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
                   <label className="text-xs text-gray-500">Visibility:</label>
@@ -647,7 +647,7 @@ export function DeckView({
                     className="bg-white border border-gray-200 rounded-lg px-2 text-sm"
                     data-testid="select-ai-generate-count-deckview"
                   >
-                    {[5, 10, 15, 20, 25].map(n => <option key={n} value={n}>{n} cards</option>)}
+                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""} cards</option>)}
                   </select>
                 </div>
                 <Button
@@ -805,6 +805,9 @@ export function DeckEditor({
                   <option value={15}>15</option>
                   <option value={20}>20</option>
                   <option value={25}>25</option>
+                  <option value={30}>30 ⭐</option>
+                  <option value={40}>40 ⭐</option>
+                  <option value={50}>50 ⭐</option>
                 </select>
               </div>
               <Button

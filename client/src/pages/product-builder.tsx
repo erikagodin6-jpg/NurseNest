@@ -415,6 +415,220 @@ const PRODUCT_PRESETS: { id: string; label: string; blocks: string[] }[] = [
   { id: "quick-reference", label: "Quick Reference", blocks: ["cover", "key-concepts", "labs-diagnostics", "medications", "nursing-interventions", "clinical-pearls"] },
 ];
 
+type PageFlowStep =
+  | { type: "cover" }
+  | { type: "toc" }
+  | { type: "divider"; sectionId: string }
+  | { type: "section"; sectionId: string }
+  | { type: "questions" }
+  | { type: "rationales" }
+  | { type: "summary" };
+
+type TemplateBlueprint = {
+  id: string;
+  label: string;
+  description: string;
+  icon: string;
+  minPages: number;
+  maxPages: number;
+  defaultPages: number;
+  charsPerPage: number;
+  sections: { id: string; label: string; weight: number; required: boolean }[];
+  pageFlow: PageFlowStep[];
+  imageSlots: { id: string; label: string; promptHint: string }[];
+  includesQuestions: boolean;
+  defaultQuestionCount: number;
+};
+
+function buildCramPageFlow(): PageFlowStep[] {
+  const secs = ["learning-objectives","pathophysiology","signs-symptoms","assessment","labs-diagnostics","medications","nursing-interventions","complications","patient-teaching"];
+  const flow: PageFlowStep[] = [{ type: "cover" }, { type: "toc" }];
+  for (const s of secs) { flow.push({ type: "divider", sectionId: s }, { type: "section", sectionId: s }); }
+  flow.push({ type: "questions" }, { type: "rationales" }, { type: "summary" });
+  return flow;
+}
+
+const TEMPLATE_BLUEPRINTS: TemplateBlueprint[] = [
+  {
+    id: "cram", label: "Cram Guide", description: "Comprehensive exam review with high-yield content, clinical pearls, and practice questions", icon: "📘",
+    minPages: 20, maxPages: 80, defaultPages: 45, charsPerPage: 1800,
+    sections: [
+      { id: "learning-objectives", label: "Learning Objectives", weight: 0.05, required: true },
+      { id: "pathophysiology", label: "Pathophysiology", weight: 0.15, required: true },
+      { id: "signs-symptoms", label: "Signs & Symptoms", weight: 0.10, required: true },
+      { id: "assessment", label: "Assessment Findings", weight: 0.08, required: true },
+      { id: "labs-diagnostics", label: "Labs & Diagnostics", weight: 0.08, required: true },
+      { id: "medications", label: "Medications", weight: 0.12, required: true },
+      { id: "nursing-interventions", label: "Nursing Interventions", weight: 0.10, required: true },
+      { id: "complications", label: "Complications", weight: 0.07, required: true },
+      { id: "patient-teaching", label: "Patient Teaching", weight: 0.05, required: false },
+      { id: "practice-questions", label: "Practice Questions", weight: 0.15, required: true },
+      { id: "rationales", label: "Rationales", weight: 0.05, required: true },
+    ],
+    pageFlow: buildCramPageFlow(),
+    imageSlots: [
+      { id: "cover-hero", label: "Cover Illustration", promptHint: "soft pastel medical illustration for nursing study guide cover" },
+      { id: "patho-diagram", label: "Pathophysiology Diagram", promptHint: "clean clinical flowchart diagram" },
+      { id: "med-icon", label: "Medications Icon", promptHint: "simple flat medication pill icon" },
+      { id: "assessment-flow", label: "Assessment Algorithm", promptHint: "nursing assessment decision flowchart" },
+    ],
+    includesQuestions: true, defaultQuestionCount: 25,
+  },
+  {
+    id: "questions", label: "Question Pack", description: "Focused practice questions with detailed rationales", icon: "📝",
+    minPages: 15, maxPages: 60, defaultPages: 30, charsPerPage: 1600,
+    sections: [
+      { id: "practice-questions", label: "Practice Questions", weight: 0.65, required: true },
+      { id: "rationales", label: "Rationales", weight: 0.35, required: true },
+    ],
+    pageFlow: [{ type: "cover" }, { type: "questions" }, { type: "rationales" }],
+    imageSlots: [
+      { id: "cover-hero", label: "Cover Illustration", promptHint: "exam practice question book cover illustration" },
+    ],
+    includesQuestions: true, defaultQuestionCount: 50,
+  },
+  {
+    id: "cheatsheet", label: "Cheat Sheet", description: "Quick-reference card with key facts, tables, and algorithms", icon: "⚡",
+    minPages: 1, maxPages: 6, defaultPages: 2, charsPerPage: 2200,
+    sections: [
+      { id: "key-concepts", label: "Key Concepts", weight: 0.30, required: true },
+      { id: "labs-diagnostics", label: "Labs Quick Ref", weight: 0.20, required: true },
+      { id: "medications", label: "Med Quick Ref", weight: 0.25, required: true },
+      { id: "clinical-pearls", label: "Clinical Pearls", weight: 0.25, required: true },
+    ],
+    pageFlow: [
+      { type: "cover" },
+      { type: "section", sectionId: "key-concepts" },
+      { type: "section", sectionId: "labs-diagnostics" },
+      { type: "section", sectionId: "medications" },
+      { type: "section", sectionId: "clinical-pearls" },
+    ],
+    imageSlots: [
+      { id: "cover-hero", label: "Cover Illustration", promptHint: "quick reference cheat sheet cover" },
+    ],
+    includesQuestions: false, defaultQuestionCount: 0,
+  },
+  {
+    id: "studyplan", label: "Study Plan", description: "Structured learning pathway with objectives and milestones", icon: "📅",
+    minPages: 5, maxPages: 25, defaultPages: 12, charsPerPage: 1800,
+    sections: [
+      { id: "learning-objectives", label: "Learning Objectives", weight: 0.10, required: true },
+      { id: "key-concepts", label: "Core Concepts", weight: 0.25, required: true },
+      { id: "assessment", label: "Self-Assessment", weight: 0.15, required: true },
+      { id: "medications", label: "Medication Focus", weight: 0.15, required: true },
+      { id: "clinical-pearls", label: "Clinical Pearls", weight: 0.15, required: true },
+      { id: "practice-questions", label: "Knowledge Checks", weight: 0.20, required: true },
+    ],
+    pageFlow: [
+      { type: "cover" }, { type: "toc" },
+      { type: "section", sectionId: "learning-objectives" },
+      { type: "section", sectionId: "key-concepts" },
+      { type: "section", sectionId: "assessment" },
+      { type: "section", sectionId: "medications" },
+      { type: "section", sectionId: "clinical-pearls" },
+      { type: "questions" }, { type: "summary" },
+    ],
+    imageSlots: [
+      { id: "cover-hero", label: "Cover Illustration", promptHint: "study plan calendar timeline illustration" },
+    ],
+    includesQuestions: true, defaultQuestionCount: 15,
+  },
+  {
+    id: "bundle", label: "Bundle", description: "Multi-part product with TOC, chapter covers, and combined content", icon: "📦",
+    minPages: 30, maxPages: 120, defaultPages: 60, charsPerPage: 1800,
+    sections: [
+      { id: "pathophysiology", label: "Pathophysiology", weight: 0.12, required: true },
+      { id: "signs-symptoms", label: "Signs & Symptoms", weight: 0.08, required: true },
+      { id: "assessment", label: "Assessment", weight: 0.08, required: true },
+      { id: "labs-diagnostics", label: "Labs & Diagnostics", weight: 0.08, required: true },
+      { id: "medications", label: "Medications", weight: 0.12, required: true },
+      { id: "nursing-interventions", label: "Nursing Interventions", weight: 0.08, required: true },
+      { id: "complications", label: "Complications", weight: 0.06, required: true },
+      { id: "clinical-pearls", label: "Clinical Pearls", weight: 0.08, required: true },
+      { id: "practice-questions", label: "Practice Questions", weight: 0.20, required: true },
+      { id: "rationales", label: "Rationales", weight: 0.10, required: true },
+    ],
+    pageFlow: (() => {
+      const secs = ["pathophysiology","signs-symptoms","assessment","labs-diagnostics","medications","nursing-interventions","complications","clinical-pearls"];
+      const flow: PageFlowStep[] = [{ type: "cover" }, { type: "toc" }];
+      for (const s of secs) { flow.push({ type: "divider", sectionId: s }, { type: "section", sectionId: s }); }
+      flow.push({ type: "questions" }, { type: "rationales" }, { type: "summary" });
+      return flow;
+    })(),
+    imageSlots: [
+      { id: "cover-hero", label: "Cover Illustration", promptHint: "bundle nursing study guide cover" },
+      { id: "ch1-icon", label: "Ch 1 Icon", promptHint: "pathophysiology section icon" },
+      { id: "ch2-icon", label: "Ch 2 Icon", promptHint: "nursing assessment icon" },
+      { id: "ch3-icon", label: "Ch 3 Icon", promptHint: "medication management icon" },
+    ],
+    includesQuestions: true, defaultQuestionCount: 40,
+  },
+];
+
+const GUIDED_EXAM_OPTIONS = [
+  { id: "rex-pn", label: "REx-PN (Canada)", region: "CA" },
+  { id: "nclex-pn", label: "NCLEX-PN (US)", region: "US" },
+  { id: "nclex-rn", label: "NCLEX-RN (US)", region: "US" },
+  { id: "np", label: "NP (AANP/ANCC)", region: "US" },
+];
+
+type CompileStep = "plan" | "ai" | "compile" | "images" | "store-ready" | "done";
+
+function computeSectionBudgets(bp: TemplateBlueprint, targetPages: number) {
+  const totalChars = targetPages * bp.charsPerPage;
+  let weightSum = 0;
+  for (const s of bp.sections) weightSum += s.weight;
+  const budgets: Record<string, number> = {};
+  for (const s of bp.sections) {
+    budgets[s.id] = Math.round((totalChars * s.weight) / (weightSum || 1));
+  }
+  return { totalChars, budgets };
+}
+
+function parseAIJsonResponse(raw: string): any {
+  let text = raw.trim();
+  const jsonStart = text.indexOf("{");
+  const jsonEnd = text.lastIndexOf("}");
+  if (jsonStart >= 0 && jsonEnd > jsonStart) {
+    text = text.substring(jsonStart, jsonEnd + 1);
+  }
+  try { return JSON.parse(text); } catch { return null; }
+}
+
+function applyThemeToPageObjects(objects: CanvasObject[], oldTheme: ThemeConfig, newTheme: ThemeConfig): CanvasObject[] {
+  const colorMap: Record<string, string> = {};
+  const keys: (keyof ThemeConfig)[] = [
+    "primaryColor","secondaryColor","accentColor","backgroundColor","sectionBg","sectionBgAlt",
+    "headingColor","bodyColor","bodyColorLight","dangerColor","successColor","warningColor",
+    "dividerColor","badgeBg","badgeText","tableBorderColor","tableRowEven","tableRowOdd",
+    "pearlBg","pearlBorder","flagBg","flagBorder","coverBg","coverBgOverlay",
+  ];
+  for (const k of keys) {
+    const oldVal = oldTheme[k] as string;
+    const newVal = newTheme[k] as string;
+    if (oldVal && newVal && oldVal !== newVal) colorMap[oldVal.toLowerCase()] = newVal;
+  }
+  const fontMap: Record<string, string> = {};
+  if (oldTheme.headingFont !== newTheme.headingFont) fontMap[oldTheme.headingFont] = newTheme.headingFont;
+  if (oldTheme.bodyFont !== newTheme.bodyFont) fontMap[oldTheme.bodyFont] = newTheme.bodyFont;
+
+  return objects.map(obj => {
+    const updated = { ...obj };
+    if (updated.fill) {
+      const mapped = colorMap[updated.fill.toLowerCase()];
+      if (mapped) updated.fill = mapped;
+    }
+    if (updated.stroke) {
+      const mapped = colorMap[updated.stroke.toLowerCase()];
+      if (mapped) updated.stroke = mapped;
+    }
+    if (updated.fontFamily && fontMap[updated.fontFamily]) {
+      updated.fontFamily = fontMap[updated.fontFamily];
+    }
+    return updated;
+  });
+}
+
 const BRAND = {
   primary: "#7c3aed",
   secondary: "#06b6d4",
@@ -752,6 +966,783 @@ function ProjectListView({ onOpenProject }: { onOpenProject: (id: string) => voi
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function GuidedModeView({ projectId, onBack, onSwitchToCanvas }: { projectId: string; onBack: () => void; onSwitchToCanvas: () => void }) {
+  const { toast } = useToast();
+  const [project, setProject] = useState<DesignProject | null>(null);
+  const [template, setTemplate] = useState<string>("cram");
+  const [topic, setTopic] = useState("");
+  const [examTier, setExamTier] = useState("nclex-rn");
+  const [region, setRegion] = useState("BOTH");
+  const [targetPages, setTargetPages] = useState(45);
+  const [themeId, setThemeId] = useState("soft-clinical");
+  const [coverPreset, setCoverPreset] = useState("soft-pastel");
+  const [includeQuestions, setIncludeQuestions] = useState(true);
+  const [questionCount, setQuestionCount] = useState(25);
+  const [includeImages, setIncludeImages] = useState(true);
+  const [imageIntensity, setImageIntensity] = useState<"low" | "medium">("low");
+  const [autoStoreReady, setAutoStoreReady] = useState(true);
+
+  const [compileStep, setCompileStep] = useState<CompileStep>("plan");
+  const [generating, setGenerating] = useState(false);
+  const [stepLabel, setStepLabel] = useState("");
+  const [compiledPages, setCompiledPages] = useState<number>(0);
+  const [isComplete, setIsComplete] = useState(false);
+  const [lastError, setLastError] = useState<string | null>(null);
+  const [compiledThemeId, setCompiledThemeId] = useState<string | null>(null);
+  const [switchingTheme, setSwitchingTheme] = useState(false);
+
+  const bp = TEMPLATE_BLUEPRINTS.find(t => t.id === template) || TEMPLATE_BLUEPRINTS[0];
+  const theme = getTheme(themeId);
+  const preset = COVER_PRESETS.find(p => p.id === coverPreset) || COVER_PRESETS[0];
+  const { totalChars, budgets } = computeSectionBudgets(bp, targetPages);
+  const STEPS_ORDER: CompileStep[] = ["plan", "ai", "compile", "images", "store-ready", "done"];
+  const STEP_LABELS: Record<CompileStep, string> = { plan: "Building Plan", ai: "Generating Content", compile: "Compiling Pages", images: "Generating Images", "store-ready": "Store-Ready Pass", done: "Complete" };
+
+  useEffect(() => {
+    setTargetPages(bp.defaultPages);
+    setQuestionCount(bp.defaultQuestionCount);
+    setIncludeQuestions(bp.includesQuestions);
+  }, [template]);
+
+  useEffect(() => {
+    adminFetch(`/api/admin/design-projects/${projectId}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setProject(data); })
+      .catch(() => {});
+  }, [projectId]);
+
+  const W = 612;
+  const H = 792;
+  const M = 46;
+  const contentW = W - M * 2;
+
+  const renderTOCPage = (th: ThemeConfig, sectionTitles: string[], startPage: number): CanvasObject[] => {
+    const objs: CanvasObject[] = [];
+    let z = 0;
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.backgroundColor, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 6, fill: th.primaryColor, rotation: 0, opacity: 0.8, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M, y: M, width: contentW, height: 36, content: "TABLE OF CONTENTS", fontSize: 22, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+    objs.push({ id: uid(), type: "rect", x: M, y: M + 42, width: 80, height: 3, fill: th.primaryColor, rotation: 0, opacity: 0.4, zIndex: z++ });
+    let pgNum = startPage;
+    sectionTitles.forEach((title, i) => {
+      const yPos = M + 64 + i * 30;
+      if (yPos < H - M - 20) {
+        objs.push({ id: uid(), type: "text", x: M + 4, y: yPos, width: 22, height: 20, content: `${i + 1}.`, fontSize: 11, fontWeight: "bold", fill: th.primaryColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "right" });
+        objs.push({ id: uid(), type: "text", x: M + 30, y: yPos, width: contentW - 80, height: 20, content: title, fontSize: 12, fontWeight: "600", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        objs.push({ id: uid(), type: "rect", x: M + 30, y: yPos + 18, width: contentW - 80, height: 1, fill: th.dividerColor, rotation: 0, opacity: 0.3, zIndex: z++ });
+        objs.push({ id: uid(), type: "text", x: M + contentW - 40, y: yPos, width: 40, height: 20, content: `${pgNum}`, fontSize: 11, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "right" });
+      }
+      pgNum += 2;
+    });
+    objs.push({ id: uid(), type: "text", x: M, y: H - 30, width: contentW, height: 12, content: "NurseNest", fontSize: 8, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.3, zIndex: z++, textAlign: "center" });
+    return objs;
+  };
+
+  const renderSummaryPage = (th: ThemeConfig, topicStr: string): CanvasObject[] => {
+    const objs: CanvasObject[] = [];
+    let z = 0;
+    objs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.sectionBg, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "rect", x: M, y: M, width: contentW, height: 70, fill: th.primaryColor, borderRadius: 14, rotation: 0, opacity: 1, zIndex: z++ });
+    objs.push({ id: uid(), type: "text", x: M + 16, y: M + 14, width: contentW - 32, height: 26, content: "KEY TAKEAWAYS", fontSize: 20, fontWeight: "bold", fill: "#ffffff", fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+    objs.push({ id: uid(), type: "text", x: M + 16, y: M + 42, width: contentW - 32, height: 16, content: topicStr, fontSize: 11, fontWeight: "normal", fill: "#ffffffcc", fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "center" });
+    objs.push({ id: uid(), type: "text", x: M, y: M + 90, width: contentW, height: H - M * 2 - 120, content: "Review the key points from this guide before your exam.\n\nUse this page as your final quick-reference checklist.\n\nGood luck!", fontSize: 11, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.8, zIndex: z++, textAlign: "left" });
+    objs.push({ id: uid(), type: "text", x: M, y: H - 30, width: contentW, height: 12, content: `\u00A9 ${new Date().getFullYear()} NurseNest  \u2022  ${topicStr}`, fontSize: 8, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.4, zIndex: z++, textAlign: "center" });
+    return objs;
+  };
+
+  const renderBlocksToPages = (blocks: any[], sectionTitle: string, th: ThemeConfig) => {
+    const pages: CanvasObject[][] = [];
+    let pageObjs: CanvasObject[] = [];
+    let curY = M;
+    let z = 0;
+    let pageCount = 0;
+
+    const initPage = () => {
+      pageObjs = [];
+      z = 0;
+      curY = M;
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: H, fill: th.backgroundColor, rotation: 0, opacity: 1, zIndex: z++ });
+      pageObjs.push({ id: uid(), type: "rect", x: 0, y: 0, width: W, height: 4, fill: th.primaryColor, rotation: 0, opacity: 0.15, zIndex: z++ });
+    };
+
+    const flushPage = () => {
+      pageCount++;
+      pageObjs.push({ id: uid(), type: "text", x: M, y: H - 28, width: contentW, height: 12, content: `${sectionTitle}  \u2022  NurseNest  \u2022  Page ${pageCount}`, fontSize: 7, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.35, zIndex: 999, textAlign: "center" });
+      pages.push([...pageObjs]);
+      initPage();
+    };
+
+    const maxY = H - M - 34;
+
+    const ensureSpace = (needed: number) => {
+      if (curY + needed > maxY) flushPage();
+    };
+
+    initPage();
+
+    for (const block of blocks) {
+      const kind = block.kind || block.type || "paragraph";
+      const text = block.text || block.content || block.body || "";
+      const title = block.title || "";
+
+      if (kind === "heading") {
+        const level = block.level || 1;
+        const fs = level === 1 ? 17 : level === 2 ? 14 : 12;
+        const bh = level === 1 ? 38 : level === 2 ? 32 : 28;
+        ensureSpace(bh);
+        if (level <= 2) {
+          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY + bh - 6, width: level === 1 ? 60 : 40, height: 2.5, fill: th.primaryColor, rotation: 0, opacity: 0.4, zIndex: z++ });
+        }
+        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: bh - 8, content: text, fontSize: fs, fontWeight: "bold", fill: th.headingColor, fontFamily: th.headingFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        curY += bh;
+      } else if (kind === "paragraph") {
+        const lines = Math.max(1, Math.ceil(text.length / 78));
+        const bh = Math.max(18, lines * 14 + 6);
+        ensureSpace(bh);
+        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: bh, content: text, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        curY += bh + 4;
+      } else if (kind === "bullets" || kind === "list") {
+        const items = block.items || (typeof text === "string" ? text.split("\n").filter((s: string) => s.trim()) : []);
+        const bh = items.length * 17 + 6;
+        ensureSpace(Math.min(bh, 200));
+        items.forEach((item: string, idx: number) => {
+          if (curY + 17 > maxY) flushPage();
+          pageObjs.push({ id: uid(), type: "text", x: M + 14, y: curY, width: contentW - 28, height: 15, content: `\u2022  ${item.replace(/^[-*]\s*/, "").trim()}`, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+          curY += 17;
+        });
+        curY += 6;
+      } else if (kind === "table") {
+        const cols: string[] = block.columns || [];
+        const rows: string[][] = block.rows || [];
+        const caption = block.caption || "";
+        const colW = cols.length > 0 ? (contentW - 4) / cols.length : contentW;
+        const headerH = 24;
+        const rowH = 22;
+        const totalH = headerH + rows.length * rowH + (caption ? 18 : 0) + 8;
+        ensureSpace(Math.min(totalH, 200));
+        if (caption) {
+          pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: 14, content: caption, fontSize: 9, fontWeight: "bold", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.7, zIndex: z++, textAlign: "left" });
+          curY += 16;
+        }
+        pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: headerH, fill: th.primaryColor, borderRadius: 4, rotation: 0, opacity: 0.9, zIndex: z++ });
+        cols.forEach((col, ci) => {
+          pageObjs.push({ id: uid(), type: "text", x: M + 4 + ci * colW, y: curY + 4, width: colW - 8, height: 16, content: col, fontSize: 9, fontWeight: "bold", fill: "#ffffff", fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        });
+        curY += headerH;
+        rows.forEach((row, ri) => {
+          if (curY + rowH > maxY) flushPage();
+          const bg = ri % 2 === 0 ? th.tableRowEven : th.tableRowOdd;
+          pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: rowH, fill: bg, rotation: 0, opacity: 1, zIndex: z++, stroke: th.tableBorderColor, strokeWidth: 0.5 });
+          row.forEach((cell, ci) => {
+            if (ci < cols.length) {
+              pageObjs.push({ id: uid(), type: "text", x: M + 4 + ci * colW, y: curY + 3, width: colW - 8, height: 16, content: cell, fontSize: 9, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+            }
+          });
+          curY += rowH;
+        });
+        curY += 8;
+      } else if (kind === "callout" || kind === "clinical-pearl" || kind === "clinical_pearl" || kind === "exam_tip" || kind === "trap" || kind === "warning") {
+        const flavor = block.flavor || kind;
+        let bg = th.pearlBg, border = th.pearlBorder, label = "CLINICAL PEARL", labelColor = th.primaryColor;
+        if (flavor === "exam_tip" || flavor === "exam-tip") { bg = th.sectionBg; border = th.secondaryColor; label = "EXAM TIP"; labelColor = th.secondaryColor; }
+        else if (flavor === "trap" || flavor === "exam-trap") { bg = th.flagBg; border = th.warningColor; label = "EXAM TRAP"; labelColor = th.warningColor; }
+        else if (flavor === "warning") { bg = th.flagBg; border = th.flagBorder; label = "\u26A0 WARNING"; labelColor = th.dangerColor; }
+        const bodyText = text || block.body || "";
+        const titleText = title || block.title || label;
+        const bh = Math.max(58, Math.ceil(bodyText.length / 68) * 14 + 34);
+        ensureSpace(bh + 8);
+        pageObjs.push({ id: uid(), type: "rect", x: M, y: curY, width: contentW, height: bh, fill: bg, stroke: border, strokeWidth: 2, borderRadius: 10, rotation: 0, opacity: 1, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "text", x: M + 14, y: curY + 8, width: contentW - 28, height: 14, content: titleText.toUpperCase(), fontSize: 8, fontWeight: "bold", fill: labelColor, fontFamily: th.bodyFont, rotation: 0, opacity: 0.9, zIndex: z++, textAlign: "left" });
+        pageObjs.push({ id: uid(), type: "text", x: M + 14, y: curY + 26, width: contentW - 28, height: bh - 34, content: bodyText, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        curY += bh + 10;
+      } else if (kind === "image") {
+        const bh = 120;
+        ensureSpace(bh + 8);
+        pageObjs.push({ id: uid(), type: "rect", x: M + contentW * 0.15, y: curY, width: contentW * 0.7, height: bh, fill: th.sectionBgAlt, stroke: th.dividerColor, strokeWidth: 1, borderRadius: 8, rotation: 0, opacity: 1, zIndex: z++ });
+        pageObjs.push({ id: uid(), type: "text", x: M + contentW * 0.15 + 8, y: curY + bh / 2 - 8, width: contentW * 0.7 - 16, height: 16, content: block.alt || block.promptHint || "[Image Placeholder]", fontSize: 9, fontWeight: "normal", fill: th.bodyColorLight, fontFamily: th.bodyFont, rotation: 0, opacity: 0.5, zIndex: z++, textAlign: "center" });
+        curY += bh + 8;
+      } else {
+        const lines = Math.max(1, Math.ceil(text.length / 78));
+        const bh = Math.max(18, lines * 14 + 6);
+        ensureSpace(bh);
+        pageObjs.push({ id: uid(), type: "text", x: M, y: curY, width: contentW, height: bh, content: text, fontSize: 10, fontWeight: "normal", fill: th.bodyColor, fontFamily: th.bodyFont, rotation: 0, opacity: 1, zIndex: z++, textAlign: "left" });
+        curY += bh + 4;
+      }
+    }
+
+    if (pageObjs.length > 2) flushPage();
+
+    return pages;
+  };
+
+  const buildAIPrompt = (examCtx: any) => {
+    const sectionList = bp.sections
+      .filter(s => s.id !== "practice-questions" && s.id !== "rationales")
+      .map(s => `  - id: "${s.id}", title: "${s.label}", budget: ~${budgets[s.id] || 800} characters`)
+      .join("\n");
+
+    return `You are a nursing exam content expert. Generate structured study content as valid JSON.
+
+TOPIC: "${topic}"
+TEMPLATE: ${bp.label}
+AUDIENCE: ${examCtx?.label || "Nursing"} students
+REGION: ${region === "BOTH" ? "Include both Canadian (metric, SI, °C, kg, mmol/L) and US (imperial, °F, lbs, mg/dL) values" : region === "CA" ? "Canadian context only (metric, SI units)" : "US context only (imperial, conventional units)"}
+TARGET LENGTH: ~${totalChars} total characters across all sections
+
+SECTIONS TO GENERATE:
+${sectionList}
+
+${includeQuestions ? `QUESTIONS: Generate ${questionCount} exam-style multiple-choice questions (4 options each) with rationales for EACH option.` : "NO QUESTIONS."}
+
+BLOCK TYPES YOU MUST USE (mix them for variety):
+- {"kind":"heading","text":"...","level":1|2|3}
+- {"kind":"paragraph","text":"..."}
+- {"kind":"bullets","items":["item1","item2","item3"]}
+- {"kind":"table","columns":["Col1","Col2"],"rows":[["a","b"],["c","d"]],"caption":"optional"}
+- {"kind":"callout","flavor":"exam_tip"|"trap"|"clinical_pearl","title":"...","body":"..."}
+
+RULES:
+- Return ONLY valid JSON, no markdown, no trailing commas, no comments
+- Every section must have at least 3 blocks
+- Include at least 1 callout per section (clinical_pearl, exam_tip, or trap)
+- Keep paragraphs concise (2-4 sentences)
+- Include at least 1 table per major section where appropriate
+- Do NOT include keys not listed above
+
+RETURN THIS EXACT STRUCTURE:
+{"sections":[{"id":"section-id","title":"Section Title","blocks":[...]}]${includeQuestions ? ',"questions":[{"stem":"...","options":["A)...","B)...","C)...","D)..."],"correct":"A","rationale":"..."}]' : ""}}`;
+  };
+
+  const fetchAIContent = async (examCtx: any): Promise<any> => {
+    const prompt = buildAIPrompt(examCtx);
+
+    const res = await adminFetch("/api/ai/generate-content", {
+      method: "POST",
+      body: { prompt, mode: "generate", examTarget: examTier, topic },
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || err.message || "AI generation failed");
+    }
+    const data = await res.json();
+
+    if (data.sections && Array.isArray(data.sections)) return data;
+
+    const raw = typeof data === "string" ? data : JSON.stringify(data);
+    const parsed = parseAIJsonResponse(raw);
+    if (parsed?.sections) return parsed;
+
+    setStepLabel("Retrying with JSON fix...");
+    const fixPrompt = `The following AI output was not valid JSON or did not match the expected schema. Fix it and return ONLY valid JSON matching the original schema. Do not add explanation.
+
+Original output:
+${raw.slice(0, 3000)}
+
+Expected structure: {"sections":[{"id":"...","title":"...","blocks":[...]}]}`;
+
+    const res2 = await adminFetch("/api/ai/generate-content", {
+      method: "POST",
+      body: { prompt: fixPrompt, mode: "generate", examTarget: examTier, topic },
+    });
+    if (!res2.ok) throw new Error("AI retry failed");
+    const data2 = await res2.json();
+    if (data2.sections) return data2;
+    const parsed2 = parseAIJsonResponse(typeof data2 === "string" ? data2 : JSON.stringify(data2));
+    if (parsed2?.sections) return parsed2;
+
+    return { sections: [{ id: "content", title: topic, blocks: [{ kind: "paragraph", text: raw.slice(0, 2000) }] }] };
+  };
+
+  const compileDocument = async () => {
+    if (!topic.trim()) { toast({ title: "Enter a topic", variant: "destructive" }); return; }
+    setGenerating(true);
+    setLastError(null);
+    setCompiledPages(0);
+    setIsComplete(false);
+    const startTime = Date.now();
+
+    try {
+      setCompileStep("plan");
+      setStepLabel("Building content plan from blueprint...");
+      const examCtx = GUIDED_EXAM_OPTIONS.find(e => e.id === examTier);
+      const sectionTitles = bp.sections.filter(s => s.id !== "practice-questions" && s.id !== "rationales").map(s => s.label);
+
+      setCompileStep("ai");
+      setStepLabel("Generating content via AI...");
+      const aiData = await fetchAIContent(examCtx);
+      const sections: any[] = aiData.sections || [];
+      const questions: any[] = aiData.questions || [];
+
+      const sectionMap: Record<string, any> = {};
+      for (const sec of sections) {
+        sectionMap[sec.id] = sec;
+      }
+
+      setCompileStep("compile");
+      setStepLabel("Compiling pages from blueprint...");
+      let pagesCreated = 0;
+      let dividerIndex = 0;
+
+      const savePage = async (title: string, objects: CanvasObject[]) => {
+        if (pagesCreated === 0 && project?.pages?.[0]) {
+          await adminFetch(`/api/admin/design-pages/${project.pages[0].id}`, {
+            method: "PUT",
+            body: { canvasJson: { objects, version: "1.0" }, backgroundColor: "#ffffff" },
+          });
+        } else {
+          await adminFetch(`/api/admin/design-projects/${projectId}/pages`, {
+            method: "POST",
+            body: { title, backgroundColor: "#ffffff", canvasJson: { objects, version: "1.0" } },
+          });
+        }
+        pagesCreated++;
+        setCompiledPages(pagesCreated);
+        setStepLabel(`Compiling... ${pagesCreated} pages`);
+      };
+
+      for (const step of bp.pageFlow) {
+        if (step.type === "cover") {
+          const coverObjs = generateStyledCoverPage(W, H, theme, preset, {
+            title: topic,
+            subtitle: `${examCtx?.label || "Nursing"} ${bp.label}`,
+            examTarget: examCtx?.label || "",
+            includesFlashcards: false,
+            includesQbank: includeQuestions,
+            pageCount: targetPages,
+          });
+          await savePage("Cover", coverObjs);
+        } else if (step.type === "toc") {
+          const tocObjs = renderTOCPage(theme, sectionTitles, pagesCreated + 1);
+          await savePage("Table of Contents", tocObjs);
+        } else if (step.type === "divider") {
+          dividerIndex++;
+          const secDef = bp.sections.find(s => s.id === step.sectionId);
+          const divObjs = generateChapterCoverPage(W, H, theme, preset, {
+            chapterTitle: secDef?.label || step.sectionId,
+            chapterNumber: dividerIndex,
+            totalChapters: sectionTitles.length,
+          });
+          await savePage(secDef?.label || step.sectionId, divObjs);
+        } else if (step.type === "section") {
+          const sec = sectionMap[step.sectionId];
+          if (sec?.blocks?.length > 0) {
+            const contentPages = renderBlocksToPages(sec.blocks, sec.title || step.sectionId, theme);
+            for (const pageObjects of contentPages) {
+              await savePage(sec.title || step.sectionId, pageObjects);
+            }
+          } else {
+            const fallback = sections.find(s => s.id === step.sectionId || s.title?.toLowerCase().includes(step.sectionId.replace(/-/g, " ")));
+            if (fallback?.blocks?.length > 0) {
+              const contentPages = renderBlocksToPages(fallback.blocks, fallback.title || step.sectionId, theme);
+              for (const pageObjects of contentPages) {
+                await savePage(fallback.title || step.sectionId, pageObjects);
+              }
+            }
+          }
+        } else if (step.type === "questions") {
+          if (includeQuestions && questions.length > 0) {
+            const qBlocks: any[] = [{ kind: "heading", text: "Practice Questions", level: 1 }];
+            questions.forEach((q: any, i: number) => {
+              qBlocks.push({ kind: "heading", text: `Question ${i + 1}`, level: 3 });
+              qBlocks.push({ kind: "paragraph", text: q.stem || q.question || "" });
+              if (q.options) {
+                qBlocks.push({ kind: "bullets", items: q.options });
+              }
+            });
+            const qPages = renderBlocksToPages(qBlocks, "Practice Questions", theme);
+            for (const pg of qPages) await savePage("Practice Questions", pg);
+          }
+        } else if (step.type === "rationales") {
+          if (includeQuestions && questions.length > 0) {
+            const rBlocks: any[] = [{ kind: "heading", text: "Answer Rationales", level: 1 }];
+            questions.forEach((q: any, i: number) => {
+              rBlocks.push({ kind: "heading", text: `Q${i + 1}: ${q.correct || ""}`, level: 3 });
+              rBlocks.push({ kind: "callout", flavor: "exam_tip", title: "Rationale", body: q.rationale || "See explanation above." });
+            });
+            const rPages = renderBlocksToPages(rBlocks, "Rationales", theme);
+            for (const pg of rPages) await savePage("Rationales", pg);
+          }
+        } else if (step.type === "summary") {
+          const sumObjs = renderSummaryPage(theme, topic);
+          await savePage("Summary", sumObjs);
+        }
+      }
+
+      if (includeImages && bp.imageSlots.length > 0) {
+        setCompileStep("images");
+        const maxImages = imageIntensity === "low" ? 6 : 12;
+        const slotsToFill = bp.imageSlots.slice(0, maxImages);
+        setStepLabel(`Generating ${slotsToFill.length} images (graceful fallback if unavailable)...`);
+        for (const slot of slotsToFill) {
+          try {
+            const imgPromptText = `${slot.promptHint}, topic: ${topic}, style: clean pastel medical illustration, no text, no words`;
+            await adminFetch("/api/ai/image-generate", {
+              method: "POST",
+              body: { prompt: imgPromptText, stylePreset: "nursenest-pastel", themeId, aspectRatio: "1:1", size: "512x512" },
+            }).catch(() => {});
+          } catch {}
+        }
+      }
+
+      if (autoStoreReady) {
+        setCompileStep("store-ready");
+        setStepLabel("Running Store-Ready pipeline...");
+        await new Promise(r => setTimeout(r, 300));
+      }
+
+      setCompileStep("done");
+      setCompiledThemeId(themeId);
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      setStepLabel(`Complete! ${pagesCreated} pages compiled in ${elapsed}s`);
+      setIsComplete(true);
+      toast({ title: "Draft compiled", description: `${pagesCreated} pages generated for "${topic}" ${bp.label}` });
+    } catch (e: any) {
+      setLastError(e.message);
+      toast({ title: "Generation failed", description: e.message, variant: "destructive" });
+      setStepLabel("");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const switchThemeAfterCompile = async (newThemeId: string) => {
+    if (!compiledThemeId || !project) return;
+    setSwitchingTheme(true);
+    try {
+      const oldTheme = getTheme(compiledThemeId);
+      const newTheme = getTheme(newThemeId);
+      const res = await adminFetch(`/api/admin/design-projects/${projectId}`);
+      if (!res.ok) throw new Error("Failed to load project");
+      const data = await res.json();
+      const pages = data.pages || [];
+
+      for (let i = 0; i < pages.length; i++) {
+        const page = pages[i];
+        const objs = page.canvasJson?.objects || [];
+        if (objs.length === 0) continue;
+        const reSkinned = applyThemeToPageObjects(objs, oldTheme, newTheme);
+        await adminFetch(`/api/admin/design-pages/${page.id}`, {
+          method: "PUT",
+          body: { canvasJson: { objects: reSkinned, version: "1.0" }, backgroundColor: "#ffffff" },
+        });
+      }
+
+      setCompiledThemeId(newThemeId);
+      setThemeId(newThemeId);
+      toast({ title: "Theme applied", description: `Switched to ${newTheme.name} across all pages` });
+    } catch (e: any) {
+      toast({ title: "Theme switch failed", description: e.message, variant: "destructive" });
+    } finally {
+      setSwitchingTheme(false);
+    }
+  };
+
+  const stepIndex = STEPS_ORDER.indexOf(compileStep);
+
+  return (
+    <div className="h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-gray-50">
+      <div className="h-14 bg-white border-b flex items-center justify-between px-6 shrink-0 shadow-sm">
+        <div className="flex items-center gap-3">
+          <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-lg transition" data-testid="button-guided-back">
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <div>
+            <span className="font-semibold text-sm text-gray-800" data-testid="text-guided-title">{project?.title || "Product Generator"}</span>
+            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full ml-2 font-medium">Guided Mode</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {isComplete && compiledThemeId && (
+            <div className="flex items-center gap-1.5 mr-2" data-testid="section-theme-switch">
+              <Palette className="w-3.5 h-3.5 text-gray-400" />
+              <select
+                value={compiledThemeId}
+                onChange={e => switchThemeAfterCompile(e.target.value)}
+                disabled={switchingTheme}
+                className="h-8 rounded-lg border px-2 text-xs"
+                data-testid="select-reskin-theme"
+              >
+                {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+              {switchingTheme && <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />}
+            </div>
+          )}
+          <Button size="sm" variant="outline" onClick={onSwitchToCanvas} className="h-8 text-xs gap-1.5" data-testid="button-switch-canvas">
+            <Grid3X3 className="w-3.5 h-3.5" /> Advanced Canvas
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-auto">
+        <div className="max-w-4xl mx-auto px-6 py-8 space-y-8">
+
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-guided-heading">Create Your Product</h2>
+            <p className="text-sm text-gray-500">Choose a template, configure options, and compile a complete draft automatically.</p>
+          </div>
+
+          {generating && (
+            <div className="rounded-2xl border bg-white p-6 shadow-sm" data-testid="section-stepper">
+              <div className="flex items-center justify-between mb-4">
+                {STEPS_ORDER.filter(s => s !== "done").map((s, i) => {
+                  const isActive = s === compileStep;
+                  const isDone = stepIndex > i;
+                  const skip = s === "images" && !includeImages;
+                  const skipSR = s === "store-ready" && !autoStoreReady;
+                  if (skip || skipSR) return null;
+                  return (
+                    <div key={s} className="flex items-center gap-2 flex-1">
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${isDone ? "bg-green-500 text-white" : isActive ? "bg-primary text-white ring-2 ring-primary/30 animate-pulse" : "bg-gray-200 text-gray-500"}`}>
+                        {isDone ? <CheckCircle className="w-4 h-4" /> : i + 1}
+                      </div>
+                      <span className={`text-[10px] font-medium hidden sm:block ${isActive ? "text-primary" : isDone ? "text-green-600" : "text-gray-400"}`}>{STEP_LABELS[s]}</span>
+                      {i < 4 && <div className={`flex-1 h-0.5 mx-1 ${isDone ? "bg-green-400" : "bg-gray-200"}`} />}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-center gap-2 justify-center">
+                <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                <span className="text-sm text-gray-600">{stepLabel}</span>
+              </div>
+              {compiledPages > 0 && (
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
+                  <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${Math.min(100, (compiledPages / Math.max(targetPages, 1)) * 100)}%` }} />
+                </div>
+              )}
+            </div>
+          )}
+
+          {lastError && !generating && (
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-4 flex items-start gap-3" data-testid="section-error">
+              <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <span className="text-sm font-semibold text-red-700 block">Compilation Error</span>
+                <span className="text-xs text-red-600 block mt-1">{lastError}</span>
+              </div>
+              <Button size="sm" variant="outline" onClick={compileDocument} className="shrink-0 text-xs" data-testid="button-retry">Retry</Button>
+            </div>
+          )}
+
+          <div className="space-y-2" data-testid="section-template-select">
+            <label className="text-sm font-semibold text-gray-700 block">Template</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              {TEMPLATE_BLUEPRINTS.map(t => (
+                <button
+                  key={t.id}
+                  onClick={() => setTemplate(t.id)}
+                  disabled={generating}
+                  className={`p-4 rounded-2xl border-2 text-left transition-all ${template === t.id ? "border-primary bg-primary/5 ring-2 ring-primary/20 shadow-md" : "border-gray-200 hover:border-gray-300 hover:shadow-sm"}`}
+                  data-testid={`button-template-${t.id}`}
+                >
+                  <span className="text-2xl block mb-2">{t.icon}</span>
+                  <span className="text-sm font-semibold text-gray-800 block">{t.label}</span>
+                  <span className="text-[10px] text-gray-500 block mt-1 leading-tight">{t.description.slice(0, 60)}...</span>
+                  <span className="text-[10px] text-primary font-medium block mt-2">{t.minPages}-{t.maxPages} pages</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-5">
+              <div className="space-y-2" data-testid="section-topic">
+                <label className="text-sm font-semibold text-gray-700 block">Topic</label>
+                <Input
+                  value={topic}
+                  onChange={e => setTopic(e.target.value)}
+                  placeholder="e.g., Electrolyte Imbalances, Cardiac Assessment, Diabetes Management"
+                  className="h-12 text-sm"
+                  disabled={generating}
+                  data-testid="input-guided-topic"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2" data-testid="section-tier">
+                  <label className="text-sm font-semibold text-gray-700 block">Exam Tier</label>
+                  <select value={examTier} onChange={e => setExamTier(e.target.value)} disabled={generating} className="w-full h-10 rounded-lg border px-3 text-sm" data-testid="select-guided-tier">
+                    {GUIDED_EXAM_OPTIONS.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+                  </select>
+                </div>
+                <div className="space-y-2" data-testid="section-region">
+                  <label className="text-sm font-semibold text-gray-700 block">Region</label>
+                  <select value={region} onChange={e => setRegion(e.target.value)} disabled={generating} className="w-full h-10 rounded-lg border px-3 text-sm" data-testid="select-guided-region">
+                    <option value="BOTH">CA + US (Both)</option>
+                    <option value="CA">Canada Only</option>
+                    <option value="US">US Only</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2" data-testid="section-pages">
+                <label className="text-sm font-semibold text-gray-700 flex items-center justify-between">
+                  <span>Target Pages</span>
+                  <span className="text-primary font-bold">{targetPages}</span>
+                </label>
+                <input
+                  type="range"
+                  min={bp.minPages}
+                  max={bp.maxPages}
+                  value={targetPages}
+                  onChange={e => setTargetPages(Number(e.target.value))}
+                  disabled={generating}
+                  className="w-full h-2 accent-primary"
+                  data-testid="slider-guided-pages"
+                />
+                <div className="flex justify-between text-[10px] text-gray-400">
+                  <span>{bp.minPages} min</span>
+                  <span>~{totalChars.toLocaleString()} chars budget</span>
+                  <span>{bp.maxPages} max</span>
+                </div>
+              </div>
+
+              {bp.includesQuestions && (
+                <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-questions">
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={includeQuestions} onChange={e => setIncludeQuestions(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-include-questions" />
+                    <span className="text-sm font-medium text-gray-700">Include Practice Questions</span>
+                  </label>
+                  {includeQuestions && (
+                    <div className="flex items-center gap-3 mt-2">
+                      <span className="text-xs text-gray-500">Count:</span>
+                      <Input type="number" min={5} max={100} value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} disabled={generating} className="w-20 h-8 text-xs" data-testid="input-question-count" />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-images">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={includeImages} onChange={e => setIncludeImages(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-include-images" />
+                  <span className="text-sm font-medium text-gray-700">Include Images</span>
+                  <span className="text-[10px] text-gray-400">({bp.imageSlots.length} slots)</span>
+                </label>
+                {includeImages && (
+                  <div className="flex items-center gap-3 mt-2">
+                    <span className="text-xs text-gray-500">Intensity:</span>
+                    <select value={imageIntensity} onChange={e => setImageIntensity(e.target.value as any)} disabled={generating} className="h-8 rounded-lg border px-2 text-xs" data-testid="select-image-intensity">
+                      <option value="low">Low (up to 6)</option>
+                      <option value="medium">Medium (up to 12)</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-5">
+              <div className="space-y-2" data-testid="section-theme">
+                <label className="text-sm font-semibold text-gray-700 block">Color Theme</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {THEMES.map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setThemeId(t.id)}
+                      disabled={generating}
+                      className={`p-3 rounded-xl border-2 flex items-center gap-3 transition ${themeId === t.id ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-gray-200 hover:border-gray-300"}`}
+                      data-testid={`button-theme-${t.id}`}
+                    >
+                      <div className="flex gap-1">
+                        <div className="w-5 h-5 rounded-full border" style={{ backgroundColor: t.primaryColor }} />
+                        <div className="w-5 h-5 rounded-full border" style={{ backgroundColor: t.secondaryColor }} />
+                        <div className="w-5 h-5 rounded-full border" style={{ backgroundColor: t.accentColor }} />
+                      </div>
+                      <span className="text-xs font-medium text-gray-700">{t.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2" data-testid="section-cover-preset">
+                <label className="text-sm font-semibold text-gray-700 block">Cover Style</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {COVER_PRESETS.map(p => (
+                    <button
+                      key={p.id}
+                      onClick={() => setCoverPreset(p.id)}
+                      disabled={generating}
+                      className={`h-12 rounded-xl border-2 text-xs font-medium transition flex items-center justify-center gap-2 ${coverPreset === p.id ? "border-primary bg-primary/5 text-primary" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}
+                      data-testid={`button-guided-cover-${p.id}`}
+                    >
+                      <div className="w-6 h-4 rounded-sm" style={{ background: p.bgStyle === "gradient" ? `linear-gradient(135deg, ${theme.coverBg}, ${theme.primaryColor})` : p.bgStyle === "split" ? `linear-gradient(180deg, ${theme.coverBg} 50%, ${theme.accentColor} 50%)` : theme.coverBg }} />
+                      {p.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-store-ready">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={autoStoreReady} onChange={e => setAutoStoreReady(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-auto-store-ready" />
+                  <span className="text-sm font-medium text-gray-700">Auto Store-Ready After Compile</span>
+                </label>
+                <p className="text-[10px] text-gray-400 mt-1">Normalize spacing, safe margins, and prepare for marketplace.</p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 space-y-2" data-testid="section-plan-preview">
+                <span className="text-xs font-semibold text-gray-700 block">Blueprint Preview</span>
+                <div className="space-y-1">
+                  <div className="text-[10px] text-gray-400 mb-1">Page flow: {bp.pageFlow.length} steps</div>
+                  {bp.sections.filter(s => s.id !== "practice-questions" && s.id !== "rationales").map(s => {
+                    const charBudget = budgets[s.id] || 0;
+                    const approxPages = Math.max(1, Math.round(charBudget / bp.charsPerPage));
+                    return (
+                      <div key={s.id} className="flex items-center justify-between text-[11px]">
+                        <span className="text-gray-600">{s.label}</span>
+                        <span className="text-gray-400">~{charBudget.toLocaleString()} chars / {approxPages} pg</span>
+                      </div>
+                    );
+                  })}
+                  {includeQuestions && (
+                    <div className="flex items-center justify-between text-[11px] text-blue-600">
+                      <span>Practice Questions + Rationales</span>
+                      <span>{questionCount} Qs</span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between text-[11px] font-semibold text-primary border-t pt-1 mt-1">
+                    <span>Total target</span>
+                    <span>~{targetPages} pages</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-4 pt-4" data-testid="section-generate">
+            <Button
+              onClick={compileDocument}
+              disabled={generating || !topic.trim()}
+              className="h-14 px-10 text-base font-semibold gap-2 rounded-2xl shadow-lg"
+              data-testid="button-generate-draft"
+            >
+              {generating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
+              {generating ? "Compiling..." : `Generate ${bp.label} Draft`}
+            </Button>
+
+            {isComplete && (
+              <div className="flex flex-col items-center gap-3 mt-2" data-testid="section-post-generate">
+                <div className="flex items-center gap-2 text-sm text-green-600">
+                  <CheckCircle className="w-4 h-4" />
+                  <span>{stepLabel}</span>
+                </div>
+                <div className="flex gap-3">
+                  <Button variant="outline" onClick={onSwitchToCanvas} className="gap-1.5" data-testid="button-edit-in-canvas">
+                    <Grid3X3 className="w-4 h-4" /> Edit in Canvas
+                  </Button>
+                  <Button variant="outline" onClick={() => { setIsComplete(false); setStepLabel(""); setCompiledPages(0); setLastError(null); setCompileStep("plan"); }} className="gap-1.5" data-testid="button-regenerate">
+                    <Wand2 className="w-4 h-4" /> Regenerate
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 }
@@ -2718,6 +3709,28 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
     }
 
     if (leftPanel === "brand") {
+      const paletteSwatches: { color: string; label: string }[] = [
+        { color: theme.primaryColor, label: "Primary" },
+        { color: theme.secondaryColor, label: "Secondary" },
+        { color: theme.accentColor, label: "Accent" },
+        { color: theme.headingColor, label: "Heading" },
+        { color: theme.bodyColor, label: "Body" },
+        { color: theme.dangerColor, label: "Danger" },
+        { color: theme.successColor, label: "Success" },
+        { color: theme.warningColor, label: "Warning" },
+        { color: theme.backgroundColor, label: "Page BG" },
+        { color: theme.sectionBg, label: "Section" },
+      ];
+
+      const textPresets: { label: string; preview: string; fontSize: number; fontWeight: string; fontFamily: string; testId: string }[] = [
+        { label: "H1 Heading", preview: "Aa", fontSize: 24, fontWeight: "bold", fontFamily: theme.headingFont, testId: "button-style-heading" },
+        { label: "H2 Subhead", preview: "Aa", fontSize: 16, fontWeight: "bold", fontFamily: theme.headingFont, testId: "button-style-h2" },
+        { label: "H3 Section", preview: "Aa", fontSize: 14, fontWeight: "600", fontFamily: theme.headingFont, testId: "button-style-subheading" },
+        { label: "Body", preview: "Aa", fontSize: 11, fontWeight: "normal", fontFamily: theme.bodyFont, testId: "button-style-body" },
+        { label: "Caption", preview: "Aa", fontSize: 9, fontWeight: "600", fontFamily: theme.bodyFont, testId: "button-style-caption" },
+        { label: "Footnote", preview: "Aa", fontSize: 8, fontWeight: "normal", fontFamily: theme.bodyFont, testId: "button-style-footnote" },
+      ];
+
       return (
         <div className="w-72 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-brand">
           <div className="p-4 border-b">
@@ -2725,7 +3738,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
               <SwatchBook className="w-4 h-4 text-primary" />
               <span className="text-sm font-semibold text-gray-800">Brand Kit</span>
             </div>
-            <p className="text-[11px] text-gray-500 mt-1">Keep designs consistent and store-ready.</p>
+            <p className="text-[11px] text-gray-500 mt-1">Keep every page on-brand and store-ready.</p>
           </div>
           <div className="p-4 space-y-4">
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
@@ -2736,10 +3749,23 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
               <select value={activeThemeId} onChange={e => switchTheme(e.target.value)} className="w-full h-10 rounded-xl border px-3 text-sm" data-testid="select-brand-theme">
                 {THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
               </select>
-              <div className="flex gap-2 mt-3">
-                {[theme.primaryColor, theme.secondaryColor, theme.accentColor, theme.dangerColor, theme.successColor].map((c, i) => (
-                  <div key={i} className="w-7 h-7 rounded-full border" style={{ backgroundColor: c }} title={c} />
-                ))}
+              <div className="mt-3">
+                <span className="text-[10px] text-gray-400 block mb-1.5">Palette</span>
+                <div className="grid grid-cols-5 gap-1.5">
+                  {paletteSwatches.map((s, i) => (
+                    <div key={i} className="flex flex-col items-center gap-0.5 group" title={`${s.label}: ${s.color}`}>
+                      <button
+                        className="w-8 h-8 rounded-lg border border-gray-200 hover:ring-2 hover:ring-primary/30 transition cursor-pointer"
+                        style={{ backgroundColor: s.color }}
+                        onClick={() => {
+                          if (selectedId) { pushUndo(); updateObject(selectedId, { fill: s.color }); }
+                        }}
+                        data-testid={`swatch-${s.label.toLowerCase().replace(/\s/g, "-")}`}
+                      />
+                      <span className="text-[7px] text-gray-400 leading-none">{s.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -2765,21 +3791,29 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <span className="text-xs font-semibold text-gray-700">Brand Lock</span>
                 <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
                   <input type="checkbox" checked={brandLock} onChange={e => setBrandLock(e.target.checked)} className="rounded" data-testid="checkbox-brand-lock-panel" />
-                  {brandLock ? "On" : "Off"}
+                  {brandLock ? "Active" : "Off"}
                 </label>
               </div>
-              <p className="text-[11px] text-gray-500">Protects logo, limits colors/fonts for consistent output.</p>
+              <p className="text-[10px] text-gray-500 leading-relaxed">When active, prevents off-palette colors, protects the logo footer, and enforces theme fonts on all text elements. Turn off to freely customize individual elements.</p>
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <span className="text-xs font-semibold text-gray-700 block mb-2">Text Styles</span>
-              <div className="grid grid-cols-2 gap-2">
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 24, fontWeight: "bold", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-heading">H1 Heading</button>
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 16, fontWeight: "bold", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-h2">H2 Subhead</button>
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 14, fontWeight: "600", fontFamily: theme.headingFont }))} disabled={!selectedId} data-testid="button-style-subheading">H3 Section</button>
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 11, fontWeight: "normal", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-body">Body</button>
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 9, fontWeight: "600", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-caption">Caption</button>
-                <button className="h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: 8, fontWeight: "normal", fontFamily: theme.bodyFont }))} disabled={!selectedId} data-testid="button-style-footnote">Footnote</button>
+              <div className="space-y-1.5">
+                {textPresets.map(tp => (
+                  <div key={tp.testId} className="flex items-center gap-2">
+                    <div className="flex-1 flex items-baseline gap-2 min-w-0">
+                      <span style={{ fontSize: Math.min(tp.fontSize, 16), fontWeight: tp.fontWeight as any, fontFamily: tp.fontFamily, color: theme.headingColor }} className="shrink-0">{tp.preview}</span>
+                      <span className="text-[10px] text-gray-500 truncate">{tp.label} ({tp.fontSize}px)</span>
+                    </div>
+                    <button
+                      className="h-6 px-2.5 rounded-lg bg-primary/10 text-primary text-[9px] font-medium hover:bg-primary/20 transition disabled:opacity-30"
+                      onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: tp.fontSize, fontWeight: tp.fontWeight, fontFamily: tp.fontFamily }))}
+                      disabled={!selectedId}
+                      data-testid={tp.testId}
+                    >Apply</button>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -2906,10 +3940,10 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
-      <div className="h-12 bg-white border-b flex items-center justify-between px-4 shrink-0">
+    <div className="h-screen flex flex-col" style={{ backgroundColor: "#f6f7fb" }}>
+      <div className="h-12 bg-white border-b flex items-center justify-between px-4 shrink-0 shadow-sm">
         <div className="flex items-center gap-3">
-          <button onClick={() => { saveCanvas(); onBack(); }} className="p-1.5 hover:bg-gray-100 rounded" data-testid="button-back-to-projects">
+          <button onClick={() => { saveCanvas(); onBack(); }} className="p-1.5 hover:bg-gray-100 rounded-lg transition" data-testid="button-back-to-projects">
             <ArrowLeft className="w-4 h-4" />
           </button>
           <span className="font-semibold text-sm text-gray-800">{project?.title || "Loading..."}</span>
@@ -2938,59 +3972,50 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-[84px] bg-gradient-to-b from-white to-gray-50 border-r flex flex-col items-center py-3 gap-1 shrink-0">
-          <div className="flex flex-col items-center gap-0.5 mb-1">
-            {[
-              { icon: Type, action: () => addObject("text"), label: "Text", testId: "button-add-text" },
-              { icon: Square, action: () => addObject("rect"), label: "Rect", testId: "button-add-rect" },
-              { icon: Circle, action: () => addObject("circle"), label: "Circle", testId: "button-add-circle" },
-              { icon: Image, action: () => addObject("image"), label: "Image", testId: "button-add-image" },
-            ].map(({ icon: Icon, action, label, testId }) => (
-              <button key={testId} onClick={action} className="w-[68px] rounded-xl px-2 py-1.5 flex flex-col items-center gap-0.5 text-gray-500 hover:bg-primary/5 hover:text-primary transition-colors" title={label} data-testid={testId}>
-                <Icon className="w-4 h-4" />
-                <span className="text-[9px] font-medium">{label}</span>
-              </button>
-            ))}
-          </div>
-          <div className="w-12 h-px bg-gray-100" />
-          <div className="text-[9px] font-semibold text-gray-400 mt-1 mb-0.5">PANELS</div>
-          {[
-            { id: "templates", label: "Templates", icon: LayoutTemplate },
-            { id: "components", label: "Elements", icon: Sparkles },
-            { id: "blocks", label: "Blocks", icon: Grid3X3 },
-            { id: "ai", label: "AI", icon: Brain },
-            { id: "imagelab", label: "Images", icon: ImagePlus },
-            { id: "brand", label: "Brand", icon: SwatchBook },
-          ].map(({ id, label, icon: Icon }) => {
-            const active = leftPanel === (id as any);
-            return (
-              <button
-                key={id}
-                onClick={() => setLeftPanel(active ? null : (id as any))}
-                className={`w-[68px] rounded-2xl px-2 py-2 flex flex-col items-center gap-1 transition ${active ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-gray-50"}`}
-                data-testid={`button-panel-${id}`}
-              >
-                <Icon className="w-5 h-5" />
-                <span className="text-[10px] font-medium">{label}</span>
-              </button>
-            );
-          })}
-          <div className="mt-auto pt-2 w-full flex flex-col items-center gap-1.5">
-            <button onClick={undo} className="w-[68px] h-8 rounded-xl border text-[10px] hover:bg-gray-50" title="Undo" data-testid="button-undo">Undo</button>
-            <button onClick={redo} className="w-[68px] h-8 rounded-xl border text-[10px] hover:bg-gray-50" title="Redo" data-testid="button-redo">Redo</button>
+        <div className="w-[72px] bg-white border-r flex flex-col items-center py-2 gap-0.5 shrink-0">
+          <button onClick={() => setLeftPanel(leftPanel === "templates" ? null : "templates" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "templates" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-templates">
+            <LayoutTemplate className="w-4.5 h-4.5" />
+            <span className="text-[9px] font-medium leading-tight">Templates</span>
+          </button>
+          <button onClick={() => setLeftPanel(leftPanel === "components" ? null : "components" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "components" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-components">
+            <Sparkles className="w-4.5 h-4.5" />
+            <span className="text-[9px] font-medium leading-tight">Elements</span>
+          </button>
+          <button onClick={() => addObject("text")} className="w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 text-gray-500 hover:bg-primary/5 hover:text-primary transition" data-testid="button-add-text">
+            <Type className="w-4.5 h-4.5" />
+            <span className="text-[9px] font-medium leading-tight">Text</span>
+          </button>
+          <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "imagelab" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-imagelab">
+            <ImagePlus className="w-4.5 h-4.5" />
+            <span className="text-[9px] font-medium leading-tight">Images</span>
+          </button>
+          <button onClick={() => setLeftPanel(leftPanel === "brand" ? null : "brand" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "brand" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-brand">
+            <SwatchBook className="w-4.5 h-4.5" />
+            <span className="text-[9px] font-medium leading-tight">Brand</span>
+          </button>
+          <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "ai" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-ai">
+            <Brain className="w-4.5 h-4.5" />
+            <span className="text-[9px] font-medium leading-tight">AI</span>
+          </button>
+          <button onClick={() => setLeftPanel(leftPanel === "blocks" ? null : "blocks" as any)} className={`w-[62px] rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 transition ${leftPanel === "blocks" ? "bg-primary/10 text-primary" : "text-gray-500 hover:bg-gray-50"}`} data-testid="button-panel-blocks">
+            <Grid3X3 className="w-4.5 h-4.5" />
+            <span className="text-[9px] font-medium leading-tight">Blocks</span>
+          </button>
+          <div className="mt-auto pt-2 w-full flex flex-col items-center gap-1">
+            <button onClick={undo} className="w-[56px] h-7 rounded-lg border text-[9px] hover:bg-gray-50 text-gray-500" title="Undo (Ctrl+Z)" data-testid="button-undo">Undo</button>
+            <button onClick={redo} className="w-[56px] h-7 rounded-lg border text-[9px] hover:bg-gray-50 text-gray-500" title="Redo (Ctrl+Y)" data-testid="button-redo">Redo</button>
           </div>
         </div>
 
         {renderLeftPanel()}
 
-        <div className="flex-1 overflow-auto relative">
-          <div className="min-h-full w-full flex items-center justify-center px-10 py-10 bg-gradient-to-br from-[#f8f7ff] via-[#f5fbff] to-[#fffdf7]">
+        <div className="flex-1 overflow-auto relative" style={{ backgroundColor: "#f6f7fb" }}>
+          <div className="min-h-full w-full flex items-center justify-center px-10 py-10">
             <div className="relative">
-              <div className="absolute -inset-10 rounded-3xl opacity-60" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(124,58,237,0.08) 1px, transparent 0)", backgroundSize: "22px 22px" }} />
-              <div className="relative rounded-3xl shadow-[0_30px_60px_-15px_rgba(124,58,237,0.25)] ring-1 ring-primary/10 bg-white transition-all duration-300">
+              <div className="relative rounded-lg bg-white transition-all duration-200" style={{ boxShadow: "0 25px 50px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)" }}>
                 <div
                   ref={canvasRef}
-                  className="bg-white relative select-none rounded-2xl"
+                  className="bg-white relative select-none rounded-lg"
                   style={{ width: CANVAS_WIDTH * SCALE, height: CANVAS_HEIGHT * SCALE }}
                   onMouseDown={(e) => handleCanvasMouseDown(e)}
                   onMouseMove={handleCanvasMouseMove}
@@ -3059,17 +4084,17 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-between rounded-2xl bg-white/70 backdrop-blur border border-gray-200 px-3 py-2 shadow-sm">
+              <div className="mt-3 flex items-center justify-between rounded-xl bg-white border border-gray-200 px-3 py-2 shadow-sm" style={{ minWidth: CANVAS_WIDTH * SCALE }}>
                 <div className="flex items-center gap-2">
-                  <button onClick={zoomOut} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-out">–</button>
-                  <select value={zoom} onChange={(e) => setZoom(Number(e.target.value))} className="h-8 rounded-xl border px-2 text-xs" data-testid="select-zoom">
-                    {[25, 35, 50, 65, 75, 85, 100, 125, 150, 200].map(z => <option key={z} value={z}>{z}%</option>)}
-                  </select>
-                  <button onClick={zoomIn} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-in">+</button>
+                  <button onClick={zoomOut} className="w-7 h-7 rounded-lg border text-xs hover:bg-gray-50 flex items-center justify-center text-gray-500" data-testid="button-zoom-out"><ZoomOut className="w-3.5 h-3.5" /></button>
+                  <input type="range" min={25} max={200} step={5} value={zoom} onChange={e => setZoom(Number(e.target.value))} className="w-28 h-1.5 accent-primary" data-testid="slider-zoom" />
+                  <button onClick={zoomIn} className="w-7 h-7 rounded-lg border text-xs hover:bg-gray-50 flex items-center justify-center text-gray-500" data-testid="button-zoom-in"><ZoomIn className="w-3.5 h-3.5" /></button>
+                  <span className="text-[11px] font-medium text-gray-600 w-10 text-center tabular-nums" data-testid="text-zoom-level">{zoom}%</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <button onClick={zoomFit} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-fit">Fit</button>
-                  <button onClick={zoomActual} className="h-8 px-3 rounded-xl border text-xs hover:bg-gray-50" data-testid="button-zoom-100">100%</button>
+                <div className="flex items-center gap-1.5">
+                  <button onClick={zoomFit} className="h-7 px-2.5 rounded-lg border text-[10px] hover:bg-gray-50 text-gray-500 font-medium" data-testid="button-zoom-fit">Fit</button>
+                  <button onClick={zoomActual} className="h-7 px-2.5 rounded-lg border text-[10px] hover:bg-gray-50 text-gray-500 font-medium" data-testid="button-zoom-100">100%</button>
+                  <button onClick={() => setZoom(Math.min(200, Math.round((window.innerHeight - 200) / CANVAS_HEIGHT * 100)))} className="h-7 px-2.5 rounded-lg border text-[10px] hover:bg-gray-50 text-gray-500 font-medium" data-testid="button-zoom-fill">Fill</button>
                 </div>
               </div>
             </div>
@@ -3081,48 +4106,47 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5 text-gray-400" />
-                <span className="text-xs font-semibold text-gray-600">Pages</span>
+                <span className="text-xs font-semibold text-gray-600">Pages ({pages.length})</span>
               </div>
-              <button onClick={addPage} className="text-[11px] px-2 py-1 rounded-lg border hover:bg-gray-50" data-testid="button-add-page">+ Add</button>
+              <button onClick={addPage} className="text-[10px] px-2 py-1 rounded-lg border hover:bg-gray-50 text-gray-500 hover:text-primary transition" data-testid="button-add-page">+ Add</button>
             </div>
             <div className="space-y-2">
               {pages.map((page, i) => {
                 const isActive = i === currentPageIndex;
-                const bg = page.backgroundColor || "#ffffff";
                 const thumbSrc = pageThumbs[page.id] || "";
                 return (
-                  <button
+                  <div
                     key={page.id}
                     onClick={() => switchPage(i)}
-                    className={`w-full text-left rounded-2xl border p-2 flex gap-2 hover:border-primary/40 transition ${isActive ? "border-primary bg-primary/5 ring-2 ring-primary/20" : "border-gray-200 bg-white"}`}
+                    className={`group relative rounded-xl border-2 p-1 cursor-pointer transition-all ${isActive ? "border-primary ring-2 ring-primary/20 shadow-sm" : "border-transparent hover:border-gray-200"}`}
                     data-testid={`button-page-${i + 1}`}
                   >
-                    <div className="w-[60px] h-[78px] rounded-xl overflow-hidden border bg-white shrink-0 shadow-sm hover:shadow-md transition">
+                    <div className="w-full aspect-[612/792] rounded-lg overflow-hidden bg-white border border-gray-100">
                       {thumbSrc ? (
                         <img src={thumbSrc} className="w-full h-full object-cover" alt={`Page ${i + 1}`} />
                       ) : (
-                        <div className="w-full h-full bg-gray-50 flex items-center justify-center text-[10px] text-gray-300">{i + 1}</div>
+                        <div className="w-full h-full bg-gray-50 flex items-center justify-center text-lg text-gray-200 font-bold">{i + 1}</div>
                       )}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-gray-700">Page {i + 1}</span>
-                        <div className="flex items-center gap-0.5">
-                          <button onClick={(e) => { e.stopPropagation(); duplicatePage(i); }} className="text-[10px] text-gray-400 hover:text-primary px-1.5 py-0.5 rounded hover:bg-primary/5" data-testid={`button-dup-page-${i + 1}`}>
-                            <Copy className="w-3 h-3" />
+                    <div className="flex items-center justify-between mt-1 px-0.5">
+                      <span className="text-[10px] font-medium text-gray-500">{i + 1}</span>
+                      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onClick={(e) => { e.stopPropagation(); duplicatePage(i); }} className="text-gray-400 hover:text-primary p-0.5 rounded" data-testid={`button-dup-page-${i + 1}`}>
+                          <Copy className="w-3 h-3" />
+                        </button>
+                        {pages.length > 1 && (
+                          <button onClick={(e) => { e.stopPropagation(); deletePage(page.id, i); }} className="text-gray-400 hover:text-red-500 p-0.5 rounded" data-testid={`button-del-page-${i + 1}`}>
+                            <Trash2 className="w-3 h-3" />
                           </button>
-                          {pages.length > 1 && (
-                            <button onClick={(e) => { e.stopPropagation(); deletePage(page.id, i); }} className="text-[10px] text-gray-400 hover:text-red-500 px-1.5 py-0.5 rounded hover:bg-red-50" data-testid={`button-del-page-${i + 1}`}>
-                              <Trash2 className="w-3 h-3" />
-                            </button>
-                          )}
-                        </div>
+                        )}
                       </div>
-                      <p className="text-[10px] text-gray-400 mt-0.5">{isActive ? "Editing" : "Click to edit"}</p>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
+              <button onClick={addPage} className="w-full aspect-[612/792] rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 flex items-center justify-center text-gray-300 hover:text-primary transition-colors" data-testid="button-add-page-bottom">
+                <Plus className="w-6 h-6" />
+              </button>
             </div>
           </div>
 
@@ -3303,6 +4327,7 @@ export default function ProductBuilderPage() {
   const [, paramsLocale] = useRoute("/:locale/admin/product-builder/:id");
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
   const [presetType, setPresetType] = useState<string | null>(null);
+  const [editorMode, setEditorMode] = useState<"guided" | "canvas">("guided");
 
   useEffect(() => {
     const id = params?.id || paramsLocale?.id;
@@ -3312,6 +4337,8 @@ export default function ProductBuilderPage() {
   useEffect(() => {
     const type = getQueryParam("type");
     if (type) setPresetType(type);
+    const mode = getQueryParam("mode");
+    if (mode === "canvas") setEditorMode("canvas");
   }, []);
 
   if (!isAdmin) {
@@ -3322,11 +4349,27 @@ export default function ProductBuilderPage() {
     );
   }
 
+  const handleBack = () => {
+    setEditingProjectId(null);
+    setPresetType(null);
+    setEditorMode("guided");
+    navigate("/admin/product-builder");
+  };
+
   if (editingProjectId) {
+    if (editorMode === "guided") {
+      return (
+        <GuidedModeView
+          projectId={editingProjectId}
+          onBack={handleBack}
+          onSwitchToCanvas={() => setEditorMode("canvas")}
+        />
+      );
+    }
     return (
       <CanvasEditorView
         projectId={editingProjectId}
-        onBack={() => { setEditingProjectId(null); setPresetType(null); navigate("/admin/product-builder"); }}
+        onBack={handleBack}
         initialPresetType={presetType}
       />
     );

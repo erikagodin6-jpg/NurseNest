@@ -1094,12 +1094,14 @@ Rules:
       const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
       if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
 
-      const numCards = Math.min(Math.max(parseInt(count) || 5, 1), Math.min(25, remaining));
+      const perGenMax = isPaid ? 50 : 25;
+      const numCards = Math.min(Math.max(parseInt(count) || 5, 1), Math.min(perGenMax, remaining));
       const region = (req as any).region || "US";
       const regionNote = region === "CA"
         ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."
         : "Use American nursing terminology, conventional units, and US exam standards (NCLEX).";
 
+      const maxTokens = numCards > 25 ? 8192 : 4096;
       const { default: OpenAI } = await import("openai");
       const openai = new OpenAI({ apiKey, baseURL });
       const completion = await openai.chat.completions.create({
@@ -1116,7 +1118,7 @@ Rules:
         ],
         response_format: { type: "json_object" },
         temperature: 0.7,
-        max_tokens: 4096,
+        max_tokens: maxTokens,
       });
 
       const text = completion.choices[0]?.message?.content || '{"cards":[]}';
@@ -2574,13 +2576,16 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
       if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
 
-      const maxAllowed = entitlement.isPremium ? 25 : Math.min(25, (deck.is_upgraded ? ((deck.upgraded_limit || DECK_UPGRADED_MAX) - entitlement.totalFreeCards) : (FREE_GLOBAL_MAX - entitlement.totalFreeCards)));
+      const PREMIUM_MAX = 50;
+      const FREE_MAX_PER_GEN = 25;
+      const maxAllowed = entitlement.isPremium ? PREMIUM_MAX : Math.min(FREE_MAX_PER_GEN, (deck.is_upgraded ? ((deck.upgraded_limit || DECK_UPGRADED_MAX) - entitlement.totalFreeCards) : (FREE_GLOBAL_MAX - entitlement.totalFreeCards)));
       const numCards = Math.min(Math.max(parseInt(count) || 10, 1), Math.max(maxAllowed, 1));
       const region = req.region || "US";
       const regionNote = region === "CA"
         ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."
         : "Use American nursing terminology, conventional units, and US exam standards (NCLEX).";
 
+      const maxTokens = numCards > 25 ? 8192 : 4096;
       const { default: OpenAI } = await import("openai");
       const openai = new OpenAI({ apiKey, baseURL });
       const completion = await openai.chat.completions.create({
@@ -2597,7 +2602,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         ],
         response_format: { type: "json_object" },
         temperature: 0.7,
-        max_tokens: 4096,
+        max_tokens: maxTokens,
       });
 
       const text = completion.choices[0]?.message?.content || '{"cards":[]}';

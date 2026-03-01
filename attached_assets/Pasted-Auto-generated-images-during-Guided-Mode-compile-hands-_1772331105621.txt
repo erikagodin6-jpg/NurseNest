@@ -1,0 +1,129 @@
+Auto-generated images during Guided Mode compile (hands-off, makes guides look premium)
+A standalone “AI Image Generator” panel inside the content builder (hands-on, for when you want specific diagrams)
+Here’s the exact feature spec + a single Replit AI prompt to implement it cleanly.
+What “generated images” should mean in your system
+A) Images auto-inserted by the compiler (Guided Mode)
+When you generate a 45-page guide, the compiler should also generate (or select) images like:
+Cover illustration (soft medical icon scene)
+Section header icons (e.g., Na+, K+, Ca2+, Mg2+)
+2–4 key diagrams (flowcharts, tables, algorithms)
+Optional: simple anatomy diagrams (brand-styled)
+Important: Don’t generate 50 images per guide. That will explode cost + time.
+Do a small, predictable set per guide (e.g., 6–12 total), with caching.
+B) A separate AI image generator panel (inside builder)
+This panel lets you:
+type a prompt (or pick from presets like “ABG flowchart”)
+choose style (NurseNest pastel / clinical minimal / bold exam focus)
+choose size/aspect ratio (square for store thumb, portrait for page)
+“Insert into page” button
+automatic background transparency option for overlays
+Key architecture decisions (so it doesn’t become messy)
+1) Use an “ImageAsset” model
+Store generated images as assets, not embedded blobs.
+ImageAsset
+id
+ownerId
+prompt
+stylePreset
+aspectRatio
+width/height
+storageUrl
+createdAt
+hash (for caching duplicates)
+Then in your document, image blocks reference assetId.
+2) Add “Image placeholders” in templates
+Your templates should include slots like:
+COVER_HERO_IMAGE
+SECTION_ICON
+DIAGRAM_SLOT_1
+The compiler fills them automatically when the user checks “Include images”.
+3) Caching (mandatory)
+If you generate the same “Hyperkalemia ECG diagram” again:
+reuse existing asset (hash match)
+don’t pay again
+Replit AI Prompt: Implement Integrated Image Generation (Copy/Paste)
+Add AI image generation to the Product Builder in two forms:
+(1) automatic image generation during Guided Mode compilation, and
+(2) a standalone AI Image Generator panel inside the builder that can insert images into pages.
+
+A) DATA MODEL
+1) Create ImageAsset model/table:
+   - id, userId, prompt, negativePrompt (optional), stylePreset, themeId, aspectRatio, width, height
+   - storageUrl (or file path), createdAt
+   - hash (for caching: hash(prompt + stylePreset + aspectRatio + themeId))
+2) Document image blocks should reference assetId (not raw base64).
+
+B) BACKEND API
+1) POST /api/ai/image-generate
+   Body: { prompt, stylePreset, themeId, aspectRatio, size, transparentBackground? }
+   Behavior:
+   - Enforce role rules: admin always allowed, non-admin respects quotas.
+   - Check cache by hash; if exists return cached asset.
+   - If not cached: call image model provider, store the image, create ImageAsset row, return it.
+   Return: { assetId, storageUrl, width, height, prompt, stylePreset }
+2) GET /api/assets/images?query=... for browsing assets.
+3) Quotas + rate limits consistent with AI Safety.
+
+C) UI: AI IMAGE GENERATOR PANEL (inside builder)
+1) Add left-rail panel entry: "Images"
+2) Panel features:
+   - prompt input
+   - preset dropdown (NurseNest Diagram, Pastel Illustration, Icon, Flowchart, Table graphic)
+   - theme selector (pastel/minimal/bold/neutral) OR inherit current document theme
+   - aspect ratio selector: 1:1, 4:5, 16:9, 9:16
+   - size selector (small/medium/large)
+   - transparent background toggle (for overlays)
+   - Generate button with progress
+   - Gallery of recent assets (click to select)
+   - "Insert into current page" button (adds an ImageBlock at a smart default position)
+   - "Replace selected image" if an image is selected on canvas
+
+D) GUIDED MODE: OPTIONAL AUTO-IMAGES
+1) In GuidedModeView add a toggle: "Include Images" + intensity selector: Low/Medium
+2) Templates define image slots (placeholders) like:
+   - coverHeroImage
+   - sectionIcons
+   - diagramSlots (max 2-6 depending on template)
+3) During compile:
+   - Build prompts deterministically from topic + section + tier + theme
+   - Generate only a limited number of images (e.g., Low=6, Medium=12)
+   - Fill template image slots with resulting assets
+4) Use caching to avoid re-generating identical assets.
+
+E) BRAND + STYLE CONSISTENCY
+1) Implement style presets tuned to NurseNest brand:
+   - Pastel Medical Illustration (soft gradients, rounded shapes, clean lines)
+   - Clinical Minimal Diagram (black/gray lines, one accent color)
+   - Bold Exam Focus Diagram (higher contrast headers, clean layout)
+   - Icon Pack (simple flat icon style)
+2) Ensure image prompts automatically include brand style constraints and avoid photorealistic gore.
+
+F) STORE OUTPUTS
+1) Add exports for:
+   - store thumbnail derived from cover hero image
+   - IG square promo image
+   - story promo image
+2) Ensure generated image assets are included in exports.
+
+G) SAFETY / ERROR HANDLING
+1) Return structured errors: { code, message, details }
+2) Show errors in UI with retry button.
+3) Do not break compilation if image generation fails; fall back to placeholders/icons.
+
+Deliverables:
+- ImageAsset storage + caching
+- /api/ai/image-generate endpoint
+- "Images" panel with generator + gallery + insert/replace
+- Guided Mode "Include Images" that fills template image slots automatically
+- Theme-consistent presets
+Best-practice defaults (so it feels good immediately)
+Guided Mode → Include Images: ON (Low) for you as admin
+Bundle/chapter mini-covers → use icons instead of full illustrations (cheap + clean)
+Diagrams → prioritize flowcharts + algorithms (highest perceived value)
+One warning (so you don’t get burned on cost)
+If you let the compiler generate unlimited images, it’ll get expensive fast.
+So hard-limit:
+Low: 6 images
+Medium: 12 images
+(No “High” unless you explicitly override)
+And cache everything.

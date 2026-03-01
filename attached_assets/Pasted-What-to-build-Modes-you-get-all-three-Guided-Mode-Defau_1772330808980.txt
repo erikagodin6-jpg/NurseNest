@@ -1,0 +1,188 @@
+What to build
+Modes (you get all three)
+Guided Mode (Default)
+You pick: Template + Topic + Tier + Region + Page Length + Color Theme → click Generate → it produces a full draft (cover, dividers, sections, pagination, exports).
+No dragging. No manual layout.
+Template Edit Mode (Admin only)
+You can edit the underlying template once (margins, typography scale, header/footer placement), then lock it again.
+Advanced Canvas Mode (Optional toggle)
+Full drag/drop for edge cases. But it starts from a template-built document, not a blank canvas.
+Templates you should ship first
+Cram Guide (30–80 pages)
+Question Pack (20–60 pages)
+Cheat Sheet (1–4 pages)
+Study Plan (5–20 pages)
+Bundle (multi-part with TOC + mini covers)
+Each template is a locked “blueprint” with predefined page types:
+Cover page
+TOC
+Section divider page
+Content pages (1–3 layouts)
+Questions pages
+Rationales pages
+Final summary page
+Color themes (what you asked for)
+You need theme presets that apply across every template:
+Soft Pastel (your core)
+Clinical Minimal (white + subtle accents)
+Bold Exam Focus (strong headings + contrast)
+Neutral Academic (clean grayscale + one accent)
+Seasonal drops (optional, for marketing)
+Each theme controls:
+Gradient/background
+Heading colors
+Accent shapes
+Callout box styling
+Table header styling
+Icon accent style
+Footer/header styling
+Theme should be switchable after generation (re-skin the guide without rewriting content).
+The key technical change
+Right now your generator behaves like “Canva”.
+You need a Document Compiler:
+Template Blueprint + Theme + Content Schema → Document Pages → Store-Ready Exports
+So the user experience is:
+choose options → generate → edit text only → export
+Not design.
+Single Replit AI Prompt (Build All Of This)
+Copy/paste this exact prompt into Replit AI:
+Implement a template-driven Product Generator with 3 modes (Guided default, Template Edit, Advanced Canvas) and multiple color themes.
+
+GOALS
+- User should not have to design layouts manually.
+- User selects: Template + Topic + Tier + Region + Target page length + Theme, then clicks Generate.
+- System builds a complete multi-page draft with premade layouts: cover, dividers, sections, pagination, headers/footers, and exports.
+- User can optionally switch to Advanced Canvas mode to manually adjust layouts.
+- User can optionally edit templates (admin only) and save them as reusable blueprints.
+- User can change color themes at any time to re-skin the entire product.
+
+A) ROUTES + ENTRY POINTS
+1) Add /admin/product-generator as the main entry.
+2) From Store page + admin store/product pages, add admin-only buttons:
+   - "Open Product Generator" => /admin/product-generator
+   - "Create Product" => /admin/product-generator?template=cram
+3) Support deep links:
+   /admin/product-generator?template=cram|questions|cheatsheet|studyplan|bundle
+   &theme=pastel|minimal|bold|neutral
+   &pages=45
+   &tier=rexpn|nclexpn|rn|np
+   &region=CA|US|BOTH
+
+B) TEMPLATE BLUEPRINT SYSTEM (LOCKED LAYOUTS)
+1) Create a template registry:
+   templates: {
+     cram, questions, cheatsheet, studyplan, bundle
+   }
+2) Each template defines:
+   - pageSize, margins, baseline grid
+   - typography scale (H1/H2/body/caption)
+   - header/footer layout rules
+   - page types and their locked layout structure
+   - section order and allowed repeats
+   - estimated characters per page for budgeting
+3) Templates must be "locked" by default in Guided Mode. No drag/drop needed.
+
+C) THEMES / COLOR PRESETS
+1) Create a theme registry:
+   themes: pastel, minimal, bold, neutral (expandable)
+2) Theme controls:
+   - background gradients/patterns
+   - accent colors
+   - callout box styles
+   - table styles
+   - divider page styles
+   - cover shapes density + watermark options
+3) Apply theme across the entire document (cover + internal pages) deterministically.
+4) Add a "Switch Theme" action that re-renders all pages with the new theme without regenerating content.
+
+D) GUIDED MODE (DEFAULT) — DOCUMENT COMPILER
+1) Create a Guided Mode UI:
+   - Template selector (cards with preview thumbnails)
+   - Topic input
+   - Tier selector (REx-PN / NCLEX-PN / RN / NP)
+   - Region selector (CA / US / BOTH)
+   - Target pages slider/input (e.g., 10–80 depending on template)
+   - Theme selector (color tiles)
+   - Optional: includeQuestions toggle + number of questions
+   - Generate button
+2) On Generate:
+   - Build a structured content plan (section outline) based on template + page count target.
+   - Compute a character/token budget per section using estimated characters per page.
+   - Call AI to generate section content to fit the budgets (no filler, exam-focused).
+   - Compile pages using the template blueprint + theme:
+       cover page (beautiful, brand safe, auto-fit text)
+       TOC page (auto-generated)
+       section divider pages
+       content pages (auto pagination)
+       questions + rationales pages if enabled
+       final summary/cheatsheet page (for cram template)
+   - Run Store-Ready pipeline automatically if autoStoreReady enabled:
+       normalize spacing, auto-fit, enforce safe margins, generate exports (web PDF, print PDF, store thumbnails, promo images).
+3) After generation:
+   - User edits text in place (content editing only).
+   - No manual layout changes in Guided Mode.
+
+E) TEMPLATE EDIT MODE (ADMIN ONLY)
+1) Add "Edit Template" button (admin only) to open Template Editor.
+2) Template Editor allows:
+   - adjust margins/grid
+   - adjust typography scale
+   - adjust header/footer layout
+   - adjust allowed page layouts
+   - save template version (e.g., cram_v1, cram_pastel_v2)
+3) Provide "Lock Template" toggle.
+4) Saved templates appear in template selector.
+
+F) ADVANCED CANVAS MODE (OPTIONAL)
+1) Add toggle: "Advanced Canvas Mode"
+2) When enabled:
+   - user can drag/drop, resize, move blocks
+   - user can add/remove blocks
+   - BUT document starts from the compiled template output (not blank)
+3) Add "Reapply Theme" button that re-skins non-custom pages while preserving user edits.
+
+G) BUNDLE DEFAULT TITLE PAGES (BEAUTIFUL + BRAND SAFE)
+1) Bundle template must auto-generate:
+   - bundle cover page
+   - bundle overview page
+   - TOC with chapter links (if supported in PDF)
+   - mini cover page before each bundle item/chapter
+2) Mini covers must use the selected theme and include:
+   - chapter title
+   - short subtitle
+   - consistent shapes/watermark
+3) All title pages must auto-fit text and never overflow.
+
+H) AI SAFETY FIX
+1) Remove hard-block that causes: "AI generation is disabled..."
+2) Implement role-based enforcement:
+   - Admin always allowed to generate even if AI enabled toggle is off.
+   - Non-admin respects AI enabled toggle + quotas.
+3) Return structured errors:
+   { code: "AI_DISABLED" | "AI_QUOTA" | "AI_RATE_LIMIT", message, details }
+4) Show AI status panel in generator:
+   enabled, model, daily usage, remaining quota, last error.
+
+DELIVERABLES
+- Guided Mode works end-to-end with templates + themes + page targets.
+- Advanced Canvas optional.
+- Template Edit admin-only.
+- Theme switching re-skins whole doc.
+- Bundle auto title pages.
+- Store links + Create Product routing to generator.
+- AI block fixed for admins + better error reporting.
+UX you’ll get after this
+On your generator page you’ll have:
+Template cards (Cram Guide / Question Pack / Cheat Sheet / Study Plan / Bundle)
+Theme tiles (Pastel / Minimal / Bold / Neutral + add more)
+Page slider: “Target pages: 45”
+Button: Generate Full Draft
+Toggle: Auto Store-Ready After Generate
+Toggle: Advanced Canvas Mode
+Admin button: Edit Template
+And the output is a complete draft you just edit.
+Recommended default theme set (to start)
+Soft Pastel – 4 variants (pink, lavender, mint, sky)
+Clinical Minimal – 2 variants (blue accent, green accent)
+Bold Exam Focus – 2 variants (navy, charcoal)
+That gives you “different colour templates” immediately without creating dozens of layouts.

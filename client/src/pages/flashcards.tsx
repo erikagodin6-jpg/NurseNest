@@ -2995,7 +2995,7 @@ export default function Flashcards() {
                     className="text-sm border rounded-lg px-2 py-1"
                     data-testid="select-ai-count-mycards"
                   >
-                    {[3, 5, 10, 15, 20].map(n => <option key={n} value={n}>{n}</option>)}
+                    {[3, 5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""}</option>)}
                   </select>
                   <Button
                     onClick={mycardsAiGenerate}
