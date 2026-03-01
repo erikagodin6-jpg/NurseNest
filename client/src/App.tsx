@@ -15,7 +15,7 @@ function PreviewBanner() {
   if (!isAdmin || !previewTier) return null;
   const tierLabels: Record<string, string> = { free: "Free", rpn: "RPN Paid", rn: "RN Paid", np: "NP Paid" };
   return (
-    <div className="fixed top-0 left-0 right-0 z-[9999] bg-amber-500 text-white text-center py-1.5 px-4 text-sm font-semibold shadow-md flex items-center justify-center gap-3" data-testid="banner-preview-mode">
+    <div className="w-full bg-amber-500 text-white text-center py-1.5 px-4 text-sm font-semibold shadow-md flex items-center justify-center gap-3 relative z-[9999]" data-testid="banner-preview-mode">
       <span>Preview Mode: {tierLabels[previewTier] || previewTier}</span>
       <button
         onClick={() => setPreviewTier(null)}
