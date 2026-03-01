@@ -2437,7 +2437,42 @@ RETURN THIS EXACT STRUCTURE:
 
       const sectionMap: Record<string, any> = {};
       for (const sec of sections) {
-        sectionMap[sec.id] = sec;
+        if (sec.id) sectionMap[sec.id] = sec;
+        const titleNorm = (sec.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        if (titleNorm && !sectionMap[titleNorm]) sectionMap[titleNorm] = sec;
+        const idNorm = (sec.id || "").toLowerCase().replace(/_/g, "-");
+        if (idNorm && !sectionMap[idNorm]) sectionMap[idNorm] = sec;
+      }
+
+      const requiredSectionIds = bp.sections
+        .filter(s => s.required && s.id !== "practice-questions" && s.id !== "rationales")
+        .map(s => s.id);
+      const emptySections: string[] = [];
+      const sectionValidation: string[] = [];
+      for (const reqId of requiredSectionIds) {
+        const sec = sectionMap[reqId];
+        const blocks = sec?.blocks || [];
+        let charCount = 0;
+        let itemCount = 0;
+        for (const b of blocks) {
+          const txt = (b.text || b.body || b.content || "").toString();
+          const items = b.items || [];
+          charCount += txt.length + items.join(" ").length;
+          itemCount += items.length;
+        }
+        const ok = blocks.length >= 3 || charCount >= 800 || itemCount >= 6;
+        const label = bp.sections.find(s => s.id === reqId)?.label || reqId;
+        sectionValidation.push(`${label}: ${ok ? "OK" : "EMPTY"} (${blocks.length} blocks, ${charCount} chars)`);
+        if (!ok) emptySections.push(label);
+      }
+
+      if (emptySections.length > 0) {
+        const report = sectionValidation.join("\n");
+        throw new Error(
+          `EMPTY_SECTION: ${emptySections.length} required sections have no content: ${emptySections.join(", ")}.\n\n` +
+          `Section report:\n${report}\n\n` +
+          `The AI model did not generate usable content for these sections. Try a more specific topic or retry.`
+        );
       }
 
       setCompileStep("compile");
@@ -2493,19 +2528,13 @@ RETURN THIS EXACT STRUCTURE:
           });
           await savePage(secDef?.label || step.sectionId, divObjs);
         } else if (step.type === "section") {
-          const sec = sectionMap[step.sectionId];
+          const sec = sectionMap[step.sectionId]
+            || sectionMap[step.sectionId.replace(/_/g, "-")]
+            || sections.find((s: any) => s.id === step.sectionId || (s.title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") === step.sectionId);
           if (sec?.blocks?.length > 0) {
             const contentPages = renderBlocksToPages(sec.blocks, sec.title || step.sectionId, theme);
             for (const pageObjects of contentPages) {
               await savePage(sec.title || step.sectionId, pageObjects);
-            }
-          } else {
-            const fallback = sections.find(s => s.id === step.sectionId || s.title?.toLowerCase().includes(step.sectionId.replace(/-/g, " ")));
-            if (fallback?.blocks?.length > 0) {
-              const contentPages = renderBlocksToPages(fallback.blocks, fallback.title || step.sectionId, theme);
-              for (const pageObjects of contentPages) {
-                await savePage(fallback.title || step.sectionId, pageObjects);
-              }
             }
           }
         } else if (step.type === "questions") {
