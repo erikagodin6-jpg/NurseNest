@@ -1000,6 +1000,11 @@ export function DeckView({
               </Button>
             </>
           )}
+          {!user && (
+            <Button variant="outline" onClick={() => setLocation("/signup")} className="rounded-xl gap-2 border-primary/30 text-primary hover:bg-primary/5" data-testid="button-guest-save-deck">
+              <UserPlus className="w-4 h-4" /> Create Account to Save
+            </Button>
+          )}
           {isOwner && !currentDeck.isUpgraded && (
             <Button
               variant="outline"
