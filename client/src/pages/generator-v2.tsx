@@ -438,7 +438,9 @@ export default function GeneratorV2Page() {
         const product = await res.json();
         toast({ title: "Published to store with PDF", description: `"${product.title}" is live with ${product.pdfPages} pages + preview` });
         setPublishOpen(false);
+        if (activeGenId) archiveGeneration(activeGenId);
         loadStoreProducts();
+        loadGenerations();
       } else {
         const err = await res.json();
         toast({ title: "Publish Error", description: err.error, variant: "destructive" });
