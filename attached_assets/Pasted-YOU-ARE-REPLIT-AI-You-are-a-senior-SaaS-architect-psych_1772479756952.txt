@@ -1,0 +1,332 @@
+YOU ARE REPLIT AI.
+
+You are a senior SaaS architect, psychometric systems engineer, exam item writer, growth strategist, and SEO architect working inside the NurseNest codebase (Vite + React + Express + DB + Stripe).
+
+OBJECTIVE:
+Build an enterprise-level Allied Health Exam Platform on the subdomain:
+
+allied.nursenest.ca
+
+This system must rival or exceed major exam-prep competitors in quality, analytics, adaptive logic, content depth, and SEO — while remaining fully isolated from the nursing platform.
+
+DO NOT MODIFY:
+- Nursing routes
+- Nursing Stripe products
+- Nursing sitemap
+- Nursing SEO
+- Nursing UI
+- Nursing paywalls
+
+All Allied content must be isolated by hostname.
+
+====================================================================
+SECTION 1 — SUBDOMAIN ISOLATION + ROUTING
+====================================================================
+
+1. Detect hostname:
+   If hostname starts with "allied." render AlliedApp.
+   Otherwise render NursingApp unchanged.
+
+2. Redirect rules:
+   - Allied-only routes redirect from main domain → allied subdomain.
+   - Nursing-only routes redirect from allied → main domain.
+
+3. Separate:
+   - Allied sitemap
+   - Allied robots.txt
+   - Allied navigation
+   - Allied Stripe products
+   - Allied content filtering via careerType
+
+====================================================================
+SECTION 2 — ALLIED CAREERS
+====================================================================
+
+Implement 5 careers:
+- rrt
+- paramedic
+- pharmacyTech
+- mlt
+- imaging
+
+Each career must include:
+- /:careerSlug
+- /:careerSlug/qbank
+- /:careerSlug/mock-exams
+- /:careerSlug/cat-exams
+- /:careerSlug/flashcards
+- /:careerSlug/lessons
+- /:careerSlug/sims
+- /:careerSlug/study-plan
+
+====================================================================
+SECTION 3 — ENTERPRISE QUESTION GENERATION PIPELINE
+====================================================================
+
+Build a 5-layer production pipeline:
+
+LAYER 1: Blueprint Governance
+- Versioned blueprint per career
+- Domain weights
+- Subtopics
+- Question type mix
+- Difficulty distribution
+- Cognitive distribution targets
+
+LAYER 2: Controlled Batch Generation
+- Max 100 per batch
+- Must reference blueprint
+- Must tag careerType
+- Must meet type/difficulty/cognitive targets
+
+LAYER 3: HARD VALIDATION GATES
+Reject question if:
+
+- Rationale < 600 words (hard fail)
+- Duplicate similarity > 0.80
+- Missing learningObjective
+- Missing distractor rationales
+- Uses “all of the above”
+- Recall-only > 30% per batch
+- Analysis-level < 20% per batch
+- Blueprint domain under-covered
+
+Each question must include:
+
+- learningObjective
+- blueprintCategory
+- subtopic
+- difficulty (1–5)
+- cognitiveLevel
+- questionType
+- stem
+- options
+- correctAnswer
+- rationaleLong (MINIMUM 600 WORDS)
+- examTrap explanation
+- clinicalPearls (3–5)
+- safetyNote (if applicable)
+- distractorRationales
+- is_free
+
+Rationale must include:
+- Clinical reasoning walkthrough
+- Why correct answer is correct
+- Why each distractor is wrong
+- Pathophysiology explanation
+- “How exam writers try to trick you”
+- Scenario variation explanation
+- Priority/escalation logic
+
+LAYER 4: Human Sampling Support
+- Admin review sample every 200 questions
+- Editable revision queue
+
+LAYER 5: Continuous Data Feedback
+- Track performance metrics
+- Flag weak items
+- Auto-adjust blueprint emphasis
+
+====================================================================
+SECTION 4 — ADAPTIVE (CAT-STYLE) EXAM ENGINE
+====================================================================
+
+Implement “Adaptive Exam (CAT-style practice)” per career.
+
+Rules:
+
+- Start difficulty = 3
+- Update ability estimate per question
+- Adjust difficulty ±1
+- Maintain blueprint weight compliance
+- Avoid recently seen items
+- Stop rules:
+   - Minimum 75 questions
+   - Maximum 150
+   - Optional confidence threshold
+
+Exam types per career:
+- 50-question mini mock
+- 100-question full mock
+- 150-question marathon
+- Adaptive mode
+
+Post-exam:
+- Score report
+- Domain mastery
+- Weak areas
+- Readiness score
+- Option to generate flashcards from missed questions
+
+====================================================================
+SECTION 5 — READINESS SCORE ENGINE
+====================================================================
+
+Calculate:
+
+readinessScore =
+(0.35 × weightedAccuracy) +
+(0.20 × blueprintCoverageScore) +
+(0.15 × adaptivePerformanceTrend) +
+(0.15 × domainBalanceScore) +
+(0.15 × recencyScore)
+
+Weighted accuracy must use difficulty multipliers:
+1=0.5, 2=0.75, 3=1.0, 4=1.25, 5=1.5
+
+Display readiness bands:
+- 0–49 High Risk
+- 50–64 Needs Work
+- 65–79 Borderline
+- 80–89 Likely Ready
+- 90–100 Strong Performance
+
+Must include disclaimer:
+“Exam readiness estimate based on platform performance.”
+
+Store readiness history over time.
+
+====================================================================
+SECTION 6 — DISCRIMINATION INDEX (ITEM QUALITY)
+====================================================================
+
+After 50+ attempts per item:
+
+- Split top 27% vs bottom 27%
+- Compute D index:
+
+D = (% correct high group) - (% correct low group)
+
+Auto-flag:
+- D < 0.20
+- Negative D
+- >90% correct
+- <20% correct
+
+Create Admin “Revision Queue”.
+
+Hide negative D items from adaptive mode automatically.
+
+====================================================================
+SECTION 7 — FLASHCARD ENGINE (AUTO-GENERATED)
+====================================================================
+
+After each committed question:
+
+Auto-generate:
+- Definition card
+- Clinical decision rule card
+- Red flag card (if applicable)
+
+After each exam:
+- Generate flashcard deck from incorrect questions
+- Allow spaced repetition study
+- Store linked examSessionId
+
+====================================================================
+SECTION 8 — LESSONS + MODULES (COMPLETE SYSTEM)
+====================================================================
+
+Per career:
+
+- 15 modules
+- 10 lessons per module
+- Each lesson includes:
+   - Objectives
+   - Most-tested bullets
+   - Red flags
+   - Linked QBank items
+   - Linked flashcards
+   - Mini module quiz
+   - Related case sim
+
+====================================================================
+SECTION 9 — ALLIED STORE
+====================================================================
+
+Create:
+- Cram bundles
+- Mock exam packs
+- Flashcard packs
+- Scenario vault
+- Allied Pro subscription
+
+Stripe must be separate from nursing.
+
+Allow theme selection for PDF downloads.
+
+====================================================================
+SECTION 10 — ENTERPRISE SEO + MARKETING SYSTEM
+====================================================================
+
+For each career create SEO landing pages:
+
+- /rrt-practice-questions
+- /rrt-mock-exam
+- /rrt-exam-prep-guide
+- /rrt-study-plan
+(repeat per career)
+
+Each page:
+- 1,500+ words
+- Structured H1/H2
+- FAQ schema
+- Internal linking
+- Conversion CTAs
+- Lead capture form
+
+Sitemap:
+- /sitemap-allied.xml
+Include public routes only.
+
+Robots:
+- Disallow /api /admin /account /checkout /payload routes
+- Include sitemap reference
+
+====================================================================
+SECTION 11 — ANALYTICS DASHBOARD
+====================================================================
+
+Show:
+
+- Total questions per career
+- Blueprint coverage %
+- Difficulty distribution
+- Cognitive distribution
+- Duplicate rejection rate
+- Average rationale word count
+- Discrimination index table
+- Revision queue
+- Readiness trend graph
+- Domain mastery heatmap
+
+====================================================================
+SECTION 12 — SEED CONTENT (MVP)
+====================================================================
+
+Per career:
+- 250 questions (validated)
+- 200 flashcards
+- 5 modules
+- 5 sims
+- 3 mock templates
+
+System must scale to:
+- 4,000 questions per career
+- 2,000 flashcards
+- 100 sims
+
+====================================================================
+FINAL REQUIREMENTS
+====================================================================
+
+- Provide files changed summary.
+- Provide seed instructions.
+- Provide location of blueprint editor.
+- Provide location of analytics dashboard.
+- Ensure no nursing contamination.
+- Ensure paywalls enforced server-side.
+- Ensure no copyrighted content.
+
+BUILD THIS ENTERPRISE ALLIED PLATFORM.
+END.
