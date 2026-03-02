@@ -568,21 +568,34 @@ function LocaleRouter() {
   );
 }
 
+function handleDevModeSwitch(): void {
+  const isDev = window.location.hostname.includes("replit") ||
+    window.location.hostname === "localhost" ||
+    window.location.hostname.includes("0.0.0.0") ||
+    window.location.hostname.includes("webcontainer");
+  if (!isDev) return;
+  localStorage.removeItem("nursenest_allied_mode");
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+  if (mode === "allied") {
+    localStorage.setItem("nursenest_site_mode", "allied");
+    window.location.replace(window.location.pathname);
+    return;
+  }
+  if (mode === "nursing") {
+    localStorage.removeItem("nursenest_site_mode");
+    window.location.replace(window.location.pathname);
+    return;
+  }
+}
+
+handleDevModeSwitch();
+
 function isAlliedHostname(): boolean {
   const h = window.location.hostname.toLowerCase();
   if (h.startsWith("allied.") || h === "allied.localhost" || h === "allied.nursenest.ca") return true;
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("mode") === "allied") {
-    localStorage.setItem("nursenest_allied_mode", "1");
-    window.history.replaceState({}, "", window.location.pathname);
-    return true;
-  }
-  if (params.get("mode") === "nursing") {
-    localStorage.removeItem("nursenest_allied_mode");
-    window.history.replaceState({}, "", window.location.pathname);
-    return false;
-  }
-  if (localStorage.getItem("nursenest_allied_mode") === "1") return true;
+  const isDev = h.includes("replit") || h === "localhost" || h.includes("0.0.0.0");
+  if (isDev && localStorage.getItem("nursenest_site_mode") === "allied") return true;
   return false;
 }
 
