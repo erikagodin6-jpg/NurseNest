@@ -6,6 +6,7 @@ import {
   BarChart3, Clock, Shield
 } from "lucide-react";
 import { useState } from "react";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 interface SEOPageConfig {
   slug: string;
@@ -275,6 +276,32 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
 
   return (
     <div data-testid={`seo-landing-${page.slug}`}>
+      <AlliedSEO
+        title={page.title}
+        description={page.metaDescription}
+        canonicalPath={`/${page.slug}`}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": page.faqs.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": f.a
+            }
+          }))
+        }}
+        additionalStructuredData={[{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://allied.nursenest.ca/" },
+            { "@type": "ListItem", "position": 2, "name": career?.name || "Allied Health", "item": `https://allied.nursenest.ca/career/${page.careerSlug}` },
+            { "@type": "ListItem", "position": 3, "name": page.h1, "item": `https://allied.nursenest.ca/${page.slug}` }
+          ]
+        }]}
+      />
       <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-teal-900 text-white py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm text-teal-300 mb-6">

@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.rrt, Icon: Wind },
@@ -51,6 +52,18 @@ export default function AlliedHomePage() {
 
   return (
     <div data-testid="allied-home-page">
+      <AlliedSEO
+        title="Allied Health Exam Prep - QBanks, Mock Exams & AI Study Tools"
+        description="Prepare for your allied health certification with career-specific question banks, adaptive mock exams, flashcards, AI study tools, and personalized study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging."
+        keywords="allied health exam prep, RRT exam, paramedic exam, pharmacy tech exam, MLT exam, medical imaging exam, healthcare certification, NBRC, NREMT, PTCB, CSMLS, CAMRT, question bank, mock exam, study tools"
+        canonicalPath="/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "NurseNest Allied - Healthcare Exam Academy",
+          "url": "https://allied.nursenest.ca"
+        }}
+      />
       <section className="relative overflow-hidden py-16 sm:py-24 lg:py-32" data-testid="allied-hero">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/50 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

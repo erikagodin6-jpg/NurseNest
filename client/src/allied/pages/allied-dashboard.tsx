@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { AlliedSEO } from "@/allied/allied-seo";
 import { BarChart3, Target, TrendingUp, Clock, Flame, Calendar, ChevronRight, BookOpen, Award } from "lucide-react";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
@@ -27,6 +28,13 @@ export default function AlliedDashboardPage() {
   const daysUntilExam = examDate ? Math.max(0, Math.ceil((new Date(examDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))) : null;
 
   return (
+    <>
+    <AlliedSEO
+      title={`${career.name} Dashboard - Performance Analytics`}
+      description={`Track your ${career.name} exam preparation progress. View domain mastery, accuracy trends, study streaks, and weak-area analysis for ${career.examNames[0]} certification.`}
+      keywords={`${career.name} dashboard, ${career.name} progress tracker, ${career.examNames[0]} analytics, exam readiness, study progress`}
+      canonicalPath={`/career/${params.careerSlug}/dashboard`}
+    />
     <div className="max-w-7xl mx-auto px-4 py-8" data-testid="allied-dashboard-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
@@ -119,5 +127,6 @@ export default function AlliedDashboardPage() {
         <p className="text-xs text-gray-500 mt-2">This is an estimated readiness indicator and does not guarantee exam results.</p>
       </div>
     </div>
+    </>
   );
 }

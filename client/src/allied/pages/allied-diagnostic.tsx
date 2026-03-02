@@ -8,7 +8,7 @@ import {
   BarChart3, Target, TrendingUp, AlertTriangle, Crown, Clock,
   ChevronRight, Shield, Zap
 } from "lucide-react";
-import { useAlliedCanonical } from "@/allied/use-allied-canonical";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt,
@@ -67,7 +67,6 @@ export default function AlliedDiagnostic() {
   const searchString = useSearch();
   const careerSlug = new URLSearchParams(searchString).get("career") || "";
   const career = ALLIED_CAREER_MAP[careerSlug];
-  useAlliedCanonical("/diagnostic", career ? { career: career.slug } : undefined);
 
   const [phase, setPhase] = useState<Phase>("intro");
   const [questions, setQuestions] = useState<CareerQuestion[]>([]);
@@ -190,6 +189,11 @@ export default function AlliedDiagnostic() {
   if (!career) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+        <AlliedSEO
+          title="Allied Health Diagnostic Assessment"
+          description="Take a free diagnostic assessment for allied health certification exams. Identify your strengths and weak areas for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging."
+          canonicalPath="/diagnostic"
+        />
         <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">Career Not Found</h1>
         <p className="text-gray-600 mb-6">We don't have a diagnostic for this career path yet.</p>
         <Link href="/careers" className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-browse-careers">
@@ -202,6 +206,12 @@ export default function AlliedDiagnostic() {
   if (phase === "intro") {
     return (
       <div className="min-h-[70vh] flex items-center justify-center px-4">
+        <AlliedSEO
+          title={`${career.name} Diagnostic Assessment - Test Your Readiness`}
+          description={`Take a free 15-question ${career.name} diagnostic assessment. Get your readiness score, identify weak areas, and receive a personalized study recommendation for ${career.examNames[0]} exam prep.`}
+          keywords={`${career.name} diagnostic test, ${career.name} readiness assessment, ${career.examNames[0]} practice test, ${career.name} exam readiness`}
+          canonicalPath={`/diagnostic?career=${career.slug}`}
+        />
         <div className="max-w-xl w-full text-center space-y-8">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-200" data-testid="badge-free-diagnostic">

@@ -6,7 +6,7 @@ import {
   HelpCircle, DollarSign, Shield, Star, TrendingUp, Award
 } from "lucide-react";
 import { useState } from "react";
-import { useAlliedCanonical } from "@/allied/use-allied-canonical";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt,
@@ -66,7 +66,6 @@ const FAQ_DATA = [
 export default function CareerLandingPage() {
   const params = useParams<{ careerSlug: string }>();
   const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
-  useAlliedCanonical(career ? `/careers/${career.slug}` : "/careers");
 
   if (!career) {
     return (
@@ -80,6 +79,23 @@ export default function CareerLandingPage() {
 
   return (
     <div data-testid={`career-landing-${career.slug}`}>
+      <AlliedSEO
+        title={`${career.name} Exam Prep - QBank, Mock Exams & Study Tools`}
+        description={`Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, AI study tools, and a personalized study plan. Covers all ${career.examNames[0]} exam domains.`}
+        keywords={`${career.name} exam prep, ${career.examNames[0]} exam, ${career.name} practice questions, ${career.name} mock exam, ${career.name} study guide, ${career.name} flashcards, ${career.name} certification`}
+        canonicalPath={`/career/${params.careerSlug}`}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": `${career.name} Certification Prep`,
+          "description": `Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, AI study tools, and a personalized study plan.`,
+          "provider": {
+            "@type": "Organization",
+            "name": "NurseNest Allied",
+            "url": "https://allied.nursenest.ca"
+          }
+        }}
+      />
       {/* Hero Section */}
       <section className="relative py-16 sm:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/30 to-white" />

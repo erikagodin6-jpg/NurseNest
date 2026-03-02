@@ -4,6 +4,7 @@ import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Target, AlertTriangle, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
@@ -40,6 +41,15 @@ export default function AlliedMockExamsPage() {
   if (!career) {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
   }
+
+  const mockExamSeo = (
+    <AlliedSEO
+      title={`${career.name} Mock Exams - Full-Length Practice Tests`}
+      description={`Take full-length ${career.name} mock exams with adaptive CAT simulation. Blueprint-weighted, timed practice with detailed domain-level performance analytics for ${career.examNames[0]} certification.`}
+      keywords={`${career.name} mock exam, ${career.name} practice test, ${career.examNames[0]} mock exam, ${career.name} timed exam, ${career.name} CAT simulation`}
+      canonicalPath={`/career/${params.careerSlug}/mock-exams`}
+    />
+  );
 
   const startExam = (examId: string) => {
     const examType = EXAM_TYPES.find(e => e.id === examId);
@@ -107,6 +117,7 @@ export default function AlliedMockExamsPage() {
 
     return (
       <div className="max-w-3xl mx-auto px-4 py-12" data-testid="exam-results">
+        {mockExamSeo}
         <h1 className="text-2xl font-bold text-gray-900 mb-2 text-center">Exam Complete</h1>
         <p className="text-gray-600 text-center mb-8">{career.shortName} Mock Exam Results</p>
         <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center mb-8">
@@ -151,6 +162,7 @@ export default function AlliedMockExamsPage() {
 
     return (
       <div className="max-w-4xl mx-auto px-4 py-6" data-testid="exam-session">
+        {mockExamSeo}
         <div className="bg-white rounded-xl border border-gray-100 p-4 mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4 text-sm">
             <span className="font-medium text-gray-700">Q {currentIdx + 1}/{questions.length}</span>
@@ -199,6 +211,7 @@ export default function AlliedMockExamsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="mock-exams-page">
+      {mockExamSeo}
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />

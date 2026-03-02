@@ -3,6 +3,7 @@ import { useParams, Link } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { Zap, ChevronRight, ArrowRight, CheckCircle2, AlertTriangle, Clock, User } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
@@ -91,6 +92,15 @@ export default function AlliedSimsPage() {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
   }
 
+  const seoElement = (
+    <AlliedSEO
+      title={`${career.name} Case Simulations - Clinical Scenarios`}
+      description={`Practice ${career.name} clinical decision-making with unfolding case simulations. Realistic patient scenarios that mirror ${career.examNames[0]} exam formats and build critical thinking skills.`}
+      keywords={`${career.name} case simulations, ${career.name} clinical scenarios, ${career.examNames[0]} case studies, clinical decision making, ${career.name} exam practice`}
+      canonicalPath={`/career/${params.careerSlug}/sims`}
+    />
+  );
+
   const sim = getSampleSim(career);
   const stage = sim.stages[stageIdx];
 
@@ -114,6 +124,7 @@ export default function AlliedSimsPage() {
   if (completed) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center" data-testid="sim-debrief">
+        {seoElement}
         <CheckCircle2 className="w-16 h-16 text-teal-500 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Case Complete</h1>
         <p className="text-gray-600 mb-4">{sim.title}</p>
@@ -130,6 +141,7 @@ export default function AlliedSimsPage() {
   if (!started) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8" data-testid="allied-sims-page">
+        {seoElement}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
@@ -163,6 +175,7 @@ export default function AlliedSimsPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8" data-testid="sim-session">
+      {seoElement}
       <div className="flex items-center justify-between mb-6">
         <span className="text-sm text-gray-500">Stage {stageIdx + 1} of {sim.stages.length}</span>
         <span className="text-sm font-medium text-teal-700">{sim.title}</span>

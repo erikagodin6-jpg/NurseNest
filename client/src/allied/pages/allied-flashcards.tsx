@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { AlliedSEO } from "@/allied/allied-seo";
 import { Brain, ChevronRight, RotateCcw, ChevronLeft, ChevronRight as ChevronRightIcon, ThumbsUp, ThumbsDown, Eye } from "lucide-react";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
@@ -86,6 +87,13 @@ export default function AlliedFlashcardsPage() {
   };
 
   return (
+    <>
+    <AlliedSEO
+      title={`${career.name} Flashcards - Spaced Repetition Study Cards`}
+      description={`Master ${career.name} concepts with spaced repetition flashcards. Key terms, drug dosages, clinical procedures, and exam-critical facts across all ${career.examNames[0]} domains.`}
+      keywords={`${career.name} flashcards, ${career.name} study cards, ${career.examNames[0]} flashcards, spaced repetition, ${career.name} exam review`}
+      canonicalPath={`/career/${params.careerSlug}/flashcards`}
+    />
     <div className="max-w-3xl mx-auto px-4 py-8" data-testid="allied-flashcards-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
@@ -151,5 +159,6 @@ export default function AlliedFlashcardsPage() {
         </button>
       </div>
     </div>
+    </>
   );
 }

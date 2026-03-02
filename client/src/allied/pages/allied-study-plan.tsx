@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { AlliedSEO } from "@/allied/allied-seo";
 import { GraduationCap, Calendar, Clock, Target, ChevronRight, CheckCircle2, BookOpen, Brain, FileText, Zap } from "lucide-react";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
@@ -44,6 +45,13 @@ export default function AlliedStudyPlanPage() {
   }));
 
   return (
+    <>
+    <AlliedSEO
+      title={`${career.name} Study Plan - AI-Powered Exam Preparation`}
+      description={`Get a personalized AI-generated ${career.name} study plan. Daily targets, weak-area focus, and domain-level scheduling optimized for your ${career.examNames[0]} exam date.`}
+      keywords={`${career.name} study plan, ${career.name} study schedule, ${career.examNames[0]} exam prep plan, AI study planner, ${career.name} exam preparation`}
+      canonicalPath={`/career/${params.careerSlug}/study-plan`}
+    />
     <div className="max-w-4xl mx-auto px-4 py-8" data-testid="allied-study-plan-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
@@ -117,5 +125,6 @@ export default function AlliedStudyPlanPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

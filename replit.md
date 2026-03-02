@@ -83,6 +83,7 @@ The allied subdomain is a separate frontend shell (`client/src/allied/`) with it
 Key allied files:
 - `client/src/allied/allied-app.tsx` - Allied app shell
 - `client/src/allied/allied-routes.tsx` - All allied route definitions
+- `client/src/allied/allied-seo.tsx` - AlliedSEO component for meta tags (uses allied.nursenest.ca domain)
 - `client/src/allied/pages/allied-admin.tsx` - 5-layer content pipeline factory (blueprints, generator, validation, revision queue, analytics)
 - `server/allied-middleware.ts` - Hostname detection, host redirects, robots.txt, sitemap
 - `server/allied-pipeline.ts` - Allied content pipeline API (blueprints, batch generation, validation, flashcard auto-gen, analytics, revision queue, leads)

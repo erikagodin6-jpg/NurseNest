@@ -2,6 +2,7 @@ import { useParams, Link } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { Wrench, ChevronRight, ArrowRight, Lock, Zap, Calculator, Activity, Microscope, Radio } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
@@ -36,6 +37,12 @@ export default function AlliedToolsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-tools-page">
+      <AlliedSEO
+        title={`${career.name} AI Study Tools - Interactive Learning`}
+        description={`Career-specific AI-powered study tools for ${career.name} exam prep. Interactive calculators, simulators, and practice engines designed for ${career.examNames[0]} certification success.`}
+        keywords={`${career.name} study tools, ${career.name} AI tools, ${career.examNames[0]} interactive tools, ${career.name} calculators, ${career.name} simulators`}
+        canonicalPath={`/career/${params.careerSlug}/tools`}
+      />
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />

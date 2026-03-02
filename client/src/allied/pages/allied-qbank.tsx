@@ -4,7 +4,7 @@ import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { BookOpen, Filter, ChevronRight, CheckCircle2, XCircle, Clock, Zap, ChevronLeft, Lock, RotateCcw, Flag, Bookmark, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
-import { useAlliedCanonical } from "@/allied/use-allied-canonical";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt,
@@ -18,7 +18,6 @@ export default function AlliedQBankPage() {
   const searchString = useSearch();
   const careerSlug = new URLSearchParams(searchString).get("career") || "";
   const career = ALLIED_CAREER_MAP[careerSlug];
-  useAlliedCanonical("/qbank", career ? { career: career.slug } : undefined);
   const { user } = useAuth();
 
   const [questions, setQuestions] = useState<any[]>([]);
@@ -66,7 +65,16 @@ export default function AlliedQBankPage() {
   }, [rapidDrill]);
 
   if (!career) {
-    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1><Link href="/careers" className="text-teal-600 mt-4 inline-block">Browse Careers</Link></div>;
+    return (
+      <>
+        <AlliedSEO
+          title="Allied Health Question Bank"
+          description="Browse allied health question banks for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certification exam prep. Practice with detailed rationales and adaptive difficulty."
+          canonicalPath="/qbank"
+        />
+        <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1><Link href="/careers" className="text-teal-600 mt-4 inline-block">Browse Careers</Link></div>
+      </>
+    );
   }
 
   const current = questions[currentIndex];
@@ -122,6 +130,13 @@ export default function AlliedQBankPage() {
   };
 
   return (
+    <>
+    <AlliedSEO
+      title={`${career.name} Question Bank - Practice Questions with Rationales`}
+      description={`Practice ${career.name} certification questions with 600+ word rationales. Adaptive difficulty, domain-level tracking, and weak-area targeting for ${career.examNames[0]} exam prep.`}
+      keywords={`${career.name} practice questions, ${career.name} question bank, ${career.examNames[0]} questions, ${career.name} exam prep, healthcare certification questions`}
+      canonicalPath={`/qbank?career=${career.slug}`}
+    />
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-qbank-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
@@ -329,5 +344,6 @@ export default function AlliedQBankPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

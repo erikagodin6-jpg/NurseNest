@@ -4,6 +4,7 @@ import { CheckCircle2, Star, Zap, ArrowRight, Lock, XCircle, Shield, BookOpen, B
 import { useAuth } from "@/lib/auth";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const PLANS = [
   {
@@ -119,6 +120,12 @@ export default function AlliedPricingPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12" data-testid="allied-pricing-page">
+      <AlliedSEO
+        title="Allied Health Pro Pricing - Unlimited Exam Prep Access"
+        description="Get unlimited access to allied health exam prep tools. Free tier includes 5 questions per career and 1 mini mock. Pro unlocks full QBank, adaptive exams, AI tools, flashcards, and study plans. Starting at $29/month."
+        keywords="allied health exam prep pricing, healthcare certification cost, RRT exam prep price, paramedic exam prep price, pharmacy tech exam prep price, NurseNest Allied Pro"
+        canonicalPath="/pricing"
+      />
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-2 bg-teal-100/80 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium mb-4">
           <Star className="w-4 h-4" />

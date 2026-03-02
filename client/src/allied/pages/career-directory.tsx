@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { CAREER_CONFIGS } from "@shared/careers";
 import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench } from "lucide-react";
+import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.rrt, Icon: Wind },
@@ -13,6 +14,19 @@ const ALLIED_CAREERS = [
 export default function CareerDirectoryPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="career-directory-page">
+      <AlliedSEO
+        title="Allied Health Career Directory - Choose Your Certification Path"
+        description="Browse all allied health career paths. Access tailored question banks, mock exams, flashcards, AI tools, and study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certifications."
+        keywords="allied health careers, healthcare careers directory, RRT career, paramedic career, pharmacy technician career, MLT career, medical imaging career, certification prep"
+        canonicalPath="/careers"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Allied Health Career Directory",
+          "url": "https://allied.nursenest.ca/careers",
+          "description": "Browse all allied health career paths. Access tailored question banks, mock exams, flashcards, AI tools, and study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certifications."
+        }}
+      />
       <div className="text-center mb-12">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-directory-title">Allied Health Career Directory</h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">Choose your certification path. Each career includes a full question bank, mock exams, flashcards, AI tools, and a personalized study planner.</p>
