@@ -3,7 +3,7 @@ import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Play, Pause, FileDown, ArrowLeft, RefreshCw, Loader2, ShoppingBag, DollarSign, Trash2, Package, X, Store, Eye, EyeOff, Download, Edit3, Check, XCircle, ChevronDown, ChevronUp, Sparkles, AlertTriangle } from "lucide-react";
+import { Play, Pause, FileDown, ArrowLeft, RefreshCw, Loader2, ShoppingBag, DollarSign, Trash2, Package, X, Store, Eye, EyeOff, Download, Edit3, Check, XCircle, ChevronDown, ChevronUp, Sparkles, AlertTriangle, Archive, RotateCcw, Zap } from "lucide-react";
 
 const THEMES = [
   { id: "soft-clinical", name: "Soft Clinical", primaryColor: "#7c3aed", secondaryColor: "#06b6d4", accentColor: "#f59e0b", coverBg: "#7c3aed" },
@@ -172,6 +172,16 @@ export default function GeneratorV2Page() {
   const [savingQuestion, setSavingQuestion] = useState(false);
 
   const [showThemes, setShowThemes] = useState(false);
+
+  const [archivedIds, setArchivedIds] = useState<string[]>(() => {
+    try { return JSON.parse(localStorage.getItem("nursenest-archived-gens") || "[]"); } catch { return []; }
+  });
+  const [showArchived, setShowArchived] = useState(false);
+  const [publishOnComplete, setPublishOnComplete] = useState(false);
+  const [presetPrice, setPresetPrice] = useState("19.99");
+  const [presetCompareAt, setPresetCompareAt] = useState("29.99");
+  const [runningIds, setRunningIds] = useState<Set<string>>(new Set());
+  const multiPollRef = useRef<Map<string, ReturnType<typeof setInterval>>>(new Map());
 
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -492,6 +502,84 @@ export default function GeneratorV2Page() {
     setCreatingBundle(false);
   };
 
+  const archiveGeneration = (id: string) => {
+    const updated = [...archivedIds, id];
+    setArchivedIds(updated);
+    localStorage.setItem("nursenest-archived-gens", JSON.stringify(updated));
+    if (activeGenId === id) { setActiveGenId(null); setStatus(null); setQuestions([]); }
+    toast({ title: "Moved to archive" });
+  };
+
+  const unarchiveGeneration = (id: string) => {
+    const updated = archivedIds.filter(a => a !== id);
+    setArchivedIds(updated);
+    localStorage.setItem("nursenest-archived-gens", JSON.stringify(updated));
+    toast({ title: "Restored from archive" });
+  };
+
+  const runMultiGeneration = async (id: string) => {
+    try {
+      const res = await adminFetch(`/api/generator-v2/generations/${id}/run`, {
+        method: "POST", body: JSON.stringify({}),
+      });
+      if (res.ok) {
+        setRunningIds(prev => new Set([...prev, id]));
+        toast({ title: "Generation started", description: `Job ${id.substring(0, 8)}...` });
+        const pollId = setInterval(async () => {
+          try {
+            const sRes = await adminFetch(`/api/generator-v2/generations/${id}/status`);
+            if (sRes.ok) {
+              const sData = await sRes.json();
+              if (activeGenId === id) setStatus(sData);
+              if (!sData.isRunning && (sData.status === "complete" || sData.status === "failed" || sData.status === "paused")) {
+                clearInterval(pollId);
+                multiPollRef.current.delete(id);
+                setRunningIds(prev => { const n = new Set(prev); n.delete(id); return n; });
+                loadGenerations();
+                if (sData.status === "complete" && publishOnComplete) {
+                  autoPublishGeneration(id, sData);
+                }
+              }
+            }
+          } catch {}
+        }, 3000);
+        multiPollRef.current.set(id, pollId);
+      } else {
+        const err = await res.json();
+        toast({ title: "Error", description: err.error, variant: "destructive" });
+      }
+    } catch (e: any) {
+      toast({ title: "Error", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const autoPublishGeneration = async (genId: string, genStatus: Generation) => {
+    try {
+      const templateLabel = template === "premium_exam_pack" ? "Premium Exam Pack" : template === "ngn_case_pack" ? "NGN Case Pack" : "Question Pack";
+      const autoTitle = `${genStatus.topic} - ${genStatus.examTarget?.toUpperCase() || "REx-PN"} ${templateLabel}`;
+      const autoDesc = `${genStatus.createdCount} expertly crafted ${genStatus.examTarget?.toUpperCase() || "REx-PN"} practice questions covering ${genStatus.topic}. Includes detailed rationales, clinical pearls, and exam strategies.`;
+      const res = await adminFetch(`/api/generator-v2/generations/${genId}/publish-with-pdf`, {
+        method: "POST",
+        body: JSON.stringify({
+          title: autoTitle, description: autoDesc,
+          priceDollars: presetPrice, compareAtDollars: presetCompareAt || undefined,
+          category: template === "ngn_case_pack" ? "case-pack" : "question-pack",
+          tierTarget: tier, examTarget: genStatus.examTarget || undefined,
+          featured: false, themeId: selectedTheme,
+        }),
+      });
+      if (res.ok) {
+        const product = await res.json();
+        toast({ title: "Auto-published to store", description: `"${product.title}" is now live` });
+        loadStoreProducts();
+      } else {
+        toast({ title: "Auto-publish failed", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Auto-publish failed", variant: "destructive" });
+    }
+  };
+
   const openQuestionEditor = (q: QuestionItem) => {
     setEditingQuestion(q);
     setEditStem(q.stem);
@@ -700,34 +788,95 @@ export default function GeneratorV2Page() {
                     <p className="text-[10px] text-blue-600 truncate">Instructions: {instructions.substring(0, 80)}...</p>
                   </div>
                 )}
+                <div className="border-t pt-3 mt-1 space-y-2">
+                  <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer" data-testid="toggle-publish-on-complete">
+                    <input type="checkbox" checked={publishOnComplete} onChange={e => setPublishOnComplete(e.target.checked)} className="rounded" />
+                    <Zap className="w-3 h-3 text-amber-500" /> Publish when finished
+                  </label>
+                  {publishOnComplete && (
+                    <div className="grid grid-cols-2 gap-2 pl-5">
+                      <div>
+                        <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Price ($)</label>
+                        <Input type="number" step="0.01" value={presetPrice} onChange={e => setPresetPrice(e.target.value)} className="h-7 text-xs" data-testid="input-preset-price" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Compare at ($)</label>
+                        <Input type="number" step="0.01" value={presetCompareAt} onChange={e => setPresetCompareAt(e.target.value)} className="h-7 text-xs" data-testid="input-preset-compare" />
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <Button onClick={createGeneration} disabled={creating || !topic.trim()} className="w-full" data-testid="button-create">
                   {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Create Generation Job"}
                 </Button>
               </div>
               <div className="bg-white rounded-xl border p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-sm text-gray-700">Previous Jobs</h3>
+                  <h3 className="font-semibold text-sm text-gray-700">Active Jobs</h3>
                   <Button variant="ghost" size="sm" onClick={loadGenerations} data-testid="button-refresh-jobs"><RefreshCw className="w-3 h-3" /></Button>
                 </div>
-                <div className="space-y-1 max-h-64 overflow-y-auto">
-                  {generations.map((g: any) => (
-                    <button
+                <div className="space-y-1 max-h-52 overflow-y-auto">
+                  {generations.filter(g => !archivedIds.includes(g.id)).map((g: any) => (
+                    <div
                       key={g.id}
-                      onClick={() => setActiveGenId(g.id)}
-                      className={`w-full text-left p-2 rounded-lg text-xs transition ${activeGenId === g.id ? "bg-blue-50 border border-blue-200" : "hover:bg-gray-50 border border-transparent"}`}
-                      data-testid={`button-job-${g.id.substring(0, 8)}`}
+                      className={`w-full text-left p-2 rounded-lg text-xs transition group relative ${activeGenId === g.id ? "bg-blue-50 border border-blue-200" : "hover:bg-gray-50 border border-transparent"}`}
                     >
-                      <div className="font-medium text-gray-700 truncate">{g.topic || g.template}</div>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${g.status === "complete" ? "bg-green-100 text-green-700" : g.status === "running" ? "bg-blue-100 text-blue-700" : g.status === "failed" ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`}>
-                          {g.status}
-                        </span>
-                        <span className="text-gray-400">{g.createdCount}/{g.targetCount}</span>
+                      <div className="flex items-center gap-1">
+                        <button onClick={() => setActiveGenId(g.id)} className="flex-1 text-left" data-testid={`button-job-${g.id.substring(0, 8)}`}>
+                          <div className="font-medium text-gray-700 truncate">{g.topic || g.template}</div>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${g.status === "complete" ? "bg-green-100 text-green-700" : g.status === "running" || runningIds.has(g.id) ? "bg-blue-100 text-blue-700" : g.status === "failed" ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`}>
+                              {runningIds.has(g.id) ? "running" : g.status}
+                            </span>
+                            <span className="text-gray-400">{g.createdCount}/{g.targetCount}</span>
+                          </div>
+                        </button>
+                        <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition shrink-0">
+                          {g.status !== "running" && !runningIds.has(g.id) && g.status !== "complete" && (
+                            <button onClick={() => runMultiGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-blue-500" title="Run" data-testid={`button-run-multi-${g.id.substring(0, 8)}`}>
+                              <Play className="w-3 h-3" />
+                            </button>
+                          )}
+                          {(g.status === "complete" || g.status === "failed") && (
+                            <button onClick={() => archiveGeneration(g.id)} className="p-1 rounded hover:bg-gray-200 text-gray-400" title="Archive" data-testid={`button-archive-${g.id.substring(0, 8)}`}>
+                              <Archive className="w-3 h-3" />
+                            </button>
+                          )}
+                        </div>
                       </div>
-                    </button>
+                    </div>
                   ))}
-                  {generations.length === 0 && <p className="text-xs text-gray-400 text-center py-4">No jobs yet</p>}
+                  {generations.filter(g => !archivedIds.includes(g.id)).length === 0 && <p className="text-xs text-gray-400 text-center py-4">No active jobs</p>}
                 </div>
+                {runningIds.size > 0 && (
+                  <div className="text-[10px] text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded flex items-center gap-1">
+                    <Loader2 className="w-3 h-3 animate-spin" /> {runningIds.size} job{runningIds.size !== 1 ? "s" : ""} running simultaneously
+                  </div>
+                )}
+              </div>
+              <div className="bg-white rounded-xl border p-4 space-y-2">
+                <button onClick={() => setShowArchived(!showArchived)} className="flex items-center justify-between w-full text-sm font-semibold text-gray-700" data-testid="button-toggle-archived">
+                  <span className="flex items-center gap-1.5"><Archive className="w-3.5 h-3.5 text-gray-400" /> Archived ({generations.filter(g => archivedIds.includes(g.id)).length})</span>
+                  {showArchived ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                </button>
+                {showArchived && (
+                  <div className="space-y-1 max-h-40 overflow-y-auto">
+                    {generations.filter(g => archivedIds.includes(g.id)).map((g: any) => (
+                      <div key={g.id} className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 text-xs group">
+                        <button onClick={() => setActiveGenId(g.id)} className="flex-1 text-left" data-testid={`button-archived-job-${g.id.substring(0, 8)}`}>
+                          <div className="font-medium text-gray-500 truncate">{g.topic || g.template}</div>
+                          <span className="text-gray-400">{g.createdCount}Q - {g.status}</span>
+                        </button>
+                        <button onClick={() => unarchiveGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-gray-400 opacity-0 group-hover:opacity-100 transition" title="Restore" data-testid={`button-unarchive-${g.id.substring(0, 8)}`}>
+                          <RotateCcw className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                    {generations.filter(g => archivedIds.includes(g.id)).length === 0 && (
+                      <p className="text-xs text-gray-400 text-center py-2">No archived jobs</p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 

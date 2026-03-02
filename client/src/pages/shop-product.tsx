@@ -13,9 +13,22 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   ShoppingBag, Star, Download, Shield, BookOpen, ArrowLeft,
-  ArrowRight, CheckCircle, FileText, Clock, Crown, Package,
+  ArrowRight, CheckCircle, FileText, Clock, Crown, Package, Palette,
 } from "lucide-react";
 import type { DigitalProduct } from "@shared/schema";
+
+const DOWNLOAD_THEMES = [
+  { id: "soft-clinical", name: "Soft Clinical", colors: ["#7c3aed", "#06b6d4", "#f59e0b"] },
+  { id: "structured-academic", name: "Academic", colors: ["#1e40af", "#0f766e", "#b45309"] },
+  { id: "bold-modern", name: "Bold Modern", colors: ["#dc2626", "#7c3aed", "#eab308"] },
+  { id: "minimal-clean", name: "Minimal", colors: ["#0f172a", "#64748b", "#0ea5e9"] },
+  { id: "navy-medical", name: "Navy Medical", colors: ["#1e3a5f", "#2563eb", "#10b981"] },
+  { id: "blush-rose", name: "Blush Rose", colors: ["#be185d", "#9333ea", "#f59e0b"] },
+  { id: "pastel-lavender", name: "Lavender", colors: ["#a78bfa", "#c4b5fd", "#ddd6fe"] },
+  { id: "pastel-mint", name: "Mint", colors: ["#6ee7b7", "#a7f3d0", "#d1fae5"] },
+  { id: "mono-slate", name: "Slate", colors: ["#475569", "#94a3b8", "#cbd5e1"] },
+  { id: "mono-graphite", name: "Graphite", colors: ["#404040", "#737373", "#a3a3a3"] },
+];
 
 function formatPrice(cents: number) {
   return `$${(cents / 100).toFixed(2)}`;
@@ -32,6 +45,8 @@ export default function ShopProductPage() {
   const [relatedProducts, setRelatedProducts] = useState<DigitalProduct[]>([]);
   const [purchase, setPurchase] = useState<any>(null);
   const [downloadingFile, setDownloadingFile] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState("soft-clinical");
+  const [showThemePicker, setShowThemePicker] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -67,11 +82,12 @@ export default function ShopProductPage() {
     }
   }, [user, product]);
 
-  const handleDownloadFile = async () => {
+  const handleDownloadFile = async (themeId?: string) => {
     if (!purchase || !user) return;
     setDownloadingFile(true);
     try {
-      const res = await fetch(`/api/shop/download/${purchase.id}?userId=${user.id}`);
+      const themeParam = themeId ? `&themeId=${encodeURIComponent(themeId)}` : "";
+      const res = await fetch(`/api/shop/download/${purchase.id}?userId=${user.id}${themeParam}`);
       if (!res.ok) {
         const err = await res.json();
         toast({ title: "Download Error", description: err.error, variant: "destructive" });
@@ -248,10 +264,44 @@ export default function ShopProductPage() {
                       </div>
                       <p className="text-sm text-emerald-600">Thank you for your purchase! Your file is ready to download.</p>
                     </div>
+                    <div className="border rounded-xl p-4 space-y-3" data-testid="div-theme-picker">
+                      <button
+                        onClick={() => setShowThemePicker(!showThemePicker)}
+                        className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-primary transition w-full"
+                        data-testid="button-toggle-theme-picker"
+                      >
+                        <Palette className="w-4 h-4" />
+                        <span>Choose Color Theme: {DOWNLOAD_THEMES.find(t => t.id === selectedTheme)?.name || "Default"}</span>
+                        <div className="flex gap-0.5 ml-auto">
+                          {(DOWNLOAD_THEMES.find(t => t.id === selectedTheme)?.colors || []).map((c, i) => (
+                            <div key={i} className="w-4 h-4 rounded-full border border-white shadow-sm" style={{ backgroundColor: c }} />
+                          ))}
+                        </div>
+                      </button>
+                      {showThemePicker && (
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2" data-testid="grid-theme-options">
+                          {DOWNLOAD_THEMES.map(theme => (
+                            <button
+                              key={theme.id}
+                              onClick={() => { setSelectedTheme(theme.id); setShowThemePicker(false); }}
+                              className={`p-2 rounded-lg border-2 transition text-center ${selectedTheme === theme.id ? "border-primary ring-1 ring-primary/30" : "border-gray-200 hover:border-gray-300"}`}
+                              data-testid={`button-theme-${theme.id}`}
+                            >
+                              <div className="flex justify-center gap-0.5 mb-1">
+                                {theme.colors.map((c, i) => (
+                                  <div key={i} className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: c }} />
+                                ))}
+                              </div>
+                              <span className="text-[10px] text-gray-600 font-medium">{theme.name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     <Button
                       size="lg"
                       className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-10 py-3 text-base gap-2"
-                      onClick={handleDownloadFile}
+                      onClick={() => handleDownloadFile(selectedTheme)}
                       disabled={limitReached || downloadingFile}
                       data-testid="button-download-file"
                     >

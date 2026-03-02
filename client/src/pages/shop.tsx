@@ -26,11 +26,12 @@ function formatPrice(cents: number) {
 
 function ProductCard({ product }: { product: DigitalProduct }) {
   const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
+  const savingsPercent = hasDiscount ? Math.round((1 - product.price / product.compareAtPrice!) * 100) : 0;
   return (
     <LocaleLink href={`/shop/${product.slug}`}>
       <Card className="group hover:shadow-lg hover:border-primary/30 transition-all h-full cursor-pointer" data-testid={`card-product-${product.slug}`}>
-        {product.coverImageUrl && (
-          <div className="aspect-[16/10] overflow-hidden rounded-t-lg bg-gray-100">
+        {product.coverImageUrl ? (
+          <div className="aspect-[16/10] overflow-hidden rounded-t-lg bg-gray-100 relative">
             <img
               src={product.coverImageUrl}
               alt={product.title}
@@ -38,10 +39,27 @@ function ProductCard({ product }: { product: DigitalProduct }) {
               loading="lazy"
               data-testid={`img-product-${product.slug}`}
             />
+            {hasDiscount && savingsPercent > 0 && (
+              <span className="absolute top-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full" data-testid={`badge-discount-${product.slug}`}>
+                -{savingsPercent}%
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className="aspect-[16/10] overflow-hidden rounded-t-lg bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center relative">
+            <div className="text-center">
+              <Package className="w-8 h-8 text-primary/40 mx-auto mb-1" />
+              <span className="text-xs text-primary/50 font-medium">{product.category}</span>
+            </div>
+            {hasDiscount && savingsPercent > 0 && (
+              <span className="absolute top-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full" data-testid={`badge-discount-${product.slug}`}>
+                -{savingsPercent}%
+              </span>
+            )}
           </div>
         )}
         <CardContent className="p-5">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
             <Badge variant="secondary" className="text-xs" data-testid={`badge-category-${product.slug}`}>
               {product.category}
             </Badge>
@@ -52,6 +70,9 @@ function ProductCard({ product }: { product: DigitalProduct }) {
             )}
             {product.tierTarget && product.tierTarget !== "all" && (
               <Badge variant="outline" className="text-xs">{product.tierTarget.toUpperCase()}</Badge>
+            )}
+            {(product as any).previewUrl && (
+              <Badge variant="outline" className="text-xs text-blue-600 border-blue-200">Preview</Badge>
             )}
           </div>
           <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors" data-testid={`text-product-title-${product.slug}`}>
@@ -67,10 +88,19 @@ function ProductCard({ product }: { product: DigitalProduct }) {
               {formatPrice(product.price)}
             </span>
             {hasDiscount && (
-              <span className="text-sm text-gray-400 line-through" data-testid={`text-compare-price-${product.slug}`}>
-                {formatPrice(product.compareAtPrice!)}
-              </span>
+              <>
+                <span className="text-sm text-gray-400 line-through" data-testid={`text-compare-price-${product.slug}`}>
+                  {formatPrice(product.compareAtPrice!)}
+                </span>
+                <span className="text-xs font-medium text-green-600" data-testid={`text-savings-${product.slug}`}>
+                  Save {formatPrice(product.compareAtPrice! - product.price)}
+                </span>
+              </>
             )}
+          </div>
+          <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
+            <Download className="w-3 h-3" />
+            <span>Instant PDF download</span>
           </div>
         </CardContent>
       </Card>
