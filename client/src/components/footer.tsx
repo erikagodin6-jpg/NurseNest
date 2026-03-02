@@ -52,7 +52,7 @@ export function Footer() {
             </ul>
             <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Allied Health</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><a href="https://allied.nursenest.ca" className="hover:text-primary transition-colors" data-testid="link-footer-allied">Allied Health Exam Prep</a></li>
+              <li><a href={window.location.hostname.includes("nursenest.ca") ? "https://allied.nursenest.ca" : "/?mode=allied"} className="hover:text-primary transition-colors" data-testid="link-footer-allied">Allied Health Exam Prep</a></li>
             </ul>
           </div>
         </div>

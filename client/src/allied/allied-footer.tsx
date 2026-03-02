@@ -27,7 +27,7 @@ export function AlliedFooter() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Resources</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <a href="https://www.nursenest.ca" className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-nursing" target="_blank" rel="noopener noreferrer">
+                <a href={window.location.hostname.includes("nursenest.ca") ? "https://www.nursenest.ca" : "/?mode=nursing"} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-nursing">
                   NurseNest Nursing <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
