@@ -570,7 +570,20 @@ function LocaleRouter() {
 
 function isAlliedHostname(): boolean {
   const h = window.location.hostname.toLowerCase();
-  return h.startsWith("allied.") || h === "allied.localhost" || h === "allied.nursenest.ca";
+  if (h.startsWith("allied.") || h === "allied.localhost" || h === "allied.nursenest.ca") return true;
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("mode") === "allied") {
+    localStorage.setItem("nursenest_allied_mode", "1");
+    window.history.replaceState({}, "", window.location.pathname);
+    return true;
+  }
+  if (params.get("mode") === "nursing") {
+    localStorage.removeItem("nursenest_allied_mode");
+    window.history.replaceState({}, "", window.location.pathname);
+    return false;
+  }
+  if (localStorage.getItem("nursenest_allied_mode") === "1") return true;
+  return false;
 }
 
 function App() {

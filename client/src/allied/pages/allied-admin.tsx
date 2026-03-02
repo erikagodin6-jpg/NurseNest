@@ -671,6 +671,186 @@ export default function AlliedAdminPage() {
         </div>
       )}
 
+      {tab === "automations" && (
+        <div className="space-y-6" data-testid="automations-panel">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+              <Zap className="w-5 h-5 text-teal-500" /> Automation Center
+            </h3>
+            <div className="flex gap-2">
+              <button onClick={handleSeedAutomations} className="px-3 py-1.5 bg-teal-600 text-white rounded-lg text-xs font-medium hover:bg-teal-700" data-testid="button-seed-automations">Seed All Automations</button>
+              <button onClick={() => handleKillSwitch(!automationStatus?.killSwitch)} className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 ${automationStatus?.killSwitch ? "bg-red-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} data-testid="button-kill-switch">
+                <Power className="w-3.5 h-3.5" /> {automationStatus?.killSwitch ? "Kill Switch ON" : "Kill Switch OFF"}
+              </button>
+            </div>
+          </div>
+
+          {automationStatus && (
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+              <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
+                <div className="text-2xl font-bold text-gray-900">{automationStatus.totalAutomations}</div>
+                <div className="text-xs text-gray-500">Total</div>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
+                <div className="text-2xl font-bold text-teal-600">{automationStatus.enabledAutomations}</div>
+                <div className="text-xs text-gray-500">Enabled</div>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
+                <div className="text-2xl font-bold text-blue-600">{automationStatus.todayRuns}</div>
+                <div className="text-xs text-gray-500">Runs Today</div>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
+                <div className="text-2xl font-bold text-amber-600">{automationStatus.pendingDrafts}</div>
+                <div className="text-xs text-gray-500">Pending Drafts</div>
+              </div>
+              <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
+                <div className={`text-2xl font-bold ${automationStatus.failedToday > 0 ? "text-red-600" : "text-gray-400"}`}>{automationStatus.failedToday}</div>
+                <div className="text-xs text-gray-500">Failed Today</div>
+              </div>
+            </div>
+          )}
+
+          {Object.entries(
+            automations.reduce((groups: Record<string, any[]>, a: any) => {
+              const cat = a.category || "other";
+              if (!groups[cat]) groups[cat] = [];
+              groups[cat].push(a);
+              return groups;
+            }, {})
+          ).map(([category, items]) => {
+            const catInfo = CATEGORY_LABELS[category] || { label: category, icon: Settings, color: "text-gray-600" };
+            const CatIcon = catInfo.icon;
+            return (
+              <div key={category} className="bg-white rounded-xl border border-gray-100 p-5">
+                <h4 className={`font-medium mb-3 flex items-center gap-2 ${catInfo.color}`}>
+                  <CatIcon className="w-4 h-4" /> {catInfo.label}
+                  <span className="text-xs text-gray-400 font-normal ml-auto">{(items as any[]).filter((a: any) => a.enabled).length}/{(items as any[]).length} enabled</span>
+                </h4>
+                <div className="space-y-2">
+                  {(items as any[]).map((a: any) => (
+                    <div key={a.id} className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-gray-50 border border-gray-50" data-testid={`automation-${a.slug}`}>
+                      <button onClick={() => handleToggleAutomation(a.id, !a.enabled)} className="flex-shrink-0" data-testid={`toggle-${a.slug}`}>
+                        {a.enabled ? <ToggleRight className="w-6 h-6 text-teal-500" /> : <ToggleLeft className="w-6 h-6 text-gray-300" />}
+                      </button>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-800">{a.name}</div>
+                        <div className="text-xs text-gray-400 truncate">{a.description}</div>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-gray-400 flex-shrink-0">
+                        <span className="px-1.5 py-0.5 bg-gray-100 rounded">{a.frequency}</span>
+                        <span className="px-1.5 py-0.5 bg-gray-100 rounded">{a.max_items_per_run}/run</span>
+                        {a.auto_publish && <span className="px-1.5 py-0.5 bg-green-50 text-green-700 rounded">auto-pub</span>}
+                        {a.last_run_at && <span className="text-gray-300">{new Date(a.last_run_at).toLocaleDateString()}</span>}
+                      </div>
+                      <button onClick={() => handleRunNow(a.id)} disabled={runningAutomation === a.id || automationStatus?.killSwitch} className="px-2.5 py-1 bg-teal-50 text-teal-700 rounded-md text-xs font-medium hover:bg-teal-100 disabled:opacity-40 flex items-center gap-1" data-testid={`run-${a.slug}`}>
+                        {runningAutomation === a.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />} Run
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+
+          {automations.length === 0 && (
+            <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
+              <Zap className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+              <p className="text-sm text-gray-500 mb-3">No automations configured yet.</p>
+              <button onClick={handleSeedAutomations} className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700" data-testid="button-seed-empty">Seed 39 Automations</button>
+            </div>
+          )}
+
+          {automationRuns.length > 0 && (
+            <div className="bg-white rounded-xl border border-gray-100 p-5">
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2"><Clock className="w-4 h-4 text-gray-400" /> Recent Runs</h4>
+              <div className="space-y-2 max-h-80 overflow-y-auto">
+                {automationRuns.map((run: any) => (
+                  <div key={run.id} className="flex items-center gap-3 py-2 px-3 rounded-lg border border-gray-50 text-xs" data-testid={`run-${run.id}`}>
+                    {run.status === "completed" ? <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" /> :
+                     run.status === "failed" ? <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" /> :
+                     <Loader2 className="w-4 h-4 text-blue-500 animate-spin flex-shrink-0" />}
+                    <span className="font-medium text-gray-700 w-40 truncate">{run.automation_slug}</span>
+                    <span className="text-gray-400">{run.items_accepted || 0} accepted</span>
+                    <span className="text-gray-400">{run.items_rejected || 0} rejected</span>
+                    {run.error_message && <span className="text-red-500 truncate flex-1">{run.error_message}</span>}
+                    <span className="text-gray-300 ml-auto">{new Date(run.started_at).toLocaleString()}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {tab === "drafts" && (
+        <div className="space-y-6" data-testid="drafts-panel">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+              <FileCheck className="w-5 h-5 text-teal-500" /> Draft Review Queue
+              <span className="text-xs font-normal text-gray-400">{draftsTotal} total</span>
+            </h3>
+            <select value={draftFilter} onChange={(e) => setDraftFilter(e.target.value)} className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white" data-testid="select-draft-filter">
+              <option value="">All types</option>
+              <option value="question">Questions</option>
+              <option value="flashcard">Flashcards</option>
+              <option value="mock_exam">Mock Exams</option>
+              <option value="seo_blog">SEO Blog</option>
+              <option value="comparison_page">Comparison Pages</option>
+              <option value="email_sequence">Email Sequences</option>
+              <option value="study_plan">Study Plans</option>
+              <option value="bundle">Bundles</option>
+              <option value="ngn_case">NGN Cases</option>
+              <option value="rationale_expansion">Rationale Expansions</option>
+              <option value="storefront_copy">Storefront Copy</option>
+              <option value="faq_schema">FAQ Schema</option>
+            </select>
+          </div>
+
+          {drafts.length === 0 ? (
+            <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
+              <FileCheck className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+              <p className="text-sm text-gray-500">No drafts to review. Run automations to generate content.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {drafts.map((draft: any) => (
+                <div key={draft.id} className="bg-white rounded-xl border border-gray-100 p-4" data-testid={`draft-${draft.id}`}>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                          draft.status === "draft" ? "bg-amber-50 text-amber-700" :
+                          draft.status === "approved" ? "bg-blue-50 text-blue-700" :
+                          draft.status === "published" ? "bg-green-50 text-green-700" :
+                          "bg-red-50 text-red-700"
+                        }`}>{draft.status}</span>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{draft.type}</span>
+                        {draft.career_type && <span className="text-xs px-2 py-0.5 rounded-full bg-teal-50 text-teal-700">{draft.career_type}</span>}
+                      </div>
+                      <p className="text-sm font-medium text-gray-800">{draft.title || "Untitled"}</p>
+                      {draft.domain && <p className="text-xs text-gray-400">{draft.domain}</p>}
+                    </div>
+                    <div className="flex gap-1.5 flex-shrink-0">
+                      {draft.status === "draft" && (
+                        <>
+                          <button onClick={() => handleDraftAction(draft.id, "approved")} className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium hover:bg-blue-100" data-testid={`approve-${draft.id}`}>Approve</button>
+                          <button onClick={() => handleDraftAction(draft.id, "published")} className="px-2.5 py-1 bg-green-50 text-green-700 rounded-md text-xs font-medium hover:bg-green-100" data-testid={`publish-${draft.id}`}>Publish</button>
+                          <button onClick={() => handleDraftAction(draft.id, "rejected")} className="px-2.5 py-1 bg-red-50 text-red-700 rounded-md text-xs font-medium hover:bg-red-100" data-testid={`reject-${draft.id}`}>Reject</button>
+                        </>
+                      )}
+                      {draft.status === "approved" && (
+                        <button onClick={() => handleDraftAction(draft.id, "published")} className="px-2.5 py-1 bg-green-50 text-green-700 rounded-md text-xs font-medium hover:bg-green-100" data-testid={`publish-${draft.id}`}>Publish</button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-300 mt-2">{new Date(draft.created_at).toLocaleString()}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {tab === "analytics" && (
         <div className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="analytics-panel">

@@ -1,0 +1,243 @@
+YOU ARE REPLIT AI.
+
+You are a senior SaaS architect, enterprise psychometric engineer, AI content systems architect, growth strategist, and SEO authority builder working inside the NurseNest codebase.
+
+OBJECTIVE:
+Build a premium, scalable, automated Allied Health exam prep ecosystem on:
+
+allied.nursenest.ca
+
+Initial verticals:
+- pharmacyTech (PRIMARY)
+- rrt (SECONDARY)
+
+This system must:
+- Scale to 4,000+ validated questions per career
+- Enforce 600+ word rationales
+- Include adaptive CAT-style exams
+- Include readiness scoring + discrimination index
+- Include automated AI refinement pipeline
+- Include SEO authority engine
+- Include backlink growth strategy
+- Include automated weekly content production workflow
+- Include retention + reactivation systems
+- Be built for long-term expansion (paramedic, MLT, imaging)
+
+DO NOT MODIFY:
+- Nursing routes
+- Nursing Stripe
+- Nursing sitemap
+- Nursing SEO
+- Nursing UI
+
+All Allied logic isolated by hostname.
+
+=========================================================
+SECTION 1 — AI QUESTION REFINEMENT ENGINE
+=========================================================
+
+Implement secondary AI pass after question generation.
+
+After initial validation:
+
+Run refinement check:
+
+- Improve distractor realism
+- Increase cognitive depth if too recall-heavy
+- Tighten wording for ambiguity
+- Add additional examTrap explanation
+- Strengthen safety reinforcement
+- Ensure rationale >= 600 words
+- Ensure structure consistency
+
+Create "AIRefinementStatus" field:
+- generated
+- refined
+- approved
+- flagged
+
+Add admin override option.
+
+=========================================================
+SECTION 2 — AUTOMATED WEEKLY PRODUCTION SYSTEM
+=========================================================
+
+Build internal production scheduler:
+
+Weekly targets:
+- Pharmacy: 100–125 questions
+- RRT: 50–75 questions
+
+Workflow automation:
+
+1. Blueprint coverage scan
+2. Identify underweighted domains
+3. Generate batch (max 100)
+4. Run validation
+5. Run refinement engine
+6. Commit to DB
+7. Auto-generate flashcards
+8. Auto-link to modules
+9. Update coverage metrics
+
+Display weekly dashboard:
+
+- Questions created
+- Domain distribution
+- Cognitive distribution
+- Average rationale length
+- Duplicate rejection %
+- Total question count
+
+=========================================================
+SECTION 3 — SEO AUTHORITY GROWTH PIPELINE
+=========================================================
+
+Create content velocity system:
+
+For each career:
+
+1. Pillar Pages (evergreen)
+2. Supporting cluster pages
+3. FAQ micro-pages
+4. Blog-style educational posts
+
+Internal linking structure:
+- Every SEO page links to QBank
+- Every QBank links to lessons
+- Every lesson links to diagnostic
+- Pricing page linked sitewide
+
+Implement structured data:
+- FAQ schema
+- Breadcrumb schema
+- Article schema
+- Course schema (where applicable)
+
+Create sitemap-allied.xml with dynamic updates.
+
+=========================================================
+SECTION 4 — BACKLINK STRATEGY ENGINE
+=========================================================
+
+Generate internal backlink task tracker:
+
+Create list of:
+- Educational blogs
+- Study forums
+- Allied student communities
+- Reddit sub-communities
+- Student resource sites
+
+Build exportable outreach template:
+
+- Offer free diagnostic
+- Offer guest educational article
+- Offer data-based insight (exam trends)
+
+Create dashboard tracking:
+- Outreach attempts
+- Links acquired
+- Domain authority growth
+
+=========================================================
+SECTION 5 — CONVERSION OPTIMIZATION ENGINE
+=========================================================
+
+Track:
+
+- Diagnostic completions
+- Upgrade conversions
+- Time to conversion
+- Email open rate
+- Click-through rate
+- Monthly churn rate
+- Annual retention rate
+
+Add A/B test framework for:
+- Headline variants
+- Pricing display
+- CTA wording
+- Upgrade modal messaging
+
+=========================================================
+SECTION 6 — RETENTION & REACTIVATION SYSTEM
+=========================================================
+
+Trigger reactivation emails if:
+
+- No login in 14 days
+- No exam taken in 21 days
+- Readiness score stagnant
+
+Send:
+- Weak-area reminder
+- New mock available
+- New module released
+- Flashcard review prompt
+
+Add in-dashboard streak indicator.
+
+=========================================================
+SECTION 7 — PERFORMANCE + SCALE OPTIMIZATION
+=========================================================
+
+Ensure system handles:
+
+- 8,000+ total questions
+- 2,000+ flashcards per career
+- 100+ case simulations
+- High concurrent mock exams
+
+Optimize:
+- DB indexing by careerType + domain
+- Lazy loading QBank queries
+- Paginated question delivery
+- Secure server-side filtering
+
+=========================================================
+SECTION 8 — EXPANSION ARCHITECTURE
+=========================================================
+
+Prepare modular structure to later add:
+
+- paramedic
+- mlt
+- imaging
+- nursing-certifications
+
+Ensure blueprint engine supports multi-vertical scaling without duplication.
+
+=========================================================
+SECTION 9 — PREMIUM BRAND CONSISTENCY
+=========================================================
+
+Maintain:
+
+- Clean UI
+- High-contrast readability
+- Professional typography
+- Minimal clutter
+- Strong CTA hierarchy
+
+Annual plan highlighted.
+Premium language tone.
+
+=========================================================
+FINAL REQUIREMENTS
+=========================================================
+
+- No nursing contamination
+- Server-side paywall enforcement
+- 600+ word rationale enforcement
+- Scalable architecture
+- Premium positioning
+- Weekly production automation
+- SEO authority engine
+- Conversion optimization framework
+- Provide file changes summary
+- Provide production dashboard location
+- Provide refinement engine location
+
+BUILD THIS FULL PREMIUM ALLIED ECOSYSTEM.
+END.
