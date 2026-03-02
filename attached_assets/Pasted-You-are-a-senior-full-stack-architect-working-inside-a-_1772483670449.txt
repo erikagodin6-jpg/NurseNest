@@ -1,0 +1,129 @@
+You are a senior full-stack architect working inside a Vite + React + Express production application for NurseNest.
+
+OBJECTIVE:
+Refactor the platform so that the Allied Health site functions as a completely standalone website on:
+
+allied.nursenest.ca
+
+while the Nursing site continues to function on:
+
+www.nursenest.ca
+
+This must feel like two independent websites sharing a backend — NOT a /allied route prefix.
+
+Do NOT explain your reasoning. Implement clean, production-safe logic.
+
+-----------------------------------------
+ARCHITECTURE REQUIREMENTS
+-----------------------------------------
+
+1. Hostname-Based App Switching (Production)
+
+Implement root-level app switching based on window.location.hostname:
+
+• If hostname starts with "allied." → render <AlliedApp />
+• Otherwise → render <NursingApp />
+
+This detection must:
+• Work in production automatically
+• Not require URL prefixes
+• Not require query params in production
+• Not rely on /allied routes
+• Preserve clean SEO URLs
+
+2. Development Mode Support (Replit)
+
+Because subdomains do not work in Replit development:
+
+Implement a dev-only override:
+
+• ?mode=allied → sets localStorage.siteMode = "allied"
+• ?mode=nursing → sets localStorage.siteMode = "nursing"
+
+Rules:
+• Override only activates if hostname includes "replit" or "localhost"
+• Production must ignore query mode overrides
+• Remove query param after setting localStorage
+• Persist choice across navigation
+
+3. App Isolation
+
+Ensure:
+
+• AlliedApp has its own routing tree starting at "/"
+• NursingApp has its own routing tree starting at "/"
+• No route collisions
+• No shared navigation components
+• No shared footers
+• No cross-imported layout components
+• Separate SEO metadata systems if necessary
+
+The two apps must feel like completely different platforms.
+
+4. SEO & Metadata
+
+Implement:
+
+• Dynamic <title>, meta description, canonical URL based on hostname
+• Canonical for allied pages → https://allied.nursenest.ca/...
+• Canonical for nursing pages → https://www.nursenest.ca/...
+• Ensure sitemap generation supports both domains
+• Ensure hreflang logic does not cross domains
+
+5. DNS & Redirect Enforcement (Server-Side)
+
+Implement Express middleware:
+
+• Force 301 redirect:
+    nursenest.ca → www.nursenest.ca
+• Do NOT redirect allied subdomain
+• Do NOT allow root domain to serve duplicate content
+• Ensure proper handling behind proxies (x-forwarded-host support)
+
+6. Stripe & Auth Safety
+
+Ensure:
+
+• Stripe checkout sessions use correct domain in success/cancel URLs
+• Cookies are scoped correctly (do NOT break subdomain auth)
+• Sessions work across subdomain if desired (configurable)
+• No hardcoded www URLs in allied checkout flows
+
+7. Hard Separation of Branding
+
+Ensure Allied site uses:
+• Its own theme
+• Its own nav
+• Its own footer
+• Its own color palette
+• Its own logo
+• No references to nursing tiers
+• No /nursing paths
+
+8. Clean Code Requirements
+
+• No temporary hacks
+• No console debugging logs
+• No duplicate route definitions
+• No prefix-based fallback routing
+• No brittle string matching
+• Production-ready code only
+
+-----------------------------------------
+FINAL DELIVERABLE
+-----------------------------------------
+
+Provide:
+
+• Updated root App.tsx
+• Host detection logic
+• Dev override implementation
+• Express redirect middleware
+• Any necessary route isolation adjustments
+• SEO handling adjustments
+
+Do not summarize.
+Do not describe.
+Only output final production-ready implementation code blocks.
+
+The Allied platform must function as a true standalone website at allied.nursenest.ca.
