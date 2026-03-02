@@ -687,6 +687,10 @@ export default function GeneratorV2Page() {
                   <select value={template} onChange={e => setTemplate(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-sm" data-testid="select-template">
                     <option value="question_pack">Question Pack</option>
                     <option value="premium_exam_pack">Premium Exam Pack</option>
+                    <option value="lab_workbook">Lab Result Workbook</option>
+                    <option value="abg_questions">ABG Interpretation Questions</option>
+                    <option value="med_math">Med Math Questions</option>
+                    <option value="case_study">Case Study Workbook</option>
                     <option value="cram_guide">Cram Guide</option>
                     <option value="hybrid">Hybrid (Content + QBank)</option>
                   </select>
