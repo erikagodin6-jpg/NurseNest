@@ -6,6 +6,8 @@ export interface HeroStats {
   totalLessons: number;
   paidLessons: number;
   questionCount: number;
+  storeQuestionCount: number;
+  storeProductCount: number;
   lastUpdatedISO: string;
   breakdown?: {
     rpnStatic: number;

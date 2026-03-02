@@ -106,6 +106,7 @@ export default function Home() {
 
   const lessonCount = heroStats?.totalLessons ?? 0;
   const questionCount = heroStats?.questionCount ?? 0;
+  const storeProductCount = heroStats?.storeProductCount ?? 0;
   const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [emailMessage, setEmailMessage] = useState("");
   const [region, setRegion] = useState<"US" | "CA">(() => {
@@ -161,7 +162,7 @@ export default function Home() {
           "@type": "WebSite",
           "name": "NurseNest",
           "url": "https://www.nursenest.ca",
-          "description": "Comprehensive nursing exam preparation platform with 1,200+ practice questions, clinical case simulations, and 200+ pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations. New content added weekly.",
+          "description": `Comprehensive nursing exam preparation platform with ${formatCount(questionCount)} practice questions, clinical case simulations, and ${formatCount(lessonCount)} pathophysiology lessons designed to align with the content domains tested on nursing licensure examinations. New content added weekly.`,
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://www.nursenest.ca/lessons?q={search_term_string}",
@@ -503,8 +504,8 @@ export default function Home() {
               {[
                 { value: formatCount(questionCount), label: t("home.stats.questions"), icon: Target, color: "from-blue-500 to-indigo-600" },
                 { value: formatCount(lessonCount), label: t("home.stats.lessons"), icon: BookOpen, color: "from-emerald-500 to-teal-600" },
-                { value: "9", label: t("home.stats.simulators"), icon: Gamepad2, color: "from-purple-500 to-violet-600" },
-                { value: "7", label: t("home.stats.modes"), icon: Layers, color: "from-amber-500 to-orange-600" },
+                { value: storeProductCount > 0 ? `${storeProductCount}+` : "9", label: storeProductCount > 0 ? "Study Packs" : t("home.stats.simulators"), icon: storeProductCount > 0 ? ShoppingBag : Gamepad2, color: "from-purple-500 to-violet-600" },
+                { value: "7+", label: t("home.stats.modes"), icon: Layers, color: "from-amber-500 to-orange-600" },
               ].map((stat, i) => (
                 <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
                   <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.color}`} />
@@ -922,7 +923,7 @@ export default function Home() {
                   { value: formatCount(lessonCount), label: t("home.stats.lessons"), icon: BookOpen },
                   { value: formatCount(questionCount), label: t("home.stats.questions"), icon: Target },
                   { value: "15+", label: t("home.nurses.bodySystems"), icon: HeartPulse },
-                  { value: "6", label: t("home.nurses.studyModes"), icon: Layers },
+                  { value: "7+", label: t("home.nurses.studyModes"), icon: Layers },
                 ].map((stat, i) => (
                   <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-primary/5 text-center" data-testid={`stat-${i}`}>
                     <div className="mx-auto w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-3">
@@ -1436,6 +1437,21 @@ export default function Home() {
                   <p className="font-bold mt-1">Total: {heroStats[`${tier}Lessons` as keyof typeof heroStats]}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-3 grid grid-cols-3 gap-3 text-xs">
+              <div className="bg-white p-3 rounded border">
+                <p className="font-bold text-gray-900">Total Lessons</p>
+                <p className="text-lg font-bold">{heroStats.totalLessons}</p>
+              </div>
+              <div className="bg-white p-3 rounded border">
+                <p className="font-bold text-gray-900">Total Questions</p>
+                <p className="text-lg font-bold">{heroStats.questionCount}</p>
+                <p className="text-gray-500">incl. {heroStats.storeQuestionCount || 0} store</p>
+              </div>
+              <div className="bg-white p-3 rounded border">
+                <p className="font-bold text-gray-900">Store Products</p>
+                <p className="text-lg font-bold">{heroStats.storeProductCount || 0}</p>
+              </div>
             </div>
             <p className="text-[10px] text-gray-400 mt-2">Last updated: {heroStats.lastUpdatedISO}</p>
           </details>

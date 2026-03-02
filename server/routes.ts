@@ -329,7 +329,15 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         FROM content_items WHERE status = 'published'
       `);
 
+      const storeResult = await pool.query(`
+        SELECT
+          COALESCE(SUM(question_count), 0) AS store_questions,
+          COUNT(*) AS store_products
+        FROM digital_products WHERE is_active = true
+      `);
+
       const db = dbResult.rows[0] || { rpn_db: 0, rn_db: 0, np_db: 0, free_db: 0, total_db: 0 };
+      const store = storeResult.rows[0] || { store_questions: 0, store_products: 0 };
 
       const rpnLessons = tierCounts.rpn + Number(db.rpn_db);
       const rnLessons = tierCounts.rn + Number(db.rn_db);
@@ -337,6 +345,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const freeLessons = tierCounts.free + Number(db.free_db);
       const totalLessons = rpnLessons + rnLessons + npLessons + freeLessons;
       const paidLessons = rpnLessons + rnLessons + npLessons;
+      const storeQuestionCount = Number(store.store_questions);
+      const storeProductCount = Number(store.store_products);
+      const totalQuestions = tierCounts.questionCount + storeQuestionCount;
 
       const stats = {
         rpnLessons,
@@ -345,7 +356,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         freeLessons,
         totalLessons,
         paidLessons,
-        questionCount: tierCounts.questionCount,
+        questionCount: totalQuestions,
+        storeQuestionCount,
+        storeProductCount,
         lastUpdatedISO: new Date().toISOString(),
         breakdown: {
           rpnStatic: tierCounts.rpn,
@@ -3649,6 +3662,9 @@ Rules:
       }
 
       const item = await storage.updateContentItem(req.params.id, contentData);
+      if (contentData.status === "published" || existing?.status === "published") {
+        heroStatsCache = null;
+      }
       await logAudit(req, admin, "content", req.params.id, "update",
         existing ? { title: existing.title, status: existing.status } : null,
         { title: item.title, status: item.status }
@@ -11733,6 +11749,7 @@ Return ONLY valid JSON with this exact structure:
       });
 
       await logAudit(req, admin, "digital_product", product.id, "publish_with_pdf_v2", null, { generationId: req.params.id, title, priceCents, pdfPages: pages.length });
+      heroStatsCache = null;
       res.json({ ...product, pdfPages: pages.length, pdfKey, previewKey });
     } catch (e: any) {
       console.error("Publish with PDF error:", e);
