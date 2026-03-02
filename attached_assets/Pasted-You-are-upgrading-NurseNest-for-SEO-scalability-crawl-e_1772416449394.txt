@@ -1,0 +1,211 @@
+You are upgrading NurseNest for SEO scalability, crawl efficiency, and indexing acceleration.
+
+Your goal is to optimize:
+- Crawl budget usage
+- Indexation rate
+- Internal linking strength
+- Topical authority
+- Technical SEO structure
+- Canonical consistency
+
+Implement the following system-wide upgrades.
+
+============================================================
+1) CANONICAL DOMAIN ENFORCEMENT
+============================================================
+
+- Force 301 redirect from non-www to www (or vice versa, choose one canonical).
+- Ensure canonical tags match enforced domain.
+- Update sitemap URLs to match canonical.
+- Confirm robots.txt is accessible at /robots.txt.
+- Add absolute canonical URLs to every page head.
+
+============================================================
+2) SITEMAP RESTRUCTURING
+============================================================
+
+Replace single sitemap with segmented sitemap index:
+
+Create:
+- /sitemap-index.xml
+- /sitemap-lessons.xml
+- /sitemap-blog.xml
+- /sitemap-flashcards.xml
+- /sitemap-products.xml
+- /sitemap-exams.xml
+
+Rules:
+- Max 5,000 URLs per sitemap file.
+- Include lastmod timestamps.
+- Only include canonical, indexable URLs.
+- Auto-update on content publish.
+
+Update robots.txt to reference sitemap-index.xml.
+
+============================================================
+3) INTERNAL LINKING ENGINE
+============================================================
+
+Implement dynamic internal linking blocks:
+
+On lesson pages:
+- “Related Lessons” (same system)
+- “Next Recommended Topic”
+- “Most Tested Topics”
+- Cross-link CA ↔ US equivalents where relevant
+
+On blog pages:
+- “Practice Questions for This Topic”
+- “Study Guides on This Topic”
+
+On product pages:
+- “Pairs Well With”
+- “Students Also Bought”
+
+Add a rule:
+Each page must contain at least 5 contextual internal links.
+
+============================================================
+4) CATEGORY AUTHORITY HUBS
+============================================================
+
+Create high-authority hub pages:
+
+- /rex-pn-practice-questions/
+- /nclex-pn-practice-questions/
+- /nclex-rn-practice-questions/
+
+Each hub must:
+- Contain 1,000+ words of structured content
+- Include FAQ schema
+- Link to 30+ relevant subpages
+- Include breadcrumb schema
+- Include internal section anchors
+
+============================================================
+5) DISCOVERED – NOT INDEXED FIX
+============================================================
+
+For pages not indexed:
+
+- Ensure they are in sitemap.
+- Ensure they have at least 3 internal links pointing to them.
+- Remove thin or duplicate pages.
+- Add 300+ words of unique content to thin pages.
+- Add structured data where applicable.
+- Ensure noindex is not accidentally applied.
+
+Implement an “Index Health Report” in admin panel:
+- Shows orphan pages
+- Shows pages with <300 words
+- Shows pages with <3 internal links
+
+============================================================
+6) STRUCTURED DATA IMPLEMENTATION
+============================================================
+
+Add schema:
+
+Lessons:
+- Article schema
+- BreadcrumbList
+
+Practice Questions:
+- QAPage schema
+- EducationalOccupationalProgram
+
+Products:
+- Product schema
+- Offer schema
+- AggregateRating placeholder
+
+Blog:
+- Article schema
+- FAQ schema where applicable
+
+Ensure JSON-LD injected server-side (not client-only).
+
+============================================================
+7) PERFORMANCE + JS OPTIMIZATION
+============================================================
+
+Because 52% of crawl is JS:
+
+- Enable server-side rendering for key pages.
+- Ensure critical content renders without JS.
+- Reduce JS bundle size.
+- Lazy-load non-essential scripts.
+- Remove duplicate bundles.
+- Add proper cache headers for static assets.
+
+============================================================
+8) CRAWL BUDGET OPTIMIZATION
+============================================================
+
+- Prevent crawling of duplicate parameter URLs.
+- Add canonical tags to paginated pages.
+- Disallow irrelevant admin routes in robots.txt.
+- Prevent indexing of search result pages.
+- Consolidate duplicate content paths.
+
+============================================================
+9) E-E-A-T SIGNALS
+============================================================
+
+Add:
+
+- Author pages with credentials.
+- “Reviewed by RN” badge where applicable.
+- Updated year dynamically (e.g., Updated 2026).
+- About page with credentials and mission.
+- Transparent contact information.
+- Editorial standards page.
+
+============================================================
+10) INDEX ACCELERATION STRATEGY
+============================================================
+
+When publishing new content:
+
+- Auto-add to sitemap.
+- Auto-link from at least 2 hub pages.
+- Trigger ping to Google via sitemap submission endpoint.
+- Add to homepage “Latest Content” block.
+- Add to related content blocks.
+
+============================================================
+11) BREADCRUMBS + SITE STRUCTURE
+============================================================
+
+Implement breadcrumb navigation:
+
+Home > Exam > Topic > Specific Page
+
+Inject breadcrumb schema on all structured pages.
+
+============================================================
+12) ANALYTICS + MONITORING
+============================================================
+
+Add admin SEO dashboard:
+
+- Total indexed pages (via Search Console API if possible)
+- Pages discovered not indexed
+- Crawl errors
+- Internal link counts per page
+- Sitemap health status
+
+============================================================
+
+Deliver:
+- Exact files to modify
+- New routes required
+- Middleware changes
+- Sitemap generator logic
+- Robots.txt update
+- Internal linking component implementation
+- Schema injection strategy
+- Canonical redirect logic
+
+Do not provide explanation.
+Return structured implementation plan and code-level tasks.
