@@ -14,10 +14,20 @@ const THEMES = [
   { id: "blush-rose", name: "Blush Rose", primaryColor: "#be185d", secondaryColor: "#9333ea", accentColor: "#f59e0b", coverBg: "#be185d" },
   { id: "paper-ink", name: "Paper & Ink", primaryColor: "#292524", secondaryColor: "#57534e", accentColor: "#a16207", coverBg: "#292524" },
   { id: "charcoal-clinical", name: "Charcoal Clinical", primaryColor: "#374151", secondaryColor: "#3b82f6", accentColor: "#14b8a6", coverBg: "#374151" },
+  { id: "pastel-lavender", name: "Pastel Lavender", primaryColor: "#a78bfa", secondaryColor: "#c4b5fd", accentColor: "#ddd6fe", coverBg: "#7c3aed" },
+  { id: "pastel-mint", name: "Pastel Mint", primaryColor: "#6ee7b7", secondaryColor: "#a7f3d0", accentColor: "#d1fae5", coverBg: "#059669" },
+  { id: "pastel-peach", name: "Pastel Peach", primaryColor: "#fdba74", secondaryColor: "#fed7aa", accentColor: "#ffedd5", coverBg: "#ea580c" },
+  { id: "pastel-sky", name: "Pastel Sky", primaryColor: "#7dd3fc", secondaryColor: "#bae6fd", accentColor: "#e0f2fe", coverBg: "#0284c7" },
+  { id: "pastel-blush", name: "Pastel Blush", primaryColor: "#fda4af", secondaryColor: "#fecdd3", accentColor: "#ffe4e6", coverBg: "#e11d48" },
+  { id: "mono-slate", name: "Mono Slate", primaryColor: "#475569", secondaryColor: "#94a3b8", accentColor: "#cbd5e1", coverBg: "#1e293b" },
+  { id: "mono-graphite", name: "Mono Graphite", primaryColor: "#404040", secondaryColor: "#737373", accentColor: "#a3a3a3", coverBg: "#171717" },
+  { id: "mono-silver", name: "Mono Silver", primaryColor: "#6b7280", secondaryColor: "#9ca3af", accentColor: "#d1d5db", coverBg: "#374151" },
+  { id: "mono-steel", name: "Mono Steel", primaryColor: "#52525b", secondaryColor: "#a1a1aa", accentColor: "#d4d4d8", coverBg: "#27272a" },
+  { id: "mono-fog", name: "Mono Fog", primaryColor: "#78716c", secondaryColor: "#a8a29e", accentColor: "#d6d3d1", coverBg: "#292524" },
 ];
 
 function adminFetch(url: string, options?: RequestInit) {
-  const creds = JSON.parse(localStorage.getItem("nursenest-auth") || "{}");
+  const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
   const username = creds.username || "";
   const password = creds.password || "";
 
@@ -301,7 +311,7 @@ export default function GeneratorV2Page() {
   const exportPdf = async (genId: string) => {
     setExportingPdf(genId);
     try {
-      const creds = JSON.parse(localStorage.getItem("nursenest-auth") || "{}");
+      const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
       const res = await fetch(`/api/generator-v2/generations/${genId}/export-pdf`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
