@@ -76,3 +76,27 @@ Key files:
 - Routes in App.tsx: Each career has `/[slug]/question-bank`, `/[slug]/flashcards`, `/[slug]/mock-exams`, `/[slug]/study-plan`, `/[slug]/pricing`, `/[slug]/dashboard`, plus AI tool routes
 
 Schema: `careerType` column (default "nursing") on users, exam_questions, flashcard_decks, mock_exam_attempts, flashcard_bank, pricing_offers, study_packs, digital_products, study_plans.
+
+### Allied Health Subdomain (allied.nursenest.ca)
+The allied subdomain is a separate frontend shell (`client/src/allied/`) with its own routing, navigation, and pages. Hostname detection in `App.tsx` renders `AlliedApp` on allied hosts, or the existing nursing `LocaleRouter` otherwise.
+
+Key allied files:
+- `client/src/allied/allied-app.tsx` - Allied app shell
+- `client/src/allied/allied-routes.tsx` - All allied route definitions
+- `client/src/allied/pages/allied-admin.tsx` - 5-layer content pipeline factory (blueprints, generator, validation, revision queue, analytics)
+- `server/allied-middleware.ts` - Hostname detection, host redirects, robots.txt, sitemap
+- `server/allied-pipeline.ts` - Allied content pipeline API (blueprints, batch generation, validation, flashcard auto-gen, analytics, revision queue, leads)
+
+Allied DB tables (shared/schema.ts):
+- `allied_blueprints` - Versioned blueprint governance per career
+- `allied_questions` - Enterprise question bank with full psychometric fields
+- `allied_batch_runs` - Batch generation tracking with rejection reasons
+- `allied_flashcards` - Auto-generated flashcards linked to questions
+- `allied_revision_queue` - Human review queue for flagged items
+- `allied_leads` - Email lead capture
+
+Pipeline thresholds (server/allied-pipeline.ts constants):
+- SIMILARITY_THRESHOLD = 0.80 (duplicate detection)
+- MIN_RATIONALE_WORDS = 600 (hard fail)
+- DEFAULT_COGNITIVE_DIST: recall max 30%, application 40-60%, analysis min 20%
+- Batch size: 25-100 per run

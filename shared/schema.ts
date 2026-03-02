@@ -1537,3 +1537,118 @@ export const v2ContentBlocks = pgTable("v2_content_blocks", {
   blocks: jsonb("blocks").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const alliedBlueprints = pgTable("allied_blueprints", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  careerType: text("career_type").notNull(),
+  version: integer("version").notNull().default(1),
+  domains: jsonb("domains").notNull(),
+  difficultyDistribution: jsonb("difficulty_distribution").notNull(),
+  cognitiveDistribution: jsonb("cognitive_distribution").notNull(),
+  allowedQuestionTypes: jsonb("allowed_question_types").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const alliedQuestions = pgTable("allied_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  careerType: text("career_type").notNull(),
+  blueprintId: varchar("blueprint_id"),
+  batchId: varchar("batch_id"),
+  stem: text("stem").notNull(),
+  options: jsonb("options").notNull(),
+  correctAnswer: integer("correct_answer").notNull(),
+  rationaleLong: text("rationale_long").notNull(),
+  learningObjective: text("learning_objective").notNull(),
+  blueprintCategory: text("blueprint_category").notNull(),
+  subtopic: text("subtopic").notNull(),
+  difficulty: integer("difficulty").notNull(),
+  cognitiveLevel: text("cognitive_level").notNull(),
+  questionType: text("question_type").notNull(),
+  examTrap: text("exam_trap"),
+  clinicalPearls: jsonb("clinical_pearls"),
+  safetyNote: text("safety_note"),
+  distractorRationales: jsonb("distractor_rationales"),
+  isFree: boolean("is_free").default(false),
+  status: text("status").default("pending"),
+  discriminationIndex: doublePrecision("discrimination_index"),
+  totalAttempts: integer("total_attempts").default(0),
+  correctAttempts: integer("correct_attempts").default(0),
+  topGroupCorrect: doublePrecision("top_group_correct"),
+  bottomGroupCorrect: doublePrecision("bottom_group_correct"),
+  flagged: boolean("flagged").default(false),
+  flagReason: text("flag_reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const alliedBatchRuns = pgTable("allied_batch_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  careerType: text("career_type").notNull(),
+  blueprintId: varchar("blueprint_id"),
+  requestedCount: integer("requested_count").notNull(),
+  generatedCount: integer("generated_count").default(0),
+  acceptedCount: integer("accepted_count").default(0),
+  rejectedCount: integer("rejected_count").default(0),
+  rejectionReasons: jsonb("rejection_reasons"),
+  difficultyBreakdown: jsonb("difficulty_breakdown"),
+  cognitiveBreakdown: jsonb("cognitive_breakdown"),
+  domainBreakdown: jsonb("domain_breakdown"),
+  avgRationaleWords: doublePrecision("avg_rationale_words"),
+  status: text("status").default("running"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const alliedFlashcards = pgTable("allied_flashcards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  careerType: text("career_type").notNull(),
+  questionId: varchar("question_id"),
+  cardType: text("card_type").notNull(),
+  front: text("front").notNull(),
+  back: text("back").notNull(),
+  rationale: text("rationale"),
+  blueprintCategory: text("blueprint_category"),
+  subtopic: text("subtopic"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const alliedRevisionQueue = pgTable("allied_revision_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  questionId: varchar("question_id").notNull(),
+  careerType: text("career_type").notNull(),
+  reason: text("reason").notNull(),
+  severity: text("severity").default("medium"),
+  status: text("status").default("pending"),
+  reviewNotes: text("review_notes"),
+  reviewedAt: timestamp("reviewed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const alliedLeads = pgTable("allied_leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull(),
+  careerType: text("career_type"),
+  source: text("source").default("homepage"),
+  consent: boolean("consent").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAlliedBlueprintSchema = createInsertSchema(alliedBlueprints).omit({ id: true, createdAt: true });
+export const insertAlliedQuestionSchema = createInsertSchema(alliedQuestions).omit({ id: true, createdAt: true });
+export const insertAlliedBatchRunSchema = createInsertSchema(alliedBatchRuns).omit({ id: true, startedAt: true });
+export const insertAlliedFlashcardSchema = createInsertSchema(alliedFlashcards).omit({ id: true, createdAt: true });
+export const insertAlliedRevisionQueueSchema = createInsertSchema(alliedRevisionQueue).omit({ id: true, createdAt: true });
+export const insertAlliedLeadSchema = createInsertSchema(alliedLeads).omit({ id: true, createdAt: true });
+
+export type AlliedBlueprint = typeof alliedBlueprints.$inferSelect;
+export type InsertAlliedBlueprint = z.infer<typeof insertAlliedBlueprintSchema>;
+export type AlliedQuestion = typeof alliedQuestions.$inferSelect;
+export type InsertAlliedQuestion = z.infer<typeof insertAlliedQuestionSchema>;
+export type AlliedBatchRun = typeof alliedBatchRuns.$inferSelect;
+export type InsertAlliedBatchRun = z.infer<typeof insertAlliedBatchRunSchema>;
+export type AlliedFlashcard = typeof alliedFlashcards.$inferSelect;
+export type InsertAlliedFlashcard = z.infer<typeof insertAlliedFlashcardSchema>;
+export type AlliedRevisionQueueItem = typeof alliedRevisionQueue.$inferSelect;
+export type InsertAlliedRevisionQueueItem = z.infer<typeof insertAlliedRevisionQueueSchema>;
+export type AlliedLead = typeof alliedLeads.$inferSelect;
+export type InsertAlliedLead = z.infer<typeof insertAlliedLeadSchema>;
