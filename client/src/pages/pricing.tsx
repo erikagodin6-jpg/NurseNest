@@ -40,8 +40,8 @@ const periodLabelKeys: Record<Duration, string> = {
 const tiers = [
   {
     id: "rpn",
-    nameCA: "RPN",
-    nameUS: "LVN",
+    nameCAKey: "pricing.rpn.nameCA",
+    nameUSKey: "pricing.rpn.nameUS",
     prices: {
       monthly: { CAD: 29.99, USD: 21.99 },
       "3-month": { CAD: 74.99, USD: 54.99 },
@@ -61,8 +61,8 @@ const tiers = [
   },
   {
     id: "rn",
-    nameCA: "RN",
-    nameUS: "RN",
+    nameCAKey: "pricing.rn.nameCA",
+    nameUSKey: "pricing.rn.nameUS",
     prices: {
       monthly: { CAD: 39.99, USD: 29.99 },
       "3-month": { CAD: 99.99, USD: 74.99 },
@@ -82,8 +82,8 @@ const tiers = [
   },
   {
     id: "np",
-    nameCA: "NP Advanced",
-    nameUS: "NP Advanced",
+    nameCAKey: "pricing.np.nameCA",
+    nameUSKey: "pricing.np.nameUS",
     prices: {
       monthly: { CAD: 49.99, USD: 36.99 },
       "3-month": { CAD: 124.99, USD: 94.99 },
@@ -297,7 +297,7 @@ export default function PricingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
             {tiers.map((tier) => {
-              const name = isCAD ? tier.nameCA : tier.nameUS;
+              const name = t(isCAD ? tier.nameCAKey : tier.nameUSKey);
               const price = isCAD ? tier.prices[duration].CAD : tier.prices[duration].USD;
               const currency = isCAD ? "CAD" : "USD";
 

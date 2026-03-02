@@ -142,14 +142,14 @@ export default function Home() {
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || "Subscription failed. Please try again.");
+        throw new Error(data.message || t("home.email.subscriptionFailed"));
       }
       setEmailStatus("success");
       setEmailMessage(t("home.email.success"));
       setEmail("");
     } catch (e: any) {
       setEmailStatus("error");
-      setEmailMessage(e.message || "Something went wrong. Please try again.");
+      setEmailMessage(e.message || t("home.email.somethingWrong"));
     }
   }
 
@@ -257,7 +257,7 @@ export default function Home() {
                     onClick={() => setLocation("/np-exam-practice-questions")}
                     data-testid="button-quick-np"
                   >
-                    NP Exams
+                    {t("home.hero.npExams")}
                   </Button>
                 </div>
                 <p className="text-[11px] text-gray-400 mt-2">

@@ -573,6 +573,12 @@ const enTranslations: Record<string, string> = {
     "pricing.competitorYes": "Yes",
     "pricing.competitorNo": "No",
     "pricing.competitorLimited": "Limited",
+    "pricing.rpn.nameCA": "RPN",
+    "pricing.rpn.nameUS": "LVN",
+    "pricing.rn.nameCA": "RN",
+    "pricing.rn.nameUS": "RN",
+    "pricing.np.nameCA": "NP Advanced",
+    "pricing.np.nameUS": "NP Advanced",
     "common.loading": "Loading...",
     "common.save": "Save",
     "common.cancel": "Cancel",
@@ -2839,6 +2845,9 @@ const enTranslations: Record<string, string> = {
     "home.mostTested.neuroDesc": "Stroke, increased ICP, seizures, spinal cord injury",
     "home.email.invalidEmail": "Please enter a valid email address.",
     "home.email.success": "You're subscribed! Check your inbox for practice questions.",
+    "home.email.subscriptionFailed": "Subscription failed. Please try again.",
+    "home.email.somethingWrong": "Something went wrong. Please try again.",
+    "home.hero.npExams": "NP Exams",
   };
 
 export default enTranslations;
