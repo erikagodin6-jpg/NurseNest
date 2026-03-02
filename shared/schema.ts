@@ -1442,6 +1442,25 @@ export const generationEvents = pgTable("generation_events", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const generatorV2PresentationSettings = pgTable("generator_v2_presentation_settings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  generationId: varchar("generation_id").notNull().unique(),
+  themeId: text("theme_id"),
+  coverLayout: text("cover_layout").default("minimal"),
+  coverTitle: text("cover_title").default(""),
+  coverSubtitle: text("cover_subtitle").default(""),
+  authorLine: text("author_line"),
+  editionText: text("edition_text"),
+  showLogo: boolean("show_logo").default(true),
+  extrasJson: jsonb("extras_json"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertGeneratorV2PresentationSettingsSchema = createInsertSchema(generatorV2PresentationSettings).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertGeneratorV2PresentationSettings = z.infer<typeof insertGeneratorV2PresentationSettingsSchema>;
+export type GeneratorV2PresentationSettings = typeof generatorV2PresentationSettings.$inferSelect;
+
 export const v2ContentBlocks = pgTable("v2_content_blocks", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   generationId: varchar("generation_id").notNull(),

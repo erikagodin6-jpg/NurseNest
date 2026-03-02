@@ -11378,6 +11378,195 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/generator-v2/generations/:id/presentation", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      const settings = await storage.getPresentationSettings(req.params.id);
+      if (!settings) {
+        return res.json({
+          generationId: req.params.id,
+          themeId: null,
+          coverLayout: "minimal",
+          coverTitle: gen.topic || "Nursing Exam Prep",
+          coverSubtitle: `${gen.examTarget?.toUpperCase() || "REx-PN"} Practice - ${gen.createdCount} Questions`,
+          authorLine: "NurseNest",
+          editionText: new Date().getFullYear().toString() + " Edition",
+          showLogo: true,
+          extrasJson: [
+            { type: "how_to_use", enabled: true },
+            { type: "blueprint_map", enabled: true },
+            { type: "study_plan", enabled: true, planDays: 14 },
+            { type: "score_tracker", enabled: true },
+            { type: "notes", enabled: false, pages: 3, style: "lined" },
+            { type: "answer_key", enabled: false },
+          ],
+          _isDefault: true,
+        });
+      }
+      res.json(settings);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/generator-v2/generations/:id/presentation", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      const { themeId, coverLayout, coverTitle, coverSubtitle, authorLine, editionText, showLogo, extrasJson } = req.body;
+      if (coverTitle && coverTitle.length > 120) return res.status(400).json({ error: "Title max 120 characters" });
+      if (coverSubtitle && coverSubtitle.length > 200) return res.status(400).json({ error: "Subtitle max 200 characters" });
+      if (authorLine && authorLine.length > 80) return res.status(400).json({ error: "Author line max 80 characters" });
+      if (editionText && editionText.length > 60) return res.status(400).json({ error: "Edition text max 60 characters" });
+      const validLayouts = ["minimal", "board_review", "soft_clinical"];
+      const data: any = {};
+      if (themeId !== undefined) data.themeId = themeId;
+      if (coverLayout !== undefined) data.coverLayout = validLayouts.includes(coverLayout) ? coverLayout : "minimal";
+      if (coverTitle !== undefined) data.coverTitle = coverTitle;
+      if (coverSubtitle !== undefined) data.coverSubtitle = coverSubtitle;
+      if (authorLine !== undefined) data.authorLine = authorLine;
+      if (editionText !== undefined) data.editionText = editionText;
+      if (showLogo !== undefined) data.showLogo = !!showLogo;
+      if (extrasJson !== undefined) {
+        try {
+          const parsed = Array.isArray(extrasJson) ? extrasJson : JSON.parse(extrasJson);
+          data.extrasJson = parsed;
+        } catch {
+          data.extrasJson = [];
+        }
+      }
+      const result = await storage.upsertPresentationSettings(req.params.id, data);
+      await storage.createGenerationEvent({
+        generationId: req.params.id,
+        eventType: "presentation_settings_saved",
+        payload: { fields: Object.keys(data) },
+      });
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/generations/:id/publish-with-pdf", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      if (gen.createdCount === 0) return res.status(400).json({ error: "No questions generated yet" });
+
+      const { title, description, priceDollars, compareAtDollars, category, tierTarget, examTarget, featured, themeId } = req.body;
+      if (!title || !description || priceDollars === undefined || !category) {
+        return res.status(400).json({ error: "Missing required fields: title, description, priceDollars, category" });
+      }
+
+      const { compileGeneration, COMPILER_THEMES } = await import("./generatorV2/compiler");
+      const validThemeId = themeId && COMPILER_THEMES.some((t: any) => t.id === themeId) ? themeId : undefined;
+      const pages = await compileGeneration(req.params.id, validThemeId);
+
+      const { PDFDocument, rgb: pdfRgb, StandardFonts } = await import("pdf-lib");
+      const hexToRgb = (hex: string) => {
+        const h = hex.replace("#", "");
+        return pdfRgb(parseInt(h.substring(0, 2), 16) / 255, parseInt(h.substring(2, 4), 16) / 255, parseInt(h.substring(4, 6), 16) / 255);
+      };
+      const doc = await PDFDocument.create();
+      const fontRegular = await doc.embedFont(StandardFonts.Helvetica);
+      const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
+
+      for (const compiledPage of pages) {
+        const page = doc.addPage([612, 792]);
+        if (compiledPage.backgroundColor) {
+          page.drawRectangle({ x: 0, y: 0, width: 612, height: 792, color: hexToRgb(compiledPage.backgroundColor) });
+        }
+        const sorted = [...compiledPage.objects].sort((a: any, b: any) => (a.zIndex || 0) - (b.zIndex || 0));
+        for (const obj of sorted) {
+          const opacity = obj.opacity ?? 1;
+          if (obj.type === "rect") {
+            page.drawRectangle({ x: obj.x, y: 792 - obj.y - obj.height, width: obj.width, height: obj.height, color: hexToRgb(obj.fill || "#000000"), opacity });
+          } else if (obj.type === "text" && obj.content) {
+            const font = (obj.fontWeight === "bold" || obj.fontWeight === "700" || obj.fontWeight === "800") ? fontBold : fontRegular;
+            const fontSize = Math.min(obj.fontSize || 10, 24);
+            const color = hexToRgb(obj.fill || "#000000");
+            let lineY = 792 - obj.y - (fontSize * 1.2);
+            const lines = obj.content.split("\n");
+            for (const line of lines) {
+              if (lineY < 0) break;
+              const maxChars = Math.floor(obj.width / (fontSize * 0.5)) || 80;
+              let remaining = line;
+              while (remaining.length > 0 && lineY > 0) {
+                const chunk = remaining.substring(0, maxChars);
+                remaining = remaining.substring(maxChars);
+                try { page.drawText(chunk, { x: obj.x, y: lineY, size: fontSize, font, color, opacity }); } catch (_e) {}
+                lineY -= fontSize * 1.4;
+              }
+            }
+          } else if (obj.type === "line") {
+            page.drawLine({ start: { x: obj.x, y: 792 - obj.y }, end: { x: obj.x + obj.width, y: 792 - obj.y }, thickness: obj.height || 1, color: hexToRgb(obj.fill || "#cccccc"), opacity });
+          }
+        }
+      }
+
+      const pdfBytes = await doc.save();
+
+      const privateDir = process.env.PRIVATE_OBJECT_DIR || "";
+      if (!privateDir) return res.status(500).json({ error: "Object storage not configured" });
+
+      const safeName = title.replace(/[^a-zA-Z0-9 -]/g, "").replace(/\s+/g, "-").substring(0, 60);
+      const pdfKey = `${privateDir}/products/gen-${req.params.id}-${safeName}-${Date.now()}.pdf`;
+      const { bucketName, objectName } = parseStoragePath(pdfKey);
+      const { objectStorageClient } = await import("./replit_integrations/object_storage/objectStorage");
+      const bucket = objectStorageClient.bucket(bucketName);
+      const file = bucket.file(objectName);
+      await file.save(Buffer.from(pdfBytes), { contentType: "application/pdf" });
+
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .substring(0, 80) + "-" + Date.now().toString(36);
+
+      const priceCents = Math.round(parseFloat(priceDollars) * 100);
+      const compareAtCents = compareAtDollars ? Math.round(parseFloat(compareAtDollars) * 100) : null;
+
+      const product = await storage.createDigitalProduct({
+        title,
+        slug,
+        description,
+        shortDescription: `${gen.createdCount} ${gen.examTarget?.toUpperCase() || "REx-PN"} practice questions - ${gen.topic}`,
+        price: priceCents,
+        compareAtPrice: compareAtCents,
+        fileUrl: pdfKey,
+        coverImageUrl: null,
+        category,
+        tierTarget: tierTarget || "all",
+        examTarget: examTarget || gen.examTarget || null,
+        featured: featured || false,
+        isActive: true,
+      });
+
+      await storage.updateProductGeneration(req.params.id, {
+        settings: { ...(gen.settings as any || {}), publishedProductId: product.id, publishedPdfKey: pdfKey },
+      });
+
+      await storage.createGenerationEvent({
+        generationId: req.params.id,
+        eventType: "published_with_pdf",
+        payload: { productId: product.id, title, priceCents, pdfPages: pages.length, themeId: validThemeId || "soft-clinical" },
+      });
+
+      await logAudit(req, admin, "digital_product", product.id, "publish_with_pdf_v2", null, { generationId: req.params.id, title, priceCents, pdfPages: pages.length });
+      res.json({ ...product, pdfPages: pages.length, pdfKey });
+    } catch (e: any) {
+      console.error("Publish with PDF error:", e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.put("/api/generator-v2/generations/:id/questions/:qId", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
