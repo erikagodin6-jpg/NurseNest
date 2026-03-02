@@ -1,0 +1,145 @@
+Automation Center: the “As Many as Possible” List
+A) Question Bank Automations
+Daily Question Pack Generator (per tier/program)
+e.g., generate 25 questions/day into Draft, auto-publish only if validation passes
+Mock Exam Builder
+weekly: assemble 75–125 Q “mock exams” from the bank + a % new items
+NGN/Case Generator (where applicable)
+builds 5–10 cases/week with multi-part items + scoring rules
+Rationale Expander
+takes existing items and expands rationales to your minimum word count (e.g., 400–600+) while keeping layout stable
+Difficulty Balancer
+detects too many “easy” items and generates missing medium/hard coverage by blueprint
+Blueprint Coverage Filler
+checks your taxonomy vs inventory; generates missing topics automatically
+Duplicate/Similarity Sweeper
+flags near-duplicates and sends to review queue
+Item Quality Refactor
+rewrites stems/options that violate rules (double negatives, “all of the above”, cueing, unequal option length)
+Country/Lab Value Mapper
+auto-converts lab values/units per country mode and tags content accordingly
+Performance-Based Generator
+uses analytics (wrong-answer hotspots) to generate more items in weak areas
+B) Flashcard Automations
+Daily Flashcard Injection
+adds 25–100 cards/day per tier, tagged by topic
+Cloze Conversion
+converts basic cards into cloze deletions for spaced repetition
+“Missed Concepts” Cards
+generates flashcards from incorrect question analytics
+Image Prompt Generator for Cards
+generates safe image prompts (not images) for diagrams/icons so you can feed into your image pipeline
+C) Study Plan Automations
+Adaptive Study Plan Builder
+user picks exam date + baseline quiz → generates weekly schedule
+regenerates plan when user retakes baseline quiz
+Daily Task Nudger
+sends reminders based on progress (email/in-app)
+Catch-Up Week Generator
+when user falls behind, system auto-creates a catch-up micro-plan
+D) SEO + Content Automations
+Daily SEO Blog Post Draft
+buyer-intent + informational mix with internal links
+Comparison Page Factory
+“NurseNest vs X” pages with schema, FAQs, and conversion CTAs
+Internal Linking Optimizer
+scans content and adds internal links based on topic taxonomy
+Title/Meta Refresh
+updates titles/meta based on impressions/click-through data (guardrails)
+FAQ + Schema Generator
+auto-adds FAQ schema blocks per page type (blog/product/comparison)
+Indexing Health Monitor
+monitors crawl/indexing signals and flags issues in Admin
+E) Store/Product Automations
+Bundle Builder
+auto-creates “Cram Bundle” drafts from existing assets (TOC, cover page, included modules)
+Price Ladder Recommender
+suggests prices based on product length, uniqueness, and conversion history (suggestion only)
+Theme Variant Generator
+creates multiple theme/layout variants (content identical) for A/B testing
+Storefront Copy Generator
+value stacking, outcomes, guarantees, features, who-it’s-for, and FAQ
+F) Lifecycle Email / CRM Automations
+Onboarding Sequence Generator
+5–7 emails tailored by tier and exam date
+Abandoned Checkout Sequence
+2–3 emails + in-app prompts
+Churn Prevention Sequence
+triggers when usage drops or cancellation intent detected
+Winback Campaign
+30–60 day reactivation email series
+G) Quality + Safety Automations
+Medical Safety Filter
+flags any clinical “do X treatment” language; rephrases into educational framing
+Bias & Fairness Checker
+flags stereotypes and culturally unsafe phrasing in vignettes
+Copy/Plagiarism Heuristic Scan
+checks for repeated phrasing patterns across outputs
+Broken Layout Detector
+ensures PDF/export layouts don’t break: no giant tables, no overflow text blocks, consistent headers
+H) Ops/DevOps Automations
+Nightly Backup + Versioning
+DB backup + asset storage snapshots
+Cost Guardrail Monitor
+detects token/cost spikes; pauses automations automatically
+Error Spike Notifier
+Slack/email/webhook on job failures
+Sitemap Refresher
+regenerates sitemap, pings search engines (if you do that)
+Dead Link Scanner
+scans internal/external links; flags broken links
+Prompt Templates You’ll Reuse Everywhere
+1) Question Generation Template (universal)
+Generate {{question_count}} original exam-style questions for {{exam}} (tier: {{tier}}, country: {{country}}) on topic: {{topic}}.
+Difficulty mix: {{difficulty}}.
+Question styles allowed: {{allowed_styles}}.
+
+RULES:
+- Educational content only. No medical advice.
+- Must be original.
+- Use {{country}} units/values (convert labs/measurements accordingly).
+- Output as strict JSON array matching this schema: ...
+- Include rationale >= {{rationale_min_words}} words.
+- Include tags: topic, subtopic, difficulty, country, tier, exam.
+
+VALIDATION GOALS:
+- No duplicate stems.
+- Options are parallel and plausible.
+- One best answer.
+2) SEO Blog Draft Template
+Write an SEO blog post for {{country}} {{tier}} learners about {{topic}}.
+Primary keyword: {{keyword}}.
+Search intent: {{intent}}.
+Include:
+- Outline with H2/H3
+- 6–10 internal link suggestions using site slugs
+- FAQ section with 5 questions
+- Clear CTAs to relevant question bank and product pages
+Avoid fluff. Make it skimmable and conversion-aware.
+Return as Markdown + JSON metadata (title/meta/slug).
+3) Email Sequence Template
+Create a {{sequence_length}}-email sequence for {{tier}} learners in {{country}}.
+Goal: {{goal}} (onboarding/abandoned checkout/churn prevention).
+Voice: supportive, confident, no cringe, no emojis unless specified.
+Include: subject line, preview text, body, CTA, and segmentation notes.
+How to Implement Schedules (realistic backend pattern)
+Job queue: BullMQ (Redis) or DB-backed queue if you prefer simplicity
+Cron: every 5 minutes polls the schedule table → enqueues jobs
+Idempotency: job key = automation_id + run_date + parameters hash
+Draft-first: generator writes DraftAssets; validator writes ValidationReport; publisher promotes to PublishedAssets if approved/auto-approved
+Admin controls: pause/resume, run-now, edit prompt templates, view diffs, approve/publish
+The “Master Prompt” is great—but you also need these guardrails in Admin
+Add toggles for each automation:
+Enabled/Disabled
+Frequency (daily/weekly)
+Max items per run
+Max runs per day
+Country/tier scope (checkboxes)
+Auto-publish (on/off)
+Rationale minimum words
+Strictness level (validation threshold)
+This is what prevents the system from nuking your site with messy output.
+One more thing: what I can’t do directly
+I can’t create the automations inside your site from here. But the spec above is what you paste into Replit AI (or hand to a dev) to build it cleanly.
+If you paste one thing into Replit AI today
+Paste the Master Prompt and then add this line at the end:
