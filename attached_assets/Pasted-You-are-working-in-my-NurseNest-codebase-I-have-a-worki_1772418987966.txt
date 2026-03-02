@@ -1,0 +1,84 @@
+You are working in my NurseNest codebase. I have a working Generator V2 that generates question banks. 
+DO NOT change any question generation logic, prompts, chunking, or pipelines. 
+Your job is to add a SECONDARY "PDF Composer" feature that only affects the title page and extra pages for compiled/exported PDFs.
+
+GOAL
+After a generation is created and questions exist, I want an admin-only editor to:
+1) Edit title page (title, subtitle, edition/date, author line, logo toggle, theme/layout)
+2) Add extra pages (study plan, blueprint map, score tracker, answer key optional, notes pages)
+3) Save these settings per generation
+4) Recompile/export PDF using these settings
+
+REQUIREMENTS
+- The questions table/content must remain unchanged.
+- Add a new persistence layer for presentation settings keyed by generationId.
+- Update ONLY the PDF compile/export flow to include cover + extras.
+- Provide API endpoints and UI.
+- Must be robust if settings do not exist (fallback to defaults).
+
+DATA MODEL
+Create a new DB table/model: generator_v2_presentation_settings
+Fields (minimum):
+- id (uuid)
+- generationId (fk unique)
+- themeId (string nullable)
+- coverLayout (string: "minimal" | "board_review" | "soft_clinical")
+- coverTitle (string)
+- coverSubtitle (string)
+- authorLine (string nullable)
+- editionText (string nullable)
+- showLogo (boolean default true)
+- extrasJson (json)  // list of extra sections/pages and their config
+
+Default extrasJson example:
+[
+  {"type":"how_to_use","enabled":true},
+  {"type":"blueprint_map","enabled":true},
+  {"type":"study_plan","enabled":true,"planDays":14},
+  {"type":"score_tracker","enabled":true},
+  {"type":"notes","enabled":false,"pages":3,"style":"lined"},
+  {"type":"answer_key","enabled":false}
+]
+
+API
+Add endpoints:
+GET  /api/generator-v2/generations/:id/presentation
+PUT  /api/generator-v2/generations/:id/presentation   (save settings)
+
+Ensure admin authentication matches existing adminFetch approach.
+
+UI (GeneratorV2Page)
+Add a new panel section when a job is selected:
+- "Composer" accordion/card with:
+  - Cover editor fields: title, subtitle, author line, edition text, layout dropdown, logo toggle, theme override dropdown (reuse THEMES)
+  - Extras toggles with simple config controls (study plan days, notes pages count/style, answer key toggle)
+  - Buttons: "Save Composer Settings" and "Recompile PDF"
+- Do not change existing Generator controls. This is additive only.
+
+PDF GENERATION
+Locate the existing PDF compile/export implementation for generator-v2.
+Modify it so it:
+1) Loads presentation settings by generationId. If missing, use defaults derived from status.topic/examTarget/createdCount.
+2) Renders a title page based on coverLayout + theme colors (print-friendly, no heavy ink blocks).
+3) Inserts enabled extra pages BEFORE the questions.
+4) Keeps question rendering EXACTLY as-is (do not change question formatting unless required to support page numbering).
+5) Add footer page numbers that include cover+extras+questions (optional but preferred).
+
+EXTRA PAGES TEMPLATES
+Implement simple templates:
+- how_to_use: short structured instructions, what to track, how to review rationales
+- blueprint_map: show the 4 domain headings and include a small note "balanced coverage"
+- study_plan: table with days and tasks (e.g., Day 1–14). Keep generic.
+- score_tracker: table with Date / Topic / Score / Weak Areas / Notes
+- notes: lined or dot-grid pages (simple repeating lines)
+- answer_key (optional): list Q# -> correct letter(s). Keep compact.
+
+TESTING / SAFETY
+- Ensure exporting works even if composer settings are not saved.
+- Validate input lengths (e.g., title max 120 chars).
+- If extrasJson invalid, fallback gracefully.
+- Add a basic UI state: loading/saving + toast messages.
+
+DELIVERABLE
+Implement end-to-end: DB, endpoints, UI, and PDF compile/export integration.
+Again: do not modify question generation logic.

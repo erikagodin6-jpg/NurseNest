@@ -38,6 +38,8 @@ import { getImageAltText, getImageTitle, getImageStructuredData, getImageCaption
 import { LessonImageManager } from "@/components/lesson-image-manager";
 import { RichTextEditor, RichTextListEditor, RichTextDisplay } from "@/components/rich-text-editor";
 import { ContentBlockRenderer, LessonObjectives, ClinicalPearlsList } from "@/components/content-block-renderer";
+import { AuscultationSitesDiagram } from "@/components/auscultation-sites-diagram";
+import { RespiratorySoundsLibrary } from "@/components/respiratory-sounds-library";
 import { useI18n } from "@/lib/i18n";
 
 function getCredentials() {
@@ -3182,6 +3184,13 @@ export default function LessonDetail() {
                     />
                   )}
                 </section>
+
+                {id && /^(lung-auscultation|lung-sounds|respiratory-assessment|breath-sound|pulmonary-assessment)/.test(id) && !isEditing && (
+                  <section id="auscultation-interactive" className="space-y-6" data-testid="section-auscultation-interactive">
+                    <AuscultationSitesDiagram />
+                    <RespiratorySoundsLibrary />
+                  </section>
+                )}
 
                 <section id="pharmacology" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
