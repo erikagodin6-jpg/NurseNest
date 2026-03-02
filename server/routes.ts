@@ -9993,13 +9993,14 @@ Return ONLY valid JSON with this exact structure:
       const existing = await storage.getDigitalProduct(req.params.id);
       if (!existing) return res.status(404).json({ error: "Product not found" });
       const updates: any = {};
-      for (const key of ["title", "slug", "description", "shortDescription", "fileUrl", "coverImageUrl", "category", "tierTarget", "examTarget", "seoTitle", "seoDescription", "seoKeywords", "themeId"]) {
+      for (const key of ["title", "slug", "description", "shortDescription", "fileUrl", "coverImageUrl", "category", "tierTarget", "examTarget", "seoTitle", "seoDescription", "seoKeywords", "themeId", "previewUrl"]) {
         if (req.body[key] !== undefined) updates[key] = req.body[key];
       }
       if (req.body.price !== undefined) updates.price = parseInt(req.body.price);
       if (req.body.compareAtPrice !== undefined) updates.compareAtPrice = req.body.compareAtPrice ? parseInt(req.body.compareAtPrice) : null;
       if (req.body.featured !== undefined) updates.featured = req.body.featured;
       if (req.body.isActive !== undefined) updates.isActive = req.body.isActive;
+      if (req.body.questionCount !== undefined) updates.questionCount = parseInt(req.body.questionCount);
       const updated = await storage.updateDigitalProduct(req.params.id, updates);
       await logAudit(req, admin, "digital_product", req.params.id, "update", existing, updated);
       res.json(updated);
@@ -10648,6 +10649,7 @@ Return ONLY valid JSON with this exact structure:
           examTarget: draft.exam,
           featured: false,
           isActive: true,
+          questionCount: draft.requestedCount || 0,
         });
         await storage.updateQbankDraft(draft.id, { publishedProductId: product.id } as any);
         results.questionsOnly = product;
@@ -10665,6 +10667,7 @@ Return ONLY valid JSON with this exact structure:
           examTarget: draft.exam,
           featured: false,
           isActive: true,
+          questionCount: draft.requestedCount || 0,
         });
         await storage.updateQbankDraft(draft.id, { publishedStudyProductId: studyProduct.id } as any);
         results.studyEdition = studyProduct;
@@ -11486,6 +11489,7 @@ Return ONLY valid JSON with this exact structure:
         examTarget: examTarget || gen.examTarget || null,
         featured: featured || false,
         isActive: true,
+        questionCount: gen.createdCount || 0,
       });
 
       await storage.updateProductGeneration(req.params.id, {
@@ -11732,6 +11736,7 @@ Return ONLY valid JSON with this exact structure:
         examTarget: examTarget || gen.examTarget || null,
         featured: featured || false,
         isActive: true,
+        questionCount: gen.createdCount || 0,
         seoTitle: seoTitle || null,
         seoDescription: seoDescription || null,
         seoKeywords: seoKeywords || null,

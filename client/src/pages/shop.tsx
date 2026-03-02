@@ -101,6 +101,13 @@ function ProductCard({ product }: { product: DigitalProduct }) {
           <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
             <Download className="w-3 h-3" />
             <span>Instant PDF download</span>
+            {product.questionCount && product.questionCount > 0 && (
+              <>
+                <span className="mx-1">|</span>
+                <BookOpen className="w-3 h-3" />
+                <span>{product.questionCount} questions</span>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>

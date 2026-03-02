@@ -855,10 +855,10 @@ export default function Home() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { icon: Droplets, title: "Electrolytes & Acid-Base", desc: "Na, K, Ca, Mg, ABG interpretation, anion gap, DKA vs HHS", href: "/study-guide/electrolytes-acid-base-nursing-guide", color: "bg-blue-50 text-blue-600" },
-                { icon: HeartPulse, title: "ECG & Cardiac Emergencies", desc: "Lethal rhythms, STEMI vs NSTEMI, troponin, shock states", href: "/study-guide/ecg-cardiac-emergencies-nursing-guide", color: "bg-red-50 text-red-600" },
-                { icon: Thermometer, title: "Sepsis & Shock", desc: "Hour-1 bundle, qSOFA, vasopressors, fluid resuscitation", href: "/lessons/sepsis", color: "bg-orange-50 text-orange-600" },
-                { icon: Baby, title: "OB Emergencies", desc: "Preeclampsia, placental abruption, PPH, eclampsia", href: "/lessons/preeclampsia-management", color: "bg-pink-50 text-pink-600" },
-                { icon: FlaskConical, title: "Pharmacology Safety", desc: "High-alert meds, drug interactions, toxicity, antidotes", href: "/lessons/medication-administration-safety", color: "bg-emerald-50 text-emerald-600" },
+                { icon: HeartPulse, title: "ECG & Cardiac Emergencies", desc: "Lethal rhythms, STEMI vs NSTEMI, troponin, shock states", href: "/study-guide/cardiac-emergencies-nursing-guide", color: "bg-red-50 text-red-600" },
+                { icon: Thermometer, title: "Sepsis & Shock", desc: "Hour-1 bundle, qSOFA, vasopressors, fluid resuscitation", href: "/study-guide/sepsis-shock-nursing-guide", color: "bg-orange-50 text-orange-600" },
+                { icon: Baby, title: "OB Emergencies", desc: "Preeclampsia, placental abruption, PPH, eclampsia", href: "/study-guide/ob-emergencies-nursing-guide", color: "bg-pink-50 text-pink-600" },
+                { icon: FlaskConical, title: "Pharmacology Safety", desc: "High-alert meds, drug interactions, toxicity, antidotes", href: "/study-guide/pharmacology-high-yield-nursing-guide", color: "bg-emerald-50 text-emerald-600" },
                 { icon: Brain, title: "Neuro Emergencies", desc: "Stroke, increased ICP, seizures, spinal cord injury", href: "/lessons/stroke", color: "bg-purple-50 text-purple-600" },
               ].map((topic, i) => (
                 <Card 

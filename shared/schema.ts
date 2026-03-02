@@ -1113,6 +1113,7 @@ export const digitalProducts = pgTable("digital_products", {
   examTarget: text("exam_target"),
   featured: boolean("featured").default(false),
   isActive: boolean("is_active").default(true),
+  questionCount: integer("question_count").default(0),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
   seoKeywords: text("seo_keywords"),
