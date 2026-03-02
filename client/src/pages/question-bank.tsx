@@ -6,27 +6,32 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
-import { buildQuestionPool } from "@/lib/question-pool";
+import { buildQuestionPool, getBowtieQuestions, buildBowtiePool } from "@/lib/question-pool";
 import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import { useLocation } from "wouter";
+import { BowtieQuestionCard } from "@/components/bowtie-question";
 
 const FREE_PREVIEW_COUNT = 3;
 
 export default function QuestionBank() {
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
+  const [questionMode, setQuestionMode] = useState<"mcq" | "bowtie">("mcq");
   const [tierFilter, setTierFilter] = useState<string>("all");
   const [systemFilter, setSystemFilter] = useState<string>("all");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [stats, setStats] = useState({ correct: 0, total: 0 });
+  const [bowtieIndex, setBowtieIndex] = useState(0);
+  const [bowtieStats, setBowtieStats] = useState({ correct: 0, total: 0 });
 
   const allQuestions = useMemo(() => buildQuestionPool(), []);
+  const allBowtie = useMemo(() => buildBowtiePool(), []);
 
   const userCanAccessTier = (questionTier: string) => {
     if (!questionTier || questionTier === "free") return true;
@@ -52,10 +57,29 @@ export default function QuestionBank() {
     return filtered.filter(q => userCanAccessTier(q.tier));
   }, [filtered, user, effectiveTier, isTierLocked]);
 
+  const filteredBowtie = useMemo(() => {
+    let q = allBowtie;
+    if (tierFilter !== "all") q = q.filter(x => x.tier === tierFilter);
+    if (systemFilter !== "all") q = q.filter(x => x.bodySystem === systemFilter);
+    return q;
+  }, [allBowtie, tierFilter, systemFilter]);
+
+  const accessibleBowtie = useMemo(() => {
+    if (isTierLocked) return [];
+    if (!user || !effectiveTier || effectiveTier === "free") {
+      return filteredBowtie.slice(0, FREE_PREVIEW_COUNT);
+    }
+    if (effectiveTier === "admin") return filteredBowtie;
+    return filteredBowtie.filter(q => userCanAccessTier(q.tier));
+  }, [filteredBowtie, user, effectiveTier, isTierLocked]);
+
   const bodySystems = useMemo(() => {
-    const systems = new Set(allQuestions.map(q => q.bodySystem));
+    const systems = new Set([
+      ...allQuestions.map(q => q.bodySystem),
+      ...allBowtie.map(q => q.bodySystem)
+    ]);
     return Array.from(systems).sort();
-  }, [allQuestions]);
+  }, [allQuestions, allBowtie]);
 
   const question = accessibleQuestions[currentIndex];
 

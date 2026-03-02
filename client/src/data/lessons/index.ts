@@ -199,6 +199,35 @@ import { generatedBatch101Lessons } from "./generated-batch-101";
 import { generatedBatch102Lessons } from "./generated-batch-102";
 import { generatedBatch103Lessons } from "./generated-batch-103";
 
+import { generatedBatch01Lessons } from "./generated-batch-01";
+import { generatedBatch02Lessons } from "./generated-batch-02";
+import { generatedBatch03Lessons } from "./generated-batch-03";
+import { generatedBatch04Lessons } from "./generated-batch-04";
+import { generatedBatch05Lessons } from "./generated-batch-05";
+import { generatedBatch06Lessons } from "./generated-batch-06";
+import { generatedBatch07Lessons } from "./generated-batch-07";
+import { generatedBatch08Lessons } from "./generated-batch-08";
+import { generatedBatch09Lessons } from "./generated-batch-09";
+import { generatedBatch10Lessons } from "./generated-batch-10";
+import { generatedBatch11Lessons } from "./generated-batch-11";
+import { generatedBatch12Lessons } from "./generated-batch-12";
+import { generatedBatch13Lessons } from "./generated-batch-13";
+import { generatedBatch14Lessons } from "./generated-batch-14";
+import { generatedBatch15Lessons } from "./generated-batch-15";
+import { generatedBatch16Lessons } from "./generated-batch-16";
+import { generatedBatch17Lessons } from "./generated-batch-17";
+import { generatedBatch18Lessons } from "./generated-batch-18";
+import { generatedBatch19Lessons } from "./generated-batch-19";
+import { generatedBatch20Lessons } from "./generated-batch-20";
+import { generatedBatch21Lessons } from "./generated-batch-21";
+import { generatedBatch22Lessons } from "./generated-batch-22";
+import { generatedBatch23Lessons } from "./generated-batch-23";
+import { generatedBatch24Lessons } from "./generated-batch-24";
+import { generatedBatch25Lessons } from "./generated-batch-25";
+import { generatedBatch26Lessons } from "./generated-batch-26";
+import { generatedBatch27Lessons } from "./generated-batch-27";
+import { generatedBatch28Lessons } from "./generated-batch-28";
+
 export type { LessonContent } from "./types";
 
 function countQuestions(lessons: Record<string, LessonContent>): number {
@@ -410,6 +439,34 @@ export const contentMap: Record<string, LessonContent> = {
   ...generatedBatch101Lessons,
   ...generatedBatch102Lessons,
   ...generatedBatch103Lessons,
+  ...generatedBatch01Lessons,
+  ...generatedBatch02Lessons,
+  ...generatedBatch03Lessons,
+  ...generatedBatch04Lessons,
+  ...generatedBatch05Lessons,
+  ...generatedBatch06Lessons,
+  ...generatedBatch07Lessons,
+  ...generatedBatch08Lessons,
+  ...generatedBatch09Lessons,
+  ...generatedBatch10Lessons,
+  ...generatedBatch11Lessons,
+  ...generatedBatch12Lessons,
+  ...generatedBatch13Lessons,
+  ...generatedBatch14Lessons,
+  ...generatedBatch15Lessons,
+  ...generatedBatch16Lessons,
+  ...generatedBatch17Lessons,
+  ...generatedBatch18Lessons,
+  ...generatedBatch19Lessons,
+  ...generatedBatch20Lessons,
+  ...generatedBatch21Lessons,
+  ...generatedBatch22Lessons,
+  ...generatedBatch23Lessons,
+  ...generatedBatch24Lessons,
+  ...generatedBatch25Lessons,
+  ...generatedBatch26Lessons,
+  ...generatedBatch27Lessons,
+  ...generatedBatch28Lessons,
 };
 
 export const lessonCount = Object.keys(contentMap).length;

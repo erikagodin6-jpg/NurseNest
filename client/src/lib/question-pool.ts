@@ -15,7 +15,9 @@ import { rnExpansionAQuestions } from "@/data/exam-questions/rn-expansion-a";
 import { rnExpansionBQuestions } from "@/data/exam-questions/rn-expansion-b";
 import { npClinicalManagementQuestions } from "@/data/exam-questions/np-clinical-management";
 import { npExpansionAQuestions } from "@/data/exam-questions/np-expansion-a";
-import type { ExamQuestion } from "@/data/exam-questions/types";
+import type { ExamQuestion, BowtieQuestion } from "@/data/exam-questions/types";
+import { rpnBowtieQuestions } from "@/data/exam-questions/rpn-bowtie";
+import { rnBowtieQuestions } from "@/data/exam-questions/rn-bowtie";
 
 export interface PooledQuestion {
   id: string;
@@ -158,6 +160,32 @@ export function getAvailableBodySystems(tier: string): string[] {
 export function getPoolStats(tier: string): { total: number; systems: Record<string, number> } {
   const pool = buildQuestionPool();
   const filtered = tier === "all" ? pool : pool.filter((q) => q.tier === tier);
+  const systems: Record<string, number> = {};
+  for (const q of filtered) {
+    systems[q.bodySystem] = (systems[q.bodySystem] || 0) + 1;
+  }
+  return { total: filtered.length, systems };
+}
+
+let cachedBowtiePool: BowtieQuestion[] | null = null;
+
+export function buildBowtiePool(): BowtieQuestion[] {
+  if (cachedBowtiePool) return cachedBowtiePool;
+  cachedBowtiePool = [...rpnBowtieQuestions, ...rnBowtieQuestions];
+  return cachedBowtiePool;
+}
+
+export function getBowtieQuestions(tier: string, bodySystem?: string): BowtieQuestion[] {
+  const pool = buildBowtiePool();
+  let filtered = pool;
+  if (tier !== "all") filtered = filtered.filter(q => q.tier === tier);
+  if (bodySystem && bodySystem !== "all") filtered = filtered.filter(q => q.bodySystem === bodySystem);
+  return shuffleArray(filtered);
+}
+
+export function getBowtieStats(tier: string): { total: number; systems: Record<string, number> } {
+  const pool = buildBowtiePool();
+  const filtered = tier === "all" ? pool : pool.filter(q => q.tier === tier);
   const systems: Record<string, number> = {};
   for (const q of filtered) {
     systems[q.bodySystem] = (systems[q.bodySystem] || 0) + 1;
