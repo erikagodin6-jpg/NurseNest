@@ -997,6 +997,26 @@ export function Navigation() {
           </div>
         </div>
       </div>
+      <div className="border-t border-primary/10 bg-primary/5">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="flex items-center justify-between gap-2 h-9">
+            <div className="hidden md:flex items-center gap-0.5">
+              {designations.map((d) => (
+                <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
+              ))}
+            </div>
+            <div className="md:hidden" />
+            <div className="flex items-center gap-2">
+              <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
+              <NavDropdown label={t("nav.resources")} items={[
+                { icon: Tag, label: t("nav.pricing"), key: "Pricing" },
+                { icon: HelpCircle, label: t("footer.faq"), key: "FAQ" },
+                { icon: BarChart, label: t("nav.reports"), key: "Reports" },
+              ]} subBar />
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 }
