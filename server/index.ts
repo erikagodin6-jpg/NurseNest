@@ -39,6 +39,7 @@ const ALLOWED_HOSTS = new Set([BARE_HOST, CANONICAL_HOST, ALLIED_HOST]);
 
 import { alliedDetectionMiddleware, hostRedirectMiddleware, isAlliedHost } from "./allied-middleware";
 app.use(alliedDetectionMiddleware);
+app.use(hostRedirectMiddleware);
 
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
@@ -455,6 +456,8 @@ const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "ar", "ko", "pt"
 const SUPPORTED_LOCALES_SET = new Set(SUPPORTED_LOCALES);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
+  if (req.isAllied) return next();
+
   const urlPath = req.path;
 
   if (

@@ -1,4 +1,5 @@
 export type { CareerQuestion } from "./rrt-questions";
+export { getCareerQuestionPool } from "./career-question-pool";
 
 export { rrtQuestions } from "./rrt-questions";
 export { paramedicQuestions } from "./paramedic-questions";

@@ -1,0 +1,197 @@
+YOU ARE REPLIT AI. You are a senior full-stack SaaS architect working inside the NurseNest codebase (Vite + React + Express + DB + Stripe). Implement Allied Health exam prep features on the SUBDOMAIN allied.nursenest.ca ONLY. Do NOT change nursing routes, nursing paywalls, nursing Stripe products, or nursing sitemap.
+
+GOAL
+On allied.nursenest.ca:
+1) Add a full “QBank Generator” (admin) to mass-produce questions and publish them into each allied career QBank.
+2) Add an Allied “Store” for digital products (cram bundles, mock exam packs, flashcard packs) with Stripe checkout separate from nursing.
+3) Add “Practice Exam Flashcards” — every practice exam/mode must be able to generate/store a linked flashcard deck from missed questions + key concepts, similar to the nursing site.
+4) Add Lessons + Modules for each allied career and fully populate them (MVP complete content: modules + lesson pages + linked practice).
+5) Add standardized practice exam lengths and templates across allied careers.
+6) Ensure all SEO, sitemaps, robots, and branding are separate from nursing.
+
+NON-NEGOTIABLES
+- Allied must remain isolated by host (allied.nursenest.ca).
+- No content mixing. All queries filter by careerType.
+- Paywalls enforced server-side.
+- No copyrighted exam items. Original content only.
+
+===============================================================================
+A) ALLIED CAREERS + NAV
+===============================================================================
+Careers (slugs):
+- rrt
+- paramedic
+- pharmacy-tech
+- mlt
+- imaging
+
+Add Allied nav links:
+- Careers
+- QBank
+- Mock Exams
+- Flashcards
+- Lessons
+- Sims
+- Store
+- Pricing
+
+Each career must have:
+- /:careerSlug (landing)
+- /:careerSlug/qbank
+- /:careerSlug/mock-exams
+- /:careerSlug/flashcards
+- /:careerSlug/lessons
+- /:careerSlug/sims
+- /:careerSlug/store (optional filtered store view)
+
+===============================================================================
+B) ALLIED STORE (DIGITAL PRODUCTS)
+===============================================================================
+Implement Allied Store at:
+- /store
+- /store/:productSlug
+- /checkout (allied checkout only)
+
+Store product types:
+1) Cram Bundle PDF (one-time)
+2) Mock Exam Pack (one-time, includes X exam templates + question pools)
+3) Flashcard Pack (one-time)
+4) Scenario Vault (one-time)
+5) Optional: “Allied Pro” subscription (already exists) displayed here too
+
+Requirements:
+- Products are tied to careerType.
+- Stripe products are separate from nursing.
+- Allow theme selection for PDF exports at purchase (store choice with order).
+- Admin can create/edit products, prices, descriptions, and attach assets.
+
+===============================================================================
+C) QBANK GENERATOR + CONTENT FACTORY (ADMIN)
+===============================================================================
+Add /admin/allied/factory:
+Functions:
+1) Generate Questions Batch:
+   Inputs:
+   - careerType
+   - blueprintCategory + subtopic
+   - difficulty distribution
+   - questionType mix (career-specific allowed list)
+   - count (25/50/100/200)
+   Output:
+   - strict JSON questions
+   - quality checks: duplicate detection, rationale length, required tags
+   - preview + edit + commit to DB
+
+2) Generate Lessons + Modules:
+   - Create 12–20 modules per career with 6–12 lessons each.
+   - Each module includes objectives, key terms, most-tested callouts, red flags, summary.
+   - Auto-link 30–80 questions per module (by tags) once questions exist.
+
+3) Generate Flashcards:
+   - Generate 50–200 cards per module and/or per subtopic.
+   - Support spaced repetition stats (ease factor, next review, streak).
+
+4) Generate Case Sims:
+   - Unfolding scenarios per career and per module.
+
+Seed MVP content automatically for all careers:
+- Minimum 250 questions per career with correct type mix
+- Minimum 5 modules per career (fully written lessons)
+- Minimum 200 flashcards per career
+- Minimum 5 sims per career
+
+===============================================================================
+D) PRACTICE EXAMS (TEMPLATES + LENGTHS + “EXAM FLASHCARDS”)
+===============================================================================
+For each allied career implement standardized exam templates:
+1) Mini Mock: 50 questions
+2) Full Mock: 100 questions
+3) Marathon Mock: 150 questions
+4) Adaptive Exam (CAT-style practice): min 75, max 150, stop rule supported
+
+Mock generator must:
+- blueprint-weighted selection by career blueprint
+- enforce allowed questionType mix per career
+- difficulty distribution target
+- anti-repeat using user history
+
+After each exam session:
+- Provide score report + weak areas + recommended drills.
+- Provide “Create Flashcards from This Exam” feature:
+   a) Build a flashcard deck from:
+      - all incorrect questions
+      - plus key concepts from rationales (generated summary)
+   b) Save deck as:
+      - exam-linked deck (examSessionId)
+      - careerType + blueprint tags
+   c) Allow user to study this deck in spaced repetition mode.
+   d) Show a button: “Study my missed concepts (Flashcards)”.
+
+Also support:
+- “Auto-generate flashcards after every exam” toggle in user settings (allied only).
+
+===============================================================================
+E) ALLIED LESSONS + MODULES (COMPLETE)
+===============================================================================
+Implement:
+- /:careerSlug/lessons (module directory)
+- /:careerSlug/lessons/:moduleSlug (module page)
+- Each module page includes:
+  - objectives, high-yield summary, red flags, most-tested
+  - recommended flashcards
+  - module quiz (20–40 questions)
+  - links to sims
+  - CTA: “Take a 50Q mini mock from this module”
+
+Minimum “complete” content definition per career:
+- 15 modules
+- 10 lessons per module (avg) = ~150 lessons
+- 2,000 flashcards
+- 100 sims
+- QBank scale path: 1,000 -> 2,500 -> 4,000 questions
+
+MVP for launch is smaller (above), but build the system so it can scale to these totals.
+
+===============================================================================
+F) PAYWALLS
+===============================================================================
+Free users:
+- Access only is_free questions
+- 1 mini mock per career
+- limited flashcards (free decks only)
+- module previews (first 20% of lesson content)
+
+Pro subscribers:
+- full QBank, all mocks, adaptive exams, full lessons, sims, exam flashcards, analytics
+
+Enforce server-side on:
+- question payload endpoints
+- exam generation endpoints
+- flashcard deck endpoints
+- lesson full content endpoints
+No paid content in public routes.
+
+===============================================================================
+G) SEO INFRA (ALLIED ONLY)
+===============================================================================
+Add:
+- /sitemap-allied.xml (only allied public pages)
+- /robots.txt (host-based; allied disallows /api /admin /account /checkout and payload routes)
+- canonical tags aligned to allied host
+Do NOT change nursing sitemap.
+
+===============================================================================
+H) ACCEPTANCE CHECKLIST
+===============================================================================
+1) Allied Store works with Stripe checkout and does not affect nursing products.
+2) QBank generator produces valid JSON questions and saves to DB.
+3) Exams generate with correct blueprint weights and question type mix per career.
+4) Every exam can create an exam-linked flashcard deck from incorrect items.
+5) Lessons/modules exist, render properly, and link to QBank + flashcards + sims.
+6) Server paywalls prevent leaking full content.
+7) Allied sitemap is accessible and contains no nursing URLs; nursing sitemap contains no allied URLs.
+
+DELIVERABLES
+- Implement pages, routes, DB models, admin tools, and seed scripts.
+- Provide “Files changed” summary and how to run seeds.
+END.

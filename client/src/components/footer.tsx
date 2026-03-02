@@ -50,6 +50,10 @@ export function Footer() {
               <li><LocaleLink href="/disclaimer" className="hover:text-primary transition-colors" data-testid="link-footer-disclaimer">{t("footer.disclaimer")}</LocaleLink></li>
               <li><LocaleLink href="/refund-policy" className="hover:text-primary transition-colors" data-testid="link-footer-refund">{t("footer.refundPolicy")}</LocaleLink></li>
             </ul>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Allied Health</h3>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li><a href="https://allied.nursenest.ca" className="hover:text-primary transition-colors" data-testid="link-footer-allied">Allied Health Exam Prep</a></li>
+            </ul>
           </div>
         </div>
         <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">

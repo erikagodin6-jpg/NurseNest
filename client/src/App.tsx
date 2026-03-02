@@ -10,6 +10,7 @@ import { I18nProvider } from "@/lib/i18n";
 import { CareerProvider } from "@/lib/career-context";
 import { SiteImagesProvider } from "@/components/admin-image-overlay";
 import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE } from "@/lib/locale-utils";
+import { AlliedApp } from "@/allied/allied-app";
 
 function PreviewBanner() {
   const { previewTier, setPreviewTier, isAdmin } = useAuth();
@@ -567,7 +568,33 @@ function LocaleRouter() {
   );
 }
 
+function isAlliedHostname(): boolean {
+  const h = window.location.hostname.toLowerCase();
+  return h.startsWith("allied.") || h === "allied.localhost" || h === "allied.nursenest.ca";
+}
+
 function App() {
+  const isAllied = isAlliedHostname();
+
+  if (isAllied) {
+    return (
+      <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider attribute="data-theme" defaultTheme="clinical-light" enableSystem={false}>
+            <AuthProvider>
+              <CareerProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <AlliedApp />
+                </TooltipProvider>
+              </CareerProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </ErrorBoundary>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
