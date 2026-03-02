@@ -12,7 +12,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Study Tools</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors" data-testid="link-footer-lessons">Clinical Lessons</LocaleLink></li>
-              <li><LocaleLink href="/flashcards" className="hover:text-primary transition-colors" data-testid="link-footer-flashcards">Question Bank</LocaleLink></li>
+              <li><LocaleLink href="/flashcards" className="hover:text-primary transition-colors" data-testid="link-footer-flashcards">Flashcards</LocaleLink></li>
               <li><LocaleLink href="/anatomy" className="hover:text-primary transition-colors" data-testid="link-footer-anatomy">Anatomy Explorer</LocaleLink></li>
               <li><LocaleLink href="/pre-nursing" className="hover:text-primary transition-colors" data-testid="link-footer-pre-nursing">Pre-Nursing</LocaleLink></li>
               <li><LocaleLink href="/med-math" className="hover:text-primary transition-colors" data-testid="link-footer-med-math">Med Math</LocaleLink></li>
