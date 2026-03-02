@@ -1,0 +1,246 @@
+You are upgrading NurseNest Generator V2 into a premium, revenue-generating exam product engine.
+
+OBJECTIVE:
+Transform the current question generator into a high-quality, brand-consistent, market-ready product builder capable of producing premium exam packs, NGN case packs, structured study guides, and store-optimized digital products.
+
+Implement the following features end-to-end.
+
+============================================================
+1) STRUCTURAL FIXES (Topic vs Instructions Separation)
+============================================================
+
+- Topics must be a single-line, comma-separated field only.
+- Add a separate multiline field called `instructions`.
+- Sanitize topic input (no newlines, max 160 characters).
+- Backend must NEVER split topic by newline.
+- If multi-topic support is required, use an explicit `topics: string[]` field.
+
+============================================================
+2) PREMIUM EXAM PACK TEMPLATE
+============================================================
+
+Add a new template: `premium_exam_pack`.
+
+When compiling/exporting this template, structure PDF output as:
+
+1. Cover Page
+   - Title
+   - Subtitle
+   - Exam Target (REx-PN / NCLEX-PN / NCLEX-RN / NP)
+   - Tier (RPN/RN/NP)
+   - Region
+   - Theme styling
+   - “Created by NurseNest”
+   - Date generated
+
+2. Table of Contents with page numbers
+
+3. Structured Sections:
+   - Warm-Up (easy/moderate)
+   - Core Mastery (moderate)
+   - Advanced / Challenge
+   - Optional NGN / Case Sets
+
+4. Each Question Must Include:
+   - Skill Tag (prioritization, safety, pharm, delegation, assessment, etc.)
+   - System Tag
+   - Difficulty
+   - Full Rationale (why correct)
+   - Distractor Rationales (why incorrect)
+   - Clinical Pearl
+   - “Trap to Avoid”
+   - “Fast Rule” (mnemonic or quick heuristic)
+
+5. End Section:
+   - Full Answer Key
+   - Top 10 Common Mistakes
+   - 7-Day Study Plan (1 page structured)
+
+============================================================
+3) QUALITY GATE PIPELINE
+============================================================
+
+After each generated question:
+
+- Validate schema strictly.
+- Enforce:
+  - MCQ: exactly 4 options
+  - SATA: 6–8 options, 2–5 correct
+  - No duplicate stems
+  - No grammar hints in correct answer
+  - Plausible distractors
+  - No absolute wording unless clinically appropriate
+
+- Add internal LLM scoring rubric (0–10):
+  - Clarity
+  - Clinical realism
+  - Difficulty alignment
+  - Distractor quality
+  - Rationale depth
+
+Reject scores < 8 and regenerate.
+Retry up to 3 times before marking failed.
+
+============================================================
+4) BLUEPRINT-BASED DISTRIBUTION
+============================================================
+
+Add blueprint controls:
+- blueprintPreset (REx-PN, NCLEX-PN, NCLEX-RN)
+- distributions:
+  - bySystem
+  - bySkill
+  - byDifficulty
+  - byQuestionType
+
+At generation start:
+- Calculate exact counts per category.
+- Track progress live.
+- If a category is underfilled, prioritize it in next chunk.
+
+Add live “Blueprint Dashboard” to admin UI.
+
+============================================================
+5) NGN CASE PACK TEMPLATE
+============================================================
+
+Add new template: `ngn_case_pack`.
+
+Each case must include:
+- Patient scenario
+- Vitals table
+- Labs table
+- 4–6 linked questions
+- Mixed formats (MCQ, SATA, matrix, highlight)
+- Full rationales
+- Clinical progression update
+
+Export grouped by case with section divider pages.
+
+============================================================
+6) PREMIUM PDF LAYOUT ENGINE
+============================================================
+
+Upgrade export-pdf:
+
+- Branded header (logo left, pack title center, page number right)
+- Soft tinted background per theme
+- Card-style question containers
+- Section divider pages
+- Clean spacing and typography hierarchy
+- Orphan/widow control
+- Footer branding
+- Optional watermark (Premium / NurseNest)
+
+Add PDF Preview thumbnails before download.
+
+============================================================
+7) ADMIN REVIEW MODE
+============================================================
+
+Add admin question editing:
+
+- Click question to open editor drawer
+- Edit stem, options, correct answers, rationales, tags
+- Approve / Reject toggle
+- Only Approved questions allowed in publish/export
+
+============================================================
+8) AUTO PRODUCT LISTING GENERATOR
+============================================================
+
+Add “Auto-write Listing” button in Publish dialog.
+
+Generate:
+- 5 optimized product title variations
+- Short hook description
+- Long description (bullets: what’s included, outcomes)
+- FAQ section
+- SEO keywords
+- Meta description
+- Suggested price based on:
+    question count
+    template type
+    case vs standard
+    tier target
+
+============================================================
+9) PREMIUM BUNDLE BUILDER
+============================================================
+
+Enhance bundle creation:
+
+- Show total question count
+- Show topic breakdown
+- Show estimated value (sum compare-at)
+- Auto-generate bundle title + description
+- “Mark as Bestseller” toggle
+- Auto-create checkout upsell block
+
+============================================================
+10) MONETIZATION FEATURES
+============================================================
+
+Implement premium subscription features:
+
+- Question performance analytics
+- Percent of users who answered correctly (hidden until min 50 responses)
+- Percentile ranking
+- Friend comparison (opt-in)
+- “Practicing for X weeks” comparison group
+- Shareable progress card image generator
+
+Premium-only gating enforced server-side.
+
+============================================================
+11) SECURITY + ACCESS CONTROL
+============================================================
+
+- All paid downloads require active purchase or subscription.
+- Signed expiring download URLs.
+- Server-side validation for premium feature APIs.
+- Prevent direct PDF access without authentication.
+
+============================================================
+12) MARKETING HOOKS
+============================================================
+
+Add optional hero copy generator:
+
+Generate 3 conversion-focused hero sections including:
+- Headline
+- Subheadline
+- 3 benefit bullets
+- CTA button text
+- Social proof snippet
+
+============================================================
+13) RELIABLE COMPLETION ENGINE
+============================================================
+
+Generation must loop until:
+createdCount == targetCount.
+
+For each chunk:
+- Generate
+- Validate
+- Repair invalid
+- Save valid
+- Update progress
+
+Export disabled until generation complete.
+
+============================================================
+
+Deliver concrete code changes:
+- UI modifications
+- Backend route updates
+- Validator + repair system
+- Blueprint engine
+- PDF layout engine
+- Admin editor
+- Store integration
+- Premium gating middleware
+
+Do not return explanations.
+Return structured implementation plan and code changes.

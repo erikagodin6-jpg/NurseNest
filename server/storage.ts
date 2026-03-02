@@ -156,6 +156,7 @@ export interface IStorage {
   getGeneratedQuestions(generationId: string): Promise<GeneratedQuestion[]>;
   getGeneratedQuestionCount(generationId: string): Promise<number>;
   deleteGeneratedQuestion(id: string): Promise<void>;
+  updateGeneratedQuestion(id: string, data: Partial<{ stem: string; scenario: string; choices: any; correctAnswers: any; rationale: any; examPearl: string }>): Promise<any>;
 
   createGenerationEvent(data: { generationId: string; eventType: string; payload?: any }): Promise<void>;
   getGenerationEvents(generationId: string): Promise<any[]>;
@@ -1091,6 +1092,10 @@ export class DatabaseStorage implements IStorage {
   }
   async deleteGeneratedQuestion(id: string): Promise<void> {
     await db.delete(generatedQuestions).where(eq(generatedQuestions.id, id));
+  }
+  async updateGeneratedQuestion(id: string, data: Partial<{ stem: string; scenario: string; choices: any; correctAnswers: any; rationale: any; examPearl: string }>): Promise<any> {
+    const [r] = await db.update(generatedQuestions).set(data).where(eq(generatedQuestions.id, id)).returning();
+    return r;
   }
 
   async createGenerationEvent(data: { generationId: string; eventType: string; payload?: any }): Promise<void> {

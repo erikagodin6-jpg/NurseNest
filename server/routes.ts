@@ -11126,7 +11126,7 @@ Return ONLY valid JSON with this exact structure:
             const { generateContentBlocks } = await import("./generatorV2/contentWorker");
             await generateContentBlocks(id, gen.topic || "Nursing", gen.examTarget || "rex-pn", gen.region || "BOTH");
           }
-          if (template === "question_pack" || template === "hybrid") {
+          if (template === "question_pack" || template === "hybrid" || template === "premium_exam_pack") {
             const { runGenerationWorker } = await import("./generatorV2/worker");
             await runGenerationWorker(id);
           }
@@ -11177,7 +11177,7 @@ Return ONLY valid JSON with this exact structure:
         createdCount: gen.createdCount,
         chunkSize: gen.chunkSize,
         lastError: gen.lastError,
-        distributions: state ? { byType: state.byType, byDifficulty: state.byDifficulty, bySystem: state.bySystem } : null,
+        distributions: state ? { byType: state.byType, byDifficulty: state.byDifficulty, bySystem: state.bySystem, byTopic: state.byTopic } : null,
         recentEvents,
         isRunning: activeV2Runs.has(req.params.id),
         startedAt: gen.startedAt,
@@ -11373,6 +11373,57 @@ Return ONLY valid JSON with this exact structure:
 
       await logAudit(req, admin, "digital_product", product.id, "create_from_generator_v2", null, { generationId: req.params.id, title, priceCents });
       res.json(product);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/generator-v2/generations/:id/questions/:qId", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      const { stem, choices, correctAnswers, rationale, examPearl, scenario } = req.body;
+      if (stem !== undefined && (typeof stem !== "string" || stem.length < 10)) return res.status(400).json({ error: "Stem must be at least 10 characters" });
+      if (choices !== undefined && (!Array.isArray(choices) || choices.length < 4)) return res.status(400).json({ error: "Choices must be an array of at least 4 items" });
+      if (correctAnswers !== undefined && (!Array.isArray(correctAnswers) || correctAnswers.length < 1)) return res.status(400).json({ error: "correctAnswers must have at least 1 item" });
+      const updateData: any = {};
+      if (stem !== undefined) updateData.stem = stem;
+      if (scenario !== undefined) updateData.scenario = scenario;
+      if (choices !== undefined) updateData.choices = choices;
+      if (correctAnswers !== undefined) updateData.correctAnswers = correctAnswers;
+      if (rationale !== undefined) updateData.rationale = rationale;
+      if (examPearl !== undefined) updateData.examPearl = examPearl;
+      const updated = await storage.updateGeneratedQuestion(req.params.qId, updateData);
+      if (!updated) return res.status(404).json({ error: "Question not found" });
+      await storage.createGenerationEvent({
+        generationId: req.params.id,
+        eventType: "question_edited",
+        payload: { questionId: req.params.qId, fields: Object.keys(updateData) },
+      });
+      await logAudit(req, admin, "generated_question", req.params.qId, "edit", null, { generationId: req.params.id, fields: Object.keys(updateData) });
+      res.json(updated);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/generator-v2/auto-listing", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { topic, examTarget, questionCount, template: tpl, tier } = req.body;
+      const tierLabel = tier === "rn" ? "RN" : tier === "np" ? "NP" : "RPN";
+      const examLabel = (examTarget || "rex-pn").toUpperCase();
+      const tplLabel = tpl === "premium_exam_pack" ? "Premium Exam Pack" : "Question Pack";
+      let price = "19.99";
+      let compareAt = "39.99";
+      if (questionCount >= 250) { price = "29.99"; compareAt = "59.99"; }
+      if (questionCount >= 400) { price = "39.99"; compareAt = "79.99"; }
+      const title = `${topic} - ${examLabel} ${tplLabel} (${questionCount}Q)`;
+      const description = `${questionCount} expertly crafted ${examLabel} practice questions covering ${topic}. Designed for ${tierLabel} scope of practice. Every question includes a clinical scenario, detailed rationale, incorrect answer breakdowns, and a clinical pearl. Blueprint-aligned for ${new Date().getFullYear()} exam standards.`;
+      res.json({ title, description, price, compareAt });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

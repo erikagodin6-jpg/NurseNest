@@ -62,20 +62,26 @@ Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/po
 ### QBank Factory + Exam Factory (Admin)
 - Admin QBank Factory (`/admin/qbank-factory`) allows creating, managing, and publishing question banks with configurable parameters like topic mix, difficulty, and question types. It includes a persistent audit panel and export gates. The Exam Factory tab enables generating multiple exam forms with specific lengths and rationales.
 
-### Product Generator V2 (Admin)
+### Product Generator V2 (Admin) - Exam Pack Builder
 - Isolated chunked/resumable question generation pipeline at `/admin/generator-v2`.
 - Minimum 250 questions per generation (server-enforced).
-- Topic field: short labels only (max 120 chars), comma-separated. Stored separately from instructions.
-- Instructions field: optional long-form rules for AI, stored in `promptBase`, appended to tier base prompt.
+- Templates: `question_pack`, `premium_exam_pack`, `cram_guide`, `hybrid`.
+- Topic field: single-line Input (max 160 chars), comma-separated short labels. `sanitizeTopic()` replaces newlines with commas.
+- Instructions field: separate textarea for long-form admin rules, stored in `promptBase`, appended to tier base prompt.
 - Multi-topic support: comma/semicolon-separated topics distributed proportionally across generation.
-- Tier-aware prompts: RPN (monitor/report/administer), RN (protocol-based/delegation), NP (order/prescribe/diagnose).
+- Tier-aware prompts: RPN (monitor/report/administer), RN (protocol-based/delegation), NP (order/prescribe/diagnose). Default tier is "rpn".
 - AI prompt hardening: ANTI_ECHO_SYSTEM block forbids instruction copying into output fields, temperature=0.3 for consistency.
 - Instruction-echo detection: validator checks stem/choices/rationale against 15+ echo patterns, sanitizes instruction prefixes.
 - Chunk retry system: up to 2 retries per chunk with specific failure reason in retry prompt, accepts partial valid items.
 - JSON response cleaning: extractJsonFromResponse strips markdown fences, parseModelResponse handles various response shapes.
 - 18 print-ready PDF themes: 8 original + 5 pastel (lavender, mint, peach, sky, blush) + 5 monochrome (slate, graphite, silver, steel, fog).
 - PDF export via `POST /api/generator-v2/generations/:id/export-pdf` using pdf-lib with themed cover page, TOC, section dividers, answer key.
-- Store publishing and bundle creation integrated into admin UI.
+- Question Review & Edit: click any question card to open edit drawer. `PUT /api/generator-v2/generations/:id/questions/:qId` with validation (stem >= 10 chars, choices >= 4, correctAnswers >= 1). Audit logged.
+- Auto-Listing: `POST /api/generator-v2/auto-listing` generates title/description/price/compareAt based on topic, exam, count, template, tier.
+- Savings badge: publish dialog shows calculated savings percentage and dollar amount when compareAt > price.
+- Blueprint Dashboard: status endpoint returns `byTopic` distribution alongside byType/byDifficulty/bySystem.
+- Store publishing with tiered pricing: <100Q = $9.99, 100-249Q = $14.99, 250+Q = $29.99.
+- Bundle creation with stats preview (total questions, topic count, savings).
 - Worker: `server/generatorV2/worker.ts`, Validator: `server/generatorV2/validator.ts`, Compiler: `server/generatorV2/compiler.ts`.
 
 ### Diagnostic Assessment System

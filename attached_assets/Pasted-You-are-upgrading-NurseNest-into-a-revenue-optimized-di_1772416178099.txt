@@ -1,0 +1,228 @@
+You are upgrading NurseNest into a revenue-optimized digital exam prep platform.
+
+Your goal is NOT just to build features.
+Your goal is to maximize:
+- Conversion rate
+- Average order value (AOV)
+- Subscription retention
+- Perceived value
+- Psychological premium positioning
+
+Implement the following revenue engine.
+
+============================================================
+1) VALUE STACK PRICING ARCHITECTURE
+============================================================
+
+Implement tiered product positioning:
+
+A) Single Question Packs
+- 100–150 questions
+- $14–19
+- Compare-at: $29
+- Labeled “Starter Pack”
+
+B) Premium Question Packs
+- 250–300 questions
+- $29–39
+- Compare-at: $59
+- Includes study plan + mistake summary
+- Labeled “Most Popular”
+
+C) Case-Based NGN Packs
+- 10–20 full cases
+- $39–49
+- Compare-at: $79
+- Labeled “Advanced Simulation Pack”
+
+D) Full-Length Practice Exams
+- 85–90Q realistic exam simulation
+- Timed mode
+- $24–34
+- Compare-at: $49
+
+E) Bundles
+- Combine 2–4 packs
+- Auto-calculate savings badge
+- Show “You save $XX”
+
+Add automatic savings calculation logic and display it on product cards.
+
+============================================================
+2) PREMIUM SUBSCRIPTION MODEL
+============================================================
+
+Create 3 subscription tiers:
+
+Basic ($19/mo)
+- Unlock 3 premium packs per month
+- Performance tracking
+- Weak area breakdown
+
+Pro ($39/mo)
+- Unlimited question bank access
+- NGN case packs
+- Percentile ranking
+- Friend comparison
+- AI study plan builder
+
+Elite ($59/mo)
+- Everything in Pro
+- 2 full-length exams monthly
+- Downloadable PDFs
+- Priority new pack releases
+- Advanced analytics
+
+Add comparison table with checkmarks.
+
+============================================================
+3) CONVERSION PSYCHOLOGY FEATURES
+============================================================
+
+Implement:
+
+- “Most Popular” badge auto-assigned to middle-priced tier.
+- Limited-time launch pricing toggle.
+- Countdown timer component (admin configurable).
+- Social proof counter (“3,482 students practicing this week”).
+- “X% of students improved 1 grade level” dynamic stat block.
+
+Add logic so compare-at pricing always shows 30–60% perceived discount.
+
+============================================================
+4) HERO SECTION CONVERSION ENGINE
+============================================================
+
+Add AI-powered Hero Generator that outputs:
+
+- High-conversion headline
+- Subheadline focused on outcome
+- 3 benefit bullets
+- CTA button text
+- Social proof microcopy
+
+Generate 3 variations per pack.
+
+Automatically A/B rotate headlines (stored in DB).
+
+============================================================
+5) PRODUCT PAGE OPTIMIZATION
+============================================================
+
+Every product page must include:
+
+- Outcome-focused title
+- What’s included section
+- Who it’s for
+- Before/After scenario
+- 3 testimonial placeholders
+- FAQ (difficulty, format, refund policy)
+- “Pairs well with” upsell suggestions
+
+Add AI-generated FAQ builder.
+
+============================================================
+6) UPSELL + CROSS-SELL LOGIC
+============================================================
+
+Implement:
+
+- Cart upsell (“Add Full-Length Exam for $19”)
+- Post-purchase one-click offer
+- “Complete the System” section on checkout page
+- Bundle suggestion if user adds 2 single packs
+
+Logic:
+If cart contains 1 pack → suggest bundle.
+If cart contains 2 packs → suggest subscription.
+
+============================================================
+7) PERFORMANCE COMPARISON FEATURES (Premium Only)
+============================================================
+
+Add:
+
+- Percent of users who answered correctly (hidden until 50 responses).
+- Percentile ranking vs same-tier students.
+- “Practicing for X weeks” cohort comparison.
+- Friend leaderboard (opt-in).
+- Shareable progress card image generator.
+
+All analytics must be server-side validated.
+
+============================================================
+8) PERCEIVED VALUE MULTIPLIERS
+============================================================
+
+Add automatically generated bonuses:
+
+- 7-Day study sprint plan
+- Mistake log template (downloadable PDF)
+- “Top 50 High-Yield Facts” summary
+- Printable answer key
+
+These cost nothing to generate but increase perceived value dramatically.
+
+============================================================
+9) RETENTION ENGINE
+============================================================
+
+Add:
+
+- Weekly performance summary email (AI generated).
+- “You’re 68% ready for REx-PN” readiness meter.
+- Weak system alerts (“Respiratory below 60%”).
+- Streak tracking.
+- Unlock achievement badges.
+
+============================================================
+10) PRICING EXPERIMENTATION MODE
+============================================================
+
+Add admin dashboard:
+
+- Toggle price experiments.
+- Set % price increase/decrease.
+- Track conversion rate per price.
+- Track AOV.
+- Track subscription conversion.
+
+Store analytics in DB.
+
+============================================================
+11) PSYCHOLOGICAL POSITIONING RULES
+============================================================
+
+Enforce:
+
+- Never position as “cheap”.
+- Always position as “high-yield”, “exam-accurate”, “clinically realistic”.
+- Emphasize outcomes (pass faster, higher scores, confidence).
+- Emphasize structure and blueprint alignment.
+
+============================================================
+12) SCARCITY + AUTHORITY SIGNALS
+============================================================
+
+Add:
+
+- “Built by Canadian Nurses”
+- “Blueprint-Aligned”
+- “Exam-Level Difficulty”
+- “Updated 2026 Standards”
+
+Auto-update year dynamically.
+
+============================================================
+
+Deliver:
+
+- UI components required
+- Pricing logic changes
+- Store schema modifications
+- Subscription gating middleware
+- Upsell logic
+- Analytics tracking tables
+
+Do not explain strategy.
+Return implementation plan and code-level tasks.
