@@ -56,7 +56,9 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine } from "lucide-react";
+import { useCareer } from "@/lib/career-context";
+import { getEnabledCareers, type CareerType } from "@shared/careers";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { t } = useI18n();
@@ -178,6 +180,12 @@ export function Navigation() {
   const { user, logout, isAdmin, previewTier, setPreviewTier, effectiveTier } = useAuth();
   const { language, setLanguage, t } = useI18n();
   const currentLang = LANGUAGES.find(l => l.code === language);
+  const { career, careerType, setCareer } = useCareer();
+  const enabledCareers = getEnabledCareers();
+
+  const CAREER_ICONS: Record<string, any> = {
+    Stethoscope, Wind, Ambulance, Pill, Microscope, ScanLine,
+  };
 
   const handleLanguageChange = (langCode: typeof language) => {
     setLanguage(langCode);
@@ -723,6 +731,56 @@ export function Navigation() {
                 </div>
               </div>
             </LocaleLink>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="hidden sm:inline-flex text-xs font-semibold gap-1.5 px-2.5 h-8 border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+                  data-testid="button-career-selector"
+                  style={{ borderColor: career.color + "40", color: career.color }}
+                >
+                  {(() => { const Icon = CAREER_ICONS[career.icon]; return Icon ? <Icon className="w-3.5 h-3.5" /> : null; })()}
+                  {career.shortName}
+                  <ChevronDown className="w-3 h-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64 p-2">
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1.5 tracking-wider">Select Career Track</p>
+                {enabledCareers.map((c) => {
+                  const CIcon = CAREER_ICONS[c.icon];
+                  return (
+                    <DropdownMenuItem
+                      key={c.id}
+                      onClick={() => {
+                        setCareer(c.id);
+                        if (c.routePrefix) {
+                          setLocation(c.routePrefix);
+                        } else {
+                          setLocation("/");
+                        }
+                      }}
+                      className={cn(
+                        "cursor-pointer gap-2 rounded-md py-2 px-3",
+                        careerType === c.id
+                          ? "bg-primary/5 text-primary font-semibold"
+                          : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                      )}
+                      data-testid={`menu-career-${c.slug}`}
+                    >
+                      <div className="flex items-center gap-2.5 flex-1">
+                        {CIcon && <CIcon className="w-4 h-4" style={{ color: c.color }} />}
+                        <div className="flex flex-col">
+                          <span className="text-sm">{c.shortName}</span>
+                          <span className="text-[10px] text-gray-400 leading-tight">{c.examNames.slice(0, 2).join(", ")}</span>
+                        </div>
+                      </div>
+                      {careerType === c.id && <span className="text-primary text-xs">✓</span>}
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
               <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/pre-nursing")}>

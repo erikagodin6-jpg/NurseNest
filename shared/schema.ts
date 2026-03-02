@@ -15,6 +15,7 @@ export const users = pgTable("users", {
   region: text("region").default("US"),
   flashcardLimit: integer("flashcard_limit").default(300),
   planExpiresAt: timestamp("plan_expires_at"),
+  careerType: text("career_type").default("nursing"),
 });
 
 export const notes = pgTable("notes", {
@@ -167,6 +168,7 @@ export const mockExamAttempts = pgTable("mock_exam_attempts", {
   answers: jsonb("answers").default(sql`'{}'::jsonb`),
   flagged: jsonb("flagged").default(sql`'[]'::jsonb`),
   report: jsonb("report").default(sql`'{}'::jsonb`),
+  careerType: text("career_type").default("nursing"),
   startedAt: timestamp("started_at").defaultNow().notNull(),
   completedAt: timestamp("completed_at"),
 });
@@ -384,6 +386,7 @@ export const flashcardDecks = pgTable("flashcard_decks", {
   tier: text("tier").default("free"),
   visibility: text("visibility").default("private"),
   slug: text("slug"),
+  careerType: text("career_type").default("nursing"),
   isUpgraded: boolean("is_upgraded").default(false),
   upgradedAt: timestamp("upgraded_at"),
   upgradedLimit: integer("upgraded_limit").default(300),
@@ -603,6 +606,7 @@ export const examQuestions = pgTable("exam_questions", {
   exhibitData: jsonb("exhibit_data"),
   regionScope: text("region_scope").default("BOTH"),
   stemHash: text("stem_hash"),
+  careerType: text("career_type").default("nursing"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   publishedAt: timestamp("published_at"),
@@ -981,6 +985,7 @@ export const pricingOffers = pgTable("pricing_offers", {
   eligibilityRules: jsonb("eligibility_rules").default(sql`'{}'::jsonb`),
   localizedCopy: jsonb("localized_copy").default(sql`'{}'::jsonb`),
   enabled: boolean("enabled").default(true),
+  careerType: text("career_type").default("nursing"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -1018,6 +1023,7 @@ export const studyPacks = pgTable("study_packs", {
   isPublished: boolean("is_published").default(false),
   stripePriceId: text("stripe_price_id"),
   purchaseCount: integer("purchase_count").default(0),
+  careerType: text("career_type").default("nursing"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -1042,6 +1048,7 @@ export const flashcardBank = pgTable("flashcard_bank", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   tier: text("tier").notNull(),
   topicTag: text("topic_tag"),
+  careerType: text("career_type").default("nursing"),
   front: text("front").notNull(),
   back: text("back").notNull(),
   tagsJson: jsonb("tags_json").default(sql`'[]'::jsonb`),
@@ -1118,6 +1125,7 @@ export const digitalProducts = pgTable("digital_products", {
   seoDescription: text("seo_description"),
   seoKeywords: text("seo_keywords"),
   themeId: text("theme_id"),
+  careerType: text("career_type").default("nursing"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -1480,6 +1488,7 @@ export const studyPlans = pgTable("study_plans", {
   preferences: jsonb("preferences"),
   isActive: boolean("is_active").default(true),
   progressPercent: integer("progress_percent").default(0),
+  careerType: text("career_type").default("nursing"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

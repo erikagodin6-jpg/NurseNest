@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n";
+import { CareerProvider } from "@/lib/career-context";
 import { SiteImagesProvider } from "@/components/admin-image-overlay";
 import { getLocaleFromPath, isValidLocale, DEFAULT_LOCALE } from "@/lib/locale-utils";
 
@@ -350,6 +351,63 @@ function AppRoutes() {
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />
         <Route path="/np-exam-practice-questions" component={NpExamPracticePage} />
+
+        {/* Career-namespaced routes: /rrt/*, /paramedic/*, /pharmacy-tech/*, /mlt/*, /imaging/* */}
+        <Route path="/rrt/question-bank" component={QuestionBank} />
+        <Route path="/rrt/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/rrt/flashcards" component={Flashcards} />
+        <Route path="/rrt/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/rrt/mock-exams/:id" component={MockExamSession} />
+        <Route path="/rrt/mock-exams" component={MockExamsPage} />
+        <Route path="/rrt/study-plan" component={StudyPlanPage} />
+        <Route path="/rrt/pricing" component={PricingPage} />
+        <Route path="/rrt/dashboard" component={DashboardPage} />
+        <Route path="/rrt" component={Home} />
+
+        <Route path="/paramedic/question-bank" component={QuestionBank} />
+        <Route path="/paramedic/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/paramedic/flashcards" component={Flashcards} />
+        <Route path="/paramedic/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/paramedic/mock-exams/:id" component={MockExamSession} />
+        <Route path="/paramedic/mock-exams" component={MockExamsPage} />
+        <Route path="/paramedic/study-plan" component={StudyPlanPage} />
+        <Route path="/paramedic/pricing" component={PricingPage} />
+        <Route path="/paramedic/dashboard" component={DashboardPage} />
+        <Route path="/paramedic" component={Home} />
+
+        <Route path="/pharmacy-tech/question-bank" component={QuestionBank} />
+        <Route path="/pharmacy-tech/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/pharmacy-tech/flashcards" component={Flashcards} />
+        <Route path="/pharmacy-tech/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/pharmacy-tech/mock-exams/:id" component={MockExamSession} />
+        <Route path="/pharmacy-tech/mock-exams" component={MockExamsPage} />
+        <Route path="/pharmacy-tech/study-plan" component={StudyPlanPage} />
+        <Route path="/pharmacy-tech/pricing" component={PricingPage} />
+        <Route path="/pharmacy-tech/dashboard" component={DashboardPage} />
+        <Route path="/pharmacy-tech" component={Home} />
+
+        <Route path="/mlt/question-bank" component={QuestionBank} />
+        <Route path="/mlt/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/mlt/flashcards" component={Flashcards} />
+        <Route path="/mlt/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/mlt/mock-exams/:id" component={MockExamSession} />
+        <Route path="/mlt/mock-exams" component={MockExamsPage} />
+        <Route path="/mlt/study-plan" component={StudyPlanPage} />
+        <Route path="/mlt/pricing" component={PricingPage} />
+        <Route path="/mlt/dashboard" component={DashboardPage} />
+        <Route path="/mlt" component={Home} />
+
+        <Route path="/imaging/question-bank" component={QuestionBank} />
+        <Route path="/imaging/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/imaging/flashcards" component={Flashcards} />
+        <Route path="/imaging/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/imaging/mock-exams/:id" component={MockExamSession} />
+        <Route path="/imaging/mock-exams" component={MockExamsPage} />
+        <Route path="/imaging/study-plan" component={StudyPlanPage} />
+        <Route path="/imaging/pricing" component={PricingPage} />
+        <Route path="/imaging/dashboard" component={DashboardPage} />
+        <Route path="/imaging" component={Home} />
+
         <Route component={NotFound} />
       </Switch>
     </Suspense>
@@ -381,6 +439,7 @@ function App() {
         <ThemeProvider attribute="data-theme" defaultTheme="clinical-light" enableSystem={false}>
           <I18nProvider>
             <AuthProvider>
+              <CareerProvider>
               <SiteImagesProvider>
                 <TooltipProvider>
                   <Toaster />
@@ -393,6 +452,7 @@ function App() {
                   <PWAInstallPrompt />
                 </TooltipProvider>
               </SiteImagesProvider>
+              </CareerProvider>
             </AuthProvider>
           </I18nProvider>
         </ThemeProvider>

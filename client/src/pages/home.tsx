@@ -70,6 +70,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import type { HeroStats } from "@shared/lesson-stats";
 import type { DigitalProduct } from "@shared/schema";
+import { getEnabledCareers, type CareerConfig } from "@shared/careers";
+import { Wind, Ambulance, ScanLine } from "lucide-react";
 
 function formatCount(n: number | undefined): string {
   if (n === undefined || n === 0) return "---";
@@ -314,6 +316,81 @@ export default function Home() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 bg-gradient-to-b from-white to-gray-50 border-t border-gray-100" data-testid="section-career-selector">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                <GraduationCap className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">Allied Health Careers</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-career-heading">
+                Choose Your Career Path
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Exam prep built for your profession. Select your career to access tailored question banks, mock exams, flashcards, and AI-powered study tools.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+              {getEnabledCareers().map((career) => {
+                const IconComponent = ({
+                  nursing: Stethoscope,
+                  rrt: Wind,
+                  paramedic: Ambulance,
+                  pharmacyTech: Pill,
+                  mlt: Microscope,
+                  imaging: ScanLine,
+                } as Record<string, any>)[career.id] || BookOpen;
+
+                const careerHref = career.routePrefix || "/";
+
+                return (
+                  <Card
+                    key={career.id}
+                    className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group overflow-hidden"
+                    onClick={() => setLocation(careerHref === "/" ? "/free-practice" : careerHref)}
+                    data-testid={`card-career-${career.slug}`}
+                  >
+                    <CardContent className="p-6">
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-sm"
+                        style={{ backgroundColor: career.colorAccent }}
+                      >
+                        <IconComponent className="w-6 h-6" style={{ color: career.color }} />
+                      </div>
+                      <h3 className="font-bold text-gray-900 text-lg mb-1" data-testid={`text-career-name-${career.slug}`}>
+                        {career.shortName}
+                      </h3>
+                      <p className="text-sm text-gray-600 leading-relaxed mb-3" data-testid={`text-career-desc-${career.slug}`}>
+                        {career.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {career.examNames.slice(0, 3).map((exam) => (
+                          <span
+                            key={exam}
+                            className="text-[11px] font-medium px-2 py-0.5 rounded-full border"
+                            style={{
+                              borderColor: career.color + "30",
+                              color: career.color,
+                              backgroundColor: career.colorAccent,
+                            }}
+                          >
+                            {exam}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex items-center text-sm font-medium group-hover:gap-2 transition-all" style={{ color: career.color }}>
+                        <span>Explore {career.shortName}</span>
+                        <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         </section>

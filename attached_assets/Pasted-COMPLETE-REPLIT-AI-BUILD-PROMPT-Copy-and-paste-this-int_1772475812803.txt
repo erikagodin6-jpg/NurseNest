@@ -1,0 +1,87 @@
+COMPLETE REPLIT AI BUILD PROMPT
+Copy and paste this into Replit AI:
+You are a senior full-stack SaaS architect working inside the NurseNest codebase (Vite + React + Express + Stripe + role-based tiers).
+OBJECTIVE:
+Expand NurseNest into Allied Health verticals while preserving existing nursing architecture.
+ADD THE FOLLOWING NEW CAREER TIERS:
+Registered Respiratory Therapist (RRT)
+Paramedic / Advanced Care Paramedic
+Pharmacy Technician
+Medical Laboratory Technologist (MLT)
+Diagnostic Imaging (Radiologic / MRI / Sonography)
+GLOBAL REQUIREMENTS:
+• Each career must have its own route namespace:
+/rrt
+/paramedic
+/pharmacy-tech
+/mlt
+/imaging
+• Each career must include:
+QBank engine (minimum 500 seed questions schema-ready)
+Adaptive mock exam generator
+Flashcard deck system
+AI case scenario simulator
+Study planner auto-generator
+Performance analytics dashboard
+Printable cram bundle generator
+Tier-based subscription wall
+Stripe product integration
+Country exam toggle if applicable
+DATABASE CHANGES:
+Create new schema:
+careerType: enum [
+nursing,
+rrt,
+paramedic,
+pharmacyTech,
+mlt,
+imaging
+]
+Extend:
+questions table
+flashcards table
+mockExams table
+studyPlans table
+All content must filter by careerType.
+FRONTEND REQUIREMENTS:
+• Add career selector on homepage
+• Add dropdown in user dashboard
+• Preserve current pastel NurseNest design system
+• Allow independent theme override per career if desired
+• Ensure pricing walls function properly
+AI SYSTEMS TO ADD PER CAREER:
+RRT:
+ABG interpretation engine
+Ventilator mode simulator
+Paramedic:
+Trauma algorithm flow simulator
+ECG recognition drill module
+Pharmacy Tech:
+Dosage calculator generator
+Compounding math simulator
+MLT:
+Lab value critical recognition engine
+Morphology image drill component
+Imaging:
+Anatomy labeling simulator
+Image recognition drill engine
+ADMIN PANEL:
+Add:
+Career content management dashboard
+Ability to bulk upload questions by career
+Ability to toggle careers on/off
+Pricing adjustment controls per career
+Analytics by career vertical
+SEO:
+Generate:
+50 SEO titles per career
+Structured metadata per page
+Sitemap update logic
+CONSTRAINTS:
+• Do not break existing nursing tiers.
+• Maintain subscription logic.
+• Ensure no paid content leaks.
+• Preserve performance optimization.
+• Implement lazy loading for heavy modules.
+END RESULT:
+NurseNest becomes a modular multi-career healthcare exam SaaS platform with scalable vertical expansion capability.
