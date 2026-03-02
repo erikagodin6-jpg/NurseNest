@@ -2,6 +2,9 @@ import type { Express, Request } from "express";
 import type { Server } from "http";
 import { sql } from "drizzle-orm";
 import crypto from "crypto";
+import fs from "fs";
+import nodePath from "path";
+import multer from "multer";
 import { storage, DatabaseStorage, pool } from "./storage";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
@@ -9704,6 +9707,88 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
+  });
+
+  // ─── Trust Showcase Routes ──────────────────────────────────
+
+  const trustShowcasePath = nodePath.join(process.cwd(), "client/src/data/trustShowcase.json");
+
+  function readTrustItems(): any[] {
+    try {
+      if (fs.existsSync(trustShowcasePath)) {
+        return JSON.parse(fs.readFileSync(trustShowcasePath, "utf-8"));
+      }
+    } catch {}
+    return [];
+  }
+
+  app.get("/api/trust-showcase", async (_req, res) => {
+    try {
+      res.json(readTrustItems());
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/trust-showcase", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { items } = req.body;
+      if (!Array.isArray(items)) return res.status(400).json({ error: "items must be an array" });
+      for (const item of items) {
+        if (!item.id || !item.type || !item.title) {
+          return res.status(400).json({ error: "Each item must have id, type, and title" });
+        }
+        if (item.title.length > 80) return res.status(400).json({ error: `Title too long: ${item.title.slice(0, 30)}` });
+        if (item.tag && item.tag.length > 20) return res.status(400).json({ error: `Tag too long on "${item.title}"` });
+        if (item.type === "snippet") {
+          if (!item.href || !item.href.startsWith("/")) return res.status(400).json({ error: `href must start with / on "${item.title}"` });
+          if (item.excerpt && item.excerpt.length > 160) return res.status(400).json({ error: `Excerpt too long on "${item.title}"` });
+        }
+        if (item.type === "image" && item.href && !item.href.startsWith("/")) {
+          return res.status(400).json({ error: `href must start with / on "${item.title}"` });
+        }
+      }
+      fs.writeFileSync(trustShowcasePath, JSON.stringify(items, null, 2));
+      await logAudit(req, admin, "trust_showcase", null, "update", null, { count: items.length });
+      res.json({ ok: true, count: items.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  const trustUpload = multer({
+    dest: nodePath.join(process.cwd(), "public/trust"),
+    limits: { fileSize: 2 * 1024 * 1024 },
+    fileFilter: (_r: any, file: any, cb: any) => {
+      if (file.mimetype.startsWith("image/")) cb(null, true);
+      else cb(new Error("Only image files are allowed"));
+    },
+  }).single("file");
+
+  app.post("/api/admin/trust-showcase/upload", (req, res) => {
+    trustUpload(req, res, async (err: any) => {
+      try {
+        if (err) return res.status(400).json({ error: err.message });
+
+        const adminUser = await requireAdmin(req, res);
+        if (!adminUser) return;
+
+        const file = (req as any).file;
+        if (!file) return res.status(400).json({ error: "No file uploaded" });
+
+        const ext = nodePath.extname(file.originalname) || ".webp";
+        const safeName = `trust-${Date.now()}${ext}`;
+        const dest = nodePath.join(process.cwd(), "public/trust", safeName);
+        fs.renameSync(file.path, dest);
+
+        await logAudit(req, adminUser, "trust_showcase", null, "upload", null, { filename: safeName });
+        res.json({ src: `/trust/${safeName}` });
+      } catch (e: any) {
+        res.status(500).json({ error: e.message });
+      }
+    });
   });
 
   // ─── Digital Marketplace Routes ───────────────────────────────

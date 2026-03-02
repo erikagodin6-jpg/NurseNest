@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { useAuth } from "@/lib/auth";
 import { Footer } from "@/components/footer";
+import { TrustShowcase } from "@/components/trust-showcase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
@@ -259,6 +260,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <TrustShowcase />
 
         {/* Choose Your Exam Path */}
         <section className="py-16 bg-gradient-to-b from-white to-primary/5 relative z-10 border-t border-gray-100" data-testid="section-exam-path">

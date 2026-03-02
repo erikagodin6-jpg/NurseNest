@@ -129,6 +129,7 @@ const NclexRnGuide = lazy(() => import("@/pages/nclex-rn-guide"));
 const DiagnosticAssessmentPage = lazy(() => import("@/pages/diagnostic-assessment"));
 const QBankFactoryPage = lazy(() => import("@/pages/qbank-factory"));
 const AccountLibraryPage = lazy(() => import("@/pages/account-library"));
+const AdminTrustShowcase = lazy(() => import("@/pages/admin-trust-showcase"));
 
 function PageTracker() {
   usePageTracker();
@@ -302,6 +303,7 @@ function AppRoutes() {
         <Route path="/account/library" component={AccountLibraryPage} />
         <Route path="/admin/product-builder" component={ProductBuilderPage} />
         <Route path="/admin/product-builder/:id" component={ProductBuilderPage} />
+        <Route path="/admin/trust-showcase" component={AdminTrustShowcase} />
         <Route path="/medication-mastery" component={MedicationMasteryPage} />
         <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
