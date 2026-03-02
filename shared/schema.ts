@@ -1633,6 +1633,41 @@ export const alliedLeads = pgTable("allied_leads", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const alliedAutomations = pgTable("allied_automations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  category: text("category").notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  enabled: boolean("enabled").default(false),
+  frequency: text("frequency").default("daily"),
+  maxItemsPerRun: integer("max_items_per_run").default(25),
+  maxRunsPerDay: integer("max_runs_per_day").default(1),
+  careerScope: jsonb("career_scope").default(sql`'["rrt","paramedic","pharmacyTech","mlt","imaging"]'::jsonb`),
+  autoPublish: boolean("auto_publish").default(false),
+  rationaleMinWords: integer("rationale_min_words").default(600),
+  strictnessLevel: text("strictness_level").default("standard"),
+  promptTemplate: text("prompt_template"),
+  config: jsonb("config"),
+  lastRunAt: timestamp("last_run_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const alliedAutomationRuns = pgTable("allied_automation_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  automationId: varchar("automation_id").notNull(),
+  automationSlug: text("automation_slug").notNull(),
+  status: text("status").default("running"),
+  itemsGenerated: integer("items_generated").default(0),
+  itemsAccepted: integer("items_accepted").default(0),
+  itemsRejected: integer("items_rejected").default(0),
+  details: jsonb("details"),
+  errorMessage: text("error_message"),
+  tokenCost: integer("token_cost").default(0),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
 export const insertAlliedBlueprintSchema = createInsertSchema(alliedBlueprints).omit({ id: true, createdAt: true });
 export const insertAlliedQuestionSchema = createInsertSchema(alliedQuestions).omit({ id: true, createdAt: true });
 export const insertAlliedBatchRunSchema = createInsertSchema(alliedBatchRuns).omit({ id: true, startedAt: true });
