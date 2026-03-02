@@ -65,9 +65,15 @@ Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/po
 ### Product Generator V2 (Admin)
 - Isolated chunked/resumable question generation pipeline at `/admin/generator-v2`.
 - Minimum 250 questions per generation (server-enforced).
-- Multi-topic support: comma-separated topics distributed proportionally across generation.
+- Topic field: short labels only (max 120 chars), comma-separated. Stored separately from instructions.
+- Instructions field: optional long-form rules for AI, stored in `promptBase`, appended to tier base prompt.
+- Multi-topic support: comma/semicolon-separated topics distributed proportionally across generation.
 - Tier-aware prompts: RPN (monitor/report/administer), RN (protocol-based/delegation), NP (order/prescribe/diagnose).
-- 8 print-ready PDF themes: soft-clinical, structured-academic, bold-modern, minimal-clean, navy-medical, blush-rose, paper-ink, charcoal-clinical.
+- AI prompt hardening: ANTI_ECHO_SYSTEM block forbids instruction copying into output fields, temperature=0.3 for consistency.
+- Instruction-echo detection: validator checks stem/choices/rationale against 15+ echo patterns, sanitizes instruction prefixes.
+- Chunk retry system: up to 2 retries per chunk with specific failure reason in retry prompt, accepts partial valid items.
+- JSON response cleaning: extractJsonFromResponse strips markdown fences, parseModelResponse handles various response shapes.
+- 18 print-ready PDF themes: 8 original + 5 pastel (lavender, mint, peach, sky, blush) + 5 monochrome (slate, graphite, silver, steel, fog).
 - PDF export via `POST /api/generator-v2/generations/:id/export-pdf` using pdf-lib with themed cover page, TOC, section dividers, answer key.
 - Store publishing and bundle creation integrated into admin UI.
 - Worker: `server/generatorV2/worker.ts`, Validator: `server/generatorV2/validator.ts`, Compiler: `server/generatorV2/compiler.ts`.

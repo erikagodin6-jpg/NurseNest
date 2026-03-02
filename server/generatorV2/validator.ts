@@ -7,8 +7,41 @@ const VALID_DIFFICULTIES = ["moderate", "hard", "very_challenging"];
 
 const EMOJI_REGEX = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{200D}\u{20E3}\u{231A}-\u{231B}\u{23E9}-\u{23F3}\u{23F8}-\u{23FA}\u{25AA}-\u{25AB}\u{25B6}\u{25C0}\u{25FB}-\u{25FE}\u{2614}-\u{2615}\u{2648}-\u{2653}\u{267F}\u{2693}\u{26A1}\u{26AA}-\u{26AB}\u{26BD}-\u{26BE}\u{26C4}-\u{26C5}\u{26CE}\u{26D4}\u{26EA}\u{26F2}-\u{26F3}\u{26F5}\u{26FA}\u{26FD}\u{2702}\u{2705}\u{2708}-\u{270D}\u{270F}]/gu;
 
+const ECHO_PATTERNS = [
+  /you are (chatgpt|an ai|a language model|gpt)/i,
+  /follow these instructions/i,
+  /generate \d+ questions/i,
+  /output (json|strict json|valid json)/i,
+  /instructions?:/i,
+  /you must (output|return|generate|produce)/i,
+  /do not (include|use|add|output)/i,
+  /here (is|are) the (questions|items|json)/i,
+  /as (requested|instructed|per your)/i,
+  /i('ll| will) (generate|create|produce)/i,
+  /\bprompt\b.*\b(text|instructions?)\b/i,
+  /response format/i,
+  /json schema/i,
+  /no markdown/i,
+  /no code fences/i,
+  /no prose/i,
+];
+
 function stripEmoji(text: string): string {
   return text.replace(EMOJI_REGEX, "").replace(/\s{2,}/g, " ").trim();
+}
+
+function containsEchoPattern(text: string): boolean {
+  if (!text) return false;
+  for (const pat of ECHO_PATTERNS) {
+    if (pat.test(text)) return true;
+  }
+  return false;
+}
+
+function sanitizeField(text: string): string {
+  let cleaned = stripEmoji(text);
+  cleaned = cleaned.replace(/^(Instructions?:\s*|You are\s+|Generate\s+|Output\s+JSON\s*)/i, "").trim();
+  return cleaned;
 }
 
 export interface RawQuestion {
@@ -22,9 +55,15 @@ export interface RawQuestion {
   choices?: any[];
   correct_answers?: any;
   correctAnswers?: any;
+  correct?: any;
   rationale?: any;
   exam_pearl?: string;
   examPearl?: string;
+  clinicalPearl?: string;
+  clinical_pearl?: string;
+  tags?: string[];
+  category?: string;
+  topic?: string;
   [key: string]: any;
 }
 
@@ -48,6 +87,8 @@ export interface ValidationResult {
     };
     examPearl: string;
     hash: string;
+    topic?: string;
+    tags?: string[];
   } | null;
 }
 
@@ -72,7 +113,7 @@ function normalizeChoices(raw: any[]): { label: string; text: string }[] {
     }
     if (c && typeof c === "object") {
       return {
-        label: c.label || String.fromCharCode(65 + i),
+        label: c.label || c.id || String.fromCharCode(65 + i),
         text: c.text || c.content || String(c),
       };
     }
@@ -115,24 +156,28 @@ export function validateQuestion(
 ): ValidationResult {
   const errors: string[] = [];
 
-  const type = (raw.type || "").toLowerCase();
-  if (type !== "mcq" && type !== "sata") {
-    errors.push(`Invalid type "${raw.type}", must be mcq or sata`);
+  const type = (raw.type || "").toUpperCase();
+  if (type !== "MCQ" && type !== "SATA") {
+    errors.push(`Invalid type "${raw.type}", must be MCQ or SATA`);
   }
 
-  const stem = (raw.stem || "").trim();
+  const stem = sanitizeField(raw.stem || "");
   if (!stem || stem.length < 40) {
     errors.push(`Stem too short (${stem.length} chars, min 40)`);
   }
 
-  const scenario = (raw.scenario || stem).trim();
+  if (containsEchoPattern(stem)) {
+    errors.push("Stem contains instruction-echo text");
+  }
+
+  const scenario = sanitizeField(raw.scenario || stem);
 
   const difficulty = (raw.difficulty || "moderate").toLowerCase();
   if (!VALID_DIFFICULTIES.includes(difficulty)) {
     errors.push(`Invalid difficulty "${raw.difficulty}"`);
   }
 
-  let system = raw.system || "Multi-system";
+  let system = raw.system || raw.category || "Multi-system";
   if (!VALID_SYSTEMS.includes(system)) {
     const match = VALID_SYSTEMS.find(
       (s) => s.toLowerCase() === system.toLowerCase(),
@@ -146,10 +191,10 @@ export function validateQuestion(
   }
 
   const choices = normalizeChoices(raw.choices);
-  const correctAnswers = normalizeCorrectAnswers(raw.correct_answers || raw.correctAnswers);
+  const correctAnswers = normalizeCorrectAnswers(raw.correct_answers || raw.correctAnswers || raw.correct);
   const choiceLabels = new Set(choices.map((c) => c.label));
 
-  if (type === "mcq") {
+  if (type === "MCQ") {
     if (choices.length !== 4) {
       errors.push(`MCQ must have exactly 4 choices, got ${choices.length}`);
     }
@@ -158,7 +203,7 @@ export function validateQuestion(
     }
   }
 
-  if (type === "sata") {
+  if (type === "SATA") {
     if (choices.length < 5) {
       errors.push(`SATA must have >= 5 choices, got ${choices.length}`);
     }
@@ -182,12 +227,21 @@ export function validateQuestion(
     errors.push("Empty or very short choice text detected");
   }
 
+  for (const ch of choices) {
+    if (containsEchoPattern(ch.text)) {
+      errors.push(`Choice "${ch.label}" contains instruction-echo text`);
+    }
+  }
+
   const rationale = normalizeRationale(raw.rationale);
   if (!rationale.correctReasoning || rationale.correctReasoning.length < 10) {
     errors.push("correctReasoning missing or too short");
   }
+  if (containsEchoPattern(rationale.correctReasoning)) {
+    errors.push("Rationale contains instruction-echo text");
+  }
 
-  const examPearl = raw.exam_pearl || raw.examPearl || "";
+  const examPearl = raw.exam_pearl || raw.examPearl || raw.clinicalPearl || raw.clinical_pearl || "";
 
   const hash = "h" + Math.abs(parseInt(normalizeHash(stem), 36) || 0).toString(36);
   if (existingHashes.has(hash)) {
@@ -206,18 +260,20 @@ export function validateQuestion(
       type: type.toUpperCase() as string,
       difficulty,
       system,
-      stem: stripEmoji(stem),
-      scenario: stripEmoji(scenario),
-      choices: choices.map(c => ({ label: c.label, text: stripEmoji(c.text) })),
+      stem: sanitizeField(stem),
+      scenario: sanitizeField(scenario),
+      choices: choices.map(c => ({ label: c.label, text: sanitizeField(c.text) })),
       correctAnswers,
       rationale: {
-        correctReasoning: stripEmoji(rationale.correctReasoning),
-        incorrectBreakdown: Object.fromEntries(Object.entries(rationale.incorrectBreakdown).map(([k, v]) => [k, stripEmoji(String(v))])),
-        keyPathophysiology: stripEmoji(rationale.keyPathophysiology),
-        nursingImplication: stripEmoji(rationale.nursingImplication),
+        correctReasoning: sanitizeField(rationale.correctReasoning),
+        incorrectBreakdown: Object.fromEntries(Object.entries(rationale.incorrectBreakdown).map(([k, v]) => [k, sanitizeField(String(v))])),
+        keyPathophysiology: sanitizeField(rationale.keyPathophysiology),
+        nursingImplication: sanitizeField(rationale.nursingImplication),
       },
-      examPearl: stripEmoji(examPearl),
+      examPearl: sanitizeField(examPearl),
       hash,
+      topic: raw.topic || undefined,
+      tags: Array.isArray(raw.tags) ? raw.tags : undefined,
     },
   };
 }
@@ -244,4 +300,15 @@ export function validateChunk(
   }
 
   return { valid, invalid };
+}
+
+export function extractJsonFromResponse(raw: string): string {
+  let cleaned = raw.trim();
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/, "");
+  const firstBrace = cleaned.indexOf("{");
+  const lastBrace = cleaned.lastIndexOf("}");
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+    cleaned = cleaned.substring(firstBrace, lastBrace + 1);
+  }
+  return cleaned;
 }

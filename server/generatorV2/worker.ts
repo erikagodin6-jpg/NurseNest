@@ -1,5 +1,5 @@
 import { storage } from "../storage";
-import { validateChunk, type ValidationResult } from "./validator";
+import { validateChunk, extractJsonFromResponse, type ValidationResult } from "./validator";
 
 const VALID_SYSTEMS = [
   "Cardiac", "Respiratory", "Neuro", "Renal", "Endocrine", "GI",
@@ -29,6 +29,16 @@ Each question must include a detailed clinical scenario with specific patient da
 
 const DEFAULT_PROMPT_BASE = TIER_PROMPT_BASES.rpn;
 
+const ANTI_ECHO_SYSTEM = `
+CRITICAL RULES FOR OUTPUT:
+1. You must output ONLY valid JSON matching the schema below. No markdown, no code fences, no prose.
+2. NEVER copy, paraphrase, or reference the user's instructions, system prompt, or any meta-instructions in ANY output field.
+3. The "title" or "stem" fields must contain ONLY clinical question content. Never include phrases like "Generate questions", "Output JSON", "You are", "Instructions:", "Follow these", or any directive language.
+4. If you cannot produce the requested number of questions, produce as many as you can - never pad with empty or placeholder items.
+5. Every question must be unique with a distinct clinical scenario.
+6. Do NOT use any emoji characters anywhere. Plain text only.
+`;
+
 interface PromptState {
   byType: Record<string, number>;
   byDifficulty: Record<string, number>;
@@ -52,9 +62,9 @@ function getDefaultPromptState(): PromptState {
 function parseTopics(topicStr: string | null | undefined): string[] {
   if (!topicStr) return [];
   return topicStr
-    .split(/[,;\n]+/)
+    .split(/[,;]+/)
     .map(t => t.trim())
-    .filter(t => t.length > 0);
+    .filter(t => t.length > 0 && t.length <= 100);
 }
 
 function getTierPromptBase(tier: string | null | undefined): string {
@@ -110,7 +120,6 @@ function computeDistributionNeeds(state: PromptState, remaining: number, targetC
     `- Difficulty: need ~${Math.max(0, targetMod - (state.byDifficulty.moderate || 0))} moderate, ~${Math.max(0, targetHard - (state.byDifficulty.hard || 0))} hard, ~${Math.max(0, targetVC - (state.byDifficulty.very_challenging || 0))} very_challenging`,
   ];
 
-  const systemCounts = Object.entries(state.bySystem).sort((a, b) => a[1] - b[1]);
   const underrep = VALID_SYSTEMS.filter(s => !state.bySystem[s] || state.bySystem[s] < Math.ceil(targetCount / VALID_SYSTEMS.length));
   if (underrep.length > 0) {
     lines.push(`- Prioritize systems: ${underrep.slice(0, 5).join(", ")}`);
@@ -145,55 +154,82 @@ function buildChunkPrompt(
     : "";
 
   const system = `${promptBase}
-
+${ANTI_ECHO_SYSTEM}
 ${regionNote}
 ${topicInstruction}
 
-You will be called multiple times to generate questions in chunks. This is chunk starting at item ${startIdx}.
-You MUST output EXACTLY ${chunkSize} items in strict JSON format.
+You will be called multiple times to generate questions in chunks.
+You MUST return EXACTLY ${chunkSize} question objects in the "items" array. Not ${chunkSize - 1}, not ${chunkSize + 1}. Exactly ${chunkSize}.
 
-Output format (JSON only, no markdown):
+Return strict JSON only. The JSON object must have exactly one key "items" containing an array of ${chunkSize} question objects.
+
+Each question object schema:
 {
-  "items": [
-    {
-      "type": "MCQ",
-      "difficulty": "hard",
-      "system": "Cardiac",
-      "topic": "${topics.length > 0 ? topics[0] : "General"}",
-      "stem": "A 68-year-old patient with a history of atrial fibrillation...",
-      "scenario": "Clinical scenario here...",
-      "choices": [
-        {"label": "A", "text": "Administer prescribed warfarin"},
-        {"label": "B", "text": "Hold the medication"},
-        {"label": "C", "text": "Contact the prescriber"},
-        {"label": "D", "text": "Assess for bleeding"}
-      ],
-      "correct_answers": ["C"],
-      "rationale": {
-        "correctReasoning": "Why C is correct...",
-        "incorrectBreakdown": {"A": "Why wrong...", "B": "Why wrong...", "D": "Why wrong..."},
-        "keyPathophysiology": "Key pathophys...",
-        "nursingImplication": "Nursing implication..."
-      },
-      "exam_pearl": "Clinical pearl for exam prep..."
-    }
-  ],
-  "meta": { "startId": ${startIdx}, "count": ${chunkSize}, "chunk": ${Math.ceil(startIdx / chunkSize)} }
+  "type": "MCQ" or "SATA",
+  "difficulty": "moderate" or "hard" or "very_challenging",
+  "system": one of [${VALID_SYSTEMS.map(s => `"${s}"`).join(", ")}],
+  "topic": "string - the clinical topic",
+  "stem": "A detailed clinical scenario question (min 40 chars, NO instruction text)",
+  "scenario": "Extended clinical context",
+  "choices": [{"label": "A", "text": "..."}, {"label": "B", "text": "..."}, ...],
+  "correct_answers": ["B"] for MCQ (exactly 1) or ["A","C","D"] for SATA (2-5),
+  "rationale": {
+    "correctReasoning": "Why the correct answer is right (min 10 chars)",
+    "incorrectBreakdown": {"A": "Why wrong...", "C": "Why wrong..."},
+    "keyPathophysiology": "Key pathophysiology concept",
+    "nursingImplication": "Clinical nursing implication"
+  },
+  "exam_pearl": "A concise clinical pearl for exam prep"
 }
 
-Question type rules:
-- MCQ: exactly 4 choices labeled A-D, exactly 1 correct answer letter
-- SATA: 5-8 choices labeled A through E/F/G/H, 2-5 correct answer letters as array
+MCQ rules: exactly 4 choices (A-D), exactly 1 correct answer.
+SATA rules: 5-8 choices (A through E/F/G/H), 2-5 correct answers.
 
 ${distributionBlock}
 ${topicBlock ? "\n" + topicBlock : ""}
 ${antiDupe}
 
-CRITICAL: Do NOT use any emoji characters anywhere in the output. No unicode emoji symbols. Plain text only.
+Return EXACTLY ${chunkSize} items. JSON only. No extra text, no markdown, no explanation.`;
 
-Output EXACTLY ${chunkSize} questions. JSON only. No extra text.`;
+  const user = `Return a JSON object with an "items" array containing exactly ${chunkSize} nursing exam questions (items ${startIdx} through ${startIdx + chunkSize - 1}). Each question must have a unique clinical scenario.`;
 
-  const user = `Generate questions ${startIdx} through ${startIdx + chunkSize - 1}. Return strict JSON with exactly ${chunkSize} items.`;
+  return { system, user };
+}
+
+function buildRetryPrompt(
+  promptBase: string,
+  requestedCount: number,
+  returnedCount: number,
+  failureReason: string,
+  region: string,
+  topics: string[] = [],
+): { system: string; user: string } {
+  const regionNote = region === "CA"
+    ? "Use Canadian context: SI units, Canadian drug names, RPN scope."
+    : region === "US"
+    ? "Use US context: conventional units, LPN/LVN scope."
+    : "";
+
+  const topicInstruction = topics.length > 0
+    ? `Topics to cover: ${topics.join(", ")}.`
+    : "";
+
+  const system = `${promptBase}
+${ANTI_ECHO_SYSTEM}
+${regionNote}
+${topicInstruction}
+
+PREVIOUS ATTEMPT FAILED: ${failureReason}
+
+You MUST return EXACTLY ${requestedCount} question objects. Not fewer, not more.
+Return strict JSON with one key "items" containing an array of exactly ${requestedCount} objects.
+
+Each question object must have: type, difficulty, system, topic, stem, scenario, choices, correct_answers, rationale, exam_pearl.
+MCQ: 4 choices (A-D), 1 correct. SATA: 5-8 choices, 2-5 correct.
+
+CRITICAL: Do NOT use any emoji. Plain text only. JSON only. No markdown.`;
+
+  const user = `You previously returned ${returnedCount} questions instead of ${requestedCount}. Return a complete JSON object with "items" array containing EXACTLY ${requestedCount} unique nursing exam questions. Every question needs a distinct clinical scenario.`;
 
   return { system, user };
 }
@@ -204,29 +240,13 @@ function buildReplacementPrompt(
   region: string,
 ): { system: string; user: string } {
   const system = `${promptBase}
-
+${ANTI_ECHO_SYSTEM}
 You are replacing specific invalid questions. Return ONLY the replacement items.
 ${region === "CA" ? "Use Canadian context: SI units, Canadian drug names, RPN scope." : ""}
 
-Output format (JSON only):
-{
-  "replacements": [
-    {
-      "idx": 49,
-      "type": "MCQ",
-      "difficulty": "hard",
-      "system": "Cardiac",
-      "stem": "...",
-      "scenario": "...",
-      "choices": [...],
-      "correct_answers": ["B"],
-      "rationale": { "correctReasoning": "...", "incorrectBreakdown": {...}, "keyPathophysiology": "...", "nursingImplication": "..." },
-      "exam_pearl": "..."
-    }
-  ]
-}
-
-CRITICAL: Do NOT use any emoji characters anywhere in the output. No unicode emoji symbols. Plain text only.`;
+Return JSON: {"replacements": [...]} where each item has: idx, type, difficulty, system, topic, stem, scenario, choices, correct_answers, rationale, exam_pearl.
+MCQ: 4 choices (A-D), 1 correct. SATA: 5-8 choices, 2-5 correct.
+JSON only. No markdown. No emoji.`;
 
   const user = `Replace these invalid items:\n${invalidItems.map(i => `- idx ${i.idx}: ${i.errors.join("; ")}`).join("\n")}\n\nReturn JSON with "replacements" array containing corrected items for these exact idx values.`;
 
@@ -250,7 +270,7 @@ async function callModel(
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },
     ],
-    temperature: 0.7,
+    temperature: 0.3,
     max_tokens: maxTokens,
     response_format: { type: "json_object" },
   });
@@ -259,6 +279,127 @@ async function callModel(
     content: resp.choices[0]?.message?.content || "{}",
     tokens: resp.usage?.total_tokens || 0,
   };
+}
+
+function parseModelResponse(raw: string): any[] {
+  const cleaned = extractJsonFromResponse(raw);
+  const parsed = JSON.parse(cleaned);
+
+  if (Array.isArray(parsed.items)) return parsed.items;
+  if (Array.isArray(parsed.questions)) return parsed.questions;
+  if (Array.isArray(parsed.replacements)) return parsed.replacements;
+  if (Array.isArray(parsed)) return parsed;
+
+  for (const key of Object.keys(parsed)) {
+    if (Array.isArray(parsed[key]) && parsed[key].length > 0) {
+      const first = parsed[key][0];
+      if (first && typeof first === "object" && (first.stem || first.type || first.choices)) {
+        return parsed[key];
+      }
+    }
+  }
+
+  return [];
+}
+
+async function generateChunkWithRetry(
+  promptBase: string,
+  startIdx: number,
+  chunkSize: number,
+  state: PromptState,
+  targetCount: number,
+  region: string,
+  topics: string[],
+  existingHashes: Set<string>,
+  generationId: string,
+  maxRetries: number = 2,
+): Promise<{ valid: ValidationResult[]; invalid: { idx: number; errors: string[] }[]; tokens: number }> {
+  let totalTokens = 0;
+  let lastReceivedCount = 0;
+  let lastFailReason = "";
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    let items: any[];
+
+    try {
+      let systemPrompt: string;
+      let userPrompt: string;
+
+      if (attempt === 0) {
+        const prompts = buildChunkPrompt(promptBase, startIdx, chunkSize, state, targetCount, region, topics);
+        systemPrompt = prompts.system;
+        userPrompt = prompts.user;
+      } else {
+        const reason = lastFailReason || `Returned ${lastReceivedCount} items instead of ${chunkSize}`;
+        const prompts = buildRetryPrompt(promptBase, chunkSize, lastReceivedCount, reason, region, topics);
+        systemPrompt = prompts.system;
+        userPrompt = prompts.user;
+      }
+
+      const maxTokens = Math.min(chunkSize * 600 + 500, 16384);
+      const result = await callModel(systemPrompt, userPrompt, maxTokens);
+      totalTokens += result.tokens;
+
+      items = parseModelResponse(result.content);
+      lastReceivedCount = items.length;
+
+      console.log(`[GenV2] Chunk attempt ${attempt + 1}: requested=${chunkSize}, received=${items.length}`);
+
+      await storage.createGenerationEvent({
+        generationId,
+        eventType: attempt === 0 ? "chunk_received" : "chunk_retry_received",
+        payload: { attempt: attempt + 1, requestedCount: chunkSize, receivedCount: items.length, tokens: result.tokens },
+      });
+
+    } catch (err: any) {
+      console.error(`[GenV2] Chunk attempt ${attempt + 1} failed:`, err.message);
+      lastFailReason = `API error: ${err.message}`;
+      await storage.createGenerationEvent({
+        generationId,
+        eventType: "chunk_error",
+        payload: { attempt: attempt + 1, error: err.message },
+      });
+
+      if (attempt === maxRetries) {
+        return { valid: [], invalid: [], tokens: totalTokens };
+      }
+      await new Promise(r => setTimeout(r, 1500));
+      continue;
+    }
+
+    if (items.length === 0) {
+      lastFailReason = "Returned 0 items";
+      console.log(`[GenV2] Attempt ${attempt + 1}: 0 items parsed, retrying...`);
+      if (attempt === maxRetries) {
+        return { valid: [], invalid: [], tokens: totalTokens };
+      }
+      await new Promise(r => setTimeout(r, 1000));
+      continue;
+    }
+
+    const { valid, invalid } = validateChunk(items, startIdx, existingHashes);
+
+    if (valid.length > 0) {
+      if (valid.length < chunkSize && attempt < maxRetries) {
+        console.log(`[GenV2] Attempt ${attempt + 1}: only ${valid.length}/${chunkSize} valid (${invalid.length} invalid). Accepting partial, outer loop will request more.`);
+      }
+      return { valid, invalid, tokens: totalTokens };
+    }
+
+    lastFailReason = `All ${items.length} items failed validation: ${invalid.slice(0, 3).map(i => i.errors[0]).join("; ")}`;
+    console.log(`[GenV2] Attempt ${attempt + 1}: all ${items.length} items invalid, retrying...`);
+    await storage.createGenerationEvent({
+      generationId,
+      eventType: "chunk_all_invalid",
+      payload: { attempt: attempt + 1, invalidCount: invalid.length, reasons: invalid.slice(0, 5).map(i => i.errors) },
+    });
+
+    if (attempt < maxRetries) {
+      await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+
+  return { valid: [], invalid: [], tokens: totalTokens };
 }
 
 export async function runGenerationWorker(generationId: string): Promise<void> {
@@ -282,21 +423,26 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
   const settings = (gen.settings as Record<string, any>) || {};
   const tier = settings.tier || "rpn";
   const topics = parseTopics(gen.topic);
-  const promptBase = gen.promptBase || getTierPromptBase(tier);
-  const chunkSize = gen.chunkSize || 15;
+  const tierBase = getTierPromptBase(tier);
+  const customInstructions = gen.promptBase || "";
+  const promptBase = customInstructions
+    ? `${tierBase}\n\nAdditional instructions from admin:\n${customInstructions}`
+    : tierBase;
   const targetCount = gen.targetCount;
   const region = gen.region || "BOTH";
   let state: PromptState = (gen.promptState as PromptState) || getDefaultPromptState();
   if (!state.byTopic) state.byTopic = {};
 
+  const CHUNK_SIZE = gen.chunkSize || 15;
+
   const existingQuestions = await storage.getGeneratedQuestions(generationId);
   const existingHashes = new Set(existingQuestions.map(q => q.hash).filter(Boolean) as string[]);
   let currentCount = existingQuestions.length;
   let maxIdx = existingQuestions.reduce((max, q) => Math.max(max, q.idx), 0);
-  let consecutiveFailures = 0;
-  const MAX_CONSECUTIVE_FAILURES = 3;
+  let consecutiveEmptyChunks = 0;
+  const MAX_EMPTY_CHUNKS = 5;
 
-  console.log(`[GenV2] Starting worker for ${generationId}: ${currentCount}/${targetCount} done, tier=${tier}, topics=[${topics.join(", ")}]`);
+  console.log(`[GenV2] Starting worker for ${generationId}: ${currentCount}/${targetCount} done, tier=${tier}, topics=[${topics.join(", ")}], chunkSize=${CHUNK_SIZE}`);
 
   while (currentCount < targetCount) {
     gen = await storage.getProductGeneration(generationId);
@@ -306,7 +452,7 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
     }
 
     const remaining = targetCount - currentCount;
-    const thisChunkSize = Math.min(chunkSize, remaining);
+    const thisChunkSize = Math.min(CHUNK_SIZE, remaining);
     const startIdx = maxIdx + 1;
 
     console.log(`[GenV2] Chunk: generating ${thisChunkSize} items starting at idx ${startIdx} (${currentCount}/${targetCount})`);
@@ -317,27 +463,18 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
       payload: { startIdx, count: thisChunkSize, currentCount, targetCount },
     });
 
-    let chunkContent: string;
-    let tokens = 0;
-    try {
-      const { system, user } = buildChunkPrompt(promptBase, startIdx, thisChunkSize, state, targetCount, region, topics);
-      const maxTokens = Math.min(thisChunkSize * 500 + 500, 16384);
-      const result = await callModel(system, user, maxTokens);
-      chunkContent = result.content;
-      tokens = result.tokens;
-    } catch (err: any) {
-      console.error(`[GenV2] Model call failed:`, err.message);
-      consecutiveFailures++;
-      await storage.createGenerationEvent({
-        generationId,
-        eventType: "chunk_error",
-        payload: { error: err.message, consecutiveFailures },
-      });
+    const { valid, invalid, tokens } = await generateChunkWithRetry(
+      promptBase, startIdx, thisChunkSize, state, targetCount, region, topics, existingHashes, generationId,
+    );
 
-      if (consecutiveFailures >= MAX_CONSECUTIVE_FAILURES) {
+    if (valid.length === 0) {
+      consecutiveEmptyChunks++;
+      console.log(`[GenV2] No valid items from chunk (${consecutiveEmptyChunks}/${MAX_EMPTY_CHUNKS} consecutive)`);
+
+      if (consecutiveEmptyChunks >= MAX_EMPTY_CHUNKS) {
         await storage.updateProductGeneration(generationId, {
           status: "failed",
-          lastError: `Model call failed ${MAX_CONSECUTIVE_FAILURES} times: ${err.message}`,
+          lastError: `${MAX_EMPTY_CHUNKS} consecutive chunks produced no valid items`,
         });
         return;
       }
@@ -345,93 +482,53 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
       continue;
     }
 
-    let items: any[];
-    try {
-      const parsed = JSON.parse(chunkContent);
-      items = Array.isArray(parsed.items)
-        ? parsed.items
-        : Array.isArray(parsed.questions)
-        ? parsed.questions
-        : Array.isArray(parsed)
-        ? parsed
-        : [];
-    } catch (parseErr: any) {
-      console.error(`[GenV2] JSON parse error, retrying with smaller chunk`);
-      consecutiveFailures++;
-      await storage.createGenerationEvent({
-        generationId,
-        eventType: "parse_error",
-        payload: { error: parseErr.message, rawLength: chunkContent.length },
-      });
+    consecutiveEmptyChunks = 0;
 
-      if (consecutiveFailures >= MAX_CONSECUTIVE_FAILURES) {
-        await storage.updateProductGeneration(generationId, {
-          status: "failed",
-          lastError: `JSON parse failed ${MAX_CONSECUTIVE_FAILURES} times`,
-        });
-        return;
-      }
-      continue;
+    const toSave = valid.map(v => ({
+      generationId,
+      idx: v.normalized!.idx,
+      type: v.normalized!.type,
+      difficulty: v.normalized!.difficulty,
+      system: v.normalized!.system,
+      stem: v.normalized!.stem,
+      scenario: v.normalized!.scenario,
+      choices: v.normalized!.choices,
+      correctAnswers: v.normalized!.correctAnswers,
+      rationale: v.normalized!.rationale,
+      examPearl: v.normalized!.examPearl,
+      hash: v.normalized!.hash,
+    }));
+
+    await storage.createGeneratedQuestionsBulk(toSave);
+
+    for (const v of valid) {
+      existingHashes.add(v.normalized!.hash);
+      state.byType[v.normalized!.type] = (state.byType[v.normalized!.type] || 0) + 1;
+      state.byDifficulty[v.normalized!.difficulty] = (state.byDifficulty[v.normalized!.difficulty] || 0) + 1;
+      state.bySystem[v.normalized!.system] = (state.bySystem[v.normalized!.system] || 0) + 1;
+      const itemTopic = v.normalized!.topic || v.normalized!.system;
+      state.byTopic[itemTopic] = (state.byTopic[itemTopic] || 0) + 1;
+      state.lastStems.push(v.normalized!.stem.substring(0, 100));
+      if (state.lastStems.length > 30) state.lastStems = state.lastStems.slice(-20);
+      state.lastHashes.push(v.normalized!.hash);
+      if (state.lastHashes.length > 30) state.lastHashes = state.lastHashes.slice(-20);
+      maxIdx = Math.max(maxIdx, v.normalized!.idx);
     }
+
+    currentCount += valid.length;
 
     await storage.createGenerationEvent({
       generationId,
-      eventType: "chunk_received",
-      payload: { itemCount: items.length, tokens },
+      eventType: "chunk_saved",
+      payload: { savedCount: valid.length, invalidCount: invalid.length, totalCount: currentCount, topicDistribution: state.byTopic },
     });
 
-    const { valid, invalid } = validateChunk(items, startIdx, existingHashes);
+    await storage.updateProductGeneration(generationId, {
+      createdCount: currentCount,
+      promptState: state,
+    });
 
-    if (valid.length > 0) {
-      const toSave = valid.map(v => ({
-        generationId,
-        idx: v.normalized!.idx,
-        type: v.normalized!.type,
-        difficulty: v.normalized!.difficulty,
-        system: v.normalized!.system,
-        stem: v.normalized!.stem,
-        scenario: v.normalized!.scenario,
-        choices: v.normalized!.choices,
-        correctAnswers: v.normalized!.correctAnswers,
-        rationale: v.normalized!.rationale,
-        examPearl: v.normalized!.examPearl,
-        hash: v.normalized!.hash,
-      }));
-
-      await storage.createGeneratedQuestionsBulk(toSave);
-
-      for (let vi = 0; vi < valid.length; vi++) {
-        const v = valid[vi];
-        existingHashes.add(v.normalized!.hash);
-        state.byType[v.normalized!.type] = (state.byType[v.normalized!.type] || 0) + 1;
-        state.byDifficulty[v.normalized!.difficulty] = (state.byDifficulty[v.normalized!.difficulty] || 0) + 1;
-        state.bySystem[v.normalized!.system] = (state.bySystem[v.normalized!.system] || 0) + 1;
-        const rawItem = items[vi];
-        const itemTopic = rawItem?.topic || v.normalized!.system;
-        state.byTopic[itemTopic] = (state.byTopic[itemTopic] || 0) + 1;
-        state.lastStems.push(v.normalized!.stem.substring(0, 100));
-        if (state.lastStems.length > 30) state.lastStems = state.lastStems.slice(-20);
-        state.lastHashes.push(v.normalized!.hash);
-        if (state.lastHashes.length > 30) state.lastHashes = state.lastHashes.slice(-20);
-        maxIdx = Math.max(maxIdx, v.normalized!.idx);
-      }
-
-      currentCount += valid.length;
-      consecutiveFailures = 0;
-
-      await storage.createGenerationEvent({
-        generationId,
-        eventType: "chunk_saved",
-        payload: { savedCount: valid.length, invalidCount: invalid.length, totalCount: currentCount, topicDistribution: state.byTopic },
-      });
-
-      await storage.updateProductGeneration(generationId, {
-        createdCount: currentCount,
-        promptState: state,
-      });
-
-      console.log(`[GenV2] Saved ${valid.length} valid, ${invalid.length} invalid. Total: ${currentCount}/${targetCount}`);
-    }
+    console.log(`[GenV2] Saved ${valid.length} valid, ${invalid.length} invalid. Total: ${currentCount}/${targetCount}`);
 
     if (invalid.length > 0 && currentCount < targetCount) {
       console.log(`[GenV2] Requesting replacements for ${invalid.length} invalid items`);
@@ -444,18 +541,12 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
 
       try {
         const { system: rSys, user: rUser } = buildReplacementPrompt(promptBase, invalid, region);
-        const rResult = await callModel(rSys, rUser, Math.min(invalid.length * 500 + 500, 8192));
-        const rParsed = JSON.parse(rResult.content);
-        const replacements = Array.isArray(rParsed.replacements)
-          ? rParsed.replacements
-          : Array.isArray(rParsed.items)
-          ? rParsed.items
-          : [];
-
+        const rResult = await callModel(rSys, rUser, Math.min(invalid.length * 600 + 500, 8192));
+        const replacements = parseModelResponse(rResult.content);
         const { valid: rValid } = validateChunk(replacements, maxIdx + 1, existingHashes);
 
         if (rValid.length > 0) {
-          const toSave = rValid.map(v => ({
+          const rToSave = rValid.map(v => ({
             generationId,
             idx: v.normalized!.idx,
             type: v.normalized!.type,
@@ -470,7 +561,7 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
             hash: v.normalized!.hash,
           }));
 
-          await storage.createGeneratedQuestionsBulk(toSave);
+          await storage.createGeneratedQuestionsBulk(rToSave);
 
           for (const v of rValid) {
             existingHashes.add(v.normalized!.hash);

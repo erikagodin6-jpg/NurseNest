@@ -11082,8 +11082,9 @@ Return ONLY valid JSON with this exact structure:
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { template = "question_pack", exam, region = "BOTH", targetCount = 250, chunkSize = 15, promptBase, settings, topic, difficulty = "mixed", questionTypes } = req.body;
+      const { template = "question_pack", exam, region = "BOTH", targetCount = 250, chunkSize = 15, promptBase, settings, topic, instructions, difficulty = "mixed", questionTypes, tier, themeId } = req.body;
       if (!targetCount || targetCount < 250) return res.status(400).json({ error: "targetCount must be >= 250" });
+      const cleanTopic = (topic || "Nursing Pathophysiology").substring(0, 200);
       const gen = await storage.createProductGeneration({
         userId: admin.id,
         template,
@@ -11091,13 +11092,13 @@ Return ONLY valid JSON with this exact structure:
         targetCount: Math.min(targetCount, 1000),
         createdCount: 0,
         chunkSize: Math.min(Math.max(chunkSize, 5), 25),
-        promptBase: promptBase || null,
-        topic: topic || "Nursing Pathophysiology",
+        promptBase: instructions || promptBase || null,
+        topic: cleanTopic,
         examTarget: exam || "rex-pn",
         difficulty,
         questionTypes: questionTypes || ["MCQ", "SATA"],
         region,
-        settings: settings || {},
+        settings: { ...(settings || {}), tier: tier || "rpn", themeId: themeId || "soft-clinical" },
       });
       await logAudit(req, admin, "generator_v2", gen.id, "create", null, { template, targetCount, chunkSize });
       res.json(gen);

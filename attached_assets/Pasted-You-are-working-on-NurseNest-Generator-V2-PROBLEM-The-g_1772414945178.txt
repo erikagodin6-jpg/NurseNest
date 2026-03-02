@@ -1,0 +1,59 @@
+You are working on NurseNest Generator V2.
+
+PROBLEM:
+The generator is incorrectly using the user’s long instruction prompt as the `topic` field. The worker code splits `topic` by newline into `topics=[...]`, causing the first instruction line to be treated like a title/page. Also, many generated items fail validation so only a few questions are saved (e.g., “Requesting replacements for 20 invalid items”, then “Replacement: 5 saved. Total: 5/300”).
+
+GOAL:
+1) Topic must be a short label only (e.g., “Renal Pathophysiology”), never a full prompt.
+2) Long generation rules must live in `promptBase` (or a dedicated `instructions` field) and be combined server-side into a final prompt.
+3) Generator must reliably reach targetCount by chunking and retrying until createdCount == targetCount, with strict JSON validation and repair.
+
+REQUIRED CHANGES:
+A) DATA MODEL / API
+- Update POST /api/generator-v2/generations to accept:
+  - topic: string (short label only)
+  - instructions: string (long rules; optional)
+  - targetCount: number
+  - questionTypes, examTarget, region, difficulty, etc.
+- Persist `topic` separately from `instructions` (or map instructions to promptBase).
+- Ensure the UI does NOT set `topic` to the full instructions.
+
+B) WORKER PROMPT COMPOSITION
+- Build the model prompt like:
+  system: fixed system prompt (“You are NurseNest question generator…”)
+  user: a JSON “job spec” object that includes topic, examTarget, region, difficulty distribution, questionTypes, schema, and any extra instructions.
+- Do NOT split the topic by newline. Remove any code that does `topic.split("\n")`.
+- If you support multiple topics, use a dedicated array field `topics: string[]` instead.
+
+C) OUTPUT CONTRACT (match what DB expects)
+- Find the DB schema for saved questions (looks like it stores fields like idx, type, difficulty, system, stem, scenario, options, correctAnswer, rationales).
+- Make the model output EXACTLY that schema. Do not ask the model for fields your DB doesn’t store.
+- Add a server-side validator:
+  - MCQ: exactly 4 options; 1 correct letter
+  - SATA: 6–8 options; 2–5 correct letters
+  - required: scenario, stem, options, correctAnswer, rationaleCorrect, rationaleIncorrect, clinicalPearl (or whatever the DB requires)
+- If validation fails, run a repair step: send the invalid item back to the model with “Fix to match schema; output JSON only”.
+
+D) RELIABLE COMPLETION
+- Implement a loop:
+  while createdCount < targetCount:
+    request chunkSize items
+    validate each
+    save valids
+    for invalids: repair and retry (with max attempts per item, e.g., 3)
+- Update generation status and createdCount as items are saved.
+- Ensure export-pdf is disabled until status == completed OR createdCount == targetCount.
+
+E) UI SAFETY
+- In the admin generator form:
+  - Topic input should be a single-line field with max length (e.g., 80 chars).
+  - Instructions should be a separate multiline field.
+  - Show a preview of “Prompt Summary” so admins can confirm topic isn’t being used as the full prompt.
+
+DELIVERABLE:
+Provide the concrete code edits (files + functions) to implement A–E, including:
+- route handler changes
+- worker prompt composer
+- validator + repair
+- UI form edits
+- any migrations needed

@@ -1,0 +1,90 @@
+You are working inside my NurseNest “Cram Guide / Question Generator” page.
+
+BUGS:
+1) The generator often outputs only a few questions (e.g., 3–10) instead of the requested count.
+2) The generator sometimes copies the user instructions (the prompt text) into the Title page / first block of the generated content.
+
+GOAL:
+Make the generator reliably produce EXACTLY the requested number of questions, and NEVER place the instruction text into title/heading fields. The output must be predictable and parseable.
+
+REQUIREMENTS (must implement all):
+A) Switch the AI response format to STRICT JSON ONLY. No markdown, no code fences, no prose, no headings.
+B) Define and enforce a JSON schema like:
+
+{
+  "meta": {
+    "title": "string (clean title only, no instructions)",
+    "topic": "string",
+    "exam": "REx-PN|NCLEX-PN|NCLEX-RN|NP",
+    "difficulty": "easy|medium|hard",
+    "questionCountRequested": number,
+    "questionCountReturned": number
+  },
+  "questions": [
+    {
+      "id": "string",
+      "type": "mcq|sata|case|ngn_matrix|ngn_bowtie",
+      "stem": "string",
+      "choices": [{"id":"A","text":"..."}, ...],
+      "correct": ["A"] OR ["A","C"] for SATA,
+      "rationale": "string",
+      "clinicalPearl": "string (optional)",
+      "tags": ["string", ...],
+      "category": "string"
+    }
+  ]
+}
+
+C) Build a server-side validator:
+- Parse JSON safely (try/catch).
+- Reject if:
+  - JSON parse fails,
+  - questions.length !== requestedCount,
+  - any question is missing required fields,
+  - title/stem/rationale contains instruction-echo patterns (see below).
+- If rejected: automatically re-prompt the AI up to 2 retries with a correction message explaining what failed.
+- After 2 failures: return a helpful error to the UI.
+
+D) Instruction-echo prevention:
+1) Add a SYSTEM message for the model that explicitly forbids copying user instructions into output fields.
+2) Add a sanitization step:
+   - Remove any leading “Instructions:” / “You are…” / “Generate…” blocks from title/stem if they appear.
+   - Detect echo patterns like:
+     - “You are ChatGPT…”
+     - “Follow these instructions…”
+     - “Generate X questions…”
+     - “Output JSON…”
+     - Any occurrence of the exact user input text (or large substring overlap).
+   - If detected, treat as validation failure and retry.
+
+E) Ensure full count:
+- If the model returns fewer questions, do NOT accept partial.
+- Retry with a repair prompt:
+  “You returned {n} questions; you must return EXACTLY {requestedCount}. Return full JSON again with {requestedCount} questions.”
+- Consider generating in batches internally if requestedCount > 50:
+  - Call AI multiple times (e.g., 25 per call) and merge, ensuring unique IDs and consistent meta.
+  - Still return ONE final JSON object to the client.
+
+F) UI behavior:
+- The UI should not display raw AI text.
+- It should display meta.title, meta.topic, and then render questions from JSON.
+- The “Title page” must use meta.title ONLY.
+
+IMPLEMENTATION NOTES:
+- Identify where the AI call is made (server route/controller). Update the prompt messages there.
+- Use a deterministic temperature (e.g., 0.2–0.4) for consistency.
+- Add logging:
+  - requestedCount, returnedCount, retry count, validation failure reason.
+- Add unit-style tests or a simple dev test function that runs 10 generations and asserts counts.
+
+DELIVERABLE:
+- Provide the code changes (server + any client rendering changes).
+- Point out the files edited and what was changed.
+- Include acceptance tests:
+  1) Request 30 questions -> returns exactly 30.
+  2) Request 75 questions -> returns exactly 75 (batching ok).
+  3) Title never contains the user instructions.
+  4) No markdown/code fences appear anywhere in the output.
+
+IMPORTANT:
+Do not change unrelated pages. Do not change pricing logic. Focus only on the generator’s AI prompting + parsing + validation + rendering.
