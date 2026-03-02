@@ -56,3 +56,5 @@ integrations = ["stripe:2.0.0", "javascript_openai_ai_integrations:2.0.0", "java
 [userenv.shared]
 SITE_URL = "https://www.nursenest.ca"
 ENABLE_AI_AUTOGEN = "true"
+ALLIED_PRO_MONTHLY_PRICE_ID = "price_1T6enrChmmgDwbsx6FqhSDmc"
+ALLIED_PRO_ANNUAL_PRICE_ID = "price_1T6enrChmmgDwbsxuwiW96Ll"
