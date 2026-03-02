@@ -3,7 +3,7 @@ import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Play, Pause, FileDown, ArrowLeft, RefreshCw, Loader2, ShoppingBag, DollarSign, Trash2, Package, X, Store, Eye, EyeOff, Download, Edit3, Check, XCircle, ChevronDown, ChevronUp, Sparkles, AlertTriangle, Archive, RotateCcw, Zap } from "lucide-react";
+import { Play, Pause, FileDown, ArrowLeft, RefreshCw, Loader2, ShoppingBag, DollarSign, Trash2, Package, X, Store, Eye, EyeOff, Download, Edit3, Check, XCircle, ChevronDown, ChevronUp, Sparkles, AlertTriangle, Archive, RotateCcw, Zap, CheckCircle, FileText, ExternalLink } from "lucide-react";
 
 const THEMES = [
   { id: "soft-clinical", name: "Soft Clinical", primaryColor: "#7c3aed", secondaryColor: "#06b6d4", accentColor: "#f59e0b", coverBg: "#7c3aed" },
@@ -100,10 +100,14 @@ interface StoreProduct {
   examTarget: string | null;
   featured: boolean;
   isActive: boolean;
+  fileUrl: string | null;
+  previewUrl: string | null;
+  coverImageUrl: string | null;
+  shortDescription: string | null;
   createdAt: string;
 }
 
-type ActivePanel = "generator" | "store";
+type ActivePanel = "generator" | "store" | "published";
 
 export default function GeneratorV2Page() {
   const { user, isAdmin } = useAuth();
@@ -161,6 +165,8 @@ export default function GeneratorV2Page() {
   const [bundleCategory, setBundleCategory] = useState("bundle");
   const [bundleGenIds, setBundleGenIds] = useState<string[]>([]);
   const [creatingBundle, setCreatingBundle] = useState(false);
+
+  const [viewingPdfId, setViewingPdfId] = useState<string | null>(null);
 
   const [editDrawerOpen, setEditDrawerOpen] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<QuestionItem | null>(null);
@@ -221,7 +227,7 @@ export default function GeneratorV2Page() {
   }, []);
 
   useEffect(() => { loadGenerations(); }, [loadGenerations]);
-  useEffect(() => { if (activePanel === "store") loadStoreProducts(); }, [activePanel, loadStoreProducts]);
+  useEffect(() => { if (activePanel === "store" || activePanel === "published") loadStoreProducts(); }, [activePanel, loadStoreProducts]);
 
   useEffect(() => {
     if (activeGenId) {
@@ -673,6 +679,9 @@ export default function GeneratorV2Page() {
             <button onClick={() => setActivePanel("generator")} className={`px-3 py-1.5 rounded-md text-sm font-medium transition ${activePanel === "generator" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="tab-generator">Generator</button>
             <button onClick={() => setActivePanel("store")} className={`px-3 py-1.5 rounded-md text-sm font-medium transition flex items-center gap-1.5 ${activePanel === "store" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="tab-store">
               <Store className="w-3.5 h-3.5" /> Store Manager
+            </button>
+            <button onClick={() => setActivePanel("published")} className={`px-3 py-1.5 rounded-md text-sm font-medium transition flex items-center gap-1.5 ${activePanel === "published" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="tab-published">
+              <CheckCircle className="w-3.5 h-3.5" /> Published
             </button>
           </div>
         </div>
@@ -1178,6 +1187,112 @@ export default function GeneratorV2Page() {
                   <div className="bg-white rounded-xl border p-8 text-center">
                     <Store className="w-8 h-8 text-gray-300 mx-auto mb-2" />
                     <p className="text-gray-400 text-sm">No products in the store yet</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {activePanel === "published" && (
+          <div className="space-y-4" data-testid="section-published">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-800">Published Products</h2>
+              <Button size="sm" variant="outline" onClick={loadStoreProducts} className="gap-1" data-testid="button-refresh-published">
+                <RefreshCw className="w-3 h-3" /> Refresh
+              </Button>
+            </div>
+            {storeLoading ? (
+              <div className="flex justify-center py-12"><Loader2 className="w-6 h-6 text-gray-400 animate-spin" /></div>
+            ) : (
+              <div className="space-y-3">
+                {storeProducts.filter(p => p.isActive && p.fileUrl).map((product) => (
+                  <div key={product.id} className="bg-white rounded-xl border p-5 transition hover:border-blue-200" data-testid={`card-published-${product.id.substring(0, 8)}`}>
+                    <div className="flex items-start gap-4">
+                      {product.coverImageUrl && (
+                        <div className="w-20 h-28 rounded-lg overflow-hidden border bg-gray-50 shrink-0">
+                          <img src={product.coverImageUrl} alt={product.title} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold text-gray-800 truncate">{product.title}</h3>
+                          <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700 shrink-0">Live</span>
+                          {product.featured && <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 shrink-0">Featured</span>}
+                        </div>
+                        {product.shortDescription && (
+                          <p className="text-xs text-gray-500 mb-2 line-clamp-2">{product.shortDescription}</p>
+                        )}
+                        <div className="flex items-center gap-3 text-xs mb-3">
+                          <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-600 font-medium">{product.category}</span>
+                          {product.examTarget && <span className="text-gray-400">{product.examTarget}</span>}
+                          <span className="text-gray-400">Tier: {product.tierTarget}</span>
+                          <span className="font-bold text-gray-700">{formatPrice(product.price)}</span>
+                          {product.compareAtPrice && <span className="text-xs text-gray-400 line-through">{formatPrice(product.compareAtPrice)}</span>}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="gap-1.5 text-xs h-8"
+                            onClick={() => {
+                              const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+                              const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
+                              const sep = "?";
+                              const params = creds.username && creds.password
+                                ? `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`
+                                : `adminId=${encodeURIComponent(storedUser?.id || "")}`;
+                              window.open(`/api/admin/shop/products/${product.id}/download${sep}${params}`, "_blank");
+                            }}
+                            data-testid={`button-download-published-${product.id.substring(0, 8)}`}
+                          >
+                            <Download className="w-3.5 h-3.5" /> Download PDF
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="gap-1.5 text-xs h-8"
+                            onClick={() => setViewingPdfId(viewingPdfId === product.id ? null : product.id)}
+                            data-testid={`button-view-published-${product.id.substring(0, 8)}`}
+                          >
+                            <FileText className="w-3.5 h-3.5" /> {viewingPdfId === product.id ? "Hide Preview" : "View PDF"}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="gap-1.5 text-xs h-8"
+                            onClick={() => window.open(`/shop/${product.slug}`, "_blank")}
+                            data-testid={`button-storefront-${product.id.substring(0, 8)}`}
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" /> View in Store
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    {viewingPdfId === product.id && (
+                      <div className="mt-4 border rounded-lg overflow-hidden bg-gray-50" data-testid={`pdf-viewer-${product.id.substring(0, 8)}`}>
+                        <iframe
+                          src={(() => {
+                            const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+                            const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
+                            const params = creds.username && creds.password
+                              ? `username=${encodeURIComponent(creds.username)}&password=${encodeURIComponent(creds.password)}`
+                              : `adminId=${encodeURIComponent(storedUser?.id || "")}`;
+                            return `/api/admin/shop/products/${product.id}/view-pdf?${params}`;
+                          })()}
+                          className="w-full border-0"
+                          style={{ height: 700 }}
+                          title={`${product.title} PDF`}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {storeProducts.filter(p => p.isActive && p.fileUrl).length === 0 && (
+                  <div className="bg-white rounded-xl border p-8 text-center">
+                    <FileText className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                    <p className="text-gray-400 text-sm">No published products with PDF files yet</p>
+                    <p className="text-gray-300 text-xs mt-1">Generate question packs and publish them to see them here</p>
                   </div>
                 )}
               </div>

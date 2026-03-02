@@ -10050,11 +10050,45 @@ Return ONLY valid JSON with this exact structure:
       if (!product.fileUrl) return res.status(404).json({ error: "No file attached to this product" });
       res.setHeader("Content-Disposition", `attachment; filename="${product.slug || "product"}.pdf"`);
       res.setHeader("Content-Type", "application/pdf");
-      const { default: fetch } = await import("node-fetch");
-      const fileRes = await fetch(product.fileUrl);
-      if (!fileRes.ok) return res.status(502).json({ error: "Failed to fetch file" });
-      const buffer = await fileRes.buffer();
-      res.send(buffer);
+      const { bucketName, objectName } = parseStoragePath(product.fileUrl);
+      const { objectStorageClient } = await import("./replit_integrations/object_storage/objectStorage");
+      const bucket = objectStorageClient.bucket(bucketName);
+      const file = bucket.file(objectName);
+      const [exists] = await file.exists();
+      if (!exists) return res.status(404).json({ error: "File not found in storage" });
+      const stream = file.createReadStream();
+      stream.on("error", (err) => {
+        console.error("Download stream error:", err);
+        if (!res.headersSent) res.status(500).json({ error: "Error streaming file" });
+      });
+      stream.pipe(res);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/shop/products/:id/view-pdf", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const product = await storage.getDigitalProduct(req.params.id);
+      if (!product) return res.status(404).json({ error: "Product not found" });
+      if (!product.fileUrl) return res.status(404).json({ error: "No file attached to this product" });
+      res.setHeader("Content-Disposition", "inline");
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Cache-Control", "private, max-age=300");
+      const { bucketName, objectName } = parseStoragePath(product.fileUrl);
+      const { objectStorageClient } = await import("./replit_integrations/object_storage/objectStorage");
+      const bucket = objectStorageClient.bucket(bucketName);
+      const file = bucket.file(objectName);
+      const [exists] = await file.exists();
+      if (!exists) return res.status(404).json({ error: "File not found in storage" });
+      const stream = file.createReadStream();
+      stream.on("error", (err) => {
+        console.error("View PDF stream error:", err);
+        if (!res.headersSent) res.status(500).json({ error: "Error streaming file" });
+      });
+      stream.pipe(res);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
