@@ -204,6 +204,7 @@ import illustrationGestationalDiabetesPatho from "@/assets/lesson-gestational-di
 import illustrationFetalMonitoringPatho from "@/assets/lesson-fetal-monitoring-patho.png";
 import illustrationMalignantHyperthermia from "@/assets/lesson-malignant-hyperthermia.png";
 import illustrationCardiogenicShockPatho from "@/assets/lesson-cardiogenic-shock-patho.png";
+import illustrationChestPainDifferential from "@/assets/lesson-chest-pain-differential.png";
 import illustrationTracheostomyPatho from "@/assets/lesson-tracheostomy-patho.png";
 import illustrationChestTubePatho from "@/assets/lesson-chest-tube-patho.png";
 import illustrationEczemaPatho from "@/assets/lesson-eczema-patho.png";
@@ -680,6 +681,8 @@ const lessonSpecificImages: Record<string, string> = {
 
   "shock-types-recognition-rpn": illustrationCardiogenicShockPatho,
 
+  "chest-pain-differential-rpn": illustrationChestPainDifferential,
+
   "tracheostomy-basics-rpn": illustrationTracheostomyPatho,
 
   "chest-tube": illustrationChestTubePatho,
@@ -917,6 +920,7 @@ export function getLessonImage(lessonId: string): string | undefined {
   if (lessonId.includes("raynaud")) return illustrationRaynauds;
   if (lessonId.includes("varicose")) return illustrationVaricoseVeins;
   if (lessonId.includes("venous-insuff")) return illustrationVenousInsufficiency;
+  if (lessonId.includes("chest-pain")) return illustrationChestPainDifferential;
   if (lessonId.includes("endocarditis")) return illustrationEndocarditis;
   if (lessonId.includes("rheumatic")) return illustrationRheumaticFever;
   if (lessonId.includes("shock") || lessonId.includes("dysrhythmia")) return illustrationShock;
