@@ -860,7 +860,22 @@ export default function GeneratorV2Page() {
                       className={`w-full text-left p-2 rounded-lg text-xs transition group relative ${activeGenId === g.id ? "bg-blue-50 border border-blue-200" : "hover:bg-gray-50 border border-transparent"}`}
                     >
                       <div className="flex items-center gap-1">
-                        <button onClick={() => setActiveGenId(g.id)} className="flex-1 text-left" data-testid={`button-job-${g.id.substring(0, 8)}`}>
+                        {g.status !== "running" && !runningIds.has(g.id) && g.status !== "complete" && (
+                          <button onClick={(e) => { e.stopPropagation(); runMultiGeneration(g.id); }} className="p-1.5 rounded hover:bg-blue-100 text-blue-500 shrink-0" title="Run" data-testid={`button-run-multi-${g.id.substring(0, 8)}`}>
+                            <Play className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                        {(g.status === "running" || runningIds.has(g.id)) && (
+                          <div className="p-1.5 shrink-0">
+                            <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-500" />
+                          </div>
+                        )}
+                        {g.status === "complete" && (
+                          <div className="p-1.5 shrink-0">
+                            <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+                          </div>
+                        )}
+                        <button onClick={() => setActiveGenId(g.id)} className="flex-1 text-left min-w-0" data-testid={`button-job-${g.id.substring(0, 8)}`}>
                           <div className="font-medium text-gray-700 truncate">{g.topic || g.template}</div>
                           <div className="flex items-center gap-2 mt-0.5">
                             <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${g.status === "complete" ? "bg-green-100 text-green-700" : g.status === "running" || runningIds.has(g.id) ? "bg-blue-100 text-blue-700" : g.status === "failed" ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`}>
@@ -873,11 +888,6 @@ export default function GeneratorV2Page() {
                           </div>
                         </button>
                         <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition shrink-0">
-                          {g.status !== "running" && !runningIds.has(g.id) && g.status !== "complete" && (
-                            <button onClick={() => runMultiGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-blue-500" title="Run" data-testid={`button-run-multi-${g.id.substring(0, 8)}`}>
-                              <Play className="w-3 h-3" />
-                            </button>
-                          )}
                           {(g.status === "complete" || g.status === "failed") && (
                             <button onClick={() => archiveGeneration(g.id)} className="p-1 rounded hover:bg-gray-200 text-gray-400" title="Archive" data-testid={`button-archive-${g.id.substring(0, 8)}`}>
                               <Archive className="w-3 h-3" />
