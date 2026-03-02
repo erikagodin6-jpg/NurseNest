@@ -1,0 +1,106 @@
+You are a senior SaaS growth strategist and technical SEO architect.
+
+Implement a full SEO + marketing system for allied.nursenest.ca without affecting nursing SEO.
+
+GOALS:
+- Rank independently for allied health exam keywords.
+- Build topical authority per career.
+- Capture leads with free diagnostic funnels.
+- Avoid SEO cannibalization with nursing.
+- Separate sitemap and robots.
+- Maximize conversion.
+
+A) SEO STRUCTURE
+
+For each career create:
+- /rrt-practice-questions
+- /rrt-mock-exam
+- /rrt-exam-prep-guide
+- /rrt-study-plan
+(Repeat for paramedic, pharmacy-tech, mlt, imaging)
+
+Each page must include:
+- 1,200–2,000 words
+- H1 with primary keyword
+- Keyword cluster coverage
+- FAQ schema markup
+- Internal linking to lessons + QBank
+- Conversion CTA (Start Free Diagnostic)
+
+B) SITEMAP
+
+Create:
+- /sitemap-allied.xml
+Include:
+- homepage
+- pricing
+- career landing pages
+- exam prep guides
+- lesson directories
+Exclude:
+- qbank payload endpoints
+- exam sessions
+- admin routes
+- account routes
+
+C) ROBOTS.TXT (ALLIED ONLY)
+
+Allow:
+/
+Disallow:
+/api
+/admin
+/account
+/checkout
+/*qbank*
+/*mock-exams*
+/*cat-exams*
+
+Include:
+Sitemap: https://allied.nursenest.ca/sitemap-allied.xml
+
+D) CONTENT MARKETING ENGINE
+
+Implement:
+- Blog system under allied
+- Auto-generate 50 SEO titles per career
+- Internal linking logic
+- Comparison pages (NurseNest Allied vs competitor)
+- Free 10-question preview pages (lead magnet)
+- Email capture integrated with diagnostic exam
+
+E) CONVERSION OPTIMIZATION
+
+On each career landing:
+- Hero: “Pass Your [Career] Licensing Exam”
+- Social proof placeholder
+- Question count
+- Adaptive exam feature highlight
+- Readiness predictor preview
+- Pricing table
+- FAQ
+- CTA: Start Free Diagnostic
+
+F) LEAD FUNNEL
+
+After diagnostic:
+- Show readiness score
+- Show weak areas
+- Gate full analytics behind account
+- Gate full access behind subscription
+
+G) ANALYTICS
+
+Track:
+- Landing page CTR to diagnostic
+- Diagnostic to account conversion
+- Account to paid conversion
+- Mock completion rate
+- Weak domain frequency
+
+Deliver:
+- File structure
+- Route list
+- Updated sitemap logic
+- Updated robots logic
+- SEO meta templates
