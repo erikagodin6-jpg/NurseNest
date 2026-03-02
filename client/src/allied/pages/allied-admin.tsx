@@ -4,14 +4,16 @@ import {
   Settings, BookOpen, Brain, Zap, BarChart3, FileText,
   ToggleLeft, ToggleRight, Loader2, CheckCircle2, AlertTriangle,
   RefreshCw, ChevronDown, ChevronRight, Target, TrendingUp,
-  Filter, Clock, Shield, AlertCircle, ArrowRight, Eye
+  Filter, Clock, Shield, AlertCircle, ArrowRight, Eye,
+  Play, Pause, Power, Database, Mail, Search, ShieldAlert, Wrench,
+  FileCheck, Archive
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging"] as const;
 
-type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints";
+type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts";
 
 interface PipelineStats {
   totalQuestions: number;
@@ -96,6 +98,13 @@ export default function AlliedAdminPage() {
   const [blueprints, setBlueprints] = useState<any[]>([]);
   const [domainSubtopics, setDomainSubtopics] = useState<Record<string, string[]>>({});
   const [availableSubtopics, setAvailableSubtopics] = useState<string[]>([]);
+  const [automations, setAutomations] = useState<any[]>([]);
+  const [automationRuns, setAutomationRuns] = useState<any[]>([]);
+  const [automationStatus, setAutomationStatus] = useState<any>(null);
+  const [drafts, setDrafts] = useState<any[]>([]);
+  const [draftsTotal, setDraftsTotal] = useState(0);
+  const [draftFilter, setDraftFilter] = useState("");
+  const [runningAutomation, setRunningAutomation] = useState<string | null>(null);
 
   const loadStats = useCallback(async () => {
     try {
@@ -143,13 +152,41 @@ export default function AlliedAdminPage() {
     } catch {}
   }, [selectedCareer]);
 
+  const loadAutomations = useCallback(async () => {
+    try {
+      const [autos, status, runs] = await Promise.all([
+        apiFetch("/api/allied/automations"),
+        apiFetch("/api/allied/automations/status"),
+        apiFetch("/api/allied/automations/runs?limit=30"),
+      ]);
+      setAutomations(autos);
+      setAutomationStatus(status);
+      setAutomationRuns(runs);
+    } catch (e: any) {
+      console.error("Failed to load automations:", e);
+    }
+  }, []);
+
+  const loadDrafts = useCallback(async () => {
+    try {
+      const params = draftFilter ? `&type=${draftFilter}` : "";
+      const data = await apiFetch(`/api/allied/automations/drafts?page=1${params}`);
+      setDrafts(data.drafts);
+      setDraftsTotal(data.total);
+    } catch (e: any) {
+      console.error("Failed to load drafts:", e);
+    }
+  }, [draftFilter]);
+
   useEffect(() => { loadStats(); }, [loadStats]);
   useEffect(() => { loadSubtopics(); }, [loadSubtopics]);
   useEffect(() => {
     if (tab === "generate" || tab === "questions") loadBatches();
     if (tab === "revision") loadRevisionQueue();
     if (tab === "blueprints") loadBlueprints();
-  }, [tab, selectedCareer, loadBatches, loadRevisionQueue, loadBlueprints]);
+    if (tab === "automations") loadAutomations();
+    if (tab === "drafts") loadDrafts();
+  }, [tab, selectedCareer, loadBatches, loadRevisionQueue, loadBlueprints, loadAutomations, loadDrafts]);
 
   useEffect(() => {
     if (genDomain && domainSubtopics[genDomain]) {
@@ -213,6 +250,57 @@ export default function AlliedAdminPage() {
     }
   };
 
+  const handleSeedAutomations = async () => {
+    try {
+      const result = await apiFetch("/api/allied/automations/seed", { method: "POST", body: JSON.stringify({ adminId: "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225" }) });
+      toast({ title: "Automations seeded", description: `${result.seeded} new automations created (${result.total} total)` });
+      loadAutomations();
+    } catch (e: any) {
+      toast({ title: "Seed failed", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const handleToggleAutomation = async (id: string, enabled: boolean) => {
+    try {
+      await apiFetch(`/api/allied/automations/${id}`, { method: "PUT", body: JSON.stringify({ enabled }) });
+      loadAutomations();
+    } catch (e: any) {
+      toast({ title: "Failed", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const handleRunNow = async (id: string) => {
+    setRunningAutomation(id);
+    try {
+      const result = await apiFetch(`/api/allied/automations/${id}/run-now`, { method: "POST", body: JSON.stringify({ adminId: "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225" }) });
+      toast({ title: "Automation started", description: `Run ${result.runId} for ${result.slug}` });
+      setTimeout(() => { loadAutomations(); setRunningAutomation(null); }, 5000);
+    } catch (e: any) {
+      toast({ title: "Run failed", description: e.message, variant: "destructive" });
+      setRunningAutomation(null);
+    }
+  };
+
+  const handleKillSwitch = async (active: boolean) => {
+    try {
+      await apiFetch("/api/allied/automations/kill-switch", { method: "POST", body: JSON.stringify({ active }) });
+      toast({ title: active ? "Kill switch ACTIVATED" : "Kill switch deactivated" });
+      loadAutomations();
+    } catch (e: any) {
+      toast({ title: "Failed", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const handleDraftAction = async (id: string, status: string) => {
+    try {
+      await apiFetch(`/api/allied/automations/drafts/${id}/status`, { method: "PUT", body: JSON.stringify({ status }) });
+      toast({ title: `Draft ${status}` });
+      loadDrafts();
+    } catch (e: any) {
+      toast({ title: "Failed", description: e.message, variant: "destructive" });
+    }
+  };
+
   const handleResolveRevision = async (id: string, status: string) => {
     try {
       await apiFetch(`/api/allied/pipeline/revision-queue/${id}`, {
@@ -243,9 +331,22 @@ export default function AlliedAdminPage() {
   const totalFlaggedAll = Object.values(stats).reduce((s, c) => s + (c?.flaggedCount || 0), 0);
   const totalRevisionsAll = Object.values(stats).reduce((s, c) => s + (c?.pendingRevisions || 0), 0);
 
+  const CATEGORY_LABELS: Record<string, { label: string; icon: any; color: string }> = {
+    question_bank: { label: "Question Bank", icon: BookOpen, color: "text-teal-600" },
+    flashcards: { label: "Flashcards", icon: Brain, color: "text-purple-600" },
+    study_plans: { label: "Study Plans", icon: Target, color: "text-blue-600" },
+    seo_content: { label: "SEO & Content", icon: Search, color: "text-green-600" },
+    store: { label: "Store/Product", icon: Archive, color: "text-orange-600" },
+    lifecycle: { label: "Lifecycle/CRM", icon: Mail, color: "text-pink-600" },
+    quality: { label: "Quality & Safety", icon: ShieldAlert, color: "text-red-600" },
+    ops: { label: "Ops/DevOps", icon: Wrench, color: "text-gray-600" },
+  };
+
   const tabs: { id: Tab; label: string; icon: any }[] = [
     { id: "overview", label: "Overview", icon: BarChart3 },
-    { id: "generate", label: "Generator", icon: Zap },
+    { id: "automations", label: "Automations", icon: Zap },
+    { id: "drafts", label: "Draft Review", icon: FileCheck },
+    { id: "generate", label: "Generator", icon: Database },
     { id: "questions", label: "Questions", icon: BookOpen },
     { id: "revision", label: "Revision Queue", icon: AlertCircle },
     { id: "analytics", label: "Analytics", icon: TrendingUp },

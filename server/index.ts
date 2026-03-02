@@ -5,6 +5,7 @@ import path from "path";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
 import { registerAlliedPipelineRoutes } from "./allied-pipeline";
+import { registerAutomationRoutes } from "./allied-automations";
 import { serveStatic } from "./static";
 
 import { runMigrations } from "stripe-replit-sync";
@@ -537,8 +538,8 @@ app.use((req, res, next) => {
 (async () => {
   await initStripe();
 
-  // Register allied pipeline routes
   registerAlliedPipelineRoutes(app);
+  registerAutomationRoutes(app);
 
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
