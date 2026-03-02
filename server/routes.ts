@@ -11251,6 +11251,7 @@ Return ONLY valid JSON with this exact structure:
       const events = await storage.getGenerationEvents(req.params.id);
       const recentEvents = events.slice(0, 10);
       const state = gen.promptState as any;
+      const genSettings = gen.settings as any || {};
       res.json({
         id: gen.id,
         status: gen.status,
@@ -11267,6 +11268,7 @@ Return ONLY valid JSON with this exact structure:
         isRunning: activeV2Runs.has(req.params.id),
         startedAt: gen.startedAt,
         completedAt: gen.completedAt,
+        publishedProductId: genSettings.publishedProductId || null,
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -11416,6 +11418,11 @@ Return ONLY valid JSON with this exact structure:
       if (!gen) return res.status(404).json({ error: "Generation not found" });
       if (gen.createdCount === 0) return res.status(400).json({ error: "No questions generated yet" });
 
+      const existingSettings = gen.settings as any || {};
+      if (existingSettings.publishedProductId) {
+        return res.status(409).json({ error: "This generation has already been published to the store. Duplicate publishing is not allowed." });
+      }
+
       const { title, description, priceDollars, compareAtDollars, category, tierTarget, examTarget, featured } = req.body;
       if (!title || !description || priceDollars === undefined || !category) {
         return res.status(400).json({ error: "Missing required fields: title, description, priceDollars, category" });
@@ -11544,6 +11551,11 @@ Return ONLY valid JSON with this exact structure:
       const gen = await storage.getProductGeneration(req.params.id);
       if (!gen) return res.status(404).json({ error: "Generation not found" });
       if (gen.createdCount === 0) return res.status(400).json({ error: "No questions generated yet" });
+
+      const existingSettings = gen.settings as any || {};
+      if (existingSettings.publishedProductId) {
+        return res.status(409).json({ error: "This generation has already been published to the store. Duplicate publishing is not allowed." });
+      }
 
       const { title, description, priceDollars, compareAtDollars, category, tierTarget, examTarget, featured, themeId, seoTitle, seoDescription, seoKeywords } = req.body;
       if (!title || !description || priceDollars === undefined || !category) {

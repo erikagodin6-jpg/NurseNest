@@ -45,6 +45,10 @@ import { reproductiveNpLessons } from "./reproductive-np";
 import { arrhythmiaLessons } from "./arrhythmias";
 import { dermatologyLessons } from "./dermatology";
 import { respiratoryExpansionLessons } from "./respiratory-expansion";
+import { respiratoryMissingRpnLessons } from "./respiratory-missing-rpn";
+import { respiratoryMissingRnLessons } from "./respiratory-missing-rn";
+import { respiratoryMissingNpLessons } from "./respiratory-missing-np";
+import { npClinicalUnitLessons } from "./np-clinical-units";
 
 export type { LessonContent } from "./types";
 
@@ -105,6 +109,10 @@ export const contentMap: Record<string, LessonContent> = {
   ...arrhythmiaLessons,
   ...dermatologyLessons,
   ...respiratoryExpansionLessons,
+  ...respiratoryMissingRpnLessons,
+  ...respiratoryMissingRnLessons,
+  ...respiratoryMissingNpLessons,
+  ...npClinicalUnitLessons,
 };
 
 export const lessonCount = Object.keys(contentMap).length;

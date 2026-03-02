@@ -913,8 +913,8 @@ export default function GeneratorV2Page() {
                       <Button size="sm" variant="outline" onClick={() => activeGenId && exportPdf(activeGenId)} disabled={exportingPdf !== null || status.createdCount === 0} className="gap-1" data-testid={`export-pdf-button-${activeGenId}`}>
                         {exportingPdf === activeGenId ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />} Export PDF
                       </Button>
-                      <Button size="sm" variant="outline" onClick={openPublishDialog} disabled={status.createdCount === 0} className="gap-1 text-green-700 border-green-200 hover:bg-green-50" data-testid="button-publish">
-                        <ShoppingBag className="w-3 h-3" /> Publish
+                      <Button size="sm" variant="outline" onClick={openPublishDialog} disabled={status.createdCount === 0 || !!(status as any).publishedProductId} className={`gap-1 ${(status as any).publishedProductId ? "text-gray-400 border-gray-200" : "text-green-700 border-green-200 hover:bg-green-50"}`} data-testid="button-publish">
+                        <ShoppingBag className="w-3 h-3" /> {(status as any).publishedProductId ? "Published" : "Publish"}
                       </Button>
                     </div>
                     {status.lastError && (
