@@ -1,7 +1,7 @@
 const enTranslations: Record<string, string> = {
     "nav.home": "Home",
     "nav.lessons": "Lessons",
-    "nav.flashcards": "Question Bank",
+    "nav.flashcards": "Flashcards",
     "nav.simulators": "Simulators",
     "nav.tools": "Tools",
     "nav.pricing": "Pricing",

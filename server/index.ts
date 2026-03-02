@@ -389,7 +389,7 @@ app.get("/sitemap-:lang.xml", async (req, res) => {
   const today = new Date().toISOString().split("T")[0];
   const entries: string[] = [];
 
-  const coreRoutes = ["/", "/lessons", "/flashcards", "/pricing", "/start-free", "/mock-exams", "/clinical-clarity", "/blog", "/question-of-the-day", "/question-bank", "/faq", "/contact"];
+  const coreRoutes = ["/", "/lessons", "/flashcards", "/pricing", "/start-free", "/mock-exams", "/clinical-clarity", "/blog", "/question-of-the-day", "/question-bank", "/faq", "/contact", "/nclex-rn-practice-questions", "/nclex-pn-practice-questions", "/rex-pn-practice-questions", "/np-exam-practice-questions"];
   for (const route of coreRoutes) {
     const loc = `${base}/${lang}${route === "/" ? "" : route}`;
     entries.push(`<url><loc>${loc}</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${today}</lastmod></url>`);
