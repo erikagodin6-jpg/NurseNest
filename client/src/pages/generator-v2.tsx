@@ -30,20 +30,31 @@ function adminFetch(url: string, options?: RequestInit) {
   const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
   const username = creds.username || "";
   const password = creds.password || "";
+  const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
+  const adminId = storedUser?.id || "";
 
   if (!options || options.method === "GET" || !options.method) {
     const sep = url.includes("?") ? "&" : "?";
-    return fetch(`${url}${sep}username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+    const params = username && password
+      ? `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+      : `adminId=${encodeURIComponent(adminId)}`;
+    return fetch(`${url}${sep}${params}`, {
       ...options,
       credentials: "include",
     });
   }
 
   const body = options.body ? JSON.parse(options.body as string) : {};
+  if (username && password) {
+    body.username = username;
+    body.password = password;
+  } else {
+    body.adminId = adminId;
+  }
   return fetch(url, {
     ...options,
     headers: { "Content-Type": "application/json", ...options.headers },
-    body: JSON.stringify({ ...body, username, password }),
+    body: JSON.stringify(body),
     credentials: "include",
   });
 }
@@ -312,11 +323,15 @@ export default function GeneratorV2Page() {
     setExportingPdf(genId);
     try {
       const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
+      const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
+      const authFields = (creds.username && creds.password)
+        ? { username: creds.username, password: creds.password }
+        : { adminId: storedUser?.id || "" };
       const res = await fetch(`/api/generator-v2/generations/${genId}/export-pdf`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ themeId: selectedTheme, username: creds.username || "", password: creds.password || "" }),
+        body: JSON.stringify({ themeId: selectedTheme, ...authFields }),
       });
       if (res.ok) {
         const blob = await res.blob();
