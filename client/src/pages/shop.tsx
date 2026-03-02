@@ -328,8 +328,16 @@ export default function ShopPage() {
 
   useEffect(() => {
     fetch("/api/shop/products")
-      .then(r => r.json())
-      .then(data => { setProducts(data); setLoading(false); })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          setProducts(data);
+        }
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, []);
 
