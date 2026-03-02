@@ -28,6 +28,14 @@ const CAREER_SLUG_MAP: Record<string, CareerType> = {
   "pharmacy-tech": "pharmacyTech",
   mlt: "mlt",
   imaging: "imaging",
+  "critical-care": "criticalCare",
+  "emergency-nursing": "emergencyNursing",
+  perioperative: "perioperative",
+  "oncology-nursing": "oncologyNursing",
+  "pediatric-cert": "pediatricCert",
+  psychotherapist: "psychotherapist",
+  "social-worker": "socialWorker",
+  "addictions-counsellor": "addictionsCounsellor",
 };
 
 function detectCareerFromPath(path: string): CareerType | null {

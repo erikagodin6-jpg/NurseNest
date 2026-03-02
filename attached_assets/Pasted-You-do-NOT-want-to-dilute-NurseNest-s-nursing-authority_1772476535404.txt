@@ -1,0 +1,175 @@
+You do NOT want to dilute NurseNest’s nursing authority.
+You want:
+• Nursing stays premium and focused
+• Allied health exam prep lives in a separate sub-brand
+• Shared backend engine
+• Separate SEO footprint
+• Separate brand positioning
+• Cross-sell from NurseNest
+Below is your copy-and-paste master prompt to build this correctly as a subsite architecture, not mixed into your nursing domain.
+COPY & PASTE MASTER PROMPT
+Multi-Career Exam Subsite (Revenue Optimized + Brand Protected)
+You are a senior SaaS architect working inside the NurseNest codebase (Vite + React + Express + Stripe + role-based tiers).
+OBJECTIVE:
+Build a completely separate Allied Health Exam Prep subsite inside the existing codebase WITHOUT diluting NurseNest’s nursing authority.
+This must:
+• Preserve all nursing routes untouched
+• Preserve nursing SEO footprint
+• Preserve nursing pricing walls
+• Create a separate branded subsite architecture
+• Share backend infrastructure but not front-facing brand
+SECTION 1 — SUBSITE ARCHITECTURE (CRITICAL)
+Implement Allied Health as ONE of the following (choose best technical option):
+Option A (Preferred for SEO):
+Subdomain architecture:
+allied.nursenest.ca
+Option B:
+Route namespace:
+nursenest.ca/allied
+Option C:
+Completely separate domain:
+nursenestallied.ca
+(But still share backend + database)
+IMPORTANT:
+Nursing must remain the default root brand.
+Allied content must NEVER appear in nursing sitemap.
+SECTION 2 — BRAND SEPARATION
+Create new brand container:
+Brand Name: NurseNest Allied
+Tagline: Healthcare Exam Academy
+Visual System:
+• Slightly different accent color
+• Same typography
+• Same rounded aesthetic
+• Clear header that distinguishes it from nursing
+Navigation must be separate:
+NurseNest (nursing)
+NurseNest Allied (other careers)
+Add cross-link in footer only.
+SECTION 3 — CAREERS TO INCLUDE IN ALLIED SUBSITE
+Initial verticals:
+Registered Respiratory Therapist (RRT)
+Paramedic / Advanced Care Paramedic
+Pharmacy Technician
+Medical Laboratory Technologist (MLT)
+Diagnostic Imaging (Radiologic / MRI / Sonography)
+Each must live under:
+/rrt
+/paramedic
+/pharmacy-tech
+/mlt
+/imaging
+INSIDE the Allied subsite namespace.
+Example:
+allied.nursenest.ca/rrt
+SECTION 4 — SHARED EXAM ENGINE (Backend Only)
+Create one centralized exam engine that supports:
+careerType ENUM:
+nursing
+rrt
+paramedic
+pharmacyTech
+mlt
+imaging
+All question tables, flashcards, mock exams must filter by careerType.
+Frontend must NEVER mix nursing + allied content.
+SECTION 5 — REVENUE-OPTIMIZED FEATURES (MANDATORY)
+Each Allied career must include:
+4,000-question scalable QBank architecture
+Adaptive mock exams
+Blueprint-weighted exams
+Weak area analyzer
+Readiness predictor
+AI study planner
+Rapid drill mode
+Clinical scenario simulator
+Calculation engines (career-specific)
+Performance dashboard
+Printable cram bundle generator
+SECTION 6 — MONETIZATION STRUCTURE (SEPARATE FROM NURSING)
+Allied pricing must NOT interfere with nursing tiers.
+Create separate Stripe products:
+Allied Pro Monthly
+Allied Pro Annual
+Allied Cram Bundle Add-On
+FREE tier:
+25 questions
+1 mock exam
+Limited flashcards
+PRO:
+Full QBank
+Unlimited adaptive exams
+Study planner
+Analytics
+Ensure server-side pricing wall enforcement.
+SECTION 7 — SEO PROTECTION
+Do NOT include allied routes in the nursing sitemap.
+Create separate sitemap:
+sitemap-allied.xml
+Generate:
+• 100 SEO titles per career
+• 20 landing pages per blueprint category
+• Comparison pages per career
+Ensure canonical tags prevent SEO cannibalization.
+SECTION 8 — ADMIN PANEL EXPANSION
+Add Allied Admin Dashboard:
+• Toggle careers on/off
+• Bulk question generator by career
+• Blueprint editor per career
+• Revenue per career analytics
+• Question count per career tracker
+• Content publish validation
+SECTION 9 — AI QUESTION GENERATOR TOOL
+Add admin button:
+“Generate Allied QBank Batch”
+Inputs:
+• careerType
+• topic
+• difficulty
+• country mode
+• question type mix
+• number of questions
+Output:
+• JSON
+• 500+ word rationale minimum
+• Safety notes
+• Blueprint mapping
+• Cognitive level tagging
+Reject low-quality output automatically.
+SECTION 10 — RETENTION & HIGH REVENUE MECHANICS
+Implement:
+• Exam countdown timer
+• Pass probability meter
+• Weekly performance email summary
+• Streak tracking
+• Achievement badges
+• “You are 68% exam ready” nudges
+Retention > traffic.
+SECTION 11 — PERFORMANCE & SCALABILITY
+• Lazy load large QBanks
+• Cache mock exam templates
+• Prevent question duplication in repeated exams
+• Paginate question rendering
+• Validate JSON before saving
+SECTION 12 — SAFETY DISCLAIMER
+Add footer to Allied site:
+“Educational tool only. Not affiliated with official licensing bodies.”
+SECTION 13 — END STATE
+After implementation:
+NurseNest remains:
+Premium Nursing Authority
+NurseNest Allied becomes:
+Multi-career healthcare exam SaaS
+Shared backend.
+Separate brand.
+Separate SEO.
+Separate pricing.
+Maximum scalability.
+Zero dilution.
+EXECUTION RULES
+Do NOT modify existing nursing routes.
+Do NOT alter nursing Stripe products.
+Do NOT change nursing sitemap.
+Do NOT mix allied content into nursing dashboards.
+Build Allied as an isolated vertical container using shared infrastructure.
+END PROMPT

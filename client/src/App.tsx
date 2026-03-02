@@ -140,6 +140,8 @@ const NclexRnPracticePage = lazy(() => import("@/pages/exam-practice-landing").t
 const NclexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NclexPnPractice })));
 const RexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.RexPnPractice })));
 const NpExamPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NpExamPractice })));
+const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
+const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 
 function PageTracker() {
   usePageTracker();
@@ -407,6 +409,139 @@ function AppRoutes() {
         <Route path="/imaging/pricing" component={PricingPage} />
         <Route path="/imaging/dashboard" component={DashboardPage} />
         <Route path="/imaging" component={Home} />
+
+        {/* Phase 3: Advanced Clinical & Specialist Certifications */}
+        <Route path="/critical-care/question-bank" component={QuestionBank} />
+        <Route path="/critical-care/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/critical-care/flashcards" component={Flashcards} />
+        <Route path="/critical-care/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/critical-care/mock-exams/:id" component={MockExamSession} />
+        <Route path="/critical-care/mock-exams" component={MockExamsPage} />
+        <Route path="/critical-care/study-plan" component={StudyPlanPage} />
+        <Route path="/critical-care/pricing" component={PricingPage} />
+        <Route path="/critical-care/dashboard" component={DashboardPage} />
+        <Route path="/critical-care" component={Home} />
+
+        <Route path="/emergency-nursing/question-bank" component={QuestionBank} />
+        <Route path="/emergency-nursing/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/emergency-nursing/flashcards" component={Flashcards} />
+        <Route path="/emergency-nursing/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/emergency-nursing/mock-exams/:id" component={MockExamSession} />
+        <Route path="/emergency-nursing/mock-exams" component={MockExamsPage} />
+        <Route path="/emergency-nursing/study-plan" component={StudyPlanPage} />
+        <Route path="/emergency-nursing/pricing" component={PricingPage} />
+        <Route path="/emergency-nursing/dashboard" component={DashboardPage} />
+        <Route path="/emergency-nursing" component={Home} />
+
+        <Route path="/perioperative/question-bank" component={QuestionBank} />
+        <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/perioperative/flashcards" component={Flashcards} />
+        <Route path="/perioperative/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/perioperative/mock-exams/:id" component={MockExamSession} />
+        <Route path="/perioperative/mock-exams" component={MockExamsPage} />
+        <Route path="/perioperative/study-plan" component={StudyPlanPage} />
+        <Route path="/perioperative/pricing" component={PricingPage} />
+        <Route path="/perioperative/dashboard" component={DashboardPage} />
+        <Route path="/perioperative" component={Home} />
+
+        <Route path="/oncology-nursing/question-bank" component={QuestionBank} />
+        <Route path="/oncology-nursing/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/oncology-nursing/flashcards" component={Flashcards} />
+        <Route path="/oncology-nursing/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/oncology-nursing/mock-exams/:id" component={MockExamSession} />
+        <Route path="/oncology-nursing/mock-exams" component={MockExamsPage} />
+        <Route path="/oncology-nursing/study-plan" component={StudyPlanPage} />
+        <Route path="/oncology-nursing/pricing" component={PricingPage} />
+        <Route path="/oncology-nursing/dashboard" component={DashboardPage} />
+        <Route path="/oncology-nursing" component={Home} />
+
+        <Route path="/pediatric-cert/question-bank" component={QuestionBank} />
+        <Route path="/pediatric-cert/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/pediatric-cert/flashcards" component={Flashcards} />
+        <Route path="/pediatric-cert/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/pediatric-cert/mock-exams/:id" component={MockExamSession} />
+        <Route path="/pediatric-cert/mock-exams" component={MockExamsPage} />
+        <Route path="/pediatric-cert/study-plan" component={StudyPlanPage} />
+        <Route path="/pediatric-cert/pricing" component={PricingPage} />
+        <Route path="/pediatric-cert/dashboard" component={DashboardPage} />
+        <Route path="/pediatric-cert" component={Home} />
+
+        {/* Phase 4: Mental Health & Behavioral Health */}
+        <Route path="/psychotherapist/question-bank" component={QuestionBank} />
+        <Route path="/psychotherapist/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/psychotherapist/flashcards" component={Flashcards} />
+        <Route path="/psychotherapist/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/psychotherapist/mock-exams/:id" component={MockExamSession} />
+        <Route path="/psychotherapist/mock-exams" component={MockExamsPage} />
+        <Route path="/psychotherapist/study-plan" component={StudyPlanPage} />
+        <Route path="/psychotherapist/pricing" component={PricingPage} />
+        <Route path="/psychotherapist/dashboard" component={DashboardPage} />
+        <Route path="/psychotherapist" component={Home} />
+
+        <Route path="/social-worker/question-bank" component={QuestionBank} />
+        <Route path="/social-worker/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/social-worker/flashcards" component={Flashcards} />
+        <Route path="/social-worker/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/social-worker/mock-exams/:id" component={MockExamSession} />
+        <Route path="/social-worker/mock-exams" component={MockExamsPage} />
+        <Route path="/social-worker/study-plan" component={StudyPlanPage} />
+        <Route path="/social-worker/pricing" component={PricingPage} />
+        <Route path="/social-worker/dashboard" component={DashboardPage} />
+        <Route path="/social-worker" component={Home} />
+
+        <Route path="/addictions-counsellor/question-bank" component={QuestionBank} />
+        <Route path="/addictions-counsellor/flashcards/deck/:slug" component={DeckPage} />
+        <Route path="/addictions-counsellor/flashcards" component={Flashcards} />
+        <Route path="/addictions-counsellor/mock-exams/:id/report" component={MockExamReport} />
+        <Route path="/addictions-counsellor/mock-exams/:id" component={MockExamSession} />
+        <Route path="/addictions-counsellor/mock-exams" component={MockExamsPage} />
+        <Route path="/addictions-counsellor/study-plan" component={StudyPlanPage} />
+        <Route path="/addictions-counsellor/pricing" component={PricingPage} />
+        <Route path="/addictions-counsellor/dashboard" component={DashboardPage} />
+        <Route path="/addictions-counsellor" component={Home} />
+
+        {/* Admin Career Management */}
+        <Route path="/admin/careers" component={AdminCareersPage} />
+
+        {/* Career AI Tools - RRT */}
+        <Route path="/rrt/abg-engine">{() => <CareerAISimulator toolId="abg-engine" />}</Route>
+        <Route path="/rrt/ventilator-sim">{() => <CareerAISimulator toolId="ventilator-sim" />}</Route>
+        {/* Career AI Tools - Paramedic */}
+        <Route path="/paramedic/trauma-sim">{() => <CareerAISimulator toolId="trauma-sim" />}</Route>
+        <Route path="/paramedic/ecg-drill">{() => <CareerAISimulator toolId="ecg-drill" />}</Route>
+        {/* Career AI Tools - Pharmacy Tech */}
+        <Route path="/pharmacy-tech/dosage-calc">{() => <CareerAISimulator toolId="dosage-calc" />}</Route>
+        <Route path="/pharmacy-tech/compounding-sim">{() => <CareerAISimulator toolId="compounding-sim" />}</Route>
+        {/* Career AI Tools - MLT */}
+        <Route path="/mlt/lab-critical">{() => <CareerAISimulator toolId="lab-critical" />}</Route>
+        <Route path="/mlt/morphology-drill">{() => <CareerAISimulator toolId="morphology-drill" />}</Route>
+        {/* Career AI Tools - Imaging */}
+        <Route path="/imaging/anatomy-sim">{() => <CareerAISimulator toolId="anatomy-sim" />}</Route>
+        <Route path="/imaging/image-recognition">{() => <CareerAISimulator toolId="image-recognition" />}</Route>
+        {/* Career AI Tools - Critical Care */}
+        <Route path="/critical-care/hemodynamic-sim">{() => <CareerAISimulator toolId="hemodynamic-sim" />}</Route>
+        <Route path="/critical-care/icu-case-sim">{() => <CareerAISimulator toolId="icu-case-sim" />}</Route>
+        {/* Career AI Tools - Emergency Nursing */}
+        <Route path="/emergency-nursing/triage-sim">{() => <CareerAISimulator toolId="triage-sim" />}</Route>
+        <Route path="/emergency-nursing/trauma-nursing-sim">{() => <CareerAISimulator toolId="trauma-nursing-sim" />}</Route>
+        {/* Career AI Tools - Perioperative */}
+        <Route path="/perioperative/sterile-field-sim">{() => <CareerAISimulator toolId="sterile-field-sim" />}</Route>
+        <Route path="/perioperative/surgical-count-drill">{() => <CareerAISimulator toolId="surgical-count-drill" />}</Route>
+        {/* Career AI Tools - Oncology */}
+        <Route path="/oncology-nursing/chemo-safety-sim">{() => <CareerAISimulator toolId="chemo-safety-sim" />}</Route>
+        <Route path="/oncology-nursing/staging-drill">{() => <CareerAISimulator toolId="staging-drill" />}</Route>
+        {/* Career AI Tools - Pediatric */}
+        <Route path="/pediatric-cert/peds-assessment-sim">{() => <CareerAISimulator toolId="peds-assessment-sim" />}</Route>
+        <Route path="/pediatric-cert/growth-dev-drill">{() => <CareerAISimulator toolId="growth-dev-drill" />}</Route>
+        {/* Career AI Tools - Psychotherapist */}
+        <Route path="/psychotherapist/therapeutic-modality-sim">{() => <CareerAISimulator toolId="therapeutic-modality-sim" />}</Route>
+        <Route path="/psychotherapist/ethics-scenario-drill">{() => <CareerAISimulator toolId="ethics-scenario-drill" />}</Route>
+        {/* Career AI Tools - Social Worker */}
+        <Route path="/social-worker/dsm5-diagnosis-sim">{() => <CareerAISimulator toolId="dsm5-diagnosis-sim" />}</Route>
+        <Route path="/social-worker/intervention-matching">{() => <CareerAISimulator toolId="intervention-matching" />}</Route>
+        {/* Career AI Tools - Addictions */}
+        <Route path="/addictions-counsellor/mi-practice-sim">{() => <CareerAISimulator toolId="mi-practice-sim" />}</Route>
+        <Route path="/addictions-counsellor/substance-id-drill">{() => <CareerAISimulator toolId="substance-id-drill" />}</Route>
 
         <Route component={NotFound} />
       </Switch>

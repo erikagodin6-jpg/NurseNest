@@ -57,3 +57,22 @@ SEO silo pages (`/nclex-rn-practice-questions`, etc.) serve as rich content hubs
 - **Question Bank** (`client/src/pages/question-bank.tsx`): Free/unauthenticated users see 3 preview questions. Tier-specific filters show paywall card when locked. Uses `accessibleQuestions` instead of raw `filtered` array.
 - **Flashcard DeckHub** (`client/src/components/deck-views.tsx`): Unauthenticated users can browse public decks (read-only, "Browse Public" tab only). Deck creation requires auth. Deck card API limits to 5 cards for free/unauth users.
 - **Lessons**: Tier-gated content with `ContentGate` component for premium tiers.
+
+### Multi-Career Allied Health Architecture
+NurseNest has been expanded into a multi-career allied health exam prep platform with 14 total career verticals:
+- **Core**: Nursing (RPN/RN/NP)
+- **Phase 1-2**: RRT, Paramedic, Pharmacy Tech, MLT, Diagnostic Imaging
+- **Phase 3**: Critical Care (CCRN), Emergency Nursing (CEN), Perioperative (CNOR), Oncology (OCN), Pediatric (CPN)
+- **Phase 4**: Psychotherapist (RP), Social Worker (LCSW), Addictions Counsellor (CAC)
+
+Key files:
+- `shared/careers.ts` - Career configs with id, name, slug, tiers, examNames, aiTools, domains, colors
+- `client/src/lib/career-context.tsx` - CareerProvider, useCareer hook (stores in localStorage, detects from URL)
+- `client/src/data/career-questions/` - 13 question bank files (500 questions each, 6,500 total)
+- `client/src/lib/career-question-pool.ts` - Career-specific question pool builder
+- `client/src/pages/career-tools/career-ai-simulator.tsx` - Generic AI tool page for all 26 career-specific AI simulators
+- `client/src/pages/admin-careers.tsx` - Admin career management dashboard
+- `server/routes.ts` - `/api/career-ai-chat` and `/api/admin/career-stats` endpoints
+- Routes in App.tsx: Each career has `/[slug]/question-bank`, `/[slug]/flashcards`, `/[slug]/mock-exams`, `/[slug]/study-plan`, `/[slug]/pricing`, `/[slug]/dashboard`, plus AI tool routes
+
+Schema: `careerType` column (default "nursing") on users, exam_questions, flashcard_decks, mock_exam_attempts, flashcard_bank, pricing_offers, study_packs, digital_products, study_plans.

@@ -11921,6 +11921,79 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/admin/career-stats", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const stats: Record<string, { questions: number; subscribers: number }> = {};
+      const allTypes = ["nursing", "rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "criticalCare", "emergencyNursing", "perioperative", "oncologyNursing", "pediatricCert", "psychotherapist", "socialWorker", "addictionsCounsellor"];
+      for (const ct of allTypes) {
+        stats[ct] = { questions: 0, subscribers: 0 };
+      }
+      try {
+        const qRes = await pool.query(`SELECT career_type, COUNT(*) as cnt FROM exam_questions GROUP BY career_type`);
+        for (const row of qRes.rows) {
+          if (stats[row.career_type]) stats[row.career_type].questions = parseInt(row.cnt);
+        }
+      } catch {}
+      try {
+        const uRes = await pool.query(`SELECT career_type, COUNT(*) as cnt FROM users WHERE tier IS NOT NULL AND tier != 'free' GROUP BY career_type`);
+        for (const row of uRes.rows) {
+          if (stats[row.career_type]) stats[row.career_type].subscribers = parseInt(row.cnt);
+        }
+      } catch {}
+      res.json(stats);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/career-ai-chat", async (req, res) => {
+    try {
+      const { messages, systemPrompt, toolName, careerType, userId } = req.body;
+      if (!messages || !systemPrompt) {
+        return res.status(400).json({ error: "Missing messages or systemPrompt" });
+      }
+      if (!userId) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+      const user = await storage.getUser(userId);
+      if (!user || user.tier === "free") {
+        return res.status(403).json({ error: "Premium subscription required for AI tools" });
+      }
+      if (messages.length > 50) {
+        return res.status(400).json({ error: "Conversation too long" });
+      }
+
+      const OpenAI = (await import("openai")).default;
+      const openai = new OpenAI({
+        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      });
+
+      const chatMessages = [
+        { role: "system" as const, content: systemPrompt },
+        ...messages.map((m: { role: string; content: string }) => ({
+          role: m.role as "user" | "assistant",
+          content: m.content,
+        })),
+      ];
+
+      const response = await openai.chat.completions.create({
+        model: "openai/gpt-4o-mini",
+        messages: chatMessages,
+        max_tokens: 1500,
+        temperature: 0.7,
+      });
+
+      const message = response.choices[0]?.message?.content || "No response generated.";
+      res.json({ message });
+    } catch (e: any) {
+      console.error("Career AI chat error:", e);
+      res.status(500).json({ error: "AI chat failed" });
+    }
+  });
+
   return httpServer;
 }
 
