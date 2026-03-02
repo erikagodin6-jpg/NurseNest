@@ -90,22 +90,22 @@ export default function QuestionBank() {
 
       <Navigation />
 
-      <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+      <main className="min-h-screen bg-warmwhite">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <div className="text-center mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2" data-testid="text-qb-title">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900" data-testid="text-qb-title">
               Question Bank
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-gray-500">
               Practice {filtered.length.toLocaleString()} questions with detailed rationales
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
+              <Filter className="h-4 w-4 text-gray-400" />
               <Select value={tierFilter} onValueChange={(v) => { setTierFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
-                <SelectTrigger className="w-[140px]" data-testid="select-tier">
+                <SelectTrigger className="w-[140px] border-gray-200 bg-white" data-testid="select-tier">
                   <SelectValue placeholder="Tier" />
                 </SelectTrigger>
                 <SelectContent>
@@ -117,7 +117,7 @@ export default function QuestionBank() {
               </Select>
 
               <Select value={systemFilter} onValueChange={(v) => { setSystemFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
-                <SelectTrigger className="w-[180px]" data-testid="select-system">
+                <SelectTrigger className="w-[180px] border-gray-200 bg-white" data-testid="select-system">
                   <SelectValue placeholder="Body System" />
                 </SelectTrigger>
                 <SelectContent>
@@ -132,15 +132,15 @@ export default function QuestionBank() {
             <div className="ml-auto flex items-center gap-4">
               {stats.total > 0 && (
                 <div className="flex items-center gap-3 text-sm">
-                  <div className="flex items-center gap-1">
-                    <Target className="h-4 w-4 text-primary" />
+                  <div className="flex items-center gap-1 text-gray-700">
+                    <Target className="h-4 w-4 text-gray-500" />
                     <span data-testid="text-accuracy">{accuracy}%</span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 text-gray-700">
                     <Trophy className="h-4 w-4 text-amber-500" />
                     <span data-testid="text-score">{stats.correct}/{stats.total}</span>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={handleReset} data-testid="button-reset">
+                  <Button variant="ghost" size="sm" onClick={handleReset} className="text-gray-500 hover:text-gray-700" data-testid="button-reset">
                     <RotateCcw className="h-3 w-3 mr-1" /> Reset
                   </Button>
                 </div>
@@ -149,46 +149,48 @@ export default function QuestionBank() {
           </div>
 
           {filtered.length === 0 ? (
-            <Card>
+            <Card className="border-gray-200 bg-white">
               <CardContent className="p-8 text-center">
-                <p className="text-muted-foreground">No questions match your filters. Try adjusting the tier or body system selection.</p>
+                <p className="text-gray-500">No questions match your filters. Try adjusting the tier or body system selection.</p>
               </CardContent>
             </Card>
           ) : question ? (
             <>
-              <Card className="mb-4 shadow-lg border-2" data-testid="card-question">
+              <Card className="mb-4 shadow-sm border border-gray-200 bg-white" data-testid="card-question">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <Badge variant="secondary" className="uppercase" data-testid="badge-q-tier">
+                      <Badge className="uppercase bg-gray-100 text-gray-700 hover:bg-gray-100 border-0" data-testid="badge-q-tier">
                         {question.tier === "rpn" ? "RPN/LVN" : question.tier === "rn" ? "RN" : "NP"}
                       </Badge>
-                      <Badge variant="outline" data-testid="badge-q-system">{question.bodySystem}</Badge>
+                      <Badge variant="outline" className="border-gray-200 text-gray-600" data-testid="badge-q-system">{question.bodySystem}</Badge>
                     </div>
-                    <span className="text-sm text-muted-foreground" data-testid="text-progress">
+                    <span className="text-sm text-gray-400" data-testid="text-progress">
                       {currentIndex + 1} / {filtered.length}
                     </span>
                   </div>
-                  <CardTitle className="text-lg leading-relaxed" data-testid="text-q-text">
+                  <CardTitle className="text-lg leading-relaxed text-gray-900" data-testid="text-q-text">
                     {question.question}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3 mb-6">
                     {question.options.map((opt, idx) => {
-                      let cls = "border-border hover:border-primary/50 hover:bg-muted/50";
+                      let cls = "border-gray-200 hover:border-gray-400 hover:bg-gray-50";
                       let iconEl = null;
 
                       if (revealed) {
                         if (idx === question.correct) {
-                          cls = "border-green-500 bg-green-50 dark:bg-green-950/30";
+                          cls = "border-green-500 bg-green-50";
                           iconEl = <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0" />;
                         } else if (idx === selectedAnswer && !isCorrect) {
-                          cls = "border-red-500 bg-red-50 dark:bg-red-950/30";
-                          iconEl = <XCircle className="h-5 w-5 text-red-600 shrink-0" />;
+                          cls = "border-red-400 bg-red-50";
+                          iconEl = <XCircle className="h-5 w-5 text-red-500 shrink-0" />;
+                        } else {
+                          cls = "border-gray-200 opacity-60";
                         }
                       } else if (idx === selectedAnswer) {
-                        cls = "border-primary bg-primary/5";
+                        cls = "border-gray-900 bg-gray-50";
                       }
 
                       return (
@@ -199,10 +201,18 @@ export default function QuestionBank() {
                           disabled={revealed}
                           className={`w-full text-left p-4 rounded-lg border-2 transition-all flex items-center gap-3 ${cls} ${revealed ? "cursor-default" : "cursor-pointer"}`}
                         >
-                          <span className="font-semibold text-muted-foreground shrink-0 w-8 h-8 rounded-full border flex items-center justify-center text-sm">
+                          <span className={`font-semibold shrink-0 w-8 h-8 rounded-full border flex items-center justify-center text-sm ${
+                            revealed && idx === question.correct
+                              ? "border-green-500 text-green-700 bg-green-100"
+                              : revealed && idx === selectedAnswer && !isCorrect
+                                ? "border-red-400 text-red-600 bg-red-100"
+                                : idx === selectedAnswer && !revealed
+                                  ? "border-gray-900 text-gray-900 bg-gray-100"
+                                  : "border-gray-300 text-gray-500"
+                          }`}>
                             {String.fromCharCode(65 + idx)}
                           </span>
-                          <span className="flex-1">{opt}</span>
+                          <span className="flex-1 text-gray-800">{opt}</span>
                           {iconEl}
                         </button>
                       );
@@ -213,7 +223,7 @@ export default function QuestionBank() {
                     <Button
                       onClick={handleCheck}
                       disabled={selectedAnswer === null}
-                      className="w-full py-6 text-lg"
+                      className="w-full py-6 text-lg bg-gray-900 hover:bg-gray-800 text-white"
                       size="lg"
                       data-testid="button-qb-check"
                     >
@@ -221,18 +231,18 @@ export default function QuestionBank() {
                     </Button>
                   ) : (
                     <div className="space-y-4">
-                      <div className={`p-4 rounded-lg ${isCorrect ? "bg-green-50 dark:bg-green-950/30 border border-green-200" : "bg-amber-50 dark:bg-amber-950/30 border border-amber-200"}`}>
-                        <p className="font-bold mb-1" data-testid="text-qb-result">
+                      <div className={`p-4 rounded-lg ${isCorrect ? "bg-green-50 border border-green-200" : "bg-amber-50 border border-amber-200"}`}>
+                        <p className={`font-bold mb-1 ${isCorrect ? "text-green-800" : "text-amber-800"}`} data-testid="text-qb-result">
                           {isCorrect ? "Correct!" : "Review the rationale:"}
                         </p>
-                        <p className="text-sm leading-relaxed" data-testid="text-qb-rationale">{question.rationale}</p>
+                        <p className="text-sm leading-relaxed text-gray-700" data-testid="text-qb-rationale">{question.rationale}</p>
                       </div>
 
                       <div className="flex gap-2">
-                        <Button variant="outline" onClick={handlePrev} className="flex-1" data-testid="button-prev">
+                        <Button variant="outline" onClick={handlePrev} className="flex-1 border-gray-200 hover:bg-gray-50" data-testid="button-prev">
                           <ChevronLeft className="h-4 w-4 mr-1" /> Previous
                         </Button>
-                        <Button onClick={handleNext} className="flex-1" data-testid="button-next">
+                        <Button onClick={handleNext} className="flex-1 bg-gray-900 hover:bg-gray-800 text-white" data-testid="button-next">
                           Next Question <ChevronRight className="h-4 w-4 ml-1" />
                         </Button>
                       </div>
@@ -243,10 +253,10 @@ export default function QuestionBank() {
 
               {!revealed && (
                 <div className="flex justify-between">
-                  <Button variant="ghost" onClick={handlePrev} data-testid="button-nav-prev">
+                  <Button variant="ghost" onClick={handlePrev} className="text-gray-500 hover:text-gray-700" data-testid="button-nav-prev">
                     <ChevronLeft className="h-4 w-4 mr-1" /> Previous
                   </Button>
-                  <Button variant="ghost" onClick={handleNext} data-testid="button-nav-next">
+                  <Button variant="ghost" onClick={handleNext} className="text-gray-500 hover:text-gray-700" data-testid="button-nav-next">
                     Skip <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
                 </div>
@@ -257,16 +267,16 @@ export default function QuestionBank() {
           <div className="mt-10 pt-6 border-t border-gray-100" data-testid="section-related-tools">
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Related Study Tools</p>
             <div className="flex flex-wrap gap-2">
-              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-lessons">Clinical Lessons</LocaleLink>
-              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-flashcards">Flashcards</LocaleLink>
-              <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-mock-exams">Mock Exams</LocaleLink>
-              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-anatomy">Anatomy Explorer</LocaleLink>
-              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-med-math">Med Math</LocaleLink>
-              <LocaleLink href="/clinical-clarity" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-related-clinical-clarity">Clinical Clarity</LocaleLink>
+              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-lessons">Clinical Lessons</LocaleLink>
+              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-flashcards">Flashcards</LocaleLink>
+              <LocaleLink href="/mock-exams" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-mock-exams">Mock Exams</LocaleLink>
+              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-anatomy">Anatomy Explorer</LocaleLink>
+              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-med-math">Med Math</LocaleLink>
+              <LocaleLink href="/clinical-clarity" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-gray-300 hover:bg-gray-100 transition-all text-xs font-medium text-gray-600 hover:text-gray-800" data-testid="link-related-clinical-clarity">Clinical Clarity</LocaleLink>
             </div>
           </div>
 
-          <div className="text-center text-xs text-muted-foreground mt-8 space-y-1">
+          <div className="text-center text-xs text-gray-400 mt-8 space-y-1">
             <p>NurseNest is an independent educational platform.</p>
             <p>NurseNest is NOT affiliated with, endorsed by, or connected to NCLEX, NCSBN, CNO, or any regulatory body.</p>
           </div>
