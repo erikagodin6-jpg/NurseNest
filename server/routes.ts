@@ -10093,6 +10093,115 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.get("/api/admin/shop/products/export", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const products = await storage.getAllDigitalProducts();
+      const exportData = products.map(p => ({
+        slug: p.slug,
+        title: p.title,
+        description: p.description,
+        shortDescription: p.shortDescription,
+        price: p.price,
+        compareAtPrice: p.compareAtPrice,
+        fileUrl: p.fileUrl,
+        coverImageUrl: p.coverImageUrl,
+        previewUrl: p.previewUrl,
+        category: p.category,
+        tierTarget: p.tierTarget,
+        examTarget: p.examTarget,
+        featured: p.featured,
+        isActive: p.isActive,
+        questionCount: p.questionCount,
+        seoTitle: p.seoTitle,
+        seoDescription: p.seoDescription,
+        seoKeywords: p.seoKeywords,
+        themeId: p.themeId,
+      }));
+      res.json({ products: exportData, exportedAt: new Date().toISOString(), count: exportData.length });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.options("/api/admin/shop/products/import", (_req, res) => {
+    res.set({
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "86400",
+    });
+    res.status(204).end();
+  });
+
+  app.post("/api/admin/shop/products/import", async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { products } = req.body;
+      if (!Array.isArray(products) || products.length === 0) {
+        return res.status(400).json({ error: "No products provided" });
+      }
+      const results: { slug: string; action: string; error?: string }[] = [];
+      for (const p of products) {
+        try {
+          if (!p.slug || !p.title || !p.description || !p.price || !p.category) {
+            results.push({ slug: p.slug || "unknown", action: "skipped", error: "Missing required fields" });
+            continue;
+          }
+          const existing = await storage.getDigitalProductBySlug(p.slug);
+          if (existing) {
+            await storage.updateDigitalProduct(existing.id, {
+              title: p.title,
+              description: p.description,
+              shortDescription: p.shortDescription || null,
+              price: p.price,
+              compareAtPrice: p.compareAtPrice || null,
+              fileUrl: p.fileUrl || null,
+              coverImageUrl: p.coverImageUrl || null,
+              previewUrl: p.previewUrl || null,
+              category: p.category,
+              tierTarget: p.tierTarget || "all",
+              examTarget: p.examTarget || null,
+              featured: p.featured || false,
+              isActive: p.isActive !== false,
+              seoTitle: p.seoTitle || null,
+              seoDescription: p.seoDescription || null,
+              seoKeywords: p.seoKeywords || null,
+              themeId: p.themeId || null,
+            });
+            results.push({ slug: p.slug, action: "updated" });
+          } else {
+            await storage.createDigitalProduct({
+              slug: p.slug,
+              title: p.title,
+              description: p.description,
+              shortDescription: p.shortDescription || null,
+              price: p.price,
+              compareAtPrice: p.compareAtPrice || null,
+              fileUrl: p.fileUrl || null,
+              coverImageUrl: p.coverImageUrl || null,
+              category: p.category,
+              tierTarget: p.tierTarget || "all",
+              examTarget: p.examTarget || null,
+              featured: p.featured || false,
+              isActive: p.isActive !== false,
+            });
+            results.push({ slug: p.slug, action: "created" });
+          }
+        } catch (e: any) {
+          results.push({ slug: p.slug || "unknown", action: "failed", error: e.message });
+        }
+      }
+      await logAudit(req, admin, "digital_product", null, "bulk-import", null, { count: products.length, results });
+      res.json({ success: true, results });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/admin/shop/products/:id/price", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;

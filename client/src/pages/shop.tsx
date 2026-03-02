@@ -162,6 +162,9 @@ function AdminProductManager() {
   const [, setLocation] = useLocation();
   const [products, setProducts] = useState<DigitalProduct[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [showSync, setShowSync] = useState(false);
+  const [syncUrl, setSyncUrl] = useState("");
+  const [syncing, setSyncing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({
     title: "", slug: "", description: "", shortDescription: "", priceDollars: "19.99",
@@ -191,6 +194,99 @@ function AdminProductManager() {
   };
 
   useEffect(() => { loadProducts(); }, []);
+
+  const handleExport = async () => {
+    try {
+      const res = await adminFetch("/api/admin/shop/products/export");
+      if (!res.ok) throw new Error("Export failed");
+      const data = await res.json();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `nursenest-products-${new Date().toISOString().split("T")[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast({ title: "Products exported", description: `${data.count} products saved to file` });
+    } catch (e: any) {
+      toast({ title: "Export failed", description: e.message, variant: "destructive" });
+    }
+  };
+
+  const handleImportFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      const products = data.products || data;
+      if (!Array.isArray(products)) throw new Error("Invalid format");
+      const res = await adminFetch("/api/admin/shop/products/import", {
+        method: "POST",
+        body: { products },
+      });
+      if (!res.ok) throw new Error("Import failed");
+      const result = await res.json();
+      const created = result.results.filter((r: any) => r.action === "created").length;
+      const updated = result.results.filter((r: any) => r.action === "updated").length;
+      const failed = result.results.filter((r: any) => r.action === "failed").length;
+      toast({ title: "Import complete", description: `${created} created, ${updated} updated, ${failed} failed` });
+      loadProducts();
+    } catch (e: any) {
+      toast({ title: "Import failed", description: e.message, variant: "destructive" });
+    }
+    e.target.value = "";
+  };
+
+  const handlePushToProduction = async () => {
+    if (!syncUrl.trim()) {
+      toast({ title: "Enter your production URL", description: "e.g. https://www.nursenest.ca", variant: "destructive" });
+      return;
+    }
+    setSyncing(true);
+    try {
+      const exportRes = await adminFetch("/api/admin/shop/products/export");
+      if (!exportRes.ok) throw new Error("Failed to export products");
+      const exportData = await exportRes.json();
+
+      const creds = localStorage.getItem("nursenest-credentials");
+      let authBody: any = { products: exportData.products };
+      if (creds) {
+        const { username, password } = JSON.parse(creds);
+        authBody.username = username;
+        authBody.password = password;
+      } else {
+        const userRaw = localStorage.getItem("nursenest-user");
+        if (userRaw) {
+          const parsed = JSON.parse(userRaw);
+          if (parsed?.tier === "admin" && parsed?.id) authBody.adminId = parsed.id;
+        }
+      }
+
+      const baseUrl = syncUrl.trim().replace(/\/+$/, "");
+      const importRes = await fetch(`${baseUrl}/api/admin/shop/products/import`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(authBody),
+      });
+      if (!importRes.ok) {
+        const err = await importRes.json().catch(() => ({ error: "Import request failed" }));
+        throw new Error(err.error || `HTTP ${importRes.status}`);
+      }
+      const result = await importRes.json();
+      const created = result.results.filter((r: any) => r.action === "created").length;
+      const updated = result.results.filter((r: any) => r.action === "updated").length;
+      const failed = result.results.filter((r: any) => r.action === "failed").length;
+      toast({ title: "Synced to production", description: `${created} created, ${updated} updated, ${failed} failed` });
+      setShowSync(false);
+    } catch (e: any) {
+      toast({ title: "Sync failed", description: e.message, variant: "destructive" });
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -257,8 +353,46 @@ function AdminProductManager() {
           <Button onClick={() => { setShowForm(!showForm); setEditingId(null); }} size="sm" data-testid="button-add-product">
             <Plus className="w-4 h-4 mr-1" /> Add Product
           </Button>
+          <Button onClick={() => setShowSync(!showSync)} size="sm" variant="outline" data-testid="button-show-sync">
+            <ArrowRight className="w-4 h-4 mr-1" /> Sync
+          </Button>
         </div>
       </div>
+
+      {showSync && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 space-y-3" data-testid="panel-sync">
+          <h4 className="font-semibold text-sm text-blue-900">Product Sync</h4>
+          <p className="text-xs text-blue-700">Export products from here and push them to your production store, or import from a file.</p>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={handleExport} size="sm" variant="outline" data-testid="button-export-products">
+              <Download className="w-4 h-4 mr-1" /> Export JSON
+            </Button>
+            <label className="cursor-pointer">
+              <input type="file" accept=".json" className="hidden" onChange={handleImportFile} data-testid="input-import-file" />
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md border border-gray-300 bg-white hover:bg-gray-50 transition-colors cursor-pointer">
+                <Upload className="w-3.5 h-3.5" /> Import JSON
+              </span>
+            </label>
+          </div>
+          <div className="border-t border-blue-200 pt-3 mt-2">
+            <p className="text-xs font-medium text-blue-900 mb-2">Push to Production</p>
+            <div className="flex gap-2">
+              <Input
+                placeholder="https://www.nursenest.ca"
+                value={syncUrl}
+                onChange={e => setSyncUrl(e.target.value)}
+                className="flex-1 text-sm"
+                data-testid="input-sync-url"
+              />
+              <Button onClick={handlePushToProduction} size="sm" disabled={syncing} data-testid="button-push-production">
+                {syncing ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <ArrowRight className="w-4 h-4 mr-1" />}
+                {syncing ? "Pushing..." : "Push"}
+              </Button>
+            </div>
+            <p className="text-[10px] text-blue-600 mt-1">Exports all products from this environment and imports them into your production store. Matching slugs are updated, new ones are created.</p>
+          </div>
+        </div>
+      )}
 
       {showForm && (
         <div className="bg-gray-50 rounded-lg p-4 mb-4 space-y-3" data-testid="form-product">
