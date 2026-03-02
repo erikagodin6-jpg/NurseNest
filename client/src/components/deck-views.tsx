@@ -216,7 +216,8 @@ export function DeckHub({
         body: JSON.stringify({ userId: user.id, prompt: aiTopic, count: aiCardCount }),
       });
       if (!genRes.ok) {
-        const err = await genRes.json();
+        let err: any = {};
+        try { err = await genRes.json(); } catch { err = { error: `Server returned status ${genRes.status}` }; }
         if (err.upgradeRequired) {
           setAiError("You've reached the free card limit. Upgrade to create more cards with AI.");
         } else {
@@ -257,7 +258,10 @@ export function DeckHub({
         setShowCreate(false);
       }
     } catch (e: any) {
-      setAiError("Something went wrong. Please try again.");
+      console.error("AI deck creation error:", e);
+      setAiError(e.message && e.message !== "Failed to fetch" 
+        ? `AI generation error: ${e.message}` 
+        : "Could not connect to AI service. Please try again in a moment.");
     } finally {
       setAiCreating(false);
     }
@@ -326,7 +330,10 @@ export function DeckHub({
         setShowCreate(false);
       }
     } catch (e: any) {
-      setAiError("Something went wrong. Please try again.");
+      console.error("AI notes deck creation error:", e);
+      setAiError(e.message && e.message !== "Failed to fetch" 
+        ? `AI generation error: ${e.message}` 
+        : "Could not connect to AI service. Please try again in a moment.");
     } finally {
       setAiCreating(false);
     }

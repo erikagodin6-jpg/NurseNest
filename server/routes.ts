@@ -4470,38 +4470,59 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         ? "Use Canadian nursing terminology, SI units, and Canadian exam standards (REx-PN, CNO)."
         : "Use American nursing terminology, conventional units, and US exam standards (NCLEX).";
 
-      const maxTokens = numCards > 25 ? 8192 : 4096;
       const { default: OpenAI } = await import("openai");
       const openai = new OpenAI({ apiKey, baseURL });
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "system",
-            content: `You are a nursing education flashcard generator for NurseNest. Generate high-quality, exam-ready flashcards for nursing students. ${regionNote} Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale explaining why the answer is correct. Return ONLY valid JSON.`,
-          },
-          {
-            role: "user",
-            content: `Generate exactly ${numCards} nursing flashcards about: ${prompt}\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation"}]}`,
-          },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.7,
-        max_tokens: maxTokens,
-      });
 
-      const text = completion.choices[0]?.message?.content || '{"cards":[]}';
-      let parsed;
-      try {
-        parsed = JSON.parse(text);
-      } catch {
-        return res.status(500).json({ error: "Failed to parse AI response" });
+      const BATCH_SIZE = 25;
+      const batches = Math.ceil(numCards / BATCH_SIZE);
+      const allCards: any[] = [];
+
+      for (let batch = 0; batch < batches; batch++) {
+        const batchCount = Math.min(BATCH_SIZE, numCards - (batch * BATCH_SIZE));
+        const batchMaxTokens = batchCount > 15 ? 4096 : 2048;
+        const topicVariation = batch > 0
+          ? `${prompt} (batch ${batch + 1}: cover different aspects, avoid repeating previously covered content)`
+          : prompt;
+
+        try {
+          const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "system",
+                content: `You are a nursing education flashcard generator for NurseNest. Generate high-quality, exam-ready flashcards for nursing students. ${regionNote} Each card should test a specific concept with a clear question and concise, accurate answer. Include a brief rationale explaining why the answer is correct. Return ONLY valid JSON.`,
+              },
+              {
+                role: "user",
+                content: `Generate exactly ${batchCount} nursing flashcards about: ${topicVariation}\n\nReturn as JSON: {"cards":[{"front":"question text","back":"answer text","rationale":"brief explanation"}]}`,
+              },
+            ],
+            response_format: { type: "json_object" },
+            temperature: 0.7,
+            max_tokens: batchMaxTokens,
+          });
+
+          const text = completion.choices[0]?.message?.content || '{"cards":[]}';
+          let parsed;
+          try {
+            parsed = JSON.parse(text);
+          } catch {
+            console.error("AI flashcard batch parse error, batch:", batch, "raw:", text.substring(0, 200));
+            continue;
+          }
+
+          const batchCards = (parsed.cards || []).filter((c: any) => c.front?.trim() && c.back?.trim());
+          allCards.push(...batchCards);
+        } catch (batchErr: any) {
+          console.error("AI flashcard batch error:", batch, batchErr.message);
+          if (allCards.length > 0) break;
+          throw batchErr;
+        }
       }
 
-      const cards = (parsed.cards || []).filter((c: any) => c.front?.trim() && c.back?.trim());
-      if (cards.length === 0) return res.status(400).json({ error: "AI did not generate valid cards. Try a different prompt." });
+      if (allCards.length === 0) return res.status(400).json({ error: "AI did not generate valid cards. Try a different or more specific topic." });
 
-      res.json({ cards });
+      res.json({ cards: allCards });
     } catch (e: any) {
       console.error("AI flashcard generation error:", e);
       res.status(500).json({ error: e.message || "AI generation failed" });
