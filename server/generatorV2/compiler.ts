@@ -1009,7 +1009,7 @@ export async function compileGeneration(generationId: string, themeId?: string):
     }
   }
 
-  if (template === "question_pack" || template === "hybrid") {
+  if (template === "question_pack" || template === "hybrid" || template === "premium_exam_pack") {
     const questions = await storage.getGeneratedQuestions(generationId);
 
     tocSections.push({ title: "Practice Questions", pageNum: currentPage });

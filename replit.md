@@ -74,7 +74,7 @@ Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/po
 - Instruction-echo detection: validator checks stem/choices/rationale against 15+ echo patterns, sanitizes instruction prefixes.
 - Chunk retry system: up to 2 retries per chunk with specific failure reason in retry prompt, accepts partial valid items.
 - JSON response cleaning: extractJsonFromResponse strips markdown fences, parseModelResponse handles various response shapes.
-- 18 print-ready PDF themes: 8 original + 5 pastel (lavender, mint, peach, sky, blush) + 5 monochrome (slate, graphite, silver, steel, fog).
+- 18 print-ready PDF themes: 8 original + 5 pastel (lavender, mint, peach, sky, blush) + 5 monochrome (slate, graphite, silver, steel, fog). Theme preview panel shows live cover/accent preview with color swatches.
 - PDF export via `POST /api/generator-v2/generations/:id/export-pdf` using pdf-lib with themed cover page, TOC, section dividers, answer key.
 - Question Review & Edit: click any question card to open edit drawer. `PUT /api/generator-v2/generations/:id/questions/:qId` with validation (stem >= 10 chars, choices >= 4, correctAnswers >= 1). Audit logged.
 - Auto-Listing: `POST /api/generator-v2/auto-listing` generates title/description/price/compareAt based on topic, exam, count, template, tier.

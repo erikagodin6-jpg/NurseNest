@@ -660,6 +660,27 @@ export default function GeneratorV2Page() {
                     </div>
                   )}
                 </div>
+                {(() => {
+                  const theme = THEMES.find(t => t.id === selectedTheme);
+                  return theme ? (
+                    <div className="rounded-lg border overflow-hidden" data-testid="theme-preview-panel">
+                      <div className="h-20 relative flex flex-col justify-end p-2" style={{ backgroundColor: theme.coverBg }}>
+                        <div className="absolute top-0 left-0 right-0 h-1.5" style={{ backgroundColor: theme.accentColor, opacity: 0.9 }} />
+                        <span className="text-white text-[11px] font-bold opacity-95">NurseNest</span>
+                        <span className="text-white text-[8px] opacity-60">Exam Prep</span>
+                      </div>
+                      <div className="p-2 bg-white border-t">
+                        <div className="flex items-center gap-1 mb-1">
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.primaryColor }} title="Primary" />
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.secondaryColor }} title="Secondary" />
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.accentColor }} title="Accent" />
+                          <div className="w-4 h-4 rounded border" style={{ backgroundColor: theme.coverBg }} title="Cover" />
+                        </div>
+                        <p className="text-[9px] text-gray-400">{theme.name} - Cover &amp; accent preview</p>
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
                 {instructions && (
                   <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
                     <p className="text-[10px] font-medium text-blue-700 mb-0.5">Prompt Summary</p>
