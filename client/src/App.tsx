@@ -61,6 +61,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 const Home = lazy(() => import("@/pages/home"));
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
+import AnalyticsTracker from "@/components/analytics-tracker";
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -386,6 +387,7 @@ function App() {
                   <PreviewBanner />
                   <PageTracker />
                   <CopyProtection />
+                  <AnalyticsTracker />
                   <LocaleRouter />
                   <UpgradePrompt />
                   <PWAInstallPrompt />
