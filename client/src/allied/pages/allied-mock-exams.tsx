@@ -1,0 +1,228 @@
+import { useState } from "react";
+import { useParams, Link, useLocation } from "wouter";
+import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
+import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Target } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { getCareerQuestionPool } from "@/data/career-questions";
+
+const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
+  rrt: CAREER_CONFIGS.rrt, paramedic: CAREER_CONFIGS.paramedic,
+  "pharmacy-tech": CAREER_CONFIGS.pharmacyTech, mlt: CAREER_CONFIGS.mlt, imaging: CAREER_CONFIGS.imaging,
+};
+
+const EXAM_TYPES = [
+  { id: "mini", name: "Mini Mock", questions: 25, time: 30, free: true, desc: "Quick 25-question practice exam" },
+  { id: "standard", name: "Standard Exam", questions: 75, time: 90, free: false, desc: "Full-length timed exam weighted to blueprint" },
+  { id: "comprehensive", name: "Comprehensive", questions: 150, time: 180, free: false, desc: "Marathon exam covering all domains" },
+];
+
+export default function AlliedMockExamsPage() {
+  const params = useParams<{ careerSlug: string }>();
+  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const { user } = useAuth();
+  const [, setLocation] = useLocation();
+
+  const [selectedExam, setSelectedExam] = useState<string | null>(null);
+  const [examStarted, setExamStarted] = useState(false);
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const [difficulty, setDifficulty] = useState(3);
+  const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
+
+  const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
+
+  if (!career) {
+    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
+  }
+
+  const startExam = (examId: string) => {
+    const examType = EXAM_TYPES.find(e => e.id === examId);
+    if (!examType) return;
+    if (!examType.free && !isPro) return;
+
+    const pool = getCareerQuestionPool(career.id) || [];
+    const domains = career.domains;
+    const questionsPerDomain = Math.ceil(examType.questions / domains.length);
+    const selected: any[] = [];
+
+    for (const domain of domains) {
+      const domainQs = pool.filter((q: any) => q.category === domain);
+      const shuffled = domainQs.sort(() => Math.random() - 0.5);
+      selected.push(...shuffled.slice(0, questionsPerDomain));
+    }
+
+    const remaining = pool.filter((q: any) => !selected.includes(q)).sort(() => Math.random() - 0.5);
+    while (selected.length < examType.questions && remaining.length > 0) {
+      selected.push(remaining.pop()!);
+    }
+
+    setQuestions(selected.slice(0, examType.questions));
+    setTimeLeft(examType.time * 60);
+    setExamStarted(true);
+    setSelectedExam(examId);
+    setAnswers({});
+    setCurrentIdx(0);
+    setFinished(false);
+    setDifficulty(3);
+    setConsecutiveCorrect(0);
+  };
+
+  const handleAnswer = (optIdx: number) => {
+    setAnswers(a => ({ ...a, [currentIdx]: optIdx }));
+    const isCorrect = optIdx === questions[currentIdx]?.correctAnswer;
+    if (isCorrect) {
+      const newStreak = consecutiveCorrect + 1;
+      setConsecutiveCorrect(newStreak);
+      if (newStreak >= 3 && difficulty < 5) setDifficulty(d => d + 1);
+    } else {
+      setConsecutiveCorrect(0);
+      if (difficulty > 1) setDifficulty(d => d - 1);
+    }
+  };
+
+  const finishExam = () => {
+    setFinished(true);
+  };
+
+  if (finished) {
+    const correct = Object.entries(answers).filter(([idx, ans]) => questions[Number(idx)]?.correctAnswer === ans).length;
+    const total = questions.length;
+    const pct = Math.round((correct / total) * 100);
+    const domainScores: Record<string, { correct: number; total: number }> = {};
+    questions.forEach((q, i) => {
+      if (!domainScores[q.category]) domainScores[q.category] = { correct: 0, total: 0 };
+      domainScores[q.category].total++;
+      if (answers[i] === q.correctAnswer) domainScores[q.category].correct++;
+    });
+
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-12" data-testid="exam-results">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2 text-center">Exam Complete</h1>
+        <p className="text-gray-600 text-center mb-8">{career.shortName} Mock Exam Results</p>
+        <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center mb-8">
+          <div className="text-5xl font-bold mb-2" style={{ color: pct >= 70 ? "#059669" : pct >= 50 ? "#d97706" : "#dc2626" }} data-testid="text-score-pct">{pct}%</div>
+          <p className="text-gray-600">{correct} of {total} correct</p>
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium" style={{ backgroundColor: pct >= 70 ? "#d1fae5" : pct >= 50 ? "#fef3c7" : "#fee2e2", color: pct >= 70 ? "#065f46" : pct >= 50 ? "#92400e" : "#991b1b" }} data-testid="text-readiness">
+            <Target className="w-4 h-4" />
+            {pct >= 70 ? "Exam Ready" : pct >= 50 ? "Nearly Ready" : "More Study Needed"}
+          </div>
+        </div>
+        <div className="bg-white rounded-2xl border border-gray-100 p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Performance by Domain</h3>
+          <div className="space-y-3">
+            {Object.entries(domainScores).map(([domain, s]) => {
+              const dpct = Math.round((s.correct / s.total) * 100);
+              return (
+                <div key={domain} data-testid={`domain-score-${domain}`}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-700">{domain}</span>
+                    <span className="font-medium">{s.correct}/{s.total} ({dpct}%)</span>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="h-2 rounded-full transition-all" style={{ width: `${dpct}%`, backgroundColor: dpct >= 70 ? "#059669" : dpct >= 50 ? "#d97706" : "#dc2626" }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex gap-3 justify-center mt-8">
+          <button onClick={() => { setExamStarted(false); setFinished(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-new-exam">Take Another Exam</button>
+          <Link href={`/${career.slug}/qbank`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-go-qbank">Practice More Questions</Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (examStarted && questions.length > 0) {
+    const current = questions[currentIdx];
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-6" data-testid="exam-session">
+        <div className="bg-white rounded-xl border border-gray-100 p-4 mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-4 text-sm">
+            <span className="font-medium text-gray-700">Q {currentIdx + 1}/{questions.length}</span>
+            <span className="flex items-center gap-1 text-gray-600"><Clock className="w-3.5 h-3.5" /> {mins}:{secs.toString().padStart(2, "0")}</span>
+            <span className="text-gray-500">Difficulty: {difficulty}</span>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={() => setPaused(!paused)} className="px-3 py-1.5 text-sm bg-gray-100 rounded-lg hover:bg-gray-200" data-testid="button-pause">{paused ? "Resume" : "Pause"}</button>
+            <button onClick={finishExam} className="px-3 py-1.5 text-sm bg-red-50 text-red-700 rounded-lg hover:bg-red-100" data-testid="button-finish">Finish</button>
+          </div>
+        </div>
+
+        {!paused && current && (
+          <div className="bg-white rounded-2xl border border-gray-100 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">{current.category}</span>
+              <span className="px-2 py-0.5 bg-teal-50 text-teal-700 rounded text-xs">Lvl {current.difficulty}</span>
+            </div>
+            <p className="text-gray-900 font-medium mb-6">{current.stem}</p>
+            <div className="space-y-3">
+              {current.options.map((opt: string, idx: number) => (
+                <button key={idx} onClick={() => handleAnswer(idx)} className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-start gap-3 ${answers[currentIdx] === idx ? "border-teal-400 bg-teal-50" : "border-gray-200 hover:border-teal-300"}`} data-testid={`exam-option-${idx}`}>
+                  <span className="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center text-xs font-bold flex-shrink-0">{String.fromCharCode(65 + idx)}</span>
+                  <span className="text-sm text-gray-700">{opt}</span>
+                </button>
+              ))}
+            </div>
+            <div className="flex justify-between mt-6 pt-4 border-t border-gray-100">
+              <button onClick={() => setCurrentIdx(i => Math.max(0, i - 1))} disabled={currentIdx === 0} className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-30" data-testid="button-exam-prev">Previous</button>
+              <button onClick={() => { if (currentIdx < questions.length - 1) setCurrentIdx(i => i + 1); else finishExam(); }} className="px-6 py-2 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-exam-next">
+                {currentIdx === questions.length - 1 ? "Submit Exam" : "Next"}
+              </button>
+            </div>
+          </div>
+        )}
+        {paused && (
+          <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
+            <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900">Exam Paused</h3>
+            <p className="text-gray-500 text-sm mt-2">Click Resume to continue.</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-8" data-testid="mock-exams-page">
+      <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+        <Link href={`/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <ChevronRight className="w-3.5 h-3.5" />
+        <span className="text-teal-700 font-medium">Mock Exams</span>
+      </div>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-mock-title">{career.shortName} Mock Exams</h1>
+      <p className="text-gray-600 mb-8">Blueprint-weighted practice exams with adaptive difficulty and detailed analytics.</p>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {EXAM_TYPES.map(exam => (
+          <div key={exam.id} className="bg-white rounded-2xl border border-gray-100 p-6 hover:border-teal-200 hover:shadow-md transition-all" data-testid={`exam-card-${exam.id}`}>
+            <FileText className="w-8 h-8 text-teal-500 mb-3" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">{exam.name}</h3>
+            <p className="text-sm text-gray-500 mb-4">{exam.desc}</p>
+            <div className="flex items-center gap-4 text-sm text-gray-600 mb-5">
+              <span className="flex items-center gap-1"><BarChart3 className="w-3.5 h-3.5" /> {exam.questions} Qs</span>
+              <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {exam.time} min</span>
+            </div>
+            {exam.free || isPro ? (
+              <button onClick={() => startExam(exam.id)} className="w-full px-4 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700 flex items-center justify-center gap-2" data-testid={`button-start-${exam.id}`}>
+                <Play className="w-4 h-4" /> Start Exam
+              </button>
+            ) : (
+              <Link href="/pricing" className="w-full px-4 py-2.5 bg-gray-100 text-gray-500 rounded-xl text-sm font-medium flex items-center justify-center gap-2" data-testid={`button-locked-${exam.id}`}>
+                <Lock className="w-4 h-4" /> Upgrade to PRO
+              </Link>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
