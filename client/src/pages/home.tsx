@@ -72,7 +72,8 @@ import type { HeroStats } from "@shared/lesson-stats";
 import type { DigitalProduct } from "@shared/schema";
 
 function formatCount(n: number | undefined): string {
-  if (n === undefined || n === 0) return "—";
+  if (n === undefined || n === 0) return "---";
+  if (n < 10) return `${n}`;
   if (n >= 1000) {
     const hundreds = Math.floor(n / 100) * 100;
     return `${hundreds.toLocaleString()}+`;
