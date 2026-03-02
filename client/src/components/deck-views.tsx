@@ -122,7 +122,7 @@ export function DeckHub({
   newDeckVisibility, setNewDeckVisibility,
 }: Partial<DeckViewsProps> & { user: any; setView: any; setLocation: any }) {
   const [showCreate, setShowCreate] = useState(false);
-  const [createMode, setCreateMode] = useState<"manual" | "ai" | "notes">("notes");
+  const [createMode, setCreateMode] = useState<"manual" | "ai" | "notes">("ai");
   const [deckSortBy, setDeckSortBy] = useState<DeckSortOption>("newest");
   const [showStudyGroupPanel, setShowStudyGroupPanel] = useState(false);
   const [studyGroups, setStudyGroups] = useState<any[]>([]);
@@ -387,6 +387,15 @@ export function DeckHub({
           <CardContent className="p-5 space-y-4">
             <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
               <button
+                onClick={() => setCreateMode("ai")}
+                className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
+                  createMode === "ai" ? "bg-purple-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
+                )}
+                data-testid="button-create-mode-ai"
+              >
+                <Sparkles className="w-3.5 h-3.5" /> AI Generator
+              </button>
+              <button
                 onClick={() => setCreateMode("notes")}
                 className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
                   createMode === "notes" ? "bg-blue-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
@@ -430,7 +439,7 @@ export function DeckHub({
                     className="text-xs border rounded-lg px-2 py-1.5 bg-white"
                     data-testid="select-ai-card-count"
                   >
-                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
+                    {[5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 300].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
                   <label className="text-xs text-gray-500">Visibility:</label>
@@ -544,7 +553,7 @@ export function DeckHub({
                     className="text-xs border rounded-lg px-2 py-1.5 bg-white"
                     data-testid="select-notes-card-count"
                   >
-                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
+                    {[5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 300].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
                   <label className="text-xs text-gray-500">Visibility:</label>
