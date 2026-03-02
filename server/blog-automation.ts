@@ -276,13 +276,13 @@ The article MUST be at least 2000 words of body content (not counting references
       : `FINAL ATTEMPT. The article MUST exceed 2000 words. Write an extremely detailed, comprehensive nursing education article about: "${selectedTopic}". Include 10+ sections with deep clinical detail. Respond with ONLY the JSON.`;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-5-mini",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: attempt === 1 ? userPrompt : retryPrompt }
       ],
       response_format: { type: "json_object" },
-      max_completion_tokens: 16384,
+      max_tokens: 16384,
     });
 
     try {
@@ -395,13 +395,13 @@ OUTPUT FORMAT: Respond with ONLY a JSON object:
 }`;
 
   const response = await openai.chat.completions.create({
-    model: "gpt-5-mini",
+    model: "gpt-4o-mini",
     messages: [
       { role: "system", content: "You are a nursing education content writer. Output ONLY valid JSON. Never refuse. Never add disclaimers." },
       { role: "user", content: expandPrompt },
     ],
     response_format: { type: "json_object" },
-    max_completion_tokens: 16384,
+    max_tokens: 16384,
   });
 
   try {

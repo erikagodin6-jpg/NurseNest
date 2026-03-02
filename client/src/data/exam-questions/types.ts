@@ -1,4 +1,4 @@
-export type QuestionType = "mcq" | "sata" | "ordered" | "fill-in-blank" | "hot-spot";
+export type QuestionType = "mcq" | "sata" | "ordered" | "fill-in-blank" | "hot-spot" | "bowtie";
 
 export interface ExamQuestion {
   q: string;
@@ -13,6 +13,26 @@ export interface ExamQuestion {
   t?: QuestionType;
   s: string;
   dr?: string[];
+}
+
+export interface BowtieQuestion {
+  id: string;
+  scenario: string;
+  centerOptions: string[];
+  centerCorrect: number;
+  leftFindings: string[];
+  leftCorrect: number[];
+  leftSelectCount: number;
+  rightActions: string[];
+  rightCorrect: number[];
+  rightSelectCount: number;
+  rationale: {
+    condition: string;
+    findings: string;
+    actions: string;
+  };
+  bodySystem: string;
+  tier: string;
 }
 
 export type Difficulty = 1 | 2 | 3;

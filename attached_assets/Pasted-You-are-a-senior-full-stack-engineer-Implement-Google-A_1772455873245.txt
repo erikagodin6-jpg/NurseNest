@@ -1,0 +1,194 @@
+You are a senior full-stack engineer.
+
+Implement Google Analytics 4 tracking for a Vite + React + Express single-page application using Wouter routing.
+
+Site: NurseNest
+Primary domain: https://www.nursenest.ca
+
+Google Tag IDs:
+
+GA4 Measurement ID: G-NW6YN61D9M
+
+Google Tag ID: GT-5DFFPKC5
+
+This must be production-safe and optimized for SPA navigation.
+
+PART 1 — Install Google Tag Globally
+
+Insert the Google tag inside the root index.html file in the <head> section, above all other scripts.
+
+Use this exact snippet:
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NW6YN61D9M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NW6YN61D9M', {
+    send_page_view: false
+  });
+</script>
+
+Important:
+
+Ensure this only loads in production (not localhost if possible).
+
+Do not duplicate script injection.
+
+Confirm no conflicting analytics libraries exist.
+
+PART 2 — SPA Route Change Tracking (CRITICAL)
+
+Because this is a React SPA using Wouter, default pageview tracking will fail after first load.
+
+Create a component called AnalyticsTracker.tsx.
+
+Implementation:
+
+import { useEffect } from "react";
+import { useLocation } from "wouter";
+
+export default function AnalyticsTracker() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "page_view", {
+        page_path: location,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+  }, [location]);
+
+  return null;
+}
+
+Mount <AnalyticsTracker /> once inside the main App component so it runs globally.
+
+PART 3 — Cross-Domain Configuration
+
+If additional domains are used (future expansion, subdomains, checkout domains), configure:
+
+gtag('config', 'G-NW6YN61D9M', {
+  linker: {
+    domains: ['nursenest.ca', 'www.nursenest.ca']
+  }
+});
+
+Only implement if cross-domain tracking is needed.
+
+PART 4 — Automatic Event Detection
+
+Ensure enhanced measurement is enabled in GA4:
+
+Track automatically:
+
+Scroll tracking
+
+Outbound clicks
+
+Site search
+
+Video engagement (if applicable)
+
+File downloads
+
+Do NOT manually duplicate these.
+
+PART 5 — Stripe Checkout Tracking (If Stripe Used)
+
+Add event tracking when checkout is initiated:
+
+window.gtag('event', 'begin_checkout', {
+  currency: 'CAD',
+  value: productPrice,
+  items: [{
+    item_name: productName,
+    price: productPrice
+  }]
+});
+
+On successful purchase (from success page):
+
+window.gtag('event', 'purchase', {
+  transaction_id: orderId,
+  value: totalAmount,
+  currency: 'CAD'
+});
+
+Ensure events fire only once.
+
+PART 6 — SEO + Data Integrity Protection
+
+Ensure:
+
+Tag loads on every route
+
+No duplicate page_view firing
+
+No dev-mode noise
+
+Tag loads before React hydration
+
+HTTPS only
+
+Proper canonical domain enforcement (301 root → www)
+
+PART 7 — Verification Checklist
+
+After deploy:
+
+Open GA4 → Realtime
+
+Visit site in incognito
+
+Confirm:
+
+Page_view fires
+
+Route changes trigger new page_view
+
+Checkout events appear
+
+Use Google Tag Assistant extension to validate
+
+PART 8 — Performance Safeguards
+
+Use async loading only
+
+No blocking scripts
+
+No inline heavy logic
+
+Confirm Lighthouse score unaffected
+
+FINAL REQUIREMENTS
+
+Do not:
+
+Add duplicate analytics libraries
+
+Inject into multiple components
+
+Track twice on initial load
+
+Ensure:
+
+Clean, scalable implementation
+
+Fully compatible with future ad tracking
+
+Production-ready deployment
+
+Return summary of:
+
+Files modified
+
+Exact insert locations
+
+Confirmation that SPA tracking works
+
+END PROMPT
