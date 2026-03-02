@@ -119,6 +119,97 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
         rationale:
           "A hemoglobin of 7.2 g/dL indicates significant anemia. Reduced oxygen-carrying capacity causes compensatory tachycardia (not bradycardia), fatigue, dyspnea, and visible pallor of the conjunctivae and nail beds due to decreased circulating hemoglobin.",
       },
+      {
+        question:
+          "Case: A 62-year-old patient with type 2 diabetes has a fasting glucose of 210 mg/dL. The patient reports eating a candy bar 30 minutes before the blood draw. What should the nurse do?",
+        options: [
+          "Report the critical glucose value immediately",
+          "Notify the provider that the fasting status was not maintained and request a repeat fasting specimen",
+          "Administer insulin coverage based on the result",
+          "Document the value and continue routine monitoring",
+        ],
+        correct: 1,
+        rationale:
+          "The patient ate before what was ordered as a fasting glucose, invalidating the result. The nurse should report that fasting status was not maintained and request a repeat specimen after proper NPO preparation. Treatment decisions should not be made on a non-fasting specimen ordered as fasting.",
+      },
+      {
+        question:
+          "Case: A patient on the medical unit has the following morning labs: sodium 128 mEq/L, potassium 4.2 mEq/L, and glucose 92 mg/dL. Which value requires the nurse to notify the provider?",
+        options: [
+          "Potassium of 4.2 mEq/L because it is borderline",
+          "Sodium of 128 mEq/L because it is below the normal range of 135-145 mEq/L and indicates hyponatremia",
+          "Glucose of 92 mg/dL because it is close to the upper limit",
+          "All values are within normal limits",
+        ],
+        correct: 1,
+        rationale:
+          "Normal sodium is 135-145 mEq/L. A sodium of 128 mEq/L represents clinically significant hyponatremia that can cause confusion, headache, nausea, and seizures. The nurse must report this finding and monitor for neurological changes. The potassium and glucose are within normal limits.",
+      },
+      {
+        question:
+          "Case: A nurse is reviewing the CBC of a patient admitted with pneumonia. WBC is 18,200/mcL, and the differential shows 82% neutrophils with 10% bands. What do these findings indicate?",
+        options: [
+          "The patient is immunosuppressed",
+          "An acute bacterial infection with a left shift, indicating the bone marrow is releasing immature neutrophils to fight the infection",
+          "A viral infection causing lymphocytosis",
+          "Normal immune function with no concerns",
+        ],
+        correct: 1,
+        rationale:
+          "An elevated WBC with high neutrophil percentage and increased bands (immature neutrophils above 5%) indicates a left shift. This occurs when the bone marrow releases immature cells to meet the increased demand during acute bacterial infection. It confirms the clinical picture of pneumonia as a bacterial process.",
+      },
+      {
+        question:
+          "Case: A patient's BUN is 42 mg/dL and creatinine is 1.0 mg/dL (BUN:creatinine ratio of 42:1). The patient has been vomiting for 3 days. What does this pattern suggest?",
+        options: [
+          "Acute kidney injury from nephrotoxic medication",
+          "Prerenal azotemia from dehydration, as evidenced by a BUN:creatinine ratio greater than 20:1 with normal creatinine",
+          "Chronic kidney disease with declining function",
+          "Normal renal function",
+        ],
+        correct: 1,
+        rationale:
+          "A BUN:creatinine ratio greater than 20:1 with a relatively normal creatinine suggests prerenal azotemia, most commonly caused by dehydration. The kidneys reabsorb more urea (raising BUN) when blood flow is reduced. The history of vomiting for 3 days supports volume depletion as the cause.",
+      },
+      {
+        question:
+          "Case: A nurse collects a urine specimen from a patient with a Foley catheter. The urinalysis shows positive leukocyte esterase, positive nitrites, and WBCs too numerous to count. What condition do these findings suggest?",
+        options: [
+          "Normal findings for a catheterized patient",
+          "Urinary tract infection, as indicated by positive leukocyte esterase, nitrites, and elevated WBCs",
+          "Renal calculi causing hematuria",
+          "Dehydration causing concentrated urine",
+        ],
+        correct: 1,
+        rationale:
+          "Positive leukocyte esterase indicates white blood cells in the urine (pyuria). Positive nitrites indicate bacteria that convert nitrates to nitrites (most commonly gram-negative organisms like E. coli). Combined with numerous WBCs, these findings strongly suggest a urinary tract infection. The nurse should report findings and monitor for fever and other signs of infection.",
+      },
+      {
+        question:
+          "Case: A patient scheduled for surgery has the following coagulation results: PT 22 seconds, INR 2.4. The patient confirms taking warfarin daily. What should the nurse report to the surgical team?",
+        options: [
+          "The coagulation values are normal and surgery can proceed",
+          "The patient is therapeutically anticoagulated with an elevated INR of 2.4, which increases surgical bleeding risk and must be addressed before the procedure",
+          "The patient needs more warfarin before surgery",
+          "These lab values are unrelated to surgical risk",
+        ],
+        correct: 1,
+        rationale:
+          "An INR of 2.4 indicates the patient is anticoagulated, which significantly increases the risk of surgical bleeding. The surgical team must be notified so they can decide whether to proceed, delay surgery, or administer vitamin K to reverse the anticoagulation. Warfarin is typically held 5-7 days before elective surgery.",
+      },
+      {
+        question:
+          "A patient with chronic kidney disease has a potassium of 5.8 mEq/L. The nurse places the patient on a cardiac monitor. What ECG change should the nurse watch for?",
+        options: [
+          "ST-segment depression",
+          "Peaked T waves, which are an early ECG manifestation of hyperkalemia",
+          "Prolonged QT interval",
+          "P-wave inversion",
+        ],
+        correct: 1,
+        rationale:
+          "Peaked (tall, narrow) T waves are the earliest ECG change seen in hyperkalemia. As potassium rises further, progressive changes include widened QRS, flattened P waves, and eventually a sine wave pattern that precedes cardiac arrest. Cardiac monitoring is essential for any patient with significant hyperkalemia.",
+      },
     ],
   },
 
@@ -253,6 +344,110 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
         rationale:
           "Troponin begins to rise 3-6 hours after myocardial cell death. A patient presenting early after symptom onset may have a normal initial troponin that subsequently rises on repeat testing. Serial measurements at 0, 3, and 6 hours are standard to avoid missing an evolving acute coronary syndrome.",
       },
+      {
+        question:
+          "Case: A patient with COPD is on 2L nasal cannula. ABG results: pH 7.36, PaCO2 52 mmHg, HCO3 30 mEq/L, PaO2 68 mmHg. How should the nurse interpret these results?",
+        options: [
+          "Uncompensated respiratory acidosis requiring immediate intubation",
+          "Fully compensated respiratory acidosis, which is the expected baseline for a COPD patient with chronic CO2 retention",
+          "Metabolic alkalosis from diuretic use",
+          "Normal ABG values with no abnormalities",
+        ],
+        correct: 1,
+        rationale:
+          "The pH is within normal range (7.35-7.45) despite an elevated PaCO2 of 52 mmHg (respiratory acidosis). The HCO3 is elevated at 30 mEq/L, indicating the kidneys have compensated by retaining bicarbonate. This is fully compensated respiratory acidosis, typical for COPD patients who chronically retain CO2. The slightly low PaO2 is also expected for COPD.",
+      },
+      {
+        question:
+          "Case: A patient with diabetic ketoacidosis (DKA) has an ABG showing pH 7.18, PaCO2 22 mmHg, HCO3 8 mEq/L. The patient is breathing rapidly and deeply. What is the significance of the PaCO2 of 22 mmHg?",
+        options: [
+          "It indicates a primary respiratory problem",
+          "It represents Kussmaul respirations, the body's attempt to compensate for severe metabolic acidosis by blowing off CO2",
+          "It is caused by oversedation",
+          "It suggests the patient needs supplemental oxygen",
+        ],
+        correct: 1,
+        rationale:
+          "This is metabolic acidosis (pH 7.18, HCO3 8 mEq/L) with respiratory compensation. The low PaCO2 of 22 mmHg reflects the body's attempt to compensate by hyperventilating (Kussmaul respirations) to blow off CO2 and raise the pH. Despite compensation, the pH remains critically low because the metabolic acidosis is severe.",
+      },
+      {
+        question:
+          "Case: A patient admitted after a motor vehicle accident has an elevated troponin of 2.8 ng/mL. The patient denies chest pain and has normal ST segments. Can myocardial injury be ruled out?",
+        options: [
+          "Yes, troponin elevation without chest pain is always a lab error",
+          "No. Troponin can be elevated from blunt cardiac trauma (myocardial contusion) even without typical ACS symptoms",
+          "Yes, normal ST segments rule out any cardiac injury",
+          "The troponin is falsely elevated from skeletal muscle damage",
+        ],
+        correct: 1,
+        rationale:
+          "Troponin elevation after trauma can indicate myocardial contusion from blunt chest injury. Troponin is specific to cardiac muscle (not skeletal muscle), so any elevation indicates myocardial cell damage. The absence of chest pain does not rule out cardiac injury in the trauma setting. Continuous cardiac monitoring and serial troponins are indicated.",
+      },
+      {
+        question:
+          "Case: A patient has liver function tests showing AST 320 U/L, ALT 280 U/L, ALP 65 U/L, and total bilirubin 1.8 mg/dL. The patient reports heavy alcohol use. What pattern is demonstrated?",
+        options: [
+          "Cholestatic liver injury with elevated alkaline phosphatase",
+          "Hepatocellular injury pattern with AST and ALT significantly elevated while ALP remains near normal, consistent with alcoholic or toxic hepatitis",
+          "Normal liver function tests",
+          "Biliary obstruction causing conjugated hyperbilirubinemia",
+        ],
+        correct: 1,
+        rationale:
+          "Markedly elevated AST and ALT with near-normal ALP indicates hepatocellular injury rather than cholestatic disease. In alcohol-related liver disease, AST is typically elevated more than ALT (AST:ALT ratio >2:1 is classic for alcoholic hepatitis). The mildly elevated bilirubin reflects some impairment in hepatic bilirubin processing.",
+      },
+      {
+        question:
+          "Case: A patient on a heparin drip develops sudden onset of right leg swelling and pain 7 days after starting heparin. Platelet count has dropped from 210,000 to 68,000. What does the nurse suspect?",
+        options: [
+          "The heparin is working as expected",
+          "Heparin-induced thrombocytopenia (HIT) with paradoxical thrombosis, requiring immediate heparin discontinuation",
+          "An allergic reaction to heparin causing peripheral edema",
+          "Deep vein thrombosis from inadequate heparin dosing",
+        ],
+        correct: 1,
+        rationale:
+          "HIT typically occurs 5-10 days after heparin initiation. The hallmark is a platelet drop of greater than 50% from baseline combined with a new thrombotic event (paradoxical thrombosis). Despite being on an anticoagulant, HIT causes platelet aggregation and clotting. Heparin must be discontinued immediately and an alternative anticoagulant (argatroban or bivalirudin) started.",
+      },
+      {
+        question:
+          "Case: A patient has a BNP of 1,200 pg/mL and presents with dyspnea, bilateral crackles, and 3+ pedal edema. What does the elevated BNP confirm?",
+        options: [
+          "Acute coronary syndrome",
+          "Heart failure with significant volume overload, as BNP is released when ventricular walls are stretched",
+          "Pulmonary embolism",
+          "Pneumonia with sepsis",
+        ],
+        correct: 1,
+        rationale:
+          "BNP (brain natriuretic peptide) is released from ventricular myocytes when the walls are stretched from volume overload. A BNP of 1,200 pg/mL (normal <100) is markedly elevated and, combined with the clinical findings of dyspnea, crackles, and edema, confirms acute decompensated heart failure. BNP helps differentiate cardiac from pulmonary causes of dyspnea.",
+      },
+      {
+        question:
+          "Case: A patient's morning labs show sodium 118 mEq/L. The nurse notes the patient is confused and has had a seizure. What is the relationship between the lab value and the symptoms?",
+        options: [
+          "The sodium is mildly low and unrelated to the symptoms",
+          "Severe hyponatremia (sodium <120 mEq/L) causes cerebral edema due to osmotic fluid shifts into brain cells, producing confusion, seizures, and potential herniation",
+          "The seizure caused the low sodium",
+          "The patient needs immediate potassium replacement",
+        ],
+        correct: 1,
+        rationale:
+          "Severe hyponatremia (<120 mEq/L) creates a hypotonic extracellular environment. Water shifts via osmosis from the hypo-osmolar blood into brain cells, causing cerebral edema. This produces neurological symptoms ranging from confusion and headache to seizures, coma, and brain herniation. Treatment must be carefully controlled to avoid osmotic demyelination syndrome.",
+      },
+      {
+        question:
+          "A nurse is interpreting a D-dimer result of 850 ng/mL in a 70-year-old patient who had hip replacement surgery last week. The patient has mild dyspnea. What is the clinical significance?",
+        options: [
+          "The elevated D-dimer confirms pulmonary embolism",
+          "D-dimer is expected to be elevated post-surgically and cannot confirm PE, but combined with clinical symptoms, further imaging (CT-PA) is warranted",
+          "The D-dimer is within normal limits for a post-surgical patient",
+          "A repeat D-dimer in 24 hours will be more diagnostic",
+        ],
+        correct: 1,
+        rationale:
+          "D-dimer has high sensitivity but low specificity. It is commonly elevated after surgery, trauma, infection, and malignancy. A positive D-dimer cannot confirm PE. However, the clinical context (recent surgery, immobility, and dyspnea) increases the pretest probability for PE, and CT pulmonary angiography should be ordered for definitive diagnosis.",
+      },
     ],
   },
 
@@ -386,6 +581,122 @@ export const labsDiagnosticsLessons: Record<string, LessonContent> = {
         correct: 1,
         rationale:
           "Low serum iron, low ferritin, elevated TIBC, and low transferrin saturation are the classic laboratory pattern of iron deficiency anemia. Anemia of chronic disease would show low iron with low TIBC and normal or elevated ferritin. Sideroblastic anemia shows elevated iron and ferritin. Megaloblastic anemia involves B12 or folate deficiency with macrocytic cells.",
+      },
+      {
+        question:
+          "Case: A 55-year-old female presents with fatigue, weight gain of 15 pounds over 6 months, constipation, and dry skin. TSH is 8.2 mIU/L and free T4 is 0.9 ng/dL (normal 0.8-1.8). The NP is considering starting levothyroxine. What is the most accurate interpretation?",
+        options: [
+          "Primary hypothyroidism requiring immediate high-dose levothyroxine",
+          "Subclinical hypothyroidism (elevated TSH with normal free T4), where treatment is guided by symptoms, TSH level, and patient preference",
+          "Hyperthyroidism requiring methimazole",
+          "Euthyroid sick syndrome that will resolve spontaneously",
+        ],
+        correct: 1,
+        rationale:
+          "TSH is elevated at 8.2 mIU/L but free T4 remains within the normal range (0.9 ng/dL). This defines subclinical hypothyroidism. Treatment decisions depend on the degree of TSH elevation (>10 mIU/L favors treatment), presence of symptoms (this patient is symptomatic), thyroid antibody status, and patient preference. Starting low-dose levothyroxine with TSH rechecked in 6-8 weeks is reasonable given her symptoms.",
+      },
+      {
+        question:
+          "Case: A 35-year-old female presents with fatigue and heavy menstrual periods. CBC shows Hgb 9.8 g/dL, MCV 72 fL, RDW 17%. The NP orders iron studies. What pattern would confirm the suspected diagnosis?",
+        options: [
+          "Low ferritin, low serum iron, elevated TIBC, and low transferrin saturation",
+          "Elevated ferritin, elevated serum iron, and low TIBC",
+          "Normal ferritin with elevated B12",
+          "Low ferritin with low TIBC and normal serum iron",
+        ],
+        correct: 0,
+        rationale:
+          "The CBC shows microcytic anemia (MCV 72 fL, normal 80-100) with elevated RDW (indicating variation in red cell size), highly suggestive of iron deficiency. The classic iron deficiency pattern is: low ferritin (depleted stores), low serum iron, elevated TIBC (the body upregulates iron-binding capacity when iron is scarce), and low transferrin saturation. The history of heavy menstrual periods provides the clinical explanation for iron loss.",
+      },
+      {
+        question:
+          "Case: A 60-year-old male with rheumatoid arthritis has Hgb 10.2 g/dL, MCV 86 fL, serum iron 35 mcg/dL, ferritin 280 ng/mL, and TIBC 180 mcg/dL. How does the NP differentiate this from iron deficiency anemia?",
+        options: [
+          "The low TIBC and elevated ferritin indicate iron deficiency",
+          "This is anemia of chronic disease: the ferritin is elevated (not low) and TIBC is low (not elevated), which is the opposite pattern of iron deficiency",
+          "The normal MCV confirms iron deficiency",
+          "Serum iron alone determines the type of anemia",
+        ],
+        correct: 1,
+        rationale:
+          "Anemia of chronic disease shows low serum iron (iron is sequestered), elevated ferritin (reflecting inflammatory stores, not true deficiency), and low TIBC (the body downregulates iron-binding capacity in inflammation). This is the mirror image of iron deficiency (low ferritin, elevated TIBC). The normocytic MCV and chronic inflammatory condition (RA) further support this diagnosis.",
+      },
+      {
+        question:
+          "Case: A 45-year-old patient presents with palpitations and a 10-pound weight loss. TSH is 0.05 mIU/L, free T4 is 3.2 ng/dL, and free T3 is 8.1 pg/mL. The NP suspects Graves disease. Which additional test would confirm the etiology?",
+        options: [
+          "Repeat TSH in 6 weeks",
+          "Order thyroid-stimulating immunoglobulin (TSI) or TSH receptor antibodies, which are positive in Graves disease",
+          "Order a lipid panel",
+          "Measure serum calcium"],
+        correct: 1,
+        rationale:
+          "The lab pattern (suppressed TSH, elevated free T4 and T3) confirms hyperthyroidism. To differentiate Graves disease from other causes (toxic nodule, thyroiditis), thyroid-stimulating immunoglobulin (TSI) or TSH receptor antibodies (TRAb) should be ordered. These autoantibodies stimulate the TSH receptor and are specific to Graves disease. A radioactive iodine uptake scan is an alternative confirmatory test.",
+      },
+      {
+        question:
+          "Case: A patient presents with a HbA1c of 6.2%. The patient asks the NP what this means. Which response is most accurate?",
+        options: [
+          "This is normal and there is no concern",
+          "This falls in the prediabetes range (5.7-6.4%), indicating the patient is at increased risk for developing type 2 diabetes and lifestyle modifications should be initiated",
+          "This confirms diabetes and insulin therapy should be started",
+          "This value is meaningless without a fasting glucose",
+        ],
+        correct: 1,
+        rationale:
+          "HbA1c of 5.7-6.4% is classified as prediabetes by ADA criteria. The patient is at increased risk for progression to type 2 diabetes. Evidence-based interventions include weight loss (5-7% of body weight), 150 minutes per week of moderate physical activity, and dietary modifications. Metformin may be considered for high-risk patients. HbA1c should be rechecked annually.",
+      },
+      {
+        question:
+          "Case: A 50-year-old male presents for routine screening. PSA is 5.2 ng/mL (normal <4.0). He is anxious about prostate cancer. How should the NP counsel the patient?",
+        options: [
+          "A PSA of 5.2 confirms prostate cancer and urgent biopsy is needed",
+          "PSA can be elevated from benign prostatic hyperplasia, prostatitis, recent ejaculation, or vigorous exercise, and a mildly elevated value requires shared decision-making about further workup rather than immediate biopsy",
+          "PSA screening is no longer recommended for any patient",
+          "Repeat the PSA in 5 years",
+        ],
+        correct: 1,
+        rationale:
+          "PSA has limited specificity for prostate cancer. Benign conditions (BPH, prostatitis, recent ejaculation, bicycle riding) can elevate PSA. USPSTF recommends shared decision-making for PSA screening in men 55-69. A mildly elevated PSA warrants discussion of risks and benefits of further workup, which may include repeat PSA, free PSA ratio, or urology referral. Not all elevated PSAs require biopsy.",
+      },
+      {
+        question:
+          "Case: A NP is evaluating a patient with jaundice. Lab results show AST 45 U/L, ALT 38 U/L, ALP 520 U/L, GGT 380 U/L, direct bilirubin 8.2 mg/dL. What pattern of liver injury does this represent?",
+        options: [
+          "Hepatocellular injury with elevated transaminases",
+          "Cholestatic (obstructive) pattern with markedly elevated ALP and GGT and conjugated (direct) hyperbilirubinemia, suggesting bile duct obstruction",
+          "Normal liver function with isolated bilirubin elevation",
+          "Drug-induced liver injury",
+        ],
+        correct: 1,
+        rationale:
+          "Markedly elevated ALP and GGT with relatively normal AST/ALT indicates a cholestatic pattern. The elevated direct (conjugated) bilirubin confirms that the liver is conjugating bilirubin but it cannot be excreted, suggesting biliary obstruction. This pattern warrants imaging (right upper quadrant ultrasound) to evaluate for gallstones, stricture, or mass obstructing the bile duct.",
+      },
+      {
+        question:
+          "Case: A patient with chronic kidney disease has a GFR of 22 mL/min. The NP is considering ordering a CT scan with contrast for abdominal pain. What is the primary concern?",
+        options: [
+          "CT scans are contraindicated in all kidney disease",
+          "Iodinated contrast can cause contrast-induced nephropathy, which is especially dangerous in patients with GFR less than 30 mL/min, and non-contrast alternatives or protective measures should be considered",
+          "The radiation from CT will worsen kidney function",
+          "There are no concerns with contrast in kidney disease",
+        ],
+        correct: 1,
+        rationale:
+          "Patients with GFR <30 mL/min are at high risk for contrast-induced nephropathy (CIN) from iodinated contrast. The NP should consider non-contrast alternatives (ultrasound, MRI without gadolinium), or if contrast CT is essential, implement protective measures including IV hydration before and after the procedure, using the minimum contrast volume, and monitoring renal function afterward.",
+      },
+      {
+        question:
+          "A NP orders a comprehensive metabolic panel and notices the calcium is 11.8 mg/dL. The patient also has an elevated PTH of 95 pg/mL (normal 10-65). What is the most likely diagnosis?",
+        options: [
+          "Hypoparathyroidism",
+          "Primary hyperparathyroidism, as elevated calcium with inappropriately elevated PTH indicates autonomous parathyroid hormone secretion",
+          "Malignancy-related hypercalcemia (PTH would be suppressed)",
+          "Vitamin D deficiency",
+        ],
+        correct: 1,
+        rationale:
+          "Hypercalcemia with elevated PTH is the hallmark of primary hyperparathyroidism, where one or more parathyroid glands autonomously secrete PTH regardless of calcium feedback. In malignancy-related hypercalcemia, PTH is appropriately suppressed because the calcium is being elevated by tumor-produced PTHrP, not by the parathyroid glands. The distinction between PTH-mediated and non-PTH-mediated hypercalcemia is a key diagnostic concept.",
       },
     ],
   },
