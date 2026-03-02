@@ -121,7 +121,7 @@ export default function AlliedSimsPage() {
         <p className="text-gray-500 mb-8">Stages answered correctly</p>
         <div className="flex gap-3 justify-center">
           <button onClick={() => { setStarted(false); setStageIdx(0); setScore(0); setCompleted(false); setSelectedAnswer(null); setAnswered(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-restart-sim">Try Again</button>
-          <Link href={`/${career.slug}`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-back-career">Back to {career.shortName}</Link>
+          <Link href={`/careers/${career.slug}`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-back-career">Back to {career.shortName}</Link>
         </div>
       </div>
     );
@@ -131,7 +131,7 @@ export default function AlliedSimsPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8" data-testid="allied-sims-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href={`/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+          <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-teal-700 font-medium">Case Simulators</span>
         </div>

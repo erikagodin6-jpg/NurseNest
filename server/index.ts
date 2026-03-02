@@ -39,8 +39,9 @@ const BARE_HOST = "nursenest.ca";
 const ALLIED_HOST = "allied.nursenest.ca";
 const ALLOWED_HOSTS = new Set([BARE_HOST, CANONICAL_HOST, ALLIED_HOST]);
 
-import { alliedDetectionMiddleware, hostRedirectMiddleware, isAlliedHost } from "./allied-middleware";
+import { alliedDetectionMiddleware, alliedLegacyRedirectMiddleware, hostRedirectMiddleware, isAlliedHost } from "./allied-middleware";
 app.use(alliedDetectionMiddleware);
+app.use(alliedLegacyRedirectMiddleware);
 app.use(hostRedirectMiddleware);
 
 if (process.env.NODE_ENV === "production") {
@@ -195,7 +196,7 @@ app.post("/api/admin/verify", (req, res) => {
 // SEO: robots + sitemap + verification (before registerRoutes)
 // -------------------------
 app.get("/robots.txt", (req, res) => {
-  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.setHeader("Cache-Control", "public, max-age=300");
   if (req.isAllied) {
     const alliedBase = "https://allied.nursenest.ca";
     res.type("text/plain").send(
@@ -411,7 +412,10 @@ app.get("/sitemap_index.xml", async (_req, res) => {
 });
 
 import { generateAlliedSitemap } from "./allied-middleware";
-app.get("/sitemap-allied.xml", (_req, res) => {
+app.get("/sitemap-allied.xml", (req, res) => {
+  if (!req.isAllied && process.env.NODE_ENV === "production") {
+    return res.status(404).send("Not found");
+  }
   const alliedBase = "https://allied.nursenest.ca";
   const xml = generateAlliedSitemap(alliedBase);
   res.setHeader("Content-Type", "application/xml; charset=utf-8");

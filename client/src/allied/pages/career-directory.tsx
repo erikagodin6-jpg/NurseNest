@@ -49,7 +49,7 @@ export default function CareerDirectoryPage() {
                     <span className="px-2 py-0.5 bg-gray-50 text-gray-500 rounded-md text-xs">+{career.domains.length - 5} more</span>
                   )}
                 </div>
-                <Link href={`/${career.slug}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid={`button-start-${career.slug}`}>
+                <Link href={`/careers/${career.slug}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid={`button-start-${career.slug}`}>
                   Start Studying <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>

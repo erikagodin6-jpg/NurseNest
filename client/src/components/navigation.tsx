@@ -783,106 +783,190 @@ export function Navigation() {
             </DropdownMenu>
 
             <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/pre-nursing")}>
-                {t("nav.preNursing")}
-              </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/anatomy")}>
-                {t("nav.anatomy")}
-              </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/lessons")}>
-                {t("nav.lessons")}
-              </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => setLocation("/blog")}>
-                {t("nav.blog")}
-              </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2 relative" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-nav">
-                {t("nav.flashcards")}
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 px-1 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">{t("common.free")}</span>
-              </Button>
-              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary gap-1.5 px-1.5 lg:px-2" onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "desktop_nav" }) }).catch(() => {}); } catch {} }} data-testid="button-store-nav">
-                {t("nav.store")}
-              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="text-sm font-medium text-primary/80 hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-3 group data-[state=open]:text-primary">
-                    {t("nav.interactiveTools")}
-                    <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary">
+                    {t("nav.learning")}
+                    <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-56 p-2">
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/clinical-clarity")}>
+                <DropdownMenuContent align="start" className="w-52 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/pre-nursing")}>
+                    <BookOpen className="w-4 h-4 text-primary/70" />
+                    {t("nav.preNursing")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/anatomy")}>
+                    <Dna className="w-4 h-4 text-primary/70" />
+                    {t("nav.anatomy")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lessons")}>
+                    <BookOpen className="w-4 h-4 text-primary/70" />
+                    {t("nav.lessons")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lectures")}>
+                    <Play className="w-4 h-4 text-primary/70" />
+                    {t("nav.lectures")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/blog")}>
+                    <FileText className="w-4 h-4 text-primary/70" />
+                    {t("nav.blog")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5 relative" onClick={() => setLocation("/flashcards?view=decks")} data-testid="button-study-decks-nav">
+                    <Layers className="w-4 h-4 text-primary/70" />
+                    {t("nav.flashcards")}
+                    <span className="ml-auto flex h-4 px-1.5 items-center justify-center rounded-full bg-emerald-500 text-[8px] font-bold text-white leading-none">{t("common.free")}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/clinical-clarity")}>
                     <Lightbulb className="w-4 h-4 text-primary/70" />
                     {t("nav.clinicalClarity")}
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.premiumTools")}</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/med-math")}>
-                    <Calculator className="w-4 h-4" />
-                    {t("nav.medMathLab")}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary">
+                    {t("nav.practice")}
+                    <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-56 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/mock-exams")}>
+                    <FileText className="w-4 h-4 text-primary/70" />
+                    {t("nav.exams")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/lab-values")}>
-                    <FlaskConical className="w-4 h-4" />
-                    {t("nav.labInterpretation")}
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/simulators/osce")}>
+                    <Stethoscope className="w-4 h-4 text-primary/70" />
+                    {t("nav.simulators")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/case-simulations")}>
-                    <Stethoscope className="w-4 h-4" />
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/case-simulations")}>
+                    <Stethoscope className="w-4 h-4 text-primary/70" />
                     {t("nav.caseSimulations")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/medication-mastery")}>
-                    <Pill className="w-4 h-4" />
-                    {t("nav.medicationMastery")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/simulators/clinical-skills")}>
-                    <Stethoscope className="w-4 h-4" />
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/simulators/clinical-skills")}>
+                    <Activity className="w-4 h-4 text-primary/70" />
                     {t("nav.clinicalSkillsSim")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
+                  <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.premiumTools")}</p>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/med-math")}>
+                    <Calculator className="w-4 h-4" />
+                    {t("nav.medMathLab")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/lab-values")}>
+                    <FlaskConical className="w-4 h-4" />
+                    {t("nav.labInterpretation")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/medication-mastery")}>
+                    <Pill className="w-4 h-4" />
+                    {t("nav.medicationMastery")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-1 tracking-wider">{t("nav.clinicalSimulators")}</p>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/first-action-simulator")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/first-action-simulator")}>
                     <Activity className="w-4 h-4" />
                     {t("nav.firstAction")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/safety-hazard-simulator")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/safety-hazard-simulator")}>
                     <Heart className="w-4 h-4" />
                     {t("nav.safetyHazard")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/iv-complications-simulator")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/iv-complications-simulator")}>
                     <Dna className="w-4 h-4" />
                     {t("nav.ivComplications")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/electrolyte-abg-simulator")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/electrolyte-abg-simulator")}>
                     <FlaskConical className="w-4 h-4" />
                     {t("nav.electrolyteAbg")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/deteriorating-patient-simulator")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/deteriorating-patient-simulator")}>
                     <Activity className="w-4 h-4" />
                     {t("nav.deterioratingPatient")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/blood-transfusion-simulator")}>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/blood-transfusion-simulator")}>
                     <Heart className="w-4 h-4" />
                     {t("nav.bloodTransfusion")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-1.5 lg:gap-3">
-            <div className="hidden sm:block">
-              <Suspense fallback={<div className="w-48 h-8" />}>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary">
+                    {t("nav.more")}
+                    <ChevronDown className="w-3 h-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48 p-2">
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "desktop_nav" }) }).catch(() => {}); } catch {} }} data-testid="button-store-nav">
+                    <ShoppingBag className="w-4 h-4 text-primary/70" />
+                    {t("nav.store")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/pricing")}>
+                    <Tag className="w-4 h-4 text-primary/70" />
+                    {t("nav.pricing")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/faq")}>
+                    <HelpCircle className="w-4 h-4 text-primary/70" />
+                    {t("footer.faq")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/reports")}>
+                    <BarChart className="w-4 h-4 text-primary/70" />
+                    {t("nav.reports")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            <div className="hidden md:block flex-1 max-w-xs ml-2 lg:ml-4">
+              <Suspense fallback={<div className="w-full h-8" />}>
                 <GlobalSearch />
               </Suspense>
             </div>
-            
+          </div>
+
+          <div className="flex items-center gap-1 lg:gap-2">
+            <div className="sm:hidden">
+              <Suspense fallback={<div className="w-8 h-8" />}>
+                <GlobalSearch />
+              </Suspense>
+            </div>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="hidden lg:flex items-center gap-1.5 text-softgray hover:text-primary h-8 px-2" data-testid="button-language-selector">
+                <Button variant="ghost" size="sm" className="hidden lg:flex items-center gap-1 text-softgray hover:text-primary h-8 px-1.5" data-testid="button-settings-selector">
                   <Globe className="w-4 h-4" />
-                  <span className="text-xs font-bold">{currentLang?.flag} {currentLang?.name}</span>
+                  <span className="text-xs font-bold">{currentLang?.flag}</span>
+                  <Palette className="w-3.5 h-3.5 ml-0.5" />
+                  <ChevronDown className="w-3 h-3" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52 p-2 max-h-80 overflow-y-auto">
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2 tracking-widest">{t("nav.language")}</p>
+              <DropdownMenuContent align="end" className="w-56 p-2 max-h-[80vh] overflow-y-auto">
+                <div className="flex items-center gap-2 px-2 mb-2">
+                  <span className="text-xs font-bold text-primary" data-testid="text-region-indicator-desktop">
+                    {region === "CA" ? "Canada" : "United States"}
+                  </span>
+                </div>
+                <DropdownMenuSeparator />
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.selectTheme")}</p>
+                <div className="grid grid-cols-5 gap-2 px-2 py-1 mb-2">
+                  {themes.map((t) => (
+                    <button
+                      key={t.name}
+                      onClick={() => setTheme(t.name)}
+                      title={t.label}
+                      data-testid={`button-theme-${t.name}`}
+                      className={cn(
+                        "w-6 h-6 rounded-full border shadow-sm transition-transform hover:scale-125",
+                        theme === t.name ? "ring-2 ring-primary ring-offset-1 scale-110" : "border-gray-200"
+                      )}
+                      style={{ backgroundColor: t.color }}
+                    />
+                  ))}
+                </div>
+                <DropdownMenuSeparator />
+                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.language")}</p>
                 {LANGUAGES.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
@@ -898,39 +982,6 @@ export function Navigation() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="hidden lg:flex items-center gap-1.5 text-softgray hover:text-primary h-8 px-2" data-testid="button-region-selector">
-                  <Palette className="w-4 h-4" />
-                  <span className="text-xs font-bold">{region}</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 p-2">
-                <div className="flex items-center gap-2 px-2 mb-2">
-                  <span className="text-xs font-bold text-primary" data-testid="text-region-indicator-desktop">
-                    {region === "CA" ? "🇨🇦 Canada" : "🇺🇸 United States"}
-                  </span>
-                </div>
-                <DropdownMenuSeparator />
-                <p className="text-[10px] font-bold text-gray-400 uppercase px-2 my-2 tracking-widest">{t("nav.selectTheme")}</p>
-                <div className="grid grid-cols-5 gap-2 px-2 py-1">
-                  {themes.map((t) => (
-                    <button
-                      key={t.name}
-                      onClick={() => setTheme(t.name)}
-                      title={t.label}
-                      data-testid={`button-theme-${t.name}`}
-                      className={cn(
-                        "w-6 h-6 rounded-full border shadow-sm transition-transform hover:scale-125",
-                        theme === t.name ? "ring-2 ring-primary ring-offset-1 scale-110" : "border-gray-200"
-                      )}
-                      style={{ backgroundColor: t.color }}
-                    />
-                  ))}
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
             {user ? (
               <UserProfileDropdown user={user} logout={logout} setLocation={setLocation} />
             ) : (
@@ -943,26 +994,6 @@ export function Navigation() {
                 </Button>
               </div>
             )}
-          </div>
-        </div>
-      </div>
-      <div className="border-t border-primary/10 bg-primary/5">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-          <div className="flex items-center justify-between gap-2 h-9">
-            <div className="hidden md:flex items-center gap-0.5">
-              {designations.map((d) => (
-                <NavDropdown key={d} label={d} items={learningItems} isPaid subBar />
-              ))}
-            </div>
-            <div className="md:hidden" />
-            <div className="flex items-center gap-2">
-              <NavDropdown label={t("nav.learning")} items={learningItems} isPaid subBar />
-              <NavDropdown label={t("nav.resources")} items={[
-                { icon: Tag, label: t("nav.pricing"), key: "Pricing" },
-                { icon: HelpCircle, label: t("footer.faq"), key: "FAQ" },
-                { icon: BarChart, label: t("nav.reports"), key: "Reports" },
-              ]} subBar />
-            </div>
           </div>
         </div>
       </div>

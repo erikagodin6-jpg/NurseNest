@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { CAREER_CONFIGS } from "@shared/careers";
+import { getUncachableStripeClient } from "./stripeClient";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging"];
 
@@ -595,6 +596,25 @@ export function registerAlliedPipelineRoutes(app: Express) {
     }
   });
 
+  app.post("/api/allied/diagnostic/submit", async (req, res) => {
+    try {
+      const { email, careerType, score, totalQuestions, domainBreakdown, weakAreas, strongAreas, timeSpent } = req.body;
+      if (!email || !email.includes("@")) return res.status(400).json({ error: "Valid email required" });
+      await pool.query(
+        `INSERT INTO allied_leads (email, career_type, source, consent, diagnostic_data)
+         VALUES ($1, $2, 'diagnostic', true, $3) ON CONFLICT DO NOTHING`,
+        [
+          email,
+          careerType || null,
+          JSON.stringify({ score, totalQuestions, domainBreakdown, weakAreas, strongAreas, timeSpent }),
+        ]
+      );
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/allied/leads", async (req, res) => {
     try {
       const { email, careerType, source, consent } = req.body;
@@ -606,6 +626,50 @@ export function registerAlliedPipelineRoutes(app: Express) {
       res.json({ ok: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/allied/checkout", async (req, res) => {
+    try {
+      const { planType, userId } = req.body;
+      if (!planType || !["monthly", "annual"].includes(planType)) {
+        return res.status(400).json({ error: "Invalid planType. Must be 'monthly' or 'annual'." });
+      }
+      if (!userId) {
+        return res.status(400).json({ error: "userId is required" });
+      }
+
+      const priceId = planType === "monthly"
+        ? process.env.ALLIED_PRO_MONTHLY_PRICE_ID
+        : process.env.ALLIED_PRO_ANNUAL_PRICE_ID;
+
+      if (!priceId) {
+        return res.json({ url: null, message: "Checkout is not configured yet. Please try again later." });
+      }
+
+      const stripe = await getUncachableStripeClient();
+
+      const protocol = req.headers["x-forwarded-proto"] || "https";
+      const host = req.headers.host || "localhost:5000";
+      const baseUrl = `${protocol}://${host}`;
+
+      const session = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        line_items: [{ price: priceId, quantity: 1 }],
+        metadata: {
+          platform: "allied",
+          planType,
+          userId: String(userId),
+        },
+        success_url: `${baseUrl}/allied/pricing?success=true`,
+        cancel_url: `${baseUrl}/allied/pricing?canceled=true`,
+        client_reference_id: String(userId),
+      });
+
+      res.json({ url: session.url });
+    } catch (e: any) {
+      console.error("[Allied Checkout] Error:", e.message);
+      res.status(500).json({ error: "Could not create checkout session" });
     }
   });
 }

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
-import { BookOpen, Filter, ChevronRight, CheckCircle2, XCircle, Clock, Zap, ChevronLeft, Lock, RotateCcw, Flag, Bookmark } from "lucide-react";
+import { BookOpen, Filter, ChevronRight, CheckCircle2, XCircle, Clock, Zap, ChevronLeft, Lock, RotateCcw, Flag, Bookmark, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
+import { useAlliedCanonical } from "@/allied/use-allied-canonical";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt,
@@ -14,8 +15,10 @@ const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
 };
 
 export default function AlliedQBankPage() {
-  const params = useParams<{ careerSlug: string }>();
-  const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const searchString = useSearch();
+  const careerSlug = new URLSearchParams(searchString).get("career") || "";
+  const career = ALLIED_CAREER_MAP[careerSlug];
+  useAlliedCanonical("/qbank", career ? { career: career.slug } : undefined);
   const { user } = useAuth();
 
   const [questions, setQuestions] = useState<any[]>([]);
@@ -33,8 +36,14 @@ export default function AlliedQBankPage() {
   const [drillTimer, setDrillTimer] = useState(0);
   const [streak, setStreak] = useState(0);
 
-  const FREE_LIMIT = 25;
+  const FREE_LIMIT = 5;
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
+
+  const getStorageKey = (slug: string) => `allied_qbank_used_${slug}`;
+  const [freeUsed, setFreeUsed] = useState(() => {
+    if (isPro || !career) return 0;
+    try { return parseInt(localStorage.getItem(getStorageKey(career.slug)) || "0", 10); } catch { return 0; }
+  });
 
   useEffect(() => {
     if (!career) return;
@@ -42,13 +51,13 @@ export default function AlliedQBankPage() {
     let filtered = pool || [];
     if (difficulty) filtered = filtered.filter((q: any) => q.difficulty === difficulty);
     if (topic) filtered = filtered.filter((q: any) => q.category === topic);
-    const limit = isPro ? filtered.length : Math.min(FREE_LIMIT, filtered.length);
-    setQuestions(filtered.slice(0, limit));
+    const limit = isPro ? filtered.length : Math.min(FREE_LIMIT - freeUsed, filtered.length);
+    setQuestions(filtered.slice(0, Math.max(0, limit)));
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setAnswered(false);
     setScore({ correct: 0, total: 0 });
-  }, [career?.id, difficulty, topic, isPro]);
+  }, [career?.id, difficulty, topic, isPro, freeUsed]);
 
   useEffect(() => {
     if (!rapidDrill) return;
@@ -70,6 +79,11 @@ export default function AlliedQBankPage() {
       const isCorrect = optIdx === current.correctAnswer;
       setScore(s => ({ correct: s.correct + (isCorrect ? 1 : 0), total: s.total + 1 }));
       setStreak(isCorrect ? streak + 1 : 0);
+      if (!isPro && career) {
+        const newUsed = freeUsed + 1;
+        setFreeUsed(newUsed);
+        try { localStorage.setItem(getStorageKey(career.slug), String(newUsed)); } catch {}
+      }
     }
   };
 
@@ -110,7 +124,7 @@ export default function AlliedQBankPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-qbank-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">Question Bank</span>
       </div>
@@ -152,6 +166,59 @@ export default function AlliedQBankPage() {
           <button onClick={() => { setDifficulty(null); setTopic(""); }} className="self-end px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1" data-testid="button-clear-filters">
             <RotateCcw className="w-3.5 h-3.5" /> Clear
           </button>
+        </div>
+      )}
+
+      {!isPro && (
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-4 mb-6" data-testid="free-usage-bar">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-600" />
+              <span className="text-sm font-semibold text-amber-800">
+                {freeUsed >= FREE_LIMIT ? "Free limit reached" : `${freeUsed} of ${FREE_LIMIT} free questions used`}
+              </span>
+            </div>
+            <span className="text-xs font-medium text-amber-600">{Math.round((freeUsed / FREE_LIMIT) * 100)}%</span>
+          </div>
+          <div className="w-full bg-amber-100 rounded-full h-2.5 mb-3">
+            <div
+              className={`h-2.5 rounded-full transition-all ${freeUsed >= FREE_LIMIT ? "bg-red-500" : freeUsed >= FREE_LIMIT * 0.8 ? "bg-amber-500" : "bg-teal-500"}`}
+              style={{ width: `${Math.min((freeUsed / FREE_LIMIT) * 100, 100)}%` }}
+            />
+          </div>
+          {freeUsed >= FREE_LIMIT ? (
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <p className="text-sm text-amber-800 flex-1">5 free questions available. Upgrade to unlock full QBank access.</p>
+              <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-cap">
+                <Lock className="w-4 h-4" /> Unlock Full QBank
+              </Link>
+            </div>
+          ) : freeUsed >= FREE_LIMIT * 0.8 ? (
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-amber-700">Only {FREE_LIMIT - freeUsed} free questions remaining</p>
+              <Link href="/pricing" className="text-xs font-medium text-teal-600 hover:text-teal-700" data-testid="link-upgrade-warning">
+                Upgrade to Pro →
+              </Link>
+            </div>
+          ) : null}
+        </div>
+      )}
+
+      {!isPro && freeUsed >= FREE_LIMIT && (
+        <div className="bg-white rounded-2xl border-2 border-teal-200 p-8 sm:p-12 text-center mb-6" data-testid="free-cap-block">
+          <Lock className="w-12 h-12 text-teal-400 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-gray-900 mb-2">You've Reached Your Free Limit</h3>
+          <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">
+            Upgrade to Pro for unlimited questions with detailed 600+ word rationales, adaptive CAT simulation, weak area targeting, and more.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200" data-testid="button-upgrade-full">
+              <Zap className="w-4 h-4" /> Upgrade to Pro — $29/mo
+            </Link>
+            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-50 text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-100" data-testid="button-upgrade-annual">
+              Or $239/year (Save 31%)
+            </Link>
+          </div>
         </div>
       )}
 

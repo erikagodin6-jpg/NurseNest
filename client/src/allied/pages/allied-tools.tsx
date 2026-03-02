@@ -37,7 +37,7 @@ export default function AlliedToolsPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="allied-tools-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">AI Tools</span>
       </div>

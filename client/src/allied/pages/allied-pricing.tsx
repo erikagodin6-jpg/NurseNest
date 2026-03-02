@@ -14,7 +14,7 @@ const PLANS = [
     badge: null,
     description: "Try before you commit",
     features: [
-      "25 practice questions per career",
+      "5 practice questions per career",
       "1 mini mock exam (25 questions)",
       "15-question diagnostic assessment",
       "1 demo flashcard deck",

@@ -568,6 +568,8 @@ const enTranslations: Record<string, string> = {
     "nav.anatomy": "Anatomy",
     "nav.interactiveTools": "Interactive Tools",
     "nav.learning": "Learning",
+    "nav.practice": "Practice",
+    "nav.more": "More",
     "nav.resources": "Resources",
     "nav.clinicalClarity": "Clinical Clarity",
     "nav.medMathLab": "Med Math Lab",

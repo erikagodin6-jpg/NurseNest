@@ -99,8 +99,8 @@ export default function AlliedHomePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {ALLIED_CAREERS.filter(c => c.enabled).map(career => (
-              <Link key={career.slug} href={`/${career.slug}`} className="group block" data-testid={`card-career-${career.slug}`}>
-                <div className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all h-full">
+              <div key={career.slug} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all h-full group" data-testid={`card-career-${career.slug}`}>
+                <Link href={`/careers/${career.slug}`} className="block">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: career.colorAccent }}>
                     <career.Icon className="w-6 h-6" style={{ color: career.color }} />
                   </div>
@@ -111,11 +111,16 @@ export default function AlliedHomePage() {
                       <span key={exam} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md text-xs font-medium">{exam}</span>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1 text-teal-600 text-sm font-medium mt-4 group-hover:gap-2 transition-all">
-                    Start Studying <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
+                </Link>
+                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-gray-100">
+                  <Link href={`/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-1.5 px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors" data-testid={`button-diagnostic-${career.slug}`}>
+                    Free Diagnostic <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link href={`/qbank?career=${career.slug}`} className="text-teal-600 text-sm font-medium hover:text-teal-700 transition-colors" data-testid={`link-qbank-${career.slug}`}>
+                    Question Bank
+                  </Link>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

@@ -29,7 +29,7 @@ export default function AlliedDashboardPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8" data-testid="allied-dashboard-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">Dashboard</span>
       </div>
@@ -102,7 +102,7 @@ export default function AlliedDashboardPage() {
                 </div>
               ))}
             </div>
-            <Link href={`/${career.slug}/qbank`} className="mt-4 w-full px-4 py-2 bg-red-50 text-red-700 rounded-lg text-sm font-medium hover:bg-red-100 text-center block" data-testid="button-drill-weak">
+            <Link href={`/qbank?career=${career.slug}`} className="mt-4 w-full px-4 py-2 bg-red-50 text-red-700 rounded-lg text-sm font-medium hover:bg-red-100 text-center block" data-testid="button-drill-weak">
               Drill Weak Areas
             </Link>
           </div>

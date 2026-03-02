@@ -1,0 +1,164 @@
+You are a senior full-stack engineer working inside a Vite + React + Express production app for NurseNest with two hostnames:
+- Nursing: https://www.nursenest.ca
+- Allied:  https://allied.nursenest.ca
+
+CONTEXT (DO NOT CHANGE THESE):
+- QBank FREE_LIMIT = 5 is already implemented correctly.
+- Allied homepage “Start Free Diagnostic” CTAs are already implemented correctly.
+- Allied sitemap exists at /sitemap-allied.xml but needs URL structure + canonical fixes.
+
+TASKS (IMPLEMENT EXACTLY PER SPEC, PRODUCTION-SAFE):
+
+====================================================================
+A) ROBOTS.TXT — HOSTNAME-SPECIFIC SITEMAP RULES
+====================================================================
+
+Goal:
+- www’s robots.txt MUST NOT reference the allied sitemap.
+- allied’s robots.txt MUST reference the allied sitemap.
+
+Implement hostname-aware robots.txt serving in Express (or equivalent server layer).
+Rules:
+1) For requests where the effective hostname is www.nursenest.ca (or nursenest.ca):
+   robots.txt content must include ONLY:
+   Sitemap: https://www.nursenest.ca/sitemap.xml
+
+2) For requests where the effective hostname starts with allied. (allied.nursenest.ca):
+   robots.txt content must include ONLY:
+   Sitemap: https://allied.nursenest.ca/sitemap-allied.xml
+
+3) Use proxy-safe hostname detection:
+   - Prefer X-Forwarded-Host when present
+   - Fall back to req.hostname
+   - Normalize to lowercase; strip port
+   - Avoid false positives
+
+4) Serve robots.txt at:
+   - https://www.nursenest.ca/robots.txt
+   - https://allied.nursenest.ca/robots.txt
+   Content-Type: text/plain; charset=utf-8
+   No caching issues: set reasonable cache headers (e.g., max-age 300) or none.
+
+Do NOT create two separate files in the repo unless your infra truly serves two builds.
+Do it dynamically based on hostname.
+
+====================================================================
+B) ALLIED ROUTE STRUCTURE — ALIGN WITH SPEC
+====================================================================
+
+Spec requirement:
+Allied URLs must be root-level like:
+- /diagnostic
+- /qbank
+- /pricing
+- /careers/rrt
+- /careers/mlt
+- /careers/imaging
+- /careers/pharmacy-tech
+- /careers/paramedic
+
+Current reality:
+Sitemap uses /{career}/{feature} which matches existing routes, but MUST be refactored to the spec format.
+
+Implement a backward-compatible routing refactor in AlliedApp:
+
+1) New canonical routes (must exist and render correctly):
+   /diagnostic
+   /qbank
+   /pricing
+   /careers/:careerSlug
+
+2) Legacy routes must continue to work, but 301 redirect to canonical:
+   /:career/:feature  -> canonical mapping:
+     - feature "diagnostic" -> /diagnostic?career=:career
+     - feature "qbank"      -> /qbank?career=:career
+     - feature "pricing"    -> /pricing?career=:career (only if you support career-specific pricing; otherwise ignore career)
+     - feature "home" or "" -> /careers/:career
+   Any unrecognized legacy feature should redirect to /careers/:career or / (choose safest, consistent option).
+
+3) Routing implementation detail:
+   - If redirects are best done server-side, implement Express middleware for allied hostname only.
+   - If done client-side, use React Router navigation replace + preserve query params.
+   - Use HTTP 301 if on server; if client-only, at minimum do a replace() navigation and set canonical tags accordingly.
+   - Do not break deep links.
+
+4) Update ALL internal allied navigation links to the canonical structure:
+   - Any place that currently links to /{career}/{feature} must be updated to /diagnostic?career=, /qbank?career=, /careers/{careerSlug}, etc.
+
+====================================================================
+C) ALLIED SITEMAP — URL STRUCTURE FIXES
+====================================================================
+
+Update /sitemap-allied.xml generation so that:
+1) Every <loc> uses https://allied.nursenest.ca (never www).
+2) Includes the canonical pages:
+   - /
+   - /diagnostic
+   - /qbank
+   - /pricing
+   - /careers/rrt
+   - /careers/mlt
+   - /careers/imaging
+   - /careers/pharmacy-tech
+   - /careers/paramedic
+
+3) Do NOT include legacy /{career}/{feature} URLs in the sitemap.
+4) Ensure valid XML (urlset xmlns, xml header, ISO lastmod).
+5) Served on allied hostname only (if one server serves both):
+   - If request is to www hostname and someone hits /sitemap-allied.xml, either 404 or redirect to allied’s sitemap (pick one consistent behavior; prefer 404 to avoid cross-domain confusion).
+   - If request is allied hostname, serve /sitemap-allied.xml normally.
+
+====================================================================
+D) QBANK PROGRESS BAR — USE PERSISTENT freeUsed
+====================================================================
+
+Current issue:
+Progress bar is using score.total (session-only). Must use freeUsed (persistent).
+
+Implement:
+1) Identify the source of truth for usage count: `freeUsed`.
+   - Must persist across refresh/reload.
+   - If you store in localStorage, use a stable key (e.g., allied:qbank:freeUsed:{careerSlug or "all"}).
+   - If you store in backend for logged-in users, still support localStorage for guests.
+
+2) Progress bar display logic:
+   - used = freeUsed
+   - limit = FREE_LIMIT (5)
+   - remaining = max(0, limit - used)
+   - Display “{remaining} of 5 free questions left” (or equivalent) and show bar fill = used/limit.
+   - When used >= limit, show locked state and trigger upgrade flow.
+
+3) Ensure:
+   - Answering a question increments freeUsed exactly once per answered question.
+   - freeUsed increments even if the session ends.
+   - freeUsed is not reset by refreshing.
+   - Do not change the existing paywall logic if already correct; only ensure UI reads from freeUsed.
+
+====================================================================
+E) CANONICAL TAGS — ALLIED PAGES MUST CANONICALIZE TO allied.*
+====================================================================
+
+Implement canonical tags for allied pages so that:
+1) On allied.nursenest.ca, canonical points to https://allied.nursenest.ca{pathname}{search? optional}
+   - For canonical, generally omit tracking params; but keep ?career= on /diagnostic and /qbank if the page content truly changes by career.
+   - If career param changes content, canonical should include ?career=careerSlug.
+   - Otherwise canonical should be the clean path only.
+
+2) Ensure no allied page sets canonical to www domain.
+3) Ensure server-side rendering is not required; if SPA only, update <link rel="canonical"> via a head manager (e.g., react-helmet-async).
+4) Update <title> and meta description per allied route if you already have a system; at minimum fix canonical.
+
+====================================================================
+F) DELIVERABLES / OUTPUT
+====================================================================
+
+Make the minimal, correct set of changes in code:
+- Express hostname-aware robots.txt
+- Allied routing refactor + legacy redirects
+- Allied sitemap generator fixes + hostname gating
+- QBank progress bar uses freeUsed persistent
+- Allied canonical tags
+
+Do NOT summarize.
+Do NOT explain.
+Only output code changes as unified diffs (file paths + diffs), covering all modified files.

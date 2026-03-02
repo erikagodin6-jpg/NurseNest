@@ -32,6 +32,19 @@ function getFeatureIcon(feature: string) {
   }
 }
 
+function getCurrentCareerFromUrl(location: string, alliedCareers: CareerConfig[]): CareerConfig | undefined {
+  const segments = location.split("/").filter(Boolean);
+  if (segments[0] === "careers" && segments[1]) {
+    return alliedCareers.find(c => c.slug === segments[1]);
+  }
+  const searchParams = new URLSearchParams(window.location.search);
+  const careerParam = searchParams.get("career");
+  if (careerParam) {
+    return alliedCareers.find(c => c.slug === careerParam);
+  }
+  return undefined;
+}
+
 export function AlliedNavigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [careerDropdownOpen, setCareerDropdownOpen] = useState(false);
@@ -39,8 +52,7 @@ export function AlliedNavigation() {
   const { user, isAdmin } = useAuth();
 
   const alliedCareers = ALLIED_CAREERS.map(id => CAREER_CONFIGS[id]);
-  const currentSlug = location.split("/").filter(Boolean)[0];
-  const currentCareer = alliedCareers.find(c => c.slug === currentSlug);
+  const currentCareer = getCurrentCareerFromUrl(location, alliedCareers);
 
   const features = [
     { slug: "qbank", label: "Question Bank" },
@@ -50,6 +62,17 @@ export function AlliedNavigation() {
     { slug: "sims", label: "Case Sims" },
     { slug: "tools", label: "AI Tools" },
   ];
+
+  function getFeatureHref(careerSlug: string, featureSlug: string) {
+    if (featureSlug === "qbank") return `/qbank?career=${careerSlug}`;
+    return `/careers/${careerSlug}/${featureSlug}`;
+  }
+
+  function isFeatureActive(featureSlug: string) {
+    if (!currentCareer) return false;
+    if (featureSlug === "qbank") return location === "/qbank";
+    return location === `/careers/${currentCareer.slug}/${featureSlug}`;
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-teal-100 shadow-sm" data-testid="allied-navigation">
@@ -79,7 +102,7 @@ export function AlliedNavigation() {
                 {careerDropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50" data-testid="dropdown-careers">
                     {alliedCareers.filter(c => c.enabled).map(career => (
-                      <Link key={career.slug} href={`/${career.slug}`} className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors ${currentSlug === career.slug ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid={`link-career-${career.slug}`}>
+                      <Link key={career.slug} href={`/careers/${career.slug}`} className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors ${currentCareer?.slug === career.slug ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid={`link-career-${career.slug}`}>
                         {getCareerIcon(career.slug)}
                         <div>
                           <div className="font-medium">{career.shortName}</div>
@@ -92,7 +115,7 @@ export function AlliedNavigation() {
               </div>
 
               {currentCareer && features.map(f => (
-                <Link key={f.slug} href={`/${currentCareer.slug}/${f.slug}`} className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5 ${location === `/${currentCareer.slug}/${f.slug}` ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid={`link-${f.slug}`}>
+                <Link key={f.slug} href={getFeatureHref(currentCareer.slug, f.slug)} className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5 ${isFeatureActive(f.slug) ? "bg-teal-50 text-teal-700" : "text-gray-600 hover:text-teal-700 hover:bg-teal-50/50"}`} data-testid={`link-${f.slug}`}>
                   {getFeatureIcon(f.slug)}
                   {f.label}
                 </Link>
@@ -136,7 +159,7 @@ export function AlliedNavigation() {
             <Link href="/careers" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-careers">All Careers</Link>
             {alliedCareers.filter(c => c.enabled).map(career => (
               <div key={career.slug}>
-                <Link href={`/${career.slug}`} className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid={`mobile-link-${career.slug}`}>
+                <Link href={`/careers/${career.slug}`} className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid={`mobile-link-${career.slug}`}>
                   {getCareerIcon(career.slug)}
                   {career.shortName}
                 </Link>

@@ -8,8 +8,12 @@ declare global {
   }
 }
 
-const ALLIED_SLUGS = new Set([
+const ALLIED_CAREER_SLUGS = new Set([
   "rrt", "paramedic", "pharmacy-tech", "mlt", "imaging",
+]);
+
+const ALLIED_SLUGS = new Set([
+  ...ALLIED_CAREER_SLUGS,
   "critical-care", "emergency-nursing", "perioperative",
   "oncology-nursing", "pediatric-cert", "psychotherapist",
   "social-worker", "addictions-counsellor",
@@ -25,6 +29,16 @@ const NURSING_ONLY_PATHS = [
 ];
 
 const ALLIED_ONLY_PATHS = ["/careers", "/admin/allied"];
+
+const LEGACY_FEATURE_TO_CANONICAL: Record<string, string> = {
+  diagnostic: "diagnostic",
+  qbank: "qbank",
+};
+
+const LEGACY_CAREER_FEATURES = new Set([
+  "diagnostic", "qbank", "mock-exams", "dashboard",
+  "study-plan", "flashcards", "sims", "tools",
+]);
 
 export function isAlliedHost(hostname: string): boolean {
   const h = hostname.toLowerCase().replace(/:\d+$/, "");
@@ -47,6 +61,40 @@ export function alliedDetectionMiddleware(req: Request, _res: Response, next: Ne
   const host = req.get("x-forwarded-host") || req.get("host") || "";
   req.isAllied = isAlliedHost(host);
   next();
+}
+
+export function alliedLegacyRedirectMiddleware(req: Request, res: Response, next: NextFunction) {
+  if (!req.isAllied) return next();
+
+  if (req.path.startsWith("/api") || req.path.startsWith("/assets") ||
+      req.path.startsWith("/vite-hmr") || req.path.startsWith("/healthz") ||
+      req.path.startsWith("/sitemap") || req.path.startsWith("/robots") ||
+      /\.\w{2,5}($|\?)/.test(req.path)) {
+    return next();
+  }
+
+  const segments = req.path.split("/").filter(Boolean);
+  if (segments.length === 0) return next();
+
+  const firstSeg = segments[0];
+  const secondSeg = segments[1] || "";
+
+  if (ALLIED_CAREER_SLUGS.has(firstSeg)) {
+    if (segments.length === 1) {
+      return res.redirect(301, `/careers/${firstSeg}`);
+    }
+
+    if (secondSeg && LEGACY_CAREER_FEATURES.has(secondSeg)) {
+      if (LEGACY_FEATURE_TO_CANONICAL[secondSeg]) {
+        return res.redirect(301, `/${secondSeg}?career=${firstSeg}`);
+      }
+      return res.redirect(301, `/careers/${firstSeg}/${secondSeg}`);
+    }
+
+    return res.redirect(301, `/careers/${firstSeg}`);
+  }
+
+  return next();
 }
 
 export function hostRedirectMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -82,14 +130,15 @@ export function hostRedirectMiddleware(req: Request, res: Response, next: NextFu
 
 export function generateAlliedSitemap(baseUrl: string): string {
   const careers = ["rrt", "paramedic", "pharmacy-tech", "mlt", "imaging"];
-  const features = ["qbank", "mock-exams", "study-plan", "flashcards", "sims", "tools"];
-  const seoPages: Record<string, string[]> = {
-    rrt: ["rt-practice-questions"],
-    paramedic: ["paramedic-practice-test"],
-    "pharmacy-tech": ["pharmacy-tech-calculations"],
-    mlt: ["mlt-practice-questions"],
-    imaging: ["radiography-practice-test"],
-  };
+
+  const seoLandingPages = [
+    "pharmacy-technician-practice-questions",
+    "pharmacy-technician-mock-exam",
+    "pharmacy-technician-study-guide",
+    "rrt-practice-questions",
+    "rrt-mock-exam",
+    "rrt-study-guide",
+  ];
 
   const urls: string[] = [];
   const now = new Date().toISOString().split("T")[0];
@@ -97,16 +146,15 @@ export function generateAlliedSitemap(baseUrl: string): string {
   urls.push(`<url><loc>${baseUrl}/</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>${now}</lastmod></url>`);
   urls.push(`<url><loc>${baseUrl}/pricing</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
   urls.push(`<url><loc>${baseUrl}/careers</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/diagnostic</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
+  urls.push(`<url><loc>${baseUrl}/qbank</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>${now}</lastmod></url>`);
 
   for (const career of careers) {
-    urls.push(`<url><loc>${baseUrl}/${career}</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
-    for (const feature of features) {
-      urls.push(`<url><loc>${baseUrl}/${career}/${feature}</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>${now}</lastmod></url>`);
-    }
-    const pages = seoPages[career] || [];
-    for (const page of pages) {
-      urls.push(`<url><loc>${baseUrl}/${career}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
-    }
+    urls.push(`<url><loc>${baseUrl}/careers/${career}</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  }
+
+  for (const page of seoLandingPages) {
+    urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   }
 
   return `<?xml version="1.0" encoding="UTF-8"?>

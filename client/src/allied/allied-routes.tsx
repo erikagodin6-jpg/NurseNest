@@ -13,6 +13,8 @@ const AlliedSims = lazy(() => import("./pages/allied-sims"));
 const AlliedTools = lazy(() => import("./pages/allied-tools"));
 const AlliedPricing = lazy(() => import("./pages/allied-pricing"));
 const AlliedAdmin = lazy(() => import("./pages/allied-admin"));
+const AlliedSeoLanding = lazy(() => import("./pages/allied-seo-landing"));
+const AlliedDiagnostic = lazy(() => import("./pages/allied-diagnostic"));
 
 function LoadingFallback() {
   return (
@@ -32,15 +34,22 @@ export function AlliedRoutes() {
         <Route path="/" component={AlliedHome} />
         <Route path="/careers" component={CareerDirectory} />
         <Route path="/pricing" component={AlliedPricing} />
+        <Route path="/diagnostic" component={AlliedDiagnostic} />
+        <Route path="/qbank" component={AlliedQBank} />
         <Route path="/admin/allied" component={AlliedAdmin} />
-        <Route path="/:careerSlug/qbank" component={AlliedQBank} />
-        <Route path="/:careerSlug/mock-exams" component={AlliedMockExams} />
-        <Route path="/:careerSlug/dashboard" component={AlliedDashboard} />
-        <Route path="/:careerSlug/study-plan" component={AlliedStudyPlan} />
-        <Route path="/:careerSlug/flashcards" component={AlliedFlashcards} />
-        <Route path="/:careerSlug/sims" component={AlliedSims} />
-        <Route path="/:careerSlug/tools" component={AlliedTools} />
-        <Route path="/:careerSlug" component={CareerLanding} />
+        <Route path="/pharmacy-technician-practice-questions">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-practice-questions" />}</Route>
+        <Route path="/pharmacy-technician-mock-exam">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-mock-exam" />}</Route>
+        <Route path="/pharmacy-technician-study-guide">{() => <AlliedSeoLanding pageSlug="pharmacy-technician-study-guide" />}</Route>
+        <Route path="/rrt-practice-questions">{() => <AlliedSeoLanding pageSlug="rrt-practice-questions" />}</Route>
+        <Route path="/rrt-mock-exam">{() => <AlliedSeoLanding pageSlug="rrt-mock-exam" />}</Route>
+        <Route path="/rrt-study-guide">{() => <AlliedSeoLanding pageSlug="rrt-study-guide" />}</Route>
+        <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
+        <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
+        <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />
+        <Route path="/careers/:careerSlug/flashcards" component={AlliedFlashcards} />
+        <Route path="/careers/:careerSlug/sims" component={AlliedSims} />
+        <Route path="/careers/:careerSlug/tools" component={AlliedTools} />
+        <Route path="/careers/:careerSlug" component={CareerLanding} />
         <Route>
           {() => (
             <div className="max-w-2xl mx-auto px-4 py-20 text-center">

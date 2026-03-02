@@ -1630,6 +1630,7 @@ export const alliedLeads = pgTable("allied_leads", {
   careerType: text("career_type"),
   source: text("source").default("homepage"),
   consent: boolean("consent").default(false),
+  diagnosticData: jsonb("diagnostic_data"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

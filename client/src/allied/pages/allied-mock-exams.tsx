@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
-import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Target } from "lucide-react";
+import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Target, AlertTriangle, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
 
@@ -32,8 +32,10 @@ export default function AlliedMockExamsPage() {
   const [finished, setFinished] = useState(false);
   const [difficulty, setDifficulty] = useState(3);
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
+  const [freeMocksUsed, setFreeMocksUsed] = useState(0);
 
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
+  const FREE_MOCK_LIMIT = 1;
 
   if (!career) {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
@@ -43,6 +45,7 @@ export default function AlliedMockExamsPage() {
     const examType = EXAM_TYPES.find(e => e.id === examId);
     if (!examType) return;
     if (!examType.free && !isPro) return;
+    if (examType.free && !isPro && freeMocksUsed >= FREE_MOCK_LIMIT) return;
 
     const pool = getCareerQuestionPool(career.id) || [];
     const domains = career.domains;
@@ -86,6 +89,9 @@ export default function AlliedMockExamsPage() {
 
   const finishExam = () => {
     setFinished(true);
+    if (!isPro) {
+      setFreeMocksUsed(u => u + 1);
+    }
   };
 
   if (finished) {
@@ -132,7 +138,7 @@ export default function AlliedMockExamsPage() {
         </div>
         <div className="flex gap-3 justify-center mt-8">
           <button onClick={() => { setExamStarted(false); setFinished(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-new-exam">Take Another Exam</button>
-          <Link href={`/${career.slug}/qbank`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-go-qbank">Practice More Questions</Link>
+          <Link href={`/qbank?career=${career.slug}`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-go-qbank">Practice More Questions</Link>
         </div>
       </div>
     );
@@ -194,12 +200,60 @@ export default function AlliedMockExamsPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="mock-exams-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href={`/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
+        <Link href={`/careers/${career.slug}`} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">Mock Exams</span>
       </div>
       <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-mock-title">{career.shortName} Mock Exams</h1>
       <p className="text-gray-600 mb-8">Blueprint-weighted practice exams with adaptive difficulty and detailed analytics.</p>
+
+      {!isPro && (
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-4 mb-6" data-testid="free-mock-usage-bar">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-600" />
+              <span className="text-sm font-semibold text-amber-800">
+                {freeMocksUsed >= FREE_MOCK_LIMIT ? "Free mock exam used" : `${freeMocksUsed} of ${FREE_MOCK_LIMIT} free mock used`}
+              </span>
+            </div>
+            <span className="text-xs font-medium text-amber-600">{Math.round((freeMocksUsed / FREE_MOCK_LIMIT) * 100)}%</span>
+          </div>
+          <div className="w-full bg-amber-100 rounded-full h-2.5 mb-3">
+            <div
+              className={`h-2.5 rounded-full transition-all ${freeMocksUsed >= FREE_MOCK_LIMIT ? "bg-red-500" : "bg-teal-500"}`}
+              style={{ width: `${Math.min((freeMocksUsed / FREE_MOCK_LIMIT) * 100, 100)}%` }}
+            />
+          </div>
+          {freeMocksUsed >= FREE_MOCK_LIMIT ? (
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <p className="text-sm text-amber-800 flex-1">You've used your free mock exam. Upgrade to Pro for unlimited mock exams with adaptive CAT simulation.</p>
+              <Link href="/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-mock-cap">
+                <Lock className="w-4 h-4" /> Unlock All Mock Exams
+              </Link>
+            </div>
+          ) : (
+            <p className="text-xs text-amber-700">You have {FREE_MOCK_LIMIT - freeMocksUsed} free mini mock exam available</p>
+          )}
+        </div>
+      )}
+
+      {!isPro && freeMocksUsed >= FREE_MOCK_LIMIT && (
+        <div className="bg-white rounded-2xl border-2 border-teal-200 p-8 sm:p-12 text-center mb-6" data-testid="free-mock-cap-block">
+          <Lock className="w-12 h-12 text-teal-400 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Free Mock Exam Used</h3>
+          <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">
+            Upgrade to Pro for unlimited mock exams including Standard (75 Qs) and Comprehensive (150 Qs) with adaptive CAT-style difficulty.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200" data-testid="button-upgrade-mock-full">
+              <Zap className="w-4 h-4" /> Upgrade to Pro — $29/mo
+            </Link>
+            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-50 text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-100" data-testid="button-upgrade-mock-annual">
+              Or $239/year (Save 31%)
+            </Link>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {EXAM_TYPES.map(exam => (
@@ -211,7 +265,11 @@ export default function AlliedMockExamsPage() {
               <span className="flex items-center gap-1"><BarChart3 className="w-3.5 h-3.5" /> {exam.questions} Qs</span>
               <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {exam.time} min</span>
             </div>
-            {exam.free || isPro ? (
+            {exam.free && !isPro && freeMocksUsed >= FREE_MOCK_LIMIT ? (
+              <Link href="/pricing" className="w-full px-4 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-sm font-medium flex items-center justify-center gap-2 border border-amber-200" data-testid={`button-used-${exam.id}`}>
+                <Lock className="w-4 h-4" /> Free Mock Used — Upgrade
+              </Link>
+            ) : exam.free || isPro ? (
               <button onClick={() => startExam(exam.id)} className="w-full px-4 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700 flex items-center justify-center gap-2" data-testid={`button-start-${exam.id}`}>
                 <Play className="w-4 h-4" /> Start Exam
               </button>
