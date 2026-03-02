@@ -56,7 +56,7 @@ import { useTheme } from "next-themes";
 import { useQuery } from "@tanstack/react-query";
 import { ThemedLogo } from "@/components/themed-logo";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
-import { Globe, Languages, BarChart3, DollarSign, ShoppingBag } from "lucide-react";
+import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack } from "lucide-react";
 
 function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout: () => void; setLocation: (path: string) => void }) {
   const { t } = useI18n();
@@ -148,6 +148,10 @@ function UserProfileDropdown({ user, logout, setLocation }: { user: any; logout:
             <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/product-builder")} data-testid="menu-product-builder">
               <Palette className="w-4 h-4" />
               Product Builder
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary" onClick={() => setLocation("/admin/generator-v2")} data-testid="menu-generator-v2">
+              <FileStack className="w-4 h-4" />
+              QBank Generator
             </DropdownMenuItem>
           </>
         )}
