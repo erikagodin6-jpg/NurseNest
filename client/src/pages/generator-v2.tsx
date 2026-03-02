@@ -828,6 +828,9 @@ export default function GeneratorV2Page() {
                             <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${g.status === "complete" ? "bg-green-100 text-green-700" : g.status === "running" || runningIds.has(g.id) ? "bg-blue-100 text-blue-700" : g.status === "failed" ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`}>
                               {runningIds.has(g.id) ? "running" : g.status}
                             </span>
+                            {g.publishedProductId && (
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-700" data-testid={`badge-published-${g.id.substring(0, 8)}`}>Published</span>
+                            )}
                             <span className="text-gray-400">{g.createdCount}/{g.targetCount}</span>
                           </div>
                         </button>
@@ -865,7 +868,12 @@ export default function GeneratorV2Page() {
                       <div key={g.id} className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 text-xs group">
                         <button onClick={() => setActiveGenId(g.id)} className="flex-1 text-left" data-testid={`button-archived-job-${g.id.substring(0, 8)}`}>
                           <div className="font-medium text-gray-500 truncate">{g.topic || g.template}</div>
-                          <span className="text-gray-400">{g.createdCount}Q - {g.status}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-gray-400">{g.createdCount}Q - {g.status}</span>
+                            {g.publishedProductId && (
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-700">Published</span>
+                            )}
+                          </div>
                         </button>
                         <button onClick={() => unarchiveGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-gray-400 opacity-0 group-hover:opacity-100 transition" title="Restore" data-testid={`button-unarchive-${g.id.substring(0, 8)}`}>
                           <RotateCcw className="w-3 h-3" />

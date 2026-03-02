@@ -11298,7 +11298,10 @@ Return ONLY valid JSON with this exact structure:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const gens = await storage.listProductGenerations();
-      res.json(gens);
+      res.json(gens.map(g => {
+        const s = g.settings as any || {};
+        return { ...g, publishedProductId: s.publishedProductId || null };
+      }));
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
