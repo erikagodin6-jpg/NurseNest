@@ -2361,7 +2361,7 @@ const enTranslations: Record<string, string> = {
     "lesson.conversionCta.button": "Unlock Full Question Bank",
     "lesson.conversionCta.questionsAvailable": "practice questions available on this topic",
 
-    "lessons.hero.badge": "150+ Clinical Lessons",
+    "lessons.hero.badge": "2,400+ Clinical Lessons",
     "lessons.hero.pill1": "Exam-Aligned Content",
     "lessons.hero.pill2": "Pre & Post-Test Tracking",
     "lessons.hero.pill3": "RPN · RN · NP Tiers",
@@ -2369,7 +2369,7 @@ const enTranslations: Record<string, string> = {
     "lessons.hero.subtitle": "Deep, exam-aligned clinical lessons organized by body system. Every lesson teaches the pathophysiology behind disease processes so you can reason through unfamiliar NCLEX, REX-PN, and NP certification questions — not just memorize answers.",
     "lessons.hero.cta": "Start Studying Free",
     "lessons.hero.cta2": "View Pricing Plans",
-    "lessons.hero.stat1": "150+",
+    "lessons.hero.stat1": "2,400+",
     "lessons.hero.stat1Label": "Clinical Lessons",
     "lessons.hero.stat2": "12",
     "lessons.hero.stat2Label": "Body Systems",
