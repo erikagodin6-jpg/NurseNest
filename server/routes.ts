@@ -11307,6 +11307,22 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  app.delete("/api/generator-v2/generations/:id", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const gen = await storage.getProductGeneration(req.params.id);
+      if (!gen) return res.status(404).json({ error: "Generation not found" });
+      if (gen.status === "running" || activeV2Runs.has(req.params.id)) {
+        return res.status(400).json({ error: "Cannot delete a running generation. Stop it first." });
+      }
+      await storage.deleteProductGeneration(req.params.id);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.post("/api/generator-v2/generations/:id/compile", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);

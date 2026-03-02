@@ -517,6 +517,23 @@ export default function GeneratorV2Page() {
     toast({ title: "Restored from archive" });
   };
 
+  const deleteGeneration = async (id: string) => {
+    try {
+      const res = await adminFetch(`/api/generator-v2/generations/${id}`, { method: "DELETE", body: JSON.stringify({}) });
+      if (res.ok) {
+        toast({ title: "Generation deleted" });
+        if (activeGenId === id) { setActiveGenId(null); setStatus(null); setQuestions([]); }
+        const updatedArchived = archivedIds.filter(a => a !== id);
+        setArchivedIds(updatedArchived);
+        localStorage.setItem("nursenest-archived-gens", JSON.stringify(updatedArchived));
+        loadGenerations();
+      } else {
+        const err = await res.json();
+        toast({ title: "Error", description: err.error, variant: "destructive" });
+      }
+    } catch (e: any) { toast({ title: "Error", description: e.message, variant: "destructive" }); }
+  };
+
   const runMultiGeneration = async (id: string) => {
     try {
       const res = await adminFetch(`/api/generator-v2/generations/${id}/run`, {
@@ -845,6 +862,11 @@ export default function GeneratorV2Page() {
                               <Archive className="w-3 h-3" />
                             </button>
                           )}
+                          {g.status !== "running" && !runningIds.has(g.id) && (
+                            <button onClick={() => { if (confirm(`Delete "${g.topic || g.template}" and all its questions? This cannot be undone.`)) deleteGeneration(g.id); }} className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500" title="Delete" data-testid={`button-delete-gen-${g.id.substring(0, 8)}`}>
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -875,9 +897,14 @@ export default function GeneratorV2Page() {
                             )}
                           </div>
                         </button>
-                        <button onClick={() => unarchiveGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-gray-400 opacity-0 group-hover:opacity-100 transition" title="Restore" data-testid={`button-unarchive-${g.id.substring(0, 8)}`}>
-                          <RotateCcw className="w-3 h-3" />
-                        </button>
+                        <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition shrink-0">
+                          <button onClick={() => unarchiveGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-gray-400" title="Restore" data-testid={`button-unarchive-${g.id.substring(0, 8)}`}>
+                            <RotateCcw className="w-3 h-3" />
+                          </button>
+                          <button onClick={() => { if (confirm(`Delete "${g.topic || g.template}" and all its questions? This cannot be undone.`)) deleteGeneration(g.id); }} className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500" title="Delete" data-testid={`button-delete-archived-${g.id.substring(0, 8)}`}>
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                     {generations.filter(g => archivedIds.includes(g.id)).length === 0 && (

@@ -150,6 +150,7 @@ export interface IStorage {
   getProductGeneration(id: string): Promise<ProductGeneration | undefined>;
   updateProductGeneration(id: string, updates: Partial<InsertProductGeneration> & { createdCount?: number; status?: string; lastError?: string | null; startedAt?: Date; completedAt?: Date; promptState?: any }): Promise<ProductGeneration>;
   listProductGenerations(): Promise<ProductGeneration[]>;
+  deleteProductGeneration(id: string): Promise<void>;
 
   createGeneratedQuestion(data: InsertGeneratedQuestion): Promise<GeneratedQuestion>;
   createGeneratedQuestionsBulk(data: InsertGeneratedQuestion[]): Promise<GeneratedQuestion[]>;
@@ -1073,6 +1074,11 @@ export class DatabaseStorage implements IStorage {
   }
   async listProductGenerations(): Promise<ProductGeneration[]> {
     return db.select().from(productGenerations).orderBy(desc(productGenerations.createdAt));
+  }
+  async deleteProductGeneration(id: string): Promise<void> {
+    await db.delete(generationEvents).where(eq(generationEvents.generationId, id));
+    await db.delete(generatedQuestions).where(eq(generatedQuestions.generationId, id));
+    await db.delete(productGenerations).where(eq(productGenerations.id, id));
   }
 
   async createGeneratedQuestion(data: InsertGeneratedQuestion): Promise<GeneratedQuestion> {
