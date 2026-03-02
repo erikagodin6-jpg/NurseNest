@@ -355,16 +355,7 @@ export function DeckHub({
     reader.readAsText(file);
   };
 
-  if (!user) {
-    return (
-      <div className="text-center py-16">
-        <Lock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In to Use Study Decks</h2>
-        <p className="text-gray-500 mb-6">Create a free account to build study decks with Learn and Test modes.</p>
-        <Button className="rounded-xl" onClick={() => setLocation("/signup")} data-testid="button-signup-decks">Create Free Account</Button>
-      </div>
-    );
-  }
+  const isGuest = !user;
 
   return (
     <div className="space-y-6">
@@ -372,18 +363,26 @@ export function DeckHub({
         <div>
           <h2 className="text-2xl font-bold text-gray-900" data-testid="text-decks-title">Study Decks</h2>
           <p className="text-gray-500 text-sm mt-1">
-            {entitlement?.isPremium
-              ? `Premium - ${entitlement?.totalFreeCards || 0} cards created`
-              : `${entitlement?.totalFreeCards || 0} / ${entitlement?.limit || 50} free cards used`
+            {isGuest
+              ? "Browse public decks or sign up to create your own"
+              : entitlement?.isPremium
+                ? `Premium - ${entitlement?.totalFreeCards || 0} cards created`
+                : `${entitlement?.totalFreeCards || 0} / ${entitlement?.limit || 50} free cards used`
             }
           </p>
         </div>
-        <Button onClick={() => setShowCreate(!showCreate)} className="rounded-xl gap-2" data-testid="button-new-deck">
-          <Plus className="w-4 h-4" /> New Deck
-        </Button>
+        {isGuest ? (
+          <Button onClick={() => setLocation("/signup")} className="rounded-xl gap-2" data-testid="button-signup-decks">
+            Sign Up to Create Decks
+          </Button>
+        ) : (
+          <Button onClick={() => setShowCreate(!showCreate)} className="rounded-xl gap-2" data-testid="button-new-deck">
+            <Plus className="w-4 h-4" /> New Deck
+          </Button>
+        )}
       </div>
 
-      {showCreate && (
+      {showCreate && !isGuest && (
         <Card className="border-2 border-primary/20 shadow-lg">
           <CardContent className="p-5 space-y-4">
             <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
@@ -639,7 +638,10 @@ export function DeckHub({
       )}
 
       <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
-        {([["my", "My Decks"], ["browse", "Browse Public"], ["saved", "Saved"]] as const).map(([key, label]) => (
+        {(isGuest
+          ? ([["browse", "Browse Public"]] as const)
+          : ([["my", "My Decks"], ["browse", "Browse Public"], ["saved", "Saved"]] as const)
+        ).map(([key, label]) => (
           <button
             key={key}
             onClick={() => {

@@ -1709,7 +1709,7 @@ export default function Flashcards() {
   const [deckStudySessionId, setDeckStudySessionId] = useState("");
   const [deckStudyComplete, setDeckStudyComplete] = useState(false);
   const [editingDeckCard, setEditingDeckCard] = useState<any>(null);
-  const [deckTab, setDeckTab] = useState<"my" | "browse" | "saved">("my");
+  const [deckTab, setDeckTab] = useState<"my" | "browse" | "saved">(user ? "my" : "browse");
 
   const [dbFlashcardSets, setDbFlashcardSets] = useState<any[]>([]);
   const [dbSetsLoading, setDbSetsLoading] = useState(false);

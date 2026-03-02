@@ -7,11 +7,18 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { buildQuestionPool } from "@/lib/question-pool";
-import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target } from "lucide-react";
+import { CheckCircle2, XCircle, Filter, RotateCcw, ChevronLeft, ChevronRight, Trophy, Target, Lock, Crown } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useAuth } from "@/lib/auth";
+import { canAccessTier } from "@/lib/access";
+import { useLocation } from "wouter";
+
+const FREE_PREVIEW_COUNT = 3;
 
 export default function QuestionBank() {
+  const { user, effectiveTier } = useAuth();
+  const [, setLocation] = useLocation();
   const [tierFilter, setTierFilter] = useState<string>("all");
   const [systemFilter, setSystemFilter] = useState<string>("all");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,6 +28,13 @@ export default function QuestionBank() {
 
   const allQuestions = useMemo(() => buildQuestionPool(), []);
 
+  const userCanAccessTier = (questionTier: string) => {
+    if (!questionTier || questionTier === "free") return true;
+    if (!user || !effectiveTier || effectiveTier === "free") return false;
+    if (effectiveTier === "admin") return true;
+    return canAccessTier(effectiveTier, questionTier);
+  };
+
   const filtered = useMemo(() => {
     let q = allQuestions;
     if (tierFilter !== "all") q = q.filter(x => x.tier === tierFilter);
@@ -28,12 +42,22 @@ export default function QuestionBank() {
     return q;
   }, [allQuestions, tierFilter, systemFilter]);
 
+  const isTierLocked = tierFilter !== "all" && !userCanAccessTier(tierFilter);
+  const accessibleQuestions = useMemo(() => {
+    if (isTierLocked) return [];
+    if (!user || !effectiveTier || effectiveTier === "free") {
+      return filtered.slice(0, FREE_PREVIEW_COUNT);
+    }
+    if (effectiveTier === "admin") return filtered;
+    return filtered.filter(q => userCanAccessTier(q.tier));
+  }, [filtered, user, effectiveTier, isTierLocked]);
+
   const bodySystems = useMemo(() => {
     const systems = new Set(allQuestions.map(q => q.bodySystem));
     return Array.from(systems).sort();
   }, [allQuestions]);
 
-  const question = filtered[currentIndex];
+  const question = accessibleQuestions[currentIndex];
 
   const handleAnswer = (idx: number) => {
     if (revealed) return;
@@ -50,7 +74,7 @@ export default function QuestionBank() {
   };
 
   const handleNext = () => {
-    if (currentIndex < filtered.length - 1) {
+    if (currentIndex < accessibleQuestions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
       setCurrentIndex(0);
@@ -63,7 +87,7 @@ export default function QuestionBank() {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     } else {
-      setCurrentIndex(filtered.length - 1);
+      setCurrentIndex(accessibleQuestions.length - 1);
     }
     setSelectedAnswer(null);
     setRevealed(false);
@@ -97,7 +121,7 @@ export default function QuestionBank() {
               Question Bank
             </h1>
             <p className="text-gray-500">
-              Practice {filtered.length.toLocaleString()} questions with detailed rationales
+              Practice {accessibleQuestions.length.toLocaleString()} of {filtered.length.toLocaleString()} questions with detailed rationales
             </p>
           </div>
 
@@ -148,10 +172,50 @@ export default function QuestionBank() {
             </div>
           </div>
 
-          {filtered.length === 0 ? (
+          {isTierLocked && (
+            <Card className="border-primary/20 bg-primary/5 mb-6" data-testid="card-qb-paywall">
+              <CardContent className="p-8 text-center">
+                <Lock className="w-10 h-10 text-primary mx-auto mb-3" />
+                <h3 className="text-lg font-bold text-gray-900 mb-2" data-testid="text-qb-locked">
+                  {tierFilter === "rpn" ? "RPN/LVN" : tierFilter === "rn" ? "RN" : "NP"} Questions Require a Subscription
+                </h3>
+                <p className="text-gray-500 text-sm mb-4 max-w-md mx-auto">
+                  {filtered.length.toLocaleString()} {tierFilter === "rpn" ? "RPN/LVN" : tierFilter === "rn" ? "RN" : "NP"} practice questions with detailed rationales are available with a subscription. Upgrade to unlock full access.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                  {!user ? (
+                    <Button onClick={() => setLocation("/start-free")} className="rounded-xl gap-2" data-testid="button-qb-signup">
+                      Start Free - No Credit Card
+                    </Button>
+                  ) : null}
+                  <Button onClick={() => setLocation("/pricing")} variant={user ? "default" : "outline"} className="rounded-xl gap-2" data-testid="button-qb-upgrade">
+                    <Crown className="w-4 h-4" /> View Plans
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {(!user || effectiveTier === "free") && tierFilter === "all" && accessibleQuestions.length < filtered.length && (
+            <Card className="border-amber-200 bg-amber-50/50 mb-6" data-testid="card-qb-preview-notice">
+              <CardContent className="p-4 flex items-center gap-3">
+                <Lock className="w-5 h-5 text-amber-600 shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm text-amber-800 font-medium">
+                    Showing {accessibleQuestions.length} preview questions. Subscribe to unlock all {filtered.length.toLocaleString()} questions across RPN, RN, and NP tiers.
+                  </p>
+                </div>
+                <Button size="sm" onClick={() => setLocation(user ? "/pricing" : "/start-free")} className="rounded-xl shrink-0" data-testid="button-qb-unlock">
+                  Unlock All
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+
+          {accessibleQuestions.length === 0 ? (
             <Card className="border-gray-200 bg-white">
               <CardContent className="p-8 text-center">
-                <p className="text-gray-500">No questions match your filters. Try adjusting the tier or body system selection.</p>
+                <p className="text-gray-500">{isTierLocked ? "Subscribe to access these questions." : "No questions match your filters. Try adjusting the tier or body system selection."}</p>
               </CardContent>
             </Card>
           ) : question ? (
@@ -166,7 +230,7 @@ export default function QuestionBank() {
                       <Badge variant="outline" className="border-gray-200 text-gray-600" data-testid="badge-q-system">{question.bodySystem}</Badge>
                     </div>
                     <span className="text-sm text-gray-400" data-testid="text-progress">
-                      {currentIndex + 1} / {filtered.length}
+                      {currentIndex + 1} / {accessibleQuestions.length}
                     </span>
                   </div>
                   <CardTitle className="text-lg leading-relaxed text-gray-900" data-testid="text-q-text">

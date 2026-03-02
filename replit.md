@@ -51,3 +51,9 @@ SEO silo pages (`/nclex-rn-practice-questions`, etc.) serve as rich content hubs
 
 ### Social Media
 - Meta Graph API: For social media scheduling.
+
+### Access Control / Paywalls
+- **Tier system**: free, rpn, rn, np, admin. Access checked via `canAccessTier(userTier, targetTier)` in `client/src/lib/access.ts`.
+- **Question Bank** (`client/src/pages/question-bank.tsx`): Free/unauthenticated users see 3 preview questions. Tier-specific filters show paywall card when locked. Uses `accessibleQuestions` instead of raw `filtered` array.
+- **Flashcard DeckHub** (`client/src/components/deck-views.tsx`): Unauthenticated users can browse public decks (read-only, "Browse Public" tab only). Deck creation requires auth. Deck card API limits to 5 cards for free/unauth users.
+- **Lessons**: Tier-gated content with `ContentGate` component for premium tiers.
