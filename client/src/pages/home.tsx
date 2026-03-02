@@ -200,7 +200,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full bg-primary hover:brightness-110 shadow-lg shadow-primary/20 transition-[transform,box-shadow] hover:-translate-y-1 text-white w-full sm:w-auto" 
-                  onClick={() => setLocation("/start-free")}
+                  onClick={() => setLocation("/free-practice")}
                   data-testid="button-hero-start-free"
                 >
                   {t("home.hero.cta")}
@@ -210,12 +210,64 @@ export default function Home() {
                   size="lg" 
                   variant="outline" 
                   className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-gray-700 bg-white/50 w-full sm:w-auto" 
-                  onClick={() => setLocation("/lessons")}
+                  onClick={() => setLocation("/mock-exams")}
                   data-testid="button-hero-browse"
                 >
-                  <BookOpen className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
+                  <Target className="mr-2 w-4 sm:w-5 h-4 sm:h-5 text-primary" />
                   {t("home.hero.cta2")}
                 </Button>
+              </div>
+
+              <div className="space-y-2 pt-2">
+                <p className="text-xs text-gray-500">{t("home.hero.reassurance")}</p>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700">
+                  <Shield className="w-3.5 h-3.5" />
+                  <span className="text-xs font-semibold">{t("home.hero.guarantee")}</span>
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">{t("home.hero.quickSelect")}</p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-400 px-5"
+                    onClick={() => setLocation("/nclex-rn-practice-questions")}
+                    data-testid="button-quick-nclex-rn"
+                  >
+                    NCLEX-RN
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full border-red-200 text-red-700 hover:bg-red-50 hover:border-red-400 px-5"
+                    onClick={() => setLocation("/rex-pn-practice-questions")}
+                    data-testid="button-quick-rex-pn"
+                  >
+                    REx-PN
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-400 px-5"
+                    onClick={() => setLocation("/np-exam-practice-questions")}
+                    data-testid="button-quick-np"
+                  >
+                    NP Exams
+                  </Button>
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  onClick={() => document.getElementById("included")?.scrollIntoView({ behavior: "smooth" })}
+                  className="text-sm text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1 transition-colors"
+                  data-testid="button-see-included"
+                >
+                  {t("home.hero.seeIncluded")}
+                  <ChevronRight className="w-4 h-4 rotate-90" />
+                </button>
               </div>
 
               <div className="space-y-1 pt-2">
@@ -258,6 +310,47 @@ export default function Home() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        <section id="included" className="py-16 bg-gradient-to-b from-white to-primary/5 border-t border-gray-100" data-testid="section-included">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                <Layers className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">All-in-One Platform</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-included-heading">{t("home.included.heading")}</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("home.included.subtitle")}</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
+              {[
+                { icon: Target, title: t("home.included.qbank.title"), desc: t("home.included.qbank.desc"), href: "/question-bank", count: formatCount(questionCount), countLabel: "questions", color: "from-blue-500 to-indigo-600" },
+                { icon: ClipboardCheck, title: t("home.included.mockExams.title"), desc: t("home.included.mockExams.desc"), href: "/mock-exams", count: "3", countLabel: "exam tiers", color: "from-purple-500 to-violet-600" },
+                { icon: FileText, title: t("home.included.printable.title"), desc: t("home.included.printable.desc"), href: "/shop", count: formatCount(storeProductCount), countLabel: "packs", color: "from-emerald-500 to-teal-600" },
+                { icon: BookOpen, title: t("home.included.flashcards.title"), desc: t("home.included.flashcards.desc"), href: "/flashcards", count: "50+", countLabel: "decks", color: "from-amber-500 to-orange-600" },
+                { icon: Stethoscope, title: t("home.included.lessons.title"), desc: t("home.included.lessons.desc"), href: "/lessons", count: formatCount(lessonCount), countLabel: "lessons", color: "from-rose-500 to-pink-600" },
+              ].map((item, i) => (
+                <Card
+                  key={i}
+                  className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group overflow-hidden"
+                  onClick={() => setLocation(item.href)}
+                  data-testid={`card-included-${i}`}
+                >
+                  <CardContent className="p-5">
+                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-3 shadow-md`}>
+                      <item.icon className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-1.5">{item.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed mb-3">{item.desc}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-primary">{item.count} {item.countLabel}</span>
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </section>

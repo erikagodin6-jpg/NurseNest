@@ -84,6 +84,13 @@ Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/po
 - Bundle creation with stats preview (total questions, topic count, savings).
 - Worker: `server/generatorV2/worker.ts`, Validator: `server/generatorV2/validator.ts`, Compiler: `server/generatorV2/compiler.ts`.
 
+### SEO Silo Pages & Conversion Funnel
+- `/free-practice` - 10 embedded clinical questions (no auth required) with instant answer/rationale feedback, score tracking, and CTAs to mock exams/question bank/store.
+- `/nclex-rn-practice-questions`, `/nclex-pn-practice-questions`, `/rex-pn-practice-questions`, `/np-exam-practice-questions` - SEO silo landing pages with H1 keyword targeting, FAQ accordion with JSON-LD FAQ schema, feature cards linking to internal routes, dual CTAs.
+- ExamPracticeLanding component (`client/src/pages/exam-practice-landing.tsx`) is reusable with named exports per exam type.
+- Hero section updated with conversion-optimized copy, exam quick-select buttons (NCLEX-RN, REx-PN, NP Exams), satisfaction guarantee badge, reassurance text, and "See what's included" scroll anchor.
+- "What's Included" section (id="included") added between hero and TrustShowcase with 5 clickable feature cards using dynamic counts from heroStats.
+
 ### Diagnostic Assessment System
 - A 30-question mixed blueprint diagnostic exam (`/diagnostic-assessment`) provides AI-powered results, study plans, and domain/topic breakdown charts.
 
