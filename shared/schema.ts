@@ -1466,6 +1466,61 @@ export const insertGeneratorV2PresentationSettingsSchema = createInsertSchema(ge
 export type InsertGeneratorV2PresentationSettings = z.infer<typeof insertGeneratorV2PresentationSettingsSchema>;
 export type GeneratorV2PresentationSettings = typeof generatorV2PresentationSettings.$inferSelect;
 
+export const studyPlans = pgTable("study_plans", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  tier: text("tier").notNull(),
+  timeframeWeeks: integer("timeframe_weeks").default(4),
+  minutesPerDay: integer("minutes_per_day").default(30),
+  examDate: timestamp("exam_date"),
+  examType: text("exam_type"),
+  stylePreference: text("style_preference").default("read_then_practice"),
+  domainRatings: jsonb("domain_ratings"),
+  quizResults: jsonb("quiz_results"),
+  preferences: jsonb("preferences"),
+  isActive: boolean("is_active").default(true),
+  progressPercent: integer("progress_percent").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertStudyPlanSchema = createInsertSchema(studyPlans).omit({ id: true, createdAt: true, updatedAt: true, progressPercent: true });
+export type InsertStudyPlan = z.infer<typeof insertStudyPlanSchema>;
+export type StudyPlan = typeof studyPlans.$inferSelect;
+
+export const studyPlanDays = pgTable("study_plan_days", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  studyPlanId: varchar("study_plan_id").notNull(),
+  weekNum: integer("week_num").notNull(),
+  dayNum: integer("day_num").notNull(),
+  title: text("title").notNull(),
+  focusDomains: jsonb("focus_domains"),
+  date: timestamp("date"),
+});
+
+export const studyPlanTasks = pgTable("study_plan_tasks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  dayId: varchar("day_id").notNull(),
+  type: text("type").notNull(),
+  domain: text("domain").notNull(),
+  title: text("title").notNull(),
+  minutes: integer("minutes").notNull(),
+  linkUrl: text("link_url"),
+  resourceId: text("resource_id"),
+  status: text("status").default("todo"),
+  completedAt: timestamp("completed_at"),
+});
+
+export const studyOnboarding = pgTable("study_onboarding", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  tier: text("tier").notNull(),
+  domainRatings: jsonb("domain_ratings"),
+  preferences: jsonb("preferences"),
+  quizResults: jsonb("quiz_results"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const v2ContentBlocks = pgTable("v2_content_blocks", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   generationId: varchar("generation_id").notNull(),

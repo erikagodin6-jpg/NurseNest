@@ -1,0 +1,125 @@
+You are a senior full-stack engineer and product designer working inside the existing NurseNest codebase (Vite + React + Express). Implement a personalized onboarding study plan feature for RPN, RN, and NP subscriptions.
+
+NON-NEGOTIABLES
+- Do NOT change existing page layouts, themes, pricing walls, or the question bank generator.
+- Add this as an additive feature only: new routes/components/tables/services are OK.
+- Preserve current UI styling and components. Reuse existing Card/Button/Input components.
+- Keep the plan simple, fast, and high-converting. No heavy animations.
+- Ensure everything is mobile-friendly.
+
+GOAL
+When a user subscribes to RPN/RN/NP tier (or first logs in after subscribing), they complete a short onboarding quiz (2–4 minutes). Based on results and/or self-rated comfort, generate a personalized study path:
+- Week-by-week plan (default 4 weeks, user can choose 2/4/6/8)
+- Daily recommended tasks (15/30/60/90 min)
+- Mix of: lessons, question banks, flashcards (if applicable), and “review days”
+- Tracking: progress %, streak, completed tasks
+- Adaptive: if user scores low in an area, schedule more practice; if high, schedule spaced review.
+
+FEATURES TO BUILD
+
+1) Entry points / UX
+- After successful subscription purchase OR first post-subscription login:
+  - Show a modal or redirect to /onboarding/plan
+- If user skips, show a persistent banner CTA on dashboard: “Finish your study plan (2 min)”
+- Add a new tab/section on their dashboard: “My Study Plan”
+
+2) Onboarding quiz flow (short and low friction)
+Create /onboarding/plan route with stepper:
+Step A: Goal & Timeline
+- Exam type: RPN (REx-PN), RN (NCLEX-RN), NP (select track: FNP/AGPCNP/PMHNP/etc optional)
+- Exam date (optional) OR choose timeframe (2/4/6/8 weeks)
+- Daily time: 15/30/60/90 minutes
+- Learning style: “Read then practice” vs “Practice then review”
+- Weakest areas (multi-select) OR “not sure”
+Step B: Comfort ratings (self-assessment)
+- Present 10–14 domains relevant to tier; user rates each 1–5:
+  - Fundamentals / Safety / Infection Control / Pharm / F&E / Cardiac / Resp / Neuro / Renal / GI / Endocrine / Maternity / Peds / Mental Health / Leadership/Delegation
+(Use fewer items for RPN if needed; NP can include diagnostic reasoning and guidelines.)
+Step C: Mini knowledge quiz (adaptive but lightweight)
+- 12 questions total max:
+  - 6 general high-yield (safety, priority, pharm, infection control)
+  - 6 weighted toward domains the user rated low OR selected as weak
+- Questions can be drawn from an existing question bank if you have tagging; otherwise implement a small seed bank specifically for onboarding.
+- Provide no long rationales during quiz; show brief feedback after completion.
+
+3) Plan generation engine
+Implement a server endpoint:
+POST /api/study-plan/generate
+Inputs:
+- userId, tier (RPN/RN/NP), examType, timeframeWeeks, minutesPerDay, stylePreference
+- domainRatings (map domain->1..5)
+- quizResults (domain->score, overallScore)
+Output:
+- A structured plan:
+  - weeks[] -> days[] -> tasks[]
+  - Each task has: type (lesson|qbank|flashcards|review), domain, estimatedMinutes, resourceLink, resourceId(optional)
+Rules:
+- Prioritize lowest domains first.
+- Apply spaced repetition:
+  - Revisit weak domains 48–72 hours later with shorter tasks.
+- Ensure balance:
+  - 60% practice questions, 25% review/lessons, 15% flashcards (adjust if tier lacks flashcards)
+- Insert 1 review day/week with mixed-question quiz.
+- Insert 1 “catch-up” buffer day every 2 weeks.
+- If exam date is close (<=2 weeks), shift to 80% question practice + mixed sets.
+
+4) Data model (DB)
+Add tables (or equivalent ORM models):
+study_plans:
+- id, user_id, tier, created_at, updated_at, timeframe_weeks, minutes_per_day, exam_date nullable
+study_plan_days:
+- id, study_plan_id, week_num, day_num, date nullable, title, focus_domains json
+study_plan_tasks:
+- id, day_id, type, domain, title, minutes, link_url, resource_id nullable, status (todo|done|skipped), completed_at nullable
+
+Also store onboarding responses:
+study_onboarding:
+- user_id, tier, domain_ratings json, preferences json, quiz_results json, created_at
+
+5) Tracking & UI
+- /dashboard -> “My Study Plan” card shows:
+  - Today’s tasks
+  - Progress bar (% tasks done)
+  - Streak (optional)
+  - “Regenerate plan” button (keeps history: archive old plan)
+- /study-plan route:
+  - Week accordion
+  - Each day card with tasks + checkboxes
+  - “Open” button routes to the linked resource (lesson page or question bank)
+- Completion updates:
+  PATCH /api/study-plan/tasks/:id {status}
+- Show motivational microcopy but no aggressive popups.
+
+6) Domain taxonomy & linking
+Create a domain list per tier:
+RPN domains: Fundamentals/Safety, Infection Control, Pharm Basics, F&E, Cardiac, Resp, Neuro, Renal/GI, Endocrine, Maternity/Neo, Peds, Mental Health, Wound Care, Delegation/Prioritization (if tested)
+RN domains: add Leadership/Management, Complex Care, Maternal-Newborn depth
+NP domains: add Diagnostic reasoning, Guidelines/screening, Prescribing safety, Chronic disease mgmt, Women’s health, Peds, Psych
+Each task must link to an existing NurseNest URL:
+- If a resource exists, link it.
+- If not, link to a “domain hub” page (create lightweight /learn/:tier/:domain hub pages if missing) that lists available resources and CTAs.
+
+7) Guardrails
+- Do NOT expose paid content links to non-subscribed users.
+- Verify tier entitlement on plan endpoints.
+- If user cancels subscription, show read-only plan and upsell to re-enable.
+
+IMPLEMENTATION DETAILS
+- Use existing auth/session userId resolution.
+- Add server routes in Express with entitlement checks.
+- Keep front-end components in a new folder (e.g., client/src/pages/StudyPlan, OnboardingPlan).
+- Use minimal dependencies; prefer existing utilities.
+- Seed onboarding quiz questions in code or DB with domain tags.
+
+DELIVERABLES
+- New routes: /onboarding/plan, /study-plan (or /dashboard/study-plan)
+- API endpoints: generate plan, get plan, update task, regenerate plan, get onboarding state
+- DB migration scripts
+- A small set of onboarding quiz questions tagged by domain for each tier
+- Ensure no breaking changes to existing pages.
+
+After implementation:
+- Add a “Finish your plan” CTA on the tier subscription success page.
+- Add analytics events (if you have analytics): onboarding_started, onboarding_completed, plan_generated, task_completed.
+
+Proceed to implement now.

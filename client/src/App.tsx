@@ -131,6 +131,9 @@ const QBankFactoryPage = lazy(() => import("@/pages/qbank-factory"));
 const AccountLibraryPage = lazy(() => import("@/pages/account-library"));
 const AdminTrustShowcase = lazy(() => import("@/pages/admin-trust-showcase"));
 const FreePracticePage = lazy(() => import("@/pages/free-practice"));
+const SubscribePage = lazy(() => import("@/pages/subscribe"));
+const OnboardingPlanPage = lazy(() => import("@/pages/onboarding-plan"));
+const StudyPlanPage = lazy(() => import("@/pages/study-plan"));
 const NclexRnPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NclexRnPractice })));
 const NclexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NclexPnPractice })));
 const RexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.RexPnPractice })));
@@ -339,6 +342,9 @@ function AppRoutes() {
         <Route path="/contact" component={ContactPage} />
         <Route path="/feedback" component={FeedbackPage} />
         <Route path="/free-practice" component={FreePracticePage} />
+        <Route path="/subscribe/:tier" component={SubscribePage} />
+        <Route path="/onboarding/plan" component={OnboardingPlanPage} />
+        <Route path="/study-plan" component={StudyPlanPage} />
         <Route path="/nclex-rn-practice-questions" component={NclexRnPracticePage} />
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />

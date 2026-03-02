@@ -50,6 +50,50 @@ import { respiratoryMissingRnLessons } from "./respiratory-missing-rn";
 import { respiratoryMissingNpLessons } from "./respiratory-missing-np";
 import { npClinicalUnitLessons } from "./np-clinical-units";
 import { uploadedClinicalNpLessons } from "./uploaded-clinical-np";
+import { palliativeCareLessons } from "./palliative-care";
+import { communityNursingLessons } from "./community-nursing";
+import { painWoundCareLessons } from "./pain-wound-care";
+import { coreFundamentalsLessons } from "./core-fundamentals";
+import { delegationPrioritizationLessons } from "./delegation-prioritization";
+import { cardiovascularExpandedLessons } from "./cardiovascular-expanded";
+import { respiratoryExpandedLessons } from "./respiratory-expanded";
+import { neurologicalExpandedLessons } from "./neurological-expanded";
+import { renalGiExpandedLessons } from "./renal-gi-expanded";
+import { endocrineImmuneExpandedLessons } from "./endocrine-immune-expanded";
+import { hematologyExpandedLessons } from "./hematology-expanded";
+import { heentSkinLessons } from "./heent-skin";
+import { musculoskeletalExpandedLessons } from "./musculoskeletal-expanded";
+import { pediatricsExpandedLessons } from "./pediatrics-expanded";
+import { maternityExpandedLessons } from "./maternity-expanded";
+import { neonatalExpandedLessons } from "./neonatal-expanded";
+import { mentalHealthExpandedLessons } from "./mental-health-expanded";
+import { infectionsProceduresLessons } from "./infections-procedures";
+import { assessmentSkillsLessons } from "./assessment-skills";
+import { fluidElectrolytesLessons } from "./fluid-electrolytes";
+import { nutritionSupplementsLessons } from "./nutrition-supplements";
+import { safetyEthicsLessons } from "./safety-ethics";
+import { gerontologyLessons } from "./gerontology";
+import { oncologyExpandedLessons } from "./oncology-expanded";
+import { toxicologyEnvironmentalLessons } from "./toxicology-environmental";
+import { criticalCareLessons } from "./critical-care";
+import { hemodialysisLessons } from "./hemodialysis";
+import { positioningToxoLessons } from "./positioning-toxo";
+import { ethicsComprehensiveLessons } from "./ethics-comprehensive";
+import { therapeuticCommunicationLessons } from "./therapeutic-communication";
+import { labsDiagnosticsLessons } from "./labs-diagnostics";
+import { leadershipManagementLessons } from "./leadership-management";
+import { healthPromotionScreeningLessons } from "./health-promotion-screening";
+import { legalEdgeCasesLessons } from "./legal-edge-cases";
+import { maternalNewbornAdvancedLessons } from "./maternal-newborn-advanced";
+import { cardiacRespiratoryCriticalLessons } from "./cardiac-respiratory-critical";
+import { delegationByLicenseLessons } from "./delegation-by-license";
+import { informaticsDocumentationLessons } from "./informatics-documentation";
+import { nursingCalculationsLessons } from "./nursing-calculations";
+import { culturalSafetyEquityLessons } from "./cultural-safety-equity";
+import { pharmacologyNpPrescribingLessons } from "./pharmacology-np-prescribing";
+import { pharmacologyCardioRespLessons } from "./pharmacology-cardio-resp";
+import { pharmacologyInfectiousPsychLessons } from "./pharmacology-infectious-psych";
+import { pharmacologyGiRenalSpecialtyLessons } from "./pharmacology-gi-renal-specialty";
 
 export type { LessonContent } from "./types";
 
@@ -115,6 +159,50 @@ export const contentMap: Record<string, LessonContent> = {
   ...respiratoryMissingNpLessons,
   ...npClinicalUnitLessons,
   ...uploadedClinicalNpLessons,
+  ...palliativeCareLessons,
+  ...communityNursingLessons,
+  ...painWoundCareLessons,
+  ...coreFundamentalsLessons,
+  ...delegationPrioritizationLessons,
+  ...cardiovascularExpandedLessons,
+  ...respiratoryExpandedLessons,
+  ...neurologicalExpandedLessons,
+  ...renalGiExpandedLessons,
+  ...endocrineImmuneExpandedLessons,
+  ...hematologyExpandedLessons,
+  ...heentSkinLessons,
+  ...musculoskeletalExpandedLessons,
+  ...pediatricsExpandedLessons,
+  ...maternityExpandedLessons,
+  ...neonatalExpandedLessons,
+  ...mentalHealthExpandedLessons,
+  ...infectionsProceduresLessons,
+  ...assessmentSkillsLessons,
+  ...fluidElectrolytesLessons,
+  ...nutritionSupplementsLessons,
+  ...safetyEthicsLessons,
+  ...gerontologyLessons,
+  ...oncologyExpandedLessons,
+  ...toxicologyEnvironmentalLessons,
+  ...criticalCareLessons,
+  ...hemodialysisLessons,
+  ...positioningToxoLessons,
+  ...ethicsComprehensiveLessons,
+  ...therapeuticCommunicationLessons,
+  ...labsDiagnosticsLessons,
+  ...leadershipManagementLessons,
+  ...healthPromotionScreeningLessons,
+  ...legalEdgeCasesLessons,
+  ...maternalNewbornAdvancedLessons,
+  ...cardiacRespiratoryCriticalLessons,
+  ...delegationByLicenseLessons,
+  ...informaticsDocumentationLessons,
+  ...nursingCalculationsLessons,
+  ...culturalSafetyEquityLessons,
+  ...pharmacologyNpPrescribingLessons,
+  ...pharmacologyCardioRespLessons,
+  ...pharmacologyInfectiousPsychLessons,
+  ...pharmacologyGiRenalSpecialtyLessons,
 };
 
 export const lessonCount = Object.keys(contentMap).length;
