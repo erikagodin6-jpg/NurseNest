@@ -1668,6 +1668,57 @@ export const alliedAutomationRuns = pgTable("allied_automation_runs", {
   completedAt: timestamp("completed_at"),
 });
 
+export const alliedModules = pgTable("allied_modules", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  careerType: text("career_type").notNull(),
+  slug: text("slug").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  domain: text("domain").notNull(),
+  domainWeight: doublePrecision("domain_weight").default(0),
+  orderIndex: integer("order_index").default(0),
+  learningObjectives: jsonb("learning_objectives"),
+  mostTestedConcepts: jsonb("most_tested_concepts"),
+  redFlags: jsonb("red_flags"),
+  examTraps: jsonb("exam_traps"),
+  status: text("status").default("draft"),
+  isFree: boolean("is_free").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const alliedLessons = pgTable("allied_lessons", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  moduleId: varchar("module_id").notNull(),
+  careerType: text("career_type").notNull(),
+  slug: text("slug").notNull(),
+  title: text("title").notNull(),
+  content: text("content"),
+  orderIndex: integer("order_index").default(0),
+  clinicalReasoning: text("clinical_reasoning"),
+  decisionTree: text("decision_tree"),
+  commonMistakes: jsonb("common_mistakes"),
+  examTrapWarning: text("exam_trap_warning"),
+  checkpointQuestions: jsonb("checkpoint_questions"),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const alliedDraftAssets = pgTable("allied_draft_assets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  type: text("type").notNull(),
+  status: text("status").default("draft"),
+  careerType: text("career_type"),
+  domain: text("domain"),
+  subtopic: text("subtopic"),
+  title: text("title"),
+  payload: jsonb("payload").notNull(),
+  validationReport: jsonb("validation_report"),
+  automationRunId: varchar("automation_run_id"),
+  createdBy: text("created_by").default("automation"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertAlliedBlueprintSchema = createInsertSchema(alliedBlueprints).omit({ id: true, createdAt: true });
 export const insertAlliedQuestionSchema = createInsertSchema(alliedQuestions).omit({ id: true, createdAt: true });
 export const insertAlliedBatchRunSchema = createInsertSchema(alliedBatchRuns).omit({ id: true, startedAt: true });

@@ -1,0 +1,155 @@
+YOU ARE REPLIT AI.
+
+You are a senior healthcare curriculum architect, psychometric item writer, SEO strategist, and SaaS architect working inside the NurseNest Allied platform.
+
+OBJECTIVE:
+Build complete, scalable, enterprise-level learning module systems for:
+
+- paramedic
+- mlt
+- imaging
+- nursing-certifications
+
+Each must be isolated by careerType or subdomain and must support scaling to 4,000+ questions per vertical.
+
+====================================================================
+SECTION 1 — MODULE ARCHITECTURE
+====================================================================
+
+For each career:
+
+Create 15 core modules.
+
+Each module must include:
+
+- 8–12 lessons
+- Learning objectives
+- Most-tested concepts
+- Red flag escalation points
+- Common exam traps
+- Linked QBank questions
+- Linked flashcards
+- Linked case simulations
+- 20–40 question module quiz
+- Suggested drill sets
+
+Modules must be blueprint-aligned and mapped to exam-style domain weights.
+
+====================================================================
+SECTION 2 — LESSON STRUCTURE
+====================================================================
+
+Each lesson must contain:
+
+- Concept explanation (clear, concise, exam-focused)
+- Clinical reasoning framework
+- Decision tree or flow summary
+- Common mistakes section
+- Exam trap warning
+- 5–10 embedded checkpoint questions
+- Internal links to:
+   - QBank domain
+   - Flashcard deck
+   - Mock exams
+
+====================================================================
+SECTION 3 — QUESTION INTEGRATION
+====================================================================
+
+All modules must integrate with enterprise question pipeline:
+
+- Questions require 600+ word rationales.
+- Questions must be tagged to module + subtopic.
+- Adaptive engine must reference module performance.
+
+====================================================================
+SECTION 4 — SEO STRUCTURE
+====================================================================
+
+For each career create:
+
+- /career-practice-questions
+- /career-mock-exam
+- /career-study-guide
+- /career-exam-prep
+
+Each page:
+- 1,500–2,000 words
+- Structured headings
+- FAQ schema
+- Internal linking to:
+   - Lessons
+   - QBank
+   - Pricing
+   - Diagnostic exam
+
+====================================================================
+SECTION 5 — TOOLS PER CAREER
+====================================================================
+
+Paramedic:
+- ECG trainer
+- Shock differentiation tool
+- Drug dosing calculator
+
+MLT:
+- Lab pattern analyzer
+- QC simulator
+- Compatibility simulator
+
+Imaging:
+- Anatomy labeling trainer
+- Radiation safety tool
+- Positioning decision tool
+
+Nursing Certifications:
+- Waveform trainer
+- Pharmacology algorithm builder
+- Case simulation engine
+
+Each tool must:
+- Reinforce exam objectives
+- Link to question bank
+- Track performance
+
+====================================================================
+SECTION 6 — PAYWALL LOGIC
+====================================================================
+
+FREE:
+- Limited lessons preview
+- Limited QBank
+- 1 mini mock
+
+PRO:
+- Full modules
+- Full QBank
+- Adaptive exams
+- Case simulations
+- Tools access
+- Analytics
+
+====================================================================
+SECTION 7 — SCALABILITY REQUIREMENTS
+====================================================================
+
+System must scale to:
+- 4,000+ questions per vertical
+- 2,000+ flashcards
+- 100+ case simulations
+
+Implement modular database structure to support multiple verticals without duplication.
+
+====================================================================
+FINAL REQUIREMENTS
+====================================================================
+
+- No nursing pre-licensure contamination.
+- SEO clean and separated.
+- Conversion-focused layout.
+- Built for staged rollout (one vertical at a time).
+- Provide file changes summary.
+- Provide seed strategy.
+
+BUILD THIS MODULAR MULTI-VERTICAL SYSTEM.
+END.

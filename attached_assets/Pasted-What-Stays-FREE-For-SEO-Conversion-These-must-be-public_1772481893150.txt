@@ -1,0 +1,158 @@
+What Stays FREE (For SEO + Conversion)
+These must be public and indexable.
+1️⃣ Career Landing Pages
+Example:
+/pharmacy-tech
+/rrt
+/paramedic
+/mlt
+/imaging
+These should include:
+Overview
+What’s tested
+Exam structure
+Sample breakdown
+CTA to diagnostic
+2️⃣ SEO Pillar Pages (Public)
+Example:
+/pharmacy-technician-practice-questions
+/rrt-abg-practice
+/paramedic-ecg-practice
+/mlt-lab-values-guide
+/radiography-radiation-safety
+These:
+1,500–2,000 words
+Internal links
+FAQ schema
+Light sample questions (2–5 max)
+Strong CTA
+These are your traffic engines.
+3️⃣ Limited Free QBank
+Allow:
+25–50 free questions per career
+1 mini mock (50Q) once
+Basic rationales preview (not full)
+This builds trust.
+4️⃣ Diagnostic Exam (Free)
+15 questions.
+Gives readiness estimate.
+Locks full analytics behind account.
+This is your main conversion funnel.
+🔒 What Goes Behind Paywall
+This is where real value lives.
+1️⃣ Full QBank
+All 600+ word rationales
+All difficulty 4–5 questions
+Advanced question types
+Domain filtering
+Unlimited access
+2️⃣ Adaptive CAT-Style Exams
+Adaptive logic is premium.
+This should be Pro-only.
+3️⃣ Unlimited Mock Exams
+Free users get:
+1 mini mock
+Pro users get:
+Unlimited 50Q
+100Q
+150Q
+Adaptive
+4️⃣ Full Lessons & Modules
+Public:
+First 20–25% preview
+Behind paywall:
+Full lessons
+Case breakdowns
+Module quizzes
+Red flag drills
+5️⃣ Tools
+These are high-conversion assets:
+Pharmacy:
+Math generator
+IV calculator
+Sig decoder
+Label error simulator
+RRT:
+ABG trainer
+Vent mode simulator
+Alarm simulator
+These MUST be Pro-only.
+6️⃣ Flashcard Engine
+Public:
+1 sample deck
+Pro:
+All decks
+Exam-generated decks
+Spaced repetition tracking
+7️⃣ Analytics Dashboard
+Always behind paywall:
+Domain mastery heatmap
+Readiness score trend
+Weak area detection
+Performance breakdown
+Discrimination-driven question optimization
+This is premium value.
+🎯 Conversion Psychology Structure
+Here’s the optimal funnel:
+Free user journey:
+SEO page → Diagnostic → Score →
+“You’re borderline in calculations.” →
+Preview lesson snippet →
+“Unlock 4,000+ questions & adaptive practice.”
+That converts.
+🧠 Hybrid Model Example (Pharmacy)
+Public:
+Math guide page
+5 sample math questions
+15Q diagnostic
+Locked:
+Unlimited math generator
+1,000+ calculation questions
+Adaptive calculation drills
+Flashcard bank
+🧮 Revenue Impact
+If you lock too much:
+Conversion drops.
+If you lock too little:
+Revenue drops.
+The sweet spot:
+Free gives:
+Awareness
+Value
+Confidence
+Pro gives:
+Depth
+Personalization
+Adaptive power
+Analytics
+🔐 Technical Implementation Prompt
+You can give Replit AI this:
+Implement a hybrid paywall system for Allied.
+
+Public (indexable):
+- Career landing pages
+- SEO pillar pages
+- 25–50 free questions per career
+- 1 mini mock per career
+- Diagnostic exam (limited analytics)
+
+Protected (Pro required):
+- Full QBank
+- All 600+ word rationales
+- Adaptive CAT-style exams
+- Unlimited mock exams
+- Full modules and lessons
+- All tools (calculators, simulators)
+- Flashcard engine
+- Analytics dashboard
+
+Enforce paywall server-side.
+Do not expose locked question payloads in API.
+Show upgrade modal at 80% usage.
+Hard stop at 100%.
+⚖️ Strategic Advice
+If your goal is sustainable income:
+Free content should rank.
+Paid content should transform.
+Tools should convert.
+Analytics should retain.
