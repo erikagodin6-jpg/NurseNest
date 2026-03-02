@@ -1,0 +1,56 @@
+You are working in a Vite + React + Express app (NurseNest). Implement a “Trust Showcase” section on the homepage hero that displays real screenshots/snippets of existing site content to increase credibility, WITHOUT changing the question generator logic.
+
+GOALS
+1) Add a new homepage section just below the hero called “Trusted by Students” (or “Inside NurseNest”).
+2) It should render a responsive grid of 6–12 cards. Each card can be:
+   - an image screenshot (PNG/WebP) stored locally in /public/trust/
+   - OR a “snippet” card that shows: title, 1–2 lines of excerpt, and a “View” button linking to that feature page.
+3) It must look premium and brand-consistent (soft clinical aesthetic): rounded-2xl, subtle borders, soft shadows, clean typography.
+4) Lazy-load images, provide alt text, and include skeleton loading placeholders.
+5) Add a simple Admin-only manager page to update the showcase items:
+   - Add / remove / reorder items
+   - For image items: upload file (store to /public/trust/ or to an existing uploads folder if present)
+   - For snippet items: fields (title, excerpt, href, tag)
+   - Save to a JSON file in the repo (e.g., /src/data/trustShowcase.json) OR in DB if you already have an admin settings table.
+6) Add basic safety:
+   - Validate href begins with “/” (internal link)
+   - Limit excerpt length (e.g., 160 chars)
+   - Limit uploads to image mime types and max size 2MB
+
+IMPLEMENTATION DETAILS
+A) Create a config structure:
+type TrustItem =
+  | { id: string; type: "image"; title: string; caption?: string; src: string; href?: string; tag?: string; alt: string }
+  | { id: string; type: "snippet"; title: string; excerpt: string; href: string; tag?: string };
+
+Store initial items in /src/data/trustShowcase.json with 6 example entries referencing real pages like:
+- /flashcards
+- /lessons/cardiac-pathophysiology
+- /blood-transfusion-simulator
+- /compare/uworld
+and screenshots like /trust/lesson-cardiac.webp, /trust/flashcards.webp etc.
+
+B) Build <TrustShowcase /> component and import it into the Home page.
+- Grid layout with tags (small pill)
+- Each card clickable if href is present
+- For images: show image + title/caption
+- For snippets: show title + excerpt + button
+
+C) Admin manager:
+- Route: /admin/trust-showcase
+- Only accessible to isAdmin users
+- Simple reorder buttons (up/down), delete, add new
+- Upload endpoint: POST /api/admin/trust-showcase/upload
+- Save endpoint: PUT /api/admin/trust-showcase (persist JSON or DB)
+- Read endpoint: GET /api/trust-showcase (public)
+
+D) Keep performance:
+- Use <img loading="lazy" decoding="async">
+- Use WebP where possible
+- Ensure the homepage still passes good Lighthouse performance
+
+DELIVERABLES
+- New TrustShowcase component
+- JSON config + API endpoints + admin page
+- Homepage updated to include the section
+- Do not modify the generator-v2 pipeline or question generation code.

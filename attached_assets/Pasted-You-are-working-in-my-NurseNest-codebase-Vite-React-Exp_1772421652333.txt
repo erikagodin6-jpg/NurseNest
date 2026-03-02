@@ -1,0 +1,96 @@
+You are working in my NurseNest codebase (Vite + React + Express). Implement a “Trust Showcase” section on the homepage hero that displays real screenshots/snippets of existing site content to increase credibility and conversions, WITHOUT changing any question bank generator code.
+
+NON-NEGOTIABLES
+- Do NOT modify Generator V2 logic or any question generation endpoints.
+- Only add new components/routes/APIs for the trust showcase + admin management.
+- Keep styling premium, clean, “soft clinical” (rounded-2xl, subtle borders, soft shadows, good spacing).
+
+FEATURE: TRUST SHOWCASE (PUBLIC)
+1) Add a new homepage section directly under the main hero titled:
+   “Inside NurseNest” (subtitle: “See what you’ll get before you buy”)
+2) Render a responsive grid (mobile 1 col, md 2 col, lg 3 col) of 6–12 cards.
+3) Each card is one of two types:
+
+   A) IMAGE CARD
+   - Shows a screenshot (PNG/WebP) stored in /public/trust/
+   - Fields: title, optional caption, optional tag pill (e.g., “Flashcards”, “QBank”, “Simulator”)
+   - Optional link to a relevant internal page
+
+   B) SNIPPET CARD
+   - Shows: title, 1–2 line excerpt (max 160 chars), tag pill, and a “View” button
+   - Links to an internal page (href must begin with “/”)
+
+4) Images must be lazy-loaded (loading="lazy", decoding="async") with skeleton placeholders.
+5) Card click behavior:
+   - If href exists: whole card is clickable (and also has a “View” button)
+   - If no href: just displays the preview
+
+DATA MODEL
+Create a data structure:
+type TrustItem =
+  | { id: string; type: "image"; title: string; caption?: string; src: string; href?: string; tag?: string; alt: string }
+  | { id: string; type: "snippet"; title: string; excerpt: string; href: string; tag?: string };
+
+Persist items in one of these ways (pick the simplest based on existing project patterns):
+Option 1 (preferred if no DB settings table exists): JSON file at /src/data/trustShowcase.json
+Option 2: DB table (admin settings) if you already have one.
+
+PUBLIC API
+- GET /api/trust-showcase
+  Returns the array of TrustItem.
+
+ADMIN MANAGER (ADMIN ONLY)
+1) Add a new route/page: /admin/trust-showcase
+2) Only allow access if isAdmin is true (match existing admin gating).
+3) Admin page must support:
+   - Add Image item
+   - Add Snippet item
+   - Edit existing item fields
+   - Delete item
+   - Reorder items (up/down buttons)
+4) Add endpoints:
+   - PUT /api/admin/trust-showcase
+     Body: { items: TrustItem[] }
+     Validate all items:
+       - href (if present) must start with "/"
+       - excerpt max length 160
+       - title max length 80
+       - tag max length 20
+   - POST /api/admin/trust-showcase/upload
+     Accept multipart upload (image only), max 2MB.
+     Save file to /public/trust/ with a safe filename (e.g., trust-<timestamp>.webp or .png)
+     Return { src: "/trust/<filename>" }
+
+HOMEPAGE INTEGRATION
+- Create a React component: <TrustShowcase />
+- Load data via GET /api/trust-showcase (with caching or simple SWR pattern if already used).
+- Insert <TrustShowcase /> under the hero on the homepage.
+- Use premium styling (tailwind):
+  - container max-w-7xl, spacing py-10
+  - card: rounded-2xl border bg-white shadow-sm hover:shadow-md transition
+  - tag pill: text-xs rounded-full px-2 py-0.5
+  - skeleton loader for images
+
+SEED CONTENT (IMPORTANT)
+Create initial /src/data/trustShowcase.json with at least 6 items that reference REAL pages and placeholder screenshots:
+- Snippet: “Flashcards Decks” -> /flashcards
+- Snippet: “REx-PN Question Bank Preview” -> /exam/rex-pn (or closest existing route)
+- Snippet: “Blood Transfusion Simulator” -> /blood-transfusion-simulator
+- Snippet: “Cardiac Lesson” -> /lessons/cardiac-pathophysiology (or closest)
+- Image: /trust/flashcards.webp (alt: “NurseNest flashcards preview”)
+- Image: /trust/qbank.webp (alt: “NurseNest question rationales preview”)
+If those exact routes don’t exist, use the closest matching existing routes in this codebase.
+
+QUALITY CHECKS
+- Ensure the homepage builds with no TS errors.
+- Ensure admin upload works locally and in production.
+- Ensure href validation prevents external links.
+- Keep Lighthouse performance reasonable (lazy loading + WebP preferred).
+
+DELIVERABLES
+- TrustShowcase component + styles
+- JSON (or DB) persistence
+- Public + admin API routes
+- Admin manager UI at /admin/trust-showcase
+- Homepage updated to render the trust section
+- Generator V2 remains untouched

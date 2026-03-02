@@ -156,10 +156,10 @@ export default function ShopProductPage() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <AdminEditButton />
       <SEO
-        title={`${product.title} - NurseNest Store`}
-        description={product.shortDescription || product.description.slice(0, 160)}
+        title={(product as any).seoTitle || `${product.title} - NurseNest Store`}
+        description={(product as any).seoDescription || product.shortDescription || product.description.slice(0, 160)}
         canonicalPath={`/shop/${product.slug}`}
-        keywords={`nursing study guide, ${product.category}, ${product.examTarget || "nursing exam prep"}`}
+        keywords={(product as any).seoKeywords || `nursing study guide, ${product.category}, ${product.examTarget || "nursing exam prep"}`}
       />
       <Navigation />
 

@@ -13,6 +13,17 @@ function getStoredCredentials(): StoredCreds | null {
   }
 }
 
+function getStoredAdminId(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem("nursenest-user");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed?.tier === "admin" && parsed?.id) return String(parsed.id);
+  } catch {}
+  return null;
+}
+
 export function getAdminParams(): string {
   const creds = getStoredCredentials();
   if (!creds) return "";
@@ -37,10 +48,14 @@ export async function adminFetch(
   const headers = new Headers(init.headers ?? {});
   const out: RequestInit = { ...init, method, headers };
 
+  const adminId = getStoredAdminId();
+
   if (method === "GET" || method === "HEAD") {
     if (creds) {
       u.searchParams.set("username", creds.username);
       u.searchParams.set("password", creds.password);
+    } else if (adminId) {
+      u.searchParams.set("adminId", adminId);
     }
     delete (out as any).body;
   } else {
@@ -63,6 +78,8 @@ export async function adminFetch(
     if (creds) {
       if (bodyObj.username === undefined) bodyObj.username = creds.username;
       if (bodyObj.password === undefined) bodyObj.password = creds.password;
+    } else if (adminId) {
+      if (bodyObj.adminId === undefined) bodyObj.adminId = adminId;
     }
 
     if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");

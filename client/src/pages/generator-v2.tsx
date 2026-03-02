@@ -142,6 +142,10 @@ export default function GeneratorV2Page() {
   const [pubCategory, setPubCategory] = useState("question-pack");
   const [pubTierTarget, setPubTierTarget] = useState("all");
   const [pubFeatured, setPubFeatured] = useState(false);
+  const [pubThemeId, setPubThemeId] = useState("soft-clinical");
+  const [pubSeoTitle, setPubSeoTitle] = useState("");
+  const [pubSeoDesc, setPubSeoDesc] = useState("");
+  const [pubSeoKeywords, setPubSeoKeywords] = useState("");
   const [autoListing, setAutoListing] = useState(false);
 
   const [editingProductId, setEditingProductId] = useState<string | null>(null);
@@ -366,6 +370,10 @@ export default function GeneratorV2Page() {
     else { setPubPrice("9.99"); setPubCompareAt("19.99"); }
     setPubTierTarget("all");
     setPubFeatured(false);
+    setPubThemeId(selectedTheme);
+    setPubSeoTitle(`${status.topic} - ${status.examTarget?.toUpperCase() || "REx-PN"} Practice Questions | NurseNest`);
+    setPubSeoDesc(`${status.createdCount} expertly crafted practice questions for ${status.examTarget?.toUpperCase() || "REx-PN"} nursing exam preparation covering ${status.topic}. Includes detailed rationales and clinical pearls.`);
+    setPubSeoKeywords(`nursing exam prep, ${status.topic.toLowerCase()}, ${status.examTarget || "nursing"}, practice questions, NCLEX, REx-PN, study guide`);
     setPublishOpen(true);
   };
 
@@ -403,18 +411,22 @@ export default function GeneratorV2Page() {
     if (!activeGenId) return;
     setPublishing(true);
     try {
-      const res = await adminFetch(`/api/generator-v2/generations/${activeGenId}/publish`, {
+      const res = await adminFetch(`/api/generator-v2/generations/${activeGenId}/publish-with-pdf`, {
         method: "POST",
         body: JSON.stringify({
           title: pubTitle, description: pubDesc,
           priceDollars: pubPrice, compareAtDollars: pubCompareAt || undefined,
           category: pubCategory, tierTarget: pubTierTarget,
           examTarget: status?.examTarget || undefined, featured: pubFeatured,
+          themeId: pubThemeId,
+          seoTitle: pubSeoTitle || undefined,
+          seoDescription: pubSeoDesc || undefined,
+          seoKeywords: pubSeoKeywords || undefined,
         }),
       });
       if (res.ok) {
         const product = await res.json();
-        toast({ title: "Published to store", description: `Product "${product.title}" is now live` });
+        toast({ title: "Published to store with PDF", description: `"${product.title}" is live with ${product.pdfPages} pages + preview` });
         setPublishOpen(false);
         loadStoreProducts();
       } else {
@@ -979,10 +991,10 @@ export default function GeneratorV2Page() {
       </div>
 
       {publishOpen && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" data-testid="dialog-publish">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-4">
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 overflow-y-auto" data-testid="dialog-publish">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-6 space-y-4 my-8">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-800">Publish to Store</h2>
+              <h2 className="text-lg font-bold text-gray-800">Publish to Store with PDF</h2>
               <button onClick={() => setPublishOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-3">
@@ -996,7 +1008,7 @@ export default function GeneratorV2Page() {
               <Input value={pubTitle} onChange={e => setPubTitle(e.target.value)} className="text-sm" data-testid="input-pub-title" />
               <div>
                 <label className="text-xs font-medium text-gray-500 block mb-1">Description</label>
-                <textarea value={pubDesc} onChange={e => setPubDesc(e.target.value)} rows={4} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" data-testid="input-pub-desc" />
+                <textarea value={pubDesc} onChange={e => setPubDesc(e.target.value)} rows={3} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" data-testid="input-pub-desc" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -1036,18 +1048,86 @@ export default function GeneratorV2Page() {
                   </select>
                 </div>
               </div>
+
+              <div>
+                <label className="text-xs font-medium text-gray-500 block mb-1.5">Document Theme</label>
+                <div className="grid grid-cols-4 gap-1.5" data-testid="theme-picker-publish">
+                  {THEMES.slice(0, 8).map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setPubThemeId(t.id)}
+                      className={`p-1.5 rounded-lg border-2 transition text-center ${pubThemeId === t.id ? "border-blue-500 ring-1 ring-blue-200" : "border-gray-200 hover:border-gray-300"}`}
+                      data-testid={`theme-publish-${t.id}`}
+                    >
+                      <div className="flex gap-0.5 justify-center mb-0.5">
+                        <div className="w-3 h-3 rounded-full" style={{ background: t.primaryColor }} />
+                        <div className="w-3 h-3 rounded-full" style={{ background: t.secondaryColor }} />
+                        <div className="w-3 h-3 rounded-full" style={{ background: t.accentColor }} />
+                      </div>
+                      <span className="text-[10px] text-gray-600 leading-tight block">{t.name}</span>
+                    </button>
+                  ))}
+                </div>
+                {THEMES.length > 8 && (
+                  <details className="mt-1">
+                    <summary className="text-[10px] text-blue-600 cursor-pointer">More themes...</summary>
+                    <div className="grid grid-cols-4 gap-1.5 mt-1">
+                      {THEMES.slice(8).map(t => (
+                        <button
+                          key={t.id}
+                          onClick={() => setPubThemeId(t.id)}
+                          className={`p-1.5 rounded-lg border-2 transition text-center ${pubThemeId === t.id ? "border-blue-500 ring-1 ring-blue-200" : "border-gray-200 hover:border-gray-300"}`}
+                          data-testid={`theme-publish-${t.id}`}
+                        >
+                          <div className="flex gap-0.5 justify-center mb-0.5">
+                            <div className="w-3 h-3 rounded-full" style={{ background: t.primaryColor }} />
+                            <div className="w-3 h-3 rounded-full" style={{ background: t.secondaryColor }} />
+                            <div className="w-3 h-3 rounded-full" style={{ background: t.accentColor }} />
+                          </div>
+                          <span className="text-[10px] text-gray-600 leading-tight block">{t.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </div>
+
               <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                 <input type="checkbox" checked={pubFeatured} onChange={e => setPubFeatured(e.target.checked)} className="rounded" data-testid="checkbox-pub-featured" />
                 Mark as Featured
               </label>
+
+              <details className="border rounded-lg p-3 bg-gray-50">
+                <summary className="text-xs font-medium text-gray-500 cursor-pointer">SEO Settings</summary>
+                <div className="mt-2 space-y-2">
+                  <div>
+                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">SEO Title</label>
+                    <Input value={pubSeoTitle} onChange={e => setPubSeoTitle(e.target.value)} placeholder="Custom title for search engines" className="text-xs h-8" data-testid="input-pub-seo-title" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">SEO Description (max 160 chars)</label>
+                    <textarea value={pubSeoDesc} onChange={e => setPubSeoDesc(e.target.value.slice(0, 200))} rows={2} placeholder="Custom meta description for search engines" className="w-full rounded-lg border px-2 py-1 text-xs resize-none" data-testid="input-pub-seo-desc" />
+                    <span className="text-[10px] text-gray-400">{pubSeoDesc.length}/200</span>
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">SEO Keywords (comma-separated)</label>
+                    <Input value={pubSeoKeywords} onChange={e => setPubSeoKeywords(e.target.value)} placeholder="nursing, exam prep, NCLEX" className="text-xs h-8" data-testid="input-pub-seo-keywords" />
+                  </div>
+                </div>
+              </details>
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="outline" onClick={() => setPublishOpen(false)} data-testid="button-cancel-publish">Cancel</Button>
               <Button onClick={publishToStore} disabled={publishing || !pubTitle || !pubDesc} className="gap-1" data-testid="button-confirm-publish">
                 {publishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingBag className="w-4 h-4" />}
-                Publish
+                {publishing ? "Generating PDF & Publishing..." : "Publish with PDF"}
               </Button>
             </div>
+            {publishing && (
+              <div className="text-xs text-gray-500 text-center">
+                Compiling questions, generating PDF, creating preview, and uploading to store...
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -9892,7 +9892,7 @@ Return ONLY valid JSON with this exact structure:
       const existing = await storage.getDigitalProduct(req.params.id);
       if (!existing) return res.status(404).json({ error: "Product not found" });
       const updates: any = {};
-      for (const key of ["title", "slug", "description", "shortDescription", "fileUrl", "coverImageUrl", "category", "tierTarget", "examTarget"]) {
+      for (const key of ["title", "slug", "description", "shortDescription", "fileUrl", "coverImageUrl", "category", "tierTarget", "examTarget", "seoTitle", "seoDescription", "seoKeywords", "themeId"]) {
         if (req.body[key] !== undefined) updates[key] = req.body[key];
       }
       if (req.body.price !== undefined) updates.price = parseInt(req.body.price);
@@ -11460,7 +11460,7 @@ Return ONLY valid JSON with this exact structure:
       if (!gen) return res.status(404).json({ error: "Generation not found" });
       if (gen.createdCount === 0) return res.status(400).json({ error: "No questions generated yet" });
 
-      const { title, description, priceDollars, compareAtDollars, category, tierTarget, examTarget, featured, themeId } = req.body;
+      const { title, description, priceDollars, compareAtDollars, category, tierTarget, examTarget, featured, themeId, seoTitle, seoDescription, seoKeywords } = req.body;
       if (!title || !description || priceDollars === undefined || !category) {
         return res.status(400).json({ error: "Missing required fields: title, description, priceDollars, category" });
       }
@@ -11533,6 +11533,57 @@ Return ONLY valid JSON with this exact structure:
       const priceCents = Math.round(parseFloat(priceDollars) * 100);
       const compareAtCents = compareAtDollars ? Math.round(parseFloat(compareAtDollars) * 100) : null;
 
+      let previewKey: string | null = null;
+      const previewPageCount = Math.min(2, pages.length);
+      if (previewPageCount > 0) {
+        try {
+          const previewDoc = await PDFDocument.create();
+          const previewFontRegular = await previewDoc.embedFont(StandardFonts.Helvetica);
+          const previewFontBold = await previewDoc.embedFont(StandardFonts.HelveticaBold);
+          for (let pi = 0; pi < previewPageCount; pi++) {
+            const compiledPage = pages[pi];
+            const page = previewDoc.addPage([612, 792]);
+            if (compiledPage.backgroundColor) {
+              page.drawRectangle({ x: 0, y: 0, width: 612, height: 792, color: hexToRgb(compiledPage.backgroundColor) });
+            }
+            const sorted = [...compiledPage.objects].sort((a: any, b: any) => (a.zIndex || 0) - (b.zIndex || 0));
+            for (const obj of sorted) {
+              const opacity = obj.opacity ?? 1;
+              if (obj.type === "rect") {
+                page.drawRectangle({ x: obj.x, y: 792 - obj.y - obj.height, width: obj.width, height: obj.height, color: hexToRgb(obj.fill || "#000000"), opacity });
+              } else if (obj.type === "text" && obj.content) {
+                const font = (obj.fontWeight === "bold" || obj.fontWeight === "700" || obj.fontWeight === "800") ? previewFontBold : previewFontRegular;
+                const fontSize = Math.min(obj.fontSize || 10, 24);
+                const color = hexToRgb(obj.fill || "#000000");
+                let lineY = 792 - obj.y - (fontSize * 1.2);
+                const lines = obj.content.split("\n");
+                for (const line of lines) {
+                  if (lineY < 0) break;
+                  const maxChars = Math.floor(obj.width / (fontSize * 0.5)) || 80;
+                  let remaining = line;
+                  while (remaining.length > 0 && lineY > 0) {
+                    const chunk = remaining.substring(0, maxChars);
+                    remaining = remaining.substring(maxChars);
+                    try { page.drawText(chunk, { x: obj.x, y: lineY, size: fontSize, font, color, opacity }); } catch (_e) {}
+                    lineY -= fontSize * 1.4;
+                  }
+                }
+              } else if (obj.type === "line") {
+                page.drawLine({ start: { x: obj.x, y: 792 - obj.y }, end: { x: obj.x + obj.width, y: 792 - obj.y }, thickness: obj.height || 1, color: hexToRgb(obj.fill || "#cccccc"), opacity });
+              }
+            }
+            page.drawText("NURSENEST PREVIEW", { x: 100, y: 400, size: 48, font: previewFontBold, color: pdfRgb(0.8, 0.1, 0.1), opacity: 0.15 });
+          }
+          const previewBytes = await previewDoc.save();
+          previewKey = `${privateDir}/previews/preview-gen-${req.params.id}-${Date.now()}.pdf`;
+          const { bucketName: pvBucket, objectName: pvObject } = parseStoragePath(previewKey);
+          const pvFile = bucket.file(pvObject);
+          await pvFile.save(Buffer.from(previewBytes), { contentType: "application/pdf" });
+        } catch (previewErr: any) {
+          console.error("Preview generation warning:", previewErr.message);
+        }
+      }
+
       const product = await storage.createDigitalProduct({
         title,
         slug,
@@ -11542,11 +11593,17 @@ Return ONLY valid JSON with this exact structure:
         compareAtPrice: compareAtCents,
         fileUrl: pdfKey,
         coverImageUrl: null,
+        previewUrl: previewKey,
+        previewPageCount: previewPageCount,
         category,
         tierTarget: tierTarget || "all",
         examTarget: examTarget || gen.examTarget || null,
         featured: featured || false,
         isActive: true,
+        seoTitle: seoTitle || null,
+        seoDescription: seoDescription || null,
+        seoKeywords: seoKeywords || null,
+        themeId: validThemeId || "soft-clinical",
       });
 
       await storage.updateProductGeneration(req.params.id, {
@@ -11556,11 +11613,11 @@ Return ONLY valid JSON with this exact structure:
       await storage.createGenerationEvent({
         generationId: req.params.id,
         eventType: "published_with_pdf",
-        payload: { productId: product.id, title, priceCents, pdfPages: pages.length, themeId: validThemeId || "soft-clinical" },
+        payload: { productId: product.id, title, priceCents, pdfPages: pages.length, themeId: validThemeId || "soft-clinical", previewPages: previewPageCount },
       });
 
       await logAudit(req, admin, "digital_product", product.id, "publish_with_pdf_v2", null, { generationId: req.params.id, title, priceCents, pdfPages: pages.length });
-      res.json({ ...product, pdfPages: pages.length, pdfKey });
+      res.json({ ...product, pdfPages: pages.length, pdfKey, previewKey });
     } catch (e: any) {
       console.error("Publish with PDF error:", e);
       res.status(500).json({ error: e.message });
