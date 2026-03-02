@@ -287,6 +287,7 @@ export default function ShopPage() {
   const [products, setProducts] = useState<DigitalProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [tierFilter, setTierFilter] = useState("all");
 
   useEffect(() => {
     fetch("/api/shop/products")
@@ -296,7 +297,9 @@ export default function ShopPage() {
   }, []);
 
   const categories = ["all", ...new Set(products.map(p => p.category))];
-  const filtered = categoryFilter === "all" ? products : products.filter(p => p.category === categoryFilter);
+  const tiers = ["all", ...new Set(products.filter(p => p.tierTarget && p.tierTarget !== "all").map(p => p.tierTarget!))];
+  const afterTier = tierFilter === "all" ? products : products.filter(p => p.tierTarget === tierFilter || p.tierTarget === "all");
+  const filtered = categoryFilter === "all" ? afterTier : afterTier.filter(p => p.category === categoryFilter);
   const featured = products.filter(p => p.featured);
 
   return (
@@ -331,6 +334,23 @@ export default function ShopPage() {
 
         <div className="max-w-6xl mx-auto px-4 py-8">
           {isAdmin && <AdminProductManager />}
+
+          {tiers.length > 1 && (
+            <div className="flex items-center justify-center gap-2 mb-8 flex-wrap" data-testid="section-tier-filters">
+              {tiers.map(tier => (
+                <Button
+                  key={tier}
+                  variant={tierFilter === tier ? "default" : "outline"}
+                  size="sm"
+                  className={tierFilter === tier ? "bg-primary text-white" : ""}
+                  onClick={() => setTierFilter(tier)}
+                  data-testid={`button-tier-${tier}`}
+                >
+                  {tier === "all" ? "All Tiers" : tier.toUpperCase()}
+                </Button>
+              ))}
+            </div>
+          )}
 
           {featured.length > 0 && (
             <section className="mb-12" data-testid="section-featured-products">
