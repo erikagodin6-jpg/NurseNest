@@ -95,6 +95,11 @@ Allied DB tables (shared/schema.ts):
 - `allied_revision_queue` - Human review queue for flagged items
 - `allied_leads` - Email lead capture
 
+Store admin features:
+- Document upload: POST /api/admin/shop/upload accepts multipart file uploads (PDF, images, DOCX, XLSX, ZIP, up to 50MB), stores to Replit Object Storage, returns storage URL
+- Admin product form includes Upload buttons for cover images and documents alongside URL text inputs
+- Preview generation: POST /api/admin/shop/products/:id/generate-preview creates watermarked PDF previews
+
 Pipeline thresholds (server/allied-pipeline.ts constants):
 - SIMILARITY_THRESHOLD = 0.80 (duplicate detection)
 - MIN_RATIONALE_WORDS = 600 (hard fail)

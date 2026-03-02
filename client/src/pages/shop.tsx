@@ -16,6 +16,7 @@ import { useLocation } from "wouter";
 import {
   ShoppingBag, Star, Tag, Download, Package, BookOpen, Shield,
   ArrowRight, Plus, Edit, Trash2, X, Sparkles, Crown, Filter, Palette,
+  Upload, Loader2, FileText, Image,
 } from "lucide-react";
 import type { DigitalProduct } from "@shared/schema";
 import { adminFetch } from "@/lib/admin-fetch";
@@ -115,6 +116,47 @@ function ProductCard({ product }: { product: DigitalProduct }) {
   );
 }
 
+function useFileUpload(toast: ReturnType<typeof useToast>["toast"]) {
+  const [uploading, setUploading] = useState<"file" | "cover" | null>(null);
+
+  const uploadFile = async (file: File, type: "file" | "cover"): Promise<string | null> => {
+    setUploading(type);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const creds = localStorage.getItem("nursenest-credentials");
+      if (creds) {
+        const { username, password } = JSON.parse(creds);
+        formData.append("username", username);
+        formData.append("password", password);
+      } else {
+        const userRaw = localStorage.getItem("nursenest-user");
+        if (userRaw) {
+          const parsed = JSON.parse(userRaw);
+          if (parsed?.tier === "admin" && parsed?.id) formData.append("adminId", parsed.id);
+        }
+      }
+
+      const res = await fetch("/api/admin/shop/upload", { method: "POST", body: formData });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: "Upload failed" }));
+        throw new Error(err.error || "Upload failed");
+      }
+      const data = await res.json();
+      toast({ title: "File uploaded", description: data.fileName });
+      return data.url;
+    } catch (e: any) {
+      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
+      return null;
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  return { uploading, uploadFile };
+}
+
 function AdminProductManager() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
@@ -126,6 +168,18 @@ function AdminProductManager() {
     compareAtDollars: "", fileUrl: "", coverImageUrl: "", category: "Cram Guide",
     tierTarget: "all", examTarget: "", featured: false,
   });
+  const { uploading, uploadFile } = useFileUpload(toast);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: "file" | "cover") => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = await uploadFile(file, type);
+    if (url) {
+      if (type === "file") setForm(f => ({ ...f, fileUrl: url }));
+      else setForm(f => ({ ...f, coverImageUrl: url }));
+    }
+    e.target.value = "";
+  };
 
   const loadProducts = async () => {
     try {
@@ -226,8 +280,34 @@ function AdminProductManager() {
             </select>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Input placeholder="Cover image URL" value={form.coverImageUrl} onChange={e => setForm({...form, coverImageUrl: e.target.value})} data-testid="input-product-cover" />
-            <Input placeholder="File URL (PDF)" value={form.fileUrl} onChange={e => setForm({...form, fileUrl: e.target.value})} data-testid="input-product-file" />
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-500 flex items-center gap-1"><Image className="w-3 h-3" /> Cover Image</label>
+              <div className="flex gap-1.5">
+                <Input placeholder="Cover image URL" value={form.coverImageUrl} onChange={e => setForm({...form, coverImageUrl: e.target.value})} className="flex-1 text-xs" data-testid="input-product-cover" />
+                <label className="cursor-pointer">
+                  <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, "cover")} data-testid="input-upload-cover" />
+                  <span className={`inline-flex items-center gap-1 px-3 py-2 text-xs font-medium rounded-md border transition-colors ${uploading === "cover" ? "bg-gray-100 text-gray-400" : "bg-white hover:bg-gray-50 text-gray-700 border-gray-300"}`}>
+                    {uploading === "cover" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                    Upload
+                  </span>
+                </label>
+              </div>
+              {form.coverImageUrl && <p className="text-[10px] text-green-600 truncate">Attached: {form.coverImageUrl.split("/").pop()}</p>}
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-500 flex items-center gap-1"><FileText className="w-3 h-3" /> Document (PDF)</label>
+              <div className="flex gap-1.5">
+                <Input placeholder="File URL (PDF)" value={form.fileUrl} onChange={e => setForm({...form, fileUrl: e.target.value})} className="flex-1 text-xs" data-testid="input-product-file" />
+                <label className="cursor-pointer">
+                  <input type="file" accept=".pdf,.docx,.xlsx,.zip" className="hidden" onChange={e => handleFileUpload(e, "file")} data-testid="input-upload-file" />
+                  <span className={`inline-flex items-center gap-1 px-3 py-2 text-xs font-medium rounded-md border transition-colors ${uploading === "file" ? "bg-gray-100 text-gray-400" : "bg-white hover:bg-gray-50 text-gray-700 border-gray-300"}`}>
+                    {uploading === "file" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                    Upload
+                  </span>
+                </label>
+              </div>
+              {form.fileUrl && <p className="text-[10px] text-green-600 truncate">Attached: {form.fileUrl.split("/").pop()}</p>}
+            </div>
           </div>
           <div className="grid grid-cols-3 gap-3 items-center">
             <select className="border rounded px-3 py-2 text-sm" value={form.tierTarget} onChange={e => setForm({...form, tierTarget: e.target.value})} data-testid="select-product-tier">

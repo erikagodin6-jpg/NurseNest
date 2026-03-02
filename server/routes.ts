@@ -9985,6 +9985,55 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
+  const shopUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 50 * 1024 * 1024 },
+    fileFilter: (_r: any, file: any, cb: any) => {
+      const allowed = [
+        "application/pdf",
+        "image/png", "image/jpeg", "image/jpg", "image/webp", "image/svg+xml",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/zip",
+      ];
+      if (allowed.includes(file.mimetype)) cb(null, true);
+      else cb(new Error("File type not allowed. Accepted: PDF, images, DOCX, XLSX, ZIP"));
+    },
+  }).single("file");
+
+  app.post("/api/admin/shop/upload", (req, res) => {
+    shopUpload(req, res, async (err: any) => {
+      try {
+        if (err) return res.status(400).json({ error: err.message });
+
+        const adminUser = await requireAdmin(req, res);
+        if (!adminUser) return;
+
+        const file = (req as any).file;
+        if (!file) return res.status(400).json({ error: "No file uploaded" });
+
+        const objectStorageService = new (await import("./replit_integrations/object_storage/objectStorage")).ObjectStorageService();
+        const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+
+        const uploadRes = await fetch(uploadURL, {
+          method: "PUT",
+          headers: { "Content-Type": file.mimetype },
+          body: file.buffer,
+        });
+        if (!uploadRes.ok) throw new Error("Failed to upload file to storage");
+
+        const objectPath = objectStorageService.normalizeObjectEntityPath(uploadURL);
+        const safeName = (file.originalname || `upload-${Date.now()}`).replace(/[^a-zA-Z0-9._-]/g, "_");
+
+        await logAudit(req, adminUser, "digital_product", null, "upload-file", null, { fileName: safeName, size: file.size, mimeType: file.mimetype });
+        res.json({ url: objectPath, fileName: safeName, size: file.size, mimeType: file.mimetype });
+      } catch (e: any) {
+        console.error("Shop upload error:", e);
+        res.status(500).json({ error: e.message || "Upload failed" });
+      }
+    });
+  });
+
   app.post("/api/admin/shop/products", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
