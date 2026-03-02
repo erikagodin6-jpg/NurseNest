@@ -257,6 +257,9 @@ export default function Home() {
                     NP Exams
                   </Button>
                 </div>
+                <p className="text-[11px] text-gray-400 mt-2">
+                  NP Certification: AANP, ANCC, FNP-BC, AGPCNP-BC, AGACNP-BC, PMHNP-BC, PNP-BC, NNP-BC, ENP-C
+                </p>
               </div>
 
               <div className="pt-4">

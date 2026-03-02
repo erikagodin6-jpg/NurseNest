@@ -289,7 +289,7 @@ export function Navigation() {
   const learningItems = [
     { icon: BookOpen, label: t("nav.lessons"), key: "Lessons" },
     { icon: Play, label: t("nav.lectures"), key: "Lectures" },
-    { icon: Layers, label: t("nav.flashcards"), key: "Flashcards" },
+    { icon: Layers, label: "Question Bank", key: "Flashcards" },
     { icon: Lightbulb, label: t("nav.clinicalClarity"), key: "Clinical Clarity" },
     { icon: Activity, label: t("nav.clinicalSkillLab"), key: "Clinical Skill Lab" },
     { icon: Stethoscope, label: t("nav.simulators"), key: "Simulators" },
