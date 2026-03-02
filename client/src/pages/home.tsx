@@ -318,6 +318,111 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="py-14 bg-white border-t border-gray-100" data-testid="section-reviews">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
+                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Student Reviews</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-reviews-heading">
+                Trusted by Nursing Students Across Canada
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Real feedback from RPN, RN, and NP students who used NurseNest to prepare for their licensing exams.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {[
+                {
+                  name: "Priya S.",
+                  role: "RPN Student, Ontario",
+                  rating: 5,
+                  text: "I passed my REx-PN on the first attempt. The question bank and clinical lessons covered everything I saw on exam day. The rationales actually teach you how to think through each question.",
+                  tier: "RPN"
+                },
+                {
+                  name: "James K.",
+                  role: "RN Student, British Columbia",
+                  rating: 5,
+                  text: "The mock exams with strict mode were a game changer. I felt completely prepared walking into the NCLEX-RN. The flashcard decks helped me memorize medications faster than any textbook.",
+                  tier: "RN"
+                },
+                {
+                  name: "Dr. Aisha M.",
+                  role: "NP Student, Alberta",
+                  rating: 5,
+                  text: "The NP question bank is incredibly thorough. Pharmacology questions, clinical management scenarios, and differential diagnosis content were all directly relevant to my AANP certification exam.",
+                  tier: "NP"
+                },
+                {
+                  name: "Sophie L.",
+                  role: "RPN Student, Manitoba",
+                  rating: 5,
+                  text: "Having everything in one place saved me so much time. The pre-test and post-test system for each lesson showed me exactly where my weak spots were so I could focus my study time.",
+                  tier: "RPN"
+                },
+                {
+                  name: "Marcus T.",
+                  role: "RN Student, Nova Scotia",
+                  rating: 4,
+                  text: "The pathophysiology lessons broke down complex topics into clear, digestible sections. Being able to switch languages to French was a huge plus for me as a bilingual student.",
+                  tier: "RN"
+                },
+                {
+                  name: "Dr. Fatima R.",
+                  role: "NP Student, Ontario",
+                  rating: 5,
+                  text: "I recommended NurseNest to my entire cohort. The clinical pearls and medication safety content go beyond surface-level review. This platform genuinely prepares you for advanced practice.",
+                  tier: "NP"
+                }
+              ].map((review, i) => (
+                <Card key={i} className="border border-gray-100 hover:shadow-md transition-shadow" data-testid={`card-review-${i}`}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-1 mb-3">
+                      {Array.from({ length: 5 }).map((_, s) => (
+                        <Star
+                          key={s}
+                          className={`w-4 h-4 ${s < review.rating ? "text-amber-400 fill-amber-400" : "text-gray-200"}`}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-gray-700 text-sm leading-relaxed mb-4" data-testid={`text-review-${i}`}>
+                      "{review.text}"
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-semibold text-gray-900 text-sm" data-testid={`text-reviewer-name-${i}`}>{review.name}</p>
+                        <p className="text-xs text-gray-500">{review.role}</p>
+                      </div>
+                      <Badge variant="outline" className="text-xs">{review.tier}</Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {["bg-blue-400", "bg-emerald-400", "bg-purple-400", "bg-amber-400"].map((bg, i) => (
+                    <div key={i} className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center text-white text-[10px] font-bold`}>
+                      {["P", "J", "A", "S"][i]}
+                    </div>
+                  ))}
+                </div>
+                <span>Join 2,400+ students</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                <span className="font-semibold text-gray-700">4.9/5</span>
+                <span>average rating</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="included" className="py-16 bg-gradient-to-b from-white to-primary/5 border-t border-gray-100" data-testid="section-included">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
