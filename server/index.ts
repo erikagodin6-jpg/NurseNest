@@ -34,11 +34,16 @@ app.get("/healthz", (_req, res) => res.status(200).send("ok"));
 //   - Always 301 permanent for SEO canonicalization
 const CANONICAL_HOST = "www.nursenest.ca";
 const BARE_HOST = "nursenest.ca";
-const ALLOWED_HOSTS = new Set([BARE_HOST, CANONICAL_HOST]);
+const ALLIED_HOST = "allied.nursenest.ca";
+const ALLOWED_HOSTS = new Set([BARE_HOST, CANONICAL_HOST, ALLIED_HOST]);
+
+import { alliedDetectionMiddleware, hostRedirectMiddleware, isAlliedHost } from "./allied-middleware";
+app.use(alliedDetectionMiddleware);
 
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
     const hostname = req.hostname;
+    if (hostname === ALLIED_HOST) return next();
     if (!ALLOWED_HOSTS.has(hostname)) return next();
 
     const proto = req.protocol;
@@ -186,26 +191,44 @@ app.post("/api/admin/verify", (req, res) => {
 // -------------------------
 // SEO: robots + sitemap + verification (before registerRoutes)
 // -------------------------
-app.get("/robots.txt", (_req, res) => {
-  const base = getSiteBase();
+app.get("/robots.txt", (req, res) => {
   res.setHeader("Cache-Control", "public, max-age=86400");
-  res.type("text/plain").send(
-    [
-      "User-agent: *",
-      "Allow: /",
-      "",
-      "Disallow: /admin",
-      "Disallow: /content-editor",
-      "Disallow: /api/",
-      "Disallow: /login",
-      "Disallow: /profile",
-      "Disallow: /subscription/success",
-      "",
-      `Sitemap: ${base}/sitemap.xml`,
-      `Sitemap: ${base}/sitemap_index.xml`,
-      "",
-    ].join("\n"),
-  );
+  if (req.isAllied) {
+    const alliedBase = "https://allied.nursenest.ca";
+    res.type("text/plain").send(
+      [
+        "User-agent: *",
+        "Allow: /",
+        "",
+        "Disallow: /admin",
+        "Disallow: /api/",
+        "Disallow: /account",
+        "Disallow: /checkout",
+        "",
+        `Sitemap: ${alliedBase}/sitemap-allied.xml`,
+        "",
+      ].join("\n"),
+    );
+  } else {
+    const base = getSiteBase();
+    res.type("text/plain").send(
+      [
+        "User-agent: *",
+        "Allow: /",
+        "",
+        "Disallow: /admin",
+        "Disallow: /content-editor",
+        "Disallow: /api/",
+        "Disallow: /login",
+        "Disallow: /profile",
+        "Disallow: /subscription/success",
+        "",
+        `Sitemap: ${base}/sitemap.xml`,
+        `Sitemap: ${base}/sitemap_index.xml`,
+        "",
+      ].join("\n"),
+    );
+  }
 });
 
 function getSiteBase(): string {
@@ -379,6 +402,15 @@ app.get("/sitemap_index.xml", async (_req, res) => {
     `<sitemap><loc>${base}/sitemap-${locale}.xml</loc><lastmod>${today}</lastmod></sitemap>`
   );
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join("\n")}\n</sitemapindex>`;
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(xml);
+});
+
+import { generateAlliedSitemap } from "./allied-middleware";
+app.get("/sitemap-allied.xml", (_req, res) => {
+  const alliedBase = "https://allied.nursenest.ca";
+  const xml = generateAlliedSitemap(alliedBase);
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600");
   res.status(200).send(xml);
