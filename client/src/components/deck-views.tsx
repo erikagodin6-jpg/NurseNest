@@ -122,7 +122,7 @@ export function DeckHub({
   newDeckVisibility, setNewDeckVisibility,
 }: Partial<DeckViewsProps> & { user: any; setView: any; setLocation: any }) {
   const [showCreate, setShowCreate] = useState(false);
-  const [createMode, setCreateMode] = useState<"manual" | "ai" | "notes">("ai");
+  const [createMode, setCreateMode] = useState<"manual" | "ai" | "notes">("notes");
   const [deckSortBy, setDeckSortBy] = useState<DeckSortOption>("newest");
   const [showStudyGroupPanel, setShowStudyGroupPanel] = useState(false);
   const [studyGroups, setStudyGroups] = useState<any[]>([]);
@@ -339,10 +339,11 @@ export function DeckHub({
       setAiError("File too large. Please limit to 5 MB.");
       return;
     }
-    const validTypes = [".txt", ".md", ".csv", ".rtf"];
+    const validTypes = [".txt", ".md", ".csv", ".rtf", ".pdf", ".doc", ".docx"];
+    const validMimes = ["text/", "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
     const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
-    if (!validTypes.includes(ext) && !file.type.startsWith("text/")) {
-      setAiError("Please upload a text file (.txt, .md, .csv, or .rtf).");
+    if (!validTypes.includes(ext) && !validMimes.some(m => file.type.startsWith(m))) {
+      setAiError("Please upload a supported file (.txt, .md, .csv, .rtf, .pdf, .doc, or .docx).");
       return;
     }
     setNotesFileName(file.name);
@@ -387,15 +388,6 @@ export function DeckHub({
           <CardContent className="p-5 space-y-4">
             <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
               <button
-                onClick={() => setCreateMode("ai")}
-                className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
-                  createMode === "ai" ? "bg-purple-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
-                )}
-                data-testid="button-create-mode-ai"
-              >
-                <Sparkles className="w-3.5 h-3.5" /> AI Generator
-              </button>
-              <button
                 onClick={() => setCreateMode("notes")}
                 className={cn("flex-1 px-3 py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors",
                   createMode === "notes" ? "bg-blue-600 text-white shadow-sm" : "text-gray-500 hover:bg-gray-200"
@@ -439,7 +431,7 @@ export function DeckHub({
                     className="text-xs border rounded-lg px-2 py-1.5 bg-white"
                     data-testid="select-ai-card-count"
                   >
-                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""} cards</option>)}
+                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
                   <label className="text-xs text-gray-500">Visibility:</label>
@@ -512,7 +504,7 @@ export function DeckHub({
                 <div className="border-2 border-dashed border-blue-200 rounded-xl p-4 text-center hover:border-blue-400 transition-colors">
                   <input
                     type="file"
-                    accept=".txt,.md,.csv,.rtf,text/*"
+                    accept=".txt,.md,.csv,.rtf,.pdf,.doc,.docx,text/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     onChange={handleNotesFileUpload}
                     className="hidden"
                     id="notes-file-upload"
@@ -521,7 +513,7 @@ export function DeckHub({
                   <label htmlFor="notes-file-upload" className="cursor-pointer flex flex-col items-center gap-2">
                     <Upload className="w-8 h-8 text-blue-300" />
                     <span className="text-xs text-blue-600 font-medium">Click to upload a text file</span>
-                    <span className="text-[10px] text-gray-400">.txt, .md, .csv, .rtf (max 5 MB)</span>
+                    <span className="text-[10px] text-gray-400">.txt, .md, .csv, .rtf, .pdf, .doc, .docx (max 5 MB)</span>
                   </label>
                   {notesFileName && (
                     <div className="mt-2 inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-lg" data-testid="text-notes-filename">
@@ -553,7 +545,7 @@ export function DeckHub({
                     className="text-xs border rounded-lg px-2 py-1.5 bg-white"
                     data-testid="select-notes-card-count"
                   >
-                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""} cards</option>)}
+                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
                   <label className="text-xs text-gray-500">Visibility:</label>
@@ -951,6 +943,9 @@ export function DeckView({
           <Button variant="outline" size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-back-library">
             <ArrowLeft className="w-3.5 h-3.5" /> All Decks
           </Button>
+          <Button size="sm" onClick={() => setView("decks")} className="h-8 text-xs gap-1.5 rounded-lg" data-testid="button-create-new-deck-from-view">
+            <Plus className="w-3.5 h-3.5" /> New Deck
+          </Button>
         </div>
       </div>
 
@@ -981,16 +976,21 @@ export function DeckView({
             </>
           )}
           {isOwner && (
-            <Button variant="outline" onClick={() => { setView("deck-edit"); }} className="rounded-xl gap-2" data-testid="button-edit-deck">
-              <Pencil className="w-4 h-4" /> Edit
-            </Button>
+            <>
+              <Button variant="outline" onClick={() => { setView("deck-edit"); }} className="rounded-xl gap-2" data-testid="button-edit-deck">
+                <Pencil className="w-4 h-4" /> Edit
+              </Button>
+              <Button variant="outline" onClick={() => duplicateDeck!(currentDeck.id)} className="rounded-xl gap-2" data-testid="button-duplicate-deck">
+                <Copy className="w-4 h-4" /> Duplicate
+              </Button>
+            </>
           )}
           {!isOwner && user && (
             <>
               <Button variant="outline" onClick={() => saveDeck!(currentDeck.id)} className="rounded-xl gap-2" data-testid="button-save-deck">
                 <BookOpen className="w-4 h-4" /> Save
               </Button>
-              <Button variant="outline" onClick={() => duplicateDeck!(currentDeck.id)} className="rounded-xl gap-2" data-testid="button-duplicate-deck">
+              <Button variant="outline" onClick={() => duplicateDeck!(currentDeck.id)} className="rounded-xl gap-2" data-testid="button-duplicate-deck-other">
                 <Copy className="w-4 h-4" /> Copy
               </Button>
               <Button variant="outline" onClick={() => setReportOpen(!reportOpen)} className="rounded-xl gap-2 text-red-500 hover:text-red-600" data-testid="button-report-deck">
@@ -1200,7 +1200,7 @@ export function DeckView({
                     className="bg-white border border-gray-200 rounded-lg px-2 text-sm"
                     data-testid="select-ai-generate-count-deckview"
                   >
-                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " ⭐" : ""} cards</option>)}
+                    {[5, 10, 15, 20, 25, 30, 40, 50].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                 </div>
                 <Button
@@ -1372,9 +1372,9 @@ export function DeckEditor({
                   <option value={15}>15</option>
                   <option value={20}>20</option>
                   <option value={25}>25</option>
-                  <option value={30}>30 ⭐</option>
-                  <option value={40}>40 ⭐</option>
-                  <option value={50}>50 ⭐</option>
+                  <option value={30}>30 (premium)</option>
+                  <option value={40}>40 (premium)</option>
+                  <option value={50}>50 (premium)</option>
                 </select>
               </div>
               <Button

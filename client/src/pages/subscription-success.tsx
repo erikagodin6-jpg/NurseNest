@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, Target } from "lucide-react";
 
 export default function SubscriptionSuccess() {
   const [, navigate] = useLocation();
@@ -52,10 +52,15 @@ export default function SubscriptionSuccess() {
                   <CheckCircle2 className="w-10 h-10 text-emerald-500" />
                 </div>
                 <h2 className="text-2xl font-bold">Subscription Activated!</h2>
-                <p className="text-gray-600">You now have full access to your tier's content.</p>
-                <Button onClick={() => navigate("/lessons")} className="rounded-full px-8" data-testid="button-go-to-lessons">
-                  Start Learning
-                </Button>
+                <p className="text-gray-600">You now have full access to your tier's content. Build a personalized study plan to get started.</p>
+                <div className="flex flex-col gap-2">
+                  <Button onClick={() => navigate("/onboarding/plan")} className="rounded-full px-8" data-testid="button-build-study-plan">
+                    <Target className="w-4 h-4 mr-2" /> Build My Study Plan
+                  </Button>
+                  <Button onClick={() => navigate("/lessons")} variant="outline" className="rounded-full px-8" data-testid="button-go-to-lessons">
+                    Browse Lessons
+                  </Button>
+                </div>
               </>
             ) : (
               <>

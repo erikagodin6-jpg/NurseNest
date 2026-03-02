@@ -4461,7 +4461,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
       if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
 
-      const PREMIUM_MAX = 50;
+      const PREMIUM_MAX = 300;
       const FREE_MAX_PER_GEN = 25;
       const maxAllowed = entitlement.isPremium ? PREMIUM_MAX : Math.min(FREE_MAX_PER_GEN, (deck.is_upgraded ? ((deck.upgraded_limit || DECK_UPGRADED_MAX) - entitlement.totalFreeCards) : (FREE_GLOBAL_MAX - entitlement.totalFreeCards)));
       const numCards = Math.min(Math.max(parseInt(count) || 10, 1), Math.max(maxAllowed, 1));
@@ -4542,7 +4542,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
       const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
       if (!apiKey) return res.status(503).json({ error: "AI generation unavailable" });
 
-      const PREMIUM_MAX = 50;
+      const PREMIUM_MAX = 300;
       const FREE_MAX_PER_GEN = 25;
       const maxAllowed = entitlement.isPremium ? PREMIUM_MAX : Math.min(FREE_MAX_PER_GEN, (deck.is_upgraded ? ((deck.upgraded_limit || DECK_UPGRADED_MAX) - entitlement.totalFreeCards) : (FREE_GLOBAL_MAX - entitlement.totalFreeCards)));
       const numCards = Math.min(Math.max(parseInt(count) || 15, 1), Math.max(maxAllowed, 1));

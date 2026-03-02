@@ -369,6 +369,14 @@ export default function PricingPage() {
                       <CreditCard className="w-4 h-4 mr-2" />
                       {loadingTier === tier.id ? t("pricing.processing") : t("pricing.payWithCard")}
                     </Button>
+                    <Button
+                      variant="ghost"
+                      className="w-full rounded-full text-sm text-gray-500 hover:text-primary mt-1"
+                      onClick={() => navigate(`/subscribe/${tier.id}`)}
+                      data-testid={`button-details-${tier.id}`}
+                    >
+                      See what's included
+                    </Button>
                     {paypalAvailable && (
                       <div className="mt-2">
                         {paypalTier === tier.id ? (
