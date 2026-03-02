@@ -94,6 +94,8 @@ export default function AlliedAdminPage() {
   const [genCount, setGenCount] = useState(25);
   const [expandedBatch, setExpandedBatch] = useState<string | null>(null);
   const [blueprints, setBlueprints] = useState<any[]>([]);
+  const [domainSubtopics, setDomainSubtopics] = useState<Record<string, string[]>>({});
+  const [availableSubtopics, setAvailableSubtopics] = useState<string[]>([]);
 
   const loadStats = useCallback(async () => {
     try {
@@ -134,12 +136,29 @@ export default function AlliedAdminPage() {
     }
   }, [selectedCareer]);
 
+  const loadSubtopics = useCallback(async () => {
+    try {
+      const data = await fetch(`/api/allied/pipeline/subtopics?careerType=${selectedCareer}`).then(r => r.json());
+      setDomainSubtopics(data.domains || {});
+    } catch {}
+  }, [selectedCareer]);
+
   useEffect(() => { loadStats(); }, [loadStats]);
+  useEffect(() => { loadSubtopics(); }, [loadSubtopics]);
   useEffect(() => {
     if (tab === "generate" || tab === "questions") loadBatches();
     if (tab === "revision") loadRevisionQueue();
     if (tab === "blueprints") loadBlueprints();
   }, [tab, selectedCareer, loadBatches, loadRevisionQueue, loadBlueprints]);
+
+  useEffect(() => {
+    if (genDomain && domainSubtopics[genDomain]) {
+      setAvailableSubtopics(domainSubtopics[genDomain]);
+    } else {
+      setAvailableSubtopics([]);
+    }
+    setGenSubtopic("");
+  }, [genDomain, domainSubtopics]);
 
   const handleCreateBlueprint = async () => {
     try {

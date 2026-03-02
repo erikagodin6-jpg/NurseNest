@@ -16,6 +16,65 @@ const MIN_RATIONALE_WORDS = 600;
 const MIN_BATCH = 25;
 const MAX_BATCH = 100;
 
+const CAREER_BLUEPRINT_DOMAINS: Record<string, Record<string, { weight: number; subtopics: string[] }>> = {
+  pharmacyTech: {
+    "Pharmaceutical Calculations": { weight: 0.18, subtopics: ["Dosage Calculations", "IV Flow Rates", "Dilution/Concentration", "Alligation", "Business Math", "Day Supply", "Pediatric Dosing", "Unit Conversions"] },
+    "Dispensing Workflow & Safety": { weight: 0.15, subtopics: ["Prescription Processing", "Label Requirements", "Sig Code Interpretation", "Workflow Steps", "Technology Systems", "Patient Counseling Points", "Transfer Protocols"] },
+    "Sterile & Non-Sterile Compounding": { weight: 0.14, subtopics: ["USP 795 Standards", "USP 797 Standards", "USP 800 Hazardous", "Aseptic Technique", "Beyond-Use Dating", "Equipment Calibration", "Quality Assurance", "Garbing Procedures"] },
+    "Medication Safety & Error Prevention": { weight: 0.12, subtopics: ["Look-Alike/Sound-Alike", "High-Alert Medications", "Error Reporting", "ISMP Guidelines", "Barcode Verification", "Patient Identifiers", "Black Box Warnings"] },
+    "Drug Classes Foundations": { weight: 0.12, subtopics: ["Top 200 Drugs", "Drug Interactions", "Adverse Effects", "Contraindications", "Therapeutic Categories", "OTC vs Rx", "Generic/Brand Equivalents"] },
+    "Controlled Substances": { weight: 0.10, subtopics: ["DEA Schedules", "Documentation Requirements", "Ordering/Receiving", "Disposal Procedures", "Refill Limitations", "Transfer Rules", "Inventory Requirements"] },
+    "Inventory & Storage": { weight: 0.10, subtopics: ["Storage Conditions", "Expiration Dating", "Recall Procedures", "Ordering Systems", "Formulary Management", "Return-to-Stock", "Cold Chain Management"] },
+    "Prescription Interpretation": { weight: 0.09, subtopics: ["Abbreviations", "Route of Administration", "Dosage Forms", "DAW Codes", "Insurance Codes", "Prior Authorization", "Rejection Resolution"] },
+  },
+  rrt: {
+    "Respiratory Physiology": { weight: 0.12, subtopics: ["Gas Exchange", "Ventilation/Perfusion", "Oxygen Transport", "Lung Volumes/Capacities", "Pulmonary Mechanics", "Control of Breathing", "Acid-Base Physiology"] },
+    "ABGs & Acid-Base": { weight: 0.15, subtopics: ["ABG Interpretation", "Compensation Mechanisms", "Mixed Disorders", "Anion Gap", "Base Excess", "Oxygenation Indices", "A-a Gradient"] },
+    "Oxygen Therapy": { weight: 0.12, subtopics: ["Delivery Devices", "Flow Rates/FiO2", "Humidification", "Hyperbaric Oxygen", "Titration Protocols", "Monitoring", "Complications"] },
+    "Mechanical Ventilation": { weight: 0.18, subtopics: ["Modes of Ventilation", "Initial Settings", "Waveform Analysis", "Weaning Protocols", "Patient-Ventilator Asynchrony", "ARDS Protocols", "Non-Invasive Ventilation", "Troubleshooting"] },
+    "Respiratory Disorders": { weight: 0.14, subtopics: ["COPD/Asthma", "Pneumonia/ARDS", "Pulmonary Embolism", "Pneumothorax", "Sleep Apnea", "Cystic Fibrosis", "Interstitial Lung Disease"] },
+    "Airway & Emergencies": { weight: 0.12, subtopics: ["Intubation", "Difficult Airway", "CPR/ACLS", "Tracheostomy Care", "Airway Assessment", "Emergency Protocols", "Suctioning"] },
+    "Diagnostics": { weight: 0.09, subtopics: ["Pulmonary Function Tests", "Chest X-Ray Interpretation", "Bronchoscopy", "Capnography", "Pulse Oximetry", "Sleep Studies", "Exercise Testing"] },
+    "Infection Control": { weight: 0.08, subtopics: ["VAP Prevention", "Isolation Precautions", "Equipment Disinfection", "Surveillance", "Antibiotic Stewardship", "Hand Hygiene", "PPE"] },
+  },
+  paramedic: {
+    "Trauma": { weight: 0.15, subtopics: ["Primary Survey", "Hemorrhage Control", "Spinal Motion Restriction", "Chest Trauma", "Abdominal Trauma", "Burns", "Blast Injuries"] },
+    "Medical Emergencies": { weight: 0.15, subtopics: ["Stroke Assessment", "Diabetic Emergencies", "Seizures", "Overdose/Poisoning", "Anaphylaxis", "Sepsis", "Electrolyte Disorders"] },
+    "Cardiac/ACLS": { weight: 0.15, subtopics: ["12-Lead ECG", "ACLS Algorithms", "Cardiac Arrest", "Acute Coronary Syndrome", "Dysrhythmia Recognition", "Cardioversion/Defibrillation", "Pacing"] },
+    "Pediatric/PALS": { weight: 0.10, subtopics: ["Pediatric Assessment Triangle", "PALS Algorithms", "Neonatal Resuscitation", "Pediatric Airway", "Pediatric Pharmacology", "Child Abuse Recognition"] },
+    "OB Emergencies": { weight: 0.08, subtopics: ["Normal Delivery", "Breech Presentation", "Cord Prolapse", "Eclampsia", "Postpartum Hemorrhage", "Neonatal Care"] },
+    "Pharmacology": { weight: 0.12, subtopics: ["Drug Calculations", "Cardiac Drugs", "Sedation/Analgesia", "RSI Medications", "Vasopressors", "Antidotes", "Routes of Administration"] },
+    "Airway Management": { weight: 0.10, subtopics: ["BVM Ventilation", "Supraglottic Airways", "Endotracheal Intubation", "Surgical Airway", "Capnography", "RSI Technique"] },
+    "Assessment": { weight: 0.08, subtopics: ["Scene Size-Up", "Patient History", "Physical Examination", "Glasgow Coma Scale", "Vitals Interpretation", "Documentation"] },
+    "Operations": { weight: 0.04, subtopics: ["Scene Safety", "MCI/Triage", "Vehicle Extrication", "Hazmat Awareness", "Air Medical"] },
+    "Legal/Ethics": { weight: 0.03, subtopics: ["Consent/Refusal", "Mandatory Reporting", "Scope of Practice", "Documentation Standards", "HIPAA"] },
+  },
+  mlt: {
+    "Hematology": { weight: 0.15, subtopics: ["CBC Interpretation", "Coagulation Cascade", "Hemoglobinopathies", "Leukemia Classification", "Peripheral Smear", "Bone Marrow", "Hemostasis Testing"] },
+    "Clinical Chemistry": { weight: 0.15, subtopics: ["Renal Function", "Liver Function", "Cardiac Markers", "Electrolytes", "Endocrine Testing", "Therapeutic Drug Monitoring", "Tumor Markers"] },
+    "Microbiology": { weight: 0.14, subtopics: ["Gram Stain", "Culture Techniques", "Antibiotic Susceptibility", "Parasitology", "Mycology", "Virology", "Specimen Collection"] },
+    "Blood Banking": { weight: 0.14, subtopics: ["ABO/Rh Typing", "Antibody Screen", "Crossmatch", "Transfusion Reactions", "Component Therapy", "Donor Screening", "Quality Control"] },
+    "Urinalysis": { weight: 0.08, subtopics: ["Physical Examination", "Chemical Analysis", "Microscopic Examination", "Body Fluids", "Renal Function Correlation"] },
+    "Immunology/Serology": { weight: 0.10, subtopics: ["Immune Response", "Autoimmune Disorders", "Infectious Disease Serology", "Transplant Immunology", "Complement System", "Flow Cytometry"] },
+    "Molecular Diagnostics": { weight: 0.08, subtopics: ["PCR Techniques", "Nucleic Acid Extraction", "Sequencing", "Molecular Markers", "Point-of-Care Testing"] },
+    "Lab Operations": { weight: 0.08, subtopics: ["Safety Regulations", "Quality Management", "Instrument Maintenance", "Method Validation", "Proficiency Testing"] },
+    "Quality Assurance": { weight: 0.05, subtopics: ["Westgard Rules", "QC Statistics", "Calibration", "CLIA Compliance", "Accreditation Standards"] },
+    "Body Fluids": { weight: 0.03, subtopics: ["CSF Analysis", "Synovial Fluid", "Serous Fluids", "Seminal Fluid"] },
+  },
+  imaging: {
+    "Radiographic Positioning": { weight: 0.18, subtopics: ["Upper Extremity", "Lower Extremity", "Chest/Abdomen", "Spine", "Skull/Facial", "Pediatric Positioning", "Trauma Positioning"] },
+    "Radiation Safety": { weight: 0.14, subtopics: ["ALARA Principle", "Dose Limits", "Shielding", "Distance/Time", "Personnel Monitoring", "Pregnant Patient", "Regulatory Compliance"] },
+    "Anatomy/Physiology": { weight: 0.12, subtopics: ["Skeletal System", "Organ Systems", "Cross-Sectional Anatomy", "Vascular Anatomy", "Pathology Correlation"] },
+    "Image Production": { weight: 0.12, subtopics: ["Exposure Factors", "Image Quality", "Digital Imaging", "Artifact Recognition", "Post-Processing", "CR/DR Systems"] },
+    "Equipment Operation": { weight: 0.10, subtopics: ["X-Ray Tube", "Generator Components", "Automatic Exposure Control", "Quality Control", "Maintenance"] },
+    "Patient Care": { weight: 0.10, subtopics: ["Contrast Media", "Patient Assessment", "Infection Control", "Emergency Procedures", "Communication", "Immobilization"] },
+    "Pathology Recognition": { weight: 0.08, subtopics: ["Fractures", "Pneumonia Patterns", "Cardiac Conditions", "GI Pathology", "Musculoskeletal Disease"] },
+    "CT Imaging": { weight: 0.06, subtopics: ["CT Principles", "Helical/Spiral CT", "CT Protocols", "3D Reconstruction", "Dose Reduction"] },
+    "MRI Physics": { weight: 0.05, subtopics: ["Magnetic Fields", "Pulse Sequences", "T1/T2 Weighting", "Safety Screening", "Contrast Agents"] },
+    "Ultrasound Physics": { weight: 0.05, subtopics: ["Sound Wave Properties", "Transducer Types", "Doppler Principles", "Image Optimization", "Artifacts"] },
+  },
+};
+
 async function requirePipelineAdmin(req: any, res: any): Promise<any> {
   const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || req.query?.adminId || "");
   if (!adminId) return res.status(401).json({ error: "Admin required" });
@@ -166,9 +225,14 @@ export function registerAlliedPipelineRoutes(app: Express) {
 
       await pool.query("UPDATE allied_blueprints SET is_active = false WHERE career_type = $1", [careerType]);
 
+      const specializedDomains = CAREER_BLUEPRINT_DOMAINS[careerType];
       const domainWeights: Record<string, number> = {};
-      const weight = parseFloat((1.0 / career.domains.length).toFixed(3));
-      career.domains.forEach(d => { domainWeights[d] = weight; });
+      if (specializedDomains) {
+        Object.entries(specializedDomains).forEach(([d, config]) => { domainWeights[d] = config.weight; });
+      } else {
+        const weight = parseFloat((1.0 / career.domains.length).toFixed(3));
+        career.domains.forEach(d => { domainWeights[d] = weight; });
+      }
 
       const r = await pool.query(
         `INSERT INTO allied_blueprints (career_type, version, domains, difficulty_distribution, cognitive_distribution, allowed_question_types, is_active)
@@ -470,6 +534,62 @@ export function registerAlliedPipelineRoutes(app: Express) {
       await pool.query("UPDATE allied_batch_runs SET status = 'committed' WHERE id = $1", [batchId]);
 
       res.json({ committed: questions.length, flashcardsGenerated: flashcardCount });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/allied/pipeline/subtopics", async (req, res) => {
+    try {
+      const { careerType, domain } = req.query;
+      if (!careerType || !ALLIED_CAREERS.includes(careerType as string)) {
+        return res.status(400).json({ error: "Invalid careerType" });
+      }
+      const careerDomains = CAREER_BLUEPRINT_DOMAINS[careerType as string];
+      if (!careerDomains) return res.json({ domains: {}, subtopics: [] });
+      if (domain && careerDomains[domain as string]) {
+        return res.json({ subtopics: careerDomains[domain as string].subtopics });
+      }
+      const allDomains: Record<string, string[]> = {};
+      Object.entries(careerDomains).forEach(([d, config]) => {
+        allDomains[d] = config.subtopics;
+      });
+      res.json({ domains: allDomains });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/allied/pipeline/seed-blueprints", async (req, res) => {
+    try {
+      const admin = await requirePipelineAdmin(req, res);
+      if (!admin) return;
+      const results: Record<string, any> = {};
+      for (const careerType of ALLIED_CAREERS) {
+        const specializedDomains = CAREER_BLUEPRINT_DOMAINS[careerType];
+        if (!specializedDomains) continue;
+        const existingRes = await pool.query(
+          "SELECT COUNT(*) as c FROM allied_blueprints WHERE career_type = $1",
+          [careerType]
+        );
+        if (parseInt(existingRes.rows[0].c) > 0) {
+          await pool.query("UPDATE allied_blueprints SET is_active = false WHERE career_type = $1", [careerType]);
+        }
+        const vRes = await pool.query(
+          "SELECT COALESCE(MAX(version), 0) as max_v FROM allied_blueprints WHERE career_type = $1",
+          [careerType]
+        );
+        const nextVersion = (vRes.rows[0]?.max_v || 0) + 1;
+        const domainWeights: Record<string, number> = {};
+        Object.entries(specializedDomains).forEach(([d, config]) => { domainWeights[d] = config.weight; });
+        const r = await pool.query(
+          `INSERT INTO allied_blueprints (career_type, version, domains, difficulty_distribution, cognitive_distribution, allowed_question_types, is_active)
+           VALUES ($1, $2, $3, $4, $5, $6, true) RETURNING id, career_type, version`,
+          [careerType, nextVersion, JSON.stringify(domainWeights), JSON.stringify(DEFAULT_DIFFICULTY_DIST), JSON.stringify(DEFAULT_COGNITIVE_DIST), JSON.stringify(DEFAULT_QUESTION_TYPES)]
+        );
+        results[careerType] = { id: r.rows[0].id, version: nextVersion, domains: Object.keys(domainWeights).length };
+      }
+      res.json({ seeded: results });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
