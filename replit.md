@@ -94,7 +94,20 @@ Standalone exam bank files in `client/src/data/exam-questions/` use the `ExamQue
 
 ### SEO Silo Pages & Conversion Funnel
 - `/free-practice` - 10 embedded clinical questions (no auth required) with instant answer/rationale feedback, score tracking, and CTAs to mock exams/question bank/store.
-- `/nclex-rn-practice-questions`, `/nclex-pn-practice-questions`, `/rex-pn-practice-questions`, `/np-exam-practice-questions` - SEO silo landing pages with H1 keyword targeting, FAQ accordion with JSON-LD FAQ schema, feature cards linking to internal routes, dual CTAs.
+- `/nclex-rn-practice-questions`, `/nclex-pn-practice-questions`, `/rex-pn-practice-questions`, `/np-exam-practice-questions` - Rich SEO silo hub pages with:
+  - H1 keyword targeting, intro paragraph, feature cards
+  - Live question bank stats pulled from `getPoolStats()` with body system breakdown
+  - Timed mock exams CTA section
+  - Printable exam packs CTA section
+  - Pharmacology by system grid (links to medication mastery)
+  - Related clinical lessons (filtered from `contentMap` by tier, grouped by body system)
+  - Flashcard decks section (hidden for NP silo)
+  - 15-23 internal links per silo page to existing routes and clinical clarity topics
+  - FAQ accordion with FAQPage JSON-LD schema
+  - Course JSON-LD structured data
+  - All 4 silo URLs + `/free-practice` added to sitemap at priority 0.9
+  - Server-side SEO meta in `server/seo-meta.ts` for SSR crawling
+- Silo content mapping: `client/src/lib/silo-config.ts` defines per-exam lesson sections, internal links, pharm systems, tier filters. Only used by silo pages.
 - ExamPracticeLanding component (`client/src/pages/exam-practice-landing.tsx`) is reusable with named exports per exam type.
 - Hero section updated with conversion-optimized copy, exam quick-select buttons (NCLEX-RN, REx-PN, NP Exams), satisfaction guarantee badge, reassurance text, and "See what's included" scroll anchor.
 - "What's Included" section (id="included") added between hero and TrustShowcase with 5 clickable feature cards using dynamic counts from heroStats.

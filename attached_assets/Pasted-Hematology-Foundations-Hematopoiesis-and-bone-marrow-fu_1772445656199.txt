@@ -1,0 +1,117 @@
+Hematology Foundations
+Hematopoiesis and bone marrow function
+Red blood cell structure and function
+White blood cell types and function
+Platelet physiology
+Coagulation cascade
+Intrinsic and extrinsic pathways
+Hemostasis mechanisms
+Laboratory Interpretation
+Complete blood count interpretation
+Hemoglobin and hematocrit trends
+Red blood cell indices (MCV, MCH, MCHC)
+White blood cell differential
+Platelet count interpretation
+Reticulocyte count
+Peripheral smear basics
+PT, INR, aPTT interpretation
+D-dimer interpretation
+Anemias
+Iron deficiency anemia
+Pernicious anemia (B12 deficiency)
+Folate deficiency anemia
+Anemia of chronic disease
+Aplastic anemia
+Hemolytic anemia
+Sickle cell anemia
+Thalassemia
+Clinical manifestations
+Transfusion thresholds
+Iron therapy administration
+Monitoring treatment response
+Bleeding Disorders
+Thrombocytopenia
+Immune thrombocytopenic purpura
+Disseminated intravascular coagulation
+Hemophilia A and B
+Von Willebrand disease
+Bleeding precautions
+Monitoring for hemorrhage
+Transfusion of blood products (platelets, FFP, cryoprecipitate)
+Coagulation and Anticoagulation
+Warfarin therapy management
+Heparin and low molecular weight heparin
+Direct oral anticoagulants
+INR monitoring
+aPTT monitoring
+Reversal agents
+Monitoring for bleeding complications
+Patient education
+Thromboembolic Disorders
+Deep vein thrombosis
+Pulmonary embolism
+Virchow’s triad
+Mechanical prophylaxis
+Pharmacologic prophylaxis
+Monitoring anticoagulation therapy
+Blood Transfusion
+Indications for transfusion
+Pre-transfusion verification
+Informed consent verification
+Baseline vital signs
+Transfusion administration protocols
+Monitoring during transfusion
+Acute hemolytic reaction
+Febrile non-hemolytic reaction
+Allergic reaction
+Anaphylaxis
+Transfusion-related acute lung injury
+Transfusion-associated circulatory overload
+Stopping transfusion procedures
+Documentation requirements
+Hematologic Malignancies
+Leukemia (acute and chronic)
+Lymphoma
+Multiple myeloma
+Signs and symptoms
+Chemotherapy effects
+Tumor lysis syndrome awareness
+Neutropenia management
+Thrombocytopenia management
+Neutropenia
+Absolute neutrophil count interpretation
+Neutropenic precautions
+Infection prevention strategies
+Monitoring for sepsis
+Colony-stimulating factors awareness
+Polycythemia
+Polycythemia vera
+Secondary polycythemia
+Thrombotic risk monitoring
+Sickle Cell Disease
+Pathophysiology
+Vaso-occlusive crisis
+Pain management
+Hydration
+Infection risk
+Acute chest syndrome recognition
+Disseminated Intravascular Coagulation
+Causes
+Lab changes
+Bleeding versus clotting presentation
+Monitoring and escalation
+Emergency Hematology
+Massive hemorrhage protocol
+Hypovolemic shock
+Severe anemia
+Septic shock in neutropenic patient
+Pulmonary embolism
+Acute transfusion reaction
+High-Yield RN Exam Focus
+Interpreting CBC trends
+Recognizing bleeding risk
+Identifying early transfusion reactions
+Managing anticoagulation safely
+Implementing neutropenic precautions
+Escalating abnormal coagulation labs
+Prioritizing patients with unstable hematologic conditions

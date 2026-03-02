@@ -325,6 +325,26 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Question Bank - 1,200+ Nursing Practice Questions | NurseNest",
     description: "Practice with 1,200+ nursing questions organized by body system and tier. Instant rationale display and progress tracking for NCLEX and REX-PN prep. New questions added weekly.",
   },
+  "/nclex-rn-practice-questions": {
+    title: "NCLEX-RN Practice Questions | Free RN Exam Prep | NurseNest",
+    description: "Practice NCLEX-RN questions with detailed rationales. System-based question banks, timed mock exams, and clinical judgment cases aligned to the 2024-2026 NCLEX-RN test plan.",
+  },
+  "/nclex-pn-practice-questions": {
+    title: "NCLEX-PN Practice Questions | Free PN/LPN Exam Prep | NurseNest",
+    description: "Practice NCLEX-PN questions with detailed rationales. RPN-level question banks, timed mock exams, and flashcards aligned to the NCLEX-PN test plan for LPN/LVN students.",
+  },
+  "/rex-pn-practice-questions": {
+    title: "REx-PN Practice Questions | Canadian RPN Exam Prep | NurseNest",
+    description: "Practice REx-PN questions with Canadian lab values, SI units, and scope-of-practice language. System-based question banks, timed mock exams, and study packs for Canadian RPN students.",
+  },
+  "/np-exam-practice-questions": {
+    title: "NP Exam Practice Questions | AANP & ANCC Certification Prep | NurseNest",
+    description: "Practice NP certification exam questions for AANP, ANCC, FNP-BC, and AGPCNP-BC. Advanced assessment, pharmacology, and clinical management questions with detailed rationales.",
+  },
+  "/free-practice": {
+    title: "Free Nursing Practice Questions | Start Studying Now | NurseNest",
+    description: "Try 10 free nursing practice questions with instant rationales. No sign-up required. Test your clinical knowledge before committing to a study plan.",
+  },
   "/login": {
     title: "Log In | NurseNest",
     description: "Log in to your NurseNest account to access nursing lessons, flashcards, and exam prep tools.",

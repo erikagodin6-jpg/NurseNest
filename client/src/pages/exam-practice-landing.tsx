@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -6,9 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
+import { LocaleLink } from "@/lib/LocaleLink";
+import { contentMap } from "@/data/lessons";
+import { getPoolStats } from "@/lib/question-pool";
+import { SILO_CONFIGS } from "@/lib/silo-config";
 import {
   ArrowRight, Target, BookOpen, Layers, Stethoscope, FileText,
   ChevronDown, ChevronUp, FlaskConical, Brain, Activity, Shield,
+  ClipboardList, GraduationCap, Link2, Pill, Sparkles, BookMarked,
+  BarChart3, Download,
 } from "lucide-react";
 
 type ExamType = "nclex-rn" | "nclex-pn" | "rex-pn" | "np";
@@ -138,9 +144,227 @@ function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
   );
 }
 
+function QuestionBankStats({ tier }: { tier: string }) {
+  const stats = useMemo(() => getPoolStats(tier), [tier]);
+  const systemEntries = Object.entries(stats.systems).sort((a, b) => b[1] - a[1]);
+
+  return (
+    <div data-testid="section-question-bank-stats">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <Target className="w-5 h-5 text-primary" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">Question Bank</h3>
+          <p className="text-sm text-gray-500">{stats.total.toLocaleString()} practice questions available</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mb-4">
+        {systemEntries.slice(0, 12).map(([system, count]) => (
+          <div key={system} className="bg-gray-50 rounded-lg px-3 py-2 text-xs" data-testid={`stat-system-${system.toLowerCase().replace(/\s+/g, "-")}`}>
+            <span className="font-medium text-gray-700">{system}</span>
+            <span className="ml-1 text-gray-400">({count})</span>
+          </div>
+        ))}
+      </div>
+      <LocaleLink href="/question-bank">
+        <Button size="sm" variant="outline" data-testid="button-view-question-bank">
+          Browse All Questions <ArrowRight className="ml-1 w-3 h-3" />
+        </Button>
+      </LocaleLink>
+    </div>
+  );
+}
+
+function LessonSection({ sections }: { sections: { title: string; lessons: string[] }[] }) {
+  const validSections = sections.map(section => ({
+    ...section,
+    lessons: section.lessons.filter(id => contentMap[id]),
+  })).filter(section => section.lessons.length > 0);
+
+  if (validSections.length === 0) return null;
+
+  return (
+    <div data-testid="section-lessons">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+          <BookOpen className="w-5 h-5 text-blue-600" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">Related Clinical Lessons</h3>
+          <p className="text-sm text-gray-500">In-depth pathophysiology and nursing interventions</p>
+        </div>
+      </div>
+      <div className="space-y-4">
+        {validSections.map((section) => (
+          <div key={section.title}>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">{section.title}</h4>
+            <div className="grid sm:grid-cols-2 gap-2">
+              {section.lessons.map(lessonId => {
+                const lesson = contentMap[lessonId];
+                if (!lesson) return null;
+                return (
+                  <LocaleLink key={lessonId} href={`/lessons/${lessonId}`}>
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-sm group" data-testid={`link-lesson-${lessonId}`}>
+                      <BookMarked className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
+                      <span className="text-gray-700 group-hover:text-gray-900 truncate">{lesson.title}</span>
+                    </div>
+                  </LocaleLink>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4">
+        <LocaleLink href="/lessons">
+          <Button size="sm" variant="outline" data-testid="button-view-all-lessons">
+            View All Lessons <ArrowRight className="ml-1 w-3 h-3" />
+          </Button>
+        </LocaleLink>
+      </div>
+    </div>
+  );
+}
+
+function PharmSection({ systems }: { systems: string[] }) {
+  return (
+    <div data-testid="section-pharmacology">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+          <Pill className="w-5 h-5 text-green-600" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">Pharmacology by System</h3>
+          <p className="text-sm text-gray-500">High-yield medications organized by body system</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {systems.map((system) => (
+          <LocaleLink key={system} href="/medication-mastery">
+            <div className="bg-green-50/50 hover:bg-green-50 rounded-lg px-3 py-2.5 text-xs font-medium text-green-800 text-center transition-colors" data-testid={`link-pharm-${system.toLowerCase().replace(/\s+/g, "-")}`}>
+              {system}
+            </div>
+          </LocaleLink>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MockExamSection({ examName }: { examName: string }) {
+  return (
+    <div data-testid="section-mock-exams">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
+          <ClipboardList className="w-5 h-5 text-orange-600" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">Timed Mock Exams</h3>
+          <p className="text-sm text-gray-500">Full-length practice exams simulating the {examName}</p>
+        </div>
+      </div>
+      <div className="bg-orange-50/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="text-sm text-gray-600">
+          <p className="font-medium text-gray-800 mb-1">Simulate real exam conditions</p>
+          <p>Timed, randomized questions with instant scoring and detailed performance analytics by body system and topic.</p>
+        </div>
+        <LocaleLink href="/mock-exams">
+          <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white shrink-0" data-testid="button-start-mock-exam">
+            Start Mock Exam <ArrowRight className="ml-1 w-3 h-3" />
+          </Button>
+        </LocaleLink>
+      </div>
+    </div>
+  );
+}
+
+function PrintableSection() {
+  return (
+    <div data-testid="section-printables">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
+          <Download className="w-5 h-5 text-purple-600" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">Printable Exam Packs</h3>
+          <p className="text-sm text-gray-500">PDF question packs with answer keys for offline study</p>
+        </div>
+      </div>
+      <div className="bg-purple-50/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="text-sm text-gray-600">
+          <p className="font-medium text-gray-800 mb-1">Study anywhere, anytime</p>
+          <p>250-question print-ready PDF bundles with detailed rationales. Perfect for study groups or offline review.</p>
+        </div>
+        <LocaleLink href="/shop">
+          <Button size="sm" variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50 shrink-0" data-testid="button-view-printables">
+            Browse Store <ArrowRight className="ml-1 w-3 h-3" />
+          </Button>
+        </LocaleLink>
+      </div>
+    </div>
+  );
+}
+
+function FlashcardsSection() {
+  return (
+    <div data-testid="section-flashcards">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+          <Layers className="w-5 h-5 text-indigo-600" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">Flashcard Decks</h3>
+          <p className="text-sm text-gray-500">High-yield facts for rapid review and spaced repetition</p>
+        </div>
+      </div>
+      <div className="bg-indigo-50/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="text-sm text-gray-600">
+          <p className="font-medium text-gray-800 mb-1">Flashcards for active recall</p>
+          <p>Pharmacology, lab values, pathophysiology, and nursing interventions. Custom deck creation available.</p>
+        </div>
+        <LocaleLink href="/flashcards">
+          <Button size="sm" variant="outline" className="border-indigo-200 text-indigo-700 hover:bg-indigo-50 shrink-0" data-testid="button-view-flashcards">
+            Study Flashcards <ArrowRight className="ml-1 w-3 h-3" />
+          </Button>
+        </LocaleLink>
+      </div>
+    </div>
+  );
+}
+
+function InternalLinksSection({ links }: { links: { label: string; href: string }[] }) {
+  return (
+    <div data-testid="section-internal-links">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+          <Link2 className="w-5 h-5 text-gray-600" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900">Explore More Study Resources</h3>
+          <p className="text-sm text-gray-500">All the tools you need in one place</p>
+        </div>
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        {links.map((link, i) => (
+          <LocaleLink key={i} href={link.href}>
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-sm group" data-testid={`link-internal-${i}`}>
+              <ArrowRight className="w-3 h-3 text-gray-400 group-hover:text-primary shrink-0" />
+              <span className="text-gray-600 group-hover:text-gray-900">{link.label}</span>
+            </div>
+          </LocaleLink>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ExamPracticeLanding({ examType }: { examType: ExamType }) {
   const [, setLocation] = useLocation();
   const data = EXAM_DATA[examType];
+  const siloKey = examType === "nclex-rn" ? "nclex-rn" : examType === "nclex-pn" ? "nclex-pn" : examType === "rex-pn" ? "rex-pn" : "np";
+  const silo = SILO_CONFIGS[siloKey];
+  const examName = examType === "nclex-rn" ? "NCLEX-RN" : examType === "nclex-pn" ? "NCLEX-PN" : examType === "rex-pn" ? "REx-PN" : "NP Certification";
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -155,6 +379,23 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
     })),
   };
 
+  const courseSchema = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": data.h1,
+    "description": data.metaDescription,
+    "provider": {
+      "@type": "Organization",
+      "name": "NurseNest",
+      "sameAs": "https://www.nursenest.ca",
+    },
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT40H",
+    },
+  };
+
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
@@ -163,13 +404,14 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
         keywords={data.keywords}
         canonicalPath={`/${examType === "nclex-rn" ? "nclex-rn" : examType === "nclex-pn" ? "nclex-pn" : examType === "rex-pn" ? "rex-pn" : "np-exam"}-practice-questions`}
         structuredData={faqSchema}
+        additionalStructuredData={[courseSchema]}
       />
       <Navigation />
       <main className="flex-1">
         <section className="bg-gradient-to-b from-primary/5 via-white to-white py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="bg-primary/10 text-primary mb-4 px-4 py-1.5" data-testid="badge-exam-type">
-              <Target className="w-3 h-3 mr-1.5" /> Exam Prep
+              <Target className="w-3 h-3 mr-1.5" /> Exam Prep Hub
             </Badge>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight" data-testid="text-exam-landing-h1">
               {data.h1}
@@ -177,7 +419,7 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6" data-testid="text-exam-landing-desc">
               {data.description}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
               <Button
                 size="lg"
                 className="h-12 px-8 rounded-full bg-primary hover:brightness-110 text-white shadow-lg"
@@ -194,6 +436,15 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
                 data-testid="button-mock-exams"
               >
                 <Stethoscope className="mr-2 w-4 h-4" /> Take Mock Exam
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-12 px-8 rounded-full border-2"
+                onClick={() => setLocation("/shop")}
+                data-testid="button-view-printables-hero"
+              >
+                <Download className="mr-2 w-4 h-4" /> View Printables
               </Button>
             </div>
           </div>
@@ -227,6 +478,30 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
                 </Card>
               ))}
             </div>
+
+            {silo && (
+              <div className="space-y-12 mb-16">
+                <h2 className="text-2xl font-bold" data-testid="text-content-hub-heading">{examName} Study Resources</h2>
+
+                <QuestionBankStats tier={silo.questionBankTierFilter} />
+
+                <MockExamSection examName={examName} />
+
+                <PrintableSection />
+
+                {silo.pharmSystems.length > 0 && (
+                  <PharmSection systems={silo.pharmSystems} />
+                )}
+
+                {silo.lessonSections.length > 0 && (
+                  <LessonSection sections={silo.lessonSections} />
+                )}
+
+                {silo.showFlashcards && <FlashcardsSection />}
+
+                <InternalLinksSection links={silo.internalLinks} />
+              </div>
+            )}
 
             <h2 className="text-2xl font-bold mb-6" data-testid="text-faq-heading">Frequently Asked Questions</h2>
             <FAQAccordion faqs={data.faqs} />
