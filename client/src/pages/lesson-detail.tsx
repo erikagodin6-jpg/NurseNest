@@ -1956,9 +1956,9 @@ export default function LessonDetail() {
                   <section id="pathophysiology" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Microscope className="text-primary w-8 h-8" />
-                      <h2>Pathophysiology</h2>
+                      <h2>{t("lesson.pathophysiology")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("lesson.pathophysiologySubtitle")}</p>
                     <Card className="border-none shadow-sm bg-violet-50/50">
                       <CardContent className="p-8 leading-relaxed text-gray-700">
                         <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: pathophysiologyText }} />
@@ -1974,9 +1974,9 @@ export default function LessonDetail() {
                   <section id="risk-factors" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ShieldAlert className="text-rose-500 w-8 h-8" />
-                      <h2>Risk Factors</h2>
+                      <h2>{t("lesson.riskFactors")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("lesson.riskFactorsSubtitle")}</p>
                     <Card className="border-none shadow-sm bg-rose-50/60">
                       <CardContent className="p-8">
                         <div className="grid sm:grid-cols-2 gap-3">
@@ -1999,9 +1999,9 @@ export default function LessonDetail() {
                   <section id="diagnostics" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Search className="text-cyan-600 w-8 h-8" />
-                      <h2>Diagnostics</h2>
+                      <h2>{t("lesson.diagnostics")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("lesson.diagnosticsSubtitle")}</p>
                     <Card className="border-none shadow-sm bg-cyan-50/60">
                       <CardContent className="p-8">
                         <div className="grid sm:grid-cols-2 gap-3">
@@ -2024,9 +2024,9 @@ export default function LessonDetail() {
                   <section id="management" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-emerald-600 w-8 h-8" />
-                      <h2>Management</h2>
+                      <h2>{t("lesson.management")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("lesson.managementSubtitle")}</p>
                     <Card className="border-none shadow-sm bg-emerald-50/60">
                       <CardContent className="p-8">
                         <ul className="space-y-3">
@@ -2051,9 +2051,9 @@ export default function LessonDetail() {
                   <section id="nursing-actions" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <HeartPulse className="text-violet-600 w-8 h-8" />
-                      <h2>Nursing Actions and Scope Considerations</h2>
+                      <h2>{t("lesson.nursingActionsHeading")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("lesson.nursingActionsSubtitle")}</p>
                     <Card className="border-none shadow-sm bg-violet-50/60">
                       <CardContent className="p-8">
                         <ul className="space-y-3">
@@ -2076,9 +2076,9 @@ export default function LessonDetail() {
                   <section id="assessment-findings" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-teal-600 w-8 h-8" />
-                      <h2>Assessment Findings</h2>
+                      <h2>{t("lesson.assessmentFindings")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, labs, and subjective/objective findings</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("lesson.assessmentFindingsSubtitle")}</p>
                     <Card className="border-none shadow-sm bg-teal-50/60">
                       <CardContent className="p-8">
                         <div className="grid sm:grid-cols-2 gap-3">
