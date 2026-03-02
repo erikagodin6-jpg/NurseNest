@@ -26,6 +26,7 @@ function formatPrice(cents: number) {
 }
 
 function ProductCard({ product }: { product: DigitalProduct }) {
+  const { t } = useI18n();
   const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
   const savingsPercent = hasDiscount ? Math.round((1 - product.price / product.compareAtPrice!) * 100) : 0;
   return (
@@ -66,14 +67,14 @@ function ProductCard({ product }: { product: DigitalProduct }) {
             </Badge>
             {product.featured && (
               <Badge className="bg-amber-100 text-amber-700 text-xs" data-testid={`badge-featured-${product.slug}`}>
-                <Star className="w-3 h-3 mr-1" /> Popular
+                <Star className="w-3 h-3 mr-1" /> {t("shop.product.popular")}
               </Badge>
             )}
             {product.tierTarget && product.tierTarget !== "all" && (
               <Badge variant="outline" className="text-xs">{product.tierTarget.toUpperCase()}</Badge>
             )}
             {(product as any).previewUrl && (
-              <Badge variant="outline" className="text-xs text-blue-600 border-blue-200">Preview</Badge>
+              <Badge variant="outline" className="text-xs text-blue-600 border-blue-200">{t("shop.product.preview")}</Badge>
             )}
           </div>
           <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors" data-testid={`text-product-title-${product.slug}`}>
@@ -94,19 +95,19 @@ function ProductCard({ product }: { product: DigitalProduct }) {
                   {formatPrice(product.compareAtPrice!)}
                 </span>
                 <span className="text-xs font-medium text-green-600" data-testid={`text-savings-${product.slug}`}>
-                  Save {formatPrice(product.compareAtPrice! - product.price)}
+                  {t("shop.product.save")} {formatPrice(product.compareAtPrice! - product.price)}
                 </span>
               </>
             )}
           </div>
           <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
             <Download className="w-3 h-3" />
-            <span>Instant PDF download</span>
+            <span>{t("shop.product.instantPdf")}</span>
             {product.questionCount && product.questionCount > 0 && (
               <>
                 <span className="mx-1">|</span>
                 <BookOpen className="w-3 h-3" />
-                <span>{product.questionCount} questions</span>
+                <span>{product.questionCount} {t("shop.product.questions")}</span>
               </>
             )}
           </div>
@@ -584,9 +585,9 @@ export default function ShopPage() {
               {t("shop.hero.subtitle")}
             </p>
             <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
-              <span className="flex items-center gap-1"><Download className="w-4 h-4" /> Instant PDF Download</span>
-              <span className="flex items-center gap-1"><Shield className="w-4 h-4" /> Clinically Verified</span>
-              <span className="flex items-center gap-1"><BookOpen className="w-4 h-4" /> Exam-Aligned Content</span>
+              <span className="flex items-center gap-1"><Download className="w-4 h-4" /> {t("shop.hero.instantDownload")}</span>
+              <span className="flex items-center gap-1"><Shield className="w-4 h-4" /> {t("shop.hero.clinicallyVerified")}</span>
+              <span className="flex items-center gap-1"><BookOpen className="w-4 h-4" /> {t("shop.hero.examAligned")}</span>
             </div>
           </div>
         </section>
@@ -605,7 +606,7 @@ export default function ShopPage() {
                   onClick={() => setTierFilter(tier)}
                   data-testid={`button-tier-${tier}`}
                 >
-                  {tier === "all" ? "All Tiers" : tier.toUpperCase()}
+                  {tier === "all" ? t("shop.filter.allTiers") : tier.toUpperCase()}
                 </Button>
               ))}
             </div>
@@ -634,14 +635,14 @@ export default function ShopPage() {
                   onClick={() => setCategoryFilter(cat)}
                   data-testid={`button-filter-${cat}`}
                 >
-                  {cat === "all" ? "All Products" : cat}
+                  {cat === "all" ? t("shop.allProducts") : cat}
                 </Button>
               ))}
             </div>
           )}
 
           {loading ? (
-            <div className="text-center py-16 text-gray-400" data-testid="text-shop-loading">Loading products...</div>
+            <div className="text-center py-16 text-gray-400" data-testid="text-shop-loading">{t("shop.loading")}</div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-16" data-testid="text-shop-empty">
               <ShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />

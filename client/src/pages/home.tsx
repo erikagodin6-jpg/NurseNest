@@ -130,7 +130,7 @@ export default function Home() {
     const trimmed = email.trim().toLowerCase();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       setEmailStatus("error");
-      setEmailMessage("Please enter a valid email address.");
+      setEmailMessage(t("home.email.invalidEmail"));
       return;
     }
     setEmailStatus("loading");
@@ -145,7 +145,7 @@ export default function Home() {
         throw new Error(data.message || "Subscription failed. Please try again.");
       }
       setEmailStatus("success");
-      setEmailMessage("You're subscribed! Check your inbox for practice questions.");
+      setEmailMessage(t("home.email.success"));
       setEmail("");
     } catch (e: any) {
       setEmailStatus("error");
@@ -325,13 +325,13 @@ export default function Home() {
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
                 <GraduationCap className="w-3.5 h-3.5 text-primary" />
-                <span className="text-xs font-bold text-primary uppercase tracking-wider">Allied Health Careers</span>
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.career.badge")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-career-heading">
-                Choose Your Career Path
+                {t("home.career.heading")}
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Exam prep built for your profession. Select your career to access tailored question banks, mock exams, flashcards, and AI-powered study tools.
+                {t("home.career.subtitle")}
               </p>
             </div>
 
@@ -384,7 +384,7 @@ export default function Home() {
                         ))}
                       </div>
                       <div className="flex items-center text-sm font-medium group-hover:gap-2 transition-all" style={{ color: career.color }}>
-                        <span>Explore {career.shortName}</span>
+                        <span>{t("home.career.explore")} {career.shortName}</span>
                         <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     </CardContent>
@@ -400,13 +400,13 @@ export default function Home() {
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
                 <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Student Reviews</span>
+                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("home.reviews.badge")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-reviews-heading">
-                Trusted by Nursing Students Across Canada
+                {t("home.reviews.heading")}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Real feedback from RPN, RN, and NP students who used NurseNest to prepare for their licensing exams.
+                {t("home.reviews.subtitle")}
               </p>
             </div>
 
@@ -489,12 +489,12 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <span>Join 2,400+ students</span>
+                <span>{t("home.reviews.joinStudents")}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
                 <span className="font-semibold text-gray-700">4.9/5</span>
-                <span>average rating</span>
+                <span>{t("home.reviews.averageRating")}</span>
               </div>
             </div>
           </div>
@@ -505,18 +505,18 @@ export default function Home() {
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
                 <Layers className="w-3.5 h-3.5 text-primary" />
-                <span className="text-xs font-bold text-primary uppercase tracking-wider">All-in-One Platform</span>
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.included.badge")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-included-heading">{t("home.included.heading")}</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("home.included.subtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
               {[
-                { icon: Target, title: t("home.included.qbank.title"), desc: t("home.included.qbank.desc"), href: "/question-bank", count: formatCount(questionCount), countLabel: "questions", color: "from-blue-500 to-indigo-600" },
-                { icon: ClipboardCheck, title: t("home.included.mockExams.title"), desc: t("home.included.mockExams.desc"), href: "/mock-exams", count: "3", countLabel: "exam tiers", color: "from-purple-500 to-violet-600" },
-                { icon: FileText, title: t("home.included.printable.title"), desc: t("home.included.printable.desc"), href: "/shop", count: formatCount(storeProductCount), countLabel: "packs", color: "from-emerald-500 to-teal-600" },
-                { icon: BookOpen, title: t("home.included.flashcards.title"), desc: t("home.included.flashcards.desc"), href: "/flashcards", count: "50+", countLabel: "decks", color: "from-amber-500 to-orange-600" },
-                { icon: Stethoscope, title: t("home.included.lessons.title"), desc: t("home.included.lessons.desc"), href: "/lessons", count: formatCount(lessonCount), countLabel: "lessons", color: "from-rose-500 to-pink-600" },
+                { icon: Target, title: t("home.included.qbank.title"), desc: t("home.included.qbank.desc"), href: "/question-bank", count: formatCount(questionCount), countLabel: t("home.included.countQuestions"), color: "from-blue-500 to-indigo-600" },
+                { icon: ClipboardCheck, title: t("home.included.mockExams.title"), desc: t("home.included.mockExams.desc"), href: "/mock-exams", count: "3", countLabel: t("home.included.countExamTiers"), color: "from-purple-500 to-violet-600" },
+                { icon: FileText, title: t("home.included.printable.title"), desc: t("home.included.printable.desc"), href: "/shop", count: formatCount(storeProductCount), countLabel: t("home.included.countPacks"), color: "from-emerald-500 to-teal-600" },
+                { icon: BookOpen, title: t("home.included.flashcards.title"), desc: t("home.included.flashcards.desc"), href: "/flashcards", count: "50+", countLabel: t("home.included.countDecks"), color: "from-amber-500 to-orange-600" },
+                { icon: Stethoscope, title: t("home.included.lessons.title"), desc: t("home.included.lessons.desc"), href: "/lessons", count: formatCount(lessonCount), countLabel: t("home.included.countLessons"), color: "from-rose-500 to-pink-600" },
               ].map((item, i) => (
                 <Card
                   key={i}
@@ -562,7 +562,7 @@ export default function Home() {
               >
                 {region === "CA" && (
                   <div className="absolute top-3 right-3">
-                    <Badge className="bg-red-500 text-white text-[10px]">Your Region</Badge>
+                    <Badge className="bg-red-500 text-white text-[10px]">{t("home.examPath.yourRegion")}</Badge>
                   </div>
                 )}
                 <CardContent className="p-6">
@@ -595,7 +595,7 @@ export default function Home() {
               >
                 {region === "US" && (
                   <div className="absolute top-3 right-3">
-                    <Badge className="bg-blue-500 text-white text-[10px]">Your Region</Badge>
+                    <Badge className="bg-blue-500 text-white text-[10px]">{t("home.examPath.yourRegion")}</Badge>
                   </div>
                 )}
                 <CardContent className="p-6">
@@ -783,7 +783,7 @@ export default function Home() {
               {[
                 { value: formatCount(questionCount), label: t("home.stats.questions"), icon: Target, color: "from-blue-500 to-indigo-600" },
                 { value: formatCount(lessonCount), label: t("home.stats.lessons"), icon: BookOpen, color: "from-emerald-500 to-teal-600" },
-                { value: storeProductCount > 0 ? `${storeProductCount}+` : "9", label: storeProductCount > 0 ? "Study Packs" : t("home.stats.simulators"), icon: storeProductCount > 0 ? ShoppingBag : Gamepad2, color: "from-purple-500 to-violet-600" },
+                { value: storeProductCount > 0 ? `${storeProductCount}+` : "9", label: storeProductCount > 0 ? t("home.stats.studyPacks") : t("home.stats.simulators"), icon: storeProductCount > 0 ? ShoppingBag : Gamepad2, color: "from-purple-500 to-violet-600" },
                 { value: "7+", label: t("home.stats.modes"), icon: Layers, color: "from-amber-500 to-orange-600" },
               ].map((stat, i) => (
                 <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
@@ -1126,19 +1126,19 @@ export default function Home() {
             <div className="text-center max-w-3xl mx-auto mb-10">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 border border-red-100 shadow-sm mb-4">
                 <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
-                <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">High Yield</span>
+                <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">{t("home.mostTested.badge")}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-most-tested-heading">Most Tested Exam Topics</h2>
-              <p className="text-gray-600">These topics appear on virtually every nursing licensure exam. Master them first.</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-most-tested-heading">{t("home.mostTested.heading")}</h2>
+              <p className="text-gray-600">{t("home.mostTested.subtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { icon: Droplets, title: "Electrolytes & Acid-Base", desc: "Na, K, Ca, Mg, ABG interpretation, anion gap, DKA vs HHS", href: "/study-guide/electrolytes-acid-base-nursing-guide", color: "bg-blue-50 text-blue-600" },
-                { icon: HeartPulse, title: "ECG & Cardiac Emergencies", desc: "Lethal rhythms, STEMI vs NSTEMI, troponin, shock states", href: "/study-guide/cardiac-emergencies-nursing-guide", color: "bg-red-50 text-red-600" },
-                { icon: Thermometer, title: "Sepsis & Shock", desc: "Hour-1 bundle, qSOFA, vasopressors, fluid resuscitation", href: "/study-guide/sepsis-shock-nursing-guide", color: "bg-orange-50 text-orange-600" },
-                { icon: Baby, title: "OB Emergencies", desc: "Preeclampsia, placental abruption, PPH, eclampsia", href: "/study-guide/ob-emergencies-nursing-guide", color: "bg-pink-50 text-pink-600" },
-                { icon: FlaskConical, title: "Pharmacology Safety", desc: "High-alert meds, drug interactions, toxicity, antidotes", href: "/study-guide/pharmacology-high-yield-nursing-guide", color: "bg-emerald-50 text-emerald-600" },
-                { icon: Brain, title: "Neuro Emergencies", desc: "Stroke, increased ICP, seizures, spinal cord injury", href: "/lessons/stroke", color: "bg-purple-50 text-purple-600" },
+                { icon: Droplets, title: t("home.mostTested.electrolytes"), desc: t("home.mostTested.electrolytesDesc"), href: "/study-guide/electrolytes-acid-base-nursing-guide", color: "bg-blue-50 text-blue-600" },
+                { icon: HeartPulse, title: t("home.mostTested.ecg"), desc: t("home.mostTested.ecgDesc"), href: "/study-guide/cardiac-emergencies-nursing-guide", color: "bg-red-50 text-red-600" },
+                { icon: Thermometer, title: t("home.mostTested.sepsis"), desc: t("home.mostTested.sepsisDesc"), href: "/study-guide/sepsis-shock-nursing-guide", color: "bg-orange-50 text-orange-600" },
+                { icon: Baby, title: t("home.mostTested.ob"), desc: t("home.mostTested.obDesc"), href: "/study-guide/ob-emergencies-nursing-guide", color: "bg-pink-50 text-pink-600" },
+                { icon: FlaskConical, title: t("home.mostTested.pharm"), desc: t("home.mostTested.pharmDesc"), href: "/study-guide/pharmacology-high-yield-nursing-guide", color: "bg-emerald-50 text-emerald-600" },
+                { icon: Brain, title: t("home.mostTested.neuro"), desc: t("home.mostTested.neuroDesc"), href: "/lessons/stroke", color: "bg-purple-50 text-purple-600" },
               ].map((topic, i) => (
                 <Card 
                   key={i} 

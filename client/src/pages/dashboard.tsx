@@ -71,11 +71,11 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   flashcard_review: { label: "dashboard.widget.flashcardReview", desc: "dashboard.widget.flashcardReviewDesc" },
   clinical_tools: { label: "dashboard.widget.clinicalTools", desc: "dashboard.widget.clinicalToolsDesc" },
   recommended: { label: "dashboard.widget.recommended", desc: "dashboard.widget.recommendedDesc" },
-  pass_probability: { label: "Pass Probability", desc: "Predictive exam readiness analytics" },
-  adaptive_engine: { label: "Adaptive Engine", desc: "AI-powered learning path" },
-  ai_study_coach: { label: "AI Study Coach", desc: "Personal AI study assistant" },
-  intelligent_recommendations: { label: "Smart Recommendations", desc: "Personalized study suggestions" },
-  study_workload: { label: "Study Workload", desc: "Remaining prep time estimate" },
+  pass_probability: { label: "dashboard.widget.passProbability", desc: "dashboard.widget.passProbabilityDesc" },
+  adaptive_engine: { label: "dashboard.widget.adaptiveEngine", desc: "dashboard.widget.adaptiveEngineDesc" },
+  ai_study_coach: { label: "dashboard.widget.aiStudyCoach", desc: "dashboard.widget.aiStudyCoachDesc" },
+  intelligent_recommendations: { label: "dashboard.widget.smartRecommendations", desc: "dashboard.widget.smartRecommendationsDesc" },
+  study_workload: { label: "dashboard.widget.studyWorkload", desc: "dashboard.widget.studyWorkloadDesc" },
 };
 
 const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
@@ -85,11 +85,11 @@ const PREMIUM_WIDGET_FEATURES: Record<string, Feature> = {
   intelligent_recommendations: "intelligent_recommendations",
 };
 
-const PREMIUM_WIDGET_MESSAGES: Record<string, string> = {
-  pass_probability: "Upgrade to unlock predictive analytics.",
-  adaptive_engine: "Upgrade to unlock adaptive learning that adjusts to your performance in real time.",
-  ai_study_coach: "Upgrade to unlock your AI-powered study coach.",
-  intelligent_recommendations: "Upgrade to unlock personalized study recommendations powered by AI.",
+const PREMIUM_WIDGET_MESSAGE_KEYS: Record<string, string> = {
+  pass_probability: "dashboard.premiumPassProbability",
+  adaptive_engine: "dashboard.premiumAdaptiveEngine",
+  ai_study_coach: "dashboard.premiumAiStudyCoach",
+  intelligent_recommendations: "dashboard.premiumIntelligentRecommendations",
 };
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
@@ -880,8 +880,9 @@ function RecommendedWidget({ user }: { user: any }) {
 
 function PremiumLockedWidget({ widgetType }: { widgetType: string }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
   const Icon = WIDGET_ICONS[widgetType] || Lock;
-  const message = PREMIUM_WIDGET_MESSAGES[widgetType] || "Upgrade to unlock this premium feature.";
+  const messageKey = PREMIUM_WIDGET_MESSAGE_KEYS[widgetType] || "dashboard.premiumDefault";
 
   return (
     <div className="text-center py-4 space-y-3" data-testid={`widget-locked-${widgetType}`}>
@@ -891,9 +892,9 @@ function PremiumLockedWidget({ widgetType }: { widgetType: string }) {
       <div className="space-y-1">
         <div className="flex items-center justify-center gap-1.5">
           <Lock className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Premium</span>
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t("dashboard.premium")}</span>
         </div>
-        <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">{message}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">{t(messageKey)}</p>
       </div>
       <Button
         size="sm"
@@ -903,7 +904,7 @@ function PremiumLockedWidget({ widgetType }: { widgetType: string }) {
         data-testid={`button-upgrade-widget-${widgetType}`}
       >
         <Sparkles className="w-3.5 h-3.5" />
-        View Plans
+        {t("dashboard.viewPlans")}
       </Button>
     </div>
   );
@@ -911,6 +912,7 @@ function PremiumLockedWidget({ widgetType }: { widgetType: string }) {
 
 function PassProbabilityWidget({ user }: { user: any }) {
   const [data, setData] = useState<any>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     fetch(`/api/pass-probability/${user.id}`)
@@ -923,14 +925,19 @@ function PassProbabilityWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-pass-probability-empty">
         <Gauge className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground mb-1">No prediction data yet</p>
-        <p className="text-xs text-muted-foreground">Complete mock exams and lessons to generate your pass probability estimate.</p>
+        <p className="text-sm text-muted-foreground mb-1">{t("dashboard.passProbabilityEmpty")}</p>
+        <p className="text-xs text-muted-foreground">{t("dashboard.passProbabilityEmptyDesc")}</p>
       </div>
     );
   }
 
   const probability = data.probability || 0;
-  const risk = data.riskTier || "Unknown";
+  const riskTier = data.riskTier || "Unknown";
+  const riskI18nKeys: Record<string, string> = {
+    "Low Risk": "dashboard.riskLow",
+    "Moderate Risk": "dashboard.riskModerate",
+    "High Risk": "dashboard.riskHigh",
+  };
   const riskColors: Record<string, string> = {
     "Low Risk": "text-emerald-600",
     "Moderate Risk": "text-amber-600",
@@ -948,8 +955,8 @@ function PassProbabilityWidget({ user }: { user: any }) {
           <span className="absolute inset-0 flex items-center justify-center text-sm font-bold">{probability}%</span>
         </div>
         <div>
-          <p className={`text-lg font-bold ${riskColors[risk] || "text-gray-600"}`} data-testid="text-risk-tier">{risk}</p>
-          <p className="text-xs text-muted-foreground">Estimated pass probability</p>
+          <p className={`text-lg font-bold ${riskColors[riskTier] || "text-gray-600"}`} data-testid="text-risk-tier">{t(riskI18nKeys[riskTier] || "dashboard.riskUnknown")}</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.estimatedPassProbability")}</p>
         </div>
       </div>
     </div>
@@ -958,6 +965,7 @@ function PassProbabilityWidget({ user }: { user: any }) {
 
 function AdaptiveEngineWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
 
   return (
     <div data-testid="widget-content-adaptive-engine">
@@ -965,22 +973,22 @@ function AdaptiveEngineWidget({ user }: { user: any }) {
         <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
           <Brain className="w-5 h-5 text-primary flex-shrink-0" />
           <div>
-            <p className="text-sm font-medium">Adaptive Learning Active</p>
-            <p className="text-xs text-muted-foreground">Content difficulty adjusts based on your performance patterns.</p>
+            <p className="text-sm font-medium">{t("dashboard.adaptiveLearningActive")}</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.adaptiveLearningDesc")}</p>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div className="p-2.5 rounded-lg bg-muted/50 text-center">
             <p className="text-lg font-bold text-primary">--</p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Weak Areas</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.weakAreas")}</p>
           </div>
           <div className="p-2.5 rounded-lg bg-muted/50 text-center">
             <p className="text-lg font-bold text-emerald-600">--</p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Mastered</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.mastered")}</p>
           </div>
         </div>
         <Button size="sm" variant="link" className="w-full" onClick={() => navigate("/lessons")} data-testid="button-adaptive-lessons">
-          View Personalized Path <ArrowRight className="h-3 w-3 ml-1" />
+          {t("dashboard.viewPersonalizedPath")} <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     </div>
@@ -988,18 +996,19 @@ function AdaptiveEngineWidget({ user }: { user: any }) {
 }
 
 function AiStudyCoachWidget({ user }: { user: any }) {
+  const { t } = useI18n();
   return (
     <div data-testid="widget-content-ai-study-coach">
       <div className="space-y-3">
         <div className="flex items-center gap-3 p-3 rounded-lg bg-violet-50 border border-violet-100">
           <Bot className="w-5 h-5 text-violet-600 flex-shrink-0" />
           <div>
-            <p className="text-sm font-medium">AI Study Coach</p>
-            <p className="text-xs text-muted-foreground">Your personal AI assistant for exam preparation and study planning.</p>
+            <p className="text-sm font-medium">{t("dashboard.aiStudyCoachTitle")}</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.aiStudyCoachDesc")}</p>
           </div>
         </div>
         <div className="text-center py-2">
-          <p className="text-xs text-muted-foreground">Ask questions, get explanations, and receive personalized study guidance.</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.aiStudyCoachHelp")}</p>
         </div>
       </div>
     </div>
@@ -1008,6 +1017,7 @@ function AiStudyCoachWidget({ user }: { user: any }) {
 
 function IntelligentRecommendationsWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const { t } = useI18n();
 
   return (
     <div data-testid="widget-content-intelligent-recommendations">
@@ -1015,12 +1025,12 @@ function IntelligentRecommendationsWidget({ user }: { user: any }) {
         <div className="flex items-center gap-3 p-3 rounded-lg bg-amber-50 border border-amber-100">
           <Lightbulb className="w-5 h-5 text-amber-600 flex-shrink-0" />
           <div>
-            <p className="text-sm font-medium">Smart Study Suggestions</p>
-            <p className="text-xs text-muted-foreground">AI-powered recommendations based on your performance data and study patterns.</p>
+            <p className="text-sm font-medium">{t("dashboard.smartStudySuggestions")}</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.smartStudySuggestionsDesc")}</p>
           </div>
         </div>
         <Button size="sm" variant="link" className="w-full" onClick={() => navigate("/lessons")} data-testid="button-smart-recommendations">
-          View Recommendations <ArrowRight className="h-3 w-3 ml-1" />
+          {t("dashboard.viewRecommendations")} <ArrowRight className="h-3 w-3 ml-1" />
         </Button>
       </div>
     </div>
@@ -1051,6 +1061,7 @@ function StudyWorkloadWidget({ user }: { user: any }) {
   const [data, setData] = useState<WorkloadData | null>(null);
   const [loading, setLoading] = useState(true);
   const [, navigate] = useLocation();
+  const { t } = useI18n();
 
   const CACHE_KEY = `study_workload_${user.id}`;
   const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000;
@@ -1092,10 +1103,10 @@ function StudyWorkloadWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-study-workload-empty">
         <CalendarClock className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm text-muted-foreground mb-2">No exam profile set</p>
-        <p className="text-xs text-muted-foreground mb-3">Set your exam date to see your projected preparation timeline.</p>
+        <p className="text-sm text-muted-foreground mb-2">{t("dashboard.noExamProfile")}</p>
+        <p className="text-xs text-muted-foreground mb-3">{t("dashboard.noExamProfileDesc")}</p>
         <Button size="sm" variant="outline" onClick={() => navigate("/study-plan")} data-testid="button-set-exam-date">
-          Set Exam Date
+          {t("dashboard.setExamDate")}
         </Button>
       </div>
     );
@@ -1105,8 +1116,8 @@ function StudyWorkloadWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-study-workload-passed">
         <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
-        <p className="text-sm font-medium">Exam date has passed</p>
-        <p className="text-xs text-muted-foreground">Update your profile if you have a new exam date.</p>
+        <p className="text-sm font-medium">{t("dashboard.examDatePassed")}</p>
+        <p className="text-xs text-muted-foreground">{t("dashboard.examDatePassedDesc")}</p>
       </div>
     );
   }
@@ -1147,7 +1158,7 @@ function StudyWorkloadWidget({ user }: { user: any }) {
 
         <div className="space-y-1.5">
           <div className="flex justify-between text-xs">
-            <span className="text-muted-foreground">Questions completed</span>
+            <span className="text-muted-foreground">{t("dashboard.questionsCompleted")}</span>
             <span className="font-medium">{data.questionsCompleted?.toLocaleString()} / {data.totalRecommended?.toLocaleString()}</span>
           </div>
           <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
@@ -1157,34 +1168,34 @@ function StudyWorkloadWidget({ user }: { user: any }) {
               data-testid="progress-workload-bar"
             />
           </div>
-          <p className="text-[10px] text-muted-foreground text-right">{pct}% complete</p>
+          <p className="text-[10px] text-muted-foreground text-right">{pct}% {t("dashboard.percentComplete")}</p>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
           <div className="p-2 rounded-lg bg-muted/50 text-center">
             <p className="text-lg font-bold text-primary" data-testid="text-remaining-questions">{data.remaining?.toLocaleString()}</p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Remaining</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.remaining")}</p>
           </div>
           <div className="p-2 rounded-lg bg-muted/50 text-center">
             <p className="text-lg font-bold" data-testid="text-daily-target">{data.dailyTarget}</p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Daily Target</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.dailyTarget")}</p>
           </div>
           <div className="p-2 rounded-lg bg-muted/50 text-center">
             <p className={`text-lg font-bold ${(data.bufferDays || 0) >= 0 ? "text-emerald-600" : "text-red-600"}`} data-testid="text-buffer-days">
               {(data.bufferDays || 0) >= 0 ? `+${data.bufferDays}` : data.bufferDays}
             </p>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Buffer Days</p>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("dashboard.bufferDays")}</p>
           </div>
         </div>
 
         <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t">
-          <span>Exam: {data.examDate ? new Date(data.examDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" }) : "—"}</span>
-          <span>{data.daysUntilExam} days away</span>
+          <span>{t("dashboard.examLabel")} {data.examDate ? new Date(data.examDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" }) : "—"}</span>
+          <span>{data.daysUntilExam} {t("dashboard.daysAway")}</span>
         </div>
 
         {data.calculatedAt && (
           <p className="text-[10px] text-muted-foreground text-center">
-            Recalculated weekly · Last: {new Date(data.calculatedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric" })}
+            {t("dashboard.recalculatedWeekly")} · {t("dashboard.lastCalculated")} {new Date(data.calculatedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric" })}
           </p>
         )}
       </div>

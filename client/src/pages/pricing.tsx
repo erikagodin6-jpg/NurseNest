@@ -174,7 +174,7 @@ export default function PricingPage() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || "Failed to create checkout session");
+        throw new Error(err.error || t("pricing.checkoutFailed"));
       }
       const data = await res.json();
       if (data.url) {
@@ -205,7 +205,7 @@ export default function PricingPage() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || "Failed to create checkout session");
+        throw new Error(err.error || t("pricing.checkoutFailed"));
       }
       const data = await res.json();
       if (data.url) {
@@ -375,7 +375,7 @@ export default function PricingPage() {
                       onClick={() => navigate(`/subscribe/${tier.id}`)}
                       data-testid={`button-details-${tier.id}`}
                     >
-                      See what's included
+                      {t("pricing.seeWhatsIncluded")}
                     </Button>
                     {paypalAvailable && (
                       <div className="mt-2">
