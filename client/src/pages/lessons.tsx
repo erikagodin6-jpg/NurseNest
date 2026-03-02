@@ -1806,7 +1806,8 @@ export const npSystems = [
       { id: "hypercalcemia-workup-np", name: "Hypercalcemia Workup: PTH-Mediated vs Non-PTH Differential", status: "Available" },
       { id: "diabetes-technology-np", name: "Diabetes Technology: CGM, Insulin Pumps & Closed-Loop Systems", status: "Available" },
       { id: "gestational-diabetes-screening-np", name: "Gestational Diabetes Screening: OGTT & Management Protocol", status: "Available" },
-      { id: "thyroid-cancer-surveillance-np", name: "Thyroid Cancer Surveillance: Thyroglobulin & Imaging Follow-Up", status: "Available" }
+      { id: "thyroid-cancer-surveillance-np", name: "Thyroid Cancer Surveillance: Thyroglobulin & Imaging Follow-Up", status: "Available" },
+      { id: "stress-hpa-axis-np", name: "Stress Response: HPA Axis Dysregulation & Clinical Consequences", status: "Available" }
     ]
   },
   {
@@ -1908,7 +1909,8 @@ export const npSystems = [
       { id: "mast-cell-activation-np", name: "Mast Cell Activation Syndrome: Tryptase & Management", status: "Available" },
       { id: "drug-hypersensitivity-np", name: "Drug Hypersensitivity Reactions: Gell-Coombs Classification", status: "Available" },
       { id: "serum-sickness-np", name: "Serum Sickness: Type III Hypersensitivity & Management", status: "Available" },
-      { id: "graft-vs-host-disease-np", name: "Graft-Versus-Host Disease: Acute & Chronic Staging", status: "Available" }
+      { id: "graft-vs-host-disease-np", name: "Graft-Versus-Host Disease: Acute & Chronic Staging", status: "Available" },
+      { id: "adaptive-immunity-np", name: "Adaptive Immunity: T-Cell Subsets & Immunoglobulin Classes", status: "Available" }
     ]
   },
   {
@@ -1922,7 +1924,9 @@ export const npSystems = [
       { id: "sedation-np", name: "ICU Sedation: RASS & Protocols", status: "Available" },
       { id: "paralytic-agents-np", name: "Neuromuscular Blocking Agents", status: "Available" },
       { id: "thrombolytics-np", name: "Thrombolytics: Fibrinolytic Pathway", status: "Available" },
-      { id: "methotrexate-safety-np", name: "Methotrexate: Molecular Pharmacology & Pharmacogenomics", status: "Available" }
+      { id: "methotrexate-safety-np", name: "Methotrexate: Molecular Pharmacology & Pharmacogenomics", status: "Available" },
+      { id: "endocannabinoid-pharmacology-np", name: "Endocannabinoid Pharmacology: ECS, CB1/CB2 & Prescribing", status: "Available" },
+      { id: "pharmacotherapeutics-principles-np", name: "Pharmacotherapeutics: Core Principles & OTC Management", status: "Available" }
     ]
   },
   {
@@ -1998,7 +2002,8 @@ export const npSystems = [
       { id: "ten-np", name: "Toxic Epidermal Necrolysis: ICU Management", status: "Available" },
       { id: "actinic-keratosis-np", name: "Actinic Keratosis: Premalignant Workup & Cryotherapy", status: "Available" },
       { id: "squamous-cell-carcinoma-np", name: "Squamous Cell Carcinoma: Staging & Mohs Referral", status: "Available" },
-      { id: "dermatitis-herpetiformis-np", name: "Dermatitis Herpetiformis: Celiac Association & Dapsone", status: "Available" }
+      { id: "dermatitis-herpetiformis-np", name: "Dermatitis Herpetiformis: Celiac Association & Dapsone", status: "Available" },
+      { id: "integumentary-pathophysiology-np", name: "Integumentary Pathophysiology: Epidermal Barrier & Atopic Dermatitis", status: "Available" }
     ]
   },
   {
@@ -2059,6 +2064,8 @@ export const npSystems = [
       { id: "cryptorchidism-np", name: "Cryptorchidism: GnRH Axis & Orchiopexy Timing", status: "Available" },
       { id: "orchitis-np", name: "Orchitis: Viral vs Bacterial & Fertility Implications", status: "Available" },
       { id: "prostatitis-np", name: "Prostatitis: NIH Classification & Targeted Therapy", status: "Available" },
+      { id: "mens-health-ed-np", name: "Erectile Dysfunction: Neurovascular Pathophysiology & PDE5 Prescribing", status: "Available" },
+      { id: "testosterone-deficiency-np", name: "Testosterone Deficiency: Hypogonadism Evaluation & HRT", status: "Available" },
       { id: "infertility-workup-np", name: "Infertility Workup: Female & Male Factor Evaluation", status: "Available" },
       { id: "recurrent-pregnancy-loss-np", name: "Recurrent Pregnancy Loss: Antiphospholipid & Genetic Workup", status: "Available" },
       { id: "preconception-counseling-np", name: "Preconception Counseling: Optimization & Medication Review", status: "Available" },

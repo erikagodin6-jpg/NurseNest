@@ -49,6 +49,7 @@ import { respiratoryMissingRpnLessons } from "./respiratory-missing-rpn";
 import { respiratoryMissingRnLessons } from "./respiratory-missing-rn";
 import { respiratoryMissingNpLessons } from "./respiratory-missing-np";
 import { npClinicalUnitLessons } from "./np-clinical-units";
+import { uploadedClinicalNpLessons } from "./uploaded-clinical-np";
 
 export type { LessonContent } from "./types";
 
@@ -113,6 +114,7 @@ export const contentMap: Record<string, LessonContent> = {
   ...respiratoryMissingRnLessons,
   ...respiratoryMissingNpLessons,
   ...npClinicalUnitLessons,
+  ...uploadedClinicalNpLessons,
 };
 
 export const lessonCount = Object.keys(contentMap).length;

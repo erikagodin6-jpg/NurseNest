@@ -5,6 +5,16 @@ import { rpnCardiovascularQuestions } from "@/data/exam-questions/rpn-cardiovasc
 import { rpnRespiratoryQuestions } from "@/data/exam-questions/rpn-respiratory";
 import { rpnNeuroGiEndoQuestions } from "@/data/exam-questions/rpn-neuro-gi-endo";
 import { rpnPedsHemePharmQuestions } from "@/data/exam-questions/rpn-peds-heme-pharm";
+import { rnMedsurgQuestions } from "@/data/exam-questions/rn-medsurg";
+import { rnPharmacologyQuestions } from "@/data/exam-questions/rn-pharmacology";
+import { npPharmacologyQuestions } from "@/data/exam-questions/np-pharmacology";
+import { rpnExpansionAQuestions } from "@/data/exam-questions/rpn-expansion-a";
+import { rpnExpansionBQuestions } from "@/data/exam-questions/rpn-expansion-b";
+import { rpnExpansionCQuestions } from "@/data/exam-questions/rpn-expansion-c";
+import { rnExpansionAQuestions } from "@/data/exam-questions/rn-expansion-a";
+import { rnExpansionBQuestions } from "@/data/exam-questions/rn-expansion-b";
+import { npClinicalManagementQuestions } from "@/data/exam-questions/np-clinical-management";
+import { npExpansionAQuestions } from "@/data/exam-questions/np-expansion-a";
 import type { ExamQuestion } from "@/data/exam-questions/types";
 
 export interface PooledQuestion {
@@ -64,6 +74,16 @@ export function buildQuestionPool(): PooledQuestion[] {
     { questions: rpnRespiratoryQuestions, tier: "rpn" },
     { questions: rpnNeuroGiEndoQuestions, tier: "rpn" },
     { questions: rpnPedsHemePharmQuestions, tier: "rpn" },
+    { questions: rnMedsurgQuestions, tier: "rn" },
+    { questions: rnPharmacologyQuestions, tier: "rn" },
+    { questions: npPharmacologyQuestions, tier: "np" },
+    { questions: rpnExpansionAQuestions, tier: "rpn" },
+    { questions: rpnExpansionBQuestions, tier: "rpn" },
+    { questions: rpnExpansionCQuestions, tier: "rpn" },
+    { questions: rnExpansionAQuestions, tier: "rn" },
+    { questions: rnExpansionBQuestions, tier: "rn" },
+    { questions: npClinicalManagementQuestions, tier: "np" },
+    { questions: npExpansionAQuestions, tier: "np" },
   ];
 
   for (const bank of examBanks) {

@@ -28,6 +28,14 @@ The system uses Drizzle ORM with PostgreSQL, with schemas defined in `shared/sch
 ### Content Architecture
 Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/post-test questions. Each lesson contains 10 content sections with inline admin editing and AI generation. A flashcard system includes bookmarking and mastery tracking. Anatomy & Physiology detail pages cover 12 body systems. There are 27 interactive Pre-Nursing Foundations Program modules.
 
+### Exam Question Banks
+Standalone exam bank files in `client/src/data/exam-questions/` use the `ExamQuestion` interface `{ q, o, a, r, s }` (question, options, answer index, rationale, system/topic). All are wired into `client/src/lib/question-pool.ts`.
+- **RPN tier** (1,128 questions): rpn-cardiovascular (300), rpn-respiratory (225), rpn-neuro-gi-endo (160), rpn-peds-heme-pharm (143), rpn-expansion-a (100 - clinical judgment/safety), rpn-expansion-b (100 - med-surg/mental health), rpn-expansion-c (100 - maternal/peds/community)
+- **RN tier** (483 questions): rn-medsurg (183), rn-pharmacology (100), rn-expansion-a (100 - critical care/emergency), rn-expansion-b (100 - advanced med-surg/leadership)
+- **NP tier** (300 questions): np-pharmacology (100 - Canadian/SI units), np-clinical-management (100 - clinical management), np-expansion-a (100 - specialty/advanced practice)
+- NP questions use Canadian/SI units (mmol/L, umol/L, degrees Celsius)
+- Nav and footer label for `/flashcards` route displays "Question Bank" (i18n key `nav.flashcards`)
+
 ## External Dependencies
 
 ### Database
