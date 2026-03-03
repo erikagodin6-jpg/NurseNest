@@ -337,6 +337,8 @@ export default function Home() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
               {getEnabledCareers().map((career) => {
+                const ALLIED_IDS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging"];
+                const isAllied = ALLIED_IDS.includes(career.id);
                 const IconComponent = ({
                   nursing: Stethoscope,
                   rrt: Wind,
@@ -346,16 +348,29 @@ export default function Home() {
                   imaging: ScanLine,
                 } as Record<string, any>)[career.id] || BookOpen;
 
-                const careerHref = career.routePrefix || "/";
+                const handleCareerClick = () => {
+                  if (career.id === "nursing") {
+                    setLocation("/free-practice");
+                  } else if (isAllied) {
+                    window.open(`https://allied.nursenest.ca${career.routePrefix}`, "_blank");
+                  } else {
+                    setLocation(career.routePrefix || "/");
+                  }
+                };
 
                 return (
                   <Card
                     key={career.id}
                     className="border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group overflow-hidden"
-                    onClick={() => setLocation(careerHref === "/" ? "/free-practice" : careerHref)}
+                    onClick={handleCareerClick}
                     data-testid={`card-career-${career.slug}`}
                   >
                     <CardContent className="p-6">
+                      {isAllied && (
+                        <div className="absolute top-3 right-3">
+                          <span className="text-[9px] font-bold uppercase tracking-wider bg-teal-500 text-white px-2 py-0.5 rounded-full">Allied Health</span>
+                        </div>
+                      )}
                       <div
                         className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-sm"
                         style={{ backgroundColor: career.colorAccent }}
@@ -537,6 +552,112 @@ export default function Home() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Personalized Study Tools Section */}
+        <section className="py-16 bg-gradient-to-b from-primary/5 via-violet-50/30 to-white border-t border-primary/10" data-testid="section-study-tools">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-4">
+                <Sparkles className="w-3.5 h-3.5 text-violet-600" />
+                <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">Built for You</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-study-tools-heading">
+                Your Personalized Exam Toolkit
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Every student's journey is unique. NurseNest adapts to your strengths, targets your weak areas, and tracks your progress toward exam readiness.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div
+                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                onClick={() => setLocation("/study-plan")}
+                data-testid="card-promo-study-planner"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-violet-100/50 to-transparent rounded-bl-full" />
+                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-violet-500 text-white px-2 py-0.5 rounded-full z-10">Personalized</div>
+                <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Brain className="w-6 h-6 text-violet-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Custom Study Planner</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                  Get a personalized study schedule built around your exam date, available hours, and weak areas. Your plan adapts as you progress.
+                </p>
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">Daily Tasks</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">Adaptive</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">Progress Tracking</span>
+                </div>
+                <div className="flex items-center text-sm font-medium text-violet-600 group-hover:gap-2 transition-all">
+                  <span>Create Your Plan</span>
+                  <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+
+              <div
+                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                onClick={() => setLocation("/mock-exams")}
+                data-testid="card-promo-readiness-exam"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-100/50 to-transparent rounded-bl-full" />
+                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">Free</div>
+                <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <ShieldCheck className="w-6 h-6 text-emerald-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Free Readiness Exam</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                  Take a 25-question readiness check to gauge your exam preparedness. Instant results with a detailed performance breakdown. No account required.
+                </p>
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">25 Questions</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">Instant Results</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">No Cost</span>
+                </div>
+                <div className="flex items-center text-sm font-medium text-emerald-600 group-hover:gap-2 transition-all">
+                  <span>Take the Free Exam</span>
+                  <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+
+              <div
+                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                onClick={() => setLocation("/reports")}
+                data-testid="card-promo-report-card"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-bl-full" />
+                <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <BarChart3 className="w-6 h-6 text-amber-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Performance Report Card</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                  Track your progress across every body system and competency domain. Identify strengths, target weaknesses, and watch your readiness score climb.
+                </p>
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Score Trends</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Domain Analysis</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Weak Area Detection</span>
+                </div>
+                <div className="flex items-center text-sm font-medium text-amber-600 group-hover:gap-2 transition-all">
+                  <span>View Your Report Card</span>
+                  <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mt-8">
+              <Button
+                size="lg"
+                className="rounded-full px-8 shadow-lg shadow-primary/20"
+                onClick={() => setLocation("/free-practice")}
+                data-testid="button-promo-get-started"
+              >
+                Start Free - Build Your Study Plan
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
             </div>
           </div>
         </section>

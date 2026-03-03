@@ -37,7 +37,7 @@ const FEATURES = [
   { title: "Question Bank", desc: "2,400+ NCLEX-style questions with detailed rationales explaining the clinical reasoning behind every answer.", icon: FileText, link: "/question-bank" },
   { title: "Mock Exams", desc: "Blueprint-weighted timed exams with adaptive CAT-style simulation matching real exam conditions.", icon: Layers, link: "/mock-exams" },
   { title: "Clinical Simulators", desc: "15 interactive simulators including OSCE practice, clinical skills lab, and unfolding case studies.", icon: Stethoscope, link: "/simulators/osce" },
-  { title: "AI Study Plan", desc: "Personalized study schedules that identify your weak areas and prioritize high-yield topics first.", icon: Sparkles, link: "/dashboard" },
+  { title: "Custom Study Plan", desc: "Personalized study schedules that identify your weak areas and prioritize high-yield topics first.", icon: Sparkles, link: "/dashboard" },
   { title: "Flashcards", desc: "Spaced repetition flashcard decks across all exam domains with active recall methodology.", icon: Brain, link: "/flashcards" },
 ];
 
@@ -80,9 +80,9 @@ const COMPARISON_DATA = [
   { feature: "Lesson Library", nursenest: "6,000+ clinical lessons", selfstudy: "Scattered notes", competitors: "500–1,000 lessons" },
   { feature: "Question Rationales", nursenest: "Detailed clinical reasoning", selfstudy: "No rationales", competitors: "Brief explanations" },
   { feature: "Exam Simulation", nursenest: "Adaptive CAT-style engine", selfstudy: "No simulation", competitors: "Static linear tests" },
-  { feature: "Weak-Area Targeting", nursenest: "AI-powered analytics", selfstudy: "Self-assessment only", competitors: "Basic score reports" },
+  { feature: "Weak-Area Targeting", nursenest: "Adaptive analytics", selfstudy: "Self-assessment only", competitors: "Basic score reports" },
   { feature: "Clinical Simulators", nursenest: "15 interactive sims", selfstudy: "Not available", competitors: "Limited or none" },
-  { feature: "Study Plan", nursenest: "AI-generated schedule", selfstudy: "Self-directed", competitors: "Generic templates" },
+  { feature: "Study Plan", nursenest: "Personalized schedule", selfstudy: "Self-directed", competitors: "Generic templates" },
   { feature: "Multilingual Support", nursenest: "15 languages", selfstudy: "English only", competitors: "English only" },
   { feature: "Blueprint Alignment", nursenest: "NCLEX-RN, REX-PN, NP", selfstudy: "Unknown coverage", competitors: "Single exam focus" },
 ];
@@ -119,13 +119,13 @@ const FAQ_DATA = [
   { question: "How many questions do I need to pass the NCLEX-RN?", answer: "The NCLEX-RN uses Computer Adaptive Testing (CAT), which adjusts to your ability level. You'll answer between 85–150 questions. The exam ends when the algorithm determines with 95% confidence whether you're above or below the passing standard. Our mock exams simulate this adaptive format so you're prepared for the real experience." },
   { question: "Is this for Canadian or American nursing exams?", answer: "NurseNest covers both. We support NCLEX-RN (used in the US and Canada for RN licensure), REX-PN (Canada's practical nursing exam), and NP certification exams. Content is mapped to each exam's specific blueprint, and we include jurisdiction-specific practice considerations." },
   { question: "What's the difference between RPN and RN content?", answer: "RPN (Registered Practical Nurse) content covers REX-PN exam domains including professional practice, ethical practice, legal practice, foundations of practice, and collaborative practice. RN content covers NCLEX-RN Client Needs categories with more advanced pathophysiology, pharmacology, and clinical decision-making. Each track is specifically aligned to its exam blueprint." },
-  { question: "How is NurseNest different from YouTube or free resources?", answer: "Free resources lack structure, exam alignment, and active learning methodology. NurseNest provides blueprint-mapped content, adaptive practice exams, AI-powered weak-area targeting, detailed rationales for every question, and performance analytics. Our content is written by nurse educators and clinically verified — not scraped from random sources." },
+  { question: "How is NurseNest different from YouTube or free resources?", answer: "Free resources lack structure, exam alignment, and active learning methodology. NurseNest provides blueprint-mapped content, adaptive practice exams, smart weak-area targeting, detailed rationales for every question, and performance analytics. Our content is written by nurse educators and clinically verified — not scraped from random sources." },
   { question: "Can I use NurseNest on my phone?", answer: "Yes, NurseNest is fully responsive and works on any device — phone, tablet, or desktop. Study during commutes, between clinical shifts, or at home. Your progress syncs across all devices automatically." },
   { question: "How often is new content added?", answer: "We add new lessons, questions, and practice materials regularly. Our content team continuously updates materials to reflect the latest exam blueprints, clinical guidelines, and evidence-based practice standards. When exam formats change, we update our content to match." },
   { question: "What if I'm an internationally educated nurse (IEN)?", answer: "NurseNest supports 15 languages and is designed to help internationally educated nurses prepare for Canadian and American licensure exams. Our adaptive system identifies knowledge gaps specific to your background and creates a targeted study plan." },
   { question: "Do you offer a free trial?", answer: "Yes! You can access free diagnostic assessments, sample lessons, study decks, and a limited number of practice questions at no cost. This lets you experience the platform quality before committing to a subscription. No credit card required to start." },
-  { question: "How long should I study before taking my exam?", answer: "Study timelines vary based on your background and readiness level. Most candidates study 6–12 weeks with dedicated daily practice. Our AI study planner creates a personalized schedule based on your diagnostic results, targeting weak areas first for maximum efficiency." },
-  { question: "What's included in each subscription tier?", answer: "Free tier includes diagnostic assessments, sample lessons, and limited practice questions. Paid tiers unlock the full question bank with detailed rationales, unlimited mock exams, all 15 clinical simulators, AI study planner, performance analytics, and multilingual support. Visit our pricing page for detailed tier comparisons." },
+  { question: "How long should I study before taking my exam?", answer: "Study timelines vary based on your background and readiness level. Most candidates study 6-12 weeks with dedicated daily practice. Our study planner creates a personalized schedule based on your diagnostic results, targeting weak areas first for maximum efficiency." },
+  { question: "What's included in each subscription tier?", answer: "Free tier includes diagnostic assessments, sample lessons, and limited practice questions. Paid tiers unlock the full question bank with detailed rationales, unlimited mock exams, all 15 clinical simulators, personalized study planner, performance analytics, and multilingual support. Visit our pricing page for detailed tier comparisons." },
   { question: "Can I switch between RPN, RN, and NP content?", answer: "Yes, you can access content across all exam tracks based on your subscription tier. Many students preparing for RN exams also review foundational RPN content for reinforcement, or explore NP-level content for deeper clinical understanding." },
   { question: "Is NurseNest accredited or endorsed?", answer: "NurseNest is an independent educational resource created by experienced nurse educators and clinical professionals. While we are not affiliated with any licensing body, our content is meticulously aligned to official exam blueprints (NCSBN for NCLEX-RN, CNREX for REX-PN) and follows evidence-based clinical practice guidelines." },
 ];
@@ -182,7 +182,7 @@ export default function NursingHub() {
     "@context": "https://schema.org",
     "@type": "Course",
     "name": "Nursing Exam Prep - NCLEX-RN, REX-PN & NP",
-    "description": "Pass your nursing certification with 6000+ lessons, adaptive mock exams, clinical simulators, and AI study tools. Covers NCLEX-RN, REX-PN, and NP exams.",
+    "description": "Pass your nursing certification with 6000+ lessons, adaptive mock exams, clinical simulators, and smart study tools. Covers NCLEX-RN, REX-PN, and NP exams.",
     "provider": {
       "@type": "Organization",
       "name": "NurseNest",
@@ -198,7 +198,7 @@ export default function NursingHub() {
       <Navigation />
       <SEO
         title="Nursing Exam Prep - NCLEX-RN, REX-PN & NP | NurseNest"
-        description="Pass your nursing certification with 6000+ lessons, adaptive mock exams, clinical simulators, and AI study tools. Covers NCLEX-RN, REX-PN, and NP exams."
+        description="Pass your nursing certification with 6000+ lessons, adaptive mock exams, clinical simulators, and smart study tools. Covers NCLEX-RN, REX-PN, and NP exams."
         keywords="nursing exam prep, NCLEX-RN, REX-PN, NP exam, nursing practice questions, mock nursing exam, nursing study guide, NCLEX prep, nursing flashcards, nursing certification"
         canonicalPath="/nursing"
         structuredData={courseStructuredData}

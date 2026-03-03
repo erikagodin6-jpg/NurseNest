@@ -6195,12 +6195,37 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const isOfficial = examMode === "official";
       const isPaidRequired = isOfficial || (!isReadiness && totalQuestions > 25);
 
+      const blueprintCode = req.body.blueprintCode || "";
+      const scopeMap: Record<string, string> = {
+        "REX-PN": "REXPN", "NCLEX-PN": "NCLEXPN", "NCLEX-RN": "NCLEXRN",
+        "AANP": "AANP", "ANCC": "ANCC",
+      };
+      const creditScope = scopeMap[blueprintCode] || tier?.toUpperCase() || "ALL_NURSING";
+
+      let usedCredit = false;
       if (!isReadiness) {
-        if (effectiveExamTier === "free" && isPaidRequired) {
-          return res.status(403).json({ error: "Upgrade required", requiredTier: tier });
-        }
-        if (effectiveExamTier !== "admin" && effectiveExamTier !== "free" && effectiveExamTier !== tier) {
-          return res.status(403).json({ error: "You can only access exams matching your subscription tier" });
+        const hasSubscription = effectiveExamTier !== "free" && effectiveExamTier !== "admin"
+          ? effectiveExamTier === tier
+          : effectiveExamTier === "admin";
+
+        if (!hasSubscription && isPaidRequired) {
+          const creditResult = await pool.query(
+            `SELECT COALESCE(SUM(quantity), 0) AS balance FROM mock_exam_credit_ledger
+             WHERE user_id = $1 AND credit_type = 'MOCK_OFFICIAL'
+             AND (scope = $2 OR scope = 'ALL_NURSING')`,
+            [String(authUser.id), creditScope]
+          );
+          const balance = parseInt(creditResult.rows[0]?.balance || "0", 10);
+          if (balance > 0) {
+            usedCredit = true;
+          } else {
+            return res.status(403).json({
+              error: "Upgrade required",
+              code: "MOCK_PAYWALL",
+              requiredTier: tier,
+              creditScope,
+            });
+          }
         }
       }
 
@@ -6211,7 +6236,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         [String(authUser.id), tier, totalQuestions, JSON.stringify(questions), JSON.stringify({ examMode: examMode || "practice" })],
       );
 
-      res.json({ attemptId: result.rows[0].id });
+      const attemptId = result.rows[0].id;
+
+      if (usedCredit) {
+        await pool.query(
+          `INSERT INTO mock_exam_credit_ledger (user_id, credit_type, scope, quantity, session_id, note)
+           VALUES ($1, 'MOCK_OFFICIAL', $2, -1, $3, 'Consumed for official mock exam')`,
+          [String(authUser.id), creditScope, attemptId]
+        );
+      }
+
+      res.json({ attemptId, creditUsed: usedCredit });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -6323,9 +6358,13 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       if (isFree && isReadiness && row.status === "completed") {
         const questions = Array.isArray(row.questions) ? row.questions : [];
-        const limitedQuestions = questions.slice(0, 5);
+        const fullQuestions = questions.map((q: any, idx: number) => {
+          if (idx < 5) return q;
+          const { rationale, explanation, ...rest } = q;
+          return rest;
+        });
         const limitedReport = { ...examReport, questionReviewLimited: true, reviewLimit: 5 };
-        res.json({ ...row, questions: limitedQuestions, report: limitedReport });
+        res.json({ ...row, questions: fullQuestions, report: limitedReport, limitedReview: true });
       } else {
         res.json(row);
       }

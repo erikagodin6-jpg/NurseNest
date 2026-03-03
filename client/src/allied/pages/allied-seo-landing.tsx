@@ -40,7 +40,7 @@ const SEO_PAGES: SEOPageConfig[] = [
       },
       {
         heading: "Weak-Area Targeting Across All Domains",
-        content: "Our AI tracks your performance across every PTCB domain: Pharmacology, Dosage Calculations, Compounding, Drug Interactions, Regulations & Law, Sterile Products, Inventory Management, Patient Safety, Drug Classifications, and Prescription Processing. It identifies where you're struggling and automatically prioritizes those topics, so you spend study time where it matters most."
+        content: "Our platform tracks your performance across every PTCB domain: Pharmacology, Dosage Calculations, Compounding, Drug Interactions, Regulations & Law, Sterile Products, Inventory Management, Patient Safety, Drug Classifications, and Prescription Processing. It identifies where you're struggling and automatically prioritizes those topics, so you spend study time where it matters most."
       },
       {
         heading: "4,000+ Question Roadmap",
@@ -91,13 +91,13 @@ const SEO_PAGES: SEOPageConfig[] = [
     careerSlug: "pharmacy-tech",
     pageType: "study-guide",
     title: "Pharmacy Technician Study Guide | Complete PTCB Prep",
-    metaDescription: "Comprehensive pharmacy technician study guide with AI-powered study plans, flashcards, and case simulations. Everything you need to pass the PTCB.",
+    metaDescription: "Comprehensive pharmacy technician study guide with personalized study plans, flashcards, and case simulations. Everything you need to pass the PTCB.",
     h1: "Pharmacy Technician Study Guide",
-    heroSubtitle: "A complete, AI-powered study system covering every PTCB domain — from pharmacology and dosage calculations to compounding and drug interactions.",
+    heroSubtitle: "A complete, adaptive study system covering every PTCB domain — from pharmacology and dosage calculations to compounding and drug interactions.",
     sections: [
       {
-        heading: "AI-Generated Personalized Study Plans",
-        content: "Our AI analyzes your diagnostic results and ongoing performance to create a day-by-day study plan tailored to your timeline and weak areas. Whether you have 2 weeks or 3 months until your exam, the study planner adapts to ensure you cover every domain with appropriate depth."
+        heading: "Personalized Study Plans",
+        content: "Our platform analyzes your diagnostic results and ongoing performance to create a day-by-day study plan tailored to your timeline and weak areas. Whether you have 2 weeks or 3 months until your exam, the study planner adapts to ensure you cover every domain with appropriate depth."
       },
       {
         heading: "Comprehensive Domain Coverage",
@@ -113,11 +113,11 @@ const SEO_PAGES: SEOPageConfig[] = [
       }
     ],
     faqs: [
-      { q: "How does the AI study plan work?", a: "After you complete the diagnostic assessment, our AI creates a personalized study schedule. It prioritizes your weakest domains, allocates study time based on your exam date, and adjusts daily as your performance improves." },
-      { q: "What study materials are included?", a: "Pro members get access to the full question bank, flashcards, mock exams, case simulations, AI study planner, and all interactive tools. Everything you need in one platform." },
+      { q: "How does the study plan work?", a: "After you complete the diagnostic assessment, the platform creates a personalized study schedule. It prioritizes your weakest domains, allocates study time based on your exam date, and adjusts daily as your performance improves." },
+      { q: "What study materials are included?", a: "Pro members get access to the full question bank, flashcards, mock exams, case simulations, personalized study planner, and all interactive tools. Everything you need in one platform." },
       { q: "How are the flashcards organized?", a: "Flashcards are organized by domain and topic. The spaced repetition algorithm tracks which cards you know well and which need more practice, ensuring efficient review sessions." },
       { q: "Can I study on my phone?", a: "Yes! NurseNest Allied is fully responsive and works on any device. Study on your phone during breaks, on your tablet at home, or on your computer at your desk." },
-      { q: "How long should I study before taking the PTCB?", a: "Most students use our platform for 4-8 weeks before their exam. The AI study planner will create an optimized schedule based on your timeline and starting knowledge level." }
+      { q: "How long should I study before taking the PTCB?", a: "Most students use our platform for 4-8 weeks before their exam. The study planner will create an optimized schedule based on your timeline and starting knowledge level." }
     ]
   },
   {
@@ -138,8 +138,8 @@ const SEO_PAGES: SEOPageConfig[] = [
         content: "The NBRC TMC exam uses a scoring algorithm that evaluates your performance across domains. Our adaptive engine simulates this by adjusting question difficulty in real-time based on your answers. You'll experience the same progressive difficulty and domain coverage as the actual exam — building both confidence and competence."
       },
       {
-        heading: "AI-Powered Weak-Area Targeting",
-        content: "Our AI continuously tracks your performance across all respiratory therapy domains. Struggling with ventilator waveform interpretation? The system automatically serves more ventilator questions until your scores improve. This targeted approach means you spend study time where it has the greatest impact on your overall readiness."
+        heading: "Smart Weak-Area Targeting",
+        content: "Our platform continuously tracks your performance across all respiratory therapy domains. Struggling with ventilator waveform interpretation? The system automatically serves more ventilator questions until your scores improve. This targeted approach means you spend study time where it has the greatest impact on your overall readiness."
       },
       {
         heading: "Built-In ABG and Ventilator Tools",
@@ -150,9 +150,9 @@ const SEO_PAGES: SEOPageConfig[] = [
       { q: "How many RRT practice questions are available?", a: "We currently have 500+ exam-authentic questions mapped to the NBRC TMC and CSE blueprints, with new questions added regularly. Our roadmap targets 4,000+ questions across all respiratory therapy domains." },
       { q: "Are the questions aligned with the NBRC exam blueprint?", a: "Yes. Every question is mapped to the official NBRC Therapist Multiple-Choice (TMC) examination content outline and the Clinical Simulation Exam (CSE) competency areas." },
       { q: "Do you cover ventilator management questions?", a: "Extensively. Our bank includes questions on all ventilator modes (AC, SIMV, PSV, APRV, HFOV), waveform interpretation, patient-ventilator synchrony, weaning protocols, and troubleshooting — each with detailed rationales." },
-      { q: "What about ABG interpretation?", a: "ABG questions cover acid-base disorders, compensation mechanisms, mixed disorders, and clinical correlation. Plus, our dedicated ABG Interpretation Engine provides unlimited practice with instant AI feedback." },
+      { q: "What about ABG interpretation?", a: "ABG questions cover acid-base disorders, compensation mechanisms, mixed disorders, and clinical correlation. Plus, our dedicated ABG Interpretation Engine provides unlimited practice with instant feedback." },
       { q: "Is there a free trial?", a: "Yes! Take our free 15-question diagnostic to see your readiness score, plus get 5 free practice questions to experience the depth of our rationales." },
-      { q: "How does weak-area targeting work?", a: "Our AI tracks your accuracy across every NBRC domain. It identifies your weakest areas and automatically prioritizes those topics in your practice sessions and study plan." }
+      { q: "How does weak-area targeting work?", a: "Our platform tracks your accuracy across every NBRC domain. It identifies your weakest areas and automatically prioritizes those topics in your practice sessions and study plan." }
     ]
   },
   {
@@ -182,7 +182,7 @@ const SEO_PAGES: SEOPageConfig[] = [
       { q: "Can I retake mock exams?", a: "Pro members get unlimited mock exam attempts with randomized question selection, so each attempt provides a fresh testing experience." },
       { q: "Does it prepare me for the CSE too?", a: "Yes. In addition to TMC-style mock exams, we include clinical simulation scenarios that mirror the branching, decision-making format of the NBRC Clinical Simulation Exam." },
       { q: "How is the mock exam scored?", a: "You receive both an overall score and domain-level breakdown. We indicate whether your performance meets the cut-score threshold, giving you a realistic assessment of exam readiness." },
-      { q: "What should I do after the mock exam?", a: "Review your domain breakdown and use the AI study planner to create a targeted review plan focusing on your weakest areas before your next attempt or your actual exam." }
+      { q: "What should I do after the mock exam?", a: "Review your domain breakdown and use the study planner to create a targeted review plan focusing on your weakest areas before your next attempt or your actual exam." }
     ]
   },
   {
@@ -190,13 +190,13 @@ const SEO_PAGES: SEOPageConfig[] = [
     careerSlug: "rrt",
     pageType: "study-guide",
     title: "RRT Study Guide | Complete Respiratory Therapy Exam Prep",
-    metaDescription: "Comprehensive RRT study guide with AI study plans, flashcards, ABG engine, and ventilator simulator. Everything you need to pass the NBRC TMC and CSE.",
+    metaDescription: "Comprehensive RRT study guide with personalized study plans, flashcards, ABG engine, and ventilator simulator. Everything you need to pass the NBRC TMC and CSE.",
     h1: "RRT Study Guide",
-    heroSubtitle: "A complete, AI-powered study system for respiratory therapy certification — covering ventilator management, ABG analysis, airway management, and every NBRC domain.",
+    heroSubtitle: "A complete, adaptive study system for respiratory therapy certification — covering ventilator management, ABG analysis, airway management, and every NBRC domain.",
     sections: [
       {
-        heading: "AI-Generated Personalized Study Plans",
-        content: "Our AI builds a day-by-day study plan based on your diagnostic results, exam date, and performance trends. It allocates more time to your weak domains and adjusts daily as you improve. Whether you have 2 weeks or 3 months, you'll have a clear path to exam readiness."
+        heading: "Personalized Study Plans",
+        content: "Our platform builds a day-by-day study plan based on your diagnostic results, exam date, and performance trends. It allocates more time to your weak domains and adjusts daily as you improve. Whether you have 2 weeks or 3 months, you'll have a clear path to exam readiness."
       },
       {
         heading: "Complete NBRC Domain Coverage",
@@ -204,7 +204,7 @@ const SEO_PAGES: SEOPageConfig[] = [
       },
       {
         heading: "Interactive ABG & Ventilator Tools",
-        content: "Our dedicated ABG Interpretation Engine lets you practice unlimited blood gas analysis with instant AI feedback. The Ventilator Mode Simulator provides interactive ventilator settings and waveform analysis — building the clinical judgment that sets top scores apart on the CSE."
+        content: "Our dedicated ABG Interpretation Engine lets you practice unlimited blood gas analysis with instant feedback. The Ventilator Mode Simulator provides interactive ventilator settings and waveform analysis — building the clinical judgment that sets top scores apart on the CSE."
       },
       {
         heading: "Spaced Repetition & Flashcards",
@@ -212,10 +212,10 @@ const SEO_PAGES: SEOPageConfig[] = [
       }
     ],
     faqs: [
-      { q: "How does the AI study plan work?", a: "Complete the diagnostic assessment, and our AI creates a personalized schedule targeting your weak domains first. It adjusts daily based on your progress and time until your exam." },
-      { q: "What study materials are included?", a: "Pro includes the full question bank (500+ questions), flashcards, mock exams, ABG engine, ventilator simulator, case simulations, and AI study planner — everything in one platform." },
-      { q: "Can I use the ABG engine for unlimited practice?", a: "Yes. Pro members get unlimited access to the ABG Interpretation Engine, with AI-generated cases covering simple disorders, mixed acid-base problems, and compensation analysis." },
-      { q: "How long should I study for the NBRC TMC?", a: "Most students use our platform for 6-10 weeks before the TMC exam. The AI study planner optimizes your schedule based on your starting level and exam date." },
+      { q: "How does the study plan work?", a: "Complete the diagnostic assessment, and the platform creates a personalized schedule targeting your weak domains first. It adjusts daily based on your progress and time until your exam." },
+      { q: "What study materials are included?", a: "Pro includes the full question bank (500+ questions), flashcards, mock exams, ABG engine, ventilator simulator, case simulations, and personalized study planner — everything in one platform." },
+      { q: "Can I use the ABG engine for unlimited practice?", a: "Yes. Pro members get unlimited access to the ABG Interpretation Engine, with auto-generated cases covering simple disorders, mixed acid-base problems, and compensation analysis." },
+      { q: "How long should I study for the NBRC TMC?", a: "Most students use our platform for 6-10 weeks before the TMC exam. The study planner optimizes your schedule based on your starting level and exam date." },
       { q: "Is the study guide mobile-friendly?", a: "Absolutely. Study on any device — phone, tablet, or computer. Your progress syncs across all devices automatically." }
     ]
   }
@@ -339,7 +339,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { icon: BookOpen, label: "500+ Questions", sub: "Exam-authentic" },
-              { icon: Target, label: "Weak-Area AI", sub: "Domain targeting" },
+              { icon: Target, label: "Weak-Area Focus", sub: "Domain targeting" },
               { icon: BarChart3, label: "Performance", sub: "Detailed analytics" },
               { icon: Clock, label: "CAT Engine", sub: "Adaptive difficulty" },
             ].map((stat, i) => (
@@ -383,11 +383,11 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
                 {[
                   { feature: "Rationale Depth", allied: "600+ words per question", generic: "1–2 sentence explanation" },
                   { feature: "Exam Simulation", allied: "Adaptive CAT-style engine", generic: "Static linear exams" },
-                  { feature: "Weak-Area Targeting", allied: "AI identifies & drills weak domains", generic: "Random question order" },
+                  { feature: "Weak-Area Targeting", allied: "Identifies & drills weak domains", generic: "Random question order" },
                   { feature: "Question Volume", allied: "4,000+ questions roadmap", generic: "Limited static bank" },
                   { feature: "Blueprint Alignment", allied: "Mapped to official blueprint", generic: "Generic topic coverage" },
-                  { feature: "Study Planning", allied: "AI-generated personalized schedule", generic: "Self-directed only" },
-                  { feature: "Interactive Tools", allied: "Career-specific AI tools", generic: "Not available" },
+                  { feature: "Study Planning", allied: "Personalized adaptive schedule", generic: "Self-directed only" },
+                  { feature: "Interactive Tools", allied: "Career-specific smart tools", generic: "Not available" },
                   { feature: "Performance Analytics", allied: "Domain-level trends", generic: "Basic score only" },
                 ].map((row, i) => (
                   <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
@@ -511,7 +511,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
               <Award className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
                 <p className="font-medium text-gray-900 text-sm">Study Planner</p>
-                <p className="text-xs text-gray-500">AI-generated schedule</p>
+                <p className="text-xs text-gray-500">Personalized schedule</p>
               </div>
             </Link>
             <Link

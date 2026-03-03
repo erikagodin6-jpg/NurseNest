@@ -13,7 +13,7 @@ import { useAuth } from "@/lib/auth";
 import {
   ArrowLeft, Trophy, Target, AlertTriangle, BarChart3, Clock,
   CheckCircle2, XCircle, ChevronDown, ChevronUp, Flag, BookOpen,
-  Share2, Download, Copy
+  Share2, Download, Copy, ShieldCheck, Lock
 } from "lucide-react";
 
 function getAuthHeaders(): Record<string, string> {
@@ -118,6 +118,15 @@ export default function MockExamReport() {
   const weakAreas = report.weakAreas || [];
   const questionReview = report.questionReview || [];
   const flaggedIds = exam.flagged || [];
+  const examType: string | undefined = report.examType;
+  const isCAT = examType === "cat";
+  const isScaled = examType === "linear-scaled";
+  const isReadiness = examType === "readiness";
+  const isPractice = !examType;
+  const overallPass = report.overallPass;
+  const domainBands = report.domainBands || [];
+  const scaledScore = report.scaledScore;
+  const limitedReview = exam.limitedReview === true;
 
   const previousExams = history
     .filter((h) => h.id !== attemptId && h.tier === exam.tier)
@@ -162,28 +171,81 @@ export default function MockExamReport() {
     ctx.fillStyle = "#334155";
     ctx.fillRect(60, 85, 1080, 1);
 
-    const scoreColor = report.percentage >= 80 ? "#22c55e" : report.percentage >= 60 ? "#eab308" : "#ef4444";
-    ctx.fillStyle = scoreColor;
-    ctx.font = "bold 120px Inter, system-ui, sans-serif";
-    ctx.fillText(`${report.percentage}%`, 60, 230);
+    const eType = report.examType;
+    const eIsCAT = eType === "cat";
+    const eIsScaled = eType === "linear-scaled";
+    const ePass = report.overallPass;
 
-    ctx.fillStyle = "#94a3b8";
-    ctx.font = "24px Inter, system-ui, sans-serif";
-    ctx.fillText(`${(exam.tier || "").toUpperCase()} Mock Exam`, 60, 270);
+    if (eIsCAT) {
+      const scoreColor = ePass ? "#22c55e" : "#ef4444";
+      ctx.fillStyle = scoreColor;
+      ctx.font = "bold 100px Inter, system-ui, sans-serif";
+      ctx.fillText(ePass ? "PASS" : "FAIL", 60, 230);
 
-    ctx.fillStyle = "#e2e8f0";
-    ctx.font = "20px Inter, system-ui, sans-serif";
-    ctx.fillText(`${report.score} of ${report.totalQuestions} questions correct`, 60, 310);
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "24px Inter, system-ui, sans-serif";
+      ctx.fillText(`${report.blueprintName || (exam.tier || "").toUpperCase()} -- CAT Exam`, 60, 270);
 
-    const readiness = report.percentage >= 80 ? "Exam Ready" : report.percentage >= 60 ? "On Track" : "Needs Focus";
-    const pillWidth = ctx.measureText(readiness).width + 40;
-    ctx.fillStyle = scoreColor + "33";
-    ctx.beginPath();
-    ctx.roundRect(60, 330, pillWidth, 36, 18);
-    ctx.fill();
-    ctx.fillStyle = scoreColor;
-    ctx.font = "bold 16px Inter, system-ui, sans-serif";
-    ctx.fillText(readiness, 80, 354);
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "20px Inter, system-ui, sans-serif";
+      ctx.fillText(`Completed in ${report.itemsAdministered || report.totalQuestions} items`, 60, 310);
+
+      const label = ePass ? "Passed" : "Did Not Pass";
+      const pillWidth = ctx.measureText(label).width + 40;
+      ctx.fillStyle = scoreColor + "33";
+      ctx.beginPath();
+      ctx.roundRect(60, 330, pillWidth, 36, 18);
+      ctx.fill();
+      ctx.fillStyle = scoreColor;
+      ctx.font = "bold 16px Inter, system-ui, sans-serif";
+      ctx.fillText(label, 80, 354);
+    } else if (eIsScaled) {
+      const scoreColor = ePass ? "#22c55e" : "#ef4444";
+      ctx.fillStyle = scoreColor;
+      ctx.font = "bold 100px Inter, system-ui, sans-serif";
+      ctx.fillText(`${report.scaledScore || report.percentage}`, 60, 230);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "24px Inter, system-ui, sans-serif";
+      ctx.fillText(`${report.blueprintName || (exam.tier || "").toUpperCase()} Exam`, 60, 270);
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "20px Inter, system-ui, sans-serif";
+      ctx.fillText(`${report.score} of ${report.totalQuestions} questions correct`, 60, 310);
+
+      const label = ePass ? "Passed" : "Did Not Pass";
+      const pillWidth = ctx.measureText(label).width + 40;
+      ctx.fillStyle = scoreColor + "33";
+      ctx.beginPath();
+      ctx.roundRect(60, 330, pillWidth, 36, 18);
+      ctx.fill();
+      ctx.fillStyle = scoreColor;
+      ctx.font = "bold 16px Inter, system-ui, sans-serif";
+      ctx.fillText(label, 80, 354);
+    } else {
+      const scoreColor = report.percentage >= 80 ? "#22c55e" : report.percentage >= 60 ? "#eab308" : "#ef4444";
+      ctx.fillStyle = scoreColor;
+      ctx.font = "bold 120px Inter, system-ui, sans-serif";
+      ctx.fillText(`${report.percentage}%`, 60, 230);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "24px Inter, system-ui, sans-serif";
+      ctx.fillText(`${(exam.tier || "").toUpperCase()} Mock Exam`, 60, 270);
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "20px Inter, system-ui, sans-serif";
+      ctx.fillText(`${report.score} of ${report.totalQuestions} questions correct`, 60, 310);
+
+      const readiness = report.percentage >= 80 ? "Exam Ready" : report.percentage >= 60 ? "On Track" : "Needs Focus";
+      const pillWidth = ctx.measureText(readiness).width + 40;
+      ctx.fillStyle = scoreColor + "33";
+      ctx.beginPath();
+      ctx.roundRect(60, 330, pillWidth, 36, 18);
+      ctx.fill();
+      ctx.fillStyle = scoreColor;
+      ctx.font = "bold 16px Inter, system-ui, sans-serif";
+      ctx.fillText(readiness, 80, 354);
+    }
 
     ctx.fillStyle = "#22c55e";
     ctx.font = "bold 16px Inter, system-ui, sans-serif";
@@ -299,39 +361,214 @@ export default function MockExamReport() {
           </Button>
         </LocaleLink>
 
+        {(isCAT || isScaled) && (
+          <div
+            className={`rounded-xl p-6 mb-8 text-center ${
+              overallPass
+                ? "bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200"
+                : "bg-gradient-to-r from-rose-50 to-red-50 border border-red-200"
+            }`}
+            data-testid="banner-pass-fail"
+          >
+            {overallPass ? (
+              <div className="flex flex-col items-center gap-2">
+                <ShieldCheck className="w-14 h-14 text-emerald-600" />
+                <h2 className="text-3xl font-bold text-emerald-700" data-testid="text-pass-status">You Passed</h2>
+                <p className="text-emerald-600 text-sm">
+                  {isCAT
+                    ? `Exam completed in ${report.itemsAdministered || report.totalQuestions} items`
+                    : `Scaled Score: ${scaledScore}`}
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center gap-2">
+                <XCircle className="w-14 h-14 text-red-500" />
+                <h2 className="text-3xl font-bold text-red-600" data-testid="text-pass-status">Did Not Pass</h2>
+                <p className="text-red-500 text-sm">
+                  {isCAT
+                    ? `Exam completed in ${report.itemsAdministered || report.totalQuestions} items`
+                    : `Scaled Score: ${scaledScore}`}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="text-center mb-10 space-y-6">
           <div className="flex items-center justify-center gap-4">
             <Trophy className={`w-10 h-10 ${report.percentage >= 80 ? "text-emerald-500" : report.percentage >= 60 ? "text-amber-500" : "text-red-500"}`} />
             <h1 className="text-4xl font-bold" data-testid="text-report-title">Exam Results</h1>
           </div>
 
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            <ScoreRing percentage={report.percentage} />
-            <div className="space-y-2 text-left">
+          {isCAT ? (
+            <div className="space-y-4">
               <p className="text-gray-500 text-sm uppercase font-bold tracking-wider">
-                {exam.tier?.toUpperCase()} Mock Exam
+                {report.blueprintName || exam.tier?.toUpperCase()} -- CAT Exam
               </p>
-              <p className="text-2xl font-bold">
-                {report.score} / {report.totalQuestions} Correct
+              <p className="text-lg text-gray-600">
+                Performance assessed relative to the passing standard
               </p>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" /> {exam.time_spent ? formatDuration(exam.time_spent) : "N/A"}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Flag className="w-4 h-4" /> {flaggedIds.length} flagged
-                </span>
-              </div>
-              {report.percentage >= 80 ? (
-                <p className="text-emerald-600 font-medium">Strong performance. Keep refining your clinical reasoning.</p>
-              ) : report.percentage >= 60 ? (
-                <p className="text-amber-600 font-medium">Solid foundation. Focus on your weak areas below.</p>
-              ) : (
-                <p className="text-red-500 font-medium">Needs improvement. Review the weak areas and try again.</p>
-              )}
+              <p className="text-sm text-gray-400">
+                Exam completed in {report.itemsAdministered || report.totalQuestions} items
+              </p>
             </div>
-          </div>
+          ) : isScaled ? (
+            <div className="space-y-4">
+              <p className="text-gray-500 text-sm uppercase font-bold tracking-wider">
+                {report.blueprintName || exam.tier?.toUpperCase()} Exam
+              </p>
+              <div className="max-w-md mx-auto space-y-3">
+                <p className="text-4xl font-bold text-gray-900" data-testid="text-scaled-score">
+                  Your Score: {scaledScore} / {report.scaledScoreRange?.max || 800}
+                </p>
+                <div className="relative w-full h-6 bg-gray-200 rounded-full overflow-visible">
+                  <div
+                    className={`h-full rounded-full ${
+                      overallPass ? "bg-emerald-500" : "bg-red-500"
+                    }`}
+                    style={{
+                      width: `${Math.min(100, ((scaledScore || 0) / (report.scaledScoreRange?.max || 800)) * 100)}%`
+                    }}
+                  />
+                  {report.scaledScoreRange?.passScore && (
+                    <div
+                      className="absolute top-0 h-full w-0.5 bg-gray-700"
+                      style={{
+                        left: `${((report.scaledScoreRange.passScore) / (report.scaledScoreRange.max || 800)) * 100}%`
+                      }}
+                    >
+                      <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-gray-600 whitespace-nowrap">
+                        Pass: {report.scaledScoreRange.passScore}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-8 flex-wrap">
+                <div className="space-y-2 text-left">
+                  <p className="text-2xl font-bold">
+                    {report.score} / {report.totalQuestions} Correct
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" /> {exam.time_spent ? formatDuration(exam.time_spent) : "N/A"}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Flag className="w-4 h-4" /> {flaggedIds.length} flagged
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : isReadiness ? (
+            <div className="flex items-center justify-center gap-8 flex-wrap">
+              <ScoreRing percentage={report.percentage} />
+              <div className="space-y-2 text-left">
+                <p className="text-gray-500 text-sm uppercase font-bold tracking-wider">
+                  Readiness Assessment
+                </p>
+                <p className="text-2xl font-bold">
+                  {report.score} / {report.totalQuestions} Correct
+                </p>
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-4 h-4" /> {exam.time_spent ? formatDuration(exam.time_spent) : "N/A"}
+                  </span>
+                </div>
+                {report.percentage >= 80 ? (
+                  <p className="text-emerald-600 font-medium">Strong readiness. You are well-prepared.</p>
+                ) : report.percentage >= 60 ? (
+                  <p className="text-amber-600 font-medium">Moderate readiness. Consider focused review.</p>
+                ) : (
+                  <p className="text-red-500 font-medium">Additional preparation recommended before exam day.</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-8 flex-wrap">
+              <ScoreRing percentage={report.percentage} />
+              <div className="space-y-2 text-left">
+                <p className="text-gray-500 text-sm uppercase font-bold tracking-wider">
+                  {exam.tier?.toUpperCase()} Mock Exam
+                </p>
+                <p className="text-2xl font-bold">
+                  {report.score} / {report.totalQuestions} Correct
+                </p>
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-4 h-4" /> {exam.time_spent ? formatDuration(exam.time_spent) : "N/A"}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Flag className="w-4 h-4" /> {flaggedIds.length} flagged
+                  </span>
+                </div>
+                {report.percentage >= 80 ? (
+                  <p className="text-emerald-600 font-medium">Strong performance. Keep refining your clinical reasoning.</p>
+                ) : report.percentage >= 60 ? (
+                  <p className="text-amber-600 font-medium">Solid foundation. Focus on your weak areas below.</p>
+                ) : (
+                  <p className="text-red-500 font-medium">Needs improvement. Review the weak areas and try again.</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
+
+        {isCAT && domainBands.length > 0 && (
+          <Card className="border-none shadow-sm mb-8" data-testid="card-domain-bands">
+            <CardContent className="p-6">
+              <h3 className="font-bold text-gray-900 flex items-center gap-2 mb-4">
+                <BarChart3 className="w-5 h-5 text-primary" /> Domain Performance
+              </h3>
+              <div className="space-y-3">
+                {domainBands.map((band: any, i: number) => {
+                  const level = band.level || band.band || "Near Passing";
+                  const badgeColor =
+                    level === "Above Passing" ? "bg-emerald-100 text-emerald-700 border-emerald-200" :
+                    level === "Near Passing" ? "bg-amber-100 text-amber-700 border-amber-200" :
+                    "bg-red-100 text-red-700 border-red-200";
+                  return (
+                    <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <span className="font-medium text-gray-900">{band.domain || band.system}</span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${badgeColor}`} data-testid={`badge-domain-${i}`}>
+                        {level}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {(isCAT || isScaled) && !overallPass && (
+          <Card className="border-none shadow-sm mb-8 border-l-4 border-l-amber-400" data-testid="card-remediation">
+            <CardContent className="p-6">
+              <h3 className="font-bold text-gray-900 flex items-center gap-2 mb-4">
+                <Target className="w-5 h-5 text-amber-500" /> Remediation Plan
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Focus your study on these areas to improve your performance:
+              </p>
+              <div className="space-y-3">
+                {(isCAT ? domainBands.filter((b: any) => (b.level || b.band) === "Below Passing") : weakAreas).map((area: any, i: number) => (
+                  <div key={i} className="flex items-start gap-3 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                    <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium text-gray-900">{area.domain || area.system}</p>
+                      <p className="text-sm text-gray-500">
+                        {isCAT ? "Below passing standard -- prioritize review of this domain" : `${area.correct} of ${area.total} correct (${area.score}%)`}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+                {(isCAT ? domainBands.filter((b: any) => (b.level || b.band) === "Below Passing").length : weakAreas.length) === 0 && (
+                  <p className="text-sm text-gray-500">Performance was close to the passing standard across all domains. Continue broad review.</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {previousExams.length > 0 && (
           <Card className="border-none shadow-sm mb-8">
@@ -516,8 +753,28 @@ export default function MockExamReport() {
 
               <div className="space-y-3">
                 {filteredQuestions.map((q: any, idx: number) => {
+                  const isReadinessLocked = isReadiness && limitedReview && idx >= 5;
                   const isExpanded = expandedQ === q.id;
                   const qIndex = questionReview.indexOf(q);
+
+                  if (isReadinessLocked) {
+                    return (
+                      <Card key={q.id} className="border-none shadow-sm overflow-hidden opacity-60">
+                        <div className="w-full text-left p-4 flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <Lock className="w-5 h-5 text-gray-400 shrink-0" />
+                            <div>
+                              <span className="text-sm font-medium text-gray-500 line-clamp-1">
+                                Q{qIndex + 1}: Question review locked
+                              </span>
+                              <span className="text-xs text-gray-400 block">{q.bodySystem}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
+                    );
+                  }
+
                   return (
                     <Card key={q.id} className={`border-none shadow-sm overflow-hidden ${!q.isCorrect ? "border-l-4 border-l-red-400" : ""}`}>
                       <button
@@ -581,6 +838,23 @@ export default function MockExamReport() {
                   );
                 })}
               </div>
+
+              {isReadiness && limitedReview && filteredQuestions.length > 5 && (
+                <Card className="border-none shadow-sm bg-gradient-to-r from-primary/5 to-purple-50 border border-primary/20" data-testid="card-upgrade-cta">
+                  <CardContent className="p-6 text-center space-y-3">
+                    <Lock className="w-8 h-8 text-primary mx-auto" />
+                    <h3 className="font-bold text-gray-900 text-lg">Upgrade for Full Exam Mode</h3>
+                    <p className="text-sm text-gray-600">
+                      Unlock detailed rationales for all questions, full-length exam simulations, and advanced analytics.
+                    </p>
+                    <LocaleLink href="/pricing">
+                      <Button className="mt-2" data-testid="button-upgrade-full-exam">
+                        View Plans
+                      </Button>
+                    </LocaleLink>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </TabsContent>
         </Tabs>

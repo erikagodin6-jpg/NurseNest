@@ -219,7 +219,7 @@ export function DeckHub({
         let err: any = {};
         try { err = await genRes.json(); } catch { err = { error: `Server returned status ${genRes.status}` }; }
         if (err.upgradeRequired) {
-          setAiError("You've reached the free card limit. Upgrade to create more cards with AI.");
+          setAiError("You've reached the free card limit. Upgrade to create more cards automatically.");
         } else {
           setAiError(err.error || "AI generation failed. Try again.");
         }
@@ -260,8 +260,8 @@ export function DeckHub({
     } catch (e: any) {
       console.error("AI deck creation error:", e);
       setAiError(e.message && e.message !== "Failed to fetch" 
-        ? `AI generation error: ${e.message}` 
-        : "Could not connect to AI service. Please try again in a moment.");
+        ? `Generation error: ${e.message}` 
+        : "Could not connect to the service. Please try again in a moment.");
     } finally {
       setAiCreating(false);
     }
@@ -291,7 +291,7 @@ export function DeckHub({
       if (!genRes.ok) {
         const err = await genRes.json();
         if (err.upgradeRequired) {
-          setAiError("You've reached the free card limit. Upgrade to create more cards with AI.");
+          setAiError("You've reached the free card limit. Upgrade to create more cards automatically.");
         } else {
           setAiError(err.error || "AI generation from notes failed. Try again.");
         }
@@ -332,8 +332,8 @@ export function DeckHub({
     } catch (e: any) {
       console.error("AI notes deck creation error:", e);
       setAiError(e.message && e.message !== "Failed to fetch" 
-        ? `AI generation error: ${e.message}` 
-        : "Could not connect to AI service. Please try again in a moment.");
+        ? `Generation error: ${e.message}` 
+        : "Could not connect to the service. Please try again in a moment.");
     } finally {
       setAiCreating(false);
     }
@@ -400,7 +400,7 @@ export function DeckHub({
                 )}
                 data-testid="button-create-mode-ai"
               >
-                <Sparkles className="w-3.5 h-3.5" /> AI Generator
+                <Sparkles className="w-3.5 h-3.5" /> Smart Generator
               </button>
               <button
                 onClick={() => setCreateMode("notes")}
@@ -426,9 +426,9 @@ export function DeckHub({
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-purple-600" />
-                  <h3 className="text-sm font-bold text-purple-800">AI Flashcard Generator</h3>
+                  <h3 className="text-sm font-bold text-purple-800">Smart Flashcard Generator</h3>
                 </div>
-                <p className="text-xs text-purple-600">Enter any nursing topic and AI will create a medically verified study deck for you instantly.</p>
+                <p className="text-xs text-purple-600">Enter any nursing topic and will create a medically verified study deck for you instantly.</p>
                 <Input
                   placeholder="e.g., Cardiac medications and their side effects"
                   value={aiTopic}
@@ -483,7 +483,7 @@ export function DeckHub({
                     {aiCreating ? (
                       <><Loader2 className="w-4 h-4 animate-spin" /> Generating Deck...</>
                     ) : (
-                      <><Sparkles className="w-4 h-4" /> Create Deck with AI</>
+                      <><Sparkles className="w-4 h-4" /> Create Deck Automatically</>
                     )}
                   </Button>
                   <Button variant="outline" onClick={() => { setShowCreate(false); setAiError(""); }} className="rounded-xl" disabled={aiCreating}>Cancel</Button>
@@ -515,7 +515,7 @@ export function DeckHub({
                   <Upload className="w-4 h-4 text-blue-600" />
                   <h3 className="text-sm font-bold text-blue-800">Create Deck from Your Notes</h3>
                 </div>
-                <p className="text-xs text-blue-600">Paste your study notes or upload a text file and AI will extract key concepts into flashcards.</p>
+                <p className="text-xs text-blue-600">Paste your study notes or upload a text file and will extract key concepts into flashcards.</p>
                 <div className="border-2 border-dashed border-blue-200 rounded-xl p-4 text-center hover:border-blue-400 transition-colors">
                   <input
                     type="file"
@@ -1279,7 +1279,7 @@ export function DeckView({
             data-testid="button-ai-generate-deck-view"
           >
             <Sparkles className="w-4 h-4" />
-            {showAiPanel ? "Hide AI Generator" : "Generate Cards with AI"}
+            {showAiPanel ? "Hide Smart Generator" : "Generate Cards Automatically"}
           </Button>
 
           {showAiPanel && (
@@ -1287,9 +1287,9 @@ export function DeckView({
               <CardContent className="p-4 space-y-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-purple-600" />
-                  <span className="text-sm font-semibold text-purple-800">AI Flashcard Generator</span>
+                  <span className="text-sm font-semibold text-purple-800">Smart Flashcard Generator</span>
                 </div>
-                <p className="text-xs text-purple-600">Enter a nursing topic and AI will create study-ready flashcards for you.</p>
+                <p className="text-xs text-purple-600">Enter a nursing topic and will create study-ready flashcards for you.</p>
                 <div className="flex gap-2">
                   <Input
                     placeholder="e.g. Cardiac medications, Diabetes management, Pediatric milestones..."
@@ -1317,7 +1317,7 @@ export function DeckView({
                   {aiGenerating ? <><Layers className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Cards</>}
                 </Button>
                 {aiUpgradeRequired && (
-                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">You've reached the free card limit. Upgrade your deck or plan to create more cards with AI.</p>
+                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">You've reached the free card limit. Upgrade your deck or plan to create more cards automatically.</p>
                 )}
                 {aiGeneratedCards && aiGeneratedCards.length > 0 && (
                   <div className="space-y-2 mt-2">
@@ -1370,11 +1370,11 @@ export function DeckView({
           <div className="text-center py-12 space-y-4">
             <Sparkles className="w-10 h-10 text-purple-300 mx-auto" />
             <p className="text-gray-500 text-sm font-medium">This deck is empty</p>
-            <p className="text-gray-400 text-xs max-w-md mx-auto">Use the AI Generator above to create flashcards on any nursing topic, or add cards manually.</p>
+            <p className="text-gray-400 text-xs max-w-md mx-auto">Use the Smart Generator above to create flashcards on any nursing topic, or add cards manually.</p>
             <div className="flex gap-3 justify-center">
               {isOwner && !showAiPanel && (
                 <Button variant="outline" onClick={() => setShowAiPanel(true)} className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50 rounded-xl" data-testid="button-ai-generate-empty">
-                  <Sparkles className="w-4 h-4" /> Generate with AI
+                  <Sparkles className="w-4 h-4" /> Generate Automatically
                 </Button>
               )}
               {isOwner && (
@@ -1441,7 +1441,7 @@ export function DeckEditor({
           {limitInfo.used} / {limitInfo.max} {currentDeck.isUpgraded ? "deck" : "total"} cards used
         </span>
         <Button size="sm" variant="outline" onClick={() => { setShowAiGenerate(!showAiGenerate); if (showCsvImport) setShowCsvImport!(false); }} className="h-7 text-xs gap-1 ml-auto bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100" data-testid="button-ai-generate-toggle">
-          <Sparkles className="w-3 h-3" /> AI Generate
+          <Sparkles className="w-3 h-3" /> Auto Generate
         </Button>
         <Button size="sm" variant="outline" onClick={() => { setShowCsvImport!(!showCsvImport); if (showAiGenerate) setShowAiGenerate(false); }} className="h-7 text-xs gap-1" data-testid="button-csv-import">
           <Upload className="w-3 h-3" /> CSV Import
@@ -1453,9 +1453,9 @@ export function DeckEditor({
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-600" />
-              <h3 className="text-sm font-bold text-purple-800">AI Flashcard Generator</h3>
+              <h3 className="text-sm font-bold text-purple-800">Smart Flashcard Generator</h3>
             </div>
-            <p className="text-xs text-gray-600">Describe what you want to study and AI will create flashcards for you.</p>
+            <p className="text-xs text-gray-600">Describe what you want to study and will create flashcards for you.</p>
             <Textarea
               placeholder="e.g., Cardiac medications including beta blockers, ACE inhibitors, and antiarrhythmics with their mechanisms of action and side effects"
               value={aiGeneratePrompt}
@@ -1515,7 +1515,7 @@ export function DeckEditor({
               <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl" data-testid="text-ai-upgrade-prompt">
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-amber-800">Free card limit reached (50 cards)</p>
-                  <p className="text-xs text-amber-600 mt-0.5">Upgrade your plan to generate unlimited AI flashcards and unlock all premium features.</p>
+                  <p className="text-xs text-amber-600 mt-0.5">Upgrade your plan to generate unlimited auto-generated flashcards and unlock all premium features.</p>
                 </div>
                 <Button size="sm" className="bg-amber-600 hover:bg-amber-700 shrink-0" onClick={() => window.location.href = "/pricing"} data-testid="button-ai-upgrade">
                   Upgrade Now

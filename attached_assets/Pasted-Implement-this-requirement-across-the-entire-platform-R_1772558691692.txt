@@ -1,0 +1,44 @@
+Implement this requirement across the entire platform:
+
+REQUIREMENT:
+Readiness Exams must ALWAYS be available for every user immediately after account creation, for EVERY tier and career (nursing + all allied), regardless of subscription or mock-exam credit balance.
+
+DEFINITION:
+- “Readiness Exam” = free preview assessment per exam/career/specialty scope.
+- Must be accessible to free users without any purchase.
+- Must be available even if official mocks are paywalled.
+- Must not leak premium content (no full rationales, no exports, limited review rules).
+
+IMPLEMENTATION RULES:
+1) Readiness exams are a first-class exam mode, not a “trial” of official mock.
+2) Server-side authorization must always allow Readiness exam session creation for authenticated users (including free role).
+3) On account creation:
+   - Automatically seed readiness availability state if your system requires pre-created records, OR
+   - Ensure readiness exams are generated/configured on-demand from a static ReadinessBlueprint registry (preferred).
+4) Readiness exams must exist for ALL scopes:
+   Nursing: REx-PN, NCLEX-PN, NCLEX-RN, NP-AANP, NP-ANCC, plus every nursing specialty (ER, ICU, OR, L&D, NICU, PICU, etc.)
+   Allied: every allied career you support (e.g., RRT, Pharm Tech, Paramedic, MLT, Imaging, etc.)
+5) Readiness exams must appear in the UI:
+   - Dedicated “Readiness Exam” CTA on each career/tier/specialty landing page
+   - A global “Readiness Hub” page listing all readiness exams available
+   - In mock-exam setup, always show a Readiness option with “Free” badge
+6) Scoring/reporting:
+   - Label results as “Readiness Result”
+   - Provide domain-level bands and a short remediation plan
+   - Gate deep review/rationales per your free limitations
+7) Paywall interactions:
+   - If user attempts “Official Mock” and is blocked, the paywall modal must always include:
+     A) “Take Readiness Exam (Free)” CTA
+     B) Purchase credits CTA
+     C) Subscription CTA
+8) Sitemap/SEO:
+   - Every readiness landing page must have an indexable route (public marketing page), but the exam-taking route remains behind login.
+   - Add readiness pages to the appropriate sitemap(s) (main, allied subsite, newgrad subsite), with canonical URLs.
+
+NOW UPDATE THE EXISTING “one-off mock exam purchase + paywall” implementation to reflect:
+- Official Mock requires subscription OR paid mock credits.
+- Readiness is always free for logged-in users for every scope, no exceptions.
+
+OUTPUT RULES:
+- Do not narrate.
+- Return ONLY: files changed list, unified diffs, manual test checklist, automated test checklist.

@@ -20,18 +20,18 @@ const FEATURES = [
   { slug: "qbank", label: "Question Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
   { slug: "mock-exams", label: "Mock Exams", desc: "Blueprint-weighted timed practice exams with adaptive CAT-style simulation", icon: FileText },
   { slug: "flashcards", label: "Flashcards", desc: "Spaced repetition for key concepts across all exam domains", icon: Brain },
-  { slug: "study-plan", label: "Study Planner", desc: "AI-generated daily study schedule targeting your weak areas first", icon: GraduationCap },
+  { slug: "study-plan", label: "Study Planner", desc: "Personalized daily study schedule targeting your weak areas first", icon: GraduationCap },
   { slug: "sims", label: "Case Simulators", desc: "Unfolding clinical scenarios mirroring real exam formats", icon: Zap },
-  { slug: "tools", label: "AI Tools", desc: "Career-specific interactive tools for deep concept mastery", icon: Wrench },
+  { slug: "tools", label: "Smart Tools", desc: "Career-specific interactive tools for deep concept mastery", icon: Wrench },
 ];
 
 const COMPARISON_DATA = [
   { feature: "Question Rationale Depth", allied: "600+ words per question", generic: "1–2 sentence rationale" },
   { feature: "Exam Simulation", allied: "Adaptive CAT-style engine", generic: "Static linear exams" },
-  { feature: "Weak-Area Targeting", allied: "AI identifies & drills weak domains", generic: "Random question order" },
+  { feature: "Weak-Area Targeting", allied: "Identifies & drills weak domains automatically", generic: "Random question order" },
   { feature: "Question Roadmap", allied: "4,000+ questions planned", generic: "Limited static bank" },
   { feature: "Blueprint Alignment", allied: "Mapped to official exam blueprint", generic: "Generic topic coverage" },
-  { feature: "Study Plan", allied: "AI-generated personalized schedule", generic: "Self-directed only" },
+  { feature: "Study Plan", allied: "Personalized adaptive schedule", generic: "Self-directed only" },
   { feature: "Case Simulations", allied: "Unfolding clinical scenarios", generic: "Not available" },
   { feature: "Performance Analytics", allied: "Domain-level breakdown & trends", generic: "Basic score only" },
 ];
@@ -47,7 +47,7 @@ const FAQ_DATA = [
   },
   {
     q: "How does weak-area targeting work?",
-    a: "Our AI tracks your performance across every exam domain. It identifies where you're struggling and automatically prioritizes those topics in your study plan and practice sessions, so you spend time where it matters most."
+    a: "Our platform tracks your performance across every exam domain. It identifies where you're struggling and automatically prioritizes those topics in your study plan and practice sessions, so you spend time where it matters most."
   },
   {
     q: "How many questions are available?",
@@ -59,7 +59,7 @@ const FAQ_DATA = [
   },
   {
     q: "What's included in the Pro plan?",
-    a: "Pro gives you unlimited access to the full question bank, unlimited mock exams, AI study planner, case simulations, performance analytics, and all AI-powered tools. Everything you need to pass your exam with confidence."
+    a: "Pro gives you unlimited access to the full question bank, unlimited mock exams, personalized study planner, case simulations, performance analytics, and all smart tools. Everything you need to pass your exam with confidence."
   },
 ];
 
@@ -81,14 +81,14 @@ export default function CareerLandingPage() {
     <div data-testid={`career-landing-${career.slug}`}>
       <AlliedSEO
         title={`${career.name} Exam Prep - QBank, Mock Exams & Study Tools`}
-        description={`Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, AI study tools, and a personalized study plan. Covers all ${career.examNames[0]} exam domains.`}
+        description={`Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, smart study tools, and a personalized study plan. Covers all ${career.examNames[0]} exam domains.`}
         keywords={`${career.name} exam prep, ${career.examNames[0]} exam, ${career.name} practice questions, ${career.name} mock exam, ${career.name} study guide, ${career.name} flashcards, ${career.name} certification`}
         canonicalPath={`/career/${params.careerSlug}`}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Course",
           "name": `${career.name} Certification Prep`,
-          "description": `Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, AI study tools, and a personalized study plan.`,
+          "description": `Prepare for your ${career.name} certification exam with practice questions, adaptive mock exams, flashcards, smart study tools, and a personalized study plan.`,
           "provider": {
             "@type": "Organization",
             "name": "NurseNest Allied",
@@ -166,7 +166,7 @@ export default function CareerLandingPage() {
             </div>
             <div data-testid="stat-tools">
               <div className="text-2xl font-bold text-gray-900">{career.aiTools.length}</div>
-              <div className="text-sm text-gray-500">AI Tools</div>
+              <div className="text-sm text-gray-500">Smart Tools</div>
             </div>
           </div>
         </div>
@@ -235,11 +235,11 @@ export default function CareerLandingPage() {
         </div>
       </section>
 
-      {/* AI-Powered Tools */}
+      {/* Smart Study Tools */}
       {career.aiTools.length > 0 && (
         <section className="py-16 bg-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">AI-Powered Tools</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Smart Study Tools</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {career.aiTools.map(tool => (
                 <Link key={tool.id} href={`/careers/${career.slug}/tools`} className="group" data-testid={`card-tool-${tool.id}`}>
@@ -303,7 +303,7 @@ export default function CareerLandingPage() {
                 </li>
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>All AI tools & analytics</span>
+                  <span>All smart tools & analytics</span>
                 </li>
               </ul>
               <Link href="/pricing" className="block w-full text-center px-4 py-2.5 bg-teal-100 text-teal-700 rounded-xl font-medium hover:bg-teal-200 transition-colors" data-testid="button-pricing-monthly">

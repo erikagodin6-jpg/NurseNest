@@ -544,7 +544,7 @@ export default function AlliedDiagnostic() {
                 ))}
               </ul>
               <p className="text-xs text-amber-600 mt-2">
-                Pro members get AI-targeted drills for these weak areas with 600+ word rationales on every question.
+                Pro members get targeted drills for these weak areas with 600+ word rationales on every question.
               </p>
             </div>
           )}
@@ -581,7 +581,7 @@ export default function AlliedDiagnostic() {
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> 600+ word rationales on every question</li>
             <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> Adaptive CAT-style mock exams</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> AI-powered weak-area targeting</li>
+            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> Smart weak-area targeting</li>
             <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> Personalized study plan</li>
           </ul>
           <div className="flex flex-col sm:flex-row gap-3">

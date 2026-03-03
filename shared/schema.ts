@@ -1742,3 +1742,53 @@ export type AlliedRevisionQueueItem = typeof alliedRevisionQueue.$inferSelect;
 export type InsertAlliedRevisionQueueItem = z.infer<typeof insertAlliedRevisionQueueSchema>;
 export type AlliedLead = typeof alliedLeads.$inferSelect;
 export type InsertAlliedLead = z.infer<typeof insertAlliedLeadSchema>;
+
+export const mockExamCreditLedger = pgTable("mock_exam_credit_ledger", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  creditType: text("credit_type").notNull().default("MOCK_OFFICIAL"),
+  scope: text("scope").notNull(),
+  quantity: integer("quantity").notNull(),
+  sourcePurchaseId: varchar("source_purchase_id"),
+  sessionId: varchar("session_id"),
+  note: text("note"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMockExamCreditLedgerSchema = createInsertSchema(mockExamCreditLedger).omit({ id: true, createdAt: true });
+export type MockExamCreditLedger = typeof mockExamCreditLedger.$inferSelect;
+export type InsertMockExamCreditLedger = z.infer<typeof insertMockExamCreditLedgerSchema>;
+
+export const mockExamProducts = pgTable("mock_exam_products", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sku: text("sku").notNull().unique(),
+  name: text("name").notNull(),
+  description: text("description"),
+  creditType: text("credit_type").notNull().default("MOCK_OFFICIAL"),
+  scope: text("scope").notNull(),
+  creditsGranted: integer("credits_granted").notNull(),
+  priceInCents: integer("price_in_cents").notNull(),
+  stripePriceId: text("stripe_price_id"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertMockExamProductSchema = createInsertSchema(mockExamProducts).omit({ id: true, createdAt: true });
+export type MockExamProduct = typeof mockExamProducts.$inferSelect;
+export type InsertMockExamProduct = z.infer<typeof insertMockExamProductSchema>;
+
+export const mockExamPurchases = pgTable("mock_exam_purchases", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productId: varchar("product_id"),
+  stripeSessionId: text("stripe_session_id"),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  status: text("status").notNull().default("pending"),
+  amountInCents: integer("amount_in_cents"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertMockExamPurchaseSchema = createInsertSchema(mockExamPurchases).omit({ id: true, createdAt: true, updatedAt: true });
+export type MockExamPurchase = typeof mockExamPurchases.$inferSelect;
+export type InsertMockExamPurchase = z.infer<typeof insertMockExamPurchaseSchema>;

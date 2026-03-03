@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,6 +6,11 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
 import type { PooledQuestion } from "@/lib/question-pool";
+import {
+  initCAT, selectNextItem, updateAbility, shouldStop,
+  getPassFailResult, getDomainBands, computeScaledScore,
+  type CATState
+} from "@/lib/cat-engine";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee
@@ -38,9 +43,19 @@ interface BlueprintMeta {
   domains: { name: string; weight: number }[];
   timeLimit: number;
   domainAssignments?: Record<string, string>;
+  examType?: "cat" | "linear-scaled" | "readiness";
+  scaledScoreRange?: { min: number; max: number; passScore: number };
+  minQuestions?: number;
+  maxQuestions?: number;
+  showQuestionCount?: boolean;
 }
 
-function computeReport(questions: PooledQuestion[], answers: Record<string, number>, blueprintMeta?: BlueprintMeta | null) {
+function computeReport(
+  questions: PooledQuestion[],
+  answers: Record<string, number>,
+  blueprintMeta?: BlueprintMeta | null,
+  catState?: CATState | null
+) {
   let correct = 0;
   const systemScores: Record<string, { correct: number; total: number }> = {};
   const domainScores: Record<string, { correct: number; total: number }> = {};
@@ -99,14 +114,43 @@ function computeReport(questions: PooledQuestion[], answers: Record<string, numb
     }));
 
   const overallPercentage = Math.round((correct / questions.length) * 100);
+  const examType = blueprintMeta?.examType || null;
 
   let isOfficialMode = false;
   let overallPass = true;
   let failedDomains: string[] = [];
   let domainBreakdown: { name: string; correct: number; total: number; percentage: number; passed: boolean; weight: number }[] = [];
+  let scaledScore: number | null = null;
+  let domainBands: ReturnType<typeof getDomainBands> | null = null;
 
-  if (blueprintMeta && blueprintMeta.domains) {
+  if (examType === "cat" && catState) {
     isOfficialMode = true;
+    const catResult = getPassFailResult(catState);
+    overallPass = catResult.passed;
+    domainBands = getDomainBands(domainScores);
+    domainBreakdown = blueprintMeta!.domains.map(d => {
+      const ds = domainScores[d.name] || { correct: 0, total: 0 };
+      const pct = ds.total > 0 ? Math.round((ds.correct / ds.total) * 100) : 0;
+      const passed = pct >= 50;
+      if (!passed) failedDomains.push(d.name);
+      return { name: d.name, correct: ds.correct, total: ds.total, percentage: pct, passed, weight: d.weight };
+    });
+  } else if (examType === "linear-scaled" && blueprintMeta?.scaledScoreRange) {
+    isOfficialMode = true;
+    const scaled = computeScaledScore(overallPercentage, blueprintMeta.scaledScoreRange);
+    scaledScore = scaled.scaledScore;
+    overallPass = scaled.passed;
+    domainBreakdown = blueprintMeta.domains.map(d => {
+      const ds = domainScores[d.name] || { correct: 0, total: 0 };
+      const pct = ds.total > 0 ? Math.round((ds.correct / ds.total) * 100) : 0;
+      const passed = pct >= (blueprintMeta.domainPassThreshold || 50);
+      if (!passed) failedDomains.push(d.name);
+      return { name: d.name, correct: ds.correct, total: ds.total, percentage: pct, passed, weight: d.weight };
+    });
+  } else if (blueprintMeta && blueprintMeta.domains) {
+    if (examType !== "readiness") {
+      isOfficialMode = true;
+    }
     domainBreakdown = blueprintMeta.domains.map(d => {
       const ds = domainScores[d.name] || { correct: 0, total: 0 };
       const pct = ds.total > 0 ? Math.round((ds.correct / ds.total) * 100) : 0;
@@ -137,6 +181,9 @@ function computeReport(questions: PooledQuestion[], answers: Record<string, numb
     blueprintName: blueprintMeta?.examName || null,
     passingThreshold: blueprintMeta?.passingThreshold || null,
     domainPassThreshold: blueprintMeta?.domainPassThreshold || null,
+    examType,
+    scaledScore,
+    domainBands,
   };
 }
 
@@ -161,18 +208,34 @@ export default function MockExamSession() {
   const [showTabWarning, setShowTabWarning] = useState(false);
   const [showBreakPrompt, setShowBreakPrompt] = useState(false);
   const [blueprintMeta, setBlueprintMeta] = useState<BlueprintMeta | null>(null);
+  const [catState, setCatState] = useState<CATState | null>(null);
+  const [catFinished, setCatFinished] = useState(false);
+  const [allPoolQuestions, setAllPoolQuestions] = useState<PooledQuestion[]>([]);
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
+
+  const isCATExam = blueprintMeta?.examType === "cat";
+  const isLinearScaled = blueprintMeta?.examType === "linear-scaled";
+  const isReadiness = blueprintMeta?.examType === "readiness";
 
   useEffect(() => {
     if (!attemptId) return;
     const isStrict = localStorage.getItem(`strict-mode-${attemptId}`) === "true";
     setStrictMode(isStrict);
 
+    let parsedBp: BlueprintMeta | null = null;
     try {
       const bpData = localStorage.getItem(`blueprint-${attemptId}`);
       if (bpData) {
-        setBlueprintMeta(JSON.parse(bpData));
+        parsedBp = JSON.parse(bpData);
+        setBlueprintMeta(parsedBp);
+      }
+    } catch {}
+
+    try {
+      const savedCat = localStorage.getItem(`cat-state-${attemptId}`);
+      if (savedCat) {
+        setCatState(JSON.parse(savedCat));
       }
     } catch {}
 
@@ -183,7 +246,37 @@ export default function MockExamSession() {
           navigate(`/mock-exams/${attemptId}/report`);
           return;
         }
-        setQuestions(data.questions || []);
+        const allQuestions: PooledQuestion[] = data.questions || [];
+
+        if (parsedBp?.examType === "cat") {
+          setAllPoolQuestions(allQuestions);
+
+          const savedCatStr = localStorage.getItem(`cat-state-${attemptId}`);
+          let existingCat: CATState | null = null;
+          try {
+            if (savedCatStr) existingCat = JSON.parse(savedCatStr);
+          } catch {}
+
+          if (existingCat && existingCat.itemsAdministered > 0) {
+            const administeredIds = new Set(existingCat.responses.map(r => r.itemId));
+            const administeredQuestions = allQuestions.filter(q => administeredIds.has(q.id));
+            setQuestions(administeredQuestions);
+            setCurrentQ(administeredQuestions.length - 1);
+            setCatState(existingCat);
+          } else {
+            const freshCat = initCAT();
+            const firstItem = selectNextItem(freshCat, allQuestions);
+            if (firstItem) {
+              setQuestions([firstItem]);
+              setCurrentQ(0);
+            }
+            setCatState(freshCat);
+            localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(freshCat));
+          }
+        } else {
+          setQuestions(allQuestions);
+        }
+
         setAnswers(data.answers || {});
         setFlagged(data.flagged || []);
         setTimeSpent(data.time_spent || 0);
@@ -245,6 +338,9 @@ export default function MockExamSession() {
       toast({ title: "Answer Locked", description: "In strict mode, you cannot change your answer once selected.", variant: "destructive" });
       return;
     }
+    if (isCATExam && answers[questionId] !== undefined) {
+      return;
+    }
     setAnswers((prev) => ({ ...prev, [questionId]: optionIndex }));
   };
 
@@ -254,11 +350,57 @@ export default function MockExamSession() {
     );
   };
 
-  const submitExam = async () => {
+  const advanceCAT = useCallback(() => {
+    if (!isCATExam || !catState || !attemptId) return;
+
+    const currentQuestion = questions[currentQ];
+    if (!currentQuestion) return;
+
+    const userAnswer = answers[currentQuestion.id];
+    if (userAnswer === undefined) return;
+
+    const isCorrect = userAnswer === currentQuestion.correct;
+    const newState = updateAbility(catState, currentQuestion, isCorrect);
+
+    const blueprintForStop = {
+      totalQuestions: blueprintMeta?.maxQuestions || 90,
+      minQuestions: blueprintMeta?.minQuestions,
+      maxQuestions: blueprintMeta?.maxQuestions,
+    };
+
+    if (shouldStop(newState, blueprintForStop as any)) {
+      setCatState(newState);
+      setCatFinished(true);
+      localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(newState));
+      setTimeout(() => {
+        submitExamWithState(newState);
+      }, 0);
+      return;
+    }
+
+    const administeredIds = new Set(newState.responses.map(r => r.itemId));
+    const remaining = allPoolQuestions.filter(q => !administeredIds.has(q.id));
+    const nextItem = selectNextItem(newState, remaining);
+
+    if (nextItem) {
+      setQuestions(prev => [...prev, nextItem]);
+      setCurrentQ(prev => prev + 1);
+    } else {
+      setCatFinished(true);
+      setTimeout(() => {
+        submitExamWithState(newState);
+      }, 0);
+    }
+
+    setCatState(newState);
+    localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(newState));
+  }, [isCATExam, catState, attemptId, questions, currentQ, answers, blueprintMeta, allPoolQuestions]);
+
+  const submitExamWithState = async (finalCatState?: CATState) => {
     if (!attemptId) return;
     setSubmitting(true);
     try {
-      const report = computeReport(questions, answers, blueprintMeta);
+      const report = computeReport(questions, answers, blueprintMeta, finalCatState || catState);
       await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
@@ -268,6 +410,31 @@ export default function MockExamSession() {
     } catch {
       toast({ title: "Error", description: "Failed to submit exam", variant: "destructive" });
       setSubmitting(false);
+    }
+  };
+
+  const submitExam = async () => {
+    if (!attemptId) return;
+    setSubmitting(true);
+    try {
+      const report = computeReport(questions, answers, blueprintMeta, catState);
+      await fetch(`/api/mock-exams/${attemptId}/complete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        body: JSON.stringify({ answers, flagged, timeSpent, report }),
+      });
+      navigate(`/mock-exams/${attemptId}/report`);
+    } catch {
+      toast({ title: "Error", description: "Failed to submit exam", variant: "destructive" });
+      setSubmitting(false);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (isCATExam) {
+      advanceCAT();
+    } else {
+      setCurrentQ(currentQ + 1);
     }
   };
 
@@ -287,15 +454,24 @@ export default function MockExamSession() {
   const unansweredCount = questions.length - answeredCount;
   const progressPercent = (answeredCount / questions.length) * 100;
 
+  const progressLabel = isCATExam
+    ? `Item ${(catState?.itemsAdministered || 0) + 1} in Progress`
+    : `Q ${currentQ + 1} of ${questions.length}`;
+
+  const showProgressBar = !isCATExam;
+  const disablePrevious = isCATExam || strictMode || currentQ === 0;
+
   return (
     <div className={`min-h-screen bg-gray-50 font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-sm font-bold text-gray-500 uppercase tracking-wider" data-testid="text-exam-progress">
-              Q {currentQ + 1} of {questions.length}
+              {progressLabel}
             </span>
-            <Progress value={progressPercent} className="w-32 h-2 hidden sm:block" />
+            {showProgressBar && (
+              <Progress value={progressPercent} className="w-32 h-2 hidden sm:block" />
+            )}
             <span className="text-xs text-gray-400">{answeredCount} answered</span>
           </div>
 
@@ -376,19 +552,20 @@ export default function MockExamSession() {
                   const isAnswered = answers[q.id] !== undefined;
                   const isFlagged = flagged.includes(q.id);
                   const isCurrent = i === currentQ;
+                  const disableNav = isCATExam || (strictMode && i < currentQ);
                   return (
                     <button
                       key={q.id}
                       onClick={() => {
-                        if (strictMode && i < currentQ) return;
+                        if (disableNav) return;
                         setCurrentQ(i);
                         setShowNav(false);
                       }}
-                      disabled={strictMode && i < currentQ}
+                      disabled={disableNav}
                       className={`w-9 h-9 rounded-lg text-xs font-bold transition-all ${
                         isCurrent ? "ring-2 ring-primary ring-offset-1" : ""
                       } ${
-                        strictMode && i < currentQ ? "opacity-40 cursor-not-allowed" : ""
+                        disableNav ? "opacity-40 cursor-not-allowed" : ""
                       } ${
                         isFlagged ? "bg-amber-500 text-white" :
                         isAnswered ? "bg-emerald-500 text-white" :
@@ -508,7 +685,7 @@ export default function MockExamSession() {
             <div className="grid gap-3">
               {question.options.map((option, i) => {
                 const isSelected = answers[question.id] === i;
-                const isLocked = strictMode && answers[question.id] !== undefined;
+                const isLocked = (strictMode || isCATExam) && answers[question.id] !== undefined;
                 return (
                   <button
                     key={i}
@@ -536,18 +713,27 @@ export default function MockExamSession() {
             <div className="flex items-center justify-between pt-4">
               <Button
                 variant="outline"
-                onClick={() => { if (!strictMode) setCurrentQ(Math.max(0, currentQ - 1)); }}
-                disabled={currentQ === 0 || strictMode}
+                onClick={() => { if (!disablePrevious) setCurrentQ(Math.max(0, currentQ - 1)); }}
+                disabled={disablePrevious}
                 className="gap-1"
                 data-testid="button-prev-question"
-                title={strictMode ? "Cannot go back in strict mode" : undefined}
+                title={isCATExam ? "Cannot go back in CAT mode" : strictMode ? "Cannot go back in strict mode" : undefined}
               >
                 <ChevronLeft className="w-4 h-4" /> Previous
               </Button>
 
-              {currentQ < questions.length - 1 ? (
+              {isCATExam ? (
                 <Button
-                  onClick={() => setCurrentQ(currentQ + 1)}
+                  onClick={handleNextQuestion}
+                  className="gap-1"
+                  disabled={answers[question.id] === undefined || catFinished}
+                  data-testid="button-next-question"
+                >
+                  Next <ChevronRight className="w-4 h-4" />
+                </Button>
+              ) : currentQ < questions.length - 1 ? (
+                <Button
+                  onClick={handleNextQuestion}
                   className="gap-1"
                   data-testid="button-next-question"
                 >
