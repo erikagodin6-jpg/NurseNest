@@ -1,0 +1,264 @@
+Ventricular Rhythm ECGs
+Overview
+This page provides an introduction to ventricular rhythms and links to training materials on this website.
+
+When the ventricles are generating the pacemaking signals, they can be observed on ECG tracings as ventricular rhythms. In some locations ventricular rhythms are called vent rhythms or v rhythms. There are several type of ventricular rhythms:
+
+Accelerated Idioventricular Rhythm
+Asystole
+Idioventricular Rhythm
+Premature Ventricular Complex
+Premature Ventricular Complex - Bigeminy
+Premature Ventricular Complex - Trigeminy
+Premature Ventricular Complex - Quadrigeminy
+Ventricular Fibrillation
+Ventricular Tachycardia
+Ventricular Tachycardia Monomorphic
+Ventricular Tachycardia Polymorphic
+Torsade de Pointes
+Ventricular Rhythm Types
+Accelerated Idioventricular Rhythm
+
+ Accelerated Idioventricular Rhythm ECG tracing
+Accelerated idioventricular rhythm occurs when three or more ventricular escape beats appear in a sequence. Heart rate will be 50-100 bpm. The QRS complex will be wide (0.12 sec. or more).
+
+Asystole
+
+ Asystole ECG tracing
+Asystole is the state of no cardiac electrical activity and no cardiac output. Immediate action is required.
+
+Idioventricular Rhythm
+ Idioventricular Rhythm ECG tracing
+Idioventricular rhythm is a slow rhythm of under 50 bpm. It indicates that then ventricles are producing escape beats.
+
+Premature Ventricular Complex
+ Premature Ventricular Complex ECG tracing
+Premature ventricular complexes (PVCs) occur when the ventricule creates the ECG impulse. This happens before the next regular sinus beat. Look for a wide QRS complex, equal or greater than 0.12 sec. The QRS complex shape can be bizarre. The P wave will be absent.
+
+Premature Ventricular Complex - Bigeminy
+Premature Ventricular Complex - Bigeminy ECG tracing
+Premature Ventricular Complex - Trigeminy
+Premature Ventricular Complex - Trigeminy ECG tracing
+
+freestar
+Premature Vent. Complex: Quadrigeminy
+Premature Ventricular Complex - Quadrigeminy ECG tracing
+Ventricular Fibrillation
+ Ventricular Fibrillation ECG tracing
+Ventricular fibrillation originates in the ventricles, and it is chaotic. No normal ECG waves are present. No heart rate can be observed. Ventricular fibrillation is an emergency condition requiring immediate action.
+
+Ventricular Tachycardia
+ Ventricular Tachycardia ECG tracing
+A sequence of three PVCs in a row is ventricular tachycardia. The rate will be 120-200 bpm. Ventricular Tachycardia has two variations, monomorphic and polymorphic. These variations are discussed separately.
+
+Ventricular Tachycardia Monomorphic
+ Ventricular Tachycardia Monomorphic ECG tracing
+Monomorphic ventricular tachycardia occurs when the electrical impulse originates in one of the ventricles. The QRS complex is wide. Rate is above 100 bpm.
+
+Ventricular Tachycardia Polymorphic
+ Ventricular Tachycardia Polymorphic ECG tracing
+Polymorphic ventricular tachycardia has QRS complexes that vary in shape and size. If a polymorphic ventricular tachycardia has a long QT Interval, it could be Torsade de Pointes.
+
+Torsade de Pointes
+ Torsade de Pointes ECG tracing
+Torsade de Pointes is a special form of ventricular tachycardia. The QRS complexes vary in shape and amplitude and appear to wind around the baseline.
+Ventricular Rhythm ECGs – Comprehensive Clinical Guide
+Ventricular rhythms occur when the primary pacemaker activity originates in the ventricles rather than the sinoatrial (SA) node. Because ventricular depolarization spreads cell-to-cell instead of through the His-Purkinje system, these rhythms characteristically produce wide QRS complexes (≥ 0.12 seconds) and are often hemodynamically unstable.
+From a clinical standpoint (especially in acute care, telemetry, ED, or ICU settings), rapid recognition is essential because several ventricular rhythms are immediately life-threatening.
+
+1. Accelerated Idioventricular Rhythm (AIVR)
+
+
+
+
+
+
+4
+Definition
+A ventricular rhythm of 3 or more consecutive ventricular beats with a rate between 50–100 bpm.
+ECG Characteristics
+Rate: 50–100 bpm
+Rhythm: Usually regular
+P waves: Absent or dissociated
+PR interval: Not measurable
+QRS: Wide (≥ 0.12 sec)
+Clinical Context
+Common during reperfusion after MI
+Seen post-thrombolysis or PCI
+Often transient and benign
+Nursing Implications
+Usually does not require treatment
+Monitor hemodynamic stability
+Assess perfusion and BP
+Notify provider if symptomatic
+2. Idioventricular Rhythm (Ventricular Escape Rhythm)
+
+
+
+
+
+
+4
+Definition
+A ventricular escape rhythm with a rate < 50 bpm.
+ECG Characteristics
+Rate: 20–40 bpm (typically)
+Regular rhythm
+No P waves
+Wide QRS
+Clinical Significance
+Occurs when:
+SA node fails
+AV block present
+Severe bradycardia
+Nursing Actions
+Assess level of consciousness
+Monitor BP
+Prepare for atropine, pacing, or dopamine if unstable
+Follow ACLS bradycardia algorithm if symptomatic
+3. Premature Ventricular Complexes (PVCs)
+
+
+
+
+
+
+4
+Definition
+An early ventricular beat occurring before the next sinus beat.
+ECG Characteristics
+Early beat
+Wide bizarre QRS (≥ 0.12 sec)
+No preceding P wave
+Compensatory pause often present
+Patterns
+Bigeminy – every other beat is PVC
+Trigeminy – every third beat is PVC
+Quadrigeminy – every fourth beat is PVC
+Clinical Causes
+Hypoxia
+Electrolyte imbalance (↓K⁺, ↓Mg²⁺)
+Caffeine/stimulants
+Ischemia
+Digoxin toxicity
+Nursing Priorities
+Assess frequency and pattern
+Check potassium and magnesium
+Monitor for progression to VT
+Treat underlying cause
+4. Ventricular Tachycardia (VT)
+
+
+
+
+
+
+4
+Definition
+Three or more consecutive PVCs at a rate > 100 bpm (often 120–200 bpm).
+ECG Characteristics
+Wide QRS
+Regular (monomorphic) or irregular (polymorphic)
+P waves absent or dissociated
+Monomorphic VT
+QRS complexes look identical
+Usually originates from one ventricular focus
+Often seen post-MI (scar tissue)
+Polymorphic VT
+QRS shape varies
+Often associated with ischemia or electrolyte imbalance
+May be unstable
+Clinical Assessment: PULSE vs NO PULSE
+Pulseless VT
+Treat like VF
+Immediate defibrillation
+CPR + ACLS protocol
+VT with Pulse
+Stable → Amiodarone
+Unstable → Synchronized cardioversion
+5. Torsade de Pointes
+
+
+
+
+
+
+4
+Definition
+A specific form of polymorphic VT associated with prolonged QT interval.
+ECG Appearance
+Twisting QRS complexes
+Amplitude varies
+Appears to “rotate” around baseline
+Causes
+Prolonged QT
+Hypomagnesemia
+Hypokalemia
+Certain medications (e.g., antiarrhythmics, antipsychotics)
+Treatment
+IV Magnesium sulfate
+Correct electrolytes
+Defibrillate if pulseless
+6. Ventricular Fibrillation (VF)
+
+
+
+
+
+
+4
+Definition
+Chaotic ventricular electrical activity with no organized contraction.
+ECG Characteristics
+No identifiable P waves
+No QRS complexes
+No measurable heart rate
+Chaotic waveform
+Clinical Significance
+No cardiac output
+Immediate cardiac arrest
+Most common arrest rhythm
+Management
+Immediate CPR
+Defibrillation
+Epinephrine
+Amiodarone per ACLS
+7. Asystole
+
+
+
+
+
+
+4
+Definition
+Complete absence of ventricular electrical activity.
+ECG Characteristics
+Flatline
+No P waves
+No QRS
+No T waves
+Clinical Significance
+No cardiac output
+Non-shockable rhythm
+Management
+Confirm in 2 leads
+CPR immediately
+Epinephrine
+Treat reversible causes (H’s and T’s)
+High-Yield Comparison Table
+Rhythm	Rate	QRS	Shockable?	Key Treatment
+AIVR	50–100	Wide	No	Usually monitor
+Idioventricular	<50	Wide	No	Treat if symptomatic
+PVC	Variable	Wide premature	No	Correct cause
+VT (pulseless)	>100	Wide	YES	Defibrillate
+Torsades	>100	Twisting	YES if pulseless	Magnesium
+VF	None	None organized	YES	Defibrillate
+Asystole	None	None	NO	CPR + Epi
+Exam & Clinical Pearls (RPN/RN/NP)
+Wide + Fast = Think VT until proven otherwise
+AIVR is common post-MI reperfusion and usually benign
+Torsades = long QT + magnesium deficiency
+VF and pulseless VT are shockable
+Asystole is NOT shockable
+Always assess patient, not just monitor
