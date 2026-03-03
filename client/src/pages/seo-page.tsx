@@ -9,6 +9,7 @@ import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ChevronRight, BookOpen, FileText, HelpCircle, Link as LinkIcon, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
+import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
 
 type FAQ = { q: string; a: string };
 type TOCItem = { id: string; title: string; level: number };
@@ -116,15 +117,11 @@ export default function SeoPage() {
     "mainEntityOfPage": { "@type": "WebPage", "@id": `https://www.nursenest.ca/${page.languageCode}/study-guide/${page.slug}` }
   };
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": `https://www.nursenest.ca/${page.languageCode}` },
-      { "@type": "ListItem", "position": 2, "name": "Study Guides", "item": `https://www.nursenest.ca/${page.languageCode}/study-guide` },
-      { "@type": "ListItem", "position": 3, "name": page.title }
-    ]
-  };
+  const breadcrumbSchema = buildBreadcrumbStructuredData([
+    { name: "Home", url: `https://www.nursenest.ca/${page.languageCode}` },
+    { name: "Study Guides", url: `https://www.nursenest.ca/${page.languageCode}/study-guide` },
+    { name: page.title, url: `https://www.nursenest.ca/${page.languageCode}/study-guide/${page.slug}` },
+  ]);
 
   return (
     <>

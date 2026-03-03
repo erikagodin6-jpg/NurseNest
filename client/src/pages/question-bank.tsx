@@ -14,6 +14,7 @@ import { useAuth } from "@/lib/auth";
 import { canAccessTier } from "@/lib/access";
 import { useLocation } from "wouter";
 import { BowtieQuestionCard } from "@/components/bowtie-question";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const FREE_PREVIEW_COUNT = 3;
 
@@ -140,6 +141,7 @@ export default function QuestionBank() {
 
       <main className="min-h-screen bg-warmwhite">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <BreadcrumbNav />
           <div className="text-center mb-6">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900" data-testid="text-qb-title">
               Question Bank

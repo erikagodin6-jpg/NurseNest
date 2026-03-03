@@ -34,6 +34,7 @@ import {
   Crosshair,
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 import imgMedSurg from "@/assets/images/safety-medsurg-room.png";
 import imgMedPrep from "@/assets/images/safety-med-prep-area.png";
@@ -1334,6 +1335,7 @@ export default function SafetyHazardSimulatorPage() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
+        <BreadcrumbNav />
         {totalCompleted > 0 && !activeScenario && (
           <div className="mb-8 p-4 bg-white rounded-xl border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" data-testid="progress-banner">
             <div className="flex items-center gap-3">

@@ -5,6 +5,7 @@ import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -229,6 +230,7 @@ export default function PricingPage() {
       <Navigation />
       <main className="flex-1 px-4 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto">
+          <BreadcrumbNav />
           <div className="text-center mb-10">
             <h1 className="text-3xl sm:text-4xl font-bold mb-3" data-testid="text-pricing-title">
               {t("pricing.title")}

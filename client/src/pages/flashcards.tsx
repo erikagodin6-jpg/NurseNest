@@ -56,6 +56,7 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { ProtectedImage } from "@/components/protected-image";
 import { getCategoryImage } from "@/lib/system-images";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import heartImg from "@/assets/images/heart-flashcard.png";
 import pedsImg from "@/assets/images/peds-flashcard.png";
 import oncologyImg from "@/assets/images/oncology-flashcard.png";
@@ -2386,6 +2387,10 @@ export default function Flashcards() {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <Navigation />
+
+        <div className="max-w-5xl mx-auto px-4 pt-8">
+          <BreadcrumbNav />
+        </div>
 
         <section className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white overflow-hidden" data-testid="section-flashcards-hero">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />

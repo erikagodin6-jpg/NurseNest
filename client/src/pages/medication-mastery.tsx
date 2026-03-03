@@ -1,4 +1,5 @@
 import { LocaleLink } from "@/lib/LocaleLink";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useState, useMemo } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
@@ -263,6 +264,7 @@ export default function MedicationMasteryPage() {
         />
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+          <BreadcrumbNav />
           <div className="text-center py-16">
             <div className="max-w-lg mx-auto">
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
@@ -305,6 +307,7 @@ export default function MedicationMasteryPage() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <BreadcrumbNav />
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">

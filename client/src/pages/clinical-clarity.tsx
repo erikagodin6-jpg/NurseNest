@@ -23,6 +23,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { clinicalConfusions, confusionCategories, confusionBodySystems } from "@/data/clinical-confusions";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const systemIcons: Record<string, any> = {
   Cardiovascular: Heart,
@@ -96,6 +97,7 @@ export default function ClinicalClarityIndex() {
       <Navigation />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <BreadcrumbNav />
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">

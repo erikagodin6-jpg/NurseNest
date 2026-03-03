@@ -19,6 +19,7 @@ import {
   Syringe,
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 import imgInfiltration from "@/assets/images/iv-complication-infiltration.png";
 import imgExtravasation from "@/assets/images/iv-complication-extravasation.png";
@@ -386,6 +387,7 @@ export default function IVComplicationsSimulatorPage() {
         />
         <Navigation />
         <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
+          <BreadcrumbNav />
           <Card className="border-2 border-primary/20 bg-white" data-testid="card-results">
             <CardContent className="p-6 sm:p-10 text-center">
               <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-6">
@@ -448,6 +450,7 @@ export default function IVComplicationsSimulatorPage() {
       <Navigation />
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
+        <BreadcrumbNav />
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-2xl bg-teal-100 flex items-center justify-center">

@@ -207,3 +207,5 @@ export const neurologicalLessons: Record<string, LessonContent> = {
     quiz: [{ question: "An 82-year-old patient with known mild Alzheimer's disease suddenly becomes agitated, confused, and unable to focus attention over the past 8 hours. What should the nurse suspect first?", options: ["Normal progression of Alzheimer's disease", "Delirium superimposed on dementia", "Behavioral and psychological symptoms of dementia", "Sundowning"], correct: 1, rationale: "The acute onset (8 hours) and inattention are hallmarks of delirium, not dementia progression (which is gradual over months to years). Patients with pre-existing dementia are at highest risk for developing delirium. The priority is identifying the underlying cause (infection, medication change, dehydration, pain, urinary retention, constipation)." }]
   }
 };
+
+neurologicalLessons["delirium-dementia"] = neurologicalLessons["delirium-vs-dementia"];

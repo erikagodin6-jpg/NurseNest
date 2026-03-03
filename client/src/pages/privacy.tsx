@@ -2,12 +2,14 @@ import { LocaleLink } from "@/lib/LocaleLink";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="privacy-page">
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <BreadcrumbNav />
         <div className="text-center mb-12">
           <h1
             className="text-4xl font-bold text-gray-900 mb-4"

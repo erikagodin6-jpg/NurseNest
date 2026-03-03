@@ -27,6 +27,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 function seededRandom(seed: number) {
   let s = seed % 2147483647;
@@ -1348,6 +1349,7 @@ export default function MedMathPage() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <BreadcrumbNav />
         <div className="space-y-2 mb-8">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">

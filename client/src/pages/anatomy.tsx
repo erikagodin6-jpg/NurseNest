@@ -51,6 +51,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import imgCellStructure from "@/assets/anatomy-cell-structure.png";
 import imgFeedbackLoops from "@/assets/anatomy-feedback-loops.png";
 import imgCardiovascular from "@/assets/anatomy-cardiovascular.png";
@@ -1061,6 +1062,9 @@ function AnatomyListingPage() {
         additionalStructuredData={[faqSchema]}
       />
       <Navigation />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <BreadcrumbNav />
+      </div>
 
       <section className="relative overflow-hidden py-16 md:py-24" data-testid="section-hero-anatomy">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-foreground/5" />

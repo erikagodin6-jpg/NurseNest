@@ -17,6 +17,7 @@ import {
   Brain, Target, Trophy, ArrowRight, History, Lock, ShieldAlert, Shield
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 function getAuthHeaders(): Record<string, string> {
   try {
@@ -131,6 +132,7 @@ export default function MockExamsPage() {
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
+        <BreadcrumbNav />
         <div className="text-center mb-12 space-y-4">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
             <GraduationCap className="w-10 h-10 text-primary" />

@@ -11,6 +11,7 @@ import {
   Activity, Pill, Baby, Stethoscope, Target, BookOpen, Shield,
   ChevronRight, RotateCcw,
 } from "lucide-react";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 type Question = {
   id: number;
@@ -198,6 +199,7 @@ export default function FreePractice() {
       <main className="flex-1">
         <section className="bg-gradient-to-b from-primary/5 via-white to-white py-12 px-4">
           <div className="max-w-3xl mx-auto">
+            <BreadcrumbNav />
             <div className="text-center mb-8">
               <Badge className="bg-primary/10 text-primary mb-3 px-4 py-1.5" data-testid="badge-free-practice">
                 <Target className="w-3 h-3 mr-1.5" /> Free Practice

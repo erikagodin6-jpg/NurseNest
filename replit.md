@@ -49,6 +49,12 @@ SEO silo pages (`/nclex-rn-practice-questions`, etc.) serve as rich content hubs
 - **5-Step Content Pipeline**: A multi-step AI pipeline (`/api/ai/generate-pipeline`) for cohesive content generation.
 - **Test Bank Generator**: (`/api/ai/generate-test-bank`) ensures strict question count and JSON schema validation.
 
+### Breadcrumbs & SEO Structured Data
+- **Breadcrumb builder**: `client/src/lib/breadcrumb-builder.ts` - Central utility mapping paths to breadcrumb trails with smart title formatting (acronyms, title case). Exports `buildBreadcrumbs()` and `buildBreadcrumbJsonLd()`.
+- **BreadcrumbNav component**: `client/src/components/breadcrumb-nav.tsx` - Renders visible `<nav aria-label="Breadcrumb">` with JSON-LD injection. Accepts optional `items` override or auto-builds from current path. Uses LocaleLink for client navigation.
+- **SEO utils**: `client/src/lib/seo-utils.ts` - `buildBreadcrumbStructuredData()`, `buildLessonStructuredData()`, `buildArticleStructuredData()`, `buildCourseStructuredData()`, `buildFaqFromQuizQuestions()`.
+- **To add breadcrumbs to a new page**: Import `BreadcrumbNav` from `@/components/breadcrumb-nav`, add `<BreadcrumbNav />` at top of content area. For dynamic titles, pass `title` prop. For custom trails, pass `items` array. Add the route to `STATIC_ROUTES` in `breadcrumb-builder.ts` if it's a new path.
+
 ### Social Media
 - Meta Graph API: For social media scheduling.
 

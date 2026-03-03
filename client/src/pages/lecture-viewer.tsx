@@ -26,6 +26,7 @@ import { lectureData, lectureRegistry, getLecturesForLesson } from "@/data/micro
 import { Video } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { ProtectedImage } from "@/components/protected-image";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 export default function LectureViewer() {
   const [, params] = useRoute("/lectures/:slug");
@@ -72,6 +73,9 @@ export default function LectureViewer() {
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--bg-primary)" }}>
         <Navigation />
         <div className="flex-1 flex flex-col">
+          <div className="max-w-5xl mx-auto px-4 pt-4">
+            <BreadcrumbNav title={lectureMeta.title} />
+          </div>
           <div className="w-full" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
             <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-3">
               <Button variant="ghost" size="sm" onClick={() => navigate("/lectures")} data-testid="button-back-lectures" className="shrink-0">
@@ -234,6 +238,11 @@ export default function LectureViewer() {
       {!isFullscreen && <Navigation />}
 
       <div className="flex-1 flex flex-col">
+        {!isFullscreen && (
+          <div className="max-w-7xl mx-auto px-4 pt-4 w-full">
+            <BreadcrumbNav title={lecture!.title} />
+          </div>
+        )}
         <div className="w-full" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
           <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-3">

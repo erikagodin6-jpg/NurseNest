@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import type { DigitalProduct } from "@shared/schema";
 import { adminFetch } from "@/lib/admin-fetch";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 function formatPrice(cents: number) {
   return `$${(cents / 100).toFixed(2)}`;
@@ -573,6 +574,9 @@ export default function ShopPage() {
       />
       <Navigation />
       <main className="flex-1">
+        <div className="max-w-6xl mx-auto px-4 pt-6">
+          <BreadcrumbNav />
+        </div>
         <section className="bg-gradient-to-b from-primary/5 via-white to-white py-16 px-4" data-testid="section-shop-hero">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="bg-primary/10 text-primary mb-4 px-4 py-1.5" data-testid="badge-shop">

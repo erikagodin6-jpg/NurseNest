@@ -23,6 +23,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
@@ -1000,6 +1001,7 @@ export default function ElectrolyteABGSimulatorPage() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
+        <BreadcrumbNav />
         {!hasPaidAccess ? (
           <div className="text-center py-16">
             <div className="max-w-lg mx-auto">

@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield, CheckCircle, AlertTriangle, XCircle, RefreshCw, Mail, Heart } from "lucide-react";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 export default function RefundPolicyPage() {
   return (
@@ -16,6 +17,7 @@ export default function RefundPolicyPage() {
       />
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <BreadcrumbNav />
         <div className="text-center mb-12">
           <h1
             className="text-4xl font-bold text-gray-900 mb-4"

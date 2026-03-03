@@ -90,6 +90,7 @@ import {
   Users,
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ScienceFoundationsModule } from "@/data/pre-nursing-science";
 import { ResearchStatisticsModule } from "@/data/pre-nursing-research";
 import { AnatomyPhysiologyModule } from "@/data/pre-nursing-anatomy";
@@ -1342,6 +1343,9 @@ export default function PreNursingPage() {
       />
       <Navigation />
       <main className="flex-grow">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6">
+          <BreadcrumbNav />
+        </div>
         <section className="py-16 lg:py-24 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
             <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl" />

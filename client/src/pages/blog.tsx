@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
+import { buildBreadcrumbStructuredData } from "@/lib/seo-utils";
 import {
   BookOpen,
   Search,
@@ -191,14 +192,10 @@ export default function BlogPage() {
     ...(blogPostingItems.length > 0 ? { blogPost: blogPostingItems } : {}),
   };
 
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: `${baseUrl}/` },
-      { "@type": "ListItem", position: 2, name: "Blog", item: `${baseUrl}/blog` },
-    ],
-  };
+  const breadcrumbData = buildBreadcrumbStructuredData([
+    { name: "Home", url: `${baseUrl}/` },
+    { name: "Blog", url: `${baseUrl}/blog` },
+  ]);
 
   function getCategoryLabel(cat: string): string {
     const key = CATEGORY_KEYS[cat];

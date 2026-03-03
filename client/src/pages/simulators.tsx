@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -530,6 +531,7 @@ export default function SimulatorsPage() {
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <BreadcrumbNav title={title} />
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-6">
             <Button

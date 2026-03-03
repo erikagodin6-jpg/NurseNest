@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Footer } from "@/components/footer";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   Accordion,
   AccordionContent,
@@ -293,6 +294,7 @@ function ClusterDetailView({ slug }: { slug: string }) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <BreadcrumbNav title={cluster.title} />
       <LocaleLink href="/nclex-rn-guide">
         <Button variant="ghost" className="mb-6 text-sm text-gray-500 hover:text-primary" data-testid="button-back-nclex-rn">
           <ChevronRight className="w-4 h-4 mr-1 rotate-180" /> Back to NCLEX-RN Guide
@@ -405,6 +407,9 @@ export default function NclexRnGuide() {
       <Navigation />
 
       <main className="flex-grow">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+          <BreadcrumbNav />
+        </div>
         <section className="relative overflow-hidden py-20 lg:py-24" data-testid="section-nclex-rn-hero">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
             <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-blue-100/40 blur-3xl" />

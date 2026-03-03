@@ -14,6 +14,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const clusterData: Record<string, {
   title: string;
@@ -825,6 +826,7 @@ function ClusterPage({ slug }: { slug: string }) {
       />
 
       <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <BreadcrumbNav title={cluster.title} />
         <div className="mb-6">
           <LocaleLink href="/np-exam-guide" className="text-primary hover:underline text-sm flex items-center gap-1" data-testid="link-back-np-hub">
             <ChevronRight className="w-4 h-4 rotate-180" /> Back to NP Exam Guide
@@ -908,6 +910,7 @@ function HubPage() {
       />
 
       <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <BreadcrumbNav />
         <div className="mb-8">
           <Badge variant="secondary" className="mb-3">Complete Guide · 2025</Badge>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-np-hub-title">

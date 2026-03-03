@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -913,6 +914,7 @@ export default function DiagnosticAssessmentPage() {
 
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-8">
+      <BreadcrumbNav />
       <div className="flex items-center gap-3 mb-6">
         <button onClick={() => navigate("/dashboard")} className="p-2 hover:bg-gray-100 rounded-lg">
           <ArrowLeft className="w-4 h-4" />

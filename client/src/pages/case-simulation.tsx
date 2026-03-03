@@ -34,6 +34,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { clinicalCases, type ClinicalCase, type CaseStage, type CaseDecision } from "@/data/clinical-cases";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const systemIcons: Record<string, any> = {
   Cardiovascular: Heart,
@@ -446,6 +447,7 @@ export default function CaseSimulationPage() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <BreadcrumbNav />
         {!hasPaidAccess ? (
           <div className="text-center py-16">
             <div className="max-w-lg mx-auto">

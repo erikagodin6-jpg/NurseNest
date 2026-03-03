@@ -8,6 +8,7 @@ import { Play, Clock, GraduationCap, BookOpen, Video } from "lucide-react";
 import { lectureRegistry } from "@/data/micro-lectures";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 export default function LecturesPage() {
   return (
@@ -19,13 +20,7 @@ export default function LecturesPage() {
       <Navigation />
       <main className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4 py-8 max-w-5xl">
-          <nav aria-label="Breadcrumb" className="mb-4">
-            <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <li><LocaleLink href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">Home</LocaleLink></li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page" className="font-medium text-foreground">Lectures</li>
-            </ol>
-          </nav>
+          <BreadcrumbNav />
 
           <header className="mb-8">
             <div className="flex items-center gap-3 mb-3">

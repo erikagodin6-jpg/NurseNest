@@ -16,6 +16,7 @@ import {
   ArrowRight, CheckCircle, FileText, Clock, Crown, Package, Palette,
 } from "lucide-react";
 import type { DigitalProduct } from "@shared/schema";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const DOWNLOAD_THEMES = [
   { id: "soft-clinical", name: "Soft Clinical", colors: ["#7c3aed", "#06b6d4", "#f59e0b"] },
@@ -181,6 +182,7 @@ export default function ShopProductPage() {
 
       <main className="flex-1">
         <div className="max-w-5xl mx-auto px-4 py-8">
+          <BreadcrumbNav title={product.title} />
           <LocaleLink href="/shop" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary mb-6 transition-colors" data-testid="link-back-shop">
             <ArrowLeft className="w-4 h-4" /> Back to Store
           </LocaleLink>

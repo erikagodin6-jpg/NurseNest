@@ -31,6 +31,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { clinicalConfusions, type ClinicalConfusion, type ClinicalImage } from "@/data/clinical-confusions";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 function ClinicalImageBlock({ images, placement }: { images?: ClinicalImage[]; placement: ClinicalImage["placement"] }) {
   if (!images) return null;
@@ -169,6 +170,11 @@ export default function ClinicalClarityDetail() {
       <Navigation />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
+        <BreadcrumbNav items={[
+          { name: "Home", url: "https://www.nursenest.ca/" },
+          { name: "Clinical Clarity", url: "https://www.nursenest.ca/clinical-clarity" },
+          { name: confusion.question, url: `https://www.nursenest.ca/clinical-clarity/${confusion.slug}` },
+        ]} />
         <LocaleLink href="/clinical-clarity">
           <Button variant="ghost" className="gap-2 text-gray-500 hover:text-primary mb-6 -ml-2 text-sm" data-testid="button-back">
             <ArrowLeft className="w-4 h-4" />

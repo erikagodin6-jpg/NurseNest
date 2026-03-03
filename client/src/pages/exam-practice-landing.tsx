@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { contentMap } from "@/data/lessons";
 import { getPoolStats } from "@/lib/question-pool";
 import { SILO_CONFIGS } from "@/lib/silo-config";
@@ -408,6 +409,9 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
       />
       <Navigation />
       <main className="flex-1">
+        <div className="max-w-4xl mx-auto px-4 pt-6">
+          <BreadcrumbNav title={data.h1} />
+        </div>
         <section className="bg-gradient-to-b from-primary/5 via-white to-white py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="bg-primary/10 text-primary mb-4 px-4 py-1.5" data-testid="badge-exam-type">

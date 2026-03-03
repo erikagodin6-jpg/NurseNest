@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { canAccessFeature } from "@/lib/entitlements";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import {
   Gauge, Lock, ArrowRight, TrendingUp, AlertTriangle,
   Info, Trophy, Target, BookOpen, Clock, Brain, BarChart3
@@ -158,6 +159,7 @@ export default function ProbabilitySimulatorPage() {
       <div className="min-h-screen bg-background" data-testid="probability-simulator-page">
         <Navigation />
         <main className="container mx-auto px-4 py-12 max-w-4xl text-center">
+          <BreadcrumbNav />
           <p className="text-muted-foreground">Please log in to access the Probability Improvement Simulator.</p>
           <Button className="mt-4" onClick={() => navigate("/login")} data-testid="button-login-redirect">
             Log In
@@ -173,6 +175,7 @@ export default function ProbabilitySimulatorPage() {
       <Navigation />
       <AdminEditButton />
       <main className="container mx-auto px-4 py-6 sm:py-8 max-w-4xl">
+        <BreadcrumbNav />
         <header className="mb-6">
           <div className="flex items-center gap-3 mb-2">
             <Gauge className="h-7 w-7 text-primary" />

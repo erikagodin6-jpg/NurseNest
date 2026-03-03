@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -485,6 +486,9 @@ export default function ComparePage() {
       />
       <Navigation />
       <main className="flex-1">
+        <div className="max-w-4xl mx-auto px-4 pt-6">
+          <BreadcrumbNav title={data.heroTitle} />
+        </div>
         <section className="bg-gradient-to-b from-primary/5 via-white to-white py-16 px-4" data-testid="section-compare-hero">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="bg-primary/10 text-primary mb-4 px-4 py-1.5" data-testid="badge-compare">

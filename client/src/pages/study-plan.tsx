@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -190,6 +191,7 @@ export default function StudyPlanPage() {
       <Navigation />
       <main className="flex-1 px-4 py-8 sm:py-12">
         <div className="max-w-3xl mx-auto">
+          <BreadcrumbNav />
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold" data-testid="text-study-plan-title">

@@ -1,0 +1,63 @@
+import { useEffect, useMemo } from "react";
+import { useLocation } from "wouter";
+import { LocaleLink } from "@/lib/LocaleLink";
+import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
+
+interface BreadcrumbNavProps {
+  items?: BreadcrumbItem[];
+  title?: string;
+  className?: string;
+}
+
+export function BreadcrumbNav({ items: customItems, title, className = "" }: BreadcrumbNavProps) {
+  const [location] = useLocation();
+
+  const items = useMemo(() => {
+    if (customItems && customItems.length > 0) return customItems;
+    return buildBreadcrumbs(location, { title });
+  }, [customItems, location, title]);
+
+  useEffect(() => {
+    if (items.length < 2) return;
+
+    const jsonLd = buildBreadcrumbJsonLd(items);
+    const script = document.createElement("script");
+    script.id = "breadcrumb-jsonld";
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify(jsonLd);
+
+    const existing = document.getElementById("breadcrumb-jsonld");
+    if (existing) existing.remove();
+    document.head.appendChild(script);
+
+    return () => {
+      const el = document.getElementById("breadcrumb-jsonld");
+      if (el) el.remove();
+    };
+  }, [items]);
+
+  if (items.length < 2) return null;
+
+  const DOMAIN = "https://www.nursenest.ca";
+
+  return (
+    <nav aria-label="Breadcrumb" className={`mb-4 text-sm text-gray-500 ${className}`} data-testid="nav-breadcrumb">
+      <ol className="flex items-center gap-1 flex-wrap">
+        {items.map((item, i) => {
+          const isLast = i === items.length - 1;
+          const localPath = item.url.startsWith(DOMAIN) ? item.url.slice(DOMAIN.length) || "/" : item.url;
+          return (
+            <li key={i} className="flex items-center gap-1">
+              {i > 0 && <span className="text-gray-300" aria-hidden="true">/</span>}
+              {isLast ? (
+                <span className="text-gray-700 font-medium" aria-current="page">{item.name}</span>
+              ) : (
+                <LocaleLink href={localPath} className="hover:text-primary transition-colors">{item.name}</LocaleLink>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}

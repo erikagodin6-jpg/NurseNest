@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { MessageSquare, ThumbsUp, Lightbulb, Bug, HelpCircle, Send, CheckCircle } from "lucide-react";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 type FeedbackItem = {
   id: string;
@@ -120,6 +121,7 @@ export default function FeedbackPage() {
 
       <main className="flex-grow py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <BreadcrumbNav />
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900" data-testid="text-feedback-title">
               Feedback & Feature Requests

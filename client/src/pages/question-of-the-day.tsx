@@ -11,6 +11,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { CheckCircle2, XCircle, Calendar, BookOpen, Stethoscope, Brain, ArrowRight, Mail, Trophy, Sparkles, Clock } from "lucide-react";
 import { AdminEditButton } from "@/components/admin-edit-button";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const siteUrl = "https://www.nursenest.ca";
 
@@ -96,6 +97,7 @@ export default function QuestionOfTheDay() {
 
       <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <BreadcrumbNav />
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Calendar className="h-5 w-5 text-primary" />
