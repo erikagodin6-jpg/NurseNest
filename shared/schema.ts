@@ -1901,3 +1901,82 @@ export const institutionLeads = pgTable("institution_leads", {
 export const insertInstitutionLeadSchema = createInsertSchema(institutionLeads).omit({ id: true, createdAt: true });
 export type InstitutionLead = typeof institutionLeads.$inferSelect;
 export type InsertInstitutionLead = z.infer<typeof insertInstitutionLeadSchema>;
+
+export const qbankPromptTemplates = pgTable("qbank_prompt_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  key: text("key").notNull().unique(),
+  name: text("name").notNull(),
+  category: text("category").notNull(),
+  version: integer("version").default(1),
+  isActive: boolean("is_active").default(true),
+  systemPrompt: text("system_prompt").notNull(),
+  userPromptTemplate: text("user_prompt_template").notNull(),
+  variants: jsonb("variants"),
+  validationRules: jsonb("validation_rules"),
+  outputSchemaVersion: text("output_schema_version").default("v1"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertQbankPromptTemplateSchema = createInsertSchema(qbankPromptTemplates).omit({ id: true, createdAt: true, updatedAt: true });
+export type QbankPromptTemplate = typeof qbankPromptTemplates.$inferSelect;
+export type InsertQbankPromptTemplate = z.infer<typeof insertQbankPromptTemplateSchema>;
+
+export const qbankGenerationRuns = pgTable("qbank_generation_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateId: varchar("template_id").notNull(),
+  templateKey: text("template_key").notNull(),
+  variantKey: text("variant_key").notNull(),
+  examKey: text("exam_key").notNull(),
+  region: text("region").notNull(),
+  targetCount: integer("target_count").notNull(),
+  generatedCount: integer("generated_count").default(0),
+  acceptedCount: integer("accepted_count").default(0),
+  rejectedCount: integer("rejected_count").default(0),
+  status: text("status").default("queued"),
+  isDryRun: boolean("is_dry_run").default(true),
+  ingested: boolean("ingested").default(false),
+  validationReport: jsonb("validation_report"),
+  previewItems: jsonb("preview_items"),
+  generatedItems: jsonb("generated_items"),
+  tokenCost: integer("token_cost").default(0),
+  model: text("model").default("gpt-4o-mini"),
+  errorMessage: text("error_message"),
+  triggeredBy: text("triggered_by").default("manual"),
+  scheduleId: varchar("schedule_id"),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQbankGenerationRunSchema = createInsertSchema(qbankGenerationRuns).omit({ id: true, createdAt: true });
+export type QbankGenerationRun = typeof qbankGenerationRuns.$inferSelect;
+export type InsertQbankGenerationRun = z.infer<typeof insertQbankGenerationRunSchema>;
+
+export const qbankGenerationSchedules = pgTable("qbank_generation_schedules", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  templateKey: text("template_key").notNull(),
+  variantKey: text("variant_key").notNull(),
+  examKey: text("exam_key").notNull(),
+  region: text("region").notNull(),
+  questionsPerRun: integer("questions_per_run").default(25),
+  rationaleMinWords: integer("rationale_min_words").default(250),
+  frequency: text("frequency").default("daily"),
+  customCronDays: jsonb("custom_cron_days"),
+  runTimeHour: integer("run_time_hour").default(3),
+  enabled: boolean("enabled").default(false),
+  autoIngest: boolean("auto_ingest").default(false),
+  maxDailyRuns: integer("max_daily_runs").default(1),
+  lastRunAt: timestamp("last_run_at"),
+  nextRunAt: timestamp("next_run_at"),
+  totalRunsCompleted: integer("total_runs_completed").default(0),
+  totalQuestionsGenerated: integer("total_questions_generated").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertQbankGenerationScheduleSchema = createInsertSchema(qbankGenerationSchedules).omit({ id: true, createdAt: true, updatedAt: true });
+export type QbankGenerationSchedule = typeof qbankGenerationSchedules.$inferSelect;
+export type InsertQbankGenerationSchedule = z.infer<typeof insertQbankGenerationScheduleSchema>;

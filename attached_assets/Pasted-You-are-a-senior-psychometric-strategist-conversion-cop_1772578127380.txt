@@ -1,0 +1,160 @@
+You are a senior psychometric strategist, conversion copywriter, and exam technology architect.
+
+Your task is to build a premium Computer Adaptive Testing (CAT) landing page and positioning strategy for NurseNest.
+
+DO NOT copy competitor wording.
+Create original, authority-driven language.
+Position NurseNest as psychometrically rigorous and technologically advanced.
+
+---------------------------------------------------------
+SECTION 1 — HERO SECTION
+---------------------------------------------------------
+
+Headline:
+Measure Your Readiness Before the Board Does
+
+Subheadline:
+Replace exam anxiety with calibrated confidence. Experience adaptive testing that mirrors real licensing exam logic and delivers objective, data-driven readiness indicators.
+
+CTA:
+Start Your Adaptive Assessment
+
+---------------------------------------------------------
+SECTION 2 — AUTHENTIC ADAPTIVE ENGINE
+---------------------------------------------------------
+
+Headline:
+Built on True Adaptive Logic — Not Random Question Rotation
+
+Explain clearly:
+- The test adapts to performance in real time
+- Item difficulty adjusts after each response
+- Ability estimate updates continuously
+- Exam length is controlled by measurement precision
+- Readiness decisions are based on performance stability
+
+Avoid claiming to replicate official algorithm.
+Instead say:
+"Designed using modern item response theory principles."
+
+---------------------------------------------------------
+SECTION 3 — WHAT MAKES OUR CAT DIFFERENT
+---------------------------------------------------------
+
+Feature blocks:
+
+1) Real-Time Ability Estimation
+- Tracks ability score after every question
+- Shows confidence interval stabilization
+
+2) Difficulty Exposure Tracking
+- Displays average item difficulty encountered
+- Prevents false confidence from easy-question bias
+
+3) Readiness Classification
+- Not Ready
+- Borderline
+- Ready
+- Strongly Ready
+
+4) Blueprint-Weighted Distribution
+- Domains proportioned to official exam blueprint
+- No topic imbalance
+
+---------------------------------------------------------
+SECTION 4 — ADVANCED PERFORMANCE REPORT
+---------------------------------------------------------
+
+Headline:
+Go Beyond a Score — Get Psychometric Insight
+
+Include:
+- Ability Score Trend
+- Domain Breakdown
+- Question Difficulty Map
+- Percentile vs Cohort
+- Stability Indicator
+- Suggested Focus Domains
+
+---------------------------------------------------------
+SECTION 5 — FLEXIBLE MODES
+---------------------------------------------------------
+
+Headline:
+Practice Your Way — Test When You're Ready
+
+Explain:
+- Toggle Adaptive Mode
+- Toggle Standard Mode
+- Custom Domain Mode
+- Simulation Mode (Timed, No Backtracking)
+- Review Mode with Deep Rationales
+
+---------------------------------------------------------
+SECTION 6 — PSYCHOMETRIC AUTHORITY
+---------------------------------------------------------
+
+Language to include:
+- Calibrated difficulty tiers
+- Competency-based assessment
+- Measurement precision threshold
+- Adaptive stopping rules
+- Exposure control logic
+
+Avoid:
+- Claiming official replication
+- Using "exact algorithm"
+- Saying identical to NCLEX
+
+---------------------------------------------------------
+SECTION 7 — TRUST SIGNALS
+---------------------------------------------------------
+
+Include:
+- Transparent explanation of scoring
+- No inflated pass guarantees
+- Data-based readiness logic
+- Example report screenshots
+
+---------------------------------------------------------
+SECTION 8 — CONVERSION OPTIMIZATION
+---------------------------------------------------------
+
+Add:
+- Free 15-question adaptive preview
+- "See Your Readiness Level in 20 Minutes"
+- Scarcity messaging for premium reports
+- Upgrade path: CAT + QBank bundle
+
+---------------------------------------------------------
+TECHNICAL IMPLEMENTATION INSTRUCTIONS
+---------------------------------------------------------
+
+1) Ensure CAT engine:
+   - Adjusts difficulty per response
+   - Updates theta score
+   - Uses minimum and maximum test length
+   - Includes blueprint domain weighting
+   - Prevents item repetition
+   - Logs ability progression
+
+2) Reporting dashboard:
+   - Graph ability curve
+   - Graph difficulty curve
+   - Show percentile
+   - Show readiness classification
+
+3) Add toggle for:
+   - Standard mode
+   - Adaptive mode
+   - Focused domain adaptive
+
+---------------------------------------------------------
+TONE
+---------------------------------------------------------
+
+Professional.
+Data-driven.
+Psychometrically credible.
+No hype.
+No exaggerated guarantees.
