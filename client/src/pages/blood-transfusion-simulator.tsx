@@ -554,6 +554,91 @@ function CompatibilitySimulator() {
       )}
 
       {showGrid && <CompatibilityGrid />}
+
+      <div className="mt-8">
+        <Card className="border border-gray-100 bg-white">
+          <CardContent className="p-4 sm:p-6">
+            <h3 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2" data-testid="text-compat-reference-title">
+              <Stethoscope className="w-4 h-4 text-primary" />
+              ABO/Rh Compatibility Reference
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-100">
+                <p className="text-xs font-bold text-blue-700 uppercase tracking-wider mb-2">ABO System</p>
+                <div className="space-y-2 text-sm text-gray-700">
+                  <p><span className="font-semibold text-gray-900">Type A:</span> Has A antigens, anti-B antibodies</p>
+                  <p><span className="font-semibold text-gray-900">Type B:</span> Has B antigens, anti-A antibodies</p>
+                  <p><span className="font-semibold text-gray-900">Type AB:</span> Has A and B antigens, no ABO antibodies</p>
+                  <p><span className="font-semibold text-gray-900">Type O:</span> No ABO antigens, has anti-A and anti-B antibodies</p>
+                </div>
+              </div>
+              <div className="bg-red-50/50 rounded-xl p-4 border border-red-100">
+                <p className="text-xs font-bold text-red-700 uppercase tracking-wider mb-2">Rh Factor</p>
+                <div className="space-y-2 text-sm text-gray-700">
+                  <p><span className="font-semibold text-gray-900">Rh+ (Positive):</span> Has D antigen on RBC surface</p>
+                  <p><span className="font-semibold text-gray-900">Rh- (Negative):</span> No D antigen; cannot receive Rh+ blood</p>
+                  <p><span className="font-semibold text-gray-900">Key Rule:</span> Rh- patients must receive Rh- blood only</p>
+                  <p><span className="font-semibold text-gray-900">Exception:</span> Rh+ patients can receive Rh+ or Rh- blood</p>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              <div className="bg-emerald-50/50 rounded-xl p-4 border border-emerald-100">
+                <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-2">Universal Donor & Recipient</p>
+                <div className="space-y-2 text-sm text-gray-700">
+                  <p><span className="font-semibold text-gray-900">O- (Universal RBC Donor):</span> No A, B, or Rh antigens; safe for all recipients</p>
+                  <p><span className="font-semibold text-gray-900">AB+ (Universal Recipient):</span> No ABO antibodies and Rh+; can receive any RBC type</p>
+                  <p><span className="font-semibold text-gray-900">AB (Universal Plasma Donor):</span> Plasma has no anti-A or anti-B antibodies</p>
+                  <p><span className="font-semibold text-gray-900">O (Universal Plasma Recipient):</span> Plasma has all ABO antibodies, can receive any</p>
+                </div>
+              </div>
+              <div className="bg-amber-50/50 rounded-xl p-4 border border-amber-100">
+                <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2">Clinical Pearls</p>
+                <div className="space-y-2 text-sm text-gray-700">
+                  <p><span className="font-semibold text-gray-900">Type & Crossmatch:</span> Blood bank tests patient serum against donor RBCs</p>
+                  <p><span className="font-semibold text-gray-900">Two-Nurse Verification:</span> Mandatory bedside check of patient ID and blood label</p>
+                  <p><span className="font-semibold text-gray-900">ABO Mismatch:</span> Most common cause is clerical error, not lab error</p>
+                  <p><span className="font-semibold text-gray-900">Emergency:</span> O- PRBCs and AB FFP when no time for crossmatch</p>
+                </div>
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Full Compatibility Grid</p>
+              <table className="w-full text-xs" data-testid="table-full-compatibility-grid">
+                <thead>
+                  <tr>
+                    <th className="p-2 text-left font-bold text-gray-500 border-b border-gray-200 bg-gray-50">Donor &#8595; / Recipient &#8594;</th>
+                    {allBloodTypes.map(bt => (
+                      <th key={bt} className="p-2 text-center font-bold text-gray-700 border-b border-gray-200 bg-gray-50">{bt}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {allBloodTypes.map(donor => (
+                    <tr key={donor} className="hover:bg-gray-50/50">
+                      <td className="p-2 font-bold text-gray-700 border-b border-gray-50 bg-gray-50/50">{donor}</td>
+                      {allBloodTypes.map(recipient => {
+                        const ok = canReceive(recipient, donor);
+                        return (
+                          <td key={recipient} className={`p-2 text-center border-b border-gray-50 font-semibold ${ok ? "bg-emerald-50 text-emerald-600" : "bg-red-50/30 text-red-300"}`}>
+                            {ok ? "Safe" : "--"}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex flex-wrap gap-4 mt-3 text-[10px] text-gray-400">
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" /> Safe = Compatible</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-300 inline-block" /> -- = Incompatible</span>
+              <span>O- donates to all 8 types</span>
+              <span>AB+ receives from all 8 types</span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

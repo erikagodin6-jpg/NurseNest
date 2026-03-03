@@ -426,6 +426,7 @@ export const rpnSystems = [
       { id: "hemolytic-transfusion-rpn", name: "Acute Hemolytic Transfusion Reaction", status: "Available" },
       { id: "anaphylactic-transfusion-rpn", name: "Anaphylactic Transfusion Reaction", status: "Available" },
       { id: "febrile-transfusion-rpn", name: "Febrile Nonhemolytic Transfusion Reaction", status: "Available" },
+      { id: "blood-transfusion-reactions", name: "Blood Transfusion Reactions: Complete Clinical Guide", status: "Available" },
       { id: "febrile-neutropenia-basics-rpn", name: "Febrile Neutropenia Basics", status: "Available" }
     ]
   },
@@ -1474,6 +1475,7 @@ export const rnSystems = [
     diseases: [
       { id: "iv-therapy", name: "IV Therapy and Venipuncture", status: "Available" },
       { id: "blood-transfusion", name: "Blood Transfusion Administration", status: "Available" },
+      { id: "blood-transfusion-reactions", name: "Blood Transfusion Reactions: Complete Clinical Guide", status: "Available" },
       { id: "chest-tube-mgmt", name: "Chest Tube Management", status: "Available" },
       { id: "trach-care", name: "Tracheostomy Care and Suctioning", status: "Available" },
       { id: "thoracentesis", name: "Thoracentesis", status: "Available" },
