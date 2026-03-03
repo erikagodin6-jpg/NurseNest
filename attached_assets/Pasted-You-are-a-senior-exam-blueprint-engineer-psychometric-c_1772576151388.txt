@@ -1,0 +1,223 @@
+You are a senior exam blueprint engineer, psychometric consultant, and full-stack developer working inside the NurseNest Allied Health platform.
+
+Your task is to enforce LICENSING-EXAM-ACCURATE mock exams for the following professions:
+
+- MLT (Medical Laboratory Technologist)
+- Pharmacy Technician
+- Paramedic
+- RRT (Registered Respiratory Therapist)
+- Psychotherapist
+- Social Worker
+- Addictions Worker
+
+The goal is NOT generic practice tests.
+The goal is to replicate real licensing exam structure, formatting, weighting, and scoring logic as closely as legally possible.
+
+DO NOT generate marketing text.
+Implement structural enforcement rules, question formatting rules, scoring models, and validation checks.
+
+-----------------------------------------------------
+STEP 1 — CREATE EXAM BLUEPRINT CONFIG OBJECT
+-----------------------------------------------------
+
+Create a configuration object per profession:
+
+ExamBlueprint = {
+  examKey: string,
+  totalQuestionsRange: [min, max],
+  timeLimitMinutes: number,
+  examDeliveryType: "fixed" | "adaptive" | "sectional",
+  domainWeights: [
+    { domain: string, weightMin: %, weightMax: % }
+  ],
+  questionTypesAllowed: [],
+  questionTypesRequiredMin: {},
+  scoringModel: "dichotomous" | "partialCredit" | "scaled",
+  passingStandardModel: "cutScore" | "scaledScore" | "competencyBased",
+  caseBasedRequired: boolean,
+  calculationRequired: boolean
+}
+
+Populate blueprint for each profession based on official exam outlines (use up-to-date public frameworks only).
+
+-----------------------------------------------------
+STEP 2 — DEFINE ALLOWED QUESTION FORMATS PER PROFESSION
+-----------------------------------------------------
+
+For each profession, enforce allowed types:
+
+Common Types:
+- MCQ_SINGLE (single best answer)
+- MCQ_SATA (select all that apply)
+- CASE_BASED_CLUSTER (multiple questions tied to 1 scenario)
+- NUMERIC_ENTRY (dosage/calculations)
+- MATCHING
+- MATRIX_SINGLE
+- MATRIX_MULTI
+- SHORT_CASE_ANALYSIS (psychotherapy/social work)
+- PRIORITIZATION
+- ORDERING
+
+Enforce realistic usage:
+
+MLT:
+- Case-based lab interpretation
+- Calculation (dilutions, units)
+- Data tables (reference ranges)
+- Matching lab findings
+- No NGN bowtie unless supported by real exam format
+
+Pharmacy Tech:
+- High emphasis on calculations
+- Prescription interpretation
+- Drug class identification
+- Matching generic/brand
+- Limited multi-response unless realistic
+
+Paramedic:
+- Scenario-based
+- ECG interpretation (if supported)
+- Prioritization
+- Protocol-based MCQs
+- Calculation for medication dosing
+
+RRT:
+- ABG interpretation
+- Vent settings
+- Case-based respiratory scenarios
+- Numeric calculations
+- Flow/volume loops (if graphic supported)
+
+Psychotherapist:
+- Case vignettes
+- Ethical/legal scenario analysis
+- Best intervention questions
+- No math
+- No drag-and-drop unless official exam supports it
+
+Social Work:
+- Policy, ethics, crisis intervention
+- Cultural competence scenarios
+- Case analysis
+- Prioritization
+- No unnecessary matrix formats
+
+Addictions Worker:
+- Stages of change
+- Harm reduction
+- Crisis intervention
+- Motivational interviewing scenarios
+- Case-based reasoning
+
+-----------------------------------------------------
+STEP 3 — MOCK EXAM ASSEMBLY ENGINE RULES
+-----------------------------------------------------
+
+When generating a mock exam:
+
+1) Respect domain weight ranges.
+2) Enforce minimum questionTypesRequiredMin.
+3) Prevent overuse of exotic formats unless official exam includes them.
+4) Ensure:
+   - No more than 10% trick/negative phrasing questions.
+   - No unrealistic distractors.
+   - No two nearly identical stems.
+   - No reuse within same exam.
+
+5) If blueprint cannot be satisfied:
+   - Throw an admin validation error.
+   - Do not publish exam.
+   - Log missing domain or format.
+
+-----------------------------------------------------
+STEP 4 — FORMAT VALIDATION RULES
+-----------------------------------------------------
+
+Before publishing any mock exam:
+
+Validate:
+- Total question count within allowed range.
+- Domain distribution within weight tolerance ±2%.
+- Required calculation questions present (if applicable).
+- Required case clusters present (if applicable).
+- Question formatting matches allowed types only.
+- Scoring model matches blueprint.
+
+Block publishing if:
+- A prohibited format is included.
+- Required case-based questions missing.
+- Calculation questions missing when required.
+- More than 20% of questions from one domain unless blueprint allows it.
+
+-----------------------------------------------------
+STEP 5 — SCORING ENGINE
+-----------------------------------------------------
+
+Implement scoring rules per profession:
+
+If scoringModel = "dichotomous":
+  - 1 point correct, 0 incorrect.
+
+If "partialCredit":
+  - SATA / matrix allow proportional scoring.
+  - Deduct for incorrect selections if configured.
+
+If "scaled":
+  - Convert raw score to scaled score using linear transformation.
+  - Provide percentile estimation (internal only, not guarantee).
+
+Display:
+- Domain breakdown
+- Strength/weakness by competency
+- Recommendation for remediation
+
+-----------------------------------------------------
+STEP 6 — MOCK EXAM EXPERIENCE
+-----------------------------------------------------
+
+UI must mirror professional exam style:
+- Clean, distraction-free layout.
+- One question per screen (if real exam does).
+- No backtracking if real exam prohibits it.
+- Timer visible.
+- Flag for review if allowed.
+- Calculator tool if profession requires it.
+- Reference lab values panel if MLT or RRT.
+
+-----------------------------------------------------
+STEP 7 — QUALITY CONTROL PROMPT FOR CONTENT GENERATION
+-----------------------------------------------------
+
+When generating questions, always prepend this instruction:
+
+"You are writing a licensing-exam-level item for [profession]. 
+The question must reflect the cognitive level, clinical realism, and formatting style used in the official exam.
+Avoid textbook trivia.
+Focus on applied reasoning, safety, and professional standards.
+Distractors must be plausible and clinically relevant.
+Do not include content outside official scope of practice."
+
+-----------------------------------------------------
+STEP 8 — ADMIN DASHBOARD
+-----------------------------------------------------
+
+Add "Exam Integrity Monitor":
+- Shows domain distribution.
+- Shows format distribution.
+- Shows compliance status (green/red).
+- Shows readiness to publish.
+
+-----------------------------------------------------
+FINAL REQUIREMENT
+-----------------------------------------------------
+
+All mock exams must behave as if they were a licensing exam simulation — not just a random question set.
+
+Now:
+1) Scan existing allied mock exam generator.
+2) Compare to blueprint rules.
+3) Implement missing enforcement layers.
+4) Document blueprint per profession in /docs/exam-blueprints/.
+5) Add smoke tests verifying compliance.
+
+Begin with MLT blueprint.

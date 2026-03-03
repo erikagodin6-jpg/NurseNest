@@ -1,0 +1,208 @@
+You are a senior product engineer + pricing strategist working inside the NurseNest codebase (Vite/React frontend + Express backend, existing auth, Stripe subscriptions/paywalls, admin dashboard, sitemap/SEO system). Build a SEPARATE “Pharmacology Crash Course” product area on the website with its own landing page, curriculum pages, purchase flows (one-time + subscription options), and gating. Do not copy Archer wording verbatim; write original NurseNest-branded copy.
+
+CRITICAL CONSTRAINTS
+- Do NOT break existing nursing tiers, QBank, mock exams, or generators.
+- Implement this as a NEW product vertical: “Pharmacology Crash Course” (PCC) with its own routes, content, and entitlements.
+- Reuse existing components (pricing cards, checkout, paywall guards, content blocks) where possible.
+- Do NOT weaken paywalls. Paid-only content must remain gated and verified server-side.
+- Keep visual style consistent with NurseNest (pastel/rounded/modern clinical aesthetic) using existing theme tokens.
+- Do not mention Archer Review or reuse their proprietary claims/percentages. No “guarantees.”
+
+GOAL
+Create a Pharmacology Crash Course section that includes:
+1) A public landing page with highlights, outcomes, and FAQs
+2) A structured 10-hour curriculum (5-day or modular schedule) with lesson pages
+3) Practice components: baseline assessment, daily quizzes, readiness assessment, optional CAT-style pharma exam
+4) Pricing + subscriptions: one-time purchase and monthly access subscription
+5) Optional live cohort “webinar dates” system (admin-manageable), plus on-demand access
+6) Full SEO + sitemap inclusion + internal links from nursing tiers
+7) Admin tools to manage curriculum modules, cohorts, pricing plans, and access rules
+
+INFORMATION ARCHITECTURE / ROUTES
+Add the following routes (match existing router conventions):
+Public:
+- /pharmacology (hub landing)
+- /pharmacology/curriculum (overview)
+- /pharmacology/pricing
+- /pharmacology/faq
+- /pharmacology/contact
+Paid (guarded):
+- /pharmacology/course (dashboard)
+- /pharmacology/course/module/:slug
+- /pharmacology/assessments/baseline
+- /pharmacology/assessments/daily/:day
+- /pharmacology/assessments/readiness
+- /pharmacology/mock-exam (optional CAT-style pharma-only)
+Admin:
+- /admin/pharmacology (overview + metrics)
+- /admin/pharmacology/modules (CRUD)
+- /admin/pharmacology/cohorts (CRUD dates/times/host)
+- /admin/pharmacology/plans (plan mapping + Stripe price IDs)
+
+DATA MODEL (BACKEND)
+Create/extend tables/models:
+A) PharmacologyModule
+- id, slug, title, description, estimatedMinutes
+- dayNumber (1–5) OR moduleOrder
+- objectives: string[]
+- contentBlocks: JSON (reuse your existing block system if present)
+- isPublished boolean
+- updatedAt
+
+B) PharmacologyCohort (optional live sessions)
+- id, title (e.g., “Pharmacology Crash Course – Night Shift”)
+- startDateTime, endDateTime (timezone-aware; store ISO + tz)
+- daysCount (e.g., 5)
+- instructorName, instructorBio optional
+- priceCents (if cohort has its own one-time price)
+- isOpenForRegistration boolean
+- seatsLimit optional, seatsSold optional
+
+C) ProductEntitlement
+If you already have entitlements/roles, add:
+- productKey: "PHARMA_CRASH_COURSE"
+- accessType: enum { ON_DEMAND, COHORT }
+- expiresAt nullable (for subscription access)
+- userId
+
+D) PharmacologyAssessmentAttempts
+- userId, assessmentType { BASELINE, DAILY, READINESS, MOCK }
+- score, maxScore, breakdown JSON (by drug class/system)
+- startedAt, finishedAt
+
+PRICING & SUBSCRIPTIONS (STRIPE)
+Implement BOTH purchase modes:
+
+1) One-time purchase (lifetime or fixed-duration access)
+- Plan A: “Pharma Crash Course – On-Demand” (one-time)
+  - includes: full course modules + baseline + daily quizzes + readiness + mock exam (if enabled)
+  - access duration: choose one of:
+     Option 1: lifetime access
+     Option 2: 6 months access
+  - implement as a Stripe one-time product/price mapped to productKey PHARMA_CRASH_COURSE with expiresAt = null OR now+6mo
+
+2) Subscription access (monthly)
+- Plan B: “Pharma Crash Course – Monthly”
+  - monthly recurring Stripe price
+  - access active while subscription is active; set expiresAt based on subscription status webhooks
+
+3) Cohort registrations (optional)
+- Plan C: “Live Cohort – Pharmacology Crash Course”
+  - one-time price per cohort; gives access to on-demand materials + cohort calendar page + live chat link placeholder
+  - implement seat limits if your current system supports it; otherwise store “registered” count
+
+IMPORTANT
+- Add a pricing config file and env mapping:
+  - STRIPE_PRICE_PHARMA_ONDEMAND_ONETIME
+  - STRIPE_PRICE_PHARMA_MONTHLY
+  - (optional) STRIPE_PRICE_PHARMA_COHORT_BASE or per-cohort price mapping
+- Implement server-side webhook handling to grant/revoke entitlements on:
+  - checkout.session.completed
+  - invoice.paid / invoice.payment_failed
+  - customer.subscription.updated / deleted
+
+FRONTEND: PAGES & COPY (ORIGINAL NURSENEST COPY)
+Landing page /pharmacology must include:
+- H1: Pharmacology Crash Course
+- Subheading: “A focused, high-yield pharmacology reset for exam success and clinical confidence.”
+- Feature cards (original):
+  - Comprehensive medication review (MOA, indications, contraindications, adverse effects, nursing considerations)
+  - Medication overview foundations (routes, safety, calculations, antidotes)
+  - Practical application (case questions + NGN-style items if supported)
+  - Guidance (support, explanations, remediation pathways)
+- CTA buttons:
+  - “Start Baseline Assessment” (free preview or limited)
+  - “View Pricing”
+  - “Preview Curriculum”
+- Trust blocks:
+  - instructor-style “expert-authored” language without false claims
+  - disclaimers: educational only; results vary
+
+Curriculum must be a 5-day structure (editable in admin) with default modules:
+Day 1: Building Blocks
+- Testing strategies (pharma question approach)
+- Drug routes + administration safety
+- Herbal / supplements interactions
+- Immune system / anti-infective foundations (or immunology meds)
+Day 2: Head-to-Toe (Part 1)
+- Sympathetic meds
+- Parasympathetic meds
+- CNS meds
+- Cardiac meds
+Day 3: Head-to-Toe (Part 2)
+- Cardiac continuation (if needed)
+- Respiratory meds
+Day 4: Head-to-Toe (Part 3)
+- Renal meds
+- GI meds
+- Endocrine meds
+- Hematology meds
+Day 5: Specialties + Wrap-up
+- Reproductive meds
+- Mental health meds
+- Oncology meds (high-yield)
+- Comprehensive wrap-up exam
+
+Pricing page /pharmacology/pricing must show 3 cards (editable labels, hard-coded defaults OK):
+- On-Demand One-Time: $79 CAD (default; adjust in admin) – “Full course + assessments”
+- Monthly Subscription: $19 CAD/month – “Access while subscribed”
+- Live Cohort: $99 CAD (optional; only show if upcoming cohorts exist)
+
+NOTE: Use CAD for NurseNest by default. If your site supports US/CAN toggle, show currency based on locale.
+
+PAYWALL RULES
+- Public can see: landing, curriculum overview (high-level), pricing, FAQ, contact
+- Public can access: baseline assessment preview (limit to first 10 questions) OR first module preview (first 10 minutes)
+- Paid users with entitlement PHARMA_CRASH_COURSE can access all modules + all assessments + mock exam
+
+ASSESSMENTS
+Implement pharma-specific item bank tagging:
+- Add topic tags for drug classes/systems
+- Baseline assessment: 25–40 questions mixed
+- Daily quiz: 15–25 questions per day module
+- Readiness assessment: 60–90 timed
+- Mock exam: 90–150 optional; can be fixed-form or adaptive if your CAT engine exists
+
+Scoring breakdown categories (store in breakdown JSON):
+- Safety/contraindications
+- Side effects/adverse reactions
+- Calculations/dosage basics
+- High-alert meds
+- Systems: cardiac, resp, endocrine, neuro, psych, etc.
+
+ADMIN
+Create Admin screens to:
+- create/edit modules (title, objectives, content blocks, publish toggle)
+- manage cohorts (dates/times/instructor, open/close)
+- map Stripe price IDs to plan keys
+- see metrics: active entitlements, recent purchases, assessment completion rates
+
+SEO
+- Add meta titles/descriptions for all public pages
+- Add internal links from:
+  - Nursing hub
+  - REx-PN hub
+  - NCLEX hubs (if present)
+- Add to sitemap(s) and ensure robots.txt includes appropriate sitemap entry (only for the correct host)
+
+SMOKE TESTS
+Create /docs/dev/pharma_smoke.md:
+- public can load /pharmacology
+- free preview works (baseline preview or module preview)
+- checkout success grants entitlement and unlocks /pharmacology/course
+- subscription cancellation removes access after period end
+- cohorts render correctly if enabled
+- admin can CRUD modules and publish/unpublish
+
+DELIVERABLE
+Implement the above with a concise PR-style summary:
+- routes added
+- models/migrations added
+- stripe env vars needed
+- how to seed default 5-day curriculum
+
+BEGIN NOW:
+1) Scan the repo for existing product/paywall/subscription patterns and reuse them.
+2) Implement schema + entitlements + webhook hooks.
+3) Build public pages, then gated course dashboard, then admin CRUD.
+4) Add sitemap integration and smoke docs.

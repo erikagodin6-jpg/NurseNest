@@ -11,9 +11,9 @@ import {
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
-const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging"] as const;
+const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor"] as const;
 
-type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts";
+type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank";
 
 interface PipelineStats {
   totalQuestions: number;
@@ -351,6 +351,8 @@ export default function AlliedAdminPage() {
     { id: "revision", label: "Revision Queue", icon: AlertCircle },
     { id: "analytics", label: "Analytics", icon: TrendingUp },
     { id: "blueprints", label: "Blueprints", icon: Target },
+    { id: "store", label: "Store", icon: Archive },
+    { id: "qbank", label: "QBank", icon: Shield },
   ];
 
   return (
@@ -1030,6 +1032,148 @@ export default function AlliedAdminPage() {
               To adjust thresholds, edit the constants at the top of server/allied-pipeline.ts:
               SIMILARITY_THRESHOLD, MIN_RATIONALE_WORDS, and DEFAULT_COGNITIVE_DIST.
             </p>
+          </div>
+        </div>
+      )}
+
+      {tab === "store" && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="store-panel">
+            <h3 className="font-semibold text-gray-900 flex items-center gap-2 mb-4">
+              <Archive className="w-5 h-5 text-teal-500" /> Store Management -- {career.shortName}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-gray-50 rounded-xl p-4" data-testid="store-stat-products">
+                <div className="text-sm text-gray-500 mb-1">Published Products</div>
+                <div className="text-2xl font-bold text-gray-900">0</div>
+                <div className="text-xs text-gray-400">Question sets available for purchase</div>
+              </div>
+              <div className="bg-gray-50 rounded-xl p-4" data-testid="store-stat-revenue">
+                <div className="text-sm text-gray-500 mb-1">Revenue (30d)</div>
+                <div className="text-2xl font-bold text-gray-900">$0.00</div>
+                <div className="text-xs text-gray-400">From {career.shortName} products</div>
+              </div>
+              <div className="bg-gray-50 rounded-xl p-4" data-testid="store-stat-purchases">
+                <div className="text-sm text-gray-500 mb-1">Purchases (30d)</div>
+                <div className="text-2xl font-bold text-gray-900">0</div>
+                <div className="text-xs text-gray-400">Total transactions</div>
+              </div>
+            </div>
+            <div className="border-t border-gray-100 pt-4">
+              <h4 className="text-sm font-medium text-gray-700 mb-3">Product Catalog</h4>
+              <div className="text-center py-8">
+                <Archive className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+                <p className="text-sm text-gray-400 mb-2">No products published yet for {career.shortName}</p>
+                <p className="text-xs text-gray-400 mb-4">Create a question set and mark it as Store-Ready to publish here.</p>
+                <button className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700" data-testid="button-create-product">
+                  + Create Product
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="store-validation-panel">
+            <h4 className="text-sm font-medium text-gray-700 mb-3">Publishing Validation Checklist</h4>
+            <div className="space-y-2">
+              {[
+                { label: "Minimum 50 questions in set", status: "pending" },
+                { label: "All questions have rationales (600+ words)", status: "pending" },
+                { label: "Domain coverage meets blueprint minimums", status: "pending" },
+                { label: "Difficulty distribution balanced (20/60/20)", status: "pending" },
+                { label: "No flagged or revision-pending items", status: "pending" },
+                { label: "At least 3 question types represented", status: "pending" },
+              ].map(check => (
+                <div key={check.label} className="flex items-center gap-2 text-sm" data-testid={`check-${check.label.slice(0, 20).replace(/\s+/g, "-").toLowerCase()}`}>
+                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
+                    <Clock className="w-3 h-3 text-gray-400" />
+                  </div>
+                  <span className="text-gray-600">{check.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tab === "qbank" && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="qbank-panel">
+            <h3 className="font-semibold text-gray-900 flex items-center gap-2 mb-4">
+              <Shield className="w-5 h-5 text-teal-500" /> QBank Administration -- {career.shortName}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-total">
+                <div className="text-sm text-gray-500 mb-1">Total Items</div>
+                <div className="text-2xl font-bold text-gray-900">{careerStats?.totalQuestions || 0}</div>
+              </div>
+              <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-active">
+                <div className="text-sm text-gray-500 mb-1">Active</div>
+                <div className="text-2xl font-bold text-teal-600">{careerStats?.totalQuestions ? careerStats.totalQuestions - (careerStats.flaggedCount || 0) : 0}</div>
+              </div>
+              <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-flagged">
+                <div className="text-sm text-gray-500 mb-1">Flagged</div>
+                <div className="text-2xl font-bold text-amber-600">{careerStats?.flaggedCount || 0}</div>
+              </div>
+              <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-revision">
+                <div className="text-sm text-gray-500 mb-1">Pending Revision</div>
+                <div className="text-2xl font-bold text-red-600">{careerStats?.pendingRevisions || 0}</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Domain Distribution</h4>
+                <div className="space-y-2">
+                  {careerStats?.domainBreakdown ? Object.entries(careerStats.domainBreakdown).map(([domain, count]) => (
+                    <PercentBar key={domain} label={domain} value={count as number} total={careerStats.totalQuestions} color="bg-teal-500" />
+                  )) : (
+                    <p className="text-sm text-gray-400 py-4 text-center">No domain data available yet</p>
+                  )}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Difficulty Distribution</h4>
+                <div className="space-y-2">
+                  {careerStats?.difficultyBreakdown ? Object.entries(careerStats.difficultyBreakdown).map(([level, count]) => (
+                    <PercentBar key={level} label={`Level ${level}`} value={count as number} total={careerStats.totalQuestions} color="bg-cyan-500" />
+                  )) : (
+                    <p className="text-sm text-gray-400 py-4 text-center">No difficulty data available yet</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-100 mt-6 pt-4">
+              <h4 className="text-sm font-medium text-gray-700 mb-3">Cognitive Level Distribution</h4>
+              <div className="grid grid-cols-3 gap-4">
+                {careerStats?.cognitiveBreakdown ? Object.entries(careerStats.cognitiveBreakdown).map(([level, count]) => {
+                  const pct = careerStats.totalQuestions > 0 ? ((count as number) / careerStats.totalQuestions * 100).toFixed(0) : "0";
+                  return (
+                    <div key={level} className="bg-gray-50 rounded-lg p-3 text-center" data-testid={`qbank-cog-${level}`}>
+                      <div className="text-xs text-gray-500 capitalize mb-1">{level}</div>
+                      <div className="text-lg font-bold text-gray-900">{pct}%</div>
+                      <div className="text-xs text-gray-400">{count as number} items</div>
+                    </div>
+                  );
+                }) : (
+                  <p className="text-sm text-gray-400 py-4 text-center col-span-3">No cognitive data available yet</p>
+                )}
+              </div>
+            </div>
+
+            <div className="border-t border-gray-100 mt-6 pt-4">
+              <h4 className="text-sm font-medium text-gray-700 mb-3">Quick Actions</h4>
+              <div className="flex flex-wrap gap-3">
+                <button className="px-4 py-2 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium hover:bg-teal-100" data-testid="button-export-qbank">
+                  Export Questions (CSV)
+                </button>
+                <button className="px-4 py-2 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium hover:bg-teal-100" data-testid="button-bulk-review">
+                  Bulk Review Flagged
+                </button>
+                <button className="px-4 py-2 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium hover:bg-teal-100" data-testid="button-domain-audit">
+                  Domain Coverage Audit
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

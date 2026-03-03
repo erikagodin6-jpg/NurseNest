@@ -3,7 +3,8 @@ import { Link } from "wouter";
 import { CAREER_CONFIGS } from "@shared/careers";
 import {
   Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen,
-  FileText, Brain, Zap, CheckCircle2, TrendingUp, Users, Star, Mail
+  FileText, Brain, Zap, CheckCircle2, TrendingUp, Users, Star, Mail,
+  ShieldCheck, Building2
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -15,11 +16,14 @@ const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.pharmacyTech, Icon: Pill },
   { ...CAREER_CONFIGS.mlt, Icon: Microscope },
   { ...CAREER_CONFIGS.imaging, Icon: Radio },
+  { ...CAREER_CONFIGS.psychotherapist, Icon: Brain },
+  { ...CAREER_CONFIGS.socialWorker, Icon: Users },
+  { ...CAREER_CONFIGS.addictionsCounsellor, Icon: ShieldCheck },
 ];
 
 const STATS = [
   { label: "Practice Questions", value: "6,500+", icon: BookOpen },
-  { label: "Career Verticals", value: "5", icon: TrendingUp },
+  { label: "Career Verticals", value: "8", icon: TrendingUp },
   { label: "AI Study Tools", value: "10+", icon: Brain },
   { label: "Mock Exam Modes", value: "3", icon: FileText },
 ];
@@ -159,6 +163,49 @@ export default function AlliedHomePage() {
                 <p className="text-sm text-gray-500">{feature.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white" data-testid="allied-institutional-cta">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-teal-900 rounded-2xl overflow-hidden p-8 sm:p-12">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full -translate-y-1/2 translate-x-1/3" />
+            <div className="relative flex flex-col lg:flex-row items-center gap-8">
+              <div className="flex-1">
+                <div className="inline-flex items-center gap-2 bg-teal-500/20 text-teal-300 rounded-full px-3 py-1 text-xs font-medium mb-4" data-testid="badge-institutional">
+                  <Building2 className="w-3.5 h-3.5" />
+                  For Programs and Institutions
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3" data-testid="text-institutional-title">
+                  Equip Your Students with Exam-Ready Tools
+                </h2>
+                <p className="text-gray-300 mb-6 max-w-lg">
+                  Institutional licensing gives your program cohort-wide access to question banks, mock exams, readiness tracking, and faculty analytics. Volume pricing available for programs of all sizes.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link href="/institutions" className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-400 transition-colors" data-testid="button-institutional-learn">
+                    Learn More <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link href="/institutions/faq" className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-xl text-sm font-semibold hover:bg-white/20 transition-colors" data-testid="button-institutional-faq">
+                    Institutional FAQ
+                  </Link>
+                </div>
+              </div>
+              <div className="flex-shrink-0 grid grid-cols-2 gap-3 text-center">
+                {[
+                  { val: "50+", label: "Programs" },
+                  { val: "2,500+", label: "Students" },
+                  { val: "92%", label: "Renewal Rate" },
+                  { val: "24h", label: "Onboarding" },
+                ].map(item => (
+                  <div key={item.label} className="bg-white/10 rounded-xl p-4 min-w-[100px]" data-testid={`stat-inst-${item.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                    <div className="text-xl font-bold text-white">{item.val}</div>
+                    <div className="text-xs text-gray-400">{item.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

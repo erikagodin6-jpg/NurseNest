@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { CAREER_CONFIGS } from "@shared/careers";
-import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench } from "lucide-react";
+import { Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen, FileText, Brain, Wrench, ShieldCheck, Users } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
 const ALLIED_CAREERS = [
@@ -9,6 +9,9 @@ const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.pharmacyTech, Icon: Pill },
   { ...CAREER_CONFIGS.mlt, Icon: Microscope },
   { ...CAREER_CONFIGS.imaging, Icon: Radio },
+  { ...CAREER_CONFIGS.psychotherapist, Icon: Brain },
+  { ...CAREER_CONFIGS.socialWorker, Icon: Users },
+  { ...CAREER_CONFIGS.addictionsCounsellor, Icon: ShieldCheck },
 ];
 
 export default function CareerDirectoryPage() {
