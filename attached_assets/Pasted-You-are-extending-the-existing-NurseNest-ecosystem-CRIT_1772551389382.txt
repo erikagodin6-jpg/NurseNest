@@ -1,0 +1,130 @@
+You are extending the existing NurseNest ecosystem.
+
+CRITICAL ARCHITECTURE RULES:
+
+1. Maintain ONE main domain for:
+
+   * RPN
+   * RN
+   * NP
+   * Nursing Specialties
+   * New Grad Hub
+
+2. Maintain ONE allied subdomain:
+   allied.nursenest.ca
+
+   * Pharmacy Tech
+   * RRT
+   * Paramedic
+   * MLT
+   * Imaging
+
+3. Do NOT create additional subsites.
+
+4. Do NOT fragment specialties across domains.
+
+5. Preserve current UI layout, routing, theme tokens, and component structure.
+
+6. Preserve Stripe and role-based gating.
+
+7. Extend modularly only.
+
+8. All premium content must be behind server-side paywall.
+
+---
+
+## SECTION 1: URL STRUCTURE
+
+MAIN DOMAIN STRUCTURE:
+
+/rpn
+/rn
+/np
+
+/nursing-specialties
+/nursing-specialties/critical-care
+/nursing-specialties/emergency
+/nursing-specialties/pediatric
+/nursing-specialties/picu
+/nursing-specialties/nicu
+/nursing-specialties/obstetrics
+/nursing-specialties/oncology
+/nursing-specialties/palliative
+
+/new-grad
+
+ALLIED SUBDOMAIN STRUCTURE:
+
+allied.nursenest.ca/pharmacy-tech
+allied.nursenest.ca/rrt
+allied.nursenest.ca/paramedic
+allied.nursenest.ca/mlt
+allied.nursenest.ca/imaging
+
+Ensure internal linking remains siloed but cross-link where logical.
+
+---
+
+## SECTION 2: MARKETING PAGE SYSTEM (FOR EACH VERTICAL)
+
+For EACH specialty and allied vertical create:
+
+1. Primary SEO Landing Page (3,000+ words)
+
+   * Profession overview
+   * Certification pathway
+   * Exam structure
+   * Most tested domains
+   * Salary outlook
+   * Career growth
+   * “Who should take this exam”
+   * FAQ (minimum 12 questions)
+   * Structured FAQ schema
+   * CTA to readiness exam
+   * CTA to subscription
+
+2. Readiness Quiz Page
+
+   * 25-question preview exam
+   * Blueprint weighted
+   * Performance breakdown
+   * “Your estimated readiness”
+   * Upgrade CTA
+
+3. Features Page
+
+   * Daily question engine explanation
+   * Adaptive learning explanation
+   * Simulator explanation
+   * Mock exam explanation
+   * Performance analytics explanation
+   * Comparison table vs competitors
+
+4. Pricing Page (Vertical Specific)
+
+   * Monthly price
+   * Annual price (15–20% discount)
+   * Feature comparison
+   * Bundle cross-sell
+
+5. Interview Lab Marketing Page (Nursing Specialties + New Grad)
+
+   * Sample questions
+   * Example high-scoring answer snippet
+   * Confidence positioning
+   * Upgrade CTA
+
+---
+
+## SECTION 3: SEO IMPLEMENTATION REQUIREMENTS
+
+Implement for ALL verticals:
+
+A. Technical SEO:
+
+* Unique title tags (60 characters max)
+* Meta descriptions (155 characters)
+* H1 single usage
+* Structured H2/H3 hierarchy
+* Canonical tags
+* Sitemap
