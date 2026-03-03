@@ -891,6 +891,16 @@ export function Navigation() {
                 </DropdownMenuContent>
               </DropdownMenu>
 
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5"
+                onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "desktop_nav" }) }).catch(() => {}); } catch {} }}
+                data-testid="button-store-nav"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                {t("nav.store")}
+              </Button>
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent flex items-center gap-1 px-2 lg:px-2.5 group data-[state=open]:text-primary">
@@ -899,10 +909,6 @@ export function Navigation() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-48 p-2">
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => { setLocation("/shop"); try { fetch("/api/track/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "nav_store_click", source: "desktop_nav" }) }).catch(() => {}); } catch {} }} data-testid="button-store-nav">
-                    <ShoppingBag className="w-4 h-4 text-primary/70" />
-                    {t("nav.store")}
-                  </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/pricing")}>
                     <Tag className="w-4 h-4 text-primary/70" />
                     {t("nav.pricing")}
@@ -917,12 +923,6 @@ export function Navigation() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </div>
-
-            <div className="hidden md:block flex-1 max-w-xs ml-2 lg:ml-4">
-              <Suspense fallback={<div className="w-full h-8" />}>
-                <GlobalSearch />
-              </Suspense>
             </div>
           </div>
 
@@ -1013,6 +1013,11 @@ export function Navigation() {
                 { icon: HelpCircle, label: t("footer.faq"), key: "FAQ" },
                 { icon: BarChart, label: t("nav.reports"), key: "Reports" },
               ]} subBar />
+              <div className="hidden md:block w-48 lg:w-56">
+                <Suspense fallback={<div className="w-full h-7" />}>
+                  <GlobalSearch />
+                </Suspense>
+              </div>
             </div>
           </div>
         </div>
