@@ -201,6 +201,7 @@ import { generatedBatch103Lessons } from "./generated-batch-103";
 
 import { bloodTransfusionReactionLessons } from "./blood-transfusion-reactions";
 import { bloodTransfusionReactionTypeLessons } from "./blood-transfusion-reaction-types";
+import { bloodTransfusionReactionTypesExtendedLessons } from "./blood-transfusion-reaction-types-extended";
 
 export type { LessonContent } from "./types";
 
@@ -333,6 +334,7 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   pharmacologyGiRenalSpecialtyLessons,
   bloodTransfusionReactionLessons,
   bloodTransfusionReactionTypeLessons,
+  bloodTransfusionReactionTypesExtendedLessons,
   generatedBatch001Lessons,
   generatedBatch002Lessons,
   generatedBatch003Lessons,
