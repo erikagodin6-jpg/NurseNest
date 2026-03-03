@@ -1,0 +1,188 @@
+You are a senior medical SEO strategist and SaaS conversion architect.
+
+Your task is to build fully optimized hero landing pages for the NurseNest ecosystem.
+
+CRITICAL RULES:
+
+* Maintain existing UI layout, theme tokens, and component structure.
+* Do NOT redesign the application interface.
+* Hero pages must be indexable.
+* Hero pages must function as both:
+
+  1. SEO pillar pages
+  2. Conversion-focused marketing pages
+* All premium content remains gated behind subscription.
+* Free users must be able to take readiness quiz and view limited previews.
+
+==================================================
+PART 1: HERO PAGE ARCHITECTURE (FOR EACH VERTICAL)
+==================================================
+
+Create a hero page for each:
+
+MAIN DOMAIN:
+
+* /nursing
+* /nursing-specialties
+* /new-grad
+
+ALLIED SUBDOMAIN:
+
+* allied.nursenest.ca (Allied Overview)
+* allied.nursenest.ca/pharmacy-tech
+* allied.nursenest.ca/rrt
+* allied.nursenest.ca/paramedic
+* allied.nursenest.ca/mlt
+* allied.nursenest.ca/imaging
+
+Each hero page must include:
+
+1. Optimized Title Tag (max 60 characters)
+2. Optimized Meta Description (150–160 characters)
+3. Clean URL slug
+4. Single H1
+5. Structured H2/H3 hierarchy
+6. FAQ Schema (minimum 10 questions)
+7. Breadcrumb Schema
+8. Course or Product Schema
+9. Canonical tag recommendation
+
+==================================================
+PART 2: HERO PAGE CONTENT STRUCTURE
+===================================
+
+Above the Fold:
+
+* Clear value proposition
+* Target audience definition
+* Primary CTA: “Take Free Readiness Quiz”
+* Secondary CTA: “View Sample Questions”
+
+Section 1: The Core Problem
+
+* Emotional pain points
+* Exam anxiety or transition stress
+* Industry-specific challenges
+
+Section 2: What This Platform Provides
+
+* Daily question engine
+* Adaptive learning
+* Mock exams
+* Simulators
+* Interview lab (where applicable)
+* Resume tools (New Grad only)
+
+Section 3: Blueprint Breakdown
+
+* Exam domains
+* Most tested topics
+* Difficulty analysis
+
+Section 4: Sample Content Preview
+
+* 2 example questions
+* Short rationales
+* Call to upgrade
+
+Section 5: Why Candidates Fail
+
+* Study errors
+* Strategy mistakes
+* Mindset barriers
+
+Section 6: Platform Comparison
+
+* Self-study vs NurseNest
+* Competitor comparison grid
+
+Section 7: FAQ Section
+Minimum 10 SEO-rich questions per vertical.
+
+Section 8: Conversion Block
+
+* Pricing summary
+* Annual discount mention
+* Upgrade CTA
+
+==================================================
+PART 3: SEO SILO INTEGRATION
+============================
+
+Each hero page must:
+
+* Link to its cluster articles
+* Link to readiness quiz page
+* Link to pricing page
+* Link to related specialties (controlled cross-silo linking)
+* Avoid keyword cannibalization
+
+Return:
+
+* Internal linking map
+* Anchor text variation suggestions
+
+==================================================
+PART 4: READINESS QUIZ INTEGRATION
+==================================
+
+Each hero page must promote:
+
+25-question readiness quiz including:
+
+* Domain-weighted distribution
+* Performance breakdown
+* Upgrade CTA
+
+Free users can access quiz only.
+
+==================================================
+PART 5: PAYWALL INTEGRATION
+===========================
+
+Ensure:
+
+* Full question banks gated
+* Full rationales gated
+* Simulators gated
+* Resume exports gated
+* Interview lab gated
+
+Use server-side role middleware.
+
+==================================================
+PART 6: TECHNICAL SEO REQUIREMENTS
+==================================
+
+Ensure:
+
+* Proper heading hierarchy
+* Mobile-first formatting
+* Optimized image alt text
+* Page speed under 2.5 seconds
+* Included in sitemap
+* Proper robots.txt reference
+* Structured data validation
+
+==================================================
+PART 7: OUTPUT FORMAT
+=====================
+
+Return for EACH hero page:
+
+1. Title Tag
+2. Meta Description
+3. URL Slug
+4. H1
+5. Structured Outline
+6. FAQ Questions (with schema-ready formatting)
+7. Internal Linking Suggestions
+8. CTA Placement Map
+9. Conversion Funnel Strategy
+10. Publishing Priority Order
+
+Maintain professional medical tone.
+Avoid fluff.
+Optimize for both ranking and conversion.
+Focus on authority building and long-term SEO growth.
+=====================================================
