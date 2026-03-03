@@ -1,0 +1,191 @@
+You are a senior full-stack engineer + Canadian nursing exam product strategist. You are working inside the NurseNest codebase (Vite/React frontend + Express backend, existing auth, roles, Stripe/paywalls, existing question bank generator). Your job is to AUDIT and IMPLEMENT the complete REx-PN exam-prep experience described below.
+
+CRITICAL RULES
+- Do NOT break or rewrite the existing question generator logic. You may add a “REx-PN blueprint layer” that organizes content, but do not refactor core generation unless strictly necessary.
+- Do NOT change global styling tokens or theme system; match current NurseNest aesthetic.
+- Do NOT weaken paywalls. Respect existing roles: free vs paid tiers. Use existing guards.
+- Do NOT remove any existing routes; only add new routes or extend existing ones safely.
+- All changes must be incremental, clean, typed where applicable, and tested via basic smoke checks.
+
+PRIMARY GOAL
+Implement a complete REx-PN feature set that includes:
+1) Blueprint-aligned domain coverage and tagging
+2) Computer-adaptive testing mode (CAT-like) for practice
+3) Mixed question formats: MCQ, SATA, numeric fill-in (dosage calc), and “graphic” item type support
+4) Readiness assessments and scheduled study plan tools
+5) Progress tracking, analytics dashboards, and review workflows
+6) Public-facing pages that clearly explain exam structure, scoring/CAT behavior, study strategy, wellness, and contact/support CTA
+
+REx-PN BLUEPRINT (MUST BE REPRESENTED IN DATA MODEL + UI)
+Domains and weights:
+- Safe and Effective Care Environment: 28–40%
+  - Management of Care: 18–24%
+  - Safety and Infection Control: 10–16%
+- Health Promotion and Maintenance: 6–12%
+- Psychosocial Integrity: 8–14%
+- Physiological Integrity: 34–58%
+  - Basic Care and Comfort: 6–12%
+  - Pharmacological and Parenteral Therapies: 14–20%
+  - Reduction of Risk Potential: 8–14%
+  - Physiological Adaptation: 6–12%
+
+Also map content taxonomy pages to:
+- Professional Practice (ethical/legal)
+- Foundations of Practice (A&P/pathology fundamentals)
+- Collaborative Practice (interprofessional teamwork)
+- Nursing Practice (hands-on application)
+
+AUDIT PHASE (DO THIS FIRST)
+1) Search the codebase for existing REx-PN routes/pages/components/data:
+   - Any page paths like /rexpn, /rpn, /canada, /qbank, /cat, /readiness, /study-plan
+   - Any schema fields for: examType, blueprint, domain, category, difficulty, topic tags
+   - Any “adaptive test” code, question type enums, scoring, review mode
+2) Produce a short internal audit summary in comments (or a dev-only markdown file under /docs/dev/rexpn_audit.md) listing:
+   - What already exists that satisfies the requirements
+   - What is missing
+   - Risks (e.g., generator coupling, missing schema fields, missing UI states)
+3) After the audit, implement only what’s missing.
+
+DATA MODEL / SCHEMA CHANGES (BACKEND)
+Add or extend models for questions/tests with:
+- exam: "REx-PN"
+- clientCareDomain: enum { SAFE_EFFECTIVE, HEALTH_PROMO, PSYCHOSOCIAL, PHYSIOLOGICAL }
+- subCategory: enum nullable based on domain (Management of Care, Safety/Infection, etc.)
+- competencyArea: enum { PROFESSIONAL_PRACTICE, FOUNDATIONS, COLLABORATIVE, NURSING_PRACTICE }
+- difficulty: 1–5 (or easy/med/hard mapped to numeric)
+- questionType: enum { MCQ_SINGLE, SATA, NUMERIC, GRAPHIC }
+- topicTags: string[]
+- rationale: string (store long rationales)
+- references: array of strings (optional)
+- calcMeta for NUMERIC: { units, roundingRule, expectedRange?, formulaHint? }
+- graphicMeta for GRAPHIC: { imageUrl?, promptAltText, hotspots? } (support MVP: imageUrl + promptAltText)
+
+If you already have a question schema, add fields without breaking existing reads.
+Add migrations (or forward-compatible schema logic) depending on current storage.
+
+QUESTION AUTHORING / INGESTION
+- Ensure your generation pipeline can produce and store the above tags.
+- Create a “Blueprint Tagger” step that assigns domain/subcategory/competency/difficulty to each generated question.
+  - If generator already tags categories, map them. If not, implement a deterministic mapping layer with a fallback “UNSPECIFIED” that is disallowed for REx-PN publishing (see validation).
+
+VALIDATION FOR PUBLISHING (ADMIN)
+- Add an admin validation checklist for any REx-PN set being published:
+  - ≥ 1 question in each of the 4 domains
+  - For SAFE_EFFECTIVE: at least 1 in Management of Care and 1 in Safety/Infection
+  - For PHYSIOLOGICAL: at least 1 in each subcategory (Basic Care, Pharm/Parenteral, Risk Potential, Adaptation)
+  - Must contain a mix of formats: at minimum MCQ_SINGLE + SATA + NUMERIC (GRAPHIC optional but recommended)
+- Block “Store-Ready” flag if validation fails; show exact missing items.
+
+CAT MODE (CORE FEATURE)
+Implement a CAT-like practice mode (not claiming to exactly replicate official algorithm; it is a learning simulator):
+- Session config: 90–150 questions, 4 hours max timer (optional), user can choose:
+  - Full CAT (adaptive)
+  - Mini CAT (e.g., 25, 50)
+- Adaptive logic (MVP):
+  - Maintain estimated ability theta per domain (or global)
+  - Choose next question:
+    - prioritize domains using target blueprint weights vs current domain counts
+    - within chosen domain, choose difficulty near user’s current theta
+    - avoid repeats using questionIds seen
+  - After each answer, update theta:
+    - correct => + step scaled by difficulty
+    - incorrect => - step scaled by difficulty
+  - Keep an “uncertainty” measure; if uncertainty low and minQ reached, allow early stop only in Mini CAT; for Full CAT keep 90–150 bounds.
+- Provide a clear UI disclaimer: “CAT-like training simulator” and explain it adapts difficulty; not a guarantee of pass/fail.
+
+SCORING / RESULTS
+- After completion, show:
+  - overall performance
+  - breakdown by the 4 domains + subcategories + competency areas
+  - question-type breakdown (MCQ vs SATA vs NUMERIC vs GRAPHIC)
+  - time per question, pacing guidance
+  - “focus recommendations” that generate a study plan update
+
+REVIEW MODE
+- Create “Review Incorrect/Flagged” workflow:
+  - filter by domain/subcategory/competency/topicTag/questionType/difficulty
+  - show rationale and references
+  - allow user notes
+  - allow “retest this set” as a focused quiz
+
+STUDY PLAN TOOLING
+Implement a 6-week plan generator and a custom plan generator:
+- Inputs:
+  - examDate (required for plan), weekly availability (hours/week), weak domains from diagnostic
+- Outputs:
+  - weekly schedule with domains weighted (extra focus on weak)
+  - integrates:
+    - content learning blocks (Foundations/Professional/Collaborative/Nursing Practice)
+    - practice blocks (topic quizzes)
+    - readiness assessments (weekly)
+    - CAT exams at a reasonable cadence
+- Store plan per user profile; allow “redo diagnostic” anytime from profile dropdown and regenerate the plan.
+
+DIAGNOSTIC + READINESS ASSESSMENTS
+- Diagnostic quiz (free or partially free depending on your business rules):
+  - 20–40 questions mixed across domains and formats
+  - outputs domain strengths/weaknesses
+- Readiness assessment:
+  - 60–90 timed
+  - provide score + domain breakdown + recommended next steps
+
+PUBLIC-FACING PAGES (CONTENT + SEO)
+Create these pages under your REx-PN hub (match existing routing conventions):
+1) /rex-pn (hub)
+   - explain exam structure, domains, weights, and what NurseNest offers
+   - CTA to start diagnostic and to start CAT
+2) /rex-pn/exam-format
+   - 90–150 questions, 4 hours
+   - question formats: MCQ, SATA, numeric fill-in (dosage calc), graphic
+   - explain CAT concept clearly
+3) /rex-pn/study-plan
+   - explain how the plan works, include 6-week sample, CTA to build plan
+4) /rex-pn/practice-tests (CAT + readiness)
+5) /rex-pn/test-taking-strategies
+   - reading stems, elimination, safety-first, pacing
+6) /rex-pn/wellness
+   - sleep, nutrition, hydration, exercise, breaks (simple, supportive)
+7) /rex-pn/contact
+   - support email form or mailto, plus “institutional licensing” inquiry CTA if you already have that system; otherwise stub a simple form that emails admin.
+
+Each page must include:
+- SEO title/meta description
+- internal links to hub + qbank + diagnostic + study plan
+- schema-friendly headings (H1/H2)
+- no plagiarism: write original content consistent with Canadian nursing context.
+
+PAYWALL / ACCESS RULES
+- Free users:
+  - diagnostic limited (e.g., first 10 questions) OR one mini diagnostic
+  - limited CAT (e.g., 10–20 questions)
+  - can view exam-format + strategies + wellness pages
+- Paid REx-PN tier:
+  - full qbank, full CAT, readiness tests, full plan, analytics, review mode
+
+UI REQUIREMENTS
+- Add a “REx-PN” section in the nav and/or dashboard
+- Add progress cards:
+  - days until exam (from user profile examDate)
+  - next scheduled tasks from study plan
+  - last CAT performance snapshot
+- Ensure mobile responsiveness.
+
+ANALYTICS / TRACKING (INTERNAL, NOT 3RD PARTY)
+- Store per-user attempts with timestamps, questionIds, response correctness, timeSpent
+- Provide charts/tables for domain breakdown and progress trend (simple).
+
+TESTING / SMOKE CHECKS
+- Create a minimal test checklist in /docs/dev/rexpn_smoke.md:
+  - Free user can access hub pages, start limited diagnostic, sees paywall on full CAT
+  - Paid user can complete CAT, see results, generate plan, redo diagnostic
+  - Admin cannot publish REx-PN sets unless blueprint validation passes
+
+DELIVERABLE
+- Implement all missing code + pages + schema updates
+- Provide a concise summary in PR-style notes:
+  - files changed
+  - routes added
+  - how to run locally
+  - any environment variables needed
+
+Now begin with the AUDIT PHASE, then implement missing items.

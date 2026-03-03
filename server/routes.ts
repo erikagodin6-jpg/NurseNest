@@ -11511,7 +11511,7 @@ Return ONLY valid JSON with this exact structure:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { template = "question_pack", exam, region = "BOTH", targetCount = 250, chunkSize = 15, promptBase, settings, topic, instructions, difficulty = "mixed", questionTypes, tier, themeId } = req.body;
-      if (!targetCount || targetCount < 250) return res.status(400).json({ error: "targetCount must be >= 250" });
+      if (!targetCount || targetCount < 10) return res.status(400).json({ error: "targetCount must be >= 10" });
       const cleanTopic = (topic || "Nursing Pathophysiology").substring(0, 200);
       const gen = await storage.createProductGeneration({
         userId: admin.id,

@@ -772,7 +772,7 @@ export default function GeneratorV2Page() {
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-xs font-medium text-gray-500 block mb-1">Target Count</label>
-                    <Input type="number" min={250} max={1000} value={targetCount} onChange={e => setTargetCount(Number(e.target.value))} className="h-9 text-sm" data-testid="question-count-input" />
+                    <Input type="number" min={10} max={1000} value={targetCount} onChange={e => setTargetCount(Number(e.target.value))} className="h-9 text-sm" data-testid="question-count-input" />
                   </div>
                   <div>
                     <label className="text-xs font-medium text-gray-500 block mb-1">Chunk Size</label>

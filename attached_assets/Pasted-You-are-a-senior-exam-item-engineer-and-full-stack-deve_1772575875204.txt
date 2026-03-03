@@ -1,0 +1,242 @@
+You are a senior exam-item engineer and full-stack developer working inside the NurseNest codebase. Implement and ENFORCE the following NGN-style item types across BOTH (1) the Question Bank (QBank) and (2) Mock Exams (including CAT/Readiness). The goal is not just to “support” them, but to guarantee that mock exams include a REQUIRED MIX of these formats and that the QBank can filter, generate, render, score, and review them.
+
+NON-NEGOTIABLE CONSTRAINTS
+- Do NOT break or refactor the existing generator logic; extend via a new “ItemType Layer” + rendering/scoring modules.
+- Do NOT alter global styling/theme tokens.
+- Do NOT weaken paywalls. Respect existing roles and access guards.
+- Do NOT remove existing routes or question types. Add new types and migrations safely.
+- All changes must be incremental, production-safe, and covered by smoke tests.
+
+TARGET ITEM TYPES (MUST BE SUPPORTED END-TO-END)
+Add these questionType values (or map to existing enum, but keep these logical names internally):
+1) DRAG_DROP_CLOZE
+2) DRAG_DROP_RATIONALE (cause + 1–2 effects)
+3) DROPDOWN_CLOZE (paragraph w/ 1–5 dropdown blanks, each 3–5 options)
+4) DROPDOWN_RATIONALE (cause + 1–2 effects, dropdown selection)
+5) DROPDOWN_TABLE (table cells have dropdowns, each 3–5 options, single select per cell)
+6) MATRIX_SINGLE (matrix multiple choice: ONE selection per row; 4–10 rows)
+7) MATRIX_MULTI (matrix multiple response: multi selections allowed per row/column; 4–7 rows, 2–10 columns; enforce each column has ≥1 selection if that is the item rule)
+8) MULTI_RESPONSE_GROUPING (2–5 groupings; each grouping 2–4 options; require ≥1 selection per group)
+9) TREND (time-series case; may wrap any of the above item types; includes nurse notes/labs/vitals/meds etc)
+10) HIGHLIGHT_TEXT (select key info from passage; up to 10 selectable segments)
+11) BOWTIE (5 fields: condition center, 2 actions left, 2 parameters to monitor right; drag-drop)
+
+DATA MODEL / SCHEMA (BACKEND)
+1) Extend Question schema to support these formats with a flexible “itemPayload” JSON:
+- exam: string (must include "REx-PN")
+- questionType: enum (values above)
+- stem: string (case intro)
+- scenario: optional structured object for TREND (notes/labs/vitals/meds arrays, timepoints)
+- itemPayload: JSON (type-specific structure, defined below)
+- correctResponse: JSON (type-specific)
+- scoringRule: JSON (partial credit rules + validation rules)
+- rationale: string (long form)
+- references: string[] optional
+- difficulty: 1–5
+- blueprint tags (domain/subcategory/competency/topicTags) remain intact
+
+2) Implement type-safe validators (runtime + optional TS types) for itemPayload/correctResponse per questionType so invalid items cannot be published.
+
+TYPE-SPECIFIC PAYLOAD SPECS (MINIMUM VIABLE)
+Define and enforce these structures:
+
+A) DRAG_DROP_CLOZE
+itemPayload:
+- textTemplate: string with placeholders like {{blank1}} {{blank2}} ...
+- draggableOptions: { id, label }[] (4–10)
+- blanks: { id: "blank1", accepts: optionId[] }[]
+correctResponse:
+- placements: { blankId, optionId }[]
+scoringRule:
+- perBlank: 1 point each; allow partial credit
+
+B) DRAG_DROP_RATIONALE
+itemPayload:
+- baseSentenceTemplate: string with {{cause}} {{effect1}} {{effect2?}}
+- draggableCauses: { id, label }[]
+- draggableEffects: { id, label }[]
+- effectsCount: 1 or 2
+correctResponse:
+- causeId
+- effectIds: string[] (len 1–2)
+scoringRule:
+- require correct cause AND all required effects for full credit; partial credit allowed by effect
+
+C) DROPDOWN_CLOZE
+itemPayload:
+- paragraphs: { id, textTemplate }[] (1–5 sentences)
+- dropdowns: { id, placeholderKey, options: { id, label }[] }[] (each 3–5 options)
+correctResponse:
+- selections: { dropdownId, optionId }[]
+scoringRule:
+- 1 point per dropdown; partial credit
+
+D) DROPDOWN_RATIONALE
+itemPayload:
+- sentenceTemplate: string with {{cause}} {{effect1}} {{effect2?}}
+- causeOptions: { id, label }[] (3–5)
+- effectOptions: { id, label }[] (3–5)
+- effectsCount: 1 or 2
+correctResponse:
+- causeId
+- effectIds: string[] (len 1–2)
+scoringRule:
+- MUST choose correct cause and effect(s) for credit; optionally allow partial credit only if configured, default OFF
+
+E) DROPDOWN_TABLE
+itemPayload:
+- table: { columns: string[], rows: { rowId, label, cells: { cellId, dropdownOptions: {id,label}[] }[] }[] }
+correctResponse:
+- selections: { cellId, optionId }[]
+scoringRule:
+- 1 point per cell; partial credit
+
+F) MATRIX_SINGLE (one per row)
+itemPayload:
+- columns: { id, label }[] (2–10)
+- rows: { id, label, options: { columnId }[] }[] (4–10 rows; options derive from columns)
+- requireAllRowsAnswered: true
+correctResponse:
+- selections: { rowId, columnId }[] (exactly 1 per row)
+scoringRule:
+- 1 point per row
+
+G) MATRIX_MULTI (multi allowed)
+itemPayload:
+- columns: { id, label }[] (2–10)
+- rows: { id, label }[] (4–7)
+- selectionRule:
+   - perRowMin: 0..n
+   - perRowMax: 0..n
+   - perColumnMin: 1 (ENFORCE if required by item)
+correctResponse:
+- selections: { rowId, columnId }[] (multiple per row allowed)
+scoringRule:
+- row/column based partial credit; enforce selectionRule validation before submit
+
+H) MULTI_RESPONSE_GROUPING
+itemPayload:
+- groups: { id, label, options: { id, label }[] }[] (2–5 groups; each 2–4 options)
+- requireAtLeastOnePerGroup: true
+correctResponse:
+- selections: { groupId, optionIds: string[] }[]
+scoringRule:
+- score per group; partial credit by correct options minus incorrect if configured
+
+I) TREND (wrapper)
+itemPayload:
+- timepoints: { tId, label, nurseNotes?, vitals?, labs?, meds?, orders? }[] (2+)
+- embeddedItem:
+   - questionType: one of the above
+   - stem: optional
+   - itemPayload
+   - correctResponse
+   - scoringRule
+correctResponse:
+- embeddedCorrectResponse
+scoringRule:
+- embedded scoring; plus optional “interpretation” points (MVP: embedded only)
+
+J) HIGHLIGHT_TEXT
+itemPayload:
+- passage: string
+- highlightSpans: { spanId, start, end, label? }[] (pre-tokenized selectable segments; up to 10 selected)
+- maxSelections: number (<=10)
+correctResponse:
+- selectedSpanIds: string[]
+scoringRule:
+- full credit only if all correct and no extras by default; allow partial credit if configured
+
+K) BOWTIE
+itemPayload:
+- conditionOptions: { id, label }[]
+- actionOptions: { id, label }[]
+- monitorOptions: { id, label }[]
+- slots:
+   - conditionSlotId: "condition"
+   - actionSlotIds: ["action1","action2"]
+   - monitorSlotIds: ["monitor1","monitor2"]
+correctResponse:
+- conditionId
+- actionIds: [string,string]
+- monitorIds: [string,string]
+scoringRule:
+- default: 1 point per slot; allow partial credit
+
+UI / RENDERERS (FRONTEND)
+1) Create a registry: QuestionRendererRegistry[questionType] => component + validator + scorer
+2) Implement each renderer with:
+- required interaction constraints (cannot proceed until required rows/groups answered, etc.)
+- accessibility (keyboard navigation for dropdowns, clear focus states)
+- mobile-friendly layouts for matrix/table
+3) Implement “Review Mode” for each type:
+- show user selections vs correct
+- show rationale and references
+- allow “Add note” and “Retest similar”
+
+SCORING ENGINE
+- Implement a common scoring interface:
+score(question): { earnedPoints, maxPoints, breakdown }
+- Must support partial credit rules as above
+- Prevent submission if item violates required completion rules (e.g., unanswered matrix row, missing group selection)
+
+QBANK REQUIREMENTS (ENFORCEMENT)
+- Add filters:
+  - questionType (multi-select)
+  - includeNGNOnly toggle (includes the 11 types above)
+- Add “Format Mix” generator option:
+  - user selects desired mix or “Balanced NGN Mix”
+  - generator must produce a distribution across these types (as available in bank)
+
+MOCK EXAMS REQUIREMENTS (HARD GUARANTEE)
+Implement a “Mock Exam Blueprint” configuration that enforces minimum counts of these item types per exam attempt.
+
+Create a default NGN MIX POLICY for REx-PN Mock Exams:
+- totalQuestions: configurable (e.g., 90 for readiness; 25/50 for mini)
+- requiredMin:
+   - BOWTIE: 2
+   - HIGHLIGHT_TEXT: 2
+   - MATRIX_SINGLE: 2
+   - MATRIX_MULTI: 2
+   - DROPDOWN_CLOZE: 2
+   - DRAG_DROP_CLOZE: 2
+   - MULTI_RESPONSE_GROUPING: 1
+   - NUMERIC (if exists separately): 2 (if NUMERIC is already supported; otherwise optional)
+- TREND:
+   - at least 2 questions must be TREND-wrapped items (wrapping any NGN type)
+If the question bank does not contain enough items of a required type, the exam generator MUST:
+1) log a clear reason and show an admin alert
+2) gracefully degrade by substituting the closest related type (define a fallback map), BUT only if a “AllowFallbacks” flag is enabled. Default AllowFallbacks = false for production; true only for dev.
+
+Exam assembly algorithm:
+- Step 1: reserve slots for each requiredMin type
+- Step 2: fill remaining slots using existing domain blueprint weights (REx-PN domains)
+- Step 3: ensure no repeats, maintain difficulty ramp, apply CAT/adaptive if enabled
+
+ADMIN CONTROLS
+- In Admin: add an “NGN Coverage” dashboard for REx-PN:
+  - counts by questionType
+  - counts by domain/subcategory
+  - “Mock Exam Readiness” indicator: whether the bank can satisfy requiredMin without fallbacks
+- Add publishing validation:
+  - REx-PN sets cannot be marked Store-Ready unless they include a minimum mix:
+    - at least 6 NGN items total
+    - must include at least 3 distinct NGN types
+    - must include at least 1 of: Bowtie OR Matrix OR Highlight
+
+TESTS / SMOKE CHECKS
+Create /docs/dev/ngn_smoke.md with steps:
+- QBank can render each type, answer, submit, score, review
+- Mock exam enforces requiredMin mix (prove via a generated attempt summary)
+- Validation blocks publishing when payload invalid or mix insufficient
+- Mobile layout sanity for matrix/table + drag/drop
+
+DELIVERABLES
+- Implement schema changes, renderers, scoring engine, generator enforcement, admin dashboards, and docs.
+- Provide PR-style notes listing:
+  - files changed
+  - new questionType enums
+  - how to seed sample NGN items for testing
+  - any feature flags (AllowFallbacks, NGN_MIX_POLICY)
+
+BEGIN by scanning the codebase for existing questionType enums and renderers. Add only what’s missing, then implement the above end-to-end.
