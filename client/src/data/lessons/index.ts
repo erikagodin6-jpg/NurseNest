@@ -240,7 +240,28 @@ function countQuestions(lessons: Record<string, LessonContent>): number {
   return count;
 }
 
-export const contentMap: Record<string, LessonContent> = {
+function isPlaceholder(lesson: LessonContent): boolean {
+  const content = lesson.cellular?.content || "";
+  return content.includes("[WRITE YOUR") || content.includes("[PLACEHOLDER") || content.length < 20;
+}
+
+function safeMerge(
+  target: Record<string, LessonContent>,
+  ...sources: Record<string, LessonContent>[]
+): Record<string, LessonContent> {
+  for (const source of sources) {
+    for (const [id, lesson] of Object.entries(source)) {
+      const existing = target[id];
+      if (existing && !isPlaceholder(existing) && isPlaceholder(lesson)) {
+        continue;
+      }
+      target[id] = lesson;
+    }
+  }
+  return target;
+}
+
+export const contentMap: Record<string, LessonContent> = safeMerge({},
   ...cardiovascularLessons,
   ...respiratoryLessons,
   ...neurologicalLessons,
