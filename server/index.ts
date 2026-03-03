@@ -307,6 +307,9 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/simulators/clinical-skills", "0.7", "monthly", locales, today));
   entries.push(sitemapUrl(base, "/simulators/osce", "0.7", "monthly", locales, today));
   entries.push(sitemapUrl(base, "/simulators/clinical-lab", "0.7", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/new-grad", "0.9", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/nursing", "0.9", "monthly", locales, today));
+  entries.push(sitemapUrl(base, "/nursing-specialties", "0.8", "monthly", locales, today));
   entries.push(sitemapUrl(base, "/contact", "0.4", "yearly", locales));
   entries.push(sitemapUrl(base, "/faq", "0.5", "monthly", locales));
   entries.push(sitemapUrl(base, "/terms", "0.3", "yearly", locales));

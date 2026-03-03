@@ -146,6 +146,9 @@ const NpExamPracticePage = lazy(() => import("@/pages/exam-practice-landing").th
 const GlossaryPage = lazy(() => import("@/pages/glossary"));
 const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
+const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
+const NursingHub = lazy(() => import("@/pages/nursing-hub"));
+const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
 
 function PageTracker() {
   usePageTracker();
@@ -293,6 +296,9 @@ function AppRoutes() {
         <Route path="/simulators/clinical-skills" component={SimulatorsPage} />
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
+        <Route path="/new-grad" component={NewGradHub} />
+        <Route path="/nursing" component={NursingHub} />
+        <Route path="/nursing-specialties" component={NursingSpecialtiesHub} />
         <Route path="/pre-nursing" component={PreNursingPage} />
         <Route path="/mock-exams/:id/report" component={MockExamReport} />
         <Route path="/mock-exams/:id" component={MockExamSession} />
