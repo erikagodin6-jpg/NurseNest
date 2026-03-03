@@ -1,0 +1,94 @@
+STOP. Do not narrate your thinking. Do not claim you are running tasks in parallel. Do not say you “read files” unless you quote the actual file paths and code you found.
+
+You are implementing “Real Exam Mode” for mock exams in the existing NurseNest codebase.
+
+OUTPUT RULES (NON-NEGOTIABLE):
+1) Your response must be ONLY:
+   - Files changed list
+   - Unified diffs for each file (git diff format)
+   - A short manual test checklist
+2) No commentary, no session plans, no “I will…”, no “now I’m going to…”.
+3) If you need to inspect files, you must paste the relevant excerpts you are changing (in the diff).
+4) Do not invent file paths. Use the actual repo structure.
+
+CORE PRODUCT REQUIREMENTS:
+A) Remove user choice of question count for official mock exams.
+B) Official mock exams must feel like real exams (UI + flow).
+C) Paywall: official mock exams are premium; free users can only take readiness exams with limited review.
+D) Passing is not percent-correct for CAT exams. Show PASS/FAIL only + domain bands.
+E) NP boards use scaled scoring display (AANP, ANCC separately).
+
+SCOPE (IMPLEMENT EXACTLY THESE 6 TASKS):
+T001 - Blueprint Types & Configs
+- Extend blueprint config to include examType = "CAT" | "SCALED"
+- Split NP boards into AANP and ANCC
+- Add Readiness exam configs (shorter fixed count, limited review)
+- Store blueprint weights by domain in a tier config object
+
+T002 - CAT Engine (new file/module)
+- Implement a simplified adaptive engine that:
+  - Maintains an internal ability estimate (theta)
+  - Selects next item difficulty based on theta and domain blueprint needs
+  - Implements stop rules:
+      1) 95% confidence rule around passing standard
+      2) max length rule
+      3) run-out-of-time rule (if your system tracks time)
+- Return pass/fail outcome relative to a configurable passing standard.
+- The engine must be deterministic given a seeded RNG.
+
+T003 - Setup Page UI
+- Rename mock exam setup to “Real Exam Mode”
+- Hide question-count and customization selectors for official mode
+- Provide two modes:
+   1) “Official Mock” (locked)
+   2) “Readiness Exam” (free preview)
+- Display badges: CAT vs Scaled
+- Ensure the exam type automatically matches the selected tier/exam.
+
+T004 - Session Page Behavior
+- Official Mock (CAT):
+   - Serve one item at a time
+   - Do NOT show total question count
+   - Auto-stop as soon as a stop rule triggers
+- Official Mock (Scaled):
+   - Fixed-length per blueprint
+- Readiness exam:
+   - Fixed short count
+   - Limited review depending on role
+- Persist session state in DB as currently done; do not break existing session tables.
+- Ensure no leakage of premium content in free mode.
+
+T005 - Report Page Output
+- Official Mock (CAT):
+   - PASS/FAIL banner only (no percent correct)
+   - Domain performance bands: Above / Near / Below standard
+   - Remediation plan: weakest 2–3 domains and recommended next steps
+- Official Mock (Scaled):
+   - Display scaled score + pass threshold
+   - Still show domain breakdown as bands (not raw percent unless required)
+- Readiness:
+   - Show “Readiness Result” label + CTA to upgrade
+
+T006 - Server Paywall
+- Enforce server-side gating:
+   - Official mocks require active paid subscription role
+   - Readiness exams allowed for free users
+   - Free users cannot access full rationales, exports, or full review
+- Ensure routes/API return 403 with a clear error object when blocked.
+
+IMPORTANT CONFIG VALUES (use as defaults, admin-editable later):
+- NCLEX-RN passing standard label: 0.00 logits
+- NCLEX-PN passing standard label: -0.18 logits
+- REx-PN: must reach minimum operational items rule equivalent (use minLength = 90)
+- AANP scaled score: 200–800 pass >= 500
+- ANCC scaled score: pass >= 350 (scaled max 500)
+
+ALSO FIX THIS PROBLEM:
+- Remove any “parallel subagents” or fake “loaded delegation skill” style strings from any UI or logs. If they exist in the codebase, delete them.
+
+STEP 1: Locate the mock exam feature files
+- Search for routes/pages/components containing:
+  “mock”, “mock exam”, “exam setup”, “report”, “session”, “blueprint”
+- Then implement the above changes with minimal disruption.
+
+Return unified diffs + test checklist only.

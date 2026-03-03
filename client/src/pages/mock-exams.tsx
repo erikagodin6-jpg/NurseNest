@@ -137,6 +137,11 @@ export default function MockExamsPage() {
             domainPassThreshold: blueprintMeta.domainPassThreshold,
             domains: blueprintMeta.domains,
             timeLimit: blueprintMeta.timeLimit,
+            examType: blueprintMeta.examType,
+            scaledScoreRange: blueprintMeta.scaledScoreRange,
+            minQuestions: blueprintMeta.minQuestions,
+            maxQuestions: blueprintMeta.maxQuestions,
+            showQuestionCount: blueprintMeta.showQuestionCount,
           } : undefined,
           domainAssignments: domainAssignments || undefined,
         }),
@@ -569,7 +574,7 @@ export default function MockExamsPage() {
               disabled={starting || !user || allowedTiers.length === 0 || !allowedTiers.includes(selectedTier) || (examMode === "official" && !selectedBlueprint)}
               data-testid="button-start-exam"
             >
-              {starting ? t("mockExams.preparingExam") : !user ? t("mockExams.signInToStart") : allowedTiers.length === 0 ? t("mockExams.subscriptionRequired") : examMode === "official" ? "Start Official Blueprint Mock Exam" : t("mockExams.startMockExam")}
+              {starting ? t("mockExams.preparingExam") : !user ? t("mockExams.signInToStart") : allowedTiers.length === 0 ? t("mockExams.subscriptionRequired") : examMode === "official" ? `Start ${EXAM_BLUEPRINTS[selectedBlueprint]?.examType === "cat" ? "CAT" : "Scaled Score"} Exam` : t("mockExams.startMockExam")}
               <ArrowRight className="w-5 h-5" />
             </Button>
           </div>
@@ -589,31 +594,50 @@ export default function MockExamsPage() {
               </Card>
             ) : (
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-                {completedExams.map((exam) => (
-                  <LocaleLink key={exam.id} href={`/mock-exams/${exam.id}/report`}>
-                    <Card className="border-none shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                      <CardContent className="p-4 flex items-center justify-between">
-                        <div>
-                          <p className="font-bold text-gray-900">
-                            {exam.tier?.toUpperCase()} - {exam.total_questions} {t("mockExams.questions")}
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            {new Date(exam.started_at).toLocaleDateString()} - {exam.time_spent ? `${Math.round(exam.time_spent / 60)} ${t("mockExams.min")}` : t("mockExams.na")}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className={`text-2xl font-bold ${
-                            (exam.report?.percentage || 0) >= 80 ? "text-emerald-600" :
-                            (exam.report?.percentage || 0) >= 60 ? "text-amber-600" : "text-red-500"
-                          }`}>
-                            {exam.report?.percentage || 0}%
-                          </span>
-                          <ChevronRight className="w-5 h-5 text-gray-400" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </LocaleLink>
-                ))}
+                {completedExams.map((exam) => {
+                  const isCatExam = exam.report?.examType === "cat";
+                  const isScaledExam = exam.report?.examType === "linear-scaled";
+                  const isReadiness = exam.report?.examType === "readiness";
+                  const examLabel = exam.report?.blueprintName || `${exam.tier?.toUpperCase()} Mock`;
+                  return (
+                    <LocaleLink key={exam.id} href={`/mock-exams/${exam.id}/report`}>
+                      <Card className="border-none shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                        <CardContent className="p-4 flex items-center justify-between">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <p className="font-bold text-gray-900">{examLabel}</p>
+                              {isCatExam && <Badge variant="secondary" className="text-[10px] bg-violet-100 text-violet-700">CAT</Badge>}
+                              {isScaledExam && <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">Scaled</Badge>}
+                              {isReadiness && <Badge variant="secondary" className="text-[10px] bg-emerald-100 text-emerald-700">Readiness</Badge>}
+                            </div>
+                            <p className="text-xs text-gray-400">
+                              {new Date(exam.started_at).toLocaleDateString()} - {exam.time_spent ? `${Math.round(exam.time_spent / 60)} ${t("mockExams.min")}` : t("mockExams.na")}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            {isCatExam ? (
+                              <span className={`text-lg font-bold ${exam.report?.overallPass ? "text-emerald-600" : "text-red-500"}`}>
+                                {exam.report?.overallPass ? "PASS" : "FAIL"}
+                              </span>
+                            ) : isScaledExam && exam.report?.scaledScore != null ? (
+                              <span className={`text-lg font-bold ${exam.report?.overallPass ? "text-emerald-600" : "text-red-500"}`}>
+                                {exam.report.scaledScore}
+                              </span>
+                            ) : (
+                              <span className={`text-2xl font-bold ${
+                                (exam.report?.percentage || 0) >= 80 ? "text-emerald-600" :
+                                (exam.report?.percentage || 0) >= 60 ? "text-amber-600" : "text-red-500"
+                              }`}>
+                                {exam.report?.percentage || 0}%
+                              </span>
+                            )}
+                            <ChevronRight className="w-5 h-5 text-gray-400" />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </LocaleLink>
+                  );
+                })}
               </div>
             )}
 
