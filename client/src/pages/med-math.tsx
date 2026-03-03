@@ -89,7 +89,6 @@ const medProfiles: MedProfile[] = [
   { name: "Ondansetron", tabletStrengths: [4, 8], injectable: [{ mg: 4, ml: 2 }], oralSuspension: [{ mg: 4, ml: 5 }], typicalOralDoses: [4, 8], typicalInjDoses: [4], route: ["PO", "IV"], mgPerKgRange: [0.1, 0.15] },
 ];
 
-const medications = medProfiles.map(m => m.name);
 
 interface PedsMedProfile {
   name: string;
@@ -113,8 +112,6 @@ const pedsMedProfiles: PedsMedProfile[] = [
   { name: "Trimethoprim", suspensions: [{ mg: 40, ml: 5 }], mgPerKgPerDose: [4, 6], maxSingleDose: 320, typicalDivisions: [2] },
 ];
 
-const pedsMeds = pedsMedProfiles.map(m => m.name);
-
 const ivFluids = [
   "Normal Saline (0.9% NaCl)", "D5W", "Lactated Ringer's", "D5 0.45% NaCl",
   "0.45% NaCl", "D10W", "D5LR", "3% Saline",
@@ -127,20 +124,34 @@ const patientNames = [
   "K. Miller", "L. Wilson", "T. Moore", "P. Taylor", "C. Anderson",
 ];
 
+function pickOralMed(rng: () => number): MedProfile {
+  const oralMeds = medProfiles.filter(m => m.route.includes("PO") && m.tabletStrengths.length > 0);
+  return pick(oralMeds, rng);
+}
+
+function pickInjMed(rng: () => number): MedProfile {
+  const injMeds = medProfiles.filter(m => m.injectable && m.injectable.length > 0 && m.typicalInjDoses && m.typicalInjDoses.length > 0);
+  return pick(injMeds, rng);
+}
+
+function pickSuspMed(rng: () => number): MedProfile {
+  const suspMeds = medProfiles.filter(m => m.oralSuspension && m.oralSuspension.length > 0);
+  return pick(suspMeds, rng);
+}
+
 function generateDosageProblem(seed: number): Problem {
   const rng = seededRandom(seed);
   const template = randInt(0, 9, rng);
-  const med = pick(medications, rng);
   const patient = pick(patientNames, rng);
 
   switch (template) {
     case 0: {
-      const ordered = randInt(5, 50, rng) * 5;
-      const available = randInt(5, 50, rng) * 5;
-      const tabletMg = available;
+      const mp = pickOralMed(rng);
+      const ordered = pick(mp.typicalOralDoses, rng);
+      const tabletMg = pick(mp.tabletStrengths, rng);
       const answer = parseFloat((ordered / tabletMg).toFixed(2));
       return {
-        statement: `The provider orders ${med} ${ordered} mg PO. Available: ${med} ${tabletMg} mg tablets. Patient: ${patient}. How many tablets should you administer?`,
+        statement: `The provider orders ${mp.name} ${ordered} mg PO. Available: ${mp.name} ${tabletMg} mg tablets. Patient: ${patient}. How many tablets should you administer?`,
         answer,
         unit: "tablet(s)",
         formula: "Desired ÷ Have × Quantity",
@@ -150,138 +161,149 @@ function generateDosageProblem(seed: number): Problem {
           `Quantity: 1 tablet`,
           `Calculation: ${ordered} ÷ ${tabletMg} × 1 = ${answer} tablet(s)`,
         ],
-        safetyNote: answer > 3 ? "⚠️ Administering more than 3 tablets at once is unusual. Double-check the order and available strength." : undefined,
+        safetyNote: answer > 3 ? "Warning: Administering more than 3 tablets at once is unusual. Double-check the order and available strength." : undefined,
       };
     }
     case 1: {
-      const ordered = randInt(2, 20, rng) * 25;
-      const concMg = randInt(5, 50, rng) * 10;
-      const concMl = randInt(1, 5, rng);
-      const answer = parseFloat(((ordered / concMg) * concMl).toFixed(2));
+      const mp = pickInjMed(rng);
+      const ordered = pick(mp.typicalInjDoses!, rng);
+      const inj = pick(mp.injectable!, rng);
+      const answer = parseFloat(((ordered / inj.mg) * inj.ml).toFixed(2));
+      const route = pick(mp.route.filter(r => r !== "PO"), rng);
       return {
-        statement: `Order: ${med} ${ordered} mg IM. Available: ${med} ${concMg} mg/${concMl} mL. Patient: ${patient}. How many mL should you draw up?`,
+        statement: `Order: ${mp.name} ${ordered} mg ${route}. Available: ${mp.name} ${inj.mg} mg/${inj.ml} mL. Patient: ${patient}. How many mL should you draw up?`,
         answer,
         unit: "mL",
         formula: "Desired ÷ Have × Quantity",
         steps: [
           `Desired dose: ${ordered} mg`,
-          `Available concentration: ${concMg} mg per ${concMl} mL`,
-          `Calculation: (${ordered} ÷ ${concMg}) × ${concMl} = ${answer} mL`,
+          `Available concentration: ${inj.mg} mg per ${inj.ml} mL`,
+          `Calculation: (${ordered} ÷ ${inj.mg}) × ${inj.ml} = ${answer} mL`,
         ],
-        safetyNote: answer > 5 ? "⚠️ IM injections greater than 5 mL in a single site may require splitting into two injection sites." : undefined,
+        safetyNote: route === "IM" && answer > 3 ? "Warning: IM injections greater than 3 mL in a single site may require splitting into two injection sites." : undefined,
       };
     }
     case 2: {
-      const ordered = randFloat(0.1, 2.0, rng, 1);
-      const concMg = randFloat(0.5, 4.0, rng, 1);
-      const answer = parseFloat((ordered / concMg).toFixed(2));
+      const mp = pickInjMed(rng);
+      const ordered = pick(mp.typicalInjDoses!, rng);
+      const inj = pick(mp.injectable!, rng);
+      const concPerMl = parseFloat((inj.mg / inj.ml).toFixed(2));
+      const answer = parseFloat((ordered / concPerMl).toFixed(2));
+      const route = pick(mp.route.filter(r => r !== "PO"), rng);
       return {
-        statement: `Order: ${med} ${ordered} mg subQ. Available: ${med} ${concMg} mg/mL. Patient: ${patient}. How many mL will you administer?`,
+        statement: `Order: ${mp.name} ${ordered} mg ${route}. Available: ${mp.name} ${concPerMl} mg/mL. Patient: ${patient}. How many mL will you administer?`,
         answer,
         unit: "mL",
         formula: "Desired ÷ Have × Quantity",
         steps: [
           `Desired dose: ${ordered} mg`,
-          `Available: ${concMg} mg/mL`,
-          `Calculation: ${ordered} ÷ ${concMg} = ${answer} mL`,
+          `Available: ${concPerMl} mg/mL`,
+          `Calculation: ${ordered} ÷ ${concPerMl} = ${answer} mL`,
         ],
-        safetyNote: answer > 1 ? "⚠️ SubQ injections are typically ≤ 1 mL. Verify the order." : undefined,
+        safetyNote: route === "subQ" && answer > 1 ? "Warning: SubQ injections are typically 1 mL or less. Verify the order." : undefined,
       };
     }
     case 3: {
-      const orderedMcg = randInt(50, 500, rng);
-      const availableMg = randFloat(0.1, 1.0, rng, 1);
-      const orderedMg = orderedMcg / 1000;
-      const answer = parseFloat((orderedMg / availableMg).toFixed(2));
+      const dgx = medProfiles.find(m => m.name === "Digoxin")!;
+      const orderedDose = pick(dgx.typicalOralDoses, rng);
+      const orderedMcg = orderedDose * 1000;
+      const tabletMg = pick(dgx.tabletStrengths, rng);
+      const answer = parseFloat((orderedDose / tabletMg).toFixed(2));
       return {
-        statement: `Order: ${med} ${orderedMcg} mcg PO. Available: ${med} ${availableMg} mg tablets. Patient: ${patient}. How many tablets should be given? (Remember: 1 mg = 1000 mcg)`,
+        statement: `Order: Digoxin ${orderedMcg} mcg PO. Available: Digoxin ${tabletMg} mg tablets. Patient: ${patient}. How many tablets should be given? (Remember: 1 mg = 1000 mcg)`,
         answer,
         unit: "tablet(s)",
-        formula: "Convert mcg → mg, then Desired ÷ Have",
+        formula: "Convert mcg to mg, then Desired ÷ Have",
         steps: [
-          `Convert: ${orderedMcg} mcg = ${orderedMg} mg`,
-          `Available: ${availableMg} mg per tablet`,
-          `Calculation: ${orderedMg} ÷ ${availableMg} = ${answer} tablet(s)`,
+          `Convert: ${orderedMcg} mcg = ${orderedDose} mg`,
+          `Available: ${tabletMg} mg per tablet`,
+          `Calculation: ${orderedDose} ÷ ${tabletMg} = ${answer} tablet(s)`,
         ],
       };
     }
     case 4: {
-      const orderedG = randFloat(0.5, 3.0, rng, 1);
-      const availableMg = randInt(250, 1000, rng);
-      const orderedMg = orderedG * 1000;
-      const answer = parseFloat((orderedMg / availableMg).toFixed(2));
+      const mp = pickOralMed(rng);
+      const ordered = pick(mp.typicalOralDoses, rng);
+      const orderedG = parseFloat((ordered / 1000).toFixed(3));
+      const tabletMg = pick(mp.tabletStrengths, rng);
+      const answer = parseFloat((ordered / tabletMg).toFixed(2));
       return {
-        statement: `Order: ${med} ${orderedG} g PO. Available: ${med} ${availableMg} mg capsules. Patient: ${patient}. How many capsules should you give? (1 g = 1000 mg)`,
+        statement: `Order: ${mp.name} ${orderedG} g PO. Available: ${mp.name} ${tabletMg} mg capsules. Patient: ${patient}. How many capsules should you give? (1 g = 1000 mg)`,
         answer,
         unit: "capsule(s)",
-        formula: "Convert g → mg, then Desired ÷ Have",
+        formula: "Convert g to mg, then Desired ÷ Have",
         steps: [
-          `Convert: ${orderedG} g = ${orderedMg} mg`,
-          `Available: ${availableMg} mg per capsule`,
-          `Calculation: ${orderedMg} ÷ ${availableMg} = ${answer} capsule(s)`,
+          `Convert: ${orderedG} g = ${ordered} mg`,
+          `Available: ${tabletMg} mg per capsule`,
+          `Calculation: ${ordered} ÷ ${tabletMg} = ${answer} capsule(s)`,
         ],
-        safetyNote: answer > 4 ? "⚠️ More than 4 capsules is unusual. Verify the order and available strength." : undefined,
+        safetyNote: answer > 4 ? "Warning: More than 4 capsules is unusual. Verify the order and available strength." : undefined,
       };
     }
     case 5: {
-      const orderedMg = randInt(100, 800, rng);
-      const suspMg = randInt(100, 250, rng);
-      const suspMl = 5;
-      const answer = parseFloat(((orderedMg / suspMg) * suspMl).toFixed(2));
+      const mp = pickSuspMed(rng);
+      const ordered = pick(mp.typicalOralDoses, rng);
+      const susp = pick(mp.oralSuspension!, rng);
+      const answer = parseFloat(((ordered / susp.mg) * susp.ml).toFixed(2));
       return {
-        statement: `Order: ${med} ${orderedMg} mg PO. Available: ${med} oral suspension ${suspMg} mg/${suspMl} mL. Patient: ${patient}. How many mL should you administer?`,
+        statement: `Order: ${mp.name} ${ordered} mg PO. Available: ${mp.name} oral suspension ${susp.mg} mg/${susp.ml} mL. Patient: ${patient}. How many mL should you administer?`,
         answer,
         unit: "mL",
         formula: "Desired ÷ Have × Quantity",
         steps: [
-          `Desired: ${orderedMg} mg`,
-          `Available: ${suspMg} mg per ${suspMl} mL`,
-          `Calculation: (${orderedMg} ÷ ${suspMg}) × ${suspMl} = ${answer} mL`,
+          `Desired: ${ordered} mg`,
+          `Available: ${susp.mg} mg per ${susp.ml} mL`,
+          `Calculation: (${ordered} ÷ ${susp.mg}) × ${susp.ml} = ${answer} mL`,
         ],
       };
     }
     case 6: {
-      const orderedUnits = randInt(1000, 10000, rng);
-      const availUnits = randInt(5000, 20000, rng);
-      const availMl = randInt(1, 5, rng);
-      const answer = parseFloat(((orderedUnits / availUnits) * availMl).toFixed(2));
+      const heparinOrders = [5000, 7500, 8000, 10000];
+      const heparinVials: { units: number; ml: number }[] = [
+        { units: 5000, ml: 1 }, { units: 10000, ml: 1 }, { units: 20000, ml: 1 },
+      ];
+      const orderedUnits = pick(heparinOrders, rng);
+      const vial = pick(heparinVials, rng);
+      const answer = parseFloat(((orderedUnits / vial.units) * vial.ml).toFixed(2));
       return {
-        statement: `Order: Heparin ${orderedUnits} units subQ. Available: Heparin ${availUnits} units/${availMl} mL. Patient: ${patient}. How many mL will you administer?`,
+        statement: `Order: Heparin ${orderedUnits.toLocaleString()} units subQ. Available: Heparin ${vial.units.toLocaleString()} units/${vial.ml} mL. Patient: ${patient}. How many mL will you administer?`,
         answer,
         unit: "mL",
         formula: "Desired ÷ Have × Quantity",
         steps: [
-          `Desired: ${orderedUnits} units`,
-          `Available: ${availUnits} units per ${availMl} mL`,
-          `Calculation: (${orderedUnits} ÷ ${availUnits}) × ${availMl} = ${answer} mL`,
+          `Desired: ${orderedUnits.toLocaleString()} units`,
+          `Available: ${vial.units.toLocaleString()} units per ${vial.ml} mL`,
+          `Calculation: (${orderedUnits} ÷ ${vial.units}) × ${vial.ml} = ${answer} mL`,
         ],
       };
     }
     case 7: {
-      const orderedMg = randInt(10, 100, rng);
-      const concMg = randInt(20, 200, rng);
-      const concMl = 2;
-      const answer = parseFloat(((orderedMg / concMg) * concMl).toFixed(2));
+      const mp = pickInjMed(rng);
+      const ordered = pick(mp.typicalInjDoses!, rng);
+      const inj = pick(mp.injectable!, rng);
+      const answer = parseFloat(((ordered / inj.mg) * inj.ml).toFixed(2));
+      const route = pick(mp.route.filter(r => r !== "PO"), rng);
       return {
-        statement: `Order: ${med} ${orderedMg} mg IV push. Available: ${med} ${concMg} mg/${concMl} mL vial. Patient: ${patient}. How many mL should you administer?`,
+        statement: `Order: ${mp.name} ${ordered} mg ${route} push. Available: ${mp.name} ${inj.mg} mg/${inj.ml} mL vial. Patient: ${patient}. How many mL should you administer?`,
         answer,
         unit: "mL",
         formula: "Desired ÷ Have × Quantity",
         steps: [
-          `Desired: ${orderedMg} mg`,
-          `Available: ${concMg} mg per ${concMl} mL`,
-          `Calculation: (${orderedMg} ÷ ${concMg}) × ${concMl} = ${answer} mL`,
+          `Desired: ${ordered} mg`,
+          `Available: ${inj.mg} mg per ${inj.ml} mL`,
+          `Calculation: (${ordered} ÷ ${inj.mg}) × ${inj.ml} = ${answer} mL`,
         ],
       };
     }
     case 8: {
-      const totalDailyMg = randInt(500, 2000, rng);
+      const mp = pickOralMed(rng);
       const doses = pick([2, 3, 4], rng);
-      const perDose = parseFloat((totalDailyMg / doses).toFixed(2));
-      const tabletMg = pick([250, 500], rng);
+      const perDose = pick(mp.typicalOralDoses, rng);
+      const totalDailyMg = perDose * doses;
+      const tabletMg = pick(mp.tabletStrengths, rng);
       const tablets = parseFloat((perDose / tabletMg).toFixed(2));
       return {
-        statement: `Order: ${med} ${totalDailyMg} mg/day divided into ${doses} equal doses. Available: ${tabletMg} mg tablets. Patient: ${patient}. How many tablets per dose?`,
+        statement: `Order: ${mp.name} ${totalDailyMg} mg/day divided into ${doses} equal doses. Available: ${tabletMg} mg tablets. Patient: ${patient}. How many tablets per dose?`,
         answer: tablets,
         unit: "tablet(s) per dose",
         formula: "Total daily ÷ # doses = per dose, then Desired ÷ Have",
@@ -293,19 +315,19 @@ function generateDosageProblem(seed: number): Problem {
       };
     }
     default: {
-      const orderedMg = randInt(50, 500, rng);
-      const concMg = randInt(50, 250, rng);
-      const concMl = randInt(1, 10, rng);
-      const answer = parseFloat(((orderedMg / concMg) * concMl).toFixed(2));
+      const mp = pickInjMed(rng);
+      const ordered = pick(mp.typicalInjDoses!, rng);
+      const inj = pick(mp.injectable!, rng);
+      const answer = parseFloat(((ordered / inj.mg) * inj.ml).toFixed(2));
       return {
-        statement: `A patient requires ${med} ${orderedMg} mg. The pharmacy sends ${med} ${concMg} mg in ${concMl} mL. Patient: ${patient}. Calculate the volume to administer.`,
+        statement: `A patient requires ${mp.name} ${ordered} mg. The pharmacy sends ${mp.name} ${inj.mg} mg in ${inj.ml} mL. Patient: ${patient}. Calculate the volume to administer.`,
         answer,
         unit: "mL",
         formula: "Desired ÷ Have × Quantity",
         steps: [
-          `Desired: ${orderedMg} mg`,
-          `Available: ${concMg} mg in ${concMl} mL`,
-          `Calculation: (${orderedMg} ÷ ${concMg}) × ${concMl} = ${answer} mL`,
+          `Desired: ${ordered} mg`,
+          `Available: ${inj.mg} mg in ${inj.ml} mL`,
+          `Calculation: (${ordered} ÷ ${inj.mg}) × ${inj.ml} = ${answer} mL`,
         ],
       };
     }
@@ -502,176 +524,195 @@ function generateIVFlowProblem(seed: number): Problem {
   }
 }
 
+function pickMedWithKgRange(rng: () => number): MedProfile {
+  const kgMeds = medProfiles.filter(m => m.mgPerKgRange && m.mgPerKgRange.length === 2);
+  return pick(kgMeds, rng);
+}
+
 function generateWeightBasedProblem(seed: number): Problem {
   const rng = seededRandom(seed);
   const template = randInt(0, 9, rng);
-  const med = pick(medications, rng);
   const patient = pick(patientNames, rng);
 
   switch (template) {
     case 0: {
-      const weightKg = randInt(50, 120, rng);
-      const dosePerKg = randFloat(0.5, 5.0, rng, 1);
+      const mp = pickMedWithKgRange(rng);
+      const weightKg = randInt(50, 100, rng);
+      const dosePerKg = pick([mp.mgPerKgRange![0], mp.mgPerKgRange![1]], rng);
       const answer = parseFloat((weightKg * dosePerKg).toFixed(2));
       return {
-        statement: `Order: ${med} ${dosePerKg} mg/kg IV. Patient ${patient} weighs ${weightKg} kg. What is the dose in mg?`,
+        statement: `Order: ${mp.name} ${dosePerKg} mg/kg IV. Patient ${patient} weighs ${weightKg} kg. What is the dose in mg?`,
         answer,
         unit: "mg",
-        formula: "Weight (kg) × Dose per kg",
+        formula: "Weight (kg) x Dose per kg",
         steps: [
           `Patient weight: ${weightKg} kg`,
           `Ordered dose: ${dosePerKg} mg/kg`,
-          `Calculation: ${weightKg} × ${dosePerKg} = ${answer} mg`,
+          `Calculation: ${weightKg} x ${dosePerKg} = ${answer} mg`,
         ],
       };
     }
     case 1: {
-      const weightLbs = randInt(110, 264, rng);
+      const mp = pickMedWithKgRange(rng);
+      const weightLbs = pick([110, 132, 154, 176, 198, 220], rng);
       const weightKg = parseFloat((weightLbs / 2.2).toFixed(1));
-      const dosePerKg = randFloat(1.0, 10.0, rng, 1);
+      const dosePerKg = mp.mgPerKgRange![0];
       const answer = parseFloat((weightKg * dosePerKg).toFixed(2));
       return {
-        statement: `Order: ${med} ${dosePerKg} mg/kg. Patient ${patient} weighs ${weightLbs} lbs. Convert to kg and calculate the dose. (1 kg = 2.2 lbs)`,
+        statement: `Order: ${mp.name} ${dosePerKg} mg/kg. Patient ${patient} weighs ${weightLbs} lbs. Convert to kg and calculate the dose. (1 kg = 2.2 lbs)`,
         answer,
         unit: "mg",
-        formula: "Convert lbs → kg, then Weight × Dose/kg",
+        formula: "Convert lbs to kg, then Weight x Dose/kg",
         steps: [
-          `Convert: ${weightLbs} lbs ÷ 2.2 = ${weightKg} kg`,
-          `Dose: ${weightKg} × ${dosePerKg} = ${answer} mg`,
+          `Convert: ${weightLbs} lbs / 2.2 = ${weightKg} kg`,
+          `Dose: ${weightKg} x ${dosePerKg} = ${answer} mg`,
         ],
       };
     }
     case 2: {
+      const mp = pickMedWithKgRange(rng);
       const weightKg = randInt(50, 100, rng);
-      const dosePerKg = randFloat(5.0, 20.0, rng, 1);
+      const dosePerKg = mp.mgPerKgRange![1];
       const totalDaily = parseFloat((weightKg * dosePerKg).toFixed(2));
       const doses = pick([2, 3, 4], rng);
       const answer = parseFloat((totalDaily / doses).toFixed(2));
       return {
-        statement: `Order: ${med} ${dosePerKg} mg/kg/day divided q${24 / doses}h. Patient ${patient} weighs ${weightKg} kg. What is each individual dose?`,
+        statement: `Order: ${mp.name} ${dosePerKg} mg/kg/day divided q${24 / doses}h. Patient ${patient} weighs ${weightKg} kg. What is each individual dose?`,
         answer,
         unit: "mg per dose",
-        formula: "(Weight × mg/kg/day) ÷ number of doses",
+        formula: "(Weight x mg/kg/day) / number of doses",
         steps: [
-          `Total daily dose: ${weightKg} × ${dosePerKg} = ${totalDaily} mg/day`,
+          `Total daily dose: ${weightKg} x ${dosePerKg} = ${totalDaily} mg/day`,
           `Divided into ${doses} doses`,
-          `Per dose: ${totalDaily} ÷ ${doses} = ${answer} mg`,
+          `Per dose: ${totalDaily} / ${doses} = ${answer} mg`,
         ],
       };
     }
     case 3: {
-      const weightKg = randInt(55, 110, rng);
-      const mcgPerKg = randInt(5, 50, rng);
-      const answer = parseFloat(((weightKg * mcgPerKg) / 1000).toFixed(2));
+      const mp = pickMedWithKgRange(rng);
+      const weightKg = randInt(55, 100, rng);
+      const dosePerKg = mp.mgPerKgRange![0];
+      const doseMg = parseFloat((weightKg * dosePerKg).toFixed(2));
+      const doseMcg = parseFloat((doseMg * 1000).toFixed(0));
       return {
-        statement: `Order: ${med} ${mcgPerKg} mcg/kg IV. Patient ${patient} weighs ${weightKg} kg. Available: ${med} in mg/mL. What dose in mg? (1 mg = 1000 mcg)`,
-        answer,
-        unit: "mg",
-        formula: "(Weight × mcg/kg) ÷ 1000",
+        statement: `Order: ${mp.name} ${dosePerKg} mg/kg IV. Patient ${patient} weighs ${weightKg} kg. What is the dose in mcg? (1 mg = 1000 mcg)`,
+        answer: parseFloat(doseMcg.toFixed(2)),
+        unit: "mcg",
+        formula: "Weight x mg/kg, then convert mg to mcg",
         steps: [
-          `Dose in mcg: ${weightKg} × ${mcgPerKg} = ${weightKg * mcgPerKg} mcg`,
-          `Convert to mg: ${weightKg * mcgPerKg} ÷ 1000 = ${answer} mg`,
+          `Dose in mg: ${weightKg} x ${dosePerKg} = ${doseMg} mg`,
+          `Convert to mcg: ${doseMg} x 1000 = ${doseMcg} mcg`,
         ],
       };
     }
     case 4: {
+      const mp = pickInjMed(rng);
+      const hasKgRange = mp.mgPerKgRange && mp.mgPerKgRange.length === 2;
+      const dosePerKg = hasKgRange ? mp.mgPerKgRange![0] : 0.1;
       const weightKg = randInt(60, 100, rng);
-      const dosePerKg = randFloat(1.0, 5.0, rng, 1);
       const totalMg = parseFloat((weightKg * dosePerKg).toFixed(2));
-      const concMg = randInt(50, 200, rng);
-      const concMl = randInt(1, 5, rng);
-      const answer = parseFloat(((totalMg / concMg) * concMl).toFixed(2));
+      const inj = pick(mp.injectable!, rng);
+      const answer = parseFloat(((totalMg / inj.mg) * inj.ml).toFixed(2));
+      const route = pick(mp.route.filter(r => r !== "PO"), rng);
       return {
-        statement: `Order: ${med} ${dosePerKg} mg/kg IM. Patient ${patient} weighs ${weightKg} kg. Available: ${concMg} mg/${concMl} mL. How many mL will you give?`,
+        statement: `Order: ${mp.name} ${dosePerKg} mg/kg ${route}. Patient ${patient} weighs ${weightKg} kg. Available: ${inj.mg} mg/${inj.ml} mL. How many mL will you give?`,
         answer,
         unit: "mL",
-        formula: "Dose = weight × mg/kg, then Volume = Dose ÷ Concentration × Quantity",
+        formula: "Dose = weight x mg/kg, then Volume = Dose / Concentration x Quantity",
         steps: [
-          `Dose: ${weightKg} × ${dosePerKg} = ${totalMg} mg`,
-          `Available: ${concMg} mg per ${concMl} mL`,
-          `Volume: (${totalMg} ÷ ${concMg}) × ${concMl} = ${answer} mL`,
+          `Dose: ${weightKg} x ${dosePerKg} = ${totalMg} mg`,
+          `Available: ${inj.mg} mg per ${inj.ml} mL`,
+          `Volume: (${totalMg} / ${inj.mg}) x ${inj.ml} = ${answer} mL`,
         ],
-        safetyNote: answer > 5 ? "⚠️ Volume exceeds 5 mL for a single IM site. Consider splitting the injection." : undefined,
+        safetyNote: route === "IM" && answer > 3 ? "Warning: Volume exceeds 3 mL for a single IM site. Consider splitting the injection." : undefined,
       };
     }
     case 5: {
+      const mp = pickMedWithKgRange(rng);
       const weightKg = randInt(60, 100, rng);
-      const maxDosePerKg = randFloat(2.0, 8.0, rng, 1);
-      const orderedMg = randInt(200, 1000, rng);
+      const maxDosePerKg = mp.mgPerKgRange![1];
       const maxSafe = parseFloat((weightKg * maxDosePerKg).toFixed(2));
+      const safeOrder = pick(mp.typicalOralDoses.length > 0 ? mp.typicalOralDoses : (mp.typicalInjDoses || [maxSafe]), rng);
+      const unsafeOrder = parseFloat((maxSafe * 1.5).toFixed(0));
+      const useUnsafe = rng() > 0.5;
+      const orderedMg = useUnsafe ? unsafeOrder : safeOrder;
       const isSafe = orderedMg <= maxSafe;
       return {
-        statement: `The maximum safe dose of ${med} is ${maxDosePerKg} mg/kg. Patient ${patient} weighs ${weightKg} kg. The order is for ${orderedMg} mg. What is the maximum safe dose? Is the ordered dose safe?`,
+        statement: `The maximum safe dose of ${mp.name} is ${maxDosePerKg} mg/kg. Patient ${patient} weighs ${weightKg} kg. The order is for ${orderedMg} mg. What is the maximum safe dose? Is the ordered dose safe?`,
         answer: maxSafe,
         unit: "mg (max safe dose)",
-        formula: "Max dose = Weight × max mg/kg",
+        formula: "Max dose = Weight x max mg/kg",
         steps: [
-          `Maximum safe dose: ${weightKg} × ${maxDosePerKg} = ${maxSafe} mg`,
+          `Maximum safe dose: ${weightKg} x ${maxDosePerKg} = ${maxSafe} mg`,
           `Ordered dose: ${orderedMg} mg`,
-          isSafe ? `✓ ${orderedMg} mg ≤ ${maxSafe} mg: dose is safe` : `✗ ${orderedMg} mg > ${maxSafe} mg: EXCEEDS safe dose`,
+          isSafe ? `${orderedMg} mg is within ${maxSafe} mg: dose is safe` : `${orderedMg} mg > ${maxSafe} mg: EXCEEDS safe dose`,
         ],
-        safetyNote: !isSafe ? `⚠️ DANGER: The ordered dose of ${orderedMg} mg exceeds the maximum safe dose of ${maxSafe} mg. Do NOT administer. Notify the prescriber immediately.` : undefined,
+        safetyNote: !isSafe ? `DANGER: The ordered dose of ${orderedMg} mg exceeds the maximum safe dose of ${maxSafe} mg. Do NOT administer. Notify the prescriber immediately.` : undefined,
       };
     }
     case 6: {
+      const phenytoin = medProfiles.find(m => m.name === "Phenytoin")!;
       const weightKg = randInt(50, 90, rng);
-      const loadingPerKg = randFloat(10.0, 25.0, rng, 1);
-      const maintenancePerKg = randFloat(2.0, 8.0, rng, 1);
+      const loadingPerKg = pick([15, 18, 20], rng);
+      const maintenancePerKg = pick([5, 6, 7], rng);
       const loadingDose = parseFloat((weightKg * loadingPerKg).toFixed(2));
       const maintenanceDose = parseFloat((weightKg * maintenancePerKg).toFixed(2));
       return {
-        statement: `${med}: Loading dose ${loadingPerKg} mg/kg, then maintenance ${maintenancePerKg} mg/kg q8h. Patient ${patient} weighs ${weightKg} kg. Calculate the loading dose.`,
+        statement: `${phenytoin.name}: Loading dose ${loadingPerKg} mg/kg, then maintenance ${maintenancePerKg} mg/kg/day divided q8h. Patient ${patient} weighs ${weightKg} kg. Calculate the loading dose.`,
         answer: loadingDose,
         unit: "mg",
-        formula: "Loading Dose = Weight × loading mg/kg",
+        formula: "Loading Dose = Weight x loading mg/kg",
         steps: [
-          `Loading: ${weightKg} × ${loadingPerKg} = ${loadingDose} mg`,
-          `Maintenance (for reference): ${weightKg} × ${maintenancePerKg} = ${maintenanceDose} mg q8h`,
+          `Loading: ${weightKg} x ${loadingPerKg} = ${loadingDose} mg`,
+          `Maintenance (for reference): ${weightKg} x ${maintenancePerKg} = ${maintenanceDose} mg/day`,
         ],
       };
     }
     case 7: {
       const weightKg = randInt(50, 100, rng);
-      const unitsPerKg = randInt(50, 100, rng);
+      const unitsPerKg = pick([60, 70, 80], rng);
       const answer = weightKg * unitsPerKg;
       return {
         statement: `Order: Heparin ${unitsPerKg} units/kg IV bolus. Patient ${patient} weighs ${weightKg} kg. What dose in units?`,
         answer,
         unit: "units",
-        formula: "Weight × units/kg",
+        formula: "Weight x units/kg",
         steps: [
           `Weight: ${weightKg} kg`,
-          `Dose: ${weightKg} × ${unitsPerKg} = ${answer} units`,
+          `Dose: ${weightKg} x ${unitsPerKg} = ${answer} units`,
         ],
       };
     }
     case 8: {
+      const mp = pickOralMed(rng);
+      const hasKgRange = mp.mgPerKgRange && mp.mgPerKgRange.length === 2;
+      const dosePerKg = hasKgRange ? mp.mgPerKgRange![0] : 1;
       const weightKg = randInt(55, 95, rng);
-      const dosePerKg = randFloat(0.5, 3.0, rng, 1);
       const totalMg = parseFloat((weightKg * dosePerKg).toFixed(2));
-      const tabletMg = pick([100, 200, 250, 500], rng);
+      const tabletMg = pick(mp.tabletStrengths, rng);
       const tablets = parseFloat((totalMg / tabletMg).toFixed(2));
       return {
-        statement: `Order: ${med} ${dosePerKg} mg/kg PO. Patient ${patient} weighs ${weightKg} kg. Available: ${tabletMg} mg scored tablets. How many tablets?`,
+        statement: `Order: ${mp.name} ${dosePerKg} mg/kg PO. Patient ${patient} weighs ${weightKg} kg. Available: ${tabletMg} mg scored tablets. How many tablets?`,
         answer: tablets,
         unit: "tablet(s)",
-        formula: "Dose = Weight × mg/kg, then Tablets = Dose ÷ tablet strength",
+        formula: "Dose = Weight x mg/kg, then Tablets = Dose / tablet strength",
         steps: [
-          `Dose: ${weightKg} × ${dosePerKg} = ${totalMg} mg`,
-          `Tablets: ${totalMg} ÷ ${tabletMg} = ${tablets}`,
+          `Dose: ${weightKg} x ${dosePerKg} = ${totalMg} mg`,
+          `Tablets: ${totalMg} / ${tabletMg} = ${tablets}`,
         ],
       };
     }
     default: {
-      const weightKg = randInt(60, 110, rng);
-      const dosePerKg = randFloat(1.0, 10.0, rng, 1);
+      const mp = pickMedWithKgRange(rng);
+      const weightKg = randInt(60, 100, rng);
+      const dosePerKg = mp.mgPerKgRange![0];
       const answer = parseFloat((weightKg * dosePerKg).toFixed(2));
       return {
-        statement: `Calculate the weight-based dose: ${med} ${dosePerKg} mg/kg for patient ${patient} weighing ${weightKg} kg.`,
+        statement: `Calculate the weight-based dose: ${mp.name} ${dosePerKg} mg/kg for patient ${patient} weighing ${weightKg} kg.`,
         answer,
         unit: "mg",
-        formula: "Weight × mg/kg",
-        steps: [`${weightKg} × ${dosePerKg} = ${answer} mg`],
+        formula: "Weight x mg/kg",
+        steps: [`${weightKg} x ${dosePerKg} = ${answer} mg`],
       };
     }
   }
@@ -879,48 +920,55 @@ function generateInfusionProblem(seed: number): Problem {
   }
 }
 
+function pickPedsMed(rng: () => number): PedsMedProfile {
+  return pick(pedsMedProfiles, rng);
+}
+
 function generatePediatricProblem(seed: number): Problem {
   const rng = seededRandom(seed);
   const template = randInt(0, 9, rng);
-  const med = pick(pedsMeds, rng);
   const patient = pick(patientNames, rng);
 
   switch (template) {
     case 0: {
-      const weightKg = randFloat(3.0, 30.0, rng, 1);
-      const dosePerKg = randFloat(5.0, 25.0, rng, 1);
-      const answer = parseFloat((weightKg * dosePerKg).toFixed(2));
-      const maxSafe = parseFloat((weightKg * 30).toFixed(2));
+      const pm = pickPedsMed(rng);
+      const weightKg = randFloat(5.0, 25.0, rng, 1);
+      const dosePerKg = pick([pm.mgPerKgPerDose[0], pm.mgPerKgPerDose[1]], rng);
+      const rawAnswer = weightKg * dosePerKg;
+      const answer = parseFloat(Math.min(rawAnswer, pm.maxSingleDose).toFixed(2));
       return {
-        statement: `Pediatric patient ${patient}, ${weightKg} kg. Order: ${med} ${dosePerKg} mg/kg/dose PO. Calculate the single dose in mg.`,
+        statement: `Pediatric patient ${patient}, ${weightKg} kg. Order: ${pm.name} ${dosePerKg} mg/kg/dose PO. Max single dose: ${pm.maxSingleDose} mg. Calculate the single dose in mg.`,
         answer,
         unit: "mg",
-        formula: "Weight (kg) × mg/kg",
+        formula: "Weight (kg) x mg/kg (cap at max single dose)",
         steps: [
           `Weight: ${weightKg} kg`,
-          `Dose: ${weightKg} × ${dosePerKg} = ${answer} mg`,
+          `Dose: ${weightKg} x ${dosePerKg} = ${parseFloat(rawAnswer.toFixed(2))} mg`,
+          rawAnswer > pm.maxSingleDose
+            ? `Exceeds max single dose of ${pm.maxSingleDose} mg, cap at ${pm.maxSingleDose} mg`
+            : `Within max single dose of ${pm.maxSingleDose} mg`,
         ],
-        safetyNote: answer > maxSafe ? `⚠️ This dose (${answer} mg) may exceed typical pediatric limits. Always verify with a pediatric drug reference.` : undefined,
+        safetyNote: rawAnswer > pm.maxSingleDose ? `Warning: Calculated dose (${parseFloat(rawAnswer.toFixed(2))} mg) exceeds the maximum single dose of ${pm.maxSingleDose} mg. Cap at ${pm.maxSingleDose} mg.` : undefined,
       };
     }
     case 1: {
+      const pm = pickPedsMed(rng);
       const weightKg = randFloat(5.0, 25.0, rng, 1);
-      const dosePerKg = randFloat(10.0, 40.0, rng, 1);
-      const totalDaily = parseFloat((weightKg * dosePerKg).toFixed(2));
-      const doses = pick([2, 3], rng);
-      const perDose = parseFloat((totalDaily / doses).toFixed(2));
-      const suspMg = pick([125, 200, 250], rng);
-      const suspMl = 5;
-      const answer = parseFloat(((perDose / suspMg) * suspMl).toFixed(2));
+      const dosePerKgDay = pm.mgPerKgPerDose[1] * 2;
+      const totalDaily = parseFloat((weightKg * dosePerKgDay).toFixed(2));
+      const doses = pick(pm.typicalDivisions, rng);
+      const perDose = parseFloat(Math.min(totalDaily / doses, pm.maxSingleDose).toFixed(2));
+      const susp = pick(pm.suspensions, rng);
+      const answer = parseFloat(((perDose / susp.mg) * susp.ml).toFixed(2));
       return {
-        statement: `Child ${patient}, ${weightKg} kg. Order: ${med} ${dosePerKg} mg/kg/day divided q${24 / doses}h. Available: ${suspMg} mg/${suspMl} mL suspension. How many mL per dose?`,
+        statement: `Child ${patient}, ${weightKg} kg. Order: ${pm.name} ${dosePerKgDay} mg/kg/day divided q${Math.round(24 / doses)}h. Available: ${susp.mg} mg/${susp.ml} mL suspension. How many mL per dose?`,
         answer,
         unit: "mL per dose",
-        formula: "Daily dose ÷ doses = per dose, then (dose ÷ concentration) × volume",
+        formula: "Daily dose / doses = per dose, then (dose / concentration) x volume",
         steps: [
-          `Daily: ${weightKg} × ${dosePerKg} = ${totalDaily} mg/day`,
-          `Per dose: ${totalDaily} ÷ ${doses} = ${perDose} mg`,
-          `Volume: (${perDose} ÷ ${suspMg}) × ${suspMl} = ${answer} mL`,
+          `Daily: ${weightKg} x ${dosePerKgDay} = ${totalDaily} mg/day`,
+          `Per dose: ${totalDaily} / ${doses} = ${perDose} mg`,
+          `Volume: (${perDose} / ${susp.mg}) x ${susp.ml} = ${answer} mL`,
         ],
       };
     }
@@ -928,71 +976,73 @@ function generatePediatricProblem(seed: number): Problem {
       const weightKg = randFloat(3.0, 10.0, rng, 1);
       const heightCm = randInt(45, 80, rng);
       const bsa = parseFloat(Math.sqrt((heightCm * weightKg) / 3600).toFixed(2));
-      const dosePerBsa = randInt(50, 200, rng);
+      const dosePerBsa = pick([75, 100, 150], rng);
+      const pm = pickPedsMed(rng);
       const answer = parseFloat((bsa * dosePerBsa).toFixed(2));
       return {
-        statement: `Pediatric patient ${patient}: weight ${weightKg} kg, height ${heightCm} cm. Order: ${med} ${dosePerBsa} mg/m². BSA formula: √(height cm × weight kg ÷ 3600). Calculate the dose.`,
+        statement: `Pediatric patient ${patient}: weight ${weightKg} kg, height ${heightCm} cm. Order: ${pm.name} ${dosePerBsa} mg/m2. BSA formula: sqrt(height cm x weight kg / 3600). Calculate the dose.`,
         answer,
         unit: "mg",
-        formula: "BSA = √(H × W ÷ 3600), then Dose = BSA × mg/m²",
+        formula: "BSA = sqrt(H x W / 3600), then Dose = BSA x mg/m2",
         steps: [
-          `BSA: √(${heightCm} × ${weightKg} ÷ 3600) = √${((heightCm * weightKg) / 3600).toFixed(4)} = ${bsa} m²`,
-          `Dose: ${bsa} × ${dosePerBsa} = ${answer} mg`,
+          `BSA: sqrt(${heightCm} x ${weightKg} / 3600) = sqrt(${((heightCm * weightKg) / 3600).toFixed(4)}) = ${bsa} m2`,
+          `Dose: ${bsa} x ${dosePerBsa} = ${answer} mg`,
         ],
       };
     }
     case 3: {
+      const apap = pedsMedProfiles.find(m => m.name === "Acetaminophen")!;
       const weightKg = randFloat(8.0, 35.0, rng, 1);
       const mgPerKg = 15;
-      const answer = parseFloat((weightKg * mgPerKg).toFixed(2));
-      const maxSingle = 1000;
+      const rawAnswer = parseFloat((weightKg * mgPerKg).toFixed(2));
+      const answer = Math.min(rawAnswer, apap.maxSingleDose);
       return {
-        statement: `Child ${patient} weighs ${weightKg} kg and has a fever. Order: Acetaminophen 15 mg/kg PO. Max single dose: 1000 mg. Calculate the dose. Is it within the safe limit?`,
-        answer: Math.min(answer, maxSingle),
+        statement: `Child ${patient} weighs ${weightKg} kg and has a fever. Order: Acetaminophen 15 mg/kg PO. Max single dose: ${apap.maxSingleDose} mg. Calculate the dose. Is it within the safe limit?`,
+        answer,
         unit: "mg",
-        formula: "Weight × 15 mg/kg (cap at 1000 mg)",
+        formula: "Weight x 15 mg/kg (cap at max single dose)",
         steps: [
-          `Dose: ${weightKg} × 15 = ${answer} mg`,
-          answer > maxSingle
-            ? `${answer} mg exceeds max of ${maxSingle} mg → give ${maxSingle} mg`
-            : `${answer} mg is within the max of ${maxSingle} mg ✓`,
+          `Dose: ${weightKg} x 15 = ${rawAnswer} mg`,
+          rawAnswer > apap.maxSingleDose
+            ? `${rawAnswer} mg exceeds max of ${apap.maxSingleDose} mg, give ${apap.maxSingleDose} mg`
+            : `${rawAnswer} mg is within the max of ${apap.maxSingleDose} mg`,
         ],
-        safetyNote: answer > maxSingle ? `⚠️ Calculated dose (${answer} mg) exceeds the maximum single dose of ${maxSingle} mg. Cap at ${maxSingle} mg.` : undefined,
+        safetyNote: rawAnswer > apap.maxSingleDose ? `Warning: Calculated dose (${rawAnswer} mg) exceeds the maximum single dose of ${apap.maxSingleDose} mg. Cap at ${apap.maxSingleDose} mg.` : undefined,
       };
     }
     case 4: {
+      const pm = pickPedsMed(rng);
       const ageYrs = randInt(1, 10, rng);
-      const weightKg = randFloat(8.0, 35.0, rng, 1);
-      const dosePerKg = randFloat(5.0, 15.0, rng, 1);
-      const totalMg = parseFloat((weightKg * dosePerKg).toFixed(2));
-      const suspMg = pick([100, 125, 200, 250], rng);
-      const suspMl = 5;
-      const answer = parseFloat(((totalMg / suspMg) * suspMl).toFixed(2));
+      const weightKg = randFloat(8.0, 30.0, rng, 1);
+      const dosePerKg = pm.mgPerKgPerDose[0];
+      const totalMg = parseFloat(Math.min(weightKg * dosePerKg, pm.maxSingleDose).toFixed(2));
+      const susp = pick(pm.suspensions, rng);
+      const answer = parseFloat(((totalMg / susp.mg) * susp.ml).toFixed(2));
       return {
-        statement: `${ageYrs}-year-old child ${patient}, ${weightKg} kg. Order: ${med} ${dosePerKg} mg/kg. Available: ${suspMg} mg/${suspMl} mL. How many mL to administer?`,
+        statement: `${ageYrs}-year-old child ${patient}, ${weightKg} kg. Order: ${pm.name} ${dosePerKg} mg/kg. Available: ${susp.mg} mg/${susp.ml} mL. How many mL to administer?`,
         answer,
         unit: "mL",
-        formula: "(Weight × mg/kg) ÷ concentration × volume",
+        formula: "(Weight x mg/kg) / concentration x volume",
         steps: [
-          `Dose: ${weightKg} × ${dosePerKg} = ${totalMg} mg`,
-          `Volume: (${totalMg} ÷ ${suspMg}) × ${suspMl} = ${answer} mL`,
+          `Dose: ${weightKg} x ${dosePerKg} = ${totalMg} mg`,
+          `Volume: (${totalMg} / ${susp.mg}) x ${susp.ml} = ${answer} mL`,
         ],
       };
     }
     case 5: {
       const weightKg = randFloat(2.5, 5.0, rng, 1);
-      const mlPerKgPerHr = randInt(2, 4, rng);
+      const mlPerKgPerHr = pick([2, 3, 4], rng);
       const answer = parseFloat((weightKg * mlPerKgPerHr).toFixed(2));
       return {
         statement: `Neonate ${patient} weighs ${weightKg} kg. Maintenance IV fluid rate: ${mlPerKgPerHr} mL/kg/hr. Calculate the IV rate in mL/hr.`,
         answer,
         unit: "mL/hr",
-        formula: "Weight × mL/kg/hr",
+        formula: "Weight x mL/kg/hr",
         steps: [
           `Weight: ${weightKg} kg`,
-          `Rate: ${weightKg} × ${mlPerKgPerHr} = ${answer} mL/hr`,
+          `Rate: ${weightKg} x ${mlPerKgPerHr} = ${answer} mL/hr`,
         ],
-        safetyNote: "⚠️ Neonatal fluid rates require precise calculation. Always use a volumetric infusion pump.",
+        safetyNote: "Warning: Neonatal fluid rates require precise calculation. Always use a volumetric infusion pump.",
       };
     }
     case 6: {
@@ -1006,62 +1056,84 @@ function generatePediatricProblem(seed: number): Problem {
         statement: `Calculate 24-hour maintenance IV fluids for child ${patient} weighing ${weightKg} kg using the Holliday-Segar method (100 mL/kg for first 10 kg, 50 mL/kg for next 10 kg, 20 mL/kg over 20 kg). What is the hourly rate?`,
         answer,
         unit: "mL/hr",
-        formula: "Holliday-Segar: 100/50/20 rule, then ÷ 24",
+        formula: "Holliday-Segar: 100/50/20 rule, then / 24",
         steps: [
-          `First 10 kg: 10 × 100 = ${first10} mL`,
-          weightKg > 10 ? `Next ${Math.min(weightKg - 10, 10).toFixed(1)} kg: ${Math.min(weightKg - 10, 10).toFixed(1)} × 50 = ${next10.toFixed(0)} mL` : "No additional weight above 10 kg",
-          weightKg > 20 ? `Over 20 kg: ${(weightKg - 20).toFixed(1)} × 20 = ${over20.toFixed(0)} mL` : "",
+          `First 10 kg: 10 x 100 = ${first10} mL`,
+          weightKg > 10 ? `Next ${Math.min(weightKg - 10, 10).toFixed(1)} kg: ${Math.min(weightKg - 10, 10).toFixed(1)} x 50 = ${next10.toFixed(0)} mL` : "No additional weight above 10 kg",
+          weightKg > 20 ? `Over 20 kg: ${(weightKg - 20).toFixed(1)} x 20 = ${over20.toFixed(0)} mL` : "",
           `Total daily: ${dailyMl} mL/day`,
-          `Hourly: ${dailyMl} ÷ 24 = ${answer} mL/hr`,
+          `Hourly: ${dailyMl} / 24 = ${answer} mL/hr`,
         ].filter(Boolean),
       };
     }
     case 7: {
+      const pm = pickPedsMed(rng);
+      const hasInj = pm.injectable && pm.injectable.length > 0;
       const weightKg = randFloat(4.0, 20.0, rng, 1);
-      const dosePerKg = randFloat(0.5, 2.0, rng, 1);
-      const totalMg = parseFloat((weightKg * dosePerKg).toFixed(2));
-      const concMg = randInt(2, 10, rng);
-      const concMl = 1;
-      const answer = parseFloat(((totalMg / concMg) * concMl).toFixed(2));
+      const dosePerKg = pm.mgPerKgPerDose[0];
+      const totalMg = parseFloat(Math.min(weightKg * dosePerKg, pm.maxSingleDose).toFixed(2));
+      if (hasInj) {
+        const inj = pick(pm.injectable!, rng);
+        const concPerMl = parseFloat((inj.mg / inj.ml).toFixed(2));
+        const answer = parseFloat((totalMg / concPerMl).toFixed(2));
+        return {
+          statement: `Infant ${patient}, ${weightKg} kg. Order: ${pm.name} ${dosePerKg} mg/kg IV. Available: ${concPerMl} mg/mL. How many mL to administer?`,
+          answer,
+          unit: "mL",
+          formula: "(Weight x mg/kg) / concentration",
+          steps: [
+            `Dose: ${weightKg} x ${dosePerKg} = ${totalMg} mg`,
+            `Volume: ${totalMg} / ${concPerMl} = ${answer} mL`,
+          ],
+        };
+      }
+      const susp = pick(pm.suspensions, rng);
+      const answer = parseFloat(((totalMg / susp.mg) * susp.ml).toFixed(2));
       return {
-        statement: `Infant ${patient}, ${weightKg} kg. Order: ${med} ${dosePerKg} mg/kg IV. Available: ${concMg} mg/mL. How many mL to administer?`,
+        statement: `Infant ${patient}, ${weightKg} kg. Order: ${pm.name} ${dosePerKg} mg/kg PO. Available: ${susp.mg} mg/${susp.ml} mL. How many mL to administer?`,
         answer,
         unit: "mL",
-        formula: "(Weight × mg/kg) ÷ concentration",
+        formula: "(Weight x mg/kg) / concentration x volume",
         steps: [
-          `Dose: ${weightKg} × ${dosePerKg} = ${totalMg} mg`,
-          `Volume: ${totalMg} ÷ ${concMg} = ${answer} mL`,
+          `Dose: ${weightKg} x ${dosePerKg} = ${totalMg} mg`,
+          `Volume: (${totalMg} / ${susp.mg}) x ${susp.ml} = ${answer} mL`,
         ],
       };
     }
     case 8: {
+      const pm = pickPedsMed(rng);
       const weightKg = randFloat(3.0, 8.0, rng, 1);
-      const mgPerKg = randFloat(1.0, 5.0, rng, 1);
+      const mgPerKg = pm.mgPerKgPerDose[0];
       const totalMg = parseFloat((weightKg * mgPerKg).toFixed(2));
-      const doses = pick([2, 3, 4], rng);
+      const doses = pick(pm.typicalDivisions, rng);
       const perDose = parseFloat((totalMg / doses).toFixed(2));
       return {
-        statement: `Neonate ${patient}, ${weightKg} kg. Order: ${med} ${mgPerKg} mg/kg/day divided into ${doses} doses. Calculate each individual dose.`,
+        statement: `Neonate ${patient}, ${weightKg} kg. Order: ${pm.name} ${mgPerKg} mg/kg/day divided into ${doses} doses. Calculate each individual dose.`,
         answer: perDose,
         unit: "mg per dose",
-        formula: "(Weight × mg/kg/day) ÷ number of doses",
+        formula: "(Weight x mg/kg/day) / number of doses",
         steps: [
-          `Daily dose: ${weightKg} × ${mgPerKg} = ${totalMg} mg`,
-          `Per dose: ${totalMg} ÷ ${doses} = ${perDose} mg`,
+          `Daily dose: ${weightKg} x ${mgPerKg} = ${totalMg} mg`,
+          `Per dose: ${totalMg} / ${doses} = ${perDose} mg`,
         ],
-        safetyNote: "⚠️ Neonatal doses are very small. Use a syringe pump and verify calculations with a second nurse.",
+        safetyNote: "Warning: Neonatal doses are very small. Use a syringe pump and verify calculations with a second nurse.",
       };
     }
     default: {
+      const pm = pickPedsMed(rng);
       const weightKg = randFloat(5.0, 30.0, rng, 1);
-      const mgPerKg = randFloat(5.0, 15.0, rng, 1);
-      const answer = parseFloat((weightKg * mgPerKg).toFixed(2));
+      const mgPerKg = pm.mgPerKgPerDose[0];
+      const rawAnswer = parseFloat((weightKg * mgPerKg).toFixed(2));
+      const answer = parseFloat(Math.min(rawAnswer, pm.maxSingleDose).toFixed(2));
       return {
-        statement: `Pediatric dose calculation: ${med} ${mgPerKg} mg/kg for patient ${patient} weighing ${weightKg} kg.`,
+        statement: `Pediatric dose calculation: ${pm.name} ${mgPerKg} mg/kg for patient ${patient} weighing ${weightKg} kg. Max single dose: ${pm.maxSingleDose} mg.`,
         answer,
         unit: "mg",
-        formula: "Weight × mg/kg",
-        steps: [`${weightKg} × ${mgPerKg} = ${answer} mg`],
+        formula: "Weight x mg/kg (cap at max)",
+        steps: [
+          `${weightKg} x ${mgPerKg} = ${rawAnswer} mg`,
+          rawAnswer > pm.maxSingleDose ? `Cap at max: ${pm.maxSingleDose} mg` : `Within max single dose`,
+        ],
       };
     }
   }
