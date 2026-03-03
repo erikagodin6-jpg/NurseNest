@@ -1,0 +1,337 @@
+6-MONTH EXECUTION CALENDAR (ALLIED HEALTH EXPANSION)
+
+Month 1
+Build Pharmacy Tech Core Hub
+
+20 core lessons
+
+Readiness exam
+
+1 official mock
+
+Test bank 500 questions
+
+Flashcard engine
+
+Month 2
+Add monetization layer
+
+Subscription tiers
+
+Mock credit system
+
+Pricing page
+
+Conversion funnel
+
+Month 3
+Launch RRT Hub
+
+20 lessons
+
+2 mock exams
+
+500 question bank
+
+ABG simulation module
+
+Month 4
+Launch Paramedic Hub
+
+Trauma modules
+
+2 mock exams
+
+600 question bank
+
+Scenario simulator
+
+Month 5
+Launch MLT Hub
+
+Lab interpretation modules
+
+2 mock exams
+
+500 question bank
+
+Month 6
+Launch Imaging Hub
+
+Radiation safety modules
+
+2 mock exams
+
+500 question bank
+
+After Month 6
+Add advanced simulation packs and specialty expansions.
+
+REVENUE MODEL FRAMEWORK
+
+Conservative Model:
+
+If:
+200 Pharmacy Tech subscribers at $29 monthly
+= $5,800/month
+
+Add:
+100 RRT at $39
+= $3,900/month
+
+Add:
+80 Paramedic at $39
+= $3,120/month
+
+Total ≈ $12,820/month recurring
+
+Mock credits can add 20–30% additional revenue.
+
+This scales.
+
+CONTENT AUTOMATION PIPELINE PROMPT
+
+Use this for every allied career:
+
+You are generating structured Allied Health educational content.
+
+For each topic:
+
+1. 1500+ word lesson
+2. 25 exam-level questions
+3. 10 flashcards
+4. 1 case-based scenario
+5. 5 NGN-style multiple response questions (if applicable)
+6. Include rationales minimum 250 words each
+7. Tag by domain
+8. Assign difficulty level (easy, moderate, difficult)
+
+Ensure:
+- Blueprint alignment
+- Safety emphasis
+- Escalation logic
+- Mechanism explanation
+- No repetition
+
+NOW — EXAM STRUCTURE PROMPTS PER ALLIED CAREER
+
+We will structure:
+
+• Question types
+• Mock exam design
+• Pass criteria logic
+• Question-writing prompts
+• Flashcard conversion prompts
+
+PHARMACY TECH EXAM PROMPT
+
+You are designing Pharmacy Technician certification exam preparation.
+
+QUESTION TYPES:
+- Multiple choice (single best answer)
+- Multiple response
+- Calculation-based (dosage math)
+- Case-based medication safety scenarios
+
+MOCK EXAM STRUCTURE:
+- 90 questions
+- Blueprint weighted:
+  Medication Safety 30%
+  Pharmacology 25%
+  Compounding 15%
+  Calculations 15%
+  Law & Documentation 15%
+
+PASS CRITERIA:
+- Overall ≥ 70%
+- No domain below 60%
+
+READINESS EXAM:
+- 30 questions
+- Domain exposure sampling
+
+QUESTION WRITING RULES:
+- Clinical relevance
+- Medication error traps
+- High-alert medication emphasis
+- Dosage calculation accuracy
+- Controlled substance regulations
+
+FLASHCARD PROMPT:
+Convert each test bank question into:
+Front: concept or medication
+Back: mechanism, safety risk, and key exam trap
+Tag by domain and difficulty.
+
+RESPIRATORY THERAPIST (RRT) EXAM PROMPT
+
+You are designing Respiratory Therapist certification exam preparation.
+
+QUESTION TYPES:
+- Multiple choice
+- ABG interpretation
+- Ventilator scenario analysis
+- Oxygen therapy case questions
+
+MOCK EXAM STRUCTURE:
+- 100 questions
+- Blueprint:
+  Gas Exchange 30%
+  Mechanical Ventilation 25%
+  ABGs 20%
+  Cardiopulmonary Physiology 15%
+  Patient Safety 10%
+
+PASS CRITERIA:
+- Overall ≥ 68%
+- Minimum domain competency 60%
+
+READINESS:
+- 40 question sampling
+
+QUESTION RULES:
+- Include ABG values
+- Include ventilator settings
+- Include oxygen delivery comparisons
+- Include clinical deterioration timing
+
+FLASHCARD PROMPT:
+Front: ABG scenario or ventilator mode
+Back: Interpretation, compensation logic, safety concern.
+
+PARAMEDIC EXAM PROMPT
+
+You are designing Paramedic certification exam preparation.
+
+QUESTION TYPES:
+- Trauma algorithm
+- ECG rhythm identification
+- Medication dosage calculation
+- Multi-step scenario progression
+
+MOCK EXAM:
+- 120 questions
+- Blueprint:
+  Trauma 25%
+  Cardiac Emergencies 25%
+  Medical Emergencies 20%
+  Pharmacology 15%
+  OB/Pediatrics 15%
+
+PASS CRITERIA:
+- Overall ≥ 70%
+- Trauma + Cardiac minimum 65%
+
+READINESS:
+- 40 questions
+
+QUESTION RULES:
+- Emphasize field triage
+- Prioritization decisions
+- Medication dosing
+- Airway management
+
+FLASHCARD PROMPT:
+Front: Emergency scenario trigger
+Back: Immediate first action + rationale.
+
+MLT EXAM PROMPT
+
+You are designing Medical Laboratory Technologist certification prep.
+
+QUESTION TYPES:
+- Lab value interpretation
+- Case-based lab error detection
+- Coagulation pathway logic
+- Quality control scenarios
+
+MOCK EXAM:
+- 100 questions
+- Blueprint:
+  Hematology 25%
+  Microbiology 20%
+  Clinical Chemistry 20%
+  Coagulation 15%
+  Quality & Safety 20%
+
+PASS CRITERIA:
+- Overall ≥ 70%
+- No domain below 60%
+
+QUESTION RULES:
+- Include specimen handling errors
+- Include critical value logic
+- Include reference range traps
+
+FLASHCARD PROMPT:
+Front: Lab abnormality
+Back: Pathophysiology + possible causes + safety note.
+
+IMAGING EXAM PROMPT
+
+You are designing Diagnostic Imaging certification prep.
+
+QUESTION TYPES:
+- Radiation safety calculation
+- Contrast reaction case
+- Positioning identification
+- Cross-sectional anatomy recognition
+
+MOCK EXAM:
+- 100 questions
+- Blueprint:
+  Radiation Safety 30%
+  Imaging Techniques 25%
+  Anatomy 20%
+  Patient Care 15%
+  Emergency Imaging 10%
+
+PASS CRITERIA:
+- Overall ≥ 70%
+- Radiation domain ≥ 65%
+
+FLASHCARD PROMPT:
+Front: Imaging scenario
+Back: Correct positioning + safety consideration.
+
+GLOBAL TEST BANK MASTER PROMPT
+
+You are generating a comprehensive Allied Health test bank.
+
+For each career:
+
+- 1000 questions minimum
+- Difficulty distribution:
+  40% moderate
+  30% easy
+  30% difficult
+- Include:
+  20% case-based
+  10% calculation
+  15% safety-critical
+
+Each question must include:
+- Domain tag
+- Difficulty tag
+- Correct answer
+- 300+ word rationale
+- Exam trap explanation
+
+Then auto-generate flashcards:
+- Key concept cards
+- Safety warning cards
+- Calculation formula cards
+
+MOCK EXAM REALISM PROMPT
+
+You are implementing Real Exam Mode for Allied Health.
+
+Requirements:
+- No question count selection
+- Timed mode
+- Domain-weighted selection
+- Pass/fail display only
+- Domain performance bands
+- Remediation plan generation
+- Seed-based deterministic selection
+- Stop rule logic if adaptive
