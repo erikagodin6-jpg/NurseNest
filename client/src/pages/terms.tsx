@@ -3,10 +3,12 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { SEO } from "@/components/seo";
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="terms-page">
+      <SEO title="Terms of Service - NurseNest" description="NurseNest terms of service. Review the terms and conditions for using our nursing education platform." canonicalPath="/terms" />
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <BreadcrumbNav />

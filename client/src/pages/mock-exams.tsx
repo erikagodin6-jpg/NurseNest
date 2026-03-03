@@ -128,7 +128,7 @@ export default function MockExamsPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-      <SEO title="Mock Exams - NurseNest" description="Practice with realistic nursing exam simulations. Timed mock exams with detailed post-exam reporting." />
+      <SEO title="Mock Exams - NurseNest" description="Practice with realistic nursing exam simulations. Timed mock exams with detailed post-exam reporting." canonicalPath="/mock-exams" />
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">

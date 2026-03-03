@@ -3,10 +3,12 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { SEO } from "@/components/seo";
 
 export default function DisclaimerPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="disclaimer-page">
+      <SEO title="Disclaimer - NurseNest" description="Important disclaimers about NurseNest educational content and services." canonicalPath="/disclaimer" />
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <BreadcrumbNav />

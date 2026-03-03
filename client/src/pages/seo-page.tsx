@@ -126,7 +126,7 @@ export default function SeoPage() {
   return (
     <>
       <Navigation />
-      <SEO title={page.metaTitle || page.title} description={page.metaDescription || ""} />
+      <SEO title={page.metaTitle || page.title} description={page.metaDescription || ""} canonicalPath={`/study-guide/${page.slug}`} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />

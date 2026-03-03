@@ -1137,7 +1137,7 @@ export default function PreNursingPage() {
     const cContent = (cMod.content || {}) as { paragraphs?: string[] };
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
-        <SEO title={`Pre-Nursing: ${cMod.title} | NurseNest`} description={cMod.description || "Custom pre-nursing module"} />
+        <SEO title={`Pre-Nursing: ${cMod.title} | NurseNest`} description={cMod.description || "Custom pre-nursing module"} canonicalPath="/pre-nursing" />
         <Navigation />
         <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
           <div className="flex items-center justify-between mb-6">
@@ -1210,7 +1210,7 @@ export default function PreNursingPage() {
     const mc = moduleComponents[activeModule];
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
-        <SEO title={`Pre-Nursing: ${activeModuleData ? t(activeModuleData.titleKey) : ''} | NurseNest`} description="Free pre-nursing foundations modules" />
+        <SEO title={`Pre-Nursing: ${activeModuleData ? t(activeModuleData.titleKey) : ''} | NurseNest`} description="Free pre-nursing foundations modules" canonicalPath="/pre-nursing" />
         <Navigation />
         <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
           <div className="flex items-center justify-between mb-6">
@@ -1340,6 +1340,7 @@ export default function PreNursingPage() {
         title="Pre-Nursing Foundations: Free Interactive Learning | NurseNest"
         description="Master essential nursing foundations before school: cell biology, physiology, medical terminology, pharmacology basics, and pathophysiology logic. Free interactive modules."
         keywords="pre-nursing, nursing foundations, cell biology nursing, medical terminology, pharmacology basics, pathophysiology intro, free nursing study"
+        canonicalPath="/pre-nursing"
       />
       <Navigation />
       <main className="flex-grow">

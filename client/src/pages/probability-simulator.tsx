@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";

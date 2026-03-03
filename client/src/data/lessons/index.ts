@@ -436,5 +436,20 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   generatedBatch103Lessons,
 );
 
+const TIER_SUFFIXES = ["-rpn", "-rn", "-np", "-basics-rpn", "-basics-rn", "-basics-np", "-advanced-np", "-management-np", "-basics", "-core"];
+
+for (const [id, lesson] of Object.entries(contentMap)) {
+  if (!isPlaceholder(lesson)) continue;
+  for (const suffix of TIER_SUFFIXES) {
+    if (!id.endsWith(suffix)) continue;
+    const baseId = id.slice(0, -suffix.length);
+    const baseLesson = contentMap[baseId];
+    if (baseLesson && !isPlaceholder(baseLesson)) {
+      contentMap[id] = baseLesson;
+      break;
+    }
+  }
+}
+
 export const lessonCount = Object.keys(contentMap).length;
 export const questionCount = countQuestions(contentMap);

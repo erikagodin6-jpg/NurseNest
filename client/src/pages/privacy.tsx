@@ -3,10 +3,12 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { SEO } from "@/components/seo";
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="privacy-page">
+      <SEO title="Privacy Policy - NurseNest" description="NurseNest privacy policy. Learn how we collect, use, and protect your personal information." canonicalPath="/privacy" />
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <BreadcrumbNav />

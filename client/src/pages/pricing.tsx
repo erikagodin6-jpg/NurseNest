@@ -6,6 +6,7 @@ import { Navigation } from "@/components/navigation";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -227,6 +228,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+      <SEO title="Pricing - NurseNest" description="Affordable nursing exam prep plans for RPN, RN, and NP students. Start free or upgrade for full access to lessons, flashcards, and simulations." canonicalPath="/pricing" />
       <Navigation />
       <main className="flex-1 px-4 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto">

@@ -1,6 +1,7 @@
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRoute, useLocation } from "wouter";
+import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card, CardContent } from "@/components/ui/card";
