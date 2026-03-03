@@ -63,6 +63,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 const Home = lazy(() => import("@/pages/home"));
 import { UpgradePrompt } from "@/components/upgrade-prompt";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
+import { ExitIntentModal } from "@/components/exit-intent-modal";
 import AnalyticsTracker from "@/components/analytics-tracker";
 import { usePageTracker } from "@/hooks/use-page-tracker";
 
@@ -134,6 +135,7 @@ const QBankFactoryPage = lazy(() => import("@/pages/qbank-factory"));
 const AccountLibraryPage = lazy(() => import("@/pages/account-library"));
 const AdminTrustShowcase = lazy(() => import("@/pages/admin-trust-showcase"));
 const FreePracticePage = lazy(() => import("@/pages/free-practice"));
+const PracticeQuestionsPage = lazy(() => import("@/pages/practice-questions"));
 const SubscribePage = lazy(() => import("@/pages/subscribe"));
 const OnboardingPlanPage = lazy(() => import("@/pages/onboarding-plan"));
 const StudyPlanPage = lazy(() => import("@/pages/study-plan"));
@@ -141,6 +143,7 @@ const NclexRnPracticePage = lazy(() => import("@/pages/exam-practice-landing").t
 const NclexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NclexPnPractice })));
 const RexPnPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.RexPnPractice })));
 const NpExamPracticePage = lazy(() => import("@/pages/exam-practice-landing").then(m => ({ default: m.NpExamPractice })));
+const GlossaryPage = lazy(() => import("@/pages/glossary"));
 const CareerAISimulator = lazy(() => import("@/pages/career-tools/career-ai-simulator"));
 const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 
@@ -347,6 +350,8 @@ function AppRoutes() {
         <Route path="/contact" component={ContactPage} />
         <Route path="/feedback" component={FeedbackPage} />
         <Route path="/free-practice" component={FreePracticePage} />
+        <Route path="/practice-questions/:tier/:system" component={PracticeQuestionsPage} />
+        <Route path="/practice-questions" component={PracticeQuestionsPage} />
         <Route path="/subscribe/:tier" component={SubscribePage} />
         <Route path="/onboarding/plan" component={OnboardingPlanPage} />
         <Route path="/study-plan" component={StudyPlanPage} />
@@ -354,6 +359,8 @@ function AppRoutes() {
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />
         <Route path="/np-exam-practice-questions" component={NpExamPracticePage} />
+        <Route path="/glossary/:term" component={GlossaryPage} />
+        <Route path="/glossary" component={GlossaryPage} />
 
         {/* Career-namespaced routes: /rrt/*, /paramedic/*, /pharmacy-tech/*, /mlt/*, /imaging/* */}
         <Route path="/rrt/question-bank" component={QuestionBank} />
@@ -638,6 +645,7 @@ function App() {
                   <LocaleRouter />
                   <UpgradePrompt />
                   <PWAInstallPrompt />
+                  <ExitIntentModal />
                 </TooltipProvider>
               </SiteImagesProvider>
               </CareerProvider>

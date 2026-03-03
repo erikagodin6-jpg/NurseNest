@@ -1,9 +1,10 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -11,7 +12,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAuth } from "@/lib/auth";
 import {
   ArrowLeft, Trophy, Target, AlertTriangle, BarChart3, Clock,
-  CheckCircle2, XCircle, ChevronDown, ChevronUp, Flag, BookOpen
+  CheckCircle2, XCircle, ChevronDown, ChevronUp, Flag, BookOpen,
+  Share2, Download, Copy
 } from "lucide-react";
 
 function getAuthHeaders(): Record<string, string> {
@@ -58,6 +60,8 @@ function ScoreRing({ percentage, size = 120 }: { percentage: number; size?: numb
 export default function MockExamReport() {
   const { id: attemptId } = useParams();
   const { user } = useAuth();
+  const { toast } = useToast();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [exam, setExam] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<any[]>([]);
@@ -124,6 +128,164 @@ export default function MockExamReport() {
     if (reviewFilter === "flagged") return flaggedIds.includes(q.id);
     return true;
   });
+
+  const topSystems = [...breakdown]
+    .sort((a: any, b: any) => (b.percentage || 0) - (a.percentage || 0))
+    .slice(0, 3);
+
+  const generateShareCard = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !report) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = 1200;
+    canvas.height = 630;
+
+    const grad = ctx.createLinearGradient(0, 0, 1200, 630);
+    grad.addColorStop(0, "#0f172a");
+    grad.addColorStop(1, "#1e293b");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    ctx.fillStyle = "#7c3aed";
+    ctx.fillRect(0, 0, 1200, 8);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 28px Inter, system-ui, sans-serif";
+    ctx.fillText("NurseNest", 60, 60);
+
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "18px Inter, system-ui, sans-serif";
+    ctx.fillText("Mock Exam Results", 220, 60);
+
+    ctx.fillStyle = "#334155";
+    ctx.fillRect(60, 85, 1080, 1);
+
+    const scoreColor = report.percentage >= 80 ? "#22c55e" : report.percentage >= 60 ? "#eab308" : "#ef4444";
+    ctx.fillStyle = scoreColor;
+    ctx.font = "bold 120px Inter, system-ui, sans-serif";
+    ctx.fillText(`${report.percentage}%`, 60, 230);
+
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "24px Inter, system-ui, sans-serif";
+    ctx.fillText(`${(exam.tier || "").toUpperCase()} Mock Exam`, 60, 270);
+
+    ctx.fillStyle = "#e2e8f0";
+    ctx.font = "20px Inter, system-ui, sans-serif";
+    ctx.fillText(`${report.score} of ${report.totalQuestions} questions correct`, 60, 310);
+
+    const readiness = report.percentage >= 80 ? "Exam Ready" : report.percentage >= 60 ? "On Track" : "Needs Focus";
+    const pillWidth = ctx.measureText(readiness).width + 40;
+    ctx.fillStyle = scoreColor + "33";
+    ctx.beginPath();
+    ctx.roundRect(60, 330, pillWidth, 36, 18);
+    ctx.fill();
+    ctx.fillStyle = scoreColor;
+    ctx.font = "bold 16px Inter, system-ui, sans-serif";
+    ctx.fillText(readiness, 80, 354);
+
+    ctx.fillStyle = "#22c55e";
+    ctx.font = "bold 16px Inter, system-ui, sans-serif";
+    ctx.fillText("TOP PERFORMING SYSTEMS", 660, 140);
+
+    topSystems.forEach((sys: any, i: number) => {
+      const y = 170 + i * 70;
+      const pct = sys.percentage || 0;
+      const barColor = pct >= 80 ? "#22c55e" : pct >= 60 ? "#eab308" : "#ef4444";
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "18px Inter, system-ui, sans-serif";
+      ctx.fillText(sys.system || "Unknown", 660, y);
+
+      ctx.fillStyle = "#334155";
+      ctx.fillRect(660, y + 8, 440, 14);
+      ctx.fillStyle = barColor;
+      ctx.fillRect(660, y + 8, 440 * (pct / 100), 14);
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "bold 16px Inter, system-ui, sans-serif";
+      ctx.fillText(`${pct}%`, 1110, y);
+    });
+
+    if (breakdown.length > 0) {
+      ctx.fillStyle = "#64748b";
+      ctx.font = "bold 14px Inter, system-ui, sans-serif";
+      ctx.fillText("ALL SYSTEMS", 660, 420);
+
+      breakdown.forEach((sys: any, i: number) => {
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+        const x = 660 + col * 260;
+        const y = 445 + row * 28;
+        const pct = sys.percentage || 0;
+        const dotColor = pct >= 80 ? "#22c55e" : pct >= 60 ? "#eab308" : "#ef4444";
+
+        ctx.fillStyle = dotColor;
+        ctx.beginPath();
+        ctx.arc(x, y - 4, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "13px Inter, system-ui, sans-serif";
+        const sysName = (sys.system || "").length > 20 ? (sys.system || "").slice(0, 20) + "…" : (sys.system || "");
+        ctx.fillText(`${sysName} ${pct}%`, x + 14, y);
+      });
+    }
+
+    ctx.fillStyle = "#475569";
+    ctx.font = "14px Inter, system-ui, sans-serif";
+    ctx.fillText("nursenest.ca", 60, 600);
+
+    ctx.fillStyle = "#64748b";
+    ctx.fillText("•  " + new Date().toLocaleDateString(), 170, 600);
+
+    ctx.fillStyle = "#7c3aed";
+    ctx.font = "bold 14px Inter, system-ui, sans-serif";
+    ctx.fillText("Start your free diagnostic at nursenest.ca", 800, 600);
+  }, [exam, report, breakdown, topSystems]);
+
+  useEffect(() => {
+    if (report) {
+      setTimeout(generateShareCard, 100);
+    }
+  }, [report, generateShareCard]);
+
+  const downloadShareCard = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const link = document.createElement("a");
+    link.download = `nursenest-mock-exam-${report.percentage}pct.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+    toast({ title: "Image downloaded!" });
+  };
+
+  const copyShareText = () => {
+    const topSystemNames = topSystems.map((s: any) => s.system).join(", ");
+    const text = `I scored ${report.percentage}% on my ${(exam.tier || "").toUpperCase()} mock exam on NurseNest! 🎯 Top systems: ${topSystemNames}. #NurseNest #NursingExam #NCLEX`;
+    navigator.clipboard.writeText(text).then(() => {
+      toast({ title: "Share text copied to clipboard!" });
+    }).catch(() => {
+      toast({ title: "Failed to copy text", variant: "destructive" });
+    });
+  };
+
+  const handleNativeShare = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const topSystemNames = topSystems.map((s: any) => s.system).join(", ");
+    const shareData: ShareData = {
+      title: "NurseNest Mock Exam Results",
+      text: `I scored ${report.percentage}% on my ${(exam.tier || "").toUpperCase()} mock exam! Top systems: ${topSystemNames}. #NurseNest`,
+      url: "https://nursenest.ca",
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      }
+    } catch {}
+  };
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
@@ -205,6 +367,50 @@ export default function MockExamReport() {
             </CardContent>
           </Card>
         )}
+
+        <Card className="border-none shadow-sm mb-8" data-testid="share-card-section">
+          <CardContent className="p-6">
+            <h3 className="font-bold text-gray-900 flex items-center gap-2 mb-4">
+              <Share2 className="w-5 h-5 text-primary" /> Share Your Score
+            </h3>
+            <canvas
+              ref={canvasRef}
+              className="w-full max-w-[600px] rounded-lg border border-gray-200 mb-4"
+              style={{ aspectRatio: "1200/630" }}
+              data-testid="share-card-canvas"
+            />
+            <div className="flex flex-wrap gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={downloadShareCard}
+                className="gap-2"
+                data-testid="button-download-share-card"
+              >
+                <Download className="w-4 h-4" /> Download PNG
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={copyShareText}
+                className="gap-2"
+                data-testid="button-copy-share-text"
+              >
+                <Copy className="w-4 h-4" /> Copy Share Text
+              </Button>
+              {"share" in navigator && (
+                <Button
+                  size="sm"
+                  onClick={handleNativeShare}
+                  className="gap-2"
+                  data-testid="button-native-share"
+                >
+                  <Share2 className="w-4 h-4" /> Share
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         <Tabs defaultValue="breakdown" className="w-full" data-testid="tabs-report">
           <TabsList className="grid w-full grid-cols-3 h-12">

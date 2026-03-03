@@ -84,6 +84,8 @@ const STATIC_ROUTES: Record<string, string> = {
   "/nclex-pn-practice-questions": "NCLEX-PN Practice Questions",
   "/rex-pn-practice-questions": "REx-PN Practice Questions",
   "/np-exam-practice-questions": "NP Exam Practice Questions",
+  "/practice-questions": "Free Practice Questions",
+  "/glossary": "Glossary",
 };
 
 const PARENT_ROUTES: Record<string, string> = {
@@ -100,6 +102,8 @@ const PARENT_ROUTES: Record<string, string> = {
   "/learn/": "/lessons",
   "/study-guide/": "/lessons",
   "/compare/": "/compare",
+  "/practice-questions/": "/practice-questions",
+  "/glossary/": "/glossary",
 };
 
 const SIMULATOR_PATHS = [

@@ -17,7 +17,7 @@ import {
   ArrowLeft, Microscope, AlertCircle, Stethoscope, Pill, Lightbulb, FileText,
   CheckCircle2, XCircle, Trophy, Activity, Heart, Droplets, Brain, Wind, Zap, Baby, Users, Eye, Beaker, Leaf, ShieldAlert,
   ClipboardList, HeartPulse, HandHelping, Search, Lock, StickyNote, Save, Crown, TrendingUp, BarChart3, BookOpen, Pencil, X, Plus, Trash2,
-  PlayCircle, Clock, ChevronRight, ChevronLeft, Sparkles, Loader2, Wand2
+  PlayCircle, Clock, ChevronRight, ChevronLeft, Sparkles, Loader2, Wand2, ArrowRight
 } from "lucide-react";
 import { getLecturesForLesson } from "@/data/micro-lectures";
 import { getLessonNavigation } from "@/lib/lesson-navigation";
@@ -1263,6 +1263,7 @@ function QuizReport({
   onRetake: () => void;
 }) {
   const { t } = useI18n();
+  const { user } = useAuth();
   const [showReview, setShowReview] = useState(false);
   const derivedScore = answers.filter((a) => a.isCorrect).length;
   const percentage = Math.round((derivedScore / questions.length) * 100);
@@ -1404,10 +1405,30 @@ function QuizReport({
                       })}
                     </div>
                     {!wasCorrect && (
-                      <div className="ml-10 mt-2 p-3 bg-amber-50 rounded-lg border border-amber-100">
-                        <p className="text-xs font-bold text-amber-700 mb-1">Why this matters:</p>
-                        <p className="text-xs text-amber-800 leading-relaxed">{q.rationale}</p>
-                      </div>
+                      !user && idx >= 2 ? (
+                        <div className="ml-10 mt-2 relative" data-testid={`review-rationale-gate-${idx}`}>
+                          <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 select-none" style={{ filter: "blur(4px)", pointerEvents: "none" }}>
+                            <p className="text-xs font-bold text-gray-400 mb-1">Why this matters:</p>
+                            <p className="text-xs text-gray-400 leading-relaxed">{q.rationale}</p>
+                          </div>
+                          <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg">
+                            <div className="text-center px-4">
+                              <Lock className="w-4 h-4 text-gray-400 mx-auto mb-1" />
+                              <p className="text-xs text-gray-600 font-medium mb-1.5">Create a free account to see all rationales</p>
+                              <LocaleLink href="/start-free">
+                                <Button size="sm" variant="outline" className="gap-1 text-xs h-7 px-3" data-testid={`btn-review-rationale-signup-${idx}`}>
+                                  Start Free <ArrowRight className="w-3 h-3" />
+                                </Button>
+                              </LocaleLink>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="ml-10 mt-2 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                          <p className="text-xs font-bold text-amber-700 mb-1">Why this matters:</p>
+                          <p className="text-xs text-amber-800 leading-relaxed">{q.rationale}</p>
+                        </div>
+                      )
                     )}
                   </CardContent>
                 </Card>
@@ -1594,14 +1615,34 @@ function QuizSection({
         })}
       </div>
       {showFeedback && (
-        <div className={`p-4 rounded-xl border ${
-          selectedAnswer === questions[currentQ].correct
-            ? "bg-emerald-50 border-emerald-200 text-emerald-800"
-            : "bg-red-50 border-red-200 text-red-800"
-        }`} data-testid={`text-${testType}-rationale`}>
-          <p className="font-bold mb-1">{selectedAnswer === questions[currentQ].correct ? "Correct!" : "Incorrect"}</p>
-          <p className="text-sm">{questions[currentQ].rationale}</p>
-        </div>
+        !user && currentQ >= 2 ? (
+          <div className="relative" data-testid={`text-${testType}-rationale`}>
+            <div className="p-4 rounded-xl border bg-gray-50 border-gray-200 text-gray-400 select-none" style={{ filter: "blur(4px)", pointerEvents: "none" }}>
+              <p className="font-bold mb-1">{selectedAnswer === questions[currentQ].correct ? "Correct!" : "Incorrect"}</p>
+              <p className="text-sm">{questions[currentQ].rationale}</p>
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-xl">
+              <div className="text-center px-4">
+                <Lock className="w-5 h-5 text-gray-400 mx-auto mb-1.5" />
+                <p className="text-sm text-gray-600 font-medium mb-2" data-testid="text-rationale-gate">Create a free account to see all rationales</p>
+                <LocaleLink href="/start-free">
+                  <Button size="sm" variant="outline" className="gap-1.5 text-xs" data-testid="btn-rationale-signup">
+                    Start Free <ArrowRight className="w-3 h-3" />
+                  </Button>
+                </LocaleLink>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={`p-4 rounded-xl border ${
+            selectedAnswer === questions[currentQ].correct
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-red-50 border-red-200 text-red-800"
+          }`} data-testid={`text-${testType}-rationale`}>
+            <p className="font-bold mb-1">{selectedAnswer === questions[currentQ].correct ? "Correct!" : "Incorrect"}</p>
+            <p className="text-sm">{questions[currentQ].rationale}</p>
+          </div>
+        )
       )}
     </div>
   );

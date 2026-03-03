@@ -30,6 +30,11 @@ A 3-step onboarding process (Goal/Timeline, Domain Comfort Ratings, 12-question 
 An admin-only QBank Factory (`/admin/qbank-factory`) enables creating, managing, and publishing question banks with configurable parameters, audit trails, and export gates. The Exam Factory tab generates multiple exam forms.
 The Product Generator V2 (`/admin/generator-v2`) provides an isolated, chunked, and resumable question generation pipeline with server-enforced minimums (250 questions), various templates, multi-topic support, and tier-aware AI prompts. It includes AI prompt hardening against instruction echoing, a chunk retry system, JSON response cleaning, and 18 print-ready PDF themes. Questions can be reviewed and edited with validation, and an auto-listing feature generates product details for publishing with tiered pricing and bundle creation.
 SEO silo pages (`/nclex-rn-practice-questions`, etc.) serve as rich content hubs with keyword targeting, live question bank stats, CTAs, related lessons, flashcard sections, internal links, FAQ JSON-LD, and Course JSON-LD. A Diagnostic Assessment System offers a 30-question mixed blueprint exam with AI-powered results. User statistics, study groups, friend system, peer comparison, site analytics, and a feedback system are also integrated.
+Programmatic SEO practice question pages at `/practice-questions/:tier/:system` serve 5 free interactive questions per tier/system combo with full SEO metadata, FAQ JSON-LD, and sitemap entries (~35 pages).
+Nursing glossary at `/glossary` and `/glossary/:term` with 110+ terms, A-Z navigation, search, category filters, DefinedTerm JSON-LD, and sitemap entries.
+Exit-intent signup modal (`client/src/components/exit-intent-modal.tsx`) triggers for anonymous users on mouse-leave with 15-sec delay, once-per-session rate limiting, email capture via `/api/subscribe`.
+Share Your Score social card on mock exam reports (`mock-exam-report.tsx`) generates canvas-based 1200x630 PNG with score, tier, top systems, and NurseNest branding.
+Quiz rationale gating: anonymous users see first 2 rationales free; remaining are blurred with CTA to `/start-free`. Logged-in users at any tier see all.
 
 ## External Dependencies
 

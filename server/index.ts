@@ -303,6 +303,49 @@ app.get("/sitemap.xml", async (_req, res) => {
   entries.push(sitemapUrl(base, "/rex-pn-practice-questions", "0.9", "weekly", locales, today));
   entries.push(sitemapUrl(base, "/np-exam-practice-questions", "0.9", "weekly", locales, today));
   entries.push(sitemapUrl(base, "/free-practice", "0.9", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/practice-questions", "0.9", "weekly", locales, today));
+  entries.push(sitemapUrl(base, "/glossary", "0.8", "monthly", locales, today));
+
+  const glossaryTermSlugs = [
+    "auscultation","blood-pressure","bradycardia","tachycardia","cardiac-output","stroke-volume","preload","afterload",
+    "myocardial-infarction","heart-failure","pulmonary-embolism","deep-vein-thrombosis","atrial-fibrillation","sinus-rhythm",
+    "st-elevation","qrs-complex","p-wave","t-wave","ventricular-tachycardia","ventricular-fibrillation",
+    "hemoglobin","hematocrit","potassium","sodium","calcium","magnesium","bun","creatinine","inr","troponin","abg",
+    "metabolic-acidosis","metabolic-alkalosis","respiratory-acidosis","respiratory-alkalosis",
+    "anaphylaxis","sepsis","septic-shock","diabetic-ketoacidosis","siadh","diabetes-insipidus",
+    "pneumothorax","copd","asthma","stroke","increased-intracranial-pressure",
+    "glasgow-coma-scale","apgar-score","braden-scale","pain-assessment","sbar","head-to-toe-assessment","vital-signs","pulse-oximetry",
+    "epinephrine","warfarin","heparin","digoxin","ace-inhibitors","beta-blockers","nitroglycerin","insulin","morphine","naloxone",
+    "dopamine","furosemide","amiodarone",
+    "foley-catheter","nasogastric-tube","central-line","lumbar-puncture","tracheostomy","chest-tube","blood-transfusion",
+    "wound-vac","mechanical-ventilation","endotracheal-intubation","iv-insertion","sterile-technique",
+    "atelectasis","pleural-effusion","acute-kidney-injury","cirrhosis","pancreatitis",
+    "hypothyroidism","hyperthyroidism","addison-disease","cushing-syndrome","compartment-syndrome",
+    "malignant-hyperthermia","dic","tumor-lysis-syndrome","eclampsia","hellp-syndrome",
+    "placenta-previa","abruptio-placentae","neonatal-respiratory-distress-syndrome",
+    "delegation","nursing-process","informed-consent","alveoli","diaphragm",
+    "sinoatrial-node","atrioventricular-node","nephron","glomerular-filtration-rate",
+    "cerebral-perfusion-pressure","myelin-sheath","peritoneum","hemostasis",
+    "wbc-count","platelet-count","albumin","lactate","prothrombin-time","aptt",
+    "cardiogenic-shock","hypovolemic-shock","distributive-shock","infective-endocarditis",
+    "aortic-dissection","peripheral-artery-disease","autonomic-dysreflexia","rhabdomyolysis",
+    "guillain-barre-syndrome","meningitis","burns-classification","pacemaker","defibrillation",
+    "cardioversion","arterial-blood-gas-sampling","incentive-spirometry","suctioning",
+  ];
+  for (const slug of glossaryTermSlugs) {
+    entries.push(sitemapUrl(base, `/glossary/${slug}`, "0.5", "monthly", locales, today));
+  }
+
+  const practiceQuestionCombos = [
+    { tier: "rpn", systems: ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "endocrine", "renal", "pharmacology", "hematology", "maternal", "pediatric", "mental-health", "musculoskeletal", "assessment"] },
+    { tier: "rn", systems: ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "endocrine", "renal", "pharmacology", "hematology", "maternal", "pediatric", "mental-health", "musculoskeletal", "assessment"] },
+    { tier: "np", systems: ["cardiovascular", "respiratory", "neurological", "gastrointestinal", "endocrine", "renal", "pharmacology", "hematology", "assessment"] },
+  ];
+  for (const combo of practiceQuestionCombos) {
+    for (const system of combo.systems) {
+      entries.push(sitemapUrl(base, `/practice-questions/${combo.tier}/${system}`, "0.8", "weekly", locales, today));
+    }
+  }
 
   const lessonIds = [
     "mi-management-np","shock-syndromes-np","sepsis-mastery-np","siadh-di-np","aaa-rupture-np","dka-hhns-np","increased-icp-np","copd-exacerbation-np","aki-management-np","tumor-lysis-np","transfusion-reactions-np","wound-vac-np","hellp-syndrome-np","amniotic-fluid-embolism-np","eclampsia-np","obstetric-hemorrhage-np","neonatal-rds-np","neonatal-hie-np","persistent-pulm-htn-np","neonatal-abstinence-np","central-line-np","lumbar-puncture-np","abg-sampling-np","mechanical-vent-np","head-to-toe-rpn","vital-signs-assessment","pain-assessment-rpn","gcs-assessment-rpn","braden-scale-rpn","comprehensive-health-assessment","primary-survey-rn","nih-stroke-scale","sepsis-screening-rn","comprehensive-hpi-np","differential-diagnosis-np","ecg-advanced-np","sofa-apache-np","point-of-care-us-np","aaa-rupture","mi-management","hf-advanced","pe-recognition","infective-endocarditis","peripheral-artery-disease","aortic-dissection","carotid-endarterectomy","cardiovascular-rpn","cardiovascular-rn","cardiovascular-np","chf-basics","mi-acute","hypertension-management","cardiac-monitoring","cardiac-rhythm-rn","cardiac-auscultation-rn","cardiogenic-shock","pe-dvt","pacemaker-care","abcs-life-threats","unstable-vs-stable","who-to-see-first","delegation-rules-scope","sbar-escalation","post-op-prioritization","shock-syndromes","sepsis-mastery","burn-management","compartment-syndrome","malignant-hyperthermia","siadh-di","hypothyroidism-basics","adrenal-insufficiency","np-testbank-advanced-assessment","np-testbank-prescribing","np-testbank-differential-diagnosis","np-testbank-emergency-management","rn-testbank-cardiovascular","rn-testbank-respiratory","rn-testbank-neuro","rn-testbank-critical-care","rn-testbank-pharmacology","rn-testbank-maternal-child","rpn-testbank-cardiovascular","rpn-testbank-respiratory","rpn-testbank-neuro","rpn-testbank-endocrine","rpn-testbank-renal","rpn-testbank-safety","rpn-testbank-maternity","rpn-testbank-mental-health","nursing-process-adpie","vital-signs-red-flags","medication-administration-safety","infection-prevention-ppe","documentation-sbar-dar","fluid-balance-assessment","gi-bleed","acute-abdomen","ibs-basics","peptic-ulcer","ulcerative-colitis","ercp-egd","dumping-syndrome","bariatric-surgery","portal-hypertension","esophageal-varices","crohns-disease","h2-receptor-antagonists","proton-pump-inhibitors","hepatic-encephalopathy-meds","all-leukemia","aml-leukemia","sickle-cell","hand-hygiene","ppe-basics","isolation-precautions-rpn","sterile-technique","airborne-precautions","droplet-precautions","fetal-monitoring-advanced","prenatal-basics","labor-stages","postpartum-basics","breastfeeding-basics","placenta-previa-abruption","postpartum-hemorrhage","gestational-diabetes","fetal-monitoring-rn","postpartum-depression-care","newborn-assessment","neonatal-thermoreg","neonatal-feeding","neonatal-jaundice-basics","neonatal-respiratory-distress","neonatal-sepsis","nec-necrotizing","neuro-basics","cp-management","increased-icp","stroke-advanced","seizure-safety","neuritis-neuropathy","betamethasone-dexamethasone","opioid-analgesics-ob","prostaglandins-ob","oxytocin-ob","pph-medications","rh-immune-globulin","rubella-vaccine","lung-surfactants","eye-prophylaxis-newborn","hep-b-vaccine-newborn","kawasaki-critical","congenital-heart","pyloric-intussusception","adhd-basics","separation-anxiety","lead-poisoning","dehydration-peds","hip-dysplasia","foreign-body-aspiration","herbals-safety","electrolyte-safety","cardiac-meds","anticoagulant-safety","insulin-safety","lithium-toxicity","factor-xa-inhibitors","vitals-assessment","wound-care-basics","ngtube-care","iv-therapy","blood-transfusion","chest-tube-mgmt","trach-care","osteoporosis-basics","scoliosis-basics","inhaled-spacers","meds-to-infants","cleansing-enemas","wound-irrigation","vac-dressing","hemodialysis-care","fracture-sprain-care","aki-management","ckd-management","av-fistula","dialysis-steal","copd-exacerbation","asthma-emergency","peds-respiratory","epiglottitis-peds","ards-management","active-tb","osa-management","respiratory-rpn","respiratory-rn","respiratory-np","asthma-copd","pneumonia-basics","abg-basics","abg-interpretation-rn","chest-tube-care","oxygen-therapy","tracheostomy-care","pressure-injury","tinea-corporis","oral-candidiasis","cdiff-basics","pertussis-basics","atopic-dermatitis","head-lice","diaper-candidiasis",

@@ -28,8 +28,7 @@ function QuestionCard({
   const isLocked = !isLoggedIn && index >= 2;
   const isAnswered = selectedAnswer !== null;
   const isCorrect = selectedAnswer === q.correct;
-  const showFullRationale = index === 0;
-  const showPartialRationale = index === 1;
+  const isRationaleGated = !isLoggedIn && index >= 2;
 
   if (isLocked) {
     return (
@@ -92,14 +91,30 @@ function QuestionCard({
       </div>
 
       {isAnswered && (
-        <div className={`mt-3 p-3 rounded-lg text-sm ${isCorrect ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-amber-50 border border-amber-200 text-amber-800"}`} data-testid={`quiz-embed-rationale-${index}`}>
-          <span className="font-semibold">{isCorrect ? "Correct!" : "Incorrect."}</span>{" "}
-          {showFullRationale
-            ? q.rationale
-            : showPartialRationale
-              ? q.rationale.split(". ").slice(0, 2).join(". ") + "..."
-              : q.rationale}
-        </div>
+        isRationaleGated ? (
+          <div className="mt-3 relative" data-testid={`quiz-embed-rationale-${index}`}>
+            <div className="p-3 rounded-lg text-sm bg-gray-50 border border-gray-200 text-gray-400 select-none" style={{ filter: "blur(4px)", pointerEvents: "none" }}>
+              <span className="font-semibold">{isCorrect ? "Correct!" : "Incorrect."}</span>{" "}
+              {q.rationale}
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg">
+              <div className="text-center px-4">
+                <Lock className="w-5 h-5 text-gray-400 mx-auto mb-1.5" />
+                <p className="text-sm text-gray-600 font-medium mb-2" data-testid={`text-rationale-gate-${index}`}>Create a free account to see all rationales</p>
+                <LocaleLink href="/start-free">
+                  <Button size="sm" variant="outline" className="gap-1.5 text-xs" data-testid={`btn-rationale-signup-${index}`}>
+                    Start Free <ArrowRight className="w-3 h-3" />
+                  </Button>
+                </LocaleLink>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={`mt-3 p-3 rounded-lg text-sm ${isCorrect ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-amber-50 border border-amber-200 text-amber-800"}`} data-testid={`quiz-embed-rationale-${index}`}>
+            <span className="font-semibold">{isCorrect ? "Correct!" : "Incorrect."}</span>{" "}
+            {q.rationale}
+          </div>
+        )
       )}
     </div>
   );
