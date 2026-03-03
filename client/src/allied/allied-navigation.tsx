@@ -3,9 +3,10 @@ import { Link, useLocation } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import {
   Menu, X, ChevronDown, User, LogOut, Wind, Ambulance, Pill, Microscope, Radio,
-  BookOpen, Brain, FileText, Zap, GraduationCap, BarChart3, Wrench
+  BookOpen, Brain, FileText, Zap, GraduationCap, BarChart3, Wrench, Globe
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { useRegion } from "@/allied/use-region";
 
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging"] as const;
 
@@ -51,6 +52,7 @@ export function AlliedNavigation() {
   const [location] = useLocation();
   const { user, isAdmin } = useAuth();
 
+  const { region, setRegion } = useRegion();
   const alliedCareers = ALLIED_CAREERS.map(id => CAREER_CONFIGS[id]);
   const currentCareer = getCurrentCareerFromUrl(location, alliedCareers);
 
@@ -128,6 +130,16 @@ export function AlliedNavigation() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setRegion(region === "US" ? "CA" : "US")}
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-gray-50 rounded-lg text-xs font-medium hover:bg-gray-100 transition-colors"
+              data-testid="button-region-toggle"
+              title={`Currently: ${region === "US" ? "United States" : "Canada"}. Click to switch.`}
+            >
+              <Globe className="w-3.5 h-3.5 text-teal-500" />
+              <span className={`px-1.5 py-0.5 rounded ${region === "US" ? "bg-teal-100 text-teal-700" : "text-gray-400"}`}>US</span>
+              <span className={`px-1.5 py-0.5 rounded ${region === "CA" ? "bg-teal-100 text-teal-700" : "text-gray-400"}`}>CA</span>
+            </button>
             {user ? (
               <div className="hidden sm:flex items-center gap-2">
                 <Link href="/account" className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors" data-testid="link-account">
@@ -166,6 +178,14 @@ export function AlliedNavigation() {
               </div>
             ))}
             <div className="border-t border-gray-100 my-2" />
+            <button
+              onClick={() => { setRegion(region === "US" ? "CA" : "US"); }}
+              className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg w-full text-left"
+              data-testid="mobile-button-region"
+            >
+              <Globe className="w-4 h-4 text-teal-500" />
+              Region: {region === "US" ? "United States" : "Canada"} (tap to switch)
+            </button>
             <Link href="/pricing" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-pricing">Pricing</Link>
             {isAdmin && (
               <Link href="/admin/allied" className="block px-4 py-3 text-sm font-medium text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-admin">Admin Panel</Link>

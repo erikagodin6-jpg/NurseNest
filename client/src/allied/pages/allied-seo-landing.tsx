@@ -218,6 +218,190 @@ const SEO_PAGES: SEOPageConfig[] = [
       { q: "How long should I study for the NBRC TMC?", a: "Most students use our platform for 6-10 weeks before the TMC exam. The study planner optimizes your schedule based on your starting level and exam date." },
       { q: "Is the study guide mobile-friendly?", a: "Absolutely. Study on any device — phone, tablet, or computer. Your progress syncs across all devices automatically." }
     ]
+  },
+  {
+    slug: "pharmacy-tech-us",
+    careerSlug: "pharmacy-tech",
+    pageType: "study-guide",
+    title: "Pharmacy Technician PTCB Exam Prep | United States",
+    metaDescription: "Prepare for the PTCB Pharmacy Technician Certification Exam with US-specific content: DEA regulations, USP <795>/<797> compounding standards, HIPAA compliance, and DSCSA requirements.",
+    h1: "Pharmacy Technician PTCB Exam Prep (United States)",
+    heroSubtitle: "US-focused pharmacy technician exam preparation covering DEA scheduling, USP compounding standards, HIPAA regulations, and the complete PTCE 2026 blueprint with mg/dL lab values.",
+    sections: [
+      { heading: "PTCB Exam Blueprint Alignment", content: "Our question bank maps directly to the 2026 PTCE Content Outline: Medications (40%), Federal Requirements (12.5%), Patient Safety & Quality Assurance (26.25%), and Order Entry & Processing (21.25%). Every practice session follows this weighted distribution so you study exactly what PTCB tests." },
+      { heading: "US Federal Pharmacy Law", content: "Master DEA scheduling and controlled substance documentation, DSCSA drug supply chain requirements, HIPAA patient privacy rules, OBRA-90 counseling obligations, and the FD&C Act drug approval framework. Our legal modules cover every federal regulation tested on the PTCE." },
+      { heading: "USP Compounding Standards", content: "Comprehensive coverage of USP <795> non-sterile compounding, USP <797> sterile compounding with cleanroom classifications and beyond-use dating, and USP <800> hazardous drug handling. Practice questions include calculations using US customary and metric measurements." },
+      { heading: "US Lab Values and Drug References", content: "All clinical values displayed in standard US units (mg/dL for glucose, creatinine, and BUN). Drug references use US brand names and NDC numbers. Dosage calculations use both US customary and metric systems as tested on the PTCE." }
+    ],
+    faqs: [
+      { q: "Is this aligned with the PTCB exam?", a: "Yes. Content maps to the official PTCE 2026 Content Outline with proper domain weighting: Medications 40%, Federal Requirements 12.5%, Patient Safety & Quality Assurance 26.25%, and Order Entry & Processing 21.25%." },
+      { q: "Does this cover US pharmacy law?", a: "Comprehensive coverage of DEA regulations, DSCSA, HIPAA, USP <795>/<797>/<800>, OBRA-90, and the FD&C Act. All legal content is US-specific." },
+      { q: "What lab value system is used?", a: "All lab values use US conventional units (mg/dL). You can switch to Canadian SI units (mmol/L) if you are preparing for the PEBC exam instead." },
+      { q: "Can I switch to Canadian exam prep?", a: "Yes. Use the region toggle to switch between US (PTCB) and Canadian (PEBC) exam tracks. Legal modules, lab units, and blueprint weights update automatically." }
+    ]
+  },
+  {
+    slug: "pharmacy-tech-canada",
+    careerSlug: "pharmacy-tech",
+    pageType: "study-guide",
+    title: "Pharmacy Technician PEBC Exam Prep | Canada",
+    metaDescription: "Prepare for the PEBC Pharmacy Technician Qualifying Examination with Canadian-specific content: NAPRA standards, CDSA regulations, PIPEDA privacy, and provincial board requirements.",
+    h1: "Pharmacy Technician PEBC Exam Prep (Canada)",
+    heroSubtitle: "Canadian-focused pharmacy technician exam preparation covering NAPRA competency standards, Controlled Drugs and Substances Act, PIPEDA privacy, and provincial pharmacy board requirements with SI unit lab values.",
+    sections: [
+      { heading: "PEBC Qualifying Exam Blueprint", content: "Content aligned with the PEBC Pharmacy Technician Qualifying Examination competencies: Product Distribution (35%), Pharmacy Practice (30%), Pharmaceutical Compounding (15%), and Professional Practice (20%). Practice sessions mirror the competency-based weighting used by Canadian boards." },
+      { heading: "Canadian Pharmacy Law", content: "Master NAPRA Model Standards for pharmacy technicians, Controlled Drugs and Substances Act (CDSA) scheduling and documentation, PIPEDA patient privacy regulations, Food and Drugs Act requirements, Narcotic Control Regulations, and province-specific pharmacy technician regulation frameworks." },
+      { heading: "NAPRA Compounding Standards", content: "Comprehensive coverage of NAPRA Model Standards for pharmacy compounding of non-sterile and sterile preparations. Includes hazardous drug handling, beyond-use dating in Canadian context, and provincial compounding requirements." },
+      { heading: "SI Lab Values and Canadian Drug References", content: "All clinical values displayed in SI units (mmol/L for glucose and urea, umol/L for creatinine). Drug references include Canadian DINs and brand name availability. Dosage calculations use metric measurements exclusively as tested on provincial exams." }
+    ],
+    faqs: [
+      { q: "Is this aligned with the PEBC exam?", a: "Yes. Content maps to the PEBC Pharmacy Technician Qualifying Examination competency framework: Product Distribution 35%, Pharmacy Practice 30%, Pharmaceutical Compounding 15%, and Professional Practice 20%." },
+      { q: "Does this cover Canadian pharmacy law?", a: "Yes. NAPRA standards, CDSA, PIPEDA, Food and Drugs Act, Narcotic Control Regulations, and provincial pharmacy board requirements are all covered in depth." },
+      { q: "What lab value system is used?", a: "All lab values use SI units (mmol/L, umol/L). You can switch to US conventional units (mg/dL) if preparing for the PTCB exam." },
+      { q: "Does this cover provincial requirements?", a: "Our Canadian track covers national NAPRA standards plus a framework for understanding how provincial boards (e.g., OCP, CPBC, ACP) implement delegation and scope of practice." }
+    ]
+  },
+  {
+    slug: "rrt-us",
+    careerSlug: "rrt",
+    pageType: "study-guide",
+    title: "Respiratory Therapist NBRC TMC & CSE Exam Prep | United States",
+    metaDescription: "Prepare for the NBRC TMC and Clinical Simulation Examination with US-specific respiratory therapy content, AARC practice guidelines, and CMS regulations.",
+    h1: "RRT NBRC TMC & CSE Exam Prep (United States)",
+    heroSubtitle: "US-focused respiratory therapy exam preparation for the NBRC Therapist Multiple-Choice and Clinical Simulation Examinations with AARC scope of practice and CMS compliance.",
+    sections: [
+      { heading: "NBRC TMC Blueprint Alignment", content: "Content maps to the NBRC TMC exam blueprint: Patient Data Evaluation & Recommendations (30%), Troubleshooting & Quality Control (20%), and Initiation & Modification of Interventions (50%). Pass score: 130/200 scaled." },
+      { heading: "US Regulatory Framework", content: "Coverage of AARC scope of practice, HIPAA compliance for respiratory therapists, CMS regulations for respiratory care services, and TJC accreditation standards for respiratory therapy departments." },
+      { heading: "Clinical Simulation Preparation", content: "Targeted preparation for the NBRC Clinical Simulation Examination (CSE) with branching clinical scenarios, decision-point analysis, and competency-based assessment." }
+    ],
+    faqs: [
+      { q: "Does this cover both TMC and CSE?", a: "Yes. Our platform covers both the Therapist Multiple-Choice exam and the Clinical Simulation Examination with appropriate content for each format." },
+      { q: "What is the TMC pass score?", a: "The NBRC TMC uses a scaled scoring system of 0-200. The low-cut score for the CRT credential is approximately 96, and the high-cut score for RRT eligibility is approximately 130." }
+    ]
+  },
+  {
+    slug: "rrt-canada",
+    careerSlug: "rrt",
+    pageType: "study-guide",
+    title: "Respiratory Therapist CBRC National Exam Prep | Canada",
+    metaDescription: "Prepare for the CBRC National Respiratory Therapy Examination with Canadian-specific content, CSRT standards, provincial licensing, and SI unit lab values.",
+    h1: "RRT CBRC National Exam Prep (Canada)",
+    heroSubtitle: "Canadian-focused respiratory therapy exam preparation for the CBRC National Examination with CSRT competency standards, provincial regulation, and SI unit clinical values.",
+    sections: [
+      { heading: "CBRC National Exam Blueprint", content: "Content aligned with the CBRC National Examination competency framework: Patient Assessment (30%), Therapeutic Interventions (35%), Equipment & Diagnostics (20%), and Professional Practice (15%). Pass threshold: 65%." },
+      { heading: "Canadian Regulatory Framework", content: "Coverage of CSRT national standards, provincial respiratory therapy licensing, PIPEDA patient privacy, and Health Canada medical device regulations applicable to respiratory care." },
+      { heading: "SI Units and Canadian Clinical Standards", content: "All ABG values, electrolytes, and clinical parameters displayed in SI units. Canadian drug formulary references and provincial medical directive frameworks included." }
+    ],
+    faqs: [
+      { q: "Is this for the CBRC exam?", a: "Yes. Content is aligned with the Canadian Board for Respiratory Care national examination competencies and uses SI units throughout." },
+      { q: "Does this cover provincial regulations?", a: "Our Canadian track covers CSRT national standards and provides a framework for understanding provincial respiratory therapy regulation across Canada." }
+    ]
+  },
+  {
+    slug: "imaging-us",
+    careerSlug: "imaging",
+    pageType: "study-guide",
+    title: "Radiologic Technologist ARRT Certification Prep | United States",
+    metaDescription: "Prepare for ARRT Radiography Certification with US-specific radiation safety, NRC regulations, MQSA standards, and state licensure requirements.",
+    h1: "ARRT Radiography Certification Prep (United States)",
+    heroSubtitle: "US-focused diagnostic imaging exam preparation for the ARRT Radiography Certification covering image production, radiation protection, and patient care with US conventional units.",
+    sections: [
+      { heading: "ARRT Exam Blueprint", content: "Content maps to the ARRT Radiography Examination: Image Production (30%), Procedures (30%), Patient Care & Education (20%), Radiation Protection (15%), and Equipment Operation & Quality Control (5%). 200 questions, 210 minutes, pass score 75/99." },
+      { heading: "US Radiation Safety Regulations", content: "Comprehensive coverage of NRC radiation safety standards, state radiation control programs, ARRT Standards of Ethics, and MQSA mammography quality standards. Dose limits, ALARA principle, and regulatory compliance for US practice." },
+      { heading: "State Licensure Requirements", content: "Overview of state-specific radiologic technologist licensing requirements, continuing education mandates, and scope of practice variations across US jurisdictions." }
+    ],
+    faqs: [
+      { q: "Is this for the ARRT exam?", a: "Yes. All content is mapped to the ARRT Radiography Examination content specifications with proper domain weighting." },
+      { q: "Does this cover radiation safety regulations?", a: "Comprehensive coverage of NRC regulations, ARRT ethics, state radiation control programs, and MQSA standards specific to US practice." }
+    ]
+  },
+  {
+    slug: "imaging-canada",
+    careerSlug: "imaging",
+    pageType: "study-guide",
+    title: "Medical Radiation Technologist CAMRT Certification Prep | Canada",
+    metaDescription: "Prepare for the CAMRT National Certification Examination with Canadian radiation safety standards, CNSC regulations, and provincial registration requirements.",
+    h1: "CAMRT National Certification Prep (Canada)",
+    heroSubtitle: "Canadian-focused diagnostic imaging exam preparation for the CAMRT National Certification Examination with CNSC radiation safety, provincial registration, and SI unit clinical values.",
+    sections: [
+      { heading: "CAMRT Exam Blueprint", content: "Content aligned with the CAMRT National Certification Examination: Radiographic Imaging (30%), Clinical Procedures (25%), Patient Care (20%), Radiation Safety (15%), and Professional Practice (10%). 180 questions, 210 minutes, pass threshold 65%." },
+      { heading: "Canadian Radiation Safety", content: "Coverage of CNSC radiation protection requirements, CAMRT practice standards, provincial radiation safety regulations, and Health Canada medical device oversight applicable to diagnostic imaging." },
+      { heading: "Provincial Registration", content: "Framework for understanding provincial medical radiation technologist registration, continuing competence requirements, and scope of practice across Canadian provinces." }
+    ],
+    faqs: [
+      { q: "Is this for the CAMRT exam?", a: "Yes. Content is aligned with the CAMRT National Certification Examination competencies and uses SI units throughout." },
+      { q: "Does this cover CNSC regulations?", a: "Yes. Canadian Nuclear Safety Commission radiation protection requirements and CAMRT practice standards are covered comprehensively." }
+    ]
+  },
+  {
+    slug: "paramedic-us",
+    careerSlug: "paramedic",
+    pageType: "study-guide",
+    title: "Paramedic NREMT Certification Prep | United States",
+    metaDescription: "Prepare for NREMT Paramedic Certification with US-specific trauma protocols, ACLS/PALS algorithms, state EMS regulations, and EMTALA requirements.",
+    h1: "NREMT Paramedic Certification Prep (United States)",
+    heroSubtitle: "US-focused paramedic certification preparation for the NREMT exam covering airway management, cardiology, trauma, pharmacology, and EMS operations with US protocols.",
+    sections: [
+      { heading: "NREMT Exam Blueprint", content: "Content maps to the NREMT Paramedic blueprint: Airway, Respiration & Ventilation (18%), Cardiology & Resuscitation (20%), Trauma (17%), Medical/OB/GYN (18%), EMS Operations (12%), and Pharmacology (15%). 120 questions, 150 minutes, pass threshold 70%." },
+      { heading: "US EMS Regulatory Framework", content: "Coverage of NREMT scope of practice, EMTALA patient rights, HIPAA in EMS, state-specific medical direction and standing orders, and federal drug administration protocols for prehospital care." },
+      { heading: "State Protocol Integration", content: "Framework for understanding state EMS protocols, medical director oversight, and standing order variations across US jurisdictions. Prepares you for both the national exam and state-specific practice." }
+    ],
+    faqs: [
+      { q: "Is this for the NREMT exam?", a: "Yes. All content is mapped to the NREMT Paramedic Certification blueprint with proper domain weighting." },
+      { q: "Does this cover state protocols?", a: "Our US track covers the NREMT national blueprint and provides a framework for understanding state-level protocol variations." }
+    ]
+  },
+  {
+    slug: "paramedic-canada",
+    careerSlug: "paramedic",
+    pageType: "study-guide",
+    title: "Paramedic Provincial Certification Prep | Canada",
+    metaDescription: "Prepare for Canadian provincial paramedic certification exams with PAC competency standards, provincial medical directives, base hospital programs, and metric drug calculations.",
+    h1: "Paramedic Provincial Certification Prep (Canada)",
+    heroSubtitle: "Canadian-focused paramedic exam preparation covering PAC National Competency Profile, provincial medical directives, base hospital programs, and PHIPA/PIPEDA compliance with SI units.",
+    sections: [
+      { heading: "Provincial Exam Blueprint", content: "Content aligned with Canadian provincial paramedic examination competencies: Patient Assessment (25%), Patient Management (30%), Clinical Decision Making (20%), Professional Practice (10%), and Health & Safety (15%). 120 questions, pass threshold 65%." },
+      { heading: "Canadian Regulatory Framework", content: "Coverage of PAC National Competency Profile, provincial medical directives, base hospital program oversight, PHIPA/PIPEDA patient privacy regulations, and provincial scope of practice for PCP and ACP levels." },
+      { heading: "Metric Calculations and SI Units", content: "All drug dosages in metric units, clinical values in SI units, and weight-based calculations using kilograms. Provincial drug formulary references and medical directive frameworks included." }
+    ],
+    faqs: [
+      { q: "Is this for provincial exams?", a: "Yes. Content is aligned with PAC National Competency Profile and covers competencies tested on provincial paramedic certification examinations." },
+      { q: "Does this cover medical directives?", a: "Our Canadian track covers the PAC competency framework and provides context for understanding provincial medical directive structures and base hospital oversight." }
+    ]
+  },
+  {
+    slug: "mlt-us",
+    careerSlug: "mlt",
+    pageType: "study-guide",
+    title: "Medical Laboratory Technician ASCP Exam Prep | United States",
+    metaDescription: "Prepare for the ASCP Board of Certification MLS/MLT Examination with US-specific CLIA regulations, CAP accreditation standards, and OSHA laboratory safety.",
+    h1: "ASCP MLS/MLT Board Certification Prep (United States)",
+    heroSubtitle: "US-focused medical laboratory exam preparation for the ASCP Board of Certification covering hematology, clinical chemistry, microbiology, and immunohematology with US regulatory standards.",
+    sections: [
+      { heading: "ASCP Exam Blueprint", content: "Content maps to the ASCP MLS/MLT examination: Hematology (25%), Clinical Chemistry (25%), Microbiology (20%), Immunohematology/Blood Banking (15%), Urinalysis & Body Fluids (10%), and Laboratory Operations (5%). 100 questions, 150 minutes, pass score 400/999." },
+      { heading: "US Laboratory Regulations", content: "Comprehensive coverage of CLIA quality standards, CAP accreditation requirements, OSHA laboratory safety regulations, and HIPAA patient privacy in laboratory settings." }
+    ],
+    faqs: [
+      { q: "Is this for the ASCP exam?", a: "Yes. All content is mapped to the ASCP Board of Certification MLS/MLT Examination content outline." },
+      { q: "Does this cover CLIA regulations?", a: "Yes. CLIA quality standards, CAP accreditation, OSHA lab safety, and HIPAA requirements are covered comprehensively." }
+    ]
+  },
+  {
+    slug: "mlt-canada",
+    careerSlug: "mlt",
+    pageType: "study-guide",
+    title: "Medical Laboratory Technologist CSMLS Exam Prep | Canada",
+    metaDescription: "Prepare for the CSMLS National Certification Examination with Canadian laboratory standards, Accreditation Canada requirements, and provincial MLT regulation.",
+    h1: "CSMLS National Certification Prep (Canada)",
+    heroSubtitle: "Canadian-focused medical laboratory exam preparation for the CSMLS National Certification Examination covering hematology, clinical chemistry, microbiology, and transfusion science with SI units.",
+    sections: [
+      { heading: "CSMLS Exam Blueprint", content: "Content aligned with the CSMLS National Certification Examination: Hematology & Coagulation (25%), Clinical Chemistry (20%), Microbiology (20%), Transfusion Science (15%), Histotechnology (10%), and Quality Management (10%). 120 questions, 180 minutes, pass threshold 65%." },
+      { heading: "Canadian Laboratory Standards", content: "Coverage of CSMLS competency standards, Accreditation Canada laboratory quality requirements, provincial MLT regulation, and PIPEDA patient privacy in laboratory settings." }
+    ],
+    faqs: [
+      { q: "Is this for the CSMLS exam?", a: "Yes. Content is aligned with the CSMLS National Certification Examination competencies and uses SI units throughout." },
+      { q: "Does this cover provincial regulation?", a: "Our Canadian track covers CSMLS national standards and provides a framework for understanding provincial MLT regulation across Canada." }
+    ]
   }
 ];
 

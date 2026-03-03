@@ -43,6 +43,16 @@ export function AlliedRoutes() {
         <Route path="/rrt-practice-questions">{() => <AlliedSeoLanding pageSlug="rrt-practice-questions" />}</Route>
         <Route path="/rrt-mock-exam">{() => <AlliedSeoLanding pageSlug="rrt-mock-exam" />}</Route>
         <Route path="/rrt-study-guide">{() => <AlliedSeoLanding pageSlug="rrt-study-guide" />}</Route>
+        <Route path="/pharmacy-tech-us">{() => <AlliedSeoLanding pageSlug="pharmacy-tech-us" />}</Route>
+        <Route path="/pharmacy-tech-canada">{() => <AlliedSeoLanding pageSlug="pharmacy-tech-canada" />}</Route>
+        <Route path="/rrt-us">{() => <AlliedSeoLanding pageSlug="rrt-us" />}</Route>
+        <Route path="/rrt-canada">{() => <AlliedSeoLanding pageSlug="rrt-canada" />}</Route>
+        <Route path="/imaging-us">{() => <AlliedSeoLanding pageSlug="imaging-us" />}</Route>
+        <Route path="/imaging-canada">{() => <AlliedSeoLanding pageSlug="imaging-canada" />}</Route>
+        <Route path="/paramedic-us">{() => <AlliedSeoLanding pageSlug="paramedic-us" />}</Route>
+        <Route path="/paramedic-canada">{() => <AlliedSeoLanding pageSlug="paramedic-canada" />}</Route>
+        <Route path="/mlt-us">{() => <AlliedSeoLanding pageSlug="mlt-us" />}</Route>
+        <Route path="/mlt-canada">{() => <AlliedSeoLanding pageSlug="mlt-canada" />}</Route>
         <Route path="/careers/:careerSlug/mock-exams" component={AlliedMockExams} />
         <Route path="/careers/:careerSlug/dashboard" component={AlliedDashboard} />
         <Route path="/careers/:careerSlug/study-plan" component={AlliedStudyPlan} />

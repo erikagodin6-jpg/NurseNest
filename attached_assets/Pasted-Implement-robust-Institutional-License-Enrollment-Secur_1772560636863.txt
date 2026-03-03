@@ -1,0 +1,140 @@
+Implement robust Institutional License Enrollment Security so ONLY eligible students get access and shared codes cannot be abused.
+
+No narration. Output only:
+- Files changed list
+- Unified diffs
+- Manual test checklist
+- Automated test checklist
+
+=========================================================
+1) ADD ENROLLMENT MODES
+=========================================================
+
+Add fields to institutions:
+
+- enrollmentMode ("DOMAIN_LOCK" | "ROSTER_ALLOWLIST" | "APPROVAL_REQUIRED")
+- allowedEmailDomains string[] nullable
+- requireEmailVerified boolean default true
+
+Add tables:
+
+institutionRosterAllowlist
+- id
+- institutionId
+- email (normalized lowercase)
+- addedAt
+- addedByUserId
+- status ("active" | "revoked")
+
+institutionSeatRequests
+- id
+- institutionId
+- userId
+- requestedAt
+- status ("pending" | "approved" | "rejected")
+- decidedAt nullable
+- decidedByUserId nullable
+
+institutionAuditLog
+- id
+- institutionId
+- actorUserId
+- actionType
+- metadata JSON
+- createdAt
+
+=========================================================
+2) CODE REDEMPTION RULES
+=========================================================
+
+When a user enters an institution invite code:
+
+Hard requirements:
+- User must have verified email if requireEmailVerified = true
+- Seat limit not exceeded
+- Code not expired
+
+Then enforce eligibility based on enrollmentMode:
+
+A) DOMAIN_LOCK
+- user.email domain must be in allowedEmailDomains
+- If passes, auto-assign seat (student role)
+- Log event in audit log
+
+B) ROSTER_ALLOWLIST
+- user.email must exactly match an active allowlist entry
+- If match, auto-assign seat
+- If not match, block with message:
+  "Your email is not on the approved roster. Contact your program coordinator."
+
+C) APPROVAL_REQUIRED
+- user.email domain must be allowed (if allowedEmailDomains exists)
+- Create institutionSeatRequest with status pending
+- Show message:
+  "Request submitted. Your instructor will approve access shortly."
+- Institution admin / faculty_pro can approve requests
+- Only after approval create institutionSeat (student role)
+
+=========================================================
+3) ADMIN / FACULTY UI
+=========================================================
+
+Institution Admin Panel:
+- Enrollment mode selector
+- Allowed domains editor (comma-separated list)
+- CSV upload for roster allowlist
+- Seat request queue with approve/reject buttons
+- Audit log viewer
+
+CSV Upload:
+- Accept emails
+- Normalize to lowercase
+- Validate format
+- De-duplicate
+- Mark as active
+
+Approval Queue:
+- Show user name, email, request time
+- Approve creates seat with appropriate accessEnd logic based on licenseModel
+- Reject stores reason optional
+
+=========================================================
+4) ANTI-ABUSE PROTECTIONS
+=========================================================
+
+- Rate limit invite code redemption attempts per IP + per account
+- Prevent multiple seats for same userId in same institution
+- Require email verification before redeeming when enabled
+- Optional: device fingerprint flagging (store hashed device ID) and alert admin if many unique accounts from same device
+
+=========================================================
+5) MESSAGING / UX
+=========================================================
+
+On /institutions and /institutions/faq add:
+- "How do you prevent code sharing?"
+Explain:
+- Domain lock
+- Roster allowlist
+- Approval workflow
+
+Add "Contact Licensing Team" block for access issues.
+
+=========================================================
+6) TESTING REQUIREMENTS
+=========================================================
+
+Automated tests:
+- Domain lock allows correct domain, blocks others
+- Roster allowlist allows listed email, blocks unlisted
+- Approval mode creates pending request, requires admin approval
+- Seat cap enforcement
+- Expiration logic correct for cohort vs individual
+
+Manual tests:
+- CSV upload works
+- Approve/reject works
+- Rate limiting triggers
+- Audit log records actions
+
+Output diffs and checklists only.

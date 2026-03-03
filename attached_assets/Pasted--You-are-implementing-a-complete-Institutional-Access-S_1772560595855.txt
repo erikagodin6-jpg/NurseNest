@@ -1,0 +1,316 @@
+
+You are implementing a complete Institutional Access System for ALL Allied Health Career Hubs inside NurseNest.
+
+This must support:
+
+• Cohort/Semester License Model
+• Individual Exam-Date License Model
+• Faculty Analytics (Lite + Pro)
+• US/Canada region differentiation
+• Allied career-specific exam tracks
+• Institutional add-on tiers
+• Institutional landing + FAQ pages
+• Shared module reuse from Nursing
+
+No narration. Output only:
+- Files changed list
+- Unified diffs
+- Manual test checklist
+- Automated test checklist
+
+=========================================================
+SECTION 1 — GLOBAL INSTITUTION ARCHITECTURE
+=========================================================
+
+Create unified institutional system usable by:
+- Pharmacy Tech
+- RRT
+- Paramedic
+- MLT
+- Imaging
+
+Tables:
+
+institutions
+- id
+- name
+- region ("US" | "CA")
+- careerScope ("PHARMTECH" | "RRT" | "PARAMEDIC" | "MLT" | "IMAGING" | "MULTI")
+- licenseModel ("COHORT" | "INDIVIDUAL")
+- seatLimit
+- semesterEndDate nullable
+- defaultDurationDays nullable
+- tierLevel ("COHORT" | "PROGRAM_PARTNER" | "ENTERPRISE")
+- addOns JSON
+- status
+- createdAt
+
+institutionSeats
+- id
+- institutionId
+- userId
+- role ("student" | "faculty_lite" | "faculty_pro" | "institution_admin")
+- accessStart
+- accessEnd
+- active
+
+institutionInviteCodes
+- id
+- institutionId
+- code
+- seatLimit
+- expiresAt
+- usageCount
+
+=========================================================
+SECTION 2 — LICENSE MODEL LOGIC
+=========================================================
+
+COHORT MODEL:
+- All students share accessEnd = semesterEndDate
+- Enrollment stops after semesterEndDate
+- Bulk enrollment via CSV
+- Seat limit enforced
+
+INDIVIDUAL MODEL:
+- Each student has independent accessEnd
+- accessEnd = examDate OR now + defaultDurationDays
+- Rolling enrollment allowed
+- Seat limit enforced
+
+Switching models must require admin permission.
+
+=========================================================
+SECTION 3 — ALLIED CAREER INTEGRATION
+=========================================================
+
+Each institution must select:
+
+careerScope
+region (US or CA)
+
+System must dynamically load:
+
+- Region-specific blueprint
+- Region-specific lab values
+- Region-specific legal modules
+- Region-specific pass criteria
+
+Reuse shared nursing modules for:
+- Infection control
+- Safety
+- Shock
+- Electrolytes
+- Documentation
+
+Only adapt where scope differs.
+
+=========================================================
+SECTION 4 — FACULTY ACCESS TIERS
+=========================================================
+
+Faculty Lite:
+- Aggregate cohort metrics
+- Domain heatmaps
+- Readiness averages
+- Mock score distribution
+- Completion percentages
+- No student drilldown
+
+Faculty Pro:
+- Student-level analytics
+- At-risk flags (<60%)
+- Remediation recommendations
+- Export CSV
+- Accreditation PDF export
+- Consent required
+
+=========================================================
+SECTION 5 — ALLIED-SPECIFIC DASHBOARD EXTENSIONS
+=========================================================
+
+For each allied career:
+
+Pharmacy Tech:
+- Medication mastery heatmap
+- Law compliance performance
+- Calculation competency tracker
+
+RRT:
+- ABG interpretation accuracy
+- Ventilator scenario scoring
+
+Paramedic:
+- Trauma algorithm accuracy
+- First-action correctness %
+
+MLT:
+- Lab abnormality identification %
+- Quality control performance %
+
+Imaging:
+- Radiation safety score
+- Contrast reaction recognition %
+
+=========================================================
+SECTION 6 — INSTITUTIONAL LANDING PAGE
+=========================================================
+
+Route: /institutions
+
+Must include:
+
+Hero:
+"Improve Certification Outcomes Across Allied Programs"
+
+Compare:
+Cohort vs Individual Model
+
+Table showing:
+Seat structure
+Expiration structure
+Best use case
+Pros
+Cons
+
+Institution tiers:
+Cohort Access
+Program Partner
+Enterprise
+
+Add:
+- Demo request CTA
+- Pricing inquiry CTA
+- Pilot program CTA
+
+SEO:
+- FAQ schema
+- Breadcrumb schema
+- Internal links to each allied career hub
+
+=========================================================
+SECTION 7 — INSTITUTIONAL FAQ PAGE
+=========================================================
+
+Route: /institutions/faq
+
+Include detailed answers:
+
+- Difference between models
+- Switching models
+- Region differentiation
+- Faculty analytics differences
+- Seat counting
+- Exam date adjustments
+- Accreditation support
+- Data privacy (HIPAA/PIPEDA)
+- LMS integration options
+- Add-on tiers
+- Custom contracts
+
+Add pros/cons comparison chart.
+
+=========================================================
+SECTION 8 — ADD-ON TIERS
+=========================================================
+
+Add institutional addOns:
+
+- Accreditation Reporting Pack
+- Custom Mock Alignment
+- White-Label Branding
+- Early Intervention AI
+- LMS Integration
+- Faculty Pro Upgrade
+
+Store addOns as JSON in institution record.
+
+Admin panel must allow:
+- Toggle add-ons
+- Adjust pricing
+- Generate invoice summary
+
+=========================================================
+SECTION 9 — BILLING & PRICING FLEXIBILITY
+=========================================================
+
+Support:
+
+Cohort:
+- Flat semester fee
+OR
+- Per seat per semester
+
+Individual:
+- Per student per month
+OR
+- Fixed duration license
+
+Admin override per institution.
+
+=========================================================
+SECTION 10 — REGION-SPECIFIC IMPLEMENTATION
+=========================================================
+
+If region = US:
+- mg/dL labs
+- DEA
+- DSCSA
+- HIPAA
+
+If region = CA:
+- mmol/L labs
+- NAPRA
+- Provincial regulatory standards
+- PIPEDA
+
+Region must reflect across:
+- Mock exams
+- Question bank
+- Faculty analytics
+- Accreditation exports
+
+=========================================================
+SECTION 11 — CRM + LEAD PIPELINE
+=========================================================
+
+Lead tracking statuses:
+- New
+- Contacted
+- Demo Scheduled
+- Proposal Sent
+- Closed Won
+- Closed Lost
+
+Auto-email:
+- Thank you message
+- Demo booking link
+- Overview PDF
+
+=========================================================
+SECTION 12 — REUSE REQUIREMENT
+=========================================================
+
+Do NOT duplicate nursing logic.
+
+Reuse:
+- Paywall middleware
+- Mock engine
+- Flashcard system
+- Dashboard components
+- Adaptive engine
+- SEO generator
+
+All allied institutional access must plug into shared modules.
+
+=========================================================
+SECTION 13 — OUTPUT
+=========================================================
+
+Return:
+- Files changed
+- Unified diffs
+- Manual test checklist
+- Automated test checklist
+
+No narration.

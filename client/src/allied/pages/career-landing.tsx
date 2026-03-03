@@ -3,10 +3,11 @@ import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import {
   ArrowRight, BookOpen, FileText, Brain, Zap, GraduationCap, Wrench,
   BarChart3, Target, Clock, CheckCircle2, ChevronRight, Check, X,
-  HelpCircle, DollarSign, Shield, Star, TrendingUp, Award
+  HelpCircle, DollarSign, Shield, Star, TrendingUp, Award, Globe
 } from "lucide-react";
 import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useRegion } from "@/allied/use-region";
 
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt,
@@ -66,6 +67,8 @@ const FAQ_DATA = [
 export default function CareerLandingPage() {
   const params = useParams<{ careerSlug: string }>();
   const career = ALLIED_CAREER_MAP[params.careerSlug || ""];
+  const { region, setRegion, getRegionConfig, regionLabel } = useRegion();
+  const regionConfig = career ? getRegionConfig(career.slug) : null;
 
   if (!career) {
     return (
@@ -106,8 +109,26 @@ export default function CareerLandingPage() {
             <span className="text-teal-700 font-medium">{career.shortName}</span>
           </div>
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: career.colorAccent, color: career.color }}>
-              {career.examNames[0]} Prep
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: career.colorAccent, color: career.color }}>
+                {regionConfig ? regionConfig.examBoard : career.examNames[0]} Prep
+              </div>
+              <div className="inline-flex items-center gap-1 bg-white/80 border border-gray-200 rounded-full px-1 py-0.5" data-testid="region-selector">
+                <button
+                  onClick={() => setRegion("US")}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${region === "US" ? "bg-teal-100 text-teal-700" : "text-gray-500 hover:text-gray-700"}`}
+                  data-testid="button-region-us"
+                >
+                  United States
+                </button>
+                <button
+                  onClick={() => setRegion("CA")}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${region === "CA" ? "bg-teal-100 text-teal-700" : "text-gray-500 hover:text-gray-700"}`}
+                  data-testid="button-region-ca"
+                >
+                  Canada
+                </button>
+              </div>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-career-title">
               {career.name} Exam Prep
@@ -234,6 +255,68 @@ export default function CareerLandingPage() {
           </div>
         </div>
       </section>
+
+      {regionConfig && (
+        <section className="py-16 bg-white" data-testid="section-region-info">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{regionLabel} Exam Track</h2>
+              <p className="text-gray-600">Your exam prep is configured for the {regionConfig.examBoard} ({regionConfig.examName})</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
+                <div className="text-2xl font-bold text-teal-700">{regionConfig.totalQuestions}</div>
+                <div className="text-sm text-gray-600">Exam Questions</div>
+              </div>
+              <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
+                <div className="text-2xl font-bold text-teal-700">{regionConfig.timeLimit} min</div>
+                <div className="text-sm text-gray-600">Time Limit</div>
+              </div>
+              <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
+                <div className="text-2xl font-bold text-teal-700">{regionConfig.passThreshold}%</div>
+                <div className="text-sm text-gray-600">Pass Threshold</div>
+              </div>
+              <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
+                <div className="text-2xl font-bold text-teal-700">{region === "US" ? "mg/dL" : "mmol/L"}</div>
+                <div className="text-sm text-gray-600">Lab Units</div>
+              </div>
+            </div>
+            <div className="bg-gray-50 rounded-xl p-6">
+              <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Shield className="w-5 h-5 text-teal-500" />
+                {regionLabel} Legal & Regulatory Modules
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {regionConfig.legalModules.slice(0, 8).map(mod => (
+                  <div key={mod.id} className="px-3 py-2 bg-white rounded-lg border border-gray-100">
+                    <div className="text-sm font-medium text-gray-800">{mod.name}</div>
+                    <div className="text-xs text-gray-500 mt-0.5 line-clamp-2">{mod.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-6 bg-gray-50 rounded-xl p-6">
+              <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-teal-500" />
+                {regionConfig.examBoard} Blueprint Weights
+              </h3>
+              <div className="space-y-3">
+                {Object.entries(regionConfig.blueprintWeights).map(([domain, weight]) => (
+                  <div key={domain}>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-gray-700">{domain}</span>
+                      <span className="font-medium text-teal-700">{weight}%</span>
+                    </div>
+                    <div className="w-full bg-white rounded-full h-2">
+                      <div className="h-2 rounded-full bg-teal-500" style={{ width: `${weight}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Smart Study Tools */}
       {career.aiTools.length > 0 && (
