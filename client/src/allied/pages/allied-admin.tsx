@@ -11,7 +11,7 @@ import {
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
-const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor"] as const;
+const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor", "occupationalTherapy", "physicalTherapy"] as const;
 
 type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank";
 

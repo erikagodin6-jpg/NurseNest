@@ -149,6 +149,11 @@ const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 const NewGradHub = lazy(() => import("@/pages/new-grad-hub"));
 const NursingHub = lazy(() => import("@/pages/nursing-hub"));
 const NursingSpecialtiesHub = lazy(() => import("@/pages/nursing-specialties-hub"));
+const RexPnHub = lazy(() => import("@/pages/rex-pn-hub"));
+const RexPnExamFormat = lazy(() => import("@/pages/rex-pn-exam-format"));
+const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
+const RexPnWellness = lazy(() => import("@/pages/rex-pn-wellness"));
+const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 
 function PageTracker() {
   usePageTracker();
@@ -309,6 +314,12 @@ function AppRoutes() {
         <Route path="/compare/:slug" component={ComparePage} />
         <Route path="/np-exam-guide/:slug" component={NpExamHub} />
         <Route path="/np-exam-guide" component={NpExamHub} />
+        <Route path="/rex-pn/exam-format" component={RexPnExamFormat} />
+        <Route path="/rex-pn/test-taking-strategies" component={RexPnStrategies} />
+        <Route path="/rex-pn/strategies" component={RexPnStrategies} />
+        <Route path="/rex-pn/wellness" component={RexPnWellness} />
+        <Route path="/rex-pn/practice-tests" component={MockExamsPage} />
+        <Route path="/rex-pn" component={RexPnHub} />
         <Route path="/rex-pn-guide/:slug" component={RexPnGuide} />
         <Route path="/rex-pn-guide" component={RexPnGuide} />
         <Route path="/nclex-rn-guide/:slug" component={NclexRnGuide} />
@@ -361,6 +372,10 @@ function AppRoutes() {
         <Route path="/subscribe/:tier" component={SubscribePage} />
         <Route path="/onboarding/plan" component={OnboardingPlanPage} />
         <Route path="/study-plan" component={StudyPlanPage} />
+        <Route path="/pharmacology/curriculum" component={PharmacologyHub} />
+        <Route path="/pharmacology/pricing" component={PharmacologyHub} />
+        <Route path="/pharmacology/faq" component={PharmacologyHub} />
+        <Route path="/pharmacology" component={PharmacologyHub} />
         <Route path="/nclex-rn-practice-questions" component={NclexRnPracticePage} />
         <Route path="/nclex-pn-practice-questions" component={NclexPnPracticePage} />
         <Route path="/rex-pn-practice-questions" component={RexPnPracticePage} />

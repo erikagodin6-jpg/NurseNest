@@ -77,6 +77,7 @@ NurseNest has been expanded into a multi-career allied health exam prep platform
 - **Phase 1-2**: RRT, Paramedic, Pharmacy Tech, MLT, Diagnostic Imaging
 - **Phase 3**: Critical Care (CCRN), Emergency Nursing (CEN), Perioperative (CNOR), Oncology (OCN), Pediatric (CPN)
 - **Phase 4**: Psychotherapist (RP), Social Worker (LCSW), Addictions Counsellor (CAC)
+- **Phase 5**: Occupational Therapy (OT), Physical Therapy (PT)
 
 Key files:
 - `shared/careers.ts` - Career configs with id, name, slug, tiers, examNames, aiTools, domains, colors
@@ -113,6 +114,23 @@ Store admin features:
 - Document upload: POST /api/admin/shop/upload accepts multipart file uploads (PDF, images, DOCX, XLSX, ZIP, up to 50MB), stores to Replit Object Storage, returns storage URL
 - Admin product form includes Upload buttons for cover images and documents alongside URL text inputs
 - Preview generation: POST /api/admin/shop/products/:id/generate-preview creates watermarked PDF previews
+
+### REx-PN Exam Prep Hub
+New REx-PN prep section at `/rex-pn` with sub-pages:
+- `client/src/pages/rex-pn-hub.tsx` - Main hub with exam overview, blueprint domains, question formats, toolkit CTAs
+- `client/src/pages/rex-pn-exam-format.tsx` - Exam format and CAT structure explanation
+- `client/src/pages/rex-pn-strategies.tsx` - Test-taking strategies (also at /rex-pn/test-taking-strategies)
+- `client/src/pages/rex-pn-wellness.tsx` - Wellness during exam prep
+
+### Pharmacology Crash Course
+- `client/src/pages/pharmacology-hub.tsx` - Landing page at `/pharmacology` with 5-day curriculum, pricing (CAD), FAQ
+
+### NGN Question Types & Scoring
+- `client/src/lib/ngn-question-types.ts` - 11 NGN question type interfaces (DragDropCloze, Bowtie, Matrix, Trend, etc.)
+- `client/src/lib/ngn-scoring-engine.ts` - Partial credit scoring engine for all NGN types
+
+### Allied Exam Blueprints
+- `client/src/lib/exam-blueprints-allied.ts` - Blueprint configs for 10 allied professions (MLT, PharmTech, Paramedic, RRT, Psychotherapist, Social Work, Addictions, Imaging, OT, PT) with validateExamBlueprint() function
 
 Pipeline thresholds (server/allied-pipeline.ts constants):
 - SIMILARITY_THRESHOLD = 0.80 (duplicate detection)

@@ -4,7 +4,7 @@ import { CAREER_CONFIGS } from "@shared/careers";
 import {
   Wind, Ambulance, Pill, Microscope, Radio, ArrowRight, BookOpen,
   FileText, Brain, Zap, CheckCircle2, TrendingUp, Users, Star, Mail,
-  ShieldCheck, Building2
+  ShieldCheck, Building2, Hand, Activity
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -19,11 +19,13 @@ const ALLIED_CAREERS = [
   { ...CAREER_CONFIGS.psychotherapist, Icon: Brain },
   { ...CAREER_CONFIGS.socialWorker, Icon: Users },
   { ...CAREER_CONFIGS.addictionsCounsellor, Icon: ShieldCheck },
+  { ...CAREER_CONFIGS.occupationalTherapy, Icon: Hand },
+  { ...CAREER_CONFIGS.physicalTherapy, Icon: Activity },
 ];
 
 const STATS = [
   { label: "Practice Questions", value: "6,500+", icon: BookOpen },
-  { label: "Career Verticals", value: "8", icon: TrendingUp },
+  { label: "Career Verticals", value: "10", icon: TrendingUp },
   { label: "AI Study Tools", value: "10+", icon: Brain },
   { label: "Mock Exam Modes", value: "3", icon: FileText },
 ];
