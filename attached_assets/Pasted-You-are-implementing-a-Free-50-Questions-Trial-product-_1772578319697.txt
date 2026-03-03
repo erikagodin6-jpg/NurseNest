@@ -1,0 +1,66 @@
+You are implementing a “Free 50 Questions Trial” product for NurseNest that competes with major exam-prep platforms.
+
+OBJECTIVE
+Offer a legitimate 50-question experience that demonstrates value, drives upgrades, and prevents obvious abuse (code-sharing, multi-account farming).
+
+TRIAL RULES
+- Free users get exactly 50 questions total per exam track (e.g., NCLEX-RN, NCLEX-PN, REx-PN, NP tracks, allied tracks).
+- Trial includes:
+  - 1 mini diagnostic (15 questions)
+  - 1 timed exam simulation (35 questions)
+- Explanations:
+  - Show partial explanations for free (e.g., “Key reason + safety point”), but lock full deep rationale + images behind upgrade OR allow full rationale only after the 50 are completed (choose one).
+- Include 5–10 NGN item types in the trial mix (for nursing), but don’t overwhelm.
+
+ANTI-ABUSE (balanced)
+- Require email verification to start trial.
+- Tie trial entitlement to user + device fingerprint hash + IP heuristics (do not block legitimate households).
+- If a user creates multiple accounts, detect and throttle (rate limit + require phone verify for repeated attempts).
+- Do not permanently ban; show “verify to continue” friction.
+- Prevent easy scraping: limit API endpoints and add server-side validation.
+
+ENTITLEMENTS
+Create an entitlement:
+- productKey: TRIAL_<EXAMKEY>
+- remainingQuestions: 50
+- expiresAt: 7 days (recommended)
+Decrement on question served (not just answered) to prevent refresh exploitation.
+Allow resume of a partially completed trial attempt.
+
+TRIAL UX
+- Landing CTA: “Start Free 50-Question Trial”
+- Set expectations:
+  - “No credit card required”
+  - “Includes a readiness snapshot”
+- Progress bar: “37/50 questions used”
+- When trial ends:
+  - Show a premium results report preview
+  - Lock full report behind upgrade
+  - Offer plan comparison + one-click upgrade
+
+CONVERSION FUNNEL
+At end of trial:
+- Show 3 value cards:
+  1) Unlimited QBank + NGN
+  2) Adaptive CAT readiness
+  3) Full rationales + exhibit images
+- Offer “Upgrade now” with best plan preselected
+- Send 3-email sequence:
+  - Day 0: results + weak areas
+  - Day 2: study plan suggestion
+  - Day 5: expiring trial reminder
+
+DELIVERABLES
+- API endpoints:
+  - POST /api/trial/start { examKey }
+  - POST /api/trial/next-question { attemptId }
+  - POST /api/trial/submit-answer
+  - GET  /api/trial/results/:attemptId
+- Admin toggle:
+  - enableTrialByExamKey
+  - trialExpirationDays
+  - explanationPolicy: PARTIAL | END_OF_TRIAL_FULL | FULL
+- QA tests:
+  - cannot exceed 50
+  - resume works
+  - abuse throttles as designed
