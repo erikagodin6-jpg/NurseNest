@@ -1792,3 +1792,112 @@ export const mockExamPurchases = pgTable("mock_exam_purchases", {
 export const insertMockExamPurchaseSchema = createInsertSchema(mockExamPurchases).omit({ id: true, createdAt: true, updatedAt: true });
 export type MockExamPurchase = typeof mockExamPurchases.$inferSelect;
 export type InsertMockExamPurchase = z.infer<typeof insertMockExamPurchaseSchema>;
+
+export const institutions = pgTable("institutions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  region: text("region").notNull().default("US"),
+  careerScope: text("career_scope").notNull().default("MULTI"),
+  licenseModel: text("license_model").notNull().default("COHORT"),
+  seatLimit: integer("seat_limit").notNull().default(50),
+  semesterEndDate: timestamp("semester_end_date"),
+  defaultDurationDays: integer("default_duration_days"),
+  tierLevel: text("tier_level").notNull().default("COHORT"),
+  addOns: jsonb("add_ons").default(sql`'[]'::jsonb`),
+  enrollmentMode: text("enrollment_mode").notNull().default("DOMAIN_LOCK"),
+  allowedEmailDomains: text("allowed_email_domains").array(),
+  requireEmailVerified: boolean("require_email_verified").default(true),
+  status: text("status").notNull().default("active"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertInstitutionSchema = createInsertSchema(institutions).omit({ id: true, createdAt: true });
+export type Institution = typeof institutions.$inferSelect;
+export type InsertInstitution = z.infer<typeof insertInstitutionSchema>;
+
+export const institutionSeats = pgTable("institution_seats", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  institutionId: varchar("institution_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  role: text("role").notNull().default("student"),
+  accessStart: timestamp("access_start").defaultNow().notNull(),
+  accessEnd: timestamp("access_end"),
+  active: boolean("active").default(true),
+});
+
+export const insertInstitutionSeatSchema = createInsertSchema(institutionSeats).omit({ id: true });
+export type InstitutionSeat = typeof institutionSeats.$inferSelect;
+export type InsertInstitutionSeat = z.infer<typeof insertInstitutionSeatSchema>;
+
+export const institutionInviteCodes = pgTable("institution_invite_codes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  institutionId: varchar("institution_id").notNull(),
+  code: text("code").notNull().unique(),
+  seatLimit: integer("seat_limit").notNull().default(50),
+  expiresAt: timestamp("expires_at"),
+  usageCount: integer("usage_count").default(0),
+});
+
+export const insertInstitutionInviteCodeSchema = createInsertSchema(institutionInviteCodes).omit({ id: true });
+export type InstitutionInviteCode = typeof institutionInviteCodes.$inferSelect;
+export type InsertInstitutionInviteCode = z.infer<typeof insertInstitutionInviteCodeSchema>;
+
+export const institutionSeatRequests = pgTable("institution_seat_requests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  institutionId: varchar("institution_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  requestedAt: timestamp("requested_at").defaultNow().notNull(),
+  status: text("status").notNull().default("pending"),
+  reason: text("reason"),
+  decidedAt: timestamp("decided_at"),
+  decidedByUserId: varchar("decided_by_user_id"),
+});
+
+export const insertInstitutionSeatRequestSchema = createInsertSchema(institutionSeatRequests).omit({ id: true, requestedAt: true });
+export type InstitutionSeatRequest = typeof institutionSeatRequests.$inferSelect;
+export type InsertInstitutionSeatRequest = z.infer<typeof insertInstitutionSeatRequestSchema>;
+
+export const institutionRosterAllowlist = pgTable("institution_roster_allowlist", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  institutionId: varchar("institution_id").notNull(),
+  email: text("email").notNull(),
+  status: text("status").notNull().default("active"),
+  addedAt: timestamp("added_at").defaultNow().notNull(),
+  addedByUserId: varchar("added_by_user_id").notNull(),
+});
+
+export const insertInstitutionRosterSchema = createInsertSchema(institutionRosterAllowlist).omit({ id: true, addedAt: true });
+export type InstitutionRoster = typeof institutionRosterAllowlist.$inferSelect;
+export type InsertInstitutionRoster = z.infer<typeof insertInstitutionRosterSchema>;
+
+export const institutionAuditLog = pgTable("institution_audit_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  institutionId: varchar("institution_id").notNull(),
+  actorUserId: varchar("actor_user_id").notNull(),
+  actionType: text("action_type").notNull(),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertInstitutionAuditLogSchema = createInsertSchema(institutionAuditLog).omit({ id: true, createdAt: true });
+export type InstitutionAuditLog = typeof institutionAuditLog.$inferSelect;
+export type InsertInstitutionAuditLog = z.infer<typeof insertInstitutionAuditLogSchema>;
+
+export const institutionLeads = pgTable("institution_leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  institutionName: text("institution_name").notNull(),
+  programType: text("program_type").notNull(),
+  estimatedStudentCount: integer("estimated_student_count"),
+  country: text("country"),
+  contactName: text("contact_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  message: text("message"),
+  region: text("region").default("US"),
+  status: text("status").notNull().default("new"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertInstitutionLeadSchema = createInsertSchema(institutionLeads).omit({ id: true, createdAt: true });
+export type InstitutionLead = typeof institutionLeads.$inferSelect;
+export type InsertInstitutionLead = z.infer<typeof insertInstitutionLeadSchema>;
