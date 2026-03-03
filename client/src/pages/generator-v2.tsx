@@ -157,6 +157,8 @@ export default function GeneratorV2Page() {
   const [editPrice, setEditPrice] = useState("");
   const [editCompareAt, setEditCompareAt] = useState("");
   const [savingPrice, setSavingPrice] = useState(false);
+  const [editingTitleId, setEditingTitleId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
 
   const [bundleOpen, setBundleOpen] = useState(false);
   const [bundleTitle, setBundleTitle] = useState("");
@@ -476,6 +478,17 @@ export default function GeneratorV2Page() {
       else { const err = await res.json(); toast({ title: "Error", description: err.error, variant: "destructive" }); }
     } catch (e: any) { toast({ title: "Error", description: e.message, variant: "destructive" }); }
     setSavingPrice(false);
+  };
+
+  const updateProductTitle = async (productId: string) => {
+    if (!editTitle.trim()) return;
+    try {
+      const res = await adminFetch(`/api/admin/shop/products/${productId}`, {
+        method: "PUT", body: JSON.stringify({ title: editTitle.trim() }),
+      });
+      if (res.ok) { toast({ title: "Title updated" }); setEditingTitleId(null); loadStoreProducts(); }
+      else { const err = await res.json(); toast({ title: "Error", description: err.error, variant: "destructive" }); }
+    } catch (e: any) { toast({ title: "Error", description: e.message, variant: "destructive" }); }
   };
 
   const toggleProductActive = async (product: StoreProduct) => {
@@ -1155,7 +1168,15 @@ export default function GeneratorV2Page() {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-sm text-gray-800 truncate">{product.title}</h3>
+                          {editingTitleId === product.id ? (
+                            <div className="flex items-center gap-1 flex-1 min-w-0">
+                              <Input value={editTitle} onChange={e => setEditTitle(e.target.value)} className="h-7 text-sm font-semibold flex-1" autoFocus onKeyDown={e => { if (e.key === "Enter") updateProductTitle(product.id); if (e.key === "Escape") setEditingTitleId(null); }} data-testid="input-edit-title" />
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => updateProductTitle(product.id)} data-testid="button-save-title"><Check className="w-3.5 h-3.5 text-green-500" /></Button>
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => setEditingTitleId(null)} data-testid="button-cancel-title"><XCircle className="w-3.5 h-3.5 text-gray-400" /></Button>
+                            </div>
+                          ) : (
+                            <h3 className="font-semibold text-sm text-gray-800 truncate cursor-pointer hover:text-primary transition-colors" onClick={() => { setEditingTitleId(product.id); setEditTitle(product.title); }} title="Click to edit title" data-testid={`text-product-title-${product.id.substring(0, 8)}`}>{product.title}</h3>
+                          )}
                           {product.featured && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-medium shrink-0">Featured</span>}
                           {!product.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 font-medium shrink-0">Hidden</span>}
                         </div>
@@ -1234,7 +1255,15 @@ export default function GeneratorV2Page() {
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-gray-800 truncate">{product.title}</h3>
+                          {editingTitleId === product.id ? (
+                            <div className="flex items-center gap-1 flex-1 min-w-0">
+                              <Input value={editTitle} onChange={e => setEditTitle(e.target.value)} className="h-7 text-sm font-semibold flex-1" autoFocus onKeyDown={e => { if (e.key === "Enter") updateProductTitle(product.id); if (e.key === "Escape") setEditingTitleId(null); }} data-testid="input-edit-title-published" />
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => updateProductTitle(product.id)} data-testid="button-save-title-published"><Check className="w-3.5 h-3.5 text-green-500" /></Button>
+                              <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => setEditingTitleId(null)} data-testid="button-cancel-title-published"><XCircle className="w-3.5 h-3.5 text-gray-400" /></Button>
+                            </div>
+                          ) : (
+                            <h3 className="font-semibold text-gray-800 truncate cursor-pointer hover:text-primary transition-colors" onClick={() => { setEditingTitleId(product.id); setEditTitle(product.title); }} title="Click to edit title" data-testid={`text-published-title-${product.id.substring(0, 8)}`}>{product.title}</h3>
+                          )}
                           <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700 shrink-0">Live</span>
                           {product.featured && <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 shrink-0">Featured</span>}
                         </div>
