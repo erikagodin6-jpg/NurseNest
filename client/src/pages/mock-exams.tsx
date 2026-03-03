@@ -7,7 +7,8 @@ import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
-import { getExamQuestions, getPoolStats, getAvailableBodySystems } from "@/lib/question-pool";
+import { getExamQuestions, getPoolStats, getAvailableBodySystems, getAvailableBlueprintsForTier, getOfficialExamQuestions, EXAM_BLUEPRINTS } from "@/lib/question-pool";
+import type { ExamBlueprint } from "@/lib/question-pool";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n";
 import { Switch } from "@/components/ui/switch";
@@ -53,6 +54,17 @@ export default function MockExamsPage() {
   const [strictMode, setStrictMode] = useState(false);
   const [starting, setStarting] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
+  const [examMode, setExamMode] = useState<"official" | "practice">("official");
+  const [selectedBlueprint, setSelectedBlueprint] = useState<string>("");
+
+  const availableBlueprints = getAvailableBlueprintsForTier(selectedTier);
+
+  useEffect(() => {
+    const bps = getAvailableBlueprintsForTier(selectedTier);
+    if (bps.length > 0) {
+      setSelectedBlueprint(bps[0].examCode);
+    }
+  }, [selectedTier]);
 
   const examLengths = [
     { count: 25, label: t("mockExams.quickReview"), time: t("mockExams.quickReviewTime"), desc: t("mockExams.quickReviewDesc") },
@@ -96,7 +108,19 @@ export default function MockExamsPage() {
     }
     setStarting(true);
     try {
-      const questions = getExamQuestions(selectedTier, selectedLength, selectedSystems.length > 0 ? selectedSystems : undefined);
+      let questions;
+      let blueprintMeta: any = null;
+      let domainAssignments: Record<string, string> | null = null;
+
+      if (examMode === "official" && selectedBlueprint) {
+        const result = getOfficialExamQuestions(selectedBlueprint);
+        questions = result.questions;
+        blueprintMeta = result.blueprint;
+        domainAssignments = result.domainAssignments;
+      } else {
+        questions = getExamQuestions(selectedTier, selectedLength, selectedSystems.length > 0 ? selectedSystems : undefined);
+      }
+
       const res = await fetch("/api/mock-exams/start", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
@@ -104,12 +128,29 @@ export default function MockExamsPage() {
           tier: selectedTier,
           totalQuestions: questions.length,
           questions,
+          examMode: examMode,
+          blueprintCode: examMode === "official" ? selectedBlueprint : undefined,
+          blueprintMeta: blueprintMeta ? {
+            examCode: blueprintMeta.examCode,
+            examName: blueprintMeta.examName,
+            passingThreshold: blueprintMeta.passingThreshold,
+            domainPassThreshold: blueprintMeta.domainPassThreshold,
+            domains: blueprintMeta.domains,
+            timeLimit: blueprintMeta.timeLimit,
+          } : undefined,
+          domainAssignments: domainAssignments || undefined,
         }),
       });
       const data = await res.json();
       if (data.attemptId) {
-        if (strictMode) {
+        if (examMode === "official" || strictMode) {
           localStorage.setItem(`strict-mode-${data.attemptId}`, "true");
+        }
+        if (examMode === "official" && blueprintMeta) {
+          localStorage.setItem(`blueprint-${data.attemptId}`, JSON.stringify({
+            ...blueprintMeta,
+            domainAssignments,
+          }));
         }
         navigate(`/mock-exams/${data.attemptId}`);
       }
@@ -176,6 +217,42 @@ export default function MockExamsPage() {
             </h2>
 
             <div className="space-y-3">
+              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Exam Type</p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => setExamMode("official")}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    examMode === "official"
+                      ? "border-primary bg-primary/5 shadow-md"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                  data-testid="button-mode-official"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <Shield className="w-4 h-4 text-primary" />
+                    <span className="font-bold text-gray-900">Official Blueprint</span>
+                  </div>
+                  <span className="text-xs text-gray-500 block">Mirrors real licensing exam structure and competency requirements</span>
+                </button>
+                <button
+                  onClick={() => setExamMode("practice")}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    examMode === "practice"
+                      ? "border-primary bg-primary/5 shadow-md"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                  data-testid="button-mode-practice"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <Target className="w-4 h-4 text-blue-500" />
+                    <span className="font-bold text-gray-900">Practice Mode</span>
+                  </div>
+                  <span className="text-xs text-gray-500 block">Customize question count, focus areas, and study at your own pace</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-3">
               <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examFocus")}</p>
               <div className="grid gap-2">
                 {tierOptions.map((tier) => {
@@ -228,107 +305,179 @@ export default function MockExamsPage() {
               )}
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.focusAreas")}</p>
-                {selectedSystems.length > 0 && (
-                  <button onClick={() => setSelectedSystems([])} className="text-xs text-primary hover:underline" data-testid="button-clear-systems">{t("mockExams.clearAll")}</button>
-                )}
-              </div>
-              <p className="text-xs text-gray-400">{t("mockExams.focusAreasDesc")}</p>
-              <div className="flex flex-wrap gap-2">
-                {availableSystems.map((sys) => {
-                  const isSelected = selectedSystems.includes(sys);
-                  const count = stats.systems[sys] || 0;
-                  return (
+            {examMode === "official" && (
+              <div className="space-y-3">
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Select Blueprint</p>
+                <div className="grid gap-2">
+                  {availableBlueprints.map((bp) => (
                     <button
-                      key={sys}
-                      onClick={() => toggleSystem(sys)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
-                        isSelected
-                          ? "bg-primary text-white border-primary shadow-sm"
-                          : "bg-white text-gray-600 border-gray-200 hover:border-primary/40"
+                      key={bp.examCode}
+                      onClick={() => setSelectedBlueprint(bp.examCode)}
+                      className={`p-4 rounded-xl border-2 text-left transition-all ${
+                        selectedBlueprint === bp.examCode
+                          ? "border-primary bg-primary/5 shadow-md"
+                          : "border-gray-200 hover:border-gray-300"
                       }`}
-                      data-testid={`button-system-${sys.replace(/\s+/g, "-").toLowerCase()}`}
+                      data-testid={`button-blueprint-${bp.examCode.toLowerCase()}`}
                     >
-                      {sys} <span className="opacity-70">({count})</span>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="font-bold text-gray-900">{bp.examName}</span>
+                          <span className="text-xs text-gray-500 block mt-1">{bp.totalQuestions} questions &middot; {bp.timeLimit} min &middot; {bp.domains.length} domains</span>
+                        </div>
+                        <Shield className="w-4 h-4 text-primary" />
+                      </div>
                     </button>
-                  );
-                })}
-              </div>
-              {selectedSystems.length > 0 && (
-                <p className="text-xs text-primary font-medium">{filteredStats.total} {t("mockExams.questionsFromSystems")} {selectedSystems.length} {selectedSystems.length > 1 ? t("mockExams.selectedSystems") : t("mockExams.selectedSystem")}</p>
-              )}
-            </div>
+                  ))}
+                </div>
 
-            <div className="space-y-3">
-              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examLength")}</p>
-              <div className="grid grid-cols-2 gap-2">
-                {examLengths.map((el) => (
-                  <button
-                    key={el.count}
-                    onClick={() => setSelectedLength(el.count)}
-                    disabled={filteredStats.total < el.count}
-                    className={`p-4 rounded-xl border-2 text-left transition-all ${
-                      selectedLength === el.count
-                        ? "border-primary bg-primary/5 shadow-md"
-                        : filteredStats.total < el.count
-                        ? "border-gray-100 opacity-50 cursor-not-allowed"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                    data-testid={`button-length-${el.count}`}
-                  >
-                    <span className="font-bold text-gray-900">{el.count} {t("mockExams.questions")}</span>
-                    <span className="text-xs text-gray-500 block">{el.time}</span>
-                    <span className="text-xs text-gray-400">{el.desc}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+                {selectedBlueprint && EXAM_BLUEPRINTS[selectedBlueprint] && (
+                  <Card className="border-none shadow-sm bg-blue-50/50 border-l-4 border-l-primary">
+                    <CardContent className="p-4 space-y-3">
+                      <p className="text-sm font-semibold text-gray-900">Blueprint Domain Distribution</p>
+                      <div className="space-y-2">
+                        {EXAM_BLUEPRINTS[selectedBlueprint].domains.map((d) => (
+                          <div key={d.name} className="flex items-center justify-between text-xs">
+                            <span className="text-gray-700">{d.name}</span>
+                            <span className="font-bold text-gray-900">{Math.round(d.weight * 100)}% ({Math.round(EXAM_BLUEPRINTS[selectedBlueprint].totalQuestions * d.weight)} Qs)</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="pt-2 border-t border-blue-100 space-y-1">
+                        <p className="text-xs text-gray-600">Overall passing threshold: <span className="font-bold">{EXAM_BLUEPRINTS[selectedBlueprint].passingThreshold}%</span></p>
+                        <p className="text-xs text-gray-600">Minimum per domain: <span className="font-bold">{EXAM_BLUEPRINTS[selectedBlueprint].domainPassThreshold}%</span></p>
+                        <p className="text-xs text-red-600 font-medium">If any domain falls below minimum, overall result = FAIL</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
 
-            <div className="space-y-3">
-              <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Exam Mode</p>
-              <Card className="border-none shadow-sm">
-                <CardContent className="p-4 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <Shield className="w-5 h-5 text-red-500" />
+                <Card className="border-none shadow-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <Shield className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <Label htmlFor="strict-mode" className="font-bold text-gray-900 cursor-pointer">Strict Mode</Label>
-                        <p className="text-xs text-gray-500 mt-0.5">Simulates real exam conditions</p>
+                        <p className="text-sm font-semibold text-gray-900">Official Mock Mode Enforced</p>
+                        <ul className="text-xs text-gray-600 space-y-1 mt-1.5 list-disc list-inside">
+                          <li>Fixed question count based on exam blueprint</li>
+                          <li>No going back to previous questions</li>
+                          <li>Answers lock once selected</li>
+                          <li>Timed mode only — no pausing</li>
+                          <li>Tab switching is tracked</li>
+                          <li>Review only after full submission</li>
+                        </ul>
                       </div>
                     </div>
-                    <Switch
-                      id="strict-mode"
-                      checked={strictMode}
-                      onCheckedChange={setStrictMode}
-                      data-testid="toggle-strict-mode"
-                    />
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {examMode === "practice" && (
+              <>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.focusAreas")}</p>
+                    {selectedSystems.length > 0 && (
+                      <button onClick={() => setSelectedSystems([])} className="text-xs text-primary hover:underline" data-testid="button-clear-systems">{t("mockExams.clearAll")}</button>
+                    )}
                   </div>
-                  {strictMode && (
-                    <div className="bg-red-50 rounded-lg p-3 space-y-1.5">
-                      <p className="text-xs font-semibold text-red-700">Strict mode enforces:</p>
-                      <ul className="text-xs text-red-600 space-y-1 list-disc list-inside">
-                        <li>No going back to previous questions</li>
-                        <li>Answers lock once selected — no changes</li>
-                        <li>Timer cannot be paused</li>
-                        <li>Tab switching is tracked</li>
-                        <li>Scheduled break prompts</li>
-                      </ul>
-                    </div>
+                  <p className="text-xs text-gray-400">{t("mockExams.focusAreasDesc")}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {availableSystems.map((sys) => {
+                      const isSelected = selectedSystems.includes(sys);
+                      const count = stats.systems[sys] || 0;
+                      return (
+                        <button
+                          key={sys}
+                          onClick={() => toggleSystem(sys)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                            isSelected
+                              ? "bg-primary text-white border-primary shadow-sm"
+                              : "bg-white text-gray-600 border-gray-200 hover:border-primary/40"
+                          }`}
+                          data-testid={`button-system-${sys.replace(/\s+/g, "-").toLowerCase()}`}
+                        >
+                          {sys} <span className="opacity-70">({count})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {selectedSystems.length > 0 && (
+                    <p className="text-xs text-primary font-medium">{filteredStats.total} {t("mockExams.questionsFromSystems")} {selectedSystems.length} {selectedSystems.length > 1 ? t("mockExams.selectedSystems") : t("mockExams.selectedSystem")}</p>
                   )}
-                </CardContent>
-              </Card>
-            </div>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("mockExams.examLength")}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {examLengths.map((el) => (
+                      <button
+                        key={el.count}
+                        onClick={() => setSelectedLength(el.count)}
+                        disabled={filteredStats.total < el.count}
+                        className={`p-4 rounded-xl border-2 text-left transition-all ${
+                          selectedLength === el.count
+                            ? "border-primary bg-primary/5 shadow-md"
+                            : filteredStats.total < el.count
+                            ? "border-gray-100 opacity-50 cursor-not-allowed"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                        data-testid={`button-length-${el.count}`}
+                      >
+                        <span className="font-bold text-gray-900">{el.count} {t("mockExams.questions")}</span>
+                        <span className="text-xs text-gray-500 block">{el.time}</span>
+                        <span className="text-xs text-gray-400">{el.desc}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Exam Mode</p>
+                  <Card className="border-none shadow-sm">
+                    <CardContent className="p-4 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Shield className="w-5 h-5 text-red-500" />
+                          <div>
+                            <Label htmlFor="strict-mode" className="font-bold text-gray-900 cursor-pointer">Strict Mode</Label>
+                            <p className="text-xs text-gray-500 mt-0.5">Simulates real exam conditions</p>
+                          </div>
+                        </div>
+                        <Switch
+                          id="strict-mode"
+                          checked={strictMode}
+                          onCheckedChange={setStrictMode}
+                          data-testid="toggle-strict-mode"
+                        />
+                      </div>
+                      {strictMode && (
+                        <div className="bg-red-50 rounded-lg p-3 space-y-1.5">
+                          <p className="text-xs font-semibold text-red-700">Strict mode enforces:</p>
+                          <ul className="text-xs text-red-600 space-y-1 list-disc list-inside">
+                            <li>No going back to previous questions</li>
+                            <li>Answers lock once selected — no changes</li>
+                            <li>Timer cannot be paused</li>
+                            <li>Tab switching is tracked</li>
+                            <li>Scheduled break prompts</li>
+                          </ul>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </>
+            )}
 
             <Button
               size="lg"
               className="w-full h-14 text-lg rounded-full gap-2"
               onClick={startExam}
-              disabled={starting || !user || allowedTiers.length === 0 || !allowedTiers.includes(selectedTier)}
+              disabled={starting || !user || allowedTiers.length === 0 || !allowedTiers.includes(selectedTier) || (examMode === "official" && !selectedBlueprint)}
               data-testid="button-start-exam"
             >
-              {starting ? t("mockExams.preparingExam") : !user ? t("mockExams.signInToStart") : allowedTiers.length === 0 ? t("mockExams.subscriptionRequired") : t("mockExams.startMockExam")}
+              {starting ? t("mockExams.preparingExam") : !user ? t("mockExams.signInToStart") : allowedTiers.length === 0 ? t("mockExams.subscriptionRequired") : examMode === "official" ? "Start Official Blueprint Mock Exam" : t("mockExams.startMockExam")}
               <ArrowRight className="w-5 h-5" />
             </Button>
           </div>

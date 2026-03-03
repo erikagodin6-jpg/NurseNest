@@ -261,6 +261,273 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
+export interface ExamBlueprint {
+  examCode: string;
+  examName: string;
+  tier: string;
+  totalQuestions: number;
+  timeLimit: number;
+  passingThreshold: number;
+  domainPassThreshold: number;
+  domains: { name: string; weight: number }[];
+  difficultyMix: { high: number; moderate: number; foundational: number };
+}
+
+const BODY_SYSTEM_TO_DOMAIN_RPN: Record<string, string> = {
+  "Cardiovascular": "Foundations of Practice",
+  "Respiratory": "Foundations of Practice",
+  "Neurological": "Foundations of Practice",
+  "Gastrointestinal": "Foundations of Practice",
+  "Renal & Urinary": "Foundations of Practice",
+  "Endocrine": "Foundations of Practice",
+  "Hematology": "Foundations of Practice",
+  "Musculoskeletal": "Foundations of Practice",
+  "Immune System": "Foundations of Practice",
+  "HEENT & Skin": "Foundations of Practice",
+  "Pediatrics": "Collaborative Practice",
+  "Maternity": "Collaborative Practice",
+  "Neonatal": "Collaborative Practice",
+  "Mental Health": "Collaborative Practice",
+  "Pharmacology": "Foundations of Practice",
+  "Procedures": "Foundations of Practice",
+  "Infections": "Foundations of Practice",
+  "Safety & Ethics": "Professional Practice",
+  "Infection Control": "Professional Practice",
+  "Assessment Skills": "Foundations of Practice",
+  "Fluid & Electrolytes": "Foundations of Practice",
+  "Nutrition": "Foundations of Practice",
+  "Gerontology": "Collaborative Practice",
+  "Wound Care & Skin": "Foundations of Practice",
+  "Pain Management": "Foundations of Practice",
+  "Palliative & End of Life": "Ethical Practice",
+  "Community Health": "Collaborative Practice",
+  "Oncology": "Foundations of Practice",
+  "Toxicology & Environmental": "Foundations of Practice",
+  "Critical Care Basics": "Foundations of Practice",
+  "Women's Health": "Collaborative Practice",
+  "Delegation & Prioritization": "Professional Practice",
+  "Clinical Scenarios & Prioritization": "Professional Practice",
+  "Med Math & Calculations": "Foundations of Practice",
+  "Pre-Nursing Foundations": "Foundations of Practice",
+  "Nursing Fundamentals": "Foundations of Practice",
+};
+
+const BODY_SYSTEM_TO_DOMAIN_RN: Record<string, string> = {
+  "Cardiovascular": "Physiological Adaptation",
+  "Respiratory": "Physiological Adaptation",
+  "Neurological": "Physiological Adaptation",
+  "Gastrointestinal": "Physiological Adaptation",
+  "Renal & Metabolic": "Physiological Adaptation",
+  "Endocrine": "Physiological Adaptation",
+  "Hematology & Oncology": "Pharmacological Therapies",
+  "Musculoskeletal & Skin": "Reduction of Risk Potential",
+  "Arrhythmias & ECG": "Physiological Adaptation",
+  "Maternity & Obstetrics": "Health Promotion and Maintenance",
+  "Women's Health & Reproductive": "Health Promotion and Maintenance",
+  "Neonatal": "Health Promotion and Maintenance",
+  "Pediatrics": "Health Promotion and Maintenance",
+  "Psychiatry & Mental Health": "Psychosocial Integrity",
+  "Pharmacology": "Pharmacological Therapies",
+  "Clinical Procedures": "Reduction of Risk Potential",
+  "Infectious Disease": "Safety and Infection Control",
+  "Shock & Emergency": "Physiological Adaptation",
+  "Safety & Forensic Nursing": "Safety and Infection Control",
+  "Infection Control & Safety": "Safety and Infection Control",
+  "Assessment Skills": "Reduction of Risk Potential",
+  "Rheumatology": "Physiological Adaptation",
+  "Toxicology": "Pharmacological Therapies",
+  "Dermatology": "Physiological Adaptation",
+  "Delegation & Prioritization": "Management of Care",
+  "Clinical Scenarios & Prioritization": "Management of Care",
+  "Med Math & Calculations": "Pharmacological Therapies",
+  "Pre-Nursing Foundations": "Basic Care and Comfort",
+  "Nursing Fundamentals": "Basic Care and Comfort",
+  "Fluid & Electrolytes": "Physiological Adaptation",
+};
+
+const BODY_SYSTEM_TO_DOMAIN_NP: Record<string, string> = {
+  "Cardiovascular": "Therapeutics",
+  "Respiratory": "Therapeutics",
+  "Neurological": "Diagnosis",
+  "Endocrine & Metabolic": "Diagnosis",
+  "Renal & Nephrology": "Therapeutics",
+  "Hematology & Oncology": "Diagnosis",
+  "Maternity & Obstetrics": "Health Assessment",
+  "Neonatal": "Health Assessment",
+  "Immune System": "Diagnosis",
+  "Pharmacology": "Therapeutics",
+  "Procedures": "Health Assessment",
+  "Musculoskeletal": "Health Assessment",
+  "GI & Hepatology": "Therapeutics",
+  "Dermatology": "Health Assessment",
+  "Psychiatry & Mental Health": "Therapeutics",
+  "Women's Health & Gynecology": "Health Assessment",
+  "Family Medicine Primary Care": "Health Promotion & Disease Prevention",
+  "Palliative & Ethics": "Professional Role & Responsibility",
+  "Infectious Disease": "Therapeutics",
+  "Trauma & Emergency": "Therapeutics",
+  "Geriatric Medicine": "Health Assessment",
+  "Pain Management": "Therapeutics",
+  "Assessment Skills": "Health Assessment",
+  "Rheumatology": "Diagnosis",
+  "Toxicology": "Therapeutics",
+  "Rare & Genetic Disorders": "Diagnosis",
+  "Critical Care Advanced": "Therapeutics",
+  "Core Advanced Pathophysiology": "Diagnosis",
+  "Delegation & Prioritization": "Professional Role & Responsibility",
+  "Clinical Scenarios & Prioritization": "Professional Role & Responsibility",
+  "Med Math & Calculations": "Therapeutics",
+  "Pre-Nursing Foundations": "Health Promotion & Disease Prevention",
+  "Nursing Fundamentals": "Health Promotion & Disease Prevention",
+};
+
+export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
+  "REX-PN": {
+    examCode: "REX-PN",
+    examName: "REx-PN Official Blueprint Mock",
+    tier: "rpn",
+    totalQuestions: 90,
+    timeLimit: 180,
+    passingThreshold: 65,
+    domainPassThreshold: 60,
+    domains: [
+      { name: "Foundations of Practice", weight: 0.36 },
+      { name: "Collaborative Practice", weight: 0.30 },
+      { name: "Professional Practice", weight: 0.16 },
+      { name: "Ethical Practice", weight: 0.10 },
+      { name: "Legal Practice", weight: 0.08 },
+    ],
+    difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
+  },
+  "NCLEX-PN": {
+    examCode: "NCLEX-PN",
+    examName: "NCLEX-PN Official Blueprint Mock",
+    tier: "rpn",
+    totalQuestions: 85,
+    timeLimit: 180,
+    passingThreshold: 65,
+    domainPassThreshold: 60,
+    domains: [
+      { name: "Physiological Integrity", weight: 0.54 },
+      { name: "Safe and Effective Care Environment", weight: 0.23 },
+      { name: "Health Promotion and Maintenance", weight: 0.12 },
+      { name: "Psychosocial Integrity", weight: 0.11 },
+    ],
+    difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
+  },
+  "NCLEX-RN": {
+    examCode: "NCLEX-RN",
+    examName: "NCLEX-RN Official Blueprint Mock",
+    tier: "rn",
+    totalQuestions: 85,
+    timeLimit: 180,
+    passingThreshold: 65,
+    domainPassThreshold: 60,
+    domains: [
+      { name: "Management of Care", weight: 0.19 },
+      { name: "Safety and Infection Control", weight: 0.12 },
+      { name: "Health Promotion and Maintenance", weight: 0.09 },
+      { name: "Psychosocial Integrity", weight: 0.09 },
+      { name: "Basic Care and Comfort", weight: 0.09 },
+      { name: "Pharmacological Therapies", weight: 0.15 },
+      { name: "Reduction of Risk Potential", weight: 0.12 },
+      { name: "Physiological Adaptation", weight: 0.14 },
+    ],
+    difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
+  },
+  "NP-BOARDS": {
+    examCode: "NP-BOARDS",
+    examName: "NP Boards Official Blueprint Mock",
+    tier: "np",
+    totalQuestions: 150,
+    timeLimit: 240,
+    passingThreshold: 65,
+    domainPassThreshold: 60,
+    domains: [
+      { name: "Health Assessment", weight: 0.25 },
+      { name: "Diagnosis", weight: 0.20 },
+      { name: "Therapeutics", weight: 0.25 },
+      { name: "Health Promotion & Disease Prevention", weight: 0.15 },
+      { name: "Professional Role & Responsibility", weight: 0.15 },
+    ],
+    difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
+  },
+};
+
+function getDomainForQuestion(q: PooledQuestion, tier: string): string {
+  const map = tier === "np" ? BODY_SYSTEM_TO_DOMAIN_NP
+    : tier === "rn" ? BODY_SYSTEM_TO_DOMAIN_RN
+    : BODY_SYSTEM_TO_DOMAIN_RPN;
+  return map[q.bodySystem] || Object.values(map)[0] || "General";
+}
+
+export function getAvailableBlueprintsForTier(tier: string): ExamBlueprint[] {
+  return Object.values(EXAM_BLUEPRINTS).filter(bp => bp.tier === tier);
+}
+
+export function getOfficialExamQuestions(blueprintCode: string): { questions: PooledQuestion[]; blueprint: ExamBlueprint; domainAssignments: Record<string, string> } {
+  const blueprint = EXAM_BLUEPRINTS[blueprintCode];
+  if (!blueprint) throw new Error(`Unknown blueprint: ${blueprintCode}`);
+
+  const pool = buildQuestionPool();
+  const tierPool = pool.filter(q => q.tier === blueprint.tier);
+
+  const domainBuckets: Record<string, PooledQuestion[]> = {};
+  for (const domain of blueprint.domains) {
+    domainBuckets[domain.name] = [];
+  }
+
+  for (const q of tierPool) {
+    const domain = getDomainForQuestion(q, blueprint.tier);
+    if (domainBuckets[domain]) {
+      domainBuckets[domain].push(q);
+    } else {
+      const firstDomain = blueprint.domains[0].name;
+      domainBuckets[firstDomain].push(q);
+    }
+  }
+
+  for (const key of Object.keys(domainBuckets)) {
+    domainBuckets[key] = shuffleArray(domainBuckets[key]);
+  }
+
+  const selected: PooledQuestion[] = [];
+  const domainAssignments: Record<string, string> = {};
+  const totalQ = blueprint.totalQuestions;
+
+  for (const domain of blueprint.domains) {
+    const targetCount = Math.round(totalQ * domain.weight);
+    const available = domainBuckets[domain.name];
+    const toTake = Math.min(targetCount, available.length);
+    for (let i = 0; i < toTake; i++) {
+      selected.push(available[i]);
+      domainAssignments[available[i].id] = domain.name;
+    }
+  }
+
+  let deficit = totalQ - selected.length;
+  if (deficit > 0) {
+    const usedIds = new Set(selected.map(q => q.id));
+    for (const domain of blueprint.domains) {
+      if (deficit <= 0) break;
+      const available = domainBuckets[domain.name].filter(q => !usedIds.has(q.id));
+      for (const q of available) {
+        if (deficit <= 0) break;
+        selected.push(q);
+        domainAssignments[q.id] = domain.name;
+        usedIds.add(q.id);
+        deficit--;
+      }
+    }
+  }
+
+  return {
+    questions: shuffleArray(selected).slice(0, totalQ),
+    blueprint,
+    domainAssignments,
+  };
+}
+
 export function getAvailableBodySystems(tier: string): string[] {
   const pool = buildQuestionPool();
   const filtered = tier === "all" ? pool : pool.filter((q) => q.tier === tier);

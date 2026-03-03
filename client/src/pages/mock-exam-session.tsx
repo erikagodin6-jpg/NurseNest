@@ -30,10 +30,27 @@ function formatTime(seconds: number): string {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-function computeReport(questions: PooledQuestion[], answers: Record<string, number>) {
+interface BlueprintMeta {
+  examCode: string;
+  examName: string;
+  passingThreshold: number;
+  domainPassThreshold: number;
+  domains: { name: string; weight: number }[];
+  timeLimit: number;
+  domainAssignments?: Record<string, string>;
+}
+
+function computeReport(questions: PooledQuestion[], answers: Record<string, number>, blueprintMeta?: BlueprintMeta | null) {
   let correct = 0;
   const systemScores: Record<string, { correct: number; total: number }> = {};
+  const domainScores: Record<string, { correct: number; total: number }> = {};
   const questionReview: any[] = [];
+
+  if (blueprintMeta?.domains) {
+    for (const d of blueprintMeta.domains) {
+      domainScores[d.name] = { correct: 0, total: 0 };
+    }
+  }
 
   for (const q of questions) {
     if (!systemScores[q.bodySystem]) {
@@ -41,11 +58,20 @@ function computeReport(questions: PooledQuestion[], answers: Record<string, numb
     }
     systemScores[q.bodySystem].total++;
 
+    const domainName = blueprintMeta?.domainAssignments?.[q.id];
+    if (domainName) {
+      if (!domainScores[domainName]) domainScores[domainName] = { correct: 0, total: 0 };
+      domainScores[domainName].total++;
+    }
+
     const userAnswer = answers[q.id];
     const isCorrect = userAnswer === q.correct;
     if (isCorrect) {
       correct++;
       systemScores[q.bodySystem].correct++;
+      if (domainName && domainScores[domainName]) {
+        domainScores[domainName].correct++;
+      }
     }
 
     questionReview.push({
@@ -58,6 +84,7 @@ function computeReport(questions: PooledQuestion[], answers: Record<string, numb
       rationale: q.rationale,
       bodySystem: q.bodySystem,
       lessonId: q.lessonId,
+      domain: domainName || undefined,
     });
   }
 
@@ -71,10 +98,29 @@ function computeReport(questions: PooledQuestion[], answers: Record<string, numb
       total: s.total,
     }));
 
+  const overallPercentage = Math.round((correct / questions.length) * 100);
+
+  let isOfficialMode = false;
+  let overallPass = true;
+  let failedDomains: string[] = [];
+  let domainBreakdown: { name: string; correct: number; total: number; percentage: number; passed: boolean; weight: number }[] = [];
+
+  if (blueprintMeta && blueprintMeta.domains) {
+    isOfficialMode = true;
+    domainBreakdown = blueprintMeta.domains.map(d => {
+      const ds = domainScores[d.name] || { correct: 0, total: 0 };
+      const pct = ds.total > 0 ? Math.round((ds.correct / ds.total) * 100) : 0;
+      const passed = pct >= blueprintMeta.domainPassThreshold;
+      if (!passed) failedDomains.push(d.name);
+      return { name: d.name, correct: ds.correct, total: ds.total, percentage: pct, passed, weight: d.weight };
+    });
+    overallPass = overallPercentage >= blueprintMeta.passingThreshold && failedDomains.length === 0;
+  }
+
   return {
     score: correct,
     totalQuestions: questions.length,
-    percentage: Math.round((correct / questions.length) * 100),
+    percentage: overallPercentage,
     systemBreakdown: Object.entries(systemScores).map(([system, s]) => ({
       system,
       correct: s.correct,
@@ -83,6 +129,14 @@ function computeReport(questions: PooledQuestion[], answers: Record<string, numb
     })).sort((a, b) => a.percentage - b.percentage),
     weakAreas,
     questionReview,
+    isOfficialMode,
+    overallPass,
+    failedDomains,
+    domainBreakdown,
+    blueprintCode: blueprintMeta?.examCode || null,
+    blueprintName: blueprintMeta?.examName || null,
+    passingThreshold: blueprintMeta?.passingThreshold || null,
+    domainPassThreshold: blueprintMeta?.domainPassThreshold || null,
   };
 }
 
@@ -106,6 +160,7 @@ export default function MockExamSession() {
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
   const [showTabWarning, setShowTabWarning] = useState(false);
   const [showBreakPrompt, setShowBreakPrompt] = useState(false);
+  const [blueprintMeta, setBlueprintMeta] = useState<BlueprintMeta | null>(null);
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
 
@@ -113,6 +168,13 @@ export default function MockExamSession() {
     if (!attemptId) return;
     const isStrict = localStorage.getItem(`strict-mode-${attemptId}`) === "true";
     setStrictMode(isStrict);
+
+    try {
+      const bpData = localStorage.getItem(`blueprint-${attemptId}`);
+      if (bpData) {
+        setBlueprintMeta(JSON.parse(bpData));
+      }
+    } catch {}
 
     fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders() })
       .then((r) => r.json())
@@ -196,7 +258,7 @@ export default function MockExamSession() {
     if (!attemptId) return;
     setSubmitting(true);
     try {
-      const report = computeReport(questions, answers);
+      const report = computeReport(questions, answers, blueprintMeta);
       await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
