@@ -1,0 +1,194 @@
+Heart Block Rhythms ECG Course
+Comprehensive Lesson: Atrioventricular Blocks & Bundle Branch Blocks
+Learning Objectives
+At the completion of this lesson, learners will be able to:
+Explain the anatomy of the cardiac conduction system related to heart blocks
+Differentiate first, second (Type I and Type II), and third-degree AV blocks
+Recognize bundle branch blocks on ECG
+Identify distinguishing ECG features for each block
+Correlate ECG findings with underlying pathophysiology
+Recognize which blocks are benign versus life-threatening
+Outline appropriate clinical management priorities
+1. Conduction System Review
+
+
+
+
+
+
+4
+Normal Conduction Pathway
+SA node initiates impulse
+Atrial depolarization (P wave)
+AV node delay (PR interval)
+Bundle of His
+Right and Left Bundle Branches
+Purkinje fibers → ventricular depolarization (QRS complex)
+Heart blocks occur when conduction is delayed or interrupted anywhere along this pathway.
+2. Heart Block Categories
+Heart blocks are divided into:
+First Degree AV Block
+Second Degree AV Block Type I (Mobitz I / Wenckebach)
+Second Degree AV Block Type II (Mobitz II)
+Third Degree (Complete) AV Block
+Bundle Branch Block (BBB)
+AV blocks involve delayed or failed conduction between atria and ventricles.
+Bundle branch blocks involve intraventricular conduction delay.
+3. First Degree AV Block
+
+
+
+
+
+
+4
+Definition
+A conduction delay at the AV node or bundle of His.
+ECG Criteria
+PR interval > 0.20 seconds
+PR interval constant
+Every P wave followed by QRS
+Rhythm regular
+Key Concept
+It is a delay, not a dropped beat.
+Clinical Significance
+Often benign.
+May be seen in:
+Athletes
+Increased vagal tone
+Beta blocker use
+Typically requires monitoring only.
+4. Second Degree AV Block Type I (Mobitz I / Wenckebach)
+
+
+
+
+
+
+4
+Definition
+Progressive AV nodal delay until one impulse fails to conduct.
+ECG Criteria
+Progressive PR interval lengthening
+Eventually a dropped QRS complex
+Cycle repeats
+More P waves than QRS complexes
+Mechanism
+Usually occurs at the AV node.
+Clinical Significance
+Often benign and transient.
+May occur during sleep or inferior MI.
+Monitor unless symptomatic.
+5. Second Degree AV Block Type II (Mobitz II)
+
+
+
+
+
+
+4
+Definition
+Intermittent failure of conduction without PR interval prolongation.
+ECG Criteria
+PR interval constant
+Sudden dropped QRS complex
+More P waves than QRS complexes
+Mechanism
+Usually occurs in the bundle of His or below.
+Clinical Significance
+Serious.
+High risk of progressing to third-degree block.
+Often requires pacemaker placement.
+6. Third Degree (Complete) AV Block
+
+
+
+
+
+
+4
+Definition
+No atrial impulses are conducted to the ventricles.
+ECG Criteria
+P waves and QRS complexes unrelated
+Atrial rate 60–100 bpm
+Ventricular escape rhythm 20–45 bpm
+PR interval varies randomly
+Mechanism
+Complete AV dissociation.
+Clinical Significance
+Medical emergency.
+Often causes:
+Severe bradycardia
+Hypotension
+Syncope (Stokes-Adams attacks)
+Requires immediate pacing.
+7. Bundle Branch Block (BBB)
+
+
+
+
+
+
+4
+Definition
+Delay or block in right or left bundle branch conduction.
+ECG Criteria
+QRS duration > 0.12 seconds
+Wide, abnormal QRS morphology
+Sinus rhythm usually present
+Types
+Right Bundle Branch Block (RBBB)
+Often benign
+RSR’ pattern in V1
+Left Bundle Branch Block (LBBB)
+Often indicates structural heart disease
+Broad notched R waves in lateral leads
+Clinical Significance
+RBBB may be incidental.
+LBBB may obscure MI diagnosis and often indicates underlying pathology.
+8. Comparison Summary Table
+Block Type	PR Interval	QRS	Dropped Beats	Severity
+1st Degree	>0.20 sec (constant)	Normal	No	Mild
+2nd Degree I	Progressively lengthens	Normal	Yes	Usually mild
+2nd Degree II	Constant	Normal	Yes	Serious
+3rd Degree	Variable	Often wide	Complete AV dissociation	Emergency
+BBB	Normal PR	Wide (>0.12 sec)	No	Variable
+9. Clinical Red Flags
+Immediate concern if:
+Mobitz II present
+Third-degree block identified
+Ventricular rate < 40 bpm
+Hypotension
+Syncope
+Chest pain
+Prepare for pacing if unstable.
+10. Management Overview
+First Degree:
+Monitor
+Review medications
+Mobitz I:
+Monitor
+Treat underlying cause
+Mobitz II:
+Cardiology consult
+Likely pacemaker
+Third Degree:
+Emergency
+Transcutaneous pacing
+IV access
+Atropine (often ineffective)
+Transvenous pacing
+Bundle Branch Block:
+Evaluate underlying cardiac disease
+Assess for ischemia
+11. Key Clinical Pearls
+• PR interval reflects AV nodal conduction
+• Progressive PR lengthening → Mobitz I
+• Dropped beat without PR change → Mobitz II
+• AV dissociation → Third-degree block
+• Wide QRS with sinus rhythm → Bundle branch block
+• Mobitz II and third-degree blocks require urgent intervention
+12. Final Takeaway
+Heart block rhythms result from delayed or interrupted conduction through the AV node or ventricular conduction system. Accurate identification requires systematic rhythm analysis and understanding of conduction anatomy.
+Mobitz II and third-degree blocks represent unstable conduction disturbances and require urgent intervention. Bundle branch blocks reflect ventricular conduction delay and must be interpreted in the clinical context.

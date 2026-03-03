@@ -1042,11 +1042,16 @@ export const rnSystems = [
       { id: "sinus-tachycardia", name: "Sinus Tachycardia", status: "Available" },
       { id: "atrial-fibrillation-rn", name: "Atrial Fibrillation", status: "Available" },
       { id: "atrial-flutter-rn", name: "Atrial Flutter", status: "Available" },
+      { id: "atrial-tachycardia", name: "Atrial Tachycardia", status: "Available" },
       { id: "svt-recognition", name: "Supraventricular Tachycardia", status: "Available" },
       { id: "pvc-recognition", name: "Premature Ventricular Contractions", status: "Available" },
       { id: "vtach-management", name: "Ventricular Tachycardia", status: "Available" },
       { id: "vfib-management", name: "Ventricular Fibrillation", status: "Available" },
-      { id: "heart-block-complete", name: "Complete Heart Block", status: "Available" },
+      { id: "first-degree-av-block", name: "First-Degree AV Block", status: "Available" },
+      { id: "second-degree-av-block-type-i", name: "Second-Degree AV Block Type I (Wenckebach)", status: "Available" },
+      { id: "second-degree-av-block-type-ii", name: "Second-Degree AV Block Type II (Mobitz II)", status: "Available" },
+      { id: "heart-block-complete", name: "Third-Degree (Complete) Heart Block", status: "Available" },
+      { id: "bundle-branch-block", name: "Bundle Branch Block (BBB)", status: "Available" },
       { id: "torsades-management", name: "Torsades de Pointes", status: "Available" },
       { id: "asystole-pea", name: "Asystole & PEA", status: "Available" }
     ]

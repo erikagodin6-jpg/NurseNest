@@ -1,0 +1,173 @@
+Sinus Rhythms
+Sinus Tachycardia ECG Interpretation – Comprehensive Clinical Lesson
+Learning Objectives
+At the completion of this lesson, the learner will be able to:
+Define sinus tachycardia using strict ECG criteria
+Apply the five-step rhythm analysis method to confirm sinus origin
+Differentiate sinus tachycardia from supraventricular tachycardia (SVT)
+Explain physiologic and pathologic causes
+Recognize when sinus tachycardia signals clinical instability
+Outline appropriate clinical management priorities
+1. Definition of Sinus Tachycardia
+Sinus tachycardia is a sinus rhythm with a heart rate greater than 100 beats per minute.
+The electrical impulse originates from the sinoatrial (SA) node, just as in normal sinus rhythm.
+The only defining difference between normal sinus rhythm and sinus tachycardia is the rate.
+All other components of rhythm analysis remain normal.
+Typical rate range:
+100–160 bpm (occasionally higher in young patients)
+2. Electrophysiology Review
+
+
+
+
+
+
+4
+The SA node normally fires at 60–100 bpm.
+In sinus tachycardia:
+SA node automaticity increases
+Sympathetic tone rises
+Parasympathetic tone decreases
+This results in faster impulse formation but normal conduction pathways.
+3. Five-Step Rhythm Analysis Applied to Sinus Tachycardia
+Step 1: Rhythm Regularity
+R–R intervals are regular.
+Beats occur at equal intervals.
+Step 2: Heart Rate
+Using the 1500 method for regular rhythms:
+Heart Rate = 1500 ÷ number of small boxes between R waves
+If result > 100 bpm → tachycardia confirmed.
+Step 3: P Wave Morphology
+
+
+
+
+
+
+4
+P waves must be:
+Upright in lead II
+Uniform in morphology
+Present before every QRS
+1:1 P:QRS ratio
+As the rate increases, P waves may merge with the preceding T wave.
+This can make PR interval measurement difficult.
+Step 4: PR Interval
+Normal range:
+0.12 – 0.20 seconds
+PR interval remains normal but may be difficult to measure if the P wave becomes partially buried in the preceding T wave.
+If needed, increase ECG paper speed to 50 mm/sec to better separate complexes.
+Step 5: QRS Complex
+
+
+
+
+
+
+4
+QRS duration:
+0.06 – 0.10 seconds
+QRS complexes are:
+Narrow
+Uniform
+Consistent
+4. ECG Criteria Summary Table
+Feature	Sinus Tachycardia Finding
+Rate	> 100 bpm
+Rhythm	Regular
+P waves	Upright, uniform
+P:QRS	1:1
+PR interval	0.12–0.20 sec
+QRS duration	0.06–0.10 sec
+Only the rate is abnormal.
+5. Causes of Sinus Tachycardia
+Sinus tachycardia is usually a physiologic response, not a primary arrhythmia.
+Physiologic Causes
+Exercise
+Anxiety
+Emotional stress
+Pain
+Caffeine
+Nicotine
+Pathologic Causes
+Fever
+Hypovolemia
+Hemorrhage
+Shock
+Sepsis
+Pulmonary embolism
+Heart failure
+Hyperthyroidism
+Anemia
+In most clinical settings, sinus tachycardia is a compensatory mechanism.
+6. Pathophysiology
+Cardiac Output = Heart Rate × Stroke Volume
+When stroke volume falls (e.g., dehydration, hemorrhage), the body increases heart rate to maintain cardiac output.
+Persistent tachycardia:
+Increases myocardial oxygen demand
+Decreases diastolic filling time
+Can worsen ischemia
+7. Differentiating Sinus Tachycardia from SVT
+Sinus tachycardia:
+Gradual onset
+Gradual termination
+Visible upright P waves
+Rate usually < 160 bpm
+Supraventricular tachycardia (SVT):
+Sudden onset
+Sudden termination
+P waves often absent or hidden
+Rate typically 150–250 bpm
+Key distinguishing feature: visible, normal P waves preceding each QRS.
+8. Clinical Presentation
+Symptoms depend on cause and rate.
+Mild tachycardia:
+Palpitations
+Mild anxiety
+Severe tachycardia:
+Hypotension
+Chest pain
+Dyspnea
+Lightheadedness
+Reduced perfusion
+Always evaluate underlying cause.
+9. When Is Sinus Tachycardia Concerning?
+Sinus tachycardia becomes dangerous when:
+Rate persistently > 130–140 bpm at rest
+Hypotension present
+Chest pain develops
+Signs of shock appear
+Myocardial ischemia suspected
+Tachycardia is often the first sign of clinical deterioration.
+10. Clinical Management Principles
+Key concept:
+Treat the cause, not the rate.
+Initial approach:
+Assess airway, breathing, circulation
+Obtain vital signs
+Establish IV access
+Perform 12-lead ECG
+Identify precipitating factors
+Examples:
+Fever → antipyretics
+Hypovolemia → IV fluids
+Sepsis → antibiotics
+Anemia → transfusion
+Rate-control medications are rarely indicated unless tachycardia is inappropriate or causing instability.
+11. Practice Strip Interpretation Example
+Rhythm: Regular
+Rate: 118 bpm
+P waves: Upright, uniform
+PR interval: 0.14 sec
+QRS: 0.08 sec
+Final Interpretation: Sinus Tachycardia
+12. Clinical Pearls
+• Sinus tachycardia is usually compensatory
+• P waves remain normal and upright
+• Rate rarely exceeds 160 bpm in adults
+• Always search for underlying cause
+• Persistent tachycardia increases myocardial oxygen demand
+• Treat physiology, not just the monitor
+13. Key Takeaway
+Sinus tachycardia is a sinus rhythm originating from the SA node with a rate greater than 100 bpm. Diagnosis requires systematic application of the five-step rhythm analysis method. Clinical importance depends on the underlying cause and patient stability.
+Mastering sinus tachycardia ensures accurate differentiation from pathologic tachyarrhythmias and supports appropriate intervention.
