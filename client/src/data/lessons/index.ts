@@ -217,7 +217,43 @@ function countQuestions(lessons: Record<string, LessonContent>): number {
 
 function isPlaceholder(lesson: LessonContent): boolean {
   const content = lesson.cellular?.content || "";
-  return content.includes("[WRITE YOUR") || content.includes("[PLACEHOLDER") || content.length < 20;
+  if (content.includes("[WRITE YOUR") || content.includes("[PLACEHOLDER") || content.length < 20) return true;
+
+  const genericRiskFactors = [
+    "Advanced age or extremes of age",
+    "Family history of",
+    "Sedentary lifestyle and poor nutritional status",
+  ];
+  const rf = lesson.riskFactors || [];
+  const genericRfCount = rf.filter((r: string) =>
+    genericRiskFactors.some(g => r.startsWith(g) || r.includes(g))
+  ).length;
+  if (genericRfCount >= 2) return true;
+
+  const meds = lesson.medications || [];
+  const genericMedNames = ["Levetiracetam", "Metformin"];
+  const title = (lesson.title || "").toLowerCase();
+  for (const med of meds) {
+    if (genericMedNames.includes(med.name)) {
+      const isRelevant =
+        (med.name === "Levetiracetam" && (title.includes("seizure") || title.includes("epilep") || title.includes("anticonvulsant"))) ||
+        (med.name === "Metformin" && (title.includes("diabet") || title.includes("metformin") || title.includes("glucose") || title.includes("endocrin")));
+      if (!isRelevant) return true;
+    }
+  }
+
+  const genericNursingActions = [
+    "Perform comprehensive assessment and interpret findings for changes in condition",
+    "Implement evidence-based interventions and evaluate outcomes per established protocols",
+    "Reinforce patient teaching as delegated regarding condition management",
+  ];
+  const na = lesson.nursingActions || [];
+  const genericNaCount = na.filter((a: string) =>
+    genericNursingActions.some(g => a.startsWith(g))
+  ).length;
+  if (genericNaCount >= 2) return true;
+
+  return false;
 }
 
 function safeMerge(
@@ -226,8 +262,9 @@ function safeMerge(
 ): Record<string, LessonContent> {
   for (const source of sources) {
     for (const [id, lesson] of Object.entries(source)) {
+      if (isPlaceholder(lesson)) continue;
       const existing = target[id];
-      if (existing && !isPlaceholder(existing) && isPlaceholder(lesson)) {
+      if (existing && !isPlaceholder(existing)) {
         continue;
       }
       target[id] = lesson;

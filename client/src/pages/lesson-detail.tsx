@@ -1657,10 +1657,13 @@ export default function LessonDetail() {
   const { language, t } = useI18n();
   const isAdmin = user?.tier === "admin" && !previewTier;
   
+  const validTierPrefixes = new Set(["rpn", "rn", "np", "free"]);
   const tierFromId = id?.split('-')[0];
+  const isTierPrefixed = tierFromId ? validTierPrefixes.has(tierFromId) : false;
   const slugFromId = id?.split('-').slice(1).join('-');
 
   useEffect(() => {
+    if (!isTierPrefixed) return;
     const activeTier = previewTier || user?.tier || "free";
     if (user && activeTier !== 'admin' && tierFromId && tierFromId !== activeTier) {
       const targetId = `${activeTier}-${slugFromId}`;
@@ -1668,7 +1671,7 @@ export default function LessonDetail() {
         setLocation(`/lessons/${targetId}`);
       }
     }
-  }, [user, id, tierFromId, slugFromId, setLocation, previewTier]);
+  }, [user, id, isTierPrefixed, tierFromId, slugFromId, setLocation, previewTier]);
 
   const [activeTab, setActiveTab] = useState(() => {
     const hidePre = localStorage.getItem("nursenest-hide-pretest") === "true";
