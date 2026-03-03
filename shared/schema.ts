@@ -1980,3 +1980,33 @@ export const qbankGenerationSchedules = pgTable("qbank_generation_schedules", {
 export const insertQbankGenerationScheduleSchema = createInsertSchema(qbankGenerationSchedules).omit({ id: true, createdAt: true, updatedAt: true });
 export type QbankGenerationSchedule = typeof qbankGenerationSchedules.$inferSelect;
 export type InsertQbankGenerationSchedule = z.infer<typeof insertQbankGenerationScheduleSchema>;
+
+export const trialSessions = pgTable("trial_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  examKey: text("exam_key").notNull(),
+  tier: text("tier").notNull().default("rpn"),
+  status: text("status").notNull().default("started"),
+  totalQuestions: integer("total_questions").notNull().default(50),
+  questionsServed: integer("questions_served").default(0),
+  questionsAnswered: integer("questions_answered").default(0),
+  currentIndex: integer("current_index").default(0),
+  questions: jsonb("questions").default(sql`'[]'::jsonb`),
+  answers: jsonb("answers").default(sql`'{}'::jsonb`),
+  domainScores: jsonb("domain_scores").default(sql`'{}'::jsonb`),
+  difficultyEstimate: doublePrecision("difficulty_estimate"),
+  readinessLevel: text("readiness_level"),
+  completionTimeSeconds: integer("completion_time_seconds"),
+  report: jsonb("report").default(sql`'{}'::jsonb`),
+  ipAddress: text("ip_address"),
+  deviceFingerprint: text("device_fingerprint"),
+  timerEnabled: boolean("timer_enabled").default(false),
+  expiresAt: timestamp("expires_at"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTrialSessionSchema = createInsertSchema(trialSessions).omit({ id: true, createdAt: true, startedAt: true });
+export type TrialSession = typeof trialSessions.$inferSelect;
+export type InsertTrialSession = z.infer<typeof insertTrialSessionSchema>;

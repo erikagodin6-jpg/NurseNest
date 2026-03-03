@@ -1,0 +1,211 @@
+ROLE
+You are implementing the NurseNest AI Study Path Generator.
+
+GOAL
+Automatically generate a personalized study plan for users after they complete the trial exam, mock exam, or readiness assessment.
+
+This system should convert trial users into subscribers by showing them a clear path to passing their licensing exam.
+
+---
+
+TRIGGER EVENTS
+
+Generate a study plan when a user:
+
+• completes the 50-question trial
+• completes a mock exam
+• completes a readiness assessment
+• subscribes to a paid plan
+
+---
+
+INPUT DATA
+
+The study plan generator must analyze the following user data:
+
+user_id
+examKey
+region (US or Canada)
+exam_date (if provided)
+trial_results
+
+trial_results should include:
+
+overall_score
+domain_scores
+difficulty_estimate
+question_response_time
+weak_topics
+strong_topics
+
+---
+
+EXAM DOMAIN MAPPING
+
+Each exam has its own blueprint.
+
+Example:
+
+REx-PN Domains
+• Safe and Effective Care Environment
+• Health Promotion and Maintenance
+• Psychosocial Integrity
+• Physiological Integrity
+
+NCLEX-RN Domains
+• Management of Care
+• Safety and Infection Control
+• Health Promotion
+• Psychosocial Integrity
+• Physiological Integrity
+
+NP and Allied exams must map to their own domain structures.
+
+---
+
+READINESS CLASSIFICATION
+
+Based on performance, assign readiness level:
+
+Very Low
+Borderline
+Moderate
+Exam Ready
+
+Example thresholds:
+
+Very Low < 45%
+Borderline 45–60%
+Moderate 60–75%
+Exam Ready > 75%
+
+---
+
+STUDY PLAN GENERATION
+
+Create a personalized study path including:
+
+recommended weekly schedule
+practice sessions
+mock exams
+topic review modules
+
+Example output:
+
+Week 1
+
+Respiratory review
+20 practice questions
+1 mini quiz
+
+Week 2
+
+Cardiac pharmacology
+30 practice questions
+flashcards
+
+Week 3
+
+Full mock exam
+performance review
+
+---
+
+REMEDIATION ENGINE
+
+If weak topics are detected:
+
+Automatically generate remediation sessions.
+
+Example:
+
+Weak Topic: Cardiac Pharmacology
+
+Create session:
+
+15 questions
+flashcards
+diagram review
+
+---
+
+STUDY PLAN LENGTH
+
+Determine study duration based on exam date.
+
+If exam date unknown:
+
+default to 6-week study plan.
+
+If exam date known:
+
+calculate number of weeks until exam.
+
+---
+
+STUDY PLAN FEATURES
+
+Allow users to:
+
+view study calendar
+start remediation sessions
+retake quizzes
+track completion
+
+---
+
+USER DASHBOARD DISPLAY
+
+Add a new dashboard section:
+
+My Study Plan
+
+Display:
+
+progress bar
+weeks remaining
+next session
+recent performance
+
+---
+
+AUTOMATION
+
+The study plan should update automatically when:
+
+user completes new quizzes
+user improves weak areas
+user changes exam date
+
+---
+
+DATA STORAGE
+
+Store study plans in database:
+
+study_plan table
+
+Fields:
+
+user_id
+examKey
+plan_length
+weekly_schedule
+weak_topics
+last_updated
+
+---
+
+ADMIN ANALYTICS
+
+Admin dashboard should track:
+
+study plan usage
+completion rate
+subscription conversion rate
+
+---
+
+GOAL
+
+Provide every user with a clear roadmap to exam success while increasing engagement and subscription conversions.
