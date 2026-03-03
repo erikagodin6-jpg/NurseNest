@@ -48,6 +48,10 @@ The system supports a multi-career allied health architecture, with career confi
 - **Test Bank Generator**: Ensures strict question count and JSON schema validation.
 - **NGN QBank Generator**: Admin batch generation system at `/admin/qbank/ngn-generator` with 5 prompt templates (ngn_batch_v1, allied_batch_v1, cnpe_v1, np_us_v1, np_seo_v1), strict validation engine, dry-run previews, scheduling, and DB ingestion. Files: `server/qbank-generator.ts`, `server/qbank-scheduler.ts`, `server/prompts/qbank-templates.ts`, `client/src/pages/admin-ngn-generator.tsx`. DB tables: `qbank_prompt_templates`, `qbank_generation_runs`, `qbank_generation_schedules`. Uses `adminFetch` for auth.
 
+### Free Trial Funnel
+- **50-Question Trial**: Unauthenticated users can take a free trial (1 per exam per IP/device per 30 days). Routes: `/trial`, `/trial/session/:id`, `/trial/results/:id`, `/trial/upgrade`. Server: `server/trial.ts` with `setupTrialRoutes(app)`. DB: `trial_sessions` table. Client pages: `trial-landing.tsx`, `trial-session.tsx`, `trial-results.tsx`, `trial-upgrade.tsx`. Uses `ExamConsoleLayout` component from `client/src/components/exam-console.tsx`.
+- **Premium Exam Console** (`client/src/components/exam-console.tsx`): 2-column layout (60% question, 40% exhibit/notes), sticky top bar with timer/progress/flag, keyboard shortcuts (1-5 select, N/P navigate, F flag, H highlight, ? shortcuts), ExhibitViewer with zoom/pan/fullscreen, strike-through on right-click, text highlighting, question navigator grid, mobile responsive.
+
 ### Social Media
 - Meta Graph API: For social media scheduling.
 

@@ -622,6 +622,9 @@ app.use((req, res, next) => {
   const { setupQBankGenerator } = await import("./qbank-generator");
   setupQBankGenerator(app);
 
+  const { setupTrialRoutes } = await import("./trial");
+  setupTrialRoutes(app);
+
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 

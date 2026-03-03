@@ -155,6 +155,10 @@ const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
 const RexPnWellness = lazy(() => import("@/pages/rex-pn-wellness"));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
+const TrialLanding = lazy(() => import("@/pages/trial-landing"));
+const TrialSession = lazy(() => import("@/pages/trial-session"));
+const TrialResults = lazy(() => import("@/pages/trial-results"));
+const TrialUpgrade = lazy(() => import("@/pages/trial-upgrade"));
 
 function PageTracker() {
   usePageTracker();
@@ -359,6 +363,10 @@ function AppRoutes() {
         <Route path="/profile" component={ProfilePage} />
         <Route path="/subscription/success" component={SubscriptionSuccess} />
         <Route path="/pricing" component={PricingPage} />
+        <Route path="/trial/session/:id" component={TrialSession} />
+        <Route path="/trial/results/:id" component={TrialResults} />
+        <Route path="/trial/upgrade" component={TrialUpgrade} />
+        <Route path="/trial" component={TrialLanding} />
         <Route path="/faq" component={FAQPage} />
         <Route path="/terms" component={TermsPage} />
         <Route path="/privacy" component={PrivacyPage} />
