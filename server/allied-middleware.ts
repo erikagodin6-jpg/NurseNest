@@ -4,6 +4,7 @@ declare global {
   namespace Express {
     interface Request {
       isAllied?: boolean;
+      isNewGrad?: boolean;
     }
   }
 }
@@ -45,6 +46,11 @@ export function isAlliedHost(hostname: string): boolean {
   return h.startsWith("allied.") || h === "allied.localhost" || h === "allied.nursenest.ca";
 }
 
+export function isNewGradHost(hostname: string): boolean {
+  const h = hostname.toLowerCase().replace(/:\d+$/, "");
+  return h.startsWith("newgrad.") || h === "newgrad.localhost" || h === "newgrad.nursenest.ca";
+}
+
 export function getNursingHost(req: Request): string {
   const proto = req.get("x-forwarded-proto") || req.protocol || "https";
   if (process.env.NODE_ENV !== "production") return `${proto}://localhost:5000`;
@@ -60,6 +66,7 @@ export function getAlliedHost(req: Request): string {
 export function alliedDetectionMiddleware(req: Request, _res: Response, next: NextFunction) {
   const host = req.get("x-forwarded-host") || req.get("host") || "";
   req.isAllied = isAlliedHost(host);
+  req.isNewGrad = isNewGradHost(host);
   next();
 }
 
@@ -155,6 +162,54 @@ export function generateAlliedSitemap(baseUrl: string): string {
 
   for (const page of seoLandingPages) {
     urls.push(`<url><loc>${baseUrl}/${page}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+  }
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join("\n")}
+</urlset>`;
+}
+
+export function generateNewGradSitemap(baseUrl: string): string {
+  const now = new Date().toISOString().split("T")[0];
+  const urls: string[] = [];
+
+  urls.push(`<url><loc>${baseUrl}/</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>${now}</lastmod></url>`);
+
+  const hubPages = [
+    { path: "/interview-lab", priority: "0.9", freq: "weekly" },
+    { path: "/resume-builder", priority: "0.9", freq: "weekly" },
+    { path: "/cover-letter", priority: "0.9", freq: "weekly" },
+    { path: "/first-90-days", priority: "0.9", freq: "monthly" },
+    { path: "/clinical-confidence", priority: "0.9", freq: "weekly" },
+    { path: "/pricing", priority: "0.8", freq: "monthly" },
+  ];
+
+  for (const page of hubPages) {
+    urls.push(`<url><loc>${baseUrl}${page.path}</loc><changefreq>${page.freq}</changefreq><priority>${page.priority}</priority><lastmod>${now}</lastmod></url>`);
+  }
+
+  const seoPages = [
+    "new-grad-rn-interview-questions",
+    "new-grad-rn-resume-guide",
+    "new-grad-rn-cover-letter-examples",
+    "first-90-days-as-a-new-nurse",
+    "new-grad-rn-clinical-confidence",
+    "new-grad-rn-job-search-guide",
+    "new-nurse-orientation-survival-guide",
+    "nursing-interview-behavioral-questions",
+    "nursing-interview-clinical-scenarios",
+    "new-grad-nurse-salary-guide",
+    "nursing-specialties-for-new-grads",
+    "night-shift-survival-guide-new-nurse",
+    "preceptor-relationship-guide-new-nurse",
+    "new-grad-rn-time-management",
+    "imposter-syndrome-new-nurse",
+    "new-grad-rn-skills-checklist",
+  ];
+
+  for (const slug of seoPages) {
+    urls.push(`<url><loc>${baseUrl}/${slug}</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
   }
 
   return `<?xml version="1.0" encoding="UTF-8"?>

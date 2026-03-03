@@ -197,7 +197,23 @@ app.post("/api/admin/verify", (req, res) => {
 // -------------------------
 app.get("/robots.txt", (req, res) => {
   res.setHeader("Cache-Control", "public, max-age=300");
-  if (req.isAllied) {
+  if (req.isNewGrad) {
+    const newGradBase = "https://newgrad.nursenest.ca";
+    res.type("text/plain").send(
+      [
+        "User-agent: *",
+        "Allow: /",
+        "",
+        "Disallow: /admin",
+        "Disallow: /api/",
+        "Disallow: /account",
+        "Disallow: /checkout",
+        "",
+        `Sitemap: ${newGradBase}/sitemap-newgrad.xml`,
+        "",
+      ].join("\n"),
+    );
+  } else if (req.isAllied) {
     const alliedBase = "https://allied.nursenest.ca";
     res.type("text/plain").send(
       [
@@ -454,7 +470,16 @@ app.get("/sitemap_index.xml", async (_req, res) => {
   res.status(200).send(xml);
 });
 
-import { generateAlliedSitemap } from "./allied-middleware";
+import { generateAlliedSitemap, generateNewGradSitemap } from "./allied-middleware";
+
+app.get("/sitemap-newgrad.xml", (req, res) => {
+  const newGradBase = "https://newgrad.nursenest.ca";
+  const xml = generateNewGradSitemap(newGradBase);
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(xml);
+});
+
 app.get("/sitemap-allied.xml", (req, res) => {
   if (!req.isAllied && process.env.NODE_ENV === "production") {
     return res.status(404).send("Not found");
