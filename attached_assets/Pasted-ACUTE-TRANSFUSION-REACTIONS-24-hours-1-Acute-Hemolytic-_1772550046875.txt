@@ -1,0 +1,72 @@
+ACUTE TRANSFUSION REACTIONS (< 24 hours)
+1. Acute Hemolytic Transfusion Reaction (AHTR)
+(Already on your list)
+2. Febrile Non-Hemolytic Transfusion Reaction (FNHTR)
+(Already on your list)
+3. Mild Allergic Reaction (Urticarial)
+(Already on your list)
+4. Anaphylactic Reaction
+(Already on your list)
+5. Transfusion-Associated Circulatory Overload (TACO)
+(Already on your list)
+6. Transfusion-Related Acute Lung Injury (TRALI)
+(Already on your list)
+7. Septic Transfusion Reaction
+(Already on your list)
+8. Hypotensive Transfusion Reaction
+Mechanism: Bradykinin accumulation (often associated with ACE inhibitors)
+Key feature: Isolated sudden hypotension during transfusion
+Important exam pearl: No hemolysis, no fever. BP improves after stopping transfusion.
+9. Acute Pain Transfusion Reaction
+Rare but recognized.
+Severe chest/back pain shortly after transfusion begins without hemolysis or hypotension.
+10. Non-Immune Hemolysis
+Mechanical or thermal destruction of RBCs due to:
+Improper warming
+Hypotonic IV solutions
+Small-bore tubing
+11. Air Embolism (very rare)
+Due to improper administration technique.
+🟡 DELAYED TRANSFUSION REACTIONS (> 24 hours to weeks)
+These are commonly tested in advanced nursing and NP-level content.
+12. Delayed Hemolytic Transfusion Reaction (DHTR)
+Mechanism: Anamnestic IgG response to minor RBC antigens
+Timing: 3–14 days post transfusion
+Signs: Mild jaundice, falling hemoglobin, positive Coombs
+Exam trap: Patient seemed fine initially.
+13. Delayed Serologic Transfusion Reaction
+New antibody detected post-transfusion without clinical hemolysis.
+14. Post-Transfusion Purpura (PTP)
+Rare immune reaction
+Severe thrombocytopenia 5–10 days later
+Risk of bleeding
+Seen more often in multiparous women
+15. Transfusion-Associated Graft-Versus-Host Disease (TA-GVHD)
+Rare but fatal
+Donor T-cells attack recipient
+Rash, diarrhea, pancytopenia
+Occurs 4–30 days post transfusion
+Prevented with irradiated blood products.
+16. Iron Overload (Hemosiderosis)
+Chronic transfusion complication
+Seen in:
+Thalassemia
+Sickle cell disease
+Iron deposits in liver, heart, endocrine organs.
+17. Transfusion-Transmitted Infections
+Though rare due to screening:
+Hepatitis B/C
+HIV
+CMV
+West Nile virus
+Parvovirus B19
+🔵 METABOLIC / ELECTROLYTE COMPLICATIONS
+These are especially relevant in critical care and massive transfusion protocols.
+18. Hyperkalemia
+From stored RBC potassium leakage.
+19. Hypocalcemia
+Citrate toxicity binds calcium.
+20. Hypothermia
+From rapid infusion of cold blood.
+21. Dilutional Coagulopathy
+Massive transfusion dilutes platelets and clotting factors.
