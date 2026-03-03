@@ -900,6 +900,8 @@ export function DeckView({
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [deckStats, setDeckStats] = useState<any>(null);
+  const [visibilityChanging, setVisibilityChanging] = useState(false);
+  const [visibilityMenuOpen, setVisibilityMenuOpen] = useState(false);
   const isOwner = currentDeck?.userId === user?.id;
   const isAdmin = user?.tier === "admin";
 
@@ -946,6 +948,25 @@ export function DeckView({
     }
   };
 
+  const changeVisibility = async (newVisibility: string) => {
+    if (!currentDeck || visibilityChanging) return;
+    setVisibilityChanging(true);
+    try {
+      const res = await fetch(`/api/decks/${currentDeck.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, visibility: newVisibility }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setCurrentDeck!(updated);
+      }
+    } catch {} finally {
+      setVisibilityChanging(false);
+      setVisibilityMenuOpen(false);
+    }
+  };
+
   if (!currentDeck) return null;
 
   return (
@@ -974,11 +995,72 @@ export function DeckView({
           <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
             <span>{deckCards?.length || 0} cards</span>
             {currentDeck.isUpgraded && <Badge className="bg-amber-100 text-amber-700 text-[10px] border-none">PRO</Badge>}
-            <span className="flex items-center gap-1">
-              {currentDeck.visibility === "public" ? <><Globe className="w-3 h-3" /> Public</> :
-               currentDeck.visibility === "unlisted" ? <><Eye className="w-3 h-3" /> Unlisted</> :
-               <><EyeOff className="w-3 h-3" /> Private</>}
-            </span>
+            {(isOwner || isAdmin) ? (
+              <div className="relative">
+                <button
+                  onClick={() => setVisibilityMenuOpen(!visibilityMenuOpen)}
+                  className="flex items-center gap-1 px-2 py-1 rounded-lg border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition text-xs font-medium text-gray-600"
+                  data-testid="button-visibility-toggle"
+                >
+                  {visibilityChanging ? <Loader2 className="w-3 h-3 animate-spin" /> : (
+                    <>
+                      {currentDeck.visibility === "public" ? <Globe className="w-3 h-3 text-emerald-500" /> :
+                       currentDeck.visibility === "unlisted" ? <Eye className="w-3 h-3 text-amber-500" /> :
+                       <EyeOff className="w-3 h-3 text-gray-400" />}
+                      {currentDeck.visibility === "public" ? "Public" :
+                       currentDeck.visibility === "unlisted" ? "Unlisted" : "Private"}
+                      <ChevronRight className={cn("w-3 h-3 transition-transform", visibilityMenuOpen && "rotate-90")} />
+                    </>
+                  )}
+                </button>
+                {visibilityMenuOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setVisibilityMenuOpen(false)} />
+                    <div className="absolute left-0 top-full mt-1 z-50 bg-white border border-gray-200 rounded-xl shadow-lg py-1 min-w-[180px]" data-testid="menu-visibility">
+                      <button
+                        onClick={() => changeVisibility("private")}
+                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-gray-50 transition", currentDeck.visibility === "private" && "bg-primary/5 text-primary font-medium")}
+                        data-testid="button-set-private"
+                      >
+                        <EyeOff className="w-4 h-4 text-gray-400" />
+                        <div>
+                          <div className="font-medium">Private</div>
+                          <div className="text-[10px] text-gray-400">Only you can see this deck</div>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => changeVisibility("unlisted")}
+                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-gray-50 transition", currentDeck.visibility === "unlisted" && "bg-primary/5 text-primary font-medium")}
+                        data-testid="button-set-unlisted"
+                      >
+                        <Eye className="w-4 h-4 text-amber-500" />
+                        <div>
+                          <div className="font-medium">Unlisted</div>
+                          <div className="text-[10px] text-gray-400">Anyone with the link can access</div>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => changeVisibility("public")}
+                        className={cn("w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-gray-50 transition", currentDeck.visibility === "public" && "bg-primary/5 text-primary font-medium")}
+                        data-testid="button-set-public"
+                      >
+                        <Globe className="w-4 h-4 text-emerald-500" />
+                        <div>
+                          <div className="font-medium">Public</div>
+                          <div className="text-[10px] text-gray-400">Visible in browse and searchable</div>
+                        </div>
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <span className="flex items-center gap-1">
+                {currentDeck.visibility === "public" ? <><Globe className="w-3 h-3" /> Public</> :
+                 currentDeck.visibility === "unlisted" ? <><Eye className="w-3 h-3" /> Unlisted</> :
+                 <><EyeOff className="w-3 h-3" /> Private</>}
+              </span>
+            )}
           </div>
         </div>
 

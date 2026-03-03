@@ -4194,7 +4194,9 @@ Rules:
       const { userId, title, description, tags, tier, visibility } = req.body;
       const deckCheck = await pool.query(`SELECT owner_id FROM flashcard_decks WHERE id = $1`, [req.params.id]);
       if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
-      if (deckCheck.rows[0].owner_id !== userId) return res.status(403).json({ error: "Not your deck" });
+      const userCheck = await pool.query(`SELECT tier FROM users WHERE id = $1`, [userId]);
+      const isAdmin = userCheck.rows[0]?.tier === "admin";
+      if (deckCheck.rows[0].owner_id !== userId && !isAdmin) return res.status(403).json({ error: "Not your deck" });
       const updates: string[] = [];
       const params: any[] = [];
       if (title !== undefined) { params.push(title); updates.push(`title = $${params.length}`); }
