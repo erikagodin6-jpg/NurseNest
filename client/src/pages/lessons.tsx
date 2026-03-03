@@ -427,6 +427,7 @@ export const rpnSystems = [
       { id: "anaphylactic-transfusion-rpn", name: "Anaphylactic Transfusion Reaction", status: "Available" },
       { id: "febrile-transfusion-rpn", name: "Febrile Nonhemolytic Transfusion Reaction", status: "Available" },
       { id: "blood-transfusion-reactions", name: "Blood Transfusion Reactions: Complete Clinical Guide", status: "Available" },
+      { id: "abo-blood-type-compatibility", name: "ABO & Rh Blood Type Compatibility", status: "Available" },
       { id: "febrile-neutropenia-basics-rpn", name: "Febrile Neutropenia Basics", status: "Available" }
     ]
   },
@@ -1041,6 +1042,9 @@ export const rnSystems = [
       { id: "normal-sinus-rhythm", name: "Normal Sinus Rhythm", status: "Available" },
       { id: "sinus-bradycardia", name: "Sinus Bradycardia", status: "Available" },
       { id: "sinus-tachycardia", name: "Sinus Tachycardia", status: "Available" },
+      { id: "sinus-dysrhythmia", name: "Sinus Dysrhythmia (Sinus Arrhythmia)", status: "Available" },
+      { id: "sinus-arrest", name: "Sinus Arrest", status: "Available" },
+      { id: "sinus-exit-block", name: "Sinus Exit Block (SA Exit Block)", status: "Available" },
       { id: "atrial-fibrillation-rn", name: "Atrial Fibrillation", status: "Available" },
       { id: "atrial-flutter-rn", name: "Atrial Flutter", status: "Available" },
       { id: "atrial-tachycardia", name: "Atrial Tachycardia", status: "Available" },
@@ -1054,7 +1058,8 @@ export const rnSystems = [
       { id: "heart-block-complete", name: "Third-Degree (Complete) Heart Block", status: "Available" },
       { id: "bundle-branch-block", name: "Bundle Branch Block (BBB)", status: "Available" },
       { id: "torsades-management", name: "Torsades de Pointes", status: "Available" },
-      { id: "asystole-pea", name: "Asystole & PEA", status: "Available" }
+      { id: "asystole-pea", name: "Asystole & PEA", status: "Available" },
+      { id: "aivr-idioventricular", name: "AIVR & Idioventricular Rhythm", status: "Available" }
     ]
   },
   {
@@ -1476,6 +1481,7 @@ export const rnSystems = [
       { id: "iv-therapy", name: "IV Therapy and Venipuncture", status: "Available" },
       { id: "blood-transfusion", name: "Blood Transfusion Administration", status: "Available" },
       { id: "blood-transfusion-reactions", name: "Blood Transfusion Reactions: Complete Clinical Guide", status: "Available" },
+      { id: "abo-blood-type-compatibility", name: "ABO & Rh Blood Type Compatibility", status: "Available" },
       { id: "chest-tube-mgmt", name: "Chest Tube Management", status: "Available" },
       { id: "trach-care", name: "Tracheostomy Care and Suctioning", status: "Available" },
       { id: "thoracentesis", name: "Thoracentesis", status: "Available" },

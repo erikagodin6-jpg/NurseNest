@@ -189,5 +189,88 @@ export const bloodTransfusionReactionLessons: Record<string, LessonContent> = {
         rationale: "TRALI is characterized by hypotension or normal BP (not hypertension), absence of JVD and fluid overload signs, normal BNP, and no response to diuretics. This is because TRALI is caused by capillary leak (permeability problem) in the pulmonary vasculature, not volume overload. Options A, C, and D all describe TACO features: hypertension, JVD, elevated BNP, fluid overload signs. The critical teaching point is that diuretics help TACO but are contraindicated in TRALI because removing volume worsens hypotension without addressing the capillary leak."
       }
     ]
+  },
+
+  "abo-blood-type-compatibility": {
+    title: "ABO & Rh Blood Type Compatibility",
+    cellular: {
+      title: "ABO and Rh Blood Group Immunology",
+      content: "The ABO blood group system is determined by the presence or absence of A and B antigens on the surface of red blood cells, along with naturally occurring antibodies (isohemagglutinins) in the plasma.\n\nType A: Has A antigens on RBCs, produces anti-B antibodies in plasma.\nType B: Has B antigens on RBCs, produces anti-A antibodies in plasma.\nType AB: Has both A and B antigens on RBCs, produces neither anti-A nor anti-B antibodies. AB+ is the universal RBC recipient.\nType O: Has no A or B antigens on RBCs (zero antigens), produces both anti-A and anti-B antibodies. O- is the universal RBC donor.\n\nIf a patient receives blood containing antigens their plasma antibodies recognize as foreign, hemolysis occurs. Recipient antibodies bind to donor RBC antigens, causing agglutination, complement activation, intravascular hemolysis, free hemoglobin release into the bloodstream, and potentially fatal outcomes including acute kidney injury, hypotension, DIC, and shock. ABO incompatibility reactions can be fatal within minutes.\n\nThe Rh system centers on the D antigen. Rh-positive individuals carry the D antigen; Rh-negative individuals do not. An Rh-negative patient who receives Rh-positive blood will develop anti-D antibodies, causing hemolysis on subsequent exposures. This is critical in pregnancy: an Rh-negative mother carrying an Rh-positive fetus can develop anti-D antibodies that cross the placenta and attack fetal RBCs (hemolytic disease of the newborn). Prevention requires Rho(D) immune globulin (RhoGAM).\n\nPlasma compatibility follows the OPPOSITE pattern of RBC compatibility. AB plasma is the universal plasma donor (no antibodies). O plasma can only be given to O recipients (contains both anti-A and anti-B).\n\nBefore any transfusion, verification includes: ABO typing, Rh typing, antibody screen, and crossmatch. Never skip compatibility verification. In emergency trauma when type is unknown, O- blood is the protocol standard."
+    },
+    riskFactors: [
+      "ABO-incompatible transfusion is the most dangerous transfusion error",
+      "Most fatal hemolytic reactions result from clerical error (wrong patient identification)",
+      "Rh-negative patients must not receive Rh-positive blood (anti-D antibody formation)",
+      "Rh incompatibility in pregnancy: Rh-negative mother with Rh-positive fetus requires RhoGAM",
+      "Emergency transfusion without full crossmatch increases mismatch risk",
+      "Massive transfusion protocols require switching from O- to type-specific blood ASAP",
+      "Previously transfused patients may have developed alloantibodies not detectable by ABO/Rh typing alone",
+      "Multiparous women at higher risk of alloimmunization from fetal blood exposure"
+    ],
+    diagnostics: [
+      "ABO typing: identifies A, B, AB, or O blood group",
+      "Rh typing: determines presence (+) or absence (-) of D antigen",
+      "Antibody screen: detects unexpected antibodies beyond ABO system",
+      "Crossmatch: tests donor blood against recipient plasma for compatibility",
+      "Direct Coombs test: detects antibodies attached to patient's RBCs (used post-reaction)",
+      "Indirect Coombs test: detects antibodies in patient's plasma (used pre-transfusion)",
+      "Type and screen must be completed before any non-emergency transfusion",
+      "Emergency: O- PRBCs can be released before crossmatch completion"
+    ],
+    management: [
+      "Verify patient identity with two identifiers at bedside before every transfusion",
+      "Two nurses must independently verify blood product label against patient ID band",
+      "Use only 0.9% normal saline with blood products (never LR or dextrose solutions)",
+      "Transfuse PRBCs within 4 hours of removal from blood bank",
+      "Monitor vital signs at baseline, 15 min, 30 min, 1 hour, and completion",
+      "Stay at bedside for first 15 minutes (highest risk period for acute reactions)",
+      "Emergency protocol: O- for unknown type, switch to type-specific when available",
+      "For Rh-negative women of childbearing age: always use Rh-negative blood when possible"
+    ],
+    nursingActions: [
+      "Perform bedside verification: match blood bag label to patient armband with second nurse",
+      "Check blood type, Rh factor, unit number, expiration date, and patient identifiers",
+      "Obtain baseline vital signs within 30 minutes before starting transfusion",
+      "Remain with patient for first 15 minutes and take vitals at 15 minutes",
+      "Infuse each unit within 4 hours (bacterial contamination risk increases after 4 hours)",
+      "Use only NS (0.9% NaCl) as compatible IV solution",
+      "If reaction suspected: STOP transfusion, maintain IV with NS on new tubing, notify provider and blood bank",
+      "Document: blood product type, unit number, start/stop times, vital signs, any reactions"
+    ],
+    signs: {
+      left: [
+        "RBC Compatibility: O- donates to ALL, AB+ receives from ALL",
+        "O = 'Zero antigens' on RBCs = Universal donor",
+        "AB = 'All antigens accepted' = Universal recipient",
+        "Rh-negative must NOT receive Rh-positive blood"
+      ],
+      right: [
+        "Plasma Compatibility: OPPOSITE of RBC rules",
+        "AB plasma = Universal plasma donor (no antibodies)",
+        "O plasma = can only give to O recipients",
+        "Plasma contains antibodies, not antigens"
+      ]
+    },
+    medications: [
+      { name: "Rho(D) Immune Globulin (RhoGAM)", type: "Immune Globulin", action: "Prevents Rh-negative mother from forming anti-D antibodies after exposure to Rh-positive fetal blood", sideEffects: "Injection site pain, mild fever, headache", contra: "Rh-positive patients, patients with existing anti-D antibodies", pearl: "Given at 28 weeks gestation and within 72 hours of delivery if infant is Rh-positive. Also given after miscarriage, amniocentesis, or any event that may cause fetal-maternal blood mixing." }
+    ],
+    pearls: [
+      "O- = Universal RBC donor (zero antigens, no Rh). O = 'Oh, zero antigens!'",
+      "AB+ = Universal RBC recipient (has all antigens, no ABO antibodies, Rh-positive)",
+      "Plasma compatibility is the OPPOSITE of RBC compatibility: AB is the universal plasma donor",
+      "Most fatal transfusion reactions are caused by clerical error, not laboratory error",
+      "Rh-negative patients CAN receive Rh-positive in true life-threatening emergencies, but anti-D antibodies will form",
+      "The first 15 minutes are the highest-risk period for acute hemolytic reactions",
+      "Never use Lactated Ringers with blood (calcium causes clotting) or D5W (causes hemolysis)",
+      "RBC Donation Chart: O- donates to all, O+ to all positives, A- to A and AB, B- to B and AB",
+      "RBC Receiving Chart: AB+ receives from all, AB- from all negatives, O- receives only O-"
+    ],
+    quiz: [
+      { question: "A Type B+ patient can safely receive RBCs from which donor types?", options: ["B+ and AB+ only", "O-, O+, B-, B+", "B+ only", "All blood types"], correct: 1, rationale: "Type B+ can receive from: O- (universal donor), O+ (no A/B antigens, Rh compatible), B- (same ABO, Rh-negative is safe for Rh+), and B+ (exact match). B+ cannot receive A or AB blood because anti-A antibodies in B plasma would attack A antigens on donor RBCs." },
+      { question: "Which blood type is the universal plasma donor?", options: ["O-", "O+", "AB", "A-"], correct: 2, rationale: "AB plasma is the universal plasma donor because it contains NO anti-A and NO anti-B antibodies, so it will not attack any recipient's RBCs. This is the OPPOSITE of RBC compatibility where O- is the universal donor. Plasma compatibility reverses the rules because plasma contains antibodies, not antigens." },
+      { question: "An Rh-negative woman at 28 weeks gestation should receive:", options: ["Rh-positive blood transfusion", "Rho(D) immune globulin (RhoGAM)", "Anti-D antibody infusion", "Type O+ PRBCs"], correct: 1, rationale: "RhoGAM is given at 28 weeks to prevent the Rh-negative mother from forming anti-D antibodies if she has been exposed to Rh-positive fetal blood. It is also given within 72 hours postpartum if the baby is Rh-positive. This prevents hemolytic disease of the newborn in future pregnancies." },
+      { question: "In an emergency trauma situation with unknown blood type, the nurse should expect to administer:", options: ["AB+ PRBCs", "Type-specific blood", "O- PRBCs", "AB plasma only"], correct: 2, rationale: "O- PRBCs are used in emergency situations when the patient's blood type is unknown because O- has no A, B, or Rh antigens, making it safe for any recipient. Once the patient's blood type is determined, the protocol switches to type-specific blood to conserve the O- supply." },
+      { question: "Why is Lactated Ringers contraindicated with blood product administration?", options: ["It causes hemolysis of RBCs", "The calcium in LR chelates citrate anticoagulant, causing clot formation", "It dilutes the blood product", "It causes an allergic reaction"], correct: 1, rationale: "Lactated Ringers contains calcium which chelates (binds to) the citrate anticoagulant used to preserve stored blood. This removes the anticoagulant effect, allowing clots to form in the IV tubing that can embolize to the patient. Only 0.9% normal saline is compatible with blood products." }
+    ]
   }
 };
