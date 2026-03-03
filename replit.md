@@ -52,6 +52,20 @@ The system supports a multi-career allied health architecture, with career confi
 - **50-Question Trial**: Unauthenticated users can take a free trial (1 per exam per IP/device per 30 days). Routes: `/trial`, `/trial/session/:id`, `/trial/results/:id`, `/trial/upgrade`. Server: `server/trial.ts` with `setupTrialRoutes(app)`. DB: `trial_sessions` table. Client pages: `trial-landing.tsx`, `trial-session.tsx`, `trial-results.tsx`, `trial-upgrade.tsx`. Uses `ExamConsoleLayout` component from `client/src/components/exam-console.tsx`.
 - **Premium Exam Console** (`client/src/components/exam-console.tsx`): 2-column layout (60% question, 40% exhibit/notes), sticky top bar with timer/progress/flag, keyboard shortcuts (1-5 select, N/P navigate, F flag, H highlight, ? shortcuts), ExhibitViewer with zoom/pan/fullscreen, strike-through on right-click, text highlighting, question navigator grid, mobile responsive.
 
+### Autopilot Control Center
+- **Admin Dashboard** (`/admin/autopilot`): 14-tab admin dashboard controlling all automation engines. File: `client/src/pages/admin-autopilot.tsx`. Server: `server/autopilot.ts` with `setupAutopilotRoutes(app)`.
+- **Tabs**: Overview, Schedules, Publishing Queue, Keyword Discovery, Blog Engine, Practice SEO Engine, Question Factory, Visual Factory, Pinterest Scheduler, Auto Expansion, Course Builder, Lifecycle Email, Performance Dashboard, Settings.
+- **DB Tables**: `autopilot_engines`, `autopilot_jobs`, `publishing_queue`, `autopilot_schedules`, `lifecycle_emails`, `blog_clusters`, `practice_pages`, `visual_assets`, `pinterest_pins`.
+- **10 Engines**: blog_engine, question_factory, visual_factory, practice_seo, pinterest_scheduler, social_media, course_builder, lifecycle_email, auto_expansion, keyword_discovery. Auto-seeded on first API call.
+- **Publishing Queue**: Content approval workflow (draft -> pending_review -> approved -> published/rejected).
+- Uses `adminFetch` for auth.
+
+### Study Path Generator
+- **Study Plan Page** (`/study-plan`): Full plan view with week cards, progress tracking, remediation focus. File: `client/src/pages/study-plan.tsx`.
+- **Study Plan Widget**: Compact dashboard widget. File: `client/src/components/study-plan-widget.tsx`.
+- **Server**: `server/study-path.ts` with `setupStudyPathRoutes(app)`. Endpoints: POST `/api/study-plan/generate`, GET `/api/study-plan/:userId`, POST `/api/study-plan/:id/update-progress`, GET `/api/admin/study-plans/analytics`.
+- **Integration**: Trial results page links to study plan via "View Study Plan" button.
+
 ### Social Media
 - Meta Graph API: For social media scheduling.
 

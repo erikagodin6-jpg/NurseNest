@@ -244,6 +244,31 @@ export default function StudyPlanPage() {
             </CardContent>
           </Card>
 
+          {plan && plan.days && plan.days.length > 0 && (() => {
+            const weakDomains = getWeakDomains(plan.days);
+            if (weakDomains.length === 0) return null;
+            return (
+              <Card className="border-none shadow-sm border-l-4 border-l-amber-400" data-testid="card-remediation">
+                <CardContent className="p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Target className="w-5 h-5 text-amber-600" />
+                    <h3 className="font-semibold text-sm">Remediation Focus</h3>
+                  </div>
+                  <p className="text-xs text-gray-500 mb-3">
+                    These domains have the most incomplete tasks. Prioritize them for the strongest improvement.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {weakDomains.map((d, i) => (
+                      <Badge key={i} variant="outline" className="text-xs bg-amber-50 text-amber-800 border-amber-200" data-testid={`badge-remediation-${i}`}>
+                        {d.domain} ({d.remaining} tasks left)
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })()}
+
           <div className="space-y-4">
             {weekNumbers.map((weekNum) => {
               const days = weeks[weekNum].sort((a, b) => a.dayNum - b.dayNum);
@@ -372,4 +397,25 @@ export default function StudyPlanPage() {
       <Footer />
     </div>
   );
+}
+
+function getWeakDomains(days: PlanDay[]): Array<{ domain: string; remaining: number }> {
+  const domainStats: Record<string, { total: number; done: number }> = {};
+  for (const day of days) {
+    for (const task of day.tasks) {
+      if (!task.domain) continue;
+      if (!domainStats[task.domain]) domainStats[task.domain] = { total: 0, done: 0 };
+      domainStats[task.domain].total++;
+      if (task.status === "done") domainStats[task.domain].done++;
+    }
+  }
+  return Object.entries(domainStats)
+    .map(([domain, stats]) => ({
+      domain,
+      remaining: stats.total - stats.done,
+      completionRate: stats.total > 0 ? stats.done / stats.total : 1,
+    }))
+    .filter((d) => d.remaining > 0)
+    .sort((a, b) => a.completionRate - b.completionRate)
+    .slice(0, 5);
 }

@@ -417,7 +417,7 @@ export default function TrialResults() {
                 Start Subscription
               </Button>
             </LocaleLink>
-            <LocaleLink href={`/trial/upgrade?from=${sessionId}`}>
+            <LocaleLink href="/study-plan">
               <Button size="lg" variant="ghost" className="min-w-[200px]" data-testid="button-view-study-plan">
                 View Study Plan
               </Button>

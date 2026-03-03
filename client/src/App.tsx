@@ -155,6 +155,7 @@ const RexPnStrategies = lazy(() => import("@/pages/rex-pn-strategies"));
 const RexPnWellness = lazy(() => import("@/pages/rex-pn-wellness"));
 const PharmacologyHub = lazy(() => import("@/pages/pharmacology-hub"));
 const AdminNgnGenerator = lazy(() => import("@/pages/admin-ngn-generator"));
+const AdminAutopilot = lazy(() => import("@/pages/admin-autopilot"));
 const TrialLanding = lazy(() => import("@/pages/trial-landing"));
 const TrialSession = lazy(() => import("@/pages/trial-session"));
 const TrialResults = lazy(() => import("@/pages/trial-results"));
@@ -337,6 +338,7 @@ function AppRoutes() {
         <Route path="/admin/revenue" component={AdminRevenueDashboard} />
         <Route path="/admin/pipeline" component={AdminPipelineDashboard} />
         <Route path="/admin/qbank/ngn-generator" component={AdminNgnGenerator} />
+        <Route path="/admin/autopilot" component={AdminAutopilot} />
         <Route path="/diagnostic-assessment" component={DiagnosticAssessmentPage} />
         <Route path="/admin/qbank-factory" component={QBankFactoryPage} />
         <Route path="/account/library" component={AccountLibraryPage} />

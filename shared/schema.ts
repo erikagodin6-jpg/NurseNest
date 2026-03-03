@@ -2010,3 +2010,166 @@ export const trialSessions = pgTable("trial_sessions", {
 export const insertTrialSessionSchema = createInsertSchema(trialSessions).omit({ id: true, createdAt: true, startedAt: true });
 export type TrialSession = typeof trialSessions.$inferSelect;
 export type InsertTrialSession = z.infer<typeof insertTrialSessionSchema>;
+
+export const autopilotEngines = pgTable("autopilot_engines", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  engineKey: varchar("engine_key").notNull().unique(),
+  name: text("name").notNull(),
+  description: text("description"),
+  enabled: boolean("enabled").default(false).notNull(),
+  config: jsonb("config").default(sql`'{}'::jsonb`),
+  lastRunAt: timestamp("last_run_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAutopilotEngineSchema = createInsertSchema(autopilotEngines).omit({ id: true, createdAt: true });
+export type AutopilotEngine = typeof autopilotEngines.$inferSelect;
+export type InsertAutopilotEngine = z.infer<typeof insertAutopilotEngineSchema>;
+
+export const autopilotJobs = pgTable("autopilot_jobs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  engineKey: varchar("engine_key").notNull(),
+  status: text("status").notNull().default("queued"),
+  payload: jsonb("payload").default(sql`'{}'::jsonb`),
+  result: jsonb("result").default(sql`'{}'::jsonb`),
+  error: text("error"),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  scheduledFor: timestamp("scheduled_for"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAutopilotJobSchema = createInsertSchema(autopilotJobs).omit({ id: true, createdAt: true });
+export type AutopilotJob = typeof autopilotJobs.$inferSelect;
+export type InsertAutopilotJob = z.infer<typeof insertAutopilotJobSchema>;
+
+export const publishingQueue = pgTable("publishing_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  engineKey: varchar("engine_key").notNull(),
+  contentType: text("content_type").notNull(),
+  title: text("title").notNull(),
+  content: jsonb("content").default(sql`'{}'::jsonb`),
+  status: text("status").notNull().default("draft"),
+  previewUrl: text("preview_url"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdBy: varchar("created_by"),
+  approvedBy: varchar("approved_by"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPublishingQueueSchema = createInsertSchema(publishingQueue).omit({ id: true, createdAt: true });
+export type PublishingQueueItem = typeof publishingQueue.$inferSelect;
+export type InsertPublishingQueueItem = z.infer<typeof insertPublishingQueueSchema>;
+
+export const autopilotSchedules = pgTable("autopilot_schedules", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  engineKey: varchar("engine_key").notNull(),
+  frequency: text("frequency").notNull().default("daily"),
+  cronExpression: text("cron_expression"),
+  enabled: boolean("enabled").default(false).notNull(),
+  config: jsonb("config").default(sql`'{}'::jsonb`),
+  nextRunAt: timestamp("next_run_at"),
+  lastRunAt: timestamp("last_run_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAutopilotScheduleSchema = createInsertSchema(autopilotSchedules).omit({ id: true, createdAt: true });
+export type AutopilotSchedule = typeof autopilotSchedules.$inferSelect;
+export type InsertAutopilotSchedule = z.infer<typeof insertAutopilotScheduleSchema>;
+
+export const lifecycleEmails = pgTable("lifecycle_emails", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  emailType: text("email_type").notNull(),
+  triggerEvent: text("trigger_event").notNull(),
+  sequenceName: text("sequence_name"),
+  sequenceStep: integer("sequence_step").default(1),
+  status: text("status").notNull().default("pending"),
+  scheduledFor: timestamp("scheduled_for"),
+  sentAt: timestamp("sent_at"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertLifecycleEmailSchema = createInsertSchema(lifecycleEmails).omit({ id: true, createdAt: true });
+export type LifecycleEmail = typeof lifecycleEmails.$inferSelect;
+export type InsertLifecycleEmail = z.infer<typeof insertLifecycleEmailSchema>;
+
+export const blogClusters = pgTable("blog_clusters", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  keyword: text("keyword").notNull(),
+  examKey: text("exam_key"),
+  pillarTitle: text("pillar_title"),
+  pillarContent: jsonb("pillar_content").default(sql`'{}'::jsonb`),
+  pillarSlug: text("pillar_slug"),
+  pillarStatus: text("pillar_status").default("draft"),
+  supportingArticles: jsonb("supporting_articles").default(sql`'[]'::jsonb`),
+  schemaMarkup: jsonb("schema_markup").default(sql`'{}'::jsonb`),
+  internalLinks: jsonb("internal_links").default(sql`'[]'::jsonb`),
+  publishSchedule: jsonb("publish_schedule").default(sql`'{}'::jsonb`),
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertBlogClusterSchema = createInsertSchema(blogClusters).omit({ id: true, createdAt: true, updatedAt: true });
+export type BlogCluster = typeof blogClusters.$inferSelect;
+export type InsertBlogCluster = z.infer<typeof insertBlogClusterSchema>;
+
+export const practicePages = pgTable("practice_pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  examKey: text("exam_key").notNull(),
+  domain: text("domain").notNull(),
+  keyword: text("keyword").notNull(),
+  title: text("title").notNull(),
+  introContent: text("intro_content"),
+  questions: jsonb("questions").default(sql`'[]'::jsonb`),
+  faqSchema: jsonb("faq_schema").default(sql`'{}'::jsonb`),
+  breadcrumbSchema: jsonb("breadcrumb_schema").default(sql`'{}'::jsonb`),
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPracticePageSchema = createInsertSchema(practicePages).omit({ id: true, createdAt: true, updatedAt: true });
+export type PracticePage = typeof practicePages.$inferSelect;
+export type InsertPracticePage = z.infer<typeof insertPracticePageSchema>;
+
+export const visualAssets = pgTable("visual_assets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  assetType: text("asset_type").notNull(),
+  prompt: text("prompt").notNull(),
+  altText: text("alt_text"),
+  caption: text("caption"),
+  imageUrl: text("image_url"),
+  width: integer("width").default(1600),
+  height: integer("height").default(1200),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertVisualAssetSchema = createInsertSchema(visualAssets).omit({ id: true, createdAt: true });
+export type VisualAsset = typeof visualAssets.$inferSelect;
+export type InsertVisualAsset = z.infer<typeof insertVisualAssetSchema>;
+
+export const pinterestPins = pgTable("pinterest_pins", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description"),
+  hashtags: jsonb("hashtags").default(sql`'[]'::jsonb`),
+  imageUrl: text("image_url"),
+  linkUrl: text("link_url"),
+  pinType: text("pin_type").notNull(),
+  status: text("status").notNull().default("draft"),
+  scheduledFor: timestamp("scheduled_for"),
+  publishedAt: timestamp("published_at"),
+  pinterestId: text("pinterest_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPinterestPinSchema = createInsertSchema(pinterestPins).omit({ id: true, createdAt: true });
+export type PinterestPin = typeof pinterestPins.$inferSelect;
+export type InsertPinterestPin = z.infer<typeof insertPinterestPinSchema>;

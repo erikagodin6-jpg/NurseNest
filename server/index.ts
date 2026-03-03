@@ -625,6 +625,12 @@ app.use((req, res, next) => {
   const { setupTrialRoutes } = await import("./trial");
   setupTrialRoutes(app);
 
+  const { setupStudyPathRoutes } = await import("./study-path");
+  setupStudyPathRoutes(app);
+
+  const { setupAutopilotRoutes } = await import("./autopilot");
+  setupAutopilotRoutes(app);
+
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 
