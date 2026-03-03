@@ -1,0 +1,104 @@
+You are a senior product designer + frontend engineer working in the NurseNest codebase (React/Vite + existing QBank/Test engine). Implement a premium “Exam Console” interface inspired by top exam-prep UX patterns, but do NOT copy any competitor UI verbatim. Create an original layout that provides the same usability: question pane + exhibit/image + explanation + navigation + test controls.
+
+NON-NEGOTIABLES
+- Keep NurseNest colors, typography, rounding, and spacing tokens (pastel/modern clinical).
+- Maintain existing paywall rules and roles.
+- No breaking changes to the current test engine; add a new UI shell and component layer.
+- Must support desktop + mobile + accessibility.
+
+ROUTES / MODES
+- /test/:attemptId (active test session)
+- /review/:attemptId (post-test review)
+Modes:
+- Tutored (explanations allowed after answer or after question; configurable)
+- Timed (countdown)
+- Untimed
+- Adaptive (CAT) vs Standard
+- “All Questions” list view vs “One Question” view
+
+LAYOUT (DESKTOP)
+Top bar (sticky):
+- Timer (if timed)
+- Mark/Flag toggle
+- Question Navigator (Goto dropdown: unanswered/flagged/incorrect)
+- Suspend Test (save state)
+- End Test (confirm modal)
+
+Main body (2-column):
+LEFT: Question Panel
+- Header: “Question X of Y”, QID, difficulty indicator (optional)
+- Stem
+- Answer options (single choice, SATA, NGN types as supported)
+- Exhibit button(s) (opens drawer/modal)
+- Inline “calculator” button (when allowed)
+- For NGN: ensure interaction components render cleanly
+
+RIGHT: Explanation/Media Panel (tabbed)
+Tabs:
+1) Explanation (locked until allowed by mode)
+2) Exhibit (images/tables)
+3) Notes (user note + tags)
+4) References (if available)
+Panel should support:
+- High-resolution images with zoom, pan, fullscreen
+- Captions and labels
+- “Key Takeaways” bullets
+- Highlighted definitions (no excessive styling)
+
+Bottom nav:
+- Previous / Next
+- Progress indicator
+- Keyboard shortcuts: ← → for navigation, 1–5 for choices, F to flag, G for goto
+
+MICRO-METRICS (like “% answered correctly” / time spent)
+Show ONLY in Review mode by default:
+- Time spent on question
+- % of cohort answered correctly (if you have that data; otherwise hide)
+- Difficulty rating (if calibrated)
+- “Why you missed it” quick diagnostic (if incorrect)
+
+REVIEW MODE UX
+- Show user answer vs correct answer
+- Show explanation + image
+- Show “Remediate” actions:
+  - Add to Weak Areas
+  - Generate 5 similar questions (if user has entitlement)
+  - Add to Flashcards
+  - Add note
+- Provide a “Review incorrect only” filter
+
+DESIGN REQUIREMENTS (NurseNest style)
+- Soft pastel accents, low-contrast neutrals, rounded cards
+- Subtle shadows
+- Clear hierarchy: large stem text, readable option spacing
+- No harsh borders; use separators and spacing
+- Responsive: on mobile, right panel becomes a swipeable drawer
+
+ACCESSIBILITY
+- Full keyboard navigation
+- ARIA labels for controls
+- High contrast mode toggle (optional)
+- Screen reader-friendly option groups
+
+IMPLEMENTATION TASKS
+1) Create a new layout component: <ExamConsoleLayout />
+2) Build components:
+   - TopBarControls
+   - QuestionPanel
+   - OptionsRenderer (existing) + styling wrapper
+   - RightPanelTabs (Explanation/Exhibit/Notes/Refs)
+   - ExhibitViewer (zoom/pan/fullscreen)
+   - QuestionNavigator (goto modal/drawer)
+3) Integrate with existing attempt state:
+   - persist answers
+   - suspend/resume
+   - end test confirmation
+4) Add feature flags:
+   - EXAM_CONSOLE_V1 enabled for admins first
+
+DELIVERABLES
+- New UI with NurseNest theme
+- Mobile responsiveness
+- Review mode parity
+- Smoke tests:
+  - start test, answer, flag, goto, suspend, resume, end, review
