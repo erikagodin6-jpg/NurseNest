@@ -1,0 +1,291 @@
+
+You are building the complete Pharmacy Technician Certification Preparation System for NurseNest.
+
+This must align with:
+• PTCB 2026 PTCE blueprint (United States)
+• Canadian CCAPP-accredited program standards
+• NAPRA Model Standards
+• Provincial jurisprudence exams (e.g., OCP)
+• Practical competencies expected by employers
+
+This is NOT a surface-level question bank. This must be a full certification ecosystem.
+
+=========================================================
+SECTION 1 — CORE CURRICULUM LESSON ARCHITECTURE
+=========================================================
+
+Build 1500+ word lessons minimum for each area below.
+
+CURRICULUM MODULES:
+
+1) Pharmacology and Therapeutics
+- Top 200 drugs
+- Brand vs generic
+- Therapeutic class logic
+- Indications
+- Contraindications
+- High-alert medications
+- Drug interactions
+- Renal dose adjustments
+- Pediatric dose considerations
+- OTC vs legend drugs
+
+2) Pharmaceutical Calculations
+- Ratio and proportion
+- Dimensional analysis
+- Percentage strength
+- Alligation (reduced 2026 emphasis but still foundational)
+- IV flow rates
+- Drip rate math
+- Days’ supply
+- Insulin math
+- Pediatric mg/kg dosing
+
+3) Pharmacy Law and Ethics
+US:
+- DEA controlled substance schedules
+- Prescription validity rules
+- Drug Supply Chain Security Act (DSCSA)
+- Track and trace compliance
+- HIPAA
+
+Canada:
+- NAPRA standards
+- Controlled Drugs and Substances Act
+- PIPEDA
+- Provincial board structure (e.g., OCP)
+- Jurisprudence exam overview
+
+4) Compounding
+- Sterile compounding (USP <797>)
+- Non-sterile compounding (USP <795>)
+- Aseptic technique
+- Primary engineering controls
+- Beyond-use dating
+- Contamination prevention
+Note: Reflect 2026 reduction in non-sterile compounding emphasis for PTCE.
+
+5) Pharmacy Operations & Workflow
+- Order entry
+- Insurance adjudication
+- NDC numbers
+- SIG code interpretation
+- Inventory control
+- Automation & robotics
+- Independent double-check systems
+
+6) Anatomy and Physiology (Technician-Level)
+- Cardiovascular basics
+- Endocrine basics
+- Renal basics
+- Respiratory basics
+- GI basics
+- Immune response overview
+
+7) Patient Safety & Quality Assurance
+- LASA drugs
+- Tall Man lettering
+- High-alert medications
+- ISMP error prevention
+- Root cause analysis basics
+- Technician judgment in workflow
+- Barcode scanning safety
+
+Each lesson must include:
+• Mechanism explanation
+• Real-world workflow example
+• Exam trap callouts
+• Safety escalation triggers
+• 10 embedded practice questions
+
+=========================================================
+SECTION 2 — 2026 PTCE EXAM STRUCTURE IMPLEMENTATION
+=========================================================
+
+PTCE 2026 Blueprint Weighting:
+
+Medications: 35%
+Federal Requirements: 18.75%
+Patient Safety & Quality Assurance: 23.75%
+Order Entry & Processing: 22.5%
+
+MOCK EXAM REQUIREMENTS:
+
+Official Mock:
+- 90 questions
+- Weighted exactly by blueprint
+- Timed
+- Real Exam Mode
+- No question count selection
+- Domain performance bands
+
+PASS CRITERIA:
+- Overall score ≥ 70%
+- No domain below 60%
+- Fail if Federal Requirements < 60% (critical compliance threshold)
+
+READINESS EXAM:
+- 30 questions
+- Representative blueprint sampling
+- Limited rationales for free users
+
+=========================================================
+SECTION 3 — CANADIAN ALIGNMENT
+=========================================================
+
+Add parallel Canadian readiness/mocks aligned with:
+
+- CCAPP competencies
+- NAPRA Model Standards
+- Jurisprudence preparation
+- Provincial regulation comparisons
+
+Mock Exam Structure:
+- 100 questions
+- Competency-weighted rather than US blueprint
+
+=========================================================
+SECTION 4 — QUESTION BANK ENGINE
+=========================================================
+
+Generate:
+Minimum 1,500 questions total.
+
+Distribution:
+40% moderate
+30% difficult
+30% easy
+
+Include:
+• 20% case-based
+• 15% calculation
+• 15% safety-critical
+• 10% controlled substance regulation
+• 10% DSCSA track-and-trace
+
+Each question must include:
+- Domain tag
+- Difficulty tag
+- Blueprint mapping
+- 300+ word rationale
+- "Why wrong answers are wrong" section
+- Safety implication note
+
+=========================================================
+SECTION 5 — FLASHCARD ENGINE
+=========================================================
+
+For each question and lesson:
+
+Generate flashcards in 3 formats:
+
+1) Drug Recognition Cards
+Front: Generic name
+Back: Class, indication, major adverse effect, safety warning
+
+2) Calculation Cards
+Front: Formula or problem setup
+Back: Solution method and trap warning
+
+3) Law & Compliance Cards
+Front: Regulation or act
+Back: Key compliance points + common exam trap
+
+Flashcards must:
+- Be filterable by domain
+- Be filterable by difficulty
+- Be spaced repetition compatible
+- Link back to lesson
+
+=========================================================
+SECTION 6 — PRACTICAL SKILL MODULES
+=========================================================
+
+Build applied competency modules:
+
+• Aseptic technique step-by-step
+• Independent double-check workflow
+• Handling high-alert meds
+• Managing look-alike/sound-alike drugs
+• Barcode verification
+• Technician judgment scenarios
+
+Include:
+- Scenario progression
+- Decision checkpoints
+- Escalation triggers
+- Documentation examples
+
+=========================================================
+SECTION 7 — CERTIFICATION PATHWAY MODULE
+=========================================================
+
+Create dedicated page explaining:
+
+US:
+1. Complete ASHP/ACPE accredited program
+2. Pass PTCE
+3. Earn CPhT
+4. State registration
+
+Canada:
+1. Complete CCAPP-accredited program
+2. National exam
+3. Provincial registration
+4. Jurisprudence exam
+5. 300+ practicum hours
+
+Include:
+• Timeline planner
+• Exam readiness self-assessment
+• Mock exam CTA
+• Subscription CTA
+
+=========================================================
+SECTION 8 — REAL EXAM MODE LOGIC
+=========================================================
+
+Official Mock:
+- No customization
+- Blueprint-weighted
+- Timed
+- Pass/Fail banner
+- Domain performance bands
+- Remediation plan auto-generated
+- Seed-based deterministic question selection
+
+Readiness:
+- Always free
+- Limited review
+- CTA to upgrade
+
+=========================================================
+SECTION 9 — SEO IMPLEMENTATION
+=========================================================
+
+Generate:
+
+• Pillar page 2000+ words
+• 20 cluster pages
+• FAQ schema
+• Breadcrumb schema
+• Internal linking
+• Meta titles under 60 characters
+• Meta descriptions under 155 characters
+• Sitemap entry
+
+=========================================================
+FINAL REQUIREMENT
+=========================================================
+
+Reuse overlapping content from the Nursing site where appropriate:
+- Infection control
+- Safety modules
+- Documentation standards
+- Shock overview
+- Electrolyte lessons
+- Medication safety frameworks
+
+Do NOT duplicate. Use shared modules and adapt only where technician scope differs.
+
+Output structured lesson hierarchy, exam blueprint config, question bank architecture, and monetization placement.
