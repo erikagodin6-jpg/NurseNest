@@ -271,6 +271,11 @@ export interface ExamBlueprint {
   domainPassThreshold: number;
   domains: { name: string; weight: number }[];
   difficultyMix: { high: number; moderate: number; foundational: number };
+  examType: "cat" | "linear-scaled" | "readiness";
+  minQuestions?: number;
+  maxQuestions?: number;
+  scaledScoreRange?: { min: number; max: number; passScore: number };
+  showQuestionCount: boolean;
 }
 
 const BODY_SYSTEM_TO_DOMAIN_RPN: Record<string, string> = {
@@ -384,12 +389,16 @@ const BODY_SYSTEM_TO_DOMAIN_NP: Record<string, string> = {
 export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
   "REX-PN": {
     examCode: "REX-PN",
-    examName: "REx-PN Official Blueprint Mock",
+    examName: "REx-PN Computer Adaptive Test",
     tier: "rpn",
     totalQuestions: 90,
     timeLimit: 180,
-    passingThreshold: 65,
-    domainPassThreshold: 60,
+    passingThreshold: 0,
+    domainPassThreshold: 0,
+    examType: "cat",
+    minQuestions: 60,
+    maxQuestions: 90,
+    showQuestionCount: false,
     domains: [
       { name: "Foundations of Practice", weight: 0.36 },
       { name: "Collaborative Practice", weight: 0.30 },
@@ -401,12 +410,16 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
   },
   "NCLEX-PN": {
     examCode: "NCLEX-PN",
-    examName: "NCLEX-PN Official Blueprint Mock",
+    examName: "NCLEX-PN Computer Adaptive Test",
     tier: "rpn",
     totalQuestions: 85,
     timeLimit: 180,
-    passingThreshold: 65,
-    domainPassThreshold: 60,
+    passingThreshold: 0,
+    domainPassThreshold: 0,
+    examType: "cat",
+    minQuestions: 60,
+    maxQuestions: 85,
+    showQuestionCount: false,
     domains: [
       { name: "Physiological Integrity", weight: 0.54 },
       { name: "Safe and Effective Care Environment", weight: 0.23 },
@@ -417,12 +430,16 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
   },
   "NCLEX-RN": {
     examCode: "NCLEX-RN",
-    examName: "NCLEX-RN Official Blueprint Mock",
+    examName: "NCLEX-RN / NGN Computer Adaptive Test",
     tier: "rn",
     totalQuestions: 85,
     timeLimit: 180,
-    passingThreshold: 65,
-    domainPassThreshold: 60,
+    passingThreshold: 0,
+    domainPassThreshold: 0,
+    examType: "cat",
+    minQuestions: 60,
+    maxQuestions: 85,
+    showQuestionCount: false,
     domains: [
       { name: "Management of Care", weight: 0.19 },
       { name: "Safety and Infection Control", weight: 0.12 },
@@ -435,14 +452,37 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
     ],
     difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
   },
-  "NP-BOARDS": {
-    examCode: "NP-BOARDS",
-    examName: "NP Boards Official Blueprint Mock",
+  "AANP": {
+    examCode: "AANP",
+    examName: "AANP Certification Exam",
     tier: "np",
     totalQuestions: 150,
     timeLimit: 240,
-    passingThreshold: 65,
-    domainPassThreshold: 60,
+    passingThreshold: 0,
+    domainPassThreshold: 0,
+    examType: "linear-scaled",
+    showQuestionCount: true,
+    scaledScoreRange: { min: 200, max: 800, passScore: 500 },
+    domains: [
+      { name: "Health Assessment", weight: 0.25 },
+      { name: "Diagnosis", weight: 0.20 },
+      { name: "Therapeutics", weight: 0.25 },
+      { name: "Health Promotion & Disease Prevention", weight: 0.15 },
+      { name: "Professional Role & Responsibility", weight: 0.15 },
+    ],
+    difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
+  },
+  "ANCC": {
+    examCode: "ANCC",
+    examName: "ANCC Certification Exam",
+    tier: "np",
+    totalQuestions: 150,
+    timeLimit: 240,
+    passingThreshold: 0,
+    domainPassThreshold: 0,
+    examType: "linear-scaled",
+    showQuestionCount: true,
+    scaledScoreRange: { min: 100, max: 500, passScore: 350 },
     domains: [
       { name: "Health Assessment", weight: 0.25 },
       { name: "Diagnosis", weight: 0.20 },
@@ -453,6 +493,121 @@ export const EXAM_BLUEPRINTS: Record<string, ExamBlueprint> = {
     difficultyMix: { high: 0.20, moderate: 0.60, foundational: 0.20 },
   },
 };
+
+export const READINESS_EXAMS: Record<string, ExamBlueprint> = {
+  "READINESS-RPN": {
+    examCode: "READINESS-RPN",
+    examName: "RPN Readiness Check",
+    tier: "rpn",
+    totalQuestions: 25,
+    timeLimit: 45,
+    passingThreshold: 65,
+    domainPassThreshold: 0,
+    examType: "readiness",
+    showQuestionCount: true,
+    domains: [
+      { name: "Foundations of Practice", weight: 0.36 },
+      { name: "Collaborative Practice", weight: 0.30 },
+      { name: "Professional Practice", weight: 0.16 },
+      { name: "Ethical Practice", weight: 0.10 },
+      { name: "Legal Practice", weight: 0.08 },
+    ],
+    difficultyMix: { high: 0.15, moderate: 0.65, foundational: 0.20 },
+  },
+  "READINESS-RN": {
+    examCode: "READINESS-RN",
+    examName: "RN Readiness Check",
+    tier: "rn",
+    totalQuestions: 25,
+    timeLimit: 45,
+    passingThreshold: 65,
+    domainPassThreshold: 0,
+    examType: "readiness",
+    showQuestionCount: true,
+    domains: [
+      { name: "Management of Care", weight: 0.19 },
+      { name: "Safety and Infection Control", weight: 0.12 },
+      { name: "Health Promotion and Maintenance", weight: 0.09 },
+      { name: "Psychosocial Integrity", weight: 0.09 },
+      { name: "Basic Care and Comfort", weight: 0.09 },
+      { name: "Pharmacological Therapies", weight: 0.15 },
+      { name: "Reduction of Risk Potential", weight: 0.12 },
+      { name: "Physiological Adaptation", weight: 0.14 },
+    ],
+    difficultyMix: { high: 0.15, moderate: 0.65, foundational: 0.20 },
+  },
+  "READINESS-NP": {
+    examCode: "READINESS-NP",
+    examName: "NP Readiness Check",
+    tier: "np",
+    totalQuestions: 25,
+    timeLimit: 45,
+    passingThreshold: 65,
+    domainPassThreshold: 0,
+    examType: "readiness",
+    showQuestionCount: true,
+    domains: [
+      { name: "Health Assessment", weight: 0.25 },
+      { name: "Diagnosis", weight: 0.20 },
+      { name: "Therapeutics", weight: 0.25 },
+      { name: "Health Promotion & Disease Prevention", weight: 0.15 },
+      { name: "Professional Role & Responsibility", weight: 0.15 },
+    ],
+    difficultyMix: { high: 0.15, moderate: 0.65, foundational: 0.20 },
+  },
+};
+
+export function getReadinessExamForTier(tier: string): ExamBlueprint | null {
+  const code = `READINESS-${tier.toUpperCase()}`;
+  return READINESS_EXAMS[code] || null;
+}
+
+export function getReadinessExamQuestions(tier: string): { questions: PooledQuestion[]; blueprint: ExamBlueprint; domainAssignments: Record<string, string> } {
+  const blueprint = getReadinessExamForTier(tier);
+  if (!blueprint) throw new Error(`No readiness exam for tier: ${tier}`);
+
+  const pool = buildQuestionPool();
+  const tierPool = pool.filter(q => q.tier === blueprint.tier);
+
+  const domainBuckets: Record<string, PooledQuestion[]> = {};
+  for (const domain of blueprint.domains) {
+    domainBuckets[domain.name] = [];
+  }
+
+  for (const q of tierPool) {
+    const domain = getDomainForQuestion(q, blueprint.tier);
+    if (domainBuckets[domain]) {
+      domainBuckets[domain].push(q);
+    } else {
+      const firstDomain = blueprint.domains[0].name;
+      domainBuckets[firstDomain].push(q);
+    }
+  }
+
+  for (const key of Object.keys(domainBuckets)) {
+    domainBuckets[key] = shuffleArray(domainBuckets[key]);
+  }
+
+  const selected: PooledQuestion[] = [];
+  const domainAssignments: Record<string, string> = {};
+  const totalQ = blueprint.totalQuestions;
+
+  for (const domain of blueprint.domains) {
+    const targetCount = Math.max(1, Math.round(totalQ * domain.weight));
+    const available = domainBuckets[domain.name];
+    const toTake = Math.min(targetCount, available.length);
+    for (let i = 0; i < toTake; i++) {
+      selected.push(available[i]);
+      domainAssignments[available[i].id] = domain.name;
+    }
+  }
+
+  return {
+    questions: shuffleArray(selected).slice(0, totalQ),
+    blueprint,
+    domainAssignments,
+  };
+}
 
 function getDomainForQuestion(q: PooledQuestion, tier: string): string {
   const map = tier === "np" ? BODY_SYSTEM_TO_DOMAIN_NP

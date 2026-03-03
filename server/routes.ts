@@ -188,7 +188,6 @@ const PREMIUM_ROUTES: { method: string; pattern: RegExp }[] = [
   { method: "GET",  pattern: /^\/api\/actions\/next-best\// },
   { method: "POST", pattern: /^\/api\/user-flashcards\/ai-generate$/ },
   { method: "POST", pattern: /^\/api\/user-flashcards\/ai-generate-from-notes$/ },
-  { method: "POST", pattern: /^\/api\/mock-exams\/start$/ },
   { method: "POST", pattern: /^\/api\/decks\/[^/]+\/ai-generate$/ },
   { method: "POST", pattern: /^\/api\/decks\/[^/]+\/ai-generate-from-notes$/ },
 ];
@@ -6181,7 +6180,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
 
-      const { tier, totalQuestions, questions } = req.body;
+      const { tier, totalQuestions, questions, examMode } = req.body;
       if (!tier || !totalQuestions || !questions || !Array.isArray(questions)) {
         return res.status(400).json({ error: "Missing required fields" });
       }
@@ -6191,15 +6190,25 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         const preview = getPreviewFromToken(previewToken);
         effectiveExamTier = preview ? preview.mode : "admin";
       }
-      if (effectiveExamTier !== "admin" && effectiveExamTier !== tier) {
-        return res.status(403).json({ error: "You can only access exams matching your subscription tier" });
+
+      const isReadiness = examMode === "readiness";
+      const isOfficial = examMode === "official";
+      const isPaidRequired = isOfficial || (!isReadiness && totalQuestions > 25);
+
+      if (!isReadiness) {
+        if (effectiveExamTier === "free" && isPaidRequired) {
+          return res.status(403).json({ error: "Upgrade required", requiredTier: tier });
+        }
+        if (effectiveExamTier !== "admin" && effectiveExamTier !== "free" && effectiveExamTier !== tier) {
+          return res.status(403).json({ error: "You can only access exams matching your subscription tier" });
+        }
       }
 
       const result = await pool.query(
-        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status)
-         VALUES ($1, $2, $3, $4, 'in_progress')
+        `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report)
+         VALUES ($1, $2, $3, $4, 'in_progress', $5)
          RETURNING id`,
-        [String(authUser.id), tier, totalQuestions, JSON.stringify(questions)],
+        [String(authUser.id), tier, totalQuestions, JSON.stringify(questions), JSON.stringify({ examMode: examMode || "practice" })],
       );
 
       res.json({ attemptId: result.rows[0].id });
@@ -6300,7 +6309,26 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         return res.status(403).json({ error: "Access denied" });
       }
 
-      res.json(result.rows[0]);
+      const row = result.rows[0];
+      let effectiveUserTier = authUser.tier || "free";
+      if (authUser.tier === "admin") {
+        const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
+        const preview = getPreviewFromToken(previewToken);
+        effectiveUserTier = preview ? preview.mode : "admin";
+      }
+
+      const examReport = typeof row.report === "string" ? JSON.parse(row.report) : (row.report || {});
+      const isReadiness = examReport.examMode === "readiness";
+      const isFree = effectiveUserTier === "free";
+
+      if (isFree && isReadiness && row.status === "completed") {
+        const questions = Array.isArray(row.questions) ? row.questions : [];
+        const limitedQuestions = questions.slice(0, 5);
+        const limitedReport = { ...examReport, questionReviewLimited: true, reviewLimit: 5 };
+        res.json({ ...row, questions: limitedQuestions, report: limitedReport });
+      } else {
+        res.json(row);
+      }
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
