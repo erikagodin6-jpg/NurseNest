@@ -1,0 +1,213 @@
+Blood Transfusion Reactions
+Comprehensive Clinical Recognition & Management Lesson
+Learning Objectives
+By the end of this lesson, learners will be able to:
+Classify acute vs delayed transfusion reactions
+Recognize hallmark signs and symptoms of each reaction type
+Differentiate life-threatening from benign reactions
+Initiate immediate nursing and medical management steps
+Understand underlying pathophysiology
+Apply prevention strategies in clinical practice
+1. Why Transfusion Reactions Occur
+
+
+
+
+
+
+4
+Transfusion reactions occur when:
+Donor antigens react with recipient antibodies
+Recipient antibodies react with donor plasma proteins
+Immune activation causes inflammation
+Circulatory overload develops
+Contaminated blood introduces infection
+Reactions are classified as:
+Acute (within minutes to 24 hours)
+Delayed (days to weeks later)
+2. Immediate Nursing Priority (For ANY Suspected Reaction)
+If a reaction is suspected:
+STOP the transfusion immediately
+Maintain IV access with normal saline
+Assess airway, breathing, circulation
+Notify physician & blood bank
+Recheck patient ID and blood product
+Monitor vital signs
+Send blood bag and tubing to lab
+Never restart the same blood unit.
+3. Acute Transfusion Reactions
+A. Acute Hemolytic Transfusion Reaction (AHTR)
+Cause
+ABO incompatibility (most severe)
+Pathophysiology
+Recipient antibodies destroy donor RBCs → hemolysis → free hemoglobin → kidney injury → shock
+
+
+
+
+
+
+4
+Symptoms
+Fever
+Chills
+Flank pain
+Hypotension
+Hemoglobinuria (dark urine)
+Chest tightness
+Anxiety
+Severity
+Medical emergency
+Management
+Stop transfusion
+IV fluids
+Maintain urine output
+Treat shock
+Monitor renal function
+B. Febrile Non-Hemolytic Reaction
+Cause
+Recipient antibodies reacting to donor leukocytes
+Symptoms
+Fever
+Chills
+Mild discomfort
+No hemolysis
+Severity
+Common and usually mild
+Management
+Stop transfusion temporarily
+Antipyretics
+Restart only if serious reaction ruled out
+C. Allergic (Mild) Reaction
+Cause
+Hypersensitivity to donor plasma proteins
+Symptoms
+Urticaria
+Itching
+Rash
+No fever, no hypotension.
+Management
+Stop transfusion
+Antihistamines
+May restart if mild and symptoms resolve
+D. Anaphylactic Reaction
+Cause
+IgA deficiency with anti-IgA antibodies
+Symptoms
+Hypotension
+Bronchospasm
+Angioedema
+Shock
+Management
+Stop transfusion
+Epinephrine
+Airway support
+IV fluids
+Life-threatening emergency.
+E. Transfusion-Associated Circulatory Overload (TACO)
+Cause
+Volume overload
+
+
+
+
+
+
+4
+Symptoms
+Dyspnea
+Hypertension
+Pulmonary edema
+Crackles
+JVD
+High Risk
+Elderly
+Heart failure
+Renal disease
+Management
+Stop transfusion
+Sit upright
+Oxygen
+Diuretics
+F. Transfusion-Related Acute Lung Injury (TRALI)
+Cause
+Donor antibodies trigger lung inflammation
+Symptoms
+Sudden hypoxia
+Respiratory distress
+Bilateral pulmonary infiltrates
+Hypotension
+Occurs within 6 hours.
+Management
+Stop transfusion
+Oxygen
+Ventilatory support
+Can resemble ARDS.
+G. Septic (Bacterial) Reaction
+Cause
+Contaminated blood product
+Symptoms
+High fever
+Hypotension
+Rigors
+Shock
+Management
+Stop transfusion
+Blood cultures
+IV antibiotics
+4. Delayed Transfusion Reactions
+A. Delayed Hemolytic Reaction
+Occurs days to weeks later.
+Cause
+Previously sensitized antibodies (e.g., anti-Kell)
+Symptoms
+Mild fever
+Jaundice
+Fatigue
+Decreasing hemoglobin
+Usually less severe than acute hemolytic reactions.
+B. Transfusion-Associated Graft vs Host Disease (TA-GVHD)
+Rare but fatal.
+Cause
+Donor lymphocytes attack recipient tissues
+Symptoms
+Fever
+Rash
+Liver dysfunction
+Bone marrow suppression
+Prevention: irradiated blood products in immunocompromised patients.
+5. Reaction Comparison Table
+Reaction	Fever	Hypotension	Rash	Dyspnea	Hemolysis	Emergency?
+Acute Hemolytic	Yes	Yes	No	Possible	Yes	Yes
+Febrile	Yes	No	No	No	No	Usually No
+Allergic	No	No	Yes	No	No	No
+Anaphylaxis	No	Yes	Yes	Yes	No	Yes
+TACO	No	Possible	No	Yes	No	Yes
+TRALI	No	Yes	No	Yes	No	Yes
+Septic	Yes (High)	Yes	No	Yes	No	Yes
+6. Prevention Strategies
+• Verify patient identity carefully
+• Double-check blood type
+• Monitor closely during first 15 minutes
+• Administer slowly in high-risk patients
+• Use leukocyte-reduced blood products
+• Irradiate blood for immunocompromised patients
+Most fatal reactions are due to clerical error.
+7. Early Warning Signs Nurses Must Never Ignore
+Fever increase ≥ 1°C
+Back or flank pain
+Sudden dyspnea
+Hypotension
+Rash
+Anxiety or sense of “impending doom”
+First 15 minutes are highest risk.
+8. Clinical Priority Framework
+If reaction suspected:
+STOP → SUPPORT → REPORT → DOCUMENT
+Do not delay action waiting for confirmation.
+9. Key Clinical Pearls
+• Acute hemolytic reaction = most dangerous
+• Fever during transfusion is never “normal”
+• Dyspnea could be TRALI or TACO
+• Hypotension + fever = emergency
+• Always treat the patient first, then confirm diagnosis
