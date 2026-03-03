@@ -1,0 +1,103 @@
+You are a senior SEO engineer and full-stack developer working inside my codebase (Vite + React frontend, Express backend, Wouter routing). Your task is to implement FULL breadcrumb support that is visible on-page and detected by Google for the Google Search Console “Enhancements → Breadcrumbs” report.
+
+GOALS
+1) Add a visible breadcrumb UI component to all eligible pages (lessons, topic pages, question banks, posts, product pages, etc.).
+2) Add correct structured data (JSON-LD) using schema.org BreadcrumbList on those pages so Google can show breadcrumbs in search snippets.
+3) Ensure breadcrumbs match canonical URLs and site hierarchy.
+4) Eliminate all Breadcrumbs structured data errors/warnings in Google Search Console.
+
+NON-NEGOTIABLE REQUIREMENTS
+- Do NOT change the visual theme system other than adding the breadcrumb UI (use existing design tokens/colors/typography).
+- Breadcrumb UI must be accessible (nav + aria-label, ordered list or list semantics).
+- Breadcrumb structured data must be valid and placed in <head> (or within the page but rendered in the initial HTML that Googlebot can parse reliably).
+- Breadcrumbs must not create indexable duplicate URLs. Respect canonicals.
+- If data is missing (e.g., unknown category), gracefully fall back to a minimal breadcrumb trail rather than emitting invalid schema.
+
+SITE HIERARCHY RULES (use this unless the route provides something more specific)
+- Home
+  - Tier (rpn | rn | np | allied)
+    - System (cardiovascular, respiratory, neuro, etc.) OPTIONAL
+      - Topic slug OPTIONAL
+        - Resource type OPTIONAL (lesson | qbank | flashcards | guide | blog | product)
+
+URL CONVENTIONS (enforce consistency)
+Examples:
+- /rpn/cardiovascular/hypertension/lesson
+- /rpn/cardiovascular/hypertension/qbank
+- /rn/respiratory/copd/lesson
+- /np/endocrine/diabetes-type-2/guide
+If the existing code uses different paths, implement a mapping layer so the breadcrumb names and links still reflect the intended hierarchy.
+
+IMPLEMENTATION TASKS
+A) INVENTORY ROUTES + DATA SOURCES
+- Identify all page types that should show breadcrumbs.
+- Identify how each page currently knows its tier/system/topic/title (route params, page props, API calls, DB content).
+- Create a single “breadcrumb builder” utility that takes:
+  - current pathname
+  - optional page metadata (title, tier, system, topic, resourceType)
+  and returns a breadcrumb array:
+  [{ name: string, url: string }...]
+
+B) CREATE BREADCRUMB UI COMPONENT
+- Add a reusable <Breadcrumbs /> component.
+- Render it near the top of content areas for eligible pages (avoid homepage and auth pages).
+- Format:
+  Home > Tier > System > Topic > Page
+- Make each crumb a link except the last (current page).
+- Ensure mobile wrapping and no layout shifts.
+
+C) ADD JSON-LD STRUCTURED DATA
+- Implement a <BreadcrumbJsonLd /> component that renders:
+  <script type="application/ld+json">{...}</script>
+- Schema:
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type":"ListItem","position":1,"name":"Home","item":"https://www.nursenest.ca/" },
+      ...
+    ]
+  }
+- Use the site canonical origin (https://www.nursenest.ca for main site; if on subdomain allied, use https://allied.nursenest.ca).
+- Ensure every ListItem except possibly the last has an “item” URL. (If you omit for last, verify Google acceptance; safest: include item for all, including current canonical URL.)
+
+D) CANONICAL + BREADCRUMBS ALIGNMENT
+- Audit canonical tags in head for these pages.
+- Ensure breadcrumb “item” links exactly match canonical URLs (including trailing slash policy).
+- If canonical differs from rendered path, breadcrumbs must follow canonical.
+
+E) SSR / GOOGLEBOT RELIABILITY
+- If the site is purely client-rendered and head scripts are injected after hydration, Google may miss them.
+- Implement one of these options (choose the least invasive that works in this codebase):
+  Option 1: Server-side inject JSON-LD into initial HTML for eligible routes by passing breadcrumb data from server to client (preferred).
+  Option 2: Use a head management library already present (e.g., react-helmet-async) and verify it renders reliably for Googlebot.
+  Option 3: If neither is present, add react-helmet-async, integrate it once at app root, and use it for canonical + breadcrumb JSON-LD.
+
+F) CONFIG + TESTING
+- Add unit tests for breadcrumb builder (path parsing → crumbs).
+- Add a small set of snapshot tests or runtime checks for JSON-LD validity (positions sequential, urls absolute, names non-empty).
+- Add a dev-only debug mode (?debugBreadcrumbs=1) that prints the computed breadcrumb array to console for quick verification.
+
+G) SEARCH CONSOLE WORKFLOW HELPERS (in code comments or admin notes)
+- After deploy, provide a checklist:
+  1) Inspect URL in GSC
+  2) Test Rich Results (Breadcrumbs)
+  3) Request indexing for 5–10 representative pages
+  4) Monitor Enhancements → Breadcrumbs for Valid count increasing and errors decreasing
+
+DELIVERABLES
+1) New breadcrumb builder utility file.
+2) Breadcrumb UI component.
+3) Breadcrumb JSON-LD component + integration with head management.
+4) Route/page integrations for all eligible templates.
+5) Tests.
+6) Short internal note: how to extend breadcrumb mapping when we add new tiers/systems.
+
+QUALITY BAR
+- No broken links.
+- No invalid schema.
+- No visual regressions.
+- Breadcrumb names human-readable (Title Case, replace hyphens with spaces; handle acronyms like “COPD”, “ECG”).
+- The implementation must be scalable: adding a new page type should require minimal changes.
+
+Now implement this end-to-end in my codebase: search for existing routing/layout components, find where head tags/canonicals are handled, then add breadcrumbs + JSON-LD accordingly. Output: a concise summary of files changed and the exact code diffs for each file.
