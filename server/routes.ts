@@ -33,6 +33,9 @@ import {
   insertAuditLogSchema,
   insertContentRevisionSchema,
   insertExamBlueprintSchema,
+  insertInstitutionLeadSchema,
+  insertInstitutionSchema,
+  insertInstitutionInviteCodeSchema,
 } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
@@ -12257,6 +12260,304 @@ Return ONLY valid JSON with this exact structure:
     } catch (e: any) {
       console.error("Career AI chat error:", e);
       res.status(500).json({ error: "AI chat failed" });
+    }
+  });
+
+  // ==========================================
+  // INSTITUTIONAL ACCESS API ROUTES
+  // ==========================================
+
+  app.post("/api/institutions/lead", async (req, res) => {
+    try {
+      const parsed = insertInstitutionLeadSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid form data", details: parsed.error.issues });
+      }
+      const data = parsed.data;
+      const result = await pool.query(
+        `INSERT INTO institution_leads (institution_name, program_type, estimated_student_count, country, contact_name, email, phone, message, region, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'new') RETURNING id`,
+        [data.institutionName, data.programType, data.estimatedStudentCount || 0, data.country || "US",
+         data.contactName, data.email, data.phone || null, data.message || null, data.region || "US"]
+      );
+      res.json({ success: true, id: result.rows[0].id });
+    } catch (e: any) {
+      console.error("Institution lead error:", e);
+      res.status(500).json({ error: "Failed to submit lead" });
+    }
+  });
+
+  app.get("/api/admin/institution-leads", async (req, res) => {
+    try {
+      const adminId = String(req.headers?.["x-admin-id"] || req.query?.adminId || "");
+      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
+      const adminCheck = await pool.query("SELECT tier FROM users WHERE id = $1", [adminId]);
+      if (!adminCheck.rows[0] || adminCheck.rows[0].tier !== "admin") {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      const leads = await pool.query("SELECT * FROM institution_leads ORDER BY created_at DESC LIMIT 200");
+      res.json(leads.rows.map(snakeToCamel));
+    } catch (e: any) {
+      console.error("Get institution leads error:", e);
+      res.status(500).json({ error: "Failed to fetch leads" });
+    }
+  });
+
+  app.post("/api/admin/institutions", async (req, res) => {
+    try {
+      const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || "");
+      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
+      const adminCheck = await pool.query("SELECT tier FROM users WHERE id = $1", [adminId]);
+      if (!adminCheck.rows[0] || adminCheck.rows[0].tier !== "admin") {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      const parsed = insertInstitutionSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid institution data", details: parsed.error.issues });
+      }
+      const d = parsed.data;
+      const result = await pool.query(
+        `INSERT INTO institutions (name, region, career_scope, license_model, seat_limit, semester_end_date, default_duration_days, tier_level, add_ons, enrollment_mode, allowed_email_domains, require_email_verified, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
+        [d.name, d.region || "US", d.careerScope || "MULTI", d.licenseModel || "COHORT",
+         d.seatLimit || 50, d.semesterEndDate || null, d.defaultDurationDays || null,
+         d.tierLevel || "COHORT", JSON.stringify(d.addOns || []), d.enrollmentMode || "DOMAIN_LOCK",
+         d.allowedEmailDomains || [], d.requireEmailVerified !== false, d.status || "active"]
+      );
+      await pool.query(
+        `INSERT INTO institution_audit_log (institution_id, actor_user_id, action_type, metadata) VALUES ($1, $2, 'institution_created', $3)`,
+        [result.rows[0].id, adminId, JSON.stringify({ name: d.name })]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      console.error("Create institution error:", e);
+      res.status(500).json({ error: "Failed to create institution" });
+    }
+  });
+
+  app.get("/api/institutions/:id", async (req, res) => {
+    try {
+      const result = await pool.query("SELECT * FROM institutions WHERE id = $1", [req.params.id]);
+      if (!result.rows[0]) return res.status(404).json({ error: "Institution not found" });
+      const seatCount = await pool.query("SELECT COUNT(*) as count FROM institution_seats WHERE institution_id = $1 AND active = true", [req.params.id]);
+      const inst = snakeToCamel(result.rows[0]);
+      inst.activeSeats = parseInt(seatCount.rows[0].count);
+      res.json(inst);
+    } catch (e: any) {
+      console.error("Get institution error:", e);
+      res.status(500).json({ error: "Failed to fetch institution" });
+    }
+  });
+
+  app.post("/api/institutions/:id/invite-codes", async (req, res) => {
+    try {
+      const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || "");
+      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
+      const inst = await pool.query("SELECT * FROM institutions WHERE id = $1", [req.params.id]);
+      if (!inst.rows[0]) return res.status(404).json({ error: "Institution not found" });
+      const code = crypto.randomBytes(6).toString("hex").toUpperCase();
+      const seatLimit = req.body.seatLimit || inst.rows[0].seat_limit;
+      const expiresAt = req.body.expiresAt ? new Date(req.body.expiresAt) : (inst.rows[0].semester_end_date || new Date(Date.now() + 180 * 86400000));
+      const result = await pool.query(
+        `INSERT INTO institution_invite_codes (institution_id, code, seat_limit, expires_at) VALUES ($1, $2, $3, $4) RETURNING *`,
+        [req.params.id, code, seatLimit, expiresAt]
+      );
+      await pool.query(
+        `INSERT INTO institution_audit_log (institution_id, actor_user_id, action_type, metadata) VALUES ($1, $2, 'invite_code_created', $3)`,
+        [req.params.id, adminId, JSON.stringify({ code, seatLimit })]
+      );
+      res.json(snakeToCamel(result.rows[0]));
+    } catch (e: any) {
+      console.error("Create invite code error:", e);
+      res.status(500).json({ error: "Failed to create invite code" });
+    }
+  });
+
+  app.post("/api/institutions/redeem-code", async (req, res) => {
+    try {
+      const { code, userId } = req.body;
+      if (!code || !userId) return res.status(400).json({ error: "Code and userId required" });
+
+      const codeResult = await pool.query("SELECT * FROM institution_invite_codes WHERE code = $1", [code.toUpperCase()]);
+      if (!codeResult.rows[0]) return res.status(404).json({ error: "Invalid invite code" });
+      const inviteCode = codeResult.rows[0];
+
+      if (inviteCode.expires_at && new Date(inviteCode.expires_at) < new Date()) {
+        return res.status(400).json({ error: "This invite code has expired" });
+      }
+
+      const inst = await pool.query("SELECT * FROM institutions WHERE id = $1", [inviteCode.institution_id]);
+      if (!inst.rows[0]) return res.status(404).json({ error: "Institution not found" });
+      const institution = inst.rows[0];
+
+      const existingSeat = await pool.query(
+        "SELECT id FROM institution_seats WHERE institution_id = $1 AND user_id = $2 AND active = true",
+        [institution.id, userId]
+      );
+      if (existingSeat.rows[0]) {
+        return res.status(400).json({ error: "You already have an active seat at this institution" });
+      }
+
+      const seatCount = await pool.query(
+        "SELECT COUNT(*) as count FROM institution_seats WHERE institution_id = $1 AND active = true",
+        [institution.id]
+      );
+      if (parseInt(seatCount.rows[0].count) >= institution.seat_limit) {
+        return res.status(400).json({ error: "Seat limit reached. Contact your program administrator." });
+      }
+
+      const user = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
+      if (!user.rows[0]) return res.status(404).json({ error: "User not found" });
+      const userEmail = user.rows[0].email || "";
+      const userDomain = userEmail.split("@")[1]?.toLowerCase() || "";
+
+      const enrollmentMode = institution.enrollment_mode || "DOMAIN_LOCK";
+      const allowedDomains = (institution.allowed_email_domains || []).map((d: string) => d.toLowerCase());
+
+      if (enrollmentMode === "DOMAIN_LOCK") {
+        if (allowedDomains.length > 0 && !allowedDomains.includes(userDomain)) {
+          return res.status(403).json({
+            error: "This license is restricted to your school email. Please sign in with your student email (e.g., name@school.edu)."
+          });
+        }
+        const accessEnd = institution.license_model === "COHORT" && institution.semester_end_date
+          ? new Date(institution.semester_end_date)
+          : new Date(Date.now() + (institution.default_duration_days || 120) * 86400000);
+
+        await pool.query(
+          `INSERT INTO institution_seats (institution_id, user_id, role, access_start, access_end, active) VALUES ($1, $2, 'student', NOW(), $3, true)`,
+          [institution.id, userId, accessEnd]
+        );
+        await pool.query("UPDATE institution_invite_codes SET usage_count = usage_count + 1 WHERE id = $1", [inviteCode.id]);
+        await pool.query(
+          `INSERT INTO institution_audit_log (institution_id, actor_user_id, action_type, metadata) VALUES ($1, $2, 'seat_granted_domain_lock', $3)`,
+          [institution.id, userId, JSON.stringify({ email: userEmail, code })]
+        );
+        return res.json({ success: true, message: "Access granted", accessEnd });
+
+      } else if (enrollmentMode === "APPROVAL_REQUIRED") {
+        await pool.query(
+          `INSERT INTO institution_seat_requests (institution_id, user_id, status) VALUES ($1, $2, 'pending')`,
+          [institution.id, userId]
+        );
+        await pool.query(
+          `INSERT INTO institution_audit_log (institution_id, actor_user_id, action_type, metadata) VALUES ($1, $2, 'seat_request_created', $3)`,
+          [institution.id, userId, JSON.stringify({ email: userEmail, code })]
+        );
+        return res.json({ success: true, pending: true, message: "Request submitted. Your instructor will approve access." });
+
+      } else if (enrollmentMode === "ROSTER_ALLOWLIST") {
+        const rosterCheck = await pool.query(
+          "SELECT id FROM institution_roster_allowlist WHERE institution_id = $1 AND LOWER(email) = $2 AND status = 'active'",
+          [institution.id, userEmail.toLowerCase()]
+        );
+        if (!rosterCheck.rows[0]) {
+          return res.status(403).json({
+            error: "Your email is not on the approved roster. Contact your program coordinator."
+          });
+        }
+        const accessEnd = institution.license_model === "COHORT" && institution.semester_end_date
+          ? new Date(institution.semester_end_date)
+          : new Date(Date.now() + (institution.default_duration_days || 120) * 86400000);
+
+        await pool.query(
+          `INSERT INTO institution_seats (institution_id, user_id, role, access_start, access_end, active) VALUES ($1, $2, 'student', NOW(), $3, true)`,
+          [institution.id, userId, accessEnd]
+        );
+        await pool.query("UPDATE institution_invite_codes SET usage_count = usage_count + 1 WHERE id = $1", [inviteCode.id]);
+        await pool.query(
+          `INSERT INTO institution_audit_log (institution_id, actor_user_id, action_type, metadata) VALUES ($1, $2, 'seat_granted_roster', $3)`,
+          [institution.id, userId, JSON.stringify({ email: userEmail, code })]
+        );
+        return res.json({ success: true, message: "Access granted", accessEnd });
+      }
+
+      res.status(400).json({ error: "Unknown enrollment mode" });
+    } catch (e: any) {
+      console.error("Redeem code error:", e);
+      res.status(500).json({ error: "Failed to redeem code" });
+    }
+  });
+
+  app.get("/api/institutions/:id/seats", async (req, res) => {
+    try {
+      const seats = await pool.query(
+        `SELECT s.*, u.username, u.email FROM institution_seats s LEFT JOIN users u ON s.user_id = u.id WHERE s.institution_id = $1 ORDER BY s.access_start DESC`,
+        [req.params.id]
+      );
+      res.json(seats.rows.map(snakeToCamel));
+    } catch (e: any) {
+      console.error("Get seats error:", e);
+      res.status(500).json({ error: "Failed to fetch seats" });
+    }
+  });
+
+  app.post("/api/institutions/:id/seat-requests/:reqId/decide", async (req, res) => {
+    try {
+      const adminId = String(req.headers?.["x-admin-id"] || req.body?.adminId || "");
+      if (!adminId) return res.status(401).json({ error: "Unauthorized" });
+      const { decision, reason } = req.body;
+      if (!["approved", "rejected"].includes(decision)) {
+        return res.status(400).json({ error: "Decision must be 'approved' or 'rejected'" });
+      }
+      const reqResult = await pool.query(
+        "SELECT * FROM institution_seat_requests WHERE id = $1 AND institution_id = $2",
+        [req.params.reqId, req.params.id]
+      );
+      if (!reqResult.rows[0]) return res.status(404).json({ error: "Request not found" });
+      const seatRequest = reqResult.rows[0];
+      if (seatRequest.status !== "pending") {
+        return res.status(400).json({ error: "Request already decided" });
+      }
+      await pool.query(
+        "UPDATE institution_seat_requests SET status = $1, reason = $2, decided_at = NOW(), decided_by_user_id = $3 WHERE id = $4",
+        [decision, reason || null, adminId, req.params.reqId]
+      );
+      if (decision === "approved") {
+        const inst = await pool.query("SELECT * FROM institutions WHERE id = $1", [req.params.id]);
+        const institution = inst.rows[0];
+        const accessEnd = institution?.license_model === "COHORT" && institution?.semester_end_date
+          ? new Date(institution.semester_end_date)
+          : new Date(Date.now() + (institution?.default_duration_days || 120) * 86400000);
+        await pool.query(
+          `INSERT INTO institution_seats (institution_id, user_id, role, access_start, access_end, active) VALUES ($1, $2, 'student', NOW(), $3, true)`,
+          [req.params.id, seatRequest.user_id, accessEnd]
+        );
+      }
+      await pool.query(
+        `INSERT INTO institution_audit_log (institution_id, actor_user_id, action_type, metadata) VALUES ($1, $2, $3, $4)`,
+        [req.params.id, adminId, `seat_request_${decision}`, JSON.stringify({ requestId: req.params.reqId, userId: seatRequest.user_id, reason })]
+      );
+      res.json({ success: true, decision });
+    } catch (e: any) {
+      console.error("Decide seat request error:", e);
+      res.status(500).json({ error: "Failed to process request" });
+    }
+  });
+
+  app.get("/api/institutions/:id/seat-requests", async (req, res) => {
+    try {
+      const requests = await pool.query(
+        `SELECT r.*, u.username, u.email FROM institution_seat_requests r LEFT JOIN users u ON r.user_id = u.id WHERE r.institution_id = $1 ORDER BY r.requested_at DESC`,
+        [req.params.id]
+      );
+      res.json(requests.rows.map(snakeToCamel));
+    } catch (e: any) {
+      console.error("Get seat requests error:", e);
+      res.status(500).json({ error: "Failed to fetch seat requests" });
+    }
+  });
+
+  app.get("/api/institutions/:id/audit-log", async (req, res) => {
+    try {
+      const logs = await pool.query(
+        "SELECT * FROM institution_audit_log WHERE institution_id = $1 ORDER BY created_at DESC LIMIT 200",
+        [req.params.id]
+      );
+      res.json(logs.rows.map(snakeToCamel));
+    } catch (e: any) {
+      console.error("Get audit log error:", e);
+      res.status(500).json({ error: "Failed to fetch audit log" });
     }
   });
 

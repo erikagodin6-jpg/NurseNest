@@ -15,6 +15,9 @@ const AlliedPricing = lazy(() => import("./pages/allied-pricing"));
 const AlliedAdmin = lazy(() => import("./pages/allied-admin"));
 const AlliedSeoLanding = lazy(() => import("./pages/allied-seo-landing"));
 const AlliedDiagnostic = lazy(() => import("./pages/allied-diagnostic"));
+const AlliedInstitutions = lazy(() => import("./pages/allied-institutions"));
+const AlliedInstitutionsFAQ = lazy(() => import("./pages/allied-institutions-faq"));
+const AlliedFacultyDashboard = lazy(() => import("./pages/allied-faculty-dashboard"));
 
 function LoadingFallback() {
   return (
@@ -34,6 +37,9 @@ export function AlliedRoutes() {
         <Route path="/" component={AlliedHome} />
         <Route path="/careers" component={CareerDirectory} />
         <Route path="/pricing" component={AlliedPricing} />
+        <Route path="/institutions/faq" component={AlliedInstitutionsFAQ} />
+        <Route path="/institutions/faculty-dashboard" component={AlliedFacultyDashboard} />
+        <Route path="/institutions" component={AlliedInstitutions} />
         <Route path="/diagnostic" component={AlliedDiagnostic} />
         <Route path="/qbank" component={AlliedQBank} />
         <Route path="/admin/allied" component={AlliedAdmin} />

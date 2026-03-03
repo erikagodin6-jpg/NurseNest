@@ -95,6 +95,10 @@ import { pharmacologyCardioRespLessons } from "./pharmacology-cardio-resp";
 import { pharmacologyInfectiousPsychLessons } from "./pharmacology-infectious-psych";
 import { pharmacologyGiRenalSpecialtyLessons } from "./pharmacology-gi-renal-specialty";
 
+import { rrtLessons } from "./rrt-lessons";
+import { paramedicLessons } from "./paramedic-lessons";
+import { mltLessons } from "./mlt-lessons";
+
 import { generatedBatch001Lessons } from "./generated-batch-001";
 import { generatedBatch002Lessons } from "./generated-batch-002";
 import { generatedBatch003Lessons } from "./generated-batch-003";
@@ -372,6 +376,9 @@ export const contentMap: Record<string, LessonContent> = safeMerge({},
   bloodTransfusionReactionLessons,
   bloodTransfusionReactionTypeLessons,
   bloodTransfusionReactionTypesExtendedLessons,
+  rrtLessons,
+  paramedicLessons,
+  mltLessons,
   generatedBatch001Lessons,
   generatedBatch002Lessons,
   generatedBatch003Lessons,
