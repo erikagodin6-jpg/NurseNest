@@ -1,0 +1,173 @@
+Home
+/
+Lessons
+/
+Clinical Nursing
+/
+Retinal Detachment
+Back to Overview
+Macular Degeneration
+Meniere's Disease Basics
+My Notes
+Medical illustration for Retinal Detachment  -  NurseNest nursing education
+Retina peeling away from pigment epithelium with subretinal fluid accumulation and photoreceptor ischemia
+Retinal Detachment
+Edit Inline
+RPN Focus
+Difficulty: Easy
+Canadian Guidelines
+LEARNING PROGRESS
+Pre-Test → Study → Post-Test. Track your clinical reasoning improvement.
+0%
+Show Pre-Test
+Show Post-Test
+Clinical Content
+Post-Test
+SECTIONS
+
+Pathophysiology
+Risk Factors
+Diagnostics
+Management
+Nursing Actions
+Assessment Findings
+Lifespan
+Clinical Findings
+Pharmacology
+Exam Readiness
+Pathophysiology of Macular Degeneration
+Pathophysiology at the cellular level
+
+Macular degeneration, more specifically Age-Related Macular Degeneration (AMD), is a chronic, progressive eye condition that affects central vision. It is one of the leading causes of vision loss in adults over the age of 60. For RPN practice, understanding macular degeneration means recognizing early visual changes, supporting safety and independence, reinforcing treatment adherence, and preventing complications related to vision loss.
+
+To understand macular degeneration, begin with basic eye anatomy. The retina is the light-sensitive layer at the back of the eye. The macula is a small central area of the retina responsible for sharp, detailed central vision. It allows us to read, drive, recognize faces, and see fine details.
+
+In macular degeneration, the macula deteriorates. Peripheral vision usually remains intact, but central vision becomes blurred or distorted. Patients often describe a “dark spot” or “blank area” in the center of their vision.
+
+There are two main types of macular degeneration: dry (atrophic) and wet (neovascular).
+
+Dry macular degeneration is the most common form, accounting for about 80–90% of cases. It develops gradually over time. Small yellow deposits called drusen accumulate under the retina. As the disease progresses, retinal cells thin and break down. Vision loss is usually slow but progressive.
+
+Wet macular degeneration is less common but more severe. It occurs when abnormal blood vessels grow under the retina and leak blood or fluid. This leakage damages the macula rapidly and can cause sudden vision changes. Wet AMD is considered more serious because vision loss can occur quickly.
+
+Risk factors for macular degeneration include aging, smoking, family history, high blood pressure, cardiovascular disease, obesity, and prolonged exposure to ultraviolet light. Smoking is one of the most significant modifiable risk factors.
+
+Early symptoms of dry AMD may include blurred central vision, difficulty reading, and needing brighter light for close work. Straight lines may appear wavy or distorted — a symptom known as metamorphopsia.
+
+In wet AMD, symptoms may include sudden worsening of central vision, dark or blank spots in the center of vision, and rapid distortion of objects.
+
+During assessment, ask about changes in central vision. Ask whether the patient has difficulty reading, recognizing faces, or seeing details. Ask if straight lines appear wavy. One screening tool often used is the Amsler grid, a simple grid pattern that helps detect distortion in central vision.
+
+Patients with AMD typically do not experience pain. Peripheral vision remains normal in most cases, which distinguishes it from other eye conditions like glaucoma.
+
+Diagnosis is made by an ophthalmologist using retinal examination, optical coherence tomography (OCT), and sometimes fluorescein angiography to detect abnormal blood vessels.
+
+There is currently no cure for dry macular degeneration. However, progression can sometimes be slowed with nutritional supplements. The AREDS (Age-Related Eye Disease Study) formula includes vitamins C and E, zinc, copper, lutein, and zeaxanthin. These supplements may reduce progression in moderate to advanced cases.
+
+Wet macular degeneration is treated with intravitreal injections of anti-VEGF (vascular endothelial growth factor) medications. These medications help stop abnormal blood vessel growth and leakage. Early treatment improves outcomes.
+
+From an RPN perspective, nursing responsibilities include monitoring for changes in vision, reinforcing medication adherence, supporting safe mobility, and providing patient education.
+
+Safety is a major concern. Vision loss increases fall risk. Ensure adequate lighting in the home. Remove clutter and loose rugs. Encourage use of assistive devices such as magnifiers, large-print materials, and high-contrast labels.
+
+Support emotional health. Vision loss can lead to frustration, depression, and social isolation. Encourage participation in support groups and low-vision rehabilitation programs.
+
+Encourage smoking cessation, blood pressure control, and healthy diet rich in leafy greens and antioxidants.
+
+Patients should be taught to report sudden vision changes immediately, especially distortion or dark spots, as these may indicate progression to wet AMD.
+
+Key clinical pearls include the following. AMD affects central vision but usually spares peripheral vision. Dry AMD progresses slowly; wet AMD progresses quickly. Smoking significantly increases risk. Sudden distortion of vision requires urgent referral.
+
+Macular degeneration is a chronic, progressive condition that impacts independence and quality of life. Early recognition, patient education, and supportive care help maintain function and safety.
+Risk Factors
+Key predisposing and contributing factors
+
+Advanced age or extremes of age
+Chronic comorbidities (hypertension, diabetes, obesity)
+Family history of related conditions
+Tobacco, alcohol, or substance use
+Sedentary lifestyle and poor nutritional status
+Immunocompromised state or prolonged medication use
+Diagnostics
+Confirmatory findings and expected results
+
+Collect specimens as ordered (blood, urine, wound cultures)
+Monitor point-of-care testing results (glucose, urine dipstick)
+Report abnormal assessment findings to the charge nurse
+Assist with diagnostic procedures as directed
+Document specimen collection and results accurately
+Management
+Evidence-informed interventions and monitoring
+
+1
+Administer treatments as ordered by the provider
+2
+Monitor patient response to treatments and report changes
+3
+Assist with activities of daily living and comfort measures
+4
+Follow facility protocols for routine care management
+5
+Escalate concerns to the charge nurse or provider promptly
+Nursing Actions and Scope Considerations
+Priority assessments, interventions, and escalation triggers
+
+Monitor vital signs and report significant changes to the charge nurse or provider
+Administer medications as ordered and observe for adverse effects
+Perform basic nursing care including hygiene, positioning, and comfort measures
+Document assessment findings and patient responses accurately
+Reinforce patient education provided by the registered nurse or provider
+Maintain safe environment and follow infection prevention protocols
+Assessment Findings
+Key nursing assessment data: vital signs, inspection, auscultation, palpation, labs, and subjective/objective findings
+
+Vital signs including temperature, pulse, blood pressure, and respirations
+Level of consciousness, orientation, and cognitive function
+Pain assessment using validated tools (onset, location, duration, character, severity)
+Skin assessment including color, turgor, moisture, integrity, and temperature
+Functional status including mobility, self-care ability, and nutritional intake
+Across the Lifespan
+Age-specific clinical variations and safety adjustments
+
+Clinical Findings and Red Flags
+Key clinical presentations and warning signs
+
+Clinical Findings
+Changes in vital sign trends
+Altered mental status or confusion
+Pain or discomfort reported by patient
+Skin changes (pallor, diaphoresis, cyanosis)
+Abnormal laboratory values
+Red Flags: When to Escalate
+Fever or hypothermia
+Edema (peripheral or generalized)
+Adventitious breath sounds or respiratory distress
+Gastrointestinal symptoms (nausea, vomiting, distension)
+Changes in urine output or characteristics
+Pharmacology and Safety
+Medications, mechanisms, and safety considerations
+
+Acetaminophen (Non-opioid analgesic/antipyretic)
+ACTION
+
+Inhibits prostaglandin synthesis in the CNS and blocks pain impulse generation peripherally
+
+SIDE EFFECTS
+
+Hepatotoxicity at high doses, rash, nausea, allergic reaction
+CONTRAINDICATIONS
+
+Severe hepatic impairment, active liver disease, chronic alcohol use (relative)
+
+Pearl: Maximum dose 4g/day in healthy adults, 2g/day in hepatic impairment; check all combination products for hidden acetaminophen
+Exam Readiness
+PRIORITY LOGIC
+
+Always assess for allergies before administering any new medication
+Document baseline assessment findings to enable accurate trending
+Use the SBAR format for structured clinical communication with the healthcare team
+Consider age-specific and population-specific variations in normal findings
+Never ignore a sudden change in patient condition, even if vital signs appear stable
+COMMON EXAM TRAPS
+
+These are the high-yield reasoning patterns most commonly tested. Focus on what changed, what is the priority, and what should the nurse do first.
