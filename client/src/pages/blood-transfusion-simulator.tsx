@@ -1098,6 +1098,35 @@ export default function BloodTransfusionSimulatorPage() {
           </div>
         )}
       </main>
+      <section className="max-w-6xl mx-auto px-4 py-12" data-testid="section-related-lessons">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Deepen Your Knowledge</h2>
+        <p className="text-gray-600 mb-6">Explore detailed lessons on each type of blood transfusion reaction, compatibility rules, and clinical management.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { slug: "ahtr-acute-hemolytic-transfusion-reaction", title: "Acute Hemolytic (AHTR)", desc: "ABO incompatibility causing life-threatening intravascular hemolysis", icon: "text-red-600", bg: "bg-red-50" },
+            { slug: "fnhtr-febrile-nonhemolytic-transfusion-reaction", title: "Febrile Non-Hemolytic (FNHTR)", desc: "Most common reaction: cytokine-mediated fever and chills", icon: "text-orange-600", bg: "bg-orange-50" },
+            { slug: "allergic-transfusion-reaction", title: "Allergic Reaction", desc: "IgE-mediated urticaria from donor plasma proteins", icon: "text-yellow-600", bg: "bg-yellow-50" },
+            { slug: "anaphylactic-transfusion-reaction", title: "Anaphylactic Reaction", desc: "Severe reaction with bronchospasm requiring epinephrine", icon: "text-pink-600", bg: "bg-pink-50" },
+            { slug: "taco-transfusion-associated-circulatory-overload", title: "TACO: Circulatory Overload", desc: "Volume overload with hypertension and pulmonary edema", icon: "text-blue-600", bg: "bg-blue-50" },
+            { slug: "trali-transfusion-related-acute-lung-injury", title: "TRALI: Acute Lung Injury", desc: "Non-cardiogenic pulmonary edema from donor antibodies", icon: "text-indigo-600", bg: "bg-indigo-50" },
+            { slug: "septic-transfusion-reaction", title: "Septic Reaction", desc: "Bacterial contamination causing sepsis and shock", icon: "text-purple-600", bg: "bg-purple-50" },
+            { slug: "blood-transfusion-reactions", title: "All Reactions Overview", desc: "Complete guide to all transfusion reaction types", icon: "text-teal-600", bg: "bg-teal-50" },
+            { slug: "abo-blood-type-compatibility", title: "ABO & Rh Compatibility", desc: "RBC and plasma compatibility rules", icon: "text-emerald-600", bg: "bg-emerald-50" },
+          ].map((lesson) => (
+            <LocaleLink key={lesson.slug} href={`/lessons/${lesson.slug}`} className="block group">
+              <Card className="h-full transition-all duration-200 hover:shadow-md hover:border-primary/30 group-hover:-translate-y-0.5">
+                <CardContent className="p-4">
+                  <div className={`inline-flex items-center justify-center w-8 h-8 rounded-lg ${lesson.bg} mb-3`}>
+                    <Droplets className={`w-4 h-4 ${lesson.icon}`} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-primary transition-colors">{lesson.title}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{lesson.desc}</p>
+                </CardContent>
+              </Card>
+            </LocaleLink>
+          ))}
+        </div>
+      </section>
       <AdminEditButton pageName="blood-transfusion-simulator" />
       <Footer />
     </div>

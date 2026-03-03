@@ -428,6 +428,13 @@ export const rpnSystems = [
       { id: "febrile-transfusion-rpn", name: "Febrile Nonhemolytic Transfusion Reaction", status: "Available" },
       { id: "blood-transfusion-reactions", name: "Blood Transfusion Reactions: Complete Clinical Guide", status: "Available" },
       { id: "abo-blood-type-compatibility", name: "ABO & Rh Blood Type Compatibility", status: "Available" },
+      { id: "ahtr-acute-hemolytic-transfusion-reaction", name: "Acute Hemolytic Transfusion Reaction (AHTR)", status: "Available" },
+      { id: "fnhtr-febrile-nonhemolytic-transfusion-reaction", name: "Febrile Non-Hemolytic Reaction (FNHTR)", status: "Available" },
+      { id: "allergic-transfusion-reaction", name: "Allergic Transfusion Reaction", status: "Available" },
+      { id: "anaphylactic-transfusion-reaction", name: "Anaphylactic Transfusion Reaction", status: "Available" },
+      { id: "taco-transfusion-associated-circulatory-overload", name: "TACO: Circulatory Overload", status: "Available" },
+      { id: "trali-transfusion-related-acute-lung-injury", name: "TRALI: Acute Lung Injury", status: "Available" },
+      { id: "septic-transfusion-reaction", name: "Septic Transfusion Reaction", status: "Available" },
       { id: "febrile-neutropenia-basics-rpn", name: "Febrile Neutropenia Basics", status: "Available" }
     ]
   },
@@ -1286,7 +1293,14 @@ export const rnSystems = [
       { id: "metastatic-bone-disease-rn", name: "Metastatic Bone Disease", status: "Available" },
       { id: "malignant-hypercalcemia-rn", name: "Malignant Hypercalcemia", status: "Available" },
       { id: "multiple-myeloma-rn", name: "Multiple Myeloma", status: "Available" },
-      { id: "mds-rn", name: "Myelodysplastic Syndromes (MDS)", status: "Available" }
+      { id: "mds-rn", name: "Myelodysplastic Syndromes (MDS)", status: "Available" },
+      { id: "ahtr-acute-hemolytic-transfusion-reaction", name: "Acute Hemolytic Transfusion Reaction (AHTR)", status: "Available" },
+      { id: "fnhtr-febrile-nonhemolytic-transfusion-reaction", name: "Febrile Non-Hemolytic Reaction (FNHTR)", status: "Available" },
+      { id: "allergic-transfusion-reaction", name: "Allergic Transfusion Reaction", status: "Available" },
+      { id: "anaphylactic-transfusion-reaction", name: "Anaphylactic Transfusion Reaction", status: "Available" },
+      { id: "taco-transfusion-associated-circulatory-overload", name: "TACO: Circulatory Overload", status: "Available" },
+      { id: "trali-transfusion-related-acute-lung-injury", name: "TRALI: Acute Lung Injury", status: "Available" },
+      { id: "septic-transfusion-reaction", name: "Septic Transfusion Reaction", status: "Available" }
     ]
   },
   {
@@ -1482,6 +1496,13 @@ export const rnSystems = [
       { id: "blood-transfusion", name: "Blood Transfusion Administration", status: "Available" },
       { id: "blood-transfusion-reactions", name: "Blood Transfusion Reactions: Complete Clinical Guide", status: "Available" },
       { id: "abo-blood-type-compatibility", name: "ABO & Rh Blood Type Compatibility", status: "Available" },
+      { id: "ahtr-acute-hemolytic-transfusion-reaction", name: "Acute Hemolytic Transfusion Reaction (AHTR)", status: "Available" },
+      { id: "fnhtr-febrile-nonhemolytic-transfusion-reaction", name: "Febrile Non-Hemolytic Reaction (FNHTR)", status: "Available" },
+      { id: "allergic-transfusion-reaction", name: "Allergic Transfusion Reaction", status: "Available" },
+      { id: "anaphylactic-transfusion-reaction", name: "Anaphylactic Transfusion Reaction", status: "Available" },
+      { id: "taco-transfusion-associated-circulatory-overload", name: "TACO: Circulatory Overload", status: "Available" },
+      { id: "trali-transfusion-related-acute-lung-injury", name: "TRALI: Acute Lung Injury", status: "Available" },
+      { id: "septic-transfusion-reaction", name: "Septic Transfusion Reaction", status: "Available" },
       { id: "chest-tube-mgmt", name: "Chest Tube Management", status: "Available" },
       { id: "trach-care", name: "Tracheostomy Care and Suctioning", status: "Available" },
       { id: "thoracentesis", name: "Thoracentesis", status: "Available" },

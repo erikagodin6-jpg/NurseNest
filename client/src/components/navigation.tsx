@@ -917,10 +917,6 @@ export function Navigation() {
                     <HelpCircle className="w-4 h-4 text-primary/70" />
                     {t("footer.faq")}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => setLocation("/reports")}>
-                    <BarChart className="w-4 h-4 text-primary/70" />
-                    {t("nav.reports")}
-                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -1011,7 +1007,6 @@ export function Navigation() {
               <NavDropdown label={t("nav.resources")} items={[
                 { icon: Tag, label: t("nav.pricing"), key: "Pricing" },
                 { icon: HelpCircle, label: t("footer.faq"), key: "FAQ" },
-                { icon: BarChart, label: t("nav.reports"), key: "Reports" },
               ]} subBar />
               <div className="hidden md:block w-48 lg:w-56">
                 <Suspense fallback={<div className="w-full h-7" />}>
