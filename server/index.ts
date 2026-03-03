@@ -616,6 +616,12 @@ app.use((req, res, next) => {
   registerAlliedPipelineRoutes(app);
   registerAutomationRoutes(app);
 
+  const { registerScheduleRoutes } = await import("./qbank-scheduler");
+  registerScheduleRoutes(app);
+
+  const { setupQBankGenerator } = await import("./qbank-generator");
+  setupQBankGenerator(app);
+
   // Register the rest of your app routes
   await registerRoutes(httpServer, app);
 
@@ -654,6 +660,8 @@ app.use((req, res, next) => {
     log(`serving on port ${port}`);
 
     import("./content-scheduler").then(({ startContentScheduler }) => startContentScheduler());
+    import("./qbank-scheduler").then(({ startQBankScheduler }) => startQBankScheduler());
+    import("./prompts/qbank-templates").then(({ seedPromptTemplates }) => seedPromptTemplates().catch((e: any) => console.error("[QBank Templates] Seed failed:", e.message)));
     import("./seed-study-decks").then(async ({ seedStudyDecks }) => {
       const pg = await import("pg");
       const p = new pg.Pool({ connectionString: process.env.DATABASE_URL });

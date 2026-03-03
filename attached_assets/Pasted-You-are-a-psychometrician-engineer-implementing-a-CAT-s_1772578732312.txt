@@ -1,0 +1,105 @@
+You are a psychometrician + engineer implementing a CAT scoring model for NurseNest.
+
+GOAL
+Implement a defensible adaptive testing model that:
+- selects items based on estimated ability (theta)
+- updates theta after each response
+- reports readiness bands with confidence/stability
+- does NOT claim to replicate any official exam algorithm
+
+DATA REQUIREMENTS PER ITEM
+Each question has:
+- b (difficulty) in range [-3, +3]
+- a (discrimination) default 1.0 if unknown
+- domain tag
+- exposureWeight (optional)
+- content tags
+
+MODEL
+Use a simplified 2PL IRT model:
+
+P(correct | theta) = 1 / (1 + exp(-a*(theta - b)))
+
+THETA UPDATE
+After each response:
+- compute P
+- update theta using a bounded step:
+  delta = clamp( (response - P) * learningRate , -0.35, +0.35)
+  theta = clamp(theta + delta, -3, +3)
+
+Where:
+response = 1 if correct else 0
+learningRate = 0.7 initially, decay to 0.35 after 40 items
+
+STANDARD ERROR (SE) / CONFIDENCE
+Maintain an approximate information sum:
+I += a^2 * P * (1-P)
+SE = 1 / sqrt(max(I, 0.0001))
+
+STOPPING RULES
+minItems = 75
+maxItems = 150
+
+Stop if:
+itemsAnswered >= minItems
+AND SE <= 0.32 (configurable)
+OR itemsAnswered == maxItems
+
+ITEM SELECTION
+At each step:
+- choose from eligible items matching blueprint domain quotas
+- prefer items with b closest to current theta
+- apply exposure control:
+  reduce probability for items with high recent exposure
+- avoid duplicates and near-duplicates
+
+BLUEPRINT WEIGHTING
+Maintain target distribution per exam type.
+If behind on a domain, bias selection to that domain while keeping difficulty close to theta.
+
+READINESS BAND
+Define passThresholdTheta by exam type (config):
+- NCLEX/REx-PN: threshold around 0.0 (tunable)
+- RN/PN separate thresholds
+Compute:
+z = (theta - threshold) / SE
+
+Bands:
+- Not Ready: z < -1.0
+- Borderline: -1.0 <= z < 0.5
+- Ready: 0.5 <= z < 1.5
+- Strongly Ready: z >= 1.5
+
+STABILITY SCORE
+stability = clamp(1 - (SE / 0.9), 0, 1)
+Also compute thetaTrend slope across last 20 items.
+
+REPORT OUTPUT
+Return:
+- thetaFinal
+- SE
+- readinessBand
+- stabilityScore
+- averageItemDifficulty
+- domainPerformance
+- timeManagement stats
+- difficultyTimeline
+
+IMPLEMENTATION
+Add a CAT engine module:
+server/cat/engine.ts
+- selectNextItem()
+- updateTheta()
+- computeSE()
+- shouldStop()
+- computeReport()
+
+Add integration points:
+- adaptive mode toggle
+- persistence of theta/SE per attempt
+- admin config per examKey
+
+DELIVERABLES
+- end-to-end adaptive test works
+- deterministic unit tests with seeded RNG
+- report UI consumes report JSON

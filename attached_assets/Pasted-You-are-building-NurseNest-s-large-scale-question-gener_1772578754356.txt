@@ -1,0 +1,75 @@
+You are building NurseNest’s large-scale question generation and ingestion pipeline.
+
+GOAL
+Generate and ingest 10,000+ high-quality licensing-style questions with strict validation, anti-duplication, and blueprint compliance.
+
+SCOPE
+Supports:
+- Nursing: REx-PN, NCLEX-PN (US/CAN), NCLEX-RN (US/CAN), NGN items where appropriate
+- NP: CNPE (Canada new format), AANP FNP, ANCC FNP, AGNP, PMHNP (MCQ only)
+- Allied: MLT, Pharm Tech, Paramedic, RRT, Imaging, OT, PT, Psychotherapist, Social Work, Addictions Worker
+
+CRITICAL RULES
+- Never generate all 10,000 in one run.
+- Generate in batches (25/50/100).
+- Validate every batch.
+- Store provenance: promptVersion, runId, model, timestamp.
+
+PIPELINE
+1) Prompt Template Store
+- /server/prompts/templates/
+- versioned JSON templates per exam/profession
+- params: count, domainMix, typeMix, rationaleMinWords, region
+
+2) Batch Generation Endpoint (Admin)
+POST /api/admin/qbank/generate-batch
+Body:
+{ examKey, region, count, difficultyMixPreset, rationaleMinWords, dryRun, ingest }
+
+3) Output Requirements
+AI must return strict JSON:
+{
+  examKey,
+  region,
+  questions:[{ id, type, domain, subDomain, difficulty, stem, options, correctAnswer, rationale, tags, exhibits[] }]
+}
+
+4) Validation Layer (Hard Fail)
+- exact count
+- domain distribution within ±3% or profession rules
+- type distribution meets minimums
+- rationale length >= threshold
+- scope enforcement (PN vs RN vs NP)
+- prohibited formats blocked (NP/allied)
+- language/unit checks (CAN vs US)
+
+5) Quality Filters
+- duplication check: MinHash/Jaccard on stem+options
+- near-duplicate check: embeddings similarity threshold (if available)
+- “trivia detector”: reject recall-only items above 20%
+- “unsafe claims” detector: reject guaranteed outcomes
+
+6) Ingestion
+If ingest = true:
+- write questions
+- write run metadata
+- create “Draft Set” for review
+- mark as unpublished until QA approved
+
+7) QA Workflow
+Admin UI:
+- run summary
+- pass/fail validations
+- preview first 10
+- approve + publish or reject + regenerate subset
+
+8) Scaling Plan
+- 100/day per exam track until 4,000 per track
+- weekly QA audits
+- item exposure control in CAT engine
+
+DELIVERABLES
+- prompt templates for each track
+- endpoints for generation + validation + ingest
+- admin UI to operate pipeline
+- tests for strict JSON parsing + validation

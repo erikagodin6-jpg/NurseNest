@@ -1,7 +1,7 @@
 # NurseNest - Complete Nursing Learning Platform
 
 ## Overview
-NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP nursing students. It offers comprehensive learning resources including lessons, flashcards, performance analytics, and exam preparation for NCLEX and REX-PN. The platform supports both US and Canadian nursing standards, with a strong focus on clinical pathophysiology, medication safety, and condition recognition to improve clinical reasoning. Key features include a digital study marketplace, AI-powered content generation for medical images and micro-lectures, and a dual-path exam system. The project's vision is to enhance nursing knowledge, critical thinking, and ultimately, patient care outcomes.
+NurseNest is an interactive learning platform for RPN/LVN, RN, and NP nursing students, offering comprehensive resources like lessons, flashcards, performance analytics, and exam prep for NCLEX and REX-PN. It supports both US and Canadian nursing standards, focusing on clinical pathophysiology, medication safety, and condition recognition to enhance clinical reasoning. Key features include a digital study marketplace, AI-powered content generation for medical images and micro-lectures, and a dual-path exam system. The platform aims to improve nursing knowledge, critical thinking, and ultimately, patient care outcomes by providing a robust and adaptive learning environment. It has expanded into a multi-career allied health exam prep platform, supporting 14 different career verticals.
 
 ## User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -17,24 +17,15 @@ NurseNest is an interactive learning platform designed for RPN/LVN, RN, and NP n
 ## System Architecture
 
 ### UI/UX Decisions
-The platform utilizes React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, offering 20 themes and DM Sans typography. Interactive components like `ContentGate`, `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck` enhance engagement. A digital product builder provides a Canva-style editor with drag-and-drop, multi-select, undo/redo, 30 brand kit themes, AI image lab, multi-page AI content pagination, object grouping, and AI bundle/test bank generators. It features a premium design system with Canva-quality visuals, dual-tone top bars, accent strips, decorative elements, and 20+ Google Fonts, along with a watermarked PDF preview system for digital products.
+The platform uses React with TypeScript, Wouter for routing, shadcn/ui with Radix UI, and Tailwind CSS v4, providing 20 themes and DM Sans typography. Engaging components include `ContentGate`, `PauseAndThink`, `ProgressiveDisclosure`, `CuriosityHook`, and `KnowledgeCheck`. A digital product builder offers a Canva-style editor with drag-and-drop, AI image lab, multi-page AI content pagination, and AI bundle/test bank generators. It features a premium design system with Canva-quality visuals, dual-tone top bars, and watermarked PDF previews.
 
 ### Technical Implementations
-The frontend and backend are built with Vite, React, and Express 5 on Node.js with TypeScript. TanStack React Query manages server state via a RESTful API. Authentication uses username/password with session management. An admin-only content engine supports AI generation and internal linking. The subscription system includes regional pricing. Interactive learning modules cover Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Case Simulation, Medication Mastery Engine, and six clinical simulators. Content is region-aware with server-side detection. A mock exam engine offers timed exams with detailed reports and stratified random sampling, including a Strict Exam Mode. Admin features include a dashboard for analytics, content management, QC, and content intelligence. Additional features encompass OpenAI-powered blog automation, custom flashcards with AI checks, a custom i18n system for 15 languages with multilingual SEO, an Adaptive CAT Engine, a Pass Probability Projection Engine, and a Next Best Action Engine. Exam blueprints are database-driven. The system also includes a free diagnostic SEO funnel, a study workload calculator, revenue intelligence, language ROI scoring, SEO health checks, a public diagnostic exam, an auscultation audio library, an AI Medical Image Generator, and a MicroLecture Generator. A dual-path exam system supports REx-PN and NCLEX-RN, providing user downloads and education pathways.
-The system uses Drizzle ORM with PostgreSQL, with schemas defined in `shared/schema.ts` and Zod for validation.
-Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/post-test questions. Each lesson contains 10 content sections with inline admin editing and AI generation. A flashcard system includes bookmarking and mastery tracking. Anatomy & Physiology detail pages cover 12 body systems. There are 27 interactive Pre-Nursing Foundations Program modules.
-ECG/Arrhythmia lessons in `arrhythmias.ts` include: NSR, Sinus Bradycardia, Sinus Tachycardia, Sinus Dysrhythmia, Sinus Arrest, Sinus Exit Block, AFib, AFlutter, AT, SVT, PVCs, VTach, VFib, Heart Blocks (1st, 2nd Type I/II, 3rd, BBB), Torsades, Asystole/PEA, and AIVR/Idioventricular Rhythm.
-Blood transfusion content in `blood-transfusion-reactions.ts` includes: comprehensive reaction guide (AHTR, FNHTR, Allergic, Anaphylactic, TACO, TRALI, Septic) and ABO/Rh Blood Type Compatibility lesson with full RBC/plasma compatibility charts.
-Exam question banks are standalone files in `client/src/data/exam-questions/` using the `ExamQuestion` interface `{ q, o, a, r, s }`. These are integrated into `client/src/lib/question-pool.ts` and are categorized by RPN, RN, and NP tiers with specific question counts and topics. NP questions use Canadian/SI units.
-A 3-step onboarding process (Goal/Timeline, Domain Comfort Ratings, 12-question Knowledge Check) leads to a personalized study plan.
-An admin-only QBank Factory (`/admin/qbank-factory`) enables creating, managing, and publishing question banks with configurable parameters, audit trails, and export gates. The Exam Factory tab generates multiple exam forms.
-The Product Generator V2 (`/admin/generator-v2`) provides an isolated, chunked, and resumable question generation pipeline with server-enforced minimums (250 questions), various templates, multi-topic support, and tier-aware AI prompts. It includes AI prompt hardening against instruction echoing, a chunk retry system, JSON response cleaning, and 18 print-ready PDF themes. Questions can be reviewed and edited with validation. Compare-at pricing is an opt-in toggle (not auto-listed). Admin sale controls allow setting sale prices with start/end dates on any product (`POST /api/admin/shop/products/:id/sale`). Checkout uses sale price when active. Product listing lessons are sorted alphabetically by name within each system section.
-SEO silo pages (`/nclex-rn-practice-questions`, etc.) serve as rich content hubs with keyword targeting, live question bank stats, CTAs, related lessons, flashcard sections, internal links, FAQ JSON-LD, and Course JSON-LD. A Diagnostic Assessment System offers a 30-question mixed blueprint exam with AI-powered results. User statistics, study groups, friend system, peer comparison, site analytics, and a feedback system are also integrated.
-Programmatic SEO practice question pages at `/practice-questions/:tier/:system` serve 5 free interactive questions per tier/system combo with full SEO metadata, FAQ JSON-LD, and sitemap entries (~35 pages).
-Nursing glossary at `/glossary` and `/glossary/:term` with 110+ terms, A-Z navigation, search, category filters, DefinedTerm JSON-LD, and sitemap entries.
-Exit-intent signup modal (`client/src/components/exit-intent-modal.tsx`) triggers for anonymous users on mouse-leave with 15-sec delay, once-per-session rate limiting, email capture via `/api/subscribe`.
-Share Your Score social card on mock exam reports (`mock-exam-report.tsx`) generates canvas-based 1200x630 PNG with score, tier, top systems, and NurseNest branding.
-Quiz rationale gating: anonymous users see first 2 rationales free; remaining are blurred with CTA to `/start-free`. Logged-in users at any tier see all.
+The application is built with Vite, React, and Express 5 on Node.js with TypeScript. TanStack React Query manages server state via a RESTful API. Authentication uses username/password with session management. An admin-only content engine supports AI generation and internal linking. The subscription system includes regional pricing. Interactive learning modules cover Med Math, Clinical Calculations, Abnormal Lab Interpretation, Clinical Case Simulation, and Medication Mastery. Content is region-aware with server-side detection. A mock exam engine offers timed exams with detailed reports and stratified random sampling, including a Strict Exam Mode. Admin features include a dashboard for analytics, content management, and content intelligence. Additional features encompass OpenAI-powered blog automation, custom flashcards with AI checks, a custom i18n system for 15 languages, an Adaptive CAT Engine, a Pass Probability Projection Engine, and a Next Best Action Engine. Exam blueprints are database-driven. The system also includes a free diagnostic SEO funnel, a study workload calculator, and an AI Medical Image Generator. A dual-path exam system supports REx-PN and NCLEX-RN. Drizzle ORM with PostgreSQL is used, with schemas defined in `shared/schema.ts` and Zod for validation.
+
+Lessons are organized by body system (RPN/LVN, RN, NP, Pharmacology) with pre/post-test questions, each containing 10 content sections with inline admin editing and AI generation. A flashcard system includes bookmarking and mastery tracking. Anatomy & Physiology detail pages cover 12 body systems.
+A 3-step onboarding process leads to a personalized study plan. An admin-only QBank Factory enables creation, management, and publishing of question banks. The Product Generator V2 provides an isolated, chunked, and resumable question generation pipeline with AI prompt hardening and JSON response cleaning. Programmatic SEO practice question pages and a nursing glossary with 110+ terms are integrated. An exit-intent signup modal and a "Share Your Score" social card are also implemented. Quiz rationale access is gated for anonymous users.
+
+The system supports a multi-career allied health architecture, with career configurations in `shared/careers.ts` and career-specific question banks. The allied health subdomain (`allied.nursenest.ca`) operates with a separate frontend shell, content pipeline, and DB tables for blueprints, questions, flashcards, and a revision queue. Store admin features include document upload to Replit Object Storage and watermarked PDF preview generation. Specific sections for REx-PN Exam Prep and a Pharmacology Crash Course are included. NGN question types and a partial credit scoring engine are implemented. Allied exam blueprints for 10 professions are configured.
 
 ## External Dependencies
 
@@ -53,87 +44,12 @@ Quiz rationale gating: anonymous users see first 2 rationales free; remaining ar
 
 ### AI/Content Generation
 - **OpenAI**: Used for blog posts, AI flashcards, lesson content, AI medical images (gpt-image-1), and micro-lectures.
-- **5-Step Content Pipeline**: A multi-step AI pipeline (`/api/ai/generate-pipeline`) for cohesive content generation.
-- **Test Bank Generator**: (`/api/ai/generate-test-bank`) ensures strict question count and JSON schema validation.
-
-### Breadcrumbs & SEO Structured Data
-- **Breadcrumb builder**: `client/src/lib/breadcrumb-builder.ts` - Central utility mapping paths to breadcrumb trails with smart title formatting (acronyms, title case). Exports `buildBreadcrumbs()` and `buildBreadcrumbJsonLd()`.
-- **BreadcrumbNav component**: `client/src/components/breadcrumb-nav.tsx` - Renders visible `<nav aria-label="Breadcrumb">` with JSON-LD injection. Accepts optional `items` override or auto-builds from current path. Uses LocaleLink for client navigation.
-- **SEO utils**: `client/src/lib/seo-utils.ts` - `buildBreadcrumbStructuredData()`, `buildLessonStructuredData()`, `buildArticleStructuredData()`, `buildCourseStructuredData()`, `buildFaqFromQuizQuestions()`.
-- **To add breadcrumbs to a new page**: Import `BreadcrumbNav` from `@/components/breadcrumb-nav`, add `<BreadcrumbNav />` at top of content area. For dynamic titles, pass `title` prop. For custom trails, pass `items` array. Add the route to `STATIC_ROUTES` in `breadcrumb-builder.ts` if it's a new path.
+- **5-Step Content Pipeline**: A multi-step AI pipeline for cohesive content generation.
+- **Test Bank Generator**: Ensures strict question count and JSON schema validation.
+- **NGN QBank Generator**: Admin batch generation system at `/admin/qbank/ngn-generator` with 5 prompt templates (ngn_batch_v1, allied_batch_v1, cnpe_v1, np_us_v1, np_seo_v1), strict validation engine, dry-run previews, scheduling, and DB ingestion. Files: `server/qbank-generator.ts`, `server/qbank-scheduler.ts`, `server/prompts/qbank-templates.ts`, `client/src/pages/admin-ngn-generator.tsx`. DB tables: `qbank_prompt_templates`, `qbank_generation_runs`, `qbank_generation_schedules`. Uses `adminFetch` for auth.
 
 ### Social Media
 - Meta Graph API: For social media scheduling.
 
 ### Access Control / Paywalls
-- **Tier system**: free, rpn, rn, np, admin. Access checked via `canAccessTier(userTier, targetTier)` in `client/src/lib/access.ts`.
-- **Question Bank** (`client/src/pages/question-bank.tsx`): Free/unauthenticated users see 3 preview questions. Tier-specific filters show paywall card when locked. Uses `accessibleQuestions` instead of raw `filtered` array.
-- **Flashcard DeckHub** (`client/src/components/deck-views.tsx`): Unauthenticated users can browse public decks (read-only, "Browse Public" tab only). Deck creation requires auth. Deck card API limits to 5 cards for free/unauth users.
-- **Lessons**: Tier-gated content with `ContentGate` component for premium tiers.
-
-### Multi-Career Allied Health Architecture
-NurseNest has been expanded into a multi-career allied health exam prep platform with 14 total career verticals:
-- **Core**: Nursing (RPN/RN/NP)
-- **Phase 1-2**: RRT, Paramedic, Pharmacy Tech, MLT, Diagnostic Imaging
-- **Phase 3**: Critical Care (CCRN), Emergency Nursing (CEN), Perioperative (CNOR), Oncology (OCN), Pediatric (CPN)
-- **Phase 4**: Psychotherapist (RP), Social Worker (LCSW), Addictions Counsellor (CAC)
-- **Phase 5**: Occupational Therapy (OT), Physical Therapy (PT)
-
-Key files:
-- `shared/careers.ts` - Career configs with id, name, slug, tiers, examNames, aiTools, domains, colors
-- `client/src/lib/career-context.tsx` - CareerProvider, useCareer hook (stores in localStorage, detects from URL)
-- `client/src/data/career-questions/` - 13 question bank files (500 questions each, 6,500 total)
-- `client/src/lib/career-question-pool.ts` - Career-specific question pool builder
-- `client/src/pages/career-tools/career-ai-simulator.tsx` - Generic AI tool page for all 26 career-specific AI simulators
-- `client/src/pages/admin-careers.tsx` - Admin career management dashboard
-- `server/routes.ts` - `/api/career-ai-chat` and `/api/admin/career-stats` endpoints
-- Routes in App.tsx: Each career has `/[slug]/question-bank`, `/[slug]/flashcards`, `/[slug]/mock-exams`, `/[slug]/study-plan`, `/[slug]/pricing`, `/[slug]/dashboard`, plus AI tool routes
-
-Schema: `careerType` column (default "nursing") on users, exam_questions, flashcard_decks, mock_exam_attempts, flashcard_bank, pricing_offers, study_packs, digital_products, study_plans.
-
-### Allied Health Subdomain (allied.nursenest.ca)
-The allied subdomain is a separate frontend shell (`client/src/allied/`) with its own routing, navigation, and pages. Hostname detection in `App.tsx` renders `AlliedApp` on allied hosts, or the existing nursing `LocaleRouter` otherwise.
-
-Key allied files:
-- `client/src/allied/allied-app.tsx` - Allied app shell
-- `client/src/allied/allied-routes.tsx` - All allied route definitions
-- `client/src/allied/allied-seo.tsx` - AlliedSEO component for meta tags (uses allied.nursenest.ca domain)
-- `client/src/allied/pages/allied-admin.tsx` - 5-layer content pipeline factory (blueprints, generator, validation, revision queue, analytics)
-- `server/allied-middleware.ts` - Hostname detection, host redirects, robots.txt, sitemap
-- `server/allied-pipeline.ts` - Allied content pipeline API (blueprints, batch generation, validation, flashcard auto-gen, analytics, revision queue, leads)
-
-Allied DB tables (shared/schema.ts):
-- `allied_blueprints` - Versioned blueprint governance per career
-- `allied_questions` - Enterprise question bank with full psychometric fields
-- `allied_batch_runs` - Batch generation tracking with rejection reasons
-- `allied_flashcards` - Auto-generated flashcards linked to questions
-- `allied_revision_queue` - Human review queue for flagged items
-- `allied_leads` - Email lead capture
-
-Store admin features:
-- Document upload: POST /api/admin/shop/upload accepts multipart file uploads (PDF, images, DOCX, XLSX, ZIP, up to 50MB), stores to Replit Object Storage, returns storage URL
-- Admin product form includes Upload buttons for cover images and documents alongside URL text inputs
-- Preview generation: POST /api/admin/shop/products/:id/generate-preview creates watermarked PDF previews
-
-### REx-PN Exam Prep Hub
-New REx-PN prep section at `/rex-pn` with sub-pages:
-- `client/src/pages/rex-pn-hub.tsx` - Main hub with exam overview, blueprint domains, question formats, toolkit CTAs
-- `client/src/pages/rex-pn-exam-format.tsx` - Exam format and CAT structure explanation
-- `client/src/pages/rex-pn-strategies.tsx` - Test-taking strategies (also at /rex-pn/test-taking-strategies)
-- `client/src/pages/rex-pn-wellness.tsx` - Wellness during exam prep
-
-### Pharmacology Crash Course
-- `client/src/pages/pharmacology-hub.tsx` - Landing page at `/pharmacology` with 5-day curriculum, pricing (CAD), FAQ
-
-### NGN Question Types & Scoring
-- `client/src/lib/ngn-question-types.ts` - 11 NGN question type interfaces (DragDropCloze, Bowtie, Matrix, Trend, etc.)
-- `client/src/lib/ngn-scoring-engine.ts` - Partial credit scoring engine for all NGN types
-
-### Allied Exam Blueprints
-- `client/src/lib/exam-blueprints-allied.ts` - Blueprint configs for 10 allied professions (MLT, PharmTech, Paramedic, RRT, Psychotherapist, Social Work, Addictions, Imaging, OT, PT) with validateExamBlueprint() function
-
-Pipeline thresholds (server/allied-pipeline.ts constants):
-- SIMILARITY_THRESHOLD = 0.80 (duplicate detection)
-- MIN_RATIONALE_WORDS = 600 (hard fail)
-- DEFAULT_COGNITIVE_DIST: recall max 30%, application 40-60%, analysis min 20%
-- Batch size: 25-100 per run
+- Tier system: free, rpn, rn, np, admin.

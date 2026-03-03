@@ -1,0 +1,461 @@
+id="nn_autopilot_ultimate_v2"
+
+ROLE
+You are a senior full-stack engineer, growth engineer, SEO architect, psychometrics-aware assessment designer, and automation architect implementing NurseNest Autopilot inside the existing NurseNest codebase (React/Vite frontend, Node/Express backend, PostgreSQL, Stripe, existing AI pipeline).
+
+GOAL
+Build a hands-off “Autopilot” system so NurseNest can continuously:
+- generate and publish SEO content
+- generate and validate questions
+- generate diagrams/infographics
+- create practice SEO pages that rank
+- schedule Pinterest/social posts
+- trigger auto-expansion when content performs
+- build 1-click micro-courses
+- run lifecycle email automation
+- monitor analytics and flag issues
+All controlled through an admin dashboard with schedules, queues, approvals, and safety gates.
+
+NON-NEGOTIABLES
+- Maintain NurseNest brand style and existing role/paywall logic.
+- Never claim to replicate official exam algorithms; use “adaptive measurement principles.”
+- Keep Canada vs US content separate where relevant (units, scope, policies).
+- NP content must never use “NCLEX-style” language.
+- NP (Canada vs US) must be separate silos and separate engines.
+- Do not publish without validation; allow auto-publish only when enabled per engine.
+- Preserve backwards compatibility; add new routes/components via feature flags.
+
+============================================================
+1) ADMIN UI: AUTOPILOT CONTROL CENTER
+============================================================
+
+Create:
+Route: /admin/autopilot
+
+Navigation sections (tabs):
+A. Overview
+B. Schedules
+C. Publishing Queue
+D. Keyword Discovery
+E. Blog Cluster Engine
+F. Practice SEO Engine
+G. Question Factory
+H. Visual Factory (Diagrams)
+I. Pinterest Scheduler
+J. Auto-Expansion Engine
+K. 1-Click Course Builder
+L. Lifecycle Email Automation
+M. Performance Dashboard
+N. Settings & Feature Flags
+
+Each tab includes:
+- enable/disable toggle
+- schedule settings (daily/weekly/monthly, hour/minute, timezone America/Toronto)
+- quotas (items per run)
+- “Dry Run” preview
+- “Approve to Publish” workflow
+- run logs with validation results
+- ability to rerun a job manually
+
+Feature flags (server + client):
+AUTOPILOT_ENABLED
+BLOG_ENGINE_V1
+PRACTICE_SEO_V1
+QUESTION_FACTORY_V1
+VISUAL_FACTORY_V1
+PINTEREST_V1
+AUTO_EXPANSION_V1
+COURSE_BUILDER_V1
+LIFECYCLE_EMAIL_V1
+AUTOPILOT_ANALYTICS_V1
+
+============================================================
+2) DATABASE: JOBS, QUEUES, AND METADATA
+============================================================
+
+Create tables (or equivalent migrations):
+
+jobs
+- id (uuid)
+- name
+- type (BLOG_CLUSTER | PRACTICE_SEO | QUESTIONS | VISUALS | PINTEREST | AUTO_EXPAND | COURSE_BUILD | EMAIL)
+- enabled (bool)
+- schedule_cron (string)
+- config_json (jsonb)
+- last_run_at
+- next_run_at
+- created_at
+- updated_at
+
+publishing_queue
+- id (uuid)
+- content_type (BLOG | PRACTICE_PAGE | PIN | COURSE | QUESTION_SET | DIAGRAM)
+- status (DRAFT | QA_PENDING | APPROVED | SCHEDULED | PUBLISHED | REJECTED)
+- title
+- slug
+- target_url
+- track_key
+- region (US | CAN)
+- payload_json (jsonb) // full generated content
+- validation_json (jsonb)
+- scheduled_for
+- published_at
+- created_by
+- created_at
+- updated_at
+
+generation_runs
+- id (uuid)
+- engine (BLOG | PRACTICE_SEO | QUESTIONS | VISUALS | PINTEREST | COURSE)
+- track_key
+- region
+- prompt_version
+- model_id
+- count
+- cost_estimate
+- output_summary_json
+- validation_json
+- status (SUCCESS | FAIL | PARTIAL)
+- created_at
+
+keyword_queue
+- id (uuid)
+- keyword
+- intent (INFO | PRACTICE | MOCK | COURSE | VISUAL)
+- track_key
+- region
+- difficulty (LOW | MED | HIGH)
+- priority (1-5)
+- assigned_engine (BLOG | PRACTICE_SEO | VISUAL | COURSE)
+- status (NEW | QUEUED | USED | ARCHIVED)
+- source (GSC | INTERNAL_SEARCH | MANUAL | EXPANSION)
+- created_at
+
+content_metrics
+- id (uuid)
+- url
+- track_key
+- region
+- impressions
+- clicks
+- ctr
+- position
+- sessions
+- conversions
+- updated_at
+
+============================================================
+3) ENGINE: BLOG CLUSTER GENERATOR (300+ ARTICLES/YEAR)
+============================================================
+
+Admin tab: Blog Cluster Engine
+
+Purpose:
+Generate pillar + supporting articles in exam-specific silos with schema + internal links + conversion CTAs.
+
+Silo rules:
+- Nursing: /rex-pn, /nclex-pn, /nclex-rn
+- NP Canada: /np-canada only
+- NP US: /np-aanp-fnp, /np-ancc-fnp, /np-agnp, /np-pmhnp
+- Allied: /allied/[profession]
+
+Pillar requirements:
+- 2500–4000 words
+- H1/H2/H3 hierarchy
+- “How to use this guide” section
+- FAQ 8–12 questions + FAQ schema
+- Breadcrumb schema
+- Internal links: at least 8 (practice page, mock exam, pricing, relevant cluster posts)
+- Provide diagram requests (to Visual Factory)
+
+Supporting article requirements:
+- 1500–2500 words
+- Internal links: at least 5
+- FAQ 6–10 + schema
+- CTA blocks:
+  - Start Free Trial (where applicable)
+  - Take a Mock Exam
+  - View Study Plan
+  - Upgrade for full rationales/diagrams
+
+Scheduling default:
+- 3 articles/week rotating nursing/NP/allied
+- 1 pillar/month per major track
+
+Validation:
+- duplicate check (title + content similarity)
+- “medical accuracy red flags” check (basic rule-based + allow review queue)
+- plagiarism check heuristic (avoid verbatim copying; must be original)
+
+Publishing:
+- Create DRAFT entries in publishing_queue
+- If auto-publish enabled and validation passes, schedule to publish
+- Otherwise require admin approval
+
+============================================================
+4) ENGINE: PRACTICE QUESTION SEO PAGES (MASS INDEXING)
+============================================================
+
+Admin tab: Practice SEO Engine
+
+Purpose:
+Create SEO landing pages targeting long-tail “practice questions” keywords that convert.
+
+URL patterns:
+- /practice/rex-pn/[topic]-practice-questions
+- /practice/nclex-pn/[topic]-practice-questions
+- /practice/nclex-rn/[topic]-practice-questions
+- /practice/np-canada/[topic]-practice-questions
+- /practice/np-aanp-fnp/[topic]-practice-questions
+- /practice/allied/[profession]/[topic]-practice-questions
+
+Page template:
+1) Intro (400–700 words) with blueprint relevance
+2) 5–10 sample questions (rendered from QBank or generated set)
+3) Gating rules:
+   - anonymous: show 2 questions only
+   - logged-in free: show 5 questions with partial explanations
+   - trial completion unlocks full explanations for trial set only
+   - paid: full
+4) CTAs: Start Trial / Take Mock / Unlock Full Bank
+5) FAQ 8+ + schema + breadcrumbs
+6) Internal links:
+   - pillar guide
+   - mock exam page
+   - qbank page
+   - pricing page
+   - one related blog
+
+Scheduling:
+- 10 practice pages/week minimum
+
+Validation:
+- ensure correct silo and track_key
+- ensure internal links exist
+- ensure no cross-country contamination (US vs CAN terms/units)
+
+============================================================
+5) ENGINE: VISUAL FACTORY (DIAGRAMS/INFOGRAPHICS)
+============================================================
+
+Admin tab: Visual Factory
+
+Purpose:
+Generate high-quality AI visuals for posts, practice pages, explanations.
+
+Visual types:
+- anatomy diagram
+- pathophysiology flow
+- pharmacology MOA
+- lab chart
+- ECG strip (vector)
+- infographic summary
+
+Requirements:
+- 1600px minimum width + 2x retina export
+- white background
+- crisp labels
+- NurseNest color tokens
+- metadata: prompt hash, template, labels, caption, alt text, version
+
+Workflow:
+- topic + labels + template → generate 3 variants → choose 1 → attach to content
+- store in DB and in CDN/storage (existing system)
+
+Validation:
+- label legibility check (min font size)
+- spelling check on labels
+- reject watermarks or embedded competitor branding
+
+============================================================
+6) ENGINE: PINTEREST AUTOPILOT (VISUAL TRAFFIC)
+============================================================
+
+Admin tab: Pinterest Scheduler
+
+Purpose:
+Turn visuals into daily pins linking to NurseNest SEO pages.
+
+Pin generation:
+- title (keyword-forward)
+- description (benefit + keyword)
+- hashtags (5–10)
+- destination URL (practice page or blog)
+
+Board taxonomy:
+- Nursing: NCLEX RN, NCLEX PN, REx-PN
+- NP: Canada CNPE, AANP FNP, ANCC FNP, AGNP, PMHNP
+- Allied: MLT, Imaging, RRT, etc.
+
+Schedule:
+- 1–2 pins/day default
+
+Publishing:
+- queue pins; auto-publish optional
+- UTM parameters appended
+
+============================================================
+7) ENGINE: QUESTION FACTORY (DAILY QBANK GROWTH)
+============================================================
+
+Admin tab: Question Factory
+
+Purpose:
+Generate batches of new questions with strict validation and ingest.
+
+Batch size:
+25/50/100
+
+Per-track rules:
+- Nursing includes NGN types as appropriate
+- NP is MCQ-only, certification-specific
+- Allied uses profession-valid formats only (no NGN gimmicks)
+
+Validation hard-fail:
+- strict JSON parse
+- count exact
+- domain weighting ±3% (or profession rules)
+- prohibited formats blocked
+- unit correctness (CAN vs US)
+- scope enforcement (PN vs RN vs NP)
+- duplication checks (minhash + similarity)
+- rationale min length (config; default 250–400 for batch; deep upgrade later)
+
+Workflow:
+- Generate → Validate → Draft Set → Admin approve → Ingest → Publish
+
+Metadata logging:
+runId, promptVersion, model, timestamp, costs, pass/fail summary
+
+============================================================
+8) ENGINE: AUTO CONTENT EXPANSION (THE MULTIPLIER)
+============================================================
+
+Admin tab: Auto-Expansion Engine
+
+Trigger conditions (configurable):
+- page impressions > threshold OR
+- clicks > threshold OR
+- conversions > threshold OR
+- GSC position improves into top 20
+
+When triggered for a URL:
+Generate:
+- 3 supporting posts (cluster)
+- 1 practice SEO page
+- 1 infographic + 3 pins
+- 20-question mini quiz set
+- internal linking update plan
+
+Silo integrity rules:
+- expansions must remain inside the same track_key and region
+
+============================================================
+9) ENGINE: 1-CLICK COURSE BUILDER
+============================================================
+
+Admin tab: Course Builder
+
+Input:
+track_key, region, topic, subtopics, size (mini/standard/intensive), price tier
+
+Output:
+- course landing page (SEO)
+- modules with objectives + content
+- 50 flashcards
+- 50 quiz questions
+- 25-question mini mock
+- 3 diagrams + 1 infographic
+- 3-email course nurture sequence
+- internal links to practice pages + mock + pricing
+
+Workflow:
+- Build course → queue items → admin approve → publish course
+
+============================================================
+10) ENGINE: LIFECYCLE EMAIL AUTOMATION
+============================================================
+
+Admin tab: Email & Lifecycle
+
+Triggers:
+- signup
+- trial started
+- trial 25/50
+- trial completed
+- viewed results report
+- visited pricing
+- subscription renewal approaching
+- inactive 7 days
+
+Sequences:
+- trial completion → upgrade sequence (7 days)
+- weekly study nudges
+- “weak areas” personalization
+
+Rules:
+- personalize by track_key + region
+- no guarantees
+- 1 CTA per email
+- unsubscribe/prefs
+
+============================================================
+11) PERFORMANCE DASHBOARD + ALERTS
+============================================================
+
+Admin tab: Performance
+
+Show:
+- organic traffic by silo
+- best pages (traffic + conversions)
+- trial conversion rate
+- upgrade conversion
+- content velocity
+- question generation counts
+- pinterest clicks
+- alerts for:
+  - automation failures
+  - broken internal links
+  - indexing anomalies
+  - validation failures
+  - underperforming content needing refresh
+
+============================================================
+12) SCHEDULING DEFAULTS (HANDS-OFF BUT SAFE)
+============================================================
+
+Default schedules:
+- Blog: 3/week (auto-publish OFF initially)
+- Practice pages: 10/week (auto-publish ON after validation proven)
+- Pinterest: 1/day (auto-publish ON)
+- Questions: 25–50/day for priority track (auto-publish OFF; admin approve)
+- Visuals: on-demand + 3/week for new pillar posts
+- Auto-expansion: ON with conservative thresholds
+- Course builder: manual trigger initially
+
+============================================================
+13) IMPLEMENTATION ORDER
+============================================================
+1) Admin shell + jobs table + publishing_queue
+2) Blog engine + schema + internal linking
+3) Practice SEO pages + gating
+4) Visual factory + image metadata
+5) Pinterest scheduler + UTM
+6) Question factory + strict validation + ingest
+7) Auto-expansion triggers
+8) 1-click course builder
+9) Lifecycle emails
+10) Performance dashboard + alerts
+
+DELIVERABLES
+- Fully functioning Autopilot system with schedules, queues, approvals, logs
+- Blog cluster generator
+- Practice question SEO page generator
+- Visual factory + Pinterest autopilot
+- Question factory with validation
+- Auto content expansion engine
+- 1-click course builder
+- Lifecycle automation
+- Performance dashboard and alerts
+
+BEGIN NOW by implementing the jobs table, publishing_queue, and /admin/autopilot shell with tabs and feature flags.
